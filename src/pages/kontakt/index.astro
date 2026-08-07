@@ -1,0 +1,103 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+  title="Kontakt – icanspeak.it"
+  description="Schreiben Sie uns eine Nachricht, rufen Sie an oder erreichen Sie uns per WhatsApp – wir melden uns kurzfristig zurück."
+>
+  <section class="section page-head">
+    <div class="container">
+      <h1>Kontakt</h1>
+      <p>Wir freuen uns auf Ihre Nachricht.</p>
+    </div>
+  </section>
+
+  <section class="section contact">
+    <div class="container contact__grid">
+      <div class="card contact-form">
+        <div class="card__body">
+          <h3>Schreiben Sie uns</h3>
+          <form action="mailto:info@icanspeak.it" method="GET" enctype="text/plain">
+            <div class="form-field">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="Email" required />
+            </div>
+            <div class="form-field">
+              <label for="subject">Betreff</label>
+              <input type="text" id="subject" name="Betreff" />
+            </div>
+            <div class="form-field">
+              <label for="message">Nachricht *</label>
+              <textarea id="message" name="body" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="button button--primary">Nachricht schicken</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="contact-side">
+        <div class="card">
+          <div class="card__body">
+            <h3>Oder rufen Sie uns an</h3>
+            <p>Über WhatsApp oder Mobil.</p>
+            <div class="contact-side__actions">
+              <a href="https://wa.me/4917669299755" class="button button--outline">WhatsApp</a>
+              <a href="tel:+4917669299755" class="button button--outline">Telefon</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__body">
+            <h3>Adresse (Homeoffice)</h3>
+            <p>Momentan arbeiten wir nur aus dem Homeoffice.</p>
+            <ul class="icon-list mt-lg">
+              <li>Ansbacherstraße 48, 10777 Berlin</li>
+              <li><a href="tel:+4917669299755">+49 176 692 997 55</a></li>
+              <li><a href="mailto:info@icanspeak.it">info@icanspeak.it</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-head p {
+    color: var(--color-muted);
+    font-size: 1.1rem;
+    margin-block-start: 0.75rem;
+  }
+
+  .contact__grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    align-items: start;
+  }
+
+  @media (max-width: 860px) {
+    .contact__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  .contact-side {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .contact-side__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-block-start: 1rem;
+  }
+
+  .contact-form form {
+    margin-block-start: 1.25rem;
+  }
+</style>

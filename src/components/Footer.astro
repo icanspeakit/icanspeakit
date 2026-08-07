@@ -1,0 +1,160 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="footer-cta">
+    <div class="container footer-cta__inner">
+      <p class="eyebrow">Schreiben Sie uns</p>
+      <h2>Schreiben Sie uns eine Email oder rufen Sie an!</h2>
+      <a href="/kontakt/" class="button button--accent">Email / Telefon</a>
+    </div>
+  </div>
+
+  <div class="container footer-main">
+    <div class="footer-col footer-col--brand">
+      <a href="/" class="brand">
+        <img src="/wp-content/uploads/2021/11/logo.svg" alt="icanspeak.it" width="36" height="36" />
+        <span>icanspeak.it</span>
+      </a>
+      <p class="text-muted">
+        Der Schutz Ihrer personenbezogenen Daten ist uns wichtig. Wir behandeln sie vertraulich, entsprechend
+        der gesetzlichen Datenschutzvorschriften und gemäß der DSGVO.
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Angebot</h4>
+      <ul>
+        <li><a href="/angebot/#Berufssprache">Berufssprache</a></li>
+        <li><a href="/angebot/#Lernplattformen">Lernplattformen</a></li>
+        <li><a href="/angebot/#Pipeline">Pipeline A1/B2</a></li>
+        <li><a href="/angebot/#TeacherTraining">TeacherTraining</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Weiteres</h4>
+      <ul>
+        <li><a href="/impressum/">Impressum / Datenschutz</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Kontakt</h4>
+      <address>
+        Ansbacher Str. 48<br />
+        10777 Berlin<br />
+        <a href="tel:+4917669299755">+49 176 692 997 55</a><br />
+        <a href="mailto:info@icanspeak.it">info@icanspeak.it</a>
+      </address>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container footer-bottom__inner">
+      <p>Copyright &copy; {year} icanspeak.it</p>
+      <p>Powered by icanspeak.it</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-ink);
+    color: #cbd2dd;
+  }
+
+  .footer-cta {
+    background: var(--color-primary-dark);
+    color: #fff;
+  }
+
+  .footer-cta__inner {
+    padding-block: clamp(2.5rem, 4vw, 4rem);
+    text-align: center;
+  }
+
+  .footer-cta .eyebrow {
+    color: #a9d9d9;
+  }
+
+  .footer-cta h2 {
+    color: #fff;
+    max-width: 34rem;
+    margin-inline: auto;
+    margin-block-end: 1.75rem;
+  }
+
+  .footer-main {
+    display: grid;
+    grid-template-columns: 1.4fr repeat(3, 1fr);
+    gap: 2.5rem;
+    padding-block: clamp(2.5rem, 4vw, 4rem);
+  }
+
+  @media (max-width: 860px) {
+    .footer-main {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .footer-main {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  .footer-col h4 {
+    color: #fff;
+    margin-block-end: 1rem;
+    font-size: 1rem;
+  }
+
+  .footer-col ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .footer-col a {
+    color: #cbd2dd;
+  }
+
+  .footer-col a:hover {
+    color: #fff;
+  }
+
+  .footer-col--brand .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 700;
+    color: #fff;
+    margin-block-end: 1rem;
+  }
+
+  .footer-col--brand p {
+    font-size: 0.9rem;
+    max-width: 32ch;
+  }
+
+  address {
+    font-style: normal;
+    line-height: 1.8;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-bottom__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    justify-content: space-between;
+    padding-block: 1.25rem;
+    font-size: 0.85rem;
+    color: #8b94a3;
+  }
+</style>

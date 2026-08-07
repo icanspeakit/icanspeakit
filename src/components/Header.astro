@@ -1,0 +1,213 @@
+---
+const { pathname } = Astro.url;
+
+const navItems = [
+  { href: '/', label: 'Start' },
+  { href: '/angebot/', label: 'Angebot' },
+  { href: '/mission/', label: 'Mission' },
+  { href: '/blog/', label: 'Blog' },
+];
+
+function isActive(href: string) {
+  if (href === '/') return pathname === '/';
+  return pathname.startsWith(href);
+}
+---
+
+<header class="site-header">
+  <div class="site-header__inner container">
+    <a href="/" class="brand">
+      <img class="brand__logo" src="/wp-content/uploads/2021/11/logo.svg" alt="icanspeak.it" width="40" height="40" />
+      <span class="brand__text">
+        <span class="brand__name">icanspeak.it</span>
+        <span class="brand__tagline">Deutsch für Fachkräfte</span>
+      </span>
+    </a>
+
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="primary-nav">
+      <span class="sr-only">Menü öffnen</span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+    </button>
+
+    <nav class="primary-nav" id="primary-nav" aria-label="Hauptnavigation">
+      <ul>
+        {navItems.map((item) => (
+          <li>
+            <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+      <a href="/kontakt/" class="button button--accent nav-cta" aria-current={isActive('/kontakt/') ? 'page' : undefined}>Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const nav = document.getElementById('primary-nav');
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = document.body.classList.toggle('nav-open');
+    toggle.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  nav?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      document.body.classList.remove('nav-open');
+      toggle?.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 860) {
+      document.body.classList.remove('nav-open');
+      toggle?.setAttribute('aria-expanded', 'false');
+    }
+  });
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 0.9rem;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    flex-shrink: 0;
+  }
+
+  .brand__logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .brand__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+
+  .brand__name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--color-ink);
+  }
+
+  .brand__tagline {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: var(--color-bg);
+  }
+
+  .nav-toggle__bar {
+    display: block;
+    width: 20px;
+    height: 2px;
+    margin-inline: auto;
+    background: var(--color-ink);
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .primary-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+  }
+
+  .primary-nav ul {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .primary-nav a:not(.nav-cta) {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    padding-block: 0.35rem;
+    border-bottom: 2px solid transparent;
+  }
+
+  .primary-nav a:not(.nav-cta):hover {
+    color: var(--color-primary);
+  }
+
+  .primary-nav a[aria-current='page']:not(.nav-cta) {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+  }
+
+  @media (max-width: 860px) {
+    .nav-toggle {
+      display: flex;
+    }
+
+    .primary-nav {
+      position: fixed;
+      inset: 73px 0 0 0;
+      display: none;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      background: var(--color-bg);
+      padding: 1.5rem clamp(1.25rem, 4vw, 2.5rem) 2rem;
+      overflow-y: auto;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .primary-nav ul {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .primary-nav ul li a {
+      display: block;
+      padding-block: 0.9rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .nav-cta {
+      margin-block-start: 1.25rem;
+      width: 100%;
+    }
+
+    :global(body.nav-open) .primary-nav {
+      display: flex;
+    }
+
+    :global(body.nav-open) {
+      overflow: hidden;
+    }
+  }
+</style>
