@@ -3,6 +3,10 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://icanspeak.it',
+  redirects: {
+    '/category/blog': '/blog',
+  },
   vite: {
     server: {
       // public/wp-content and public/wp-includes are a static, unchanging

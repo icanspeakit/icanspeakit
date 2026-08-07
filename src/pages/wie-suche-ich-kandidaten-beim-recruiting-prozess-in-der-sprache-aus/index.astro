@@ -1,0 +1,103 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'Wie suche ich Kandidaten beim Recruiting Prozess in der Sprache aus?';
+---
+
+<Layout title={`${title} – icanspeak.it`} description="8 Sekunden ist unsere Aufmerksamkeitsspanne. Wie Recruiter Kandidaten vorab auf ihre Deutschkenntnisse testen sollten.">
+  <article class="section post">
+    <div class="container post__inner">
+      <p class="post__meta">
+        <a href="/blog/">Blog</a> &middot; Von Edgar Kretschmann
+      </p>
+      <h1>{title}</h1>
+
+      <p>8 Sekunden ist unsere Aufmerksamkeitsspanne.</p>
+      <p>
+        8 Monate dauert der Prozess, um Deutsch einigermaßen auf B2 sprechen zu können, so ist zumindest
+        der Status Quo auf den Philippinen.
+      </p>
+      <p>
+        Um die Ausfall- bzw. Durchfallquote zu reduzieren, sollte schon vorher getestet werden, wer fähig
+        genug ist, die Deutsche Sprache zu beherrschen.
+      </p>
+      <p>
+        Hierbei bedienen sich unsere Kunden eines Assessment Tests, den wir für sie konzipiert haben.
+        Einfache Vokabeln, einfache Strukturen und ein Vokabeltest, um den Fleiß und das Commitment zu
+        testen, helfen dabei ungemein. Ich lade Sie alle als Recruiter ein, diese Vorlage zu nehmen, um
+        filtern zu können. Ihre Partner im Ausland (Sprachschulen, Agenturen) sollten diesen in ihren
+        Auswahlprozess integrieren.
+      </p>
+      <p>
+        <a href="https://www.dropbox.com/s/gg822tojjbdrzld/DaF%20Assessment%20Test.pdf?dl=0" target="_blank" rel="noopener">
+          <strong><em>Link zum Assessment Test</em></strong>
+        </a>
+      </p>
+      <p>Viel Effizienz wünschen wir!</p>
+      <p>Ihr icanspeak Team</p>
+    </div>
+  </article>
+
+  <section class="section section--soft" id="comments">
+    <div class="container post__inner">
+      <h2>2 Gedanken zu &bdquo;{title}&ldquo;</h2>
+
+      <div class="comment">
+        <p class="comment__author">TommyRickenbeck <span class="comment__date">30. März 2022 um 9:09</span></p>
+        <p>Geht das auch automatisiert?</p>
+      </div>
+
+      <div class="comment comment--reply">
+        <p class="comment__author">Edgar Kretschmann <span class="comment__date">30. März 2022 um 9:19</span></p>
+        <p>
+          Ja sicher! Mit <a href="https://www.testgorilla.com/" target="_blank" rel="noopener">testgorilla.com</a>.
+          Ist allerdings sehr umfangreich und nur auf Englisch momentan.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .post__inner {
+    max-width: 46rem;
+  }
+
+  .post__meta {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    margin-block-end: 0.75rem;
+  }
+
+  .post h1 {
+    margin-block-end: 1.5rem;
+  }
+
+  .post p,
+  .post__inner p {
+    max-width: none;
+    margin-block-end: 1rem;
+  }
+
+  .comment {
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .comment--reply {
+    margin-inline-start: clamp(1rem, 4vw, 2.5rem);
+  }
+
+  .comment__author {
+    font-weight: 700;
+    color: var(--color-ink);
+    margin-block-end: 0.25rem;
+  }
+
+  .comment__date {
+    font-weight: 400;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    margin-inline-start: 0.5rem;
+  }
+</style>

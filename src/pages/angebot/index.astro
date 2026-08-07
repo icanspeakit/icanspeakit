@@ -1,0 +1,281 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const tools = [
+  {
+    image: '/wp-content/uploads/2021/11/Zoom-1.jpg',
+    title: 'Zoom Tutorials',
+    text: 'In den Zoom Tutorials wird Ihren Lehrern genau gezeigt, wie man am effizientesten Online-Klassen unterrichtet. Viele Mitarbeiter sind sich nicht der Möglichkeiten modernster Software zum Unterrichten bewusst.',
+  },
+  {
+    image: '/wp-content/uploads/2021/11/clickup-lower-res.png',
+    title: 'Übersichtliche Curriculumsordnung',
+    text: 'Anhand eines cloud-basierten Managementtools lassen sich alle Fortschritte in den Kursen bzw. Zeitpläne überschaulich darstellen und warten.',
+  },
+  {
+    image: '/wp-content/uploads/2021/11/blink-progress-small.png',
+    title: 'Leistungsmanagement',
+    text: 'Anhand eines übersichtlichen Interface lässt sich feststellen, in welchem Tempo und mit welcher Qualität die Aufgaben der Kursteilnehmer erfüllt werden.',
+  },
+];
+---
+
+<Layout
+  title="Angebot – icanspeak.it"
+  description="Zoom Tutorials, Curriculumsordnung, Leistungsmanagement, Pipeline A1/B2, Teacher Training und Berufssprache – die Bausteine unserer Sprachausbildung."
+>
+  <section class="section page-head">
+    <div class="container">
+      <h1>Angebot</h1>
+      <p>Finden Sie hier einen Überblick über die Dienstleistungen, die wir anbieten.</p>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <div class="section-head">
+        <h2>Wie wir die Sprachentwicklung im Recruitingprozess für Sie verbessern können</h2>
+      </div>
+      <div class="grid" style="--cols: 3; --cols-tablet: 1;">
+        {tools.map((tool) => (
+          <article class="card">
+            <img class="card__image" src={tool.image} alt="" width="640" height="480" />
+            <div class="card__body">
+              <h3>{tool.title}</h3>
+              <p>{tool.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section feature-row">
+    <div class="container feature-row__inner">
+      <img
+        src="/wp-content/uploads/2021/11/weeklyReport-768x432.jpg"
+        alt=""
+        class="feature-row__image"
+        width="768"
+        height="432"
+      />
+      <div>
+        <h2>Reporte und Monitoring als Grundstein für gute Qualität</h2>
+        <h3>Wochenreporte</h3>
+        <p>Anhand detaillierter Wochenreporte lässt sich feststellen, wie es im Allgemeinen um den Fortschritt der Klasse steht.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft feature-row" id="Pipeline">
+    <div class="container feature-row__inner feature-row__inner--reverse">
+      <div>
+        <p class="eyebrow">Pipeline A1/B2</p>
+        <h2>Von A1 bis zur finalen B2-Ausbildung</h2>
+        <p>
+          Auf Wunsch zeigen wir Ihnen, wie wir die Pipeline von A1 bis zur finalen B2 Ausbildung gestalten.
+          Andere Niveaus wie B1 oder nur A2 für andere Berufsgruppen sind natürlich auch eine Option.
+        </p>
+      </div>
+      <img
+        src="/wp-content/uploads/2021/11/Untitled-3-1-768x410.jpg"
+        alt=""
+        class="feature-row__image"
+        width="768"
+        height="410"
+      />
+    </div>
+
+    <div class="container feature-row__inner mt-lg">
+      <img
+        src="/wp-content/uploads/2021/11/Attendance-1-768x415.jpg"
+        alt=""
+        class="feature-row__image"
+        width="768"
+        height="415"
+      />
+      <div>
+        <h3>Aktualisierte Anwesenheitslisten</h3>
+        <p>
+          Mit online aktualisierten Anwesenheitslisten wird sichergestellt, dass Schüler, die ausschließlich
+          online lernen, auch am Unterricht teilnehmen.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section feature-row" id="TeacherTraining">
+    <div class="container feature-row__inner feature-row__inner--reverse">
+      <div>
+        <p class="eyebrow">Gute Lehrer für guten Unterricht</p>
+        <h2>Teacher Training</h2>
+        <p>
+          Wer zieht den Wagen? Die Lehrer – die Mitarbeiter, die ihr Wissen verbreiten und als Erstes
+          verantwortlich sind für eine effektive und effiziente Wissensvermittlung. Natürlich lassen sich
+          viele Aspekte der Didaktik und Methodik verbessern. Wir beraten Sie gerne darin.
+        </p>
+      </div>
+      <img
+        src="/wp-content/uploads/2021/11/Meeting-768x614.jpg"
+        alt=""
+        class="feature-row__image"
+        width="768"
+        height="614"
+      />
+    </div>
+  </section>
+
+  <section class="section section--soft feature-row" id="Lernplattformen">
+    <div class="container feature-row__inner">
+      <img
+        src="/wp-content/uploads/2021/11/bookBlink-768x400.jpg"
+        alt=""
+        class="feature-row__image"
+        width="768"
+        height="400"
+      />
+      <div>
+        <p class="eyebrow">Professionelle Arbeitsumgebung und Inhalte</p>
+        <h2>Interaktive Lernumgebung</h2>
+        <p>
+          Integration einer modernen Lernumgebung, in der Lehrer Hausaufgaben geben können und verschiedene
+          Kursbücher zur Auswahl haben.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section feature-row" id="Berufssprache">
+    <div class="container feature-row__inner feature-row__inner--reverse">
+      <div>
+        <h2>Berufssprache</h2>
+        <p>
+          Natürlich sind die Grundlagen der deutschen Sprache am wichtigsten, aber Ihre zukünftigen
+          Mitarbeiter sollten sich am Arbeitsplatz auch vernünftig verständigen können. Deshalb wird
+          Berufssprache in die Sprachausbildung integriert und regelmäßig abgefragt.
+        </p>
+      </div>
+      <img
+        src="/wp-content/uploads/2021/11/wortschatz.jpg"
+        alt=""
+        class="feature-row__image"
+        width="640"
+        height="480"
+      />
+    </div>
+  </section>
+
+  <section class="section section--soft culture">
+    <div class="container">
+      <div class="section-head">
+        <h2>Kultur- und Strategieberatung</h2>
+      </div>
+      <div class="culture__grid">
+        <div class="culture__block">
+          <h3>Kultur</h3>
+          <p>Unser Fazit aus 5 Jahren Beratung im Ausland:</p>
+          <p>
+            Kultur wird allzu oft unterschätzt und bekommt nicht die verdiente Aufmerksamkeit, die nötig ist,
+            um entscheidende – aber versteckte – Aspekte in der Wertschöpfungskette zu erkennen.
+          </p>
+          <img
+            src="/wp-content/uploads/2021/11/Blue-and-White-Clean-and-Simple-Comparison-Infographic-Anfang-700x1024.jpg"
+            alt="Infografik: Kulturvergleich, Ausgangslage"
+            class="culture__figure"
+            width="700"
+            height="1024"
+          />
+        </div>
+        <div class="culture__block">
+          <h3>Strategie</h3>
+          <p>
+            Strategien müssen oft der gegebenen Kultur (z. B. Arbeitsethik und Firmenpolitik) angepasst
+            werden, und nicht andersherum.
+          </p>
+          <img
+            src="/wp-content/uploads/2021/11/Blue-and-White-Clean-and-Simple-Comparison-Infographic-Fazit-1.jpg"
+            alt="Infografik: Kulturvergleich, Fazit"
+            class="culture__figure"
+            width="700"
+            height="1024"
+          />
+        </div>
+      </div>
+      <div class="culture__cta">
+        <a href="/kontakt/" class="button button--primary">Kontakt</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-head p {
+    color: var(--color-muted);
+    font-size: 1.1rem;
+    margin-block-start: 0.75rem;
+  }
+
+  .feature-row__inner {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: center;
+  }
+
+  .feature-row__inner--reverse {
+    grid-template-columns: 1.1fr 1fr;
+  }
+
+  .feature-row__inner--reverse > :first-child {
+    order: 1;
+  }
+
+  @media (max-width: 860px) {
+    .feature-row__inner,
+    .feature-row__inner--reverse {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .feature-row__inner--reverse > :first-child {
+      order: 0;
+    }
+  }
+
+  .feature-row__image {
+    border-radius: var(--radius);
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .feature-row p {
+    max-width: none;
+  }
+
+  .culture__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(2rem, 4vw, 3rem);
+  }
+
+  @media (max-width: 720px) {
+    .culture__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  .culture__block p {
+    max-width: none;
+  }
+
+  .culture__figure {
+    border-radius: var(--radius);
+    margin-block-start: 1.25rem;
+    width: 100%;
+  }
+
+  .culture__cta {
+    display: flex;
+    justify-content: center;
+    margin-block-start: clamp(2rem, 3vw, 3rem);
+  }
+</style>

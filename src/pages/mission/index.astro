@@ -1,0 +1,160 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const cases = [
+  {
+    title: 'Der Lehrer',
+    problem:
+      'In einem privaten Institut führt ein von der Technik überforderter Lehrer seine Mitarbeiter und Schüler ohne Plan und Struktur.',
+    solution:
+      'Bildung einer geordneten Hierarchie und eines Einsatzplans schafft den notwendigen Überblick. Ein Seminar in cloudbasierten Anwendungen hilft zusätzlich.',
+  },
+  {
+    title: 'Der Zeitplan',
+    problem:
+      'In einer Schule funktioniert die Abstimmung der Stunden und des Zeitplans nicht. Gruppen überschneiden sich und stehen in einer Warteschleife.',
+    solution:
+      'Die Integration eines cloudgesteuerten Tools gibt den Mitarbeitern Zugriff und organisiert die Pipeline neu.',
+  },
+];
+---
+
+<Layout
+  title="Mission – icanspeak.it"
+  description="Unser Ziel: gutes Deutsch für Ihre Fachkräfte – organisiert, mit klarer Struktur und modernen Lernplattformen."
+>
+  <section class="section page-head">
+    <div class="container">
+      <h1>Mission</h1>
+    </div>
+  </section>
+
+  <section class="section feature-row">
+    <div class="container feature-row__inner">
+      <div>
+        <h2>Unser Ziel? Gutes Deutsch für Ihre Fachkräfte.</h2>
+        <p>
+          Durch die Corona-Pandemie wurden viele Bildungsinstitute vor neue Herausforderungen gestellt. Oft
+          lässt die Effizienz beim Online-Unterricht erheblich nach.
+        </p>
+      </div>
+      <img
+        src="/wp-content/uploads/2021/11/Infographik-2.jpg"
+        alt="Infografik zur Effizienz im Online-Unterricht"
+        class="feature-row__image"
+        width="768"
+        height="576"
+      />
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <h2>Der Auftrag</h2>
+        <p>Wenn wir einen Auftrag annehmen, dreht sich alles um die Qualität und um die Leitfrage:</p>
+      </div>
+      <p class="lead-question">Wie können wir es morgen noch ein bisschen besser machen?</p>
+
+      <h3 class="cases__title">Fallbeispiele</h3>
+      <div class="grid" style="--cols: 2; --cols-tablet: 1;">
+        {cases.map((item) => (
+          <article class="card">
+            <div class="card__body">
+              <h3>{item.title}</h3>
+              <p>{item.problem}</p>
+              <p><strong>Lösung:</strong> {item.solution}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section online-teaching">
+    <div class="container online-teaching__inner">
+      <h2>Online Unterricht</h2>
+      <p>
+        „Wegen Corona bleiben die Räumlichkeiten geschlossen.“ Dieser Satz ist keine Seltenheit mehr, sondern
+        Normalität. Wie organisiere ich den Unterricht so, dass alle am Ball bleiben und auch selbstständig
+        arbeiten können? Die Einführung von LMS (Lernplattformen) hilft massiv weiter und entlastet Personal
+        und Schüler. Die Fachkräfte können viel besser Deutsch sprechen und sind leichter integrierbar.
+      </p>
+      <a href="/kontakt/" class="button button--accent">Unverbindliches Informationsgespräch</a>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container rethink">
+      <h3>Sie müssen das Rad nicht neu erfinden!</h3>
+      <p>Bedienen Sie sich der Tools, die es schon gibt.</p>
+      <a href="/angebot/" class="button button--outline">Zum Angebot</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .feature-row__inner {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: center;
+  }
+
+  @media (max-width: 860px) {
+    .feature-row__inner {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  .feature-row__image {
+    border-radius: var(--radius);
+    width: 100%;
+  }
+
+  .feature-row p {
+    max-width: none;
+  }
+
+  .lead-question {
+    max-width: 40rem;
+    margin-inline: auto;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    margin-block-end: clamp(2rem, 3vw, 3rem);
+  }
+
+  .cases__title {
+    margin-block-end: 1.25rem;
+  }
+
+  .online-teaching {
+    background: var(--color-primary-dark);
+  }
+
+  .online-teaching__inner {
+    max-width: 44rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .online-teaching h2,
+  .online-teaching p {
+    color: #fff;
+    max-width: none;
+  }
+
+  .rethink {
+    max-width: 36rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+</style>
