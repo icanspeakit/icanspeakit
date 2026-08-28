@@ -1,0 +1,93 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="icanspeak.it — Wortursprünge für Neugierige" altHref="/">
+  <section class="hero">
+    <div class="container hero__inner">
+      <p class="eyebrow">Für Wortliebhaber</p>
+      <h1>Jedes Wort trägt eine Geschichte in sich. Wir graben sie aus.</h1>
+      <p class="lede">
+        icanspeak.it ist eine kleine, werbearme Ecke des Internets über Etymologie und die eigenartige,
+        wunderbare Mechanik von Sprache – woher Wörter kommen, wie sie sich über Grenzen und Jahrhunderte
+        hinweg verändert haben, und warum sich zwei Sprachen manchmal in den seltsamsten Dingen einig sind.
+      </p>
+      <div class="hero__actions">
+        <a href="/de/words/" class="button button--primary">Wortkarten entdecken</a>
+        <a href="/blog/" class="button button--ghost">Blog lesen (Englisch)</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="why">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Warum Etymologie?</p>
+        <h2>Weil Sprache die am längsten laufende Geschichte ist, die wir kennen</h2>
+      </div>
+      <div class="why__grid">
+        <article class="card">
+          <h3>Jedes Wort ist eine kleine Geschichtsstunde</h3>
+          <p class="text-muted">
+            "Gehalt" kommt vom lateinischen "salarium", dem Salzgeld römischer Soldaten. Wer das Wort
+            benutzt, zitiert eine zweitausend Jahre alte Gehaltsabrechnung.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Sprachen leihen sich heimlich voneinander</h3>
+          <p class="text-muted">
+            Allein das Englische hat Wörter aus über 350 Sprachen übernommen. "Ketchup" reiste von einer
+            fermentierten Fischsauce aus dem Hokkien-Chinesischen über malaiische Handelsrouten, lange
+            bevor es je eine Tomate traf.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Bedeutungen wandern – manchmal absichtlich</h3>
+          <p class="text-muted">
+            "Nett" bedeutete im Lateinischen ursprünglich "töricht". Gib einem Wort drei Jahrhunderte und
+            genug Klatsch, und es kann fast im Gegenteil dessen landen, wo es begann.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container cta__inner">
+      <p class="eyebrow">Weiterlesen</p>
+      <h2>Ein Wort aussuchen, den Faden ziehen</h2>
+      <p class="lede">
+        Die Wortkarten-Wand hat kompakte Ursprungsgeschichten, durch die man in einer Kaffeepause blättern
+        kann – falsche Freunde, Lehnwörter und absichtlich erfundene Wörter.
+      </p>
+      <a href="/de/words/" class="button button--primary">Wortkarten öffnen</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero { padding-block-start: clamp(3.5rem, 7vw, 6rem); }
+  .hero__inner { max-width: 46rem; }
+  .hero h1 { margin-block: 0.75rem 1.25rem; }
+  .hero__actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-block-start: 1.75rem; }
+
+  .why__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .why__grid h3 { margin-block-end: 0.6rem; }
+
+  @media (max-width: 860px) { .why__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px) { .why__grid { grid-template-columns: 1fr; } }
+
+  .cta {
+    background: var(--color-bg-soft);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .cta__inner { max-width: 40rem; text-align: left; }
+  .cta__inner h2 { margin-block: 0.5rem 0.9rem; }
+  .cta__inner .button { margin-block-start: 1.5rem; }
+</style>

@@ -6,25 +6,40 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  altHref?: string;
 }
+
+const locale = Astro.currentLocale ?? 'en';
+
+const defaults = {
+  en: 'icanspeak.it is a small, curious site about where words come from — etymology, cognates, false friends, and the odd stories hiding inside everyday language.',
+  de: 'icanspeak.it ist eine kleine, neugierige Seite über die Herkunft von Wörtern – Etymologie, verwandte Wörter, falsche Freunde und die kleinen Geschichten, die sich in unserer Alltagssprache verstecken.',
+} as const;
 
 const {
   title,
-  description = 'Sprachausbildung für Fachkräfte im Recruiting-Prozess – organisiert, effizient und mit messbarer Qualität.',
+  description = defaults[locale as 'en' | 'de'] ?? defaults.en,
+  altHref,
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="de">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <title>{title}</title>
   </head>
   <body>
-    <Header />
+    <Header altHref={altHref} />
     <main>
       <slot />
     </main>

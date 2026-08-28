@@ -1,0 +1,83 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const dateFmt = new Intl.DateTimeFormat('en', { month: 'long', day: 'numeric', year: 'numeric' });
+---
+
+<Layout title={`${post.data.title} — icanspeak.it`} description={post.data.description}>
+  <article class="post">
+    <div class="container container--narrow">
+      <p class="eyebrow">{dateFmt.format(post.data.pubDate)}</p>
+      <h1>{post.data.title}</h1>
+      <p class="lede">{post.data.description}</p>
+
+      {post.data.word && post.data.origin && (
+        <aside class="root-check">
+          <p class="eyebrow">Root check</p>
+          <p><strong>{post.data.word}</strong> — {post.data.origin}</p>
+        </aside>
+      )}
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {post.data.tags.length > 0 && (
+        <div class="post-tags">
+          {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+        </div>
+      )}
+
+      <p class="back-link"><a href="/blog/">← Back to all posts</a></p>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .post { padding-block-start: clamp(2.5rem, 5vw, 4rem); }
+  .container--narrow { max-width: 42rem; }
+  .post h1 { margin-block: 0.6rem 1rem; }
+
+  .root-check {
+    background: var(--color-accent-soft);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.3rem;
+    margin-block: 2rem;
+  }
+
+  .root-check p:last-child { margin-block-start: 0.35rem; }
+
+  .prose { margin-block-start: 1rem; }
+  .prose :global(p) { margin-block-end: 1.25rem; max-width: 100%; }
+  .prose :global(h2) { margin-block: 2rem 0.75rem; }
+  .prose :global(h3) { margin-block: 1.5rem 0.6rem; }
+  .prose :global(blockquote) {
+    border-inline-start: 3px solid var(--color-accent);
+    padding-inline-start: 1rem;
+    color: var(--color-muted);
+    font-style: italic;
+    margin-block-end: 1.25rem;
+  }
+  .prose :global(ul), .prose :global(ol) { margin-block-end: 1.25rem; padding-inline-start: 1.4rem; list-style: revert; }
+  .prose :global(a) { color: var(--color-primary); text-decoration: underline; }
+
+  .post-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-block-start: 2rem; }
+  .back-link { margin-block-start: 2.5rem; font-weight: 600; }
+  .back-link a { color: var(--color-primary); }
+</style>

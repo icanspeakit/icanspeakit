@@ -1,60 +1,67 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
-const posts = [
-  {
-    title: 'Wie suche ich Kandidaten beim Recruiting Prozess in der Sprache aus?',
-    href: '/wie-suche-ich-kandidaten-beim-recruiting-prozess-in-der-sprache-aus/',
-    author: 'Edgar Kretschmann',
-    excerpt:
-      '8 Sekunden ist unsere Aufmerksamkeitsspanne. 8 Monate dauert der Prozess, um Deutsch einigermaßen auf B2 sprechen zu können, so ist zumindest der Status Quo auf den Philippinen. Um die Ausfall- bzw. Durchfallquote zu reduzieren, sollte schon vorher getestet werden, wer fähig genug ist, die Deutsche Sprache zu beherrschen. Hierbei bedienen sich unsere Kunden eines Assessment …',
-  },
-];
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' });
 ---
 
-<Layout title="Blog – icanspeak.it" description="Artikel und Erfahrungen rund um Sprachausbildung im Recruiting-Prozess.">
-  <section class="section page-head">
+<Layout title="Blog — icanspeak.it" description="Deep dives into word origins, false friends, and the strange journeys of everyday language.">
+  <section class="blog-hero">
     <div class="container">
-      <h1>Blog</h1>
+      <p class="eyebrow">The blog</p>
+      <h1>Stories words don't tell you out loud</h1>
+      <p class="lede">Short, well-sourced deep dives into where words actually came from.</p>
     </div>
   </section>
 
-  <section class="section">
-    <div class="container blog-list">
-      {posts.map((post) => (
-        <article class="blog-list__item">
-          <h2><a href={post.href}>{post.title}</a></h2>
-          <p class="blog-list__meta">
-            Von {post.author} &middot; <a href={`${post.href}#comments`}>2 Kommentare</a>
-          </p>
-          <p>{post.excerpt}</p>
-          <a href={post.href} class="button button--outline">Weiterlesen</a>
-        </article>
-      ))}
+  <section class="blog-list">
+    <div class="container">
+      <div class="blog-list__grid">
+        {posts.map((post) => (
+          <a class="post-card" href={`/blog/${post.slug}/`}>
+            {post.data.word && <span class="tag">{post.data.word}</span>}
+            <h2>{post.data.title}</h2>
+            <p class="text-muted">{post.data.description}</p>
+            <span class="post-card__date">{dateFmt.format(post.data.pubDate)}</span>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 </Layout>
 
 <style>
-  .blog-list {
-    max-width: 46rem;
+  .blog-hero { padding-block-end: 1rem; }
+  .blog-hero h1 { margin-block: 0.75rem 0.5rem; }
+
+  .blog-list__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 720px) {
+    .blog-list__grid { grid-template-columns: 1fr; }
+  }
+
+  .post-card {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    align-items: flex-start;
+    gap: 0.6rem;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: clamp(1.25rem, 2vw, 1.75rem);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
-  .blog-list__item h2 {
-    font-size: 1.5rem;
-    margin-block-end: 0.5rem;
-  }
-
-  .blog-list__item p {
-    max-width: none;
-  }
-
-  .blog-list__meta {
-    color: var(--color-muted);
-    font-size: 0.9rem;
-    margin-block-end: 1rem;
-  }
+  .post-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .post-card h2 { font-size: 1.3rem; }
+  .post-card__date { font-size: 0.8rem; color: var(--color-muted); margin-block-start: 0.25rem; }
 </style>

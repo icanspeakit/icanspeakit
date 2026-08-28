@@ -1,0 +1,65 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+
+<Layout title="Über uns — icanspeak.it" description="Warum es icanspeak.it gibt: eine kleine, unabhängige Seite über Etymologie, für alle, die gerne von ihrer eigenen Sprache überrascht werden." altHref="/about/">
+  <section class="about-hero">
+    <div class="container container--narrow">
+      <p class="eyebrow">Über diese Seite</p>
+      <h1>Wir finden, Wörter verdienen einen zweiten Blick</h1>
+      <p class="lede">
+        Die meisten von uns benutzen jede Woche zehntausende Wörter, ohne je zu fragen, woher sie kommen.
+        icanspeak.it ist ein kleines Projekt für genau die Momente, in denen man doch fragt – und für die
+        Kaninchenbaue, die danach folgen.
+      </p>
+    </div>
+  </section>
+
+  <section class="about-body">
+    <div class="container container--narrow prose">
+      <h2>Was wir hier eigentlich machen</h2>
+      <p>
+        Wir schreiben kurze, belegte Tiefenrecherchen zu einzelnen Wörtern und Sprachmustern: wo ein Wort
+        erfunden wurde, wie es zwischen Sprachen gewandert ist, warum zwei nicht verwandte Sprachen
+        manchmal auf dieselbe Idee kommen, und warum "falsche Freunde" selbst fließend Sprechende
+        stolpern lassen. Neben dem Blog sind die
+        <a href="/de/words/">Wortkarten</a> ein leichteres Format – eine Wand kompakter Ursprungsgeschichten
+        zum Durchblättern.
+      </p>
+
+      <h2>Warum ausgerechnet Etymologie</h2>
+      <p>
+        Etymologie ist eines der wenigen Felder, in denen Geschichte, Migration, Handel, Kolonialisierung
+        und ganz normaler menschlicher Klatsch physische Fingerabdrücke hinterlassen, die man noch heute
+        lesen kann – einfach, indem man ein Wort genau ansieht. Ein einziges Wort wie "Ketchup" trägt eine
+        Handelsroute über drei Kontinente in sich. Ein Wort wie "Nostalgie" trägt eine medizinische Diagnose
+        aus dem 17. Jahrhundert. Wenn man das einmal bemerkt, hört man schwer wieder auf.
+      </p>
+
+      <h2>Was diese Seite nicht ist</h2>
+      <p>
+        Wir sind kein Wörterbuch, kein Grammatikkurs und keine Sprachlern-App – dafür gibt es bereits
+        bessere Werkzeuge. Wir sind eher ein Magazin: mit Meinung, gelegentlich spekulativ, wenn die
+        historische Quellenlage dünn ist (das sagen wir dann auch dazu), und geschrieben für Neugier statt
+        für Sprachfertigkeit.
+      </p>
+
+      <h2>Eine Anmerkung zur Domain</h2>
+      <p>
+        icanspeak.it begann als Sprachtraining-Beratung für Fachkräfte in Deutschland. Diese Seite ist
+        weiterhin online – wir wollten diese Arbeit nicht verschwinden lassen, nur weil die Domain eine
+        neue Richtung eingeschlagen hat – und ist erhalten unter
+        <a href="/former-site/">icanspeak.it/former-site</a>.
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .about-hero { padding-block-start: clamp(3rem, 6vw, 5rem); padding-block-end: 0; }
+  .container--narrow { max-width: 42rem; }
+  .about-hero h1 { margin-block: 0.75rem 1rem; }
+  .about-body .prose h2 { margin-block: 2rem 0.75rem; }
+  .about-body .prose p { margin-block-end: 1.25rem; max-width: 100%; }
+  .about-body .prose a { color: var(--color-primary); text-decoration: underline; }
+</style>
