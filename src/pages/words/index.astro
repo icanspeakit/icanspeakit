@@ -1,0 +1,161 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const words = [
+  {
+    term: 'Serendipity',
+    lang: 'English, 1754',
+    teaser: 'Coined for a lucky accident — while writing about a lucky accident.',
+    body: "Invented by Horace Walpole in a private letter, from 'Serendip,' the old Persian name for Sri Lanka, via a fairy tale about three princes who kept stumbling onto things they weren't looking for.",
+    link: '/blog/serendipity/',
+  },
+  {
+    term: 'Robot',
+    lang: 'Czech, 1920',
+    teaser: 'Before it meant machine, it meant forced labor.',
+    body: "From Czech 'robota' (compulsory serf labor). Coined by painter Josef Čapek for his brother Karel's play R.U.R. — the robots in it are grown, not built, and they rebel.",
+    link: '/blog/robot-forced-labor/',
+  },
+  {
+    term: 'Nostalgia',
+    lang: 'Greek, coined 1688',
+    teaser: 'Originally a diagnosis, not a feeling.',
+    body: "Built from 'nostos' (return home) + 'algos' (pain) by Swiss physician Johannes Hofer, who used it to describe a medical condition he observed in homesick soldiers.",
+  },
+  {
+    term: 'Avocado',
+    lang: 'Nahuatl → Spanish → English',
+    teaser: 'Its original name also meant something else entirely.',
+    body: "From Nahuatl 'āhuacatl,' which also meant 'testicle' — a reference to how the fruit hangs in pairs. Spanish softened it to 'aguacate'; English folk etymology nudged it toward 'avocado,' echoing Spanish 'abogado' (lawyer).",
+  },
+  {
+    term: 'Ketchup',
+    lang: 'Hokkien → Malay → English',
+    teaser: 'It crossed three languages before it ever met a tomato.',
+    body: "From Hokkien Chinese 'kê-tsiap,' a fermented fish sauce, picked up via Malay trading ports by British sailors in the 1600s–1700s. Tomatoes weren't added until 19th-century America.",
+  },
+  {
+    term: 'Alcohol',
+    lang: 'Arabic, via alchemy',
+    teaser: 'It used to mean eyeliner.',
+    body: "From Arabic 'al-kuḥl,' a fine powder used as kohl eyeliner. European alchemists borrowed the word for any finely distilled substance; it only narrowed to 'distilled spirits' centuries later.",
+  },
+  {
+    term: 'Tycoon',
+    lang: 'Japanese, 1850s',
+    teaser: 'It used to be a title for a military ruler.',
+    body: "From Japanese 'taikun' (大君, 'great lord'), a title for the shogun. US naval officers brought the word home after Commodore Perry's expeditions, and it drifted onto powerful businessmen.",
+  },
+  {
+    term: 'Karaoke',
+    lang: 'Japanese',
+    teaser: 'Literally: empty orchestra.',
+    body: "From Japanese 'kara' (empty) + 'okesutora' (orchestra) — itself a loanword borrowed back from English, then recombined and re-exported worldwide.",
+  },
+];
+---
+
+<Layout title="Word Cards — icanspeak.it" description="Bite-sized etymology: flip through short, sourced origin stories for words you use every day." altHref="/de/words/">
+  <section class="words-hero">
+    <div class="container">
+      <p class="eyebrow">Word cards</p>
+      <h1>Flip a card, learn a word's secret</h1>
+      <p class="lede">Eight words, eight small histories. Click any card to reveal where it actually came from.</p>
+    </div>
+  </section>
+
+  <section class="words-grid-section">
+    <div class="container">
+      <div class="words-grid">
+        {words.map((w) => (
+          <details class="word-card">
+            <summary>
+              <span class="word-card__term">{w.term}</span>
+              <span class="tag">{w.lang}</span>
+              <span class="word-card__teaser text-muted">{w.teaser}</span>
+              <span class="word-card__icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="word-card__body">
+              <p>{w.body}</p>
+              {w.link && <a href={w.link} class="word-card__more">Read the full story →</a>}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .words-hero { padding-block-end: 0.5rem; }
+  .words-hero h1 { margin-block: 0.75rem 0.5rem; }
+
+  .words-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 720px) {
+    .words-grid { grid-template-columns: 1fr; }
+  }
+
+  .word-card {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: clamp(1.1rem, 2vw, 1.5rem);
+  }
+
+  .word-card summary {
+    list-style: none;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    align-items: center;
+    gap: 0.6rem 0.75rem;
+  }
+
+  .word-card summary::-webkit-details-marker { display: none; }
+
+  .word-card__term {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: var(--color-ink);
+  }
+
+  .word-card__teaser {
+    grid-column: 1 / -1;
+    font-size: 0.9rem;
+  }
+
+  .word-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    font-size: 1rem;
+    color: var(--color-primary);
+    transition: transform 0.2s ease;
+  }
+
+  .word-card[open] .word-card__icon { transform: rotate(45deg); }
+
+  .word-card__body {
+    margin-block-start: 1rem;
+    padding-block-start: 1rem;
+    border-block-start: 1px dashed var(--color-border);
+  }
+
+  .word-card__body p { max-width: 100%; }
+  .word-card__more {
+    display: inline-block;
+    margin-block-start: 0.6rem;
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+</style>

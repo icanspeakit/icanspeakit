@@ -1,0 +1,309 @@
+---
+import FormerSiteLayout from '../../layouts/FormerSiteLayout.astro';
+
+const tools = [
+  { name: 'Dropbox Paper', logo: '/logos/dropbox.svg' },
+  { name: 'Dropbox Data', logo: '/logos/dropbox.svg' },
+  { name: 'ClickUp', logo: '/wp-content/uploads/2021/11/clickup-lower-res-150x150.png' },
+  { name: 'Zoom', logo: '/wp-content/uploads/2021/11/zoom-4-logo-black-and-white-150x150.png' },
+  { name: 'Microsoft 365', logo: '/logos/microsoft365.svg' },
+  { name: 'Google Drive', logo: '/logos/google-drive.svg' },
+];
+
+const offerCards = [
+  {
+    image: '/wp-content/uploads/2021/11/nurse-2141808_640.jpg',
+    tag: 'Berufssprache',
+    title: 'Integration von praxisorientierter Sprache',
+    facts: ['TELC B2 Beruf', '9 Monate'],
+  },
+  {
+    image: '/wp-content/uploads/2021/11/books-1204029_640.jpg',
+    tag: 'Lehr- und Lernplattformen',
+    title: 'Integration von modernen Lernplattformen (LMS)',
+    facts: [],
+  },
+  {
+    image: '/wp-content/uploads/2021/11/student-849822_640.jpg',
+    tag: 'Teacher Training',
+    title: 'Qualitätssteigerung durch Lehrertrainings',
+    facts: ['Einzeltraining', 'min. 3 Stunden'],
+  },
+];
+
+const testimonials = [
+  {
+    logo: '/wp-content/uploads/2021/12/Migramus.jpg',
+    quote:
+      'Eine Vermittlungsagentur ist mit einer Vielzahl von Problemen konfrontiert, und es ist schwierig, seinen potenziellen Kunden sein Können zu beweisen. ICS hat in dieser Kette die Abläufe in Bezug auf die Vorstellung mit verschiedenen Dienstleistungsangeboten geordnet.',
+  },
+  {
+    logo: '/wp-content/uploads/2021/11/Clipboard01-300x111.jpg',
+    quote:
+      'Vielen Dank Icanspeak für die Beratung und das TeacherTraining. Die Kandidaten können schon weitaus besser Deutsch sprechen und wir haben auch höhere Besteherquoten bei den Prüfungen.',
+  },
+  {
+    logo: '/wp-content/uploads/2022/04/RHC-Logo.jpg',
+    quote:
+      'Mit icanspeak lief alles unkompliziert und effizient. Unsere Azubis haben ihr Deutsch neben der Arbeit verbessert. Der starke Support in der Entscheidung zum LMS und der richtigen Auswahl bei den Lehrern hat eindeutig zur Qualität der Ergebnisse beigetragen.',
+  },
+  {
+    logo: '/wp-content/uploads/2021/11/deutschacademy-300x123.png',
+    quote:
+      'Die beste Praxis, an die sich die Recruiting-Unternehmen halten sollten, ist die Vermeidung von allgemeinen Anfängerfehlern. Unser Kunde hat eine ausführliche Erklärung der gesamten Ansprüche von Anfang an mitgeliefert. Ohne adequate Beratung hätten wir sicherlich nicht die Vorraussetzungen erfüllt.',
+  },
+];
+---
+
+<FormerSiteLayout title="icanspeak.it – Deutsch für Fachkräfte">
+  <section class="hero section">
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <p class="eyebrow">A1 – B2 für Ihre Kandidaten</p>
+        <h1>Sprachausbildung für Fachkräfte.<br />Organisiert.</h1>
+        <p>Mit unserer Hilfe verläuft die Sprachausbildung von Kandidaten effizient.</p>
+        <div class="hero__actions">
+          <a href="#Qualitaet" class="button button--primary">Mehr Info</a>
+          <a href="/former-site/angebot/" class="button button--outline">Alle Angebote</a>
+        </div>
+      </div>
+      <div class="hero__media">
+        <video
+          src="/wp-content/uploads/2021/11/Laptop-61037_4.mp4"
+          autoplay
+          loop
+          muted
+          playsinline
+          controls
+          aria-label="Video: Sprachausbildung mit icanspeak.it"
+        ></video>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft tools">
+    <div class="container">
+      <div class="section-head">
+        <h2>Diese Tools benutzen wir, um den Sprachunterricht zu optimieren.</h2>
+        <p>Unsere Cloud – überall ein Ort.</p>
+      </div>
+      <ul class="tools__grid">
+        {tools.map((tool) => (
+          <li class="tools__item">
+            {tool.logo && <img src={tool.logo} alt="" width="40" height="40" />}
+            <h3>{tool.name}</h3>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section quote-section">
+    <div class="container quote-section__inner">
+      <img
+        src="/wp-content/uploads/2020/10/online-programming-course-featured-review-figure-img.png"
+        alt=""
+        width="120"
+        height="120"
+        class="quote-section__figure"
+      />
+      <blockquote class="quote">
+        „Mit der Hilfe von icanspeak ist uns die Arbeit in der Sprachausbildung abgenommen. Wir haben unseren
+        Kunden Profis versprochen, die Deutsch können.“
+      </blockquote>
+      <p class="quote-attribution">
+        <strong>Helena Mesman</strong>
+        HR – Auslandsrecruiterin
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--soft quality" id="Qualitaet">
+    <div class="container quality__inner">
+      <img
+        src="/wp-content/uploads/2021/11/bricks-2181920_1080.jpg"
+        alt=""
+        class="quality__image"
+        width="640"
+        height="480"
+      />
+      <div>
+        <p class="eyebrow">Qualitätsmanagement</p>
+        <h2>Gute Qualität ist unser Ziel</h2>
+        <p>Wir beraten Sie auf dem Weg der Sprachausbildung Ihrer Kandidaten im Ausland.</p>
+        <ul class="icon-list mt-lg">
+          <li>Teacher Training</li>
+          <li>Pipeline A1 to B2</li>
+          <li>Lernplattformen</li>
+          <li>Berufssprache</li>
+        </ul>
+        <a href="/former-site/angebot/" class="button button--primary mt-lg">Mehr Infos</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section offers">
+    <div class="container">
+      <div class="grid" style="--cols: 3; --cols-tablet: 1;">
+        {offerCards.map((card) => (
+          <article class="card">
+            <img class="card__image" src={card.image} alt="" width="640" height="480" />
+            <div class="card__body">
+              <p class="eyebrow">{card.tag}</p>
+              <h3>{card.title}</h3>
+              {card.facts.length > 0 && (
+                <ul class="icon-list mt-lg">
+                  {card.facts.map((fact) => (
+                    <li>{fact}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft testimonials">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <p class="eyebrow">Erfahrungsberichte</p>
+        <h2>Was unsere Kunden sagen</h2>
+      </div>
+      <div class="grid" style="--cols: 2; --cols-tablet: 2;">
+        {testimonials.map((item) => (
+          <div class="card testimonial-card">
+            <div class="card__body">
+              <img src={item.logo} alt="" class="testimonial-card__logo" />
+              <p>{item.quote}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="testimonials__cta">
+        <a href="/former-site/kontakt/" class="button button--primary">Kontakt</a>
+      </div>
+    </div>
+  </section>
+</FormerSiteLayout>
+
+<style>
+  .hero__inner {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: center;
+  }
+
+  @media (max-width: 860px) {
+    .hero__inner {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  .hero__copy p {
+    margin-block: 1.25rem;
+    font-size: 1.1rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .hero__media video {
+    width: 100%;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+  }
+
+  .tools__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+  }
+
+  @media (max-width: 560px) {
+    .tools__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .tools__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  .tools__item img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+  }
+
+  .tools__item h3 {
+    font-size: 1rem;
+  }
+
+  .quote-section__inner {
+    max-width: 44rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .quote-section__figure {
+    border-radius: 999px;
+  }
+
+  .quote-section .quote {
+    font-size: 1.35rem;
+  }
+
+  .quality__inner {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: center;
+  }
+
+  @media (max-width: 860px) {
+    .quality__inner {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  .quality__image {
+    border-radius: var(--radius);
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .quality__inner p {
+    max-width: none;
+  }
+
+  .testimonial-card__logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    margin-block-end: 1rem;
+  }
+
+  .testimonials__cta {
+    display: flex;
+    justify-content: center;
+    margin-block-start: clamp(2rem, 3vw, 3rem);
+  }
+</style>

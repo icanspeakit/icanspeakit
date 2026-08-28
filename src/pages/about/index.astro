@@ -1,0 +1,61 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="About — icanspeak.it" description="Why icanspeak.it exists: a small, independent site about etymology, made for people who like being surprised by their own language." altHref="/de/about/">
+  <section class="about-hero">
+    <div class="container container--narrow">
+      <p class="eyebrow">About this site</p>
+      <h1>We think words deserve a second look</h1>
+      <p class="lede">
+        Most of us use tens of thousands of words a week without ever asking where they came from. icanspeak.it
+        is a small, ad-light project built for the moments you do ask — and for the rabbit holes that follow.
+      </p>
+    </div>
+  </section>
+
+  <section class="about-body">
+    <div class="container container--narrow prose">
+      <h2>What we actually do here</h2>
+      <p>
+        We write short, sourced deep dives into individual words and language patterns: where a word was
+        coined, how it drifted between languages, why two unrelated tongues sometimes converge on the same
+        idea, and why "false friends" trip up even fluent speakers. Alongside the blog, the
+        <a href="/words/">word cards</a> are a lighter format — a wall of bite-sized origin stories you can
+        flip through in a few minutes.
+      </p>
+
+      <h2>Why etymology, specifically</h2>
+      <p>
+        Etymology is one of the few fields where history, migration, trade, colonization, and plain human
+        gossip all leave physical fingerprints you can still read today, just by looking closely at a word.
+        A single word like "ketchup" carries a trade route across three continents. A word like "nostalgia"
+        carries a 17th-century medical diagnosis. Once you start noticing this, it's hard to stop.
+      </p>
+
+      <h2>What this site isn't</h2>
+      <p>
+        We're not a dictionary, a grammar course, or a language-learning app — there are better tools for
+        that already. We're closer to a magazine: opinionated, occasionally speculative where the historical
+        record is thin (we say so when it is), and written for curiosity rather than fluency.
+      </p>
+
+      <h2>A note on the domain</h2>
+      <p>
+        icanspeak.it started life as a language-training consultancy for professionals in Germany. That
+        project's site is still online — we didn't want that work to disappear when the domain changed
+        direction — and you can find it preserved at
+        <a href="/former-site/">icanspeak.it/former-site</a>.
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .about-hero { padding-block-start: clamp(3rem, 6vw, 5rem); padding-block-end: 0; }
+  .container--narrow { max-width: 42rem; }
+  .about-hero h1 { margin-block: 0.75rem 1rem; }
+  .about-body .prose h2 { margin-block: 2rem 0.75rem; }
+  .about-body .prose p { margin-block-end: 1.25rem; max-width: 100%; }
+  .about-body .prose a { color: var(--color-primary); text-decoration: underline; }
+</style>

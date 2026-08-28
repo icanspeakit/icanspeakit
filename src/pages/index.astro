@@ -1,309 +1,142 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
-const tools = [
-  { name: 'Dropbox Paper', logo: '/logos/dropbox.svg' },
-  { name: 'Dropbox Data', logo: '/logos/dropbox.svg' },
-  { name: 'ClickUp', logo: '/wp-content/uploads/2021/11/clickup-lower-res-150x150.png' },
-  { name: 'Zoom', logo: '/wp-content/uploads/2021/11/zoom-4-logo-black-and-white-150x150.png' },
-  { name: 'Microsoft 365', logo: '/logos/microsoft365.svg' },
-  { name: 'Google Drive', logo: '/logos/google-drive.svg' },
-];
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
 
-const offerCards = [
-  {
-    image: '/wp-content/uploads/2021/11/nurse-2141808_640.jpg',
-    tag: 'Berufssprache',
-    title: 'Integration von praxisorientierter Sprache',
-    facts: ['TELC B2 Beruf', '9 Monate'],
-  },
-  {
-    image: '/wp-content/uploads/2021/11/books-1204029_640.jpg',
-    tag: 'Lehr- und Lernplattformen',
-    title: 'Integration von modernen Lernplattformen (LMS)',
-    facts: [],
-  },
-  {
-    image: '/wp-content/uploads/2021/11/student-849822_640.jpg',
-    tag: 'Teacher Training',
-    title: 'Qualitätssteigerung durch Lehrertrainings',
-    facts: ['Einzeltraining', 'min. 3 Stunden'],
-  },
-];
-
-const testimonials = [
-  {
-    logo: '/wp-content/uploads/2021/12/Migramus.jpg',
-    quote:
-      'Eine Vermittlungsagentur ist mit einer Vielzahl von Problemen konfrontiert, und es ist schwierig, seinen potenziellen Kunden sein Können zu beweisen. ICS hat in dieser Kette die Abläufe in Bezug auf die Vorstellung mit verschiedenen Dienstleistungsangeboten geordnet.',
-  },
-  {
-    logo: '/wp-content/uploads/2021/11/Clipboard01-300x111.jpg',
-    quote:
-      'Vielen Dank Icanspeak für die Beratung und das TeacherTraining. Die Kandidaten können schon weitaus besser Deutsch sprechen und wir haben auch höhere Besteherquoten bei den Prüfungen.',
-  },
-  {
-    logo: '/wp-content/uploads/2022/04/RHC-Logo.jpg',
-    quote:
-      'Mit icanspeak lief alles unkompliziert und effizient. Unsere Azubis haben ihr Deutsch neben der Arbeit verbessert. Der starke Support in der Entscheidung zum LMS und der richtigen Auswahl bei den Lehrern hat eindeutig zur Qualität der Ergebnisse beigetragen.',
-  },
-  {
-    logo: '/wp-content/uploads/2021/11/deutschacademy-300x123.png',
-    quote:
-      'Die beste Praxis, an die sich die Recruiting-Unternehmen halten sollten, ist die Vermeidung von allgemeinen Anfängerfehlern. Unser Kunde hat eine ausführliche Erklärung der gesamten Ansprüche von Anfang an mitgeliefert. Ohne adequate Beratung hätten wir sicherlich nicht die Vorraussetzungen erfüllt.',
-  },
-];
+const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' });
 ---
 
-<Layout title="icanspeak.it – Deutsch für Fachkräfte">
-  <section class="hero section">
+<Layout title="icanspeak.it — Word origins for the curious" altHref="/de/">
+  <section class="hero">
     <div class="container hero__inner">
-      <div class="hero__copy">
-        <p class="eyebrow">A1 – B2 für Ihre Kandidaten</p>
-        <h1>Sprachausbildung für Fachkräfte.<br />Organisiert.</h1>
-        <p>Mit unserer Hilfe verläuft die Sprachausbildung von Kandidaten effizient.</p>
-        <div class="hero__actions">
-          <a href="#Qualitaet" class="button button--primary">Mehr Info</a>
-          <a href="/angebot/" class="button button--outline">Alle Angebote</a>
-        </div>
-      </div>
-      <div class="hero__media">
-        <video
-          src="/wp-content/uploads/2021/11/Laptop-61037_4.mp4"
-          autoplay
-          loop
-          muted
-          playsinline
-          controls
-          aria-label="Video: Sprachausbildung mit icanspeak.it"
-        ></video>
+      <p class="eyebrow">A site for word nerds</p>
+      <h1>Every word is carrying a story. We go dig it up.</h1>
+      <p class="lede">
+        icanspeak.it is a small, ad-free corner of the internet about etymology and the odd, delightful
+        mechanics of language — where words came from, how they mutated crossing borders and centuries,
+        and why two languages sometimes agree on the strangest things.
+      </p>
+      <div class="hero__actions">
+        <a href="/blog/" class="button button--primary">Read the blog</a>
+        <a href="/words/" class="button button--ghost">Browse word cards</a>
       </div>
     </div>
   </section>
 
-  <section class="section section--soft tools">
+  <section class="why">
     <div class="container">
       <div class="section-head">
-        <h2>Diese Tools benutzen wir, um den Sprachunterricht zu optimieren.</h2>
-        <p>Unsere Cloud – überall ein Ort.</p>
+        <p class="eyebrow">Why bother with etymology?</p>
+        <h2>Because language is the longest-running story we've ever told</h2>
       </div>
-      <ul class="tools__grid">
-        {tools.map((tool) => (
-          <li class="tools__item">
-            {tool.logo && <img src={tool.logo} alt="" width="40" height="40" />}
-            <h3>{tool.name}</h3>
-          </li>
-        ))}
-      </ul>
+      <div class="why__grid">
+        <article class="card">
+          <h3>Every word is a tiny history lesson</h3>
+          <p class="text-muted">
+            "Salary" comes from the Latin for salt, once part of a Roman soldier's pay. Say the word and
+            you're quoting a two-thousand-year-old paycheck.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Languages secretly borrow from each other</h3>
+          <p class="text-muted">
+            English alone has pulled words from more than 350 languages. "Ketchup" traveled from a Hokkien
+            fish sauce through Malay trade routes before it ever met a tomato.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Meanings drift — sometimes on purpose</h3>
+          <p class="text-muted">
+            "Nice" once meant "foolish" in Latin. Give a word three centuries and enough gossip, and it can
+            end up meaning almost the opposite of where it started.
+          </p>
+        </article>
+      </div>
     </div>
   </section>
 
-  <section class="section quote-section">
-    <div class="container quote-section__inner">
-      <img
-        src="/wp-content/uploads/2020/10/online-programming-course-featured-review-figure-img.png"
-        alt=""
-        width="120"
-        height="120"
-        class="quote-section__figure"
-      />
-      <blockquote class="quote">
-        „Mit der Hilfe von icanspeak ist uns die Arbeit in der Sprachausbildung abgenommen. Wir haben unseren
-        Kunden Profis versprochen, die Deutsch können.“
-      </blockquote>
-      <p class="quote-attribution">
-        <strong>Helena Mesman</strong>
-        HR – Auslandsrecruiterin
+  {posts.length > 0 && (
+    <section class="latest">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">From the blog</p>
+          <h2>Recent deep dives</h2>
+        </div>
+        <div class="latest__grid">
+          {posts.map((post) => (
+            <a class="post-card" href={`/blog/${post.slug}/`}>
+              {post.data.word && <span class="tag">{post.data.word}</span>}
+              <h3>{post.data.title}</h3>
+              <p class="text-muted">{post.data.description}</p>
+              <span class="post-card__date">{dateFmt.format(post.data.pubDate)}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="cta">
+    <div class="container cta__inner">
+      <p class="eyebrow">Keep going</p>
+      <h2>Pick a word, pull the thread</h2>
+      <p class="lede">
+        The word-card wall has bite-sized origin stories you can flip through in a coffee break —
+        false friends, loanwords, and words invented on purpose.
       </p>
-    </div>
-  </section>
-
-  <section class="section section--soft quality" id="Qualitaet">
-    <div class="container quality__inner">
-      <img
-        src="/wp-content/uploads/2021/11/bricks-2181920_1080.jpg"
-        alt=""
-        class="quality__image"
-        width="640"
-        height="480"
-      />
-      <div>
-        <p class="eyebrow">Qualitätsmanagement</p>
-        <h2>Gute Qualität ist unser Ziel</h2>
-        <p>Wir beraten Sie auf dem Weg der Sprachausbildung Ihrer Kandidaten im Ausland.</p>
-        <ul class="icon-list mt-lg">
-          <li>Teacher Training</li>
-          <li>Pipeline A1 to B2</li>
-          <li>Lernplattformen</li>
-          <li>Berufssprache</li>
-        </ul>
-        <a href="/angebot/" class="button button--primary mt-lg">Mehr Infos</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section offers">
-    <div class="container">
-      <div class="grid" style="--cols: 3; --cols-tablet: 1;">
-        {offerCards.map((card) => (
-          <article class="card">
-            <img class="card__image" src={card.image} alt="" width="640" height="480" />
-            <div class="card__body">
-              <p class="eyebrow">{card.tag}</p>
-              <h3>{card.title}</h3>
-              {card.facts.length > 0 && (
-                <ul class="icon-list mt-lg">
-                  {card.facts.map((fact) => (
-                    <li>{fact}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--soft testimonials">
-    <div class="container">
-      <div class="section-head section-head--center">
-        <p class="eyebrow">Erfahrungsberichte</p>
-        <h2>Was unsere Kunden sagen</h2>
-      </div>
-      <div class="grid" style="--cols: 2; --cols-tablet: 2;">
-        {testimonials.map((item) => (
-          <div class="card testimonial-card">
-            <div class="card__body">
-              <img src={item.logo} alt="" class="testimonial-card__logo" />
-              <p>{item.quote}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div class="testimonials__cta">
-        <a href="/kontakt/" class="button button--primary">Kontakt</a>
-      </div>
+      <a href="/words/" class="button button--primary">Open the word cards</a>
     </div>
   </section>
 </Layout>
 
 <style>
-  .hero__inner {
+  .hero { padding-block-start: clamp(3.5rem, 7vw, 6rem); }
+  .hero__inner { max-width: 46rem; }
+  .hero h1 { margin-block: 0.75rem 1.25rem; }
+  .hero__actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-block-start: 1.75rem; }
+
+  .why__grid,
+  .latest__grid {
     display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: clamp(2rem, 4vw, 4rem);
-    align-items: center;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
   }
+
+  .why__grid h3 { margin-block-end: 0.6rem; }
 
   @media (max-width: 860px) {
-    .hero__inner {
-      grid-template-columns: minmax(0, 1fr);
-    }
+    .why__grid, .latest__grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .why__grid, .latest__grid { grid-template-columns: 1fr; }
   }
 
-  .hero__copy p {
-    margin-block: 1.25rem;
-    font-size: 1.1rem;
-  }
-
-  .hero__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .hero__media video {
-    width: 100%;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-md);
-  }
-
-  .tools__grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 2rem;
-  }
-
-  @media (max-width: 560px) {
-    .tools__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  .tools__item {
+  .post-card {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-    text-align: center;
-    padding: 1.5rem 1rem;
-    background: var(--color-bg);
+    align-items: flex-start;
+    gap: 0.6rem;
+    background: #fff;
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
+    padding: clamp(1.25rem, 2vw, 1.5rem);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
-  .tools__item img {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
+  .post-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .post-card h3 { font-size: 1.15rem; }
+  .post-card__date { font-size: 0.8rem; color: var(--color-muted); margin-block-start: auto; }
+
+  .cta {
+    background: var(--color-bg-soft);
+    border-block: 1px solid var(--color-border);
   }
 
-  .tools__item h3 {
-    font-size: 1rem;
-  }
-
-  .quote-section__inner {
-    max-width: 44rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.25rem;
-  }
-
-  .quote-section__figure {
-    border-radius: 999px;
-  }
-
-  .quote-section .quote {
-    font-size: 1.35rem;
-  }
-
-  .quality__inner {
-    display: grid;
-    grid-template-columns: 1fr 1.1fr;
-    gap: clamp(2rem, 4vw, 4rem);
-    align-items: center;
-  }
-
-  @media (max-width: 860px) {
-    .quality__inner {
-      grid-template-columns: minmax(0, 1fr);
-    }
-  }
-
-  .quality__image {
-    border-radius: var(--radius);
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    width: 100%;
-  }
-
-  .quality__inner p {
-    max-width: none;
-  }
-
-  .testimonial-card__logo {
-    height: 40px;
-    width: auto;
-    object-fit: contain;
-    margin-block-end: 1rem;
-  }
-
-  .testimonials__cta {
-    display: flex;
-    justify-content: center;
-    margin-block-start: clamp(2rem, 3vw, 3rem);
-  }
+  .cta__inner { max-width: 40rem; text-align: left; }
+  .cta__inner h2 { margin-block: 0.5rem 0.9rem; }
+  .cta__inner .button { margin-block-start: 1.5rem; }
 </style>

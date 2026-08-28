@@ -1,0 +1,151 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+const words = [
+  {
+    term: 'Serendipity',
+    lang: 'Englisch, 1754',
+    teaser: 'Erfunden für einen glücklichen Zufall — beim Schreiben über einen glücklichen Zufall.',
+    body: "Von Horace Walpole in einem privaten Brief erfunden, nach 'Serendip', dem alten persischen Namen für Sri Lanka, über ein Märchen von drei Prinzen, die ständig auf Dinge stießen, die sie gar nicht suchten.",
+    link: '/blog/serendipity/',
+  },
+  {
+    term: 'Robot',
+    lang: 'Tschechisch, 1920',
+    teaser: 'Bevor es Maschine bedeutete, bedeutete es Zwangsarbeit.',
+    body: "Vom tschechischen 'robota' (Frondienst der Leibeigenen). Erfunden vom Maler Josef Čapek für das Theaterstück R.U.R. seines Bruders Karel — die Roboter darin werden gezüchtet, nicht gebaut, und rebellieren am Ende.",
+    link: '/blog/robot-forced-labor/',
+  },
+  {
+    term: 'Nostalgie',
+    lang: 'Griechisch, geprägt 1688',
+    teaser: 'Ursprünglich eine Diagnose, kein Gefühl.',
+    body: "Zusammengesetzt aus 'nostos' (Heimkehr) und 'algos' (Schmerz) vom Schweizer Arzt Johannes Hofer, der damit ein medizinisches Krankheitsbild bei heimwehkranken Soldaten beschrieb.",
+  },
+  {
+    term: 'Avocado',
+    lang: 'Nahuatl → Spanisch → Englisch',
+    teaser: 'Der Ursprungsname bedeutete auch etwas ganz anderes.',
+    body: "Vom Nahuatl 'āhuacatl', das auch 'Hoden' bedeutete — ein Verweis darauf, wie die Frucht paarweise hängt. Das Spanische machte daraus 'aguacate'; im Englischen näherte sich das Wort volksetymologisch an 'abogado' (Anwalt) an.",
+  },
+  {
+    term: 'Ketchup',
+    lang: 'Hokkien → Malaiisch → Englisch',
+    teaser: 'Es durchquerte drei Sprachen, bevor es je eine Tomate traf.',
+    body: "Vom Hokkien-Chinesischen 'kê-tsiap', einer fermentierten Fischsauce, die über malaiische Handelshäfen von britischen Seeleuten im 17.–18. Jahrhundert übernommen wurde. Tomaten kamen erst im 19. Jahrhundert in Amerika dazu.",
+  },
+  {
+    term: 'Alkohol',
+    lang: 'Arabisch, über die Alchemie',
+    teaser: 'Es bedeutete einmal Kajal-Augenschminke.',
+    body: "Vom arabischen 'al-kuḥl', einem feinen Puder, das als Kajal-Eyeliner benutzt wurde. Europäische Alchemisten übernahmen das Wort für jede fein destillierte Substanz; erst Jahrhunderte später verengte es sich auf 'destillierte Spirituosen'.",
+  },
+  {
+    term: 'Tycoon',
+    lang: 'Japanisch, 1850er',
+    teaser: 'Es war einmal ein Titel für einen Militärherrscher.',
+    body: "Vom japanischen 'taikun' (大君, 'großer Herr'), einem Titel für den Shogun. US-Marineoffiziere brachten das Wort nach Perrys Expeditionen mit nach Hause, wo es auf mächtige Geschäftsleute überging.",
+  },
+  {
+    term: 'Karaoke',
+    lang: 'Japanisch',
+    teaser: 'Wörtlich: leeres Orchester.',
+    body: "Vom japanischen 'kara' (leer) + 'okesutora' (Orchester) — selbst ein Lehnwort aus dem Englischen, das neu kombiniert und wieder in die Welt exportiert wurde.",
+  },
+];
+---
+
+<Layout title="Wortkarten — icanspeak.it" description="Etymologie in kleinen Häppchen: kompakte, belegte Ursprungsgeschichten für Wörter, die wir täglich benutzen." altHref="/words/">
+  <section class="words-hero">
+    <div class="container">
+      <p class="eyebrow">Wortkarten</p>
+      <h1>Karte umdrehen, Geheimnis eines Wortes lernen</h1>
+      <p class="lede">Acht Wörter, acht kleine Geschichten. Klicke auf eine Karte, um ihren wahren Ursprung zu enthüllen.</p>
+    </div>
+  </section>
+
+  <section class="words-grid-section">
+    <div class="container">
+      <div class="words-grid">
+        {words.map((w) => (
+          <details class="word-card">
+            <summary>
+              <span class="word-card__term">{w.term}</span>
+              <span class="tag">{w.lang}</span>
+              <span class="word-card__teaser text-muted">{w.teaser}</span>
+              <span class="word-card__icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="word-card__body">
+              <p>{w.body}</p>
+              {w.link && <a href={w.link} class="word-card__more">Ganze Geschichte lesen (Englisch) →</a>}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .words-hero { padding-block-end: 0.5rem; }
+  .words-hero h1 { margin-block: 0.75rem 0.5rem; }
+
+  .words-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 720px) { .words-grid { grid-template-columns: 1fr; } }
+
+  .word-card {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: clamp(1.1rem, 2vw, 1.5rem);
+  }
+
+  .word-card summary {
+    list-style: none;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    align-items: center;
+    gap: 0.6rem 0.75rem;
+  }
+
+  .word-card summary::-webkit-details-marker { display: none; }
+
+  .word-card__term {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: var(--color-ink);
+  }
+
+  .word-card__teaser { grid-column: 1 / -1; font-size: 0.9rem; }
+
+  .word-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    font-size: 1rem;
+    color: var(--color-primary);
+    transition: transform 0.2s ease;
+  }
+
+  .word-card[open] .word-card__icon { transform: rotate(45deg); }
+
+  .word-card__body {
+    margin-block-start: 1rem;
+    padding-block-start: 1rem;
+    border-block-start: 1px dashed var(--color-border);
+  }
+
+  .word-card__body p { max-width: 100%; }
+  .word-card__more { display: inline-block; margin-block-start: 0.6rem; font-weight: 600; color: var(--color-primary); }
+</style>
