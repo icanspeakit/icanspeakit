@@ -35,8 +35,7 @@ const t = copy[locale as 'en' | 'de'] ?? copy.en;
   <div class="container footer-main">
     <div class="footer-col footer-col--brand">
       <a href={locale === 'de' ? '/de/' : '/'} class="brand">
-        <span class="brand__mark">i</span>
-        <span>icanspeak.it</span>
+        icanspeak<span class="brand__it">ı<span class="brand__dot"></span>t</span>
       </a>
       <p class="text-muted">{t.blurb}</p>
     </div>
@@ -84,27 +83,30 @@ const t = copy[locale as 'en' | 'de'] ?? copy.en;
   }
 
   .footer-col--brand .brand {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-family: var(--font-display);
-    font-weight: 600;
+    display: inline-block;
+    font-family: 'Literata', var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.015em;
     color: #fff;
     margin-block-end: 1rem;
-    font-size: 1.05rem;
+    font-size: 1.4rem;
+    line-height: 1;
   }
 
-  .brand__mark {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
+  .brand__it {
+    position: relative;
+    display: inline-block;
+    margin-left: 0.12em;
+  }
+
+  .brand__dot {
+    position: absolute;
+    left: 0.07em;
+    top: -0.07em;
+    width: 0.18em;
+    height: 0.18em;
+    border-radius: 50%;
     background: var(--color-accent);
-    color: var(--color-primary-dark);
-    font-family: var(--font-display);
-    font-style: italic;
   }
 
   .footer-col--brand p { font-size: 0.9rem; max-width: 32ch; color: #aab5c6; }
