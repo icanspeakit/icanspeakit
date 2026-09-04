@@ -43,11 +43,10 @@ function isActive(href: string) {
 <header class="site-header">
   <div class="site-header__inner container">
     <a href={locale === 'de' ? '/de/' : '/'} class="brand">
-      <span class="brand__mark">i</span>
-      <span class="brand__text">
-        <span class="brand__name">icanspeak.it</span>
-        <span class="brand__tagline">{t.tagline}</span>
+      <span class="brand__word">
+        icanspeak<span class="brand__it">ı<span class="brand__dot"></span>t</span>
       </span>
+      <span class="brand__tagline">{t.tagline}</span>
     </a>
 
     <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="primary-nav">
@@ -116,36 +115,34 @@ function isActive(href: string) {
 
   .brand {
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex-shrink: 0;
-  }
-
-  .brand__mark {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: var(--color-primary);
-    color: #fff;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 1.4rem;
-  }
-
-  .brand__text {
-    display: flex;
     flex-direction: column;
-    line-height: 1.15;
+    gap: 0.15rem;
+    flex-shrink: 0;
+    line-height: 1;
   }
 
-  .brand__name {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 1.1rem;
+  .brand__word {
+    font-family: 'Literata', var(--font-display);
+    font-weight: 500;
+    font-size: 1.55rem;
+    letter-spacing: -0.015em;
     color: var(--color-ink);
+  }
+
+  .brand__it {
+    position: relative;
+    display: inline-block;
+    margin-left: 0.12em;
+  }
+
+  .brand__dot {
+    position: absolute;
+    left: 0.07em;
+    top: -0.07em;
+    width: 0.18em;
+    height: 0.18em;
+    border-radius: 50%;
+    background: var(--color-accent);
   }
 
   .brand__tagline {
