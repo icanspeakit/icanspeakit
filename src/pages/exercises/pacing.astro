@@ -1,0 +1,158 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ShadowRecorder from '../../components/ShadowRecorder.astro';
+import { pacingPassages } from '../../data/exercises/pacing';
+
+const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+const rates = [0.8, 1, 1.2];
+---
+
+<Layout
+  title="Pace & pausing — icanspeak.it"
+  description="Model audio with exact pause placement, plus playback-speed shadowing to build a natural pace."
+>
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Pace &amp; pausing</span>
+      <h1>Pace &amp; pausing</h1>
+      <p class="lede">
+        Listen to where a native speaker pauses ("/" = short pause, "//" = long pause), slow it down to
+        study it, then speed back up and shadow it.
+      </p>
+      <button type="button" class="button button--ghost" id="print-worksheet">🖨 Print worksheet</button>
+    </div>
+
+    <div class="passage-list">
+      {pacingPassages.map((passage) => (
+        <div class="card passage-card" data-passage-id={passage.id}>
+          <h3>{passage.title}</h3>
+          <p class="passage-card__marked">{passage.markedText}</p>
+
+          <div class="passage-card__player" data-role="player">
+            <audio data-role="model-audio" src={ttsUrl(passage.ttsText)} preload="none"></audio>
+            <button type="button" class="button button--primary" data-role="play">▶ Play at</button>
+            <div class="passage-card__rates">
+              {rates.map((rate) => (
+                <button type="button" class="button button--ghost" data-role="rate" data-rate={rate}>
+                  {rate}×
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <ShadowRecorder audioSrc={ttsUrl(passage.ttsText)} label="Shadow this passage" />
+
+          <p class="passage-card__worksheet">{passage.markedText}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const players = document.querySelectorAll<HTMLElement>('[data-role="player"]');
+
+  players.forEach((player) => {
+    const audio = player.querySelector<HTMLAudioElement>('[data-role="model-audio"]');
+    const playBtn = player.querySelector<HTMLButtonElement>('[data-role="play"]');
+    const rateBtns = player.querySelectorAll<HTMLButtonElement>('[data-role="rate"]');
+    let rate = 1;
+
+    rateBtns.forEach((btn) => {
+      if (Number(btn.dataset.rate) === 1) btn.classList.add('button--active');
+      btn.addEventListener('click', () => {
+        rate = Number(btn.dataset.rate);
+        if (audio) audio.playbackRate = rate;
+        rateBtns.forEach((b) => b.classList.toggle('button--active', b === btn));
+      });
+    });
+
+    playBtn?.addEventListener('click', () => {
+      if (audio) {
+        audio.playbackRate = rate;
+        audio.currentTime = 0;
+        audio.play();
+      }
+    });
+  });
+
+  document.getElementById('print-worksheet')?.addEventListener('click', () => {
+    window.print();
+  });
+</script>
+
+<style>
+  .passage-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .passage-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .passage-card__marked {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    max-width: none;
+  }
+
+  .passage-card__player {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.9rem;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  .passage-card__rates {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .button--active {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .passage-card__worksheet {
+    display: none;
+  }
+
+  @media print {
+    .site-header,
+    .site-footer,
+    #print-worksheet,
+    .passage-card__player,
+    .shadow-recorder {
+      display: none !important;
+    }
+
+    .passage-card__marked {
+      display: none;
+    }
+
+    .passage-card__worksheet {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+    }
+
+    .passage-list {
+      display: block;
+    }
+
+    .passage-card {
+      break-inside: avoid;
+      border: none;
+      box-shadow: none;
+      padding-block: 1rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+  }
+</style>
