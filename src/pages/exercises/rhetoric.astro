@@ -1,0 +1,60 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { RHETORIC_AGENT_ID, pitchPrompts } from '../../data/exercises/rhetoric';
+---
+
+<Layout
+  title="Rhetoric & delivery — icanspeak.it"
+  description="Practice a short persuasive pitch against an AI listener that asks real follow-up questions."
+>
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Rhetoric &amp; delivery</span>
+      <h1>Rhetoric &amp; delivery</h1>
+      <p class="lede">
+        Pick a topic, deliver a 60–90 second persuasive pitch out loud, and see how a mildly skeptical
+        listener responds. It won't comment on your accent — it's reacting to your argument, the way a real
+        listener would.
+      </p>
+    </div>
+
+    <div class="card rhetoric-prompts">
+      <h3>Pick a topic</h3>
+      <ul>
+        {pitchPrompts.map((prompt) => (
+          <li>{prompt}</li>
+        ))}
+      </ul>
+      <p class="text-muted">Or bring your own — any short persuasive argument works.</p>
+      <p class="text-muted">
+        When you're ready, use the assistant button in the bottom-right corner to start a call and deliver
+        your pitch.
+      </p>
+    </div>
+  </section>
+
+  <elevenlabs-convai agent-id={RHETORIC_AGENT_ID}></elevenlabs-convai>
+  <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript" is:inline></script>
+</Layout>
+
+<style>
+  .rhetoric-prompts ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-block: 0.75rem;
+  }
+
+  .rhetoric-prompts li {
+    padding-left: 1.1rem;
+    position: relative;
+  }
+
+  .rhetoric-prompts li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+  }
+
+</style>

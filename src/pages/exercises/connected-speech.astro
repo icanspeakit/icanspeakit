@@ -1,0 +1,216 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { connectedSpeechSentences } from '../../data/exercises/connected-speech';
+
+const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+---
+
+<Layout
+  title="Connected speech — icanspeak.it"
+  description="Hear how natural English links, drops, and blends sounds between words, and train your ear to catch it."
+>
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Phonology</span>
+      <h1>Connected speech</h1>
+      <p class="lede">
+        Click the words where you think a native speaker links or reduces a sound, then reveal the answer.
+        Slow the same clip down to study it before speeding back up.
+      </p>
+      <button type="button" class="button button--ghost" id="print-worksheet">🖨 Print worksheet</button>
+    </div>
+
+    <div class="sentence-list">
+      {connectedSpeechSentences.map((sentence) => (
+        <div
+          class="card sentence-card"
+          data-role="sentence-card"
+          data-answer={JSON.stringify(sentence.reductionIndices)}
+        >
+          <audio data-role="model-audio" src={ttsUrl(sentence.words.join(' '))} preload="none"></audio>
+
+          <div class="sentence" data-role="sentence">
+            {sentence.words.map((word, i) => (
+              <button type="button" class="word-token" data-role="word" data-index={i}>
+                {word}
+              </button>
+            ))}
+          </div>
+
+          <div class="sentence-card__controls">
+            <button type="button" class="button button--primary" data-role="play-natural">▶ Natural pace</button>
+            <button type="button" class="button button--ghost" data-role="play-slow">▶ Slowed down</button>
+            <button type="button" class="button button--ghost" data-role="reveal">Reveal</button>
+          </div>
+
+          <p class="sentence-card__result" data-role="result" aria-live="polite"></p>
+          <p class="sentence-card__explanation" data-role="explanation" hidden>{sentence.explanation}</p>
+
+          <p class="sentence-card__worksheet">{sentence.words.join(' ')}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const cards = document.querySelectorAll<HTMLElement>('[data-role="sentence-card"]');
+
+  cards.forEach((card) => {
+    const answer: number[] = JSON.parse(card.dataset.answer ?? '[]');
+    const audio = card.querySelector<HTMLAudioElement>('[data-role="model-audio"]');
+    const wordBtns = card.querySelectorAll<HTMLButtonElement>('[data-role="word"]');
+    const playNaturalBtn = card.querySelector<HTMLButtonElement>('[data-role="play-natural"]');
+    const playSlowBtn = card.querySelector<HTMLButtonElement>('[data-role="play-slow"]');
+    const revealBtn = card.querySelector<HTMLButtonElement>('[data-role="reveal"]');
+    const result = card.querySelector<HTMLElement>('[data-role="result"]');
+    const explanation = card.querySelector<HTMLElement>('[data-role="explanation"]');
+    const selected = new Set<number>();
+    let revealed = false;
+
+    wordBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (revealed) return;
+        const index = Number(btn.dataset.index);
+        if (selected.has(index)) {
+          selected.delete(index);
+          btn.classList.remove('word-token--selected');
+        } else {
+          selected.add(index);
+          btn.classList.add('word-token--selected');
+        }
+      });
+    });
+
+    playNaturalBtn?.addEventListener('click', () => {
+      if (audio) {
+        audio.playbackRate = 1;
+        audio.currentTime = 0;
+        audio.play();
+      }
+    });
+
+    playSlowBtn?.addEventListener('click', () => {
+      if (audio) {
+        audio.playbackRate = 0.6;
+        audio.currentTime = 0;
+        audio.play();
+      }
+    });
+
+    revealBtn?.addEventListener('click', () => {
+      revealed = true;
+      const answerSet = new Set(answer);
+      let hits = 0;
+
+      wordBtns.forEach((btn) => {
+        const index = Number(btn.dataset.index);
+        const isAnswer = answerSet.has(index);
+        const isSelected = selected.has(index);
+        if (isAnswer) btn.classList.add('word-token--answer');
+        if (isAnswer && isSelected) hits += 1;
+      });
+
+      if (result) {
+        result.textContent = `You caught ${hits} of ${answer.length} reduction${answer.length === 1 ? '' : 's'}.`;
+      }
+      if (explanation) explanation.hidden = false;
+    });
+  });
+
+  document.getElementById('print-worksheet')?.addEventListener('click', () => {
+    window.print();
+  });
+</script>
+
+<style>
+  .sentence-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .sentence-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .sentence {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .word-token {
+    border: 1px solid var(--color-border);
+    background: #fff;
+    border-radius: 8px;
+    padding: 0.4rem 0.75rem;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    cursor: pointer;
+  }
+
+  .word-token--selected {
+    border-color: var(--color-primary);
+    background: var(--color-primary-soft);
+  }
+
+  .word-token--answer {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+  }
+
+  .sentence-card__controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .sentence-card__result {
+    font-weight: 600;
+    font-size: 0.9rem;
+    min-height: 1.2em;
+  }
+
+  .sentence-card__explanation {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    max-width: none;
+  }
+
+  .sentence-card__worksheet {
+    display: none;
+  }
+
+  @media print {
+    .site-header,
+    .site-footer,
+    #print-worksheet,
+    .sentence-card__controls,
+    .sentence-card__result,
+    .sentence-card__explanation,
+    .sentence {
+      display: none !important;
+    }
+
+    .sentence-card__worksheet {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+    }
+
+    .sentence-list {
+      display: block;
+    }
+
+    .sentence-card {
+      break-inside: avoid;
+      border: none;
+      box-shadow: none;
+      padding-block: 1rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+  }
+</style>

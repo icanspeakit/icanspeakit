@@ -1,0 +1,115 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const topics = [
+  {
+    title: 'Articulation',
+    description: 'Minimal-pairs discrimination and shadowing drills for individual sounds.',
+    href: '/exercises/minimal-pairs/',
+    tag: 'Sounds',
+    available: true,
+  },
+  {
+    title: 'Pace & pausing',
+    description: 'Model audio with exact pause placement, plus playback-speed shadowing.',
+    href: '/exercises/pacing/',
+    tag: 'Rhythm',
+    available: true,
+  },
+  {
+    title: 'Connected speech',
+    description: 'Hear how natural speech links, drops, and blends sounds — then check your ear against the model.',
+    href: '/exercises/connected-speech/',
+    tag: 'Phonology',
+    available: true,
+  },
+  {
+    title: 'Rhetoric & delivery',
+    description: 'Practice a short pitch against an AI conversation partner that responds in real time.',
+    href: '/exercises/rhetoric/',
+    tag: 'Delivery',
+    available: true,
+  },
+  {
+    title: 'Prosody & voice',
+    description: 'Stress, intonation, breath, and pitch range — worksheet-led for now.',
+    href: '/exercises/prosody/',
+    tag: 'Worksheets',
+    available: false,
+  },
+  {
+    title: 'Fluency',
+    description: "What stuttering and cluttering actually are, and why they're not the same as an accent.",
+    href: '/blog/',
+    tag: 'Read',
+    available: false,
+  },
+];
+---
+
+<Layout title="Exercises — icanspeak.it" description="Audio-driven exercises for the mechanics behind sounding clear in English.">
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Practice</span>
+      <h1>Exercises</h1>
+      <p class="lede">
+        Hear the model, try it yourself, and listen back side by side — self-checking practice built around the
+        mechanics of pronunciation, not a pass/fail score.
+      </p>
+    </div>
+
+    <div class="topic-grid">
+      {topics.map((topic) => (
+        <a href={topic.available ? topic.href : undefined} class="card topic-card" aria-disabled={!topic.available}>
+          <span class="tag">{topic.tag}</span>
+          <h3>{topic.title}</h3>
+          <p>{topic.description}</p>
+          <span class="topic-card__status">{topic.available ? 'Start →' : 'Coming soon'}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .topic-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .topic-card[aria-disabled='true'] {
+    cursor: default;
+    opacity: 0.65;
+  }
+
+  .topic-card:not([aria-disabled='true']):hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .topic-card .tag {
+    align-self: flex-start;
+  }
+
+  .topic-card p {
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    max-width: none;
+  }
+
+  .topic-card__status {
+    margin-top: auto;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--color-primary);
+  }
+</style>
