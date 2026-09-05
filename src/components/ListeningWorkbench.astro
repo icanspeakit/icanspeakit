@@ -1,0 +1,278 @@
+---
+interface Props {
+  ttsSrc: string;
+  words: string[];
+  label?: string;
+}
+
+const { ttsSrc, words, label = 'Dictation' } = Astro.props;
+const targetText = words.join(' ');
+
+// Deterministic pseudo-random bar heights, seeded by the sentence itself, so
+// the waveform looks distinct per card but is stable across re-renders.
+function seededBars(seed: string, count: number) {
+  let h = 2166136261;
+  for (let i = 0; i < seed.length; i++) {
+    h ^= seed.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  let state = h >>> 0;
+  const bars: number[] = [];
+  for (let i = 0; i < count; i++) {
+    state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+    bars.push(Math.round(24 + (state / 4294967295) * 76));
+  }
+  return bars;
+}
+
+const bars = seededBars(targetText, 40);
+---
+
+<div class="listening-workbench" data-target={JSON.stringify(words)}>
+  <div class="lw-meta">
+    <span class="lw-label">{label}</span>
+    <span class="lw-count">{words.length} words</span>
+  </div>
+
+  <audio data-role="audio" src={ttsSrc} preload="none"></audio>
+
+  <div class="lw-player">
+    <button type="button" class="lw-play" data-role="play" aria-label="Play">▶</button>
+    <div class="lw-waveform" data-role="waveform">
+      <div class="lw-bars lw-bars--base">
+        {bars.map((h) => <span class="lw-bar" style={`height:${h}%`}></span>)}
+      </div>
+      <div class="lw-bars lw-bars--played" data-role="played" style="width:0%">
+        {bars.map((h) => <span class="lw-bar lw-bar--played" style={`height:${h}%`}></span>)}
+      </div>
+    </div>
+    <div class="lw-rates">
+      {[0.8, 1, 1.2].map((rate) => (
+        <button type="button" class:list={['button', 'button--ghost', 'lw-rate', { 'button--active': rate === 1 }]} data-role="rate" data-rate={rate}>
+          {rate}×
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <label class="lw-input-label" for={`lw-input-${targetText.length}`}>Type what you hear</label>
+  <textarea class="lw-input" data-role="input" rows="2" placeholder="Type the sentence…"></textarea>
+
+  <div class="lw-actions">
+    <button type="button" class="button button--primary" data-role="check">Check</button>
+    <button type="button" class="button button--ghost" data-role="reveal">Reveal</button>
+  </div>
+
+  <p class="lw-result" data-role="result" aria-live="polite"></p>
+  <p class="lw-diff" data-role="diff" aria-live="polite"></p>
+</div>
+
+<script>
+  const strip = (w: string) => w.toLowerCase().replace(/[.,!?;:"'()]/g, '');
+
+  document.querySelectorAll<HTMLElement>('.listening-workbench').forEach((card) => {
+    const target: string[] = JSON.parse(card.dataset.target ?? '[]');
+    const audio = card.querySelector<HTMLAudioElement>('[data-role="audio"]');
+    const playBtn = card.querySelector<HTMLButtonElement>('[data-role="play"]');
+    const rateBtns = card.querySelectorAll<HTMLButtonElement>('[data-role="rate"]');
+    const played = card.querySelector<HTMLElement>('[data-role="played"]');
+    const input = card.querySelector<HTMLTextAreaElement>('[data-role="input"]');
+    const checkBtn = card.querySelector<HTMLButtonElement>('[data-role="check"]');
+    const revealBtn = card.querySelector<HTMLButtonElement>('[data-role="reveal"]');
+    const result = card.querySelector<HTMLElement>('[data-role="result"]');
+    const diff = card.querySelector<HTMLElement>('[data-role="diff"]');
+
+    let rate = 1;
+
+    rateBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        rate = Number(btn.dataset.rate);
+        if (audio) audio.playbackRate = rate;
+        rateBtns.forEach((b) => b.classList.toggle('button--active', b === btn));
+      });
+    });
+
+    playBtn?.addEventListener('click', () => {
+      if (!audio) return;
+      audio.playbackRate = rate;
+      audio.currentTime = 0;
+      audio.play();
+    });
+
+    audio?.addEventListener('timeupdate', () => {
+      if (!audio.duration || !played) return;
+      played.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
+    });
+
+    audio?.addEventListener('ended', () => {
+      if (played) played.style.width = '0%';
+    });
+
+    checkBtn?.addEventListener('click', () => {
+      const typed = (input?.value ?? '').trim().split(/\s+/).filter(Boolean);
+      const len = Math.max(typed.length, target.length);
+      let hits = 0;
+      const tokens: string[] = [];
+
+      for (let i = 0; i < len; i++) {
+        const t = typed[i];
+        const correct = target[i];
+        const ok = t !== undefined && correct !== undefined && strip(t) === strip(correct);
+        if (ok) hits += 1;
+        tokens.push(
+          `<span class="lw-token ${t === undefined ? 'lw-token--missing' : ok ? 'lw-token--ok' : 'lw-token--wrong'}">${t ?? '···'}</span>`
+        );
+      }
+
+      if (result) {
+        result.textContent =
+          hits === target.length && typed.length === target.length
+            ? `Perfect — all ${target.length} words.`
+            : `${hits} of ${target.length} words correct.`;
+      }
+      if (diff) diff.innerHTML = tokens.join(' ');
+    });
+
+    revealBtn?.addEventListener('click', () => {
+      if (input) input.value = target.join(' ');
+      if (result) result.textContent = 'Revealed.';
+      if (diff) diff.innerHTML = '';
+    });
+  });
+</script>
+
+<style>
+  .listening-workbench {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-bg-soft);
+  }
+
+  .lw-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+
+  .lw-player {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .lw-play {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-primary);
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .lw-waveform {
+    position: relative;
+    flex: 1;
+    height: 40px;
+    overflow: hidden;
+  }
+
+  .lw-bars {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    overflow: hidden;
+  }
+
+  .lw-bars--played {
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  .lw-bar {
+    flex: none;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--color-border);
+  }
+
+  .lw-bar--played {
+    background: var(--color-primary);
+  }
+
+  .lw-rates {
+    display: flex;
+    gap: 0.35rem;
+    flex: none;
+  }
+
+  .lw-rate {
+    padding: 0.3rem 0.55rem;
+    font-size: 0.82rem;
+  }
+
+  .lw-input-label {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+
+  .lw-input {
+    font: inherit;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    resize: vertical;
+    background: #fff;
+  }
+
+  .lw-actions {
+    display: flex;
+    gap: 0.6rem;
+  }
+
+  .lw-result {
+    font-weight: 600;
+    font-size: 0.9rem;
+    min-height: 1.2em;
+    margin: 0;
+  }
+
+  .lw-diff {
+    font-size: 0.95rem;
+    font-family: var(--font-display);
+    margin: 0;
+    line-height: 1.8;
+  }
+
+  /* These tokens are injected client-side via innerHTML, so they never get
+     Astro's data-astro-cid scoping attribute — the rules must be :global(). */
+  :global(.lw-token) {
+    padding: 0.05rem 0.3rem;
+    border-radius: 4px;
+  }
+
+  :global(.lw-token--ok) {
+    color: var(--color-primary-dark);
+  }
+
+  :global(.lw-token--wrong) {
+    background: #fde2e2;
+    color: #c0392b;
+    text-decoration: line-through;
+  }
+
+  :global(.lw-token--missing) {
+    background: var(--color-accent-soft);
+    color: var(--color-accent-dark);
+  }
+</style>

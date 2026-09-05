@@ -1,0 +1,339 @@
+---
+// A real, computed pitch (F0) contour for one sentence — not a decorative
+// curve. The client script fetches the clip's audio + ElevenLabs' forced
+// character alignment from `/api/tts-timestamps`, runs autocorrelation
+// pitch tracking on the decoded audio (see ../lib/pitch-contour.ts), and
+// draws the line + positions each word at its *real* timestamp. This is
+// what lets Prosody claim "here's where the pitch actually rises" instead
+// of the worksheet-only framing the page used before.
+interface Props {
+  ttsSrc: string;
+  words: string[];
+  stressIndex: number;
+  meaning: string;
+}
+
+const { ttsSrc, words, stressIndex, meaning } = Astro.props;
+---
+
+<div
+  class="pitch-contour"
+  data-role="pitch-contour"
+  data-src={ttsSrc}
+  data-words={JSON.stringify(words)}
+  data-stress-index={stressIndex}
+>
+  <div class="pc-top">
+    <span class="pc-live">Live — pitch traced from audio</span>
+    <p class="pc-status" data-role="status">Analyzing pitch…</p>
+  </div>
+
+  <div class="pc-stage" data-role="stage" hidden>
+    <svg class="pc-svg" data-role="svg" viewBox="0 0 760 90" preserveAspectRatio="none"></svg>
+    <div class="pc-words" data-role="words"></div>
+  </div>
+
+  <div class="pc-controls">
+    <button type="button" class="pc-play" data-role="play" aria-label="Play" disabled>
+      <svg width="14" height="14" viewBox="0 0 18 18" fill="none"><path d="M4 2.5L15 9L4 15.5V2.5Z" fill="#fff"/></svg>
+    </button>
+    <audio data-role="audio" preload="none"></audio>
+    <span class="text-muted pc-hint">Play, then compare where you thought the peak was.</span>
+  </div>
+
+  <p class="text-muted pc-meaning">{meaning}</p>
+
+  <p class="pc-print-worksheet">
+    {words.join(' ')}
+    <br />Stressed word: ________
+  </p>
+</div>
+
+<script>
+  import { estimatePitchContour, wordSpansFromAlignment, base64ToBytes } from '../lib/pitch-contour';
+
+  interface TtsTimestampsResponse {
+    audioBase64: string;
+    alignment: {
+      characters: string[];
+      characterStartTimesSeconds: number[];
+      characterEndTimesSeconds: number[];
+    };
+  }
+
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const VIEW_W = 760;
+  const VIEW_H = 90;
+  const Y_TOP = 10; // px padding from the top of the viewBox for the highest pitch
+  const Y_BOTTOM = 78; // px from the top for the lowest pitch
+
+  document.querySelectorAll<HTMLElement>('[data-role="pitch-contour"]').forEach(async (root) => {
+    const src = root.dataset.src;
+    const words: string[] = JSON.parse(root.dataset.words ?? '[]');
+    const stressIndex = Number(root.dataset.stressIndex ?? -1);
+
+    const status = root.querySelector<HTMLElement>('[data-role="status"]');
+    const stage = root.querySelector<HTMLElement>('[data-role="stage"]');
+    const svg = root.querySelector<SVGSVGElement>('[data-role="svg"]');
+    const wordsEl = root.querySelector<HTMLElement>('[data-role="words"]');
+    const playBtn = root.querySelector<HTMLButtonElement>('[data-role="play"]');
+    const audio = root.querySelector<HTMLAudioElement>('[data-role="audio"]');
+
+    if (!src || !status || !stage || !svg || !wordsEl || !playBtn || !audio) return;
+
+    try {
+      const res = await fetch(src);
+      if (!res.ok) throw new Error(`tts-timestamps request failed (${res.status})`);
+      const data: TtsTimestampsResponse = await res.json();
+
+      // Decode once for analysis (decodeAudioData can consume the buffer
+      // it's given), and separately for the playable clip.
+      const analysisBytes = base64ToBytes(data.audioBase64);
+      const AudioCtx = window.AudioContext ?? (window as any).webkitAudioContext;
+      const ctx = new AudioCtx();
+      const buffer = await ctx.decodeAudioData(analysisBytes.buffer.slice(0));
+
+      const playbackBytes = base64ToBytes(data.audioBase64);
+      const blob = new Blob([playbackBytes], { type: 'audio/mpeg' });
+      audio.src = URL.createObjectURL(blob);
+
+      const frames = estimatePitchContour(buffer);
+      const spans = wordSpansFromAlignment(
+        data.alignment.characters,
+        data.alignment.characterStartTimesSeconds,
+        data.alignment.characterEndTimesSeconds
+      );
+
+      const voiced = frames.filter((f) => f.hz != null) as { t: number; hz: number }[];
+      if (voiced.length < 2 || spans.length === 0) {
+        status.textContent = "Couldn't find a clear pitch trace in this clip.";
+        playBtn.disabled = false;
+        return;
+      }
+
+      const duration = buffer.duration;
+      const logHz = voiced.map((f) => Math.log2(f.hz));
+      const minLog = Math.min(...logHz);
+      const maxLog = Math.max(...logHz);
+      const span = maxLog - minLog || 1;
+
+      const x = (t: number) => (t / duration) * VIEW_W;
+      const y = (hz: number) => {
+        const norm = (Math.log2(hz) - minLog) / span; // 0 (low) .. 1 (high)
+        return Y_BOTTOM - norm * (Y_BOTTOM - Y_TOP);
+      };
+
+      // Break the line at any gap where two consecutive voiced frames are
+      // far apart in time (an unvoiced/silent stretch) — real speech isn't
+      // one continuous pitch, so the line shouldn't pretend it is.
+      const maxGap = 0.12;
+      const runs: { t: number; hz: number }[][] = [];
+      let current: { t: number; hz: number }[] = [];
+      for (const f of voiced) {
+        if (current.length && f.t - current[current.length - 1].t > maxGap) {
+          runs.push(current);
+          current = [];
+        }
+        current.push(f);
+      }
+      if (current.length) runs.push(current);
+
+      for (const run of runs) {
+        if (run.length < 2) continue;
+        const d = run.map((f, i) => `${i === 0 ? 'M' : 'L'} ${x(f.t).toFixed(1)},${y(f.hz).toFixed(1)}`).join(' ');
+        const path = document.createElementNS(SVG_NS, 'path');
+        path.setAttribute('d', d);
+        path.setAttribute('fill', 'none');
+        path.setAttribute('stroke', 'var(--color-accent)');
+        path.setAttribute('stroke-width', '2.5');
+        path.setAttribute('stroke-linecap', 'round');
+        svg.appendChild(path);
+      }
+
+      const wordEls: { el: HTMLSpanElement; center: number }[] = [];
+
+      words.forEach((word, i) => {
+        const wordSpan = spans[i];
+        if (!wordSpan) return;
+        const mid = (wordSpan.start + wordSpan.end) / 2;
+        const pct = Math.min(100, Math.max(0, (mid / duration) * 100));
+
+        const el = document.createElement('span');
+        el.className = i === stressIndex ? 'pc-word pc-word--stressed' : 'pc-word';
+        el.style.left = `${pct}%`;
+        el.textContent = word;
+        wordsEl.appendChild(el);
+        wordEls.push({ el, center: (pct / 100) * VIEW_W });
+
+        if (i === stressIndex) {
+          const dot = document.createElementNS(SVG_NS, 'circle');
+          dot.setAttribute('cx', x(mid).toFixed(1));
+          const nearest = voiced.reduce((a, b) => (Math.abs(b.t - mid) < Math.abs(a.t - mid) ? b : a));
+          dot.setAttribute('cy', y(nearest.hz).toFixed(1));
+          dot.setAttribute('r', '4.5');
+          dot.setAttribute('fill', 'var(--color-accent)');
+          svg.appendChild(dot);
+        }
+      });
+
+      // Words spoken close together in time can land at nearly the same x
+      // position, which makes their labels overlap into unreadable
+      // run-together text. Nudge later labels rightward just enough to
+      // clear the previous one — the curve itself isn't touched, only
+      // these text labels underneath it.
+      const containerWidth = wordsEl.getBoundingClientRect().width || VIEW_W;
+      const scale = containerWidth / VIEW_W;
+      const minGapPx = 4;
+      let prevRightPx = -Infinity;
+      for (const { el, center } of wordEls) {
+        const widthPx = el.offsetWidth;
+        const halfPx = widthPx / 2;
+        let centerPx = center * scale;
+        const leftPx = centerPx - halfPx;
+        if (leftPx < prevRightPx + minGapPx) {
+          centerPx += prevRightPx + minGapPx - leftPx;
+        }
+        prevRightPx = centerPx + halfPx;
+        el.style.left = `${(centerPx / containerWidth) * 100}%`;
+      }
+
+      status.hidden = true;
+      stage.hidden = false;
+      playBtn.disabled = false;
+    } catch (error) {
+      console.error('Pitch contour failed:', error);
+      status.textContent = "Couldn't analyze this clip — the audio is still playable below.";
+      playBtn.disabled = false;
+    }
+
+    playBtn.addEventListener('click', () => {
+      audio.currentTime = 0;
+      audio.play();
+    });
+  });
+</script>
+
+<style>
+  .pitch-contour {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 1.25rem 1.4rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .pc-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .pc-live {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: var(--color-primary-soft);
+    color: var(--color-primary-dark);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+
+  .pc-status {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  .pc-stage {
+    position: relative;
+    padding-top: 90px;
+  }
+
+  .pc-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    overflow: visible;
+  }
+
+  .pc-words {
+    position: relative;
+    height: 1.6rem;
+  }
+
+  .pc-word {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--color-text);
+    white-space: nowrap;
+  }
+
+  .pc-word--stressed {
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    border-bottom: 3px solid var(--color-accent);
+  }
+
+  .pc-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .pc-play {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .pc-play:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .pc-hint {
+    font-size: 0.85rem;
+  }
+
+  .pc-meaning {
+    max-width: none;
+    font-size: 0.92rem;
+  }
+
+  .pc-print-worksheet {
+    display: none;
+  }
+
+  @media print {
+    .pc-top,
+    .pc-stage,
+    .pc-controls {
+      display: none !important;
+    }
+
+    .pc-print-worksheet {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      max-width: none;
+    }
+  }
+</style>

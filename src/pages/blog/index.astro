@@ -22,7 +22,7 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
     <div class="container">
       <div class="blog-list__grid">
         {posts.map((post) => (
-          <a class="post-card" href={`/blog/${post.slug}/`}>
+          <a class="post-card" href={`/blog/${post.id}/`}>
             {post.data.word && <span class="tag">{post.data.word}</span>}
             <h2>{post.data.title}</h2>
             <p class="text-muted">{post.data.description}</p>

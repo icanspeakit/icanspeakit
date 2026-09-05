@@ -1,0 +1,130 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PitchContour from '../../components/PitchContour.astro';
+import { stressShiftWords, stressSentences, sentenceWithEmphasis } from '../../data/exercises/prosody';
+
+const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+const ttsTimestampsUrl = (text: string) => `/api/tts-timestamps?text=${encodeURIComponent(text)}`;
+---
+
+<Layout
+  title="Prosody — icanspeak.it"
+  description="Word stress and sentence stress: mark the pattern, hear how it changes a word's role or a sentence's meaning."
+>
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Prosody</span>
+      <h1>Prosody</h1>
+      <p class="lede">
+        Word stress below is still a worksheet — ElevenLabs' emphasis on a single word is best-effort,
+        not precise enough to grade. Sentence stress is different: it traces the actual pitch of the
+        generated clip, frame by frame, so the rise you see is real, not a hand-placed mark.
+      </p>
+      <button type="button" class="button button--ghost" id="print-worksheet">🖨 Print worksheet</button>
+    </div>
+
+    <div class="prosody-block">
+      <h2>Word stress shifts the part of speech</h2>
+      <p class="text-muted">
+        Same spelling, same word — the stressed syllable tells you whether it's a noun or a verb. Play
+        each sentence and listen for it.
+      </p>
+      <div class="stress-grid">
+        {stressShiftWords.map((item) => (
+          <div class="card stress-card">
+            <h3>{item.word}</h3>
+            <div class="stress-role">
+              <span class="tag">noun · {item.nounPattern}</span>
+              <audio data-role="audio" src={ttsUrl(item.nounSentence)} preload="none"></audio>
+              <button type="button" class="button button--ghost" data-role="play">▶ Play</button>
+              <p class="text-muted">{item.nounSentence}</p>
+            </div>
+            <div class="stress-role">
+              <span class="tag">verb · {item.verbPattern}</span>
+              <audio data-role="audio" src={ttsUrl(item.verbSentence)} preload="none"></audio>
+              <button type="button" class="button button--ghost" data-role="play">▶ Play</button>
+              <p class="text-muted">{item.verbSentence}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="prosody-block">
+      <h2>Sentence stress shifts the meaning</h2>
+      <p class="text-muted">
+        Same six words, four different meanings — depending only on which word carries the stress.
+        The line above each sentence is that clip's real pitch trace.
+      </p>
+      <div class="sentence-grid">
+        {stressSentences.map((s) => (
+          <PitchContour
+            ttsSrc={ttsTimestampsUrl(sentenceWithEmphasis(s.words, s.stressIndex))}
+            words={s.words}
+            stressIndex={s.stressIndex}
+            meaning={s.meaning}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-role="play"]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const audio = btn.parentElement?.querySelector<HTMLAudioElement>('[data-role="audio"]');
+      audio?.play();
+    });
+  });
+
+  document.getElementById('print-worksheet')?.addEventListener('click', () => {
+    window.print();
+  });
+</script>
+
+<style>
+  .prosody-block {
+    margin-block-end: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .prosody-block h2 {
+    margin-block-end: 0.4rem;
+  }
+
+  .stress-grid,
+  .sentence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-block-start: 1.25rem;
+  }
+
+  .stress-card h3 {
+    margin: 0 0 0.5rem;
+  }
+
+  .stress-role {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    padding-block: 0.4rem;
+  }
+
+  .stress-role p {
+    flex-basis: 100%;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  @media print {
+    .site-header,
+    .site-footer,
+    #print-worksheet,
+    [data-role='play'],
+    audio {
+      display: none !important;
+    }
+  }
+</style>
