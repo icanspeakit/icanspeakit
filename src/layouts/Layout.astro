@@ -7,6 +7,8 @@ interface Props {
   title: string;
   description?: string;
   altHref?: string;
+  /** Skip the site header — for pages that want to start flush at the top. */
+  hideHeader?: boolean;
 }
 
 const locale = Astro.currentLocale ?? 'en';
@@ -20,6 +22,7 @@ const {
   title,
   description = defaults[locale as 'en' | 'de'] ?? defaults.en,
   altHref,
+  hideHeader = false,
 } = Astro.props;
 ---
 
@@ -42,7 +45,7 @@ const {
     <title>{title}</title>
   </head>
   <body>
-    <Header altHref={altHref} />
+    {!hideHeader && <Header altHref={altHref} />}
     <main>
       <slot />
     </main>

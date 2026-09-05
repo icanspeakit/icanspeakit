@@ -1,0 +1,343 @@
+---
+// Story Stream: reads a chapter's text (with {{cloze}} and [[glossary]]
+// tokens — see ../data/study/story.ts), renders real fill-in-the-blank
+// exercises and a tap-for-meaning glossary panel styled after the site's
+// own Word Cards. Checking and glossary lookups run client-side; nothing
+// here is decorative.
+import { parseStoryText, wordBank } from '../../lib/story-parse';
+import { glossary, type Chapter } from '../../data/study/story';
+
+interface Props {
+  chapter: Chapter;
+}
+
+const { chapter } = Astro.props;
+const segments = parseStoryText(chapter.text);
+const bank = wordBank(segments, chapter.id);
+const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+---
+
+<div class="story-reader" data-role="story-reader" data-chapter={chapter.id} data-glossary={JSON.stringify(glossary)}>
+  <div class="story-stage">
+    <div class="story-main">
+      <div class="story-meta">
+        <span>{chapter.title}</span>
+        <span>{chapter.level} · {chapter.minutes} min</span>
+      </div>
+
+      <p class="story-text">
+        {segments.map((seg) => {
+          if (seg.kind === 'text') return <Fragment set:html={seg.value.replace(/\n/g, '<br />')} />;
+          if (seg.kind === 'glossary') {
+            return (
+              <button type="button" class="glossary-word" data-role="glossary-trigger" data-word={seg.word}>
+                {seg.display}
+              </button>
+            );
+          }
+          return (
+            <button
+              type="button"
+              class="cloze-blank"
+              data-role="cloze-blank"
+              data-blank-id={seg.id}
+              data-answer={seg.answer}
+              aria-label="Empty blank — pick a word from the bank below"
+            >
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </button>
+          );
+        })}
+      </p>
+
+      <div class="word-bank" data-role="word-bank">
+        {bank.map((w) => (
+          <button type="button" class="word-chip" data-role="bank-chip" data-word={w}>{w}</button>
+        ))}
+      </div>
+
+      <div class="story-actions">
+        <button type="button" class="button button--primary" data-role="check-cloze">Check answers</button>
+        <button type="button" class="button button--ghost" data-role="reset-cloze">Reset</button>
+        <span class="story-result" data-role="cloze-result" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <div class="story-glossary" data-role="glossary-panel">
+      <div class="label-caps">Tapped word</div>
+      <div class="glossary-empty" data-role="glossary-empty">Tap any underlined word in the story to see what it means — and where it came from.</div>
+      <div class="glossary-filled" data-role="glossary-filled" hidden>
+        <div class="glossary-word-display" data-role="glossary-term"></div>
+        <p class="glossary-meaning" data-role="glossary-meaning"></p>
+        <p class="glossary-origin" data-role="glossary-origin"></p>
+        <div class="glossary-actions">
+          <button type="button" class="button button--ghost" data-role="glossary-play">🔊 Hear it</button>
+          <button type="button" class="button button--ghost" data-role="glossary-save">+ Save to deck</button>
+        </div>
+        <span class="glossary-saved-note" data-role="glossary-saved-note" hidden>Saved — it'll come up in your Daily Deck.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // A static top-level import here (unlike a dynamic import() inside a
+  // define:vars script) is resolved by Astro/Vite against this file's own
+  // location, not the page's URL — define:vars scripts are inlined
+  // verbatim, so a relative import() inside one resolves against whatever
+  // page loads it and breaks on any page not at the site root.
+  import { addCustomCard } from '../../lib/deck-store';
+
+  const ttsUrlBase = '/api/tts?text=';
+
+  document.querySelectorAll('[data-role="story-reader"]').forEach((root) => {
+    const glossary = JSON.parse(root.dataset.glossary ?? '{}');
+    const blanks = root.querySelectorAll('[data-role="cloze-blank"]');
+    const chips = root.querySelectorAll('[data-role="bank-chip"]');
+    const checkBtn = root.querySelector('[data-role="check-cloze"]');
+    const resetBtn = root.querySelector('[data-role="reset-cloze"]');
+    const resultEl = root.querySelector('[data-role="cloze-result"]');
+
+    let activeBlank = blanks[0] ?? null;
+    if (activeBlank) activeBlank.classList.add('cloze-blank--active');
+
+    function selectNextEmptyBlank() {
+      const empty = Array.from(blanks).find((b) => !b.dataset.filled);
+      blanks.forEach((b) => b.classList.remove('cloze-blank--active'));
+      activeBlank = empty ?? null;
+      if (activeBlank) activeBlank.classList.add('cloze-blank--active');
+    }
+
+    blanks.forEach((blank) => {
+      blank.addEventListener('click', () => {
+        blanks.forEach((b) => b.classList.remove('cloze-blank--active'));
+        activeBlank = blank;
+        blank.classList.add('cloze-blank--active');
+      });
+    });
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        if (!activeBlank) return;
+        activeBlank.textContent = chip.dataset.word ?? '';
+        activeBlank.dataset.filled = chip.dataset.word ?? '';
+        activeBlank.classList.remove('cloze-blank--correct', 'cloze-blank--wrong');
+        selectNextEmptyBlank();
+      });
+    });
+
+    checkBtn?.addEventListener('click', () => {
+      let correct = 0;
+      blanks.forEach((blank) => {
+        const filled = blank.dataset.filled;
+        const answer = blank.dataset.answer;
+        blank.classList.remove('cloze-blank--correct', 'cloze-blank--wrong');
+        if (filled && answer && filled.toLowerCase() === answer.toLowerCase()) {
+          blank.classList.add('cloze-blank--correct');
+          correct += 1;
+        } else {
+          blank.classList.add('cloze-blank--wrong');
+          if (answer) blank.title = `Correct answer: ${answer}`;
+        }
+      });
+      if (resultEl) {
+        resultEl.textContent = correct === blanks.length
+          ? `All ${blanks.length} correct.`
+          : `${correct} of ${blanks.length} correct — wrong ones are marked, hover for the answer.`;
+      }
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      blanks.forEach((blank) => {
+        blank.textContent = '     ';
+        delete blank.dataset.filled;
+        blank.classList.remove('cloze-blank--correct', 'cloze-blank--wrong');
+        blank.removeAttribute('title');
+      });
+      if (resultEl) resultEl.textContent = '';
+      selectNextEmptyBlank();
+    });
+
+    // Glossary panel
+    const emptyPanel = root.querySelector('[data-role="glossary-empty"]');
+    const filledPanel = root.querySelector('[data-role="glossary-filled"]');
+    const termEl = root.querySelector('[data-role="glossary-term"]');
+    const meaningEl = root.querySelector('[data-role="glossary-meaning"]');
+    const originEl = root.querySelector('[data-role="glossary-origin"]');
+    const playBtn = root.querySelector('[data-role="glossary-play"]');
+    const saveBtn = root.querySelector('[data-role="glossary-save"]');
+    const savedNote = root.querySelector('[data-role="glossary-saved-note"]');
+    let currentWord = null;
+    let audio = null;
+
+    root.querySelectorAll('[data-role="glossary-trigger"]').forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const word = trigger.dataset.word;
+        const entry = glossary[word];
+        if (!entry) return;
+        currentWord = word;
+        if (termEl) termEl.textContent = entry.word;
+        if (meaningEl) meaningEl.textContent = entry.meaning;
+        if (originEl) originEl.textContent = entry.origin;
+        if (emptyPanel) emptyPanel.hidden = true;
+        if (filledPanel) filledPanel.hidden = false;
+        if (savedNote) savedNote.hidden = true;
+        root.querySelectorAll('[data-role="glossary-trigger"]').forEach((t) => t.classList.remove('glossary-word--active'));
+        trigger.classList.add('glossary-word--active');
+      });
+    });
+
+    playBtn?.addEventListener('click', () => {
+      if (!currentWord) return;
+      const entry = glossary[currentWord];
+      audio = new Audio(ttsUrlBase + encodeURIComponent(entry.word));
+      audio.play().catch(() => {});
+    });
+
+    saveBtn?.addEventListener('click', () => {
+      if (!currentWord) return;
+      const entry = glossary[currentWord];
+      addCustomCard({
+        id: `word:${currentWord}`,
+        type: 'word',
+        front: entry.word,
+        back: entry.meaning,
+        origin: entry.origin,
+        source: 'Story Stream',
+      });
+      if (savedNote) savedNote.hidden = false;
+    });
+  });
+</script>
+
+<style>
+  .story-reader { display: flex; flex-direction: column; }
+
+  .story-stage {
+    --stage-pad: clamp(1.25rem, 2vw, 2rem);
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: var(--stage-pad);
+  }
+
+  @media (max-width: 820px) {
+    .story-stage { grid-template-columns: 1fr; }
+  }
+
+  .story-main { display: flex; flex-direction: column; gap: 1rem; min-width: 0; padding-right: 1.5rem; }
+
+  @media (max-width: 820px) {
+    .story-main { padding-right: 0; }
+  }
+
+  .story-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: var(--color-muted);
+  }
+
+  .story-text {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    line-height: 1.9;
+    max-width: none;
+  }
+
+  .glossary-word {
+    border: 0;
+    background: var(--color-accent-soft);
+    border-radius: 3px;
+    padding: 0 0.15rem;
+    font: inherit;
+    font-family: var(--font-display);
+    cursor: pointer;
+    color: var(--color-accent-dark);
+    text-decoration: underline dotted var(--color-accent);
+    text-underline-offset: 3px;
+  }
+
+  .glossary-word--active { background: var(--color-accent); color: #fff; }
+
+  .cloze-blank {
+    display: inline-block;
+    min-width: 6.5rem;
+    border: 0;
+    border-bottom: 2px solid var(--color-primary);
+    background: transparent;
+    font: inherit;
+    font-family: var(--font-display);
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .cloze-blank--active { background: var(--color-primary-soft); border-radius: 4px 4px 0 0; }
+  .cloze-blank--correct { color: #2c6e3f; border-bottom-color: #2c6e3f; }
+  .cloze-blank--wrong { color: #c0392b; border-bottom-color: #c0392b; }
+
+  .word-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 0.25rem;
+    border-top: 1px dashed var(--color-border);
+  }
+
+  .word-chip {
+    border: 1px solid var(--color-border);
+    background: #fff;
+    border-radius: 8px;
+    padding: 0.35rem 0.8rem;
+    font-size: 0.95rem;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+  }
+
+  .word-chip:hover { border-color: var(--color-primary); }
+
+  .story-actions { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+  .story-result { font-size: 0.88rem; font-weight: 600; color: var(--color-muted); }
+
+  .story-glossary {
+    background: var(--color-bg-soft);
+    border-left: 1px dashed var(--color-border);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin: calc(-1 * var(--stage-pad)) calc(-1 * var(--stage-pad)) calc(-1 * var(--stage-pad)) 0;
+    padding: var(--stage-pad) var(--stage-pad) var(--stage-pad) 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 820px) {
+    .story-glossary {
+      margin: 1.5rem calc(-1 * var(--stage-pad)) calc(-1 * var(--stage-pad));
+      border-left: 0;
+      border-top: 1px dashed var(--color-border);
+      border-radius: 0 0 var(--radius) var(--radius);
+      padding: 1.5rem var(--stage-pad) var(--stage-pad);
+    }
+  }
+
+  .label-caps {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .glossary-empty { font-size: 0.9rem; color: var(--color-muted); }
+
+  .glossary-word-display { font-family: var(--font-display); font-size: 1.5rem; color: var(--color-ink); }
+  .glossary-meaning { font-size: 0.92rem; max-width: none; }
+  .glossary-origin { font-size: 0.85rem; color: var(--color-muted); max-width: none; }
+
+  .glossary-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .glossary-saved-note { font-size: 0.82rem; color: #2c6e3f; font-weight: 600; }
+</style>

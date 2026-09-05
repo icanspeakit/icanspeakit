@@ -1,0 +1,22 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import DeckReview from '../../components/study/DeckReview.astro';
+---
+
+<Layout
+  title="Daily Deck — icanspeak.it"
+  description="A real spaced-repetition review, seeded by words and phrases you save from the rest of Study."
+>
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Study · Spaced repetition</span>
+      <h1>Daily Deck</h1>
+      <p class="lede">
+        A genuine review queue, scheduled with a simplified SM-2 algorithm and kept in this browser — it isn't reset
+        by a refresh. Save a word from Story Stream or a phrase from Dialogue Lab and it shows up here.
+      </p>
+    </div>
+
+    <DeckReview />
+  </section>
+</Layout>
