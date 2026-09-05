@@ -1,0 +1,1024 @@
+---
+import '../styles/global.css';
+
+const ideas = [
+  {
+    title: 'Story Stream',
+    desc: 'Read a serialized story; fill blanks, tap words for meaning, save them to your deck.',
+    tags: ['Reading', 'Vocabulary', 'Grammar'],
+  },
+  {
+    title: 'Dialogue Lab',
+    desc: 'Role-play a work scenario by voice or text; inline corrections and goal phrases to hit.',
+    tags: ['Conversation', 'Speaking', 'Grammar'],
+  },
+  {
+    title: 'Daily Deck',
+    desc: 'Spaced-repetition cards mixing word, cloze, listen-type and say-aloud prompts.',
+    tags: ['Vocabulary', 'Grammar', 'Speaking'],
+  },
+  {
+    title: 'Listening Board',
+    desc: 'Real audio clips with progressive transcript, dictation and shadowing.',
+    tags: ['Listening', 'Writing', 'Pronunciation'],
+  },
+  {
+    title: 'Writing Desk',
+    desc: 'Compose real-world texts against a brief, with live margin feedback and a checklist.',
+    tags: ['Writing', 'Grammar', 'Business'],
+  },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Language exercise environment — 5 sketches</title>
+  </head>
+  <body>
+    <div class="lab">
+      <header class="lab-top">
+        <div class="lab-title">
+          <h1>Language exercise environment — 5 sketches</h1>
+          <p class="lab-sub">Lo-fi · desktop + mobile · toggle to switch ideas</p>
+        </div>
+        <div class="idea-switcher" role="tablist" aria-label="Exercise concept">
+          {ideas.map((idea, i) => (
+            <button
+              type="button"
+              class="idea-pill"
+              data-idea={i}
+              role="tab"
+              aria-selected={i === 0 ? 'true' : 'false'}
+              aria-controls={`idea-panel-${i}`}
+            >
+              <span class="pill-n">{i + 1}</span>{idea.title}
+            </button>
+          ))}
+        </div>
+      </header>
+
+      <div class="idea-panels">
+        {ideas.map((idea, i) => (
+          <section
+            class="idea"
+            id={`idea-panel-${i}`}
+            data-idea={i}
+            hidden={i !== 0}
+          >
+            <div class="idea-meta">
+              <h2>{idea.title}</h2>
+              <p>{idea.desc}</p>
+              <div class="idea-tags">
+                {idea.tags.map((t) => <span class="tag-chip">{t}</span>)}
+              </div>
+            </div>
+
+            {i === 0 && (
+              <div class="stage-row">
+                <div class="desktop-frame">
+                  <div class="browser-chrome">
+                    <span class="chrome-dot"></span><span class="chrome-dot"></span>
+                    <span class="chrome-url"></span>
+                  </div>
+                  <div class="split split--wide-left">
+                    <div class="pane pane--dashed-right">
+                      <div class="row-between meta-line">
+                        <span>Chapter 3 · A meeting in Lisbon</span><span>B1 · 6 min</span>
+                      </div>
+                      <div class="progress"><div class="progress-fill" style="width:40%"></div></div>
+                      <p class="story-text">
+                        Ana chegou ao escritório às nove. Ela <span class="blank blank--filled">estava</span> nervosa porque a reunião era importante. O cliente <span class="blank"></span> de Madrid e falava muito rápido. <mark class="hl">Contudo</mark>, Ana respondeu com calma…
+                      </p>
+                      <div class="chip-row chip-row--push">
+                        <span class="word-chip">chegou</span>
+                        <span class="word-chip">veio</span>
+                        <span class="word-chip">foi</span>
+                        <span class="word-chip">tinha</span>
+                      </div>
+                    </div>
+                    <div class="pane pane--soft">
+                      <div class="label-caps">Tapped word</div>
+                      <div class="word-display">contudo</div>
+                      <div class="word-sub">however · conjunction</div>
+                      <div class="striped striped--tall">example audio</div>
+                      <button type="button" class="ghost-button">+ save to deck</button>
+                      <div class="push-bottom small-note">Grammar note: pretérito imperfeito for background states</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mobile-frame">
+                  <div class="notch"></div>
+                  <div class="row-between meta-line-sm"><span>Ch. 3</span><span>2 / 5</span></div>
+                  <div class="progress"><div class="progress-fill" style="width:40%"></div></div>
+                  <p class="story-text story-text--sm">
+                    Ana chegou ao escritório às nove. Ela <span class="blank blank--sm"></span> nervosa porque a
+                    reunião era importante.
+                  </p>
+                  <div class="answer-grid push-bottom">
+                    <span class="answer-cell">estava</span>
+                    <span class="answer-cell">era</span>
+                    <span class="answer-cell">foi</span>
+                    <span class="answer-cell">esteve</span>
+                  </div>
+                  <div class="primary-button">Check</div>
+                </div>
+              </div>
+            )}
+
+            {i === 1 && (
+              <div class="stage-row">
+                <div class="desktop-frame">
+                  <div class="browser-chrome">
+                    <span class="chrome-dot"></span><span class="chrome-dot"></span>
+                    <span class="chrome-url"></span>
+                  </div>
+                  <div class="split split--narrow-left">
+                    <div class="pane pane--soft pane--dashed-right">
+                      <div class="label-caps">Scenario</div>
+                      <div class="striped">scene illustration</div>
+                      <div class="scenario-title">Negotiating a deadline</div>
+                      <div class="word-sub">You: project lead. Partner: supplier who is late.</div>
+                      <div class="label-caps label-caps--tight">Goal phrases</div>
+                      <div class="goal-list">
+                        <span class="goal"><span class="checkbox checkbox--done"></span>Could we push it to…</span>
+                        <span class="goal"><span class="checkbox"></span>I understand, however…</span>
+                        <span class="goal"><span class="checkbox"></span>Let's agree on…</span>
+                      </div>
+                    </div>
+                    <div class="pane pane--chat">
+                      <div class="chat-row">
+                        <span class="avatar avatar--striped"></span>
+                        <div class="bubble bubble--left">Sorry, the parts won't arrive until Friday. Is that a problem?</div>
+                      </div>
+                      <div class="chat-row chat-row--reverse">
+                        <span class="avatar"></span>
+                        <div class="bubble bubble--right">
+                          It is a problem. We <s class="strike">needs</s> <span class="fix">need</span> them Wednesday.
+                        </div>
+                      </div>
+                      <div class="chat-note">↑ corrected: subject-verb agreement · tone: a bit blunt, try softening</div>
+                      <div class="chat-row">
+                        <span class="avatar avatar--striped"></span>
+                        <div class="bubble bubble--left">Wednesday is tight. What if we ship half now?</div>
+                      </div>
+                      <div class="composer push-bottom">
+                        <div class="chip-row">
+                          <span class="hint-chip">hint: use "however"</span>
+                          <span class="hint-chip">translate my idea</span>
+                        </div>
+                        <div class="input-row">
+                          <div class="text-input">Type or hold to speak…</div>
+                          <div class="mic-button"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mobile-frame">
+                  <div class="notch"></div>
+                  <div class="row-between meta-line-sm"><span>Negotiating a deadline</span><span>1/3 goals</span></div>
+                  <div class="chat-row chat-row--sm">
+                    <span class="avatar avatar--sm avatar--striped"></span>
+                    <div class="bubble bubble--left bubble--sm">The parts won't arrive until Friday.</div>
+                  </div>
+                  <div class="chat-row chat-row--sm chat-row--reverse">
+                    <span class="avatar avatar--sm"></span>
+                    <div class="bubble bubble--right bubble--sm">We need them Wednesday.</div>
+                  </div>
+                  <div class="chat-row chat-row--sm">
+                    <span class="avatar avatar--sm avatar--striped"></span>
+                    <div class="bubble bubble--left bubble--sm">What if we ship half now?</div>
+                  </div>
+                  <div class="hold-to-speak push-bottom">
+                    <div class="small-note">hold to speak</div>
+                    <div class="mic-button mic-button--lg"></div>
+                    <div class="link-dashed">type instead</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {i === 2 && (
+              <div class="stage-row">
+                <div class="desktop-frame">
+                  <div class="browser-chrome">
+                    <span class="chrome-dot"></span><span class="chrome-dot"></span>
+                    <span class="chrome-url"></span>
+                  </div>
+                  <div class="split split--deck">
+                    <div class="pane pane--soft pane--center">
+                      <div class="row-between meta-line" style="align-self:stretch">
+                        <span>Today · 18 due</span><span>7 new · 11 review</span>
+                      </div>
+                      <div class="card-stack">
+                        <div class="stack-layer stack-layer--2"></div>
+                        <div class="stack-layer stack-layer--1"></div>
+                        <div class="stack-layer stack-layer--top">
+                          <div class="label-caps">Grammar · conditional</div>
+                          <div class="cloze-prompt">
+                            If I <span class="blank blank--wide"></span> (have) more time, I would travel.
+                          </div>
+                          <div class="small-note">tap to reveal</div>
+                        </div>
+                      </div>
+                      <div class="chip-row push-bottom">
+                        <span class="word-chip">Again</span>
+                        <span class="word-chip">Hard</span>
+                        <span class="word-chip word-chip--primary">Good</span>
+                        <span class="word-chip">Easy</span>
+                      </div>
+                    </div>
+                    <div class="pane pane--dashed-left">
+                      <div class="label-caps">Card types</div>
+                      <div class="stat-list">
+                        <span class="row-between"><span>Word → meaning</span><span class="text-muted">6</span></span>
+                        <span class="row-between"><span>Cloze</span><span class="text-muted">5</span></span>
+                        <span class="row-between"><span>Listen → type</span><span class="text-muted">4</span></span>
+                        <span class="row-between"><span>Say it aloud</span><span class="text-muted">3</span></span>
+                      </div>
+                      <div class="label-caps label-caps--tight">Streak</div>
+                      <div class="streak-grid">
+                        <span class="streak-cell streak-cell--on"></span>
+                        <span class="streak-cell streak-cell--on"></span>
+                        <span class="streak-cell streak-cell--on"></span>
+                        <span class="streak-cell"></span>
+                        <span class="streak-cell streak-cell--on"></span>
+                        <span class="streak-cell streak-cell--on"></span>
+                        <span class="streak-cell streak-cell--future"></span>
+                      </div>
+                      <div class="push-bottom small-note">Cards come from saved words in stories &amp; dialogues.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mobile-frame">
+                  <div class="notch"></div>
+                  <div class="row-between meta-line-sm"><span>Daily deck</span><span>12 left</span></div>
+                  <div class="card-stack card-stack--mobile">
+                    <div class="stack-layer stack-layer--1"></div>
+                    <div class="stack-layer stack-layer--top">
+                      <div class="label-caps">Vocabulary</div>
+                      <div class="flip-word">Rechnung</div>
+                      <div class="striped striped--wide">image hint</div>
+                      <div class="small-note">tap to flip</div>
+                    </div>
+                  </div>
+                  <div class="row-between small-note swipe-hint"><span>← again</span><span>swipe</span><span>good →</span></div>
+                </div>
+              </div>
+            )}
+
+            {i === 3 && (
+              <div class="stage-row">
+                <div class="desktop-frame">
+                  <div class="browser-chrome">
+                    <span class="chrome-dot"></span><span class="chrome-dot"></span>
+                    <span class="chrome-url"></span>
+                  </div>
+                  <div class="pane pane--wide">
+                    <div class="row-between meta-line">
+                      <span>Podcast clip · Ordering at a café · 0:42</span>
+                      <span>Speed 0.8× · 1× · <span class="text-ink">1.2×</span></span>
+                    </div>
+                    <div class="player-row">
+                      <div class="play-button"></div>
+                      <div class="waveform">
+                        {[30, 60, 90, 50, 70, 40, 80, 55, 35].map((h) => (
+                          <span class="bar bar--played" style={`height:${h}%`}></span>
+                        ))}
+                        {[65, 95, 45, 75].map((h) => (
+                          <span class="bar bar--current" style={`height:${h}%`}></span>
+                        ))}
+                        {[30, 60, 85, 50, 40, 70, 55, 90, 35, 60, 45].map((h) => (
+                          <span class="bar bar--upcoming" style={`height:${h}%`}></span>
+                        ))}
+                      </div>
+                      <span class="small-note">↺ replay 3s</span>
+                    </div>
+                    <div class="two-col">
+                      <div class="col">
+                        <div class="label-caps">Transcript · revealed as you go</div>
+                        <p class="story-text transcript">
+                          <span class="text-muted">— Bonjour, qu'est-ce que je vous sers ?</span><br />
+                          <span class="text-muted">— Un café allongé, s'il vous plaît.</span><br />
+                          <mark class="hl">— Et avec ceci ? Un croissant ?</mark><br />
+                          <span class="redacted">— Non merci, juste le café.</span><br />
+                          <span class="redacted">— Ça fera deux euros cinquante.</span>
+                        </p>
+                      </div>
+                      <div class="col">
+                        <div class="label-caps">Dictation · type what you hear</div>
+                        <div class="dictation-box">
+                          Et avec <span class="wrong-word">sesi</span>? Un croissant?<span class="caret"></span>
+                        </div>
+                        <div class="error-note">1 word off — listen again? Sounds like "ceci".</div>
+                        <div class="input-row push-bottom">
+                          <span class="word-chip">Shadow it 🎙</span>
+                          <span class="word-chip word-chip--primary" style="margin-left:auto">Next line</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mobile-frame">
+                  <div class="notch"></div>
+                  <div class="row-between meta-line-sm"><span>Café clip</span><span>line 3/8</span></div>
+                  <div class="striped striped--tall">scene photo</div>
+                  <div class="mini-player">
+                    <div class="play-button play-button--sm"></div>
+                    <div class="progress"><div class="progress-fill" style="width:35%"></div></div>
+                    <span class="tiny-note">0.8×</span>
+                  </div>
+                  <div class="small-note">Tap the words in order</div>
+                  <div class="drop-zone">
+                    <span class="word-chip word-chip--sm">Et</span>
+                    <span class="word-chip word-chip--sm">avec</span>
+                  </div>
+                  <div class="chip-row">
+                    <span class="word-chip word-chip--sm">croissant</span>
+                    <span class="word-chip word-chip--sm">ceci</span>
+                    <span class="word-chip word-chip--sm">?</span>
+                    <span class="word-chip word-chip--sm">Un</span>
+                    <span class="word-chip word-chip--sm word-chip--ghost">aussi</span>
+                  </div>
+                  <div class="primary-button push-bottom">Check</div>
+                </div>
+              </div>
+            )}
+
+            {i === 4 && (
+              <div class="stage-row">
+                <div class="desktop-frame">
+                  <div class="browser-chrome">
+                    <span class="chrome-dot"></span><span class="chrome-dot"></span>
+                    <span class="chrome-url"></span>
+                  </div>
+                  <div class="split split--writing">
+                    <div class="pane">
+                      <div class="row-between meta-line">
+                        <span>Task · Reply to a client who missed a payment</span><span>B2 · formal</span>
+                      </div>
+                      <div class="brief">
+                        Brief: be polite but firm · mention the due date · propose next step · 80–120 words
+                      </div>
+                      <div class="writing-box">
+                        Estimado Sr. Ruiz,<br />
+                        Le escribo <span class="wavy wavy--danger">por</span> la factura nº 204, que <mark class="hl">estaba</mark> pendiente desde el 15 de agosto. Le agradecería que <span class="wavy wavy--primary">realice</span> el pago antes del viernes…<span class="caret"></span>
+                      </div>
+                      <div class="row-between">
+                        <span class="tiny-note">64 / 80–120 words</span>
+                        <div class="chip-row">
+                          <span class="word-chip">Show model answer</span>
+                          <span class="word-chip word-chip--primary">Submit</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="pane pane--soft pane--dashed-left">
+                      <div class="label-caps">Live feedback</div>
+                      <div class="feedback-card feedback-card--danger">
+                        <b>por → sobre</b><br /><span class="text-muted">"escribir sobre" for topics</span>
+                      </div>
+                      <div class="feedback-card feedback-card--warning">
+                        <b>estaba</b> — tense OK<br /><span class="text-muted">"está" if still unpaid?</span>
+                      </div>
+                      <div class="feedback-card feedback-card--good">
+                        <b>realice</b> ✓ subjunctive<br /><span class="text-muted">nice — target grammar hit</span>
+                      </div>
+                      <div class="push-bottom label-caps">Checklist</div>
+                      <div class="checklist">
+                        <span>☑ polite opener</span>
+                        <span>☑ due date</span>
+                        <span>☐ next step</span>
+                        <span>☐ formal closing</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mobile-frame">
+                  <div class="notch"></div>
+                  <div class="row-between meta-line-sm"><span>Micro-writing</span><span>2 / 4</span></div>
+                  <div class="small-note">Reorder to build the sentence, then finish it</div>
+                  <div class="drop-zone drop-zone--tall">
+                    <span class="word-chip word-chip--sm">Le</span>
+                    <span class="word-chip word-chip--sm">agradecería</span>
+                    <span class="word-chip word-chip--sm">que</span>
+                  </div>
+                  <div class="chip-row">
+                    <span class="word-chip word-chip--sm">el pago</span>
+                    <span class="word-chip word-chip--sm">realice</span>
+                    <span class="word-chip word-chip--sm">antes del</span>
+                  </div>
+                  <div class="finish-box">…finish in your own words</div>
+                  <div class="link-dashed link-dashed--start">💡 phrase bank</div>
+                  <div class="primary-button push-bottom">Check</div>
+                </div>
+              </div>
+            )}
+          </section>
+        ))}
+      </div>
+
+      <p class="lab-footnote">
+        Toggle above to switch ideas · each shows desktop (left) and mobile (right). Striped boxes = imagery/audio to
+        drop in.
+      </p>
+    </div>
+
+    <script>
+      const pills = document.querySelectorAll<HTMLButtonElement>('.idea-pill');
+      const panels = document.querySelectorAll<HTMLElement>('.idea');
+
+      pills.forEach((pill) => {
+        pill.addEventListener('click', () => {
+          const target = pill.dataset.idea;
+          pills.forEach((p) => {
+            const active = p.dataset.idea === target;
+            p.classList.toggle('idea-pill--active', active);
+            p.setAttribute('aria-selected', active ? 'true' : 'false');
+          });
+          panels.forEach((panel) => {
+            panel.hidden = panel.dataset.idea !== target;
+          });
+        });
+      });
+
+      // initial state
+      pills[0]?.classList.add('idea-pill--active');
+    </script>
+  </body>
+</html>
+
+<style>
+  .lab {
+    --border-strong: #cdbf9f;
+    --danger: #c0392b;
+    --placeholder-text: #a89a85;
+    min-height: 100vh;
+    padding: 32px 40px 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .lab-top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .lab-title h1 {
+    font-size: 34px;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .lab-sub {
+    font-size: 16px;
+    color: var(--color-muted);
+    margin-top: 4px;
+  }
+
+  .idea-switcher {
+    display: flex;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    padding: 4px;
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .idea-pill {
+    border: 0;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--color-ink);
+  }
+
+  .idea-pill--active {
+    background: var(--color-ink);
+    color: #fff;
+  }
+
+  .pill-n {
+    font: 600 13px ui-monospace, monospace;
+    opacity: 0.7;
+  }
+
+  .idea-meta {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .idea-meta h2 {
+    font-size: 26px;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .idea-meta p {
+    font-size: 15px;
+    color: #5c5346;
+    margin: 0;
+  }
+
+  .idea-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tag-chip {
+    font-size: 13px;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    padding: 1px 9px;
+    background: #fff;
+  }
+
+  .stage-row {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .desktop-frame {
+    width: 820px;
+    max-width: 100%;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .browser-chrome {
+    display: flex;
+    gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 2px solid var(--color-primary);
+    align-items: center;
+  }
+
+  .chrome-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+  }
+
+  .chrome-url {
+    flex: 1;
+    margin-left: 12px;
+    height: 22px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+  }
+
+  .split {
+    display: grid;
+    min-height: 480px;
+  }
+
+  .split--wide-left { grid-template-columns: 1fr 260px; }
+  .split--narrow-left { grid-template-columns: 220px 1fr; }
+  .split--deck { grid-template-columns: 1fr 240px; }
+  .split--writing { grid-template-columns: 1fr 280px; }
+
+  .pane {
+    padding: 28px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .pane--dashed-right { border-right: 2px dashed var(--border-strong); }
+  .pane--dashed-left { border-left: 1px dashed var(--color-border); padding: 24px 20px; }
+  .pane--soft { background: var(--color-bg-soft); padding: 24px 20px; }
+  .pane--center { align-items: center; padding: 28px; }
+  .pane--chat { padding: 24px 32px; }
+  .pane--wide { padding: 28px 36px; gap: 20px; min-height: 480px; }
+
+  .row-between {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .meta-line { font-size: 12.5px; color: var(--color-muted); }
+  .meta-line-sm { font-size: 12px; color: var(--color-muted); }
+
+  .progress {
+    height: 6px;
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill { height: 100%; background: var(--color-primary); }
+
+  .story-text {
+    font-size: 20px;
+    line-height: 1.9;
+    font-family: var(--font-display);
+    text-wrap: pretty;
+    margin: 0;
+  }
+
+  .story-text--sm { font-size: 15px; line-height: 1.8; }
+  .transcript { font-size: 16px; line-height: 1.8; }
+
+  .blank {
+    display: inline-block;
+    min-width: 110px;
+    border-bottom: 2px solid var(--color-primary);
+  }
+
+  .blank--filled { text-align: center; color: var(--color-primary); }
+  .blank--sm { min-width: 80px; }
+  .blank--wide { min-width: 90px; }
+
+  .hl { background: var(--color-accent-soft); padding: 0 3px; border-radius: 3px; cursor: pointer; }
+
+  .chip-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .chip-row--push { margin-top: auto; }
+
+  .word-chip {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 16px;
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .word-chip--sm { padding: 3px 9px; font-size: 16px; border-radius: 6px; }
+  .word-chip--primary { background: var(--color-primary); color: #fff; }
+  .word-chip--ghost { color: var(--border-strong); border-color: var(--border-strong); }
+
+  .label-caps {
+    font-size: 12.5px;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .label-caps--tight { margin-top: 8px; }
+
+  .word-display { font-size: 26px; font-family: var(--font-display); }
+  .word-sub { font-size: 14px; color: #5c5346; }
+
+  .striped {
+    height: 80px;
+    border: 1px dashed var(--border-strong);
+    border-radius: 6px;
+    background: repeating-linear-gradient(135deg, #eee 0 6px, #fff 6px 12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 13px ui-monospace, monospace;
+    color: var(--color-muted);
+  }
+
+  .striped--tall { height: 110px; border-radius: 10px; }
+  .striped--wide { height: 60px; width: 100%; font-size: 12px; }
+
+  .ghost-button {
+    border: 1px solid var(--color-border);
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 16px;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+  }
+
+  .push-bottom { margin-top: auto; }
+  .small-note { font-size: 12.5px; color: var(--color-muted); }
+  .tiny-note { font-size: 12px; color: var(--color-muted); }
+  .text-muted { color: var(--color-muted); }
+  .text-ink { color: var(--color-ink); }
+
+  .mobile-frame {
+    width: 300px;
+    max-width: 100%;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 28px;
+    box-shadow: var(--shadow-md);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 560px;
+  }
+
+  .notch {
+    height: 6px;
+    width: 80px;
+    border-radius: 3px;
+    background: var(--color-ink);
+    margin: 0 auto;
+  }
+
+  .answer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .answer-cell {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    font-size: 15px;
+  }
+
+  .primary-button {
+    height: 44px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: var(--color-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  /* Dialogue Lab */
+  .scenario-title { font-size: 20px; }
+
+  .goal-list { display: flex; flex-direction: column; gap: 6px; font-size: 16px; }
+  .goal { display: flex; gap: 8px; }
+
+  .checkbox {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+  }
+
+  .checkbox--done { background: var(--color-primary); }
+
+  .chat-row { display: flex; gap: 12px; align-items: flex-start; }
+  .chat-row--reverse { flex-direction: row-reverse; }
+  .chat-row--sm { gap: 8px; }
+
+  .avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    flex: none;
+  }
+
+  .avatar--sm { width: 30px; height: 30px; }
+  .avatar--striped { background: repeating-linear-gradient(135deg, #eee 0 4px, #fff 4px 8px); }
+
+  .bubble {
+    border: 1px solid var(--color-border);
+    padding: 10px 14px;
+    font-size: 19px;
+    max-width: 420px;
+  }
+
+  .bubble--left { border-radius: 12px 12px 12px 2px; }
+  .bubble--right { border-radius: 12px 12px 2px 12px; background: var(--color-primary-soft); }
+  .bubble--sm { font-size: 16px; padding: 8px 10px; border-radius: 10px 10px 10px 2px; }
+  .bubble--right.bubble--sm { border-radius: 10px 10px 2px 10px; }
+
+  .chat-note { font-size: 12.5px; color: var(--color-muted); margin-left: 50px; }
+
+  .strike { color: var(--danger); }
+  .fix { color: var(--color-primary); }
+
+  .composer { display: flex; flex-direction: column; gap: 10px; }
+
+  .hint-chip {
+    border: 1px dashed var(--border-strong);
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: 15px;
+  }
+
+  .input-row { display: flex; gap: 10px; align-items: center; }
+
+  .text-input {
+    flex: 1;
+    height: 48px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    color: var(--placeholder-text);
+    font-size: 16px;
+  }
+
+  .mic-button {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .mic-button--lg { width: 76px; height: 76px; }
+
+  .hold-to-speak { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+  .link-dashed {
+    font-size: 14px;
+    color: var(--color-primary);
+    border-bottom: 1.5px dashed var(--color-primary);
+  }
+
+  .link-dashed--start { align-self: flex-start; }
+
+  /* Daily Deck */
+  .card-stack { position: relative; width: 420px; max-width: 100%; height: 300px; margin-top: 12px; }
+  .card-stack--mobile { flex: 1; margin: 8px 4px; height: auto; }
+
+  .stack-layer {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    background: #fff;
+  }
+
+  .stack-layer--2 { transform: translate(14px, 14px) rotate(2deg); }
+  .stack-layer--1 { transform: translate(7px, 7px) rotate(1deg); }
+  .card-stack--mobile .stack-layer--1 { transform: translate(8px, 8px) rotate(2deg); }
+
+  .stack-layer--top {
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 24px;
+  }
+
+  .card-stack--mobile .stack-layer--top { gap: 10px; padding: 18px; }
+
+  .cloze-prompt {
+    font-size: 22px;
+    text-align: center;
+    font-family: var(--font-display);
+    line-height: 1.5;
+  }
+
+  .flip-word { font-size: 30px; font-family: var(--font-display); }
+
+  .stat-list { display: flex; flex-direction: column; gap: 8px; font-size: 15px; }
+
+  .streak-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+
+  .streak-cell { height: 22px; border: 1px solid var(--color-border); border-radius: 3px; }
+  .streak-cell--on { background: var(--color-primary); }
+  .streak-cell--future { border-style: dashed; border-color: var(--border-strong); }
+
+  .swipe-hint { padding: 0 8px; }
+
+  /* Listening Board */
+  .player-row { display: flex; align-items: center; gap: 14px; }
+
+  .play-button {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-primary);
+    flex: none;
+  }
+
+  .play-button--sm { width: 40px; height: 40px; }
+
+  .waveform { flex: 1; height: 56px; display: flex; align-items: center; gap: 3px; }
+
+  .bar { width: 4px; }
+  .bar--played { background: var(--color-ink); }
+  .bar--current { background: var(--color-primary); }
+  .bar--upcoming { background: #ccc; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; flex: 1; }
+  .col { display: flex; flex-direction: column; gap: 10px; }
+
+  .redacted { border-bottom: 2px dashed var(--border-strong); color: transparent; }
+
+  .dictation-box {
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 20px;
+    min-height: 110px;
+    line-height: 1.6;
+  }
+
+  .wrong-word { background: #fde2e2; border-bottom: 2px solid var(--danger); }
+  .caret { border-left: 2px solid var(--color-ink); margin-left: 2px; }
+  .error-note { font-size: 15px; color: var(--danger); }
+
+  .mini-player { display: flex; align-items: center; gap: 10px; }
+
+  .drop-zone {
+    border: 1px dashed var(--border-strong);
+    border-radius: 10px;
+    min-height: 64px;
+    padding: 8px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-content: flex-start;
+  }
+
+  .drop-zone--tall { min-height: 80px; }
+
+  /* Writing Desk */
+  .brief {
+    border: 1px dashed var(--border-strong);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: #5c5346;
+    background: var(--color-bg-soft);
+  }
+
+  .writing-box {
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    font-size: 16px;
+    line-height: 1.9;
+    flex: 1;
+    font-family: var(--font-display);
+    text-wrap: pretty;
+  }
+
+  .wavy { text-decoration: underline wavy; }
+  .wavy--danger { text-decoration-color: var(--danger); border-bottom: 2px wavy var(--danger); }
+  .wavy--primary { text-decoration-color: var(--color-primary); }
+
+  .feedback-card {
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 16px;
+    background: #fff;
+    border: 2px solid;
+  }
+
+  .feedback-card--danger { border-color: var(--danger); }
+  .feedback-card--warning { border-color: var(--color-accent); }
+  .feedback-card--good { border-color: var(--color-primary); }
+
+  .checklist { display: flex; flex-direction: column; gap: 4px; font-size: 16px; }
+
+  .finish-box {
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 15px;
+    color: var(--placeholder-text);
+    min-height: 70px;
+  }
+
+  .lab-footnote {
+    font-size: 12px;
+    color: var(--color-muted);
+    max-width: 720px;
+    text-wrap: pretty;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .lab { padding: 24px 16px 48px; }
+    .stage-row { justify-content: center; }
+  }
+</style>

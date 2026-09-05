@@ -1,0 +1,211 @@
+---
+import { statusBadge, statusCta, type Topic } from '../data/exercises/topics';
+
+interface Props {
+  topics: Topic[];
+}
+
+const { topics } = Astro.props;
+---
+
+<div class="exercise-grid">
+  {topics.map((topic) => (
+    <div
+      class:list={['exercise-card', { 'exercise-card--featured': topic.featured }]}
+      data-status={topic.status}
+    >
+      <div class="exercise-card__top">
+        <span class="exercise-card__category">{topic.category}</span>
+        <span class:list={['exercise-card__badge', `exercise-card__badge--${topic.status}`]}>
+          {statusBadge(topic.status)}
+        </span>
+      </div>
+      <h3>{topic.title}</h3>
+      <p class="text-muted">{topic.description}</p>
+
+      <div class="mini-switcher" data-role="mini-switcher">
+        <div class="mini-switcher__pills">
+          {topic.aspects.map((aspect, i) => (
+            <button
+              type="button"
+              class:list={['mini-switcher__pill', { 'mini-switcher__pill--active': i === 0 }]}
+              data-index={i}
+            >
+              {aspect.label}
+            </button>
+          ))}
+        </div>
+        <div class="mini-switcher__panels">
+          {topic.aspects.map((aspect, i) => (
+            <p class="mini-switcher__blurb" data-index={i} hidden={i !== 0}>{aspect.blurb}</p>
+          ))}
+        </div>
+      </div>
+
+      <a href={topic.href} class:list={['exercise-card__cta', { 'exercise-card__cta--muted': topic.status === 'soon' }]}>
+        {statusCta(topic.status)} {topic.status !== 'soon' && '→'}
+      </a>
+    </div>
+  ))}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-role="mini-switcher"]').forEach((switcher) => {
+    const pills = switcher.querySelectorAll<HTMLButtonElement>('.mini-switcher__pill');
+    const blurbs = switcher.querySelectorAll<HTMLElement>('.mini-switcher__blurb');
+
+    pills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        const target = pill.dataset.index;
+        pills.forEach((p) => p.classList.toggle('mini-switcher__pill--active', p.dataset.index === target));
+        blurbs.forEach((b) => {
+          b.hidden = b.dataset.index !== target;
+        });
+      });
+    });
+  });
+</script>
+
+<style>
+  .exercise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .exercise-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: clamp(1.15rem, 2vw, 1.5rem);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .exercise-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .exercise-card--featured {
+    border: 2px solid var(--color-primary);
+  }
+
+  .exercise-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .exercise-card__category {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+
+  .exercise-card__badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .exercise-card__badge--live {
+    background: #e3f0e6;
+    color: #2c6e3f;
+  }
+
+  .exercise-card__badge--worksheet {
+    background: var(--color-accent-soft);
+    color: var(--color-accent-dark);
+  }
+
+  .exercise-card__badge--read {
+    background: var(--color-primary-soft);
+    color: var(--color-primary-dark);
+  }
+
+  .exercise-card__badge--soon {
+    background: var(--color-bg-soft);
+    color: var(--color-muted);
+  }
+
+  .exercise-card h3 {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+
+  .exercise-card > p {
+    font-size: 0.92rem;
+    max-width: none;
+  }
+
+  /* Nested "dashboard" toggle switcher — same interaction language as the
+     exercise-sketches prototype's idea-switcher, scaled down to card size. */
+  .mini-switcher {
+    background: var(--color-ink);
+    border-radius: 12px;
+    padding: 0.6rem 0.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .mini-switcher__pills {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+
+  .mini-switcher__pill {
+    border: 0;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  .mini-switcher__pill:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .mini-switcher__pill--active {
+    background: var(--color-accent);
+    color: var(--color-ink);
+  }
+
+  .mini-switcher__blurb {
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 0.85rem;
+    max-width: none;
+    margin: 0;
+  }
+
+  .mini-switcher__blurb[hidden] {
+    display: none;
+  }
+
+  .exercise-card__cta {
+    margin-top: auto;
+    padding-top: 0.2rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .exercise-card__cta--muted {
+    color: var(--color-muted);
+    font-weight: 500;
+    cursor: default;
+  }
+</style>

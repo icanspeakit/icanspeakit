@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ListeningWorkbench from '../../components/ListeningWorkbench.astro';
 import { connectedSpeechSentences } from '../../data/exercises/connected-speech';
 
 const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
@@ -48,6 +49,24 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
 
           <p class="sentence-card__worksheet">{sentence.words.join(' ')}</p>
         </div>
+      ))}
+    </div>
+
+    <div class="section-head dictation-head">
+      <h2>Type what you hear</h2>
+      <p class="lede">
+        Same sentences, played at natural speed. Type what you catch — reductions and all — then check
+        word by word.
+      </p>
+    </div>
+
+    <div class="sentence-list">
+      {connectedSpeechSentences.map((sentence) => (
+        <ListeningWorkbench
+          ttsSrc={ttsUrl(sentence.words.join(' '))}
+          words={sentence.words}
+          label="Dictation"
+        />
       ))}
     </div>
   </section>
@@ -130,6 +149,14 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
     gap: 1.5rem;
   }
 
+  .dictation-head {
+    margin-block-start: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .dictation-head h2 {
+    margin-block-end: 0.4rem;
+  }
+
   .sentence-card {
     display: flex;
     flex-direction: column;
@@ -191,7 +218,9 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
     .sentence-card__controls,
     .sentence-card__result,
     .sentence-card__explanation,
-    .sentence {
+    .sentence,
+    .dictation-head,
+    .listening-workbench {
       display: none !important;
     }
 

@@ -1,6 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import ExerciseGrid from '../components/ExerciseGrid.astro';
+import { topics } from '../data/exercises/topics';
 
 const posts = (await getCollection('blog'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -9,20 +11,33 @@ const posts = (await getCollection('blog'))
 const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' });
 ---
 
-<Layout title="icanspeak.it — Word origins for the curious" altHref="/de/">
+<Layout title="icanspeak.it — Word origins & speaking practice" altHref="/de/">
   <section class="hero">
     <div class="container hero__inner">
-      <p class="eyebrow">A site for word nerds</p>
-      <h1>Every word is carrying a story. We go dig it up.</h1>
+      <p class="eyebrow">A language hub for the curious</p>
+      <h1>Every word has a story. Every sound has a mechanism.</h1>
       <p class="lede">
-        icanspeak.it is a small, ad-free corner of the internet about etymology and the odd, delightful
-        mechanics of language — where words came from, how they mutated crossing borders and centuries,
-        and why two languages sometimes agree on the strangest things.
+        icanspeak.it is a small, ad-free corner of the internet about language — where words came from,
+        and how to actually say them. Dig into etymology, or train the sounds, stress, and rhythm of
+        English with audio-driven exercises that explain the mechanics instead of just scoring your accent.
       </p>
       <div class="hero__actions">
-        <a href="/blog/" class="button button--primary">Read the blog</a>
-        <a href="/words/" class="button button--ghost">Browse word cards</a>
+        <a href="/exercises/" class="button button--primary">Start practicing</a>
+        <a href="/blog/" class="button button--ghost">Read the blog</a>
       </div>
+    </div>
+  </section>
+
+  <section class="practice">
+    <div class="container">
+      <div class="section-head practice__head">
+        <div>
+          <p class="eyebrow">Practice</p>
+          <h2>Sound mechanics, not accent scores</h2>
+        </div>
+        <span class="practice__count">{topics.length} formats</span>
+      </div>
+      <ExerciseGrid topics={topics} />
     </div>
   </section>
 
@@ -67,7 +82,7 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
         </div>
         <div class="latest__grid">
           {posts.map((post) => (
-            <a class="post-card" href={`/blog/${post.slug}/`}>
+            <a class="post-card" href={`/blog/${post.id}/`}>
               {post.data.word && <span class="tag">{post.data.word}</span>}
               <h3>{post.data.title}</h3>
               <p class="text-muted">{post.data.description}</p>
@@ -97,6 +112,22 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
   .hero__inner { max-width: 46rem; }
   .hero h1 { margin-block: 0.75rem 1.25rem; }
   .hero__actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-block-start: 1.75rem; }
+
+  .practice { padding-block-start: 0; }
+
+  .practice__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .practice__count {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    white-space: nowrap;
+  }
 
   .why__grid,
   .latest__grid {
