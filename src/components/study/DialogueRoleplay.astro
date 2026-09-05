@@ -1,0 +1,287 @@
+---
+// Dialogue Lab: a real branching conversation (no AI backend — see
+// ../data/study/dialogue.ts for why this is a decision tree, not open
+// chat). Partner lines are synthesized once per node via /api/tts.
+import { nodes, scenario } from '../../data/study/dialogue';
+
+const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+const audioByNode: Record<string, string> = {};
+for (const [id, node] of Object.entries(nodes)) {
+  if (node.partnerLine) audioByNode[id] = ttsUrl(node.partnerLine);
+}
+---
+
+<div
+  class="dialogue-lab"
+  data-role="dialogue-lab"
+  data-nodes={JSON.stringify(nodes)}
+  data-scenario={JSON.stringify(scenario)}
+  data-audio={JSON.stringify(audioByNode)}
+>
+  <div class="dialogue-stage">
+    <div class="dialogue-sidebar">
+      <div class="label-caps">Scenario</div>
+      <div class="scenario-title">{scenario.title}</div>
+      <p class="text-muted scenario-sub">{scenario.brief}</p>
+      <div class="label-caps label-caps--tight">Goal phrases</div>
+      <div class="goal-list" data-role="goal-list">
+        {scenario.goalPhrases.map((phrase) => (
+          <span class="goal" data-role="goal" data-phrase={phrase}>
+            <span class="checkbox" data-role="goal-checkbox"></span>{phrase}
+          </span>
+        ))}
+      </div>
+      <button type="button" class="button button--ghost" data-role="restart">↺ Restart conversation</button>
+    </div>
+
+    <div class="dialogue-main">
+      <div class="chat-log" data-role="chat-log"></div>
+
+      <div class="dialogue-choices" data-role="choices"></div>
+
+      <div class="dialogue-end" data-role="end-panel" hidden>
+        <p class="end-summary" data-role="end-summary"></p>
+        <div class="dialogue-end-actions">
+          <button type="button" class="button button--primary" data-role="save-phrases">+ Save goal phrases to your deck</button>
+          <button type="button" class="button button--ghost" data-role="restart-2">Play again</button>
+        </div>
+        <span class="glossary-saved-note" data-role="save-note" hidden>Saved — they'll show up in your Daily Deck as listening cards.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // See StoryReader.astro's script for why this is a static import + a
+  // JSON data-attribute, rather than define:vars + a relative import().
+  import { addCustomCard } from '../../lib/deck-store';
+
+  document.querySelectorAll('[data-role="dialogue-lab"]').forEach((root) => {
+      const nodes = JSON.parse(root.dataset.nodes ?? '{}');
+      const scenario = JSON.parse(root.dataset.scenario ?? '{}');
+      const audioByNode = JSON.parse(root.dataset.audio ?? '{}');
+      const chatLog = root.querySelector('[data-role="chat-log"]');
+      const choicesEl = root.querySelector('[data-role="choices"]');
+      const endPanel = root.querySelector('[data-role="end-panel"]');
+      const endSummary = root.querySelector('[data-role="end-summary"]');
+      const goalEls = root.querySelectorAll('[data-role="goal"]');
+      const restartBtns = root.querySelectorAll('[data-role="restart"], [data-role="restart-2"]');
+      const savePhrasesBtn = root.querySelector('[data-role="save-phrases"]');
+      const saveNote = root.querySelector('[data-role="save-note"]');
+
+      let currentId = 'start';
+      let correctCount = 0;
+      let totalChoices = 0;
+      let goalsHit = new Set();
+
+      function addBubble(text, side) {
+        const row = document.createElement('div');
+        row.className = `chat-row chat-row--${side}`;
+        const bubble = document.createElement('div');
+        bubble.className = `bubble bubble--${side}`;
+        bubble.textContent = text;
+        row.appendChild(bubble);
+        chatLog.appendChild(row);
+        chatLog.scrollTop = chatLog.scrollHeight;
+        return bubble;
+      }
+
+      function addNote(text) {
+        const note = document.createElement('p');
+        note.className = 'chat-note';
+        note.textContent = text;
+        chatLog.appendChild(note);
+        chatLog.scrollTop = chatLog.scrollHeight;
+      }
+
+      function renderNode(id) {
+        currentId = id;
+        const node = nodes[id];
+        if (!node) return;
+
+        if (node.partnerLine) {
+          addBubble(node.partnerLine, 'left');
+          const src = audioByNode[id];
+          if (src) new Audio(src).play().catch(() => {});
+        }
+
+        if (node.end) {
+          choicesEl.innerHTML = '';
+          endPanel.hidden = false;
+          endSummary.textContent = `${correctCount} of ${totalChoices} choices were the strongest option, and you used ${goalsHit.size} of ${scenario.goalPhrases.length} goal phrases.`;
+          return;
+        }
+
+        choicesEl.innerHTML = '';
+        (node.choices ?? []).forEach((choice) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'button button--ghost dialogue-choice';
+          btn.textContent = choice.text;
+          btn.addEventListener('click', () => selectChoice(node, choice));
+          choicesEl.appendChild(btn);
+        });
+      }
+
+      function selectChoice(node, choice) {
+        addBubble(choice.text, 'right');
+        totalChoices += 1;
+        if (choice.correct) correctCount += 1;
+        addNote((choice.correct ? '✓ ' : '↺ ') + choice.feedback);
+
+        if (choice.goalPhrase) {
+          goalsHit.add(choice.goalPhrase);
+          goalEls.forEach((el) => {
+            if (el.dataset.phrase === choice.goalPhrase) {
+              el.querySelector('[data-role="goal-checkbox"]')?.classList.add('checkbox--done');
+            }
+          });
+        }
+
+        choicesEl.innerHTML = '';
+        const cont = document.createElement('button');
+        cont.type = 'button';
+        cont.className = 'button button--primary';
+        cont.textContent = 'Continue →';
+        cont.addEventListener('click', () => renderNode(choice.next));
+        choicesEl.appendChild(cont);
+      }
+
+      function restart() {
+        chatLog.innerHTML = '';
+        choicesEl.innerHTML = '';
+        endPanel.hidden = true;
+        saveNote.hidden = true;
+        correctCount = 0;
+        totalChoices = 0;
+        goalsHit = new Set();
+        goalEls.forEach((el) => el.querySelector('[data-role="goal-checkbox"]')?.classList.remove('checkbox--done'));
+        renderNode('start');
+      }
+
+      restartBtns.forEach((btn) => btn.addEventListener('click', restart));
+
+      savePhrasesBtn?.addEventListener('click', () => {
+        scenario.goalPhrases.forEach((phrase) => {
+          addCustomCard({
+            id: `phrase:${phrase}`,
+            type: 'listen',
+            front: phrase,
+            back: phrase,
+            audioText: phrase,
+            source: 'Dialogue Lab',
+          });
+        });
+        saveNote.hidden = false;
+      });
+
+      renderNode('start');
+    });
+</script>
+
+<style is:global>
+  /* Chat bubbles, notes, and choice buttons are appended via
+     document.createElement in the client script, so this opts out of
+     Astro's scoped CSS the same way DeckReview.astro does. */
+  .dialogue-lab { display: flex; flex-direction: column; }
+
+  .dialogue-stage {
+    --stage-pad: clamp(1.25rem, 2vw, 2rem);
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: var(--stage-pad);
+    min-height: 480px;
+  }
+
+  @media (max-width: 780px) {
+    .dialogue-stage { grid-template-columns: 1fr; }
+  }
+
+  .dialogue-sidebar {
+    background: var(--color-bg-soft);
+    border-right: 1px dashed var(--color-border);
+    border-radius: var(--radius) 0 0 var(--radius);
+    margin: calc(-1 * var(--stage-pad)) 0 calc(-1 * var(--stage-pad)) calc(-1 * var(--stage-pad));
+    padding: var(--stage-pad) 1.5rem var(--stage-pad) var(--stage-pad);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  @media (max-width: 780px) {
+    .dialogue-sidebar {
+      margin: calc(-1 * var(--stage-pad)) calc(-1 * var(--stage-pad)) 1.5rem;
+      border-right: 0;
+      border-bottom: 1px dashed var(--color-border);
+      border-radius: var(--radius) var(--radius) 0 0;
+      padding: var(--stage-pad) var(--stage-pad) 1.5rem;
+    }
+  }
+
+
+  .label-caps { font-size: 0.75rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .label-caps--tight { margin-top: 0.5rem; }
+
+  .scenario-title { font-family: var(--font-display); font-size: 1.2rem; }
+  .scenario-sub { font-size: 0.88rem; max-width: none; }
+
+  .goal-list { display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.92rem; }
+  .goal { display: flex; align-items: center; gap: 0.5rem; }
+
+  .checkbox {
+    width: 16px; height: 16px; flex: none;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    background: #fff;
+  }
+
+  .checkbox--done { background: var(--color-primary); border-color: var(--color-primary); }
+
+  .dialogue-main { display: flex; flex-direction: column; gap: 1rem; min-width: 0; padding-left: 1.5rem; }
+
+  @media (max-width: 780px) {
+    .dialogue-main { padding-left: 0; }
+  }
+
+  .chat-log {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-height: 260px;
+    max-height: 420px;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+  }
+
+  .chat-row { display: flex; }
+  .chat-row--right { justify-content: flex-end; }
+
+  .bubble {
+    border: 1px solid var(--color-border);
+    padding: 0.6rem 0.9rem;
+    font-size: 1rem;
+    max-width: 26rem;
+    border-radius: 14px 14px 14px 3px;
+  }
+
+  .bubble--right { border-radius: 14px 14px 3px 14px; background: var(--color-primary-soft); }
+
+  .chat-note {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    max-width: none;
+    padding-left: 0.25rem;
+  }
+
+  .dialogue-choices { display: flex; flex-direction: column; gap: 0.5rem; }
+  .dialogue-choice { text-align: left; justify-content: flex-start; }
+
+  .dialogue-end { display: flex; flex-direction: column; gap: 0.75rem; }
+  .end-summary { font-weight: 600; max-width: none; }
+  .dialogue-end-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .glossary-saved-note { font-size: 0.82rem; color: #2c6e3f; font-weight: 600; }
+</style>

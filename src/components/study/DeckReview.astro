@@ -1,0 +1,340 @@
+---
+// Daily Deck: a real spaced-repetition review session against
+// ../lib/deck-store.ts (simplified SM-2, persisted in this browser's
+// localStorage). The queue for a visit is fixed at load time so an
+// "Again" card doesn't loop back into the same session.
+import { starterDeck } from '../../data/study/deck';
+---
+
+<div class="deck-review" data-role="deck-review" data-starter-deck={JSON.stringify(starterDeck)}>
+  <div class="deck-stage">
+    <div class="deck-main">
+      <div class="deck-meta">
+        <span data-role="due-summary">– due today</span>
+      </div>
+
+      <div class="deck-card" data-role="card-area">
+        <p class="deck-empty" data-role="deck-empty" hidden>
+          Nothing due right now. Save a word from Story Stream or a phrase from Dialogue Lab, or come back tomorrow.
+        </p>
+      </div>
+    </div>
+
+    <div class="deck-sidebar">
+      <div class="label-caps">Card types</div>
+      <div class="stat-list" data-role="type-stats"></div>
+
+      <div class="label-caps label-caps--tight">Streak</div>
+      <div class="deck-streak-row">
+        <span class="deck-stat__value" data-role="streak-count">–</span>
+        <span class="text-muted">day streak</span>
+      </div>
+      <div class="deck-week" data-role="week-grid" aria-label="Last 7 days"></div>
+
+      <p class="push-bottom small-note">Cards come from saved words in Story Stream &amp; Dialogue Lab.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // See StoryReader.astro's script for why this is a static import + a
+  // JSON data-attribute, rather than define:vars + a relative import().
+  import { getDueCards, reviewCard, getDeckStats, getWeekGrid } from '../../lib/deck-store';
+
+  const ttsUrlBase = '/api/tts?text=';
+
+  document.querySelectorAll('[data-role="deck-review"]').forEach((root) => {
+      const starterDeck = JSON.parse(root.dataset.starterDeck ?? '[]');
+      const dueSummaryEl = root.querySelector('[data-role="due-summary"]');
+      const typeStatsEl = root.querySelector('[data-role="type-stats"]');
+      const streakEl = root.querySelector('[data-role="streak-count"]');
+      const weekEl = root.querySelector('[data-role="week-grid"]');
+      const cardArea = root.querySelector('[data-role="card-area"]');
+      const emptyMsg = root.querySelector('[data-role="deck-empty"]');
+
+      const typeLabels = { word: 'Word → meaning', cloze: 'Cloze', listen: 'Listen → type', say: 'Say it aloud' };
+
+      let queue = [];
+      let index = 0;
+      let stream = null;
+      let mediaRecorder = null;
+
+      function renderHeader() {
+        const stats = getDeckStats(starterDeck);
+        if (dueSummaryEl) {
+          dueSummaryEl.textContent = `${stats.dueToday} due today · ${stats.totalCards} cards total`;
+        }
+        if (typeStatsEl) {
+          typeStatsEl.innerHTML = '';
+          Object.entries(typeLabels).forEach(([type, label]) => {
+            const count = stats.byType[type] ?? 0;
+            if (!count) return;
+            const row = document.createElement('span');
+            row.className = 'row-between';
+            row.innerHTML = `<span>${label}</span><span class="text-muted">${count}</span>`;
+            typeStatsEl.appendChild(row);
+          });
+        }
+        if (streakEl) streakEl.textContent = String(stats.streakDays);
+        if (weekEl) {
+          weekEl.innerHTML = '';
+          getWeekGrid().forEach((day) => {
+            const cell = document.createElement('span');
+            cell.className = 'deck-week__cell' + (day.done ? ' deck-week__cell--done' : '');
+            weekEl.appendChild(cell);
+          });
+        }
+      }
+
+      function stopRecording() {
+        if (mediaRecorder && mediaRecorder.state === 'recording') mediaRecorder.stop();
+        stream?.getTracks().forEach((t) => t.stop());
+        stream = null;
+        mediaRecorder = null;
+      }
+
+      function renderCard() {
+        stopRecording();
+        cardArea.innerHTML = '';
+        renderHeader();
+        if (index >= queue.length) {
+          emptyMsg.hidden = false;
+          cardArea.appendChild(emptyMsg);
+          return;
+        }
+        emptyMsg.hidden = true;
+        const card = queue[index];
+
+        const wrap = document.createElement('div');
+        wrap.className = 'deck-card__inner';
+
+        const sourceTag = document.createElement('span');
+        sourceTag.className = 'tag';
+        sourceTag.textContent = card.source ?? card.type;
+        wrap.appendChild(sourceTag);
+
+        const front = document.createElement('div');
+        front.className = 'deck-front';
+        wrap.appendChild(front);
+
+        const backWrap = document.createElement('div');
+        backWrap.className = 'deck-back';
+        backWrap.hidden = true;
+        wrap.appendChild(backWrap);
+
+        const controls = document.createElement('div');
+        controls.className = 'deck-controls';
+        wrap.appendChild(controls);
+
+        cardArea.appendChild(wrap);
+
+        function showBack() {
+          backWrap.hidden = false;
+          renderRatingButtons();
+        }
+
+        function renderRatingButtons() {
+          controls.innerHTML = '';
+          [['again', 'Again'], ['hard', 'Hard'], ['good', 'Good'], ['easy', 'Easy']].forEach(([rating, label]) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = `button ${rating === 'good' ? 'button--primary' : 'button--ghost'} deck-rate`;
+            btn.textContent = label;
+            btn.addEventListener('click', () => {
+              reviewCard(card.id, rating);
+              index += 1;
+              renderCard();
+            });
+            controls.appendChild(btn);
+          });
+        }
+
+        if (card.type === 'word') {
+          front.innerHTML = `<div class="deck-word">${card.front}</div><p class="text-muted">tap to reveal meaning</p>`;
+          front.style.cursor = 'pointer';
+          front.addEventListener('click', () => {
+            backWrap.innerHTML = `<p class="deck-meaning">${card.back}</p>${card.origin ? `<p class="deck-origin text-muted">${card.origin}</p>` : ''}`;
+            showBack();
+          });
+        } else if (card.type === 'cloze') {
+          front.innerHTML = `<div class="deck-cloze">${card.front}</div><p class="text-muted">tap to reveal answer</p>`;
+          front.style.cursor = 'pointer';
+          front.addEventListener('click', () => {
+            backWrap.innerHTML = `<p class="deck-meaning">Answer: <strong>${card.back}</strong></p>`;
+            showBack();
+          });
+        } else if (card.type === 'listen') {
+          const audioSrc = ttsUrlBase + encodeURIComponent(card.audioText ?? card.back);
+          front.innerHTML = `
+            <button type="button" class="button button--primary deck-play">▶ Play</button>
+            <label class="deck-listen-label">Type what you hear</label>
+            <textarea class="deck-input" rows="2" placeholder="Type the sentence…"></textarea>
+            <button type="button" class="button button--ghost deck-check">Check</button>
+          `;
+          const playBtn = front.querySelector('.deck-play');
+          const input = front.querySelector('.deck-input');
+          const checkBtn = front.querySelector('.deck-check');
+          const audio = new Audio(audioSrc);
+          playBtn.addEventListener('click', () => audio.play().catch(() => {}));
+          checkBtn.addEventListener('click', () => {
+            const typed = (input.value ?? '').trim().toLowerCase().replace(/[.,!?]/g, '');
+            const target = card.back.trim().toLowerCase().replace(/[.,!?]/g, '');
+            backWrap.innerHTML = `<p class="deck-meaning">${typed === target ? '✓ Correct.' : `Correct: <strong>${card.back}</strong>`}</p>`;
+            showBack();
+          });
+        } else if (card.type === 'say') {
+          front.innerHTML = `
+            <div class="deck-word">${card.front}</div>
+            <div class="deck-say-row">
+              <button type="button" class="button button--ghost deck-hear">🔊 Hear model</button>
+              <button type="button" class="button button--primary deck-record">● Record yourself</button>
+              <span class="deck-say-status text-muted"></span>
+            </div>
+            <audio class="deck-say-playback" hidden controls></audio>
+          `;
+          const hearBtn = front.querySelector('.deck-hear');
+          const recordBtn = front.querySelector('.deck-record');
+          const statusEl = front.querySelector('.deck-say-status');
+          const playback = front.querySelector('.deck-say-playback');
+          const modelAudio = new Audio(ttsUrlBase + encodeURIComponent(card.audioText ?? card.front));
+
+          hearBtn.addEventListener('click', () => modelAudio.play().catch(() => {}));
+
+          recordBtn.addEventListener('click', async () => {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+              mediaRecorder.stop();
+              return;
+            }
+            try {
+              stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            } catch {
+              statusEl.textContent = 'Microphone access denied.';
+              return;
+            }
+            const chunks = [];
+            mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+            mediaRecorder.onstop = () => {
+              const blob = new Blob(chunks, { type: 'audio/webm' });
+              playback.src = URL.createObjectURL(blob);
+              playback.hidden = false;
+              statusEl.textContent = 'Recorded.';
+              recordBtn.textContent = '● Record yourself';
+              stream?.getTracks().forEach((t) => t.stop());
+            };
+            mediaRecorder.start();
+            statusEl.textContent = 'Recording…';
+            recordBtn.textContent = '■ Stop';
+          });
+
+          const revealBtn = document.createElement('button');
+          revealBtn.type = 'button';
+          revealBtn.className = 'button button--ghost';
+          revealBtn.textContent = "I'm done — show rating";
+          revealBtn.addEventListener('click', () => {
+            backWrap.innerHTML = `<p class="deck-meaning">${card.back}</p>`;
+            showBack();
+          });
+          controls.appendChild(revealBtn);
+        }
+      }
+
+      queue = getDueCards(starterDeck);
+      renderHeader();
+      renderCard();
+    });
+</script>
+
+<style is:global>
+  /* Most of this component's card content is built with document.createElement
+     in the client script (card type varies per review), so this stylesheet
+     opts out of Astro's scoping — scoped selectors would silently not match
+     JS-created elements. Class names below are specific enough (deck-*) to
+     stay safely out of the way of the rest of the site. */
+  .deck-review { display: flex; flex-direction: column; }
+
+  .deck-stage {
+    --stage-pad: clamp(1.25rem, 2vw, 2rem);
+    display: grid;
+    grid-template-columns: 1fr 240px;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: var(--stage-pad);
+    min-height: 420px;
+  }
+
+  @media (max-width: 780px) { .deck-stage { grid-template-columns: 1fr; } }
+
+  .deck-main { display: flex; flex-direction: column; gap: 1rem; min-width: 0; padding-right: 1.5rem; }
+  @media (max-width: 780px) { .deck-main { padding-right: 0; } }
+
+  .deck-meta { font-size: 0.82rem; color: var(--color-muted); }
+
+  .deck-sidebar {
+    background: var(--color-bg-soft);
+    border-left: 1px dashed var(--color-border);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin: calc(-1 * var(--stage-pad)) calc(-1 * var(--stage-pad)) calc(-1 * var(--stage-pad)) 0;
+    padding: var(--stage-pad) var(--stage-pad) var(--stage-pad) 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  @media (max-width: 780px) {
+    .deck-sidebar {
+      margin: 1.5rem calc(-1 * var(--stage-pad)) calc(-1 * var(--stage-pad));
+      border-left: 0;
+      border-top: 1px dashed var(--color-border);
+      border-radius: 0 0 var(--radius) var(--radius);
+      padding: 1.5rem var(--stage-pad) var(--stage-pad);
+    }
+  }
+
+  .label-caps { font-size: 0.75rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .label-caps--tight { margin-top: 0.5rem; }
+
+  .stat-list { display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.9rem; }
+  .row-between { display: flex; justify-content: space-between; gap: 0.5rem; }
+
+  .deck-streak-row { display: flex; align-items: baseline; gap: 0.4rem; }
+  .deck-stat__value { font-family: var(--font-display); font-size: 1.6rem; color: var(--color-primary-dark); }
+
+  .deck-week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .deck-week__cell { height: 22px; border: 1px solid var(--color-border); border-radius: 4px; background: #fff; }
+  .deck-week__cell--done { background: var(--color-primary); border-color: var(--color-primary); }
+
+  .push-bottom { margin-top: auto; }
+  .small-note { font-size: 0.8rem; color: var(--color-muted); max-width: none; }
+
+  .deck-card { min-height: 280px; display: flex; }
+
+  .deck-card__inner { display: flex; flex-direction: column; gap: 1.1rem; align-items: flex-start; }
+  .deck-empty { color: var(--color-muted); max-width: 40ch; align-self: center; margin: auto; }
+
+  .deck-front, .deck-back { display: flex; flex-direction: column; gap: 0.6rem; width: 100%; }
+  .deck-word { font-family: var(--font-display); font-size: 1.6rem; }
+  .deck-cloze { font-family: var(--font-display); font-size: 1.3rem; line-height: 1.6; }
+  .deck-meaning { font-size: 1.02rem; max-width: none; }
+  .deck-origin { font-size: 0.88rem; max-width: none; }
+
+  .deck-listen-label { font-size: 0.82rem; color: var(--color-muted); }
+  .deck-input {
+    font: inherit;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    resize: vertical;
+  }
+
+  .deck-say-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+  .deck-say-status { font-size: 0.85rem; }
+  .deck-say-playback { width: 100%; max-width: 320px; }
+
+  .deck-controls { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .deck-rate { min-width: 4.5rem; }
+</style>

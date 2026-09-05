@@ -1,0 +1,24 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ExerciseGrid from '../../components/ExerciseGrid.astro';
+import { studyFormats } from '../../data/study/formats';
+---
+
+<Layout
+  title="Study — icanspeak.it"
+  description="Five real, working formats for reading, vocabulary, dialogue, listening, and writing practice."
+>
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Study</span>
+      <h1>Study</h1>
+      <p class="lede">
+        Exercises next door drills the mechanics of speaking — this is everything around it: reading, vocabulary,
+        dialogue, listening comprehension, and writing. Story Stream's saved words and Dialogue Lab's goal phrases
+        both feed straight into Daily Deck, so the five formats build on each other rather than sitting side by side.
+      </p>
+    </div>
+
+    <ExerciseGrid topics={studyFormats} />
+  </section>
+</Layout>

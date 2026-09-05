@@ -1,0 +1,242 @@
+---
+import ShadowRecorder from '../ShadowRecorder.astro';
+import { minimalPairs } from '../../data/exercises/minimal-pairs';
+
+const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+---
+
+<div class="pair-list">
+  {minimalPairs.map((pair) => (
+    <div class="card pair-card" data-pair-id={pair.id}>
+      <div class="pair-card__header">
+        <span class="tag">{pair.contrast}</span>
+        <h3>
+          {pair.wordA} <span class="text-muted">/</span> {pair.wordB}
+        </h3>
+      </div>
+      <p class="pair-card__ipa text-muted">
+        {pair.ipaA} · {pair.ipaB}
+      </p>
+      <p class="pair-card__notes">{pair.notes}</p>
+
+      <div class="quiz" data-role="quiz">
+        <audio data-role="audio-a" src={ttsUrl(pair.wordA)} preload="none"></audio>
+        <audio data-role="audio-b" src={ttsUrl(pair.wordB)} preload="none"></audio>
+        <button type="button" class="button button--primary" data-role="play-random">▶ Play a word</button>
+        <div class="quiz__guesses">
+          <button type="button" class="button button--ghost" data-role="guess" data-word="a">{pair.wordA}</button>
+          <button type="button" class="button button--ghost" data-role="guess" data-word="b">{pair.wordB}</button>
+        </div>
+        <p class="quiz__feedback" data-role="feedback" aria-live="polite"></p>
+      </div>
+
+      <ShadowRecorder
+        audioSrc={ttsUrl(`${pair.wordA}. ${pair.wordB}.`)}
+        label={`Shadow: ${pair.wordA} / ${pair.wordB}`}
+      />
+
+      <div class="pair-card__worksheet">
+        <span>{pair.wordA} — IPA: ________</span>
+        <span>{pair.wordB} — IPA: ________</span>
+      </div>
+    </div>
+  ))}
+</div>
+
+<script>
+  const quizzes = document.querySelectorAll<HTMLElement>('[data-role="quiz"]');
+
+  quizzes.forEach((quiz) => {
+    const audioA = quiz.querySelector<HTMLAudioElement>('[data-role="audio-a"]');
+    const audioB = quiz.querySelector<HTMLAudioElement>('[data-role="audio-b"]');
+    const playBtn = quiz.querySelector<HTMLButtonElement>('[data-role="play-random"]');
+    const guessBtns = quiz.querySelectorAll<HTMLButtonElement>('[data-role="guess"]');
+    const feedback = quiz.querySelector<HTMLElement>('[data-role="feedback"]');
+    let current: 'a' | 'b' | null = null;
+
+    playBtn?.addEventListener('click', () => {
+      current = Math.random() < 0.5 ? 'a' : 'b';
+      (current === 'a' ? audioA : audioB)?.play();
+      if (feedback) {
+        feedback.textContent = '';
+        feedback.className = 'quiz__feedback';
+      }
+      guessBtns.forEach((b) => b.classList.remove('guess--correct', 'guess--wrong', 'guess--shake'));
+    });
+
+    guessBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (!current) {
+          if (feedback) {
+            feedback.textContent = 'Play a word first.';
+            feedback.className = 'quiz__feedback';
+          }
+          return;
+        }
+        const correct = btn.dataset.word === current;
+
+        guessBtns.forEach((b) => b.classList.remove('guess--correct', 'guess--wrong', 'guess--shake'));
+        // Force reflow so the animation restarts even if the same button was just clicked.
+        void btn.offsetWidth;
+        btn.classList.add(correct ? 'guess--correct' : 'guess--wrong');
+        if (!correct) btn.classList.add('guess--shake');
+
+        if (feedback) {
+          feedback.textContent = correct ? 'Correct!' : 'Not quite — try again.';
+          feedback.className = 'quiz__feedback';
+          void feedback.offsetWidth;
+          feedback.className = `quiz__feedback quiz__feedback--show ${correct ? 'quiz__feedback--correct' : 'quiz__feedback--wrong'}`;
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .pair-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .pair-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .pair-card__header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: flex-start;
+  }
+
+  .pair-card__header h3 {
+    margin: 0;
+  }
+
+  .pair-card__ipa {
+    font-size: 0.9rem;
+    margin-top: -0.4rem;
+  }
+
+  .pair-card__notes {
+    font-size: 0.9rem;
+    max-width: none;
+  }
+
+  .quiz {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 0.9rem;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  .quiz__guesses {
+    display: flex;
+    gap: 0.6rem;
+  }
+
+  .quiz__guesses .button {
+    transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .quiz__guesses .button.guess--correct {
+    background: #e3f0e6;
+    border-color: #2c6e3f;
+    color: #2c6e3f;
+    animation: guess-pop 0.35s ease;
+  }
+
+  .quiz__guesses .button.guess--wrong {
+    background: #f7e6e1;
+    border-color: #b3452e;
+    color: #b3452e;
+  }
+
+  .quiz__guesses .button.guess--shake {
+    animation: guess-shake 0.4s ease;
+  }
+
+  .quiz__feedback {
+    font-size: 0.9rem;
+    font-weight: 600;
+    min-height: 1.2em;
+    opacity: 0;
+  }
+
+  .quiz__feedback--show {
+    animation: feedback-in 0.25s ease forwards;
+  }
+
+  .quiz__feedback--correct {
+    color: var(--color-primary);
+  }
+
+  .quiz__feedback--wrong {
+    color: #b3452e;
+  }
+
+  @keyframes guess-pop {
+    0% { transform: scale(1); }
+    45% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes guess-shake {
+    10%, 90% { transform: translateX(-1px); }
+    20%, 80% { transform: translateX(2px); }
+    30%, 50%, 70% { transform: translateX(-4px); }
+    40%, 60% { transform: translateX(4px); }
+  }
+
+  @keyframes feedback-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .quiz__guesses .button.guess--correct,
+    .quiz__guesses .button.guess--shake,
+    .quiz__feedback--show {
+      animation: none;
+    }
+  }
+
+  .pair-card__worksheet {
+    display: none;
+  }
+
+  @media print {
+    .site-header,
+    .site-footer,
+    .section-head #print-worksheet,
+    .quiz,
+    .shadow-recorder {
+      display: none !important;
+    }
+
+    .pair-card__worksheet {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .pair-list {
+      display: block;
+    }
+
+    .pair-card {
+      break-inside: avoid;
+      border: none;
+      box-shadow: none;
+      padding-block: 1rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+  }
+</style>

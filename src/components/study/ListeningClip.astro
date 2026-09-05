@@ -1,0 +1,431 @@
+---
+// Listening Board: one real ElevenLabs clip. Progressive transcript reveal,
+// dictation, and the word-order challenge all key off the same real
+// with-timestamps alignment used for the Prosody pitch contour — nothing
+// here is a scripted animation. The waveform bars are decorative (seeded
+// from the script text), same convention as ListeningWorkbench.astro
+// elsewhere on the site; only the "played" progress overlay reflects real
+// playback position.
+import { clip } from '../../data/study/listening';
+
+const ttsTimestampsUrl = `/api/tts-timestamps?text=${encodeURIComponent(clip.script)}`;
+
+function seededBars(seed: string, count: number) {
+  let h = 2166136261;
+  for (let i = 0; i < seed.length; i++) {
+    h ^= seed.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  let state = h >>> 0;
+  const bars: number[] = [];
+  for (let i = 0; i < count; i++) {
+    state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+    bars.push(Math.round(20 + (state / 4294967295) * 80));
+  }
+  return bars;
+}
+const bars = seededBars(clip.script, 48);
+---
+
+<div
+  class="listening-clip"
+  data-role="listening-clip"
+  data-script={clip.script}
+  data-focus-line={clip.focusLineIndex}
+  data-src={ttsTimestampsUrl}
+>
+  <div class="lc-top">
+    <span class="lc-live">Live — real audio &amp; timing</span>
+    <p class="lc-status" data-role="status">Loading clip…</p>
+  </div>
+
+  <audio data-role="audio" hidden></audio>
+
+  <div class="lc-player" data-role="player" hidden>
+    <button type="button" class="lc-play" data-role="play" aria-label="Play">▶</button>
+    <div class="lc-waveform" data-role="waveform">
+      <div class="lc-bars lc-bars--base">
+        {bars.map((h) => <span class="lc-bar" style={`height:${h}%`}></span>)}
+      </div>
+      <div class="lc-bars lc-bars--played" data-role="played" style="width:0%">
+        {bars.map((h) => <span class="lc-bar lc-bar--played" style={`height:${h}%`}></span>)}
+      </div>
+    </div>
+    <div class="lc-rates">
+      {[0.8, 1, 1.2].map((rate) => (
+        <button type="button" class:list={['button', 'button--ghost', 'lc-rate', { 'button--active': rate === 1 }]} data-role="rate" data-rate={rate}>
+          {rate}×
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <div class="lc-transcript-wrap" data-role="transcript-wrap" hidden>
+    <div class="label-caps">Transcript · revealed as you go</div>
+    <p class="lc-transcript" data-role="transcript"></p>
+  </div>
+
+  <div class="lc-grid" data-role="exercises" hidden>
+    <div class="lc-col">
+      <div class="label-caps">Dictation · the highlighted line</div>
+      <p class="lc-dictation-line" data-role="focus-line-display"></p>
+      <textarea class="lc-input" data-role="dictation-input" rows="2" placeholder="Type what you hear…"></textarea>
+      <div class="lc-row">
+        <button type="button" class="button button--primary" data-role="dictation-check">Check</button>
+        <button type="button" class="button button--ghost" data-role="dictation-reveal">Reveal</button>
+      </div>
+      <p class="lc-result" data-role="dictation-result"></p>
+      <p class="lc-diff" data-role="dictation-diff"></p>
+    </div>
+
+    <div class="lc-col">
+      <div class="label-caps">Order the words</div>
+      <div class="lc-answer-strip" data-role="answer-strip"></div>
+      <div class="lc-chip-row" data-role="chip-bank"></div>
+      <div class="lc-row">
+        <button type="button" class="button button--primary" data-role="order-check">Check</button>
+        <button type="button" class="button button--ghost" data-role="order-reset">Reset</button>
+      </div>
+      <p class="lc-result" data-role="order-result"></p>
+    </div>
+  </div>
+
+  <div class="lc-shadow" data-role="shadow" hidden>
+    <div class="label-caps">Shadow it</div>
+    <div class="lc-row">
+      <button type="button" class="button button--ghost" data-role="shadow-play">▶ Play model</button>
+      <button type="button" class="button button--primary" data-role="shadow-record">● Record yourself</button>
+      <span class="text-muted" data-role="shadow-status"></span>
+    </div>
+    <audio data-role="shadow-playback" hidden controls></audio>
+  </div>
+</div>
+
+<script>
+  import { wordSpansFromAlignment, base64ToBytes, linesFromWords } from '../../lib/alignment';
+
+  document.querySelectorAll<HTMLElement>('[data-role="listening-clip"]').forEach(async (root) => {
+    const script = root.dataset.script ?? '';
+    const focusLineIndex = Number(root.dataset.focusLine ?? 0);
+    const src = root.dataset.src;
+    if (!src) return;
+
+    const status = root.querySelector<HTMLElement>('[data-role="status"]');
+    const audioEl = root.querySelector<HTMLAudioElement>('[data-role="audio"]');
+    const playerEl = root.querySelector<HTMLElement>('[data-role="player"]');
+    const playBtn = root.querySelector<HTMLButtonElement>('[data-role="play"]');
+    const played = root.querySelector<HTMLElement>('[data-role="played"]');
+    const rateBtns = root.querySelectorAll<HTMLButtonElement>('[data-role="rate"]');
+    const transcriptWrap = root.querySelector<HTMLElement>('[data-role="transcript-wrap"]');
+    const transcriptEl = root.querySelector<HTMLElement>('[data-role="transcript"]');
+    const exercisesEl = root.querySelector<HTMLElement>('[data-role="exercises"]');
+    const focusLineDisplay = root.querySelector<HTMLElement>('[data-role="focus-line-display"]');
+    const dictationInput = root.querySelector<HTMLTextAreaElement>('[data-role="dictation-input"]');
+    const dictationCheck = root.querySelector<HTMLButtonElement>('[data-role="dictation-check"]');
+    const dictationReveal = root.querySelector<HTMLButtonElement>('[data-role="dictation-reveal"]');
+    const dictationResult = root.querySelector<HTMLElement>('[data-role="dictation-result"]');
+    const dictationDiff = root.querySelector<HTMLElement>('[data-role="dictation-diff"]');
+    const answerStrip = root.querySelector<HTMLElement>('[data-role="answer-strip"]');
+    const chipBank = root.querySelector<HTMLElement>('[data-role="chip-bank"]');
+    const orderCheck = root.querySelector<HTMLButtonElement>('[data-role="order-check"]');
+    const orderReset = root.querySelector<HTMLButtonElement>('[data-role="order-reset"]');
+    const orderResult = root.querySelector<HTMLElement>('[data-role="order-result"]');
+    const shadowEl = root.querySelector<HTMLElement>('[data-role="shadow"]');
+    const shadowPlay = root.querySelector<HTMLButtonElement>('[data-role="shadow-play"]');
+    const shadowRecord = root.querySelector<HTMLButtonElement>('[data-role="shadow-record"]');
+    const shadowStatus = root.querySelector<HTMLElement>('[data-role="shadow-status"]');
+    const shadowPlayback = root.querySelector<HTMLAudioElement>('[data-role="shadow-playback"]');
+
+    const strip = (w: string) => w.toLowerCase().replace(/[.,!?;:"'()]/g, '');
+
+    try {
+      const res = await fetch(src);
+      if (!res.ok) throw new Error(`request failed (${res.status})`);
+      const data = await res.json();
+
+      const playbackBytes = base64ToBytes(data.audioBase64);
+      const blob = new Blob([playbackBytes], { type: 'audio/mpeg' });
+      const objectUrl = URL.createObjectURL(blob);
+      if (audioEl) audioEl.src = objectUrl;
+      if (shadowPlayback) shadowPlayback.src = objectUrl;
+
+      const words = script.split(/\s+/).filter(Boolean);
+      const spans = wordSpansFromAlignment(
+        data.alignment.characters,
+        data.alignment.characterStartTimesSeconds,
+        data.alignment.characterEndTimesSeconds
+      );
+      const lines = linesFromWords(words, spans);
+      const focusLine = lines[focusLineIndex] ?? lines[0];
+
+      // Transcript: one span per line, revealed once playback passes its start.
+      lines.forEach((line, i) => {
+        const span = document.createElement('span');
+        span.className = 'lc-line';
+        span.dataset.start = String(line.start);
+        span.dataset.text = line.text;
+        span.textContent = line.text.replace(/\S/g, '·');
+        transcriptEl?.appendChild(span);
+        if (i < lines.length - 1) transcriptEl?.appendChild(document.createTextNode(' '));
+      });
+
+      if (focusLineDisplay) focusLineDisplay.textContent = `"${focusLine.text.replace(/[.!?]$/, '…')}"`;
+
+      // Word-order bank. Each bank slot keeps its own identity (by index)
+      // so repeated words (e.g. two "the"s) don't get confused with each
+      // other when moved between the bank and the answer strip.
+      const bankSlots = [...focusLine.words]
+        .map((word, bankIndex) => ({ word, bankIndex }))
+        .sort(() => Math.random() - 0.5);
+      let placed: { word: string; bankIndex: number }[] = [];
+
+      function renderOrder() {
+        if (!answerStrip || !chipBank) return;
+        const placedIndexes = new Set(placed.map((p) => p.bankIndex));
+
+        answerStrip.innerHTML = '';
+        placed.forEach((slot, i) => {
+          const chip = document.createElement('button');
+          chip.type = 'button';
+          chip.className = 'word-chip';
+          chip.textContent = slot.word;
+          chip.addEventListener('click', () => {
+            placed.splice(i, 1);
+            renderOrder();
+          });
+          answerStrip.appendChild(chip);
+        });
+
+        chipBank.innerHTML = '';
+        bankSlots.forEach((slot) => {
+          if (placedIndexes.has(slot.bankIndex)) return;
+          const chip = document.createElement('button');
+          chip.type = 'button';
+          chip.className = 'word-chip';
+          chip.textContent = slot.word;
+          chip.addEventListener('click', () => {
+            placed.push(slot);
+            renderOrder();
+          });
+          chipBank.appendChild(chip);
+        });
+      }
+      renderOrder();
+
+      orderCheck?.addEventListener('click', () => {
+        const ok = placed.map((p) => p.word).join(' ') === focusLine.words.join(' ');
+        if (orderResult) {
+          orderResult.textContent = ok ? 'Correct order.' : `Not quite — correct order: ${focusLine.words.join(' ')}`;
+        }
+      });
+
+      orderReset?.addEventListener('click', () => {
+        placed = [];
+        renderOrder();
+        if (orderResult) orderResult.textContent = '';
+      });
+
+      dictationCheck?.addEventListener('click', () => {
+        const typed = (dictationInput?.value ?? '').trim().split(/\s+/).filter(Boolean);
+        const target = focusLine.words;
+        const len = Math.max(typed.length, target.length);
+        let hits = 0;
+        const tokens: string[] = [];
+        for (let i = 0; i < len; i++) {
+          const t = typed[i];
+          const correct = target[i];
+          const ok = t !== undefined && correct !== undefined && strip(t) === strip(correct);
+          if (ok) hits += 1;
+          tokens.push(`<span class="lc-token ${t === undefined ? 'lc-token--missing' : ok ? 'lc-token--ok' : 'lc-token--wrong'}">${t ?? '···'}</span>`);
+        }
+        if (dictationResult) dictationResult.textContent = hits === target.length && typed.length === target.length ? 'Perfect.' : `${hits} of ${target.length} words correct.`;
+        if (dictationDiff) dictationDiff.innerHTML = tokens.join(' ');
+      });
+
+      dictationReveal?.addEventListener('click', () => {
+        if (dictationInput) dictationInput.value = focusLine.words.join(' ');
+        if (dictationResult) dictationResult.textContent = 'Revealed.';
+        if (dictationDiff) dictationDiff.innerHTML = '';
+      });
+
+      // Player controls
+      let rate = 1;
+      rateBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          rate = Number(btn.dataset.rate);
+          if (audioEl) audioEl.playbackRate = rate;
+          rateBtns.forEach((b) => b.classList.toggle('button--active', b === btn));
+        });
+      });
+
+      playBtn?.addEventListener('click', () => {
+        if (!audioEl) return;
+        if (audioEl.paused) {
+          audioEl.playbackRate = rate;
+          audioEl.play();
+          playBtn.textContent = '❚❚';
+        } else {
+          audioEl.pause();
+          playBtn.textContent = '▶';
+        }
+      });
+
+      audioEl?.addEventListener('timeupdate', () => {
+        if (!audioEl.duration || !played) return;
+        played.style.width = `${(audioEl.currentTime / audioEl.duration) * 100}%`;
+        transcriptEl?.querySelectorAll<HTMLElement>('.lc-line').forEach((span) => {
+          const start = Number(span.dataset.start ?? 0);
+          if (audioEl.currentTime >= start && span.textContent !== span.dataset.text) {
+            span.textContent = span.dataset.text ?? '';
+            span.classList.add('lc-line--revealed');
+          }
+        });
+      });
+
+      audioEl?.addEventListener('ended', () => {
+        if (played) played.style.width = '0%';
+        if (playBtn) playBtn.textContent = '▶';
+      });
+
+      // Shadow it
+      shadowPlay?.addEventListener('click', () => {
+        audioEl?.pause();
+        shadowPlayback?.pause();
+        if (audioEl) { audioEl.currentTime = 0; audioEl.play(); }
+      });
+
+      let mediaRecorder: MediaRecorder | null = null;
+      let micStream: MediaStream | null = null;
+      shadowRecord?.addEventListener('click', async () => {
+        if (mediaRecorder && mediaRecorder.state === 'recording') {
+          mediaRecorder.stop();
+          return;
+        }
+        try {
+          micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        } catch {
+          if (shadowStatus) shadowStatus.textContent = 'Microphone access denied.';
+          return;
+        }
+        const chunks: BlobPart[] = [];
+        mediaRecorder = new MediaRecorder(micStream);
+        mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+        mediaRecorder.onstop = () => {
+          const recBlob = new Blob(chunks, { type: 'audio/webm' });
+          if (shadowPlayback) {
+            shadowPlayback.src = URL.createObjectURL(recBlob);
+            shadowPlayback.hidden = false;
+          }
+          if (shadowStatus) shadowStatus.textContent = 'Recorded — compare it to the model above.';
+          if (shadowRecord) shadowRecord.textContent = '● Record yourself';
+          micStream?.getTracks().forEach((t) => t.stop());
+        };
+        mediaRecorder.start();
+        if (shadowStatus) shadowStatus.textContent = 'Recording…';
+        if (shadowRecord) shadowRecord.textContent = '■ Stop';
+      });
+
+      if (status) status.hidden = true;
+      if (playerEl) playerEl.hidden = false;
+      if (transcriptWrap) transcriptWrap.hidden = false;
+      if (exercisesEl) exercisesEl.hidden = false;
+      if (shadowEl) shadowEl.hidden = false;
+    } catch (error) {
+      console.error('Listening clip failed:', error);
+      if (status) status.textContent = "Couldn't load this clip — try refreshing.";
+    }
+  });
+</script>
+
+<style>
+  .listening-clip {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: clamp(1.25rem, 2vw, 2rem);
+  }
+
+  .lc-top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+
+  .lc-live {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: var(--color-primary-soft);
+    color: var(--color-primary-dark);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+
+  .lc-status { font-size: 0.85rem; color: var(--color-muted); margin: 0; }
+
+  .lc-player { display: flex; align-items: center; gap: 0.9rem; }
+
+  .lc-play {
+    flex: none; width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-primary); color: #fff; cursor: pointer; font-size: 0.95rem;
+  }
+
+  .lc-waveform { position: relative; flex: 1; height: 48px; overflow: hidden; }
+  .lc-bars { position: absolute; inset: 0; display: flex; align-items: center; gap: 2px; overflow: hidden; }
+  .lc-bars--played { width: 0%; transition: width 0.1s linear; }
+  .lc-bar { flex: none; width: 3px; border-radius: 2px; background: var(--color-border); }
+  .lc-bar--played { background: var(--color-primary); }
+
+  .lc-rates { display: flex; gap: 0.35rem; flex: none; }
+  .lc-rate { padding: 0.3rem 0.55rem; font-size: 0.82rem; }
+
+  .lc-transcript-wrap { display: flex; flex-direction: column; gap: 0.4rem; }
+  .label-caps { font-size: 0.75rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .lc-transcript {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    line-height: 1.9;
+    max-width: none;
+  }
+
+  :global(.lc-line) { transition: opacity 0.2s ease; color: var(--color-muted); }
+  :global(.lc-line--revealed) { color: var(--color-text); }
+
+  .lc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 720px) { .lc-grid { grid-template-columns: 1fr; } }
+
+  .lc-col { display: flex; flex-direction: column; gap: 0.6rem; }
+  .lc-dictation-line { font-family: var(--font-display); font-size: 1.05rem; color: var(--color-muted); max-width: none; }
+
+  .lc-input {
+    font: inherit; font-family: var(--font-display); font-size: 1rem;
+    padding: 0.6rem 0.75rem; border: 1px solid var(--color-border); border-radius: 8px; resize: vertical;
+  }
+
+  .lc-row { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+  .lc-result { font-weight: 600; font-size: 0.9rem; min-height: 1.2em; margin: 0; }
+  .lc-diff { font-size: 0.95rem; font-family: var(--font-display); margin: 0; line-height: 1.8; }
+
+  .lc-answer-strip {
+    display: flex; flex-wrap: wrap; gap: 0.4rem; min-height: 2.75rem;
+    border: 1px dashed var(--color-border); border-radius: 10px; padding: 0.5rem;
+  }
+
+  .lc-chip-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+  :global(.listening-clip .word-chip) {
+    border: 1px solid var(--color-border); background: #fff; border-radius: 8px;
+    padding: 0.35rem 0.75rem; font-size: 0.95rem; box-shadow: var(--shadow-sm); cursor: pointer;
+  }
+
+  :global(.lc-token) { padding: 0.05rem 0.3rem; border-radius: 4px; }
+  :global(.lc-token--ok) { color: var(--color-primary-dark); }
+  :global(.lc-token--wrong) { background: #fde2e2; color: #c0392b; text-decoration: line-through; }
+  :global(.lc-token--missing) { background: var(--color-accent-soft); color: var(--color-accent-dark); }
+
+  .lc-shadow { display: flex; flex-direction: column; gap: 0.6rem; }
+</style>

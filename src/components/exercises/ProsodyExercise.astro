@@ -1,0 +1,292 @@
+---
+// The interactive Prosody exercise body — word stress list + sentence
+// stress list with real pitch traces. Self-contained (own theme tokens,
+// fonts, script, styles) so it renders correctly both on the standalone
+// /exercises/prosody page and embedded in the exercises dashboard.
+import PitchContour from '../PitchContour.astro';
+import { stressShiftWords, stressSentences, sentenceWithEmphasis } from '../../data/exercises/prosody';
+
+const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+const ttsTimestampsUrl = (text: string) => `/api/tts-timestamps?text=${encodeURIComponent(text)}`;
+---
+
+<div class="prosody-page">
+  <div class="prosody-columns">
+    <section class="prosody-col prosody-col--words">
+      <div class="prosody-col-head">
+        <span class="prosody-num">01</span>
+        <h2 class="prosody-h2">Word stress shifts the part of speech</h2>
+      </div>
+      <p class="prosody-sub">
+        Same spelling, same word — the stressed syllable tells you whether it's a noun or a verb. Play
+        each sentence and listen for it.
+      </p>
+
+      <div class="prosody-list">
+        {stressShiftWords.map((item) => (
+          <div class="word-block">
+            <div class="word-block-title">{item.word}</div>
+            <div class="word-rows">
+              <div class="word-row">
+                <button
+                  type="button"
+                  class="word-play"
+                  data-role="word-play"
+                  aria-label={`Play: ${item.nounSentence}`}
+                >▶</button>
+                <audio data-role="word-audio" src={ttsUrl(item.nounSentence)} preload="none"></audio>
+                <div class="word-labels">
+                  <div class="word-pos">noun</div>
+                  <div class="word-stress">{item.nounPattern}</div>
+                </div>
+                <div class="word-sentence">{item.nounSentence}</div>
+              </div>
+              <div class="word-row">
+                <button
+                  type="button"
+                  class="word-play"
+                  data-role="word-play"
+                  aria-label={`Play: ${item.verbSentence}`}
+                >▶</button>
+                <audio data-role="word-audio" src={ttsUrl(item.verbSentence)} preload="none"></audio>
+                <div class="word-labels">
+                  <div class="word-pos">verb</div>
+                  <div class="word-stress">{item.verbPattern}</div>
+                </div>
+                <div class="word-sentence">{item.verbSentence}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="prosody-col prosody-col--sentences">
+      <div class="prosody-col-head">
+        <span class="prosody-num">02</span>
+        <h2 class="prosody-h2">Sentence stress shifts the meaning</h2>
+      </div>
+      <p class="prosody-sub">
+        Same six words, four different meanings — depending only on which word carries the stress.
+        The line beside each sentence is that clip's real pitch trace.
+      </p>
+
+      <div class="prosody-list">
+        {stressSentences.map((s) => (
+          <PitchContour
+            ttsSrc={ttsTimestampsUrl(sentenceWithEmphasis(s.words, s.stressIndex))}
+            words={s.words}
+            stressIndex={s.stressIndex}
+            meaning={s.meaning}
+          />
+        ))}
+        <div class="prosody-legend">
+          <span class="prosody-legend-swatch"></span>pitch traced from audio
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-role="word-play"]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const audio = btn.parentElement?.querySelector<HTMLAudioElement>('[data-role="word-audio"]');
+      audio?.play();
+    });
+  });
+</script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap');
+
+  .prosody-page {
+    --pr-bg: #faf6ee;
+    --pr-ink: #1e2c44;
+    --pr-muted: #6b7280;
+    --pr-muted2: #8b8272;
+    --pr-border: #ddd2bd;
+    --pr-border-soft: #e6ddcb;
+    --pr-accent: #b8863f;
+    --pr-accent-dark: #a37a35;
+    --pr-serif: 'Spectral', Georgia, serif;
+    --pr-sans: 'Public Sans', Helvetica, Arial, sans-serif;
+    --pr-mono: 'IBM Plex Mono', monospace;
+
+    font-family: var(--pr-sans);
+    color: var(--pr-ink);
+  }
+
+  .prosody-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .prosody-col--words {
+    padding: 0 48px 0 0;
+    border-right: 1px solid var(--pr-border);
+  }
+
+  .prosody-col--sentences {
+    padding: 0 0 0 48px;
+  }
+
+  .prosody-col-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+
+  .prosody-num {
+    font-family: var(--pr-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--pr-accent-dark);
+  }
+
+  .prosody-h2 {
+    font-family: var(--pr-serif);
+    font-size: 30px;
+    line-height: 1.15;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--pr-ink);
+    margin: 0;
+  }
+
+  .prosody-sub {
+    font-family: var(--pr-sans);
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--pr-muted);
+    margin: 12px 0 30px;
+    max-width: 52ch;
+  }
+
+  .prosody-list {
+    border-top: 1px solid var(--pr-border);
+  }
+
+  .word-block {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--pr-border-soft);
+  }
+
+  .word-block-title {
+    font-family: var(--pr-serif);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--pr-ink);
+    margin-bottom: 12px;
+  }
+
+  .word-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .word-row {
+    display: grid;
+    grid-template-columns: 32px 92px minmax(0, 1fr);
+    gap: 14px;
+    align-items: center;
+  }
+
+  .word-row audio {
+    display: none;
+  }
+
+  .word-play {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    border: 1px solid var(--pr-border);
+    background: #fbf8f1;
+    color: var(--pr-ink);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9.5px;
+    padding: 0;
+  }
+
+  .word-play:hover {
+    background: var(--pr-ink);
+    color: #fbf8f1;
+    border-color: var(--pr-ink);
+  }
+
+  .word-pos {
+    font-family: var(--pr-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--pr-accent-dark);
+    text-transform: uppercase;
+  }
+
+  .word-stress {
+    font-family: var(--pr-mono);
+    font-size: 12.5px;
+    color: var(--pr-ink);
+    margin-top: 3px;
+  }
+
+  .word-sentence {
+    font-family: var(--pr-serif);
+    font-size: 16.5px;
+    font-style: italic;
+    color: #46505f;
+  }
+
+  .prosody-legend {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    font-family: var(--pr-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--pr-muted2);
+    text-transform: uppercase;
+  }
+
+  .prosody-legend-swatch {
+    width: 18px;
+    height: 2px;
+    background: var(--pr-accent);
+  }
+
+  @media (max-width: 900px) {
+    .prosody-columns {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .prosody-col--words {
+      padding: 0 0 40px;
+      border-right: 0;
+      border-bottom: 1px solid var(--pr-border);
+    }
+
+    .prosody-col--sentences {
+      padding: 40px 0 0;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .word-row {
+      grid-template-columns: 28px 1fr;
+    }
+
+    .word-labels {
+      grid-column: 2;
+    }
+
+    .word-sentence {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

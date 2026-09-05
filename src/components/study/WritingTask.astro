@@ -1,0 +1,189 @@
+---
+// Writing Desk: real checklist detection against the user's own draft (see
+// ../data/study/writing.ts for why this is regex-based, not AI-graded).
+import { task } from '../../data/study/writing';
+
+const checklistForClient = task.checklist.map((item) => ({
+  id: item.id,
+  label: item.label,
+  source: item.pattern.source,
+  flags: item.pattern.flags,
+}));
+---
+
+<div class="writing-desk" data-role="writing-desk">
+  <div class="wd-stage">
+    <div class="wd-main">
+      <div class="wd-meta">
+        <span>Task · {task.title}</span>
+        <span>{task.level}</span>
+      </div>
+      <div class="wd-brief">Brief: {task.brief}</div>
+
+      <textarea class="wd-textarea" data-role="draft" rows="10" placeholder="Write your reply here…"></textarea>
+
+      <div class="wd-footer-row">
+        <span class="wd-wordcount" data-role="word-count">0 / {task.minWords}–{task.maxWords} words</span>
+        <div class="wd-actions">
+          <button type="button" class="button button--ghost" data-role="toggle-model">Show model answer</button>
+          <button type="button" class="button button--primary" data-role="submit">Check my draft</button>
+        </div>
+      </div>
+
+      <div class="wd-model" data-role="model" hidden>
+        <div class="label-caps">Model answer</div>
+        <p class="wd-model-text" data-role="model-text"></p>
+      </div>
+    </div>
+
+    <div class="wd-sidebar">
+      <div class="label-caps">Checklist · updates as you type</div>
+      <div class="checklist" data-role="checklist">
+        {checklistForClient.map((item) => (
+          <span class="wd-check" data-role="check-item" data-id={item.id}>
+            <span class="checkbox" data-role="checkbox"></span>{item.label}
+          </span>
+        ))}
+      </div>
+      <p class="wd-submit-note" data-role="submit-note" hidden></p>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ checklistForClient, modelAnswer: task.modelAnswer, minWords: task.minWords, maxWords: task.maxWords }}>
+  document.querySelectorAll('[data-role="writing-desk"]').forEach((root) => {
+    const draft = root.querySelector('[data-role="draft"]');
+    const wordCountEl = root.querySelector('[data-role="word-count"]');
+    const toggleModelBtn = root.querySelector('[data-role="toggle-model"]');
+    const modelEl = root.querySelector('[data-role="model"]');
+    const modelTextEl = root.querySelector('[data-role="model-text"]');
+    const submitBtn = root.querySelector('[data-role="submit"]');
+    const submitNote = root.querySelector('[data-role="submit-note"]');
+    const checkItems = root.querySelectorAll('[data-role="check-item"]');
+
+    if (modelTextEl) modelTextEl.textContent = modelAnswer;
+
+    const rules = checklistForClient.map((item) => ({ ...item, regex: new RegExp(item.source, item.flags) }));
+
+    function evaluate() {
+      const text = draft?.value ?? '';
+      const words = text.trim().split(/\s+/).filter(Boolean);
+      const count = text.trim() ? words.length : 0;
+
+      if (wordCountEl) {
+        wordCountEl.textContent = `${count} / ${minWords}–${maxWords} words`;
+        wordCountEl.classList.toggle('wd-wordcount--ok', count >= minWords && count <= maxWords);
+        wordCountEl.classList.toggle('wd-wordcount--over', count > maxWords);
+      }
+
+      let metCount = 0;
+      checkItems.forEach((el) => {
+        const rule = rules.find((r) => r.id === el.dataset.id);
+        const met = rule ? rule.regex.test(text) : false;
+        if (met) metCount += 1;
+        el.querySelector('[data-role="checkbox"]')?.classList.toggle('checkbox--done', met);
+      });
+      return { count, metCount, total: rules.length };
+    }
+
+    draft?.addEventListener('input', evaluate);
+    evaluate();
+
+    toggleModelBtn?.addEventListener('click', () => {
+      const hidden = modelEl.hidden;
+      modelEl.hidden = !hidden;
+      toggleModelBtn.textContent = hidden ? 'Hide model answer' : 'Show model answer';
+    });
+
+    submitBtn?.addEventListener('click', () => {
+      const { count, metCount, total } = evaluate();
+      const inRange = count >= minWords && count <= maxWords;
+      submitNote.hidden = false;
+      submitNote.textContent = `${metCount} of ${total} checklist items detected, and your draft is ${inRange ? 'in range' : 'outside the 80–120 word range'} at ${count} words. This is a self-check, not a grade — compare against the model answer for tone and phrasing.`;
+    });
+  });
+</script>
+
+<style>
+  .writing-desk { display: flex; flex-direction: column; }
+
+  .wd-stage {
+    --stage-pad: clamp(1.25rem, 2vw, 2rem);
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: var(--stage-pad);
+  }
+
+  @media (max-width: 820px) { .wd-stage { grid-template-columns: 1fr; } }
+
+  .wd-main { display: flex; flex-direction: column; gap: 0.9rem; min-width: 0; padding-right: 1.5rem; }
+
+  @media (max-width: 820px) { .wd-main { padding-right: 0; } }
+
+  .wd-meta { display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--color-muted); }
+
+  .wd-brief {
+    border: 1px dashed var(--color-border);
+    border-radius: 8px;
+    padding: 0.6rem 0.85rem;
+    font-size: 0.88rem;
+    color: var(--color-text);
+    background: var(--color-bg-soft);
+  }
+
+  .wd-textarea {
+    font: inherit;
+    font-family: var(--font-display);
+    font-size: 1.02rem;
+    line-height: 1.7;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    resize: vertical;
+  }
+
+  .wd-footer-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.6rem; }
+  .wd-wordcount { font-size: 0.85rem; color: var(--color-muted); font-weight: 600; }
+  .wd-wordcount--ok { color: #2c6e3f; }
+  .wd-wordcount--over { color: var(--color-accent-dark); }
+
+  .wd-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+  .wd-model { border-top: 1px dashed var(--color-border); padding-top: 0.75rem; }
+  .wd-model-text { white-space: pre-line; font-family: var(--font-display); font-size: 0.98rem; max-width: none; }
+
+  .wd-sidebar {
+    background: var(--color-bg-soft);
+    border-left: 1px dashed var(--color-border);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin: calc(-1 * var(--stage-pad)) calc(-1 * var(--stage-pad)) calc(-1 * var(--stage-pad)) 0;
+    padding: var(--stage-pad) var(--stage-pad) var(--stage-pad) 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 820px) {
+    .wd-sidebar {
+      margin: 1.5rem calc(-1 * var(--stage-pad)) calc(-1 * var(--stage-pad));
+      border-left: 0;
+      border-top: 1px dashed var(--color-border);
+      border-radius: 0 0 var(--radius) var(--radius);
+      padding: 1.5rem var(--stage-pad) var(--stage-pad);
+    }
+  }
+
+  .label-caps { font-size: 0.75rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .checklist { display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.92rem; }
+  .wd-check { display: flex; align-items: center; gap: 0.5rem; }
+
+  .checkbox { width: 16px; height: 16px; flex: none; border: 1px solid var(--color-border); border-radius: 4px; background: #fff; }
+  .checkbox--done { background: var(--color-primary); border-color: var(--color-primary); }
+
+  .wd-submit-note { font-size: 0.85rem; color: var(--color-text); max-width: none; }
+</style>

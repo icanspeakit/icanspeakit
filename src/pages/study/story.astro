@@ -1,0 +1,82 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import StoryReader from '../../components/study/StoryReader.astro';
+import { chapters } from '../../data/study/story';
+---
+
+<Layout
+  title="Story Stream — icanspeak.it"
+  description="A short serialized story with real fill-in-the-blank grammar checks and a tap-for-meaning glossary."
+>
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Study · Reading &amp; vocabulary</span>
+      <h1>Story Stream</h1>
+      <p class="lede">
+        Fill each blank from the word bank below the text, then check your answers. Any underlined word is tappable —
+        see its meaning and where it actually came from, then save it straight to your Daily Deck.
+      </p>
+    </div>
+
+    <div class="story-switcher" role="tablist" aria-label="Chapter">
+      {chapters.map((ch, i) => (
+        <button type="button" class="story-pill" data-chapter-index={i} aria-selected={i === 0 ? 'true' : 'false'}>
+          {ch.title}
+        </button>
+      ))}
+    </div>
+
+    <div class="story-panels">
+      {chapters.map((chapter, i) => (
+        <div class="story-panel" data-panel-index={i} hidden={i !== 0}>
+          <StoryReader chapter={chapter} />
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const pills = document.querySelectorAll<HTMLButtonElement>('.story-pill');
+  const panels = document.querySelectorAll<HTMLElement>('.story-panel');
+
+  pills.forEach((pill) => {
+    pill.addEventListener('click', () => {
+      const target = pill.dataset.chapterIndex;
+      pills.forEach((p) => p.setAttribute('aria-selected', String(p.dataset.chapterIndex === target)));
+      panels.forEach((panel) => {
+        panel.hidden = panel.dataset.panelIndex !== target;
+      });
+    });
+  });
+</script>
+
+<style>
+  .story-switcher {
+    display: inline-flex;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    padding: 4px;
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+    margin-block-end: 1.5rem;
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+
+  .story-pill {
+    border: 0;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: transparent;
+    color: var(--color-ink);
+  }
+
+  .story-pill[aria-selected='true'] {
+    background: var(--color-ink);
+    color: #fff;
+  }
+</style>

@@ -5,39 +5,19 @@ interface Props {
 
 const { altHref } = Astro.props;
 const locale = Astro.currentLocale ?? 'en';
-const { pathname } = Astro.url;
 
 const copy = {
   en: {
     tagline: 'Word origins & speaking practice',
-    nav: [
-      { href: '/', label: 'Home' },
-      { href: '/blog/', label: 'Blog' },
-      { href: '/words/', label: 'Word Cards' },
-      { href: '/exercises/', label: 'Exercises' },
-      { href: '/about/', label: 'About' },
-    ],
-    menuLabel: 'Open menu',
   },
   de: {
     tagline: 'Wortursprünge & Sprechtraining',
-    nav: [
-      { href: '/de/', label: 'Start' },
-      { href: '/de/words/', label: 'Wortkarten' },
-      { href: '/de/about/', label: 'Über uns' },
-    ],
-    menuLabel: 'Menü öffnen',
   },
 } as const;
 
 const t = copy[locale as 'en' | 'de'] ?? copy.en;
 const otherLocale = locale === 'de' ? 'en' : 'de';
 const otherHref = altHref ?? (locale === 'de' ? '/' : '/de/');
-
-function isActive(href: string) {
-  if (href === '/' || href === '/de/') return pathname === href;
-  return pathname.startsWith(href);
-}
 ---
 
 <header class="site-header">
@@ -49,51 +29,11 @@ function isActive(href: string) {
       <span class="brand__tagline">{t.tagline}</span>
     </a>
 
-    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="primary-nav">
-      <span class="sr-only">{t.menuLabel}</span>
-      <span class="nav-toggle__bar"></span>
-      <span class="nav-toggle__bar"></span>
-      <span class="nav-toggle__bar"></span>
-    </button>
-
-    <nav class="primary-nav" id="primary-nav" aria-label="Primary">
-      <ul>
-        {t.nav.map((item) => (
-          <li>
-            <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
-          </li>
-        ))}
-      </ul>
-      <a href={otherHref} class="lang-switch" hreflang={otherLocale} lang={otherLocale}>
-        {otherLocale.toUpperCase()}
-      </a>
-    </nav>
+    <a href={otherHref} class="lang-switch" hreflang={otherLocale} lang={otherLocale}>
+      {otherLocale.toUpperCase()}
+    </a>
   </div>
 </header>
-
-<script>
-  const toggle = document.getElementById('nav-toggle');
-  const nav = document.getElementById('primary-nav');
-
-  toggle?.addEventListener('click', () => {
-    const isOpen = document.body.classList.toggle('nav-open');
-    toggle.setAttribute('aria-expanded', String(isOpen));
-  });
-
-  nav?.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      document.body.classList.remove('nav-open');
-      toggle?.setAttribute('aria-expanded', 'false');
-    });
-  });
-
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 860) {
-      document.body.classList.remove('nav-open');
-      toggle?.setAttribute('aria-expanded', 'false');
-    }
-  });
-</script>
 
 <style>
   .site-header {
@@ -106,9 +46,9 @@ function isActive(href: string) {
   }
 
   .site-header__inner {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
     gap: 1.5rem;
     padding-block: 0.85rem;
   }
@@ -116,9 +56,11 @@ function isActive(href: string) {
   .brand {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 0.15rem;
-    flex-shrink: 0;
+    grid-column: 2;
     line-height: 1;
+    text-align: center;
   }
 
   .brand__word {
@@ -150,57 +92,6 @@ function isActive(href: string) {
     color: var(--color-muted);
   }
 
-  .nav-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    width: 42px;
-    height: 42px;
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    background: #fff;
-  }
-
-  .nav-toggle__bar {
-    display: block;
-    width: 20px;
-    height: 2px;
-    margin-inline: auto;
-    background: var(--color-ink);
-    border-radius: 2px;
-  }
-
-  .primary-nav {
-    display: flex;
-    align-items: center;
-    gap: 1.75rem;
-  }
-
-  .primary-nav ul {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
-
-  .primary-nav a:not(.lang-switch) {
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: var(--color-text);
-    padding-block: 0.35rem;
-    border-bottom: 2px solid transparent;
-  }
-
-  .primary-nav a:not(.lang-switch):hover {
-    color: var(--color-primary);
-  }
-
-  .primary-nav a[aria-current='page']:not(.lang-switch) {
-    color: var(--color-primary);
-    border-bottom-color: var(--color-primary);
-  }
-
   .lang-switch {
     display: inline-flex;
     align-items: center;
@@ -212,43 +103,12 @@ function isActive(href: string) {
     font-size: 0.78rem;
     font-weight: 700;
     color: var(--color-primary-dark);
+    grid-column: 3;
+    justify-self: end;
   }
 
   .lang-switch:hover {
     border-color: var(--color-primary);
     background: var(--color-primary-soft);
-  }
-
-  @media (max-width: 860px) {
-    .nav-toggle { display: flex; }
-
-    .primary-nav {
-      position: fixed;
-      inset: 73px 0 0 0;
-      display: none;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1.5rem;
-      background: var(--color-bg);
-      padding: 1.5rem clamp(1.25rem, 4vw, 2.5rem) 2rem;
-      overflow-y: auto;
-      border-top: 1px solid var(--color-border);
-    }
-
-    .primary-nav ul {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0;
-      width: 100%;
-    }
-
-    .primary-nav ul li a {
-      display: block;
-      padding-block: 0.9rem;
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    :global(body.nav-open) .primary-nav { display: flex; }
-    :global(body.nav-open) { overflow: hidden; }
   }
 </style>

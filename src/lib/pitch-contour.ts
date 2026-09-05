@@ -152,49 +152,8 @@ export function estimatePitchContour(
   return medianFilterHz(frames);
 }
 
-export interface WordSpan {
-  /** Start time of the word, in seconds. */
-  start: number;
-  /** End time of the word, in seconds. */
-  end: number;
-}
-
-// Recovers per-word start/end times from ElevenLabs' character-level
-// alignment, by splitting on whitespace characters. Words in the source
-// text must be separated by single spaces (which is how
-// `sentenceWithEmphasis` builds its TTS input) — this doesn't handle
-// arbitrary punctuation-adjacent tokenization, just space-delimited words.
-export function wordSpansFromAlignment(
-  characters: string[],
-  startTimes: number[],
-  endTimes: number[]
-): WordSpan[] {
-  const spans: WordSpan[] = [];
-  let start: number | null = null;
-  let end: number | null = null;
-
-  for (let i = 0; i < characters.length; i++) {
-    const isSpace = characters[i].trim() === '';
-    if (isSpace) {
-      if (start !== null && end !== null) spans.push({ start, end });
-      start = null;
-      end = null;
-      continue;
-    }
-    if (start === null) start = startTimes[i];
-    end = endTimes[i];
-  }
-  if (start !== null && end !== null) spans.push({ start, end });
-
-  return spans;
-}
-
-// Decodes a base64 string to a fresh Uint8Array. Used twice per clip (once
-// for Web Audio decoding, once for the playable Blob) because
-// `decodeAudioData` can detach/consume the buffer it's given.
-export function base64ToBytes(base64: string): Uint8Array {
-  const binary = atob(base64);
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-  return bytes;
-}
+// `wordSpansFromAlignment` and `base64ToBytes` now live in `alignment.ts`
+// (shared with the Study section's audio exercises) — re-exported here so
+// existing imports from this module keep working unchanged.
+export { wordSpansFromAlignment, base64ToBytes } from './alignment';
+export type { WordSpan } from './alignment';

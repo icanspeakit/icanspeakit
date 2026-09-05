@@ -48,7 +48,7 @@ export const topics: Topic[] = [
       { label: 'Minimal pairs', blurb: 'Two clips, one contrast — pick which word you heard. Self-gradable by design.' },
       { label: 'Shadowing', blurb: 'Play the model, record yourself, and compare the two side by side.' },
     ],
-    href: '/exercises/minimal-pairs/',
+    href: '/exercises/dashboard/articulation/',
   },
   {
     slug: 'phonology',
@@ -61,7 +61,7 @@ export const topics: Topic[] = [
       { label: 'Linking', blurb: 'Click the words where sounds blend or drop in natural speech, then reveal the answer.' },
       { label: 'Listening', blurb: 'Type what you hear — reductions and all — then check it word by word.' },
     ],
-    href: '/exercises/connected-speech/',
+    href: '/exercises/dashboard/phonology/',
   },
   {
     slug: 'prosody',
@@ -74,7 +74,7 @@ export const topics: Topic[] = [
       { label: 'Stress', blurb: 'Noun or verb? With words like "record", only the stressed syllable tells you.' },
       { label: 'Intonation', blurb: 'Same six words, four different meanings — depending only on which one you stress.' },
     ],
-    href: '/exercises/prosody/',
+    href: '/exercises/dashboard/prosody/',
   },
   {
     slug: 'voice',
@@ -87,7 +87,7 @@ export const topics: Topic[] = [
       { label: 'Breath', blurb: 'A guided in-4 / hold-2 / out-6 breathing routine, paced by audio.' },
       { label: 'Pitch range', blurb: 'A self-assessment checklist for resonance, strain, and pitch movement.' },
     ],
-    href: '/exercises/voice/',
+    href: '/exercises/dashboard/voice/',
   },
   {
     slug: 'volume',
@@ -100,7 +100,7 @@ export const topics: Topic[] = [
       { label: 'Projection', blurb: 'Record yourself and compare against a model reference at varying volume.' },
       { label: 'Intensity', blurb: 'A simple in-browser volume meter while you read a passage aloud.' },
     ],
-    href: '/exercises/',
+    href: '/exercises/dashboard/volume/',
   },
   {
     slug: 'pace',
@@ -113,7 +113,7 @@ export const topics: Topic[] = [
       { label: 'Pausing', blurb: 'Model audio with exact pause placement — hear the "/" and "//" marks.' },
       { label: 'Playback speed', blurb: 'Slow the same clip to 0.8×, then speed back up to shadow it at pace.' },
     ],
-    href: '/exercises/pacing/',
+    href: '/exercises/dashboard/pace/',
   },
   {
     slug: 'fluency',

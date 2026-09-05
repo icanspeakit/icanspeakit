@@ -17,6 +17,7 @@ export default defineConfig({
 
   redirects: {
     '/category/blog': '/former-site/blog',
+    '/exercises/dashboard': '/exercises/dashboard/articulation',
   },
 
   vite: {
