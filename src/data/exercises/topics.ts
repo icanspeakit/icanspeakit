@@ -92,7 +92,7 @@ export const topics: Topic[] = [
   {
     slug: 'volume',
     category: 'Projection',
-    status: 'soon',
+    status: 'live',
     title: 'Volume',
     description: 'Record-and-compare drills against a model reference at varying volume.',
     tags: ['Projection', 'Intensity'],
