@@ -278,7 +278,7 @@ const ttsTimestampsUrl = (text: string) => `/api/tts-timestamps?text=${encodeURI
 
   @media (max-width: 560px) {
     .word-row {
-      grid-template-columns: 28px 1fr;
+      grid-template-columns: 40px 1fr;
     }
 
     .word-labels {
@@ -287,6 +287,13 @@ const ttsTimestampsUrl = (text: string) => `/api/tts-timestamps?text=${encodeURI
 
     .word-sentence {
       grid-column: 1 / -1;
+    }
+
+    /* Keep the play button at a comfortable touch size here — the
+       column above only shrank the layout, not the tap target. */
+    .word-play {
+      width: 40px;
+      height: 40px;
     }
   }
 </style>

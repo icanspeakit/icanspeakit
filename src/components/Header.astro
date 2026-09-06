@@ -22,6 +22,13 @@ const otherHref = altHref ?? (locale === 'de' ? '/' : '/de/');
 
 <header class="site-header">
   <div class="site-header__inner container">
+    <a href={locale === 'de' ? '/de/' : '/'} class="home-link" aria-label="Home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 11.5 12 4l9 7.5" />
+        <path d="M5.5 10v9a1 1 0 0 0 1 1H9a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h2.5a1 1 0 0 0 1-1v-9" />
+      </svg>
+    </a>
+
     <a href={locale === 'de' ? '/de/' : '/'} class="brand">
       <span class="brand__word">
         icanspeak<span class="brand__it">ı<span class="brand__dot"></span>t</span>
@@ -50,7 +57,30 @@ const otherHref = altHref ?? (locale === 'de' ? '/' : '/de/');
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 1.5rem;
-    padding-block: 0.85rem;
+    padding-block: 1.1rem;
+  }
+
+  .home-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    color: var(--color-primary-dark);
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .home-link svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .home-link:hover {
+    border-color: var(--color-primary);
+    background: var(--color-primary-soft);
   }
 
   .brand {
@@ -110,5 +140,16 @@ const otherHref = altHref ?? (locale === 'de' ? '/' : '/de/');
   .lang-switch:hover {
     border-color: var(--color-primary);
     background: var(--color-primary-soft);
+  }
+
+  /* Bump the two circular icon buttons to a 44px touch target on
+     touch-sized viewports — 2.2rem (35px) is fine for a mouse pointer
+     but under the minimum comfortable tap size. */
+  @media (max-width: 640px) {
+    .home-link,
+    .lang-switch {
+      width: 2.75rem;
+      height: 2.75rem;
+    }
   }
 </style>
