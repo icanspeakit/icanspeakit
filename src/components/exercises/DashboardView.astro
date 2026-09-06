@@ -6,6 +6,7 @@ import PhonologyExercise from './PhonologyExercise.astro';
 import ProsodyExercise from './ProsodyExercise.astro';
 import VoiceExercise from './VoiceExercise.astro';
 import PaceExercise from './PaceExercise.astro';
+import VolumeExercise from './VolumeExercise.astro';
 
 interface Props {
   activeSlug?: string;
@@ -16,13 +17,14 @@ const { activeSlug = defaultSlug } = Astro.props;
 
 // Formats with a real, built exercise get it embedded directly in their
 // detail panel instead of a "Start" link out to a separate page. Formats
-// without one yet (currently just "volume") keep the link-out action.
+// without one yet keep the link-out action.
 const exerciseComponents: Record<string, unknown> = {
   articulation: ArticulationExercise,
   phonology: PhonologyExercise,
   prosody: ProsodyExercise,
   voice: VoiceExercise,
   pace: PaceExercise,
+  volume: VolumeExercise,
 };
 ---
 

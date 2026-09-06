@@ -45,11 +45,11 @@ const extraBySlug: Record<string, FormatExtra> = {
     meta: 'printable · 3 pages',
   },
   volume: {
-    mastery: 0,
-    due: 0,
+    mastery: 12,
+    due: 2,
     why: 'Volume is a room problem, not a voice problem. The drill trains a level you can hold without strain.',
-    tip: 'Not built yet — the recording and comparison pieces land together.',
-    meta: 'in progress',
+    tip: "Use the meter to find each zone by ear first — don't try to hit a target level from memory.",
+    meta: '4 min · self-graded',
   },
   pace: {
     mastery: 73,
