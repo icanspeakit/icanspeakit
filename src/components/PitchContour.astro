@@ -271,6 +271,22 @@ const { ttsSrc, words, stressIndex, meaning } = Astro.props;
     display: none;
   }
 
+  /* Below ~480px the fixed 90–130px trace column leaves too little room
+     for the sentence tokens — stack the trace under the text instead of
+     squeezing both into one row. */
+  @media (max-width: 480px) {
+    .pitch-row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    .pitch-play {
+      width: 44px;
+      height: 44px;
+      font-size: 12px;
+    }
+  }
+
   @media print {
     .pitch-controls,
     .pitch-trace,
