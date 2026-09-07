@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import ExerciseGrid from '../components/ExerciseGrid.astro';
+import DashboardShell from '../components/dashboard/DashboardShell.astro';
 import { topics } from '../data/exercises/topics';
 
 const posts = (await getCollection('blog'))
@@ -28,6 +29,21 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
     </div>
   </section>
 
+  <section class="progress-teaser">
+    <div class="container progress-teaser__intro">
+      <p class="eyebrow">New</p>
+      <h2>Watch your practice add up</h2>
+      <p class="text-muted">
+        One dashboard for every format: practice the drills, check real accuracy and session history, or
+        see all seven at a glance. Try it live below, or open it full-screen.
+      </p>
+      <a href="/dashboard/" class="button button--primary">Open full-screen →</a>
+    </div>
+    <div class="container">
+      <DashboardShell activeLens="overview" />
+    </div>
+  </section>
+
   <section class="practice">
     <div class="container">
       <div class="section-head practice__head">
@@ -48,27 +64,30 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
         <h2>Because language is the longest-running story we've ever told</h2>
       </div>
       <div class="why__grid">
-        <article class="card">
+        <a class="card why-card" href="/blog/salary-a-tiny-history-lesson/">
           <h3>Every word is a tiny history lesson</h3>
           <p class="text-muted">
             "Salary" comes from the Latin for salt, once part of a Roman soldier's pay. Say the word and
             you're quoting a two-thousand-year-old paycheck.
           </p>
-        </article>
-        <article class="card">
+          <span class="why-card__more">Read the full story →</span>
+        </a>
+        <a class="card why-card" href="/blog/how-languages-borrow-from-each-other/">
           <h3>Languages secretly borrow from each other</h3>
           <p class="text-muted">
             English alone has pulled words from more than 350 languages. "Ketchup" traveled from a Hokkien
             fish sauce through Malay trade routes before it ever met a tomato.
           </p>
-        </article>
-        <article class="card">
+          <span class="why-card__more">Read the full story →</span>
+        </a>
+        <a class="card why-card" href="/blog/how-word-meanings-drift/">
           <h3>Meanings drift — sometimes on purpose</h3>
           <p class="text-muted">
             "Nice" once meant "foolish" in Latin. Give a word three centuries and enough gossip, and it can
             end up meaning almost the opposite of where it started.
           </p>
-        </article>
+          <span class="why-card__more">Read the full story →</span>
+        </a>
       </div>
     </div>
   </section>
@@ -113,6 +132,19 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
   .hero h1 { margin-block: 0.75rem 1.25rem; }
   .hero__actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-block-start: 1.75rem; }
 
+  .progress-teaser__intro {
+    max-width: 42rem;
+    margin-block-end: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .progress-teaser__intro h2 {
+    margin-block: 0.6rem 0.75rem;
+  }
+
+  .progress-teaser__intro .button {
+    margin-block-start: 1.5rem;
+  }
+
   .practice { padding-block-start: 0; }
 
   .practice__head {
@@ -137,6 +169,27 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
   }
 
   .why__grid h3 { margin-block-end: 0.6rem; }
+
+  .why-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .why-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .why-card__more {
+    margin-block-start: auto;
+    padding-block-start: 0.9rem;
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--color-primary);
+  }
 
   @media (max-width: 860px) {
     .why__grid, .latest__grid { grid-template-columns: 1fr 1fr; }

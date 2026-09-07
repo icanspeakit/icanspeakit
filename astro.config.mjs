@@ -16,8 +16,22 @@ export default defineConfig({
   },
 
   redirects: {
+    '/progress': '/dashboard/',
     '/category/blog': '/former-site/blog',
-    '/exercises/dashboard': '/exercises/dashboard/articulation',
+    '/exercises/dashboard': '/dashboard/',
+    '/exercises/dashboard/articulation': '/dashboard/articulation',
+    '/exercises/dashboard/phonology': '/dashboard/phonology',
+    '/exercises/dashboard/prosody': '/dashboard/prosody',
+    '/exercises/dashboard/voice': '/dashboard/voice',
+    '/exercises/dashboard/volume': '/dashboard/volume',
+    '/exercises/dashboard/pace': '/dashboard/pace',
+    '/de/exercises/dashboard': '/de/dashboard/',
+    '/de/exercises/dashboard/articulation': '/de/dashboard/articulation',
+    '/de/exercises/dashboard/phonology': '/de/dashboard/phonology',
+    '/de/exercises/dashboard/prosody': '/de/dashboard/prosody',
+    '/de/exercises/dashboard/voice': '/de/dashboard/voice',
+    '/de/exercises/dashboard/volume': '/de/dashboard/volume',
+    '/de/exercises/dashboard/pace': '/de/dashboard/pace',
   },
 
   vite: {

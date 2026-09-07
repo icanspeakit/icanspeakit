@@ -1,0 +1,21 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import DashboardShell from '../../../../components/dashboard/DashboardShell.astro';
+import { getFormats } from '../../../../data/exercises/dashboard';
+
+export function getStaticPaths() {
+  return getFormats('en').map((f) => ({ params: { slug: f.slug } }));
+}
+
+const { slug } = Astro.params;
+const format = getFormats('de').find((f) => f.slug === slug)!;
+---
+
+<Layout
+  title={`${format.title} Fortschritt — icanspeak.it`}
+  description={`Echte Übungsdaten für ${format.title}: Genauigkeit, Sitzungen und Serien.`}
+  altHref={`/dashboard/${slug}/progress/`}
+  hideHeader
+>
+  <DashboardShell activeSlug={slug} activeLens="progress" fullscreen />
+</Layout>
