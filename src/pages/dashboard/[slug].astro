@@ -1,0 +1,21 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import DashboardShell from '../../components/dashboard/DashboardShell.astro';
+import { formats } from '../../data/exercises/dashboard';
+
+export function getStaticPaths() {
+  return formats.map((f) => ({ params: { slug: f.slug } }));
+}
+
+const { slug } = Astro.params;
+const format = formats.find((f) => f.slug === slug)!;
+---
+
+<Layout
+  title={`${format.title} — Exercises dashboard — icanspeak.it`}
+  description={format.description}
+  altHref={`/de/dashboard/${slug}/`}
+  hideHeader
+>
+  <DashboardShell activeSlug={slug} activeLens="practice" fullscreen />
+</Layout>

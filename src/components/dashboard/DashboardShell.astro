@@ -1,0 +1,2140 @@
+---
+import { getFormats, getTodaysSet } from '../../data/exercises/dashboard';
+import { statusBadge, statusCta, hrefFor, type Locale } from '../../data/exercises/topics';
+import ArticulationExercise from '../exercises/ArticulationExercise.astro';
+import PhonologyExercise from '../exercises/PhonologyExercise.astro';
+import ProsodyExercise from '../exercises/ProsodyExercise.astro';
+import VoiceExercise from '../exercises/VoiceExercise.astro';
+import PaceExercise from '../exercises/PaceExercise.astro';
+import VolumeExercise from '../exercises/VolumeExercise.astro';
+
+interface Props {
+  activeSlug?: string;
+  activeLens?: 'practice' | 'progress' | 'overview';
+  fullscreen?: boolean;
+}
+
+const locale = (Astro.currentLocale ?? 'en') as Locale;
+const formats = getFormats(locale);
+const todaysSet = getTodaysSet(locale);
+
+const defaultSlug = formats[0].slug;
+const { activeSlug, activeLens: activeLensProp, fullscreen = false } = Astro.props;
+const currentSlug = activeSlug ?? defaultSlug;
+const activeLens = activeLensProp ?? (activeSlug ? 'practice' : 'overview');
+
+// Formats with a real, built exercise get it embedded directly in their
+// Practice view instead of a "Start" link out to a separate page. Formats
+// without one yet (currently just Rhetoric, whose real UI is a floating
+// third-party widget on its own page) keep the link-out action.
+const exerciseComponents: Record<string, unknown> = {
+  articulation: ArticulationExercise,
+  phonology: PhonologyExercise,
+  prosody: ProsodyExercise,
+  voice: VoiceExercise,
+  pace: PaceExercise,
+  volume: VolumeExercise,
+};
+
+// The Overview radar is a fixed hexagon tuned for six formats — Rhetoric is
+// measured on a different basis (practice count only) and sits out of this
+// particular chart, same as it always has on the progress console.
+const radarFormats = formats.filter((f) => f.slug !== 'rhetoric');
+const radarLabelPositions = [
+  { x: 120, y: 0, anchor: 'middle' },
+  { x: 216, y: 52, anchor: 'start' },
+  { x: 216, y: 152, anchor: 'start' },
+  { x: 120, y: 204, anchor: 'middle' },
+  { x: 24, y: 152, anchor: 'end' },
+  { x: 24, y: 52, anchor: 'end' },
+] as const;
+
+function pathFor(loc: Locale, slug: string, lens: 'practice' | 'progress' | 'overview') {
+  const base = loc === 'de' ? '/de/dashboard' : '/dashboard';
+  if (lens === 'overview') return `${base}/`;
+  return `${base}/${slug}/${lens === 'progress' ? 'progress/' : ''}`;
+}
+
+const otherLocale: Locale = locale === 'de' ? 'en' : 'de';
+const homeHref = locale === 'de' ? '/de/' : '/';
+const langSwitchHref = pathFor(otherLocale, currentSlug, activeLens);
+
+const copy = {
+  en: {
+    formatsLabel: 'Formats · mastery',
+    overview: 'Overview',
+    todaysSet: "Today's set",
+    thisWeek: 'This week',
+    minimize: 'Minimize format list',
+    expand: 'Expand format list',
+    quote: 'Say it out loud — the ear catches what the eye misses.',
+    dueSuffix: 'due',
+    masteryLabel: (m: number) => `Mastery ${m}%`,
+    cardsDue: (n: number) => `${n} cards due`,
+    nothingDue: 'nothing due yet',
+    whyDrill: 'Why this drill',
+    howToUse: 'How to use it',
+    lensPractice: 'Practice',
+    lensProgress: 'Progress',
+    overviewTitle: 'Your formats, at a glance',
+    overviewIntro: 'Ring = mastery for scored formats, practice count for the rest. Tap a format to open it.',
+    radarTitle: 'Six formats, one shape',
+    radarCopy:
+      "Articulation, Phonology, and Pace plot real accuracy. Prosody, Voice, and Volume plot practice frequency instead, since there's no scoring mechanism for them yet.",
+    sessionsTitle: 'Recent sessions',
+    sessionsEmpty: 'No sessions logged yet — try an exercise on one of the format pages.',
+    tier1: {
+      emptyBanner: "No attempts logged yet — try a few items on this format's practice page.",
+      masteryLabel: 'Mastery',
+      dueLabel: 'Items due',
+      dueDeltaNone: 'Nothing queued',
+      dueDeltaSome: 'Missed at least once',
+      chartTitle: 'Accuracy trend',
+      chartLegend: '% correct, by day',
+      chartEmpty: 'Log attempts on at least two different days to see a trend here.',
+      errorsTitle: 'Error breakdown',
+      errorsEmpty: 'No misses logged yet.',
+    },
+    tier2: {
+      note: 'This meter reads relative loudness, not a correctness score — there’s no "right answer" to grade, only which zone a session lands in.',
+      sessionsLabel: 'Sessions',
+      sessionsDelta: 'Meter runs logged',
+      lastLabel: 'Last session',
+      lastDelta: 'Dominant zone reached',
+      zonesTitle: 'Recent sessions by zone',
+      zonesEmpty: 'No meter sessions logged yet.',
+    },
+    tier3: {
+      note: (title: string) =>
+        `${title} is practice-based — no mechanism today can score how correct it was, so this counts practice, not accuracy.`,
+      prosodyLabel: 'Compared to model',
+      prosodyDelta: 'Times played',
+      voiceBreathLabel: 'Breathing routine',
+      voiceBreathDelta: 'Times completed',
+      voiceCheckLabel: 'Self-check',
+      voiceCheckDelta: 'Checklists completed',
+    },
+    tier4: {
+      callsLabel: 'Calls started',
+      callsDelta: 'With the AI listener',
+      note: "Filler-word count and structural-device tallies need transcript capture that isn't built yet — only real call counts show here.",
+    },
+    words: {
+      due: 'due',
+      new: 'new',
+      notStarted: 'Not started',
+      sessions: 'sessions',
+      logged: 'logged',
+      of: 'of',
+      attemptOne: 'attempt logged',
+      attemptOther: 'attempts logged',
+      streakTemplate: '{n}-day streak',
+      streakNone: 'No streak yet',
+      zoneQuiet: 'Quiet',
+      zoneConversational: 'Conversational',
+      zoneProjected: 'Projected',
+    },
+  },
+  de: {
+    formatsLabel: 'Formate · Fortschritt',
+    overview: 'Übersicht',
+    todaysSet: 'Heutiges Pensum',
+    thisWeek: 'Diese Woche',
+    minimize: 'Formatliste einklappen',
+    expand: 'Formatliste ausklappen',
+    quote: 'Sag es laut — das Ohr bemerkt, was das Auge übersieht.',
+    dueSuffix: 'fällig',
+    masteryLabel: (m: number) => `Fortschritt ${m}%`,
+    cardsDue: (n: number) => `${n} Karten fällig`,
+    nothingDue: 'nichts fällig',
+    whyDrill: 'Warum diese Übung',
+    howToUse: "So geht's",
+    lensPractice: 'Üben',
+    lensProgress: 'Fortschritt',
+    overviewTitle: 'Deine Formate auf einen Blick',
+    overviewIntro: 'Ring = Fortschritt bei bewerteten Formaten, sonst Übungsanzahl. Tippe auf ein Format, um es zu öffnen.',
+    radarTitle: 'Sechs Formate, eine Form',
+    radarCopy:
+      'Artikulation, Phonologie und Tempo zeigen echten Fortschritt. Prosodie, Stimme und Lautstärke zeigen stattdessen die Übungshäufigkeit, da es dafür noch keinen Bewertungsmechanismus gibt.',
+    sessionsTitle: 'Letzte Sitzungen',
+    sessionsEmpty: 'Noch keine Sitzungen protokolliert — probier eine Übung auf einer der Formatseiten.',
+    tier1: {
+      emptyBanner: 'Noch keine Versuche protokolliert — probier ein paar Aufgaben auf der Übungsseite dieses Formats.',
+      masteryLabel: 'Fortschritt',
+      dueLabel: 'Fällige Elemente',
+      dueDeltaNone: 'Nichts fällig',
+      dueDeltaSome: 'Mindestens einmal verpasst',
+      chartTitle: 'Genauigkeitsverlauf',
+      chartLegend: '% richtig, pro Tag',
+      chartEmpty: 'Protokolliere Versuche an mindestens zwei verschiedenen Tagen, um hier einen Verlauf zu sehen.',
+      errorsTitle: 'Fehleraufschlüsselung',
+      errorsEmpty: 'Noch keine Fehler protokolliert.',
+    },
+    tier2: {
+      note: 'Dieses Messgerät liest relative Lautstärke, keinen Genauigkeitswert — es gibt keine „richtige Antwort“, nur die Zone, in der eine Sitzung landet.',
+      sessionsLabel: 'Sitzungen',
+      sessionsDelta: 'Messungen protokolliert',
+      lastLabel: 'Letzte Sitzung',
+      lastDelta: 'Erreichte Hauptzone',
+      zonesTitle: 'Letzte Sitzungen nach Zone',
+      zonesEmpty: 'Noch keine Messungen protokolliert.',
+    },
+    tier3: {
+      note: (title: string) =>
+        `${title} ist übungsbasiert — kein Mechanismus kann heute bewerten, wie richtig es war, daher zählt dies Übung, nicht Genauigkeit.`,
+      prosodyLabel: 'Mit Modell verglichen',
+      prosodyDelta: 'Mal abgespielt',
+      voiceBreathLabel: 'Atemübung',
+      voiceBreathDelta: 'Mal abgeschlossen',
+      voiceCheckLabel: 'Selbstkontrolle',
+      voiceCheckDelta: 'Checklisten abgeschlossen',
+    },
+    tier4: {
+      callsLabel: 'Gespräche gestartet',
+      callsDelta: 'Mit der KI-Zuhörerin',
+      note: 'Füllwort- und Strukturanalyse gibt es noch nicht — nur echte Gesprächszahlen werden hier gezeigt.',
+    },
+    words: {
+      due: 'fällig',
+      new: 'neu',
+      notStarted: 'Noch nicht begonnen',
+      sessions: 'Sitzungen',
+      logged: 'protokolliert',
+      of: 'von',
+      attemptOne: 'Versuch protokolliert',
+      attemptOther: 'Versuche protokolliert',
+      streakTemplate: '{n} Tage in Folge',
+      streakNone: 'Noch keine Serie',
+      zoneQuiet: 'Leise',
+      zoneConversational: 'Gesprächslautstärke',
+      zoneProjected: 'Projiziert',
+    },
+  },
+} as const;
+
+const t = copy[locale];
+---
+
+<div class="dash-shell" class:list={{ 'dash-shell--boxed': !fullscreen }}>
+<div class="dash-topbar">
+  <div class="dash-topbar__inner container">
+    <a href={homeHref} class="dash-topbar__icon" aria-label="Home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 11.5 12 4l9 7.5" />
+        <path d="M5.5 10v9a1 1 0 0 0 1 1H9a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h2.5a1 1 0 0 0 1-1v-9" />
+      </svg>
+    </a>
+
+    <a href={homeHref} class="dash-topbar__brand">
+      <span class="dash-topbar__brand-word">icanspeak<span class="dash-topbar__brand-accent">.it</span></span>
+    </a>
+
+    <div class="dash-topbar__actions">
+      <a class="dash-topbar__lang" href={langSwitchHref} hreflang={otherLocale} lang={otherLocale}>{otherLocale.toUpperCase()}</a>
+    </div>
+  </div>
+</div>
+
+<section
+  class="dash-page"
+  class:list={{ 'dash-page--fullscreen': fullscreen }}
+  data-default-slug={defaultSlug}
+  data-locale={locale}
+  data-word-due={t.words.due}
+  data-word-new={t.words.new}
+  data-word-not-started={t.words.notStarted}
+  data-word-sessions={t.words.sessions}
+  data-word-logged={t.words.logged}
+  data-word-of={t.words.of}
+  data-word-attempt-one={t.words.attemptOne}
+  data-word-attempt-other={t.words.attemptOther}
+  data-word-due-delta-some={t.tier1.dueDeltaSome}
+  data-streak-template={t.words.streakTemplate}
+  data-streak-none={t.words.streakNone}
+  data-zone-quiet={t.words.zoneQuiet}
+  data-zone-conversational={t.words.zoneConversational}
+  data-zone-projected={t.words.zoneProjected}
+>
+  <div class="dash-panel" id="dash-panel">
+    <div class="dash-panel__body" id="dash-panel-body">
+      <div class="dash-rail" id="dash-rail">
+        <div class="dash-rail__overview-wrap">
+          <button
+            type="button"
+            class="dash-rail__item dash-rail__overview"
+            id="overview-btn"
+            data-active={activeLens === 'overview' ? 'true' : 'false'}
+          >
+            <span class="dash-rail__bar"></span>
+            <span class="dash-rail__body">
+              <span class="dash-rail__top">
+                <svg class="dash-rail__grid-icon" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                  <rect x="1" y="1" width="6" height="6" rx="1"></rect>
+                  <rect x="9" y="1" width="6" height="6" rx="1"></rect>
+                  <rect x="1" y="9" width="6" height="6" rx="1"></rect>
+                  <rect x="9" y="9" width="6" height="6" rx="1"></rect>
+                </svg>
+                <span class="dash-rail__name">{t.overview}</span>
+              </span>
+            </span>
+          </button>
+        </div>
+        <div class="dash-rail__divider"></div>
+
+        <div class="dash-rail__label dash-rail__label--list">{t.formatsLabel}</div>
+        <div class="dash-rail__list">
+          {formats.map((f) => (
+            <button
+              type="button"
+              class="dash-rail__item"
+              data-slug={f.slug}
+              data-tier={f.tier}
+              data-active={activeLens !== 'overview' && f.slug === currentSlug ? 'true' : 'false'}
+            >
+              <span class="dash-rail__bar"></span>
+              <span class="dash-rail__body">
+                <span class="dash-rail__top">
+                  <span class="dash-rail__name">{f.title}</span>
+                  <span class="dash-rail__acronym">{f.title.charAt(0)}</span>
+                  <span class="dash-rail__due" data-role="rail-due">{f.due && f.due > 0 ? `${f.due} ${t.dueSuffix}` : '—'}</span>
+                </span>
+                <span class="dash-rail__meter"><span class="dash-rail__meter-fill" data-role="rail-meter" style={`width:${f.mastery ?? 0}%`}></span></span>
+              </span>
+            </button>
+          ))}
+        </div>
+
+        <div class="dash-rail__toggle-row">
+          <button
+            type="button"
+            class="dash-rail__burger"
+            id="rail-toggle"
+            data-label-minimize={t.minimize}
+            data-label-expand={t.expand}
+            aria-label={t.minimize}
+            aria-expanded="true"
+          >
+            <span class="dash-rail__burger-bar"></span>
+            <span class="dash-rail__burger-bar"></span>
+            <span class="dash-rail__burger-bar"></span>
+          </button>
+        </div>
+
+        <div class="dash-rail__today">
+          <div class="dash-rail__label">{t.todaysSet}</div>
+          {todaysSet.map((q) => (
+            <div class="dash-rail__queue-row"><span>{q.label}</span><span>{q.n}</span></div>
+          ))}
+        </div>
+
+        <div class="dash-rail__today dash-rail__week-block">
+          <div class="dash-rail__label">{t.thisWeek}</div>
+          <div class="dash-rail__week" data-role="week"></div>
+          <div class="dash-rail__streak" data-role="streak"></div>
+        </div>
+      </div>
+
+      <div class="dash-detail">
+        <div class="dash-panel__welcome" id="dash-welcome">
+          <span class="dash-panel__welcome-icon" aria-hidden="true">👋</span>
+          <span class="dash-panel__quote">{t.quote}</span>
+        </div>
+
+        {formats.map((f) => {
+          const Exercise = exerciseComponents[f.slug];
+          const isActive = activeLens !== 'overview' && f.slug === currentSlug;
+          const showProgress = isActive && activeLens === 'progress';
+          return (
+            <div class="dash-detail__panel" data-slug={f.slug} hidden={!isActive}>
+              <div class="dash-detail__head">
+                <div>
+                  <h2>{f.title}</h2>
+                  <p class="text-muted">{f.description}</p>
+                </div>
+                <span class:list={['dash-badge', `dash-badge--${f.status}`]}>{statusBadge(f.status, locale)}</span>
+              </div>
+
+              <div class="dash-lens" role="tablist" aria-label="View">
+                <button type="button" class="dash-lens__btn" data-lens-btn="practice" data-active={!showProgress ? 'true' : 'false'}>{t.lensPractice}</button>
+                <button type="button" class="dash-lens__btn" data-lens-btn="progress" data-active={showProgress ? 'true' : 'false'}>{t.lensProgress}</button>
+              </div>
+
+              <div class="dash-view" data-view="practice" hidden={showProgress}>
+                <div class="dash-detail__drills">
+                  {f.aspects.map((a, j) => (
+                    <button type="button" class="dash-drill-row" data-active={j === 0 ? 'true' : 'false'}>
+                      <span class="dash-drill-row__bar"></span>
+                      <span class="dash-drill-row__n">{String(j + 1).padStart(2, '0')}</span>
+                      <span class="dash-drill-row__body">
+                        <span class="dash-drill-row__label">{a.label}</span>
+                        <span class="dash-drill-row__blurb">{a.blurb}</span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+
+                <div class="dash-detail__why">
+                  <div>
+                    <div class="dash-detail__kicker">{t.whyDrill}</div>
+                    <p>{f.why}</p>
+                  </div>
+                  <div>
+                    <div class="dash-detail__kicker">{t.howToUse}</div>
+                    <p>{f.tip}</p>
+                  </div>
+                </div>
+
+                {Exercise ? (
+                  <div class="dash-detail__exercise">
+                    <Exercise />
+                  </div>
+                ) : (
+                  <div class="dash-detail__actions">
+                    <a href={hrefFor(f.href, locale)} class:list={['button', f.status === 'soon' ? 'button--ghost' : 'button--primary']}>
+                      {statusCta(f.status, locale)} {f.status !== 'soon' && '→'}
+                    </a>
+                    <span class="dash-detail__submeta">{f.meta}</span>
+                  </div>
+                )}
+              </div>
+
+              <div class="dash-view" data-view="progress" hidden={!showProgress}>
+                {f.tier === 1 && (
+                  <>
+                    <p class="dash-empty-banner" data-role="tier1-empty">{t.tier1.emptyBanner}</p>
+                    <div class="dash-kpis">
+                      <div class="dash-kpi">
+                        <span class="dash-kpi__label">{t.tier1.masteryLabel}</span>
+                        <span class="dash-kpi__value" data-role="acc-value">{f.mastery}%</span>
+                        <span class="dash-kpi__delta" data-role="attempts-delta"></span>
+                      </div>
+                      <div class="dash-kpi">
+                        <span class="dash-kpi__label">{t.tier1.dueLabel}</span>
+                        <span class="dash-kpi__value" data-role="due-value">{f.due}</span>
+                        <span class="dash-kpi__delta" data-role="due-delta">{(f.due ?? 0) > 0 ? t.tier1.dueDeltaSome : t.tier1.dueDeltaNone}</span>
+                      </div>
+                    </div>
+                    <div class="dash-mid">
+                      <div class="dash-chart">
+                        <div class="dash-chart__head"><span>{t.tier1.chartTitle}</span><span class="dash-chart__legend"><span class="dash-chart__swatch"></span>{t.tier1.chartLegend}</span></div>
+                        <div data-role="chart-body"><p class="text-muted dash-empty">{t.tier1.chartEmpty}</p></div>
+                      </div>
+                      <div class="dash-errors">
+                        <span class="dash-errors__title">{t.tier1.errorsTitle}</span>
+                        <div data-role="errors-body"><p class="text-muted dash-empty">{t.tier1.errorsEmpty}</p></div>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {f.tier === 2 && (
+                  <>
+                    <p class="dash-empty-banner">{t.tier2.note}</p>
+                    <div class="dash-kpis">
+                      <div class="dash-kpi"><span class="dash-kpi__label">{t.tier2.sessionsLabel}</span><span class="dash-kpi__value" data-role="sessions-value">0</span><span class="dash-kpi__delta">{t.tier2.sessionsDelta}</span></div>
+                      <div class="dash-kpi"><span class="dash-kpi__label">{t.tier2.lastLabel}</span><span class="dash-kpi__value" data-role="last-zone-value">—</span><span class="dash-kpi__delta">{t.tier2.lastDelta}</span></div>
+                    </div>
+                    <div class="dash-mid dash-mid--single">
+                      <div class="dash-errors">
+                        <span class="dash-errors__title">{t.tier2.zonesTitle}</span>
+                        <div data-role="zones-body"><p class="text-muted dash-empty">{t.tier2.zonesEmpty}</p></div>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {f.tier === 3 && (
+                  <>
+                    <p class="dash-empty-banner">{t.tier3.note(f.title)}</p>
+                    <div class="dash-kpis">
+                      {f.slug === 'prosody' && (
+                        <div class="dash-kpi"><span class="dash-kpi__label">{t.tier3.prosodyLabel}</span><span class="dash-kpi__value" data-role="prosody-value">0</span><span class="dash-kpi__delta">{t.tier3.prosodyDelta}</span></div>
+                      )}
+                      {f.slug === 'voice' && (
+                        <>
+                          <div class="dash-kpi"><span class="dash-kpi__label">{t.tier3.voiceBreathLabel}</span><span class="dash-kpi__value" data-role="voice-breath-value">0</span><span class="dash-kpi__delta">{t.tier3.voiceBreathDelta}</span></div>
+                          <div class="dash-kpi"><span class="dash-kpi__label">{t.tier3.voiceCheckLabel}</span><span class="dash-kpi__value" data-role="voice-check-value">0</span><span class="dash-kpi__delta">{t.tier3.voiceCheckDelta}</span></div>
+                        </>
+                      )}
+                    </div>
+                  </>
+                )}
+
+                {f.tier === 4 && (
+                  <>
+                    <div class="dash-kpis">
+                      <div class="dash-kpi"><span class="dash-kpi__label">{t.tier4.callsLabel}</span><span class="dash-kpi__value" data-role="calls-value">0</span><span class="dash-kpi__delta">{t.tier4.callsDelta}</span></div>
+                    </div>
+                    <p class="dash-empty-banner">{t.tier4.note}</p>
+                  </>
+                )}
+              </div>
+            </div>
+          );
+        })}
+
+        <div class="dash-sessions" id="dash-sessions" hidden={!(activeLens === 'progress')}>
+          <div class="dash-sessions__head">{t.sessionsTitle}</div>
+          <div data-role="sessions-list"></div>
+          <p class="text-muted dash-empty" data-role="sessions-empty">{t.sessionsEmpty}</p>
+        </div>
+
+        <div class="dash-overview" id="dash-overview" hidden={activeLens !== 'overview'}>
+          <div class="dash-detail__head">
+            <div>
+              <h2>{t.overviewTitle}</h2>
+              <p class="text-muted">{t.overviewIntro}</p>
+            </div>
+          </div>
+
+          <div class="dash-overview__grid">
+            {formats.map((f) => (
+              <button type="button" class="dash-tile" data-tile-slug={f.slug}>
+                <span class="dash-tile__ring">
+                  <svg viewBox="0 0 84 84" class="dash-tile__ring-svg">
+                    <circle cx="42" cy="42" r="36" fill="none" stroke="#f2ead9" stroke-width="8"></circle>
+                    <circle cx="42" cy="42" r="36" fill="none" data-role="tile-ring" stroke-width="8" stroke-linecap="round"></circle>
+                  </svg>
+                  <span class="dash-tile__pct" data-role="tile-value"></span>
+                </span>
+                <span class="dash-tile__body">
+                  <span class="dash-tile__title">{f.title}</span>
+                  <span class="dash-tile__due" data-role="tile-sub"></span>
+                </span>
+              </button>
+            ))}
+          </div>
+
+          <div class="dash-radar-card">
+            <svg viewBox="-60 -14 326 228" class="dash-radar">
+              <polygon points="120,18 208,68 208,152 120,182 32,152 32,68" fill="#fbf7ef" stroke="#e3d6bd"></polygon>
+              <polygon points="120,60 164,85 164,135 120,150 76,135 76,85" fill="none" stroke="#e3d6bd" stroke-dasharray="4 4"></polygon>
+              <polygon data-role="radar-now" fill="rgba(43,65,98,.16)" stroke="#2b4162" stroke-width="2"></polygon>
+              {radarFormats.map((f, i) => (
+                <text x={radarLabelPositions[i].x} y={radarLabelPositions[i].y} text-anchor={radarLabelPositions[i].anchor}>{f.title}</text>
+              ))}
+            </svg>
+            <div class="dash-radar-copy">
+              <span class="dash-radar-copy__title">{t.radarTitle}</span>
+              <p>{t.radarCopy}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<script>
+  import {
+    getAccuracy,
+    getDueCount,
+    getAttemptCount,
+    getTrend,
+    getErrorBreakdown,
+    getVolumeStats,
+    getEventStats,
+    getPracticeStreak,
+    getRecentSessions,
+    getWeekActivity,
+  } from '../../lib/progress-store';
+
+  type Lens = 'practice' | 'progress';
+
+  const page = document.querySelector<HTMLElement>('.dash-page')!;
+  const locale = (page.dataset.locale === 'de' ? 'de' : 'en') as 'en' | 'de';
+  const defaultSlug = page.dataset.defaultSlug ?? '';
+
+  const W = {
+    due: page.dataset.wordDue ?? 'due',
+    new: page.dataset.wordNew ?? 'new',
+    notStarted: page.dataset.wordNotStarted ?? 'Not started',
+    sessions: page.dataset.wordSessions ?? 'sessions',
+    logged: page.dataset.wordLogged ?? 'logged',
+    of: page.dataset.wordOf ?? 'of',
+    attemptOne: page.dataset.wordAttemptOne ?? 'attempt logged',
+    attemptOther: page.dataset.wordAttemptOther ?? 'attempts logged',
+    dueDeltaSome: page.dataset.wordDueDeltaSome ?? 'Missed at least once',
+    streakTemplate: page.dataset.streakTemplate ?? '{n}-day streak',
+    streakNone: page.dataset.streakNone ?? 'No streak yet',
+  };
+  const ZONE_LABEL: Record<string, string> = {
+    quiet: page.dataset.zoneQuiet ?? 'Quiet',
+    conversational: page.dataset.zoneConversational ?? 'Conversational',
+    projected: page.dataset.zoneProjected ?? 'Projected',
+  };
+
+  function escapeHtml(str: string) {
+    return str.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+  }
+
+  interface FormatMeta {
+    slug: string;
+    tier: 1 | 2 | 3 | 4;
+  }
+
+  const railButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('.dash-rail__item[data-slug]'));
+  const FORMATS: FormatMeta[] = railButtons.map((b) => ({
+    slug: b.dataset.slug!,
+    tier: Number(b.dataset.tier) as 1 | 2 | 3 | 4,
+  }));
+
+  // ---------- real-data metrics (shared by the rail, the tiles, and the radar) ----------
+  interface Metric {
+    value: number;
+    hasData: boolean;
+    display: string;
+  }
+
+  function ringColor(tier: number, value: number, hasData: boolean) {
+    if (tier !== 1 || !hasData) return '#c9bd9f';
+    if (value >= 70) return '#2c6e3f';
+    if (value >= 45) return '#b3812e';
+    return '#b3452e';
+  }
+
+  function primaryMetric(f: FormatMeta): Metric {
+    if (f.tier === 1) {
+      const acc = getAccuracy(f.slug);
+      return { value: acc ?? 0, hasData: acc !== null, display: acc !== null ? `${acc}%` : '—' };
+    }
+    if (f.tier === 2) {
+      const stats = getVolumeStats();
+      return { value: Math.min(100, stats.sessionCount * 12), hasData: stats.sessionCount > 0, display: String(stats.sessionCount) };
+    }
+    const events = getEventStats(f.slug);
+    const total = Object.values(events).reduce((a, b) => a + b, 0);
+    return { value: Math.min(100, total * 10), hasData: total > 0, display: String(total) };
+  }
+
+  function railDueLabel(f: FormatMeta, metric: Metric): string {
+    if (f.tier === 1) {
+      const due = getDueCount(f.slug);
+      if (due > 0) return `${due} ${W.due}`;
+      return metric.hasData ? '—' : W.new;
+    }
+    if (f.tier === 2) return metric.hasData ? `${metric.display} ${W.sessions}` : W.new;
+    return metric.hasData ? `${metric.display} ${W.logged}` : W.new;
+  }
+
+  function tileSubLabel(f: FormatMeta, metric: Metric): string {
+    const label = railDueLabel(f, metric);
+    return label === W.new ? W.notStarted : label;
+  }
+
+  function renderRail() {
+    railButtons.forEach((btn, i) => {
+      const f = FORMATS[i];
+      const metric = primaryMetric(f);
+      const meter = btn.querySelector<HTMLElement>('[data-role="rail-meter"]');
+      const due = btn.querySelector<HTMLElement>('[data-role="rail-due"]');
+      if (meter) meter.style.width = `${metric.value}%`;
+      if (due) due.textContent = railDueLabel(f, metric);
+    });
+  }
+
+  const donutCircumference = 2 * Math.PI * 36;
+
+  function renderTiles() {
+    FORMATS.forEach((f) => {
+      const tile = document.querySelector<HTMLElement>(`.dash-tile[data-tile-slug="${f.slug}"]`);
+      if (!tile) return;
+      const metric = primaryMetric(f);
+      const ring = tile.querySelector<SVGCircleElement>('[data-role="tile-ring"]');
+      const valueEl = tile.querySelector<HTMLElement>('[data-role="tile-value"]');
+      const subEl = tile.querySelector<HTMLElement>('[data-role="tile-sub"]');
+      const dash = `${((donutCircumference * metric.value) / 100).toFixed(1)} ${donutCircumference.toFixed(1)}`;
+      if (ring) {
+        ring.setAttribute('stroke-dasharray', dash);
+        ring.setAttribute('stroke', ringColor(f.tier, metric.value, metric.hasData));
+      }
+      if (valueEl) valueEl.textContent = metric.display;
+      if (subEl) subEl.textContent = tileSubLabel(f, metric);
+    });
+  }
+
+  function radarPoints(vals: number[]) {
+    const cx = 120;
+    const cy = 100;
+    const r = 82;
+    return vals
+      .map((v, i) => {
+        const ang = (Math.PI / 3) * i - Math.PI / 2;
+        const k = Math.max(0, Math.min(100, v)) / 100;
+        return `${(cx + Math.cos(ang) * r * k).toFixed(1)},${(cy + Math.sin(ang) * r * k).toFixed(1)}`;
+      })
+      .join(' ');
+  }
+
+  function renderRadar() {
+    const coreFormats = FORMATS.filter((f) => f.slug !== 'rhetoric');
+    const vals = coreFormats.map((f) => primaryMetric(f).value);
+    const poly = document.querySelector<SVGPolygonElement>('[data-role="radar-now"]');
+    if (poly) poly.setAttribute('points', radarPoints(vals));
+  }
+
+  function renderStreak() {
+    const streak = getPracticeStreak();
+    const el = document.querySelector<HTMLElement>('[data-role="streak"]');
+    if (el) el.textContent = streak > 0 ? W.streakTemplate.replace('{n}', String(streak)) : W.streakNone;
+  }
+
+  function renderWeek() {
+    const days = getWeekActivity(locale);
+    const el = document.querySelector<HTMLElement>('[data-role="week"]');
+    if (!el) return;
+    el.innerHTML = days.map((d) => `<span class="dash-week-day" data-done="${d.done}">${escapeHtml(d.dayLetter)}</span>`).join('');
+  }
+
+  // ---------- Progress-lens panels (fixed labels are already server-rendered per tier/locale; this fills in real values and rebuilds the variable-shape bits) ----------
+  function pathFor(vals: number[], close: boolean) {
+    const lo = Math.min(...vals);
+    const hi = Math.max(...vals);
+    const pad = Math.max(4, (hi - lo) * 0.15);
+    const min = Math.max(0, lo - pad);
+    const max = hi + pad;
+    const chartW = 620;
+    const chartH = 190;
+    const padTop = 10;
+    const bottomGap = 24;
+    const pts = vals.map((v, i) => {
+      const x = vals.length === 1 ? 0 : (i / (vals.length - 1)) * chartW;
+      const y = padTop + (1 - (v - min) / (max - min || 1)) * (chartH - padTop * 2 - bottomGap);
+      return [x, y] as const;
+    });
+    let d = pts.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
+    if (close) d += ` L${chartW},${chartH - bottomGap} L0,${chartH - bottomGap} Z`;
+    return d;
+  }
+
+  function progressViewFor(slug: string) {
+    return document.querySelector<HTMLElement>(`.dash-detail__panel[data-slug="${slug}"] .dash-view[data-view="progress"]`);
+  }
+
+  function renderTier1(panel: HTMLElement, slug: string) {
+    const attempts = getAttemptCount(slug);
+    const acc = getAccuracy(slug);
+    const due = getDueCount(slug);
+    const trend = getTrend(slug, 8, locale);
+    const errors = getErrorBreakdown(slug);
+
+    const empty = panel.querySelector<HTMLElement>('[data-role="tier1-empty"]');
+    if (empty) empty.hidden = attempts !== 0;
+
+    const accEl = panel.querySelector<HTMLElement>('[data-role="acc-value"]');
+    if (accEl) accEl.textContent = acc !== null ? `${acc}%` : '—';
+    const attemptsDelta = panel.querySelector<HTMLElement>('[data-role="attempts-delta"]');
+    if (attemptsDelta) attemptsDelta.textContent = `${attempts} ${attempts === 1 ? W.attemptOne : W.attemptOther}`;
+
+    const dueEl = panel.querySelector<HTMLElement>('[data-role="due-value"]');
+    if (dueEl) dueEl.textContent = String(due);
+    const dueDelta = panel.querySelector<HTMLElement>('[data-role="due-delta"]');
+    if (dueDelta && due > 0) dueDelta.textContent = W.dueDeltaSome;
+
+    const chartBody = panel.querySelector<HTMLElement>('[data-role="chart-body"]');
+    if (chartBody && trend.length >= 2) {
+      chartBody.innerHTML = `<svg viewBox="0 0 620 190" class="dash-chart__svg">
+        <line x1="0" y1="12" x2="620" y2="12" stroke="#eee3cd" stroke-width="1"></line>
+        <line x1="0" y1="56" x2="620" y2="56" stroke="#eee3cd" stroke-width="1"></line>
+        <line x1="0" y1="100" x2="620" y2="100" stroke="#eee3cd" stroke-width="1"></line>
+        <line x1="0" y1="144" x2="620" y2="144" stroke="#eee3cd" stroke-width="1"></line>
+        <path d="${pathFor(trend.map((p) => p.accuracy), true)}" fill="rgba(43,65,98,.10)"></path>
+        <path d="${pathFor(trend.map((p) => p.accuracy), false)}" fill="none" stroke="#2b4162" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"></path>
+      </svg>
+      <div class="dash-chart__labels">${trend.map((p) => `<span>${escapeHtml(p.label)}</span>`).join('')}</div>`;
+    }
+
+    const errorsBody = panel.querySelector<HTMLElement>('[data-role="errors-body"]');
+    if (errorsBody && errors.length > 0) {
+      errorsBody.innerHTML = errors
+        .map(
+          (e) => `<div class="dash-error-row">
+            <div class="dash-error-row__top"><span>${escapeHtml(e.label)}</span><span>${e.pct}%</span></div>
+            <span class="dash-error-row__track"><span class="dash-error-row__fill" style="width:${e.pct}%"></span></span>
+          </div>`
+        )
+        .join('');
+    }
+  }
+
+  function renderTier2(panel: HTMLElement) {
+    const stats = getVolumeStats();
+    const sessionsEl = panel.querySelector<HTMLElement>('[data-role="sessions-value"]');
+    if (sessionsEl) sessionsEl.textContent = String(stats.sessionCount);
+    const lastEl = panel.querySelector<HTMLElement>('[data-role="last-zone-value"]');
+    if (lastEl) lastEl.textContent = stats.lastDominantZone ? ZONE_LABEL[stats.lastDominantZone] : '—';
+
+    const counts: Record<string, number> = { quiet: 0, conversational: 0, projected: 0 };
+    stats.history.forEach((h) => (counts[h.dominantZone] += 1));
+    const total = stats.history.length;
+    const zonesBody = panel.querySelector<HTMLElement>('[data-role="zones-body"]');
+    if (zonesBody && total > 0) {
+      zonesBody.innerHTML = (['quiet', 'conversational', 'projected'] as const)
+        .map((z) => {
+          const pct = Math.round((counts[z] / total) * 100);
+          return `<div class="dash-error-row">
+            <div class="dash-error-row__top"><span>${ZONE_LABEL[z]}</span><span>${counts[z]} ${W.of} ${total}</span></div>
+            <span class="dash-error-row__track"><span class="dash-error-row__fill" style="width:${pct}%"></span></span>
+          </div>`;
+        })
+        .join('');
+    }
+  }
+
+  function renderTier3(panel: HTMLElement, slug: string) {
+    const events = getEventStats(slug);
+    if (slug === 'prosody') {
+      const el = panel.querySelector<HTMLElement>('[data-role="prosody-value"]');
+      if (el) el.textContent = String(events.played ?? 0);
+    } else if (slug === 'voice') {
+      const breathEl = panel.querySelector<HTMLElement>('[data-role="voice-breath-value"]');
+      if (breathEl) breathEl.textContent = String(events['breathing-completed'] ?? 0);
+      const checkEl = panel.querySelector<HTMLElement>('[data-role="voice-check-value"]');
+      if (checkEl) checkEl.textContent = String(events['checklist-completed'] ?? 0);
+    }
+  }
+
+  function renderTier4(panel: HTMLElement, slug: string) {
+    const events = getEventStats(slug);
+    const el = panel.querySelector<HTMLElement>('[data-role="calls-value"]');
+    if (el) el.textContent = String(events['call-started'] ?? 0);
+  }
+
+  function renderProgressPanels() {
+    FORMATS.forEach((f) => {
+      const panel = progressViewFor(f.slug);
+      if (!panel) return;
+      if (f.tier === 1) renderTier1(panel, f.slug);
+      else if (f.tier === 2) renderTier2(panel);
+      else if (f.tier === 3) renderTier3(panel, f.slug);
+      else renderTier4(panel, f.slug);
+    });
+  }
+
+  function renderSessions() {
+    const rows = getRecentSessions(6, locale);
+    const list = document.querySelector<HTMLElement>('[data-role="sessions-list"]');
+    const empty = document.querySelector<HTMLElement>('[data-role="sessions-empty"]');
+    if (!list) return;
+    if (rows.length === 0) {
+      list.innerHTML = '';
+      if (empty) empty.hidden = false;
+      return;
+    }
+    if (empty) empty.hidden = true;
+    const fmt = new Intl.DateTimeFormat(locale, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+    list.innerHTML = rows
+      .map(
+        (r) => `<div class="dash-sessions__row">
+          <span class="dash-sessions__date">${fmt.format(new Date(r.ts))}</span>
+          <span>${escapeHtml(r.label)}</span>
+        </div>`
+      )
+      .join('');
+  }
+
+  // ---------- navigation: format / lens / overview, all URL-addressable ----------
+  const overviewBtn = document.getElementById('overview-btn')!;
+  const overviewPanel = document.getElementById('dash-overview')!;
+  const sessionsBlock = document.getElementById('dash-sessions');
+  const formatPanels = Array.from(document.querySelectorAll<HTMLElement>('.dash-detail__panel'));
+
+  let mode: 'format' | 'overview' = overviewBtn.dataset.active === 'true' ? 'overview' : 'format';
+  let activeSlug =
+    railButtons.find((b) => b.dataset.active === 'true')?.dataset.slug ?? defaultSlug;
+  let activeLens: Lens = document.querySelector('.dash-lens__btn[data-lens-btn="progress"][data-active="true"]') ? 'progress' : 'practice';
+
+  function urlPathFor(slug: string, lens: 'practice' | 'progress' | 'overview') {
+    const base = locale === 'de' ? '/de/dashboard' : '/dashboard';
+    if (lens === 'overview') return `${base}/`;
+    return `${base}/${slug}/${lens === 'progress' ? 'progress/' : ''}`;
+  }
+
+  function pushUrl() {
+    const path = urlPathFor(activeSlug, mode === 'overview' ? 'overview' : activeLens);
+    if (window.location.pathname !== path) {
+      window.history.pushState({ slug: activeSlug, lens: activeLens, mode }, '', path);
+    }
+  }
+
+  function applyLensToActivePanel() {
+    const panel = document.querySelector<HTMLElement>(`.dash-detail__panel[data-slug="${activeSlug}"]`);
+    if (!panel) return;
+    panel.querySelectorAll<HTMLButtonElement>('.dash-lens__btn').forEach((b) => {
+      b.setAttribute('data-active', String(b.dataset.lensBtn === activeLens));
+    });
+    panel.querySelectorAll<HTMLElement>('.dash-view').forEach((v) => {
+      const wasHidden = v.hidden;
+      v.hidden = v.dataset.view !== activeLens;
+      // Prosody's pitch analysis (and anything similar) skips its own setup
+      // while hidden — this is its cue that it's now on-screen, whether
+      // that's from a format switch or a Practice/Progress toggle.
+      if (wasHidden && !v.hidden && v.dataset.view === 'practice') {
+        v.dispatchEvent(new CustomEvent('exercise-panel-shown', { bubbles: true }));
+      }
+    });
+    if (sessionsBlock) sessionsBlock.hidden = activeLens !== 'progress';
+  }
+
+  function activateFormat(slug: string, push = true) {
+    mode = 'format';
+    activeSlug = slug;
+
+    railButtons.forEach((b) => {
+      const isMatch = b.dataset.slug === slug;
+      const wasActive = b.getAttribute('data-active') === 'true';
+      b.setAttribute('data-active', isMatch ? 'true' : 'false');
+      if (isMatch && !wasActive) {
+        b.classList.remove('dash-rail__item--pulse');
+        void b.offsetWidth;
+        b.classList.add('dash-rail__item--pulse');
+      }
+    });
+    overviewBtn.setAttribute('data-active', 'false');
+    overviewPanel.hidden = true;
+
+    formatPanels.forEach((p) => {
+      const wasHidden = p.hidden;
+      p.hidden = p.dataset.slug !== slug;
+      if (wasHidden && !p.hidden) {
+        p.classList.remove('dash-detail__panel--enter');
+        void p.offsetWidth;
+        p.classList.add('dash-detail__panel--enter');
+      }
+    });
+
+    applyLensToActivePanel();
+    if (push) pushUrl();
+  }
+
+  function activateLens(lens: Lens, push = true) {
+    activeLens = lens;
+    applyLensToActivePanel();
+    if (push) pushUrl();
+  }
+
+  function activateOverview(push = true) {
+    mode = 'overview';
+    railButtons.forEach((b) => b.setAttribute('data-active', 'false'));
+    overviewBtn.setAttribute('data-active', 'true');
+    formatPanels.forEach((p) => (p.hidden = true));
+    overviewPanel.hidden = false;
+    if (sessionsBlock) sessionsBlock.hidden = true;
+    if (push) pushUrl();
+  }
+
+  function slugAndLensFromPath(pathname: string): { slug: string | null; lens: 'practice' | 'progress' | 'overview' } {
+    const base = locale === 'de' ? '/de/dashboard' : '/dashboard';
+    const rel = pathname.startsWith(base) ? pathname.slice(base.length) : pathname;
+    const cleaned = rel.replace(/^\/+|\/+$/g, '');
+    if (!cleaned) return { slug: null, lens: 'overview' };
+    const parts = cleaned.split('/');
+    return parts[1] === 'progress' ? { slug: parts[0], lens: 'progress' } : { slug: parts[0], lens: 'practice' };
+  }
+
+  railButtons.forEach((item) => {
+    item.addEventListener('click', () => activateFormat(item.dataset.slug!));
+  });
+
+  overviewBtn.addEventListener('click', () => activateOverview());
+
+  document.querySelectorAll<HTMLButtonElement>('.dash-tile').forEach((tile) => {
+    tile.addEventListener('click', () => {
+      // Overview answers "how's everything going" — tapping a tile should
+      // always land on that format's Practice view, not whatever lens was
+      // last active elsewhere (rail clicks, by contrast, keep the current
+      // lens sticky across formats).
+      activeLens = 'practice';
+      activateFormat(tile.dataset.tileSlug!);
+    });
+  });
+
+  formatPanels.forEach((panel) => {
+    panel.querySelectorAll<HTMLButtonElement>('.dash-lens__btn').forEach((btn) => {
+      btn.addEventListener('click', () => activateLens(btn.dataset.lensBtn as Lens));
+    });
+  });
+
+  window.addEventListener('popstate', () => {
+    const { slug, lens } = slugAndLensFromPath(window.location.pathname);
+    if (lens === 'overview' || !slug) {
+      activateOverview(false);
+    } else {
+      activateFormat(slug, false);
+      activateLens(lens, false);
+    }
+  });
+
+  // Each drill row (01, 02, ...) corresponds to one `data-aspect="N"`
+  // section inside that format's embedded exercise — clicking a row filters
+  // the exercise down to just that aspect's content.
+  document.querySelectorAll<HTMLElement>('.dash-detail__drills').forEach((group) => {
+    const rows = Array.from(group.querySelectorAll<HTMLButtonElement>('.dash-drill-row'));
+    const panel = group.closest<HTMLElement>('.dash-detail__panel');
+    const aspectEls = panel ? Array.from(panel.querySelectorAll<HTMLElement>('[data-aspect]')) : [];
+
+    function showAspect(index: number) {
+      aspectEls.forEach((el) => {
+        const match = Number(el.dataset.aspect) === index;
+        el.style.display = match ? '' : 'none';
+        if (match) {
+          el.classList.remove('dash-aspect--enter');
+          void el.offsetWidth;
+          el.classList.add('dash-aspect--enter');
+        }
+      });
+    }
+
+    rows.forEach((row, index) => {
+      row.addEventListener('click', () => {
+        rows.forEach((r) => r.setAttribute('data-active', String(r === row)));
+        if (aspectEls.length) showAspect(index);
+      });
+    });
+
+    if (aspectEls.length) showAspect(0);
+  });
+
+  const railToggle = document.getElementById('rail-toggle');
+  const dashPanelBody = document.getElementById('dash-panel-body');
+  let railMini = false;
+
+  railToggle?.addEventListener('click', () => {
+    railMini = !railMini;
+    dashPanelBody?.classList.toggle('dash-panel__body--rail-mini', railMini);
+    railToggle.setAttribute('aria-expanded', String(!railMini));
+    const label = railMini ? railToggle.dataset.labelExpand : railToggle.dataset.labelMinimize;
+    if (label) railToggle.setAttribute('aria-label', label);
+  });
+
+  renderRail();
+  renderTiles();
+  renderRadar();
+  renderStreak();
+  renderWeek();
+  renderProgressPanels();
+  renderSessions();
+</script>
+
+<style>
+  .dash-topbar {
+    background: var(--color-primary-dark);
+  }
+
+  .dash-topbar__inner {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding-block: 0.9rem;
+  }
+
+  .dash-topbar__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    flex: none;
+  }
+
+  .dash-topbar__icon svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .dash-topbar__icon:hover {
+    border-color: #e8c879;
+    color: #e8c879;
+  }
+
+  .dash-topbar__brand {
+    text-decoration: none;
+  }
+
+  .dash-topbar__brand-word {
+    font-family: 'Literata', var(--font-display);
+    font-size: 1.05rem;
+    color: #fff;
+  }
+
+  .dash-topbar__brand-accent {
+    color: #e8c879;
+  }
+
+  .dash-topbar__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-left: auto;
+  }
+
+  .dash-topbar__lang {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    flex: none;
+  }
+
+  .dash-topbar__lang:hover {
+    border-color: #e8c879;
+    color: #e8c879;
+  }
+
+  @media (max-width: 640px) {
+    .dash-topbar__icon,
+    .dash-topbar__lang {
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+  }
+
+  .dash-page {
+    padding-block: 0 3rem;
+  }
+
+  .dash-page--fullscreen {
+    padding-block: 0;
+  }
+
+  /* Boxed mode — used for the homepage teaser embed, where the shell sits
+     inside an ordinary page (its own header/nav already exist) rather than
+     owning the full viewport. */
+  .dash-shell--boxed {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+
+  .dash-shell--boxed .dash-panel__body {
+    min-height: 560px;
+  }
+
+  .dash-panel {
+    background: var(--color-bg);
+    border-block: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+
+  .dash-panel__welcome {
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+    max-height: 2.5rem;
+    margin-bottom: 1.1rem;
+    overflow: hidden;
+    animation:
+      dashWelcomeIn 0.5s ease both,
+      dashWelcomeOut 0.5s ease 4.5s forwards;
+  }
+
+  .dash-panel__welcome-icon {
+    font-size: 1.05rem;
+    line-height: 1;
+    display: inline-block;
+    animation: dashWave 1s ease 0.4s;
+  }
+
+  .dash-panel__quote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    opacity: 0.8;
+  }
+
+  @keyframes dashWelcomeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes dashWelcomeOut {
+    to {
+      opacity: 0;
+      max-height: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  @keyframes dashWave {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    20% {
+      transform: rotate(14deg);
+    }
+    40% {
+      transform: rotate(-8deg);
+    }
+    60% {
+      transform: rotate(14deg);
+    }
+    80% {
+      transform: rotate(-4deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dash-panel__welcome,
+    .dash-panel__welcome-icon {
+      animation: none;
+    }
+  }
+
+  .dash-panel__body {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    min-height: calc(100vh - 90px);
+    transition: grid-template-columns 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dash-panel__body--rail-mini {
+    grid-template-columns: 76px 1fr;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dash-panel__body {
+      transition: none;
+    }
+  }
+
+  .dash-rail {
+    --rail-gold: #e8c879;
+    background: var(--color-primary-dark);
+    padding: 1.6rem 0 1.7rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dash-rail__label {
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    padding: 0 1.4rem 0.75rem;
+  }
+
+  .dash-rail__label--list {
+    transition: opacity 0.2s ease;
+  }
+
+  .dash-rail__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dash-rail__item {
+    display: grid;
+    grid-template-columns: 3px 1fr;
+    text-align: left;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+    width: 100%;
+    transform: scale(1);
+    transition: transform 0.1s ease;
+  }
+
+  .dash-rail__item:active {
+    transform: scale(0.98);
+  }
+
+  .dash-rail__item .dash-rail__bar {
+    background: transparent;
+  }
+
+  .dash-rail__item[data-active='true'] {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .dash-rail__item[data-active='true'] .dash-rail__bar {
+    background: var(--rail-gold);
+  }
+
+  .dash-rail__item--pulse[data-active='true'] .dash-rail__bar {
+    animation: dashBarPulse 0.5s ease;
+  }
+
+  .dash-rail__item:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  @keyframes dashBarPulse {
+    0% {
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(232, 200, 121, 0.35);
+    }
+    100% {
+      background: var(--rail-gold);
+      box-shadow: 0 0 0 0 rgba(232, 200, 121, 0);
+    }
+  }
+
+  .dash-rail__body {
+    padding: 0.7rem 1.4rem 0.75rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    transition: padding 0.3s ease;
+  }
+
+  .dash-rail__overview .dash-rail__top {
+    gap: 0.55rem;
+    justify-content: flex-start;
+  }
+
+  .dash-rail__grid-icon {
+    color: rgba(255, 255, 255, 0.55);
+    flex: none;
+  }
+
+  .dash-rail__overview[data-active='true'] .dash-rail__grid-icon {
+    color: var(--rail-gold);
+  }
+
+  .dash-rail__overview-wrap {
+    padding-top: 0.2rem;
+  }
+
+  .dash-rail__divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.12);
+    margin: 0 1.4rem 1rem;
+  }
+
+  .dash-rail__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+  }
+
+  .dash-rail__name {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.72);
+    display: inline-block;
+    max-width: 180px;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.22s ease, max-width 0.3s ease;
+  }
+
+  .dash-rail__item[data-active='true'] .dash-rail__name {
+    color: #fff;
+  }
+
+  .dash-rail__acronym {
+    flex: none;
+    width: 0;
+    height: 26px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+    opacity: 0;
+    overflow: hidden;
+    transition: width 0.3s ease, opacity 0.2s ease, border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+  }
+
+  .dash-rail__item[data-active='true'] .dash-rail__acronym {
+    color: #fff;
+    border-color: var(--rail-gold);
+    background: rgba(232, 200, 121, 0.18);
+  }
+
+  .dash-rail__due {
+    font-family: ui-monospace, monospace;
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.45);
+    transition: opacity 0.15s ease;
+  }
+
+  .dash-rail__meter {
+    height: 3px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.16);
+    transition: opacity 0.2s ease;
+  }
+
+  .dash-rail__meter-fill {
+    height: 3px;
+    border-radius: 2px;
+    background: var(--rail-gold);
+    display: block;
+  }
+
+  .dash-rail__toggle-row {
+    padding: 0.5rem 1.4rem 0.7rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 0.3rem;
+    transition: padding 0.3s ease;
+  }
+
+  .dash-panel__body--rail-mini .dash-rail__toggle-row {
+    padding-inline: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .dash-rail__burger {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .dash-rail__burger:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .dash-rail__burger-bar {
+    width: 14px;
+    height: 1.5px;
+    border-radius: 1px;
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  .dash-panel__body--rail-mini .dash-rail__label--list,
+  .dash-panel__body--rail-mini .dash-rail__meter {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .dash-panel__body--rail-mini .dash-rail__due {
+    display: none;
+  }
+
+  .dash-panel__body--rail-mini .dash-rail__name {
+    opacity: 0;
+    max-width: 0;
+  }
+
+  .dash-panel__body--rail-mini .dash-rail__acronym {
+    width: 26px;
+    opacity: 1;
+  }
+
+  .dash-panel__body--rail-mini .dash-rail__body {
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    align-items: center;
+  }
+
+  .dash-panel__body--rail-mini .dash-rail__top {
+    justify-content: center;
+  }
+
+  .dash-rail__today {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 1.1rem 1.4rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    max-height: 220px;
+    opacity: 1;
+    overflow: hidden;
+    transition: max-height 0.35s ease, opacity 0.25s ease, padding-top 0.35s ease;
+  }
+
+  .dash-rail__week-block {
+    margin-top: 0;
+    max-height: 140px;
+  }
+
+  .dash-panel__body--rail-mini .dash-rail__today {
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    border-top-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dash-rail__name,
+    .dash-rail__acronym,
+    .dash-rail__label--list,
+    .dash-rail__due,
+    .dash-rail__meter,
+    .dash-rail__today,
+    .dash-rail__body {
+      transition: none;
+    }
+  }
+
+  .dash-rail__queue-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .dash-rail__queue-row span:last-child {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .dash-rail__week {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.3rem;
+  }
+
+  .dash-week-day {
+    flex: 1;
+    text-align: center;
+    font-family: ui-monospace, monospace;
+    font-size: 0.68rem;
+    padding: 0.35rem 0;
+    border-radius: 5px;
+    color: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .dash-week-day[data-done='true'] {
+    color: #1a2940;
+    background: var(--rail-gold, #e8c879);
+    font-weight: 600;
+  }
+
+  .dash-rail__streak {
+    font-family: ui-monospace, monospace;
+    font-size: 0.72rem;
+    color: var(--rail-gold, #e8c879);
+  }
+
+  .dash-detail {
+    padding: 1.9rem 2.1rem 2.1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dash-detail__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.35rem;
+    position: relative;
+  }
+
+  .dash-detail__panel[hidden] {
+    display: none;
+  }
+
+  .dash-detail__panel--enter {
+    animation: dashPanelSnap 0.4s cubic-bezier(0.22, 0.9, 0.25, 1.15) both;
+  }
+
+  .dash-detail__panel--enter::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: dashGrainFlash 0.4s ease both;
+  }
+
+  @keyframes dashPanelSnap {
+    0% {
+      opacity: 0;
+      transform: translateY(5px) rotate(-0.35deg);
+      filter: blur(1.5px);
+    }
+    55% {
+      opacity: 1;
+      transform: translateY(-1.5px) rotate(0.2deg);
+      filter: blur(0);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) rotate(0deg);
+    }
+  }
+
+  @keyframes dashGrainFlash {
+    0% {
+      opacity: 0;
+    }
+    15% {
+      opacity: 0.16;
+    }
+    45% {
+      opacity: 0.04;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dash-rail__item,
+    .dash-rail__item--pulse[data-active='true'] .dash-rail__bar,
+    .dash-detail__panel--enter,
+    .dash-detail__panel--enter::after {
+      animation: none;
+      transition: none;
+    }
+  }
+
+  .dash-detail__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .dash-detail__head h2 {
+    margin: 0;
+  }
+
+  .dash-detail__head p {
+    margin-top: 0.5rem;
+    max-width: 55ch;
+  }
+
+  .dash-badge {
+    font-family: ui-monospace, monospace;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.6rem;
+    border-radius: 5px;
+    white-space: nowrap;
+  }
+
+  .dash-badge--live {
+    background: #e3f0e6;
+    color: #2c6e3f;
+  }
+
+  .dash-badge--worksheet {
+    background: var(--color-accent-soft);
+    color: var(--color-accent-dark);
+  }
+
+  .dash-badge--soon {
+    background: var(--color-bg-soft);
+    color: var(--color-muted);
+  }
+
+  /* ---- lens toggle (Practice / Progress) ---- */
+  .dash-lens {
+    display: inline-flex;
+    padding: 3px;
+    border-radius: 999px;
+    background: var(--color-bg-soft);
+    border: 1px solid var(--color-border);
+    width: fit-content;
+  }
+
+  .dash-lens__btn {
+    border: 0;
+    background: transparent;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-muted);
+    padding: 0.42rem 1.05rem;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  .dash-lens__btn[data-active='true'] {
+    background: var(--color-primary-dark);
+    color: #fff;
+  }
+
+  .dash-view[hidden] {
+    display: none;
+  }
+
+  .dash-detail__drills {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .dash-drill-row {
+    display: grid;
+    grid-template-columns: 3px 2.1rem 1fr;
+    align-items: baseline;
+    gap: 0 0.9rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--color-border);
+    background: transparent;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+  }
+
+  .dash-drill-row__bar {
+    align-self: stretch;
+    background: transparent;
+  }
+
+  .dash-drill-row[data-active='true'] .dash-drill-row__bar {
+    background: var(--color-primary);
+  }
+
+  .dash-drill-row__n {
+    font-family: ui-monospace, monospace;
+    font-size: 0.7rem;
+    color: #b0a694;
+    padding-left: 0.75rem;
+  }
+
+  .dash-drill-row__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .dash-drill-row__label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .dash-drill-row[data-active='true'] .dash-drill-row__label {
+    color: var(--color-ink);
+  }
+
+  .dash-drill-row__blurb {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+
+  .dash-detail__why {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 2rem;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1.25rem 0;
+  }
+
+  .dash-detail__kicker {
+    font-family: ui-monospace, monospace;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 0.45rem;
+  }
+
+  .dash-detail__why p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    max-width: none;
+  }
+
+  .dash-detail__actions {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    flex-wrap: wrap;
+  }
+
+  .dash-detail__exercise {
+    padding-top: 0.25rem;
+  }
+
+  /* ---- Progress lens: KPIs / chart / errors / sessions ---- */
+  .dash-empty,
+  .dash-empty-banner {
+    margin: 0;
+    font-size: 0.85rem;
+  }
+
+  .dash-empty-banner {
+    margin-bottom: 0.9rem;
+  }
+
+  .dash-kpis {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .dash-kpi {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 9px;
+    padding: 0.85rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .dash-kpi__label {
+    font-family: ui-monospace, monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .dash-kpi__value {
+    font-family: var(--font-display);
+    font-size: 1.55rem;
+    font-weight: 500;
+    color: var(--color-ink);
+    line-height: 1;
+  }
+
+  .dash-kpi__delta {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+  }
+
+  .dash-mid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .dash-mid--single {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-chart,
+  .dash-errors {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 9px;
+    padding: 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .dash-chart__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    color: var(--color-ink);
+  }
+
+  .dash-chart__legend {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.66rem;
+    color: var(--color-muted);
+  }
+
+  .dash-chart__swatch {
+    width: 12px;
+    height: 2px;
+    background: #2b4162;
+    display: inline-block;
+  }
+
+  .dash-chart__svg {
+    width: 100%;
+    height: 150px;
+    display: block;
+  }
+
+  .dash-chart__labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: ui-monospace, monospace;
+    font-size: 0.66rem;
+    color: var(--color-muted);
+  }
+
+  .dash-errors__title {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    color: var(--color-ink);
+  }
+
+  .dash-error-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .dash-error-row__top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--color-text);
+  }
+
+  .dash-error-row__top span:last-child {
+    font-family: ui-monospace, monospace;
+    color: var(--color-muted);
+  }
+
+  .dash-error-row__track {
+    height: 7px;
+    border-radius: 4px;
+    background: var(--color-bg-soft);
+    display: block;
+  }
+
+  .dash-error-row__fill {
+    display: block;
+    height: 7px;
+    border-radius: 4px;
+    background: var(--color-primary);
+  }
+
+  .dash-sessions {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 9px;
+    padding: 1rem 1.1rem 0.4rem;
+  }
+
+  .dash-sessions[hidden] {
+    display: none;
+  }
+
+  .dash-sessions__head {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    color: var(--color-ink);
+    padding-bottom: 0.6rem;
+  }
+
+  .dash-sessions__row {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.82rem;
+    color: var(--color-text);
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--color-bg-soft);
+  }
+
+  .dash-sessions__date {
+    font-family: ui-monospace, monospace;
+    font-size: 0.76rem;
+    color: var(--color-muted);
+  }
+
+  /* ---- Overview: tile grid + radar ---- */
+  .dash-overview[hidden] {
+    display: none;
+  }
+
+  .dash-overview__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.7rem;
+    margin: 1.4rem 0;
+  }
+
+  .dash-tile {
+    display: flex;
+    gap: 0.9rem;
+    align-items: center;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: left;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    font: inherit;
+    color: inherit;
+  }
+
+  .dash-tile:hover {
+    border-color: var(--color-accent);
+  }
+
+  .dash-tile__ring {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+  }
+
+  .dash-tile__ring-svg {
+    width: 64px;
+    height: 64px;
+    transform: rotate(-90deg);
+  }
+
+  .dash-tile__pct {
+    position: absolute;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--color-ink);
+  }
+
+  .dash-tile__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+
+  .dash-tile__title {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    color: var(--color-ink);
+  }
+
+  .dash-tile__due {
+    font-size: 0.72rem;
+    color: var(--color-muted);
+  }
+
+  .dash-radar-card {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 9px;
+    padding: 1.1rem 1.3rem;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 1.3rem;
+    align-items: center;
+  }
+
+  .dash-radar {
+    width: 100%;
+    height: auto;
+    font-family: ui-monospace, monospace;
+    font-size: 8.5px;
+    fill: #7a6f60;
+  }
+
+  .dash-radar-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .dash-radar-copy__title {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    color: var(--color-ink);
+  }
+
+  .dash-radar-copy p {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--color-text);
+  }
+
+  @media (max-width: 980px) {
+    .dash-radar-card {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .dash-panel__body,
+    .dash-panel__body--rail-mini {
+      grid-template-columns: 1fr;
+    }
+
+    .dash-detail__why {
+      grid-template-columns: 1fr;
+      gap: 1.1rem;
+    }
+
+    .dash-mid {
+      grid-template-columns: 1fr;
+    }
+
+    .dash-overview__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .dash-overview__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .dash-kpis {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
+
+<style is:global>
+  /* Shared with every embedded Exercise component (each is its own Astro
+     component with its own scoped-style namespace, so this can't live in
+     the scoped block above) — the fade-in used when a drill row filters
+     the exercise down to one aspect's content. */
+  .dash-aspect--enter {
+    animation: dashAspectIn 0.3s ease both;
+  }
+
+  @keyframes dashAspectIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dash-aspect--enter {
+      animation: none;
+    }
+  }
+</style>
