@@ -9,6 +9,8 @@ interface Props {
   altHref?: string;
   /** Skip the site header — for pages that want to start flush at the top. */
   hideHeader?: boolean;
+  /** Skip the site footer — for pages that want to fill the viewport exactly. */
+  hideFooter?: boolean;
 }
 
 const locale = Astro.currentLocale ?? 'en';
@@ -23,6 +25,7 @@ const {
   description = defaults[locale as 'en' | 'de'] ?? defaults.en,
   altHref,
   hideHeader = false,
+  hideFooter = false,
 } = Astro.props;
 ---
 
@@ -49,6 +52,6 @@ const {
     <main>
       <slot />
     </main>
-    <Footer />
+    {!hideFooter && <Footer />}
   </body>
 </html>

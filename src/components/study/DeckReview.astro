@@ -4,34 +4,57 @@
 // localStorage). The queue for a visit is fixed at load time so an
 // "Again" card doesn't loop back into the same session.
 import { starterDeck } from '../../data/study/deck';
+
+const locale = (Astro.currentLocale ?? 'en') as 'en' | 'de';
+
+const copy = {
+  en: {
+    empty: 'Nothing due right now. Save a word from Story Stream or a phrase from Dialogue Lab, or come back tomorrow.',
+    cardTypes: 'Card types',
+    streak: 'Streak',
+    dayStreak: 'day streak',
+    last7Days: 'Last 7 days',
+    fromSaved: 'Cards come from saved words in Story Stream & Dialogue Lab.',
+  },
+  de: {
+    empty: 'Gerade nichts fällig. Speicher ein Wort aus Story Stream oder eine Phrase aus Dialogue Lab, oder komm morgen wieder.',
+    cardTypes: 'Kartentypen',
+    streak: 'Serie',
+    dayStreak: 'Tage in Folge',
+    last7Days: 'Letzte 7 Tage',
+    fromSaved: 'Karten stammen aus gespeicherten Wörtern aus Story Stream & Dialogue Lab.',
+  },
+} as const;
+
+const t = copy[locale];
 ---
 
-<div class="deck-review" data-role="deck-review" data-starter-deck={JSON.stringify(starterDeck)}>
+<div class="deck-review" data-role="deck-review" data-locale={locale} data-starter-deck={JSON.stringify(starterDeck)}>
   <div class="deck-stage">
     <div class="deck-main">
       <div class="deck-meta">
-        <span data-role="due-summary">– due today</span>
+        <span data-role="due-summary">– {locale === 'de' ? 'heute fällig' : 'due today'}</span>
       </div>
 
       <div class="deck-card" data-role="card-area">
         <p class="deck-empty" data-role="deck-empty" hidden>
-          Nothing due right now. Save a word from Story Stream or a phrase from Dialogue Lab, or come back tomorrow.
+          {t.empty}
         </p>
       </div>
     </div>
 
     <div class="deck-sidebar">
-      <div class="label-caps">Card types</div>
+      <div class="label-caps">{t.cardTypes}</div>
       <div class="stat-list" data-role="type-stats"></div>
 
-      <div class="label-caps label-caps--tight">Streak</div>
+      <div class="label-caps label-caps--tight">{t.streak}</div>
       <div class="deck-streak-row">
         <span class="deck-stat__value" data-role="streak-count">–</span>
-        <span class="text-muted">day streak</span>
+        <span class="text-muted">{t.dayStreak}</span>
       </div>
-      <div class="deck-week" data-role="week-grid" aria-label="Last 7 days"></div>
+      <div class="deck-week" data-role="week-grid" aria-label={t.last7Days}></div>
 
-      <p class="push-bottom small-note">Cards come from saved words in Story Stream &amp; Dialogue Lab.</p>
+      <p class="push-bottom small-note">{t.fromSaved}</p>
     </div>
   </div>
 </div>
@@ -43,7 +66,52 @@ import { starterDeck } from '../../data/study/deck';
 
   const ttsUrlBase = '/api/tts?text=';
 
+  const dict = {
+    en: {
+      typeLabels: { word: 'Word → meaning', cloze: 'Cloze', listen: 'Listen → type', say: 'Say it aloud' },
+      dueSummary: (due: number, total: number) => `${due} due today · ${total} cards total`,
+      tapMeaning: 'tap to reveal meaning',
+      tapAnswer: 'tap to reveal answer',
+      answer: 'Answer',
+      typeWhatYouHear: 'Type what you hear',
+      placeholder: 'Type the sentence…',
+      check: 'Check',
+      correct: 'Correct',
+      correctMark: '✓ Correct.',
+      hearModel: '🔊 Hear model',
+      recordYourself: '● Record yourself',
+      stop: '■ Stop',
+      denied: 'Microphone access denied.',
+      recorded: 'Recorded.',
+      recording: 'Recording…',
+      doneShowRating: "I'm done — show rating",
+      ratings: { again: 'Again', hard: 'Hard', good: 'Good', easy: 'Easy' },
+    },
+    de: {
+      typeLabels: { word: 'Wort → Bedeutung', cloze: 'Lückentext', listen: 'Hören → tippen', say: 'Laut sagen' },
+      dueSummary: (due: number, total: number) => `${due} heute fällig · ${total} Karten insgesamt`,
+      tapMeaning: 'zum Aufdecken tippen',
+      tapAnswer: 'zum Aufdecken der Antwort tippen',
+      answer: 'Antwort',
+      typeWhatYouHear: 'Tipp, was du hörst',
+      placeholder: 'Tipp den Satz…',
+      check: 'Prüfen',
+      correct: 'Richtig',
+      correctMark: '✓ Richtig.',
+      hearModel: '🔊 Modell anhören',
+      recordYourself: '● Dich aufnehmen',
+      stop: '■ Stopp',
+      denied: 'Mikrofonzugriff verweigert.',
+      recorded: 'Aufgenommen.',
+      recording: 'Aufnahme läuft…',
+      doneShowRating: 'Fertig — Bewertung zeigen',
+      ratings: { again: 'Nochmal', hard: 'Schwer', good: 'Gut', easy: 'Leicht' },
+    },
+  } as const;
+
   document.querySelectorAll('[data-role="deck-review"]').forEach((root) => {
+      const locale = root.dataset.locale === 'de' ? 'de' : 'en';
+      const c = dict[locale];
       const starterDeck = JSON.parse(root.dataset.starterDeck ?? '[]');
       const dueSummaryEl = root.querySelector('[data-role="due-summary"]');
       const typeStatsEl = root.querySelector('[data-role="type-stats"]');
@@ -52,7 +120,7 @@ import { starterDeck } from '../../data/study/deck';
       const cardArea = root.querySelector('[data-role="card-area"]');
       const emptyMsg = root.querySelector('[data-role="deck-empty"]');
 
-      const typeLabels = { word: 'Word → meaning', cloze: 'Cloze', listen: 'Listen → type', say: 'Say it aloud' };
+      const typeLabels = c.typeLabels;
 
       let queue = [];
       let index = 0;
@@ -62,7 +130,7 @@ import { starterDeck } from '../../data/study/deck';
       function renderHeader() {
         const stats = getDeckStats(starterDeck);
         if (dueSummaryEl) {
-          dueSummaryEl.textContent = `${stats.dueToday} due today · ${stats.totalCards} cards total`;
+          dueSummaryEl.textContent = c.dueSummary(stats.dueToday, stats.totalCards);
         }
         if (typeStatsEl) {
           typeStatsEl.innerHTML = '';
@@ -135,7 +203,7 @@ import { starterDeck } from '../../data/study/deck';
 
         function renderRatingButtons() {
           controls.innerHTML = '';
-          [['again', 'Again'], ['hard', 'Hard'], ['good', 'Good'], ['easy', 'Easy']].forEach(([rating, label]) => {
+          Object.entries(c.ratings).forEach(([rating, label]) => {
             const btn = document.createElement('button');
             btn.type = 'button';
             btn.className = `button ${rating === 'good' ? 'button--primary' : 'button--ghost'} deck-rate`;
@@ -150,26 +218,26 @@ import { starterDeck } from '../../data/study/deck';
         }
 
         if (card.type === 'word') {
-          front.innerHTML = `<div class="deck-word">${card.front}</div><p class="text-muted">tap to reveal meaning</p>`;
+          front.innerHTML = `<div class="deck-word">${card.front}</div><p class="text-muted">${c.tapMeaning}</p>`;
           front.style.cursor = 'pointer';
           front.addEventListener('click', () => {
             backWrap.innerHTML = `<p class="deck-meaning">${card.back}</p>${card.origin ? `<p class="deck-origin text-muted">${card.origin}</p>` : ''}`;
             showBack();
           });
         } else if (card.type === 'cloze') {
-          front.innerHTML = `<div class="deck-cloze">${card.front}</div><p class="text-muted">tap to reveal answer</p>`;
+          front.innerHTML = `<div class="deck-cloze">${card.front}</div><p class="text-muted">${c.tapAnswer}</p>`;
           front.style.cursor = 'pointer';
           front.addEventListener('click', () => {
-            backWrap.innerHTML = `<p class="deck-meaning">Answer: <strong>${card.back}</strong></p>`;
+            backWrap.innerHTML = `<p class="deck-meaning">${c.answer}: <strong>${card.back}</strong></p>`;
             showBack();
           });
         } else if (card.type === 'listen') {
           const audioSrc = ttsUrlBase + encodeURIComponent(card.audioText ?? card.back);
           front.innerHTML = `
-            <button type="button" class="button button--primary deck-play">▶ Play</button>
-            <label class="deck-listen-label">Type what you hear</label>
-            <textarea class="deck-input" rows="2" placeholder="Type the sentence…"></textarea>
-            <button type="button" class="button button--ghost deck-check">Check</button>
+            <button type="button" class="button button--primary deck-play">${locale === 'de' ? '▶ Abspielen' : '▶ Play'}</button>
+            <label class="deck-listen-label">${c.typeWhatYouHear}</label>
+            <textarea class="deck-input" rows="2" placeholder="${c.placeholder}"></textarea>
+            <button type="button" class="button button--ghost deck-check">${c.check}</button>
           `;
           const playBtn = front.querySelector('.deck-play');
           const input = front.querySelector('.deck-input');
@@ -179,15 +247,15 @@ import { starterDeck } from '../../data/study/deck';
           checkBtn.addEventListener('click', () => {
             const typed = (input.value ?? '').trim().toLowerCase().replace(/[.,!?]/g, '');
             const target = card.back.trim().toLowerCase().replace(/[.,!?]/g, '');
-            backWrap.innerHTML = `<p class="deck-meaning">${typed === target ? '✓ Correct.' : `Correct: <strong>${card.back}</strong>`}</p>`;
+            backWrap.innerHTML = `<p class="deck-meaning">${typed === target ? c.correctMark : `${c.correct}: <strong>${card.back}</strong>`}</p>`;
             showBack();
           });
         } else if (card.type === 'say') {
           front.innerHTML = `
             <div class="deck-word">${card.front}</div>
             <div class="deck-say-row">
-              <button type="button" class="button button--ghost deck-hear">🔊 Hear model</button>
-              <button type="button" class="button button--primary deck-record">● Record yourself</button>
+              <button type="button" class="button button--ghost deck-hear">${c.hearModel}</button>
+              <button type="button" class="button button--primary deck-record">${c.recordYourself}</button>
               <span class="deck-say-status text-muted"></span>
             </div>
             <audio class="deck-say-playback" hidden controls></audio>
@@ -208,7 +276,7 @@ import { starterDeck } from '../../data/study/deck';
             try {
               stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             } catch {
-              statusEl.textContent = 'Microphone access denied.';
+              statusEl.textContent = c.denied;
               return;
             }
             const chunks = [];
@@ -218,19 +286,19 @@ import { starterDeck } from '../../data/study/deck';
               const blob = new Blob(chunks, { type: 'audio/webm' });
               playback.src = URL.createObjectURL(blob);
               playback.hidden = false;
-              statusEl.textContent = 'Recorded.';
-              recordBtn.textContent = '● Record yourself';
+              statusEl.textContent = c.recorded;
+              recordBtn.textContent = c.recordYourself;
               stream?.getTracks().forEach((t) => t.stop());
             };
             mediaRecorder.start();
-            statusEl.textContent = 'Recording…';
-            recordBtn.textContent = '■ Stop';
+            statusEl.textContent = c.recording;
+            recordBtn.textContent = c.stop;
           });
 
           const revealBtn = document.createElement('button');
           revealBtn.type = 'button';
           revealBtn.className = 'button button--ghost';
-          revealBtn.textContent = "I'm done — show rating";
+          revealBtn.textContent = c.doneShowRating;
           revealBtn.addEventListener('click', () => {
             backWrap.innerHTML = `<p class="deck-meaning">${card.back}</p>`;
             showBack();

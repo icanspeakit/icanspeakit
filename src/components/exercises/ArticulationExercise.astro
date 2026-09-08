@@ -1,49 +1,108 @@
 ---
 import ShadowRecorder from '../ShadowRecorder.astro';
+import PracticeLanguageToggle from './PracticeLanguageToggle.astro';
 import { minimalPairs } from '../../data/exercises/minimal-pairs';
+import { minimalPairsDe } from '../../data/exercises/minimal-pairs.de';
+import type { MinimalPair } from '../../data/exercises/minimal-pairs';
 
 const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+
+// Both practice-language variants render into the static page; a client
+// script (practice-lang.ts) shows only one at a time. See
+// PracticeLanguageToggle.astro for why this is client-side, not a
+// server-rendered `?practice=de` branch.
+const practiceVariants: { lang: 'en' | 'de'; progressSlug: string; pairs: MinimalPair[] }[] = [
+  { lang: 'en', progressSlug: 'articulation', pairs: minimalPairs },
+  { lang: 'de', progressSlug: 'articulation-de', pairs: minimalPairsDe },
+];
+
+const copy = {
+  en: {
+    playWord: '▶ Play a word',
+    shadowLabel: (a: string, b: string) => `Shadow: ${a} / ${b}`,
+    ipaBlank: (w: string) => `${w} — IPA: ________`,
+    playFirst: 'Play a word first.',
+    correct: 'Correct!',
+    wrong: 'Not quite — try again.',
+  },
+  de: {
+    playWord: '▶ Ein Wort abspielen',
+    shadowLabel: (a: string, b: string) => `Nachsprechen: ${a} / ${b}`,
+    ipaBlank: (w: string) => `${w} — IPA: ________`,
+    playFirst: 'Erst ein Wort abspielen.',
+    correct: 'Richtig!',
+    wrong: 'Nicht ganz — versuch es noch mal.',
+  },
+} as const;
+
+const locale = (Astro.currentLocale ?? 'en') as 'en' | 'de';
+const t = copy[locale];
 ---
 
-<div class="pair-list">
-  {minimalPairs.map((pair) => (
-    <div class="card pair-card" data-pair-id={pair.id}>
-      <div class="pair-card__header">
-        <span class="tag">{pair.contrast}</span>
-        <h3>
-          {pair.wordA} <span class="text-muted">/</span> {pair.wordB}
-        </h3>
-      </div>
-      <p class="pair-card__ipa text-muted">
-        {pair.ipaA} · {pair.ipaB}
-      </p>
-      <p class="pair-card__notes">{pair.notes}</p>
+<PracticeLanguageToggle />
 
-      <div class="quiz" data-role="quiz">
-        <audio data-role="audio-a" src={ttsUrl(pair.wordA)} preload="none"></audio>
-        <audio data-role="audio-b" src={ttsUrl(pair.wordB)} preload="none"></audio>
-        <button type="button" class="button button--primary" data-role="play-random">▶ Play a word</button>
-        <div class="quiz__guesses">
-          <button type="button" class="button button--ghost" data-role="guess" data-word="a">{pair.wordA}</button>
-          <button type="button" class="button button--ghost" data-role="guess" data-word="b">{pair.wordB}</button>
+{practiceVariants.map((variant) => (
+  <div
+    class="pair-list"
+    data-locale={locale}
+    data-practice-lang={variant.lang}
+    data-progress-slug={variant.progressSlug}
+    hidden={variant.lang !== 'en'}
+  >
+    {variant.pairs.map((pair) => (
+      <div class="card pair-card" data-pair-id={pair.id}>
+        <div class="pair-card__header">
+          <span class="tag">{pair.contrast}</span>
+          <h3>
+            {pair.wordA} <span class="text-muted">/</span> {pair.wordB}
+          </h3>
         </div>
-        <p class="quiz__feedback" data-role="feedback" aria-live="polite"></p>
-      </div>
+        <p class="pair-card__ipa text-muted">
+          {pair.ipaA} · {pair.ipaB}
+        </p>
+        <p class="pair-card__notes">{pair.notes[locale]}</p>
 
-      <ShadowRecorder
-        audioSrc={ttsUrl(`${pair.wordA}. ${pair.wordB}.`)}
-        label={`Shadow: ${pair.wordA} / ${pair.wordB}`}
-      />
+        <div class="quiz" data-role="quiz" data-item-id={pair.id} data-category={pair.contrast} data-aspect="0">
+          <audio data-role="audio-a" src={ttsUrl(pair.wordA)} preload="none"></audio>
+          <audio data-role="audio-b" src={ttsUrl(pair.wordB)} preload="none"></audio>
+          <button type="button" class="button button--primary" data-role="play-random">{t.playWord}</button>
+          <div class="quiz__guesses">
+            <button type="button" class="button button--ghost" data-role="guess" data-word="a">{pair.wordA}</button>
+            <button type="button" class="button button--ghost" data-role="guess" data-word="b">{pair.wordB}</button>
+          </div>
+          <p class="quiz__feedback" data-role="feedback" aria-live="polite"></p>
+        </div>
 
-      <div class="pair-card__worksheet">
-        <span>{pair.wordA} — IPA: ________</span>
-        <span>{pair.wordB} — IPA: ________</span>
+        <div data-aspect="1">
+          <ShadowRecorder
+            audioSrc={ttsUrl(`${pair.wordA}. ${pair.wordB}.`)}
+            label={t.shadowLabel(pair.wordA, pair.wordB)}
+          />
+
+          <div class="pair-card__worksheet">
+            <span>{t.ipaBlank(pair.wordA)}</span>
+            <span>{t.ipaBlank(pair.wordB)}</span>
+          </div>
+        </div>
       </div>
-    </div>
-  ))}
-</div>
+    ))}
+  </div>
+))}
 
 <script>
+  import { logAttempt } from '../../lib/progress-store';
+  import { initPracticeLangToggle } from '../../lib/practice-lang';
+
+  initPracticeLangToggle();
+
+  const feedbackCopy = {
+    en: { playFirst: 'Play a word first.', correct: 'Correct!', wrong: 'Not quite — try again.' },
+    de: { playFirst: 'Erst ein Wort abspielen.', correct: 'Richtig!', wrong: 'Nicht ganz — versuch es noch mal.' },
+  } as const;
+  const pairListLocale =
+    document.querySelector<HTMLElement>('.pair-list')?.dataset.locale === 'de' ? 'de' : 'en';
+  const fb = feedbackCopy[pairListLocale];
+
   const quizzes = document.querySelectorAll<HTMLElement>('[data-role="quiz"]');
 
   quizzes.forEach((quiz) => {
@@ -68,12 +127,16 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
       btn.addEventListener('click', () => {
         if (!current) {
           if (feedback) {
-            feedback.textContent = 'Play a word first.';
+            feedback.textContent = fb.playFirst;
             feedback.className = 'quiz__feedback';
           }
           return;
         }
         const correct = btn.dataset.word === current;
+        const itemId = quiz.dataset.itemId;
+        const category = quiz.dataset.category;
+        const progressSlug = quiz.closest<HTMLElement>('[data-progress-slug]')?.dataset.progressSlug ?? 'articulation';
+        if (itemId && category) logAttempt(progressSlug, itemId, category, correct ? 1 : 0);
 
         guessBtns.forEach((b) => b.classList.remove('guess--correct', 'guess--wrong', 'guess--shake'));
         // Force reflow so the animation restarts even if the same button was just clicked.
@@ -82,7 +145,7 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
         if (!correct) btn.classList.add('guess--shake');
 
         if (feedback) {
-          feedback.textContent = correct ? 'Correct!' : 'Not quite — try again.';
+          feedback.textContent = correct ? fb.correct : fb.wrong;
           feedback.className = 'quiz__feedback';
           void feedback.offsetWidth;
           feedback.className = `quiz__feedback quiz__feedback--show ${correct ? 'quiz__feedback--correct' : 'quiz__feedback--wrong'}`;
@@ -97,6 +160,10 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 1.5rem;
+  }
+
+  .pair-list[hidden] {
+    display: none;
   }
 
   .pair-card {

@@ -6,6 +6,7 @@ import { RHETORIC_AGENT_ID, pitchPrompts } from '../../data/exercises/rhetoric';
 <Layout
   title="Rhetoric & delivery — icanspeak.it"
   description="Practice a short persuasive pitch against an AI listener that asks real follow-up questions."
+  altHref="/de/exercises/rhetoric/"
 >
   <section class="container">
     <div class="section-head">
@@ -36,6 +37,25 @@ import { RHETORIC_AGENT_ID, pitchPrompts } from '../../data/exercises/rhetoric';
   <elevenlabs-convai agent-id={RHETORIC_AGENT_ID}></elevenlabs-convai>
   <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript" is:inline></script>
 </Layout>
+
+<script>
+  import { logEvent } from '../../lib/progress-store';
+
+  // The convai-widget-embed loads async, so the custom element may not
+  // exist yet — poll briefly rather than assume it's there on script load.
+  const attach = () => {
+    const widget = document.querySelector('elevenlabs-convai');
+    if (!widget) return false;
+    widget.addEventListener('conversationStarted', () => logEvent('rhetoric', 'call-started'));
+    return true;
+  };
+  if (!attach()) {
+    const interval = setInterval(() => {
+      if (attach()) clearInterval(interval);
+    }, 300);
+    setTimeout(() => clearInterval(interval), 15000);
+  }
+</script>
 
 <style>
   .rhetoric-prompts ul {

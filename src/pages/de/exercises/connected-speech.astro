@@ -1,0 +1,31 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PhonologyExercise from '../../../components/exercises/PhonologyExercise.astro';
+---
+
+<Layout
+  title="Verbundene Aussprache — icanspeak.it"
+  description="Hör, wie natürliches Englisch Laute zwischen Wörtern verbindet, verschluckt und verschmilzt, und trainiere dein Ohr dafür."
+  altHref="/exercises/connected-speech/"
+>
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Phonologie</span>
+      <h1>Verbundene Aussprache</h1>
+      <p class="lede">
+        Klick die Wörter an, wo eine Muttersprachlerin deiner Meinung nach einen Laut verbindet oder
+        reduziert, und deck dann die Lösung auf. Verlangsame denselben Clip, um ihn zu studieren, bevor
+        du wieder aufs Originaltempo gehst.
+      </p>
+      <button type="button" class="button button--ghost" id="print-worksheet">🖨 Arbeitsblatt drucken</button>
+    </div>
+
+    <PhonologyExercise />
+  </section>
+</Layout>
+
+<script>
+  document.getElementById('print-worksheet')?.addEventListener('click', () => {
+    window.print();
+  });
+</script>

@@ -12,6 +12,25 @@ interface Props {
   meaning: string;
 }
 
+const copy = {
+  en: {
+    play: 'Play',
+    analyzing: 'Analyzing pitch…',
+    noTrace: "Couldn't find a clear pitch trace in this clip.",
+    failed: "Couldn't analyze this clip — the audio is still playable below.",
+    stressedWord: 'Stressed word: ________',
+  },
+  de: {
+    play: 'Abspielen',
+    analyzing: 'Tonhöhe wird analysiert…',
+    noTrace: 'In diesem Clip wurde kein klarer Tonhöhenverlauf gefunden.',
+    failed: 'Dieser Clip konnte nicht analysiert werden — die Audiodatei ist trotzdem abspielbar.',
+    stressedWord: 'Betontes Wort: ________',
+  },
+} as const;
+
+const locale = (Astro.currentLocale ?? 'en') as 'en' | 'de';
+const t = copy[locale];
 const { ttsSrc, words, stressIndex, meaning } = Astro.props;
 ---
 
@@ -21,6 +40,8 @@ const { ttsSrc, words, stressIndex, meaning } = Astro.props;
   data-src={ttsSrc}
   data-words={JSON.stringify(words)}
   data-stress-index={stressIndex}
+  data-msg-no-trace={t.noTrace}
+  data-msg-failed={t.failed}
 >
   <div class="pitch-left">
     <div class="pitch-tokens">
@@ -29,10 +50,10 @@ const { ttsSrc, words, stressIndex, meaning } = Astro.props;
       ))}
     </div>
     <div class="pitch-controls">
-      <button type="button" class="pitch-play" data-role="play" aria-label="Play" disabled>▶</button>
+      <button type="button" class="pitch-play" data-role="play" aria-label={t.play} disabled>▶</button>
       <span class="pitch-meaning text-muted" data-role="meaning">{meaning}</span>
     </div>
-    <p class="pitch-status" data-role="status">Analyzing pitch…</p>
+    <p class="pitch-status" data-role="status">{t.analyzing}</p>
     <audio data-role="audio" preload="none"></audio>
   </div>
 
@@ -40,13 +61,14 @@ const { ttsSrc, words, stressIndex, meaning } = Astro.props;
 
   <p class="pitch-print">
     {words.join(' ')}
-    <br />Stressed word: ________
+    <br />{t.stressedWord}
   </p>
 </div>
 
 <script>
   import { estimatePitchContour } from '../lib/pitch-contour';
   import { wordSpansFromAlignment, base64ToBytes, type TtsTimestampsResponse } from '../lib/alignment';
+  import { logEvent } from '../lib/progress-store';
 
   const SVG_NS = 'http://www.w3.org/2000/svg';
   const VIEW_W = 130;
@@ -93,7 +115,7 @@ const { ttsSrc, words, stressIndex, meaning } = Astro.props;
 
       const voiced = frames.filter((f) => f.hz != null) as { t: number; hz: number }[];
       if (voiced.length < 2) {
-        status.textContent = "Couldn't find a clear pitch trace in this clip.";
+        status.textContent = root.dataset.msgNoTrace ?? "Couldn't find a clear pitch trace in this clip.";
         playBtn.disabled = false;
         return;
       }
@@ -157,13 +179,15 @@ const { ttsSrc, words, stressIndex, meaning } = Astro.props;
       playBtn.disabled = false;
     } catch (error) {
       console.error('Pitch contour failed:', error);
-      status.textContent = "Couldn't analyze this clip — the audio is still playable below.";
+      status.textContent =
+        root.dataset.msgFailed ?? "Couldn't analyze this clip — the audio is still playable below.";
       playBtn.disabled = false;
     }
 
     playBtn.addEventListener('click', () => {
       audio.currentTime = 0;
       audio.play();
+      logEvent('prosody', 'played');
     });
   }
 

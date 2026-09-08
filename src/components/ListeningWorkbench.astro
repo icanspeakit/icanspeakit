@@ -5,7 +5,36 @@ interface Props {
   label?: string;
 }
 
-const { ttsSrc, words, label = 'Dictation' } = Astro.props;
+const copy = {
+  en: {
+    defaultLabel: 'Dictation',
+    words: 'words',
+    play: 'Play',
+    typeWhatYouHear: 'Type what you hear',
+    placeholder: 'Type the sentence…',
+    check: 'Check',
+    reveal: 'Reveal',
+    perfect: (n: number) => `Perfect — all ${n} words.`,
+    score: (hits: number, n: number) => `${hits} of ${n} words correct.`,
+    revealed: 'Revealed.',
+  },
+  de: {
+    defaultLabel: 'Diktat',
+    words: 'Wörter',
+    play: 'Abspielen',
+    typeWhatYouHear: 'Tipp, was du hörst',
+    placeholder: 'Tipp den Satz…',
+    check: 'Prüfen',
+    reveal: 'Auflösen',
+    perfect: (n: number) => `Perfekt — alle ${n} Wörter.`,
+    score: (hits: number, n: number) => `${hits} von ${n} Wörtern richtig.`,
+    revealed: 'Aufgelöst.',
+  },
+} as const;
+
+const locale = (Astro.currentLocale ?? 'en') as 'en' | 'de';
+const t = copy[locale];
+const { ttsSrc, words, label = t.defaultLabel } = Astro.props;
 const targetText = words.join(' ');
 
 // Deterministic pseudo-random bar heights, seeded by the sentence itself, so
@@ -28,16 +57,21 @@ function seededBars(seed: string, count: number) {
 const bars = seededBars(targetText, 40);
 ---
 
-<div class="listening-workbench" data-target={JSON.stringify(words)}>
+<div
+  class="listening-workbench"
+  data-target={JSON.stringify(words)}
+  data-locale={locale}
+  data-msg-revealed={t.revealed}
+>
   <div class="lw-meta">
     <span class="lw-label">{label}</span>
-    <span class="lw-count">{words.length} words</span>
+    <span class="lw-count">{words.length} {t.words}</span>
   </div>
 
   <audio data-role="audio" src={ttsSrc} preload="none"></audio>
 
   <div class="lw-player">
-    <button type="button" class="lw-play" data-role="play" aria-label="Play">▶</button>
+    <button type="button" class="lw-play" data-role="play" aria-label={t.play}>▶</button>
     <div class="lw-waveform" data-role="waveform">
       <div class="lw-bars lw-bars--base">
         {bars.map((h) => <span class="lw-bar" style={`height:${h}%`}></span>)}
@@ -55,12 +89,12 @@ const bars = seededBars(targetText, 40);
     </div>
   </div>
 
-  <label class="lw-input-label" for={`lw-input-${targetText.length}`}>Type what you hear</label>
-  <textarea class="lw-input" data-role="input" rows="2" placeholder="Type the sentence…"></textarea>
+  <label class="lw-input-label" for={`lw-input-${targetText.length}`}>{t.typeWhatYouHear}</label>
+  <textarea class="lw-input" data-role="input" rows="2" placeholder={t.placeholder}></textarea>
 
   <div class="lw-actions">
-    <button type="button" class="button button--primary" data-role="check">Check</button>
-    <button type="button" class="button button--ghost" data-role="reveal">Reveal</button>
+    <button type="button" class="button button--primary" data-role="check">{t.check}</button>
+    <button type="button" class="button button--ghost" data-role="reveal">{t.reveal}</button>
   </div>
 
   <p class="lw-result" data-role="result" aria-live="polite"></p>
@@ -70,8 +104,20 @@ const bars = seededBars(targetText, 40);
 <script>
   const strip = (w: string) => w.toLowerCase().replace(/[.,!?;:"'()]/g, '');
 
+  const scoreMessages = {
+    en: {
+      perfect: (n: number) => `Perfect — all ${n} words.`,
+      score: (hits: number, n: number) => `${hits} of ${n} words correct.`,
+    },
+    de: {
+      perfect: (n: number) => `Perfekt — alle ${n} Wörter.`,
+      score: (hits: number, n: number) => `${hits} von ${n} Wörtern richtig.`,
+    },
+  } as const;
+
   document.querySelectorAll<HTMLElement>('.listening-workbench').forEach((card) => {
     const target: string[] = JSON.parse(card.dataset.target ?? '[]');
+    const msgs = scoreMessages[card.dataset.locale === 'de' ? 'de' : 'en'];
     const audio = card.querySelector<HTMLAudioElement>('[data-role="audio"]');
     const playBtn = card.querySelector<HTMLButtonElement>('[data-role="play"]');
     const rateBtns = card.querySelectorAll<HTMLButtonElement>('[data-role="rate"]');
@@ -127,15 +173,15 @@ const bars = seededBars(targetText, 40);
       if (result) {
         result.textContent =
           hits === target.length && typed.length === target.length
-            ? `Perfect — all ${target.length} words.`
-            : `${hits} of ${target.length} words correct.`;
+            ? msgs.perfect(target.length)
+            : msgs.score(hits, target.length);
       }
       if (diff) diff.innerHTML = tokens.join(' ');
     });
 
     revealBtn?.addEventListener('click', () => {
       if (input) input.value = target.join(' ');
-      if (result) result.textContent = 'Revealed.';
+      if (result) result.textContent = card.dataset.msgRevealed ?? 'Revealed.';
       if (diff) diff.innerHTML = '';
     });
   });

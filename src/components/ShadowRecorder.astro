@@ -4,24 +4,56 @@ interface Props {
   label?: string;
 }
 
-const { audioSrc, label = 'Shadow this' } = Astro.props;
+const copy = {
+  en: {
+    defaultLabel: 'Shadow this',
+    playModel: '▶ Play model',
+    record: '● Record yourself',
+    stop: '■ Stop',
+    playMine: '▶ Play your take',
+    recording: 'Recording…',
+    recorded: 'Recorded.',
+    denied: 'Microphone access denied.',
+  },
+  de: {
+    defaultLabel: 'Nachsprechen',
+    playModel: '▶ Modell abspielen',
+    record: '● Dich aufnehmen',
+    stop: '■ Stopp',
+    playMine: '▶ Deine Aufnahme abspielen',
+    recording: 'Aufnahme läuft…',
+    recorded: 'Aufgenommen.',
+    denied: 'Mikrofonzugriff verweigert.',
+  },
+} as const;
+
+const locale = (Astro.currentLocale ?? 'en') as 'en' | 'de';
+const t = copy[locale];
+const { audioSrc, label = t.defaultLabel } = Astro.props;
 ---
 
-<div class="shadow-recorder">
+<div
+  class="shadow-recorder"
+  data-label-record={t.record}
+  data-label-stop={t.stop}
+  data-label-recording={t.recording}
+  data-label-recorded={t.recorded}
+  data-label-denied={t.denied}
+>
   <p class="shadow-recorder__label">{label}</p>
 
   <div class="shadow-recorder__row">
-    <button type="button" class="button button--ghost" data-role="play-model">▶ Play model</button>
+    <button type="button" class="button button--ghost" data-role="play-model">{t.playModel}</button>
     <audio data-role="model-audio" src={audioSrc} preload="none"></audio>
   </div>
 
   <div class="shadow-recorder__row">
-    <button type="button" class="button button--primary" data-role="record-toggle">● Record yourself</button>
+    <button type="button" class="button button--primary" data-role="record-toggle">{t.record}</button>
     <span class="shadow-recorder__status" data-role="status" aria-live="polite"></span>
   </div>
 
   <div class="shadow-recorder__row" data-role="playback-row" hidden>
-    <button type="button" class="button button--ghost" data-role="play-mine">▶ Play your take</button>
+    <button type="button" class="button button--ghost" data-role="play-mine">{t.playMine}</button>
     <audio data-role="mine-audio"></audio>
   </div>
 </div>
@@ -37,6 +69,7 @@ const { audioSrc, label = 'Shadow this' } = Astro.props;
     const playMineBtn = recorder.querySelector<HTMLButtonElement>('[data-role="play-mine"]');
     const playbackRow = recorder.querySelector<HTMLElement>('[data-role="playback-row"]');
     const status = recorder.querySelector<HTMLElement>('[data-role="status"]');
+    const labels = recorder.dataset;
 
     let mediaRecorder: MediaRecorder | null = null;
     let chunks: BlobPart[] = [];
@@ -55,7 +88,7 @@ const { audioSrc, label = 'Shadow this' } = Astro.props;
       try {
         stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       } catch {
-        if (status) status.textContent = 'Microphone access denied.';
+        if (status) status.textContent = labels.labelDenied ?? 'Microphone access denied.';
         return;
       }
 
@@ -66,14 +99,17 @@ const { audioSrc, label = 'Shadow this' } = Astro.props;
         const blob = new Blob(chunks, { type: 'audio/webm' });
         if (mineAudio) mineAudio.src = URL.createObjectURL(blob);
         if (playbackRow) playbackRow.hidden = false;
-        if (status) status.textContent = 'Recorded.';
-        if (recordToggleBtn) recordToggleBtn.textContent = '● Record yourself';
+        if (status) status.textContent = labels.labelRecorded ?? 'Recorded.';
+        if (recordToggleBtn) recordToggleBtn.textContent = labels.labelRecord ?? '● Record yourself';
         stream?.getTracks().forEach((track) => track.stop());
+        // Lets a parent exercise (e.g. Pace's pause-matching) analyze the
+        // real recording — purely additive, most consumers ignore this.
+        recorder.dispatchEvent(new CustomEvent('shadow:recorded', { detail: { blob }, bubbles: true }));
       };
 
       mediaRecorder.start();
-      if (status) status.textContent = 'Recording…';
-      if (recordToggleBtn) recordToggleBtn.textContent = '■ Stop';
+      if (status) status.textContent = labels.labelRecording ?? 'Recording…';
+      if (recordToggleBtn) recordToggleBtn.textContent = labels.labelStop ?? '■ Stop';
     });
 
     playMineBtn?.addEventListener('click', () => {

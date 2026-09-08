@@ -15,9 +15,41 @@ const { chapter } = Astro.props;
 const segments = parseStoryText(chapter.text);
 const bank = wordBank(segments, chapter.id);
 const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+
+const locale = (Astro.currentLocale ?? 'en') as 'en' | 'de';
+
+const copy = {
+  en: {
+    emptyBlank: 'Empty blank — pick a word from the bank below',
+    checkAnswers: 'Check answers',
+    reset: 'Reset',
+    tappedWord: 'Tapped word',
+    glossaryEmpty: 'Tap any underlined word in the story to see what it means — and where it came from.',
+    hearIt: '🔊 Hear it',
+    saveToDeck: '+ Save to deck',
+    saved: "Saved — it'll come up in your Daily Deck.",
+  },
+  de: {
+    emptyBlank: 'Leere Lücke — wähl ein Wort aus der Wortbank unten',
+    checkAnswers: 'Antworten prüfen',
+    reset: 'Zurücksetzen',
+    tappedWord: 'Angetipptes Wort',
+    glossaryEmpty: 'Tipp ein unterstrichenes Wort in der Geschichte an, um seine Bedeutung und Herkunft zu sehen.',
+    hearIt: '🔊 Anhören',
+    saveToDeck: '+ Im Deck speichern',
+    saved: 'Gespeichert — es erscheint in deinem Daily Deck.',
+  },
+} as const;
+
+const t = copy[locale];
+
+const localizedGlossary: Record<string, any> = {};
+for (const [key, entry] of Object.entries(glossary)) {
+  localizedGlossary[key] = { word: entry.word, meaning: entry.meaning[locale], origin: entry.origin[locale] };
+}
 ---
 
-<div class="story-reader" data-role="story-reader" data-chapter={chapter.id} data-glossary={JSON.stringify(glossary)}>
+<div class="story-reader" data-role="story-reader" data-locale={locale} data-chapter={chapter.id} data-glossary={JSON.stringify(localizedGlossary)}>
   <div class="story-stage">
     <div class="story-main">
       <div class="story-meta">
@@ -42,7 +74,7 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
               data-role="cloze-blank"
               data-blank-id={seg.id}
               data-answer={seg.answer}
-              aria-label="Empty blank — pick a word from the bank below"
+              aria-label={t.emptyBlank}
             >
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </button>
@@ -57,24 +89,24 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
       </div>
 
       <div class="story-actions">
-        <button type="button" class="button button--primary" data-role="check-cloze">Check answers</button>
-        <button type="button" class="button button--ghost" data-role="reset-cloze">Reset</button>
+        <button type="button" class="button button--primary" data-role="check-cloze">{t.checkAnswers}</button>
+        <button type="button" class="button button--ghost" data-role="reset-cloze">{t.reset}</button>
         <span class="story-result" data-role="cloze-result" aria-live="polite"></span>
       </div>
     </div>
 
     <div class="story-glossary" data-role="glossary-panel">
-      <div class="label-caps">Tapped word</div>
-      <div class="glossary-empty" data-role="glossary-empty">Tap any underlined word in the story to see what it means — and where it came from.</div>
+      <div class="label-caps">{t.tappedWord}</div>
+      <div class="glossary-empty" data-role="glossary-empty">{t.glossaryEmpty}</div>
       <div class="glossary-filled" data-role="glossary-filled" hidden>
         <div class="glossary-word-display" data-role="glossary-term"></div>
         <p class="glossary-meaning" data-role="glossary-meaning"></p>
         <p class="glossary-origin" data-role="glossary-origin"></p>
         <div class="glossary-actions">
-          <button type="button" class="button button--ghost" data-role="glossary-play">🔊 Hear it</button>
-          <button type="button" class="button button--ghost" data-role="glossary-save">+ Save to deck</button>
+          <button type="button" class="button button--ghost" data-role="glossary-play">{t.hearIt}</button>
+          <button type="button" class="button button--ghost" data-role="glossary-save">{t.saveToDeck}</button>
         </div>
-        <span class="glossary-saved-note" data-role="glossary-saved-note" hidden>Saved — it'll come up in your Daily Deck.</span>
+        <span class="glossary-saved-note" data-role="glossary-saved-note" hidden>{t.saved}</span>
       </div>
     </div>
   </div>
@@ -90,7 +122,24 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
 
   const ttsUrlBase = '/api/tts?text=';
 
+  const dict = {
+    en: {
+      allCorrect: (n: number) => `All ${n} correct.`,
+      someCorrect: (correct: number, n: number) => `${correct} of ${n} correct — wrong ones are marked, hover for the answer.`,
+      correctAnswerTitle: (answer: string) => `Correct answer: ${answer}`,
+      source: 'Story Stream',
+    },
+    de: {
+      allCorrect: (n: number) => `Alle ${n} richtig.`,
+      someCorrect: (correct: number, n: number) => `${correct} von ${n} richtig — falsche sind markiert, mit der Maus darüber für die Antwort.`,
+      correctAnswerTitle: (answer: string) => `Richtige Antwort: ${answer}`,
+      source: 'Story Stream',
+    },
+  } as const;
+
   document.querySelectorAll('[data-role="story-reader"]').forEach((root) => {
+    const locale = root.dataset.locale === 'de' ? 'de' : 'en';
+    const c = dict[locale];
     const glossary = JSON.parse(root.dataset.glossary ?? '{}');
     const blanks = root.querySelectorAll('[data-role="cloze-blank"]');
     const chips = root.querySelectorAll('[data-role="bank-chip"]');
@@ -137,13 +186,13 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
           correct += 1;
         } else {
           blank.classList.add('cloze-blank--wrong');
-          if (answer) blank.title = `Correct answer: ${answer}`;
+          if (answer) blank.title = c.correctAnswerTitle(answer);
         }
       });
       if (resultEl) {
         resultEl.textContent = correct === blanks.length
-          ? `All ${blanks.length} correct.`
-          : `${correct} of ${blanks.length} correct — wrong ones are marked, hover for the answer.`;
+          ? c.allCorrect(blanks.length)
+          : c.someCorrect(correct, blanks.length);
       }
     });
 

@@ -4,95 +4,138 @@
 // fonts, script, styles) so it renders correctly both on the standalone
 // /exercises/prosody page and embedded in the exercises dashboard.
 import PitchContour from '../PitchContour.astro';
+import PracticeLanguageToggle from './PracticeLanguageToggle.astro';
 import { stressShiftWords, stressSentences, sentenceWithEmphasis } from '../../data/exercises/prosody';
+import { stressShiftWordsDe, stressSentencesDe } from '../../data/exercises/prosody.de';
 
 const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
 const ttsTimestampsUrl = (text: string) => `/api/tts-timestamps?text=${encodeURIComponent(text)}`;
+
+const copy = {
+  en: {
+    wordHeading: 'Word stress shifts the part of speech',
+    wordSub: "Same spelling, same word — the stressed syllable tells you whether it's a noun or a verb. Play each sentence and listen for it.",
+    play: (s: string) => `Play: ${s}`,
+    sentenceHeading: 'Sentence stress shifts the meaning',
+    sentenceSub: "Same six words, four different meanings — depending only on which word carries the stress. The line beside each sentence is that clip's real pitch trace.",
+    legend: 'pitch traced from audio',
+  },
+  de: {
+    wordHeading: 'Wortbetonung verändert die Wortart',
+    wordSub: 'Gleiche Schreibung, gleiches Wort — die betonte Silbe verrät, ob es ein Nomen oder ein Verb ist. Spiel jeden Satz ab und hör genau hin.',
+    play: (s: string) => `Abspielen: ${s}`,
+    sentenceHeading: 'Satzbetonung verändert die Bedeutung',
+    sentenceSub: 'Sechs gleiche Wörter, vier verschiedene Bedeutungen — je nachdem, welches Wort betont wird. Die Linie neben jedem Satz ist der echte Tonhöhenverlauf dieses Clips.',
+    legend: 'Tonhöhe aus Audio ermittelt',
+  },
+} as const;
+
+const wordHeadingDe = {
+  en: 'German stress moves between separable and inseparable prefixes',
+  de: 'Deutsche Betonung wechselt zwischen trennbaren und untrennbaren Präfixen',
+};
+const wordSubDe = {
+  en: 'Same spelling, same infinitive — stress on the prefix means separable, stress on the stem means inseparable, and the meaning changes with it.',
+  de: 'Gleiche Schreibung, gleicher Infinitiv — Betonung auf dem Präfix heißt trennbar, Betonung auf dem Stamm heißt untrennbar, und die Bedeutung ändert sich mit.',
+};
+
+const locale = (Astro.currentLocale ?? 'en') as 'en' | 'de';
+const t = copy[locale];
+
+const practiceVariants = [
+  { lang: 'en' as const, words: stressShiftWords, sentences: stressSentences, wordHeading: t.wordHeading, wordSub: t.wordSub },
+  { lang: 'de' as const, words: stressShiftWordsDe, sentences: stressSentencesDe, wordHeading: wordHeadingDe[locale], wordSub: wordSubDe[locale] },
+];
 ---
 
-<div class="prosody-page">
-  <div class="prosody-columns">
-    <section class="prosody-col prosody-col--words">
-      <div class="prosody-col-head">
-        <span class="prosody-num">01</span>
-        <h2 class="prosody-h2">Word stress shifts the part of speech</h2>
-      </div>
-      <p class="prosody-sub">
-        Same spelling, same word — the stressed syllable tells you whether it's a noun or a verb. Play
-        each sentence and listen for it.
-      </p>
+<PracticeLanguageToggle />
 
-      <div class="prosody-list">
-        {stressShiftWords.map((item) => (
-          <div class="word-block">
-            <div class="word-block-title">{item.word}</div>
-            <div class="word-rows">
-              <div class="word-row">
-                <button
-                  type="button"
-                  class="word-play"
-                  data-role="word-play"
-                  aria-label={`Play: ${item.nounSentence}`}
-                >▶</button>
-                <audio data-role="word-audio" src={ttsUrl(item.nounSentence)} preload="none"></audio>
-                <div class="word-labels">
-                  <div class="word-pos">noun</div>
-                  <div class="word-stress">{item.nounPattern}</div>
+{practiceVariants.map((variant) => (
+  <div class="prosody-page" data-practice-lang={variant.lang} data-progress-slug={variant.lang === 'de' ? 'prosody-de' : 'prosody'} hidden={variant.lang !== 'en'}>
+    <div class="prosody-columns">
+      <section class="prosody-col prosody-col--words" data-aspect="0">
+        <div class="prosody-col-head">
+          <span class="prosody-num">01</span>
+          <h2 class="prosody-h2">{variant.wordHeading}</h2>
+        </div>
+        <p class="prosody-sub">{variant.wordSub}</p>
+
+        <div class="prosody-list">
+          {variant.words.map((item) => (
+            <div class="word-block">
+              <div class="word-block-title">{item.word}</div>
+              <div class="word-rows">
+                <div class="word-row">
+                  <button
+                    type="button"
+                    class="word-play"
+                    data-role="word-play"
+                    aria-label={t.play(item.sentenceA)}
+                  >▶</button>
+                  <audio data-role="word-audio" src={ttsUrl(item.sentenceA)} preload="none"></audio>
+                  <div class="word-labels">
+                    <div class="word-pos">{item.labelA[locale]}</div>
+                    <div class="word-stress">{item.patternA}</div>
+                  </div>
+                  <div class="word-sentence">{item.sentenceA}</div>
                 </div>
-                <div class="word-sentence">{item.nounSentence}</div>
-              </div>
-              <div class="word-row">
-                <button
-                  type="button"
-                  class="word-play"
-                  data-role="word-play"
-                  aria-label={`Play: ${item.verbSentence}`}
-                >▶</button>
-                <audio data-role="word-audio" src={ttsUrl(item.verbSentence)} preload="none"></audio>
-                <div class="word-labels">
-                  <div class="word-pos">verb</div>
-                  <div class="word-stress">{item.verbPattern}</div>
+                <div class="word-row">
+                  <button
+                    type="button"
+                    class="word-play"
+                    data-role="word-play"
+                    aria-label={t.play(item.sentenceB)}
+                  >▶</button>
+                  <audio data-role="word-audio" src={ttsUrl(item.sentenceB)} preload="none"></audio>
+                  <div class="word-labels">
+                    <div class="word-pos">{item.labelB[locale]}</div>
+                    <div class="word-stress">{item.patternB}</div>
+                  </div>
+                  <div class="word-sentence">{item.sentenceB}</div>
                 </div>
-                <div class="word-sentence">{item.verbSentence}</div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </section>
-
-    <section class="prosody-col prosody-col--sentences">
-      <div class="prosody-col-head">
-        <span class="prosody-num">02</span>
-        <h2 class="prosody-h2">Sentence stress shifts the meaning</h2>
-      </div>
-      <p class="prosody-sub">
-        Same six words, four different meanings — depending only on which word carries the stress.
-        The line beside each sentence is that clip's real pitch trace.
-      </p>
-
-      <div class="prosody-list">
-        {stressSentences.map((s) => (
-          <PitchContour
-            ttsSrc={ttsTimestampsUrl(sentenceWithEmphasis(s.words, s.stressIndex))}
-            words={s.words}
-            stressIndex={s.stressIndex}
-            meaning={s.meaning}
-          />
-        ))}
-        <div class="prosody-legend">
-          <span class="prosody-legend-swatch"></span>pitch traced from audio
+          ))}
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section class="prosody-col prosody-col--sentences" data-aspect="1">
+        <div class="prosody-col-head">
+          <span class="prosody-num">02</span>
+          <h2 class="prosody-h2">{t.sentenceHeading}</h2>
+        </div>
+        <p class="prosody-sub">{t.sentenceSub}</p>
+
+        <div class="prosody-list">
+          {variant.sentences.map((s) => (
+            <PitchContour
+              ttsSrc={ttsTimestampsUrl(sentenceWithEmphasis(s.words, s.stressIndex))}
+              words={s.words}
+              stressIndex={s.stressIndex}
+              meaning={s.meaning[locale]}
+            />
+          ))}
+          <div class="prosody-legend">
+            <span class="prosody-legend-swatch"></span>{t.legend}
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
-</div>
+))}
 
 <script>
+  import { logEvent } from '../../lib/progress-store';
+  import { initPracticeLangToggle } from '../../lib/practice-lang';
+
+  initPracticeLangToggle();
+
   document.querySelectorAll<HTMLButtonElement>('[data-role="word-play"]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const audio = btn.parentElement?.querySelector<HTMLAudioElement>('[data-role="word-audio"]');
       audio?.play();
+      const slug = btn.closest<HTMLElement>('[data-progress-slug]')?.dataset.progressSlug ?? 'prosody';
+      logEvent(slug, 'played');
     });
   });
 </script>
@@ -123,13 +166,28 @@ const ttsTimestampsUrl = (text: string) => `/api/tts-timestamps?text=${encodeURI
     gap: 0;
   }
 
+  /* When the dashboard's aspect filter hides one column (data-aspect,
+     toggled via inline display:none), collapse to a single full-width
+     column instead of leaving the other half of the grid empty. */
+  .prosody-columns:has(> [data-aspect][style*='none']) {
+    grid-template-columns: 1fr;
+  }
+
   .prosody-col--words {
     padding: 0 48px 0 0;
     border-right: 1px solid var(--pr-border);
   }
 
+  .prosody-col--words[style*='none'] {
+    border-right: 0;
+  }
+
   .prosody-col--sentences {
     padding: 0 0 0 48px;
+  }
+
+  .prosody-col--words[style*='none'] ~ .prosody-col--sentences {
+    padding-left: 0;
   }
 
   .prosody-col-head {

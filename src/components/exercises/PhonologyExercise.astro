@@ -1,64 +1,110 @@
 ---
 import ListeningWorkbench from '../ListeningWorkbench.astro';
+import PracticeLanguageToggle from './PracticeLanguageToggle.astro';
 import { connectedSpeechSentences } from '../../data/exercises/connected-speech';
+import { connectedSpeechSentencesDe } from '../../data/exercises/connected-speech.de';
 
 const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+
+const practiceVariants = [
+  { lang: 'en' as const, progressSlug: 'phonology', sentences: connectedSpeechSentences },
+  { lang: 'de' as const, progressSlug: 'phonology-de', sentences: connectedSpeechSentencesDe },
+];
+
+const copy = {
+  en: {
+    natural: '▶ Natural pace',
+    slow: '▶ Slowed down',
+    reveal: 'Reveal',
+    dictationTitle: 'Type what you hear',
+    dictationLede:
+      'Same sentences, played at natural speed. Type what you catch — reductions and all — then check word by word.',
+  },
+  de: {
+    natural: '▶ Natürliches Tempo',
+    slow: '▶ Verlangsamt',
+    reveal: 'Auflösen',
+    dictationTitle: 'Tipp, was du hörst',
+    dictationLede:
+      'Dieselben Sätze im natürlichen Tempo. Tipp, was du auffängst — mit allen Reduktionen — und prüf dann Wort für Wort.',
+  },
+} as const;
+
+const locale = (Astro.currentLocale ?? 'en') as 'en' | 'de';
+const t = copy[locale];
 ---
 
-<div class="sentence-list">
-  {connectedSpeechSentences.map((sentence) => (
-    <div
-      class="card sentence-card"
-      data-role="sentence-card"
-      data-answer={JSON.stringify(sentence.reductionIndices)}
-    >
-      <audio data-role="model-audio" src={ttsUrl(sentence.words.join(' '))} preload="none"></audio>
+<PracticeLanguageToggle />
 
-      <div class="sentence" data-role="sentence">
-        {sentence.words.map((word, i) => (
-          <button type="button" class="word-token" data-role="word" data-index={i}>
-            {word}
-          </button>
+{practiceVariants.map((variant) => (
+  <div data-practice-lang={variant.lang} data-progress-slug={variant.progressSlug} hidden={variant.lang !== 'en'}>
+    <div class="sentence-list" data-aspect="0">
+      {variant.sentences.map((sentence) => (
+        <div
+          class="card sentence-card"
+          data-role="sentence-card"
+          data-sentence-id={sentence.id}
+          data-answer={JSON.stringify(sentence.reductionIndices)}
+          data-locale={locale}
+        >
+          <audio data-role="model-audio" src={ttsUrl(sentence.words.join(' '))} preload="none"></audio>
+
+          <div class="sentence" data-role="sentence">
+            {sentence.words.map((word, i) => (
+              <button type="button" class="word-token" data-role="word" data-index={i}>
+                {word}
+              </button>
+            ))}
+          </div>
+
+          <div class="sentence-card__controls">
+            <button type="button" class="button button--primary" data-role="play-natural">{t.natural}</button>
+            <button type="button" class="button button--ghost" data-role="play-slow">{t.slow}</button>
+            <button type="button" class="button button--ghost" data-role="reveal">{t.reveal}</button>
+          </div>
+
+          <p class="sentence-card__result" data-role="result" aria-live="polite"></p>
+          <p class="sentence-card__explanation" data-role="explanation" hidden>{sentence.explanation[locale]}</p>
+
+          <p class="sentence-card__worksheet">{sentence.words.join(' ')}</p>
+        </div>
+      ))}
+    </div>
+
+    <div data-aspect="1">
+      <div class="section-head dictation-head">
+        <h2>{t.dictationTitle}</h2>
+        <p class="lede">{t.dictationLede}</p>
+      </div>
+
+      <div class="sentence-list" data-locale={locale}>
+        {variant.sentences.map((sentence) => (
+          <ListeningWorkbench
+            ttsSrc={ttsUrl(sentence.words.join(' '))}
+            words={sentence.words}
+          />
         ))}
       </div>
-
-      <div class="sentence-card__controls">
-        <button type="button" class="button button--primary" data-role="play-natural">▶ Natural pace</button>
-        <button type="button" class="button button--ghost" data-role="play-slow">▶ Slowed down</button>
-        <button type="button" class="button button--ghost" data-role="reveal">Reveal</button>
-      </div>
-
-      <p class="sentence-card__result" data-role="result" aria-live="polite"></p>
-      <p class="sentence-card__explanation" data-role="explanation" hidden>{sentence.explanation}</p>
-
-      <p class="sentence-card__worksheet">{sentence.words.join(' ')}</p>
     </div>
-  ))}
-</div>
-
-<div class="section-head dictation-head">
-  <h2>Type what you hear</h2>
-  <p class="lede">
-    Same sentences, played at natural speed. Type what you catch — reductions and all — then check
-    word by word.
-  </p>
-</div>
-
-<div class="sentence-list">
-  {connectedSpeechSentences.map((sentence) => (
-    <ListeningWorkbench
-      ttsSrc={ttsUrl(sentence.words.join(' '))}
-      words={sentence.words}
-      label="Dictation"
-    />
-  ))}
-</div>
+  </div>
+))}
 
 <script>
+  import { logAttempt } from '../../lib/progress-store';
+  import { initPracticeLangToggle } from '../../lib/practice-lang';
+
+  initPracticeLangToggle();
+
+  const caughtMessages = {
+    en: (hits: number, n: number) => `You caught ${hits} of ${n} reduction${n === 1 ? '' : 's'}.`,
+    de: (hits: number, n: number) => `Du hast ${hits} von ${n} Reduktion${n === 1 ? '' : 'en'} erkannt.`,
+  } as const;
+
   const cards = document.querySelectorAll<HTMLElement>('[data-role="sentence-card"]');
 
   cards.forEach((card) => {
     const answer: number[] = JSON.parse(card.dataset.answer ?? '[]');
+    const caught = caughtMessages[card.dataset.locale === 'de' ? 'de' : 'en'];
     const audio = card.querySelector<HTMLAudioElement>('[data-role="model-audio"]');
     const wordBtns = card.querySelectorAll<HTMLButtonElement>('[data-role="word"]');
     const playNaturalBtn = card.querySelector<HTMLButtonElement>('[data-role="play-natural"]');
@@ -113,9 +159,15 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
       });
 
       if (result) {
-        result.textContent = `You caught ${hits} of ${answer.length} reduction${answer.length === 1 ? '' : 's'}.`;
+        result.textContent = caught(hits, answer.length);
       }
       if (explanation) explanation.hidden = false;
+
+      const sentenceId = card.dataset.sentenceId;
+      const slug = card.closest<HTMLElement>('[data-progress-slug]')?.dataset.progressSlug ?? 'phonology';
+      if (sentenceId && answer.length > 0) {
+        logAttempt(slug, sentenceId, 'reduction-spotting', hits, answer.length);
+      }
     });
   });
 </script>

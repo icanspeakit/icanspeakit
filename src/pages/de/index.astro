@@ -26,28 +26,31 @@ import Layout from '../../layouts/Layout.astro';
         <h2>Weil Sprache die am längsten laufende Geschichte ist, die wir kennen</h2>
       </div>
       <div class="why__grid">
-        <article class="card">
+        <a class="card why-card" href="/blog/salary-a-tiny-history-lesson/">
           <h3>Jedes Wort ist eine kleine Geschichtsstunde</h3>
           <p class="text-muted">
             "Gehalt" kommt vom lateinischen "salarium", dem Salzgeld römischer Soldaten. Wer das Wort
             benutzt, zitiert eine zweitausend Jahre alte Gehaltsabrechnung.
           </p>
-        </article>
-        <article class="card">
+          <span class="why-card__more">Ganzen Artikel lesen (Englisch) →</span>
+        </a>
+        <a class="card why-card" href="/blog/how-languages-borrow-from-each-other/">
           <h3>Sprachen leihen sich heimlich voneinander</h3>
           <p class="text-muted">
             Allein das Englische hat Wörter aus über 350 Sprachen übernommen. "Ketchup" reiste von einer
             fermentierten Fischsauce aus dem Hokkien-Chinesischen über malaiische Handelsrouten, lange
             bevor es je eine Tomate traf.
           </p>
-        </article>
-        <article class="card">
+          <span class="why-card__more">Ganzen Artikel lesen (Englisch) →</span>
+        </a>
+        <a class="card why-card" href="/blog/how-word-meanings-drift/">
           <h3>Bedeutungen wandern – manchmal absichtlich</h3>
           <p class="text-muted">
             "Nett" bedeutete im Lateinischen ursprünglich "töricht". Gib einem Wort drei Jahrhunderte und
             genug Klatsch, und es kann fast im Gegenteil dessen landen, wo es begann.
           </p>
-        </article>
+          <span class="why-card__more">Ganzen Artikel lesen (Englisch) →</span>
+        </a>
       </div>
     </div>
   </section>
@@ -78,6 +81,27 @@ import Layout from '../../layouts/Layout.astro';
   }
 
   .why__grid h3 { margin-block-end: 0.6rem; }
+
+  .why-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .why-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .why-card__more {
+    margin-block-start: auto;
+    padding-block-start: 0.9rem;
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--color-primary);
+  }
 
   @media (max-width: 860px) { .why__grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 640px) { .why__grid { grid-template-columns: 1fr; } }

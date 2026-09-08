@@ -1122,6 +1122,16 @@ const t = copy[locale];
     min-height: 560px;
   }
 
+  /* The homepage teaser is a preview, not the real console — Today's Set
+     and This Week are secondary information that made the boxed embed
+     noticeably taller/heavier than the old Progress console widget it
+     replaced, so they're dropped here specifically (they're still full
+     citizens of the rail on the real full-screen/per-page routes). */
+  .dash-shell--boxed .dash-rail__today,
+  .dash-shell--boxed .dash-rail__week-block {
+    display: none;
+  }
+
   .dash-panel {
     background: var(--color-bg);
     border-block: 1px solid var(--color-border);
