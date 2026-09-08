@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Literata:ital,opsz,wght@0,7..72,500;0,7..72,600&family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap');
+    body { margin: 0; }
+    a { color: #2b4162; }
+    a:hover { color: #1a2940; }
+  </style>
+</helmet>
+<div style="
+    --color-ink: #24201b;
+    --color-text: #3c352c;
+    --color-muted: #7a6f60;
+    --color-bg: #fbf7ef;
+    --color-border: #e3d6bd;
+    --color-accent: #b3812e;
+    --color-accent-dark: #8a621f;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100%;
+    padding: 56px;
+    font-family: 'Inter', sans-serif;
+    color: var(--color-text);
+    background: var(--color-bg);
+  ">
+  <div style="display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 12.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent-dark); margin-bottom: 14px;">icanspeak.it &middot; Design System</div>
+  <h1 style="font-family: 'Fraunces', serif; color: var(--color-ink); font-weight: 500; font-size: 52px; line-height: 1.1; letter-spacing: -0.01em; margin: 0 0 14px;">Typography</h1>
+  <p style="font-size: 18px; line-height: 1.6; color: var(--color-text); max-width: 62ch; margin: 0 0 48px;">Two type systems: Fraunces / Literata / Inter carry the site, while Spectral / Public Sans / IBM&nbsp;Plex&nbsp;Mono give the print-style exercise worksheets their own editorial register.</p>
+
+  <h2 style="font-family: 'Fraunces', serif; color: var(--color-ink); font-weight: 500; font-size: 24px; margin: 0 0 4px;">Site</h2>
+  <div style="font-size: 13px; color: var(--color-muted); margin-bottom: 24px;">Fraunces (display) &middot; Literata (wordmark) &middot; Inter (sans / body)</div>
+
+  <div style="display: flex; flex-direction: column; gap: 22px; padding-bottom: 32px; border-bottom: 1px solid var(--color-border); margin-bottom: 32px;">
+
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <div style="font-family: 'Literata', serif; font-weight: 500; font-size: 27px; letter-spacing: -0.015em; color: var(--color-ink); line-height: 1;">icanspeak<span style="position: relative; margin-left: 0.12em;">&#305;<span style="position: absolute; left: 0.07em; top: -0.07em; width: 0.18em; height: 0.18em; border-radius: 50%; background: var(--color-accent);"></span>t</span></div>
+      <div style="font-size: 12px; color: var(--color-muted);">Literata 500 &middot; wordmark</div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <div style="font-family: 'Fraunces', serif; font-weight: 500; font-size: 44px; letter-spacing: -0.01em; line-height: 1.1; color: var(--color-ink);">Aa Heading One</div>
+      <div style="font-size: 12px; color: var(--color-muted); white-space: nowrap;">H1 &middot; Fraunces 500 &middot; clamp(2.1rem, 3.5rem)</div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <div style="font-family: 'Fraunces', serif; font-weight: 500; font-size: 32px; letter-spacing: -0.01em; line-height: 1.15; color: var(--color-ink);">Aa Heading Two</div>
+      <div style="font-size: 12px; color: var(--color-muted); white-space: nowrap;">H2 &middot; Fraunces 500 &middot; clamp(1.6rem, 2.4rem)</div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <div style="font-family: 'Fraunces', serif; font-weight: 600; font-size: 24px; letter-spacing: -0.01em; line-height: 1.15; color: var(--color-ink);">Aa Heading Three</div>
+      <div style="font-size: 12px; color: var(--color-muted); white-space: nowrap;">H3 &middot; Fraunces 600 &middot; clamp(1.25rem, 1.6rem)</div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <div style="font-family: 'Fraunces', serif; font-weight: 600; font-size: 17.6px; letter-spacing: -0.01em; color: var(--color-ink);">Aa Heading Four</div>
+      <div style="font-size: 12px; color: var(--color-muted); white-space: nowrap;">H4 &middot; Fraunces 600 &middot; 1.1rem</div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <div style="font-family: 'Inter', sans-serif; font-size: 20px; color: var(--color-text); max-width: 40ch;">A short lede paragraph reads a little larger than body copy.</div>
+      <div style="font-size: 12px; color: var(--color-muted); white-space: nowrap;">.lede &middot; Inter &middot; clamp(1.05rem, 1.25rem)</div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <div style="font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent-dark);">Section Eyebrow</div>
+      <div style="font-size: 12px; color: var(--color-muted); white-space: nowrap;">.eyebrow &middot; Inter 700 &middot; 0.78rem</div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <div style="font-family: 'Inter', sans-serif; font-size: 15px; color: var(--color-muted);">Muted supporting text</div>
+      <div style="font-size: 12px; color: var(--color-muted); white-space: nowrap;">.text-muted &middot; Inter</div>
+    </div>
+
+  </div>
+
+  <h2 style="font-family: 'Fraunces', serif; color: var(--color-ink); font-weight: 500; font-size: 24px; margin: 0 0 4px;">Exercise worksheets</h2>
+  <div style="font-size: 13px; color: var(--color-muted); margin-bottom: 24px;">Spectral (headings) &middot; Public Sans (body) &middot; IBM Plex Mono (labels)</div>
+
+  <div style="display: flex; flex-direction: column; gap: 22px;">
+
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.16em; color: #a37a35;">03&mdash;</div>
+      <div style="font-size: 12px; color: var(--color-muted); white-space: nowrap;">.prosody-num &middot; IBM Plex Mono 500 &middot; 11px &middot; 0.16em tracking</div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <div style="font-family: 'Spectral', serif; font-weight: 600; font-size: 32px; letter-spacing: -0.02em; color: #1e2c44;">Word stress</div>
+      <div style="font-size: 12px; color: var(--color-muted); white-space: nowrap;">.prosody-h2 &middot; Spectral 600 &middot; 30px</div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <div style="font-family: 'Public Sans', sans-serif; font-size: 15px; color: #6b7280; max-width: 44ch;">Body copy for exercise instructions and captions.</div>
+      <div style="font-size: 12px; color: var(--color-muted); white-space: nowrap;">.prosody-sub &middot; Public Sans &middot; 14.5px</div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #a37a35;">noun</div>
+      <div style="font-size: 12px; color: var(--color-muted); white-space: nowrap;">.word-pos &middot; IBM Plex Mono 500 &middot; 10px</div>
+    </div>
+
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

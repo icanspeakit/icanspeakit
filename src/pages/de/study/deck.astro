@@ -1,0 +1,24 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import DeckReview from '../../../components/study/DeckReview.astro';
+---
+
+<Layout
+  title="Daily Deck — icanspeak.it"
+  description="Eine echte Spaced-Repetition-Wiederholung, gefüttert von Wörtern und Phrasen, die du im restlichen Study-Bereich speicherst."
+  altHref="/study/deck/"
+>
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Study · Spaced Repetition</span>
+      <h1>Daily Deck</h1>
+      <p class="lede">
+        Eine echte Wiederholungs-Warteschlange, geplant mit einem vereinfachten SM-2-Algorithmus und in
+        diesem Browser gespeichert — sie wird nicht durch ein Neuladen zurückgesetzt. Speicher ein Wort
+        aus Story Stream oder eine Phrase aus Dialogue Lab, und es taucht hier auf.
+      </p>
+    </div>
+
+    <DeckReview />
+  </section>
+</Layout>

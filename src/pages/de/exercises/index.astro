@@ -1,0 +1,20 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import ExerciseGrid from '../../../components/ExerciseGrid.astro';
+import { topics } from '../../../data/exercises/topics';
+---
+
+<Layout title="Übungen — icanspeak.it" description="Audiogestützte Übungen für die Mechanik einer klaren englischen Aussprache." altHref="/exercises/">
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Üben</span>
+      <h1>Übungen</h1>
+      <p class="lede">
+        Hör dir das Modell an, probier es selbst und vergleich beides direkt — Übungen zum
+        Selbst-Bewerten, die auf die Mechanik der Aussprache zielen, nicht auf eine Punktzahl.
+      </p>
+    </div>
+
+    <ExerciseGrid topics={topics} />
+  </section>
+</Layout>

@@ -1,0 +1,26 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import ExerciseGrid from '../../../components/ExerciseGrid.astro';
+import { studyFormats } from '../../../data/study/formats';
+---
+
+<Layout
+  title="Study — icanspeak.it"
+  description="Fünf echte, funktionierende Formate zum Lesen, Wortschatz, Dialog, Hören und Schreiben."
+  altHref="/study/"
+>
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Study</span>
+      <h1>Study</h1>
+      <p class="lede">
+        Nebenan trainieren die Exercises die Sprechmechanik — hier geht es um alles drumherum: Lesen,
+        Wortschatz, Dialog, Hörverstehen und Schreiben. Gespeicherte Wörter aus Story Stream und
+        Zielphrasen aus Dialogue Lab fließen direkt ins Daily Deck — die fünf Formate bauen aufeinander
+        auf, statt nur nebeneinander zu stehen.
+      </p>
+    </div>
+
+    <ExerciseGrid topics={studyFormats} />
+  </section>
+</Layout>

@@ -1,37 +1,80 @@
 ---
 import ShadowRecorder from '../ShadowRecorder.astro';
+import PracticeLanguageToggle from './PracticeLanguageToggle.astro';
 import { pacingPassages } from '../../data/exercises/pacing';
+import { pacingPassagesDe } from '../../data/exercises/pacing.de';
 
 const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
 const rates = [0.8, 1, 1.2];
+
+const copy = {
+  en: { playAt: '▶ Play at', shadowLabel: 'Shadow this passage' },
+  de: { playAt: '▶ Abspielen bei', shadowLabel: 'Diesen Abschnitt nachsprechen' },
+} as const;
+
+const locale = (Astro.currentLocale ?? 'en') as 'en' | 'de';
+const t = copy[locale];
+
+const practiceVariants = [
+  { lang: 'en' as const, progressSlug: 'pace', passages: pacingPassages },
+  { lang: 'de' as const, progressSlug: 'pace-de', passages: pacingPassagesDe },
+];
 ---
 
-<div class="passage-list">
-  {pacingPassages.map((passage) => (
-    <div class="card passage-card" data-passage-id={passage.id}>
-      <h3>{passage.title}</h3>
-      <p class="passage-card__marked">{passage.markedText}</p>
+<PracticeLanguageToggle />
 
-      <div class="passage-card__player" data-role="player">
-        <audio data-role="model-audio" src={ttsUrl(passage.ttsText)} preload="none"></audio>
-        <button type="button" class="button button--primary" data-role="play">▶ Play at</button>
-        <div class="passage-card__rates">
-          {rates.map((rate) => (
-            <button type="button" class="button button--ghost" data-role="rate" data-rate={rate}>
-              {rate}×
-            </button>
-          ))}
+{practiceVariants.map((variant) => (
+  <div class="passage-list" data-locale={locale} data-practice-lang={variant.lang} data-progress-slug={variant.progressSlug} hidden={variant.lang !== 'en'}>
+    {variant.passages.map((passage) => (
+      <div class="card passage-card" data-passage-id={passage.id} data-tts-text={passage.ttsText}>
+        <h3>{passage.title[locale]}</h3>
+        <p class="passage-card__marked">{passage.markedText}</p>
+
+        <div class="passage-card__player" data-role="player" data-aspect="1">
+          <audio data-role="model-audio" src={ttsUrl(passage.ttsText)} preload="none"></audio>
+          <button type="button" class="button button--primary" data-role="play">{t.playAt}</button>
+          <div class="passage-card__rates">
+            {rates.map((rate) => (
+              <button type="button" class="button button--ghost" data-role="rate" data-rate={rate}>
+                {rate}×
+              </button>
+            ))}
+          </div>
         </div>
+
+        <div data-aspect="0">
+          <div data-role="shadow-wrapper">
+            <ShadowRecorder audioSrc={ttsUrl(passage.ttsText)} label={t.shadowLabel} />
+          </div>
+          <p class="passage-card__pause-result" data-role="pause-result" aria-live="polite"></p>
+        </div>
+
+        <p class="passage-card__worksheet">{passage.markedText}</p>
       </div>
-
-      <ShadowRecorder audioSrc={ttsUrl(passage.ttsText)} label="Shadow this passage" />
-
-      <p class="passage-card__worksheet">{passage.markedText}</p>
-    </div>
-  ))}
-</div>
+    ))}
+  </div>
+))}
 
 <script>
+  import { logAttempt } from '../../lib/progress-store';
+  import { getTargetPauses, detectUserPauses, matchPauses } from '../../lib/pace-analysis';
+  import { initPracticeLangToggle } from '../../lib/practice-lang';
+
+  initPracticeLangToggle();
+
+  const pauseCopy = {
+    en: {
+      result: (matched: number, total: number) => `Pause placement: ${matched} of ${total} matched.`,
+      unavailable: "Couldn't score pause placement for this clip — try recording again.",
+    },
+    de: {
+      result: (matched: number, total: number) => `Pausensetzung: ${matched} von ${total} getroffen.`,
+      unavailable: 'Pausensetzung konnte für diese Aufnahme nicht bewertet werden — versuch es noch mal.',
+    },
+  } as const;
+  const paceLocale = document.querySelector<HTMLElement>('.passage-list')?.dataset.locale === 'de' ? 'de' : 'en';
+  const pc = pauseCopy[paceLocale];
+
   const players = document.querySelectorAll<HTMLElement>('[data-role="player"]');
 
   players.forEach((player) => {
@@ -57,6 +100,49 @@ const rates = [0.8, 1, 1.2];
       }
     });
   });
+
+  // Real pause-placement scoring: fetch the model's own forced-alignment
+  // gaps once per passage (lazily, on first recording), then diff them
+  // against silence gaps detected in the user's shadowed recording.
+  const cards = document.querySelectorAll<HTMLElement>('.passage-card');
+
+  cards.forEach((card) => {
+    const passageId = card.dataset.passageId;
+    const ttsText = card.dataset.ttsText;
+    const recorder = card.querySelector<HTMLElement>('[data-role="shadow-wrapper"] .shadow-recorder');
+    const resultEl = card.querySelector<HTMLElement>('[data-role="pause-result"]');
+    if (!passageId || !ttsText || !recorder) return;
+
+    let targetPauses: number[] | null | undefined;
+
+    recorder.addEventListener('shadow:recorded', async (event) => {
+      const blob = (event as CustomEvent<{ blob: Blob }>).detail?.blob;
+      if (!blob) return;
+
+      if (targetPauses === undefined) {
+        try {
+          targetPauses = await getTargetPauses(ttsText);
+        } catch {
+          targetPauses = null;
+        }
+      }
+
+      if (!targetPauses || targetPauses.length === 0) {
+        if (resultEl) resultEl.textContent = pc.unavailable;
+        return;
+      }
+
+      try {
+        const detected = await detectUserPauses(blob);
+        const { matched, total } = matchPauses(targetPauses, detected);
+        const slug = card.closest<HTMLElement>('[data-progress-slug]')?.dataset.progressSlug ?? 'pace';
+        logAttempt(slug, passageId, 'pause-placement', matched, total);
+        if (resultEl) resultEl.textContent = pc.result(matched, total);
+      } catch {
+        if (resultEl) resultEl.textContent = pc.unavailable;
+      }
+    });
+  });
 </script>
 
 <style>
@@ -64,6 +150,10 @@ const rates = [0.8, 1, 1.2];
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     gap: 1.5rem;
+  }
+
+  .passage-list[hidden] {
+    display: none;
   }
 
   .passage-card {
@@ -98,6 +188,13 @@ const rates = [0.8, 1, 1.2];
     color: var(--color-primary);
   }
 
+  .passage-card__pause-result {
+    font-weight: 600;
+    font-size: 0.9rem;
+    min-height: 1.2em;
+    color: var(--color-primary);
+  }
+
   .passage-card__worksheet {
     display: none;
   }
@@ -107,6 +204,7 @@ const rates = [0.8, 1, 1.2];
     .site-footer,
     #print-worksheet,
     .passage-card__player,
+    .passage-card__pause-result,
     .shadow-recorder {
       display: none !important;
     }

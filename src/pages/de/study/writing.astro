@@ -1,0 +1,24 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import WritingTask from '../../../components/study/WritingTask.astro';
+---
+
+<Layout
+  title="Writing Desk — icanspeak.it"
+  description="Schreib eine echte Antwort nach Vorgabe, mit einer Live-Checkliste und einer Musterantwort zum Vergleich."
+  altHref="/study/writing/"
+>
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Study · Schreiben</span>
+      <h1>Writing Desk</h1>
+      <p class="lede">
+        Die Checkliste rechts ist eine echte, live laufende Prüfung deines eigenen Entwurfs — keine Demo
+        und keine KI-Bewertung (diese Seite hat kein KI-Backend). Nutz sie als Selbstprüfung und vergleich
+        dann mit der Musterantwort.
+      </p>
+    </div>
+
+    <WritingTask />
+  </section>
+</Layout>

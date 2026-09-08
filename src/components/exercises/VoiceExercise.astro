@@ -1,31 +1,53 @@
 ---
+import PracticeLanguageToggle from './PracticeLanguageToggle.astro';
 import { breathingRoutineText, selfAssessmentChecklist } from '../../data/exercises/voice';
 
 const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+
+const copy = {
+  en: {
+    breathHeading: 'Guided breath support',
+    breathBody: 'Most strain in a speaking voice starts with shallow, chest-only breathing. This routine paces a low, steady breath — in for four, hold for two, out for six — three times through.',
+    startRoutine: '▶ Start the routine (~40s)',
+    checklistHeading: 'Self-assessment checklist',
+    checklistBody: 'Go through this after a few minutes of talking or reading aloud.',
+  },
+  de: {
+    breathHeading: 'Angeleitete Atemstütze',
+    breathBody: 'Die meiste Anstrengung beim Sprechen beginnt mit flacher, reiner Brustatmung. Diese Übung gibt einen tiefen, gleichmäßigen Atem im Takt vor — vier ein, zwei halten, sechs aus — dreimal hintereinander.',
+    startRoutine: '▶ Übung starten (~40s)',
+    checklistHeading: 'Selbsteinschätzung',
+    checklistBody: 'Geh das nach ein paar Minuten Sprechen oder lautem Lesen durch.',
+  },
+} as const;
+
+const locale = (Astro.currentLocale ?? 'en') as 'en' | 'de';
+const t = copy[locale];
 ---
 
-<div class="voice-block">
-  <h2>Guided breath support</h2>
-  <p class="text-muted">
-    Most strain in a speaking voice starts with shallow, chest-only breathing. This routine paces a
-    low, steady breath — in for four, hold for two, out for six — three times through.
-  </p>
-  <div class="card breathing-player">
-    <audio id="breathing-audio" src={ttsUrl(breathingRoutineText)} preload="none"></audio>
-    <button type="button" class="button button--primary" id="play-breathing">▶ Start the routine (~40s)</button>
-  </div>
+<PracticeLanguageToggle />
+
+<div class="voice-block" data-aspect="0">
+  <h2>{t.breathHeading}</h2>
+  <p class="text-muted">{t.breathBody}</p>
+  {(['en', 'de'] as const).map((lang) => (
+    <div class="card breathing-player" data-practice-lang={lang} hidden={lang !== 'en'}>
+      <audio class="breathing-audio" data-role="breathing-audio" src={ttsUrl(breathingRoutineText(lang))} preload="none"></audio>
+      <button type="button" class="button button--primary" data-role="play-breathing">{t.startRoutine}</button>
+    </div>
+  ))}
 </div>
 
-<div class="voice-block">
-  <h2>Self-assessment checklist</h2>
-  <p class="text-muted">Go through this after a few minutes of talking or reading aloud.</p>
+<div class="voice-block" data-aspect="1">
+  <h2>{t.checklistHeading}</h2>
+  <p class="text-muted">{t.checklistBody}</p>
   <div class="card checklist-card">
-    <ul class="checklist">
+    <ul class="checklist" data-role="checklist">
       {selfAssessmentChecklist.map((item) => (
         <li>
           <label>
             <input type="checkbox" />
-            {item.label}
+            {item.label[locale]}
           </label>
         </li>
       ))}
@@ -34,9 +56,35 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
 </div>
 
 <script>
-  document.getElementById('play-breathing')?.addEventListener('click', () => {
-    const audio = document.getElementById('breathing-audio') as HTMLAudioElement | null;
-    audio?.play();
+  import { logEvent } from '../../lib/progress-store';
+  import { initPracticeLangToggle } from '../../lib/practice-lang';
+
+  initPracticeLangToggle();
+
+  document.querySelectorAll<HTMLElement>('.breathing-player').forEach((player) => {
+    const audio = player.querySelector<HTMLAudioElement>('[data-role="breathing-audio"]');
+    player.querySelector<HTMLButtonElement>('[data-role="play-breathing"]')?.addEventListener('click', () => {
+      audio?.play();
+    });
+    // Only counts once the ~40s routine actually plays through, not just clicked.
+    audio?.addEventListener('ended', () => {
+      logEvent('voice', 'breathing-completed');
+    });
+  });
+
+  const checklist = document.querySelector<HTMLElement>('[data-role="checklist"]');
+  const checkboxes = checklist?.querySelectorAll<HTMLInputElement>('input[type="checkbox"]') ?? [];
+  let checklistLogged = false;
+  checkboxes.forEach((box) => {
+    box.addEventListener('change', () => {
+      const allChecked = Array.from(checkboxes).every((b) => b.checked);
+      if (allChecked && !checklistLogged) {
+        checklistLogged = true;
+        logEvent('voice', 'checklist-completed');
+      } else if (!allChecked) {
+        checklistLogged = false;
+      }
+    });
   });
 </script>
 
@@ -53,6 +101,10 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
     margin-block-start: 1.25rem;
     display: flex;
     align-items: center;
+  }
+
+  .breathing-player[hidden] {
+    display: none;
   }
 
   .checklist-card {

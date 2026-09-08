@@ -1,0 +1,67 @@
+---
+// Which language's words/sounds are being drilled — independent of the UI
+// locale (Astro.currentLocale). Purely presentational: the buttons carry
+// `data-practice-toggle-btn`, and src/lib/practice-lang.ts (imported by the
+// exercise component that owns the actual content blocks) does the
+// show/hide + persistence work. Server-rendered default is always English —
+// see practice-lang.ts for why this can't be resolved server-side on a
+// statically generated page.
+const locale = (Astro.currentLocale ?? 'en') as 'en' | 'de';
+
+const copy = {
+  en: { label: 'Practice', english: 'English', german: 'Deutsch' },
+  de: { label: 'Üben', english: 'Englisch', german: 'Deutsch' },
+} as const;
+const t = copy[locale];
+---
+
+<div class="practice-toggle" role="group" aria-label={t.label}>
+  <span class="practice-toggle__label text-muted">{t.label}</span>
+  <button
+    type="button"
+    class="button button--ghost practice-toggle__btn is-active"
+    data-practice-toggle-btn="en"
+    aria-current="true"
+  >
+    {t.english}
+  </button>
+  <button
+    type="button"
+    class="button button--ghost practice-toggle__btn"
+    data-practice-toggle-btn="de"
+    aria-current="false"
+  >
+    {t.german}
+  </button>
+</div>
+
+<style>
+  .practice-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-block: 0.5rem 1rem;
+  }
+
+  .practice-toggle__label {
+    font-size: 0.85rem;
+  }
+
+  .practice-toggle__btn {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  .practice-toggle__btn.is-active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+  }
+
+  @media print {
+    .practice-toggle {
+      display: none;
+    }
+  }
+</style>

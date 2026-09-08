@@ -1,0 +1,89 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import StoryReader from '../../../components/study/StoryReader.astro';
+import { chapters } from '../../../data/study/story';
+
+const titleDe: Record<string, string> = {
+  interview: 'Kapitel 1 · Das Interview',
+  'first-day': 'Kapitel 2 · Der erste Tag',
+};
+---
+
+<Layout
+  title="Story Stream — icanspeak.it"
+  description="Eine kurze Fortsetzungsgeschichte mit echten Lückentext-Grammatikprüfungen und einem Tipp-für-Bedeutung-Glossar."
+  altHref="/study/story/"
+>
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Study · Lesen &amp; Wortschatz</span>
+      <h1>Story Stream</h1>
+      <p class="lede">
+        Füll jede Lücke aus der Wortbank unter dem Text und prüf dann deine Antworten. Jedes
+        unterstrichene Wort ist antippbar — sieh seine Bedeutung und Herkunft, und speicher es direkt in
+        deinem Daily Deck.
+      </p>
+    </div>
+
+    <div class="story-switcher" role="tablist" aria-label="Kapitel">
+      {chapters.map((ch, i) => (
+        <button type="button" class="story-pill" data-chapter-index={i} aria-selected={i === 0 ? 'true' : 'false'}>
+          {titleDe[ch.id] ?? ch.title}
+        </button>
+      ))}
+    </div>
+
+    <div class="story-panels">
+      {chapters.map((chapter, i) => (
+        <div class="story-panel" data-panel-index={i} hidden={i !== 0}>
+          <StoryReader chapter={chapter} />
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const pills = document.querySelectorAll<HTMLButtonElement>('.story-pill');
+  const panels = document.querySelectorAll<HTMLElement>('.story-panel');
+
+  pills.forEach((pill) => {
+    pill.addEventListener('click', () => {
+      const target = pill.dataset.chapterIndex;
+      pills.forEach((p) => p.setAttribute('aria-selected', String(p.dataset.chapterIndex === target)));
+      panels.forEach((panel) => {
+        panel.hidden = panel.dataset.panelIndex !== target;
+      });
+    });
+  });
+</script>
+
+<style>
+  .story-switcher {
+    display: inline-flex;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    padding: 4px;
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+    margin-block-end: 1.5rem;
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+
+  .story-pill {
+    border: 0;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: transparent;
+    color: var(--color-ink);
+  }
+
+  .story-pill[aria-selected='true'] {
+    background: var(--color-ink);
+    color: #fff;
+  }
+</style>

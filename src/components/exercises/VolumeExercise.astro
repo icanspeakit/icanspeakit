@@ -1,59 +1,104 @@
 ---
 import ShadowRecorder from '../ShadowRecorder.astro';
+import PracticeLanguageToggle from './PracticeLanguageToggle.astro';
 import { referencePhrase, volumeLevels, readingPassage } from '../../data/exercises/volume';
+import { referencePhraseDe, readingPassageDe } from '../../data/exercises/volume.de';
 
 const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+
+const practiceVariants = [
+  { lang: 'en' as const, referencePhrase, readingPassage },
+  { lang: 'de' as const, referencePhrase: referencePhraseDe, readingPassage: readingPassageDe },
+];
+
+const copy = {
+  en: {
+    recordHeading: 'Record & compare',
+    recordBody: 'Play the model line for pacing and content, then record yourself at each level below. Use the meter further down to find the zone first, then try landing in it without looking.',
+    modelLabel: (phrase: string) => `Model: "${phrase}"`,
+    zonesHeading: 'Find the zones',
+    zonesBody: "This meter reads your microphone's relative level, not a calibrated decibel — it's here so you can",
+    zonesBodyEm: 'see',
+    zonesBodyEnd: 'quiet, conversational, and projected before you try to hit them from memory. Read the passage below at a few different levels and watch where the needle lands.',
+    startMeter: '🎙 Start meter',
+  },
+  de: {
+    recordHeading: 'Aufnehmen & vergleichen',
+    recordBody: 'Spiel die Modellzeile für Tempo und Inhalt ab, dann nimm dich bei jeder Stufe unten selbst auf. Nutze das Messgerät weiter unten, um zuerst die Zone zu finden, und versuch dann, sie ohne hinzusehen zu treffen.',
+    modelLabel: (phrase: string) => `Modell: "${phrase}"`,
+    zonesHeading: 'Die Stufen finden',
+    zonesBody: 'Dieses Messgerät liest die relative Lautstärke deines Mikrofons, kein kalibriertes Dezibel — es soll dir helfen,',
+    zonesBodyEm: 'zu sehen',
+    zonesBodyEnd: ', wie leise, Gesprächslautstärke und projiziert klingen, bevor du versuchst, sie aus dem Gedächtnis zu treffen. Lies den Text unten in ein paar verschiedenen Stufen und beobachte, wo die Nadel landet.',
+    startMeter: '🎙 Messgerät starten',
+  },
+} as const;
+
+const locale = (Astro.currentLocale ?? 'en') as 'en' | 'de';
+const t = copy[locale];
 ---
 
-<div class="volume-block">
-  <h2>Record &amp; compare</h2>
-  <p class="text-muted">
-    Play the model line for pacing and content, then record yourself at each level below. Use the meter
-    further down to find the zone first, then try landing in it without looking.
-  </p>
+<PracticeLanguageToggle />
 
-  <div class="level-list">
-    {volumeLevels.map((level) => (
-      <div class="card level-row">
-        <div class="level-row__head">
-          <span class="tag">{level.label}</span>
-          <span class="text-muted level-row__hint">{level.hint}</span>
+{practiceVariants.map((variant) => (
+  <Fragment>
+    <div class="volume-block" data-aspect="0" data-practice-lang={variant.lang} hidden={variant.lang !== 'en'}>
+      <h2>{t.recordHeading}</h2>
+      <p class="text-muted">{t.recordBody}</p>
+
+      <div class="level-list">
+        {volumeLevels.map((level) => (
+          <div class="card level-row">
+            <div class="level-row__head">
+              <span class="tag">{level.label[locale]}</span>
+              <span class="text-muted level-row__hint">{level.hint[locale]}</span>
+            </div>
+            <ShadowRecorder audioSrc={ttsUrl(variant.referencePhrase)} label={t.modelLabel(variant.referencePhrase)} />
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="volume-block" data-aspect="1" data-practice-lang={variant.lang} hidden={variant.lang !== 'en'}>
+      <h2>{t.zonesHeading}</h2>
+      <p class="text-muted">
+        {t.zonesBody}
+        <em>{t.zonesBodyEm}</em>
+        {t.zonesBodyEnd}
+      </p>
+      <div
+        class="card meter-card"
+        data-label-start={t.startMeter}
+        data-label-stop={locale === 'de' ? '■ Messgerät stoppen' : '■ Stop meter'}
+        data-label-listening={locale === 'de' ? 'Höre zu…' : 'Listening…'}
+        data-label-denied={locale === 'de' ? 'Mikrofonzugriff verweigert.' : 'Microphone access denied.'}
+      >
+        <div class="meter-controls">
+          <button type="button" class="button button--primary" data-role="meter-toggle">{t.startMeter}</button>
+          <span class="meter-status text-muted" data-role="meter-status" aria-live="polite"></span>
         </div>
-        <ShadowRecorder audioSrc={ttsUrl(referencePhrase)} label={`Model: "${referencePhrase}"`} />
-      </div>
-    ))}
-  </div>
-</div>
-
-<div class="volume-block">
-  <h2>Find the zones</h2>
-  <p class="text-muted">
-    This meter reads your microphone's relative level, not a calibrated decibel — it's here so you can
-    <em>see</em> quiet, conversational, and projected before you try to hit them from memory. Read the
-    passage below at a few different levels and watch where the needle lands.
-  </p>
-  <div class="card meter-card">
-    <div class="meter-controls">
-      <button type="button" class="button button--primary" data-role="meter-toggle">🎙 Start meter</button>
-      <span class="meter-status text-muted" data-role="meter-status" aria-live="polite"></span>
-    </div>
-    <div class="meter" data-role="meter">
-      <div class="meter__track">
-        <div class="meter__fill" data-role="meter-fill"></div>
-        <div class="meter__mark" style="left: 30%"></div>
-        <div class="meter__mark" style="left: 65%"></div>
-      </div>
-      <div class="meter__zones">
-        <span>Quiet</span>
-        <span>Conversational</span>
-        <span>Projected</span>
+        <div class="meter" data-role="meter">
+          <div class="meter__track">
+            <div class="meter__fill" data-role="meter-fill"></div>
+            <div class="meter__mark" style="left: 30%"></div>
+            <div class="meter__mark" style="left: 65%"></div>
+          </div>
+          <div class="meter__zones">
+            {volumeLevels.map((level) => <span>{level.label[locale]}</span>)}
+          </div>
+        </div>
+        <p class="meter-passage">{variant.readingPassage}</p>
       </div>
     </div>
-    <p class="meter-passage">{readingPassage}</p>
-  </div>
-</div>
+  </Fragment>
+))}
 
 <script>
+  import { logVolumeSession } from '../../lib/progress-store';
+  import { initPracticeLangToggle } from '../../lib/practice-lang';
+
+  initPracticeLangToggle();
+
   const meters = document.querySelectorAll<HTMLElement>('[data-role="meter"]');
 
   meters.forEach((meter) => {
@@ -61,12 +106,16 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
     const toggleBtn = card?.querySelector<HTMLButtonElement>('[data-role="meter-toggle"]');
     const status = card?.querySelector<HTMLElement>('[data-role="meter-status"]');
     const fill = meter.querySelector<HTMLElement>('[data-role="meter-fill"]');
+    const labels = (card as HTMLElement | undefined)?.dataset ?? {};
 
     let audioCtx: AudioContext | null = null;
     let analyser: AnalyserNode | null = null;
     let stream: MediaStream | null = null;
     let rafId: number | null = null;
     let data: Uint8Array | null = null;
+    // Real per-session distribution across the meter's own zone marks
+    // (30%/65%) — this is what gets logged, not a fabricated accuracy.
+    let zoneCounts = { quiet: 0, conversational: 0, projected: 0 };
 
     function stop() {
       if (rafId != null) cancelAnimationFrame(rafId);
@@ -77,8 +126,14 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
       audioCtx = null;
       analyser = null;
       if (fill) fill.style.width = '0%';
-      if (toggleBtn) toggleBtn.textContent = '🎙 Start meter';
+      if (toggleBtn) toggleBtn.textContent = labels.labelStart ?? '🎙 Start meter';
       if (status) status.textContent = '';
+
+      const totalSamples = zoneCounts.quiet + zoneCounts.conversational + zoneCounts.projected;
+      if (totalSamples > 0) {
+        logVolumeSession(zoneCounts.quiet, zoneCounts.conversational, zoneCounts.projected);
+      }
+      zoneCounts = { quiet: 0, conversational: 0, projected: 0 };
     }
 
     function tick() {
@@ -94,6 +149,14 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
       // noticeably, instead of the meter only reacting once it's loud.
       const level = Math.min(100, Math.pow(rms, 0.6) * 220);
       fill.style.width = `${level}%`;
+      // Only bucket samples once the mic is picking up real signal — pure
+      // silence (level ~0, e.g. before the speaker starts) shouldn't count
+      // as a "quiet" reading.
+      if (level > 2) {
+        if (level < 30) zoneCounts.quiet += 1;
+        else if (level < 65) zoneCounts.conversational += 1;
+        else zoneCounts.projected += 1;
+      }
       rafId = requestAnimationFrame(tick);
     }
 
@@ -106,7 +169,7 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
       try {
         stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       } catch {
-        if (status) status.textContent = 'Microphone access denied.';
+        if (status) status.textContent = labels.labelDenied ?? 'Microphone access denied.';
         return;
       }
 
@@ -119,8 +182,8 @@ const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
       const source = audioCtx.createMediaStreamSource(stream);
       source.connect(analyser); // analysis only — never connected to destination, so no feedback
 
-      if (toggleBtn) toggleBtn.textContent = '■ Stop meter';
-      if (status) status.textContent = 'Listening…';
+      if (toggleBtn) toggleBtn.textContent = labels.labelStop ?? '■ Stop meter';
+      if (status) status.textContent = labels.labelListening ?? 'Listening…';
       tick();
     });
   });

@@ -1,23 +1,25 @@
 ---
 import type { Topic } from '../data/exercises/topics';
+import { hrefFor } from '../data/exercises/topics';
 
 interface Props {
   topics: Topic[];
 }
 
 const { topics } = Astro.props;
+const locale = (Astro.currentLocale ?? 'en') as 'en' | 'de';
 ---
 
 <div class="exercise-grid">
   {topics.map((topic) => (
     <a
-      href={topic.href}
+      href={hrefFor(topic.href, locale)}
       class:list={['exercise-card', { 'exercise-card--featured': topic.featured }]}
       data-status={topic.status}
     >
-      <span class="exercise-card__category">{topic.category}</span>
-      <h3>{topic.title}</h3>
-      <p class="text-muted">{topic.description}</p>
+      <span class="exercise-card__category">{topic.category[locale]}</span>
+      <h3>{topic.title[locale]}</h3>
+      <p class="text-muted">{topic.description[locale]}</p>
     </a>
   ))}
 </div>
@@ -38,18 +40,15 @@ const { topics } = Astro.props;
     border-radius: var(--radius);
     box-shadow: var(--shadow-sm);
     padding: clamp(1.15rem, 2vw, 1.5rem);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     text-decoration: none;
     color: inherit;
   }
 
   .exercise-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
     box-shadow: var(--shadow-md);
-  }
-
-  .exercise-card--featured {
-    border: 2px solid var(--color-primary);
+    border-color: var(--color-primary);
   }
 
   .exercise-card__category {

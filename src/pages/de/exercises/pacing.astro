@@ -1,0 +1,30 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PaceExercise from '../../../components/exercises/PaceExercise.astro';
+---
+
+<Layout
+  title="Tempo &amp; Pausen — icanspeak.it"
+  description="Modellaudio mit exakter Pausensetzung, dazu Shadowing bei verschiedenen Wiedergabegeschwindigkeiten für ein natürliches Sprechtempo."
+  altHref="/exercises/pacing/"
+>
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Tempo &amp; Pausen</span>
+      <h1>Tempo &amp; Pausen</h1>
+      <p class="lede">
+        Hör, wo eine Muttersprachlerin pausiert ("/" = kurze Pause, "//" = lange Pause), verlangsame es
+        zum Studieren und sprich es dann wieder im Originaltempo nach.
+      </p>
+      <button type="button" class="button button--ghost" id="print-worksheet">🖨 Arbeitsblatt drucken</button>
+    </div>
+
+    <PaceExercise />
+  </section>
+</Layout>
+
+<script>
+  document.getElementById('print-worksheet')?.addEventListener('click', () => {
+    window.print();
+  });
+</script>

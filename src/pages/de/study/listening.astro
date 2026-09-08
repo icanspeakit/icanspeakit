@@ -1,0 +1,24 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import ListeningClip from '../../../components/study/ListeningClip.astro';
+---
+
+<Layout
+  title="Listening Board — icanspeak.it"
+  description="Ein echter gesprochener Clip mit einem Transkript, das sich beim Hören aufdeckt, plus Diktat, Wortreihenfolge und Nachsprechen."
+  altHref="/study/listening/"
+>
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Study · Hörverstehen</span>
+      <h1>Listening Board</h1>
+      <p class="lede">
+        Ein echter Clip, generiert und analysiert genauso wie der Tonhöhenverlauf auf der Prosodie-Seite
+        — das Transkript deckt sich synchron mit dem echten Wort-Timing auf, nicht mit einer festen
+        Animation.
+      </p>
+    </div>
+
+    <ListeningClip />
+  </section>
+</Layout>

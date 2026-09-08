@@ -25,24 +25,62 @@ function seededBars(seed: string, count: number) {
   return bars;
 }
 const bars = seededBars(clip.script, 48);
+
+const locale = (Astro.currentLocale ?? 'en') as 'en' | 'de';
+
+const copy = {
+  en: {
+    live: 'Live — real audio & timing',
+    loading: 'Loading clip…',
+    play: 'Play',
+    transcript: 'Transcript · revealed as you go',
+    dictationLine: 'Dictation · the highlighted line',
+    placeholder: 'Type what you hear…',
+    check: 'Check',
+    reveal: 'Reveal',
+    orderWords: 'Order the words',
+    reset: 'Reset',
+    shadowIt: 'Shadow it',
+    playModel: '▶ Play model',
+    recordYourself: '● Record yourself',
+  },
+  de: {
+    live: 'Live — echtes Audio & echtes Timing',
+    loading: 'Clip wird geladen…',
+    play: 'Abspielen',
+    transcript: 'Transkript · deckt sich beim Hören auf',
+    dictationLine: 'Diktat · die hervorgehobene Zeile',
+    placeholder: 'Tipp, was du hörst…',
+    check: 'Prüfen',
+    reveal: 'Auflösen',
+    orderWords: 'Wörter in die richtige Reihenfolge bringen',
+    reset: 'Zurücksetzen',
+    shadowIt: 'Nachsprechen',
+    playModel: '▶ Modell abspielen',
+    recordYourself: '● Dich aufnehmen',
+  },
+} as const;
+
+const t = copy[locale];
 ---
 
 <div
   class="listening-clip"
   data-role="listening-clip"
+  data-locale={locale}
   data-script={clip.script}
   data-focus-line={clip.focusLineIndex}
   data-src={ttsTimestampsUrl}
 >
   <div class="lc-top">
-    <span class="lc-live">Live — real audio &amp; timing</span>
-    <p class="lc-status" data-role="status">Loading clip…</p>
+    <span class="lc-live">{t.live}</span>
+    <p class="lc-status" data-role="status">{t.loading}</p>
   </div>
 
   <audio data-role="audio" hidden></audio>
 
   <div class="lc-player" data-role="player" hidden>
-    <button type="button" class="lc-play" data-role="play" aria-label="Play">▶</button>
+    <button type="button" class="lc-play" data-role="play" aria-label={t.play}>▶</button>
     <div class="lc-waveform" data-role="waveform">
       <div class="lc-bars lc-bars--base">
         {bars.map((h) => <span class="lc-bar" style={`height:${h}%`}></span>)}
@@ -61,40 +99,40 @@ const bars = seededBars(clip.script, 48);
   </div>
 
   <div class="lc-transcript-wrap" data-role="transcript-wrap" hidden>
-    <div class="label-caps">Transcript · revealed as you go</div>
+    <div class="label-caps">{t.transcript}</div>
     <p class="lc-transcript" data-role="transcript"></p>
   </div>
 
   <div class="lc-grid" data-role="exercises" hidden>
     <div class="lc-col">
-      <div class="label-caps">Dictation · the highlighted line</div>
+      <div class="label-caps">{t.dictationLine}</div>
       <p class="lc-dictation-line" data-role="focus-line-display"></p>
-      <textarea class="lc-input" data-role="dictation-input" rows="2" placeholder="Type what you hear…"></textarea>
+      <textarea class="lc-input" data-role="dictation-input" rows="2" placeholder={t.placeholder}></textarea>
       <div class="lc-row">
-        <button type="button" class="button button--primary" data-role="dictation-check">Check</button>
-        <button type="button" class="button button--ghost" data-role="dictation-reveal">Reveal</button>
+        <button type="button" class="button button--primary" data-role="dictation-check">{t.check}</button>
+        <button type="button" class="button button--ghost" data-role="dictation-reveal">{t.reveal}</button>
       </div>
       <p class="lc-result" data-role="dictation-result"></p>
       <p class="lc-diff" data-role="dictation-diff"></p>
     </div>
 
     <div class="lc-col">
-      <div class="label-caps">Order the words</div>
+      <div class="label-caps">{t.orderWords}</div>
       <div class="lc-answer-strip" data-role="answer-strip"></div>
       <div class="lc-chip-row" data-role="chip-bank"></div>
       <div class="lc-row">
-        <button type="button" class="button button--primary" data-role="order-check">Check</button>
-        <button type="button" class="button button--ghost" data-role="order-reset">Reset</button>
+        <button type="button" class="button button--primary" data-role="order-check">{t.check}</button>
+        <button type="button" class="button button--ghost" data-role="order-reset">{t.reset}</button>
       </div>
       <p class="lc-result" data-role="order-result"></p>
     </div>
   </div>
 
   <div class="lc-shadow" data-role="shadow" hidden>
-    <div class="label-caps">Shadow it</div>
+    <div class="label-caps">{t.shadowIt}</div>
     <div class="lc-row">
-      <button type="button" class="button button--ghost" data-role="shadow-play">▶ Play model</button>
-      <button type="button" class="button button--primary" data-role="shadow-record">● Record yourself</button>
+      <button type="button" class="button button--ghost" data-role="shadow-play">{t.playModel}</button>
+      <button type="button" class="button button--primary" data-role="shadow-record">{t.recordYourself}</button>
       <span class="text-muted" data-role="shadow-status"></span>
     </div>
     <audio data-role="shadow-playback" hidden controls></audio>
@@ -104,7 +142,37 @@ const bars = seededBars(clip.script, 48);
 <script>
   import { wordSpansFromAlignment, base64ToBytes, linesFromWords } from '../../lib/alignment';
 
+  const dict = {
+    en: {
+      correctOrder: 'Correct order.',
+      wrongOrder: (words: string) => `Not quite — correct order: ${words}`,
+      perfect: 'Perfect.',
+      score: (hits: number, n: number) => `${hits} of ${n} words correct.`,
+      revealed: 'Revealed.',
+      denied: 'Microphone access denied.',
+      recordedCompare: 'Recorded — compare it to the model above.',
+      recordYourself: '● Record yourself',
+      stop: '■ Stop',
+      recording: 'Recording…',
+      loadFailed: "Couldn't load this clip — try refreshing.",
+    },
+    de: {
+      correctOrder: 'Richtige Reihenfolge.',
+      wrongOrder: (words: string) => `Nicht ganz — richtige Reihenfolge: ${words}`,
+      perfect: 'Perfekt.',
+      score: (hits: number, n: number) => `${hits} von ${n} Wörtern richtig.`,
+      revealed: 'Aufgelöst.',
+      denied: 'Mikrofonzugriff verweigert.',
+      recordedCompare: 'Aufgenommen — vergleich es mit dem Modell oben.',
+      recordYourself: '● Dich aufnehmen',
+      stop: '■ Stopp',
+      recording: 'Aufnahme läuft…',
+      loadFailed: 'Dieser Clip konnte nicht geladen werden — versuch es erneut.',
+    },
+  } as const;
+
   document.querySelectorAll<HTMLElement>('[data-role="listening-clip"]').forEach(async (root) => {
+    const c = dict[root.dataset.locale === 'de' ? 'de' : 'en'];
     const script = root.dataset.script ?? '';
     const focusLineIndex = Number(root.dataset.focusLine ?? 0);
     const src = root.dataset.src;
@@ -215,7 +283,7 @@ const bars = seededBars(clip.script, 48);
       orderCheck?.addEventListener('click', () => {
         const ok = placed.map((p) => p.word).join(' ') === focusLine.words.join(' ');
         if (orderResult) {
-          orderResult.textContent = ok ? 'Correct order.' : `Not quite — correct order: ${focusLine.words.join(' ')}`;
+          orderResult.textContent = ok ? c.correctOrder : c.wrongOrder(focusLine.words.join(' '));
         }
       });
 
@@ -238,13 +306,13 @@ const bars = seededBars(clip.script, 48);
           if (ok) hits += 1;
           tokens.push(`<span class="lc-token ${t === undefined ? 'lc-token--missing' : ok ? 'lc-token--ok' : 'lc-token--wrong'}">${t ?? '···'}</span>`);
         }
-        if (dictationResult) dictationResult.textContent = hits === target.length && typed.length === target.length ? 'Perfect.' : `${hits} of ${target.length} words correct.`;
+        if (dictationResult) dictationResult.textContent = hits === target.length && typed.length === target.length ? c.perfect : c.score(hits, target.length);
         if (dictationDiff) dictationDiff.innerHTML = tokens.join(' ');
       });
 
       dictationReveal?.addEventListener('click', () => {
         if (dictationInput) dictationInput.value = focusLine.words.join(' ');
-        if (dictationResult) dictationResult.textContent = 'Revealed.';
+        if (dictationResult) dictationResult.textContent = c.revealed;
         if (dictationDiff) dictationDiff.innerHTML = '';
       });
 
@@ -304,7 +372,7 @@ const bars = seededBars(clip.script, 48);
         try {
           micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
         } catch {
-          if (shadowStatus) shadowStatus.textContent = 'Microphone access denied.';
+          if (shadowStatus) shadowStatus.textContent = c.denied;
           return;
         }
         const chunks: BlobPart[] = [];
@@ -316,13 +384,13 @@ const bars = seededBars(clip.script, 48);
             shadowPlayback.src = URL.createObjectURL(recBlob);
             shadowPlayback.hidden = false;
           }
-          if (shadowStatus) shadowStatus.textContent = 'Recorded — compare it to the model above.';
-          if (shadowRecord) shadowRecord.textContent = '● Record yourself';
+          if (shadowStatus) shadowStatus.textContent = c.recordedCompare;
+          if (shadowRecord) shadowRecord.textContent = c.recordYourself;
           micStream?.getTracks().forEach((t) => t.stop());
         };
         mediaRecorder.start();
-        if (shadowStatus) shadowStatus.textContent = 'Recording…';
-        if (shadowRecord) shadowRecord.textContent = '■ Stop';
+        if (shadowStatus) shadowStatus.textContent = c.recording;
+        if (shadowRecord) shadowRecord.textContent = c.stop;
       });
 
       if (status) status.hidden = true;
@@ -332,7 +400,7 @@ const bars = seededBars(clip.script, 48);
       if (shadowEl) shadowEl.hidden = false;
     } catch (error) {
       console.error('Listening clip failed:', error);
-      if (status) status.textContent = "Couldn't load this clip — try refreshing.";
+      if (status) status.textContent = c.loadFailed;
     }
   });
 </script>

@@ -1,3 +1,5 @@
+import type { LocalizedText } from './topics';
+
 export interface MinimalPair {
   id: string;
   wordA: string;
@@ -5,7 +7,7 @@ export interface MinimalPair {
   wordB: string;
   ipaB: string;
   contrast: string;
-  notes: string;
+  notes: LocalizedText;
 }
 
 export const minimalPairs: MinimalPair[] = [
@@ -16,7 +18,10 @@ export const minimalPairs: MinimalPair[] = [
     wordB: 'sheep',
     ipaB: '/ʃiːp/',
     contrast: 'ɪ vs iː',
-    notes: 'The short "ɪ" is more central and relaxed than the tense, longer "iː".',
+    notes: {
+      en: 'The short "ɪ" is more central and relaxed than the tense, longer "iː".',
+      de: 'Das kurze "ɪ" ist zentraler und entspannter als das gespannte, längere "iː".',
+    },
   },
   {
     id: 'live-leave',
@@ -25,7 +30,10 @@ export const minimalPairs: MinimalPair[] = [
     wordB: 'leave',
     ipaB: '/liːv/',
     contrast: 'ɪ vs iː',
-    notes: 'Same vowel contrast as ship/sheep, in a different consonant frame.',
+    notes: {
+      en: 'Same vowel contrast as ship/sheep, in a different consonant frame.',
+      de: 'Derselbe Vokalkontrast wie bei ship/sheep, nur mit anderen Konsonanten drumherum.',
+    },
   },
   {
     id: 'think-sink',
@@ -34,7 +42,10 @@ export const minimalPairs: MinimalPair[] = [
     wordB: 'sink',
     ipaB: '/sɪŋk/',
     contrast: 'θ vs s',
-    notes: 'Tongue between the teeth for "θ"; tongue behind the teeth (not touching) for "s".',
+    notes: {
+      en: 'Tongue between the teeth for "θ"; tongue behind the teeth (not touching) for "s".',
+      de: 'Zunge zwischen den Zähnen für "θ"; Zunge hinter den Zähnen (ohne Berührung) für "s".',
+    },
   },
   {
     id: 'thin-fin',
@@ -43,7 +54,10 @@ export const minimalPairs: MinimalPair[] = [
     wordB: 'fin',
     ipaB: '/fɪn/',
     contrast: 'θ vs f',
-    notes: 'Both are voiceless and airy, but "θ" uses the tongue tip, not the lip.',
+    notes: {
+      en: 'Both are voiceless and airy, but "θ" uses the tongue tip, not the lip.',
+      de: 'Beide sind stimmlos und luftig, aber bei "θ" arbeitet die Zungenspitze, nicht die Lippe.',
+    },
   },
   {
     id: 'light-right',
@@ -52,7 +66,10 @@ export const minimalPairs: MinimalPair[] = [
     wordB: 'right',
     ipaB: '/raɪt/',
     contrast: 'l vs r',
-    notes: 'Tongue tip touches the ridge behind the teeth for "l"; it curls back without touching for "r".',
+    notes: {
+      en: 'Tongue tip touches the ridge behind the teeth for "l"; it curls back without touching for "r".',
+      de: 'Zungenspitze berührt bei "l" den Gaumenwulst hinter den Zähnen; bei "r" krümmt sie sich zurück, ohne zu berühren.',
+    },
   },
   {
     id: 'collect-correct',
@@ -61,7 +78,10 @@ export const minimalPairs: MinimalPair[] = [
     wordB: 'correct',
     ipaB: '/kəˈrekt/',
     contrast: 'l vs r',
-    notes: 'Same l/r contrast, mid-word this time.',
+    notes: {
+      en: 'Same l/r contrast, mid-word this time.',
+      de: 'Derselbe l/r-Kontrast, diesmal mitten im Wort.',
+    },
   },
   {
     id: 'van-wan',
@@ -70,7 +90,10 @@ export const minimalPairs: MinimalPair[] = [
     wordB: 'wan',
     ipaB: '/wɒn/',
     contrast: 'v vs w',
-    notes: 'Top teeth touch the bottom lip for "v"; lips round without teeth contact for "w".',
+    notes: {
+      en: 'Top teeth touch the bottom lip for "v"; lips round without teeth contact for "w".',
+      de: 'Obere Zähne berühren bei "v" die Unterlippe; bei "w" runden sich die Lippen ohne Zahnkontakt.',
+    },
   },
   {
     id: 'vine-wine',
@@ -79,7 +102,10 @@ export const minimalPairs: MinimalPair[] = [
     wordB: 'wine',
     ipaB: '/waɪn/',
     contrast: 'v vs w',
-    notes: 'Same v/w contrast — a common one for German and Slavic-language speakers.',
+    notes: {
+      en: 'Same v/w contrast — a common one for German and Slavic-language speakers.',
+      de: 'Derselbe v/w-Kontrast — ein klassischer Stolperstein für deutsche und slawische Muttersprachler.',
+    },
   },
   {
     id: 'bet-bat',
@@ -88,7 +114,10 @@ export const minimalPairs: MinimalPair[] = [
     wordB: 'bat',
     ipaB: '/bæt/',
     contrast: 'e vs æ',
-    notes: '"æ" opens the jaw wider and further forward than "e".',
+    notes: {
+      en: '"æ" opens the jaw wider and further forward than "e".',
+      de: '"æ" öffnet den Kiefer weiter und weiter vorn als "e".',
+    },
   },
   {
     id: 'cheap-jeep',
@@ -97,7 +126,10 @@ export const minimalPairs: MinimalPair[] = [
     wordB: 'jeep',
     ipaB: '/dʒiːp/',
     contrast: 'tʃ vs dʒ',
-    notes: 'Same tongue position; "dʒ" adds voicing, "tʃ" stays voiceless.',
+    notes: {
+      en: 'Same tongue position; "dʒ" adds voicing, "tʃ" stays voiceless.',
+      de: 'Gleiche Zungenstellung; "dʒ" ist stimmhaft, "tʃ" bleibt stimmlos.',
+    },
   },
   {
     id: 'simple-symbol',
@@ -106,7 +138,10 @@ export const minimalPairs: MinimalPair[] = [
     wordB: 'peat',
     ipaB: '/piːt/',
     contrast: 'ɪ vs iː',
-    notes: 'A third ɪ/iː pair — this contrast is worth extra repetition.',
+    notes: {
+      en: 'A third ɪ/iː pair — this contrast is worth extra repetition.',
+      de: 'Ein drittes ɪ/iː-Paar — dieser Kontrast lohnt zusätzliche Wiederholung.',
+    },
   },
   {
     id: 'bad-bed',
@@ -115,6 +150,9 @@ export const minimalPairs: MinimalPair[] = [
     wordB: 'bed',
     ipaB: '/bed/',
     contrast: 'æ vs e',
-    notes: 'The reverse framing of bet/bat — same contrast, different ear training.',
+    notes: {
+      en: 'The reverse framing of bet/bat — same contrast, different ear training.',
+      de: 'Die umgekehrte Reihenfolge von bet/bat — gleicher Kontrast, anderes Hörtraining.',
+    },
   },
 ];

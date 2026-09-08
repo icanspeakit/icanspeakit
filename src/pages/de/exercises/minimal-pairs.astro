@@ -1,0 +1,30 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import ArticulationExercise from '../../../components/exercises/ArticulationExercise.astro';
+---
+
+<Layout
+  title="Minimalpaare — icanspeak.it"
+  description="Unterscheidungsübungen und Shadowing für genau die Lautkontraste, an denen nicht-englische Muttersprachler scheitern."
+  altHref="/exercises/minimal-pairs/"
+>
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Artikulation</span>
+      <h1>Minimalpaare</h1>
+      <p class="lede">
+        Hör zu, rate, welches Wort du gehört hast, und sprich es dann selbst nach. Keine
+        Bewertungs-Engine nötig — die Seite kennt die Antwort schon, du prüfst dich also sofort selbst.
+      </p>
+      <button type="button" class="button button--ghost" id="print-worksheet">🖨 Arbeitsblatt drucken</button>
+    </div>
+
+    <ArticulationExercise />
+  </section>
+</Layout>
+
+<script>
+  document.getElementById('print-worksheet')?.addEventListener('click', () => {
+    window.print();
+  });
+</script>

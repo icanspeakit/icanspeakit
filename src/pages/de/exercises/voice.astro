@@ -1,0 +1,32 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import VoiceExercise from '../../../components/exercises/VoiceExercise.astro';
+---
+
+<Layout
+  title="Stimme — icanspeak.it"
+  description="Eine angeleitete Atemstütz-Übung und eine Selbsteinschätzung für Stimmumfang und Resonanz."
+  altHref="/exercises/voice/"
+>
+  <section class="container">
+    <div class="section-head">
+      <span class="eyebrow">Stimme</span>
+      <h1>Stimme</h1>
+      <p class="lede">
+        Ehrlich gesagt: ein Live-Tonhöhenbereich-Visualizer bräuchte browserseitige Tonhöhenerkennung
+        über dein eigenes Mikrofon — eine eigene Technologie, die wir noch nicht gebaut haben und die
+        ElevenLabs nicht liefert. Was hier jetzt steht, ist echt und für sich genommen nützlich: eine
+        angeleitete Atemstütz-Übung und eine Selbsteinschätzung.
+      </p>
+      <button type="button" class="button button--ghost" id="print-worksheet">🖨 Arbeitsblatt drucken</button>
+    </div>
+
+    <VoiceExercise />
+  </section>
+</Layout>
+
+<script>
+  document.getElementById('print-worksheet')?.addEventListener('click', () => {
+    window.print();
+  });
+</script>

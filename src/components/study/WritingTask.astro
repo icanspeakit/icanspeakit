@@ -3,41 +3,74 @@
 // ../data/study/writing.ts for why this is regex-based, not AI-graded).
 import { task } from '../../data/study/writing';
 
+const locale = (Astro.currentLocale ?? 'en') as 'en' | 'de';
+
 const checklistForClient = task.checklist.map((item) => ({
   id: item.id,
-  label: item.label,
+  label: item.label[locale],
   source: item.pattern.source,
   flags: item.pattern.flags,
 }));
+
+const copy = {
+  en: {
+    task: 'Task',
+    brief: 'Brief',
+    placeholder: 'Write your reply here…',
+    words: 'words',
+    showModel: 'Show model answer',
+    hideModel: 'Hide model answer',
+    checkDraft: 'Check my draft',
+    modelAnswer: 'Model answer',
+    checklistLive: 'Checklist · updates as you type',
+    submitNote: (metCount: number, total: number, inRange: boolean, count: number) =>
+      `${metCount} of ${total} checklist items detected, and your draft is ${inRange ? 'in range' : 'outside the 80–120 word range'} at ${count} words. This is a self-check, not a grade — compare against the model answer for tone and phrasing.`,
+  },
+  de: {
+    task: 'Aufgabe',
+    brief: 'Vorgabe',
+    placeholder: 'Schreib deine Antwort hier…',
+    words: 'Wörter',
+    showModel: 'Musterantwort zeigen',
+    hideModel: 'Musterantwort ausblenden',
+    checkDraft: 'Meinen Entwurf prüfen',
+    modelAnswer: 'Musterantwort',
+    checklistLive: 'Checkliste · aktualisiert sich beim Tippen',
+    submitNote: (metCount: number, total: number, inRange: boolean, count: number) =>
+      `${metCount} von ${total} Checklistenpunkten erkannt, dein Entwurf liegt mit ${count} Wörtern ${inRange ? 'im Zielbereich' : 'außerhalb des 80–120-Wörter-Bereichs'}. Das ist eine Selbstprüfung, keine Bewertung — vergleiche Ton und Formulierung mit der Musterantwort.`,
+  },
+} as const;
+
+const t = copy[locale];
 ---
 
-<div class="writing-desk" data-role="writing-desk">
+<div class="writing-desk" data-role="writing-desk" data-locale={locale}>
   <div class="wd-stage">
     <div class="wd-main">
       <div class="wd-meta">
-        <span>Task · {task.title}</span>
+        <span>{t.task} · {task.title[locale]}</span>
         <span>{task.level}</span>
       </div>
-      <div class="wd-brief">Brief: {task.brief}</div>
+      <div class="wd-brief">{t.brief}: {task.brief[locale]}</div>
 
-      <textarea class="wd-textarea" data-role="draft" rows="10" placeholder="Write your reply here…"></textarea>
+      <textarea class="wd-textarea" data-role="draft" rows="10" placeholder={t.placeholder}></textarea>
 
       <div class="wd-footer-row">
-        <span class="wd-wordcount" data-role="word-count">0 / {task.minWords}–{task.maxWords} words</span>
+        <span class="wd-wordcount" data-role="word-count">0 / {task.minWords}–{task.maxWords} {t.words}</span>
         <div class="wd-actions">
-          <button type="button" class="button button--ghost" data-role="toggle-model">Show model answer</button>
-          <button type="button" class="button button--primary" data-role="submit">Check my draft</button>
+          <button type="button" class="button button--ghost" data-role="toggle-model">{t.showModel}</button>
+          <button type="button" class="button button--primary" data-role="submit">{t.checkDraft}</button>
         </div>
       </div>
 
       <div class="wd-model" data-role="model" hidden>
-        <div class="label-caps">Model answer</div>
+        <div class="label-caps">{t.modelAnswer}</div>
         <p class="wd-model-text" data-role="model-text"></p>
       </div>
     </div>
 
     <div class="wd-sidebar">
-      <div class="label-caps">Checklist · updates as you type</div>
+      <div class="label-caps">{t.checklistLive}</div>
       <div class="checklist" data-role="checklist">
         {checklistForClient.map((item) => (
           <span class="wd-check" data-role="check-item" data-id={item.id}>
@@ -50,7 +83,7 @@ const checklistForClient = task.checklist.map((item) => ({
   </div>
 </div>
 
-<script define:vars={{ checklistForClient, modelAnswer: task.modelAnswer, minWords: task.minWords, maxWords: task.maxWords }}>
+<script define:vars={{ checklistForClient, modelAnswer: task.modelAnswer, minWords: task.minWords, maxWords: task.maxWords, locale, wordsLabel: t.words, showModelLabel: t.showModel, hideModelLabel: t.hideModel }}>
   document.querySelectorAll('[data-role="writing-desk"]').forEach((root) => {
     const draft = root.querySelector('[data-role="draft"]');
     const wordCountEl = root.querySelector('[data-role="word-count"]');
@@ -71,7 +104,7 @@ const checklistForClient = task.checklist.map((item) => ({
       const count = text.trim() ? words.length : 0;
 
       if (wordCountEl) {
-        wordCountEl.textContent = `${count} / ${minWords}–${maxWords} words`;
+        wordCountEl.textContent = `${count} / ${minWords}–${maxWords} ${wordsLabel}`;
         wordCountEl.classList.toggle('wd-wordcount--ok', count >= minWords && count <= maxWords);
         wordCountEl.classList.toggle('wd-wordcount--over', count > maxWords);
       }
@@ -92,14 +125,17 @@ const checklistForClient = task.checklist.map((item) => ({
     toggleModelBtn?.addEventListener('click', () => {
       const hidden = modelEl.hidden;
       modelEl.hidden = !hidden;
-      toggleModelBtn.textContent = hidden ? 'Hide model answer' : 'Show model answer';
+      toggleModelBtn.textContent = hidden ? hideModelLabel : showModelLabel;
     });
 
     submitBtn?.addEventListener('click', () => {
       const { count, metCount, total } = evaluate();
       const inRange = count >= minWords && count <= maxWords;
       submitNote.hidden = false;
-      submitNote.textContent = `${metCount} of ${total} checklist items detected, and your draft is ${inRange ? 'in range' : 'outside the 80–120 word range'} at ${count} words. This is a self-check, not a grade — compare against the model answer for tone and phrasing.`;
+      submitNote.textContent =
+        locale === 'de'
+          ? `${metCount} von ${total} Checklistenpunkten erkannt, dein Entwurf liegt mit ${count} Wörtern ${inRange ? 'im Zielbereich' : 'außerhalb des 80–120-Wörter-Bereichs'}. Das ist eine Selbstprüfung, keine Bewertung — vergleiche Ton und Formulierung mit der Musterantwort.`
+          : `${metCount} of ${total} checklist items detected, and your draft is ${inRange ? 'in range' : 'outside the 80–120 word range'} at ${count} words. This is a self-check, not a grade — compare against the model answer for tone and phrasing.`;
     });
   });
 </script>
