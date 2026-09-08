@@ -7,6 +7,7 @@ import ProsodyExercise from '../exercises/ProsodyExercise.astro';
 import VoiceExercise from '../exercises/VoiceExercise.astro';
 import PaceExercise from '../exercises/PaceExercise.astro';
 import VolumeExercise from '../exercises/VolumeExercise.astro';
+import { getFormatSummary as getPreviewSummary } from '../../lib/progress-store-preview';
 
 interface Props {
   activeSlug?: string;
@@ -240,6 +241,7 @@ const t = copy[locale];
   class:list={{ 'dash-page--fullscreen': fullscreen }}
   data-default-slug={defaultSlug}
   data-locale={locale}
+  data-preview={fullscreen ? 'false' : 'true'}
   data-word-due={t.words.due}
   data-word-new={t.words.new}
   data-word-not-started={t.words.notStarted}
@@ -344,6 +346,7 @@ const t = copy[locale];
           const Exercise = exerciseComponents[f.slug];
           const isActive = activeLens !== 'overview' && f.slug === currentSlug;
           const showProgress = isActive && activeLens === 'progress';
+          const preview = !fullscreen ? getPreviewSummary(f.slug, f.tier, locale) : null;
           return (
             <div class="dash-detail__panel" data-slug={f.slug} hidden={!isActive}>
               <div class="dash-detail__head">
@@ -351,7 +354,15 @@ const t = copy[locale];
                   <h2>{f.title}</h2>
                   <p class="text-muted">{f.description}</p>
                 </div>
-                <span class:list={['dash-badge', `dash-badge--${f.status}`]}>{statusBadge(f.status, locale)}</span>
+                {preview ? (
+                  <div class="dash-preview-card">
+                    <span class="dash-preview-card__title">{f.title}</span>
+                    <p class="dash-preview-card__body">{preview.body}</p>
+                    <a href={pathFor(locale, f.slug, 'practice')} class="dash-preview-card__cta">{preview.ctaLabel}</a>
+                  </div>
+                ) : (
+                  <span class:list={['dash-badge', `dash-badge--${f.status}`]}>{statusBadge(f.status, locale)}</span>
+                )}
               </div>
 
               <div class="dash-lens" role="tablist" aria-label="View">
@@ -384,7 +395,7 @@ const t = copy[locale];
                   </div>
                 </div>
 
-                {Exercise ? (
+                {Exercise && fullscreen ? (
                   <div class="dash-detail__exercise">
                     <Exercise />
                   </div>
@@ -527,7 +538,21 @@ const t = copy[locale];
 </div>
 
 <script>
-  import {
+  import * as RealStore from '../../lib/progress-store';
+  import * as PreviewStore from '../../lib/progress-store-preview';
+
+  type Lens = 'practice' | 'progress';
+
+  const page = document.querySelector<HTMLElement>('.dash-page')!;
+  const locale = (page.dataset.locale === 'de' ? 'de' : 'en') as 'en' | 'de';
+  const defaultSlug = page.dataset.defaultSlug ?? '';
+
+  // The homepage teaser embed (boxed, non-fullscreen) has no real practice
+  // history to show yet, so it reads sample "what this could look like"
+  // numbers instead of genuine localStorage data — the real per-page
+  // dashboards (fullscreen) always use RealStore.
+  const isPreview = page.dataset.preview === 'true';
+  const {
     getAccuracy,
     getDueCount,
     getAttemptCount,
@@ -538,13 +563,7 @@ const t = copy[locale];
     getPracticeStreak,
     getRecentSessions,
     getWeekActivity,
-  } from '../../lib/progress-store';
-
-  type Lens = 'practice' | 'progress';
-
-  const page = document.querySelector<HTMLElement>('.dash-page')!;
-  const locale = (page.dataset.locale === 'de' ? 'de' : 'en') as 'en' | 'de';
-  const defaultSlug = page.dataset.defaultSlug ?? '';
+  } = isPreview ? PreviewStore : RealStore;
 
   const W = {
     due: page.dataset.wordDue ?? 'due',
@@ -813,7 +832,9 @@ const t = copy[locale];
   }
 
   function renderSessions() {
-    const rows = getRecentSessions(6, locale);
+    // The boxed teaser has a fixed, non-scrolling height, so it shows fewer
+    // rows than the real per-page dashboard to stay within it.
+    const rows = getRecentSessions(isPreview ? 3 : 6, locale);
     const list = document.querySelector<HTMLElement>('[data-role="sessions-list"]');
     const empty = document.querySelector<HTMLElement>('[data-role="sessions-empty"]');
     if (!list) return;
@@ -852,6 +873,9 @@ const t = copy[locale];
   }
 
   function pushUrl() {
+    // The homepage teaser is a preview embed, not a real route — clicking
+    // around inside it should never change the address bar.
+    if (isPreview) return;
     const path = urlPathFor(activeSlug, mode === 'overview' ? 'overview' : activeLens);
     if (window.location.pathname !== path) {
       window.history.pushState({ slug: activeSlug, lens: activeLens, mode }, '', path);
@@ -1118,8 +1142,32 @@ const t = copy[locale];
     overflow: hidden;
   }
 
+  /* Fixed (not min) height, so switching formats/lenses/Overview never
+     resizes the box and jumps the rest of the homepage around. No scrollbar
+     — content taller than this is simply clipped (never real content the
+     preview needs to be interacted with; the rest is a click away via the
+     "next up" card or "Open full-screen"), with a fade at the bottom so a
+     clipped tail reads as intentional rather than a broken cutoff. */
   .dash-shell--boxed .dash-panel__body {
-    min-height: 560px;
+    height: 720px;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .dash-shell--boxed .dash-rail,
+  .dash-shell--boxed .dash-detail {
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .dash-shell--boxed .dash-detail::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 56px;
+    background: linear-gradient(to bottom, rgba(250, 247, 239, 0), var(--color-bg));
+    pointer-events: none;
   }
 
   /* The homepage teaser is a preview, not the real console — Today's Set
@@ -1527,7 +1575,11 @@ const t = copy[locale];
     gap: 0.3rem;
   }
 
-  .dash-week-day {
+  /* .dash-week-day is built client-side via innerHTML (renderWeek), so it
+     never gets Astro's scoping attribute — these rules must stay global to
+     actually reach it. Same reasoning applies to every other :global()
+     block below (chart labels, error rows, session rows). */
+  :global(.dash-week-day) {
     flex: 1;
     text-align: center;
     font-family: ui-monospace, monospace;
@@ -1538,7 +1590,7 @@ const t = copy[locale];
     background: rgba(255, 255, 255, 0.06);
   }
 
-  .dash-week-day[data-done='true'] {
+  :global(.dash-week-day[data-done='true']) {
     color: #1a2940;
     background: var(--rail-gold, #e8c879);
     font-weight: 600;
@@ -1664,6 +1716,59 @@ const t = copy[locale];
   .dash-badge--soon {
     background: var(--color-bg-soft);
     color: var(--color-muted);
+  }
+
+  /* The homepage teaser's "next up" card — sits next to the format title,
+     inside the boxed dashboard, in place of the status badge shown on the
+     real per-page dashboards. */
+  .dash-preview-card {
+    background: var(--color-primary-dark);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 1rem 1.15rem 1.1rem;
+    max-width: 260px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .dash-preview-card__title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+  }
+
+  .dash-preview-card__body {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .dash-preview-card__cta {
+    align-self: flex-start;
+    margin-top: 0.2rem;
+    border: 0;
+    border-radius: 999px;
+    padding: 0.5rem 1.05rem;
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.85rem;
+    background: #e8c879;
+    color: #1c2c46;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .dash-preview-card__cta:hover {
+    filter: brightness(0.96);
+  }
+
+  @media (max-width: 640px) {
+    .dash-preview-card {
+      max-width: none;
+    }
   }
 
   /* ---- lens toggle (Practice / Progress) ---- */
@@ -1889,13 +1994,13 @@ const t = copy[locale];
     display: inline-block;
   }
 
-  .dash-chart__svg {
+  :global(.dash-chart__svg) {
     width: 100%;
     height: 150px;
     display: block;
   }
 
-  .dash-chart__labels {
+  :global(.dash-chart__labels) {
     display: flex;
     justify-content: space-between;
     font-family: ui-monospace, monospace;
@@ -1909,32 +2014,32 @@ const t = copy[locale];
     color: var(--color-ink);
   }
 
-  .dash-error-row {
+  :global(.dash-error-row) {
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
   }
 
-  .dash-error-row__top {
+  :global(.dash-error-row__top) {
     display: flex;
     justify-content: space-between;
     font-size: 0.8rem;
     color: var(--color-text);
   }
 
-  .dash-error-row__top span:last-child {
+  :global(.dash-error-row__top span:last-child) {
     font-family: ui-monospace, monospace;
     color: var(--color-muted);
   }
 
-  .dash-error-row__track {
+  :global(.dash-error-row__track) {
     height: 7px;
     border-radius: 4px;
     background: var(--color-bg-soft);
     display: block;
   }
 
-  .dash-error-row__fill {
+  :global(.dash-error-row__fill) {
     display: block;
     height: 7px;
     border-radius: 4px;
@@ -1959,7 +2064,7 @@ const t = copy[locale];
     padding-bottom: 0.6rem;
   }
 
-  .dash-sessions__row {
+  :global(.dash-sessions__row) {
     display: grid;
     grid-template-columns: 9rem 1fr;
     align-items: center;
@@ -1970,7 +2075,7 @@ const t = copy[locale];
     border-bottom: 1px solid var(--color-bg-soft);
   }
 
-  .dash-sessions__date {
+  :global(.dash-sessions__date) {
     font-family: ui-monospace, monospace;
     font-size: 0.76rem;
     color: var(--color-muted);
