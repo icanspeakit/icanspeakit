@@ -68,6 +68,8 @@ const copy = {
     thisWeek: 'This week',
     minimize: 'Minimize format list',
     expand: 'Expand format list',
+    chooseFormat: 'Choose a format',
+    closeFormatPicker: 'Close',
     quote: 'Say it out loud — the ear catches what the eye misses.',
     dueSuffix: 'due',
     masteryLabel: (m: number) => `Mastery ${m}%`,
@@ -143,6 +145,8 @@ const copy = {
     thisWeek: 'Diese Woche',
     minimize: 'Formatliste einklappen',
     expand: 'Formatliste ausklappen',
+    chooseFormat: 'Format wählen',
+    closeFormatPicker: 'Schließen',
     quote: 'Sag es laut — das Ohr bemerkt, was das Auge übersieht.',
     dueSuffix: 'fällig',
     masteryLabel: (m: number) => `Fortschritt ${m}%`,
@@ -260,79 +264,110 @@ const t = copy[locale];
   <div class="dash-panel" id="dash-panel">
     <div class="dash-panel__body" id="dash-panel-body">
       <div class="dash-rail" id="dash-rail">
-        <div class="dash-rail__overview-wrap">
-          <button
-            type="button"
-            class="dash-rail__item dash-rail__overview"
-            id="overview-btn"
-            data-active={activeLens === 'overview' ? 'true' : 'false'}
-          >
-            <span class="dash-rail__bar"></span>
-            <span class="dash-rail__body">
-              <span class="dash-rail__top">
-                <svg class="dash-rail__grid-icon" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-                  <rect x="1" y="1" width="6" height="6" rx="1"></rect>
-                  <rect x="9" y="1" width="6" height="6" rx="1"></rect>
-                  <rect x="1" y="9" width="6" height="6" rx="1"></rect>
-                  <rect x="9" y="9" width="6" height="6" rx="1"></rect>
-                </svg>
-                <span class="dash-rail__name">{t.overview}</span>
-              </span>
-            </span>
-          </button>
-        </div>
-        <div class="dash-rail__divider"></div>
+        <button
+          type="button"
+          class="dash-rail__mobile-trigger"
+          id="rail-mobile-trigger"
+          aria-haspopup="true"
+          aria-expanded="false"
+          aria-controls="dash-rail-panel"
+        >
+          <svg class="dash-rail__grid-icon" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <rect x="1" y="1" width="6" height="6" rx="1"></rect>
+            <rect x="9" y="1" width="6" height="6" rx="1"></rect>
+            <rect x="1" y="9" width="6" height="6" rx="1"></rect>
+            <rect x="9" y="9" width="6" height="6" rx="1"></rect>
+          </svg>
+          <span class="dash-rail__mobile-trigger-label" data-role="mobile-trigger-label">{t.overview}</span>
+          <svg class="dash-rail__mobile-trigger-chevron" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 6l4 4 4-4"></path>
+          </svg>
+        </button>
 
-        <div class="dash-rail__label dash-rail__label--list">{t.formatsLabel}</div>
-        <div class="dash-rail__list">
-          {formats.map((f) => (
+        <div class="dash-rail__panel" id="dash-rail-panel">
+          <div class="dash-rail__panel-head">
+            <span>{t.chooseFormat}</span>
+            <button type="button" class="dash-rail__panel-close" id="rail-panel-close" aria-label={t.closeFormatPicker}>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <path d="M3 3l10 10M13 3L3 13"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div class="dash-rail__overview-wrap">
             <button
               type="button"
-              class="dash-rail__item"
-              data-slug={f.slug}
-              data-tier={f.tier}
-              data-active={activeLens !== 'overview' && f.slug === currentSlug ? 'true' : 'false'}
+              class="dash-rail__item dash-rail__overview"
+              id="overview-btn"
+              data-active={activeLens === 'overview' ? 'true' : 'false'}
             >
               <span class="dash-rail__bar"></span>
               <span class="dash-rail__body">
                 <span class="dash-rail__top">
-                  <span class="dash-rail__name">{f.title}</span>
-                  <span class="dash-rail__acronym">{f.title.charAt(0)}</span>
-                  <span class="dash-rail__due" data-role="rail-due">{f.due && f.due > 0 ? `${f.due} ${t.dueSuffix}` : '—'}</span>
+                  <svg class="dash-rail__grid-icon" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                    <rect x="1" y="1" width="6" height="6" rx="1"></rect>
+                    <rect x="9" y="1" width="6" height="6" rx="1"></rect>
+                    <rect x="1" y="9" width="6" height="6" rx="1"></rect>
+                    <rect x="9" y="9" width="6" height="6" rx="1"></rect>
+                  </svg>
+                  <span class="dash-rail__name">{t.overview}</span>
                 </span>
-                <span class="dash-rail__meter"><span class="dash-rail__meter-fill" data-role="rail-meter" style={`width:${f.mastery ?? 0}%`}></span></span>
               </span>
             </button>
-          ))}
-        </div>
+          </div>
+          <div class="dash-rail__divider"></div>
 
-        <div class="dash-rail__toggle-row">
-          <button
-            type="button"
-            class="dash-rail__burger"
-            id="rail-toggle"
-            data-label-minimize={t.minimize}
-            data-label-expand={t.expand}
-            aria-label={t.minimize}
-            aria-expanded="true"
-          >
-            <span class="dash-rail__burger-bar"></span>
-            <span class="dash-rail__burger-bar"></span>
-            <span class="dash-rail__burger-bar"></span>
-          </button>
-        </div>
+          <div class="dash-rail__label dash-rail__label--list">{t.formatsLabel}</div>
+          <div class="dash-rail__list">
+            {formats.map((f) => (
+              <button
+                type="button"
+                class="dash-rail__item"
+                data-slug={f.slug}
+                data-tier={f.tier}
+                data-active={activeLens !== 'overview' && f.slug === currentSlug ? 'true' : 'false'}
+              >
+                <span class="dash-rail__bar"></span>
+                <span class="dash-rail__body">
+                  <span class="dash-rail__top">
+                    <span class="dash-rail__name">{f.title}</span>
+                    <span class="dash-rail__acronym">{f.title.charAt(0)}</span>
+                    <span class="dash-rail__due" data-role="rail-due">{f.due && f.due > 0 ? `${f.due} ${t.dueSuffix}` : '—'}</span>
+                  </span>
+                  <span class="dash-rail__meter"><span class="dash-rail__meter-fill" data-role="rail-meter" style={`width:${f.mastery ?? 0}%`}></span></span>
+                </span>
+              </button>
+            ))}
+          </div>
 
-        <div class="dash-rail__today">
-          <div class="dash-rail__label">{t.todaysSet}</div>
-          {todaysSet.map((q) => (
-            <div class="dash-rail__queue-row"><span>{q.label}</span><span>{q.n}</span></div>
-          ))}
-        </div>
+          <div class="dash-rail__toggle-row">
+            <button
+              type="button"
+              class="dash-rail__burger"
+              id="rail-toggle"
+              data-label-minimize={t.minimize}
+              data-label-expand={t.expand}
+              aria-label={t.minimize}
+              aria-expanded="true"
+            >
+              <span class="dash-rail__burger-bar"></span>
+              <span class="dash-rail__burger-bar"></span>
+              <span class="dash-rail__burger-bar"></span>
+            </button>
+          </div>
 
-        <div class="dash-rail__today dash-rail__week-block">
-          <div class="dash-rail__label">{t.thisWeek}</div>
-          <div class="dash-rail__week" data-role="week"></div>
-          <div class="dash-rail__streak" data-role="streak"></div>
+          <div class="dash-rail__today">
+            <div class="dash-rail__label">{t.todaysSet}</div>
+            {todaysSet.map((q) => (
+              <div class="dash-rail__queue-row"><span>{q.label}</span><span>{q.n}</span></div>
+            ))}
+          </div>
+
+          <div class="dash-rail__today dash-rail__week-block">
+            <div class="dash-rail__label">{t.thisWeek}</div>
+            <div class="dash-rail__week" data-role="week"></div>
+            <div class="dash-rail__streak" data-role="streak"></div>
+          </div>
         </div>
       </div>
 
@@ -861,6 +896,27 @@ const t = copy[locale];
   const sessionsBlock = document.getElementById('dash-sessions');
   const formatPanels = Array.from(document.querySelectorAll<HTMLElement>('.dash-detail__panel'));
 
+  // Below the 860px breakpoint the rail collapses to a single trigger row
+  // showing the current selection; tapping it opens the rest (Overview,
+  // format list, Today's set, This week) as a full-screen sheet instead of
+  // pushing it inline above the page content.
+  const railMobileTrigger = document.getElementById('rail-mobile-trigger');
+  const railPanelClose = document.getElementById('rail-panel-close');
+  const mobileTriggerLabel = railMobileTrigger?.querySelector<HTMLElement>('[data-role="mobile-trigger-label"]');
+
+  function setMobilePanelOpen(open: boolean) {
+    document.body.classList.toggle('dash-rail-panel-open', open);
+    railMobileTrigger?.setAttribute('aria-expanded', String(open));
+  }
+
+  function syncMobileTriggerLabel(activeEl: HTMLElement) {
+    const label = activeEl.querySelector<HTMLElement>('.dash-rail__name')?.textContent;
+    if (mobileTriggerLabel && label) mobileTriggerLabel.textContent = label;
+  }
+
+  railMobileTrigger?.addEventListener('click', () => setMobilePanelOpen(true));
+  railPanelClose?.addEventListener('click', () => setMobilePanelOpen(false));
+
   let mode: 'format' | 'overview' = overviewBtn.dataset.active === 'true' ? 'overview' : 'format';
   let activeSlug =
     railButtons.find((b) => b.dataset.active === 'true')?.dataset.slug ?? defaultSlug;
@@ -914,9 +970,11 @@ const t = copy[locale];
         void b.offsetWidth;
         b.classList.add('dash-rail__item--pulse');
       }
+      if (isMatch) syncMobileTriggerLabel(b);
     });
     overviewBtn.setAttribute('data-active', 'false');
     overviewPanel.hidden = true;
+    setMobilePanelOpen(false);
 
     formatPanels.forEach((p) => {
       const wasHidden = p.hidden;
@@ -942,6 +1000,8 @@ const t = copy[locale];
     mode = 'overview';
     railButtons.forEach((b) => b.setAttribute('data-active', 'false'));
     overviewBtn.setAttribute('data-active', 'true');
+    syncMobileTriggerLabel(overviewBtn);
+    setMobilePanelOpen(false);
     formatPanels.forEach((p) => (p.hidden = true));
     overviewPanel.hidden = false;
     if (sessionsBlock) sessionsBlock.hidden = true;
@@ -1039,6 +1099,13 @@ const t = copy[locale];
   renderWeek();
   renderProgressPanels();
   renderSessions();
+
+  if (mode === 'overview') {
+    syncMobileTriggerLabel(overviewBtn);
+  } else {
+    const initialActiveBtn = railButtons.find((b) => b.dataset.slug === activeSlug);
+    if (initialActiveBtn) syncMobileTriggerLabel(initialActiveBtn);
+  }
 </script>
 
 <style>
@@ -1282,6 +1349,58 @@ const t = copy[locale];
     padding: 1.6rem 0 1.7rem;
     display: flex;
     flex-direction: column;
+  }
+
+  /* Mobile-only "current selection" trigger that replaces the full rail
+     below 860px (see the max-width: 860px block) — hidden entirely on
+     desktop, where the rail is always shown in full. */
+  .dash-rail__mobile-trigger {
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.85rem 1.4rem;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font: inherit;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .dash-rail__mobile-trigger-label {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    flex: 1;
+  }
+
+  .dash-rail__mobile-trigger-chevron {
+    color: rgba(255, 255, 255, 0.55);
+    flex: none;
+  }
+
+  .dash-rail__panel-head {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.4rem 1.2rem;
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+  }
+
+  .dash-rail__panel-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
   }
 
   .dash-rail__label {
@@ -2200,6 +2319,47 @@ const t = copy[locale];
     .dash-panel__body,
     .dash-panel__body--rail-mini {
       grid-template-columns: 1fr;
+    }
+
+    /* Below 860px the rail always sits full-width above the detail pane,
+       not beside it — pushing Overview + all 7 formats + Today's set +
+       This week inline would bury the actual page under a wall of navy
+       before a visitor ever sees it. Instead the rail collapses to a
+       single trigger row naming the current selection; tapping it opens
+       everything else as a full-screen sheet (dismissed by the close
+       button or by picking an item — see the script's
+       setMobilePanelOpen/syncMobileTriggerLabel). The desktop icon-only
+       rail-mini burger has no role here (there's no column to shrink into)
+       so it's hidden along with the rest of the panel by default. */
+    .dash-rail__mobile-trigger {
+      display: flex;
+    }
+
+    .dash-rail__panel {
+      display: none;
+    }
+
+    .dash-rail__toggle-row {
+      display: none;
+    }
+
+    body.dash-rail-panel-open {
+      overflow: hidden;
+    }
+
+    body.dash-rail-panel-open .dash-rail__panel {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      background: var(--color-primary-dark);
+      overflow-y: auto;
+      padding-bottom: 1.5rem;
+    }
+
+    body.dash-rail-panel-open .dash-rail__panel-head {
+      display: flex;
     }
 
     .dash-detail__why {
