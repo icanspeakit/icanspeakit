@@ -17,10 +17,14 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
     <div class="container hero__inner">
       <p class="eyebrow">A language hub for the curious</p>
       <h1>Every word has a story. Every sound has a mechanism.</h1>
-      <p class="lede">
+      <p class="lede hero__lede--full">
         icanspeak.it is a small, ad-free corner of the internet about language — where words came from,
         and how to actually say them. Dig into etymology, or train the sounds, stress, and rhythm of
         English with audio-driven exercises that explain the mechanics instead of just scoring your accent.
+      </p>
+      <p class="lede hero__lede--short">
+        A small, ad-free corner of the internet about language — word origins, and audio-driven exercises
+        for how to actually say them.
       </p>
       <div class="hero__actions">
         <a href="/exercises/" class="button button--primary">Start practicing</a>
@@ -131,6 +135,20 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
   .hero__inner { max-width: 46rem; }
   .hero h1 { margin-block: 0.75rem 1.25rem; }
   .hero__actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-block-start: 1.75rem; }
+
+  .hero__lede--short { display: none; }
+
+  @media (max-width: 640px) {
+    /* The full three-sentence lede reads as a wall of text once the
+       headline alone fills most of a phone screen — swap in a one-line
+       version and give the section extra side breathing room to match. */
+    .hero__inner {
+      padding-inline: 1.75rem;
+    }
+
+    .hero__lede--full { display: none; }
+    .hero__lede--short { display: block; }
+  }
 
   .progress-teaser__intro {
     max-width: 42rem;
