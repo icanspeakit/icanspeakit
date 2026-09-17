@@ -36,14 +36,8 @@ export default defineConfig({
 
   vite: {
     server: {
-      // public/wp-content and public/wp-includes are a static, unchanging
-      // asset dump (recovered WordPress backup of the former consulting
-      // site, now preserved under /former-site/). Watching its ~20k files
-      // makes the dev server's file watcher choke on startup.
       watch: {
         ignored: [
-          '**/public/wp-content/**',
-          '**/public/wp-includes/**',
           '**/.vercel/**',
           '**/dist/**',
         ],
