@@ -1,0 +1,587 @@
+{
+  "_hinweis": "Inhalte für /kursinhalte (src/pages/kursinhalte.astro, src/pages/kursinhalte/[level].astro, src/components/KursProgression.astro). Alles hier ist selbst geschrieben, nach den Kann-Beschreibungen des GER. Nichts aus Lehrwerken übernehmen: keine Lektionstitel, keine Inhaltsverzeichnisse, keine Texte. Die Lehrwerke stehen nur als Namen der Reihe da („passend zu“), ohne Niveau dahinter – „Menschen A1“ o. ä. lässt scripts/check-lehrwerk-leak.mjs den Build scheitern. Ein Niveau hinzufügen: ein Objekt in „niveaus“ einfügen (Reihenfolge = Reihenfolge auf der Seite und im Zeitstrahl); die id wird zur URL (/kursinhalte/<id>). „pruefung“ nur ab B1. „selbstcheck“: genau 5 Sätze, die beschreiben, was man VOR diesem Niveau schon kann.",
+  "probestunde": {
+    "href": "",
+    "_hinweis": "Leer = E-Mail an die Kontaktadresse aus src/lib/legal.js (es gibt noch keine Buchungsseite). Sobald es eine gibt, hier den Pfad eintragen, z. B. \"/probestunde\". {niveau} wird durch das Niveau ersetzt."
+  },
+  "lehrwerke": {
+    "grundstufe": ["Schritte plus Neu (Hueber)", "Menschen (Hueber)", "Netzwerk neu (Klett)"],
+    "oberstufe": ["Sicher! aktuell (Hueber)", "Aspekte neu (Klett)"]
+  },
+  "niveaus": [
+    {
+      "id": "a1-1",
+      "label": "A1.1",
+      "titel": "Erste Schritte",
+      "ziel": "Du sprichst über dich, deine Familie und deinen Alltag – mit einfachen Sätzen.",
+      "dauer": "ca. 8 Wochen",
+      "lehrwerke": "grundstufe",
+      "bloecke": [
+        {
+          "thema": "Hallo! Wer bist du?",
+          "kannZiele": ["Du kannst dich vorstellen: Name, Land, Sprachen.", "Du kannst andere nach ihrem Namen und ihrer Herkunft fragen.", "Du kannst deinen Namen buchstabieren."],
+          "grammatik": ["Personalpronomen (ich, du, Sie …)", "Präsens: sein, heißen, kommen, wohnen", "W-Fragen", "Verb auf Position 2"],
+          "wortschatz": ["Begrüßung", "Länder", "Sprachen", "Alphabet"]
+        },
+        {
+          "thema": "Zahlen & Kontakte",
+          "kannZiele": ["Du kannst Telefonnummer, Adresse und Alter sagen.", "Du kannst ein einfaches Formular ausfüllen."],
+          "grammatik": ["Zahlen bis 1000", "Regelmäßige Verben im Präsens", "Ja/Nein-Fragen"],
+          "wortschatz": ["Zahlen", "Adresse", "E-Mail", "Formular"]
+        },
+        {
+          "thema": "Familie & Freunde",
+          "kannZiele": ["Du kannst deine Familie vorstellen.", "Du kannst sagen, wer zu dir gehört und wie alt die Personen sind."],
+          "grammatik": ["Possessivartikel mein, dein, sein, ihr", "Verb haben", "Plural der Nomen"],
+          "wortschatz": ["Familie", "Familienstand", "Personen beschreiben"]
+        },
+        {
+          "thema": "Wohnen",
+          "kannZiele": ["Du kannst deine Wohnung und deine Möbel beschreiben.", "Du kannst sagen, was dir gefällt und was nicht."],
+          "grammatik": ["Artikel der, die, das", "ein / kein", "Adjektive nach sein (Die Küche ist klein.)", "Verneinung mit nicht"],
+          "wortschatz": ["Zimmer", "Möbel", "Farben", "groß / klein / hell"]
+        },
+        {
+          "thema": "Essen & Einkaufen",
+          "kannZiele": ["Du kannst im Supermarkt nach Produkten und Preisen fragen.", "Du kannst sagen, was du gern isst und trinkst.", "Du kannst eine Einkaufsliste schreiben."],
+          "grammatik": ["Akkusativ (einen, den, keinen)", "möchten", "Mengenangaben (ein Kilo, eine Flasche)"],
+          "wortschatz": ["Lebensmittel", "Getränke", "Preise", "Verpackungen"]
+        },
+        {
+          "thema": "Mein Tag",
+          "kannZiele": ["Du kannst die Uhrzeit sagen und verstehen.", "Du kannst deinen Tagesablauf beschreiben."],
+          "grammatik": ["Trennbare Verben (aufstehen, einkaufen)", "Zeitangaben: am, um, von … bis", "Satzbau: Zeitangabe auf Position 1"],
+          "wortschatz": ["Uhrzeit", "Wochentage", "Tageszeiten", "Alltagsaktivitäten"]
+        },
+        {
+          "thema": "Freizeit & Hobbys",
+          "kannZiele": ["Du kannst über deine Hobbys sprechen.", "Du kannst dich mit jemandem verabreden."],
+          "grammatik": ["Verben mit Vokalwechsel (fahren, lesen, treffen)", "Modalverb können", "gern – nicht gern"],
+          "wortschatz": ["Hobbys", "Sport", "Verabredung", "Jahreszeiten"]
+        }
+      ],
+      "selbstcheck": [
+        "Ich kann lateinische Buchstaben lesen und schreiben.",
+        "Ich kenne ein paar Wörter auf Deutsch (Hallo, danke, ja, nein).",
+        "Ich kann auf Deutsch sagen, wie ich heiße.",
+        "Ich kann die Zahlen von 1 bis 10 auf Deutsch.",
+        "Ich habe pro Woche etwas Zeit, um zu Hause zu üben."
+      ],
+      "selbstcheckNiedrig": "Kein Problem: A1.1 ist der Anfang, du brauchst kein Vorwissen. In der Probestunde schauen wir zusammen, wie du am besten startest."
+    },
+    {
+      "id": "a1-2",
+      "label": "A1.2",
+      "titel": "Alltag auf Deutsch",
+      "ziel": "Du kommst im Alltag zurecht: in der Stadt, beim Arzt, im Geschäft – und erzählst, was du gemacht hast.",
+      "dauer": "ca. 8 Wochen",
+      "lehrwerke": "grundstufe",
+      "bloecke": [
+        {
+          "thema": "In der Stadt unterwegs",
+          "kannZiele": ["Du kannst nach dem Weg fragen und eine einfache Wegbeschreibung verstehen.", "Du kannst sagen, wie du zur Arbeit oder zum Kurs kommst."],
+          "grammatik": ["Präpositionen mit Dativ: mit, zu, von, bei", "Imperativ (Sie-Form)", "Ortsangaben: hier, dort, links, rechts"],
+          "wortschatz": ["Verkehrsmittel", "Gebäude in der Stadt", "Wegbeschreibung"]
+        },
+        {
+          "thema": "Gesundheit & Körper",
+          "kannZiele": ["Du kannst beim Arzt sagen, was dir wehtut.", "Du kannst einfache Ratschläge verstehen und geben."],
+          "grammatik": ["Modalverben müssen, dürfen, sollen", "Imperativ (du- und ihr-Form)"],
+          "wortschatz": ["Körperteile", "Krankheiten", "Arzttermin", "Apotheke"]
+        },
+        {
+          "thema": "Was hast du gemacht?",
+          "kannZiele": ["Du kannst erzählen, was du gestern oder am Wochenende gemacht hast.", "Du kannst andere nach ihrem Wochenende fragen."],
+          "grammatik": ["Perfekt mit haben und sein", "Partizip II (regelmäßig und unregelmäßig)", "Präteritum von sein und haben (war, hatte)"],
+          "wortschatz": ["Wochenende", "Ausflug", "Zeitangaben: gestern, letzte Woche"]
+        },
+        {
+          "thema": "Arbeit & Beruf",
+          "kannZiele": ["Du kannst deinen Beruf und deinen Arbeitsplatz beschreiben.", "Du kannst sagen, seit wann du etwas machst."],
+          "grammatik": ["Berufe mit -in (Lehrer – Lehrerin)", "Zeitangaben: seit, vor, für", "Modalverb wollen"],
+          "wortschatz": ["Berufe", "Arbeitszeit", "Arbeitsplatz", "Kollegen"]
+        },
+        {
+          "thema": "Kleidung & Mode",
+          "kannZiele": ["Du kannst im Geschäft nach Größe, Farbe und Preis fragen.", "Du kannst sagen, was dir gefällt und was dir passt."],
+          "grammatik": ["Personalpronomen im Akkusativ und Dativ", "Verben mit Dativ: gefallen, passen, gehören", "Fragewort welch-"],
+          "wortschatz": ["Kleidung", "Größen", "Farben", "Material"]
+        },
+        {
+          "thema": "Feste & Termine",
+          "kannZiele": ["Du kannst Datum und Geburtstag sagen.", "Du kannst eine Einladung schreiben und darauf antworten."],
+          "grammatik": ["Ordnungszahlen und Datum (am dritten Mai)", "Präpositionen im, am, um", "Konjunktionen und, aber, oder, denn"],
+          "wortschatz": ["Monate", "Feste", "Einladung", "Glückwünsche"]
+        },
+        {
+          "thema": "Service & Behörden",
+          "kannZiele": ["Du kannst höflich um Hilfe bitten.", "Du kannst einfache Informationen am Telefon oder am Schalter verstehen."],
+          "grammatik": ["Höfliche Bitten: Könnten Sie …? Ich hätte gern …", "Komparativ: gern – lieber – am liebsten, gut – besser"],
+          "wortschatz": ["Termin", "Anmeldung", "Öffnungszeiten", "Bank"]
+        }
+      ],
+      "selbstcheck": [
+        "Ich kann mich vorstellen und andere nach Name und Herkunft fragen.",
+        "Ich kann Zahlen, Preise und die Uhrzeit verstehen.",
+        "Ich kann über meine Familie sprechen.",
+        "Ich kann im Supermarkt nach Produkten fragen.",
+        "Ich kann meinen Tag mit Uhrzeiten beschreiben."
+      ]
+    },
+    {
+      "id": "a2-1",
+      "label": "A2.1",
+      "titel": "Mehr erzählen",
+      "ziel": "Du erzählst von früher, begründest deine Meinung und kommst auf Reisen gut zurecht.",
+      "dauer": "ca. 8 Wochen",
+      "lehrwerke": "grundstufe",
+      "bloecke": [
+        {
+          "thema": "Kindheit & Erinnerungen",
+          "kannZiele": ["Du kannst von deiner Kindheit erzählen.", "Du kannst sagen, was du früher machen musstest oder durftest."],
+          "grammatik": ["Perfekt vertiefen", "Präteritum der Modalverben (konnte, musste, durfte)", "Possessivartikel im Dativ"],
+          "wortschatz": ["Schule", "Kindheit", "Spiele", "früher – heute"]
+        },
+        {
+          "thema": "Wohnen & Nachbarschaft",
+          "kannZiele": ["Du kannst beschreiben, wo Dinge in deiner Wohnung stehen.", "Du kannst eine Nachricht an Nachbarn verstehen und schreiben."],
+          "grammatik": ["Wechselpräpositionen (in, auf, an, neben …)", "Positionsverben: stellen – stehen, legen – liegen, hängen"],
+          "wortschatz": ["Möbel", "Hausordnung", "Nachbarn", "Umzug"]
+        },
+        {
+          "thema": "Arbeit & Ausbildung",
+          "kannZiele": ["Du kannst über deinen Arbeitsalltag und deine Ausbildung sprechen.", "Du kannst sagen, warum du etwas machst."],
+          "grammatik": ["Nebensätze mit weil und dass", "Konjunktion deshalb"],
+          "wortschatz": ["Ausbildung", "Arbeitsalltag", "Aufgaben", "Kollegen"]
+        },
+        {
+          "thema": "Freizeit & Interessen",
+          "kannZiele": ["Du kannst ausführlich über Interessen und Vorlieben sprechen.", "Du kannst nachfragen, wofür sich andere interessieren."],
+          "grammatik": ["Reflexive Verben (sich freuen, sich treffen)", "Verben mit Präpositionen (sich interessieren für)", "wo(r)- und da(r)-: Wofür? Dafür."],
+          "wortschatz": ["Vereine", "Sport", "Musik", "Ehrenamt"]
+        },
+        {
+          "thema": "Gesund leben",
+          "kannZiele": ["Du kannst Dinge vergleichen.", "Du kannst sagen, was passiert, wenn man etwas (nicht) tut."],
+          "grammatik": ["Komparativ und Superlativ", "Vergleiche mit als und wie", "Nebensätze mit wenn (Bedingung)"],
+          "wortschatz": ["Ernährung", "Bewegung", "Schlaf", "Stress"]
+        },
+        {
+          "thema": "Medien & Kommunikation",
+          "kannZiele": ["Du kannst Geräte und Programme beschreiben.", "Du kannst höflich und indirekt nachfragen."],
+          "grammatik": ["Adjektivendungen nach ein / kein / mein", "Indirekte Fragen mit ob und W-Wort"],
+          "wortschatz": ["Handy", "Internet", "Nachrichten", "Apps"]
+        },
+        {
+          "thema": "Reisen & Urlaub",
+          "kannZiele": ["Du kannst ein Hotelzimmer oder ein Ticket buchen.", "Du kannst höflich Wünsche äußern und Probleme melden."],
+          "grammatik": ["Konjunktiv II als Höflichkeitsform (hätte, könnte, würde)", "Präpositionen für Richtungen: nach, in, zu, an"],
+          "wortschatz": ["Unterkunft", "Bahn und Flug", "Gepäck", "Sehenswürdigkeiten"]
+        }
+      ],
+      "selbstcheck": [
+        "Ich kann erzählen, was ich am Wochenende gemacht habe.",
+        "Ich kann nach dem Weg fragen und die Antwort verstehen.",
+        "Ich kann beim Arzt sagen, was mir wehtut.",
+        "Ich kann einen Termin machen oder absagen.",
+        "Ich kann im Geschäft sagen, was mir gefällt und was mir passt."
+      ]
+    },
+    {
+      "id": "a2-2",
+      "label": "A2.2",
+      "titel": "Sicher im Alltag",
+      "ziel": "Du beschreibst Menschen und Dinge genauer, gibst Ratschläge und regelst Dinge bei Ämtern und im Job.",
+      "dauer": "ca. 8 Wochen",
+      "lehrwerke": "grundstufe",
+      "bloecke": [
+        {
+          "thema": "Feste & Traditionen",
+          "kannZiele": ["Du kannst Feste in deinem Land und in Deutschland vergleichen.", "Du kannst erzählen, wann und wie etwas passiert ist."],
+          "grammatik": ["Nebensätze mit wenn und als (Zeit)", "Präteritum häufiger Verben"],
+          "wortschatz": ["Feiertage", "Bräuche", "Geschenke", "Glückwünsche"]
+        },
+        {
+          "thema": "Menschen & Beziehungen",
+          "kannZiele": ["Du kannst Personen genau beschreiben.", "Du kannst über Gefühle und Beziehungen sprechen."],
+          "grammatik": ["Relativsätze im Nominativ und Akkusativ", "Adjektivendungen nach der / die / das"],
+          "wortschatz": ["Charakter", "Aussehen", "Gefühle", "Freundschaft"]
+        },
+        {
+          "thema": "Rat & Hilfe",
+          "kannZiele": ["Du kannst Ratschläge geben und um Rat bitten.", "Du kannst Wünsche und Träume ausdrücken."],
+          "grammatik": ["Konjunktiv II: würde + Infinitiv", "Ratschläge: Du solltest … An deiner Stelle würde ich …"],
+          "wortschatz": ["Probleme", "Lösungen", "Wünsche", "Pläne"]
+        },
+        {
+          "thema": "Geld & Einkaufen online",
+          "kannZiele": ["Du kannst eine Bestellung aufgeben und reklamieren.", "Du kannst sagen, was wichtig oder schwierig ist."],
+          "grammatik": ["Verben mit Dativ und Akkusativ (Ich schicke dir das Paket.)", "Infinitiv mit zu (Es ist wichtig, … zu …)"],
+          "wortschatz": ["Bestellung", "Lieferung", "Bezahlen", "Rücksendung"]
+        },
+        {
+          "thema": "Natur & Umwelt",
+          "kannZiele": ["Du kannst einen Wetterbericht verstehen.", "Du kannst sagen, was man für die Umwelt tun kann."],
+          "grammatik": ["Indefinitpronomen: man, jemand, niemand, etwas, nichts", "Verb werden (Es wird kalt.)"],
+          "wortschatz": ["Wetter", "Landschaft", "Müll trennen", "Energie sparen"]
+        },
+        {
+          "thema": "Bewerbung & Job",
+          "kannZiele": ["Du kannst eine Stellenanzeige verstehen.", "Du kannst einen kurzen Lebenslauf schreiben und über deine Erfahrungen sprechen."],
+          "grammatik": ["Konnektoren trotzdem und deshalb", "Präteritum im Lebenslauf"],
+          "wortschatz": ["Stellenanzeige", "Lebenslauf", "Qualifikation", "Gehalt"]
+        },
+        {
+          "thema": "Ämter & Dienstleistungen",
+          "kannZiele": ["Du kannst bei einer Behörde dein Anliegen erklären.", "Du kannst sagen, was du machen lässt."],
+          "grammatik": ["Indirekte Fragen vertiefen (Können Sie mir sagen, ob …?)", "lassen (Ich lasse mein Fahrrad reparieren.)"],
+          "wortschatz": ["Antrag", "Unterlagen", "Werkstatt", "Reparatur"]
+        }
+      ],
+      "selbstcheck": [
+        "Ich kann von meiner Kindheit erzählen.",
+        "Ich kann mit weil und dass begründen und erklären.",
+        "Ich kann höflich bitten: Könnten Sie …? Ich hätte gern …",
+        "Ich kann Dinge vergleichen: größer als, am besten.",
+        "Ich kann über meine Hobbys sprechen (Ich interessiere mich für …)."
+      ]
+    },
+    {
+      "id": "b1-1",
+      "label": "B1.1",
+      "titel": "Selbstständig sprechen",
+      "ziel": "Du sprichst über Erfahrungen, Pläne und Meinungen – auch über Themen, die dir nicht so vertraut sind.",
+      "dauer": "ca. 10 Wochen",
+      "lehrwerke": "grundstufe",
+      "bloecke": [
+        {
+          "thema": "Lebenswege",
+          "kannZiele": ["Du kannst von wichtigen Stationen in deinem Leben erzählen.", "Du kannst die Reihenfolge von Ereignissen klar machen."],
+          "grammatik": ["Plusquamperfekt", "Nebensätze mit nachdem, bevor, während", "Präteritum in Texten"],
+          "wortschatz": ["Lebenslauf", "Umzug", "Neuanfang", "Erfolg"],
+          "pruefung": ["Goethe B1 Lesen: Blog- und Erfahrungstexte", "telc B1 Leseverstehen"]
+        },
+        {
+          "thema": "Arbeit & Karriere",
+          "kannZiele": ["Du kannst dich auf ein Vorstellungsgespräch vorbereiten.", "Du kannst eine formelle E-Mail an eine Firma schreiben."],
+          "grammatik": ["Relativsätze mit Präposition (die Firma, bei der …)", "Infinitiv mit zu vertiefen", "um … zu und damit"],
+          "wortschatz": ["Bewerbung", "Vorstellungsgespräch", "Stärken", "Arbeitsbedingungen"],
+          "pruefung": ["Goethe B1 Schreiben Teil 3: formelle Nachricht", "telc B1 Mündlich Teil 1: Kontaktaufnahme"]
+        },
+        {
+          "thema": "Medien im Alltag",
+          "kannZiele": ["Du kannst deine Meinung sagen und begründen.", "Du kannst Vor- und Nachteile nennen."],
+          "grammatik": ["Nebensätze mit obwohl", "Konnektoren: trotzdem, außerdem, dagegen"],
+          "wortschatz": ["Soziale Medien", "Nachrichten", "Datenschutz", "Meinung"],
+          "pruefung": ["Goethe B1 Schreiben Teil 2: Meinung im Forum"]
+        },
+        {
+          "thema": "Gesundheit & Wohlbefinden",
+          "kannZiele": ["Du kannst Abläufe beschreiben, zum Beispiel im Krankenhaus.", "Du kannst Informationen aus Radiobeiträgen verstehen."],
+          "grammatik": ["Passiv Präsens (Der Patient wird untersucht.)", "n-Deklination (der Patient – den Patienten)"],
+          "wortschatz": ["Krankenhaus", "Vorsorge", "Krankenkasse", "Entspannung"],
+          "pruefung": ["Goethe B1 Hören: Durchsagen und Radiobeiträge", "telc B1 Hörverstehen"]
+        },
+        {
+          "thema": "Wohnen & Zusammenleben",
+          "kannZiele": ["Du kannst ein Problem höflich, aber klar ansprechen.", "Du kannst eine Beschwerde schreiben."],
+          "grammatik": ["Konjunktiv II: irreale Wünsche (Wenn ich doch … hätte!)", "Vorschläge mit Konjunktiv II (Wir könnten …)"],
+          "wortschatz": ["Mietvertrag", "Nebenkosten", "Lärm", "Konflikt"],
+          "pruefung": ["telc B1 Schriftlicher Ausdruck: Brief", "Goethe B1 Schreiben Teil 1: E-Mail"]
+        },
+        {
+          "thema": "Reisen & Mobilität",
+          "kannZiele": ["Du kannst mit anderen eine Reise oder ein Treffen planen.", "Du kannst Vorschläge machen, annehmen und ablehnen."],
+          "grammatik": ["Futur I (Pläne)", "Präpositionen mit Genitiv: wegen, trotz, während"],
+          "wortschatz": ["Planung", "Verkehr", "Verspätung", "Kosten"],
+          "pruefung": ["Goethe B1 Sprechen Teil 1: gemeinsam etwas planen", "telc B1 Mündlich Teil 3: gemeinsam etwas planen"]
+        },
+        {
+          "thema": "Freundschaft & Familie",
+          "kannZiele": ["Du kannst über Beziehungen und Familienmodelle sprechen.", "Du kannst von deinen Erfahrungen berichten und nachfragen."],
+          "grammatik": ["Verben mit Präpositionen vertiefen", "Adjektivendungen in allen Fällen"],
+          "wortschatz": ["Familienformen", "Generationen", "Freundschaft", "Streit und Versöhnung"],
+          "pruefung": ["telc B1 Mündlich Teil 2: Gespräch über ein Thema"]
+        }
+      ],
+      "selbstcheck": [
+        "Ich kann im Perfekt und Präteritum von Erlebnissen erzählen.",
+        "Ich kann Ratschläge geben: Du solltest … An deiner Stelle würde ich …",
+        "Ich kann mit Relativsätzen Personen und Dinge beschreiben.",
+        "Ich kann eine einfache E-Mail an eine Behörde oder Firma schreiben.",
+        "Ich kann mit wenn und als sagen, wann etwas passiert ist."
+      ]
+    },
+    {
+      "id": "b1-2",
+      "label": "B1.2",
+      "titel": "Fit für die B1-Prüfung",
+      "ziel": "Du diskutierst, beschreibst Abläufe und schreibst klare Texte – und bist bereit für das B1-Zertifikat.",
+      "dauer": "ca. 10 Wochen",
+      "lehrwerke": "grundstufe",
+      "bloecke": [
+        {
+          "thema": "Umwelt & Nachhaltigkeit",
+          "kannZiele": ["Du kannst ein Thema kurz präsentieren.", "Du kannst beschreiben, was getan wurde oder getan werden muss."],
+          "grammatik": ["Passiv Präteritum (wurde gebaut)", "Passiv mit Modalverben (muss repariert werden)"],
+          "wortschatz": ["Klima", "Recycling", "Energie", "Konsum"],
+          "pruefung": ["Goethe B1 Sprechen Teil 2: Präsentation", "Goethe B1 Sprechen Teil 3: auf Fragen reagieren"]
+        },
+        {
+          "thema": "Lernen & Weiterbildung",
+          "kannZiele": ["Du kannst über Schule, Kurse und Lernwege sprechen.", "Du kannst sagen, was du anders gemacht hättest."],
+          "grammatik": ["Konjunktiv II der Vergangenheit (hätte gemacht, wäre gegangen)", "Zweiteilige Konnektoren: sowohl … als auch, weder … noch, entweder … oder"],
+          "wortschatz": ["Schulsystem", "Weiterbildung", "Abschluss", "Lernstrategien"],
+          "pruefung": ["Goethe B1 Lesen: Sachtexte", "telc B1 Sprachbausteine"]
+        },
+        {
+          "thema": "Gesellschaft & Politik",
+          "kannZiele": ["Du kannst die Hauptinformationen einfacher Nachrichten verstehen.", "Du kannst über das Zusammenleben in Deutschland sprechen."],
+          "grammatik": ["Genitiv (das Recht der Bürger)", "Relativpronomen im Dativ und Genitiv (dem, dessen, deren)"],
+          "wortschatz": ["Wahlen", "Demokratie", "Rechte und Pflichten", "Engagement"],
+          "pruefung": ["Goethe B1 Hören: Radiosendung und Diskussion"]
+        },
+        {
+          "thema": "Konsum & Werbung",
+          "kannZiele": ["Du kannst Produkte und Angebote vergleichen.", "Du kannst Werbung kritisch beschreiben."],
+          "grammatik": ["je … desto", "Partizip I und II als Adjektiv (die reparierte Uhr, das lachende Kind)"],
+          "wortschatz": ["Werbung", "Verbraucher", "Garantie", "Angebot"],
+          "pruefung": ["Goethe B1 Lesen: Anzeigen zuordnen", "telc B1 Leseverstehen: Anzeigen"]
+        },
+        {
+          "thema": "Arbeitswelt im Wandel",
+          "kannZiele": ["Du kannst Vermutungen über die Zukunft äußern.", "Du kannst ein Gespräch mit Kollegen oder Vorgesetzten führen."],
+          "grammatik": ["Temporale Nebensätze: seitdem, bis, sobald", "Futur I für Vermutungen (Das wird teuer sein.)"],
+          "wortschatz": ["Homeoffice", "Digitalisierung", "Teamarbeit", "Arbeitszeit"],
+          "pruefung": ["Goethe B1 Schreiben Teil 3: formelle Nachricht", "telc B1 Schriftlicher Ausdruck"]
+        },
+        {
+          "thema": "Kultur & Freizeit",
+          "kannZiele": ["Du kannst über Filme, Bücher oder Musik sprechen und sie empfehlen.", "Du kannst verschiedene Meinungen zusammenfassen."],
+          "grammatik": ["brauchen … zu / nicht brauchen … zu", "Wortbildung: Nomen aus Verben (lesen – das Lesen)"],
+          "wortschatz": ["Film", "Literatur", "Museum", "Kritik"],
+          "pruefung": ["Goethe B1 Lesen: Meinungen zu einem Thema"]
+        },
+        {
+          "thema": "Prüfungstraining B1",
+          "kannZiele": ["Du kennst alle Teile der B1-Prüfung und ihre Zeiten.", "Du hast feste Redemittel für Schreiben und Sprechen."],
+          "grammatik": ["Wiederholung: Konnektoren und Nebensätze", "Wiederholung: Passiv und Konjunktiv II"],
+          "wortschatz": ["Redemittel: Meinung", "Redemittel: Vorschläge", "Redemittel: formelle Briefe"],
+          "pruefung": ["Goethe-Zertifikat B1: alle Teile", "telc Deutsch B1 / DTZ: alle Teile"]
+        }
+      ],
+      "selbstcheck": [
+        "Ich kann Erlebnisse in der richtigen Reihenfolge erzählen (nachdem, bevor).",
+        "Ich kann meine Meinung sagen und mit obwohl und trotzdem begründen.",
+        "Ich kann einfache Abläufe im Passiv beschreiben.",
+        "Ich kann eine Beschwerde oder eine formelle E-Mail schreiben.",
+        "Ich kann mit anderen ein Treffen oder eine Reise planen."
+      ]
+    },
+    {
+      "id": "b2-1",
+      "label": "B2.1",
+      "titel": "Komplexe Themen",
+      "ziel": "Du verstehst längere Texte, argumentierst überzeugend und schreibst formell – im Beruf und im Studium.",
+      "dauer": "ca. 10 Wochen",
+      "lehrwerke": "oberstufe",
+      "bloecke": [
+        {
+          "thema": "Arbeit & Karriere",
+          "kannZiele": ["Du kannst über berufliche Ziele und Arbeitsbedingungen diskutieren.", "Du kannst formelle Texte klar und höflich schreiben."],
+          "grammatik": ["Nominalisierung von Verben (bewerben – die Bewerbung)", "Konnektoren: falls, sofern, indem"],
+          "wortschatz": ["Karriere", "Work-Life-Balance", "Gehaltsverhandlung", "Weiterbildung"],
+          "pruefung": ["Goethe B2 Schreiben Teil 2: formelle Mitteilung", "telc B2 Schriftlicher Ausdruck"]
+        },
+        {
+          "thema": "Medien & Gesellschaft",
+          "kannZiele": ["Du kannst Zeitungsartikel und Kommentare verstehen.", "Du kannst wiedergeben, was andere gesagt haben."],
+          "grammatik": ["Indirekte Rede mit Konjunktiv I (Einführung)", "Passiv-Ersatz: sich lassen, -bar, sein + zu"],
+          "wortschatz": ["Presse", "Fake News", "Meinungsfreiheit", "Quellen"],
+          "pruefung": ["Goethe B2 Lesen: Kommentare und Meinungen", "telc B2 Leseverstehen"]
+        },
+        {
+          "thema": "Stadt & Wohnen",
+          "kannZiele": ["Du kannst einen kurzen Vortrag halten und strukturieren.", "Du kannst Orte und Entwicklungen genau beschreiben."],
+          "grammatik": ["Partizipialattribute (die seit Jahren steigenden Mieten)", "Relativsätze mit wo, was, wer"],
+          "wortschatz": ["Stadtentwicklung", "Mieten", "Verkehr", "Lebensqualität"],
+          "pruefung": ["Goethe B2 Sprechen Teil 1: Vortrag", "telc B2 Mündlich Teil 1: Präsentation"]
+        },
+        {
+          "thema": "Gesundheit & Psyche",
+          "kannZiele": ["Du kannst Interviews und Radiobeiträgen im Detail folgen.", "Du kannst Ursachen und Folgen erklären."],
+          "grammatik": ["Konnektoren der Folge: sodass, folglich, infolgedessen", "Nomen-Verb-Verbindungen (eine Entscheidung treffen)"],
+          "wortschatz": ["Stress", "Burnout", "Achtsamkeit", "Prävention"],
+          "pruefung": ["Goethe B2 Hören: Interview", "telc B2 Hörverstehen"]
+        },
+        {
+          "thema": "Bildung & Lernen",
+          "kannZiele": ["Du kannst einen Beitrag zu einem Thema schreiben und deine Position begründen.", "Du kannst über Fehler und Alternativen sprechen."],
+          "grammatik": ["Konjunktiv II Vergangenheit mit Modalverben (hätte lernen sollen)", "Infinitivsätze: ohne … zu, anstatt … zu"],
+          "wortschatz": ["Studium", "Bildungschancen", "lebenslanges Lernen", "Digitalisierung der Schule"],
+          "pruefung": ["Goethe B2 Schreiben Teil 1: Forumsbeitrag"]
+        },
+        {
+          "thema": "Wirtschaft & Konsum",
+          "kannZiele": ["Du kannst Grafiken und Statistiken beschreiben.", "Du kannst Gründe sachlich nennen."],
+          "grammatik": ["Präpositionen mit Genitiv: aufgrund, angesichts, infolge", "Adjektive mit Präpositionen (abhängig von, zufrieden mit)"],
+          "wortschatz": ["Markt", "Statistik", "Nachhaltiger Konsum", "Globalisierung"],
+          "pruefung": ["telc B2 Sprachbausteine", "Goethe B2 Lesen: Sachtext"]
+        },
+        {
+          "thema": "Kommunikation & Konflikte",
+          "kannZiele": ["Du kannst in einer Diskussion widersprechen und Kompromisse finden.", "Du kannst den Ton deiner Aussagen anpassen."],
+          "grammatik": ["Modalpartikeln: doch, mal, eben, ja", "Verben mit Präpositionen auf B2-Niveau"],
+          "wortschatz": ["Diskussion", "Kompromiss", "Missverständnis", "Höflichkeit"],
+          "pruefung": ["Goethe B2 Sprechen Teil 2: Diskussion", "telc B2 Mündlich Teil 2: Diskussion"]
+        }
+      ],
+      "selbstcheck": [
+        "Ich habe B1 abgeschlossen oder fühle mich auf B1 sicher.",
+        "Ich kann Abläufe im Passiv beschreiben – auch mit Modalverben.",
+        "Ich kann zweiteilige Konnektoren benutzen (sowohl … als auch, weder … noch).",
+        "Ich kann ein Thema 3–4 Minuten präsentieren.",
+        "Ich verstehe die Hauptaussagen von Nachrichten im Radio."
+      ]
+    },
+    {
+      "id": "b2-2",
+      "label": "B2.2",
+      "titel": "Überzeugend argumentieren",
+      "ziel": "Du schreibst und sprichst präzise, auch zu abstrakten Themen – und bist bereit für das B2-Zertifikat.",
+      "dauer": "ca. 10 Wochen",
+      "lehrwerke": "oberstufe",
+      "bloecke": [
+        {
+          "thema": "Zukunft & Umwelt",
+          "kannZiele": ["Du kannst Prognosen und Vermutungen formulieren.", "Du kannst Lösungen für ein Problem vorschlagen und bewerten."],
+          "grammatik": ["Futur II (bis 2050 wird man … erreicht haben)", "Vermutungen: dürfte, könnte, wird wohl"],
+          "wortschatz": ["Klimawandel", "Energiewende", "Ressourcen", "Prognose"],
+          "pruefung": ["Goethe B2 Sprechen Teil 1: Vortrag", "telc B2 Mündlich Teil 3: gemeinsam eine Lösung finden"]
+        },
+        {
+          "thema": "Wissenschaft & Technik",
+          "kannZiele": ["Du kannst Sachtexte zu Technik und Forschung verstehen.", "Du kannst zwischen Nominal- und Verbalstil wechseln."],
+          "grammatik": ["Nominalstil ↔ Verbalstil", "Passiv in allen Zeitformen"],
+          "wortschatz": ["Forschung", "Künstliche Intelligenz", "Erfindung", "Ethik"],
+          "pruefung": ["Goethe B2 Lesen: Sachtexte", "telc B2 Leseverstehen"]
+        },
+        {
+          "thema": "Politik & Engagement",
+          "kannZiele": ["Du kannst Aussagen anderer korrekt wiedergeben.", "Du kannst einem längeren Vortrag folgen."],
+          "grammatik": ["Indirekte Rede (Konjunktiv I und II)", "Redewiedergabe mit laut, nach, zufolge"],
+          "wortschatz": ["Bürgerbeteiligung", "Ehrenamt", "Protest", "Gesetz"],
+          "pruefung": ["Goethe B2 Hören: Vortrag"]
+        },
+        {
+          "thema": "Kultur & Identität",
+          "kannZiele": ["Du kannst über Mehrsprachigkeit und Herkunft sprechen.", "Du kannst Erfahrungen differenziert beschreiben."],
+          "grammatik": ["Erweiterte Partizipialattribute", "Konnektoren: zumal, wohingegen, insofern"],
+          "wortschatz": ["Heimat", "Mehrsprachigkeit", "Integration", "Vorurteile"],
+          "pruefung": ["telc B2 Mündlich Teil 1: Präsentation"]
+        },
+        {
+          "thema": "Arbeit international",
+          "kannZiele": ["Du kannst in Meetings Ergebnisse zusammenfassen.", "Du kannst irreale Situationen beschreiben."],
+          "grammatik": ["Irreale Vergleichssätze mit als ob / als wenn", "Nomen-Verb-Verbindungen vertiefen"],
+          "wortschatz": ["Meeting", "Projekt", "Interkulturelle Kommunikation", "Feedback"],
+          "pruefung": ["telc B2 Schriftlicher Ausdruck: Beschwerde oder Anfrage", "Goethe B2 Schreiben Teil 2"]
+        },
+        {
+          "thema": "Recht & Alltag",
+          "kannZiele": ["Du kannst Verträge und offizielle Schreiben im Wesentlichen verstehen.", "Du kannst sagen, wie man etwas erreicht."],
+          "grammatik": ["Modale Nebensätze: indem, dadurch dass", "Konzessive Sätze: zwar … aber, auch wenn"],
+          "wortschatz": ["Vertrag", "Kündigung", "Versicherung", "Rechte"],
+          "pruefung": ["Goethe B2 Lesen: Regeln und Bestimmungen"]
+        },
+        {
+          "thema": "Prüfungstraining B2",
+          "kannZiele": ["Du kennst alle Teile der B2-Prüfung und ihre Zeiten.", "Du kannst deine Zeit in der Prüfung gut einteilen."],
+          "grammatik": ["Wiederholung: Nominalisierung und Partizipialattribute", "Wiederholung: Konnektoren und Redewiedergabe"],
+          "wortschatz": ["Redemittel: Vortrag", "Redemittel: Diskussion", "Redemittel: Forumsbeitrag"],
+          "pruefung": ["Goethe-Zertifikat B2: alle Teile", "telc Deutsch B2: alle Teile"]
+        }
+      ],
+      "selbstcheck": [
+        "Ich kann formelle E-Mails ohne Hilfe schreiben.",
+        "Ich verstehe Partizipialattribute (die steigenden Mieten).",
+        "Ich kann Verben in Nomen umwandeln (entscheiden – die Entscheidung).",
+        "Ich kann in einer Diskussion widersprechen und Kompromisse vorschlagen.",
+        "Ich verstehe Zeitungsartikel zu bekannten Themen."
+      ]
+    },
+    {
+      "id": "c1",
+      "label": "C1",
+      "titel": "Sprache wie im Studium und Beruf",
+      "ziel": "Du verstehst anspruchsvolle Texte, sprichst spontan und flüssig und schreibst gut strukturierte Texte.",
+      "dauer": "ca. 14 Wochen",
+      "lehrwerke": "oberstufe",
+      "bloecke": [
+        {
+          "thema": "Wissenschaft & Forschung",
+          "kannZiele": ["Du kannst Fachtexte verstehen und die wichtigsten Aussagen zusammenfassen.", "Du kannst ausdrücken, wie sicher eine Aussage ist."],
+          "grammatik": ["Modalverben subjektiv (Er soll … gewesen sein.)", "Nominalstil in Fachtexten"],
+          "wortschatz": ["Studie", "These", "Methode", "Ergebnis"],
+          "pruefung": ["Goethe C1 Lesen", "telc C1 Leseverstehen"]
+        },
+        {
+          "thema": "Arbeitswelt & Wirtschaft",
+          "kannZiele": ["Du kannst komplexe Abläufe im Beruf erklären.", "Du kannst formell und sehr präzise schreiben."],
+          "grammatik": ["Komplexe Partizipialattribute", "Funktionsverbgefüge (in Kraft treten, zur Verfügung stellen)"],
+          "wortschatz": ["Unternehmen", "Führung", "Strategie", "Fachkräfte"],
+          "pruefung": ["Goethe C1 Schreiben: formelle Mitteilung"]
+        },
+        {
+          "thema": "Gesellschaft & Werte",
+          "kannZiele": ["Du kannst zu einem Thema ausführlich Stellung nehmen.", "Du kannst Argumente abwägen und gewichten."],
+          "grammatik": ["Argumentationskonnektoren: einerseits … andererseits, demzufolge, hingegen", "Konzessive Sätze: wenngleich, ungeachtet"],
+          "wortschatz": ["Gerechtigkeit", "Wandel", "Verantwortung", "Generationen"],
+          "pruefung": ["Goethe C1 Schreiben: Stellungnahme / Forumsbeitrag"]
+        },
+        {
+          "thema": "Medien & Öffentlichkeit",
+          "kannZiele": ["Du kannst Vorträge, Reportagen und Diskussionen auch ohne Mühe verstehen.", "Du kannst Positionen anderer sachlich wiedergeben."],
+          "grammatik": ["Redewiedergabe stilsicher (Konjunktiv I, Redeeinleitungen)", "Passiv-Alternativen im Text"],
+          "wortschatz": ["Öffentlichkeit", "Journalismus", "Algorithmen", "Manipulation"],
+          "pruefung": ["Goethe C1 Hören", "telc C1 Hörverstehen"]
+        },
+        {
+          "thema": "Sprache & Kommunikation",
+          "kannZiele": ["Du kannst Stil und Register bewusst wählen.", "Du kannst feine Bedeutungsunterschiede erkennen."],
+          "grammatik": ["Wortbildung: Präfixe und Suffixe", "Modalpartikeln und feste Wendungen"],
+          "wortschatz": ["Register", "Ironie", "Redewendungen", "Dialekte"],
+          "pruefung": ["Goethe C1 Sprechen Teil 2: Diskussion"]
+        },
+        {
+          "thema": "Umwelt & Globalisierung",
+          "kannZiele": ["Du kannst Grafiken und Daten interpretieren.", "Du kannst einen gut strukturierten Vortrag halten."],
+          "grammatik": ["Nominalisierung ↔ Verbalisierung", "Präpositionen mit Genitiv: zwecks, mangels, hinsichtlich"],
+          "wortschatz": ["Lieferketten", "Ressourcen", "Migration", "Entwicklung"],
+          "pruefung": ["Goethe C1 Sprechen Teil 1: Vortrag", "telc C1 Mündliche Prüfung: Präsentation"]
+        },
+        {
+          "thema": "Kunst & Kultur",
+          "kannZiele": ["Du kannst eine Rezension schreiben.", "Du kannst literarische und künstlerische Texte interpretieren."],
+          "grammatik": ["Adjektive und Partizipien als Nomen (das Neue, der Reisende)", "Textkohärenz: Verweiswörter und Satzverknüpfung"],
+          "wortschatz": ["Rezension", "Ausstellung", "Interpretation", "Stilmittel"],
+          "pruefung": ["telc C1 Schriftlicher Ausdruck"]
+        },
+        {
+          "thema": "Prüfungstraining C1",
+          "kannZiele": ["Du kennst alle Teile der C1-Prüfung.", "Du kannst unter Zeitdruck sicher schreiben und sprechen."],
+          "grammatik": ["Wiederholung: Nominalstil und Satzbau", "Wiederholung: Redewiedergabe und Konnektoren"],
+          "wortschatz": ["Redemittel: Stellungnahme", "Redemittel: Vortrag", "Redemittel: Diskussion"],
+          "pruefung": ["Goethe-Zertifikat C1: alle Teile", "telc Deutsch C1: alle Teile"]
+        }
+      ],
+      "selbstcheck": [
+        "Ich habe B2 abgeschlossen oder fühle mich auf B2 sicher.",
+        "Ich kann Aussagen anderer in indirekter Rede wiedergeben.",
+        "Ich kann zu abstrakten Themen argumentieren und Gegenargumente nennen.",
+        "Ich verstehe Sachtexte und Vorträge zu den meisten Themen.",
+        "Ich kann zwischen Nominal- und Verbalstil wechseln."
+      ]
+    }
+  ]
+}

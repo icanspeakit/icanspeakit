@@ -1,0 +1,149 @@
+{
+  "_note": "Die Wortarten zum Nachschlagen (/grammatik/wortarten) und Regis Satz unter dem Wortart-Etikett der Karteikarten (wortschatz-app.js). `practice` = der Anker der Übung auf /wortarten, in der die Wortart vorkommt. `fehler` = das Wortpaar auf /grammatik/typische-fehler, das zur Wortart gehört (man ≠ der Mann). `id` = das pos-Feld im Lexikon; der Artikel hat kein eigenes Lexikon-Wort, gehört aber dazu. `say` ist die Kurzform für die Karte (≤ 8 Wörter), `what` der Satz auf der Seite, `tr` dessen Übersetzung in die Hilfesprachen (maschineller Entwurf, reviewed:false).",
+  "reviewed": false,
+  "classes": [
+    {
+      "id": "noun", "name": "Nomen", "also": "Substantiv, Hauptwort", "practice": "erkennen",
+      "fehler": "essen",
+      "say": "Ein Nomen ist ein Name für eine Person oder Sache.",
+      "what": "Ein Nomen ist ein Name: für eine Person, ein Tier, eine Sache oder eine Idee.",
+      "ask": "Wer? Was?",
+      "tip": "Nomen schreibt man immer groß. Sie haben einen Artikel: der, die oder das.",
+      "learn": { "href": "/nomen", "label": "Was ist ein Nomen? Regel und Übungen" },
+      "tr": {
+        "en": "A noun is a name: for a person, an animal, a thing or an idea.",
+        "ar": "الاسم هو اسم: لشخص أو حيوان أو شيء أو فكرة.",
+        "uk": "Іменник — це назва: людини, тварини, речі чи ідеї.",
+        "tr": "İsim bir addır: bir kişinin, hayvanın, eşyanın ya da düşüncenin adı."
+      }
+    },
+    {
+      "id": "art", "name": "Artikel", "also": "Begleiter", "practice": "erkennen",
+      "fehler": "das-dass",
+      "say": "Ein Artikel steht vor dem Nomen.",
+      "what": "Der Artikel steht vor dem Nomen und zeigt sein Genus: der, die, das — oder ein, eine.",
+      "ask": "Welcher? Welche? Welches?",
+      "tip": "Lerne jedes Nomen mit Artikel: nicht „Tisch“, sondern „der Tisch“.",
+      "examples": ["der", "die", "das", "ein", "eine"],
+      "tr": {
+        "en": "The article comes before the noun and shows its gender: der, die, das — or ein, eine.",
+        "ar": "أداة التعريف أو التنكير تأتي قبل الاسم وتُظهر جنسه: der وdie وdas — أو ein وeine.",
+        "uk": "Артикль стоїть перед іменником і показує його рід: der, die, das — або ein, eine.",
+        "tr": "Artikel ismin önünde durur ve cinsiyetini gösterir: der, die, das — ya da ein, eine."
+      }
+    },
+    {
+      "id": "verb", "name": "Verb", "also": "Tätigkeitswort, Zeitwort", "practice": "im-satz",
+      "fehler": "seid-seit",
+      "say": "Ein Verb sagt, was jemand tut.",
+      "sub": { "name": "trennbares Verb", "what": "Der vordere Teil geht im Satz ans Ende: anziehen → Ich ziehe die Jacke an.", "href": "/trennbare-verben", "more": "Trennbare Verben" },
+      "what": "Ein Verb sagt, was jemand tut oder was passiert.",
+      "ask": "Was macht er? Was passiert?",
+      "tip": "Das Verb ändert seine Endung: ich gehe, du gehst. Im Aussagesatz steht es auf Position 2.",
+      "tr": {
+        "en": "A verb says what someone does or what happens.",
+        "ar": "الفعل يقول ماذا يفعل شخص ما أو ماذا يحدث.",
+        "uk": "Дієслово каже, що хтось робить або що відбувається.",
+        "tr": "Fiil, birinin ne yaptığını ya da ne olduğunu söyler."
+      }
+    },
+    {
+      "id": "adj", "name": "Adjektiv", "also": "Eigenschaftswort", "practice": "im-satz",
+      "fehler": "deutsch",
+      "say": "Ein Adjektiv sagt, wie jemand oder etwas ist.",
+      "what": "Ein Adjektiv sagt, wie jemand oder etwas ist.",
+      "ask": "Wie ist er? Wie ist es?",
+      "tip": "Nach „sein“ bleibt es gleich: Der Tisch ist groß. Vor einem Nomen bekommt es eine Endung: der große Tisch.",
+      "tr": {
+        "en": "An adjective says what someone or something is like.",
+        "ar": "الصفة تقول كيف يكون شخص ما أو شيء ما.",
+        "uk": "Прикметник каже, яким є хтось або щось.",
+        "tr": "Sıfat, birinin ya da bir şeyin nasıl olduğunu söyler."
+      }
+    },
+    {
+      "id": "adv", "name": "Adverb", "also": "Umstandswort", "practice": "erkennen",
+      "fehler": "dann-denn",
+      "say": "Ein Adverb sagt, wann, wo oder wie.",
+      "what": "Ein Adverb sagt, wann, wo oder wie etwas passiert.",
+      "ask": "Wann? Wo? Wie?",
+      "tip": "Ein Adverb hat nie eine Endung: heute, hier, gern.",
+      "tr": {
+        "en": "An adverb says when, where or how something happens.",
+        "ar": "الظرف يقول متى أو أين أو كيف يحدث شيء ما.",
+        "uk": "Прислівник каже, коли, де або як щось відбувається.",
+        "tr": "Zarf, bir şeyin ne zaman, nerede ya da nasıl olduğunu söyler."
+      }
+    },
+    {
+      "id": "pron", "name": "Pronomen", "also": "Fürwort", "practice": "im-satz",
+      "fehler": "man-mann",
+      "say": "Ein Pronomen steht für ein Nomen.",
+      "what": "Ein Pronomen steht für ein Nomen — so musst du es nicht wiederholen.",
+      "ask": "Wer? Was?",
+      "tip": "Der Mann kommt. → Er kommt. Die Frau lacht. → Sie lacht.",
+      "tr": {
+        "en": "A pronoun stands for a noun — so you don't have to repeat it.",
+        "ar": "الضمير يحلّ محلّ الاسم — فلا تحتاج إلى تكراره.",
+        "uk": "Займенник стоїть замість іменника — тож його не треба повторювати.",
+        "tr": "Zamir bir ismin yerine geçer — böylece onu tekrarlamak zorunda kalmazsın."
+      }
+    },
+    {
+      "id": "prep", "name": "Präposition", "also": "Verhältniswort", "practice": "im-satz",
+      "fehler": "in-ihn",
+      "say": "Eine Präposition steht vor einem Nomen: mit, in, auf.",
+      "what": "Eine Präposition steht vor einem Nomen und zeigt Ort, Zeit oder Richtung.",
+      "ask": "Wo? Wann? Wohin?",
+      "tip": "Nach ihr kommt ein bestimmter Fall: mit dem Bus (Dativ), für den Freund (Akkusativ).",
+      "tr": {
+        "en": "A preposition comes before a noun and shows place, time or direction.",
+        "ar": "حرف الجر يأتي قبل الاسم ويُظهر المكان أو الزمان أو الاتجاه.",
+        "uk": "Прийменник стоїть перед іменником і показує місце, час або напрямок.",
+        "tr": "Edat bir ismin önünde durur ve yer, zaman ya da yön gösterir."
+      }
+    },
+    {
+      "id": "conj", "name": "Konjunktion", "also": "Bindewort", "practice": "zuordnen",
+      "fehler": "wenn-wen",
+      "say": "Eine Konjunktion verbindet Wörter und Sätze.",
+      "what": "Eine Konjunktion verbindet Wörter oder Sätze.",
+      "ask": "und? aber? weil?",
+      "tip": "Nach „weil“ und „dass“ steht das Verb am Ende: …, weil ich müde bin.",
+      "tr": {
+        "en": "A conjunction joins words or sentences.",
+        "ar": "أداة الربط تربط الكلمات أو الجمل.",
+        "uk": "Сполучник з'єднує слова або речення.",
+        "tr": "Bağlaç kelimeleri ya da cümleleri birbirine bağlar."
+      }
+    },
+    {
+      "id": "num", "name": "Zahlwort", "also": "Numerale", "practice": "erkennen",
+      "fehler": "eins-ein",
+      "say": "Ein Zahlwort sagt, wie viel oder wie viele.",
+      "what": "Ein Zahlwort sagt, wie viel oder wie viele — oder an welcher Stelle.",
+      "ask": "Wie viel? Wie viele? Der wievielte?",
+      "tip": "zwei Kinder (wie viele?), der zweite Tag (an welcher Stelle?).",
+      "tr": {
+        "en": "A numeral says how much or how many — or in which position.",
+        "ar": "اسم العدد يقول كم — أو في أي ترتيب.",
+        "uk": "Числівник каже, скільки — або на якому місці.",
+        "tr": "Sayı sözcüğü ne kadar ya da kaç tane olduğunu söyler — ya da kaçıncı sırada."
+      }
+    },
+    {
+      "id": "phrase", "name": "Wendung", "also": "keine Wortart, eine feste Verbindung", "practice": "erkennen",
+      "fehler": "mir-ist-kalt",
+      "say": "Eine Wendung: mehrere Wörter, ein Sinn.",
+      "what": "Eine Wendung sind mehrere Wörter, die zusammen eine feste Bedeutung haben.",
+      "ask": "",
+      "tip": "Lerne sie als Ganzes, Wort für Wort übersetzt passt sie oft nicht.",
+      "tr": {
+        "en": "A set phrase is several words that together have one fixed meaning.",
+        "ar": "العبارة الثابتة هي عدة كلمات لها معًا معنى ثابت واحد.",
+        "uk": "Стійкий вислів — це кілька слів, які разом мають одне стале значення.",
+        "tr": "Kalıp ifade, birlikte tek bir sabit anlam taşıyan birkaç kelimedir."
+      }
+    }
+  ]
+}

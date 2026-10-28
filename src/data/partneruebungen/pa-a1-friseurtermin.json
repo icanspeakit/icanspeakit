@@ -1,0 +1,100 @@
+{
+  "id": "pa-a1-friseurtermin",
+  "titel": "Ein Termin beim Friseur",
+  "untertitel": "Uhrzeiten und Termine am Telefon – *um* halb fünf, *am* Donnerstag",
+  "niveau": "A1",
+  "thema": "Termine",
+  "grammatik": ["Uhrzeit", "am + Tag, um + Uhrzeit", "Verb auf Position 2"],
+  "format": "rollenspiel",
+  "modus": "paar",
+  "personen": 2,
+  "dauerMin": 20,
+  "intro": {
+    "grammatik": {
+      "kopf": ["Position 1", "Position 2", "", ""],
+      "positionen": [["*Am* Donnerstag", "_habe_", "ich", "Zeit."], ["*Um* halb fünf", "_ist_", "noch", "frei."], ["_Haben_", "Sie", "*am* Samstag", "Zeit?"]],
+      "markiere": { "verb": [1] },
+      "regel": "*am* + Tag (am Dienstag), *um* + Uhrzeit (um 16:30 Uhr). Steht der Tag oder die Zeit auf Position 1, kommt das Verb direkt danach.",
+      "tabelle": {
+        "kopf": ["Uhr", "offiziell", "privat"],
+        "zeilen": [["16:30", "sechzehn Uhr dreißig", "halb fünf"], ["10:15", "zehn Uhr fünfzehn", "Viertel nach zehn"], ["10:45", "zehn Uhr fünfundvierzig", "Viertel vor elf"], ["17:30", "siebzehn Uhr dreißig", "halb sechs"]]
+      }
+    },
+    "redemittel": [
+      { "p1": "Salon „Schnittpunkt“, guten Tag.", "p2": "Guten Tag, ich möchte einen Termin zum Haareschneiden." },
+      { "p1": "Wann _haben_ Sie Zeit?", "p2": "Geht es *am* Donnerstag *um* halb fünf?" },
+      { "p1": "Ja, das passt. Wie ist Ihr Name, bitte?", "p2": "Mein Name ist … Vielen Dank. Bis Donnerstag!" },
+      { "p1": "*Am* Dienstag _geht_ es leider nicht.", "p2": "Und *am* Samstag?" }
+    ],
+    "soGehts": [
+      "Schneiden Sie Seite 2 in der Mitte durch. Partner A ist Kundin oder Kunde, Partner B arbeitet im Salon.",
+      "Lesen Sie Ihre Rollenkarte. Zeigen Sie sie nicht!",
+      "Spielen Sie das Telefongespräch. Sagen Sie die Uhrzeit laut, der Partner schreibt sie in Ziffern.",
+      "Notieren Sie den Termin in der Tabelle. Dann spielen Sie Situation 2 und 3.",
+      "Vergleichen Sie zum Schluss: Haben Sie denselben Termin notiert?"
+    ]
+  },
+  "karten": [
+    {
+      "rolle": "A",
+      "tipp": {
+        "formel": "*Am* + Tag / *Um* + Uhrzeit + _Verb_ + …",
+        "beispiel": "*Am* Samstag _kann_ ich nur vormittags.",
+        "hinweise": ["halb fünf = 16:30 Uhr", "Viertel nach zehn = 10:15 Uhr", "Sagen Sie „Wie bitte?“, wenn Sie etwas nicht verstehen."]
+      },
+      "schritte": [
+        {
+          "typ": "rolle",
+          "anweisung": "Lesen Sie Ihre Rolle. Rufen Sie im Salon an.",
+          "rolle": "Kundin / Kunde",
+          "ziel": "Sie möchten diese Woche einen Termin zum Haareschneiden.",
+          "infos": ["Sie arbeiten Montag bis Freitag von 8 bis 16 Uhr.", "Am Mittwochabend haben Sie einen Deutschkurs.", "Am Samstag können Sie nur am Vormittag."],
+          "redemittel": ["Ich möchte einen Termin.", "Geht es am … um …?", "Das passt gut.", "Das geht leider nicht.", "Wie bitte?"],
+          "situationen": ["Sie rufen an und machen einen Termin für sich.", "Ihr Sohn braucht auch einen Haarschnitt. Sie möchten zwei Termine direkt nacheinander.", "Es ist Samstag. Sie sind im Bus und kommen 15 Minuten zu spät. Rufen Sie an."]
+        },
+        {
+          "typ": "tabelle",
+          "anweisung": "Notieren Sie die Termine.",
+          "spalten": ["Situation", "Tag", "Uhrzeit"],
+          "zeilen": [["1", null, null], ["2", null, null], ["3", null, null]]
+        }
+      ]
+    },
+    {
+      "rolle": "B",
+      "tipp": {
+        "formel": "*Am* + Tag / *Um* + Uhrzeit + _Verb_ + …",
+        "beispiel": "*Um* halb fünf _ist_ noch frei.",
+        "hinweise": ["halb fünf = 16:30 Uhr", "Viertel vor elf = 10:45 Uhr", "Fragen Sie nach dem Namen."]
+      },
+      "schritte": [
+        {
+          "typ": "rolle",
+          "anweisung": "Lesen Sie Ihre Rolle. Das Telefon klingelt.",
+          "rolle": "Salon „Schnittpunkt“, Rezeption",
+          "ziel": "Sie finden einen freien Termin für die Kundin oder den Kunden.",
+          "infos": ["Geöffnet: Montag bis Freitag 9–18 Uhr, Samstag 9–13 Uhr.", "Noch frei: Dienstag 17:30 Uhr, Donnerstag 16:30 Uhr, Samstag 10:15 Uhr und 10:45 Uhr.", "Ein Haarschnitt dauert 30 Minuten und kostet 28 Euro, für Kinder 15 Euro."],
+          "redemittel": ["Salon „Schnittpunkt“, guten Tag.", "Wann haben Sie Zeit?", "Um … ist noch frei.", "Wie ist Ihr Name, bitte?", "Kein Problem. Bis bald!"],
+          "situationen": ["Eine Kundin / Ein Kunde ruft an und möchte einen Termin.", "Die Person möchte zwei Termine direkt nacheinander.", "Die Person kommt zu spät. Nach Ihrem Termin um 10:15 Uhr ist um 10:45 Uhr frei."]
+        },
+        {
+          "typ": "tabelle",
+          "anweisung": "Notieren Sie die Termine.",
+          "spalten": ["Situation", "Tag", "Uhrzeit", "Name"],
+          "zeilen": [["1", null, null, null], ["2", null, null, null], ["3", null, null, null]]
+        }
+      ]
+    }
+  ],
+  "zusammen": {
+    "titel": "Zusammen: Und Sie?",
+    "freiFragen": ["Wann gehst du zum Friseur?", "Wann hast du diese Woche Zeit? – Am … um …", "Was machst du am Samstag um Viertel nach zehn?"]
+  },
+  "gruppe": null,
+  "loesungen": [
+    { "antwort": "Situation 1: Dienstag um 17:30 Uhr (halb sechs) oder Donnerstag um 16:30 Uhr (halb fünf) oder Samstag um 10:15 Uhr. Mittwoch geht nicht (Deutschkurs), vor 16 Uhr geht nicht (Arbeit)." },
+    { "antwort": "Situation 2: Nur Samstag passt: um 10:15 Uhr und um 10:45 Uhr (Viertel nach zehn und Viertel vor elf)." },
+    { "antwort": "Situation 3: Die Rezeption sagt zum Beispiel: Kein Problem, dann kommen Sie um Viertel vor elf." }
+  ],
+  "quelle": { "veraenderung": 2, "intern": "mA1-kb-s153-6c", "geprueft": false }
+}

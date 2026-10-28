@@ -1,0 +1,189 @@
+---
+// A little looping film of how the live quiz runs, for MascotGuide's "sim" slot on
+// /lehrkraefte/quiz. Three scenes, 4 s each, in step with the guide's three numbered steps:
+//   1  projector: the QR code and the PIN (six blocks), three phones slide up, round avatars
+//      pop in on the screen one after the other
+//   2  projector: a question bar and four answer tiles (triangle, diamond, circle, square),
+//      the timer bar shrinks; the phones show the same four buttons and each taps one
+//   3  podium: three columns rise (2nd, 1st, 3rd), a medal pops on top of each
+//
+// Same make as UmfrageSim.astro: pure SVG + CSS, no words inside, one 12 s cycle, theme tokens
+// so dark mode just works. A part's animation-delay is its scene start plus its own offset.
+// Reduced motion: no film, the answer scene stands still.
+
+const N = 9;
+const finder = (x: number, y: number) =>
+  [[0, 0], [0, 6], [6, 0]].some(([fx, fy]) => {
+    const dx = x - fx, dy = y - fy;
+    if (dx < 0 || dy < 0 || dx > 2 || dy > 2) return false;
+    return !(dx === 1 && dy === 1);
+  });
+const scatter = "000000000000000000000101000000010100110101011010010110101101001010000110101000101101".split("");
+const qr: [number, number][] = [];
+for (let y = 0; y < N; y++)
+  for (let x = 0; x < N; x++) {
+    const inFinder = (x < 3 && y < 3) || (x < 3 && y > 5) || (x > 5 && y < 3);
+    if (inFinder ? finder(x, y) : scatter[(y * N + x) % scatter.length] === "1") qr.push([x, y]);
+  }
+
+// answer shapes: triangle, diamond, circle, square (path drawn around 0,0, moved per tile)
+const SHAPES = ["M0 -6l6.5 11h-13z", "M0 -6.5l6 6.5-6 6.5-6-6.5z", "M-5.5 0a5.5 5.5 0 1 0 11 0a5.5 5.5 0 1 0-11 0z", "M-5 -5h10v10h-10z"];
+const PY = [74, 62, 74];
+const PICK = [2, 0, 3]; // the button each phone taps
+// podium: centre x, height, medal class, rise delay
+const PODIUM = [[100, 44, "silver", 0.2], [160, 64, "gold", 0.5], [220, 30, "bronze", 0.8]] as const;
+---
+<div class="sim" aria-hidden="true">
+  <svg viewBox="0 0 320 180" role="presentation">
+    <rect class="desk" x="0" y="0" width="320" height="180" rx="14" />
+
+    <!-- 1 · beitreten -->
+    <g class="sc sc1">
+      <rect class="wall" x="22" y="14" width="140" height="96" rx="4" />
+      <path class="stand" d="M92 110v18M78 128h28" />
+      <g transform="translate(65 20)">
+        <rect class="qr-bg" x="-4" y="-4" width="62" height="62" rx="3" />
+        {qr.map(([x, y]) => <rect class="qr" x={x * 6} y={y * 6} width="6" height="6" />)}
+      </g>
+      {[0, 1, 2, 3, 4, 5].map((i) => <rect class="pin" x={32 + i * 20} y="90" width="16" height="12" rx="3" />)}
+      {[[40, 42], [144, 42], [144, 66]].map(([x, y], i) => (
+        <g class="in" style={`animation-delay:${1.6 + i * 0.6}s`}>
+          <circle class={`av av${i}`} cx={x} cy={y} r="9" />
+          <circle class="av-dot" cx={x} cy={y - 2.5} r="2.8" />
+          <path class="av-dot" d={`M${x - 5.5} ${y + 6}a5.5 4.5 0 0 1 11 0z`} />
+        </g>
+      ))}
+      {[0, 1, 2].map((i) => (
+        <g class="up" style={`animation-delay:${0.3 + i * 0.35}s`}>
+          <rect class="phone" x={182 + i * 44} y={PY[i]} width="34" height="62" rx="6" />
+          <rect class="phone-screen" x={185 + i * 44} y={PY[i] + 6} width="28" height="48" rx="2" />
+          <rect class="line" x={190 + i * 44} y={PY[i] + 16} width="18" height="4" rx="2" />
+          <rect class="btn" x={190 + i * 44} y={PY[i] + 36} width="18" height="9" rx="4.5" />
+        </g>
+      ))}
+    </g>
+
+    <!-- 2 · fragen und antworten -->
+    <g class="sc sc2">
+      <rect class="wall" x="22" y="14" width="140" height="96" rx="4" />
+      <path class="stand" d="M92 110v18M78 128h28" />
+      <rect class="q" x="32" y="22" width="100" height="8" rx="4" />
+      {[0, 1, 2, 3].map((k) => (
+        <g>
+          <rect class={`t${k}`} x={32 + (k % 2) * 62} y={37 + Math.floor(k / 2) * 30} width="58" height="26" rx="5" />
+          <path class="shp" d={SHAPES[k]} transform={`translate(${46 + (k % 2) * 62} ${50 + Math.floor(k / 2) * 30})`} />
+          <rect class="shp-line" x={58 + (k % 2) * 62} y={48 + Math.floor(k / 2) * 30} width="24" height="4" rx="2" />
+        </g>
+      ))}
+      <rect class="timer-bg" x="32" y="99" width="120" height="5" rx="2.5" />
+      <rect class="timer" x="32" y="99" width="120" height="5" rx="2.5" />
+      {[0, 1, 2].map((i) => (
+        <g>
+          <rect class="phone fade" x={182 + i * 44} y={PY[i]} width="34" height="62" rx="6" />
+          <rect class="phone-screen fade" x={185 + i * 44} y={PY[i] + 6} width="28" height="48" rx="2" />
+          {[0, 1, 2, 3].map((k) => (
+            <rect class={`t${k} fade`} x={187 + i * 44 + (k % 2) * 12.5} y={PY[i] + 10 + Math.floor(k / 2) * 21} width="11.5" height="19" rx="3" />
+          ))}
+          <g class="in" style={`animation-delay:${5.2 + i * 0.7}s`}>
+            <circle class="tap-ring" cx={193 + i * 44 + (PICK[i] % 2) * 12.5} cy={PY[i] + 19.5 + Math.floor(PICK[i] / 2) * 21} r="7" />
+          </g>
+        </g>
+      ))}
+    </g>
+
+    <!-- 3 · siegerehrung -->
+    <g class="sc sc3">
+      <path class="floor" d="M40 150h240" />
+      {PODIUM.map(([cx, h, m, d], i) => (
+        <g>
+          <rect class="col" style={`animation-delay:${8.3 + d}s`} x={cx - 27} y={150 - h} width="54" height={h} rx="4" />
+          <g class="in" style={`animation-delay:${9.3 + d}s`}>
+            <circle class={`medal ${m}`} cx={cx} cy={150 - h - 14} r="10" />
+            <circle class="medal-in" cx={cx} cy={150 - h - 14} r="5" />
+          </g>
+          <rect class="line" x={cx - 14} y={[116, 100, 126][i]} width="28" height="5" rx="2.5" />
+        </g>
+      ))}
+    </g>
+  </svg>
+</div>
+
+<style>
+  .sim { width: 100%; }
+  .sim svg { display: block; width: 100%; height: auto; }
+
+  .desk { fill: var(--blue-100); }
+  .wall, .qr-bg, .phone-screen { fill: var(--surface-card); }
+  .wall { stroke: var(--border-strong); stroke-width: 1.5; }
+  .stand { fill: none; stroke: var(--border-strong); stroke-width: 3; stroke-linecap: round; }
+  .qr, .pin, .phone { fill: var(--ink); }
+  .line { fill: var(--border-strong); }
+  .btn { fill: var(--brand-blue); }
+  .av { fill: var(--brand-blue); }
+  .av1 { fill: var(--accent); }
+  .av2 { fill: var(--success); }
+  .av-dot { fill: #fff; }
+  .q { fill: var(--blue-200); }
+  .t0 { fill: var(--danger); }
+  .t1 { fill: var(--brand-blue); }
+  .t2 { fill: var(--warning); }
+  .t3 { fill: var(--success); }
+  .shp { fill: #fff; }
+  .shp-line { fill: #fff; opacity: .6; }
+  .timer-bg { fill: var(--border); }
+  .timer { fill: var(--accent); }
+  .tap-ring { fill: #fff; fill-opacity: .55; stroke: var(--ink); stroke-width: 1.6; }
+  .floor { stroke: var(--border-strong); stroke-width: 3; stroke-linecap: round; }
+  .col { fill: var(--surface-card); stroke: var(--border-strong); stroke-width: 1.5; }
+  .medal { fill: var(--border-strong); }
+  .gold { fill: var(--warning); }
+  .bronze { fill: var(--accent-dark); }
+  .medal-in { fill: #fff; opacity: .55; }
+
+  /* everything timed: one 12 s cycle, started per part by animation-delay */
+  .sc, .in, .up, .fade, .timer, .col {
+    animation-duration: 12s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+    transform-box: fill-box;
+  }
+  .sc { opacity: 0; animation-name: lq-sim-scene; }
+  .sc2 { animation-delay: 4s; }
+  .sc3 { animation-delay: 8s; }
+  @keyframes lq-sim-scene { 0% { opacity: 0 } 2%, 31% { opacity: 1 } 33%, 100% { opacity: 0 } }
+
+  /* pops in, stays to the end of its scene */
+  .in { opacity: 0; transform-origin: center; animation-name: lq-sim-in; }
+  @keyframes lq-sim-in {
+    0% { opacity: 0; transform: scale(.4) }
+    3% { opacity: 1; transform: scale(1.15) }
+    5%, 31% { opacity: 1; transform: scale(1) }
+    33%, 100% { opacity: 0 }
+  }
+  .up { opacity: 0; animation-name: lq-sim-up; }
+  @keyframes lq-sim-up {
+    0% { opacity: 0; transform: translateY(50px) }
+    5%, 31% { opacity: 1; transform: none }
+    33%, 100% { opacity: 0 }
+  }
+  /* scene 2: the phones are already there, they only fade in with the scene */
+  .fade { opacity: 0; animation-name: lq-sim-fade; animation-delay: 4s; }
+  @keyframes lq-sim-fade { 0% { opacity: 0 } 4%, 31% { opacity: 1 } 33%, 100% { opacity: 0 } }
+
+  /* the timer runs down over the scene */
+  .timer { transform-origin: left; animation-name: lq-sim-timer; animation-delay: 4s; animation-timing-function: linear; }
+  @keyframes lq-sim-timer { 0% { transform: scaleX(1) } 28%, 100% { transform: scaleX(.04) } }
+
+  /* scene 3: columns rise from the floor */
+  .col { transform-origin: bottom; transform: scaleY(0); animation-name: lq-sim-col; }
+  @keyframes lq-sim-col { 0% { transform: scaleY(0) } 10%, 30% { transform: scaleY(1) } 31%, 100% { transform: scaleY(0) } }
+
+  /* MascotGuide's pause button */
+  :global(.mg-paused) .sim * { animation-play-state: paused !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sim * { animation: none !important; }
+    .sc2, .sc2 .in, .sc2 .fade { opacity: 1; }
+    .sc2 .timer { transform: scaleX(.5); }
+  }
+</style>

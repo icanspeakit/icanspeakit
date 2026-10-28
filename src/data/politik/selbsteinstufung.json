@@ -1,0 +1,102 @@
+{
+  "source": {
+    "label": "European Social Survey, ESS11 integrated file, edition 4.1 (variable lrscale)",
+    "url": "https://ess.sikt.no/en/datafile/242aaa39-3bbb-40f5-98bf-bfb1ce53d8ef",
+    "round": "ESS Round 11",
+    "fieldwork": "2023/24 (country-specific dates in ESS documentation; not individually verified here)",
+    "citation": "ESS ERIC (2026). ESS11 integrated file, edition 4.1 [Data set]. Sikt - Norwegian Agency for Shared Services in Education and Research. https://doi.org/10.21338/ess11e04_1"
+  },
+  "scale": "Placement on left right scale (lrscale): 0 = Left (links) ... 10 = Right (rechts); codes 77 Refusal, 88 Don't know, 99 No answer treated as missing",
+  "weighting": "pspwght (post-stratification weight including design weight), the portal's default weight and the ESS-recommended weight for single-country analysis. anweight gives identical within-country shares (constant factor) but only integer-rounded counts of small magnitude, so pspwght was used for precision. Weighted counts are returned by the portal rounded to integers (rounding error <= about 0.03 percentage points per value).",
+  "countries": [
+    {
+      "country": "DE",
+      "n": 2317,
+      "n_total_respondents": 2420,
+      "shares": [
+        3.74,
+        2.74,
+        6.61,
+        13.57,
+        12.22,
+        39.02,
+        9.87,
+        6.96,
+        3.48,
+        0.91,
+        0.87
+      ],
+      "mean": 4.53,
+      "sd": 1.86,
+      "missing_share": 5.04,
+      "missing_n_unweighted": {
+        "refusal_77": 43,
+        "dont_know_88": 60,
+        "no_answer_99": 0
+      },
+      "source_note": "Gewichtete Häufigkeiten (pspwght) aus der ESS-Online-Analyse, Basis: gültige Antworten 0-10; Mittelwert und SD aus der gewichteten Verteilung berechnet. Ungewichtete Fallzahl n = gültige Antworten."
+    },
+    {
+      "country": "AT",
+      "n": 2131,
+      "n_total_respondents": 2354,
+      "shares": [
+        2.19,
+        2.38,
+        5.66,
+        10.09,
+        13.71,
+        40.79,
+        11.76,
+        6.66,
+        4.76,
+        1.38,
+        0.62
+      ],
+      "mean": 4.77,
+      "sd": 1.76,
+      "missing_share": 10.75,
+      "missing_n_unweighted": {
+        "refusal_77": 81,
+        "dont_know_88": 142,
+        "no_answer_99": 0
+      },
+      "source_note": "Gewichtete Häufigkeiten (pspwght) aus der ESS-Online-Analyse, Basis: gültige Antworten 0-10; Mittelwert und SD aus der gewichteten Verteilung berechnet. Ungewichtete Fallzahl n = gültige Antworten."
+    },
+    {
+      "country": "CH",
+      "n": 1284,
+      "n_total_respondents": 1384,
+      "shares": [
+        2.5,
+        1.95,
+        7.73,
+        13.83,
+        8.59,
+        27.34,
+        12.97,
+        13.36,
+        8.12,
+        1.56,
+        2.03
+      ],
+      "mean": 5.01,
+      "sd": 2.1,
+      "missing_share": 7.31,
+      "missing_n_unweighted": {
+        "refusal_77": 14,
+        "dont_know_88": 86,
+        "no_answer_99": 0
+      },
+      "source_note": "Gewichtete Häufigkeiten (pspwght) aus der ESS-Online-Analyse, Basis: gültige Antworten 0-10; Mittelwert und SD aus der gewichteten Verteilung berechnet. Ungewichtete Fallzahl n = gültige Antworten."
+    }
+  ],
+  "notes": [
+    "Retrieved 2026-10-22 from the ESS Data Portal's public GraphQL API (api.nsd.no/graphql, FrequencyTabulation query, the same one behind the portal's Analysis tab); no login needed. Raw responses in raw-ess/.",
+    "Shares are percent of valid answers (0-10); missing_share is percent of all respondents (weighted) who gave no valid answer.",
+    "Mean and SD are computed by us from the published weighted frequency table, not published by ESS directly; SD is the population SD of the weighted distribution.",
+    "Self-placement is self-reported and shows the value 5 as the modal answer in all three countries (partly a 'middle/no position' answer); do not read as a measure of actual policy positions.",
+    "Direct data-file download requires ESS login; not attempted."
+  ],
+  "_note": "ESS Runde 11, Links-Rechts-Selbsteinstufung (lrscale), gewichtet; abgerufen 2026-10-22 über die ESS-Online-Analyse. Nicht von Hand ändern."
+}

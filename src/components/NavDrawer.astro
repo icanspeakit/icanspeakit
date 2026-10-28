@@ -1,0 +1,751 @@
+---
+// The mobile menu panel, lifted out of SiteNav so the practice pages can wear it too.
+//
+// SiteNav is a desktop menubar *and* this drawer. A trainer page wants only the second
+// half: the bar above a Karteikarten set is a back arrow, a title and a burger, and
+// stacking the full site nav on top of it would cost a phone two rows of chrome before
+// any German appears. So the drawer is its own component, rendered by whoever needs it,
+// and the thing that opens it is any button carrying `data-drawer-open`.
+//
+// Exactly one of these may be on a page — it owns the id `lp-drawer` and the document
+// key handler. SiteNav renders it; PracticeHeader renders it; nothing renders both.
+import Icon from "./Icon.astro";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+import NextStepCta from "./NextStepCta.astro";
+import AuthStatus from "./AccountSlot.astro";
+import { mascotSvg } from "../lib/mascots.js";
+import { navSections, levels, itemsOf, navLehrkraefte, navSprachen, navWortgeschichte, navNachschlagen, navLernen, navWortfallen, navUmgangssprache, navRedewendungen, navZitate, navEntdecken, navUebenMenu } from "../lib/catalog.js";
+import "../styles/site-nav.css";
+import "../styles/auth.css";
+
+// B1 has eleven grammar topics and a menu that scrolls is a menu nobody reads to the end
+// of, so the Niveaus pane previews its first few and links to the rest.
+const GRAMMAR_PREVIEW = 5;
+// The quiet Premium link at the end of the account group (PUBLIC_PAYWALL on, web only).
+const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
+const APP_BUILD = import.meta.env.PUBLIC_TARGET === "app";
+const einfachBruno = mascotSvg({ name: "bruno", expr: "happy", view: "front", size: 34, label: "" });
+// "old" drops the Nachschlagewerk row, for the /nav2 comparison page (see NavMenubar.astro).
+const { wissenVariant = "current" } = Astro.props as { wissenVariant?: "lean" | "current" | "old" | "oldplus" | "oldbooks" | "oldchips" | "tabs" };
+const WISSEN_HREF = "/wissen";
+const LEHRKRAEFTE_HREF = navLehrkraefte.href;
+// Sections that a phone reaches through Wissen instead of from the home list.
+const DRAWER_UNDER_WISSEN = ["landeskunde"];
+/* On a phone, Landeskunde is split in two under Wissen: "Landeskunde" holds its own pages
+   (typical mistakes, Deutschland von innen), and "Kulturwissen" holds the topics, cut by
+   level, with the quiz over all of them at the foot. One pane with both mixed a quiz row into a list of
+   topics, and a learner looking for either had to scroll past the other. */
+const landeskunde = navSections.find((s) => s.id === "landeskunde");
+const kulturwissen = itemsOf("kultur")[0];
+
+// The row that opens a section's own page says what is behind it — "Alle Grammatik-Themen",
+// "Alle Hörübungen" — rather than a generic "Übersicht". Keys: nav.all.<id>.
+const ALL_LABELS: Record<string, string> = {
+  grammatik: "Alle Grammatik-Themen",
+  wortschatz: "Alle Wortschatz-Themen",
+  fertigkeiten: "Alle Fertigkeiten",
+  landeskunde: "Alle Landeskunde-Themen",
+  pruefungen: "Alle Prüfungen",
+  kulturwissen: "Alle Kulturthemen",
+  hoeren: "Alle Hörübungen",
+  lesen: "Alle Lesetexte",
+  schreiben: "Alle Schreibaufgaben",
+  sprechen: "Alle Sprechübungen",
+};
+const allLabel = (id: string) => ({ key: `nav.all.${id}`, text: ALL_LABELS[id] ?? "Alle Themen" });
+
+/** `data-i18n-vars` wants a string or nothing — never the literal "undefined". */
+const vars = (v) => (v ? JSON.stringify(v) : undefined);
+---
+<div class="lp-drawer" id="lp-drawer" data-drawer hidden>
+  <div class="lp-drawer-scrim" data-drawer-close></div>
+  <div class="lp-drawer-panel" role="dialog" aria-modal="true" aria-label="Menü" data-i18n-attr="aria-label:nav.menu">
+    <div class="lp-drawer-top">
+      <img src="/assets/logo.png" alt="EnglishAcademy" />
+      {/* Language sits up here, first thing in the drawer, not in the footer with the
+          theme toggle. For a visitor who cannot read the rows below it, it is the one
+          control in the drawer that matters, and it was the last one on the screen. */}
+      <div class="lp-drawer-lang"><LanguageSwitcher /></div>
+      <button class="lp-drawer-x" type="button" aria-label="Menü schließen" data-drawer-close data-i18n-attr="aria-label:nav.menuClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <!-- One pane on screen at a time. Every pane carries `data-pane`, every back button
+         names the pane it returns to, so the tree stays declarative. -->
+    <div class="lp-drawer-body" data-drawer-body>
+      {/* Home mirrors the desktop bar's grouping: the four subjects under Üben, then
+          Prüfungen, then Wissen, then the account rows. Same three-plus-cluster shape,
+          one row per line instead of one column per subject — a phone has the height a
+          mega menu does not, so Üben lists its four rather than hiding them behind a
+          fifth tap. The sub-panes each subject opens are unchanged. */}
+      <div data-pane="home">
+        {/* /einfach — „Einfach lernen" leads the drawer: on a phone this is the one
+            permanent door into it, and the learners it is for are the ones least likely
+            to scroll past the subjects to find it. */}
+        <a class="lp-drawer-einfach" href="/einfach" data-einfach-entry>
+          <span class="lp-drawer-einfach-bruno" aria-hidden="true" set:html={einfachBruno} />
+          <span class="lp-drawer-einfach-paw" aria-hidden="true">🐾</span>
+          <span class="lp-drawer-txt">
+            <b>Einfach lernen</b>
+            <i data-i18n="nav.einfach.drawerSub">Ganz neu? Hier anfangen</i>
+          </span>
+          <span class="lp-drawer-einfach-go" aria-hidden="true">→</span>
+        </a>
+        {/* Teachers only (src/lib/liveQuizNav.js). On desktop it is „Für Lehrkräfte → Live-Quiz“. */}
+        {!APP_BUILD && (
+          <a class="lp-drawer-row lp-drawer-lq" href="/lehrkraefte/quiz" hidden data-lq-nav>
+            <span class="lp-drawer-ic" aria-hidden="true">🎯</span>
+            <span class="lp-drawer-txt">
+              <b data-i18n="nav.lq.title">Live-Quiz für die Klasse</b>
+              <i data-i18n="nav.lq.drawerSub">Am Beamer, die Klasse spielt am Handy</i>
+            </span>
+          </a>
+        )}
+        <p class="lp-drawer-grouphead" data-i18n="nav.subject.ueben">Üben</p>
+        <a class="lp-drawer-row" href={navUebenMenu.start.stunde.href}>
+          <span class="lp-drawer-ic"><Icon name="target" size={18} /></span>
+          <span class="lp-drawer-txt">
+            <b data-i18n={navUebenMenu.start.stunde.titleKey}>{navUebenMenu.start.stunde.title}</b>
+            <i data-i18n={navUebenMenu.start.stunde.hintKey}>{navUebenMenu.start.stunde.hint}</i>
+          </span>
+        </a>
+        {/* Landeskunde is not listed here: on a phone it lives under Wissen (see the
+            "wissen" pane below), so the home list stays short enough to read at 390px.
+            The desktop menu still shows it as an Üben column. */}
+        {navSections.filter((s) => !DRAWER_UNDER_WISSEN.includes(s.id) && s.id !== "pruefungen").map((section) => (
+          <button class="lp-drawer-row" type="button" data-drawer-to={`sub:${section.id}`}>
+            <span class="lp-drawer-ic"><Icon name={section.icon} size={18} /></span>
+            <span class="lp-drawer-txt">
+              <b data-i18n={section.nameKey}>{section.name}</b>
+              <i data-i18n={section.blurbKey}>{section.blurb}</i>
+            </span>
+            <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+          </button>
+        ))}
+
+        {navSections.filter((s) => s.id === "pruefungen").map((section) => (
+          <button class="lp-drawer-row" type="button" data-drawer-to={`sub:${section.id}`}>
+            <span class="lp-drawer-ic"><Icon name={section.icon} size={18} /></span>
+            <span class="lp-drawer-txt">
+              <b data-i18n={section.nameKey}>{section.name}</b>
+              <i data-i18n={section.blurbKey}>{section.blurb}</i>
+            </span>
+            <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+          </button>
+        ))}
+
+        <button class="lp-drawer-row" type="button" data-drawer-to="wissen">
+          <span class="lp-drawer-ic"><Icon name="document" size={18} /></span>
+          <span class="lp-drawer-txt">
+            <b data-i18n="nav.subject.wissen">Wissen</b>
+            <i><span data-i18n="group.kultur.name">Landeskunde</span> · <span data-i18n="tool.kultur.title">Kulturwissen</span> · <span data-i18n="nav.wissen.books">Bücher</span> · <span data-i18n="nav.wissen.sprachen">Sprachen</span></i>
+          </span>
+          <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </button>
+
+        <button class="lp-drawer-row" type="button" data-drawer-to="lehrkraefte">
+          <span class="lp-drawer-ic"><Icon name="graduation-cap" size={18} /></span>
+          <span class="lp-drawer-txt">
+            <b data-i18n="nav.subject.lehrkraefte">Für Lehrkräfte</b>
+            <i data-i18n="nav.subject.lehrkraefte.blurb">Arbeitsblätter, Spiele, Live-Quiz</i>
+          </span>
+          <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </button>
+
+        {/* The level filter, after the subjects it filters and before the account rows.
+            Its label sits *beside* the chips, not above them: stacked, an uppercase
+            "Nach Niveau starten" read as a section heading owning whatever came next. */}
+        <div class="lp-drawer-levelbar">
+          <span class="lp-drawer-levelbar-lbl" data-i18n="nav.ueben.levelShort">Niveau</span>
+          <div class="lp-chiprow">
+            {levels.map((lv) => (
+              <a class="lp-chip lp-chip--drawer" href={`/grammatik#niveau-${lv.slug}`}>{lv.level}</a>
+            ))}
+          </div>
+        </div>
+
+        {/* What the avatar holds on a desktop. Down here rather than in with the
+            subjects, because it is about the learner and not the material. */}
+        <p class="lp-drawer-grouphead" data-i18n="nav.account">Konto</p>
+        {/* Fortschritt and Anmelden/Abmelden are one card — see AuthStatus.jsx. This is
+            the only account control most learners will ever see: .lp-acct in the desktop
+            cluster is display:none below 1080px, and this audience is overwhelmingly on
+            phones — so the drawer is the main path here, not the fallback for one.
+            client:idle rather than client:load for the same reason as in SiteNav.astro: it
+            is chrome on every page, and the drawer has to be opened before it is read. */}
+        <AuthStatus variant="drawer" />
+        {PAYWALL && !APP_BUILD && (
+          <a class="lp-drawer-premium" href="/preise" data-premium-link data-i18n="nav.premium.drawer">Premium und Preise</a>
+        )}
+        {/* „Entdecken“ on the first screen, as on the desktop bar: the crew, the live hour,
+            the quote of the day and merch. Merch not in the app (no shop there). */}
+        <p class="lp-drawer-grouphead" data-i18n={navEntdecken.nameKey}>{navEntdecken.name}</p>
+        {navEntdecken.items.filter((item) => !(APP_BUILD && item.shop)).map((item) => (
+          <a class="lp-drawer-row" href={item.href}>
+            <span class="lp-drawer-ic" aria-hidden="true">{item.icon}</span>
+            <span class="lp-drawer-txt">
+              <b data-i18n={item.titleKey}>{item.title}</b>
+              <i data-i18n={item.hintKey}>{item.hint}</i>
+            </span>
+            <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+          </a>
+        ))}
+
+      </div>
+
+      {/* Wissen: the PDF library, plus the sections folded in under it on a phone. */}
+      <div data-pane="wissen" hidden>
+        <button class="lp-drawer-back" type="button" data-drawer-to="home">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"></polyline></svg>
+          <span data-i18n="picker.back">Zurück</span>
+        </button>
+        <p class="lp-drawer-subhead" data-i18n="nav.subject.wissen">Wissen</p>
+        <button class="lp-drawer-row" type="button" data-drawer-to="sub:landeskunde">
+          <span class="lp-drawer-ic"><Icon name={landeskunde.icon} size={18} /></span>
+          <span class="lp-drawer-txt">
+            <b data-i18n={landeskunde.nameKey}>{landeskunde.name}</b>
+            <i data-i18n="nav.wissen.landeskundeBlurb">Typische Fehler, Deutschland von innen</i>
+          </span>
+          <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </button>
+        <button class="lp-drawer-row" type="button" data-drawer-to="kulturwissen">
+          <span class="lp-drawer-ic"><Icon name="book" size={18} /></span>
+          <span class="lp-drawer-txt">
+            <b data-i18n={kulturwissen.titleKey}>{kulturwissen.title}</b>
+            <i data-i18n={kulturwissen.countKey} data-i18n-vars={vars(kulturwissen.countVars)}>{kulturwissen.count}</i>
+          </span>
+          <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </button>
+        <a class="lp-drawer-row" href={WISSEN_HREF}>
+          <span class="lp-drawer-ic"><Icon name="document" size={18} /></span>
+          <span class="lp-drawer-txt">
+            <b data-i18n="nav.wissen.books">Bücher</b>
+            <i data-i18n="nav.subject.wissen.blurb">Bücher und Listen als PDF</i>
+          </span>
+          <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </a>
+        <a class="lp-drawer-row" href={navSprachen.href}>
+          <span class="lp-drawer-ic"><Icon name="globe" size={18} /></span>
+          <span class="lp-drawer-txt">
+            <b data-i18n="nav.wissen.sprachenAll">Deutsch in der Welt</b>
+            <i data-i18n="nav.wissen.sprachenHint">Karte, Sprachfamilie, Vergleich</i>
+          </span>
+          <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </a>
+        {wissenVariant !== "old" && (
+          <a class="lp-drawer-row" href={navNachschlagen.href}>
+            <span class="lp-drawer-ic"><Icon name={navNachschlagen.icon} size={18} /></span>
+            <span class="lp-drawer-txt">
+              <b data-i18n={navNachschlagen.nameKey}>{navNachschlagen.name}</b>
+              <i data-i18n="nav.wissen.nachschlagenHint">Verbtabellen, Wortarten</i>
+            </span>
+            <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+          </a>
+        )}
+        {navWortgeschichte && (
+          <a class="lp-drawer-row" href={navWortgeschichte.href}>
+            <span class="lp-drawer-ic"><Icon name="sparkle" size={18} /></span>
+            <span class="lp-drawer-txt">
+              <b data-i18n={navWortgeschichte.titleKey}>{navWortgeschichte.title}</b>
+              <i data-i18n={navWortgeschichte.hintKey}>{navWortgeschichte.hint}</i>
+            </span>
+            <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+          </a>
+        )}
+        <a class="lp-drawer-row" href={navWortfallen.href}>
+          <span class="lp-drawer-ic"><Icon name="sparkle" size={18} /></span>
+          <span class="lp-drawer-txt">
+            <b data-i18n={navWortfallen.titleKey}>{navWortfallen.title}</b>
+            <i data-i18n={navWortfallen.hintKey}>{navWortfallen.hint}</i>
+          </span>
+          <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </a>
+        <a class="lp-drawer-row" href={navUmgangssprache.href}>
+          <span class="lp-drawer-ic"><Icon name="sparkle" size={18} /></span>
+          <span class="lp-drawer-txt">
+            <b data-i18n={navUmgangssprache.titleKey}>{navUmgangssprache.title}</b>
+            <i data-i18n={navUmgangssprache.hintKey}>{navUmgangssprache.hint}</i>
+          </span>
+          <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </a>
+        {navRedewendungen && (
+          <a class="lp-drawer-row" href={navRedewendungen.href}>
+            <span class="lp-drawer-ic"><Icon name="sparkle" size={18} /></span>
+            <span class="lp-drawer-txt">
+              <b data-i18n={navRedewendungen.titleKey}>{navRedewendungen.title}</b>
+              <i data-i18n={navRedewendungen.hintKey}>{navRedewendungen.hint}</i>
+            </span>
+            <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+          </a>
+        )}
+        <a class="lp-drawer-row" href={navZitate.href}>
+          <span class="lp-drawer-ic"><Icon name="sparkle" size={18} /></span>
+          <span class="lp-drawer-txt">
+            <b data-i18n={navZitate.titleKey}>{navZitate.title}</b>
+            <i data-i18n={navZitate.hintKey}>{navZitate.hint}</i>
+          </span>
+          <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </a>
+        <a class="lp-drawer-row" href={navLernen.href}>
+          <span class="lp-drawer-ic"><Icon name="sparkle" size={18} /></span>
+          <span class="lp-drawer-txt">
+            <b data-i18n={navLernen.titleKey}>{navLernen.title}</b>
+            <i data-i18n={navLernen.hintKey}>{navLernen.hint}</i>
+          </span>
+          <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </a>
+      </div>
+
+      {/* Für Lehrkräfte: the same four rows as the desktop panel (navLehrkraefte). */}
+      <div data-pane="lehrkraefte" hidden>
+        <button class="lp-drawer-back" type="button" data-drawer-to="home">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"></polyline></svg>
+          <span data-i18n="picker.back">Zurück</span>
+        </button>
+        <p class="lp-drawer-subhead" data-i18n={navLehrkraefte.nameKey}>{navLehrkraefte.name}</p>
+        {/* The section itself, set apart from its pages: see .lp-drawer-row--overview. */}
+        <a class="lp-drawer-row lp-drawer-row--overview" href={navLehrkraefte.primary.href}>
+          <span class="lp-drawer-ic"><Icon name="layers" size={18} /></span>
+          <span class="lp-drawer-txt">
+            <b data-i18n={navLehrkraefte.primary.titleKey}>{navLehrkraefte.primary.title}</b>
+            <i data-i18n={navLehrkraefte.primary.hintKey}>{navLehrkraefte.primary.hint}</i>
+          </span>
+          <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </a>
+        {navLehrkraefte.items.map((item) => (
+          <a class="lp-drawer-row" href={item.href}>
+            <span class="lp-drawer-ic"><Icon name={item.icon} size={18} /></span>
+            <span class="lp-drawer-txt">
+              <b data-i18n={item.titleKey}>{item.title}</b>
+              <i data-i18n={item.hintKey}>{item.hint}</i>
+            </span>
+            <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+          </a>
+        ))}
+      </div>
+
+      {/* Kulturwissen: the Landeskunde topics, one heading per level. */}
+      <div data-pane="kulturwissen" hidden>
+        <button class="lp-drawer-back" type="button" data-drawer-to="wissen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"></polyline></svg>
+          <span data-i18n="picker.back">Zurück</span>
+        </button>
+        <p class="lp-drawer-subhead" data-i18n={kulturwissen.titleKey}>{kulturwissen.title}</p>
+        <a class="lp-drawer-row lp-drawer-row--overview" href={landeskunde.href}>
+          <span class="lp-drawer-ic"><Icon name="layers" size={18} /></span>
+          <span class="lp-drawer-txt"><b data-i18n={allLabel("kulturwissen").key}>{allLabel("kulturwissen").text}</b></span>
+          <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </a>
+        {landeskunde.drawerGroups.map((group) => (
+          <>
+            <p class="lp-drawer-grouphead" data-i18n={group.nameKey}>{group.name}</p>
+            {group.items.map((item) => (
+              <a class="lp-drawer-row" href={item.href}>
+                <span class="lp-drawer-ic"><Icon name={item.icon} size={18} /></span>
+                <span class="lp-drawer-txt">
+                  <b><bdi>{item.title}</bdi></b>
+                  <i data-i18n={item.countKey} data-i18n-vars={vars(item.countVars)}>{item.count}</i>
+                </span>
+                <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+              </a>
+            ))}
+          </>
+        ))}
+        <a class="lp-drawer-row" href={landeskunde.quiz.href}>
+          <span class="lp-drawer-ic"><Icon name={landeskunde.quiz.icon} size={18} /></span>
+          <span class="lp-drawer-txt">
+            <b data-i18n={landeskunde.quiz.titleKey}>{landeskunde.quiz.title}</b>
+            <i data-i18n={landeskunde.quiz.countKey} data-i18n-vars={vars(landeskunde.quiz.countVars)}>{landeskunde.quiz.count}</i>
+          </span>
+          <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </a>
+      </div>
+
+      {navSections.map((section) => (
+        <div data-pane={`sub:${section.id}`} hidden>
+          <button class="lp-drawer-back" type="button" data-drawer-to={DRAWER_UNDER_WISSEN.includes(section.id) ? "wissen" : "home"}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"></polyline></svg>
+            <span data-i18n="picker.back">Zurück</span>
+          </button>
+          <p class="lp-drawer-subhead" data-i18n={section.nameKey}>{section.name}</p>
+          {section.href && (
+            <a class="lp-drawer-row lp-drawer-row--overview" href={section.href}>
+              <span class="lp-drawer-ic"><Icon name="layers" size={18} /></span>
+              <span class="lp-drawer-txt"><b data-i18n={allLabel(section.id).key}>{allLabel(section.id).text}</b></span>
+              <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+            </a>
+          )}
+
+          {(section.features ?? (section.feature ? [section.feature] : [])).map((feature) => (
+            <a class="lp-drawer-row" href={feature.href}>
+              <span class="lp-drawer-ic"><Icon name={feature.icon} size={18} /></span>
+              <span class="lp-drawer-txt">
+                <b data-i18n={feature.titleKey}>{feature.title}</b>
+                <i data-i18n={feature.countKey} data-i18n-vars={vars(feature.countVars)}>{feature.count}</i>
+              </span>
+              <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+            </a>
+          ))}
+
+          {/* A skill per row, then that skill's own pane. One hop, not two: a phone menu
+              that asks for skill AND level before showing anything is three taps deep
+              before the learner has seen a single exercise. */}
+          {section.skills ? (
+            section.skills.map((skill) => (
+              <button class="lp-drawer-row" type="button" data-drawer-to={`skill:${skill.id}`}>
+                <span class="lp-drawer-ic"><Icon name={skill.icon} size={18} /></span>
+                <span class="lp-drawer-txt">
+                  <b data-i18n={skill.nameKey}>{skill.name}</b>
+                  {skill.soon
+                    ? <i data-i18n="nav.skill.soonTag">bald</i>
+                    : <i data-i18n="nav.skill.count" data-i18n-vars={vars({ n: skill.total })}>{skill.total} Übungen</i>}
+                </span>
+                <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+              </button>
+            )).concat((section.extras ?? []).map((item) => (
+              <a class="lp-drawer-row" href={item.href}>
+                <span class="lp-drawer-ic"><Icon name={item.icon} size={18} /></span>
+                <span class="lp-drawer-txt">
+                  <b data-i18n={item.titleKey}>{item.title}</b>
+                </span>
+                <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+              </a>
+            )))
+
+          /* A 2×2 level grid, the same shape the Niveaus pane uses, because four levels
+             side by side are comparable at a glance in a way four stacked rows are not. */
+          ) : section.levels ? (
+            <div class="lp-drawer-levels">
+              {section.levels.map((lv) => (
+                <button class="lp-level-tile lp-level-tile--grid" type="button" data-drawer-to={`lvl:${section.id}:${lv.slug}`}>
+                  <b>{lv.level}</b>
+                  <i data-i18n={lv.blurbKey}>{lv.blurb}</i>
+                  <span class="lp-level-meta" data-i18n={lv.metaKey} data-i18n-vars={vars(lv.metaVars)}>{lv.meta}</span>
+                </button>
+              ))}
+            </div>
+
+          /* Stacked sub-sections. Fifteen rows in a row is a scroll with no landmarks, so
+             every group gets a heading — and `drawerGroups` wins where a section has one,
+             because the cut that works in a row of tabs is not always the cut that works in
+             a column. Landeskunde is the case: subjects on the desktop panel, levels here,
+             where a heading that says "A2" tells the thumb which rows are meant for it. */
+          ) : section.id === "landeskunde" ? null : (
+            (section.drawerGroups ?? section.groups ?? [{ id: "all", name: null, nameKey: undefined, items: section.items }]).map((group) => (
+              <>
+                {group.name && <p class="lp-drawer-grouphead" data-i18n={group.nameKey}>{group.name}</p>}
+                {group.items.map((item) => (
+                  <a class="lp-drawer-row" href={item.href}>
+                    <span class="lp-drawer-ic"><Icon name={item.icon} size={18} /></span>
+                    <span class="lp-drawer-txt">
+                      {item.titleKey ? <b data-i18n={item.titleKey} data-i18n-vars={vars(item.titleVars)}>{item.title}</b> : <b><bdi>{item.title}</bdi></b>}
+                      <i data-i18n={item.countKey} data-i18n-vars={vars(item.countVars)}>{item.count}</i>
+                    </span>
+                    <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+                  </a>
+                ))}
+              </>
+            ))
+          )}
+
+        </div>
+      ))}
+
+      {/* One pane per level of a level-tiled subject: the same columns the desktop panel
+          shows, stacked under their headings. */}
+      {navSections.filter((s) => s.levels).flatMap((section) =>
+        section.levels.map((lv) => (
+          <div data-pane={`lvl:${section.id}:${lv.slug}`} hidden>
+            <button class="lp-drawer-back" type="button" data-drawer-to={`sub:${section.id}`}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"></polyline></svg>
+              <span data-i18n="picker.back">Zurück</span>
+            </button>
+            <p class="lp-drawer-subhead">
+              <span data-i18n={section.nameKey}>{section.name}</span> · {lv.level}
+            </p>
+
+            {lv.cols.map((col) => (
+              <>
+                {col.name && <p class="lp-drawer-grouphead" data-i18n={col.nameKey}>{col.name}</p>}
+                {col.items.length ? col.items.map((it) => (
+                  <a class="lp-drawer-row lp-drawer-row--compact" href={it.href}>
+                    <span class="lp-drawer-txt">
+                      {it.titleKey ? <b data-i18n={it.titleKey} data-i18n-vars={vars(it.titleVars)}>{it.title}</b> : <b><bdi>{it.title}</bdi></b>}
+                      {it.meta
+                        ? <i><span data-i18n={it.meta.typeKey}>{it.meta.typeText}</span> · <span data-i18n={it.meta.countKey} data-i18n-vars={vars(it.meta.countVars)}>{it.meta.countText}</span></i>
+                        : it.count && <i data-i18n={it.countKey} data-i18n-vars={vars(it.countVars)}>{it.count}</i>}
+                    </span>
+                    <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+                  </a>
+                )) : (
+                  <p class="lp-level-empty lp-drawer-empty" data-i18n={col.emptyKey}>{col.empty}</p>
+                )}
+                {col.more && (
+                  <a class="lp-drawer-all" href={col.more.href}>
+                    <span data-i18n={col.more.labelKey} data-i18n-vars={vars(col.more.labelVars)}>{col.more.label}</span>
+                    <span aria-hidden="true">→</span>
+                  </a>
+                )}
+              </>
+            ))}
+
+            {lv.more && (
+              <a class="lp-drawer-all" href={lv.more.href}>
+                <span data-i18n={lv.more.labelKey} data-i18n-vars={vars(lv.more.labelVars)}>{lv.more.label}</span>
+                <span aria-hidden="true">→</span>
+              </a>
+            )}
+          </div>
+        ))
+      )}
+
+      {/* One pane per skill: every level gets its heading, so A1–B2 is visible as a
+          structure even where a level is still empty. Hören has nothing at any level, so
+          it says that once instead of four times. */}
+      {navSections.filter((s) => s.skills).flatMap((section) =>
+        section.skills.map((skill) => (
+          <div data-pane={`skill:${skill.id}`} hidden>
+            <button class="lp-drawer-back" type="button" data-drawer-to={`sub:${section.id}`}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"></polyline></svg>
+              <span data-i18n="picker.back">Zurück</span>
+            </button>
+            <p class="lp-drawer-subhead" data-i18n={skill.nameKey}>{skill.name}</p>
+            <a class="lp-drawer-row lp-drawer-row--overview" href={skill.href}>
+              <span class="lp-drawer-ic"><Icon name="layers" size={18} /></span>
+              <span class="lp-drawer-txt"><b data-i18n={allLabel(skill.id).key}>{allLabel(skill.id).text}</b></span>
+              <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+            </a>
+
+            {skill.soon ? (
+              <p class="lp-level-empty lp-drawer-empty" data-i18n={skill.soonKey}>{skill.soonText}</p>
+            ) : skill.levels.map((lv) => (
+              <>
+                <p class="lp-drawer-grouphead">{lv.level}</p>
+                {lv.items.length ? lv.items.map((it) => (
+                  <a class="lp-drawer-row lp-drawer-row--compact" href={it.href}>
+                    <span class="lp-drawer-txt">
+                      {it.titleKey ? <b data-i18n={it.titleKey} data-i18n-vars={vars(it.titleVars)}>{it.title}</b> : <b><bdi>{it.title}</bdi></b>}
+                      {it.meta ? <i><span data-i18n={it.meta.typeKey}>{it.meta.typeText}</span> · <span data-i18n={it.meta.countKey} data-i18n-vars={vars(it.meta.countVars)}>{it.meta.countText}</span></i> : <i data-i18n={it.countKey} data-i18n-vars={vars(it.countVars)}>{it.count}</i>}
+                    </span>
+                    <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+                  </a>
+                )) : (
+                  /* Three empty levels stack here, so the same full sentence three times
+                     is noise; the desktop panel shows one at a time and keeps it. */
+                  <p class="lp-level-empty lp-drawer-empty" data-i18n="nav.skill.soonShort">folgt bald</p>
+                )}
+              </>
+            ))}
+
+          </div>
+        ))
+      )}
+
+      <!-- Niveaus: a 2×2 grid, because four levels side by side are comparable at a
+           glance in a way four stacked rows are not. -->
+      <div data-pane="niveaus" hidden>
+        <button class="lp-drawer-back" type="button" data-drawer-to="home">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"></polyline></svg>
+          <span data-i18n="picker.back">Zurück</span>
+        </button>
+        <p class="lp-drawer-subhead" data-i18n="nav.subject.niveaus">Niveaus</p>
+        <div class="lp-drawer-levels">
+          {levels.map((lv) => (
+            <button class="lp-level-tile lp-level-tile--grid" type="button" data-drawer-to={`level:${lv.slug}`}>
+              <b>{lv.level}</b>
+              <i data-i18n={lv.blurbKey}>{lv.blurb}</i>
+              <span
+                class="lp-level-meta"
+                data-i18n="nav.level.topicCount"
+                data-i18n-vars={JSON.stringify({ n: lv.grammar.length })}
+              >{lv.grammar.length} Themen</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {levels.map((lv) => (
+        <div data-pane={`level:${lv.slug}`} hidden>
+          <button class="lp-drawer-back" type="button" data-drawer-to="niveaus">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"></polyline></svg>
+            <span data-i18n="picker.back">Zurück</span>
+          </button>
+          <p class="lp-drawer-subhead">{lv.level} · <span data-i18n={lv.blurbKey}>{lv.blurb}</span></p>
+
+          <p class="lp-drawer-grouphead" data-i18n="nav.level.grammar">Grammatik</p>
+          {/* No icon per row: every grammar topic would carry the same book, which is
+              decoration, and dropping it lifts the Wortschatz block above the fold. */}
+          {lv.grammar.slice(0, GRAMMAR_PREVIEW).map((t) => (
+            <a class="lp-drawer-row lp-drawer-row--compact" href={t.href}>
+              <span class="lp-drawer-txt"><b>{t.name}</b></span>
+              <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+            </a>
+          ))}
+          {lv.grammar.length > GRAMMAR_PREVIEW && (
+            <a class="lp-drawer-all" href={`/grammatik#niveau-${lv.slug}`}>
+              <span
+                data-i18n="nav.level.allTopics"
+                data-i18n-vars={JSON.stringify({ n: lv.grammar.length })}
+              >Alle {lv.grammar.length} Themen</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          )}
+
+          <p class="lp-drawer-grouphead" data-i18n="nav.level.vocab">Wortschatz</p>
+          {lv.vocab.length ? lv.vocab.map((v) => (
+            <a class="lp-drawer-row" href={v.href}>
+              <span class="lp-drawer-ic"><Icon name={v.icon} size={18} /></span>
+              <span class="lp-drawer-txt">
+                <b data-i18n={v.titleKey} data-i18n-vars={vars(v.titleVars)}>{v.title}</b>
+                <i data-i18n={v.countKey} data-i18n-vars={vars(v.countVars)}>{v.count}</i>
+              </span>
+              <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+            </a>
+          )) : (
+            <p class="lp-level-empty" data-i18n="nav.level.vocabSoon">Wortlisten für dieses Niveau folgen.</p>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <!-- Bottom, not top: theme and the CTA are where the thumb rests. (Language moved to
+         the top bar — see .lp-drawer-lang.) -->
+    <div class="lp-drawer-foot">
+      <NextStepCta variant="drawer" />
+      <div class="lp-drawer-utils"><ThemeToggle /></div>
+    </div>
+  </div>
+</div>
+
+<noscript>
+  <style>
+    /* The drawer is click-driven, so with JS off it and its trigger are dead weight. */
+    .lp-drawer, [data-drawer-open] { display: none !important; }
+  </style>
+</noscript>
+
+<script>
+  /* Mobile drawer ------------------------------------------------------------- */
+  const drawer = document.querySelector<HTMLElement>("[data-drawer]");
+  const openBtn = document.querySelector<HTMLButtonElement>("[data-drawer-open]");
+  const body = drawer?.querySelector<HTMLElement>("[data-drawer-body]");
+  const panes = Array.from(drawer?.querySelectorAll<HTMLElement>("[data-pane]") ?? []);
+
+  /* Panes left with Zurück (or a swipe back), most recent last: a swipe to the left
+     returns to them, like a browser's forward button. Tapping into a different pane
+     starts a new path and forgets them. */
+  let ahead: string[] = [];
+  const current = () => panes.find((p) => !p.hasAttribute("hidden"));
+
+  function showPane(id: string, dir?: "fwd" | "back") {
+    for (const pane of panes) {
+      pane.classList.remove("is-in-fwd", "is-in-back");
+      if (pane.dataset.pane === id) {
+        pane.removeAttribute("hidden");
+        if (dir) {
+          void pane.offsetWidth; // restart the animation if the same pane comes back
+          pane.classList.add(`is-in-${dir}`);
+        }
+      } else pane.setAttribute("hidden", "");
+    }
+    body?.scrollTo({ top: 0 });
+  }
+
+  function openDrawer() {
+    if (!drawer) return;
+    // Back to the top level, so reopening never resumes inside a level the learner
+    // left two taps ago.
+    showPane("home");
+    ahead = [];
+    drawer.removeAttribute("hidden");
+    // Next frame, so the transition has a "closed" state to animate away from.
+    requestAnimationFrame(() => drawer.classList.add("is-open"));
+    openBtn?.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+    drawer.querySelector<HTMLElement>("[data-drawer-close]")?.focus();
+  }
+
+  function closeDrawer() {
+    if (!drawer) return;
+    drawer.classList.remove("is-open");
+    openBtn?.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+    // Keep it mounted for the slide-out; 240ms matches the transition in site-nav.css.
+    window.setTimeout(() => drawer.setAttribute("hidden", ""), 240);
+  }
+
+  // Preview-only rows (currently Einfach lernen). Same gate VariantSwitch uses, so
+  // nothing internal reaches a learner on the live site.
+  {
+    for (const el of document.querySelectorAll("[data-preview-link]")) el.removeAttribute("hidden");
+  }
+
+  openBtn?.addEventListener("click", openDrawer);
+  for (const el of document.querySelectorAll("[data-drawer-close]")) {
+    el.addEventListener("click", closeDrawer);
+  }
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && drawer && !drawer.hasAttribute("hidden")) closeDrawer();
+  });
+
+  for (const btn of drawer?.querySelectorAll<HTMLElement>("[data-drawer-to]") ?? []) {
+    // Every Zurück button carries .lp-drawer-back; everything else drills deeper.
+    const dir = btn.classList.contains("lp-drawer-back") ? "back" : "fwd";
+    btn.addEventListener("click", () => go(btn.dataset.drawerTo!, dir));
+  }
+
+  function go(id: string, dir: "fwd" | "back") {
+    const from = current()?.dataset.pane;
+    if (dir === "back") { if (from) ahead.push(from); }
+    else if (ahead.at(-1) === id) ahead.pop();
+    else ahead = [];
+    showPane(id, dir);
+  }
+
+  function goBack() {
+    const back = current()?.querySelector<HTMLElement>(":scope > .lp-drawer-back");
+    if (back) go(back.dataset.drawerTo!, "back");
+    else closeDrawer(); // on the top level, a swipe right puts the drawer away the way it came
+  }
+
+  function goForward() {
+    const id = ahead.at(-1);
+    if (id) go(id, "fwd");
+  }
+
+  /* Thumb swipes, the same directions as the pane animations and the drawer itself (it
+     slides in from the right): right = back, left = forward — forward only to a pane the
+     learner has already been in. A mostly-vertical move is a scroll and is left alone,
+     as is anything that starts on a row that scrolls sideways. */
+  {
+    let x0 = 0, y0 = 0, t0 = 0, track = false;
+    const scrollsSideways = (el: Element | null) => {
+      for (; el && el !== body; el = el.parentElement) {
+        if (el.scrollWidth > el.clientWidth + 1 && /auto|scroll/.test(getComputedStyle(el).overflowX)) return true;
+      }
+      return false;
+    };
+    body?.addEventListener("touchstart", (e) => {
+      track = e.touches.length === 1 && !scrollsSideways(e.target as Element);
+      if (!track) return;
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = e.timeStamp;
+    }, { passive: true });
+    body?.addEventListener("touchend", (e) => {
+      if (!track) return;
+      track = false;
+      const dx = e.changedTouches[0].clientX - x0;
+      const dy = e.changedTouches[0].clientY - y0;
+      if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5 || e.timeStamp - t0 > 700) return;
+      if (dx > 0) goBack();
+      else goForward();
+    }, { passive: true });
+    body?.addEventListener("touchcancel", () => { track = false; }, { passive: true });
+  }
+
+  // Navigating away closes it, so the back button never lands on a locked-scroll page.
+  drawer?.addEventListener("click", (e) => {
+    if ((e.target as HTMLElement).closest("a")) closeDrawer();
+  });
+</script>

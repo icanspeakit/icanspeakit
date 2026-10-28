@@ -1,0 +1,221 @@
+/* Umfragen: /lehrkraefte/umfragen (teacher), …/ergebnis (results, projector) and /umfrage
+   (phone). Builds on live-quiz.css (.lq, .lq-card, .lq-btn, .lq-field) and klassen.css
+   (.kl-*), which all three pages load. The phone side is judged at 390px. */
+
+.uf h2 { margin: 0; }
+.uf-res { max-width: 1040px; }
+
+/* ── Teacher: new poll ────────────────────────────────────────────────── */
+.uf-new { display: grid; gap: 16px; }
+.uf-blocks { display: grid; gap: 8px; }
+.uf-block {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-lg, 14px);
+  background: var(--surface-card); cursor: pointer;
+}
+.uf-block:has(input:checked) { border-color: color-mix(in srgb, var(--brand-blue) 55%, var(--border)); background: var(--blue-50, var(--surface)); }
+.uf-block input { margin-top: 3px; width: 20px !important; height: 20px; min-height: 0 !important; padding: 0 !important; flex: none; accent-color: var(--brand-blue); }
+.uf-block span { display: grid; gap: 2px; }
+.uf-block strong { color: var(--ink); font-size: var(--text-sm, .875rem); }
+.uf-block small { color: var(--muted); font-size: 12px; line-height: 1.45; }
+@media (min-width: 640px) { .uf-blocks { grid-template-columns: 1fr 1fr; } .uf-blocks > legend { grid-column: 1 / -1; } }
+
+.uf-topics { display: grid; gap: 8px; }
+.uf-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.uf-chip { position: relative; cursor: pointer; }
+.uf-chip input { position: absolute; opacity: 0; inset: 0; margin: 0; width: 100% !important; height: 100%; min-height: 0 !important; padding: 0 !important; cursor: pointer; }
+.uf-chip span {
+  display: inline-flex; align-items: baseline; gap: 6px;
+  min-height: 36px; padding: 7px 12px; border-radius: var(--radius-pill, 999px);
+  border: 1px solid var(--border-strong); background: var(--surface-card);
+  font-size: 13px; line-height: 1.3; color: var(--muted);
+}
+.uf-chip span small { font-size: 11px; font-weight: 700; color: var(--muted); }
+.uf-chip input:checked + span { background: var(--brand-blue); border-color: var(--brand-blue); color: #fff; }
+.uf-chip input:checked + span small { color: rgba(255, 255, 255, .8); }
+.uf-chip input:focus-visible + span { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+
+.uf-own { display: grid; gap: 12px; }
+.uf-own:empty { display: none; }
+.uf-own-q { display: grid; gap: 10px; margin: 0; padding: 12px; border: 1px dashed var(--border-strong); border-radius: var(--radius-lg, 14px); min-width: 0; }
+.uf-own-q legend { padding: 0 4px; font-size: var(--text-sm, .875rem); font-weight: 600; color: var(--ink); }
+.uf-own-q textarea, .uf-text {
+  width: 100%; box-sizing: border-box; font: inherit; font-size: 16px; padding: 10px 12px;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-md, 10px);
+  background: var(--surface-card); color: var(--ink); resize: vertical;
+}
+.uf-own-q .qb-link { justify-self: start; }
+
+.uf-anon ul { margin: 8px 0 0; padding-inline-start: 1.2em; display: grid; gap: 6px; color: var(--muted); font-size: var(--text-sm, .875rem); line-height: 1.5; }
+.uf-anon h2 { font-size: var(--text-base, 1rem) !important; }
+
+/* ── Teacher: list ────────────────────────────────────────────────────── */
+.uf-item h3 a { color: inherit; text-decoration: none; }
+.uf-item h3 a:hover { text-decoration: underline; }
+.uf-code-sm { font-family: var(--font-mono, ui-monospace, monospace); font-weight: 700; letter-spacing: .1em; color: var(--ink); }
+.uf-state {
+  display: inline-block; padding: 1px 8px; border-radius: var(--radius-pill, 999px);
+  font-size: 12px; background: var(--surface); color: var(--muted); border: 1px solid var(--border);
+}
+.uf-state.is-open { background: color-mix(in srgb, var(--success, #1f8a4c) 14%, transparent); color: var(--success, #1f8a4c); border-color: transparent; font-weight: 600; }
+
+/* ── Results ──────────────────────────────────────────────────────────── */
+.uf-res-head .lq-title { margin-bottom: 6px; overflow-wrap: anywhere; }
+.uf-res-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0; }
+.uf-total { font-size: var(--text-lg, 1.125rem); color: var(--ink); font-variant-numeric: tabular-nums; }
+
+.uf-share { display: grid; gap: 16px; align-items: center; justify-items: center; text-align: center; }
+.uf-share-qr { width: min(280px, 72vw); aspect-ratio: 1; background: #fff; border-radius: 10px; padding: 8px; }
+.uf-share-qr svg, .uf-beamer-qr svg { display: block; width: 100%; height: 100%; }
+.uf-share-text { display: grid; gap: 6px; justify-items: center; }
+.uf-share-text p { margin: 0; }
+.uf-share-step { color: var(--muted); font-size: var(--text-sm, .875rem); }
+.uf-share-url { font-weight: 700; font-size: 1.15rem; color: var(--ink); overflow-wrap: anywhere; }
+.uf-share-code { font-family: var(--font-mono, ui-monospace, monospace); font-size: 2.4rem; font-weight: 800; letter-spacing: .18em; color: var(--ink); user-select: all; }
+.uf-share-anon { color: var(--muted); font-size: 12px; margin-bottom: 6px !important; }
+@media (min-width: 720px) {
+  .uf-share { grid-template-columns: auto 1fr; justify-items: start; text-align: start; }
+  .uf-share-text { justify-items: start; }
+}
+
+.uf-next { display: grid; gap: 10px; }
+.uf-next h2 { font-size: var(--text-lg, 1.125rem); }
+.uf-next-grid { display: grid; gap: 12px; }
+@media (min-width: 720px) { .uf-next-grid { grid-template-columns: 1fr 1fr; } }
+.uf-next-card { display: grid; gap: 8px; align-content: start; border-color: color-mix(in srgb, var(--brand-blue) 35%, var(--border)); }
+.uf-next-card h3 { margin: 0; font-size: var(--text-base, 1rem); color: var(--ink); }
+.uf-next-list { margin: 0; padding-inline-start: 1.3em; display: grid; gap: 8px; font-size: var(--text-sm, .875rem); line-height: 1.45; color: var(--ink); }
+.uf-next-list small { color: var(--muted); white-space: nowrap; }
+.uf-next-acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.uf-next-acts a {
+  display: inline-flex; align-items: center; min-height: 34px; padding: 0 12px;
+  border-radius: var(--radius-pill, 999px); border: 1px solid var(--border-strong);
+  font-size: 13px; font-weight: 600; color: var(--brand-blue-dark, var(--brand-blue)); text-decoration: none; background: var(--surface-card);
+}
+.uf-next-acts a:hover { background: var(--surface); }
+
+.uf-results { display: grid; gap: 12px; }
+@media (min-width: 900px) { .uf-results { grid-template-columns: 1fr 1fr; align-items: start; } }
+.uf-q { display: grid; gap: 8px; }
+.uf-q h3, .uf-next-card h3 { text-align: start; }
+.uf-q h3 { margin: 0; font-size: var(--text-base, 1rem); color: var(--ink); line-height: 1.35; }
+.uf-bars { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 10px; }
+.uf-bars li { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; align-items: center; }
+.uf-bar-label { font-size: var(--text-sm, .875rem); color: var(--ink); line-height: 1.35; }
+.uf-bar { grid-column: 1 / -1; grid-row: 2; height: 10px; border-radius: 99px; background: var(--surface); overflow: hidden; }
+.uf-bar span { display: block; height: 100%; border-radius: 99px; background: #86b6ef; transition: width .5s ease; }
+.uf-bars li.is-top .uf-bar span { background: var(--brand-blue, #2a78d6); }
+.uf-bars li.is-top .uf-bar-label { font-weight: 700; }
+.uf-bar-num { grid-column: 2; grid-row: 1; font-variant-numeric: tabular-nums; font-weight: 700; font-size: var(--text-sm, .875rem); color: var(--ink); }
+.uf-bar-num small { font-weight: 400; color: var(--muted); }
+:root[data-theme="dark"] .uf-bar span { background: #256abf; }
+:root[data-theme="dark"] .uf-bars li.is-top .uf-bar span { background: #6da7ec; }
+@media (prefers-reduced-motion: reduce) { .uf-bar span { transition: none; } }
+.uf-texts { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.uf-texts li {
+  padding: 10px 12px; border-radius: var(--radius-md, 10px); background: var(--surface);
+  font-size: var(--text-sm, .875rem); line-height: 1.5; color: var(--ink); overflow-wrap: anywhere; white-space: pre-wrap;
+}
+
+/* The projector overlay: QR and code as big as the screen allows. */
+.uf-beamer {
+  position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; gap: 2vmin;
+  grid-template-columns: auto; padding: 4vmin; background: var(--surface-card, #fff); color: var(--ink);
+  text-align: center;
+}
+.uf-beamer[hidden] { display: none; }
+.uf-beamer-qr { width: min(70vmin, 92vw); aspect-ratio: 1; background: #fff; padding: 1.5vmin; border-radius: 12px; }
+.uf-beamer-text p { margin: 0; }
+.uf-beamer-title { font-size: clamp(1.2rem, 3.4vmin, 2.4rem); font-weight: 700; }
+.uf-beamer-url { font-size: clamp(1rem, 3vmin, 2rem); color: var(--muted); }
+.uf-beamer-code { font-family: var(--font-mono, ui-monospace, monospace); font-size: clamp(2rem, 9vmin, 7rem); font-weight: 800; letter-spacing: .15em; }
+.uf-beamer-count { font-size: clamp(1rem, 3vmin, 2rem); font-weight: 700; color: var(--brand-blue); }
+.uf-beamer-close {
+  position: absolute; top: 12px; inset-inline-end: 12px; width: 48px; height: 48px; border-radius: 50%;
+  border: 1px solid var(--border-strong); background: var(--surface-card); color: var(--ink); font-size: 20px; cursor: pointer;
+}
+@media (min-aspect-ratio: 4/3) {
+  .uf-beamer { grid-template-columns: auto auto; gap: 6vmin; text-align: start; }
+  .uf-beamer-qr { width: min(80vmin, 55vw); }
+}
+
+@media print {
+  .uf-res .qb-back, .uf-tools, .uf-share, .kl-status, .uf-next-acts, .site-nav, header.site-header { display: none !important; }
+  .uf-q, .uf-next-card { break-inside: avoid; }
+}
+
+/* ── Phone: answering ─────────────────────────────────────────────────── */
+.uf-vote .lq-title { overflow-wrap: anywhere; }
+.uf-anon--student { border-color: color-mix(in srgb, var(--success, #1f8a4c) 40%, var(--border)); }
+.uf-anon-big { margin: 0; font-weight: 700; color: var(--ink); }
+.uf-anon-big::before { content: "🔒 "; }
+.uf-again { margin: 0; padding: 10px 12px; border-radius: var(--radius-md, 10px); background: var(--blue-50, var(--surface)); font-size: var(--text-sm, .875rem); color: var(--ink); }
+
+.uf-progress { height: 6px; border-radius: 99px; background: var(--surface); overflow: hidden; }
+.uf-progress span { display: block; height: 100%; background: var(--gradient-brand, var(--brand-blue)); transition: width .3s ease; }
+.uf-step { margin: 0; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+.uf-ask { margin: 0; padding: 0; border: 0; min-width: 0; display: grid; gap: 10px; }
+.uf-ask legend { padding: 0; display: grid; gap: 4px; margin-bottom: 4px; }
+.uf-ask-q { font-family: var(--font-display); font-size: 1.35rem; line-height: 1.25; color: var(--ink); font-weight: 700; }
+.uf-ask-de { font-size: var(--text-sm, .875rem); color: var(--muted); font-style: italic; }
+.uf-ask-hint { margin: 0; color: var(--muted); font-size: 13px; }
+.uf-opts { display: grid; gap: 8px; }
+.uf-opt {
+  position: relative; display: flex; align-items: center; gap: 12px;
+  min-height: 56px; padding: 10px 14px; box-sizing: border-box;
+  border: 2px solid var(--border); border-radius: var(--radius-lg, 14px);
+  background: var(--surface-card); cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.uf-opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.uf-opt-ic { font-size: 1.5rem; line-height: 1; flex: none; }
+.uf-opt-text { font-size: 1rem; line-height: 1.35; color: var(--ink); }
+.uf-opt::after {
+  content: ""; margin-inline-start: auto; flex: none; width: 22px; height: 22px; border-radius: 6px;
+  border: 2px solid var(--border-strong); box-sizing: border-box;
+}
+.uf-opt:has(input[type=radio])::after { border-radius: 50%; }
+.uf-opt:has(input:checked) { border-color: var(--brand-blue); background: var(--blue-50, var(--surface)); }
+.uf-opt:has(input:checked)::after {
+  border-color: var(--brand-blue); background: var(--brand-blue)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5 9-10'/%3E%3C/svg%3E") center / 15px no-repeat;
+}
+.uf-opt:has(input:focus-visible) { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+.uf-nav { display: flex; gap: 10px; }
+.uf-nav .lq-btn { flex: 1; min-height: 52px; }
+.uf-nav [data-back][hidden] + [data-next] { flex: 1 1 100%; }
+.uf-done { text-align: center; justify-items: center; }
+.uf-done-ic { margin: 0; font-size: 3rem; }
+
+/* Time to answer (umfragen.zeit): each question's own clock, big, above the question.
+   Brand colour while there is time, amber in the last third, red and pulsing at the end. */
+.uf-clock {
+  --clock: var(--brand-blue, #2563eb);
+  display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 12px; row-gap: 8px;
+  padding: 12px 16px; border: 2px solid var(--clock); border-radius: 16px;
+  background: color-mix(in srgb, var(--clock) 8%, var(--surface-card, #fff));
+}
+.uf-clock[hidden] { display: none; }
+.uf-clock-ic { grid-row: span 2; font-size: 2rem; line-height: 1; }
+.uf-clock-time { color: var(--clock); font-variant-numeric: tabular-nums; line-height: 1; }
+.uf-clock-time b { font-family: var(--font-display); font-size: 2.5rem; font-weight: 800; }
+.uf-clock-time small { font-size: 1rem; font-weight: 700; }
+.uf-clock-label { grid-column: 2; margin-top: -4px; color: var(--muted); font-size: .85rem; font-weight: 600; }
+.uf-clock-bar { grid-column: 1 / -1; height: 10px; border-radius: 99px; background: var(--surface); overflow: hidden; }
+.uf-clock-bar span { display: block; height: 100%; width: 100%; background: var(--clock); transition: width .25s linear; }
+.uf-clock.is-low { --clock: #d97706; }
+.uf-clock.is-end { --clock: #dc2626; }
+:root[data-theme="dark"] .uf-clock.is-low { --clock: #fbbf24; }
+:root[data-theme="dark"] .uf-clock.is-end { --clock: #f87171; }
+@media (prefers-reduced-motion: no-preference) {
+  .uf-clock.is-end .uf-clock-time { animation: uf-clock-pulse 1s ease-in-out infinite; }
+}
+@keyframes uf-clock-pulse { 50% { opacity: .45; } }
+.uf-zeit-note { margin: -4px 0 0; color: var(--muted); font-size: .9rem; font-weight: 600; }
+.uf-timeup { font-weight: 700; }
+
+/* The teacher's choice, after the questions, with the recommendation worked out from them. */
+.uf-zeit { display: grid; gap: 8px; margin-top: 16px; }
+.uf-zeit .lq-field { max-width: 22rem; }
+.uf-zeit-rec { margin: 0; padding: 10px 12px; border-radius: 12px; background: var(--surface); font-size: .9rem; font-weight: 600; }
+.uf-zeit-rec .qb-link { margin-left: 6px; }
+.uf-zeit-hint { margin: 0; font-size: .85rem; }

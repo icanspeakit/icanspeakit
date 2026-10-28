@@ -1,0 +1,103 @@
+{
+  "about": "Mini-Grammatik: die wichtigsten Verben, Präsens, Präteritum und Perfekt. Seite /grammatik/verben, Suchtreffer über src/lib/verbtabellen.js. Formen in der Reihenfolge ich, du, er/sie/es, wir, ihr, sie/Sie. Ein regelmäßiges Verb ohne Trennpräfix braucht nur `regular: true`, den Rest rechnet verbtabellen.js aus.",
+  "groups": [
+    { "id": "hilfsverb", "name": "Hilfsverben", "what": "Man braucht sie für Perfekt, Passiv und Futur — und sie sind in jeder Zeit unregelmäßig.",
+      "regel": [
+        "*haben* oder *sein* + Partizip = Perfekt: *Ich habe gegessen. Ich bin gefahren.*",
+        "*sein* bei Bewegung von A nach B und bei Veränderung (gehen, fahren, aufstehen, werden). Fast alle anderen Verben nehmen *haben*.",
+        "*werden* + Infinitiv = Futur: *Ich werde morgen arbeiten.*",
+        "*werden* + Partizip = Passiv: *Das Haus wird gebaut.*",
+        "Alle drei gehen auch allein: *Ich bin müde. Ich habe Hunger. Er wird Arzt.*"
+      ] },
+    { "id": "modal", "name": "Modalverben", "what": "Sie sagen, ob man etwas kann, muss, darf oder will — fast immer zusammen mit einem zweiten Verb.",
+      "meaning": [["können", "Fähigkeit, Möglichkeit"], ["müssen", "Pflicht, es ist nötig"], ["dürfen", "Erlaubnis"], ["sollen", "Rat oder Auftrag von jemand anderem"], ["wollen", "Wunsch, Plan"], ["möchten", "höflicher Wunsch"], ["mögen", "gern haben"]],
+      "regel": [
+        "Satzklammer: Modalverb auf Position 2, das zweite Verb im Infinitiv ganz am Ende: *Ich kann gut schwimmen.*",
+        "ich und er/sie/es sind gleich und haben keine Endung: *ich kann, er kann.*",
+        "Für die Vergangenheit nimmt man das Präteritum: *Ich musste gestern arbeiten.*",
+        "Verneinung: *nicht müssen* = nicht nötig, *nicht dürfen* = verboten. *Du musst nicht kommen ≠ Du darfst nicht kommen.*"
+      ] },
+    { "id": "unregelmaessig", "name": "Unregelmäßige Verben", "what": "Neuer Vokal im Präteritum, Partizip oft auf -en. Oft auch ein Vokalwechsel bei du und er.",
+      "regel": [
+        "Am Infinitiv sieht man es nicht — darum immer die drei Formen zusammen lernen: *gehen – ging – gegangen.*",
+        "Präsens: bei du und er/sie/es oft *e → i/ie* oder *a → ä*: *du sprichst, er liest, sie fährt.*",
+        "Präteritum: neuer Vokal, ich und er/sie/es ohne Endung: *ich ging, er ging.*",
+        "Partizip meist auf *-en*: *gegangen, gesprochen, getrunken.*",
+        "Beim Sprechen nimmt man fast immer das Perfekt; das Präteritum steht vor allem in Texten."
+      ] },
+    { "id": "regelmaessig", "name": "Regelmäßige Verben", "what": "Stamm + Endung, Präteritum mit -te, Partizip ge- … -t. So gehen fast alle Verben.",
+      "regel": [
+        "Präsens: Stamm + *-e, -st, -t, -en, -t, -en*: *ich mache, du machst, er macht.*",
+        "Präteritum: Stamm + *-te*: *ich machte, wir machten.*",
+        "Perfekt: *haben* + *ge-* … *-t*: *Ich habe gemacht.*",
+        "Stamm auf -t oder -d: ein *e* dazwischen: *du arbeitest, er arbeitete, gearbeitet.*",
+        "Verben auf -ieren haben kein ge-: *studiert, telefoniert.* Neue Verben gehen immer so: *googeln – googelte – gegoogelt.*"
+      ] },
+    { "id": "trennbar", "name": "Trennbare Verben", "what": "Der Präfix steht am Satzende: Ich stehe um sieben auf. Im Partizip steht ge in der Mitte.",
+      "regel": [
+        "Im Hauptsatz (Präsens, Präteritum) geht der Präfix ans Satzende: *Ich rufe dich morgen an. Er stand früh auf.*",
+        "Mit Modalverb und im Nebensatz bleibt das Verb zusammen: *Ich muss früh aufstehen. …, weil ich früh aufstehe.*",
+        "Partizip: *ge* in die Mitte: *angerufen, eingekauft, ferngesehen.*",
+        "Man hört es: Der Präfix ist betont: *ANrufen, EINkaufen.*",
+        "Nie trennbar: *be-, ver-, er-, ent-, emp-, ge-, zer-, miss-*. Sie haben im Partizip kein ge-: *bezahlen – bezahlt, verstehen – verstanden.*"
+      ] }
+  ],
+  "verbs": [
+    { "inf": "sein", "group": "hilfsverb", "praes": "bin, bist, ist, sind, seid, sind", "praet": "war, warst, war, waren, wart, waren", "aux": "sein", "p2": "gewesen" },
+    { "inf": "haben", "group": "hilfsverb", "praes": "habe, hast, hat, haben, habt, haben", "praet": "hatte, hattest, hatte, hatten, hattet, hatten", "aux": "haben", "p2": "gehabt" },
+    { "inf": "werden", "group": "hilfsverb", "praes": "werde, wirst, wird, werden, werdet, werden", "praet": "wurde, wurdest, wurde, wurden, wurdet, wurden", "aux": "sein", "p2": "geworden" },
+
+    { "inf": "können", "group": "modal", "praes": "kann, kannst, kann, können, könnt, können", "praet": "konnte, konntest, konnte, konnten, konntet, konnten", "aux": "haben", "p2": "gekonnt" },
+    { "inf": "müssen", "group": "modal", "praes": "muss, musst, muss, müssen, müsst, müssen", "praet": "musste, musstest, musste, mussten, musstet, mussten", "aux": "haben", "p2": "gemusst" },
+    { "inf": "wollen", "group": "modal", "praes": "will, willst, will, wollen, wollt, wollen", "praet": "wollte, wolltest, wollte, wollten, wolltet, wollten", "aux": "haben", "p2": "gewollt" },
+    { "inf": "sollen", "group": "modal", "praes": "soll, sollst, soll, sollen, sollt, sollen", "praet": "sollte, solltest, sollte, sollten, solltet, sollten", "aux": "haben", "p2": "gesollt" },
+    { "inf": "dürfen", "group": "modal", "praes": "darf, darfst, darf, dürfen, dürft, dürfen", "praet": "durfte, durftest, durfte, durften, durftet, durften", "aux": "haben", "p2": "gedurft" },
+    { "inf": "mögen", "group": "modal", "praes": "mag, magst, mag, mögen, mögt, mögen", "praet": "mochte, mochtest, mochte, mochten, mochtet, mochten", "aux": "haben", "p2": "gemocht" },
+    { "inf": "möchten", "group": "modal", "praes": "möchte, möchtest, möchte, möchten, möchtet, möchten", "praet": "wollte, wolltest, wollte, wollten, wolltet, wollten", "aux": "haben", "p2": "gewollt", "note": "Für die Vergangenheit nimmt man wollen: Ich wollte Kaffee." },
+    { "inf": "wissen", "group": "modal", "praes": "weiß, weißt, weiß, wissen, wisst, wissen", "praet": "wusste, wusstest, wusste, wussten, wusstet, wussten", "aux": "haben", "p2": "gewusst", "note": "Kein Modalverb, aber es geht genauso: ich weiß, er weiß." },
+
+    { "inf": "gehen", "group": "unregelmaessig", "praes": "gehe, gehst, geht, gehen, geht, gehen", "praet": "ging, gingst, ging, gingen, gingt, gingen", "aux": "sein", "p2": "gegangen" },
+    { "inf": "kommen", "group": "unregelmaessig", "praes": "komme, kommst, kommt, kommen, kommt, kommen", "praet": "kam, kamst, kam, kamen, kamt, kamen", "aux": "sein", "p2": "gekommen" },
+    { "inf": "fahren", "group": "unregelmaessig", "praes": "fahre, fährst, fährt, fahren, fahrt, fahren", "praet": "fuhr, fuhrst, fuhr, fuhren, fuhrt, fuhren", "aux": "sein", "p2": "gefahren" },
+    { "inf": "laufen", "group": "unregelmaessig", "praes": "laufe, läufst, läuft, laufen, lauft, laufen", "praet": "lief, liefst, lief, liefen, lieft, liefen", "aux": "sein", "p2": "gelaufen" },
+    { "inf": "bleiben", "group": "unregelmaessig", "praes": "bleibe, bleibst, bleibt, bleiben, bleibt, bleiben", "praet": "blieb, bliebst, blieb, blieben, bliebt, blieben", "aux": "sein", "p2": "geblieben" },
+    { "inf": "sehen", "group": "unregelmaessig", "praes": "sehe, siehst, sieht, sehen, seht, sehen", "praet": "sah, sahst, sah, sahen, saht, sahen", "aux": "haben", "p2": "gesehen" },
+    { "inf": "geben", "group": "unregelmaessig", "praes": "gebe, gibst, gibt, geben, gebt, geben", "praet": "gab, gabst, gab, gaben, gabt, gaben", "aux": "haben", "p2": "gegeben" },
+    { "inf": "nehmen", "group": "unregelmaessig", "praes": "nehme, nimmst, nimmt, nehmen, nehmt, nehmen", "praet": "nahm, nahmst, nahm, nahmen, nahmt, nahmen", "aux": "haben", "p2": "genommen" },
+    { "inf": "essen", "group": "unregelmaessig", "praes": "esse, isst, isst, essen, esst, essen", "praet": "aß, aßest, aß, aßen, aßt, aßen", "aux": "haben", "p2": "gegessen" },
+    { "inf": "sprechen", "group": "unregelmaessig", "praes": "spreche, sprichst, spricht, sprechen, sprecht, sprechen", "praet": "sprach, sprachst, sprach, sprachen, spracht, sprachen", "aux": "haben", "p2": "gesprochen" },
+    { "inf": "helfen", "group": "unregelmaessig", "praes": "helfe, hilfst, hilft, helfen, helft, helfen", "praet": "half, halfst, half, halfen, halft, halfen", "aux": "haben", "p2": "geholfen" },
+    { "inf": "treffen", "group": "unregelmaessig", "praes": "treffe, triffst, trifft, treffen, trefft, treffen", "praet": "traf, trafst, traf, trafen, traft, trafen", "aux": "haben", "p2": "getroffen" },
+    { "inf": "lesen", "group": "unregelmaessig", "praes": "lese, liest, liest, lesen, lest, lesen", "praet": "las, lasest, las, lasen, last, lasen", "aux": "haben", "p2": "gelesen" },
+    { "inf": "schlafen", "group": "unregelmaessig", "praes": "schlafe, schläfst, schläft, schlafen, schlaft, schlafen", "praet": "schlief, schliefst, schlief, schliefen, schlieft, schliefen", "aux": "haben", "p2": "geschlafen" },
+    { "inf": "finden", "group": "unregelmaessig", "praes": "finde, findest, findet, finden, findet, finden", "praet": "fand, fandest, fand, fanden, fandet, fanden", "aux": "haben", "p2": "gefunden" },
+    { "inf": "trinken", "group": "unregelmaessig", "praes": "trinke, trinkst, trinkt, trinken, trinkt, trinken", "praet": "trank, trankst, trank, tranken, trankt, tranken", "aux": "haben", "p2": "getrunken" },
+    { "inf": "schreiben", "group": "unregelmaessig", "praes": "schreibe, schreibst, schreibt, schreiben, schreibt, schreiben", "praet": "schrieb, schriebst, schrieb, schrieben, schriebt, schrieben", "aux": "haben", "p2": "geschrieben" },
+    { "inf": "heißen", "group": "unregelmaessig", "praes": "heiße, heißt, heißt, heißen, heißt, heißen", "praet": "hieß, hießest, hieß, hießen, hießt, hießen", "aux": "haben", "p2": "geheißen" },
+    { "inf": "stehen", "group": "unregelmaessig", "praes": "stehe, stehst, steht, stehen, steht, stehen", "praet": "stand, standest, stand, standen, standet, standen", "aux": "haben", "p2": "gestanden", "note": "In Süddeutschland, Österreich und der Schweiz auch: ist gestanden." },
+    { "inf": "sitzen", "group": "unregelmaessig", "praes": "sitze, sitzt, sitzt, sitzen, sitzt, sitzen", "praet": "saß, saßest, saß, saßen, saßt, saßen", "aux": "haben", "p2": "gesessen", "note": "In Süddeutschland, Österreich und der Schweiz auch: ist gesessen." },
+    { "inf": "liegen", "group": "unregelmaessig", "praes": "liege, liegst, liegt, liegen, liegt, liegen", "praet": "lag, lagst, lag, lagen, lagt, lagen", "aux": "haben", "p2": "gelegen", "note": "In Süddeutschland, Österreich und der Schweiz auch: ist gelegen." },
+    { "inf": "verstehen", "group": "unregelmaessig", "praes": "verstehe, verstehst, versteht, verstehen, versteht, verstehen", "praet": "verstand, verstandest, verstand, verstanden, verstandet, verstanden", "aux": "haben", "p2": "verstanden", "note": "ver- ist nicht trennbar: kein ge- im Partizip." },
+    { "inf": "bekommen", "group": "unregelmaessig", "praes": "bekomme, bekommst, bekommt, bekommen, bekommt, bekommen", "praet": "bekam, bekamst, bekam, bekamen, bekamt, bekamen", "aux": "haben", "p2": "bekommen", "note": "be- ist nicht trennbar: kein ge- im Partizip. Bedeutet nicht become, sondern get." },
+    { "inf": "tun", "group": "unregelmaessig", "praes": "tue, tust, tut, tun, tut, tun", "praet": "tat, tatest, tat, taten, tatet, taten", "aux": "haben", "p2": "getan" },
+    { "inf": "bringen", "group": "unregelmaessig", "praes": "bringe, bringst, bringt, bringen, bringt, bringen", "praet": "brachte, brachtest, brachte, brachten, brachtet, brachten", "aux": "haben", "p2": "gebracht", "note": "Gemischt: neuer Vokal, aber Endungen wie regelmäßig (-te, -t)." },
+    { "inf": "denken", "group": "unregelmaessig", "praes": "denke, denkst, denkt, denken, denkt, denken", "praet": "dachte, dachtest, dachte, dachten, dachtet, dachten", "aux": "haben", "p2": "gedacht", "note": "Gemischt: neuer Vokal, aber Endungen wie regelmäßig (-te, -t)." },
+    { "inf": "kennen", "group": "unregelmaessig", "praes": "kenne, kennst, kennt, kennen, kennt, kennen", "praet": "kannte, kanntest, kannte, kannten, kanntet, kannten", "aux": "haben", "p2": "gekannt", "note": "Gemischt: neuer Vokal, aber Endungen wie regelmäßig (-te, -t)." },
+
+    { "inf": "machen", "group": "regelmaessig", "regular": true },
+    { "inf": "sagen", "group": "regelmaessig", "regular": true },
+    { "inf": "lernen", "group": "regelmaessig", "regular": true },
+    { "inf": "wohnen", "group": "regelmaessig", "regular": true },
+    { "inf": "kaufen", "group": "regelmaessig", "regular": true },
+    { "inf": "spielen", "group": "regelmaessig", "regular": true },
+    { "inf": "hören", "group": "regelmaessig", "regular": true },
+    { "inf": "brauchen", "group": "regelmaessig", "regular": true },
+    { "inf": "arbeiten", "group": "regelmaessig", "regular": true, "note": "Stamm auf -t oder -d: ein e dazwischen — du arbeitest, er arbeitet." },
+
+    { "inf": "aufstehen", "group": "trennbar", "praes": "stehe auf, stehst auf, steht auf, stehen auf, steht auf, stehen auf", "praet": "stand auf, standest auf, stand auf, standen auf, standet auf, standen auf", "aux": "sein", "p2": "aufgestanden" },
+    { "inf": "anrufen", "group": "trennbar", "praes": "rufe an, rufst an, ruft an, rufen an, ruft an, rufen an", "praet": "rief an, riefst an, rief an, riefen an, rieft an, riefen an", "aux": "haben", "p2": "angerufen" },
+    { "inf": "anfangen", "group": "trennbar", "praes": "fange an, fängst an, fängt an, fangen an, fangt an, fangen an", "praet": "fing an, fingst an, fing an, fingen an, fingt an, fingen an", "aux": "haben", "p2": "angefangen" },
+    { "inf": "einkaufen", "group": "trennbar", "praes": "kaufe ein, kaufst ein, kauft ein, kaufen ein, kauft ein, kaufen ein", "praet": "kaufte ein, kauftest ein, kaufte ein, kauften ein, kauftet ein, kauften ein", "aux": "haben", "p2": "eingekauft" },
+    { "inf": "fernsehen", "group": "trennbar", "praes": "sehe fern, siehst fern, sieht fern, sehen fern, seht fern, sehen fern", "praet": "sah fern, sahst fern, sah fern, sahen fern, saht fern, sahen fern", "aux": "haben", "p2": "ferngesehen" }
+  ]
+}

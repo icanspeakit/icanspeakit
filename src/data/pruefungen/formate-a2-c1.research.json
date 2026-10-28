@@ -1,0 +1,613 @@
+{
+  "_note": "Recherche-Datei (nicht von Seiten eingelesen): Prüfungsstruktur für Goethe-Zertifikat A2/B1/B2/C1 und telc Deutsch A2/B1/B2/C1, als Grundlage für EIGENE Übungstests. Jede Zahl ist aus dem genannten offiziellen Modellsatz/Übungstest abgelesen (Text per PyMuPDF extrahiert, Bewertungsbögen als Bild geprüft). Keine Aufgaben- oder Textinhalte übernommen (© Goethe-Institut / © telc gGmbH) – nur Struktur. Feldkonventionen: minutes = offizielle Modulzeit; parts[].minutes = 'vorgeschlagene Arbeitszeit' laut Aufgabenblatt (nur wo angegeben); items = bewertete Items ohne Beispiel; plays = wie oft der Hörtext läuft; points = Rohpunkte des Teils (bei Goethe B1–C1 werden Lesen/Hören-Rohpunkte auf 100 umgerechnet, siehe module.scoring); text = Textsorte + ungefähre Länge. Längenangaben 'ca. N Wörter' sind grobe Schätzungen aus der Wortzahl der jeweiligen Modellsatz-Seiten (inkl. Arbeitsanweisung/Items) und nur als Orientierung gedacht. Alles, was nicht direkt im Dokument stand, ist mit UNVERIFIED markiert. telc A2 = 'telc Deutsch A2 (Start Deutsch 2)' und telc B1 = 'Zertifikat Deutsch (telc Deutsch B1)' – bewusst NICHT telc Deutsch A2·B1 bzw. DTZ, weil DTZ auf der Seite schon separat existiert und telc.net auf den Seiten der Einzelprüfungen genau diese Übungstests verlinkt. Goethe C1: verwendet wird der NEUE modulare Modellsatz (seit 01.01.2024); der unter der vorgegebenen URL .../C1/c1_modellsatz.pdf liegende Satz ist das alte Format ('wird bis zum 31.12.2023 angeboten') und wurde nur zum Abgleich gelesen.",
+  "sources": [
+    { "id": "goethe-a2", "title": "Goethe-Zertifikat A2 – Modellsatz Erwachsene (Vs5.1_050525, 1. Aufl. 2016)", "url": "https://www.goethe.de/pro/relaunch/prf/materialien/A2/A2_Modellsatz_Erwachsene.pdf" },
+    { "id": "goethe-b1", "title": "Goethe-/ÖSD-Zertifikat B1 – Modellsatz Erwachsene (Vs_11_070115, 2. überarb. Aufl. 2015)", "url": "https://www.goethe.de/pro/relaunch/prf/materialien/B1/b1_modellsatz_erwachsene.pdf" },
+    { "id": "goethe-b2", "title": "Goethe-Zertifikat B2 – Modellsatz Erwachsene (Vs1.5_160426, 2. Aufl. August 2025)", "url": "https://www.goethe.de/pro/relaunch/prf/materialien/B2/b2_modellsatz_erwachsene.pdf" },
+    { "id": "goethe-c1", "title": "Goethe-Zertifikat C1 (modular) – Modellsatz (Vs0.2, 2. Aufl. Februar 2024, Stand April 2026)", "url": "https://www.goethe.de/pro/relaunch/prf/materialien/C1_modular/c1-modular_modellsatz.pdf" },
+    { "id": "goethe-c1-alt", "title": "Goethe-Zertifikat C1 – alter Modellsatz (Vs13_241014; nur bis 31.12.2023) – nur zum Abgleich", "url": "https://www.goethe.de/pro/relaunch/prf/materialien/C1/c1_modellsatz.pdf" },
+    { "id": "telc-a2", "title": "telc Deutsch A2 (Start Deutsch 2) – Übungstest 1 (5090-B00-010107, Dez. 2024), aus telc_deutsch_a2_01.zip", "url": "https://www.telc.net/fileadmin/user_upload/mock_exams/Deutsch/telc_deutsch_a2_01.zip" },
+    { "id": "telc-b1", "title": "Zertifikat Deutsch / telc Deutsch B1 – Übungstest 1 (© 2020), aus telc_deutsch_b1.zip", "url": "https://www.telc.net/fileadmin/user_upload/mock_exams/Deutsch/telc_deutsch_b1.zip" },
+    { "id": "telc-b2", "title": "telc Deutsch B2 – Übungstest 1 (= Modelltest, 9. Aufl., © 2019), aus telc_deutsch_b2.zip", "url": "https://www.telc.net/fileadmin/user_upload/mock_exams/Deutsch/telc_deutsch_b2.zip" },
+    { "id": "telc-c1", "title": "telc Deutsch C1 – Übungstest 1, Format 2016 (1. Aufl. 2016), aus telc_deutsch_c1.zip", "url": "https://www.telc.net/fileadmin/user_upload/mock_exams/Deutsch/telc_deutsch_c1.zip" }
+  ],
+  "exams": [
+    {
+      "id": "goethe-a2",
+      "exam": "Goethe-Zertifikat A2",
+      "provider": "goethe",
+      "level": "A2",
+      "source": "Goethe-Zertifikat A2 – Modellsatz Erwachsene, S. 2–3 (Vorwort, Überblick), Kandidatenblätter S. 5–27, Bewertungsbögen S. 38/43 — https://www.goethe.de/pro/relaunch/prf/materialien/A2/A2_Modellsatz_Erwachsene.pdf",
+      "modules": [
+        {
+          "name": "Lesen",
+          "minutes": 30,
+          "points": 25,
+          "scoring": "20 Items à 1 Messpunkt; Ergebnis × 1,25 = max. 25 Punkte",
+          "parts": [
+            { "teil": 1, "task": "Zeitungsartikel lesen (Informationen und Argumentationen in Medientexten verstehen)", "type": "Mehrfachauswahl a/b/c", "items": 5, "text": "1 Zeitungsartikel/Porträt, ca. 200 Wörter", "points": 5 },
+            { "teil": 2, "task": "Informationstafel (z. B. Kaufhaus-Wegweiser) / Veranstaltungsprogramm verstehen", "type": "Mehrfachauswahl a/b/c (Situation → richtiger Ort/Stockwerk)", "items": 5, "text": "Informationstafel mit Stichwortlisten, ca. 100–130 Wörter", "points": 5 },
+            { "teil": 3, "task": "Persönliche E-Mail verstehen (Korrespondenz)", "type": "Mehrfachauswahl a/b/c", "items": 5, "text": "1 private E-Mail, ca. 250 Wörter", "points": 5 },
+            { "teil": 4, "task": "Anzeigen verstehen: Situationen den passenden Anzeigen zuordnen", "type": "Zuordnung (6 Anzeigen a–f, 1 davon Beispiel)", "items": 5, "text": "6 Kurzanzeigen, je ca. 30–40 Wörter", "points": 5 }
+          ]
+        },
+        {
+          "name": "Hören",
+          "minutes": 30,
+          "points": 25,
+          "scoring": "20 Items à 1 Messpunkt; Ergebnis × 1,25 = max. 25 Punkte",
+          "parts": [
+            { "teil": 1, "task": "Kurze Texte aus Radio, Anrufbeantworter, Durchsagen verstehen", "type": "Mehrfachauswahl a/b/c", "items": 5, "text": "5 kurze Monologe (Radio, Telefonansage, Durchsage)", "plays": 2, "points": 5 },
+            { "teil": 2, "task": "Ein zusammenhängendes Gespräch verstehen; jedem Item ein Bild zuordnen", "type": "Zuordnung Bild/Text (Bilder a–i, jeder Buchstabe nur einmal)", "items": 5, "text": "1 Alltagsgespräch (2 Personen)", "plays": 1, "points": 5 },
+            { "teil": 3, "task": "Fünf kurze Einzelgespräche verstehen", "type": "Mehrfachauswahl a/b/c (Bild oder Text)", "items": 5, "text": "5 kurze Dialoge", "plays": 1, "points": 5 },
+            { "teil": 4, "task": "Ein Radiointerview verstehen", "type": "Ja/Nein (Überblick nennt es 'Richtig/Falsch')", "items": 5, "text": "1 Radiointerview", "plays": 2, "points": 5 }
+          ]
+        },
+        {
+          "name": "Schreiben",
+          "minutes": 30,
+          "points": 25,
+          "scoring": "2 Aufgaben à 10 Punkte (Aufgabenerfüllung 5 + Sprache 5; Stufen 5/3,5/2/0,5/0) = 20; × 1,25 = max. 25",
+          "parts": [
+            { "teil": 1, "task": "Persönliche Mitteilung zur Kontaktpflege (z. B. SMS an Freundin) mit 3 Inhaltspunkten", "type": "Freies Schreiben", "items": 1, "text": "SMS/Kurznachricht, 20–30 Wörter", "points": 10 },
+            { "teil": 2, "task": "Halboffizielle Mitteilung zur Handlungsregulierung (z. B. E-Mail an Chef) mit 3 Inhaltspunkten", "type": "Freies Schreiben", "items": 1, "text": "E-Mail, 30–40 Wörter", "points": 10 }
+          ]
+        },
+        {
+          "name": "Sprechen",
+          "minutes": 15,
+          "points": 25,
+          "scoring": "Teil 1: 4 (Aufgabe 2 + Sprache 2); Teil 2: 8 (4 + 4); Teil 3: 8 (4 + 4); Aussprache (gesamt): 5 → 25",
+          "parts": [
+            { "teil": 1, "task": "Fragen zur Person stellen und beantworten: 4 Stichwortkarten, 4 Fragen stellen, 4 Fragen des Partners beantworten", "type": "Interaktion, freies Sprechen (Paar)", "items": 1, "text": "4 Karten mit Stichwort (z. B. Wohnort?, Hobby?)", "points": 4 },
+            { "teil": 2, "task": "Über sich und sein Leben erzählen (Aufgabenblatt mit Leitfrage + Stichpunkten); Prüfer stellt 1–2 Zusatzfragen", "type": "Produktion, Monolog vor Prüfenden", "items": 1, "text": "Aufgabenblatt mit Leitfrage; ca. 20 Sek. Lesezeit", "points": 8 },
+            { "teil": 3, "task": "Mit Partner einen Termin finden / etwas planen und aushandeln (zwei verschiedene Terminkalender)", "type": "Interaktion (Paar)", "items": 1, "text": "Tageskalender pro Person; ca. 20 Sek. Lesezeit", "points": 8 }
+          ]
+        }
+      ],
+      "schreiben": {
+        "tasks": 2,
+        "wordCounts": ["20–30", "30–40"],
+        "criteria": ["Aufgabenerfüllung (Sprachfunktion, Register)", "Sprache (Kohärenz, Wortschatz, Strukturen)"],
+        "rules": "Alle 3 Inhaltspunkte bearbeiten. Weniger als 50 % der Wortzahl (10 Wörter in Teil 1, 15 in Teil 2) oder Thema verfehlt → Aufgabenerfüllung E → Aufgabe 0 Punkte."
+      },
+      "sprechen": {
+        "format": "Paarprüfung, ca. 15 Minuten für zwei Teilnehmende",
+        "preparation": "keine Vorbereitungszeit; vor Teil 1 ca. 20 Sek. zum Ansehen der Karten, vor Teil 2 und 3 je ca. 20 Sek. Lesezeit",
+        "criteria": ["Aufgabenerfüllung (Sprachfunktion, Interaktion, Register)", "Sprache (Wortschatz, Strukturen)", "Aussprache (einmal für die gesamte Prüfung)"]
+      },
+      "total": 100,
+      "pass": "mind. 60 von 100 Punkten; zusätzlich schriftliche Teile (Lesen+Hören+Schreiben) mind. 45 von 75 UND Sprechen mind. 15 von 25 – sonst gesamte Prüfung nicht bestanden",
+      "modular": false,
+      "modularNote": "Laut Modellsatz-Vorwort keine modulare Wertung (Gesamtprüfung). Ob das Goethe-Institut A2 inzwischen modular anbietet: UNVERIFIED (nicht gegen die aktuelle Prüfungsordnung geprüft).",
+      "unverified": ["Aktuelle Modularität laut Prüfungsordnung 2026", "Textlängen sind Schätzungen"]
+    },
+    {
+      "id": "goethe-b1",
+      "exam": "Goethe-Zertifikat B1",
+      "alt": "Goethe-/ÖSD-Zertifikat B1",
+      "provider": "goethe",
+      "level": "B1",
+      "source": "Goethe-/ÖSD-Zertifikat B1 – Modellsatz Erwachsene, S. 5–6 (Vorwort, Überblick), Kandidatenblätter S. 7–28, Antwortbögen/Bewertungsbögen S. 30, 42–47 — https://www.goethe.de/pro/relaunch/prf/materialien/B1/b1_modellsatz_erwachsene.pdf",
+      "modules": [
+        {
+          "name": "Lesen",
+          "minutes": 65,
+          "points": 100,
+          "scoring": "30 Items à 1 Punkt ('Punkte Teile 1 bis 5 /30'), Gesamtergebnis nach Umrechnung /100",
+          "parts": [
+            { "teil": 1, "task": "Persönlichen Text (Blog/E-Mail) lesen: Korrespondenz lesen", "type": "Richtig/Falsch", "items": 6, "minutes": 10, "text": "1 Blogeintrag/persönlicher Bericht, ca. 300–350 Wörter", "points": 6 },
+            { "teil": 2, "task": "Zwei Pressetexte lesen: Information und Argumentation verstehen", "type": "Mehrfachauswahl a/b/c (je Text 3 Aufgaben)", "items": 6, "minutes": 20, "text": "2 Zeitungsartikel, je ca. 250–300 Wörter", "points": 6 },
+            { "teil": 3, "task": "Zur Orientierung lesen: Situationen passenden Anzeigen zuordnen", "type": "Zuordnung (Anzeigen a–j; eine Situation ohne Lösung → 0)", "items": 7, "minutes": 10, "text": "10 Anzeigen aus Medien, je ca. 40–50 Wörter", "points": 7 },
+            { "teil": 4, "task": "Leserkommentare lesen: Ist die Person für/gegen X?", "type": "Ja/Nein", "items": 7, "minutes": 15, "text": "7 Leserbriefe/Kommentare (+ Beispiel), je ca. 50–70 Wörter", "points": 7 },
+            { "teil": 5, "task": "Schriftliche Anweisung verstehen (z. B. Hausordnung/Kursregeln)", "type": "Mehrfachauswahl a/b/c", "items": 4, "minutes": 10, "text": "1 Regeltext mit Paragraphen/Abschnitten, ca. 300 Wörter", "points": 4 }
+          ]
+        },
+        {
+          "name": "Hören",
+          "minutes": 40,
+          "points": 100,
+          "scoring": "30 Items à 1 Punkt, Umrechnung auf 100; 5 Min. Übertragungszeit nach dem Hören (in den 40 Min. enthalten)",
+          "parts": [
+            { "teil": 1, "task": "Ankündigungen, Durchsagen, Anweisungen verstehen – zu jedem Text 2 Aufgaben", "type": "je Text 1 × Richtig/Falsch + 1 × Mehrfachauswahl a/b/c", "items": 10, "text": "5 kurze Texte (Anrufbeantworter, Radiodurchsage, Bahnhofsdurchsage, Wetterbericht, Reiseinfo)", "plays": 2, "points": 10 },
+            { "teil": 2, "task": "Als Zuhörer im Publikum verstehen (z. B. Führung)", "type": "Mehrfachauswahl a/b/c", "items": 5, "text": "1 Monolog (Führung/Vortrag), 60 Sek. Lesezeit vorher", "plays": 1, "points": 5 },
+            { "teil": 3, "task": "Gespräch zwischen Muttersprachlern verstehen", "type": "Richtig/Falsch", "items": 7, "text": "1 Alltagsgespräch (2 Personen), 60 Sek. Lesezeit", "plays": 1, "points": 7 },
+            { "teil": 4, "task": "Radiodiskussion: Wer sagt was? (Moderator + 2 Gäste)", "type": "Zuordnung a/b/c", "items": 8, "text": "1 Radiodiskussion mit 3 Personen, 60 Sek. Lesezeit", "plays": 2, "points": 8 }
+          ]
+        },
+        {
+          "name": "Schreiben",
+          "minutes": 60,
+          "points": 100,
+          "scoring": "Aufgabe 1: 40 (Erfüllung/Kohärenz/Wortschatz/Strukturen je 10); Aufgabe 2: 40 (je 10); Aufgabe 3: 20 (Erfüllung 4, Kohärenz 4, Wortschatz 6, Strukturen 6)",
+          "parts": [
+            { "teil": 1, "task": "Persönliche E-Mail an Freund/in (beschreiben, begründen, Vorschlag machen) zu 3 Inhaltspunkten", "type": "Freies Schreiben (Interaktion)", "items": 1, "minutes": 20, "text": "E-Mail, ca. 80 Wörter", "points": 40 },
+            { "teil": 2, "task": "Diskussionsbeitrag (Gästebuch/Forum) mit eigener Meinung zu einem Thema", "type": "Freies Schreiben (Produktion)", "items": 1, "minutes": 25, "text": "Meinungsäußerung, ca. 80 Wörter", "points": 40 },
+            { "teil": 3, "task": "Halbformelle E-Mail (z. B. an Kursleiterin: sich entschuldigen, um etwas bitten)", "type": "Freies Schreiben (Interaktion)", "items": 1, "minutes": 15, "text": "E-Mail, ca. 40 Wörter", "points": 20 }
+          ]
+        },
+        {
+          "name": "Sprechen",
+          "minutes": 15,
+          "points": 100,
+          "scoring": "Teil 1: 28 (Erfüllung 8, Interaktion 4, Wortschatz 8, Strukturen 8); Teil 2: 40 (Erfüllung 12, Kohärenz 4, Wortschatz 12, Strukturen 12); Teil 3: 16 (Erfüllung); Aussprache Teil 1–3: 16",
+          "parts": [
+            { "teil": 1, "task": "Gemeinsam etwas planen (4 Leitpunkte), Vorschläge machen und reagieren", "type": "Interaktion (Paar)", "items": 1, "text": "Aufgabenblatt mit Situation + 4 Leitfragen; ca. 3 Min.", "points": 28 },
+            { "teil": 2, "task": "Ein Thema präsentieren (Thema 1 oder 2 wählen) anhand von 5 Folien", "type": "Produktion, Monolog", "items": 1, "text": "5 vorgegebene Folien: Thema/Struktur vorstellen – eigene Situation/Erlebnis – Situation im Heimatland + Beispiele – Vor- und Nachteile + Meinung – Abschluss/Dank; ca. 3 Min.", "points": 40 },
+            { "teil": 3, "task": "Über das Thema sprechen: Rückmeldung zur Präsentation des Partners geben + 1 Frage stellen; Fragen beantworten", "type": "Interaktion", "items": 1, "text": "ca. 2 Min.", "points": 16 }
+          ]
+        }
+      ],
+      "schreiben": {
+        "tasks": 3,
+        "wordCounts": ["ca. 80", "ca. 80", "ca. 40"],
+        "criteria": ["Erfüllung (Inhalt, Umfang, Sprachfunktionen, Textsorte, Register)", "Kohärenz (Textaufbau, Verknüpfung)", "Wortschatz (Spektrum, Beherrschung)", "Strukturen (Spektrum, Beherrschung inkl. Orthografie)"],
+        "rules": "Weniger als 50 % der geforderten Wortanzahl oder Thema verfehlt → Erfüllung E → Aufgabe 0 Punkte. Zeiten pro Aufgabe (20/25/15) sind Arbeitszeit-Empfehlungen."
+      },
+      "sprechen": {
+        "format": "Paarprüfung, 15 Min. für zwei Teilnehmende",
+        "preparation": "15 Minuten, allein, Notizen erlaubt; in der Prüfung frei sprechen",
+        "criteria": ["Erfüllung", "Interaktion (Teil 1)", "Kohärenz (Teil 2)", "Wortschatz", "Strukturen", "Aussprache (Teil 1–3 gesamt)"]
+      },
+      "total": 400,
+      "totalNote": "max. 100 Punkte pro Modul",
+      "pass": "pro Modul mind. 60 von 100 Punkten (60 %)",
+      "modular": true,
+      "unverified": ["Textlängen sind Schätzungen"]
+    },
+    {
+      "id": "goethe-b2",
+      "exam": "Goethe-Zertifikat B2",
+      "provider": "goethe",
+      "level": "B2",
+      "source": "Goethe-Zertifikat B2 – Modellsatz Erwachsene (2. Aufl. Aug. 2025), S. 5–6 (Vorwort, Überblick), Kandidatenblätter S. 7–31, Antwort-/Bewertungsbögen S. 34, 47, 50 — https://www.goethe.de/pro/relaunch/prf/materialien/B2/b2_modellsatz_erwachsene.pdf",
+      "modules": [
+        {
+          "name": "Lesen",
+          "minutes": 65,
+          "points": 100,
+          "scoring": "30 Items à 1 Punkt ('Punkte Teile 1 bis 5 /30'), Gesamtergebnis nach Umrechnung /100",
+          "parts": [
+            { "teil": 1, "task": "Forumsbeiträge: Auf welche der 4 Personen trifft die Aussage zu? (Einstellungen/Haltungen verstehen)", "type": "Zuordnung a–d (Personen mehrfach wählbar)", "items": 9, "minutes": 18, "text": "4 Forumsbeiträge, zusammen ca. 550 Wörter", "points": 9 },
+            { "teil": 2, "task": "Zeitschriftenartikel: Welche Sätze passen in die Lücken?", "type": "Lückentext mit Satzzuordnung (8 Sätze a–h, 1 Beispiel, 2 passen nicht)", "items": 6, "minutes": 12, "text": "1 Sachartikel, ca. 350 Wörter", "points": 6 },
+            { "teil": 3, "task": "Zeitungsartikel: Informationen verstehen", "type": "Mehrfachauswahl a/b/c", "items": 6, "minutes": 12, "text": "1 Zeitungsartikel, ca. 450–500 Wörter", "points": 6 },
+            { "teil": 4, "task": "Meinungsäußerungen: Welche Äußerung passt zu welcher Überschrift/Aussage? (Standpunkte verstehen)", "type": "Zuordnung (8 Äußerungen a–h, a = Beispiel, 1 passt nicht)", "items": 6, "minutes": 12, "text": "8 kurze Meinungsäußerungen, je ca. 40–50 Wörter", "points": 6 },
+            { "teil": 5, "task": "Regeltext (z. B. Studienordnung): Überschriften aus Inhaltsverzeichnis den Paragrafen zuordnen", "type": "Zuordnung (8 Überschriften a–h, 1 Beispiel, 4 werden nicht gebraucht)", "items": 3, "minutes": 6, "text": "Regeltext mit 4 Paragrafen, ca. 250 Wörter", "points": 3 }
+          ]
+        },
+        {
+          "name": "Hören",
+          "minutes": 40,
+          "points": 100,
+          "scoring": "30 Items à 1 Punkt, Umrechnung auf 100; 5 Min. Übertragungszeit nach dem Hören",
+          "parts": [
+            { "teil": 1, "task": "Alltagsgespräche und Äußerungen verstehen – zu jedem Text 2 Aufgaben", "type": "je Text 1 × Richtig/Falsch + 1 × Mehrfachauswahl a/b/c", "items": 10, "text": "5 kurze Gespräche/Äußerungen; 15 Sek. für das Beispiel", "plays": 1, "points": 10 },
+            { "teil": 2, "task": "Radiointerview mit einer Persönlichkeit aus der Wissenschaft", "type": "Mehrfachauswahl a/b/c", "items": 6, "text": "1 Interview, 90 Sek. Lesezeit", "plays": 2, "points": 6 },
+            { "teil": 3, "task": "Radiogespräch mit mehreren Personen: Wer sagt das?", "type": "Zuordnung a/b/c (Moderator + 2 Gäste)", "items": 6, "text": "1 Gesprächsrunde mit 3 Personen, 60 Sek. Lesezeit", "plays": 1, "points": 6 },
+            { "teil": 4, "task": "Kurzer Vortrag verstehen", "type": "Mehrfachauswahl a/b/c", "items": 8, "text": "1 Vortrag, 90 Sek. Lesezeit", "plays": 2, "points": 8 }
+          ]
+        },
+        {
+          "name": "Schreiben",
+          "minutes": 75,
+          "points": 100,
+          "scoring": "Teil 1: 60 (Erfüllung 14, Kohärenz 14, Wortschatz 16, Strukturen 16); Teil 2: 40 (je 10)",
+          "parts": [
+            { "teil": 1, "task": "Forumsbeitrag/Meinungsäußerung zu einem Thema mit 4 Inhaltspunkten (Meinung äußern, begründen, etwas vorschlagen, Vor- und Nachteile)", "type": "Freier Text (Produktion)", "items": 1, "minutes": 50, "text": "Forumsbeitrag, ca. 150 Wörter; Einleitung und Schluss", "points": 60 },
+            { "teil": 2, "task": "Nachricht an Vorgesetzte/n (erklären, beschreiben, vorschlagen, höflich bitten) mit 4 Inhaltspunkten", "type": "Freier Text (Interaktion, Korrespondenz)", "items": 1, "minutes": 25, "text": "Nachricht/E-Mail, ca. 100 Wörter; Anrede und Gruß", "points": 40 }
+          ]
+        },
+        {
+          "name": "Sprechen",
+          "minutes": 15,
+          "points": 100,
+          "scoring": "Teil 1 Vortrag: 32 (Erfüllung 8, Kohärenz 8, Wortschatz 8, Strukturen 8) + Fragen/Antworten 12; Teil 2 Diskussion: 40 (Erfüllung 10, Interaktion 10, Wortschatz 10, Strukturen 10); Aussprache Teil 1+2: 16",
+          "parts": [
+            { "teil": 1, "task": "Vortrag halten zu einem gewählten Thema (1 aus 2), 3 Leitpunkte; danach Fragen des Partners/der Prüfenden beantworten und selbst Fragen stellen", "type": "Produktion/Interaktion", "items": 1, "text": "ca. 4 Min. pro Person (ca. 8 Min. für beide)", "points": 44 },
+            { "teil": 2, "task": "Diskussion zu einer kontroversen Frage: Standpunkte austauschen, reagieren, am Ende zusammenfassen", "type": "Interaktion (Paar)", "items": 1, "text": "Fragestellung + Stichpunkte; ca. 5 Min. insgesamt", "points": 40 }
+          ]
+        }
+      ],
+      "schreiben": {
+        "tasks": 2,
+        "wordCounts": ["ca. 150", "ca. 100"],
+        "criteria": ["Aufgabenerfüllung (Inhalt, Umfang, Sprachfunktionen, Register)", "Kohärenz (Textaufbau, Logik, Verknüpfung)", "Wortschatz", "Strukturen (inkl. Orthografie)"],
+        "rules": "Weniger als 50 % der Wortzahl oder Thema verfehlt → Aufgabenerfüllung E → Aufgabe 0 Punkte."
+      },
+      "sprechen": {
+        "format": "Paarprüfung ca. 15 Min. (Einzelprüfung möglich)",
+        "preparation": "15 Minuten (Paar- und Einzelprüfung), allein, Notizen erlaubt",
+        "criteria": ["Aufgabenerfüllung", "Kohärenz/Flüssigkeit (Vortrag)", "Interaktion/Register (Diskussion)", "Wortschatz", "Strukturen", "Aussprache", "Fragen/Antworten (Vortrag)"]
+      },
+      "total": 400,
+      "totalNote": "max. 100 Punkte pro Modul",
+      "pass": "pro Modul mind. 60 von 100 Punkten (60 %)",
+      "modular": true,
+      "unverified": ["Textlängen sind Schätzungen", "Die vorgeschlagenen Arbeitszeiten Lesen (18+12+12+12+6 = 60) ergeben 5 Min. weniger als die Modulzeit 65 – so im Modellsatz"]
+    },
+    {
+      "id": "goethe-c1",
+      "exam": "Goethe-Zertifikat C1",
+      "alt": "Goethe-Zertifikat C1 (modular, seit 2024)",
+      "provider": "goethe",
+      "level": "C1",
+      "source": "Goethe-Zertifikat C1 (modular) – Modellsatz, 2. Aufl. Feb. 2024, S. 5–6 (Vorwort, Überblick), Kandidatenblätter S. 7–28, Antwort-/Bewertungsbögen S. 30, 43, 46 — https://www.goethe.de/pro/relaunch/prf/materialien/C1_modular/c1-modular_modellsatz.pdf",
+      "modules": [
+        {
+          "name": "Lesen",
+          "minutes": 65,
+          "points": 100,
+          "scoring": "30 Items à 1 Punkt ('Punkte Lesen /30'), Umrechnung auf 100 (Umrechnung auf dem C1-Bogen nicht abgedruckt – Analogie zu B1/B2: UNVERIFIED)",
+          "parts": [
+            { "teil": 1, "task": "Text mit Wörtern rekonstruieren", "type": "Lückentext, Mehrfachauswahl a/b/c/d", "items": 8, "minutes": 10, "text": "populärwissenschaftlicher/informativer Zeitschriftenartikel, ca. 350 Wörter", "points": 8 },
+            { "teil": 2, "task": "Hauptaussagen und Einzelinformationen verstehen", "type": "Mehrfachauswahl a/b/c", "items": 7, "minutes": 20, "text": "Zeitschriften-/Internetartikel mit hohem Informationsgehalt, ca. 650 Wörter", "points": 7 },
+            { "teil": 3, "task": "Text mit Sätzen rekonstruieren", "type": "Lückentext mit Satzzuordnung (10 Sätze a–j, 1 Beispiel, 2 passen nicht)", "items": 8, "minutes": 20, "text": "Kommentar/Reportage aus der Presse, ca. 550 Wörter", "points": 8 },
+            { "teil": 4, "task": "Meinungen/Aussagen suchen und verorten: Wer äußert das?", "type": "Zuordnung a/b/c (3 Beiträge) oder 0 (2 Aussagen passen nicht)", "items": 7, "minutes": 15, "text": "3 Beiträge von Wissenschaftler/innen in einer Fachzeitschrift, zusammen ca. 450 Wörter", "points": 7 }
+          ]
+        },
+        {
+          "name": "Hören",
+          "minutes": 40,
+          "points": 100,
+          "scoring": "30 Items à 1 Punkt, Umrechnung auf 100 (UNVERIFIED, s. Lesen); Übertragungszeit am Ende",
+          "parts": [
+            { "teil": 1, "task": "Podcast/Rezension: Zu welchem Buch passt die Aussage?", "type": "Zuordnung zu 3 Textabschnitten (a/b/c)", "items": 6, "text": "Podcast, 3 Buchvorstellungen, 60 Sek. Lesezeit", "plays": 1, "points": 6 },
+            { "teil": 2, "task": "Interview mit Expertin/Experten zu einem Fachthema", "type": "Mehrfachauswahl a/b/c", "items": 9, "text": "Radiointerview, 60 Sek. Lesezeit", "plays": 2, "points": 9 },
+            { "teil": 3, "task": "Diskussion mit mehreren Personen zu einem aktuellen Thema – in 4 Abschnitten, je 2 Aufgaben", "type": "Mehrfachauswahl a/b/c", "items": 8, "text": "(Radio-)Diskussion mit 3 Personen; vor jedem Abschnitt 30 Sek. Lesezeit", "plays": 1, "points": 8 },
+            { "teil": 4, "task": "Vortrag zu einem aktuellen Thema: Einzelinformationen verstehen", "type": "Mehrfachauswahl a/b/c", "items": 7, "text": "Vortrag, 90 Sek. Lesezeit", "plays": 2, "points": 7 }
+          ]
+        },
+        {
+          "name": "Schreiben",
+          "minutes": 75,
+          "points": 100,
+          "scoring": "Teil 1: 60 (Erfüllung 14, Kohärenz 14, Wortschatz 16, Strukturen 16); Teil 2: 40 (je 10)",
+          "parts": [
+            { "teil": 1, "task": "Diskussionsbeitrag in einem Online-Forum mit 4 Sprachfunktionen (erklären, argumentieren, Beispiel, Alternative erläutern)", "type": "Freier Text (Produktion)", "items": 1, "minutes": 50, "text": "Forumsbeitrag, ca. 230 Wörter", "points": 60 },
+            { "teil": 2, "task": "(Halb-)formelle Mitteilung, z. B. Beschwerde an Vorgesetzte, mit 4 Sprachfunktionen", "type": "Freier Text (Interaktion)", "items": 1, "minutes": 25, "text": "E-Mail, ca. 120 Wörter", "points": 40 }
+          ]
+        },
+        {
+          "name": "Sprechen",
+          "minutes": 20,
+          "points": 100,
+          "scoring": "Teil 1 Vortrag: 40 (Erfüllung 10, Kohärenz 10, Wortschatz 10, Strukturen 10) + Fragen/Antworten 12; Teil 2 Diskussion: 32 (Erfüllung 8, Interaktion 4, Wortschatz 10, Strukturen 10); Aussprache Teil 1+2: 16",
+          "parts": [
+            { "teil": 1, "task": "Vortrag zu einem gewählten Thema (1 aus 2, mit kurzem Input und 4 Stichpunkten), danach Nachfragen beantworten", "type": "Produktion/Interaktion", "items": 1, "text": "ca. 5 Min. Vortrag + ca. 2 Min. Fragen (ca. 7 Min. pro Person)", "points": 52 },
+            { "teil": 2, "task": "Freie Diskussion zu einer kontroversen Frage mit kurzem Inputtext und 4 Stichpunkten; sich am Ende einigen/positionieren", "type": "Interaktion (Paar)", "items": 1, "text": "Inputtext + 4 Stichpunkte; ca. 5 Min.", "points": 32 }
+          ]
+        }
+      ],
+      "schreiben": {
+        "tasks": 2,
+        "wordCounts": ["ca. 230", "ca. 120"],
+        "criteria": ["Aufgabenerfüllung", "Kohärenz", "Wortschatz", "Strukturen"],
+        "rules": "Aufgabenerfüllung E (0) → Aufgabe insgesamt 0 Punkte."
+      },
+      "sprechen": {
+        "format": "Paarprüfung, ca. 20 Min. pro Paar (+ Vorbereitungszeit); Einzelprüfung möglich",
+        "preparation": "20 Minuten (Paar- und Einzelprüfung), allein, Notizen erlaubt",
+        "criteria": ["Aufgabenerfüllung", "Kohärenz/Flüssigkeit (Vortrag)", "Fragen/Antworten (Vortrag)", "Interaktion/Register (Diskussion)", "Wortschatz", "Strukturen", "Aussprache"]
+      },
+      "total": 400,
+      "totalNote": "max. 100 Punkte pro Modul",
+      "pass": "pro Modul mind. 60 von 100 Punkten (60 %)",
+      "modular": true,
+      "oldFormatNote": "Altes C1 (bis 31.12.2023, c1_modellsatz.pdf): nicht modular; Lesen 70 Min. (3 Aufgaben), Hören 40 Min. (2), Schreiben 80 Min. (2), Sprechen 15 Min. Paar (2); 100 Punkte gesamt, 60 zum Bestehen, davon mind. 45 schriftlich und 15 mündlich. NICHT als Vorlage verwenden.",
+      "unverified": ["Umrechnung 30 → 100 bei Lesen/Hören (auf dem C1-Antwortbogen steht nur '/30')", "Textlängen sind Schätzungen", "Überblickstabelle nennt Lesen Teil 4 'Zuordnung von fünf Aussagen', Aufgabenblatt/Antwortbogen zeigen 7 Items (24–30) mit a/b/c/0 – 7 übernommen"]
+    },
+    {
+      "id": "telc-a2",
+      "exam": "telc Deutsch A2",
+      "alt": "Start Deutsch 2",
+      "provider": "telc",
+      "level": "A2",
+      "choiceNote": "Gewählt: telc Deutsch A2 (Start Deutsch 2), die allgemeine Einzelprüfung, die telc.net auf der A2-Seite als Übungstest verlinkt. Nicht gewählt: telc Deutsch A2·B1 bzw. DTZ (skalierte Zweistufenprüfung; DTZ ist auf der Seite separat vorhanden). Hinweis: Start Deutsch 2 ist laut Impressum gemeinsam von Goethe-Institut und telc entwickelt, unterscheidet sich aber deutlich vom heutigen Goethe-Zertifikat A2 (das Start Deutsch 2 bei Goethe abgelöst hat).",
+      "source": "telc Deutsch A2 (Start Deutsch 2) – Übungstest 1 (5090-B00-010107, 2024), 'Testformat' S. 7, Aufgaben S. 8–25, Informationen S. 30–42 — https://www.telc.net/fileadmin/user_upload/mock_exams/Deutsch/telc_deutsch_a2_01.zip",
+      "modules": [
+        {
+          "name": "Hören",
+          "officialName": "1 Hören",
+          "minutes": 20,
+          "minutesNote": "ca. 20 Min. (durch Tonaufnahme vorgegeben); schriftliche Prüfung gesamt 70 Min. + 10 Min. Formalitäten",
+          "points": 15,
+          "parts": [
+            { "teil": 1, "task": "Fünf Ansagen am Telefon verstehen und Telefonnotizen ergänzen", "type": "Offene Kurzantwort (Notiz ergänzen: Zahl, Zeit, Ort, Preis …)", "items": 5, "text": "5 Telefonansagen", "plays": 2, "points": 5 },
+            { "teil": 2, "task": "Fünf Informationen aus dem Radio verstehen", "type": "Mehrfachauswahl a/b/c", "items": 5, "text": "5 kurze Radiomeldungen (Zeitansage, Verkehr, Wetter …)", "plays": 1, "points": 5 },
+            { "teil": 3, "task": "Ein Gespräch verstehen: Personen Orten zuordnen", "type": "Zuordnung (9 Optionen a–i, a = Beispiel)", "items": 5, "text": "1 Dialog (z. B. Führung durch Firma)", "plays": 2, "points": 5 }
+          ]
+        },
+        {
+          "name": "Lesen",
+          "officialName": "2 Lesen (zusammen mit Schreiben 50 Min.)",
+          "minutes": 50,
+          "minutesNote": "50 Min. für Lesen UND Schreiben zusammen",
+          "points": 15,
+          "parts": [
+            { "teil": 1, "task": "Informationstafel (Kaufhaus-Wegweiser) lesen: Wo finden Sie …?", "type": "Mehrfachauswahl a/b/c", "items": 5, "text": "Informationstafel, ca. 130 Wörter", "points": 5 },
+            { "teil": 2, "task": "Zeitungsartikel lesen", "type": "Richtig/Falsch (+/–)", "items": 5, "text": "1 kurzer Zeitungsartikel, ca. 150–180 Wörter", "points": 5 },
+            { "teil": 3, "task": "Anzeigen Situationen zuordnen", "type": "Zuordnung (8 Anzeigen a–h; eine Situation ohne Lösung → x)", "items": 5, "text": "8 Kurzanzeigen, je ca. 20–30 Wörter", "points": 5 }
+          ]
+        },
+        {
+          "name": "Schreiben",
+          "officialName": "3 Schreiben (zusammen mit Lesen 50 Min.)",
+          "minutes": 50,
+          "minutesNote": "siehe Lesen",
+          "points": 15,
+          "parts": [
+            { "teil": 1, "task": "Formular für eine andere Person ausfüllen (Informationen aus kurzem Text/Ausweis entnehmen)", "type": "Formular, 5 Lücken", "items": 5, "text": "kurzer Info-Text + Karte", "points": 5 },
+            { "teil": 2, "task": "Kurzen Brief/E-Mail schreiben: 3 von 4 Leitpunkten wählen, zu jedem 1–2 Sätze; Anrede und Gruß", "type": "Freies Schreiben", "items": 1, "text": "Brief/E-Mail, ca. 40 Wörter", "points": 10 }
+          ]
+        },
+        {
+          "name": "Sprechen",
+          "officialName": "4 Sprechen",
+          "minutes": 15,
+          "points": 15,
+          "scoring": "Teil 1: 3 (Vorstellen 1 + Zusatzfragen 2); Teil 2: 6 (3 Fragen + 3 Antworten à 1); Teil 3: 6 (Erfüllung der Aufgabenstellung 3 + sprachliche Realisierung 3); volle/halbe/0 Punkte",
+          "parts": [
+            { "teil": 1, "task": "Sich vorstellen (Stichwörter: Name, Alter, Land, Wohnort, Sprachen, Beruf, Hobby); 2 Zusatzfragen der Prüfenden", "type": "Monolog + Fragen", "items": 1, "text": "ca. 3 Min.", "points": 3 },
+            { "teil": 2, "task": "Ein Alltagsgespräch führen: mit 3 gezogenen Themenkarten (W-Fragen) Fragen stellen und beantworten", "type": "Interaktion (Paar), Kartenspiel", "items": 6, "text": "6 Karten + 1 Beispielkarte zu einem Thema (z. B. Tagesablauf); ca. 4 Min.", "points": 6 },
+            { "teil": 3, "task": "Etwas aushandeln: gemeinsam 2 passende Aktivitäten finden (Mindmap mit Vorschlägen, ein Zweig '?')", "type": "Interaktion (Paar)", "items": 1, "text": "Mindmap A/B verschieden; ca. 4 Min.", "points": 6 }
+          ]
+        }
+      ],
+      "schreiben": {
+        "tasks": 2,
+        "wordCounts": ["5 Formularfelder", "ca. 40"],
+        "criteria": ["Teil 1: richtig/falsch je Feld (Rechtschreibung meist irrelevant, Zahlen müssen exakt sein)", "Teil 2: Erfüllung der Aufgabenstellung pro Inhaltspunkt 3/1,5/0 (× 3)", "Teil 2: Kommunikative Gestaltung 1/0,5/0"],
+        "rules": "Teil 2 max. 10 Punkte."
+      },
+      "sprechen": {
+        "format": "Paarprüfung ca. 15 Min. (Einzelprüfung möglich, dann spielt ein Prüfer den Partner); + ca. 4 Min. Beschlussfassung",
+        "preparation": "keine",
+        "criteria": ["Erfüllung der Aufgabenstellung und sprachliche Realisierung: volle Punktzahl / halbe / 0"]
+      },
+      "total": 60,
+      "pass": "mind. 60 % der Höchstpunktzahl = 36 von 60; Noten: 54–60 sehr gut, 48–53,5 gut, 42–47,5 befriedigend, 36–41,5 ausreichend. Laut Übungstest müssen 'in beiden Prüfungsteilen' Mindestpunktzahlen erreicht sein – deren Höhe ist dort NICHT angegeben (UNVERIFIED).",
+      "modular": false,
+      "modularNote": "Bei Nichtbestehen muss die komplette Prüfung (schriftlich + mündlich) wiederholt werden; keine Teilanrechnung.",
+      "unverified": ["Mindestpunktzahl je Prüfungsteil (schriftlich/mündlich)", "Textlängen sind Schätzungen"]
+    },
+    {
+      "id": "telc-b1",
+      "exam": "telc Deutsch B1",
+      "alt": "Zertifikat Deutsch",
+      "provider": "telc",
+      "level": "B1",
+      "choiceNote": "Gewählt: Zertifikat Deutsch / telc Deutsch B1 (allgemeine Einzelprüfung, Übungstest 1 von der telc-B1-Seite). Nicht gewählt: telc Deutsch A2·B1 / DTZ.",
+      "source": "Zertifikat Deutsch / telc Deutsch B1 – Übungstest 1 (© 2020), 'Testformat' S. 5, Aufgaben S. 6–21, Informationen S. 29–40 — https://www.telc.net/fileadmin/user_upload/mock_exams/Deutsch/telc_deutsch_b1.zip",
+      "modules": [
+        {
+          "name": "Leseverstehen",
+          "minutes": 90,
+          "minutesNote": "90 Min. für Leseverstehen UND Sprachbausteine zusammen",
+          "points": 75,
+          "parts": [
+            { "teil": 1, "task": "Globalverstehen: für jeden Text die passende Überschrift finden", "type": "Zuordnung (10 Überschriften a–j, jede nur einmal)", "items": 5, "text": "5 kurze Zeitungstexte, je ca. 70–80 Wörter", "points": 25 },
+            { "teil": 2, "task": "Detailverstehen", "type": "Mehrfachauswahl a/b/c", "items": 5, "text": "1 Zeitungsartikel, ca. 400–450 Wörter", "points": 25 },
+            { "teil": 3, "task": "Selektives Verstehen: Situationen passenden Anzeigen zuordnen", "type": "Zuordnung (12 Anzeigen a–l, jede nur einmal; keine Lösung → x)", "items": 10, "text": "12 Anzeigen, je ca. 30–40 Wörter", "points": 25 }
+          ]
+        },
+        {
+          "name": "Sprachbausteine",
+          "minutes": 90,
+          "minutesNote": "gemeinsam mit Leseverstehen",
+          "points": 30,
+          "parts": [
+            { "teil": 1, "task": "Grammatik: Lücken in einem (halbformellen) Brief schließen", "type": "Lückentext, Mehrfachauswahl a/b/c", "items": 10, "text": "1 zusammenhängender Text (persönlich, z. B. Brief), ca. 250 Wörter", "points": 15 },
+            { "teil": 2, "task": "Lexik: Lücken mit Wörtern aus einer Wortliste füllen", "type": "Lückentext mit Wortbank (15 Wörter a–o, jedes nur einmal)", "items": 10, "text": "Anfrage-Brief zu einer kurzen Anzeige (z. B. Hotel), ca. 250 Wörter", "points": 15 }
+          ]
+        },
+        {
+          "name": "Hörverstehen",
+          "minutes": 30,
+          "minutesNote": "ca. 30 Min.",
+          "points": 75,
+          "parts": [
+            { "teil": 1, "task": "Globalverstehen: fünf kurze Texte (Meinungen/Aussagen)", "type": "Richtig/Falsch (+/–)", "items": 5, "text": "5 kurze Äußerungen (z. B. Umfrage), 30 Sek. Lesezeit", "plays": 1, "points": 25 },
+            { "teil": 2, "task": "Detailverstehen: ein Gespräch/Interview", "type": "Richtig/Falsch (+/–)", "items": 10, "text": "1 Gespräch, 1 Min. Lesezeit", "plays": 2, "points": 25 },
+            { "teil": 3, "task": "Selektives Verstehen: fünf kurze Ansagen/Durchsagen", "type": "Richtig/Falsch (+/–)", "items": 5, "text": "5 kurze Ansagen (Bahnhof, Anrufbeantworter, Radio …)", "plays": 2, "points": 25 }
+          ]
+        },
+        {
+          "name": "Schriftlicher Ausdruck",
+          "minutes": 30,
+          "points": 45,
+          "scoring": "3 Kriterien je 5/3/1/0 = max. 15, × 3 = 45",
+          "parts": [
+            { "teil": 1, "task": "Auf eine E-Mail antworten (informell oder halbformell), 4 Leitpunkte bearbeiten; Betreff, Anrede, Einleitung, Schluss", "type": "Freies Schreiben mit 4 Leitpunkten", "items": 1, "text": "Input-E-Mail ca. 100 Wörter; Antwort ohne vorgegebene Wortzahl", "points": 45 }
+          ]
+        },
+        {
+          "name": "Mündlicher Ausdruck",
+          "minutes": 15,
+          "points": 75,
+          "scoring": "4 Kriterien pro Teil: Ausdrucksfähigkeit, Aufgabenbewältigung, Formale Richtigkeit (Teil 1 je 4/3/1/0; Teil 2+3 je 8/6/2/0), Aussprache/Intonation (Teil 1: 3/2/1/0; Teil 2+3: 6/4/2/0) → Teil 1 max. 15, Teil 2 und 3 je max. 30",
+          "parts": [
+            { "teil": 1, "task": "Einander kennenlernen (Stichpunkte: Name, Herkunft, Wohnen, Familie, Deutsch lernen, Beruf, Sprachen)", "type": "Interaktion (Paar)", "items": 1, "text": "ca. 3 Min.", "points": 15 },
+            { "teil": 2, "task": "Über ein Thema sprechen: je eine (unterschiedliche) Meinung aus einer Zeitschrift wiedergeben, dann austauschen, eigene Meinung/Erfahrung", "type": "Interaktion (Paar)", "items": 1, "text": "2 verschiedene Aufgabenblätter mit Kurzstatement (ca. 50 Wörter); ca. 6 Min.", "points": 30 },
+            { "teil": 3, "task": "Gemeinsam etwas planen (Veranstaltung/Feier …): Vorschläge machen, reagieren, Aufgaben verteilen", "type": "Interaktion (Paar)", "items": 1, "text": "Aufgabenblatt mit Stichpunktliste; ca. 6 Min.", "points": 30 }
+          ]
+        }
+      ],
+      "schreiben": {
+        "tasks": 1,
+        "wordCounts": ["keine Wortzahl vorgegeben"],
+        "criteria": ["I Aufgabenbewältigung (wie viele der 4 Leitpunkte angemessen)", "II Kommunikative Gestaltung", "III Formale Richtigkeit"],
+        "rules": "Thema verfehlt → D in allen Kriterien. Nur 1 oder 0 Leitpunkte angemessen → Kriterium I = D, II und III werden trotzdem bewertet."
+      },
+      "sprechen": {
+        "format": "Paarprüfung ca. 15 Min. (Einzelprüfung möglich); + ca. 5 Min. Beschlussfassung",
+        "preparation": "20 Minuten, allein, Notizen auf gestempelten Blättern erlaubt",
+        "criteria": ["Ausdrucksfähigkeit", "Aufgabenbewältigung", "Formale Richtigkeit", "Aussprache und Intonation"]
+      },
+      "total": 300,
+      "pass": "schriftlich (225) UND mündlich (75) jeweils mind. 60 %: 135 bzw. 45 Punkte. Noten: 270–300 sehr gut, 240–269,5 gut, 210–239,5 befriedigend, 180–209,5 ausreichend.",
+      "modular": false,
+      "modularNote": "Nicht modular, aber teilbar: ein nicht bestandener/nicht abgelegter Prüfungsteil (schriftlich oder mündlich) kann im selben oder folgenden Kalenderjahr einzeln wiederholt werden.",
+      "unverified": ["Textlängen sind Schätzungen"]
+    },
+    {
+      "id": "telc-b2",
+      "exam": "telc Deutsch B2",
+      "provider": "telc",
+      "level": "B2",
+      "source": "telc Deutsch B2 – Übungstest 1 (= Modelltest, © 2019), 'Testformat' S. 5, Aufgaben S. 6–24, Informationen S. 32–46 — https://www.telc.net/fileadmin/user_upload/mock_exams/Deutsch/telc_deutsch_b2.zip",
+      "modules": [
+        {
+          "name": "Leseverstehen",
+          "minutes": 90,
+          "minutesNote": "90 Min. für Leseverstehen UND Sprachbausteine zusammen",
+          "points": 75,
+          "parts": [
+            { "teil": 1, "task": "Globalverstehen: Überschrift zu Text", "type": "Zuordnung (10 Überschriften a–j)", "items": 5, "text": "5 Zeitungs-/Magazintexte, je ca. 150–190 Wörter", "points": 25 },
+            { "teil": 2, "task": "Detailverstehen zu zwei Artikeln", "type": "Mehrfachauswahl a/b/c", "items": 5, "text": "2 Sachartikel, zusammen ca. 550–600 Wörter", "points": 25 },
+            { "teil": 3, "task": "Selektives Verstehen: Situationen Info-Texten zuordnen", "type": "Zuordnung (12 Info-Texte a–l, jeder nur einmal; keine Lösung → x)", "items": 10, "text": "12 Info-Texte/Anzeigen, je ca. 80–100 Wörter", "points": 25 }
+          ]
+        },
+        {
+          "name": "Sprachbausteine",
+          "minutes": 90,
+          "minutesNote": "gemeinsam mit Leseverstehen",
+          "points": 30,
+          "parts": [
+            { "teil": 1, "task": "Grammatik: welches Wort passt in die Lücke?", "type": "Lückentext, Mehrfachauswahl a/b/c", "items": 10, "text": "1 persönlicher Brief (du-Form), ca. 300 Wörter", "points": 15 },
+            { "teil": 2, "task": "Lexik: Wörter aus dem Kasten einsetzen", "type": "Lückentext mit Wortbank (15 Wörter a–o, nicht alle passen)", "items": 10, "text": "1 Pressetext/Sachtext (z. B. Statistik-Meldung), ca. 350 Wörter", "points": 15 }
+          ]
+        },
+        {
+          "name": "Hörverstehen",
+          "minutes": 20,
+          "minutesNote": "ca. 20 Min.",
+          "points": 75,
+          "parts": [
+            { "teil": 1, "task": "Globalverstehen: eine Nachrichtensendung", "type": "Richtig/Falsch (+/–)", "items": 5, "text": "Nachrichtensendung (5 Meldungen), 30 Sek. Lesezeit", "plays": 1, "points": 25 },
+            { "teil": 2, "task": "Detailverstehen: ein Rundfunk-Interview", "type": "Richtig/Falsch (+/–)", "items": 10, "text": "1 Radiointerview, 60 Sek. Lesezeit", "plays": 1, "points": 25 },
+            { "teil": 3, "task": "Selektives Verstehen: fünf kurze Ansagen", "type": "Richtig/Falsch (+/–)", "items": 5, "text": "5 kurze Ansagen/Durchsagen", "plays": 1, "points": 25 }
+          ]
+        },
+        {
+          "name": "Schriftlicher Ausdruck",
+          "minutes": 30,
+          "points": 45,
+          "scoring": "3 Kriterien je 5/3/1/0 = max. 15, × 3 = 45",
+          "parts": [
+            { "teil": 1, "task": "Halbformelle E-Mail (Wahl zwischen Aufgabe A 'Bitte um Informationen' und B 'Beschwerde'), zu einer Anzeige; entweder 3 von 4 Leitpunkten oder 2 + 1 eigener Aspekt", "type": "Freies Schreiben, Wahlaufgabe", "items": 1, "text": "Input: Anzeige ca. 100 Wörter; Antwort mind. 150 Wörter", "points": 45 }
+          ]
+        },
+        {
+          "name": "Mündlicher Ausdruck",
+          "minutes": 15,
+          "minutesNote": "ca. 15 Min. (Paar) bzw. ca. 25 Min. (3 Teilnehmende)",
+          "points": 75,
+          "scoring": "pro Teil max. 25: Ausdrucksfähigkeit 7/5/3/0, Aufgabenbewältigung 7/5/3/0, Formale Richtigkeit 7/5/3/0, Aussprache/Intonation 4/2/1/0",
+          "parts": [
+            { "teil": 0, "task": "Einander kennenlernen (ca. 1 Min.) – wird NICHT bewertet", "type": "Aufwärmgespräch", "items": 0, "text": "keine festen Themen", "points": 0 },
+            { "teil": 1, "task": "Über Erfahrungen sprechen: 1 von 7 Themen (Buch, Film, Reise …) ca. 1½ Min. vortragen, dann Fragen des Partners beantworten; Rollentausch", "type": "Monolog + Anschlussfragen", "items": 1, "text": "7 Themen zur Auswahl, meist zu Hause vorbereitet; ca. 5 Min.", "points": 25 },
+            { "teil": 2, "task": "Diskussion über einen kontroversen Zeitungstext: kurz zum Text äußern (max. 1 Min.), dann Argumente, Erfahrungen, Lösungen", "type": "Interaktion (Paar)", "items": 1, "text": "Inputtext ca. 300 Wörter; ca. 5 Min.", "points": 25 },
+            { "teil": 3, "task": "Gemeinsam etwas planen (Reise, Veranstaltung …) und ein Programm entwickeln", "type": "Interaktion (Paar)", "items": 1, "text": "kurze Situationsbeschreibung; ca. 5 Min.", "points": 25 }
+          ]
+        }
+      ],
+      "schreiben": {
+        "tasks": 1,
+        "wordCounts": ["mind. 150"],
+        "choice": "Aufgabe A oder B",
+        "criteria": ["I Aufgabenbewältigung", "II Kommunikative Gestaltung", "III Formale Richtigkeit"],
+        "rules": "Thema verfehlt → D in allen Kriterien."
+      },
+      "sprechen": {
+        "format": "Paarprüfung ca. 15 Min.; 3er-Gruppe ca. 25 Min. (nur eine pro Termin); Einzelprüfung möglich; + ca. 5 Min. Beschlussfassung",
+        "preparation": "20 Minuten für Teil 2 und 3 (Teil 1 in der Regel zu Hause vorbereitet)",
+        "criteria": ["Ausdrucksfähigkeit", "Aufgabenbewältigung", "Formale Richtigkeit", "Aussprache und Intonation"]
+      },
+      "total": 300,
+      "pass": "schriftlich (225) UND mündlich (75) jeweils mind. 60 %: 135 bzw. 45 Punkte. Noten wie B1 (270/240/210/180).",
+      "modular": false,
+      "modularNote": "Nicht modular; ein Prüfungsteil (schriftlich oder mündlich) kann im selben oder folgenden Kalenderjahr einzeln wiederholt/nachgeholt werden.",
+      "unverified": ["Textlängen sind Schätzungen"]
+    },
+    {
+      "id": "telc-c1",
+      "exam": "telc Deutsch C1",
+      "provider": "telc",
+      "level": "C1",
+      "source": "telc Deutsch C1 – Übungstest 1, Format 2016, 'Testformat' S. 5, Aufgaben S. 6–27, Informationen S. 38–49 — https://www.telc.net/fileadmin/user_upload/mock_exams/Deutsch/telc_deutsch_c1.zip",
+      "modules": [
+        {
+          "name": "Leseverstehen",
+          "minutes": 90,
+          "minutesNote": "90 Min. für Leseverstehen UND Sprachbausteine zusammen; danach 20 Min. Pause",
+          "points": 48,
+          "parts": [
+            { "teil": 1, "task": "Textrekonstruktion: Welche Sätze gehören in die Lücken?", "type": "Zuordnung Sätze → Lücken (8 Sätze a–h, 2 passen nicht)", "items": 6, "text": "1 Zeitschriftenartikel, ca. 500 Wörter", "points": 12 },
+            { "teil": 2, "task": "Selektives Verstehen: In welchem Absatz steht die Antwort?", "type": "Zuordnung Frage → Absatz a–e (Absätze mehrfach möglich)", "items": 6, "text": "1 Text mit 5 Absätzen (z. B. Erfahrungsberichte), ca. 800–900 Wörter", "points": 12 },
+            { "teil": 3, "task": "Detailverstehen", "type": "Richtig / Falsch / nicht im Text (+/–/x)", "items": 11, "text": "1 langer Sachtext/Essay, ca. 1.200 Wörter", "points": 22 },
+            { "teil": 4, "task": "Globalverstehen (Makroaufgabe): Welche Überschrift trifft die Aussage des Textes (aus Teil 3) am besten?", "type": "Mehrfachauswahl a/b/c", "items": 1, "text": "bezieht sich auf den Text von Teil 3", "points": 2 }
+          ]
+        },
+        {
+          "name": "Sprachbausteine",
+          "minutes": 90,
+          "minutesNote": "gemeinsam mit Leseverstehen",
+          "points": 22,
+          "parts": [
+            { "teil": 1, "task": "Grammatik und Lexik: welches Wort passt in die Lücke?", "type": "Lückentext, Mehrfachauswahl a/b/c/d", "items": 22, "text": "1 Sachtext/Bericht, ca. 400–450 Wörter", "points": 22 }
+          ]
+        },
+        {
+          "name": "Hörverstehen",
+          "minutes": 40,
+          "minutesNote": "ca. 40 Min.; 5 Min. Übertragungszeit für Teil 3",
+          "points": 48,
+          "parts": [
+            { "teil": 1, "task": "Globalverstehen: Meinungen von 8 Personen zu einem Thema – welche Aussage passt zu welcher Person?", "type": "Zuordnung (10 Aussagen a–j, 2 passen nicht)", "items": 8, "text": "8 kurze Meinungsäußerungen, 1 Min. Lesezeit", "plays": 1, "points": 8 },
+            { "teil": 2, "task": "Detailverstehen: Radiosendung", "type": "Mehrfachauswahl a/b/c", "items": 10, "text": "1 Radiosendung/Interview, 3 Min. Lesezeit", "plays": 1, "points": 20 },
+            { "teil": 3, "task": "Informationstransfer: Vortrag hören und fehlende Informationen stichwortartig in Präsentationsfolien (Handzettel) eintragen", "type": "Offene Kurzantwort (Notizen); 2 Punkte, bei fehlerhafter Realisierung ggf. 1", "items": 10, "text": "1 Vortrag mit Folien-Handout, 1 Min. Lesezeit", "plays": 1, "points": 20 }
+          ]
+        },
+        {
+          "name": "Schriftlicher Ausdruck",
+          "minutes": 70,
+          "points": 48,
+          "scoring": "4 Kriterien je 12/8/4/0 = 48",
+          "parts": [
+            { "teil": 1, "task": "Argumentativer Text (Erörterung/Stellungnahme) zu 1 von 2 Themen (z. B. Leserbrief an Lokalzeitung, Beitrag für Schulzeitung); Vor- und Nachteile, eigene Position", "type": "Freies Schreiben, Wahlaufgabe", "items": 1, "text": "Themenstellung + 2 Impulszitate; Text etwa 350 Wörter", "points": 48 }
+          ]
+        },
+        {
+          "name": "Mündlicher Ausdruck",
+          "minutes": 16,
+          "minutesNote": "ca. 16 Min. Paarprüfung (Einzelprüfung kürzer, Dreierprüfung länger)",
+          "points": 48,
+          "scoring": "Aufgabengerechtheit: Teil 1A 6/4/2/0, Teil 1B 4/2/1/0, Teil 2 6/4/2/0 (= 16); Sprachliche Angemessenheit über alle Teile: Flüssigkeit, Repertoire, Grammatische Richtigkeit, Aussprache/Intonation je 8/5/2/0 (= 32)",
+          "parts": [
+            { "teil": "1A", "task": "Präsentation: Kurzreferat zu 1 von 2 Themen (Einleitung, gut gegliedert, Fazit)", "type": "Monolog", "items": 1, "text": "ca. 3(–4) Min. pro Person", "points": 6 },
+            { "teil": "1B", "task": "Zusammenfassung der Partner-Präsentation + mindestens eine Anschlussfrage; Fragen beantworten", "type": "Interaktion", "items": 1, "text": "ca. 2(–3) Min. pro Person", "points": 4 },
+            { "teil": 2, "task": "Diskussion zu einer These/Aussage: Verständnis, Zustimmung/Ablehnung, Gründe, Beispiele, auf Partner eingehen", "type": "Interaktion (Paar)", "items": 1, "text": "Kurze These + 4 Leitpunkte; 6 Min.", "points": 6 },
+            { "teil": "alle", "task": "Sprachliche Angemessenheit über die ganze Prüfung", "type": "Globalbewertung", "items": 0, "text": "—", "points": 32 }
+          ]
+        }
+      ],
+      "schreiben": {
+        "tasks": 1,
+        "wordCounts": ["etwa 350"],
+        "choice": "Thema 1 oder 2",
+        "criteria": ["Aufgabengerechtheit", "Korrektheit", "Repertoire", "Kommunikative Gestaltung"],
+        "rules": "Thema verfehlt → D in allen vier Kriterien."
+      },
+      "sprechen": {
+        "format": "Paarprüfung ca. 16 Min. (Einzel- und Dreierprüfung möglich)",
+        "preparation": "20 Minuten (für die Präsentation); Stichwortnotizen erlaubt, kein ausformulierter Text",
+        "criteria": ["Aufgabengerechtheit (je Teil)", "Flüssigkeit", "Repertoire", "Grammatische Richtigkeit", "Aussprache und Intonation"]
+      },
+      "total": 214,
+      "pass": "mind. 128 von 214 Punkten UND schriftlich mind. 60 % (99 von 166) UND mündlich mind. 60 % (29 von 48). Noten: 193–214 sehr gut, 172–192,5 gut, 151–171,5 befriedigend, 128–150,5 ausreichend.",
+      "modular": false,
+      "modularNote": "Nicht modular; nicht bestandener schriftlicher oder mündlicher Teil kann bis Ende des folgenden Kalenderjahres einzeln wiederholt werden.",
+      "unverified": ["Gesamtdauer schriftlich: Das Heft sagt einmal 'Die Schriftliche Prüfung dauert 120 Minuten', die Testformat-Tabelle ergibt aber 90 + 40 + 70 = 200 Min. (+ 20 Min. Pause) – Tabellenwerte übernommen", "Textlängen sind Schätzungen"]
+    }
+  ]
+}

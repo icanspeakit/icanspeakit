@@ -1,0 +1,210 @@
+---
+// /spiele/hochstapler — Bruno sucht den Hochstapler: everybody gets the same secret word,
+// except the Hochstapler, who only knows the theme. One German sentence each, discuss, vote.
+// This page is the start and the Party mode: one phone passed around, no server, works
+// offline. The class version (projector + phones) is /lehrkraefte/spiele/hochstapler.
+// Logic: src/lib/hochstapler/ (rules game.js, this screen party.js, strings strings.js).
+// A prototype until Edgar releases it: noindex, not in the menu (EXPERIMENTE.md).
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import { detectiveSvg } from "../../lib/hochstapler/bruno.js";
+import { S } from "../../lib/hochstapler/strings.js";
+import redemittel from "../../data/hochstapler/redemittel.json";
+import "../../styles/hochstapler.css";
+---
+<Layout
+  title="Bruno sucht den Hochstapler – Sprechspiel auf Deutsch – EnglishAcademy"
+  description="Alle kennen das geheime Wort – nur einer nicht. Ein Partyspiel zum Deutschsprechen: Wörter beschreiben, diskutieren, den Hochstapler finden. A1–C1, für Familie, Freunde und Klasse."
+  noindex
+>
+  <SiteNav active="ueben" />
+  <main class="hst hst--party" id="hst-party" data-screen-now="start">
+    <div class="hst-top">
+      <span class="hst-top-title">{S.title}</span>
+      <span class="hst-top-tools">
+        <button type="button" class="hst-icon" data-sound-toggle aria-pressed="true" aria-label="Ton an/aus" title="Ton an/aus"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path class="lq-sound-on" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="lq-sound-off" d="m16 9 6 6m0-6-6 6"/></svg></button>
+      </span>
+    </div>
+
+    <!-- Start -->
+    <section data-screen="start" class="hst-start">
+      <div class="hst-hero">
+        <div class="hst-hero-bruno" set:html={detectiveSvg({ size: 170 })} />
+        <div>
+          <p class="hst-eyebrow">Sprechspiel · A1–C1</p>
+          <h1 class="hst-title">{S.title}</h1>
+          <p class="hst-lead">{S.lead}</p>
+        </div>
+      </div>
+      <ol class="hst-how">
+        <li><span aria-hidden="true">🤫</span>{S.how1}</li>
+        <li><span aria-hidden="true">🗣️</span>{S.how2}</li>
+        <li><span aria-hidden="true">🕵️</span>{S.how3}</li>
+      </ol>
+      <div class="hst-modes">
+        <button type="button" class="hst-mode hst-mode--party" data-go-setup>
+          <b>{S.party}</b><small>{S.partyHint}</small>
+        </button>
+        <a class="hst-mode" href="/lehrkraefte/spiele/hochstapler">
+          <b>{S.klasse}</b><small>{S.klasseHint}</small>
+        </a>
+      </div>
+    </section>
+
+    <!-- Setup -->
+    <section data-screen="setup" class="hst-setup" hidden>
+      <h2 class="hst-h2">{S.setupTitle}</h2>
+      <form class="hst-add" data-add novalidate>
+        <input name="name" maxlength="16" autocomplete="off" enterkeyhint="done" placeholder={S.addPlaceholder} aria-label={S.addPlaceholder} />
+        <button type="button" class="hst-icon hst-dice" data-dice aria-label={S.dice} title={S.dice}>🎲</button>
+        <button type="submit" class="hst-btn hst-btn--ghost">{S.add}</button>
+      </form>
+      <p class="hst-error" data-add-error role="alert"></p>
+      <ul class="hst-players" data-players></ul>
+
+      <div class="hst-opts">
+        <fieldset class="hst-opt">
+          <legend>{S.level}</legend>
+          <div class="hst-seg" data-seg="level">
+            <button type="button" data-v="A1" aria-pressed="true">A1</button>
+            <button type="button" data-v="A2" aria-pressed="false">A2</button>
+          </div>
+        </fieldset>
+        <label class="hst-opt">
+          <span>{S.theme}</span>
+          <select data-theme><option value="">{S.themeRandom}</option></select>
+        </label>
+        <fieldset class="hst-opt">
+          <legend>{S.rounds}</legend>
+          <div class="hst-seg" data-seg="rounds">
+            <button type="button" data-v="1" aria-pressed="true">1</button>
+            <button type="button" data-v="2" aria-pressed="false">2</button>
+          </div>
+        </fieldset>
+        <fieldset class="hst-opt">
+          <legend>{S.discussTime}</legend>
+          <div class="hst-seg" data-seg="discuss">
+            <button type="button" data-v="60" aria-pressed="false">60 s</button>
+            <button type="button" data-v="90" aria-pressed="true">90 s</button>
+            <button type="button" data-v="120" aria-pressed="false">120 s</button>
+          </div>
+        </fieldset>
+        <fieldset class="hst-opt">
+          <legend>{S.voteMode}</legend>
+          <div class="hst-seg" data-seg="vote">
+            <button type="button" data-v="secret" aria-pressed="true">{S.voteSecret}</button>
+            <button type="button" data-v="group" aria-pressed="false">{S.voteGroup}</button>
+          </div>
+        </fieldset>
+      </div>
+      <p class="hst-error" data-load-error role="alert" hidden>{S.loadError}</p>
+      <button type="button" class="hst-btn hst-btn--primary hst-btn--block" data-start>{S.start}</button>
+    </section>
+
+    <!-- Pass the phone: a neutral cover, nothing of the round on it -->
+    <section data-screen="pass" class="hst-pass" hidden>
+      <img class="hst-pass-av" data-pass-av alt="" width="140" height="140" />
+      <h2 class="hst-pass-to" data-pass-to></h2>
+      <p class="hst-pass-only" data-pass-only></p>
+      <button type="button" class="hst-btn hst-btn--primary hst-btn--block hst-btn--big" data-pass-go></button>
+    </section>
+
+    <!-- One player's secret: filled on tap, emptied on hide -->
+    <section data-screen="secret" class="hst-secret" hidden>
+      <div class="hst-secret-card" data-secret-card></div>
+      <button type="button" class="hst-btn hst-btn--primary hst-btn--block hst-btn--big" data-hide></button>
+    </section>
+
+    <!-- Clues -->
+    <section data-screen="clues" class="hst-clues" hidden>
+      <p class="hst-phase"><span>{S.cluesTitle}</span> <span data-clue-round></span></p>
+      <p class="hst-theme-chip" data-theme-chip></p>
+      <ol class="hst-order" data-order></ol>
+      <div class="hst-turn">
+        <img class="hst-turn-av" data-turn-av alt="" width="120" height="120" />
+        <h2 class="hst-turn-name" data-turn-name></h2>
+        <p class="hst-turn-say">{S.cluesSay}</p>
+      </div>
+      <details class="hst-helpers" open>
+        <summary>{S.helpers}</summary>
+        <ul class="hst-chips" data-clue-helpers></ul>
+      </details>
+      <button type="button" class="hst-btn hst-btn--primary hst-btn--block hst-btn--big" data-next-turn></button>
+    </section>
+
+    <!-- Discussion -->
+    <section data-screen="discuss" class="hst-discuss" hidden>
+      <p class="hst-phase">{S.discussTitle}</p>
+      <p class="hst-theme-chip" data-theme-chip></p>
+      <div class="hst-ring" data-ring>
+        <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="hst-ring-bg" cx="60" cy="60" r="52" /><circle class="hst-ring-fg" cx="60" cy="60" r="52" data-ring-fg /></svg>
+        <b data-ring-left role="timer" aria-live="off"></b>
+      </div>
+      <p class="hst-turn-say">{S.discussSay}</p>
+      <ul class="hst-chips" data-discuss-helpers></ul>
+      <div class="hst-row">
+        <button type="button" class="hst-btn hst-btn--ghost" data-more>{S.more30}</button>
+        <button type="button" class="hst-btn hst-btn--primary" data-to-vote>{S.toVote}</button>
+      </div>
+    </section>
+
+    <!-- Vote -->
+    <section data-screen="vote" class="hst-vote" hidden>
+      <p class="hst-phase">{S.voteTitle}</p>
+      <h2 class="hst-h2" data-vote-who></h2>
+      <div class="hst-grid" data-vote-grid></div>
+      <button type="button" class="hst-btn hst-btn--primary hst-btn--block hst-btn--big" data-vote-ok></button>
+    </section>
+
+    <!-- Reveal -->
+    <section data-screen="reveal" class="hst-reveal" hidden>
+      <p class="hst-phase">{S.revealTitle}</p>
+      <ul class="hst-bars" data-bars></ul>
+      <div class="hst-stage">
+        <div class="hst-curtain" data-curtain aria-hidden="true"><span>{S.drum}</span></div>
+        <div class="hst-truth" data-truth></div>
+      </div>
+      <button type="button" class="hst-btn hst-btn--primary hst-btn--block hst-btn--big" data-reveal-next hidden></button>
+    </section>
+
+    <!-- Rescue -->
+    <section data-screen="rescue" class="hst-rescue" hidden>
+      <p class="hst-phase">{S.rescueTitle}</p>
+      <h2 class="hst-h2" data-rescue-who></h2>
+      <div class="hst-grid hst-grid--words" data-rescue-grid></div>
+    </section>
+
+    <!-- Score -->
+    <section data-screen="score" class="hst-score" hidden>
+      <div class="hst-win" data-win></div>
+      <div class="hst-word-out" data-word-out></div>
+      <h3 class="hst-h3">{S.scores}</h3>
+      <ol class="hst-ranks" data-ranks></ol>
+      <div class="hst-row">
+        <button type="button" class="hst-btn hst-btn--ghost" data-end>{S.endGame}</button>
+        <button type="button" class="hst-btn hst-btn--primary" data-next-round>{S.nextRound}</button>
+      </div>
+    </section>
+
+    <!-- End of the game -->
+    <section data-screen="end" class="hst-end" hidden>
+      <div class="hst-hero-bruno" set:html={detectiveSvg({ size: 140, expr: "happy" })} />
+      <h2 class="hst-h2">{S.gameOver}</h2>
+      <ol class="hst-ranks" data-final></ol>
+      <div class="hst-share" data-share></div>
+      <div class="hst-row">
+        <button type="button" class="hst-btn hst-btn--ghost" data-to-start>{S.title}</button>
+        <button type="button" class="hst-btn hst-btn--primary" data-again>{S.playAgain}</button>
+      </div>
+    </section>
+
+    <p class="hst-foot">englishacademy.com/spiele/hochstapler – kostenlos spielen</p>
+  </main>
+
+  <script type="application/json" id="hst-redemittel" set:html={JSON.stringify(redemittel)}></script>
+  <script>
+    import { mountParty } from "../../lib/hochstapler/party.js";
+    const root = document.getElementById("hst-party");
+    if (root) mountParty(root);
+  </script>
+</Layout>

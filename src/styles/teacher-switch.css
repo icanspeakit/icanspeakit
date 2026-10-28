@@ -1,0 +1,51 @@
+/* One look for every switch in /lehrkraefte (the class `t-sw` on its container): a soft grey
+   track, the chosen option lifted out of it as a white pill, big enough to hit (48px), with an
+   optional picture (`.t-sw-ic`: a mascot or an icon) and a second line (`.t-sw-txt` > b + small).
+   The first one was the Arbeitsblatt | Tandem switch (AbTopicSwitch.astro); Edgar wanted it on
+   every teacher page (2026-10-15).
+
+   It is layered over each switch's own CSS, which keeps its click logic and data attributes:
+   doubled class for weight, so the order the stylesheets load in does not matter. The active
+   option is whatever the page already marks (the same list segSwitch.js reads), so the sliding
+   pill from switchRegistry.js takes this look over as it is. */
+.t-sw.t-sw {
+  display: inline-flex; flex-wrap: wrap; align-items: stretch; gap: 4px; padding: 4px;
+  border: 0; border-radius: var(--radius-pill, 999px); background: var(--surface);
+}
+.t-sw.t-sw > :is(button, a, label) {
+  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; padding: 4px 16px; margin: 0;
+  border: 0; border-radius: var(--radius-pill, 999px); background: none; box-shadow: none;
+  color: var(--muted); font: inherit; font-size: var(--text-sm); font-weight: var(--fw-semibold, 600);
+  text-decoration: none; cursor: pointer;
+  transition: color .15s ease;
+}
+.t-sw.t-sw > :is(button, a, label):hover { color: var(--ink); }
+.t-sw.t-sw > :is(button, a, label):is(.is-active, .is-on, .active, [aria-pressed="true"], [aria-selected="true"], [aria-current="page"], :has(input:checked)) {
+  background: var(--surface-card); color: var(--brand-blue-dark); box-shadow: var(--shadow-sm);
+}
+.t-sw.t-sw > :is(button, a):focus-visible,
+.t-sw.t-sw > label:has(input:focus-visible) { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+/* Radio switches (the game generators): the label is the button, the dot is not needed. */
+.t-sw.t-sw > label > input[type="radio"] { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; pointer-events: none; }
+
+/* Picture and two lines. A mascot greys out on the side not chosen. */
+.t-sw-ic { display: inline-flex; flex: none; color: inherit; }
+.t-sw-ic svg { width: 28px; height: 28px; }
+.t-sw-ic svg + svg { margin-left: -10px; }
+.t-sw > :not(.is-active):not([aria-pressed="true"]):not([aria-current="page"]) .t-sw-ic[data-mascot-part] { filter: grayscale(1); opacity: .6; }
+.t-sw-txt { display: grid; line-height: 1.15; text-align: start; }
+.t-sw-txt b { font-size: var(--text-sm); }
+.t-sw-txt small { font-size: 12px; font-weight: 500; color: var(--muted); }
+
+/* `t-sw--fill`: the options share the whole width (two or three big choices). */
+.t-sw--fill.t-sw--fill { display: grid; grid-auto-columns: minmax(0, 1fr); grid-auto-flow: column; }
+.t-sw--fill.t-sw--fill > :is(button, a, label) { min-height: 48px; padding: 4px 10px; }
+
+/* Where the worksheets put them: the view switch takes the whole row on a phone; a long row of
+   languages wraps, so its track is a rounded box rather than a pill. */
+.ab-bar .ab-seg.t-sw { flex: 1 1 100%; }
+.ab-bar .ab-seg.t-sw > button { padding: 4px 8px; }
+.ab-langs.t-sw.t-sw { border-radius: 18px; }
+.ab-langs.t-sw.t-sw > button { min-height: 38px; padding: 2px 12px; }
+@media (min-width: 640px) { .ab-bar .ab-seg.t-sw { flex: 0 1 420px; } }

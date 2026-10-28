@@ -1,0 +1,133 @@
+---
+// /fuehrerschein/ablauf — from choosing a Fahrschule to the Probezeit, as a numbered path.
+// Each step: what, where, a cost range, what to bring, and the German you need there. Bruno
+// walks down the path beside the step nearest the middle of the screen (data-mascot-part:
+// with mascots off the path is the same without him). All figures from the research file.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import SectionMascot from "../../components/mascots/SectionMascot.astro";
+import MascotComic from "../../components/MascotComic.astro";
+import LeichtToggle from "../../components/LeichtToggle.astro";
+import FsGeplant from "../../components/fuehrerschein/FsGeplant.astro";
+import FsHinweis from "../../components/fuehrerschein/FsHinweis.astro";
+import FsQuellen from "../../components/fuehrerschein/FsQuellen.astro";
+import ablauf from "../../data/fuehrerschein/ablauf.json";
+import { fakt, faktText, fillFakten, fillDeep, sourcesFor, standMonat, RESEARCH } from "../../lib/fuehrerschein.js";
+import { lessonHref } from "../../lib/fuehrerscheinData.js";
+import { mascotSvg } from "../../lib/mascots.js";
+import { iconFile } from "../../lib/wortBild.js";
+import "../../styles/practice.css";
+import "../../styles/kultur.css";
+import "../../styles/kultur-insider.css";
+import "../../styles/mascot-comic.css";
+import "../../styles/fuehrerschein.css";
+
+const v = (o: Record<string, unknown>) => JSON.stringify(o);
+const moji = (e: string) => `/img/openmoji/${iconFile(e)}.svg`;
+// Prüfungsgebühren: only „ca." with their source (Entscheidungen, docs/fuehrerschein-quellen.md).
+const CA = new Set(["kosten.pruefungsgebuehrTheorie", "kosten.pruefungsgebuehrPraxis"]);
+const cost = (k: string) => (CA.has(k) ? `ca. ${faktText(k)}` : faktText(k));
+const steps = (ablauf as any).steps.map((s: any) => ({
+  ...s,
+  what: fillFakten(s.what),
+  easy: s.easy ? fillFakten(s.easy) : "",
+  bring: s.bringKey ? fakt(s.bringKey).value : s.bring,
+  costs: s.cost.map((k: string, i: number) => ({ label: s.costLabels[i], text: cost(k) })),
+}));
+const total = faktText((ablauf as any).total);
+const keys = [...new Set([...(ablauf as any).steps.flatMap((s: any) => [...s.keys, ...s.cost]), (ablauf as any).total])];
+const comics = fillDeep((ablauf as any).comics);
+const walker = mascotSvg({ name: "bruno", expr: "happy", view: "three", size: 34, label: "" });
+---
+<Layout
+  title="Führerschein machen: Ablauf und Kosten – EnglishAcademy"
+  description="Der Weg zum Führerschein Klasse B Schritt für Schritt: Fahrschule, Sehtest, Erste Hilfe, Antrag, Theorie, Fahrstunden, Prüfungen — mit Kosten und den Sätzen, die du dort brauchst."
+>
+  <SiteNav active="pruefungen" />
+  <main class="practice-main fs-page" id="fs-page">
+    <div class="ku-topbar">
+      <a href="/fuehrerschein" class="vp-back-link" data-i18n="fs.back">Führerschein</a>
+    </div>
+    <div class="practice-hero fs-hero">
+      <p class="eyebrow" data-i18n="fs.ablauf.eyebrow">Schritt für Schritt</p>
+      <h1 data-i18n="fs.ablauf.title">Der Weg zum Führerschein</h1>
+      <p data-i18n="fs.ablauf.lead" data-i18n-vars={v({ n: steps.length })}>{steps.length} Schritte — was du machst, wo, was es ungefähr kostet und was du dort sagst.</p>
+      <SectionMascot name="bruno" say="Ich gehe mit dir." align="center" class="ku-hero-mascot" />
+      <p class="fs-stand" data-i18n="fs.stand" data-i18n-vars={v({ m: standMonat(RESEARCH.stand) })}>Stand: {standMonat(RESEARCH.stand)}</p>
+    </div>
+    <div class="fs-switchrow"><LeichtToggle /></div>
+
+    <div class="fs-pathwrap" id="fs-pathwrap">
+    <span class="fs-walker" data-mascot-part aria-hidden="true" set:html={walker} />
+    <ol class="fs-path" id="fs-path">
+      {steps.map((s: any, i: number) => (
+        <li class="fs-step" id={`schritt-${s.id}`}>
+          <span class="fs-step-n" aria-hidden="true">{i + 1}</span>
+          <h2 lang="de"><img src={moji(s.bild)} alt="" width="28" height="28" /><span>{s.title}</span></h2>
+          <p class="fs-n" lang="de">{s.what}</p>
+          {s.easy && <p class="fs-e" lang="de">{s.easy}</p>}
+          <dl>
+            {s.where && <><dt data-i18n="fs.ablauf.where">Wo?</dt><dd lang="de">{s.where}</dd></>}
+            {s.costs.map((c: any) => <><dt data-i18n="fs.ablauf.cost">Kosten</dt><dd><span lang="de">{c.label}:</span> <b>{c.text}</b></dd></>)}
+            {s.bring?.length > 0 && <><dt data-i18n="fs.ablauf.bring">Mitbringen</dt><dd lang="de">{s.bring.join(" · ")}</dd></>}
+          </dl>
+          {s.comic && comics[s.comic] && <MascotComic comic={comics[s.comic]} fit />}
+          {s.say?.length > 0 && (
+            <div class="fs-say">
+              <b data-i18n="fs.ablauf.say">So sagst du es</b>
+              {s.say.map((x: string) => <span lang="de" style="display:block">„{x}“</span>)}
+            </div>
+          )}
+          {s.lesson && <p><a href={lessonHref(s.lesson)} data-i18n="fs.ablauf.toLesson">Mehr dazu in der Lektion →</a></p>}
+        </li>
+      ))}
+    </ol>
+    </div>
+
+    <div class="fs-total">
+      <span data-i18n="fs.ablauf.total">Zusammen kostet der Führerschein meistens</span>
+      <b style="display:block">{total}</b>
+      <span data-i18n="fs.ablauf.totalNote">Das hängt von der Region und davon ab, wie viele Fahrstunden du brauchst. In Großstädten ist es oft teurer.</span>
+    </div>
+
+    <a class="fs-official" href="/fuehrerschein/wortschatz">
+      <img src={moji("📝")} alt="" width="32" height="32" />
+      <span><b data-i18n="fs.action.wortschatz">Fahrschul-Wortschatz</b><i data-i18n="fs.ablauf.vocabHint">Die Wörter für Fahrstunde, Prüfung und Amt</i></span>
+    </a>
+
+    <FsGeplant />
+    <FsQuellen sources={sourcesFor(keys)} />
+    <FsHinweis />
+  </main>
+
+  <script>
+    import { mountLeichteSprache } from "../../lib/leichteSprache.js";
+    mountLeichteSprache(document.getElementById("fs-page") ?? document);
+
+    // Bruno walks along the path: he stands beside the step nearest the middle of the screen.
+    // One rAF per scroll at most; with reduced motion he still moves, just without the glide.
+    const wrap = document.getElementById("fs-pathwrap");
+    const path = document.getElementById("fs-path");
+    const walker = wrap?.querySelector<HTMLElement>(".fs-walker");
+    const steps = path ? [...path.querySelectorAll<HTMLElement>(".fs-step")] : [];
+    if (wrap && path && walker && steps.length) {
+      let queued = false;
+      const place = () => {
+        queued = false;
+        const mid = innerHeight / 2;
+        let best = steps[0];
+        let dist = Infinity;
+        for (const s of steps) {
+          const r = s.getBoundingClientRect();
+          const d = Math.abs(r.top + Math.min(r.height, 120) / 2 - mid);
+          if (d < dist) { dist = d; best = s; }
+        }
+        // On the dashed line, in the gap under the step: he has just walked past it.
+        walker.style.top = `${best.getBoundingClientRect().bottom - wrap!.getBoundingClientRect().top - 22}px`;
+      };
+      addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(place); } }, { passive: true });
+      addEventListener("resize", place);
+      place();
+    }
+  </script>
+</Layout>

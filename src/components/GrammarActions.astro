@@ -1,0 +1,93 @@
+---
+// The grammar topic's twin of DeckActions (the Lernset pages' row), under the topic's intro:
+//   „Drucken / PDF“  the topic's worksheet (/lehrkraefte/arbeitsblaetter/grammatik/<slug>):
+//                    the same exercises on paper, the answer key on its own page. Every
+//                    topic with free exercises, drafts too (arbeitsblatt/grammatik.js).
+//   „Live-Quiz“      the live quiz with this chapter chosen as „Nur Grammatik“
+//                    (/lehrkraefte/quiz?grammar=g-<key>, host.js): its fill-in, table and
+//                    matching items as four-button questions (liveQuiz/chapters.js).
+//   „Partnerblatt“   the topic's Tandembogen (/lehrkraefte/arbeitsblaetter/tandem/<slug>),
+//                    when its items make one (partneruebungen/tandem.js). Tried on /test1
+//                    (EXPERIMENTE.md), now on every topic instead of the teachers-only link.
+//   „Präsentieren“   the topic as a slide deck (?mode=present, praesentationDeck.js): the
+//                    same screens the Stundenplan opens, for every topic with a deck.
+//   „Live üben“      teaching mode only (shown by [id].astro's script): the class does these
+//                    exercises on their phones, the teacher sees the board (liveUebung/).
+// Neither in the Android app, whose build drops /lehrkraefte.
+import { hasChapter } from "../lib/liveQuiz/chapters.js";
+import { sheetTopics, topicSlug } from "../lib/arbeitsblatt/grammatik.js";
+import { tandemFor } from "../lib/partneruebungen/tandem.js";
+
+interface Props {
+  /** The topic's URL slug: the worksheet's path. */
+  slug: string;
+  /** The topic key: the quiz chapter is g-<key>. */
+  topic: string;
+  /** On a topic page the row is placed twice: in the hero, which is above the exercises on
+      a phone but inside the foldable rule column on a desktop, and in the exercises'
+      toolbar beside „Regel einblenden“ for the desktop. Each copy shows on its side only. */
+  place?: "hero" | "toolbar";
+  /** Whether the page has a present-mode deck (#praes-data in [id].astro). */
+  present?: boolean;
+}
+const { slug, topic, place, present = false } = Astro.props;
+const web = import.meta.env.PUBLIC_TARGET !== "app";
+const print = web && sheetTopics.some((t) => topicSlug(t) === slug);
+const chapter = `g-${topic}`;
+const quiz = web && hasChapter(chapter);
+const tandem = web && !!tandemFor(slug);
+---
+{(print || quiz || tandem || web || present) && (
+  <div class:list={["ga-actions", place && `ga-actions--${place}`]}>
+    {present && (
+      <a class="ga-btn" href={`/${slug}?mode=present`} title="Die Regel und die Beispiele als Folien, groß für den Beamer">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="13" rx="2"/><path d="M12 16v5M8 21h8"/></svg>
+        <span>Präsentieren</span>
+      </a>
+    )}
+    {print && (
+      <a class="ga-btn" href={`/lehrkraefte/arbeitsblaetter/grammatik/${slug}`}>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        <span data-i18n="pr.open">Drucken / PDF</span>
+      </a>
+    )}
+    {quiz && (
+      <a class="ga-btn" href={`/lehrkraefte/quiz?grammar=${encodeURIComponent(chapter)}`} target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>
+        <span data-i18n="pr.quizGrammar">Live-Quiz</span>
+      </a>
+    )}
+    {web && (
+      <button type="button" class="ga-btn ga-btn--live" data-live-uebung hidden title="Die Klasse übt diese Aufgaben auf dem Handy, du siehst den Fortschritt">
+        <span class="ga-live-dot" aria-hidden="true"></span>
+        <span>Live üben</span>
+      </button>
+    )}
+    {tandem && (
+      <a class="ga-btn" href={`/lehrkraefte/arbeitsblaetter/tandem/${slug}`} target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"/><path d="M18.5 14.3A6.5 6.5 0 0 1 21.5 20"/></svg>
+        <span>Partnerblatt</span>
+      </a>
+    )}
+  </div>
+)}
+
+<style>
+  /* DeckActions' pills, restated: that sheet is scoped to its own component. */
+  .ga-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .ga-btn {
+    display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 12px;
+    border: 1px solid var(--border-strong, #ccc); border-radius: 999px; background: var(--surface-card, #fff);
+    color: var(--ink); font-size: .8125rem; font-weight: 600; text-decoration: none;
+  }
+  button.ga-btn { font-family: inherit; cursor: pointer; }
+  .ga-btn[hidden] { display: none; }
+  .ga-btn--live { border-color: #fca5a5; color: #b91c1c; }
+  .ga-live-dot { width: 8px; height: 8px; border-radius: 50%; background: #dc2626; }
+  .ga-btn:hover { border-color: var(--brand-blue, #2563eb); color: var(--brand-blue-dark, #1e3a8a); }
+  .ga-btn:focus-visible { outline: 2px solid var(--brand-blue, #2563eb); outline-offset: 2px; }
+  /* The split layout starts at 1001px (verben-praepositionen.css). */
+  .ga-actions--toolbar { margin-top: 0; }
+  @media (min-width: 1001px) { .ga-actions--hero { display: none; } }
+  @media (max-width: 1000px) { .ga-actions--toolbar { display: none; } }
+</style>

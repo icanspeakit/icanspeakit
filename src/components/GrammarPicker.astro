@@ -1,0 +1,203 @@
+---
+// The grammar chapters a live quiz can mix in (/lehrkraefte/quiz): the column to the
+// right of the form. Wortschatz on the left, Grammatik on the right, and the round takes
+// half its questions from each.
+//
+// Built as the grammar nav on /fortschritt (LearnShell.astro, variant B): nav.css's
+// `.nvb` with its level rail, the level's name as the panel head, the gradient card
+// at the top and a compact list with counts. The card picks the whole level — every
+// chapter of it, mixed — the way "Ganze Stufe A1, gemischt" does on the Wortschatz side.
+// Rows choose rather than go: a `grammar-pick` event with the chapter slug(s).
+//
+// Every row comes from chapterList() (src/lib/liveQuiz/chapters.js): only topics that
+// actually yield quiz questions are offered, with how many.
+//
+// It is the Lernset column's mirror image: sidenav.css's `.snav` look and the same ink
+// fold tab, but the rail on the outer (right) edge and the tab on the inner one.
+import Icon from "./Icon.astro";
+import { chapterList } from "../lib/liveQuiz/chapters.js";
+import "../styles/nav.css";
+import "../styles/sidenav.css";
+
+const LEVELS = ["A1", "A2", "B1", "B2", "C1"];
+const chapters = chapterList().filter((c) => c.kind === "grammatik");
+const byLevel = Object.fromEntries(LEVELS.map((level) => [level, chapters.filter((c) => c.level === level)]));
+// C1 has no rail button until it has a chapter; A1–B2 always show, greyed when empty.
+const rail = LEVELS.filter((l) => l !== "C1" || byLevel[l].length);
+const openLevel = rail.find((l) => byLevel[l].length) ?? "A1";
+const total = (level) => byLevel[level].reduce((n, c) => n + c.count, 0);
+---
+<div class="nvb gp-nvb snav" data-gp>
+  <button type="button" class="gp-foldtab" data-gp-fold aria-label="Liste einklappen" data-i18n-attr="aria-label:fortschritt.fold.collapse" aria-controls="gp-pane">
+    <span class="gp-foldtab-txt" data-i18n="lq.host.grammar">Grammatik</span>
+    <svg class="gp-foldtab-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+  </button>
+
+  <div class="nvb-rail" role="tablist" aria-label="Stufe" data-i18n-attr="aria-label:fortschritt.kind.stufe">
+    {rail.map((level) => {
+      const live = byLevel[level].length > 0;
+      return (
+        <button
+          type="button"
+          role="tab"
+          class:list={["nvb-railbtn", level === openLevel && "active"]}
+          data-gp-rail={live ? level : undefined}
+          aria-disabled={live ? undefined : "true"}
+          aria-selected={level === openLevel ? "true" : "false"}
+          aria-controls={live ? `gp-pane-${level}` : undefined}
+          aria-label={`Grammatik ${level}`}
+          data-i18n-attr="aria-label:lq.host.grammarLevel"
+          data-i18n-vars={JSON.stringify({ level })}
+        >
+          <span class="nvb-railbadge">{level}</span>
+          <span class="nvb-tip" data-i18n="lq.host.grammarLevel" data-i18n-vars={JSON.stringify({ level })}>Grammatik {level}</span>
+        </button>
+      );
+    })}
+  </div>
+
+  <div class="nvb-panel" id="gp-pane">
+    {/* The search: chapters of every level, as on the Wortschatz side; a teacher thinks
+        "Akkusativ" or "Perfekt", not "which level was that". */}
+    <div class="gp-search">
+      <input type="search" class="gp-search-input" data-gp-q placeholder="Grammatik-Thema suchen …" data-i18n-attr="placeholder:lq.host.grammarSearch;aria-label:lq.host.grammarSearch" aria-label="Grammatik-Thema suchen" autocomplete="off" />
+      <div class="gp-search-results" data-gp-results hidden>
+        {chapters.map((c) => (
+          <button type="button" class="nvb-item gp-search-row" data-gp-pick={c.slug} data-level={c.level} data-hay={`${c.name} ${c.slug.slice(2).replace(/-/g, " ")}`} hidden>
+            <span class="gp-search-lv" aria-hidden="true">{c.level}</span>
+            <span class="gp-name" data-gp-name>{c.name}</span>
+            <span class="nv-count">{c.count}</span>
+          </button>
+        ))}
+        <p class="gp-search-none" data-gp-none hidden data-i18n="lq.host.grammarSearchNone">Kein Kapitel gefunden.</p>
+      </div>
+    </div>
+    {rail.filter((l) => byLevel[l].length).map((level) => (
+      <div class="nvb-section" id={`gp-pane-${level}`} data-gp-pane={level} hidden={level !== openLevel}>
+        <div class="nvb-panelhead">
+          <h3 data-i18n="lq.host.grammarLevel" data-i18n-vars={JSON.stringify({ level })}>Grammatik {level}</h3>
+        </div>
+        <button
+          type="button"
+          class="nvb-overview gp-whole"
+          data-gp-pick={byLevel[level].map((c) => c.slug).join(",")}
+          data-level={level}
+          aria-label={`Alle Kapitel ${level}, gemischt`}
+          data-i18n-attr="aria-label:lq.host.grammarWholeAria"
+          data-i18n-vars={JSON.stringify({ level })}
+        >
+          <span class="nvb-ov-txt">
+            <span class="nvb-ov-kicker" data-i18n="lq.host.grammarWhole">Alle Kapitel, gemischt</span>
+            <span class="nvb-ov-name">{level} · {total(level)}</span>
+          </span>
+        </button>
+        <button type="button" class="nvb-item active" data-gp-pick="" data-level="">
+          <span class="nv-icon" aria-hidden="true">✕</span>
+          <span data-i18n="lq.host.grammarNone">Keine Grammatik</span>
+        </button>
+        {byLevel[level].map((c) => (
+          <button type="button" class="nvb-item" data-gp-pick={c.slug} data-level={level}>
+            <span class="nv-icon"><Icon name="book" size={16} /></span>
+            <span class="gp-name" data-gp-name>{c.name}</span>
+            <span class="nv-count">{c.count}</span>
+          </button>
+        ))}
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  import { translate, onLangChange } from "../lib/i18n.js";
+
+  // Folded on arrival like the Lernset list (desktop only; on a phone it is a sheet), and
+  // never remembered: choosing a quiz chapter must not fold anything elsewhere.
+  document.querySelectorAll<HTMLElement>("[data-gp]").forEach((root) => {
+    const wide = matchMedia("(min-width: 1001px)");
+    let folded = true;
+    const tab = root.querySelector<HTMLElement>("[data-gp-fold]")!;
+    const paint = () => {
+      const on = folded && wide.matches;
+      root.classList.toggle("collapsed", on);
+      tab.setAttribute("aria-expanded", on ? "false" : "true");
+    };
+    const set = (on: boolean) => { folded = on; paint(); };
+    root.classList.add("no-anim");
+    paint();
+    requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove("no-anim")));
+    tab.addEventListener("click", (e) => { e.stopPropagation(); set(!folded); });
+    wide.addEventListener("change", paint);
+    (root as any).grammarFold = { set, reveal: () => set(false), get folded() { return folded && wide.matches; } };
+
+    root.querySelectorAll<HTMLElement>("[data-gp-rail]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        root.querySelectorAll<HTMLElement>("[data-gp-rail]").forEach((b) => {
+          b.classList.toggle("active", b === btn);
+          b.setAttribute("aria-selected", String(b === btn));
+        });
+        root.querySelectorAll<HTMLElement>("[data-gp-pane]").forEach((p) => { p.hidden = p.dataset.gpPane !== btn.dataset.gpRail; });
+        set(false);
+      });
+    });
+
+    // The form line shows the pick in the page language; the whole-level card has no
+    // single chapter name, so its line is built from the dictionary.
+    let dict: Record<string, string> = { "lq.host.grammarWholeRow": "Alle Kapitel {level}, gemischt" };
+    onLangChange((_code: string, d: Record<string, string>) => { if (d) dict = d; });
+
+    // The search: rows of every level, filtered on the chapter name; the level panes step
+    // aside while it has text. Umlauts fold (prapositionen finds Präpositionen).
+    const q = root.querySelector<HTMLInputElement>("[data-gp-q]")!;
+    const results = root.querySelector<HTMLElement>("[data-gp-results]")!;
+    const fold1 = (x: string) => x.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/ß/g, "ss");
+    const rows = [...root.querySelectorAll<HTMLElement>(".gp-search-row")].map((el) => ({ el, hay: fold1(el.dataset.hay ?? "") }));
+    q.addEventListener("input", () => {
+      const term = fold1(q.value.trim());
+      const on = term.length >= 2;
+      results.hidden = !on;
+      root.querySelectorAll<HTMLElement>("[data-gp-pane]").forEach((p) => p.classList.toggle("gp-searching", on));
+      let n = 0;
+      for (const r of rows) {
+        const hit = on && term.split(/\s+/).every((t) => r.hay.includes(t));
+        r.el.hidden = !hit;
+        if (hit) n++;
+      }
+      root.querySelector<HTMLElement>("[data-gp-none]")!.hidden = !on || n > 0;
+      if (on) set(false);
+    });
+
+    root.addEventListener("click", (e) => {
+      const row = (e.target as HTMLElement).closest<HTMLElement>("[data-gp-pick]");
+      if (!row) return;
+      if (q.value) { q.value = ""; q.dispatchEvent(new Event("input")); }
+      // A pick from the search opens its level, so the chosen row shows as active there.
+      if (row.classList.contains("gp-search-row")) root.querySelector<HTMLElement>(`[data-gp-rail="${row.dataset.level}"]`)?.click();
+      const slug = row.dataset.gpPick ?? "";
+      const level = row.dataset.level ?? "";
+      // "Keine Grammatik" sits in every level; it is the active row in all of them or none.
+      root.querySelectorAll<HTMLElement>("[data-gp-pick]").forEach((r) => r.classList.toggle("active", r.dataset.gpPick === slug));
+      const name = row.classList.contains("gp-whole")
+        ? translate(dict, "lq.host.grammarWholeRow", { level })
+        : row.querySelector("[data-gp-name]")?.textContent?.trim() ?? "";
+      root.dispatchEvent(new CustomEvent("grammar-pick", { bubbles: true, detail: { slug, level, name } }));
+    });
+  });
+</script>
+
+<style is:global>
+  /* The search, as on the Wortschatz side (lernset-picker.css, .ls-search): one field
+     above the level panes; while it has text, the panes step aside. */
+  .gp-search { padding: 10px 12px 4px; }
+  .gp-search-input {
+    width: 100%; box-sizing: border-box; padding: 8px 12px; font: inherit; font-size: .9rem;
+    border: 1px solid var(--line, #d9d9d9); border-radius: 10px; background: var(--paper, #fff); color: var(--ink);
+  }
+  .gp-search-input:focus { outline: 2px solid var(--accent, #2563eb); outline-offset: 1px; }
+  .gp-search-results { padding-top: 6px; }
+  .gp-search-results[hidden], .gp-search-row[hidden], .gp-search-none[hidden] { display: none; }
+  .gp-nvb .nvb-section.gp-searching { display: none; }
+  .gp-nvb .nvb-item.gp-search-row { display: flex; align-items: flex-start; gap: 10px; grid-template-columns: none; }
+  .gp-nvb .nvb-item.gp-search-row > .gp-search-lv { flex: 0 0 26px; width: 26px; max-width: 26px; padding-top: 2px; font-size: .72rem; font-weight: 700; color: var(--muted); }
+  .gp-nvb .gp-search-row .gp-name { flex: 1; min-width: 0; white-space: normal; overflow-wrap: normal; }
+  .gp-search-none { margin: 8px 8px 0; font-size: 12px; color: var(--muted); }
+</style>

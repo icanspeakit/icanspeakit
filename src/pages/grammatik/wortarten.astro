@@ -1,0 +1,121 @@
+---
+// Die Wortarten zum Nachschlagen. The flashcards put a class on every word („Adjektiv"),
+// and Regi's line under it links here (#<id>) — so a learner who does not know what an
+// Adjektiv is gets one screen that says it, with words from the lexicon as examples.
+//
+// Content: src/data/wortarten.json (German, plus the `what` line in the help languages,
+// shown under it by GrammarHelpText like every grammar explanation). The class names and
+// the colours match the chips on the cards (vokabeltrainer.css .vt-info-pos--*).
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import RefActions from "../../components/RefActions.astro";
+import SectionMascot from "../../components/mascots/SectionMascot.astro";
+import GrammarHelp from "../../components/GrammarHelp.astro";
+import GrammarHelpText from "../../components/GrammarHelpText.astro";
+import wortarten from "../../data/wortarten.json";
+import uebung from "../../data/grammatik/wortarten.json";
+import typischeFehler from "../../data/typische-fehler.json";
+import { select } from "../../lib/lexicon.js";
+import { field } from "../../lib/helpContent.js";
+import "../../styles/practice.css";
+import "../../styles/wortarten.css";
+
+// Up to five examples per class, the most frequent first, from A1 where there are enough.
+const shown = (e: any) => (e.pos === "noun" && e.gender ? `${e.gender} ${e.lemma}` : e.lemma);
+const byRank = (a: any, b: any) => (a.rank ?? 1e9) - (b.rank ?? 1e9);
+function examplesOf(c: any): string[] {
+  if (c.examples) return c.examples;
+  const a1 = select({ level: ["A1"], pos: c.id }).sort(byRank);
+  const pool = a1.length >= 5 ? a1 : select({ pos: c.id }).sort(byRank);
+  return pool.slice(0, 5).map(shown);
+}
+// Each card's way into the exercise on /wortarten where its class comes up (`practice` =
+// the exercise's anchor), named after that exercise so the learner knows where it goes.
+const pairs = new Map(typischeFehler.groups.flatMap((g: any) => g.pairs).map((p: any) => [p.id, p]));
+const exercises = new Map(uebung.exercises.map((e: any) => [e.anchor, e.title]));
+const classes = wortarten.classes.map((c: any) => ({
+  ...c,
+  examples: examplesOf(c),
+  fehler: pairs.get(c.fehler) ?? null,
+  practice: exercises.has(c.practice) ? { href: `/wortarten#${c.practice}`, title: exercises.get(c.practice) } : null,
+}));
+---
+<Layout
+  title="Wortarten – Grammatik – EnglishAcademy"
+  description="Nomen, Verb, Adjektiv und die anderen Wortarten: was sie sind, woran du sie erkennst, mit Beispielen aus dem Wortschatz A1."
+>
+  <SiteNav active="grammatik" />
+  <main class="practice-main wa-page" id="wa-page">
+    <a href="/grammatik" class="vp-back-link" data-i18n="header.back">Zurück zur Übersicht</a>
+
+    <header class="wa-head">
+      <p class="eyebrow" data-i18n="wa.eyebrow">Grammatik · Nachschlagen</p>
+      <h1>Wortarten</h1>
+      <SectionMascot name="regi" say="Jedes Wort hat seine Sorte." />
+      <p class="wa-lead" data-i18n="wa.lead">Jedes Wort gehört zu einer Wortart. Auf den Karteikarten steht sie unter dem Wort — hier steht, was sie bedeutet.</p>
+      <RefActions chapter="g-wortarten" />
+    </header>
+    <GrammarHelp level="A1" root="wa-page" reviewed={wortarten.reviewed} />
+    <a class="wa-practice" href="/wortarten" lang="de">Regel und Übungen: Wortarten üben</a>
+
+    <nav class="wa-jump" aria-label="Wortarten">
+      {classes.map((c) => <a class={`wa-chip wa-chip--${c.id}`} href={`#${c.id}`}>{c.name}</a>)}
+    </nav>
+
+    <ol class="wa-list">
+      {classes.map((c) => (
+        <li class={`wa-card wa-card--${c.id}`} id={c.id}>
+          <div class="wa-card-head">
+            <h2><span class={`wa-chip wa-chip--${c.id}`}>{c.name}</span></h2>
+            {c.also && <span class="wa-also">{c.also}</span>}
+            {c.practice && (
+              <a class={`wa-try wa-chip--${c.id}`} href={c.practice.href} lang="de" title={c.practice.title} aria-label={`${c.name} üben: ${c.practice.title}`}>
+                <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M10.5 2.5l3 3L6 13H3v-3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                Üben
+              </a>
+            )}
+          </div>
+          <p class="wa-what">{c.what}</p>
+          <GrammarHelpText text={field(c.tr)} />
+          {c.ask && <p class="wa-ask"><span data-i18n="wa.ask">Frage:</span> <b lang="de">{c.ask}</b></p>}
+          <ul class="wa-ex" lang="de">{c.examples.map((w) => <li>{w}</li>)}</ul>
+          <p class="wa-tip">{c.tip}</p>
+          {/* Typischer Fehler: the look-alike of this class (man ≠ der Mann), one line into its
+              card on /grammatik/typische-fehler. */}
+          {c.fehler && (
+            <a class="wa-fehler" href={`/grammatik/typische-fehler#${c.fehler.id}`} lang="de">
+              <span class="wa-fehler-k">Typischer Fehler</span>
+              <span class="wa-fehler-p">{c.fehler.a.w} <span aria-label="nicht verwechseln mit">≠</span> {c.fehler.b.w}</span>
+            </a>
+          )}
+          {c.learn && <a class="wa-learn" href={c.learn.href} lang="de">{c.learn.label}</a>}
+          {c.sub && (
+            <p class="wa-sub"><span class={`wa-chip wa-chip--${c.id}`}>{c.sub.name}</span> <span lang="de">{c.sub.what}</span> <a href={c.sub.href}>{c.sub.more}</a></p>
+          )}
+        </li>
+      ))}
+    </ol>
+
+    {/* After reading: straight into the exercises (/wortarten), the same way back as the
+        button at the top, for a learner who scrolled the whole list. */}
+    <aside class="wa-next">
+      <SectionMascot name="regi" say="Erkennst du sie jetzt? Probier es aus." />
+      <a class="wa-practice" href="/wortarten" lang="de">Wortarten üben</a>
+    </aside>
+  </main>
+
+  <script>
+    // A tap anywhere in a card lights its border (wortarten.css .is-lit): the card being read
+    // stands out, like the one a link jumps to. One lit card at a time; a second tap on it
+    // replays the pulse. The hash follows, so the address points at the card on screen.
+    const list = document.querySelector(".wa-list");
+    list?.addEventListener("click", (e) => {
+      const card = (e.target as Element).closest<HTMLElement>(".wa-card");
+      if (!card) return;
+      list.querySelectorAll(".wa-card.is-lit").forEach((c) => c.classList.remove("is-lit"));
+      void card.offsetWidth;
+      card.classList.add("is-lit");
+      if (card.id) history.replaceState(null, "", `#${card.id}`);
+    });
+  </script>
+</Layout>

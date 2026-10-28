@@ -1,0 +1,174 @@
+---
+// /wissen/redewendungen — Redewendungen & Sprichwörter: the phrases learners hear all the
+// time and can't look up word by word („Ich verstehe nur Bahnhof“, „Da beißt die Maus keinen
+// Faden ab“). In groups by theme, each card with the meaning and one example, linking to
+// the entry's own page (picture vs. meaning, where to say it, English, origin).
+//
+// Filter chips (Thema, Level, Typ) and a search box work in the browser; without JS every
+// entry is simply there. The entries live in src/data/redewendungen.json
+// (REDEWENDUNGEN-TIERED-PROMPT.md). Not in the menu and noindex until Edgar says so
+// (EXPERIMENTE.md).
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import SectionMascot from "../../../components/mascots/SectionMascot.astro";
+import { themen, ofThema, eintraege, LEVELS, TYP, REGISTER, hrefOf, emojiSrc, itemsOf, audioOf, LIVE } from "../../../lib/redewendungenData.js";
+import { seededShuffle } from "../../../lib/seededShuffle.js";
+import { indexFor, berlinYmd } from "../../../lib/zitate.js";
+import "../../../styles/practice.css";
+import "../../../styles/redewendungen.css";
+
+const gruppen = themen.map((t: any) => ({ ...t, eintraege: ofThema(t.id) })).filter((g: any) => g.eintraege.length);
+const nRw = eintraege.filter((e: any) => e.typ === "redewendung").length;
+const nSw = eintraege.length - nRw;
+// Redewendung des Tages: a fixed day → entry mapping (src/lib/zitate.js counts the days), the
+// entries in one seeded mix so the days don't run through a theme in a row.
+const items = itemsOf(eintraege);
+const dayOrder = seededShuffle(items.map((i: any) => i.id), "redewendungen");
+// The build day's entry is in the HTML, so the card has its height before the script runs
+// (no layout shift); the script swaps in the learner's own day where that differs.
+const buildDay = items.find((i: any) => i.id === dayOrder[indexFor(berlinYmd(), dayOrder.length)]);
+const searchText = (e: any) => [e.de, e.bedeutung, e.en, ...(e.bsp ?? [])].join(" ").toLowerCase();
+---
+<Layout
+  title="Redewendungen und Sprichwörter – Bedeutung und Herkunft – EnglishAcademy"
+  description={`${eintraege.length} deutsche Redewendungen und Sprichwörter einfach erklärt: Was bedeutet „Ich verstehe nur Bahnhof“? Mit Beispiel, Englisch, Herkunft und Übungen.`}
+  noindex={!LIVE}
+>
+  <SiteNav active="wissen" />
+  <main class="practice-main practice-main--wide rw-page">
+    <header class="practice-hero rw-hero">
+      <p class="eyebrow" data-i18n="rw.eyebrow">Wissen · Sprache</p>
+      <h1 data-i18n="rw.title">Redewendungen & Sprichwörter</h1>
+      <p class="rw-lead" data-i18n="rw.lead">Wort für Wort verstehst du sie nicht: „Da beißt die Maus keinen Faden ab.“ Hier steht, was sie bedeuten, wann man sie sagt und woher sie kommen.</p>
+      <SectionMascot name="quaki" expr="thinking" say="Eine Maus? Wo?" align="center" size={64} />
+    </header>
+
+    <section class="rw-day" data-day aria-labelledby="rw-day-h">
+      <p class="rw-day-eyebrow" id="rw-day-h" data-i18n="rw.day">Redewendung des Tages</p>
+      <a class="rw-day-card" data-day-link href={`/wissen/redewendungen/${buildDay.id}`}>
+        <span class="rw-day-de" data-day-de lang="de">{buildDay.de}</span>
+        <span class="rw-day-bed" data-day-bed lang="de">{buildDay.bed}</span>
+        <span class="rw-day-bsp" data-day-bsp lang="de">„{buildDay.bsp}“</span>
+        <span class="rw-day-more" data-i18n="rw.day.more">Bild, Beispiele und Herkunft ›</span>
+      </a>
+    </section>
+
+    {/* Without JS the filter can do nothing: hidden then (noscript), all entries stay listed. */}
+    <noscript><style>.rw-filter { display: none !important; }</style></noscript>
+    <section class="rw-filter" data-filter aria-label="Filter">
+      <label class="rw-search">
+        <span class="sr-only" data-i18n="rw.search">Suchen</span>
+        <input type="search" data-q placeholder="Suchen: Bahnhof, Glück, Geld …" data-i18n-attr="placeholder:rw.search.placeholder" autocomplete="off" />
+      </label>
+      <div class="rw-chips" role="group" aria-label="Thema">
+        <button type="button" class="rw-chip" data-f="thema" data-v="" aria-pressed="true" data-i18n="rw.filter.allThemes">Alle Themen</button>
+        {gruppen.map((g: any) => (
+          <button type="button" class="rw-chip" data-f="thema" data-v={g.id} aria-pressed="false"><img src={emojiSrc(g.icon)} alt="" width="18" height="18" /> <span data-i18n={`rw.thema.${g.id}`}>{g.name}</span></button>
+        ))}
+      </div>
+      <div class="rw-chips" role="group" aria-label="Level und Typ">
+        <button type="button" class="rw-chip" data-f="level" data-v="" aria-pressed="true" data-i18n="rw.filter.allLevels">Alle Level</button>
+        {LEVELS.map((l) => <button type="button" class="rw-chip" data-f="level" data-v={l} aria-pressed="false">{l}</button>)}
+        <span class="rw-chips-gap" aria-hidden="true"></span>
+        <button type="button" class="rw-chip" data-f="typ" data-v="" aria-pressed="true" data-i18n="rw.filter.both">Beides</button>
+        <button type="button" class="rw-chip" data-f="typ" data-v="redewendung" aria-pressed="false" data-i18n="rw.filter.rw" data-i18n-vars={JSON.stringify({ n: nRw })}>Redewendungen ({nRw})</button>
+        <button type="button" class="rw-chip" data-f="typ" data-v="sprichwort" aria-pressed="false" data-i18n="rw.filter.sw" data-i18n-vars={JSON.stringify({ n: nSw })}>Sprichwörter ({nSw})</button>
+      </div>
+      <p class="rw-count" data-count aria-live="polite"></p>
+    </section>
+
+    {gruppen.map((g: any) => (
+      <section class="rw-group" id={g.id} data-group aria-labelledby={`${g.id}-h`}>
+        <div class="rw-group-head">
+          <img src={emojiSrc(g.icon)} alt="" width="36" height="36" />
+          <h2 id={`${g.id}-h`} data-i18n={`rw.thema.${g.id}`}>{g.name}</h2>
+          <span class="rw-group-n">{g.eintraege.length}</span>
+        </div>
+        <SectionMascot name={g.tipp.mascot} expr={g.tipp.expr} say={g.tipp.say} class="rw-group-mascot" />
+        <ul class="rw-list">
+          {g.eintraege.map((e: any) => (
+            <li class="rw-card" data-card data-thema={e.thema} data-level={e.level} data-typ={e.typ} data-search={searchText(e)}>
+              <a href={hrefOf(e)} class="rw-card-link">
+                <span class="rw-badges">
+                  <span class={`rw-lv rw-lv--${e.level}`}>{e.level}</span>
+                  {e.typ === "sprichwort" && <span class="rw-tag" data-i18n="rw.typ.sprichwort">{TYP.sprichwort}</span>}
+                  {e.register === "umgang" && <span class="rw-tag rw-tag--umgang" data-i18n="rw.reg.umgang">{REGISTER.umgang}</span>}
+                </span>
+                <span class="rw-de" lang="de">{e.de}</span>
+                <span class="rw-bed" lang="de">{e.bedeutung}</span>
+                <span class="rw-bsp" lang="de">„{e.bsp[0]}“</span>
+              </a>
+              <button type="button" class="rw-say-btn" data-say={e.de} data-src={audioOf(e.id)} aria-label={`Anhören: ${e.de}`} data-i18n-attr="aria-label:rw.listen">🔊</button>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+    <p class="rw-empty" data-empty hidden data-i18n="rw.empty">Nichts gefunden. Versuch ein anderes Wort oder „Alle Themen“.</p>
+
+    <section class="rw-practice" id="ueben" aria-labelledby="rw-practice-h">
+      <h2 id="rw-practice-h" data-i18n="rw.practice.title">Üben</h2>
+      <p class="rw-practice-lead" data-i18n="rw.practice.lead">Neun Fragen: Was bedeutet das? Welches Wort fehlt? Und welche Redewendung spielt Quaki?</p>
+      <div class="quiz-container rw-quiz" data-uebung><noscript>Zum Üben braucht die Seite JavaScript.</noscript></div>
+    </section>
+  </main>
+  <script type="application/json" id="rw-items" set:html={JSON.stringify({ items, dayOrder })} />
+</Layout>
+
+<script>
+  import { mountUebung } from "../../../lib/redewendungenUebung.js";
+  import { localYmd, indexFor } from "../../../lib/zitate.js";
+  import { initSay } from "../../../lib/redewendungenAudio.js";
+  import { t, onUiText } from "../../../lib/uiText.js";
+  initSay();
+
+  const { items, dayOrder } = JSON.parse(document.getElementById("rw-items")!.textContent!);
+
+  // Redewendung des Tages, by the learner's local date.
+  const day = document.querySelector<HTMLElement>("[data-day]")!;
+  const today = items.find((i: any) => i.id === dayOrder[indexFor(localYmd(), dayOrder.length)]);
+  if (today) {
+    day.querySelector<HTMLAnchorElement>("[data-day-link]")!.href = `/wissen/redewendungen/${today.id}`;
+    day.querySelector("[data-day-de]")!.textContent = today.de;
+    day.querySelector("[data-day-bed]")!.textContent = today.bed;
+    day.querySelector("[data-day-bsp]")!.textContent = `„${today.bsp}“`;
+  }
+
+  mountUebung(document.querySelector<HTMLElement>("[data-uebung]")!, items);
+
+  // Filters: one value per facet (thema, level, typ) plus the search words. A card shows
+  // when it matches all of them; a group hides when none of its cards show.
+  const box = document.querySelector<HTMLElement>("[data-filter]")!;
+  const cards = [...document.querySelectorAll<HTMLElement>("[data-card]")];
+  const groups = [...document.querySelectorAll<HTMLElement>("[data-group]")];
+  const count = box.querySelector<HTMLElement>("[data-count]")!;
+  const empty = document.querySelector<HTMLElement>("[data-empty]")!;
+  const q = box.querySelector<HTMLInputElement>("[data-q]")!;
+  const f: Record<string, string> = { thema: "", level: "", typ: "" };
+
+  function apply() {
+    const words = q.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    let n = 0;
+    for (const c of cards) {
+      const ok = (!f.thema || c.dataset.thema === f.thema) && (!f.level || c.dataset.level === f.level)
+        && (!f.typ || c.dataset.typ === f.typ) && words.every((w) => c.dataset.search!.includes(w));
+      c.hidden = !ok;
+      if (ok) n++;
+    }
+    for (const g of groups) g.hidden = !g.querySelector("[data-card]:not([hidden])");
+    const filtered = n !== cards.length;
+    count.textContent = filtered ? t("rw.count", "{n} von {total}", { n, total: cards.length }) : "";
+    empty.hidden = n > 0;
+  }
+
+  box.querySelectorAll<HTMLButtonElement>("[data-f]").forEach((b) =>
+    b.addEventListener("click", () => {
+      const facet = b.dataset.f!;
+      f[facet] = b.dataset.v!;
+      box.querySelectorAll<HTMLButtonElement>(`[data-f="${facet}"]`).forEach((o) => o.setAttribute("aria-pressed", String(o === b)));
+      apply();
+    }),
+  );
+  q.addEventListener("input", apply);
+  onUiText(apply);
+</script>

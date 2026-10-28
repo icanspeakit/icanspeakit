@@ -1,0 +1,113 @@
+/* /grammatik/wortarten — one card per word class. The chip colours are the ones the
+   flashcards give the class (vokabeltrainer.css .vt-info-pos--*), so the chip a learner
+   tapped on a card is the chip they find here. */
+.wa-page { max-width: 760px; }
+.wa-head { margin: 0 0 18px; }
+.wa-head h1 { margin: 4px 0 12px; }
+.wa-lead { margin: 10px 0 0; color: var(--muted); line-height: 1.6; }
+
+.wa-chip {
+  --pos: var(--brand-blue-dark, #0f766e);
+  display: inline-flex; align-items: center; min-height: 32px; padding: 0 12px;
+  border: 1.5px solid color-mix(in srgb, var(--pos) 45%, transparent); border-radius: var(--radius-pill, 999px);
+  background: color-mix(in srgb, var(--pos) 9%, transparent);
+  color: var(--pos); font-family: var(--font-label, inherit); font-size: .8rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase; text-decoration: none;
+}
+.wa-chip--verb { --pos: #c2410c; }
+.wa-chip--adj, .wa-chip--adv { --pos: #7c3aed; }
+.wa-chip--prep, .wa-chip--conj, .wa-chip--pron { --pos: #2563eb; }
+.wa-chip--num, .wa-chip--phrase { --pos: #b45309; }
+.wa-chip--art { --pos: #475569; }
+:root[data-theme="dark"] .wa-chip { --pos: #5eead4; }
+:root[data-theme="dark"] .wa-chip--verb { --pos: #fdba74; }
+:root[data-theme="dark"] .wa-chip--adj, :root[data-theme="dark"] .wa-chip--adv { --pos: #c4b5fd; }
+:root[data-theme="dark"] .wa-chip--prep, :root[data-theme="dark"] .wa-chip--conj, :root[data-theme="dark"] .wa-chip--pron { --pos: #93c5fd; }
+:root[data-theme="dark"] .wa-chip--num, :root[data-theme="dark"] .wa-chip--phrase { --pos: #fcd34d; }
+:root[data-theme="dark"] .wa-chip--art { --pos: #cbd5e1; }
+
+/* The jump row: a tidy grid of equal chips (5 across, 2 on a phone) rather than a ragged
+   wrap, and a tap glides down to the card instead of jumping. */
+html:has(.wa-page) { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html:has(.wa-page) { scroll-behavior: auto; } }
+.wa-jump { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin: 0 0 24px; }
+.wa-jump .wa-chip { justify-content: center; min-height: 40px; padding: 0 8px; white-space: nowrap; }
+.wa-jump .wa-chip:hover { background: color-mix(in srgb, var(--pos) 18%, transparent); }
+@media (max-width: 640px) { .wa-jump { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* The card scrolled to says so for a moment. */
+/* A tapped card says so the same way (wortarten.astro script: .is-lit), and takes the
+   light over from the card the link pointed at. */
+.wa-card:target, .wa-card.is-lit { animation: wa-arrive 1.2s ease-out; }
+@keyframes wa-arrive { 0% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--brand-blue) 35%, transparent); } }
+@media (prefers-reduced-motion: reduce) { .wa-card:target, .wa-card.is-lit { animation: none; } }
+
+.wa-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.wa-card {
+  scroll-margin-top: 90px;
+  padding: 18px 18px 16px; border: 1px solid var(--border); border-radius: var(--radius, 14px);
+  background: var(--surface-card, #fff);
+}
+.wa-list:not(:has(.is-lit)) .wa-card:target, .wa-card.is-lit { border-color: var(--brand-blue); box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-blue) 20%, transparent); }
+.wa-list:has(.is-lit) .wa-card:target:not(.is-lit) { animation: none; }
+.wa-card-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin: 0 0 10px; }
+.wa-card-head h2 { margin: 0; font-size: 1rem; }
+.wa-card-head .wa-chip { font-size: .95rem; min-height: 36px; }
+.wa-also { font-size: .85rem; color: var(--muted); }
+/* The card's quiet way into its exercise on /wortarten: a thin ghost pill in the class
+   colour in the card's top corner (the head leaves room for it). The tap target is 44px; the
+   drawn pill (::before) is 30px. */
+.wa-card:has(.wa-try) { position: relative; }
+.wa-card:has(.wa-try) .wa-card-head { padding-right: 84px; }
+.wa-try {
+  --try: var(--pos, var(--brand-blue-dark, #0f766e));
+  position: absolute; top: 14px; right: 12px; isolation: isolate; display: inline-flex; align-items: center; gap: 5px;
+  min-height: 44px; padding: 0 12px;
+  color: color-mix(in srgb, var(--try) 75%, var(--muted)); font-size: .82rem; font-weight: 600; text-decoration: none;
+  transition: color .15s ease;
+}
+.wa-try::before {
+  content: ""; position: absolute; inset: 7px 0; z-index: -1; border-radius: var(--radius-pill, 999px);
+  border: 1px solid color-mix(in srgb, var(--try) 25%, transparent); background: color-mix(in srgb, var(--try) 5%, transparent);
+  transition: background-color .15s ease, border-color .15s ease;
+}
+.wa-try:hover, .wa-try:focus-visible { color: var(--try); }
+.wa-try:hover::before, .wa-try:focus-visible::before { border-color: color-mix(in srgb, var(--try) 50%, transparent); background: color-mix(in srgb, var(--try) 12%, transparent); }
+.wa-try svg { flex: none; opacity: .75; }
+:root[data-theme="dark"] .wa-try.wa-chip--noun { --pos: #5eead4; }
+.wa-what { margin: 0 0 6px; font-size: 1.05rem; line-height: 1.55; color: var(--ink); }
+.wa-ask { margin: 8px 0; font-size: .92rem; color: var(--muted); }
+.wa-ask b { color: var(--ink); }
+.wa-ex { list-style: none; margin: 10px 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.wa-ex li { padding: 4px 10px; border-radius: 8px; background: var(--surface); font-weight: 600; font-size: .92rem; }
+.wa-tip { margin: 8px 0 0; padding: 10px 12px; border-left: 3px solid var(--border-strong); background: var(--surface); border-radius: 0 8px 8px 0; font-size: .92rem; line-height: 1.55; }
+/* Typischer Fehler: one quiet line into the pair on /grammatik/typische-fehler. */
+.wa-fehler {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; min-height: 44px; margin: 12px 0 0; padding: 12px 0 0;
+  border-top: 1px dashed var(--border); color: var(--ink); text-decoration: none;
+}
+.wa-fehler-k { font-family: var(--font-label, inherit); font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.wa-fehler-p { font-weight: 600; text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
+.wa-fehler:hover .wa-fehler-p { text-decoration-color: currentColor; color: var(--brand-blue-dark); }
+
+/* The way from the lookup to practice (/wortarten: rule + exercises). */
+.wa-practice {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; margin: 0 0 20px;
+  border-radius: var(--radius-pill, 999px); background: var(--brand-blue-dark, #0f766e); color: #fff;
+  font-weight: 700; text-decoration: none;
+}
+.wa-practice:hover { filter: brightness(1.08); }
+.wa-next { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 16px; margin: 24px 0 0; padding: 16px 18px; border: 1px solid var(--border); border-radius: var(--radius, 14px); background: var(--surface); }
+.wa-next .wa-practice { margin: 0; }
+/* A subclass under its class card: „trennbares Verb" under Verb. */
+.wa-sub { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 12px 0 0; line-height: 1.5; }
+.wa-sub a { font-weight: 600; }
+/* A class's own topic page (Nomen → /nomen). */
+.wa-learn { display: inline-block; margin: 12px 0 0; font-weight: 600; color: var(--brand-blue-dark); text-underline-offset: 3px; }
+
+/* Drucken / PDF (RefActions): the list alone, rules open, no page chrome. */
+@media print {
+  @page { margin: 12mm; }
+  body:has(#wa-page) > :not(#wa-page) { display: none !important; }
+  #wa-page { max-width: none; margin: 0; padding: 0; }
+  #wa-page > .vp-back-link, #wa-page .gx-bar, #wa-page [data-mascot-part], .wa-jump, .wa-practice, .wa-next, .wa-learn, .wa-try, .wa-fehler { display: none !important; }
+}

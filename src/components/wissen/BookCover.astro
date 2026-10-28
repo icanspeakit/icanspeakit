@@ -1,0 +1,52 @@
+---
+// A schoolbook cover for one file on /wissen: the shelf's colour (darker from A1 to B2), a
+// spine, the level in big type, a short title, and a picture — a mascot in a print style of
+// its own (grey ink overprinted on the cover colour, on halftone dots), or the Berufe
+// booklet's emoji. Decorative: the card around it carries the real title and the text.
+//
+// The mascot is data-mascot-part, so „Maskottchen anzeigen: aus“ leaves a plain cover
+// with its title; the emoji stays (it is the booklet's topic, not a mascot).
+import { mascotSvg } from "../../lib/mascots.js";
+import { emojiSrc } from "../../lib/wortBild.js";
+
+interface Props {
+  file: { id: string; category: string; level: string; title: string; emoji?: string };
+  /** Position on the shelf: picks the mascot's mood and turn, so no two neighbours match. */
+  i?: number;
+  size?: "card" | "mini";
+}
+const { file: f, i = 0, size = "card" } = Astro.props;
+
+const MASCOT: Record<string, "bruno" | "regi" | "hamsti" | "quaki"> = { grammatik: "regi", wortschatz: "hamsti", pruefungen: "bruno" };
+const EXPR = ["happy", "thinking", "celebrate", "happy"] as const;
+// How dark the cover is: A1 lightest, B2 darkest; a span (A1–B2) sits in the middle.
+const LV: Record<string, number> = { A1: 0, A2: 1, B1: 2, B2: 3 };
+const lv = LV[f.level] ?? 1.5;
+
+// The words on the cover: short, like a book's spine. The full title is on the card.
+function coverTitle(): [string, string] {
+  if (/grammatik-start/i.test(f.id)) return ["Grammatik-Start", "Die 10 wichtigsten Kapitel"];
+  if (/komplett/.test(f.id)) return [f.category === "wortschatz" ? "Wortliste" : "Grammatik", "komplett"];
+  if (f.category === "grammatik") return ["Grammatik", ""];
+  if (f.category === "wortschatz") return ["Wortliste", ""];
+  if (f.category === "berufe") return [f.title.split(/[:—–]/)[0].trim(), "Deutsch im Beruf"];
+  const [a, b = ""] = f.title.split(/:\s*/);
+  return [a.replace(/\s*\(.*\)$/, ""), b];
+}
+const [title, sub] = coverTitle();
+const who = f.emoji ? null : MASCOT[f.category] ?? (/start/.test(f.id) ? "quaki" : "regi");
+const art = who
+  ? mascotSvg({ name: who, expr: /komplett/.test(f.id) ? "celebrate" : EXPR[i % EXPR.length], view: i % 2 ? "three" : "front", size: 120, label: "" })
+  : "";
+---
+<span class:list={["bk", `bk--${f.category}`, `bk--${size}`]} style={`--lv:${lv}`} aria-hidden="true">
+  <span class="bk-spine"></span>
+  <span class="bk-pub">EnglishAcademy</span>
+  <span class="bk-lv">{f.level}</span>
+  <span class="bk-title">{title}</span>
+  {sub && size === "card" && <span class="bk-sub">{sub}</span>}
+  <span class="bk-art">
+    {who && <span class="bk-ink" data-mascot-part set:html={art} />}
+    {f.emoji && <img class="bk-emoji" src={emojiSrc(f.emoji)} alt="" width="72" height="72" loading="lazy" />}
+  </span>
+</span>

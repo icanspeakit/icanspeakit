@@ -1,0 +1,169 @@
+---
+import { fitTitle } from "../lib/seo/title.js";
+import ExamDisclaimer from "./ExamDisclaimer.astro";
+// One Übungssatz on the generic engine (src/lib/exam/pruefungEngine.js). The routes
+// src/pages/goethe/[slug].astro and src/pages/telc/[slug].astro render this for every
+// file in src/data/pruefungen/saetze/. Plan: PRUEFUNGEN-A2-C1-TIERED-PROMPT.md.
+import { existsSync } from "node:fs";
+import path from "node:path";
+import Layout from "../layouts/Layout.astro";
+import SiteNav from "./SiteNav.astro";
+import ExamApp from "./ExamApp.astro";
+import { EXAM_NAMES, idsOfPart, isScored } from "../lib/exam/saetze.js";
+import { examMinutes } from "../lib/exam/minutes.js";
+import formate from "../data/pruefungen/formate-a2-c1.research.json";
+import LevelGrammar from "./LevelGrammar.astro";
+import PremiumLock from "./PremiumLock.astro";
+import "../styles/practice.css";
+import "../styles/pruefungen.css";
+import "../styles/pruefung-satz.css";
+
+interface Props { set: any }
+const { set } = Astro.props;
+// A paid set (src/paid/, see src/lib/exam/saetze.js) arrives as its outline only: the page
+// shows its structure — good for the learner and for search — and loads the questions from
+// /inhalt/ once can(feature) allows it. Nothing of the set's content is in this HTML.
+const paid = set.paid === true;
+const examName = EXAM_NAMES[set.exam] ?? set.exam;
+const overview = `/${set.exam}`;
+
+// Which clips have their mp3 (scripts/generate-pruefungen-audio.mjs). A clip without one
+// shows its transcript instead, so a set is usable before its audio is rendered.
+const audio: Record<string, boolean> = {};
+if (!paid) for (const m of set.modules) for (const p of m.parts) for (const c of p.clips ?? []) {
+  audio[c.id] = existsSync(path.join(process.cwd(), "public", "audio", "pruefungen", set.id, `${c.id}.mp3`));
+}
+const clipCount = Object.keys(audio).length;
+const withAudio = Object.values(audio).filter(Boolean).length;
+const scoredItems = paid ? set.scoredItems : set.modules.flatMap((m: any) => m.parts.filter(isScored).flatMap(idsOfPart)).length;
+const minutes = paid ? set.minutes : examMinutes(set.modules);
+
+// The exam's structure as plain HTML (SEO-BRAND-TIERED-PROMPT.md Tier 4): what a learner
+// searching "telc B1 Übungssatz" wants to know before starting, and what search engines and
+// AI answers can read without running the engine. Points and the official model test come
+// from the format research the set was built on (set.formatRef); only those two fields are
+// read here, nothing of the official tasks.
+const ref = formate.exams.find((e: any) => e.id === set.formatRef);
+const officialSource = formate.sources.find((s: any) => s.id === set.formatRef);
+const pointsOf = (name: string) => ref?.modules.find((m: any) => m.name === name)?.points;
+// Consecutive modules on one clock (telc: Leseverstehen + Sprachbausteine) share one time cell.
+const formatRows = set.modules.map((m: any, i: number) => {
+  const prev = set.modules[i - 1];
+  const shared = m.timerLabel && prev?.timerLabel === m.timerLabel;
+  const span = m.timerLabel && !shared ? set.modules.slice(i).findIndex((x: any) => x.timerLabel !== m.timerLabel) : 1;
+  return {
+    name: m.name,
+    parts: typeof m.parts === "number" ? m.parts : m.parts.length,
+    minutes: m.minutes ?? 0,
+    timeSpan: shared ? 0 : span === -1 ? set.modules.length - i : span,
+    points: pointsOf(m.name),
+  };
+});
+const formatChecked = "30.09.2026";
+
+// Title and description in the words people search: "telc a2 übungstest", "goethe b1
+// übungstest", "telc a2 modelltest" (Search Console, Oct 2026). The first " – " segment
+// stays the topic (src/lib/progress.js names the "Weitermachen" card after it). A second
+// set of the same level gets its number ("telc A2 Übungstest 2").
+const shortExam = set.exam === "goethe" ? "Goethe" : set.exam;
+const setNo = Number(String(set.id).split("-").pop()) || 1;
+const topic = `${shortExam} ${set.level} Übungstest${setNo > 1 ? ` ${setNo}` : ""}`;
+const skills = set.modules.map((m: any) => m.name).join(", ");
+const pageTitle = paid ? fitTitle(`${topic} – mit Lösungen`, topic) : fitTitle(`${topic} – kostenlos mit Lösungen`, `${topic} – kostenlos`, topic);
+const pageDescription = paid
+  ? `${examName} ${set.level} Übungstest im Prüfungsformat, aufgebaut wie der Modelltest: ${skills}. Mit Timer, automatischer Auswertung und Musterlösungen.`
+  : `Kostenloser ${examName} ${set.level} Übungstest im Prüfungsformat, aufgebaut wie der Modelltest: ${skills}. Mit Timer, automatischer Auswertung und Musterlösungen.`;
+---
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  schema={{
+    "@type": "LearningResource",
+    name: `${examName} ${set.level}: ${set.title}`,
+    learningResourceType: "Übungssatz",
+    educationalLevel: set.level,
+    assesses: `${examName} ${set.level}`,
+    ...(minutes ? { timeRequired: `PT${minutes}M` } : {}),
+  }}
+>
+  <SiteNav active="pruefungen" />
+  <main class="practice-main practice-main--wide practice-main--trainer">
+    <a href={overview} class="vp-back-link"><span data-i18n="ps.back" data-i18n-vars={JSON.stringify({ exam: examName })}>Zurück zu {examName}</span></a>
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="ps.eyebrow">Prüfung simulieren</p>
+      <h1><span class="hero-exam">{examName} {set.level}</span> {set.title}</h1>
+      <p data-i18n="ps.hero" data-i18n-vars={JSON.stringify({ n: scoredItems, min: minutes })}>
+        Alle Prüfungsteile im Format der echten Prüfung: {scoredItems} automatisch ausgewertete Aufgaben, dazu
+        Schreiben und Sprechen mit Musterlösung. Prüfungszeit insgesamt ca. {minutes} Minuten.
+      </p>
+      <ExamDisclaimer />
+      {clipCount > 0 && withAudio < clipCount && (
+        <p class="ps-audio-note" data-i18n="ps.audioMissing">Zu einigen Hörtexten gibt es noch keine Tonaufnahme; dort steht das Transkript.</p>
+      )}
+    </div>
+    <section class="ps-format" aria-labelledby="ps-format-h">
+      <h2 id="ps-format-h" data-i18n="ps.format.title" data-i18n-vars={JSON.stringify({ exam: `${examName} ${set.level}` })}>So ist {examName} {set.level} aufgebaut</h2>
+      <div class="format-table-wrap">
+        <table class="format-table">
+          <thead><tr>
+            <th scope="col" data-i18n="ps.format.th.module">Prüfungsteil</th>
+            <th scope="col" data-i18n="ps.format.th.parts">Teile</th>
+            <th scope="col" data-i18n="ps.format.th.time">Zeit</th>
+            {ref && <th scope="col" data-i18n="ps.format.th.points">Punkte</th>}
+          </tr></thead>
+          <tbody>
+            {formatRows.map((r: any) => (
+              <tr>
+                <th scope="row">{r.name}</th>
+                <td>{r.parts}</td>
+                {r.timeSpan > 0 && <td class="ps-nowrap" rowspan={r.timeSpan > 1 ? r.timeSpan : undefined}>{r.minutes} Min.</td>}
+                {ref && <td>{r.points ?? "–"}</td>}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {set.scoring?.note && <p class="format-note"><b data-i18n="ps.format.scoring">Bewertung:</b> {set.scoring.note}</p>}
+      {officialSource && (
+        <p class="format-note">
+          <span data-i18n="ps.format.source">Zeiten und Punkte aus dem offiziellen Modellsatz:</span>{" "}
+          <a href={officialSource.url} rel="noopener">{officialSource.title.replace(/,\s*aus\s+\S+\.zip$/, "")}</a>.{" "}
+          <span data-i18n="ps.format.checked" data-i18n-vars={JSON.stringify({ d: formatChecked })}>Stand: {formatChecked}</span>
+        </p>
+      )}
+    </section>
+    {paid && <PremiumLock feature={set.feature} variant="inline" />}
+    <div data-needs={paid ? (set.feature === "c1" ? "premium" : "pack") : undefined}>
+      <ExamApp brand={`${examName} ${set.level}`} sub={set.title} unit="Aufgaben" />
+    </div>
+    <LevelGrammar levels={[set.level]} />
+    <p class="format-note">{set.sourcing}</p>
+  </main>
+  {paid
+    ? <script type="application/json" id="ps-paid" set:html={JSON.stringify({ id: set.id, feature: set.feature })}></script>
+    : <script type="application/json" id="ps-data" set:html={JSON.stringify({ ...set, audio })}></script>}
+  <script>
+    import { readyExamI18n } from "../lib/exam/i18n.js";
+    import { mountPruefung } from "../lib/exam/pruefungEngine.js";
+    import { can } from "../lib/access.js";
+
+    // Free set: inlined. Paid set: fetched from /inhalt/ only when the lock check passes —
+    // the engine does not care where its data came from.
+    async function loadSet() {
+      const inline = document.getElementById("ps-data");
+      if (inline) return JSON.parse(inline.textContent!);
+      const { id, feature } = JSON.parse(document.getElementById("ps-paid")!.textContent!);
+      if (!can(feature)) {
+        import("../lib/analytics.js").then(({ track }) => track("paid_set_locked_seen", { set: id }));
+        return null;
+      }
+      const res = await fetch(`/inhalt/pruefungen/saetze/${id}.json`).catch(() => null);
+      return res?.ok ? res.json() : null;
+    }
+    const set = await loadSet();
+    if (set) {
+      await readyExamI18n();
+      mountPruefung(document.querySelector("[data-exam-root]"), set);
+    }
+  </script>
+</Layout>

@@ -1,0 +1,103 @@
+---
+// /fuehrerschein/simulation — the theory test's format with our own questions: the count,
+// the Grundstoff/Zusatzstoff split, the Fehlerpunkte and the pass rule all come from the
+// research file (passRules()). Drawn fresh each time without repeats; a clock that only
+// counts (the real test has no time limit), „Markieren", an overview grid, and a result with
+// Fehlerpunkte per topic linking each lesson (fahrQuiz.js, exam mode).
+//
+// Clearly labelled: an Übungssimulation with own questions, not the amtliche Prüfungsfragen.
+// Like the other mock tests, no Einfache-Sprache switch inside the test — it is offered on
+// this start screen and applies to the explanations in the result.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import SectionMascot from "../../components/mascots/SectionMascot.astro";
+import LeichtToggle from "../../components/LeichtToggle.astro";
+import FsHinweis from "../../components/fuehrerschein/FsHinweis.astro";
+import { questions, lessonLinks } from "../../lib/fuehrerscheinData.js";
+import { passRules, fakt } from "../../lib/fuehrerschein.js";
+import "../../styles/practice.css";
+import "../../styles/kultur.css";
+import "../../styles/fahr-szene.css";
+import "../../styles/fuehrerschein.css";
+
+const rules = passRules();
+const grundN = questions.filter((q: any) => q.stoff === "grund").length;
+const zusatzN = questions.filter((q: any) => q.stoff === "zusatz").length;
+const [fpMin, fpMax] = fakt("theorie.fehlerpunkteProFrage").value;
+const v = (o: Record<string, unknown>) => JSON.stringify(o);
+---
+<Layout
+  title="Führerschein-Simulation – 30 Prüfungsfragen – EnglishAcademy"
+  description="Übungssimulation der Theorieprüfung Klasse B mit eigenen Fragen: gleiches Format, Fehlerpunkte und Bestehensregel wie in der echten Prüfung."
+>
+  <SiteNav active="pruefungen" />
+  <main class="practice-main fs-page" id="fs-page">
+    <div class="ku-topbar">
+      <a href="/fuehrerschein" class="vp-back-link" data-i18n="fs.back">Führerschein</a>
+    </div>
+    <div class="practice-hero fs-hero">
+      <p class="eyebrow" data-i18n="fs.sim.eyebrow">Theorie</p>
+      <h1 data-i18n="fs.sim.title">Übungssimulation</h1>
+      <div class="fs-badges"><span class="fs-badge fs-badge--key" data-i18n="fs.sim.label">Übungssimulation mit eigenen Fragen — nicht die amtlichen Prüfungsfragen</span></div>
+    </div>
+
+    <section class="fs-box" id="fs-sim-info">
+      <h2 data-i18n="fs.sim.howTitle">So läuft die Simulation</h2>
+      <ul class="fs-facts">
+        <li><b>{rules.anzahl}</b><span data-i18n="fs.sim.howCount" data-i18n-vars={v({ g: rules.grund, z: rules.zusatz })}>Fragen: {rules.grund} Grundstoff und {rules.zusatz} Zusatzstoff Klasse B — wie in der Prüfung.</span></li>
+        <li><b>{fpMin}–{fpMax}</b><span data-i18n="fs.sim.howPoints">Fehlerpunkte pro Frage. Bei Fragen mit mehreren richtigen Antworten zählt nur „alles richtig“.</span></li>
+        <li><b>≤ {rules.maxFehlerpunkte}</b><span data-i18n="fs.exam.pass" data-i18n-vars={v({ n: rules.maxFehlerpunkte })}>Bestanden mit höchstens {rules.maxFehlerpunkte} Fehlerpunkten — aber nicht, wenn zwei Fragen mit 5 Punkten falsch sind.</span></li>
+        <li><b>⏱</b><span data-i18n="fs.sim.howTime">Kein Zeitlimit. Die Uhr zeigt nur, wie lange du brauchst.</span></li>
+        <li><b>⚑</b><span data-i18n="fs.sim.howMark">Unsicher? Markiere die Frage und komm später zurück. Das Raster oben zeigt alle Fragen.</span></li>
+      </ul>
+      <div class="fs-switchrow"><LeichtToggle /></div>
+      <SectionMascot name="bruno" say="Viel Erfolg!" class="ku-hero-mascot" />
+      <div class="fq-done-btns">
+        <button type="button" class="quiz-btn quiz-btn--primary" id="fs-sim-start" data-i18n="fs.sim.start">Simulation starten</button>
+      </div>
+      <p class="fs-small" data-i18n="fs.sim.pool" data-i18n-vars={v({ g: grundN, z: zusatzN })}>Jede Simulation zieht neue Fragen: {grundN} Grundstoff- und {zusatzN} Zusatzstoff-Fragen stehen bereit.</p>
+    </section>
+
+    <section class="ku-block ku-quizblock" id="fs-sim-run" hidden>
+      <div class="quiz-card" id="fs-quiz"></div>
+    </section>
+    <FsHinweis />
+  </main>
+
+  <script type="application/json" id="fs-rules" set:html={JSON.stringify({ rules, topics: lessonLinks })}></script>
+  <script>
+    import { mountFahrQuiz } from "../../lib/fahrQuiz.js";
+    import { mountLeichteSprache } from "../../lib/leichteSprache.js";
+
+    import { loadFragen } from "../../lib/fahrQuizData.js";
+
+    mountLeichteSprache(document.getElementById("fs-page") ?? document);
+    let all: any[] = [];
+    // Fetched while the learner reads the start screen; the start button waits for it.
+    const ready = loadFragen().then((qs) => { all = qs; }).catch(() => {});
+    const { rules, topics } = JSON.parse(document.getElementById("fs-rules")!.textContent!);
+    const info = document.getElementById("fs-sim-info")!;
+    const run = document.getElementById("fs-sim-run")!;
+    const root = document.getElementById("fs-quiz")!;
+    const shuffle = <T,>(a: T[]) => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+
+    // The draw: the real split, no question twice, and the topics spread — one question per
+    // topic in turn before any topic gets a second, so a sitting covers the whole test.
+    function draw(stoff: string, n: number) {
+      const byTopic = new Map<string, any[]>();
+      for (const q of shuffle(all.filter((q: any) => q.stoff === stoff))) byTopic.set(q.topic, [...(byTopic.get(q.topic) ?? []), q]);
+      const out: any[] = [];
+      const lanes = shuffle([...byTopic.values()]);
+      while (out.length < n && lanes.some((l) => l.length)) for (const l of lanes) if (l.length && out.length < n) out.push(l.shift());
+      return out;
+    }
+    function start() {
+      const list = [...draw("grund", rules.grund), ...draw("zusatz", rules.zusatz)];
+      info.hidden = true;
+      run.hidden = false;
+      mountFahrQuiz(root, list, { mode: "exam", rules, topics, onFinish: (r: any) => { if (r === "restart") start(); } });
+      run.scrollIntoView({ block: "start" });
+    }
+    document.getElementById("fs-sim-start")!.addEventListener("click", () => ready.then(() => { if (all.length) start(); }));
+  </script>
+</Layout>

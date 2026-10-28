@@ -1,0 +1,110 @@
+/* The Fahrspiel (/fuehrerschein/fahrspiel, src/lib/fahrSpiel.js). Phone first: score line,
+   the scene as large as the screen allows while the question still fits under it, then the
+   choices as full-width buttons. */
+
+.fsp-game { max-width: 560px; margin: 8px auto 24px; }
+
+.fsp-hud {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 2px 8px;
+  font-size: .85rem; font-weight: 600; color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.fsp-hud-points { margin-left: auto; color: var(--text); }
+.fsp-hud-streak { color: #ea580c; }
+
+/* The scene: one figure at a time, swapped by the game. The square is capped by the screen
+   height so the question under it is in view without scrolling. */
+.fsp-stage .fz { margin: 0; padding: 8px; }
+.fsp-stage .fz-stage { max-width: min(100%, 46vh, 440px); max-width: min(100%, 46dvh, 440px); }
+.fsp-stage .fz-head { margin-bottom: 6px; }
+/* The approach: no name (it would be the answer), no steps, no replay. */
+.fsp-stage.is-approach .fz-head,
+.fsp-stage.is-approach .fz-dots,
+.fsp-stage.is-approach .fz-steps { display: none; }
+/* While a segment plays, its steps run as one subtitle line rather than a list that pushes
+   the choices off the screen; once it is done they are all there to read again. */
+.fsp-stage .fz-dots { display: none; }
+.fsp-stage .fz.is-playing .fz-step:not(.is-on) { display: none; }
+.fsp-stage .fz-steps { margin-top: 8px; }
+
+.fsp-panel { margin-top: 12px; }
+.fsp-wait { margin: 14px 4px; color: var(--muted); font-size: .95rem; text-align: center; }
+.fsp-ask { margin: 0 2px 10px; font-size: 1.08rem; font-weight: 600; line-height: 1.4; color: var(--text); }
+
+.fsp-timer { height: 4px; margin: 0 2px 12px; border-radius: 99px; background: var(--border); overflow: hidden; }
+.fsp-timer span {
+  display: block; height: 100%; border-radius: inherit;
+  background: var(--brand-blue, #0d9488);
+  transform-origin: left center;
+  animation: fsp-timer linear forwards;
+}
+.fsp-timer.is-stopped span { animation-play-state: paused; opacity: .4; }
+@keyframes fsp-timer { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+.fsp-opts { display: grid; gap: 8px; }
+.fsp-opt {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; min-height: 52px; padding: 10px 14px;
+  border: 1.5px solid var(--border); border-radius: 14px;
+  background: var(--surface); color: var(--text);
+  font: inherit; font-size: 1rem; line-height: 1.35; text-align: left;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: border-color .15s, background-color .15s, transform .1s;
+}
+.fsp-opt:hover:not(:disabled) { border-color: var(--brand-blue, #0d9488); }
+.fsp-opt:active:not(:disabled) { transform: scale(.985); }
+.fsp-opt:focus-visible { outline: 2px solid var(--brand-blue, #0d9488); outline-offset: 2px; }
+.fsp-key {
+  flex: 0 0 auto; display: grid; place-items: center;
+  width: 26px; height: 26px; border-radius: 8px;
+  background: var(--bg-soft, rgba(13, 148, 136, .08)); color: var(--muted);
+  font-size: .8rem; font-weight: 700;
+}
+.fsp-opt:disabled { cursor: default; }
+/* Answered: the right choice and a wrong pick stay, the rest fold away — room for the rule. */
+.fsp-opt:disabled:not(.is-right):not(.is-wrong) { display: none; }
+.fsp-opt.is-right { border-color: var(--success, #16a34a); background: color-mix(in srgb, var(--success, #16a34a) 10%, var(--surface)); }
+.fsp-opt.is-wrong { border-color: var(--danger-border, #dc2626); background: var(--danger-soft, #fef2f2); }
+.fsp-opt.is-right .fsp-key { background: var(--success, #16a34a); color: #fff; }
+.fsp-opt.is-wrong .fsp-key { background: var(--danger-border, #dc2626); color: #fff; }
+
+.fsp-feedback {
+  margin: 12px 0 0; padding: 12px 14px;
+  border-radius: 14px; border-left: 4px solid;
+  background: var(--surface);
+  animation: fsp-in .25s ease both;
+}
+.fsp-feedback.is-right { border-color: var(--success, #16a34a); }
+.fsp-feedback.is-wrong { border-color: var(--danger-border, #dc2626); }
+.fsp-verdict { margin: 0 0 4px; font-weight: 700; color: var(--text); }
+.fsp-plus { margin-left: 6px; color: var(--success, #16a34a); }
+.fsp-rule { margin: 0; line-height: 1.45; color: var(--text); }
+.fsp-next { display: block; width: 100%; margin-top: 12px; min-height: 48px; }
+@keyframes fsp-in { from { opacity: 0; transform: translateY(6px); } }
+
+/* The result. */
+.fsp-end { text-align: center; padding: 18px 4px 4px; }
+.fsp-end-score {
+  margin: 0; font-family: var(--font-display); font-size: 3rem; line-height: 1;
+  color: var(--brand-blue-dark, #0f766e); font-variant-numeric: tabular-nums;
+}
+.fsp-end-line { margin: 8px 0 2px; font-weight: 600; color: var(--text); }
+.fsp-end-best { margin: 0 0 14px; font-size: .9rem; color: var(--muted); }
+.fsp-end-all { margin: 10px 0 16px; font-weight: 600; color: var(--success, #16a34a); }
+.fsp-end-h { margin: 18px 0 10px; font-size: 1rem; text-align: left; }
+.fsp-end-rules { display: grid; gap: 8px; text-align: left; }
+.fsp-rulecard {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 12px 14px; border: 1px solid var(--border); border-radius: 14px;
+  background: var(--surface); color: var(--text); text-decoration: none;
+  transition: border-color .15s, transform .15s;
+}
+.fsp-rulecard:hover { border-color: var(--brand-blue, #0d9488); transform: translateY(-1px); }
+.fsp-rulecard-rule { line-height: 1.4; }
+.fsp-rulecard-topic { font-size: .8rem; font-weight: 600; color: var(--brand-blue-dark, #0f766e); }
+.fsp-end-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 18px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fsp-timer span, .fsp-feedback { animation: none; }
+}

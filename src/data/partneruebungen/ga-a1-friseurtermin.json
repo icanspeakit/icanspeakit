@@ -1,0 +1,112 @@
+{
+  "id": "ga-a1-friseurtermin",
+  "titel": "Ein Termin beim Friseur",
+  "untertitel": "Uhrzeiten und Termine – vier Rollen, ein Kalender (zu viert)",
+  "niveau": "A1",
+  "thema": "Termine",
+  "grammatik": ["Uhrzeit", "am + Tag, um + Uhrzeit", "Verb auf Position 2"],
+  "format": "rollenspiel",
+  "modus": "gruppe",
+  "personen": 4,
+  "dauerMin": 25,
+  "intro": {
+    "grammatik": {
+      "kopf": ["Position 1", "Position 2", "", ""],
+      "positionen": [["*Am* Donnerstag", "_habe_", "ich", "Zeit."], ["*Um* halb fünf", "_ist_", "noch", "frei."], ["_Haben_", "Sie", "*am* Samstag", "Zeit?"]],
+      "markiere": { "verb": [1] },
+      "regel": "*am* + Tag (am Donnerstag), *um* + Uhrzeit (um 16:30 Uhr). Steht der Tag oder die Zeit auf Position 1, kommt das Verb direkt danach.",
+      "tabelle": {
+        "kopf": ["Uhr", "offiziell", "privat"],
+        "zeilen": [["10:00", "zehn Uhr", "zehn"], ["10:30", "zehn Uhr dreißig", "halb elf"], ["15:30", "fünfzehn Uhr dreißig", "halb vier"], ["16:30", "sechzehn Uhr dreißig", "halb fünf"]]
+      }
+    },
+    "redemittel": [
+      { "p1": "Wann _haben_ Sie Zeit?", "p2": "*Am* Samstag *um* zehn.", "p3": "Jana, geht das?" },
+      { "p1": "*Am* Donnerstag _bin_ ich bis 16 Uhr im Kurs.", "p2": "Dann *um* halb fünf?", "p3": "Ja, das passt." },
+      { "p1": "Das geht leider nicht.", "p2": "Und *um* halb elf?", "p3": "Gut, dann *um* halb elf." }
+    ],
+    "soGehts": [
+      "Schneiden Sie Seite 2 und 3 an der Linie durch: vier Karten. Jede Person nimmt eine Rolle: A und B sind Kunden, C arbeitet an der Rezeption, D ist die Friseurin.",
+      "Lesen Sie Ihre Rolle. Zeigen Sie die Karte nicht!",
+      "A und B rufen nacheinander an. C sucht einen Termin und fragt D: „Geht das?“",
+      "Am Ende hat jede Kundin / jeder Kunde einen Termin. Alle notieren die Termine.",
+      "Füllen Sie zusammen das Gruppen-Ergebnis aus (Seite „Zusammen“) und berichten Sie im Kurs."
+    ]
+  },
+  "karten": [
+    {
+      "rolle": "A",
+      "tipp": { "formel": "*Am* + Tag / *Um* + Uhrzeit + _Verb_ + …", "beispiel": "*Am* Samstag _habe_ ich Zeit.", "hinweise": ["halb elf = 10:30 Uhr", "Sagen Sie die Uhrzeit laut."] },
+      "schritte": [
+        {
+          "typ": "rolle",
+          "anweisung": "Lesen Sie Ihre Rolle. Rufen Sie im Salon an.",
+          "rolle": "Kundin: Frau Weber",
+          "ziel": "Sie möchten einen Termin zum Haareschneiden.",
+          "infos": ["Sie arbeiten Montag bis Freitag bis 18 Uhr.", "Sie haben nur am Samstag Zeit.", "Am Samstag um 12 Uhr haben Sie eine Party."],
+          "redemittel": ["Ich möchte einen Termin.", "Am Samstag habe ich Zeit.", "Geht es um …?", "Das passt gut."]
+        },
+        { "typ": "tabelle", "anweisung": "Notieren Sie die Termine.", "spalten": ["Name", "Tag", "Uhrzeit"], "zeilen": [["Frau Weber", null, null], ["Herr Petrović", null, null]] }
+      ]
+    },
+    {
+      "rolle": "B",
+      "tipp": { "formel": "*Am* + Tag / *Um* + Uhrzeit + _Verb_ + …", "beispiel": "*Am* Donnerstag _kann_ ich ab drei.", "hinweise": ["halb fünf = 16:30 Uhr", "Sagen Sie die Uhrzeit laut."] },
+      "schritte": [
+        {
+          "typ": "rolle",
+          "anweisung": "Lesen Sie Ihre Rolle. Rufen Sie im Salon an.",
+          "rolle": "Kunde: Herr Petrović",
+          "ziel": "Sie möchten diese Woche einen Termin zum Haareschneiden.",
+          "infos": ["Am Donnerstag haben Sie ab 15 Uhr frei.", "Am Samstag können Sie von 10 bis 11 Uhr.", "Am liebsten möchten Sie am Samstag kommen."],
+          "redemittel": ["Ich möchte einen Termin.", "Am Donnerstag ab drei.", "Geht es auch am Samstag?", "Gut, dann komme ich am … um …"]
+        },
+        { "typ": "tabelle", "anweisung": "Notieren Sie die Termine.", "spalten": ["Name", "Tag", "Uhrzeit"], "zeilen": [["Frau Weber", null, null], ["Herr Petrović", null, null]] }
+      ]
+    },
+    {
+      "rolle": "C",
+      "tipp": { "formel": "*Am* + Tag / *Um* + Uhrzeit + _Verb_ + …", "beispiel": "*Um* halb elf _ist_ noch frei.", "hinweise": ["Fragen Sie Jana (Person D): „Geht das?“", "Notieren Sie den Namen."] },
+      "schritte": [
+        {
+          "typ": "rolle",
+          "anweisung": "Lesen Sie Ihre Rolle. Das Telefon klingelt.",
+          "rolle": "Rezeption im Salon „Schnittpunkt“",
+          "ziel": "Jede Kundin, jeder Kunde bekommt einen Termin. Fragen Sie immer Jana, ob es passt.",
+          "infos": ["Noch frei im Kalender: Donnerstag 15:30 Uhr und 16:30 Uhr, Samstag 10:00 Uhr, 10:30 Uhr und 11:30 Uhr.", "Ein Haarschnitt dauert 30 Minuten."],
+          "redemittel": ["Salon „Schnittpunkt“, guten Tag.", "Wann haben Sie Zeit?", "Moment, bitte. Jana, geht das?", "Um … ist noch frei."]
+        },
+        { "typ": "tabelle", "anweisung": "Notieren Sie die Termine.", "spalten": ["Name", "Tag", "Uhrzeit"], "zeilen": [[null, null, null], [null, null, null]] }
+      ]
+    },
+    {
+      "rolle": "D",
+      "tipp": { "formel": "*Am* + Tag / *Um* + Uhrzeit + _Verb_ + …", "beispiel": "*Am* Samstag _muss_ ich um elf gehen.", "hinweise": ["Hören Sie gut zu: Welche Zeit sagt die Rezeption?", "Sagen Sie „Ja, das geht.“ oder „Nein, das geht leider nicht.“"] },
+      "schritte": [
+        {
+          "typ": "rolle",
+          "anweisung": "Lesen Sie Ihre Rolle. Die Rezeption fragt Sie.",
+          "rolle": "Friseurin: Jana",
+          "ziel": "Sie sagen, wann Sie arbeiten können.",
+          "infos": ["Am Donnerstag sind Sie bis 16 Uhr in einem Kurs.", "Am Samstag müssen Sie um 11 Uhr gehen: Ihre Tochter hat Geburtstag."],
+          "redemittel": ["Ja, das geht.", "Nein, das geht leider nicht.", "Am Donnerstag bin ich bis 16 Uhr im Kurs.", "Am Samstag muss ich um elf gehen."]
+        },
+        { "typ": "tabelle", "anweisung": "Notieren Sie die Termine.", "spalten": ["Name", "Tag", "Uhrzeit"], "zeilen": [[null, null, null], [null, null, null]] }
+      ]
+    }
+  ],
+  "zusammen": {
+    "titel": "Zusammen: Unsere Termine",
+    "freiFragen": ["Wann hast du diese Woche Zeit?", "Was machst du am Samstag um halb elf?"]
+  },
+  "gruppe": {
+    "ergebnis": { "spalten": ["Rolle", "Termin (Tag, Uhrzeit)"], "bericht": "In unserer Gruppe hat Frau Weber am … um … einen Termin, Herr Petrović am … um …" },
+    "rotation": "Runde 2: Tauschen Sie die Karte nach links – neue Rolle, neues Gespräch."
+  },
+  "loesungen": [
+    { "antwort": "Frau Weber: Samstag um 10:00 Uhr oder um 10:30 Uhr (nur Samstag; um 11:30 Uhr ist Jana nicht mehr da)." },
+    { "antwort": "Herr Petrović: Donnerstag um 16:30 Uhr (halb fünf) – um 15:30 Uhr ist Jana noch im Kurs – oder am Samstag der andere Termin (10:00 / 10:30 Uhr)." },
+    { "antwort": "Nicht möglich: Donnerstag 15:30 Uhr (Kurs bis 16 Uhr) und Samstag 11:30 Uhr (Jana geht um 11 Uhr)." }
+  ],
+  "quelle": { "veraenderung": 2, "intern": "mA1-kb-s153-6c", "geprueft": false }
+}

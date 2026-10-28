@@ -1,0 +1,36 @@
+---
+// „← Zurück zu …“ on a worksheet or Tandembogen: the page the teacher came from (a grammar
+// topic, a Nachschlagewerk list, the quiz). Those pages open the sheet in a new tab, so the
+// browser's back button has nothing to go to. The origin is the same-site referrer that is
+// not itself a sheet; it is kept in sessionStorage, so it survives the switch between
+// Einzelarbeit and Partnerübung. Its name comes from the origin's own <title>.
+// No same-site origin: nothing is shown.
+---
+<a class="ab-back ab-origin" href="#" hidden data-ab-origin>← <span data-ab-origin-name>Zurück</span></a>
+
+<script>
+  const KEY = "da:abOrigin";
+  const a = document.querySelector<HTMLAnchorElement>("[data-ab-origin]");
+  const isSheet = (u: URL) => u.pathname.startsWith("/lehrkraefte/arbeitsblaetter/");
+  let origin: { url: string; name?: string } | null = null;
+  try {
+    const ref = document.referrer ? new URL(document.referrer) : null;
+    if (ref && ref.origin === location.origin && !isSheet(ref)) origin = { url: ref.href };
+    else origin = JSON.parse(sessionStorage.getItem(KEY) ?? "null");
+  } catch { origin = null; }
+  if (a && origin?.url) {
+    a.href = origin.url;
+    a.hidden = false;
+    const nameEl = a.querySelector("[data-ab-origin-name]")!;
+    const show = (n: string) => { nameEl.textContent = `Zurück zu: ${n}`; };
+    const save = () => { try { sessionStorage.setItem(KEY, JSON.stringify(origin)); } catch {} };
+    if (origin.name) show(origin.name);
+    else {
+      save();
+      fetch(origin.url).then((r) => r.text()).then((html) => {
+        const t = new DOMParser().parseFromString(html, "text/html").title.split(/ [–|-] /)[0].trim();
+        if (t && origin) { origin.name = t; show(t); save(); }
+      }).catch(() => {});
+    }
+  }
+</script>

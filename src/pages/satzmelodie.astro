@@ -1,0 +1,639 @@
+---
+// Satzmelodie: the same words as statement, question, Nachfrage and exclamation.
+// /aussprache trains sounds, /aussprache-check scores them; this page trains the melody at
+// the end of a sentence and the Satzakzent. Content: src/data/satzmelodie.json. Audio:
+// scripts/generate-satzmelodie-audio.mjs (Azure, SSML contours). A line without a recording
+// is read by the browser's German voice, and the page says so.
+import Layout from "../layouts/Layout.astro";
+import SiteNav from "../components/SiteNav.astro";
+import SectionMascot from "../components/mascots/SectionMascot.astro";
+import { mascotSvg } from "../lib/mascots.js";
+import "../styles/satzmelodie.css";
+import "../styles/rule-intro.css";
+import { existsSync } from "node:fs";
+import path from "node:path";
+import data, { familyLines, stressText, ruleText, audioKey } from "../lib/satzmelodieData.js";
+
+const onDisk = (src: string) => existsSync(path.join(process.cwd(), "public", src));
+const srcOf = (kind: string, text: string) => {
+  const s = audioKey(kind, text);
+  return onDisk(s) ? s : "";
+};
+const T = data.types as Record<string, { label: string; mark: string; curve: string }>;
+const CURVE: Record<string, string> = {
+  fall: "M3 9 L44 9 Q58 9 67 21",
+  rise: "M3 16 L44 16 Q58 16 67 6",
+  echo: "M3 18 L40 18 Q56 18 67 3",
+  excl: "M3 14 L22 4 Q46 4 67 23",
+  flat: "M3 13 L50 13 Q60 13 67 20",
+};
+const families = data.families.map((f) => ({
+  topic: f.topic,
+  lines: familyLines(f).map((l) => ({ ...l, src: srcOf(l.type, l.text), ...T[l.type] })),
+}));
+const stress = data.stress.map((s) => ({ ...s, src: srcOf(`stress-${s.k}`, stressText(s)) }));
+const rules = data.rules.map((r) => ({ ...r, ex: ruleText(r), src: srcOf(`rule-${r.id}`, ruleText(r)) }));
+const quiz = data.families.map((f) => ({
+  base: f.base,
+  src: Object.fromEntries(["aussage", "echo", "ausruf"].map((t) => {
+    const text = `${f.base}${{ aussage: ".", echo: "?", ausruf: "!" }[t]}`;
+    return [t, srcOf(t, text)];
+  })),
+}));
+const voiced = [...families.flatMap((f) => f.lines), ...stress, ...rules].filter((l) => l.src).length;
+const total = families.length * 5 + stress.length + rules.length;
+// Labyrinth: Quaki in four moods, swapped by the game (melodieLabyrinth.js).
+const frogFaces = ["happy", "thinking", "celebrate", "oops"].map((expr) => ({ expr, svg: mascotSvg({ name: "quaki", expr: expr as any, view: "three", size: 40, label: "" }) }));
+const ROUTES = {
+  echo: "M262 125 C292 125 296 44 334 44",
+  aussage: "M262 125 C292 125 300 170 334 170",
+  ausruf: "M262 125 C276 125 290 226 334 226",
+};
+const DOORS = [
+  { t: "echo", y: 44, sign: "?" },
+  { t: "aussage", y: 170, sign: "." },
+  { t: "ausruf", y: 226, sign: "!" },
+];
+const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl" ? "excl" : c === "flat" ? "flat" : "fall");
+---
+<Layout title="Satzmelodie – EnglishAcademy" description="Intonation üben: derselbe Satz als Aussage, Frage, Nachfrage und Ausruf. Hören, unterscheiden, nachsprechen — mit Satzakzent und Regel.">
+  <SiteNav active="fertigkeiten" />
+
+  <div class="sm-shell" id="sm-shell">
+  <main class="sm-page" id="sm-root">
+    <header class="sm-head">
+      <SectionMascot name="quaki" say="Hör auf das Satzende!" size={44} />
+      <div>
+        <p class="sm-eyebrow" data-i18n="satzmelodie.eyebrow">Aussprache · A1</p>
+        <h1 class="sm-title" data-i18n="nav.skill.satzmelodie">Satzmelodie</h1>
+        <p class="sm-lead" data-i18n="satzmelodie.lead">Dieselben Wörter, eine andere Melodie: Am Satzende geht die Stimme nach unten ↘ oder nach oben ↗. Hören Sie, vergleichen Sie und sprechen Sie nach.</p>
+        {total > voiced && (voiced === 0
+          ? <p class="sm-note" data-i18n="satzmelodie.note.none">Noch ohne Aufnahmen — dein Browser liest vor.</p>
+          : <p class="sm-note" data-i18n="satzmelodie.note.some" data-i18n-vars={JSON.stringify({ n: voiced, total })}>{voiced} von {total} Sätzen mit Aufnahme. Die anderen liest dein Browser vor.</p>)}
+      </div>
+    </header>
+
+    {/* The exercises as tabs; on the right the pill that folds the rule column — the grammar
+        topics' and /aussprache's „Regel einblenden / ausblenden“, same words, same setting. */}
+    <div class="sm-tabbar">
+    <nav class="sm-tabs" role="tablist" aria-label="Übungen" data-i18n-attr="aria-label:nav.exercises">
+      <button role="tab" id="sm-tab-hoeren" aria-controls="sm-p-hoeren" aria-selected="true" data-i18n="satzmelodie.tab.hoeren">1 · Hören &amp; vergleichen</button>
+      <button role="tab" id="sm-tab-quiz" aria-controls="sm-p-quiz" aria-selected="false" data-i18n="satzmelodie.tab.quiz">2 · Was hören Sie?</button>
+      <button role="tab" id="sm-tab-akzent" aria-controls="sm-p-akzent" aria-selected="false" data-i18n="satzmelodie.tab.akzent">3 · Satzakzent</button>
+      <button role="tab" id="sm-tab-labyrinth" aria-controls="sm-p-labyrinth" aria-selected="false" data-i18n="satzmelodie.tab.labyrinth">4 · Labyrinth</button>
+    </nav>
+    <button
+      type="button"
+      class="sm-regel-toggle"
+      data-regel-toggle
+      aria-controls="sm-regel"
+      data-show="Regel einblenden"
+      data-hide="Regel ausblenden"
+      data-i18n-attr="data-show:vp.rule.show;data-hide:vp.rule.hide"
+    >Regel einblenden</button>
+    </div>
+
+    <section id="sm-p-hoeren" role="tabpanel" aria-labelledby="sm-tab-hoeren">
+      <div class="sm-task"><span class="sm-num">1</span><div><h2 data-i18n="satzmelodie.task1.title">Hören Sie und vergleichen Sie die Melodie.</h2><p data-i18n-html="satzmelodie.task1.text"><b>Nachsprechen</b>: Nach jedem Satz haben Sie Zeit, ihn laut zu wiederholen. Mit dem Mikrofon <span aria-hidden="true">🎤</span> neben einem Satz prüfen Sie Ihre eigene Melodie – die Aufnahme bleibt auf Ihrem Gerät.</p></div></div>
+      <div class="sm-legend">
+        <span class="sm-chip sm-chip--fall">↘ <span data-i18n="satzmelodie.type.aussage">Aussage</span></span>
+        <span class="sm-chip sm-chip--rise">↗ <span data-i18n="satzmelodie.type.jn">Ja/Nein-Frage</span></span>
+        <span class="sm-chip sm-chip--fall">↘ <span data-i18n="satzmelodie.type.w">W-Frage</span></span>
+        <span class="sm-chip sm-chip--rise">↗↗ <span data-i18n="satzmelodie.type.echo">Nachfrage</span></span>
+        <span class="sm-chip sm-chip--excl">↘! <span data-i18n="satzmelodie.type.ausruf">Ausruf</span></span>
+      </div>
+      {/* The Nachfrage keeps statement word order, so it is not the regular question form and
+          means something else: surprise or checking. Learners must not take it as a model. */}
+      <aside class="sm-caveat" aria-label="Achtung: Nachfrage" data-i18n-attr="aria-label:satzmelodie.caveat.aria" data-i18n-html="satzmelodie.caveat">
+        <b>Achtung, Nachfrage ↗↗:</b> „Du kommst morgen?“ ist keine normale Frage. In der Ja/Nein-Frage steht das Verb auf Position 1: „<b>Kommst</b> du morgen?“ Die Nachfrage behält die Wortstellung der Aussage, nur die Stimme geht stark nach oben. Sie bedeutet auch etwas anderes: Man ist überrascht oder prüft, ob man richtig gehört hat („Wirklich? Du kommst morgen?“). Beim Schreiben und in der Prüfung: Verb auf Position 1.
+      </aside>
+      <div class="sm-families">
+        {families.map((f, fi) => (
+          <div class="sm-family" data-family>
+            <div class="sm-fam-head">
+              <b>{String.fromCharCode(97 + fi)} · <span data-i18n={`satzmelodie.topic.${f.topic.toLowerCase()}`}>{f.topic}</span></b>
+              <div class="sm-fam-actions">
+                <button type="button" class="sm-btn" data-all data-i18n="satzmelodie.all">Alle hören</button>
+                <button type="button" class="sm-btn sm-btn--primary" data-echo data-i18n="kultur.fehler.record">Nachsprechen</button>
+              </div>
+            </div>
+            {f.lines.map((l) => (
+              <div class="sm-row" data-line data-type={l.type} data-text={l.text} data-src={l.src}>
+                <button type="button" class="sm-play" aria-label={`${l.text} anhören`}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" /></svg></button>
+                <svg class={`sm-curve sm-curve--${chip(l.curve)}`} viewBox="0 0 70 26" aria-hidden="true"><path d={CURVE[l.curve]} /></svg>
+                <span class="sm-sent" lang="de">{l.text.slice(0, -1)}<b>{l.text.slice(-1)}</b></span>
+                <span class={`sm-chip sm-chip--${chip(l.curve)}`}>{l.mark} <span data-i18n={`satzmelodie.type.${l.type}`}>{l.label}</span></span>
+                <button type="button" class="sm-mic" data-mic aria-label={`„${l.text}“ nachsprechen und Melodie prüfen`} title="Nachsprechen und prüfen" data-i18n-attr="title:satzmelodie.mic.title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z" /></svg></button>
+              </div>
+            ))}
+            <div class="sm-echo" hidden><i></i></div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section id="sm-p-quiz" role="tabpanel" aria-labelledby="sm-tab-quiz" hidden>
+      <div class="sm-task"><span class="sm-num">2</span><div><h2 data-i18n="satzmelodie.task2.title">Hören Sie. Aussage, Frage oder Ausruf?</h2><p data-i18n="satzmelodie.task2.text">Die Wörter sind immer gleich. Nur die Melodie ist anders. Ergänzen Sie das Satzzeichen.</p></div></div>
+      <div class="sm-box sm-center">
+        <button type="button" class="sm-play sm-play--big" id="sm-q-play" aria-label="Satz anhören" data-i18n-attr="aria-label:af.listen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" /></svg></button>
+        <p class="sm-q-sent" id="sm-q-sent" lang="de"></p>
+        <div class="sm-answers" id="sm-q-answers">
+          <button type="button" class="sm-btn" data-a="aussage">. <span data-i18n="satzmelodie.type.aussage">Aussage</span> ↘</button>
+          <button type="button" class="sm-btn" data-a="echo">? <span data-i18n="qb.own.prompt">Frage</span> ↗</button>
+          <button type="button" class="sm-btn" data-a="ausruf">! <span data-i18n="satzmelodie.type.ausruf">Ausruf</span></button>
+        </div>
+        <p class="sm-fb" id="sm-q-fb" aria-live="polite"></p>
+        <button type="button" class="sm-btn sm-btn--primary" id="sm-q-next" data-i18n="satzmelodie.nextSentence">Nächster Satz →</button>
+        <p class="sm-score"><span data-i18n="vt.list.legendRight">richtig</span>: <b id="sm-q-right">0</b> · <span data-i18n="vt.list.legendWrong">falsch</span>: <b id="sm-q-wrong">0</b></p>
+      </div>
+    </section>
+
+    <section id="sm-p-akzent" role="tabpanel" aria-labelledby="sm-tab-akzent" hidden>
+      <div class="sm-task"><span class="sm-num">3</span><div><h2 data-i18n="satzmelodie.task3.title">Welches Wort ist betont? Klicken Sie.</h2><p data-i18n="satzmelodie.task3.text">Die Antwort ist immer derselbe Satz. Die Frage bestimmt, welches Wort den Akzent bekommt.</p></div></div>
+      <div class="sm-box sm-center">
+        <p class="sm-st-q" id="sm-st-q" lang="de"></p>
+        <div class="sm-words" id="sm-st-words" lang="de"></div>
+        <p class="sm-fb" id="sm-st-fb" aria-live="polite"></p>
+        <div class="sm-fam-actions sm-center-row">
+          <button type="button" class="sm-btn" id="sm-st-hear" data-i18n="satzmelodie.hearAnswer">Antwort anhören</button>
+          <button type="button" class="sm-btn sm-btn--primary" id="sm-st-next" data-i18n="satzmelodie.nextQuestion">Nächste Frage →</button>
+        </div>
+        <p class="sm-score" id="sm-st-count"></p>
+      </div>
+    </section>
+
+    <section id="sm-p-labyrinth" role="tabpanel" aria-labelledby="sm-tab-labyrinth" hidden>
+      <div class="sm-task"><span class="sm-num">4</span><div><h2 data-i18n="satzmelodie.task4.title">Melodie-Labyrinth: Welcher Ausgang?</h2><p data-i18n="satzmelodie.task4.text">Quaki hüpft mit der Stimme durch den Satz. Am Ende teilt sich der Weg: Geht die Stimme nach oben, nach unten oder ganz steil nach unten? Danach sehen Sie die echte Melodie – und Quaki fährt sie mit.</p></div></div>
+      <div class="sm-box lab-box">
+        <p class="lab-sent" aria-live="polite" lang="de"></p>
+        <div class="lab-stage">
+          <svg class="lab-svg" viewBox="0 0 360 250" role="img" aria-label="Labyrinth: Der Weg teilt sich am Satzende in drei Ausgänge – oben Frage, unten Aussage, ganz unten Ausruf." data-i18n-attr="aria-label:satzmelodie.lab.aria">
+            <g class="lab-maze">
+              <path class="lab-wall" d="M100 125 L100 72 L150 72 M190 125 L190 192 L140 192" />
+              <path class="lab-wall" d="M14 125 L262 125" />
+              {Object.values(ROUTES).map((d) => <path class="lab-wall" d={d} />)}
+              <path class="lab-floor lab-floor--dead" d="M100 125 L100 72 L150 72 M190 125 L190 192 L140 192" />
+              <path class="lab-floor" d="M14 125 L262 125" />
+              {Object.entries(ROUTES).map(([t, d]) => <path class="lab-floor lab-route" data-route={t} data-type={t} d={d} />)}
+              <text class="lab-level" x="4" y="16" data-i18n="satzmelodie.lab.high">hoch ↑</text>
+              <text class="lab-level" x="4" y="246" data-i18n="satzmelodie.lab.low">tief ↓</text>
+            </g>
+            {DOORS.map((d) => (
+              <g class="lab-door" data-door={d.t} data-type={d.t} transform={`translate(334 ${d.y})`}>
+                <rect x="0" y="-15" width="22" height="30" rx="5" />
+                <text x="11" y="6" text-anchor="middle">{d.sign}</text>
+              </g>
+            ))}
+            <path class="lab-trail" d="" />
+            <g class="lab-stones"></g>
+            <g class="lab-frog" transform="translate(-6 87)">
+              <circle class="lab-dot" cx="20" cy="30" r="9" />
+              {frogFaces.map((f) => <g data-face={f.expr} style={f.expr === "happy" ? "" : "display:none"} set:html={f.svg} />)}
+            </g>
+          </svg>
+          <p class="lab-say" aria-live="polite">Hör zu – dann such den Ausgang!</p>
+        </div>
+        <div class="lab-controls">
+          <button type="button" class="sm-play sm-play--big lab-play" aria-label="Satz anhören" data-i18n-attr="aria-label:af.listen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" /></svg></button>
+          <div class="sm-answers lab-exits">
+            <button type="button" class="sm-btn" data-exit="echo" data-i18n="satzmelodie.lab.exitUp">↗ oben · ? Frage</button>
+            <button type="button" class="sm-btn" data-exit="aussage" data-i18n="satzmelodie.lab.exitDown">↘ unten · . Aussage</button>
+            <button type="button" class="sm-btn" data-exit="ausruf" data-i18n="satzmelodie.lab.exitDeep">⤵ ganz unten · ! Ausruf</button>
+          </div>
+        </div>
+        <p class="sm-fb lab-fb" aria-live="polite"></p>
+        <div class="sm-fam-actions sm-center-row">
+          <button type="button" class="sm-btn lab-ride" hidden data-i18n="satzmelodie.lab.ride">Mit Quaki mitfahren ▶</button>
+          <button type="button" class="sm-btn sm-btn--primary lab-next" data-i18n="satzmelodie.nextSentence">Nächster Satz →</button>
+        </div>
+        <p class="sm-score"><span data-i18n="vt.list.legendRight">richtig</span>: <b class="lab-right">0</b> · <span data-i18n="vt.list.legendWrong">falsch</span>: <b class="lab-wrong">0</b></p>
+      </div>
+    </section>
+
+  </main>
+
+  {/* The rule column (as AusspracheRegeln.astro): beside the exercises from 1001px, a
+      bottom sheet below. */}
+  <div class="sm-regel-scrim" data-regel-hide aria-hidden="true"></div>
+  <aside class="sm-regel" id="sm-regel" aria-labelledby="sm-regel-h">
+    <div class="sm-regel-head">
+      <div>
+        <p class="sm-regel-eyebrow" data-i18n="ak.rule">Regel</p>
+        <h2 class="sm-regel-title" id="sm-regel-h" data-i18n="satzmelodie.rule.title">Die Melodie am Satzende</h2>
+      </div>
+      <button type="button" class="sm-regel-x" data-regel-hide aria-label="Regel schließen" data-i18n-attr="aria-label:vp.rule.close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="sm-regel-body">
+      {rules.map((r) => (
+        <section class="sm-rule" data-line data-rule={r.id} data-text={r.ex} data-src={r.src}>
+          <div class="sm-rule-top">
+            <button type="button" class="sm-play" aria-label={`${r.name} anhören`}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" /></svg></button>
+            <svg class={`sm-curve sm-curve--${chip(r.curve)}`} viewBox="0 0 70 26" aria-hidden="true"><path d={CURVE[r.curve]} /></svg>
+            <span class={`sm-chip sm-chip--${chip(r.curve)}`} data-i18n={`satzmelodie.type.${r.id}`}>{r.name}</span>
+          </div>
+          <p class="sm-rule-text" data-i18n={`satzmelodie.rule.${r.id}`}>{r.text}</p>
+          <p class="sm-rule-ex" lang="de">{r.ex}</p>
+        </section>
+      ))}
+      <p class="sm-tip" data-i18n="satzmelodie.teacherTip">Für Lehrkräfte: Partnerübung mit drei Karten (. ? !). A sagt „Du kommst morgen“ mit einer Melodie, B zeigt die passende Karte.</p>
+    </div>
+  </aside>
+  </div>
+
+  <script is:inline type="application/json" id="sm-data" set:html={JSON.stringify({ stress, quiz, parts: Object.fromEntries(rules.map((r) => [r.id, r.parts])) })}></script>
+</Layout>
+
+<script>
+  import { createRuleIntro } from "../lib/ruleIntro.js";
+  import { initLabyrinth } from "../lib/melodieLabyrinth.js";
+  import { melodyFromUrl, learnerMelody, compareMelody, endingCheck, melodyChart } from "../lib/satzmelodie.js";
+  import { t, onUiText } from "../lib/uiText.js";
+  type Line = { text: string; src: string; type?: string };
+  const root = document.getElementById("sm-root")!;
+  const D = JSON.parse(document.getElementById("sm-data")!.textContent || "{}");
+
+  // ---- playback: the recording when there is one, else the browser's German voice ----
+  const audio = new Audio();
+  let run = 0;
+  const synth = "speechSynthesis" in window ? window.speechSynthesis : null;
+  let deVoice: SpeechSynthesisVoice | null = null;
+  const pickVoice = () => {
+    const v = synth?.getVoices().filter((x) => /^de/i.test(x.lang)) ?? [];
+    deVoice = v.find((x) => /natural|online|neural|premium/i.test(x.name)) ?? v[0] ?? null;
+  };
+  if (synth) { pickVoice(); synth.onvoiceschanged = pickVoice; }
+  // Browser fallback: pitch is all it can do, so the type sets it.
+  const PITCH: Record<string, number> = { aussage: 1, w: 1, jn: 1.1, echo: 1.25, ausruf: 1.3, weiter: 1.05 };
+
+  function stop() {
+    run++;
+    audio.pause();
+    synth?.cancel();
+    root.querySelectorAll(".is-playing").forEach((el) => el.classList.remove("is-playing"));
+  }
+  function speak(text: string, pitch = 1, rate = 0.9): Promise<void> {
+    return new Promise((res) => {
+      if (!synth) return res();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "de-DE";
+      if (deVoice) u.voice = deVoice;
+      u.pitch = pitch; u.rate = rate;
+      let done = false;
+      const fin = () => { if (!done) { done = true; res(); } };
+      u.onend = fin; u.onerror = fin;
+      setTimeout(fin, Math.max(2500, text.length * 170));
+      synth.speak(u);
+    });
+  }
+  async function play(line: Line, parts?: { t: string; type: string }[], stressK?: number, words?: string[]) {
+    if (line.src) {
+      return new Promise<void>((res) => {
+        audio.src = line.src;
+        audio.onended = () => res(); audio.onerror = () => res();
+        audio.play().catch(() => res());
+      });
+    }
+    const id = run;
+    if (parts) { for (const p of parts) { if (id !== run) return; await speak(p.t, PITCH[p.type] ?? 1); } return; }
+    if (words && stressK !== undefined) {
+      const before = words.slice(0, stressK).join(" "), after = words.slice(stressK + 1).join(" ");
+      if (before) await speak(before, 0.95, 1);
+      if (id !== run) return;
+      await speak(words[stressK], 1.45, 0.75);
+      if (after && id === run) await speak(after, 0.9, 1);
+      return;
+    }
+    return speak(line.text, PITCH[line.type ?? "aussage"] ?? 1);
+  }
+  const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+  const lineOf = (el: HTMLElement): Line => ({ text: el.dataset.text!, src: el.dataset.src!, type: el.dataset.type });
+
+  // aria-labels with the sentence in them: data-i18n-attr has no variables, so they are set here.
+  onUiText(() => {
+    root.querySelectorAll<HTMLElement>(".sm-families [data-line]").forEach((row) => {
+      const text = row.dataset.text!;
+      row.querySelector(".sm-play")?.setAttribute("aria-label", t("satzmelodie.playLine", "{text} anhören", { text }));
+      row.querySelector("[data-mic]")?.setAttribute("aria-label", t("satzmelodie.micLine", "„{text}“ nachsprechen und Melodie prüfen", { text }));
+    });
+    document.querySelectorAll<HTMLElement>("#sm-regel [data-rule]").forEach((sec) => {
+      const name = sec.querySelector("[data-i18n]")?.textContent || "";
+      sec.querySelector(".sm-play")?.setAttribute("aria-label", t("satzmelodie.playLine", "{text} anhören", { text: t(`satzmelodie.type.${sec.dataset.rule}`, name) }));
+    });
+  });
+
+  // ---- 1: families ----
+  root.querySelector(".sm-families")!.addEventListener("click", async (e) => {
+    const t = e.target as HTMLElement;
+    const card = t.closest<HTMLElement>("[data-family]");
+    if (!card) return;
+    const rows = [...card.querySelectorAll<HTMLElement>("[data-line]")];
+    const mic = t.closest<HTMLButtonElement>("[data-mic]");
+    if (mic) { check(mic); return; }
+    const one = t.closest(".sm-play")?.closest<HTMLElement>("[data-line]");
+    if (one) { stop(); const id = run; one.classList.add("is-playing"); await play(lineOf(one)); if (id === run) one.classList.remove("is-playing"); return; }
+    const all = t.closest("[data-all]"), echo = t.closest("[data-echo]");
+    if (!all && !echo) return;
+    stop(); const id = run;
+    const bar = card.querySelector<HTMLElement>(".sm-echo")!, fill = bar.querySelector<HTMLElement>("i")!;
+    if (echo) bar.hidden = false;
+    for (const r of rows) {
+      if (id !== run) break;
+      r.classList.add("is-playing");
+      await play(lineOf(r));
+      if (echo) {
+        const ms = 1400 + r.dataset.text!.length * 90;
+        fill.style.transition = "none"; fill.style.width = "0"; void fill.offsetWidth;
+        fill.style.transition = `width ${ms}ms linear`; fill.style.width = "100%";
+        await wait(ms);
+      } else await wait(450);
+      r.classList.remove("is-playing");
+    }
+    bar.hidden = true;
+  });
+
+  // ---- 1b: melody check (src/lib/satzmelodie.js, all in the browser) ----
+  // Tap the mic beside a line, say it, tap again (or it stops by itself). Your pitch curve
+  // is laid over the model's, with a score, the verdict on the ending and one tip. Lines
+  // without a recording have no model: then only the ending is judged.
+  let stream: MediaStream | null = null;
+  let rec: MediaRecorder | null = null;
+  let recBtn: HTMLButtonElement | null = null;
+  let recTimer = 0;
+  const ARROW = {
+    rise: () => t("satzmelodie.res.rise", "↗ steigt"),
+    fall: () => t("satzmelodie.res.fall", "↘ fällt"),
+    flat: () => t("satzmelodie.res.flat", "→ bleibt gleich"),
+  } as const;
+  const msg = (html: string) => `<p class="sm-res-msg">${html}</p>`;
+
+  function panelFor(row: HTMLElement) {
+    let p = row.nextElementSibling as HTMLElement | null;
+    if (!p?.classList.contains("sm-result")) {
+      p = document.createElement("div");
+      p.className = "sm-result";
+      p.setAttribute("aria-live", "polite");
+      row.after(p);
+    }
+    return p;
+  }
+
+  async function check(btn: HTMLButtonElement) {
+    if (rec && rec.state === "recording") {
+      const same = recBtn === btn;
+      rec.stop();
+      if (same) return;
+    }
+    stop();
+    const row = btn.closest<HTMLElement>("[data-line]")!;
+    const panel = panelFor(row);
+    if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
+      panel.innerHTML = msg(t("satzmelodie.res.noRecorder", "Dein Browser kann hier nicht aufnehmen. Versuch es mit Chrome, Edge oder Safari."));
+      return;
+    }
+    try {
+      stream ??= await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
+    } catch {
+      panel.innerHTML = msg(t("satzmelodie.res.noMic", "Ohne Mikrofon geht es nicht: Erlaube den Zugriff in der Adresszeile und tipp noch einmal auf das Mikrofon."));
+      return;
+    }
+    const chunks: Blob[] = [];
+    const r = new MediaRecorder(stream);
+    rec = r;
+    recBtn = btn;
+    r.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
+    r.onstop = () => {
+      clearTimeout(recTimer);
+      btn.classList.remove("is-rec");
+      row.classList.remove("is-rec");
+      if (recBtn === btn) recBtn = null;
+      evaluate(row, panel, new Blob(chunks, { type: r.mimeType || "audio/webm" }));
+    };
+    btn.classList.add("is-rec");
+    row.classList.add("is-rec");
+    panel.innerHTML = msg(`<span class="sm-rec-dot"></span> ${t("satzmelodie.res.speak", "Sprich jetzt: „{text}“ – tipp aufs Mikrofon, wenn du fertig bist.", { text: row.dataset.text })}`);
+    r.start();
+    recTimer = window.setTimeout(() => { if (r.state === "recording") r.stop(); }, 2500 + row.dataset.text!.length * 110);
+  }
+
+  async function evaluate(row: HTMLElement, panel: HTMLElement, blob: Blob) {
+    const text = row.dataset.text!;
+    panel.innerHTML = msg(t("satzmelodie.res.analysing", "Ich höre mir deine Melodie an …"));
+    try {
+      const [ref, you] = await Promise.all([melodyFromUrl(row.dataset.src || ""), learnerMelody(blob)]);
+      if (!you || you.length < 8) {
+        panel.innerHTML = msg(t("satzmelodie.res.tooQuiet", "Ich habe fast nichts gehört. Sprich etwas lauter und näher am Mikrofon."));
+        return;
+      }
+      const res = ref ? compareMelody(ref, you, { text }) : null;
+      // The analysis knows yes/no questions; the Nachfrage rises the same way, only more.
+      if (res?.tip && row.dataset.type === "echo" && res.tip.startsWith("Bei Ja/Nein-Fragen")) {
+        res.tip = t("satzmelodie.res.echoTip", "Bei der Nachfrage geht die Stimme am Ende stark nach oben – noch deutlicher als bei der Ja/Nein-Frage.");
+      }
+      const end = endingCheck(you, text);
+      const band = res ? (res.score >= 80 ? "good" : res.score >= 60 ? "ok" : "low") : "";
+      const endLine = end
+        ? `<p class="sm-res-end ${end.ok ? "is-ok" : "is-off"}">${t("satzmelodie.res.end", "Satzende: <b>{arrow}</b> – {verdict}", {
+            arrow: ARROW[end.actual as keyof typeof ARROW](),
+            verdict: end.ok
+              ? t("satzmelodie.res.endOk", "richtig.")
+              : end.expected === "rise"
+                ? t("satzmelodie.res.shouldRise", "hier sollte die Stimme steigen ↗.")
+                : t("satzmelodie.res.shouldFall", "hier sollte die Stimme fallen ↘."),
+          })}</p>`
+        : `<p class="sm-res-end">${t("satzmelodie.res.endQuiet", "Das Satzende war zu leise, um es zu beurteilen.")}</p>`;
+      panel.innerHTML = `
+        <div class="sm-res-head">
+          <b>${t("satzmelodie.res.yours", "Deine Melodie")}</b>
+          ${res ? `<span class="sm-res-score sm-res-score--${band}">${res.score} / 100</span>` : ""}
+        </div>
+        ${melodyChart(ref ?? [], you)}
+        <div class="sm-res-legend">${ref ? `<span><i class="sm-key sm-key--ref"></i>${t("satzmelodie.res.model", "Vorbild")}</span>` : ""}<span><i class="sm-key sm-key--you"></i>${t("satzmelodie.res.you", "Du")}</span></div>
+        ${endLine}
+        ${res?.tip ? `<p class="sm-res-tip">${res.tip}</p>` : ""}
+        ${!ref ? msg(t("satzmelodie.res.noModel", "Für diesen Satz gibt es noch keine Aufnahme – darum wird nur das Satzende geprüft.")) : ""}`;
+    } catch (err) {
+      console.error(err);
+      panel.innerHTML = msg(t("satzmelodie.res.failed", "Die Aufnahme ließ sich nicht auswerten. Versuch es noch einmal."));
+    }
+  }
+
+  // ---- 2: quiz ----
+  const qSent = document.getElementById("sm-q-sent")!, qFb = document.getElementById("sm-q-fb")!;
+  const qBtns = [...document.querySelectorAll<HTMLButtonElement>("#sm-q-answers [data-a]")];
+  const MARK: Record<string, string> = { aussage: ".", echo: "?", ausruf: "!" };
+  const WHY: Record<string, () => string> = {
+    aussage: () => t("satzmelodie.why.aussage", "Aussage: Die Stimme geht am Ende nach unten ↘."),
+    echo: () => t("satzmelodie.why.echo", "Nachfrage: Die Stimme geht am Ende deutlich nach oben ↗. Man ist überrascht oder prüft, ob man richtig gehört hat. Keine normale Frage — die hat das Verb auf Position 1."),
+    ausruf: () => t("satzmelodie.why.ausruf", "Ausruf: Die Stimme startet hoch und fällt stark ↘. Man ist begeistert oder überrascht."),
+  };
+  let cur: { base: string; t: string; src: string } | null = null, answered = false, right = 0, wrong = 0, last = -1;
+  function newQ() {
+    let i; do { i = Math.floor(Math.random() * D.quiz.length); } while (i === last && D.quiz.length > 1);
+    last = i;
+    const t = ["aussage", "echo", "ausruf"][Math.floor(Math.random() * 3)];
+    cur = { base: D.quiz[i].base, t, src: D.quiz[i].src[t] };
+    answered = false;
+    qSent.innerHTML = ""; qSent.append(cur.base, Object.assign(document.createElement("span"), { className: "sm-gap", textContent: " " }));
+    qFb.textContent = ""; qFb.className = "sm-fb";
+    qBtns.forEach((b) => (b.className = "sm-btn"));
+  }
+  const playQ = () => { if (!cur) return; stop(); play({ text: cur.base + MARK[cur.t], src: cur.src, type: cur.t }); };
+  document.getElementById("sm-q-play")!.addEventListener("click", playQ);
+  document.getElementById("sm-q-next")!.addEventListener("click", () => { newQ(); playQ(); });
+  qBtns.forEach((b) => b.addEventListener("click", () => {
+    if (!cur || answered) return;
+    answered = true;
+    const ok = b.dataset.a === cur.t;
+    b.classList.add(ok ? "is-right" : "is-wrong");
+    if (!ok) qBtns.find((x) => x.dataset.a === cur!.t)!.classList.add("is-right");
+    ok ? right++ : wrong++;
+    document.getElementById("sm-q-right")!.textContent = String(right);
+    document.getElementById("sm-q-wrong")!.textContent = String(wrong);
+    qSent.querySelector(".sm-gap")!.textContent = MARK[cur.t];
+    qFb.textContent = `${ok ? t("lq.res.ok", "Richtig!") : t("satzmelodie.wrong", "Leider nicht.")} ${WHY[cur.t]()}`;
+    qFb.className = `sm-fb ${ok ? "is-ok" : "is-bad"}`;
+  }));
+  newQ();
+
+  // ---- 3: Satzakzent ----
+  const stQ = document.getElementById("sm-st-q")!, stW = document.getElementById("sm-st-words")!, stFb = document.getElementById("sm-st-fb")!;
+  const order = D.stress.map((_: unknown, i: number) => i).sort(() => Math.random() - 0.5);
+  let si = 0, sDone = false;
+  function showStress() {
+    const it = D.stress[order[si]];
+    sDone = false; stFb.textContent = ""; stFb.className = "sm-fb";
+    stQ.textContent = "▲ " + it.q;
+    stW.replaceChildren(...it.words.map((w: string, i: number) => Object.assign(document.createElement("button"), { type: "button", className: "sm-word", textContent: w, value: String(i) })));
+    paintCount();
+  }
+  function paintCount() {
+    document.getElementById("sm-st-count")!.textContent = t("vt.test.question", "Frage {n} von {total}", { n: si + 1, total: D.stress.length });
+  }
+  onUiText(paintCount);
+  const sayStress = () => { const it = D.stress[order[si]]; stop(); play({ text: it.words.join(" "), src: it.src }, undefined, it.k, it.words); };
+  stW.addEventListener("click", (e) => {
+    const b = (e.target as HTMLElement).closest<HTMLButtonElement>(".sm-word");
+    if (!b || sDone) return;
+    const it = D.stress[order[si]];
+    if (Number(b.value) === it.k) {
+      sDone = true; b.classList.add("is-right");
+      stFb.textContent = t("satzmelodie.stress.ok", "Richtig! Dieses Wort ist die neue Information."); stFb.className = "sm-fb is-ok";
+      sayStress();
+    } else {
+      b.classList.add("is-wrong");
+      stFb.textContent = t("satzmelodie.stress.again", "Noch einmal: Welches Wort antwortet direkt auf die Frage?"); stFb.className = "sm-fb is-bad";
+    }
+  });
+  document.getElementById("sm-st-hear")!.addEventListener("click", () => {
+    const it = D.stress[order[si]];
+    if (!sDone) { sDone = true; stW.querySelector(`[value="${it.k}"]`)?.classList.add("is-right"); }
+    sayStress();
+  });
+  document.getElementById("sm-st-next")!.addEventListener("click", () => { si = (si + 1) % D.stress.length; showStress(); });
+  showStress();
+
+  // ---- 4: Labyrinth ----
+  initLabyrinth({
+    panel: document.getElementById("sm-p-labyrinth")!,
+    quiz: D.quiz, audio, stop, runId: () => run,
+    play: (l: Line) => play(l),
+  });
+
+  // ---- Regel ----
+  const shell = document.getElementById("sm-shell")!;
+  const aside = document.getElementById("sm-regel")!;
+  aside.addEventListener("click", (e) => {
+    const tr = (e.target as HTMLElement).closest(".sm-play")?.closest<HTMLElement>("[data-rule]");
+    if (!tr) return;
+    stop(); play(lineOf(tr), D.parts[tr.dataset.rule!]);
+  });
+
+  // ---- tabs (#hoeren, #quiz, #akzent, #labyrinth; #regel opens the rule column) ----
+  // The sliding underline and the panels' entrance come from segSwitch.js (switchRegistry.js).
+  const tabs = [...root.querySelectorAll<HTMLButtonElement>("[role=tab]")];
+  function open(tab: HTMLButtonElement) {
+    stop();
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute("aria-selected", String(on));
+      document.getElementById(t.getAttribute("aria-controls")!)!.hidden = !on;
+    });
+  }
+  tabs.forEach((t) => t.addEventListener("click", () => { open(t); history.replaceState(null, "", "#" + t.id.replace("sm-tab-", "")); }));
+  const fromHash = document.getElementById("sm-tab-" + location.hash.slice(1)) as HTMLButtonElement | null;
+  if (fromHash) open(fromHash);
+
+  // ---- rule column ----
+  // Folded and unfolded like a grammar topic's rule and /aussprache's, with the same
+  // remembered choice (da-grammatik-rule), so it is one setting site-wide. Below 1001px it
+  // is a sheet: opening it there is for this visit only.
+  const RULE_KEY = "da-grammatik-rule";
+  const wide = matchMedia("(min-width: 1001px)");
+  const toggle = root.querySelector<HTMLButtonElement>("[data-regel-toggle]")!;
+  const label = () => {
+    const shown = shell.dataset.regel === "shown";
+    toggle.textContent = shown ? toggle.dataset.hide! : toggle.dataset.show!;
+    toggle.setAttribute("aria-expanded", String(shown));
+    aside.inert = !shown;
+    aside.setAttribute("aria-hidden", String(!shown));
+  };
+  const setRule = (shown: boolean, persist: boolean) => {
+    shell.dataset.regel = shown ? "shown" : "hidden";
+    if (persist && wide.matches) { try { localStorage.setItem(RULE_KEY, shown ? "shown" : "hidden"); } catch {} }
+    label();
+  };
+  let saved: string | null = null;
+  try { saved = localStorage.getItem(RULE_KEY); } catch {}
+  // Open on a desktop unless put away once (or asked for by #regel); closed on a phone.
+  const regelLink = location.hash === "#regel";
+  setRule(regelLink || (wide.matches && saved !== "hidden"), false);
+  requestAnimationFrame(() => shell.classList.add("sm-regel-ready"));
+  // The column sticks below the site nav, whose height wraps with the window.
+  const nav = document.querySelector<HTMLElement>("[data-nav]");
+  const navH = () => shell.style.setProperty("--sm-top", `${nav?.offsetHeight ?? 62}px`);
+  navH();
+  addEventListener("resize", navH);
+  toggle.addEventListener("click", () => setRule(shell.dataset.regel !== "shown", true));
+  document.querySelectorAll("[data-regel-hide]").forEach((b) => b.addEventListener("click", () => setRule(false, true)));
+  addEventListener("keydown", (e) => { if (e.key === "Escape" && !wide.matches && shell.dataset.regel === "shown") setRule(false, false); });
+  wide.addEventListener("change", () => {
+    let v: string | null = null;
+    try { v = localStorage.getItem(RULE_KEY); } catch {}
+    setRule(wide.matches && v !== "hidden", false);
+  });
+  // The pill's words follow the UI language: i18n rewrites data-show / data-hide.
+  new MutationObserver(label).observe(toggle, { attributes: true, attributeFilter: ["data-show", "data-hide"] });
+
+  // ---- rule tour: Quaki shows where the rule is ----
+  // Once per browser (?intro replays it, "Tour neu" clears the flag), the grammar pages'
+  // engine (ruleIntro.js): the column is named, then the light lands on the pill that folds
+  // it. Not over a deep link: someone sent to #quiz came for that.
+  const TOUR = "da-satzmelodie-tour-seen";
+  const tourForced = new URLSearchParams(location.search).has("intro");
+  let tourSeen = false;
+  try { tourSeen = localStorage.getItem(TOUR) === "1"; } catch {}
+  if ((tourForced || (!tourSeen && !location.hash)) && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (!tourForced) { try { localStorage.setItem(TOUR, "1"); } catch {} }
+    const compact = !wide.matches;
+    // Built when it plays, so its lines come from the loaded dictionary.
+    setTimeout(() => createRuleIntro({
+      mascot: "quaki",
+      ruleEl: aside,
+      ruleBtn: toggle,
+      ruleCard: compact ? null : aside,
+      setRule: (hidden: boolean) => setRule(!hidden, false),
+      compact,
+      restHidden: shell.dataset.regel !== "shown",
+      // ruleIntro.js looks each line up as a key and falls back to the text itself, so the
+      // lines go in already translated (the button's own label filled in).
+      coach: [
+        [t("satzmelodie.tour.title1", "Hier steht die Regel"), t("satzmelodie.tour.text1", "Alle Melodien auf einen Blick: Aussage ↘, Frage ↗, Nachfrage ↗↗, Ausruf – jede mit einem Beispiel zum Anhören.")],
+        [t("satzmelodie.tour.title2", "Hier ein- und ausblenden"), compact
+          ? t("satzmelodie.tour.text2Compact", "Tipp auf „{label}“, wenn du nicht sicher bist – und dann geht es weiter mit dem Üben.", { label: toggle.dataset.show })
+          : t("satzmelodie.tour.text2Wide", "Mit „{label}“ hast du mehr Platz zum Üben – ein Klick, und sie ist wieder da.", { label: toggle.dataset.hide })],
+      ],
+    }).play(), 600);
+  }
+</script>

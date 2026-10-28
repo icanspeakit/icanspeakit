@@ -1,0 +1,999 @@
+---
+// The Lernset navigation that fills the side column on every Wortschatz page.
+//
+// It IS the dashboard's rail now — nav.css's `.nvb`, variant B, the same stylesheet
+// /dashboard loads — rather than a lookalike built out of `.ls-*` classes beside it. The
+// lookalike had already drifted: its rows were a bespoke three-column grid, its rail
+// buttons were 40px against the dashboard's 42, and its tooltips were a second
+// implementation of `.nvb-tip`. Two components meant to be one thing, kept in step by
+// hand, stay in step until the first time nobody checks.
+//
+// What is genuinely ours stays ours, under `ls-*`: the Thema/Reihe switch, the
+// collapsible Bereiche and the rounds named by their words are Wortschatz ideas with no dashboard
+// counterpart. Everything that exists on both sides — rail, panel, head, rows, overview
+// button — is nav.css's.
+//
+// This component renders only the column's *contents*. The shell — the card, the two
+// toggles, the collapse behaviour — lives in VokabelTrainer.astro, the same way a grammar
+// topic owns its own .vp-rule-card.
+//
+// Every row and every count comes from src/lib/lernsets.js, i.e. from the lexicon at build
+// time. Nothing here is hand-typed, so a Lernset cannot appear unless its words exist
+// (docs/wortschatz-programm-v1.md §3).
+import Icon from "./Icon.astro";
+import { counts, modules, cohorts, frequencyCounts, portions } from "../lib/lernsets.js";
+import { LEVELS, LEVEL_NAMES, byUnit, spokenForm } from "../lib/lexicon.js";
+import { unitIcon, duplicateIconsIn } from "../lib/unitIcon.js";
+import { BERUFE } from "../lib/berufeCore.js";
+import { DECKS as BERUF_DECKS, groupsOf as berufGroups } from "../lib/berufeWortschatz.js";
+import { GROUPS as FS_GROUPS } from "../lib/fuehrerscheinWortschatz.js";
+import { SETS as RM_SETS } from "../lib/redemittelWortschatz.js";
+import curated from "../data/wortschatz.json";
+import "../styles/nav.css";
+import "../styles/lernset-picker.css";
+// The look every side nav shares (decisions of "Seitennavigation vereinheitlichen").
+import "../styles/sidenav.css";
+import SideNavFold from "./SideNavFold.astro";
+
+interface Props {
+  /** Deck id of the page this sits on: "redemittel", a level ("a1") or a unit ("a1-04"). */
+  current: string;
+  /** Choose rather than go: rows pick a whole level or one Lernset and announce it with a
+   *  `lernset-pick` event instead of opening its page. Only the topic lists remain —
+   *  what can be chosen as a set — so no progress, frequency, Reihe or Redemittel, and no fold:
+   *  the page that holds it decides when it is shown. Used by the live quiz. */
+  select?: boolean;
+}
+const { current, select = false } = Astro.props;
+
+const c = counts();
+// A level is offered when it has Lernsets that can actually be opened. C1/C2 have modules
+// planned and no words, so they are named at the bottom instead of linked.
+const liveLevels = LEVELS.filter((l) => c[l].sets > 0);
+// The rail always shows A1–B2, so it reads the same on every side nav; a level without
+// Lernsets yet is greyed rather than left out.
+const RAIL_LEVELS = ["A1", "A2", "B1", "B2"];
+const planLevels = LEVELS.filter((l) => c[l].sets === 0 && c[l].plannedModules > 0);
+
+const groupsByLevel = Object.fromEntries(
+  liveLevels.map((level) => [
+    level,
+    // A module with no sets is a plan, not an offering. Once a level has real sets, its
+    // empty modules would be fifteen dead rows above the live ones — the summary line
+    // under the list says how many are still coming instead.
+    modules(level).filter((g) => g.sets.length > 0),
+  ])
+);
+
+// Loud rather than silent: two sets with the same picture in one group read as a list of
+// repeats. A new set without its own entry in UNIT_ICONS is the usual cause.
+const iconClashes = duplicateIconsIn(Object.values(groupsByLevel).flat());
+if (iconClashes.length) throw new Error(`Lernset-Icons doppelt in einer Gruppe: ${iconClashes.join("; ")}`);
+
+// A Redemittel set with a `level` (src/data/redemittel.json — „Wo ist der Ball?“ is A1) is
+// listed under that level as a picture-card group, not in the Redemittel pane; on its page
+// the side nav opens that level.
+const levelRmSets = (level) => (select ? [] : RM_SETS.filter((s) => s.level === level));
+const rmOnLevel = RM_SETS.find((s) => s.level && current === `redemittel-${s.id}`) ?? null;
+const openLevel = rmOnLevel?.level ?? liveLevels.find((l) => current.startsWith(l.toLowerCase())) ?? liveLevels[0];
+
+// A level is 26 to 46 Lernsets, and listing them flat under open headings was a single
+// scroll several screens long — the group names went past as captions rather than working
+// as a way in. So the groups are collapsible: one open at a time, the rest one line each,
+// which puts the whole level's shape on one screen.
+//
+// Not collapsed when the level has only one group: a lone accordion that is always open
+// is a heading wearing a chevron. And not below ~15 sets (decision 10): a short level is
+// one flat list under small headings, which is what every other side nav shows.
+const ACCORDION_FROM = 15;
+const setCount = (level) => groupsByLevel[level].reduce((n, g) => n + g.sets.length, 0);
+const groupsCollapse = (level) => groupsByLevel[level].length > 1 && setCount(level) > ACCORDION_FROM;
+// The group holding the set you are on, so arriving on /a1-14 opens its Bereich rather
+// than the first one and a scroll. The live quiz (select mode) starts with every group
+// folded: the teacher picks a Bereich, nothing is pre-chosen for them.
+const openGroup = (level) =>
+  select ? null : groupsByLevel[level].find((g) => g.sets.some((set) => set.id === current)) ?? groupsByLevel[level][0];
+
+// The level's own list in the level's own order, 25 at a time — a finer grain of the
+// level you already chose, rather than another way of ordering the whole lexicon.
+const isTeil = /-teil-\d+$/.test(current);
+const teileList = Object.fromEntries(liveLevels.map((level) => [level, portions(level)]));
+const openCut = (level) => (isTeil && current.startsWith(level.toLowerCase()) ? "teile" : "thema");
+
+// The other way to cut the same lexicon: by corpus frequency rather than by topic. See
+// the long note in src/lib/lernsets.js for why it exists and what it does not claim.
+// teil.topics carries set TITLES, but the keys are by id — so map one to the other once.
+const setKeyByTitle = Object.fromEntries(
+  liveLevels.flatMap((lv) => groupsByLevel[lv].flatMap((g) => g.sets.map((st) => [st.title, `ws.set.${st.id}`])))
+);
+
+// Select mode (the live quiz) gets a search over every level: a teacher thinks "Müll", not
+// "A2 · Umwelt & Müll". Each set carries its title and its words (with synonyms) as one
+// lower-case haystack; the script filters on it and names the words that matched.
+const searchSets = select
+  ? liveLevels.flatMap((level) => groupsByLevel[level].flatMap((g) => g.sets.map((set) => ({
+      level,
+      set,
+      words: byUnit(set.id).map((w) => [spokenForm(w), ...(w.syn ?? [])].join("|")).join("~"),
+    }))))
+  : [];
+
+const freq = frequencyCounts();
+const cohortList = cohorts();
+const isFreq = current.startsWith("haeufigkeit-");
+
+// On a profession deck (/berufe/<beruf>/<gruppe>, deck id berufe-<beruf>-<gruppe>) the panel
+// shows the Berufe — this one open with its word groups — instead of an A1 list that has
+// nothing to do with the page. Elsewhere the Berufe icon stays a plain link to /berufe.
+const berufList = BERUFE.filter((b) => berufGroups(b.slug).length > 0).map((b) => ({
+  ...b,
+  title: BERUF_DECKS[b.slug].title,
+  groups: berufGroups(b.slug),
+}));
+const currentBeruf = berufList.find((b) => current.startsWith(`berufe-${b.slug}-`)) ?? null;
+const isBerufe = !select && !!currentBeruf;
+// Every trainer page carries the Berufe pane (open on a Beruf page), and so does the live
+// quiz (select mode), whose rows choose instead of link.
+const showBerufe = true;
+// The Fahrschul-Wortschatz (deck fuehrerschein / fuehrerschein-<gruppe>) the same way: its
+// word groups in the panel, not as a chip row above the trainer.
+const isFs = !select && current.startsWith("fuehrerschein");
+const fsTotal = FS_GROUPS.reduce((n, g) => n + g.words.length, 0);
+const FS_ICON = { auto: "🚗", strasse: "🛣️", anweisungen: "🧑‍🏫", pruefung: "📋" };
+// Redemittel (deck redemittel / redemittel-<set>) the same way: on its pages the rail icon
+// is a tab and the pane lists the curated Alltag deck and the speech-act sets
+// (src/data/redemittel.json), instead of an A1 list that has nothing to do with the page.
+const isRm = !select && !rmOnLevel && (current === "redemittel" || current.startsWith("redemittel-"));
+// A teacher's own card set (/lehrkraefte/karten/lernen?set=…): its rail entry is open there.
+const isOwn = current === "vokabel-set";
+const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn && level === openLevel;
+---
+<div class:list={["nvb ls-nvb snav", select && "ls-nvb--select"]} data-nvb data-current={current} data-select={select ? "" : undefined}>
+  <!-- The fold tab, on the panel's right edge, where a Karteiordner carries its own: the
+       list pivots away to the left and the tab stays behind, still attached to the rail,
+       so the way back is exactly the thing that put it away. It replaces the chevron that
+       used to sit in the panel head — the same act, but a control you can find without
+       first reading the head, and one that survives the fold instead of going with it. -->
+  {(
+  <button type="button" class="ls-foldtab" data-nvb-collapse aria-label="Liste einklappen" aria-controls="ls-pane">
+    <span class="ls-foldtab-txt" data-i18n="sets.lernsets">Lernsets</span>
+    <svg class="ls-foldtab-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+  </button>
+  )}
+  <!-- The rail. A level is its own badge, exactly as on the dashboard; the two entries
+       that are not a level get an icon. Weiterlernen and Redemittel are links — they go
+       to a page — and the rest are tabs that switch the panel beside them, which is why
+       they are different elements rather than one element styled twice. -->
+  <div class="nvb-rail" role="tablist" aria-label="Wortschatz-Bereich" data-i18n-attr="aria-label:sets.railAria">
+    <!-- Its pane is written by the script from this browser's own record. Never
+         server-rendered: there is no account, so the server cannot know. -->
+    {!select && (
+    <button
+      type="button"
+      role="tab"
+      class="nvb-railbtn"
+      data-rail="fortschritt"
+      aria-selected="false"
+      aria-controls="ls-pane-fortschritt"
+      aria-label="Dein Fortschritt"
+      data-i18n-attr="aria-label:sets.prog.title"
+    >
+      <Icon name="target" size={20} />
+      <span class="nvb-tip" data-i18n="sets.prog.tip">Dein Fortschritt · Weiterlernen</span>
+    </button>
+    )}
+
+    {RAIL_LEVELS.map((level) => {
+      const live = liveLevels.includes(level);
+      return (
+        <button
+          type="button"
+          role="tab"
+          class:list={["nvb-railbtn", levelActive(level) && "active"]}
+          data-rail={live ? level : undefined}
+          aria-disabled={live ? undefined : "true"}
+          aria-selected={levelActive(level) ? "true" : "false"}
+          aria-controls={live ? `ls-pane-${level}` : undefined}
+          aria-label={`Stufe ${level}`}
+          data-i18n-attr={`aria-label:sets.levelAria.${level.toLowerCase()}`}
+        >
+          <span class="nvb-railbadge">{level}</span>
+          {/* The level's name, not its size (decision 8): "Stufe A1 · Einstieg". */}
+          <span class="nvb-tip"><span data-i18n="ap.levelName" data-i18n-vars={JSON.stringify({ level })}>Stufe {level}</span> · <span data-i18n={`level.name.${level}`}>{LEVEL_NAMES[level]}</span></span>
+        </button>
+      );
+    })}
+
+    {!select && (<>
+    <span class="ls-raildiv" aria-hidden="true"></span>
+
+    <button
+      type="button"
+      role="tab"
+      class:list={["nvb-railbtn", isFreq && "active"]}
+      data-rail="haeufigkeit"
+      aria-selected={isFreq ? "true" : "false"}
+      aria-controls="ls-pane-haeufigkeit"
+      aria-label="Nach Häufigkeit"
+      data-i18n-attr="aria-label:sets.byFrequency"
+    >
+      <Icon name="bars" size={20} />
+      <span class="nvb-tip" data-i18n="sets.byFrequency">Nach Häufigkeit</span>
+    </button>
+
+    <button
+      type="button"
+      role="tab"
+      class:list={["nvb-railbtn", isRm && "active"]}
+      data-rail="redemittel"
+      aria-selected={isRm ? "true" : "false"}
+      aria-controls="ls-pane-redemittel"
+      aria-label="Redemittel"
+      data-i18n-attr="aria-label:sets.redemittel"
+    >
+      <Icon name="volume" size={20} />
+      <span class="nvb-tip" data-i18n="sets.redemittel.tip">Redemittel · Alltag, 4 Sprachen</span>
+    </button>
+    {/* The Fahrschul-Wortschatz (src/data/fuehrerschein/) and the Berufe decks: tabs with
+        their own panes on every trainer page, so switching to them is a list, not a page.
+        A pick then swaps the trainer in place (src/lib/deckSwap.js). */}
+    <button
+      type="button"
+      role="tab"
+      class:list={["nvb-railbtn", isFs && "active"]}
+      data-rail="fuehrerschein"
+      aria-selected={isFs ? "true" : "false"}
+      aria-controls="ls-pane-fuehrerschein"
+      aria-label="Fahrschul-Wortschatz"
+      data-i18n-attr="aria-label:fs.ws.title"
+    >
+      <Icon name="car" size={20} />
+      <span class="nvb-tip" data-i18n="sets.fuehrerschein.tip">Führerschein · Fahrschul-Wortschatz</span>
+    </button>
+    <button
+      type="button"
+      role="tab"
+      class:list={["nvb-railbtn", isBerufe && "active"]}
+      data-rail="berufe"
+      aria-selected={isBerufe ? "true" : "false"}
+      aria-controls="ls-pane-berufe"
+      aria-label="Deutsch für den Beruf"
+      data-i18n-attr="aria-label:tool.berufe.title"
+    >
+      <Icon name="target" size={20} />
+      <span class="nvb-tip" data-i18n="tool.berufe.title">Deutsch für den Beruf</span>
+    </button>
+    </>)}
+    {select && (<>
+    <span class="ls-raildiv" aria-hidden="true"></span>
+    <button
+      type="button"
+      role="tab"
+      class="nvb-railbtn"
+      data-rail="berufe"
+      aria-selected="false"
+      aria-controls="ls-pane-berufe"
+      aria-label="Deutsch für den Beruf"
+      data-i18n-attr="aria-label:tool.berufe.title"
+    >
+      <Icon name="target" size={20} />
+      <span class="nvb-tip" data-i18n="tool.berufe.title">Deutsch für den Beruf</span>
+    </button>
+    </>)}
+    {/* Own card sets (Vokabeln vom Foto): only for a signed-in account, so hidden until the
+        script has looked (the session is in the browser, never known at build time). In the
+        live quiz a row picks the set as the round's words. */}
+    <button
+      type="button"
+      role="tab"
+      class:list={["nvb-railbtn", isOwn && "active"]}
+      data-rail="kartensets"
+      data-own-sets-btn
+      aria-selected={isOwn ? "true" : "false"}
+      aria-controls="ls-pane-kartensets"
+      aria-label="Meine Kartensets"
+      hidden
+    >
+      <Icon name="folder" size={20} />
+      <span class="nvb-tip">Meine Kartensets</span>
+    </button>
+  </div>
+
+  <div class="nvb-panel" id="ls-pane">
+    {select && (
+      <div class="ls-search" data-ls-search>
+        <input type="search" class="ls-search-input" data-ls-q placeholder="Lernset oder Wort suchen …" data-i18n-attr="placeholder:sets.searchPh;aria-label:sets.searchPh" aria-label="Lernset oder Wort suchen" autocomplete="off" />
+        <div class="ls-search-results" data-ls-results hidden>
+          {searchSets.map(({ level, set, words }) => (
+            <a class="nvb-item ls-search-row" href={`/wortschatz/${set.id}`} data-pick={`unit:${set.id}`} data-level={level} data-hay={`${set.title}~${words}`.toLowerCase()} data-words={words} hidden>
+              <span class="ls-search-lv" aria-hidden="true">{level}</span>
+              <span class="ls-name">
+                <span data-i18n={`ws.set.${set.id}`}>{set.title}</span>
+                <small class="ls-search-hit" data-ls-hit></small>
+              </span>
+            </a>
+          ))}
+          <p class="ls-plan" data-ls-none hidden data-i18n="sets.searchNone">Kein Lernset gefunden.</p>
+        </div>
+      </div>
+    )}
+    {liveLevels.map((level) => (
+      <div
+        class="nvb-section ls-sets"
+        id={`ls-pane-${level}`}
+        data-pane={level}
+        data-level={level}
+        hidden={!levelActive(level)}
+      >
+        <div class="nvb-panelhead">
+          <h3><span data-i18n="sets.levelHead" data-i18n-vars={JSON.stringify({ level })}>Stufe {level}</span><span class="snav-head-name"> · <span data-i18n={`level.name.${level}`}>{LEVEL_NAMES[level]}</span></span></h3>
+        </div>
+        {/* "x von N sicher" — filled by the script once this browser has learnt a word here. */}
+        {/* Choosing: the whole level, mixed, before its Lernsets. */}
+        {select && (
+          <a class:list={["nvb-item", "ls-item--whole", current === level.toLowerCase() && "active"]} href={`/wortschatz/${level.toLowerCase()}`} data-pick={`level:${level}`} data-level={level}>
+            <span class="nv-icon" aria-hidden="true">🎲</span>
+            <span data-i18n="lq.host.wholeLevelRow" data-i18n-vars={JSON.stringify({ level })}>Ganze Stufe {level}, gemischt</span>
+            <span class="nv-count">{c[level].words}</span>
+          </a>
+        )}
+        {/* The mirror of „Keine Grammatik“: no words, the round is the grammar chapter only. */}
+        {select && (
+          <a class="nvb-item ls-item--none" href="#" data-pick="none" data-level={level}>
+            <span class="nv-icon" aria-hidden="true">✕</span>
+            <span data-i18n="lq.host.vocabNone">Kein Wortschatz</span>
+          </a>
+        )}
+        <div class="snav-prog" data-snav-prog={level} hidden>
+          <span class="snav-prog-txt" data-snav-prog-txt></span>
+          <span class="snav-prog-bar"><span data-snav-prog-bar></span></span>
+        </div>
+
+        <!-- Two grains of the same level: the topic a word belongs to, or the place it
+             sits in the list. Picking a theme and working straight through are different
+             intentions, and neither is a sub-case of the other. -->
+        {!select && (
+        <div class="ls-cuts" role="tablist" aria-label="Einteilung wählen" data-i18n-attr="aria-label:sets.chooseCut">
+          <button
+            type="button"
+            role="tab"
+            class:list={["ls-cut", openCut(level) === "thema" && "is-active"]}
+            data-cut="thema"
+            aria-selected={openCut(level) === "thema" ? "true" : "false"}
+          ><span data-i18n="sets.cut.thema">Nach Thema</span><span class="ls-cut-n">25er</span></button>
+          <button
+            type="button"
+            role="tab"
+            class:list={["ls-cut", openCut(level) === "teile" && "is-active"]}
+            data-cut="teile"
+            aria-selected={openCut(level) === "teile" ? "true" : "false"}
+          ><span data-i18n="sets.cut.reihe">Der Reihe nach</span><span class="ls-cut-n">25er</span></button>
+        </div>
+        )}
+
+        <div class="ls-cut-panel" data-cut="thema" hidden={openCut(level) !== "thema"}>
+          {groupsByLevel[level].map((group) => (
+            <section class="ls-group">
+              {group.title && (groupsCollapse(level) ? (
+                <h4 class="ls-group-head">
+                  <button
+                    type="button"
+                    class:list={["ls-block-toggle", group === openGroup(level) && "is-open"]}
+                    data-block={group.id}
+                    aria-expanded={group === openGroup(level) ? "true" : "false"}
+                    aria-controls={`ls-block-${group.id}`}
+                    data-i18n={`ws.module.${group.id}`}
+                  >{group.title}</button>
+                  <span class="ls-group-n" data-i18n="sets.setCount" data-i18n-vars={JSON.stringify({ n: group.sets.length })}>{group.sets.length} Sets</span>
+                </h4>
+              ) : (
+                <h4 class="ls-group-head ls-group-head--flat snav-sub"><span data-i18n={`ws.module.${group.id}`}>{group.title}</span></h4>
+              ))}
+              <div
+                class="ls-grouplist"
+                id={`ls-block-${group.id}`}
+                hidden={groupsCollapse(level) && !!group.title && group !== openGroup(level)}
+              >
+                {group.sets.map((set) => (
+                  <a
+                    class:list={["nvb-item", set.id === current && "active"]}
+                    href={`/wortschatz/${set.id}`}
+                    aria-current={set.id === current ? "page" : undefined}
+                    data-pick={`unit:${set.id}`}
+                    data-level={level}
+                  >
+                    <span class="nv-icon" aria-hidden="true">{unitIcon(set)}</span>
+                    {/* The name, and under it the same name in the card language the
+                        learner picked (src/lib/cardLangGloss.js) — empty until then. */}
+                    <span class="ls-name">
+                      <span data-i18n={`ws.set.${set.id}`}>{set.title}</span>
+                      <small class="ls-gloss" data-gloss-key={`ws.set.${set.id}`} hidden></small>
+                    </span>
+                    {/* Progress, not size: "0/25" until the script knows better. */}
+                    <span class="nv-count" data-set-count={set.id} data-total={set.words}>0/{set.words}</span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          ))}
+          {levelRmSets(level).length > 0 && (
+            <section class="ls-group">
+              <h4 class="ls-group-head ls-group-head--flat snav-sub"><span data-i18n="sets.bildkarten">Bildkarten</span></h4>
+              <div class="ls-grouplist">
+                {levelRmSets(level).map((s) => {
+                  const on = current === `redemittel-${s.id}`;
+                  return (
+                    <a class:list={["nvb-item", on && "active"]} href={`/wortschatz/redemittel/${s.id}`} aria-current={on ? "page" : undefined}>
+                      <span class="nv-icon" aria-hidden="true">{s.icon}</span>
+                      <span class="ls-name" data-i18n={`rm.set.${s.id}`}>{s.name}</span>
+                      <span class="nv-count">{s.phrases.length}</span>
+                    </a>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+          {c[level].plannedModules > 0 && (
+            <p class="ls-plan" data-i18n="sets.planned" data-i18n-vars={JSON.stringify({ n: c[level].plannedModules, sets: c[level].plannedUnits })}>
+              {c[level].plannedModules} weitere Module sind geplant ({c[level].plannedUnits} Lernsets) —
+              die Wörter dafür gibt es noch nicht.
+            </p>
+          )}
+        </div>
+
+        {!select && (
+        <div class="ls-cut-panel" data-cut="teile" hidden={openCut(level) !== "teile"}>
+          <p class="ls-lead" data-i18n="sets.teile.lead" data-i18n-vars={JSON.stringify({ level, size: 25 })}>
+            Alle Wörter von {level} der Reihe nach, 25 pro Runde. Eine Runde läuft quer durch
+            die Themen — darunter steht, durch welche.
+          </p>
+          <div class="ls-grouplist">
+            {teileList[level].map((teil) => (
+              <a
+                class:list={["nvb-item", "ls-item--teil", "ls-item--lead", teil.id === current && "active"]}
+                href={`/wortschatz/${teil.id}`}
+                aria-current={teil.id === current ? "page" : undefined}
+              >
+                <span class="nv-icon ls-num">{teil.index}</span>
+                <span>
+                  <span class="ls-lead-words">{teil.lead.join(" · ")}</span>
+                  <span class="ls-item-sub">
+                    {teil.topics.map((t, i) => (
+                      <>
+                        {i > 0 && " · "}
+                        <span data-i18n={setKeyByTitle[t]}>{t}</span>
+                      </>
+                    ))}
+                  </span>
+                </span>
+                <span class="nv-count">{teil.words}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+        )}
+      </div>
+    ))}
+
+    {showBerufe && (
+    <div class="nvb-section" id="ls-pane-berufe" data-pane="berufe" hidden={!isBerufe}>
+      <div class="nvb-panelhead">
+        <h3><span data-i18n="tool.berufe.title">Deutsch für den Beruf</span></h3>
+      </div>
+      {/* Every Beruf as a Bereich, all folded: the list stays short, the row on screen is
+          marked once its Beruf is opened. */}
+      {berufList.map((b) => (
+        <section class="ls-group">
+          <h4 class="ls-group-head">
+            <button
+              type="button"
+              class="ls-block-toggle"
+              data-block={`bv-${b.slug}`}
+              aria-expanded="false"
+              aria-controls={`ls-block-bv-${b.slug}`}
+              lang="de"
+            >{b.title}</button>
+            <span class="ls-group-n">{b.groups.length}</span>
+          </h4>
+          <div class="ls-grouplist" id={`ls-block-bv-${b.slug}`} hidden>
+            {b.groups.map((g) => {
+              const on = current === `berufe-${b.slug}-${g.id}`;
+              return (
+                <a
+                  class:list={["nvb-item", on && "active"]}
+                  href={`/berufe/${b.slug}/${g.id}`}
+                  aria-current={on ? "page" : undefined}
+                  data-pick={`unit:berufe-${b.slug}-${g.id}`}
+                  data-level={BERUF_DECKS[b.slug].level}
+                  data-name={`${b.title.split(":")[0]} · ${g.title}`}
+                >
+                  <span class="nv-icon" aria-hidden="true">{b.emoji}</span>
+                  <span class="ls-name" lang="de">{g.title}</span>
+                  <span class="nv-count">{g.words.length}</span>
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+      {!select && <a class="ls-prog-more" href="/berufe" data-i18n="berufe.back.hub">← Alle Berufe</a>}
+    </div>
+    )}
+
+    {!select && (
+    <div class="nvb-section" id="ls-pane-redemittel" data-pane="redemittel" hidden={!isRm}>
+      <div class="nvb-panelhead">
+        <h3><span data-i18n="sets.redemittel">Redemittel</span></h3>
+      </div>
+      <a class:list={["nvb-item", "ls-item--whole", current === "redemittel" && "active"]} href="/wortschatz" aria-current={current === "redemittel" ? "page" : undefined}>
+        <span class="nv-icon" aria-hidden="true">💬</span>
+        <span class="ls-name" data-i18n="rm.set.alltag">Alltag: die wichtigsten Sätze</span>
+        <span class="nv-count">{curated.length}</span>
+      </a>
+      {RM_SETS.filter((s) => !s.level).map((s) => {
+        const on = current === `redemittel-${s.id}`;
+        return (
+          <a class:list={["nvb-item", on && "active"]} href={`/wortschatz/redemittel/${s.id}`} aria-current={on ? "page" : undefined}>
+            <span class="nv-icon" aria-hidden="true">{s.icon}</span>
+            <span class="ls-name" data-i18n={`rm.set.${s.id}`}>{s.name}</span>
+            <span class="nv-count">{s.phrases.length}</span>
+          </a>
+        );
+      })}
+    </div>
+    )}
+
+    {!select && (
+    <div class="nvb-section" id="ls-pane-fuehrerschein" data-pane="fuehrerschein" hidden={!isFs}>
+      <div class="nvb-panelhead">
+        <h3><span data-i18n="fs.ws.title">Fahrschul-Wortschatz</span></h3>
+      </div>
+      <a class:list={["nvb-item", "ls-item--whole", current === "fuehrerschein" && "active"]} href="/fuehrerschein/wortschatz" aria-current={current === "fuehrerschein" ? "page" : undefined}>
+        <span class="nv-icon" aria-hidden="true">🚦</span>
+        <span class="ls-name" data-i18n="fs.ws.all">Alle</span>
+        <span class="nv-count">{fsTotal}</span>
+      </a>
+      {FS_GROUPS.map((g) => {
+        const on = current === `fuehrerschein-${g.id}`;
+        return (
+          <a class:list={["nvb-item", on && "active"]} href={`/fuehrerschein/wortschatz/${g.id}`} aria-current={on ? "page" : undefined}>
+            <span class="nv-icon" aria-hidden="true">{FS_ICON[g.id] ?? "🚗"}</span>
+            <span class="ls-name" data-i18n={`fs.ws.group.${g.id}`}>{g.title}</span>
+            <span class="nv-count">{g.words.length}</span>
+          </a>
+        );
+      })}
+      <a class="ls-prog-more" href="/fuehrerschein" data-i18n="fs.ws.back">← Zum Führerschein-Bereich</a>
+    </div>
+    )}
+
+    <!-- Everything inside is written by the script: it all comes from localStorage, so a
+         server-rendered number here would be a guess about a stranger. -->
+    {!select && (<>
+    <div class="nvb-section ls-prog" id="ls-pane-fortschritt" data-pane="fortschritt" hidden>
+      <div class="nvb-panelhead">
+        <h3><span data-i18n="sets.prog.title">Dein Fortschritt</span> <span class="ls-head-where">· <span data-i18n="sets.prog.where">Wortschatz</span></span></h3>
+      </div>
+      <div data-ls-prog></div>
+    </div>
+
+    <div class="nvb-section" id="ls-pane-haeufigkeit" data-pane="haeufigkeit" hidden={!isFreq}>
+      <div class="nvb-panelhead">
+        {/* The heading's own words sit in a span of their own: data-i18n replaces
+            textContent, which would take the "· <block>" suffix with it. */}
+        <h3><span data-i18n="sets.byFrequency">Nach Häufigkeit</span></h3>
+      </div>
+      <p class="ls-lead" data-i18n="sets.byFrequency.lead" data-i18n-vars={JSON.stringify({ s: freq.size })}>
+        Die häufigsten Wörter zuerst, {freq.size} pro Runde — Verben, Nomen und kleine Wörter
+        gemischt, so wie man sie hört.
+      </p>
+
+      {/* One flat list. The rounds are not a sequence you must follow — each is named by
+          a few of its own words, so you pick the one that looks useful. No range groups,
+          no "Wörter 1-100": a number nobody has seen the list for says nothing. */}
+      <div class="ls-grouplist">
+        {cohortList.map((co) => (
+          <a
+            class:list={["nvb-item", "ls-item--lead", co.id === current && "active"]}
+            href={`/wortschatz/${co.id}`}
+            aria-current={co.id === current ? "page" : undefined}
+          >
+            <span class="nv-icon ls-num">{co.index}</span>
+            <span class="ls-lead-words">{co.lead.join(" · ")}</span>
+            <span class="nv-count">{co.words}</span>
+          </a>
+        ))}
+      </div>
+
+      <!-- Said out loud rather than quietly dropped. The frequency source is a wordform
+           list, so a compound like "Ausländerbehörde" comes back unmatched because of how
+           it is written, not because it is rare — calling those words "selten" would be a
+           claim the data does not support. -->
+      <p class="ls-plan" data-i18n="sets.unranked" data-i18n-vars={JSON.stringify({ n: freq.unranked })}>
+        {freq.unranked} Wörter stehen nicht in der Häufigkeitsliste — meist Komposita, die dort
+        als Wortform nicht vorkommen. Das heißt nicht, dass sie selten sind; sie stehen in
+        ihrem Lernset unter ihrer Stufe.
+      </p>
+      {planLevels.length > 0 && (
+        <p class="ls-plan" data-i18n="sets.planLevels" data-i18n-vars={JSON.stringify({ levels: planLevels.join(" / "), n: planLevels.reduce((n, l) => n + c[l].plannedModules, 0) })}>
+          {planLevels.join(" und ")}: {planLevels.reduce((n, l) => n + c[l].plannedModules, 0)} Module
+          geplant, noch keine Wörter. Die Einstufung ist an A1–C2 orientiert, nicht die
+          offizielle Goethe-/telc-Liste.
+        </p>
+      )}
+    </div>
+    </>)}
+    <div class="nvb-section" id="ls-pane-kartensets" data-pane="kartensets" hidden={!isOwn}>
+      <div class="nvb-panelhead">
+        <h3>Meine Kartensets</h3>
+      </div>
+      <div class="ls-grouplist" data-own-sets></div>
+    </div>
+  </div>
+</div>
+
+{!select && <SideNavFold />}
+<script>
+  import { getResume, getProgress } from "../lib/progress.js";
+  import { slide, replay } from "../lib/fold.js";
+  import { mountSideNavFold } from "../lib/sideNavFold.js";
+  import { onLangChange, translate } from "../lib/i18n.js";
+  import { initCardLangGloss } from "../lib/cardLangGloss.js";
+  initCardLangGloss();
+
+
+  // This panel is built as an HTML string, so it cannot carry data-i18n attributes the way
+  // the rest of the picker does — it reads the dictionary directly instead. Seeded with the
+  // German so the first paint, before initI18n() has fetched anything, says words rather
+  // than a key.
+  let dict = {
+    "sets.progressEmpty": "Noch nichts geübt. Sobald du Karten umdrehst, steht hier, wie viele Wörter du schon kannst und wo du weitermachst.",
+    "sets.prog.more": "Alles im Fortschritt ansehen",
+    "sets.collapseList": "Liste einklappen",
+    "sets.expandList": "Liste ausklappen",
+    "ap.sure": "{n} von {total} sicher",
+  };
+  const say = (k, vars) => translate(dict, k, vars);
+
+  const root = document.querySelector(".ls-nvb");
+
+  // ── Fold: the list goes, the rail stays ───────────────────────────────────────
+  // One behaviour and one remembered state for every side nav (src/lib/sideNavFold.js).
+  // The page is told too: .vt-split sizes the grid track from [data-fold].
+  const page = document.getElementById("vp-page");
+  const selectMode = root.hasAttribute("data-select");
+  const fold = selectMode ? localFold(root) : mountSideNavFold(root, { page });
+
+  /* Select mode folds on its own terms: folded on arrival (the page around it is the
+     point, the list is a tool) and never written to the shared key, so choosing a quiz
+     set does not fold every Wortschatz page after it. Desktop only, like the shared fold:
+     on a phone the list lives in a sheet. The page drives it through root.lernsetFold. */
+  function localFold(el) {
+    const wide = matchMedia("(min-width: 1001px)");
+    let folded = true;
+    const tabs = [...el.querySelectorAll("[data-nvb-collapse]")];
+    const paint = () => {
+      const on = folded && wide.matches;
+      el.classList.toggle("collapsed", on);
+      tabs.forEach((b) => b.setAttribute("aria-expanded", on ? "false" : "true"));
+    };
+    const set = (on) => { folded = on; paint(); };
+    el.classList.add("no-anim");
+    paint();
+    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove("no-anim")));
+    tabs.forEach((b) => b.addEventListener("click", (e) => { e.stopPropagation(); set(!folded); }));
+    wide.addEventListener("change", paint);
+    const api = {
+      set,
+      reveal: () => set(false),
+      press: (b) => {
+        if (wide.matches && !folded && b?.classList.contains("active")) { set(true); return true; }
+        set(false);
+        return false;
+      },
+      get folded() { return folded && wide.matches; },
+    };
+    el.lernsetFold = api;
+    return api;
+  }
+
+  // ── Choosing (select mode) ────────────────────────────────────────────────────
+  // A row names a set rather than opening it. The real href stays, so a middle-click
+  // still previews the set's page in a new tab.
+  if (selectMode) {
+    // The search: rows of every level, filtered on title and words; the level panes step
+    // aside while it has text. Umlauts fold (mull finds Müll), as in the Wortliste search.
+    const q = root.querySelector("[data-ls-q]");
+    const results = root.querySelector("[data-ls-results]");
+    const fold1 = (x) => x.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ß/g, "ss");
+    const rows = [...root.querySelectorAll(".ls-search-row")].map((el) => ({ el, hay: fold1(el.dataset.hay ?? ""), words: (el.dataset.words ?? "").split("~") }));
+    q?.addEventListener("input", () => {
+      const term = fold1(q.value.trim());
+      const on = term.length >= 2;
+      results.hidden = !on;
+      root.querySelectorAll(".nvb-section").forEach((p) => p.classList.toggle("ls-searching", on));
+      let n = 0;
+      for (const r of rows) {
+        const hit = on && r.hay.includes(term);
+        r.el.hidden = !hit;
+        if (!hit) continue;
+        n++;
+        const found = r.words.filter((w) => fold1(w).includes(term)).map((w) => w.split("|").join(" = "));
+        r.el.querySelector("[data-ls-hit]").textContent = found.slice(0, 3).join(" · ");
+      }
+      root.querySelector("[data-ls-none]").hidden = !on || n > 0;
+      if (on) fold?.reveal?.();
+    });
+    root.addEventListener("click", (e) => {
+      const row = e.target.closest("[data-pick]");
+      if (!row || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      e.preventDefault();
+      root.querySelectorAll("[data-pick].active").forEach((r) => r.classList.remove("active"));
+      row.classList.add("active");
+      const name = row.dataset.name ?? row.querySelector("[data-i18n]")?.textContent.trim() ?? "";
+      if (q && q.value) { q.value = ""; q.dispatchEvent(new Event("input")); }
+      root.dispatchEvent(new CustomEvent("lernset-pick", {
+        bubbles: true,
+        detail: { value: row.dataset.pick, level: row.dataset.level, name },
+      }));
+    });
+  }
+
+  // ── The rail ──────────────────────────────────────────────────────────────────
+  // One handler for the whole rail: A1–B2 and "Nach Häufigkeit" are five views of the
+  // same lexicon, not a level switch nested inside a mode switch.
+  // (The phone sheet never shows the fold — sideNavFold.js lifts it below 1001px — so
+  // "Lernset wechseln" always opens onto the list.)
+
+  root.querySelectorAll("[data-rail]").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      // The entry already showing, pressed again, puts the list away (sideNavFold.press).
+      if (fold?.press(tab)) return;
+      const pane = tab.dataset.rail;
+      root.querySelectorAll("[data-rail]").forEach((t) => {
+        const on = t === tab;
+        t.classList.toggle("active", on);
+        t.setAttribute("aria-selected", String(on));
+      });
+      root.querySelectorAll(".nvb-section").forEach((p) => { p.hidden = p.dataset.pane !== pane; });
+      // The dashboard's own arrival stagger, replayed so that switching level reads as
+      // the panel being replaced rather than quietly re-labelled.
+      const sec = root.querySelector(`.nvb-section[data-pane="${pane}"]`);
+      if (sec) {
+        sec.classList.remove("nvb-section--enter");
+        void sec.offsetWidth;
+        sec.classList.add("nvb-section--enter");
+      }
+    });
+  });
+
+  const motionOk = () => !matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /** The nearest ancestor that actually scrolls: .nvb-panel on a desktop, the sheet body
+   *  on a phone — the picker gives its own scroll up inside the sheet. */
+  function scrollerOf(el) {
+    for (let n = el?.parentElement; n; n = n.parentElement) {
+      const oy = getComputedStyle(n).overflowY;
+      if ((oy === "auto" || oy === "scroll") && n.scrollHeight > n.clientHeight + 1) return n;
+    }
+    return null;
+  }
+
+  // ── Groups ────────────────────────────────────────────────────────────────────
+  // One open at a time: 123 cohorts listed flat is a scroll, not a menu. Scoped to the
+  // list the button sits in — the Bereiche, the Portionen blocks and the frequency blocks
+  // are separate lists and must not close each other.
+  root.querySelectorAll(".ls-block-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const scope = btn.closest(".ls-cut-panel") ?? btn.closest(".nvb-section") ?? root;
+      const panel = document.getElementById(`ls-block-${btn.dataset.block}`);
+      const open = panel.hidden;
+      // The same pivot as the exam rail on /fortschritt: the one that was open slides
+      // shut while this one slides open, and its rows arrive staggered — so the two
+      // movements read as one list being replaced rather than as the page jumping.
+      scope.querySelectorAll(".ls-block-toggle").forEach((b) => {
+        if (b === btn && open) return;
+        const other = document.getElementById(`ls-block-${b.dataset.block}`);
+        b.classList.remove("is-open");
+        b.setAttribute("aria-expanded", "false");
+        if (!other.hidden) slide(other, false);
+      });
+      if (open) {
+        btn.classList.add("is-open");
+        btn.setAttribute("aria-expanded", "true");
+        slide(panel, true);
+        replay(panel, "ls-grouplist--enter");
+        // Opening a block near the bottom of the list unfolds it below the fold: the
+        // rows are there, the learner sees nothing move. So once the height has landed,
+        // the block's own head is pulled to the top of whatever is scrolling — the panel
+        // on a desktop, the sheet body on a phone — and its rows come with it.
+        const group = btn.closest(".ls-group");
+        const scroller = scrollerOf(group);
+        if (group && scroller) {
+          setTimeout(() => {
+            const top = group.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop;
+            scroller.scrollTo({ top: Math.max(0, top - 8), behavior: motionOk() ? "smooth" : "auto" });
+          }, 260);
+        }
+      }
+    });
+  });
+
+  // ── Thema / Der Reihe nach, per level ─────────────────────────────────────────
+  root.querySelectorAll(".ls-cut").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const scope = tab.closest(".ls-sets");
+      scope.querySelectorAll(".ls-cut").forEach((t) => {
+        const on = t === tab;
+        t.classList.toggle("is-active", on);
+        t.setAttribute("aria-selected", String(on));
+      });
+      scope.querySelectorAll(".ls-cut-panel").forEach((pnl) => {
+        pnl.hidden = pnl.dataset.cut !== tab.dataset.cut;
+        // Thema and Reihe are two cuts of one level, so switching them gets the same
+        // arrival as opening a group — the list is replaced, not redrawn.
+        if (!pnl.hidden) replay(pnl, "ls-cut-panel--enter");
+      });
+    });
+  });
+
+  // ── Dein Fortschritt ──────────────────────────────────────────────────────────
+  // The same question /dashboard answers, asked about this one tool: what have I done
+  // here, and where do I carry on? Every number is read from progress.js, which only ever
+  // writes from a real graded answer — so a first visit says "noch nichts" rather than
+  // drawing an empty ring and calling it 0 %.
+  const esc = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  function progressHtml() {
+    const resume = getResume();
+    const data = getProgress();
+    const here = location.pathname.replace(/\/+$/, "");
+    const mine = (resume ? [resume.last, ...resume.recents] : []).filter(
+      (r) => r && r.path.startsWith("/wortschatz")
+    );
+    const next = mine.find((r) => r.path !== here);
+    const words = (data.vocabMastered || []).filter((k) => k.startsWith("wortschatz:")).length;
+    const skill = data.skills?.wortschatz ?? { attempts: 0, sessions: 0 };
+    const week = resume?.week ?? { count: 0, goal: 0 };
+    const pct = week.goal ? Math.min(100, Math.round((week.count / week.goal) * 100)) : 0;
+
+    if (!words && !skill.attempts && !mine.length) {
+      return `<p class="ls-lead">${esc(say("sets.progressEmpty"))}</p>`;
+    }
+
+    return `
+      ${next ? `<a class="ls-prog-next" href="${esc(next.path)}">
+        <span class="ls-prog-next-label">${esc(say("sets.prog.resume"))}</span>
+        <b>${esc(next.title)}</b>
+        <span class="ls-prog-next-go">${esc(say("sets.prog.open"))}</span>
+      </a>` : ""}
+
+      <div class="ls-prog-stats">
+        <div class="ls-prog-stat"><b>${words}</b><i>${esc(say("sets.prog.words"))}</i></div>
+        <div class="ls-prog-stat"><b>${skill.attempts}</b><i>${esc(say("sets.prog.cards"))}</i></div>
+        <div class="ls-prog-stat"><b>${data.streak || 0}</b><i>${esc(say("sets.prog.streak"))}</i></div>
+      </div>
+
+      ${week.goal ? `<div class="ls-prog-week">
+        <p><span>${esc(say("sets.prog.week"))}</span><span>${week.count} / ${week.goal}</span></p>
+        <span class="ls-prog-bar"><span style="width:${pct}%"></span></span>
+      </div>` : ""}
+
+      ${mine.length ? `<p class="ls-group-head ls-prog-head">${esc(say("sets.prog.recent"))}</p>
+      <div class="ls-grouplist">${mine
+        .slice(0, 4)
+        .map((r) => `<a class="nvb-item${r.path === here ? " active" : ""}" href="${esc(r.path)}">
+          <span class="nv-icon ls-prog-dot"></span><span>${esc(r.title)}</span>
+        </a>`)
+        .join("")}</div>` : ""}
+
+      <a class="ls-prog-more" href="/fortschritt">${esc(say("sets.prog.more"))}</a>`;
+  }
+
+  const progEl = root.querySelector("[data-ls-prog]");
+  const paintProgress = () => { if (progEl) progEl.innerHTML = progressHtml(); };
+  paintProgress();
+  // Repaint on a language switch: applyToDom() cannot reach text this panel wrote itself.
+  onLangChange((_code, d) => { dict = d; paintProgress(); paintCounts(); });
+
+  // ── Per-set and per-level progress ────────────────────────────────────────────
+  // "12/25" on each row and "x von N sicher" under each level's head, from the words this
+  // browser has learnt (progress.js files them as `wortschatz:<lemma>`). Which word is in
+  // which set lives in /lernset-woerter.json, fetched only once something has been learnt:
+  // a first visit keeps its "0/25" and never downloads the list.
+  let setWords = null;
+  const learnt = () => new Set((getProgress().vocabMastered || []).filter((k) => k.startsWith("wortschatz:")).map((k) => k.slice(11)));
+  function paintCounts() {
+    if (!setWords) return;
+    const known = learnt();
+    const byLevel = {};
+    for (const [id, { level, words }] of Object.entries(setWords)) {
+      const n = words.filter((w) => known.has(w)).length;
+      const lv = (byLevel[level] ??= { n: 0, total: 0 });
+      lv.n += n;
+      lv.total += words.length;
+      root.querySelectorAll(`[data-set-count="${id}"]`).forEach((el) => { el.textContent = `${n}/${words.length}`; });
+    }
+    root.querySelectorAll("[data-snav-prog]").forEach((el) => {
+      const lv = byLevel[el.dataset.snavProg];
+      el.hidden = !lv?.n;
+      if (!lv?.n) return;
+      el.querySelector("[data-snav-prog-txt]").textContent = say("ap.sure", { n: lv.n, total: lv.total });
+      el.querySelector("[data-snav-prog-bar]").style.width = `${Math.round((lv.n / lv.total) * 100)}%`;
+    });
+  }
+  async function loadCounts() {
+    if (!learnt().size) return;
+    try {
+      setWords ??= await (await fetch("/lernset-woerter.json")).json();
+      paintCounts();
+    } catch {}
+  }
+  loadCounts();
+  // A card turned "gewusst" on this page moves its own row.
+  addEventListener("da:progress", loadCounts);
+
+  // ── Where a level deck is ─────────────────────────────────────────────────────
+  // On /wortschatz/b1 no row is the page, so the trainer says what is on screen
+  // (wortschatz-app.js, "da:deck-here") and the rail lights it: in "Der Reihe nach" the
+  // Runde (Runde n is Portion n — the same 25-word ruler), in "Nach Thema" the Lernset the
+  // card belongs to, with its Bereich opened when the Runde moves into a new one.
+  const levelPane = root.querySelector(`[data-pane="${String(root.dataset.current).toUpperCase()}"]`);
+  if (levelPane && !root.hasAttribute("data-select")) {
+    let hereSet = null;
+    const mark = (el, on) => {
+      el.classList.toggle("active", on);
+      if (on) el.setAttribute("aria-current", "true");
+      else el.removeAttribute("aria-current");
+    };
+    addEventListener("da:deck-here", async ({ detail: { part, lemma } }) => {
+      levelPane.querySelectorAll(".ls-item--teil").forEach((el, i) => mark(el, i === part));
+      if (!lemma) return;
+      try {
+        setWords ??= await (await fetch("/lernset-woerter.json")).json();
+      } catch { return; }
+      const level = levelPane.dataset.level;
+      const id = Object.entries(setWords).find(([, s]) => s.level === level && s.words.includes(lemma))?.[0];
+      if (!id || id === hereSet) return;
+      hereSet = id;
+      levelPane.querySelectorAll(".ls-grouplist .nvb-item[data-pick^='unit:']").forEach((el) => mark(el, el.dataset.pick === `unit:${id}`));
+      const row = levelPane.querySelector(`[data-pick="unit:${id}"]`);
+      const toggle = row?.closest(".ls-group")?.querySelector(".ls-block-toggle");
+      if (toggle && toggle.getAttribute("aria-expanded") !== "true") toggle.click();
+    });
+  }
+
+  // ── Meine Kartensets ──────────────────────────────────────────────────────────
+  // The teacher's own sets (Vokabeln vom Foto, table vokabel_sets, own rows by RLS). The rail
+  // entry shows only with a session (the Layout's cookie hint; the query itself is what
+  // counts) and never in the app. On a trainer page a row opens the set; in the live quiz it
+  // picks the set as the round's words (value kartenset:<id>, src/lib/liveQuiz/host.js).
+  const ownBtn = root.querySelector("[data-own-sets-btn]");
+  const ownList = root.querySelector("[data-own-sets]");
+  if (ownBtn && ownList && import.meta.env.PUBLIC_TARGET !== "app" && document.documentElement.dataset.auth === "in") {
+    (async () => {
+      let sets;
+      try {
+        const { listSets } = await import("../lib/vokabelFoto/sets.js");
+        sets = await listSets();
+      } catch {
+        return;
+      }
+      const esc = (x) => String(x ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]);
+      const here = new URLSearchParams(location.search).get("set");
+      const select = root.hasAttribute("data-select");
+      ownList.innerHTML = sets.length
+        ? sets.map((s) => {
+            const n = s.words?.length ?? 0;
+            const on = !select && s.id === here;
+            return `<a class="nvb-item${on ? " active" : ""}" href="/lehrkraefte/karten/lernen?set=${esc(s.id)}"${on ? ' aria-current="page"' : ""}${select ? ` data-pick="kartenset:${esc(s.id)}" data-level="${esc(s.level || "A1")}" data-name="${esc(s.name)}"` : ""}>
+              <span class="nv-icon" aria-hidden="true">🗂️</span>
+              <span class="ls-name"><span>${esc(s.name)}</span>${s.level ? `<small class="ls-item-sub">${esc(s.level)}</small>` : ""}</span>
+              <span class="nv-count">${n}</span>
+            </a>`;
+          }).join("") + (select ? "" : `<p class="ls-plan"><a href="/lehrkraefte/karten">Alle Kartensets verwalten</a></p>`)
+        : `<p class="ls-plan">Noch keine eigenen Kartensets. Mit <a href="/lehrkraefte/karten/foto">Vokabeln vom Foto</a> machen Sie aus einer Buchseite eigene Karten.</p>`;
+      ownBtn.hidden = false;
+    })();
+  }
+</script>

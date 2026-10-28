@@ -1,0 +1,38 @@
+---
+// The Übungssätze of one exam, A1 upwards, as the lead block of /goethe and /telc. A1 is
+// the older Start Deutsch 1 page (shared by both exams); everything else comes from
+// src/data/pruefungen/saetze/ through src/lib/exam/saetze.js, so a new file shows up here.
+import { saetzeOf, hrefOf } from "../lib/exam/saetze.js";
+import { examMinutes } from "../lib/exam/minutes.js";
+import "../styles/pruefung-satz.css";
+
+interface Props { exam: "goethe" | "telc" }
+const { exam } = Astro.props;
+const rows = [
+  { level: "A1", href: "/start-deutsch-1", title: "Start Deutsch 1", meta: "Hören · Lesen · Schreiben" },
+  ...saetzeOf(exam).map((s) => ({
+    level: s.level,
+    href: hrefOf(s),
+    title: s.title,
+    meta: `${s.modules.map((m: any) => m.name).join(" · ")} · ${examMinutes(s.modules)} Min.`,
+  })),
+];
+---
+<div class="mock-cta mock-cta--lead">
+  <h2 data-i18n="ps.list.title">Übungssätze im Prüfungsformat</h2>
+  <p data-i18n="ps.list.text">
+    Ein kompletter Übungssatz pro Niveau: alle Prüfungsteile im offiziellen Format, mit Timer, automatischer
+    Auswertung für Lesen und Hören und Musterlösungen für Schreiben und Sprechen. Alle Texte sind von uns geschrieben.
+  </p>
+  <ul class="ps-list">
+    {rows.map((r) => (
+      <li>
+        <a href={r.href}>
+          <span class="ps-list-level">{r.level}</span>
+          <span class="ps-list-txt"><b>{r.title}</b><i>{r.meta}</i></span>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <a class="plan-link" href="/pruefungsplan" data-i18n="plan.link">Dein Plan bis zur Prüfung →</a>
+</div>

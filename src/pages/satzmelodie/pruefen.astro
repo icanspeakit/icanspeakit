@@ -1,0 +1,206 @@
+---
+// /satzmelodie/pruefen — local review sheet for the Satzmelodie content and recordings
+// (dev only; production shows a one-line note). Every line the page voices, grouped like
+// /satzmelodie: German text, its type, the recording. Per line: "Deutsch OK", "Melodie OK"
+// and a note. "Ergebnis kopieren" gives a text to paste back into the chat, where the
+// corrections go into src/data/satzmelodie.json and the lines are re-voiced with --force.
+import { existsSync } from "node:fs";
+import path from "node:path";
+import data, { familyLines, stressText, ruleText, audioKey } from "../../lib/satzmelodieData.js";
+
+const DEV = Boolean(import.meta.env.DEV);
+const has = (src) => existsSync(path.join(process.cwd(), "public", src));
+const line = (kind, text, extra = {}) => {
+  const src = audioKey(kind, text);
+  return { id: src.split("/").pop().replace(/\.mp3$/, ""), kind, text, src, rec: has(src), ...extra };
+};
+const typeLabel = (t) => data.types[t] ? `${data.types[t].label} ${data.types[t].mark}` : t;
+
+const sections = [
+  {
+    title: "Hören & vergleichen",
+    note: "Gleiche Wörter, andere Melodie. Je Thema: Aussage, Ja/Nein-Frage, W-Frage, Nachfrage, Ausruf.",
+    groups: data.families.map((f) => ({
+      title: f.topic,
+      lines: familyLines(f).map((l) => line(l.type, l.text, { label: typeLabel(l.type) })),
+    })),
+  },
+  {
+    title: "Satzakzent",
+    note: "Die Frage bestimmt das betonte Wort (fett). In der Aufnahme muss genau dieses Wort hervortreten.",
+    groups: [{
+      title: "",
+      lines: data.stress.map((s) => line(`stress-${s.k}`, stressText(s), { label: "Akzent", q: s.q, words: s.words, k: s.k })),
+    }],
+  },
+  {
+    title: "Regel",
+    note: "Die Regel-Tabelle. Text der Regel und Beispiel prüfen.",
+    groups: [{
+      title: "",
+      lines: data.rules.map((r) => line(`rule-${r.id}`, ruleText(r), { label: `${r.name}`, rule: r.text })),
+    }],
+  },
+];
+const all = sections.flatMap((s) => s.groups.flatMap((g) => g.lines));
+const missing = all.filter((l) => !l.rec).length;
+---
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Satzmelodie – Prüfliste</title>
+<style>
+  :root { --bg:#f7f7f5; --card:#fff; --ink:#1d1d1f; --mute:#6b6b70; --line:#e3e3e0; --ok:#1f8a4c; --okbg:#e8f6ee; --warn:#a15c00; --acc:#3b5bdb; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#141416; --card:#1e1e21; --ink:#ececee; --mute:#9a9aa1; --line:#2e2e33; --ok:#4cc782; --okbg:#173325; --warn:#e3a14a; --acc:#8ea2ff; } }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 system-ui, sans-serif; }
+  header { position:sticky; top:0; z-index:5; background:var(--bg); border-bottom:1px solid var(--line); padding:10px 16px; }
+  h1 { font-size:1.1rem; margin:0 0 6px; }
+  .bar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; font-size:.9rem; }
+  .bar select, .bar button { font:inherit; padding:6px 10px; border-radius:8px; border:1px solid var(--line); background:var(--card); color:var(--ink); }
+  .bar button.primary { background:var(--acc); color:#fff; border-color:var(--acc); }
+  .count { color:var(--mute); }
+  main { max-width:780px; margin:0 auto; padding:12px 16px 80px; }
+  h2 { font-size:1.15rem; margin:28px 0 2px; }
+  .sec-note { color:var(--mute); font-size:.9rem; margin:0 0 8px; }
+  section.group { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:6px 14px; margin:12px 0; }
+  h3 { font-size:.8rem; text-transform:uppercase; letter-spacing:.04em; color:var(--mute); margin:8px 0 2px; }
+  .row { padding:10px 0; border-top:1px solid var(--line); }
+  .row:first-of-type { border-top:0; }
+  h3 + .row { border-top:0; }
+  .row.done { background:linear-gradient(90deg, var(--okbg), transparent 70%); margin:0 -14px; padding:10px 14px; }
+  .top { display:flex; gap:10px; align-items:center; }
+  .play { flex:none; width:40px; height:40px; border-radius:50%; border:1px solid var(--acc); background:var(--card); color:var(--acc); font-size:1rem; cursor:pointer; }
+  .play.on { background:var(--acc); color:#fff; }
+  .play:disabled { border-color:var(--line); color:var(--mute); cursor:default; }
+  .txt { flex:1; min-width:0; }
+  .de { font-size:1.08rem; font-weight:600; }
+  .de b { text-decoration:underline; text-underline-offset:3px; }
+  .meta { font-size:.8rem; color:var(--mute); }
+  .pill { font-size:.72rem; padding:1px 7px; border-radius:99px; border:1px solid var(--line); color:var(--mute); white-space:nowrap; }
+  .pill.miss { color:var(--warn); border-color:var(--warn); }
+  .act { display:flex; flex-wrap:wrap; gap:6px 14px; align-items:center; margin:8px 0 0 50px; font-size:.9rem; }
+  .act label { display:flex; gap:6px; align-items:center; cursor:pointer; }
+  .act input[type=checkbox] { width:18px; height:18px; }
+  .act input[type=text] { flex:1 1 200px; min-width:0; font:inherit; font-size:.9rem; padding:5px 8px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink); }
+  textarea { width:100%; height:140px; font:13px/1.4 ui-monospace, monospace; margin-top:8px; background:var(--card); color:var(--ink); border:1px solid var(--line); border-radius:8px; }
+  [hidden] { display:none !important; }
+  @media (max-width:480px) { .act { margin-left:0; } }
+</style>
+</head>
+<body>
+{!DEV ? <main><p>Nur lokal (astro dev).</p></main> : (
+<>
+<header>
+  <h1>Satzmelodie – Prüfliste <span class="count">· {all.length} Zeilen{missing ? ` · ${missing} ohne Aufnahme` : " · alle mit Aufnahme"}</span></h1>
+  <div class="bar">
+    <select id="show" aria-label="Filter">
+      <option value="all">alle</option>
+      <option value="open">nur offene</option>
+      <option value="ok">nur fertig</option>
+    </select>
+    <button id="seq" type="button">▶ Alle nacheinander</button>
+    <a href="/satzmelodie" target="_blank" rel="noopener" class="count">Seite ansehen ↗</a>
+    <button id="copy" type="button" class="primary">Ergebnis kopieren</button>
+    <span class="count" id="tally"></span>
+  </div>
+  <textarea id="out" hidden readonly></textarea>
+</header>
+<main>
+  {sections.map((s) => (
+    <>
+      <h2>{s.title}</h2>
+      <p class="sec-note">{s.note}</p>
+      {s.groups.map((g) => (
+        <section class="group">
+          {g.title && <h3>{g.title}</h3>}
+          {g.lines.map((l) => (
+            <div class="row" data-id={l.id} data-src={l.rec ? l.src : ""} data-text={l.text}>
+              <div class="top">
+                <button type="button" class="play" aria-label={`Abspielen: ${l.text}`} disabled={!l.rec}>▶</button>
+                <div class="txt">
+                  <div class="de">
+                    {l.words ? l.words.map((w, i) => <>{i > 0 && " "}{i === l.k ? <b>{w}</b> : w}</>) : l.text}
+                  </div>
+                  <div class="meta">
+                    <span class="pill">{l.label}</span>
+                    {l.q && <> · Frage: „{l.q}"</>}
+                    {l.rule && <> · Regel: {l.rule}</>}
+                    {!l.rec && <> <span class="pill miss">keine Aufnahme</span></>}
+                  </div>
+                </div>
+              </div>
+              <div class="act">
+                <label><input type="checkbox" class="okde" /> Deutsch OK</label>
+                <label><input type="checkbox" class="okau" disabled={!l.rec} /> Melodie OK</label>
+                <input type="text" class="note" placeholder="Korrektur / Notiz (optional)" />
+              </div>
+            </div>
+          ))}
+        </section>
+      ))}
+    </>
+  ))}
+</main>
+<script is:inline>
+  const KEY = "sm-pruef-v1";
+  let state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {} };
+  const rows = [...document.querySelectorAll(".row")];
+  const show = document.getElementById("show");
+  const audio = new Audio();
+  let playing = null, queue = [];
+
+  const done = (r) => { const st = state[r.dataset.id] || {}; return !!st.de && (!r.dataset.src || !!st.au); };
+  function play(r) {
+    if (playing) playing.querySelector(".play").classList.remove("on");
+    if (!r?.dataset.src) { playing = null; return next(); }
+    playing = r; r.querySelector(".play").classList.add("on");
+    r.scrollIntoView({ block: "center", behavior: "smooth" });
+    audio.src = r.dataset.src; audio.play().catch(() => {});
+  }
+  function next() { if (queue.length) setTimeout(() => play(queue.shift()), 600); }
+  audio.addEventListener("ended", () => { playing?.querySelector(".play").classList.remove("on"); playing = null; next(); });
+
+  for (const r of rows) {
+    const st = (state[r.dataset.id] ||= {});
+    const de = r.querySelector(".okde"), au = r.querySelector(".okau"), note = r.querySelector(".note");
+    de.checked = !!st.de; au.checked = !!st.au; note.value = st.note || "";
+    r.classList.toggle("done", done(r));
+    de.addEventListener("change", () => { st.de = de.checked; r.classList.toggle("done", done(r)); save(); apply(); });
+    au.addEventListener("change", () => { st.au = au.checked; r.classList.toggle("done", done(r)); save(); apply(); });
+    note.addEventListener("input", () => { st.note = note.value; save(); });
+    r.querySelector(".play").addEventListener("click", () => { queue = []; if (playing === r) { audio.pause(); play(null); } else play(r); });
+  }
+  function apply() {
+    let n = 0, k = 0;
+    for (const r of rows) {
+      const ok = done(r);
+      const vis = show.value === "all" || (show.value === "ok") === ok;
+      r.hidden = !vis; if (vis) n++; if (ok) k++;
+    }
+    document.getElementById("tally").textContent = `${n} sichtbar · ${k}/${rows.length} fertig`;
+  }
+  show.addEventListener("change", apply);
+  document.getElementById("seq").addEventListener("click", () => { queue = rows.filter((r) => !r.hidden && r.dataset.src); play(queue.shift()); });
+  document.getElementById("copy").addEventListener("click", async () => {
+    const ok = [], notes = [], open = [];
+    for (const r of rows) {
+      const st = state[r.dataset.id] || {};
+      if (done(r)) ok.push(r.dataset.id); else open.push(r.dataset.id);
+      if (st.note?.trim()) notes.push(`- ${r.dataset.id} („${r.dataset.text}"): ${st.note.trim()}`);
+    }
+    const txt = `Satzmelodie-Prüfung\nFertig: ${ok.length}/${rows.length}\nOffen (${open.length}): ${open.join(", ") || "–"}\n${notes.length ? "Notizen:\n" + notes.join("\n") : "Keine Notizen."}`;
+    const out = document.getElementById("out"); out.value = txt; out.hidden = false; out.select();
+    try { await navigator.clipboard.writeText(txt); document.getElementById("copy").textContent = "Kopiert ✓"; } catch {}
+  });
+  apply();
+</script>
+</>
+)}
+</body>
+</html>

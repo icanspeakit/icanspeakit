@@ -1,0 +1,100 @@
+---
+// The calm way into „Einfach lernen" (/einfach) from the full site: one line, no card
+// grid, no badge — it sits under the page's own actions and does not compete with them.
+// EINFACH-LERNEN-TIERED-PROMPT.md, Tier 4. On return it remembers the mode: someone whose
+// last visit was in easy mode (localStorage "da-last-mode", written by einfach-view.js)
+// reads „Weiter mit Einfach lernen" instead of the invitation.
+import { mascotSvg } from "../lib/mascots.js";
+
+interface Props {
+  /** "line": one slim text line under a hero's buttons (the homepage fold has no room
+      for a card: its artwork overlaps anything taller). "row": a list row (/uebungen).
+      "tile": a full-width tile at the head of the level picker (LevelFold) — the answer
+      for the learner who is not on the A1–B2 scale yet at all. */
+  variant?: "line" | "row" | "tile";
+}
+const { variant = "line" } = Astro.props;
+// Bruno is the face of Einfach lernen, so he stands at its door. With the mascots switched
+// off (.mascot is hidden) the old paw takes his place, so the line never loses its icon.
+const bruno = mascotSvg({ name: "bruno", expr: "happy", view: "front", size: variant === "tile" ? 52 : variant === "row" ? 36 : 26, label: "" });
+---
+<a class:list={["ee", `ee--${variant}`]} href="/einfach" data-einfach-entry>
+  <span class="ee-ic ee-ic--bruno" aria-hidden="true" set:html={bruno} />
+  <span class="ee-ic ee-ic--paw" aria-hidden="true">🐾</span>
+  <span class="ee-txt">
+    {variant === "tile" && <span class="ee-kicker" data-ee-kicker>Ganz neu?</span>}
+    <b data-ee-title>Einfach lernen</b>
+    <i data-ee-sub>{variant === "tile" ? "Ohne Vorwissen. Ein Schritt pro Bildschirm." : "Lieber ganz einfach? Ein Schritt nach dem anderen."}</i>
+  </span>
+  <span class="ee-go" aria-hidden="true">→</span>
+</a>
+
+<script>
+  let last = null;
+  try {
+    last = localStorage.getItem("da-last-mode");
+  } catch {}
+  if (last === "einfach") {
+    for (const a of document.querySelectorAll("[data-einfach-entry]")) {
+      const t = a.querySelector("[data-ee-title]");
+      const s = a.querySelector("[data-ee-sub]");
+      const k = a.querySelector("[data-ee-kicker]");
+      if (k) k.textContent = "Zurück zu Bruno";
+      if (t) t.textContent = "Weiter mit Einfach lernen";
+      if (s) s.textContent = "Da, wo du zuletzt warst.";
+    }
+  }
+</script>
+
+<style>
+  .ee {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 30rem;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface-card);
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .ee:hover { border-color: var(--brand-blue); }
+  .ee:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+  .ee--line {
+    display: inline-flex;
+    gap: 8px;
+    margin-top: var(--space-2);
+    padding: 4px 0;
+    border: 0;
+    background: none;
+  }
+  .ee--line .ee-ic { font-size: 1rem; }
+  .ee--line .ee-txt { display: inline; flex: none; }
+  .ee--line .ee-txt i { display: none; }
+  .ee--line .ee-txt b { color: var(--brand-blue-dark); text-decoration: underline; text-underline-offset: 3px; }
+  .ee--row { max-width: none; margin-bottom: var(--space-4); }
+  .ee-ic { font-size: 1.4rem; line-height: 1; }
+  .ee-ic--bruno { display: inline-flex; }
+  .ee-ic--paw { display: none; }
+  :global(html[data-mascots="off"]) .ee-ic--paw { display: inline; }
+  :global(html[data-mascots="off"]) .ee-ic--bruno { display: none; }
+  .ee-txt { display: grid; gap: 2px; min-width: 0; flex: 1; }
+  .ee-txt b { font-weight: var(--fw-semibold); }
+  .ee-txt i { font-style: normal; font-size: var(--text-sm); color: var(--muted); }
+  .ee-go { color: var(--brand-blue-dark); }
+
+  /* Tile: same weight as the level tiles it leads, but full width and warm, so a
+     beginner sees a door that is theirs before the CEFR letters. */
+  .ee--tile {
+    max-width: none;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--brand-blue);
+    background: color-mix(in srgb, var(--brand-blue) 7%, var(--surface-card));
+  }
+  .ee--tile .ee-txt b { font-size: 1.05rem; font-weight: 800; }
+  .ee--tile .ee-go { font-size: 1.3rem; }
+  .ee-kicker { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--brand-blue-dark); }
+</style>

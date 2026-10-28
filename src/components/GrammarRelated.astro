@@ -1,0 +1,106 @@
+---
+// A quiet "Passt dazu" row at the foot of a grammar topic: two or three related topics
+// (src/data/grammatik-verwandt.json), so a learner who has finished one has an obvious
+// next step that is not the nav. Deliberately plain — small text, no cards — it is a
+// signpost after the work, not more work.
+import { grammarTopics } from "../lib/catalog.js";
+import verwandt from "../data/grammatik-verwandt.json";
+
+interface Props { id: string }
+const { id } = Astro.props;
+const byId = new Map(grammarTopics.map((t) => [t.href.slice(1), t]));
+const related = ((verwandt.topics as Record<string, string[]>)[id] ?? [])
+  .map((r) => byId.get(r))
+  .filter((t): t is NonNullable<typeof t> => !!t && t.href !== `/${id}`);
+
+// The exam sets this topic's level prepares for (SEO-BRAND-TIERED-PROMPT.md Tier 4: grammar
+// links to the exam it helps with). The anchors are what learners type into a search.
+const EXAMS: Record<string, { href: string; label: string }[]> = {
+  A1: [{ href: "/start-deutsch-1", label: "Start Deutsch 1 Übungssatz" }],
+  A2: [
+    { href: "/dtz/uebungssatz", label: "DTZ Modelltest" },
+    { href: "/telc/a2", label: "telc A2 Übungssatz" },
+    { href: "/goethe/a2", label: "Goethe A2 Übungssatz" },
+  ],
+  B1: [
+    { href: "/dtz/uebungssatz", label: "DTZ Modelltest" },
+    { href: "/telc/b1", label: "telc B1 Übungssatz" },
+    { href: "/goethe/b1", label: "Goethe B1 Übungssatz" },
+  ],
+  B2: [
+    { href: "/telc/b2", label: "telc B2 Übungssatz" },
+    { href: "/goethe/b2", label: "Goethe B2 Übungssatz" },
+    { href: "/testdaf", label: "TestDaF Übungen" },
+  ],
+  C1: [
+    { href: "/telc/c1", label: "telc C1 Übungssatz" },
+    { href: "/goethe/c1", label: "Goethe C1 Übungssatz" },
+  ],
+};
+const level = String(byId.get(id)?.level ?? "").match(/[ABC][12]/)?.[0] ?? "";
+const exams = EXAMS[level] ?? [];
+---
+{exams.length > 0 && (
+  <div class="gr-rel gr-exam">
+    <p class="gr-rel-h" data-i18n="grammar.exam" data-i18n-vars={JSON.stringify({ level })}>Für die Prüfung auf {level}</p>
+    <ul>
+      {exams.map((e) => (
+        <li><a href={e.href}><span class="gr-rel-name">{e.label}</span><span class="gr-rel-arrow" aria-hidden="true">→</span></a></li>
+      ))}
+    </ul>
+  </div>
+)}
+{related.length > 0 && (
+  <nav class="gr-rel" aria-labelledby="gr-rel-h">
+    <p class="gr-rel-h" id="gr-rel-h" data-i18n="grammar.related">Passt dazu</p>
+    <ul>
+      {related.map((t) => (
+        <li>
+          <a href={t.href}>
+            <span class="gr-rel-lvl">{t.level}</span>
+            <span class="gr-rel-name">{t.name}</span>
+            <span class="gr-rel-arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<style>
+  .gr-rel {
+    max-width: 1220px;
+    margin: var(--space-8, 32px) auto 0;
+    padding: var(--space-5, 20px) 0 0;
+    border-top: 1px solid var(--border);
+  }
+  .gr-exam + .gr-rel { margin-top: var(--space-4, 16px); }
+  .gr-rel-h {
+    margin: 0 0 10px;
+    font-family: var(--font-label);
+    font-size: var(--text-xs, .75rem);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted-soft, var(--muted));
+  }
+  .gr-rel ul { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 0; padding: 0; list-style: none; }
+  .gr-rel a {
+    display: inline-flex; align-items: center; gap: 8px;
+    min-height: 40px;
+    color: var(--muted); text-decoration: none; font-size: .92rem;
+  }
+  .gr-rel-lvl {
+    padding: 1px 6px; border: 1px solid var(--border); border-radius: 6px;
+    font-family: var(--font-label); font-size: 11px; font-weight: 700; color: var(--muted-soft, var(--muted));
+  }
+  .gr-rel-arrow { opacity: 0; transform: translateX(-4px); transition: opacity .15s ease, transform .15s ease; }
+  .gr-rel a:hover { color: var(--brand-blue-dark, var(--ink)); }
+  .gr-rel a:hover .gr-rel-name { text-decoration: underline; text-underline-offset: 3px; }
+  .gr-rel a:hover .gr-rel-arrow, .gr-rel a:focus-visible .gr-rel-arrow { opacity: 1; transform: none; }
+  .gr-rel a:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; border-radius: 6px; }
+  :global([dir="rtl"]) .gr-rel-arrow { transform: scaleX(-1); }
+  @media (max-width: 600px) {
+    .gr-rel ul { flex-direction: column; gap: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { .gr-rel-arrow { transition: none; } }
+</style>

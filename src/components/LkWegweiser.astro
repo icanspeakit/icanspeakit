@@ -1,0 +1,373 @@
+---
+// „Was hast du vor?“ — the guided way into /lehrkraefte, the teachers' counterpart to the
+// learners' „Wo anfangen?“. Instead of eight cards side by side, a teacher picks a goal and
+// answers one or two questions (Niveau, Themenblock); the last step lays out what to use,
+// in the order of the lesson, with every link already set to that level and block:
+// Stundenplan, one Arbeitsmappe with the block's grammar sheets, the Live-Quiz per grammar
+// chapter, a printable game.
+//
+//   stunde        Niveau → Block → Material   (the next lesson)
+//   kurs          Niveau → Material           (a new course: test, survey, course plan)
+//   kennenlernen  Material                    (a new class, level unknown)
+//   vertretung    Niveau → Material           (no preparation, ready to play)
+//
+// The blocks are those of /kursinhalte (src/data/kursinhalte.json), the grammar resolved the
+// way /lehrkraefte/stundenplan resolves it, so the wizard only links sheets and quiz
+// chapters that exist. The choice is kept in the address (?ziel=stunde&niveau=a1-1&block=2)
+// and on this device, so the next visit opens where the teacher left off.
+// German only, like the course plan and the Stundenplan.
+import Icon from "./Icon.astro";
+import data from "../data/kursinhalte.json";
+import { grammarByKey } from "../lib/grammarCatalog.js";
+import { lexiconCounts } from "../lib/catalog.js";
+import { grammarKeys, cefrOf } from "../lib/stundenplan.js";
+import { sheetTopics, topicSlug } from "../lib/arbeitsblatt/grammatik.js";
+import { hasChapter } from "../lib/liveQuiz/chapters.js";
+
+const GAME_LEVELS = ["A1", "A2", "B1", "B2"]; // what the printable games accept (src/lib/spiele/common.js)
+const sheets = new Set(sheetTopics.map(topicSlug));
+
+const levels = data.niveaus.map((l) => {
+  const cefr = cefrOf(l.label);
+  return {
+    id: l.id,
+    label: l.label,
+    titel: l.titel,
+    cefr,
+    games: GAME_LEVELS.includes(cefr),
+    words: lexiconCounts[cefr]?.words ? `/wortschatz/${cefr.toLowerCase()}` : null,
+    blocks: l.bloecke.map((b) => {
+      const keys = [...new Set(b.grammatik.flatMap((g) => grammarKeys(g, cefr, grammarByKey)))];
+      return {
+        thema: b.thema,
+        ziel: b.kannZiele[0] ?? "",
+        grammar: keys.map((k) => ({
+          key: k,
+          name: grammarByKey(k)!.name,
+          href: grammarByKey(k)!.href,
+          sheet: sheets.has(k),
+          quiz: hasChapter(`g-${k}`),
+        })),
+      };
+    }),
+  };
+});
+
+const goals = [
+  { id: "stunde", icon: "pencil", title: "Nächste Stunde vorbereiten", hint: "Plan, Arbeitsblätter, Quiz zu einem Themenblock" },
+  { id: "kurs", icon: "graduation-cap", title: "Neuen Kurs planen", hint: "Klasse testen, Wünsche erfragen, Kursplan" },
+  { id: "kennenlernen", icon: "user", title: "Klasse erst kennenlernen", hint: "Niveau noch unklar: testen und fragen" },
+  { id: "vertretung", icon: "sparkle", title: "Vertretung in 5 Minuten", hint: "Ohne Vorbereitung: Quiz und Spiele" },
+];
+---
+<section class="lw" lang="de" aria-labelledby="lw-title" data-lw>
+  <h2 id="lw-title" class="lw-title">Was hast du vor?</h2>
+  <div class="lw-goals" data-lw-goals>
+    {goals.map((g) => (
+      <button type="button" class="lw-goal" data-goal={g.id} aria-pressed="false">
+        <span class="lw-goal-ic" aria-hidden="true"><Icon name={g.icon} size={20} /></span>
+        <span class="lw-goal-txt"><b>{g.title}</b><i>{g.hint}</i></span>
+      </button>
+    ))}
+  </div>
+  <ol class="lw-steps" data-lw-steps hidden></ol>
+  <div class="lw-body" data-lw-body aria-live="polite"></div>
+  <script type="application/json" data-lw-data set:html={JSON.stringify(levels)}></script>
+</section>
+
+<style>
+  .lw {
+    margin: 0 0 var(--space-6);
+    padding: 18px 16px;
+    border: 1px solid color-mix(in srgb, var(--brand-blue) 45%, var(--border));
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, var(--blue-50), var(--surface-card) 60%);
+  }
+  .lw-title { margin: 0 0 12px; font-size: var(--text-xl); color: var(--ink); }
+  .lw-goals { display: grid; grid-template-columns: 1fr; gap: 8px; }
+  .lw-goal {
+    display: flex; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 10px 12px;
+    font: inherit; text-align: left; color: var(--ink); cursor: pointer;
+    background: var(--surface-card); border: 1px solid var(--border-strong); border-radius: 14px;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .lw-goal:hover { border-color: var(--brand-blue); }
+  .lw-goal[aria-pressed="true"] { border-color: var(--brand-blue); box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand-blue) 35%, transparent); }
+  .lw-goal:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+  .lw-goal-ic {
+    flex: none; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px;
+    background: var(--gradient-brand); color: #fff;
+  }
+  .lw-goal-txt { display: grid; gap: 2px; min-width: 0; }
+  .lw-goal-txt b { font-size: var(--text-sm); }
+  .lw-goal-txt i { font-style: normal; font-size: var(--text-xs); color: var(--muted); }
+  /* Once a goal is chosen the other three shrink to one line, so the steps sit near the top
+     of a phone screen; a tap on another still switches. */
+  .lw.has-goal .lw-goal { min-height: 44px; padding: 6px 10px; }
+  .lw.has-goal .lw-goal i, .lw.has-goal .lw-goal-ic { display: none; }
+  .lw.has-goal .lw-goals { grid-template-columns: 1fr 1fr; }
+  .lw.has-goal .lw-goal-txt b { font-size: var(--text-xs); }
+
+  /* The step chips are written by the script, so their rules are :global (Astro scopes
+     only what the template renders). */
+  .lw-steps { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 10px; padding: 0; list-style: none; counter-reset: lw; }
+  .lw-steps :global(li) { counter-increment: lw; }
+  .lw-steps :global(button), .lw-steps :global(span) {
+    display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px;
+    font: inherit; font-size: var(--text-xs); font-weight: var(--fw-semibold);
+    border-radius: var(--radius-pill); border: 1px solid var(--border); background: var(--surface-card); color: var(--muted);
+  }
+  .lw-steps :global(button) { cursor: pointer; color: var(--brand-blue-dark); border-color: var(--border-strong); }
+  .lw-steps :global(button)::before, .lw-steps :global(span)::before { content: counter(lw); font-weight: var(--fw-bold); }
+  .lw-steps :global([aria-current="step"]) { background: var(--brand-blue); border-color: var(--brand-blue); color: #fff; }
+
+  .lw-body :global(.lw-q) { margin: 4px 0 10px; font-weight: var(--fw-semibold); color: var(--ink); }
+  .lw-body :global(.lw-q small) { font-weight: var(--fw-regular); color: var(--muted); }
+  .lw-body :global(.lw-pick) { display: grid; grid-template-columns: 1fr; gap: 6px; }
+  .lw-body :global(.lw-pick button) {
+    display: flex; align-items: baseline; gap: 10px; width: 100%; min-height: 44px; padding: 10px 12px;
+    font: inherit; font-size: var(--text-sm); text-align: left; color: var(--ink); cursor: pointer;
+    background: var(--surface-card); border: 1px solid var(--border); border-radius: 12px;
+  }
+  .lw-body :global(.lw-pick button:hover) { border-color: var(--brand-blue); }
+  .lw-body :global(.lw-pick button.is-on) { border-color: var(--brand-blue); background: var(--blue-50); }
+  .lw-body :global(.lw-pick b) { flex: none; min-width: 3.2em; color: var(--brand-blue-dark); }
+  .lw-body :global(.lw-pick small) { display: block; margin-top: 2px; color: var(--muted); font-size: var(--text-xs); }
+  .lw-body :global(.lw-aside) { margin: 10px 0 0; font-size: var(--text-sm); color: var(--muted); }
+  .lw-body :global(.lw-aside a), .lw-body :global(.lw-q a), .lw-body :global(.lw-res p a) { color: var(--brand-blue-dark); font-weight: var(--fw-semibold); }
+
+  .lw-body :global(.lw-sum) { margin: 4px 0 12px; font-size: var(--text-sm); color: var(--muted); }
+  .lw-body :global(.lw-sum b) { color: var(--ink); }
+  .lw-body :global(.lw-res) { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; counter-reset: lwr; }
+  .lw-body :global(.lw-res > li) {
+    counter-increment: lwr; position: relative; display: grid; gap: 6px;
+    padding: 12px 12px 12px 46px; background: var(--surface-card); border: 1px solid var(--border); border-radius: 14px;
+  }
+  .lw-body :global(.lw-res > li::before) {
+    content: counter(lwr); position: absolute; left: 12px; top: 12px;
+    display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%;
+    background: var(--brand-blue); color: #fff; font-size: var(--text-xs); font-weight: var(--fw-bold);
+  }
+  .lw-body :global(.lw-res h3) { margin: 0; text-align: left; font-size: var(--text-base); color: var(--ink); }
+  .lw-body :global(.lw-res p) { margin: 0; font-size: var(--text-sm); line-height: 1.5; color: var(--muted); }
+  .lw-body :global(.lw-acts) { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+  .lw-body :global(.lw-acts a) {
+    display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px;
+    border-radius: var(--radius-pill); border: 1px solid var(--border-strong);
+    color: var(--ink); font-size: var(--text-sm); font-weight: var(--fw-semibold); text-decoration: none;
+  }
+  .lw-body :global(.lw-acts a:hover) { border-color: var(--brand-blue); }
+  .lw-body :global(.lw-acts a.lw-main) { border-color: transparent; background: var(--gradient-brand); color: #fff; }
+  .lw-body :global(.lw-acts a:focus-visible) { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+  .lw-body :global(.lw-next) { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .lw-body :global(.lw-next button) {
+    min-height: 40px; padding: 0 14px; font: inherit; font-size: var(--text-sm); font-weight: var(--fw-semibold);
+    border-radius: var(--radius-pill); border: 1px solid var(--border-strong); background: var(--surface-card); color: var(--brand-blue-dark); cursor: pointer;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .lw-body :global(> *) { animation: lw-in .22s ease both; }
+    @keyframes lw-in { from { opacity: 0; transform: translateY(6px); } }
+  }
+  @media (min-width: 720px) {
+    .lw { padding: 22px; }
+    .lw-goals { grid-template-columns: 1fr 1fr; }
+    .lw-body :global(.lw-pick) { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+
+<script>
+  type Grammar = { key: string; name: string; href: string; sheet: boolean; quiz: boolean };
+  type Block = { thema: string; ziel: string; grammar: Grammar[] };
+  type Level = { id: string; label: string; titel: string; cefr: string; games: boolean; words: string | null; blocks: Block[] };
+  type State = { ziel?: string; niveau?: string; block?: number; step?: string };
+
+  const root = document.querySelector<HTMLElement>("[data-lw]");
+  if (root) {
+    const levels: Level[] = JSON.parse(root.querySelector("[data-lw-data]")!.textContent!);
+    const goalsEl = root.querySelector<HTMLElement>("[data-lw-goals]")!;
+    const stepsEl = root.querySelector<HTMLOListElement>("[data-lw-steps]")!;
+    const body = root.querySelector<HTMLElement>("[data-lw-body]")!;
+    const esc = (s: string) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+    const KEY = "lk-wegweiser";
+
+    // Which questions each goal asks before the material.
+    const FLOW: Record<string, string[]> = {
+      stunde: ["niveau", "block", "material"],
+      kurs: ["niveau", "material"],
+      kennenlernen: ["material"],
+      vertretung: ["niveau", "material"],
+    };
+    const STEP_NAME: Record<string, string> = { niveau: "Niveau", block: "Themenblock", material: "Material" };
+
+    let st: State = {};
+    const level = () => levels.find((l) => l.id === st.niveau) ?? null;
+    const block = () => (level() && st.block ? level()!.blocks[st.block - 1] ?? null : null);
+
+    // The first step of the flow whose answer is still missing.
+    const due = () => FLOW[st.ziel!].find((s) => (s === "niveau" && !level()) || (s === "block" && !block()) || s === "material")!;
+
+    function save() {
+      const p = new URLSearchParams(location.search);
+      for (const k of ["ziel", "niveau", "block"]) p.delete(k);
+      if (st.ziel) p.set("ziel", st.ziel);
+      if (st.niveau && FLOW[st.ziel!]?.includes("niveau")) p.set("niveau", st.niveau);
+      if (st.block && FLOW[st.ziel!]?.includes("block")) p.set("block", String(st.block));
+      const qs = p.toString();
+      history.replaceState(null, "", location.pathname + (qs ? `?${qs}` : "") + location.hash);
+      try { localStorage.setItem(KEY, JSON.stringify({ ziel: st.ziel, niveau: st.niveau, block: st.block })); } catch {}
+    }
+
+    const link = (href: string, label: string, main = false, blank = false) =>
+      `<a href="${esc(href)}"${main ? ' class="lw-main"' : ""}${blank ? ' target="_blank" rel="noopener"' : ""}>${esc(label)}</a>`;
+    const item = (title: string, text: string, acts: string[]) =>
+      `<li><h3>${esc(title)}</h3><p>${text}</p>${acts.length ? `<div class="lw-acts">${acts.join("")}</div>` : ""}</li>`;
+
+    function stepsBar(cur: string) {
+      const flow = FLOW[st.ziel!];
+      stepsEl.hidden = flow.length < 2;
+      const answer: Record<string, string> = {
+        niveau: level()?.label ?? "",
+        block: block() ? `Block ${st.block}` : "",
+      };
+      stepsEl.innerHTML = flow.map((s) => {
+        const label = answer[s] ? `${STEP_NAME[s]}: ${esc(answer[s])}` : STEP_NAME[s];
+        if (s === cur) return `<li><span aria-current="step">${label}</span></li>`;
+        // Steps already answered can be reopened; later ones are just shown.
+        return answer[s] ? `<li><button type="button" data-goto="${s}">${label}</button></li>` : `<li><span>${label}</span></li>`;
+      }).join("");
+    }
+
+    function askLevel() {
+      body.innerHTML = `
+        <p class="lw-q">Auf welchem Niveau ist deine Klasse?</p>
+        <div class="lw-pick">${levels.map((l) => `
+          <button type="button" data-niveau="${l.id}"${l.id === st.niveau ? ' class="is-on"' : ""}><b>${esc(l.label)}</b><span>${esc(l.titel)}</span></button>`).join("")}
+        </div>
+        <p class="lw-aside">Weißt du es nicht genau? <a href="/lehrkraefte/tests">Lass die Klasse den Einstufungstest machen</a>, am Handy per QR-Code.</p>`;
+    }
+
+    function askBlock() {
+      const l = level()!;
+      body.innerHTML = `
+        <p class="lw-q">Welcher Themenblock ist dran? <small>(${esc(l.label)} · aus den <a href="/kursinhalte/${l.id}">Kursinhalten</a>)</small></p>
+        <div class="lw-pick">${l.blocks.map((b, i) => `
+          <button type="button" data-block="${i + 1}"${i + 1 === st.block ? ' class="is-on"' : ""}><b>${i + 1}</b><span>${esc(b.thema)}${b.grammar.length ? `<small>${esc(b.grammar.map((g) => g.name).join(" · "))}</small>` : ""}</span></button>`).join("")}
+        </div>`;
+    }
+
+    const planHref = (l: Level, b: number, n: number) => `/lehrkraefte/stundenplan?niveau=${l.id}&block=${b}&stunden=${n}&min=90`;
+
+    function material() {
+      const l = level();
+      const out: string[] = [];
+      let sum = "";
+      let next = "";
+      if (st.ziel === "stunde" && l && block()) {
+        const b = block()!;
+        sum = `<b>${esc(l.label)} · Block ${st.block}: ${esc(b.thema)}</b>${b.ziel ? `<br>${esc(b.ziel)}` : ""}`;
+        out.push(item("Ablauf planen", "Ein Stundenplan mit Phasen, Zeiten und Sozialform. Länge und Anzahl der Stunden stellst du dort ein.",
+          [link(planHref(l, st.block!, 1), "Stundenplan öffnen", true)]));
+        const sheets = b.grammar.filter((g) => g.sheet);
+        if (sheets.length) out.push(item("Arbeitsblätter drucken",
+          `${sheets.length === 1 ? "Das Arbeitsblatt" : `Alle ${sheets.length} Arbeitsblätter`} zur Grammatik des Blocks in einer PDF, mit Lösungen: ${sheets.map((g) => `<a href="${esc(g.href)}">${esc(g.name)}</a>`).join(", ")}.`,
+          [link(`/lehrkraefte/arbeitsblaetter/mappe?g=${sheets.map((g) => g.key).join(",")}`, "Arbeitsmappe öffnen", true)]));
+        else out.push(item("Arbeitsblätter", "Zu diesem Block gibt es noch kein Grammatik-Arbeitsblatt. Wortschatz-Blätter findest du nach Lernset.",
+          [link("/lehrkraefte/arbeitsblaetter", "Arbeitsblätter öffnen")]));
+        const quiz = b.grammar.filter((g) => g.quiz);
+        out.push(item("Am Beamer festigen", "Live-Quiz: Du zeigst den QR-Code, alle spielen mit dem Handy.",
+          quiz.length ? quiz.map((g, i) => link(`/lehrkraefte/quiz?grammar=g-${g.key}`, `Quiz: ${g.name}`, i === 0, true))
+            : [link("/lehrkraefte/quiz", "Live-Quiz öffnen", true, true)]));
+        if (l.games) out.push(item("Zum Abschluss spielen", `Ein Spiel zum Ausdrucken mit dem Wortschatz von ${l.cefr}, jedes Mal neu gemischt.`,
+          [link(`/lehrkraefte/spiele/bingo?level=${l.cefr}`, "Bingo", true), link(`/lehrkraefte/spiele/domino?level=${l.cefr}`, "Domino"), link(`/lehrkraefte/spiele/erklaeren?level=${l.cefr}`, "Wörter erklären")]));
+        if (st.block! < l.blocks.length) next = `<button type="button" data-block-next>Weiter mit Block ${st.block! + 1} →</button>`;
+      } else if (st.ziel === "kurs" && l) {
+        sum = `<b>Neuer Kurs ${esc(l.label)}</b> · ${esc(l.titel)}`;
+        out.push(item("Niveau prüfen", "Die Klasse macht den Einstufungstest am Handy, mit Namen und ohne Konto. Du siehst, wer wo steht und welche Themen noch nicht sitzen. Mit kostenlosem Konto.",
+          [link("/lehrkraefte/tests", "Test erstellen", true)]));
+        out.push(item("Wünsche erfragen", "Anonym per QR-Code: welche Grammatik, mehr Sprechen oder Schreiben, welches Tempo.",
+          [link("/lehrkraefte/umfragen", "Umfrage starten", true)]));
+        out.push(item("Kurs überblicken", `Die ${l.blocks.length} Themenblöcke von ${esc(l.label)} mit Lernzielen, Grammatik und Wortschatz.`,
+          [link(`/kursinhalte/${l.id}`, "Kursinhalte öffnen", true), link(planHref(l, 1, 3), "Stundenplan für Block 1")]));
+        out.push(item("Klasse anlegen", "Gib den Code weiter: Du siehst, wer zwischen den Stunden übt. Mit kostenlosem Konto.",
+          [link("/lehrkraefte/klassen", "Klasse anlegen", true)]));
+        next = `<button type="button" data-goal-switch="stunde">Erste Stunde vorbereiten →</button>`;
+      } else if (st.ziel === "kennenlernen") {
+        sum = "<b>Neue Klasse, Niveau noch unklar</b>";
+        out.push(item("Locker anfangen", "Ein Live-Quiz zum Wortschatz am Beamer: alle spielen mit dem Handy, ohne Anmeldung.",
+          [link("/lehrkraefte/quiz", "Live-Quiz öffnen", true, true)]));
+        out.push(item("Niveau herausfinden", "Einstufungstest per QR-Code: das Niveau jeder Person von A1 bis B2 und die häufigsten Fehler. Mit kostenlosem Konto.",
+          [link("/lehrkraefte/tests", "Test erstellen", true)]));
+        out.push(item("Wünsche erfragen", "Anonym: Was will die Klasse lernen, in welchem Tempo?",
+          [link("/lehrkraefte/umfragen", "Umfrage starten", true)]));
+        next = `<button type="button" data-goal-switch="kurs">Danach: Kurs planen →</button>`;
+      } else if (st.ziel === "vertretung" && l) {
+        sum = `<b>Vertretung ${esc(l.label)}</b> · alles ohne Vorbereitung, ohne Konto`;
+        out.push(item("Live-Quiz am Beamer", `Wähle im Quiz „Zufallsmix“ und ${l.cefr}: Wörter und Grammatik der Stufe, jede Runde neu gemischt.`,
+          [link("/lehrkraefte/quiz", "Live-Quiz öffnen", true, true)]));
+        if (l.games) out.push(item("Spiele zum Ausdrucken", `Mit dem Wortschatz von ${l.cefr}. Ein Drucker reicht.`,
+          [link(`/lehrkraefte/spiele/erklaeren?level=${l.cefr}`, "Wörter erklären", true), link(`/lehrkraefte/spiele/bingo?level=${l.cefr}`, "Bingo"), link(`/lehrkraefte/spiele/domino?level=${l.cefr}`, "Domino")]));
+        out.push(item("Arbeitsblatt für die Stillarbeit", "Zu jedem Grammatikthema und Lernset, mit Lösungsblatt. Oder online ausfüllen lassen.",
+          [link("/lehrkraefte/arbeitsblaetter", "Arbeitsblätter öffnen", true), ...(l.words ? [link(l.words, `Wortliste ${l.cefr}`)] : [])]));
+      }
+      body.innerHTML = `
+        <p class="lw-sum">${sum}</p>
+        <ol class="lw-res">${out.join("")}</ol>
+        ${next ? `<div class="lw-next">${next}</div>` : ""}`;
+    }
+
+    function render(step?: string) {
+      root!.classList.toggle("has-goal", !!st.ziel);
+      goalsEl.querySelectorAll<HTMLButtonElement>("[data-goal]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.goal === st.ziel)));
+      if (!st.ziel) { stepsEl.hidden = true; body.innerHTML = ""; return; }
+      const cur = step ?? due();
+      stepsBar(cur);
+      if (cur === "niveau") askLevel();
+      else if (cur === "block") askBlock();
+      else material();
+      save();
+    }
+
+    const scrollIn = () => {
+      const top = root!.getBoundingClientRect().top;
+      if (top < 0) root!.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    };
+
+    goalsEl.addEventListener("click", (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-goal]");
+      if (!b) return;
+      st.ziel = b.dataset.goal;
+      render();
+    });
+    stepsEl.addEventListener("click", (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-goto]");
+      if (b) render(b.dataset.goto);
+    });
+    body.addEventListener("click", (e) => {
+      const t = e.target as HTMLElement;
+      const nv = t.closest<HTMLButtonElement>("[data-niveau]");
+      const bl = t.closest<HTMLButtonElement>("[data-block]");
+      const sw = t.closest<HTMLButtonElement>("[data-goal-switch]");
+      if (nv) {
+        if (nv.dataset.niveau !== st.niveau) st.block = undefined;
+        st.niveau = nv.dataset.niveau;
+      } else if (bl) st.block = Number(bl.dataset.block);
+      else if (t.closest("[data-block-next]")) st.block = (st.block ?? 0) + 1;
+      else if (sw) { st.ziel = sw.dataset.goalSwitch; if (st.ziel === "stunde") st.block = 1; }
+      else return;
+      render();
+      scrollIn();
+    });
+
+    // From the address first (a shared or bookmarked link), else where this device left off.
+    const q = new URLSearchParams(location.search);
+    let saved: State = {};
+    try { saved = JSON.parse(localStorage.getItem(KEY) ?? "{}") ?? {}; } catch {}
+    const from = q.get("ziel") ? { ziel: q.get("ziel")!, niveau: q.get("niveau") ?? undefined, block: Number(q.get("block")) || undefined } : saved;
+    if (from.ziel && FLOW[from.ziel]) {
+      st = { ziel: from.ziel, niveau: levels.some((l) => l.id === from.niveau) ? from.niveau : undefined, block: from.block };
+      if (st.block && (!level() || !block())) st.block = undefined;
+      render();
+    }
+  }
+</script>

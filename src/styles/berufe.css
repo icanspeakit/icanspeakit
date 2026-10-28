@@ -1,0 +1,132 @@
+/* Deutsch für den Beruf — /berufe, /berufe/[beruf], /berufe/[beruf]/[gruppe].
+   The hub and deck pages use the Kultur cards (kultur.css, kultur-hub.css); this file holds
+   only what is new: the group row, the deck intro and the pflegeplace.com box. */
+
+.bv-pick { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 10px 0 2px; }
+.bv-pick a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: .84rem;
+  text-decoration: none;
+}
+.bv-pick a.active { background: var(--gradient-brand, #0d9488); border-color: transparent; color: #fff; }
+.bv-back { margin: 4px 0 0; text-align: center; font-size: .82rem; }
+@media (max-width: 759px) {
+  /* One row that scrolls sideways instead of a screen of chips; the page never scrolls sideways. */
+  .bv-pick--scroll { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; margin-inline: -16px; padding: 4px 16px 8px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .bv-pick--scroll::-webkit-scrollbar { display: none; }
+  .bv-pick--scroll a { flex: 0 0 auto; white-space: nowrap; }
+}
+
+.bv-hero-lead { max-width: 60ch; margin: 8px auto 0; color: var(--muted); }
+.bv-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 10px; }
+.bv-badge { padding: 3px 10px; border: 1px solid var(--border); border-radius: 999px; font-size: .78rem; color: var(--muted); }
+
+.bv-card-soon { opacity: .62; cursor: default; }
+.bv-card-soon:hover { border-color: var(--border); }
+.bv-card-meta { flex: 0 0 auto; align-self: center; font-size: .78rem; color: var(--muted); white-space: nowrap; }
+.bv-card-ext { display: block; margin-top: 4px; font-size: .78rem; color: var(--brand-blue); }
+
+.bv-intro { max-width: 68ch; margin: 0 auto 18px; }
+.bv-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+.bv-links a { font-size: .9rem; }
+
+/* The pointer to pflegeplace.com: a clear box, top and bottom of /berufe/pflege. */
+.bv-ext {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 18px 0;
+  padding: 16px;
+  border: 2px solid var(--brand-blue);
+  border-radius: var(--radius-lg, 16px);
+  background: var(--surface-card);
+}
+.bv-ext img { flex: 0 0 auto; }
+.bv-ext p { margin: 0 0 8px; }
+.bv-ext a.bv-ext-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--gradient-brand, #0d9488);
+  color: #fff;
+  font-weight: var(--fw-semibold, 600);
+  text-decoration: none;
+}
+@media (max-width: 479px) {
+  .bv-ext { flex-direction: column; align-items: flex-start; }
+}
+.bv-ls { display: flex; justify-content: center; margin: 0 0 10px; }
+
+/* The Leichte-Sprache switch for the deck intro (every page styles its own copy, scoped). */
+.bv-ls .ls-switch {
+  display: inline-flex; align-items: center; gap: 10px; padding: 6px 12px 6px 8px; cursor: pointer;
+  border: 1px solid var(--border); border-radius: 999px; background: var(--surface); color: var(--ink); font: inherit;
+}
+.bv-ls .ls-switch:hover { border-color: var(--brand-blue); }
+.bv-ls .ls-switch-track { position: relative; flex: none; width: 34px; height: 20px; border-radius: 999px; background: var(--border-strong, #c4cbd4); transition: background .15s; }
+.bv-ls .ls-switch-knob { position: absolute; top: 2px; inset-inline-start: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgb(0 0 0 / .25); transition: transform .15s; }
+.bv-ls .ls-switch[aria-pressed="true"] .ls-switch-track { background: var(--brand-blue); }
+.bv-ls .ls-switch[aria-pressed="true"] .ls-switch-knob { transform: translateX(14px); }
+[dir="rtl"] .bv-ls .ls-switch[aria-pressed="true"] .ls-switch-knob { transform: translateX(-14px); }
+.bv-ls .ls-switch-txt { display: flex; flex-direction: column; line-height: 1.2; text-align: start; }
+.bv-ls .ls-switch-kicker { font-family: var(--font-label); font-size: .62rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.bv-ls .ls-switch-state { font-size: .8rem; font-weight: 600; color: var(--ink); }
+.bv-ls .ls-switch[aria-pressed="true"] .ls-switch-state { color: var(--brand-blue-dark); }
+
+/* Hub: one photo card per profession (photo from hub-bilder.json, slot berufe-<slug>). */
+.bv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)); gap: 14px; }
+.bv-pcard {
+  display: flex; flex-direction: column; overflow: hidden;
+  border: 1px solid var(--border); border-radius: var(--radius-lg, 16px);
+  background: var(--surface-card, var(--surface)); color: var(--text); text-decoration: none;
+  transition: border-color .15s, transform .15s, box-shadow .15s;
+}
+a.bv-pcard:hover, a.bv-pcard:focus-visible { border-color: var(--brand-blue); transform: translateY(-2px); box-shadow: 0 6px 18px rgb(11 26 46 / .08); }
+.bv-pcard-foto { display: block; width: 100%; height: auto; aspect-ratio: 16 / 7; object-fit: cover; background: var(--surface); }
+.bv-pcard-foto--emoji { display: grid; place-items: center; }
+:root[data-theme="dark"] img.bv-pcard-foto { filter: brightness(.85); }
+.bv-card-soon img.bv-pcard-foto { filter: grayscale(.6); }
+.bv-pcard-body { display: flex; flex-direction: column; gap: 6px; padding: 12px 14px 14px; flex: 1; }
+.bv-pcard-head { display: flex; align-items: center; gap: 8px; }
+.bv-pcard-head b { font-size: 1rem; line-height: 1.3; }
+.bv-pcard-ic { flex: none; }
+.bv-pcard-body i { font-style: normal; font-size: .88rem; color: var(--muted); }
+.bv-pcard-jobs { font-size: .8rem; color: var(--text); }
+.bv-pcard .bv-card-meta { align-self: flex-start; margin-top: auto; padding-top: 4px; }
+
+/* Profession page: who it is for, real sentences from the deck, tips. */
+.bv-sub { margin: 0 0 8px; font-family: var(--font-label); font-size: .72rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); text-align: center; }
+.bv-jobs { margin: 0 0 22px; }
+.bv-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.bv-chips li { padding: 4px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); font-size: .86rem; }
+.bv-samples, .bv-tipps { margin: 26px 0 0; }
+.bv-samples ul, .bv-tipps ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.bv-samples li { padding: 12px 14px; border-inline-start: 4px solid var(--brand-blue); border-radius: 10px; background: var(--surface-card, var(--surface)); }
+.bv-samples q { display: block; font-size: 1.02rem; quotes: "„" "“"; }
+.bv-sample-word { display: block; margin-top: 4px; font-size: .84rem; color: var(--muted); }
+.bv-tipps li { position: relative; padding-block: 10px; padding-inline: 40px 14px; border: 1px solid var(--border); border-radius: 10px; }
+.bv-tipps li::before { content: "💡"; position: absolute; inset-inline-start: 12px; top: 9px; }
+
+/* The deck's word list as a PDF, with its translated editions. */
+.bv-pdf { display: flex; gap: 14px; align-items: flex-start; margin: 22px 0 0; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-lg, 16px); background: var(--surface-card, var(--surface)); }
+.bv-pdf-ic { flex: none; display: grid; place-items: center; width: 44px; height: 52px; border-radius: 8px; background: #e5484d; color: #fff; font-size: .72rem; font-weight: 700; letter-spacing: .04em; }
+.bv-pdf-txt { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.bv-pdf-meta { font-size: .8rem; color: var(--muted); }
+.bv-pdf-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.bv-pdf-actions a { display: inline-flex; align-items: center; min-height: 40px; padding: 6px 14px; border-radius: 999px; font-size: .86rem; text-decoration: none; }
+.bv-pdf-cta { background: var(--gradient-brand, #0d9488); color: #fff; font-weight: var(--fw-semibold, 600); }
+.bv-pdf-ed { border: 1px solid var(--border); background: var(--surface); color: var(--text); }
+.bv-pdf-ed:hover { border-color: var(--brand-blue); }
+
+/* A section heading with a mascot beside it (SectionMascot hides itself when the crew is off). */
+.bv-sec-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; margin-bottom: 10px; }
+.bv-sec-head .ku-group-title { margin: 0; }

@@ -1,0 +1,354 @@
+/* Hör-Safari (/spiele/hoer-safari). The canvas fills the stage; HUD above it, start and end
+   cards sit over the scene. Phone first: at 390px the stage takes most of the screen. */
+
+.hs-page {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-4) var(--space-12);
+}
+
+.hs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  scroll-margin-top: 76px;
+}
+
+/* ---- HUD ---------------------------------------------------------------------------- */
+.hs-hud {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 48px;
+  padding: 4px 6px 4px var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-card);
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  color: var(--ink);
+}
+.hs-hud[hidden] { display: none; }
+.hs-hud-item { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.hs-hud-item b { font-family: var(--font-display); font-size: 1.25rem; font-variant-numeric: tabular-nums; }
+.hs-k { color: var(--muted); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: .04em; }
+.hs-k-short { display: none; color: var(--muted); font-size: var(--text-xs); }
+.hs-time.is-low b { color: var(--danger); }
+
+.hs-hint {
+  flex: 1;
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hs-hint { order: 4; }
+.hs-hint[data-state="hint"] { border-color: var(--warning-border); background: var(--warning-soft); }
+.hs-hint[data-state="done"] { border-color: var(--success-border); background: var(--success-soft); }
+.hs-hint span:last-child { overflow: hidden; text-overflow: ellipsis; }
+
+.hs-icon {
+  order: 5;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  color: var(--ink);
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+/* ---- stage -------------------------------------------------------------------------- */
+.hs-stage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  max-height: 620px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #bae6fd;
+  box-shadow: var(--shadow-raised);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.hs-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hs[data-phase="play"] .hs-stage canvas { cursor: none; }
+
+@media (max-width: 720px) {
+  .hs-page { padding-inline: var(--space-2); }
+  .hs-stage { aspect-ratio: auto; height: min(64svh, 560px); }
+  .hs-hud { flex-wrap: wrap; gap: 4px var(--space-2); padding: 4px var(--space-2); }
+  .hs-k, .hs-streak { display: none; }
+  .hs-k-short { display: inline; }
+  /* the word to hear gets a row of its own: at 390px it was squeezed to "die Famil…" */
+  .hs-hint { order: 9; flex: 1 0 100%; }
+  .hs-pause-btn { margin-left: auto; }
+  .hs-icon { width: 36px; height: 36px; }
+
+  /* Start, level and end cards are taller than the stage on a phone. Out of play they sit in
+     the page flow and the stage grows with them (the canvas stays behind as the backdrop), so
+     "Los geht's" is never below the fold of an inner scroll area. touch-action stays none
+     only while playing: elsewhere a finger on the stage has to scroll the page. */
+  .hs:not([data-phase="play"]) .hs-stage { height: auto; max-height: none; min-height: min(64svh, 560px); padding: 12px; display: grid; align-items: center; touch-action: auto; }
+  .hs:not([data-phase="play"]) .hs-card { position: relative; inset: auto; transform: none; width: auto; max-height: none; overflow: visible; }
+}
+.hs:not([data-phase="play"]) .hs-stage { touch-action: auto; }
+
+/* pause card over the stage */
+.hs-pause {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  background: rgba(15, 23, 42, .6);
+}
+.hs-pause[hidden] { display: none; }
+.hs-pause-box {
+  width: min(300px, calc(100% - 32px));
+  padding: var(--space-4, 16px);
+  border-radius: var(--radius-lg);
+  background: var(--surface-card);
+  color: var(--ink);
+  box-shadow: var(--shadow-raised);
+  text-align: center;
+}
+.hs-pause-box h2 { margin: 0; font-family: var(--font-display); }
+.hs-pause-box .hs-go { margin-top: var(--space-3); }
+
+/* reload button with the magazine, bottom right */
+.hs-reload {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: var(--radius);
+  background: rgba(15, 23, 42, .72);
+  color: #fff;
+  font-family: var(--font-label);
+  font-size: var(--text-xs);
+  cursor: pointer;
+}
+.hs[data-phase="play"] .hs-reload { display: flex; }
+.hs-reload.is-empty { background: var(--accent); animation: hs-nudge .6s ease infinite; }
+.hs-reload[aria-pressed="true"] { background: var(--brand-blue); animation: none; }
+@keyframes hs-nudge { 50% { transform: scale(1.08); } }
+@media (prefers-reduced-motion: reduce) { .hs-reload.is-empty { animation: none; } }
+.hs-ammo { display: flex; gap: 3px; }
+.hs-pellet { width: 10px; height: 10px; border-radius: 50%; background: #facc15; box-shadow: inset 0 0 0 1px #a16207; }
+.hs-pellet.is-used { background: transparent; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .45); }
+
+.hs-hearts { gap: 1px; }
+.hs-heart { color: var(--danger); font-size: 1.2rem; line-height: 1; }
+.hs-heart.is-lost { color: var(--border-strong); }
+
+/* ---- cards over the scene ----------------------------------------------------------- */
+.hs-card {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: min(440px, calc(100% - 24px));
+  max-height: calc(100% - 24px);
+  overflow-y: auto;
+  padding: var(--space-5, 20px);
+  border-radius: var(--radius-lg);
+  background: var(--surface-card);
+  color: var(--ink);
+  box-shadow: var(--shadow-raised);
+}
+.hs-card[hidden] { display: none; }
+
+/* Wider than a phone: the start card in two columns (what the game is and „So geht's“ on the
+   left, the choices and „Los geht's“ on the right), so it fits the scene without an inner
+   scrollbar. Out of play no card scrolls inside: in a small window the scene grows with the
+   card instead and the page scrolls (as on a phone). */
+@media (min-width: 721px) {
+  .hs-card--start:not([hidden]) {
+    display: grid; grid-template-columns: 1fr 1.25fr; grid-template-rows: auto 1fr;
+    column-gap: var(--space-5, 20px); width: min(820px, calc(100% - 24px));
+  }
+  .hs-card--start .hs-start-a { grid-column: 1; grid-row: 1; }
+  .hs-card--start .hs-start-b { grid-column: 2; grid-row: 1 / span 2; }
+  .hs-card--start .hs-how { grid-column: 1; grid-row: 2; align-self: start; }
+  .hs-start-b > .hs-label:first-child { margin-top: 0; }
+  .hs:not([data-phase="play"]) .hs-stage { max-height: none; overflow: visible; display: grid; place-items: center; padding: 12px; }
+  .hs:not([data-phase="play"]) .hs-card { position: relative; inset: auto; transform: none; max-height: none; overflow: visible; }
+  .hs-stage canvas { border-radius: inherit; }
+}
+.hs-card--end { width: min(560px, calc(100% - 24px)); }
+.hs-card h1, .hs-card h2 { margin: 0 0 var(--space-2); font-family: var(--font-display); }
+.hs-card h3 { margin: var(--space-4) 0 var(--space-2); font-size: var(--text-base); }
+.hs-eyebrow { margin: 0; font-family: var(--font-label); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: .06em; color: var(--accent); }
+.hs-lead { margin: 0 0 var(--space-3); color: var(--muted); }
+.hs-label { margin: var(--space-3) 0 var(--space-1); font-family: var(--font-label); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+
+.hs-seg {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.hs-seg-btn {
+  display: grid;
+  gap: 1px;
+  min-height: 44px;
+  padding: 6px 4px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+}
+.hs-seg-btn small { font-weight: var(--fw-regular); font-size: var(--text-xs); color: var(--muted); }
+.hs-seg-btn[aria-pressed="true"] { background: var(--brand-blue); color: #fff; box-shadow: var(--shadow-sm); }
+.hs-seg-btn[aria-pressed="true"] small { color: rgba(255, 255, 255, .85); }
+
+.hs-go {
+  width: 100%;
+  min-height: 52px;
+  margin-top: var(--space-4);
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: var(--fw-extrabold);
+  box-shadow: 0 5px 0 var(--accent-dark);
+  cursor: pointer;
+}
+.hs-go:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--accent-dark); }
+.hs-quiet {
+  width: 100%;
+  min-height: 44px;
+  margin-top: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+.hs-best { margin: var(--space-2) 0 0; text-align: center; font-size: var(--text-sm); color: var(--muted); }
+.hs-best:empty { display: none; }
+.hs-how { margin-top: var(--space-3); font-size: var(--text-sm); }
+.hs-how summary { cursor: pointer; font-weight: var(--fw-bold); }
+.hs-how ul { margin: var(--space-2) 0 0; padding-left: 1.1em; display: grid; gap: 4px; color: var(--muted); }
+
+/* levels: the choice on the start screen, the start card */
+.hs-levels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: var(--space-3); }
+.hs-levels[hidden] { display: none; }
+.hs-lv {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  min-height: 72px;
+  padding: 6px 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+.hs-lv b { font-family: var(--font-display); font-size: 1.3rem; line-height: 1; }
+.hs-lv span { font-size: var(--text-xs); line-height: 1.15; text-align: center; color: var(--muted); }
+.hs-lv.is-next { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+.hs-lv.is-locked { opacity: .55; }
+.hs-stars { display: inline-flex; gap: 1px; font-size: .85rem; line-height: 1; }
+.hs-stars i { font-style: normal; color: var(--border-strong); }
+.hs-stars i.is-on { color: #f59e0b; }
+.hs-big .hs-stars { font-size: 2.6rem; gap: 4px; }
+.hs-news { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; }
+.hs-intro-stars { margin: var(--space-2) 0 0; font-size: var(--text-sm); color: var(--muted); }
+.hs-intro-stars:empty { display: none; }
+.hs-goal b { color: var(--success); }
+.hs-go[hidden] { display: none; }
+
+/* end screen */
+.hs-big { margin: 0; font-family: var(--font-display); font-size: 3rem; line-height: 1; font-weight: var(--fw-extrabold); }
+.hs-big span { font-size: 1rem; color: var(--muted); font-weight: var(--fw-regular); }
+.hs-record { margin: var(--space-1) 0 0; color: var(--success); font-weight: var(--fw-bold); }
+.hs-muted { margin: var(--space-1) 0 0; color: var(--muted); font-size: var(--text-sm); }
+.hs-stats { display: flex; flex-wrap: wrap; gap: 6px; margin: var(--space-3) 0 0; padding: 0; list-style: none; }
+.hs-stats li { padding: 4px 10px; border-radius: var(--radius-pill); background: var(--surface); border: 1px solid var(--border); font-size: var(--text-sm); }
+.hs-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 6px; }
+.hs-tile {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 52px;
+  padding: 4px 8px 4px 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--text-sm);
+  text-align: left;
+  cursor: pointer;
+}
+.hs-tile img { width: 40px; height: 40px; flex: none; }
+.hs-tile small { color: var(--muted); }
+.hs-gloss { display: block; font-style: normal; font-size: var(--text-xs); color: var(--muted); }
+
+.hs-about { margin-top: var(--space-8); max-width: 680px; }
+.hs-about h2 { font-family: var(--font-display); }
+
+/* ---- Bestenliste -------------------------------------------------------------------- */
+.hs-lb { margin-top: var(--space-8); max-width: 560px; display: grid; gap: var(--space-3); scroll-margin-top: 76px; }
+.hs-lb-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }
+.hs-lb-head h2 { margin: 0; font-family: var(--font-display); }
+.hs-lb-board { margin: 0; color: var(--muted); font-size: var(--text-sm); }
+.hs-lb-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.hs-lb-list li { display: grid; grid-template-columns: 2.2em 1fr auto; align-items: center; gap: var(--space-2); padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-card); }
+.hs-lb-list li.is-me { border-color: var(--brand-blue); box-shadow: inset 0 0 0 1px var(--brand-blue); }
+.hs-lb-list li.hs-lb-gap { display: block; padding: 0; border: 0; background: none; text-align: center; color: var(--muted); }
+.hs-lb-n { font-family: var(--font-display); font-weight: var(--fw-bold); color: var(--muted); }
+.hs-lb-name small { color: var(--muted); }
+.hs-lb-list b { font-variant-numeric: tabular-nums; }
+.hs-lb-me p { margin: 0; }
+.hs-lb-join { display: flex; gap: var(--space-2); align-items: stretch; }
+.hs-input { flex: 1; min-width: 0; min-height: 44px; padding: 0 12px; border: 1px solid var(--border-strong); border-radius: var(--radius); background: var(--surface-card); color: var(--ink); font: inherit; }
+.hs-go--small { width: auto; margin-top: 0; min-height: 44px; padding: 0 var(--space-4); font-size: 1rem; box-shadow: none; }
+.hs-quiet--link { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+.hs-link { border: 0; background: none; padding: 0; color: var(--brand-blue); font: inherit; text-decoration: underline; cursor: pointer; }
+.hs-lb-over { margin: var(--space-3) 0 0; padding: 8px 12px; border-radius: var(--radius); background: var(--info-soft); font-size: var(--text-sm); }
+.hs-lb-over[hidden] { display: none; }
+
+/* Phone held sideways: the HUD and the whole field have to fit under the site header, or the
+   word to hear scrolls out of sight (at 844 × 390 the 16:9 stage alone was taller than the screen). */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hs-hud { flex-wrap: nowrap; }
+  .hs-hint { order: 4; flex: 1 1 0; }
+  .hs-pause-btn { margin-left: 0; }
+  .hs[data-phase="play"] .hs-stage { aspect-ratio: auto; max-height: none; height: max(200px, calc(100svh - 160px)); }
+}

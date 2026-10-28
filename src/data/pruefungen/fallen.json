@@ -1,0 +1,228 @@
+{
+  "_note": "Prüfungsfallen DTZ und telc B1 (/pruefungen/fallen). Jede Falle steckt in einer echten Aufgabe unserer Übungssätze (source). Keine Aussagen darüber, wie viele Menschen an etwas scheitern. Die ids sind Anker für Reels (/pruefungen/fallen#<id>) – nicht umbenennen. **…** = hervorgehoben. Auswahl und Belege: docs/pruefungsfallen-v1.md.",
+  "fallen": [
+    {
+      "id": "wort-aus-dem-text",
+      "exams": ["dtz"],
+      "skill": "hoeren",
+      "wo": "DTZ · Hören, Teil 1 und 2",
+      "title": "Du hörst das Wort – aber es ist nicht die Antwort",
+      "why": "In einer Ansage kommen manchmal zwei Zahlen oder zwei Orte vor. Eine falsche Antwort nimmt genau das Wort, das du gehört hast. Achte auf „nicht …, sondern …“ und auf „Ich wiederhole“.",
+      "wrong": "„Der Zug fährt heute nicht von Gleis 5 …“ – ich habe **Gleis 5** gehört, also Gleis 5.",
+      "right": "„… nicht von Gleis 5, **sondern von Gleis 8**.“ – Die Antwort ist Gleis 8.",
+      "task": {
+        "context": "Radio: „Ab dem ersten Juni ändern sich die Öffnungszeiten der Stadtbücherei. Die Ausleihe bleibt wie bisher kostenlos, nur für verspätete Bücher gibt es eine Gebühr.“",
+        "prompt": "Was ändert sich ab Juni?",
+        "options": ["Die Öffnungszeiten.", "Die Ausleihe kostet Geld.", "Die Bücherei zieht um."],
+        "answer": "Die Öffnungszeiten.",
+        "fb": "Du hörst „Gebühr“ – aber die Ausleihe bleibt kostenlos. Neu sind nur die Öffnungszeiten."
+      },
+      "source": "DTZ-Übungssatz 1, Aufgabe 1 und 9",
+      "practice": { "href": "/dtz/uebungssatz#h1", "label": "DTZ · Hören, Teil 1" }
+    },
+    {
+      "id": "kleine-woerter",
+      "exams": ["telc", "dtz"],
+      "skill": "hoeren",
+      "wo": "telc B1 · Hören, Teil 3 – auch DTZ · Lesen, Teil 4",
+      "title": "Ein kleines Wort macht die Aussage falsch",
+      "why": "Bei Richtig oder Falsch klingt die Aussage fast wie der Text. Achte auf kleine Wörter wie erst, nur, alle, nie, immer. Eins davon reicht, und die Aussage stimmt nicht mehr.",
+      "wrong": "„Herr Lindner kann sein Auto **erst morgen** abholen.“ – „morgen“ kam vor, also richtig.",
+      "right": "Falsch: Er kann es **heute bis 18 Uhr** oder morgen abholen. „erst morgen“ stimmt nicht.",
+      "task": {
+        "context": "Hausordnung: „Kinderwagen dürfen ausnahmsweise unter der Treppe im Erdgeschoss stehen, wenn der Durchgang frei bleibt.“",
+        "prompt": "„Ein Kinderwagen darf niemals im Haus abgestellt werden.“",
+        "options": ["richtig", "falsch"],
+        "answer": "falsch",
+        "fb": "„niemals“ ist zu stark: Unter der Treppe ist es erlaubt."
+      },
+      "source": "telc B1 Übungssatz 1, Aufgabe 56 · DTZ-Übungssatz 1, Aufgabe 38",
+      "practice": { "href": "/telc/b1#hoeren-3", "label": "telc B1 · Hören, Teil 3" }
+    },
+    {
+      "id": "keine-passende-anzeige",
+      "exams": ["dtz", "telc"],
+      "skill": "lesen",
+      "wo": "DTZ · Lesen, Teil 2 – auch telc B1 · Lesen, Teil 3",
+      "title": "Für eine Situation gibt es keine Anzeige",
+      "why": "In diesem Teil passt für eine Situation keine Anzeige – das steht so in der Aufgabe. Eine Anzeige mit denselben Wörtern ist deshalb noch keine Lösung. Prüf, ob wirklich alles passt.",
+      "wrong": "„Kinderarzt, auch am Samstag“ → Anzeige „Kleiderbasar“: **Kinder**, **Samstag** – passt!",
+      "right": "Ein Basar ist kein Arzt. Keine Anzeige hat einen Kinderarzt → **keine**.",
+      "task": {
+        "context": "Deine Schwester studiert und sucht ein günstiges Zimmer, von dem sie zu Fuß zur Uni gehen kann.",
+        "prompt": "Welche Anzeige passt?",
+        "options": ["3-Zimmer-Wohnung am Stadtrand, Bus 25 Min. in die Innenstadt, 890 € warm", "Kino sucht Aushilfen, abends ab 18 Uhr", "keine Anzeige passt"],
+        "answer": "keine Anzeige passt",
+        "fb": "Die Wohnung ist groß, teuer und weit weg. Für diese Situation gibt es keine Anzeige."
+      },
+      "source": "DTZ-Übungssatz 1, Aufgabe 30 · telc B1 Übungssatz 1, Aufgabe 15",
+      "practice": { "href": "/dtz/uebungssatz#l2", "label": "DTZ · Lesen, Teil 2" }
+    },
+    {
+      "id": "andere-woerter",
+      "exams": ["telc"],
+      "skill": "lesen",
+      "wo": "telc B1 · Lesen, Teil 3",
+      "title": "Die richtige Anzeige sagt es mit anderen Wörtern",
+      "why": "Situation und passende Anzeige benutzen nicht immer dieselben Wörter. Such nicht das gleiche Wort, sondern die gleiche Sache. Untergeschoss ist Keller, Rad ist Fahrrad.",
+      "wrong": "„Herr Kaya möchte, dass jemand die alten Sachen aus seinem **Untergeschoss** abholt.“ – Das Wort steht in keiner Anzeige, also x.",
+      "right": "„**Keller**, Dachböden …: Wir holen alte Möbel und Sachen ab.“ – Diese Anzeige passt.",
+      "task": {
+        "context": "Dein Kollege sucht für seinen Sohn ein billiges Rad, das nicht neu sein muss.",
+        "prompt": "Welche Anzeige passt?",
+        "options": ["Kinderflohmarkt: Kleidung, Spielzeug, Fahrräder und Roller aus zweiter Hand", "Mit dem Wanderbus in die Berge, Fahrkarte 15 Euro", "keine Anzeige passt"],
+        "answer": "Kinderflohmarkt: Kleidung, Spielzeug, Fahrräder und Roller aus zweiter Hand",
+        "fb": "„aus zweiter Hand“ heißt: nicht neu. Und Rad = Fahrrad."
+      },
+      "source": "telc B1 Übungssatz 1, Aufgabe 13 und 16",
+      "practice": { "href": "/telc/b1#lesen-3", "label": "telc B1 · Lesen, Teil 3" }
+    },
+    {
+      "id": "ueberschrift-thema",
+      "exams": ["telc"],
+      "skill": "lesen",
+      "wo": "telc B1 · Lesen, Teil 1",
+      "title": "Die Überschrift passt zum ganzen Text, nicht zu einem Satz",
+      "why": "Manche Überschriften passen zu einem Satz im Text, aber nicht zum ganzen Text. Frag dich: Worum geht es im ganzen Text? Ein Grund oder ein Detail ist noch nicht das Thema.",
+      "wrong": "Text über 200 neue Nistkästen im Park → „Stadtpark verliert seine **alten Bäume**“. Die Bäume sind nur der Grund.",
+      "right": "„Neue **Wohnungen für Vögel**“ – das ist das Thema des ganzen Textes.",
+      "task": {
+        "context": "„Wer im Gasthaus eine eigene Dose mitbringt und die Reste mit nach Hause nimmt, bekommt zehn Prozent Rabatt. Der Wirt ärgert sich schon lange darüber, wie viel Essen im Müll landet.“",
+        "prompt": "Welche Überschrift passt?",
+        "options": ["Gasthaus verbietet Essen zum Mitnehmen", "Wer Reste mitnimmt, zahlt weniger", "Immer mehr Essen im Müll"],
+        "answer": "Wer Reste mitnimmt, zahlt weniger",
+        "fb": "Das Thema ist der Rabatt für Reste. Der Müll ist nur der Grund, und verboten wird nichts."
+      },
+      "source": "telc B1 Übungssatz 1, Aufgabe 1 und 5",
+      "practice": { "href": "/telc/b1#lesen-1", "label": "telc B1 · Lesen, Teil 1" }
+    },
+    {
+      "id": "konnektor-sinn",
+      "exams": ["dtz"],
+      "skill": "lesen",
+      "wo": "DTZ · Lesen, Teil 5 (Brief mit Lücken)",
+      "title": "Deshalb, trotzdem, damit: Erst den Sinn prüfen",
+      "why": "Deshalb nennt eine Folge, trotzdem einen Gegensatz, damit ein Ziel. Lies den Satz vor der Lücke und frag: Was ist die Verbindung? Erst dann wählst du das Wort.",
+      "wrong": "„Ich habe Sie nicht erreicht. **Trotzdem** schreibe ich Ihnen.“",
+      "right": "„Ich habe Sie nicht erreicht. **Deshalb** schreibe ich Ihnen.“ – Das Schreiben ist die Folge.",
+      "task": {
+        "gap": "Ich habe den Haupthahn zugedreht, ___ nicht noch mehr passiert.",
+        "options": ["weil", "damit", "obwohl"],
+        "answer": "damit",
+        "fb": "Das Ziel: Es soll nicht noch mehr passieren. Ziel = damit."
+      },
+      "source": "DTZ-Übungssatz 1, Aufgabe 41 und 43",
+      "practice": { "href": "/dtz/uebungssatz#l5", "label": "DTZ · Lesen, Teil 5" }
+    },
+    {
+      "id": "verb-nach-der-luecke",
+      "exams": ["telc"],
+      "skill": "sprachbausteine",
+      "wo": "telc B1 · Sprachbausteine, Teil 1",
+      "title": "Das Verb nach der Lücke verrät das Wort",
+      "why": "Nach weil, dass, obwohl steht das Verb am Ende. Nach deshalb kommt sofort das Verb. Nach aber, und, denn bleibt der Satz normal: erst das Subjekt, dann das Verb.",
+      "wrong": "„Ich komme nicht, weil ich **habe** keine Zeit.“",
+      "right": "„Ich komme nicht, weil ich keine Zeit **habe**.“ – oder: „…, denn ich **habe** keine Zeit.“",
+      "task": {
+        "gap": "Sie ist sehr freundlich, ___ ich möchte ihr nicht zu lange zur Last fallen.",
+        "options": ["deshalb", "aber", "weil"],
+        "answer": "aber",
+        "fb": "Nach der Lücke kommt „ich möchte“: Subjekt, dann Verb. Das geht nur mit aber."
+      },
+      "source": "telc B1 Übungssatz 1, Aufgabe 26",
+      "practice": { "href": "/telc/b1#sprachbausteine-1", "label": "telc B1 · Sprachbausteine, Teil 1" }
+    },
+    {
+      "id": "wenn-als",
+      "exams": ["telc"],
+      "skill": "sprachbausteine",
+      "wo": "telc B1 · Sprachbausteine, Teil 1",
+      "title": "wenn oder als? Einmal in der Vergangenheit heißt als",
+      "why": "Als steht für etwas, das einmal in der Vergangenheit passiert ist. Wenn steht für heute, für die Zukunft und für „immer wenn“.",
+      "wrong": "„**Wenn** ich nach Graz gezogen bin, war alles neu.“",
+      "right": "„**Als** ich nach Graz gezogen bin, war alles neu.“ – einmal, in der Vergangenheit.",
+      "task": {
+        "gap": "Schreib mir, ___ du wieder Zeit hast!",
+        "options": ["als", "seit", "wenn"],
+        "answer": "wenn",
+        "fb": "Das ist in der Zukunft, nicht einmal in der Vergangenheit. Also wenn."
+      },
+      "source": "telc B1 Übungssatz 1, Aufgabe 30",
+      "practice": { "href": "/telc/b1#sprachbausteine-1", "label": "telc B1 · Sprachbausteine, Teil 1" }
+    },
+    {
+      "id": "verb-praeposition",
+      "exams": ["telc", "dtz"],
+      "skill": "sprachbausteine",
+      "wo": "telc B1 · Sprachbausteine, Teil 1 – auch DTZ · Lesen, Teil 5",
+      "title": "sich freuen über, dankbar für: Das Verb wählt die Präposition",
+      "why": "Viele Verben und Adjektive haben eine feste Präposition. In der Lücke steht dann oft da(r) + Präposition: darüber, darauf, dafür. Lern das Verb immer mit seiner Präposition.",
+      "wrong": "„Ich habe mich sehr **dafür** gefreut.“",
+      "right": "„Ich habe mich sehr **darüber** gefreut.“ – sich freuen **über**.",
+      "task": {
+        "gap": "___ eine kurze Rückmeldung wäre ich Ihnen sehr dankbar.",
+        "options": ["Für", "Über", "Auf"],
+        "answer": "Für",
+        "fb": "Man ist dankbar für etwas."
+      },
+      "source": "telc B1 Übungssatz 1, Aufgabe 21 · DTZ-Übungssatz 1, Aufgabe 45",
+      "practice": { "href": "/telc/b1#sprachbausteine-1", "label": "telc B1 · Sprachbausteine, Teil 1" }
+    },
+    {
+      "id": "alle-punkte",
+      "exams": ["dtz"],
+      "skill": "schreiben",
+      "wo": "DTZ · Schreiben",
+      "title": "Vier Punkte in der Aufgabe – vier Punkte im Text",
+      "why": "Die Aufgabe nennt vier Punkte, und sie sagt: Bearbeite alle vier. Bewertet wird auch der Inhalt. Hak jeden Punkt ab, bevor du abgibst.",
+      "wrong": "Grund, Problem und Wunsch stehen im Brief – aber nicht, **bis wann** du eine Antwort möchtest.",
+      "right": "Ein Satz mehr: „Bitte antworten Sie mir **bis zum 15. Mai**.“",
+      "task": {
+        "context": "„Sehr geehrte Damen und Herren, vor drei Wochen habe ich bei Ihnen eine Waschmaschine gekauft. Sie funktioniert nicht: Das Wasser bleibt in der Maschine. Bitte reparieren Sie die Maschine oder tauschen Sie sie um. Mit freundlichen Grüßen“",
+        "prompt": "Welcher Punkt fehlt?",
+        "options": ["Grund für Ihr Schreiben", "Was Sie jetzt möchten", "Bis wann Sie eine Antwort erwarten"],
+        "answer": "Bis wann Sie eine Antwort erwarten",
+        "fb": "Kein Datum, keine Frist. Ein kurzer Satz am Ende reicht."
+      },
+      "source": "DTZ-Übungssatz 1, Schreiben, Aufgabe B",
+      "practice": { "href": "/dtz/uebungssatz#schreiben", "label": "DTZ · Schreiben" }
+    },
+    {
+      "id": "formeller-brief",
+      "exams": ["dtz"],
+      "skill": "schreiben",
+      "wo": "DTZ · Schreiben",
+      "title": "An ein Geschäft schreibst du Sie, nicht du",
+      "why": "An ein Geschäft, ein Amt oder die Vermieterin schreibst du formell: „Sehr geehrte Damen und Herren“, Sie und Ihnen groß, am Ende „Mit freundlichen Grüßen“. An die Nachbarin passt „Liebe Frau Hoffmann“.",
+      "wrong": "„**Hallo**, ich habe bei **euch** eine Waschmaschine gekauft. **Kannst du** mir helfen? **Tschüss**“",
+      "right": "„**Sehr geehrte Damen und Herren**, ich habe bei **Ihnen** eine Waschmaschine gekauft. **Können Sie** mir helfen? **Mit freundlichen Grüßen**“",
+      "task": {
+        "gap": "Können ___ mir bitte bis Freitag antworten?",
+        "options": ["du", "Sie", "sie"],
+        "answer": "Sie",
+        "fb": "Formell heißt Sie, immer mit großem S. Klein „sie“ ist eine andere Person."
+      },
+      "source": "DTZ-Übungssatz 1, Schreiben, Aufgabe A und B",
+      "practice": { "href": "/dtz/uebungssatz#schreiben", "label": "DTZ · Schreiben" }
+    },
+    {
+      "id": "gemeinsam-planen",
+      "exams": ["telc"],
+      "skill": "sprechen",
+      "wo": "telc B1 · Sprechen, Teil 3",
+      "title": "Teil 3 ist kein Vortrag: Reagier auf deinen Partner",
+      "why": "In Teil 3 plant ihr etwas zusammen. Die Aufgabe sagt: Vorschläge machen, auf Vorschläge reagieren, zusammen entscheiden. Wer nur den eigenen Plan erzählt, macht nur einen Teil davon.",
+      "wrong": "A: „Wie wäre es mit einer Schifffahrt?“ B: „**Mein Plan:** Wir gehen ins Museum und dann essen wir Pizza.“",
+      "right": "B: „**Gute Idee!** Aber wenn es regnet? **Wir könnten doch** …“",
+      "task": {
+        "context": "Deine Partnerin sagt: „Ich schlage vor, dass wir am Samstag wandern.“",
+        "prompt": "Was passt am besten?",
+        "options": ["Ich gehe am Samstag ins Kino.", "Gute Idee! Wer kümmert sich um das Essen?", "Samstag."],
+        "answer": "Gute Idee! Wer kümmert sich um das Essen?",
+        "fb": "Du reagierst auf den Vorschlag und planst weiter. Genau das will Teil 3."
+      },
+      "source": "telc B1 Übungssatz 1, Sprechen, Teil 3",
+      "practice": { "href": "/telc/b1#sprechen-3", "label": "telc B1 · Sprechen, Teil 3" }
+    }
+  ]
+}

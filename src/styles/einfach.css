@@ -1,0 +1,791 @@
+/* /einfach — the light prototype.
+ *
+ * Namespaced `el-` throughout and loaded by one page, so nothing here can reach the real
+ * site and nothing on the real site reaches in. It borrows the design tokens from
+ * global.css (colour, type scale, radii) and none of its layout, which is the point:
+ * the study is about how much is on screen, not about a new skin.
+ *
+ * The whole app is one viewport tall and never scrolls the page. Header and the single
+ * primary action are fixed rows of a grid; only the middle scrolls, and on the screens
+ * that matter it does not need to. If a screen here ever needs scrolling on a 390px
+ * phone, that screen has failed the study and should lose something.
+ */
+
+.el-app {
+  /* body is a 100dvh column (einfach.astro), so a row above the app — the first-visit
+     language offer — takes its height from the app instead of pushing the foot, and its
+     buttons, below the bottom edge of a page that cannot scroll. */
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  max-width: 440px;
+  margin-inline: auto;
+  background: var(--page-bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+
+/* Wider than a phone: keep the phone. Seeing the real target width while testing on a
+   laptop is worth more than filling the window with a layout nobody will use. */
+@media (min-width: 560px) {
+  .el-app {
+    flex: 0 1 860px;
+    margin-block: auto;
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    box-shadow: var(--shadow-raised);
+  }
+}
+
+/* ------------------------------------------------------------------ bar */
+
+.el-bar {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.el-back {
+  width: 40px;
+  height: 40px;
+  margin-left: -8px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--ink);
+  font-size: 1.9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.el-back--ghost { pointer-events: none; }
+
+.el-bar-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--fw-bold);
+  letter-spacing: .01em;
+}
+
+.el-chip {
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  background: var(--warning-soft);
+  color: var(--warning);
+  font-family: var(--font-label);
+  font-size: .625rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+/* ----------------------------------------------------------------- body */
+
+.el-body {
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--space-5) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.el-hello {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--fw-bold);
+  line-height: 1.1;
+}
+
+.el-hello--sm {
+  font-size: var(--text-lg);
+  color: var(--muted);
+}
+
+.el-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+/* The one offer on Heute. Big enough that there is visibly nothing else being asked. */
+.el-offer {
+  display: grid;
+  grid-template-columns: 52px 1fr 20px;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-5) var(--space-4);
+  border: 1px solid var(--blue-200);
+  border-radius: var(--radius-lg);
+  background: var(--gradient-brand-soft);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.el-offer-ic { font-size: 2rem; }
+.el-offer-txt { display: grid; gap: 4px; }
+.el-offer-txt b { font-size: var(--text-xl); font-weight: var(--fw-bold); }
+.el-offer-txt i {
+  font-family: var(--font-label);
+  font-style: normal;
+  font-size: var(--text-sm);
+  color: var(--brand-blue-dark);
+}
+.el-offer-go { font-size: var(--text-xl); color: var(--brand-blue-dark); }
+
+/* The shelf, peeked at. Never a number on its own — always the newest sentence. */
+.el-shelf-peek {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-card);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+.el-shelf-peek b { font-size: var(--text-base); }
+.el-shelf-peek i {
+  font-style: normal;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.el-body--center { justify-content: center; }
+.el-body--center .el-quiet { margin-top: var(--space-6); }
+
+.el-quiet {
+  margin-top: auto;
+  padding: var(--space-3);
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------------- picker */
+
+.el-picks { display: grid; gap: var(--space-3); }
+
+.el-pick {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-card);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+.el-pick-ic { font-size: 1.6rem; }
+.el-pick-txt { display: grid; gap: 2px; }
+.el-pick-txt b { font-size: var(--text-lg); }
+.el-pick-txt i {
+  font-style: normal;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.el-pick.is-done { opacity: .6; }
+
+/* ---------------------------------------------------------------- runner */
+
+/* The walk: one stop per task on a line, Bruno standing on the current one. No numbers.
+   The stops sit on a track drawn by ::before; done stops fill, the current one rings. */
+.el-walk {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  margin: 0 var(--space-3);
+}
+.el-walk::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: 50%;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(90deg, var(--border-strong) 0 6px, transparent 6px 11px);
+}
+.el-stop {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--border-strong);
+  background: var(--page-bg);
+}
+.el-stop.is-done { border-color: var(--brand-blue); background: var(--brand-blue); }
+.el-stop.is-now { border-color: var(--brand-blue); }
+/* Bruno stands on the stop, feet on the track. */
+.el-walker {
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+/* With the mascots off, a plain marker stands there instead. */
+.el-walk-marker {
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin-bottom: 4px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: var(--brand-blue);
+}
+html:not([data-mascots="off"]) .el-walk-marker { display: none; }
+
+.el-task {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-4);
+  min-height: 0;
+}
+
+.el-kind {
+  margin: 0;
+  font-family: var(--font-label);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--muted-soft);
+  text-align: center;
+}
+
+/* Flashcard. One tap, one word — the trainer's whole chrome removed to see what the
+   card alone is worth. It turns over like the Wortschatz card: same axis, same easing.
+   Both faces share one grid cell, so the card is as tall as its taller face. */
+.el-card {
+  display: grid;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  perspective: 1400px;
+  -webkit-tap-highlight-color: transparent;
+}
+.el-card-inner {
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform 1.1s cubic-bezier(.2, .8, .25, 1);
+}
+.el-card-inner.is-flipped { transform: rotateX(-180deg); }
+.el-face {
+  grid-area: 1 / 1;
+  display: grid;
+  align-content: center;
+  gap: var(--space-3);
+  min-height: 210px;
+  padding: var(--space-6) var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-card);
+  box-shadow: var(--shadow-sm);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.el-face--back { transform: rotateX(180deg); }
+.el-card b {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: var(--fw-bold);
+  line-height: 1.1;
+}
+/* The plural sits right under the word on both faces, so the word stays level as it turns. */
+.el-card-plural {
+  margin-top: calc(4px - var(--space-3));
+  font-size: calc(var(--text-base) * 1.25);
+  color: var(--muted);
+}
+.el-card-back {
+  display: grid;
+  gap: 6px;
+  font-size: var(--text-xl);
+  color: var(--brand-blue-dark);
+}
+.el-card-back i {
+  font-style: normal;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.el-card-tap {
+  font-family: var(--font-label);
+  font-size: var(--text-xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted-soft);
+}
+
+.el-sentence {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--fw-semibold);
+  line-height: 1.25;
+  text-align: center;
+}
+.el-gloss {
+  margin: 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.el-blank {
+  display: inline-block;
+  min-width: 2.6em;
+  padding-inline: 6px;
+  border-bottom: 3px solid var(--border-strong);
+  color: var(--muted-soft);
+}
+.el-blank.is-right { border-color: var(--success-border); color: var(--success); }
+.el-blank.is-wrong { border-color: var(--danger-border); color: var(--danger); }
+
+/* Sentence building. */
+.el-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: var(--space-2);
+  min-height: 92px;
+  padding: var(--space-3);
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius);
+}
+.el-line.is-right { border-color: var(--success-border); border-style: solid; }
+.el-line.is-wrong { border-color: var(--danger-border); border-style: solid; }
+.el-line-ph {
+  color: var(--muted-soft);
+  font-size: var(--text-sm);
+}
+/* The sentence's "?" or "!" — not a chip to place, it just closes the line. */
+.el-line-end {
+  align-self: center;
+  margin-left: -4px;
+  color: var(--muted);
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+.el-pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: center;
+}
+.el-word {
+  padding: 10px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-card);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  cursor: pointer;
+}
+.el-word--pool { background: var(--surface); }
+
+/* The verdict is a fixed slot, not an insertion: the task above it must not jump when
+   an answer lands, or the learner loses the sentence they were reading. */
+.el-verdict { min-height: 64px; }
+
+.el-said {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+}
+.el-said i {
+  display: block;
+  margin-top: 4px;
+  font-style: normal;
+  color: var(--muted);
+}
+.el-said.is-right { background: var(--success-soft); color: var(--success); }
+.el-said.is-wrong { background: var(--danger-soft); color: var(--danger); }
+.el-said.is-wrong i { color: var(--danger); opacity: .85; }
+
+/* ---------------------------------------------------------------- payoff */
+
+.el-win {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: center;
+  padding: var(--space-6) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--gradient-brand-soft);
+  text-align: center;
+}
+.el-win-ic { font-size: 2.6rem; }
+.el-win-lead {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--fw-bold);
+}
+.el-win-sub {
+  margin: 0;
+  font-family: var(--font-label);
+  font-size: var(--text-xs);
+  letter-spacing: .04em;
+  color: var(--brand-blue-dark);
+}
+
+.el-claims {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+  width: 100%;
+}
+.el-claims li {
+  display: grid;
+  gap: 2px;
+  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-10);
+  border-radius: var(--radius);
+  background: var(--surface-card);
+  font-size: var(--text-base);
+  line-height: 1.35;
+  text-align: left;
+  position: relative;
+}
+.el-claims li::before {
+  content: "✓";
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-4);
+  line-height: 1.35;
+  color: var(--success);
+  font-weight: var(--fw-bold);
+}
+.el-claims li i {
+  font-style: normal;
+  font-size: var(--text-xs);
+  color: var(--muted-soft);
+}
+.el-claims--shelf li { border: 1px solid var(--border); }
+.el-claims--open li {
+  background: none;
+  border: 1px dashed var(--border-strong);
+  color: var(--muted);
+}
+.el-claims--open li::before {
+  content: "○";
+  color: var(--muted-soft);
+  font-weight: var(--fw-regular);
+}
+
+/* ----------------------------------------------------------------- foot */
+
+.el-foot {
+  padding: var(--space-3) var(--space-4) max(var(--space-4), calc(var(--space-3) + env(safe-area-inset-bottom)));
+  border-top: 1px solid var(--border);
+  background: var(--page-bg);
+}
+
+.el-cta {
+  display: block;
+  width: 100%;
+  min-height: 54px;
+  padding: var(--space-3) var(--space-4);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--brand-blue);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+}
+:root[data-theme="dark"] .el-cta {
+  background: var(--brand-blue-dark);
+  color: var(--page-bg);
+}
+
+.el-cta[disabled] { opacity: .35; cursor: default; }
+.el-cta--ghost,
+:root[data-theme="dark"] .el-cta--ghost {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--border-strong);
+}
+
+.el-two { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+
+/* der/die/das and the gap options: three targets, one row, each one a full thumb wide. */
+.el-opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
+.el-opt {
+  min-height: 54px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface-card);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+}
+
+/* The next task slides in, like the next Wortschatz card. */
+.el-swap { animation: el-swap .32s cubic-bezier(.2, .8, .25, 1) both; }
+@keyframes el-swap { from { opacity: 0; transform: translateY(10px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .el-card-inner { transition: none; }
+  .el-swap { animation: none; }
+}
+
+/* ---------------------------------------------------------------- Bruno
+
+   The companion row sits at the top of the footer, above the one action: in the thumb
+   zone's shadow, never over the task and never over the CTA. The whole row carries
+   [data-mascot-part], so with the mascots off it is gone and the footer is as before. */
+
+.el-buddy-row {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  min-height: 64px;
+  margin-bottom: var(--space-3);
+}
+.el-buddy {
+  flex: none;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+.el-buddy:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+.el-helper { flex: none; align-self: flex-end; }
+
+/* A bubble: real text, the mascot voice, a tail pointing back at whoever speaks. */
+.el-bubble {
+  position: relative;
+  align-self: center;
+  min-width: 0;
+  max-width: 100%;
+  margin-left: 6px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface-card);
+  box-shadow: var(--shadow-sm);
+  color: var(--ink);
+  font-family: var(--font-voice);
+  font-size: var(--text-base);
+  font-weight: 500;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  animation: el-pop var(--duration-base, .2s) var(--ease-standard, ease) both;
+}
+.el-bubble::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  border-left: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: inherit;
+  transform: rotate(45deg);
+}
+.el-bubble--empty { visibility: hidden; animation: none; }
+.el-bubble--big { font-size: var(--text-lg); }
+.el-bubble[data-lang="en"] { color: var(--brand-blue-dark); }
+
+/* Heute: Bruno says hello above the offer. */
+.el-greet { display: flex; align-items: center; gap: var(--space-2); }
+.el-greet-bruno { flex: none; }
+
+/* A new face fades in; the helper hops once when its task loads. */
+.el-fade { animation: el-fade .28s var(--ease-standard, ease) both; }
+.el-hop { animation: el-hop .45s var(--ease-standard, ease) both; }
+@keyframes el-fade { from { opacity: .25; } }
+@keyframes el-hop { 0% { transform: translateY(14px); opacity: 0; } 60% { transform: translateY(-6px); opacity: 1; } 100% { transform: none; } }
+@keyframes el-pop { from { transform: scale(.85); opacity: 0; } }
+
+@media (min-width: 768px) {
+  .el-buddy svg, .el-greet-bruno svg { width: 88px; height: 88px; }
+  .el-buddy-row { min-height: 88px; }
+}
+
+/* ------------------------------------------------------------- postcards */
+
+.el-postcard {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-4);
+  padding-right: 72px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background:
+    repeating-linear-gradient(135deg, transparent 0 10px, color-mix(in srgb, var(--brand-blue) 8%, transparent) 10px 12px) top / 100% 6px no-repeat,
+    var(--surface-card);
+  box-shadow: var(--shadow-sm);
+}
+.el-stamp {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 40px;
+  border: 2px dashed var(--border-strong);
+  border-radius: 4px;
+  color: var(--brand-blue-dark);
+  font-size: 1.1rem;
+}
+.el-postcard-from {
+  margin: 0;
+  font-family: var(--font-label);
+  font-size: var(--text-xs);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--brand-blue-dark);
+}
+.el-postcard-fact { margin: 0; font-size: var(--text-base); line-height: 1.4; }
+.el-postcard-bruno { position: absolute; right: 8px; bottom: 6px; }
+/* "Postkarte aus …" only when Bruno is not there to send it. */
+html:not([data-mascots="off"]) .el-when-off { display: none; }
+html[data-mascots="off"] .el-postcard { padding-right: 60px; }
+
+.el-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-2); }
+.el-card-mini {
+  display: grid;
+  gap: 4px;
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-card);
+}
+.el-card-mini b { font-family: var(--font-display); font-size: var(--text-lg); }
+.el-card-mini i { font-style: normal; font-size: var(--text-xs); line-height: 1.4; color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .el-fade, .el-hop, .el-bubble { animation: none; }
+}
+
+/* ------------------------------------------------------- Tier 3 task types
+
+   Hören, Sprechen, Redemittel, and the due items that ride along in a unit. */
+
+/* A long option ("unterschreiben") must break inside its own button, not push the row. */
+.el-opt { padding: 0 6px; overflow-wrap: anywhere; line-height: 1.2; }
+/* Whole phrases (Hören, Redemittel): one per row, left-aligned like a sentence. */
+.el-opts--stack { grid-template-columns: 1fr; }
+.el-opts--stack .el-opt {
+  min-height: 52px;
+  padding: 10px var(--space-4);
+  text-align: left;
+  font-size: var(--text-base);
+}
+
+.el-known { color: var(--brand-blue-dark); }
+
+.el-play {
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 var(--space-5);
+  border: 1px solid var(--brand-blue);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--brand-blue) 10%, var(--surface-card));
+  color: var(--brand-blue-dark);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+}
+.el-play:focus-visible, .el-opt:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+
+.el-listen-title {
+  margin: 0;
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.el-question, .el-situation {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--fw-semibold);
+  line-height: 1.3;
+  color: var(--ink);
+}
+.el-sentence--sm { font-size: var(--text-xl); }
+
+.el-transcript {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-card);
+  font-size: var(--text-sm);
+  color: var(--ink);
+}
+.el-transcript summary { cursor: pointer; color: var(--muted); }
+.el-transcript p { margin: 6px 0 0; line-height: 1.45; }
+
+/* Speaking: every word gets a colour, never a number. */
+.el-sentence--speak { font-size: var(--text-2xl); }
+.el-spoken { border-bottom: 3px solid transparent; }
+.el-spoken--good { border-bottom-color: var(--success-border); }
+.el-spoken--ok { border-bottom-color: color-mix(in srgb, var(--warning, #d99a00) 70%, transparent); }
+.el-spoken--bad { border-bottom-color: var(--danger-border); }
+.el-speak-msg {
+  margin: 0;
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+/* Heute's second quiet line, when enough mistakes are due to fill a sitting. */
+.el-quiet--strong { margin-top: 0; color: var(--brand-blue-dark); }
+.el-body--center .el-quiet--strong { margin-top: var(--space-2); }
+
+.el-task:focus { outline: none; }
+
+/* ------------------------------------------------------- Tier 4
+
+   The way out to the full site (Heute's corner), the mascot switch under Bruno's first
+   bubble, and „Mehr dazu im Kurs" on the finish screen. */
+a.el-back--home { display: grid; place-items: center; text-decoration: none; font-size: var(--text-lg); }
+.el-quiet--tiny { margin-top: calc(-1 * var(--space-2)); padding: 4px; font-size: var(--text-xs); }
+.el-body--center .el-quiet--tiny { margin-top: 0; }
+.el-quiet--link { display: block; margin-top: 0; text-align: center; color: var(--brand-blue-dark); }

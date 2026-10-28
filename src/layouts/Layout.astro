@@ -1,0 +1,398 @@
+---
+import "../styles/global.css";
+import LanguageOffer from "../components/LanguageOffer.astro";
+// The paywall kill switch (src/lib/access.js). Only rendered when on, so with it off the
+// HTML is what it was before the paywall existed.
+const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
+import "../styles/components.css";
+import { i18nGlobals } from "../lib/inventory.js";
+import hubBilder from "../data/hub-bilder.manifest.json";
+import { LANGUAGES } from "../lib/i18n.js";
+import { languageOf } from "../lib/languages.js";
+import { fontFaceCss } from "../lib/scriptFonts.js";
+import { langRules } from "../lib/langCss.js";
+import { organizationLd, websiteLd, breadcrumbLd, trailFor, orgId, type Crumb } from "../lib/seo/jsonld";
+
+// The interface languages' text directions for the first-paint script in <head>, written
+// out of the registry (src/lib/languages.js) as a JS object literal — so the codes stay in
+// sync with LANGUAGES by construction; only the storage key is still copied by hand.
+const LANG_DIRS = `{ ${LANGUAGES.map((l) => `${l.code}: "${l.dir}"`).join(", ")} }`;
+// The <html lang> value where it is not the code itself (pt → pt-BR).
+const LANG_TAGS = JSON.stringify(Object.fromEntries(LANGUAGES.filter((l) => l.htmlLang !== l.code).map((l) => [l.code, l.htmlLang])));
+// Tier 2 (SPRACHEN-NESTED-TIERED-PROMPT.md): the script font of an interface language that
+// needs one (src/lib/scriptFonts.js), declared before the first paint for a returning
+// reader. Only the languages that have a face are listed; German, English, Turkish … none.
+const LANG_FONTS = JSON.stringify(Object.fromEntries(
+  LANGUAGES.map((l) => [l.code, [languageOf(l.code)?.script, fontFaceCss(languageOf(l.code)?.script)]]).filter(([, [, css]]) => css)
+));
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Keep this route out of search engines. For the design prototypes under src/pages/
+      that are not reachable from the navigation but still build to a public URL —
+      /former-site most of all, which shows a company address the Impressum contradicts.
+      Mirrored by public/robots.txt; the meta tag is the one that actually removes an
+      already-indexed page, robots.txt only stops the next crawl. */
+  noindex?: boolean;
+  /** Extra schema.org objects for this page (JSON-LD), e.g. a LearningResource. Only facts
+      the page itself shows; see the structured-data block below. */
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+  /** The pages above this one in the breadcrumb trail, when the route alone does not name
+      them (a dynamic parent such as /berufe/pflege, or a top-level grammar topic that belongs
+      under /grammatik). Start and the page itself are added. */
+  breadcrumb?: Crumb[];
+  /** No analytics on this page at all: no consent banner, so PostHog,
+      GA and the Meta Pixel never load. For pages that promise it (/politik: the quiz says
+      nothing about the visitor leaves the browser). */
+  noTracking?: boolean;
+}
+
+const {
+  title = "EnglishAcademy – kostenlos Deutsch üben: telc, Goethe, DTZ",
+  description = "Deutsch lernen mit echtem Unterrichtsmaterial: kostenlose Übungen für telc, Goethe-Zertifikat, TestDaF, DTZ und den Einbürgerungstest.",
+  noindex = false,
+  schema,
+  breadcrumb,
+  noTracking = false,
+} = Astro.props;
+
+// Open Graph / Twitter. There were none, so every link anyone pasted into WhatsApp,
+// Telegram or a Facebook group — which is how this audience actually shares things —
+// rendered as a grey box with a URL in it.
+//
+// The image is absolute where it can be. Scrapers fetch og:image out of band, with no
+// page to resolve a relative path against; Facebook and Twitter reject one outright,
+// while WhatsApp and Slack happen to cope. `site` in astro.config.mjs makes every tag below
+// absolute; without it they fall back to relative paths rather than inventing a hostname.
+// A hub with its own photo (src/data/hub-bilder.json, built by scripts/generate-hub-bilder.mjs)
+// shares its own 1200×630 card instead of the default. Matched on the route, so no page has
+// to pass anything; read from the manifest rather than the disk, which the on-demand routes
+// on Vercel do not have.
+const route = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const hubOg = Object.values(hubBilder as Record<string, { path: string; og: string; alt: string }>)
+  .find((h) => h.path === route);
+const OG_IMAGE = hubOg?.og ?? "/assets/og-default.png";
+const OG_ALT = hubOg?.alt ?? "da für Dich — EnglishAcademy";
+const abs = (path) => (Astro.site ? new URL(path, Astro.site).href : path);
+// One address per page for search engines: no trailing slash (the form every internal link
+// uses and the one in /sitemap.xml), no query string — ?voll, ?lang=…, tracking parameters all
+// collapse onto the clean URL. Not emitted on noindex pages: a draft has nothing to point at.
+const canonical = Astro.site && route !== "/404" ? new URL(route, Astro.site).href : null;
+
+// Structured data (schema.org JSON-LD), built in src/lib/seo/jsonld.ts: Organization and
+// WebSite on the homepage, a breadcrumb trail on nested pages (named like the section pages'
+// own titles; a page may name its parents with the `breadcrumb` prop), and whatever the page
+// adds with `schema` (grammar topics, exam sets), which points at the organisation by @id.
+const SITE_URL = Astro.site ? Astro.site.href.replace(/\/$/, "") : "";
+const pageName = title.replace(/\s+[–|-]\s+(EnglishAcademy|English Academy)$/, "");
+const trail = trailFor(route, pageName, breadcrumb);
+const pageSchema = [schema ?? []].flat().map((o) => ({ provider: { "@id": orgId(SITE_URL) }, inLanguage: "de", ...o }));
+const graph = SITE_URL && !noindex
+  ? [
+      ...(route === "/" ? [organizationLd(SITE_URL), websiteLd(SITE_URL)] : []),
+      ...(trail ? [breadcrumbLd(SITE_URL, trail)] : []),
+      ...pageSchema,
+    ]
+  : [];
+const structuredData = graph.length ? { "@context": "https://schema.org", "@graph": graph } : null;
+---
+<!doctype html>
+<html lang="en" translate="no" data-i18n-globals={JSON.stringify(i18nGlobals)} data-paywall={PAYWALL ? "on" : undefined}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {canonical && !noindex && <link rel="canonical" href={canonical} />}
+    <!-- Rights reservation for text and data mining (§ 44b UrhG, TDMRep). Same reservation as
+         robots.txt, public/.well-known/tdmrep.json and /nutzungsbedingungen. -->
+    <meta name="tdm-reservation" content="1" />
+    <!-- No "Translate this page?" prompt from Chrome or Edge.
+
+         The site is German-first, so every visitor whose browser is set to another
+         language was being offered machine translation of the whole page — including
+         the German being taught. Translated, "der Tisch" becomes "the table", a
+         Lueckentext loses the grammar it is testing, and the learner cannot tell it
+         happened. The UI is already translatable properly: src/lib/i18n.js plus the
+         dictionaries in public/i18n (de, en, ar, tr, uk), chosen from the language
+         switcher in the nav, which translates the chrome and leaves the German alone.
+
+         The cost, accepted deliberately: a speaker of a language we do not ship -
+         Farsi, Vietnamese, Polish - loses the browser's help too. If that turns out
+         to matter, the alternative is to drop this line and mark the taught content
+         translate="no" instead, so the page may be translated but the vocabulary,
+         example sentences and exercises stay German. -->
+    <meta name="google" content="notranslate" />
+    <!-- translate="no" on <html> (above) is the standard attribute for the same thing. Chrome
+         on iOS ignores the meta tag but honours the attribute; it translated /berufe and
+         /anmelden anyway, and the translated text nodes crashed the React sign-in island
+         (Sentry DEUTSCHACADEMY-WEB-A, NotFoundError on insertBefore; WEB-B is the same
+         translation loading its CSS from www.gstatic.com). -->
+    <!-- A tab left open across a deploy still points at the old build's hashed chunks, which
+         are gone from the new one, so the next lazy import (touchpoints, mascotCelebrate …)
+         404s: "Failed to fetch dynamically imported module" in Chrome, "Importing a module
+         script failed" in Safari (Sentry WEB-8, WEB-7). Reload once to get the new build.
+         The sessionStorage guard stops a loop if the chunk really is missing;
+         window.__daStaleReload tells monitoring.js not to report the error we are fixing. -->
+    <script is:inline>
+      (function () {
+        var STALE = /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module|Unable to preload CSS/;
+        function reloadOnce(e) {
+          var msg = (e && (e.reason || e.payload) && String((e.reason || e.payload).message || e.reason || e.payload)) || "";
+          if (!STALE.test(msg)) return;
+          try {
+            var key = "da-stale-reload:" + location.pathname;
+            var last = Number(sessionStorage.getItem(key) || 0);
+            if (Date.now() - last < 60000) return;
+            sessionStorage.setItem(key, String(Date.now()));
+          } catch (_) { return; }
+          window.__daStaleReload = true;
+          if (e.preventDefault) e.preventDefault();
+          location.reload();
+        }
+        window.addEventListener("vite:preloadError", reloadOnce);
+        window.addEventListener("unhandledrejection", reloadOnce);
+      })();
+    </script>
+    <!-- Runs before first paint so a dark-mode reload never flashes white.
+         Keep in sync with STORAGE_KEY/THEME_COLOR in src/lib/theme.js. -->
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("da-theme");
+          // The Wortschatz trainer used to own a night mode of its own; honour it
+          // once so anyone who had it on does not get flipped back to light.
+          if (stored !== "light" && stored !== "dark" && stored !== "system" && localStorage.getItem("da-fc-theme") === "dark") {
+            stored = "dark";
+            localStorage.setItem("da-theme", "dark");
+          }
+          // Nothing stored = light, even on a dark OS. Only an explicit "system" follows it.
+          var theme = stored === "dark" ? "dark"
+            : stored === "system" && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark"
+            : "light";
+          document.documentElement.dataset.theme = theme;
+        } catch (e) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+    <!-- Language + direction, also before first paint. initI18n() at the end of <body> can
+         only run after its module and /i18n/<code>.json have both arrived, so an Arabic or
+         Ukrainian reader used to get a German LTR page first and watch it flip — on every
+         single navigation, and for RTL that flip moves the whole layout. Setting the two
+         attributes here costs one localStorage read and makes the first paint already
+         correct; the async pass then only fills in the text.
+         Keep the codes and directions in sync with LANGUAGES/STORAGE_KEY in src/lib/i18n.js. -->
+    <script is:inline set:html={`
+      (function () {
+        var DIR = ${LANG_DIRS};
+        // The page's own language as served (/es/…), before the line below sets the chosen one.
+        var pageLang = (document.documentElement.getAttribute("lang") || "de").split("-")[0];
+        var lang = "de";
+        var saved = null;
+        try {
+          saved = localStorage.getItem("da_lang");
+          if (saved && DIR[saved]) lang = saved;
+        } catch (e) {}
+        document.documentElement.lang = (${LANG_TAGS})[lang] || lang;
+        document.documentElement.dir = DIR[lang];
+        // Which translation spans show (src/lib/langCss.js), and the script font, before the
+        // first paint too. Same ids/attributes as langCss.js and scriptFonts.js use later.
+        var langRules = ${langRules.toString()};
+        var FONTS = ${LANG_FONTS};
+        var addStyle = function (attr, value, css) {
+          var el = document.createElement("style");
+          el.setAttribute(attr, value);
+          el.textContent = css;
+          document.head.appendChild(el);
+        };
+        if (langRules(lang)) addStyle("id", "lang-css", langRules(lang));
+        if (FONTS[lang]) addStyle("data-script-font", FONTS[lang][0], FONTS[lang][1]);
+        // The first-visit language suggestion (LanguageOffer.astro), decided here for the same
+        // reason: on the first paint or never. Only when no language is chosen, the offer was
+        // never shown, and the browser's first interface language differs from the page's;
+        // then it is shown on this one page view only („shown"). Keys in sync with that file.
+        try {
+          var asked = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language];
+          var suggest = null;
+          for (var i = 0; i < asked.length && !suggest; i++) {
+            var code = String(asked[i] || "").toLowerCase().split("-")[0];
+            if (code === "fil") code = "tl"; // browsers say fil-PH for Filipino; the site's code is tl
+            if (DIR[code]) suggest = code;
+          }
+          if (!saved && !localStorage.getItem("da_lang_offer") && suggest && suggest !== lang && suggest !== pageLang) {
+            document.documentElement.setAttribute("data-lang-offer", suggest);
+            localStorage.setItem("da_lang_offer", "shown");
+          }
+        } catch (e) {}
+      })();
+    `}></script>
+    <!-- Signed in or not, also before first paint — the same problem the two scripts above
+         solve, for the nav's account control. AuthStatus.jsx cannot know the answer until
+         its module has loaded and getUser() has returned from the network, so without this
+         every one of the ~670 prerendered pages would paint a signed-out avatar and swap it
+         a moment later, on every navigation.
+         This checks only that a Supabase auth cookie *exists*. It does not parse it, does
+         not trust it and must never start to: the cookie is attacker-controlled, and
+         getUser() in AuthStatus.jsx and src/middleware.js remains the only source of truth
+         about who is signed in. This is a paint hint about layout, nothing more — the worst
+         a forged cookie buys is a reserved circle.
+         Keep the cookie prefix in sync with @supabase/ssr's naming (sb-<project-ref>-auth-token). -->
+    <script is:inline>
+      (function () {
+        var signedIn = false;
+        try {
+          signedIn = /(^|;\s*)sb-[^=]*-auth-token[^=]*=/.test(document.cookie);
+        } catch (e) {}
+        document.documentElement.dataset.auth = signedIn ? "in" : "out";
+
+        // The plan, for the lock cards (src/components/PremiumLock.astro): from the
+        // purchase hint that src/lib/zugang.js caches after sign-in. Like the cookie test
+        // above it is a paint hint and unlocks nothing; paid content and metered features
+        // are checked again by the server. The app keeps its session off the cookie jar,
+        // so there the hint alone counts (it is cleared on sign-out).
+        // Keep in sync with planOf() in src/lib/zugang.js and plan() in src/lib/access.js.
+        var plan = "anon";
+        try {
+          var app = document.documentElement.dataset.target === "app";
+          var z = JSON.parse(localStorage.getItem("da-zugang") || "null");
+          if (signedIn || (app && z)) {
+            var p = (z && z.products) || [];
+            plan = p.indexOf("premium") >= 0 ? "premium"
+              : p.some(function (x) { return x.indexOf("pack_") === 0; }) ? "pack" : "free";
+          }
+        } catch (e) {}
+        document.documentElement.dataset.plan = plan;
+      })();
+    </script>
+    <!-- Mascots on or off, before first paint, so a learner who switched them off never
+         sees one flash in. The setting lives in the Konto page (Einstellungen); for a
+         signed-in learner it is also kept on the account and copied back here on load.
+         Keep the key in sync with STORAGE_KEY in src/lib/mascotPrefs.js. -->
+    <script is:inline>
+      (function () {
+        var off = false;
+        try { off = localStorage.getItem("da-mascots") === "off"; } catch (e) {}
+        document.documentElement.dataset.mascots = off ? "off" : "on";
+      })();
+    </script>
+    <!-- Favicons. The `?v=` is load-bearing, not decoration: Chrome caches favicons by
+         URL in a store that survives a hard reload, so replacing the file at the same
+         path leaves returning visitors on the old icon indefinitely. That is exactly what
+         happened here — the Astro starter placeholder (a PNG saved as favicon.ico) stayed
+         pinned in tabs long after the real logo shipped. Bump the version whenever an
+         icon changes.
+         `rel="shortcut icon"` was dropped: it is a non-standard legacy alias for
+         `rel="icon"` and adds a second, competing declaration for the same file. -->
+    <link rel="icon" href="/favicon.ico?v=2" sizes="32x32" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
+    <link rel="manifest" href="/site.webmanifest?v=2" />
+    <!-- Brand teal (--brand-blue in global.css). Was #4d9be1, a blue left over from an
+         earlier palette, so the browser chrome did not match the site. -->
+    <meta name="theme-color" content="#0d9488" />
+    <script is:inline>
+      (function () {
+        var m = document.querySelector('meta[name="theme-color"]');
+        if (m && document.documentElement.dataset.theme === "dark") m.setAttribute("content", "#0f141b");
+      })();
+    </script>
+    <!-- All four families are self-hosted from /public/fonts; nothing is
+         fetched from fonts.googleapis.com. Preload the three that paint
+         above the fold (Bungee Shade is accent-only, so it can wait). -->
+    <link rel="preload" href="/fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/big-shoulders-display-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/albert-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="EnglishAcademy" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={abs(OG_IMAGE)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={OG_ALT} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={abs(OG_IMAGE)} />
+    {structuredData && <script type="application/ld+json" set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")} />}
+
+    <slot name="head" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <LanguageOffer />
+    <slot />
+    {/* A lesson is running (/lehrkraefte/unterricht): its bar and clock come along to every
+        page opened from it. Only the localStorage copy is read here; the module loads only
+        when one exists (src/lib/unterricht/leiste.js). */}
+    {(
+      <script>
+        let running = false;
+        let lernt = false;
+        try { running = !!localStorage.getItem("da:unterricht"); lernt = !!localStorage.getItem("da:lernstunde"); } catch {}
+        if (running && !location.pathname.startsWith("/lehrkraefte/unterricht")) {
+          import("../lib/unterricht/leiste.js").then((m) => m.boot()).catch(() => {});
+        } else if (!running && lernt && location.pathname !== "/stunde") {
+          // A learner's Stunde (/stunde): the same bar in its learner mode. A teacher session
+          // on the same device wins (the learner's stays stored).
+          import("../lib/unterricht/leiste.js").then((m) => m.bootLern()).catch(() => {});
+        }
+      </script>
+    )}
+    {/* Tap a hub's mascot for help with the page (src/lib/mascotHelp.js). */}
+    <script>import "../lib/mascotHelp.js";</script>
+    {/* Every switch in src/lib/switchRegistry.js gets its sliding marker and content entrance. */}
+    <script>import "../lib/switchRegistry.js";</script>
+    {/* Rows of links to sections of the page: smooth scroll, sliding pill, scroll-spy (src/lib/jumpNav.js). */}
+    <script>import "../lib/jumpNav.js";</script>
+    {/* Not-ready buttons stay tappable and say what is missing (src/lib/notReady.js). */}
+    <script>import "../lib/notReady.js";</script>
+    {/* The live quiz goes on the projector: every link to it (nav, Lehrkräfte hub, a page's
+        „Live-Quiz“ button) opens a new tab, so the page the teacher came from stays open.
+        Inside the quiz pages themselves (builder, /spiel) links keep the same tab. */}
+    {(
+      <script is:inline>
+        document.addEventListener("click", (e) => {
+          const a = e.target instanceof Element && e.target.closest("a[href]");
+          if (!a || a.target) return;
+          const u = new URL(a.href, location.href);
+          if (u.origin !== location.origin || u.pathname.replace(/\/$/, "") !== "/lehrkraefte/quiz") return;
+          if (location.pathname.startsWith("/lehrkraefte/quiz") || location.pathname.startsWith("/spiel")) return;
+          a.target = "_blank";
+          a.rel = "noopener";
+        }, true);
+      </script>
+    )}
+    <script>
+      import { initI18n } from "../lib/i18n.js";
+      import "../styles/mascot-celebrate.css";
+      import "../styles/touchpoints.css";
+      initI18n();
+      // Which language entry page (/es/, /pt-br/ …, src/integrations/entry-pages.mjs) brought
+      // the visitor: one event per view, sent like every other (consent in analytics.js).
+      const entryLang = document.documentElement.dataset.entryLang;
+      // Streak and weekly-goal milestones (progress.js). The overlay and its drawings load
+      // only when one actually happens; it stays silent when the mascots are switched off.
+      window.addEventListener("da:milestone", (e) => {
+        if (document.documentElement.dataset.mascots === "off") return;
+        import("../lib/mascotCelebrate.js").then((m) => m.celebrateMilestone((e as CustomEvent).detail));
+      });
+      // Onboarding hints for new learners (src/lib/touchpoints.js): a finished round or a
+      // graded answer is the moment, and the module loads only then.
+      const tips = () => import("../lib/touchpoints.js");
+      for (const type of ["da:round", "da:attempt"]) {
+        window.addEventListener(type, (e) => { tips().then((m) => m.handle(e as CustomEvent)); });
+      }
+      try {
+        if (localStorage.getItem("da-tips-v1") == null || location.pathname.startsWith("/fortschritt")) {
+          tips().then((m) => { m.noteVisit(); if (location.pathname.startsWith("/fortschritt")) m.markProgressSeen(); });
+        }
+      } catch {}
+    </script>
+  </body>
+</html>

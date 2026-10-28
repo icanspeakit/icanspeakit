@@ -1,0 +1,403 @@
+/* "Typische Fehler nach Muttersprache" (/kultur/fehler) and "Deutschland von innen"
+ * (/kultur/insider). Builds on kultur.css — cards, chips, topic blocks come from there. */
+
+/* ------------------------------------------------------ hub entry cards -- */
+
+.ku-extra { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 12px; margin-bottom: 28px; }
+.ku-extra .ku-card { border-width: 1.5px; }
+
+/* ------------------------------------------------------------ fehler -- */
+
+.fe-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.fe-chips .ku-chip span { font-size: .78rem; }
+/* Eleven languages wrap into six rows on a phone — one swipeable row instead. */
+@media (max-width: 560px) {
+  .fe-chips { flex-wrap: nowrap; overflow-x: auto; margin-inline: -16px; padding: 2px 16px 6px; scrollbar-width: none; }
+  .fe-chips::-webkit-scrollbar { display: none; }
+  .fe-chips .ku-chip { flex: none; }
+}
+
+.fe-list { display: grid; gap: 18px; }
+.fe-lang {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-card);
+  scroll-margin-top: 84px;
+}
+.fe-lang[hidden] { display: none; }
+.fe-lang-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.fe-lang-head h2 { margin: 0; font-family: var(--font-body); font-size: 1.25rem; font-weight: var(--fw-semibold); color: var(--ink); }
+.fe-native { font-size: 1rem; color: var(--muted); }
+
+.fe-strengths {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-left: 3px solid var(--brand-blue);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--surface);
+}
+.fe-strengths h3 { margin: 0 0 6px; font-size: .74rem; font-weight: var(--fw-semibold); letter-spacing: .06em; text-transform: uppercase; color: var(--brand-blue-dark, var(--brand-blue)); }
+.fe-strengths ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: .9rem; line-height: 1.6; color: var(--ink); }
+
+.fe-mistakes { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.fe-mistake {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.fe-area {
+  justify-self: start;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-size: .7rem;
+  font-weight: var(--fw-semibold);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.fe-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 6px 16px; }
+.fe-pair p { margin: 0; font-size: .95rem; line-height: 1.5; min-width: 0; overflow-wrap: break-word; }
+.fe-wrong { color: #b42318; }
+.fe-wrong s { text-decoration-thickness: 1px; }
+.fe-right { color: #067647; font-weight: var(--fw-semibold); }
+.fe-why { margin: 0; font-size: .88rem; line-height: 1.65; color: var(--muted); min-width: 0; overflow-wrap: break-word; hyphens: auto; }
+
+/* Links to the Aussprache-Check: per language in the header, per pronunciation mistake. */
+.fe-lang-head { flex-wrap: wrap; }
+.fe-practice {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--brand-blue);
+  border-radius: var(--radius-pill);
+  font-size: .88rem;
+  font-weight: var(--fw-semibold);
+  color: var(--brand-blue-dark);
+  text-decoration: none;
+}
+.fe-practice:hover { background: var(--brand-blue-light); }
+/* Arriving from the Check's „Warum passiert das?": the entry lights up once. */
+.fe-mistake { scroll-margin-top: 96px; }
+.fe-mistake.is-flash { animation: feFlash 1.6s ease-out; }
+@keyframes feFlash {
+  0%, 45% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-blue) 55%, transparent); background: color-mix(in srgb, var(--brand-blue) 7%, transparent); }
+  100% { box-shadow: 0 0 0 0 transparent; background: transparent; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fe-mistake.is-flash { animation: none; outline: 2px solid var(--brand-blue); }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .fe-wrong { color: #f97066; }
+  :root:not([data-theme="light"]) .fe-right { color: #47cd89; }
+}
+:root[data-theme="dark"] .fe-wrong { color: #f97066; }
+:root[data-theme="dark"] .fe-right { color: #47cd89; }
+
+@media (max-width: 560px) {
+  .fe-lang { padding: 14px; }
+}
+
+/* ----------------------------------------------------------- insider -- */
+
+.in-sources {
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.in-sources h2 { margin: 0 0 8px; font-family: var(--font-body); font-size: .9rem; font-weight: var(--fw-semibold); color: var(--ink); }
+.in-sources ol { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: .82rem; line-height: 1.55; }
+.in-sources a { color: var(--brand-blue); text-decoration: none; overflow-wrap: anywhere; }
+.in-sources a:hover { text-decoration: underline; }
+.in-stand { display: inline-block; margin-left: 6px; color: var(--muted); white-space: nowrap; }
+
+/* "Wörter zum Thema": two columns of word cards on a wide screen, one on a phone. The word
+   leads, its forms sit beside it in small type, the meaning under it, the example last. */
+.in-vocab {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: 10px;
+}
+.in-vocab li {
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface, #fff);
+}
+.in-vocab p { margin: 0; }
+.in-vocab-word b { font-size: 1.02rem; color: var(--ink); }
+.in-vocab-word span { margin-left: 8px; font-size: .78rem; color: var(--muted); }
+.in-vocab-meaning { margin-top: 3px !important; font-size: .9rem; color: var(--brand-blue-dark); }
+.in-vocab-ex { margin-top: 6px !important; font-size: .86rem; font-style: italic; color: var(--muted); }
+
+/* A1/A2 retelling ↔ its B1/B2 original, at the top of a topic. */
+.in-version {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px;
+  margin: 0 0 16px; padding: 10px 14px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--gradient-brand-soft);
+  color: var(--ink); font-size: .9rem; text-decoration: none;
+}
+.in-version:hover { border-color: var(--brand-blue); }
+.in-version .ku-badge { margin-left: 4px; }
+.in-version-tag {
+  padding: 2px 10px; border-radius: var(--radius-pill);
+  background: var(--brand-blue); color: #fff;
+  font-size: .72rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+}
+
+/* The closing way onward of a topic (topic.cta), e.g. to the Führerschein section. */
+.in-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 18px 0;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--gradient-brand);
+  color: #fff;
+  text-decoration: none;
+}
+.in-cta-txt { display: flex; flex-direction: column; gap: 4px; }
+.in-cta-txt b { font-size: 1.05rem; }
+.in-cta-txt i { font-style: normal; font-size: .9rem; opacity: .92; }
+.in-cta-go { align-self: flex-start; padding: 6px 12px; border-radius: 999px; background: rgba(255, 255, 255, .2); font-weight: 600; font-size: .9rem; }
+
+/* ------------------------------------------- topic page: a bit of soul -- */
+/* The A1 topics carry a comic; the insider topics are text and numbers. These give them a
+ * picture, a voice and an order the eye can follow — nothing the text does not already say. */
+
+.ku-card-ic.in-pic { width: 56px; height: 56px; padding: 6px; background: var(--brand-blue-light, var(--surface)); }
+.ku-card-ic.in-pic img { width: 100%; height: 100%; display: block; }
+
+/* Quaki asks the question in a speech bubble. With mascots off, the bubble stays alone. */
+.in-ask { display: flex; align-items: flex-end; gap: 8px; margin: 0 0 22px; }
+.in-ask-who { flex: none; line-height: 0; }
+.in-ask .ku-question {
+  position: relative;
+  flex: 1;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  border-radius: 16px 16px 16px 4px;
+  background: var(--surface-card);
+  box-shadow: var(--shadow-sm);
+  font-family: var(--font-voice);
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+/* Facts as small cards; the amounts in them in the brand colour. */
+.in-facts { list-style: none; padding: 0; gap: 10px; }
+.in-facts li {
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--brand-blue);
+  border-radius: var(--radius);
+  background: var(--surface-card);
+}
+.in-facts li:nth-child(3n + 2) { border-left-color: var(--brand-cyan, var(--brand-blue)); }
+.in-facts li:nth-child(3n) { border-left-color: var(--warning, var(--brand-blue)); }
+.in-num { font-weight: var(--fw-semibold); color: var(--brand-blue-dark); white-space: nowrap; }
+
+/* Two viewpoints side by side as tinted cards — the debate at a glance. */
+.in-proscons > div { padding: 14px 16px; border-radius: var(--radius-lg); border: 1px solid var(--success-border); background: var(--success-soft); }
+.in-proscons > div + div { border-color: var(--warning-border); background: var(--warning-soft); }
+.in-proscons h3 { color: var(--ink); text-align: start; }
+
+/* The context paragraph as a tip with a light bulb. */
+.in-tip {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--ink);
+}
+.in-tip img { flex: none; margin-top: 2px; }
+
+/* "Gesagt → gemeint" (topic.decoder): the phrase in quotes, what it usually means under it,
+   and an optional reality check in small type. Same card grid as the vocab list. */
+.in-decoder-intro { margin: 0 0 12px; color: var(--muted); font-size: .92rem; line-height: 1.6; }
+.in-decoder-title { margin: 18px 0 8px; font-size: 1rem; color: var(--ink); text-align: start; }
+.in-decoder {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: 10px;
+}
+.in-decoder li {
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-card);
+}
+.in-decoder p { margin: 0; }
+.in-decoder-say { font-family: var(--font-voice); font-weight: 600; font-size: 1.02rem; color: var(--ink); }
+.in-decoder-mean {
+  margin-top: 8px !important;
+  padding: 6px 10px;
+  border-left: 3px solid var(--brand-blue);
+  border-radius: 0 8px 8px 0;
+  background: color-mix(in srgb, var(--brand-blue) 9%, transparent);
+  font-size: .9rem;
+  font-weight: var(--fw-medium, 500);
+  line-height: 1.5;
+  color: var(--brand-blue-dark);
+}
+.in-decoder-check { margin-top: 10px !important; font-size: .8rem; line-height: 1.5; color: var(--muted); }
+.in-decoder-check b { color: var(--ink); font-weight: var(--fw-semibold); }
+.in-decoder-note { margin: 12px 0 0; padding: 10px 14px; border-radius: var(--radius); background: var(--surface); font-size: .9rem; line-height: 1.6; color: var(--ink); }
+
+/* topic.decoder.columns: the Frau | Mann dictionary as two columns, also on a phone. */
+.in-dict {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: clip;
+  background: var(--surface-card);
+}
+.in-dict p { margin: 0; }
+/* In a long dictionary the column heads stay under the site nav while scrolling, so
+   "which side is she, which is he" never scrolls away. `overflow: clip` (not hidden)
+   keeps the rounded corners without breaking sticky. */
+.in-dict:has(.in-dict-theme) .in-dict-head { position: sticky; top: var(--practice-header-h, 68px); z-index: 1; }
+.in-dict-head {
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--brand-blue) 14%, var(--surface-card));
+  border-bottom: 2px solid var(--brand-blue);
+  font-weight: var(--fw-semibold);
+  font-size: .95rem;
+  color: var(--brand-blue-dark);
+}
+.in-dict-cell { min-width: 0; padding: 14px 14px; border-top: 1px solid var(--border); overflow-wrap: break-word; hyphens: auto; }
+.in-dict-head:nth-child(2n), .in-dict-cell--r { border-left: 1px solid var(--border); }
+/* Theme rows cut a long dictionary into sections, across both columns: the theme's
+   mascot as "sie" (bow) on the left and "er" (bow tie, mirrored) on the right. */
+.in-dict-theme {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+.practice-main .in-dict-theme { scroll-margin-top: calc(var(--practice-header-h, 68px) + 80px); }
+.in-dict-theme h3 {
+  flex: 1;
+  margin: 0;
+  font-size: .8rem;
+  font-weight: var(--fw-bold, 700);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--brand-blue-dark);
+  text-align: center;
+}
+.in-dict-theme-fig { flex: none; line-height: 0; }
+.in-dict-theme-fig--r { transform: scaleX(-1); }
+@media (max-width: 420px) {
+  .in-dict-theme { padding: 8px 9px; }
+  .in-dict-theme-fig svg { width: 42px; height: 42px; }
+}
+
+/* decoder.quick: Frau–Deutsch, then Mann–Deutsch, each a plain two-column list. */
+.in-quick {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface-card);
+}
+.in-quick p { margin: 0; }
+.in-quick-head { grid-column: 1 / -1; }
+.in-quick-col {
+  padding: 6px 12px;
+  font-size: .72rem;
+  font-weight: var(--fw-bold, 700);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.in-quick-theme {
+  grid-column: 1 / -1;
+  padding: 8px 12px 4px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  font-size: .72rem;
+  font-weight: var(--fw-bold, 700);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--brand-blue-dark);
+}
+.in-quick-say, .in-quick-mean { min-width: 0; padding: 9px 12px; border-top: 1px solid var(--border); font-size: .92rem; line-height: 1.45; overflow-wrap: break-word; hyphens: auto; }
+.in-quick-theme + .in-quick-say, .in-quick-theme + .in-quick-say + .in-quick-mean { border-top: 0; }
+.in-quick-say { font-family: var(--font-voice); font-weight: 600; color: var(--ink); }
+.in-quick-mean { border-left: 1px solid var(--border); color: var(--brand-blue-dark); background: color-mix(in srgb, var(--brand-blue) 5%, transparent); }
+@media (max-width: 420px) {
+  .in-quick-say, .in-quick-mean { padding: 8px 9px; font-size: .84rem; }
+}
+.in-dict-toc { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+.in-dict-toc a {
+  padding: 5px 11px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-card);
+  font-size: .82rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+.in-dict-toc a:hover { border-color: var(--brand-blue); color: var(--brand-blue-dark); }
+.in-dict .in-decoder-say { font-size: .95rem; }
+.in-dict .in-decoder-mean { font-size: .86rem; }
+.in-dict .in-decoder-check { font-size: .76rem; }
+@media (max-width: 420px) {
+  .in-dict-head, .in-dict-cell { padding: 10px 9px; }
+  .in-decoder-mean { padding: 5px 8px; }
+  .in-dict .in-decoder-say { font-size: .88rem; }
+  .in-dict .in-decoder-mean { font-size: .8rem; }
+}
+
+/* Mascots in the Frau | Mann dictionary: Quaki with a bow (sie) and a bow tie (er) in the
+   column heads, and the two of them in a short exchange above the table. */
+.in-dict-head { display: flex; align-items: center; gap: 8px; }
+.in-dict-fig { flex: none; line-height: 0; margin: -6px 0; }
+.in-scene { display: flex; justify-content: center; align-items: flex-end; gap: 12px 28px; margin: 4px 0 14px; }
+.in-scene-who { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.in-scene-fig { line-height: 0; }
+.in-scene-who--r .in-scene-fig { transform: scaleX(-1); }
+.in-scene-say {
+  position: relative;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface-card);
+  box-shadow: var(--shadow-sm);
+  font-family: var(--font-voice);
+  font-weight: 600;
+  font-size: .92rem;
+  color: var(--ink);
+  white-space: nowrap;
+}
+@media (max-width: 420px) {
+  .in-dict-fig svg { width: 34px; height: 34px; }
+  .in-dict-head { gap: 6px; }
+}

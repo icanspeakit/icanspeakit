@@ -1,0 +1,9 @@
+---
+// The worksheet's room picture (drawing in src/lib/arbeitsblatt/zimmerSzene.js, shared
+// with the Tandembogen). Inline SVG so it prints sharp and stays light on the paper.
+import { zimmerSvg } from "../../lib/arbeitsblatt/zimmerSzene.js";
+
+interface Props { variant?: "a" | "b"; nums?: boolean; moves?: boolean; label?: string }
+const { variant = "a", nums = true, moves = false, label = "Ein Zimmer mit Bett, Schrank, Schreibtisch, Regal, Tisch und Stuhl. Zwölf Dinge sind nummeriert." } = Astro.props;
+---
+<figure class="ab-scene" set:html={zimmerSvg({ variant, nums, moves, label })} />

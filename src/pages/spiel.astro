@@ -1,0 +1,190 @@
+---
+// /spiel — where a phone joins a live quiz. The QR code on the projector points here with
+// ?pin= filled in; the short address is there to be typed by whoever cannot scan.
+// Phone-first: one column, big targets, nothing to install and no account.
+// Logic: src/lib/liveQuiz/player.js.
+import Layout from "../layouts/Layout.astro";
+import "../styles/live-quiz.css";
+
+const LANGS = [
+  { code: "en", label: "English" },
+  { code: "ar", label: "العربية" },
+  { code: "uk", label: "Українська" },
+  { code: "ru", label: "Русский" },
+  { code: "tr", label: "Türkçe" },
+];
+---
+<Layout
+  title="Mitspielen – EnglishAcademy"
+  description="PIN eingeben und beim Vokabel-Quiz der Klasse mitspielen."
+>
+  <main class="lq lq--player" id="lq-player">
+    <div class="lq-phone-head">
+      {/* Solo, before the first question: back to the settings (player.js). */}
+      <a class="lq-back" href="/lehrkraefte/quiz" data-solo-back hidden><span aria-hidden="true">←</span> <span data-i18n="header.goBack">Zurück</span></a>
+      <a class="lq-brand" href="/">EnglishAcademy</a>
+      <span class="lq-phone-tools">
+        <button type="button" class="lq-music" data-music-cycle data-style="lofi" hidden aria-label="Musik wechseln" data-i18n-attr="aria-label:lq.music.cycle" title="Musik wechseln"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg><span data-m="lofi" data-i18n="lq.music.lofi">Lo-fi</span><span data-m="show" data-i18n="lq.music.show">Gameshow</span><span data-m="retro" data-i18n="lq.music.retro">Retro</span><span data-m="off" data-i18n="lq.music.off">Aus</span></button>
+        <button type="button" class="lq-sound" data-sound-toggle aria-pressed="true" aria-label="Ton an/aus" data-i18n-attr="aria-label:lq.sound.toggle" title="Ton an/aus"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path class="lq-sound-on" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="lq-sound-off" d="m16 9 6 6m0-6-6 6"/></svg></button>
+      </span>
+    </div>
+    <div class="lq-banner" data-banner hidden>
+      <span role="status" data-banner-msg></span>
+      {/* Shown after 20 s of "verbinde neu …" (player.js): a fresh connection, same seat. */}
+      <button type="button" class="lq-banner-retry" data-banner-retry hidden data-i18n="lq.err.retry">Neu verbinden</button>
+    </div>
+
+    <!-- Join -->
+    <section data-screen="join">
+      <h1 class="lq-title" data-i18n="lq.join.title">Mitspielen</h1>
+      <form class="lq-card lq-form" data-join novalidate>
+        <label class="lq-field" data-pin-field>
+          <span data-i18n="lq.join.pin">Spiel-PIN</span>
+          <input name="pin" inputmode="numeric" autocomplete="off" maxlength="7" placeholder="123456" class="lq-pin-input" />
+        </label>
+        {/* Solo only: there the mode is known before the game. In a class room the
+            language is asked after joining, and only when the teacher chose a mode with
+            translations (the roster says so; player.js). */}
+        <fieldset class="lq-field lq-langs" data-solo-langs hidden>
+          <legend data-i18n="lq.join.lang">Bedeutungen auf</legend>
+          {LANGS.map((l) => (
+            <label><input type="radio" name="lang" value={l.code} checked={l.code === "en"} /> <span lang={l.code}>{l.label}</span></label>
+          ))}
+        </fieldset>
+        <p class="lq-error" data-join-error role="alert"></p>
+        <button type="submit" class="lq-btn lq-btn--primary lq-btn--block" data-join-go data-i18n="lq.join.next">Weiter</button>
+      </form>
+      <p class="lq-credit">Bilder: <a href="https://openmoji.org" target="_blank" rel="noopener">OpenMoji</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></p>
+    </section>
+
+    <!-- Name: asked once the PIN has found a room. An animal is suggested; it is the
+         player's picture too (src/lib/liveQuiz/names.js). -->
+    <section data-screen="name" hidden>
+      <form class="lq-card lq-form lq-name-card" data-name-form novalidate>
+        <span class="lq-name-pic"><img data-name-avatar alt="" width="120" height="120" /></span>
+        <h2 class="lq-title" data-i18n="lq.name.title">Wie willst du heißen?</h2>
+        <div class="lq-field">
+          <label for="lq-name" class="lq-sr" data-i18n="lq.join.name">Dein Name (optional)</label>
+          <div class="lq-name-row">
+            <input id="lq-name" name="name" maxlength="16" autocomplete="off" enterkeyhint="go" />
+            <button type="button" class="lq-reroll" data-reroll aria-label="Neues Tier würfeln" data-i18n-attr="aria-label:lq.join.reroll" title="Neues Tier würfeln">🎲</button>
+          </div>
+          <small data-i18n="lq.name.hint">Das Tier ist nur ein Vorschlag: würfle ein anderes oder tippe deinen eigenen Namen.</small>
+        </div>
+        <button type="submit" class="lq-btn lq-btn--primary lq-btn--block" data-i18n="lq.name.go">Passt – los geht's!</button>
+        <button type="button" class="lq-btn lq-btn--quiet lq-btn--block" data-other-pin data-i18n="lq.name.otherPin">Andere PIN</button>
+      </form>
+    </section>
+
+    <!-- Waiting -->
+    <section data-screen="wait" class="lq-wait" hidden>
+      <img class="lq-me-pic" data-name-avatar alt="" width="96" height="96" />
+      <p class="lq-me" data-me-name></p>
+      <div class="lq-spinner" aria-hidden="true"></div>
+      <p class="lq-wait-msg" data-wait-msg role="status"></p>
+      <fieldset class="lq-field lq-langs lq-wait-langs" data-wait-langs hidden>
+        <legend data-i18n="lq.wait.lang">Die Lehrkraft spielt mit Übersetzung. Deine Sprache:</legend>
+        {LANGS.map((l) => (
+          <label><input type="radio" name="waitLang" value={l.code} checked={l.code === "en"} /> <span lang={l.code}>{l.label}</span></label>
+        ))}
+      </fieldset>
+    </section>
+
+    <!-- Question -->
+    <section data-screen="question" class="lq-play" hidden>
+      <div class="lq-q-top"><span data-q-n></span><span data-me-name></span></div>
+      <span class="lq-timer"><span data-q-bar></span></span>
+      <p class="lq-paused-note" data-i18n="lq.tempo.pausedPhone">Pause – die Zeit steht.</p>
+      <p class="lq-q-kind" data-q-kind></p>
+      <img class="lq-img lq-img--phone" data-q-img alt="" hidden />
+      <p class="lq-prompt lq-prompt--phone" data-q-prompt></p>
+      <div class="lq-options lq-options--phone" data-q-options></div>
+      <p class="lq-sent" data-q-sent role="status" hidden></p>
+    </section>
+
+    <!-- Result of one question -->
+    <section data-screen="result" class="lq-result" hidden>
+      <div class="lq-result-card" data-result>
+        <p class="lq-res-title" data-res-title></p>
+        <p class="lq-res-points" data-res-points></p>
+      </div>
+      <div class="lq-recap">
+        <img class="lq-img lq-img--recap" data-recap-img alt="" hidden />
+        <p class="lq-recap-q" data-recap-q></p>
+        <p class="lq-recap-row"><span data-i18n="lq.recap.correct">Richtige Antwort</span> <b data-recap-a></b></p>
+        <p class="lq-recap-row lq-recap-mine" data-recap-mine hidden><span data-i18n="lq.recap.mine">Deine Antwort</span> <b data-recap-mine-opt></b></p>
+      </div>
+      <p class="lq-res-score" data-res-score></p>
+      <p class="lq-wait-msg" data-wait-next data-i18n="lq.wait.next">Gleich kommt die nächste Frage.</p>
+      {/* Solo: the learner moves on, nobody else sets the pace. */}
+      <button type="button" class="lq-btn lq-btn--primary lq-btn--block" data-solo-next hidden data-i18n="lq.solo.next">Weiter</button>
+    </section>
+
+    <!-- End -->
+    <section data-screen="end" class="lq-result lq-end" hidden>
+      {/* Ergebnis | Deine Antworten: every question with the player's answer and the right one
+          (player.js, renderMine) — solo and in a class game. */}
+      <div class="lq-pod-tabs lq-end-tabs" data-end-tabs data-keep-skip role="group" aria-label="Ansicht" data-i18n-attr="aria-label:lq.sum.view" hidden>
+        <button type="button" data-end-tab="result" aria-pressed="true" data-i18n="lq.mine.result">Ergebnis</button>
+        <button type="button" data-end-tab="answers" aria-pressed="false">Deine Antworten</button>
+      </div>
+      <div class="lq-end-panel" data-end-panel="result" data-keep-panel>
+      {/* Solo: the award ceremony — this round on the podium among the player's own best
+          rounds with the same settings (player.js, soloCeremony). */}
+      <h2 class="lq-title lq-end-podium-title" data-end-podium-title hidden data-i18n="lq.host.podium">Siegerehrung</h2>
+      <div class="lq-stage lq-stage--phone" data-end-stage hidden>
+        <div class="lq-rays" aria-hidden="true"></div>
+        <ol class="lq-podium" data-end-podium></ol>
+      </div>
+      <span class="lq-end-pic"><img class="lq-me-pic" data-name-avatar alt="" width="96" height="96" /><span class="lq-end-medal" data-end-medal aria-hidden="true"></span></span>
+      <p class="lq-res-title" data-end-title></p>
+      <p class="lq-end-rank" data-end-rank></p>
+      <p class="lq-res-score" data-end-score></p>
+      {/* Solo: the mascots cheer, as on the projector's podium (player.js, soloCelebrate). */}
+      <div class="lq-end-crew" data-end-crew hidden></div>
+      <p class="lq-end-cheer" data-end-cheer></p>
+      </div>
+      <div class="lq-end-panel lq-sum lq-mine" data-end-panel="answers" data-keep-panel hidden>
+        <div class="lq-sum-stats" data-mine-stats></div>
+        <ol class="lq-sum-list" data-mine-list></ol>
+      </div>
+      {/* Where the round went: „Mein Fortschritt“ when signed in (record.js), else a nudge. */}
+      <p class="lq-record-note" data-record-note data-keep-skip hidden></p>
+      {/* Keep the result for later — a solo learner has no other record of it (keep.js). */}
+      <div class="lq-keep lq-keep--phone" data-keep-skip>
+        <button type="button" class="lq-btn lq-btn--ghost" data-keep-print>🖨 Drucken / PDF</button>
+        <button type="button" class="lq-btn lq-btn--ghost" data-keep-image>⬇ Als Bild</button>
+      </div>
+      <button type="button" class="lq-btn lq-btn--ghost lq-btn--block" data-rejoin data-keep-skip data-i18n="lq.end.again">Neues Spiel</button>
+      <a class="lq-btn lq-btn--quiet lq-btn--block" href="/lehrkraefte/quiz" data-solo-setup data-keep-skip hidden data-i18n="lq.solo.settings">Andere Wörter wählen</a>
+    </section>
+
+    <!-- Away: the host dropped out of the room (laptop asleep, Wi-Fi). The phone keeps its seat
+         and goes back to the game by itself when the host is there again (player.js, hostGone). -->
+    <section data-screen="away" class="lq-wait" hidden>
+      <img class="lq-me-pic" data-name-avatar alt="" width="96" height="96" />
+      <p class="lq-me" data-me-name></p>
+      <div class="lq-spinner" aria-hidden="true"></div>
+      <p class="lq-wait-msg" role="status" data-i18n="lq.away.msg">Die Lehrkraft ist gerade nicht verbunden. Bleib hier – es geht von selbst weiter.</p>
+      <button type="button" class="lq-btn lq-btn--ghost lq-btn--block" data-rejoin data-i18n="lq.end.rejoin">Neue PIN eingeben</button>
+    </section>
+
+    <!-- Stopped: host gone for good, room closed -->
+    <section data-screen="stopped" class="lq-result" hidden>
+      <p class="lq-res-title" data-stop-msg></p>
+      {/* Same PIN, same seat: back in with name and points, if the game still runs. */}
+      <button type="button" class="lq-btn lq-btn--primary lq-btn--block" data-rejoin-same hidden data-i18n="lq.end.rejoinSame">Wieder beitreten</button>
+      <button type="button" class="lq-btn lq-btn--ghost lq-btn--block" data-rejoin data-i18n="lq.end.rejoin">Neue PIN eingeben</button>
+    </section>
+  </main>
+
+  <script is:inline>
+    // Inside the host's test-mode preview: no site chrome, just the phone screen.
+    if (new URLSearchParams(location.search).get("test") === "1") document.documentElement.classList.add("lq-embed");
+  </script>
+  <script>
+    import { mountPlayer } from "../lib/liveQuiz/player.js";
+    const root = document.getElementById("lq-player");
+    if (root) mountPlayer(root);
+  </script>
+</Layout>

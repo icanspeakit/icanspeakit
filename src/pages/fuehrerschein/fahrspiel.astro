@@ -1,0 +1,84 @@
+---
+// /fuehrerschein/fahrspiel — the traffic scenes as a game: Quaki drives, the game stops him
+// where a rule decides, the learner picks what is right, and the scene plays it out with the
+// rule in one line (src/lib/fahrSpiel.js, stops in src/data/fuehrerschein/fahrspiel.json).
+// Own situations, like the scenes themselves — not the amtliche Fragenkatalog.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import SectionMascot from "../../components/mascots/SectionMascot.astro";
+import FsHinweis from "../../components/fuehrerschein/FsHinweis.astro";
+import { lessonLinks } from "../../lib/fuehrerscheinData.js";
+import { fillDeep, szene } from "../../lib/fuehrerschein.js";
+import spiel from "../../data/fuehrerschein/fahrspiel.json" with { type: "json" };
+import "../../styles/practice.css";
+import "../../styles/kultur.css";
+import "../../styles/fahr-szene.css";
+import "../../styles/fuehrerschein.css";
+import "../../styles/fahrspiel.css";
+
+// Checked at build time: a stop that points past its scene, or has no single right answer,
+// fails the build rather than a learner's round.
+const rounds = spiel.rounds.map((r: any) => {
+  const scene = szene(r.scene);
+  if (!lessonLinks[r.topic]) throw new Error(`fahrspiel: Thema „${r.topic}“ gibt es nicht (${r.scene})`);
+  r.stops.forEach((s: any, k: number) => {
+    const min = k === 0 ? 0 : r.stops[k - 1].at + 1;
+    if (s.at < min || s.at >= scene.steps.length) throw new Error(`fahrspiel: Halt at=${s.at} passt nicht zu „${r.scene}“`);
+    if (s.options.filter((o: any) => o.ok).length !== 1) throw new Error(`fahrspiel: „${r.scene}“ at=${s.at} braucht genau eine richtige Antwort`);
+  });
+  return { ...fillDeep(r), scene };
+});
+const n = 6;
+const v = (o: Record<string, unknown>) => JSON.stringify(o);
+---
+<Layout
+  title="Fahrspiel: Verkehrsregeln spielerisch lernen – EnglishAcademy"
+  description="Ein Spiel für die Führerschein-Theorie: Quaki fährt durch Kreuzungen, Kreisverkehr und Autobahn – du entscheidest, was richtig ist, und siehst danach die Regel."
+>
+  <SiteNav active="pruefungen" />
+  <main class="practice-main fs-page fsp-page" id="fs-page">
+    <div class="ku-topbar">
+      <a href="/fuehrerschein" class="vp-back-link" data-i18n="fs.back">Führerschein</a>
+    </div>
+
+    <section id="fsp-intro">
+      <div class="practice-hero fs-hero">
+        <p class="eyebrow" data-i18n="fs.spiel.eyebrow">Spiel</p>
+        <h1 data-i18n="fs.spiel.title">Fahrspiel</h1>
+        <p data-i18n="fs.spiel.lead">Quaki fährt los. An jeder Gefahrenstelle hältst du an und entscheidest: Was ist richtig? Danach siehst du, was passiert – und die Regel dazu.</p>
+        <div class="fs-badges"><span class="fs-badge fs-badge--key" data-i18n="fs.spiel.label">Übungsspiel mit eigenen Situationen – nicht die amtlichen Prüfungsfragen</span></div>
+      </div>
+      <section class="fs-box">
+        <h2 data-i18n="fs.spiel.howTitle">So spielst du</h2>
+        <ul class="fs-facts">
+          <li><b>{n}</b><span data-i18n="fs.spiel.howRounds" data-i18n-vars={v({ n, total: rounds.length })}>Situationen pro Fahrt – aus {rounds.length}, jedes Mal andere.</span></li>
+          <li><b>+10</b><span data-i18n="fs.spiel.howPoints">Punkte für jede richtige Antwort. Bis zu 5 Bonuspunkte, wenn du schnell bist – zu langsam gibt es nicht.</span></li>
+          <li><b>1 2 3</b><span data-i18n="fs.spiel.howKeys">Tippe eine Antwort an oder drücke 1, 2 oder 3.</span></li>
+        </ul>
+        <SectionMascot name="quaki" say="Ich fahre – du sagst, wie!" class="ku-hero-mascot" />
+        <div class="fq-done-btns">
+          <button type="button" class="quiz-btn quiz-btn--primary" id="fsp-start" data-i18n="fs.spiel.start">Losfahren</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="fsp-game" id="fsp-game" hidden></section>
+    <FsHinweis />
+  </main>
+
+  <script type="application/json" id="fsp-data" set:html={JSON.stringify({ rounds, lessons: lessonLinks }).replace(/</g, "\\u003c")}></script>
+  <script>
+    import { mountFahrSpiel } from "../../lib/fahrSpiel.js";
+
+    const data = JSON.parse(document.getElementById("fsp-data")!.textContent!);
+    const intro = document.getElementById("fsp-intro")!;
+    const game = document.getElementById("fsp-game")!;
+    const spiel = mountFahrSpiel(game, data);
+    document.getElementById("fsp-start")!.addEventListener("click", () => {
+      intro.hidden = true;
+      game.hidden = false;
+      spiel.start();
+      game.scrollIntoView({ block: "start" });
+    });
+  </script>
+</Layout>

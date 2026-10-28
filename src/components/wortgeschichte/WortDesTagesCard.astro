@@ -1,0 +1,36 @@
+---
+// The one small homepage card („Wort des Tages: die Arbeit →“). Never a section
+// (WORTGESCHICHTE-TIERED-PROMPT.md, Placement). Renders nothing until a word is really
+// published — approved and its day has come — so the homepage is unchanged before launch.
+import { published, today, headword } from "../../lib/wortgeschichte.js";
+
+const list = published(today());
+const entry = list[list.length - 1];
+---
+{entry && (
+  <div class="wg-card-band">
+    <a class="wg-card" href="/wissen/wortgeschichte">
+      <span class="wg-card-ic" aria-hidden="true">🌱</span>
+      <span class="wg-card-txt">
+        <small data-i18n="wg.eyebrow">Wort des Tages</small>
+        <b lang="de">{headword(entry)}</b>
+      </span>
+      <span class="wg-card-go" data-i18n="wg.card.go">Woher kommt es? →</span>
+    </a>
+  </div>
+)}
+
+<style>
+.wg-card {
+  display: flex; align-items: center; gap: 12px; max-width: 560px; margin: 0 auto;
+  padding: 12px 16px; border-radius: 16px; text-decoration: none;
+  background: var(--surface-card); border: 1px solid var(--border); box-shadow: var(--shadow-sm); color: var(--ink);
+}
+.wg-card:hover { border-color: var(--brand-blue); }
+.wg-card-ic { flex: none; font-size: 1.5rem; line-height: 1; }
+.wg-card-txt { display: grid; gap: 1px; min-width: 0; }
+.wg-card-txt small { color: var(--muted); font-size: .78rem; font-family: var(--font-label); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.wg-card-txt b { font-size: 1.05rem; }
+.wg-card-go { margin-inline-start: auto; color: var(--brand-blue-dark); font-weight: var(--fw-semibold); white-space: nowrap; font-size: .9rem; }
+.wg-card-band { padding: 16px; }
+</style>

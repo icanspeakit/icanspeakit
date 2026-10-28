@@ -1,0 +1,370 @@
+---
+// /steueroasen — interactive world map of tax-friendly residencies for individuals. Tap a
+// country or pin: tax rates, residence routes, bank account setup and start-up costs. Data in
+// src/data/steueroasen.js; the map is pre-projected SVG (src/data/steueroasen-map.json,
+// Natural Earth 1, 960×500) so the page needs no map library and no CDN (the CSP allows
+// only 'self' scripts). Not linked from the navigation and kept out of search engines.
+import Layout from "../layouts/Layout.astro";
+import SiteNav from "../components/SiteNav.astro";
+import Mascot from "../components/mascots/Mascot.astro";
+import { CATS, HAVENS } from "../data/steueroasen.js";
+import MAP from "../data/steueroasen-map.json";
+import "../styles/steueroasen.css";
+
+const byIso = Object.fromEntries(HAVENS.filter((h) => h.iso).map((h) => [h.iso, h]));
+const short = (n: string) => n.replace(/ \(.*\)/, "");
+---
+<Layout
+  title="Tax Haven Atlas – EnglishAcademy"
+  description="Interactive world map of tax-friendly residencies: tax rates, residence routes, bank setup and start-up costs."
+  noindex
+>
+  <SiteNav />
+
+  <main class="so">
+    <header class="so-top">
+      <div class="so-brand">
+        <p class="so-eyebrow">Atlas · EnglishAcademy</p>
+        <h1>Tax Haven <span>Atlas</span></h1>
+        <p>Where an individual can legally pay less tax and get a residence permit. Tap a country or pin for tax rates, how to get residency, bank account setup and what it costs to start.</p>
+      </div>
+      <div class="so-mascot" aria-hidden="true"><Mascot name="bruno" expr="thinking" view="three" size={92} /></div>
+    </header>
+
+    <div class="so-legend" data-legend role="group" aria-label="Filter by tax system">
+      {Object.entries(CATS).map(([k, c]) => (
+        <button type="button" class="so-chip" data-cat={k} aria-pressed="true" style={`--c:var(${c.c})`}><i></i>{c.label}</button>
+      ))}
+    </div>
+
+    <div class="so-filters">
+      <label for="so-budget">Money you can put in (year one)
+        <span class="so-val" data-budget-val>up to €300k</span>
+        <input type="range" id="so-budget" min="0" max="8" step="1" value="5" />
+      </label>
+      <label for="so-bank">Banking difficulty up to
+        <span class="so-val" data-bank-val>5 / 5</span>
+        <input type="range" id="so-bank" min="1" max="5" step="1" value="5" />
+      </label>
+      <label for="so-sort">Sort cards by
+        <select id="so-sort">
+          <option value="cost">Cheapest to start</option>
+          <option value="bank">Easiest banking</option>
+          <option value="tax">Lowest income tax</option>
+          <option value="days">Fewest days on site</option>
+        </select>
+      </label>
+      <div class="so-count"><b data-cnt>{HAVENS.length}</b> of {HAVENS.length} fit your filters</div>
+    </div>
+
+    <div class="so-stage">
+      <div class="so-mapcol">
+      <div class="so-mapbox" data-mapbox>
+        <svg viewBox={`0 0 ${MAP.w} ${MAP.h}`} role="img" aria-label="World map of tax havens" data-map>
+          <g data-zoom>
+            <g>
+              {MAP.countries.map((c) => {
+                const h = byIso[c.id];
+                return h
+                  ? <path d={c.d} class="so-country is-haven" data-id={h.id} data-name={h.name} style={`fill:var(${CATS[h.cat].c})`} />
+                  : <path d={c.d} class="so-country" />;
+              })}
+            </g>
+            <g>
+              {HAVENS.map((h) => {
+                const [x, y] = MAP.pins[h.id];
+                return (
+                  <g class="so-pin" data-id={h.id} data-name={h.name} data-x={x} data-y={y} transform={`translate(${x},${y})`} tabindex="0" role="button" aria-label={h.name} style={`--c:var(${CATS[h.cat].c})`}>
+                    <circle class="ring" r="7" />
+                    <circle class="dot" r="6" />
+                    <text x="9" y="4">{short(h.name)}</text>
+                  </g>
+                );
+              })}
+            </g>
+          </g>
+        </svg>
+        <div class="so-hint">Drag to pan · scroll or pinch to zoom</div>
+        <div class="so-mapctl">
+          <button type="button" data-z="in" aria-label="Zoom in">+</button>
+          <button type="button" data-z="out" aria-label="Zoom out">−</button>
+          <button type="button" data-z="reset" aria-label="Reset view">⟲</button>
+        </div>
+        <div class="so-jumps">
+          {Object.keys(MAP.jumps).map((n) => <button type="button" data-jump={n}>{n}</button>)}
+          <button type="button" data-z="reset">World</button>
+        </div>
+        <div class="so-tip" data-tip></div>
+      </div>
+      {/* Right under the map: the clicked place's advantages and disadvantages. */}
+      <div class="so-pcone" data-pcone hidden></div>
+      </div>
+      <aside class="so-panel" data-panel aria-live="polite"></aside>
+    </div>
+
+    <section class="so-sec">
+      <div class="so-sechead"><h2>Compare</h2><p data-cmp-hint>Add up to 3 places from the panel to compare them side by side.</p></div>
+      <div class="so-cmpwrap" data-cmpwrap hidden><table class="so-cmp" data-cmp></table></div>
+    </section>
+
+    <section class="so-sec">
+      <div class="so-sechead"><h2>All havens</h2><p>Faded cards are outside your budget or banking filter.</p></div>
+      <div class="so-cards" data-cards></div>
+    </section>
+
+    <section class="so-warn">
+      <h2>Before you move: your current country may still tax you</h2>
+      <div class="so-tabs" role="tablist" data-wtabs></div>
+      <ul data-wlist></ul>
+    </section>
+
+    <section class="so-sec">
+      <div class="so-sechead"><h2>Pros and cons: all places</h2><p>Every place at a glance. Tap a name to open it on the map.</p></div>
+      <div class="so-pcwrap">
+        <table class="so-pctable">
+          <thead><tr><th scope="col">Place</th><th scope="col" class="pro">Advantages</th><th scope="col" class="con">Disadvantages</th></tr></thead>
+          <tbody>
+            {HAVENS.map((h) => (
+              <tr style={`--c:var(${CATS[h.cat].c})`} data-pcrow={h.id}>
+                <th scope="row"><button type="button" data-pcgo={h.id}>{h.name}</button><span>{CATS[h.cat].label} · {h.rates.inc[0]}</span></th>
+                <td class="pro"><ul>{h.pros.map((p) => <li>{p}</li>)}</ul></td>
+                <td class="con"><ul>{h.cons.map((p) => <li>{p}</li>)}</ul></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <p class="so-fine">Figures are a simplified overview of rules as known in mid-2026, converted to euros and rounded. Thresholds, fees and visa programmes change often (Portugal, Italy, Malaysia and Thailand all changed theirs in 2024–2025). This page is research, not tax or legal advice: confirm with a licensed adviser in both your current country and the destination before you act.</p>
+  </main>
+</Layout>
+
+<script>
+  import { CATS, HAVENS as H, WARN } from "../data/steueroasen.js";
+  import MAP from "../data/steueroasen-map.json";
+
+  const $ = (s: string, r: ParentNode = document) => r.querySelector(s) as HTMLElement;
+  const $$ = (s: string, r: ParentNode = document) => [...r.querySelectorAll(s)] as HTMLElement[];
+  const fmtE = (n: number) => n >= 1e6 ? "€" + (n / 1e6).toFixed(n % 1e6 ? 1 : 0) + "M" : n >= 1000 ? "€" + Math.round(n / 1000) + "k" : "€" + n;
+  const short = (n: string) => n.replace(/ \(.*\)/, "");
+  const col = (h: any) => `var(${CATS[h.cat].c})`;
+  const byId = (id: string) => H.find((h) => h.id === id)!;
+  const BUDGETS = [5000, 15000, 50000, 100000, 250000, 300000, 700000, 1500000, Infinity];
+
+  const state = { cats: new Set(Object.keys(CATS)), budget: 300000, bank: 5, sort: "cost", sel: null as string | null, cmp: [] as string[] };
+  try { const s = JSON.parse(localStorage.getItem("so-atlas") || "{}"); if (s.cmp) state.cmp = s.cmp.filter((id: string) => H.some((h) => h.id === id)); } catch {}
+  const save = () => { try { localStorage.setItem("so-atlas", JSON.stringify({ cmp: state.cmp })); } catch {} };
+  const fits = (h: any) => state.cats.has(h.cat) && h.cost <= state.budget && h.bank <= state.bank;
+
+  /* filters */
+  $$("[data-cat]").forEach((b) => b.addEventListener("click", () => {
+    const k = b.dataset.cat!; state.cats.has(k) ? state.cats.delete(k) : state.cats.add(k);
+    b.setAttribute("aria-pressed", String(state.cats.has(k))); refresh();
+  }));
+  const budget = $("#so-budget") as HTMLInputElement, bank = $("#so-bank") as HTMLInputElement, sort = $("#so-sort") as HTMLSelectElement;
+  const onBudget = () => { state.budget = BUDGETS[+budget.value]; $("[data-budget-val]").textContent = state.budget === Infinity ? "No limit" : "up to " + fmtE(state.budget); refresh(); };
+  const onBank = () => { state.bank = +bank.value; $("[data-bank-val]").textContent = `${state.bank} / 5`; refresh(); };
+  budget.addEventListener("input", onBudget); bank.addEventListener("input", onBank);
+  sort.addEventListener("change", () => { state.sort = sort.value; renderCards(); });
+
+  /* map: pan + zoom on the pre-projected SVG */
+  const svg = $("[data-map]") as unknown as SVGSVGElement, zg = $("[data-zoom]"), box = $("[data-mapbox]"), tip = $("[data-tip]");
+  const pins = $$(".so-pin");
+  const W = MAP.w, Hh = MAP.h;
+  let t = { k: 1, x: 0, y: 0 };
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function clamp(v: { k: number; x: number; y: number }) {
+    const k = Math.min(14, Math.max(1, v.k));
+    return { k, x: Math.min(0, Math.max(W - W * k, v.x)), y: Math.min(0, Math.max(Hh - Hh * k, v.y)) };
+  }
+  function apply() {
+    zg.setAttribute("transform", `translate(${t.x},${t.y}) scale(${t.k})`);
+    pins.forEach((p) => p.setAttribute("transform", `translate(${p.dataset.x},${p.dataset.y}) scale(${1 / t.k})`));
+    box.classList.toggle("is-zoomed", t.k >= 2.2);
+  }
+  let anim = 0;
+  function animateTo(to: { k: number; x: number; y: number }, ms = 650) {
+    to = clamp(to); cancelAnimationFrame(anim);
+    if (reduce) { t = to; apply(); return; }
+    const from = { ...t }, t0 = performance.now();
+    const step = (now: number) => {
+      const p = Math.min(1, (now - t0) / ms), e = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+      t = { k: from.k + (to.k - from.k) * e, x: from.x + (to.x - from.x) * e, y: from.y + (to.y - from.y) * e }; apply();
+      if (p < 1) anim = requestAnimationFrame(step);
+    };
+    anim = requestAnimationFrame(step);
+  }
+  const toSvg = (cx: number, cy: number) => { const r = svg.getBoundingClientRect(); return [(cx - r.left) * W / r.width, (cy - r.top) * Hh / r.height]; };
+  function zoomAt(sx: number, sy: number, f: number, smooth = false) {
+    const k = Math.min(14, Math.max(1, t.k * f)), r = k / t.k;
+    const next = { k, x: sx - (sx - t.x) * r, y: sy - (sy - t.y) * r };
+    smooth ? animateTo(next, 300) : (t = clamp(next), apply());
+  }
+  const flyTo = (x: number, y: number, k: number) => animateTo({ k, x: W / 2 - x * k, y: Hh / 2 - y * k });
+
+  svg.addEventListener("wheel", (e) => { e.preventDefault(); const [sx, sy] = toSvg(e.clientX, e.clientY); zoomAt(sx, sy, Math.exp(-e.deltaY * 0.0015)); }, { passive: false });
+  const pts = new Map<number, { x: number; y: number }>();
+  let moved = 0, pinchD = 0;
+  svg.addEventListener("pointerdown", (e) => { pts.set(e.pointerId, { x: e.clientX, y: e.clientY }); moved = 0; if (pts.size === 2) { const [a, b] = [...pts.values()]; pinchD = Math.hypot(a.x - b.x, a.y - b.y); } });
+  svg.addEventListener("pointermove", (e) => {
+    const prev = pts.get(e.pointerId); if (!prev) return;
+    const cur = { x: e.clientX, y: e.clientY }; pts.set(e.pointerId, cur);
+    if (pts.size === 1) {
+      const dx = cur.x - prev.x, dy = cur.y - prev.y; moved += Math.abs(dx) + Math.abs(dy);
+      if (moved > 4 && !svg.hasPointerCapture(e.pointerId)) svg.setPointerCapture(e.pointerId);
+      const r = svg.getBoundingClientRect(); t = clamp({ k: t.k, x: t.x + dx * W / r.width, y: t.y + dy * Hh / r.height }); apply();
+    } else if (pts.size === 2) {
+      const [a, b] = [...pts.values()], d = Math.hypot(a.x - b.x, a.y - b.y); moved = 99;
+      const [sx, sy] = toSvg((a.x + b.x) / 2, (a.y + b.y) / 2); if (pinchD) zoomAt(sx, sy, d / pinchD); pinchD = d;
+    }
+  });
+  const up = (e: PointerEvent) => { pts.delete(e.pointerId); pinchD = 0; };
+  svg.addEventListener("pointerup", up); svg.addEventListener("pointercancel", up);
+
+  $$("[data-z]").forEach((b) => b.addEventListener("click", () => {
+    const z = b.dataset.z; if (z === "reset") return animateTo({ k: 1, x: 0, y: 0 }, 500);
+    zoomAt(W / 2, Hh / 2, z === "in" ? 1.6 : 1 / 1.6, true);
+  }));
+  $$("[data-jump]").forEach((b) => b.addEventListener("click", () => { const [x, y, k] = (MAP.jumps as any)[b.dataset.jump!]; flyTo(x, y, k); }));
+  const zoomToHaven = (h: any) => { const [x, y] = (MAP.pins as any)[h.id]; flyTo(x, y, h.iso && !["380", "756", "620"].includes(h.iso) ? 3.5 : 7); };
+
+  /* hover + click on countries and pins */
+  const targets = [...$$(".so-country.is-haven"), ...pins];
+  targets.forEach((el) => {
+    el.addEventListener("pointermove", (e) => {
+      if (e.pointerType !== "mouse") return;
+      const r = box.getBoundingClientRect(), h = byId(el.dataset.id!);
+      tip.textContent = `${h.name} · ${h.head.split(",")[0]}`;
+      tip.style.left = e.clientX - r.left + "px"; tip.style.top = e.clientY - r.top + "px"; tip.style.opacity = "1";
+    });
+    el.addEventListener("pointerleave", () => (tip.style.opacity = "0"));
+    el.addEventListener("click", () => { if (moved < 6) select(el.dataset.id!, true); });
+    el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(el.dataset.id!, true); } });
+  });
+
+  /* panel */
+  const panel = $("[data-panel]");
+  function renderPanel() {
+    const h: any = state.sel && byId(state.sel);
+    if (!h) {
+      panel.style.setProperty("--soft", "var(--surface)"); panel.style.setProperty("--c", "var(--brand-blue)");
+      panel.innerHTML = `<div class="so-empty"><h2>Pick a place on the map</h2>
+        <p>Colored countries and pins are tax-friendly destinations. Each one shows income, capital gains and dividend tax, the cheapest residence routes, how to open a bank account and what the first year costs.</p>
+        <p>Not sure where to start? Try one of these:</p>
+        <div class="so-actions">${["ae", "cy", "ge", "pa"].map((id) => `<button type="button" class="so-btn ghost" data-go="${id}">${byId(id).name}</button>`).join("")}</div></div>`;
+      $$("[data-go]", panel).forEach((b) => b.addEventListener("click", () => { select(b.dataset.go!, false); zoomToHaven(byId(b.dataset.go!)); }));
+      return;
+    }
+    const c = CATS[h.cat], r = h.rates, inCmp = state.cmp.includes(h.id);
+    panel.style.setProperty("--c", `var(${c.c})`); panel.style.setProperty("--soft", `var(${c.s})`);
+    const bankLbl = ["", "Easy", "Fairly easy", "Moderate", "Hard", "Very hard"][h.bank];
+    const mc = h.bank <= 2 ? "var(--success)" : h.bank === 3 ? "var(--warning)" : "var(--danger)";
+    panel.innerHTML = `
+     <div class="so-ph"><div class="so-row"><div><h2>${h.name}</h2><span class="so-tag">${c.label}</span></div>
+       <span class="so-coord">${h.ll[1].toFixed(1)}°, ${h.ll[0].toFixed(1)}°</span></div>
+       <p class="so-headline">${h.head}</p></div>
+     <div class="so-pb">
+      <div class="so-rates">${[["Income tax", r.inc], ["Capital gains", r.cg], ["Dividends & interest", r.div], ["Wealth & inheritance", r.wi]].map(([l, v]: any) =>
+        `<div class="so-rate"><small>${l}</small><b>${v[0]}</b>${v[1] ? `<span>${v[1]}</span>` : ""}</div>`).join("")}</div>
+      <div class="so-psec"><h3>How to get residence</h3><ul class="so-routes">
+        ${h.routes.map(([n, cst, d]: string[]) => `<li><b>${n}</b><span class="so-num">${cst}</span>${d ? `<p>${d}</p>` : ""}</li>`).join("")}</ul></div>
+      <div class="so-psec"><h3>Bank account setup</h3>
+        <div class="so-meter" style="--mc:${mc}" aria-label="Banking difficulty ${h.bank} of 5">${[1, 2, 3, 4, 5].map((i) => `<i class="${i <= h.bank ? "on" : ""}"></i>`).join("")}<span>${bankLbl}</span></div>
+        <ol class="so-steps">${h.bankSteps.map((s: string) => `<li>${s}</li>`).join("")}</ol>
+        <div class="so-banks">Typical banks: ${h.banks}</div></div>
+      <div class="so-psec"><h3>What it costs to start</h3><div class="so-costs">
+        <div class="so-cost"><small>Setup fees</small><b>${h.setup}</b></div>
+        <div class="so-cost"><small>Per year</small><b>${h.yearly}</b></div>
+        <div class="so-cost"><small>Timeline</small><b>${h.time}</b></div></div>
+        <p class="so-total">First year incl. required investment: <b>${fmtE(h.cost)}</b> · Days on site per year: <b>${h.days ? h.days + "+" : "no fixed minimum"}</b></p></div>
+      <div class="so-actions">
+        <button type="button" class="so-btn${inCmp ? " ghost" : ""}" data-cmpbtn>${inCmp ? "Remove from compare" : "Add to compare"}</button>
+        <button type="button" class="so-btn ghost" data-zoombtn>Zoom to ${short(h.name)}</button>
+      </div></div>`;
+    $("[data-cmpbtn]", panel).addEventListener("click", () => toggleCmp(h.id));
+    $("[data-zoombtn]", panel).addEventListener("click", () => zoomToHaven(h));
+  }
+
+  /* the clicked place's pros and cons, right under the map */
+  const pcone = $("[data-pcone]");
+  function renderPcOne() {
+    const h: any = state.sel && byId(state.sel);
+    pcone.hidden = !h;
+    if (!h) { pcone.innerHTML = ""; return; }
+    pcone.style.setProperty("--c", col(h));
+    pcone.innerHTML = `<div class="so-pcwrap"><table class="so-pctable so-pctable--one">
+      <caption>${h.name}: pros and cons</caption>
+      <thead><tr><th scope="col" class="pro">Advantages</th><th scope="col" class="con">Disadvantages</th></tr></thead>
+      <tbody><tr>
+        <td class="pro"><ul>${h.pros.map((p: string) => `<li>${p}</li>`).join("")}</ul></td>
+        <td class="con"><ul>${h.cons.map((p: string) => `<li>${p}</li>`).join("")}</ul></td>
+      </tr></tbody></table></div>`;
+  }
+
+  function select(id: string, fromMap: boolean) {
+    state.sel = id; renderPanel(); renderPcOne(); refresh();
+    if (fromMap && innerWidth < 980) pcone.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "nearest" });
+  }
+
+  /* compare */
+  function toggleCmp(id: string) {
+    const i = state.cmp.indexOf(id);
+    if (i >= 0) state.cmp.splice(i, 1); else { if (state.cmp.length >= 3) state.cmp.shift(); state.cmp.push(id); }
+    save(); renderCmp(); renderPanel();
+  }
+  function renderCmp() {
+    const wrap = $("[data-cmpwrap]"), tb = $("[data-cmp]"), xs: any[] = state.cmp.map(byId);
+    wrap.hidden = !xs.length;
+    $("[data-cmp-hint]").textContent = xs.length ? `${xs.length} of 3 selected. Adding a fourth replaces the oldest.` : "Add up to 3 places from the panel to compare them side by side.";
+    if (!xs.length) { tb.innerHTML = ""; return; }
+    const rows: [string, (h: any) => string][] = [["Tax system", (h) => CATS[h.cat].label], ["Income tax", (h) => h.rates.inc[0]], ["Capital gains", (h) => h.rates.cg[0]],
+      ["Dividends", (h) => h.rates.div[0]], ["Wealth / inheritance", (h) => h.rates.wi[0]], ["Cheapest route", (h) => `${h.routes[0][0]} <span class="so-num">(${h.routes[0][1]})</span>`],
+      ["First year total", (h) => `<span class="so-num">${fmtE(h.cost)}</span>`], ["Setup fees", (h) => h.setup], ["Per year", (h) => h.yearly],
+      ["Banking", (h) => `${h.bank}/5 · ${h.banks.split(",")[0]}`], ["Days per year", (h) => h.days ? h.days + "+" : "none fixed"], ["Timeline", (h) => h.time]];
+    tb.innerHTML = `<thead><tr><th></th>${xs.map((h) => `<th style="--c:${col(h)}">${h.name}<button type="button" class="x" data-rm="${h.id}" aria-label="Remove ${h.name}">✕</button></th>`).join("")}</tr></thead>
+      <tbody>${rows.map(([l, f]) => `<tr><th>${l}</th>${xs.map((h) => `<td>${f(h)}</td>`).join("")}</tr>`).join("")}</tbody>`;
+    $$("[data-rm]", tb).forEach((b) => b.addEventListener("click", () => toggleCmp(b.dataset.rm!)));
+  }
+
+  /* cards */
+  function renderCards() {
+    const key: Record<string, (h: any) => number> = { cost: (h) => h.cost, bank: (h) => h.bank * 1e7 + h.cost, tax: (h) => h.tax * 1e7 + h.cost, days: (h) => h.days * 1e7 + h.cost };
+    const list = [...H].sort((a, b) => (+fits(b) - +fits(a)) || key[state.sort](a) - key[state.sort](b));
+    const el = $("[data-cards]");
+    el.innerHTML = list.map((h: any) => `<button type="button" class="so-card${fits(h) ? "" : " dim"}${state.sel === h.id ? " sel" : ""}" style="--c:${col(h)}" data-id="${h.id}">
+      <span class="t"><span class="n">${h.name}</span><span class="k">${CATS[h.cat].label}</span></span>
+      <span class="big">${h.rates.inc[0]}</span>
+      <span class="d">${h.head}</span>
+      <span class="m"><span>Year one</span><b>${fmtE(h.cost)}</b></span>
+      <span class="m"><span>Banking</span><b>${"●".repeat(h.bank)}${"○".repeat(5 - h.bank)}</b></span>
+      <span class="m"><span>Days on site</span><b>${h.days || "—"}</b></span></button>`).join("");
+    $$(".so-card", el).forEach((c) => c.addEventListener("click", () => {
+      select(c.dataset.id!, false); zoomToHaven(byId(c.dataset.id!));
+      box.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    }));
+  }
+
+  function refresh() {
+    $("[data-cnt]").textContent = String(H.filter(fits).length);
+    $$(".so-country.is-haven").forEach((p) => p.classList.toggle("dim", !fits(byId(p.dataset.id!))));
+    pins.forEach((p) => { p.classList.toggle("dim", !fits(byId(p.dataset.id!))); p.classList.toggle("sel", p.dataset.id === state.sel); });
+    const s = pins.find((p) => p.dataset.id === state.sel); s?.parentNode?.appendChild(s);
+    $$("[data-pcrow]").forEach((r) => r.classList.toggle("sel", r.dataset.pcrow === state.sel));
+    renderCards();
+  }
+
+  /* pros & cons table: a name opens the place on the map */
+  $$("[data-pcgo]").forEach((b) => b.addEventListener("click", () => {
+    select(b.dataset.pcgo!, false); zoomToHaven(byId(b.dataset.pcgo!));
+    box.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  }));
+
+  /* warnings */
+  const wt = $("[data-wtabs]"), wl = $("[data-wlist]");
+  const showWarn = (k: string) => { wl.innerHTML = (WARN as any)[k].map((x: string) => `<li>${x}</li>`).join(""); $$("button", wt).forEach((b) => b.setAttribute("aria-selected", String(b.textContent === k))); };
+  Object.keys(WARN).forEach((k) => { const b = document.createElement("button"); b.type = "button"; b.setAttribute("role", "tab"); b.textContent = k; b.addEventListener("click", () => showWarn(k)); wt.appendChild(b); });
+  showWarn("Germany");
+
+  onBudget(); onBank(); renderPanel(); renderCmp(); refresh();
+</script>

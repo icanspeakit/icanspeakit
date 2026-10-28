@@ -1,0 +1,1206 @@
+{
+  "_comment": "Extras for the worksheet /lehrkraefte/arbeitsblaetter/grammatik/wechselpraepositionen, on top of the topic's own exercises: a Wo/Wohin rule, a mascot comic, and picture exercises on the room in src/components/arbeitsblatt/ZimmerSzene.astro (numbers 1–12 are the things in the picture). In segments, a string is text and {\"a\": [...]} is a gap with every accepted answer.",
+  "regel": {
+    "wo": {
+      "frage": "Wo?",
+      "kasus": "Dativ",
+      "was": "Ort: Es bleibt da.",
+      "verben": [
+        "liegen",
+        "stehen",
+        "hängen",
+        "sitzen"
+      ],
+      "beispiel": "Das Buch <b>liegt</b> auf <b>dem</b> Bett."
+    },
+    "wohin": {
+      "frage": "Wohin?",
+      "kasus": "Akkusativ",
+      "was": "Richtung: Jemand bewegt es.",
+      "verben": [
+        "legen",
+        "stellen",
+        "hängen",
+        "setzen"
+      ],
+      "beispiel": "Ich <b>lege</b> das Buch auf <b>das</b> Bett."
+    },
+    "lage": [
+      {
+        "form": "vertikal",
+        "verben": "stellen · stehen",
+        "text": "Das Ding ist aufrecht, wie eine Flasche oder eine Vase."
+      },
+      {
+        "form": "horizontal",
+        "verben": "legen · liegen",
+        "text": "Das Ding ist flach, wie ein Buch oder ein Handy."
+      }
+    ],
+    "neun": [
+      "in",
+      "an",
+      "auf",
+      "über",
+      "unter",
+      "vor",
+      "hinter",
+      "neben",
+      "zwischen"
+    ],
+    "kurz": "in + dem = im · an + dem = am · in + das = ins · an + das = ans · auf + das = aufs"
+  },
+  "comic": {
+    "title": "Bruno räumt auf",
+    "panels": [
+      {
+        "caption": "legen: wohin?",
+        "tag": "Wohin? {auf den} Tisch (Akk.)",
+        "left": {
+          "name": "bruno",
+          "expr": "happy",
+          "say": "Ich {lege} das Buch {auf den} Tisch."
+        },
+        "right": {
+          "name": "regi",
+          "expr": "thinking",
+          "say": "Bewegung! Wohin? Also Akkusativ."
+        }
+      },
+      {
+        "caption": "liegen: wo?",
+        "tag": "Wo? {auf dem} Tisch (Dat.)",
+        "left": {
+          "name": "hamsti",
+          "expr": "thinking",
+          "say": "Und wo ist das Buch jetzt?"
+        },
+        "right": {
+          "name": "regi",
+          "expr": "happy",
+          "say": "Es {liegt} {auf dem} Tisch. Wo? Dativ!"
+        }
+      },
+      {
+        "caption": "stellen und stehen",
+        "tag": "{stellen} + Akk. · {stehen} + Dat.",
+        "left": {
+          "name": "quaki",
+          "expr": "happy",
+          "say": "Ich {stelle} die Vase {ans} Fenster."
+        },
+        "right": {
+          "name": "bruno",
+          "expr": "celebrate",
+          "say": "Super! Jetzt {steht} sie {am} Fenster."
+        }
+      },
+      {
+        "caption": "zweimal hängen",
+        "tag": "{hängen} geht beides: Akk. oder Dat.",
+        "left": {
+          "name": "hamsti",
+          "expr": "happy",
+          "say": "Ich {hänge} das Bild {an die} Wand."
+        },
+        "right": {
+          "name": "quaki",
+          "expr": "oops",
+          "say": "Es {hängt} {an der} Wand … aber schief!"
+        }
+      }
+    ]
+  },
+  "bild": {
+    "title": "Das Zimmer",
+    "hint": "Schauen Sie das Bild genau an. Die Nummern brauchen Sie für A, B und C."
+  },
+  "bildUebungen": [
+    {
+      "type": "scene",
+      "title": "Wo ist was? (Dativ)",
+      "hint": "Schreiben Sie das Verb und die Präposition mit Artikel. Die Nummer zeigt das Ding im Bild.",
+      "box": [
+        "liegt",
+        "liegen",
+        "steht",
+        "stehen",
+        "hängt",
+        "auf",
+        "unter",
+        "über",
+        "vor",
+        "zwischen"
+      ],
+      "items": [
+        {
+          "n": 1,
+          "seg": [
+            "Das Buch ",
+            {
+              "a": [
+                "liegt"
+              ]
+            },
+            " ",
+            {
+              "a": [
+                "auf dem"
+              ]
+            },
+            " Bett."
+          ]
+        },
+        {
+          "n": 2,
+          "seg": [
+            "Die Vase ",
+            {
+              "a": [
+                "steht"
+              ]
+            },
+            " ",
+            {
+              "a": [
+                "auf dem"
+              ]
+            },
+            " Tisch."
+          ]
+        },
+        {
+          "n": 5,
+          "seg": [
+            "Die Katze ",
+            {
+              "a": [
+                "liegt",
+                "schläft"
+              ]
+            },
+            " ",
+            {
+              "a": [
+                "unter dem"
+              ]
+            },
+            " Tisch."
+          ]
+        },
+        {
+          "n": 4,
+          "seg": [
+            "Das Bild ",
+            {
+              "a": [
+                "hängt"
+              ]
+            },
+            " ",
+            {
+              "a": [
+                "über dem"
+              ]
+            },
+            " Bett."
+          ]
+        },
+        {
+          "n": 6,
+          "seg": [
+            "Die Schuhe ",
+            {
+              "a": [
+                "stehen"
+              ]
+            },
+            " ",
+            {
+              "a": [
+                "vor dem"
+              ]
+            },
+            " Schrank."
+          ]
+        },
+        {
+          "n": 7,
+          "seg": [
+            "Die Jacke ",
+            {
+              "a": [
+                "hängt"
+              ]
+            },
+            " ",
+            {
+              "a": [
+                "über dem",
+                "auf dem"
+              ]
+            },
+            " Stuhl."
+          ]
+        },
+        {
+          "n": 9,
+          "seg": [
+            "Das Handy ",
+            {
+              "a": [
+                "liegt"
+              ]
+            },
+            " ",
+            {
+              "a": [
+                "unter dem"
+              ]
+            },
+            " Bett."
+          ]
+        },
+        {
+          "n": 10,
+          "seg": [
+            "Der Ball ",
+            {
+              "a": [
+                "liegt"
+              ]
+            },
+            " ",
+            {
+              "a": [
+                "zwischen dem"
+              ]
+            },
+            " Schrank und dem Bett."
+          ]
+        },
+        {
+          "n": 3,
+          "seg": [
+            "Die Lampe ",
+            {
+              "a": [
+                "steht"
+              ]
+            },
+            " ",
+            {
+              "a": [
+                "auf dem"
+              ]
+            },
+            " Schreibtisch."
+          ]
+        },
+        {
+          "n": 12,
+          "seg": [
+            "Die Uhr ",
+            {
+              "a": [
+                "hängt"
+              ]
+            },
+            " ",
+            {
+              "a": [
+                "über der"
+              ]
+            },
+            " Tür."
+          ]
+        }
+      ]
+    },
+    {
+      "type": "scene",
+      "title": "Räumen Sie auf! (Akkusativ)",
+      "hint": "Bruno räumt das Zimmer auf. Folgen Sie den Pfeilen: Wohin kommen die Sachen? Verb + Präposition mit Artikel.",
+      "pfeile": true,
+      "box": [
+        "lege",
+        "stelle",
+        "hänge",
+        "setze",
+        "in den",
+        "an die",
+        "aufs",
+        "auf den",
+        "unter das",
+        "über den",
+        "vor den"
+      ],
+      "items": [
+        {
+          "n": 6,
+          "seg": [
+            "Ich ",
+            {
+              "a": [
+                "stelle",
+                "lege"
+              ]
+            },
+            " die Schuhe ",
+            {
+              "a": [
+                "in den"
+              ]
+            },
+            " Schrank."
+          ]
+        },
+        {
+          "n": 7,
+          "seg": [
+            "Ich ",
+            {
+              "a": [
+                "hänge"
+              ]
+            },
+            " die Jacke ",
+            {
+              "a": [
+                "an die"
+              ]
+            },
+            " Tür (an den Haken)."
+          ]
+        },
+        {
+          "n": 9,
+          "seg": [
+            "Ich ",
+            {
+              "a": [
+                "lege"
+              ]
+            },
+            " das Handy ",
+            {
+              "a": [
+                "aufs",
+                "auf das"
+              ]
+            },
+            " Bett."
+          ]
+        },
+        {
+          "n": 2,
+          "seg": [
+            "Ich ",
+            {
+              "a": [
+                "stelle"
+              ]
+            },
+            " die Vase ",
+            {
+              "a": [
+                "aufs",
+                "auf das"
+              ]
+            },
+            " Regal."
+          ]
+        },
+        {
+          "n": 5,
+          "seg": [
+            "Ich ",
+            {
+              "a": [
+                "setze",
+                "lege"
+              ]
+            },
+            " die Katze ",
+            {
+              "a": [
+                "auf den"
+              ]
+            },
+            " Tisch."
+          ]
+        },
+        {
+          "n": 10,
+          "seg": [
+            "Ich ",
+            {
+              "a": [
+                "lege"
+              ]
+            },
+            " den Ball ",
+            {
+              "a": [
+                "unter das",
+                "unters"
+              ]
+            },
+            " Bett."
+          ]
+        },
+        {
+          "n": 4,
+          "seg": [
+            "Ich ",
+            {
+              "a": [
+                "hänge"
+              ]
+            },
+            " das Bild ",
+            {
+              "a": [
+                "über den"
+              ]
+            },
+            " Schreibtisch."
+          ]
+        },
+        {
+          "n": 8,
+          "seg": [
+            "Ich ",
+            {
+              "a": [
+                "lege"
+              ]
+            },
+            " den Teppich ",
+            {
+              "a": [
+                "vor den"
+              ]
+            },
+            " Schrank."
+          ]
+        }
+      ]
+    },
+    {
+      "type": "truefalse",
+      "title": "Richtig oder falsch?",
+      "hint": "Schauen Sie ins Bild. Schreiben Sie r (richtig) oder f (falsch). Korrigieren Sie die falschen Sätze im Heft.",
+      "items": [
+        {
+          "text": "Der Teppich (8) liegt vor dem Bett.",
+          "a": "r"
+        },
+        {
+          "text": "Die Pflanze (11) steht auf dem Schreibtisch.",
+          "a": "f",
+          "fix": "Die Pflanze steht am Fenster."
+        },
+        {
+          "text": "Die Katze (5) liegt auf dem Bett.",
+          "a": "f",
+          "fix": "Die Katze liegt unter dem Tisch."
+        },
+        {
+          "text": "Das Bild (4) hängt über dem Bett.",
+          "a": "r"
+        },
+        {
+          "text": "Die Lampe (3) hängt an der Decke.",
+          "a": "f",
+          "fix": "Die Lampe steht auf dem Schreibtisch."
+        },
+        {
+          "text": "Der Ball (10) liegt zwischen dem Schrank und dem Bett.",
+          "a": "r"
+        }
+      ]
+    }
+  ],
+  "tandemSoGehts": [
+    "Schneiden Sie die Karten in der Mitte durch. Partner A nimmt die linke Hälfte, Partner B die rechte.",
+    "A baut Frage 1 aus den Kärtchen und liest sie vor: „Wohin stellt Lisa die Flasche?“",
+    "B hat nur Kärtchen: das Verb im Infinitiv und Satzteile. B baut daraus die Antwort: Verb konjugieren, Artikel in den richtigen Kasus!",
+    "Dann fragt B Frage 2, A antwortet. Immer abwechselnd. Am Ende vergleichen Sie mit dem Lösungsblatt.",
+    "Zum Schluss: Karten tauschen und alles noch einmal, schneller."
+  ],
+  "tandemRedemittel": [
+    {
+      "p1": "Nummer 1: Wohin stellt Lisa …?",
+      "p2": "Lisa stellt … in den …"
+    },
+    {
+      "p1": "Ist das Akkusativ oder Dativ?",
+      "p2": "Wohin? Also Akkusativ."
+    },
+    {
+      "p1": "Wie bitte? Noch einmal, bitte.",
+      "p2": "Nummer 2: Wo steht …?"
+    }
+  ],
+  "tandemFrageBeispiel": {
+    "infinitiv": "liegen",
+    "kacheln": [
+      "wo",
+      "liegen",
+      "der Ball"
+    ],
+    "frage": "Wo liegt der Ball?",
+    "antwortKacheln": [
+      "liegen",
+      "unter",
+      "der Tisch",
+      "der Ball"
+    ],
+    "antwort": "Der Ball liegt unter dem Tisch."
+  },
+  "tandemFragen": [
+    {
+      "frage": "Wohin stellt Lisa die Flasche?",
+      "infinitiv": "stellen",
+      "frageKacheln": [
+        "wohin",
+        "stellen",
+        "Lisa",
+        "die Flasche"
+      ],
+      "kacheln": [
+        "stellen",
+        "Lisa",
+        "die Flasche",
+        "in",
+        "der Kühlschrank"
+      ],
+      "antwort": "Lisa stellt die Flasche in den Kühlschrank."
+    },
+    {
+      "frage": "Wo liegt das Handy?",
+      "infinitiv": "liegen",
+      "frageKacheln": [
+        "wo",
+        "liegen",
+        "das Handy"
+      ],
+      "kacheln": [
+        "liegen",
+        "das Handy",
+        "unter",
+        "das Bett"
+      ],
+      "antwort": "Das Handy liegt unter dem Bett."
+    },
+    {
+      "frage": "Wo steht die Flasche jetzt?",
+      "infinitiv": "stehen",
+      "frageKacheln": [
+        "wo",
+        "stehen",
+        "die Flasche",
+        "jetzt"
+      ],
+      "kacheln": [
+        "stehen",
+        "die Flasche",
+        "in",
+        "der Kühlschrank"
+      ],
+      "antwort": "Die Flasche steht im Kühlschrank."
+    },
+    {
+      "frage": "Wohin legt Lisa das Handy?",
+      "infinitiv": "legen",
+      "frageKacheln": [
+        "wohin",
+        "legen",
+        "Lisa",
+        "das Handy"
+      ],
+      "kacheln": [
+        "legen",
+        "Lisa",
+        "das Handy",
+        "auf",
+        "der Schreibtisch"
+      ],
+      "antwort": "Lisa legt das Handy auf den Schreibtisch."
+    },
+    {
+      "frage": "Wohin hängt Lisa die Jacke?",
+      "infinitiv": "hängen",
+      "frageKacheln": [
+        "wohin",
+        "hängen",
+        "Lisa",
+        "die Jacke"
+      ],
+      "kacheln": [
+        "hängen",
+        "Lisa",
+        "die Jacke",
+        "an",
+        "die Tür"
+      ],
+      "antwort": "Lisa hängt die Jacke an die Tür."
+    },
+    {
+      "frage": "Wo sitzt die Katze?",
+      "infinitiv": "sitzen",
+      "frageKacheln": [
+        "wo",
+        "sitzen",
+        "die Katze"
+      ],
+      "kacheln": [
+        "sitzen",
+        "die Katze",
+        "unter",
+        "der Tisch"
+      ],
+      "antwort": "Die Katze sitzt unter dem Tisch."
+    },
+    {
+      "frage": "Wo hängt die Jacke jetzt?",
+      "infinitiv": "hängen",
+      "frageKacheln": [
+        "wo",
+        "hängen",
+        "die Jacke",
+        "jetzt"
+      ],
+      "kacheln": [
+        "hängen",
+        "die Jacke",
+        "an",
+        "die Tür"
+      ],
+      "antwort": "Die Jacke hängt an der Tür."
+    },
+    {
+      "frage": "Wohin setzt Lisa die Katze?",
+      "infinitiv": "setzen",
+      "frageKacheln": [
+        "wohin",
+        "setzen",
+        "Lisa",
+        "die Katze"
+      ],
+      "kacheln": [
+        "setzen",
+        "Lisa",
+        "die Katze",
+        "auf",
+        "das Sofa"
+      ],
+      "antwort": "Lisa setzt die Katze auf das Sofa."
+    },
+    {
+      "frage": "Wohin stellt Lisa die Schuhe?",
+      "infinitiv": "stellen",
+      "frageKacheln": [
+        "wohin",
+        "stellen",
+        "Lisa",
+        "die Schuhe"
+      ],
+      "kacheln": [
+        "stellen",
+        "Lisa",
+        "die Schuhe",
+        "vor",
+        "die Tür"
+      ],
+      "antwort": "Lisa stellt die Schuhe vor die Tür."
+    },
+    {
+      "frage": "Wo stehen die Schuhe?",
+      "infinitiv": "stehen",
+      "frageKacheln": [
+        "wo",
+        "stehen",
+        "die Schuhe"
+      ],
+      "kacheln": [
+        "stehen",
+        "die Schuhe",
+        "neben",
+        "der Schrank"
+      ],
+      "antwort": "Die Schuhe stehen neben dem Schrank."
+    },
+    {
+      "frage": "Wohin legt Lisa das Buch?",
+      "infinitiv": "legen",
+      "frageKacheln": ["wohin", "legen", "Lisa", "das Buch"],
+      "kacheln": ["legen", "Lisa", "das Buch", "auf", "der Tisch"],
+      "antwort": "Lisa legt das Buch auf den Tisch."
+    },
+    {
+      "frage": "Wo liegt das Buch jetzt?",
+      "infinitiv": "liegen",
+      "frageKacheln": ["wo", "liegen", "das Buch", "jetzt"],
+      "kacheln": ["liegen", "das Buch", "auf", "der Tisch"],
+      "antwort": "Das Buch liegt auf dem Tisch."
+    },
+    {
+      "frage": "Wohin hängt Lisa das Bild?",
+      "infinitiv": "hängen",
+      "frageKacheln": ["wohin", "hängen", "Lisa", "das Bild"],
+      "kacheln": ["hängen", "Lisa", "das Bild", "über", "das Bett"],
+      "antwort": "Lisa hängt das Bild über das Bett."
+    },
+    {
+      "frage": "Wo hängt das Bild jetzt?",
+      "infinitiv": "hängen",
+      "frageKacheln": ["wo", "hängen", "das Bild", "jetzt"],
+      "kacheln": ["hängen", "das Bild", "über", "das Bett"],
+      "antwort": "Das Bild hängt über dem Bett."
+    },
+    {
+      "frage": "Wohin stellt Lisa die Lampe?",
+      "infinitiv": "stellen",
+      "frageKacheln": ["wohin", "stellen", "Lisa", "die Lampe"],
+      "kacheln": ["stellen", "Lisa", "die Lampe", "neben", "das Sofa"],
+      "antwort": "Lisa stellt die Lampe neben das Sofa."
+    },
+    {
+      "frage": "Wo sitzt der Hund?",
+      "infinitiv": "sitzen",
+      "frageKacheln": ["wo", "sitzen", "der Hund"],
+      "kacheln": ["sitzen", "der Hund", "hinter", "die Tür"],
+      "antwort": "Der Hund sitzt hinter der Tür."
+    }
+  ],
+  "tandemKueche": {
+    "title": "Runde 3: Die Küche aufräumen",
+    "hint": "Bruno räumt die Küche auf. A hat das Bild mit den Pfeilen und weiß, wohin alles kommt. B sieht nur die Unordnung. Zeigen Sie Ihr Bild nicht!",
+    "teil1": "Teil 1 (Wohin? Akkusativ): B fragt, A antwortet. B schreibt die Antwort auf.",
+    "teil2": "Teil 2 (Wo? Dativ): Jetzt fragt A. B antwortet mit den eigenen Notizen.",
+    "redemittel": [
+      "Nummer 4: Wohin _stellt_ Bruno *den* Topf?",
+      "Er _stellt_ den Topf *auf den* Herd.",
+      "Wo _steht_ der Topf jetzt?",
+      "Der Topf _steht_ *auf dem* Herd."
+    ],
+    "items": [
+      {
+        "n": 4,
+        "verb": "stellen",
+        "ding": "der Topf",
+        "frage": "Wohin stellt Bruno den Topf?",
+        "wohin": "Er stellt den Topf auf den Herd.",
+        "woFrage": "Wo steht der Topf jetzt?",
+        "wo": "Der Topf steht auf dem Herd."
+      },
+      {
+        "n": 1,
+        "verb": "stellen",
+        "ding": "die Milch",
+        "frage": "Wohin stellt Bruno die Milch?",
+        "wohin": "Er stellt die Milch in den Kühlschrank.",
+        "woFrage": "Wo steht die Milch jetzt?",
+        "wo": "Die Milch steht im Kühlschrank."
+      },
+      {
+        "n": 2,
+        "verb": "legen",
+        "ding": "der Löffel",
+        "frage": "Wohin legt Bruno den Löffel?",
+        "wohin": "Er legt den Löffel in die Schublade.",
+        "woFrage": "Wo liegt der Löffel jetzt?",
+        "wo": "Der Löffel liegt in der Schublade."
+      },
+      {
+        "n": 8,
+        "verb": "hängen",
+        "ding": "das Handtuch",
+        "frage": "Wohin hängt Bruno das Handtuch?",
+        "wohin": "Er hängt das Handtuch an den Haken.",
+        "woFrage": "Wo hängt das Handtuch jetzt?",
+        "wo": "Das Handtuch hängt am Haken."
+      },
+      {
+        "n": 3,
+        "verb": "stellen",
+        "ding": "die Teller",
+        "frage": "Wohin stellt Bruno die Teller?",
+        "wohin": "Er stellt die Teller in den Schrank.",
+        "woFrage": "Wo stehen die Teller jetzt?",
+        "wo": "Die Teller stehen im Schrank."
+      },
+      {
+        "n": 7,
+        "verb": "stellen",
+        "ding": "die Pflanze",
+        "frage": "Wohin stellt Bruno die Pflanze?",
+        "wohin": "Er stellt die Pflanze ans Fenster.",
+        "woFrage": "Wo steht die Pflanze jetzt?",
+        "wo": "Die Pflanze steht am Fenster."
+      },
+      {
+        "n": 9,
+        "verb": "hängen",
+        "ding": "der Kalender",
+        "frage": "Wohin hängt Bruno den Kalender?",
+        "wohin": "Er hängt den Kalender an die Wand.",
+        "woFrage": "Wo hängt der Kalender jetzt?",
+        "wo": "Der Kalender hängt an der Wand."
+      },
+      {
+        "n": 5,
+        "verb": "stellen",
+        "ding": "der Stuhl",
+        "frage": "Wohin stellt Bruno den Stuhl?",
+        "wohin": "Er stellt den Stuhl an den Tisch.",
+        "woFrage": "Wo steht der Stuhl jetzt?",
+        "wo": "Der Stuhl steht am Tisch."
+      },
+      { "n": 6, "verb": "werfen", "ding": "das Papier", "frage": "Wohin wirft Bruno das Papier?", "wohin": "Er wirft das Papier in den Mülleimer.", "woFrage": "Wo liegt das Papier jetzt?", "wo": "Das Papier liegt im Mülleimer." }
+    ]
+  },
+  "tandemBild": {
+    "title": "Runde 2: Unterschiede finden",
+    "hint": "A und B haben fast das gleiche Zimmer. Fünf Dinge sind an einem anderen Ort. Beschreiben Sie Ihr Bild abwechselnd mit _liegen_, _stehen_ und _hängen_ und dem *Dativ*. Kreuzen Sie jeden Unterschied an.",
+    "redemittel": [
+      "Bei mir _liegt_ die Katze *unter dem* Tisch.",
+      "Und bei dir?",
+      "Wo _steht_ die Vase?",
+      "Bei mir auch! / Bei mir nicht."
+    ]
+  },
+  "zuZweit": {
+    "title": "Zu zweit: Gedächtnis-Spiel",
+    "mascot": "quaki",
+    "say": "Wer hat das bessere Gedächtnis?",
+    "steps": [
+      "A schaut 30 Sekunden auf das Bild. Dann deckt A das Bild ab.",
+      "B fragt: „Wo liegt das Handy?“ oder „Wo hängt die Uhr?“",
+      "A antwortet: „Das Handy liegt unter dem Bett.“",
+      "Fünf Fragen, dann tauschen. Wer hat mehr richtig?"
+    ]
+  },
+  "zusatz": {
+    "_comment": "Extra sheet below the worksheet: the messy kitchen in src/lib/arbeitsblatt/kuecheSzene.js (numbers 1–9 are the things, the arrows show where they go).",
+    "title": "Zusatz: Die Küche",
+    "uebungen": [
+      {
+        "type": "scene",
+        "title": "Räumen Sie die Küche auf! (Akkusativ)",
+        "hint": "Bruno räumt die Küche auf. Folgen Sie den Pfeilen: Wohin kommen die Sachen? Verb + Präposition mit Artikel.",
+        "pfeile": true,
+        "box": [
+          "lege",
+          "stelle",
+          "hänge",
+          "werfe",
+          "in den",
+          "in die",
+          "auf den",
+          "an den",
+          "an die",
+          "ans"
+        ],
+        "items": [
+          {
+            "n": 4,
+            "seg": [
+              "Ich ",
+              {
+                "a": [
+                  "stelle"
+                ]
+              },
+              " den Topf ",
+              {
+                "a": [
+                  "auf den"
+                ]
+              },
+              " Herd."
+            ]
+          },
+          {
+            "n": 8,
+            "seg": [
+              "Ich ",
+              {
+                "a": [
+                  "hänge"
+                ]
+              },
+              " das Handtuch ",
+              {
+                "a": [
+                  "an den"
+                ]
+              },
+              " Haken."
+            ]
+          },
+          {
+            "n": 1,
+            "seg": [
+              "Ich ",
+              {
+                "a": [
+                  "stelle"
+                ]
+              },
+              " die Milch ",
+              {
+                "a": [
+                  "in den"
+                ]
+              },
+              " Kühlschrank."
+            ]
+          },
+          {
+            "n": 6,
+            "seg": [
+              "Ich ",
+              {
+                "a": [
+                  "werfe"
+                ]
+              },
+              " das Papier ",
+              {
+                "a": [
+                  "in den"
+                ]
+              },
+              " Mülleimer."
+            ]
+          },
+          {
+            "n": 2,
+            "seg": [
+              "Ich ",
+              {
+                "a": [
+                  "lege"
+                ]
+              },
+              " den Löffel ",
+              {
+                "a": [
+                  "in die"
+                ]
+              },
+              " Schublade."
+            ]
+          },
+          {
+            "n": 7,
+            "seg": [
+              "Ich ",
+              {
+                "a": [
+                  "stelle"
+                ]
+              },
+              " die Pflanze ",
+              {
+                "a": [
+                  "ans",
+                  "an das"
+                ]
+              },
+              " Fenster."
+            ]
+          },
+          {
+            "n": 3,
+            "seg": [
+              "Ich ",
+              {
+                "a": [
+                  "stelle",
+                  "lege"
+                ]
+              },
+              " die Teller ",
+              {
+                "a": [
+                  "in den"
+                ]
+              },
+              " Schrank."
+            ]
+          },
+          {
+            "n": 9,
+            "seg": [
+              "Ich ",
+              {
+                "a": [
+                  "hänge"
+                ]
+              },
+              " den Kalender ",
+              {
+                "a": [
+                  "an die"
+                ]
+              },
+              " Wand."
+            ]
+          },
+          {
+            "n": 5,
+            "seg": [
+              "Ich ",
+              {
+                "a": [
+                  "stelle"
+                ]
+              },
+              " den Stuhl ",
+              {
+                "a": [
+                  "an den"
+                ]
+              },
+              " Tisch."
+            ]
+          }
+        ]
+      },
+      {
+        "type": "scene",
+        "title": "Fertig! Wo ist jetzt alles? (Dativ)",
+        "hint": "Die Küche ist aufgeräumt. Schreiben Sie das Verb und die Präposition mit Artikel.",
+        "box": [
+          "steht",
+          "stehen",
+          "liegt",
+          "hängt",
+          "im",
+          "in der",
+          "auf dem",
+          "am",
+          "an der"
+        ],
+        "items": [
+          {
+            "n": 4,
+            "seg": [
+              "Der Topf ",
+              {
+                "a": [
+                  "steht"
+                ]
+              },
+              " ",
+              {
+                "a": [
+                  "auf dem"
+                ]
+              },
+              " Herd."
+            ]
+          },
+          {
+            "n": 2,
+            "seg": [
+              "Der Löffel ",
+              {
+                "a": [
+                  "liegt"
+                ]
+              },
+              " ",
+              {
+                "a": [
+                  "in der"
+                ]
+              },
+              " Schublade."
+            ]
+          },
+          {
+            "n": 1,
+            "seg": [
+              "Die Milch ",
+              {
+                "a": [
+                  "steht"
+                ]
+              },
+              " ",
+              {
+                "a": [
+                  "im",
+                  "in dem"
+                ]
+              },
+              " Kühlschrank."
+            ]
+          },
+          {
+            "n": 8,
+            "seg": [
+              "Das Handtuch ",
+              {
+                "a": [
+                  "hängt"
+                ]
+              },
+              " ",
+              {
+                "a": [
+                  "am",
+                  "an dem"
+                ]
+              },
+              " Haken."
+            ]
+          },
+          {
+            "n": 3,
+            "seg": [
+              "Die Teller ",
+              {
+                "a": [
+                  "stehen",
+                  "liegen"
+                ]
+              },
+              " ",
+              {
+                "a": [
+                  "im",
+                  "in dem"
+                ]
+              },
+              " Schrank."
+            ]
+          },
+          {
+            "n": 9,
+            "seg": [
+              "Der Kalender ",
+              {
+                "a": [
+                  "hängt"
+                ]
+              },
+              " ",
+              {
+                "a": [
+                  "an der"
+                ]
+              },
+              " Wand."
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+---
+// The way from a lexicon Lernset about work to Deutsch für den Beruf (FACHVOKABULAR Tier 3,
+// cross-links). One line in the trainer's hero slot. Pflege goes to its own short page,
+// which in turn sends the learner on to pflegeplace.com.
+interface Props { setId: string }
+const { setId } = Astro.props;
+const LINKS: Record<string, string> = {
+  "a1-12": "/berufe",
+  "a2-10": "/berufe",
+  "b1-32": "/berufe",
+  "b1-33": "/berufe/pflege",
+};
+const href = LINKS[setId];
+---
+{href && (
+  <div class="bv-xlink">
+    <a href={href}>
+      <span data-i18n="berufe.xlink">Mehr Wörter für deinen Beruf: Deutsch für den Beruf</span>&nbsp;→
+    </a>
+  </div>
+)}
+
+<style>
+  .bv-xlink { margin: 6px 0 0; font-size: .86rem; text-align: center; }
+</style>

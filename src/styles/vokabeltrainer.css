@@ -1,0 +1,885 @@
+/* Wortschatz page — matches the "Wortschatz Prototyp" design (Layout A: single column).
+   Scoped entirely to .vt-page / #vt-tabs so it never touches the shared fc- and quiz- classes
+   used by other practice pages. Fonts: inherited from global.css — Sora (body) / --font-label (labels, counters,
+   hints) per the prototype — loaded page-locally via <Fragment slot="head">. */
+
+#vt-eyebrow { font-family: var(--font-label); letter-spacing: .08em; text-align: left; }
+/* Read by a screen reader and by a crawler, drawn for nobody: the line said "Karteikarten"
+   over a tab row with "Karteikarten" underlined in it, and the head above the cards is the
+   most expensive 26px on the page. */
+.vt-eyebrow-quiet {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.vt-hero { text-align: left; margin-bottom: 18px; }
+.vt-hero-sub { margin: 4px 0 0; font-size: .75rem; color: var(--vt-muted); }
+.vt-hero h1 {
+  font-family: var(--font-body); font-size: clamp(1.05rem, 1.8vw, 1.25rem); font-weight: 500;
+  color: var(--vt-muted); margin: 2px 0 0;
+}
+
+/* Full-bleed working surface: breaks out of .practice-main's 880px column so the tool
+   (tabs/toolbar/card) spans the whole viewport and the night-mode background reaches the
+   edges, like the prototype's aOuter — no boxed/framed card sitting inside the page. */
+.vt-shell {
+  width: 100%;
+  font-family: var(--font-body);
+  --vt-bg: var(--surface-card);
+  --vt-surface: var(--surface);
+  --vt-ink: var(--ink);
+  --vt-muted: var(--muted);
+  --vt-border: var(--border);
+  --vt-border-strong: var(--border-strong);
+  --vt-correct-bg: #e8f6fb;
+  --vt-correct-border: var(--brand-blue);
+  --vt-wrong-bg: var(--danger-soft);
+  --vt-wrong-border: var(--danger-border);
+  background: var(--vt-bg);
+  transition: background .3s;
+}
+/* Driven by the site-wide <html data-theme>, not a page-local switch. */
+:root[data-theme="dark"] .vt-shell {
+  --vt-bg: #141b26;
+  --vt-surface: #0f141c;
+  --vt-ink: #f4f6f8;
+  --vt-muted: #94a0b0;
+  --vt-border: #232c3a;
+  --vt-border-strong: #384357;
+  --vt-correct-bg: #0d3d3a;
+  --vt-wrong-bg: #3a1f1a;
+  --vt-wrong-border: #c1462f;
+}
+/* The trainer wears the split layout of verben-praepositionen.css (.vp-page--split), the
+   same one the grammar topics use, with the Lernset list in the column the rule occupies
+   there. Only the width tokens differ: a flashcard wants a broad face, and the nav column
+   is a list of short rows, so the work column is wider and the side column narrower than
+   on a grammar page. */
+.vt-split {
+  --ex-w: 1040px;
+  /* 56px of rail plus a panel wide enough for "Wechselpräpositionen  25". */
+  --rule-w: clamp(324px, 27vw, 396px);
+  padding-bottom: 64px;
+}
+/* The column sits on the LEFT here, unlike the grammar and exam pages, where .vp-col--rule
+   is an aside to the right of the work. This one is not an aside — it is the dashboard's
+   rail, and a rail lives at the edge the reading starts from. It is also the same side the
+   learner just used it on if they arrived from /dashboard.
+
+   The card frame goes with it: .lp draws its own now (rail + panel in one rounded box, as
+   .nvb does), and a card inside a card is two borders saying one thing. */
+/* The edge tab follows the column. verben-praepositionen.css hangs it on the right,
+   where a rule column lives; here the column is on the left, and a tab on the far side
+   of the page from the thing it reopens is worse than no tab — it reads as a second,
+   unrelated control. Everything else about it (the 1180px floor, the glow, the hover
+   lean) is inherited; only the side is ours. */
+@media (min-width: 1180px) {
+  /* Mirrored, including which edge it parks behind while the column is here. */
+  .vt-split .vp-rule-pivot {
+    right: auto;
+    left: 0;
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    border-left: none;
+    border-right: 1px solid var(--border);
+    box-shadow: 8px 0 24px -16px rgba(15, 23, 42, .5);
+    transform: translate(-100%, -50%);
+  }
+  .vt-split[data-rule="hidden"] .vp-rule-pivot { transform: translate(0, -50%); }
+  /* Mirrored lean: this tab opens to the right, so that is the way it leans when it
+     nudges and when the pointer is on it. */
+  .vt-split .vp-rule-pivot { --pivot-lean: 1; }
+  .vt-split[data-rule="hidden"] .vp-rule-pivot:hover,
+  .vt-split[data-rule="hidden"] .vp-rule-pivot:focus-visible {
+    padding-right: 10px;
+    padding-left: 14px;
+  }
+  /* Points at the space the column will come back into — which is now to its right. */
+  .vt-split .vp-rule-pivot-chevron { transform: rotate(-135deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vt-split .vp-rule-pivot,
+  .vt-split[data-rule="hidden"] .vp-rule-pivot { transform: translateY(-50%); }
+}
+
+@media (min-width: 1001px) {
+  .vt-split .vp-workspace { grid-template-columns: var(--rule-w) minmax(0, 1fr); }
+  .vt-split .vp-col--ex { grid-column: 2; }
+  .vt-split .vp-col--rule { grid-column: 1; padding-right: 0; padding-left: 2px; }
+  /* Away in the direction it lives in. */
+  .vt-split[data-rule="hidden"] .vp-col--rule { transform: translateX(-28px); }
+
+  .vt-split .vp-rule-card {
+    background: none; border: none; border-radius: 0; padding: 0; margin: 0;
+    min-height: 0;
+  }
+  /* verben-praepositionen.css makes the column itself the scroller, which is right for a
+     rule you read top to bottom. Here it would carry the rail off the screen with the
+     list: B1 is 46 Lernsets, and the moment you are deepest in one level is the moment
+     you are most likely to want another. So the column stops scrolling and hands the job
+     to the panel beside the rail. */
+  .vt-split .vp-col--rule {
+    overflow: visible;
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+    /* Above the exercise column. The rail's tooltips reach outside the card by design,
+       and the two columns are both stacked (this one is sticky, which is its own
+       stacking context) with the exercise column later in the DOM — so without this the
+       tip is drawn and then painted over by the flashcard, which looks like the tip is
+       being cut in half. */
+    z-index: 2;
+  }
+  .vt-split .vp-rule-card, .vt-split .vp-rule-card > .ls-nvb { min-height: 0; }
+  .vt-split .ls-nvb { max-height: calc(100vh - 32px); }
+
+  /* The picker can fold its panel away and keep the rail (the chevron in the panel
+     head). The track has to shrink with it, or the rail would sit alone in a 396px
+     column with a 300px hole beside it. Same duration as the panel's own width
+     transition in lernset-picker.css, so they move as one thing.
+
+     64px is nav.css's rail, plus the card's two 1px borders. Not a magic number for the
+     fold to own — if the rail changes width, this is where it is read from. */
+  /* The freed width goes to the card, rather than to the page getting narrower: the
+     shell's max-width is --ex-w + gap + --rule-w, so folding without raising --ex-w just
+     pulls the right edge in and leaves the flashcard exactly as it was. Raised past what
+     any viewport gives, so the card takes whatever the fold actually released. */
+  .vt-split[data-fold="1"] { --rule-w: 66px; --ex-w: 1400px; }
+  .vt-split[data-fold="1"] .vp-workspace { transition: grid-template-columns .34s var(--nv-ease-soft), gap .34s var(--nv-ease-soft); }
+  /* Except when the whole column is going: that is the slower, larger motion and it
+     owns the timing. Declared after, so it wins on equal specificity. */
+  .vt-split[data-rule="hidden"] { --rule-w: 0px; --ex-w: 1460px; }
+  /* The rail's panel head names the cut; an eyebrow above the card would name it twice. */
+  .vt-split .vp-sheet-head { display: none; }
+}
+
+/* Tabs + toolbar + active card: the working surface itself, sized to dominate the
+   viewport (~90%) now that the hero above it has been cut down to a small label. */
+/* The 90vh was right when the trainer was the whole page: it kept the tab bar from
+   jumping as you moved between modes, and the card had the screen to fill. Beside a
+   sticky nav column it just stretches one word across half a viewport of white. The card
+   now takes the height it needs, and the floor below keeps the tabs still. */
+.vt-tool { display: flex; flex-direction: column; min-height: 480px; }
+.vt-tool #vt-content { flex: 1; display: flex; flex-direction: column; }
+.vt-tool .vt-content { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.vt-split .vt-flip { flex: 0 0 auto; }
+
+/* The tabs and the Lernset switch on one line, with the hairline under both. The switch
+   is page chrome, not a deck control, so it belongs at the tabs' altitude rather than
+   down in the toolbar with the language tabs and the direction switch — and a rule the
+   row owns rather than the tabs is what lets the two sit on the same one.
+
+   align-items: end so the pill's baseline lands with the tabs however the tabs wrap. */
+.vt-tabrow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px 20px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--vt-border);
+  margin: 0 0 26px;
+}
+/* The active tab's underline overhangs the row's rule by a pixel and covers it — the
+   same -1px trick it played against its own border before. */
+.vt-tabrow .vp-rule-toggle { margin: 0 0 9px; }
+
+.vt-tabs { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 0; }
+.vt-tab {
+  background: none; border: none; border-bottom: 2px solid transparent;
+  padding: 0 0 9px; margin-bottom: -1px;
+  font-family: var(--font-body); font-size: .8125rem; font-weight: 400; color: var(--vt-muted);
+  cursor: pointer; transition: color .15s ease, border-color .15s ease;
+}
+.vt-tab:hover { color: var(--vt-ink); }
+.vt-tab.active { color: var(--vt-ink); font-weight: 500; border-bottom-color: var(--brand-blue); }
+
+.vt-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 16px; margin-bottom: 30px; }
+.vt-lang-tabs { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 10px; font-size: .8125rem; }
+/* The card language and its direction as one pill (wortschatz-app.js renderLangControl):
+   [English ▾] ⇄ [Deutsch]. Two buttons inside: the language opens the picker, ⇄ turns the card. */
+.vt-cl {
+  display: inline-flex; align-items: center; gap: 2px;
+  min-height: 40px; padding: 2px;
+  border: 1px solid var(--vt-border-strong, var(--border-strong));
+  border-radius: 999px; background: var(--vt-surface, var(--surface-card));
+  color: var(--vt-ink); font-size: .875rem;
+}
+.vt-cl-de { padding: 0 12px; color: var(--vt-muted); }
+.vt-cl-lang {
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 36px; max-width: 14em; padding: 0 10px 0 14px;
+  border: 0; border-radius: 999px; background: var(--blue-50); color: var(--brand-blue-dark);
+  font: inherit; font-weight: 600; cursor: pointer;
+}
+.vt-cl-lang:hover { background: color-mix(in srgb, var(--brand-blue) 16%, var(--vt-surface, var(--surface-card))); }
+.vt-cl-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vt-cl-chev { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.vt-cl-swap {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; flex: none; padding: 0;
+  border: 0; border-radius: 50%; background: none; color: var(--vt-ink); cursor: pointer;
+}
+.vt-cl-swap svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.vt-cl-swap:hover { background: var(--vt-border, var(--border)); }
+.vt-cl-lang:focus-visible, .vt-cl-swap:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+/* „Erklärung auf Deutsch" (Tier 3): a small switch beside the pill, the German synonym or
+   explanation on the card instead of a translation. */
+.vt-cl-erkl {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 40px; padding: 0 4px;
+  border: 0; background: none; color: var(--vt-muted);
+  font: inherit; font-size: .8125rem; cursor: pointer;
+}
+.vt-cl-erkl-track {
+  position: relative; width: 34px; height: 20px; flex: none; border-radius: 999px;
+  background: var(--vt-border-strong, var(--border-strong)); transition: background .2s ease;
+}
+.vt-cl-erkl-track::after {
+  content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 2px rgb(0 0 0 / .2); transition: transform .2s ease;
+}
+.vt-cl-erkl[aria-pressed="true"] { color: var(--vt-ink); }
+.vt-cl-erkl[aria-pressed="true"] .vt-cl-erkl-track { background: var(--brand-blue); }
+.vt-cl-erkl[aria-pressed="true"] .vt-cl-erkl-track::after { transform: translateX(14px); }
+/* postcss-rtlcss moves the knob's start to the right but cannot turn a transform round. */
+[dir="rtl"] .vt-cl-erkl[aria-pressed="true"] .vt-cl-erkl-track::after { transform: translateX(-14px); }
+.vt-cl-erkl:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; border-radius: 8px; }
+@media (prefers-reduced-motion: reduce) { .vt-cl-erkl-track, .vt-cl-erkl-track::after { transition: none; } }
+/* Klassenansicht (Tier 4): the bar that stands in for the language control, and a card big
+   enough to read from the back of the room. */
+/* Quiet on purpose: the class looks at the card; the bar only names the languages and offers
+   the two ways on – no tinted box, no dark button. */
+.vt-kl-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px;
+  font-size: .8125rem; color: var(--vt-muted);
+}
+.vt-kl-badge { font-weight: 600; color: var(--vt-ink); }
+/* The way in: last in the language row, right after „Erklärung auf Deutsch". */
+.vt-kl-open {
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 36px; padding: 0 14px; border-radius: 999px;
+  border: 1px solid var(--vt-border-strong, var(--border-strong)); background: var(--vt-surface, var(--surface-card));
+  color: var(--vt-ink); font: inherit; font-size: .8125rem; font-weight: 600; cursor: pointer;
+}
+.vt-kl-open svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.vt-kl-open:hover { border-color: var(--brand-blue); color: var(--brand-blue-dark); }
+.vt-kl-open:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+.vt-kl-langs { color: var(--vt-muted); }
+.vt-kl-edit, .vt-kl-end {
+  min-height: 32px; padding: 0 8px; border: 0; border-radius: 8px; background: none;
+  font: inherit; font-weight: 600; color: var(--vt-ink); cursor: pointer;
+  text-decoration: underline; text-decoration-color: var(--vt-border-strong, var(--border-strong)); text-underline-offset: 3px;
+}
+.vt-kl-edit:hover, .vt-kl-end:hover { text-decoration-color: currentColor; }
+@media (max-width: 480px) {
+  .vt-kl-bar { gap: 2px 4px; }
+  .vt-kl-edit, .vt-kl-end { padding: 0 4px; }
+}
+.vt-kl-edit:focus-visible, .vt-kl-end:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+.vt-klasse .vt-flip .vt-prompt { font-size: clamp(2rem, 4.2vw, 3.4rem); }
+.vt-klasse .vt-all { font-size: .72em; gap: 12px; }
+.vt-klasse--viele .vt-all { font-size: .6em; gap: 10px; }
+/* Glosses on their way (a fetched language): a small spinner where the chevron was. */
+.vt-cl-spin {
+  width: 14px; height: 14px; flex: none; border-radius: 50%;
+  border: 2px solid currentColor; border-right-color: transparent;
+  animation: vt-cl-spin .7s linear infinite;
+}
+@keyframes vt-cl-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .vt-cl-spin { animation-duration: 2s; } }
+
+.vt-toolbar-right { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.vt-direction { display: flex; align-items: center; gap: 8px; font-size: .8125rem; color: var(--vt-muted); cursor: pointer; }
+.vt-switch {
+  appearance: none; -webkit-appearance: none; width: 38px; height: 20px; border-radius: 999px;
+  background: var(--vt-border-strong); position: relative; cursor: pointer; flex: 0 0 auto;
+  transition: background .25s ease;
+}
+.vt-switch::after {
+  content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--surface-card); transition: transform .25s ease;
+}
+.vt-switch:checked { background: var(--brand-blue); }
+.vt-switch:checked::after { transform: translateX(18px); }
+
+/* The chip only renders when it has an action — drop a selection, or step to the next
+   part; see the note in wortschatz-app.js — so it is always clickable. It used to carry
+   `cursor: default` with `pointer` added back only for .is-filtered, which left the part
+   state ("Runde 1 von 3 ›") clickable but showing the default arrow. */
+.vt-pill {
+  border: 1px solid var(--vt-border); border-radius: var(--radius-pill); padding: 5px 11px;
+  font-size: .75rem; color: var(--vt-muted); background: none; cursor: pointer;
+  font-family: inherit;
+}
+.vt-pill.is-filtered { border-color: var(--brand-blue); color: var(--brand-blue-dark); background: var(--vt-correct-bg); }
+.vt-position { font-family: var(--font-label); font-size: .75rem; color: var(--vt-muted); font-variant-numeric: tabular-nums; }
+
+
+/* ---- swap-in animation (re-triggered by alternating class names) ---- */
+@keyframes vtSwapA { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes vtSwapB { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.vt-swap-a { animation: vtSwapA .32s cubic-bezier(.2,.8,.25,1) both; }
+.vt-swap-b { animation: vtSwapB .32s cubic-bezier(.2,.8,.25,1) both; }
+
+.vt-content { display: flex; flex-direction: column; gap: 26px; }
+
+/* ---- Karteikarten ---- */
+/* touch-action: pan-y hands vertical scrolling back to the browser while leaving the
+   horizontal axis to the swipe handler in wortschatz-app.js — without it the page and the
+   card fight over the same drag. user-select stops a long swipe from selecting the word
+   under the finger. */
+.vt-flip {
+  perspective: 1400px; cursor: pointer; flex: 1; display: flex;
+  touch-action: pan-y; user-select: none; -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.vt-flip-inner {
+  position: relative; min-height: 320px; width: 100%;
+  /* .5s, not the 1.1s it was: a learner taps, sees nothing settle for a second and taps
+     again — PostHog replays scored those double taps as rage clicks on the card. */
+  transform-style: preserve-3d; transition: transform .5s cubic-bezier(.2,.8,.25,1);
+}
+.vt-flip-inner.is-flipped { transform: rotateX(-180deg); }
+.vt-face {
+  position: absolute; inset: 0; box-sizing: border-box;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  /* Both faces stack the same heights — eyebrow, one word row, the audio slot (a hidden
+     spacer on the face without the button) — so the word and its reveal sit on one line
+     as the card turns. Before, the face with the button centred its word ~30px higher. */
+  display: flex; flex-direction: column; justify-content: safe center; gap: 14px;
+  padding: clamp(28px, 6vw, 56px) clamp(20px, 6vw, 48px);
+  border: 1px solid var(--vt-border-strong); border-radius: 6px; background: var(--vt-bg);
+}
+.vt-face--back { transform: rotateX(180deg); }
+/* A flip lights the card up (wortschatz-app.js flip()): the border takes the brand colour,
+   a soft ring spreads out and fades, the face warms for a moment. */
+.vt-flip-inner.is-lit .vt-face { animation: vt-card-lit .7s ease-out; }
+@keyframes vt-card-lit {
+  0% { border-color: var(--brand-blue, #14b8a6); box-shadow: 0 0 0 0 color-mix(in srgb, var(--brand-blue, #14b8a6) 45%, transparent); background: color-mix(in srgb, var(--brand-blue, #14b8a6) 10%, var(--vt-bg)); }
+  60% { border-color: var(--brand-blue, #14b8a6); box-shadow: 0 0 0 10px color-mix(in srgb, var(--brand-blue, #14b8a6) 0%, transparent); }
+  100% { box-shadow: 0 0 0 10px transparent; background: var(--vt-bg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vt-flip-inner.is-lit .vt-face { animation-duration: .35s; }
+}
+.vt-face-foot { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+/* Nothing on a face shrinks: content taller than the card must make it grow (fitCardHeight
+   in wortschatz-app.js), not squeeze the word row until it spills over the label. */
+.vt-face > * { flex-shrink: 0; }
+/* The plural hangs under the word instead of adding to its height, so the singular stays
+   level with the reveal on the other face. */
+.vt-face .vt-prompt,
+.vt-face .vt-answer {
+  display: flex; align-items: center;
+  /* The answer's type is bigger than the prompt's; one row height for both keeps their
+     centres level. The value is .vt-answer's font-size × its line-height. */
+  min-height: calc(clamp(1.5rem, 5vw, 2.625rem) * 1.2);
+}
+/* A long compound ("die Wissenschaftskommunikation", B2) is wider than a 390px card at
+   the answer size; as a flex item it would not shrink and pushed the whole page sideways.
+   It may break, with a hyphen where the browser knows German, anywhere else if it must. */
+.vt-face-word { position: relative; min-width: 0; overflow-wrap: anywhere; hyphens: auto; }
+.vt-face .vt-plural { position: absolute; left: 0; top: 100%; white-space: nowrap; }
+/* With an RTL translation language each face takes its word's direction, so the Arabic
+   word and its reveal sit on the right edge and the German one on the left — in an Arabic
+   UI as much as a German one. Items shrink to their content instead of stretching, and the
+   UI-language lines (eyebrow, hint) keep their own direction, so a German hint on the
+   Arabic face lines up right without its full stop jumping to the wrong end. */
+/* Ignored by postcss-rtlcss: these ARE the direction, so mirroring them would swap the two
+   faces in an Arabic UI. The German face's plural keeps hanging from the word's left edge
+   instead of taking the page's mirrored rule. */
+/* rtl:begin:ignore */
+.vt-face--rtl { direction: rtl; align-items: flex-start; }
+.vt-face--ltr { direction: ltr; align-items: flex-start; }
+.vt-face.vt-face--ltr .vt-plural { left: 0; right: auto; }
+/* rtl:end:ignore */
+.vt-face--rtl .vt-face-eyebrow,
+.vt-face--rtl .vt-hint,
+.vt-face--ltr .vt-face-eyebrow,
+.vt-face--ltr .vt-hint { unicode-bidi: plaintext; }
+.vt-face-eyebrow { font-size: .6875rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--vt-muted); }
+.vt-face--back .vt-face-eyebrow { color: var(--brand-blue-dark); }
+.vt-prompt { font-size: clamp(1.4rem, 4.5vw, 2.125rem); font-weight: 400; letter-spacing: -.015em; line-height: 1.25; color: var(--vt-ink); }
+.vt-answer { font-size: clamp(1.5rem, 5vw, 2.625rem); font-weight: 500; letter-spacing: -.02em; line-height: 1.2; color: var(--vt-ink); }
+.vt-hint { font-size: .8125rem; color: var(--vt-muted); }
+
+/* The two coaching lines (the flip hint on each face, the gesture line under the card) are
+   driven by .vt-coach-on on the content wrapper — see the coach block in wortschatz-app.js.
+   Opacity only, never display: the lines keep their space, so the card never reflows as the
+   hint comes and goes. */
+.vt-hint,
+.vt-kbd-hint { opacity: 0; transition: opacity .5s ease; }
+.vt-coach-on .vt-hint,
+.vt-coach-on .vt-kbd-hint { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .vt-hint,
+  .vt-kbd-hint { transition: none; }
+}
+
+/* The strip under the buttons: word class, then the example sentence (see cardInfoHtml in
+   wortschatz-app.js), set off by a rule as the card's footnote. min-height holds one
+   sentence line, so the page does not jump when a card has no example. The sentence hides
+   with visibility, not display: its space stays, and while hidden its button is out of the
+   tab order and out of the accessibility tree. */
+.vt-info {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 6px 14px;
+  min-height: 44px; padding: 14px 2px 0; border-top: 1px solid var(--vt-border);
+}
+/* The word class, filled and coloured by class so it reads at a glance: a learner who
+   sees "help" on the front needs to know at once whether to answer a noun or a verb. */
+.vt-info-pos {
+  --pos: var(--brand-blue-dark, #0f766e);
+  font-family: var(--font-label); font-size: .8125rem; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--pos);
+  background: color-mix(in srgb, var(--pos) 12%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--pos) 45%, transparent);
+  border-radius: 999px; padding: 5px 14px; text-decoration: none;
+}
+/* It links to its class on /grammatik/wortarten. */
+a.vt-info-pos:hover { background: color-mix(in srgb, var(--pos) 22%, transparent); }
+.vt-info-pos--verb { --pos: #c2410c; }
+.vt-info-pos--adj, .vt-info-pos--adv { --pos: #7c3aed; }
+.vt-info-pos--prep, .vt-info-pos--conj, .vt-info-pos--pron { --pos: #2563eb; }
+.vt-info-pos--num, .vt-info-pos--phrase { --pos: #b45309; }
+:root[data-theme="dark"] .vt-info-pos { --pos: #5eead4; }
+:root[data-theme="dark"] .vt-info-pos--verb { --pos: #fdba74; }
+:root[data-theme="dark"] .vt-info-pos--adj, :root[data-theme="dark"] .vt-info-pos--adv { --pos: #c4b5fd; }
+:root[data-theme="dark"] .vt-info-pos--prep, :root[data-theme="dark"] .vt-info-pos--conj, :root[data-theme="dark"] .vt-info-pos--pron { --pos: #93c5fd; }
+:root[data-theme="dark"] .vt-info-pos--num, :root[data-theme="dark"] .vt-info-pos--phrase { --pos: #fcd34d; }
+.vt-info-ex {
+  display: inline-flex; align-items: center; gap: 2px; min-width: 0; flex: 1 1 16rem;
+  visibility: hidden; opacity: 0; transition: opacity .35s ease .25s;
+}
+.vt-info.is-shown .vt-info-ex { visibility: visible; opacity: 1; }
+.vt-info-ex-text { font-size: .9375rem; font-style: italic; color: var(--vt-ink); line-height: 1.4; }
+.vt-audio--ex { width: 36px; height: 36px; flex: 0 0 auto; }
+/* The German explanation on the "Auf Deutsch" face with its speaker beside it: the button
+   follows the sentence's last line instead of dropping to a row of its own. */
+.vt-erkl { display: inline; }
+.vt-erkl-end { white-space: nowrap; }
+.vt-audio.vt-audio--erkl { display: inline-flex; vertical-align: middle; margin-inline-start: 4px; width: 40px; height: 40px; }
+@media (prefers-reduced-motion: reduce) {
+  .vt-info-ex { transition: none; }
+}
+
+/* Right under the card (closer than the content gap): Falsch / Richtig belong to it. */
+.vt-nav-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: -10px; }
+.vt-nav-link { font-size: .8125rem; color: var(--vt-muted); cursor: pointer; background: none; border: none; font-family: inherit; padding: 0; }
+.vt-nav-link:hover { color: var(--vt-ink); }
+.vt-nav-flip { font-size: .8125rem; font-weight: 500; color: var(--brand-blue-dark); cursor: pointer; background: none; border: none; font-family: inherit; padding: 0; }
+.vt-nav-next { font-size: .8125rem; font-weight: 500; color: var(--vt-ink); cursor: pointer; background: none; border: none; font-family: inherit; padding: 0; }
+.vt-kbd-hint { font-family: var(--font-label); font-size: .6875rem; color: var(--vt-muted); }
+/* Tell each input what it can actually do. A mouse has no swipe and a touchscreen has no
+   arrow keys, so showing both lines everywhere teaches half a gesture to everyone. */
+.vt-hint-touch { display: none; }
+@media (hover: none) and (pointer: coarse) {
+  .vt-hint-touch { display: inline; }
+  .vt-hint-keys { display: none; }
+}
+
+/* ---- Lernen ---- */
+.vt-learn-hint { font-size: .8125rem; color: var(--vt-muted); }
+/* A missed card coming back — so the repeat reads as meant, not as a glitch. */
+.vt-retry-chip {
+  display: inline-block; margin-inline-end: 6px; padding: 2px 9px; border-radius: 999px;
+  font-size: .6875rem; font-weight: 600; letter-spacing: .02em;
+  background: var(--vt-wrong-bg); border: 1px solid var(--vt-wrong-border); color: var(--vt-ink);
+}
+.vt-learn-prompt { font-size: clamp(1.4rem, 4.5vw, 2.375rem); font-weight: 500; letter-spacing: -.02em; line-height: 1.2; color: var(--vt-ink); }
+.vt-options { display: flex; flex-direction: column; gap: 8px; }
+.vt-option {
+  border-radius: 6px; padding: 14px 16px; font-size: .875rem;
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  cursor: pointer; border: 1px solid var(--vt-border); color: var(--vt-muted); background: var(--vt-bg);
+  font-family: inherit; text-align: left; width: 100%;
+  transition: border-color .15s ease, background .15s ease, color .15s ease, opacity .15s ease;
+}
+.vt-option.is-correct { border-color: var(--vt-correct-border); background: var(--vt-correct-bg); color: var(--vt-ink); }
+.vt-option.is-wrong { border-color: var(--vt-wrong-border); background: var(--vt-wrong-bg); color: var(--vt-ink); }
+.vt-option.is-dim { opacity: .6; }
+.vt-option:disabled { cursor: default; }
+.vt-option-mark { font-size: .8125rem; font-weight: 500; }
+.vt-option.is-correct .vt-option-mark { color: var(--brand-blue-dark); }
+.vt-option.is-wrong .vt-option-mark { color: var(--danger); }
+
+.vt-feedback { display: flex; flex-direction: column; gap: 4px; padding: 2px 0 2px 14px; border-left: 2px solid var(--vt-border); }
+.vt-feedback.is-ok { border-left-color: var(--brand-blue); }
+.vt-feedback.is-no { border-left-color: var(--danger); }
+.vt-feedback-title { font-size: .875rem; font-weight: 600; color: var(--vt-ink); }
+.vt-feedback-text { font-size: .875rem; line-height: 1.6; color: var(--vt-muted); }
+/* The verdict read out after an answer in Lernen (aria-live, set in pickOption()). */
+.vt-sr { position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) {
+  .vt-option { transition: none; }
+  .vt-swap-a,
+  .vt-swap-b { animation: none; }
+}
+
+.vt-primary-row { display: flex; justify-content: flex-end; }
+.vt-primary-btn {
+  font-size: .8125rem; font-weight: 500; background: var(--brand-blue); color: #fff;
+  padding: 9px 18px; border-radius: 6px; cursor: pointer; border: none; font-family: inherit;
+}
+.vt-primary-btn:hover { background: var(--brand-blue-dark); }
+
+/* ---- Testen ---- */
+.vt-test-head { display: flex; justify-content: space-between; gap: 12px; font-size: .8125rem; color: var(--vt-muted); }
+.vt-score-mono { font-family: var(--font-label); font-size: .75rem; color: var(--vt-muted); }
+.vt-progress-track { height: 2px; background: var(--vt-border); }
+.vt-progress-fill { height: 2px; background: var(--brand-blue); transition: width .25s ease; }
+.vt-test-label { font-size: .6875rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--vt-muted); }
+.vt-test-prompt { font-size: clamp(1.35rem, 4.2vw, 2.25rem); font-weight: 400; letter-spacing: -.02em; line-height: 1.2; color: var(--vt-ink); }
+.vt-input {
+  border: 1px solid var(--vt-border-strong); border-radius: 6px; padding: 16px 20px;
+  font-size: 1.25rem; color: var(--vt-ink); background: var(--vt-bg); width: 100%; box-sizing: border-box;
+  font-family: inherit;
+}
+.vt-input:focus { border-color: var(--brand-blue); }
+
+/* ---- Wortliste ---- */
+.vt-list-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.vt-list-hint { font-size: .8125rem; color: var(--vt-muted); }
+.vt-list-legend { display: flex; align-items: center; gap: 14px; font-family: var(--font-label); font-size: .75rem; color: var(--vt-muted); flex-wrap: wrap; }
+.vt-legend-item { display: flex; align-items: center; gap: 5px; }
+.vt-legend-dot { width: 6px; height: 6px; border-radius: 999px; }
+.vt-legend-dot--richtig { background: var(--brand-blue); }
+.vt-legend-dot--falsch { background: var(--danger); }
+.vt-legend-dot--offen { width: 6px; height: 6px; border-radius: 999px; background: var(--vt-border-strong); }
+
+/* Runde or the whole level — only on a deck cut into Runden. A filled chip for the
+   chosen side, so the sliding marker (src/lib/switchRegistry.js) is a pill. */
+.vt-list-scope {
+  display: inline-flex; width: fit-content; align-self: flex-start; gap: 2px; padding: 3px; margin: 12px 0 0; border-radius: 999px;
+  border: 1px solid var(--vt-border); background: var(--vt-bg);
+}
+.vt-list-scope button {
+  min-height: 36px; padding: 6px 16px; border: none; border-radius: 999px; background: none;
+  color: var(--vt-muted); font-family: inherit; font-size: .875rem; cursor: pointer; white-space: nowrap;
+}
+.vt-list-scope button[aria-checked="true"] { background: var(--brand-blue); color: #fff; font-weight: 500; }
+.vt-list-scope button:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+
+/* Search + sort. One row on desktop; on a phone the field takes the width and the sort
+   sits under it, because a 44px-tall field squeezed next to a select is neither. */
+.vt-list-tools { display: flex; align-items: center; gap: 12px; margin: 14px 0 6px; }
+.vt-list-search { position: relative; flex: 1 1 auto; min-width: 0; }
+.vt-list-input {
+  width: 100%; min-height: 44px; padding: 10px 38px 10px 14px; border-radius: 999px;
+  border: 1px solid var(--vt-border); background: var(--vt-bg); color: var(--vt-ink);
+  font-family: inherit; font-size: .9375rem; -webkit-appearance: none; appearance: none;
+}
+.vt-list-input:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 1px; border-color: transparent; }
+.vt-list-input::-webkit-search-cancel-button { display: none; }
+.vt-list-qclear {
+  position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+  width: 36px; height: 36px; border: none; border-radius: 999px; background: none;
+  color: var(--vt-muted); font-family: inherit; font-size: .8125rem; cursor: pointer;
+  visibility: hidden;
+}
+.vt-list-qclear.is-on { visibility: visible; }
+.vt-list-qclear:hover { color: var(--vt-ink); }
+.vt-list-sortwrap { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+.vt-list-sortlabel { font-family: var(--font-label); font-size: .75rem; color: var(--vt-muted); }
+.vt-list-sort {
+  min-height: 44px; padding: 8px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--vt-border); background: var(--vt-bg); color: var(--vt-ink);
+  font-family: inherit; font-size: .875rem;
+}
+
+/* Columns, not a two-track grid: a grid fills row-wise, so an A–Z list read top to
+   bottom went Abend, Arbeit / Abend?? — the eye has to zigzag. Multicol runs the first
+   half down the left column and the rest down the right, which is how a word list is
+   read. */
+.vt-list-grid { column-count: 2; column-gap: 32px; }
+.vt-list-grid.is-empty { column-count: 1; }
+.vt-list-empty { font-size: .875rem; color: var(--vt-muted); padding: 28px 8px; }
+
+/* The row is a plain container with two real buttons in it: picking the word and jumping
+   to it are different actions, and a span inside a button gave the jump neither a tab
+   stop nor a thumb-sized target. */
+.vt-list-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) 44px; align-items: stretch;
+  border-bottom: 1px solid var(--vt-border); break-inside: avoid;
+}
+.vt-list-row.is-selected { background: var(--vt-correct-bg); }
+.vt-list-row.is-active:not(.is-selected) { background: var(--vt-surface); }
+.vt-list-pick {
+  display: grid; grid-template-columns: 14px minmax(0, 1fr) 8px; align-items: center; gap: 12px;
+  min-height: 52px; padding: 8px; cursor: pointer;
+  background: transparent; border: none; width: 100%; text-align: left;
+  font-family: inherit; color: inherit;
+}
+.vt-list-box { display: block; width: 14px; height: 14px; border-radius: 999px; border: 1px solid var(--vt-border-strong); background: var(--vt-bg); }
+.vt-list-box.is-selected { border-color: var(--brand-blue); background: var(--brand-blue); }
+.vt-list-box.vt-pop { animation: vtCheckPop .3s cubic-bezier(.34,1.56,.64,1); }
+@keyframes vtCheckPop {
+  0% { transform: scale(.5); }
+  60% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+.vt-list-word { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.vt-list-de { font-size: .875rem; font-weight: 500; color: var(--vt-ink); }
+.vt-list-tr { font-size: .8125rem; color: var(--vt-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vt-list-dot { width: 6px; height: 6px; border-radius: 999px; background: var(--vt-border-strong); }
+.vt-list-dot.is-right { background: var(--brand-blue); }
+.vt-list-dot.is-wrong { background: var(--danger); }
+/* Pronunciation. The column only exists on a deck that has some audio, and a word
+   without a file yet gets a spacer instead of a button, so the arrows stay in one line
+   down the list while the lexicon is only partly voiced. */
+.vt-audio {
+  display: flex; align-items: center; justify-content: center; width: 44px;
+  color: var(--vt-muted); cursor: pointer; background: none; border: none; padding: 0;
+}
+.vt-audio:hover { color: var(--brand-blue-dark); }
+.vt-audio.is-playing { color: var(--brand-blue); animation: vtSpeak .9s ease-in-out infinite; }
+.vt-audio:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: -2px; border-radius: 8px; }
+.vt-audio-gap { display: block; width: 44px; }
+@keyframes vtSpeak {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.14); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vt-audio.is-playing { animation: none; opacity: .7; }
+}
+/* On the card it is a real target under the word, not a 44px strip in a row — a round
+   button, so it reads as something to press rather than a stray icon. */
+.vt-audio--face {
+  width: 48px; height: 48px; margin-top: 24px; border-radius: 50%;
+  border: 1px solid var(--vt-border-strong); background: var(--vt-bg); color: var(--vt-ink);
+  transition: border-color .15s ease, color .15s ease, background .15s ease;
+}
+.vt-audio-gap.vt-audio--face { visibility: hidden; }
+.vt-audio--face:hover { border-color: var(--brand-blue); color: var(--brand-blue-dark); }
+.vt-audio--face.is-playing { border-color: var(--brand-blue); }
+.vt-audio--face:focus-visible { border-radius: 50%; outline-offset: 2px; }
+.vt-list-grid.has-audio .vt-list-row { grid-template-columns: minmax(0, 1fr) 44px 44px; }
+
+.vt-list-jump {
+  display: flex; align-items: center; justify-content: center; width: 44px;
+  font-size: 1rem; color: var(--vt-muted); cursor: pointer;
+  background: none; border: none; font-family: inherit;
+}
+.vt-list-jump:hover { color: var(--vt-ink); }
+.vt-list-jump.is-active { color: var(--brand-blue-dark); }
+.vt-list-pick:focus-visible, .vt-list-jump:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: -2px; }
+
+/* Sticky: on a 650-word deck the bar used to sit below every row, so starting a
+   selection meant scrolling past everything you had just chosen not to practise. */
+.vt-sel-bar {
+  position: sticky; bottom: 0; z-index: 2;
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  margin-top: 4px; padding: 12px 0 max(12px, env(safe-area-inset-bottom));
+  background: var(--vt-bg); border-top: 1px solid var(--vt-border);
+}
+.vt-sel-label { font-size: .8125rem; color: var(--vt-ink); }
+.vt-sel-actions { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+.vt-sel-start {
+  font-size: .8125rem; font-weight: 500; padding: 11px 18px; border-radius: 999px; cursor: pointer;
+  background: var(--vt-surface); color: var(--vt-muted); border: none; font-family: inherit;
+  white-space: nowrap;
+}
+.vt-sel-start.is-active { background: var(--brand-blue); color: #fff; }
+.vt-sel-start:disabled { cursor: default; }
+.vt-sel-clear, .vt-sel-all {
+  font-size: .8125rem; color: var(--vt-muted); cursor: pointer; padding: 11px 8px;
+  background: none; border: none; font-family: inherit; white-space: nowrap;
+}
+.vt-sel-clear:hover, .vt-sel-all:hover { color: var(--vt-ink); }
+
+.vt-rtl { direction: rtl; font-family: "DA Script", "Noto Sans Arabic", "Segoe UI", Tahoma, Arial, sans-serif; }
+
+@media (max-width: 640px) {
+  /* One scrollable row instead of two wrapped ones: "Wortliste" alone on a second line
+     cost a full row of the first screen, which is the card's. */
+  .vt-tabs {
+    flex-wrap: nowrap; overflow-x: auto; gap: 18px; margin-bottom: 18px;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .vt-tabs::-webkit-scrollbar { display: none; }
+  .vt-tab { white-space: nowrap; }
+  .vt-toolbar { margin-bottom: 18px; gap: 10px; }
+  .vt-list-grid { column-count: 1; }
+  /* The field owns the first line; the sort label and select share the second. Side by
+     side at 390px the field ends up too narrow to read what you typed. */
+  /* Field and sort share one line — the label is what made them not fit, and a select
+     reading "Reihenfolge" says what it is without one. */
+  .vt-list-tools { gap: 8px; margin: 10px 0 4px; }
+  .vt-list-sortlabel { display: none; }
+  .vt-list-sort { max-width: 42vw; }
+  .vt-list-head { gap: 6px; }
+  /* Label on its own line, the three actions on the next, each on one line. Before a
+     first pick the label only repeats the hint above the list, and two lines of it
+     pinned over the rows is the most expensive kind of chrome on a phone — so it
+     appears with the selection it counts. */
+  .vt-sel-bar { gap: 8px; }
+  .vt-sel-label { flex: 1 0 100%; }
+  .vt-sel-bar:not(.has-selection) .vt-sel-label { display: none; }
+  .vt-sel-actions { width: 100%; margin-left: 0; justify-content: flex-end; gap: 6px; }
+  .vt-sel-start { margin-left: auto; }
+  .vt-toolbar { flex-direction: column; align-items: flex-start; }
+  .vt-toolbar-right { width: 100%; justify-content: space-between; }
+  .vt-nav-row { gap: 8px; }
+  .vt-face { padding: 22px 18px; }
+  .vt-flip-inner { min-height: 260px; }
+}
+
+/* ---- Der, die, das ------------------------------------------------------------------ */
+/* The article is the half of a German noun that has to be memorised, so it is drawn as
+ * its own thing rather than as more of the word: one colour per gender, the same three
+ * the Aussprache page uses, and a shade lighter than the noun so the word still leads.
+ * Nouns only — nothing else on a card has a gender.
+ */
+.vt-art {
+  font-weight: 400;
+  color: var(--vt-muted);
+}
+/* Four hues, one per gender, plural included — der blue, die red, das green, plural
+ * orange. Not --brand-blue for der: that token is teal (#0d9488), which sits right next
+ * to the green das would take, and two of the four genders reading as the same colour is
+ * worse than no colour at all. --info is the only true blue in the palette.
+ *
+ * The article word is always printed beside the colour, so nothing here is carried by hue
+ * alone — which matters for the red/green pair in particular. */
+.vt-art--der { color: var(--info); }
+.vt-art--die { color: var(--danger); }
+.vt-art--das { color: var(--success); }
+/* A Pluraletantum (die Eltern, die Möbel) takes the plural colour, not the feminine one:
+ * its "die" is a plural article that happens to look like the feminine. Same for the
+ * plural line under a singular noun ("die Tische" below "der Tisch").
+ *
+ * --gender-plural, not --accent-dark: that token is #c2410c and --danger is #c1462f, so
+ * the two "die"s were one indistinguishable red. See the token's note in global.css. */
+.vt-art--plural {
+  color: var(--gender-plural);
+  /* Yellow at this hue is 1.5:1 on white, so the colour alone would be a pale smear at the
+     plural line's 13px. The weight is what keeps it readable; the hue is what makes it not
+     the feminine red. The word "die" is printed either way, so nothing is carried by
+     colour alone here. */
+  font-weight: 600;
+}
+
+/* The plural, where the card has room for it: a noun you can only use in the singular is
+ * half learnt. Kept off the prompt in Lernen and Testen, which ask one thing at a time. */
+.vt-plural {
+  display: block;
+  margin-top: 6px;
+  /* 25% over the 13px it was: the plural is half the noun, not a footnote. */
+  font-size: calc(.8125rem * 1.25);
+  font-weight: 400;
+  color: var(--vt-muted);
+}
+
+/* In the Wortliste the article sits in the same column as the word and must not push the
+ * translation around, so it is the row's own small type. */
+.vt-list-de .vt-art { font-size: .95em; }
+
+/* Self-check on a flipped card (wortschatz-app.js judge()): Umdrehen gives way to
+   Falsch / Richtig once the answer is showing. Big targets — this is the tap made 25
+   times per set, on a phone. */
+.vt-judge { display: none; gap: 10px; flex: 1; justify-content: center; }
+.vt-nav-row.is-flipped .vt-judge { display: flex; }
+.vt-nav-row.is-flipped .vt-nav-flip { display: none; }
+.vt-judge-btn {
+  flex: 1; max-width: 180px; min-height: 44px; padding: 10px 16px;
+  border-radius: 999px; border: 1.5px solid; background: none;
+  font: inherit; font-size: .9375rem; font-weight: 600; cursor: pointer;
+}
+.vt-judge-btn--no { border-color: #dc2626; color: #b91c1c; }
+.vt-judge-btn--ok { border-color: var(--brand-blue); background: var(--brand-blue); color: #fff; }
+.vt-card-score { margin: -12px 0 0; text-align: center; font-size: .8125rem; color: var(--vt-muted, var(--muted)); font-variant-numeric: tabular-nums; }
+
+/* The German side's picture (card.img, OpenMoji) and "Alle Sprachen": every translation on
+   one side of the card, for a class that shares no one language. The rows are smaller than
+   a single answer; they line up on the left and only the Arabic text runs right to left.
+   If they do not fit, the card grows (fitCardHeight in wortschatz-app.js). */
+.vt-cue-img {
+  display: block;
+  width: 88px;
+  height: 88px;
+  margin: 0 0 12px;
+}
+.vt-learn-prompt .vt-cue-img { width: 64px; height: 64px; margin: 0 auto 8px; }
+/* A Redemittel position diagram (/img/bildposition/, 4:3): wider, the band has to read. */
+.vt-cue-img.vt-cue-img--pos, .vt-split[data-navlayout] .vt-face .vt-cue-img.vt-cue-img--pos { width: 132px; height: 99px; }
+/* A picture that is the whole question (Redemittel „Wo ist der Ball?“). */
+.vt-cue-img.vt-cue-img--only, .vt-split[data-navlayout] .vt-face .vt-cue-img.vt-cue-img--only { width: min(320px, 70vw); height: auto; aspect-ratio: 4 / 3; margin: 0 auto; }
+.vt-all {
+  display: grid;
+  gap: 8px;
+  font-size: 0.62em;
+  line-height: 1.3;
+  text-align: start;
+}
+.vt-all-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+
+/* Regi under the word class (waHtml in wortschatz-app.js): what the class is, in one line,
+   and the link to /grammatik/wortarten. Quiet: it explains the chip, it is not the task. */
+.vt-wa {
+  display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 2px 10px;
+  margin: 6px 0 0; padding: 0 2px; font-size: .9rem; line-height: 1.4; color: var(--vt-muted, var(--muted));
+}
+.vt-wa-fig-wrap { grid-row: span 2; line-height: 0; }
+html[data-mascots="off"] .vt-wa { grid-template-columns: 1fr; }
+.vt-wa-say { font-family: var(--font-voice); color: var(--vt-ink, var(--ink)); }
+.vt-wa-more { justify-self: start; color: var(--brand-blue-dark); font-weight: 600; text-underline-offset: 3px; white-space: nowrap; }
+
+/* The gap sentence solved, under the German answer (wortschatz-app.js solvedHtml). The
+   gap word is marked, so "Zieh … an" reads as one verb split in two. */
+.vt-solved { font-size: clamp(1rem, 3.2vw, 1.25rem); line-height: 1.4; color: var(--vt-muted); font-style: italic; }
+/* The plural and synonym lines hang under the word without taking room (see .vt-face
+   .vt-plural); the sentence that follows the word clears them, or it runs over „die Karten“. */
+.vt-answer:has(.vt-plural) + .vt-solved,
+.vt-answer:has(.vt-syn) + .vt-solved { margin-top: 26px; }
+.vt-answer:has(.vt-plural + .vt-syn) + .vt-solved { margin-top: 52px; }
+.vt-solved mark {
+  font-style: normal; font-weight: 600; color: var(--vt-ink);
+  background: color-mix(in srgb, var(--brand-blue, #14b8a6) 18%, transparent);
+  border-radius: 4px; padding: 0 3px;
+}
+
+/* Spaced repetition (src/lib/srs.js): "Heute fällig: 34", and the free meter's lock. */
+.vt-due { margin: 6px 0 0; font-size: var(--text-xs); color: var(--muted); font-weight: var(--fw-semibold); }
+.vt-limit { margin-top: 14px; display: flex; justify-content: center; }
+.vt-limit[hidden], .vt-due[hidden] { display: none; }
+
+/* The deck's name in the card language, right under the <h1> (src/lib/cardLangGloss.js). */
+.vt-hero-gloss { margin: -4px 0 6px; color: var(--muted); font-size: var(--text-lg); }
+.vt-hero-gloss[hidden] { display: none; }
+
+/* „oder auch: der Müll“ (synonyms) and „(auch: der)“ (a second article in use). On the card
+   the synonym line hangs under the word like the plural — under the plural when there is one —
+   so the word stays level with the other face. */
+.vt-syn { display: block; margin-top: 4px; font-size: .8125rem; font-weight: 400; color: var(--vt-muted); }
+.vt-syn-label { font-style: italic; }
+.vt-face .vt-syn { position: absolute; left: 0; top: 100%; white-space: nowrap; margin-top: 6px; }
+.vt-face .vt-plural + .vt-syn { top: calc(100% + 1.8rem); }
+/* Plural and synonym together hang ~50px below the word, deeper than the button's 38px
+   (gap + margin): push the button down on both faces, so the words stay level. */
+.vt-flip:has(.vt-plural + .vt-syn) .vt-audio--face { margin-top: 48px; }
+.vt-art-alt { font-size: .5em; font-weight: 400; color: var(--vt-muted); vertical-align: middle; white-space: nowrap; }
+.vt-list-syn { display: block; font-size: .75rem; font-weight: 400; color: var(--vt-muted); }
+/* The gap in the example sentence until the card is flipped. */
+.vt-gap { letter-spacing: -.05em; color: var(--brand-blue-dark, currentColor); font-style: normal; }
+/* „Als PDF drucken“ in the Wortliste tab (Lernsets only). */
+.vt-list-print {
+  display: inline-flex; align-items: center; gap: 6px; margin: 0 0 10px; padding: 6px 12px;
+  border: 1px solid var(--vt-line, #ddd); border-radius: 999px; color: var(--vt-ink); font-size: .8125rem;
+  font-weight: 600; text-decoration: none;
+}
+.vt-list-print:hover { border-color: var(--brand-blue, #2563eb); }
+
+/* A deck swapped in place (src/lib/deckSwap.js): the new hero and cards fade up, and a
+   slow fetch dims the old ones instead of leaving a dead click. */
+.vt-swap-in { animation: vt-swap-in .22s cubic-bezier(0, 0, .2, 1) both; }
+@keyframes vt-swap-in { from { opacity: 0; transform: translateY(6px); } }
+.vp-col--ex[aria-busy="true"] { opacity: .55; transition: opacity .15s ease; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .vt-swap-in { animation: none; } }

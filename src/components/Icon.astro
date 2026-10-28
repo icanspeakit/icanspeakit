@@ -1,0 +1,46 @@
+---
+// Inline icon set extracted from the approved Claude Design mockup
+// ("DA für Dich - Übungsseite (standalone).html") — the source of truth for
+// the /uebungen and /pruefungen card icons, which had been left as raw emoji.
+interface Props {
+  name: keyof typeof ICONS;
+  size?: number;
+}
+const { name, size = 24 } = Astro.props;
+
+const ICONS = {
+  target: `<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z" fill-rule="evenodd"/><circle cx="12" cy="12" r="1.4"/>`,
+  book: `<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v17H6.5A2.5 2.5 0 0 1 4 17.5v-12Z"/><path d="M12 3h5.5A2.5 2.5 0 0 1 20 5.5v12a2.5 2.5 0 0 1-2.5 2.5H12V3Z" opacity="0.55"/>`,
+  "book-open": `<path d="M12 5c-2-1.3-5-1.3-7 0v13c2-1.3 5-1.3 7 0V5Z"/><path d="M12 5c2-1.3 5-1.3 7 0v13c-2-1.3-5-1.3-7 0V5Z" opacity="0.55"/>`,
+  folder: `<path d="M3 7a2 2 0 0 1 2-2h4.5l1.5 2H19a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/>`,
+  volume: `<path d="M3 9h3.5l5-4v14l-5-4H3V9Z"/><path d="M15.5 9a3 3 0 0 1 0 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>`,
+  mic: `<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M6.5 11a5.5 5.5 0 0 0 11 0h-1.6a3.9 3.9 0 0 1-7.8 0H6.5Z"/><rect x="11.2" y="18" width="1.6" height="3"/>`,
+  pencil: `<path d="M4 20 15 9l3 3-11 11H4v-3Z"/><path d="M13 6l3-3 3 3-3 3-3-3Z" opacity="0.55"/>`,
+  globe: `<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>`,
+  "map-pin": `<path d="M12 21s7-6.2 7-11.6A7 7 0 0 0 5 9.4C5 14.8 12 21 12 21Zm0-6.5a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" fill-rule="evenodd"/>`,
+  link: `<path d="M9.6 14.4 14.4 9.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M13.2 6.6 15 4.8a3.8 3.8 0 0 1 5.4 5.4l-1.8 1.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M10.8 17.4 9 19.2a3.8 3.8 0 0 1-5.4-5.4l1.8-1.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>`,
+  sparkle: `<path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2 2-6Z"/>`,
+  // The Führerschein section (catalog.js → exams).
+  car: `<path d="M5.2 10.2 6.9 5.8A2 2 0 0 1 8.8 4.5h6.4a2 2 0 0 1 1.9 1.3l1.7 4.4A2.5 2.5 0 0 1 20.5 12.6V17a1 1 0 0 1-1 1h-1.2a1 1 0 0 1-1-1v-1H6.7v1a1 1 0 0 1-1 1H4.5a1 1 0 0 1-1-1v-4.4a2.5 2.5 0 0 1 1.7-2.4Zm2-.2h9.6l-1.3-3.4a.6.6 0 0 0-.6-.4H9.1a.6.6 0 0 0-.6.4L7.2 10Zm-.7 4.4a1.3 1.3 0 1 0 0-2.6 1.3 1.3 0 0 0 0 2.6Zm11 0a1.3 1.3 0 1 0 0-2.6 1.3 1.3 0 0 0 0 2.6Z" fill-rule="evenodd"/>`,
+  document: `<path d="M6 2h9l3 3v17H6V2Z"/><rect x="9" y="12" width="6" height="1.4" fill="#fff" opacity="0.9"/><rect x="9" y="16" width="6" height="1.4" fill="#fff" opacity="0.9"/>`,
+  landmark: `<path d="M12 3 3 8h18L12 3Z"/><path d="M5 9h14v2H5V9Zm1 3h2v6H6v-6Zm4.5 0h2v6h-2v-6Zm4.5 0h2v6h-2v-6ZM4 19h16v2H4v-2Z"/>`,
+  "graduation-cap": `<path d="M12 3 2 8l10 5 10-5-10-5Z"/><path d="M6 12.2v4.3c0 1.4 2.8 2.5 6 2.5s6-1.1 6-2.5v-4.3l-6 3-6-3Z" opacity="0.55"/>`,
+  // Added for the subject-focused nav: the Niveaus menu and the Profil entry, which
+  // are about the learner rather than about a kind of exercise.
+  camera: `<path d="M4 8h3l1.6-2.4h6.8L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="13.3" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/>`,
+  layers: `<path d="M12 3 2 8l10 5 10-5-10-5Z"/><path d="m2 12 10 5 10-5-2.2-1.1L12 14.7 4.2 10.9 2 12Z" opacity="0.55"/><path d="m2 16 10 5 10-5-2.2-1.1L12 18.7 4.2 14.9 2 16Z" opacity="0.35"/>`,
+  user: `<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0H4Z" opacity="0.55"/>`,
+  // Practice-page header: the dashboard shortcut collapses to this tile on a phone,
+  // and the logo grows a back arrow when the learner arrived from somewhere on the site.
+  grid: `<rect x="3" y="3" width="8" height="8" rx="1.6"/><rect x="13" y="3" width="8" height="5" rx="1.6" opacity="0.55"/><rect x="13" y="10" width="8" height="11" rx="1.6"/><rect x="3" y="13" width="8" height="8" rx="1.6" opacity="0.55"/>`,
+  // Wissensdatenbank: a chevron on cards that open a sheet, the tray arrow where a tap
+  // actually downloads.
+  "chevron-right": `<path d="M8.6 5.4 10 4l8 8-8 8-1.4-1.4 6.6-6.6-6.6-6.6Z"/>`,
+  download: `<path d="M11 3h2v9.6l3.3-3.3 1.4 1.4-5.7 5.7-5.7-5.7 1.4-1.4 3.3 3.3V3ZM4 16h2v3h12v-3h2v5H4v-5Z"/>`,
+  "arrow-left": `<path d="M11 4.6 3.6 12 11 19.4l1.5-1.5-4.9-4.9H20.4v-2H7.6l4.9-4.9L11 4.6Z"/>`,
+  // The Lernset rail: the frequency cut, which is the only one of its entries that is
+  // neither a level badge nor the Redemittel deck.
+  bars: `<rect x="3.8" y="13" width="3.6" height="7" rx="1"/><rect x="10.2" y="8" width="3.6" height="12" rx="1" opacity="0.7"/><rect x="16.6" y="4" width="3.6" height="16" rx="1" opacity="0.45"/>`,
+};
+---
+<svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" set:html={ICONS[name]} />

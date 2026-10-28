@@ -1,0 +1,21 @@
+---
+// /fuehrerschein/wortschatz — the Fahrschul-Wortschatz in the shared flashcard trainer.
+// Hamsti marks the section (VokabelTrainer's own SectionMascot). The groups: /[gruppe].
+import Layout from "../../../layouts/Layout.astro";
+import VokabelTrainer from "../../../components/VokabelTrainer.astro";
+import { cardsOf, LANGS } from "../../../lib/fuehrerscheinWortschatz.js";
+import "../../../styles/fuehrerschein.css";
+
+const cards = cardsOf(null);
+---
+<Layout title="Fahrschul-Wortschatz – Führerschein – EnglishAcademy" description="Die Wörter für Fahrstunde, Prüfung und Führerscheinstelle: Auto und Teile, Straße und Kreuzung, Anweisungen des Fahrlehrers — mit Artikel, Plural, Beispielsatz und Übersetzung.">
+  <VokabelTrainer
+    cards={cards}
+    heading="Fahrschul-Wortschatz"
+    headingKey="fs.ws.title"
+    sub={`Führerschein · ${cards.length} Wörter`}
+    subParts={[{ text: "Führerschein", key: "fs.ws.sub" }, { text: `${cards.length} Wörter`, key: "sets.wordCount", vars: { n: cards.length } }]}
+    deck="fuehrerschein"
+    langs={LANGS}
+  />
+</Layout>

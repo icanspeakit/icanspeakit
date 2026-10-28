@@ -1,0 +1,63 @@
+/* A grammar topic's rule in the learner's language (GrammarHelp.astro).
+   The German leads: the translation sits under the block it belongs to, smaller and set
+   off by a rule on its leading edge, so the eye can take it or skip it. */
+
+.gx-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 14px 0 4px; }
+.gx-toggle {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 40px; padding: 8px 14px;
+  border: 1px solid var(--brand-blue); border-radius: 999px;
+  background: none; color: var(--brand-blue-dark);
+  font: inherit; font-size: .875rem; font-weight: var(--fw-semibold); cursor: pointer;
+}
+.gx-toggle-dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid currentColor; }
+.gx-toggle[aria-pressed="true"] { background: var(--brand-blue); color: #fff; }
+.gx-toggle[aria-pressed="true"] .gx-toggle-dot { background: currentColor; }
+.gx-draft { flex-basis: 100%; margin: 0; }
+
+/* The chips and the draft line only matter while there is a translation to steer. */
+[data-gx="off"] .gx-bar .help-langs,
+[data-gx="off"] .gx-bar .gx-draft { display: none; }
+
+.gx-tr { display: none; }
+[data-gx="on"] .gx-tr { display: block; }
+.gx-tr-l {
+  display: none;
+  margin: 6px 0 0; padding-inline-start: 10px;
+  border-inline-start: 2px solid var(--brand-blue);
+  font-size: .875rem; line-height: 1.55; color: var(--muted);
+}
+.gx-tr-l[dir="rtl"] { font-family: "DA Script", "Noto Sans Arabic", "Segoe UI", Tahoma, Arial, sans-serif; font-size: .95rem; line-height: 1.7; }
+/* The line in the help language shows: src/lib/langCss.js writes that rule per language. */
+/* German examples keep their German look inside the translation. */
+.gx-tr-l em, .gx-tr-l strong { color: var(--ink); }
+
+/* In the rule card the switch is the first thing, so it needs no top margin. */
+.vp-sheet-body > .gx-bar { margin: 0 0 14px; }
+
+/* verben-praepositionen.css drops the hero subtitle on a phone (the title and the rule
+   button already say it). Its translation goes with it, and so does a quiz topic's
+   switch, which would otherwise steer a text nobody can see. */
+@media (max-width: 640px) {
+  .vp-page--split .vp-hero .gx-tr,
+  .vp-page--split .vp-hero .gx-bar { display: none; }
+}
+
+/* A translated table or list (Kultur, Sprechen) — small, and allowed to scroll sideways
+   inside its own box on a phone instead of pushing the page. */
+.gx-tr-l ul { margin: 4px 0 0; padding-inline-start: 18px; }
+.gx-tablewrap { overflow-x: auto; margin-top: 6px; }
+.gx-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+.gx-table th, .gx-table td { padding: 5px 8px; border-bottom: 1px solid var(--border); text-align: start; vertical-align: top; }
+.gx-table th { font-weight: var(--fw-semibold); color: var(--ink); }
+/* Each cell takes its direction from its own text: German ad text such as "650 € kalt"
+   inside an Arabic table must not be reordered to "kalt € 650". */
+.gx-table th, .gx-table td { unicode-bidi: plaintext; }
+
+/* A block whose German already turns into the UI language through i18n (a topic's intro):
+   its translation in that same language would say it twice, so it steps aside. It still
+   shows when the learner reads the help in a language other than the UI's. The rule is
+   written per language by src/lib/langCss.js. */
+
+/* The bar is only the draft note now, shown while a translation is (textHelp.js). */
+.gx-bar[hidden] { display: none; }

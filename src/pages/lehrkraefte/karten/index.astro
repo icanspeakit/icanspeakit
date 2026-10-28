@@ -1,0 +1,57 @@
+---
+// Meine Kartensets: the card sets a teacher made from photos of their course book
+// (Vokabeln vom Foto, Tier 2). Private: loaded in the browser from vokabel_sets (own rows
+// only), never at build time; noindex. Playing, printing and sharing come in Tier 3.
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import MascotEmpty from "../../../components/mascots/MascotEmpty.astro";
+import "../../../styles/live-quiz.css";
+import "../../../styles/quiz-builder.css";
+import "../../../styles/vokabel-foto.css";
+---
+<Layout
+  title="Meine Kartensets – EnglishAcademy"
+  description="Ihre Kartensets aus den Wortlisten Ihres Lehrbuchs."
+  noindex
+>
+  <SiteNav active="lehrkraefte" />
+
+  <main class="lq qb vf" id="vf-root">
+    <a class="qb-back" href="/lehrkraefte">Für Lehrkräfte</a>
+    <header class="lq-head">
+      <p class="lq-eyebrow">Für Lehrkräfte · Vokabeln vom Foto</p>
+      <h1 class="lq-title">Meine Kartensets</h1>
+      <p class="lq-lead">Wortlisten aus Ihrem Lehrbuch als EnglishAcademy-Karten. Nur Sie sehen diese Sets.</p>
+    </header>
+
+    <section class="lq-card qb-gate" data-gate="loading">
+      <p>Einen Moment …</p>
+    </section>
+    <section class="lq-card qb-gate" data-gate="signin" hidden>
+      <h2>Bitte melden Sie sich an</h2>
+      <p>Ihre Kartensets liegen in Ihrem Konto. Das Konto ist kostenlos.</p>
+      <a class="lq-btn lq-btn--primary" data-signin-link href="/anmelden?next=/lehrkraefte/karten">Anmelden oder registrieren</a>
+    </section>
+    <section class="lq-card qb-gate" data-gate="teacher" hidden>
+      <h2>Unterrichten Sie Deutsch?</h2>
+      <p>Dann schalten Sie die Werkzeuge für Lehrkräfte frei. Sie können das jederzeit in Ihrem Konto unter Einstellungen wieder ausschalten.</p>
+      <button type="button" class="lq-btn lq-btn--primary" data-teacher-on>Ja, ich unterrichte</button>
+      <p class="lq-error" data-teacher-error role="alert"></p>
+    </section>
+
+    <div class="vf-body" data-gate="ok" hidden>
+      <a class="lq-btn lq-btn--primary vf-new" href="/lehrkraefte/karten/foto">📷 Neues Set vom Foto</a>
+      <p class="qb-status" data-status role="status" aria-live="polite"></p>
+      <ul class="vf-sets" data-sets></ul>
+      <MascotEmpty data-empty hidden text="Noch keine Kartensets. Fotografieren Sie eine Wortliste aus Ihrem Lehrbuch, um das erste anzulegen.">
+        <a slot="action" class="lq-btn lq-btn--primary" href="/lehrkraefte/karten/foto">Erstes Set vom Foto</a>
+      </MascotEmpty>
+    </div>
+  </main>
+
+  <script>
+    import { mountSetList } from "../../../lib/vokabelFoto/page.js";
+    const root = document.getElementById("vf-root");
+    if (root) mountSetList(root);
+  </script>
+</Layout>

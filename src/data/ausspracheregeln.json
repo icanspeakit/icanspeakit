@@ -1,0 +1,172 @@
+{
+  "_note": "Die Ausspracheregeln in der rechten Spalte von /aussprache (AusspracheRegeln.astro). `match` ist ein regulärer Ausdruck, geprüft am kleingeschriebenen Wort ohne Artikel: trifft er, steht die Regel unter „Für dieses Wort“. Ohne `match` gilt die Regel allgemein und wird nie hervorgehoben. Deutsch noch nicht von einer Lehrkraft geprüft.",
+  "reviewed": false,
+  "rules": [
+    {
+      "id": "betonung",
+      "title": "Betonung",
+      "text": "Deutsche Wörter betont man meist auf der ersten Silbe. Die Vorsilben be-, ge-, ver-, zer-, ent- sind nie betont. Wörter aus anderen Sprachen betont man oft hinten.",
+      "examples": [
+        { "w": "Arbeit", "mark": "Ar" },
+        { "w": "bezahlen", "mark": "zah" },
+        { "w": "verstehen", "mark": "ste" },
+        { "w": "Musik", "mark": "sik" }
+      ],
+      "match": "^(be|ge|ver|zer|ent)."
+    },
+    {
+      "id": "lang-kurz",
+      "title": "Langer oder kurzer Vokal",
+      "text": "Lang ist ein Vokal mit h danach, doppelt geschrieben oder vor nur einem Konsonanten. Kurz ist er vor zwei Konsonanten oder einem Doppelkonsonanten.",
+      "examples": [
+        { "w": "fahren", "note": "lang" },
+        { "w": "Boot", "note": "lang" },
+        { "w": "Name", "note": "lang" },
+        { "w": "Mann", "note": "kurz" },
+        { "w": "kommen", "note": "kurz" }
+      ],
+      "match": "[aeiouäöü]h|aa|ee|oo|(ll|mm|nn|ss|tt|pp|ff|rr|ck)"
+    },
+    {
+      "id": "umlaute",
+      "title": "ä, ö, ü",
+      "text": "ä klingt wie e. Für ö sagst du e und machst die Lippen rund. Für ü sagst du i und machst die Lippen rund.",
+      "examples": [
+        { "w": "Männer", "note": "ä wie e" },
+        { "w": "schön", "note": "e + runde Lippen" },
+        { "w": "Tür", "note": "i + runde Lippen" },
+        { "w": "müde" }
+      ],
+      "match": "[äöü]"
+    },
+    {
+      "id": "ei-ie",
+      "title": "ei, ie, eu, au",
+      "text": "ei und ai klingen wie „ai“. ie ist ein langes i. eu und äu klingen wie „oi“. au klingt wie „au“. Achtung: Wein und Wien sind zwei verschiedene Wörter.",
+      "examples": [
+        { "w": "mein", "note": "ai" },
+        { "w": "Liebe", "note": "langes i" },
+        { "w": "heute", "note": "oi" },
+        { "w": "Häuser", "note": "oi" },
+        { "w": "Haus", "note": "au" }
+      ],
+      "match": "ei|ai|ie|eu|äu|au"
+    },
+    {
+      "id": "ch",
+      "title": "ch: hinten oder vorne",
+      "text": "Nach a, o, u und au spricht man ch hinten im Hals (ach-Laut). Sonst spricht man es vorne, wie ein leises Zischen (ich-Laut). chs klingt wie ks.",
+      "examples": [
+        { "w": "Nacht", "note": "hinten" },
+        { "w": "Buch", "note": "hinten" },
+        { "w": "ich", "note": "vorne" },
+        { "w": "Milch", "note": "vorne" },
+        { "w": "sechs", "note": "ks" }
+      ],
+      "match": "(^|[^s])ch"
+    },
+    {
+      "id": "ig",
+      "title": "-ig am Ende",
+      "text": "-ig am Wortende spricht man wie „ich“.",
+      "examples": [
+        { "w": "zwanzig" },
+        { "w": "König" },
+        { "w": "richtig" }
+      ],
+      "match": "ig$"
+    },
+    {
+      "id": "sch-sp-st",
+      "title": "sch, sp, st",
+      "text": "sch klingt wie „sch“ in Schule. Am Wortanfang klingen sp und st wie „schp“ und „scht“. In der Mitte oder am Ende spricht man s + p und s + t.",
+      "examples": [
+        { "w": "Schule" },
+        { "w": "Sport", "note": "schp" },
+        { "w": "Straße", "note": "scht" },
+        { "w": "Fenster", "note": "s + t" }
+      ],
+      "match": "sch|^(be|ge|ver|ent|zer)?(sp|st)"
+    },
+    {
+      "id": "s",
+      "title": "s, ss, ß",
+      "text": "s vor einem Vokal ist weich und summt, wie eine Biene. ss und ß sind immer scharf.",
+      "examples": [
+        { "w": "Sonne", "note": "weich" },
+        { "w": "lesen", "note": "weich" },
+        { "w": "essen", "note": "scharf" },
+        { "w": "Straße", "note": "scharf" }
+      ],
+      "match": "^s[aeiouäöü]|[aeiouäöü]s[aeiouäöü]|ss|ß"
+    },
+    {
+      "id": "auslaut",
+      "title": "b, d, g am Ende",
+      "text": "Am Ende eines Wortes oder einer Silbe werden b, d, g hart: wie p, t, k. In der Mehrzahl (Hunde, Tage) sind sie wieder weich.",
+      "examples": [
+        { "w": "gelb", "note": "p" },
+        { "w": "Hund", "note": "t" },
+        { "w": "Tag", "note": "k" },
+        { "w": "Tage", "note": "g" }
+      ],
+      "match": "[bdg]$|[bdg]t$"
+    },
+    {
+      "id": "r",
+      "title": "r und -er",
+      "text": "Am Silbenanfang spricht man r hinten im Hals. Am Wortende klingt -er fast wie ein kurzes a. Nach einem langen Vokal ist r kaum zu hören.",
+      "examples": [
+        { "w": "rot", "note": "r hinten" },
+        { "w": "Vater", "note": "-er ≈ a" },
+        { "w": "Lehrer", "note": "-er ≈ a" },
+        { "w": "Uhr", "note": "r leise" }
+      ],
+      "match": "er$|ern$|r$"
+    },
+    {
+      "id": "h",
+      "title": "h",
+      "text": "Am Wort- oder Silbenanfang hört man h als Hauch. Nach einem Vokal ist h stumm: Es macht den Vokal nur lang.",
+      "examples": [
+        { "w": "Haus", "note": "Hauch" },
+        { "w": "gehen", "note": "stumm" },
+        { "w": "Sohn", "note": "stumm" }
+      ],
+      "match": "^h|[aeiouäöü]h"
+    },
+    {
+      "id": "buchstaben",
+      "title": "w, v, z, j, qu, pf",
+      "text": "w klingt wie englisches v. v klingt meist wie f, in Fremdwörtern wie w. z und tz klingen wie „ts“. j klingt wie englisches y. qu ist „kw“. Bei pf hört man p und f.",
+      "examples": [
+        { "w": "Wasser", "note": "w = v" },
+        { "w": "Vater", "note": "v = f" },
+        { "w": "Zeit", "note": "ts" },
+        { "w": "ja", "note": "j = y" },
+        { "w": "Apfel", "note": "p + f" }
+      ],
+      "match": "w|v|z|^j|qu|pf"
+    },
+    {
+      "id": "e-ende",
+      "title": "-e und -en am Ende",
+      "text": "-e am Ende ist kurz und schwach, aber man hört es. Bei -en hört man oft nur das n.",
+      "examples": [
+        { "w": "bitte" },
+        { "w": "Name" },
+        { "w": "machen", "note": "≈ machn" }
+      ],
+      "match": "e$|en$"
+    },
+    {
+      "id": "knacklaut",
+      "title": "Neuer Einsatz vor Vokalen",
+      "text": "Beginnt ein Wort oder eine Silbe mit einem Vokal, macht man vorher einen kleinen Stopp. Man verbindet die Wörter nicht.",
+      "examples": [
+        { "w": "am Abend", "note": "am | Abend" },
+        { "w": "beenden", "note": "be | enden" }
+      ]
+    }
+  ]
+}

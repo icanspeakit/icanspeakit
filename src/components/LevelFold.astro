@@ -1,0 +1,187 @@
+---
+// "Wo stehst du?" — the homepage fold below 1024px.
+//
+// Replaces the hero paragraph with five tap targets. The fifth tile is the escape
+// hatch: most new learners cannot place themselves on the CEFR scale, and four
+// level tiles quietly assume they can.
+//
+// What a tile does depends on whether this browser has a record (src/lib/levelFold.js):
+//
+//   returning learner — straight into an exercise at that level, the one they were
+//     last in if there is one, otherwise the first they have not touched. They have
+//     already answered "wo stehst du?"; asking again with a menu is a step backwards.
+//   first visit — the tile opens into that level's own short list: the grammar topics
+//     and the word list for it. "A1" alone does not say what an A1 session IS, and
+//     dropping someone cold into one fixed topic makes that choice for them.
+//   no JS at all — the tile is a plain link to the entry topic below, exactly as before.
+//
+// The entry topic per level is chosen, not derived — taking "the first topic of
+// that level" gave B1 · Adjektivdeklination, which is a poor advertisement for
+// B1. It is the link the tile carries, and the first row of the panel. If a slug
+// here ever disappears, the build fails loudly rather than linking into nowhere.
+import "../styles/level-fold.css";
+import EinfachEntry from "./EinfachEntry.astro";
+import grammatik from "../data/grammatik.json";
+import { asVokabelCards } from "../lib/lexicon.js";
+import { isReviewed } from "../lib/topicStatus.js";
+
+const workspaceModules = import.meta.glob("../data/grammatik/*.json", { eager: true });
+const workspaces = Object.values(workspaceModules).map((m) => m.default ?? m).filter(isReviewed);
+const covered = new Set(workspaces.map((w) => w.id));
+const quizOnly = grammatik.filter((t) => !covered.has(t.id));
+
+const bySlug = new Map(workspaces.map((w) => [w.slug ?? w.id, w]));
+
+// One row shape for both kinds of topic, so the panel does not have to care which
+// it is holding. The count is whatever that topic actually contains — exercises for
+// a workspace, questions for a quiz-only topic — never a rounded-up "lessons".
+const topicRow = (t, kind) => ({
+  href: `/${kind === "workspace" ? (t.slug ?? t.id) : t.id}`,
+  name: t.name,
+  level: t.level,
+  count: kind === "workspace" ? (t.exercises ?? []).length : (t.questions ?? []).length,
+  countKey: kind === "workspace" ? "fold.row.exercises" : "fold.row.questions",
+});
+
+const ALL_TOPICS = [
+  ...workspaces.map((w) => topicRow(w, "workspace")),
+  ...quizOnly.map((t) => topicRow(t, "quiz")),
+];
+
+const ENTRY = [
+  { level: "A1", slug: "artikel" },
+  { level: "A2", slug: "perfekt" },
+  { level: "B1", slug: "verben-praepositionen" },
+  { level: "B2", slug: "partizip-als-adjektiv" },
+];
+
+// A phone panel that scrolls is a panel nobody reads to the end of, and B1 has
+// eleven topics. So the level's own entry topic leads, four more follow, and the
+// rest live one tap further on at /grammatik.
+const PANEL_TOPICS = 5;
+
+const LEVELS = ENTRY.map(({ level, slug }) => {
+  const topic = bySlug.get(slug);
+  if (!topic) throw new Error(`LevelFold: kein Grammatikthema mit slug "${slug}" (Einstieg für ${level})`);
+  const href = `/${slug}`;
+  const all = ALL_TOPICS.filter((t) => t.level === level);
+  // The lexicon stops where it stops; a level with no words gets no word row rather
+  // than a link to an empty deck.
+  const words = asVokabelCards({ level }).length;
+  return {
+    level,
+    name: topic.name,
+    href,
+    count: all.length,
+    slug: level.toLowerCase(),
+    topics: [...all.filter((t) => t.href === href), ...all.filter((t) => t.href !== href)],
+    words: words > 0 ? { href: `/wortschatz/${level.toLowerCase()}`, count: words } : null,
+  };
+});
+
+// The escape hatch leads to the placement test, not to A1. "Wir fangen bei A1 an — du
+// merkst in zwei Fragen, ob es zu leicht ist" put the placing on the learner: guess, start,
+// notice, go back, guess again. Someone who cannot place themselves on the CEFR scale also
+// cannot tell from one exercise whether a topic is beneath them, so the guess mostly stood.
+// Eight questions answer it instead.
+const unsureHref = "/einstufungstest";
+
+const EXAM_CHIPS = [
+  { label: "DTZ", href: "/dtz" },
+  { label: "telc", href: "/telc" },
+  { label: "Goethe", href: "/goethe" },
+  { label: "TestDaF", href: "/testdaf" },
+  { label: "Leben in Deutschland", href: "/leben-in-deutschland" },
+];
+---
+<section class="lf" data-lf>
+  <div class="lf-wrap">
+    <p class="lf-kicker" data-i18n="fold.free">Kostenlos · ohne Konto</p>
+    <h2 class="lf-ask" data-i18n="fold.ask">Wo stehst du?</h2>
+    <!-- Swapped by levelFold.js on a first visit, where the tile opens a list instead
+         of an exercise. The server copy describes the no-JS path, which is the direct one. -->
+    <p class="lf-ask-sub" data-lf-sub data-i18n="fold.askSub">Tipp auf dein Niveau — du bist sofort in der ersten Übung.</p>
+
+    <!-- „Einfach lernen" leads the picker (EINFACH-PLATZIERUNG): the learner who is not on
+         the CEFR scale yet gets a door of their own before the letters, not a row under them. -->
+    <div class="lf-einfach lf-einfach--lead" data-lf-einfach><EinfachEntry variant="tile" /></div>
+
+    <div class="lf-levels" data-lf-home>
+      {LEVELS.map((l) => (
+        <a class="lf-tile" href={l.href} data-lf-tile={l.level}>
+          <span class="lf-tile-level">{l.level}</span>
+          <span>
+            <span class="lf-tile-name">{l.name}</span>
+            <span class="lf-tile-meta" data-i18n="fold.topics" data-i18n-vars={JSON.stringify({ n: l.count })}>{l.count} Themen</span>
+          </span>
+        </a>
+      ))}
+      <!-- No data-lf-tile: the other four open a level's panel, this one is a plain link
+           to the test. A new key rather than fold.unsureSub, whose translations all still
+           promise the old A1 start. -->
+      <a class="lf-tile lf-tile--unsure" href={unsureHref}>
+        <span class="lf-tile-level">?</span>
+        <span>
+          <span class="lf-tile-name" data-i18n="fold.unsure">Weiß ich nicht</span>
+          <span class="lf-tile-meta" data-i18n="fold.unsureTest">Kurzer Einstufungstest — höchstens acht Fragen, dann weißt du es.</span>
+        </span>
+      </a>
+    </div>
+
+
+    <!-- Rendered here on the server, not built by JS: the links are in the HTML for
+         crawlers, and on a first visit the panel is one tap away with nothing to fetch. -->
+    <div class="lf-detail" data-lf-detail hidden>
+      <div class="lf-detail-head">
+        <button class="lf-back" type="button" data-lf-back aria-label="Zurück" data-i18n-attr="aria-label:fold.back">←</button>
+        <span class="lf-detail-level" data-lf-detail-level></span>
+        <span class="lf-detail-title" data-i18n="fold.panelTitle">Womit fängst du an?</span>
+      </div>
+
+      {LEVELS.map((l) => (
+        <div class="lf-panel" data-lf-panel={l.level} hidden>
+          <p class="lf-panel-label" data-i18n="fold.panel.grammar">Grammatik</p>
+          <div class="lf-rows">
+            {l.topics.slice(0, PANEL_TOPICS).map((t) => (
+              <a class="lf-row" href={t.href}>
+                <span class="lf-row-t">{t.name}</span>
+                <span class="lf-row-n" data-i18n={t.countKey} data-i18n-vars={JSON.stringify({ n: t.count })}>
+                  {t.count} {t.countKey === "fold.row.exercises" ? "Übungen" : "Fragen"}
+                </span>
+              </a>
+            ))}
+          </div>
+          {l.topics.length > PANEL_TOPICS && (
+            <a class="lf-panel-all" href={`/grammatik#niveau-${l.slug}`} data-i18n="fold.allTopics" data-i18n-vars={JSON.stringify({ n: l.topics.length })}>
+              Alle {l.topics.length} Themen →
+            </a>
+          )}
+
+          {l.words && (
+            <>
+              <p class="lf-panel-label" data-i18n="fold.panel.words">Wortschatz</p>
+              <div class="lf-rows">
+                <a class="lf-row" href={l.words.href}>
+                  <span class="lf-row-t" data-i18n="fold.wordList" data-i18n-vars={JSON.stringify({ level: l.level })}>Wortliste {l.level}</span>
+                  <span class="lf-row-n" data-i18n="fold.row.words" data-i18n-vars={JSON.stringify({ n: l.words.count })}>{l.words.count} Wörter</span>
+                </a>
+              </div>
+            </>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <p class="lf-sub-head" data-i18n="fold.orExam">Oder direkt zur Prüfung</p>
+    <div class="lf-chips">
+      {EXAM_CHIPS.map((e) => <a class="lf-chip" href={e.href}>{e.label}</a>)}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Mounted from the component rather than each page, so /mobile3 and any future
+  // placement get the same behaviour without remembering to wire it up.
+  import { mountLevelFold } from "../lib/levelFold.js";
+  document.querySelectorAll("[data-lf]").forEach((el) => mountLevelFold(el));
+</script>

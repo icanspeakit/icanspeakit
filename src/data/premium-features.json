@@ -1,0 +1,73 @@
+[
+  {
+    "id": "pruefungssaetze",
+    "gate": "content",
+    "live": true,
+    "free": { "limit": 1, "unit": "sets", "per": "exam", "needsAccount": false },
+    "paid": { "limit": null, "unit": "sets", "per": "exam" },
+    "unlockedBy": ["pack_*", "premium"],
+    "page": "/dtz/uebungssatz",
+    "i18n": "premium.feature.pruefungssaetze"
+  },
+  {
+    "id": "c1",
+    "gate": "content",
+    "live": true,
+    "free": { "limit": 0, "unit": "sets", "per": "level", "needsAccount": false },
+    "paid": { "limit": null, "unit": "sets", "per": "level" },
+    "unlockedBy": ["premium"],
+    "page": "/goethe",
+    "links": [{ "href": "/goethe/c1", "label": "Goethe C1" }, { "href": "/telc/c1", "label": "telc C1" }],
+    "i18n": "premium.feature.c1"
+  },
+  {
+    "id": "aussprache",
+    "gate": "meter",
+    "live": true,
+    "free": { "limit": 2, "unit": "sessions", "per": "day", "needsAccount": true },
+    "paid": { "limit": 30, "unit": "sessions", "per": "day" },
+    "unlockedBy": ["premium"],
+    "page": "/aussprache-check",
+    "i18n": "premium.feature.aussprache"
+  },
+  {
+    "id": "fehler",
+    "gate": "soft",
+    "live": true,
+    "free": { "limit": 20, "unit": "mistakes", "per": "view", "needsAccount": false },
+    "paid": { "limit": null, "unit": "mistakes", "per": "view" },
+    "unlockedBy": ["premium"],
+    "page": "/meine-fehler",
+    "i18n": "premium.feature.fehler"
+  },
+  {
+    "id": "wortschatz",
+    "gate": "soft",
+    "live": true,
+    "free": { "limit": 20, "unit": "reviews", "per": "day", "needsAccount": false },
+    "paid": { "limit": null, "unit": "reviews", "per": "day" },
+    "unlockedBy": ["premium"],
+    "page": "/wortschatz",
+    "i18n": "premium.feature.wortschatz"
+  },
+  {
+    "id": "pruefungsplan",
+    "gate": "soft",
+    "live": true,
+    "free": { "limit": 1, "unit": "weeks", "per": "plan", "needsAccount": false },
+    "paid": { "limit": null, "unit": "weeks", "per": "plan" },
+    "unlockedBy": ["pack_*", "premium"],
+    "page": "/pruefungsplan",
+    "i18n": "premium.feature.pruefungsplan"
+  },
+  {
+    "id": "lehrkraefte",
+    "gate": "server",
+    "live": false,
+    "free": { "limit": 10, "unit": "players", "per": "room", "needsAccount": true },
+    "paid": { "limit": 40, "unit": "players", "per": "room" },
+    "unlockedBy": ["teacher"],
+    "page": "/lehrkraefte",
+    "i18n": "premium.feature.lehrkraefte"
+  }
+]

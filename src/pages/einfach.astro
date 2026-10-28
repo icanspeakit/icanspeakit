@@ -1,0 +1,135 @@
+---
+// /einfach — „Einfach lernen", the easy mode: the whole product in one route.
+//
+// The site knows a lot and says all of it: /grammatik lists 28 topic cards under
+// five level headings, the Wortschatz trainer opens on a deck of 3.375 words with tabs,
+// language switches and a picker around it, and the dashboard reports six skills at once.
+// On a 390px phone — which is who this is for — none of that fits, and a learner who
+// cannot see the end of a screen decides they cannot do the thing on it.
+//
+// So this route rebuilds the same product under four rules and nothing else:
+//
+//   1. One decision per screen, three options at the very most.
+//   2. A sitting, not a pile. Nothing states a total — no 3.375, no 28, no 412.
+//   3. Progress is a sentence you can feel ("Du fragst nach dem Weg."), not a percentage.
+//   4. One primary action, in the thumb zone, always.
+//
+// Einfach lernen (EINFACH-LERNEN-TIERED-PROMPT.md): the units are the curated path in
+// src/data/einfach-pfad.json. They are resolved here, at build time, from the site's
+// reviewed data — lexicon, grammar exercises, Kultur facts — so the browser gets a few
+// kilobytes of ready tasks instead of the lexicon. A ref that no longer resolves fails the
+// build (same check as `pnpm check:einfach`). /einfach?fixtures plays the prototype's three
+// hand-written sittings instead (src/lib/einfach-fixtures.js), for testing the flow.
+import Layout from "../layouts/Layout.astro";
+import "../styles/einfach.css";
+import { resolvePath, checkUnits } from "../lib/einfach-content.js";
+import pfad from "../data/einfach-pfad.json";
+import lexA1 from "../content/lexicon/a1.json";
+import akkusativ from "../data/akkusativ.json";
+import kultur from "../data/kultur.json";
+import kulturInsider from "../data/kultur-insider.json";
+import artikelPacks from "../data/artikel-packs.json";
+import hoeren from "../data/hoeren.json";
+import aussprache from "../data/aussprache-check.json";
+import redemittel from "../data/redemittel.json";
+import einstufung from "../data/einstufung.json";
+
+const grammatik = Object.fromEntries(
+  Object.entries(import.meta.glob("../data/grammatik/*.json", { eager: true, import: "default" })).map(([f, mod]) => [
+    f.split("/").pop()!.replace(/\.json$/, ""),
+    mod,
+  ]),
+);
+const { units, errors } = resolvePath(pfad, {
+  lexicon: { a1: lexA1 },
+  grammatik,
+  akkusativ,
+  kultur,
+  kulturInsider,
+  articleRules: (artikelPacks as any).rules,
+  hoeren,
+  aussprache,
+  redemittel,
+});
+errors.push(...checkUnits(units));
+// Inline JSON: a "<" in the data must not be able to close the script tag.
+// Placement: the A1 quick check (six items), same data as /einstufungstest.
+const placementJson = JSON.stringify(einstufung.levels.A1).replaceAll("<", String.fromCharCode(92) + "u003c");
+// The Android app build adds its glue after the page has mounted (src/lib/appEinfach.js).
+const APP = import.meta.env.PUBLIC_TARGET === "app";
+const unitsJson = JSON.stringify(units).replaceAll("<", String.fromCharCode(92) + "u003c");
+if (errors.length) throw new Error(`einfach-pfad.json:\n  ${errors.join("\n  ")}`);
+---
+<!-- Indexed since the placement pass (EINFACH-PLATZIERUNG): „Deutsch lernen – ganz einfach"
+     is what the learners this page is for actually type, so the page stands on its own in
+     search instead of hiding behind noindex. -->
+<Layout
+  title="Deutsch lernen für Anfänger – ganz einfach – EnglishAcademy"
+  description="Deutsch für Anfänger in kurzen Runden von zwei Minuten: ein Schritt pro Bildschirm, mit Audio und Bruno als Begleiter. Kostenlos, ohne Konto."
+>
+  <script type="application/json" id="el-units" set:html={unitsJson} />
+  <script type="application/json" id="el-placement" set:html={placementJson} />
+  <!-- The app paints one step per screen and has no title of its own; the page's h1 is
+       for screen readers and search, so it stays out of sight. -->
+  <h1 class="el-h1">Deutsch lernen – ganz einfach</h1>
+  <div id="el-app" class="el-app">
+    <noscript>
+      <div style="padding:24px;max-width:40rem">
+        <h2>Deutsch lernen – ganz einfach</h2>
+        <p>Kurze Runden von zwei Minuten: ein neues Wort, der richtige Artikel, ein Satz zum Nachsprechen. Ein Schritt pro Bildschirm, für Anfänger ohne Vorwissen. Kostenlos und ohne Konto.</p>
+        <p>Diese Übungen brauchen JavaScript. Ohne JavaScript findest du alle Themen auf der <a href="/?voll">ganzen Seite</a>.</p>
+      </div>
+    </noscript>
+  </div>
+</Layout>
+
+<script>
+  import { mountEinfach } from "../lib/einfach-view.js";
+  import { setUnits, setPlacement } from "../lib/einfach-app.js";
+  import { FIXTURES } from "../lib/einfach-fixtures.js";
+  const fixtures = new URLSearchParams(location.search).has("fixtures");
+  setUnits(fixtures ? FIXTURES : JSON.parse(document.getElementById("el-units")?.textContent || "[]"));
+  if (!fixtures) setPlacement(JSON.parse(document.getElementById("el-placement")?.textContent || "[]"));
+  mountEinfach(document.getElementById("el-app"));
+</script>
+
+<style is:global>
+  .el-h1 { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  /* The prototype owns the viewport: no page scroll, no site chrome above it. Scoped to
+     this route by the attribute the page sets on <html> below. */
+  html[data-einfach],
+  html[data-einfach] body {
+    overflow: hidden;
+  }
+  /* The height the browser actually shows, measured (script below): on some Android
+     phones 100dvh came out taller than the screen, and since nothing scrolls here, the
+     foot's button was cut off under the system bar with no way to reach it. 100vh and
+     100dvh stay as the fallback before the first measurement. */
+  html[data-einfach] body {
+    height: 100vh;
+    height: 100dvh;
+    height: var(--el-vh, 100dvh);
+    display: flex;
+    flex-direction: column;
+  }
+  /* The demo dock's fixed corner lands on the app's one primary button on a phone. */
+  @media (max-width: 559px) {
+    html[data-einfach] .demo-dock { display: none; }
+  }
+</style>
+
+<script is:inline>
+  document.documentElement.dataset.einfach = "";
+  (function () {
+    var root = document.documentElement;
+    var vv = window.visualViewport;
+    function fit() {
+      var h = Math.min(window.innerHeight, vv ? vv.height : Infinity);
+      if (h > 0) root.style.setProperty("--el-vh", h + "px");
+    }
+    fit();
+    addEventListener("resize", fit);
+    addEventListener("orientationchange", fit);
+    if (vv) vv.addEventListener("resize", fit);
+  })();
+</script>

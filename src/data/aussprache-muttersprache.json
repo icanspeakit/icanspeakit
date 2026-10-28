@@ -1,0 +1,558 @@
+{
+  "_note": "Ausspracheübungen nach Muttersprache für /kultur/fehler. Jede Übung trainiert einen Laut, der aus einer bestimmten Muttersprache schwer ist (Transfer — siehe fehler-nach-sprache.json). `pairs`: Minimalpaare, das erste Wort ist das Ziel, das zweite das, was oft stattdessen herauskommt; beide sind echte deutsche Wörter. `words`: Übungswörter ohne Partner. `sentence`: zum Nachsprechen, bewertet mit Azure wie der Aussprache-Check. `fehler`: die ids der Fehler in fehler-nach-sprache.json, die diese Übung trainiert (Gegenstück zu deren `drill`; geprüft mit pnpm check:aussprache). Audio: scripts/generate-muttersprache-audio.mjs → public/audio/muttersprache/<slug>.mp3.",
+  "drills": {
+    "p-b": {
+      "title": "p oder b?",
+      "tip": "Beim „p“ kommt ein kleiner Luftstoß. Halte ein Blatt Papier vor den Mund: Bei „p“ bewegt es sich, bei „b“ nicht.",
+      "pairs": [
+        [
+          "Pass",
+          "Bass"
+        ],
+        [
+          "packen",
+          "backen"
+        ],
+        [
+          "Paar",
+          "Bar"
+        ],
+        [
+          "Pier",
+          "Bier"
+        ]
+      ],
+      "sentence": "Am Pier packen wir ein Paar Schuhe und den Pass ein.",
+      "fehler": [
+        "arabisch-p-b"
+      ]
+    },
+    "e-i-o-u": {
+      "title": "e oder i · o oder u?",
+      "tip": "Deutsch hat mehr Vokale als viele Sprachen. „e“ und „i“, „o“ und „u“ verändern die Bedeutung. Bei „i“ und „u“ ist der Mund enger.",
+      "pairs": [
+        [
+          "legen",
+          "liegen"
+        ],
+        [
+          "wer",
+          "wir"
+        ],
+        [
+          "Teer",
+          "Tier"
+        ],
+        [
+          "Mond",
+          "Mund"
+        ],
+        [
+          "Ton",
+          "tun"
+        ]
+      ],
+      "sentence": "Wer will etwas tun, wenn das Tier unter dem Mond liegen bleibt?",
+      "fehler": [
+        "arabisch-e-i-o-u",
+        "tagalog-e-i-o-u"
+      ]
+    },
+    "sp-st": {
+      "title": "sp · st · Konsonanten am Anfang",
+      "tip": "Kein Vokal davor und keiner dazwischen: „Straße“, nicht „Ischtraße“ oder „Estraße“. Am Wortanfang spricht man „sp“ und „st“ wie „schp“ und „scht“.",
+      "words": [
+        "Spiel",
+        "Sport",
+        "sprechen",
+        "Straße",
+        "Stadt",
+        "Student",
+        "Schule",
+        "Klasse",
+        "Kleid",
+        "Brot"
+      ],
+      "sentence": "Der Student spielt Sport in der Stadt.",
+      "fehler": [
+        "arabisch-sp-st",
+        "tuerkisch-sp-st",
+        "persisch-sp-st",
+        "spanisch-sp-st"
+      ]
+    },
+    "ue-oe": {
+      "title": "ü und ö",
+      "tip": "ü: Sag „i“ und mach die Lippen rund wie bei „u“. ö: Sag „e“ und mach die Lippen rund wie bei „o“. Die Zunge bleibt, wo sie ist.",
+      "pairs": [
+        [
+          "Tür",
+          "Tier"
+        ],
+        [
+          "lügen",
+          "liegen"
+        ],
+        [
+          "Küste",
+          "Kiste"
+        ],
+        [
+          "für",
+          "vier"
+        ],
+        [
+          "lösen",
+          "lesen"
+        ],
+        [
+          "können",
+          "kennen"
+        ]
+      ],
+      "sentence": "Hinter der grünen Tür liegen vier Bücher in der Kiste. Die können wir lesen.",
+      "fehler": [
+        "persisch-ue-oe",
+        "polnisch-ue-oe",
+        "spanisch-ue-oe",
+        "vietnamesisch-ue-oe",
+        "tagalog-ue-oe"
+      ]
+    },
+    "h": {
+      "title": "Das „h“ am Anfang",
+      "tip": "Das deutsche „h“ ist nur ein Hauch — wie wenn du auf eine kalte Brille atmest. Nicht weglassen, aber auch nicht im Hals kratzen.",
+      "pairs": [
+        [
+          "Haus",
+          "aus"
+        ],
+        [
+          "Hund",
+          "und"
+        ],
+        [
+          "hier",
+          "ihr"
+        ],
+        [
+          "halt",
+          "alt"
+        ],
+        [
+          "Hände",
+          "Ende"
+        ]
+      ],
+      "sentence": "Hier ist das Haus, der Hund ist alt, und Hanna wäscht die Hände.",
+      "fehler": [
+        "russisch-h",
+        "franzoesisch-h",
+        "italienisch-h"
+      ]
+    },
+    "hart": {
+      "title": "Harte Konsonanten vor e und i",
+      "tip": "Vor „e“ und „i“ bleibt der Konsonant hart: „Bett“, nicht „Bjett“. Die Zunge geht nicht zum Gaumen hoch.",
+      "words": [
+        "Bett",
+        "Tee",
+        "nett",
+        "Liebe",
+        "Bier",
+        "denn",
+        "Mitte",
+        "Lehrer"
+      ],
+      "sentence": "Der Tee ist nett, das Bett ist neu.",
+      "fehler": [
+        "russisch-hart",
+        "polnisch-hart"
+      ]
+    },
+    "g-h": {
+      "title": "g oder h?",
+      "tip": "Das deutsche „g“ ist hart wie in „gut“ — die Zunge schließt hinten kurz. Das „h“ ist nur Luft.",
+      "pairs": [
+        [
+          "gut",
+          "Hut"
+        ],
+        [
+          "Geld",
+          "Held"
+        ],
+        [
+          "Gast",
+          "hast"
+        ],
+        [
+          "ganz",
+          "Hans"
+        ],
+        [
+          "Garten",
+          "harten"
+        ]
+      ],
+      "sentence": "Hans hat einen Hut, und der Gast hat Geld für den Garten.",
+      "fehler": [
+        "ukrainisch-g-h"
+      ]
+    },
+    "auslaut": {
+      "title": "Am Wortende hart",
+      "tip": "Am Ende eines Wortes wird „d“ zu „t“, „g“ zu „k“, „b“ zu „p“: „Hund“ klingt wie „Hunt“. Das Wort schreibt man trotzdem mit „d“.",
+      "words": [
+        "Hund",
+        "Tag",
+        "Kind",
+        "Wald",
+        "gelb",
+        "Rad",
+        "Zug",
+        "halb"
+      ],
+      "sentence": "Am Tag geht das Kind mit dem Hund in den Wald.",
+      "fehler": [
+        "ukrainisch-auslaut"
+      ]
+    },
+    "ende": {
+      "title": "Den letzten Konsonanten sprechen",
+      "tip": "Im Deutschen enden viele Wörter mit einem oder mehreren Konsonanten. Sprich sie alle, auch das letzte „t“ oder „d“.",
+      "pairs": [
+        [
+          "Wald",
+          "Wal"
+        ],
+        [
+          "Kind",
+          "Kinn"
+        ]
+      ],
+      "words": [
+        "Brot",
+        "Kind",
+        "Herbst",
+        "nichts",
+        "Obst"
+      ],
+      "sentence": "Im Herbst geht das Kind in den Wald und isst Brot und Obst.",
+      "fehler": [
+        "chinesisch-ende"
+      ]
+    },
+    "r-l": {
+      "title": "r oder l?",
+      "tip": "Bei „l“ liegt die Zungenspitze oben hinter den Zähnen. Das „r“ entsteht hinten im Hals, die Zungenspitze bleibt unten.",
+      "pairs": [
+        [
+          "Rand",
+          "Land"
+        ],
+        [
+          "Ratte",
+          "Latte"
+        ],
+        [
+          "rot",
+          "Lot"
+        ],
+        [
+          "Rose",
+          "lose"
+        ]
+      ],
+      "sentence": "Die Rose ist rot, und links am Rand sitzt eine Ratte."
+    },
+    "kurz-lang": {
+      "title": "Kurz oder lang?",
+      "tip": "Ein kurzer Vokal vor zwei Konsonanten („Bett“), ein langer vor einem („Beet“) oder vor „h“ („Sohn“). Die Länge ändert die Bedeutung.",
+      "pairs": [
+        [
+          "Stadt",
+          "Staat"
+        ],
+        [
+          "Bett",
+          "Beet"
+        ],
+        [
+          "Kamm",
+          "kam"
+        ],
+        [
+          "Mitte",
+          "Miete"
+        ],
+        [
+          "offen",
+          "Ofen"
+        ]
+      ],
+      "sentence": "Er kam in die Stadt: Die Miete ist hoch, aber der Ofen ist warm und das Bett ist neu.",
+      "fehler": [
+        "polnisch-kurz-lang",
+        "italienisch-kurz-lang",
+        "italienisch-doppelkonsonant",
+        "vietnamesisch-kurz-lang"
+      ]
+    },
+    "z-w": {
+      "title": "z = ts · w = v",
+      "tip": "Das deutsche „z“ klingt wie „ts“ in „Katze“. Das „w“ klingt wie ein englisches „v“ — die obere Zahnreihe berührt die Unterlippe.",
+      "words": [
+        "Zoo",
+        "Zeit",
+        "zehn",
+        "Zug",
+        "Katze",
+        "Wasser",
+        "Wein",
+        "wo",
+        "Welt"
+      ],
+      "sentence": "Um zehn Uhr trinken wir Wasser im Zug.",
+      "fehler": [
+        "englisch-z-w",
+        "tagalog-z"
+      ]
+    },
+    "w-b": {
+      "title": "w oder b?",
+      "tip": "Bei „w“ berühren die oberen Zähne die Unterlippe, und es summt. Bei „b“ schließen beide Lippen.",
+      "pairs": [
+        [
+          "Wein",
+          "Bein"
+        ],
+        [
+          "Wand",
+          "Band"
+        ],
+        [
+          "Wall",
+          "Ball"
+        ],
+        [
+          "wir",
+          "Bier"
+        ]
+      ],
+      "sentence": "Wir trinken Wein, und der Ball fliegt an die Wand.",
+      "fehler": [
+        "spanisch-w-b",
+        "tagalog-w-b"
+      ]
+    },
+    "betonung": {
+      "title": "Betonung am Anfang",
+      "tip": "Deutsche Wörter betont man meistens auf der ersten Silbe, dem Stamm: AR-beit, FENS-ter, FRÜH-stück. Die Endung ist leise.",
+      "words": [
+        "Arbeit",
+        "Fenster",
+        "Frühstück",
+        "Mutter",
+        "Bahnhof",
+        "einkaufen",
+        "Wohnung"
+      ],
+      "sentence": "Nach der Arbeit gehe ich zum Bahnhof.",
+      "fehler": [
+        "franzoesisch-betonung"
+      ]
+    },
+    "ch": {
+      "title": "ch: ich und ach",
+      "tip": "Nach a, o, u kratzt das „ch“ hinten (Bach, Buch). Nach e, i, ü, ö und Konsonanten ist es weich und vorne — wie ein leises Fauchen (ich, Milch). Nicht „sch“!",
+      "pairs": [
+        [
+          "mich",
+          "misch"
+        ],
+        [
+          "Kirche",
+          "Kirsche"
+        ]
+      ],
+      "words": [
+        "ich",
+        "Milch",
+        "Küche",
+        "Buch",
+        "auch",
+        "acht"
+      ],
+      "sentence": "Nach der Kirche koche ich in der Küche Milch für mich.",
+      "fehler": [
+        "franzoesisch-ch",
+        "tagalog-ch"
+      ]
+    },
+    "kein-e": {
+      "title": "Kein Vokal am Ende",
+      "tip": "Viele deutsche Wörter enden auf einen Konsonanten. Hänge kein „e“ an: „Haus“, nicht „Hausse“. Und ein doppelter Buchstabe heißt nur: Der Vokal davor ist kurz.",
+      "words": [
+        "Haus",
+        "gut",
+        "Hund",
+        "Tag",
+        "ich habe",
+        "Mutter",
+        "Bett",
+        "kommen"
+      ],
+      "sentence": "Das Haus ist gut, der Hund ist alt.",
+      "fehler": [
+        "italienisch-kein-e"
+      ]
+    },
+    "s": {
+      "title": "Weiches s",
+      "tip": "Vor einem Vokal summt das „s“ wie eine Biene: „Sonne“, „Rose“. Nur am Ende und vor Konsonanten ist es scharf.",
+      "words": [
+        "Sonne",
+        "See",
+        "sieben",
+        "Rose",
+        "lesen",
+        "Sofa"
+      ],
+      "sentence": "Sie sitzt in der Sonne am See und liest."
+    },
+    "endkonsonanten": {
+      "title": "Konsonanten am Wortende",
+      "tip": "Sprich den letzten Laut hörbar aus — bei „Hund“ ein kurzes „t“, bei „Markt“ „k“ und „t“. Stell dir vor, das Wort geht nach dem Konsonanten noch einen Moment weiter.",
+      "pairs": [
+        [
+          "Markt",
+          "Mark"
+        ],
+        [
+          "Geld",
+          "Gel"
+        ]
+      ],
+      "words": [
+        "Hund",
+        "halb",
+        "Geld",
+        "Markt",
+        "jetzt",
+        "Tag",
+        "Brot"
+      ],
+      "sentence": "Am Tag holt der Hund jetzt Brot und Geld vom Markt.",
+      "fehler": [
+        "vietnamesisch-endkonsonanten"
+      ]
+    },
+    "cluster": {
+      "title": "Konsonanten ohne Vokal dazwischen",
+      "tip": "Kein Vokal zwischen den Konsonanten: „Straße“ ist schtr-, nicht „Sitraße“. Sprich die Konsonanten langsam zusammen, dann schneller.",
+      "words": [
+        "Straße",
+        "sprechen",
+        "Pflanze",
+        "Schwester",
+        "Herbst",
+        "du sprichst",
+        "nächste"
+      ],
+      "sentence": "Im Herbst pflanzt meine Schwester Blumen an der Straße.",
+      "fehler": [
+        "vietnamesisch-cluster"
+      ]
+    },
+    "verbendungen": {
+      "title": "Die Endung am Verb",
+      "tip": "Die Endung sagt, wer es tut: du …st, er …t, ihr …t. Sprich sie immer mit — auch wenn der Satz schnell ist.",
+      "words": [
+        "du kommst",
+        "du machst",
+        "er macht",
+        "ihr lernt"
+      ],
+      "sentence": "Du kommst, er macht Kaffee, und ihr lernt Deutsch.",
+      "fehler": [
+        "vietnamesisch-verbendungen"
+      ]
+    }
+  },
+  "languages": {
+    "arabisch": [
+      "p-b",
+      "e-i-o-u",
+      "sp-st",
+      "ue-oe"
+    ],
+    "tuerkisch": [
+      "sp-st",
+      "ch",
+      "kurz-lang"
+    ],
+    "persisch": [
+      "sp-st",
+      "ue-oe",
+      "ch"
+    ],
+    "russisch": [
+      "h",
+      "hart",
+      "ue-oe"
+    ],
+    "ukrainisch": [
+      "g-h",
+      "auslaut",
+      "ue-oe"
+    ],
+    "polnisch": [
+      "kurz-lang",
+      "hart",
+      "ue-oe"
+    ],
+    "englisch": [
+      "z-w",
+      "ue-oe",
+      "ch"
+    ],
+    "franzoesisch": [
+      "h",
+      "betonung",
+      "ch"
+    ],
+    "italienisch": [
+      "h",
+      "kurz-lang",
+      "kein-e"
+    ],
+    "spanisch": [
+      "sp-st",
+      "w-b",
+      "ue-oe",
+      "s"
+    ],
+    "chinesisch": [
+      "ende",
+      "r-l",
+      "sp-st"
+    ],
+    "vietnamesisch": [
+      "endkonsonanten",
+      "cluster",
+      "verbendungen",
+      "ch",
+      "ue-oe",
+      "kurz-lang",
+      "betonung"
+    ],
+    "tagalog": [
+      "w-b",
+      "z-w",
+      "e-i-o-u",
+      "ue-oe",
+      "ch"
+    ]
+  }
+}

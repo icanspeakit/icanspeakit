@@ -1,0 +1,166 @@
+/* The top-down traffic scenes (FahrSzene.astro, src/lib/fahrSzene.js).
+   Phone first: the square stage fills the column (≈ 340px at 390), the steps sit under it
+   as a numbered list, the dots between the two are thumb-sized. */
+
+.fz {
+  margin: 20px 0;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+}
+.fz-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 2px 10px;
+}
+.fz-title { font-weight: 700; font-size: 1rem; color: var(--text); }
+.fz-replay {
+  flex: 0 0 auto;
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg, #fff);
+  color: var(--text);
+  font: inherit;
+  font-size: .85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.fz-replay:hover { border-color: var(--brand-blue, #0d9488); }
+
+.fz-stage {
+  position: relative;
+  max-width: 440px;
+  margin: 0 auto;
+  border-radius: 14px;
+  overflow: hidden;
+  /* The picture keeps its own colours in dark mode: it is a drawing of a street. */
+  background: #cfe7c4;
+}
+.fz-svg { display: block; width: 100%; height: auto; }
+
+/* --- Steps: the still's caption, the animation's subtitles ----------------- */
+.fz-steps {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.fz-step {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 8px;
+  align-items: start;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: var(--bg-soft, rgba(13, 148, 136, .06));
+  transition: opacity .25s ease, background .25s ease, box-shadow .25s ease;
+}
+.fz-num {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: #0d9488;
+  color: #fff;
+  font: 700 .78rem/1 var(--font-voice, "Fredoka", sans-serif);
+}
+.fz-step--falsch .fz-num { background: #dc2626; }
+.fz-line { display: block; line-height: 1.45; }
+.fz-who {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 4px;
+  vertical-align: -6px;
+  font-family: var(--font-voice, "Fredoka", sans-serif);
+  font-size: .85rem;
+  color: var(--text-muted, #475569);
+}
+.fz-who b { font-weight: 600; }
+.fz-who b::after { content: ":"; }
+.fz-who svg, .fz-who-fig { flex: 0 0 auto; display: inline-flex; }
+.fz-dots[hidden] { display: none; }
+.fz-say { color: var(--text); }
+
+/* Playing: the step being played stands out, the next ones wait a little dimmer. */
+.fz.is-playing .fz-step { opacity: .5; }
+.fz.is-playing .fz-step.is-past { opacity: .78; }
+.fz.is-playing .fz-step.is-on {
+  opacity: 1;
+  background: rgba(249, 115, 22, .12);
+  box-shadow: inset 3px 0 0 #f97316;
+}
+
+/* --- Step dots --------------------------------------------------------------- */
+.fz-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+.fz-dot {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.fz-dot span {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted, #64748b);
+  font: 700 .72rem/1 var(--font-voice, "Fredoka", sans-serif);
+  transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+.fz-dot.is-past span { background: rgba(13, 148, 136, .18); border-color: #0d9488; color: #0f766e; }
+.fz-dot.is-on span { background: #f97316; border-color: #f97316; color: #fff; transform: scale(1.12); }
+
+/* --- Inside the SVG ---------------------------------------------------------- */
+/* While playing, the numbered arrows of the still go away — the vehicles drive them. A
+   „falsch" arrow comes back for its own step: that mistake is shown, not driven. After the
+   last step the vehicles stand at their end, so the arrows stay away until a replay. */
+.fz.is-ready.is-playing .fz-arrow,
+.fz.is-ready.is-done .fz-arrow { opacity: 0; transition: opacity .3s ease; }
+.fz.is-ready.is-playing .fz-arrow.is-show { opacity: 1; }
+
+.fz-ind { opacity: 0; }
+.fz-actor.is-warn .fz-ind { opacity: 1; }
+.fz-actor.is-blink-left .fz-ind-l,
+.fz-actor.is-blink-right .fz-ind-r,
+.fz-actor.is-warn .fz-ind { animation: fz-blink .7s steps(1) infinite; }
+@keyframes fz-blink { 0% { opacity: 1; } 50% { opacity: 0; } }
+
+.fz-blau { animation: fz-blau .5s steps(1) infinite; }
+.fz-blau-b { animation-delay: .25s; }
+@keyframes fz-blau { 0% { fill: #3b82f6; } 50% { fill: #bfdbfe; } }
+
+.fz-hl { transform-box: fill-box; transform-origin: center; animation: fz-pulse 1.1s ease-in-out infinite; }
+@keyframes fz-pulse { 0%, 100% { opacity: .95; transform: scale(1); } 50% { opacity: .35; transform: scale(1.18); } }
+
+/* Mascots off: the faces go (data-mascot-part, global.css); the cars, the names in front of
+   the sentences (Quaki is the learner driver, Bruno the instructor) and the sentences stay. */
+
+@media (prefers-reduced-motion: reduce) {
+  .fz-blau, .fz-hl, .fz-actor .fz-ind { animation: none !important; }
+  .fz-step { transition: none; }
+}
+
+.fz--compact { margin: 10px 0; padding: 8px; }
+.fz--compact .fz-stage { max-width: 320px; }
+html[data-mascots="off"] .fz-who { vertical-align: baseline; }

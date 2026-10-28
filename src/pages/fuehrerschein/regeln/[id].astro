@@ -1,0 +1,161 @@
+---
+import { fitTitle } from "../../../lib/seo/title.js";
+// One Führerschein lesson: what the rule is, the signs, a scene that shows it, a comic where
+// it helps, the German you need, and a short quiz from the own question bank.
+//
+// Laid out like a Kultur topic (kultur.css): eyebrow, title, intro, facts, blocks, sources
+// at the bottom. What it adds:
+//   - every figure comes from the research file ({{fakt:…}}, src/lib/fuehrerschein.js);
+//   - key terms are chips ({Vorfahrt}) with their meaning in the learner's language;
+//   - an Einfache-Sprache twin for the intro and the facts (introEasy / factsEasy), swapped
+//     by the switch (LeichtToggle, leichteSprache.js) — the quiz questions stay as written;
+//   - the intro and facts also come in the learner's language (src/data/uebersetzungen/
+//     fuehrerschein.json, machine draft), under the German, as on every Kultur page.
+// Scenes and comics are mascot moments with content: with mascots off the scenes keep their
+// cars and sentences; the comic goes (the facts above say the same in words).
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import ShareButton from "../../../components/ShareButton.astro";
+import GrammarHelp from "../../../components/GrammarHelp.astro";
+import GrammarHelpText from "../../../components/GrammarHelpText.astro";
+import MascotComic from "../../../components/MascotComic.astro";
+import LeichtToggle from "../../../components/LeichtToggle.astro";
+import FahrSzene from "../../../components/FahrSzene.astro";
+import FsZeichen from "../../../components/fuehrerschein/FsZeichen.astro";
+import FsQuellen from "../../../components/fuehrerschein/FsQuellen.astro";
+import FsHinweis from "../../../components/fuehrerschein/FsHinweis.astro";
+import { lessons, lessonHref, lessonPic, lessonQuiz, lessonSources, lessonLinks, questionsOf } from "../../../lib/fuehrerscheinData.js";
+import { fillFakten, fillDeep, prepareQuestion, standMonat, RESEARCH } from "../../../lib/fuehrerschein.js";
+import { marksToHtml } from "../../../lib/kulturMarks.js";
+import { field, item } from "../../../lib/helpContent.js";
+import help from "../../../data/uebersetzungen/fuehrerschein.json";
+import "../../../styles/practice.css";
+import "../../../styles/kultur.css";
+import "../../../styles/kultur-insider.css";
+import "../../../styles/ui-text.css";
+import "../../../styles/mascot-comic.css";
+import "../../../styles/fuehrerschein.css";
+import { langsFor, isRtl } from "../../../lib/languages.js";
+
+export function getStaticPaths() {
+  return lessons.map((lesson, i) => ({
+    params: { id: lesson.id },
+    props: { lesson, prev: lessons[i - 1] ?? null, next: lessons[i + 1] ?? null },
+  }));
+}
+
+const { lesson, prev, next } = Astro.props as any;
+const chips = (s: string) => marksToHtml(fillFakten(s), "fs");
+const plainText = (s: string) => fillFakten(s).replace(/\{([^{}]+)\}/g, "$1");
+// The translations keep the {{fakt:…}} placeholders, so a figure changes in one place only.
+const tx = (help as any).entries?.[lesson.id] ?? null;
+const txFill = tx ? fillDeep(tx) : null;
+const pic = lessonPic(lesson);
+const quiz = lessonQuiz(lesson.id).map((q: any) => prepareQuestion(q, lessonLinks));
+const total = questionsOf(lesson.id).length;
+const hasEasy = !!(lesson.introEasy || lesson.factsEasy?.length);
+const comic = lesson.comic ? fillDeep(lesson.comic) : null;
+const LANGS = langsFor("fuehrerschein");
+---
+<Layout title={fitTitle(`${lesson.title} – Führerschein`, lesson.title)} description={plainText(lesson.intro).slice(0, 158)}>
+  <SiteNav active="pruefungen" />
+  <main class="practice-main fs-page" id="fs-page" data-gx="off">
+    <div class="ku-topbar">
+      <a href="/fuehrerschein" class="vp-back-link" data-i18n="fs.back">Führerschein</a>
+      <ShareButton title={`${lesson.title} – Führerschein`} label />
+    </div>
+
+    <article class="ku-topic fs-lesson">
+      <header class="ku-topic-head">
+        <span class="ku-card-ic ku-card-pic">{pic && <img class="fs-head-pic" src={pic.src} alt="" width="40" height="40" />}</span>
+        <div>
+          <p class="eyebrow" data-i18n={`fs.group.${lesson.group}`}>{lesson.eyebrow}</p>
+          <h1 lang="de">{lesson.title}</h1>
+        </div>
+        <span class="ku-badge">{lesson.level}</span>
+      </header>
+      {tx && <GrammarHelp level={lesson.level} root="fs-page" reviewed={(help as any).reviewed} />}
+      {hasEasy && <div class="fs-switchrow"><LeichtToggle /></div>}
+
+      <p class="ku-intro fs-n" lang="de" set:html={chips(lesson.intro)} />
+      {lesson.introEasy && <p class="ku-intro fs-e" lang="de">{plainText(lesson.introEasy)}</p>}
+      <GrammarHelpText text={field(txFill?.intro)} />
+
+      {lesson.terms?.length > 0 && (
+        <section class="ku-block">
+          <h2 data-i18n="fs.h2.terms">Wichtige Wörter</h2>
+          <ul class="fs-terms">
+            {lesson.terms.map((term: any) => (
+              <li class="fs-term">
+                <b lang="de">{term.de}</b>
+                <span class="uit"><span class="uit-de"></span>{LANGS.filter((l) => term[l]).map((l) => <span class="uit-l" lang={l} dir={isRtl(l) ? "rtl" : "ltr"}>{term[l]}</span>)}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <section class="ku-block">
+        <h2 data-i18n="kultur.h2.facts">Das Wichtigste</h2>
+        <ul class="ku-facts">
+          {lesson.facts.map((f: string, i: number) => (
+            <li>
+              <span class="fs-n" lang="de" set:html={chips(f)} />
+              {lesson.factsEasy?.[i] && <span class="fs-e" lang="de">{plainText(lesson.factsEasy[i])}</span>}
+              <GrammarHelpText text={item(txFill?.facts, i)} />
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {lesson.scenes?.map((id: string) => <FahrSzene id={id} />)}
+
+      {comic && <MascotComic comic={comic} />}
+
+      {lesson.signs?.length > 0 && (
+        <section class="ku-block">
+          <h2 data-i18n="fs.h2.signs">Die Zeichen dazu</h2>
+          <FsZeichen keys={lesson.signs} />
+        </section>
+      )}
+
+      {lesson.phrases?.length > 0 && (
+        <section class="ku-block">
+          <h2 data-i18n="kultur.h2.phrases">So sagt man das</h2>
+          <ul class="ku-phrases">{lesson.phrases.map((p: string) => <li lang="de">{plainText(p)}</li>)}</ul>
+        </section>
+      )}
+    </article>
+
+    {quiz.length > 0 && (
+      <section class="ku-block ku-quizblock">
+        <h2 data-i18n="kultur.h2.quiz">Quiz zu diesem Thema</h2>
+        <p class="ku-quiz-intro" data-i18n="fs.lesson.quizIntro" data-i18n-vars={JSON.stringify({ n: quiz.length })}>{quiz.length} eigene Übungsfragen — die Erklärung kommt nach jeder Antwort.</p>
+        <div class="quiz-card" id="fs-quiz"></div>
+        <p class="ku-quiz-more">
+          <a href={`/fuehrerschein/ueben?thema=${lesson.id}`} data-i18n="fs.lesson.allQuestions" data-i18n-vars={JSON.stringify({ n: total })}>Alle {total} Fragen zu diesem Thema üben</a>
+        </p>
+      </section>
+    )}
+
+    <FsQuellen sources={lessonSources(lesson)} />
+    <p class="fs-stand" data-i18n="fs.stand" data-i18n-vars={JSON.stringify({ m: standMonat(RESEARCH.stand) })}>Stand: {standMonat(RESEARCH.stand)}</p>
+    <FsHinweis />
+
+    <nav class="ku-prevnext">
+      {prev ? <a href={lessonHref(prev.id)}>← {prev.title}</a> : <span />}
+      {next ? <a href={lessonHref(next.id)}>{next.title} →</a> : <span />}
+    </nav>
+  </main>
+
+  <script type="application/json" id="fs-quiz-data" set:html={JSON.stringify(quiz).replace(/</g, "\\u003c")}></script>
+  <script>
+    import { mountFahrQuiz } from "../../../lib/fahrQuiz.js";
+    import { mountLeichteSprache } from "../../../lib/leichteSprache.js";
+    const page = document.getElementById("fs-page");
+    mountLeichteSprache(page ?? document);
+    const data = JSON.parse(document.getElementById("fs-quiz-data")?.textContent ?? "[]");
+    const root = document.getElementById("fs-quiz");
+    if (root && data.length) mountFahrQuiz(root, data, { mode: "practice", shuffle: false });
+  </script>
+</Layout>

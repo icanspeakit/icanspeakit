@@ -1,0 +1,66 @@
+---
+// A partner or group worksheet (src/data/partneruebungen/<id>.json): intro, cards with cut
+// lines, the questions page, the together page — and the answers as the sheet's key, so the
+// Arbeitsmappe can lay it in with the others (it takes #ab-root > article.ab-sheet / .ab-key).
+// The paper is drawn by src/lib/partneruebungen/render.js, the same code the Tandembögen use.
+//
+// Every sheet has a page; only the ones Edgar has checked (quelle.geprueft) are listed and
+// get a PDF. A draft renders with noindex and an „Entwurf“ badge, for review.
+import { existsSync } from "node:fs";
+import path from "node:path";
+import Layout from "../../../../layouts/Layout.astro";
+import SiteNav from "../../../../components/SiteNav.astro";
+import "../../../../styles/arbeitsblatt.css";
+import "../../../../styles/partner-sheet.css";
+import { allSheets, groupTwin, pairTwin } from "../../../../lib/partneruebungen/index.js";
+import { FORMAT_NAMES } from "../../../../lib/partneruebungen/schema.js";
+import { renderBody, renderKey, unmark } from "../../../../lib/partneruebungen/render.js";
+import PartnerMelden from "../../../../components/arbeitsblatt/PartnerMelden.astro";
+
+export function getStaticPaths() {
+  return allSheets().map((spec) => ({ params: { id: spec.id }, props: { spec } }));
+}
+
+const { spec } = Astro.props;
+const draft = !spec.quelle.geprueft;
+const pdf = `/downloads/partner-${spec.id}.pdf`;
+const hasPdf = !draft && existsSync(path.join(process.cwd(), "public", pdf));
+const group = groupTwin(spec.id);
+const pair = pairTwin(spec.id);
+const twin = group ?? pair;
+const social = spec.modus === "gruppe" ? `Gruppe (${spec.personen})` : "Paar";
+---
+<Layout
+  title={`${spec.titel} – ${social === "Paar" ? "Partnerübung" : "Gruppenübung"} ${spec.niveau} – EnglishAcademy`}
+  description={`${spec.niveau}, ${FORMAT_NAMES[spec.format]}: ${unmark(spec.untertitel)}. Arbeitsblatt mit Karten zum Ausschneiden, Tipps und Lösungen – kostenlos für den Unterricht.`}
+  noindex={draft}
+>
+  <SiteNav active="lehrkraefte" />
+
+  <main class="ab pu-main" id="ab-root" data-mode="print" data-key="on">
+    <div class="ab-bar">
+      <a class="ab-back" href="/lehrkraefte/arbeitsblaetter/partner" data-i18n="ab.pg.title">Partner- und Gruppenarbeit</a>
+      {draft && <span class="pu-draft" data-i18n="ab.partner.draft">Entwurf – noch nicht geprüft</span>}
+      <div class="ab-actions">
+        <label class="ab-check"><input type="checkbox" data-ab-withkey checked /> <span data-i18n="ab.withKey">Lösungsblatt mitdrucken</span></label>
+        <button type="button" class="ab-btn ab-btn--primary" data-ab-print data-i18n="ab.print">Drucken / als PDF speichern</button>
+        {hasPdf && <a class="ab-btn" href={pdf} download data-i18n="ab.partner.pdf">PDF herunterladen</a>}
+        {twin && (
+          <a class="ab-btn" href={`/lehrkraefte/arbeitsblaetter/partner/${twin.id}`} data-i18n={group ? "ab.partner.asGroup" : "ab.partner.asPair"} data-i18n-vars={group ? JSON.stringify({ n: group.personen }) : undefined}>
+            {group ? `Als Gruppe (${group.personen})` : "Als Partnerübung"}
+          </a>
+        )}
+        <PartnerMelden kind="partner" id={spec.id} titel={spec.titel} loesungen={spec.loesungen} />
+      </div>
+    </div>
+
+    <article class="ab-sheet pu-sheet" lang="de" set:html={renderBody(spec)} />
+    <article class="ab-sheet ab-key pu-sheet" lang="de" aria-label="Lösungen" set:html={renderKey(spec)} />
+  </main>
+
+  <script>
+    import { mountWorksheet } from "../../../../lib/arbeitsblatt/client.js";
+    const root = document.getElementById("ab-root");
+    if (root) mountWorksheet(root);
+  </script>
+</Layout>

@@ -1,0 +1,53 @@
+/* /kultur hub only: the mascot in the hero, the topic pictures, and the quiz and extra
+   cards below the levels (src/pages/kultur/index.astro). kultur.css keeps the shared
+   card and group styles. */
+
+/* Hero: Bruno hops in once, then breathes. */
+.ku-hero-mascot { margin-top: 14px; }
+.ku-hero-mascot .section-mascot-fig { animation: ku-hop .7s cubic-bezier(.22, 1, .36, 1) both, ku-bob 3.2s ease-in-out .9s infinite; transform-origin: 50% 100%; }
+.ku-hero-mascot .section-mascot-say { animation: ku-say .45s ease-out .45s both; }
+.ku-hero-mascot:hover .section-mascot-fig { animation: ku-wiggle .6s ease-in-out; }
+
+/* A picture instead of a glyph: no tinted tile behind it, a little larger, and it tilts
+   when the card is pointed at. */
+.ku-card-ic.ku-card-pic { background: none; width: 48px; height: 48px; }
+.ku-card-pic img { width: 44px; height: 44px; display: block; transition: transform .25s cubic-bezier(.34, 1.56, .64, 1); }
+.ku-card:hover .ku-card-pic img,
+.ku-card:focus-visible .ku-card-pic img { transform: rotate(-8deg) scale(1.12); }
+
+/* A level's pictures pop in, one after another, when the level scrolls into view. The
+   class on <html> is set by the page script only where IntersectionObserver exists, so
+   without it (or without JS) nothing starts hidden. */
+.ku-anim .ku-group .ku-card-pic img { opacity: 0; transform: scale(.4); }
+.ku-anim .ku-group.is-in .ku-card-pic img { animation: ku-pop .5s cubic-bezier(.34, 1.56, .64, 1) both; }
+.ku-anim .ku-group.is-in .ku-card:nth-child(2) .ku-card-pic img { animation-delay: .08s; }
+.ku-anim .ku-group.is-in .ku-card:nth-child(3) .ku-card-pic img { animation-delay: .16s; }
+.ku-anim .ku-group.is-in .ku-card:nth-child(4) .ku-card-pic img { animation-delay: .24s; }
+.ku-anim .ku-group.is-in .ku-card:nth-child(n+5) .ku-card-pic img { animation-delay: .32s; }
+
+/* Below the levels: Quaki, the lead sentence, then the quiz and the two extra sections. */
+.ku-more { margin: 40px 0 8px; padding-top: 28px; border-top: 1px solid var(--border); }
+.ku-more-head { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-bottom: 18px; }
+.ku-more-lead { margin: 0; flex: 1 1 280px; color: var(--muted); font-size: 1rem; line-height: 1.55; }
+.ku-more-mascot .section-mascot-fig { animation: ku-bob 2.8s ease-in-out infinite; transform-origin: 50% 100%; }
+.ku-quiz-pic { flex: none; width: 44px; height: 44px; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .15)); }
+.ku-quiz-cta:hover .ku-quiz-pic { animation: ku-wiggle .6s ease-in-out; }
+.ku-more .ku-quiz-cta-txt { flex: 1; }
+
+@keyframes ku-hop { 0% { transform: translateY(18px) scale(.7); opacity: 0; } 60% { transform: translateY(-6px) scale(1.04); opacity: 1; } 100% { transform: none; opacity: 1; } }
+@keyframes ku-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes ku-wiggle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
+@keyframes ku-say { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: none; } }
+@keyframes ku-pop { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ku-hero-mascot .section-mascot-fig, .ku-hero-mascot .section-mascot-say,
+  .ku-more-mascot .section-mascot-fig, .ku-quiz-cta:hover .ku-quiz-pic,
+  .ku-hero-mascot:hover .section-mascot-fig { animation: none; }
+  .ku-anim .ku-group .ku-card-pic img { opacity: 1; transform: none; animation: none; }
+  .ku-card-pic img { transition: none; }
+}
+
+/* A level with a single topic keeps a card-sized card instead of one stretched across
+   the row (/kultur/insider has levels with one topic). */
+.ku-grid--fill { grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }

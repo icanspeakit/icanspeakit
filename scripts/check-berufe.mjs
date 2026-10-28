@@ -1,0 +1,40 @@
+// Checks the profession decks before every build (package.json → prebuild):
+//
+//   node scripts/check-berufe.mjs
+//
+// The rules live in validate() in src/lib/berufeCore.js: schema, ids unique across every
+// berufe file + the lexicon + the Fahrschul-Wortschatz, id prefix matches the file, every
+// `ref` resolves, no lemma defined twice, nouns have gender, verbs have forms, `reviewed`
+// present, and every profession of v1 has its file. Reports every problem at once, then exits 1
+// if there was any. Warnings (a word without morphSource) are printed and do not fail.
+import { readdirSync, readFileSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { validate, entryCount, ownWords } from "../src/lib/berufeCore.js";
+import { slugify } from "../src/lib/audioSlug.js";
+
+const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+const read = (p) => JSON.parse(readFileSync(path.join(ROOT, p), "utf8"));
+
+const lexicon = new Map();
+for (const level of ["a1", "a2", "b1", "b2", "c1", "c2"]) {
+  let data;
+  try { data = read(`src/content/lexicon/${level}.json`); } catch { continue; }
+  for (const unit of data.units ?? []) for (const w of unit.words ?? []) lexicon.set(w.id ?? slugify(w.lemma), w.lemma);
+}
+const fuehrerschein = new Map(read("src/data/fuehrerschein/wortschatz.json").groups.flatMap((g) => g.words.map((w) => [w.id, w.lemma])));
+
+const DIR = "src/data/berufe";
+const files = [];
+for (const file of readdirSync(path.join(ROOT, DIR)).filter((f) => f.endsWith(".json")).sort()) {
+  try { files.push({ file, deck: read(`${DIR}/${file}`) }); }
+  catch (err) { files.push({ file, deck: null }); console.error(`  ERROR ${file}: invalid JSON — ${err.message}`); process.exitCode = 1; }
+}
+
+const { errors, warnings } = validate(files, { lexicon, fuehrerschein });
+for (const w of warnings) console.warn(`  warn  ${w}`);
+for (const e of errors) console.error(`  ERROR ${e}`);
+
+const summary = files.map(({ file, deck }) => `${file.replace(".json", "")} ${deck ? `${entryCount(deck)} (${ownWords(deck).length} eigene)` : "?"}`);
+console.log(`berufe: ${files.length} decks, ${errors.length} errors, ${warnings.length} warnings · ${summary.join(" · ")}`);
+if (errors.length) process.exit(1);

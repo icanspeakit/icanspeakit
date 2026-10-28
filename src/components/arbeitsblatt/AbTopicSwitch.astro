@@ -1,0 +1,42 @@
+---
+// One grammar topic, two ways to practise it: the worksheet (Einzelarbeit) and the
+// Tandembogen (Partnerübung). Both pages open with this switch, so a teacher moves between
+// them in one tap. The pill slides to the tapped side before the page changes (segSwitch.js),
+// and the switch keeps its place across the page change (view-transition-name).
+// Without a Tandembogen for the topic there is nothing to switch to, and nothing is shown.
+import { mascotSvg } from "../../lib/mascots.js";
+import "../../styles/teacher-switch.css";
+
+interface Props { slug: string; current: "blatt" | "tandem"; hasTandem: boolean }
+const { slug, current, hasTandem } = Astro.props;
+const opts = [
+  { k: "blatt", href: `/lehrkraefte/arbeitsblaetter/grammatik/${slug}`, t: "ab.switch.single", label: "Einzelarbeit", st: "ab.switch.singleSub", sub: "Arbeitsblatt", fig: mascotSvg({ name: "hamsti", expr: "happy", view: "three", size: 30, label: "" }) },
+  { k: "tandem", href: `/lehrkraefte/arbeitsblaetter/tandem/${slug}`, t: "ab.switch.pair", label: "Partnerübung", st: "ab.switch.pairSub", sub: "Tandem", fig: mascotSvg({ name: "bruno", expr: "happy", view: "three", size: 30, label: "" }) + mascotSvg({ name: "regi", expr: "happy", view: "three", size: 30, label: "" }) },
+];
+---
+{hasTandem && (
+  <nav class="ab-tswitch t-sw t-sw--fill" aria-label="Übungsform" data-i18n-attr="aria-label:ab.switch.label" data-ab-tswitch>
+    {opts.map((o) => (
+      <a href={o.href} class:list={[o.k === current && "is-active"]} aria-current={o.k === current ? "page" : undefined}>
+        <span class="t-sw-ic" data-mascot-part set:html={o.fig} />
+        <span class="t-sw-txt"><b data-i18n={o.t}>{o.label}</b><small data-i18n={o.st}>{o.sub}</small></span>
+      </a>
+    ))}
+  </nav>
+)}
+
+<script>
+  import { enhanceSwitch } from "../../lib/segSwitch.js";
+  for (const nav of document.querySelectorAll<HTMLElement>("[data-ab-tswitch]")) {
+    enhanceSwitch(nav, { options: ":scope > a" });
+    // Mark the tapped side at once, so the pill slides there while the next page loads.
+    nav.addEventListener("click", (e) => {
+      const a = (e.target as Element).closest("a");
+      if (!a || a.classList.contains("is-active") || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      const was = nav.querySelector(".is-active");
+      was?.classList.remove("is-active");
+      was?.removeAttribute("aria-current");
+      a.classList.add("is-active");
+    });
+  }
+</script>

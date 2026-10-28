@@ -1,0 +1,240 @@
+---
+// Die wichtigsten Verben zum Nachschlagen — a "Mini-Grammatik" of verb tables. One card
+// per verb (#<id>, e.g. #haben), each with Präsens, Präteritum and Perfekt for all six
+// persons. The search lens links here when a learner looks up a verb or one of its forms
+// ("hat", "ging"), see src/lib/searchIndex.js.
+//
+// Content: src/data/verbtabellen.json, built by src/lib/verbtabellen.js, which also marks
+// every form that breaks the regular pattern — those are highlighted.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import SectionMascot from "../../components/mascots/SectionMascot.astro";
+import GrammarHelp from "../../components/GrammarHelp.astro";
+import GrammarHelpText from "../../components/GrammarHelpText.astro";
+import LiveQuizLink from "../../components/LiveQuizLink.astro";
+import RefActions from "../../components/RefActions.astro";
+import { HELP_LANGS } from "../../lib/textHelp.js";
+import { groups, verbs } from "../../lib/verbtabellen.js";
+import "../../styles/practice.css";
+import "../../styles/verbtabellen.css";
+// The tour's scrim, cursor and Regi's coach card (ruleIntro.js).
+import "../../styles/rule-intro.css";
+
+const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+// The verb's meaning in the help languages, straight from the lexicon.
+const gloss = (v: any) =>
+  v.lex ? Object.fromEntries(HELP_LANGS.map((l) => [l.code, typeof v.lex[l.code] === "string" ? esc(v.lex[l.code]) : null])) : null;
+// Regel lines in verbtabellen.json mark examples with *…*; they become bold.
+const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, "<b>$1</b>");
+const byGroup = groups.map((g) => ({ ...g, verbs: verbs.filter((v) => v.group === g.id) }));
+// Interface keys per verb group (the group's name and one-line "what"); the Regel boxes
+// stay German, they are the grammar being taught.
+const gKey = (id: string) => `verben.group.${id}`;
+const COLS = [
+  ["praes", "Präsens", "jetzt"],
+  ["praet", "Präteritum", "früher, geschrieben"],
+  ["perf", "Perfekt", "früher, gesprochen"],
+] as const;
+---
+<Layout
+  title="Verbtabellen: die wichtigsten Verben – Grammatik – EnglishAcademy"
+  description="sein, haben, werden, die Modalverben und die wichtigsten unregelmäßigen Verben: Präsens, Präteritum und Perfekt auf einen Blick."
+>
+  <SiteNav active="grammatik" />
+  <main class="practice-main vb-page" id="vb-page">
+    <a href="/grammatik" class="vp-back-link" data-i18n="header.back">Zurück zur Übersicht</a>
+    <header class="vb-head">
+      <p class="eyebrow" data-i18n="nav.wissen.nachschlagen">Nachschlagewerk</p>
+      <h1 data-i18n="verben.title">Die wichtigsten Verben</h1>
+      <SectionMascot name="regi" say="Diese Verben brauchst du jeden Tag." />
+      <p class="vb-lead" data-i18n-html="verben.lead" data-i18n-vars={JSON.stringify({ n: verbs.length })}>Eine Mini-Grammatik zum Nachschlagen: {verbs.length} Verben, jedes in Präsens, Präteritum und Perfekt. <mark class="vb-x">Markiert</mark> ist, was nicht nach dem Muster geht — das muss man lernen.</p>
+      <p class="vb-more-refs"><span data-i18n="verben.moreRefs">Mehr im Nachschlagewerk:</span>
+        <a href="/grammatik/starke-schwache-verben" data-i18n="nav.wissen.stark">Starke und schwache Verben</a> ·
+        <a href="/grammatik/trennbare-verben" data-i18n="nav.wissen.trennbar">Trennbare und untrennbare Verben</a> ·
+        <a href="/grammatik/verben-mit-praepositionen" data-i18n="nav.wissen.verbPraep">Verben mit Präpositionen</a></p>
+      {/* Drucken (every table on paper, two to a row, the rules open: verbtabellen.css,
+          @media print), Teilen and Live-Quiz, as on every Nachschlagewerk page; and, for a
+          teacher, the quiz builder. */}
+      <div class="vb-actions">
+        <RefActions chapter="g-verbtabellen" sheet="verbtabellen" />
+        {/* Teachers only (LiveQuizLink.astro): these tables as a live quiz, chapter
+            g-verbtabellen. */}
+        <LiveQuizLink chapter="g-verbtabellen" bar />
+      </div>
+    </header>
+    <GrammarHelp level="A1" root="vb-page" />
+
+    <nav class="vb-jump" aria-label="Verben" data-i18n-attr="aria-label:verben.jumpLabel">
+      {byGroup.map((g) => (
+        <div class="vb-jump-group">
+          <a class="vb-jump-label" href={`#gruppe-${g.id}`} data-i18n={`${gKey(g.id)}.name`}>{g.name}</a>
+          <div class="vb-jump-list" lang="de">
+            {g.verbs.map((v) => <a class={`vb-chip vb-chip--${g.id}`} href={`#${v.id}`}>{v.inf}</a>)}
+          </div>
+        </div>
+      ))}
+    </nav>
+
+    {byGroup.map((g, i) => (
+      <section class={`vb-group vb-group--${g.id}`} id={`gruppe-${g.id}`}>
+        <header class="vb-group-head">
+          <span class="vb-group-num" aria-hidden="true">{i + 1}</span>
+          <div>
+            <h2 class="vb-group-title" data-i18n={`${gKey(g.id)}.name`}>{g.name}</h2>
+            <p class="vb-group-what" data-i18n={`${gKey(g.id)}.what`}>{g.what}</p>
+          </div>
+          {/* Just this group on paper — a class that is on the Modalverben this week. */}
+          <button type="button" class="vb-print vb-print--group" data-vb-print={g.id} data-group-key={`${gKey(g.id)}.name`} data-group-name={g.name} aria-label={`${g.name} drucken`} title={`${g.name} drucken`}>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          </button>
+        </header>
+        {g.regel && (
+          <aside class="vb-regel" lang="de" aria-label={`Regel: ${g.name}`} data-group-key={`${gKey(g.id)}.name`} data-group-name={g.name}>
+            <div class="vb-regel-bar">
+              <p class="vb-regel-label" data-i18n="ak.rule">Regel</p>
+              <button
+                type="button"
+                class="vb-regel-toggle"
+                aria-controls={`regel-${g.id}`}
+                data-show="Regel einblenden"
+                data-hide="Regel ausblenden"
+                data-i18n-attr="data-show:vp.rule.show;data-hide:vp.rule.hide"
+              >Regel ausblenden</button>
+            </div>
+            <div class="vb-regel-body" id={`regel-${g.id}`}>
+            <div class="vb-regel-inner">
+            {g.meaning && (
+              <dl class="vb-regel-dl">
+                {g.meaning.map(([verb, what]: string[]) => <div><dt>{verb}</dt><dd>{what}</dd></div>)}
+              </dl>
+            )}
+            <ul>
+              {g.regel.map((r: string) => <li set:html={rule(r)} />)}
+            </ul>
+            </div>
+            </div>
+          </aside>
+        )}
+        <ol class="vb-list">
+          {g.verbs.map((v) => (
+            <li class={`vb-card vb-card--${g.id}`} id={v.id}>
+              <div class="vb-card-head">
+                <h3 lang="de">{v.inf}</h3>
+                {v.level && <span class="vb-level">{v.level}</span>}
+                <span class="vb-aux" lang="de">Perfekt mit <b>{v.aux}</b></span>
+              </div>
+              <GrammarHelpText text={gloss(v)} class="vb-gloss" />
+              <div class="vb-scroll">
+                <table class="vb-table" lang="de">
+                  <thead>
+                    <tr>
+                      <th scope="col"><span class="vb-sr" data-i18n="verben.person">Person</span></th>
+                      {COLS.map(([k, name, when]) => <th scope="col">{name}<span class="vb-when" data-i18n={`verben.when.${k}`}>{when}</span></th>)}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {v.rows.map((r: any) => (
+                      <tr>
+                        <th scope="row">{r.pron}</th>
+                        {COLS.map(([k]) => <td class:list={[r[k].x && "vb-x"]}>{r[k].f}</td>)}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p class="vb-more" lang="de">
+                <span>Futur I: <b>ich {v.futur}</b></span>
+                <span>Plusquamperfekt: <b>ich {v.aux === "sein" ? "war" : "hatte"} {v.p2}</b></span>
+              </p>
+              {v.note && <p class="vb-note" lang="de">{v.note}</p>}
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+
+    <p class="vb-practice-row">
+      <a class="vb-practice" href="/konjugation" data-i18n="verben.practice.konjugation">Regel und Übungen: Konjugation</a>
+      <a class="vb-practice vb-practice--ghost" href="/modalverben" data-i18n="verben.practice.modal">Modalverben üben</a>
+    </p>
+  </main>
+</Layout>
+
+<script>
+  // Each Regel folds like the rule cards on the topic pages: the same pill words, the same
+  // show/hide (mountRefToggle). Open on load — on a reference page the rule is content.
+  import { mountRefToggle } from "../../lib/ruleColumn.js";
+  import { createRuleIntro } from "../../lib/ruleIntro.js";
+  import { t, onUiText } from "../../lib/uiText.js";
+
+  // Labels that carry a group name, and Regi's line (SectionMascot takes no key), in the
+  // interface language; again on every switch.
+  const mascotSay = document.querySelector<HTMLElement>(".vb-head .section-mascot-say");
+  const paintLabels = () => {
+    if (mascotSay) mascotSay.textContent = t("verben.mascot", "Diese Verben brauchst du jeden Tag.");
+    for (const el of document.querySelectorAll<HTMLElement>("[data-group-key]")) {
+      const name = t(el.dataset.groupKey!, el.dataset.groupName);
+      if (el.matches("[data-vb-print]")) {
+        const label = t("verben.printGroup", "{name} drucken", { name });
+        el.setAttribute("aria-label", label);
+        el.title = label;
+      } else el.setAttribute("aria-label", t("verben.ruleFor", "Regel: {name}", { name }));
+    }
+  };
+  paintLabels();
+  onUiText(paintLabels);
+  for (const btn of document.querySelectorAll<HTMLButtonElement>(".vb-regel-toggle")) {
+    const panel = document.getElementById(btn.getAttribute("aria-controls") ?? "");
+    mountRefToggle(btn, panel);
+  }
+
+  // Print: the whole page, or one group (body[data-vb-print-only] hides the others).
+  for (const btn of document.querySelectorAll<HTMLButtonElement>("[data-vb-print]")) {
+    btn.addEventListener("click", () => {
+      const only = btn.dataset.vbPrint;
+      if (only) document.body.dataset.vbPrintOnly = only;
+      // Folded rules are printed open; the page keeps the learner's choice.
+      const folded = [...document.querySelectorAll<HTMLElement>(".vb-regel-body[hidden]")];
+      folded.forEach((b) => (b.hidden = false));
+      addEventListener("afterprint", () => {
+        delete document.body.dataset.vbPrintOnly;
+        folded.forEach((b) => (b.hidden = true));
+      }, { once: true });
+      print();
+    });
+  }
+
+  // The tour, once per browser (?intro replays it): Regi shows the first Regel box and its
+  // pill, the same scrim-and-cursor tour as the grammar topics (ruleIntro.js). The boxes
+  // start open here, so it is the "already open" telling: name it, fold it, unfold it.
+  // The "da-…-seen" key is what DemoDock's „Tour neu" clears.
+  const SEEN = "da-vb-rule-seen";
+  const box = document.querySelector<HTMLElement>(".vb-regel");
+  const toggle = box?.querySelector<HTMLButtonElement>(".vb-regel-toggle");
+  const body = toggle && document.getElementById(toggle.getAttribute("aria-controls") ?? "");
+  const forced = new URLSearchParams(location.search).has("intro");
+  let seen = true;
+  try { seen = localStorage.getItem(SEEN) === "1"; } catch {}
+  if (box && toggle && body && (forced || !seen) && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (!forced) { try { localStorage.setItem(SEEN, "1"); } catch {} }
+    const compact = !matchMedia("(min-width: 1001px)").matches;
+    const intro = createRuleIntro({
+      ruleEl: box,
+      ruleBtn: toggle,
+      ruleCard: box,
+      // Through the pill itself, so its label and aria-expanded follow.
+      setRule: (hidden: boolean) => { if (body.hidden !== hidden) toggle.click(); },
+      compact,
+      restHidden: false,
+      mascot: "regi",
+      coach: compact
+        ? [["intro.vb.rule.title", "intro.vb.rule.text"], ["intro.vb.toggle.title", "intro.vb.toggle.textCompact"]]
+        : [["intro.vb.rule.title", "intro.vb.rule.text"], ["intro.vb.toggle.title", "intro.vb.toggle.text"]],
+    });
+    // The first box sits under the jump list, below the fold on most screens, and the
+    // spotlight works in viewport coordinates: bring it up first, then play.
+    box.scrollIntoView({ block: compact ? "start" : "center", behavior: "instant" as ScrollBehavior });
+    if (compact) scrollBy(0, -80);
+    setTimeout(() => intro.play(), 150);
+  }
+</script>

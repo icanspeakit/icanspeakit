@@ -1,0 +1,187 @@
+---
+import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
+// Full DTZ practice sitting: nine parts, 45 scored items, plus the writing task.
+// Free Übungssätze are JSON files in src/data/pruefungen/dtz/ (inlined here). The DTZ-Paket
+// sets 2–4 live in src/paid/pruefungen/dtz/: this page only knows their names, from
+// src/data/pruefungen/paid-manifest.json, and loads one from /inhalt/ when the learner
+// picks it and can("pruefungssaetze") allows it (scripts/build-paid-manifest.mjs).
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import "../../styles/practice.css";
+import "../../styles/pruefungen.css";
+import "../../styles/dtz.css";
+import { examClip } from "../../lib/examHoeren.js";
+import paidManifest from "../../data/pruefungen/paid-manifest.json";
+import PremiumLock from "../../components/PremiumLock.astro";
+import ExamFacts from "../../components/ExamFacts.astro";
+import LevelGrammar from "../../components/LevelGrammar.astro";
+
+const paidSets = paidManifest.dtz;
+
+// Each Hören text gets its recording as `audio` where scripts/generate-exam-hoeren-audio.mjs
+// has made one: public/audio/pruefungen/dtz-<NN>/<part>-<id>.mp3 (Teil 3: one per dialogue).
+// A set's own folder, so a second set never plays the first one's clips.
+function withAudio(satz) {
+  const set = `dtz-${satz.id.replace(/\D/g, "").padStart(2, "0")}`;
+  const s = structuredClone(satz);
+  let all = true;
+  const put = (obj, clip) => {
+    const href = examClip(set, clip);
+    if (href) obj.audio = href;
+    else all = false;
+  };
+  for (const part of s.parts.filter((p) => p.group === "Hören")) {
+    if (part.type === "dialog") part.groups.forEach((g, i) => put(g, `${part.key}-dialog-${i + 1}`));
+    else {
+      if (part.example) put(part.example, `${part.key}-bsp`);
+      part.items.forEach((it) => put(it, `${part.key}-${it.id}`));
+    }
+  }
+  s.hasAllAudio = all;
+  return s;
+}
+
+const modules = import.meta.glob("../../data/pruefungen/dtz/*.json", { eager: true });
+const saetze = Object.values(modules)
+  .map((m) => withAudio(m.default ?? m))
+  .sort((a, b) => a.id.localeCompare(b.id));
+const first = saetze[0];
+---
+<Layout
+  title="DTZ Modelltest – kompletter Übungssatz – EnglishAcademy"
+  description="Kompletter DTZ-Übungssatz im Prüfungsformat: Hören und Lesen mit 45 Aufgaben, Auswertung nach den offiziellen Punktegrenzen und die Schreibaufgabe."
+>
+  <SiteNav active="pruefungen" />
+
+  <main class="practice-main practice-main--wide practice-main--trainer dtz-trainer" id="dtz-root">
+    <a href="/dtz" class="vp-back-link" data-i18n="exam.backToDtz">Zurück zur DTZ-Übersicht</a>
+
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="dtzSet.eyebrow">Prüfung simulieren</p>
+      <h1><span class="hero-exam">DTZ</span> <span data-dtz-title data-i18n={first.meta.title === "DTZ-Übungssatz 1" ? "exam.h1.set1" : undefined}>{first.meta.title.replace(/^DTZ-/, "")}</span></h1>
+      <p data-i18n="dtzSet.hero">
+        Neun Prüfungsteile, 45 bewertete Aufgaben — wie in der echten Prüfung. Die Auswertung nutzt
+        die offiziellen DTZ-Punktegrenzen: ab 33 Punkten B1, ab 20 Punkten A2.
+      </p>
+    </div>
+    <ExamDisclaimer />
+
+    {/* Official format, BAMF + telc (read 2026-10-04). The DTZ handbook gives ca. 10 minutes
+        Sprechen per person, the BAMF page "rund 15 Minuten", telc 16 per pair: we say ca. 15. */}
+    <ExamFacts
+      title="So ist der DTZ aufgebaut"
+      titleKey="dtzSet.facts.title"
+      head={[{ text: "Prüfungsteil", key: "ps.format.th.module" }, { text: "Aufgaben", key: "dtzSet.facts.th.tasks" }, { text: "Zeit", key: "ps.format.th.time" }]}
+      rows={[
+        [{ text: "Hören", key: "skill.hoeren" }, { text: "4 Teile, 20 Aufgaben", key: "dtzSet.facts.hoeren" }, "25 Min."],
+        [{ text: "Lesen", key: "skill.lesen" }, { text: "5 Teile, 25 Aufgaben", key: "dtzSet.facts.lesen" }, "45 Min."],
+        [{ text: "Schreiben", key: "skill.schreiben" }, { text: "1 kurzer Brief", key: "dtzSet.facts.schreiben" }, "30 Min."],
+        [{ text: "Sprechen", key: "skill.sprechen" }, { text: "3 Teile, zu zweit", key: "dtzSet.facts.sprechen" }, { text: "ca. 15 Min.", key: "dtzSet.facts.sprechenTime" }],
+      ]}
+      notes={[
+        { key: "dtzSet.facts.scoring", html: "<strong>Bewertung:</strong> Hören und Lesen zählen zusammen 45 Punkte. Ab 20 Punkten steht A2 im Zeugnis, ab 33 Punkten B1. Schreiben und Sprechen bewerten die Prüfenden nach Kriterien als A2 oder B1. Für das Gesamtergebnis zählt ein Niveau, wenn es im Sprechen erreicht ist und in mindestens einem der beiden anderen Teile." },
+        { key: "dtzSet.facts.certificate", html: "Der DTZ ist die Abschlussprüfung des Integrationskurses. Mit B1 im DTZ und bestandenem Test „Leben in Deutschland“ gibt es das „Zertifikat Integrationskurs“." },
+      ]}
+      sources={[
+        { label: "BAMF: Abschlussprüfung", url: "https://www.bamf.de/DE/Themen/Integration/ZugewanderteTeilnehmende/Integrationskurse/Abschlusspruefung/abschlusspruefung-node.html" },
+        { label: "§ 17 IntV", url: "https://www.gesetze-im-internet.de/intv/__17.html" },
+        { label: "telc: Übungstests DTZ", url: "https://shop.telc.net/de_DE/integration/ubungstests.html" },
+      ]}
+      checked="04.10.2026"
+    />
+
+    {saetze.length + paidSets.length > 1 && (
+      <div class="dtz-setpicker" data-dtz-setpicker>
+        {saetze.map((s, i) => (
+          <button type="button" class={`dtz-tab ${i === 0 ? "is-active" : ""}`} data-set={s.id}>{s.label}</button>
+        ))}
+        {paidSets.map((s) => (
+          <button type="button" class="dtz-tab dtz-tab--paid" data-set={s.id} data-paid>
+            {s.label}
+            <span class="dtz-tab-lock" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
+            </span>
+          </button>
+        ))}
+      </div>
+    )}
+    <div class="dtz-lock" data-dtz-lock hidden>
+      <PremiumLock feature="pruefungssaetze" variant="inline" />
+    </div>
+
+    {!first.hasAllAudio && (
+      <div class="dtz-audio-note">
+        <strong data-i18n="dtzSet.noAudio.title">Kein Ton?</strong> <span data-i18n="dtzSet.noAudio.text">{first.meta.audioNote}</span>
+      </div>
+    )}
+
+    <div class="dtz-nav" data-dtz-nav></div>
+    <div class="dtz-body" data-dtz-body></div>
+    <div class="dtz-summary" data-dtz-summary></div>
+
+    <p class="format-note" data-i18n="dtzSet.sourceNote">{first.meta.sourceNote}</p>
+    <LevelGrammar levels={["A2", "B1"]} />
+  </main>
+
+  <script type="application/json" id="dtz-data" set:html={JSON.stringify(saetze)}></script>
+  <script type="module">
+    import { mountDtzTrainer } from "../../lib/dtzTrainer.js";
+    import { recordAttempt } from "../../lib/progress.js";
+
+    const saetze = JSON.parse(document.getElementById("dtz-data").textContent);
+    const root = document.getElementById("dtz-root");
+
+    import { can, PAYWALL, APP } from "../../lib/access.js";
+
+    const lock = document.querySelector("[data-dtz-lock]");
+    const parts = ["[data-dtz-nav]", "[data-dtz-body]", "[data-dtz-summary]"].map((s) => root.querySelector(s));
+    const showLock = (on) => {
+      lock.hidden = !on;
+      for (const el of parts) el.hidden = on;
+    };
+
+    function mount(satz) {
+      showLock(false);
+      mountDtzTrainer(root, satz, {
+        onAnswer: (ok) => recordAttempt({ skill: "lesen", correct: ok }),
+      });
+    }
+    mount(saetze[0]);
+
+    // A paid set (DTZ-Paket): fetched from /inhalt/ only with access. Soft lock by decision —
+    // what matters is that its questions are not in this page (scripts/build-paid-manifest.mjs).
+    const cache = new Map();
+    async function openPaid(id) {
+      if (!can("pruefungssaetze")) {
+        import("../../lib/analytics.js").then(({ track }) => track("paid_set_locked_seen", { set: id }));
+        return showLock(true);
+      }
+      if (!cache.has(id)) {
+        const res = await fetch(`/inhalt/pruefungen/dtz/${id}.json`).catch(() => null);
+        if (!res?.ok) return showLock(true);
+        cache.set(id, await res.json());
+      }
+      mount(cache.get(id));
+    }
+
+    const picker = document.querySelector("[data-dtz-setpicker]");
+    // The app sells nothing: a set the learner does not own is not listed at all.
+    if (APP && PAYWALL && !can("pruefungssaetze")) picker?.querySelectorAll("[data-paid]").forEach((b) => b.remove());
+    picker?.querySelectorAll("[data-set]").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        picker.querySelectorAll("[data-set]").forEach((b) => b.classList.toggle("is-active", b === btn));
+        // The heading names the set that is open, not always the first one.
+        const title = document.querySelector("[data-dtz-title]");
+        if (title) {
+          title.removeAttribute("data-i18n");
+          title.textContent = btn.textContent.trim();
+        }
+        if (btn.hasAttribute("data-paid")) openPaid(btn.dataset.set);
+        else mount(saetze.find((s) => s.id === btn.dataset.set));
+      })
+    );
+    // ?satz=uebungssatz-3 (links from the Prüfungsplan) opens that set.
+    const wanted = new URLSearchParams(location.search).get("satz");
+    if (wanted) picker?.querySelector(`[data-set="${CSS.escape(wanted)}"]`)?.click();
+  </script>
+</Layout>

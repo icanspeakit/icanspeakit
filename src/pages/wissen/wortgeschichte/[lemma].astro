@@ -1,0 +1,68 @@
+---
+import { fitTitle } from "../../../lib/seo/title.js";
+import { orgId } from "../../../lib/seo/jsonld";
+// /wissen/wortgeschichte/[lemma] — one indexable page per published word: the SEO payload
+// („Woher kommt das Wort Arbeit“, „Herkunft Fenster“), not the daily widget.
+//
+// Only entries that are approved (status "geprueft") and whose publishOn has come are
+// emitted. In dev, or with WORTGESCHICHTE_VORSCHAU=1, every entry gets its page so it can be
+// reviewed there — noindex, with a banner, and left out of the sitemap by that noindex.
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import SectionMascot from "../../../components/mascots/SectionMascot.astro";
+import WortEntry from "../../../components/wortgeschichte/WortEntry.astro";
+import WortRecent from "../../../components/wortgeschichte/WortRecent.astro";
+import WortAbo from "../../../components/wortgeschichte/WortAbo.astro";
+import { archive, published, today, slugOf, headword, hrefOf, PREVIEW, STATUS, sentences } from "../../../lib/wortgeschichte.js";
+import "../../../styles/practice.css";
+import "../../../styles/uebungen-vorschau.css";
+import "../../../styles/wortgeschichte.css";
+
+export function getStaticPaths() {
+  return archive(today()).map((entry) => ({ params: { lemma: slugOf(entry) }, props: { entry } }));
+}
+
+const { entry } = Astro.props as { entry: any };
+const day = today();
+const live = entry.status === STATUS.REVIEWED && entry.publishOn <= day;
+const lemma = entry.lemma;
+const firstSentences = sentences(entry.history).slice(0, 2).join(" ");
+const description = `Woher kommt das Wort ${lemma}? ${firstSentences}`.slice(0, 158).replace(/\s+\S*$/, "") + " …";
+const site = Astro.site ? new URL(Astro.site).origin : "https://englishacademy.com";
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "DefinedTerm",
+  name: lemma,
+  alternateName: headword(entry),
+  description: entry.history,
+  inLanguage: "de",
+  url: site + hrefOf(entry),
+  inDefinedTermSet: {
+    "@type": "DefinedTermSet",
+    name: "Wortgeschichte – Wort des Tages",
+    url: site + "/wissen/wortgeschichte",
+    // The organisation itself is described once, on the homepage (src/lib/seo/jsonld.ts).
+    publisher: { "@id": orgId(site) },
+  },
+  subjectOf: entry.sources.filter((s: any) => s.url).map((s: any) => ({ "@type": "CreativeWork", name: `${s.work}, s.v. ${s.entry}`, url: s.url })),
+};
+---
+<Layout
+  title={fitTitle(`Woher kommt das Wort „${lemma}“? Herkunft und Geschichte`, `Woher kommt das Wort „${lemma}“?`)}
+  description={description}
+  noindex={!live}
+>
+  {live && <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />}
+  <div class="uv">
+    <SiteNav active="wissen" />
+    <main class="uv-main">
+      <div class="wg">
+        <a href="/wissen/wortgeschichte" class="vp-back-link" data-i18n="wg.backToday">Wort des Tages</a>
+        <SectionMascot name="regi" expr="happy" say="Jedes Wort hat eine Geschichte." align="center" class="hub-mascot uv-hub-mascot" />
+        <WortEntry entry={entry} mode="archive" preview={PREVIEW} today={day} />
+        <WortAbo />
+        <WortRecent entries={live ? published(day) : archive(day)} current={entry} />
+      </div>
+    </main>
+  </div>
+</Layout>

@@ -1,0 +1,49 @@
+/* „▶ Vorschau“ (src/lib/vorschau.js): the presenter card, bottom right, above the page and
+   clear of the demo dock in the left corner. On a phone it spans the bottom edge. */
+.vs-card {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: calc(var(--z-toast, 60) + 1);
+  width: min(340px, calc(100vw - 32px));
+  padding: 14px 16px 16px;
+  background: var(--surface-card);
+  border: 1px solid var(--blue-200);
+  border-radius: 18px;
+  box-shadow: 0 18px 48px rgba(15, 20, 28, .22);
+  color: var(--ink);
+  animation: vs-in .35s cubic-bezier(.22, 1, .36, 1);
+}
+/* during a lesson, above its bar (unterricht/leiste.css) */
+body.ut-mit-leiste .vs-card { bottom: calc(var(--ut-space, 64px) + 12px); }
+@keyframes vs-in { from { opacity: 0; transform: translateY(16px); } }
+.vs-top { display: flex; align-items: center; justify-content: space-between; }
+.vs-step { font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--brand-blue-dark); }
+.vs-x {
+  width: 32px; height: 32px; border: 0; border-radius: 50%; background: none;
+  color: var(--muted); font: inherit; cursor: pointer;
+}
+.vs-x:hover { background: var(--surface); color: var(--ink); }
+.vs-dots { display: flex; gap: 4px; margin: 6px 0 10px; padding: 0; list-style: none; }
+.vs-dots li { flex: 1; height: 4px; border-radius: 2px; background: var(--border); }
+.vs-dots li.is-done { background: var(--blue-300); }
+.vs-dots li.is-on { background: var(--brand-blue); }
+.vs-title { margin: 0 0 6px; font-size: 1.15rem; line-height: 1.25; }
+.vs-pitch { margin: 0 0 10px; font-size: .92rem; line-height: 1.45; color: var(--ink); }
+.vs-tap {
+  margin: 0 0 12px; padding: 8px 10px; border-radius: 10px;
+  background: var(--blue-50); font-size: .85rem; line-height: 1.4; color: var(--brand-blue-dark);
+}
+.vs-here { display: inline-block; margin: -4px 0 12px; font-size: .85rem; color: var(--brand-blue-dark); }
+.vs-nav { display: flex; justify-content: flex-end; gap: 8px; }
+.vs-btn {
+  min-height: 40px; padding: 0 16px; border: 1px solid var(--border-strong); border-radius: 999px;
+  background: var(--surface-card); color: var(--brand-blue-dark);
+  font: inherit; font-size: .9rem; font-weight: 700; cursor: pointer;
+}
+.vs-btn--main { background: var(--brand-blue); border-color: var(--brand-blue); color: #fff; }
+.vs-btn:focus-visible, .vs-x:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+@media (max-width: 640px) {
+  .vs-card { right: 8px; left: 8px; bottom: 8px; width: auto; }
+}
+@media (prefers-reduced-motion: reduce) { .vs-card { animation: none; } }

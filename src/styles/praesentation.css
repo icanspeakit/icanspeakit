@@ -1,0 +1,139 @@
+/* Present mode on grammar topic pages (src/lib/praesentationDeck.js): the deck covers the
+   page; type as big as the projector allows. The session bar and the clock
+   (src/lib/unterricht/) stay on top of it. */
+html[data-praes] { overflow: hidden; }
+.pr {
+  position: fixed; inset: 0; z-index: 900; display: grid; grid-template-rows: auto 1fr auto;
+  background: var(--surface-card); color: var(--ink); font-family: var(--font-body);
+}
+body.ut-mit-leiste .pr { bottom: var(--ut-space, 64px); }
+.pr-top { display: flex; align-items: center; gap: 8px; padding: 12px 16px; }
+.pr-top b { flex: 1; font-size: clamp(.95rem, 2vmin, 1.2rem); color: var(--muted); }
+.pr-btn {
+  display: grid; place-items: center; min-width: 48px; height: 48px; padding: 0 10px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-card); color: var(--ink); font: inherit; font-size: 1.2rem; cursor: pointer;
+}
+.pr-stage {
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 3vmin;
+  padding: 2vmin 6vw; text-align: center; cursor: pointer; overflow: auto;
+}
+.pr-label { margin: 0; font-size: clamp(.95rem, 2.4vmin, 1.4rem); font-weight: var(--fw-bold); color: var(--brand-blue-dark); text-transform: uppercase; letter-spacing: .06em; }
+.pr-example { margin: 0; font-size: clamp(2rem, 7vmin, 5.2rem); font-weight: var(--fw-bold); line-height: 1.2; max-width: 22ch; }
+.pr-audio {
+  min-height: 48px; padding: 0 22px; border-radius: 999px; border: 1px solid var(--brand-blue); background: var(--blue-50);
+  color: var(--brand-blue-dark); font: inherit; font-size: clamp(1rem, 2.4vmin, 1.4rem); font-weight: var(--fw-bold); cursor: pointer;
+}
+.pr-reveal { margin: 0; font-size: clamp(2rem, 7vmin, 5rem); font-weight: var(--fw-bold); line-height: 1.2; }
+.pr-end { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.pr-end-btn {
+  min-height: 56px; padding: 0 28px; border-radius: 999px; border: 1.5px solid var(--ink); background: var(--surface-card);
+  color: var(--ink); font: inherit; font-size: clamp(1rem, 2.6vmin, 1.5rem); font-weight: var(--fw-bold); cursor: pointer;
+}
+/* „Regel ansehen“: the page's rule card inside the deck, read top to bottom. The stage
+   stops centring and scrolls; the card keeps the page's own rule styles. */
+.pr-stage[data-kind="rule"] { justify-content: flex-start; align-items: stretch; text-align: left; cursor: default; padding-top: 1vmin; }
+.pr-rule-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.pr-rule { width: 100%; max-width: 1100px; margin: 0 auto; font-size: clamp(1rem, 1.9vmin, 1.25rem); }
+.pr-rule .vp-rule-card { margin: 0; }
+/* The crew's rule cards on the projector: even rows (4 cards = 2 × 2, not 3 + 1 alone)
+   and the mascot small in the card's corner instead of a row of its own under each. */
+.pr-rule .vp-qa-grid--crew { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 14px; }
+.pr-rule .vp-qa-grid--crew:has(> :nth-child(4):last-child),
+.pr-rule .vp-qa-grid--crew:has(> :nth-child(2):last-child) { grid-template-columns: repeat(auto-fit, minmax(min(100%, max(300px, calc((100% - 14px) / 2))), 1fr)); }
+.pr-rule .vp-qa-say { position: relative; }
+.pr-rule .vp-qa-bubble::after { display: none; }
+.pr-rule .vp-qa-say .vp-qa-tag { padding-right: 44px; }
+.pr-rule .vp-qa-speaker { position: absolute; top: 6px; right: 10px; padding: 0; }
+.pr-rule .vp-qa-mascot { width: 36px; height: 36px; }
+/* The card's text in blocks (formatRuleText in praesentationDeck.js): examples as lines. */
+.pr-rule .vp-qa-text { line-height: 1.5; }
+.pr-rule .pr-rlab { display: block; margin-top: .75em; }
+.pr-rule :is(.vp-qa-text, .vp-note) > .pr-rlab:first-child { margin-top: 0; }
+.pr-rule .pr-rex {
+  display: block; margin: .35em 0; padding: .25em .7em; border-left: 3px solid var(--brand-blue);
+  border-radius: 0 8px 8px 0; background: color-mix(in srgb, var(--brand-blue, #0d9488) 7%, transparent);
+  font-weight: var(--fw-semibold, 600);
+}
+.pr-end-btn--main { background: var(--brand-blue); border-color: var(--brand-blue); color: #fff; }
+.pr-reveal span { font-size: .45em; font-weight: var(--fw-semibold); color: var(--muted); }
+.pr-flow { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1.6vmin; }
+.pr-flow-arrow { display: inline-flex; color: #9ca3af; font-size: 1.2em; }
+.pr-flow-item {
+  padding: 1.4vmin 2.6vmin; border-radius: var(--radius); border: 2px solid var(--border-strong);
+  font-size: clamp(1.3rem, 4.4vmin, 3.2rem); font-weight: var(--fw-bold);
+}
+.pr-flow-item--prep { border-color: #f59e0b; background: #fef3c7; color: #1f2937; }
+.pr-flow-item--verb { border-color: #0d9488; background: #ccfbf1; color: #1f2937; }
+.pr-table { border-collapse: collapse; font-size: clamp(1.1rem, 3.8vmin, 2.6rem); }
+.pr-table th, .pr-table td { padding: .35em .8em; border-bottom: 2px solid var(--border); text-align: left; }
+.pr-table th { font-size: .6em; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+/* A rule screen (src/lib/folien.js): one sentence per line, examples set off, chips, tables. */
+/* Centred on one axis: heading, lines, chips and tables share the slide's middle. */
+.pr-card {
+  display: grid; justify-items: center; gap: .6em; max-width: min(36ch, 90vw); text-align: center;
+  font-size: calc(clamp(1.3rem, 4.2vmin, 3.1rem) * var(--pr-size, 1)); line-height: 1.3;
+}
+/* Named lists side by side (folien.js groupTable): heads on top, one form per row. */
+.pr-grid { border-collapse: collapse; font-size: .95em; }
+.pr-grid th {
+  padding: .2em 1.1em; font-size: .62em; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--muted); border-bottom: 2px solid var(--border-strong);
+}
+.pr-grid td { padding: .22em 1.1em; font-weight: var(--fw-bold); color: var(--brand-blue-dark); border-bottom: 1px solid var(--border); }
+.pr-grid td + td, .pr-grid th + th { border-left: 1px solid var(--border); }
+.pr-grid tr:last-child td { border-bottom: 0; }
+.pr-card p { margin: 0; text-wrap: pretty; }
+.pr-card em { font-style: normal; color: var(--brand-blue-dark); }
+/* The words a "Kurz erklärt" talks about (briefMarks in the topic JSON). */
+.pr-card strong { font-weight: var(--fw-bold); color: var(--brand-blue-dark); }
+.pr-line { font-weight: var(--fw-medium); }
+.pr-ex {
+  width: fit-content; padding: .3em .9em; border-radius: 14px; background: var(--blue-50);
+  color: var(--brand-blue-dark); font-weight: var(--fw-semibold);
+}
+.pr-ex + .pr-ex { margin-top: -.25em; }
+/* What follows a colon, on its own line: bold in the accent colour, a little in. */
+.pr-ans { color: var(--brand-blue-dark); font-weight: var(--fw-bold); }
+.pr-ans em { color: inherit; }
+.pr-line + .pr-ex, .pr-line + .pr-ans { margin-top: -.15em; }
+/* An even grid: every chip the same width, rows full (--cols from folien.js). */
+.pr-chips { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: .35em; width: min(100%, calc(var(--cols, 3) * 9em)); }
+/* Tiles, not pills: nothing on a slide is pressed, so nothing looks like a button. */
+.pr-chips span {
+  display: grid; place-items: center; min-height: 2em; padding: .15em .5em; border-radius: 8px;
+  background: var(--blue-50); font-size: .82em; font-weight: var(--fw-semibold); cursor: inherit;
+}
+@media (max-width: 600px) { .pr-chips { grid-template-columns: repeat(min(var(--cols, 3), 2), minmax(0, 1fr)); } }
+/* The site's a → b table (examplePairs.js), at slide size. */
+.pr-card .ex-pairs { margin: .2em auto 0; border-collapse: collapse; font-size: .9em; }
+.pr-card .ex-pairs td { padding: .12em .4em; border-bottom: 1px solid var(--border); }
+.pr-card .ex-pairs .ex-arr { color: var(--muted); }
+.pr-card .ex-pairs .ex-b { font-weight: var(--fw-bold); color: var(--brand-blue-dark); }
+.pr-fix { border-collapse: collapse; font-size: .82em; }
+.pr-fix td { padding: .3em .6em; border-bottom: 1px solid var(--border); vertical-align: top; }
+.pr-fix i { font-style: normal; font-weight: var(--fw-bold); margin-right: .4em; }
+.pr-fix-no { color: var(--muted); text-decoration: line-through; text-decoration-color: #dc2626aa; }
+.pr-fix-no i { color: #dc2626; text-decoration: none; display: inline-block; }
+.pr-fix-yes { font-weight: var(--fw-semibold); }
+.pr-fix-yes i { color: #16a34a; }
+.pr-fix em { font-style: normal; color: inherit; }
+
+/* Changing screens: everything on the new one slides in a little from the side you are
+   going to and fades up, one block after another. */
+.pr-stage.pr-in > *, .pr-stage.pr-in .pr-card > * {
+  animation: pr-in .42s cubic-bezier(.22, 1, .36, 1) both;
+}
+.pr-stage.pr-in .pr-card > :nth-child(2) { animation-delay: .06s; }
+.pr-stage.pr-in .pr-card > :nth-child(3) { animation-delay: .12s; }
+.pr-stage.pr-in .pr-card > :nth-child(n + 4) { animation-delay: .18s; }
+.pr-stage[data-dir="next"] { --pr-dx: 28px; }
+.pr-stage[data-dir="back"] { --pr-dx: -28px; }
+@keyframes pr-in { from { opacity: 0; transform: translateX(var(--pr-dx, 28px)); } }
+@media (prefers-reduced-motion: reduce) {
+  .pr-stage.pr-in > *, .pr-stage.pr-in .pr-card > * { animation: none; }
+}
+.pr-nav { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 12px; }
+.pr-count { min-width: 5ch; text-align: center; font-variant-numeric: tabular-nums; font-weight: var(--fw-bold); color: var(--muted); }
+@media print { .pr { display: none !important; } html[data-praes] { overflow: visible; } }
+.pr-chev { display: inline-block; vertical-align: -0.14em; }
+.pr-end-btn .pr-chev { margin-right: 2px; }

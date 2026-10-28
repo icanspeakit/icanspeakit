@@ -1,0 +1,138 @@
+---
+// „Nächste Stunde“ on /fortschritt (SCHUELER-STUNDE Tier 4): ONE card, not a list – the Stunde
+// a learner should do next, walked alone on /stunde. „Weiter mit Stunde 2: Dativ, Schritt 3“
+// for a Stunde begun, else the one after the last finished, else the first Stunde of the
+// learner's level (da-einstufung / da_level). Pure choice: lernen.js naechsteStunde (tested).
+//
+// Signed out it reads this device (da:lernstunde + da:lernstunden). Signed in it first merges
+// the device into the account once (lernServer.js syncAll, as on /stunde), then reads both –
+// the most recent Stunde decides. The Supabase client loads only when a session cookie exists.
+//
+// Hidden until it knows what to show. The × hides it for this one suggestion (da:ns-weg); it
+// comes back when the next Stunde changes. German only, like /stunde. Nothing on the map, the
+// rings, the level bar or the course strip changes.
+import { planLevels } from "../lib/stundenplanLinks.js";
+import { lessonFor } from "../lib/stundenplan.js";
+import { DEFAULT, keyText } from "../lib/unterricht/lernen.js";
+
+const levels = planLevels();
+const order = levels.map((l) => ({ niveau: l.id, blocks: l.blocks.length }));
+// The self-learner's Stunden (3 × 90 per block) by key: their name and where they sit.
+const names: Record<string, { titel: string; ort: string; schritte: number }> = {};
+for (const level of levels) {
+  level.blocks.forEach((b: any, bi: number) => {
+    for (let n = 1; n <= DEFAULT.stunden; n++) {
+      const key = { niveau: level.id, block: bi + 1, stunden: DEFAULT.stunden, stunde: n, minuten: DEFAULT.minuten };
+      const lesson = lessonFor(levels, key)?.lesson;
+      if (lesson) names[keyText(key)] = { titel: `Stunde ${n}: ${lesson.final ? "Anwenden und Wiederholen" : lesson.focus}`, ort: `${level.label} · Block ${bi + 1}: ${b.thema}`, schritte: lesson.phases.length };
+    }
+  });
+}
+---
+<section class="ns" data-ns hidden lang="de" aria-labelledby="ns-title">
+  <p class="ns-eyebrow" data-ns-eyebrow>Deine Stunde</p>
+  <h2 class="ns-title" id="ns-title" data-ns-title></h2>
+  <p class="ns-where" data-ns-where></p>
+  <a class="ns-go" data-ns-go href="/stunde">Los geht's</a>
+  <button type="button" class="ns-x" data-ns-x aria-label="Ausblenden" title="Ausblenden">
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" /></svg>
+  </button>
+</section>
+<script type="application/json" id="ns-data" set:html={JSON.stringify({ order, names })}></script>
+
+<style>
+  /* One slim line on a wide screen – label, title, where, button – so the course strip and the
+     map below stay where they were; stacked on a phone. */
+  .ns {
+    display: flex; align-items: center; gap: 4px 12px; flex-wrap: wrap;
+    /* The column of /fortschritt's tabs and LearnShell (.nv-shell): 1280px, 24px gutter. */
+    width: min(1232px, calc(100% - 48px)); box-sizing: border-box; margin: 8px auto 10px; padding: 8px 8px 8px 16px;
+    border: 1px solid color-mix(in srgb, var(--brand-blue) 35%, var(--border)); border-radius: 999px;
+    background: var(--surface-card);
+  }
+  .ns[hidden] { display: none; }
+  .ns-eyebrow {
+    flex: none; margin: 0; padding: 2px 8px; border-radius: 999px; background: var(--blue-50);
+    font-family: var(--font-label); font-size: .68rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--brand-blue-dark);
+  }
+  .ns-title { flex: 0 1 auto; min-width: 0; margin: 0; font-size: .95rem; line-height: 1.3; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ns-where { flex: 1 1 0; min-width: 0; margin: 0; font-size: .8125rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ns-go {
+    flex: none; margin-left: auto; display: inline-flex; align-items: center; min-height: 36px; padding: 0 16px;
+    border-radius: 999px; background: var(--gradient-brand, var(--brand-blue)); color: #fff; font-size: .875rem; font-weight: 700; text-decoration: none; white-space: nowrap;
+  }
+  .ns-go:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 3px; }
+  .ns-x {
+    flex: none; display: inline-grid; place-items: center; width: 36px; height: 36px; margin-left: -6px; padding: 0;
+    border: 0; border-radius: 999px; background: transparent; color: var(--muted); cursor: pointer;
+  }
+  .ns-x:hover { background: var(--blue-50); color: var(--ink); }
+  .ns-x:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+  @media (max-width: 900px) { .ns { width: calc(100% - 32px); } }
+  /* A phone: label and button on one row, the title across the whole card, where below. */
+  @media (max-width: 760px) {
+    .ns {
+      display: grid; grid-template-columns: 1fr auto auto; grid-template-areas: "eyebrow go x" "title title title" "where where where";
+      gap: 4px 10px; border-radius: var(--radius-lg, 14px); padding: 10px 10px 10px 14px;
+    }
+    .ns-eyebrow { grid-area: eyebrow; justify-self: start; }
+    .ns-go { grid-area: go; margin: 0; min-height: 34px; padding: 0 14px; }
+    .ns-x { grid-area: x; margin: 0; width: 34px; height: 34px; }
+    .ns-title { grid-area: title; white-space: normal; }
+    .ns-where { grid-area: where; }
+    .ns-where :global(.ns-tag) { display: none; }
+  }
+</style>
+
+<script>
+  import { ARCHIV_KEY, LERN_KEY, keyText, naechsteStunde, stundeHref } from "../lib/unterricht/lernen.js";
+
+  const WEG_KEY = "da:ns-weg";
+  const box = document.querySelector<HTMLElement>("[data-ns]");
+  const data = JSON.parse(document.getElementById("ns-data")?.textContent || "{}");
+  const read = (k: string) => { try { return JSON.parse(localStorage.getItem(k) ?? "null"); } catch { return null; } };
+  const within = <T,>(p: Promise<T>, ms: number) => Promise.race([p, new Promise<null>((r) => setTimeout(() => r(null), ms))]);
+
+  async function show() {
+    if (!box) return;
+    const running = read(LERN_KEY);
+    let snaps: any[] = [...(running ? [running] : []), ...Object.values(read(ARCHIV_KEY) ?? {})];
+    if (/(^|;\s*)sb-[^=]*-auth-token[^=]*=/.test(document.cookie)) {
+      try {
+        const srv = await import("../lib/unterricht/lernServer.js");
+        await within(srv.syncAll(snaps), 4000);
+        snaps = [...snaps, ...((await within(srv.meineLernstunden(30), 3000)) ?? [])];
+      } catch {}
+    }
+    let cefr = null;
+    try { cefr = localStorage.getItem("da-einstufung") || localStorage.getItem("da_level"); } catch {}
+    const next = naechsteStunde(snaps, data.order ?? [], cefr);
+    if (!next) return;
+    const sig = `${next.kind}|${keyText(next.key)}`;
+    try { if (localStorage.getItem(WEG_KEY) === sig) return; } catch {}
+    box.querySelector("[data-ns-x]")?.addEventListener("click", () => {
+      try { localStorage.setItem(WEG_KEY, sig); } catch {}
+      box.hidden = true;
+    });
+    const info = data.names?.[keyText(next.key)];
+    const k = next.key;
+    const titel = info?.titel ?? `Stunde ${k.stunde}`;
+    const ort = info?.ort ?? `${k.niveau.toUpperCase().replace("-", ".")} · Block ${k.block}`;
+    const $ = (s: string) => box.querySelector<HTMLElement>(s)!;
+    if (next.kind === "weiter") {
+      $("[data-ns-eyebrow]").textContent = "Weiter, wo du warst";
+      $("[data-ns-title]").textContent = `Weiter mit ${titel}`;
+      $("[data-ns-where]").textContent = `${ort} · Schritt ${next.step + 1}${info ? ` von ${info.schritte}` : ""}`;
+      $("[data-ns-go]").textContent = "Weiter";
+    } else {
+      $("[data-ns-eyebrow]").textContent = next.kind === "start" ? "Deine erste Stunde" : "Nächste Stunde";
+      $("[data-ns-title]").textContent = titel;
+      $("[data-ns-where]").innerHTML = "";
+      $("[data-ns-where]").append(ort, Object.assign(document.createElement("span"), { className: "ns-tag", textContent: " · Schritt für Schritt, in deinem Tempo" }));
+      $("[data-ns-go]").textContent = "Los geht's";
+    }
+    $("[data-ns-go]").setAttribute("href", stundeHref(k));
+    box.hidden = false;
+  }
+  show();
+</script>

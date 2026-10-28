@@ -1,0 +1,42 @@
+{
+  "types": {
+    "aussage": { "label": "Aussage", "mark": "↘", "curve": "fall" },
+    "jn": { "label": "Ja/Nein-Frage", "mark": "↗", "curve": "rise" },
+    "w": { "label": "W-Frage", "mark": "↘", "curve": "fall" },
+    "echo": { "label": "Nachfrage", "mark": "↗↗", "curve": "echo" },
+    "ausruf": { "label": "Ausruf", "mark": "↘!", "curve": "excl" }
+  },
+  "families": [
+    { "topic": "Termine", "base": "Du kommst morgen", "jn": "Kommst du morgen?", "w": "Wann kommst du?" },
+    { "topic": "Freizeit", "base": "Du hast heute Zeit", "jn": "Hast du heute Zeit?", "w": "Wann hast du Zeit?" },
+    { "topic": "Einkaufen", "base": "Das Kleid ist teuer", "jn": "Ist das Kleid teuer?", "w": "Wie teuer ist das Kleid?" },
+    { "topic": "Wohnen", "base": "Sie wohnen in Berlin", "jn": "Wohnen Sie in Berlin?", "w": "Wo wohnen Sie?" },
+    { "topic": "Unterwegs", "base": "Der Bus kommt gleich", "jn": "Kommt der Bus gleich?", "w": "Wann kommt der Bus?" },
+    { "topic": "Sprachen", "base": "Er spricht Deutsch", "jn": "Spricht er Deutsch?", "w": "Welche Sprachen spricht er?" },
+    { "topic": "Essen", "base": "Wir essen heute Pizza", "jn": "Essen wir heute Pizza?", "w": "Was essen wir heute?" },
+    { "topic": "Kleidung", "base": "Die Schuhe sind neu", "jn": "Sind die Schuhe neu?", "w": "Wie alt sind die Schuhe?" },
+    { "topic": "Gesundheit", "base": "Anna ist krank", "jn": "Ist Anna krank?", "w": "Wer ist krank?" },
+    { "topic": "Preise", "base": "Das kostet fünfzig Euro", "jn": "Kostet das fünfzig Euro?", "w": "Wie viel kostet das?" }
+  ],
+  "stress": [
+    { "words": ["Ich", "trinke", "heute", "Kaffee."], "q": "Wer trinkt heute Kaffee?", "k": 0 },
+    { "words": ["Ich", "trinke", "heute", "Kaffee."], "q": "Was trinkst du heute?", "k": 3 },
+    { "words": ["Ich", "trinke", "heute", "Kaffee."], "q": "Wann trinkst du Kaffee?", "k": 2 },
+    { "words": ["Anna", "fährt", "morgen", "nach", "Hamburg."], "q": "Wohin fährt Anna morgen?", "k": 4 },
+    { "words": ["Anna", "fährt", "morgen", "nach", "Hamburg."], "q": "Wer fährt morgen nach Hamburg?", "k": 0 },
+    { "words": ["Anna", "fährt", "morgen", "nach", "Hamburg."], "q": "Wann fährt Anna nach Hamburg?", "k": 2 },
+    { "words": ["Meine", "Schuhe", "sind", "dunkelbraun."], "q": "Welche Farbe haben deine Schuhe?", "k": 3 },
+    { "words": ["Meine", "Schuhe", "sind", "dunkelbraun."], "q": "Was ist dunkelbraun? Deine Hose?", "k": 1 },
+    { "words": ["Der", "Pullover", "kostet", "zwanzig", "Euro."], "q": "Wie viel kostet der Pullover?", "k": 3 },
+    { "words": ["Der", "Pullover", "kostet", "zwanzig", "Euro."], "q": "Was kostet zwanzig Euro?", "k": 1 }
+  ],
+  "rules": [
+    { "id": "aussage", "curve": "fall", "name": "Aussage", "text": "Die Stimme fällt am Ende.", "parts": [{ "t": "Ich wohne in Köln.", "type": "aussage" }] },
+    { "id": "w", "curve": "fall", "name": "W-Frage", "text": "Die Stimme fällt am Ende. Freundlich: am Ende leicht hoch.", "parts": [{ "t": "Woher kommen Sie?", "type": "w" }] },
+    { "id": "jn", "curve": "rise", "name": "Ja/Nein-Frage", "text": "Das Verb steht auf Position 1. Die Stimme steigt.", "parts": [{ "t": "Kommen Sie aus Polen?", "type": "jn" }] },
+    { "id": "echo", "curve": "echo", "name": "Nachfrage", "text": "Wortstellung wie in der Aussage, die Stimme steigt stark. Keine normale Frage: Man ist überrascht oder prüft nach. Die Ja/Nein-Frage hat das Verb auf Position 1 („Kommen Sie aus Polen?“).", "parts": [{ "t": "Sie kommen aus Polen?", "type": "echo" }] },
+    { "id": "ausruf", "curve": "excl", "name": "Ausruf", "text": "Das betonte Wort geht weit nach oben, danach fällt die Stimme stark. Gefühl: Freude, Ärger, Überraschung.", "parts": [{ "t": "Das ist total schön!", "type": "ausruf" }] },
+    { "id": "liste", "curve": "flat", "name": "Aufzählung", "text": "Die Stimme bleibt oben →, bis die Liste fertig ist. Dann fällt sie ↘.", "parts": [{ "t": "Ich kaufe Brot,", "type": "weiter" }, { "t": "Milch", "type": "weiter" }, { "t": "und Käse.", "type": "aussage" }] },
+    { "id": "oder", "curve": "rise", "name": "Oder-Frage", "text": "Erste Möglichkeit ↗, letzte Möglichkeit ↘.", "parts": [{ "t": "Möchtest du Tee", "type": "jn" }, { "t": "oder Kaffee?", "type": "w" }] }
+  ]
+}

@@ -1,0 +1,303 @@
+{
+  "_note": "Ablauf Klasse B (Ersterwerb), Tier 5. Alle Zahlen als {{fakt:…}} aus fakten.research.json. `say` = Sätze, die man an diesem Ort braucht (Lerninhalt, Deutsch). `easy` = Einfache-Sprache-Variante von `what`. Kosten sind Spannen laut ADAC bzw. Gebührenordnung; je nach Region und Fahrschule verschieden.",
+  "steps": [
+    {
+      "id": "fahrschule",
+      "bild": "🚗",
+      "title": "Fahrschule wählen und anmelden",
+      "what": "Du suchst eine Fahrschule und schließt einen Ausbildungsvertrag. Vergleiche die Preise: Fahrschulen müssen sie aushängen. Frag auch, ob jemand im Unterricht deine Sprache spricht.",
+      "easy": "Du suchst eine Fahrschule. Du unterschreibst einen Vertrag. Die Preise hängen in der Fahrschule aus. Vergleiche die Preise.",
+      "where": "In der Fahrschule",
+      "cost": [
+        "kosten.grundgebuehr",
+        "kosten.lernmaterial"
+      ],
+      "costLabels": [
+        "Grundgebühr",
+        "Lernmaterial (Buch oder App)"
+      ],
+      "bring": [
+        "Ausweis oder Pass"
+      ],
+      "say": [
+        "Ich möchte den Führerschein Klasse B machen.",
+        "Was kostet eine Fahrstunde bei Ihnen?",
+        "Gibt es den Theorieunterricht auch am Abend?"
+      ],
+      "keys": [
+        "ablauf.fahrschuleAnmelden"
+      ]
+    },
+    {
+      "id": "sehtest",
+      "bild": "👁️",
+      "title": "Sehtest",
+      "what": "Du machst einen Sehtest bei einer amtlich anerkannten Stelle, zum Beispiel bei einem Augenoptiker. Die Bescheinigung darf beim Antrag höchstens {{fakt:ablauf.sehtestGueltigkeit}} alt sein.",
+      "easy": "Du machst einen Sehtest. Das geht beim Optiker. Die Bescheinigung darf höchstens {{fakt:ablauf.sehtestGueltigkeit}} alt sein.",
+      "where": "Beim Augenoptiker oder einer anderen anerkannten Sehteststelle",
+      "cost": [
+        "kosten.sehtest"
+      ],
+      "costLabels": [
+        "Sehtest"
+      ],
+      "bring": [
+        "Ausweis",
+        "Brille oder Kontaktlinsen, wenn du welche hast"
+      ],
+      "say": [
+        "Ich brauche einen Sehtest für den Führerschein.",
+        "Muss ich dafür einen Termin machen?"
+      ],
+      "keys": [
+        "ablauf.sehtest",
+        "ablauf.sehtestGueltigkeit"
+      ],
+      "comic": "sehtest"
+    },
+    {
+      "id": "erste-hilfe",
+      "bild": "🩹",
+      "title": "Erste-Hilfe-Kurs",
+      "what": "Du besuchst einen Kurs in Erster Hilfe: mindestens {{fakt:ablauf.ersteHilfeKurs}}, meistens an einem Tag. Der Nachweis wird nicht ungültig.",
+      "easy": "Du machst einen Kurs in Erster Hilfe. Der Kurs dauert meistens einen Tag. Die Bescheinigung bleibt immer gültig.",
+      "where": "Bei einer anerkannten Stelle, zum Beispiel beim Roten Kreuz",
+      "cost": [
+        "kosten.ersteHilfeKurs"
+      ],
+      "costLabels": [
+        "Kurs"
+      ],
+      "bring": [
+        "Ausweis"
+      ],
+      "say": [
+        "Ich möchte mich für den Erste-Hilfe-Kurs anmelden.",
+        "Ist das der Kurs für den Führerschein?"
+      ],
+      "keys": [
+        "ablauf.ersteHilfeKurs",
+        "ablauf.ersteHilfeGueltigkeit"
+      ]
+    },
+    {
+      "id": "passbild",
+      "bild": "📷",
+      "title": "Passbild",
+      "what": "Du brauchst ein biometrisches Passbild auf Papier, wie für den Reisepass.",
+      "easy": "Du brauchst ein Passbild. Es muss biometrisch sein, wie für den Pass.",
+      "where": "Beim Fotografen oder im Fotoautomaten",
+      "cost": [
+        "kosten.passbild"
+      ],
+      "costLabels": [
+        "Passbild"
+      ],
+      "bring": [],
+      "say": [
+        "Ich brauche ein biometrisches Passbild für den Führerschein."
+      ],
+      "keys": [
+        "ablauf.passbild"
+      ]
+    },
+    {
+      "id": "antrag",
+      "bild": "🏢",
+      "title": "Antrag bei der Fahrerlaubnisbehörde",
+      "what": "Du stellst den Antrag bei der Fahrerlaubnisbehörde (Führerscheinstelle) deiner Stadt. Die Bearbeitung kann je nach Stadt mehrere Wochen dauern — beantrage früh.",
+      "easy": "Du gehst zur Führerscheinstelle in deiner Stadt. Dort stellst du den Antrag. Das dauert oft mehrere Wochen. Geh deshalb früh hin.",
+      "where": "Fahrerlaubnisbehörde (Führerscheinstelle) an deinem Wohnort",
+      "cost": [
+        "kosten.behoerdenGebuehr"
+      ],
+      "costLabels": [
+        "Gebühr der Behörde"
+      ],
+      "bringKey": "ablauf.antragFahrerlaubnisbehoerde",
+      "say": [
+        "Ich möchte einen Antrag auf eine Fahrerlaubnis stellen.",
+        "Welche Unterlagen brauche ich?",
+        "Wie lange dauert die Bearbeitung?"
+      ],
+      "keys": [
+        "ablauf.antragFahrerlaubnisbehoerde"
+      ]
+    },
+    {
+      "id": "theorie",
+      "bild": "📝",
+      "title": "Theorieunterricht",
+      "what": "In der Fahrschule lernst du die Regeln: {{fakt:ablauf.theorieGrundstoff}} Grundstoff und {{fakt:ablauf.theorieZusatzstoffB}} Zusatzstoff für Klasse B. Eine Doppelstunde dauert {{fakt:ablauf.doppelstundeDauer}}. Heute musst du dafür in der Fahrschule sitzen.",
+      "easy": "In der Fahrschule lernst du die Regeln. Das sind {{fakt:ablauf.theorieGrundstoff}} Grundstoff und {{fakt:ablauf.theorieZusatzstoffB}} Zusatzstoff. Du musst dabei in der Fahrschule sein.",
+      "where": "In der Fahrschule",
+      "cost": [],
+      "costLabels": [],
+      "bring": [],
+      "say": [
+        "Wann ist die nächste Theoriestunde?",
+        "Kann ich die Stunde nachholen?"
+      ],
+      "keys": [
+        "ablauf.theorieGrundstoff",
+        "ablauf.theorieZusatzstoffB",
+        "ablauf.doppelstundeDauer"
+      ]
+    },
+    {
+      "id": "fahrstunden",
+      "bild": "🚦",
+      "title": "Fahrstunden und Sonderfahrten",
+      "what": "Du übst mit dem Fahrlehrer, so lange du brauchst — eine feste Zahl gibt es nicht. Dazu kommen Pflicht-Sonderfahrten: {{fakt:ablauf.sonderfahrtUeberland}} über Land, {{fakt:ablauf.sonderfahrtAutobahn}} auf der Autobahn und {{fakt:ablauf.sonderfahrtDunkelheit}} bei Dunkelheit.",
+      "easy": "Du übst mit dem Fahrlehrer. Du übst, so lange du es brauchst. Dazu kommen Sonderfahrten: über Land, auf der Autobahn und im Dunkeln.",
+      "where": "Im Auto der Fahrschule",
+      "cost": [
+        "kosten.fahrstunde45",
+        "kosten.sonderfahrt"
+      ],
+      "costLabels": [
+        "Fahrstunde (45 Minuten)",
+        "Sonderfahrt (45 Minuten)"
+      ],
+      "bring": [
+        "Bequeme Schuhe",
+        "Brille, wenn du eine brauchst"
+      ],
+      "say": [
+        "Spiegel – Blinker – Schulterblick.",
+        "Können wir das Einparken noch einmal üben?",
+        "Bin ich bereit für die Prüfung?"
+      ],
+      "keys": [
+        "ablauf.sonderfahrtUeberland",
+        "ablauf.sonderfahrtAutobahn",
+        "ablauf.sonderfahrtDunkelheit",
+        "ablauf.sonderfahrtenGesamt"
+      ]
+    },
+    {
+      "id": "theoriepruefung",
+      "bild": "🎓",
+      "title": "Theorieprüfung",
+      "what": "Du beantwortest {{fakt:theorie.anzahlFragenErsterwerbB}} am Computer bei TÜV oder DEKRA. Bestanden hast du mit höchstens {{fakt:theorie.maxFehlerpunkteBestehen}}. Danach hast du {{fakt:theorie.gueltigkeitTheorie}} Zeit für die praktische Prüfung.",
+      "easy": "Du beantwortest {{fakt:theorie.anzahlFragenErsterwerbB}} am Computer. Du darfst höchstens {{fakt:theorie.maxFehlerpunkteBestehen}} haben. Danach hast du {{fakt:theorie.gueltigkeitTheorie}} Zeit für die Fahrprüfung.",
+      "where": "Bei der Prüfstelle (TÜV, DEKRA oder eine andere Technische Prüfstelle)",
+      "cost": [
+        "kosten.pruefungsgebuehrTheorie",
+        "kosten.vorstellungTheorie"
+      ],
+      "costLabels": [
+        "Prüfungsgebühr (ca.)",
+        "Vorstellung durch die Fahrschule"
+      ],
+      "bring": [
+        "Personalausweis oder Pass"
+      ],
+      "say": [
+        "Kann ich die Prüfung auf Arabisch machen?",
+        "Ich habe meinen Ausweis dabei."
+      ],
+      "keys": [
+        "theorie.anzahlFragenErsterwerbB",
+        "theorie.maxFehlerpunkteBestehen",
+        "theorie.gueltigkeitTheorie",
+        "theorie.pruefungssprachen"
+      ]
+    },
+    {
+      "id": "praxispruefung",
+      "bild": "🔑",
+      "title": "Praktische Prüfung",
+      "what": "Du fährst mit dem Prüfer und dem Fahrlehrer. Die Prüfung dauert insgesamt {{fakt:ablauf.praxisPruefungDauer}}, davon fährst du etwa {{fakt:ablauf.praxisPruefungFahrzeit}}. Hast du bestanden, bekommst du den Führerschein sofort.",
+      "easy": "Du fährst mit dem Prüfer. Der Fahrlehrer ist dabei. Hast du bestanden? Dann bekommst du den Führerschein sofort.",
+      "where": "Im Auto der Fahrschule, Start meistens an der Prüfstelle",
+      "cost": [
+        "kosten.pruefungsgebuehrPraxis",
+        "kosten.vorstellungPraxis"
+      ],
+      "costLabels": [
+        "Prüfungsgebühr (ca.)",
+        "Vorstellung durch die Fahrschule"
+      ],
+      "bring": [
+        "Personalausweis oder Pass",
+        "Brille, wenn du eine brauchst"
+      ],
+      "say": [
+        "Guten Tag, ich bin zur Prüfung angemeldet.",
+        "Entschuldigung, können Sie das bitte wiederholen?"
+      ],
+      "keys": [
+        "ablauf.praxisPruefungDauer",
+        "ablauf.praxisPruefungFahrzeit",
+        "ablauf.fuehrerscheinAushaendigen"
+      ]
+    },
+    {
+      "id": "probezeit",
+      "bild": "📋",
+      "title": "Probezeit",
+      "what": "Mit dem Führerschein beginnt die Probezeit: {{fakt:regeln.probezeitDauer}}. In dieser Zeit gilt: kein Alkohol am Steuer. Bei schweren Verstößen musst du ein Aufbauseminar machen.",
+      "easy": "Jetzt hast du den Führerschein. Die Probezeit dauert {{fakt:regeln.probezeitDauer}}. Du darfst dann keinen Alkohol trinken, wenn du fährst.",
+      "where": "",
+      "cost": [],
+      "costLabels": [],
+      "bring": [],
+      "say": [
+        "Ich bin noch in der Probezeit."
+      ],
+      "lesson": "probezeit-punkte",
+      "keys": [
+        "regeln.probezeitDauer",
+        "regeln.alkoholverbotFahranfaenger"
+      ]
+    }
+  ],
+  "total": "kosten.gesamtkosten",
+  "comics": {
+    "sehtest": {
+      "title": "Beim Sehtest",
+      "panels": [
+        {
+          "caption": "Beim Optiker",
+          "left": {
+            "name": "quaki",
+            "expr": "happy",
+            "say": "Ich brauche einen Sehtest für den Führerschein."
+          },
+          "right": {
+            "name": "bruno",
+            "expr": "happy",
+            "say": "Den macht der Optiker. Er prüft, wie gut du siehst."
+          }
+        },
+        {
+          "caption": "Der Test",
+          "left": {
+            "name": "quaki",
+            "expr": "oops",
+            "say": "Hmm … die unterste Reihe ist ganz unscharf."
+          },
+          "right": {
+            "name": "bruno",
+            "expr": "thinking",
+            "say": "Vielleicht brauchst du eine Brille. Das ist kein Problem."
+          }
+        },
+        {
+          "caption": "Mit Brille",
+          "left": {
+            "name": "quaki",
+            "expr": "celebrate",
+            "say": "Mit Brille sehe ich alles!"
+          },
+          "right": {
+            "name": "bruno",
+            "expr": "happy",
+            "say": "Prima. Die Bescheinigung brauchst du für den Antrag."
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,254 @@
+{
+  "_comment": "Einfach lernen (/einfach): the curated path. Tasks reference reviewed items by ref, they never copy text — see src/lib/einfach-content.js for the ref formats and docs/easy-mode-tier1-v1.md for how to add a unit. Check with: pnpm check:einfach. Grammar order follows grammatik-lehrplan.json. Postcards with source \"neu\" are facts written for this path and still need Edgar's check.",
+  "levels": [
+    {
+      "level": "A1",
+      "units": [
+        {
+          "id": "a1-vorstellen",
+          "icon": "👋",
+          "title": "Sich vorstellen",
+          "minutes": 2,
+          "grammar": "artikel",
+          "claims": ["Du sagst deinen Namen und deinen Beruf.", "Du erkennst der, die, das an manchen Endungen."],
+          "postcard": { "city": "Berlin", "source": "kultur:duzen-siezen#2@44736f" },
+          "tasks": [
+            { "type": "wort", "ref": "lex:a1-01/Name" },
+            { "type": "artikel", "ref": "lex:a1-01/Nachname", "hint": "Wie der Name." },
+            { "type": "wort", "ref": "lex:a1-01/Beruf" },
+            { "type": "luecke", "ref": "gram:artikel/1/2@dcd635" },
+            { "type": "redemittel", "ref": "redemittel:begruessen#1@c0b48c", "situation": "Du lernst eine Person kennen. Was sagst du?", "distractors": ["redemittel:gratulieren#0@bbb484", "redemittel:entschuldigen#3@1083e2"], "hint": "Beim ersten Treffen." },
+            { "type": "artikel", "ref": "lex:a1-01/Sprache", "hint": "Viele Wörter auf -e haben „die“." },
+            { "type": "luecke", "ref": "gram:artikel/1/1@c646f6" }
+          ]
+        },
+        {
+          "id": "a1-wohnung",
+          "icon": "🏠",
+          "title": "Die Wohnung zeigen",
+          "minutes": 2,
+          "grammar": "artikel",
+          "claims": ["Du zeigst deine Wohnung.", "Du nennst die Zimmer mit Artikel."],
+          "postcard": { "city": "Hamburg", "source": "kultur:sonntagsruhe#4@632f94" },
+          "tasks": [
+            { "type": "wort", "ref": "lex:a1-04/Küche" },
+            { "type": "artikel", "ref": "lex:a1-04/Zimmer", "hint": "Wie das Haus." },
+            { "type": "wort", "ref": "lex:a1-04/Balkon" },
+            { "type": "luecke", "ref": "gram:artikel/1/0@d5005e" },
+            { "type": "sprechen", "ref": "aussprache:a1-wohnung" },
+            { "type": "artikel", "ref": "lex:a1-04/Miete", "hint": "Viele Wörter auf -e haben „die“." },
+            { "type": "luecke", "ref": "gram:artikel/4/3@e0691b", "options": ["eine", "ein", "einen"], "hint": "Die Vase ist feminin: die Vase.", "why": "die Vase → eine Vase. Bei der und das: ein." }
+          ]
+        },
+        {
+          "id": "a1-familie",
+          "icon": "👨‍👩‍👧",
+          "title": "Die Familie vorstellen",
+          "minutes": 2,
+          "grammar": "praesens",
+          "claims": ["Du stellst deine Familie vor.", "Du sagst: ich bin, wir haben."],
+          "postcard": { "city": "München", "fact": "Das Oktoberfest in München beginnt schon im September.", "source": "geprüft" },
+          "tasks": [
+            { "type": "wort", "ref": "lex:a1-02/Bruder" },
+            { "type": "wort", "ref": "lex:a1-02/Schwester" },
+            { "type": "luecke", "ref": "gram:praesens/1/3@13f361", "options": ["ist", "bin", "sind"], "hint": "sein: ich bin, du bist, er …", "why": "sein ist unregelmäßig: ich bin, du bist, er ist, wir sind." },
+            { "type": "artikel", "ref": "lex:a1-02/Tochter", "hint": "Wie die Mutter." },
+            { "type": "sprechen", "ref": "aussprache:a1-stuttgart" },
+            { "type": "luecke", "ref": "gram:praesens/1/2@306dc8", "options": ["haben", "habt", "hat"], "hint": "haben: ich habe, du hast, wir …", "why": "haben ist unregelmäßig: ich habe, du hast, er hat, wir haben." },
+            { "type": "luecke", "ref": "gram:praesens/1/6@23bf35", "options": ["Sind", "Ist", "Seid"], "hint": "Höflich: Sie. Das Verb ist sein.", "why": "sein ist unregelmäßig: Sie sind, wir sind, ihr seid." }
+          ]
+        },
+        {
+          "id": "a1-tag",
+          "icon": "⏰",
+          "title": "Von deinem Tag erzählen",
+          "minutes": 2,
+          "grammar": "praesens",
+          "claims": ["Du erzählst, was du am Tag machst."],
+          "postcard": { "city": "Köln", "fact": "Der Kölner Dom ist über 150 Meter hoch.", "source": "geprüft" },
+          "tasks": [
+            { "type": "wort", "ref": "lex:a1-11/Frühstück" },
+            { "type": "artikel", "ref": "lex:a1-11/Abend", "hint": "Wie der Morgen und der Tag." },
+            { "type": "luecke", "ref": "gram:praesens/0/0@1288ee", "options": ["wohne", "wohnst", "wohnt"], "hint": "Bei ich endet das Verb auf -e." },
+            { "type": "wort", "ref": "lex:a1-11/Wochenende" },
+            { "type": "sprechen", "ref": "aussprache:a1-fussball" },
+            { "type": "luecke", "ref": "gram:praesens/2/4@b432cc", "options": ["schläft", "schlaft", "schlafe"], "hint": "schlafen: bei er und sie kommt ein ä." },
+            { "type": "luecke", "ref": "gram:praesens/0/6@0b1c04", "options": ["arbeitest", "arbeitst", "arbeitet"], "hint": "arbeiten: bei du kommt ein e dazu." }
+          ]
+        },
+        {
+          "id": "a1-kennenlernen",
+          "icon": "🤝",
+          "title": "Jemanden kennenlernen",
+          "minutes": 2,
+          "grammar": "w-fragen",
+          "claims": ["Du fragst: Wer? Woher? Wann?", "Du fragst Leute, wo sie wohnen."],
+          "postcard": { "city": "Leipzig", "source": "kultur:duzen-siezen#5@80df20" },
+          "tasks": [
+            { "type": "wort", "ref": "lex:a1-12/Kollegin" },
+            { "type": "luecke", "ref": "gram:w-fragen/0/3@c93875", "options": ["Wer", "Wo", "Was"], "hint": "Die Antwort ist eine Person." },
+            { "type": "wort", "ref": "lex:a1-12/Firma" },
+            { "type": "luecke", "ref": "gram:w-fragen/3/2@e8529e", "hint": "Aus Passau: Da kommt jemand her." },
+            { "type": "hoeren", "ref": "hoeren:a1-verabredung/0@e3793a", "hint": "Maria arbeitet bis fünf." },
+            { "type": "satz", "ref": "gram:w-fragen/4/0@c7e758" },
+            { "type": "luecke", "ref": "gram:w-fragen/0/5@9fddbb", "options": ["Wann", "Wo", "Wer"], "hint": "Die Antwort ist eine Zeit." }
+          ]
+        },
+        {
+          "id": "a1-cafe",
+          "icon": "☕",
+          "title": "Im Café",
+          "minutes": 2,
+          "grammar": "ja-nein-fragen",
+          "claims": ["Du sagst im Café, was du trinkst.", "Du antwortest mit ja, nein oder doch."],
+          "postcard": { "city": "Dresden", "source": "kultur:trinkgeld#3@b52f58" },
+          "tasks": [
+            { "type": "wort", "ref": "lex:a1-06/Kaffee" },
+            { "type": "artikel", "ref": "lex:a1-06/Tee", "hint": "Wie der Kaffee." },
+            { "type": "luecke", "ref": "gram:ja-nein-fragen/0/0@e3d149", "options": ["Ja", "Doch", "Nein"], "hint": "Die Frage hat kein nicht." },
+            { "type": "artikel", "ref": "lex:a1-06/Brötchen" },
+            { "type": "sprechen", "ref": "aussprache:a1-frage-tee" },
+            { "type": "luecke", "ref": "gram:ja-nein-fragen/0/1@38d272", "options": ["Doch", "Ja", "Nein"], "hint": "Die Frage hat nicht. Die Antwort ist positiv." },
+            { "type": "satz", "ref": "gram:ja-nein-fragen/1/3@3b3a58", "hint": "Die Frage beginnt mit dem Verb." }
+          ]
+        },
+        {
+          "id": "a1-einkaufen",
+          "icon": "🛒",
+          "title": "Einkaufen",
+          "minutes": 2,
+          "grammar": "plural",
+          "claims": ["Du kaufst ein und sagst, wie viele.", "Du sagst: ein Apfel, drei Äpfel."],
+          "postcard": { "city": "Bremen", "source": "kultur:pfand#0@217249" },
+          "tasks": [
+            { "type": "wort", "ref": "lex:a1-07/Kasse" },
+            { "type": "artikel", "ref": "lex:a1-07/Tüte", "hint": "Viele Wörter auf -e haben „die“." },
+            { "type": "luecke", "ref": "gram:plural/2/1@e17291", "options": ["Äpfel", "Apfels", "Apfeln"], "hint": "Im Plural kommt ein ä.", "why": "der Apfel → die Äpfel: mit Umlaut, ohne Endung." },
+            { "type": "wort", "ref": "lex:a1-07/Preis" },
+            { "type": "hoeren", "ref": "hoeren:a1-supermarkt/1@fa9da4", "hint": "Hör auf das Wort leider." },
+            { "type": "luecke", "ref": "gram:plural/2/5@6f8898", "options": ["Eier", "Eiern", "Ei"], "hint": "Wie das Kind, die Kinder.", "why": "das Ei → die Eier: Plural mit -er, wie das Kind → die Kinder." },
+            { "type": "luecke", "ref": "gram:plural/0/8@566fde", "options": ["Tomaten", "Tomates", "Tomate"], "hint": "Wörter auf -e bekommen oft -n." }
+          ]
+        },
+        {
+          "id": "a1-kleidung",
+          "icon": "👕",
+          "title": "Kleidung kaufen",
+          "minutes": 2,
+          "grammar": "akkusativ",
+          "claims": ["Du sagst, was du kaufen möchtest.", "Du sagst: den Mantel, die Jacke, das Kleid."],
+          "postcard": { "city": "Düsseldorf", "fact": "Die Königsallee in Düsseldorf ist eine berühmte Einkaufsstraße.", "source": "geprüft" },
+          "tasks": [
+            { "type": "wort", "ref": "lex:a1-08/Jacke" },
+            { "type": "artikel", "ref": "lex:a1-08/Pullover", "hint": "Wie der Mantel." },
+            { "type": "luecke", "ref": "akk:akk-l4", "hint": "Bei die ändert sich nichts." },
+            { "type": "wort", "ref": "lex:a1-08/Größe" },
+            { "type": "redemittel", "ref": "redemittel:danken#0@3901a2", "situation": "Die Verkäuferin hilft dir. Was sagst du?", "distractors": ["redemittel:troesten#1@c1d737", "redemittel:gratulieren#6@4f666b"], "hint": "Du bist froh über die Hilfe." },
+            { "type": "luecke", "ref": "akk:akk-l3", "hint": "der wird zu den." },
+            { "type": "luecke", "ref": "akk:akk-l5", "hint": "Bei das ändert sich nichts." }
+          ]
+        },
+        {
+          "id": "a1-koerper",
+          "icon": "🩹",
+          "title": "Sagen, was wehtut",
+          "minutes": 2,
+          "grammar": "possessivartikel",
+          "claims": ["Du sagst: mein Kopf, mein Bauch.", "Du sagst: dein Handy, meine Brille."],
+          "postcard": { "city": "Heidelberg", "source": "kultur:sonntagsruhe#1@4f06db" },
+          "tasks": [
+            { "type": "wort", "ref": "lex:a1-09/Kopf" },
+            { "type": "wort", "ref": "lex:a1-09/Bauch" },
+            { "type": "artikel", "ref": "lex:a1-09/Auge", "hint": "Wie das Ohr." },
+            { "type": "luecke", "ref": "gram:possessivartikel/0/0@b87e25", "options": ["mein", "dein", "sein"], "hint": "ich → m…" },
+            { "type": "redemittel", "ref": "redemittel:gratulieren#4@01bcc8", "situation": "Deine Freundin ist krank. Was sagst du?", "distractors": ["redemittel:zustimmen#2@300a57", "redemittel:danken#5@d112a9"], "hint": "Du wünschst ihr etwas." },
+            { "type": "luecke", "ref": "gram:possessivartikel/1/2@ca7760", "options": ["dein", "deine", "deinen"], "hint": "das Handy: ohne Endung." },
+            { "type": "luecke", "ref": "gram:possessivartikel/2/4@efe15d", "options": ["meine", "mein", "meinen"], "hint": "die Brille: mit -e." }
+          ]
+        },
+        {
+          "id": "a1-amt",
+          "icon": "📄",
+          "title": "Auf dem Amt",
+          "minutes": 2,
+          "grammar": "possessivartikel",
+          "claims": ["Du füllst ein Formular aus.", "Du sagst höflich: Ihr Name, Ihre Adresse."],
+          "postcard": { "city": "Frankfurt", "source": "kultur:anmeldung#3@7a9a95" },
+          "tasks": [
+            { "type": "wort", "ref": "lex:a1-26/Formular" },
+            { "type": "artikel", "ref": "lex:a1-26/Unterschrift", "hint": "Wie die Schrift." },
+            { "type": "wort", "ref": "lex:a1-26/Gebühr" },
+            { "type": "luecke", "ref": "gram:possessivartikel/0/7@1c0c20", "options": ["Ihr", "Sie", "Euer"], "hint": "Höflich, mit großem I." },
+            { "type": "redemittel", "ref": "redemittel:nachfragen#2@857a15", "situation": "Die Frau am Amt spricht sehr schnell. Was sagst du?", "distractors": ["redemittel:zustimmen#7@b10635", "redemittel:begruessen#3@7a5f65"], "hint": "Du möchtest es langsamer hören." },
+            { "type": "luecke", "ref": "gram:possessivartikel/1/7@a29bc4", "options": ["Ihr", "Ihre", "Ihren"], "hint": "das Auto: ohne Endung." },
+            { "type": "luecke", "ref": "gram:possessivartikel/2/1@c60bfe", "options": ["deinen", "dein", "deine"], "hint": "der Pass: mit -en." }
+          ]
+        },
+        {
+          "id": "a1-weg",
+          "icon": "🧭",
+          "title": "Nach dem Weg fragen",
+          "minutes": 2,
+          "grammar": "imperativ",
+          "claims": ["Du fragst nach dem Weg.", "Du verstehst: Kommen Sie! Warten Sie hier!"],
+          "postcard": { "city": "Nürnberg", "source": "kultur:sonntagsruhe#2@1dea4c" },
+          "tasks": [
+            { "type": "wort", "ref": "lex:a1-15/Haltestelle" },
+            { "type": "artikel", "ref": "lex:a1-15/Bahnhof", "hint": "Bahn + Hof: Das letzte Wort zählt. der Hof." },
+            { "type": "wort", "ref": "lex:a1-15/Ecke" },
+            { "type": "luecke", "ref": "gram:imperativ/0/0@8165b7", "options": ["Komm", "Kommst", "Kommt"], "hint": "du und -st fallen weg." },
+            { "type": "hoeren", "ref": "hoeren:a1-ansage-bahnhof/1@122307", "hint": "Die Ansage sagt es zweimal." },
+            { "type": "luecke", "ref": "gram:imperativ/1/0@b47e52", "options": ["nehmen", "nimm", "nehmt"], "hint": "Herr Braun: Man sagt Sie." },
+            { "type": "satz", "ref": "gram:imperativ/2/1@ad176f", "hint": "Das Verb kommt zuerst." }
+          ]
+        },
+        {
+          "id": "a1-arzt",
+          "icon": "📞",
+          "title": "Beim Arzt anrufen",
+          "minutes": 2,
+          "grammar": "imperativ",
+          "claims": ["Du machst am Telefon einen Termin.", "Du verstehst Bitten wie: Nehmen Sie Platz."],
+          "postcard": { "city": "Stuttgart", "source": "kultur:termine#1@9520f1" },
+          "tasks": [
+            { "type": "wort", "ref": "lex:a1-10/Termin" },
+            { "type": "artikel", "ref": "lex:a1-10/Praxis", "hint": "Wie die Ärztin." },
+            { "type": "wort", "ref": "lex:a1-10/Fieber" },
+            { "type": "luecke", "ref": "gram:imperativ/0/2@c6fc82", "options": ["Nimm", "Nehm", "Nimmst"], "hint": "du nimmst: nur -st fällt weg." },
+            { "type": "hoeren", "ref": "hoeren:a1-anruf-arzt/2@b51287", "hint": "Der alte Termin ist am Mittwoch." },
+            { "type": "luecke", "ref": "gram:imperativ/1/5@326368", "options": ["unterschreiben", "unterschreib", "unterschreibt"], "hint": "Frau Schmidt: Man sagt Sie." },
+            { "type": "satz", "ref": "gram:imperativ/2/2@f2593f", "hint": "Das Verb kommt zuerst, an kommt ans Ende." }
+          ]
+        }
+      ]
+    },
+    {
+      "level": "A2",
+      "draft": true,
+      "units": [
+        { "id": "a2-wochenende", "title": "Vom Wochenende erzählen", "grammar": "perfekt", "claims": ["Du erzählst, was du gemacht hast."] },
+        { "id": "a2-arbeit", "title": "Über die Arbeit sprechen", "grammar": "konjugation", "claims": ["Du sagst, was du arbeitest."] },
+        { "id": "a2-erlaubnis", "title": "Um Erlaubnis bitten", "grammar": "modalverben", "claims": ["Du fragst: Darf ich? Kann ich?"] },
+        { "id": "a2-planen", "title": "Den Tag planen", "grammar": "trennbare-verben", "claims": ["Du sagst, wann du aufstehst und einkaufst."] },
+        { "id": "a2-geschenke", "title": "Geschenke kaufen", "grammar": "dativ", "claims": ["Du sagst, wem du etwas schenkst."] },
+        { "id": "a2-absagen", "title": "Höflich absagen", "grammar": "negation", "claims": ["Du sagst freundlich nein."] },
+        { "id": "a2-verschieben", "title": "Einen Termin verschieben", "grammar": "satzstellung", "claims": ["Du verschiebst einen Termin am Telefon."] },
+        { "id": "a2-einrichten", "title": "Die Wohnung einrichten", "grammar": "wechselpraepositionen", "claims": ["Du sagst, wo etwas steht."] }
+      ]
+    },
+    {
+      "level": "B1",
+      "draft": true,
+      "units": [
+        { "id": "b1-beschweren", "title": "Sich beschweren", "grammar": "verben-praepositionen", "claims": ["Du beschwerst dich höflich über ein Problem."] },
+        { "id": "b1-frueher", "title": "Von früher erzählen", "grammar": "als-oder-wenn", "claims": ["Du erzählst von deiner Kindheit."] },
+        { "id": "b1-plaene", "title": "Über Pläne sprechen", "grammar": "infinitiv-mit-zu", "claims": ["Du sagst, was du vorhast."] },
+        { "id": "b1-beschreiben", "title": "Genauer beschreiben", "grammar": "relativpronomen", "claims": ["Du beschreibst Menschen und Dinge genauer."] },
+        { "id": "b1-nachfragen", "title": "Höflich nachfragen", "grammar": "indirekte-fragen", "claims": ["Du fragst höflich: Wissen Sie, ob …?"] },
+        { "id": "b1-geschichte", "title": "Eine Geschichte erzählen", "grammar": "praeteritum-plusquamperfekt", "claims": ["Du erzählst eine Geschichte der Reihe nach."] },
+        { "id": "b1-wohnung", "title": "Eine Wohnung beschreiben", "grammar": "adjektivdeklination", "claims": ["Du beschreibst eine Wohnung mit Adjektiven."] },
+        { "id": "b1-kollegen", "title": "Mit Kollegen sprechen", "grammar": "n-deklination", "claims": ["Du sprichst über Kollegen und Nachbarn."] }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,443 @@
+---
+// Live-Quiz, the projector side: a teacher picks a Lernset, the class scans the QR code
+// and plays on their phones (/spiel). Kahoot's shape, kept small: vocabulary (plus one grammar chapter, if picked), no
+// accounts, no database. The page is static like every other; the game runs in this
+// tab over Supabase Realtime. Logic: src/lib/liveQuiz/host.js, protocol in protocol.js.
+//
+// "Eigenes Quiz" is the one part that needs an account: a teacher's own quiz for a
+// chapter, built on /lehrkraefte/quiz/erstellen and saved in Supabase (custom.js). It is
+// played exactly the same way — the students still join with the PIN, no account.
+import TeacherNudge from "../../components/TeacherNudge.astro";
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import LernsetPicker from "../../components/LernsetPicker.astro";
+import GrammarPicker from "../../components/GrammarPicker.astro";
+import { chapterList } from "../../lib/liveQuiz/chapters.js";
+import { printableSets } from "../../lib/arbeitsblatt/printable.js";
+import "../../styles/rule-intro.css";
+import "../../styles/live-quiz.css";
+import "../../styles/teacher-switch.css";
+
+// Zufallsmix: one level, and the round draws from all its words and all its grammar
+// chapters. The chapter slugs per level ride on the level pills (host.js reads them).
+const RANDOM_LEVELS = ["A1", "A2", "B1", "B2"];
+const grammarChapters = chapterList().filter((c) => c.kind === "grammatik");
+// What „Als Arbeitsblatt drucken“ can print: "w:<set id>" / "g:<topic slug>".
+const printableIds = JSON.stringify(printableSets().map((p) => p.kind + ":" + p.id));
+const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).map((c) => c.slug).join(",");
+---
+<Layout
+  title="Live-Quiz – EnglishAcademy"
+  description="Ein Vokabel-Quiz für den Unterricht: Die Klasse scannt den QR-Code und spielt auf dem Handy gegeneinander — ohne Konto, kostenlos."
+>
+  <SiteNav active="lehrkraefte" />
+
+  <main class="lq lq--host" id="lq-host">
+    <!-- 1. Setup -->
+    <section data-screen="setup" class="lq-setup lq-setup--split">
+      {/* The Wortschatz side nav, in select mode, as the column beside the form — the
+          same place it has on the Wortschatz pages. Folded to its rail by default, so
+          the form is what a teacher sees first; a level on the rail opens the list. On a
+          phone it is a bottom sheet instead, opened from the Wortschatz line. */}
+      <aside class="lq-side" id="lq-vocab-side" data-vocab-side data-vocab-only data-pick-only aria-label="Wortschatz" data-i18n-attr="aria-label:lq.host.vocab">
+        <div class="lq-side-head">
+          <b data-i18n="lq.host.vocab">Wortschatz</b>
+          <button type="button" class="lq-side-x" data-vocab-close aria-label="Schließen" data-i18n-attr="aria-label:wissen.close">✕</button>
+        </div>
+        <LernsetPicker current="a1" select />
+      </aside>
+      <div class="lq-side-scrim" data-vocab-scrim hidden></div>
+
+      <div class="lq-setup-main">
+      <header class="lq-head">
+        <p class="lq-eyebrow" data-i18n="lq.host.eyebrow">Für Lehrkräfte · Live-Quiz</p>
+        <h1 class="lq-title" data-i18n="lq.host.title">Vokabel-Quiz für die ganze Klasse</h1>
+        <p class="lq-lead" data-i18n="lq.host.lead">Die Klasse scannt den QR-Code und spielt auf dem Handy gegeneinander. Kein Konto, keine App — nur dieser Bildschirm am Beamer.</p>
+      </header>
+      <TeacherNudge />
+
+      <form class="lq-card lq-form" data-setup>
+        {/* What every setting does, in one place. It opens by itself on the first visit and
+            folds away into the ? once the teacher starts choosing; the ? opens it again. While
+            open, the ? turns into a chevron, and the title folds it too. Behaviour: src/lib/liveQuiz/help.js. */}
+        <button type="button" class="lq-help-btn" data-help-toggle aria-expanded="false" aria-controls="lq-help" aria-label="Was bedeuten die Einstellungen?" data-i18n-attr="aria-label:lq.help.toggle"><span class="lq-help-q" aria-hidden="true">?</span><svg class="lq-help-chev" aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
+        <div class="lq-help" id="lq-help" data-help>
+          <div class="lq-help-inner">
+            <button type="button" class="lq-help-title" data-help-close><span data-i18n="lq.help.title">So stellst du das Quiz ein</span></button>
+            <dl>
+              <dt data-i18n="lq.src.legend">Quiz</dt>
+              <dd data-i18n="lq.help.source">Wortschatz: die Fragen werden aus den Wörtern gezogen. Zufallsmix: nur die Stufe wählen – Wörter und alle Grammatikkapitel der Stufe kommen abwechselnd, jede Runde neu gemischt.</dd>
+              <dt data-i18n="lq.host.vocab">Wortschatz</dt>
+              <dd data-i18n="lq.help.vocab">Eine ganze Stufe gemischt oder ein einzelnes Lernset.</dd>
+              <dt data-i18n="lq.host.grammar">Grammatik</dt>
+              <dd data-i18n="lq.help.grammar">Optional ein Grammatik-Kapitel dazu: dann kommt die Hälfte der Fragen von dort, abwechselnd mit den Wörtern.</dd>
+              <dt data-i18n="lq.host.mode">Fragen</dt>
+              <dd data-i18n="lq.help.mode">Bei Synonymen spielen alle dieselbe deutsche Frage. Mit Übersetzung sieht jedes Handy seine eigene Sprache.</dd>
+              <dt data-i18n="lq.host.count">Anzahl</dt>
+              <dd data-i18n="lq.help.count">So viele Fragen hat eine Runde. 10 Fragen mit 20 Sekunden dauern etwa 5 Minuten.</dd>
+              <dt data-i18n="lq.host.seconds">Sekunden pro Frage</dt>
+              <dd data-i18n="lq.help.seconds">Zeit zum Antworten. Richtig zählt am meisten: Wer schneller ist, bekommt bis zu doppelt so viele Punkte.</dd>
+              <dt data-i18n="lq.host.advance">Nach jeder Frage</dt>
+              <dd data-i18n="lq.help.advance">Automatisch: Lösung und Rangliste laufen von selbst weiter. Per Klick: Du bestimmst das Tempo, zum Beispiel um ein Wort zu besprechen.</dd>
+              <dt data-i18n="lq.host.create">Raum öffnen</dt>
+              <dd data-i18n="lq.help.create">Danach erscheinen QR-Code und PIN für die Klasse. Allein üben geht mit „Solo spielen“.</dd>
+            </dl>
+          </div>
+        </div>
+        {/* What to ask: a whole level, or one Lernset of any level — chosen in the same
+            side nav the Wortschatz pages use (the aside above). This line says what is
+            chosen and opens that list: a sheet on a phone, the unfolded column on a desktop.
+            The choice travels in the hidden input, "level:A2" or "unit:a2-05". */}
+        {/* What is played: questions drawn from the vocabulary, or a random mix of a whole
+            level's words and grammar. ?quiz=<id> (from the builder) opens on a saved quiz. */}
+        <fieldset class="lq-field lq-choice">
+          <legend data-i18n="lq.src.legend">Quiz</legend>
+          {/* Say what the round is: words, words and grammar taking turns, or grammar only.
+              The mix used to hide behind "Wortschatz, automatisch" plus a chapter picked
+              further down, which read as words only. */}
+          <label><input type="radio" name="source" value="vocab" checked /> <span data-i18n="lq.src.vocab">Nur Wortschatz</span></label>
+          <label><input type="radio" name="source" value="mix" /> <span data-i18n="lq.src.mix">Wortschatz + Grammatik</span></label>
+          {/* One grammar chapter, no words: the way in from a grammar topic page
+              (?grammar=g-<key>, „Live-Quiz“ in its hero). */}
+          <label><input type="radio" name="source" value="grammar" /> <span data-i18n="lq.src.grammar">Nur Grammatik (Kapitel)</span></label>
+          <label><input type="radio" name="source" value="random" /> <span data-i18n="lq.src.random">Zufallsmix (Stufe)</span></label>
+          {/* "Eigenes Quiz" is no longer offered here — Zufallsmix took its place. The choice
+              only appears when the builder sends a saved quiz (?quiz=<id>, host.js). */}
+          <label data-own-choice hidden><input type="radio" name="source" value="own" /> <span data-i18n="lq.src.own">Eigenes Quiz (Kapitel)</span></label>
+        </fieldset>
+
+        {/* Zufallsmix: just a level. Words of the whole level and every grammar chapter of
+            it, taking turns, the chapters in rotation — a new mix every round. */}
+        <fieldset class="lq-field lq-choice" data-random-only hidden>
+          <legend data-i18n="lq.random.level">Stufe</legend>
+          {RANDOM_LEVELS.map((level, i) => (
+            <label><input type="radio" name="randomLevel" value={level} checked={i === 0} data-chapters={chaptersOf(level)} /> {level}</label>
+          ))}
+          <small class="lq-random-hint" data-i18n="lq.random.hint">Wörter der ganzen Stufe und alle Grammatikkapitel der Stufe – abwechselnd, die Kapitel reihum, jede Runde neu gemischt.</small>
+        </fieldset>
+
+        <div class="lq-field lq-own" data-own-only hidden>
+          <label class="lq-field">
+            <span data-i18n="lq.src.pick">Dein Quiz</span>
+            <select data-own-select disabled><option value="" data-i18n="lq.src.loading">Wird geladen …</option></select>
+          </label>
+          <p class="lq-own-note" data-own-note></p>
+          <p class="lq-own-links">
+            <a href="/lehrkraefte/quiz/erstellen" data-own-edit data-i18n="lq.src.edit">Bearbeiten</a>
+            <a href="/lehrkraefte/quiz/erstellen" data-own-new data-i18n="lq.src.new">+ Neues Quiz für ein Kapitel</a>
+          </p>
+        </div>
+
+        <div class="lq-field lq-vocab" data-vocab-only data-pick-only data-vocab-row>
+          <span id="lq-vocab-label" data-i18n="lq.host.vocab">Wortschatz</span>
+          <input type="hidden" name="set" value="level:A1" data-set data-level="A1" />
+          <button type="button" class="lq-vocab-btn" data-vocab-toggle aria-controls="lq-vocab-side" aria-labelledby="lq-vocab-label lq-vocab-current">
+            <span class="lq-vocab-badge" data-vocab-level>A1</span>
+            <span class="lq-vocab-name" id="lq-vocab-current" data-vocab-name data-i18n="lq.host.wholeLevelRow" data-i18n-vars={JSON.stringify({ level: "A1" })}>Ganze Stufe A1, gemischt</span>
+            <span class="lq-vocab-change" data-i18n="lq.host.change">Ändern</span>
+            {/* Shown instead of the three above on „Nur Grammatik“ (live-quiz.css). */}
+            <span class="lq-vocab-name" data-vocab-none data-i18n="lq.host.vocabNoneRow">Kein Wortschatz – nur Grammatik</span>
+            <span class="lq-vocab-change" data-vocab-none data-i18n="lq.host.grammarAdd">Dazunehmen</span>
+          </button>
+          <small data-set-hint hidden data-i18n="lq.host.synonymLevel">Synonyme gibt es pro Stufe: gefragt wird die Stufe des gewählten Sets.</small>
+        </div>
+
+        <div class="lq-field lq-vocab" data-vocab-only data-pick-only data-grammar-row>
+          <span id="lq-grammar-label" data-i18n="lq.host.grammar">Grammatik</span>
+          <input type="hidden" name="grammar" value="" data-grammar />
+          <button type="button" class="lq-vocab-btn lq-grammar-btn" data-grammar-toggle aria-controls="lq-grammar-side" aria-labelledby="lq-grammar-label lq-grammar-current">
+            <span class="lq-vocab-badge" data-grammar-level hidden></span>
+            <span class="lq-vocab-name" id="lq-grammar-current" data-grammar-name data-i18n="lq.host.grammarNoneRow">Keine – nur Wortschatz</span>
+            <span class="lq-vocab-change" data-grammar-change data-i18n="lq.host.grammarAdd">Dazunehmen</span>
+          </button>
+          <small data-grammar-hint hidden data-i18n="lq.host.grammarHint">Gemischt: die Hälfte der Fragen kommt aus der Grammatik, abwechselnd mit den Wörtern.</small>
+        </div>
+
+        <fieldset class="lq-field lq-choice" data-vocab-only data-words-only>
+          <legend data-i18n="lq.host.mode">Fragen</legend>
+          {/* Synonyms first and chosen: all German, so the whole class plays the same
+              question whatever their first language. "Übersetzung", not "Bedeutung": the
+              other two show each phone the word in its player's own language, and say so
+              right on the option: the language is picked on the phone, not here. */}
+          <label><input type="radio" name="mode" value="synonym" checked /> <span data-i18n="lq.mode.synonymLabel">Synonyme (Deutsch → Deutsch)</span></label>
+          <label class="lq-choice-2l"><input type="radio" name="mode" value="de-meaning" /> <span><span data-i18n="lq.mode.deMeaningLabel">Deutsch → Übersetzung</span><small class="lq-choice-note" data-i18n="lq.mode.langNote">Sprache wählt jede Person am Handy</small></span></label>
+          <label class="lq-choice-2l"><input type="radio" name="mode" value="meaning-de" /> <span><span data-i18n="lq.mode.meaningDeLabel">Übersetzung → Deutsch</span><small class="lq-choice-note" data-i18n="lq.mode.langNote">Sprache wählt jede Person am Handy</small></span></label>
+        </fieldset>
+
+        <fieldset class="lq-field lq-choice" data-vocab-only>
+          <legend data-i18n="lq.host.count">Anzahl</legend>
+          {[5, 10, 15, 20].map((n) => <label><input type="radio" name="count" value={n} checked={n === 10} /> {n}</label>)}
+          {/* Any number, for a class that wants a short round or a long one. Typing in the
+              box selects its pill (host.js). */}
+          <label class="lq-custom"><input type="radio" name="count" value="custom" /> <input type="number" name="countCustom" min="1" max="50" inputmode="numeric" placeholder="Eigene" data-i18n-attr="placeholder:lq.host.custom" aria-label="Eigene Anzahl" /></label>
+        </fieldset>
+
+        <fieldset class="lq-field lq-choice">
+          <legend data-i18n="lq.host.seconds">Sekunden pro Frage</legend>
+          {[10, 20, 30, 60].map((n) => <label><input type="radio" name="seconds" value={n} checked={n === 20} /> {n}</label>)}
+          {/* Up to five minutes: a class that reads slowly, or needs the word explained
+              before it can answer, should not be beaten by the clock. */}
+          <label class="lq-custom"><input type="radio" name="seconds" value="custom" /> <input type="number" name="secondsCustom" min="5" max="300" inputmode="numeric" placeholder="Eigene" data-i18n-attr="placeholder:lq.host.custom" aria-label="Eigene Sekundenzahl" /></label>
+        </fieldset>
+
+        <fieldset class="lq-field lq-choice">
+          <legend data-i18n="lq.host.advance">Nach jeder Frage</legend>
+          <label><input type="radio" name="advance" value="auto" checked /> <span data-i18n="lq.host.advanceAuto">Automatisch weiter</span></label>
+          <label><input type="radio" name="advance" value="click" /> <span data-i18n="lq.host.advanceClick">Per Klick weiter</span></label>
+        </fieldset>
+
+        {/* The music on this screen, and in a solo game on this device (sound.js). */}
+        <fieldset class="lq-field lq-choice">
+          <legend data-i18n="lq.music.label">Musik</legend>
+          <label><input type="radio" name="music" value="lofi" checked /> <span data-i18n="lq.music.lofi">Lo-fi</span></label>
+          <label><input type="radio" name="music" value="show" /> <span data-i18n="lq.music.show">Gameshow</span></label>
+          <label><input type="radio" name="music" value="retro" /> <span data-i18n="lq.music.retro">Retro</span></label>
+          <label><input type="radio" name="music" value="off" /> <span data-i18n="lq.music.off">Aus</span></label>
+        </fieldset>
+
+        {/* Only asked where there is a translation to show: not for synonyms. */}
+        <label class="lq-field" data-show-lang-field hidden>
+          <span data-i18n="lq.host.showLang">Sprache der Übersetzung auf diesem Bildschirm</span>
+          <select data-show-lang>
+            <option value="en">English</option>
+            <option value="ar">العربية</option>
+            <option value="uk">Українська</option>
+            <option value="ru">Русский</option>
+            <option value="tr">Türkçe</option>
+          </select>
+          <small data-i18n="lq.host.showLangHint">Diesen Bildschirm sehen alle, z. B. über den Projektor. Auf dem Handy sieht jede Person die Übersetzung in ihrer eigenen Sprache.</small>
+        </label>
+
+        <p class="lq-error" data-setup-error role="alert"></p>
+        <button type="submit" class="lq-btn lq-btn--primary" data-i18n="lq.host.create">Raum öffnen</button>
+        {/* Solo: the same quiz for one person, on this device — no room, no PIN, no bots.
+            Opens /spiel with the settings in the address (player.js, "solo"). */}
+        <button type="submit" class="lq-solo-btn" data-solo-submit data-vocab-only>
+          <svg class="lq-solo-icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18h2"/></svg>
+          <span class="lq-solo-text">
+            <b data-i18n="lq.solo.button">Solo spielen</b>
+            <span data-i18n="lq.solo.hint">Allein üben, ohne Klasse und ohne PIN: die Fragen kommen direkt auf dieses Gerät.</span>
+          </span>
+          <svg class="lq-solo-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+        {/* The same choice on paper: the Lernset and the grammar chapter picked in the side
+            lists, as one PDF in a new tab (Arbeitsmappe). The address follows the choice. */}
+        <a class="lq-print-link" href="/lehrkraefte/arbeitsblaetter/mappe" target="_blank" rel="noopener" data-print-sheets data-vocab-only data-printable={printableIds}>
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg>
+          <span class="lq-print-on" data-i18n="lq.print.link">Als Arbeitsblatt drucken (PDF)</span>
+          <span class="lq-print-off" data-i18n="lq.print.pick">Zum Drucken ein Lernset oder ein Grammatik-Kapitel wählen</span>
+        </a>
+      </form>
+      <p class="lq-credit">Bilder: <a href="https://openmoji.org" target="_blank" rel="noopener">OpenMoji</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></p>
+      </div>
+
+      {/* Grammatik, the mirror of the Wortschatz column: on the right, folded to its rail,
+          and on a phone a bottom sheet opened from the Grammatik line. A chapter picked here
+          gives the round half its questions (src/lib/liveQuiz/mix.js). */}
+      <aside class="lq-side lq-side--right" id="lq-grammar-side" data-grammar-side data-vocab-only data-pick-only aria-label="Grammatik" data-i18n-attr="aria-label:lq.host.grammar">
+        <div class="lq-side-head">
+          <b data-i18n="lq.host.grammar">Grammatik</b>
+          <button type="button" class="lq-side-x" data-grammar-close aria-label="Schließen" data-i18n-attr="aria-label:wissen.close">✕</button>
+        </div>
+        <GrammarPicker />
+      </aside>
+      <div class="lq-side-scrim" data-grammar-scrim hidden></div>
+    </section>
+
+    <!-- 2. Lobby -->
+    <section data-screen="lobby" class="lq-lobby" hidden>
+      <div class="lq-join-card">
+        <div class="lq-card-tools">
+          <button type="button" class="lq-music" data-music-cycle data-style="lofi" aria-label="Musik wechseln" data-i18n-attr="aria-label:lq.music.cycle" title="Musik wechseln"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg><span data-m="lofi" data-i18n="lq.music.lofi">Lo-fi</span><span data-m="show" data-i18n="lq.music.show">Gameshow</span><span data-m="retro" data-i18n="lq.music.retro">Retro</span><span data-m="off" data-i18n="lq.music.off">Aus</span></button>
+          <button type="button" class="lq-sound" data-sound-toggle aria-pressed="true" aria-label="Ton an/aus" data-i18n-attr="aria-label:lq.sound.toggle" title="Ton an/aus"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path class="lq-sound-on" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="lq-sound-off" d="m16 9 6 6m0-6-6 6"/></svg></button>
+        </div>
+        <p class="lq-join-how"><span data-i18n="lq.host.joinAt">Mitspielen auf</span> <b data-join-url></b></p>
+        <p class="lq-pin-label" data-i18n="lq.host.pinLabel">Spiel-PIN</p>
+        <p class="lq-pin" data-pin></p>
+        <div class="lq-qr" data-qr aria-label="QR-Code zum Mitspielen" data-i18n-attr="aria-label:lq.host.qrLabel"></div>
+      </div>
+      <div class="lq-card lq-roster">
+        <div class="lq-lobby-crew" data-lobby-crew data-mascot-part aria-hidden="true">
+          <p class="lq-bubble" data-lobby-bubble data-i18n="lq.host.joinCall">Scannt den Code und macht mit!</p>
+        </div>
+        <h2 data-lobby-count>0 Mitspieler</h2>
+        <ul data-lobby-list></ul>
+        <div class="lq-actions">
+          <button type="button" class="lq-btn lq-btn--quiet" data-end data-i18n="lq.host.cancel">Abbrechen</button>
+          <button type="button" class="lq-btn lq-btn--primary" data-start disabled data-i18n="lq.host.start">Spiel starten</button>
+        </div>
+        <button type="button" class="lq-test-btn" data-test>
+          <b data-i18n="lq.test.button">Testmodus</b>
+          <span data-i18n="lq.test.hint">Allein ausprobieren: ein Handy hier auf dem Bildschirm und 3 Test-Bots spielen mit.</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Test mode: a real player in a phone-sized frame, docked beside the projector view. -->
+    <aside class="lq-test-dock" data-test-dock hidden aria-label="Testmodus" data-i18n-attr="aria-label:lq.test.button">
+      <div class="lq-test-head">
+        <b data-i18n="lq.test.title">Testmodus · Handy</b>
+        <button type="button" class="lq-test-go" data-test-start hidden disabled data-i18n="lq.host.start">Spiel starten</button>
+        <button type="button" class="lq-test-fold" data-test-fold aria-expanded="true" data-i18n="lq.test.showHost">Beamer zeigen</button>
+        <a data-test-open target="_blank" rel="noopener" data-i18n="lq.test.open">Im Tab öffnen</a>
+        <button type="button" data-test-close aria-label="Testmodus beenden" data-i18n-attr="aria-label:lq.test.close">×</button>
+      </div>
+      <iframe title="Handy-Vorschau" data-i18n-attr="title:lq.test.frame" src="about:blank"></iframe>
+    </aside>
+
+    <!-- The tempo, changeable while the game runs (host.js, "tempo"). -->
+    <div class="lq-tempo" data-tempo hidden role="toolbar" aria-label="Tempo" data-i18n-attr="aria-label:lq.tempo.label">
+      <span class="lq-tempo-label" data-i18n="lq.tempo.label">Tempo</span>
+      <span class="lq-tempo-secs">
+        <button type="button" class="lq-tempo-btn" data-tempo-step="-1" aria-label="Weniger Zeit pro Frage" data-i18n-attr="aria-label:lq.tempo.less">−</button>
+        <b data-tempo-secs>20 s</b>
+        <button type="button" class="lq-tempo-btn" data-tempo-step="1" aria-label="Mehr Zeit pro Frage" data-i18n-attr="aria-label:lq.tempo.moreSecs">+</button>
+        <small data-i18n="lq.tempo.perQ">pro Frage</small>
+      </span>
+      <span class="lq-tempo-now">
+        <button type="button" class="lq-tempo-chip" data-tempo-more data-i18n="lq.tempo.plus10">+10 s</button>
+        <button type="button" class="lq-tempo-chip" data-tempo-pause aria-pressed="false" data-i18n="lq.tempo.pause">Pause</button>
+      </span>
+      <button type="button" class="lq-music" data-music-cycle data-style="lofi" aria-label="Musik wechseln" data-i18n-attr="aria-label:lq.music.cycle" title="Musik wechseln"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg><span data-m="lofi" data-i18n="lq.music.lofi">Lo-fi</span><span data-m="show" data-i18n="lq.music.show">Gameshow</span><span data-m="retro" data-i18n="lq.music.retro">Retro</span><span data-m="off" data-i18n="lq.music.off">Aus</span></button>
+      <button type="button" class="lq-sound" data-sound-toggle aria-pressed="true" aria-label="Ton an/aus" data-i18n-attr="aria-label:lq.sound.toggle" title="Ton an/aus"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path class="lq-sound-on" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="lq-sound-off" d="m16 9 6 6m0-6-6 6"/></svg></button>
+      <span class="lq-tempo-seg t-sw" role="group" aria-label="Nach jeder Frage" data-i18n-attr="aria-label:lq.host.advance">
+        <button type="button" data-tempo-auto="1" aria-pressed="true" data-i18n="lq.tempo.auto">Automatisch</button>
+        <button type="button" data-tempo-auto="0" aria-pressed="false" data-i18n="lq.tempo.click">Per Klick</button>
+      </span>
+    </div>
+
+    <!-- 3. Question -->
+    <section data-screen="question" class="lq-question" hidden>
+      <div class="lq-q-top">
+        <span data-q-n></span>
+        <span class="lq-q-count" data-q-count></span>
+        <span class="lq-q-left" data-q-left></span>
+      </div>
+      {/* Who dropped out mid-question (host.js renderCount): the teacher need not wait for them. */}
+      <p class="lq-q-away" data-q-away hidden></p>
+      <span class="lq-timer"><span data-q-bar></span></span>
+      <p class="lq-paused-note" data-i18n="lq.tempo.paused">Pause – die Zeit steht.</p>
+      <p class="lq-q-kind" data-q-kind></p>
+      <img class="lq-img" data-q-img alt="" hidden />
+      <p class="lq-prompt" data-q-prompt></p>
+      <div class="lq-options lq-options--host" data-q-options></div>
+      <div class="lq-actions">
+        <button type="button" class="lq-btn lq-btn--quiet" data-end data-i18n="lq.host.endGame">Spiel beenden</button>
+        <button type="button" class="lq-btn lq-btn--ghost" data-q-skip data-i18n="lq.host.skip">Auflösen</button>
+      </div>
+    </section>
+
+    <!-- 4. Reveal -->
+    <section data-screen="reveal" class="lq-reveal" hidden>
+      <img class="lq-img" data-r-img alt="" hidden />
+      {/* What was asked, then the sentence with the answer in its gap (host.js). */}
+      <p class="lq-q-kind lq-r-kind" data-r-kind></p>
+      <p class="lq-r-prompt" data-r-prompt dir="auto"></p>
+      <p class="lq-q-kind" data-i18n="lq.host.correctWas">Richtig ist</p>
+      <p class="lq-prompt" data-r-answer dir="auto"></p>
+      <div class="lq-dists" data-r-dist></div>
+      <div class="lq-actions">
+        <button type="button" class="lq-btn lq-btn--quiet" data-end data-i18n="lq.host.endGame">Spiel beenden</button>
+        <button type="button" class="lq-btn lq-btn--primary" data-r-next>Rangliste</button>
+      </div>
+    </section>
+
+    <!-- 5. Leaderboard -->
+    <section data-screen="board" class="lq-board-screen" hidden>
+      <h2 class="lq-title" data-i18n="lq.host.board">Rangliste</h2>
+      <ol class="lq-board" data-board></ol>
+      <div class="lq-actions">
+        <button type="button" class="lq-btn lq-btn--quiet" data-end data-i18n="lq.host.endGame">Spiel beenden</button>
+        <button type="button" class="lq-btn lq-btn--primary" data-b-next>Nächste Frage</button>
+      </div>
+    </section>
+
+    <!-- 6. Podium -->
+    <section data-screen="podium" class="lq-podium-screen" hidden>
+      <h2 class="lq-title" data-i18n="lq.host.podium">Siegerehrung</h2>
+      <!-- Podium or the look back at the questions (host.js, renderRecap); the Rückblick
+           button beside Drucken switches between them. -->
+      <div class="lq-pod-panel" data-pod-panel="ceremony" data-keep-panel>
+        <div class="lq-stage">
+          <div class="lq-rays" aria-hidden="true"></div>
+          <div class="lq-crew" data-podium-crew data-mascot-part aria-hidden="true"></div>
+          <ol class="lq-podium" data-podium></ol>
+        </div>
+        <ol class="lq-board lq-rest" data-podium-rest></ol>
+      </div>
+      <div class="lq-pod-panel lq-sum" data-pod-panel="recap" data-keep-panel hidden>
+        <h3 class="lq-sum-title" data-i18n="lq.sum.title">Rückblick</h3>
+        <div class="lq-sum-stats" data-sum-stats></div>
+        <p class="lq-sum-hint" data-sum-hint hidden></p>
+        <ol class="lq-sum-list" data-sum-list></ol>
+      </div>
+      {/* Keep the result: on paper or as a PDF, or as an image (src/lib/liveQuiz/keep.js). */}
+      <div class="lq-keep" data-keep-skip>
+        <button type="button" class="lq-btn lq-btn--ghost" data-pod-recap aria-pressed="false" hidden>Rückblick</button>
+        <button type="button" class="lq-btn lq-btn--ghost" data-keep-print>🖨 Drucken / PDF</button>
+        <button type="button" class="lq-btn lq-btn--ghost" data-keep-image>⬇ Als Bild</button>
+      </div>
+      <div class="lq-actions" data-keep-skip>
+        <button type="button" class="lq-music" data-music-cycle data-style="lofi" aria-label="Musik wechseln" data-i18n-attr="aria-label:lq.music.cycle" title="Musik wechseln"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg><span data-m="lofi" data-i18n="lq.music.lofi">Lo-fi</span><span data-m="show" data-i18n="lq.music.show">Gameshow</span><span data-m="retro" data-i18n="lq.music.retro">Retro</span><span data-m="off" data-i18n="lq.music.off">Aus</span></button>
+        <button type="button" class="lq-sound" data-sound-toggle aria-pressed="true" aria-label="Ton an/aus" data-i18n-attr="aria-label:lq.sound.toggle" title="Ton an/aus"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path class="lq-sound-on" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="lq-sound-off" d="m16 9 6 6m0-6-6 6"/></svg></button>
+        <button type="button" class="lq-btn lq-btn--primary" data-again data-i18n="lq.host.again">Neues Spiel</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    import { mountHost } from "../../lib/liveQuiz/host.js";
+    import { mountSetupHelp } from "../../lib/liveQuiz/help.js";
+    const root = document.getElementById("lq-host");
+    if (root) (window as any).__lqHost = mountHost(root);
+    mountSetupHelp(document.querySelector("[data-setup]"));
+
+    // „Als Arbeitsblatt drucken“: the chapters are chosen here, in the two side lists; the
+    // link opens exactly those sheets in a new tab (Arbeitsmappe, ?von=quiz) and this
+    // page stays as it is. A whole level or Zufallsmix has no single sheet, so the link
+    // then says what to pick instead.
+    const printLink = document.querySelector<HTMLAnchorElement>("[data-print-sheets]");
+    const setupForm = document.querySelector<HTMLFormElement>("[data-setup]");
+    const printable = new Set<string>(JSON.parse(printLink?.dataset.printable ?? "[]"));
+    const syncPrint = () => {
+      if (!printLink || !setupForm) return;
+      const f = new FormData(setupForm);
+      const source = String(f.get("source") ?? "vocab");
+      const set = String(f.get("set") ?? "");
+      const grammar = String(f.get("grammar") ?? "");
+      const q = new URLSearchParams({ von: "quiz" });
+      // Words and grammar, as the round has them: a Lernset or a whole level ("a1", its
+      // mixed sheet) plus the chapter. Zufallsmix: the level's sheet and every chapter of the
+      // level that has a worksheet — the same mix as the round.
+      if (source === "random") {
+        const level = setupForm.querySelector<HTMLInputElement>("[name=randomLevel]:checked");
+        const lv = (level?.value ?? "A1").toLowerCase();
+        if (printable.has(`w:${lv}`)) q.set("w", lv);
+        const gs = (level?.dataset.chapters ?? "").split(",").map((c) => c.replace(/^g-/, "")).filter((c) => printable.has(`g:${c}`));
+        if (gs.length) q.set("g", gs.join(","));
+      } else {
+        const w = set.startsWith("unit:") ? set.slice(5) : set.startsWith("level:") ? set.slice(6).toLowerCase() : "";
+        const g = /^g-[a-z0-9-]+$/.test(grammar) ? grammar.slice(2) : "";
+        if (source !== "grammar" && printable.has(`w:${w}`)) q.set("w", w);
+        if (printable.has(`g:${g}`)) q.set("g", g);
+      }
+      const ready = q.has("w") || q.has("g");
+      printLink.href = `/lehrkraefte/arbeitsblaetter/mappe?${q}`;
+      printLink.toggleAttribute("aria-disabled", !ready);
+      printLink.classList.toggle("is-off", !ready);
+    };
+    printLink?.addEventListener("click", (e) => { syncPrint(); if (printLink.classList.contains("is-off")) e.preventDefault(); });
+    setupForm?.addEventListener("change", syncPrint);
+    // The two lists set their hidden inputs without a change event; host.js handles the
+    // pick first (it was mounted first), then this reads the result.
+    document.getElementById("lq-vocab-side")?.addEventListener("lernset-pick", () => setTimeout(syncPrint));
+    document.getElementById("lq-grammar-side")?.addEventListener("grammar-pick", () => setTimeout(syncPrint));
+    syncPrint();
+
+    // Back from the Arbeitsmappe's tab lands here (mappe.astro puts the quiz behind it);
+    // Forward again only changes the address in this document, so load that page for real.
+    addEventListener("popstate", () => {
+      if (!location.pathname.startsWith("/lehrkraefte/quiz")) location.reload();
+    });
+  </script>
+</Layout>

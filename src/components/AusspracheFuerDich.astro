@@ -1,0 +1,110 @@
+---
+// „Für dich": the pronunciation drills for one first language — minimal pairs to hear, a
+// short listening test, and the drill sentence read into the microphone, scored, with the
+// typical-mistake findings for that language. One component on both pages, one client module
+// (src/lib/ausspracheFuerDich.js), so the recording code exists once.
+//
+//   /kultur/fehler            <AusspracheFuerDich lang="vietnamesisch" compact />  under each language
+//   /aussprache-check         <AusspracheFuerDich lang="*" />  every drill; the page's language
+//                              picker decides which are shown, and in which order
+//
+// Drills: src/data/aussprache-muttersprache.json. Audio: public/audio/muttersprache/.
+import drillData from "../data/aussprache-muttersprache.json";
+import "../styles/aussprache-fuer-dich.css";
+
+interface Props {
+  /** A language id, or "*" for every drill (the page shows the chosen language's). */
+  lang: string;
+  compact?: boolean;
+}
+const { lang, compact = false } = Astro.props;
+
+type Drill = { title: string; tip: string; pairs?: string[][]; words?: string[]; sentence: string };
+const all = drillData.drills as Record<string, Drill>;
+const ids = lang === "*" ? Object.keys(all) : ((drillData.languages as Record<string, string[]>)[lang] ?? []);
+const drills = ids.map((id) => ({ id, ...all[id] }));
+---
+{drills.length > 0 && (
+  <div class:list={["af", compact && "af--compact"]} data-fuer-dich data-af-lang={lang === "*" ? undefined : lang} data-af-all={lang === "*" ? "" : undefined}>
+    {drills.map((d, i) => (
+      <details
+        class="md-drill"
+        data-drill-id={d.id}
+        id={lang === "*" ? `drill-${d.id}` : `drill-${lang}-${d.id}`}
+        open={lang !== "*" && i === 0}
+        hidden={lang === "*"}
+      >
+        <summary>{d.title}</summary>
+        <p class="md-tip">{d.tip}</p>
+        {d.pairs && (
+          <ul class="md-pairs">
+            {d.pairs.map(([a, b]) => (
+              <li>
+                <button type="button" class="md-say" data-say={a}>{a}</button>
+                <span class="md-vs" aria-hidden="true">↔</span>
+                <button type="button" class="md-say md-say--other" data-say={b}>{b}</button>
+              </li>
+            ))}
+          </ul>
+        )}
+        {d.words && (
+          <div class="md-words">
+            {d.words.map((w) => <button type="button" class="md-say" data-say={w}>{w}</button>)}
+          </div>
+        )}
+        {d.pairs && d.pairs.length > 1 && (
+          <div class="md-ht" data-hoertest={JSON.stringify(d.pairs)}>
+            <div data-hoertest-box></div>
+            <button type="button" class="md-btn" data-hoertest-start data-i18n="kultur.fehler.hoertest">Hörtest: Welches Wort hörst du?</button>
+          </div>
+        )}
+        <div class="md-rec" data-record={d.sentence} data-record-drill={d.id}>
+          <p class="md-sentence">
+            <button type="button" class="md-say md-say--icon" data-say={d.sentence} aria-label="Satz anhören" data-i18n-attr="aria-label:af.listen">▶</button>
+            <span lang="de">{d.sentence}</span>
+          </p>
+          <p class="md-words-scored" data-record-words hidden></p>
+          <button type="button" class="md-btn md-btn--primary" data-record-btn>● <span data-i18n="kultur.fehler.record">Nachsprechen</span></button>
+          <p class="md-status" data-record-status aria-live="polite"></p>
+          <div data-record-findings></div>
+          <p data-record-login hidden><a class="md-btn" href={`/anmelden?next=${encodeURIComponent(Astro.url.pathname)}`} data-i18n="af.login">Anmelden</a></p>
+        </div>
+      </details>
+    ))}
+  </div>
+)}
+
+<style is:global>
+  /* Findings: shared by this component and the Aussprache-Check's result card. */
+  .af-findings {
+    margin-top: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid color-mix(in srgb, var(--brand-blue) 30%, var(--border));
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--brand-blue) 6%, var(--surface));
+  }
+  .af-findings-title {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--brand-blue-dark);
+  }
+  .af-findings ul { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-3); }
+  .af-finding p { margin: 0; line-height: 1.45; color: var(--ink); }
+  .af-finding-links { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 6px !important; }
+  .af-link { font-weight: var(--fw-semibold); color: var(--brand-blue-dark); text-underline-offset: 3px; }
+  .af-link--quiet { font-weight: var(--fw-regular); color: var(--muted); }
+  .af--compact .md-drill { padding-block: 6px; }
+  /* Every drill, the page's picker orders the chosen language's with style.order. */
+  .af[data-af-all] { display: flex; flex-direction: column; }
+  .md-drill.is-flash { animation: afFlash 1.4s ease-out; }
+  @keyframes afFlash {
+    0%, 40% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-blue) 55%, transparent); }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .md-drill.is-flash { animation: none; outline: 2px solid var(--brand-blue); }
+  }
+</style>

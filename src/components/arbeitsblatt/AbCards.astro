@@ -1,0 +1,50 @@
+---
+// The worksheet library's three parts, as cards with the crew — the same row on each of
+// them, so it is their navigation:
+//   Einzelarbeit      /lehrkraefte/arbeitsblaetter          a sheet per Lernset and grammar topic
+//   Partner & Gruppe  /lehrkraefte/arbeitsblaetter/partner  partner/group sheets + Tandembögen
+//   Arbeitsmappe      /lehrkraefte/arbeitsblaetter/mappe    several sheets in one PDF
+// The card of the page you are on is marked (aria-current) and stands out. A phone shows a
+// compact row of three with the short names. Styles: .abi-cards in arbeitsblatt.css.
+// Mascot hides with the mascots-off setting; the cards still read without it.
+//
+// A click on the Mappe card sets a flag for one page load, so the Mappe's picker column opens
+// with an animation when you arrive that way (mappe.astro, html.abm-arrive).
+import Mascot from "../mascots/Mascot.astro";
+
+interface Props {
+  current: "einzel" | "partner" | "mappe";
+}
+const { current } = Astro.props;
+const cards = [
+  {
+    id: "einzel", mascot: "regi" as const, href: "/lehrkraefte/arbeitsblaetter",
+    title: "Einzelarbeit", titleKey: "ab.cards.einzel", short: "Einzeln", shortKey: "ab.cards.einzelShort",
+    text: "Ein Blatt zu jedem Lernset und Grammatik-Thema", textKey: "ab.cards.einzelText",
+  },
+  {
+    id: "partner", mascot: "quaki" as const, href: "/lehrkraefte/arbeitsblaetter/partner",
+    title: "Partner & Gruppe", titleKey: "ab.cards.partner", short: "Partner", shortKey: "ab.cards.partnerShort",
+    text: "Karten für A und B und Tandembögen zur Grammatik", textKey: "ab.cards.partnerText",
+  },
+  {
+    id: "mappe", mascot: "hamsti" as const, href: "/lehrkraefte/arbeitsblaetter/mappe",
+    title: "Arbeitsmappe", titleKey: "ab.cards.mappe", short: "Mappe", shortKey: "ab.cards.mappeShort",
+    text: "Mehrere Blätter in einem PDF", textKey: "ab.cards.mappeText",
+  },
+];
+---
+<nav class="abi-cards" aria-label="Arbeitsblätter" data-i18n-attr="aria-label:ab.cards.label">
+  {cards.map((c) => (
+    <a class:list={["abi-card", `abi-card--${c.id}`, c.id === current && "is-current"]} href={c.href} aria-current={c.id === current ? "page" : undefined} data-abi-card={c.id}>
+      <Mascot name={c.mascot} size={64} class="abi-card-m" />
+      <span class="abi-card-t"><b class="abi-card-full" data-i18n={c.titleKey}>{c.title}</b><b class="abi-card-short" data-i18n={c.shortKey}>{c.short}</b><small data-i18n={c.textKey}>{c.text}</small></span>
+    </a>
+  ))}
+</nav>
+
+<script>
+  for (const a of document.querySelectorAll<HTMLAnchorElement>('[data-abi-card="mappe"]:not(.is-current)')) {
+    a.addEventListener("click", () => { try { sessionStorage.setItem("abm.arrive", "1"); } catch {} });
+  }
+</script>
