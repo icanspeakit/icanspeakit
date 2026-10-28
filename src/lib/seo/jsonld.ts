@@ -28,7 +28,7 @@ export function organizationLd(site: string) {
     // (/assets/logo.png, 618 × 176) does not qualify.
     logo: { "@type": "ImageObject", url: `${site}/icon-512.png`, width: 512, height: 512 },
     description:
-      "EnglishAcademy ist eine kostenlose Website zum Deutschüben und zur Vorbereitung auf telc, Goethe-Zertifikat, DTZ, TestDaF und den Test Leben in Deutschland.",
+      "EnglishAcademy is a free website for practising English and preparing for Cambridge English, IELTS, Trinity ISE and the Life in the UK test.",
     // Already public on /impressum. The operator's name and address stay there: they are a
     // private person's, not an organisation's.
     email: LEGAL.contactEmail,
@@ -45,7 +45,7 @@ export function websiteLd(site: string) {
     name: "EnglishAcademy",
     alternateName: "English Academy",
     url: `${site}/`,
-    inLanguage: "de-DE",
+    inLanguage: "en-GB",
     publisher: { "@id": orgId(site) },
   };
 }
@@ -73,35 +73,35 @@ export function breadcrumbLd(site: string, items: Crumb[]) {
 // out of the trail rather than pointing at a 404; a dynamic one (/berufe/pflege) is named by
 // the page through Layout's `breadcrumb` prop.
 export const SECTION_PAGES: Record<string, string> = {
-  "/grammatik": "Grammatik",
-  "/wortschatz": "Wortschatz & Redemittel",
-  "/pruefungen": "Prüfungen",
-  "/goethe": "Goethe-Zertifikat",
-  "/telc": "telc",
-  "/dtz": "DTZ",
-  "/testdaf": "TestDaF",
-  "/fuehrerschein": "Führerschein",
-  "/fuehrerschein/wortschatz": "Fahrschul-Wortschatz",
-  "/berufe": "Deutsch für den Beruf",
-  "/leben-in-deutschland": "Leben in Deutschland",
-  "/wissen": "Wissensdatenbank",
-  "/wissen/wortgeschichte": "Wortgeschichte",
-  "/kultur": "Landeskunde",
-  "/kultur/insider": "Deutschland von innen",
-  "/lehrkraefte": "Für Lehrkräfte",
-  "/politik": "Politik in Deutschland, Österreich und der Schweiz",
-  "/lehrkraefte/arbeitsblaetter": "Arbeitsblätter",
-  "/lehrkraefte/spiele": "Spiele zum Ausdrucken",
-  "/lehrkraefte/klassen": "Klassen",
-  "/lehrkraefte/umfragen": "Umfragen",
-  "/lehrkraefte/tests": "Einstufungstest für die Klasse",
-  "/lehrkraefte/quiz": "Live-Quiz",
-  "/sprechen": "Sprechen",
-  "/hoeren": "Hörverstehen",
-  "/lesen": "Leseverstehen",
-  "/schreiben": "Schreiben",
-  "/satzmelodie": "Satzmelodie",
-  "/live-fragestunde": "Live-Fragestunde",
+  "/grammatik": "Grammar",
+  "/wortschatz": "Vocabulary & phrases",
+  "/pruefungen": "Exams",
+  "/goethe": "Cambridge English",
+  "/telc": "Trinity ISE",
+  "/dtz": "Trinity ISE I",
+  "/testdaf": "IELTS Academic",
+  "/fuehrerschein": "Driving licence",
+  "/fuehrerschein/wortschatz": "Driving school vocabulary",
+  "/berufe": "English for work",
+  "/leben-in-deutschland": "Life in the UK",
+  "/wissen": "Knowledge base",
+  "/wissen/wortgeschichte": "Word stories",
+  "/kultur": "Culture",
+  "/kultur/insider": "The UK from the inside",
+  "/lehrkraefte": "For teachers",
+  "/politik": "Politics in Germany, Austria and Switzerland",
+  "/lehrkraefte/arbeitsblaetter": "Worksheets",
+  "/lehrkraefte/spiele": "Printable games",
+  "/lehrkraefte/klassen": "Classes",
+  "/lehrkraefte/umfragen": "Surveys",
+  "/lehrkraefte/tests": "Placement test for the class",
+  "/lehrkraefte/quiz": "Live quiz",
+  "/sprechen": "Speaking",
+  "/hoeren": "Listening",
+  "/lesen": "Reading",
+  "/schreiben": "Writing",
+  "/satzmelodie": "Intonation",
+  "/live-fragestunde": "Live Q&A",
 };
 
 /** The trail for `route` (no trailing slash): Start, each known parent page, the page itself.
@@ -119,5 +119,5 @@ export function trailFor(route: string, pageName: string, override?: Crumb[]): C
   // says where the page sits, so its own step drops a trailing parent name.
   const parent = parents.at(-1)?.name;
   const name = parent && pageName.endsWith(` – ${parent}`) ? pageName.slice(0, -parent.length - 3) : pageName;
-  return [{ name: "Start", path: "/" }, ...parents, { name, path: route }];
+  return [{ name: "Home", path: "/" }, ...parents, { name, path: route }];
 }
