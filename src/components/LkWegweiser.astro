@@ -15,8 +15,8 @@
 // way /lehrkraefte/stundenplan resolves it, so the wizard only links sheets and quiz
 // chapters that exist. The choice is kept in the address (?ziel=stunde&niveau=a1-1&block=2)
 // and on this device, so the next visit opens where the teacher left off.
-// English only, written into the script (no i18n keys yet), like the course plan and the
-// Stundenplan.
+// English only (lang="en"), written into the script, no i18n keys — like the course plan
+// and the Stundenplan.
 import Icon from "./Icon.astro";
 import data from "../data/kursinhalte.json";
 import { grammarByKey } from "../lib/grammarCatalog.js";
@@ -61,7 +61,7 @@ const goals = [
   { id: "vertretung", icon: "sparkle", title: "Cover lesson in 5 minutes", hint: "No preparation: quiz and games" },
 ];
 ---
-<section class="lw" aria-labelledby="lw-title" data-lw>
+<section class="lw" lang="en" aria-labelledby="lw-title" data-lw>
   <h2 id="lw-title" class="lw-title">What are you planning?</h2>
   <div class="lw-goals" data-lw-goals>
     {goals.map((g) => (

@@ -88,7 +88,7 @@ const Tag = heading;
       <p class="zt-meta"><span lang="de">{q.who.role}</span> · {q.who.years} · <span data-i18n="zitate.card.born" data-i18n-vars={JSON.stringify({ place: q.who.place })}>geboren in {q.who.place}</span></p>
       <p lang="de">{q.who.bio}</p>
       <a href={q.who.wiki} rel="noopener" target="_blank" data-i18n="zitate.card.wiki">Mehr bei Wikipedia</a>
-      {q.who.bild && <p class="zt-credit">Image: <a href={q.who.bild.quelle} rel="noopener" target="_blank">{q.who.bild.von}, {q.who.bild.lizenz === "Public domain" ? "public domain" : q.who.bild.lizenz}</a> (Wikimedia Commons)</p>}
+      {q.who.bild && <p class="zt-credit">Image: <a href={q.who.bild.quelle} rel="noopener" target="_blank">{q.who.bild.von}, {q.who.bild.lizenz === "Public domain" ? "public domain" : q.who.bild.lizenz}</a> <span translate="no">(Wikimedia Commons)</span></p>}
     </div>
   </aside>
 </article>

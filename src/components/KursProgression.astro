@@ -2,7 +2,7 @@
 // One level of the course plan: Dauer and the textbook series it fits, the thematic blocks
 // as an accordion, the "Ist das mein Niveau?" self-check and the two CTAs (Probestunde,
 // Kursplan drucken). Content: src/data/kursinhalte.json — nothing is written in here.
-// English only, written into the markup (no i18n keys yet).
+// English only, like the course (lang="en"): written into the markup, no i18n keys.
 //
 // `heading` is the level of this section's own headings (default 2, under the page's h1);
 // the block titles sit one below. The print rules at the end make window.print() give a
@@ -29,7 +29,7 @@ const probestunde = data.probestunde.href
   : `mailto:${LEGAL.contactEmail}?subject=${encodeURIComponent(`Trial lesson ${level.label}`)}`;
 const url = `englishacademy.com/kursinhalte/${level.id}`;
 ---
-<div class="kp" data-kp data-level={level.label}>
+<div class="kp" lang="en" data-kp data-level={level.label}>
   <dl class="kp-meta">
     <div>
       <dt>Length</dt>

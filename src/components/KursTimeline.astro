@@ -14,7 +14,7 @@ const n = levels.length;
 const idx = levels.findIndex((l) => l.id === current);
 const edge = idx === 0 ? "start" : idx === n - 1 ? "end" : "mid";
 ---
-<nav class="kt" aria-label="Choose a level" style={`--n: ${n}; --i: ${Math.max(idx, 0)}`}>
+<nav class="kt" lang="en" aria-label="Choose a level" style={`--n: ${n}; --i: ${Math.max(idx, 0)}`}>
   {idx >= 0 && <p class="kt-here" data-edge={edge} aria-hidden="true">You are here</p>}
   <ol class="kt-track" data-active={idx >= 0 ? "" : undefined}>
     {levels.map((l, i) => (
