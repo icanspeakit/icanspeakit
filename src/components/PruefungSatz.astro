@@ -59,20 +59,20 @@ const formatRows = set.modules.map((m: any, i: number) => {
     points: pointsOf(m.name),
   };
 });
-const formatChecked = "30.09.2026";
+const formatChecked = "30 September 2026";
 
-// Title and description in the words people search: "telc a2 übungstest", "goethe b1
-// übungstest", "telc a2 modelltest" (Search Console, Oct 2026). The first " – " segment
-// stays the topic (src/lib/progress.js names the "Weitermachen" card after it). A second
-// set of the same level gets its number ("telc A2 Übungstest 2").
+// Title and description in the words people search ("b1 preliminary practice test",
+// "ielts practice test free"). The first " – " segment stays the topic (src/lib/progress.js
+// names the "Weitermachen" card after it). A second set of the same level gets its number
+// ("… A2 practice test 2").
 const shortExam = set.exam === "goethe" ? "Goethe" : set.exam;
 const setNo = Number(String(set.id).split("-").pop()) || 1;
-const topic = `${shortExam} ${set.level} Übungstest${setNo > 1 ? ` ${setNo}` : ""}`;
+const topic = `${shortExam} ${set.level} practice test${setNo > 1 ? ` ${setNo}` : ""}`;
 const skills = set.modules.map((m: any) => m.name).join(", ");
-const pageTitle = paid ? fitTitle(`${topic} – mit Lösungen`, topic) : fitTitle(`${topic} – kostenlos mit Lösungen`, `${topic} – kostenlos`, topic);
+const pageTitle = paid ? fitTitle(`${topic} – with answers`, topic) : fitTitle(`${topic} – free, with answers`, `${topic} – free`, topic);
 const pageDescription = paid
-  ? `${examName} ${set.level} Übungstest im Prüfungsformat, aufgebaut wie der Modelltest: ${skills}. Mit Timer, automatischer Auswertung und Musterlösungen.`
-  : `Kostenloser ${examName} ${set.level} Übungstest im Prüfungsformat, aufgebaut wie der Modelltest: ${skills}. Mit Timer, automatischer Auswertung und Musterlösungen.`;
+  ? `${examName} ${set.level} practice test in the exam format, built like the official sample test: ${skills}. With a timer, automatic marking and model answers.`
+  : `Free ${examName} ${set.level} practice test in the exam format, built like the official sample test: ${skills}. With a timer, automatic marking and model answers.`;
 ---
 <Layout
   title={pageTitle}
@@ -80,7 +80,7 @@ const pageDescription = paid
   schema={{
     "@type": "LearningResource",
     name: `${examName} ${set.level}: ${set.title}`,
-    learningResourceType: "Übungssatz",
+    learningResourceType: "Practice test",
     educationalLevel: set.level,
     assesses: `${examName} ${set.level}`,
     ...(minutes ? { timeRequired: `PT${minutes}M` } : {}),
@@ -116,7 +116,7 @@ const pageDescription = paid
               <tr>
                 <th scope="row">{r.name}</th>
                 <td>{r.parts}</td>
-                {r.timeSpan > 0 && <td class="ps-nowrap" rowspan={r.timeSpan > 1 ? r.timeSpan : undefined}>{r.minutes} Min.</td>}
+                {r.timeSpan > 0 && <td class="ps-nowrap" rowspan={r.timeSpan > 1 ? r.timeSpan : undefined}>{r.minutes} min</td>}
                 {ref && <td>{r.points ?? "–"}</td>}
               </tr>
             ))}
@@ -134,7 +134,7 @@ const pageDescription = paid
     </section>
     {paid && <PremiumLock feature={set.feature} variant="inline" />}
     <div data-needs={paid ? (set.feature === "c1" ? "premium" : "pack") : undefined}>
-      <ExamApp brand={`${examName} ${set.level}`} sub={set.title} unit="Aufgaben" />
+      <ExamApp brand={`${examName} ${set.level}`} sub={set.title} unit="tasks" />
     </div>
     <LevelGrammar levels={[set.level]} />
     <p class="format-note">{set.sourcing}</p>

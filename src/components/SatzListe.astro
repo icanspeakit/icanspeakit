@@ -9,12 +9,12 @@ import "../styles/pruefung-satz.css";
 interface Props { exam: "goethe" | "telc" }
 const { exam } = Astro.props;
 const rows = [
-  { level: "A1", href: "/start-deutsch-1", title: "Start Deutsch 1", meta: "Hören · Lesen · Schreiben" },
+  { level: "A1", href: "/start-deutsch-1", title: "A1 English practice test", meta: "Listening · Reading · Writing" },
   ...saetzeOf(exam).map((s) => ({
     level: s.level,
     href: hrefOf(s),
     title: s.title,
-    meta: `${s.modules.map((m: any) => m.name).join(" · ")} · ${examMinutes(s.modules)} Min.`,
+    meta: `${s.modules.map((m: any) => m.name).join(" · ")} · ${examMinutes(s.modules)} min`,
   })),
 ];
 ---

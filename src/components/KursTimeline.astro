@@ -14,15 +14,15 @@ const n = levels.length;
 const idx = levels.findIndex((l) => l.id === current);
 const edge = idx === 0 ? "start" : idx === n - 1 ? "end" : "mid";
 ---
-<nav class="kt" lang="de" aria-label="Niveau wählen" style={`--n: ${n}; --i: ${Math.max(idx, 0)}`}>
-  {idx >= 0 && <p class="kt-here" data-edge={edge} aria-hidden="true">Du bist hier</p>}
+<nav class="kt" aria-label="Choose a level" style={`--n: ${n}; --i: ${Math.max(idx, 0)}`}>
+  {idx >= 0 && <p class="kt-here" data-edge={edge} aria-hidden="true">You are here</p>}
   <ol class="kt-track" data-active={idx >= 0 ? "" : undefined}>
     {levels.map((l, i) => (
       <li class:list={["kt-step", { "is-done": idx >= 0 && i < idx, "is-active": i === idx }]}>
         <a href={`/kursinhalte/${l.id}`} aria-current={i === idx ? "page" : undefined}>
           <span class="kt-dot" aria-hidden="true"></span>
           <span class="kt-label">{l.label}</span>
-          {i === idx && <span class="sr-only"> (du bist hier)</span>}
+          {i === idx && <span class="sr-only"> (you are here)</span>}
         </a>
       </li>
     ))}

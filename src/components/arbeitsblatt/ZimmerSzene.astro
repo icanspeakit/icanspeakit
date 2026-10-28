@@ -4,6 +4,6 @@
 import { zimmerSvg } from "../../lib/arbeitsblatt/zimmerSzene.js";
 
 interface Props { variant?: "a" | "b"; nums?: boolean; moves?: boolean; label?: string }
-const { variant = "a", nums = true, moves = false, label = "Ein Zimmer mit Bett, Schrank, Schreibtisch, Regal, Tisch und Stuhl. Zwölf Dinge sind nummeriert." } = Astro.props;
+const { variant = "a", nums = true, moves = false, label = "A room with a bed, a wardrobe, a desk, shelves, a table and a chair. Twelve things are numbered." } = Astro.props;
 ---
 <figure class="ab-scene" set:html={zimmerSvg({ variant, nums, moves, label })} />

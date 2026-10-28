@@ -24,16 +24,16 @@ for (const level of levels) {
     for (let n = 1; n <= DEFAULT.stunden; n++) {
       const key = { niveau: level.id, block: bi + 1, stunden: DEFAULT.stunden, stunde: n, minuten: DEFAULT.minuten };
       const lesson = lessonFor(levels, key)?.lesson;
-      if (lesson) names[keyText(key)] = { titel: `Stunde ${n}: ${lesson.final ? "Anwenden und Wiederholen" : lesson.focus}`, ort: `${level.label} · Block ${bi + 1}: ${b.thema}`, schritte: lesson.phases.length };
+      if (lesson) names[keyText(key)] = { titel: `Lesson ${n}: ${lesson.final ? "Use and review" : lesson.focus}`, ort: `${level.label} · Block ${bi + 1}: ${b.thema}`, schritte: lesson.phases.length };
     }
   });
 }
 ---
-<section class="ns" data-ns hidden lang="de" aria-labelledby="ns-title">
-  <p class="ns-eyebrow" data-ns-eyebrow>Deine Stunde</p>
+<section class="ns" data-ns hidden aria-labelledby="ns-title">
+  <p class="ns-eyebrow" data-ns-eyebrow>Your lesson</p>
   <h2 class="ns-title" id="ns-title" data-ns-title></h2>
   <p class="ns-where" data-ns-where></p>
-  <a class="ns-go" data-ns-go href="/stunde">Los geht's</a>
+  <a class="ns-go" data-ns-go href="/stunde">Let's go</a>
   <button type="button" class="ns-x" data-ns-x aria-label="Ausblenden" title="Ausblenden">
     <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" /></svg>
   </button>
@@ -116,20 +116,20 @@ for (const level of levels) {
     });
     const info = data.names?.[keyText(next.key)];
     const k = next.key;
-    const titel = info?.titel ?? `Stunde ${k.stunde}`;
+    const titel = info?.titel ?? `Lesson ${k.stunde}`;
     const ort = info?.ort ?? `${k.niveau.toUpperCase().replace("-", ".")} · Block ${k.block}`;
     const $ = (s: string) => box.querySelector<HTMLElement>(s)!;
     if (next.kind === "weiter") {
-      $("[data-ns-eyebrow]").textContent = "Weiter, wo du warst";
-      $("[data-ns-title]").textContent = `Weiter mit ${titel}`;
-      $("[data-ns-where]").textContent = `${ort} · Schritt ${next.step + 1}${info ? ` von ${info.schritte}` : ""}`;
-      $("[data-ns-go]").textContent = "Weiter";
+      $("[data-ns-eyebrow]").textContent = "Pick up where you left off";
+      $("[data-ns-title]").textContent = `Continue with ${titel}`;
+      $("[data-ns-where]").textContent = `${ort} · step ${next.step + 1}${info ? ` of ${info.schritte}` : ""}`;
+      $("[data-ns-go]").textContent = "Continue";
     } else {
-      $("[data-ns-eyebrow]").textContent = next.kind === "start" ? "Deine erste Stunde" : "Nächste Stunde";
+      $("[data-ns-eyebrow]").textContent = next.kind === "start" ? "Your first lesson" : "Next lesson";
       $("[data-ns-title]").textContent = titel;
       $("[data-ns-where]").innerHTML = "";
-      $("[data-ns-where]").append(ort, Object.assign(document.createElement("span"), { className: "ns-tag", textContent: " · Schritt für Schritt, in deinem Tempo" }));
-      $("[data-ns-go]").textContent = "Los geht's";
+      $("[data-ns-where]").append(ort, Object.assign(document.createElement("span"), { className: "ns-tag", textContent: " · step by step, at your own pace" }));
+      $("[data-ns-go]").textContent = "Let's go";
     }
     $("[data-ns-go]").setAttribute("href", stundeHref(k));
     box.hidden = false;

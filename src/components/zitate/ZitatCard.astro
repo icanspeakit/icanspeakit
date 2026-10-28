@@ -82,13 +82,13 @@ const Tag = heading;
   </div>
 
   {/* No second portrait here: the face already stands beside the name under the quote. */}
-  <aside class="zt-bio" aria-label={`Über ${q.who.name}`} data-bio-name={q.who.name}>
+  <aside class="zt-bio" aria-label={`About ${q.who.name}`} data-bio-name={q.who.name}>
     <div>
       <h2 lang="de">{q.who.name}</h2>
       <p class="zt-meta"><span lang="de">{q.who.role}</span> · {q.who.years} · <span data-i18n="zitate.card.born" data-i18n-vars={JSON.stringify({ place: q.who.place })}>geboren in {q.who.place}</span></p>
       <p lang="de">{q.who.bio}</p>
       <a href={q.who.wiki} rel="noopener" target="_blank" data-i18n="zitate.card.wiki">Mehr bei Wikipedia</a>
-      {q.who.bild && <p class="zt-credit">Bild: <a href={q.who.bild.quelle} rel="noopener" target="_blank">{q.who.bild.von}, {q.who.bild.lizenz === "Public domain" ? "gemeinfrei" : q.who.bild.lizenz}</a> (Wikimedia Commons)</p>}
+      {q.who.bild && <p class="zt-credit">Image: <a href={q.who.bild.quelle} rel="noopener" target="_blank">{q.who.bild.von}, {q.who.bild.lizenz === "Public domain" ? "public domain" : q.who.bild.lizenz}</a> (Wikimedia Commons)</p>}
     </div>
   </aside>
 </article>
