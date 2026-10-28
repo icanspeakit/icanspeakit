@@ -107,7 +107,8 @@ try {
     'Bash(git commit:*)', 'Bash(git mv:*)', 'Bash(git rm:*)', 'Bash(git restore:*)', 'Bash(git checkout -- :*)',
     'Bash(pnpm build:*)', 'Bash(pnpm check:*)', 'Bash(pnpm run:*)', 'Bash(node:*)',
     'Bash(ls:*)', 'Bash(cat:*)', 'Bash(head:*)', 'Bash(tail:*)', 'Bash(grep:*)', 'Bash(find:*)', 'Bash(wc:*)',
-    'Bash(mkdir:*)', 'Bash(mv:*)', 'Bash(cp:*)', 'Bash(sort:*)', 'Bash(diff:*)'
+    'Bash(mkdir:*)', 'Bash(mv:*)', 'Bash(cp:*)', 'Bash(sort:*)', 'Bash(diff:*)',
+    'Bash(sed:*)', 'Bash(awk:*)', 'Bash(echo:*)', 'Bash(xargs:*)', 'Bash(uniq:*)', 'Bash(cut:*)', 'Bash(tr:*)', 'Bash(jq:*)', 'Bash(test:*)', 'Bash(pwd)'
   )
   $script:lastCheck = Get-Date; $script:capped = $null
   Push-Location $Work
