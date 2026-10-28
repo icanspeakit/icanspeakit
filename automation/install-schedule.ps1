@@ -6,7 +6,7 @@ param([int]$EveryHours = 5, [int]$StartInMinutes = 2)
 
 $name = 'EnglishAcademy content run'
 $script = Join-Path $PSScriptRoot 'run-next.ps1'
-$action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$script`"" -WorkingDirectory (Split-Path -Parent $PSScriptRoot)
+$action = New-ScheduledTaskAction -Execute $(if (Get-Command pwsh -ErrorAction SilentlyContinue) { (Get-Command pwsh).Source } else { 'powershell.exe' }) -Argument "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$script`"" -WorkingDirectory (Split-Path -Parent $PSScriptRoot)
 $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes($StartInMinutes) -RepetitionInterval (New-TimeSpan -Hours $EveryHours) -RepetitionDuration (New-TimeSpan -Days 3650)
 # StartWhenAvailable: a run missed while the laptop slept starts as soon as it wakes.
 # The 4.5 h limit stops a stuck run before the next one is due.

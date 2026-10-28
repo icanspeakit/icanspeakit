@@ -1,16 +1,21 @@
 # Runs the next content-migration item with Claude Code in headless mode.
 # Started every few hours by the scheduled task "EnglishAcademy content run"
-# (install-schedule.ps1), or by hand:  powershell -ExecutionPolicy Bypass -File automation\run-next.ps1
+# (install-schedule.ps1), or by hand:  pwsh -ExecutionPolicy Bypass -File automation\run-next.ps1
 #
 # Works in a separate git worktree (..\englishacademy-content, branch `content`), so the main
 # working copy and branch are never touched. Uses your Claude Code login, so it spends your
 # Max plan quota. If the quota runs out mid-run, Claude stops; the item stays unticked and the
 # next run resumes it from its commits.
+#
+# Writes for the monitor (automation\monitor.cmd):
+#   logs\status.json      what is running now / how the last run ended
+#   logs\runs.log         one line per run
+#   logs\<stamp>-<id>.log the run's event stream (stream-json, one JSON object per line)
 param([switch]$DryRun)
 
 $ErrorActionPreference = 'Stop'
 $OutputEncoding = [System.Text.UTF8Encoding]::new($false)
-[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+try { [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false) } catch {}  # no console when run by the task
 
 $Repo   = Split-Path -Parent $PSScriptRoot
 $Work   = Join-Path (Split-Path -Parent $Repo) 'englishacademy-content'
@@ -19,11 +24,32 @@ $Lock   = Join-Path $env:TEMP 'englishacademy-content-run.lock'
 New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
 $Stamp  = Get-Date -Format 'yyyy-MM-dd_HHmm'
 $RunLog = Join-Path $LogDir 'runs.log'
-function Note($msg) { $line = "$(Get-Date -Format 'yyyy-MM-dd HH:mm') $msg"; Write-Host $line; Add-Content -Path $RunLog -Value $line -Encoding UTF8 }
+$Status = Join-Path $LogDir 'status.json'
+try { Start-Transcript -Path (Join-Path $LogDir 'last-run-transcript.txt') -Force | Out-Null } catch {}
 
-# One run at a time. A lock older than 6 h is from a run that died; ignore it.
-if ((Test-Path $Lock) -and ((Get-Date) - (Get-Item $Lock).LastWriteTime).TotalHours -lt 6) { Note 'skip: another run is in progress'; exit 0 }
+function Note($msg) { $line = "$(Get-Date -Format 'yyyy-MM-dd HH:mm') $msg"; Write-Host $line; Add-Content -Path $RunLog -Value $line -Encoding UTF8 }
+function SetStatus($obj) { $obj.updated = (Get-Date).ToString('o'); ($obj | ConvertTo-Json -Depth 5) | Set-Content -Path $Status -Encoding UTF8 }
+function Toast($title, $body) {
+  # Windows notification. WinRT toasts need Windows PowerShell 5.1, so it is called from there.
+  $t = $title.Replace("'", "''"); $b = $body.Replace("'", "''")
+  $ps = @"
+[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null
+[Windows.Data.Xml.Dom.XmlDocument, Windows.Data.Xml.Dom.XmlDocument, ContentType = WindowsRuntime] | Out-Null
+`$x = New-Object Windows.Data.Xml.Dom.XmlDocument
+`$x.LoadXml("<toast><visual><binding template='ToastGeneric'><text>$([Security.SecurityElement]::Escape($t))</text><text>$([Security.SecurityElement]::Escape($b))</text></binding></visual></toast>")
+[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\WindowsPowerShell\v1.0\powershell.exe').Show([Windows.UI.Notifications.ToastNotification]::new(`$x))
+"@
+  try { Start-Process -WindowStyle Hidden -FilePath 'powershell.exe' -ArgumentList '-NoProfile', '-Command', $ps | Out-Null } catch {}
+}
+
+# One run at a time: the lock holds the PID of the running script. A lock whose process is gone
+# (the run was stopped or crashed) is stale and ignored.
+if (Test-Path $Lock) {
+  $lockPid = 0; [int]::TryParse((Get-Content $Lock -Raw).Trim(), [ref]$lockPid) | Out-Null
+  if ($lockPid -and (Get-Process -Id $lockPid -ErrorAction SilentlyContinue)) { Note 'skip: another run is in progress'; exit 0 }
+}
 Set-Content -Path $Lock -Value $PID
+$id = $null
 try {
   # The worktree on branch `content` (created from main the first time).
   if (-not (Test-Path (Join-Path $Work '.git'))) {
@@ -39,14 +65,16 @@ try {
   # Next unticked item.
   $queue = Get-Content (Join-Path $Work 'automation\QUEUE.md') -Encoding UTF8
   $next = $queue | Where-Object { $_ -match '^- \[ \] `([^`]+)`:\s*(.+)$' } | Select-Object -First 1
-  if (-not $next) { Note 'queue empty: nothing to do'; exit 0 }
+  if (-not $next) { Note 'queue empty: nothing to do'; SetStatus @{ state = 'idle'; last = @{ outcome = 'queue-empty'; ended = (Get-Date).ToString('o') } }; exit 0 }
   $null = $next -match '^- \[ \] `([^`]+)`:\s*(.+)$'
   $id = $Matches[1]; $desc = $Matches[2]
   $prompt = (Get-Content (Join-Path $Work 'automation\PROMPT.md') -Raw -Encoding UTF8).Replace('{{MODULE}}', $id).Replace('{{DESC}}', $desc)
   if ($DryRun) { Note "dry run: next item would be '$id'"; Write-Host $prompt; exit 0 }
 
   $log = Join-Path $LogDir "$Stamp-$id.log"
-  Note "start: $id (log: $log)"
+  $started = (Get-Date).ToString('o')
+  Note "start: $id"
+  SetStatus @{ state = 'running'; item = $id; desc = $desc; started = $started; pid = $PID; log = (Split-Path -Leaf $log) }
   $allowed = @(
     'Read', 'Edit', 'Write', 'Glob', 'Grep', 'TodoWrite', 'WebSearch', 'WebFetch',
     'Bash(git status:*)', 'Bash(git diff:*)', 'Bash(git log:*)', 'Bash(git show:*)', 'Bash(git add:*)',
@@ -57,15 +85,27 @@ try {
   )
   Push-Location $Work
   try {
-    $out = $prompt | & claude -p --permission-mode acceptEdits --max-turns 400 --allowedTools @allowed --disallowedTools 'Bash(git push:*)' 'Bash(git checkout main:*)' 'Bash(git switch:*)' 'Bash(git reset --hard:*)' 2>&1 |
-      ForEach-Object { $s = "$_"; Add-Content -Path $log -Value $s -Encoding UTF8; $s }
+    $prompt | & claude -p --output-format stream-json --verbose --permission-mode acceptEdits --max-turns 400 `
+      --allowedTools @allowed --disallowedTools 'Bash(git push:*)' 'Bash(git checkout main:*)' 'Bash(git switch:*)' 'Bash(git reset --hard:*)' 2>&1 |
+      ForEach-Object { Add-Content -Path $log -Value "$_" -Encoding UTF8 }
     $code = $LASTEXITCODE
   } finally { Pop-Location }
 
-  $text = ($out -join "`n")
-  if ($text -match 'RESULT: DONE') { Note "done: $id" }
-  elseif ($text -match '(?i)usage limit|limit reached|rate.?limit|resets at') { Note "quota limit hit during $id; next run resumes it" }
-  elseif ($text -match 'RESULT: PARTIAL') { Note "partial: $id; next run continues it" }
-  else { Note "ended without a result line (exit $code): $id; see $log" }
+  # The last {"type":"result"} line says how it ended.
+  $result = $null
+  foreach ($line in [System.IO.File]::ReadAllLines($log)) { if ($line -match '^\{"type":"result"') { try { $result = $line | ConvertFrom-Json } catch {} } }
+  $all = [System.IO.File]::ReadAllText($log)
+  $text = if ($result) { "$($result.result)" } else { $all.Substring([Math]::Max(0, $all.Length - 2000)) }
+  if ($text -match 'RESULT: DONE') { $outcome = 'done'; Note "done: $id"; Toast "EnglishAcademy: $id done" 'Finished. Review it in the monitor.' }
+  elseif ($all -match '(?i)usage limit|limit reached|rate.?limit|resets (at )?\d') { $outcome = 'limit'; Note "quota limit hit during $id; next run resumes it"; Toast 'EnglishAcademy: usage limit' "Paused during $id. The next run resumes it." }
+  elseif ($text -match 'RESULT: PARTIAL') { $outcome = 'partial'; Note "partial: $id; next run continues it"; Toast "EnglishAcademy: $id partly done" 'The next run continues it.' }
+  elseif ($all -match '(?i)authenticate|login|oauth') { $outcome = 'auth'; Note "login problem (exit $code): run 'claude' then /login"; Toast 'EnglishAcademy: login expired' "Open a terminal, run claude, then /login." }
+  else { $outcome = 'error'; Note "ended without a result line (exit $code): $id"; Toast "EnglishAcademy: $id failed" 'See the monitor for the log.' }
+  SetStatus @{ state = 'idle'; last = @{ item = $id; outcome = $outcome; started = $started; ended = (Get-Date).ToString('o'); log = (Split-Path -Leaf $log); turns = $result.num_turns; durationMs = $result.duration_ms } }
+}
+catch {
+  Note "script error: $_"
+  SetStatus @{ state = 'idle'; last = @{ item = $id; outcome = 'error'; ended = (Get-Date).ToString('o'); error = "$_" } }
+  Toast 'EnglishAcademy: run script error' "$_"
 }
 finally { Remove-Item $Lock -ErrorAction SilentlyContinue }
