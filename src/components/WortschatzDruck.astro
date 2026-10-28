@@ -92,12 +92,12 @@ let gap = 0;
   </div>
 
   <!-- 1 · Wortliste -->
-  <article class="ab-sheet pr-sheet" lang="de">
+  <article class="ab-sheet pr-sheet">
     <header class="ab-head pr-head">
       <div>
-        <p class="ab-eyebrow">EnglishAcademy · Wortschatz · {level}</p>
+        <p class="ab-eyebrow">EnglishAcademy · Vocabulary · {level}</p>
         <h1 class="ab-title">{title}</h1>
-        <p class="pr-sub">{words.length} Wörter · Artikel, Bedeutung, Erklärung auf Deutsch und Beispielsatz</p>
+        <p class="pr-sub">{words.length} words · a / an, meaning, explanation and example sentence</p>
       </div>
       <span class="pr-mascot" aria-hidden="true" set:html={hamsti}></span>
     </header>
@@ -105,21 +105,21 @@ let gap = 0;
     <table class="pr-table">
       <thead>
         <tr>
-          <th>Wort</th>
-          <th class="pr-col-m">Bedeutung</th>
-          {hasDe && <th>Auf Deutsch</th>}
-          <th>Beispielsatz</th>
+          <th>Word</th>
+          <th class="pr-col-m">Meaning</th>
+          {hasDe && <th>Explanation</th>}
+          <th>Example sentence</th>
         </tr>
       </thead>
       <tbody>
         {words.map((e: any) => (
           <tr>
             <td class="pr-word">
-              {e.pos === "noun" && (e.gender || e.pluralOnly) && <b class={`pr-art pr-art--${e.pluralOnly ? "pl" : e.gender}`}>{e.gender ?? "die"} </b>}
+              {e.pos === "noun" && (e.gender || e.pluralOnly) && <b class={`pr-art pr-art--${e.pluralOnly ? "pl" : e.gender}`}>{e.gender ?? "some"} </b>}
               <b>{e.lemma}</b>
-              {e.genderAlt && <span class="pr-muted"> (auch: {e.genderAlt})</span>}
-              {e.pos === "noun" && e.plural && !e.pluralOnly && <span class="pr-pl">die {e.plural}</span>}
-              {e.syn?.length > 0 && <span class="pr-syn">oder auch: {e.syn.join(", ")}</span>}
+              {e.genderAlt && <span class="pr-muted"> (also: {e.genderAlt})</span>}
+              {e.pos === "noun" && e.plural && !e.pluralOnly && <span class="pr-pl">pl. {e.plural}</span>}
+              {e.syn?.length > 0 && <span class="pr-syn">also: {e.syn.join(", ")}</span>}
             </td>
             <td class="pr-col-m">
               {langs.map((l) => <span class="ab-m" lang={l} dir={isRtl(l) ? "rtl" : "ltr"}>{e[l] ?? ""}</span>)}
@@ -135,35 +135,35 @@ let gap = 0;
       <aside class="pr-facts">
         <span class="pr-facts-fig" aria-hidden="true" set:html={bruno}></span>
         <div>
-          <h2 class="pr-facts-h">Wusstest du?</h2>
+          <h2 class="pr-facts-h">Did you know?</h2>
           <ul>{facts.map((f) => <li>{f}</li>)}</ul>
         </div>
       </aside>
     )}
 
-    <footer class="ab-foot">EnglishAcademy · englishacademy.com{footPath} · Karteikarten mit Audio online</footer>
+    <footer class="ab-foot">EnglishAcademy · englishacademy.com{footPath} · flashcards with audio online</footer>
   </article>
 
   <!-- 2 · Kleiner Test -->
-  <article class="ab-sheet pr-sheet pr-test" lang="de">
+  <article class="ab-sheet pr-sheet pr-test">
     <header class="ab-head pr-head">
       <div>
-        <p class="ab-eyebrow">EnglishAcademy · Kleiner Test · {level}</p>
+        <p class="ab-eyebrow">EnglishAcademy · Short test · {level}</p>
         <h2 class="ab-title">{title}</h2>
-        <p class="ab-namerow"><span>Name: <i></i></span><span>Datum: <i></i></span></p>
+        <p class="ab-namerow"><span>Name: <i></i></span><span>Date: <i></i></span></p>
       </div>
       <span class="pr-mascot" aria-hidden="true" set:html={regi}></span>
     </header>
 
     {sheet.match.left.length > 0 && (
       <section class="ab-sec">
-        <h3 class="ab-h"><b>A</b> Wort und Bedeutung</h3>
-        <p class="ab-instr">Welche Bedeutung passt? Schreib den Buchstaben in das Kästchen.</p>
+        <h3 class="ab-h"><b>A</b> Word and meaning</h3>
+        <p class="ab-instr">Which meaning fits? Write the letter in the box.</p>
         <div class="ab-match">
           <ol class="ab-match-left">
             {sheet.match.left.map((item, i) => (
               <li>
-                <input class="ab-in ab-in--letter" data-a={json([sheet.match.answers[i]])} data-kind="letter" maxlength="1" aria-label={`Buchstabe für ${item.de}`} autocomplete="off" />
+                <input class="ab-in ab-in--letter" data-a={json([sheet.match.answers[i]])} data-kind="letter" maxlength="1" aria-label={`Letter for ${item.de}`} autocomplete="off" />
                 <span>{item.de}</span>
               </li>
             ))}
@@ -186,12 +186,12 @@ let gap = 0;
 
     {sheet.nouns.length > 0 && (
       <section class="ab-sec">
-        <h3 class="ab-h"><b>B</b> der, die oder das?</h3>
-        <p class="ab-instr">Ergänze den Artikel.</p>
+        <h3 class="ab-h"><b>B</b> a, an or some?</h3>
+        <p class="ab-instr">Write a, an or some.</p>
         <ul class="ab-articles">
           {sheet.nouns.map((n) => (
             <li>
-              <input class="ab-in" style="--w:5ch" data-a={json(byLemma.get(n.lemma)?.genderAlt ? [n.gender, byLemma.get(n.lemma).genderAlt] : [n.gender])} data-kind="text" aria-label={`Artikel für ${n.lemma}`} autocomplete="off" autocapitalize="off" />
+              <input class="ab-in" style="--w:5ch" data-a={json(byLemma.get(n.lemma)?.genderAlt ? [n.gender, byLemma.get(n.lemma).genderAlt] : [n.gender])} data-kind="text" aria-label={`a, an or some: ${n.lemma}`} autocomplete="off" autocapitalize="off" />
               <span>{n.lemma}</span>
             </li>
           ))}
@@ -201,13 +201,13 @@ let gap = 0;
 
     {sheet.sentences.length > 0 && (
       <section class="ab-sec">
-        <h3 class="ab-h"><b>C</b> Lückensätze</h3>
-        <p class="ab-instr">Welches Wort fehlt? Die Wörter im Kasten helfen.</p>
+        <h3 class="ab-h"><b>C</b> Gap sentences</h3>
+        <p class="ab-instr">Which word is missing? The words in the box help.</p>
         <p class="ab-box">{sheet.box.map((b) => <span>{b}</span>)}</p>
         <ol class="ab-lines">
           {sheet.sentences.map((s) => (
             <li>
-              {s.before}<input class="ab-in" style={w([s.answer])} data-a={json([s.answer])} data-kind="text" aria-label={`Lücke ${++gap}`} autocomplete="off" autocapitalize="off" />{s.after}
+              {s.before}<input class="ab-in" style={w([s.answer])} data-a={json([s.answer])} data-kind="text" aria-label={`Gap ${++gap}`} autocomplete="off" autocapitalize="off" />{s.after}
             </li>
           ))}
         </ol>
@@ -218,14 +218,14 @@ let gap = 0;
   </article>
 
   <!-- 3 · Lösungen -->
-  <article class="ab-sheet ab-key" lang="de" aria-label="Lösungen">
+  <article class="ab-sheet ab-key" aria-label="Answers">
     <header class="ab-head">
-      <p class="ab-eyebrow">EnglishAcademy · Lösungen · {level}</p>
+      <p class="ab-eyebrow">EnglishAcademy · Answers · {level}</p>
       <h2 class="ab-title ab-title--key">{title}</h2>
     </header>
     {sheet.match.left.length > 0 && (
       <section class="ab-sec">
-        <h3 class="ab-h"><b>A</b> Wort und Bedeutung</h3>
+        <h3 class="ab-h"><b>A</b> Word and meaning</h3>
         <ol class="ab-keylist ab-keylist--cols">
           {sheet.match.left.map((item, i) => <li>{item.de} – <b>{sheet.match.answers[i]}</b></li>)}
         </ol>
@@ -233,15 +233,15 @@ let gap = 0;
     )}
     {sheet.nouns.length > 0 && (
       <section class="ab-sec">
-        <h3 class="ab-h"><b>B</b> der, die oder das?</h3>
+        <h3 class="ab-h"><b>B</b> a, an or some?</h3>
         <ol class="ab-keylist ab-keylist--cols">
-          {sheet.nouns.map((n) => <li><b>{n.gender}</b> {n.lemma}{byLemma.get(n.lemma)?.genderAlt && <span class="ab-muted"> (auch: {byLemma.get(n.lemma).genderAlt})</span>}{n.plural && <span class="ab-muted">, die {n.plural}</span>}</li>)}
+          {sheet.nouns.map((n) => <li><b>{n.gender}</b> {n.lemma}{byLemma.get(n.lemma)?.genderAlt && <span class="ab-muted"> (also: {byLemma.get(n.lemma).genderAlt})</span>}{n.plural && <span class="ab-muted">, pl. {n.plural}</span>}</li>)}
         </ol>
       </section>
     )}
     {sheet.sentences.length > 0 && (
       <section class="ab-sec">
-        <h3 class="ab-h"><b>C</b> Lückensätze</h3>
+        <h3 class="ab-h"><b>C</b> Gap sentences</h3>
         <ol class="ab-keylist">
           {sheet.sentences.map((s) => <li>{s.before}<b>{s.answer}</b>{s.after}</li>)}
         </ol>

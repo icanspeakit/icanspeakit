@@ -81,7 +81,7 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
         {hasArt ? <><span class="wg-art">{art}</span>{rest.join(" ")}</> : head}
       </h1>
       {audio && (
-        <button type="button" class="wg-play" data-wg-play={audio} aria-label="Anhören" data-i18n-attr="aria-label:wg.listen" title="Anhören">
+        <button type="button" class="wg-play" data-wg-play={audio} aria-label="Listen" data-i18n-attr="aria-label:wg.listen;title:wg.listen" title="Listen">
           <Icon name="volume" size={22} />
         </button>
       )}

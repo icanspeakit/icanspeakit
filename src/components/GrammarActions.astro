@@ -40,9 +40,9 @@ const tandem = web && !!tandemFor(slug);
 {(print || quiz || tandem || web || present) && (
   <div class:list={["ga-actions", place && `ga-actions--${place}`]}>
     {present && (
-      <a class="ga-btn" href={`/${slug}?mode=present`} title="Die Regel und die Beispiele als Folien, groß für den Beamer">
+      <a class="ga-btn" href={`/${slug}?mode=present`} title="The rule and the examples as slides, large for the projector" data-i18n-attr="title:ga.present.title">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="13" rx="2"/><path d="M12 16v5M8 21h8"/></svg>
-        <span>Präsentieren</span>
+        <span data-i18n="ga.present">Präsentieren</span>
       </a>
     )}
     {print && (
@@ -66,7 +66,7 @@ const tandem = web && !!tandemFor(slug);
     {tandem && (
       <a class="ga-btn" href={`/lehrkraefte/arbeitsblaetter/tandem/${slug}`} target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"/><path d="M18.5 14.3A6.5 6.5 0 0 1 21.5 20"/></svg>
-        <span>Partnerblatt</span>
+        <span data-i18n="ga.partnerSheet">Partnerblatt</span>
       </a>
     )}
   </div>

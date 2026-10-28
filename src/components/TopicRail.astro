@@ -34,10 +34,10 @@ const levels = GRAMMAR_LEVELS.map((level) => ({
   items: grammarAt(level).map((t) => ({ key: t.key, label: t.name, href: t.href, tasks: t.tasks })),
 }));
 const exams = [
-  { label: "Start Deutsch 1", icon: "document", href: "/start-deutsch-1", meta: "A1" },
-  { label: "DTZ-Übungssatz", icon: "book-open", href: "/dtz/uebungssatz", meta: "A2/B1" },
-  { label: "TestDaF", icon: "graduation-cap", href: "/testdaf/uebungssatz", meta: "TDN" },
-  { label: "Leben in Deutschland", icon: "map-pin", href: "/leben-in-deutschland/test", meta: "Test" },
+  { label: "A1 English practice test", icon: "document", href: "/start-deutsch-1", meta: "A1" },
+  { label: "Trinity ISE I mock test", icon: "book-open", href: "/dtz/uebungssatz", meta: "B1" },
+  { label: "IELTS Academic", icon: "graduation-cap", href: "/testdaf/uebungssatz", meta: "Band" },
+  { label: "Life in the UK", icon: "map-pin", href: "/leben-in-deutschland/test", meta: "Test" },
 ];
 
 // Opens on the level this topic belongs to, so the first thing in the panel is its own
@@ -77,7 +77,7 @@ const openSection = grammarByKey(current)?.level?.toLowerCase() ?? "weg";
             data-rail-sec={live ? sec.id : undefined}
             aria-disabled={live ? undefined : "true"}
             role="tab"
-            aria-label={`Stufe ${sec.level}`}
+            aria-label={`Level ${sec.level}`}
             data-i18n-attr={`aria-label:kb.level.${sec.level}`}
           >
             <span class="nvb-railbadge">{sec.level}</span>

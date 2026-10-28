@@ -19,8 +19,7 @@ const pool = nouns({ level: ["A1", "A2", "B1", "B2"], has: "gender" })
 <section class="ak-panel akd" data-beat-panel="schreiben" hidden>
   <h2 data-i18n="ak.beat.schreiben">Schreiben</h2>
   <p class="ak-panel-lead">
-    Diktat: Du hörst ein Nomen mit Artikel. Schreib beides — mit großem Anfangsbuchstaben.
-    z. B. <b>der Tisch</b>
+    Dictation: you hear a noun with its article. Write both.
   </p>
 
   <div class="ak-card akd-card" data-akd>
@@ -30,10 +29,10 @@ const pool = nouns({ level: ["A1", "A2", "B1", "B2"], has: "gender" })
     </div>
 
     <div class="akd-listen">
-      <button type="button" class="akd-play" data-akd-play aria-label="Anhören">
+      <button type="button" class="akd-play" data-akd-play aria-label="Listen" data-i18n-attr="aria-label:wg.listen">
         <span class="ak-play-icon" aria-hidden="true"></span>
       </button>
-      <button type="button" class="akd-slow" data-akd-slow aria-pressed="false">Langsam</button>
+      <button type="button" class="akd-slow" data-akd-slow aria-pressed="false" data-i18n="akd.slow">Langsam</button>
     </div>
 
     <form class="akd-form" data-akd-form autocomplete="off">
@@ -45,22 +44,22 @@ const pool = nouns({ level: ["A1", "A2", "B1", "B2"], has: "gender" })
         autocapitalize="off"
         autocorrect="off"
         spellcheck="false"
-        placeholder="der, die oder das + Nomen"
-        aria-label="Was hörst du?"
+        placeholder="article + noun"
+        aria-label="What do you hear?"
       />
-      <div class="akd-keys" aria-label="Sonderzeichen">
+      <div class="akd-keys" aria-label="Special characters">
         {["ä", "ö", "ü", "ß", "Ä", "Ö", "Ü"].map((k) => <button type="button" data-akd-key={k}>{k}</button>)}
       </div>
-      <button type="submit" class="akd-check" data-akd-check>Prüfen</button>
+      <button type="submit" class="akd-check" data-akd-check data-i18n="akd.check">Prüfen</button>
     </form>
 
     <div class="akd-feedback" data-akd-feedback aria-live="polite" hidden></div>
-    <button type="button" class="akd-next" data-akd-next hidden>Weiter</button>
+    <button type="button" class="akd-next" data-akd-next hidden data-i18n="akd.next">Weiter</button>
 
     <div class="akd-done" data-akd-done hidden>
       <p class="akd-done-title" data-akd-done-title></p>
       <p class="akd-done-text" data-akd-done-text></p>
-      <button type="button" class="akd-check" data-akd-again>Neues Diktat</button>
+      <button type="button" class="akd-check" data-akd-again data-i18n="akd.again">Neues Diktat</button>
     </div>
   </div>
 

@@ -18,7 +18,7 @@ const quaki = mascotSvg({ name: "quaki", expr: "thinking", view: "three", size, 
 const other = mascotSvg({ name: partner, expr: "happy", view: "three", size, label: "", className: "rw-fig" });
 const props: string[] = e.comic?.props ?? [];
 ---
-<figure class:list={["rw-strip", side === "bild" && "rw-strip--bild"]} data-mascot-part aria-label={`Bild: ${e.comic?.quaki ?? e.bild}`}>
+<figure class:list={["rw-strip", side === "bild" && "rw-strip--bild"]} data-mascot-part aria-label={`Picture: ${e.comic?.quaki ?? e.bild}`}>
   <div class="rw-panel rw-panel--bild">
     <p class="rw-panel-cap" data-i18n="rw.strip.bild">Quaki versteht …</p>
     <div class="rw-panel-stage">
