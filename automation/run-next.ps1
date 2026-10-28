@@ -45,6 +45,16 @@ function Toast($title, $body) {
   try { Start-Process -WindowStyle Hidden -FilePath 'powershell.exe' -ArgumentList '-NoProfile', '-Command', $ps | Out-Null } catch {}
 }
 
+# Keep Windows awake while the loop works or waits for a 5-hour reset (the screen may still
+# turn off). Released when the script ends, so the laptop can sleep during a weekly pause.
+# Closing the lid still sleeps the laptop unless its lid action is "Do nothing".
+try {
+  Add-Type -Namespace EA -Name Power -MemberDefinition '[DllImport("kernel32.dll")] public static extern uint SetThreadExecutionState(uint esFlags);' -ErrorAction Stop
+} catch {}
+function KeepAwake([bool]$on) {
+  try { [void][EA.Power]::SetThreadExecutionState($(if ($on) { [uint32]'0x80000001' } else { [uint32]'0x80000000' })) } catch {}
+}
+
 # Usage cap (config.json): from the latest snapshot that automation/statusline.mjs writes
 # whenever Claude Code (the c2 account, interactively) refreshes its status line.
 function OverCap {
@@ -92,6 +102,7 @@ if (-not $DryRun -and $prev -and $prev.state -eq 'waiting' -and $prev.until -and
 if (-not $DryRun -and $prev -and $prev.state -eq 'halted') { exit 0 }  # stopped after errors; cleared by "Run now" (-Force via monitor) or by hand
 
 Set-Content -Path $Lock -Value $PID
+KeepAwake $true
 try {
   if (-not (Test-Path (Join-Path $Work '.git'))) {
     $hasBranch = git -C $Repo branch --list content
@@ -188,7 +199,18 @@ try {
       $last.outcome = 'limit'; Note "5-hour limit during $id; waiting until $($until.ToString('ddd HH:mm'))"
       SetStatus @{ state = 'waiting'; reason = 'five-hour'; until = $until.ToString('o'); item = $id; last = $last }
       Toast 'EnglishAcademy: 5-hour limit' "Waiting until $($until.ToString('HH:mm')), then it continues with $id."
-      break
+      if ($Once) { break }
+      # Wait here (laptop kept awake) until the reset, then go on. "Run now" in the monitor
+      # clears the wait (status no longer 'waiting') and the loop continues at once.
+      while ((Get-Date) -lt $until) {
+        Start-Sleep -Seconds 30
+        $st = ReadStatus
+        if (-not $st -or $st.state -ne 'waiting') { break }
+      }
+      Note "resume after 5-hour wait"
+      $sameItemRuns = [Math]::Max(0, $sameItemRuns - 1)  # a limit stop is not a failed attempt
+      SetStatus @{ state = 'running'; last = $last; item = $null }
+      continue
     }
     if ($all -match '(?i)failed to authenticate|oauth|/login') {
       $last.outcome = 'auth'; Note "halt: login problem. Run c2, then /login"
@@ -211,4 +233,4 @@ catch {
   SetStatus @{ state = 'halted'; detail = "script error: $_" }
   Toast 'EnglishAcademy: run script error' "$_"
 }
-finally { Remove-Item $Lock -ErrorAction SilentlyContinue }
+finally { KeepAwake $false; Remove-Item $Lock -ErrorAction SilentlyContinue }

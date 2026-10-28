@@ -13,7 +13,7 @@ $action = New-ScheduledTaskAction -Execute $exe -Argument "-NoProfile -Execution
 $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes($StartInMinutes) -RepetitionInterval (New-TimeSpan -Minutes $EveryMinutes) -RepetitionDuration (New-TimeSpan -Days 3650)
 # No time limit: the loop runs for hours. StartWhenAvailable: a check missed while the laptop
 # slept runs when it wakes. IgnoreNew + the script's own lock: never two loops at once.
-$settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries `
+$settings = New-ScheduledTaskSettingsSet -WakeToRun -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries `
   -MultipleInstances IgnoreNew -ExecutionTimeLimit ([TimeSpan]::Zero)
 Register-ScheduledTask -TaskName $name -Action $action -Trigger $trigger -Settings $settings -Force `
   -Description 'Keeps the englishacademy content runner (Claude Code, headless) going. See automation\README.md.' | Out-Null
