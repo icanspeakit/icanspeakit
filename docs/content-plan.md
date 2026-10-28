@@ -525,5 +525,5 @@ titles) are handled by the `ui-*` items where they are rendered.
 - **Audio**: every `audio` field points to files that don't exist until a TTS provider is
   wired (`BACKEND.speech`). Content runs set the fields; validators that require the files stay
   off until then.
-- **Edgar to decide**: Trinity ISE for the telc/DTZ slots (§2); British vs American default
-  (§1.1); the fictional town name *Brambleford* (§5.9); dropping Führerschein/politics (§4).
+- **Confirmed by Edgar (2026-10-28):** British English as the default (§1.1); the exam map as written, incl. Trinity ISE for the telc/DTZ slots (§2); dropping Führerschein, the driving games, politics, tax havens and the beer map (§4). *Brambleford* stays unless he changes it.
+- **Added to the queue (2026-10-28):** `english-for-work` (§5.12) and `vocab-c1-c2` (C1/C2 lexicon), both before `routes`.
