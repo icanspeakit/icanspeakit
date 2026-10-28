@@ -62,4 +62,4 @@ export function bestOf(days) {
 
 /** "9. Oktober" */
 export const formatDe = (ymd) =>
-  new Date(`${ymd}T12:00:00Z`).toLocaleDateString("de-DE", { day: "numeric", month: "long", timeZone: "UTC" });
+  new Date(`${ymd}T12:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "long", timeZone: "UTC" });

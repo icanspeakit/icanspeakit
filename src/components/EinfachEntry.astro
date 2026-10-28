@@ -22,9 +22,9 @@ const bruno = mascotSvg({ name: "bruno", expr: "happy", view: "front", size: var
   <span class="ee-ic ee-ic--bruno" aria-hidden="true" set:html={bruno} />
   <span class="ee-ic ee-ic--paw" aria-hidden="true">🐾</span>
   <span class="ee-txt">
-    {variant === "tile" && <span class="ee-kicker" data-ee-kicker>Ganz neu?</span>}
-    <b data-ee-title>Einfach lernen</b>
-    <i data-ee-sub>{variant === "tile" ? "Ohne Vorwissen. Ein Schritt pro Bildschirm." : "Lieber ganz einfach? Ein Schritt nach dem anderen."}</i>
+    {variant === "tile" && <span class="ee-kicker" data-ee-kicker data-i18n="einfach.entry.kicker">Ganz neu?</span>}
+    <b data-ee-title data-i18n="einfach.name">Einfach lernen</b>
+    <i data-ee-sub data-i18n={variant === "tile" ? "einfach.entry.subTile" : "einfach.entry.sub"}>{variant === "tile" ? "Ohne Vorwissen. Ein Schritt pro Bildschirm." : "Lieber ganz einfach? Ein Schritt nach dem anderen."}</i>
   </span>
   <span class="ee-go" aria-hidden="true">→</span>
 </a>
@@ -39,9 +39,9 @@ const bruno = mascotSvg({ name: "bruno", expr: "happy", view: "front", size: var
       const t = a.querySelector("[data-ee-title]");
       const s = a.querySelector("[data-ee-sub]");
       const k = a.querySelector("[data-ee-kicker]");
-      if (k) k.textContent = "Zurück zu Bruno";
-      if (t) t.textContent = "Weiter mit Einfach lernen";
-      if (s) s.textContent = "Da, wo du zuletzt warst.";
+      if (k) { k.textContent = "Back to Bruno"; k.dataset.i18n = "einfach.entry.backKicker"; }
+      if (t) { t.textContent = "Continue with Step by step"; t.dataset.i18n = "einfach.entry.backTitle"; }
+      if (s) { s.textContent = "Right where you left off."; s.dataset.i18n = "einfach.entry.backSub"; }
     }
   }
 </script>

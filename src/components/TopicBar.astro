@@ -51,7 +51,7 @@ const Title = heading ? "h1" : "span";
     {tasks > 0 && (
       <>
         <span class="tb-track" data-topic-track hidden={scoped}><span class="tb-fill" data-topic-fill style="width:0%"></span></span>
-        <span class="tb-count" data-topic-count hidden={scoped}>0 / {tasks} Aufgaben</span>
+        <span class="tb-count" data-topic-count hidden={scoped} data-i18n="topic.taskCount" data-i18n-vars={JSON.stringify({ n: 0, total: tasks })}>0 / {tasks} Aufgaben</span>
       </>
     )}
 

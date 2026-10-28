@@ -292,10 +292,11 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
       aria-selected={isOwn ? "true" : "false"}
       aria-controls="ls-pane-kartensets"
       aria-label="Meine Kartensets"
+      data-i18n-attr="aria-label:ls.ownSets"
       hidden
     >
       <Icon name="folder" size={20} />
-      <span class="nvb-tip">Meine Kartensets</span>
+      <span class="nvb-tip" data-i18n="ls.ownSets">Meine Kartensets</span>
     </button>
   </div>
 
@@ -625,7 +626,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
     </>)}
     <div class="nvb-section" id="ls-pane-kartensets" data-pane="kartensets" hidden={!isOwn}>
       <div class="nvb-panelhead">
-        <h3>Meine Kartensets</h3>
+        <h3 data-i18n="ls.ownSets">Meine Kartensets</h3>
       </div>
       <div class="ls-grouplist" data-own-sets></div>
     </div>

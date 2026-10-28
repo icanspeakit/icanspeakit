@@ -11,69 +11,70 @@
 import "../../styles/mock-dashboard.css";
 
 const tabs = [
-  { id: "dashboard", url: "englishacademy.com/fortschritt", key: "home.mock.dashboard", label: "Fortschritt" },
-  { id: "grammatik", url: "englishacademy.com/grammatik", key: "home.mock.grammatikShort", label: "Grammatik" },
-  { id: "wortschatz", url: "englishacademy.com/wortschatz", key: "home.mock.wortschatzShort", label: "Wortschatz" },
-  { id: "sprechen", url: "englishacademy.com/sprechen", key: "home.mock.sprechenShort", label: "Sprechen" },
-  { id: "pruefungen", url: "englishacademy.com/pruefungen", key: "nav.exams", label: "Prüfungen" },
+  { id: "dashboard", url: "englishacademy.com/fortschritt", key: "home.mock.dashboard", label: "Dashboard" },
+  { id: "grammatik", url: "englishacademy.com/grammatik", key: "home.mock.grammatikShort", label: "Grammar" },
+  { id: "wortschatz", url: "englishacademy.com/wortschatz", key: "home.mock.wortschatzShort", label: "Vocabulary" },
+  { id: "sprechen", url: "englishacademy.com/sprechen", key: "home.mock.sprechenShort", label: "Speaking" },
+  { id: "pruefungen", url: "englishacademy.com/pruefungen", key: "nav.exams", label: "Exams" },
 ];
 
 // The choice matching `answer` is the one the quiz accepts; the rest are wrong.
 const quiz = [
   {
-    kicker: "Akkusativ",
-    before: "Ich habe ",
-    after: " Computer.",
-    hint: "(der Computer)",
-    choices: ["der", "den", "das"],
-    answer: "den",
-    note: "Maskulin im Akkusativ: der wird zu den.",
+    kicker: "Present perfect",
+    before: "I ",
+    after: " in Leeds since 2019.",
+    hint: "(live)",
+    choices: ["have lived", "lived", "am living"],
+    answer: "have lived",
+    note: "since + a starting point: use the present perfect.",
     noteKey: "home.mock.note.akk",
   },
   {
-    kicker: "Dativ",
-    before: "Ich fahre mit ",
-    after: " Bus.",
-    hint: "(der Bus)",
-    choices: ["dem", "den", "der"],
-    answer: "dem",
-    note: "mit steht immer mit Dativ: der wird zu dem.",
+    kicker: "a / an",
+    before: "My sister is ",
+    after: " engineer.",
+    hint: "(a or an?)",
+    choices: ["an", "a", "the"],
+    answer: "an",
+    note: "an before a vowel sound: an engineer, an hour.",
     noteKey: "home.mock.note.dat",
   },
   {
-    kicker: "Perfekt",
-    before: "Gestern ",
-    after: " ich nach Berlin gefahren.",
-    hint: "(fahren)",
-    choices: ["habe", "bin", "war"],
-    answer: "bin",
-    note: "Bewegungsverben bilden das Perfekt mit sein.",
+    kicker: "Past simple",
+    before: "Yesterday I ",
+    after: " to work by bus.",
+    hint: "(go)",
+    choices: ["went", "goed", "have gone"],
+    answer: "went",
+    note: "go is irregular: go – went – gone. With yesterday, use the past simple.",
     noteKey: "home.mock.note.perf",
   },
 ];
 
+// Field names kept from the German mock (de = the word on the card, en = its meaning).
 const vocab = [
-  { de: "die Bewerbung", en: "application", ex: "Ich schicke die Bewerbung heute ab." },
-  { de: "der Termin", en: "appointment", ex: "Ich habe einen Termin beim Amt." },
-  { de: "die Krankenkasse", en: "health insurance", ex: "Melde dich bei der Krankenkasse an." },
-  { de: "kündigen", en: "to give notice", ex: "Sie hat den Vertrag gekündigt." },
-  { de: "die Anmeldung", en: "registration", ex: "Die Anmeldung dauert zehn Minuten." },
-  { de: "zuverlässig", en: "reliable", ex: "Er ist ein zuverlässiger Kollege." },
+  { de: "application", en: "a letter or form you send to ask for a job", ex: "I sent my application this morning." },
+  { de: "appointment", en: "a fixed time to see someone, e.g. a doctor", ex: "I've got a doctor's appointment at ten." },
+  { de: "deposit", en: "money you pay at the start, e.g. when you rent a flat", ex: "We paid a deposit of one month's rent." },
+  { de: "hand in your notice", en: "tell your employer you are leaving your job", ex: "She handed in her notice on Friday." },
+  { de: "register", en: "put your name on an official list", ex: "You need to register with a doctor." },
+  { de: "reliable", en: "you can trust them to do what they say", ex: "He's a very reliable colleague." },
 ];
 
 const speaking = [
-  { title: "Termin beim Amt", key: "home.mock.speak.amt", level: "B1", line: "Guten Tag, ich möchte einen Termin vereinbaren." },
-  { title: "Sich vorstellen", key: "home.mock.speak.intro", level: "A2", line: "Ich heiße Ana und komme aus Brasilien." },
-  { title: "Beim Arzt", key: "home.mock.speak.arzt", level: "A2", line: "Ich habe seit drei Tagen Halsschmerzen." },
+  { title: "Making an appointment", key: "home.mock.speak.amt", level: "B1", line: "Hello, I'd like to make an appointment, please." },
+  { title: "Introducing yourself", key: "home.mock.speak.intro", level: "A2", line: "My name's Ana and I'm from Brazil." },
+  { title: "At the doctor's", key: "home.mock.speak.arzt", level: "A2", line: "I've had a sore throat for three days." },
 ];
 
 const exams = [
-  { name: "DTZ", sub: "A2–B1 · Zuwanderer", subKey: "home.mock.exam.dtzSub", premium: false },
-  { name: "telc B1", sub: "Beruf & Alltag", subKey: "home.mock.exam.telcSub", premium: false },
-  { name: "Goethe B2", sub: "Vorbereitungssatz", subKey: "home.mock.exam.goetheSub", premium: true },
+  { name: "B1 Preliminary", sub: "Cambridge English · B1", subKey: "home.mock.exam.dtzSub", premium: false },
+  { name: "IELTS Academic", sub: "Study & work abroad", subKey: "home.mock.exam.telcSub", premium: false },
+  { name: "B2 First", sub: "Prep set", subKey: "home.mock.exam.goetheSub", premium: true },
 ];
 
-const weekdays = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+const weekdays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 ---
 <div class="lp-browser dm" data-dm>
   <div class="lp-browser-bar">
@@ -151,8 +152,8 @@ const weekdays = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
         <div class="dm-block">
           <div class="dm-block-head"><strong data-i18n="picker.resume.recents">Zuletzt geübt</strong><span data-i18n="home.mock.topics7">7 Themen</span></div>
           <ul class="dm-list">
-            <li><span class="dm-list-name">Akkusativ</span><span class="dm-list-meta" data-i18n="home.mock.recent1">12 / 12 · gestern</span></li>
-            <li><span class="dm-list-name">Verben mit Präpositionen</span><span class="dm-list-meta" data-i18n="home.mock.recent2">8 / 14 · vor 2 Tagen</span></li>
+            <li><span class="dm-list-name" data-i18n="home.mock.recent1.name">Present perfect</span><span class="dm-list-meta" data-i18n="home.mock.recent1">12 / 12 · gestern</span></li>
+            <li><span class="dm-list-name" data-i18n="home.mock.recent2.name">Verbs + prepositions</span><span class="dm-list-meta" data-i18n="home.mock.recent2">8 / 14 · vor 2 Tagen</span></li>
             <li><span class="dm-list-name" data-i18n="home.mock.recent3.name">Wortschatz: Behörden</span><span class="dm-list-meta" data-i18n="home.mock.recent3">31 Karten · vor 3 Tagen</span></li>
             <li><span class="dm-list-name" data-i18n="home.mock.recent4.name">Aussprache: ü / ö</span><span class="dm-list-meta" data-i18n="home.mock.recent4">6 Runden · letzte Woche</span></li>
           </ul>
@@ -255,7 +256,7 @@ const weekdays = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
           ))}
         </div>
         <div class="dm-block">
-          <div class="dm-block-head"><strong data-i18n="fs.partsAria">Prüfungsteile</strong><span>DTZ</span></div>
+          <div class="dm-block-head"><strong data-i18n="fs.partsAria">Prüfungsteile</strong><span>B1 Preliminary</span></div>
           <ul class="dm-list">
             <li><span class="dm-list-name" data-i18n="skill.hoeren">Hören</span><span class="dm-list-meta" data-i18n="home.mock.part.hoeren">3 Teile · 25 Min</span></li>
             <li><span class="dm-list-name" data-i18n="skill.lesen">Lesen</span><span class="dm-list-meta" data-i18n="home.mock.part.lesen">5 Teile · 45 Min</span></li>

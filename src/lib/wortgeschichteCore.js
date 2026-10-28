@@ -53,7 +53,7 @@ export function berlinDate(at = new Date()) {
 /** "2. November 2026" */
 export function formatDe(iso) {
   const [y, m, d] = iso.split("-").map(Number);
-  return new Intl.DateTimeFormat("de-DE", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })
+  return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })
     .format(new Date(Date.UTC(y, m - 1, d)));
 }
 

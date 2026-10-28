@@ -24,7 +24,7 @@ const hasDrills = ((drillData.languages as Record<string, string[]>)[l.id] ?? []
         <h2>{l.name}</h2>
         <span class="fe-native" dir={l.rtl ? "rtl" : undefined}>{l.native}</span>
       </div>
-      <span class="uv-pill">{l.mistakes.length} typische Fehler</span>
+      <span class="uv-pill" data-i18n="fe.mistakeCount" data-i18n-vars={JSON.stringify({ n: l.mistakes.length })}>{l.mistakes.length} typische Fehler</span>
     </header>
   )}
 

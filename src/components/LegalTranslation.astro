@@ -26,7 +26,7 @@ const payload = JSON.stringify(legalPayload(page)).replace(/</g, "\\u003c");
       Maschinelle Übersetzung, noch nicht juristisch geprüft.
     </p>
   )}
-  <button type="button" class="legal-lang-toggle" data-legal-toggle aria-pressed="false">
+  <button type="button" class="legal-lang-toggle" data-legal-toggle aria-pressed="false" data-i18n="legal.toggle.german">
     Deutsche Fassung anzeigen
   </button>
 </div>
@@ -81,7 +81,7 @@ const payload = JSON.stringify(legalPayload(page)).replace(/</g, "\\u003c");
       toggle.setAttribute("aria-pressed", String(showGerman));
       toggle.textContent =
         dict[showGerman ? "legal.toggle.translation" : "legal.toggle.german"] ??
-        (showGerman ? "Übersetzung anzeigen" : "Deutsche Fassung anzeigen");
+        (showGerman ? "Show translation" : "Show German version");
     };
 
     toggle.addEventListener("click", () => {

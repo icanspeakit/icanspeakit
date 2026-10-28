@@ -21,19 +21,21 @@
 // reader who cannot read the current page language.
 import { LANGUAGES } from "../lib/i18n.js";
 // The follow-up after a pick: someone who needed the offer to read the page is very often
-// someone for whom „Einfach lernen" (/einfach) is the right first door. Written per language
-// here for the same reason as the row itself; the product name stays German.
+// someone for whom "Step by step" (/einfach, the beginner path) is the right first door.
+// Written per language here for the same reason as the row itself; the product name stays
+// English, as it is on the page the button opens.
 const EINFACH_OFFER = {
-  en: { text: "New to German? Start with „Einfach lernen“ — one small step at a time.", go: "Start", close: "Close" },
-  ar: { text: "جديد في تعلّم الألمانية؟ ابدأ بـ «Einfach lernen» — خطوة صغيرة في كل مرة.", go: "ابدأ", close: "إغلاق" },
-  tr: { text: "Almancaya yeni mi başlıyorsun? „Einfach lernen“ ile başla — her seferinde küçük bir adım.", go: "Başla", close: "Kapat" },
-  uk: { text: "Тільки починаєте вчити німецьку? Почніть з «Einfach lernen» — крок за кроком.", go: "Почати", close: "Закрити" },
-  es: { text: "¿Empiezas con el alemán? Empieza con „Einfach lernen“: un paso pequeño cada vez.", go: "Empezar", close: "Cerrar" },
-  pt: { text: "Começando no alemão? Comece com „Einfach lernen“: um passo pequeno de cada vez.", go: "Começar", close: "Fechar" },
-  vi: { text: "Mới bắt đầu học tiếng Đức? Hãy bắt đầu với „Einfach lernen“: mỗi lần một bước nhỏ.", go: "Bắt đầu", close: "Đóng" },
-  hi: { text: "जर्मन सीखना अभी शुरू कर रहे हैं? „Einfach lernen“ से शुरू करें: हर बार एक छोटा कदम।", go: "शुरू करें", close: "बंद करें" },
-  id: { text: "Baru mulai belajar bahasa Jerman? Mulai dengan „Einfach lernen“: satu langkah kecil setiap kali.", go: "Mulai", close: "Tutup" },
-  tl: { text: "Bago ka pa lang sa German? Magsimula sa „Einfach lernen“: isang maliit na hakbang bawat beses.", go: "Simulan", close: "Isara" },
+  en: { text: "New to English? Start with “Step by step” — one small step at a time.", go: "Start", close: "Close" },
+  ar: { text: "جديد في تعلّم الإنجليزية؟ ابدأ بـ «Step by step» — خطوة صغيرة في كل مرة.", go: "ابدأ", close: "إغلاق" },
+  tr: { text: "İngilizceye yeni mi başlıyorsun? “Step by step” ile başla — her seferinde küçük bir adım.", go: "Başla", close: "Kapat" },
+  uk: { text: "Тільки починаєте вчити англійську? Почніть з «Step by step» — крок за кроком.", go: "Почати", close: "Закрити" },
+  es: { text: "¿Empiezas con el inglés? Empieza con «Step by step»: un paso pequeño cada vez.", go: "Empezar", close: "Cerrar" },
+  pt: { text: "Começando no inglês? Comece com “Step by step”: um passo pequeno de cada vez.", go: "Começar", close: "Fechar" },
+  vi: { text: "Mới bắt đầu học tiếng Anh? Hãy bắt đầu với “Step by step”: mỗi lần một bước nhỏ.", go: "Bắt đầu", close: "Đóng" },
+  hi: { text: "अंग्रेज़ी सीखना अभी शुरू कर रहे हैं? “Step by step” से शुरू करें: हर बार एक छोटा कदम।", go: "शुरू करें", close: "बंद करें" },
+  id: { text: "Baru mulai belajar bahasa Inggris? Mulai dengan “Step by step”: satu langkah kecil setiap kali.", go: "Mulai", close: "Tutup" },
+  tl: { text: "Bago ka pa lang sa English? Magsimula sa “Step by step”: isang maliit na hakbang bawat beses.", go: "Simulan", close: "Isara" },
+  de: { text: "Neu im Englischen? Fang mit „Step by step“ an – ein kleiner Schritt nach dem anderen.", go: "Los", close: "Schließen" },
 };
 // „Show this page in …?" per language, beside the language's name. German for German.
 const ASK = {
@@ -52,10 +54,10 @@ const ASK = {
 // Only the suggested language's row part shows: one CSS rule per language, so the right one
 // is there on the first paint without a script.
 const showRules = LANGUAGES.map((l) => `html[data-lang-offer="${l.code}"] [data-lang-offer-for="${l.code}"]{display:flex}`).join("");
-const close = "Schließen · Close · إغلاق · Kapat · Закрити";
-const other = "Andere · Other …";
+const close = "Close · Schließen · إغلاق · Kapat · Закрити";
+const other = "Other · Andere …";
 ---
-<div class="lang-offer" role="region" aria-label="Sprache · Language" data-lang-offer-row>
+<div class="lang-offer" role="region" aria-label="Language · Sprache" data-lang-offer-row>
   <svg class="lang-offer-ic" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
   {LANGUAGES.map((l) => (
     <div class="lang-offer-for" data-lang-offer-for={l.code} lang={l.htmlLang ?? l.code} dir={l.dir}>
@@ -72,7 +74,7 @@ const other = "Andere · Other …";
 
 <div class="lang-einfach" role="region" aria-live="polite" data-einfach-offer-row data-copy={JSON.stringify(EINFACH_OFFER)}>
   <span class="lang-einfach-txt" data-einfach-offer-text></span>
-  <a class="lang-einfach-go" href="/einfach" data-einfach-offer-go>Einfach lernen</a>
+  <a class="lang-einfach-go" href="/einfach" data-einfach-offer-go>Step by step</a>
   <button type="button" class="lang-offer-x" data-einfach-offer-dismiss>
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
   </button>
@@ -164,7 +166,7 @@ const other = "Andere · Other …";
 
   const html = document.documentElement;
   const hide = () => html.removeAttribute("data-lang-offer");
-  // After a pick in a language other than German, point once at „Einfach lernen".
+  // After a pick in a language other than English, point once at "Step by step" (/einfach).
   // Never on /einfach itself, never for someone already using it, never twice. Never where a
   // class is waiting either (live quiz, class poll, joining a class): a player picked Español
   // on /spiel, read „Empezar“ as starting the quiz and left the game for /einfach (replay
@@ -214,7 +216,7 @@ const other = "Andere · Other …";
       anchor: other,
       surface: "ui",
       items: languagesFor("ui"),
-      current: html.lang.split("-")[0] || "de",
+      current: html.lang.split("-")[0] || "en",
       startAll: true,
       onPick: (code: string) => {
         setLang(code);

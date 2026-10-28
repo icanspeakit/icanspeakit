@@ -64,10 +64,10 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
 <article class="wg-entry" data-wg-entry>
   {preview && (isDraft || notYet) && (
     <p class="wg-draft" role="note">
-      <b>Vorschau.</b>
-      {isDraft ? " Entwurf – noch nicht freigegeben (status „entwurf“)." : ""}
-      {notYet ? ` Erscheint am ${formatDe(e.publishOn)}.` : ""}
-      {" "}Diese Seite ist nur in der Vorschau sichtbar.
+      <b>Preview.</b>
+      {isDraft ? " Draft – not released yet (status “entwurf”)." : ""}
+      {notYet ? ` Goes live on ${formatDe(e.publishOn)}.` : ""}
+      {" "}This page is only visible in preview.
     </p>
   )}
 

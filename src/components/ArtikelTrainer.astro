@@ -266,7 +266,7 @@ const freqChart = {
           <span class="ls-switch-track" aria-hidden="true"><span class="ls-switch-knob"></span></span>
           <span class="ls-switch-txt">
             <span class="ls-switch-kicker" data-i18n="ap.sound.kicker">Aussprache</span>
-            <span class="ls-switch-state" data-sound-switch-state>Ton an</span>
+            <span class="ls-switch-state" data-sound-switch-state data-i18n="ap.sound.on">Ton an</span>
           </span>
         </button>
         <LeichtToggle />
@@ -315,7 +315,7 @@ const freqChart = {
         </div>
         <div class="akk-session-text">
           <span class="akk-session-label" data-i18n="akk.session.label">Diese Sitzung</span>
-          <p class="akk-session-stats" id="akk-session-stats">0 von {SESSION_SIZE} beantwortet · 0 richtig · 0 Hinweise</p>
+          <p class="akk-session-stats" id="akk-session-stats" data-i18n="akk.session.stats" data-i18n-vars={JSON.stringify({ answered: 0, total: SESSION_SIZE, correct: 0, hints: 0 })}>0 von {SESSION_SIZE} beantwortet · 0 richtig · 0 Hinweise</p>
         </div>
         <span class="akk-session-badge" data-i18n="akk.session.badge">lokal · ohne Konto</span>
       </footer>
