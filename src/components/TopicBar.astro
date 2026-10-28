@@ -212,12 +212,12 @@ const Title = heading ? "h1" : "span";
     const count = bar.querySelector<HTMLElement>("[data-topic-count]");
     const saved = bar.querySelector<HTMLElement>("[data-topic-saved]");
     const savedText = bar.querySelector<HTMLElement>("[data-topic-saved-text]");
-    // Seeded with the German so the first paint — which happens before initI18n() has
+    // Seeded with the English so the first paint — which happens before initI18n() has
     // fetched anything — says words rather than the key itself.
     let dict: Record<string, string> = {
-      "topic.taskCount": "{n} / {total} Aufgaben",
-      "topic.saved": "Gespeichert",
-      "topic.savedLocally": "Fortschritt wird auf diesem Gerät gespeichert",
+      "topic.taskCount": "{n} / {total} exercises",
+      "topic.saved": "Saved",
+      "topic.savedLocally": "Progress is saved on this device",
     };
     let done = 0;
     let savedTimer = 0;

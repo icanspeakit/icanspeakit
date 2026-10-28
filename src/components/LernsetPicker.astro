@@ -645,14 +645,14 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
 
   // This panel is built as an HTML string, so it cannot carry data-i18n attributes the way
   // the rest of the picker does — it reads the dictionary directly instead. Seeded with the
-  // German so the first paint, before initI18n() has fetched anything, says words rather
+  // English so the first paint, before initI18n() has fetched anything, says words rather
   // than a key.
   let dict = {
-    "sets.progressEmpty": "Noch nichts geübt. Sobald du Karten umdrehst, steht hier, wie viele Wörter du schon kannst und wo du weitermachst.",
-    "sets.prog.more": "Alles im Fortschritt ansehen",
-    "sets.collapseList": "Liste einklappen",
-    "sets.expandList": "Liste ausklappen",
-    "ap.sure": "{n} von {total} sicher",
+    "sets.progressEmpty": "Nothing practised yet. As soon as you start turning cards over, this will say how many words you already know and where to carry on.",
+    "sets.prog.more": "See everything in Progress",
+    "sets.collapseList": "Collapse the list",
+    "sets.expandList": "Expand list",
+    "ap.sure": "{n} of {total} secure",
   };
   const say = (k, vars) => translate(dict, k, vars);
 
@@ -992,8 +992,8 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
               <span class="ls-name"><span>${esc(s.name)}</span>${s.level ? `<small class="ls-item-sub">${esc(s.level)}</small>` : ""}</span>
               <span class="nv-count">${n}</span>
             </a>`;
-          }).join("") + (select ? "" : `<p class="ls-plan"><a href="/lehrkraefte/karten">Alle Kartensets verwalten</a></p>`)
-        : `<p class="ls-plan">Noch keine eigenen Kartensets. Mit <a href="/lehrkraefte/karten/foto">Vokabeln vom Foto</a> machen Sie aus einer Buchseite eigene Karten.</p>`;
+          }).join("") + (select ? "" : `<p class="ls-plan"><a href="/lehrkraefte/karten">Manage all card sets</a></p>`)
+        : `<p class="ls-plan">No card sets of your own yet. With <a href="/lehrkraefte/karten/foto">Words from a photo</a> you can turn a page of a book into your own cards.</p>`;
       ownBtn.hidden = false;
     })();
   }
