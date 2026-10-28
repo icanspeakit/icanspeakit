@@ -455,11 +455,11 @@ const sections: Section[] = [
     blurb: "Prüfungen sind keine Stufe, sondern ein Ziel — deshalb eine eigene Gruppe, sortiert nach Einstiegsniveau statt nach Fortschritt. Dazu die DTZ-Prüfungsteile zum Üben.",
     focus: ["Format und Dauer", "Was zum Bestehen reicht", "DTZ üben: Lesen, Bildbeschreibung, Landeskunde"],
     items: [
-      { id: "dtz", label: "DTZ", icon: "document", href: "/dtz", level: "A2/B1", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Deutsch-Test für Zuwanderer: Hören, Lesen, Schreiben, Sprechen — 45 bewertete Aufgaben plus Schreibteil.", leadKey: "fortschritt.item.dtz.lead", tasks: 45, done: 0, minutes: 54, practice: "dtz" },
+      { id: "dtz", label: "DTZ", labelKey: "fortschritt.item.dtz.label", icon: "document", href: "/dtz", level: "A2/B1", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Deutsch-Test für Zuwanderer: Hören, Lesen, Schreiben, Sprechen — 45 bewertete Aufgaben plus Schreibteil.", leadKey: "fortschritt.item.dtz.lead", tasks: 45, done: 0, minutes: 54, practice: "dtz" },
       { id: "lid", label: "Leben in Deutschland (Einbürgerungstest)", labelKey: "exam.lid.name", icon: "map-pin", href: "/leben-in-deutschland", level: "kein GER", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: `33 Fragen aus dem offiziellen Katalog, dazu die Landesfragen aller ${lid.bundeslaender.length} Bundesländer — Wissenstest, keine Sprachprüfung.`, leadKey: "fortschritt.item.lid.lead", leadVars: { n: lid.bundeslaender.length }, tasks: lid.questions.length, done: 0, minutes: 20, practice: "choice" },
-      { id: "telc", label: "telc", icon: "document", href: "/telc", level: "A1–C2", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Sprachbausteine — der Prüfungsteil, den es so nur bei telc gibt: Grammatik im laufenden Text.", leadKey: "fortschritt.item.telc.lead", tasks: 20, done: 0, minutes: 20, practice: "bausteine" },
-      { id: "goethe", label: "Goethe-Zertifikat", icon: "landmark", href: "/goethe", level: "A1–C2", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Die Goethe-Zertifikate decken A1 bis C2 ab — hier alle Themen, nach Stufe sortiert.", leadKey: "fortschritt.item.goethe.lead", meta: "A1–C2", practice: "picker" },
-      { id: "testdaf", label: "TestDaF", icon: "graduation-cap", href: "/testdaf", level: "B2–C1", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "TestDaF setzt B2–C1 voraus — hier die Themen dieser Stufen.", leadKey: "fortschritt.item.testdaf.lead", meta: "B2–C1", practice: "picker" },
+      { id: "telc", label: "telc", labelKey: "fortschritt.item.telc.label", icon: "document", href: "/telc", level: "A1–C2", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Sprachbausteine — der Prüfungsteil, den es so nur bei telc gibt: Grammatik im laufenden Text.", leadKey: "fortschritt.item.telc.lead", tasks: 20, done: 0, minutes: 20, practice: "bausteine" },
+      { id: "goethe", label: "Goethe-Zertifikat", labelKey: "fortschritt.item.goethe.label", icon: "landmark", href: "/goethe", level: "A1–C2", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Die Goethe-Zertifikate decken A1 bis C2 ab — hier alle Themen, nach Stufe sortiert.", leadKey: "fortschritt.item.goethe.lead", meta: "A1–C2", practice: "picker" },
+      { id: "testdaf", label: "TestDaF", labelKey: "fortschritt.item.testdaf.label", icon: "graduation-cap", href: "/testdaf", level: "B2–C1", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "TestDaF setzt B2–C1 voraus — hier die Themen dieser Stufen.", leadKey: "fortschritt.item.testdaf.lead", meta: "B2–C1", practice: "picker" },
 
       /* DTZ skill practice, moved here out of Stufe B1. These are exam formats —
          Bildbeschreibung with real examiner questions, the Leseverstehen simulation,
@@ -594,7 +594,7 @@ const defaultVariant = variants[0];
       <span class="nv-strip-title" data-i18n="fortschritt.strip.title">Dein Kurs</span>
       <span class="nv-strip-sub" data-i18n="fortschritt.strip.sub">DTZ-Vorbereitung</span>
       <span class="nv-strip-track"><span class="nv-strip-fill" data-strip-fill style={`width:${courseStats.pct}%`}></span></span>
-      <span class="nv-strip-points" data-strip-label>0 % · Portion 1 von {portions.length} · 0 / {firstPortion.tasks} Aufgaben</span>
+      <span class="nv-strip-points" data-strip-label data-i18n="fortschritt.strip.portion" data-i18n-vars={vars({ pct: 0, n: 1, of: portions.length, done: 0, tasks: firstPortion.tasks })}>0 % · Portion 1 von {portions.length} · 0 / {firstPortion.tasks} Aufgaben</span>
     </div>
 
     <div class="nv-shell">
@@ -869,7 +869,7 @@ const defaultVariant = variants[0];
                     <span class="nv-levelchip nv-levelchip--lg" data-i18n={section.badge === "Ziel" ? "fortschritt.kind.ziel" : section.badge === "Kurs" ? "fortschritt.kind.kurs" : undefined}>{section.badge}</span>
                     {st.tasks && st.minutes
                       ? <span class="nv-detail-levelsrc" data-i18n="fortschritt.sec.meta" data-i18n-vars={vars({ n: section.items.length, t: st.tasks, m: st.minutes })}>{section.items.length} Einträge · {st.tasks} Aufgaben · ca. {st.minutes} Min.</span>
-                      : <span class="nv-detail-levelsrc">{section.items.length} Einträge{st.tasks ? ` · ${st.tasks} Aufgaben` : ""}{st.minutes ? ` · ca. ${st.minutes} Min.` : ""}</span>}
+                      : <span class="nv-detail-levelsrc" data-i18n={st.tasks ? "fortschritt.sec.metaTasks" : st.minutes ? undefined : "fortschritt.sec.metaEntries"} data-i18n-vars={vars({ n: section.items.length, t: st.tasks })}>{section.items.length} Einträge{st.tasks ? ` · ${st.tasks} Aufgaben` : ""}{st.minutes ? ` · ca. ${st.minutes} Min.` : ""}</span>}
                   </p>
                   <p data-i18n={secKey(section, "blurb")} data-i18n-vars={vars(section.blurbVars)}>{section.blurb}</p>
                   <ul class="nv-focus">{section.focus.map((f, k) => <li data-i18n={secKey(section, `focus.${k}`)} data-i18n-vars={vars(section.focusVars?.[k])}>{f}</li>)}</ul>
@@ -881,8 +881,8 @@ const defaultVariant = variants[0];
                       renders the first module; repaint() moves it on as they get done. */}
                   <div class="nv-detail-actions">
                     <button type="button" class="nv-btn nv-btn--primary nv-btn--next" data-cta={section.id} data-nav-item={nextOf(section).id}>
-                      <span class="nv-btn-kicker" data-cta-kicker={section.id}>{nextKicker(section)}</span>
-                      <span class="nv-btn-main" data-cta-label={section.id}>{nextOf(section).label}</span>
+                      <span class="nv-btn-kicker" data-cta-kicker={section.id} data-i18n={nextKicker(section) === "Weiter mit" ? "fortschritt.cta.continue" : "fortschritt.cta.start"}>{nextKicker(section)}</span>
+                      <span class="nv-btn-main" data-cta-label={section.id} data-i18n={nextOf(section).id === "grammatik-basis" ? undefined : nextOf(section).labelKey}>{nextOf(section).label}</span>
                     </button>
                   </div>
                 </div>
@@ -896,7 +896,7 @@ const defaultVariant = variants[0];
                     </svg>
                     <span class="nv-ring-value" data-secringvalue={section.id}>{st.pct === null ? "–" : "0%"}</span>
                   </div>
-                  <span class="nv-ring-label" data-secringlabel={section.id}>
+                  <span class="nv-ring-label" data-secringlabel={section.id} data-i18n="fortschritt.ring.label" data-i18n-vars={vars({ done: st.done, tasks: st.tasks })}>
                     {`${st.done} von ${st.tasks} Aufgaben`}
                   </span>
                 </div>
@@ -919,7 +919,7 @@ const defaultVariant = variants[0];
                       <span class="nv-modname" data-i18n={item.id === "grammatik-basis" ? undefined : item.labelKey}>{item.label}</span><br />
                       {rowMeta(item) && item.id !== "grammatik-basis"
                         ? <span class="nv-modmeta" data-i18n={rowMeta(item)!.key} data-i18n-vars={vars(rowMeta(item)!.vars)}>{item.level} · {item.tasks} Aufgaben · ca. {item.minutes} Min.</span>
-                        : <span class="nv-modmeta">
+                        : <span class="nv-modmeta" data-i18n={item.tasks && !item.minutes && item.id !== "grammatik-basis" ? "fortschritt.row.metaTasks" : undefined} data-i18n-vars={vars({ level: item.level, n: item.tasks })}>
                             {item.level}
                             {item.tasks ? ` · ${item.tasks} Aufgaben` : ""}
                             {item.minutes ? ` · ca. ${item.minutes} Min.` : ""}
@@ -954,7 +954,7 @@ const defaultVariant = variants[0];
               {/* The one way on: a plain same-tab link to where this is practised.
                   The label follows progress — see paintStart(). */}
               <div class="nv-detail-actions">
-                <a class="nv-btn nv-btn--primary" href="#" data-detail-start>Übungen starten</a>
+                <a class="nv-btn nv-btn--primary" href="#" data-detail-start data-i18n="fortschritt.detail.start">Übungen starten</a>
                 <button type="button" class="nv-btn nv-btn--ghost" data-back data-i18n="fortschritt.detail.back">Zurück zur Stufe</button>
               </div>
             </div>
@@ -980,7 +980,7 @@ const defaultVariant = variants[0];
               <div class="nv-road-example" data-road-example></div>
             </div>
             <div class="nv-road-stepcol">
-              <h2 class="nv-road-kicker" data-road-stepshead>Deine Übungen</h2>
+              <h2 class="nv-road-kicker" data-road-stepshead data-i18n="fortschritt.road.stepsOne">Deine Übungen</h2>
               <ol class="nv-road-steps" data-road-steps></ol>
               <a class="nv-road-next" href="#" data-road-next hidden></a>
             </div>
@@ -998,7 +998,7 @@ const defaultVariant = variants[0];
         <section class="nv-now" data-now hidden aria-label="Dein Stand" data-i18n-attr="aria-label:fortschritt.now.aria">
           <div class="nv-now-card" data-now-next>
             <div class="nv-now-head">
-              <h2 class="nv-now-h" data-now-nexthead>Fast geschafft</h2>
+              <h2 class="nv-now-h" data-now-nexthead data-i18n="fortschritt.now.near">Fast geschafft</h2>
               <span class="nv-now-sub" data-now-rest></span>
             </div>
             <ul class="nv-now-list" data-now-list></ul>
