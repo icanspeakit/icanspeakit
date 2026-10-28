@@ -1,17 +1,20 @@
-# Registers (or replaces) the Windows scheduled task that runs automation\run-next.ps1.
-#   powershell -ExecutionPolicy Bypass -File automation\install-schedule.ps1 [-EveryHours 5]
-# Remove it again:  Unregister-ScheduledTask -TaskName 'EnglishAcademy content run' -Confirm:$false
-# Pause / resume:   Disable-ScheduledTask / Enable-ScheduledTask -TaskName 'EnglishAcademy content run'
-param([int]$EveryHours = 5, [int]$StartInMinutes = 2)
+# Registers (or replaces) the Windows scheduled task that keeps automation\run-next.ps1 going.
+#   pwsh -ExecutionPolicy Bypass -File automation\install-schedule.ps1 [-EveryMinutes 30]
+# The task is only a wake-up check: if the runner loop is already going, or waiting for a usage
+# limit to reset, it exits at once. Otherwise it starts the loop (after a reboot, after a reset).
+# Remove:          Unregister-ScheduledTask -TaskName 'EnglishAcademy content run' -Confirm:$false
+# Pause / resume:  Disable-ScheduledTask / Enable-ScheduledTask -TaskName 'EnglishAcademy content run'
+param([int]$EveryMinutes = 30, [int]$StartInMinutes = 1)
 
 $name = 'EnglishAcademy content run'
 $script = Join-Path $PSScriptRoot 'run-next.ps1'
-$action = New-ScheduledTaskAction -Execute $(if (Get-Command pwsh -ErrorAction SilentlyContinue) { (Get-Command pwsh).Source } else { 'powershell.exe' }) -Argument "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$script`"" -WorkingDirectory (Split-Path -Parent $PSScriptRoot)
-$trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes($StartInMinutes) -RepetitionInterval (New-TimeSpan -Hours $EveryHours) -RepetitionDuration (New-TimeSpan -Days 3650)
-# StartWhenAvailable: a run missed while the laptop slept starts as soon as it wakes.
-# The 4.5 h limit stops a stuck run before the next one is due.
+$exe = if (Get-Command pwsh -ErrorAction SilentlyContinue) { (Get-Command pwsh).Source } else { 'powershell.exe' }
+$action = New-ScheduledTaskAction -Execute $exe -Argument "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$script`"" -WorkingDirectory (Split-Path -Parent $PSScriptRoot)
+$trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes($StartInMinutes) -RepetitionInterval (New-TimeSpan -Minutes $EveryMinutes) -RepetitionDuration (New-TimeSpan -Days 3650)
+# No time limit: the loop runs for hours. StartWhenAvailable: a check missed while the laptop
+# slept runs when it wakes. IgnoreNew + the script's own lock: never two loops at once.
 $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries `
-  -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Hours 4 -Minutes 30)
+  -MultipleInstances IgnoreNew -ExecutionTimeLimit ([TimeSpan]::Zero)
 Register-ScheduledTask -TaskName $name -Action $action -Trigger $trigger -Settings $settings -Force `
-  -Description 'Converts the next englishacademy content module with Claude Code (headless). See automation\QUEUE.md.' | Out-Null
+  -Description 'Keeps the englishacademy content runner (Claude Code, headless) going. See automation\README.md.' | Out-Null
 Get-ScheduledTask -TaskName $name | Get-ScheduledTaskInfo | Select-Object TaskName, NextRunTime

@@ -1,23 +1,26 @@
 # Content automation
 
-Claude Code (headless) works through `QUEUE.md`, one item per run, on the `content` branch in
-the worktree `..\englishacademy-content`. The main working copy is never touched.
+Claude Code (headless, account c2) works through `QUEUE.md` on the `content` branch in the
+worktree `..\englishacademy-content`. The main working copy is never touched.
 
-**Monitor:** double-click `automation\monitor.cmd` → http://localhost:4455
-Live activity of the current run, queue progress, run history, commits, reports, next run,
-and buttons to run now, stop, and pause/resume the schedule. Windows notifications pop up
-when a run finishes, hits the usage limit or fails.
+**How it runs:** items run back to back. When the 5-hour limit is hit, it waits until that
+window resets and carries on. When weekly usage reaches the cap in `config.json` (85%), it
+pauses until the week resets. A Windows scheduled task checks every 30 minutes and restarts the
+loop if it is not running (after a reboot, after a reset). It stops on its own and notifies you
+on a login problem, two failures in a row, or an item that does not finish in 3 runs.
+
+**Monitor:** double-click `automation\monitor.cmd` (desktop: "EnglishAcademy Monitor") →
+http://localhost:4455. Not needed for the runs; it only shows them and has the buttons.
 
 | What | How |
 |---|---|
-| Start the schedule (every 5 h) | `pwsh -ExecutionPolicy Bypass -File automation\install-schedule.ps1` |
-| Run one item now | Monitor → Run now, or `pwsh -File automation\run-next.ps1` |
-| See which item is next | `pwsh -File automation\run-next.ps1 -DryRun` |
-| Pause / resume / remove | Monitor buttons, or `Disable-` / `Enable-` / `Unregister-ScheduledTask -TaskName 'EnglishAcademy content run'` |
-| Review the work | Monitor, or `git log main..content`; reports in `automation\reports\` on `content` |
-| Accept it | `git merge content` on main |
+| Start now / after a halt | Monitor → Run now |
+| Stop the current item | Monitor → Stop run (commits stay; it resumes later) |
+| Pause / resume everything | Monitor → Pause schedule / Resume schedule |
+| Re-install the task | `pwsh -ExecutionPolicy Bypass -File automation\install-schedule.ps1` |
+| See the next item | `pwsh -File automation\run-next.ps1 -DryRun` |
+| Review / accept the work | `git log main..content`, reports in `automation\reports\`; `git merge content` on main |
+| Login expired | `c2`, then `/login`, then Run now |
 
-The laptop has to be on, logged in and online at run time. A run missed while it slept starts
-when it wakes. Runs spend the Max plan quota shared with Claude chat and Claude Code; if the
-5-hour window runs out mid-run, the item stays unticked and the next run picks it up. If the
-monitor says "Needs login": open a terminal, run `claude`, then `/login`.
+The 85% cap reads usage that c2's status line saves (`~\.claude-2\statusline-command.sh`), so
+it is only as fresh as your last interactive c2 session; the monitor shows its age.

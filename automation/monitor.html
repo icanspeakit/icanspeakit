@@ -44,6 +44,11 @@
   .gauge .bar > i.hot { background: var(--warn); } .gauge .bar > i.over { background: var(--bad); }
   .gauge .cap { position: absolute; top: -3px; width: 2px; height: 14px; background: var(--ink); opacity: .55; }
   .gauge b { text-align: right; font-variant-numeric: tabular-nums; }
+  .caps { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); display: grid; gap: 8px; }
+  .capRow { display: grid; grid-template-columns: 52px minmax(0, 1fr) 56px; gap: 8px; align-items: center; font-size: 13px; }
+  .capRow input[type=range] { width: 100%; accent-color: var(--accent); }
+  .capRow output { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .capRow label.off { display: flex; gap: 4px; align-items: center; color: var(--muted); font-size: 12px; }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; min-width: 0; }
   .big { font-size: 22px; font-weight: 650; letter-spacing: -0.02em; overflow-wrap: anywhere; }
   .sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
@@ -101,8 +106,13 @@
   <section class="cards">
     <div class="card"><h2>Now</h2><div class="big" id="nowItem">–</div><div class="sub" id="nowSub"></div></div>
     <div class="card"><h2>Progress</h2><div class="big" id="prog">–</div><div class="bar"><i id="progBar" style="width:0"></i></div><div class="sub" id="progSub"></div></div>
-    <div class="card"><h2>Next scheduled run</h2><div class="big" id="next">–</div><div class="sub" id="nextSub"></div></div>
-    <div class="card"><h2>Usage</h2><div id="usage"><div class="sub">No reading yet</div></div><div class="sub" id="usageSub"></div></div>
+    <div class="card"><h2>Next start</h2><div class="big" id="next">–</div><div class="sub" id="nextSub"></div></div>
+    <div class="card"><h2>Usage</h2><div id="usage"><div class="sub">No reading yet: use c2 once in a terminal</div></div><div class="sub" id="usageSub"></div>
+      <div class="caps">
+        <div class="capRow"><span>Week cap</span><input type="range" id="capWeek" min="10" max="100" step="5" aria-label="Weekly cap"><output id="capWeekOut"></output></div>
+        <div class="capRow"><span>5 h cap</span><input type="range" id="cap5h" min="10" max="100" step="5" aria-label="5-hour cap"><output id="cap5hOut"></output></div>
+        <div class="sub" id="capHint">Runs pause when usage reaches a cap. 5 h cap at 100% = off (it runs until the limit, then waits).</div>
+      </div></div>
     <div class="card"><h2>Last run</h2><div class="big" id="last">–</div><div class="sub" id="lastSub"></div></div>
   </section>
 
@@ -138,6 +148,19 @@ function rel(iso) {
   return s >= 0 ? `in ${t}` : `${t} ago`;
 }
 function dur(ms) { const m = Math.round(ms / 60000); return m < 60 ? `${m} min` : `${Math.floor(m / 60)} h ${m % 60} min`; }
+// Cap sliders: write config.json through the monitor; the runner rereads it every minute.
+let capEditing = 0;
+function capLabel(v, isFive) { return isFive && (v == null || v >= 100) ? 'off' : `${v}%`; }
+async function saveCaps() {
+  const w = Number($('capWeek').value), f = Number($('cap5h').value);
+  const r = await fetch('/api/config', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ weeklyCapPercent: w, fiveHourCapPercent: f >= 100 ? null : f }) }).then((x) => x.json()).catch(() => null);
+  toast(r?.ok ? `Caps saved: week ${w}%, 5 h ${capLabel(f, true)}` : 'Could not save the caps');
+  capEditing = Date.now(); refresh();
+}
+for (const [id, out, five] of [['capWeek', 'capWeekOut', false], ['cap5h', 'cap5hOut', true]]) {
+  $(id).addEventListener('input', (e) => { capEditing = Date.now() + 60000; $(out).textContent = capLabel(Number(e.target.value), five); });
+  $(id).addEventListener('change', saveCaps);
+}
 const OUTCOME = { capped: ['Usage cap', 'warn'], done: ['Done', 'running'], partial: ['Partly done', 'warn'], limit: ['Usage limit', 'warn'], auth: ['Login expired', 'bad'], error: ['Failed', 'bad'], 'queue-empty': ['Queue empty', 'idle'] };
 
 let followLive = true, selectedLog = null, lastState = null;
@@ -164,6 +187,8 @@ async function refresh() {
   const lastOut = st?.last?.outcome;
   let pill = ['Idle', 'idle'];
   if (running) pill = ['Running', 'running'];
+  else if (st?.state === 'waiting') pill = [st.reason === 'weekly-cap' ? 'Weekly cap: paused' : '5-hour limit: waiting', 'warn'];
+  else if (st?.state === 'halted') pill = ['Halted', 'bad'];
   else if (st?.state === 'stopped') pill = ['Stopped', 'warn'];
   else if (lastOut === 'auth') pill = ['Needs login', 'bad'];
   else if (lastOut === 'capped') pill = ['At usage cap', 'warn'];
@@ -175,10 +200,18 @@ async function refresh() {
   $('pauseBtn').dataset.act = paused ? 'resume' : 'pause';
   $('pauseBtn').textContent = paused ? 'Resume schedule' : 'Pause schedule';
 
-  $('nowItem').textContent = running ? st.item : '–';
-  $('nowSub').textContent = running ? `${st.desc ?? ''}`.slice(0, 140) + ` · running ${rel(st.started).replace(' ago', '')}` : (st?.state === 'stopped' ? `Stopped: ${st.item}` : 'Nothing running');
+  const waiting = st?.state === 'waiting';
+  $('nowItem').textContent = running ? (st.item ?? 'starting next…') : waiting ? 'Waiting' : st?.state === 'halted' ? 'Halted' : '–';
+  $('nowSub').textContent = running ? (st.item ? `${st.desc ?? ''}`.slice(0, 140) + ` · running ${rel(st.started).replace(' ago', '')}` : 'Picking the next item')
+    : waiting ? `${st.reason === 'weekly-cap' ? 'Weekly cap' : '5-hour limit'} · resumes ${fmtTime(st.until)} (${rel(st.until)}) with ${st.item}`
+    : st?.state === 'halted' ? `${st.detail ?? ''} · fix it, then click Run now`
+    : st?.state === 'stopped' ? `Stopped: ${st.item}` : 'Nothing running';
 
   const u = s.usage, cfg = s.config ?? {};
+  if (Date.now() > capEditing) {
+    $('capWeek').value = cfg.weeklyCapPercent ?? 100; $('capWeekOut').textContent = capLabel(cfg.weeklyCapPercent ?? 100, false);
+    $('cap5h').value = cfg.fiveHourCapPercent ?? 100; $('cap5hOut').textContent = capLabel(cfg.fiveHourCapPercent, true);
+  }
   const gauge = (label, w, cap) => {
     if (!w) return '';
     const p = Math.round(w.percent), cls = cap != null && p >= cap ? 'over' : cap != null && p >= cap - 10 ? 'hot' : '';
@@ -186,7 +219,7 @@ async function refresh() {
   };
   if (u) {
     $('usage').innerHTML = gauge('Week', u.sevenDay, cfg.weeklyCapPercent) + gauge('5 h', u.fiveHour, cfg.fiveHourCapPercent);
-    $('usageSub').textContent = `Cap ${cfg.weeklyCapPercent ?? '–'}% of week · read ${rel(u.at)}` + (u.sevenDay?.resetsAt ? ` · week resets ${fmtTime(u.sevenDay.resetsAt)}` : '');
+    $('usageSub').textContent = `Read ${rel(u.at)}` + (u.sevenDay?.resetsAt ? ` · week resets ${fmtTime(u.sevenDay.resetsAt)}` : '');
   }
   const done = s.queue.filter((q) => q.done).length, total = s.queue.length;
   $('prog').textContent = `${done} / ${total}`;
@@ -194,8 +227,8 @@ async function refresh() {
   const nextItem = s.queue.find((q) => !q.done);
   $('progSub').textContent = nextItem ? `Next: ${nextItem.id}` : 'All items done';
 
-  $('next').textContent = paused ? 'Paused' : task?.next ? fmtTime(task.next) : '–';
-  $('nextSub').textContent = paused ? 'Schedule is paused' : task?.next ? rel(task.next) + ' · every 5 h' : task ? '' : 'Run install-schedule.ps1';
+  $('next').textContent = paused ? 'Paused' : running ? 'Continuous' : waiting ? fmtTime(st.until) : task?.next ? fmtTime(task.next) : '–';
+  $('nextSub').textContent = paused ? 'Schedule is paused' : running ? 'Next item starts as soon as one finishes' : waiting ? rel(st.until) : task?.next ? `check ${rel(task.next)} · every 30 min` : task ? '' : 'Run install-schedule.ps1';
 
   if (st?.last) {
     const [label] = OUTCOME[st.last.outcome] ?? [st.last.outcome];

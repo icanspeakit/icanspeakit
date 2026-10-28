@@ -115,7 +115,16 @@ async function state() {
 }
 
 const actions = {
-  'run-now': () => ps(`Start-ScheduledTask -TaskName '${TASK}'`),
+  // Clears a wait or a halt first: "Run now" means now, even before a limit has reset.
+  'run-now': async () => {
+    const f = path.join(LOGS, 'status.json');
+    const s = await readJson(f);
+    if (s && (s.state === 'waiting' || s.state === 'halted')) {
+      const { writeFile } = await import('node:fs/promises');
+      await writeFile(f, JSON.stringify({ ...s, state: 'idle', cleared: new Date().toISOString() }, null, 2));
+    }
+    return ps(`Start-ScheduledTask -TaskName '${TASK}'`);
+  },
   pause: () => ps(`Disable-ScheduledTask -TaskName '${TASK}' | Out-Null`),
   resume: () => ps(`Enable-ScheduledTask -TaskName '${TASK}' | Out-Null`),
   stop: async () => {
@@ -137,6 +146,21 @@ http.createServer(async (req, res) => {
       const name = url.searchParams.get('name') ?? '';
       if (!/^[\w.-]+\.md$/.test(name)) return send(res, 400, { error: 'bad name' });
       return send(res, 200, { name, text: (await readText(path.join(WORK, 'automation', 'reports', name))) ?? '' });
+    }
+    if (req.method === 'POST' && url.pathname === '/api/config') {
+      const origin = req.headers.origin;
+      if (origin && origin !== `http://localhost:${PORT}` && origin !== `http://127.0.0.1:${PORT}`) return send(res, 403, { error: 'forbidden' });
+      let body = ''; for await (const c of req) body += c;
+      let patch; try { patch = JSON.parse(body); } catch { return send(res, 400, { error: 'bad json' }); }
+      const cap = (v) => (v === null ? null : Number.isFinite(v) && v >= 10 && v <= 100 ? Math.round(v) : undefined);
+      const cfgPath = path.join(AUTO, 'config.json');
+      const cfg = (await readJson(cfgPath)) ?? {};
+      for (const k of ['weeklyCapPercent', 'fiveHourCapPercent']) {
+        if (k in patch) { const v = cap(patch[k]); if (v === undefined) return send(res, 400, { error: `bad ${k}` }); cfg[k] = v; }
+      }
+      const { writeFile } = await import('node:fs/promises');
+      await writeFile(cfgPath, JSON.stringify(cfg, null, 2) + '\n');
+      return send(res, 200, { ok: true, config: cfg });
     }
     if (req.method === 'POST' && url.pathname.startsWith('/api/action/')) {
       // Same-origin only: a page elsewhere must not be able to start or stop runs.
