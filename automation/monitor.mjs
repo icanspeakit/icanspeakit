@@ -107,9 +107,11 @@ async function events(name, limit = 120) {
 
 async function state() {
   const status = await readJson(path.join(LOGS, 'status.json'));
+  const usage = await readJson(path.join(LOGS, 'usage.json'));
+  const config = await readJson(path.join(AUTO, 'config.json'));
   if (status?.state === 'running' && !alive(status.pid)) status.state = 'stopped';
   const [q, r, c, d, rep, l, task] = await Promise.all([queue(), runsLog(), commits(), diffStat(), reports(), logs(), taskInfo()]);
-  return { now: new Date().toISOString(), status, queue: q, runs: r, commits: c, diff: d, reports: rep, logs: l, task, worktree: existsSync(WORK) };
+  return { now: new Date().toISOString(), status, usage, config, queue: q, runs: r, commits: c, diff: d, reports: rep, logs: l, task, worktree: existsSync(WORK) };
 }
 
 const actions = {

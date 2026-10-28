@@ -38,7 +38,12 @@
   button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
   button.danger:hover { border-color: var(--bad); color: var(--bad); }
   main { padding: 20px 24px 40px; display: grid; gap: 16px; max-width: 1400px; margin: 0 auto; }
-  .cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .cards { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+  .gauge { display: grid; grid-template-columns: 52px minmax(0, 1fr) 44px; gap: 8px; align-items: center; font-size: 13px; margin-top: 6px; }
+  .gauge .bar { margin: 0; position: relative; overflow: visible; }
+  .gauge .bar > i.hot { background: var(--warn); } .gauge .bar > i.over { background: var(--bad); }
+  .gauge .cap { position: absolute; top: -3px; width: 2px; height: 14px; background: var(--ink); opacity: .55; }
+  .gauge b { text-align: right; font-variant-numeric: tabular-nums; }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; min-width: 0; }
   .big { font-size: 22px; font-weight: 650; letter-spacing: -0.02em; overflow-wrap: anywhere; }
   .sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
@@ -75,6 +80,7 @@
   .empty { color: var(--muted); font-style: italic; padding: 8px 0; }
   .toast { position: fixed; bottom: 16px; right: 16px; background: var(--ink); color: var(--bg); padding: 10px 14px; border-radius: 8px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; }
   .toast.show { opacity: 1; }
+  @media (max-width: 1200px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (max-width: 1000px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } .grid { grid-template-columns: minmax(0, 1fr); } }
   @media (max-width: 560px) { header, main { padding-left: 16px; padding-right: 16px; } .cards { grid-template-columns: minmax(0, 1fr); } }
 </style>
@@ -96,6 +102,7 @@
     <div class="card"><h2>Now</h2><div class="big" id="nowItem">–</div><div class="sub" id="nowSub"></div></div>
     <div class="card"><h2>Progress</h2><div class="big" id="prog">–</div><div class="bar"><i id="progBar" style="width:0"></i></div><div class="sub" id="progSub"></div></div>
     <div class="card"><h2>Next scheduled run</h2><div class="big" id="next">–</div><div class="sub" id="nextSub"></div></div>
+    <div class="card"><h2>Usage</h2><div id="usage"><div class="sub">No reading yet</div></div><div class="sub" id="usageSub"></div></div>
     <div class="card"><h2>Last run</h2><div class="big" id="last">–</div><div class="sub" id="lastSub"></div></div>
   </section>
 
@@ -131,7 +138,7 @@ function rel(iso) {
   return s >= 0 ? `in ${t}` : `${t} ago`;
 }
 function dur(ms) { const m = Math.round(ms / 60000); return m < 60 ? `${m} min` : `${Math.floor(m / 60)} h ${m % 60} min`; }
-const OUTCOME = { done: ['Done', 'running'], partial: ['Partly done', 'warn'], limit: ['Usage limit', 'warn'], auth: ['Login expired', 'bad'], error: ['Failed', 'bad'], 'queue-empty': ['Queue empty', 'idle'] };
+const OUTCOME = { capped: ['Usage cap', 'warn'], done: ['Done', 'running'], partial: ['Partly done', 'warn'], limit: ['Usage limit', 'warn'], auth: ['Login expired', 'bad'], error: ['Failed', 'bad'], 'queue-empty': ['Queue empty', 'idle'] };
 
 let followLive = true, selectedLog = null, lastState = null;
 
@@ -159,6 +166,7 @@ async function refresh() {
   if (running) pill = ['Running', 'running'];
   else if (st?.state === 'stopped') pill = ['Stopped', 'warn'];
   else if (lastOut === 'auth') pill = ['Needs login', 'bad'];
+  else if (lastOut === 'capped') pill = ['At usage cap', 'warn'];
   else if (task?.state === 'Disabled') pill = ['Paused', 'warn'];
   else if (!task) pill = ['No schedule', 'warn'];
   $('pill').className = 'pill ' + pill[1]; $('pill').textContent = pill[0];
@@ -170,6 +178,16 @@ async function refresh() {
   $('nowItem').textContent = running ? st.item : '–';
   $('nowSub').textContent = running ? `${st.desc ?? ''}`.slice(0, 140) + ` · running ${rel(st.started).replace(' ago', '')}` : (st?.state === 'stopped' ? `Stopped: ${st.item}` : 'Nothing running');
 
+  const u = s.usage, cfg = s.config ?? {};
+  const gauge = (label, w, cap) => {
+    if (!w) return '';
+    const p = Math.round(w.percent), cls = cap != null && p >= cap ? 'over' : cap != null && p >= cap - 10 ? 'hot' : '';
+    return `<div class="gauge"><span>${label}</span><div class="bar"><i class="${cls}" style="width:${Math.min(100, p)}%"></i>${cap != null ? `<span class="cap" style="left:${cap}%" title="cap ${cap}%"></span>` : ''}</div><b>${p}%</b></div>`;
+  };
+  if (u) {
+    $('usage').innerHTML = gauge('Week', u.sevenDay, cfg.weeklyCapPercent) + gauge('5 h', u.fiveHour, cfg.fiveHourCapPercent);
+    $('usageSub').textContent = `Cap ${cfg.weeklyCapPercent ?? '–'}% of week · read ${rel(u.at)}` + (u.sevenDay?.resetsAt ? ` · week resets ${fmtTime(u.sevenDay.resetsAt)}` : '');
+  }
   const done = s.queue.filter((q) => q.done).length, total = s.queue.length;
   $('prog').textContent = `${done} / ${total}`;
   $('progBar').style.width = total ? `${(done / total) * 100}%` : '0';
@@ -182,7 +200,7 @@ async function refresh() {
   if (st?.last) {
     const [label] = OUTCOME[st.last.outcome] ?? [st.last.outcome];
     $('last').textContent = label;
-    $('lastSub').textContent = `${st.last.item ?? ''} · ${rel(st.last.ended)}` + (st.last.turns ? ` · ${st.last.turns} turns` : '') + (st.last.durationMs ? ` · ${dur(st.last.durationMs)}` : '') + (st.last.outcome === 'auth' ? ' · run `claude` then /login' : '');
+    $('lastSub').textContent = `${st.last.item ?? ''} · ${rel(st.last.ended)}` + (st.last.turns ? ` · ${st.last.turns} turns` : '') + (st.last.durationMs ? ` · ${dur(st.last.durationMs)}` : '') + (st.last.outcome === 'auth' ? ' · run `claude` then /login' : '') + (st.last.reason ? ` · ${st.last.reason}` : '');
   } else { $('last').textContent = '–'; $('lastSub').textContent = ''; }
 
   $('queue').innerHTML = s.queue.map((q) => `<li class="${q.done ? 'done' : q === nextItem ? 'next' : ''}" title="${esc(q.desc)}"><span class="mark">${q.done ? '✓' : q === nextItem ? (running && st.item === q.id ? '▶' : '→') : '·'}</span><span><span class="id">${esc(q.id)}</span><div class="d">${esc(q.desc)}</div></span></li>`).join('') || '<li class="empty">Queue not found.</li>';

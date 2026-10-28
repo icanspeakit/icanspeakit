@@ -25,6 +25,8 @@ New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
 $Stamp  = Get-Date -Format 'yyyy-MM-dd_HHmm'
 $RunLog = Join-Path $LogDir 'runs.log'
 $Status = Join-Path $LogDir 'status.json'
+$UsageFile = Join-Path $LogDir 'usage.json'
+$Config = Get-Content (Join-Path $PSScriptRoot 'config.json') -Raw | ConvertFrom-Json
 try { Start-Transcript -Path (Join-Path $LogDir 'last-run-transcript.txt') -Force | Out-Null } catch {}
 
 function Note($msg) { $line = "$(Get-Date -Format 'yyyy-MM-dd HH:mm') $msg"; Write-Host $line; Add-Content -Path $RunLog -Value $line -Encoding UTF8 }
@@ -40,6 +42,21 @@ function Toast($title, $body) {
 [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\WindowsPowerShell\v1.0\powershell.exe').Show([Windows.UI.Notifications.ToastNotification]::new(`$x))
 "@
   try { Start-Process -WindowStyle Hidden -FilePath 'powershell.exe' -ArgumentList '-NoProfile', '-Command', $ps | Out-Null } catch {}
+}
+
+# Usage cap (config.json): the latest usage snapshot, written by automation/statusline.mjs
+# whenever Claude Code refreshes its status line. Returns the reason to stop, or $null.
+function OverCap {
+  if (-not (Test-Path $UsageFile)) { return $null }
+  try { $u = Get-Content $UsageFile -Raw | ConvertFrom-Json } catch { return $null }
+  $now = Get-Date
+  foreach ($w in @(@{ name = 'weekly'; v = $u.sevenDay; cap = $Config.weeklyCapPercent }, @{ name = '5-hour'; v = $u.fiveHour; cap = $Config.fiveHourCapPercent })) {
+    if ($null -eq $w.cap -or $null -eq $w.v) { continue }
+    $resets = if ($w.v.resetsAt) { [datetime]$w.v.resetsAt } else { $null }
+    if ($resets -and $resets -lt $now) { continue }  # that window has reset since the snapshot
+    if ([double]$w.v.percent -ge [double]$w.cap) { return "$($w.name) usage $([math]::Round([double]$w.v.percent))% >= cap $($w.cap)%" + $(if ($resets) { ", resets $($resets.ToString('ddd HH:mm'))" } else { '' }) }
+  }
+  return $null
 }
 
 # One run at a time: the lock holds the PID of the running script. A lock whose process is gone
@@ -71,6 +88,15 @@ try {
   $prompt = (Get-Content (Join-Path $Work 'automation\PROMPT.md') -Raw -Encoding UTF8).Replace('{{MODULE}}', $id).Replace('{{DESC}}', $desc)
   if ($DryRun) { Note "dry run: next item would be '$id'"; Write-Host $prompt; exit 0 }
 
+  $cap = OverCap
+  if ($cap) { Note "skip: $cap"; SetStatus @{ state = 'idle'; last = @{ item = $id; outcome = 'capped'; ended = (Get-Date).ToString('o'); reason = $cap } }; exit 0 }
+
+  # Status line for this worktree's Claude sessions: keeps logs/usage.json current.
+  $settingsDir = Join-Path $Work '.claude'
+  New-Item -ItemType Directory -Force -Path $settingsDir | Out-Null
+  $sl = (Join-Path $PSScriptRoot 'statusline.mjs').Replace('\', '/')
+  @{ statusLine = @{ type = 'command'; command = "node `"$sl`"" } } | ConvertTo-Json -Depth 4 | Set-Content (Join-Path $settingsDir 'settings.local.json') -Encoding UTF8
+
   $log = Join-Path $LogDir "$Stamp-$id.log"
   $started = (Get-Date).ToString('o')
   Note "start: $id"
@@ -83,11 +109,23 @@ try {
     'Bash(ls:*)', 'Bash(cat:*)', 'Bash(head:*)', 'Bash(tail:*)', 'Bash(grep:*)', 'Bash(find:*)', 'Bash(wc:*)',
     'Bash(mkdir:*)', 'Bash(mv:*)', 'Bash(cp:*)', 'Bash(sort:*)', 'Bash(diff:*)'
   )
+  $script:lastCheck = Get-Date; $script:capped = $null
   Push-Location $Work
   try {
     $prompt | & claude -p --output-format stream-json --verbose --permission-mode acceptEdits --max-turns 400 `
       --allowedTools @allowed --disallowedTools 'Bash(git push:*)' 'Bash(git checkout main:*)' 'Bash(git switch:*)' 'Bash(git reset --hard:*)' 2>&1 |
-      ForEach-Object { Add-Content -Path $log -Value "$_" -Encoding UTF8 }
+      ForEach-Object {
+        Add-Content -Path $log -Value "$_" -Encoding UTF8
+        # Watchdog: once a minute, stop the run if usage crossed the cap (commits stay).
+        if (((Get-Date) - $script:lastCheck).TotalSeconds -ge 60) {
+          $script:lastCheck = Get-Date
+          $why = OverCap
+          if ($why -and -not $script:capped) {
+            $script:capped = $why
+            Get-CimInstance Win32_Process -Filter "ParentProcessId=$PID AND Name='claude.exe'" | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
+          }
+        }
+      }
     $code = $LASTEXITCODE
   } finally { Pop-Location }
 
@@ -96,7 +134,8 @@ try {
   foreach ($line in [System.IO.File]::ReadAllLines($log)) { if ($line -match '^\{"type":"result"') { try { $result = $line | ConvertFrom-Json } catch {} } }
   $all = [System.IO.File]::ReadAllText($log)
   $text = if ($result) { "$($result.result)" } else { $all.Substring([Math]::Max(0, $all.Length - 2000)) }
-  if ($text -match 'RESULT: DONE') { $outcome = 'done'; Note "done: $id"; Toast "EnglishAcademy: $id done" 'Finished. Review it in the monitor.' }
+  if ($script:capped) { $outcome = 'capped'; Note "stopped at cap during ${id}: $($script:capped); next run resumes it"; Toast 'EnglishAcademy: usage cap reached' "Stopped during $id ($($script:capped))." }
+  elseif ($text -match 'RESULT: DONE') { $outcome = 'done'; Note "done: $id"; Toast "EnglishAcademy: $id done" 'Finished. Review it in the monitor.' }
   elseif ($all -match '(?i)usage limit|limit reached|rate.?limit|resets (at )?\d') { $outcome = 'limit'; Note "quota limit hit during $id; next run resumes it"; Toast 'EnglishAcademy: usage limit' "Paused during $id. The next run resumes it." }
   elseif ($text -match 'RESULT: PARTIAL') { $outcome = 'partial'; Note "partial: $id; next run continues it"; Toast "EnglishAcademy: $id partly done" 'The next run continues it.' }
   elseif ($all -match '(?i)authenticate|login|oauth') { $outcome = 'auth'; Note "login problem (exit $code): run 'claude' then /login"; Toast 'EnglishAcademy: login expired' "Open a terminal, run claude, then /login." }
