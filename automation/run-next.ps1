@@ -110,6 +110,8 @@ try {
     'Bash(mkdir:*)', 'Bash(mv:*)', 'Bash(cp:*)', 'Bash(sort:*)', 'Bash(diff:*)',
     'Bash(sed:*)', 'Bash(awk:*)', 'Bash(echo:*)', 'Bash(xargs:*)', 'Bash(uniq:*)', 'Bash(cut:*)', 'Bash(tr:*)', 'Bash(jq:*)', 'Bash(test:*)', 'Bash(pwd)'
   )
+  # The Claude account the runs spend (config.json: claudeConfigDir; c2 = ~/.claude-2).
+  if ($Config.claudeConfigDir) { $env:CLAUDE_CONFIG_DIR = $Config.claudeConfigDir }
   $script:lastCheck = Get-Date; $script:capped = $null
   Push-Location $Work
   try {
