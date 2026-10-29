@@ -260,7 +260,7 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
         <div class="lq-lobby-crew" data-lobby-crew data-mascot-part aria-hidden="true">
           <p class="lq-bubble" data-lobby-bubble data-i18n="lq.host.joinCall">Scannt den Code und macht mit!</p>
         </div>
-        <h2 data-lobby-count>0 Mitspieler</h2>
+        <h2 data-lobby-count lang="en">0 players</h2>
         <ul data-lobby-list></ul>
         <div class="lq-actions">
           <button type="button" class="lq-btn lq-btn--quiet" data-end data-i18n="lq.host.cancel">Abbrechen</button>
@@ -348,7 +348,7 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
       <ol class="lq-board" data-board></ol>
       <div class="lq-actions">
         <button type="button" class="lq-btn lq-btn--quiet" data-end data-i18n="lq.host.endGame">Spiel beenden</button>
-        <button type="button" class="lq-btn lq-btn--primary" data-b-next>Nächste Frage</button>
+        <button type="button" class="lq-btn lq-btn--primary" data-b-next data-i18n="lq.b.next">Next question</button>
       </div>
     </section>
 
@@ -374,8 +374,8 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
       {/* Keep the result: on paper or as a PDF, or as an image (src/lib/liveQuiz/keep.js). */}
       <div class="lq-keep" data-keep-skip>
         <button type="button" class="lq-btn lq-btn--ghost" data-pod-recap aria-pressed="false" hidden>Rückblick</button>
-        <button type="button" class="lq-btn lq-btn--ghost" data-keep-print>🖨 Drucken / PDF</button>
-        <button type="button" class="lq-btn lq-btn--ghost" data-keep-image>⬇ Als Bild</button>
+        <button type="button" class="lq-btn lq-btn--ghost" data-keep-print data-i18n="lq.keep.print">🖨 Print / PDF</button>
+        <button type="button" class="lq-btn lq-btn--ghost" data-keep-image data-i18n="lq.keep.image">⬇ As an image</button>
       </div>
       <div class="lq-actions" data-keep-skip>
         <button type="button" class="lq-music" data-music-cycle data-style="lofi" aria-label="Musik wechseln" data-i18n-attr="aria-label:lq.music.cycle" title="Musik wechseln"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg><span data-m="lofi" data-i18n="lq.music.lofi">Lo-fi</span><span data-m="show" data-i18n="lq.music.show">Gameshow</span><span data-m="retro" data-i18n="lq.music.retro">Retro</span><span data-m="off" data-i18n="lq.music.off">Aus</span></button>

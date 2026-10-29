@@ -281,18 +281,18 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
           </div>
           <div class="lp-footer-col">
             <h5 data-i18n="nav.exams">Prüfungen</h5>
-            <a href="/dtz">DTZ</a>
-            <a href="/telc">telc</a>
-            <a href="/goethe">Goethe-Zertifikat</a>
-            <a href="/testdaf">TestDaF</a>
+            <a href="/goethe" data-i18n="home.footer.exam.cambridge">Cambridge English</a>
+            <a href="/testdaf" data-i18n="home.footer.exam.ielts">IELTS Academic</a>
+            <a href="/telc" data-i18n="home.footer.exam.trinity">Trinity ISE</a>
+            <a href="/leben-in-deutschland" data-i18n="home.footer.exam.lifeUk">Life in the UK</a>
           </div>
           <div class="lp-footer-col">
             <h5 data-i18n="home.footer.col.practiseExam">Direkt üben</h5>
-            <a href="/dtz/uebungssatz">DTZ Modelltest</a>
-            <a href="/leben-in-deutschland/test">Leben in Deutschland Test</a>
-            <a href="/start-deutsch-1">Start Deutsch 1 Übungssatz</a>
-            <a href="/telc/b1">telc B1 Übungssatz</a>
-            <a href="/goethe/b1">Goethe B1 Übungssatz</a>
+            <a href="/goethe/b1" data-i18n="home.footer.practice.b1Prelim">B1 Preliminary practice test</a>
+            <a href="/testdaf/uebungssatz" data-i18n="home.footer.practice.ielts">IELTS Academic practice set</a>
+            <a href="/dtz/uebungssatz" data-i18n="home.footer.practice.ise1">Trinity ISE I mock test</a>
+            <a href="/leben-in-deutschland/test" data-i18n="home.footer.practice.lifeUk">Life in the UK practice test</a>
+            <a href="/start-deutsch-1" data-i18n="home.footer.practice.a1">A1 English practice test</a>
           </div>
           <div class="lp-footer-col">
             <h5 data-i18n="home.footer.col.more">Mehr</h5>
@@ -312,8 +312,8 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
             <a href="/impressum" data-i18n="home.footer.link.imprint">Impressum</a>
             <a href="/datenschutz" data-i18n="home.footer.link.privacy">Datenschutz</a>
             <a href="/nutzungsbedingungen" data-i18n="home.footer.link.terms">Nutzungsbedingungen</a>
-            {PAYWALL && <a href="/kuendigen">Verträge hier kündigen</a>}
-            {PAYWALL && <a href="/widerrufen">Vertrag widerrufen</a>}
+            {PAYWALL && <a href="/kuendigen" data-i18n="home.footer.link.cancel">Cancel a contract</a>}
+            {PAYWALL && <a href="/widerrufen" data-i18n="home.footer.link.withdraw">Withdraw from a contract</a>}
           </div>
         </div>
         <div class="lp-footer-bottom">

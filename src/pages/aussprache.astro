@@ -222,10 +222,10 @@ const bridgeLangs = fehler.languages
                 <span class="pr-pack-n" data-set-count={s.key}>0/{s.items.length}</span>
               </button>
             ))}
-            <h4 class="pr-pane-sub">Gemischt</h4>
+            <h4 class="pr-pane-sub" data-i18n="pr.pack.mixed">Mixed</h4>
             <button type="button" class="nvb-item pr-pack" data-set-btn={PHRASES} aria-selected="false">
               <span class="pr-pack-ic" aria-hidden="true">💬</span>
-              <span class="pr-pack-name">Erste Sätze</span>
+              <span class="pr-pack-name" data-i18n="pr.pack.phrases">First phrases</span>
               <span class="pr-pack-n" data-set-count={PHRASES}>0/{sets[PHRASES].length}</span>
             </button>
           </div>
@@ -245,10 +245,11 @@ const bridgeLangs = fehler.languages
             class="vp-rule-toggle pr-regel-toggle"
             data-regel-toggle
             aria-controls="pr-regel"
-            data-show="Regel einblenden"
-            data-hide="Regel ausblenden"
+            data-show="Show rule"
+            data-hide="Hide rule"
             data-i18n-attr="data-show:vp.rule.show;data-hide:vp.rule.hide"
-          >Regel einblenden</button>
+            data-i18n="vp.rule.show"
+          >Show rule</button>
         </div>
 
         <h2 class="pr-phrase" data-phrase aria-live="polite"></h2>

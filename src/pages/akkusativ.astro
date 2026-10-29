@@ -114,7 +114,7 @@ const total = akkusativQuestions.filter((q) => q.difficulty === "leicht").length
         </div>
         <div class="akk-session-text">
           <span class="akk-session-label" data-i18n="akk.session.label">Diese Sitzung</span>
-          <p class="akk-session-stats" id="akk-session-stats">0 von {total} beantwortet · 0 richtig · 0 Hinweise</p>
+          <p class="akk-session-stats" id="akk-session-stats" data-i18n="akk.session.stats" data-i18n-vars={JSON.stringify({ answered: 0, total, correct: 0, hints: 0 })}>0 of {total} answered · 0 correct · 0 hints</p>
         </div>
         <span class="akk-session-badge" data-i18n="akk.session.badge">lokal · ohne Konto</span>
       </footer>

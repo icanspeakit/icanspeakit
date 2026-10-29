@@ -34,15 +34,15 @@ const { spec } = t;
       {/* For online lessons, where nobody can cut the page in half: one partner's sheet on
           its own, without the other card and without the answer key, to send to that student. */}
       <div class="ab-seg t-sw t-sw--fill pu-who" role="group" aria-label="Blatt für">
-        <button type="button" data-pu-partner="both" aria-pressed="true"><span class="t-sw-txt"><b>A + B</b><small>zum Ausschneiden</small></span></button>
-        <button type="button" data-pu-partner="A" aria-pressed="false"><span class="t-sw-txt"><b>Nur Partner A</b><small>für den Online-Unterricht</small></span></button>
-        <button type="button" data-pu-partner="B" aria-pressed="false"><span class="t-sw-txt"><b>Nur Partner B</b><small>für den Online-Unterricht</small></span></button>
-        <button type="button" data-pu-partner="key" aria-pressed="false"><span class="t-sw-txt"><b>Nur Lösungen</b><small>für die Lehrkraft</small></span></button>
+        <button type="button" data-pu-partner="both" aria-pressed="true"><span class="t-sw-txt"><b>A + B</b><small data-i18n="pu.sw.cut">to cut out</small></span></button>
+        <button type="button" data-pu-partner="A" aria-pressed="false"><span class="t-sw-txt"><b data-i18n="pu.sw.onlyA">Partner A only</b><small data-i18n="pu.sw.online">for online lessons</small></span></button>
+        <button type="button" data-pu-partner="B" aria-pressed="false"><span class="t-sw-txt"><b data-i18n="pu.sw.onlyB">Partner B only</b><small data-i18n="pu.sw.online">for online lessons</small></span></button>
+        <button type="button" data-pu-partner="key" aria-pressed="false"><span class="t-sw-txt"><b data-i18n="pu.sw.onlyKey">Answers only</b><small data-i18n="pu.sw.teacher">for the teacher</small></span></button>
       </div>
       <div class="ab-actions">
         <label class="ab-check"><input type="checkbox" data-ab-withkey checked /> <span data-i18n="ab.withKey">Lösungsblatt mitdrucken</span></label>
         <button type="button" class="ab-btn ab-btn--primary" data-ab-print data-i18n="ab.print">Drucken / als PDF speichern</button>
-        <button type="button" class="ab-btn" data-pu-shot hidden>Als Bild teilen (WhatsApp)</button>
+        <button type="button" class="ab-btn" data-pu-shot hidden data-i18n="pu.shot">Share as an image (WhatsApp)</button>
         <PartnerMelden kind="tandem" id={t.slug} titel={spec.titel} loesungen={spec.loesungen} />
       </div>
     </div>

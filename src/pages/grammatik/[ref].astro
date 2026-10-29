@@ -67,7 +67,7 @@ const count = data.sections.reduce((n: number, s: any) => n + s.items.filter((it
         <input type="search" id="nr-q" class="nr-input" placeholder={`In ${count} Verben suchen`}
           aria-label="Verb suchen" autocomplete="off" lang="de" />
       </div>
-      <p class="nr-empty" id="nr-empty" hidden>Kein Verb gefunden.</p>
+      <p class="nr-empty" id="nr-empty" hidden data-i18n="nr.empty">No verb found.</p>
     </div>
 
     {data.sections.map((s: any) => (

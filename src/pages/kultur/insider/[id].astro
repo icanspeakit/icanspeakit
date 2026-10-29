@@ -71,14 +71,14 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
 
       {original && (
         <a class="in-version" href={`/kultur/insider/${original.id}`}>
-          <span class="in-version-tag">Einfache Sprache</span>
-          <span>Mehr Details: <b>{original.title}</b> <span class="ku-badge">{original.level}</span></span>
+          <span class="in-version-tag" data-i18n="insider.easyTag">Simple English</span>
+          <span><span data-i18n="insider.moreDetail">More detail:</span> <b>{original.title}</b> <span class="ku-badge">{original.level}</span></span>
         </a>
       )}
       {easy && (
         <a class="in-version" href={`/kultur/insider/${easy.id}`}>
-          <span class="in-version-tag">Zu schwer?</span>
-          <span>Dasselbe Thema in einfacher Sprache: <b>{easy.title}</b> <span class="ku-badge">{easy.level}</span></span>
+          <span class="in-version-tag" data-i18n="insider.tooHard">Too hard?</span>
+          <span><span data-i18n="insider.sameEasy">The same topic in simple English:</span> <b>{easy.title}</b> <span class="ku-badge">{easy.level}</span></span>
         </a>
       )}
 
