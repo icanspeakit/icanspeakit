@@ -11,18 +11,18 @@ import { LANGUAGE_REGISTRY } from "../../../lib/languages.js";
   <VokabelTrainer
     cards={[]}
     runtime
-    heading="Kartenset"
-    sub="Wird geladen …"
+    heading="Card set"
+    sub="Loading …"
     deck="vokabel-set"
     // Every language a card can carry: the set decides which become tabs (play.js languagesFor),
     // and „+ Sprache“ offers the rest.
     langs={LANGUAGE_REGISTRY.map((l) => l.code)}
   >
-    <p slot="hero" class="vs-hero-links">
-      <a href="/lehrkraefte/karten">← Meine Kartensets</a>
-      <a data-vs-edit href="/lehrkraefte/karten">Set bearbeiten</a>
-      <a data-vs-print href="/lehrkraefte/karten">Drucken</a>
-      <a data-vs-quiz href="/lehrkraefte/quiz" class="vs-hero-quiz">Live-Quiz starten</a>
+    <p slot="hero" class="vs-hero-links" lang="en">
+      <a href="/lehrkraefte/karten">← My card sets</a>
+      <a data-vs-edit href="/lehrkraefte/karten">Edit the set</a>
+      <a data-vs-print href="/lehrkraefte/karten">Print</a>
+      <a data-vs-quiz href="/lehrkraefte/quiz" class="vs-hero-quiz">Start a live quiz</a>
     </p>
   </VokabelTrainer>
   <p class="vs-msg" data-vs-msg hidden></p>
