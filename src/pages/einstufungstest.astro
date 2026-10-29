@@ -9,8 +9,8 @@
 //
 // The test is a staircase, not an exam. Two questions per level, starting at A1, climbing
 // while they are answered. Both right → next level. One right → this is the level. Both
-// wrong → the level below. So it ends after two questions for a beginner and after eight
-// for someone at B2, and nobody sits through questions far above or below them.
+// wrong → the level below. So it ends after two questions for a beginner and after ten
+// for someone at C1, and nobody sits through questions far above or below them.
 //
 // Nothing is graded out loud and no score is shown: the result is a starting point, not a
 // verdict. A learner who thinks it landed too high or too low can take the level next to
@@ -19,23 +19,17 @@ import Layout from "../layouts/Layout.astro";
 import SectionMascot from "../components/mascots/SectionMascot.astro";
 import SiteNav from "../components/SiteNav.astro";
 import einstufung from "../data/einstufung.json";
-import { NAV_LEVELS } from "../lib/catalog.js";
 import EinfachEntry from "../components/EinfachEntry.astro";
 import "../styles/practice.css";
 
-const LEVELS = NAV_LEVELS.filter((l) => (einstufung.levels[l] ?? []).length > 0);
+// Not NAV_LEVELS (A1–B2, the menu): the test climbs to C1, the top of the grammar course,
+// so a strong learner is not capped at B2. Levels without items are skipped.
+const LEVELS = ["A1", "A2", "B1", "B2", "C1"].filter((l) => (einstufung.levels[l] ?? []).length > 0);
 const PER_LEVEL = 2;
-
-const LEAD = {
-  A1: "Die ersten Sätze: sich vorstellen, einkaufen, nach dem Weg fragen.",
-  A2: "Alltag auf Deutsch: Termine, Wohnung, Arbeit — in einfachen Sätzen.",
-  B1: "Selbstständig: Ämter, Arbeit und Meinungen, auch wenn es mal länger wird.",
-  B2: "Sicher argumentieren: Zeitung, Beruf, Diskussion — auch das Schriftliche.",
-};
 ---
 <Layout
-  title="English placement test online: A1 to B2 – EnglishAcademy"
-  description="Find out your level in two minutes: a short placement test from A1 to B2, no account needed. At the end you know where to start."
+  title="English placement test online: A1 to C1 – EnglishAcademy"
+  description="Find out your level in two minutes: a short placement test from A1 to C1, no account needed. At the end you know where to start."
 >
   <SiteNav />
   <main class="practice-main" id="es-root" data-levels={JSON.stringify(LEVELS)} data-per={PER_LEVEL}>
@@ -44,8 +38,8 @@ const LEAD = {
       <h1 data-i18n="fold.ask">Wo stehst du?</h1>
       <!-- Describes the test, so it goes once the test is over. -->
       <p data-es-intro data-i18n="placement.intro">
-        Höchstens acht Fragen, ungefähr zwei Minuten. Es wird schwerer, solange du richtig
-        liegst, und hört auf, sobald klar ist, wo du anfängst. Kein Konto, keine Note.
+        At most ten questions, about two minutes. It gets harder as long as you're right, and
+        stops as soon as it's clear where you should start. No account, no grade.
       </p>
     </div>
 
@@ -134,7 +128,7 @@ const LEAD = {
   import { flagElement, meldenLink } from "../lib/meldung.js";
   import { fingerprint } from "../lib/meldungRef.js";
 
-  // The questions are German on purpose — they are the test. Everything the script
+  // The questions are English on purpose — they are the test. Everything the script
   // writes around them follows the UI language: each such element carries its key in
   // data-i18n, so the language switcher's own DOM pass re-translates it later too.
   let dict: Record<string, string> = {};
@@ -148,10 +142,11 @@ const LEAD = {
   const LEVELS: string[] = JSON.parse(root.dataset.levels!);
   const PER = Number(root.dataset.per);
   const LEAD: Record<string, string> = {
-    A1: "Die ersten Sätze: sich vorstellen, einkaufen, nach dem Weg fragen.",
-    A2: "Alltag auf Deutsch: Termine, Wohnung, Arbeit — in einfachen Sätzen.",
-    B1: "Selbstständig: Ämter, Arbeit und Meinungen, auch wenn es mal länger wird.",
-    B2: "Sicher argumentieren: Zeitung, Beruf, Diskussion — auch das Schriftliche.",
+    A1: "First sentences: introducing yourself, shopping, asking the way.",
+    A2: "Everyday life in English: appointments, home, work – in simple sentences.",
+    B1: "Independent: services, work and opinions, even in longer texts.",
+    B2: "Arguing with confidence: newspapers, work, discussion – in writing too.",
+    C1: "Fluent and precise: complex texts, formal writing, fine shades of meaning.",
   };
 
   type Item = { prompt: string; answer: string; options: string[]; level: string; n: string };

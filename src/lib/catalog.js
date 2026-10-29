@@ -226,12 +226,12 @@ export const landingTools = (() => {
       id: "einstufung", group: "grammatik", href: "/einstufungstest", icon: "bars",
       titleKey: "tool.einstufung.title", title: "Einstufungstest",
       shortKey: "tool.einstufung.title", short: "Einstufung",
-      descKey: "tool.einstufung.desc", desc: "Wo stehst du? Ein paar Fragen pro Niveau, A1 bis B2.",
+      descKey: "tool.einstufung.desc", desc: "Where do you stand? A few questions per level, A1 to C1.",
       countKey: "tool.einstufung.count",
       // What a learner answers, not the size of the bank: two questions per level
-      // (PER_LEVEL in src/pages/einstufungstest.astro), so at most 8 for A1–B2.
+      // (PER_LEVEL in src/pages/einstufungstest.astro), so at most 10 for A1–C1.
       countVars: { n: 2 * Object.values(einstufung.levels).filter((l) => l.length > 0).length },
-      count: `höchstens ${2 * Object.values(einstufung.levels).filter((l) => l.length > 0).length} Fragen`,
+      count: `up to ${2 * Object.values(einstufung.levels).filter((l) => l.length > 0).length} questions`,
     },
   };
   // Order matters: grammar first (what most people come for), then words, then the two
