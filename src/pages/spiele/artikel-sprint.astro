@@ -14,16 +14,16 @@ import { enrich, nounCount } from "../../lib/artikelSprint/lexWords.js";
 
 const words = enrich(rawWords);
 const modes = [
-  { id: "artikel", label: "Artikel", key: "sprint.mode.artikel", sub: "der · die · das" },
-  { id: "plural", label: "Plural", key: "sprint.mode.plural", sub: "die Tische" },
-  { id: "verb", label: "Verben", key: "sprint.mode.verb", sub: "ich gehe" },
+  { id: "artikel", label: "Articles", key: "sprint.mode.artikel", sub: "a · an · some" },
+  { id: "plural", label: "Plural", key: "sprint.mode.plural", sub: "tables" },
+  { id: "verb", label: "Verbs", key: "sprint.mode.verb", sub: "I go" },
 ];
 const levels = ["A1", "A2", "B1"];
 // Schwierigkeit: speed and lives (src/lib/artikelSprint/game.js, DIFFICULTIES). Separate from the word level.
 const diffs = [
-  { id: "leicht", label: "Leicht", key: "sprint.diff.leicht" },
+  { id: "leicht", label: "Easy", key: "sprint.diff.leicht" },
   { id: "normal", label: "Normal", key: "sprint.diff.normal" },
-  { id: "schwer", label: "Schwer", key: "sprint.diff.schwer" },
+  { id: "schwer", label: "Hard", key: "sprint.diff.schwer" },
 ];
 const counts = Object.fromEntries(levels.map((l) => [l, {
   nouns: nounCount(words, l),
@@ -46,14 +46,14 @@ const counts = Object.fromEntries(levels.map((l) => [l, {
           <button type="button" class="asp-icon-btn" data-pause aria-label="Pause (P)" title="Pause (P)" data-i18n-attr="aria-label:sprint.pauseKey;title:sprint.pauseKey">
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"/></svg>
           </button>
-          <button type="button" class="asp-icon-btn" data-mute aria-pressed="false" aria-label="Ton aus" title="Ton aus">
+          <button type="button" class="asp-icon-btn" data-mute aria-pressed="false" aria-label="Sound off" title="Sound off" data-i18n-attr="aria-label:sprint.sound.off;title:sprint.sound.off">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path class="asp-sound-on" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="asp-sound-off" d="m16 9 6 6m0-6-6 6"/></svg>
           </button>
         </span>
       </div>
 
       <div class="asp-stage" data-stage tabindex="-1">
-        <canvas class="asp-canvas" data-canvas aria-label="Spielfeld: drei Spuren, du fährst auf einem Skateboard" data-i18n-attr="aria-label:sprint.canvas" role="img"></canvas>
+        <canvas class="asp-canvas" data-canvas aria-label="Game area: three lanes, you drive a kart" data-i18n-attr="aria-label:sprint.canvas" role="img"></canvas>
 
         <div class="asp-prompt" data-prompt hidden aria-live="polite">
           <span class="asp-tag" data-tag></span>
@@ -68,7 +68,7 @@ const counts = Object.fromEntries(levels.map((l) => [l, {
         <p class="asp-toast" data-toast hidden role="status"></p>
 
         <!-- Race room: live ranking, bottom right -->
-        <ol class="asp-board" data-board hidden aria-label="Rangliste" data-i18n-attr="aria-label:sprint.room.rank"></ol>
+        <ol class="asp-board" data-board hidden aria-label="Ranking" data-i18n-attr="aria-label:sprint.room.rank"></ol>
 
         <!-- Run clock and active power-ups, bottom left over the scene -->
         <div class="asp-fx" aria-hidden="true">
@@ -83,7 +83,7 @@ const counts = Object.fromEntries(levels.map((l) => [l, {
         <!-- Start -->
         <section class="asp-screen" data-screen="start">
           <div class="asp-card">
-            <h1 class="asp-title">Bruno Kart</h1>
+            <h1 class="asp-title" lang="en">Bruno Kart</h1>
             <p class="asp-lead" data-i18n="sprint.lead">Fahr durch das richtige Tor.</p>
 
             <!-- A challenge link (?duell=…): the friend's track, words and score -->
@@ -100,16 +100,16 @@ const counts = Object.fromEntries(levels.map((l) => [l, {
             <div class="asp-seg asp-seg--modes" data-switch role="group" aria-labelledby="asp-mode-l">
               {modes.map((m) => (
                 <button type="button" class="asp-seg-btn" data-mode={m.id} aria-pressed={m.id === "artikel" ? "true" : "false"}>
-                  <span data-i18n={m.key}>{m.label}</span><small lang="de">{m.sub}</small>
+                  <span data-i18n={m.key}>{m.label}</span><small lang="en">{m.sub}</small>
                 </button>
               ))}
             </div>
-            <p class="asp-mode-hint" data-mode-hint data-i18n="sprint.hint.artikel">der, die oder das?</p>
+            <p class="asp-mode-hint" data-mode-hint data-i18n="sprint.hint.artikel">a, an or some?</p>
 
             <p class="asp-label" id="asp-level-l" data-i18n="sprint.level">Niveau</p>
             <div class="asp-seg" data-switch role="group" aria-labelledby="asp-level-l">
               {levels.map((l) => (
-                <button type="button" class="asp-seg-btn" data-level={l} aria-pressed={l === "A1" ? "true" : "false"} title={`${counts[l].nouns} Nomen, ${counts[l].verbs} Verben`} data-i18n-attr="title:sprint.levelCount" data-i18n-vars={JSON.stringify({ n: counts[l].nouns, v: counts[l].verbs })}>{l}</button>
+                <button type="button" class="asp-seg-btn" data-level={l} aria-pressed={l === "A1" ? "true" : "false"} title={`${counts[l].nouns} nouns, ${counts[l].verbs} verbs`} data-i18n-attr="title:sprint.levelCount" data-i18n-vars={JSON.stringify({ n: counts[l].nouns, v: counts[l].verbs })}>{l}</button>
               ))}
             </div>
 
@@ -164,7 +164,7 @@ const counts = Object.fromEntries(levels.map((l) => [l, {
               <button type="button" class="asp-btn asp-btn--go" data-room-create data-i18n="sprint.room.create">Raum erstellen</button>
               <p class="asp-or" data-i18n="sprint.room.or">oder mit Code beitreten</p>
               <div class="asp-join">
-                <input class="asp-input asp-input--code" data-room-code inputmode="numeric" maxlength="6" placeholder="123456" aria-label="Raum-Code" data-i18n-attr="aria-label:sprint.room.code" enterkeyhint="go" />
+                <input class="asp-input asp-input--code" data-room-code inputmode="numeric" maxlength="6" placeholder="123456" aria-label="Room code" data-i18n-attr="aria-label:sprint.room.code" enterkeyhint="go" />
                 <button type="button" class="asp-btn" data-room-join data-i18n="sprint.room.join">Beitreten</button>
               </div>
               <p class="asp-room-msg" data-room-msg role="status"></p>
@@ -178,10 +178,10 @@ const counts = Object.fromEntries(levels.map((l) => [l, {
                 <button type="button" class="asp-btn" data-room-qr aria-expanded="false" aria-controls="asp-room-qr" data-i18n="sprint.room.qr">QR-Code</button>
               </div>
               <figure class="asp-qr" id="asp-room-qr" hidden>
-                <div class="asp-qr-img" data-room-qr-img role="img" aria-label="QR-Code zum Mitfahren" data-i18n-attr="aria-label:sprint.room.qrLabel"></div>
+                <div class="asp-qr-img" data-room-qr-img role="img" aria-label="QR code to join the race" data-i18n-attr="aria-label:sprint.room.qrLabel"></div>
                 <figcaption data-i18n="sprint.room.qrHint">Mit der Handy-Kamera scannen</figcaption>
               </figure>
-              <input class="asp-input asp-link" data-room-link readonly aria-label="Einladungslink" data-i18n-attr="aria-label:sprint.room.link" hidden />
+              <input class="asp-input asp-link" data-room-link readonly aria-label="Invitation link" data-i18n-attr="aria-label:sprint.room.link" hidden />
               <p class="asp-label"><span data-i18n="sprint.room.players">Dabei</span> <span data-room-count></span></p>
               <ul class="asp-players" data-room-players></ul>
               <div data-room-host>
@@ -189,14 +189,14 @@ const counts = Object.fromEntries(levels.map((l) => [l, {
                 <div class="asp-seg asp-seg--modes" data-switch role="group" aria-labelledby="asp-room-mode-l">
                   {modes.map((m) => (
                     <button type="button" class="asp-seg-btn" data-mode={m.id} aria-pressed={m.id === "artikel" ? "true" : "false"}>
-                      <span data-i18n={m.key}>{m.label}</span><small lang="de">{m.sub}</small>
+                      <span data-i18n={m.key}>{m.label}</span><small lang="en">{m.sub}</small>
                     </button>
                   ))}
                 </div>
                 <p class="asp-label" id="asp-room-level-l" data-i18n="sprint.level">Niveau</p>
                 <div class="asp-seg" data-switch role="group" aria-labelledby="asp-room-level-l">
                   {levels.map((l) => (
-                    <button type="button" class="asp-seg-btn" data-level={l} aria-pressed={l === "A1" ? "true" : "false"} title={`${counts[l].nouns} Nomen, ${counts[l].verbs} Verben`} data-i18n-attr="title:sprint.levelCount" data-i18n-vars={JSON.stringify({ n: counts[l].nouns, v: counts[l].verbs })}>{l}</button>
+                    <button type="button" class="asp-seg-btn" data-level={l} aria-pressed={l === "A1" ? "true" : "false"} title={`${counts[l].nouns} nouns, ${counts[l].verbs} verbs`} data-i18n-attr="title:sprint.levelCount" data-i18n-vars={JSON.stringify({ n: counts[l].nouns, v: counts[l].verbs })}>{l}</button>
                   ))}
                 </div>
                 <p class="asp-label" id="asp-room-diff-l" data-i18n="sprint.diff">Schwierigkeit</p>
@@ -225,7 +225,7 @@ const counts = Object.fromEntries(levels.map((l) => [l, {
             <h2 class="asp-title" data-i18n="sprint.pause">Pause</h2>
             <button type="button" class="asp-btn asp-btn--go" data-resume data-i18n="sprint.resume">Weiter</button>
             <button type="button" class="asp-btn asp-btn--quiet" data-quit data-i18n="sprint.quit">Beenden</button>
-            <button type="button" class="asp-btn asp-btn--quiet" data-mute aria-pressed="false" aria-label="Ton aus" title="Ton aus">
+            <button type="button" class="asp-btn asp-btn--quiet" data-mute aria-pressed="false" aria-label="Sound off" title="Sound off" data-i18n-attr="aria-label:sprint.sound.off;title:sprint.sound.off">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path class="asp-sound-on" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="asp-sound-off" d="m16 9 6 6m0-6-6 6"/></svg>
               <span data-i18n="sprint.sound">Ton</span>
             </button>
@@ -285,7 +285,7 @@ const counts = Object.fromEntries(levels.map((l) => [l, {
         <h2 data-i18n="sprint.lb.title">Bestenliste</h2>
         <p class="asp-lb-board" data-lb-board></p>
       </div>
-      <div class="asp-seg" data-switch role="group" aria-label="Zeitraum" data-i18n-attr="aria-label:sprint.lb.period">
+      <div class="asp-seg" data-switch role="group" aria-label="Period" data-i18n-attr="aria-label:sprint.lb.period">
         <button type="button" class="asp-seg-btn" data-lb-zeit="woche" aria-pressed="true" data-i18n="sprint.lb.week">Diese Woche</button>
         <button type="button" class="asp-seg-btn" data-lb-zeit="immer" aria-pressed="false" data-i18n="sprint.lb.all">Allzeit</button>
       </div>

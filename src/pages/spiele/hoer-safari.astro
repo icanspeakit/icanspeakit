@@ -4,7 +4,7 @@
 // landscape carrying picture cards, and the learner hits the matching one with the
 // Gummi-Blaster, a toy that fires harmless rubber pellets on a ballistic curve. 90 s and 3
 // hearts, diving birds, extras, a multiple-choice quiz to reload, records and a ranking.
-// Logic: src/lib/hoerSafari/. Plan: HOER-SAFARI-TIERED-PROMPT.md.
+// (English course: the voice says a / an + noun.) Logic: src/lib/hoerSafari/. Plan: HOER-SAFARI-TIERED-PROMPT.md.
 // A prototype from 2026-10-26, in the menu "Spiele" and indexed since 2026-10-27 (EXPERIMENTE.md).
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
@@ -47,12 +47,12 @@ const levels = [
         </button>
         <button type="button" class="hs-icon" data-mute aria-pressed="false">🔊</button>
         <button type="button" class="hs-hint" data-replay data-hint data-state="listen" title="Wort noch einmal hören (H)" data-i18n-attr="title:hs.hint.title">
-          <span aria-hidden="true">🔈</span> <span data-hint-text>Hör zu …</span>
+          <span aria-hidden="true">🔈</span> <span data-hint-text data-i18n="hs.listen">Listen …</span>
         </button>
       </div>
 
       <div class="hs-stage">
-        <canvas data-canvas role="img" aria-label="Spielfeld: Vögel mit Bildkarten fliegen über eine Landschaft, unten der Gummi-Blaster" data-i18n-attr="aria-label:hs.canvas"></canvas>
+        <canvas data-canvas role="img" aria-label="Playing field: birds carrying picture cards fly over a landscape, the rubber blaster at the bottom" data-i18n-attr="aria-label:hs.canvas"></canvas>
 
         <button type="button" class="hs-reload" data-reload aria-pressed="false" title="Nachladen: Frage beantworten (Leertaste oder rechte Maustaste)" data-i18n-attr="title:hs.reload.title">
           <span class="hs-ammo" data-ammo role="img"></span>
@@ -72,20 +72,20 @@ const levels = [
         <section class="hs-card hs-card--start" data-start>
           <div class="hs-start-a">
           <p class="hs-eyebrow" data-i18n="hs.eyebrow">Spiel · Prototyp</p>
-          <h1>Hamstis Wachtelhuhn</h1>
-          <p class="hs-lead" data-i18n-html="hs.lead">Du hörst ein Wort – <b>„die Gabel“</b>. Über die Wiese fliegen Vögel mit Bildern. Triff den richtigen mit dem Gummi-Blaster! Weit weg gibt mehr Punkte, ein falscher Vogel kostet 10.</p>
+          <h1 lang="en">Hamsti’s Bird Safari</h1>
+          <p class="hs-lead" data-i18n-html="hs.lead">You hear a word – <b>“a fork”</b>. Birds with pictures fly over the meadow. Hit the right one with the rubber blaster! Far away scores more, a wrong bird costs 10.</p>
           </div>
 
           <div class="hs-start-b">
           <p class="hs-label" data-i18n="hs.play.label">Spielart</p>
-          <div class="hs-seg" role="group" aria-label="Spielart" data-i18n-attr="aria-label:hs.play.label">
+          <div class="hs-seg" role="group" aria-label="Mode" data-i18n-attr="aria-label:hs.play.label">
             <button type="button" class="hs-seg-btn" data-spielart="stufen" aria-pressed="true"><span data-i18n="hs.play.stufen">Level</span><small data-i18n="hs.play.stufen.sub">8 Stufen, mit Ziel</small></button>
             <button type="button" class="hs-seg-btn" data-spielart="frei" aria-pressed="false"><span data-i18n="hs.play.frei">Highscore</span><small data-i18n="hs.play.frei.sub">90 Sekunden, Bestenliste</small></button>
             <button type="button" class="hs-seg-btn" data-spielart="tag" aria-pressed="false"><span data-i18n="hs.play.tag">Tagesrunde</span><small data-i18n="hs.play.tag.sub">heute für alle gleich</small></button>
           </div>
 
           <p class="hs-label" data-i18n="hs.level.label">Niveau</p>
-          <div class="hs-seg" role="group" aria-label="Niveau" data-i18n-attr="aria-label:hs.level.label">
+          <div class="hs-seg" role="group" aria-label="Level" data-i18n-attr="aria-label:hs.level.label">
             {levels.map((l) => (
               <button type="button" class="hs-seg-btn" data-level={l.id} aria-pressed="false">
                 {l.id}<small data-i18n="hs.words" data-i18n-vars={JSON.stringify({ n: l.n })}>{l.n} Wörter</small>
@@ -94,7 +94,7 @@ const levels = [
           </div>
 
           <p class="hs-label" data-i18n="hs.cards.label">Auf den Karten</p>
-          <div class="hs-seg" role="group" aria-label="Was auf den Karten steht" data-i18n-attr="aria-label:hs.cards.label">
+          <div class="hs-seg" role="group" aria-label="What is on the cards" data-i18n-attr="aria-label:hs.cards.label">
             <button type="button" class="hs-seg-btn" data-mode="bild" aria-pressed="true"><span data-i18n="hs.cards.bild">Bilder</span><small data-i18n="hs.cards.bild.sub">nur hören</small></button>
             <button type="button" class="hs-seg-btn" data-mode="wort" aria-pressed="false"><span data-i18n="hs.cards.wort">Wörter</span><small data-i18n="hs.cards.wort.sub">hören + lesen</small></button>
           </div>
@@ -124,8 +124,8 @@ const levels = [
         </section>
 
         <section class="hs-card hs-card--intro" data-intro hidden>
-          <p class="hs-eyebrow" data-intro-num>Level 1 von 8</p>
-          <h2 data-intro-name>Erste Schritte</h2>
+          <p class="hs-eyebrow" data-intro-num lang="en">Level 1 of 8</p>
+          <h2 data-intro-name lang="en">First steps</h2>
           <p class="hs-lead" data-intro-goal></p>
           <p class="hs-label" data-intro-news-head data-i18n="hs.news">Neu in diesem Level</p>
           <ul class="hs-news" data-intro-news></ul>
@@ -135,10 +135,10 @@ const levels = [
         </section>
 
         <section class="hs-card hs-card--end" data-end hidden>
-          <h2 data-end-title>Zeit um!</h2>
+          <h2 data-end-title lang="en">Time’s up!</h2>
           <div data-result></div>
           <p class="hs-lb-over" data-lb-over hidden></p>
-          <button type="button" class="hs-go" data-next hidden>Weiter</button>
+          <button type="button" class="hs-go" data-next hidden data-i18n="hs.next">Next</button>
           <h3 data-i18n="hs.album">Dein Album</h3>
           <div class="hs-tiles" data-album></div>
           <div data-practice-wrap hidden>
@@ -146,8 +146,8 @@ const levels = [
             <p class="hs-muted" data-i18n="hs.practice.sub">Hier lagst du daneben, hast den Hinweis gebraucht oder das Wort ist dir entwischt. Tippen zum Anhören.</p>
             <div class="hs-tiles" data-practice></div>
           </div>
-          <button type="button" class="hs-go" data-again>Noch eine Runde</button>
-          <button type="button" class="hs-quiet" data-back>Niveau wechseln</button>
+          <button type="button" class="hs-go" data-again data-i18n="hs.again">Another round</button>
+          <button type="button" class="hs-quiet" data-back data-i18n="hs.back">Change level</button>
           <div data-melden></div>
         </section>
       </div>
@@ -158,7 +158,7 @@ const levels = [
         <h2 data-i18n="hs.lb.title">Bestenliste</h2>
         <p class="hs-lb-board" data-lb-board></p>
       </div>
-      <div class="hs-seg" role="group" aria-label="Zeitraum" data-i18n-attr="aria-label:hs.lb.range">
+      <div class="hs-seg" role="group" aria-label="Period" data-i18n-attr="aria-label:hs.lb.range">
         <button type="button" class="hs-seg-btn" data-lb-zeit="woche" aria-pressed="true" data-i18n="hs.lb.week">Diese Woche</button>
         <button type="button" class="hs-seg-btn" data-lb-zeit="immer" aria-pressed="false" data-i18n="hs.lb.all">Allzeit</button>
       </div>
@@ -169,7 +169,7 @@ const levels = [
 
     <section class="hs-about">
       <h2 data-i18n="hs.about.title">Worum geht's?</h2>
-      <p data-i18n-html="hs.about.p">Hamstis Wachtelhuhn übt <b>Hörverstehen und Wortschatz</b> zugleich: Du hörst jedes Wort mit seinem Artikel, so wie es im Kurs gesprochen wird, und musst es schnell erkennen. Beim Nachladen kommen Artikel- und Bildfragen. Alle Wörter kommen aus unserem <a href="/wortschatz">Wortschatz</a> – dort kannst du sie auch in Ruhe üben.</p>
+      <p data-i18n-html="hs.about.p">Hamsti’s Bird Safari practises <b>listening and vocabulary</b> at the same time: you hear each noun with its a or an, as it is spoken in class, and have to recognise it quickly. Reloading brings a / an and picture questions. All words come from our <a href="/wortschatz">vocabulary</a> – you can also practise them there at your own pace.</p>
       <p class="hs-muted" data-i18n="hs.about.credit">Bilder: OpenMoji (CC BY-SA 4.0).</p>
     </section>
   </main>

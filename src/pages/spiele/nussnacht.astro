@@ -25,30 +25,30 @@ const data = { words, bosse };
   noindex
 >
   <SiteNav active="ueben" />
-  <main class="nn-page">
+  <main class="nn-page" lang="en">
     <div class="nn" id="nussnacht" data-phase="start">
       <div class="nn-stage" data-stage data-cur-art="der">
-        <canvas class="nn-canvas" data-canvas role="img" aria-label="Spielfeld: ein Garten bei Nacht, Hamsti in der Mitte, Wörter krabbeln auf ihn zu"></canvas>
+        <canvas class="nn-canvas" data-canvas role="img" aria-label="Game area: a garden at night, Hamsti in the middle, words crawling towards him"></canvas>
 
         <div class="nn-hud" data-hud hidden>
-          <span class="nn-hud-item nn-time" title="Zeit"><b data-time>0:00</b></span>
+          <span class="nn-hud-item nn-time" title="Time"><b data-time>0:00</b></span>
           <span class="nn-hud-item nn-lv" title="Level"><span class="nn-k">Lv</span> <b data-lv>1</b>
             <span class="nn-xp" aria-hidden="true"><span data-xp style="width:0%"></span></span></span>
-          <span class="nn-hud-item" title="Besiegte Wörter"><span aria-hidden="true">🌰</span> <b data-kills>0</b></span>
+          <span class="nn-hud-item" title="Words defeated"><span aria-hidden="true">🌰</span> <b data-kills>0</b></span>
           <button type="button" class="nn-icon" data-pause aria-label="Pause (Esc)" title="Pause (Esc)">
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.2" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1.2" fill="currentColor"/></svg>
           </button>
         </div>
 
         <div class="nn-touch" data-touch hidden>
-          <button type="button" class="nn-skill" data-skill title="Hamsterbacken-Wirbel: räumt alles um Hamsti weg (lädt 30 s) – Leertaste" aria-label="Hamsterbacken-Wirbel">
+          <button type="button" class="nn-skill" data-skill title="Cheek whirl: clears everything around Hamsti (recharges in 30 s) – Space bar" aria-label="Cheek whirl">
             <span class="nn-skill-fill" data-skill-fill style="width:0%"></span>
-            <span class="nn-skill-label">🌀 <span class="nn-key">Leer</span></span>
+            <span class="nn-skill-label">🌀 <span class="nn-key">Space</span></span>
           </button>
-          <div class="nn-arts" role="group" aria-label="Artikel der Schüsse">
-            <button type="button" class="nn-art nn-art--der" data-art="der" aria-pressed="true"><span class="nn-key">1</span>der</button>
-            <button type="button" class="nn-art nn-art--die" data-art="die" aria-pressed="false"><span class="nn-key">2</span>die</button>
-            <button type="button" class="nn-art nn-art--das" data-art="das" aria-pressed="false"><span class="nn-key">3</span>das</button>
+          <div class="nn-arts" role="group" aria-label="Word for the shots">
+            <button type="button" class="nn-art nn-art--der" data-art="der" aria-pressed="true" lang="en"><span class="nn-key">1</span>a</button>
+            <button type="button" class="nn-art nn-art--die" data-art="die" aria-pressed="false" lang="en"><span class="nn-key">2</span>an</button>
+            <button type="button" class="nn-art nn-art--das" data-art="das" aria-pressed="false" lang="en"><span class="nn-key">3</span>some</button>
           </div>
         </div>
 
@@ -57,46 +57,46 @@ const data = { words, bosse };
         <p class="nn-fps" data-fps hidden></p>
 
         <section class="nn-card nn-card--start" data-start data-nn-card>
-          <p class="nn-eyebrow">Spiel · Prototyp</p>
-          <h1>Hamstis Nussnacht</h1>
-          <p class="nn-lead">Nacht im Garten. Von allen Seiten krabbeln Wörter auf Hamsti zu. Hamsti schießt von selbst – <b>du wählst den Artikel</b>: <span class="nn-a nn-a--der">der</span>, <span class="nn-a nn-a--die">die</span> oder <span class="nn-a nn-a--das">das</span>. Nur der richtige trifft. Der falsche macht das Wort größer und wütender. Überlebe 10 Minuten!</p>
-          <p class="nn-label">Niveau</p>
-          <div class="nn-seg" role="group" aria-label="Niveau">
+          <p class="nn-eyebrow">Game · Prototype</p>
+          <h1>Hamsti’s Nut Night</h1>
+          <p class="nn-lead">Night in the garden. Words crawl towards Hamsti from all sides. Hamsti shoots on his own – <b>you choose the word</b>: <span class="nn-a nn-a--der" lang="en">a</span>, <span class="nn-a nn-a--die" lang="en">an</span> or <span class="nn-a nn-a--das" lang="en">some</span>. Only the right one hits. The wrong one makes the word bigger and angrier. Survive 10 minutes!</p>
+          <p class="nn-label">Level</p>
+          <div class="nn-seg" role="group" aria-label="Level">
             {LEVELS.map((lv) => (
-              <button type="button" class="nn-seg-btn" data-level={lv} aria-pressed={lv === "A1" ? "true" : "false"}>{lv}<small>{words[lv].length} Wörter</small></button>
+              <button type="button" class="nn-seg-btn" data-level={lv} aria-pressed={lv === "A1" ? "true" : "false"}>{lv}<small>{words[lv].length} words</small></button>
             ))}
           </div>
-          <button type="button" class="nn-go" data-play>Los geht's</button>
+          <button type="button" class="nn-go" data-play>Let’s go</button>
           <details class="nn-how">
-            <summary>So geht's</summary>
+            <summary>How to play</summary>
             <ul>
-              <li><b>Computer:</b> WASD oder Pfeiltasten = laufen. 1 / 2 / 3 oder J / K / L = der / die / das. Leertaste = Wirbel. Esc = Pause.</li>
-              <li><b>Handy:</b> links mit dem Daumen laufen (der Knopf erscheint, wo du tippst), rechts der / die / das tippen.</li>
-              <li>Hamsti zielt auf das nächste Wort mit deinem Artikel. Ist keins in der Nähe, trifft er das nächste – und mit dem falschen Artikel wird es nur größer.</li>
-              <li>Besiegte Wörter lassen Nüsse fallen. Volle Backen = Level-up: Such dir eins von drei Extras aus.</li>
-              <li>Jede Minute kommt ein Boss – ein berühmtes Artikel-Rätsel. Besiegst du ihn, siehst du die Regel.</li>
+              <li><b>Computer:</b> WASD or arrow keys = move. 1 / 2 / 3 or J / K / L = a / an / some. Space bar = whirl. Esc = pause.</li>
+              <li><b>Phone:</b> move with your left thumb (the stick appears where you tap), tap a / an / some on the right.</li>
+              <li>Hamsti aims at the nearest word that matches your choice. If there isn’t one nearby, he hits the nearest word – and with the wrong choice it just gets bigger.</li>
+              <li>Defeated words drop nuts. Full cheeks = level up: pick one of three extras.</li>
+              <li>A boss arrives every minute – a famous article puzzle. Beat it and you see the rule.</li>
             </ul>
           </details>
         </section>
 
         <section class="nn-card nn-card--up" data-up data-nn-card hidden role="dialog" aria-modal="true" aria-labelledby="nn-up-h">
           <h2 id="nn-up-h" data-up-title>Level 2!</h2>
-          <p class="nn-muted">Such dir eins aus (1, 2 oder 3).</p>
+          <p class="nn-muted">Pick one (1, 2 or 3).</p>
           <div class="nn-up-list" data-up-list></div>
         </section>
 
         <section class="nn-card nn-card--pause" data-pause-card data-nn-card hidden role="dialog" aria-modal="true" aria-labelledby="nn-pause-h">
           <h2 id="nn-pause-h">Pause</h2>
-          <button type="button" class="nn-go" data-pause-go>Weiter</button>
-          <button type="button" class="nn-quiet" data-pause-restart>Neu starten</button>
-          <button type="button" class="nn-quiet" data-pause-quit>Beenden</button>
+          <button type="button" class="nn-go" data-pause-go>Continue</button>
+          <button type="button" class="nn-quiet" data-pause-restart>Restart</button>
+          <button type="button" class="nn-quiet" data-pause-quit>Quit</button>
         </section>
 
         <section class="nn-card nn-card--end" data-end data-nn-card hidden>
-          <h2 data-end-title>Erwischt!</h2>
+          <h2 data-end-title>Caught!</h2>
           <div data-result></div>
-          <button type="button" class="nn-go" data-again>Noch eine Nacht</button>
-          <button type="button" class="nn-quiet" data-back>Niveau wechseln</button>
+          <button type="button" class="nn-go" data-again>Another night</button>
+          <button type="button" class="nn-quiet" data-back>Change level</button>
         </section>
       </div>
     </div>

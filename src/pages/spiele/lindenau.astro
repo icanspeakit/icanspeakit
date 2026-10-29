@@ -4,7 +4,7 @@
 // morning (Bäckerei, Bahnhof, Arztpraxis) and, once that is done, the afternoon (Supermarkt,
 // Nachbarin, Café). Logic: src/lib/lindenau/game.js, content: src/lib/lindenau/quests.js.
 // Since 2026-10-22 in the „Spiele“ menu, indexable, in every UI language (ld.* keys) and in
-// the Android app; the dialogue itself is the German being learnt (EXPERIMENTE.md).
+// the Android app; the dialogue itself is the English being learnt (EXPERIMENTE.md).
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
 import SectionMascot from "../../components/mascots/SectionMascot.astro";
@@ -22,25 +22,25 @@ import "../../styles/lindenau.css";
   <main class="practice-main fs-page sf-page ld-page">
     <section id="ld-intro">
       <div class="practice-hero fs-hero">
-        <p class="eyebrow" data-i18n="ld.eyebrow">Spiel · A1</p>
-        <h1 data-i18n="ld.title">Die Legende von Lindenau</h1>
-        <p data-i18n="ld.lead">Du bist neu in Lindenau. Lauf durch die Stadt, sprich mit den Leuten und erledige deine Aufgaben – erst am Morgen, dann am Nachmittag.</p>
+        <p class="eyebrow" data-i18n="ld.eyebrow">Game · A1</p>
+        <h1 data-i18n="ld.title">The Legend of Brambleford</h1>
+        <p data-i18n="ld.lead">You're new in Brambleford. Walk through town, talk to people and get your errands done – first in the morning, then in the afternoon.</p>
       </div>
       <section class="fs-box">
-        <h2 data-i18n="ld.howTitle">So spielst du</h2>
+        <h2 data-i18n="ld.howTitle">How to play</h2>
         <ul class="fs-facts">
-          <li><b>👆</b><span data-i18n="ld.howWalk">Tipp auf die Stelle, wo du hinwillst – oder lauf mit den Pfeiltasten.</span></li>
-          <li><b>❗</b><span data-i18n="ld.howTalk">Wer ein Ausrufezeichen hat, hat eine Aufgabe für dich. Tipp drauf oder drück Enter.</span></li>
-          <li><b>💬</b><span data-i18n="ld.howAnswer">Wähl die passende Antwort oder bau den Satz aus Wörtern. Falsch? Kein Problem – probier's nochmal.</span></li>
-          <li><b>🔊 💡</b><span data-i18n="ld.howHelp">Anhören und Hilfe gibt es bei jedem Satz.</span></li>
-          <li><b>🦸</b><span data-i18n="ld.howAction2">Du bist Super-Blubb! Leertaste = springen, ↓ = ducken, X = Seifenblasen. Spring auf die Monster oder stoß von unten gegen ihre Kiste. Mach die Matschmonster sauber – am Anfang und nach jeder Aufgabe ist Schmutz-Alarm.</span></li>
+          <li><b>👆</b><span data-i18n="ld.howWalk">Tap where you want to go – or walk with the arrow keys.</span></li>
+          <li><b>❗</b><span data-i18n="ld.howTalk">Anyone with an exclamation mark has a task for you. Tap them or press Enter.</span></li>
+          <li><b>💬</b><span data-i18n="ld.howAnswer">Pick the right reply or build the sentence from words. Wrong? No problem – try again.</span></li>
+          <li><b>🔊 💡</b><span data-i18n="ld.howHelp">Every sentence has a listen button and help.</span></li>
+          <li><b>🦸</b><span data-i18n="ld.howAction2">You are Super-Blubb! Space bar = jump, ↓ = duck, X = soap bubbles. Jump on the monsters or hit their crate from below. Clean the mud monsters – there is a mud alert at the start and after every task.</span></li>
         </ul>
         <label class="ld-action-opt">
           <input type="checkbox" id="ld-action" checked />
-          <span data-i18n="ld.actionOpt">Mit Action-Teilen (Springen und Seifenblasen)</span>
+          <span data-i18n="ld.actionOpt">With action parts (jumping and soap bubbles)</span>
         </label>
-        <h2 data-i18n="ld.areasTitle">Wohin heute?</h2>
-        <div class="ld-areas" role="group" aria-label="Stadtteil wählen" data-i18n-attr="aria-label:ld.areasLabel">
+        <h2 data-i18n="ld.areasTitle">Where to today?</h2>
+        <div class="ld-areas" role="group" aria-label="Choose a part of town" data-i18n-attr="aria-label:ld.areasLabel">
           {AREAS.map((a, k) => (
             <button type="button" class="ld-area" data-area={a.id} aria-pressed={k === 0 ? "true" : "false"}>
               <span class="ld-area-title" lang="de">{a.title}</span>
@@ -48,31 +48,31 @@ import "../../styles/lindenau.css";
                 {a.quests.map((q) => <img src={`/img/openmoji/${q.item.icon}.svg`} alt="" width="22" height="22" />)}
                 {a.quests.map((q) => q.role).join(" · ")}
               </span>
-              {k > 0 && <span class="ld-area-lock" data-lock hidden data-i18n="ld.areaLocked">🔒 Erst den Morgen schaffen</span>}
+              {k > 0 && <span class="ld-area-lock" data-lock hidden data-i18n="ld.areaLocked">🔒 Finish the morning first</span>}
             </button>
           ))}
         </div>
         <SectionMascot name="bruno" say="Come on, I'll show you around!" class="ku-hero-mascot" />
         <div class="fq-done-btns">
-          <button type="button" class="quiz-btn quiz-btn--primary" id="ld-start" data-i18n="ld.start">Los geht's</button>
+          <button type="button" class="quiz-btn quiz-btn--primary" id="ld-start" data-i18n="ld.start">Let's go</button>
         </div>
       </section>
     </section>
 
     <section class="sf-game" id="ld-game" hidden>
       <div class="ld-hud">
-        <ul class="ld-items" data-items aria-label="Deine Aufgaben" data-i18n-attr="aria-label:ld.tasks"></ul>
-        <span class="ld-coins" data-coins role="img" aria-label="Münzen">🪙 <b data-coins-n>0</b></span>
-        <button type="button" class="ld-sound" data-sound aria-pressed="true" aria-label="Musik und Töne" data-i18n-attr="aria-label:ld.sound">🔊</button>
+        <ul class="ld-items" data-items aria-label="Your tasks" data-i18n-attr="aria-label:ld.tasks"></ul>
+        <span class="ld-coins" data-coins role="img" aria-label="Coins" data-i18n-attr="aria-label:ld.coins">🪙 <b data-coins-n>0</b></span>
+        <button type="button" class="ld-sound" data-sound aria-pressed="true" aria-label="Music and sounds" data-i18n-attr="aria-label:ld.sound">🔊</button>
         <button type="button" class="ld-sound ld-pausebtn" data-pause aria-label="Pause" data-i18n-attr="aria-label:ld.pause">⏸</button>
       </div>
       <div class="sf-stage ld-stage">
-        <canvas class="sf-canvas" data-canvas tabindex="-1" role="img" aria-label="Spielfeld: die Stadt Lindenau von oben" data-i18n-attr="aria-label:ld.canvas"></canvas>
-        <button type="button" class="ld-talk-btn" data-talk hidden>💬 <span data-talk-name data-i18n="ld.talk">Sprechen</span> <kbd data-i18n="ld.space">Enter</kbd></button>
+        <canvas class="sf-canvas" data-canvas tabindex="-1" role="img" aria-label="Game map: the town of Brambleford from above" data-i18n-attr="aria-label:ld.canvas"></canvas>
+        <button type="button" class="ld-talk-btn" data-talk hidden>💬 <span data-talk-name data-i18n="ld.talk">Talk</span> <kbd data-i18n="ld.space">Enter</kbd></button>
         <span class="ld-clean" data-clean hidden></span>
         <div class="ld-town-pad" data-town-pad hidden>
-          <button type="button" class="sf-key ld-act-shoot" data-tk="shoot" aria-label="Seifenblase" data-i18n-attr="aria-label:ld.actShoot">🫧<kbd class="ld-pad-kbd" aria-hidden="true">X</kbd></button>
-          <button type="button" class="sf-key sf-key--gas" data-tk="jump" aria-label="Springen" data-i18n-attr="aria-label:ld.actJump">⤒<kbd class="ld-pad-kbd" aria-hidden="true" data-i18n="ld.space">Leertaste</kbd></button>
+          <button type="button" class="sf-key ld-act-shoot" data-tk="shoot" aria-label="Soap bubble" data-i18n-attr="aria-label:ld.actShoot">🫧<kbd class="ld-pad-kbd" aria-hidden="true">X</kbd></button>
+          <button type="button" class="sf-key sf-key--gas" data-tk="jump" aria-label="Jump" data-i18n-attr="aria-label:ld.actJump">⤒<kbd class="ld-pad-kbd" aria-hidden="true" data-i18n="ld.space">Space</kbd></button>
         </div>
         <div class="sf-panel ld-panel" data-panel hidden aria-live="polite"></div>
       </div>
@@ -101,7 +101,7 @@ import "../../styles/lindenau.css";
         const open = areaOpen(c.dataset.area!);
         c.querySelector<HTMLElement>("[data-lock]")?.toggleAttribute("hidden", open);
         c.classList.toggle("is-locked", !open);
-        setWaiting(c, open ? null : t("ld.areaLockedWhy", "Erst den Morgen in Lindenau schaffen – dann geht's hier weiter."));
+        setWaiting(c, open ? null : t("ld.areaLockedWhy", "Finish the morning in Brambleford first – then this part opens."));
         c.setAttribute("aria-pressed", String(c.dataset.area === chosen));
       }
     }
