@@ -1,188 +1,225 @@
 {
   "id": "adjektivdeklination-a2",
-  "name": "Adjektivendungen (A2): der neue Tisch, ein neuer Tisch",
+  "name": "Adverbs of manner",
   "level": "A2",
   "status": "geprueft",
-  "subtitle": "Der neue Tisch, ein neuer Tisch: Nach der/die/das hat das Adjektiv nur -e oder -en. Nach ein springt es manchmal ein, mit -er oder -es. Die kleine Version für A2: Nominativ, Akkusativ, Dativ – ohne Genitiv.",
-  "briefMarks": ["der/die/das","-e","-en","-er","-es"],
-  "subtitleMarked": "{Der} neue Tisch, {ein} neuer Tisch: Nach {der}/{die}/{das} hat das Adjektiv nur -e oder -en. Nach {ein} springt es manchmal ein, mit -er oder -es. Die kleine Version für A2: Nominativ, Akkusativ, Dativ – ohne Genitiv.",
-  "source": "Eigener Entwurf (2026-10-23): A2-Auszug aus „adjektivdeklination“ (B1), Beispiele neu geschrieben.",
+  "subtitle": "An adjective says what someone or something is like: She is quick. An adverb says how someone does something: She runs quickly. Most adverbs are the adjective + -ly. Good has its own adverb: well.",
+  "briefMarks": [
+    "adjective",
+    "adverb",
+    "-ly",
+    "well"
+  ],
+  "source": "EnglishAcademy original English text (grammar-a2 run, 2026-10-29)",
   "concept": {
-    "signal": {
-      "title": "Zuerst: das Signal",
-      "lead": "Das <strong>Signal</strong> ist ein Buchstabe am Ende. Er zeigt: maskulin, feminin oder neutral – und Nominativ, Akkusativ oder Dativ. Du kennst die Signale schon aus dem Artikel:",
-      "items": [
-        { "word": "de{r}", "label": "maskulin" },
-        { "word": "di{e}", "label": "feminin" },
-        { "word": "da{s}", "label": "neutral" },
-        { "word": "de{n}", "label": "Akkusativ" },
-        { "word": "de{m}", "label": "Dativ" }
-      ],
-      "ruleHtml": "Die Regel: Das Signal kommt <strong>einmal</strong>. Der Artikel zeigt es – oder das Adjektiv.",
-      "rows": [
-        { "say": "de{r} neu{e} Tisch", "why": "Der Artikel hat das Signal. Das Adjektiv ruht: -e." },
-        { "say": "ein neu{er} Tisch", "why": "ein hat kein Signal. Das Adjektiv springt ein: -er." }
-      ]
-    },
     "comic": {
-      "title": "Wer zeigt das Signal?",
+      "title": "{Adjective} or {adverb}?",
       "panels": [
         {
-          "caption": "der / die / das",
-          "tag": "{der} zeigt schon alles → das Adjektiv sagt nur {-e}",
+          "caption": "After be, look, feel",
+          "tag": "be / look / feel + {adjective}",
           "left": {
             "name": "hamsti",
-            "expr": "happy",
-            "say": "Gefällt dir {der} neu{e} Tisch?"
+            "expr": "thinking",
+            "say": "You look {tired}, Regi."
           },
           "right": {
-            "name": "bruno",
-            "expr": "happy",
-            "say": "{Der} neu{e} Tisch ist super!"
+            "name": "regi",
+            "expr": "sleepy",
+            "say": "Yes, I feel {tired} today."
           }
         },
         {
-          "caption": "ein / kein / mein",
-          "tag": "{ein} zeigt nichts → das Adjektiv springt ein: {-er}, {-es}",
+          "caption": "After an action verb",
+          "tag": "{quick} → {quickly} · {good} → {well}",
           "left": {
             "name": "quaki",
-            "expr": "thinking",
-            "say": "Ist das {ein} neu{er} Tisch?"
+            "expr": "happy",
+            "say": "Bruno runs {quickly}!"
           },
           "right": {
             "name": "bruno",
             "expr": "celebrate",
-            "say": "Ja! Und {ein} neu{es} Sofa!"
+            "say": "And I sing {well}, too!"
           }
         },
         {
-          "caption": "Dativ und Plural",
-          "tag": "Nach {dem}, {der}, {einem}, {einer} und im Plural: immer {-en}",
+          "caption": "Same form",
+          "tag": "{fast} · {hard} · {late}",
           "left": {
-            "name": "regi",
-            "expr": "thinking",
-            "say": "Wo ist mein Handy? Auf {dem} klein{en} Tisch?"
+            "name": "hamsti",
+            "expr": "happy",
+            "say": "Quaki swims {fast} and works {hard}."
           },
           "right": {
-            "name": "hamsti",
-            "expr": "celebrate",
-            "say": "Nein, bei {den} neu{en} Büchern!"
+            "name": "quaki",
+            "expr": "oops",
+            "say": "But I get up {late}!"
           }
         }
       ]
     },
     "flow": [
       {
-        "text": "Artikel",
+        "text": "quick"
+      },
+      {
+        "text": "+ -ly",
         "variant": "verb"
       },
       {
-        "text": "Adjektiv + Endung",
+        "text": "quickly",
         "variant": "prep"
-      },
-      {
-        "text": "Nomen"
       }
     ],
     "qa": [
       {
-        "html": "<strong>der / die / das</strong> zeigt schon alles → das Adjektiv hat nur <strong>-e</strong>: <em>der neu<strong>e</strong> Tisch, die neu<strong>e</strong> Lampe, das neu<strong>e</strong> Sofa</em>. Nur bei <em>den</em> (Akkusativ maskulin): <strong>-en</strong>: <em>Ich kaufe den neu<strong>en</strong> Tisch.</em>",
-        "tag": "der / die / das"
+        "html": "An <strong>adjective</strong> describes a person or thing. It comes after <em>be, look, feel, sound, taste, smell</em>: <em>She is quick. You look tired. The soup tastes good.</em> An <strong>adverb</strong> says how you do something. It comes after an action verb: <em>She runs <strong>quickly</strong>. He speaks <strong>slowly</strong>.</em>",
+        "tag": "Adjective or adverb?"
       },
       {
-        "html": "<strong>ein</strong> hat manchmal keine Endung. Dann zeigt das Adjektiv das Signal von <em>der</em> oder <em>das</em>: <em>ein neu<strong>er</strong> Tisch, ein neu<strong>es</strong> Sofa</em>. Sonst wie oben: <em>eine neu<strong>e</strong> Lampe, einen neu<strong>en</strong> Tisch</em>. Genauso nach <em>kein</em> und <em>mein, dein, sein …</em>",
-        "tag": "ein / kein / mein"
+        "html": "Most adverbs: <strong>adjective + -ly</strong>: <em>quick → quickly, slow → slowly, careful → carefully, quiet → quietly, bad → badly</em>. If the adjective ends in a consonant + <em>-y</em>, change <em>y</em> to <strong>-ily</strong>: <em>easy → easily, happy → happily</em>.",
+        "tag": "-ly"
       },
       {
-        "html": "Im <strong>Dativ</strong> und im <strong>Plural</strong> mit Artikel: immer <strong>-en</strong>: <em>mit dem neu<strong>en</strong> Tisch, in einer klein<strong>en</strong> Wohnung, die neu<strong>en</strong> Stühle, meine neu<strong>en</strong> Schuhe</em>",
-        "tag": "Dativ und Plural"
+        "html": "<strong>good</strong> is an adjective. The adverb is <strong>well</strong>: <em>She is a good singer. She sings <strong>well</strong>.</em> Do not say <em>She sings good.</em>",
+        "tag": "good → well"
+      },
+      {
+        "html": "Some adverbs look the same as the adjective: <strong>fast, hard, late, early</strong>: <em>He is a fast runner. He runs fast. She works hard. We arrived late.</em> Be careful: <em>hardly</em> means <em>almost not</em>, and <em>lately</em> means <em>recently</em>. <em>She hardly works</em> means she almost never works.",
+        "tag": "fast, hard, late"
+      },
+      {
+        "html": "✗ <em>She speaks English good.</em> → ✓ <em>She speaks English well.</em> · ✗ <em>He drives very careful.</em> → ✓ <em>He drives very carefully.</em> · ✗ <em>The soup tastes well.</em> → ✓ <em>The soup tastes good.</em> · ✗ <em>They work hardly.</em> → ✓ <em>They work hard.</em>",
+        "tag": "Typical mistakes"
       }
     ],
-    "noteHtml": "Faustregel: <em>-e</em> nur nach <em>der/die/das</em> (Nominativ) und <em>die/das</em> (Akkusativ). <em>-er</em> und <em>-es</em> nur nach <em>ein</em> ohne Endung. Alles andere: <em>-en</em>. Adjektive ganz ohne Artikel (<em>heißer Kaffee</em>) und den Genitiv gibt es in <a href=\"/adjektivdeklination\">Adjektivdeklination (B1)</a>.",
+    "noteHtml": "An adverb of manner usually comes after the verb, or after the object: <em>She speaks slowly. She speaks English well.</em> Do not put it between the verb and the object. Careful: <em>friendly, lovely, lonely</em> end in <em>-ly</em>, but they are adjectives: <em>She is friendly.</em> For words like <em>always</em> and <em>never</em>, see <a href=\"/positionsadverbien\">Adverbs of frequency</a>.",
     "reference": {
-      "showLabel": "Tabelle anzeigen ▼",
-      "hideLabel": "Tabelle ausblenden ▲",
+      "showLabel": "Show overview ▼",
+      "hideLabel": "Hide overview ▲",
       "tables": [
         {
-          "caption": "Nach der / die / das",
-          "note": "Ebenso nach: dieser, jeder.",
+          "caption": "Adjective → adverb with -ly",
+          "note": "easy → easily: -y becomes -ily.",
           "head": [
-            "",
-            "maskulin",
-            "feminin",
-            "neutral"
+            "Adjective",
+            "Adverb",
+            "Example"
           ],
           "rows": [
             [
-              "Nominativ",
-              "der neu{e} Tisch",
-              "die neu{e} Lampe",
-              "das neu{e} Sofa"
+              "quick",
+              "quick{ly}",
+              "She walks quickly."
             ],
             [
-              "Akkusativ",
-              "den neu{en} Tisch",
-              "die neu{e} Lampe",
-              "das neu{e} Sofa"
+              "slow",
+              "slow{ly}",
+              "Please speak slowly."
             ],
             [
-              "Dativ",
-              "dem neu{en} Tisch",
-              "der neu{en} Lampe",
-              "dem neu{en} Sofa"
+              "careful",
+              "careful{ly}",
+              "He drives carefully."
+            ],
+            [
+              "quiet",
+              "quiet{ly}",
+              "The baby sleeps quietly."
+            ],
+            [
+              "bad",
+              "bad{ly}",
+              "I sing badly."
+            ],
+            [
+              "easy",
+              "eas{ily}",
+              "She passed the test easily."
+            ],
+            [
+              "happy",
+              "happ{ily}",
+              "The children play happily."
             ]
           ]
         },
         {
-          "caption": "Nach ein / eine",
-          "note": "Ebenso nach: kein, mein, dein, sein, ihr, unser, euer.",
+          "caption": "Irregular and same form",
           "head": [
-            "",
-            "maskulin",
-            "feminin",
-            "neutral"
+            "Adjective",
+            "Adverb",
+            "Example"
           ],
           "rows": [
             [
-              "Nominativ",
-              "ein neu{er} Tisch",
-              "eine neu{e} Lampe",
-              "ein neu{es} Sofa"
+              "good",
+              "{well}",
+              "She cooks well."
             ],
             [
-              "Akkusativ",
-              "einen neu{en} Tisch",
-              "eine neu{e} Lampe",
-              "ein neu{es} Sofa"
+              "fast",
+              "{fast}",
+              "He drives fast."
             ],
             [
-              "Dativ",
-              "einem neu{en} Tisch",
-              "einer neu{en} Lampe",
-              "einem neu{en} Sofa"
+              "hard",
+              "{hard}",
+              "They work hard."
+            ],
+            [
+              "late",
+              "{late}",
+              "I got up late."
+            ],
+            [
+              "early",
+              "{early}",
+              "She arrives early."
             ]
           ]
         },
         {
-          "caption": "Plural mit Artikel",
-          "note": "Nach die, keine, meine … im Plural immer -en.",
+          "caption": "Which one after which verb?",
           "head": [
-            "",
-            "Plural"
+            "After",
+            "Use",
+            "Example"
           ],
           "rows": [
             [
-              "Nominativ",
-              "die neu{en} Stühle"
+              "be, look, feel, sound, taste, smell",
+              "adjective",
+              "You look tired."
             ],
             [
-              "Akkusativ",
-              "keine neu{en} Stühle"
-            ],
-            [
-              "Dativ",
-              "mit meinen neu{en} Stühlen"
+              "run, speak, work, sing, drive …",
+              "adverb",
+              "He runs quickly."
             ]
+          ]
+        }
+      ],
+      "boxes": [
+        {
+          "badge": "Be careful",
+          "variant": "akk",
+          "items": [
+            "hard = difficult, or with effort. hardly = almost not",
+            "late = not on time. lately = recently",
+            "good (adjective) – well (adverb)",
+            "friendly, lovely, lonely are adjectives"
+          ]
+        },
+        {
+          "badge": "How?",
+          "variant": "dat",
+          "items": [
+            "How does she sing? – Beautifully.",
+            "How did he drive? – Carefully.",
+            "How do you feel? – Tired. (adjective)",
+            "How do they work? – Hard."
           ]
         }
       ]
@@ -191,177 +228,182 @@
   "aktiv": {
     "listen": [
       {
-        "text": "der neue Tisch",
-        "note": "der zeigt schon alles – das Adjektiv sagt nur -e.",
-        "audio": "/audio/grammatik/adjektivdeklination-a2/der-neue-tisch.mp3"
+        "text": "She speaks English very well.",
+        "note": "good → well: an irregular adverb.",
+        "audio": "/audio/grammatik/adjektivdeklination-a2/she-speaks-english-very-well.mp3"
       },
       {
-        "text": "ein neuer Tisch",
-        "note": "ein hat keine Endung, also zeigt das Adjektiv das -r von der.",
-        "audio": "/audio/grammatik/adjektivdeklination-a2/ein-neuer-tisch.mp3"
+        "text": "He drives carefully.",
+        "note": "careful + -ly: it says how he drives.",
+        "audio": "/audio/grammatik/adjektivdeklination-a2/he-drives-carefully.mp3"
       },
       {
-        "text": "mit dem neuen Tisch",
-        "note": "Dativ: immer -en.",
-        "audio": "/audio/grammatik/adjektivdeklination-a2/mit-dem-neuen-tisch.mp3"
+        "text": "The soup tastes good.",
+        "note": "After taste, use an adjective, not an adverb.",
+        "audio": "/audio/grammatik/adjektivdeklination-a2/the-soup-tastes-good.mp3"
+      },
+      {
+        "text": "They work hard.",
+        "note": "hard has the same form as an adverb.",
+        "audio": "/audio/grammatik/adjektivdeklination-a2/they-work-hard.mp3"
       }
     ],
     "hoeren": {
-      "instruction": "Hör zu und wähle die Form, die du gehört hast. Zweimal hören ist erlaubt.",
+      "instruction": "Listen and choose the word you heard. You can listen twice.",
       "items": [
         {
-          "text": "Ich suche einen warmen Mantel.",
+          "text": "She sings beautifully.",
           "choices": [
-            "warme",
-            "warmen",
-            "warmer"
+            "beautiful",
+            "beautifully",
+            "beautifuly"
           ],
           "correct": 1,
-          "audio": "/audio/grammatik/adjektivdeklination-a2/ich-suche-einen-warmen-mantel.mp3"
+          "audio": "/audio/grammatik/adjektivdeklination-a2/she-sings-beautifully.mp3"
         },
         {
-          "text": "Das ist ein schönes Kleid.",
+          "text": "He speaks very quietly.",
           "choices": [
-            "schöne",
-            "schöner",
-            "schönes"
+            "quiet",
+            "quite",
+            "quietly"
           ],
           "correct": 2,
-          "audio": "/audio/grammatik/adjektivdeklination-a2/das-ist-ein-schoenes-kleid.mp3"
+          "audio": "/audio/grammatik/adjektivdeklination-a2/he-speaks-very-quietly.mp3"
         },
         {
-          "text": "Die rote Jacke gefällt mir.",
+          "text": "I can swim well.",
           "choices": [
-            "rote",
-            "roten",
-            "roter"
+            "good",
+            "well",
+            "fast"
+          ],
+          "correct": 1,
+          "audio": "/audio/grammatik/adjektivdeklination-a2/i-can-swim-well.mp3"
+        },
+        {
+          "text": "The test was easy.",
+          "choices": [
+            "easy",
+            "easily",
+            "easier"
           ],
           "correct": 0,
-          "audio": "/audio/grammatik/adjektivdeklination-a2/die-rote-jacke-gefaellt-mir.mp3"
+          "audio": "/audio/grammatik/adjektivdeklination-a2/the-test-was-easy.mp3"
         },
         {
-          "text": "Wir wohnen in einer kleinen Wohnung.",
+          "text": "They worked hard all day.",
           "choices": [
-            "kleine",
-            "kleinen",
-            "kleiner"
+            "hardly",
+            "hard",
+            "heart"
           ],
           "correct": 1,
-          "audio": "/audio/grammatik/adjektivdeklination-a2/wir-wohnen-in-einer-kleinen-wohnung.mp3"
+          "audio": "/audio/grammatik/adjektivdeklination-a2/they-worked-hard-all-day.mp3"
         },
         {
-          "text": "Mein neuer Kollege kommt aus Spanien.",
+          "text": "Please drive slowly.",
           "choices": [
-            "neue",
-            "neuen",
-            "neuer"
-          ],
-          "correct": 2,
-          "audio": "/audio/grammatik/adjektivdeklination-a2/mein-neuer-kollege-kommt-aus-spanien.mp3"
-        },
-        {
-          "text": "Ich fahre mit dem alten Fahrrad zur Arbeit.",
-          "choices": [
-            "alte",
-            "alten",
-            "altem"
+            "slow",
+            "slowly",
+            "slower"
           ],
           "correct": 1,
-          "audio": "/audio/grammatik/adjektivdeklination-a2/ich-fahre-mit-dem-alten-fahrrad-zur-arbeit.mp3"
+          "audio": "/audio/grammatik/adjektivdeklination-a2/please-drive-slowly.mp3"
         }
       ]
     },
     "sprechen": {
       "rounds": [
         {
-          "label": "1 · der → ein",
-          "instruction": "Du hörst eine Gruppe mit der/die/das. Sag sie noch einmal mit ein.",
+          "label": "1 · Adjective → adverb",
+          "instruction": "You hear an adjective. Say the adverb.",
           "example": {
-            "prompt": "der große Tisch",
-            "answer": "ein großer Tisch"
+            "prompt": "quick",
+            "answer": "quickly"
           },
           "items": [
             {
-              "prompt": "der neue Film",
-              "answer": "ein neuer Film",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/der-neue-film.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/ein-neuer-film--conrad.mp3"
+              "prompt": "slow",
+              "answer": "slowly",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/slow.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/slowly--a.mp3"
             },
             {
-              "prompt": "die kleine Wohnung",
-              "answer": "eine kleine Wohnung",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/die-kleine-wohnung.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/eine-kleine-wohnung--conrad.mp3"
+              "prompt": "careful",
+              "answer": "carefully",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/careful.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/carefully--a.mp3"
             },
             {
-              "prompt": "das alte Auto",
-              "answer": "ein altes Auto",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/das-alte-auto.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/ein-altes-auto--conrad.mp3"
+              "prompt": "easy",
+              "answer": "easily",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/easy.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/easily--a.mp3"
             },
             {
-              "prompt": "der rote Rock",
-              "answer": "ein roter Rock",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/der-rote-rock.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/ein-roter-rock--conrad.mp3"
+              "prompt": "good",
+              "answer": "well",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/good.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/well--a.mp3"
             },
             {
-              "prompt": "das weiße Hemd",
-              "answer": "ein weißes Hemd",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/das-weisse-hemd.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/ein-weisses-hemd--conrad.mp3"
+              "prompt": "fast",
+              "answer": "fast",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/fast.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/fast--a.mp3"
             },
             {
-              "prompt": "die warme Jacke",
-              "answer": "eine warme Jacke",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/die-warme-jacke.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/eine-warme-jacke--conrad.mp3"
+              "prompt": "quiet",
+              "answer": "quietly",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/quiet.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/quietly--a.mp3"
             }
           ]
         },
         {
-          "label": "2 · Ich suche …",
-          "instruction": "Du hörst eine Gruppe mit der/die/das. Sag: Ich suche … – mit ein, im Akkusativ.",
+          "label": "2 · How does she do it?",
+          "instruction": "You hear a person with an adjective. Say how the person does it, with an adverb.",
           "example": {
-            "prompt": "der große Tisch",
-            "answer": "Ich suche einen großen Tisch."
+            "prompt": "She is a quick runner.",
+            "answer": "She runs quickly."
           },
           "items": [
             {
-              "prompt": "der warme Mantel",
-              "answer": "Ich suche einen warmen Mantel.",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/der-warme-mantel.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/ich-suche-einen-warmen-mantel--conrad.mp3"
+              "prompt": "He is a slow walker.",
+              "answer": "He walks slowly.",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/he-is-a-slow-walker.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/he-walks-slowly--a.mp3"
             },
             {
-              "prompt": "die bequeme Hose",
-              "answer": "Ich suche eine bequeme Hose.",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/die-bequeme-hose.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/ich-suche-eine-bequeme-hose--conrad.mp3"
+              "prompt": "Amira is a good singer.",
+              "answer": "Amira sings well.",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/amira-is-a-good-singer.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/amira-sings-well--a.mp3"
             },
             {
-              "prompt": "das kleine Auto",
-              "answer": "Ich suche ein kleines Auto.",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/das-kleine-auto.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/ich-suche-ein-kleines-auto--conrad.mp3"
+              "prompt": "Tom is a careful driver.",
+              "answer": "Tom drives carefully.",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/tom-is-a-careful-driver.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/tom-drives-carefully--a.mp3"
             },
             {
-              "prompt": "der schwarze Rucksack",
-              "answer": "Ich suche einen schwarzen Rucksack.",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/der-schwarze-rucksack.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/ich-suche-einen-schwarzen-rucksack--conrad.mp3"
+              "prompt": "Mei is a fast swimmer.",
+              "answer": "Mei swims fast.",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/mei-is-a-fast-swimmer.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/mei-swims-fast--a.mp3"
             },
             {
-              "prompt": "die neue Wohnung",
-              "answer": "Ich suche eine neue Wohnung.",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/die-neue-wohnung.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/ich-suche-eine-neue-wohnung--conrad.mp3"
+              "prompt": "Kwame is a hard worker.",
+              "answer": "Kwame works hard.",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/kwame-is-a-hard-worker.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/kwame-works-hard--a.mp3"
             },
             {
-              "prompt": "das gute Restaurant",
-              "answer": "Ich suche ein gutes Restaurant.",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/das-gute-restaurant.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/ich-suche-ein-gutes-restaurant--conrad.mp3"
+              "prompt": "Zofia is a quiet speaker.",
+              "answer": "Zofia speaks quietly.",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination-a2/zofia-is-a-quiet-speaker.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination-a2/zofia-speaks-quietly--a.mp3"
             }
           ]
         }
@@ -371,279 +413,409 @@
   "exercises": [
     {
       "type": "fill",
-      "title": "Ergänzen Sie die Adjektivendung.",
-      "hint": "Nur die Endung eintippen – z. B. „e“, „en“, „er“, „es“.",
-      "placeholder": "Endung…",
+      "title": "Adjective or adverb? Fill in the gap.",
+      "hint": "After be, look, feel, taste: adjective. After an action verb: adverb.",
+      "placeholder": "Word",
       "items": [
         {
-          "prompt": "Der neu___ Kollege ist sehr nett.",
-          "hint": "der · maskulin · Nominativ",
-          "answer": "e"
+          "prompt": "Please speak ___. I don't understand.",
+          "answer": [
+            "slowly"
+          ],
+          "choices": [
+            "slowly",
+            "slow",
+            "slowing"
+          ],
+          "why": "Speak is an action verb, so we need an adverb: slowly."
         },
         {
-          "prompt": "Ich kaufe einen warm___ Pullover.",
-          "hint": "einen · maskulin · Akkusativ",
-          "answer": "en"
+          "prompt": "The soup smells ___.",
+          "answer": [
+            "good"
+          ],
+          "choices": [
+            "good",
+            "well"
+          ],
+          "why": "After smell we use an adjective: good. Well is the adverb."
         },
         {
-          "prompt": "Das ist ein schön___ Bild.",
-          "hint": "ein · neutral · Nominativ – ein zeigt nichts",
-          "answer": "es"
+          "prompt": "She sings ___.",
+          "answer": [
+            "beautifully"
+          ],
+          "choices": [
+            "beautifully",
+            "beautiful"
+          ],
+          "why": "Sings is an action verb, so we need an adverb: beautifully."
         },
         {
-          "prompt": "Wir wohnen in einer klein___ Wohnung.",
-          "hint": "einer · Dativ",
-          "answer": "en"
+          "prompt": "You look ___ today. Are you OK?",
+          "answer": [
+            "tired"
+          ],
+          "choices": [
+            "tired",
+            "tiredly"
+          ],
+          "why": "After look we use an adjective: tired."
         },
         {
-          "prompt": "Mein alt___ Fahrrad ist kaputt.",
-          "hint": "mein · neutral · Nominativ",
-          "answer": "es"
+          "prompt": "He opened the box ___.",
+          "answer": [
+            "carefully"
+          ],
+          "choices": [
+            "carefully",
+            "careful"
+          ],
+          "why": "Opened is an action verb, so we need an adverb: carefully."
         },
         {
-          "prompt": "Hast du die rot___ Jacke gesehen?",
-          "hint": "die · feminin · Akkusativ",
-          "answer": "e"
+          "prompt": "The children are ___ today.",
+          "answer": [
+            "happy"
+          ],
+          "choices": [
+            "happy",
+            "happily"
+          ],
+          "why": "After are (be) we use an adjective: happy."
         },
         {
-          "prompt": "Er spielt mit dem klein___ Hund.",
-          "hint": "dem · Dativ",
-          "answer": "en"
+          "prompt": "Mei speaks English very ___.",
+          "answer": [
+            "well"
+          ],
+          "choices": [
+            "well",
+            "good"
+          ],
+          "why": "Speaks is an action verb. The adverb of good is well."
         },
         {
-          "prompt": "Das ist mein neu___ Freund.",
-          "hint": "mein · maskulin · Nominativ – mein zeigt nichts",
-          "answer": "er"
+          "prompt": "The test was ___. Everyone passed.",
+          "answer": [
+            "easy"
+          ],
+          "choices": [
+            "easy",
+            "easily"
+          ],
+          "why": "After was (be) we use an adjective: easy."
         }
       ]
     },
     {
       "type": "match",
-      "title": "Welche Endung passt?",
-      "hint": "Klicke erst links eine Regel an, dann rechts das passende Beispiel.",
+      "title": "Which adverb fits?",
+      "hint": "Read the description, then choose the adverb.",
       "pairs": [
         {
-          "q": "der / die / das im Nominativ",
-          "a": "die nett<u>e</u> Frau"
+          "q": "How does a quiet person speak?",
+          "a": "quiet<u>ly</u>"
         },
         {
-          "q": "ein + maskulin, Nominativ",
-          "a": "ein alt<u>er</u> Mann"
+          "q": "How does a happy person sing?",
+          "a": "happ<u>ily</u>"
         },
         {
-          "q": "ein + neutral, Nominativ oder Akkusativ",
-          "a": "ein klein<u>es</u> Kind"
+          "q": "How does a good player play?",
+          "a": "well"
         },
         {
-          "q": "den / einen (Akkusativ maskulin)",
-          "a": "einen gut<u>en</u> Film"
+          "q": "How does an angry person shout?",
+          "a": "angr<u>ily</u>"
         },
         {
-          "q": "Dativ: dem, der, einem, einer",
-          "a": "mit dem neu<u>en</u> Auto"
+          "q": "How do you pass a test that is easy?",
+          "a": "eas<u>ily</u>"
         },
         {
-          "q": "Plural mit Artikel: die, keine, meine",
-          "a": "die alt<u>en</u> Schuhe"
+          "q": "How do you carry a full cup of tea?",
+          "a": "careful<u>ly</u>"
         }
       ]
     },
     {
       "type": "table",
-      "title": "Ergänzen Sie die Endung.",
-      "hint": "Der Kasus steht in Klammern.",
+      "title": "Make the adverb.",
+      "hint": "Most adverbs: adjective + -ly. Look out for -y → -ily and for the irregular ones.",
       "columns": [
-        "Form",
-        "Endung"
+        "Adjective",
+        "Adverb"
       ],
-      "placeholder": "Endung…",
+      "placeholder": "Adverb",
       "rows": [
         {
-          "term": "der groß___ Garten (Nominativ)",
-          "answer": "e"
+          "term": "quick",
+          "answer": "quickly",
+          "choices": [
+            "quickly",
+            "quick",
+            "quickily",
+            "quicker"
+          ]
         },
         {
-          "term": "ein groß___ Garten (Nominativ)",
-          "answer": "er"
+          "term": "careful",
+          "answer": "carefully",
+          "choices": [
+            "carefully",
+            "carefuly",
+            "carefulely",
+            "careful"
+          ]
         },
         {
-          "term": "den groß___ Garten (Akkusativ)",
-          "answer": "en"
+          "term": "easy",
+          "answer": "easily",
+          "choices": [
+            "easily",
+            "easyly",
+            "easy",
+            "easier"
+          ]
         },
         {
-          "term": "das hell___ Zimmer (Akkusativ)",
-          "answer": "e"
+          "term": "happy",
+          "answer": "happily",
+          "choices": [
+            "happily",
+            "happyly",
+            "happy",
+            "happier"
+          ]
         },
         {
-          "term": "ein hell___ Zimmer (Akkusativ)",
-          "answer": "es"
+          "term": "bad",
+          "answer": "badly",
+          "choices": [
+            "badly",
+            "bad",
+            "baddly",
+            "worse"
+          ]
         },
         {
-          "term": "eine schön___ Stadt (Nominativ)",
-          "answer": "e"
+          "term": "good",
+          "answer": "well",
+          "choices": [
+            "well",
+            "goodly",
+            "good",
+            "better"
+          ],
+          "irregular": true
         },
         {
-          "term": "in einer schön___ Stadt (Dativ)",
-          "answer": "en"
+          "term": "hard",
+          "answer": "hard",
+          "choices": [
+            "hard",
+            "hardly",
+            "harder"
+          ],
+          "irregular": true
         },
         {
-          "term": "die nett___ Nachbarn (Plural)",
-          "answer": "en"
+          "term": "late",
+          "answer": "late",
+          "choices": [
+            "late",
+            "lately",
+            "later"
+          ],
+          "irregular": true
         }
       ]
     },
     {
       "type": "story",
-      "title": "Lückentext: Ergänzen Sie die Endungen.",
-      "hint": "Lenas neue Wohnung – nur die Endungen eintippen.",
+      "title": "Gap text: A morning at the market.",
+      "hint": "Use the word in brackets. After look and be: adjective. After an action verb: adverb.",
       "segments": [
         {
-          "text": "Lena hat eine neu"
+          "text": "Last Saturday I went to the market with my friend Amira. We got up "
         },
         {
           "blank": 0,
-          "answer": "e"
+          "answer": [
+            "early"
+          ]
         },
         {
-          "text": " Wohnung. Im Wohnzimmer steht ein groß"
+          "text": " (early) because the best fruit goes fast. Amira walks very "
         },
         {
           "blank": 1,
-          "answer": "es"
+          "answer": [
+            "quickly"
+          ]
         },
         {
-          "text": " Sofa, und daneben steht ein klein"
+          "text": " (quick), so I had to hurry. At the first stall a man sold bananas. He looked "
         },
         {
           "blank": 2,
-          "answer": "er"
+          "answer": [
+            "tired"
+          ]
         },
         {
-          "text": " Tisch. Auf dem klein"
+          "text": " (tired), but he smiled "
         },
         {
           "blank": 3,
-          "answer": "en"
+          "answer": [
+            "kindly"
+          ]
         },
         {
-          "text": " Tisch liegt ein dick"
+          "text": " (kind) and gave us a free apple. Amira speaks English "
         },
         {
           "blank": 4,
-          "answer": "es"
+          "answer": [
+            "well"
+          ]
         },
         {
-          "text": " Buch. Morgen kauft Lena noch einen bequem"
+          "text": " (good), so she asked about the price. The man answered "
         },
         {
           "blank": 5,
-          "answer": "en"
+          "answer": [
+            "slowly"
+          ]
         },
         {
-          "text": " Sessel und eine hell"
+          "text": " (slow), so we understood him. We bought a lot, and the bags were heavy, so we carried them "
         },
         {
           "blank": 6,
-          "answer": "e"
+          "answer": [
+            "carefully"
+          ]
         },
         {
-          "text": " Lampe. Ihre alt"
+          "text": " (careful). We were very "
         },
         {
           "blank": 7,
-          "answer": "en"
+          "answer": [
+            "happy"
+          ]
         },
         {
-          "text": " Möbel bekommt ihr Bruder."
+          "text": " (happy) when we got home."
         }
       ]
     },
     {
       "type": "build",
-      "title": "Bauen Sie die Sätze aus den Wortgruppen.",
+      "title": "Build the sentences.",
       "sentences": [
         {
           "id": "a1",
-          "hint": "der · Akkusativ",
+          "hint": "good → well",
           "correct": [
-            "Ich",
-            "trage",
-            "heute",
-            "den",
-            "blauen",
-            "Pullover",
+            "She",
+            "speaks",
+            "English",
+            "very",
+            "well",
             "."
           ],
           "shuffled": [
-            "blauen",
-            "Ich",
-            "Pullover",
-            "heute",
+            "very",
+            "English",
             ".",
-            "den",
-            "trage"
+            "She",
+            "well",
+            "speaks"
           ]
         },
         {
           "id": "a2",
-          "hint": "ein · neutral · Nominativ",
+          "hint": "quick → quickly",
           "correct": [
-            "Das",
-            "ist",
-            "ein",
-            "neues",
-            "Handy",
+            "My",
+            "brother",
+            "runs",
+            "very",
+            "quickly",
             "."
           ],
           "shuffled": [
-            "neues",
+            "quickly",
+            "runs",
             ".",
-            "Handy",
-            "Das",
-            "ein",
-            "ist"
+            "My",
+            "very",
+            "brother"
           ]
         },
         {
           "id": "a3",
-          "hint": "Dativ nach „in“",
+          "hint": "hard: same form",
           "correct": [
-            "Wir",
-            "essen",
-            "in",
-            "einem",
-            "kleinen",
-            "Restaurant",
+            "Our",
+            "teacher",
+            "works",
+            "very",
+            "hard",
             "."
           ],
           "shuffled": [
-            "kleinen",
-            "Wir",
-            "Restaurant",
-            "in",
+            "hard",
+            "Our",
             ".",
-            "essen",
-            "einem"
+            "works",
+            "very",
+            "teacher"
           ]
         },
         {
           "id": "a4",
-          "hint": "eine · Akkusativ",
+          "hint": "adjective after look",
           "correct": [
-            "Sie",
-            "kauft",
-            "eine",
-            "rote",
-            "Tasche",
+            "You",
+            "look",
+            "very",
+            "tired",
+            "today",
             "."
           ],
           "shuffled": [
-            "rote",
-            "Tasche",
-            "Sie",
+            "today",
+            "tired",
+            "You",
             ".",
-            "eine",
-            "kauft"
+            "very",
+            "look"
+          ]
+        },
+        {
+          "id": "a5",
+          "hint": "easy → easily",
+          "correct": [
+            "He",
+            "passed",
+            "the",
+            "test",
+            "easily",
+            "."
+          ],
+          "shuffled": [
+            "easily",
+            "the",
+            ".",
+            "He",
+            "test",
+            "passed"
           ]
         }
       ]
