@@ -55,6 +55,22 @@ function KeepAwake([bool]$on) {
   try { [void][EA.Power]::SetThreadExecutionState($(if ($on) { [uint32]'0x80000001' } else { [uint32]'0x80000000' })) } catch {}
 }
 
+# Weekly-cap pause inside the loop: the laptop may sleep meanwhile (no keep-awake). Ends when
+# usage is below the cap again (week reset, or the cap raised in the monitor) or when the
+# monitor's Start clears the wait.
+function WaitForCap {
+  KeepAwake $false
+  while ($true) {
+    Start-Sleep -Seconds 60
+    $st = ReadStatus
+    if (-not $st -or $st.state -ne 'waiting') { break }
+    if (-not (OverCap)) { break }
+  }
+  KeepAwake $true
+  Note 'resume after weekly-cap pause'
+  SetStatus @{ state = 'running'; item = $null }
+}
+
 # Usage cap (config.json): from the latest snapshot that automation/statusline.mjs writes
 # whenever Claude Code (the c2 account, interactively) refreshes its status line.
 function OverCap {
@@ -96,10 +112,6 @@ if (Test-Path $Lock) {
   if ($lockPid -and (Get-Process -Id $lockPid -ErrorAction SilentlyContinue)) { exit 0 }  # a loop is running
 }
 
-# --- still waiting for a limit to reset? (quietly: the task checks every 30 min) --------------
-$prev = ReadStatus
-if (-not $DryRun -and $prev -and $prev.state -eq 'waiting' -and $prev.until -and ([datetime]$prev.until) -gt (Get-Date)) { exit 0 }
-if (-not $DryRun -and $prev -and $prev.state -eq 'halted') { exit 0 }  # stopped after errors; cleared by "Run now" (-Force via monitor) or by hand
 
 Set-Content -Path $Lock -Value $PID
 KeepAwake $true
@@ -140,9 +152,11 @@ try {
     $cap = OverCap
     if ($cap) {
       Note "pause: $($cap.text)"
-      SetStatus @{ state = 'waiting'; reason = 'weekly-cap'; until = $(if ($cap.until) { $cap.until.ToString('o') } else { (Get-Date).AddHours(1).ToString('o') }); item = $id; detail = $cap.text }
-      Toast 'EnglishAcademy: weekly cap reached' "$($cap.text). Paused until the week resets."
-      break
+      SetStatus @{ state = 'waiting'; reason = 'weekly-cap'; until = $(if ($cap.until) { $cap.until.ToString('o') } else { $null }); item = $id; detail = $cap.text }
+      Toast 'EnglishAcademy: weekly cap reached' "$($cap.text). Paused until the week resets; it continues by itself."
+      if ($Once) { break }
+      WaitForCap
+      continue
     }
 
     if ($id -eq $lastItem) { $sameItemRuns++ } else { $sameItemRuns = 1; $lastItem = $id }
@@ -193,8 +207,11 @@ try {
     if ($script:capped) {
       $last.outcome = 'capped'; Note "pause during ${id}: $($script:capped.text)"
       SetStatus @{ state = 'waiting'; reason = 'weekly-cap'; until = $(if ($script:capped.until) { $script:capped.until.ToString('o') } else { (Get-Date).AddHours(1).ToString('o') }); item = $id; detail = $script:capped.text; last = $last }
-      Toast 'EnglishAcademy: weekly cap reached' "Stopped during $id. Paused until the week resets."
-      break
+      Toast 'EnglishAcademy: weekly cap reached' "Stopped during $id. Paused until the week resets; it continues by itself."
+      if ($Once) { break }
+      WaitForCap
+      $sameItemRuns = [Math]::Max(0, $sameItemRuns - 1)  # a cap stop is not a failed attempt
+      continue
     }
     if ($text -match 'RESULT: DONE') { $last.outcome = 'done'; $failsInRow = 0; Note "done: $id" ; Toast "EnglishAcademy: $id done" 'Next item starts now.'; SetStatus @{ state = 'running'; last = $last; item = $null }; if ($Once) { break }; continue }
     if ($text -match 'RESULT: PARTIAL') { $last.outcome = 'partial'; $failsInRow = 0; Note "partial: $id; continuing"; SetStatus @{ state = 'running'; last = $last; item = $null }; if ($Once) { break }; continue }

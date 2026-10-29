@@ -1,10 +1,10 @@
-# Registers (or replaces) the Windows scheduled task that keeps automation\run-next.ps1 going.
-#   pwsh -ExecutionPolicy Bypass -File automation\install-schedule.ps1 [-EveryMinutes 30]
-# The task is only a wake-up check: if the runner loop is already going, or waiting for a usage
-# limit to reset, it exits at once. Otherwise it starts the loop (after a reboot, after a reset).
-# Remove:          Unregister-ScheduledTask -TaskName 'EnglishAcademy content run' -Confirm:$false
-# Pause / resume:  Disable-ScheduledTask / Enable-ScheduledTask -TaskName 'EnglishAcademy content run'
-param([int]$EveryMinutes = 30, [int]$StartInMinutes = 1)
+# Registers (or replaces) the Windows task that STARTS automation\run-next.ps1, hidden.
+#   pwsh -ExecutionPolicy Bypass -File automation\install-schedule.ps1
+# The task has no timer: nothing starts by itself (not on a schedule, not after a reboot).
+# It only exists so a start runs without any window: the monitor's Start button and the
+# desktop shortcut "EnglishAcademy Start" call it. Once started, the runner keeps going on its
+# own (waits for 5-hour resets and the weekly reset) until the queue is done or you click Stop.
+# Remove:  Unregister-ScheduledTask -TaskName 'EnglishAcademy content run' -Confirm:$false
 
 $name = 'EnglishAcademy content run'
 $script = Join-Path $PSScriptRoot 'run-next.ps1'
@@ -14,12 +14,19 @@ $exe = if (Get-Command pwsh -ErrorAction SilentlyContinue) { (Get-Command pwsh).
 # stops the run).
 $arguments = '--headless "{0}" -NoProfile -ExecutionPolicy Bypass -File "{1}"' -f $exe, $script
 $action = New-ScheduledTaskAction -Execute 'conhost.exe' -Argument $arguments -WorkingDirectory (Split-Path -Parent $PSScriptRoot)
-$trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes($StartInMinutes) -RepetitionInterval (New-TimeSpan -Minutes $EveryMinutes) -RepetitionDuration (New-TimeSpan -Days 3650)
-# No time limit: the loop runs for hours. WakeToRun: a check may wake the laptop (plugged in).
-# StartWhenAvailable: a check missed while it slept runs when it wakes. IgnoreNew + the
-# script's own lock: never two loops at once.
-$settings = New-ScheduledTaskSettingsSet -WakeToRun -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries `
+# No time limit (the runner goes for hours or days). IgnoreNew + the script's own lock: never
+# two runners at once.
+$settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries `
   -MultipleInstances IgnoreNew -ExecutionTimeLimit ([TimeSpan]::Zero)
-Register-ScheduledTask -TaskName $name -Action $action -Trigger $trigger -Settings $settings -Force `
-  -Description 'Keeps the englishacademy content runner (Claude Code, headless) going. See automation\README.md.' | Out-Null
-Get-ScheduledTask -TaskName $name | Get-ScheduledTaskInfo | Select-Object TaskName, NextRunTime
+Register-ScheduledTask -TaskName $name -Action $action -Settings $settings -Force `
+  -Description 'Starts the englishacademy content runner (Claude Code, headless), on demand only. See automation\README.md.' | Out-Null
+
+# Desktop shortcut that starts it.
+$ws = New-Object -ComObject WScript.Shell
+$lnk = $ws.CreateShortcut((Join-Path ([Environment]::GetFolderPath('Desktop')) 'EnglishAcademy Start.lnk'))
+$lnk.TargetPath = "$env:WINDIR\System32\schtasks.exe"
+$lnk.Arguments = "/run /tn `"$name`""
+$lnk.WindowStyle = 7
+$lnk.IconLocation = "$env:WINDIR\System32\shell32.dll,137"
+$lnk.Save()
+"Task '$name' registered (start on demand only). Desktop shortcut: EnglishAcademy Start"

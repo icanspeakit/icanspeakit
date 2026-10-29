@@ -26,6 +26,9 @@ const ps = (command) => run(SHELL, ['-NoProfile', '-NonInteractive', '-Command',
 const readText = async (p) => { try { return await readFile(p, 'utf8'); } catch { return null; } };
 const readJson = async (p) => { const t = await readText(p); try { return t ? JSON.parse(t.replace(/^\uFEFF/, '')) : null; } catch { return null; } };
 const alive = (pid) => { if (!pid) return false; try { process.kill(pid, 0); return true; } catch (e) { return e.code === 'EPERM'; } };
+// The runner's PID: run-next.ps1 holds it in this lock file for as long as it runs or waits.
+const LOCK = path.join(process.env.TEMP ?? process.env.TMP ?? '', 'englishacademy-content-run.lock');
+const runnerPid = async () => { const t = await readText(LOCK); const n = Number.parseInt(String(t ?? '').trim(), 10); return Number.isFinite(n) ? n : null; };
 
 let taskCache = { at: 0, value: null };
 async function taskInfo(force = false) {
@@ -109,7 +112,7 @@ async function state() {
   const status = await readJson(path.join(LOGS, 'status.json'));
   const usage = await readJson(path.join(LOGS, 'usage.json'));
   const config = await readJson(path.join(AUTO, 'config.json'));
-  if (status?.state === 'running' && !alive(status.pid)) status.state = 'stopped';
+  if (status && (status.state === 'running' || status.state === 'waiting') && !alive(await runnerPid())) status.state = 'stopped';
   const [q, r, c, d, rep, l, task] = await Promise.all([queue(), runsLog(), commits(), diffStat(), reports(), logs(), taskInfo()]);
   return { now: new Date().toISOString(), status, usage, config, queue: q, runs: r, commits: c, diff: d, reports: rep, logs: l, task, worktree: existsSync(WORK) };
 }
@@ -128,9 +131,9 @@ const actions = {
   pause: () => ps(`Disable-ScheduledTask -TaskName '${TASK}' | Out-Null`),
   resume: () => ps(`Enable-ScheduledTask -TaskName '${TASK}' | Out-Null`),
   stop: async () => {
-    const s = await readJson(path.join(LOGS, 'status.json'));
-    if (!s?.pid || !alive(s.pid)) return { ok: false, err: 'no run in progress' };
-    return run('taskkill', ['/PID', String(s.pid), '/T', '/F']);
+    const pid = await runnerPid();
+    if (!alive(pid)) return { ok: false, err: 'not running' };
+    return run('taskkill', ['/PID', String(pid), '/T', '/F']);
   },
 };
 

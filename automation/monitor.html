@@ -97,9 +97,8 @@
     <span id="pill" class="pill idle">…</span>
   </div>
   <div class="actions">
-    <button class="primary" data-act="run-now" title="Start the next item now">Run now</button>
-    <button data-act="stop" class="danger" title="Stop the run in progress (its commits stay)">Stop run</button>
-    <button id="pauseBtn" data-act="pause">Pause schedule</button>
+    <button class="primary" data-act="run-now" title="Start the runner (also ends a pause)">Start</button>
+    <button data-act="stop" class="danger" title="Stop the runner (commits stay; it resumes the item when you start again)">Stop</button>
   </div>
 </header>
 <main>
@@ -169,11 +168,11 @@ function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add
 
 document.querySelectorAll('[data-act]').forEach((b) => b.addEventListener('click', async () => {
   const act = b.dataset.act;
-  if (act === 'stop' && !confirm('Stop the run in progress? Its commits stay; the next run resumes the item.')) return;
+  if (act === 'stop' && !confirm('Stop the runner? Its commits stay; it resumes the item when you click Start again.')) return;
   b.disabled = true;
   try {
     const r = await fetch('/api/action/' + act, { method: 'POST' }).then((x) => x.json());
-    toast(r.ok ? ({ 'run-now': 'Run started', stop: 'Run stopped', pause: 'Schedule paused', resume: 'Schedule resumed' })[act] : 'Failed: ' + (r.err || 'unknown'));
+    toast(r.ok ? ({ 'run-now': 'Started', stop: 'Stopped' })[act] : 'Failed: ' + (r.err || 'unknown'));
   } finally { b.disabled = false; refresh(); }
 }));
 
@@ -192,13 +191,11 @@ async function refresh() {
   else if (st?.state === 'stopped') pill = ['Stopped', 'warn'];
   else if (lastOut === 'auth') pill = ['Needs login', 'bad'];
   else if (lastOut === 'capped') pill = ['At usage cap', 'warn'];
-  else if (task?.state === 'Disabled') pill = ['Paused', 'warn'];
-  else if (!task) pill = ['No schedule', 'warn'];
+  else if (!task) pill = ['Not installed', 'warn'];
+  else pill = ['Stopped', 'idle'];
   $('pill').className = 'pill ' + pill[1]; $('pill').textContent = pill[0];
 
-  const paused = task?.state === 'Disabled';
-  $('pauseBtn').dataset.act = paused ? 'resume' : 'pause';
-  $('pauseBtn').textContent = paused ? 'Resume schedule' : 'Pause schedule';
+  const paused = false;
 
   const waiting = st?.state === 'waiting';
   $('nowItem').textContent = running ? (st.item ?? 'starting next…') : waiting ? 'Waiting' : st?.state === 'halted' ? 'Halted' : '–';
@@ -227,8 +224,8 @@ async function refresh() {
   const nextItem = s.queue.find((q) => !q.done);
   $('progSub').textContent = nextItem ? `Next: ${nextItem.id}` : 'All items done';
 
-  $('next').textContent = paused ? 'Paused' : running ? 'Continuous' : waiting ? fmtTime(st.until) : task?.next ? fmtTime(task.next) : '–';
-  $('nextSub').textContent = paused ? 'Schedule is paused' : running ? 'Next item starts as soon as one finishes' : waiting ? rel(st.until) : task?.next ? `check ${rel(task.next)} · every 30 min` : task ? '' : 'Run install-schedule.ps1';
+  $('next').textContent = running ? 'Continuous' : waiting ? (st.until ? fmtTime(st.until) : 'Week reset') : 'Stopped';
+  $('nextSub').textContent = running ? 'Next item starts as soon as one finishes' : waiting ? (st.until ? rel(st.until) : 'when usage is under the cap again') : 'Runs only when you click Start';
 
   if (st?.last) {
     const [label] = OUTCOME[st.last.outcome] ?? [st.last.outcome];
