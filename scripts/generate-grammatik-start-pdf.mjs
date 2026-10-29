@@ -308,7 +308,10 @@ async function build(lang) {
     doc.fillColor(INK).font(F.bold).fontSize(13).text("EnglishAcademy", MARGIN + 164, 46, { lineBreak: false });
     doc.fillColor(TEAL_DARK).font("Fredoka").fontSize(11).text("Here for you!", MARGIN + 164, 63, { lineBreak: false });
     doc.fillColor(TEAL_DARK).font(F.bold).fontSize(9).text("LEARN ENGLISH · A1 – B1", MARGIN, 104, { characterSpacing: 1.2 });
-    doc.fillColor(INK).font(F.bold).fontSize(34).text(baseUi.bookTitle, MARGIN, 120, { width: W });
+    // As large as fits on one line: a break inside „A1–B1“ reads badly.
+    let titleSize = 34;
+    while (titleSize > 24 && doc.font(F.bold).fontSize(titleSize).widthOfString(baseUi.bookTitle) > W) titleSize -= 1;
+    doc.fillColor(INK).font(F.bold).fontSize(titleSize).text(baseUi.bookTitle, MARGIN, 120, { width: W });
     doc.fillColor(MUTED).font(F.regular).fontSize(16).text(baseUi.bookSubtitle, MARGIN, doc.y + 2, { width: W });
     let y = doc.y + 14;
     if (tr) {

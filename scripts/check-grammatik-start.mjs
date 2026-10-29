@@ -55,7 +55,7 @@ export function units() {
 
 // English words that are not words in the help languages: three of them outside *stars*,
 // quotes and brackets in one text means it was not translated.
-const ENGLISH = /\b(the|and|is|are|not|with|you|this|they|when|use|after|before|verb|always|only)\b/gi;
+const ENGLISH = /\b(the|and|is|are|not|with|you|this|they|when|use|after|before|always|only)\b/gi;
 const strip = (s) => String(s).replace(/\*[^*]*\*/g, " ").replace(/[„"«“][^“"»”]*[“"»”]/g, " ").replace(/\([^)]*\)/g, " ");
 
 function check(code) {
