@@ -19,7 +19,7 @@ const total = akkusativQuestions.filter((q) => q.difficulty === "leicht").length
         <nav class="akk-breadcrumb" aria-label="Breadcrumb">
           <a href="/uebungen" data-i18n="nav.exercises">Übungen</a><span class="akk-crumb-sep">›</span>
           <a href="/grammatik" data-i18n="nav.subject.grammatik">Grammatik</a><span class="akk-crumb-sep">›</span>
-          <span class="akk-crumb-current">Akkusativ</span>
+          <span class="akk-crumb-current">Object pronouns</span>
         </nav>
         <div style="margin-left:auto; display:flex; align-items:center; gap:10px;">
           <LanguageSwitcher />
@@ -27,14 +27,14 @@ const total = akkusativQuestions.filter((q) => q.difficulty === "leicht").length
         </div>
       </div>
     </header>
-    <CourseBar topic="akkusativ" title="Akkusativ – EnglishAcademy" />
+    <CourseBar topic="akkusativ" title="Object pronouns – EnglishAcademy" />
 
     <main class="akk-main">
       <div class="akk-card">
         <div class="akk-card-header">
           <div class="akk-title-group">
-            <span class="akk-tag">AKK</span>
-            <h1 class="akk-title">Akkusativ</h1>
+            <span class="akk-tag">OBJ</span>
+            <h1 class="akk-title">Object pronouns</h1>
           </div>
           <div class="akk-difficulty" role="group" aria-label="Schwierigkeit" data-i18n-attr="aria-label:akk.diff.ariaLabel">
             <button class="akk-diff-btn active" data-diff="leicht" type="button" data-i18n="akk.diff.leicht">Leicht</button>
@@ -61,39 +61,58 @@ const total = akkusativQuestions.filter((q) => q.difficulty === "leicht").length
 
         <div id="akk-regel-view" hidden>
           <p class="akk-regel-intro" data-i18n-html="akk.regel.intro">
-            Im Akkusativ ändert sich nur der bestimmte Artikel im Maskulinum: <strong>der → den</strong>.
-            Feminin, Neutrum und Plural bleiben gleich wie im Nominativ. Der Akkusativ steht u. a. nach
-            <em>haben, brauchen, sehen, suchen</em> und nach Präpositionen wie <em>für, durch, gegen, um, ohne</em>.
+            The <strong>subject</strong> comes before the verb: <em>She likes Tom.</em> The <strong>object</strong> comes
+            after the verb or after a preposition (<em>for, with, to, at</em>): <em>Tom likes <strong>her</strong>. Tom sits with <strong>her</strong>.</em>
+            For a pronoun the object has its own form.
           </p>
           <table class="akk-decl-table">
             <thead>
               <tr>
-                <th data-i18n="akk.tbl.case">Fall</th>
-                <th data-i18n="akk.tbl.m">Maskulin</th>
-                <th data-i18n="akk.tbl.f">Feminin</th>
-                <th data-i18n="akk.tbl.n">Neutrum</th>
-                <th data-i18n="akk.tbl.pl">Plural</th>
+                <th data-i18n="akk.tbl.subject">Subject</th>
+                <th data-i18n="akk.tbl.object">Object</th>
+                <th data-i18n="akk.tbl.example">Example</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Nominativ</td>
-                <td>der</td>
-                <td>die</td>
-                <td>das</td>
-                <td>die</td>
+                <td>I</td>
+                <td class="akk-decl-change">me</td>
+                <td>Can you help <strong>me</strong>?</td>
               </tr>
               <tr>
-                <td>Akkusativ</td>
-                <td class="akk-decl-change">den</td>
-                <td>die</td>
-                <td>das</td>
-                <td>die</td>
+                <td>you</td>
+                <td class="akk-decl-change">you</td>
+                <td>This is for <strong>you</strong>.</td>
+              </tr>
+              <tr>
+                <td>he</td>
+                <td class="akk-decl-change">him</td>
+                <td>I like <strong>him</strong>.</td>
+              </tr>
+              <tr>
+                <td>she</td>
+                <td class="akk-decl-change">her</td>
+                <td>I can see <strong>her</strong>.</td>
+              </tr>
+              <tr>
+                <td>it</td>
+                <td class="akk-decl-change">it</td>
+                <td>Do you want <strong>it</strong>?</td>
+              </tr>
+              <tr>
+                <td>we</td>
+                <td class="akk-decl-change">us</td>
+                <td>Call <strong>us</strong> later.</td>
+              </tr>
+              <tr>
+                <td>they</td>
+                <td class="akk-decl-change">them</td>
+                <td>I visit <strong>them</strong> on Sundays.</td>
               </tr>
             </tbody>
           </table>
           <p class="akk-regel-note" data-i18n-html="akk.regel.example">
-            Beispiel: <em>der Computer</em> (Nominativ) → <em>Ich habe den Computer.</em> (Akkusativ)
+            Common mistake: <em>I like he.</em> → <em>I like <strong>him</strong>.</em> And after <em>It's</em> we say <em>It's <strong>me</strong></em>.
           </p>
           <button class="akk-btn akk-btn-primary" id="akk-back-to-uebung" type="button" data-i18n="akk.backToPractice">Zurück zur Übung</button>
         </div>
