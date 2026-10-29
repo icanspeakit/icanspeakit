@@ -13,7 +13,7 @@ item, tick it by hand; to redo one, untick it. Add, remove or reorder items free
 - [x] `grammar-a2`: A2 grammar topics.
 - [x] `grammar-b1`: B1 grammar topics.
 - [x] `grammar-b2`: B2 grammar topics.
-- [ ] `grammar-c1`: C1 grammar topics (src/paid/grammatik included).
+- [x] `grammar-c1`: C1 grammar topics (src/paid/grammatik included).
 - [ ] `grammar-structure`: Grammar order, syllabus, related topics, reference tables (grammatik.json, grammatik-lehrplan.json, grammatik-verwandt.json, nachschlagen/).
 - [ ] `beginner-path`: The "Einfach lernen" beginner path (einfach-pfad.json) for English.
 - [ ] `vocab-a1`: Lexicon and word decks, A1 (src/content/lexicon, wortschatz.json).
