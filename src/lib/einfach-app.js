@@ -162,9 +162,11 @@ export function setPlacement(items) {
 }
 export const placementItems = () => PLACEMENT;
 
-/** Right answers → where to start. Only A1 is playable, so the ceiling is mid-A1. */
+/** Right answers → where to start. The quick check only asks A1, so the ceiling is mid-A1:
+ *  5–6 right skips be, articles, plurals, possessives and the present simple; 3–4 skips the
+ *  first three. */
 export function placementStart(right) {
-  const at = right >= 5 ? "a1-einkaufen" : right >= 3 ? "a1-kennenlernen" : UNITS[0]?.id;
+  const at = right >= 5 ? "a1-cafe" : right >= 3 ? "a1-familie" : UNITS[0]?.id;
   return unitById(at) ? at : UNITS[0]?.id;
 }
 
