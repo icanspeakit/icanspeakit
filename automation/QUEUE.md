@@ -9,7 +9,7 @@ item, tick it by hand; to redo one, untick it. Add, remove or reorder items free
 - [x] `ui-pages-a-l`: Same for src/pages, files and folders starting a–l.
 - [x] `ui-pages-m-z`: Same for src/pages, files and folders starting m–z, plus the legal pages.
 - [x] `placement-test`: Placement test (src/data/einstufung.json) as an English test, A1–C1.
-- [ ] `grammar-a1`: A1 grammar topics (src/data/grammatik, level A1) as English grammar topics, same schema.
+- [x] `grammar-a1`: A1 grammar topics (src/data/grammatik, level A1) as English grammar topics, same schema.
 - [ ] `grammar-a2`: A2 grammar topics.
 - [ ] `grammar-b1`: B1 grammar topics.
 - [ ] `grammar-b2`: B2 grammar topics.
