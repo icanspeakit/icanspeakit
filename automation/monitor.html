@@ -97,6 +97,7 @@
     <span id="pill" class="pill idle">…</span>
   </div>
   <div class="actions">
+    <button data-act="preview" title="Open the site as it is now (latest content commit) at localhost:4321">Preview</button>
     <button id="btnStart" class="primary" data-act="run-now" title="Start the runner" hidden>Start</button>
     <button id="btnStop" data-act="stop" class="danger" title="Stop the runner (commits stay; it resumes the item when you start again)" hidden>Stop</button>
   </div>
@@ -172,7 +173,7 @@ document.querySelectorAll('[data-act]').forEach((b) => b.addEventListener('click
   b.disabled = true;
   try {
     const r = await fetch('/api/action/' + act, { method: 'POST' }).then((x) => x.json());
-    toast(r.ok ? ({ 'run-now': 'Started', stop: 'Stopped' })[act] : 'Failed: ' + (r.err || 'unknown'));
+    toast(r.ok ? ({ 'run-now': 'Started', stop: 'Stopped', preview: 'Preparing the preview; it opens in a new tab in a moment' })[act] : 'Failed: ' + (r.err || 'unknown'));
   } finally { b.disabled = false; refresh(); }
 }));
 

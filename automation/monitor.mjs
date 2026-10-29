@@ -128,8 +128,14 @@ const actions = {
     }
     return ps(`Start-ScheduledTask -TaskName '${TASK}'`);
   },
-  pause: () => ps(`Disable-ScheduledTask -TaskName '${TASK}' | Out-Null`),
-  resume: () => ps(`Enable-ScheduledTask -TaskName '${TASK}' | Out-Null`),
+  // automation/preview.ps1: latest content commit at http://localhost:4321 (opens the browser
+  // itself once the dev server answers, which can take a minute). Started detached.
+  preview: async () => {
+    const { spawn } = await import('node:child_process');
+    const child = spawn('conhost.exe', ['--headless', SHELL, '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', path.join(AUTO, 'preview.ps1')], { detached: true, stdio: 'ignore', windowsHide: true });
+    child.unref();
+    return { ok: true };
+  },
   stop: async () => {
     const pid = await runnerPid();
     if (!alive(pid)) return { ok: false, err: 'not running' };

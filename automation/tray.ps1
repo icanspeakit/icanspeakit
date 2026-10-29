@@ -62,6 +62,7 @@ $miProg  = $menu.Items.Add('...'); $miProg.Enabled = $false
 $miUse   = $menu.Items.Add('...'); $miUse.Enabled = $false
 [void]$menu.Items.Add('-')
 $miOpen  = $menu.Items.Add('Open monitor')
+$miPrev  = $menu.Items.Add('Open preview (latest)')
 $miStart = $menu.Items.Add('Start')
 $miStop  = $menu.Items.Add('Stop')
 [void]$menu.Items.Add('-')
@@ -70,6 +71,12 @@ $miOpen.Font = New-Object System.Drawing.Font($miOpen.Font, [System.Drawing.Font
 $tray.ContextMenuStrip = $menu
 
 $miOpen.add_Click({ Open-Monitor })
+$miPrev.add_Click({
+  # Updates the preview copy to the latest content commit, (re)starts it, opens the browser.
+  $exe = if (Get-Command pwsh -ErrorAction SilentlyContinue) { (Get-Command pwsh).Source } else { 'powershell.exe' }
+  Start-Process -FilePath 'conhost.exe' -ArgumentList '--headless', "`"$exe`"", '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', "`"$(Join-Path $Auto 'preview.ps1')`""
+  $tray.ShowBalloonTip(4000, 'EnglishAcademy', 'Preparing the preview; the browser opens in a moment.', 'Info')
+})
 $tray.add_DoubleClick({ Open-Monitor })
 $miStart.add_Click({
   # Like the monitor's Start: end a pause first, then start (the task runs it hidden).
