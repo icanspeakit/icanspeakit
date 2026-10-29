@@ -36,10 +36,10 @@ const rule = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").repl
     <a href="/grammatik" class="vp-back-link" data-i18n="header.back">Zurück zur Übersicht</a>
 
     <header class="tf-head">
-      <p class="eyebrow">Grammatik · Nachschlagen</p>
-      <h1>Typische Fehler</h1>
-      <SectionMascot name="regi" say="Zwei Wörter, ein Klang – welches ist es?" />
-      <p class="tf-lead">{total} Wortpaare, die man leicht verwechselt. Jedes Paar mit Beispiel, dem Unterschied in einem Satz und einer Lücke zum Ausprobieren.</p>
+      <p class="eyebrow" data-i18n="tf.eyebrow">Grammar · Reference</p>
+      <h1 data-i18n="grammatik.tf.title">Common mistakes</h1>
+      <SectionMascot name="regi" say="Two words, one sound – which one is it?" sayKey="tf.mascot" />
+      <p class="tf-lead" data-i18n="tf.lead" data-i18n-vars={JSON.stringify({ n: total })}>{total} pairs of words that are easy to mix up. Each pair with an example, the difference in one sentence and a gap to try.</p>
       <RefActions chapter="g-typische-fehler" sheet="typische-fehler" />
     </header>
     <GrammarHelp level="A1" root="tf-page" reviewed={fehler.reviewed} />
@@ -47,11 +47,11 @@ const rule = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").repl
     {/* Bruno, Quaki, Regi and Hamsti act out the page's first pair: man ≠ der Mann. */}
     <MascotComic comic={fehler.comic as any} chip="form" fit />
 
-    <nav class="tf-jump" aria-label="Gruppen">
+    <nav class="tf-jump" aria-label="Groups" data-i18n-attr="aria-label:tf.groups">
       {fehler.groups.map((g, i) => (
         <a class={`tf-jump-item tf-grp--${g.id}`} href={`#${g.id}`}>
           <span class="tf-num" aria-hidden="true">{i + 1}</span>
-          <span class="tf-jump-txt"><b>{g.title}</b><i>{g.pairs.length} Paare</i></span>
+          <span class="tf-jump-txt"><b>{g.title}</b><i>{g.pairs.length} pairs</i></span>
         </a>
       ))}
     </nav>
@@ -68,17 +68,18 @@ const rule = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").repl
         {/* The group's rule, folded like the Regel boxes of the Verbtabellen (mountRefToggle);
             open on load — on a reference page the rule is content. */}
         {g.regel && (
-          <aside class="tf-regel" aria-label={`Regel: ${g.title}`}>
+          <aside class="tf-regel" aria-label={`Rule: ${g.title}`}>
             <div class="tf-regel-bar">
-              <p class="tf-regel-label" data-i18n="ak.rule">Regel</p>
+              <p class="tf-regel-label" data-i18n="ak.rule">Rule</p>
               <button
                 type="button"
                 class="tf-regel-toggle"
                 aria-controls={`regel-${g.id}`}
-                data-show="Regel einblenden"
-                data-hide="Regel ausblenden"
+                data-show="Show rule"
+                data-hide="Hide rule"
                 data-i18n-attr="data-show:vp.rule.show;data-hide:vp.rule.hide"
-              >Regel ausblenden</button>
+                data-i18n="vp.rule.hide"
+              >Hide rule</button>
             </div>
             <div class="tf-regel-body" id={`regel-${g.id}`}>
               <div class="tf-regel-inner">
@@ -94,7 +95,7 @@ const rule = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").repl
               <div class="tf-pair" lang="de">
                 {[p.a, p.b].map((m: any, k: number) => (
                   <>
-                    {k === 1 && <span class="tf-vs" aria-label="nicht verwechseln mit">≠</span>}
+                    {k === 1 && <span class="tf-vs" aria-label="not to be confused with">≠</span>}
                     <div class:list={["tf-side", { "tf-side--wrong": m.wrong }]}>
                       <b class="tf-w">{m.w}</b>
                       <span class="tf-pos">{m.pos}</span>
@@ -122,12 +123,12 @@ const rule = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").repl
     ))}
 
     <aside class="tf-next">
-      <SectionMascot name="regi" say="Welche Wortart ist das? Das hilft fast immer." />
+      <SectionMascot name="regi" say="Which part of speech is it? That almost always helps." sayKey="tf.next.mascot" />
       <div class="tf-next-links">
-        <a class="tf-next-btn" href="/grammatik/wortarten">Wortarten nachschlagen</a>
-        <a class="tf-next-btn tf-next-btn--ghost" href="/wortarten">Wortarten üben</a>
+        <a class="tf-next-btn" href="/grammatik/wortarten" data-i18n="tf.next.look">Look up parts of speech</a>
+        <a class="tf-next-btn tf-next-btn--ghost" href="/wortarten" data-i18n="tf.next.practise">Practise parts of speech</a>
       </div>
-      <p class="tf-next-more">Wörter, die ähnlich klingen und etwas ganz anderes bedeuten – Küche, Kuchen, Koch: <a href="/wissen/wortfallen">Wortfallen</a>.</p>
+      <p class="tf-next-more" data-i18n-html="tf.next.more">Words that look like words in your language but mean something else: <a href="/wissen/wortfallen">False friends</a>.</p>
     </aside>
   </main>
 </Layout>
@@ -153,10 +154,10 @@ const rule = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").repl
           blank.textContent = answer!;
           blank.dataset.result = "ok";
           box.dataset.state = "done";
-          fb.textContent = "Richtig!";
+          fb.textContent = "Correct!";
           box.querySelectorAll<HTMLButtonElement>("[data-tf-opt]").forEach((b) => (b.disabled = true));
         } else {
-          fb.textContent = "Nicht ganz – lies den Unterschied oben noch einmal.";
+          fb.textContent = "Not quite – read the difference above again.";
         }
       });
     });
