@@ -168,7 +168,7 @@ export function buildSearchIndex() {
     { t: "Akkusativ", s: "", k: KEYWORDS.akkusativ, l: "A1", h: "/akkusativ", c: "grammatik" },
     ...praepTrainer.packs.map((p) => ({
       t: p.title ?? p.name,
-      s: "Präpositionen",
+      s: "Prepositions",
       k: "präpositionen prepositions",
       l: p.id.slice(0, 2).toUpperCase(),
       h: "/praepositionen",

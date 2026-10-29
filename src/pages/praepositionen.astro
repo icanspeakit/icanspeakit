@@ -1,15 +1,15 @@
 ---
-// /praepositionen — the Präpositionen trainer.
+// /praepositionen — the prepositions trainer.
 //
 // Built on the der/die/das trainer's frame (ArtikelTrainer.astro), because that is the
 // shape the rest of the grammar area has: a dark rail of levels on the left, a panel of
 // topics per level beside it, the work in the middle and the Regel one click away.
 // It replaced a two-card landing page that sent learners off to two unrelated topics.
 //
-// Prepositions are graded, so the level rail carries real content: A1 is mit/bei/von and
-// für/ohne/gegen, B2 is aufgrund/angesichts/infolge. The Wechselpräpositionen get a rail
-// entry of their own — they are the one group learners come looking for by name — and
-// the two full grammar topics (with Aktiv and the long rule) stay linked from the panel.
+// Prepositions are graded, so the level rail carries real content: A1 is at/on/in for time
+// and place, B2 is due to/despite and nouns + prepositions. Place and movement (the packs
+// with cat "wechsel") get a rail entry of their own, and the full grammar topics stay
+// linked from the panel.
 //
 // Content: src/data/praepositionen-trainer.json. History: createVerlauf() in
 // src/lib/artikelVerlauf.js under its own key, so it never mixes with the noun history.
@@ -42,9 +42,9 @@ const total = packs.reduce((n, p) => n + p.questions.length, 0);
 
 // The full grammar topics these packs are a warm-up for, shown under the level they belong to.
 const MORE: Record<string, { href: string; label: string; key: string }[]> = {
-  A2: [{ href: "/wechselpraepositionen", label: "Wechselpräpositionen – ausführlich, mit Hören & Sprechen", key: "praep.more.wechsel" }],
-  B1: [{ href: "/verben-praepositionen", label: "Verben mit Präpositionen – ausführlich", key: "praep.more.verben" }],
-  B2: [{ href: "/nomen-verb-verbindungen", label: "Nomen-Verb-Verbindungen", key: "praep.more.nvv" }],
+  A2: [{ href: "/wechselpraepositionen", label: "Prepositions of movement – in depth", key: "praep.more.wechsel" }],
+  B1: [{ href: "/verben-praepositionen", label: "Verbs + prepositions – in depth", key: "praep.more.verben" }],
+  B2: [{ href: "/adjektive-mit-praepositionen", label: "Adjectives + prepositions – in depth", key: "praep.more.nvv" }],
 };
 
 // Everything the client needs: questions by pack, with the pack id on each question.
@@ -53,15 +53,15 @@ const clientPacks = packs.map((p) => ({
   questions: p.questions.map((q) => ({ ...q, difficulty: undefined })),
 }));
 
-// The overview that heads the Regel: which case each group takes.
+// The overview that heads the rule: which preposition for which job.
 const overview = {
-  caption: "Welcher Fall nach welcher Präposition?",
-  head: ["Fall", "Präpositionen", "Beispiel"],
+  caption: "Which preposition when?",
+  head: ["Job", "Prepositions", "Example"],
   rows: [
-    ["Dativ", "aus, bei, mit, nach, seit, von, zu", "mit dem Bus"],
-    ["Akkusativ", "durch, für, gegen, ohne, um", "für den Kurs"],
-    ["Wo? Dativ · Wohin? Akk.", "an, auf, hinter, in, neben, über, unter, vor, zwischen", "im Kino · ins Kino"],
-    ["Genitiv", "wegen, trotz, während, statt …", "wegen des Regens"],
+    ["Time", "at (clock times), on (days, dates), in (months, years)", "at 6, on Monday, in May"],
+    ["Place", "in (inside), on (a surface), at (a point)", "in the car, on the wall, at the door"],
+    ["Movement", "to, into, out of, through, across", "go to work, walk into the room"],
+    ["After verbs, adjectives, nouns", "fixed: learn them together", "wait for, good at, reason for"],
   ],
 };
 ---
@@ -105,14 +105,14 @@ const overview = {
                   </button>
                 ))}
                 <span class="ls-raildiv" aria-hidden="true"></span>
-                {/* Wechselpräpositionen: the one group learners look for by name. */}
-                <button type="button" role="tab" class="nvb-railbtn" data-rail="wechsel" aria-selected="false" aria-controls="ap-pane-wechsel" aria-label="Wechselpräpositionen" data-i18n-attr="aria-label:praep.wechsel.name">
+                {/* Place and movement: the packs with cat "wechsel". */}
+                <button type="button" role="tab" class="nvb-railbtn" data-rail="wechsel" aria-selected="false" aria-controls="ap-pane-wechsel" aria-label="Place and movement" data-i18n-attr="aria-label:praep.wechsel.name">
                   <Icon name="map-pin" size={20} />
-                  <span class="nvb-tip" data-i18n="praep.wechsel.tip">Wechselpräpositionen · wo oder wohin?</span>
+                  <span class="nvb-tip" data-i18n="praep.wechsel.tip">Place and movement · where is it, where does it go?</span>
                 </button>
                 <button type="button" role="tab" class="nvb-railbtn" data-rail="regel" aria-selected="false" aria-controls="ap-regel" aria-label="Regel" data-i18n-attr="aria-label:ak.rule">
                   <Icon name="book" size={20} />
-                  <span class="nvb-tip" data-i18n="praep.rule.tip">Regel · welcher Fall nach welcher Präposition</span>
+                  <span class="nvb-tip" data-i18n="praep.rule.tip">Rule · which preposition when</span>
                 </button>
               </div>
 
@@ -141,7 +141,7 @@ const overview = {
                         <button type="button" class="nvb-item akp-pack pr-pack" data-pack={p.id} data-level={level}>
                           <span class="pr-pack-body">
                             <span class="akp-pack-name" data-i18n={`praep.pack.${p.id}`}>{p.name}</span>
-                            <span class="pr-pack-preps" lang="de">{p.preps}</span>
+                            <span class="pr-pack-preps" lang="en">{p.preps}</span>
                           </span>
                           <span class="akp-pack-state" data-pack-state>0/{p.questions.length}</span>
                         </button>
@@ -158,15 +158,15 @@ const overview = {
 
                 <div class="nvb-section ap-sets" id="ap-pane-wechsel" data-pane="wechsel" hidden>
                   <div class="nvb-panelhead">
-                    <h3 data-i18n="praep.wechsel.name">Wechselpräpositionen</h3>
+                    <h3 data-i18n="praep.wechsel.name">Place and movement</h3>
                   </div>
-                  <p class="ls-lead" data-i18n-html="praep.wechsel.lead">Neun Präpositionen, zwei Fälle: <b>Wo?</b> → Dativ, <b>Wohin?</b> → Akkusativ. „Im Kino“ ist nicht „ins Kino“.</p>
+                  <p class="ls-lead" data-i18n-html="praep.wechsel.lead"><b>Where is it?</b> in, on, at, next to, behind … <b>Where does it go?</b> to, into, through, across … “in the room” is not “into the room”.</p>
                   <section class="ap-packs">
                     {wechsel.map((p) => (
                       <button type="button" class="nvb-item akp-pack pr-pack" data-pack={p.id} data-level={p.level}>
                         <span class="pr-pack-body">
                           <span class="akp-pack-name" data-i18n={`praep.pack.${p.id}`}>{p.name}</span>
-                          <span class="pr-pack-preps" lang="de">{p.preps}</span>
+                          <span class="pr-pack-preps" lang="en">{p.preps}</span>
                         </span>
                         <span class="akp-pack-state" data-pack-state>0/{p.questions.length}</span>
                       </button>
@@ -174,7 +174,7 @@ const overview = {
                   </section>
                   <section class="ap-packs pr-more">
                     <h4 class="ap-phase-head"><span data-i18n="praep.more">Ausführlich üben</span></h4>
-                    <a class="nvb-item pr-more-link" href="/wechselpraepositionen" data-i18n="praep.more.wechselShort">Wechselpräpositionen – mit Hören & Sprechen</a>
+                    <a class="nvb-item pr-more-link" href="/wechselpraepositionen" data-i18n="praep.more.wechselShort">Prepositions of movement – rule and exercises</a>
                   </section>
                 </div>
               </div>
@@ -199,7 +199,7 @@ const overview = {
             <button type="button" class="akk-regel-btn" data-regel-open data-i18n="ak.rule">Regel</button>
           </div>
           <p class="ak-now" data-now aria-live="polite"></p>
-          <div id="akk-exercise-root" data-instruction="Welche Präposition passt?"></div>
+          <div id="akk-exercise-root" data-instruction="Which preposition fits?"></div>
         </div>
 
         <footer class="akk-footer">
@@ -239,7 +239,7 @@ const overview = {
         ))}
         <section class="pr-rule pr-rule--overview">
           <RefTable table={overview} />
-          <p class="akk-regel-note" data-i18n-html="praep.rule.note">Die Präposition bestimmt den Fall — lern sie immer zusammen mit dem Fall: <b>mit</b> + Dativ, <b>für</b> + Akkusativ.</p>
+          <p class="akk-regel-note" data-i18n-html="praep.rule.note">After verbs, adjectives and nouns the preposition is fixed — learn it together with the word: <b>wait for</b>, <b>good at</b>, <b>reason for</b>.</p>
         </section>
       </div>
     </aside>
