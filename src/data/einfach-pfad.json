@@ -222,16 +222,151 @@
     },
     {
       "level": "A2",
-      "draft": true,
       "units": [
-        { "id": "a2-wochenende", "title": "Talk about your weekend", "grammar": "perfekt", "claims": ["You say what you did at the weekend."] },
-        { "id": "a2-arbeit", "title": "Talk about your work", "grammar": "konjugation", "claims": ["You say what you are doing at work."] },
-        { "id": "a2-erlaubnis", "title": "Ask for permission", "grammar": "modalverben", "claims": ["You ask: Can I…? Do I have to…?"] },
-        { "id": "a2-planen", "title": "Plan your day", "grammar": "trennbare-verben", "claims": ["You say when you get up and go out."] },
-        { "id": "a2-geschenke", "title": "Buy presents", "grammar": "dativ", "claims": ["You say who you give something to."] },
-        { "id": "a2-absagen", "title": "Say no politely", "grammar": "negation", "claims": ["You say no in a friendly way."] },
-        { "id": "a2-verschieben", "title": "Change an appointment", "grammar": "konjunktiv2-hoeflich", "claims": ["You ask politely: Could you…? Would it be possible…?"] },
-        { "id": "a2-einrichten", "title": "Furnish your flat", "grammar": "lokale-praepositionen", "claims": ["You say where things are in a room."] }
+        {
+          "id": "a2-arbeit",
+          "icon": "💼",
+          "title": "Talk about your work",
+          "minutes": 2,
+          "grammar": "konjugation",
+          "claims": ["You say what you are doing now.", "You choose: I work or I am working."],
+          "postcard": { "city": "Manchester", "fact": "In 1948, one of the first computers ran its first program in Manchester.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:konjugation/1/1@ba29ba", "options": ["am reading", "is reading", "reading"], "hint": "I + am + verb-ing." },
+            { "type": "luecke", "ref": "gram:konjugation/1/2@70994a", "options": ["is waiting", "are waiting", "waits"], "hint": "They: are + verb-ing." },
+            { "type": "luecke", "ref": "gram:konjugation/3/0@25b4a0", "options": ["sleeps", "is sleeping"], "hint": "Shh! It is happening now." },
+            { "type": "luecke", "ref": "gram:konjugation/3/1@24f969", "options": ["go", "am going"], "hint": "Every day: a routine." },
+            { "type": "luecke", "ref": "gram:konjugation/0/4@371fa0", "options": ["siting", "sitting"], "hint": "Short vowel + one consonant: double the consonant." },
+            { "type": "luecke", "ref": "gram:konjugation/3/3@90ed71", "options": ["want", "am wanting"], "hint": "Want is a state verb. It has no -ing." },
+            { "type": "luecke", "ref": "gram:konjugation/3/2@b857ba", "options": ["has", "is having"], "hint": "She is in the bathroom now." }
+          ]
+        },
+        {
+          "id": "a2-wochenende",
+          "icon": "🎉",
+          "title": "Talk about your weekend",
+          "minutes": 2,
+          "grammar": "perfekt",
+          "claims": ["You say what you did at the weekend.", "You use went, saw, bought and didn't."],
+          "postcard": { "city": "Brighton", "fact": "Brighton has a long pier that goes out into the sea.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:perfekt/3/2@531f78", "options": ["go", "went", "goed"], "hint": "Last summer: the past. Go is irregular." },
+            { "type": "luecke", "ref": "gram:perfekt/1/2@f7b90a", "options": ["seed", "saw", "seen"], "hint": "See is irregular. I see it today, I … it yesterday.", "why": "see → saw. Seen is not the past simple: it needs have (I have seen)." },
+            { "type": "luecke", "ref": "gram:perfekt/3/1@5ffc8e", "options": ["go", "went"], "hint": "After didn't, use the base verb." },
+            { "type": "satz", "ref": "gram:perfekt/5/1@402171", "hint": "Go is irregular. The time word is last." },
+            { "type": "luecke", "ref": "gram:perfekt/0/2@db2e6e", "options": ["stoped", "stopped"], "hint": "Short vowel + one consonant: double the consonant." },
+            { "type": "luecke", "ref": "gram:perfekt/3/0@959f3d", "options": ["see", "saw"], "hint": "After Did, use the base verb." },
+            { "type": "satz", "ref": "gram:perfekt/5/4@49ad10", "hint": "Question word first, then did." }
+          ]
+        },
+        {
+          "id": "a2-absagen",
+          "icon": "🙅",
+          "title": "Say no",
+          "minutes": 2,
+          "grammar": "negation",
+          "claims": ["You say what you don't do.", "You use don't, doesn't, didn't and no."],
+          "postcard": { "city": "Llanberis", "fact": "From Llanberis, a train goes up Yr Wyddfa (Snowdon), the highest mountain in Wales.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:negation/0/0@568e96", "options": ["don't", "doesn't", "didn't"], "hint": "I, and it is true now." },
+            { "type": "luecke", "ref": "gram:negation/0/1@cf5d82", "options": ["don't", "doesn't", "didn't"], "hint": "Zofia = she, and it is true now." },
+            { "type": "luecke", "ref": "gram:negation/0/2@b1261d", "options": ["don't", "doesn't", "didn't"], "hint": "Last night: the past." },
+            { "type": "luecke", "ref": "gram:negation/3/0@73e2d0", "options": ["no", "not"], "hint": "Time is a noun. no + noun." },
+            { "type": "luecke", "ref": "gram:negation/2/2@47937c", "options": ["She didn't go home.", "She didn't goes home.", "She not went home."], "hint": "After didn't, use the base verb." },
+            { "type": "satz", "ref": "gram:negation/4/0@79239f", "hint": "She + doesn't + work …" },
+            { "type": "luecke", "ref": "gram:negation/3/3@72e7c9", "options": ["no", "not"], "hint": "Before a or an, use not." }
+          ]
+        },
+        {
+          "id": "a2-erlaubnis",
+          "icon": "🙋",
+          "title": "Ask for permission",
+          "minutes": 2,
+          "grammar": "modalverben",
+          "claims": ["You ask: Can I…? Do I have to…?", "You say must, mustn't and don't have to."],
+          "postcard": { "city": "Inverness", "fact": "Loch Ness, near Inverness, holds more water than all the lakes in England and Wales together.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:modalverben/0/4@3c6aed", "options": ["Can", "Have", "Does"], "hint": "You ask if it is OK to sit there." },
+            { "type": "luecke", "ref": "gram:modalverben/0/1@464c0a", "options": ["mustn't", "don't have to"], "hint": "It is not allowed." },
+            { "type": "luecke", "ref": "gram:modalverben/0/2@6d3232", "options": ["mustn't", "doesn't have to"], "hint": "He can sleep late: it is not necessary." },
+            { "type": "satz", "ref": "gram:modalverben/5/4@83bc70", "hint": "A question with have to: Does + she + have to …" },
+            { "type": "luecke", "ref": "gram:modalverben/0/0@ed22eb", "options": ["can't", "mustn't", "shouldn't"], "hint": "She is three. She is not able to read." },
+            { "type": "luecke", "ref": "gram:modalverben/3/0@faf065", "options": ["Can she swim?", "Does she can swim?", "She can swims?"], "hint": "In a question, can goes first." },
+            { "type": "satz", "ref": "gram:modalverben/5/0@67e6ac", "hint": "It is necessary: have to + base verb." }
+          ]
+        },
+        {
+          "id": "a2-verschieben",
+          "icon": "🙏",
+          "title": "Ask politely",
+          "minutes": 2,
+          "grammar": "konjunktiv2-hoeflich",
+          "claims": ["You ask politely: Could you…? Would you mind…?", "You say I'd like instead of I want."],
+          "postcard": { "city": "Newcastle", "fact": "People from Newcastle are often called Geordies.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/0/0@f5d350", "options": ["I'd like", "Would you like", "I like"], "hint": "You say what you want, politely." },
+            { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/0/1@9b136e", "options": ["I'd like", "Would you like"], "hint": "You offer something to someone." },
+            { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/2/1@b252a2", "options": ["wait", "to wait", "waiting"], "hint": "After Would you mind, use -ing." },
+            { "type": "satz", "ref": "gram:konjunktiv2-hoeflich/6/1@1142f4", "hint": "A request: Could + you + please + base verb." },
+            { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/1/3@284a05", "options": ["Would", "Can", "Could"], "hint": "Only one of these words goes with mind." },
+            { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/4/3@e87c6b", "options": ["Would you like some tea?", "Do you like some tea?", "Would you like to some tea?"], "hint": "Offer something politely: Would you like …?", "why": "Do you like tea? asks if you like it in general. To offer tea now: Would you like some tea?" },
+            { "type": "satz", "ref": "gram:konjunktiv2-hoeflich/6/3@a8fe1d", "hint": "Very polite: Would you mind + -ing." }
+          ]
+        },
+        {
+          "id": "a2-einrichten",
+          "icon": "🛋️",
+          "title": "Say where things are",
+          "minutes": 2,
+          "grammar": "lokale-praepositionen",
+          "claims": ["You say where things are in a room.", "You use in, on, at, next to, between."],
+          "postcard": { "city": "Penzance", "fact": "Land's End, near Penzance, is the far west of mainland England.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:lokale-praepositionen/2/0@c4007f", "options": ["in", "on", "at"], "hint": "A wall is a surface." },
+            { "type": "luecke", "ref": "gram:lokale-praepositionen/0/1@f39c15", "options": ["in", "on", "at"], "hint": "A kitchen is a room: you are inside it." },
+            { "type": "luecke", "ref": "gram:lokale-praepositionen/2/7@c02e30", "options": ["above", "under", "behind"], "hint": "High up: higher than the door." },
+            { "type": "satz", "ref": "gram:lokale-praepositionen/5/1@9ead22", "hint": "on + a surface · next to = right beside." },
+            { "type": "luecke", "ref": "gram:lokale-praepositionen/2/2@57b096", "options": ["between", "next to", "opposite"], "hint": "The bank on one side, the supermarket on the other." },
+            { "type": "luecke", "ref": "gram:lokale-praepositionen/0/8@342b84", "options": ["in", "on", "at"], "hint": "When you sleep, you are … bed." },
+            { "type": "luecke", "ref": "gram:lokale-praepositionen/2/3@4adf93", "options": ["in", "on", "at"], "hint": "Floors in a building: like a surface." }
+          ]
+        },
+        {
+          "id": "a2-geschenke",
+          "icon": "🎁",
+          "title": "Buy presents",
+          "minutes": 2,
+          "grammar": "dativ",
+          "claims": ["You say who you give something to.", "You use to and for: buy it for her."],
+          "postcard": { "city": "Bristol", "fact": "The Clifton Suspension Bridge in Bristol opened in 1864.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:dativ/1/1@1488e9", "options": ["to", "for"], "hint": "buy something for someone." },
+            { "type": "luecke", "ref": "gram:dativ/1/0@09a21f", "options": ["to", "for"], "hint": "give something to someone." },
+            { "type": "luecke", "ref": "gram:dativ/3/1@3e8b53", "options": ["he", "him", "his"], "hint": "After bought, use the object form of he." },
+            { "type": "satz", "ref": "gram:dativ/7/0@f69515", "hint": "give + person + thing." },
+            { "type": "luecke", "ref": "gram:dativ/4/0@90fca7", "options": ["it", "them"], "hint": "The flowers: more than one." },
+            { "type": "satz", "ref": "gram:dativ/7/3@3c8252", "hint": "It goes first, then to + person." },
+            { "type": "luecke", "ref": "gram:dativ/1/3@b4bc59", "options": ["to", "for"], "hint": "make something for someone." }
+          ]
+        },
+        {
+          "id": "a2-planen",
+          "icon": "📝",
+          "title": "Plan your day",
+          "minutes": 2,
+          "grammar": "trennbare-verben",
+          "claims": ["You use phrasal verbs: get up, turn off.", "You put it in the middle: turn it off."],
+          "postcard": { "city": "Salisbury", "fact": "Stonehenge, near Salisbury, is about 5,000 years old.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:trennbare-verben/0/0@767402", "options": ["up", "down", "on"], "hint": "You get out of bed." },
+            { "type": "satz", "ref": "gram:trennbare-verben/6/1@adbf32", "hint": "A question about your morning." },
+            { "type": "luecke", "ref": "gram:trennbare-verben/0/4@e03ff4", "options": ["on", "off", "up"], "hint": "It's cold: start to wear your coat." },
+            { "type": "luecke", "ref": "gram:trennbare-verben/0/5@dd0c29", "options": ["on", "off"], "hint": "Nobody is at home to watch it." },
+            { "type": "luecke", "ref": "gram:trennbare-verben/2/1@aab8d7", "options": ["Pick it up.", "Pick up it.", "It pick up."], "hint": "With it or them, the pronoun goes in the middle." },
+            { "type": "satz", "ref": "gram:trennbare-verben/6/0@2b6c0a", "hint": "A polite request. The pronoun goes in the middle." },
+            { "type": "luecke", "ref": "gram:trennbare-verben/4/1@c900bb", "options": ["I'm looking for my keys.", "I'm looking my keys for.", "I'm look for my keys."], "hint": "look for = try to find. Keep for after looking." }
+          ]
+        }
       ]
     },
     {
@@ -242,7 +377,7 @@
         { "id": "b1-frueher", "title": "Talk about the past", "grammar": "n-deklination", "claims": ["You say what you used to do as a child."] },
         { "id": "b1-plaene", "title": "Talk about plans", "grammar": "futur", "claims": ["You say what you are going to do."] },
         { "id": "b1-beschreiben", "title": "Describe people and things", "grammar": "relativpronomen", "claims": ["You describe people and things more exactly."] },
-        { "id": "b1-nachfragen", "title": "Ask politely", "grammar": "indirekte-fragen", "claims": ["You ask politely: Could you tell me where…?"] },
+        { "id": "b1-nachfragen", "title": "Ask for information","grammar": "indirekte-fragen", "claims": ["You ask politely: Could you tell me where…?"] },
         { "id": "b1-geschichte", "title": "Tell a story", "grammar": "praeteritum-plusquamperfekt", "claims": ["You tell a story in the right order."] },
         { "id": "b1-wohnung", "title": "Describe a flat", "grammar": "adjektivdeklination", "claims": ["You describe a flat with several adjectives."] },
         { "id": "b1-kollegen", "title": "Talk to colleagues", "grammar": "infinitiv-mit-zu", "claims": ["You say what you enjoy and want to do."] }
