@@ -19,9 +19,9 @@ import verbPraep from "../data/nachschlagen/verben-mit-praepositionen.json";
 export const KINDS = {
   verb: "Verbtabelle",
   nomen: "Nomen in allen Fällen",
-  stark: "Starke und schwache Verben",
-  trennbar: "Trennbare Verben",
-  praep: "Verben mit Präpositionen",
+  stark: "Regular and irregular verbs",
+  trennbar: "Phrasal verbs",
+  praep: "Verbs with prepositions",
   wortart: "Wortarten",
   fehler: "Typische Fehler",
 };

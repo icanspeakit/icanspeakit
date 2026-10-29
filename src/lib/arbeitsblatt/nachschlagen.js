@@ -99,7 +99,7 @@ function verbTopic() {
 /* ---- /grammatik/starke-schwache-verben ------------------------------------------------- */
 function starkTopic(file, data) {
   const sec = (id) => data.sections.find((s) => s.id === id)?.regel ?? [];
-  // forms: "fährt · fuhr · ist gefahren"
+  // forms: "goes · went · gone" (he/she/it · past simple · past participle)
   const pools = data.sections.map((sec) => rowsOf(sec).filter((r) => String(r.forms).split(" · ").length === 3));
   const form = (r, k) => String(r.forms).split(" · ")[k].trim();
   return {
@@ -107,14 +107,14 @@ function starkTopic(file, data) {
     exercises: [
       {
         type: "table",
-        title: "Präteritum: stark, schwach oder gemischt? Schreiben Sie die Form.",
-        columns: ["Verb", "er/sie/es (Präteritum)"],
+        title: "Past simple: regular or irregular? Write the form.",
+        columns: ["Verb", "Past simple"],
         rows: roundRobin(pools, ROWS).map((r) => ({ term: bareVerb(r.verb), answer: form(r, 1) })),
       },
       {
         type: "table",
-        title: "Perfekt: haben oder sein – und das Partizip.",
-        columns: ["Verb", "er/sie/es (Perfekt)"],
+        title: "Past participle: write the form.",
+        columns: ["Verb", "Past participle"],
         rows: roundRobin(pools, ROWS, ROWS).map((r) => ({ term: bareVerb(r.verb), answer: form(r, 2) })),
       },
     ],
@@ -126,7 +126,7 @@ function trennbarTopic(file, data) {
   const sec = (id) => rowsOf(data.sections.find((s) => s.id === id) ?? {});
   const trennbar = sec("trennbar");
   const untrennbar = sec("untrennbar");
-  // forms: "fährt … ab · ist abgefahren"; the Perfekt is the last part.
+  // forms: "took off · taken off"; the past participle is the last part.
   const perf = (r) => String(r.forms).split(" · ").pop().trim();
   const built = trennbar.filter((r) => r.example && tokens(r.example).length <= 9).slice(0, 8);
   const regel = (id) => data.sections.find((s) => s.id === id)?.regel ?? [];
@@ -135,7 +135,7 @@ function trennbarTopic(file, data) {
     exercises: [
       {
         type: "build",
-        title: "Bauen Sie den Satz. Wohin kommt das Präfix?",
+        title: "Build the sentence. Where does the particle go?",
         sentences: built.map((r) => {
           const correct = tokens(r.example);
           return { id: `tv-${r.i}`, hint: bareVerb(r.verb), correct, shuffled: shuffle(correct, `${file}:${r.i}`) };
@@ -143,8 +143,8 @@ function trennbarTopic(file, data) {
       },
       {
         type: "table",
-        title: "Perfekt: trennbar oder nicht? Wo steht ge-?",
-        columns: ["Verb", "er/sie/es (Perfekt)"],
+        title: "Past participle: write the phrasal verb.",
+        columns: ["Phrasal verb", "Past participle"],
         rows: roundRobin([trennbar.filter((r) => !built.includes(r)), untrennbar], ROWS).map((r) => ({ term: bareVerb(r.verb), answer: perf(r) })),
       },
     ],
@@ -169,8 +169,8 @@ function praepTopic(file, data) {
     exercises: [
       {
         type: "fill",
-        title: "Welche Präposition passt?",
-        hint: "Verb und Präposition lernt man zusammen.",
+        title: "Which preposition is right?",
+        hint: "Learn the verb and its preposition together.",
         choices: [...new Set(fill.map((r) => r.prep))].sort((a, b) => a.localeCompare(b, "de")),
         items: fill.map((r) => ({ prompt: r.prompt, hint: r.verb, answer: r.prep })),
       },

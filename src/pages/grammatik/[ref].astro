@@ -37,21 +37,21 @@ const count = data.sections.reduce((n: number, s: any) => n + s.items.filter((it
 <Layout title={data.metaTitle} description={data.description}>
   <SiteNav active="grammatik" />
   <main class="practice-main vb-page nr-page" id="nr-page">
-    <a href="/grammatik" class="vp-back-link" data-i18n="header.back">Zurück zur Übersicht</a>
+    <a href="/grammatik" class="vp-back-link" data-i18n="header.back">Back to overview</a>
     <header class="vb-head">
-      <p class="eyebrow">Nachschlagewerk</p>
+      <p class="eyebrow" data-i18n="nav.wissen.nachschlagen">Reference</p>
       <h1>{data.title}</h1>
       <p class="vb-lead">{data.lead}</p>
       <RefActions chapter={`g-nachschlagen-${Astro.params.ref}`} sheet={`nachschlagen-${Astro.params.ref}`} />
     </header>
 
     {data.regel && (
-      <aside class="vb-regel" lang="de" aria-label={`Regel: ${data.title}`}>
+      <aside class="vb-regel" lang="en" aria-label={`Rule: ${data.title}`}>
         <div class="vb-regel-bar">
-          <p class="vb-regel-label">Regel</p>
+          <p class="vb-regel-label">Rule</p>
           <button type="button" class="vb-regel-toggle" aria-controls="regel-page"
-            data-show="Regel einblenden" data-hide="Regel ausblenden"
-            data-i18n-attr="data-show:vp.rule.show;data-hide:vp.rule.hide">Regel ausblenden</button>
+            data-show="Show rule" data-hide="Hide rule"
+            data-i18n-attr="data-show:vp.rule.show;data-hide:vp.rule.hide">Hide rule</button>
         </div>
         <div class="vb-regel-body" id="regel-page"><div class="vb-regel-inner">
           <ul>{data.regel.map((r: string) => <li set:html={rule(r)} />)}</ul>
@@ -60,27 +60,27 @@ const count = data.sections.reduce((n: number, s: any) => n + s.items.filter((it
     )}
 
     <div class="nr-tools">
-      <nav class="nr-jump" aria-label="Abschnitte" lang="de">
+      <nav class="nr-jump" aria-label="Sections" lang="en">
         {data.sections.map((s: any) => <a class="nr-jump-chip" href={`#${s.id}`}>{s.name}</a>)}
       </nav>
       <div class="nr-search">
-        <input type="search" id="nr-q" class="nr-input" placeholder={`In ${count} Verben suchen`}
-          aria-label="Verb suchen" autocomplete="off" lang="de" />
+        <input type="search" id="nr-q" class="nr-input" placeholder={`Search ${count} verbs`}
+          aria-label="Search for a verb" autocomplete="off" lang="en" />
       </div>
       <p class="nr-empty" id="nr-empty" hidden data-i18n="nr.empty">No verb found.</p>
     </div>
 
     {data.sections.map((s: any) => (
       <section class="nr-section" id={s.id} data-nr-section>
-        <h2 class="nr-title" lang="de">{s.name}</h2>
+        <h2 class="nr-title" lang="en">{s.name}</h2>
         {s.what && <p class="vb-group-what nr-what">{s.what}</p>}
         {s.regel && (
-          <aside class="vb-regel" lang="de" aria-label={`Regel: ${s.name}`}>
+          <aside class="vb-regel" lang="en" aria-label={`Rule: ${s.name}`}>
             <div class="vb-regel-bar">
-              <p class="vb-regel-label">Regel</p>
+              <p class="vb-regel-label">Rule</p>
               <button type="button" class="vb-regel-toggle" aria-controls={`regel-${s.id}`}
-                data-show="Regel einblenden" data-hide="Regel ausblenden"
-                data-i18n-attr="data-show:vp.rule.show;data-hide:vp.rule.hide">Regel ausblenden</button>
+                data-show="Show rule" data-hide="Hide rule"
+                data-i18n-attr="data-show:vp.rule.show;data-hide:vp.rule.hide">Hide rule</button>
             </div>
             <div class="vb-regel-body" id={`regel-${s.id}`}><div class="vb-regel-inner">
               <ul>{s.regel.map((r: string) => <li set:html={rule(r)} />)}</ul>
@@ -91,7 +91,7 @@ const count = data.sections.reduce((n: number, s: any) => n + s.items.filter((it
           {data.stress && <span class="nr-legend"><span class="nr-stress">be</span>tont<span class="nr-legend-gap">·</span>an<span class="nr-sep"></span>rufen = trennt hier<span class="nr-legend-gap">·</span></span>}
           {data.cols}
         </p>
-        <ul class="nr-list" lang="de">
+        <ul class="nr-list" lang="en">
           {s.items.map((it: any) => isHead(it) ? (
             <li class="nr-head" data-nr-head>{it.replace(/^#\s*/, "")}</li>
           ) : (
@@ -109,7 +109,7 @@ const count = data.sections.reduce((n: number, s: any) => n + s.items.filter((it
     {data.practice?.length > 0 && (
       <p class="vb-practice-row">
         {data.practice.map(([href, label]: string[], i: number) => (
-          <a class:list={["vb-practice", i > 0 && "vb-practice--ghost"]} href={href} lang="de">{label}</a>
+          <a class:list={["vb-practice", i > 0 && "vb-practice--ghost"]} href={href} lang="en">{label}</a>
         ))}
       </p>
     )}
