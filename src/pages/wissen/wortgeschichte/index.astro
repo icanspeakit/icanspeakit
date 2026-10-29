@@ -20,12 +20,12 @@ const day = today();
 const entry = wordOfTheDay(day);
 const list = archive(day);
 const title = entry
-  ? `Wort des Tages: ${headword(entry)} – Wortgeschichte – EnglishAcademy`
-  : "Wortgeschichte – Wort des Tages – EnglishAcademy";
+  ? `Word of the day: ${headword(entry)} – word stories – EnglishAcademy`
+  : "Word stories – word of the day – EnglishAcademy";
 ---
 <Layout
   title={title}
-  description="Jeden Tag ein deutsches Wort: woher es kommt, wie es sich verändert hat und mit welchen Wörtern in anderen Sprachen es verwandt ist – mit Quellen."
+  description="An English word every day: where it comes from, how it has changed and which words in other languages it is related to – with sources."
   noindex={!entry || PREVIEW}
 >
   <div class="uv">
@@ -33,7 +33,7 @@ const title = entry
     <main class="uv-main">
       <div class="wg">
         <a href="/wissen/sprachen" class="vp-back-link" data-i18n="wg.back">Deutsch in der Welt</a>
-        <SectionMascot name="regi" expr="happy" say="Jedes Wort hat eine Geschichte." align="center" class="hub-mascot uv-hub-mascot" />
+        <SectionMascot name="regi" expr="happy" say="Every word has a story." align="center" class="hub-mascot uv-hub-mascot" />
         {entry ? (
           <WortEntry entry={entry} mode="today" preview={PREVIEW} today={day} />
         ) : (

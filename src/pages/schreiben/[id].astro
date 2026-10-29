@@ -37,7 +37,7 @@ const help = (uebersetzungen.entries as Record<string, any>)[task.id] ?? null;
 const parts = (task.source ?? "").split(/\*\*(.+?)\*\*/g);
 ---
 <Layout
-  title={fitTitle(`${task.title} – Schreiben ${task.level}`, task.title)}
+  title={fitTitle(`${task.title} – Writing ${task.level}`, task.title)}
   description={task.blurb}
 >
   <SiteNav active="fertigkeiten" />

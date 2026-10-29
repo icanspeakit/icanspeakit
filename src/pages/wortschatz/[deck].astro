@@ -134,15 +134,15 @@ const subParts =
 const sub = subParts.map((p) => p.text).join(" · ");
 
 const title =
-  set ? fitTitle(`${set.title} (${set.level}) – Wortschatz`, `Wortschatz ${set.level}: ${set.title}`, `${set.title} (${set.level})`)
-  : freq ? `Die häufigsten deutschen Wörter ${freq.from}-${freq.to} – EnglishAcademy`
-  : teil ? `${teil.level} Wortschatz Teil ${teil.index}: Wörter ${teil.from}-${teil.to} – EnglishAcademy`
-  : `Wortliste ${level} – EnglishAcademy`;
+  set ? fitTitle(`${set.title} (${set.level}) – vocabulary`, `Vocabulary ${set.level}: ${set.title}`, `${set.title} (${set.level})`)
+  : freq ? `The most common English words ${freq.from}-${freq.to} – EnglishAcademy`
+  : teil ? `${teil.level} vocabulary part ${teil.index}: words ${teil.from}-${teil.to} – EnglishAcademy`
+  : `Word list ${level} – EnglishAcademy`;
 const description =
-  set ? `Lernset ${set.id}: ${set.words} Wörter zum Thema „${set.title}" als Karteikarten — umdrehen, lernen, testen.`
-  : freq ? `Die Wörter ${freq.from} bis ${freq.to} der deutschen Häufigkeitsliste als Karteikarten — gemischt aus Verben, Nomen und Funktionswörtern, nach Korpushäufigkeit sortiert.`
-  : teil ? `Wörter ${teil.from} bis ${teil.to} der Stufe ${teil.level} als Karteikarten — eine Portion zu ${teil.words} Wörtern, eine Sitzung.`
-  : `Die ${cards.length} Wörter der Stufe ${level} als Karteikarten: umdrehen, lernen, testen.`;
+  set ? `Word set ${set.id}: ${set.words} words on “${set.title}” as flashcards — flip, learn, test.`
+  : freq ? `Words ${freq.from} to ${freq.to} of the English frequency list as flashcards — verbs, nouns and function words mixed, sorted by how often they are used.`
+  : teil ? `Words ${teil.from} to ${teil.to} of level ${teil.level} as flashcards — one portion of ${teil.words} words, one sitting.`
+  : `The ${cards.length} words of level ${level} as flashcards: flip, learn, test.`;
 ---
 <Layout title={title} description={description}>
   <VokabelTrainer

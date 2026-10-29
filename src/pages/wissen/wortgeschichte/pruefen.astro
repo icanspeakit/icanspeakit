@@ -14,7 +14,7 @@ const done = list.filter((e) => e.status === STATUS.REVIEWED).length;
 const wd = (iso: string) => ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"][new Date(iso + "T12:00:00Z").getUTCDay()];
 const lang = (c: string) => LANG_NAMES[c] ?? c;
 ---
-<Layout title="Wortgeschichte prüfen" description="Interne Prüfliste" noindex>
+<Layout title="Check word stories" description="Internal checklist" noindex>
   <main class="rv">
     {!DEV ? (
       <p>Diese Seite gibt es nur in der lokalen Vorschau (<code>astro dev</code>).</p>

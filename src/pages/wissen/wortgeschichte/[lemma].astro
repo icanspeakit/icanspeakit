@@ -27,7 +27,7 @@ const day = today();
 const live = entry.status === STATUS.REVIEWED && entry.publishOn <= day;
 const lemma = entry.lemma;
 const firstSentences = sentences(entry.history).slice(0, 2).join(" ");
-const description = `Woher kommt das Wort ${lemma}? ${firstSentences}`.slice(0, 158).replace(/\s+\S*$/, "") + " …";
+const description = `Where does the word ${lemma} come from? ${firstSentences}`.slice(0, 158).replace(/\s+\S*$/, "") + " …";
 const site = Astro.site ? new URL(Astro.site).origin : "https://englishacademy.com";
 const jsonLd = {
   "@context": "https://schema.org",
@@ -39,7 +39,7 @@ const jsonLd = {
   url: site + hrefOf(entry),
   inDefinedTermSet: {
     "@type": "DefinedTermSet",
-    name: "Wortgeschichte – Wort des Tages",
+    name: "Word stories – word of the day",
     url: site + "/wissen/wortgeschichte",
     // The organisation itself is described once, on the homepage (src/lib/seo/jsonld.ts).
     publisher: { "@id": orgId(site) },
@@ -48,7 +48,7 @@ const jsonLd = {
 };
 ---
 <Layout
-  title={fitTitle(`Woher kommt das Wort „${lemma}“? Herkunft und Geschichte`, `Woher kommt das Wort „${lemma}“?`)}
+  title={fitTitle(`Where does the word “${lemma}” come from? Origin and history`, `Where does the word “${lemma}” come from?`)}
   description={description}
   noindex={!live}
 >
@@ -58,7 +58,7 @@ const jsonLd = {
     <main class="uv-main">
       <div class="wg">
         <a href="/wissen/wortgeschichte" class="vp-back-link" data-i18n="wg.backToday">Wort des Tages</a>
-        <SectionMascot name="regi" expr="happy" say="Jedes Wort hat eine Geschichte." align="center" class="hub-mascot uv-hub-mascot" />
+        <SectionMascot name="regi" expr="happy" say="Every word has a story." align="center" class="hub-mascot uv-hub-mascot" />
         <WortEntry entry={entry} mode="archive" preview={PREVIEW} today={day} />
         <WortAbo />
         <WortRecent entries={live ? published(day) : archive(day)} current={entry} />

@@ -50,8 +50,8 @@ const BK = bierKarte as { regions: Record<string, string>; labels: Record<string
 const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map((r) => [r, g.id])));
 ---
 <Layout
-  title="Deutsche Dialekte: Karte für Deutschland, Österreich und die Schweiz – EnglishAcademy"
-  description="Interaktive Dialektkarte für den deutschsprachigen Raum: Plattdeutsch, Kölsch, Hessisch, Sächsisch, Schwäbisch, Bairisch, Schweizerdeutsch und mehr — mit Beispielen, Benrather Linie und wie man „Brötchen“ und „Tschüss“ sagt."
+  title="Accents of English in the British Isles – EnglishAcademy"
+  description="Accents and dialects of English in the British Isles: Scouse, Geordie, Glaswegian, Welsh and Irish English and more — with examples and how people say hello and goodbye."
 >
   <style set:html={modeCss}></style>
   <div class="uv">
@@ -59,7 +59,7 @@ const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map(
     <main class="uv-main sp dl" id="dl-page">
       <a href="/wissen/sprachen" class="vp-back-link" data-i18n="dialekte.back">{t("dialekte.back")}</a>
 
-      <SectionMascot name="quaki" say="Moin! Servus! Grüezi!" align="center" class="hub-mascot uv-hub-mascot" />
+      <SectionMascot name="quaki" say="Hiya! Alright? Ey up!" align="center" class="hub-mascot uv-hub-mascot" />
       <header class="fe-hero">
         <p class="uv-eyebrow" data-i18n="dialekte.eyebrow">{t("dialekte.eyebrow")}</p>
         <h1 data-i18n="dialekte.title">{t("dialekte.title")}</h1>

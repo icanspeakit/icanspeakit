@@ -28,7 +28,7 @@ const exerciseCount = tools.length;
 const examCount = exams.length;
 const workspaceCount = grammarWorkspaceLevels.reduce((n, row) => n + row.topics.length, 0);
 ---
-<Layout title="Deutsch-Übungen online mit Feedback – EnglishAcademy" description="Was übst du heute? Artikel, Grammatik nach Niveau (Akkusativ, Dativ, Passiv und mehr) und Präpositionen von A1 bis B2 — mit sofortigem Feedback.">
+<Layout title="English exercises online with feedback – EnglishAcademy" description="What will you practise today? Articles, grammar by level (present simple, past simple, the passive and more) and prepositions from A1 to B2 — with instant feedback.">
   <div class="uv">
     <SiteNav active="ueben" />
 
@@ -50,7 +50,7 @@ const workspaceCount = grammarWorkspaceLevels.reduce((n, row) => n + row.topics.
           {/* Hamsti and then the exercises — the same first screen as /kultur and
               /grammatik. The "Einfach lernen" row stood here and now closes the
               catalogue, below the exams. */}
-          <SectionMascot name="hamsti" say="Was übst du heute?" align="center" class="hub-mascot uv-hub-mascot" />
+          <SectionMascot name="hamsti" say="What shall we practise today?" align="center" class="hub-mascot uv-hub-mascot" />
           <p class="uv-eyebrow" data-i18n="nav.exercises">Übungen</p>
           <div class="uv-grid" data-hub-pop>
             {landingTools.map((t) => (
@@ -138,7 +138,7 @@ const workspaceCount = grammarWorkspaceLevels.reduce((n, row) => n + row.topics.
         <section class="dash-view" id="view-today">
           <section class="dash-hero">
             <div class="dash-hero-main">
-              <SectionMascot name="bruno" expr="happy" view="front" size={48} say="Schön, dass du da bist!" />
+              <SectionMascot name="bruno" expr="happy" view="front" size={48} say="Great to see you!" />
               <span class="dash-badge" id="dash-badge">Lade…</span>
               <h1 id="dash-headline">Willkommen zurück!</h1>
               <p class="dash-subtitle" id="dash-subtitle"></p>

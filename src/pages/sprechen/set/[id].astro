@@ -33,7 +33,7 @@ const seconds = set.items.reduce((n, t) => n + t.seconds, 0);
 const pending = set.items.filter((t) => t.imageNeeded && !t.image).length;
 ---
 <Layout
-  title={fitTitle(`${set.title} – Bildserie ${set.level}`, set.title)}
+  title={fitTitle(`${set.title} – Picture series ${set.level}`, set.title)}
   description={set.blurb}
 >
   <SiteNav active="fertigkeiten" />

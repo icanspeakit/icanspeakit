@@ -22,8 +22,8 @@ const more = quotes.filter((o: any) => o.author === q.author && o.id !== q.id);
 const short = (s: string, n = 60) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s);
 ---
 <Layout
-  title={`„${short(oneLine(q.text), 70)}“ – ${q.who.name} – Zitat mit Erklärung – EnglishAcademy`}
-  description={`${q.who.name}: „${short(oneLine(q.text), 110)}“ Was das Zitat bedeutet, die wichtigsten Wörter (${q.level}) und das Leben von ${q.who.name} in einfachem Deutsch.`}
+  title={`“${short(oneLine(q.text), 70)}” – ${q.who.name} – quote explained – EnglishAcademy`}
+  description={`${q.who.name}: “${short(oneLine(q.text), 110)}” What the quote means, the key words (${q.level}) and the life of ${q.who.name}, in simple English.`}
 >
   <SiteNav active="wissen" />
   <main class="practice-main practice-main--wide zt-page">

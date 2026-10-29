@@ -30,8 +30,8 @@ const buildDay = items.find((i: any) => i.id === dayOrder[indexFor(berlinYmd(), 
 const searchText = (e: any) => [e.de, e.bedeutung, e.en, ...(e.bsp ?? [])].join(" ").toLowerCase();
 ---
 <Layout
-  title="Redewendungen und Sprichwörter – Bedeutung und Herkunft – EnglishAcademy"
-  description={`${eintraege.length} deutsche Redewendungen und Sprichwörter einfach erklärt: Was bedeutet „Ich verstehe nur Bahnhof“? Mit Beispiel, Englisch, Herkunft und Übungen.`}
+  title="Idioms and proverbs – meaning and origin – EnglishAcademy"
+  description={`${eintraege.length} English idioms and proverbs simply explained: what does “a piece of cake” mean? With examples, origins and exercises.`}
   noindex={!LIVE}
 >
   <SiteNav active="wissen" />
@@ -40,7 +40,7 @@ const searchText = (e: any) => [e.de, e.bedeutung, e.en, ...(e.bsp ?? [])].join(
       <p class="eyebrow" data-i18n="rw.eyebrow">Wissen · Sprache</p>
       <h1 data-i18n="rw.title">Redewendungen & Sprichwörter</h1>
       <p class="rw-lead" data-i18n="rw.lead">Wort für Wort verstehst du sie nicht: „Da beißt die Maus keinen Faden ab.“ Hier steht, was sie bedeuten, wann man sie sagt und woher sie kommen.</p>
-      <SectionMascot name="quaki" expr="thinking" say="Eine Maus? Wo?" align="center" size={64} />
+      <SectionMascot name="quaki" expr="thinking" say="Cats and dogs? Where?" align="center" size={64} />
     </header>
 
     <section class="rw-day" data-day aria-labelledby="rw-day-h">

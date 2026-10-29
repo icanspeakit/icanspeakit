@@ -23,9 +23,9 @@ const bold = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
 const level = (f: (typeof fallen)[number]) => (f.exams.includes("dtz") && !f.exams.includes("telc") ? "A2–B1" : "B1");
 ---
 <Layout
-  title="Prüfungsfallen DTZ und telc B1 – EnglishAcademy"
-  description="Stellen in DTZ und telc B1, die leicht aussehen und einen Haken haben: kurz erklärt, mit Beispiel ✗/✓, einer Aufgabe zum Ausprobieren und dem Link in den Übungssatz."
-  breadcrumb={[{ name: "Prüfungen", path: "/pruefungen" }]}
+  title="Exam traps at B1 – EnglishAcademy"
+  description="Parts of B1 exams that look easy but have a catch: a short explanation, a ✗/✓ example, a task to try and a link to the practice set."
+  breadcrumb={[{ name: "Exams", path: "/pruefungen" }]}
 >
   <SiteNav active="pruefungen" />
 

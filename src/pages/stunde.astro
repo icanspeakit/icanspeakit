@@ -20,8 +20,8 @@ const texte = Object.fromEntries(Object.entries(texteRoh as Record<string, any>)
   .filter(([k, t]) => !k.startsWith("_") && (import.meta.env.DEV || t.geprueft)));
 ---
 <Layout
-  title="Deine Stunde – EnglishAcademy"
-  description="Eine Deutschstunde Schritt für Schritt allein: Einstieg, Wörter, Grammatik, Üben, Anwenden – in deinem Tempo."
+  title="Your lesson – EnglishAcademy"
+  description="An English lesson step by step, on your own: warm-up, words, grammar, practice, using it – at your own pace."
   noindex
 >
   <SiteNav />
@@ -31,7 +31,7 @@ const texte = Object.fromEntries(Object.entries(texteRoh as Record<string, any>)
       <h1 class="ut-title" data-title>Deine Stunde</h1>
       <div class="ut-timeline" data-start-bar aria-hidden="true"></div>
       <div class="ls-card ls-start-card">
-        <SectionMascot name="bruno" expr="happy" say="Schritt für Schritt." />
+        <SectionMascot name="bruno" expr="happy" say="Step by step." />
         <p class="ls-start-msg" data-start-msg role="status"></p>
         <ol class="ls-start-steps" data-start-steps></ol>
         <div class="ls-btns">
@@ -49,7 +49,7 @@ const texte = Object.fromEntries(Object.entries(texteRoh as Record<string, any>)
     </section>
 
     <section class="ls-card ls-done" data-view="done" hidden>
-      <SectionMascot name="bruno" expr="celebrate" say="Geschafft!" />
+      <SectionMascot name="bruno" expr="celebrate" say="You did it!" />
       <h1 class="ut-title">Stunde geschafft</h1>
       <p>Gebraucht: <b data-done-time></b></p>
       <table class="ut-done-table">

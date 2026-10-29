@@ -28,10 +28,10 @@ import "../styles/wortgeschichte.css";
 // One of the crew per shelf, by their roles: Regi grammar, Hamsti words, Bruno the coach
 // for exams. SectionMascot hides itself when the learner has switched the crew off.
 const SHELF_MASCOT: Record<string, { name: "bruno" | "regi" | "hamsti" | "quaki"; say: string }> = {
-  grammatik: { name: "regi", say: "Regel für Regel." },
-  wortschatz: { name: "hamsti", say: "Wörter zum Mitnehmen." },
-  berufe: { name: "hamsti", say: "Wörter für deine Arbeit." },
-  pruefungen: { name: "bruno", say: "Gut vorbereitet!" },
+  grammatik: { name: "regi", say: "Rule by rule." },
+  wortschatz: { name: "hamsti", say: "Words to take with you." },
+  berufe: { name: "hamsti", say: "Words for your job." },
+  pruefungen: { name: "bruno", say: "Be well prepared!" },
 };
 
 const mb = (totals.bytes / 1024 / 1024).toFixed(1).replace(".", ",");
@@ -84,8 +84,8 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
 }
 ---
 <Layout
-  title="Deutsch Grammatik & Wortliste PDF kostenlos – EnglishAcademy"
-  description="Grammatikbücher, Wortlisten und Prüfungsmaterial als PDF — kostenlos herunterladen, ausdrucken und im Unterricht weitergeben. Ohne Konto."
+  title="English grammar & word lists as free PDFs – EnglishAcademy"
+  description="Grammar books, word lists and exam material as PDFs — download them for free, print them and share them in class. No account needed."
 >
   <SiteNav active="wissen" />
   <main class="practice-main practice-main--wide">

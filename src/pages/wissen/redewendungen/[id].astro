@@ -24,7 +24,7 @@ const wgLive = new Set(published().map((w: any) => wgHref(w)));
 const siehe = e.siehe && (!e.siehe.startsWith("/wissen/wortgeschichte/") || wgLive.has(e.siehe)) ? e.siehe : null;
 const plain = e.de.replace(/[.!?]$/, "");
 const site = Astro.site ? new URL(Astro.site).origin : "https://englishacademy.com";
-const description = `„${plain}“: ${e.bedeutung} Mit Beispiel, Englisch und Herkunft – einfach erklärt.`.slice(0, 160);
+const description = `“${plain}”: ${e.bedeutung} With an example and the origin – simply explained.`.slice(0, 160);
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "DefinedTerm",
@@ -34,7 +34,7 @@ const jsonLd = {
   url: site + hrefOf(e),
   inDefinedTermSet: {
     "@type": "DefinedTermSet",
-    name: "Redewendungen & Sprichwörter",
+    name: "Idioms & proverbs",
     url: site + "/wissen/redewendungen",
     publisher: { "@id": orgId(site) },
   },
@@ -46,10 +46,10 @@ const items = itemsOf(ofThema(e.thema));
 const live = LIVE;
 ---
 <Layout
-  title={fitTitle(`${plain} – Bedeutung und Herkunft`, `${plain} – Bedeutung`, plain)}
+  title={fitTitle(`${plain} – meaning and origin`, `${plain} – meaning`, plain)}
   description={description}
   noindex={!live}
-  breadcrumb={[{ name: "Wissen", path: "/wissen" }, { name: "Redewendungen & Sprichwörter", path: "/wissen/redewendungen" }]}
+  breadcrumb={[{ name: "Knowledge", path: "/wissen" }, { name: "Idioms & proverbs", path: "/wissen/redewendungen" }]}
 >
   {live && <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />}
   <SiteNav active="wissen" />
