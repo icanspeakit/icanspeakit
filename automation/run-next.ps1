@@ -125,7 +125,7 @@ try {
     'Bash(pnpm build:*)', 'Bash(pnpm check:*)', 'Bash(pnpm run:*)', 'Bash(node:*)',
     'Bash(ls:*)', 'Bash(cat:*)', 'Bash(head:*)', 'Bash(tail:*)', 'Bash(grep:*)', 'Bash(find:*)', 'Bash(wc:*)',
     'Bash(mkdir:*)', 'Bash(mv:*)', 'Bash(cp:*)', 'Bash(sort:*)', 'Bash(diff:*)',
-    'Bash(sed:*)', 'Bash(awk:*)', 'Bash(echo:*)', 'Bash(xargs:*)', 'Bash(uniq:*)', 'Bash(cut:*)', 'Bash(tr:*)', 'Bash(jq:*)', 'Bash(test:*)', 'Bash(pwd)'
+    'Bash(sed:*)', 'Bash(awk:*)', 'Bash(echo:*)', 'Bash(xargs:*)', 'Bash(uniq:*)', 'Bash(cut:*)', 'Bash(tr:*)', 'Bash(jq:*)', 'Bash(test:*)', 'Bash(pwd)', 'Bash(timeout:*)'
   )
 
   $failsInRow = 0; $lastItem = $null; $sameItemRuns = 0
@@ -152,6 +152,10 @@ try {
       Toast "EnglishAcademy: stuck on $id" 'Three runs without finishing. The loop is halted; see the monitor.'
       break
     }
+
+    # Builds left over from an earlier, stopped item would compete with this one's: end them.
+    Get-CimInstance Win32_Process -Filter "Name='node.exe'" | Where-Object { $_.CommandLine -match 'englishacademy-content' -and $_.CommandLine -match '(astro\.mjs|pnpm\.cjs)"?\s+build' } |
+      ForEach-Object { & taskkill /PID $_.ProcessId /T /F 2>&1 | Out-Null }
 
     $prompt = (Get-Content (Join-Path $Work 'automation\PROMPT.md') -Raw -Encoding UTF8).Replace('{{MODULE}}', $id).Replace('{{DESC}}', $desc)
     $stamp = Get-Date -Format 'yyyy-MM-dd_HHmm'
