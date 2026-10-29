@@ -2,7 +2,7 @@
 // /kursinhalte/<niveau> — what one course level teaches, block by block (KursProgression),
 // under the A1.1 → C1 line (KursTimeline). One page per level, so every level has its own
 // title, description and address to share. Content: src/data/kursinhalte.json.
-// German only, like the course itself: lang="de" on <main>.
+// English only (lang="en"), like KursTimeline and KursProgression; no keys.
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
 import KursTimeline from "../../components/KursTimeline.astro";
@@ -31,10 +31,10 @@ const description = `English course ${level.label} (${level.titel}): ${level.blo
   }}
 >
   <SiteNav />
-  <main class="practice-main ki" lang="de">
+  <main class="practice-main ki" lang="en">
     <header class="ki-hero">
-      <p class="ki-eyebrow"><a href="/kursinhalte">Kursinhalte</a> · Niveau {level.label}</p>
-      <h1>Deutschkurs {level.label}: {level.titel}</h1>
+      <p class="ki-eyebrow"><a href="/kursinhalte">Syllabus</a> · Level {level.label}</p>
+      <h1>English course {level.label}: {level.titel}</h1>
       <p class="ki-lead">{level.ziel}</p>
     </header>
     <div data-kp-hide-print>

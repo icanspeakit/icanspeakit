@@ -409,11 +409,11 @@ const bridgeLangs = fehler.languages
 
     const FALLBACK = {
       position: "{i} / {n}",
-      recActive: "Aufnahme läuft …",
-      recDone: "Aufgenommen — vergleiche dich mit dem Modell.",
-      recDenied: "Kein Mikrofonzugriff. Du kannst trotzdem mithören und laut nachsprechen.",
-      recUnsupported: "Dein Browser unterstützt keine Aufnahme.",
-      audioError: "Audio konnte nicht geladen werden.",
+      recActive: "Recording …",
+      recDone: "Recorded – compare yourself with the model.",
+      recDenied: "No access to the microphone. You can still listen and repeat out loud.",
+      recUnsupported: "Your browser can't record.",
+      audioError: "The audio couldn't be loaded.",
     };
 
     function stringsFrom(dict) {
@@ -424,8 +424,8 @@ const bridgeLangs = fehler.languages
         recDenied: dict["aussprache.rec.denied"] || FALLBACK.recDenied,
         recUnsupported: dict["aussprache.rec.unsupported"] || FALLBACK.recUnsupported,
         audioError: dict["aussprache.audioError"] || FALLBACK.audioError,
-        next: dict["aussprache.next"] || "Weiter",
-        nextSet: dict["aussprache.nextSet"] || "Nächstes Thema →",
+        next: dict["aussprache.next"] || "Next",
+        nextSet: dict["aussprache.nextSet"] || "Next topic →",
       };
     }
 

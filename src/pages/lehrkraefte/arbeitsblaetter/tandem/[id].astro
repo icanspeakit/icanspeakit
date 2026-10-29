@@ -77,7 +77,7 @@ const { spec } = t;
           root.dataset.key = withKey.checked ? "on" : "off";
         }
         if (shotBtn) shotBtn.hidden = !one;
-        document.title = one ? `${baseTitle.split(" – ")[0]} – Partner ${who}` : keyOnly ? `${baseTitle.split(" – ")[0]} – Lösungen` : baseTitle;
+        document.title = one ? `${baseTitle.split(" – ")[0]} – Partner ${who}` : keyOnly ? `${baseTitle.split(" – ")[0]} – Answers` : baseTitle;
         const u = new URL(location.href);
         if (who !== "both") u.searchParams.set("partner", who === "key" ? "loesungen" : who.toLowerCase()); else u.searchParams.delete("partner");
         history.replaceState(null, "", u);
@@ -101,7 +101,7 @@ const { spec } = t;
         root.querySelectorAll(`.pu-page--cards .pu-card--${who}`).forEach((c) => wrap.append(c.cloneNode(true)));
         const foot = document.createElement("p");
         foot.className = "pu-shot-foot";
-        foot.textContent = "englishacademy.com · Partnerübung";
+        foot.textContent = "englishacademy.com · Pair work";
         wrap.append(foot);
         document.body.append(wrap);
         try {

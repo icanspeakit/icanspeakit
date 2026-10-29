@@ -2,6 +2,7 @@
 // /kursinhalte — the course levels A1.1 → C1 at a glance: the level line and one card per
 // level (its themes, Dauer, textbooks), each opening /kursinhalte/<niveau>. The cards carry the level
 // id, so /kursinhalte#b2-1 lands on the B2.1 card. Content: src/data/kursinhalte.json.
+// English only (lang="en"), like KursTimeline and KursProgression; no keys.
 import Layout from "../layouts/Layout.astro";
 import SiteNav from "../components/SiteNav.astro";
 import KursTimeline from "../components/KursTimeline.astro";
@@ -17,13 +18,13 @@ const books = (l: (typeof data.niveaus)[number]): string[] => data.lehrwerke[l.l
   description={`What do you learn at each level? All levels from ${first} to ${last}: topics, learning goals, grammar and vocabulary in the right order, with a self-test for your level.`}
 >
   <SiteNav />
-  <main class="practice-main ki" lang="de">
+  <main class="practice-main ki" lang="en">
     <header class="ki-hero">
-      <p class="ki-eyebrow">Kursinhalte</p>
-      <h1>Was lernst du wann?</h1>
+      <p class="ki-eyebrow">Syllabus</p>
+      <h1>What do you learn when?</h1>
       <p class="ki-lead">
-        Unsere Kurse bauen aufeinander auf: von den ersten Sätzen ({first}) bis zu Texten für Studium
-        und Beruf ({last}). Wähle ein Niveau und sieh dir die Themen, Lernziele und die Grammatik an.
+        Our courses build on each other: from your first sentences ({first}) to texts for study
+        and work ({last}). Choose a level to see its topics, learning goals and grammar.
       </p>
     </header>
 
@@ -38,8 +39,8 @@ const books = (l: (typeof data.niveaus)[number]): string[] => data.lehrwerke[l.l
               <span class="ki-card-title">{l.titel}</span>
               <span class="ki-card-ziel">{l.ziel}</span>
               <span class="ki-card-themen">{l.bloecke.map((b) => b.thema).join(" · ")}</span>
-              <span class="ki-card-meta">{l.dauer} · {l.bloecke.length} Themen</span>
-              {books(l).length > 0 && <span class="ki-card-books">Passend zu: {books(l).join(" · ")}</span>}
+              <span class="ki-card-meta">{l.dauer} · {l.bloecke.length} topics</span>
+              {books(l).length > 0 && <span class="ki-card-books">Goes with: {books(l).join(" · ")}</span>}
             </span>
           </a>
         </li>
@@ -47,8 +48,8 @@ const books = (l: (typeof data.niveaus)[number]): string[] => data.lehrwerke[l.l
     </ol>
 
     <p class="ki-test">
-      Du weißt nicht, wo du stehst? Jede Niveau-Seite hat einen kurzen Selbsttest. Oder mach den
-      <a href="/einstufungstest">Einstufungstest</a>.
+      Not sure where you are? Every level page has a short self-test. Or take the
+      <a href="/einstufungstest">placement test</a>.
     </p>
   </main>
 </Layout>
