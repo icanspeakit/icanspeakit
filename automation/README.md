@@ -14,9 +14,9 @@ Once started it runs invisibly in the background and keeps going on its own:
 
 | What | How |
 |---|---|
-| Start | Monitor → Start, or desktop shortcut "EnglishAcademy Start" |
+| Start | Tray icon / Monitor → Start, or Start menu → EnglishAcademy Start |
 | Stop | Monitor → Stop (commits stay; Start resumes the item) |
-| Watch | Desktop shortcut "EnglishAcademy Monitor" → http://localhost:4455 |
+| Watch | Tray icon (double-click) or Start menu → EnglishAcademy Monitor → http://localhost:4455 |
 | Caps | Monitor → Usage card sliders (weekly, 5-hour) |
 | See the next item | `pwsh -File automation\run-next.ps1 -DryRun` |
 | Re-install the start task | `pwsh -ExecutionPolicy Bypass -File automation\install-schedule.ps1` |

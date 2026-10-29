@@ -21,12 +21,15 @@ $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoi
 Register-ScheduledTask -TaskName $name -Action $action -Settings $settings -Force `
   -Description 'Starts the englishacademy content runner (Claude Code, headless), on demand only. See automation\README.md.' | Out-Null
 
-# Desktop shortcut that starts it.
+# Start-menu shortcut that starts it (Start menu > EnglishAcademy, next to Monitor and Tray;
+# the Tray shortcut is also in the Startup folder, so the icon is there after every login).
 $ws = New-Object -ComObject WScript.Shell
-$lnk = $ws.CreateShortcut((Join-Path ([Environment]::GetFolderPath('Desktop')) 'EnglishAcademy Start.lnk'))
+$sm = Join-Path ([Environment]::GetFolderPath('Programs')) 'EnglishAcademy'
+New-Item -ItemType Directory -Force -Path $sm | Out-Null
+$lnk = $ws.CreateShortcut((Join-Path $sm 'EnglishAcademy Start.lnk'))
 $lnk.TargetPath = "$env:WINDIR\System32\schtasks.exe"
 $lnk.Arguments = "/run /tn `"$name`""
 $lnk.WindowStyle = 7
 $lnk.IconLocation = "$env:WINDIR\System32\shell32.dll,137"
 $lnk.Save()
-"Task '$name' registered (start on demand only). Desktop shortcut: EnglishAcademy Start"
+"Task '$name' registered (start on demand only). Start menu: EnglishAcademy > EnglishAcademy Start"
