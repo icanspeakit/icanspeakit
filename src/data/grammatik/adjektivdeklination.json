@@ -1,226 +1,207 @@
 {
   "id": "adjektivdeklination",
-  "name": "Adjektivdeklination",
+  "name": "Order of adjectives",
   "level": "B1",
-  "subtitle": "Die Endung des Adjektivs hängt nicht vom Nomen ab, sondern davon, was davorsteht. Drei Typen — bestimmter Artikel, unbestimmter Artikel, kein Artikel — und das Muster sitzt.",
-  "source": "MATRIX ADJEKTIVE.pdf (vollständige Deklinationstabelle), Adjektivübung.pdf, Adjektivubung nur ABs.pdf",
+  "subtitle": "Put your opinion first, then the facts: a lovely old wooden table. For facts, the usual order is size, age, shape, colour, origin, material. Two or three adjectives are enough.",
+  "briefMarks": [
+    "opinion",
+    "size",
+    "age",
+    "colour"
+  ],
+  "source": "EnglishAcademy original English text (grammar-b1 run, 2026-10-29)",
   "concept": {
     "comic": {
-      "title": "Wer trägt die Endung?",
+      "title": "Which word comes first?",
       "panels": [
         {
-          "caption": "Typ A · der/die/das",
-          "tag": "{der} zeigt schon alles → nur {-e} oder {-en}",
-          "left": {
-            "name": "hamsti",
-            "expr": "happy",
-            "say": "Was kostet {der} alt{e} Hut?"
-          },
-          "right": {
-            "name": "bruno",
-            "expr": "happy",
-            "say": "{Der} alt{e} Hut? Nur zwei Euro!"
-          }
-        },
-        {
-          "caption": "Typ B · ein/kein/mein",
-          "tag": "{ein} zeigt nichts → das Adjektiv springt ein: {-er}, {-es}",
+          "caption": "Opinion first",
+          "tag": "{lovely} (opinion) comes before {old} (fact)",
           "left": {
             "name": "quaki",
             "expr": "thinking",
-            "say": "Haben Sie {ein} klein{es} Radio?"
+            "say": "Is it an old lovely hat?"
           },
           "right": {
             "name": "bruno",
-            "expr": "celebrate",
-            "say": "Ja! {Ein} klein{es} Radio, hier!"
+            "expr": "happy",
+            "say": "No! A {lovely} old hat."
           }
         },
         {
-          "caption": "Typ C · kein Artikel",
-          "tag": "Kein Artikel → das Adjektiv macht die Arbeit von {der}/{die}/{das}",
+          "caption": "Size before colour",
+          "tag": "{big} first, then {red}",
           "left": {
             "name": "regi",
             "expr": "happy",
-            "say": "Heiß{er} Kaffee! Frisch{e} Waffeln!"
+            "say": "I want a red big bag."
           },
           "right": {
             "name": "hamsti",
+            "expr": "thinking",
+            "say": "Say a {big} {red} bag. Size comes first."
+          }
+        },
+        {
+          "caption": "Keep it short",
+          "tag": "Two or three adjectives are {enough}",
+          "left": {
+            "name": "bruno",
             "expr": "celebrate",
-            "say": "Einen Kaffee mit warm{er} Milch, bitte!"
+            "say": "A lovely little old round red wooden table!"
+          },
+          "right": {
+            "name": "quaki",
+            "expr": "oops",
+            "say": "That is too much! A {lovely} {old} table is fine."
           }
         }
       ]
     },
     "flow": [
       {
-        "text": "Artikelwort",
+        "text": "a / the / my"
+      },
+      {
+        "text": "opinion",
         "variant": "verb"
       },
       {
-        "text": "Adjektiv + Endung",
+        "text": "size · age · shape · colour · origin · material",
         "variant": "prep"
       },
       {
-        "text": "Nomen"
+        "text": "noun"
       }
     ],
+    "exampleHtml": "a <span class=\"vp-verb\">lovely</span> <span class=\"vp-prep\">old wooden</span> table · a <span class=\"vp-prep\">big red</span> bus · a <span class=\"vp-verb\">nice</span> <span class=\"vp-prep\">new</span> phone · a <span class=\"vp-prep\">small Italian</span> café",
     "qa": [
       {
-        "html": "<strong>der/die/das</strong> zeigt alles → Adjektiv nur <strong>-e</strong> oder <strong>-en</strong>: <em>der alt<strong>e</strong> Mann</em>",
-        "tag": "Typ A · schwach"
+        "html": "<strong>Opinion first.</strong> Words like <em>lovely, nice, horrible, comfortable</em> say what you think. They come before the facts: <em>a lovely old house</em>, not <em>an old lovely house</em>.",
+        "tag": "Opinion before fact"
       },
       {
-        "html": "<strong>ein</strong> zeigt nichts → das Adjektiv springt ein: <em>ein alt<strong>er</strong> Mann</em>",
-        "tag": "Typ B · gemischt"
+        "html": "<strong>Facts: size, age, shape, colour, origin, material.</strong> A small helper is the word <em>OSASCOMP</em> (Opinion, Size, Age, Shape, Colour, Origin, Material, Purpose). <em>a big old car, a small round table, a black leather jacket, a new French film</em>.",
+        "tag": "The usual order"
       },
       {
-        "html": "<strong>kein Artikel</strong> → das Adjektiv nimmt die Endung von der/die/das: <em>alt<strong>er</strong> Wein</em>",
-        "tag": "Typ C · stark"
+        "html": "<strong>Two or three adjectives</strong> are normal. Four or five sound heavy. Say <em>a lovely old wooden table</em> and stop there. Do not put a comma between adjectives of different types: <em>a big red bus</em>, not <em>a big, red bus</em>.",
+        "tag": "Not too many"
+      },
+      {
+        "html": "<strong>After <em>be</em></strong> the order is freer, and you join the last two with <em>and</em>: <em>The house is old and beautiful. The room was big, bright and warm.</em>",
+        "tag": "After be"
+      },
+      {
+        "html": "✗ <em>a wooden old table</em> → ✓ <em>an old wooden table</em> · ✗ <em>a red big car</em> → ✓ <em>a big red car</em> · ✗ <em>two blues bags</em> / <em>a car red</em> → ✓ <em>two blue bags</em> / <em>a red car</em> (adjectives come before the noun and never take <em>-s</em>)",
+        "tag": "Typical mistakes"
       }
     ],
-    "noteHtml": "Typ A: <em>-e</em> nur bei <em>der/die/das</em> im Nominativ und <em>die/das</em> im Akkusativ, sonst <em>-en</em>. Plural mit Artikelwort: immer <em>-en</em>.",
+    "noteHtml": "Learners often put the material or colour too early. A good rule: the word that tells <em>what it is made of</em> or <em>what type it is</em> stays closest to the noun: <em>a leather bag</em>, <em>a wooden chair</em>. A purpose word is really a noun and stands right next to the noun: <em>a running shoe, a sleeping bag</em>. More adjectives: <a href=\"/partizip-als-adjektiv\">-ed and -ing adjectives</a> (<em>a boring old film</em>) and <a href=\"/adjektive-als-nomen\">the + adjective, one / ones</a>.",
     "reference": {
-      "showLabel": "Deklinationstabelle anzeigen ▼",
-      "hideLabel": "Deklinationstabelle ausblenden ▲",
+      "showLabel": "Show overview ▼",
+      "hideLabel": "Hide overview ▲",
       "tables": [
         {
-          "caption": "Typ A · Singular — nach dem bestimmten Artikel",
-          "note": "Ebenso nach: dies-, jen-, jed-, manch-, welch-, derjenige, derselbe, folgend-.",
+          "caption": "The order of adjectives",
+          "note": "Start with the opinion. Then go down the list. You rarely need more than three.",
           "head": [
-            "",
-            "maskulin",
-            "feminin",
-            "neutral"
+            "Type",
+            "Examples",
+            "In a phrase"
           ],
           "rows": [
             [
-              "Nominativ",
-              "der hoh{e} Baum",
-              "die weiß{e} Wand",
-              "das klein{e} Tier"
+              "1 · Opinion",
+              "lovely, nice, horrible, comfortable",
+              "a lovely house"
             ],
             [
-              "Akkusativ",
-              "den hoh{en} Baum",
-              "die weiß{e} Wand",
-              "das klein{e} Tier"
+              "2 · Size",
+              "big, small, tall, long",
+              "a small flat"
             ],
             [
-              "Dativ",
-              "dem hoh{en} Baum",
-              "der weiß{en} Wand",
-              "dem klein{en} Tier"
+              "3 · Age",
+              "old, new, young, modern",
+              "a new phone"
             ],
             [
-              "Genitiv",
-              "des hoh{en} Baums",
-              "der weiß{en} Wand",
-              "des klein{en} Tiers"
+              "4 · Shape",
+              "round, square, flat",
+              "a round table"
+            ],
+            [
+              "5 · Colour",
+              "red, blue, black, green",
+              "a red coat"
+            ],
+            [
+              "6 · Origin",
+              "British, Italian, Welsh, Indian",
+              "an Italian restaurant"
+            ],
+            [
+              "7 · Material",
+              "wooden, cotton, plastic, leather",
+              "a leather bag"
+            ],
+            [
+              "8 · Purpose",
+              "running, cooking, sleeping",
+              "a sleeping bag"
             ]
           ]
         },
         {
-          "caption": "Typ B · Singular — nach dem unbestimmten Artikel",
-          "note": "Ebenso nach: Possessivpronomen (mein-, dein- usw.), kein-, irgendein-.",
+          "caption": "Phrases to copy",
           "head": [
-            "",
-            "maskulin",
-            "feminin",
-            "neutral"
+            "Phrase",
+            "Order"
           ],
           "rows": [
             [
-              "Nominativ",
-              "ein hoh{er} Baum",
-              "eine weiß{e} Wand",
-              "ein klein{es} Tier"
+              "a lovely old house",
+              "opinion + age"
             ],
             [
-              "Akkusativ",
-              "einen hoh{en} Baum",
-              "eine weiß{e} Wand",
-              "ein klein{es} Tier"
+              "a big red bus",
+              "size + colour"
             ],
             [
-              "Dativ",
-              "einem hoh{en} Baum",
-              "einer weiß{en} Wand",
-              "einem klein{en} Tier"
+              "a small round wooden table",
+              "size + shape + material"
             ],
             [
-              "Genitiv",
-              "eines hoh{en} Baums",
-              "einer weiß{en} Wand",
-              "eines klein{en} Tiers"
+              "a beautiful Italian leather jacket",
+              "opinion + origin + material"
+            ],
+            [
+              "an old black coat",
+              "age + colour"
             ]
+          ]
+        }
+      ],
+      "boxes": [
+        {
+          "badge": "Opinion comes first",
+          "variant": "akk",
+          "items": [
+            "a lovely old house",
+            "a horrible small room",
+            "a comfortable new bed",
+            "a nice red jumper"
           ]
         },
         {
-          "caption": "Typ C · Singular — ohne Artikel",
-          "note": "Ebenso nach: vorangestelltem Genitiv (Evas roter Mantel), dessen, wessen, manch, solch, welch, etwas, genug, mehr, viel, wenig, nichts.",
-          "head": [
-            "",
-            "maskulin",
-            "feminin",
-            "neutral"
-          ],
-          "rows": [
-            [
-              "Nominativ",
-              "alt{er} Wein",
-              "frisch{e} Milch",
-              "hell{es} Bier"
-            ],
-            [
-              "Akkusativ",
-              "alt{en} Wein",
-              "frisch{e} Milch",
-              "hell{es} Bier"
-            ],
-            [
-              "Dativ",
-              "alt{em} Wein",
-              "frisch{er} Milch",
-              "hell{em} Bier"
-            ],
-            [
-              "Genitiv",
-              "alt{en} Weins",
-              "frisch{er} Milch",
-              "hell{en} Biers"
-            ]
-          ]
-        },
-        {
-          "caption": "Plural — mit und ohne Artikelwort",
-          "note": "Mit Artikelwort immer -en. Ohne Artikelwort: Nominativ/Akkusativ -e, Dativ -en, Genitiv -er. Ebenso ohne Artikel nach: Zahlwörtern, andere, einige, ein paar, mehrere, viele, wenige.",
-          "head": [
-            "",
-            "mit Artikelwort",
-            "ohne Artikelwort"
-          ],
-          "rows": [
-            [
-              "Nominativ",
-              "die hoh{en} Bäume",
-              "hoh{e} Bäume"
-            ],
-            [
-              "Akkusativ",
-              "die hoh{en} Bäume",
-              "hoh{e} Bäume"
-            ],
-            [
-              "Dativ",
-              "den hoh{en} Bäumen",
-              "hoh{en} Bäumen"
-            ],
-            [
-              "Genitiv",
-              "der hoh{en} Bäume",
-              "hoh{er} Bäume"
-            ]
+          "badge": "Then the facts",
+          "variant": "dat",
+          "items": [
+            "a big old car",
+            "a small round table",
+            "a black leather jacket",
+            "a new French film"
           ]
         }
       ]
@@ -229,177 +210,182 @@
   "aktiv": {
     "listen": [
       {
-        "text": "der hohe Baum",
-        "note": "Typ A — der Artikel zeigt den Kasus, das Adjektiv sagt nur -e.",
-        "audio": "/audio/grammatik/adjektivdeklination/der-hohe-baum.mp3"
+        "text": "She has a lovely old coat.",
+        "note": "Opinion first: lovely (opinion), old (age), then the noun.",
+        "audio": "/audio/grammatik/adjektivdeklination/she-has-a-lovely-old-coat.mp3"
       },
       {
-        "text": "ein hoher Baum",
-        "note": "Typ B — ein hat keine Endung, also trägt das Adjektiv sie.",
-        "audio": "/audio/grammatik/adjektivdeklination/ein-hoher-baum.mp3"
+        "text": "We stayed in a small Italian hotel.",
+        "note": "Size comes before origin: small, then Italian.",
+        "audio": "/audio/grammatik/adjektivdeklination/we-stayed-in-a-small-italian-hotel.mp3"
       },
       {
-        "text": "alter Wein",
-        "note": "Typ C — kein Artikel, das Adjektiv übernimmt seine Endung.",
-        "audio": "/audio/grammatik/adjektivdeklination/alter-wein.mp3"
+        "text": "He bought a black leather jacket.",
+        "note": "Colour comes before material: black, then leather.",
+        "audio": "/audio/grammatik/adjektivdeklination/he-bought-a-black-leather-jacket.mp3"
+      },
+      {
+        "text": "It's a big round wooden table.",
+        "note": "Size, shape, material. Three adjectives are plenty.",
+        "audio": "/audio/grammatik/adjektivdeklination/its-a-big-round-wooden-table.mp3"
       }
     ],
     "hoeren": {
-      "instruction": "Hör zu und wähle die Form, die du gehört hast. Zweimal hören ist erlaubt.",
+      "instruction": "Listen and choose the phrase you hear. Only one has the natural order.",
       "items": [
         {
-          "text": "Ich fahre mit dem neuen Auto zur Arbeit.",
+          "text": "She lives in a lovely old house.",
           "choices": [
-            "dem neuen",
-            "den neuen",
-            "einem neuen"
+            "a lovely old house",
+            "an old lovely house",
+            "a house lovely old"
           ],
           "correct": 0,
-          "audio": "/audio/grammatik/adjektivdeklination/ich-fahre-mit-dem-neuen-auto-zur-arbeit.mp3"
+          "audio": "/audio/grammatik/adjektivdeklination/she-lives-in-a-lovely-old-house.mp3"
         },
         {
-          "text": "Das ist wirklich ein guter Wein.",
+          "text": "Zofia wore a long black coat.",
           "choices": [
-            "gute",
-            "guter",
-            "gutes"
+            "a black long coat",
+            "a long black coat",
+            "a coat long black"
           ],
           "correct": 1,
-          "audio": "/audio/grammatik/adjektivdeklination/das-ist-wirklich-ein-guter-wein.mp3"
+          "audio": "/audio/grammatik/adjektivdeklination/zofia-wore-a-long-black-coat.mp3"
         },
         {
-          "text": "Sie hat eine kleine Wohnung in der Altstadt gefunden.",
+          "text": "We stayed in a small French hotel.",
           "choices": [
-            "kleine",
-            "kleinen",
-            "kleiner"
+            "a French small hotel",
+            "a small French hotel",
+            "a hotel small French"
+          ],
+          "correct": 1,
+          "audio": "/audio/grammatik/adjektivdeklination/we-stayed-in-a-small-french-hotel.mp3"
+        },
+        {
+          "text": "He bought a brown leather bag.",
+          "choices": [
+            "a brown leather bag",
+            "a leather brown bag",
+            "a bag brown leather"
           ],
           "correct": 0,
-          "audio": "/audio/grammatik/adjektivdeklination/sie-hat-eine-kleine-wohnung-in-der-altstadt-gefunden.mp3"
+          "audio": "/audio/grammatik/adjektivdeklination/he-bought-a-brown-leather-bag.mp3"
         },
         {
-          "text": "Wir haben den ganzen Abend über das Projekt gesprochen.",
+          "text": "That is a nice new phone.",
           "choices": [
-            "ganze",
-            "ganzen",
-            "ganzem"
+            "a new nice phone",
+            "a nice new phone",
+            "a phone nice new"
           ],
           "correct": 1,
-          "audio": "/audio/grammatik/adjektivdeklination/wir-haben-den-ganzen-abend-ueber-das-projekt-gesprochen.mp3"
+          "audio": "/audio/grammatik/adjektivdeklination/that-is-a-nice-new-phone.mp3"
         },
         {
-          "text": "Mit altem Wein schmeckt die Soße besser.",
+          "text": "They have a round wooden table.",
           "choices": [
-            "alten",
-            "altem",
-            "alter"
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/adjektivdeklination/mit-altem-wein-schmeckt-die-sosse-besser.mp3"
-        },
-        {
-          "text": "Die weißen Wände gefallen mir am besten.",
-          "choices": [
-            "weiße",
-            "weißer",
-            "weißen"
+            "a wooden round table",
+            "a table round wooden",
+            "a round wooden table"
           ],
           "correct": 2,
-          "audio": "/audio/grammatik/adjektivdeklination/die-weissen-waende-gefallen-mir-am-besten.mp3"
+          "audio": "/audio/grammatik/adjektivdeklination/they-have-a-round-wooden-table.mp3"
         }
       ]
     },
     "sprechen": {
       "rounds": [
         {
-          "label": "1 · der → ein",
-          "instruction": "Du hörst eine Gruppe mit der/die/das. Sag sie noch einmal mit ein-.",
+          "label": "1 · Correct the order",
+          "instruction": "You hear a phrase in the wrong order. Say it again in the right order.",
           "example": {
-            "prompt": "der hohe Baum",
-            "answer": "ein hoher Baum"
+            "prompt": "a blue small bag",
+            "answer": "a small blue bag"
           },
           "items": [
             {
-              "prompt": "der neue Film",
-              "answer": "ein neuer Film",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination/der-neue-film.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination/ein-neuer-film--8wphfh.mp3"
+              "prompt": "a red big car",
+              "answer": "a big red car",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination/a-red-big-car.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination/a-big-red-car--a.mp3"
             },
             {
-              "prompt": "die weiße Wand",
-              "answer": "eine weiße Wand",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination/die-weisse-wand.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination/eine-weisse-wand--8wphfh.mp3"
+              "prompt": "a wooden old table",
+              "answer": "an old wooden table",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination/a-wooden-old-table.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination/an-old-wooden-table--a.mp3"
             },
             {
-              "prompt": "das kleine Tier",
-              "answer": "ein kleines Tier",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination/das-kleine-tier.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination/ein-kleines-tier--8wphfh.mp3"
+              "prompt": "an old lovely house",
+              "answer": "a lovely old house",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination/an-old-lovely-house.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination/a-lovely-old-house--a.mp3"
             },
             {
-              "prompt": "der gute Wein",
-              "answer": "ein guter Wein",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination/der-gute-wein.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination/ein-guter-wein--8wphfh.mp3"
+              "prompt": "a French small café",
+              "answer": "a small French café",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination/a-french-small-cafe.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination/a-small-french-cafe--a.mp3"
             },
             {
-              "prompt": "das alte Haus",
-              "answer": "ein altes Haus",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination/das-alte-haus.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination/ein-altes-haus--8wphfh.mp3"
+              "prompt": "a leather black jacket",
+              "answer": "a black leather jacket",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination/a-leather-black-jacket.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination/a-black-leather-jacket--a.mp3"
             },
             {
-              "prompt": "die junge Frau",
-              "answer": "eine junge Frau",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination/die-junge-frau.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination/eine-junge-frau--8wphfh.mp3"
+              "prompt": "a cotton white shirt",
+              "answer": "a white cotton shirt",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination/a-cotton-white-shirt.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination/a-white-cotton-shirt--a.mp3"
             }
           ]
         },
         {
-          "label": "2 · Nominativ → Dativ",
-          "instruction": "Du hörst eine Gruppe im Nominativ. Sag sie im Dativ — mit „mit“.",
+          "label": "2 · Add an adjective",
+          "instruction": "You hear a phrase and one new word. Say the phrase again with the new word in the right place.",
           "example": {
-            "prompt": "der hohe Baum",
-            "answer": "mit dem hohen Baum"
+            "prompt": "a red car — small",
+            "answer": "a small red car"
           },
           "items": [
             {
-              "prompt": "das neue Auto",
-              "answer": "mit dem neuen Auto",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination/das-neue-auto.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination/mit-dem-neuen-auto--8wphfh.mp3"
+              "prompt": "a big house — old",
+              "answer": "a big old house",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination/a-big-house-old.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination/a-big-old-house--a.mp3"
             },
             {
-              "prompt": "ein kleines Tier",
-              "answer": "mit einem kleinen Tier",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination/ein-kleines-tier.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination/mit-einem-kleinen-tier--8wphfh.mp3"
+              "prompt": "a wooden table — round",
+              "answer": "a round wooden table",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination/a-wooden-table-round.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination/a-round-wooden-table--a.mp3"
             },
             {
-              "prompt": "alter Wein",
-              "answer": "mit altem Wein",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination/alter-wein.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination/mit-altem-wein--8wphfh.mp3"
+              "prompt": "a leather bag — brown",
+              "answer": "a brown leather bag",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination/a-leather-bag-brown.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination/a-brown-leather-bag--a.mp3"
             },
             {
-              "prompt": "die weiße Wand",
-              "answer": "mit der weißen Wand",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination/die-weisse-wand.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination/mit-der-weissen-wand--8wphfh.mp3"
+              "prompt": "a cotton shirt — blue",
+              "answer": "a blue cotton shirt",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination/a-cotton-shirt-blue.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination/a-blue-cotton-shirt--a.mp3"
             },
             {
-              "prompt": "eine junge Frau",
-              "answer": "mit einer jungen Frau",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination/eine-junge-frau.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination/mit-einer-jungen-frau--8wphfh.mp3"
+              "prompt": "a black coat — long",
+              "answer": "a long black coat",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination/a-black-coat-long.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination/a-long-black-coat--a.mp3"
             },
             {
-              "prompt": "warmes Wasser",
-              "answer": "mit warmem Wasser",
-              "audioPrompt": "/audio/grammatik/adjektivdeklination/warmes-wasser.mp3",
-              "audioAnswer": "/audio/grammatik/adjektivdeklination/mit-warmem-wasser--8wphfh.mp3"
+              "prompt": "a stone house — lovely",
+              "answer": "a lovely stone house",
+              "audioPrompt": "/audio/grammatik/adjektivdeklination/a-stone-house-lovely.mp3",
+              "audioAnswer": "/audio/grammatik/adjektivdeklination/a-lovely-stone-house--a.mp3"
             }
           ]
         }
@@ -409,248 +395,326 @@
   "exercises": [
     {
       "type": "fill",
-      "title": "Ergänzen Sie die Adjektivendung.",
-      "hint": "Nur die Endung eintippen — z. B. „e“, „en“, „er“, „es“, „em“.",
-      "placeholder": "Endung…",
+      "title": "Which adjective fits the gap?",
+      "hint": "Think about the order: opinion, size, age, shape, colour, origin, material. Only one word fits the gap.",
+      "placeholder": "Adjective…",
       "items": [
         {
-          "prompt": "Wir haben den ganz___ Abend über das Projekt gesprochen.",
-          "hint": "Typ A · maskulin · Akkusativ",
-          "answer": "en"
+          "prompt": "We live in a ___ old house.",
+          "answer": "lovely",
+          "choices": [
+            "lovely",
+            "red",
+            "stone"
+          ],
+          "why": "Opinion comes first, before age (old). Colour and material come after age."
         },
         {
-          "prompt": "Das ist ein wirklich schön___ Garten.",
-          "hint": "Typ B · maskulin · Nominativ — „ein“ hat keine Endung",
-          "answer": "er"
+          "prompt": "She drives a big ___ car.",
+          "answer": "red",
+          "choices": [
+            "red",
+            "nice",
+            "lovely"
+          ],
+          "why": "Size (big) comes before colour (red). An opinion such as nice would go before big."
         },
         {
-          "prompt": "Sie trinkt am liebsten schwarz___ Kaffee.",
-          "hint": "Typ C · maskulin · Akkusativ — kein Artikel",
-          "answer": "en"
+          "prompt": "I bought a ___ red bag.",
+          "answer": "small",
+          "choices": [
+            "small",
+            "leather",
+            "Italian"
+          ],
+          "why": "Size comes before colour. Material (leather) and origin (Italian) come after colour."
         },
         {
-          "prompt": "Nach einer lang___ Reise waren alle müde.",
-          "hint": "Typ B · feminin · Dativ",
-          "answer": "en"
+          "prompt": "He wore a ___ black coat.",
+          "answer": "long",
+          "choices": [
+            "long",
+            "woollen",
+            "French"
+          ],
+          "why": "Size (long) comes before colour. Material (woollen) and origin (French) come after colour."
         },
         {
-          "prompt": "Mein klein___ Bruder geht seit September zur Schule.",
-          "hint": "Typ B · maskulin · Nominativ — „mein“ zählt wie „ein“",
-          "answer": "er"
+          "prompt": "My grandmother has a ___ old clock.",
+          "answer": "lovely",
+          "choices": [
+            "lovely",
+            "wooden",
+            "brown"
+          ],
+          "why": "Opinion first. Material (wooden) and colour (brown) come after age (old)."
         },
         {
-          "prompt": "Frisch___ Brot schmeckt am besten.",
-          "hint": "Typ C · neutral · Nominativ — kein Artikel",
-          "answer": "es"
+          "prompt": "They sat at a ___ round table.",
+          "answer": "big",
+          "choices": [
+            "big",
+            "wooden",
+            "red"
+          ],
+          "why": "Size comes before shape (round). Material and colour come after shape."
         }
       ]
     },
     {
       "type": "match",
-      "title": "Welcher Typ steckt dahinter?",
-      "hint": "Klicke erst ein Artikelwort, dann den passenden Deklinationstyp.",
+      "title": "What type of adjective is it?",
+      "hint": "Tap an adjective first, then its type.",
       "pairs": [
         {
-          "q": "dieser, jeder, welcher",
-          "a": "der alt<u>e</u> Mann · Typ A: nur -e / -en"
+          "q": "lovely",
+          "a": "opinion (comes first)"
         },
         {
-          "q": "ein, kein, mein, irgendein",
-          "a": "ein alt<u>er</u> Mann · Typ B: das Adjektiv springt ein"
+          "q": "big",
+          "a": "size"
         },
         {
-          "q": "gar kein Artikelwort",
-          "a": "alt<u>er</u> Wein · Typ C: das Adjektiv wie der/die/das"
+          "q": "old",
+          "a": "age"
         },
         {
-          "q": "viele, einige, mehrere (Plural)",
-          "a": "alt<u>e</u> Männer · Plural ohne Artikelwort"
+          "q": "round",
+          "a": "shape"
         },
         {
-          "q": "die, diese, alle (Plural)",
-          "a": "die alt<u>en</u> Männer · Plural mit Artikelwort: immer -en"
+          "q": "green",
+          "a": "colour"
+        },
+        {
+          "q": "Welsh",
+          "a": "origin"
+        },
+        {
+          "q": "wooden",
+          "a": "material (closest to the noun)"
         }
       ]
     },
     {
       "type": "table",
-      "title": "Ergänzen Sie die Endung.",
-      "hint": "Jede Zeile ist ein Kasus aus der Tabelle oben.",
+      "title": "Put the adjectives in the right order.",
+      "hint": "Opinion, size, age, shape, colour, origin, material. Choose the phrase with the natural order.",
       "columns": [
-        "Form",
-        "Endung"
+        "Adjectives and noun",
+        "Phrase"
       ],
-      "placeholder": "Endung…",
+      "placeholder": "Phrase",
       "rows": [
         {
-          "term": "die weiß___ Wand (Nominativ)",
-          "answer": "e"
+          "term": "table · old · wooden",
+          "answer": "an old wooden table",
+          "choices": [
+            "an old wooden table",
+            "a wooden old table",
+            "a table old wooden"
+          ]
         },
         {
-          "term": "den hoh___ Baum (Akkusativ)",
-          "answer": "en"
+          "term": "bag · red · small",
+          "answer": "a small red bag",
+          "choices": [
+            "a small red bag",
+            "a red small bag",
+            "a bag small red"
+          ]
         },
         {
-          "term": "einem klein___ Tier (Dativ)",
-          "answer": "en"
+          "term": "house · lovely · old",
+          "answer": "a lovely old house",
+          "choices": [
+            "a lovely old house",
+            "an old lovely house",
+            "a house lovely old"
+          ]
         },
         {
-          "term": "eine weiß___ Wand (Akkusativ)",
-          "answer": "e"
+          "term": "jacket · black · leather",
+          "answer": "a black leather jacket",
+          "choices": [
+            "a black leather jacket",
+            "a leather black jacket",
+            "a jacket black leather"
+          ]
         },
         {
-          "term": "hell___ Bier (Nominativ, ohne Artikel)",
-          "answer": "es"
+          "term": "film · new · French",
+          "answer": "a new French film",
+          "choices": [
+            "a new French film",
+            "a French new film",
+            "a film new French"
+          ]
         },
         {
-          "term": "mit alt___ Wein (Dativ, ohne Artikel)",
-          "answer": "em"
-        },
-        {
-          "term": "die hoh___ Bäume (Plural, Nominativ)",
-          "answer": "en"
-        },
-        {
-          "term": "frisch___ Milch (Nominativ, ohne Artikel)",
-          "answer": "e"
+          "term": "café · small · Italian · lovely",
+          "answer": "a lovely small Italian café",
+          "choices": [
+            "a lovely small Italian café",
+            "a small lovely Italian café",
+            "an Italian small lovely café",
+            "a lovely Italian small café"
+          ]
         }
       ]
     },
     {
       "type": "story",
-      "title": "Lückentext: Ergänzen Sie die Endungen.",
-      "hint": "Eine kleine Wohnungsbesichtigung — nur die Endungen eintippen.",
+      "title": "Gap text: A flat in Leeds.",
+      "hint": "Choose the word that fits. Think about the order of the adjectives.",
       "segments": [
         {
-          "text": "Gestern haben wir eine klein"
+          "text": "Amira is looking for a flat in Leeds. Yesterday she saw a "
         },
         {
           "blank": 0,
-          "answer": "e"
+          "answer": [
+            "lovely"
+          ]
         },
         {
-          "text": " Wohnung in der Altstadt besichtigt. Der alt"
+          "text": " old flat near the park. In the kitchen there was a round "
         },
         {
           "blank": 1,
-          "answer": "e"
+          "answer": [
+            "wooden",
+            "brown"
+          ]
         },
         {
-          "text": " Holzboden hat mir sofort gefallen. Aus dem groß"
+          "text": " table. Under the bed she found a small "
         },
         {
           "blank": 2,
-          "answer": "en"
+          "answer": [
+            "brown"
+          ]
         },
         {
-          "text": " Fenster sieht man den Park. In der Küche steht ein neu"
-        },
-        {
-          "blank": 3,
-          "answer": "er"
-        },
-        {
-          "text": " Herd, und im Bad liegen weiß"
-        },
-        {
-          "blank": 4,
-          "answer": "e"
-        },
-        {
-          "text": " Fliesen. Nur das klein"
-        },
-        {
-          "blank": 5,
-          "answer": "e"
-        },
-        {
-          "text": " Schlafzimmer ist wirklich eng. Trotzdem: Für diesen günstig"
-        },
-        {
-          "blank": 6,
-          "answer": "en"
-        },
-        {
-          "text": " Preis nehmen wir sie."
+          "text": " leather suitcase. The owner said it was from the last tenant. Amira took the flat the same day."
         }
       ]
     },
     {
       "type": "build",
-      "title": "Bauen Sie die Sätze aus den Wortgruppen.",
+      "title": "Build the sentences.",
       "sentences": [
         {
           "id": "a1",
-          "hint": "Typ A · Akkusativ",
+          "hint": "Opinion, age, material.",
           "correct": [
-            "Ich",
-            "habe",
-            "den",
-            "neuen",
-            "Film",
-            "schon",
-            "gesehen",
+            "She",
+            "bought",
+            "a",
+            "lovely",
+            "old",
+            "wooden",
+            "table",
             "."
           ],
           "shuffled": [
-            "neuen",
-            "Ich",
-            "gesehen",
-            "den",
+            "wooden",
+            "She",
+            "table",
+            "a",
             ".",
-            "habe",
-            "Film",
-            "schon"
+            "old",
+            "bought",
+            "lovely"
           ]
         },
         {
           "id": "a2",
-          "hint": "Typ B · Dativ nach „mit“",
+          "hint": "Size before colour.",
           "correct": [
-            "Sie",
-            "kommt",
-            "mit",
-            "einem",
-            "alten",
-            "Fahrrad",
-            "zur",
-            "Arbeit",
+            "He",
+            "drives",
+            "a",
+            "big",
+            "red",
+            "van",
             "."
           ],
           "shuffled": [
-            "alten",
-            "mit",
-            "Sie",
-            "Arbeit",
-            "einem",
+            "red",
+            "van",
+            "He",
             ".",
-            "kommt",
-            "Fahrrad",
-            "zur"
+            "a",
+            "big",
+            "drives"
           ]
         },
         {
           "id": "a3",
-          "hint": "Typ C · ohne Artikel",
+          "hint": "Size before origin.",
           "correct": [
-            "Zum",
-            "Frühstück",
-            "trinkt",
-            "er",
-            "immer",
-            "schwarzen",
-            "Kaffee",
+            "We",
+            "stayed",
+            "in",
+            "a",
+            "small",
+            "Italian",
+            "hotel",
             "."
           ],
           "shuffled": [
-            "schwarzen",
-            "Zum",
-            "Kaffee",
-            "trinkt",
+            "Italian",
+            "in",
+            "We",
+            "hotel",
+            "a",
             ".",
-            "er",
-            "Frühstück",
-            "immer"
+            "stayed",
+            "small"
+          ]
+        },
+        {
+          "id": "a4",
+          "hint": "No article: size, then colour.",
+          "correct": [
+            "Mei",
+            "has",
+            "long",
+            "black",
+            "hair",
+            "."
+          ],
+          "shuffled": [
+            "hair",
+            "black",
+            "Mei",
+            ".",
+            "long",
+            "has"
+          ]
+        },
+        {
+          "id": "a5",
+          "hint": "After your: age, then colour.",
+          "correct": [
+            "I",
+            "love",
+            "your",
+            "new",
+            "green",
+            "coat",
+            "."
+          ],
+          "shuffled": [
+            "green",
+            "love",
+            "I",
+            "coat",
+            ".",
+            "your",
+            "new"
           ]
         }
       ]
