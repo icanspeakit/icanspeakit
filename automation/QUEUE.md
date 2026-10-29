@@ -11,7 +11,7 @@ item, tick it by hand; to redo one, untick it. Add, remove or reorder items free
 - [x] `placement-test`: Placement test (src/data/einstufung.json) as an English test, A1–C1.
 - [x] `grammar-a1`: A1 grammar topics (src/data/grammatik, level A1) as English grammar topics, same schema.
 - [x] `grammar-a2`: A2 grammar topics.
-- [ ] `grammar-b1`: B1 grammar topics.
+- [x] `grammar-b1`: B1 grammar topics.
 - [ ] `grammar-b2`: B2 grammar topics.
 - [ ] `grammar-c1`: C1 grammar topics (src/paid/grammatik included).
 - [ ] `grammar-structure`: Grammar order, syllabus, related topics, reference tables (grammatik.json, grammatik-lehrplan.json, grammatik-verwandt.json, nachschlagen/).
