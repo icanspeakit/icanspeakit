@@ -7,7 +7,8 @@
 // links pages that exist.
 // Every setting is in the URL (?niveau=b1-1&block=2&stunden=3&min=90): the link reopens
 // the same plan, and each block on /kursinhalte/<niveau> links here with its own.
-// German only, like the course plan (lang="de").
+// English only (lang="en"), like the course plan; no keys. The phases and activities come
+// from src/lib/stundenplan.js (still German until the `teachers` item).
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
 import { planLevels } from "../../lib/stundenplanLinks.js";
@@ -23,42 +24,42 @@ const levels = planLevels();
   breadcrumb={[{ name: "For teachers", path: "/lehrkraefte" }]}
 >
   <SiteNav active="lehrkraefte" />
-  <main class="practice-main sp" lang="de">
+  <main class="practice-main sp" lang="en">
     <header class="sp-hero" data-sp-hide-print>
-      <p class="sp-eyebrow"><a href="/lehrkraefte">Für Lehrkräfte</a> · Stundenplan</p>
-      <h1>Stundenplan für einen Themenblock</h1>
+      <p class="sp-eyebrow"><a href="/lehrkraefte">For teachers</a> · Lesson plan</p>
+      <h1>Lesson plan for a topic block</h1>
       <p class="sp-lead">
-        Wähle Niveau und Block aus den <a href="/kursinhalte">Kursinhalten</a>, dazu Anzahl und
-        Länge der Stunden. Du bekommst einen Ablauf mit Zeiten, Aktivitäten und den passenden
-        Übungen hier auf der Seite. Die Einstellungen stehen im Link: Teile ihn, und andere
-        bekommen genau denselben Plan.
+        Choose a level and a block from the <a href="/kursinhalte">syllabus</a>, then the number
+        and length of your lessons. You get a plan with timings, activities and the matching
+        exercises right here on the page. The settings are in the link: share it, and others
+        get exactly the same plan.
       </p>
     </header>
 
-    <MascotGuide id="stundenplan" title="So funktioniert’s" extra="klemmbrett" class="sp-guide">
+    <MascotGuide id="stundenplan" title="How it works" titleKey="uf.t.guide.title" extra="klemmbrett" class="sp-guide">
       <StundenplanSim slot="sim" />
-      <li>Wähle Niveau, Themenblock und wie viele Stunden du hast.</li>
-      <li>Der Plan steht sofort da: jede Stunde in Phasen, mit Zeiten, Ablauf, Sozialform und den passenden Übungen.</li>
-      <li>„Unterricht starten“ zeigt die Stunde Schritt für Schritt am Beamer, mit Uhr für jede Phase.</li>
-      <li class="mg-tip">Die Einstellungen stehen im Link: Teile ihn, und andere bekommen denselben Plan. Oder drucke ihn als PDF.</li>
+      <li>Choose the level, the topic block and how many lessons you have.</li>
+      <li>The plan is ready at once: every lesson in stages, with timings, steps, interaction and the matching exercises.</li>
+      <li>“Start the lesson” shows it step by step on the projector, with a timer for each stage.</li>
+      <li class="mg-tip">The settings are in the link: share it, and others get the same plan. Or print it as a PDF.</li>
     </MascotGuide>
 
     <form class="sp-form" data-sp-form data-sp-hide-print>
-      <label>Niveau
+      <label>Level
         <select name="niveau">{levels.map((l) => <option value={l.id}>{l.label} – {l.titel}</option>)}</select>
       </label>
-      <label class="sp-wide">Themenblock
+      <label class="sp-wide">Topic block
         <select name="block"></select>
       </label>
-      <label>Stunden
+      <label>Lessons
         <select name="stunden">{[1, 2, 3, 4, 5, 6].map((n) => <option value={n} selected={n === 3}>{n}</option>)}</select>
       </label>
-      <label>Minuten pro Stunde
+      <label>Minutes per lesson
         <select name="min">{[45, 60, 90, 120].map((m) => <option value={m} selected={m === 90}>{m}</option>)}</select>
       </label>
       {/* Optional: with a start time the Zeit column shows the clock (09:00–09:10), without
           it the minutes into the lesson (0–10). */}
-      <label>Beginn <small>(optional)</small>
+      <label>Start time <small>(optional)</small>
         <input type="time" name="ab" step="300" />
       </label>
     </form>
@@ -66,19 +67,19 @@ const levels = planLevels();
     <div class="sp-actions" data-sp-hide-print>
       {/* The plan taught live: Stunde 1 of this plan with a group, step by step on the
           projector (/lehrkraefte/unterricht). Each Stunde below has its own start too. */}
-      <a class="lp-btn lp-btn--primary sp-go" data-sp-go href="/lehrkraefte/unterricht">▶ Unterricht starten</a>
-      <button type="button" class="lp-btn lp-btn--outline" data-sp-print>Drucken / als PDF</button>
-      <a class="lp-btn lp-btn--outline" href="/kursinhalte" data-sp-block-link>Block in den Kursinhalten</a>
+      <a class="lp-btn lp-btn--primary sp-go" data-sp-go href="/lehrkraefte/unterricht">▶ Start the lesson</a>
+      <button type="button" class="lp-btn lp-btn--outline" data-sp-print>Print / save as PDF</button>
+      <a class="lp-btn lp-btn--outline" href="/kursinhalte" data-sp-block-link>This block in the syllabus</a>
     </div>
 
     <div class="sp-plan" data-sp-plan aria-live="polite"></div>
     <p class="sp-legend" data-sp-legend hidden>
-      <b>Sozialform:</b> <abbr>EA</abbr> Einzelarbeit · <abbr>PA</abbr> Partnerarbeit ·
-      <abbr>GA</abbr> Gruppenarbeit · <abbr>PL</abbr> Plenum
+      <b>Interaction:</b> <abbr>Ind</abbr> individual work · <abbr>PW</abbr> pair work ·
+      <abbr>GW</abbr> group work · <abbr>WC</abbr> whole class
     </p>
     <p class="sp-note">
-      Ein Vorschlag, kein Muss: Zeiten und Aktivitäten sind Richtwerte für eine Gruppe von 8–15
-      Personen. Passe sie an deine Gruppe an.
+      A suggestion, not a rule: the timings and activities are a guide for a group of 8–15
+      people. Adapt them to your group.
     </p>
   </main>
   <script type="application/json" id="sp-data" set:html={JSON.stringify(levels)}></script>
@@ -295,13 +296,15 @@ const levels = planLevels();
       const t = (h0 * 60 + m0 + m) % (24 * 60);
       return `${String(Math.floor(t / 60)).padStart(2, "0")}:${String(t % 60).padStart(2, "0")}`;
     };
-    const SOC: Record<string, string> = { EA: "Einzelarbeit", PA: "Partnerarbeit", GA: "Gruppenarbeit", PL: "Plenum" };
+    // The plan's codes (EA, PA, GA, PL, from stundenplan.js) shown as English abbreviations.
+    const SOC: Record<string, string> = { EA: "individual work", PA: "pair work", GA: "group work", PL: "whole class" };
+    const SHORT: Record<string, string> = { EA: "Ind", PA: "PW", GA: "GW", PL: "WC" };
 
     plan.innerHTML = `
       <div class="sp-head">
         <h2>${esc(p.level)} · Block ${bi + 1}: ${esc(p.thema)}</h2>
-        <p>${n} ${n === 1 ? "Stunde" : "Stunden"} à ${minutes} Minuten · ${esc(level.titel)}</p>
-        ${level.books?.length ? `<p class="sp-books"><span>Passend zu den Lehrwerken</span>${level.books.map((b: string) => {
+        <p>${n} ${n === 1 ? "lesson" : "lessons"} of ${minutes} minutes · ${esc(level.titel)}</p>
+        ${level.books?.length ? `<p class="sp-books"><span>Goes with these coursebooks</span>${level.books.map((b: string) => {
           const [name, verlag] = b.split(/\s*\((.*)\)$/);
           return `<span class="sp-book"><b>${esc(name)}</b>${verlag ? ` ${esc(verlag)}` : ""}</span>`;
         }).join("")}</p>` : ""}
@@ -316,19 +319,19 @@ const levels = planLevels();
         });
         return `
         <section class="sp-lesson">
-          <div class="sp-lesson-head"><h3>Stunde ${s.n}</h3><span>${s.final ? "Anwenden und Wiederholen" : `Schwerpunkt: ${esc(s.focus)}`}</span>
-            <a class="sp-start" data-sp-hide-print href="/lehrkraefte/unterricht?${new URLSearchParams({ niveau: level.id, block: String(bi + 1), stunden: String(n), stunde: String(s.n), min: String(minutes) })}">▶ Unterricht starten</a>
-            <button type="button" class="sp-start sp-task" data-sp-hide-print data-sp-task="${s.n}" data-sp-task-name="${esc(`Stunde ${s.n}: ${s.final ? "Anwenden und Wiederholen" : s.focus}`)}" hidden>Als Aufgabe stellen</button></div>
-          ${s.goals.length ? `<p class="sp-goals">${s.goals.length > 1 ? "Lernziele" : "Lernziel"}: ${s.goals.map((g: string) => esc(g)).join(" ")}</p>` : ""}
-          <div class="sp-bar" aria-hidden="true">${rows.map((r: any) => `<span style="flex:${r.minutes};background:${phaseColor(r.id).bg}" title="${esc(r.name)} · ${r.minutes} Min.">${r.minutes >= 10 ? esc(r.name) : ""}</span>`).join("")}</div>
+          <div class="sp-lesson-head"><h3>Lesson ${s.n}</h3><span>${s.final ? "Use and revise" : `Focus: ${esc(s.focus)}`}</span>
+            <a class="sp-start" data-sp-hide-print href="/lehrkraefte/unterricht?${new URLSearchParams({ niveau: level.id, block: String(bi + 1), stunden: String(n), stunde: String(s.n), min: String(minutes) })}">▶ Start the lesson</a>
+            <button type="button" class="sp-start sp-task" data-sp-hide-print data-sp-task="${s.n}" data-sp-task-name="${esc(`Lesson ${s.n}: ${s.final ? "Use and revise" : s.focus}`)}" hidden>Set as homework</button></div>
+          ${s.goals.length ? `<p class="sp-goals">${s.goals.length > 1 ? "Learning goals" : "Learning goal"}: ${s.goals.map((g: string) => esc(g)).join(" ")}</p>` : ""}
+          <div class="sp-bar" aria-hidden="true">${rows.map((r: any) => `<span style="flex:${r.minutes};background:${phaseColor(r.id).bg}" title="${esc(r.name)} · ${r.minutes} min">${r.minutes >= 10 ? esc(r.name) : ""}</span>`).join("")}</div>
           <table class="sp-table">
-            <thead><tr><th scope="col">Zeit</th><th scope="col">Phase</th><th scope="col">Ablauf</th><th scope="col">Sozialform</th><th scope="col">Material</th></tr></thead>
+            <thead><tr><th scope="col">Time</th><th scope="col">Stage</th><th scope="col">Procedure</th><th scope="col">Interaction</th><th scope="col">Materials</th></tr></thead>
             <tbody>${rows.map((r: any) => `
               <tr>
-                <td class="sp-time">${clock(r.from)}–${clock(r.to)}<small>${r.minutes} Min.</small></td>
+                <td class="sp-time">${clock(r.from)}–${clock(r.to)}<small>${r.minutes} min</small></td>
                 <td class="sp-ph"><i style="background:${phaseColor(r.id).bg}"></i>${esc(r.name)}</td>
                 <td class="sp-text">${esc(r.text)}</td>
-                <td class="sp-soc">${r.social.map((f: string) => `<abbr title="${SOC[f]}">${f}</abbr>`).join("")}</td>
+                <td class="sp-soc">${r.social.map((f: string) => `<abbr title="${SOC[f] ?? f}">${SHORT[f] ?? f}</abbr>`).join("")}</td>
                 <td class="sp-mat">${links(r.links)}</td>
               </tr>`).join("")}
             </tbody>
@@ -356,14 +359,14 @@ const levels = planLevels();
       plan.querySelectorAll<HTMLElement>("[data-sp-task]").forEach((b) => (b.hidden = false));
       const rows = await planFortschritt(key);
       if (ask !== asked) return;
-      const groups = fortschrittJeGruppe(rows, (stunde: number, i: number) => p.lessons[stunde - 1]?.phases[i]?.name ?? `Schritt ${i + 1}`);
+      const groups = fortschrittJeGruppe(rows, (stunde: number, i: number) => p.lessons[stunde - 1]?.phases[i]?.name ?? `Step ${i + 1}`);
       if (!groups.length) return;
-      box.innerHTML = `<b>Fortschritt</b><ul>${groups.map((g: any) => `<li><span>${esc(g.gruppe)}:</span> ${
+      box.innerHTML = `<b>Progress</b><ul>${groups.map((g: any) => `<li><span>${esc(g.gruppe)}:</span> ${
         Object.keys(g.stunden).map(Number).sort((a, b) => a - b).map((st) => {
           const x = g.stunden[st];
           return x.done
-            ? `<span class="sp-done">Stunde ${st} ✓</span>`
-            : `<a href="${sessionHref(x.id)}">Stunde ${st} bei ${esc(x.step)}${x.status === "paused" ? " (Pause)" : ""}</a>`;
+            ? `<span class="sp-done">Lesson ${st} ✓</span>`
+            : `<a href="${sessionHref(x.id)}">Lesson ${st} at ${esc(x.step)}${x.status === "paused" ? " (paused)" : ""}</a>`;
         }).join(" · ")}</li>`).join("")}</ul>`;
       box.hidden = false;
     } catch {
