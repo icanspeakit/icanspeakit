@@ -110,6 +110,13 @@ const shuffle = (a) => a.map((v) => [Math.random(), v]).sort((x, y) => x[0] - y[
 /* "1 task", "6 tasks": the only counts easy mode shows are small ones, so a plain -s does. */
 const count = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
 const minutes = (n) => count(n, "minute");
+/* English "articles" are a / an / some (content-plan §1.4); a grammar table row brings its own pair. */
+const articleOptions = (task) => task.options || ["a", "an", "some"];
+/* "a or an?", "a, an or some?" */
+const articleQuestion = (task) => {
+  const o = articleOptions(task);
+  return `${o.slice(0, -1).join(", ")} or ${o[o.length - 1]}?`;
+};
 const MASCOTS_OFF_NOTE = `<p class="el-note" role="status">The mascots are off. To turn them on again: <a href="/konto">Account → Settings</a>.</p>`;
 
 export function mountEinfach(root) {
@@ -577,7 +584,7 @@ export function mountEinfach(root) {
 
     if (task.type === "artikel") {
       return `
-        ${kind(task, "a, an or some?")}
+        ${kind(task, articleQuestion(task))}
         <p class="el-sentence"><span class="el-blank ${blankState}">${esc(run.answer || "___")}</span> ${esc(task.noun)}</p>
         ${task.back ? `<p class="el-gloss">${esc(task.back)}</p>` : ""}
       `;
@@ -665,8 +672,7 @@ export function mountEinfach(root) {
         : `<button class="el-cta" type="button" data-flip>Turn over</button>`;
     }
     if (task.type === "artikel" || task.type === "luecke") {
-      // English "articles" are a / an / some (content-plan §1.4); a table row brings its own pair.
-      const opts = task.type === "artikel" ? task.options || ["a", "an", "some"] : run.opts;
+      const opts = task.type === "artikel" ? articleOptions(task) : run.opts;
       return `<div class="el-opts">${opts
         .map((o) => `<button class="el-opt" type="button" data-pick="${esc(o)}">${esc(o)}</button>`)
         .join("")}</div>`;

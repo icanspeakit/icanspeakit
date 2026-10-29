@@ -33,21 +33,19 @@ export function checksum(text) {
 
 const PUNCT = /^[?!.,;:]+$/;
 
-/* The article rules the der/die/das trainer teaches (artikel-packs.json). In easy mode
-   Leichte Sprache is on by default, so the hint is built in the leicht register: one
-   short sentence naming the ending that decides. */
-function articleRuleHint(lemma, gender, rules) {
-  const low = lemma.toLowerCase();
-  for (const r of rules || []) {
-    if (r.article !== gender) continue;
-    if (r.names?.includes(lemma)) return "Tage, Monate und Jahreszeiten haben „der“.";
-    if (r.maleEr && /er$/.test(low)) return "Ein Mann mit Beruf auf -er? Dann „der“.";
-    if (r.notSuffixes?.some((s) => low.endsWith(s))) continue;
-    const suf = r.suffixes?.find((s) => low.endsWith(s));
-    if (suf) return `Das Wort endet auf -${suf}. Dann sagt man „${gender}“.`;
-  }
-  return null;
-}
+/* English "article" tasks are a / an / some (content-plan §1.4): a lexicon noun's `gender`
+   holds which one. What decides is the first *sound* (an hour, a university) and whether
+   the noun can be counted — not a spelling rule, so the hint names the two questions to ask
+   instead of the answer. Short and A1, like everything Bruno says. */
+const ARTICLE_HINT = {
+  some: "Can you count it? Does it start with a vowel sound?",
+  an: "Say the word. Does it start with a vowel sound?",
+};
+const articleHint = (options) => (!options || options.includes("some") ? ARTICLE_HINT.some : ARTICLE_HINT.an);
+
+/* Table exercises whose placeholder lists articles become article tasks (same screen,
+   same helper). Each entry is the placeholder as written in the grammar topic files. */
+const ARTICLE_PLACEHOLDERS = ["a / an", "a / an / some"];
 
 /** The source text a checksum is taken over, per kind of item. */
 function itemText(ex, item) {
@@ -164,8 +162,9 @@ export function resolveTask(task, sources) {
     if (task.type === "wort") {
       return {
         ...base,
+        // "an apple" with "two apples" under it; "some water" has no plural to show.
         front: w.gender ? `${w.gender} ${w.lemma}` : w.lemma,
-        plural: w.gender && w.plural ? `die ${w.plural}` : null,
+        plural: w.gender && w.gender !== "some" && w.plural && w.plural !== w.lemma ? `two ${w.plural}` : null,
         back: w.en,
         hint: task.hint || w.example,
         audio: w.audio ? `/audio/wortschatz/${w.audio}.mp3` : null,
@@ -177,8 +176,8 @@ export function resolveTask(task, sources) {
       noun: w.lemma,
       answer: w.gender,
       back: w.en,
-      hint: task.hint || articleRuleHint(w.lemma, w.gender, sources.articleRules),
-      why: `Es heißt: ${w.gender} ${w.lemma}.`,
+      hint: task.hint || articleHint(),
+      why: `We say: ${w.gender} ${w.lemma}.`,
     };
   }
 
@@ -196,17 +195,18 @@ export function resolveTask(task, sources) {
       if (!gap) throw new Error(`${task.ref}: prompt has no ___`);
       ({ before, after } = gap);
       answers = [].concat(src.item.answer);
-      hint = src.item.hint ? `Tipp: ${src.item.hint}` : src.ex.hint;
+      hint = src.item.hint ? `Tip: ${src.item.hint}` : src.ex.hint;
       why = src.ex.hint;
     } else if (src.kind === "gram" && src.ex.type === "table") {
       const term = src.item.term;
       answers = String(src.item.answer).split(",").map((s) => s.trim());
       const placeholder = src.ex.placeholder || "";
-      if (placeholder === "der / die / das") {
+      const isArticle = ARTICLE_PLACEHOLDERS.includes(placeholder);
+      if (isArticle) {
         before = "";
         after = term;
       } else if (term.includes(" · ")) {
-        // "ich · wohnen" → ich ___ (wohnen)
+        // "she · live" → she ___ (live)
         const [who, verb] = term.split(" · ");
         before = who;
         after = `(${verb})`;
@@ -218,18 +218,20 @@ export function resolveTask(task, sources) {
       if (fromPlaceholder.length >= 2 && fromPlaceholder.length <= 3) options = fromPlaceholder;
       hint = src.ex.hint;
       why = src.ex.hint;
-      if (placeholder === "der / die / das") {
+      if (isArticle) {
         // An article row is an artikel task, whatever the path calls it: same screen,
-        // same helper, labelled "Artikel" instead of "Satz".
+        // same helper, labelled "a, an or some?" instead of "Sentence".
+        const opts = task.options || options;
         return {
           ...base,
           topic: "artikel",
           type: "artikel",
           noun: term,
           answer: answers[0],
+          options: opts,
           back: "",
-          hint: task.hint || articleRuleHint(term, answers[0], sources.articleRules) || hint,
-          why: `Es heißt: ${answers[0]} ${term}.`,
+          hint: task.hint || articleHint(opts),
+          why: task.why || `We say: ${answers[0]} ${term}.`,
         };
       }
     } else {
@@ -244,7 +246,7 @@ export function resolveTask(task, sources) {
 
   if (task.type === "satz") {
     if (src.kind !== "gram" || src.ex.type !== "build") throw new Error(`${task.ref}: a satz task needs a build item`);
-    // A word in brackets, „(trinken)“, may be left out (grammarWorkspace.js): the path
+    // A word in brackets, "(please)", may be left out (grammarWorkspace.js): the path
     // asks the short sentence.
     const words = src.item.correct.filter((w) => !PUNCT.test(w) && !/^\(.+\)$/.test(w));
     const end = src.item.correct.filter((w) => PUNCT.test(w)).join("");
@@ -282,7 +284,7 @@ export function resolveTask(task, sources) {
       text: x.text,
       focus: x.focus || [],
       audio: x.audio ? `/audio/aussprache-check/${x.id}.mp3` : null,
-      hint: task.hint || "Hör den Satz erst an. Dann sprich langsam nach.",
+      hint: task.hint || "Listen to the sentence first. Then say it slowly.",
     };
   }
 
@@ -302,7 +304,7 @@ export function resolveTask(task, sources) {
       options: [src.phrase.de, ...wrong],
       answer: src.phrase.de,
       hint: task.hint,
-      why: `Das passt zu: ${src.set.name}.`,
+      why: `A phrase for: ${src.set.name}.`,
     };
   }
 

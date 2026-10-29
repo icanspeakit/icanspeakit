@@ -25,7 +25,6 @@ const sources = {
   akkusativ: read("src/data/akkusativ.json"),
   kultur: read("src/data/kultur.json"),
   kulturInsider: read("src/data/kultur-insider.json"),
-  articleRules: read("src/data/artikel-packs.json").rules,
   hoeren: read("src/data/hoeren.json"),
   aussprache: read("src/data/aussprache-check.json"),
   redemittel: read("src/data/redemittel.json"),

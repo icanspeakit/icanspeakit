@@ -11,7 +11,7 @@
 //
 //   1. One decision per screen, three options at the very most.
 //   2. A sitting, not a pile. Nothing states a total — no 3.375, no 28, no 412.
-//   3. Progress is a sentence you can feel ("Du fragst nach dem Weg."), not a percentage.
+//   3. Progress is a sentence you can feel ("You can ask the way."), not a percentage.
 //   4. One primary action, in the thumb zone, always.
 //
 // Einfach lernen (EINFACH-LERNEN-TIERED-PROMPT.md): the units are the curated path in
@@ -28,7 +28,6 @@ import lexA1 from "../content/lexicon/a1.json";
 import akkusativ from "../data/akkusativ.json";
 import kultur from "../data/kultur.json";
 import kulturInsider from "../data/kultur-insider.json";
-import artikelPacks from "../data/artikel-packs.json";
 import hoeren from "../data/hoeren.json";
 import aussprache from "../data/aussprache-check.json";
 import redemittel from "../data/redemittel.json";
@@ -46,7 +45,6 @@ const { units, errors } = resolvePath(pfad, {
   akkusativ,
   kultur,
   kulturInsider,
-  articleRules: (artikelPacks as any).rules,
   hoeren,
   aussprache,
   redemittel,
@@ -60,9 +58,9 @@ const APP = import.meta.env.PUBLIC_TARGET === "app";
 const unitsJson = JSON.stringify(units).replaceAll("<", String.fromCharCode(92) + "u003c");
 if (errors.length) throw new Error(`einfach-pfad.json:\n  ${errors.join("\n  ")}`);
 ---
-<!-- Indexed since the placement pass (EINFACH-PLATZIERUNG): „Deutsch lernen – ganz einfach"
-     is what the learners this page is for actually type, so the page stands on its own in
-     search instead of hiding behind noindex. -->
+<!-- Indexed since the placement pass (EINFACH-PLATZIERUNG): "English for beginners, step
+     by step" is what the learners this page is for actually type, so the page stands on its
+     own in search instead of hiding behind noindex. -->
 <Layout
   title="English for beginners – step by step – EnglishAcademy"
   description="English for beginners in short two-minute rounds: one step per screen, with audio and Bruno to keep you company. Free, no account needed."
@@ -71,13 +69,13 @@ if (errors.length) throw new Error(`einfach-pfad.json:\n  ${errors.join("\n  ")}
   <script type="application/json" id="el-placement" set:html={placementJson} />
   <!-- The app paints one step per screen and has no title of its own; the page's h1 is
        for screen readers and search, so it stays out of sight. -->
-  <h1 class="el-h1">Deutsch lernen – ganz einfach</h1>
+  <h1 class="el-h1">English for beginners – step by step</h1>
   <div id="el-app" class="el-app">
     <noscript>
       <div style="padding:24px;max-width:40rem">
-        <h2>Deutsch lernen – ganz einfach</h2>
-        <p>Kurze Runden von zwei Minuten: ein neues Wort, der richtige Artikel, ein Satz zum Nachsprechen. Ein Schritt pro Bildschirm, für Anfänger ohne Vorwissen. Kostenlos und ohne Konto.</p>
-        <p>Diese Übungen brauchen JavaScript. Ohne JavaScript findest du alle Themen auf der <a href="/?voll">ganzen Seite</a>.</p>
+        <h2>English for beginners – step by step</h2>
+        <p>Short two-minute rounds: fill a gap, build a sentence, learn one small thing at a time. One step per screen, for complete beginners. Free, no account needed.</p>
+        <p>These exercises need JavaScript. Without JavaScript, you can find all topics on the <a href="/?voll">full site</a>.</p>
       </div>
     </noscript>
   </div>

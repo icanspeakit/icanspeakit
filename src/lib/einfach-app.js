@@ -17,7 +17,7 @@ const STORE_KEY = "da_einfach_v1";
 
    The units come from the curated path (src/data/einfach-pfad.json), resolved at build time
    by src/lib/einfach-content.js and handed to setUnits() by the page. A unit is still the
-   "sitting" the prototype was built around: five to seven tasks, one or two Kann-Sätze.
+   "sitting" the prototype was built around: five to seven tasks, one or two can-do claims.
 */
 
 let UNITS = [];
@@ -153,7 +153,7 @@ export function nextSitting(state) {
 
 /* ------------------------------------------------------------- placement
 
-   First visit: „Wo fängst du an?" The quick check is the A1 set of einstufung.json (six
+   First visit: "Where do you want to start?" The quick check is the A1 set of einstufung.json (six
    items). Its result picks the unit the path starts at and is told as a sentence. */
 
 let PLACEMENT = [];
@@ -173,8 +173,8 @@ export function placementStart(right) {
 export function placementSentence(right, startId) {
   const u = unitById(startId);
   const lead =
-    right >= 5 ? "Du kannst schon einiges." : right >= 3 ? "Du kannst schon etwas." : "Wir fangen am Anfang an — in Ruhe.";
-  return u && u.id !== UNITS[0]?.id ? `${lead} Wir starten bei „${u.title}“.` : lead;
+    right >= 5 ? "You already know quite a lot." : right >= 3 ? "You already know a little." : "We'll start at the beginning — no rush.";
+  return u && u.id !== UNITS[0]?.id ? `${lead} We'll start with “${u.title}”.` : lead;
 }
 
 /* ------------------------------------------------------------- mistakes
@@ -195,7 +195,7 @@ function addDays(ymdStr, n) {
   return ymd(d);
 }
 
-/** A "Fehler wiederholen" sitting appears once this many items are due. */
+/** A "Practise your mistakes" sitting appears once this many items are due. */
 export const MISTAKES_MIN = 5;
 /** A normal unit mixes in at most this many due items. */
 export const REVIEW_PER_UNIT = 2;
@@ -247,7 +247,7 @@ export function withReviews(state, unit) {
 export function mistakeUnit(state) {
   const due = dueTasks(state);
   if (due.length < MISTAKES_MIN) return null;
-  return { id: "fehler", icon: "🔁", title: "Fehler wiederholen", level: "", minutes: 2, claims: [], postcard: null, tasks: due.slice(0, 6) };
+  return { id: "fehler", icon: "🔁", title: "Practise your mistakes", level: "", minutes: 2, claims: [], postcard: null, tasks: due.slice(0, 6) };
 }
 
 /** Units the learner could pick instead of the next one: up to three, not yet done first. */
