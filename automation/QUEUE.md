@@ -6,7 +6,7 @@ item, tick it by hand; to redo one, untick it. Add, remove or reorder items free
 
 - [x] `content-plan`: Write docs/content-plan.md, the map from every German module to its English-course equivalent (levels, exam targets, slugs to rename, modules to drop). Every later run follows it.
 - [x] `ui-components`: English page titles, descriptions and leftover German UI text in src/layouts and src/components (not the data). New strings go into public/i18n/en.json.
-- [ ] `ui-pages-a-l`: Same for src/pages, files and folders starting a–l.
+- [x] `ui-pages-a-l`: Same for src/pages, files and folders starting a–l.
 - [ ] `ui-pages-m-z`: Same for src/pages, files and folders starting m–z, plus the legal pages.
 - [ ] `placement-test`: Placement test (src/data/einstufung.json) as an English test, A1–C1.
 - [ ] `grammar-a1`: A1 grammar topics (src/data/grammatik, level A1) as English grammar topics, same schema.
