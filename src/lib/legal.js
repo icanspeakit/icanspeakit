@@ -32,7 +32,7 @@ export const LEGAL = {
   contactEmail: "hello@englishacademy.com",
 
   // Bumped by hand when the substance of a page changes, not on every deploy.
-  lastUpdated: "28. Oktober 2026",
+  lastUpdated: "29. Oktober 2026",
 
   // Where signed-in learners' data physically sits. Matches the Supabase project region
   // (eu-central-1). If the project is ever moved, this line moves with it.

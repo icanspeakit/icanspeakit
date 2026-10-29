@@ -9,23 +9,26 @@
 // Two deliberate differences from the Colevitate original:
 //   1. The liability section follows German law (§§ 276, 309 BGB) rather than the US-style
 //      blanket cap, which is unenforceable against German consumers.
-//   2. The Widerrufsbelehrung for the paid products is its own, clearly headed section
-//      (before "Kontakt"), from the one source src/lib/widerrufsbelehrung.js that /widerruf
-//      and the purchase mail use too. Buyers keep the full 14-day right of withdrawal
-//      (WIDERRUF-14-TAGE-PROMPT.md); nothing here speaks of it lapsing.
+//   2. deutschacademy had a Widerrufsbelehrung section here for its paid products. englishacademy
+//      sells nothing (src/lib/backend.js: payments false, /widerruf removed), so the section is
+//      gone; when payments come back, put <Widerrufsbelehrung /> (src/components/Widerrufsbelehrung.astro)
+//      back before "Kontakt" and restore /widerruf.
+//
+// englishacademy has no accounts either (backend.js: auth false), so the account clauses say so.
+// German is the binding version; the English translation lives in
+// src/data/uebersetzungen/rechtliches.json (LegalTranslation.astro).
 //
 // Not legal advice. Have it reviewed before relying on it.
 import Layout from "../layouts/Layout.astro";
 import SiteNav from "../components/SiteNav.astro";
 import LegalTranslation from "../components/LegalTranslation.astro";
-import Widerrufsbelehrung from "../components/Widerrufsbelehrung.astro";
 import { LEGAL } from "../lib/legal.js";
 import "../styles/practice.css";
 import "../styles/legal.css";
 ---
 <Layout
-  title="Nutzungsbedingungen – EnglishAcademy"
-  description="Bedingungen für die Nutzung von EnglishAcademy: kostenlose Übungen, Konten und Inhalte."
+  title="Terms of use – EnglishAcademy"
+  description="The terms for using EnglishAcademy: free exercises, what you may do with our content and what we are liable for."
 >
   <SiteNav />
   <main class="legal-main">
@@ -37,10 +40,10 @@ import "../styles/legal.css";
 
     <div class="legal-body">
       <h2 data-lx="h.offer">Das Angebot</h2>
-      <p data-lx="p.offer1">
-        EnglishAcademy stellt kostenlose Materialien zum Deutschlernen bereit: Übungen zu
-        Grammatik und Wortschatz, Übungssätze zur Prüfungsvorbereitung (DTZ, telc, Goethe,
-        TestDaF, Leben in Deutschland) sowie PDFs zum Herunterladen. Die Nutzung ist kostenlos
+      <p data-lx="p.offer1En">
+        EnglishAcademy stellt kostenlose Materialien zum Englischlernen bereit: Übungen zu
+        Grammatik und Wortschatz, Übungssätze zur Prüfungsvorbereitung (etwa Cambridge English,
+        Trinity ISE, IELTS, Life in the UK Test) sowie PDFs zum Herunterladen. Die Nutzung ist kostenlos
         und ohne Konto möglich.
       </p>
       <p data-lx="p.offer2">
@@ -49,22 +52,16 @@ import "../styles/legal.css";
       </p>
 
       <h2 data-lx="h.accounts">Konten</h2>
-      <p data-lx="p.accounts">
-        Ein Konto ist freiwillig. Es dient allein dazu, deinen Lernfortschritt auf mehreren
-        Geräten fortzusetzen. Du kannst dich mit Google oder per E-Mail anmelden.
+      <p data-lx="p.accountsNone">
+        Konten gibt es derzeit nicht. Dein Lernfortschritt wird nur in deinem Browser
+        gespeichert. Führen wir Konten ein, ergänzen wir diese Bedingungen vorher.
       </p>
-      <ul>
-        <li data-lx="li.acc1">Die Angaben bei der Anmeldung müssen zutreffend sein.</li>
-        <li data-lx="li.acc2">Gib deine Zugangsdaten nicht weiter.</li>
-        <li data-lx="li.acc3">Ein Konto ist für Personen ab 16 Jahren gedacht.</li>
-        <li data-lx="li.acc4">Du kannst dein Konto jederzeit löschen. Damit werden auch die gespeicherten Daten gelöscht.</li>
-      </ul>
 
       <h2 data-lx="h.use">Zulässige Nutzung</h2>
       <p data-lx="p.useIntro">Nicht erlaubt ist insbesondere:</p>
       <ul>
         <li data-lx="li.use1">die Seite automatisiert in einem Umfang abzurufen, der den Betrieb beeinträchtigt;</li>
-        <li data-lx="li.use2">Sicherheitsvorkehrungen zu umgehen oder fremde Konten zu nutzen;</li>
+        <li data-lx="li.use2NoAccount">Sicherheitsvorkehrungen zu umgehen;</li>
         <li data-lx="li.use3">Inhalte der Seite gewerblich weiterzuverkaufen;</li>
         <li data-lx="li.use5">Inhalte der Seite systematisch oder automatisiert auszulesen, zu kopieren oder zu sammeln (etwa mit Scrapern oder Crawlern), um sie anderswo zu veröffentlichen oder weiterzuverwenden;</li>
         <li data-lx="li.use6">Inhalte der Seite zum Training, zur Entwicklung oder zur Verbesserung von KI-Systemen zu verwenden;</li>
@@ -72,11 +69,11 @@ import "../styles/legal.css";
       </ul>
 
       <h2 data-lx="h.yours">Deine Inhalte</h2>
-      <p data-lx="p.yours">
-        Texte, die du in Schreibaufgaben verfasst, gehören dir. Wir nutzen sie nicht für eigene
-        Zwecke und geben sie nicht weiter. Sie werden gespeichert, damit du an ihnen
-        weiterarbeiten kannst — im Browser und, wenn du angemeldet bist, zusätzlich auf dem
-        Server.
+      <p data-lx="p.yoursLocal">
+        Texte, die du in Schreibaufgaben verfasst, gehören dir. Wir erhalten sie nicht. Sie werden
+        nur in deinem Browser gespeichert, damit du an ihnen weiterarbeiten kannst. Wählst du
+        „Text korrigieren“, schickt dein Browser den Text zur Prüfung an LanguageTool (siehe
+        <a href="/datenschutz">Datenschutzerklärung</a>).
       </p>
 
       <h2 data-lx="h.ours">Unsere Inhalte</h2>
@@ -89,9 +86,9 @@ import "../styles/legal.css";
         Die von uns erstellten Übungen, Wortlisten und PDFs darfst du kostenlos nutzen,
         ausdrucken und im eigenen Unterricht weitergeben. Nicht erlaubt ist der Weiterverkauf.
       </p>
-      <p data-lx="p.ours2">
-        Prüfungsnamen und Prüfungsmaterialien Dritter (telc, Goethe-Institut, TestDaF-Institut,
-        BAMF) gehören den jeweiligen Rechteinhabern. Unsere Übungssätze orientieren sich am
+      <p data-lx="p.ours2En">
+        Prüfungsnamen und Prüfungsmaterialien Dritter (etwa Cambridge English, Trinity ISE, IELTS
+        und der Life in the UK Test) gehören den jeweiligen Rechteinhabern. Unsere Übungssätze orientieren sich am
         veröffentlichten Prüfungsformat, sind aber eigene Materialien und <strong>kein
         offizielles Prüfungsmaterial</strong>. Offizielle Modellsätze verlinken wir dort, wo die
         Anbieter sie selbst veröffentlichen.
@@ -127,19 +124,16 @@ import "../styles/legal.css";
         darfst — und der Höhe nach begrenzt auf den vertragstypischen, vorhersehbaren Schaden.
         Ansprüche nach dem Produkthaftungsgesetz bleiben unberührt.
       </p>
-      <p data-lx="p.liab2">
+      <p data-lx="p.liab2Local">
         Für den Verlust von Lernfortschritt, der ausschließlich in deinem Browser gespeichert
         ist, können wir nicht einstehen: Auf diese Daten haben wir keinen Zugriff, und sie
-        werden gelöscht, sobald du deine Browserdaten löschst. Wer seinen Fortschritt sichern
-        möchte, meldet sich an.
+        werden gelöscht, sobald du deine Browserdaten löschst.
       </p>
 
       <h2 data-lx="h.changes">Änderungen und Beendigung</h2>
-      <p data-lx="p.changes">
+      <p data-lx="p.changesNoAccount">
         Wir können diese Bedingungen ändern, wenn sich das Angebot oder die Rechtslage ändert.
-        Das Datum oben zeigt den Stand. Du kannst dein Konto jederzeit ohne Angabe von Gründen
-        löschen. Wir können ein Konto sperren, wenn es erheblich gegen diese Bedingungen
-        verstößt.
+        Das Datum oben zeigt den Stand.
       </p>
 
       <h2 data-lx="h.law">Anwendbares Recht</h2>
@@ -147,8 +141,6 @@ import "../styles/legal.css";
         Es gilt deutsches Recht. Zwingende Verbraucherschutzvorschriften des Staates, in dem du
         deinen gewöhnlichen Aufenthalt hast, bleiben davon unberührt.
       </p>
-
-      <Widerrufsbelehrung />
 
       <h2 data-lx="h.contact">Kontakt</h2>
       <p data-lx="p.contact">
