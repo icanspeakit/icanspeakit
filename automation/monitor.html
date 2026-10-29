@@ -207,7 +207,7 @@ async function refresh() {
   $('nowItem').textContent = running ? (st.item ?? 'starting next…') : waiting ? 'Waiting' : st?.state === 'halted' ? 'Halted' : '–';
   $('nowSub').textContent = running ? (st.item ? `${st.desc ?? ''}`.slice(0, 140) + ` · running ${rel(st.started).replace(' ago', '')}` : 'Picking the next item')
     : waiting ? `${st.reason === 'weekly-cap' ? 'Weekly cap' : '5-hour limit'} · resumes ${fmtTime(st.until)} (${rel(st.until)}) with ${st.item}`
-    : st?.state === 'halted' ? `${st.detail ?? ''} · fix it, then click Run now`
+    : st?.state === 'halted' ? `${st.detail ?? ''} · fix it, then click Start`
     : st?.state === 'stopped' ? `Stopped: ${st.item}` : 'Nothing running';
 
   const u = s.usage, cfg = s.config ?? {};
