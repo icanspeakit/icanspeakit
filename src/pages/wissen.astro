@@ -20,7 +20,7 @@ import { isRtl } from "../lib/languages.js";
 import { grammarTopics } from "../lib/catalog.js";
 import { orderOf } from "../lib/grammatikOrder.js";
 import { lernsets } from "../lib/lernsets.js";
-import startDe from "../data/grammatik-start/de.json";
+import startBook from "../data/grammatik-start/en.json";
 import "../styles/practice.css";
 import "../styles/wissen.css";
 import "../styles/wortgeschichte.css";
@@ -54,7 +54,7 @@ const firstTopic = (level: string) => grammarTopics.filter((t) => t.level === le
 
 function nextStep(f: { id: string; category: string; level: string }): Next {
   if (f.id === "grammatik-start") {
-    const c = startDe.chapters[0];
+    const c = startBook.chapters[0];
     return { mascot: "regi", href: `/${c.topic}`, key: "wissen.next.chapter", label: `Start with chapter 1: ${c.titleDe}`, vars: { name: c.titleDe }, ...PRACTICE_SUB, alt: PLACEMENT };
   }
   if (f.category === "grammatik") {

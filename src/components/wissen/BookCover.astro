@@ -25,7 +25,7 @@ const lv = LV[f.level] ?? 1.5;
 
 // The words on the cover: short, like a book's spine. The full title is on the card.
 function coverTitle(): [string, string] {
-  if (/grammatik-start/i.test(f.id)) return ["Grammatik-Start", "Die 10 wichtigsten Kapitel"];
+  if (/grammatik-start/i.test(f.id)) return ["Grammar Start", "The 10 most important chapters"];
   if (/komplett/.test(f.id)) return [f.category === "wortschatz" ? "Wortliste" : "Grammatik", "komplett"];
   if (f.category === "grammatik") return ["Grammatik", ""];
   if (f.category === "wortschatz") return ["Wortliste", ""];
