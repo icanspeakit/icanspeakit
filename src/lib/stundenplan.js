@@ -7,88 +7,104 @@
 
 /**
  * Grammar strings of the course plan → grammar topic pages (keys of grammarCatalog).
- * Written by hand on purpose: the plan's wording ("Perfekt mit haben und sein") and the
- * topic names ("Perfekt: haben oder sein") rarely match word for word. First the specific
- * patterns, then the general ones; a string may hit several topics. grammarKeys() keeps
- * topics up to one level above the block: the site files some topics a level later than
- * the course teaches them (Perfekt is A2 there, A1.2 here), but a B1 group should not be
- * sent to the C1 page on "Nominalstil".
+ * Written by hand on purpose: the plan's wording ("Present perfect: for and since") and the
+ * topic names ("Present perfect vs past simple") rarely match word for word. First the
+ * specific patterns, then the general ones; a string may hit several topics. grammarKeys()
+ * keeps topics up to one level above the block: the site files some topics a level later
+ * than the course teaches them (the present perfect is B1 there, A2.1 here), but a B1 group
+ * should not be sent to the C1 page on "Nominalisation".
  */
 const GRAMMAR_RULES = [
-  [/subjektiv/i, ["subjektive-modalverben"]],
-  [/Passiv-Ersatz|Passiv-Alternativen|Passivumschreib|sich lassen/, ["passiversatz"]],
-  [/Passiv/, ["passiv", "zustandspassiv"]],
-  [/Plusquamperfekt|Präteritum/, ["praeteritum-plusquamperfekt"]],
-  [/\bPerfekt\b|Partizip II/, ["perfekt"]],
-  [/Futur II/, ["futur-2"]],
-  [/Futur I\b/, ["futur"]],
-  [/als ob|als wenn/, ["irreale-vergleiche"]],
-  [/Konjunktiv I\b|indirekte Rede|Redewiedergabe/i, ["konjunktiv-1"]],
-  [/Konjunktiv II|Höflichkeitsform|Ratschläge|hätte|würde/, ["konjunktiv2"]],
-  [/Personalpronomen/, ["personalpronomen"]],
-  [/Possessivartikel/, ["possessivartikel"]],
-  [/Präsens|Vokalwechsel|Regelmäßige Verben|^Verb haben/, ["praesens", "konjugation"]],
-  [/W-Fragen/, ["w-fragen"]],
-  [/Ja\/Nein/, ["ja-nein-fragen"]],
+  [/Modal perfects|should have|must have/, ["subjektive-modalverben"]],
+  [/Distancing|distancing|is said to|It is said that|it is said that/, ["konjunktiv-1"]],
+  [/Inversion/, ["passiversatz"]],
+  [/Cleft/, ["es-korrelat"]],
+  [/Future continuous|future perfect/, ["futur-2"]],
+  [/Unreal past|as if/, ["irreale-vergleiche"]],
+  [/Third conditional|\bwish\b/, ["konjunktiv2"]],
+  [/Second conditional|first conditional|conditionals/, ["konditionalsaetze"]],
+  [/passive: present simple|passive: present and past/, ["passiv-b1"]],
+  [/[Pp]assive/, ["passiv"]],
+  [/Narrative tenses|past continuous|past perfect/, ["praeteritum-plusquamperfekt"]],
+  [/Present perfect continuous/, ["zustandspassiv"]],
+  [/Present perfect(?! continuous)/, ["zusammengesetzte-verben"]],
+  [/used to/, ["n-deklination"]],
+  [/Past of be/, ["praeteritum-sein-haben"]],
+  [/Past simple/, ["perfekt"]],
+  [/Future forms|going to|will for predictions/, ["futur"]],
+  [/[Pp]resent continuous/, ["konjugation"]],
+  [/Present simple/, ["praesens"]],
+  [/Subject pronouns|be: am, is, are/, ["personalpronomen"]],
+  [/Object pronouns/, ["akkusativ"]],
+  [/Possessive/, ["possessivartikel"]],
+  [/Wh- questions/, ["w-fragen"]],
+  [/Yes\/no questions|Short answers/, ["ja-nein-fragen"]],
+  [/Word order/, ["verb-position-2"]],
   [/Plural/, ["plural"]],
-  [/Artikel der, die, das/, ["artikel"]],
-  [/ein \/ kein|Verneinung|nicht \/ kein/, ["negation", "artikel-oder-nicht"]],
-  [/Akkusativ/, ["akkusativ"]],
-  [/Dativ/, ["dativ"]],
-  [/Genitiv: aufgrund|Genitiv: zwecks|mit Genitiv/, ["nominale-praepositionen", "genitiv"]],
-  [/Genitiv/, ["genitiv"]],
-  [/Trennbare/, ["trennbare-verben"]],
-  [/Zeitangaben|im, am, um|am, um/, ["temporale-praepositionen"]],
-  [/^Modalverb|Präteritum der Modalverben|^möchten$|mit Modalverben \(hätte/, ["modalverben"]],
-  [/Imperativ/, ["imperativ"]],
-  [/und, aber, oder, denn/, ["aduso"]],
-  [/Komparativ|Superlativ|Vergleiche mit als|je … desto/, ["komparativ-superlativ"]],
-  [/Wechselpräpositionen|Positionsverben/, ["wechselpraepositionen"]],
-  [/Präpositionen für Richtungen|Präpositionen mit Dativ|Ortsangaben/, ["lokale-praepositionen"]],
-  [/weil und dass|wenn \(Bedingung\)/, ["nebensaetze-weil-dass"]],
-  [/deshalb|trotzdem|obwohl|zwar … aber|Konzessive/, ["konnektoren-grund-gegengrund"]],
-  [/Reflexive/, ["reflexive-verben"]],
-  [/wo\(r\)-|da\(r\)-/, ["da-wo-woerter"]],
-  [/Verben mit Präpositionen|Verben mit präpositionalen/, ["verben-praepositionen"]],
-  [/Adjektive mit Präpositionen/, ["adjektive-mit-praepositionen"]],
-  [/Adjektivendungen in allen/, ["adjektivdeklination"]],
-  [/Adjektivendungen/, ["adjektivdeklination-a2"]],
-  [/Indirekte Fragen/, ["indirekte-fragen"]],
-  [/wenn und als/, ["als-oder-wenn"]],
-  [/Relativsätze mit wo, was, wer/, ["relativsaetze-was-wo"]],
-  [/Relativ/, ["relativpronomen"]],
-  [/um … zu|damit/, ["finalsaetze"]],
-  [/Infinitiv mit zu|Infinitivsätze|zu \(Es ist|brauchen … zu/, ["infinitiv-mit-zu"]],
-  [/nachdem|bevor|seitdem|sobald|während/, ["temporale-nebensaetze"]],
-  [/^lassen/, ["lassen"]],
-  [/n-Deklination/, ["n-deklination"]],
-  [/Zweiteilige Konnektoren|einerseits/, ["zweiteilige-konnektoren"]],
-  [/Konnektoren und Nebensätze/, ["konnektoren-grund-gegengrund", "nebensaetze-weil-dass", "temporale-nebensaetze"]],
-  [/Partizipialattribut/, ["partizipialattribute"]],
-  [/Partizip I und II als Adjektiv|Partizipien als Nomen/, ["partizip-als-adjektiv"]],
-  [/Nominalstil|Nominalisierung|Nomen aus Verben/, ["nominalisierung", "verben-als-nomen"]],
-  [/Nomen-Verb|Funktionsverbgefüge/, ["nomen-verb-verbindungen"]],
-  [/Modalpartikeln/, ["modalpartikeln"]],
-  [/Präfixe/, ["verbpraefixe"]],
-  [/Verb auf Position 2|Zeitangabe auf Position 1/, ["verb-position-2"]],
-  [/Satzbau|Position 2|Position 1/, ["satzstellung"]],
-  [/Ordnungszahlen/, ["ordinalzahlen"]],
-  [/welch-/, ["welcher-dieser"]],
-  [/Verb werden/, ["funktionen-von-werden"]],
-  [/Vermutungen/, ["futur", "subjektive-modalverben"]],
-  [/Mengenangaben/, ["artikel-oder-nicht"]],
-  [/^Zahlen bis/, ["zahlen"]],
-  [/Adjektive nach sein/, ["adjektive-nach-sein"]],
-  [/^gern\b/, ["gern"]],
-  [/Präteritum von sein und haben/, ["praeteritum-sein-haben"]],
-  [/Berufe mit -in/, ["berufe-mit-in"]],
-  [/Indefinitpronomen/, ["indefinitpronomen"]],
-  [/falls|sofern/, ["konditionalsaetze"]],
-  [/sodass|folglich|infolgedessen/, ["konsekutivsaetze"]],
-  [/zumal|wohingegen|insofern/, ["zumal-wohingegen"]],
-  [/indem|dadurch dass/, ["modalsaetze"]],
-  [/Textkohärenz|Verweiswörter/, ["textkohaerenz"]],
-  [/Höfliche Bitten|Höflichkeitsform|Ratschläge|würde \+ Infinitiv/, ["konjunktiv2-hoeflich"]],
+  [/Articles: a, an, the|^a \/ an/, ["artikel"]],
+  [/the or no article/, ["artikel-oder-nicht"]],
+  [/There is \/ there are/, ["berufe-mit-in"]],
+  [/Adjectives after be/, ["adjektive-nach-sein"]],
+  [/Numbers up to|Telling the time/, ["zahlen"]],
+  [/Ordinal numbers/, ["ordinalzahlen"]],
+  [/this, that, these, those|this \/ that/, ["welcher-dieser"]],
+  [/like \/ love \/ hate/, ["gern"]],
+  [/Imperatives/, ["imperativ"]],
+  [/Prepositions of time/, ["temporale-praepositionen"]],
+  [/for and since|for, since, during/, ["temporale-praepositionen-b1"]],
+  [/and, but, or, so/, ["aduso"]],
+  [/Prepositions of place and movement/, ["wechselpraepositionen"]],
+  [/Prepositions of place/, ["lokale-praepositionen"]],
+  [/Adverbs of frequency/, ["positionsadverbien"]],
+  [/Adverbs of manner/, ["adjektivdeklination-a2"]],
+  [/[Cc]omparatives|[Ss]uperlatives|as … as/, ["komparativ-superlativ"]],
+  [/can for ability|must and have to|have to \/ don't have to|should for advice|should and shouldn't|could \/ couldn't/, ["modalverben"]],
+  [/Polite requests|Suggestions/, ["konjunktiv2-hoeflich"]],
+  [/some, any|somebody, nothing/, ["indefinitpronomen"]],
+  [/Countable and uncountable|much, many|How much \/ how many/, ["satzstellung"]],
+  [/questions and negatives/, ["negation"]],
+  [/Two objects/, ["dativ"]],
+  [/because, so and that/, ["nebensaetze-weil-dass"]],
+  [/Reflexive pronouns|each other/, ["reflexive-verben"]],
+  [/Phrasal verbs/, ["trennbare-verben"]],
+  [/Reported speech|reported speech/, ["funktionen-von-werden"]],
+  [/Indirect questions/, ["indirekte-fragen"]],
+  [/-ing or to/, ["infinitiv-mit-zu"]],
+  [/Gerunds/, ["verben-als-nomen"]],
+  [/make, let, help/, ["infinitiv-ohne-zu"]],
+  [/have something done/, ["lassen"]],
+  [/Purpose/, ["finalsaetze"]],
+  [/Time clauses|time clauses/, ["temporale-nebensaetze"]],
+  [/when or if/, ["als-oder-wenn"]],
+  [/Contrast|although/, ["konnektoren-grund-gegengrund"]],
+  [/'s or of/, ["genitiv"]],
+  [/Order of adjectives/, ["adjektivdeklination"]],
+  [/-ed and -ing adjectives/, ["partizip-als-adjektiv"]],
+  [/Verbs \+ prepositions/, ["verben-praepositionen"]],
+  [/Prepositions at the end/, ["da-wo-woerter"]],
+  [/make or do/, ["nutzen-benutzen"]],
+  [/Confusing verbs/, ["positionsverben"]],
+  [/Noun suffixes/, ["wortbildung-nomen"]],
+  [/Defining relative clauses/, ["relativpronomen"]],
+  [/Non-defining relative|Relative clauses: whose, where/, ["relativsaetze-was-wo"]],
+  [/Modals of deduction/, ["modalsaetze"]],
+  [/so … that|such … that|too, enough/, ["konsekutivsaetze"]],
+  [/Paired conjunctions/, ["zweiteilige-konnektoren"]],
+  [/Formal linkers|whereas|Review: distancing and linkers/, ["zumal-wohingegen"]],
+  [/Negative words/, ["negationswoerter"]],
+  [/-ever words/, ["irgend"]],
+  [/Focus adverbs/, ["fokuspartikeln"]],
+  [/Discourse markers/, ["modalpartikeln"]],
+  [/Adjectives \+ prepositions/, ["adjektive-mit-praepositionen"]],
+  [/[Cc]ollocations/, ["nomen-verb-verbindungen"]],
+  [/Formal prepositions/, ["nominale-praepositionen"]],
+  [/Nominalisation|nominalisation|formal style/, ["nominalisierung"]],
+  [/Participle clauses/, ["partizipialattribute"]],
+  [/Cohesion/, ["textkohaerenz"]],
+  [/Verb prefixes/, ["verbpraefixe"]],
+  [/Review: linkers/, ["konnektoren-grund-gegengrund", "temporale-nebensaetze"]],
+  [/Linkers for arguments/, ["konnektoren-grund-gegengrund"]],
+  [/Reporting and distancing/, ["konjunktiv-1"]],
 ];
 
 const CEFR = ["A1", "A2", "B1", "B2", "C1", "C2"];
@@ -111,20 +127,22 @@ export function grammarKeys(text, level, lookup) {
 }
 
 /**
- * A YouTube search for explainer videos on one grammar line, e.g. "Deutsch A1
- * Personalpronomen". A search, not a fixed video: it never goes dead and always offers
+ * A YouTube search for explainer videos on one grammar line, e.g. "English grammar A1
+ * Subject pronouns". A search, not a fixed video: it never goes dead and always offers
  * several explanations to pick from.
  */
 export function videoSearch(name, level) {
-  const q = `Deutsch ${level} ${name} erklärt`;
+  const q = `English grammar ${level} ${name} explained`;
   return { name: `Video: ${name}`, href: `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`, ext: true };
 }
 
 /** An exam line of the plan → the page with that exam's practice sets. */
 export function examHref(text) {
-  if (/DTZ/.test(text)) return "/dtz";
-  if (/telc/i.test(text)) return "/telc";
-  if (/Goethe/.test(text)) return "/goethe";
+  // The exam pages keep their old slots until the routes run (docs/content-plan.md §2):
+  // Trinity ISE = /telc, Cambridge English = /goethe, IELTS = /testdaf.
+  if (/Trinity/.test(text)) return "/telc";
+  if (/Cambridge/.test(text)) return "/goethe";
+  if (/IELTS/.test(text)) return "/testdaf";
   return null;
 }
 
