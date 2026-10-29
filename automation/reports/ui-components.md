@@ -99,7 +99,22 @@ College London, UK Home Office).
 
 ## Verification
 
-- `pnpm build` (run after the main batches and again at the end): see the last section.
+- `pnpm build`: passed (exit 0) in the follow-up run on 2026-10-29.
 - `node scripts/check-i18n-luecken.mjs`: no component or layout above its baseline (pages still fail, as before this run).
 - Spot check of `dist/index.html`: title/description English; nav menu labels English except
   data-driven topic names (grammar/culture titles from `src/data`).
+
+## Follow-up run (2026-10-29)
+
+The first run ended after writing this report but without ticking the queue. This run checked
+what was left in scope instead of redoing it:
+- `pnpm build` passes (exit 0).
+- `check-i18n-luecken`: no file under `src/components` or `src/layouts` is listed; all
+  remaining gaps are pages (`ui-pages-*`).
+- German attributes still in component source (`aria-label="Dein Fortschritt"`, search
+  placeholder, LeichtToggle title, "Deutsch für den Beruf") all carry `data-i18n` /
+  `data-i18n-attr` keys with English en.json values, so the built HTML is English (decision 2).
+- LearnShell study variants A/C: no page passes `study`, so they never render. Left as is.
+
+Item marked done in `automation/QUEUE.md`. The open points above (pages, unused components,
+B1 Preliminary facts, hub image alts) belong to other items or need Edgar.
