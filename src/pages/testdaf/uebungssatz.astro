@@ -24,19 +24,19 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
 >
   <SiteNav active="pruefungen" />
   <main class="practice-main practice-main--wide practice-main--trainer">
-    <a href="/testdaf" class="vp-back-link" data-i18n="exam.backToTestdaf">Zurück zur TestDaF-Seite</a>
+    <a href="/testdaf" class="vp-back-link" data-i18n="exam.backToTestdaf">Back to the IELTS page</a>
 
     <div class="practice-hero">
-      <p class="eyebrow">TestDaF · <span data-i18n="exam.h1.set">Übungssatz</span></p>
-      <h1><span class="hero-exam">TestDaF</span> <span data-i18n="exam.h1.readWrite">Leseverstehen und Schreiben</span></h1>
+      <p class="eyebrow"><span translate="no">IELTS Academic</span> · <span data-i18n="exam.h1.set">Practice set</span></p>
+      <h1><span class="hero-exam" translate="no">IELTS Academic</span> <span data-i18n="exam.h1.readWrite">Reading and writing</span></h1>
       <p data-i18n="tdf.hero.text">
-        Drei Leseaufgaben im TestDaF-Format, dazu der Schreibauftrag zur Grafik. Wie die Aufgaben
-        entstanden sind, steht im Teil „Start“ — bitte einmal lesen.
+        Three reading tasks in the style of IELTS Academic, plus a writing task about a chart. How
+        the tasks were made is explained in the “Start” part — please read it once.
       </p>
     </div>
     <ExamDisclaimer />
 
-    <ExamApp brand="TestDaF" sub="Leseverstehen · Schreiben" subKey="tdf.sub" unit="Aufgaben" />
+    <ExamApp brand="IELTS Academic" sub="Reading · Writing" subKey="tdf.sub" unit="tasks" />
   </main>
 
   <script type="application/json" id="tdaf-data" set:html={JSON.stringify(satz)}></script>
@@ -98,9 +98,9 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
         render(main, ctx) {
           sectionHeader(main, {
             eyebrow: t("exam.h1.set"),
-            title: "TestDaF — " + T("exam.h1.readWrite", "Leseverstehen und Schreiben"),
+            title: "IELTS Academic — " + T("exam.h1.readWrite", "Reading and writing"),
             instruction: escapeHtml(T("tdf.start.intro",
-              "TestDaF kennt kein Niveau, das man bucht: Alle schreiben dieselbe Prüfung, und jede Fertigkeit wird einzeln als TDN 3, 4 oder 5 bewertet.")),
+              "IELTS has no pass mark: every skill gets a band score from 0 to 9, and each institution decides which bands it asks for.")),
           });
 
           const facts = el("table", "exam-breakdown");
@@ -119,7 +119,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
           main.appendChild(el("p", "format-note", escapeHtml(T("tdf.scoringNote", data.scoringNote))));
           main.appendChild(
             el("p", "format-note", escapeHtml(T("tdf.noListening",
-              "Hörverstehen fehlt in diesem Übungssatz: Dafür brauchen wir Tonaufnahmen. Einen Vortrag zu lesen statt zu hören wäre eine andere Übung unter demselben Namen.")))
+              "Listening is missing from this practice set: it needs audio recordings. Reading a lecture instead of hearing it would be a different exercise under the same name.")))
           );
 
           const go = el("button", "quiz-btn quiz-btn--primary", t("exam.startSet"));
@@ -154,7 +154,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
           // sheet is lettered too.
           const options = [
             ...a.anzeigen.map((ad) => ({ key: ad.key, label: ad.gist })),
-            { key: "x", label: "kein Angebot passt" },
+            { key: "x", label: "No ad fits" },
           ];
           a.items.forEach((item, i) => {
             main.appendChild(
@@ -208,9 +208,9 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
           sectionHeader(main, { eyebrow: T("tdf.eb.lesen", "Leseverstehen · Aufgabe {n}", { n: 3 }), title: a.title, instruction: escapeHtml(a.instruction) });
           main.appendChild(readingText(a.text));
           const options = [
-            { key: "j", label: "Ja" },
-            { key: "n", label: "Nein" },
-            { key: "k", label: "Text sagt dazu nichts" },
+            { key: "j", label: "Yes" },
+            { key: "n", label: "No" },
+            { key: "k", label: "Not given" },
           ];
           a.items.forEach((item, i) => {
             main.appendChild(
@@ -287,7 +287,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
           // check a value both get them without squinting at bar heights.
           const tbl = el("table", "exam-breakdown");
           tbl.innerHTML =
-            "<thead><tr><th>Wohnform</th>" + g.years.map((y) => `<th>${y}</th>`).join("") + "</tr></thead><tbody>" +
+            "<thead><tr><th>Category</th>" + g.years.map((y) => `<th>${y}</th>`).join("") + "</tr></thead><tbody>" +
             g.series.map((s) => `<tr><td>${escapeHtml(s.label)}</td>${s.values.map((v) => `<td>${v}</td>`).join("")}</tr>`).join("") +
             "</tbody>";
           main.appendChild(el("div", "exam-result")).appendChild(tbl);
@@ -400,7 +400,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
           main.appendChild(el("p", "format-note", escapeHtml(T("tdf.scoringNote", data.scoringNote))));
 
           const actions = el("div", "exam-actions");
-          const back = el("a", "quiz-btn", escapeHtml(T("tdf.toPage", "Zur TestDaF-Seite")));
+          const back = el("a", "quiz-btn", escapeHtml(T("tdf.toPage", "To the IELTS page")));
           back.href = "/testdaf";
           actions.appendChild(back);
           main.appendChild(actions);
@@ -412,7 +412,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
       examId: "testdaf",
       // traffic-baseline: exam_start / exam_finish
       meta: { exam: "testdaf", set: data.setId },
-      unit: "Aufgaben",
+      unit: "tasks",
       unitKey: "exam.unit.tasks",
       sections,
       onAnswer: (ok) => recordAttempt({ skill: "pruefungen", correct: ok }),

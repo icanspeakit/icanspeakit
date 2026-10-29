@@ -30,7 +30,7 @@ import data from "../data/sprechen-b1b2.json";
     import { getLang, loadDict, onLangChange, translate } from "../lib/i18n.js";
 
     // Painted with innerHTML after the page's i18n pass, so it translates its own words.
-    // The German here is only the first frame before the dictionary lands.
+    // The fallback text here is only the first frame before the dictionary lands.
     let dict = null;
     const t = (key, fallback, vars) => (dict && dict[key] != null ? translate(dict, key, vars) : fallback);
 
@@ -54,7 +54,7 @@ import data from "../data/sprechen-b1b2.json";
         return `<ul>${p.beschreibung.map((q) => `<li>${q}</li>`).join("")}</ul>`;
       }
       if (s.key === "kurzvortrag") {
-        return `<p class="prompt-topic"><strong>${t("sprechenB1B2.topic", "Thema:")}</strong> ${p.kurzvortrag.topic}</p>
+        return `<p class="prompt-topic"><strong>${t("sprechenB1B2.topic", "Topic:")}</strong> ${p.kurzvortrag.topic}</p>
                 <ul>${p.kurzvortrag.points.map((q) => `<li>${q}</li>`).join("")}</ul>`;
       }
       return `<p class="prompt-topic">${p.diskussion}</p>`;
@@ -75,15 +75,15 @@ import data from "../data/sprechen-b1b2.json";
         </div>
 
         <div class="prompt-timer" id="timer">${fmt(seconds)}</div>
-        <button class="quiz-btn quiz-btn--primary prompt-reveal-btn" id="start-timer" type="button">${t("sprechenB1B2.startTimer", `Timer starten (${fmt(s.seconds)})`, { time: fmt(s.seconds) })}</button>
+        <button class="quiz-btn quiz-btn--primary prompt-reveal-btn" id="start-timer" type="button">${t("sprechenB1B2.startTimer", `Start timer (${fmt(s.seconds)})`, { time: fmt(s.seconds) })}</button>
 
         <div class="prompt-section-label">${t(`sprechenB1B2.stage.${s.key}`, s.label)}</div>
         <p class="prompt-hint">${t(`sprechenB1B2.hint.${s.key}`, s.hint)}</p>
         ${stageBody(p, s)}
 
         <div class="prompt-nav">
-          <button class="quiz-btn" id="prev-prompt" type="button">${t("sprechen.prevImage", "← Vorheriges Bild")}</button>
-          <button class="quiz-btn" id="next-prompt" type="button">${t("sprechen.nextImage", "Nächstes Bild")}</button>
+          <button class="quiz-btn" id="prev-prompt" type="button">${t("sprechen.prevImage", "← Previous picture")}</button>
+          <button class="quiz-btn" id="next-prompt" type="button">${t("sprechen.nextImage", "Next picture")}</button>
         </div>`;
 
       // Same orientation trick as /sprechen: portrait photos are capped by height.
@@ -111,7 +111,7 @@ import data from "../data/sprechen-b1b2.json";
           timerEl.textContent = fmt(Math.max(0, seconds));
           if (seconds <= 0) {
             stopTimer();
-            timerEl.textContent = t("sprechenB1B2.timeUp", "Zeit um");
+            timerEl.textContent = t("sprechenB1B2.timeUp", "Time's up");
             e.target.disabled = false;
             // The prompts have no id yet, so the Klassen log uses the position.
             recordSession("sprechen", { ref: `sp:b1b2/${idx + 1}` });

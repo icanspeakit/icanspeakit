@@ -15,7 +15,6 @@ import ExamDisclaimer from "../components/ExamDisclaimer.astro";
 import Layout from "../layouts/Layout.astro";
 import SiteNav from "../components/SiteNav.astro";
 import ExamApp from "../components/ExamApp.astro";
-import ExamFacts from "../components/ExamFacts.astro";
 import LevelGrammar from "../components/LevelGrammar.astro";
 import "../styles/practice.css";
 import "../styles/pruefungen.css";
@@ -35,40 +34,20 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
     <a href="/fortschritt?pruefung=start-deutsch-1" class="vp-back-link" data-i18n="exam.backToOverview">Zurück zur Übersicht</a>
 
     <div class="practice-hero">
-      <p class="eyebrow">Goethe A1 · telc A1</p>
-      <h1><span class="hero-exam">Start Deutsch 1</span> <span data-i18n="exam.h1.set">Übungssatz</span></h1>
+      <p class="eyebrow" data-i18n="sd1.eyebrow">A1 · Practice test</p>
+      <h1><span class="hero-exam" data-i18n="sd1.h1.exam">A1 English</span> <span data-i18n="sd1.h1.rest">practice test</span></h1>
       <p data-i18n="sd1.hero.text">
-        Goethe A1 und telc A1 sind dieselbe Prüfung — wer hier übt, übt für beide. Hören, Lesen und
-        Schreiben im Prüfungsformat. Die Einzelheiten stehen im Teil „Start“.
+        A complete A1 practice test in exam style: listening, reading and writing, with your score
+        at the end. The details are in the “Start” part.
       </p>
     </div>
     <ExamDisclaimer />
 
-    {/* Official formats, Goethe-Institut (Durchführungsbestimmungen, Stand 1.9.2025) and telc
-        (Übungstest 1), read 2026-10-04. Same exam, different point scales. */}
-    <ExamFacts
-      title="So ist Start Deutsch 1 aufgebaut"
-      titleKey="sd1.facts.title"
-      head={[{ text: "Prüfungsteil", key: "ps.format.th.module" }, "Goethe A1", "telc A1"]}
-      rows={[
-        [{ text: "Hören", key: "skill.hoeren" }, "ca. 20 Min. · 25 Punkte", "ca. 20 Min. · 15 Punkte"],
-        [{ text: "Lesen", key: "skill.lesen" }, "25 Min. · 25 Punkte", { text: "45 Min. mit Schreiben · 15 Punkte", key: "sd1.facts.telcLesen" }],
-        [{ text: "Schreiben", key: "skill.schreiben" }, "20 Min. · 25 Punkte", "15 Punkte"],
-        [{ text: "Sprechen", key: "skill.sprechen" }, { text: "15 Min. in der Gruppe · 25 Punkte", key: "sd1.facts.goetheSprechen" }, "15 Min. · 15 Punkte"],
-        [{ text: "Bestanden", key: "sd1.facts.pass" }, { text: "ab 60 von 100 Punkten", key: "sd1.facts.goethePass" }, { text: "ab 36 von 60 Punkten", key: "sd1.facts.telcPass" }],
-      ]}
-      notes={[
-        { key: "sd1.facts.note", html: "Es ist dieselbe Prüfung. Goethe-Institut und telc rechnen die Punkte aber verschieden: Goethe auf 100, telc auf 60. Bestanden ist sie bei beiden ab 60 %. Bei telc kommen zur schriftlichen Prüfung 10 Minuten für den Antwortbogen dazu." },
-      ]}
-      sources={[
-        { label: "Goethe-Institut: Durchführungsbestimmungen A1", url: "https://www.goethe.de/pro/relaunch/prf/en/Durchfuehrungsbestimmungen_A1_Start_Deutsch_1.pdf" },
-        { label: "Goethe-Institut: Modellsatz", url: "https://www.goethe.de/pro/relaunch/prf/materialien/A1_sd1/sd_1_modellsatz.pdf" },
-        { label: "telc: Übungstest 1 Start Deutsch 1", url: "https://shop.telc.net/media/catalog/product/file/2/0/20210103_5070-b00-010106_web_1.pdf" },
-      ]}
-      checked="04.10.2026"
-    />
+    {/* The ExamFacts table that compared the Goethe and telc A1 point scales (Start Deutsch 1)
+        was taken out: it described the German exams. The `exams` run adds the facts of the
+        English A1 practice test back (see git history of this file for the old block). */}
 
-    <ExamApp brand="Start Deutsch 1" sub="Goethe A1 · telc A1" unit="Aufgaben" />
+    <ExamApp brand="A1 English" sub="Practice test" subKey="sd1.sub" unit="tasks" />
     <LevelGrammar levels={["A1"]} />
   </main>
 
@@ -98,7 +77,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
     const { hoeren, lesen, schreiben } = data;
 
     const LETTERS = "abcdefgh";
-    const RF = [{ key: "r", label: "Richtig" }, { key: "f", label: "Falsch" }];
+    const RF = [{ key: "r", label: "True" }, { key: "f", label: "False" }];
 
     const idsOf = (part) => part.items.map((i) => i.id);
 
@@ -455,7 +434,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
       examId: "start-deutsch-1",
       // traffic-baseline: exam_start / exam_finish
       meta: { exam: "start-deutsch-1", set: data.setId },
-      unit: "Aufgaben",
+      unit: "tasks",
       unitKey: "exam.unit.tasks",
       sections,
       onAnswer: (ok) => recordAttempt({ skill: "pruefungen", correct: ok }),

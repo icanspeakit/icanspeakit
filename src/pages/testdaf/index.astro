@@ -11,34 +11,34 @@ import ExamPractice from "../../components/ExamPractice.astro";
     bild="testdaf"
     header="IELTS Academic"
     title="IELTS Academic"
-    lead="Test Deutsch als Fremdsprache — der Standardnachweis für ein Hochschulstudium in Deutschland."
+    lead="The English test many universities ask for. It reports band scores from 0 to 9 and has no pass mark."
     leadKey="testdaf.lead"
-    badges={["≈ B2–C1"]}
-    practiceHeading="Für TestDaF üben"
+    badges={["Bands 0–9"]}
+    practiceHeading="Practise for IELTS"
     practiceHeadingKey="testdaf.practiceHeading"
   >
     <Fragment slot="info">
       <section class="exam-section">
-        <h2 data-i18n="testdaf.who.title">Für wen ist TestDaF?</h2>
+        <h2 data-i18n="testdaf.who.title">Who is IELTS Academic for?</h2>
         <div class="exam-meta-row">
-          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.result">Ergebnis: TDN 3–5 (≈ B2–C1)</span>
-          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.oneFormat">Ein Prüfungsformat</span>
+          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.result">Result: band scores 0–9</span>
+          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.oneFormat">One format for everyone</span>
         </div>
         <p data-i18n="testdaf.who.text">
-          TestDaF richtet sich vor allem an internationale Studieninteressierte: Das Ergebnis ist der
-          gängige Sprachnachweis für die Zulassung an deutschen Hochschulen. Anders als Goethe oder telc
-          gibt es kein "Niveau, das man bucht" — alle Teilnehmenden schreiben dieselbe Prüfung, und jede
-          der vier Fertigkeiten wird einzeln mit einer TestDaF-Niveaustufe (TDN 3, 4 oder 5) bewertet.
+          IELTS Academic is aimed mainly at people applying to universities and colleges that teach in
+          English. Everyone sits the same four parts (Listening, Reading, Writing and Speaking). Each
+          skill gets a band score from 0 to 9, and you also get an overall band. There is no pass mark:
+          every institution decides which bands it asks for, so check the requirement of your course.
         </p>
       </section>
 
       <section class="exam-section">
-        <h2 data-i18n="exam.skills.title">Geprüfte Fertigkeiten</h2>
+        <h2 data-i18n="exam.skills.title">Skills tested</h2>
         <div class="skill-grid">
-          <div class="skill-card"><div class="skill-card-icon">📖</div><h4 data-i18n="skill.lesen">Lesen</h4><p data-i18n="skill.lesen.desc">Leseverstehen</p></div>
-          <div class="skill-card"><div class="skill-card-icon">🎧</div><h4 data-i18n="skill.hoeren">Hören</h4><p data-i18n="skill.hoeren.desc">Hörverstehen</p></div>
-          <div class="skill-card"><div class="skill-card-icon">✍️</div><h4 data-i18n="skill.schreiben">Schreiben</h4><p data-i18n="skill.schreiben.desc">Schriftlicher Ausdruck</p></div>
-          <div class="skill-card"><div class="skill-card-icon">🗣️</div><h4 data-i18n="skill.sprechen">Sprechen</h4><p data-i18n="skill.sprechen.oralDesc">Mündlicher Ausdruck</p></div>
+          <div class="skill-card"><div class="skill-card-icon">📖</div><h4 data-i18n="skill.lesen">Reading</h4><p data-i18n="skill.lesen.desc">Reading comprehension</p></div>
+          <div class="skill-card"><div class="skill-card-icon">🎧</div><h4 data-i18n="skill.hoeren">Listening</h4><p data-i18n="skill.hoeren.desc">Listening comprehension</p></div>
+          <div class="skill-card"><div class="skill-card-icon">✍️</div><h4 data-i18n="skill.schreiben">Writing</h4><p data-i18n="skill.schreiben.desc">Written expression</p></div>
+          <div class="skill-card"><div class="skill-card-icon">🗣️</div><h4 data-i18n="skill.sprechen">Speaking</h4><p data-i18n="skill.sprechen.oralDesc">Spoken expression</p></div>
         </div>
       </section>
 
@@ -47,41 +47,39 @@ import ExamPractice from "../../components/ExamPractice.astro";
         <h2 data-i18n="exam.format.title">Format</h2>
         <div class="format-table-wrap">
           <table class="format-table">
-            <thead><tr><th data-i18n="format.th.part">Teil</th><th data-i18n="format.th.what">Was wird geprüft</th><th data-i18n="format.th.duration">Dauer (ca.)</th></tr></thead>
+            <thead><tr><th data-i18n="format.th.part">Part</th><th data-i18n="format.th.what">What is tested</th><th data-i18n="format.th.duration">Duration (approx.)</th></tr></thead>
             <tbody>
-              <tr><td data-i18n="skill.lesen.desc">Leseverstehen</td><td data-i18n="testdaf.fmt.lesen.what">Textverständnis, mehrere Texte</td><td data-i18n="testdaf.fmt.min60">ca. 60 Min.</td></tr>
-              <tr><td data-i18n="skill.hoeren.desc">Hörverstehen</td><td data-i18n="testdaf.fmt.hoeren.what">Gesprächs- und Vortragsverständnis</td><td data-i18n="testdaf.fmt.min40">ca. 40 Min.</td></tr>
-              <tr><td data-i18n="skill.schreiben.desc">Schriftlicher Ausdruck</td><td data-i18n="testdaf.fmt.schreiben.what">Ein zusammenhängender Text zu einer Grafik/Statistik</td><td data-i18n="testdaf.fmt.min60">ca. 60 Min.</td></tr>
-              <tr><td data-i18n="skill.sprechen.oralDesc">Mündlicher Ausdruck</td><td data-i18n="testdaf.fmt.sprechen.what">Kurze gesprochene Antworten, meist aufgezeichnet</td><td data-i18n="testdaf.fmt.min35">ca. 35 Min.</td></tr>
+              <tr><td data-i18n="skill.lesen.desc">Reading comprehension</td><td data-i18n="testdaf.fmt.lesen.what">Three long texts with a range of question types</td><td data-i18n="testdaf.fmt.min60">approx. 60 min.</td></tr>
+              <tr><td data-i18n="skill.hoeren.desc">Listening comprehension</td><td data-i18n="testdaf.fmt.hoeren.what">Recordings from everyday conversations to an academic talk</td><td data-i18n="testdaf.fmt.min30">approx. 30 min.</td></tr>
+              <tr><td data-i18n="skill.schreiben.desc">Written expression</td><td data-i18n="testdaf.fmt.schreiben.what">Task 1: describe a chart, graph, table or diagram. Task 2: an essay giving your view.</td><td data-i18n="testdaf.fmt.min60">approx. 60 min.</td></tr>
+              <tr><td data-i18n="skill.sprechen.oralDesc">Spoken expression</td><td data-i18n="testdaf.fmt.sprechen.what">A face-to-face interview with an examiner</td><td data-i18n="testdaf.fmt.min14">approx. 11–14 min.</td></tr>
             </tbody>
           </table>
         </div>
         <p class="format-note" data-i18n="testdaf.format.note">
-          Es gibt keine einfache Bestehensgrenze in Prozent — jede Fertigkeit wird separat als TDN 3, 4
-          oder 5 eingestuft, und Hochschulen legen selbst fest, welche Kombination sie verlangen. Es liegt
-          uns kein eigenes TestDaF-Quellmaterial vor; die Angaben hier sind allgemein bekannte, öffentliche
-          Informationen zum Prüfungsformat, keine erfundenen Details. Für die genauen aktuellen Zeiten
-          prüfe den offiziellen TestDaF-Modellsatz.
+          There is no pass mark: each skill gets a band score from 0 to 9, you get an overall band, and
+          every university or employer decides which bands it asks for. We have no official IELTS
+          material of our own; the details here are general, public information about the test. For the
+          current format and timings, check the official IELTS website.
         </p>
       </section>
     </Fragment>
 
     <div class="mock-cta mock-cta--lead">
-      <h2 data-i18n="testdaf.set.title">Leseverstehen im Prüfungsformat üben</h2>
+      <h2 data-i18n="testdaf.set.title">Practise reading in exam style</h2>
       <p data-i18n-html="testdaf.set.text">
-        Drei Leseaufgaben im Format des papierbasierten TestDaF — Zuordnung, Multiple Choice und
-        Ja/Nein/steht-nicht-im-Text — dazu der Schreibauftrag zur Grafik, mit Aufbau, Redemitteln und
-        Checkliste. Der digitale TestDaF ist anders aufgebaut, die Fertigkeiten trainierst du hier aber
-        genauso. Alle Texte und Aufgaben sind von uns selbst geschrieben, kein offizielles
-        Prüfungsmaterial. Hörverstehen fehlt noch — dafür brauchen wir Tonaufnahmen.
+        Three reading tasks in the style of IELTS Academic Reading — matching, multiple choice and
+        Yes / No / Not given — plus a writing task about a chart, with structure, useful phrases and
+        a checklist. All texts and tasks are written by us, not official exam material. Listening is
+        still missing — it needs audio recordings.
       </p>
-      <a class="quiz-btn quiz-btn--primary" href="/testdaf/uebungssatz" data-i18n="exam.startSet">Übungssatz starten</a>
+      <a class="quiz-btn quiz-btn--primary" href="/testdaf/uebungssatz" data-i18n="exam.startSet">Start the practice set</a>
     </div>
 
     <ExamPractice
-      heading="Grundlagen trainieren"
+      heading="Train the basics"
       headingKey="exam.practice.heading"
-      intro="Neben dem Übungssatz oben sind diese drei Tools niveau- und prüfungsübergreifend nützlich — sie stammen aus dem DTZ-Unterrichtsmaterial, prüfen aber allgemeine Artikel-, Grammatik- und Wortschatzkenntnisse, keinen TestDaF-spezifischen Inhalt."
+      intro="Besides the practice set above, these three tools help at every level and for every exam. They test general articles, grammar and vocabulary, not anything IELTS-specific."
       introKey="testdaf.practice.intro"
       tools={["artikel", "grammatik", "wortschatz"]}
     />

@@ -1,5 +1,5 @@
 ---
-// Prüfungsfallen: places in DTZ and telc B1 that look easy and have a catch. Each card is tied
+// Exam traps: places in the B1 exams (ids "dtz" = ISE I mock test, "telc" = ISE I practice tests) that look easy and have a catch. Each card is tied
 // to a real task in our practice sets (fallen.json → source) and links into that set/part.
 // The ids are anchors the Instagram reels point to (/pruefungen/fallen#<id>) — keep them.
 //
@@ -34,18 +34,18 @@ const level = (f: (typeof fallen)[number]) => (f.exams.includes("dtz") && !f.exa
 
     <div class="vp-hero">
       <div class="vp-hero-badges">
-        <span class="badge badge-brand">DTZ</span>
-        <span class="badge badge-info">telc B1</span>
+        <span class="badge badge-brand" lang="en">ISE I mock test</span>
+        <span class="badge badge-info" lang="en">ISE I practice tests</span>
       </div>
       <h1 data-i18n="fallen.title">Prüfungsfallen: DTZ und telc B1</h1>
       <p data-i18n="fallen.lead">Diese Stellen in der Prüfung sehen leicht aus, haben aber einen Haken. Zu jeder Falle gibt es eine kurze Erklärung, ein Beispiel, eine Aufgabe zum Ausprobieren und den Weg in den Übungssatz.</p>
       <ExamDisclaimer />
     </div>
 
-    <div class="fl-chips" role="group" aria-label="Nach Prüfung filtern" data-i18n-attr="aria-label:fallen.filter.label" data-fl-chips>
+    <div class="fl-chips" role="group" aria-label="Filter by exam" data-i18n-attr="aria-label:fallen.filter.label" data-fl-chips>
       <button type="button" class="fl-chip" data-fl-filter="" aria-pressed="true"><span data-i18n="fallen.filter.all">Alle</span> <span class="fl-chip-n">{fallen.length}</span></button>
-      <button type="button" class="fl-chip" data-fl-filter="dtz" aria-pressed="false">DTZ <span class="fl-chip-n">{count("dtz")}</span></button>
-      <button type="button" class="fl-chip" data-fl-filter="telc" aria-pressed="false">telc B1 <span class="fl-chip-n">{count("telc")}</span></button>
+      <button type="button" class="fl-chip" data-fl-filter="dtz" aria-pressed="false" lang="en">ISE I mock test <span class="fl-chip-n">{count("dtz")}</span></button>
+      <button type="button" class="fl-chip" data-fl-filter="telc" aria-pressed="false" lang="en">ISE I practice tests <span class="fl-chip-n">{count("telc")}</span></button>
     </div>
 
     <span hidden data-fl-msg="ok" data-i18n="fallen.ok">Richtig!</span>
@@ -136,7 +136,7 @@ const level = (f: (typeof fallen)[number]) => (f.exams.includes("dtz") && !f.exa
       prompt: [context, q].filter(Boolean).join(" "),
       expected: answer,
       level: card.dataset.level,
-      topic: "Prüfungsfallen",
+      topic: "Exam traps",
       href: `/pruefungen/fallen#${card.id}`,
     };
     let missed = false;

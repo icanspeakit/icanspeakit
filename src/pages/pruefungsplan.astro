@@ -1,5 +1,5 @@
 ---
-// /pruefungsplan — "Dein Plan bis zur Prüfung" (PREMIUM-FEATURES Tier 4).
+// /pruefungsplan — "Your plan up to the exam" (PREMIUM-FEATURES Tier 4). English-only page (no i18n keys).
 //
 // Everything the plan may contain is gathered here at build time from data in the repo —
 // the exams' Übungssätze (src/lib/exam/saetze.js, the DTZ sets, the paid manifest), the
@@ -15,7 +15,11 @@ import Layout from "../layouts/Layout.astro";
 import SiteNav from "../components/SiteNav.astro";
 import PremiumLock from "../components/PremiumLock.astro";
 import "../styles/practice.css";
-import { saetze, hrefOf, EXAM_NAMES } from "../lib/exam/saetze.js";
+import { saetze, hrefOf } from "../lib/exam/saetze.js";
+
+// The exam names shown in this page's menu (the set data still carries the old German
+// names; the route ids goethe/telc stay until the routes are renamed).
+const EXAM_NAMES: Record<string, string> = { goethe: "Cambridge English", telc: "Trinity ISE" };
 import paidManifest from "../data/pruefungen/paid-manifest.json";
 import dtz1 from "../data/pruefungen/dtz/uebungssatz-1.json";
 import { grammarAt } from "../lib/grammarCatalog.js";
@@ -28,13 +32,13 @@ const words = Object.fromEntries(
 );
 const exams = [
   {
-    key: "dtz", label: "DTZ", level: "B1", feature: "pruefungssaetze",
+    key: "dtz", label: "Trinity ISE I mock test", level: "B1", feature: "pruefungssaetze",
     sets: [
-      { label: dtz1.label ?? "Übungssatz 1", href: "/dtz/uebungssatz" },
+      { label: dtz1.label ?? "Practice set 1", href: "/dtz/uebungssatz" },
       ...paidManifest.dtz.map((s) => ({ label: s.label, href: `/dtz/uebungssatz?satz=${s.id}`, paid: true })),
     ],
   },
-  { key: "start-deutsch-1", label: "Start Deutsch 1 (A1)", level: "A1", sets: [{ label: "Übungssatz 1", href: "/start-deutsch-1" }] },
+  { key: "start-deutsch-1", label: "A1 English practice test", level: "A1", sets: [{ label: "Practice set 1", href: "/start-deutsch-1" }] },
   ...["goethe", "telc"].flatMap((exam) =>
     [...new Set(saetze.filter((s) => s.exam === exam).map((s) => s.level))].map((level) => ({
       key: `${exam}-${level.toLowerCase()}`,
@@ -50,31 +54,31 @@ const exams = [
   <SiteNav active="pruefungen" />
   <main class="practice-main pp">
     <div class="practice-hero">
-      <p class="eyebrow">Prüfungsplan</p>
-      <h1>Dein Plan bis zur Prüfung</h1>
-      <p>Wähle deine Prüfung und das Datum. Du bekommst für jeden Tag ein paar kurze Aufgaben und jede Woche einen kompletten Übungssatz – den letzten wenige Tage vor der Prüfung.</p>
+      <p class="eyebrow" lang="en">Exam plan</p>
+      <h1 lang="en">Your plan up to the exam</h1>
+      <p lang="en">Choose your exam and the date. You get a few short tasks every day and a full practice set every week – the last one a few days before the exam.</p>
     </div>
 
-    <form class="pp-form" data-pp-form>
-      <label>Prüfung
+    <form class="pp-form" data-pp-form lang="en">
+      <label>Exam
         <select name="exam" required>{exams.map((e) => <option value={e.key}>{e.label}</option>)}</select>
       </label>
-      <label>Prüfungsdatum <input type="date" name="date" required /></label>
-      <label>Mein Niveau jetzt
+      <label>Exam date <input type="date" name="date" required /></label>
+      <label>My level now
         <select name="level">{LEVELS.map((l) => <option>{l}</option>)}</select>
       </label>
       <fieldset class="pp-min">
-        <legend>Zeit pro Tag</legend>
-        {[15, 30, 60].map((m) => <label><input type="radio" name="minutes" value={m} checked={m === 30} /> {m} Min.</label>)}
+        <legend>Time per day</legend>
+        {[15, 30, 60].map((m) => <label><input type="radio" name="minutes" value={m} checked={m === 30} /> {m} min</label>)}
       </fieldset>
-      <button type="submit" class="lp-btn lp-btn--primary">Plan erstellen</button>
+      <button type="submit" class="lp-btn lp-btn--primary">Create plan</button>
     </form>
 
     <p class="pp-error" data-pp-error role="alert" hidden></p>
     <div class="pp-plan" data-pp-plan hidden>
       <div class="pp-head">
         <p class="pp-sum" data-pp-sum></p>
-        <button type="button" class="lp-btn lp-btn--outline" data-pp-ics data-needs="pack">In den Kalender (.ics)</button>
+        <button type="button" class="lp-btn lp-btn--outline" data-pp-ics data-needs="pack">Add to calendar (.ics)</button>
       </div>
       <div data-pp-days></div>
       <div class="pp-more" data-pp-more hidden>
@@ -122,8 +126,8 @@ const exams = [
   const store = (() => { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch { return {}; } })();
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch {} };
   const esc = (s: string) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
-  const todayYmd = () => new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Berlin" });
-  const nice = (d: string) => new Date(`${d}T12:00:00Z`).toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "numeric" });
+  const todayYmd = () => new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/London" });
+  const nice = (d: string) => new Date(`${d}T12:00:00Z`).toLocaleDateString("en-GB",{ weekday: "short", day: "numeric", month: "numeric" });
 
   // Prefill: the last plan, else the Einstufungstest result for the level.
   const f = store.form ?? {};
@@ -143,7 +147,7 @@ const exams = [
     const err = document.querySelector<HTMLElement>("[data-pp-error]")!;
     const box = document.querySelector<HTMLElement>("[data-pp-plan]")!;
     if ("error" in plan) {
-      err.textContent = plan.error === "past" ? "Das Datum liegt heute oder in der Vergangenheit. Wähle bitte den Tag deiner Prüfung." : "Bitte gib das Prüfungsdatum ein.";
+      err.textContent = plan.error === "past" ? "That date is today or in the past. Please choose the day of your exam." : "Please enter your exam date.";
       err.hidden = false;
       box.hidden = true;
       return;
@@ -153,11 +157,11 @@ const exams = [
     current = { plan, exam };
     const full = can("pruefungsplan");
     const unlockSets = can(exam.feature ?? "pruefungssaetze");
-    document.querySelector("[data-pp-sum]")!.textContent = `${plan.days.length} Tage bis zur Prüfung · ${plan.sittings} komplette Übungssätze`;
+    document.querySelector("[data-pp-sum]")!.textContent = `${plan.days.length} ${plan.days.length === 1 ? "day" : "days"} until the exam · ${plan.sittings} full practice ${plan.sittings === 1 ? "set" : "sets"}`;
     const done = (store.done ??= {});
     const item = (i: any) => {
       if (i.kind === "sitting" && i.paid && !unlockSets) {
-        return `<li>${i.fallback ? `<a href="${esc(i.fallback.href)}">${esc(exam.label)}: ${esc(i.fallback.label)}</a> (noch einmal)` : esc(i.label)} <span class="pp-lock">🔒 ${esc(i.label)} im Paket</span></li>`;
+        return `<li>${i.fallback ? `<a href="${esc(i.fallback.href)}">${esc(exam.label)}: ${esc(i.fallback.label)}</a> (once more)` : esc(i.label)} <span class="pp-lock">🔒 ${esc(i.label)} is in the pack</span></li>`;
       }
       return `<li><a href="${esc(i.href)}">${esc(i.label)}</a></li>`;
     };
@@ -165,21 +169,21 @@ const exams = [
       <div class="pp-day${done[d.date] ? " is-done" : ""}">
         <span class="pp-date">${nice(d.date)}</span>
         <ul class="pp-items">${d.items.map(item).join("")}</ul>
-        ${full ? `<label class="pp-check"><input type="checkbox" data-pp-done="${d.date}" ${done[d.date] ? "checked" : ""}/> erledigt</label>` : ""}
+        ${full ? `<label class="pp-check"><input type="checkbox" data-pp-done="${d.date}" ${done[d.date] ? "checked" : ""}/> done</label>` : ""}
       </div>`;
     const weeks = [...new Set(plan.days.map((d: any) => d.week))];
     const shown = full ? weeks : weeks.slice(0, 1);
     // traffic-baseline: would_lock — the plan runs past the free week(s).
     wouldLock("pruefungsplan", weeks.length > freeLimit("pruefungsplan"));
     document.querySelector("[data-pp-days]")!.innerHTML =
-      shown.map((w) => `<h2 class="pp-week">Woche ${w}</h2>${plan.days.filter((d: any) => d.week === w).map(dayHtml).join("")}`).join("") +
-      (full ? `<div class="pp-day is-exam"><span class="pp-date">${nice(plan.examDate)}</span><ul class="pp-items"><li><b>Prüfung: ${esc(exam.label)}</b> – viel Erfolg!</li></ul></div>` : "");
+      shown.map((w) => `<h2 class="pp-week">Week ${w}</h2>${plan.days.filter((d: any) => d.week === w).map(dayHtml).join("")}`).join("") +
+      (full ? `<div class="pp-day is-exam"><span class="pp-date">${nice(plan.examDate)}</span><ul class="pp-items"><li><b>Exam: ${esc(exam.label)}</b> – good luck!</li></ul></div>` : "");
     const rest = weeks.slice(1);
     document.querySelector<HTMLElement>("[data-pp-more]")!.hidden = full || !rest.length;
     document.querySelector("[data-pp-outline]")!.innerHTML = full ? "" : `<ul class="pp-outline">${rest.map((w) => {
       const days = plan.days.filter((d: any) => d.week === w);
       const sit = days.filter((d: any) => d.items.some((i: any) => i.kind === "sitting")).length;
-      return `<li>Woche ${w}: ${days.length} Tage${sit ? `, ${sit} kompletter Übungssatz` : ""}</li>`;
+      return `<li>Week ${w}: ${days.length} ${days.length === 1 ? "day" : "days"}${sit ? `, ${sit} full practice ${sit === 1 ? "set" : "sets"}` : ""}</li>`;
     }).join("")}</ul>`;
   }
   form.addEventListener("submit", (e) => { e.preventDefault(); render(); });
@@ -195,7 +199,7 @@ const exams = [
   document.querySelector("[data-pp-ics]")!.addEventListener("click", () => {
     if (!current || !can("pruefungsplan")) return;
     const blob = new Blob([planToIcs(current.plan, { examLabel: current.exam.label })], { type: "text/calendar;charset=utf-8" });
-    const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: `pruefungsplan-${current.exam.key}.ics` });
+    const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: `exam-plan-${current.exam.key}.ics` });
     a.click();
     URL.revokeObjectURL(a.href);
   });

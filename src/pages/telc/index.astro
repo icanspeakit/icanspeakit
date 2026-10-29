@@ -20,53 +20,50 @@ const formate = telcFormate.formate;
     bild="telc"
     header="Trinity ISE"
     title="Trinity ISE"
-    lead="The European Language Certificates — ein modulares Prüfungssystem, das von vielen Arbeitgebern, Behörden und einigen Hochschulen anerkannt wird."
+    lead="Trinity College London’s Integrated Skills in English: ISE Foundation (A2), ISE I (B1) and ISE II (B2), with reading, writing, speaking and listening tested together."
     leadKey="telc.lead"
-    badges={["A1–C2"]}
-    practiceHeading="Für telc üben"
+    badges={["A2–B2"]}
+    practiceHeading="Practise for Trinity ISE"
     practiceHeadingKey="telc.practiceHeading"
   >
     <Fragment slot="info">
       <section class="exam-section">
-        <h2 data-i18n="telc.who.title">Für wen ist telc?</h2>
+        <h2 data-i18n="telc.who.title">Who is Trinity ISE for?</h2>
         <div class="exam-meta-row">
-          <span class="exam-meta-badge" data-i18n="telc.who.badge.level">Niveau A1–C2</span>
-          <span class="exam-meta-badge" data-i18n="telc.who.badge.modular">Modulares System</span>
+          <span class="exam-meta-badge" data-i18n="telc.who.badge.level">Levels A2–B2</span>
+          <span class="exam-meta-badge" data-i18n="telc.who.badge.modular">Integrated skills</span>
         </div>
         <p data-i18n="telc.who.text">
-          telc-Prüfungen gibt es für fast jedes CEFR-Niveau. Sie werden häufig für Arbeitsverhältnisse,
-          Aufenthaltstitel und — bei den Hochschul-Varianten — für die Zulassung zum Studium verlangt.
-          Daneben gibt es berufs- und fachsprachliche Varianten (telc Deutsch Beruf, Pflege, Medizin);
-          die deckt diese Seite bewusst nicht ab — hier geht es um allgemeines Deutsch.
+          There is one Trinity ISE exam for each level: ISE Foundation (A2), ISE I (B1) and ISE II (B2).
+          Each has two modules, Reading &amp; Writing and Speaking &amp; Listening. People take ISE for study,
+          work and, in some cases, UK visa applications. Check the current rules for your purpose before
+          you book.
         </p>
       </section>
 
       <section class="exam-section">
-        <h2 data-i18n="exam.skills.title">Geprüfte Fertigkeiten</h2>
+        <h2 data-i18n="exam.skills.title">Skills tested</h2>
         <div class="skill-grid">
           <div class="skill-card"><div class="skill-card-icon">📖</div><h4 data-i18n="skill.lesen">Lesen</h4><p data-i18n="skill.lesen.desc">Leseverstehen</p></div>
           <div class="skill-card"><div class="skill-card-icon">🎧</div><h4 data-i18n="skill.hoeren">Hören</h4><p data-i18n="skill.hoeren.desc">Hörverstehen</p></div>
-          <div class="skill-card"><div class="skill-card-icon">🧩</div><h4 data-i18n="skill.sprachbausteine">Sprachbausteine</h4><p data-i18n="skill.sprachbausteine.desc">Grammatik und Wortschatz im Text</p></div>
           <div class="skill-card"><div class="skill-card-icon">✍️</div><h4 data-i18n="skill.schreiben">Schreiben</h4><p data-i18n="skill.schreiben.desc">Schriftlicher Ausdruck</p></div>
           <div class="skill-card"><div class="skill-card-icon">🗣️</div><h4 data-i18n="skill.sprechen">Sprechen</h4><p data-i18n="skill.sprechen.pairDesc">Mündliche Prüfung, meist paarweise</p></div>
         </div>
         <p class="format-note" data-i18n="telc.sprachbausteine.note">
-          Sprachbausteine sind die telc-Besonderheit: Grammatik und Wortschatz werden nicht in Einzelsätzen
-          abgefragt, sondern im laufenden Text. Nicht jede telc-Prüfung hat alle fünf Subtests — telc A1
-          (Start Deutsch 1) prüft Hören, Lesen und Schreiben zusammen und hat keine Sprachbausteine.
-          Ab B1 gehören sie dazu.
+          ISE tests the skills together: for example, you read a text and then write about it.
+          Grammar and vocabulary are not a separate paper; they count in how well you read, write,
+          speak and listen.
         </p>
       </section>
 
       {formate.map((f) => <ExamFormat format={f} />)}
 
       <section class="exam-section">
-        <h2 data-i18n="telc.moreLevels.title">Weitere Niveaus</h2>
+        <h2 data-i18n="telc.moreLevels.title">Other levels</h2>
         <p class="format-note" data-i18n="telc.moreLevels.text">
-          Oben steht die telc-Prüfung, für die uns ein Übungstest als Quelle vorliegt. Zeiten,
-          Aufgabenzahlen und Bestehensgrenzen unterscheiden sich zwischen den Niveaus deutlich — für A2, B1,
-          B2, C1 oder C2 prüfe bitte den offiziellen telc-Modellsatz deines Moduls. Wir tragen hier nur ein,
-          was wir belegen können, statt Werte zu schätzen.
+          Times, task counts and marking differ between the ISE levels. For Foundation, I or II, check
+          the official Trinity specification for your level. We enter here only what we can document,
+          rather than estimating figures.
         </p>
       </section>
     </Fragment>
@@ -74,37 +71,34 @@ const formate = telcFormate.formate;
     <SatzListe exam="telc" />
 
     <div class="mock-cta">
-      <h2 data-i18n="telc.sb.title">Sprachbausteine üben</h2>
+      <h2 data-i18n="telc.sb.title">Practise Use of English</h2>
       <p data-i18n="telc.sb.text">
-        Der Prüfungsteil, den es so nur bei telc gibt: Teil 1 als Zuordnung aus dem Wortkasten,
-        Teil 2 als Multiple Choice im laufenden Text — mit Alltagstexten und sofortiger Auswertung.
+        Gap-fill practice in the style of the Cambridge B2 First Reading &amp; Use of English paper:
+        part 1 from a word box, part 2 by multiple choice inside a text, with everyday texts and
+        instant marking.
       </p>
-      <a class="quiz-btn quiz-btn--primary" href="/telc/sprachbausteine" data-i18n="telc.sb.cta">Zum Sprachbausteine-Trainer</a>
+      <a class="quiz-btn quiz-btn--primary" href="/telc/sprachbausteine" data-i18n="telc.sb.cta">To the Use of English trainer</a>
     </div>
 
     <div class="mock-cta">
-      <h2 data-i18n="fallen.title">Prüfungsfallen: DTZ und telc B1</h2>
-      <p data-i18n="fallen.entry.blurb">Stellen mit Haken – kurz erklärt, mit Beispiel und einer Aufgabe zum Ausprobieren.</p>
-      <a class="quiz-btn quiz-btn--primary" href="/pruefungen/fallen" data-i18n="fallen.entry.cta">Fallen ansehen</a>
+      <h2 data-i18n="fallen.title">Exam traps at B1</h2>
+      <p data-i18n="fallen.entry.blurb">Spots with a catch – briefly explained, with an example and a task to try.</p>
+      <a class="quiz-btn quiz-btn--primary" href="/pruefungen/fallen" data-i18n="fallen.entry.cta">See the traps</a>
     </div>
 
     <div class="mock-cta">
-      <p class="joint-exam" aria-label="Gemeinsame Prüfung von Goethe-Institut und telc" data-i18n-attr="aria-label:exam.joint.label">
-        <span>Goethe-Institut</span><b aria-hidden="true">×</b><span>telc</span>
-      </p>
-      <h2 data-i18n="telc.a1.title">A1: eine Prüfung von telc und Goethe</h2>
+      <h2 data-i18n="telc.a1.title">A1: an unbranded practice test</h2>
       <p data-i18n="telc.a1.text">
-        telc Deutsch A1 und Goethe-Zertifikat A1 sind dieselbe Prüfung: Start Deutsch 1. Unser
-        Übungssatz passt für beide — Hören, Lesen und Schreiben im Prüfungsformat, mit Auswertung an
-        der offiziellen Bestehensgrenze.
+        Our A1 practice test is not tied to one provider: listening, reading and writing in exam
+        style. It is marked against a 60 % pass line, which is our own convention, not an official mark.
       </p>
-      <a class="quiz-btn quiz-btn--primary" href="/start-deutsch-1" data-i18n="exam.startSet">Übungssatz starten</a>
+      <a class="quiz-btn quiz-btn--primary" href="/start-deutsch-1" data-i18n="exam.startSet">Start the practice set</a>
     </div>
 
     <ExamPractice
-      heading="Grundlagen trainieren"
+      heading="Train the basics"
       headingKey="exam.practice.heading"
-      intro="Diese Tools sind niveau- und prüfungsübergreifend nützlich. Sie stammen aus dem DTZ-Unterrichtsmaterial und prüfen allgemeine Artikel-, Grammatik- und Wortschatzkenntnisse — keine telc-spezifischen Aufgabenformate."
+      intro="These tools help at every level and for every exam. They test general articles, grammar and vocabulary, not Trinity-specific task types."
       introKey="telc.practice.intro"
       tools={["artikel", "grammatik", "wortschatz"]}
     />

@@ -5,9 +5,6 @@ import HubBild from "../../components/HubBild.astro";
 import SiteNav from "../../components/SiteNav.astro";
 import Icon from "../../components/Icon.astro";
 import { grammarTopicCount } from "../../lib/inventory.js";
-import { fakt } from "../../lib/fuehrerschein.js";
-
-const fsAnzahl = fakt("theorie.anzahlFragenErsterwerbB").value;
 import "../../styles/practice.css";
 import "../../styles/pruefungen.css";
 import "../../styles/exam-dashboard.css";
@@ -17,137 +14,120 @@ const exams = [
     id: "telc",
     href: "/telc",
     icon: "document",
-    title: "telc",
-    level: "A1–C2",
-    desc: "The European Language Certificates — modulare Prüfungen, anerkannt für Beruf, Visum und einige Hochschulen.",
-    practice: "Übungssätze · Sprachbausteine-Trainer",
+    title: "Trinity ISE",
+    level: "A2–B2",
+    desc: "Trinity College London’s Integrated Skills in English — ISE Foundation (A2), ISE I (B1) and ISE II (B2). Reading, writing, speaking and listening are tested together.",
+    practice: "Practice tests · Use of English trainer",
     practiceKey: "pruefungen.practice.telc",
   },
   {
     id: "goethe",
     href: "/goethe",
     icon: "landmark",
-    title: "Goethe-Zertifikat",
-    level: "A1–C2",
-    desc: "Die eigenen Prüfungen des Goethe-Instituts — weithin anerkannt für Visa, Studium und Arbeitgeber.",
-    practice: "Übungssätze · Links zu den offiziellen Modellsätzen",
+    title: "Cambridge English",
+    level: "A2–B2",
+    desc: "A2 Key, B1 Preliminary and B2 First — one exam per level, accepted by employers, colleges and universities in many countries.",
+    practice: "Practice tests · links to official sample papers",
     practiceKey: "pruefungen.practice.goethe",
   },
   {
     id: "testdaf",
     href: "/testdaf",
     icon: "graduation-cap",
-    title: "TestDaF",
-    level: "TDN 3–5 (≈ B2–C1)",
-    desc: "Der Standard-Sprachnachweis für die Zulassung an deutschen Hochschulen.",
-    practice: "Leseverstehen-Übungssatz · Schreiben zur Grafik",
+    title: "IELTS Academic",
+    level: "Band scores 0–9",
+    desc: "The English test many universities ask for. There is no pass mark: each institution sets the band score it needs.",
+    practice: "Reading practice set · writing about a chart",
     practiceKey: "pruefungen.practice.testdaf",
   },
   {
     id: "dtz",
     href: "/dtz",
     icon: "book-open",
-    title: "DTZ",
-    level: "A2 / B1",
-    desc: "Deutsch-Test für Zuwanderer — die Prüfung am Ende eines staatlich geförderten Integrationskurses.",
-    practice: "Übungssatz im Prüfungsformat · Lesen-Mock-Test",
+    title: "Trinity ISE I (full mock test)",
+    level: "B1",
+    desc: "A full mock test at B1 in the style of Trinity ISE I, with a result at the end.",
+    practice: "Practice set in exam format · reading mock test",
     practiceKey: "pruefungen.practice.dtz",
   },
   {
     id: "lid",
     href: "/leben-in-deutschland",
     icon: "map-pin",
-    title: "Leben in Deutschland (Einbürgerungstest)",
+    title: "Life in the UK test",
     titleKey: "exam.lid.name",
-    level: "Orientierungskurs / Einbürgerung",
-    desc: "Der Wissenstest zu Gesellschaft, Geschichte und Recht in Deutschland — Pflicht für die Einbürgerung.",
-    practice: "Fakten-Lernseite · Übungstest",
+    level: "No language level (a knowledge test)",
+    desc: "The knowledge test on British history, traditions and everyday life — needed for settlement and British citizenship.",
+    practice: "Facts study page · practice test",
     practiceKey: "pruefungen.practice.lid",
-  },
-  {
-    id: "fuehrerschein",
-    href: "/fuehrerschein",
-    icon: "car",
-    title: "Führerschein (Klasse B)",
-    titleKey: "exam.fs.name",
-    level: "Kein Sprachtest — Wissenstest",
-    levelKey: "fs.badge.knowledge",
-    desc: "Die Theorieprüfung für den Autoführerschein — Regeln in einfachem Deutsch, mit Szenen und eigenen Übungsfragen.",
-    practice: "Regeln · Theorie üben · Übungssimulation · Umschreiben",
-    practiceKey: "pruefungen.practice.fs",
   },
 ];
 
-// CEFR levels each exam page (built in Tier 1) states it covers. telc and Goethe explicitly
-// list A1–C2 on their own detail pages, so the picker covers A1–C2, not just A1–C1 as an
-// earlier draft of this tier assumed — see docs/exams-hub-tier4-v1.md.
-// Leben in Deutschland has no CEFR level (it's a knowledge/civics test, not a language
-// level) per its own page, so it's intentionally absent from every level row here.
+// Which exam on this site fits which CEFR level. The IELTS band-to-level pairs are the
+// widely published approximations, so they are written with “≈”. The routes keep their old
+// names for now (a later run renames them): /goethe = Cambridge English, /telc = Trinity ISE,
+// /dtz = Trinity ISE I mock test, /testdaf = IELTS, /start-deutsch-1 = A1 practice test.
+// An entry without href is shown as plain text (exam not on this site yet).
+// Life in the UK has no CEFR level (a knowledge test), so it is in no row.
 const levels = [
   {
     level: "A1",
-    desc: "Erste Schritte — einfache, alltägliche Ausdrücke verstehen und benutzen.",
+    desc: "First steps — understanding and using simple everyday expressions.",
     exams: [
-      { name: "telc A1", href: "/start-deutsch-1" },
-      { name: "Goethe A1 (Start Deutsch 1)", href: "/start-deutsch-1" },
+      { name: "A1 English practice test", href: "/start-deutsch-1" },
     ],
   },
   {
     level: "A2",
-    desc: "Elementare Sprachverwendung — einfache, direkte Informationen austauschen.",
+    desc: "Basic user — exchanging simple, direct information.",
     exams: [
-      { name: "telc A2", href: "/telc/a2" },
-      { name: "Goethe A2", href: "/goethe/a2" },
-      { name: "DTZ (Ergebnis A2)", href: "/dtz", key: "pruefungen.level.dtzA2" },
+      { name: "Cambridge A2 Key", href: "/goethe/a2" },
+      { name: "Trinity ISE Foundation", href: "/telc/a2" },
     ],
   },
   {
     level: "B1",
-    desc: "Selbstständige Sprachverwendung — vertraute Themen in Alltag, Beruf und Schule.",
+    desc: "Independent user — familiar topics at home, work and school.",
     exams: [
-      { name: "telc B1", href: "/telc/b1" },
-      { name: "Goethe B1", href: "/goethe/b1" },
-      { name: "DTZ (Ergebnis B1)", href: "/dtz", key: "pruefungen.level.dtzB1" },
+      { name: "Cambridge B1 Preliminary", href: "/goethe/b1" },
+      { name: "Trinity ISE I", href: "/telc/b1" },
+      { name: "Trinity ISE I full mock test", href: "/dtz" },
     ],
   },
   {
     level: "B2",
-    desc: "Selbstständige Sprachverwendung, fortgeschritten.",
+    desc: "Independent user, advanced.",
     exams: [
-      { name: "telc B2", href: "/telc/b2" },
-      { name: "Goethe B2", href: "/goethe/b2" },
-      { name: "TestDaF (TDN 3 ≈ B2)", href: "/testdaf" },
+      { name: "Cambridge B2 First", href: "/goethe/b2" },
+      { name: "Trinity ISE II", href: "/telc/b2" },
+      { name: "IELTS (band 5.5–6.5 ≈ B2)", href: "/testdaf" },
     ],
   },
   {
     level: "C1",
-    desc: "Fachkundige Sprachkenntnisse — komplexe Themen, Studium und Beruf.",
+    desc: "Proficient user — complex topics, university and work.",
     exams: [
-      { name: "telc C1", href: "/telc/c1" },
-      { name: "Goethe C1", href: "/goethe/c1" },
-      { name: "TestDaF (TDN 4–5 ≈ C1)", href: "/testdaf" },
+      { name: "IELTS (band 7–8 ≈ C1)", href: "/testdaf" },
+      { name: "Cambridge C1 Advanced (not on this site yet)" },
     ],
   },
   {
     level: "C2",
-    desc: "Annähernd muttersprachliche Kompetenz.",
+    desc: "Near-native proficiency.",
     exams: [
-      { name: "telc C2", href: "/telc" },
-      { name: "Goethe C2", href: "/goethe" },
+      { name: "IELTS (band 8.5–9 ≈ C2)", href: "/testdaf" },
     ],
   },
 ];
 
-// Comparison table — every cell restates a claim already made (and sourced-or-flagged)
-// on that exam's own Tier 1 detail page; nothing new is asserted here.
+// Comparison table — every cell restates a claim made on that exam's own page; nothing new
+// is asserted here.
 const comparison = [
-  { id: "telc", exam: "telc", levels: "A1–C2", forWhom: "Job, Aufenthaltstitel, teils Hochschulzulassung", format: "Schriftlich + mündlich, modular je Niveau" },
-  { id: "goethe", exam: "Goethe-Zertifikat", levels: "A1–C2", forWhom: "Visa (A1: Familiennachzug), Studium, Beruf, Einbürgerung", format: "Lesen/Hören/Schreiben an einem Termin + separate mündliche Prüfung" },
-  { id: "testdaf", exam: "TestDaF", levels: "TDN 3–5 (≈ B2–C1)", forWhom: "Internationale Studieninteressierte", format: "Eine Prüfung für alle, jede Fertigkeit einzeln als TDN 3/4/5 bewertet" },
-  { id: "dtz", exam: "DTZ", levels: "A2 / B1", forWhom: "Abschluss Integrationskurs, Aufenthaltstitel", format: "Lesen, Hören, Schreiben, Sprechen — Ergebnis A2 oder B1" },
-  { id: "lid", exam: "Leben in Deutschland (Einbürgerungstest)", levels: "Kein Sprachniveau (Wissenstest)", forWhom: "Einbürgerung", format: "33 Multiple-Choice-Fragen, 60 Minuten" },
-  // The figures come from the research file, like everywhere in the Führerschein section.
-  { id: "fs", exam: "Führerschein (Klasse B)", levels: "Kein Sprachniveau (Wissenstest)", forWhom: "Autofahren in Deutschland", format: `Theorie: ${fsAnzahl} Fragen am Computer, dann die praktische Prüfung` },
+  { id: "telc", exam: "Trinity ISE", levels: "A2–B2", forWhom: "Study, work and, in some cases, UK visa applications — check the current rules", format: "Two modules: Reading & Writing, and Speaking & Listening" },
+  { id: "goethe", exam: "Cambridge English", levels: "A2–B2", forWhom: "Employers, colleges and universities; one certificate per level", format: "One exam per level: A2 Key, B1 Preliminary, B2 First" },
+  { id: "testdaf", exam: "IELTS Academic", levels: "Band scores 0–9", forWhom: "University and college applications", format: "Listening, Reading, Writing and Speaking, each with a band score plus an overall band" },
+  { id: "dtz", exam: "Trinity ISE I (full mock test)", levels: "B1", forWhom: "Practice for Trinity ISE I", format: "Reading & Writing, then Speaking & Listening, with a result at the end" },
+  { id: "lid", exam: "Life in the UK test", levels: "No language level (a knowledge test)", forWhom: "Settlement and British citizenship", format: "24 questions, 45 minutes, pass mark 18 (75 %)" },
 ];
 ---
 <Layout
@@ -212,7 +192,7 @@ const comparison = [
             <div class="level-card-badge">{l.level}</div>
             <p data-i18n={`pruefungen.level.${l.level}.desc`}>{l.desc}</p>
             <div class="level-card-exams">
-              {l.exams.map((e) => <a href={e.href} data-i18n={e.key}>{e.name}</a>)}
+              {l.exams.map((e) => e.href ? <a href={e.href}>{e.name}</a> : <span class="level-card-soon">{e.name}</span>)}
             </div>
           </div>
         ))}
@@ -234,10 +214,10 @@ const comparison = [
               <tr>
                 {/* The exam's name is a proper noun; the level column is codes. Only the
                     two prose columns carry a key. */}
-                <td data-i18n={c.id === "lid" ? "exam.lid.name" : c.id === "fs" ? "exam.fs.name" : undefined}>{c.exam}</td>
+                <td data-i18n={c.id === "lid" ? "exam.lid.name" : undefined}>{c.exam}</td>
                 <td data-i18n={`pruefungen.compare.${c.id}.levels`}>{c.levels}</td>
                 <td data-i18n={`pruefungen.compare.${c.id}.forWhom`}>{c.forWhom}</td>
-                <td data-i18n={`pruefungen.compare.${c.id}.format`} data-i18n-vars={c.id === "fs" ? JSON.stringify({ n: fsAnzahl }) : undefined}>{c.format}</td>
+                <td data-i18n={`pruefungen.compare.${c.id}.format`}>{c.format}</td>
               </tr>
             ))}
           </tbody>
@@ -334,6 +314,7 @@ const comparison = [
       transition: transform 0.38s cubic-bezier(0.3, 1.3, 0.5, 1), width 0.38s cubic-bezier(0.3, 1.3, 0.5, 1);
     }
     .hub-switch.is-ready .hub-switch-pill { opacity: 1; }
+    .level-card-soon { color: var(--muted); font-size: var(--text-sm); }
     @media (prefers-reduced-motion: reduce) {
       .hub-switch-pill, .hub-switch .topic-tab { transition: none; }
     }
