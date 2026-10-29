@@ -50,7 +50,7 @@ const cellHtml = (cell: string) => (mk && /^(du|Sie)$/.test(cell) ? marksToHtml(
 const pc = (key: string) => tx?.prosCons ? Object.fromEntries(Object.entries(tx.prosCons).map(([k, v]: [string, any]) => [k, v[key]])) : null;
 ---
 <Layout
-  title={fitTitle(`${topic.title} – Landeskunde`, topic.title, topic.title.replace(/:.*$/, ""))}
+  title={fitTitle(`${topic.title} – Life in the UK`, topic.title, topic.title.replace(/:.*$/, ""))}
   description={topic.intro.slice(0, 160)}
 >
   <SiteNav active="landeskunde" />

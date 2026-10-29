@@ -16,15 +16,15 @@ export function getStaticPaths() {
 
 const level = data.niveaus.find((l) => l.id === Astro.params.level)!;
 const exam = level.bloecke.some((b) => "pruefung" in b);
-const description = `Deutschkurs ${level.label} (${level.titel}): ${level.bloecke.length} Themen mit Lernzielen, Grammatik und Wortschatz${exam ? ", passend zu Goethe und telc" : ""}. Dauer ${level.dauer}. Mit Selbsttest.`;
+const description = `English course ${level.label} (${level.titel}): ${level.bloecke.length} topics with learning goals, grammar and vocabulary${exam ? ", matched to Cambridge English and Trinity ISE" : ""}. Length: ${level.dauer}. With a self-test.`;
 ---
 <Layout
-  title={`Deutschkurs ${level.label} – Themen & Lernziele | EnglishAcademy`}
+  title={`English course ${level.label} – topics and learning goals | EnglishAcademy`}
   description={description}
-  breadcrumb={[{ name: "Kursinhalte", path: "/kursinhalte" }]}
+  breadcrumb={[{ name: "Syllabus", path: "/kursinhalte" }]}
   schema={{
     "@type": "Course",
-    name: `Deutschkurs ${level.label}: ${level.titel}`,
+    name: `English course ${level.label}: ${level.titel}`,
     description: level.ziel,
     educationalLevel: level.label,
     teaches: level.bloecke.map((b) => b.thema),

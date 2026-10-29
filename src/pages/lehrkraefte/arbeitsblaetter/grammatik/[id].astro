@@ -48,8 +48,8 @@ const upTo = ["A2", "B1", "B2", "C1"].filter((l) => l > topic.level && (topic.ex
 const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
 ---
 <Layout
-  title={fitTitle(`Arbeitsblatt Grammatik: ${topic.name} (${topic.level})`, `Arbeitsblatt ${topic.name} (${topic.level})`, `Arbeitsblatt ${topic.name.replace(/\s*[:—].*$/, "")} (${topic.level})`, `Arbeitsblatt ${topic.name.replace(/\s*[:—].*$/, "")}`)}
-  description={`Arbeitsblatt „${topic.name}“ (${topic.level}): Regel auf einen Blick und alle Übungen zum Ausdrucken oder online ausfüllen, mit Lösungsblatt.`}
+  title={fitTitle(`Grammar worksheet: ${topic.name} (${topic.level})`, `Worksheet: ${topic.name} (${topic.level})`, `Worksheet: ${topic.name.replace(/\s*[:—].*$/, "")} (${topic.level})`, `Worksheet: ${topic.name.replace(/\s*[:—].*$/, "")}`)}
+  description={`Worksheet “${topic.name}” (${topic.level}): the rule at a glance and all the exercises, to print or fill in online, with an answer sheet.`}
   noindex={isDraft(topic)}
 >
   <SiteNav active="lehrkraefte" />

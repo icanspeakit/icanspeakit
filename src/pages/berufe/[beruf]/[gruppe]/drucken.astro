@@ -21,8 +21,8 @@ const sheet = wortschatzSheet(`berufe-${beruf}-${group.id}`, { words, langs });
 const tag = deck.title.split(":")[0];
 ---
 <Layout
-  title={fitTitle(`${group.title} – ${deck.title} zum Drucken`, `${group.title} zum Drucken`)}
-  description={`${deck.title}: ${group.title} als PDF — alle Wörter mit Artikel, Übersetzung, Erklärung auf Deutsch und Beispielsatz, dazu ein kleiner Test mit Lösungen.`}
+  title={fitTitle(`${group.title} – ${deck.title} to print`, `${group.title} to print`)}
+  description={`${deck.title}: ${group.title} as a PDF: every word with a translation, a simple explanation and an example sentence, plus a short test with answers.`}
 >
   <WortschatzDruck title={group.title} level={tag} words={words} sheet={sheet} langs={langs} setPath={`/berufe/${beruf}/${group.id}`} />
 </Layout>

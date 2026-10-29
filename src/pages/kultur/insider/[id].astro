@@ -47,7 +47,7 @@ const NUM = /(?:rund |über |fast |etwa |knapp )?\d+(?:[.,]\d+)*(?:\s| )?(?:%|P
 const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m}</b>`);
 ---
 <Layout
-  title={fitTitle(`${topic.title} – Deutschland von innen`, topic.title)}
+  title={fitTitle(`${topic.title} – The UK from the inside`, topic.title)}
   description={topic.intro.slice(0, 160)}
 >
   <SiteNav active="landeskunde" />

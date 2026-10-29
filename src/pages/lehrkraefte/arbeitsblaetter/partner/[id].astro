@@ -31,8 +31,8 @@ const twin = group ?? pair;
 const social = spec.modus === "gruppe" ? `Gruppe (${spec.personen})` : "Paar";
 ---
 <Layout
-  title={`${spec.titel} – ${social === "Paar" ? "Partnerübung" : "Gruppenübung"} ${spec.niveau} – EnglishAcademy`}
-  description={`${spec.niveau}, ${FORMAT_NAMES[spec.format]}: ${unmark(spec.untertitel)}. Arbeitsblatt mit Karten zum Ausschneiden, Tipps und Lösungen – kostenlos für den Unterricht.`}
+  title={`${spec.titel} – ${social === "Paar" ? "pair work" : "group work"} ${spec.niveau} – EnglishAcademy`}
+  description={`${spec.niveau}, ${FORMAT_NAMES[spec.format]}: ${unmark(spec.untertitel)}. Worksheet with cards to cut out, tips and answers, free for your class.`}
   noindex={draft}
 >
   <SiteNav active="lehrkraefte" />

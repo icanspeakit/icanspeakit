@@ -16,13 +16,13 @@ import "../../../styles/quiz-builder.css";
 const chapters = chapterList();
 const LEVELS = ["A1", "A2", "B1", "B2", "C1"];
 const groups = [
-  ...LEVELS.map((level) => ({ label: `Grammatik ${level}`, key: "qb.group.grammar", kind: "grammatik", level, items: chapters.filter((c) => c.kind === "grammatik" && c.level === level) })),
-  ...LEVELS.map((level) => ({ label: `Wortschatz ${level}`, key: "qb.group.words", kind: "wortschatz", level, items: chapters.filter((c) => c.kind === "wortschatz" && c.level === level) })),
+  ...LEVELS.map((level) => ({ label: `Grammar ${level}`, key: "qb.group.grammar", kind: "grammatik", level, items: chapters.filter((c) => c.kind === "grammatik" && c.level === level) })),
+  ...LEVELS.map((level) => ({ label: `Vocabulary ${level}`, key: "qb.group.words", kind: "wortschatz", level, items: chapters.filter((c) => c.kind === "wortschatz" && c.level === level) })),
 ].filter((g) => g.items.length);
 ---
 <Layout
-  title="Eigenes Quiz erstellen – EnglishAcademy"
-  description="Stell ein Live-Quiz für ein Grammatikthema oder ein Lernset zusammen: fertige Fragen auswählen, eigene ergänzen, speichern und mit der Klasse per QR-Code spielen."
+  title="Build your own quiz – EnglishAcademy"
+  description="Put together a live quiz for a grammar topic or a word set: pick ready-made questions, add your own, save it and play it with your class via a QR code."
 >
   <SiteNav active="lehrkraefte" />
 

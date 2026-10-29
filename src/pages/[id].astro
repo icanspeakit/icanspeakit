@@ -192,7 +192,7 @@ const schema = {
   name,
   ...(description ? { description } : {}),
   url: Astro.site ? new URL(`/${slug}`, Astro.site).href : undefined,
-  learningResourceType: "Grammatikübung",
+  learningResourceType: "Grammar exercise",
   ...(level ? { educationalLevel: level } : {}),
   teaches: name,
 };
@@ -212,7 +212,7 @@ const BEATS = [
 // projector deck, from this JSON only. Loaded only when asked for.
 const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
 ---
-<Layout title={fitTitle(level ? `${name} – Übungen ${level}` : null, `${name} – Übungen`, name, name.replace(/:.*$/, ""))} description={description} schema={schema} breadcrumb={[{ name: "Grammatik", path: "/grammatik" }]} noindex={noindex || draft}>
+<Layout title={fitTitle(level ? `${name} – exercises ${level}` : null, `${name} – exercises`, name, name.replace(/:.*$/, ""))} description={description} schema={schema} breadcrumb={[{ name: "Grammar", path: "/grammatik" }]} noindex={noindex || draft}>
   {/* ?mode=present: the page stays hidden until the deck covers it (praesentationDeck.js
       loads after the first paint, and a glimpse of the exercises flashed before it).
       Inline and before the content, so it holds from the first frame; the deck lifts it,
