@@ -28,10 +28,11 @@
 export const MASCOT_NAMES = ["bruno", "regi", "hamsti", "quaki"];
 
 export const MASCOT_LABELS = {
-  bruno: "Bruno, der Dackel",
-  regi: "Regi, der Igel",
-  hamsti: "Hamsti, der Hamster",
-  quaki: "Quaki, der Frosch",
+  // "Name, the animal": ruleIntro.js takes the part before the comma as the short name.
+  bruno: "Bruno, the dachshund",
+  regi: "Regi, the hedgehog",
+  hamsti: "Hamsti, the hamster",
+  quaki: "Quaki, the frog",
 };
 
 const tf = (t) => (t ? ` transform="${t}"` : "");
