@@ -76,7 +76,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
     {/* The exercises as tabs; on the right the pill that folds the rule column — the grammar
         topics' and /aussprache's „Regel einblenden / ausblenden“, same words, same setting. */}
     <div class="sm-tabbar">
-    <nav class="sm-tabs" role="tablist" aria-label="Übungen" data-i18n-attr="aria-label:nav.exercises">
+    <nav class="sm-tabs" role="tablist" aria-label="Exercises" data-i18n-attr="aria-label:nav.exercises">
       <button role="tab" id="sm-tab-hoeren" aria-controls="sm-p-hoeren" aria-selected="true" data-i18n="satzmelodie.tab.hoeren">1 · Hören &amp; vergleichen</button>
       <button role="tab" id="sm-tab-quiz" aria-controls="sm-p-quiz" aria-selected="false" data-i18n="satzmelodie.tab.quiz">2 · Was hören Sie?</button>
       <button role="tab" id="sm-tab-akzent" aria-controls="sm-p-akzent" aria-selected="false" data-i18n="satzmelodie.tab.akzent">3 · Satzakzent</button>
@@ -87,10 +87,10 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
       class="sm-regel-toggle"
       data-regel-toggle
       aria-controls="sm-regel"
-      data-show="Regel einblenden"
-      data-hide="Regel ausblenden"
+      data-show="Show rule"
+      data-hide="Hide rule"
       data-i18n-attr="data-show:vp.rule.show;data-hide:vp.rule.hide"
-    >Regel einblenden</button>
+    >Show rule</button>
     </div>
 
     <section id="sm-p-hoeren" role="tabpanel" aria-labelledby="sm-tab-hoeren">
@@ -104,7 +104,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
       </div>
       {/* The Nachfrage keeps statement word order, so it is not the regular question form and
           means something else: surprise or checking. Learners must not take it as a model. */}
-      <aside class="sm-caveat" aria-label="Achtung: Nachfrage" data-i18n-attr="aria-label:satzmelodie.caveat.aria" data-i18n-html="satzmelodie.caveat">
+      <aside class="sm-caveat" aria-label="Careful: echo question" data-i18n-attr="aria-label:satzmelodie.caveat.aria" data-i18n-html="satzmelodie.caveat">
         <b>Achtung, Nachfrage ↗↗:</b> „Du kommst morgen?“ ist keine normale Frage. In der Ja/Nein-Frage steht das Verb auf Position 1: „<b>Kommst</b> du morgen?“ Die Nachfrage behält die Wortstellung der Aussage, nur die Stimme geht stark nach oben. Sie bedeutet auch etwas anderes: Man ist überrascht oder prüft, ob man richtig gehört hat („Wirklich? Du kommst morgen?“). Beim Schreiben und in der Prüfung: Verb auf Position 1.
       </aside>
       <div class="sm-families">
@@ -119,11 +119,11 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
             </div>
             {f.lines.map((l) => (
               <div class="sm-row" data-line data-type={l.type} data-text={l.text} data-src={l.src}>
-                <button type="button" class="sm-play" aria-label={`${l.text} anhören`}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" /></svg></button>
+                <button type="button" class="sm-play" aria-label={`Listen to ${l.text}`}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" /></svg></button>
                 <svg class={`sm-curve sm-curve--${chip(l.curve)}`} viewBox="0 0 70 26" aria-hidden="true"><path d={CURVE[l.curve]} /></svg>
                 <span class="sm-sent" lang="de">{l.text.slice(0, -1)}<b>{l.text.slice(-1)}</b></span>
                 <span class={`sm-chip sm-chip--${chip(l.curve)}`}>{l.mark} <span data-i18n={`satzmelodie.type.${l.type}`}>{l.label}</span></span>
-                <button type="button" class="sm-mic" data-mic aria-label={`„${l.text}“ nachsprechen und Melodie prüfen`} title="Nachsprechen und prüfen" data-i18n-attr="title:satzmelodie.mic.title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z" /></svg></button>
+                <button type="button" class="sm-mic" data-mic aria-label={`Repeat “${l.text}” and check the melody`} title="Repeat and check" data-i18n-attr="title:satzmelodie.mic.title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z" /></svg></button>
               </div>
             ))}
             <div class="sm-echo" hidden><i></i></div>
@@ -135,7 +135,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
     <section id="sm-p-quiz" role="tabpanel" aria-labelledby="sm-tab-quiz" hidden>
       <div class="sm-task"><span class="sm-num">2</span><div><h2 data-i18n="satzmelodie.task2.title">Hören Sie. Aussage, Frage oder Ausruf?</h2><p data-i18n="satzmelodie.task2.text">Die Wörter sind immer gleich. Nur die Melodie ist anders. Ergänzen Sie das Satzzeichen.</p></div></div>
       <div class="sm-box sm-center">
-        <button type="button" class="sm-play sm-play--big" id="sm-q-play" aria-label="Satz anhören" data-i18n-attr="aria-label:af.listen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" /></svg></button>
+        <button type="button" class="sm-play sm-play--big" id="sm-q-play" aria-label="Listen to the sentence" data-i18n-attr="aria-label:af.listen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" /></svg></button>
         <p class="sm-q-sent" id="sm-q-sent" lang="de"></p>
         <div class="sm-answers" id="sm-q-answers">
           <button type="button" class="sm-btn" data-a="aussage">. <span data-i18n="satzmelodie.type.aussage">Aussage</span> ↘</button>
@@ -167,7 +167,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
       <div class="sm-box lab-box">
         <p class="lab-sent" aria-live="polite" lang="de"></p>
         <div class="lab-stage">
-          <svg class="lab-svg" viewBox="0 0 360 250" role="img" aria-label="Labyrinth: Der Weg teilt sich am Satzende in drei Ausgänge – oben Frage, unten Aussage, ganz unten Ausruf." data-i18n-attr="aria-label:satzmelodie.lab.aria">
+          <svg class="lab-svg" viewBox="0 0 360 250" role="img" aria-label="Maze: at the end of the sentence the path splits into three exits – top: question, bottom: statement, very bottom: exclamation." data-i18n-attr="aria-label:satzmelodie.lab.aria">
             <g class="lab-maze">
               <path class="lab-wall" d="M100 125 L100 72 L150 72 M190 125 L190 192 L140 192" />
               <path class="lab-wall" d="M14 125 L262 125" />
@@ -191,10 +191,10 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
               {frogFaces.map((f) => <g data-face={f.expr} style={f.expr === "happy" ? "" : "display:none"} set:html={f.svg} />)}
             </g>
           </svg>
-          <p class="lab-say" aria-live="polite">Hör zu – dann such den Ausgang!</p>
+          <p class="lab-say" aria-live="polite">Listen – then find the exit!</p>
         </div>
         <div class="lab-controls">
-          <button type="button" class="sm-play sm-play--big lab-play" aria-label="Satz anhören" data-i18n-attr="aria-label:af.listen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" /></svg></button>
+          <button type="button" class="sm-play sm-play--big lab-play" aria-label="Listen to the sentence" data-i18n-attr="aria-label:af.listen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" /></svg></button>
           <div class="sm-answers lab-exits">
             <button type="button" class="sm-btn" data-exit="echo" data-i18n="satzmelodie.lab.exitUp">↗ oben · ? Frage</button>
             <button type="button" class="sm-btn" data-exit="aussage" data-i18n="satzmelodie.lab.exitDown">↘ unten · . Aussage</button>
@@ -221,7 +221,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
         <p class="sm-regel-eyebrow" data-i18n="ak.rule">Regel</p>
         <h2 class="sm-regel-title" id="sm-regel-h" data-i18n="satzmelodie.rule.title">Die Melodie am Satzende</h2>
       </div>
-      <button type="button" class="sm-regel-x" data-regel-hide aria-label="Regel schließen" data-i18n-attr="aria-label:vp.rule.close">
+      <button type="button" class="sm-regel-x" data-regel-hide aria-label="Close the rule" data-i18n-attr="aria-label:vp.rule.close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
       </button>
     </div>
@@ -229,7 +229,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
       {rules.map((r) => (
         <section class="sm-rule" data-line data-rule={r.id} data-text={r.ex} data-src={r.src}>
           <div class="sm-rule-top">
-            <button type="button" class="sm-play" aria-label={`${r.name} anhören`}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" /></svg></button>
+            <button type="button" class="sm-play" aria-label={`Listen to ${r.name}`}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" /></svg></button>
             <svg class={`sm-curve sm-curve--${chip(r.curve)}`} viewBox="0 0 70 26" aria-hidden="true"><path d={CURVE[r.curve]} /></svg>
             <span class={`sm-chip sm-chip--${chip(r.curve)}`} data-i18n={`satzmelodie.type.${r.id}`}>{r.name}</span>
           </div>
@@ -314,12 +314,12 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
   onUiText(() => {
     root.querySelectorAll<HTMLElement>(".sm-families [data-line]").forEach((row) => {
       const text = row.dataset.text!;
-      row.querySelector(".sm-play")?.setAttribute("aria-label", t("satzmelodie.playLine", "{text} anhören", { text }));
-      row.querySelector("[data-mic]")?.setAttribute("aria-label", t("satzmelodie.micLine", "„{text}“ nachsprechen und Melodie prüfen", { text }));
+      row.querySelector(".sm-play")?.setAttribute("aria-label", t("satzmelodie.playLine", "Listen to {text}", { text }));
+      row.querySelector("[data-mic]")?.setAttribute("aria-label", t("satzmelodie.micLine", "Repeat “{text}” and check the melody", { text }));
     });
     document.querySelectorAll<HTMLElement>("#sm-regel [data-rule]").forEach((sec) => {
       const name = sec.querySelector("[data-i18n]")?.textContent || "";
-      sec.querySelector(".sm-play")?.setAttribute("aria-label", t("satzmelodie.playLine", "{text} anhören", { text: t(`satzmelodie.type.${sec.dataset.rule}`, name) }));
+      sec.querySelector(".sm-play")?.setAttribute("aria-label", t("satzmelodie.playLine", "Listen to {text}", { text: t(`satzmelodie.type.${sec.dataset.rule}`, name) }));
     });
   });
 

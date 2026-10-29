@@ -4,7 +4,7 @@
 // src/lib/unterricht/lernseite.js; the plan is rebuilt from the URL like the teacher's.
 //   /stunde?niveau=a1-1&block=1[&stunden=3&stunde=1&min=90]
 // Tier 1 (docs/schueler-stunde-tier1-v1.md): saved on this device only. Bare /stunde (Üben →
-// „Meine Stunde“) goes on to the next Stunde. German only (lang="de"), like the teacher's lesson.
+// „Meine Stunde“) goes on to the next Stunde. English only (lang="en"), like the teacher's lesson.
 import Layout from "../layouts/Layout.astro";
 import SiteNav from "../components/SiteNav.astro";
 import SectionMascot from "../components/mascots/SectionMascot.astro";
@@ -25,20 +25,20 @@ const texte = Object.fromEntries(Object.entries(texteRoh as Record<string, any>)
   noindex
 >
   <SiteNav />
-  <main class="ut ls" id="ls-root" lang="de">
+  <main class="ut ls" id="ls-root" lang="en">
     <section class="ls-start" data-view="start" hidden>
       <p class="ut-eyebrow" data-meta></p>
-      <h1 class="ut-title" data-title>Deine Stunde</h1>
+      <h1 class="ut-title" data-title>Your lesson</h1>
       <div class="ut-timeline" data-start-bar aria-hidden="true"></div>
       <div class="ls-card ls-start-card">
         <SectionMascot name="bruno" expr="happy" say="Step by step." />
         <p class="ls-start-msg" data-start-msg role="status"></p>
         <ol class="ls-start-steps" data-start-steps></ol>
         <div class="ls-btns">
-          <button type="button" class="lp-btn lp-btn--primary" data-start-go>Los geht's</button>
-          <button type="button" class="lp-btn lp-btn--outline" data-start-fresh hidden>Von vorn anfangen</button>
+          <button type="button" class="lp-btn lp-btn--primary" data-start-go>Let’s go</button>
+          <button type="button" class="lp-btn lp-btn--outline" data-start-fresh hidden>Start again</button>
         </div>
-        <p class="ut-muted">Du kannst jederzeit aufhören: Die Stunde bleibt auf diesem Gerät gespeichert, und du machst später dort weiter.</p>
+        <p class="ut-muted">You can stop at any time: the lesson stays saved on this device, so you can carry on later.</p>
       </div>
     </section>
 
@@ -50,19 +50,19 @@ const texte = Object.fromEntries(Object.entries(texteRoh as Record<string, any>)
 
     <section class="ls-card ls-done" data-view="done" hidden>
       <SectionMascot name="bruno" expr="celebrate" say="You did it!" />
-      <h1 class="ut-title">Stunde geschafft</h1>
-      <p>Gebraucht: <b data-done-time></b></p>
+      <h1 class="ut-title">Lesson complete</h1>
+      <p>Time taken: <b data-done-time></b></p>
       <table class="ut-done-table">
-        <thead><tr><th scope="col">Schritt</th><th scope="col">Stand</th></tr></thead>
+        <thead><tr><th scope="col">Step</th><th scope="col">Status</th></tr></thead>
         <tbody data-done-rows></tbody>
       </table>
-      <div class="ls-btns"><a class="lp-btn lp-btn--primary" data-done-next href="/fortschritt">Zur nächsten Stunde</a></div>
+      <div class="ls-btns"><a class="lp-btn lp-btn--primary" data-done-next href="/fortschritt">On to the next lesson</a></div>
     </section>
 
     <section class="ls-card" data-view="missing" hidden>
-      <h1 class="ut-title">Diese Stunde gibt es nicht</h1>
-      <p>Der Link passt zu keiner Stunde im Kursplan.</p>
-      <a class="lp-btn lp-btn--primary" href="/fortschritt">Zum Fortschritt</a>
+      <h1 class="ut-title">This lesson does not exist</h1>
+      <p>The link does not match any lesson in the course plan.</p>
+      <a class="lp-btn lp-btn--primary" href="/fortschritt">Go to your progress</a>
     </section>
   </main>
   <script type="application/json" id="ls-data" set:html={JSON.stringify({ levels, bilder, themen, wortfelder, texte })}></script>

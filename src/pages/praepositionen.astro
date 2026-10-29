@@ -70,7 +70,7 @@ const overview = {
   description="Practise prepositions from A1 to B2: time (in, on, at), place, movement, and verbs and adjectives with prepositions — with a rule for every topic."
 >
   <SiteNav active="grammatik" />
-  <TopicBar topic="praepositionen" kind="Grammatik" title="Präpositionen" level="A1–B2" tasks={total} showKind={false} scoped heading />
+  <TopicBar topic="praepositionen" kind="Grammar" title="Prepositions" level="A1–B2" tasks={total} showKind={false} scoped heading />
 
   <main class="vp-page vp-page--split vp-page--sheet akk vp-page--rule-left vp-page--fit" id="vp-page" data-rule="hidden" data-anim="off" data-topic-key="praepositionen">
     <div class="vp-workspace">
@@ -287,7 +287,7 @@ const overview = {
       ringNum.textContent = `${pct}%`;
       // The numbers ride along on the element, so i18n.js repaints it right after a switch.
       statsText.dataset.i18nVars = JSON.stringify({ answered, total, correct, hints });
-      statsText.textContent = tr("akk.session.stats", "{answered} von {total} beantwortet · {correct} richtig · {hints} Hinweise", { answered, total, correct, hints });
+      statsText.textContent = tr("akk.session.stats", "{answered} of {total} answered · {correct} correct · {hints} hints", { answered, total, correct, hints });
     }
     loadDict(getLang()).then((d) => { dict = d; renderStats(); paintNow(); });
     onLangChange((_c, d) => { dict = d; renderStats(); paintNow(); });
@@ -296,8 +296,8 @@ const overview = {
 
     function mount(questions: any[]) {
       exerciseRoot.innerHTML = "";
-      exerciseRoot.dataset.instruction = uiT("praep.instruction", "Welche Präposition passt?");
-      practice = mountPracticeWorkspace(exerciseRoot, questions, {
+      exerciseRoot.dataset.instruction = uiT("praep.instruction", "Which preposition fits?");
+      practice =mountPracticeWorkspace(exerciseRoot, questions, {
         meldung: (q: any) => `g:praepositionen/${q.id}`,
         onSessionUpdate: (s: any) => { lastStats = s; renderStats(); },
         onAnswer: (ok: boolean, id: string, info: any) => {
@@ -313,8 +313,8 @@ const overview = {
     function paintNow() {
       const pack = current.kind === "pack" ? byPack.get(current.id!) : null;
       nowLine.textContent = pack
-        ? `${tr("ap.levelName", "Stufe {level}", { level: pack.level })} · ${tr(`praep.pack.${pack.id}`, pack.name)}`
-        : `${tr("ap.levelName", "Stufe {level}", { level })} · ${tr("ap.mixed", "gemischt")}`;
+        ? `${tr("ap.levelName", "Level {level}", { level: pack.level })} · ${tr(`praep.pack.${pack.id}`, pack.name)}`
+        : `${tr("ap.levelName", "Level {level}", { level })} · ${tr("ap.mixed", "mixed")}`;
     }
 
     function startSession() {
@@ -350,7 +350,7 @@ const overview = {
         const s = verlauf.stats(levelIds(el.dataset.snavProg!));
         el.hidden = !s.gesehen;
         if (!s.gesehen) return;
-        el.querySelector("[data-snav-prog-txt]")!.textContent = uiT("ap.sure", "{n} von {total} sicher", { n: s.sicher, total: s.total });
+        el.querySelector("[data-snav-prog-txt]")!.textContent = uiT("ap.sure", "{n} of {total} secure", { n: s.sicher, total: s.total });
         el.querySelector<HTMLElement>("[data-snav-prog-bar]")!.style.width = `${s.total ? Math.round((s.sicher / s.total) * 100) : 0}%`;
       });
       if (!document.getElementById("ap-pane-fortschritt")?.hidden) paintOverview();
@@ -363,7 +363,7 @@ const overview = {
       const all = LEVELS.map((lv) => ({ lv, s: verlauf.stats(levelIds(lv)) }));
       if (!all.some((r) => r.s.gesehen)) {
         box.innerHTML = `<p class="snav-empty"></p>`;
-        box.firstElementChild!.textContent = uiT("praep.prog.empty", "Noch nichts geübt. Sobald du antwortest, steht hier, wie viel du pro Stufe sicher kannst.");
+        box.firstElementChild!.textContent = uiT("praep.prog.empty", "Nothing practised yet. Once you answer, this shows how much you know securely at each level.");
         return;
       }
       box.innerHTML = all.map(({ lv, s }) => `
@@ -449,9 +449,9 @@ const overview = {
     // "Stufe A1" on the rail buttons: an aria-label with a value, which data-i18n-attr can't fill.
     // The next question reads the instruction again, so it follows a switch from there on.
     onUiText(() => {
-      exerciseRoot.dataset.instruction = uiT("praep.instruction", "Welche Präposition passt?");
+      exerciseRoot.dataset.instruction = uiT("praep.instruction", "Which preposition fits?");
       railBtns.forEach((b) => {
-        if (LEVELS.includes(b.dataset.rail!)) b.setAttribute("aria-label", uiT("ap.levelName", "Stufe {level}", { level: b.dataset.rail }));
+        if (LEVELS.includes(b.dataset.rail!)) b.setAttribute("aria-label", uiT("ap.levelName", "Level {level}", { level: b.dataset.rail }));
       });
     });
 
@@ -462,8 +462,8 @@ const overview = {
     // points at where the rule is: the "Regel" button beside the modes, which opens the
     // drawer on the right.
     const regelBeat = {
-      get title() { return uiT("intro.regel.title", "Die Regel, wenn du sie brauchst"); },
-      get text() { return uiT("intro.regel.text", "„Regel“ öffnet rechts, welcher Fall nach welcher Präposition kommt — die Übung bleibt, wo sie ist."); },
+      get title() { return uiT("intro.regel.title", "The rule, when you need it"); },
+      get text() { return uiT("intro.regel.text", "“Rule” opens the rule on the right — the exercise stays where it is."); },
       target: () => regelBtn,
       point: () => regelBtn,
     };

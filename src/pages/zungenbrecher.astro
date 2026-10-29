@@ -40,9 +40,9 @@ const total = levels.reduce((n, l) => n + l.sentences.length, 0);
 
 // Per level: its colour, how many "tongue knots" it gets, and who of the crew introduces it.
 const LOOK = [
-  { color: "var(--success)", soft: "var(--success-soft)", knots: 1, mascot: "hamsti", say: "Zum Aufwärmen!" },
-  { color: "var(--warning)", soft: "var(--warning-soft)", knots: 2, mascot: "regi", say: "Jetzt wird's knifflig." },
-  { color: "var(--danger)", soft: "var(--danger-soft)", knots: 3, mascot: "bruno", expr: "thinking", say: "Nur für Profis!" },
+  { color: "var(--success)", soft: "var(--success-soft)", knots: 1, mascot: "hamsti", say: "Just a warm-up!" },
+  { color: "var(--warning)", soft: "var(--warning-soft)", knots: 2, mascot: "regi", say: "Now it gets tricky." },
+  { color: "var(--danger)", soft: "var(--danger-soft)", knots: 3, mascot: "bruno", expr: "thinking", say: "Pros only!" },
 ] as const;
 ---
 <Layout
@@ -59,7 +59,7 @@ const LOOK = [
         <p class="ac-lead" data-i18n="zungenbrecher.lead" data-i18n-vars={JSON.stringify({ total })}>{total} Zungenbrecher, von leicht bis schwer. Erst hörst du zu, dann bist du dran.</p>
       </div>
       <div class="zb-hero-crew" data-mascot-part aria-hidden="true">
-        <span class="zb-bubble" lang="de">Zunge locker? Los geht's!</span>
+        <span class="zb-bubble" lang="en">Warm up your tongue!</span>
         <Mascot name="quaki" view="three" size={92} class="zb-quaki" />
       </div>
       <ol class="zb-steps">
@@ -78,11 +78,11 @@ const LOOK = [
         <div class="zb-group-head">
           <h2 class="zb-group-title" id={`zb-g-${li}`}>
             {l.level}
-            <span class="zb-knots" data-knots={LOOK[li].knots} aria-label={`Schwierigkeit ${LOOK[li].knots} von 3`}>
+            <span class="zb-knots" data-knots={LOOK[li].knots} aria-label={`Difficulty ${LOOK[li].knots} of 3`}>
               {[1, 2, 3].map((k) => <i class:list={{ on: k <= LOOK[li].knots }} />)}
             </span>
           </h2>
-          <span class="zb-done" data-done={li} data-i18n="zungenbrecher.done" data-i18n-vars={JSON.stringify({ n: 0, total: l.sentences.length })}>0 / {l.sentences.length} geübt</span>
+          <span class="zb-done" data-done={li} data-i18n="zungenbrecher.done" data-i18n-vars={JSON.stringify({ n: 0, total: l.sentences.length })}>0 / {l.sentences.length} practised</span>
         </div>
         <SectionMascot name={LOOK[li].mascot} expr={(LOOK[li] as any).expr ?? "happy"} say={LOOK[li].say} size={40} class="zb-group-mascot" />
         <ol class="zb-list">
@@ -109,14 +109,14 @@ const LOOK = [
         <span class="zb-pop-fig" data-zb-pop-fig></span>
       </div>
       <div class="ac-meta">
-        <span id="zb-label" data-pos>Zungenbrecher 1</span>
+        <span id="zb-label" data-pos lang="en">Tongue twister 1</span>
         <span class="ac-best" data-best></span>
       </div>
-      <div class="ac-focus" data-focus aria-label="Laute in diesem Zungenbrecher" data-i18n-attr="aria-label:zungenbrecher.focus.aria"></div>
+      <div class="ac-focus" data-focus aria-label="Sounds in this tongue twister" data-i18n-attr="aria-label:zungenbrecher.focus.aria"></div>
 
       <p class="ac-sentence" data-sentence lang="de" aria-live="polite"></p>
       <p class="zb-hint" data-hint hidden></p>
-      <p class="zb-dialect" data-zb-dialect-line hidden>Auf <span data-zb-dialect-name>Bairisch</span>: <i data-zb-dialect-text lang="bar"></i></p>
+      <p class="zb-dialect" data-zb-dialect-line hidden>In <span data-zb-dialect-name>Bavarian</span>: <i data-zb-dialect-text lang="bar"></i></p>
 
       <!-- The model's melody: pitch over time, drawn from the recording. A playhead runs
            along it while the model speaks. -->
@@ -139,25 +139,25 @@ const LOOK = [
       <div class="ac-actions">
         <button type="button" class="ac-btn ac-btn--ghost" data-listen="slow">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" /><path d="M16.5 8.5a5 5 0 0 1 0 7" /></svg>
-          <span data-i18n="konto.tempo.langsam">Langsam</span>
+          <span data-i18n="konto.tempo.langsam">Slow</span>
         </button>
         <button type="button" class="ac-btn ac-btn--ghost" data-listen="fast">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" /><path d="M16.5 8.5a5 5 0 0 1 0 7" /><path d="M19 6a9 9 0 0 1 0 12" /></svg>
-          <span data-i18n="konto.tempo.schnell">Schnell</span>
+          <span data-i18n="konto.tempo.schnell">Fast</span>
         </button>
         <button type="button" class="ac-btn ac-btn--ghost zb-dialect-btn" data-zb-dialect hidden>
           <span class="zb-dialect-head" set:html={mascotSvg({ name: "bruno", expr: "happy", view: "three", size: 22, label: "" })} />
-          <span data-i18n="zungenbrecher.dialect.btn">Bruno auf Bairisch</span>
+          <span data-i18n="zungenbrecher.dialect.btn">Bruno in Bavarian</span>
         </button>
         <button type="button" class="ac-btn ac-btn--rec" data-record data-state="idle" disabled>
           <span class="ac-rec-dot" aria-hidden="true"></span>
-          <span data-record-label>Aufnehmen</span>
+          <span data-record-label>Record</span>
         </button>
       </div>
 
       <p class="ac-status" data-status role="status"></p>
       <p class="ac-login" data-login hidden>
-        <a class="ac-btn ac-btn--primary" href="/anmelden?next=/zungenbrecher" data-i18n="auth.nav.signIn">Anmelden</a>
+        <a class="ac-btn ac-btn--primary" href="/anmelden?next=/zungenbrecher" data-i18n="auth.nav.signIn">Sign in</a>
         <span data-i18n="ac.login.note" data-i18n-vars={JSON.stringify({ n: freeSessions })}>Mit Konto {freeSessions}× täglich kostenlos. Anhören geht auch ohne Konto.</span>
       </p>
       <div class="ac-limit" data-ac-limit hidden>
@@ -184,9 +184,9 @@ const LOOK = [
         <div class="ac-tip" data-tip></div>
       </div>
 
-      <nav class="ac-nav" aria-label="Zungenbrecher" data-i18n-attr="aria-label:nav.skill.zungenbrecher">
-        <button type="button" class="ac-btn ac-btn--quiet" data-prev aria-keyshortcuts="ArrowLeft" title="Zurück (←)" data-i18n-attr="title:ac.prev.title" data-i18n="aussprache.prev">← Zurück</button>
-        <button type="button" class="ac-btn ac-btn--quiet" data-next aria-keyshortcuts="ArrowRight" title="Weiter (→)" data-i18n-attr="title:ac.next.title" data-i18n="aussprache.next">Weiter</button>
+      <nav class="ac-nav" aria-label="Tongue twisters" data-i18n-attr="aria-label:nav.skill.zungenbrecher">
+        <button type="button" class="ac-btn ac-btn--quiet" data-prev aria-keyshortcuts="ArrowLeft" title="Back (←)" data-i18n-attr="title:ac.prev.title" data-i18n="aussprache.prev">← Back</button>
+        <button type="button" class="ac-btn ac-btn--quiet" data-next aria-keyshortcuts="ArrowRight" title="Next (→)" data-i18n-attr="title:ac.next.title" data-i18n="aussprache.next">Next</button>
       </nav>
     </section>
     </div>
@@ -236,7 +236,7 @@ const LOOK = [
         dialectBtn.hidden = !s.srcDialect;
         dialectLine.hidden = true;
         dialectBtn.setAttribute("aria-pressed", "false");
-        setT(takeLabel, fast ? "zungenbrecher.take.fast" : "zungenbrecher.take.slow", fast ? "schnell" : "langsam");
+        setT(takeLabel, fast ? "zungenbrecher.take.fast" : "zungenbrecher.take.slow", fast ? "fast" : "slow");
         mel.dataset.take = fast ? "fast" : "slow";
         drawMelody(fast ? s.src : s.srcSlow);
         if (!first) card.scrollIntoView({ block: "nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
@@ -246,10 +246,10 @@ const LOOK = [
       // and hops whenever the model speaks.
       const pop = root.querySelector<HTMLElement>("[data-zb-pop]")!;
       const SAY: Record<string, string> = {
-        quaki: "Quak! Das sind meine Freunde!",
-        hamsti: "Hundert? Ich schaffe mehr!",
-        regi: "Pieks! Das bin ich!",
-        bruno: "Wuff! Ich döse nie!",
+        quaki: "Quack! Those are my friends!",
+        hamsti: "A hundred? I can do more!",
+        regi: "Prickle! That’s me!",
+        bruno: "Woof! I never doze!",
       };
       // Any other animal gets a Mini-Crew sticker instead (src/lib/minis.js): smaller, and
       // it only says its animal sound. The dialect take brings its speaker with "Servus!".
@@ -281,7 +281,7 @@ const LOOK = [
         });
         data.levels.forEach((l: any, li: number) => {
           const el = root!.querySelector(`[data-done="${li}"]`);
-          if (el) setT(el as HTMLElement, "zungenbrecher.done", "{n} / {total} geübt", { n: l.sentences.filter((s: any) => best[s.id] != null).length, total: l.sentences.length });
+          if (el) setT(el as HTMLElement, "zungenbrecher.done", "{n} / {total} practised", { n: l.sentences.filter((s: any) => best[s.id] != null).length, total: l.sentences.length });
         });
       }
 
@@ -365,7 +365,7 @@ const LOOK = [
         dialectLine.hidden = !dialect;
         dialectBtn.setAttribute("aria-pressed", String(dialect));
         if (dialect) { delete takeLabel.dataset.i18n; takeLabel.textContent = sentence.dialect.name.toLowerCase(); }
-        else setT(takeLabel, slow ? "zungenbrecher.take.slow" : "zungenbrecher.take.fast", slow ? "langsam" : "schnell");
+        else setT(takeLabel, slow ? "zungenbrecher.take.slow" : "zungenbrecher.take.fast", slow ? "slow" : "fast");
         if (!pop.hidden) { pop.classList.remove("is-hop"); void pop.offsetWidth; pop.classList.add("is-hop"); }
         mel.dataset.take = dialect ? "dialect" : slow ? "slow" : "fast";
         drawMelody(dialect ? sentence.srcDialect : slow ? sentence.srcSlow : sentence.src);
@@ -401,10 +401,10 @@ const LOOK = [
         playTake(s, s.srcDialect, "dialect").catch(() => {});
       });
 
-      const check = mountAusspracheCheck(root, { ...data, posKey: "zb.pos", bestKey: "zb.best", unit: "Zungenbrecher", listenFirst: true, onChange: place, onResult });
+      const check = mountAusspracheCheck(root, { ...data, posKey: "zb.pos", bestKey: "zb.best", unit: "Tongue twister", listenFirst: true, onChange: place, onResult });
       // "Schwierigkeit 2 von 3": an aria-label with a number, which data-i18n-attr can't fill.
       onUiText(() => {
-        root!.querySelectorAll<HTMLElement>("[data-knots]").forEach((el) => el.setAttribute("aria-label", t("zungenbrecher.difficulty", "Schwierigkeit {n} von 3", { n: el.dataset.knots })));
+        root!.querySelectorAll<HTMLElement>("[data-knots]").forEach((el) => el.setAttribute("aria-label", t("zungenbrecher.difficulty", "Difficulty {n} of 3", { n: el.dataset.knots })));
         root!.querySelectorAll<HTMLElement>("[data-i18n]").forEach((el) => {
           if (el.matches("[data-done], [data-zb-take]")) el.textContent = t(el.dataset.i18n!, el.textContent || "", JSON.parse(el.dataset.i18nVars || "{}"));
         });
@@ -431,14 +431,14 @@ const LOOK = [
     async function showUsage() {
       if (!usage || document.documentElement.dataset.plan === "premium") return;
       if (document.documentElement.dataset.auth !== "in") {
-        setUsage("ac.usage.offer", "Mit Konto {n}× täglich kostenlos", { n: Number(usage.dataset.free) });
+        setUsage("ac.usage.offer", "Free {n}× a day with an account", { n: Number(usage.dataset.free) });
         return;
       }
       const res = await apiFetch("/api/konto/nutzung", { credentials: "same-origin" }).catch(() => null);
       if (!res?.ok) return;
       const a = (await res.json()).aussprache;
       if (!a || a.limit == null) return;
-      setUsage("ac.usage.left", "Heute noch {left} von {limit} Sitzungen", { left: Math.max(0, a.limit - a.used), limit: a.limit });
+      setUsage("ac.usage.left", "{left} of {limit} sessions left today", { left: Math.max(0, a.limit - a.used), limit: a.limit });
     }
     showUsage();
     addEventListener("da:aussprache-session", () => {

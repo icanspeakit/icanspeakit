@@ -63,7 +63,7 @@ const freeLimit = premiumFeatures.find((f) => f.id === "fehler")!.free.limit;
     <section class="ab" id="ab-root" data-mode="print" data-key="on" hidden>
       <div class="ab-bar">
         <button type="button" class="ab-back" data-mf-close data-i18n="fehler.back">Zurück zur Liste</button>
-        <div class="ab-seg" role="group" aria-label="Ansicht" data-i18n-attr="aria-label:ab.view">
+        <div class="ab-seg" role="group" aria-label="View" data-i18n-attr="aria-label:ab.view">
           <button type="button" data-ab-mode="print" aria-pressed="true" data-i18n="ab.mode.print">Zum Drucken</button>
           <button type="button" data-ab-mode="online" aria-pressed="false" data-i18n="ab.mode.online">Online ausfüllen</button>
         </div>
@@ -128,7 +128,7 @@ const freeLimit = premiumFeatures.find((f) => f.id === "fehler")!.free.limit;
   const esc = (s: string) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
   const FREE = Number(main.dataset.freeLimit) || 20;
   const full = can("fehler");
-  const date = (ms: number) => new Date(ms).toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" });
+  const date = (ms: number) => new Date(ms).toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric" });
 
   const all = readFehler();
 
@@ -165,27 +165,27 @@ const freeLimit = premiumFeatures.find((f) => f.id === "fehler")!.free.limit;
     const list = filtered();
     const shown = full ? list : list.slice(0, FREE);
     const open = list.filter((e) => !e.fixed).length;
-    $("[data-mf-count]").textContent = all.length ? `${list.length} Fehler, davon ${open} offen` : "";
+    $("[data-mf-count]").textContent = all.length ? `${list.length} ${list.length === 1 ? "mistake" : "mistakes"}, ${open} still open` : "";
     const groups = new Map<string, any[]>();
     for (const e of shown) {
-      const k = e.topic || "Ohne Thema";
+      const k = e.topic || "No topic";
       if (!groups.has(k)) groups.set(k, []);
       groups.get(k)!.push(e);
     }
     $("[data-mf-list]").innerHTML = [...groups].map(([topic, items]) => `
       <section class="mf-group">
         <h2>${items[0].href ? `<a href="${esc(items[0].href)}">${esc(topic)}</a>` : esc(topic)}<small>${esc(items[0].level || "")}</small></h2>
-        ${(() => { const body = ruleHtml(items, "mf-rule-ex"); return body ? `<details class="mf-rule"><summary>Regel kurz</summary><div class="mf-rule-body">${body}</div></details>` : ""; })()}
+        ${(() => { const body = ruleHtml(items, "mf-rule-ex"); return body ? `<details class="mf-rule"><summary>Quick rule</summary><div class="mf-rule-body">${body}</div></details>` : ""; })()}
         ${items.map((e) => `
           <article class="mf-item${e.fixed ? " is-fixed" : ""}">
             <p class="mf-prompt">${esc(e.prompt)}</p>
             <p class="mf-ans">${e.given ? `<span class="mf-given">${esc(e.given)}</span> → ` : ""}<span class="mf-right">${esc(e.expected)}</span></p>
-            <span class="mf-meta">${date(e.at)}${e.times > 1 ? ` · ${e.times}× falsch` : ""}${e.fixed ? " · inzwischen richtig" : ""}</span>
+            <span class="mf-meta">${date(e.at)}${e.times > 1 ? ` · wrong ${e.times}×` : ""}${e.fixed ? " · now correct" : ""}</span>
           </article>`).join("")}
       </section>`).join("");
     const rest = list.length - shown.length;
     $("[data-mf-more]").hidden = rest <= 0;
-    $("[data-mf-rest]").textContent = rest > 0 ? `… und ${rest} weitere` : "";
+    $("[data-mf-rest]").textContent = rest > 0 ? `… and ${rest} more` : "";
   }
   Object.values(filters).forEach((f) => f.addEventListener("change", render));
   render();
@@ -203,7 +203,7 @@ const freeLimit = premiumFeatures.find((f) => f.id === "fehler")!.free.limit;
     const items = (full ? filtered() : filtered().slice(0, FREE)).filter((e) => !e.fixed).slice(0, 60);
     const groups = new Map<string, any[]>();
     for (const e of items) {
-      const k = e.topic || "Ohne Thema";
+      const k = e.topic || "No topic";
       if (!groups.has(k)) groups.set(k, []);
       groups.get(k)!.push(e);
     }
@@ -211,32 +211,32 @@ const freeLimit = premiumFeatures.find((f) => f.id === "fehler")!.free.limit;
     const line = (e: any, i: number) => {
       const parts = String(e.prompt).split(/_{2,}|…(?=\s|$)/);
       const w = `--w:${Math.min(40, Math.max(6, String(e.expected).length + 2))}ch`;
-      const input = `<input class="ab-in" style="${w}" data-a='${esc(JSON.stringify([e.expected]))}' data-kind="text" aria-label="Lücke ${i + 1}" autocomplete="off" autocapitalize="off" />`;
+      const input = `<input class="ab-in" style="${w}" data-a='${esc(JSON.stringify([e.expected]))}' data-kind="text" aria-label="Gap ${i + 1}" autocomplete="off" autocapitalize="off" />`;
       return `<li>${parts.length > 1 ? `${esc(parts[0])}${input}${esc(parts.slice(1).join("___"))}` : `${esc(e.prompt)}<br />${input}`}</li>`;
     };
     const today = date(Date.now());
     main.querySelector("[data-mf-sheets]")!.innerHTML = `
-      <article class="ab-sheet" lang="de">
+      <article class="ab-sheet" lang="en">
         <header class="ab-head">
-          <p class="ab-eyebrow">EnglishAcademy · Mein Arbeitsblatt · ${today}</p>
-          <h1 class="ab-title">Meine Fehler</h1>
-          <p class="ab-namerow"><span>Name: <i></i></span><span>Datum: <i></i></span></p>
+          <p class="ab-eyebrow">EnglishAcademy · My worksheet · ${today}</p>
+          <h1 class="ab-title">My mistakes</h1>
+          <p class="ab-namerow"><span>Name: <i></i></span><span>Date: <i></i></span></p>
         </header>
-        <p class="ab-hint">Lesen Sie zuerst die Regel. Ergänzen Sie dann die richtige Antwort.</p>
+        <p class="ab-hint">Read the rule first. Then fill in the correct answer.</p>
         ${[...groups].map(([topic, list], gi) => {
           const rule = ruleHtml(list, "ab-rule-ex");
           const start = n + 1;
           const lines = list.map((e) => line(e, n++)).join("");
           return `<section class="ab-sec">
           <h2 class="ab-h"><b>${"ABCDEFGHIJKLMNOPQRSTUVWXYZ"[gi] ?? gi + 1}</b> ${esc(topic)}</h2>
-          ${rule ? `<aside class="ab-rule"><p class="ab-rule-title">Die Regel kurz</p>${rule}</aside>` : ""}
+          ${rule ? `<aside class="ab-rule"><p class="ab-rule-title">The rule in brief</p>${rule}</aside>` : ""}
           <ol class="ab-lines" start="${start}">${lines}</ol>
         </section>`;
         }).join("")}
         <footer class="ab-foot">EnglishAcademy · englishacademy.com/meine-fehler</footer>
       </article>
-      <article class="ab-sheet ab-key" lang="de" aria-label="Lösungen">
-        <header class="ab-head"><p class="ab-eyebrow">EnglishAcademy · Lösungen</p><h2 class="ab-title ab-title--key">Meine Fehler</h2></header>
+      <article class="ab-sheet ab-key" lang="en" aria-label="Answers">
+        <header class="ab-head"><p class="ab-eyebrow">EnglishAcademy · Answers</p><h2 class="ab-title ab-title--key">My mistakes</h2></header>
         <section class="ab-sec"><ol class="ab-keylist">${[...groups.values()].flat().map((e) => `<li>${esc(e.prompt)} → <b>${esc(e.expected)}</b></li>`).join("")}</ol></section>
       </article>`;
     sheetRoot.hidden = false;

@@ -6,8 +6,8 @@
 //
 // The page says what a Nachschlagewerk is and why it is worth knowing where the answers
 // are: Regi hops in with the why, each card names a question it answers, and a short
-// „Üben oder nachschlagen?“ separates this shelf from the grammar topics. The explaining
-// text follows the UI language (help, not German to learn); the German examples stay German.
+// "Practise or look it up?" separates this shelf from the grammar topics. The explaining
+// text follows the UI language. The search index (/suche.json) is still German data.
 import Layout from "../layouts/Layout.astro";
 import SiteNav from "../components/SiteNav.astro";
 import Icon from "../components/Icon.astro";
@@ -18,13 +18,13 @@ import "../styles/practice.css";
 
 // The question each page answers, as a learner would ask it.
 const QUESTION: Record<string, { text: string }> = {
-  "/grammatik/verben": { text: "„ich bin gegangen“ oder „ich habe gegangen“?" },
-  "/grammatik/starke-schwache-verben": { text: "„er schwimmte“ oder „er schwamm“?" },
-  "/grammatik/trennbare-verben": { text: "„Ich rufe dich an“ oder „Ich anrufe dich“?" },
-  "/grammatik/verben-mit-praepositionen": { text: "„warten auf“ oder „warten für“?" },
-  "/grammatik/deklination": { text: "„mit dem Kind“ oder „mit den Kind“?" },
-  "/grammatik/wortarten": { text: "Ist „schnell“ ein Adjektiv oder ein Adverb?" },
-  "/grammatik/typische-fehler": { text: "„Ich weiß, das er kommt“ oder „dass er kommt“?" },
+  "/grammatik/verben": { text: "“I have went” or “I have gone”?" },
+  "/grammatik/starke-schwache-verben": { text: "“he swimmed” or “he swam”?" },
+  "/grammatik/trennbare-verben": { text: "“Turn off it” or “Turn it off”?" },
+  "/grammatik/verben-mit-praepositionen": { text: "“wait for” or “wait to”?" },
+  "/grammatik/deklination": { text: "“two childs” or “two children”?" },
+  "/grammatik/wortarten": { text: "Is “fast” an adjective or an adverb?" },
+  "/grammatik/typische-fehler": { text: "“their” or “there”?" },
 };
 const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: 96, label: "", className: "nsw-regi-fig" });
 ---
@@ -47,8 +47,8 @@ const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: 96, l
         first use) and open on the entry itself. */}
     <form class="nsw-search" role="search" id="nsw-form">
       <label for="nsw-q" class="nsw-search-label" data-i18n="nsw.search.label">Was suchst du?</label>
-      <input id="nsw-q" type="search" lang="de" autocomplete="off" autocapitalize="off" spellcheck="false"
-        placeholder="z. B. ging, Kuchen, warten auf, das dass" aria-controls="nsw-results" />
+      <input id="nsw-q" type="search" autocomplete="off" autocapitalize="off" spellcheck="false"
+        placeholder="e.g. went, cake, wait for, their" data-i18n-attr="placeholder:nsw.search.placeholder" aria-controls="nsw-results" />
       <ul class="nsw-results" id="nsw-results" aria-live="polite"></ul>
       <p class="nsw-none" id="nsw-none" hidden data-i18n="nsw.search.none">Nichts gefunden. Versuch es mit der Grundform: gehen statt ging, Kuchen statt Kuchens.</p>
     </form>
@@ -73,7 +73,7 @@ const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: 96, l
             <span class="nsw-txt">
               <b data-i18n={item.titleKey}>{item.title}</b>
               <i data-i18n={item.hintKey}>{item.hint}</i>
-              {QUESTION[item.href] && <span class="nsw-q" lang="de">{QUESTION[item.href].text}</span>}
+              {QUESTION[item.href] && <span class="nsw-q">{QUESTION[item.href].text}</span>}
             </span>
             <span class="nsw-chev" aria-hidden="true"><Icon name="chevron-right" size={18} /></span>
           </a>
@@ -109,8 +109,8 @@ const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: 96, l
 <script>
   // Kinds of row and their label; the same names as the cards below.
   const KIND: Record<string, string> = {
-    verb: "Verbtabelle", nomen: "Nomen in allen Fällen", stark: "Starke und schwache Verben",
-    trennbar: "Trennbare Verben", praep: "Verben mit Präpositionen", wortart: "Wortarten", fehler: "Typische Fehler",
+    verb: "Verb table", nomen: "Noun forms", stark: "Irregular and regular verbs",
+    trennbar: "Phrasal verbs", praep: "Verbs with prepositions", wortart: "Parts of speech", fehler: "Common mistakes",
   };
   type Row = { label: string; sub: string; href: string; kind: string; n: string; keys: Set<string> };
   const norm = (s: string) => String(s).toLowerCase().replace(/ß/g, "ss").normalize("NFD").replace(/[̀-ͯ]/g, "")

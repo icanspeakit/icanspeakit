@@ -189,7 +189,7 @@ const parts = (task.source ?? "").split(/\*\*(.+?)\*\*/g);
         count.dataset.i18n = n === 1 ? "skills.words.one" : "skills.words.many";
         count.dataset.i18nVars = JSON.stringify({ n });
         const d = uiDict?.[count.dataset.i18n];
-        count.textContent = d != null ? d.replace("{n}", String(n)) : `${n} ${n === 1 ? "Wort" : "Wörter"}`;
+        count.textContent = d != null ? d.replace("{n}", String(n)) : `${n} ${n === 1 ? "word" : "words"}`;
         // One session per page, once the learner has actually started.
         if (!counted && n > 4) { counted = true; recordSession("schreiben"); }
       });

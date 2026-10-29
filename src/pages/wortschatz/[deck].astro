@@ -82,14 +82,14 @@ const cards =
 // day its last word is translated and not one card sooner.
 const langs = langsOf(cards);
 
-// A round is named by a few of its own words ("Abend · Haus · Freund"), the same name it
-// has in the picker — not "Wörter 76-100", a place in a list the learner has never seen.
-// German words, so the heading carries no translation key.
+// A round is named by a few of its own words ("evening · house · friend"), the same name it
+// has in the picker — not "words 76-100", a place in a list the learner has never seen.
+// Those are vocabulary words, so the heading carries no translation key.
 const heading =
   set ? set.title
   : freq ? freq.lead.join(" · ")
   : teil ? teil.lead.join(" · ")
-  : `Wortschatz ${level}`;
+  : `Vocabulary ${level}`;
 const deckId = set ? set.id : freq ? freq.id : teil ? teil.id : level.toLowerCase();
 
 // A Lernset's name is a category label, not vocabulary, so it translates. The other three
@@ -105,7 +105,7 @@ const headingVars = set || freq || teil ? undefined : { level };
 // cohort it is the level spread, because a frequency cut crosses levels by construction.
 // A Portion has no name of its own — it is a window onto the level list — so the line
 // under the heading carries the topics it happens to cross instead.
-const words = (n) => ({ text: `${n} Wörter`, key: "sets.wordCount", vars: { n } });
+const words = (n) => ({ text: `${n} words`, key: "sets.wordCount", vars: { n } });
 const setKeyByTitle = Object.fromEntries(units().map((u) => [u.title, `ws.set.${u.id}`]));
 const subParts =
   set ? [
@@ -114,7 +114,7 @@ const subParts =
     words(set.words),
   ]
   : freq ? [
-    { text: "Nach Häufigkeit", key: "sets.byFrequency" },
+    { text: "By frequency", key: "sets.byFrequency" },
     { text: freq.levels.join("–") },
     words(freq.words),
   ]
@@ -129,7 +129,7 @@ const subParts =
   // Wörter". The total is still one multiplication away and the picker below spells it out.
   : [
     { text: level },
-    { text: `${Math.ceil(cards.length / 25)} Runden · je 25 Wörter`, key: "sets.rounds", vars: { n: Math.ceil(cards.length / 25), size: 25 } },
+    { text: `${Math.ceil(cards.length / 25)} rounds · 25 words each`, key: "sets.rounds", vars: { n: Math.ceil(cards.length / 25), size: 25 } },
   ];
 const sub = subParts.map((p) => p.text).join(" · ");
 

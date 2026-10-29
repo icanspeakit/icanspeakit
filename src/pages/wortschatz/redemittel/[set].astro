@@ -19,8 +19,8 @@ const kind = set.level ? { text: set.level } : { text: "Useful phrases", key: "s
     cards={cards}
     heading={`${set.name}`}
     headingKey={`rm.set.${set.id}`}
-    sub={`${kind.text} · ${cards.length} Sätze`}
-    subParts={[kind, { text: `${cards.length} Sätze`, key: "rm.phraseCount", vars: { n: cards.length } }]}
+    sub={`${kind.text} · ${cards.length} phrases`}
+    subParts={[kind, { text: `${cards.length} phrases`, key: "rm.phraseCount", vars: { n: cards.length } }]}
     deck={`redemittel-${set.id}`}
     langs={langsOf(cards)}
   />
