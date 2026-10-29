@@ -1,9 +1,9 @@
 ---
-// Die Wortarten zum Nachschlagen. The flashcards put a class on every word („Adjektiv"),
+// The parts of speech to look up. The flashcards put a class on every word ("Adjective"),
 // and Regi's line under it links here (#<id>) — so a learner who does not know what an
-// Adjektiv is gets one screen that says it, with words from the lexicon as examples.
+// adjective is gets one screen that says it, with examples.
 //
-// Content: src/data/wortarten.json (German, plus the `what` line in the help languages,
+// Content: src/data/wortarten.json (English, plus the `what` line in the help languages,
 // shown under it by GrammarHelpText like every grammar explanation). The class names and
 // the colours match the chips on the cards (vokabeltrainer.css .vt-info-pos--*).
 import Layout from "../../layouts/Layout.astro";
@@ -46,19 +46,19 @@ const classes = wortarten.classes.map((c: any) => ({
 >
   <SiteNav active="grammatik" />
   <main class="practice-main wa-page" id="wa-page">
-    <a href="/grammatik" class="vp-back-link" data-i18n="header.back">Zurück zur Übersicht</a>
+    <a href="/grammatik" class="vp-back-link" data-i18n="header.back">Back to overview</a>
 
     <header class="wa-head">
-      <p class="eyebrow" data-i18n="wa.eyebrow">Grammatik · Nachschlagen</p>
-      <h1>Wortarten</h1>
-      <SectionMascot name="regi" say="Jedes Wort hat seine Sorte." />
-      <p class="wa-lead" data-i18n="wa.lead">Jedes Wort gehört zu einer Wortart. Auf den Karteikarten steht sie unter dem Wort — hier steht, was sie bedeutet.</p>
+      <p class="eyebrow" data-i18n="wa.eyebrow">Grammar · Reference</p>
+      <h1>Parts of speech</h1>
+      <SectionMascot name="regi" say="Every word has its type." />
+      <p class="wa-lead" data-i18n="wa.lead">Every word belongs to a word class. On the flashcards it is shown under the word — here is what it means.</p>
       <RefActions chapter="g-wortarten" />
     </header>
     <GrammarHelp level="A1" root="wa-page" reviewed={wortarten.reviewed} />
-    <a class="wa-practice" href="/wortarten" lang="de">Regel und Übungen: Wortarten üben</a>
+    <a class="wa-practice" href="/wortarten" lang="en">Rule and exercises: practise the parts of speech</a>
 
-    <nav class="wa-jump" aria-label="Wortarten">
+    <nav class="wa-jump" aria-label="Parts of speech">
       {classes.map((c) => <a class={`wa-chip wa-chip--${c.id}`} href={`#${c.id}`}>{c.name}</a>)}
     </nav>
 
@@ -69,28 +69,28 @@ const classes = wortarten.classes.map((c: any) => ({
             <h2><span class={`wa-chip wa-chip--${c.id}`}>{c.name}</span></h2>
             {c.also && <span class="wa-also">{c.also}</span>}
             {c.practice && (
-              <a class={`wa-try wa-chip--${c.id}`} href={c.practice.href} lang="de" title={c.practice.title} aria-label={`${c.name} üben: ${c.practice.title}`}>
+              <a class={`wa-try wa-chip--${c.id}`} href={c.practice.href} lang="en" title={c.practice.title} aria-label={`Practise ${c.name}: ${c.practice.title}`}>
                 <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M10.5 2.5l3 3L6 13H3v-3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-                Üben
+                Practise
               </a>
             )}
           </div>
           <p class="wa-what">{c.what}</p>
           <GrammarHelpText text={field(c.tr)} />
-          {c.ask && <p class="wa-ask"><span data-i18n="wa.ask">Frage:</span> <b lang="de">{c.ask}</b></p>}
-          <ul class="wa-ex" lang="de">{c.examples.map((w) => <li>{w}</li>)}</ul>
+          {c.ask && <p class="wa-ask"><span data-i18n="wa.ask">Question:</span> <b lang="en">{c.ask}</b></p>}
+          <ul class="wa-ex" lang="en">{c.examples.map((w) => <li>{w}</li>)}</ul>
           <p class="wa-tip">{c.tip}</p>
-          {/* Typischer Fehler: the look-alike of this class (man ≠ der Mann), one line into its
+          {/* Common mistake: the look-alike of this class (man ≠ der Mann), one line into its
               card on /grammatik/typische-fehler. */}
           {c.fehler && (
-            <a class="wa-fehler" href={`/grammatik/typische-fehler#${c.fehler.id}`} lang="de">
-              <span class="wa-fehler-k">Typischer Fehler</span>
-              <span class="wa-fehler-p">{c.fehler.a.w} <span aria-label="nicht verwechseln mit">≠</span> {c.fehler.b.w}</span>
+            <a class="wa-fehler" href={`/grammatik/typische-fehler#${c.fehler.id}`} lang="en">
+              <span class="wa-fehler-k">Common mistake</span>
+              <span class="wa-fehler-p">{c.fehler.a.w} <span aria-label="don't confuse with">≠</span> {c.fehler.b.w}</span>
             </a>
           )}
-          {c.learn && <a class="wa-learn" href={c.learn.href} lang="de">{c.learn.label}</a>}
+          {c.learn && <a class="wa-learn" href={c.learn.href} lang="en">{c.learn.label}</a>}
           {c.sub && (
-            <p class="wa-sub"><span class={`wa-chip wa-chip--${c.id}`}>{c.sub.name}</span> <span lang="de">{c.sub.what}</span> <a href={c.sub.href}>{c.sub.more}</a></p>
+            <p class="wa-sub"><span class={`wa-chip wa-chip--${c.id}`}>{c.sub.name}</span> <span lang="en">{c.sub.what}</span> <a href={c.sub.href}>{c.sub.more}</a></p>
           )}
         </li>
       ))}
@@ -99,8 +99,8 @@ const classes = wortarten.classes.map((c: any) => ({
     {/* After reading: straight into the exercises (/wortarten), the same way back as the
         button at the top, for a learner who scrolled the whole list. */}
     <aside class="wa-next">
-      <SectionMascot name="regi" say="Erkennst du sie jetzt? Probier es aus." />
-      <a class="wa-practice" href="/wortarten" lang="de">Wortarten üben</a>
+      <SectionMascot name="regi" say="Can you spot them now? Try it." />
+      <a class="wa-practice" href="/wortarten" lang="en">Practise the parts of speech</a>
     </aside>
   </main>
 
