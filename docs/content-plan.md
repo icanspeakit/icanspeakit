@@ -61,7 +61,7 @@ Inventory basis: `src/data/**`, `src/content/**`, `src/paid/**`, `src/pages/**` 
 | `artikel-sprint/words.json` `article`, `plural`, `pluralWrong`, `english` | der/die/das, plural, wrong plurals, gloss | `a`/`an`/`some`; English plural; plausible wrong plurals (*childs, mouses, informations*); `english` = short simple definition. |
 | Case fields (Nominativ/Akkusativ/Dativ/Genitiv) | four cases | subject / object / possessive adjective / possessive pronoun where a 4-slot shape exists (*I / me / my / mine*); otherwise leave the key with `""` and note it. |
 | Separable verbs (`trennbare-verben`) | *an-rufen* | **phrasal verbs** (*call back*, *give up*); the prefix field holds the particle. |
-| Verb tables (`verbtabellen.json`, `nachschlagen/starke-schwache-verben.json`) | ich/du/er… forms, strong/weak | English principal parts: base, 3rd-person *-s*, past simple, past participle, *-ing*; strong/weak → irregular/regular. The run maps person slots to these forms and documents the mapping in its report. |
+| Verb tables (`verbtabellen.json`, `nachschlagen/starke-schwache-verben.json`) | ich/du/er… forms, strong/weak | English principal parts: base, 3rd-person *-s*, past simple, past participle, *-ing*; strong/weak → irregular/regular. The run maps person slots to these forms and documents the mapping in its report. **Done by `grammar-structure` (2026-10-29):** `verbtabellen.json` keeps its six person rows (I, you, he/she/it, we, you, they) with present simple / past simple / present perfect, because English conjugates in exactly that shape; `nachschlagen/starke-schwache-verben.json` rows are *he/she/it · past simple · past participle*, sections schwach = regular, stark = irregular with past ≠ participle, gemischt = irregular with past = participle. |
 | `translations` maps / `*-i18n` / `lexicon/i18n/<lang>.json` / `uebersetzungen/*` | German → learner language | English → learner language. `translations.en` (where present) becomes a plain-English paraphrase; `translations.de` becomes the German translation. Other languages: fill only where the run can translate reliably. Before leaving a language out, the run checks the UI falls back cleanly; if it does, missing language keys are allowed. Never leave a stale German-based translation next to English content. |
 | `status`: `entwurf`/`geprueft` | draft / reviewed | Keep the same status values (code filters on them). New English content enters as reviewed only if the run checked it against sources; otherwise draft. **Grammar topics (changed by `grammar-a1`, 2026-10-29):** a topic file keeps the `status` it had (no status / `geprueft` / `entwurf`), because `entwurf` takes a topic out of the catalogue, menus, guided run, search and PDFs — flipping all of them would empty the course. The run report lists the topics for Edgar's review instead. |
 
@@ -220,7 +220,7 @@ question tags, *have got*, *can* for ability at A1, quantifiers at B2.
 | `grammatik.json` (quick quizzes per topic) | follow the slot map; `akkusativ` → object pronouns |
 | `grammatik-lehrplan.json` | English syllabus order per level (`grammar-structure`) |
 | `grammatik-verwandt.json` | related topics, recomputed for the new topics |
-| `grammatik-start/<lang>.json` | “English grammar for speakers of <lang>” intro; `en.json` = plain-English intro; `de.json` = for German speakers (a real audience) |
+| `grammatik-start/<lang>.json` | “English grammar for speakers of <lang>” intro; `en.json` = plain-English intro; `de.json` = for German speakers (a real audience). **Moved to its own queue item `grammar-start-book`** (2026-10-29, by `grammar-structure`): it is a whole 10-chapter PDF book whose base content (examples, tables, exercises) sits in `de.json` and whose generator (`scripts/generate-grammatik-start-pdf.mjs`) treats German as the subject; making it English needs the base moved to an English file, the generator changed, the book written and 17 translation files redone. |
 | `nachschlagen/starke-schwache-verben.json` | irregular verbs reference |
 | `nachschlagen/trennbare-verben.json` | phrasal verbs reference |
 | `nachschlagen/verben-mit-praepositionen.json` | verbs + prepositions reference |
@@ -474,7 +474,8 @@ Internal links, `catalog.js` menus and `llms.txt` follow the new routes in the s
 |---|---|
 | `placement-test` | `einstufung.json` |
 | `grammar-a1` … `grammar-c1` | `data/grammatik/<slot>.json` per §3 level (by **new** level), `paid/grammatik/*` (C1), `grammatik.json` entries of those slots, `akkusativ.json` (A1) |
-| `grammar-structure` | `grammatik-lehrplan.json`, `grammatik-verwandt.json`, `nachschlagen/*`, `verbtabellen.json`, `wortarten.json`, `grammatik-start/*`, `kursinhalte.json`, `praepositionen-trainer.json` |
+| `grammar-structure` | `grammatik-lehrplan.json`, `grammatik-verwandt.json`, `nachschlagen/*`, `verbtabellen.json`, `wortarten.json`, `kursinhalte.json`, `praepositionen-trainer.json`, `uebersetzungen/grammatik.json`, `uebersetzungen/grammatik-themen.json` |
+| `grammar-start-book` | `grammatik-start/*`, `scripts/generate-grammatik-start-pdf.mjs`, `scripts/check-grammatik-start.mjs` |
 | `beginner-path` | `einfach-pfad.json` |
 | `vocab-a1` … `vocab-b2` | `content/lexicon/<level>.json`, `lexicon/i18n/*` for that level, `wortschatz.json`, `haeufigste-woerter.json`, `bildkarten.json`, `wort-bilder.json`, `wortschatz-szenen.json`, `content/program.json` titles |
 | `listening` | `hoeren.json`, `uebersetzungen/hoeren.json` |
@@ -521,7 +522,11 @@ titles) are handled by the `ui-*` items where they are rendered.
 - **`uebersetzungen/grammatik*.json`, `woerter-uk.json`, `rechtliches.json`**: learner-language
   translations of grammar UI/topics, Ukrainian word glosses, legal texts. Grammar ones go with
   `grammar-structure`; `rechtliches.json` with `ui-pages-m-z` (legal pages); `woerter-uk.json`
-  with `vocab-a1`.
+  with `vocab-a1`. **Status (2026-10-29):** `grammar-structure` emptied `uebersetzungen/grammatik.json`
+  (topic rules in ar/uk/tr/…) and `grammatik-themen.json` (topic names), because every entry
+  explained the German topic of the slot; pages fall back to English. Refilling them from the
+  English topics is open (no queue item yet). `grammatik-ui.json` is keyed by German UI strings and
+  left alone.
 - **Audio**: every `audio` field points to files that don't exist until a TTS provider is
   wired (`BACKEND.speech`). Content runs set the fields; validators that require the files stay
   off until then.

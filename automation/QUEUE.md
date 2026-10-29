@@ -16,6 +16,7 @@ item, tick it by hand; to redo one, untick it. Add, remove or reorder items free
 - [x] `grammar-c1`: C1 grammar topics (src/paid/grammatik included).
 - [ ] `grammar-structure`: Grammar order, syllabus, related topics, reference tables (grammatik.json, grammatik-lehrplan.json, grammatik-verwandt.json, nachschlagen/).
 - [ ] `beginner-path`: The "Einfach lernen" beginner path (einfach-pfad.json) for English.
+- [ ] `grammar-start-book`: The free starter grammar book (src/data/grammatik-start/*, scripts/generate-grammatik-start-pdf.mjs) as "English Grammar Start A1–B1": English base content (examples, tables, exercises), generator reads it instead of de.json, explanations in the help languages only where reliable (see content-plan §3 side files; split off by `grammar-structure`).
 - [ ] `vocab-a1`: Lexicon and word decks, A1 (src/content/lexicon, wortschatz.json).
 - [ ] `vocab-a2`: Lexicon and word decks, A2.
 - [ ] `vocab-b1`: Lexicon and word decks, B1.
