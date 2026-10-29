@@ -113,19 +113,20 @@ function verbGroups() {
   return verbGroupList.map((g) => {
     const items = [];
     for (const v of verbList.filter((x) => x.group === g.id)) {
-      // A separable verb's regular pattern is its base verb's, with the prefix after it.
-      const prefix = v.group === "trennbar" ? v.rows[0].praes.f.split(" ")[1] ?? "" : "";
-      const base = prefix ? v.inf.slice(prefix.length) : v.inf;
-      const sep = (f) => (prefix ? `${f} ${prefix}` : f);
+      // A phrasal verb's regular pattern is its verb's, with the particle after it.
+      const [base, ...rest] = v.inf.split(" ");
+      const particle = v.group === "trennbar" ? rest.join(" ") : "";
+      const verb = particle ? base : v.inf;
+      const sep = (f) => (particle ? `${f} ${particle}` : f);
       const praes = v.rows.map((r) => r.praes.f);
       const praet = v.rows.map((r) => r.praet.f);
-      const pi = [1, 2].find((i) => v.rows[i].praes.x) ?? 1;
-      items.push(q(`${PERSONS[pi]} ___ (${v.inf}) · Präsens`, praes[pi], [sep(regularPraes(base)[pi]), ...praes], g.name, `g:${VERB_KEY}#${v.id}-praes`));
-      items.push(q(`ich ___ (${v.inf}) · Präteritum`, praet[0], [sep(regularPraet(base)[0]), ...praet], g.name, `g:${VERB_KEY}#${v.id}-praet`));
-      const other = v.aux === "sein" ? "hat" : "ist";
-      const own = v.aux === "sein" ? "ist" : "hat";
-      const regP2 = prefix + regularP2(base);
-      items.push(q(`er ___ (${v.inf}) · Perfekt`, `${own} ${v.p2}`, [`${other} ${v.p2}`, `${own} ${regP2}`, `${other} ${regP2}`, `${own} ge${v.inf}`], g.name, `g:${VERB_KEY}#${v.id}-perf`));
+      // The person whose form breaks the pattern (I am, he has), else he/she/it.
+      const pi = v.rows.findIndex((r) => r.praes.x);
+      const p = pi === -1 ? 2 : pi;
+      items.push(q(`${PERSONS[p]} ___ (${v.inf}) · present simple`, praes[p], [sep(regularPraes(verb)[p]), ...praes], g.name, `g:${VERB_KEY}#${v.id}-praes`));
+      items.push(q(`I ___ (${v.inf}) · past simple`, praet[0], [sep(regularPraet(verb)[0]), v.p2, ...praet], g.name, `g:${VERB_KEY}#${v.id}-praet`));
+      const regP2 = sep(regularP2(verb));
+      items.push(q(`he ___ (${v.inf}) · present perfect`, `has ${v.p2}`, [`have ${v.p2}`, `has ${regP2}`, `has ${praet[2]}`, `has ${v.inf}`], g.name, `g:${VERB_KEY}#${v.id}-perf`));
     }
     return { title: g.name, items: items.filter(Boolean) };
   }).filter((g) => g.items.length);
@@ -134,9 +135,10 @@ function verbGroups() {
 /* ---- The Nachschlagewerk lists (/grammatik/<ref>, src/data/nachschlagen/*.json) ------
    Chapter g-nachschlagen-<file>, one group per section of the list. Rows are
    [verb, forms, example, level]; a "# …" string is a sub-heading and is skipped.
-     starke-schwache-verben     Präteritum and Perfekt of each verb; wrong: the other tense's
-                                form, the regular pattern (fahrte, hat gefahrt), the other aux
-     trennbare-verben           the Partizip II; wrong: ge- in the wrong place, the other aux
+     starke-schwache-verben     past simple and past participle of each verb; wrong: the other
+                                forms, the regular pattern (goed, writed)
+     trennbare-verben           the past participle of the phrasal verb; wrong: the past
+                                simple, the regular -ed, the base form
      verben-mit-praepositionen  the preposition in the example sentence; wrong: the others */
 const REF_PREFIX = "nachschlagen-";
 const refMods = import.meta.glob("../../data/nachschlagen/*.json", { eager: true });
@@ -161,23 +163,20 @@ function refGroups(file) {
       const [v, forms, example] = row;
       const inf = bareVerb(v);
       if (file === "starke-schwache-verben") {
-        // "fährt · fuhr · ist gefahren"
-        const [er, praet, perf] = String(forms).split(" · ").map((f) => f.trim());
-        if (!praet || !perf) return;
-        const [aux, ...p2] = perf.split(" ");
-        const other = aux === "ist" ? "hat" : "ist";
-        items.push(mcq(`er ___ (${inf}) · Präteritum`, praet, [regularPraet(inf)[2], er, p2.join(" ")], sec.name, src(sec, i, "praet")));
-        items.push(mcq(`er ___ (${inf}) · Perfekt`, perf, [`${other} ${p2.join(" ")}`, `${aux} ${regularP2(inf)}`, `${other} ${regularP2(inf)}`, `${aux} ge${inf}`], sec.name, src(sec, i, "perf")));
+        // "goes · went · gone": he/she/it · past simple · past participle
+        const [he, past, p2] = String(forms).split(" · ").map((f) => f.trim());
+        if (!past || !p2) return;
+        const ed = regularPraet(inf)[0];
+        items.push(mcq(`Yesterday she ___ (${inf}) · past simple`, past, [ed, he, p2, inf], sec.name, src(sec, i, "praet")));
+        items.push(mcq(`She has ___ (${inf}) · present perfect`, p2, [past, ed, inf, he], sec.name, src(sec, i, "perf")));
       } else if (file === "trennbare-verben") {
-        // Only the clear cases: in "beides" the same verb is both, by meaning.
-        if (sec.id !== "trennbar" && sec.id !== "untrennbar") return;
-        const perf = String(forms).split(" · ").pop().trim();
-        const [aux, p2] = perf.split(" ");
-        if (!p2) return;
-        const prefix = v.includes("|") ? bareVerb(v.split("|")[0]) : "";
-        const wrongP2 = prefix && p2.startsWith(`${prefix}ge`) ? `ge${prefix}${p2.slice(prefix.length + 2)}` : `ge${p2}`;
-        const other = aux === "ist" ? "hat" : "ist";
-        items.push(mcq(`er ___ (${inf}) · Perfekt`, perf, [`${aux} ${wrongP2}`, `${other} ${p2}`, `${other} ${wrongP2}`], sec.name, src(sec, i)));
+        // The past participle; wrong: the past simple, the regular -ed, the base form.
+        const p2 = String(forms).split(" · ").pop().trim();
+        const past = String(forms).split(" · ")[0].trim();
+        const [verb, ...rest] = inf.split(" ");
+        const particle = rest.join(" ");
+        if (!particle) return;
+        items.push(mcq(`She has ___ (${inf}) · present perfect`, p2, [past, `${regularP2(verb)} ${particle}`, inf], sec.name, src(sec, i)));
       } else if (file === "verben-mit-praepositionen") {
         const prep = sec.name;
         const verb = String(v).endsWith(` ${prep}`) ? String(v).slice(0, -prep.length - 1) : String(v);
@@ -188,7 +187,7 @@ function refGroups(file) {
         // Never a preposition the same verb also takes (sich freuen auf / über).
         const own = new Set(data.sections.filter((x) => rowsOf(x).some((r) => String(r[0]) === `${verb} ${x.name}`)).map((x) => x.name));
         const others = data.sections.map((x) => x.name).filter((n) => !own.has(n));
-        items.push(mcq(prompt, prep, others, "Welche Präposition passt?", src(sec, i)));
+        items.push(mcq(prompt, prep, others, "Which preposition is right?", src(sec, i)));
       }
     });
     return { title: sec.name, items: items.filter(Boolean) };

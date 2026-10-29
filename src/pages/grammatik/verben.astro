@@ -1,8 +1,8 @@
 ---
-// Die wichtigsten Verben zum Nachschlagen — a "Mini-Grammatik" of verb tables. One card
-// per verb (#<id>, e.g. #haben), each with Präsens, Präteritum and Perfekt for all six
-// persons. The search lens links here when a learner looks up a verb or one of its forms
-// ("hat", "ging"), see src/lib/searchIndex.js.
+// The most important verbs to look up — a "mini grammar" of verb tables. One card per
+// verb (#<id>, e.g. #have), each with the present simple, past simple and present perfect
+// for all six persons. The search lens links here when a learner looks up a verb or one of
+// its forms ("has", "went"), see src/lib/searchIndex.js.
 //
 // Content: src/data/verbtabellen.json, built by src/lib/verbtabellen.js, which also marks
 // every form that breaks the regular pattern — those are highlighted.
@@ -27,13 +27,13 @@ const gloss = (v: any) =>
 // Regel lines in verbtabellen.json mark examples with *…*; they become bold.
 const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, "<b>$1</b>");
 const byGroup = groups.map((g) => ({ ...g, verbs: verbs.filter((v) => v.group === g.id) }));
-// Interface keys per verb group (the group's name and one-line "what"); the Regel boxes
-// stay German, they are the grammar being taught.
+// Interface keys per verb group (the group's name and one-line "what"); the rule boxes
+// stay English, they are the grammar being taught.
 const gKey = (id: string) => `verben.group.${id}`;
 const COLS = [
-  ["praes", "Präsens", "jetzt"],
-  ["praet", "Präteritum", "früher, geschrieben"],
-  ["perf", "Perfekt", "früher, gesprochen"],
+  ["praes", "Present simple", "now, always"],
+  ["praet", "Past simple", "finished time"],
+  ["perf", "Present perfect", "past with a link to now"],
 ] as const;
 ---
 <Layout
@@ -42,16 +42,16 @@ const COLS = [
 >
   <SiteNav active="grammatik" />
   <main class="practice-main vb-page" id="vb-page">
-    <a href="/grammatik" class="vp-back-link" data-i18n="header.back">Zurück zur Übersicht</a>
+    <a href="/grammatik" class="vp-back-link" data-i18n="header.back">Back to overview</a>
     <header class="vb-head">
-      <p class="eyebrow" data-i18n="nav.wissen.nachschlagen">Nachschlagewerk</p>
-      <h1 data-i18n="verben.title">Die wichtigsten Verben</h1>
-      <SectionMascot name="regi" say="Diese Verben brauchst du jeden Tag." />
-      <p class="vb-lead" data-i18n-html="verben.lead" data-i18n-vars={JSON.stringify({ n: verbs.length })}>Eine Mini-Grammatik zum Nachschlagen: {verbs.length} Verben, jedes in Präsens, Präteritum und Perfekt. <mark class="vb-x">Markiert</mark> ist, was nicht nach dem Muster geht — das muss man lernen.</p>
-      <p class="vb-more-refs"><span data-i18n="verben.moreRefs">Mehr im Nachschlagewerk:</span>
-        <a href="/grammatik/starke-schwache-verben" data-i18n="nav.wissen.stark">Starke und schwache Verben</a> ·
-        <a href="/grammatik/trennbare-verben" data-i18n="nav.wissen.trennbar">Trennbare und untrennbare Verben</a> ·
-        <a href="/grammatik/verben-mit-praepositionen" data-i18n="nav.wissen.verbPraep">Verben mit Präpositionen</a></p>
+      <p class="eyebrow" data-i18n="nav.wissen.nachschlagen">Reference</p>
+      <h1 data-i18n="verben.title">The most important verbs</h1>
+      <SectionMascot name="regi" say="You need these verbs every day." />
+      <p class="vb-lead" data-i18n-html="verben.lead" data-i18n-vars={JSON.stringify({ n: verbs.length })}>A mini grammar to look things up: {verbs.length} verbs, each in the present simple, past simple and present perfect. Whatever doesn't follow the pattern is <mark class="vb-x">highlighted</mark>: that's what you have to learn.</p>
+      <p class="vb-more-refs"><span data-i18n="verben.moreRefs">More in the reference section:</span>
+        <a href="/grammatik/starke-schwache-verben" data-i18n="nav.wissen.stark">Regular and irregular verbs</a> ·
+        <a href="/grammatik/trennbare-verben" data-i18n="nav.wissen.trennbar">Phrasal verbs</a> ·
+        <a href="/grammatik/verben-mit-praepositionen" data-i18n="nav.wissen.verbPraep">Verbs with prepositions</a></p>
       {/* Drucken (every table on paper, two to a row, the rules open: verbtabellen.css,
           @media print), Teilen and Live-Quiz, as on every Nachschlagewerk page; and, for a
           teacher, the quiz builder. */}
@@ -64,11 +64,11 @@ const COLS = [
     </header>
     <GrammarHelp level="A1" root="vb-page" />
 
-    <nav class="vb-jump" aria-label="Verben" data-i18n-attr="aria-label:verben.jumpLabel">
+    <nav class="vb-jump" aria-label="Verbs" data-i18n-attr="aria-label:verben.jumpLabel">
       {byGroup.map((g) => (
         <div class="vb-jump-group">
           <a class="vb-jump-label" href={`#gruppe-${g.id}`} data-i18n={`${gKey(g.id)}.name`}>{g.name}</a>
-          <div class="vb-jump-list" lang="de">
+          <div class="vb-jump-list" lang="en">
             {g.verbs.map((v) => <a class={`vb-chip vb-chip--${g.id}`} href={`#${v.id}`}>{v.inf}</a>)}
           </div>
         </div>
@@ -84,22 +84,22 @@ const COLS = [
             <p class="vb-group-what" data-i18n={`${gKey(g.id)}.what`}>{g.what}</p>
           </div>
           {/* Just this group on paper — a class that is on the Modalverben this week. */}
-          <button type="button" class="vb-print vb-print--group" data-vb-print={g.id} data-group-key={`${gKey(g.id)}.name`} data-group-name={g.name} aria-label={`${g.name} drucken`} title={`${g.name} drucken`}>
+          <button type="button" class="vb-print vb-print--group" data-vb-print={g.id} data-group-key={`${gKey(g.id)}.name`} data-group-name={g.name} aria-label={`Print ${g.name}`} title={`Print ${g.name}`}>
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
           </button>
         </header>
         {g.regel && (
-          <aside class="vb-regel" lang="de" aria-label={`Regel: ${g.name}`} data-group-key={`${gKey(g.id)}.name`} data-group-name={g.name}>
+          <aside class="vb-regel" lang="en" aria-label={`Rule: ${g.name}`} data-group-key={`${gKey(g.id)}.name`} data-group-name={g.name}>
             <div class="vb-regel-bar">
-              <p class="vb-regel-label" data-i18n="ak.rule">Regel</p>
+              <p class="vb-regel-label" data-i18n="ak.rule">Rule</p>
               <button
                 type="button"
                 class="vb-regel-toggle"
                 aria-controls={`regel-${g.id}`}
-                data-show="Regel einblenden"
-                data-hide="Regel ausblenden"
+                data-show="Show rule"
+                data-hide="Hide rule"
                 data-i18n-attr="data-show:vp.rule.show;data-hide:vp.rule.hide"
-              >Regel ausblenden</button>
+              >Hide rule</button>
             </div>
             <div class="vb-regel-body" id={`regel-${g.id}`}>
             <div class="vb-regel-inner">
@@ -119,13 +119,12 @@ const COLS = [
           {g.verbs.map((v) => (
             <li class={`vb-card vb-card--${g.id}`} id={v.id}>
               <div class="vb-card-head">
-                <h3 lang="de">{v.inf}</h3>
+                <h3 lang="en">{v.inf}</h3>
                 {v.level && <span class="vb-level">{v.level}</span>}
-                <span class="vb-aux" lang="de">Perfekt mit <b>{v.aux}</b></span>
               </div>
               <GrammarHelpText text={gloss(v)} class="vb-gloss" />
               <div class="vb-scroll">
-                <table class="vb-table" lang="de">
+                <table class="vb-table" lang="en">
                   <thead>
                     <tr>
                       <th scope="col"><span class="vb-sr" data-i18n="verben.person">Person</span></th>
@@ -142,11 +141,11 @@ const COLS = [
                   </tbody>
                 </table>
               </div>
-              <p class="vb-more" lang="de">
-                <span>Futur I: <b>ich {v.futur}</b></span>
-                <span>Plusquamperfekt: <b>ich {v.aux === "sein" ? "war" : "hatte"} {v.p2}</b></span>
+              <p class="vb-more" lang="en">
+                <span>Future: <b>I {v.futur}</b></span>
+                <span>Past perfect: <b>I had {v.p2}</b></span>
               </p>
-              {v.note && <p class="vb-note" lang="de">{v.note}</p>}
+              {v.note && <p class="vb-note" lang="en">{v.note}</p>}
             </li>
           ))}
         </ol>
@@ -154,8 +153,8 @@ const COLS = [
     ))}
 
     <p class="vb-practice-row">
-      <a class="vb-practice" href="/konjugation" data-i18n="verben.practice.konjugation">Regel und Übungen: Konjugation</a>
-      <a class="vb-practice vb-practice--ghost" href="/modalverben" data-i18n="verben.practice.modal">Modalverben üben</a>
+      <a class="vb-practice" href="/praesens" data-i18n="verben.practice.konjugation">Rules and exercises: present simple</a>
+      <a class="vb-practice vb-practice--ghost" href="/modalverben" data-i18n="verben.practice.modal">Practise modal verbs</a>
     </p>
   </main>
 </Layout>
@@ -171,14 +170,14 @@ const COLS = [
   // interface language; again on every switch.
   const mascotSay = document.querySelector<HTMLElement>(".vb-head .section-mascot-say");
   const paintLabels = () => {
-    if (mascotSay) mascotSay.textContent = t("verben.mascot", "Diese Verben brauchst du jeden Tag.");
+    if (mascotSay) mascotSay.textContent = t("verben.mascot", "You need these verbs every day.");
     for (const el of document.querySelectorAll<HTMLElement>("[data-group-key]")) {
       const name = t(el.dataset.groupKey!, el.dataset.groupName);
       if (el.matches("[data-vb-print]")) {
-        const label = t("verben.printGroup", "{name} drucken", { name });
+        const label = t("verben.printGroup", "Print {name}", { name });
         el.setAttribute("aria-label", label);
         el.title = label;
-      } else el.setAttribute("aria-label", t("verben.ruleFor", "Regel: {name}", { name }));
+      } else el.setAttribute("aria-label", t("verben.ruleFor", "Rule: {name}", { name }));
     }
   };
   paintLabels();

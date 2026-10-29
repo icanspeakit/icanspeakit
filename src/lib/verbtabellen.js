@@ -1,32 +1,36 @@
-// The verb tables behind /grammatik/verben (the "Mini-Grammatik") and the search lens's
-// "Verbtabelle" hits. Data: src/data/verbtabellen.json.
+// The verb tables behind /grammatik/verben (the "mini grammar") and the search lens's
+// verb-table hits. Data: src/data/verbtabellen.json.
 //
 // A regular verb is stored as `regular: true` and its forms are worked out here. Every form
 // that differs from what the regular pattern would give is flagged `x`, so the table can
-// highlight exactly the part a learner has to memorise (du fährst, er hat, ich ging).
+// highlight exactly the part a learner has to memorise (he has, I went, she has gone).
 import data from "../data/verbtabellen.json";
 import { all } from "./lexicon.js";
 
-export const PERSONS = ["ich", "du", "er/sie/es", "wir", "ihr", "sie/Sie"];
+export const PERSONS = ["I", "you", "he/she/it", "we", "you", "they"];
 const AUX = {
-  haben: ["habe", "hast", "hat", "haben", "habt", "haben"],
-  sein: ["bin", "bist", "ist", "sind", "seid", "sind"],
+  have: ["have", "have", "has", "have", "have", "have"],
 };
 
-const stemOf = (inf) => inf.replace(/e?n$/, "");
-// arbeit-e-st, find-e-t; heiß-t, sitz-t.
+// he/she/it: -es after s, sh, ch, x, z, o (watches, goes); consonant + y → -ies (studies).
+export const thirdPerson = (inf) =>
+  /[^aeiou]y$/.test(inf) ? `${inf.slice(0, -1)}ies` : /(s|sh|ch|x|z|o)$/.test(inf) ? `${inf}es` : `${inf}s`;
+// -ed: -e → -d (liked); consonant + y → -ied (studied); one vowel + one consonant in a
+// one-syllable verb doubles it (stopped); British English doubles a final l after a single
+// vowel (travelled). Verbs with stress-driven doubling (prefer) are not stored as regular.
+export function pastEd(inf) {
+  if (/e$/.test(inf)) return `${inf}d`;
+  if (/[^aeiou]y$/.test(inf)) return `${inf.slice(0, -1)}ied`;
+  if (/^[^aeiou]*[aeiou][^aeiouwxy]$/.test(inf) || /[^aeiou][aeiou]l$/.test(inf)) return `${inf}${inf.slice(-1)}ed`;
+  return `${inf}ed`;
+}
 export function regularPraes(inf) {
-  const s = stemOf(inf);
-  const e = /[td]$/.test(s) ? "e" : "";
-  const du = /[sßzx]$/.test(s) ? "t" : `${e}st`;
-  return [`${s}e`, `${s}${du}`, `${s}${e}t`, inf, `${s}${e}t`, inf];
+  return [inf, inf, thirdPerson(inf), inf, inf, inf];
 }
 export function regularPraet(inf) {
-  const s = stemOf(inf);
-  const t = /[td]$/.test(s) ? "ete" : "te";
-  return [`${s}${t}`, `${s}${t}st`, `${s}${t}`, `${s}${t}n`, `${s}${t}t`, `${s}${t}n`];
+  return Array(6).fill(pastEd(inf));
 }
-export const regularP2 = (inf) => `ge${stemOf(inf)}${/[td]$/.test(stemOf(inf)) ? "et" : "t"}`;
+export const regularP2 = (inf) => pastEd(inf);
 
 const split = (s) => s.split(",").map((f) => f.trim());
 
@@ -39,20 +43,22 @@ const glossOf = (() => {
 })();
 
 function build(v) {
-  const praes = v.regular ? regularPraes(v.inf) : split(v.praes);
-  const praet = v.regular ? regularPraet(v.inf) : split(v.praet);
-  const aux = v.aux ?? "haben";
-  const p2 = v.p2 ?? regularP2(v.inf);
-  // A separable verb is compared on its base verb: "stehe auf" against stehen.
-  const prefix = v.group === "trennbar" ? praes[0].split(" ")[1] : "";
-  const base = prefix ? v.inf.slice(prefix.length) : v.inf;
-  const head = (f) => f.split(" ")[0];
-  const rp = regularPraes(base);
-  const rt = regularPraet(base);
+  // A phrasal verb is compared on its verb: "gets up" against get. The particle is
+  // everything after the first word.
+  const [base, ...rest] = v.inf.split(" ");
+  const particle = v.group === "trennbar" ? rest.join(" ") : "";
+  const verb = particle ? base : v.inf;
+  const withParticle = (f) => (particle ? `${f} ${particle}` : f);
+  const praes = v.regular ? regularPraes(verb).map(withParticle) : split(v.praes);
+  const praet = v.regular ? regularPraet(verb).map(withParticle) : split(v.praet);
+  const aux = v.aux ?? "have";
+  const p2 = v.p2 ?? withParticle(regularP2(verb));
+  const rp = regularPraes(verb).map(withParticle);
+  const rt = regularPraet(verb).map(withParticle);
   const lex = glossOf(v.inf);
   return {
     ...v,
-    id: v.inf.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/ß/g, "ss"),
+    id: v.inf.toLowerCase().replace(/\s+/g, "-"),
     en: lex?.en ?? "",
     level: lex?.level ?? "",
     lex,
@@ -60,11 +66,11 @@ function build(v) {
     p2,
     rows: PERSONS.map((pron, i) => ({
       pron,
-      praes: { f: praes[i], x: head(praes[i]) !== rp[i] },
-      praet: { f: praet[i], x: head(praet[i]) !== rt[i] },
-      perf: { f: `${AUX[aux][i]} ${p2}`, x: aux === "sein" || p2 !== prefix + regularP2(base) },
+      praes: { f: praes[i], x: praes[i] !== rp[i] },
+      praet: { f: praet[i], x: praet[i] !== rt[i] },
+      perf: { f: `${AUX[aux][i]} ${p2}`, x: p2 !== withParticle(regularP2(verb)) },
     })),
-    futur: `werde ${v.inf}`,
+    futur: `will ${v.inf}`,
   };
 }
 

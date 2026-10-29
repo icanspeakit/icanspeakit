@@ -50,46 +50,45 @@ const tokens = (s) => String(s).match(/[\p{L}\p{N}’'-]+|[.,!?]/gu) ?? [];
 /* ---- /grammatik/verben ---------------------------------------------------------------- */
 function verbTopic() {
   const pools = verbGroupList.map((g) => verbList.filter((v) => v.group === g.id));
-  // A verb with a note has no past of its own (möchten: „Für die Vergangenheit nimmt man
-  // wollen“), so it is asked in the Präsens only.
+  // A verb with a note has a past that is another verb (would like: "For the past, use
+  // wanted") or a spelling trap, so it is asked in the present simple only.
   const past = pools.map((l) => l.filter((v) => !v.note));
   const pick = (skip, lists = past) => roundRobin(lists, ROWS, skip);
   const g = Object.fromEntries(verbGroupList.map((x) => [x.id, x]));
   return {
     id: "verbtabellen",
     slug: "verbtabellen",
-    name: "Verbtabellen: die wichtigsten Verben",
+    name: "Verb tables: the most important verbs",
     level: "A1",
-    subtitle: "Präsens, Präteritum und Perfekt der wichtigsten Verben",
+    subtitle: "Present simple, past simple and present perfect of the most important verbs",
     reference: "/grammatik/verben",
     concept: {
-      qa: [g.regelmaessig?.regel?.[0], g.unregelmaessig?.regel?.[1], g.regelmaessig?.regel?.[2], g.hilfsverb?.regel?.[1]]
+      qa: [g.regelmaessig?.regel?.[0], g.unregelmaessig?.regel?.[0], g.regelmaessig?.regel?.[2], g.hilfsverb?.regel?.[1]]
         .filter(Boolean).map((r) => ({ html: ruleHtml(r) })),
     },
     exercises: [
       {
         type: "table",
-        title: "Präsens: Schreiben Sie die Verbform.",
-        hint: "Vorsicht bei du und er/sie/es: oft ändert sich der Vokal.",
-        columns: ["Person + Verb", "Präsens"],
-        // du or er/sie/es, taking turns, but the one the verb changes (the one worth
-        // asking) where only one of them does.
-        rows: pick(0, pools).map((v, i) => {
-          const turn = i % 2 ? [2, 1] : [1, 2];
-          const p = turn.find((k) => v.rows[k].praes.x) ?? turn[0];
+        title: "Present simple: write the verb form.",
+        hint: "Careful with he/she/it: -s, -es or -ies.",
+        columns: ["Person + verb", "Present simple"],
+        // The person whose form breaks the pattern (I am, he has), else he/she/it.
+        rows: pick(0, pools).map((v) => {
+          const x = v.rows.findIndex((r) => r.praes.x);
+          const p = x === -1 ? 2 : x;
           return { term: `${v.rows[p].pron} · ${v.inf}`, answer: v.rows[p].praes.f };
         }),
       },
       {
         type: "table",
-        title: "Präteritum: Wie heißt die Form für „ich“?",
-        columns: ["Verb", "ich (Präteritum)"],
+        title: "Past simple: write the form.",
+        columns: ["Verb", "Past simple"],
         rows: pick(ROWS).map((v) => ({ term: v.inf, answer: v.rows[0].praet.f })),
       },
       {
         type: "table",
-        title: "Perfekt: haben oder sein – und das Partizip.",
-        columns: ["Verb", "er/sie/es (Perfekt)"],
+        title: "Present perfect: has + past participle.",
+        columns: ["Verb", "he/she/it (present perfect)"],
         rows: pick(2 * ROWS).map((v) => ({ term: v.inf, answer: v.rows[2].perf.f })),
       },
     ],
