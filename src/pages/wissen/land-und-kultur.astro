@@ -23,20 +23,20 @@ const byLevel = <T extends { level: string }>(list: T[]) =>
 const quizCount = kultur.topics.reduce((n, t) => n + t.quiz.length, 0);
 
 const areas = [
-  { href: "/kultur", pic: "🏛️", title: "Kulturwissen", text: "Wie Deutschland im Alltag funktioniert: Mülltrennung, Pfand, Ämter, Feiertage, Schule.", meta: `${kultur.topics.length} Themen` },
-  { href: "/kultur/insider", pic: bilder.extras.insider, title: "Deutschland von innen", text: "Wie Menschen in Deutschland leben, lieben und wählen, mit Zahlen und Quellen.", meta: `${insider.topics.length} Themen` },
-  { href: "/kultur/fehler", pic: bilder.extras.fehler, title: "Typische Fehler nach Muttersprache", text: "Welche Fehler kommen aus welcher Sprache, und wie wirst du sie los?", meta: `${fehler.languages.length} Sprachen` },
-  { href: "/leben-in-deutschland/fakten", pic: "🇩🇪", title: "Fakten über Deutschland", text: "Demokratie, Geschichte, Bundesländer: das Wissen für den Einbürgerungstest.", meta: "Einbürgerungstest (LiD)" },
-  { href: "/kultur/quiz", pic: bilder.extras.quiz, title: "Landeskunde-Quiz", text: "Fragen aus allen Kulturwissen-Themen, gemischt oder pro Thema.", meta: `${quizCount} Fragen` },
-  { href: "/kultur/insider/deutschland-und-das-auto", pic: "🚗", title: "Deutschland und das Auto", text: "Autoland, Tempolimit, Führerschein: was du über das Fahren in Deutschland wissen solltest.", meta: "Auto & Führerschein" },
+  { href: "/kultur", pic: "🏛️", title: "UK culture", text: "How the UK works day to day: queueing, tipping, the NHS, bank holidays, school.", meta: `${kultur.topics.length} topics` },
+  { href: "/kultur/insider", pic: bilder.extras.insider, title: "The UK from the inside", text: "Small talk, politeness, humour and how people really live, with figures and sources.", meta: `${insider.topics.length} topics` },
+  { href: "/kultur/fehler", pic: bilder.extras.fehler, title: "Common mistakes by first language", text: "Which mistakes come from which first language, and how do you get rid of them?", meta: `${fehler.languages.length} languages` },
+  { href: "/leben-in-deutschland/fakten", pic: "🇬🇧", title: "Facts about the UK", text: "Government, history, the four nations: the knowledge for the Life in the UK test.", meta: "Life in the UK test" },
+  { href: "/kultur/quiz", pic: bilder.extras.quiz, title: "Culture quiz", text: "Questions from all the culture topics, mixed or by topic.", meta: `${quizCount} questions` },
+  { href: "/kultur/insider/deutschland-und-das-auto", pic: "🚗", title: "Cars and driving", text: "Roads, speed limits and what to know about driving.", meta: "Cars & driving" },
 ];
 
 const lists = [
-  { id: "kulturwissen", title: "Kulturwissen", href: "/kultur",
+  { id: "kulturwissen", title: "UK culture", href: "/kultur",
     items: byLevel(kultur.topics).map((t) => ({ href: `/kultur/${t.id}`, title: t.title, level: t.level, pic: (bilder.topics as Record<string, string>)[t.id] })) },
-  { id: "von-innen", title: "Deutschland von innen", href: "/kultur/insider",
+  { id: "von-innen", title: "The UK from the inside", href: "/kultur/insider",
     items: byLevel(insider.topics).map((t) => ({ href: `/kultur/insider/${t.id}`, title: t.title, level: t.level, pic: (bilder.insider as Record<string, string>)[t.id] })) },
-  { id: "fehler", title: "Typische Fehler nach Muttersprache", href: "/kultur/fehler",
+  { id: "fehler", title: "Common mistakes by first language", href: "/kultur/fehler",
     items: fehler.languages.map((l) => ({ href: `/kultur/fehler?lang=${l.id}`, title: l.name, level: "", pic: undefined })) },
 ];
 ---
@@ -47,13 +47,13 @@ const lists = [
   <SiteNav active="landeskunde" />
   <main class="practice-main practice-main--wide">
     <div class="practice-hero">
-      <p class="eyebrow" data-i18n="kultur.hero.eyebrow">Landeskunde</p>
-      <h1>Land und Kultur</h1>
+      <p class="eyebrow" data-i18n="kultur.hero.eyebrow">Culture &amp; society</p>
+      <h1>Country and culture</h1>
       <SectionMascot name="bruno" say="The UK at a glance." align="center" class="ku-hero-mascot" />
     </div>
 
     <section class="lk-block">
-      <h2 class="lk-h2">Bereiche</h2>
+      <h2 class="lk-h2">Areas</h2>
       <div class="ku-grid ku-grid--fill">
         {areas.map((a) => (
           <a class="ku-card" href={a.href}>
@@ -68,7 +68,7 @@ const lists = [
       </div>
     </section>
 
-    <nav class="lk-jump" aria-label="Springen zu">
+    <nav class="lk-jump" aria-label="Jump to">
       {lists.map((l) => <a href={`#${l.id}`}>{l.title} <span>{l.items.length}</span></a>)}
     </nav>
 

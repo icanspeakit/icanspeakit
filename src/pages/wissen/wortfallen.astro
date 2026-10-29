@@ -41,7 +41,7 @@ const K = (id: string) => `wortfallen.${id}`;
   <main class="practice-main practice-main--wide wf-page">
     <header class="practice-hero wf-hero">
       <p class="eyebrow" data-i18n="merch.filter.wf">Wortfallen</p>
-      <h1 lang="de">Küche, Kuchen, Koch</h1>
+      <h1 lang="en">Word traps: look-alikes and false friends</h1>
       <p class="wf-lead" data-i18n="wortfallen.lead" data-i18n-vars={JSON.stringify({ n: groups.length })}>Manche Wörter klingen fast gleich – und bedeuten etwas ganz anderes. Hier sind die {groups.length} lustigsten Fallen, jede mit Merktrick.</p>
       <div class="wf-actions">
         <a class="btn btn-primary" href="#quiz" data-i18n="wortfallen.toQuiz">Direkt zum Quiz</a>
@@ -129,7 +129,7 @@ const K = (id: string) => `wortfallen.${id}`;
           <button class="btn btn-primary" type="button" data-again data-i18n="wortfallen.quiz.again">Noch eine Runde</button>
         </div>
       </div>
-      <noscript><p data-i18n-skip>Das Quiz braucht JavaScript.</p></noscript>
+      <noscript><p data-i18n-skip lang="en">The quiz needs JavaScript.</p></noscript>
       <p class="wf-live">
         <span aria-hidden="true">📺</span> <span data-i18n="wortfallen.live.q">Mit der ganzen Klasse?</span> <a href={LIVE} data-live data-i18n="wortfallen.live.cta">Als Live-Quiz spielen</a> <span data-i18n="wortfallen.live.how">– am Beamer, alle antworten am Handy.</span>
       </p>

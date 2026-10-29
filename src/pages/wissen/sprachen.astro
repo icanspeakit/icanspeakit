@@ -96,12 +96,17 @@ const E = karte.europe;
         <p data-i18n="sprachen.lead">{t("sprachen.lead")}</p>
       </header>
 
+      {/* The four figures below (≈100 m native, +80 m second language, 6 countries, No. 1 in the
+          EU) are facts about German. Hidden until the languages run supplies verified figures for
+          English; the sprachen.stat.* keys stay in en.json. */}
+      {false && (
       <ul class="sp-stats">
         <li><b>≈ 100 <span data-i18n="sprachen.stat.mio">{t("sprachen.stat.mio")}</span></b><span data-i18n="sprachen.stat.native">{t("sprachen.stat.native")}</span></li>
         <li><b>+ 80 <span data-i18n="sprachen.stat.mio">{t("sprachen.stat.mio")}</span></b><span data-i18n="sprachen.stat.second">{t("sprachen.stat.second")}</span></li>
         <li><b>6</b><span data-i18n="sprachen.stat.official">{t("sprachen.stat.official")}</span></li>
         <li><b data-i18n="sprachen.stat.euN">{t("sprachen.stat.euN")}</b><span data-i18n="sprachen.stat.eu">{t("sprachen.stat.eu")}</span></li>
       </ul>
+      )}
 
       <nav class="sp-jump" aria-label={t("sprachen.jump")} data-i18n-attr="aria-label:sprachen.jump">
         <a href="#karte" data-i18n="sprachen.map.title">{t("sprachen.map.title")}</a>

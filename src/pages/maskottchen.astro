@@ -8,7 +8,7 @@
 // (/lehrkraefte: Stundenplan, Unterricht, Live-Quiz) — the only one without a subject, so he
 // guides the teacher the way he guides the learner. Regi = Grammatik, Hamsti = Wortschatz,
 // Quaki = Sprechen; they stay out of the teacher shell unless a tool is about their skill.
-// Bruno's job and about text are translated (mk.bruno.*); the rest of the page is German.
+// Bruno's job and about text are keyed (mk.bruno.*); the rest of the page is plain English.
 //
 // Linked from the home page footer ("Mehr"). The texts are easy German on purpose (A2):
 // the learners who meet the mascots first are beginners.
@@ -22,55 +22,55 @@ import "../styles/practice.css";
 
 type Name = "bruno" | "regi" | "hamsti" | "quaki";
 const EXPRS = [
-  ["happy", "froh"],
-  ["thinking", "denkt"],
-  ["celebrate", "jubelt"],
-  ["oops", "hoppla"],
-  ["sleepy", "müde"],
+  ["happy", "happy"],
+  ["thinking", "thinking"],
+  ["celebrate", "cheering"],
+  ["oops", "oops"],
+  ["sleepy", "sleepy"],
 ] as const;
 
 type Place = { href: string; label: string; key?: string };
 const crew: { name: Name; tier: string; job: string; jobKey?: string; color: string; about: string; aboutKey?: string; say: string; places: Place[] }[] = [
   {
-    name: "bruno", tier: "Dackel", job: "Dein Coach – auch für Lehrkräfte", jobKey: "mk.bruno.job", color: "#f97316",
-    about: "Bruno ist immer dabei. Er zeigt dir, wo du anfängst, freut sich über jeden Fortschritt und erklärt dir, wie Deutschland funktioniert: Pfand, Feiertage, Ämter. Und wenn du unterrichtest, hilft er dir auch: beim Stundenplan, im Unterricht und beim Quiz.",
+    name: "bruno", tier: "Dachshund", job: "Your coach – for teachers too", jobKey: "mk.bruno.job", color: "#f97316",
+    about: "Bruno is always there. He shows you where to start, is happy about every step forward and explains how the UK works: queues, bank holidays, the NHS. And if you teach, he helps you too: with the lesson plan, in class and with the quiz.",
     aboutKey: "mk.bruno.about",
-    say: "Schön, dass du da bist!",
+    say: "Great to have you here!",
     places: [
-      { href: "/kultur", label: "Landeskunde" },
-      { href: "/einstufungstest", label: "Einstufungstest" },
-      { href: "/fortschritt", label: "Dein Fortschritt" },
-      { href: "/lehrkraefte", label: "Für Lehrkräfte", key: "nav.subject.lehrkraefte" },
+      { href: "/kultur", label: "UK culture" },
+      { href: "/einstufungstest", label: "Placement test" },
+      { href: "/fortschritt", label: "Your progress" },
+      { href: "/lehrkraefte", label: "For teachers", key: "nav.subject.lehrkraefte" },
     ],
   },
   {
-    name: "regi", tier: "Igel", job: "Grammatik", color: "#0d9488",
-    about: "Regi mag Ordnung: Regeln, Tabellen, Endungen. Stachelig wird er nur, wenn ein Artikel falsch ist — und dann erklärt er dir geduldig, warum.",
-    say: "Regel für Regel.",
+    name: "regi", tier: "Hedgehog", job: "Grammar", color: "#0d9488",
+    about: "Regi likes order: rules, tables, word endings. He only gets prickly when an article is wrong — and then he patiently explains why.",
+    say: "Rule by rule.",
     places: [
-      { href: "/grammatik", label: "Grammatik" },
-      { href: "/artikel", label: "der, die, das" },
-      { href: "/grammatik/wortarten", label: "Wortarten" },
+      { href: "/grammatik", label: "Grammar" },
+      { href: "/artikel", label: "a, an, the" },
+      { href: "/grammatik/wortarten", label: "Word classes" },
     ],
   },
   {
-    name: "hamsti", tier: "Hamster", job: "Wortschatz", color: "#f2a900",
-    about: "Hamsti sammelt Wörter, so wie andere Hamster Nüsse sammeln. Jeden Tag ein paar neue in die Backen — und nach ein paar Wochen ist der Vorrat groß.",
-    say: "Was übst du heute?",
+    name: "hamsti", tier: "Hamster", job: "Vocabulary", color: "#f2a900",
+    about: "Hamsti collects words the way other hamsters collect nuts. A few new ones in the cheeks every day — and after a few weeks the stash is big.",
+    say: "What are you practising today?",
     places: [
-      { href: "/wortschatz", label: "Wortschatz" },
-      { href: "/hoeren", label: "Hören" },
-      { href: "/uebungen", label: "Übungen" },
+      { href: "/wortschatz", label: "Vocabulary" },
+      { href: "/hoeren", label: "Listening" },
+      { href: "/uebungen", label: "Exercises" },
     ],
   },
   {
-    name: "quaki", tier: "Frosch", job: "Sprechen", color: "#2563eb",
-    about: "Quaki quakt gern — und zwar auf Deutsch. Er hilft dir beim Sprechen und bei der Aussprache. Fehler? Kein Problem. Hauptsache, du sprichst.",
-    say: "Sprich einfach los!",
+    name: "quaki", tier: "Frog", job: "Speaking", color: "#2563eb",
+    about: "Quaki loves to croak — in English, of course. He helps you with speaking and pronunciation. Mistakes? No problem. The main thing is that you speak.",
+    say: "Just start talking!",
     places: [
-      { href: "/sprechen", label: "Sprechen" },
-      { href: "/aussprache", label: "Aussprache" },
-      { href: "/aussprache-check", label: "Aussprache-Check" },
+      { href: "/sprechen", label: "Speaking" },
+      { href: "/aussprache", label: "Pronunciation" },
+      { href: "/aussprache-check", label: "Pronunciation check" },
     ],
   },
 ];
@@ -85,9 +85,9 @@ const small = (name: Name, expr: string) => mascotSvg({ name, expr, view: "front
   <SiteNav />
   <main class="practice-main practice-main--wide mk-page">
     <header class="practice-hero mk-hero">
-      <p class="eyebrow">Das sind wir</p>
-      <h1>Die Maskottchen</h1>
-      <p class="mk-lead">Vier Freunde begleiten dich beim Deutschlernen. Jeder kennt sich mit einer Sache besonders gut aus.</p>
+      <p class="eyebrow">Meet the crew</p>
+      <h1>The mascots</h1>
+      <p class="mk-lead">Four friends are with you while you learn English. Each one knows one thing especially well.</p>
       <div class="mk-crew" aria-hidden="true">
         {crew.map((m, i) => (
           <a href={`#${m.name}`} class="mk-crew-fig" style={`--d:${i * 90}ms`} tabindex="-1">
@@ -102,15 +102,15 @@ const small = (name: Name, expr: string) => mascotSvg({ name, expr, view: "front
         <article class="mk-card" id={m.name} style={`--mk:${m.color}`} data-mk={m.name}>
           <div class="mk-stage">
             <div class="mk-big" data-mk-big><Fragment set:html={big(m.name)} /></div>
-            <p class="mk-say">„{m.say}“</p>
+            <p class="mk-say">“{m.say}”</p>
           </div>
           <div class="mk-body">
             <p class="mk-job" data-i18n={m.jobKey}>{m.job}</p>
             <h2>{MASCOT_LABELS[m.name]}</h2>
             <p class="mk-about" data-i18n={m.aboutKey}>{m.about}</p>
 
-            <h3>Seine Stimmungen – tipp eine an</h3>
-            <div class="mk-moods" role="group" aria-label={`Stimmungen von ${m.name}`}>
+            <h3>Their moods – tap one</h3>
+            <div class="mk-moods" role="group" aria-label={`Moods of ${MASCOT_LABELS[m.name]}`}>
               {EXPRS.map(([expr, label]) => (
                 <button type="button" class:list={["mk-mood", expr === "happy" && "is-on"]} data-expr={expr} aria-pressed={expr === "happy" ? "true" : "false"}>
                   <Fragment set:html={small(m.name, expr)} />
@@ -119,7 +119,7 @@ const small = (name: Name, expr: string) => mascotSvg({ name, expr, view: "front
               ))}
             </div>
 
-            <h3>Hier triffst du ihn</h3>
+            <h3>Where you meet them</h3>
             <div class="mk-places">
               {m.places.map((p) => <a href={p.href} data-i18n={p.key}>{p.label}</a>)}
             </div>
@@ -129,10 +129,10 @@ const small = (name: Name, expr: string) => mascotSvg({ name, expr, view: "front
     </div>
 
     <p class="mk-note">
-      Tipp: Auf vielen Seiten kannst du das Maskottchen oben antippen — dann erklärt es dir die Seite.
-      Lieber ohne Maskottchen? Du kannst sie unter <a href="/konto">Konto → Einstellungen</a> ausblenden.
+      Tip: on many pages you can tap the mascot at the top — then it explains the page to you.
+      Prefer no mascots? You can hide them under <a href="/konto">Account → Settings</a>.
     </p>
-    <p class="mk-note">Die Crew auf Shirt, Tasse oder Cap? Schau beim <a href="/merch">Merch</a> vorbei und markiere, was du willst.</p>
+    <p class="mk-note">The crew on a T-shirt, mug or cap? Have a look at the <a href="/merch">merch</a> page and mark what you’d like.</p>
   </main>
 
   <script>

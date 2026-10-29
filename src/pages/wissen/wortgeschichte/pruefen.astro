@@ -17,31 +17,31 @@ const lang = (c: string) => LANG_NAMES[c] ?? c;
 <Layout title="Check word stories" description="Internal checklist" noindex>
   <main class="rv">
     {!DEV ? (
-      <p>Diese Seite gibt es nur in der lokalen Vorschau (<code>astro dev</code>).</p>
+      <p>This page only exists in the local preview (<code>astro dev</code>).</p>
     ) : (
       <>
         <header class="rv-head">
-          <h1>Wortgeschichte prüfen</h1>
+          <h1>Check word stories</h1>
           <p class="rv-stats">
-            <b data-rv-done>{done}</b> / {list.length} freigegeben ·
-            lückenlos freigegeben bis <b data-rv-until>–</b> ·
-            Tägliche Mail braucht 60 im Voraus
+            <b data-rv-done>{done}</b> / {list.length} approved ·
+            approved without gaps until <b data-rv-until>–</b> ·
+            The daily email needs 60 days in advance
           </p>
           <div class="rv-tools">
             <div class="rv-filter" role="group" aria-label="Filter">
-              <button type="button" data-f="offen" aria-pressed="true">Offen</button>
-              <button type="button" data-f="unsicher" aria-pressed="false">Unsicher</button>
-              <button type="button" data-f="frei" aria-pressed="false">Freigegeben</button>
-              <button type="button" data-f="alle" aria-pressed="false">Alle</button>
+              <button type="button" data-f="offen" aria-pressed="true">Open</button>
+              <button type="button" data-f="unsicher" aria-pressed="false">Uncertain</button>
+              <button type="button" data-f="frei" aria-pressed="false">Approved</button>
+              <button type="button" data-f="alle" aria-pressed="false">All</button>
             </div>
-            <input type="search" placeholder="Wort suchen …" data-rv-q />
+            <input type="search" placeholder="Search for a word …" data-rv-q />
           </div>
           <p class="rv-legend">
-            <span class="rv-c rv-c--sicher">sicher</span>
-            <span class="rv-c rv-c--wahrscheinlich">wahrscheinlich</span>
-            <span class="rv-c rv-c--umstritten">umstritten</span>
-            <span class="rv-c rv-c--unklar">unklar</span>
-            = wie sicher die Wurzel ist. Verwandt/entlehnt/Zufall/Bild = Behauptung über die andere Sprache.
+            <span class="rv-c rv-c--sicher">certain</span>
+            <span class="rv-c rv-c--wahrscheinlich">probable</span>
+            <span class="rv-c rv-c--umstritten">disputed</span>
+            <span class="rv-c rv-c--unklar">unclear</span>
+            = how sure the root is. Related/borrowed/coincidence/same picture = claim about the other language.
           </p>
         </header>
 
@@ -69,13 +69,13 @@ const lang = (c: string) => LANG_NAMES[c] ?? c;
                   <div class="rv-word">
                     <a href={hrefOf(e)} target="_blank" rel="noopener">{e.lemma}</a>
                     <span class="rv-lvl">{e.level}</span>
-                    {audio && <button type="button" class="rv-play" data-audio={audio} aria-label="Anhören">▶</button>}
+                    {audio && <button type="button" class="rv-play" data-audio={audio} aria-label="Listen">▶</button>}
                   </div>
 
                   <p class="rv-root">
                     <span class={`rv-c rv-c--${e.root.certainty}`}>{e.root.certainty}</span>
                     <b>{e.root.form}</b> <span class="rv-m">{e.root.lang}{e.root.meaning && <> ‚{e.root.meaning}‘</>}</span>
-                    {e.root.via && <span class="rv-m"> · über {e.root.via.lang} <b>{e.root.via.form}</b></span>}
+                    {e.root.via && <span class="rv-m"> · via {e.root.via.lang} <b>{e.root.via.form}</b></span>}
                   </p>
                   {e.root.note && <p class="rv-note">{e.root.note}</p>}
                   <p class="rv-path">{path.join(" → ")}</p>
@@ -97,7 +97,7 @@ const lang = (c: string) => LANG_NAMES[c] ?? c;
                   )}
 
                   <details class="rv-more">
-                    <summary>Texte &amp; Quellen</summary>
+                    <summary>Texts &amp; sources</summary>
                     <p>{e.history}</p>
                     {e.elsewhere?.map((b: any) => <p><b>{lang(b.lang)}:</b> {b.text}</p>)}
                     <ul class="rv-src">
@@ -107,7 +107,7 @@ const lang = (c: string) => LANG_NAMES[c] ?? c;
                 </div>
 
                 <div class="rv-act">
-                  <button type="button" class="rv-ok" data-approve>{ok ? "✓ Freigegeben" : "Freigeben"}</button>
+                  <button type="button" class="rv-ok" data-approve>{ok ? "✓ Approved" : "Approve"}</button>
                   {ok && <small class="rv-by">{e.checkedBy}, {formatDe(e.checkedAt)}</small>}
                 </div>
               </li>
@@ -235,9 +235,9 @@ const lang = (c: string) => LANG_NAMES[c] ?? c;
         body: JSON.stringify({ slug: r.dataset.slug, approve }),
       }).catch(() => null);
       btn.disabled = false;
-      if (!res?.ok) { btn.textContent = "Fehler – nochmal"; return; }
+      if (!res?.ok) { btn.textContent = "Error – try again"; return; }
       r.classList.toggle("is-ok", approve);
-      btn.textContent = approve ? "✓ Freigegeben" : "Freigeben";
+      btn.textContent = approve ? "✓ Approved" : "Approve";
       stats();
       apply();
     });

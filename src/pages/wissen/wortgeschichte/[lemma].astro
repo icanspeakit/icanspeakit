@@ -35,7 +35,7 @@ const jsonLd = {
   name: lemma,
   alternateName: headword(entry),
   description: entry.history,
-  inLanguage: "de",
+  inLanguage: "en",
   url: site + hrefOf(entry),
   inDefinedTermSet: {
     "@type": "DefinedTermSet",
@@ -57,7 +57,7 @@ const jsonLd = {
     <SiteNav active="wissen" />
     <main class="uv-main">
       <div class="wg">
-        <a href="/wissen/wortgeschichte" class="vp-back-link" data-i18n="wg.backToday">Wort des Tages</a>
+        <a href="/wissen/wortgeschichte" class="vp-back-link" data-i18n="wg.backToday">Word of the day</a>
         <SectionMascot name="regi" expr="happy" say="Every word has a story." align="center" class="hub-mascot uv-hub-mascot" />
         <WortEntry entry={entry} mode="archive" preview={PREVIEW} today={day} />
         <WortAbo />

@@ -46,8 +46,8 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
   <main class="practice-main practice-main--wide bk-page" data-view="alle">
     <header class="practice-hero bk-hero">
       <p class="eyebrow" data-i18n="bildwb.eyebrow">Bildkarten</p>
-      <h1 data-i18n="bildwb.title">Die 100 wichtigsten Wörter</h1>
-      <p data-i18n="bildwb.lead" data-i18n-vars={JSON.stringify(groupN)}>Ein Bild, ein Wort. Tipp auf eine Karte und hör das Wort. Die Wörter, die man im Deutschen am häufigsten hört: {groupN.nomen} Nomen, {groupN.verben} Verben, {groupN.adjektive} Adjektive und {groupN.kleine} kleine Wörter.</p>
+      <h1 data-i18n="bildwb.title">The 100 most important words</h1>
+      <p data-i18n="bildwb.lead" data-i18n-vars={JSON.stringify(groupN)}>One picture, one word. Tap a card and hear the word. The words you hear most often in English: {groupN.nomen} nouns, {groupN.verben} verbs, {groupN.adjektive} adjectives and {groupN.kleine} little words.</p>
       <div class="bk-crew" aria-hidden="true" data-mascot-part>
         <Fragment set:html={mascotSvg({ name: "hamsti", expr: "happy", view: "three", size: 60, label: "" })} />
         <p class="bk-say">„<span data-i18n="bildwb.say">Erst sagen, dann tippen!</span>“</p>
@@ -56,7 +56,7 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
 
     <div class="bk-bar">
       <div class="bk-tools">
-      <div class="bk-views" role="group" aria-label="Ansicht" data-i18n-attr="aria-label:ak.view" data-views>
+      <div class="bk-views" role="group" aria-label="View" data-i18n-attr="aria-label:ak.view" data-views>
         <button type="button" data-view-btn="alle" aria-pressed="true">
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
           <span data-i18n="vt.sel.all">Alle</span>
@@ -66,12 +66,12 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
           <span data-i18n="bildwb.view.single">Einzeln</span>
         </button>
       </div>
-      <button type="button" class="bk-mute" data-mute aria-pressed="false" aria-label="Ton aus" title="Ton aus">
+      <button type="button" class="bk-mute" data-mute aria-pressed="false" aria-label="Sound off" title="Sound off">
         <svg class="bk-mute-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>
         <svg class="bk-mute-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9.5l5 5M22 9.5l-5 5"/></svg>
       </button>
       </div>
-      <div class="bk-filter" role="group" aria-label="Wortart" data-i18n-attr="aria-label:bildwb.filterLabel" data-filter>
+      <div class="bk-filter" role="group" aria-label="Word class" data-i18n-attr="aria-label:bildwb.filterLabel" data-filter>
         <button type="button" data-group-btn="" aria-pressed="true"><span data-i18n="vt.sel.all">Alle</span> <small>{cards.length}</small></button>
         {groups.map((g) => <button type="button" data-group-btn={g.id} aria-pressed="false"><span data-i18n={`bildwb.group.${g.id}`}>{g.title}</span> <small>{g.n}</small></button>)}
       </div>
@@ -103,7 +103,7 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
     <ul class="bk-grid" data-grid>
       {cards.map((c) => (
         <li data-group={c.group}>
-          <button type="button" class={`bk-card bk-card--${c.group}`} data-card={c.id} data-audio={c.audio} data-word={`${c.art ? c.art + " " : ""}${c.lemma}`} aria-label={`${c.art ? c.art + " " : ""}${c.lemma}, groß zeigen und anhören`}>
+          <button type="button" class={`bk-card bk-card--${c.group}`} data-card={c.id} data-audio={c.audio} data-word={`${c.art ? c.art + " " : ""}${c.lemma}`} aria-label={`${c.art ? c.art + " " : ""}${c.lemma}, show big and listen`}>
             <span class="bk-pic"><Fragment set:html={bildSvg(c.id, { size: 120 })} /></span>
             <span class="bk-word" lang="de">{c.art && <span class={`bk-art bk-art--${c.art}`}>{c.art} </span>}{c.lemma}</span>
           </button>
@@ -112,16 +112,16 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
     </ul>
 
     {/* Einzeln: one big card. Filled in by the script from the grid's cards. */}
-    <section class="bk-single" data-single aria-label="Eine Karte" data-i18n-attr="aria-label:bildwb.single" hidden>
+    <section class="bk-single" data-single aria-label="One card" data-i18n-attr="aria-label:bildwb.single" hidden>
       <div class="bk-stage" data-stage>
-        <button type="button" class="bk-nav bk-nav--prev" data-prev aria-label="Vorige Karte" data-i18n-attr="aria-label:bildwb.prev">
+        <button type="button" class="bk-nav bk-nav--prev" data-prev aria-label="Previous card" data-i18n-attr="aria-label:bildwb.prev">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
         </button>
-        <button type="button" class="bk-card bk-card--big" data-big aria-label="Wort anhören">
+        <button type="button" class="bk-card bk-card--big" data-big aria-label="Listen to the word">
           <span class="bk-pic" data-big-pic></span>
           <span class="bk-word" lang="de" data-big-word></span>
         </button>
-        <button type="button" class="bk-nav bk-nav--next" data-next aria-label="Nächste Karte" data-i18n-attr="aria-label:vt.learn.nextCard">
+        <button type="button" class="bk-nav bk-nav--next" data-next aria-label="Next card" data-i18n-attr="aria-label:vt.learn.nextCard">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
         </button>
       </div>
@@ -293,7 +293,7 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
     try { muted = localStorage.getItem(MUTE_KEY) === "1"; } catch { /* ignore */ }
     const paintMute = () => {
       muteBtn.setAttribute("aria-pressed", String(muted));
-      const label = muted ? t("ap.sound.on", "Ton an") : t("ap.sound.off", "Ton aus");
+      const label = muted ? t("ap.sound.on", "Sound on") : t("ap.sound.off", "Sound off");
       muteBtn.setAttribute("aria-label", label);
       muteBtn.title = label;
     };
@@ -326,7 +326,7 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
       big.dataset.audio = c.dataset.audio ?? "";
       big.dataset.id = c.dataset.card;
       big.dataset.word = c.dataset.word;
-      big.setAttribute("aria-label", t("bildwb.card.play", "{word}, anhören", { word: c.dataset.word ?? "" }));
+      big.setAttribute("aria-label", t("bildwb.card.play", "{word}, listen", { word: c.dataset.word ?? "" }));
       if (dir && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
         void big.offsetWidth;
         big.classList.add(`is-in-${dir}`);
@@ -424,7 +424,7 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
     };
       const el = box.querySelector<HTMLElement>("[data-print-sel]")!;
       el.dataset.i18nVars = JSON.stringify(vars);
-      el.innerHTML = t("bildwb.print.sel", "Gedruckt wird deine Auswahl: <b>{n}</b> Karten auf <b>{pages}</b> Seiten.", vars);
+      el.innerHTML = t("bildwb.print.sel", "Your selection gets printed: <b>{n}</b> cards on <b>{pages}</b> pages.", vars);
     }
     box.addEventListener("change", printCount);
     page.querySelector("[data-filter]")!.addEventListener("click", () => requestAnimationFrame(printCount));
@@ -432,8 +432,8 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
 
     // Card labels name the word (German) and what a tap does (interface language).
     const paintLabels = () => {
-      for (const c of all) c.setAttribute("aria-label", t("bildwb.card.open", "{word}, groß zeigen und anhören", { word: c.dataset.word ?? "" }));
-      big.setAttribute("aria-label", big.dataset.word ? t("bildwb.card.play", "{word}, anhören", { word: big.dataset.word }) : t("bildwb.listen", "Wort anhören"));
+      for (const c of all) c.setAttribute("aria-label", t("bildwb.card.open", "{word}, show big and listen", { word: c.dataset.word ?? "" }));
+      big.setAttribute("aria-label", big.dataset.word ? t("bildwb.card.play", "{word}, listen", { word: big.dataset.word }) : t("bildwb.listen", "Listen to the word"));
     };
     paintLabels();
     paintMute();

@@ -21,7 +21,7 @@ import "../../styles/practice.css";
 type Eintrag = { w: string; std: string; bsp?: string; info?: string; stufe?: number };
 type Crew = "bruno" | "regi" | "hamsti" | "quaki";
 type Expr = "happy" | "thinking" | "celebrate" | "oops" | "sleepy";
-const REG: Record<string, string> = { umgang: "Umgangssprache", slang: "Slang", vulgaer: "Vulgär" };
+const REG: Record<string, string> = { umgang: "Informal", slang: "Slang", vulgaer: "Rude" };
 // One crew member per step of the ladder: Bruno in a bow tie says it the formal way, Quaki
 // gets it wrong. The figure is decoration (data-mascot-part), the sentence stays in the bubble.
 const STEP_MASCOT: Record<string, [Crew, Expr, "fliege" | undefined]> = {
@@ -34,22 +34,22 @@ const stepFig = (id: string) => {
 };
 // A tip per section, from the mascot that fits it (≤ 6 words, easy German).
 const GROUP_MASCOT: Record<string, { name: Crew; expr: Expr; say: string }> = {
-  kurzformen: { name: "quaki", expr: "happy", say: "Hören ja, schreiben nein!" },
-  alltag: { name: "hamsti", expr: "happy", say: "Diese Wörter hörst du täglich." },
-  zahlen: { name: "regi", expr: "thinking", say: "Zwo? Das ist zwei!" },
-  jugend: { name: "hamsti", expr: "celebrate", say: "Krass – aber nur mit Freunden." },
-  vulgaer: { name: "bruno", expr: "oops", say: "Verstehen ja, sagen lieber nicht!" },
+  kurzformen: { name: "quaki", expr: "happy", say: "Say it, don’t write it!" },
+  alltag: { name: "hamsti", expr: "happy", say: "You’ll hear these daily." },
+  zahlen: { name: "regi", expr: "thinking", say: "Quid? That’s a pound!" },
+  jugend: { name: "hamsti", expr: "celebrate", say: "Cool – with friends only." },
+  vulgaer: { name: "bruno", expr: "oops", say: "Understand it, don’t say it!" },
 };
 // The four steps as one scene: the same question, said to the Amt and to a friend.
 const comic = {
-  title: "Ein Satz, zwei Stufen",
+  title: "One question, two registers",
   panels: [
-    { caption: "Beim Amt", tag: "Hochdeutsch", left: { name: "bruno" as Crew, say: "Haben Sie kurz Zeit?" }, right: { name: "regi" as Crew, say: "Ja, gern. Worum geht es?" } },
-    { caption: "Mit Freunden", tag: "Umgangssprache", left: { name: "hamsti" as Crew, say: "Haste mal 'ne Minute?" }, right: { name: "quaki" as Crew, say: "Klar, was gibt's?" } },
-    { caption: "Falsche Stufe", tag: "Zu locker beim Amt", left: { name: "quaki" as Crew, expr: "oops" as Expr, say: "Digga, haste kurz Zeit?" }, right: { name: "bruno" as Crew, expr: "thinking" as Expr, say: "Wie bitte?" } },
+    { caption: "At the council office", tag: "Standard English", left: { name: "bruno" as Crew, say: "Could I have a moment of your time?" }, right: { name: "regi" as Crew, say: "Of course. What is it about?" } },
+    { caption: "With friends", tag: "Informal", left: { name: "hamsti" as Crew, say: "Got a minute, mate?" }, right: { name: "quaki" as Crew, say: "Sure, what’s up?" } },
+    { caption: "Wrong register", tag: "Too casual for the office", left: { name: "quaki" as Crew, expr: "oops" as Expr, say: "Oi, got a sec, bruv?" }, right: { name: "bruno" as Crew, expr: "thinking" as Expr, say: "Pardon?" } },
   ],
 };
-const STUFE = ["", "mild", "stark", "sehr stark"];
+const STUFE = ["", "mild", "strong", "very strong"];
 const gruppen = data.gruppen.map((g) => ({ ...g, eintraege: g.eintraege as Eintrag[] }));
 const offen = gruppen.filter((g) => g.reg !== "vulgaer");
 const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
@@ -59,16 +59,16 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
   description="Gonna, cheers, quid, knackered, mate – what do they mean, and when can you say them? With standard English next to them and polite alternatives."
 >
   <SiteNav active="wissen" />
-  <main class="practice-main practice-main--wide us-page">
+  <main class="practice-main practice-main--wide us-page" lang="en">
     <header class="practice-hero us-hero">
-      <p class="eyebrow">Wissen · Sprache</p>
-      <h1 lang="de">Umgangssprache, Slang und Schimpfwörter</h1>
-      <p class="us-lead">Im Kurs lernen Sie Hochdeutsch. Auf der Straße, bei der Arbeit und im Film hören Sie oft etwas anderes. Hier steht, was es bedeutet – und wann Sie es selbst sagen können.</p>
-      <SectionMascot name="quaki" say="Haste mal 'ne Minute?" align="center" size={64} />
+      <p class="eyebrow">Knowledge · Language</p>
+      <h1>Informal English, slang and rude words</h1>
+      <p class="us-lead">In class you learn standard English. On the street, at work and in films you often hear something different. Here you can see what it means – and when you can say it yourself.</p>
+      <SectionMascot name="quaki" say="Got a minute, mate?" align="center" size={64} />
     </header>
 
     <section class="us-ladder" aria-labelledby="us-ladder-h">
-      <h2 id="us-ladder-h">Vier Stufen: Wie rede ich mit wem?</h2>
+      <h2 id="us-ladder-h">Four levels: how do I talk to whom?</h2>
       <ol>
         {data.stufen.map((s, i) => (
           <li class={`us-step us-step--${s.id}`}>
@@ -82,13 +82,13 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
           </li>
         ))}
       </ol>
-      <p class="us-tip"><span aria-hidden="true">💡</span> Im Zweifel: Hochdeutsch. Zu höflich ist nie ein Problem, zu locker schon.</p>
+      <p class="us-tip"><span aria-hidden="true">💡</span> If in doubt, use standard English. Too polite is never a problem, too casual can be.</p>
       <div class="us-comic"><MascotComic comic={comic} fit /></div>
     </section>
 
-    <nav class="us-index" aria-label="Inhalt">
+    <nav class="us-index" aria-label="Contents">
       {gruppen.map((g) => <a href={`#${g.id}`}>{g.titel.replace(/:.*$/, "")}</a>)}
-      <a href="#hoeflich">Höflich statt grob</a>
+      <a href="#hoeflich">Polite instead of rude</a>
     </nav>
 
     {offen.map((g) => (
@@ -103,7 +103,7 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
           {g.eintraege.map((e) => (
             <li class="us-card">
               <p class="us-w" lang="de">{e.w}</p>
-              <p class="us-std"><span>Hochdeutsch</span> <b lang="de">{e.std}</b></p>
+              <p class="us-std"><span>Standard English</span> <b lang="de">{e.std}</b></p>
               {e.bsp && <p class="us-bsp" lang="de">„{e.bsp}“</p>}
               {e.info && <p class="us-info"><span aria-hidden="true">ℹ️</span> {e.info}</p>}
             </li>
@@ -121,11 +121,11 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
       <SectionMascot {...GROUP_MASCOT.vulgaer} class="us-group-mascot" />
       {/* Folded: the page can be on the projector without the swear words showing. */}
       <details class="us-fold">
-        <summary>Schimpfwörter zeigen ({vulgaer.eintraege.length})</summary>
+        <summary>Show rude words ({vulgaer.eintraege.length})</summary>
         <p class="us-scale">
           <span class="us-dots" data-s="1" aria-hidden="true"></span> mild
-          <span class="us-dots" data-s="2" aria-hidden="true"></span> stark
-          <span class="us-dots" data-s="3" aria-hidden="true"></span> sehr stark – nie sagen
+          <span class="us-dots" data-s="2" aria-hidden="true"></span> strong
+          <span class="us-dots" data-s="3" aria-hidden="true"></span> very strong – never say
         </p>
         <ul class="us-list">
           {vulgaer.eintraege.map((e) => (
@@ -134,20 +134,20 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
                 {e.w}
                 <span class="us-dots" data-s={e.stufe} title={STUFE[e.stufe ?? 0]}><span class="sr-only">{STUFE[e.stufe ?? 0]}</span></span>
               </p>
-              <p class="us-std"><span>Gemeint</span> <b lang="de">{e.std}</b></p>
+              <p class="us-std"><span>Meaning</span> <b lang="de">{e.std}</b></p>
               {e.bsp && <p class="us-bsp" lang="de">„{e.bsp}“</p>}
               {e.info && <p class="us-info"><span aria-hidden="true">ℹ️</span> {e.info}</p>}
             </li>
           ))}
         </ul>
       </details>
-      <p class="us-law"><span aria-hidden="true">⚖️</span> <span><b>Achtung, Recht:</b> {data.recht}</span></p>
+      <p class="us-law"><span aria-hidden="true">⚖️</span> <span><b>Careful, the law:</b> {data.recht}</span></p>
     </section>
 
     <section class="us-group us-group--hoeflich" id="hoeflich" aria-labelledby="hoeflich-h">
-      <div class="us-group-head"><h2 id="hoeflich-h">Höflich statt grob</h2></div>
-      <p class="us-intro">Das Gleiche sagen – ohne Streit.</p>
-      <SectionMascot name="bruno" expr="celebrate" say="So klappt's ohne Streit!" class="us-group-mascot" />
+      <div class="us-group-head"><h2 id="hoeflich-h">Polite instead of rude</h2></div>
+      <p class="us-intro">Say the same thing – without a row.</p>
+      <SectionMascot name="bruno" expr="celebrate" say="No rows, just manners!" class="us-group-mascot" />
       <ul class="us-swap">
         {data.hoeflich.map((h) => (
           <li>
@@ -160,7 +160,7 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
     </section>
 
     {REDEWENDUNGEN_LIVE && (
-      <p class="us-more"><a href="/wissen/redewendungen">Mehr: Redewendungen & Sprichwörter ›</a> <span>„Ich verstehe nur Bahnhof“ und viele andere, mit Bild und Herkunft.</span></p>
+      <p class="us-more"><a href="/wissen/redewendungen">More: idioms & proverbs ›</a> <span>“It’s raining cats and dogs” and many others, with a picture and where they come from.</span></p>
     )}
   </main>
 

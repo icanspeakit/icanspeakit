@@ -28,11 +28,11 @@ const short = (s: string, n = 60) => (s.length > n ? `${s.slice(0, n - 1).trimEn
   <SiteNav active="wissen" />
   <main class="practice-main practice-main--wide zt-page">
     <div class="zt-day">
-      <a class="zt-back" href="/wissen/zitate">‹ <span data-i18n="zitate.title">Zitat des Tages</span></a>
+      <a class="zt-back" href="/wissen/zitate">‹ <span data-i18n="zitate.title">Quote of the day</span></a>
       <ZitatCard q={q} heading="h1" />
     </div>
 
-    <nav class="zt-pager" aria-label="Weitere Zitate" data-i18n-attr="aria-label:zitate.pagerAria">
+    <nav class="zt-pager" aria-label="More quotes" data-i18n-attr="aria-label:zitate.pagerAria">
       <a href={`/wissen/zitate/${prev.id}`} rel="prev" lang="de">‹ {prev.who.name.split(" ").at(-1)}</a>
       <a href={`/wissen/zitate/${next.id}`} rel="next" lang="de">{next.who.name.split(" ").at(-1)} ›</a>
     </nav>
@@ -41,7 +41,7 @@ const short = (s: string, n = 60) => (s.length > n ? `${s.slice(0, n - 1).trimEn
 
     {more.length > 0 && (
       <section class="zt-all" aria-labelledby="zt-more-h">
-        <h2 id="zt-more-h" data-i18n="zitate.more" data-i18n-vars={JSON.stringify({ name: q.who.name })}>Mehr von {q.who.name}</h2>
+        <h2 id="zt-more-h" data-i18n="zitate.more" data-i18n-vars={JSON.stringify({ name: q.who.name })}>More by {q.who.name}</h2>
         <div class="zt-group">
           <ul>
             {more.map((o: any) => (

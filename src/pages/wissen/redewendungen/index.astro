@@ -39,7 +39,7 @@ const searchText = (e: any) => [e.de, e.bedeutung, e.en, ...(e.bsp ?? [])].join(
     <header class="practice-hero rw-hero">
       <p class="eyebrow" data-i18n="rw.eyebrow">Wissen · Sprache</p>
       <h1 data-i18n="rw.title">Redewendungen & Sprichwörter</h1>
-      <p class="rw-lead" data-i18n="rw.lead">Wort für Wort verstehst du sie nicht: „Da beißt die Maus keinen Faden ab.“ Hier steht, was sie bedeuten, wann man sie sagt und woher sie kommen.</p>
+      <p class="rw-lead" data-i18n="rw.lead">You can’t understand them word for word: “It’s raining cats and dogs.” Here you’ll find what they mean, when people say them and where they come from.</p>
       <SectionMascot name="quaki" expr="thinking" say="Cats and dogs? Where?" align="center" size={64} />
     </header>
 
@@ -58,15 +58,15 @@ const searchText = (e: any) => [e.de, e.bedeutung, e.en, ...(e.bsp ?? [])].join(
     <section class="rw-filter" data-filter aria-label="Filter">
       <label class="rw-search">
         <span class="sr-only" data-i18n="rw.search">Suchen</span>
-        <input type="search" data-q placeholder="Suchen: Bahnhof, Glück, Geld …" data-i18n-attr="placeholder:rw.search.placeholder" autocomplete="off" />
+        <input type="search" data-q placeholder="Search: rain, luck, money …" data-i18n-attr="placeholder:rw.search.placeholder" autocomplete="off" />
       </label>
-      <div class="rw-chips" role="group" aria-label="Thema">
+      <div class="rw-chips" role="group" aria-label="Topic">
         <button type="button" class="rw-chip" data-f="thema" data-v="" aria-pressed="true" data-i18n="rw.filter.allThemes">Alle Themen</button>
         {gruppen.map((g: any) => (
           <button type="button" class="rw-chip" data-f="thema" data-v={g.id} aria-pressed="false"><img src={emojiSrc(g.icon)} alt="" width="18" height="18" /> <span data-i18n={`rw.thema.${g.id}`}>{g.name}</span></button>
         ))}
       </div>
-      <div class="rw-chips" role="group" aria-label="Level und Typ">
+      <div class="rw-chips" role="group" aria-label="Level and type">
         <button type="button" class="rw-chip" data-f="level" data-v="" aria-pressed="true" data-i18n="rw.filter.allLevels">Alle Level</button>
         {LEVELS.map((l) => <button type="button" class="rw-chip" data-f="level" data-v={l} aria-pressed="false">{l}</button>)}
         <span class="rw-chips-gap" aria-hidden="true"></span>
@@ -98,7 +98,7 @@ const searchText = (e: any) => [e.de, e.bedeutung, e.en, ...(e.bsp ?? [])].join(
                 <span class="rw-bed" lang="de">{e.bedeutung}</span>
                 <span class="rw-bsp" lang="de">„{e.bsp[0]}“</span>
               </a>
-              <button type="button" class="rw-say-btn" data-say={e.de} data-src={audioOf(e.id)} aria-label={`Anhören: ${e.de}`} data-i18n-attr="aria-label:rw.listen">🔊</button>
+              <button type="button" class="rw-say-btn" data-say={e.de} data-src={audioOf(e.id)} aria-label={`Listen: ${e.de}`} data-i18n-attr="aria-label:rw.listen">🔊</button>
             </li>
           ))}
         </ul>
@@ -109,7 +109,7 @@ const searchText = (e: any) => [e.de, e.bedeutung, e.en, ...(e.bsp ?? [])].join(
     <section class="rw-practice" id="ueben" aria-labelledby="rw-practice-h">
       <h2 id="rw-practice-h" data-i18n="rw.practice.title">Üben</h2>
       <p class="rw-practice-lead" data-i18n="rw.practice.lead">Neun Fragen: Was bedeutet das? Welches Wort fehlt? Und welche Redewendung spielt Quaki?</p>
-      <div class="quiz-container rw-quiz" data-uebung><noscript>Zum Üben braucht die Seite JavaScript.</noscript></div>
+      <div class="quiz-container rw-quiz" data-uebung><noscript lang="en">You need JavaScript to practise.</noscript></div>
     </section>
   </main>
   <script type="application/json" id="rw-items" set:html={JSON.stringify({ items, dayOrder })} />

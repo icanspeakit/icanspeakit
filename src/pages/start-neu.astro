@@ -1,80 +1,80 @@
 ---
-// /start-neu — Entwurf: aufgeräumte Startseite + schlankes Menü (EXPERIMENTE.md).
-// Nur ein Mock: eigenes Menü, keine geteilten Komponenten, noindex.
+// /start-neu — draft: tidied-up homepage + slim menu (EXPERIMENTE.md).
+// Only a mock: its own menu, no shared components, noindex. English text only.
 import Layout from "../layouts/Layout.astro";
 
 const menu = [
   {
-    id: "ueben", label: "Üben", href: "/uebungen",
+    id: "ueben", label: "Practise", href: "/uebungen",
     cols: [
-      { title: "Sprache", links: [
-        ["/grammatik", "Grammatik", "Alle Themen von A1 bis C1"],
-        ["/wortschatz", "Wortschatz", "Wörter nach Thema und Niveau"],
-        ["/artikel", "der, die, das", "Artikel-Trainer"],
+      { title: "Language", links: [
+        ["/grammatik", "Grammar", "All topics from A1 to C1"],
+        ["/wortschatz", "Vocabulary", "Words by topic and level"],
+        ["/artikel", "a, an, the", "Article trainer"],
       ]},
-      { title: "Fertigkeiten", links: [
-        ["/hoeren", "Hören", ""],
-        ["/sprechen/", "Sprechen & Aussprache", ""],
-        ["/lesen", "Lesen & Schreiben", ""],
+      { title: "Skills", links: [
+        ["/hoeren", "Listening", ""],
+        ["/sprechen/", "Speaking & pronunciation", ""],
+        ["/lesen", "Reading & writing", ""],
       ]},
     ],
-    extra: ["/spiele/lindenau", "🎮 Lieber spielen? Zu den Spielen"],
-    all: ["/uebungen", "Alle Übungen"],
+    extra: ["/spiele/lindenau", "🎮 Prefer to play? Go to the games"],
+    all: ["/uebungen", "All exercises"],
   },
   {
-    id: "pruefungen", label: "Prüfungen", href: "/pruefungen",
+    id: "pruefungen", label: "Exams", href: "/pruefungen",
     cols: [
-      { title: "Sprachprüfungen", links: [
-        ["/goethe", "Goethe-Zertifikat", "A1–C2"],
-        ["/telc", "telc", "A1–C2"],
-        ["/dtz", "DTZ", "A2 / B1"],
-        ["/testdaf", "TestDaF", "B2–C1"],
+      { title: "Language exams", links: [
+        ["/goethe", "Cambridge English", "A2 Key to C2 Proficiency"],
+        ["/telc", "Trinity ISE", ""],
+        ["/dtz", "Trinity ISE I", "Practice set"],
+        ["/testdaf", "IELTS", ""],
       ]},
-      { title: "Für das Leben hier", links: [
-        ["/leben-in-deutschland", "Einbürgerungstest", "Leben in Deutschland"],
-        ["/fuehrerschein", "Führerschein", "Klasse B"],
+      { title: "For life in the UK", links: [
+        ["/leben-in-deutschland", "Life in the UK test", "For settlement and citizenship"],
+        ["/fuehrerschein", "Driving", "Theory test"],
       ]},
     ],
-    all: ["/pruefungen", "Alle Prüfungen"],
+    all: ["/pruefungen", "All exams"],
   },
   {
-    id: "leben", label: "Leben in DE", href: "/wissen",
+    id: "leben", label: "Life in the UK", href: "/wissen",
     cols: [
-      { title: "Land & Leute", links: [
-        ["/kultur", "Kultur & Alltag", "Was Deutsche wirklich meinen"],
-        ["/politik", "Politik in D, A, CH", ""],
-        ["/wissen/dialekte", "Dialekte", "Die Karte"],
+      { title: "Country & culture", links: [
+        ["/kultur", "Culture & everyday life", "What people really mean"],
+        ["/politik", "Politics in the UK", ""],
+        ["/wissen/dialekte", "Accents", "The map"],
       ]},
-      { title: "Nachschlagen", links: [
-        ["/nachschlagewerk", "Nachschlagewerk", "Verbtabellen, Wortarten"],
-        ["/wissen/umgangssprache", "Umgangssprache", ""],
+      { title: "Look things up", links: [
+        ["/nachschlagewerk", "Reference", "Verb tables, word classes"],
+        ["/wissen/umgangssprache", "Informal English", ""],
       ]},
     ],
-    all: ["/wissen", "Alles zu Land & Leuten"],
+    all: ["/wissen", "Everything about country & culture"],
   },
 ];
 
 const levels = ["A1", "A2", "B1", "B2", "C1"];
 
 const paths = [
-  { icon: "/email/hamsti.png", title: "Deutsch üben", text: "Grammatik, Wörter, Hören und Sprechen. Kurze Übungen, sofort Feedback.",
-    links: [["/grammatik", "Grammatik"], ["/wortschatz", "Wortschatz"], ["/artikel", "der, die, das"]], href: "/uebungen", cta: "Zu den Übungen" },
-  { icon: "/email/regi.png", title: "Prüfung bestehen", text: "Echte Prüfungsformate mit Zeit, Punkten und Erklärung zu jeder Antwort.",
-    links: [["/goethe", "Goethe"], ["/telc", "telc"], ["/dtz", "DTZ"]], href: "/pruefungen", cta: "Zu den Prüfungen" },
-  { icon: "/email/quaki.png", title: "In Deutschland leben", text: "Einbürgerungstest, Führerschein, Ämter und Alltag. Was man wirklich braucht.",
-    links: [["/leben-in-deutschland", "Einbürgerungstest"], ["/fuehrerschein", "Führerschein"], ["/kultur", "Kultur"]], href: "/wissen", cta: "Mehr dazu" },
+  { icon: "/email/hamsti.png", title: "Practise English", text: "Grammar, words, listening and speaking. Short exercises, instant feedback.",
+    links: [["/grammatik", "Grammar"], ["/wortschatz", "Vocabulary"], ["/artikel", "a, an, the"]], href: "/uebungen", cta: "Go to the exercises" },
+  { icon: "/email/regi.png", title: "Pass your exam", text: "Real exam formats with timing, scores and an explanation for every answer.",
+    links: [["/goethe", "Cambridge"], ["/telc", "Trinity ISE"], ["/dtz", "ISE I"]], href: "/pruefungen", cta: "Go to the exams" },
+  { icon: "/email/quaki.png", title: "Live in the UK", text: "The Life in the UK test, driving, offices and everyday life. What you really need.",
+    links: [["/leben-in-deutschland", "Life in the UK test"], ["/fuehrerschein", "Driving"], ["/kultur", "Culture"]], href: "/wissen", cta: "Find out more" },
 ];
 ---
-<Layout title="Startseite – Entwurf" noindex>
-  <div class="sn">
-    <p class="sn-draft">Entwurf · nur zum Anschauen · <a href="/">heutige Startseite</a></p>
+<Layout title="Homepage – draft" noindex>
+  <div class="sn" lang="en">
+    <p class="sn-draft">Draft · for viewing only · <a href="/">current homepage</a></p>
 
     <!-- MENÜ: 3 Bereiche + Lehrkräfte, Suche, ein Haupt-Knopf -->
     <header class="sn-nav">
       <div class="sn-nav-in">
         <a href="/start-neu" class="sn-logo"><img src="/assets/logo.png" alt="EnglishAcademy" /></a>
 
-        <nav class="sn-menu" aria-label="Hauptmenü">
+        <nav class="sn-menu" aria-label="Main menu">
           {menu.map((m) => (
             <div class="sn-item" data-item>
               <button class="sn-top" aria-expanded="false" data-top>{m.label} <span aria-hidden="true">▾</span></button>
@@ -98,22 +98,22 @@ const paths = [
               </div>
             </div>
           ))}
-          <a href="/lehrkraefte" class="sn-top sn-top--link">Für Lehrkräfte</a>
+          <a href="/lehrkraefte" class="sn-top sn-top--link">For teachers</a>
         </nav>
 
         <div class="sn-right">
-          <button class="sn-icon" aria-label="Suchen" title="Suchen">
+          <button class="sn-icon" aria-label="Search" title="Search">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
           </button>
-          <a href="/anmelden" class="sn-login">Anmelden</a>
-          <a href="/einstufungstest" class="sn-btn sn-btn--sm">Niveau testen</a>
-          <button class="sn-burger" aria-label="Menü" aria-expanded="false" data-burger>
+          <a href="/anmelden" class="sn-login">Log in</a>
+          <a href="/einstufungstest" class="sn-btn sn-btn--sm">Test your level</a>
+          <button class="sn-burger" aria-label="Menu" aria-expanded="false" data-burger>
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
           </button>
         </div>
       </div>
 
-      <!-- Handy: dieselben 3 Bereiche als Akkordeon -->
+      <!-- Phone: the same 3 areas as an accordion -->
       <div class="sn-drawer" hidden data-drawer>
         {menu.map((m) => (
           <details>
@@ -124,8 +124,8 @@ const paths = [
             </ul>
           </details>
         ))}
-        <a href="/lehrkraefte" class="sn-drawer-link">Für Lehrkräfte</a>
-        <a href="/einstufungstest" class="sn-btn">Niveau testen</a>
+        <a href="/lehrkraefte" class="sn-drawer-link">For teachers</a>
+        <a href="/einstufungstest" class="sn-btn">Test your level</a>
       </div>
     </header>
 
@@ -134,22 +134,22 @@ const paths = [
       <section class="sn-hero">
         <div class="sn-wrap sn-hero-in">
           <div>
-            <h1>Deutsch lernen.<br /><span>Schritt für Schritt.</span></h1>
-            <p class="sn-lead">Kostenlose Übungen von A1 bis C1, im echten Deutschkurs getestet. Ohne Konto.</p>
-            <p class="sn-q">Wo stehst du?</p>
+            <h1>Learn English.<br /><span>Step by step.</span></h1>
+            <p class="sn-lead">Free exercises from A1 to C1. No account.</p>
+            <p class="sn-q">Where are you?</p>
             <div class="sn-levels">
               {levels.map((l) => <a href={`/grammatik?niveau=${l.toLowerCase()}`} class="sn-level">{l}</a>)}
-              <a href="/einstufungstest" class="sn-level sn-level--test">Weiß ich nicht → Test (5 Min.)</a>
+              <a href="/einstufungstest" class="sn-level sn-level--test">Not sure → take the test (5 min)</a>
             </div>
           </div>
           <img class="sn-hero-img" src="/email/bruno-happy.png" alt="" width="260" height="260" />
         </div>
       </section>
 
-      <!-- 2 · DREI WEGE statt vieler Kacheln -->
+      <!-- 2 · THREE PATHS instead of many tiles -->
       <section class="sn-sec">
         <div class="sn-wrap">
-          <h2>Was hast du vor?</h2>
+          <h2>What are you planning?</h2>
           <div class="sn-paths">
             {paths.map((p) => (
               <article class="sn-path">
@@ -166,46 +166,46 @@ const paths = [
         </div>
       </section>
 
-      <!-- 3 · VERTRAUEN: eine Zeile -->
+      <!-- 3 · TRUST: one line -->
       <section class="sn-trust">
         <div class="sn-wrap sn-trust-in">
-          <p><strong>10 Jahre</strong> Unterricht</p>
-          <p><strong>A1–C1</strong> alle Niveaus</p>
-          <p><strong>Kostenlos</strong> ohne Konto</p>
-          <p><strong>11 Sprachen</strong> Oberfläche</p>
+          <p><strong>10 years</strong> of teaching</p>
+          <p><strong>A1–C1</strong> all levels</p>
+          <p><strong>Free</strong> no account</p>
+          <p><strong>11 languages</strong> for help</p>
         </div>
       </section>
 
-      <!-- 4 · LEHRKRÄFTE: eigener Bereich, ein Band -->
+      <!-- 4 · TEACHERS: a section of their own, one band -->
       <section class="sn-sec">
         <div class="sn-wrap sn-teach">
           <img src="/email/bruno-thinking.png" alt="" width="120" height="120" />
           <div>
-            <h2>Du unterrichtest Deutsch?</h2>
-            <p>Stundenplan-Generator, Klassen, Live-Quiz und Partnerübungen. Alles an einem Ort.</p>
+            <h2>Do you teach English?</h2>
+            <p>Lesson-plan generator, classes, live quiz and pair exercises. All in one place.</p>
           </div>
-          <a href="/lehrkraefte" class="sn-btn sn-btn--ghost">Zum Lehrkräfte-Bereich</a>
+          <a href="/lehrkraefte" class="sn-btn sn-btn--ghost">Go to the teachers’ area</a>
         </div>
       </section>
 
-      <!-- 5 · ABSCHLUSS: Premium kurz, ein Knopf -->
+      <!-- 5 · FINISH: premium in a line, one button -->
       <section class="sn-final">
         <div class="sn-wrap">
-          <h2>Bereit? Finde dein Niveau in 5 Minuten.</h2>
-          <p>Danach zeigen wir dir nur, was zu dir passt. <a href="/preise">Premium ansehen</a></p>
-          <a href="/einstufungstest" class="sn-btn sn-btn--lg">Einstufungstest starten</a>
+          <h2>Ready? Find your level in 5 minutes.</h2>
+          <p>After that we only show you what suits you. <a href="/preise">See Premium</a></p>
+          <a href="/einstufungstest" class="sn-btn sn-btn--lg">Start the placement test</a>
         </div>
       </section>
     </main>
 
     <footer class="sn-foot">
       <div class="sn-wrap sn-foot-in">
-        <p>Da für Dich!</p>
+        <p>Here for you!</p>
         <nav>
-          <a href="/maskottchen">Bruno & die Crew</a>
+          <a href="/maskottchen">Bruno & the crew</a>
           <a href="/merch">Merch</a>
-          <a href="/impressum">Impressum</a>
-          <a href="/datenschutz">Datenschutz</a>
+          <a href="/impressum">Legal notice</a>
+          <a href="/datenschutz">Privacy</a>
         </nav>
       </div>
     </footer>

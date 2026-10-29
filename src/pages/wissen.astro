@@ -34,7 +34,7 @@ const SHELF_MASCOT: Record<string, { name: "bruno" | "regi" | "hamsti" | "quaki"
   pruefungen: { name: "bruno", say: "Be well prepared!" },
 };
 
-const mb = (totals.bytes / 1024 / 1024).toFixed(1).replace(".", ",");
+const mb = (totals.bytes / 1024 / 1024).toFixed(1);
 
 // What to do once the PDF is on the phone (SEO-BRAND-TIERED-PROMPT.md, Tier 7a). Most people
 // who land here come from ChatGPT, take a file and leave. A link to the topic list was
@@ -47,40 +47,40 @@ type Next = {
   subKey: string; sub: string; subVars?: Record<string, string | number>;
   alt?: { href: string; key: string; label: string; vars?: Record<string, string> };
 };
-const PLACEMENT = { href: "/einstufungstest", key: "wissen.next.niveau", label: "Welches Niveau hast du? Zum Einstufungstest" };
-const PRACTICE_SUB = { subKey: "wissen.next.practiceSub", sub: "Online üben – das Handy korrigiert sofort." };
+const PLACEMENT = { href: "/einstufungstest", key: "wissen.next.niveau", label: "What is your level? Take the placement test" };
+const PRACTICE_SUB = { subKey: "wissen.next.practiceSub", sub: "Practise online – your phone checks your answers right away." };
 // Chapter 1 of a level as the book prints it (scripts/generate-grammatik-pdf.mjs, same order).
 const firstTopic = (level: string) => grammarTopics.filter((t) => t.level === level).sort((a, b) => orderOf(a) - orderOf(b))[0];
 
 function nextStep(f: { id: string; category: string; level: string }): Next {
   if (f.id === "grammatik-start") {
     const c = startDe.chapters[0];
-    return { mascot: "regi", href: `/${c.topic}`, key: "wissen.next.chapter", label: `Mit Kapitel 1 anfangen: ${c.titleDe}`, vars: { name: c.titleDe }, ...PRACTICE_SUB, alt: PLACEMENT };
+    return { mascot: "regi", href: `/${c.topic}`, key: "wissen.next.chapter", label: `Start with chapter 1: ${c.titleDe}`, vars: { name: c.titleDe }, ...PRACTICE_SUB, alt: PLACEMENT };
   }
   if (f.category === "grammatik") {
     const level = /^[ABC][12]$/.test(f.level) ? f.level : null;
     const t = firstTopic(level ?? "A1");
     const alt = level
-      ? { href: `/grammatik#niveau-${level.toLowerCase()}`, key: "wissen.next.allTopics", label: `Alle Themen ${level}`, vars: { level } }
+      ? { href: `/grammatik#niveau-${level.toLowerCase()}`, key: "wissen.next.allTopics", label: `All ${level} topics`, vars: { level } }
       : PLACEMENT;
-    if (!t) return { mascot: "regi", href: "/grammatik", key: "wissen.next.grammatik", label: "Die Themen online üben, mit Feedback", ...PRACTICE_SUB };
-    return { mascot: "regi", href: t.href, key: "wissen.next.chapter", label: `Mit Kapitel 1 anfangen: ${t.name}`, vars: { name: t.name }, ...PRACTICE_SUB, alt };
+    if (!t) return { mascot: "regi", href: "/grammatik", key: "wissen.next.grammatik", label: "Practise the topics online, with feedback", ...PRACTICE_SUB };
+    return { mascot: "regi", href: t.href, key: "wissen.next.chapter", label: `Start with chapter 1: ${t.name}`, vars: { name: t.name }, ...PRACTICE_SUB, alt };
   }
   if (f.category === "wortschatz") {
     const level = /^[ABC][12]$/.test(f.level) ? f.level : null;
     const set = lernsets({ level: level ?? "A1", status: "built" })[0];
     const alt = level
-      ? { href: `/wortschatz/${level.toLowerCase()}`, key: "wissen.next.allSets", label: `Alle Lernsets ${level}`, vars: { level } }
-      : { href: "/wortschatz", key: "wissen.next.wortschatz", label: "Die Wörter mit Karteikarten lernen" };
-    if (!set) return { mascot: "hamsti", href: "/wortschatz", key: "wissen.next.wortschatz", label: "Die Wörter mit Karteikarten lernen", subKey: "wissen.next.cardsSubPlain", sub: "Mit Audio, Lernset für Lernset." };
+      ? { href: `/wortschatz/${level.toLowerCase()}`, key: "wissen.next.allSets", label: `All ${level} sets`, vars: { level } }
+      : { href: "/wortschatz", key: "wissen.next.wortschatz", label: "Learn the words with flashcards" };
+    if (!set) return { mascot: "hamsti", href: "/wortschatz", key: "wissen.next.wortschatz", label: "Learn the words with flashcards", subKey: "wissen.next.cardsSubPlain", sub: "With audio, one set at a time." };
     return {
-      mascot: "hamsti", href: `/wortschatz/${set.id}`, key: "wissen.next.set", label: `Lernset 1 als Karteikarten: ${set.title}`, vars: { name: set.title },
-      subKey: "wissen.next.cardsSub", sub: `Mit Audio, ${set.words} Wörter.`, subVars: { n: set.words }, alt,
+      mascot: "hamsti", href: `/wortschatz/${set.id}`, key: "wissen.next.set", label: `Set 1 as flashcards: ${set.title}`, vars: { name: set.title },
+      subKey: "wissen.next.cardsSub", sub: `With audio, ${set.words} words.`, subVars: { n: set.words }, alt,
     };
   }
-  if (f.category === "berufe") return { mascot: "hamsti", href: `/berufe/${f.id.replace(/^berufe-/, "")}`, key: "wissen.next.berufe", label: "Die Wörter für deinen Beruf mit Karteikarten lernen", subKey: "wissen.next.cardsSubPlain", sub: "Mit Audio, Lernset für Lernset." };
-  if (f.id.startsWith("lid")) return { mascot: "bruno", href: "/leben-in-deutschland/test", key: "wissen.next.lid", label: "Den Test „Leben in Deutschland“ online üben", ...PRACTICE_SUB };
-  return { mascot: "bruno", ...PLACEMENT, subKey: "wissen.next.placementSub", sub: "2 Minuten, danach weißt du, wo du anfängst." };
+  if (f.category === "berufe") return { mascot: "hamsti", href: `/berufe/${f.id.replace(/^berufe-/, "")}`, key: "wissen.next.berufe", label: "Learn the words for your job with flashcards", subKey: "wissen.next.cardsSubPlain", sub: "With audio, one set at a time." };
+  if (f.id.startsWith("lid")) return { mascot: "bruno", href: "/leben-in-deutschland/test", key: "wissen.next.lid", label: "Practise the Life in the UK test online", ...PRACTICE_SUB };
+  return { mascot: "bruno", ...PLACEMENT, subKey: "wissen.next.placementSub", sub: "2 minutes, then you know where to start." };
 }
 ---
 <Layout
@@ -90,12 +90,12 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
   <SiteNav active="wissen" />
   <main class="practice-main practice-main--wide">
     <div class="practice-hero">
-      <p class="eyebrow" data-i18n="wissen.eyebrow">Wissensdatenbank</p>
-      <h1 data-i18n="wissen.h1">Bücher und Listen zum Herunterladen</h1>
+      <p class="eyebrow" data-i18n="wissen.eyebrow">Knowledge base</p>
+      <h1 data-i18n="wissen.h1">Books and lists to download</h1>
       {/* One sentence that says what is here: the line answer engines quote. */}
       <p data-i18n="wissen.lead" data-i18n-vars={JSON.stringify({ files: totals.files, pages: totals.pages })}>
-        {totals.files} kostenlose PDFs mit {totals.pages} Seiten für A1 bis B2: Grammatik, Wortlisten,
-        Berufswortschatz und Prüfungsvorbereitung, ohne Konto zum Herunterladen und Ausdrucken.
+        {totals.files} free PDFs with {totals.pages} pages for levels A1 to B2: grammar, word lists,
+        vocabulary for work and exam preparation, ready to download and print without an account.
       </p>
     </div>
 
@@ -105,11 +105,11 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
       <section class="wi-group" id="einstieg">
         <h2 class="wi-group-title">
           <span class="wi-group-ic"><Icon name="sparkle" size={20} /></span>
-          <span data-i18n="wissen.cat.einstieg.name">Zum Einstieg</span>
+          <span data-i18n="wissen.cat.einstieg.name">Start here</span>
           <span class="wi-group-n">{featured.length}</span>
         </h2>
         <div class="wi-group-head">
-          <p class="wi-group-blurb" data-i18n="wissen.cat.einstieg.blurb">Die ganze Grammatik und alle Wörter in je einem Band – und das Startbuch für den Anfang.</p>
+          <p class="wi-group-blurb" data-i18n="wissen.cat.einstieg.blurb">All the grammar and all the words, each in one volume – plus the starter book for beginners.</p>
         </div>
         <div class="wi-grid wi-grid--featured">
           {featured.map((f, i) => <BookCard file={f} i={i} />)}
@@ -155,12 +155,12 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
     <section class="wi-group" id="offiziell">
       <h2 class="wi-group-title">
         <span class="wi-group-ic"><Icon name="landmark" size={20} /></span>
-        <span data-i18n="wissen.official.title">Offizielle Materialien</span>
+        <span data-i18n="wissen.official.title">Official materials</span>
         <span class="wi-group-n">{links.length}</span>
       </h2>
       <p class="wi-group-blurb" data-i18n="wissen.official.blurb">
-        Modellsätze und Fragenkataloge der Prüfungsstellen. Die sind kostenlos, aber nicht unsere —
-        deshalb verlinken wir sie dort, wo sie herausgegeben werden. Dort sind sie auch immer aktuell.
+        Model papers and question catalogues from the exam boards. They are free, but they are not ours —
+        so we link to them where they are published. That is also where they stay up to date.
       </p>
       <ul class="wi-links">
         {links.map((l) => (
@@ -179,10 +179,10 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
     </section>
 
     <section class="wi-rights">
-      <h2 data-i18n="wissen.h2.sources">Woher das alles kommt</h2>
+      <h2 data-i18n="wissen.h2.sources">Where all this comes from</h2>
       {rightsNote.split("\n\n").map((p, i) => <p data-i18n={`wissen.rights.p${i + 1}`}>{p}</p>)}
       <p class="wi-rights-meta" data-i18n-html="wissen.rights.meta" data-i18n-vars={JSON.stringify({ files: totals.files, mb })}>
-        Zusammen {totals.files} Dateien, {mb} MB. Erzeugt aus den Daten dieser Seite mit
+        Together {totals.files} files, {mb} MB. Generated from this site's data with
         <code>pnpm generate:pdfs</code>.
       </p>
     </section>
@@ -199,17 +199,17 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
         <div class="wi-sheet-body" data-sheet-for={f.id} hidden>
           <div class="wi-sheet-head">
             <span class="wi-badge">{f.level}</span>
-            <button class="wi-sheet-x" type="button" data-sheet-close aria-label="Schließen" data-i18n-attr="aria-label:wissen.close">✕</button>
+            <button class="wi-sheet-x" type="button" data-sheet-close aria-label="Close" data-i18n-attr="aria-label:wissen.close">✕</button>
           </div>
           <h2 id="wi-sheet-title">{f.title}</h2>
-          <p class="wi-meta">PDF{f.pages ? <span data-i18n="wissen.pagesSuffix" data-i18n-vars={JSON.stringify({ n: f.pages })}>{` · ${f.pages} Seiten`}</span> : ""} · {f.size}</p>
+          <p class="wi-meta">PDF{f.pages ? <span data-i18n="wissen.pagesSuffix" data-i18n-vars={JSON.stringify({ n: f.pages })}>{` · ${f.pages} pages`}</span> : ""} · {f.size}</p>
           <p class="wi-sheet-desc" data-i18n={`wissen.file.${f.id}.desc`}>{f.desc}</p>
 
           {/* One booklet per Bundesland: the dropdown picks which file the button below
               fetches. Starts on the state the learner chose in the Übungstest. */}
           {f.states && (
             <label class="wi-sheet-land">
-              <span class="wi-sheet-toclabel" data-i18n="wissen.land.pick">Dein Bundesland</span>
+              <span class="wi-sheet-toclabel" data-i18n="wissen.land.pick">Your region</span>
               <select data-land-select>
                 {f.states.map((l) => (
                   <option value={l.id} data-href={l.href} selected={l.href === f.href}>{l.name}</option>
@@ -223,7 +223,7 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
           <div class="wi-sheet-cta">
             <a class="wi-sheet-dl" href={f.href} download data-land-dl={f.states ? "" : undefined}>
               <Icon name="download" size={20} />
-              <span data-i18n="wissen.download">Jetzt herunterladen</span>
+              <span data-i18n="wissen.download">Download now</span>
             </a>
           </div>
           {/* Said right under the button once it is tapped. Chrome on Android saves the file
@@ -231,11 +231,11 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
               and again (2026-10-09: seven times). So: it has started, where it went, and the
               same file to read in the browser at once. Filled by the script below. */}
           <div class="wi-dlnote" data-wi-dlnote role="status" hidden>
-            <p class="wi-dlnote-h" data-i18n="wissen.dl.started">✓ Der Download hat begonnen.</p>
-            <p class="wi-dlnote-where" data-i18n="wissen.dl.where">Die Datei ist in deinem Ordner „Downloads“. Auf dem Handy: oben in den Benachrichtigungen auf die Datei tippen.</p>
+            <p class="wi-dlnote-h" data-i18n="wissen.dl.started">✓ Your download has started.</p>
+            <p class="wi-dlnote-where" data-i18n="wissen.dl.where">The file is in your “Downloads” folder. On a phone: tap the file in your notifications at the top.</p>
             <a class="wi-dlnote-open" href={f.href} target="_blank" rel="noopener" data-wi-dlopen>
               <Icon name="chevron-right" size={18} />
-              <span data-i18n="wissen.dl.open">Nichts passiert? PDF im Browser öffnen</span>
+              <span data-i18n="wissen.dl.open">Nothing happened? Open the PDF in your browser</span>
             </a>
           </div>
 
@@ -246,7 +246,7 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
             const next = nextStep(f);
             return (
               <div class="wi-next" data-wi-next hidden>
-                <p class="wi-sheet-toclabel" data-i18n="wissen.next.title">Und jetzt?</p>
+                <p class="wi-sheet-toclabel" data-i18n="wissen.next.title">What next?</p>
                 <a class="wi-next-card" href={next.href} data-next-target={next.href}>
                   <SectionMascot name={next.mascot} size={44} class="wi-next-mascot" />
                   <span class="wi-next-text">
@@ -269,7 +269,7 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
               under the German button, so every download sits at the top of the sheet. */}
           {f.editions.length > 0 && (
             <div class="wi-sheet-eds">
-              <p class="wi-sheet-toclabel" data-i18n="wissen.editions.label">Mit Übersetzung in deine Sprache</p>
+              <p class="wi-sheet-toclabel" data-i18n="wissen.editions.label">With a translation into your language</p>
               <div class="wi-sheet-eds-row">
                 {f.editions.map((e) => (
                   <a class="wi-sheet-ed" href={e.href} download lang={e.lang} dir={e.rtl ? "rtl" : undefined}>
@@ -309,7 +309,7 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
             </details>
           )}
 
-          <p class="wi-sheet-foot" data-i18n="wissen.sheetFoot">Kostenlos, ohne Konto. Zum Ausdrucken und Weitergeben.</p>
+          <p class="wi-sheet-foot" data-i18n="wissen.sheetFoot">Free, no account. To print and pass on.</p>
         </div>
       ))}
     </div>

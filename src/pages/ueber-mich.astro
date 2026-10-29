@@ -5,7 +5,7 @@
 // marketing jobs. Years are counted from the first class (Qingdao, March 2015), so the page
 // says "seit 2015" and no rounded-up number.
 //
-// German only, in plain B1 German like /maskottchen: the readers are learners and teachers.
+// English only, in plain English like /maskottchen: the readers are learners and teachers.
 // Linked from the home page footer ("Mehr") and the site search.
 import Layout from "../layouts/Layout.astro";
 import SiteNav from "../components/SiteNav.astro";
@@ -13,97 +13,97 @@ import "../styles/practice.css";
 import "../styles/ueber-mich.css";
 
 const stats = [
-  { n: "seit 2015", label: "unterrichte ich Deutsch" },
-  { n: "4 Länder", label: "China, Korea, Philippinen, Deutschland" },
-  { n: "A1–C1", label: "alle Niveaus, Kinder bis Ärzte" },
-  { n: "bis 40", label: "Teilnehmende in einer Klasse" },
+  { n: "since 2015", label: "I have been teaching German" },
+  { n: "4 countries", label: "China, Korea, the Philippines, Germany" },
+  { n: "A1–C1", label: "all levels, from children to doctors" },
+  { n: "up to 40", label: "participants in one class" },
 ];
 
 const stationen = [
   {
     zeit: "2015", ort: "Qingdao, China",
-    titel: "Die ersten Klassen",
-    text: "Deutsch und Englisch an der XDF und der Wales Language School: für Kinder, Schüler und Studierende der Universität Qingdao, in Gruppen mit 15 bis 20 Personen. Dazu Einstufungstests ab B1.",
+    titel: "The first classes",
+    text: "German and English at XDF and the Wales Language School: for children, school students and students of Qingdao University, in groups of 15 to 20. Plus placement tests from B1.",
   },
   {
-    zeit: "2015–2016", ort: "Seoul, Südkorea",
-    titel: "Unterricht nach telc-Standard",
-    text: "An der Times Academy Gruppen von A1 bis B2. Ich habe den Unterricht dort nach telc-Standards aufgebaut und die Schulleitung zur Unterrichtsqualität beraten.",
+    zeit: "2015–2016", ort: "Seoul, South Korea",
+    titel: "Teaching to telc standards",
+    text: "Groups from A1 to B2 at Times Academy. I built the teaching there on telc standards and advised the school management on teaching quality.",
   },
   {
     zeit: "2016–2019", ort: "Berlin",
-    titel: "Sprachschulen in Berlin",
-    text: "Bei Alpadia, Startcon und dem Eurasia Institute: Gruppen von A2 bis C1 und Vorbereitung auf telc und TestDaF.",
+    titel: "Language schools in Berlin",
+    text: "At Alpadia, Startcon and the Eurasia Institute: groups from A2 to C1 and preparation for telc and TestDaF.",
   },
   {
-    zeit: "2018–2021", ort: "Philippinen",
-    titel: "Pflegekräfte auf dem Weg nach Deutschland",
-    text: "In Iloilo, Manila und Subic Bay habe ich Pflegekräfte auf telc B2 Pflege und Ärztinnen und Ärzte auf die Fachsprachprüfung vorbereitet. Seit 2020 auch online, in Klassen mit 20 bis 40 Personen.",
+    zeit: "2018–2021", ort: "The Philippines",
+    titel: "Nurses on their way to Germany",
+    text: "In Iloilo, Manila and Subic Bay I prepared nurses for telc B2 Pflege and doctors for the medical language exam (Fachsprachprüfung). Online as well since 2020, in classes of 20 to 40.",
   },
   {
-    zeit: "seit 2022", ort: "online",
-    titel: "Eigene Online-Schule icanspeak",
-    text: "Ich wähle Lehrkräfte aus, plane Unterricht und Curriculum und unterrichte selbst.",
+    zeit: "since 2022", ort: "online",
+    titel: "My own online school, icanspeak",
+    text: "I choose the teachers, plan the lessons and the curriculum, and teach myself.",
   },
   {
     zeit: "2022–2024", ort: "Berlin",
-    titel: "Berufssprachkurse und DTZ",
-    text: "Bei FONS Akademie und inlingua: Präsenzkurse mit etwa 20 Personen, viele aus der Ukraine. Vorbereitung auf den DTZ – auch mit Museumsbesuchen in großen Gruppen.",
+    titel: "Job-related language courses and the DTZ",
+    text: "At FONS Akademie and inlingua: in-person courses with about 20 people, many from Ukraine. Preparation for the DTZ – including museum visits with large groups.",
   },
   {
-    zeit: "seit 2024", ort: "online",
-    titel: "Integrationskurse",
-    text: "BAMF-Integrationskurse für Frohsinn Augsburg und die VHS Biberach: gemischte Gruppen mit etwa 20 Personen, Vorbereitung auf den DTZ, eigene Arbeitsblätter und digitale Übungen.",
+    zeit: "since 2024", ort: "online",
+    titel: "Integration courses",
+    text: "BAMF integration courses for Frohsinn Augsburg and the VHS Biberach: mixed groups of about 20 people, preparation for the DTZ, my own worksheets and digital exercises.",
   },
   {
     zeit: "2026", ort: "englishacademy.com",
     titel: "EnglishAcademy",
-    text: "Aus diesen Arbeitsblättern und Übungen ist diese Seite geworden. Ich setze sie in meinem eigenen Unterricht ein.",
+    text: "This site grew out of those worksheets and exercises from my German teaching. I use the same approach in my own classes.",
   },
 ];
 
 // Class photos from Edgar's folder "Lehrerphotos", cropped to 4:3 (1200 + 600 px webp).
 // Zoom shots (online-*) are cropped to the video grid, 16:10, with every name label blurred.
 const fotos = [
-  { file: "qingdao-1", alt: "Unterricht mit Erwachsenen in Qingdao, China" },
-  { file: "qingdao-2", alt: "Edgar an der Tafel vor einer Kinderklasse in Qingdao" },
-  { file: "berlin-1", alt: "Gruppenfoto einer Klasse am Eurasia Institute in Berlin" },
-  { file: "berlin-2", alt: "Ausflug mit einer Klasse vor einem Schloss" },
-  { file: "philippinen-1", alt: "Weihnachtsfoto mit einer Klasse auf den Philippinen" },
-  { file: "philippinen-2", alt: "Klasse von Pflegekräften im Kursraum auf den Philippinen" },
-  { file: "berlin-3", alt: "Ausflug mit einem Kurs in Berlin" },
-  { file: "berlin-4", alt: "Kursgruppe vor einem Bild des Brandenburger Tors" },
-  { file: "online-1", alt: "Integrationskurs online: Teilnehmende winken in die Kamera", online: true },
-  { file: "online-2", alt: "Integrationskurs online über Zoom", online: true },
-  { file: "online-3", alt: "Online-Kurs über Zoom", online: true },
-  { file: "online-4", alt: "Online-Kurs mit Kamera an", online: true },
+  { file: "qingdao-1", alt: "A class of adults in Qingdao, China" },
+  { file: "qingdao-2", alt: "Edgar at the board in front of a children's class in Qingdao" },
+  { file: "berlin-1", alt: "Group photo of a class at the Eurasia Institute in Berlin" },
+  { file: "berlin-2", alt: "Class trip in front of a palace" },
+  { file: "philippinen-1", alt: "Christmas photo with a class in the Philippines" },
+  { file: "philippinen-2", alt: "A class of nurses in the classroom in the Philippines" },
+  { file: "berlin-3", alt: "Course outing in Berlin" },
+  { file: "berlin-4", alt: "Course group in front of a picture of the Brandenburg Gate" },
+  { file: "online-1", alt: "Online integration course: participants waving at the camera", online: true },
+  { file: "online-2", alt: "Online integration course on Zoom", online: true },
+  { file: "online-3", alt: "Online course on Zoom", online: true },
+  { file: "online-4", alt: "Online course with cameras on", online: true },
 ];
 const quali = [
-  "Cambridge CELTA (Unterricht für Erwachsene)",
+  "Cambridge CELTA (teaching adults)",
   "Goethe-Institut: Deutsch Lehren Lernen",
-  "VHS-Lehrkräftequalifizierung",
-  "BAMF-Zulassung für Integrationskurse",
-  "B.A. Wirtschaft und Politik, Universität Jena",
+  "VHS teacher qualification",
+  "BAMF approval for integration courses",
+  "B.A. Economics and Politics, University of Jena",
 ];
 
-const sprachen = ["Deutsch", "Englisch", "Spanisch", "Italienisch", "Französisch", "Portugiesisch", "Russisch"];
+const sprachen = ["German", "English", "Spanish", "Italian", "French", "Portuguese", "Russian"];
 ---
 <Layout
-  title="Über mich: Edgar Kretschmann – EnglishAcademy"
-  description="Edgar Kretschmann unterrichtet seit 2015 Deutsch: in China, Korea, auf den Philippinen und in Deutschland, heute in Integrationskursen. Hier erzählt er, woher die Übungen von EnglishAcademy kommen."
+  title="About me: Edgar Kretschmann – EnglishAcademy"
+  description="Edgar Kretschmann has taught German since 2015: in China, Korea, the Philippines and Germany, today in integration courses. Here he tells you where the exercises on EnglishAcademy come from."
 >
   <SiteNav />
 
-  <main class="vp-page um-page" lang="de">
+  <main class="vp-page um-page" lang="en">
     <header class="um-hero">
       <img class="um-portrait" src="/assets/ueber-mich/edgar.webp" alt="Edgar Kretschmann" width="240" height="240" />
       <div>
-        <p class="um-eyebrow">Über mich</p>
-        <h1>Hallo, ich bin Edgar.</h1>
+        <p class="um-eyebrow">About me</p>
+        <h1>Hello, I’m Edgar.</h1>
         <p class="um-lead">
-          Ich unterrichte seit 2015 Deutsch – in China, Südkorea, auf den Philippinen und in
-          Deutschland. Heute unterrichte ich in Integrationskursen und bereite auf den DTZ vor.
-          EnglishAcademy baue ich für meine Teilnehmenden – und für alle, die Deutsch lernen.
+          I have taught German since 2015 – in China, South Korea, the Philippines and
+          Germany. Today I teach integration courses and prepare students for the DTZ.
+          I’m building EnglishAcademy for everyone who is learning English.
         </p>
       </div>
     </header>
@@ -113,12 +113,12 @@ const sprachen = ["Deutsch", "Englisch", "Spanisch", "Italienisch", "Französisc
     </ul>
 
     <section class="um-section">
-      <h2>Warum diese Seite?</h2>
+      <h2>Why this site?</h2>
       <p>
-        In jedem Kurs sehe ich dieselben Stellen, an denen es hakt: der Artikel, die Verbposition,
-        der formelle Brief, die Durchsage, die man nur einmal hört. Dafür habe ich jahrelang
-        Arbeitsblätter gemacht. Auf EnglishAcademy stehen sie jetzt so, dass man sie auf dem Handy
-        üben kann – mit Erklärung, sofortiger Rückmeldung und Hilfe in vielen Sprachen.
+        In every German class I see the same sticking points: the article, verb position,
+        the formal letter, the announcement you only hear once. For years I made worksheets for
+        them. EnglishAcademy takes that idea to English: exercises you can practise on your
+        phone – with explanations, instant feedback and help in many languages.
       </p>
     </section>
 
@@ -135,11 +135,11 @@ const sprachen = ["Deutsch", "Englisch", "Spanisch", "Italienisch", "Französisc
           </li>
         ))}
       </ul>
-      <figcaption>Meine Klassen in Qingdao, Berlin, auf den Philippinen und online.</figcaption>
+      <figcaption>My classes in Qingdao, Berlin, the Philippines and online.</figcaption>
     </figure>
 
     <section class="um-section">
-      <h2>Wo ich unterrichtet habe</h2>
+      <h2>Where I have taught</h2>
       <ol class="um-timeline">
         {stationen.map((s) => (
           <li>
@@ -153,30 +153,30 @@ const sprachen = ["Deutsch", "Englisch", "Spanisch", "Italienisch", "Französisc
 
     <div class="um-grid">
       <section class="um-section um-box">
-        <h2>Ausbildung</h2>
+        <h2>Qualifications</h2>
         <ul class="um-list">{quali.map((q) => <li>{q}</li>)}</ul>
       </section>
       <section class="um-section um-box">
-        <h2>Sprachen</h2>
+        <h2>Languages</h2>
         <p class="um-langs">{sprachen.map((l) => <span>{l}</span>)}</p>
-        <p class="um-note">Ich weiß, wie es ist, eine neue Sprache zu lernen – ich habe es oft gemacht.</p>
+        <p class="um-note">I know what it is like to learn a new language – I have done it many times.</p>
       </section>
     </div>
 
     <section class="um-section">
-      <h2>Fang hier an</h2>
+      <h2>Start here</h2>
       <div class="um-cards">
         <a class="um-card" href="/einstufungstest">
-          <b>Einstufungstest</b>
-          <span>Finde in ein paar Minuten heraus, welches Niveau du hast.</span>
+          <b>Placement test</b>
+          <span>Find out your level in a few minutes.</span>
         </a>
         <a class="um-card" href="/dtz">
-          <b>DTZ-Vorbereitung</b>
-          <span>So bereite ich meine Integrationskurse auf den DTZ vor.</span>
+          <b>Exam preparation</b>
+          <span>Practice for English exams such as Trinity ISE.</span>
         </a>
         <a class="um-card" href="/lehrkraefte">
-          <b>Für Lehrkräfte</b>
-          <span>Arbeitsblätter, Live-Quiz und Spiele für den eigenen Unterricht.</span>
+          <b>For teachers</b>
+          <span>Worksheets, live quiz and games for your own lessons.</span>
         </a>
       </div>
     </section>
