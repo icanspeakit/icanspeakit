@@ -18,7 +18,7 @@ const variant = (i: number) => table.labels[i]?.variant;
     {table.rows.map((row) => (
       <tr>
         {table.labels.map((_, i) => (
-          <td class:list={["pt-word", variant(i) && `pt--${variant(i)}`]} lang="de">{row[i] ?? ""}</td>
+          <td class:list={["pt-word", variant(i) && `pt--${variant(i)}`]}>{row[i] ?? ""}</td>
         ))}
       </tr>
     ))}

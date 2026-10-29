@@ -8,7 +8,7 @@
 //   "arbeit|{e}st" → {…} is the part that breaks the pattern (extra e, a → ä), highlighted
 // A verb with `irregular: true` is shown whole, in a tinted column.
 //
-// Only the headers are translated: the forms are the German the learner is here to see.
+// Only the headers are translated: the forms are the English the learner is here to see.
 // The translations use the same switch as every other help line (GrammarHelpText).
 import GrammarHelpText from "./GrammarHelpText.astro";
 import "../styles/conj-table.css";
@@ -50,15 +50,15 @@ const groups = [
     <table class="ct-table">
       <thead>
         <tr>
-          <th class="ct-grp" scope="col"><span class="ct-sr">Zahl</span></th>
+          <th class="ct-grp" scope="col"><span class="ct-sr">Number</span></th>
           <th class="ct-num" scope="col">Person{help && <GrammarHelpText text={L.Person} class="ct-tr" />}</th>
-          <th class="ct-pron" scope="col">Pronomen{help && <GrammarHelpText text={L.Pronomen} class="ct-tr" />}</th>
-          <th class="ct-endcol" scope="col">Endung{help && <GrammarHelpText text={L.Endung} class="ct-tr" />}</th>
+          <th class="ct-pron" scope="col">Pronoun{help && <GrammarHelpText text={L.Pronomen} class="ct-tr" />}</th>
+          <th class="ct-endcol" scope="col">Ending{help && <GrammarHelpText text={L.Endung} class="ct-tr" />}</th>
           {table.verbs.map((v) => (
             <th scope="col" class:list={["ct-verb", v.irregular && "ct-irr"]}>
               {v.inf}
               {v.irregular
-                ? <span class="ct-note">unregelmäßig{help && <GrammarHelpText text={L.unregelmäßig} class="ct-tr" />}</span>
+                ? <span class="ct-note">irregular{help && <GrammarHelpText text={L.unregelmäßig} class="ct-tr" />}</span>
                 : v.note && <span class="ct-note">{v.note}</span>}
             </th>
           ))}
