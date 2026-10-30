@@ -11,10 +11,10 @@ import { fitTitle } from "../../lib/seo/title.js";
 // Nothing is recorded and nothing is uploaded. There is no scoring here for the same reason
 // as on the Schreiben pages: it cannot be done honestly in a browser.
 //
-// The task and its talking points also come in the learner's language
-// (src/data/uebersetzungen/sprechen.json): not understanding the instruction is no reason
-// to fail a speaking task. The Redemittel and the model answer stay German — they are
-// what is being practised.
+// The task and its talking points can also come in the learner's language
+// (src/data/uebersetzungen/sprechen.json, empty while English is the only help language):
+// not understanding the instruction is no reason to fail a speaking task. The useful
+// phrases and the model answer stay English — they are what is being practised.
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
 import Icon from "../../components/Icon.astro";
@@ -47,13 +47,13 @@ const back = set
   ? { href: `/sprechen/set/${set.id}`, label: set.title, key: `sprechenSet.${set.id}.title` }
   : { href: "/sprechen/", label: "Alle Sprechaufgaben", key: "sprechen.backAll" };
 // The exam line under a task is one of a handful of fixed sentences — keyed by its text, so
-// a sentence with no key yet simply stays German.
+// a sentence with no key yet simply stays as written in the data.
 const EXAM_KEYS: Record<string, string> = {
-  "Erster Teil im Sprechen bei Start Deutsch 1, telc A1 und DTZ.": "sprechen.exam.vorstellen",
-  "Aufgabenform aus dem Sprechteil des DTZ.": "sprechen.exam.dtz",
-  "Aufgabenform aus dem Sprechteil von telc B1/B2.": "sprechen.exam.telcB1B2",
-  "Aufgabenform aus dem Sprechteil von telc B2.": "sprechen.exam.telcB2",
-  "Aufgabenform aus dem gemeinsamen Sprechteil von telc B1 und B2.": "sprechen.exam.telcPair",
+  "The usual first part of a speaking test: introducing yourself.": "sprechen.exam.vorstellen",
+  "A task type from picture-based speaking tests.": "sprechen.exam.dtz",
+  "A task type from speaking tests at B1 and B2.": "sprechen.exam.telcB1B2",
+  "A task type from speaking tests at B2.": "sprechen.exam.telcB2",
+  "A task type from paired speaking tests at B1 and B2.": "sprechen.exam.telcPair",
 };
 const ALSO_KEYS: Record<string, string> = {
   "/sprechen-b1b2": "sprechen.alsoIn.telc",
