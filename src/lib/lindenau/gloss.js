@@ -1,16 +1,17 @@
-// The 💡 Hilfe line under a German line in Lindenau, in the learner's own language. The
-// header's language menu is the only control (src/lib/textHelp.js): UI en / ar / uk / tr →
-// that language; German UI → English, like the word lists. English sits next to the German
-// in quests.js / action.js (`en:`); ar / uk / tr come from the sidecar
-// src/data/uebersetzungen/lindenau.json, keyed by the German line. A language with no entry
-// (the other help languages, or a line added later) falls back to English.
+// The 💡 Help line under an English line in "The Legend of Brambleford" (/spiele/lindenau), in
+// the learner's own language. The header's language menu is the only control
+// (src/lib/textHelp.js): UI en / ar / uk / tr → that language; other UI languages → English,
+// like the word lists. The plain-English help sits next to the English line in quests.js /
+// action.js (`en:`); ar / uk / tr come from the sidecar src/data/uebersetzungen/lindenau.json,
+// keyed by the English line. A language with no entry (the other help languages, or a line
+// added later) falls back to the plain-English help.
 import sidecar from "../../data/uebersetzungen/lindenau.json";
 import { onLangChange } from "../i18n.js";
 import { HELP_LANGS, helpLang } from "../textHelp.js";
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-/** { text, lang, dir } for one German line; `en` is its English gloss from the source. */
+/** { text, lang, dir } for one English line; `en` is its plain-English help from the source. */
 export function glossOf(de, en, code = helpLang()) {
   const lang = code ?? "en";
   const own = lang === "en" ? en : sidecar.lines[de]?.[lang];

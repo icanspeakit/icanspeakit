@@ -1,8 +1,8 @@
 ---
-// /spiele/lindenau — a small town RPG: walk through Lindenau and run A1 errands by talking to
-// the mascots – pick the right reply or tap a sentence together. Two parts of town: the
-// morning (Bäckerei, Bahnhof, Arztpraxis) and, once that is done, the afternoon (Supermarkt,
-// Nachbarin, Café). Logic: src/lib/lindenau/game.js, content: src/lib/lindenau/quests.js.
+// /spiele/lindenau — "The Legend of Brambleford", a small town RPG: walk through Brambleford
+// and run A1 errands by talking to the mascots – pick the right reply or tap a sentence
+// together. Two parts of town: the morning (bakery, station, GP surgery) and, once that is
+// done, the afternoon (see AREAS in quests.js). Logic: src/lib/lindenau/game.js, content: src/lib/lindenau/quests.js.
 // Since 2026-10-22 in the „Spiele“ menu, indexable, in every UI language (ld.* keys) and in
 // the Android app; the dialogue itself is the English being learnt (EXPERIMENTE.md).
 import Layout from "../../layouts/Layout.astro";
@@ -16,7 +16,7 @@ import "../../styles/lindenau.css";
 ---
 <Layout
   title="The Legend of Brambleford: an English role-playing game in the browser – EnglishAcademy"
-  description="A small role-playing game for A1 English: walk around Brambleford, buy some bread and a train ticket and book a doctor's appointment – by talking to the people in the town."
+  description="A small role-playing game for A1 English: walk around Brambleford, buy a sausage roll and a train ticket and book a doctor's appointment – by talking to the people in the town."
 >
   <SiteNav active="ueben" />
   <main class="practice-main fs-page sf-page ld-page">
@@ -43,8 +43,8 @@ import "../../styles/lindenau.css";
         <div class="ld-areas" role="group" aria-label="Choose a part of town" data-i18n-attr="aria-label:ld.areasLabel">
           {AREAS.map((a, k) => (
             <button type="button" class="ld-area" data-area={a.id} aria-pressed={k === 0 ? "true" : "false"}>
-              <span class="ld-area-title" lang="de">{a.title}</span>
-              <span class="ld-area-quests" lang="de">
+              <span class="ld-area-title" lang="en">{a.title}</span>
+              <span class="ld-area-quests" lang="en">
                 {a.quests.map((q) => <img src={`/img/openmoji/${q.item.icon}.svg`} alt="" width="22" height="22" />)}
                 {a.quests.map((q) => q.role).join(" · ")}
               </span>

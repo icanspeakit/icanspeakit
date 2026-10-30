@@ -7,7 +7,7 @@
 // errands, 3 = the boss after the third.
 //
 // No lives, no game over: a monster's touch or a fall into the mud only pushes the hero back
-// ("Igitt!", "Platsch!"). Every level can be skipped. The story is easy German to read (🔊 and
+// ("Yuck!", "Platsch!"). Every level can be skipped. The story is easy German to read (🔊 and
 // 💡 like the dialogues); game.js decides when a level comes and passes the words.
 //
 // A bit of Super Mario Land: every level has its own look (street, park, U-Bahn, roofs, the
@@ -57,11 +57,11 @@ const GROUND = {
 };
 const POWERS = ["gun", "spring", "triple", "star", "big"];
 const ITEM_NAME = {
-  big: () => t("ld.itemBig", "die Seife – groß und stark!"),
-  gun: () => t("ld.itemGun", "die Wasserpistole!"),
-  triple: () => t("ld.itemTriple", "drei Blasen!"),
-  spring: () => t("ld.itemSpring", "die Sprungfeder – zweimal springen!"),
-  star: () => t("ld.itemStar", "der Stern!"),
+  big: () => t("ld.itemBig", "the soap – big and strong!"),
+  gun: () => t("ld.itemGun", "the water pistol!"),
+  triple: () => t("ld.itemTriple", "three bubbles!"),
+  spring: () => t("ld.itemSpring", "the spring – jump twice!"),
+  star: () => t("ld.itemStar", "the star!"),
 };
 // The level being played, so game.js can pause it (the header button, a hidden tab).
 let activeLevel = null;
@@ -84,44 +84,44 @@ const STORY = {
   morgen: {
     villain: "schmuddel",
     prologue: {
-      title: "Super-Blubb und Graf Schmuddel",
+      title: "Super-Blubb and Count Grubby",
       lines: [
-        { de: "Lindenau ist eine schöne, saubere Stadt.", en: "Lindenau is a nice, clean town." },
-        { de: "Aber Graf Schmuddel mag keine sauberen Städte. Er schickt seine Matschmonster!", en: "But Count Grime doesn't like clean towns. He sends his mud monsters!" },
-        { de: "Zum Glück bist du da. Du bist neu in der Stadt – und du hast ein Geheimnis: Du bist Super-Blubb!", en: "Luckily you're here. You're new in town – and you have a secret: you are Super-Blubb!" },
-        { de: "Dein Zauberstab macht Seifenblasen. Die tun nicht weh. Sie machen nur sauber.", en: "Your magic wand makes soap bubbles. They don't hurt. They only make things clean." },
+        { de: "Brambleford is a nice, clean town.", en: "Brambleford is a lovely, tidy town." },
+        { de: "But Count Grubby hates clean towns. He sends his mud monsters!", en: "But Count Grubby does not like clean towns. He sends his mud monsters!" },
+        { de: "Luckily, you are here. You are new in town, and you have a secret: you are Super-Blubb!", en: "It is good that you are here. You are new in town, and you have a secret: you are Super-Blubb!" },
+        { de: "Your magic wand makes soap bubbles. They don't hurt. They just clean.", en: "Your magic wand makes soap bubbles. The bubbles do not hurt anyone. They only make things clean." },
       ],
     },
     levels: [
-      { title: "Ankunft in Lindenau", de: "Du kommst mit dem Zug nach Lindenau. Aber die Straße ist voller Matsch! Lauf zum Marktplatz und mach die Monster sauber.", en: "You arrive in Lindenau by train. But the street is full of mud! Run to the market square and clean the monsters." },
-      { title: "Schmutz-Alarm auf der Straße!", de: "Matschmonster laufen durch die Straße. Spring über die Pfützen und mach die Monster sauber!", en: "Mud monsters are running through the street. Jump over the puddles and clean the monsters!" },
-      { title: "Schmutz-Alarm im Park!", de: "Jetzt fliegen auch Staubwolken durch die Luft. Spring hoch und blubber sie weg!", en: "Now dust clouds are flying through the air too. Jump up and bubble them away!" },
-      { title: "Graf Schmuddel!", de: "Da ist er: Graf Schmuddel! Er wirft mit Matsch. Zeig ihm, wie schön sauber ist!", en: "There he is: Count Grime! He throws mud. Show him how nice clean is!" },
+      { title: "Arriving in Brambleford", de: "You arrive in Brambleford by train. But the road is full of mud! Run to the market square and clean the monsters.", en: "You come to Brambleford on a train. The road is very muddy! Run to the market square and wash the monsters clean." },
+      { title: "Mud alert in the street!", de: "Mud monsters are running down the street. Jump over the puddles and clean the monsters!", en: "Mud monsters run along the street. Jump over the puddles and wash the monsters clean!" },
+      { title: "Mud alert in the park!", de: "Now dust clouds are flying about too. Jump up and bubble them away!", en: "Now dust clouds fly in the air too. Jump up high and blow bubbles at them!" },
+      { title: "Count Grubby!", de: "There he is: Count Grubby! He throws mud. Show him how nice clean is!", en: "Here he is: Count Grubby! He throws mud at you. Show him that clean is nice!" },
     ],
     end: [
-      { de: "„Oh … ich bin ja ganz sauber! Das fühlt sich gut an.“", en: "“Oh … I'm all clean! That feels good.”" },
-      { de: "Graf Schmuddel lacht. Ab heute hilft er beim Putzen.", en: "Count Grime laughs. From today on, he helps with the cleaning." },
+      { de: "“Oh ... I'm all clean! That feels good.”", en: "He says: “Oh, now I am clean! I like it.”" },
+      { de: "Count Grubby laughs. From today, he helps with the cleaning.", en: "Count Grubby laughs. From now on, he helps to clean the town." },
     ],
   },
   nachmittag: {
     villain: "staubig",
     prologue: {
-      title: "Baron Staubig kommt",
+      title: "Here comes Baron Dusty",
       lines: [
-        { de: "Am Nachmittag scheint die Sonne über Lindenau.", en: "In the afternoon the sun is shining over Lindenau." },
-        { de: "Aber was ist das? Eine große, graue Wolke! Das ist Baron Staubig, der Bruder von Graf Schmuddel.", en: "But what's that? A big grey cloud! That's Baron Dusty, Count Grime's brother." },
-        { de: "Er bläst Staub in alle Straßen. Super-Blubb, die Stadt braucht dich wieder!", en: "He blows dust into every street. Super-Blubb, the town needs you again!" },
+        { de: "In the afternoon, the sun shines over Brambleford.", en: "It is afternoon. The sun is out over Brambleford." },
+        { de: "But what is that? A big grey cloud! It's Baron Dusty, Count Grubby's brother.", en: "What is that? A big grey cloud! It is Baron Dusty. He is Count Grubby's brother." },
+        { de: "He blows dust down every street. Super-Blubb, the town needs you again!", en: "He blows dust into all the streets. Super-Blubb, the town needs you again!" },
       ],
     },
     levels: [
-      { title: "Staub über Lindenau", de: "Baron Staubig bläst Staub über die Stadt. Lauf zum Brunnen und blubber den Staub weg!", en: "Baron Dusty is blowing dust over the town. Run to the fountain and bubble the dust away!" },
-      { title: "Staub-Alarm in der U-Bahn!", de: "Der Staub ist in die U-Bahn geflogen. Überall sind Staubwolken und Matschmonster. Mach sie mit deinen Seifenblasen sauber!", en: "The dust has flown into the underground. There are dust clouds and mud monsters everywhere. Clean them with your soap bubbles!" },
-      { title: "Staub-Alarm auf den Dächern!", de: "Der Staub fliegt hoch. Spring auf die Kisten und blubber nach oben!", en: "The dust flies high. Jump on the crates and bubble upwards!" },
-      { title: "Baron Staubig!", de: "Baron Staubig fliegt über dem Platz und wirft Staubbälle. Spring hoch und triff ihn mit Seifenblasen!", en: "Baron Dusty flies over the square and throws dust balls. Jump up and hit him with soap bubbles!" },
+      { title: "Dust over Brambleford", de: "Baron Dusty is blowing dust over the town. Run to the fountain and bubble the dust away!", en: "Baron Dusty blows dust over the town. Run to the fountain and wash the dust away with bubbles!" },
+      { title: "Dust alert on the Tube!", de: "The dust has blown into the Tube. There are dust clouds and mud monsters everywhere. Clean them with your soap bubbles!", en: "The dust is now in the underground trains. Dust clouds and mud monsters are everywhere. Clean them with your soap bubbles!" },
+      { title: "Dust alert on the rooftops!", de: "The dust is flying high. Jump on the boxes and bubble upwards!", en: "The dust is high up in the air. Jump on the boxes and blow bubbles up!" },
+      { title: "Baron Dusty!", de: "Baron Dusty is flying over the square, throwing dust balls. Jump up and hit him with soap bubbles!", en: "Baron Dusty flies over the square. He throws balls of dust. Jump up and hit him with soap bubbles!" },
     ],
     end: [
-      { de: "„Hatschi!“ Baron Staubig niest – und jetzt ist er weiß und sauber.", en: "“Achoo!” Baron Dusty sneezes – and now he is white and clean." },
-      { de: "„Danke, Super-Blubb! Ich bringe Kuchen für alle.“", en: "“Thank you, Super-Blubb! I'll bring cake for everyone.”" },
+      { de: "“Atchoo!” Baron Dusty sneezes, and now he is white and clean.", en: "Baron Dusty sneezes loudly. Now he is white and clean." },
+      { de: "“Thank you, Super-Blubb! I'll bring cake for everyone.”", en: "He says: “Thank you, Super-Blubb! I will bring cake for everybody.”" },
     ],
   },
 };
@@ -566,12 +566,12 @@ export function playLevel(stageEl, { area, stage, words, direct = false, say }) 
 
     // --- flow: title card → level → result ---
     (direct ? Promise.resolve(true) : showCard(card, {
-      tag: boss ? t("ld.actBoss", "Endgegner") : t("ld.actLevel", "Schmutz-Alarm {i} von 3", { i: stage + 1 }),
+      tag: boss ? t("ld.actBoss", "Boss") : t("ld.actLevel", "Mud alert {i} of 3", { i: stage + 1 }),
       title: intro.title,
       lines: [intro],
       scene: (c) => drawScene(c, story.villain, boss, theme),
-      go: t("ld.actGo", "Los!"),
-      skip: t("ld.actSkip", "Überspringen"),
+      go: t("ld.actGo", "Go!"),
+      skip: t("ld.actSkip", "Skip"),
       keysHint: true,
       say,
     })).then((go) => {
@@ -617,7 +617,7 @@ export function playLevel(stageEl, { area, stage, words, direct = false, say }) 
     function bumpBlock(b) {
       b.bump = 0.2;
       sfx("hit");
-      for (const m of lv.monsters) if (m.on === b && m.state === "alive") washOff(m, t("ld.actBumm", "Bumm!"));
+      for (const m of lv.monsters) if (m.on === b && m.state === "alive") washOff(m, t("ld.actBumm", "Bump!"));
     }
     // a ?-box from below: a coin, or a power-up that climbs out and walks off
     function bumpQ(b) {
@@ -761,7 +761,7 @@ export function playLevel(stageEl, { area, stage, words, direct = false, say }) 
       if (hero.y > PIT) {
         sfx("splash");
         for (let i = 0; i < 12; i++) parts.push({ x: hero.x, y: GY + 20, vx: (Math.random() - 0.5) * 160, vy: -120 - Math.random() * 160, life: 0.7, mud: true });
-        addText(hero.x, GY - 40, look.pit === "rails" || look.pit === "alley" ? t("ld.actOops", "Hoppla!") : t("ld.actSplash", "Platsch!"), "#fde68a");
+        addText(hero.x, GY - 40, look.pit === "rails" || look.pit === "alley" ? t("ld.actOops", "Oops!") : t("ld.actSplash", "Splash!"), "#fde68a");
         hero.x = hero.safeX; hero.y = GY - 60; hero.vx = 0; hero.vy = 0; hero.inv = 1; hero.dirt = Math.min(5, hero.dirt + 1);
       }
       hero.inv = Math.max(0, hero.inv - dt);
@@ -801,12 +801,12 @@ export function playLevel(stageEl, { area, stage, words, direct = false, say }) 
           }
           const my = m.type === "walker" ? m.y - m.r : m.y;
           const top = my - m.r;
-          if (m.state === "alive" && !over && hero.star > 0 && Math.hypot(hero.x - m.x, heroCy() - my) < m.r + heroR() + 2) washOff(m, t("ld.actWusch", "Wusch!"));
+          if (m.state === "alive" && !over && hero.star > 0 && Math.hypot(hero.x - m.x, heroCy() - my) < m.r + heroR() + 2) washOff(m, t("ld.actWusch", "Whoosh!"));
           else if (m.state === "alive" && !over && hero.vy > 0 && Math.abs(hero.x - m.x) < m.r + 9 * hs() && hero.y > top - 8 && hero.y < my + 2) {
             // landed on it: wash it off and bounce up
-            washOff(m, t("ld.actHopp", "Hopp!"));
+            washOff(m, t("ld.actHopp", "Hop!"));
             hero.vy = input.jump ? -JUMP * 0.85 : -380; hero.ground = false;
-          } else if (m.state === "alive" && Math.hypot(hero.x - m.x, heroCy() - my) < m.r + heroR() + 1) knock(m.x, t("ld.actIgitt", "Igitt!"));
+          } else if (m.state === "alive" && Math.hypot(hero.x - m.x, heroCy() - my) < m.r + heroR() + 1) knock(m.x, t("ld.actIgitt", "Yuck!"));
           // it shoots back: a short warning (the „!“), then a blob. Walkers on the street spit
           // straight at head height – duck under it or jump over it; the others throw at the hero.
           if (m.state === "alive" && !over) {
@@ -880,7 +880,7 @@ export function playLevel(stageEl, { area, stage, words, direct = false, say }) 
           b.throwT = Math.max(0.95, 1.9 - rage * 1.0);
           sfx("throw");
         }
-        if (Math.hypot(hero.x - b.x, hero.y - 16 - (b.y - 34)) < 44) knock(b.x, t("ld.actIgitt", "Igitt!"));
+        if (Math.hypot(hero.x - b.x, hero.y - 16 - (b.y - 34)) < 44) knock(b.x, t("ld.actIgitt", "Yuck!"));
       } else {
         b.t += dt;
         const tx = hero.x + Math.sin(b.t * 0.7) * 160;
@@ -894,7 +894,7 @@ export function playLevel(stageEl, { area, stage, words, direct = false, say }) 
           b.throwT = Math.max(0.9, 1.8 - rage * 0.9);
           sfx("throw");
         }
-        if (Math.hypot(hero.x - b.x, hero.y - 16 - b.y) < 44) knock(b.x, t("ld.actHatschi", "Hatschi!"));
+        if (Math.hypot(hero.x - b.x, hero.y - 16 - b.y) < 44) knock(b.x, t("ld.actHatschi", "Atchoo!"));
       }
       const cy = b.kind === "schmuddel" ? b.y - 34 : b.y;
       for (const bu of bubbles) if (bu.life > 0 && b.hp > 0 && Math.hypot(bu.x - b.x, bu.y - cy) < 40 + bu.r) {
@@ -903,7 +903,7 @@ export function playLevel(stageEl, { area, stage, words, direct = false, say }) 
         updateCount();
         if (b.hp <= 0) {
           balls = []; cleaned = 1; sparkle(b.x, cy, 40); sfx("coin");
-          addText(b.x, cy - 60, t("ld.actClean", "Sauber!"), "#fff", true);
+          addText(b.x, cy - 60, t("ld.actClean", "Clean!"), "#fff", true);
           win();
         }
       }
@@ -913,7 +913,7 @@ export function playLevel(stageEl, { area, stage, words, direct = false, say }) 
     function stepBalls(dt) {
       for (const m of balls) {
         m.x += m.vx * dt; m.y += m.vy * dt; if (m.grav) m.vy += 1000 * dt; else m.life -= dt;
-        if (!over && Math.hypot(m.x - hero.x, m.y - heroCy()) < m.r + heroR()) { m.dead = true; knock(m.x, m.dust ? t("ld.actHatschi", "Hatschi!") : t("ld.actIgitt", "Igitt!")); }
+        if (!over && Math.hypot(m.x - hero.x, m.y - heroCy()) < m.r + heroR()) { m.dead = true; knock(m.x, m.dust ? t("ld.actHatschi", "Atchoo!") : t("ld.actIgitt", "Yuck!")); }
         for (const bu of bubbles) if (bu.life > 0 && Math.hypot(bu.x - m.x, bu.y - m.y) < bu.r + m.r) { bu.life = 0; m.dead = true; sfx("pop"); sparkle(m.x, m.y, 5); }
         if ((m.grav && m.y > GY) || m.life <= 0) { m.dead = true; for (let i = 0; i < 5; i++) parts.push({ x: m.x, y: Math.min(m.y, GY), vx: (Math.random() - 0.5) * 120, vy: -80 - Math.random() * 80, life: 0.5, mud: true, dust: m.dust }); }
       }
@@ -927,7 +927,7 @@ export function playLevel(stageEl, { area, stage, words, direct = false, say }) 
       hero.dirt = 0;
       sparkle(hero.x, hero.y - 20, 24, 40);
       play("win");
-      if (!boss) addText(hero.x, hero.y - 60, stage === 0 ? t("ld.actArrived", "Willkommen in Lindenau!") : t("ld.actGoal", "Geschafft!"), "#fff", true);
+      if (!boss) addText(hero.x, hero.y - 60, stage === 0 ? t("ld.actArrived", "Welcome to Brambleford!") : t("ld.actGoal", "Made it!"), "#fff", true);
     }
 
     function result() {
@@ -937,18 +937,18 @@ export function playLevel(stageEl, { area, stage, words, direct = false, say }) 
       document.documentElement.classList.remove("ld-act-on");
       saveCoins();
       const lines = boss ? story.end : [];
-      const score = boss ? "" : `${t("ld.actScore", "{c} von {n} Monstern sauber gemacht", { c: cleaned, n: total })} · 🪙 ${coins}`;
+      const score = boss ? "" : `${t("ld.actScore", "{c} of {n} monsters cleaned", { c: cleaned, n: total })} · 🪙 ${coins}`;
       const note = coinNote(unlocked);
-      const wordsH = stage === 0 ? t("ld.actWordsToday", "Diese Wörter brauchst du heute:") : t("ld.actWords", "Diese Wörter hast du sauber gemacht:");
+      const wordsH = stage === 0 ? t("ld.actWordsToday", "You need these words today:") : t("ld.actWords", "You cleaned these words:");
       showCard(card, {
-        tag: boss ? t("ld.actBossDone", "Die Stadt ist sauber!") : t("ld.actDone", "Geschafft!"),
+        tag: boss ? t("ld.actBossDone", "The town is clean!") : t("ld.actDone", "Done!"),
         title: score,
         lines,
         words: collected,
         wordsH,
         note,
         scene: boss ? (c) => drawScene(c, story.villain, boss, theme, true) : null,
-        go: t("ld.next", "Weiter"),
+        go: t("ld.next", "Next"),
         say,
       }).then(() => close(false));
     }
@@ -1075,7 +1075,7 @@ export function playLevel(stageEl, { area, stage, words, direct = false, say }) 
         ctx.fillStyle = "#0d9488";
         ctx.beginPath(); ctx.moveTo(gx + 32, GY - 70); ctx.lineTo(gx + 62 + Math.sin(tt * 5) * 2, GY - 62); ctx.lineTo(gx + 32, GY - 54); ctx.closePath(); ctx.fill();
         ctx.fillStyle = "#fff"; ctx.font = "700 7px Fredoka, system-ui, sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-        ctx.fillText(t("ld.actFlag", "ZIEL"), gx + 43, GY - 62);
+        ctx.fillText(t("ld.actFlag", "GOAL"), gx + 43, GY - 62);
       }
       // monsters
       ctx.font = "600 8px Fredoka, system-ui, sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
@@ -1149,7 +1149,7 @@ export function playLevel(stageEl, { area, stage, words, direct = false, say }) 
           ctx.fillStyle = "#1d4ed8"; ctx.strokeStyle = "#fff"; ctx.lineWidth = 2;
           ctx.beginPath(); ctx.roundRect(x - 44, GY - 150, 88, 22, 3); ctx.fill(); ctx.stroke();
           ctx.fillStyle = "#fff"; ctx.font = "700 11px Fredoka, system-ui, sans-serif";
-          ctx.fillText("Lindenau", x, GY - 138);
+          ctx.fillText("Brambleford", x, GY - 138);
           ctx.fillStyle = "#16a34a"; ctx.beginPath(); ctx.roundRect(x - 62, GY - 150, 14, 14, 2); ctx.fill();
           ctx.fillStyle = "#fff"; ctx.font = "800 10px system-ui, sans-serif"; ctx.fillText("U", x - 55, GY - 142.5);
         }
@@ -1342,11 +1342,11 @@ export function playPrologue(stageEl, { area, say }) {
   play("action");
   setDuck(0.45);
   return showCard(ov.card, {
-    tag: t("ld.actStory", "Die Geschichte"),
+    tag: t("ld.actStory", "The story"),
     title: story.prologue.title,
     lines: story.prologue.lines,
     scene: (c) => drawScene(c, story.villain, false, theme),
-    go: t("ld.actStoryGo", "Los geht's!"),
+    go: t("ld.actStoryGo", "Let's go!"),
     keysHint: true,
     say,
   }).then(() => { ov.root.remove(); });
@@ -1358,10 +1358,10 @@ function overlay(stageEl, cardOnly = false) {
   root.className = "ld-act";
   root.dataset.backCloses = "";
   root.innerHTML = `<canvas class="ld-act-canvas" tabindex="-1" aria-hidden="true"></canvas>
-    ${cardOnly ? "" : `<div class="ld-act-hud"><span class="ld-act-count" aria-live="polite"></span><span class="ld-act-btns"><button type="button" class="ld-act-skip ld-act-pausebtn" data-pause aria-label="${esc(t("ld.pause", "Pause"))}" title="${esc(t("ld.pause", "Pause"))}">⏸</button><button type="button" class="ld-act-skip" data-skip-level aria-label="${esc(t("ld.actSkip", "Überspringen"))}"><span class="ld-act-skip-t">${esc(t("ld.actSkip", "Überspringen"))}</span> ⏭</button></span></div>
+    ${cardOnly ? "" : `<div class="ld-act-hud"><span class="ld-act-count" aria-live="polite"></span><span class="ld-act-btns"><button type="button" class="ld-act-skip ld-act-pausebtn" data-pause aria-label="${esc(t("ld.pause", "Pause"))}" title="${esc(t("ld.pause", "Pause"))}">⏸</button><button type="button" class="ld-act-skip" data-skip-level aria-label="${esc(t("ld.actSkip", "Skip"))}"><span class="ld-act-skip-t">${esc(t("ld.actSkip", "Skip"))}</span> ⏭</button></span></div>
     <div class="ld-deck ld-act-pad">
-      <div class="ld-dpad" data-dpad role="group" aria-label="${esc(t("ld.actLeft", "Nach links"))} · ${esc(t("ld.actDuck", "Ducken"))} · ${esc(t("ld.actRight", "Nach rechts"))}"><span data-d="left">◀</span><span data-d="down">⤓</span><span data-d="right">▶</span></div>
-      <div class="ld-ab"><button type="button" class="sf-key ld-act-shoot ld-key-b" data-k="shoot" aria-label="${esc(t("ld.actShoot", "Seifenblase"))}">🫧</button><button type="button" class="sf-key sf-key--gas ld-key-a" data-k="jump" aria-label="${esc(t("ld.actJump", "Springen"))}">⤒</button></div>
+      <div class="ld-dpad" data-dpad role="group" aria-label="${esc(t("ld.actLeft", "Left"))} · ${esc(t("ld.actDuck", "Duck"))} · ${esc(t("ld.actRight", "Right"))}"><span data-d="left">◀</span><span data-d="down">⤓</span><span data-d="right">▶</span></div>
+      <div class="ld-ab"><button type="button" class="sf-key ld-act-shoot ld-key-b" data-k="shoot" aria-label="${esc(t("ld.actShoot", "Soap bubble"))}">🫧</button><button type="button" class="sf-key sf-key--gas ld-key-a" data-k="jump" aria-label="${esc(t("ld.actJump", "Jump"))}">⤒</button></div>
     </div>`}
     <div class="sf-panel ld-act-card" hidden aria-live="polite"></div>`;
   stageEl.append(root);
@@ -1381,18 +1381,18 @@ function overlay(stageEl, cardOnly = false) {
 function showCard(card, o) {
   return new Promise((resolve) => {
     card.innerHTML = `<p class="sf-q-tag">${esc(o.tag)}</p>
-      ${o.title ? `<h3 class="ld-act-title" lang="de">${esc(o.title)}</h3>` : ""}
+      ${o.title ? `<h3 class="ld-act-title" lang="en">${esc(o.title)}</h3>` : ""}
       ${o.scene ? `<canvas class="ld-act-scene" width="560" height="200" aria-hidden="true"></canvas>` : ""}
-      ${o.lines.map((l, i) => `<div class="ld-act-row"><p class="ld-line ld-act-line" lang="de">${esc(l.de)}</p>
+      ${o.lines.map((l, i) => `<div class="ld-act-row"><p class="ld-line ld-act-line" lang="en">${esc(l.de)}</p>
         <div class="ld-tools">
-          <button type="button" class="ld-tool" data-say="${i}" aria-label="${esc(t("ld.listen", "Anhören"))}" title="${esc(t("ld.listen", "Anhören"))}">🔊</button>
-          ${l.en ? `<button type="button" class="ld-tool" data-gloss-btn="${i}" aria-expanded="false" aria-label="${esc(t("ld.help", "Hilfe"))}" title="${esc(t("ld.help", "Hilfe"))}">💡</button>` : ""}
+          <button type="button" class="ld-tool" data-say="${i}" aria-label="${esc(t("ld.listen", "Listen"))}" title="${esc(t("ld.listen", "Listen"))}">🔊</button>
+          ${l.en ? `<button type="button" class="ld-tool" data-gloss-btn="${i}" aria-expanded="false" aria-label="${esc(t("ld.help", "Help"))}" title="${esc(t("ld.help", "Help"))}">💡</button>` : ""}
         </div></div>
         ${l.en ? glossP(l.de, l.en, `data-gloss="${i}"`) : ""}`).join("")}
-      ${o.words?.length ? `<p class="ld-act-words-h">${esc(o.wordsH ?? t("ld.actWords", "Diese Wörter hast du sauber gemacht:"))}</p>
-        <div class="ld-act-words">${o.words.map((w) => `<button type="button" class="ld-act-word" lang="de" data-word="${esc(w)}">🫧 ${esc(w)}</button>`).join("")}</div>` : ""}
+      ${o.words?.length ? `<p class="ld-act-words-h">${esc(o.wordsH ?? t("ld.actWords", "You cleaned these words:"))}</p>
+        <div class="ld-act-words">${o.words.map((w) => `<button type="button" class="ld-act-word" lang="en" data-word="${esc(w)}">🫧 ${esc(w)}</button>`).join("")}</div>` : ""}
       ${o.note ? `<p class="ld-act-note">${esc(o.note)}</p>` : ""}
-      ${o.keysHint ? `<p class="ld-act-keys">${esc(t("ld.actKeys", "← → laufen · ↓ ducken · Leertaste springen · X Seifenblasen"))}</p><p class="ld-act-touch">${esc(t("ld.actTouch", "◀ ▶ laufen · ⤓ ducken · ⤒ springen · 🫧 Seifenblasen"))}</p><p class="ld-act-tip">${esc(t("ld.actTip", "Tipp: Spring auf ein Monster – oder stoß von unten gegen die blaue Kiste. Kommt ein „!“, dann duck dich!"))}</p><p class="ld-act-tip">${esc(t("ld.actTipItems", "Stoß von unten gegen die ?-Kiste: Münzen, die Seife (groß und stark), die Wasserpistole, der Stern …"))}</p><p class="ld-act-touch">${esc(t("ld.actTouchJump", "Tipp auf die rechte Hälfte vom Bild – dann springst du."))}</p>` : ""}
+      ${o.keysHint ? `<p class="ld-act-keys">${esc(t("ld.actKeys", "← → run · ↓ duck · space bar jump · X soap bubbles"))}</p><p class="ld-act-touch">${esc(t("ld.actTouch", "◀ ▶ run · ⤓ duck · ⤒ jump · 🫧 soap bubbles"))}</p><p class="ld-act-tip">${esc(t("ld.actTip", "Tip: jump on a monster – or hit the blue crate from below. When a “!” appears, duck!"))}</p><p class="ld-act-tip">${esc(t("ld.actTipItems", "Hit the ?-crate from below: coins, the soap (big and strong), the water pistol, the star …"))}</p><p class="ld-act-touch">${esc(t("ld.actTouchJump", "Tap the right half of the picture – then you jump."))}</p>` : ""}
       <div class="ld-btns">
         <button type="button" class="quiz-btn quiz-btn--primary" data-go>${esc(o.go)}</button>
         ${o.skip ? `<button type="button" class="quiz-btn" data-skip>${esc(o.skip)}</button>` : ""}
@@ -1472,11 +1472,11 @@ function drawScene(c, villain, boss, theme, clean = false) {
 /** The line under a level's result: the coin total and the next (or newly opened) look. */
 export function coinNote(unlocked = []) {
   const n = coinTotal();
-  const head = t("ld.coinsTotal", "🪙 {n} Münzen gesamt", { n });
+  const head = t("ld.coinsTotal", "🪙 {n} coins in total", { n });
   const look = (i) => t(LOOKS_AT[i].key, LOOKS_AT[i].de);
-  if (unlocked.length) return `${head} · ${t("ld.lookNew", "Neu: {look}!", { look: look(unlocked[unlocked.length - 1]) })}`;
+  if (unlocked.length) return `${head} · ${t("ld.lookNew", "New: {look}!", { look: look(unlocked[unlocked.length - 1]) })}`;
   const nx = nextLook(n);
-  return nx ? `${head} · ${t("ld.lookNext", "noch {n} bis: {look}", { n: nx.left, look: look(nx.i) })}` : head;
+  return nx ? `${head} · ${t("ld.lookNext", "{n} more for: {look}", { n: nx.left, look: look(nx.i) })}` : head;
 }
 
 /** The pause card over `host`: Weiter / Neu starten / Beenden. Used in town and in levels. */
@@ -1490,11 +1490,11 @@ export function pauseOverlay(host, { onResume, onRestart, onQuit }) {
   el.innerHTML = `<div class="ld-pause-card">
     <h3>⏸ ${esc(t("ld.pause", "Pause"))}</h3>
     <div class="ld-pause-btns">
-      <button type="button" class="quiz-btn quiz-btn--primary" data-p="resume">${esc(t("ld.pauseResume", "Weiter"))}</button>
-      <button type="button" class="quiz-btn" data-p="restart">${esc(t("ld.pauseRestart", "Neu starten"))}</button>
-      <button type="button" class="quiz-btn" data-p="quit">${esc(t("ld.pauseQuit", "Beenden"))}</button>
+      <button type="button" class="quiz-btn quiz-btn--primary" data-p="resume">${esc(t("ld.pauseResume", "Resume"))}</button>
+      <button type="button" class="quiz-btn" data-p="restart">${esc(t("ld.pauseRestart", "Start over"))}</button>
+      <button type="button" class="quiz-btn" data-p="quit">${esc(t("ld.pauseQuit", "Quit"))}</button>
     </div>
-    <p class="ld-pause-keys">${esc(t("ld.pauseKeys", "P oder Esc: weiter"))}</p>
+    <p class="ld-pause-keys">${esc(t("ld.pauseKeys", "P or Esc: resume"))}</p>
   </div>`;
   host.append(el);
   const fn = { resume: onResume, restart: onRestart, quit: onQuit };

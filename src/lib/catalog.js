@@ -840,9 +840,9 @@ const wortschatzItems = notSelf("/wortschatz", itemsOf("woerter"));
 // list it (EXPERIMENTE.md).
 const spieleItems = [
   { id: "lindenau", href: "/spiele/lindenau", icon: "landmark",
-    titleKey: "nav.spiele.lindenau", title: "Die Legende von Lindenau",
-    hintKey: "nav.spiele.lindenauHint", hint: "Rollenspiel in der Stadt, A1",
-    countKey: "nav.spiele.lindenauHint", count: "Rollenspiel in der Stadt, A1" },
+    titleKey: "nav.spiele.lindenau", title: "The Legend of Brambleford",
+    hintKey: "nav.spiele.lindenauHint", hint: "Role-play in town, A1",
+    countKey: "nav.spiele.lindenauHint", count: "Role-play in town, A1" },
   { id: "hoer-safari", href: "/spiele/hoer-safari", icon: "volume",
     titleKey: "nav.spiele.hoerSafari", title: "Hamstis Wachtelhuhn",
     hintKey: "nav.spiele.hoerSafariHint", hint: "Wort hören, Vogel treffen, A1–B1",
@@ -911,7 +911,7 @@ export const navSections = [
 
   { id: "spiele", icon: "sparkle",
     nameKey: "nav.subject.spiele", name: "Spiele",
-    blurbKey: "nav.subject.spiele.blurb", blurb: "Lindenau, Hamstis Wachtelhuhn, Quaki kreuzt, Bruno Kart",
+    blurbKey: "nav.subject.spiele.blurb", blurb: "Brambleford, Hamstis Wachtelhuhn, Quaki kreuzt, Bruno Kart",
     badge: spieleItems.length,
     items: spieleItems },
 

@@ -207,14 +207,16 @@ function wordsOf(quests) {
   const out = [];
   for (const q of quests) {
     if (!out.includes(q.item.label)) out.push(q.item.label);
+    // English nouns are not capitalised, so a quest lists its useful words itself (`words`).
+    for (const w of q.words ?? []) if (!out.includes(w)) out.push(w);
     for (const turn of q.turns) {
       const task = turn.task;
       if (!task) continue;
       const toks = (task.type === "choose" ? task.options.find((o) => o.ok).de : task.words.join(" ")).split(/\s+/);
       toks.forEach((w, k) => {
-        const c = w.replace(/[.,!?;:„“"()–]/g, "");
+        const c = w.replace(/[.,!?;:“”"()–]/g, "");
         if (k === 0 || /[.!?]$/.test(toks[k - 1])) return;
-        if (/^[A-ZÄÖÜ][a-zäöüß]+$/.test(c) && !["Sie", "Ihnen", "Ihr", "Euro"].includes(c) && !out.includes(c)) out.push(c);
+        if (/^[A-Z][a-z]+$/.test(c) && !["Please"].includes(c) && !out.includes(c)) out.push(c);
       });
     }
   }
@@ -246,9 +248,9 @@ export function mountLindenau(root) {
     if (!coinsEl) return;
     const n = coinTotal(), nx = nextLook(n);
     coinsEl.querySelector("[data-coins-n]").textContent = String(n);
-    const tip = nx ? t("ld.lookNext", "noch {n} bis: {look}", { n: nx.left, look: t(LOOKS_AT[nx.i].key, LOOKS_AT[nx.i].de) }) : t("ld.lookAll", "Alles freigeschaltet");
+    const tip = nx ? t("ld.lookNext", "{n} more for: {look}", { n: nx.left, look: t(LOOKS_AT[nx.i].key, LOOKS_AT[nx.i].de) }) : t("ld.lookAll", "Everything unlocked");
     coinsEl.title = tip;
-    coinsEl.setAttribute("aria-label", `${t("ld.coinsTotal", "🪙 {n} Münzen gesamt", { n })} · ${tip}`);
+    coinsEl.setAttribute("aria-label", `${t("ld.coinsTotal", "🪙 {n} coins in total", { n })} · ${tip}`);
   };
   paintCoins();
   const seenPrologue = new Set();
@@ -535,15 +537,15 @@ export function mountLindenau(root) {
     const bruno = npcs[0];
     const line = { ...BRUNO_REVIEW.offer, clip: "bruno-review-offer-npc" };
     showPanel(`${head(bruno)}${lineHtml(line)}
-      <p class="ld-you">${esc(due.length === 1 ? t("ld.reviewOne", "1 Satz zum Wiederholen") : t("ld.reviewN", "{n} Sätze zum Wiederholen", { n: due.length }))}</p>
+      <p class="ld-you">${esc(due.length === 1 ? t("ld.reviewOne", "1 sentence to review") : t("ld.reviewN", "{n} sentences to review", { n: due.length }))}</p>
       <div class="ld-btns">
-        <button type="button" class="quiz-btn quiz-btn--primary" data-go>${esc(t("ld.reviewYes", "Ja, gern"))}</button>
-        <button type="button" class="quiz-btn" data-skip-review>${esc(t("ld.reviewLater", "Später"))}</button>
+        <button type="button" class="quiz-btn quiz-btn--primary" data-go>${esc(t("ld.reviewYes", "Yes, please"))}</button>
+        <button type="button" class="quiz-btn" data-skip-review>${esc(t("ld.reviewLater", "Later"))}</button>
       </div>`);
     wireLine(line);
     const yes = panel.querySelector("[data-go]");
     yes.focus({ preventScroll: true });
-    yes.addEventListener("click", () => runReview(due, 0, () => playLines(bruno, [{ ...BRUNO_REVIEW.done, clip: "bruno-review-done-npc", go: t("ld.next", "Weiter") }], () => talkTo(bruno))), { once: true });
+    yes.addEventListener("click", () => runReview(due, 0, () => playLines(bruno, [{ ...BRUNO_REVIEW.done, clip: "bruno-review-done-npc", go: t("ld.next", "Next") }], () => talkTo(bruno))), { once: true });
     panel.querySelector("[data-skip-review]").addEventListener("click", () => talkTo(bruno), { once: true });
   }
 
@@ -556,7 +558,7 @@ export function mountLindenau(root) {
     const { q, i } = due[k];
     const n = q; // may be from the other area: the head only needs mascot, name, role
     const turn = { ...q.turns[i], clip: `${q.id}-${i}-npc`, replyClip: `${q.id}-${i}-du` };
-    const tag = t("ld.reviewStep", "Wiederholung {i} von {n}", { i: k + 1, n: due.length });
+    const tag = t("ld.reviewStep", "Review {i} of {n}", { i: k + 1, n: due.length });
     showPanel(`${head(n)}<p class="ld-step">${esc(tag)}</p>${lineHtml(turn)}<div class="ld-task" data-task></div><div class="ld-fb" data-fb aria-live="polite"></div><div class="ld-btns" data-btns></div>`);
     wireLine(turn);
     const next = () => runReview(due, k + 1, then);
@@ -567,7 +569,7 @@ export function mountLindenau(root) {
     paintCoins();
     hudItems.innerHTML = QUESTS.map((q) => {
       const ok = done.has(q.id);
-      return `<li class="ld-item${ok ? " is-done" : ""}" title="${esc(q.item.label)}"><img src="/img/openmoji/${q.item.icon}.svg" alt="" width="26" height="26" /><span lang="de">${esc(q.item.label)}</span><b aria-hidden="true">${ok ? "✓" : ""}</b><span class="sr-only">${esc(ok ? t("ld.itemDone", "erledigt") : t("ld.itemOpen", "offen"))}</span></li>`;
+      return `<li class="ld-item${ok ? " is-done" : ""}" title="${esc(q.item.label)}"><img src="/img/openmoji/${q.item.icon}.svg" alt="" width="26" height="26" /><span lang="en">${esc(q.item.label)}</span><b aria-hidden="true">${ok ? "✓" : ""}</b><span class="sr-only">${esc(ok ? t("ld.itemDone", "done") : t("ld.itemOpen", "to do"))}</span></li>`;
     }).join("");
   }
 
@@ -609,7 +611,7 @@ export function mountLindenau(root) {
     if (best !== near) {
       near = best;
       talkBtn.hidden = !near;
-      if (near) talkBtn.querySelector("[data-talk-name]").textContent = t("ld.talkTo", "Mit {n} sprechen", { n: near.name });
+      if (near) talkBtn.querySelector("[data-talk-name]").textContent = t("ld.talkTo", "Talk to {n}", { n: near.name });
     }
     if (pendingTalk && near === pendingTalk) { const n = pendingTalk; pendingTalk = null; dest = null; route = null; talkTo(n); }
   }
@@ -642,7 +644,7 @@ export function mountLindenau(root) {
           if (!solidHit(px, py, P_R, npcs)) { me.x = px; me.y = py; }
           route = null; dest = null;
           sfx("hit");
-          tTexts.push({ x: me.x, y: me.y - 60, text: t("ld.actIgitt", "Igitt!"), life: 1 });
+          tTexts.push({ x: me.x, y: me.y - 60, text: t("ld.actIgitt", "Yuck!"), life: 1 });
         }
       } else if (m.state === "bubbled") {
         m.bt -= dt; m.clean = Math.min(1, m.clean + dt * 1.3); m.lift = (m.lift ?? 0) + 40 * dt;
@@ -650,7 +652,7 @@ export function mountLindenau(root) {
           m.state = "gone"; sfx("pop");
           for (let i = 0; i < 12; i++) { const a = Math.random() * 6.3, sp = 40 + Math.random() * 90; tParts.push({ x: m.x, y: m.y - m.r - m.lift, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 0.7, hue: 180 + Math.random() * 80 }); }
           const left = mud.filter((x) => x.state !== "gone").length;
-          tTexts.push({ x: m.x, y: m.y - 40 - m.lift, text: left ? t("ld.actClean", "Sauber!") : t("ld.townClean", "Lindenau ist sauber!"), life: left ? 1 : 2 });
+          tTexts.push({ x: m.x, y: m.y - 40 - m.lift, text: left ? t("ld.actClean", "Clean!") : t("ld.townClean", "Brambleford is clean!"), life: left ? 1 : 2 });
           if (!left) { sfx("coin"); track("lindenau_town_clean", { area: area.id }); }
           paintClean();
         }
@@ -710,10 +712,10 @@ export function mountLindenau(root) {
   }
 
   function lineHtml(line) {
-    return `<p class="ld-line" lang="de">${esc(line.npc)}</p>
+    return `<p class="ld-line" lang="en">${esc(line.npc)}</p>
       <div class="ld-tools">
-        <button type="button" class="ld-tool" data-say>🔊 <span>${esc(t("ld.listen", "Anhören"))}</span></button>
-        ${line.en ? `<button type="button" class="ld-tool" data-gloss-btn aria-expanded="false">💡 <span>${esc(t("ld.help", "Hilfe"))}</span></button>` : ""}
+        <button type="button" class="ld-tool" data-say>🔊 <span>${esc(t("ld.listen", "Listen"))}</span></button>
+        ${line.en ? `<button type="button" class="ld-tool" data-gloss-btn aria-expanded="false">💡 <span>${esc(t("ld.help", "Help"))}</span></button>` : ""}
       </div>
       ${line.en ? glossP(line.npc, line.en, "data-gloss") : ""}`;
   }
@@ -736,7 +738,7 @@ export function mountLindenau(root) {
     const line = lines[i];
     const lastOne = i + 1 >= lines.length;
     showPanel(`${head(n)}${lineHtml(line)}
-      <div class="ld-btns"><button type="button" class="quiz-btn quiz-btn--primary" data-go>${esc(lastOne ? (line.go ?? t("ld.bye", "Tschüss!")) : t("ld.next", "Weiter"))}</button></div>`);
+      <div class="ld-btns"><button type="button" class="quiz-btn quiz-btn--primary" data-go>${esc(lastOne ? (line.go ?? t("ld.bye", "Bye!")) : t("ld.next", "Next"))}</button></div>`);
     wireLine(line);
     const go = panel.querySelector("[data-go]");
     go.focus({ preventScroll: true });
@@ -757,7 +759,7 @@ export function mountLindenau(root) {
       });
     }
     const turn = { ...q.turns[i], clip: `${q.id}-${i}-npc`, replyClip: `${q.id}-${i}-du` };
-    const tag = t("ld.step", "{i} von {n}", { i: i + 1, n: q.turns.length });
+    const tag = t("ld.step", "{i} of {n}", { i: i + 1, n: q.turns.length });
     showPanel(`${head(n)}<p class="ld-step">${esc(tag)}</p>${lineHtml(turn)}<div class="ld-task" data-task></div><div class="ld-fb" data-fb aria-live="polite"></div><div class="ld-btns" data-btns></div>`);
     wireLine(turn);
     const next = () => runQuest(n, q, i + 1);
@@ -784,7 +786,7 @@ export function mountLindenau(root) {
   function newLook(r) {
     if (!r.unlocked?.length) return;
     const i = r.unlocked[r.unlocked.length - 1];
-    tTexts.push({ x: me.x, y: me.y - 70, text: t("ld.lookNew", "Neu: {look}!", { look: t(LOOKS_AT[i].key, LOOKS_AT[i].de) }), life: 2.6 });
+    tTexts.push({ x: me.x, y: me.y - 70, text: t("ld.lookNew", "New: {look}!", { look: t(LOOKS_AT[i].key, LOOKS_AT[i].de) }), life: 2.6 });
   }
 
   function runTask(q, i, turn, next) {
@@ -807,7 +809,7 @@ export function mountLindenau(root) {
 
   function continueBtn(next) {
     const btns = panel.querySelector("[data-btns]");
-    btns.innerHTML = `<button type="button" class="quiz-btn quiz-btn--primary" data-go>${esc(t("ld.next", "Weiter"))}</button>`;
+    btns.innerHTML = `<button type="button" class="quiz-btn quiz-btn--primary" data-go>${esc(t("ld.next", "Next"))}</button>`;
     const go = btns.querySelector("[data-go]");
     go.focus({ preventScroll: true });
     go.addEventListener("click", next, { once: true });
@@ -818,7 +820,7 @@ export function mountLindenau(root) {
     const fb = panel.querySelector("[data-fb]");
     const opts = shuffle(turn.task.options);
     const solution = turn.task.options.find((o) => o.ok).de;
-    box.innerHTML = `<p class="ld-you">${esc(t("ld.youSay", "Du sagst:"))}</p><div class="ld-opts">${opts.map((o, k) => `<button type="button" class="sf-opt" data-opt="${k}" lang="de"><span class="sf-opt-n">${k + 1}</span>${esc(o.de)}</button>`).join("")}</div>`;
+    box.innerHTML = `<p class="ld-you">${esc(t("ld.youSay", "You say:"))}</p><div class="ld-opts">${opts.map((o, k) => `<button type="button" class="sf-opt" data-opt="${k}" lang="en"><span class="sf-opt-n">${k + 1}</span>${esc(o.de)}</button>`).join("")}</div>`;
     let first = true, finished = false;
     box.querySelector("[data-opt]")?.focus({ preventScroll: true });
     box.querySelectorAll("[data-opt]").forEach((btn) => btn.addEventListener("click", () => {
@@ -829,7 +831,7 @@ export function mountLindenau(root) {
         grade(q, i, true, first, solution);
         btn.classList.add("is-right");
         box.querySelectorAll("[data-opt]").forEach((b) => { b.setAttribute("aria-disabled", "true"); b.tabIndex = -1; });
-        fb.innerHTML = `<p class="sf-q-verdict is-ok">${esc(first ? t("ld.right", "Genau!") : t("ld.rightNow", "Jetzt passt es!"))}</p>`;
+        fb.innerHTML = `<p class="sf-q-verdict is-ok">${esc(first ? t("ld.right", "Exactly!") : t("ld.rightNow", "Now it's right!"))}</p>`;
         say(turn.replyClip, o.de);
         continueBtn(next);
       } else {
@@ -837,7 +839,7 @@ export function mountLindenau(root) {
         first = false;
         btn.classList.add("is-wrong");
         btn.setAttribute("aria-disabled", "true");
-        fb.innerHTML = `<p class="sf-q-verdict is-no">${esc(t("ld.what", "Wie bitte? 🤔"))}</p><p class="quiz-explain" lang="de">${esc(o.why || "")}</p>`;
+        fb.innerHTML = `<p class="sf-q-verdict is-no">${esc(t("ld.what", "Sorry? 🤔"))}</p><p class="quiz-explain" lang="en">${esc(o.why || "")}</p>`;
       }
     }));
   }
@@ -853,21 +855,21 @@ export function mountLindenau(root) {
     let placed = [];
     let first = true, tries = 0, finished = false;
 
-    box.innerHTML = `<p class="ld-you">${esc(t("ld.build", "Du sagst – tipp die Wörter in die richtige Reihenfolge:"))}</p>
-      <div class="ld-answer" data-answer aria-label="${esc(t("ld.answer", "Dein Satz"))}"></div>
+    box.innerHTML = `<p class="ld-you">${esc(t("ld.build", "You say – tap the words into the right order:"))}</p>
+      <div class="ld-answer" data-answer aria-label="${esc(t("ld.answer", "Your sentence"))}"></div>
       <div class="ld-bank" data-bank></div>`;
-    btns.innerHTML = `<button type="button" class="quiz-btn quiz-btn--primary" data-check>${esc(t("ld.check", "Prüfen"))}</button>`;
+    btns.innerHTML = `<button type="button" class="quiz-btn quiz-btn--primary" data-check>${esc(t("ld.check", "Check"))}</button>`;
     const answerEl = box.querySelector("[data-answer]");
     const bankEl = box.querySelector("[data-bank]");
     const check = btns.querySelector("[data-check]");
 
     function render() {
       answerEl.innerHTML = placed.length
-        ? placed.map((p) => `<button type="button" class="ld-tile is-placed" data-k="${p.k}" lang="de">${esc(p.w)}</button>`).join("")
-        : `<span class="ld-answer-ph">${esc(t("ld.answerPh", "Tipp unten auf die Wörter …"))}</span>`;
-      bankEl.innerHTML = tiles.filter((x) => !placed.includes(x)).map((x) => `<button type="button" class="ld-tile" data-k="${x.k}" lang="de">${esc(x.w)}</button>`).join("");
+        ? placed.map((p) => `<button type="button" class="ld-tile is-placed" data-k="${p.k}" lang="en">${esc(p.w)}</button>`).join("")
+        : `<span class="ld-answer-ph">${esc(t("ld.answerPh", "Tap the words below …"))}</span>`;
+      bankEl.innerHTML = tiles.filter((x) => !placed.includes(x)).map((x) => `<button type="button" class="ld-tile" data-k="${x.k}" lang="en">${esc(x.w)}</button>`).join("");
       const open = words.length - placed.length;
-      setWaiting(check, open > 0 ? (open === 1 ? t("ld.needOne", "Noch 1 Wort fehlt.") : t("ld.needN", "Noch {n} Wörter fehlen.", { n: open })) : null, open > 0 ? "[data-bank] .ld-tile" : null);
+      setWaiting(check, open > 0 ? (open === 1 ? t("ld.needOne", "1 word still missing.") : t("ld.needN", "{n} words still missing.", { n: open })) : null, open > 0 ? "[data-bank] .ld-tile" : null);
     }
     box.addEventListener("click", (e) => {
       const b = e.target.closest(".ld-tile");
@@ -887,7 +889,7 @@ export function mountLindenau(root) {
         answerEl.classList.add("is-right");
         box.querySelectorAll(".ld-tile").forEach((b) => { b.setAttribute("aria-disabled", "true"); b.tabIndex = -1; });
         bankEl.hidden = true;
-        fb.innerHTML = `<p class="sf-q-verdict is-ok">${esc(first ? t("ld.right", "Genau!") : t("ld.rightNow", "Jetzt passt es!"))}</p>`;
+        fb.innerHTML = `<p class="sf-q-verdict is-ok">${esc(first ? t("ld.right", "Exactly!") : t("ld.rightNow", "Now it's right!"))}</p>`;
         say(turn.replyClip, solution);
         continueBtn(next);
         return;
@@ -898,12 +900,12 @@ export function mountLindenau(root) {
       answerEl.classList.remove("is-shake"); void answerEl.offsetWidth; answerEl.classList.add("is-shake");
       if (tries >= 2) {
         finished = true;
-        fb.innerHTML = `<p class="sf-q-verdict is-no">${esc(t("ld.solution", "So geht's:"))}</p><p class="ld-solution" lang="de">${esc(solution)}</p><p class="quiz-explain" lang="de">${esc(why || "")}</p>`;
+        fb.innerHTML = `<p class="sf-q-verdict is-no">${esc(t("ld.solution", "Here's how:"))}</p><p class="ld-solution" lang="en">${esc(solution)}</p><p class="quiz-explain" lang="en">${esc(why || "")}</p>`;
         bankEl.hidden = true;
         say(turn.replyClip, solution);
         continueBtn(next);
       } else {
-        fb.innerHTML = `<p class="sf-q-verdict is-no">${esc(t("ld.what", "Wie bitte? 🤔"))}</p><p class="quiz-explain" lang="de">${esc(why || "")}</p>`;
+        fb.innerHTML = `<p class="sf-q-verdict is-no">${esc(t("ld.what", "Sorry? 🤔"))}</p><p class="quiz-explain" lang="en">${esc(why || "")}</p>`;
       }
     });
     render();
@@ -933,18 +935,18 @@ export function mountLindenau(root) {
     const fb = panel.querySelector("[data-fb]");
     const btns = panel.querySelector("[data-btns]");
     const solution = turn.task.words.join(" ");
-    box.innerHTML = `<p class="ld-you">${esc(t("ld.sayIt", "Du sagst – sprich den Satz laut:"))}</p>
-      <p class="ld-say-line" lang="de">${esc(solution)}</p>
-      <div class="ld-tools"><button type="button" class="ld-tool" data-say-model>🔊 <span>${esc(t("ld.listenModel", "So klingt es"))}</span></button></div>
+    box.innerHTML = `<p class="ld-you">${esc(t("ld.sayIt", "You say – say the sentence out loud:"))}</p>
+      <p class="ld-say-line" lang="en">${esc(solution)}</p>
+      <div class="ld-tools"><button type="button" class="ld-tool" data-say-model>🔊 <span>${esc(t("ld.listenModel", "How it sounds"))}</span></button></div>
       <p class="ld-say-status" data-say-status aria-live="polite"></p>`;
-    btns.innerHTML = `<button type="button" class="quiz-btn quiz-btn--primary" data-rec>🎤 ${esc(t("ld.speak", "Sprechen"))}</button>
-      <button type="button" class="quiz-btn" data-type>${esc(t("ld.typeInstead", "Lieber tippen"))}</button>`;
+    btns.innerHTML = `<button type="button" class="quiz-btn quiz-btn--primary" data-rec>🎤 ${esc(t("ld.speak", "Speak"))}</button>
+      <button type="button" class="quiz-btn" data-type>${esc(t("ld.typeInstead", "Type instead"))}</button>`;
     const rec = btns.querySelector("[data-rec]");
     const status = box.querySelector("[data-say-status]");
     box.querySelector("[data-say-model]").addEventListener("click", () => say(turn.replyClip, solution));
     let busy = false, finished = false;
     if (speakOff) setWaiting(rec, speakOff);
-    else signedIn().then((yes) => { if (!yes && !finished) setWaiting(rec, t("ld.speakLogin", "Sprechen geht mit Konto (kostenlos, angemeldet). Du kannst den Satz auch tippen.")); });
+    else signedIn().then((yes) => { if (!yes && !finished) setWaiting(rec, t("ld.speakLogin", "Speaking works with an account (free, signed in). You can also tap the sentence.")); });
 
     btns.querySelector("[data-type]").addEventListener("click", () => {
       if (busy) return;
@@ -956,7 +958,7 @@ export function mountLindenau(root) {
       busy = true;
       rec.disabled = true; // recording: busy, not "not ready"
       fb.innerHTML = "";
-      status.textContent = t("ld.micPrep", "Mikrofon wird vorbereitet …");
+      status.textContent = t("ld.micPrep", "Getting the microphone ready …");
       try {
         const [{ checkMicrophone, MSG }, { pronunciationProvider, PronunciationError }] = await Promise.all([
           import("../ausspracheCheck.js"),
@@ -967,19 +969,19 @@ export function mountLindenau(root) {
           stream?.getTracks().forEach((tr) => tr.stop()); // only the permission; the provider records itself
           const a = await pronunciationProvider.assess({
             referenceText: solution,
-            language: "de-DE",
-            onListening: () => { status.textContent = t("ld.listening", "Ich höre zu … Sag jetzt den Satz."); },
+            language: "en-GB",
+            onListening: () => { status.textContent = t("ld.listening", "I'm listening … say the sentence now."); },
           });
           const ok = a.overall >= SAY_PASS && (a.completeness == null || a.completeness >= SAY_PASS);
           status.textContent = "";
           if (ok) {
             finished = true;
             grade(q, i, true, true, solution);
-            fb.innerHTML = `<p class="sf-q-verdict is-ok">${esc(t("ld.saidRight", "Gut gesagt! {s} von 100", { s: a.overall }))}</p>`;
+            fb.innerHTML = `<p class="sf-q-verdict is-ok">${esc(t("ld.saidRight", "Well said! {s} out of 100", { s: a.overall }))}</p>`;
             btns.innerHTML = "";
             continueBtn(next);
           } else {
-            fb.innerHTML = `<p class="sf-q-verdict is-no">${esc(t("ld.saidAlmost", "Noch nicht ganz – {s} von 100.", { s: a.overall }))}</p><p class="quiz-explain">${esc(t("ld.saidTry", "Hör dir den Satz an und sprich ihn noch einmal – oder tipp ihn."))}</p>`;
+            fb.innerHTML = `<p class="sf-q-verdict is-no">${esc(t("ld.saidAlmost", "Not quite yet – {s} out of 100.", { s: a.overall }))}</p><p class="quiz-explain">${esc(t("ld.saidTry", "Listen to the sentence and say it once more – or tap it."))}</p>`;
           }
         } catch (err) {
           const code = err instanceof PronunciationError ? err.code : "failed";
@@ -990,7 +992,7 @@ export function mountLindenau(root) {
           }
         }
       } catch {
-        status.textContent = t("ld.speakFailed", "Sprechen geht gerade nicht. Tipp den Satz.");
+        status.textContent = t("ld.speakFailed", "Speaking isn't working right now. Tap the sentence.");
         speakOff = status.textContent;
       } finally {
         busy = false;
@@ -1018,16 +1020,16 @@ export function mountLindenau(root) {
     draw();
     showPanel(`<div class="sf-result">
       <p class="sf-q-tag">${esc(area.title)}</p>
-      <p class="sf-score">${esc(t("ld.score", "{r} von {n} Antworten auf Anhieb richtig", { r: firstTry, n: TASK_COUNT }))}</p>
+      <p class="sf-score">${esc(t("ld.score", "{r} of {n} answers right first time", { r: firstTry, n: TASK_COUNT }))}</p>
       <p class="ld-coin-line">${esc(coinNote([]))}</p>
-      ${missed.length ? `<p class="sf-missed-h">${esc(t("ld.missed", "Diese Sätze übst du nochmal"))}</p>
-        <ul class="sf-missed">${dedupe(missed).map((m) => `<li><p class="ld-missed-where">${esc(m.quest.role)}</p><p class="sf-missed-a" lang="de"><b>${esc(m.solution)}</b></p>${m.why ? `<p lang="de">${esc(m.why)}</p>` : ""}</li>`).join("")}</ul>`
-        : `<p class="sf-best">${esc(t("ld.perfect", "Alles auf Anhieb richtig – Lindenau ist stolz auf dich!"))}</p>`}
+      ${missed.length ? `<p class="sf-missed-h">${esc(t("ld.missed", "Practise these sentences again"))}</p>
+        <ul class="sf-missed">${dedupe(missed).map((m) => `<li><p class="ld-missed-where">${esc(m.quest.role)}</p><p class="sf-missed-a" lang="en"><b>${esc(m.solution)}</b></p>${m.why ? `<p lang="en">${esc(m.why)}</p>` : ""}</li>`).join("")}</ul>`
+        : `<p class="sf-best">${esc(t("ld.perfect", "All right first time – Brambleford is proud of you!"))}</p>`}
       <div class="sf-q-btns">
-        ${canReview ? `<button type="button" class="quiz-btn quiz-btn--primary" data-review>${esc(t("ld.review", "Wiederholen"))}</button>` : ""}
-        ${nextArea && !canReview ? `<button type="button" class="quiz-btn quiz-btn--primary" data-next-area>${esc(t("ld.nextArea", "Weiter: {a}", { a: nextArea.title }))}</button>` : ""}
-        <button type="button" class="quiz-btn${canReview || nextArea ? "" : " quiz-btn--primary"}" data-again>${esc(t("ld.again", "Nochmal spielen"))}</button>
-        <a class="quiz-btn" href="/spiele/artikel-sprint">${esc(t("ld.more", "Noch ein Spiel"))}</a>
+        ${canReview ? `<button type="button" class="quiz-btn quiz-btn--primary" data-review>${esc(t("ld.review", "Review"))}</button>` : ""}
+        ${nextArea && !canReview ? `<button type="button" class="quiz-btn quiz-btn--primary" data-next-area>${esc(t("ld.nextArea", "Next: {a}", { a: nextArea.title }))}</button>` : ""}
+        <button type="button" class="quiz-btn${canReview || nextArea ? "" : " quiz-btn--primary"}" data-again>${esc(t("ld.again", "Play again"))}</button>
+        <a class="quiz-btn" href="/spiele/artikel-sprint">${esc(t("ld.more", "Another game"))}</a>
       </div></div>`);
     panel.querySelector("[data-again]").addEventListener("click", () => start(area.id));
     panel.querySelector(".sf-result").append(spielMeldenRow("lindenau", roundInfo));
@@ -1043,7 +1045,7 @@ export function mountLindenau(root) {
       runReview(due, 0, finish);
     });
     panel.scrollTop = 0;
-    if (firstTry === TASK_COUNT) celebrate({ title: t("ld.perfectShort", "Alles richtig!"), body: t("ld.perfect", "Alles auf Anhieb richtig – Lindenau ist stolz auf dich!"), lead: "bruno", crew: ["regi", ...QUESTS.map((q) => q.mascot).filter((m) => MASCOT_NAMES.includes(m))] });
+    if (firstTry === TASK_COUNT) celebrate({ title: t("ld.perfectShort", "All correct!"), body: t("ld.perfect", "All right first time – Brambleford is proud of you!"), lead: "bruno", crew: ["regi", ...QUESTS.map((q) => q.mascot).filter((m) => MASCOT_NAMES.includes(m))] });
   }
   function dedupe(list) {
     const seen = new Set();

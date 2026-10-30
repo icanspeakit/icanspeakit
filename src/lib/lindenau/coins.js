@@ -5,9 +5,9 @@ const KEY = "ld-coins";
 
 /** The looks, in the order they open: `at` coins in total. */
 export const LOOKS_AT = [
-  { at: 15, key: "ld.lookParty", de: "Partyhut" },
-  { at: 40, key: "ld.lookCrown", de: "Krone" },
-  { at: 80, key: "ld.lookCape", de: "goldener Umhang" },
+  { at: 15, key: "ld.lookParty", de: "party hat" },
+  { at: 40, key: "ld.lookCrown", de: "crown" },
+  { at: 80, key: "ld.lookCape", de: "golden cape" },
 ];
 
 let total = null;
