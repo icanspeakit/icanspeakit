@@ -152,7 +152,7 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
           <span class="ab-pair-fig" data-mascot-part set:html={mascotSvg({ name: extra.zuZweit.mascot, expr: "happy", view: "three", size: 72, label: "", className: "ab-pair-svg" })} />
           <div>
             <p class="ab-pair-title">{extra.zuZweit.title}</p>
-            {extra.zuZweit.say && <p class="ab-pair-say" data-mascot-part>„{extra.zuZweit.say}“</p>}
+            {extra.zuZweit.say && <p class="ab-pair-say" data-mascot-part>“{extra.zuZweit.say}”</p>}
             <ol>{extra.zuZweit.steps.map((t: string) => <li>{t}</li>)}</ol>
           </div>
         </aside>

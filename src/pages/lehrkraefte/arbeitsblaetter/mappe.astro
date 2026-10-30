@@ -26,11 +26,11 @@ const LEVELS = ["A1", "A2", "B1", "B2"];
 const units = worksheetUnits();
 const listed = new Set(grammarTopics.map(topicSlug));
 const topics = sheetTopics.filter((t) => LEVELS.includes(t.level));
-// „Auf Deutsch" ("de") first and chosen: the German explanation instead of a translation.
-// A sheet without German explanations (B1/B2 so far) shows English there instead of a blank
+// The simple English definitions first and chosen; „In German" ("de") offers the German
+// translation instead. A word without one shows English there instead of a blank
 // (wortschatz.js); the learners' word lists drop their meaning column, as on their own page.
-const MEANING_LANGS = ["de", ...SHEET_LANGS];
-const langName = (l: string) => (l === "de" ? "Auf Deutsch" : LANG_NAMES[l]);
+const MEANING_LANGS = [...SHEET_LANGS, "de"];
+const langName = (l: string) => (l === "de" ? "In German" : LANG_NAMES[l]);
 const meaningCss = MEANING_LANGS.map((l) => `#ab-root[data-lang="${l}"] .ab-m[lang="${l}"]`).join(",") + "{display:inline}" +
   '#ab-root[data-lang="de"] .pr-col-m{display:none}';
 // Sets the Live-Quiz can pick that are not Lernsets: printed from their own print page, shown
@@ -49,7 +49,7 @@ const partner = allSheets().filter((s) => LEVELS.includes(s.niveau));
   <SiteNav active="lehrkraefte" />
 
   <style is:inline set:html={meaningCss}></style>
-  <main class="ab abm" id="ab-root" data-mode="print" data-lang="de" data-key="on" data-level="A1">
+  <main class="ab abm" id="ab-root" data-mode="print" data-lang={MEANING_LANGS[0]} data-key="on" data-level="A1">
     {/* Spans both columns: the library's navigation, above the picker and the preview. */}
     <AbCards current="mappe" />
     {/* Arrived by the Mappe card: the picker opens (arbeitsblatt.css, html.abm-arrive). Inline
@@ -157,7 +157,7 @@ const partner = allSheets().filter((s) => LEVELS.includes(s.niveau));
         <div class="ab-langs t-sw" role="group" aria-label="Bedeutungen auf" data-i18n-attr="aria-label:ab.lang.label" data-abm-langs hidden>
           <span class="ab-langs-label" data-i18n="ab.lang.label">Bedeutungen auf</span>
           {MEANING_LANGS.map((l) => (
-            <button type="button" data-ab-lang={l} aria-pressed={l === "de" ? "true" : "false"} lang={l} data-i18n={l === "de" ? "ab.lang.de" : undefined}>{langName(l)}</button>
+            <button type="button" data-ab-lang={l} aria-pressed={l === MEANING_LANGS[0] ? "true" : "false"} lang={l} data-i18n={l === "de" ? "ab.lang.de" : undefined}>{langName(l)}</button>
           ))}
         </div>
         <div class="ab-actions ab-only-print">

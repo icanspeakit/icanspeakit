@@ -4,9 +4,9 @@ import { fitTitle } from "../../../../lib/seo/title.js";
 // fill it in on screen. Data and parts: src/lib/arbeitsblatt/wortschatz.js. Behaviour
 // (modes, checking, meaning language): src/lib/arbeitsblatt/client.js.
 //
-// The paper itself stays German — it is a sheet for a German lesson, and the instructions
-// on it are the teacher's classroom language. The controls around it (mode, print, check)
-// follow the site language like every other page.
+// The paper itself is English (lang="en"): the words, their simple English definitions and
+// the instructions, in the words of the learners' print sheet (WortschatzDruck.astro). The
+// controls around it (mode, print, check) follow the site language like every other page.
 import Layout from "../../../../layouts/Layout.astro";
 import SiteNav from "../../../../components/SiteNav.astro";
 import "../../../../styles/arbeitsblatt.css";
@@ -15,11 +15,11 @@ import { wortschatzSheet, worksheetUnits, worksheetLevels, levelWords, SHEET_LAN
 import { isRtl } from "../../../../lib/languages.js";
 // One meaning language at a time (arbeitsblatt.css hides .ab-m): the rule per sheet
 // language, written from the registry so a new language needs no CSS edit.
-// "de" is „Auf Deutsch": the German explanation instead of a translation (sheet.hasDe).
+// "de" is „In German": the German translation instead of the English definition (sheet.hasDe).
 const meaningCss = [...SHEET_LANGS, "de"].map((l) => `#ab-root[data-lang="${l}"] .ab-m[lang="${l}"]`).join(",") + "{display:inline}";
 
 export function getStaticPaths() {
-  // A whole level too (a1 … b2): the Live-Quiz's „Ganze Stufe, gemischt" and Zufallsmix
+  // A whole level too (a1 … b2): the live quiz's „whole level, mixed" and random mix
   // on paper — words drawn from the whole level (levelWords).
   return [...worksheetUnits().map((u) => u.id), ...worksheetLevels].map((unit) => ({ params: { unit } }));
 }
@@ -27,16 +27,16 @@ export function getStaticPaths() {
 const { unit: unitId } = Astro.params;
 const isLevel = worksheetLevels.includes(unitId);
 const sheet = isLevel ? wortschatzSheet(unitId, { words: levelWords(unitId) }) : wortschatzSheet(unitId);
-const title = isLevel ? `Ganze Stufe ${unitId.toUpperCase()}, gemischt` : sheet.unit?.title ?? unitId;
+const title = isLevel ? `Whole level ${unitId.toUpperCase()}, mixed` : sheet.unit?.title ?? unitId;
 const level = isLevel ? unitId.toUpperCase() : sheet.unit?.level ?? "";
 const path = `/lehrkraefte/arbeitsblaetter/wortschatz/${unitId}`;
 const w = (answers: string[]) => `--w:${Math.max(4, ...answers.map((a) => a.length)) + 2}ch`;
 const json = (a: string[]) => JSON.stringify(a);
-// Auf Deutsch first and chosen where every matched word has a German explanation
-// (A1/A2 so far); otherwise English, and German is not offered.
-const sheetLangs = sheet.hasDe ? ["de", ...SHEET_LANGS] : SHEET_LANGS;
+// English definitions first and chosen; German translations offered after them where
+// every matched word has one.
+const sheetLangs = sheet.hasDe ? [...SHEET_LANGS, "de"] : SHEET_LANGS;
 const firstLang = sheetLangs[0];
-const langName = (l: string) => (l === "de" ? "Auf Deutsch" : LANG_NAMES[l]);
+const langName = (l: string) => (l === "de" ? "In German" : LANG_NAMES[l]);
 let gap = 0;
 ---
 <Layout
@@ -70,22 +70,22 @@ let gap = 0;
       </div>
     </div>
 
-    <article class="ab-sheet" lang="de" data-has-de={sheet.hasDe ? "" : undefined}>
+    <article class="ab-sheet" lang="en" data-has-de={sheet.hasDe ? "" : undefined}>
       <header class="ab-head">
-        <p class="ab-eyebrow">EnglishAcademy · Arbeitsblatt Wortschatz · {level}</p>
+        <p class="ab-eyebrow">EnglishAcademy · Vocabulary worksheet · {level}</p>
         <h1 class="ab-title">{title}</h1>
-        <p class="ab-namerow"><span>Name: <i></i></span><span>Datum: <i></i></span></p>
+        <p class="ab-namerow"><span>Name: <i></i></span><span>Date: <i></i></span></p>
       </header>
 
       {sheet.match.left.length > 0 && (
         <section class="ab-sec">
-          <h2 class="ab-h"><b>A</b> Wort und Bedeutung</h2>
-          <p class="ab-instr">Welche Bedeutung passt? Schreib den Buchstaben in das Kästchen.</p>
+          <h2 class="ab-h"><b>A</b> Word and meaning</h2>
+          <p class="ab-instr">Which meaning fits? Write the letter in the box.</p>
           <div class="ab-match">
             <ol class="ab-match-left">
               {sheet.match.left.map((item, i) => (
                 <li>
-                  <input class="ab-in ab-in--letter" data-a={json([sheet.match.answers[i]])} data-kind="letter" maxlength="1" aria-label={`Buchstabe für ${item.de}`} autocomplete="off" />
+                  <input class="ab-in ab-in--letter" data-a={json([sheet.match.answers[i]])} data-kind="letter" maxlength="1" aria-label={`Letter for ${item.de}`} autocomplete="off" />
                   <span>{item.de}</span>
                 </li>
               ))}
@@ -104,12 +104,12 @@ let gap = 0;
 
       {sheet.nouns.length > 0 && (
         <section class="ab-sec">
-          <h2 class="ab-h"><b>B</b> der, die oder das?</h2>
-          <p class="ab-instr">Ergänze den Artikel.</p>
+          <h2 class="ab-h"><b>B</b> a, an or some?</h2>
+          <p class="ab-instr">Write a, an or some.</p>
           <ul class="ab-articles">
             {sheet.nouns.map((n) => (
               <li>
-                <input class="ab-in" style="--w:5ch" data-a={json([n.gender])} data-kind="text" aria-label={`Artikel für ${n.lemma}`} autocomplete="off" autocapitalize="off" />
+                <input class="ab-in" style="--w:5ch" data-a={json([n.gender])} data-kind="text" aria-label={`a, an or some: ${n.lemma}`} autocomplete="off" autocapitalize="off" />
                 <span>{n.lemma}</span>
               </li>
             ))}
@@ -119,30 +119,30 @@ let gap = 0;
 
       {sheet.sentences.length > 0 && (
         <section class="ab-sec">
-          <h2 class="ab-h"><b>C</b> Lückensätze</h2>
-          <p class="ab-instr">Welches Wort fehlt? Die Wörter im Kasten helfen.</p>
+          <h2 class="ab-h"><b>C</b> Gap sentences</h2>
+          <p class="ab-instr">Which word is missing? The words in the box help.</p>
           <p class="ab-box">{sheet.box.map((b) => <span>{b}</span>)}</p>
           <ol class="ab-lines">
             {sheet.sentences.map((s) => (
               <li>
-                {s.before}<input class="ab-in" style={w([s.answer])} data-a={json([s.answer])} data-kind="text" aria-label={`Lücke ${++gap}`} autocomplete="off" autocapitalize="off" />{s.after}
+                {s.before}<input class="ab-in" style={w([s.answer])} data-a={json([s.answer])} data-kind="text" aria-label={`Gap ${++gap}`} autocomplete="off" autocapitalize="off" />{s.after}
               </li>
             ))}
           </ol>
         </section>
       )}
 
-      <footer class="ab-foot">EnglishAcademy · englishacademy.com{path} · kostenlos zum Kopieren im Unterricht</footer>
+      <footer class="ab-foot">EnglishAcademy · englishacademy.com{path} · free to copy for your lessons</footer>
     </article>
 
-    <article class="ab-sheet ab-key" lang="de" aria-label="Lösungen">
+    <article class="ab-sheet ab-key" lang="en" aria-label="Answers">
       <header class="ab-head">
-        <p class="ab-eyebrow">EnglishAcademy · Lösungen · {level}</p>
+        <p class="ab-eyebrow">EnglishAcademy · Answers · {level}</p>
         <h2 class="ab-title ab-title--key">{title}</h2>
       </header>
       {sheet.match.left.length > 0 && (
         <section class="ab-sec">
-          <h3 class="ab-h"><b>A</b> Wort und Bedeutung</h3>
+          <h3 class="ab-h"><b>A</b> Word and meaning</h3>
           <ol class="ab-keylist ab-keylist--cols">
             {sheet.match.left.map((item, i) => {
               const r = sheet.match.right.find((x) => x.letter === sheet.match.answers[i]);
@@ -158,15 +158,15 @@ let gap = 0;
       )}
       {sheet.nouns.length > 0 && (
         <section class="ab-sec">
-          <h3 class="ab-h"><b>B</b> der, die oder das?</h3>
+          <h3 class="ab-h"><b>B</b> a, an or some?</h3>
           <ol class="ab-keylist ab-keylist--cols">
-            {sheet.nouns.map((n) => <li><b>{n.gender}</b> {n.lemma}{n.plural && <span class="ab-muted">, die {n.plural}</span>}</li>)}
+            {sheet.nouns.map((n) => <li><b>{n.gender}</b> {n.lemma}{n.plural && <span class="ab-muted">, pl. {n.plural}</span>}</li>)}
           </ol>
         </section>
       )}
       {sheet.sentences.length > 0 && (
         <section class="ab-sec">
-          <h3 class="ab-h"><b>C</b> Lückensätze</h3>
+          <h3 class="ab-h"><b>C</b> Gap sentences</h3>
           <ol class="ab-keylist">
             {sheet.sentences.map((s) => <li>{s.before}<b>{s.answer}</b>{s.after}</li>)}
           </ol>
