@@ -131,6 +131,13 @@ export function select(opts = {}) {
   return opts.limit ? rows.slice(0, opts.limit) : rows;
 }
 
+/** The levels already migrated to English (docs/content-plan.md §1.4): their nouns carry
+ *  a / an / some instead of der / die / das. Modules still in German (Berufe, games) must not
+ *  resolve their German ids into these levels: "bad" was das Bad, now it is the adjective. */
+export const ENGLISH_LEVELS = new Set(
+  LEVELS.filter((level) => ENTRIES.some((e) => e.level === level && ["a", "an", "some"].includes(e.gender)))
+);
+
 export const all = () => ENTRIES;
 export const nouns = (opts = {}) => select({ ...opts, pos: "noun" });
 export const verbs = (opts = {}) => select({ ...opts, pos: "verb" });

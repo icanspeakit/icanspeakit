@@ -10,13 +10,13 @@ import path from "node:path";
 import { BERUFE, LANGS, entryCount, refKind } from "./berufeCore.js";
 import { byId as lexiconById, toVokabelCards } from "./lexicon.js";
 import { toCard as fsCard, GROUPS as FS_GROUPS } from "./fuehrerscheinWortschatz.js";
-import { rowOf } from "./berufeRows.js";
+import { rowOf, liveDeck } from "./berufeRows.js";
 
 const modules = import.meta.glob("../data/berufe/*.json", { eager: true, import: "default" });
 
-/** slug → deck, in hub order. */
+/** slug → deck, in hub order. Refs into English lexicon levels are dropped (liveDeck). */
 export const DECKS = Object.fromEntries(
-  BERUFE.map((b) => [b.slug, Object.values(modules).find((d) => d?.beruf === b.slug)]).filter(([, d]) => d)
+  BERUFE.map((b) => [b.slug, Object.values(modules).find((d) => d?.beruf === b.slug)]).filter(([, d]) => d).map(([s, d]) => [s, liveDeck(d)])
 );
 
 export { LANGS, entryCount };

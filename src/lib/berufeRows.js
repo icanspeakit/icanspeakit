@@ -4,12 +4,23 @@
 // the quiz host can load it in the browser. A deck's unit id is `berufe-<beruf>-<gruppe>`,
 // the same id VokabelTrainer gets as its deck.
 import { BERUFE, refKind } from "./berufeCore.js";
-import { byId as lexiconById } from "./lexicon.js";
+import { byId as lexiconById, ENGLISH_LEVELS } from "./lexicon.js";
 import fuehrerschein from "../data/fuehrerschein/wortschatz.json" with { type: "json" };
 
 const modules = import.meta.glob("../data/berufe/*.json", { eager: true, import: "default" });
+
+/** The decks are still German and point at German lexicon ids. Once a level is English
+ *  (vocab-a1 …), those ids are gone or name an English word, so such entries drop out until
+ *  the english-for-work item rewrites the decks. */
+const resolves = (w) => {
+  if (!w.ref || refKind(w.ref) !== "lexicon") return true;
+  const row = lexiconById(w.ref);
+  return !!row && !ENGLISH_LEVELS.has(row.level);
+};
+export const liveDeck = (deck) => ({ ...deck, groups: (deck.groups ?? []).map((g) => ({ ...g, words: (g.words ?? []).filter(resolves) })) });
+
 const decks = Object.fromEntries(
-  BERUFE.map((b) => [b.slug, Object.values(modules).find((d) => d?.beruf === b.slug)]).filter(([, d]) => d)
+  BERUFE.map((b) => [b.slug, Object.values(modules).find((d) => d?.beruf === b.slug)]).filter(([, d]) => d).map(([s, d]) => [s, liveDeck(d)])
 );
 
 const own = new Map(
