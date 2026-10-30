@@ -12,17 +12,17 @@
 // at build time from src/data/grammatik/*.json (aktiv.listen and the first fill exercise).
 // Pure; seite.js draws the result.
 
-/** The question in an Ablauf text: "Frage an die Gruppe: Was fällt euch …?" → "Was fällt euch …?" */
+/** The question in an Ablauf text: "Question to the group: What comes to mind …?" → "What comes to mind …?" */
 export function bigQuestion(text) {
   const q = String(text ?? "").split(/(?<=[.!?])\s+/).find((s) => s.trim().endsWith("?"));
-  return q ? q.replace(/^[^:„]*:\s*/, "").trim() : null;
+  return q ? q.replace(/^[^:“]*:\s*/, "").trim() : null;
 }
 
 const BILD = {
-  fragen: ["Wer ist auf dem Foto?", "Wo sind die Personen?", "Was machen oder sagen sie?"],
-  redemittel: ["Ich sehe …", "Auf dem Foto ist/sind …", "Ich glaube, sie sagen: „…“"],
+  fragen: ["Who is in the photo?", "Where are the people?", "What are they doing or saying?"],
+  redemittel: ["I can see …", "In the photo there is/are …", "I think they are saying: “…”"],
 };
-const WORTIGEL = { redemittel: ["Ich denke an …", "Das Wort … passt zum Thema.", "Auf Deutsch heißt das …"] };
+const WORTIGEL = { redemittel: ["I'm thinking of …", "The word … fits the topic.", "In my language it's called …"] };
 
 /**
  * @param {{ phase: { text: string }, lesson: object, prev: object | null, block: object,
@@ -37,41 +37,41 @@ export function einstiegInhalt({ phase, lesson, prev, block, bild, themen, links
     const links = linksOf(lesson).slice(0, 2);
     return {
       kind: "wiederholung",
-      titel: "Erklärt euch gegenseitig:",
+      titel: "Explain to each other:",
       karten: links.map((l) => { const t = topic(l); return { name: t.name, beispiel: t.ex[0] ?? null }; }),
-      redemittel: ["Bei … sagt man …", "Zum Beispiel: …", "Mein Satz: …"],
+      redemittel: ["We use … when …", "For example: …", "My sentence: …"],
       bild: null,
     };
   }
-  if (prev && /^Blitzlicht/.test(text)) {
+  if (prev && /^Quick round/.test(text)) {
     const ex = linksOf(prev).flatMap((l) => topic(l).ex.slice(0, 2)).slice(0, 3);
     return {
       kind: "blitzlicht",
-      titel: `Blitzlicht: Ein Satz mit ${prev.focus}`,
-      untertitel: ex.length ? "So klingt das – jetzt sagt jede Person einen eigenen Satz." : "Jede Person sagt einen eigenen Satz.",
+      titel: `Quick round: one sentence with ${prev.focus}`,
+      untertitel: ex.length ? "This is how it sounds – now everyone says a sentence of their own." : "Everyone says a sentence of their own.",
       beispiele: ex,
       bild: null,
     };
   }
-  if (prev && /^Drei Fragen/.test(text)) {
+  if (prev && /^Three questions/.test(text)) {
     const quiz = linksOf(prev).flatMap((l) => topic(l).quiz).slice(0, 3);
     const ex = quiz.length ? [] : linksOf(prev).flatMap((l) => topic(l).ex.slice(0, 1)).slice(0, 3);
     return {
       kind: "fragen",
-      titel: "Drei Fragen zur letzten Stunde",
-      untertitel: quiz.length ? "Was fehlt? Antwortet im Plenum – dann aufdecken." : `Erinnert ihr euch? ${prev.focus}`,
+      titel: "Three questions about the last lesson",
+      untertitel: quiz.length ? "What is missing? Answer together – then reveal." : `Do you remember? ${prev.focus}`,
       quiz,
       beispiele: ex,
       bild: null,
     };
   }
-  if (/^Bildimpuls/.test(text) && bild) {
-    return { kind: "bild", titel: "Was seht ihr auf dem Foto?", untertitel: block.thema, fragen: BILD.fragen, redemittel: BILD.redemittel, bild };
+  if (/^Photo prompt/.test(text) && bild) {
+    return { kind: "bild", titel: "What can you see in the photo?", untertitel: block.thema, fragen: BILD.fragen, redemittel: BILD.redemittel, bild };
   }
   // Wortigel, or a Bildimpuls without a photo: the topic in the middle, words around it.
   return {
     kind: "wortigel",
-    titel: bigQuestion(text) ?? `Was fällt euch zum Thema „${block.thema}“ ein?`,
+    titel: bigQuestion(text) ?? `What comes to mind when you think of “${block.thema}”?`,
     mitte: block.thema,
     redemittel: WORTIGEL.redemittel,
     bild,

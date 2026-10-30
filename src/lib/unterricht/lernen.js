@@ -169,7 +169,7 @@ export function firstOpen(extra, count) {
 }
 
 /** "ca. 10 Min." – the learner's clock never says more than that. */
-export const about = (minutes) => `ca. ${Math.max(5, Math.round(minutes / 5) * 5)} Min.`;
+export const about = (minutes) => `about ${Math.max(5, Math.round(minutes / 5) * 5)} min`;
 
 /* ---------------------------------------------------------------- texts ---- */
 
@@ -178,18 +178,18 @@ export const about = (minutes) => `ca. ${Math.max(5, Math.round(minutes / 5) * 5
  * neutral on purpose, so nothing unreviewed reaches a learner.
  */
 export const FALLBACK = {
-  einstieg: "Schau dir an, worum es heute geht. Dann geht es weiter.",
-  wortschatz: "Lern die Wörter mit den Karteikarten.",
-  grammatik: "Schau die Präsentation bis zum Ende an.",
-  uebung: "Mach die Übungen. Prüf jede Antwort.",
-  anwendung: "Wende an, was du gelernt hast: Schreib ein paar Sätze.",
-  pruefung: "Mach den Prüfungsteil bis zum Ergebnis.",
-  test: "Teste dich mit 10 Aufgaben.",
-  abschluss: "Schau zurück: Was kannst du jetzt?",
+  einstieg: "Look at what today's lesson is about. Then move on.",
+  wortschatz: "Learn the words with the flashcards.",
+  grammatik: "Watch the presentation to the end.",
+  uebung: "Do the exercises. Check every answer.",
+  anwendung: "Use what you have learned: write a few sentences.",
+  pruefung: "Do the exam part through to the result.",
+  test: "Test yourself with 10 questions.",
+  abschluss: "Look back: what can you do now?",
 };
 
-const andList = (xs) => (xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} und ${xs.at(-1)}`);
-const q = (s) => `„${s}“`;
+const andList = (xs) => (xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs.at(-1)}`);
+const q = (s) => `“${s}”`;
 
 /**
  * The learner's text for a phase: { text, bruno, entwurf }. `texte` is

@@ -66,7 +66,7 @@ export function mountLeiste(ctl, { home = false, onEnd, mode = "lehrkraft", onLa
   const bar = document.createElement("div");
   bar.className = "ut-leiste";
   bar.setAttribute("role", "region");
-  bar.setAttribute("aria-label", lern ? "Deine Stunde" : "Laufender Unterricht");
+  bar.setAttribute("aria-label", lern ? "Your lesson" : "Lesson in progress");
   if (lern) bar.classList.add("ut-leiste--lern");
   document.body.append(bar);
   document.body.classList.add("ut-mit-leiste");
@@ -76,19 +76,19 @@ export function mountLeiste(ctl, { home = false, onEnd, mode = "lehrkraft", onLa
 
   bar.innerHTML = `
     <span class="ut-leiste-bruno" data-l-bruno data-mascot-part aria-hidden="true"></span>
-    <div class="ut-leiste-who">${lern ? `<b>Stunde ${stunde}</b><span>${esc(ctl.gruppe)}</span>` : `<b>${esc(ctl.gruppe)}</b><span>Stunde ${stunde}</span>`}</div>
+    <div class="ut-leiste-who">${lern ? `<b>Lesson ${stunde}</b><span>${esc(ctl.gruppe)}</span>` : `<b>${esc(ctl.gruppe)}</b><span>Lesson ${stunde}</span>`}</div>
     <span class="ut-leiste-phase" data-l-phase></span>
     <span class="ut-leiste-extra" data-l-extra></span>
     <span class="ut-leiste-spacer"></span>
-    <span class="ut-leiste-warn" data-l-warn hidden>Nicht gespeichert – keine Verbindung</span>
-    ${home ? "" : `<a class="ut-leiste-btn" data-l-back href="${backHref}" title="Zurück zum Schritt">↩ <span class="ut-leiste-lbl">Zurück zum Schritt</span></a>`}
-    <button type="button" class="ut-leiste-btn ut-leiste-arrow" data-l-prev aria-label="Vorheriger Schritt" title="Vorheriger Schritt (←)">${LEFT}</button>
+    <span class="ut-leiste-warn" data-l-warn hidden>Not saved – no connection</span>
+    ${home ? "" : `<a class="ut-leiste-btn" data-l-back href="${backHref}" title="Back to the step">↩ <span class="ut-leiste-lbl">Back to the step</span></a>`}
+    <button type="button" class="ut-leiste-btn ut-leiste-arrow" data-l-prev aria-label="Previous step" title="Previous step (←)">${LEFT}</button>
     ${lern ? "" : `<button type="button" class="ut-leiste-btn ut-leiste-btn--main" data-l-play></button>`}
-    <button type="button" class="ut-leiste-btn ut-leiste-arrow" data-l-next aria-label="Nächster Schritt" title="Nächster Schritt (→)">${RIGHT}</button>
-    <button type="button" class="ut-leiste-btn" data-l-uhr aria-label="Uhr zeigen oder ausblenden" title="Uhr zeigen oder ausblenden">◔ <span class="ut-leiste-lbl">Uhr</span></button>
+    <button type="button" class="ut-leiste-btn ut-leiste-arrow" data-l-next aria-label="Next step" title="Next step (→)">${RIGHT}</button>
+    <button type="button" class="ut-leiste-btn" data-l-uhr aria-label="Show or hide the clock" title="Show or hide the clock">◔ <span class="ut-leiste-lbl">Clock</span></button>
     ${lern
-      ? `<button type="button" class="ut-leiste-btn" data-l-later title="Die Stunde bleibt gespeichert">Später weiter</button>`
-      : `<button type="button" class="ut-leiste-btn ut-leiste-btn--end" data-l-end>Beenden</button>`}
+      ? `<button type="button" class="ut-leiste-btn" data-l-later title="Your lesson stays saved">Continue later</button>`
+      : `<button type="button" class="ut-leiste-btn ut-leiste-btn--end" data-l-end>End lesson</button>`}
     ${home ? "" : `<button type="button" class="ut-leiste-btn ut-leiste-fold" data-l-fold>${FOLD}</button>`}`;
   const $ = (s) => bar.querySelector(s);
   const main = bar.innerHTML;
@@ -102,8 +102,8 @@ export function mountLeiste(ctl, { home = false, onEnd, mode = "lehrkraft", onLa
     const b = $("[data-l-fold]");
     if (b) {
       b.setAttribute("aria-expanded", String(!folded));
-      b.setAttribute("aria-label", folded ? "Leiste öffnen" : "Leiste einklappen");
-      b.title = folded ? "Leiste öffnen" : "Leiste einklappen";
+      b.setAttribute("aria-label", folded ? "Open the bar" : "Fold the bar");
+      b.title = folded ? "Open the bar" : "Fold the bar";
     }
     if (remember) { try { localStorage.setItem(FOLD_KEY, folded ? "1" : "0"); } catch {} }
   }
@@ -168,13 +168,13 @@ export function mountLeiste(ctl, { home = false, onEnd, mode = "lehrkraft", onLa
     ph.style.boxShadow = `inset 0 0 0 1px ${col.ink}33`;
     // What is left of the step, when it can be counted ("12/40"); else the soft time.
     const p = goal && goal.kind !== "fertig" ? progressOf(goal, ctl.extra?.seen?.[v.index]) : null;
-    const how = done ? "✓ fertig" : status === "uebersprungen" ? "übersprungen" : p && p.need > 1 ? `${p.have}/${p.need}` : about(v.step.minutes);
+    const how = done ? "✓ done" : status === "uebersprungen" ? "skipped" : p && p.need > 1 ? `${p.have}/${p.need}` : about(v.step.minutes);
     ph.innerHTML = `<span>${v.index + 1}/${v.count}</span> ${esc(v.step.name)} <small>${how}</small>`;
     ph.classList.toggle("ut-leiste-phase--done", done);
     const next = $("[data-l-next]");
     next.classList.toggle("ut-leiste-arrow--go", done && v.index < v.count - 1);
-    setWaiting($("[data-l-prev]"), v.index === 0 ? "Das ist der erste Schritt." : null);
-    setWaiting(next, v.index === v.count - 1 ? "Das ist der letzte Schritt. Schließ ihn auf der Seite der Stunde ab." : null);
+    setWaiting($("[data-l-prev]"), v.index === 0 ? "This is the first step." : null);
+    setWaiting(next, v.index === v.count - 1 ? "This is the last step. Finish it on the lesson page." : null);
     $("[data-l-uhr]").setAttribute("aria-pressed", String(uhr.visible));
   }
 
@@ -194,10 +194,10 @@ export function mountLeiste(ctl, { home = false, onEnd, mode = "lehrkraft", onLa
     ph.classList.toggle("ut-leiste-phase--over", !!v.over);
     ph.innerHTML = `<span>${v.index + 1}/${v.count}</span> ${esc(v.step.name)} <small>${v.over || v.remaining}</small>`;
     const play = $("[data-l-play]");
-    play.textContent = v.running ? "Pause" : "Weiter";
-    play.setAttribute("aria-label", v.running ? "Uhr anhalten" : "Uhr weiterlaufen lassen");
-    setWaiting($("[data-l-prev]"), v.index === 0 ? "Das ist der erste Schritt." : null);
-    setWaiting($("[data-l-next]"), v.index === v.count - 1 ? "Das ist der letzte Schritt. Zum Abschluss: „Beenden“." : null);
+    play.textContent = v.running ? "Pause" : "Resume";
+    play.setAttribute("aria-label", v.running ? "Pause the clock" : "Let the clock run again");
+    setWaiting($("[data-l-prev]"), v.index === 0 ? "This is the first step." : null);
+    setWaiting($("[data-l-next]"), v.index === v.count - 1 ? "This is the last step. To finish: “End lesson”." : null);
     $("[data-l-uhr]").setAttribute("aria-pressed", String(uhr.visible));
     $("[data-l-warn]").hidden = !ctl.saveFailed;
   }
@@ -238,9 +238,9 @@ export function mountLeiste(ctl, { home = false, onEnd, mode = "lehrkraft", onLa
     bar.classList.remove("ut-leiste--zu");
     document.body.classList.remove("ut-leiste-zu");
     bar.innerHTML = `<div class="ut-leiste-ask">
-      <p>Stunde ${stunde} mit ${esc(ctl.gruppe)} beenden?</p>
-      <button type="button" class="ut-leiste-btn ut-leiste-btn--main" data-l-yes>Ja, beenden</button>
-      <button type="button" class="ut-leiste-btn" data-l-no>Weiter unterrichten</button></div>`;
+      <p>End lesson ${stunde} with ${esc(ctl.gruppe)}?</p>
+      <button type="button" class="ut-leiste-btn ut-leiste-btn--main" data-l-yes>Yes, end it</button>
+      <button type="button" class="ut-leiste-btn" data-l-no>Keep teaching</button></div>`;
     $("[data-l-no]").addEventListener("click", () => {
       bar.innerHTML = main;
       mood = "";
@@ -280,13 +280,13 @@ export function mountLeiste(ctl, { home = false, onEnd, mode = "lehrkraft", onLa
       setRule: (hidden) => setFolded(hidden, false),
       compact,
       coach: lern ? [
-        ["Deine Stunde ist dabei", "Schritt und Phase, ← → zum Weitergehen, „Zurück zum Schritt“ und „Später weiter“ – auf jeder Seite der Stunde."],
-        ["Hier klappst du sie auf und zu", "Eingeklappt bleibt nur der Schritt. Ein Tippen öffnet die Leiste wieder."],
+        ["Your lesson comes with you", "Step and phase, ← → to move on, “Back to the step” and “Continue later” – on every page of the lesson."],
+        ["Fold and unfold it here", "Folded, only the step stays. Tap to open the bar again."],
       ] : [
-        ["Dein Unterricht läuft weiter", "Schritt, Phase und Zeit, ← → zum Weiterschalten, Pause, Uhr und Beenden – auf jeder Seite, die du aus der Stunde öffnest."],
-        ["Hier klappst du sie auf und zu", compact
-          ? "Eingeklappt bleibt nur die Phase mit der Zeit. Ein Tippen öffnet die Leiste wieder."
-          : "Eingeklappt bleibt nur die Phase mit der Zeit. Ein Klick öffnet die Leiste wieder."],
+        ["Your lesson keeps running", "Step, phase and time, ← → to switch, Pause, Clock and End lesson – on every page you open from the lesson."],
+        ["Fold and unfold it here", compact
+          ? "Folded, only the phase and its time stay. Tap to open the bar again."
+          : "Folded, only the phase and its time stay. Click to open the bar again."],
       ],
     });
     // After the page has laid out, so the spotlight measures the bar where it really is.

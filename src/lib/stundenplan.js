@@ -157,22 +157,23 @@ const FINAL_NO_EXAM = [
   ["einstieg", 0.15], ["anwendung", 0.45], ["test", 0.3], ["abschluss", 0.1],
 ];
 export const PHASE_NAMES = {
-  einstieg: "Einstieg", wortschatz: "Wortschatz", grammatik: "Grammatik", uebung: "Üben",
-  anwendung: "Anwenden", pruefung: "Prüfungstraining", test: "Kurztest", abschluss: "Abschluss",
+  einstieg: "Warm-up", wortschatz: "Vocabulary", grammatik: "Grammar", uebung: "Practice",
+  anwendung: "Apply", pruefung: "Exam practice", test: "Short test", abschluss: "Wrap-up",
 };
 
 /**
- * The Sozialform of an activity, read off its text, for the plan's table column:
- * EA Einzelarbeit, PA Partnerarbeit, GA Gruppenarbeit, PL Plenum. Several when the
- * activity moves between them ("Einzelarbeit …, danach Vergleich in Paaren" → EA, PA).
+ * The social form of an activity, read off its text, for the plan's table column
+ * (codes kept from the German original: EA solo work, PA pair work, GA group work,
+ * PL whole class). Several when the activity moves between them
+ * ("Solo work …, then compare in pairs" → EA, PA).
  */
 export function socialForm(text) {
-  const t = text.replace(/„[^“]*“/g, ""); // not the quoted topics and goals ("… an Nachbarn")
+  const t = text.replace(/“[^”]*”/g, ""); // not the quoted topics and goals ("… with your neighbour")
   const forms = [];
-  if (/Einzelarbeit|jede Person am Handy|Hausaufgabe|Kurzer Text|kurzer Text|Lückensätze/.test(t)) forms.push("EA");
-  if (/in Paaren|zu zweit|Kugellager|mit dem Nachbarn|Partner/.test(t)) forms.push("PA");
-  if (/Kleingruppe/.test(t)) forms.push("GA");
-  if (/Plenum|Gruppe|Tafel|Reihum|Jede Person (nennt|sagt)|Kurz erklären/.test(t)) forms.push("PL");
+  if (/Solo work|on their phone|Homework|Short text|gap sentences/.test(t)) forms.push("EA");
+  if (/in pairs|inner and outer circle|with your neighbour|[Pp]artner/.test(t)) forms.push("PA");
+  if (/small group/.test(t)) forms.push("GA");
+  if (/whole group|the group|board|in turn|Everyone (names|says)|Explain briefly/.test(t)) forms.push("PL");
   return forms.length ? forms : ["PL"];
 }
 
@@ -199,11 +200,11 @@ function spread(items, n) {
 }
 
 const pick = (list, i) => list[i % list.length];
-const quote = (s) => `„${s}“`;
-// "Perfekt mit haben und sein (gestern)" → "Perfekt mit haben und sein": the examples in
+const quote = (s) => `“${s}”`;
+// "Present perfect (I have been)" → "Present perfect": the examples in
 // brackets are for the course page; in running text they make sentences unreadable.
 const short = (g) => g.replace(/\s*\([^)]*\)/g, "").trim();
-const andList = (xs) => (xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} und ${xs.at(-1)}`);
+const andList = (xs) => (xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs.at(-1)}`);
 
 /**
  * The plan.
@@ -231,8 +232,8 @@ export function build({ level, block, n, minutes, links }) {
   const gPer = spread(grammarIdx, teach);
   const kPer = spread(block.kannZiele, teach);
   const seen = new Set();
-  const quiz = { name: "Live-Quiz starten", href: "/lehrkraefte/quiz" };
-  const test = { name: "Thementest per QR-Code", href: "/lehrkraefte/tests" };
+  const quiz = { name: "Start a live quiz", href: "/lehrkraefte/quiz" };
+  const test = { name: "Topic test by QR code", href: "/lehrkraefte/tests" };
 
   const lessons = [];
   for (let i = 0; i < n; i++) {
@@ -251,47 +252,47 @@ export function build({ level, block, n, minutes, links }) {
     const v = (list, k) => pick(list, k);
     const parts = {
       einstieg: final
-        ? ["einstieg.wiederholung", `Wiederholung: Die Lernenden erklären sich in Paaren gegenseitig ${andList(block.grammatik.slice(0, 2).map(short).map(quote))} mit je einem eigenen Beispielsatz.`]
+        ? ["einstieg.wiederholung", `Review: in pairs, learners explain ${andList(block.grammatik.slice(0, 2).map(short).map(quote))} to each other, each with an example sentence of their own.`]
         : prev
           ? v([
-              ["einstieg.blitzlicht", `Blitzlicht: Jede Person sagt einen Satz mit ${prev.focus}. Fehler sammelst du kommentarlos an der Tafel und besprichst sie danach.`],
-              ["einstieg.dreifragen", `Drei Fragen zur letzten Stunde (${prev.focus}), mündlich im Plenum. Dann ein Satz zum heutigen Ziel.`],
+              ["einstieg.blitzlicht", `Quick round: everyone says one sentence with ${prev.focus}. Collect mistakes on the board without comment and go through them afterwards.`],
+              ["einstieg.dreifragen", `Three questions about the last lesson (${prev.focus}), spoken, with the whole group. Then one sentence about today's goal.`],
             ], i)
           : v([
-              ["einstieg.wortigel", `Frage an die Gruppe: Was fällt euch zum Thema ${quote(thema)} ein? Sammelt Wörter an der Tafel (Wortigel).`],
-              ["einstieg.bildimpuls", `Bildimpuls: Zeig ein Foto zum Thema ${quote(thema)}. Die Lernenden beschreiben in Paaren, was sie sehen.`],
+              ["einstieg.wortigel", `Question to the group: What comes to mind when you think of ${quote(thema)}? Collect words on the board (word web).`],
+              ["einstieg.bildimpuls", `Photo prompt: show a photo on the topic ${quote(thema)}. Learners describe in pairs what they see.`],
             ], thema.length),
       wortschatz: i === 0
-        ? ["wortschatz.einfuehren", `Neue Wörter einführen: ${block.wortschatz.join(", ")}. Mit Bildern oder Gesten erklären; Artikel und Plural an die Tafel.`]
+        ? ["wortschatz.einfuehren", `Introduce the new words: ${block.wortschatz.join(", ")}. Explain with pictures or gestures; write a/an/some and the plural on the board.`]
         : v([
-            ["wortschatz.erklaeren", `Wörter wiederholen (${block.wortschatz.join(", ")}): Wörter erklären in Paaren – eine Person erklärt, ohne das Wort zu sagen.`],
-            ["wortschatz.kette", `Wortschatz-Kette: Reihum ein Satz mit einem Wort aus ${block.wortschatz.slice(0, 3).join(", ")} …; wer stockt, bekommt Hilfe aus der Gruppe.`],
+            ["wortschatz.erklaeren", `Review the words (${block.wortschatz.join(", ")}): explain words in pairs – one person explains without saying the word.`],
+            ["wortschatz.kette", `Word chain: in turn, each person says a sentence with a word from ${block.wortschatz.slice(0, 3).join(", ")} …; anyone who gets stuck is helped by the group.`],
           ], i),
       grammatik: repeat
-        ? ["grammatik.vertiefung", `Vertiefung: ${andList(gNames.map(quote))}. Typische Fehler aus der letzten Stunde an die Tafel; die Gruppe korrigiert gemeinsam.`]
+        ? ["grammatik.vertiefung", `Deeper practice: ${andList(gNames.map(quote))}. Put typical mistakes from the last lesson on the board; the group corrects them together.`]
         : v([
-            ["grammatik.entdecken", `Regel entdecken: Zeig 4–5 Beispielsätze zu ${andList(gNames.map(quote))}. Die Lernenden finden das Muster selbst, dann haltet ihr die Regel an der Tafel fest.`],
-            ["grammatik.erklaeren", `Kurz erklären (höchstens 10 Minuten), dann gelenkte Übung zu ${andList(gNames.map(quote))}: erst Lückensätze, dann eigene Sätze.`],
+            ["grammatik.entdecken", `Discover the rule: show 4–5 example sentences with ${andList(gNames.map(quote))}. Learners find the pattern themselves, then you write the rule on the board together.`],
+            ["grammatik.erklaeren", `Explain briefly (10 minutes at most), then guided practice with ${andList(gNames.map(quote))}: gap sentences first, then their own sentences.`],
           ], i),
       uebung: v([
-        ["uebung.einzelarbeit", `Einzelarbeit online: Übungen auf der Themenseite, danach Vergleich in Paaren.`],
-        ["uebung.partner", `Partnerübung: Auf der Themenseite „Als Partnerübung“ wählen; zu zweit fragen und antworten.`],
-        ["uebung.livequiz", `Live-Quiz mit der ganzen Gruppe (QR-Code): kurze Fragen zu ${andList(gNames.map(quote))}.`],
+        ["uebung.einzelarbeit", `Solo work online: exercises on the topic page, then compare in pairs.`],
+        ["uebung.partner", `Partner exercise: on the topic page choose “As a partner exercise”; ask and answer in pairs.`],
+        ["uebung.livequiz", `Live quiz with the whole group (QR code): short questions on ${andList(gNames.map(quote))}.`],
       ], i),
       anwendung: final
-        ? ["anwendung.block", `Anwenden, was der Block verspricht: ${goals.map(quote).join(" ")} – Rollenspiel in Paaren oder ein kurzer Text (6–8 Sätze), danach zwei, drei Beispiele im Plenum.`]
-        : (([id, task]) => [id, `Lernziel ${goals.map(quote).join(" ")} – ${task}.`])(v([
-            ["anwendung.rollenspiel", "Rollenspiel in Paaren"],
-            ["anwendung.kugellager", "Kugellager (Innen- und Außenkreis), zwei Runden"],
-            ["anwendung.text", "Kurzer Text: 5–6 Sätze, danach Austausch mit dem Nachbarn"],
+        ? ["anwendung.block", `Apply what the block promises: ${goals.map(quote).join(" ")} – role play in pairs or a short text (6–8 sentences), then two or three examples shared with the whole group.`]
+        : (([id, task]) => [id, `Learning goal ${goals.map(quote).join(" ")} – ${task}.`])(v([
+            ["anwendung.rollenspiel", "Role play in pairs"],
+            ["anwendung.kugellager", "Inner and outer circle, two rounds"],
+            ["anwendung.text", "Short text: 5–6 sentences, then swap with your neighbour"],
           ], i)),
       pruefung: ["pruefung", exam.length
-        ? `Prüfungstraining: ${exam.join(" · ")}. Mit Zeitlimit wie in der Prüfung, danach die Lösungen besprechen.`
+        ? `Exam practice: ${exam.join(" · ")}. With a time limit as in the exam, then go through the answers.`
         : ""],
-      test: ["test", `Kurztest per QR-Code zu ${andList(block.grammatik.slice(0, 3).map(short).map(quote))}: jede Person am Handy, du siehst die Ergebnisse pro Person.`],
+      test: ["test", `Short test by QR code on ${andList(block.grammatik.slice(0, 3).map(short).map(quote))}: everyone on their phone, you see the results per person.`],
       abschluss: final
-        ? ["abschluss.rueckblick", `Rückblick: Was kann ich jetzt? Jede Person nennt ein Lernziel, das sie erreicht hat, und eins, das sie noch üben will.`]
-        : ["abschluss.hausaufgabe", `Hausaufgabe: Übungen zu ${andList(gNames.map(quote))} auf der Themenseite${links.words ? " und die Wortliste wiederholen" : ""}.`],
+        ? ["abschluss.rueckblick", `Look back: what can I do now? Everyone names one goal they have reached and one they still want to practise.`]
+        : ["abschluss.hausaufgabe", `Homework: exercises on ${andList(gNames.map(quote))} on the topic page${links.words ? " and review the word list" : ""}.`],
     };
     const text = Object.fromEntries(Object.entries(parts).map(([k, [, t]]) => [k, t]));
     const variant = Object.fromEntries(Object.entries(parts).map(([k, [id]]) => [k, id]));
@@ -313,7 +314,7 @@ export function build({ level, block, n, minutes, links }) {
     lessons.push({
       n: i + 1,
       final,
-      focus: final ? "Anwenden und Wiederholen" : andList(gNames),
+      focus: final ? "Use and revise" : andList(gNames),
       // the grammar points one by one (`focus` joins them, and names have commas of their own)
       grammar: gNames,
       goals,

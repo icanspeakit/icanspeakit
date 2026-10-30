@@ -93,8 +93,8 @@ test("overrun: the current step past its planned time, and it never advances by 
   s = runUntil(s, at(13));
   assert.equal(T.remaining(s, at(13)), -3 * MIN);
   assert.equal(T.overrun(s, at(13)), 3 * MIN);
-  assert.equal(T.overText(T.overrun(s, at(13))), "+3 Min.");
-  assert.equal(T.overText(1000), "+1 Min.");
+  assert.equal(T.overText(T.overrun(s, at(13))), "+3 min");
+  assert.equal(T.overText(1000), "+1 min");
   assert.equal(s.current, 0, "still Einstieg");
   assert.equal(T.overrun(s, at(9)), 0);
 });

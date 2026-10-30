@@ -37,7 +37,7 @@ export async function openStundeAufgabe({ key, name }) {
   dlg = document.createElement("dialog");
   dlg.className = "sa";
   dlg.setAttribute("aria-labelledby", "sa-title");
-  dlg.innerHTML = `<div class="sa-body"><h2 id="sa-title">Als Aufgabe stellen</h2><p>Einen Moment …</p></div>`;
+  dlg.innerHTML = `<div class="sa-body"><h2 id="sa-title">Set as homework</h2><p>One moment …</p></div>`;
   document.body.append(dlg);
   dlg.addEventListener("close", () => dlg?.remove());
   dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
@@ -50,32 +50,32 @@ export async function openStundeAufgabe({ key, name }) {
     api = { ...k, ...a };
     klassen = (await k.meineKlassen()).filter((x) => !x.archiviert);
   } catch {
-    dlg.innerHTML = `<div class="sa-body"><h2 id="sa-title">Als Aufgabe stellen</h2><p class="sa-err">Das hat gerade nicht geklappt. Prüfe die Internetverbindung.</p><div class="sa-row"><button type="button" class="lp-btn lp-btn--outline" data-sa-close>Schließen</button></div></div>`;
+    dlg.innerHTML = `<div class="sa-body"><h2 id="sa-title">Set as homework</h2><p class="sa-err">That did not work just now. Check your internet connection.</p><div class="sa-row"><button type="button" class="lp-btn lp-btn--outline" data-sa-close>Close</button></div></div>`;
     dlg.querySelector("[data-sa-close]").addEventListener("click", () => dlg.close());
     return;
   }
   if (!klassen.length) {
-    dlg.innerHTML = `<div class="sa-body"><h2 id="sa-title">Als Aufgabe stellen</h2>
-      <p>Dafür brauchst du eine Klasse. Die Lernenden treten mit einem Code bei.</p>
-      <div class="sa-row"><button type="button" class="lp-btn lp-btn--outline" data-sa-close>Schließen</button><a class="lp-btn lp-btn--primary" href="/lehrkraefte/klassen">Klasse anlegen</a></div></div>`;
+    dlg.innerHTML = `<div class="sa-body"><h2 id="sa-title">Set as homework</h2>
+      <p>For this you need a class. Learners join with a code.</p>
+      <div class="sa-row"><button type="button" class="lp-btn lp-btn--outline" data-sa-close>Close</button><a class="lp-btn lp-btn--primary" href="/lehrkraefte/klassen">Create a class</a></div></div>`;
     dlg.querySelector("[data-sa-close]").addEventListener("click", () => dlg.close());
     return;
   }
   const due = api.berlinTag(new Date(Date.now() + 7 * DAY).toISOString());
   dlg.innerHTML = `<form method="dialog" novalidate>
-      <h2 id="sa-title">Als Aufgabe stellen</h2>
-      <p><b>${esc(name)}</b><br>Die Klasse macht die Stunde allein, Schritt für Schritt. Erledigt ist sie, wenn jemand sie bis zum Ende geschafft hat; du siehst pro Person, wie weit sie ist.</p>
-      <label>Klasse<select data-sa-klasse>${klassen.map((k) => `<option value="${esc(k.id)}">${esc(k.name)}</option>`).join("")}</select></label>
-      <label>Fällig am<input type="date" data-sa-due value="${due}" min="${api.berlinTag(new Date().toISOString())}"></label>
+      <h2 id="sa-title">Set as homework</h2>
+      <p><b>${esc(name)}</b><br>The class works through the lesson on their own, step by step. It counts as done when someone reaches the end; you can see how far each person has got.</p>
+      <label>Class<select data-sa-klasse>${klassen.map((k) => `<option value="${esc(k.id)}">${esc(k.name)}</option>`).join("")}</select></label>
+      <label>Due on<input type="date" data-sa-due value="${due}" min="${api.berlinTag(new Date().toISOString())}"></label>
       <p class="sa-err" data-sa-err role="alert"></p>
-      <div class="sa-row"><button type="button" class="lp-btn lp-btn--outline" data-sa-close>Abbrechen</button><button type="submit" class="lp-btn lp-btn--primary" data-sa-go>Aufgabe stellen</button></div>
+      <div class="sa-row"><button type="button" class="lp-btn lp-btn--outline" data-sa-close>Cancel</button><button type="submit" class="lp-btn lp-btn--primary" data-sa-go>Set homework</button></div>
     </form>`;
   dlg.querySelector("[data-sa-close]").addEventListener("click", () => dlg.close());
   dlg.querySelector("form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const err = dlg.querySelector("[data-sa-err]");
     const day = dlg.querySelector("[data-sa-due]").value;
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return (err.textContent = "Wähl ein Datum.");
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return (err.textContent = "Choose a date.");
     const klasseId = dlg.querySelector("[data-sa-klasse]").value;
     const go = dlg.querySelector("[data-sa-go]");
     go.disabled = true;
@@ -83,13 +83,13 @@ export async function openStundeAufgabe({ key, name }) {
     try {
       await api.aufgabeStellen({ klasseId, ref: stundeRef(key), titel: name, faelligAt: api.berlinTagesende(day) });
       const kname = klassen.find((k) => k.id === klasseId)?.name ?? "";
-      dlg.innerHTML = `<div class="sa-body"><h2 id="sa-title">Aufgabe gestellt</h2>
-        <p>${esc(kname)} sieht „${esc(name)}“ unter „Übungen“ und im Konto.</p>
-        <div class="sa-row"><button type="button" class="lp-btn lp-btn--outline" data-sa-close>Schließen</button><a class="lp-btn lp-btn--primary" href="/lehrkraefte/klassen/klasse?id=${encodeURIComponent(klasseId)}">Zur Klasse</a></div></div>`;
+      dlg.innerHTML = `<div class="sa-body"><h2 id="sa-title">Homework set</h2>
+        <p>${esc(kname)} will see “${esc(name)}” under “Exercises” and in their account.</p>
+        <div class="sa-row"><button type="button" class="lp-btn lp-btn--outline" data-sa-close>Close</button><a class="lp-btn lp-btn--primary" href="/lehrkraefte/klassen/klasse?id=${encodeURIComponent(klasseId)}">Go to the class</a></div></div>`;
       dlg.querySelector("[data-sa-close]").addEventListener("click", () => dlg.close());
     } catch (x) {
       go.disabled = false;
-      err.textContent = x?.code === "limit" ? "Diese Klasse hat schon 200 Aufgaben. Lösch alte, dann geht es wieder." : "Das hat gerade nicht geklappt. Versuch es noch einmal.";
+      err.textContent = x?.code === "limit" ? "This class already has 200 tasks. Delete some old ones and try again." : "That did not work just now. Please try again.";
     }
   });
 }

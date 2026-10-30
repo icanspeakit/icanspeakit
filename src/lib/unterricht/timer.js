@@ -177,4 +177,4 @@ export function mmss(t) {
 }
 
 /** Overrun as the bar and the clock say it: "+1 Min." from the first second over. */
-export const overText = (t) => `+${Math.max(1, Math.ceil(t / 60_000))} Min.`;
+export const overText = (t) => `+${Math.max(1, Math.ceil(t / 60_000))} min`;

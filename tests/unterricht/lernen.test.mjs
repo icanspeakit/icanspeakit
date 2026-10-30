@@ -112,18 +112,18 @@ test("teacher and learner copies never touch each other", () => {
   assert.equal(LOCAL_KEY === LERN_KEY, false);
 });
 
-test("the learner's clock text has no overrun: always „ca. N Min.“", () => {
-  assert.equal(about(10), "ca. 10 Min.");
-  assert.equal(about(13), "ca. 15 Min.");
-  assert.equal(about(2), "ca. 5 Min.");
+test("the learner's clock text has no overrun: always “about N min”", () => {
+  assert.equal(about(10), "about 10 min");
+  assert.equal(about(13), "about 15 min");
+  assert.equal(about(2), "about 5 min");
 });
 
 test("learner texts: placeholders filled, unreviewed marked, missing → neutral fallback", async () => {
   const { lernText, FALLBACK } = await import("../../src/lib/unterricht/lernen.js");
-  const texte = { "uebung.einzelarbeit": { text: "Mach die Übungen zu {grammatik}.", bruno: "Los!", geprueft: false } };
-  const ctx = { grammatik: ["Dativ", "Akkusativ"] };
+  const texte = { "uebung.einzelarbeit": { text: "Do the exercises on {grammatik}.", bruno: "Go!", geprueft: false } };
+  const ctx = { grammatik: ["Articles", "Plurals"] };
   assert.deepEqual(lernText({ id: "uebung", variant: "uebung.einzelarbeit" }, ctx, texte),
-    { text: "Mach die Übungen zu „Dativ“ und „Akkusativ“.", bruno: "Los!", entwurf: true });
+    { text: "Do the exercises on “Articles” and “Plurals”.", bruno: "Go!", entwurf: true });
   assert.equal(lernText({ id: "test", variant: "test" }, ctx, texte).text, FALLBACK.test);
 });
 

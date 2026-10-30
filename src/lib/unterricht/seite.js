@@ -23,8 +23,8 @@ import { mountLeiste } from "./leiste.js";
 import { LESSON_WINDOW, MATERIAL_WINDOW } from "./zurueck.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-const SOC = { EA: "Einzelarbeit", PA: "Partnerarbeit", GA: "Gruppenarbeit", PL: "Plenum" };
-const ERR = "Das hat gerade nicht geklappt. Prüfe die Internetverbindung und versuch es noch einmal.";
+const SOC = { EA: "Solo work", PA: "Pair work", GA: "Group work", PL: "Whole class" };
+const ERR = "That did not work just now. Check your internet connection and try again.";
 
 
 export const stepsOf = (lesson) => lesson.phases.map((p) => ({ id: p.id, name: p.name, minutes: p.minutes }));
@@ -73,8 +73,8 @@ export async function mountUnterricht(root, data) {
     const { level, block, lesson } = found;
     show("start");
     $("[data-start-plan]").href = planHref(key);
-    $("[data-start-meta]").textContent = `${level.label} · Block ${key.block}: ${block.thema} · ${key.minuten} Minuten`;
-    $("[data-start-title]").textContent = `Stunde ${key.stunde}: ${lesson.final ? "Anwenden und Wiederholen" : lesson.focus}`;
+    $("[data-start-meta]").textContent = `${level.label} · Block ${key.block}: ${block.thema} · ${key.minuten} minutes`;
+    $("[data-start-title]").textContent = `Lesson ${key.stunde}: ${lesson.final ? "Use and revise" : lesson.focus}`;
     $("[data-start-bar]").innerHTML = phaseBar(lesson.phases);
 
     const status = (msg) => { $("[data-start-status]").textContent = msg; };
@@ -88,7 +88,7 @@ export async function mountUnterricht(root, data) {
     try {
       groups = (await meineKlassen()).filter((k) => !k.archiviert);
     } catch {
-      status("Deine Gruppen konnten nicht geladen werden.");
+      status("Your groups could not be loaded.");
     }
 
     function drawGroups() {
@@ -98,7 +98,7 @@ export async function mountUnterricht(root, data) {
             <input type="radio" name="gruppe" value="${k.id}" ${chosen === k.id ? "checked" : ""} />
             <span>${esc(k.name)}${k.niveau ? ` <small>${esc(k.niveau)}</small>` : ""}</span>
           </label>`).join("")
-        : `<p class="ut-muted">Noch keine Gruppe. Schreib unten einen Namen, dann startet die Stunde mit ihr.</p>`;
+        : `<p class="ut-muted">No group yet. Type a name below and the lesson will start with it.</p>`;
     }
 
     async function choose(id) {
@@ -110,12 +110,12 @@ export async function mountUnterricht(root, data) {
       try {
         existing = await offeneSitzung(id, key);
       } catch {
-        status("Ob für diese Gruppe schon eine Stunde läuft, ließ sich nicht prüfen.");
+        status("Could not check whether a lesson is already running for this group.");
       }
       if (existing) {
         const s = T.restore(existing, stepsOf(lesson), Date.now());
         const step = lesson.phases[s.current];
-        $("[data-open-text]").textContent = `Mit dieser Gruppe hast du Stunde ${key.stunde} schon begonnen: bei ${step?.name ?? "Schritt " + (s.current + 1)}, ${Math.round(T.lessonElapsed(s, Date.now()) / 60000)} von ${key.minuten} Minuten.`;
+        $("[data-open-text]").textContent = `You have already started lesson ${key.stunde} with this group: at ${step?.name ?? "step " + (s.current + 1)}, ${Math.round(T.lessonElapsed(s, Date.now()) / 60000)} of ${key.minuten} minutes.`;
         open.hidden = false;
         go.hidden = true;
       }
@@ -124,7 +124,7 @@ export async function mountUnterricht(root, data) {
     }
 
     const nameInput = $("[data-new-name]");
-    const NOT_READY = ["Wähle zuerst eine Gruppe – oder schreib den Namen einer neuen.", "[data-groups], [data-new-name]"];
+    const NOT_READY = ["Choose a group first – or type the name of a new one.", "[data-groups], [data-new-name]"];
     drawGroups();
     setWaiting(go, ...NOT_READY);
     list.addEventListener("change", (e) => {
@@ -167,10 +167,10 @@ export async function mountUnterricht(root, data) {
         existing = null;
         nameInput.value = "";
         drawGroups(); // checked: if the start fails, the new group is there to pick
-        status(`Gruppe „${k.name}“ angelegt. Die Stunde startet …`);
+        status(`Group “${k.name}” created. The lesson is starting …`);
         await begin(false);
       } catch (err) {
-        status(err?.code === "limit" ? "Du hast schon 20 aktive Gruppen. Archiviere eine unter „Meine Klassen“." : ERR);
+        status(err?.code === "limit" ? "You already have 20 active groups. Archive one under “My classes”." : ERR);
         go.disabled = false;
       }
     });
@@ -228,7 +228,7 @@ export async function mountUnterricht(root, data) {
 
     show("stage");
     const bild = data.bilder[key.niveau]?.[key.block - 1] ?? null;
-    const meta = `${level.label} · Block ${key.block}: ${block.thema} · Stunde ${key.stunde}`;
+    const meta = `${level.label} · Block ${key.block}: ${block.thema} · Lesson ${key.stunde}`;
     const ctl = createSteuerung({ id, key, gruppe: row.gruppe, steps, row });
     mountLeiste(ctl, { home: true, onEnd: () => { const s = ctl.state; ctl.destroy(); showSummary(s, key); } });
     $("[data-stage-meta]").textContent = `${row.gruppe} · ${meta}`;
@@ -270,8 +270,8 @@ export async function mountUnterricht(root, data) {
       const soc = `<p class="ut-soc">${ph.social.map((f) => `<span>${SOC[f] ?? f}</span>`).join("")}</p>`;
       // Phase and Sozialform in one row at the top: how the class works is the first thing
       // the teacher says, so it is the first thing on the card.
-      const head = `<div class="ut-head"><p class="ut-phase"><i></i>${i + 1}/${lesson.phases.length} · ${esc(ph.name)} · ${ph.minutes} Min.</p>${soc}</div>`;
-      const notes = `<details class="ut-notes"${["einstieg", "anwendung"].includes(ph.id) ? "" : " open"}><summary>Ablauf (für dich)</summary><p>${esc(ph.text)}</p></details>`;
+      const head = `<div class="ut-head"><p class="ut-phase"><i></i>${i + 1}/${lesson.phases.length} · ${esc(ph.name)} · ${ph.minutes} min</p>${soc}</div>`;
+      const notes = `<details class="ut-notes"${["einstieg", "anwendung"].includes(ph.id) ? "" : " open"}><summary>Procedure (for you)</summary><p>${esc(ph.text)}</p></details>`;
       // How a topic page opens: Grammatik shows it as a deck (?mode=present, few words on
       // the projector), Üben as the page itself with its exercises and „Live üben“ (?ut=1).
       // The small label says which, so the two steps' buttons do not look the same.
@@ -290,12 +290,12 @@ export async function mountUnterricht(root, data) {
           const base = how === "present" && topic ? `${l.href}?mode=present&niveau=${encodeURIComponent(cefrOf(level.label))}` : l.href;
           // Üben: „Live üben“ starts with the page (?live-start=1), the QR code is up at once.
           const href = `${base}${base.includes("?") ? "&" : "?"}ut=1${how === "ueben" && topic ? "&live-start=1" : ""}`;
-          const tag = topic && how === "present" ? " <small>Präsentieren</small>" : topic && how === "ueben" ? " <small>Live üben</small>" : "";
+          const tag = topic && how === "present" ? " <small>Present</small>" : topic && how === "ueben" ? " <small>Practise live</small>" : "";
           // A new tab: the session stays where it is; the bar there runs the same lesson.
           // „Regel“ beside a deck: the whole rule card at once (?regel=1, praesentationDeck.js),
           // the same view as „Regel ansehen“ at the end of the deck – easy to find again.
           if (topic && how === "present") {
-            return { deck: true, html: `<div class="ut-deck"><a class="ut-mat-btn ut-deck-main" href="${esc(href)}" target="${MATERIAL_WINDOW}"><span>${esc(l.name)}</span><small>Präsentieren</small></a><a class="ut-mat-btn ut-deck-rule" href="${esc(href)}&amp;regel=1" target="${MATERIAL_WINDOW}" aria-label="${esc(l.name)}: Regel ansehen">Regel</a>${(() => { const v = rowVideo(l.href); return v ? `<a class="ut-mat-btn ut-deck-video" href="${esc(v.href)}" target="_blank" rel="noopener" aria-label="${esc(v.name)}">Video</a>` : ""; })()}</div>` };
+            return { deck: true, html: `<div class="ut-deck"><a class="ut-mat-btn ut-deck-main" href="${esc(href)}" target="${MATERIAL_WINDOW}"><span>${esc(l.name)}</span><small>Present</small></a><a class="ut-mat-btn ut-deck-rule" href="${esc(href)}&amp;regel=1" target="${MATERIAL_WINDOW}" aria-label="${esc(l.name)}: view the rule">Rule</a>${(() => { const v = rowVideo(l.href); return v ? `<a class="ut-mat-btn ut-deck-video" href="${esc(v.href)}" target="_blank" rel="noopener" aria-label="${esc(v.name)}">Video</a>` : ""; })()}</div>` };
           }
           return `<a class="ut-mat-btn" href="${esc(href)}" target="${MATERIAL_WINDOW}">${esc(l.name)}${tag}</a>`;
         });
@@ -309,8 +309,8 @@ export async function mountUnterricht(root, data) {
         const foto = e.bild ? `<figure class="ut-bild"><picture>
             <source type="image/avif" srcset="${e.bild.src}-800.avif 800w, ${e.bild.src}-1600.avif 1600w" sizes="(min-width: 900px) 900px, 100vw" />
             <img src="${e.bild.src}-1200.webp" alt="${esc(e.bild.alt)}" width="1600" height="600" decoding="async" /></picture>
-            ${e.bild.credit ? `<figcaption>Foto: <a href="${esc(e.bild.credit.href)}" target="_blank" rel="noopener">${esc(e.bild.credit.label)}</a></figcaption>` : ""}</figure>` : "";
-        const starters = e.redemittel?.length ? `<p class="ut-label">So könnt ihr anfangen</p><ul class="ut-starters">${e.redemittel.map((r) => `<li>${esc(r)}</li>`).join("")}</ul>` : "";
+            ${e.bild.credit ? `<figcaption>Photo: <a href="${esc(e.bild.credit.href)}" target="_blank" rel="noopener">${esc(e.bild.credit.label)}</a></figcaption>` : ""}</figure>` : "";
+        const starters = e.redemittel?.length ? `<p class="ut-label">You can start like this</p><ul class="ut-starters">${e.redemittel.map((r) => `<li>${esc(r)}</li>`).join("")}</ul>` : "";
         let inhalt = "";
         if (e.kind === "bild") {
           inhalt = `<ol class="ut-fragen">${e.fragen.map((f) => `<li>${esc(f)}</li>`).join("")}</ol>`;
@@ -321,7 +321,7 @@ export async function mountUnterricht(root, data) {
         } else if (e.kind === "fragen") {
           inhalt = e.quiz.length
             ? `<ol class="ut-quiz">${e.quiz.map((q) => `<li><span>${esc(q.prompt).replace("___", '<b class="ut-gap">___</b>')}</span>
-                <button type="button" class="ut-reveal" data-answer="${esc(q.answer)}">Aufdecken</button></li>`).join("")}</ol>`
+                <button type="button" class="ut-reveal" data-answer="${esc(q.answer)}">Reveal</button></li>`).join("")}</ol>`
             : `<ul class="ut-beispiele">${e.beispiele.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`;
         } else if (e.kind === "wiederholung") {
           inhalt = `<div class="ut-karten">${e.karten.map((k) => `<div class="ut-karte"><b>${esc(k.name)}</b>${k.beispiel ? `<span>${esc(k.beispiel)}</span>` : ""}</div>`).join("")}</div>`;
@@ -335,7 +335,7 @@ export async function mountUnterricht(root, data) {
         const goals = lesson.goals.length ? lesson.goals : [block.thema];
         const task = ph.text.includes(" – ") ? ph.text.slice(ph.text.lastIndexOf(" – ") + 3).replace(/\.$/, "") : "";
         body = `
-          <p class="ut-eyebrow">Sprechaufgabe</p>
+          <p class="ut-eyebrow">Speaking task</p>
           <ul class="ut-goals">${goals.map((g) => `<li>${esc(g)}</li>`).join("")}</ul>
           ${task && !lesson.final ? `<p class="ut-sub">${esc(task)}</p>` : `<p class="ut-sub">${esc(ph.text)}</p>`}
           `;
@@ -352,10 +352,10 @@ export async function mountUnterricht(root, data) {
       } else if (ph.id === "uebung") {
         const topics = ph.links.filter((l) => isTopic(l.href));
         body = `
-          <h2 class="ut-big ut-big--sm">Üben: ${esc(lesson.focus)}</h2>
+          <h2 class="ut-big ut-big--sm">Practice: ${esc(lesson.focus)}</h2>
           ${mat("ueben")}
-          ${topics.length ? `<p class="ut-sub ut-sub--hint">Öffnet die Übungen mit QR-Code: Die Klasse macht sie am Handy, du siehst die Ergebnisse.</p>` : ""}
-          ${topics.length ? `<button type="button" class="lp-btn lp-btn--outline ut-qr-open" data-qr-open>Link/QR für Lernende</button>` : ""}
+          ${topics.length ? `<p class="ut-sub ut-sub--hint">Open the exercises with a QR code: the class does them on their phones and you see the results.</p>` : ""}
+          ${topics.length ? `<button type="button" class="lp-btn lp-btn--outline ut-qr-open" data-qr-open>Link/QR for learners</button>` : ""}
           ${notes}`;
       } else {
         body = `<h2 class="ut-big ut-big--sm">${esc(ph.name)}</h2><p class="ut-sub">${esc(ph.text)}</p>${mat(false)}`;
@@ -382,11 +382,11 @@ export async function mountUnterricht(root, data) {
       // One card per word, all the same shape: article + word, plural, example.
       const wort = (w, i) => `<li style="--i:${i}">
           <span class="ut-w-kopf">${w.artikel ? `<small class="ut-art ut-art--${esc(w.artikel)}">${esc(w.artikel)}</small>` : ""}<b>${esc(w.text)}</b></span>
-          ${w.plural && w.plural !== "-" ? `<span class="ut-w-pl">die ${esc(w.plural)}</span>` : ""}
+          ${w.plural && w.plural !== "-" ? `<span class="ut-w-pl">plural: ${esc(w.plural)}</span>` : ""}
           ${w.beispiel ? `<span class="ut-w-bsp">${esc(w.beispiel)}</span>` : ""}</li>`;
       panel.innerHTML = `<div class="ut-feld-in">
-        <p class="ut-label">Aufgabe · ${esc(name)}</p>
-        <p class="ut-aufgabe">${esc(f?.aufgabe ?? `Sammelt Wörter zu „${name}“: mit Artikel und Plural, zu zweit, dann an der Tafel.`)}</p>
+        <p class="ut-label">Task · ${esc(name)}</p>
+        <p class="ut-aufgabe">${esc(f?.aufgabe ?? `Collect words for “${name}”: with a/an/some and the plural, in pairs, then on the board.`)}</p>
         ${f?.woerter?.length ? `<ul class="ut-feld-woerter">${f.woerter.map(wort).join("")}</ul>` : ""}</div>`;
       panel.hidden = false;
       // Next frame, so a closed panel grows open instead of appearing.
@@ -430,10 +430,10 @@ export async function mountUnterricht(root, data) {
     clearLocal();
     show("done");
     const now = state.lastActiveAt;
-    $("[data-done-time]").textContent = `${Math.round(T.lessonElapsed(state, now) / 60000)} von ${state.steps.reduce((s, x) => s + x.minutes, 0)} Minuten`;
+    $("[data-done-time]").textContent = `${Math.round(T.lessonElapsed(state, now) / 60000)} of ${state.steps.reduce((s, x) => s + x.minutes, 0)} minutes`;
     $("[data-done-rows]").innerHTML = state.steps.map((st, i) => {
       const m = Math.round(T.elapsed(state, now, i) / 60000);
-      return `<tr><td><i style="background:${phaseColor(st.id).bg}"></i>${esc(st.name)}</td><td>${st.minutes} Min.</td><td${m > st.minutes ? ' class="ut-over"' : ""}>${m} Min.</td></tr>`;
+      return `<tr><td><i style="background:${phaseColor(st.id).bg}"></i>${esc(st.name)}</td><td>${st.minutes} min</td><td${m > st.minutes ? ' class="ut-over"' : ""}>${m} min</td></tr>`;
     }).join("");
     $("[data-done-plan]").href = planHref(key);
   }
@@ -447,8 +447,8 @@ function phaseBar(phases, buttons = false) {
     // tab is at least as wide as its name (unterricht.css), the rest by minutes
     const label = esc(p.name);
     return buttons
-      ? `<button type="button" data-goto="${i}" style="${style}" title="${esc(p.name)} · ${p.minutes} Min." aria-label="Zu Schritt ${i + 1}: ${esc(p.name)}">${label}</button>`
-      : `<span style="${style}" title="${esc(p.name)} · ${p.minutes} Min.">${label}</span>`;
+      ? `<button type="button" data-goto="${i}" style="${style}" title="${esc(p.name)} · ${p.minutes} min" aria-label="Go to step ${i + 1}: ${esc(p.name)}">${label}</button>`
+      : `<span style="${style}" title="${esc(p.name)} · ${p.minutes} min">${label}</span>`;
   }).join("");
 }
 
