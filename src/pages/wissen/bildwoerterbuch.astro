@@ -18,14 +18,18 @@ import { byId } from "../../lib/lexicon.js";
 import data from "../../data/bildkarten.json";
 import "../../styles/practice.css";
 
-type Card = { id: string; group: string; lemma: string; art: string | null; audio: string | null };
+// The drawings are still named by the German ids they were made for; bildkarten.json maps a
+// lexicon id to its drawing.
+const drawingOf = (id: string): string => (data.drawings as Record<string, string>)[id] ?? id;
+type Card = { id: string; draw: string; group: string; lemma: string; art: string | null; audio: string | null };
 const cards: Card[] = data.groups.flatMap((g) =>
   g.words
-    .filter(hasBild)
+    .filter((id) => hasBild(drawingOf(id)))
     .map((id) => byId(id))
     .filter((e): e is NonNullable<typeof e> => Boolean(e))
     .map((e) => ({
       id: e.id as string,
+      draw: drawingOf(e.id as string),
       group: g.id,
       lemma: e.lemma as string,
       art: (e.gender as string | null) ?? null,
@@ -104,8 +108,8 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
       {cards.map((c) => (
         <li data-group={c.group}>
           <button type="button" class={`bk-card bk-card--${c.group}`} data-card={c.id} data-audio={c.audio} data-word={`${c.art ? c.art + " " : ""}${c.lemma}`} aria-label={`${c.art ? c.art + " " : ""}${c.lemma}, show big and listen`}>
-            <span class="bk-pic"><Fragment set:html={bildSvg(c.id, { size: 120 })} /></span>
-            <span class="bk-word" lang="de">{c.art && <span class={`bk-art bk-art--${c.art}`}>{c.art} </span>}{c.lemma}</span>
+            <span class="bk-pic"><Fragment set:html={bildSvg(c.draw, { size: 120 })} /></span>
+            <span class="bk-word" lang="en">{c.art && <span class={`bk-art bk-art--${c.art}`}>{c.art} </span>}{c.lemma}</span>
           </button>
         </li>
       ))}
@@ -119,7 +123,7 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
         </button>
         <button type="button" class="bk-card bk-card--big" data-big aria-label="Listen to the word">
           <span class="bk-pic" data-big-pic></span>
-          <span class="bk-word" lang="de" data-big-word></span>
+          <span class="bk-word" lang="en" data-big-word></span>
         </button>
         <button type="button" class="bk-nav bk-nav--next" data-next aria-label="Next card" data-i18n-attr="aria-label:vt.learn.nextCard">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
@@ -453,7 +457,7 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
         const cells = list.slice(i, i + +size);
         sheet.innerHTML = Array.from({ length: +size }, (_, k) => {
           const c = cells[k];
-          return c ? `<div class="bk-cell">${c.querySelector(".bk-pic")!.innerHTML}<div class="bk-cell-word" lang="de">${c.querySelector(".bk-word")!.innerHTML}</div></div>` : `<div class="bk-cell"></div>`;
+          return c ? `<div class="bk-cell">${c.querySelector(".bk-pic")!.innerHTML}<div class="bk-cell-word" lang="en">${c.querySelector(".bk-word")!.innerHTML}</div></div>` : `<div class="bk-cell"></div>`;
         }).join("");
         wrap.append(sheet);
       }
