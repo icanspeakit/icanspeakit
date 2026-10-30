@@ -1,7 +1,7 @@
-// Bruno Kart: reads the right answer out after a miss ("der Tisch"). Where the lexicon has a
-// recording of the word (/audio/wortschatz/<audio>.mp3, the clips every Wortschatz page plays) it
-// plays that; for everything else (a plural, a verb form, a word without a clip, a clip that does
-// not load) the browser's German voice reads the text. Silent while the game is muted.
+// Bruno Kart: reads the right answer out after a miss ("an apple"). Where a question carries a
+// recording (/audio/wortschatz/<audio>.mp3) it plays that; for everything else (questions.js sets no
+// clip at the moment, a clip that does not load) the browser's British English voice reads the
+// text. Silent while the game is muted.
 
 import { isMuted } from "./sound.js";
 
@@ -13,9 +13,9 @@ function voice(text) {
     if (!synth || !text) return;
     synth.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = "de-DE";
+    u.lang = "en-GB";
     u.rate = 0.9;
-    const v = synth.getVoices().find((x) => /^de(-|_)/i.test(x.lang));
+    const v = synth.getVoices().find((x) => /^en(-|_)GB/i.test(x.lang)) ?? synth.getVoices().find((x) => /^en(-|_)/i.test(x.lang));
     if (v) u.voice = v;
     synth.speak(u);
   } catch { /* no speech: the toast says it in writing */ }

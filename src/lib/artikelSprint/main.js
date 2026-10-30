@@ -410,7 +410,7 @@ export function mountArtikelSprint(root, data) {
               correct: r.ok,
               id: q.id,
               trackVocab: q.kind === "artikel" && !!q.id,
-              topic: q.kind === "artikel" ? "artikel" : q.kind === "plural" ? "plural" : (!q.item?.tense || /präsens/i.test(q.item.tense)) ? "praesens" : undefined,
+              topic: q.kind === "artikel" ? "artikel" : q.kind === "plural" ? "plural" : (!q.item?.tense || /present simple/i.test(q.item.tense)) ? "praesens" : undefined,
               item: `sprint-${q.key}`,
             });
           }
