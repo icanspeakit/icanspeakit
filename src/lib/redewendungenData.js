@@ -14,20 +14,20 @@ import { REDEWENDUNGEN_LIVE } from "./redewendungenLive.js";
 export const LIVE = REDEWENDUNGEN_LIVE;
 
 export const LEVELS = ["B1", "B2", "C1"];
-export const TYP = { redewendung: "Redewendung", sprichwort: "Sprichwort" };
-export const REGISTER = { neutral: "Neutral", umgang: "Umgangssprache" };
-export const CERTAINTY = { sicher: "Herkunft sicher", wahrscheinlich: "Herkunft wahrscheinlich", unklar: "Herkunft unklar" };
+export const TYP = { redewendung: "Idiom", sprichwort: "Proverb" };
+export const REGISTER = { neutral: "Neutral", umgang: "Colloquial" };
+export const CERTAINTY = { sicher: "Origin certain", wahrscheinlich: "Origin probable", unklar: "Origin unclear" };
 
 export const themen = data.themen;
 export const themaById = Object.fromEntries(themen.map((t) => [t.id, t]));
 
 const sortKey = (de) =>
-  de.toLowerCase().replace(/^[„"]/, "").replace(/^(der|die|das|den|dem|ein|eine|einen|einem|jemandem|jemanden|sich|da|ich|es)\s+/, "");
+  de.toLowerCase().replace(/^[“"]/, "").replace(/^(a|an|the|it's|not|be|get|have|keep)\s+/, "");
 
 const order = Object.fromEntries(themen.map((t, i) => [t.id, i]));
 export const eintraege = data.eintraege
   .map((e) => ({ ...e, themaInfo: themaById[e.thema] }))
-  .sort((a, b) => order[a.thema] - order[b.thema] || sortKey(a.de).localeCompare(sortKey(b.de), "de"));
+  .sort((a, b) => order[a.thema] - order[b.thema] || sortKey(a.de).localeCompare(sortKey(b.de), "en"));
 
 export const byId = Object.fromEntries(eintraege.map((e) => [e.id, e]));
 
@@ -51,13 +51,14 @@ export function prevNext(e) {
 export const hrefOf = (e) => `/wissen/redewendungen/${e.id}`;
 export const emojiSrc = (code) => `/img/openmoji/${code}.svg`;
 
-/** The key word to gap in „Ergänze“: the longest noun after the first word (nouns are
- *  capitalised), else the longest word. „Da beißt die Maus keinen Faden ab.“ → „Faden“. */
+/** The key word to gap in „Complete“: the longest word that carries the picture, leaving
+ *  out small and placeholder words. “It's raining cats and dogs.” → “raining”,
+ *  “kill two birds with one stone” → “birds”. */
+const GAP_SKIP = new Set("a an the and of in on to by for with your my his her its it's not be get have keep there's there someone someone's something won't wasn't don't where through before about around just".split(" "));
 export function gapWord(de) {
   const words = de.replace(/[„“"!?.,:;]/g, " ").split(/\s+/).filter(Boolean);
-  const nouns = words.slice(1).filter((w) => /^[A-ZÄÖÜ]/.test(w) && w.length > 2);
-  const pool = nouns.length ? nouns : words.filter((w) => w.length > 3);
-  return [...pool].sort((a, b) => b.length - a.length)[0] ?? words[0];
+  const pool = words.filter((w) => !GAP_SKIP.has(w.toLowerCase()) && w.length > 2);
+  return [...(pool.length ? pool : words)].sort((a, b) => b.length - a.length)[0] ?? words[0];
 }
 
 /** What the browser needs for the practice and the daily card, per entry (kept small). */

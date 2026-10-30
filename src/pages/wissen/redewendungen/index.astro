@@ -1,8 +1,8 @@
 ---
-// /wissen/redewendungen — Redewendungen & Sprichwörter: the phrases learners hear all the
-// time and can't look up word by word („Ich verstehe nur Bahnhof“, „Da beißt die Maus keinen
-// Faden ab“). In groups by theme, each card with the meaning and one example, linking to
-// the entry's own page (picture vs. meaning, where to say it, English, origin).
+// /wissen/redewendungen — idioms & proverbs: the English phrases learners hear all the
+// time and can't understand word by word (“It's raining cats and dogs”, “spill the
+// beans”). In groups by theme, each card with the meaning and one example, linking to
+// the entry's own page (picture vs. meaning, where to say it, in plain words, origin).
 //
 // Filter chips (Thema, Level, Typ) and a search box work in the browser; without JS every
 // entry is simply there. The entries live in src/data/redewendungen.json
@@ -46,9 +46,9 @@ const searchText = (e: any) => [e.de, e.bedeutung, e.en, ...(e.bsp ?? [])].join(
     <section class="rw-day" data-day aria-labelledby="rw-day-h">
       <p class="rw-day-eyebrow" id="rw-day-h" data-i18n="rw.day">Redewendung des Tages</p>
       <a class="rw-day-card" data-day-link href={`/wissen/redewendungen/${buildDay.id}`}>
-        <span class="rw-day-de" data-day-de lang="de">{buildDay.de}</span>
-        <span class="rw-day-bed" data-day-bed lang="de">{buildDay.bed}</span>
-        <span class="rw-day-bsp" data-day-bsp lang="de">„{buildDay.bsp}“</span>
+        <span class="rw-day-de" data-day-de>{buildDay.de}</span>
+        <span class="rw-day-bed" data-day-bed>{buildDay.bed}</span>
+        <span class="rw-day-bsp" data-day-bsp>“{buildDay.bsp}”</span>
         <span class="rw-day-more" data-i18n="rw.day.more">Bild, Beispiele und Herkunft ›</span>
       </a>
     </section>
@@ -94,9 +94,9 @@ const searchText = (e: any) => [e.de, e.bedeutung, e.en, ...(e.bsp ?? [])].join(
                   {e.typ === "sprichwort" && <span class="rw-tag" data-i18n="rw.typ.sprichwort">{TYP.sprichwort}</span>}
                   {e.register === "umgang" && <span class="rw-tag rw-tag--umgang" data-i18n="rw.reg.umgang">{REGISTER.umgang}</span>}
                 </span>
-                <span class="rw-de" lang="de">{e.de}</span>
-                <span class="rw-bed" lang="de">{e.bedeutung}</span>
-                <span class="rw-bsp" lang="de">„{e.bsp[0]}“</span>
+                <span class="rw-de">{e.de}</span>
+                <span class="rw-bed">{e.bedeutung}</span>
+                <span class="rw-bsp">“{e.bsp[0]}”</span>
               </a>
               <button type="button" class="rw-say-btn" data-say={e.de} data-src={audioOf(e.id)} aria-label={`Listen: ${e.de}`} data-i18n-attr="aria-label:rw.listen">🔊</button>
             </li>
@@ -131,7 +131,7 @@ const searchText = (e: any) => [e.de, e.bedeutung, e.en, ...(e.bsp ?? [])].join(
     day.querySelector<HTMLAnchorElement>("[data-day-link]")!.href = `/wissen/redewendungen/${today.id}`;
     day.querySelector("[data-day-de]")!.textContent = today.de;
     day.querySelector("[data-day-bed]")!.textContent = today.bed;
-    day.querySelector("[data-day-bsp]")!.textContent = `„${today.bsp}“`;
+    day.querySelector("[data-day-bsp]")!.textContent = `“${today.bsp}”`;
   }
 
   mountUebung(document.querySelector<HTMLElement>("[data-uebung]")!, items);

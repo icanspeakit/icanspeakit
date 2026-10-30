@@ -41,19 +41,19 @@ function distractors(item, items, pick) {
 
 const KIND = {
   bedeutung: (it, items) => ({
-    prompt: `<p class="rw-q-kind">${t("rw.q.bedeutung", "Was bedeutet das?")}</p><p class="rw-q-de" lang="de">${esc(it.de)}</p>`,
+    prompt: `<p class="rw-q-kind">${t("rw.q.bedeutung", "Was bedeutet das?")}</p><p class="rw-q-de">${esc(it.de)}</p>`,
     answer: it.bed,
     options: [it.bed, ...distractors(it, items, (o) => o.bed)],
   }),
   luecke: (it, items) => ({
-    prompt: `<p class="rw-q-kind">${t("rw.q.luecke", "Ergänze")}</p><p class="rw-q-de" lang="de">${esc(it.de.replace(it.gap, "___"))}</p>`,
+    prompt: `<p class="rw-q-kind">${t("rw.q.luecke", "Ergänze")}</p><p class="rw-q-de">${esc(it.de.replace(it.gap, "___"))}</p>`,
     answer: it.gap,
     options: [it.gap, ...distractors(it, items, (o) => o.gap)],
   }),
   bild: (it, items) => ({
     prompt: `<p class="rw-q-kind">${t("rw.q.bild", "Bild oder Bedeutung? Welche Redewendung ist das?")}</p>
       <p class="rw-q-props" aria-hidden="true">${(it.props ?? []).map((c) => `<img src="/img/openmoji/${c}.svg" alt="" width="52" height="52">`).join("")}</p>
-      <p class="rw-q-bild" lang="de">${esc(it.bild)}</p>`,
+      <p class="rw-q-bild">${esc(it.bild)}</p>`,
     answer: it.de,
     options: [it.de, ...distractors(it, items, (o) => o.de)],
   }),
