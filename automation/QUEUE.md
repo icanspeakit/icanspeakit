@@ -27,7 +27,7 @@ item, tick it by hand; to redo one, untick it. Add, remove or reorder items free
 - [x] `speaking`: Speaking tasks and phrases (sprechen.json, sprechen-b1b2.json, redemittel.json).
 - [x] `pronunciation`: Pronunciation rules, tongue twisters, sentence melody for English.
 - [x] `idioms-mistakes`: Idioms, typical mistakes, false friends, slang, synonyms.
-- [ ] `exams`: Exam hub mapped to English exams per content-plan (e.g. Cambridge, IELTS): formats, one practice set each.
+- [x] `exams`: Exam hub mapped to English exams per content-plan (e.g. Cambridge, IELTS): formats, one practice set each.
 - [ ] `culture`: Culture and knowledge hub for English-speaking countries.
 - [ ] `games`: Game data (satzregen, quakiSpringt, hochstapler, artikel-sprint → English equivalents).
 - [ ] `teachers`: Worksheets, partner exercises, printable games for English.
