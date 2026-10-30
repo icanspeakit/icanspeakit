@@ -84,7 +84,7 @@ const WF_KEY = "wortfallen";
 function wortfallenGroups() {
   return wortfallen.groups.map((g) => {
     const title = g.words.map((w) => w.w.replace(/^(der|die|das) /, "")).join(" · ");
-    const items = g.quiz.map((q, i) => mcq(q.s, q.a, q.o.filter((o) => o !== q.a), "Welches Wort passt?", `g:${WF_KEY}#${g.id}-${i}`));
+    const items = g.quiz.map((q, i) => mcq(q.s, q.a, q.o.filter((o) => o !== q.a), "Which word fits?", `g:${WF_KEY}#${g.id}-${i}`));
     return { title, items: items.filter(Boolean) };
   }).filter((g) => g.items.length);
 }
@@ -96,7 +96,7 @@ const TF_KEY = "typische-fehler";
 function fehlerQuizGroups() {
   return fehlerGroups.map((g) => ({
     title: g.title,
-    items: g.pairs.map((p) => ({ t: "mc", prompt: p.check.gap, options: [answerOf(p), wrongOf(p)], correct: 0, kind: "Welches Wort passt?", src: `g:${TF_KEY}#${p.id}` })),
+    items: g.pairs.map((p) => ({ t: "mc", prompt: p.check.gap, options: [answerOf(p), wrongOf(p)], correct: 0, kind: "Which word fits?", src: `g:${TF_KEY}#${p.id}` })),
   }));
 }
 

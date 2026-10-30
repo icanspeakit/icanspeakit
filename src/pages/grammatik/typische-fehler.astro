@@ -1,11 +1,11 @@
 ---
-// Typische Fehler: words a learner mixes up — man ≠ der Mann, das ≠ dass, seid ≠ seit.
-// Not the mistakes by mother tongue (/kultur/fehler) but the look-alikes of German itself:
+// Common mistakes: words a learner mixes up — its ≠ it's, then ≠ than, I agree ≠ I am agree.
+// Not the mistakes by mother tongue (/kultur/fehler) but the look-alikes of English itself:
 // the two side by side with their word class and a sentence each, the difference in one
 // line (translated into the help languages like every grammar explanation), and a gap to
 // try it at once. The word-class cards on /grammatik/wortarten point here (#<pair id>).
 //
-// Look-alikes of meaning (Küche, Kuchen, Koch) are /wissen/wortfallen; this page is the ones
+// Look-alikes of meaning (kitchen, chicken; become, get) are /wissen/wortfallen; this page is the ones
 // of spelling and grammar. Content: src/data/typische-fehler.json, read through
 // src/lib/typischeFehler.js — the worksheet, Tandembogen and live quiz ask the same gaps.
 import Layout from "../../layouts/Layout.astro";
@@ -44,7 +44,7 @@ const rule = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").repl
     </header>
     <GrammarHelp level="A1" root="tf-page" reviewed={fehler.reviewed} />
 
-    {/* Bruno, Quaki, Regi and Hamsti act out the page's first pair: man ≠ der Mann. */}
+    {/* Bruno, Quaki, Regi and Hamsti act out the page's first pair: its ≠ it's. */}
     <MascotComic comic={fehler.comic as any} chip="form" fit />
 
     <nav class="tf-jump" aria-label="Groups" data-i18n-attr="aria-label:tf.groups">
@@ -83,7 +83,7 @@ const rule = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").repl
             </div>
             <div class="tf-regel-body" id={`regel-${g.id}`}>
               <div class="tf-regel-inner">
-                <ul lang="de">{g.regel.map((t: string) => <li set:html={rule(t)} />)}</ul>
+                <ul>{g.regel.map((t: string) => <li set:html={rule(t)} />)}</ul>
                 <GrammarHelpText text={field(g.regelTr)} />
               </div>
             </div>
@@ -92,7 +92,7 @@ const rule = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").repl
         <ol class="tf-list">
           {g.pairs.map((p: any) => (
             <li class="tf-card" id={p.id}>
-              <div class="tf-pair" lang="de">
+              <div class="tf-pair">
                 {[p.a, p.b].map((m: any, k: number) => (
                   <>
                     {k === 1 && <span class="tf-vs" aria-label="not to be confused with">≠</span>}
@@ -104,13 +104,13 @@ const rule = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").repl
                   </>
                 ))}
               </div>
-              <p class="tf-why" lang="de">{p.why}</p>
+              <p class="tf-why">{p.why}</p>
               <GrammarHelpText text={field(p.tr)} />
 
               {/* The gap: tap a word, it says right away. Two tries, no score — a check, not a test. */}
               <div class="tf-check" data-tf-check data-answer={answerOf(p)}>
-                <p class="tf-gap" lang="de" set:html={p.check.gap.replace("___", '<span class="tf-blank" data-tf-blank>___</span>')} />
-                <div class="tf-opts" lang="de">
+                <p class="tf-gap" set:html={p.check.gap.replace("___", '<span class="tf-blank" data-tf-blank>___</span>')} />
+                <div class="tf-opts">
                   {optionsOf(p).map((o) => <button type="button" class="tf-opt" data-tf-opt={o}>{o}</button>)}
                 </div>
                 <p class="tf-fb" data-tf-fb aria-live="polite"></p>

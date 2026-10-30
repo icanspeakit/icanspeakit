@@ -1,266 +1,306 @@
 {
-  "_note": "Typische Fehler (/grammatik/typische-fehler): Wörter, die man verwechselt. Je Paar zwei Seiten (a, b: Wort, Wortart oder Hinweis, Beispielsatz mit <b>), `why` der Unterschied in einem Satz, `tr` dessen Übersetzung in die Hilfesprachen (maschineller Entwurf), `check` eine Lücke zum Selbsttest (`answer` = a oder b). `regel` je Gruppe die aufklappbare Regel (*…* = Beispiel, **…** = fett), `regelTr` deren Übersetzung, `comic` der Comic oben (MascotComic). `wrong: true` auf b = so sagt man es nicht. Bedeutungs-Fallen wie Küche/Kuchen stehen auf /wissen/wortfallen, nicht hier. Die Wortart-Karten auf /grammatik/wortarten verweisen per `fehler` auf ein Paar hier.",
+  "_note": "Common mistakes (/grammatik/typische-fehler): English words learners mix up. Each pair has two sides (a, b: the word, its part of speech or a note, an example with <b>), `why` the difference in one sentence, `tr` its translation into the help languages (empty: English is the only help language for now, the page shows nothing then), `check` a gap to try (`answer` = a or b; `options` when the words on the buttons are not the bare a/b words). `regel` per group is the folding rule (*…* = example, **…** = bold), `regelTr` its translation (empty, as `tr`), `comic` the comic at the top (MascotComic). `wrong: true` on b = this is not correct English. Meaning traps (false friends, kitchen/chicken) are on /wissen/wortfallen, not here. The part-of-speech cards on /grammatik/wortarten point to a pair here through `fehler`. British English; idioms-mistakes run (2026-10-30), not yet reviewed.",
   "reviewed": false,
-  "comic": {"title":"{man} oder {Mann}?","panels":[{"caption":"Im Deutschkurs","tag":"{man} = alle","left":{"name":"bruno","expr":"happy","say":"In Deutschland isst {man} um 12 Uhr zu Mittag."},"right":{"name":"quaki","expr":"thinking","say":"Welcher {Mann}? Ich sehe keinen."}},{"caption":"Regi hilft","tag":"klein: {man}","left":{"name":"regi","expr":"happy","say":"Kein Mann! {man} heißt: alle, jeder."},"right":{"name":"quaki","expr":"oops","say":"Ach so – und klein geschrieben!"}},{"caption":"Da kommt Hamsti","tag":"groß: {der Mann}","left":{"name":"hamsti","expr":"celebrate","say":"Und {der Mann} da drüben? Das ist mein Onkel!"},"right":{"name":"quaki","expr":"celebrate","say":"{Der Mann} ist eine Person. Jetzt hab ich's!"}}]},
+  "comic": {"title":"{its} or {it's}?","panels":[{"caption":"In the English class","tag":"{it's} = it is","left":{"name":"bruno","expr":"happy","say":"{It's} a lovely day today!"},"right":{"name":"quaki","expr":"thinking","say":"And the dog wags {it's} tail?"}},{"caption":"Regi helps","tag":"{its} = belongs to it","left":{"name":"regi","expr":"happy","say":"No apostrophe there! {its} tail = the dog's tail."},"right":{"name":"quaki","expr":"oops","say":"Oh – so the apostrophe means a missing letter!"}},{"caption":"Here comes Hamsti","tag":"the test: it is","left":{"name":"hamsti","expr":"celebrate","say":"Can you say {it is}? Then write {it's}!"},"right":{"name":"quaki","expr":"celebrate","say":"{It's} easy. Got it!"}}]},
   "groups": [
     {
       "id": "gleich",
-      "regel": ["Man hört keinen Unterschied – man sieht ihn nur. Frag dich: **Welche Wortart** ist das Wort?","*man* ist ein Pronomen (alle, jeder), *der Mann* ein Nomen. Nomen schreibt man groß.","*dass* verbindet zwei Sätze, davor steht ein Komma. Passt *dieses* oder *welches*? Dann ist es *das*."],
-      "regelTr": {"en":"You cannot hear the difference, only see it. Ask: which word class is it? <em>man</em> is a pronoun (people, anyone), <em>der Mann</em> a noun — nouns have a capital letter. <em>dass</em> joins two clauses, with a comma before it.","ar":"لا تسمع الفرق، بل تراه فقط. اسأل: ما نوع الكلمة؟ <em>man</em> ضمير (الناس، أيّ أحد)، و<em>der Mann</em> اسم — والأسماء تُكتب بحرف كبير. <em>dass</em> تربط جملتين وقبلها فاصلة.","uk":"Різницю не чути — її видно. Запитай: яка це частина мови? <em>man</em> — займенник (усі, будь-хто), <em>der Mann</em> — іменник, а іменники пишуться з великої. <em>dass</em> поєднує два речення, перед ним кома.","tr":"Farkı duyamazsın, sadece görürsün. Sor: Bu kelime hangi türde? <em>man</em> bir zamirdir (herkes), <em>der Mann</em> bir isim — isimler büyük harfle yazılır. <em>dass</em> iki cümleyi bağlar, önünde virgül olur."},
-      "title": "Klingt gleich, schreibt sich anders",
-      "lead": "Man hört keinen Unterschied. Im Text sieht man ihn sofort.",
+      "regel": ["You can't hear the difference – you only see it. Ask yourself: **what kind of word** is it?","An apostrophe often shows a missing letter: *it's = it is*, *you're = you are*, *who's = who is*.","Can you say *it is* or *you are* instead? Then write the short form with an apostrophe. If not, write *its*, *your*, *whose*."],
+      "regelTr": {},
+      "title": "Sounds the same, spelt differently",
+      "lead": "You can't hear the difference. In writing you see it at once.",
       "pairs": [
         {
-          "id": "man-mann", "level": "A1",
-          "a": { "w": "man", "pos": "Pronomen", "ex": "Hier spricht <b>man</b> Deutsch." },
-          "b": { "w": "der Mann", "pos": "Nomen", "ex": "<b>Der Mann</b> spricht Deutsch." },
-          "why": "„man“ heißt: alle, jeder. „der Mann“ ist eine Person.",
-          "tr": { "en": "„man“ means: people, anyone. „der Mann“ is one person, a man.", "ar": "„man“ تعني: الناس، أيّ أحد. „der Mann“ شخص واحد، رجل.", "uk": "„man“ означає: усі, будь-хто. „der Mann“ — одна людина, чоловік.", "tr": "„man“ şu demek: herkes, insanlar. „der Mann“ bir kişidir, bir adam." },
-          "check": { "gap": "Wie sagt ___ das auf Deutsch?", "answer": "a" }
+          "id": "its-it-s", "level": "A2",
+          "a": { "w": "its", "pos": "possessive: belongs to it", "ex": "The dog wagged <b>its</b> tail." },
+          "b": { "w": "it's", "pos": "short form: it is / it has", "ex": "<b>It's</b> raining again." },
+          "why": "it's = it is or it has. its (no apostrophe) = belonging to it.",
+          "tr": {},
+          "check": { "gap": "The company changed ___ name last year.", "answer": "a" }
         },
         {
-          "id": "das-dass", "level": "A2",
-          "a": { "w": "das", "pos": "Artikel", "ex": "<b>Das</b> Kind spielt." },
-          "b": { "w": "dass", "pos": "Konjunktion", "ex": "Ich weiß, <b>dass</b> er kommt." },
-          "why": "„dass“ verbindet zwei Sätze. Davor steht ein Komma.",
-          "tr": { "en": "„dass“ joins two clauses. There is a comma before it.", "ar": "„dass“ تربط جملتين، وقبلها فاصلة.", "uk": "„dass“ поєднує два речення. Перед ним стоїть кома.", "tr": "„dass“ iki cümleyi bağlar. Önünde virgül olur." },
-          "check": { "gap": "Ich hoffe, ___ du kommst.", "answer": "b" }
+          "id": "your-you-re", "level": "A1",
+          "a": { "w": "your", "pos": "possessive: belongs to you", "ex": "Is this <b>your</b> bag?" },
+          "b": { "w": "you're", "pos": "short form: you are", "ex": "<b>You're</b> late again!" },
+          "why": "you're = you are. your = belonging to you.",
+          "tr": {},
+          "check": { "gap": "Thank you, ___ very kind.", "answer": "b" }
         },
         {
-          "id": "seid-seit", "level": "A1",
-          "a": { "w": "seid", "pos": "Verb", "ex": "Ihr <b>seid</b> sehr nett." },
-          "b": { "w": "seit", "pos": "Präposition", "ex": "<b>Seit</b> Montag bin ich krank." },
-          "why": "„seid“ kommt von „sein“: ihr seid. „seit“ sagt, wann etwas anfängt.",
-          "tr": { "en": "„seid“ comes from „sein“: ihr seid. „seit“ says when something started.", "ar": "„seid“ من الفعل „sein“: ihr seid. و„seit“ تقول متى بدأ شيء ما.", "uk": "„seid“ — від „sein“: ihr seid. „seit“ каже, коли щось почалося.", "tr": "„seid“, „sein“ fiilinden gelir: ihr seid. „seit“ bir şeyin ne zaman başladığını söyler." },
-          "check": { "gap": "Ich wohne ___ zwei Jahren in Köln.", "answer": "b" }
+          "id": "there-their", "level": "A1",
+          "a": { "w": "there", "pos": "place, or there is / there are", "ex": "Put the box over <b>there</b>." },
+          "b": { "w": "their", "pos": "possessive: belongs to them", "ex": "<b>Their</b> house is very big." },
+          "why": "their = belonging to them. there = a place, or there is / there are.",
+          "tr": {},
+          "check": { "gap": "The children are playing with ___ dog.", "answer": "b" }
         },
         {
-          "id": "ist-isst", "level": "A1",
-          "a": { "w": "ist", "pos": "Verb: sein", "ex": "Er <b>ist</b> müde." },
-          "b": { "w": "isst", "pos": "Verb: essen", "ex": "Er <b>isst</b> einen Apfel." },
-          "why": "„ist“ kommt von „sein“, „isst“ von „essen“.",
-          "tr": { "en": "„ist“ comes from „sein“ (to be), „isst“ from „essen“ (to eat).", "ar": "„ist“ من „sein“ (يكون)، و„isst“ من „essen“ (يأكل).", "uk": "„ist“ — від „sein“ (бути), „isst“ — від „essen“ (їсти).", "tr": "„ist“, „sein“ (olmak) fiilinden, „isst“, „essen“ (yemek) fiilinden gelir." },
-          "check": { "gap": "Sie ___ gern Pizza.", "answer": "b" }
+          "id": "to-too", "level": "A1",
+          "a": { "w": "to", "pos": "preposition, or to + verb", "ex": "I go <b>to</b> work by bus." },
+          "b": { "w": "too", "pos": "also; more than is good", "ex": "This coffee is <b>too</b> hot." },
+          "why": "too means also, or more than is good. In every other case it is to.",
+          "tr": {},
+          "check": { "gap": "You're going to the party? I'd like to come ___!", "answer": "b" }
         },
         {
-          "id": "war-wahr", "level": "A2",
-          "a": { "w": "war", "pos": "Verb: sein", "ex": "Gestern <b>war</b> ich zu Hause." },
-          "b": { "w": "wahr", "pos": "Adjektiv", "ex": "Das ist nicht <b>wahr</b>!" },
-          "why": "„war“ ist die Vergangenheit von „sein“. „wahr“ heißt: richtig, nicht gelogen.",
-          "tr": { "en": "„war“ is the past of „sein“. „wahr“ means true, not a lie.", "ar": "„war“ ماضي الفعل „sein“. و„wahr“ تعني: صحيح، ليس كذبًا.", "uk": "„war“ — минулий час від „sein“. „wahr“ означає: правдивий, не вигадка.", "tr": "„war“, „sein“ fiilinin geçmiş zamanıdır. „wahr“ doğru, yalan değil demektir." },
-          "check": { "gap": "Die Geschichte ist ___.", "answer": "b" }
+          "id": "whose-who-s", "level": "B1",
+          "a": { "w": "whose", "pos": "asks who something belongs to", "ex": "<b>Whose</b> coat is this?" },
+          "b": { "w": "who's", "pos": "short form: who is / who has", "ex": "<b>Who's</b> at the door?" },
+          "why": "who's = who is or who has. whose asks who something belongs to.",
+          "tr": {},
+          "check": { "gap": "___ phone is ringing?", "options": ["Whose", "Who's"], "answer": "a" }
         },
         {
-          "id": "stadt-statt", "level": "A2",
-          "a": { "w": "die Stadt", "pos": "Nomen", "ex": "Ich wohne in der <b>Stadt</b>." },
-          "b": { "w": "statt", "pos": "Präposition", "ex": "Ich trinke Tee <b>statt</b> Kaffee." },
-          "why": "„die Stadt“ ist ein Ort. „statt“ heißt: nicht das, sondern das andere.",
-          "tr": { "en": "„die Stadt“ is a place, a town. „statt“ means: instead of.", "ar": "„die Stadt“ مكان، مدينة. „statt“ تعني: بدلًا من.", "uk": "„die Stadt“ — місце, місто. „statt“ означає: замість.", "tr": "„die Stadt“ bir yerdir, şehir. „statt“ yerine demektir." },
-          "check": { "gap": "Wir nehmen den Bus ___ das Auto.", "answer": "b" }
+          "id": "hear-here", "level": "A1",
+          "a": { "w": "hear", "pos": "verb: with your ears", "ex": "Can you <b>hear</b> me?" },
+          "b": { "w": "here", "pos": "in this place", "ex": "Come <b>here</b>, please." },
+          "why": "You hear with your ear – and hear has ear in it. here = in this place.",
+          "tr": {},
+          "check": { "gap": "I've lived ___ in Leeds since 2020.", "answer": "b" }
         },
         {
-          "id": "mehr-meer", "level": "A1",
-          "a": { "w": "mehr", "pos": "Zahlwort", "ex": "Ich möchte <b>mehr</b> Zeit." },
-          "b": { "w": "das Meer", "pos": "Nomen", "ex": "Im Sommer fahren wir ans <b>Meer</b>." },
-          "why": "„mehr“ heißt: eine größere Menge. „das Meer“ ist viel Wasser, zum Beispiel die Ostsee.",
-          "tr": { "en": "„mehr“ means more. „das Meer“ is the sea.", "ar": "„mehr“ تعني: أكثر. „das Meer“ هو البحر.", "uk": "„mehr“ означає: більше. „das Meer“ — море.", "tr": "„mehr“ daha fazla demektir. „das Meer“ denizdir." },
-          "check": { "gap": "Kann ich noch ___ Suppe haben?", "answer": "a" }
+          "id": "buy-by", "level": "A1",
+          "a": { "w": "buy", "pos": "verb: pay money for", "ex": "I want to <b>buy</b> a new phone." },
+          "b": { "w": "by", "pos": "preposition: how, next to", "ex": "I go to work <b>by</b> bus." },
+          "why": "buy = pay money for something. by = how you travel, or next to something.",
+          "tr": {},
+          "check": { "gap": "We travelled to Glasgow ___ train.", "answer": "b" }
         }
       ]
     },
     {
       "id": "gross",
-      "regel": ["Nomen schreibt man groß: *das Essen, der Abend, Deutsch* (die Sprache).","Verben, Adjektive und Adverbien schreibt man klein: *essen, deutsch, abends, morgen*.","Ein Trick: Steht *der, die, das* oder *am* davor? Dann groß.","Die höfliche Anrede *Sie* schreibt man immer groß."],
-      "regelTr": {"en":"Nouns have a capital letter: <em>das Essen, der Abend, Deutsch</em>. Verbs, adjectives and adverbs are lower case: <em>essen, deutsch, abends, morgen</em>. Is there <em>der, die, das</em> or <em>am</em> before it? Then capital. The polite <em>Sie</em> is always capital.","ar":"الأسماء تُكتب بحرف كبير: <em>das Essen, der Abend, Deutsch</em>. الأفعال والصفات والظروف بحرف صغير: <em>essen, deutsch, abends, morgen</em>. هل قبلها <em>der, die, das</em> أو <em>am</em>؟ إذن بحرف كبير. و<em>Sie</em> للاحترام دائمًا بحرف كبير.","uk":"Іменники пишуться з великої: <em>das Essen, der Abend, Deutsch</em>. Дієслова, прикметники й прислівники — з малої: <em>essen, deutsch, abends, morgen</em>. Перед словом є <em>der, die, das</em> або <em>am</em>? Тоді з великої. Ввічливе <em>Sie</em> — завжди з великої.","tr":"İsimler büyük harfle yazılır: <em>das Essen, der Abend, Deutsch</em>. Fiiller, sıfatlar ve zarflar küçük: <em>essen, deutsch, abends, morgen</em>. Önünde <em>der, die, das</em> ya da <em>am</em> var mı? O zaman büyük. Kibar <em>Sie</em> her zaman büyük."},
-      "title": "Groß oder klein?",
-      "lead": "Dasselbe Wort, aber eine andere Wortart. Das Nomen schreibt man groß.",
+      "regel": ["Always a capital letter: **I**, names, days, months, countries, languages and nationalities: *Monday, June, France, English, Polish*.","A small letter: the seasons and most other words: *spring, summer, school, teacher*.","The first word of a sentence always starts with a capital letter."],
+      "regelTr": {},
+      "title": "Capital letter or not?",
+      "lead": "In English, some words need a capital letter in the middle of a sentence – and some don't.",
       "pairs": [
         {
-          "id": "essen", "level": "A1",
-          "a": { "w": "das Essen", "pos": "Nomen", "ex": "<b>Das Essen</b> ist warm." },
-          "b": { "w": "essen", "pos": "Verb", "ex": "Wir <b>essen</b> um 12 Uhr." },
-          "why": "Groß und mit Artikel: Nomen. Klein: Verb.",
-          "tr": { "en": "Capital letter and an article: noun. Lower case: verb.", "ar": "بحرف كبير ومع أداة: اسم. بحرف صغير: فعل.", "uk": "З великої літери й з артиклем — іменник. З малої — дієслово.", "tr": "Büyük harf ve artikel: isim. Küçük harf: fiil." },
-          "check": { "gap": "Das ___ schmeckt gut.", "options": ["Essen", "essen"],"answer": "a" }
+          "id": "i-capital", "level": "A1",
+          "a": { "w": "I", "pos": "pronoun: always a capital", "ex": "Yesterday <b>I</b> stayed at home." },
+          "b": { "w": "i", "pos": "not like this", "ex": "Never a small i on its own.", "wrong": true },
+          "why": "The word I is always a capital letter, also in the middle of a sentence.",
+          "tr": {},
+          "check": { "gap": "On Sundays ___ visit my grandmother.", "answer": "a" }
         },
         {
-          "id": "deutsch", "level": "A1",
-          "a": { "w": "deutsch", "pos": "Adjektiv", "ex": "Das Auto ist <b>deutsch</b>." },
-          "b": { "w": "Deutsch", "pos": "Nomen: die Sprache", "ex": "Ich lerne <b>Deutsch</b>." },
-          "why": "Die Sprache ist ein Nomen: groß. Wie etwas ist: klein.",
-          "tr": { "en": "The language is a noun: capital letter. What something is like: lower case.", "ar": "اسم اللغة اسمٌ: بحرف كبير. الصفة: بحرف صغير.", "uk": "Мова — це іменник: з великої літери. Яке щось є — з малої.", "tr": "Dilin adı bir isimdir: büyük harf. Bir şeyin nasıl olduğu: küçük harf." },
-          "check": { "gap": "Sprichst du ___?", "options": ["deutsch", "Deutsch"],"answer": "b" }
+          "id": "english-capital", "level": "A1",
+          "a": { "w": "English", "pos": "language, nationality: capital", "ex": "She speaks <b>English</b> and Polish." },
+          "b": { "w": "english", "pos": "not like this", "ex": "Languages always need a capital letter.", "wrong": true },
+          "why": "Languages and nationalities start with a capital letter: English, French, Polish.",
+          "tr": {},
+          "check": { "gap": "My ___ teacher is from Wales.", "answer": "a" }
         },
         {
-          "id": "sie-sie", "level": "A1",
-          "a": { "w": "Sie", "pos": "Pronomen: höflich", "ex": "Wie heißen <b>Sie</b>, bitte?" },
-          "b": { "w": "sie", "pos": "Pronomen: eine Frau oder mehrere", "ex": "Anna kommt. <b>Sie</b> ist nett." },
-          "why": "Die höfliche Form „Sie“ schreibt man immer groß, auch mitten im Satz.",
-          "tr": { "en": "The polite „Sie“ (you) always has a capital S, even in the middle of a sentence.", "ar": "صيغة الاحترام „Sie“ (حضرتك) تُكتب دائمًا بحرف كبير، حتى في وسط الجملة.", "uk": "Ввічливе „Sie“ (Ви) завжди пишеться з великої, навіть посеред речення.", "tr": "Kibar „Sie“ (siz) cümlenin ortasında da her zaman büyük harfle yazılır." },
-          "check": { "gap": "Herr Weber, können ___ mir helfen?", "options": ["Sie", "sie"],"answer": "a" }
+          "id": "monday-capital", "level": "A1",
+          "a": { "w": "Monday", "pos": "day: capital", "ex": "See you on <b>Monday</b>!" },
+          "b": { "w": "monday", "pos": "not like this", "ex": "Days and months are names.", "wrong": true },
+          "why": "Days and months start with a capital letter: Monday, July.",
+          "tr": {},
+          "check": { "gap": "The meeting is on ___ morning.", "answer": "a" }
         },
         {
-          "id": "abend-abends", "level": "A1",
-          "a": { "w": "der Abend", "pos": "Nomen", "ex": "Am <b>Abend</b> sehe ich fern." },
-          "b": { "w": "abends", "pos": "Adverb", "ex": "<b>Abends</b> sehe ich fern." },
-          "why": "Mit „am“ ist es ein Nomen: groß. Mit -s am Ende heißt es: jeden Abend, klein.",
-          "tr": { "en": "With „am“ it is a noun: capital letter. With -s at the end it means every evening: lower case.", "ar": "مع „am“ هو اسم: بحرف كبير. ومع -s في آخره يعني: كل مساء، بحرف صغير.", "uk": "З „am“ — іменник, з великої. З -s у кінці означає: щовечора, з малої.", "tr": "„am“ ile isimdir: büyük harf. Sonunda -s varsa her akşam demektir: küçük harf." },
-          "check": { "gap": "Ich arbeite ___ und nachts.", "options": ["Abends", "abends"],"answer": "b" }
+          "id": "summer-small", "level": "A1",
+          "a": { "w": "summer", "pos": "season: small letter", "ex": "We go camping in the <b>summer</b>." },
+          "b": { "w": "Summer", "pos": "not like this (inside a sentence)", "ex": "Seasons are not names.", "wrong": true },
+          "why": "The seasons have a small letter: spring, summer, autumn, winter.",
+          "tr": {},
+          "check": { "gap": "We always go to the beach in the ___.", "answer": "a" }
         },
         {
-          "id": "morgen", "level": "A1",
-          "a": { "w": "der Morgen", "pos": "Nomen", "ex": "Guten <b>Morgen</b>!" },
-          "b": { "w": "morgen", "pos": "Adverb", "ex": "Wir sehen uns <b>morgen</b>." },
-          "why": "„der Morgen“ ist der Anfang vom Tag. „morgen“ heißt: der Tag nach heute.",
-          "tr": { "en": "„der Morgen“ is the morning. „morgen“ means tomorrow.", "ar": "„der Morgen“ هو الصباح. „morgen“ تعني: غدًا.", "uk": "„der Morgen“ — ранок. „morgen“ означає: завтра.", "tr": "„der Morgen“ sabahtır. „morgen“ yarın demektir." },
-          "check": { "gap": "Kommst du ___ zur Party?", "options": ["Morgen", "morgen"],"answer": "b" }
+          "id": "mum-capital", "level": "A2",
+          "a": { "w": "Mum", "pos": "used like a name", "ex": "Can I go out, <b>Mum</b>?" },
+          "b": { "w": "my mum", "pos": "after my, your, his …", "ex": "<b>My mum</b> is a nurse." },
+          "why": "When you talk to her, Mum works like a name: capital. After my, your or his it is a small letter.",
+          "tr": {},
+          "check": { "gap": "Thanks for dinner, ___!", "options": ["Mum", "mum"], "answer": "a" }
         }
       ]
     },
     {
       "id": "aehnlich",
-      "regel": ["Ein Buchstabe ändert die Wortart: *dann* (Adverb) – *denn* (Konjunktion), *wenn* – *wen*.","Zwei Punkte ändern die Form oder das Wort: *Bruder – Brüder*.","Lies langsam und laut: *ihm* endet mit **m**, *ihn* mit **n**.","Bei Verben hilft die Frage: *wo?* – *liegen*, *wohin?* – *legen*."],
-      "regelTr": {"en":"One letter changes the word class: <em>dann</em> (adverb) – <em>denn</em> (conjunction). Two dots change the form: <em>Bruder – Brüder</em>. Read slowly: <em>ihm</em> ends in m, <em>ihn</em> in n. For verbs ask: where? – <em>liegen</em>, where to? – <em>legen</em>.","ar":"حرف واحد يغيّر نوع الكلمة: <em>dann</em> (ظرف) – <em>denn</em> (أداة ربط). النقطتان تغيّران الشكل: <em>Bruder – Brüder</em>. اقرأ ببطء: <em>ihm</em> تنتهي بـ m و<em>ihn</em> بـ n. وللأفعال اسأل: أين؟ – <em>liegen</em>، إلى أين؟ – <em>legen</em>.","uk":"Одна літера змінює частину мови: <em>dann</em> (прислівник) – <em>denn</em> (сполучник). Дві крапки змінюють форму: <em>Bruder – Brüder</em>. Читай повільно: <em>ihm</em> закінчується на m, <em>ihn</em> — на n. Для дієслів питай: де? – <em>liegen</em>, куди? – <em>legen</em>.","tr":"Tek harf kelime türünü değiştirir: <em>dann</em> (zarf) – <em>denn</em> (bağlaç). İki nokta biçimi değiştirir: <em>Bruder – Brüder</em>. Yavaş oku: <em>ihm</em> m ile, <em>ihn</em> n ile biter. Fiillerde sor: nerede? – <em>liegen</em>, nereye? – <em>legen</em>."},
-      "title": "Klingt fast gleich",
-      "lead": "Ein Buchstabe, ein Punkt auf dem Vokal — und das Wort bedeutet etwas anderes.",
+      "regel": ["These words are close in sound or spelling, but they are **different words**.","Learn each one with an example: *bigger than*, *and then*, *lose your keys*, *loose jeans*.","Not sure? Say it aloud: *quiet* has two syllables (qui-et), *quite* has one."],
+      "regelTr": {},
+      "title": "Sounds almost the same",
+      "lead": "Two words, one small difference – in the sound, the spelling or both.",
       "pairs": [
         {
-          "id": "dann-denn", "level": "A1",
-          "a": { "w": "dann", "pos": "Adverb", "ex": "Ich esse, <b>dann</b> gehe ich." },
-          "b": { "w": "denn", "pos": "Konjunktion", "ex": "Ich bleibe hier, <b>denn</b> ich bin krank." },
-          "why": "„dann“ sagt, was danach kommt. „denn“ sagt den Grund.",
-          "tr": { "en": "„dann“ says what comes next. „denn“ gives the reason.", "ar": "„dann“ تقول ماذا يأتي بعد ذلك. „denn“ تقول السبب.", "uk": "„dann“ каже, що буде потім. „denn“ називає причину.", "tr": "„dann“ sonra ne olduğunu söyler. „denn“ nedeni söyler." },
-          "check": { "gap": "Ich komme nicht, ___ ich habe keine Zeit.", "answer": "b" }
+          "id": "then-than", "level": "A2",
+          "a": { "w": "then", "pos": "time: after that", "ex": "We had dinner and <b>then</b> went for a walk." },
+          "b": { "w": "than", "pos": "comparing", "ex": "Tom is taller <b>than</b> me." },
+          "why": "than compares two things (bigger than). then is about time (and then).",
+          "tr": {},
+          "check": { "gap": "My flat is smaller ___ yours.", "answer": "b" }
         },
         {
-          "id": "in-ihn", "level": "A1",
-          "a": { "w": "in", "pos": "Präposition", "ex": "Ich wohne <b>in</b> Berlin." },
-          "b": { "w": "ihn", "pos": "Pronomen", "ex": "Ich sehe <b>ihn</b> jeden Tag." },
-          "why": "„in“ steht vor einem Ort. „ihn“ steht für ein der-Wort: den Mann → ihn.",
-          "tr": { "en": "„in“ comes before a place. „ihn“ stands for a der-word: den Mann → ihn.", "ar": "„in“ تأتي قبل مكان. „ihn“ تحلّ محلّ اسم مذكّر: den Mann ← ihn.", "uk": "„in“ стоїть перед місцем. „ihn“ замінює слово з der: den Mann → ihn.", "tr": "„in“ bir yerin önünde durur. „ihn“ der’li bir kelimenin yerine geçer: den Mann → ihn." },
-          "check": { "gap": "Wo ist Tom? Ich rufe ___ an.", "answer": "b" }
+          "id": "lose-loose", "level": "B1",
+          "a": { "w": "lose", "pos": "verb: not find, not win", "ex": "Don't <b>lose</b> your keys!" },
+          "b": { "w": "loose", "pos": "adjective: not tight", "ex": "These jeans are too <b>loose</b>." },
+          "why": "lose /luːz/ is a verb. loose /luːs/ is an adjective: not tight.",
+          "tr": {},
+          "check": { "gap": "I always ___ my umbrella on the train.", "answer": "a" }
         },
         {
-          "id": "ihm-ihn", "level": "A2",
-          "a": { "w": "ihm", "pos": "Pronomen: Dativ", "ex": "Ich helfe <b>ihm</b>." },
-          "b": { "w": "ihn", "pos": "Pronomen: Akkusativ", "ex": "Ich frage <b>ihn</b>." },
-          "why": "Nach „helfen, danken, gefallen“ steht „ihm“. Nach den meisten Verben steht „ihn“.",
-          "tr": { "en": "After „helfen, danken, gefallen“ comes „ihm“ (dative). After most verbs: „ihn“ (accusative).", "ar": "بعد „helfen, danken, gefallen“ تأتي „ihm“ (حالة الجر). وبعد أغلب الأفعال: „ihn“ (حالة النصب).", "uk": "Після „helfen, danken, gefallen“ — „ihm“ (давальний). Після більшості дієслів — „ihn“ (знахідний).", "tr": "„helfen, danken, gefallen“ fiillerinden sonra „ihm“ (Dativ) gelir. Çoğu fiilden sonra „ihn“ (Akkusativ)." },
-          "check": { "gap": "Das Buch gefällt ___.", "options": ["ihm", "ihn"],"answer": "a" }
+          "id": "quiet-quite", "level": "A2",
+          "a": { "w": "quiet", "pos": "adjective: not loud", "ex": "The library is very <b>quiet</b>." },
+          "b": { "w": "quite", "pos": "adverb: fairly", "ex": "The film was <b>quite</b> good." },
+          "why": "quiet (qui-et, two syllables) = not loud. quite (one syllable) = fairly.",
+          "tr": {},
+          "check": { "gap": "Please be ___, the baby is asleep.", "answer": "a" }
         },
         {
-          "id": "wenn-wen", "level": "A2",
-          "a": { "w": "wenn", "pos": "Konjunktion", "ex": "<b>Wenn</b> es regnet, bleibe ich zu Hause." },
-          "b": { "w": "wen", "pos": "Pronomen: Fragewort", "ex": "<b>Wen</b> rufst du an?" },
-          "why": "„wenn“ verbindet zwei Sätze. „wen“ fragt nach einer Person.",
-          "tr": { "en": "„wenn“ joins two clauses. „wen“ asks about a person (whom?).", "ar": "„wenn“ تربط جملتين. „wen“ تسأل عن شخص (مَن؟).", "uk": "„wenn“ поєднує два речення. „wen“ питає про людину (кого?).", "tr": "„wenn“ iki cümleyi bağlar. „wen“ bir kişiyi sorar (kimi?)." },
-          "check": { "gap": "___ du Zeit hast, komm vorbei!", "options": ["Wenn", "Wen"],"answer": "a" }
+          "id": "advice-advise", "level": "B1",
+          "a": { "w": "advice", "pos": "noun (no plural)", "ex": "Can you give me some <b>advice</b>?" },
+          "b": { "w": "advise", "pos": "verb", "ex": "I <b>advise</b> you to see a doctor." },
+          "why": "advice with c is the noun, advise with s is the verb. British English does the same with practice (noun) and practise (verb).",
+          "tr": {},
+          "check": { "gap": "Thanks for your ___ – it really helped.", "answer": "a" }
         },
         {
-          "id": "eins-ein", "level": "A1",
-          "a": { "w": "eins", "pos": "Zahlwort", "ex": "Wie viele Kinder? — <b>Eins</b>." },
-          "b": { "w": "ein", "pos": "Artikel", "ex": "Ich habe <b>ein</b> Kind." },
-          "why": "Allein beim Zählen: eins. Vor einem Nomen: ein.",
-          "tr": { "en": "On its own, when counting: eins. Before a noun: ein.", "ar": "وحدها عند العدّ: eins. وقبل اسم: ein.", "uk": "Окремо, коли рахуємо: eins. Перед іменником: ein.", "tr": "Tek başına sayarken: eins. Bir ismin önünde: ein." },
-          "check": { "gap": "Ich möchte ___ Brötchen, bitte.", "answer": "b" }
+          "id": "accept-except", "level": "B1",
+          "a": { "w": "accept", "pos": "verb: say yes to, take", "ex": "Do you <b>accept</b> cards?" },
+          "b": { "w": "except", "pos": "preposition: but not", "ex": "Everyone came <b>except</b> Tom." },
+          "why": "accept = say yes to something. except = but not.",
+          "tr": {},
+          "check": { "gap": "The shop is open every day ___ Sunday.", "answer": "b" }
         },
         {
-          "id": "kennen-koennen", "level": "A1",
-          "a": { "w": "kennen", "pos": "Verb", "ex": "Ich <b>kenne</b> den Mann." },
-          "b": { "w": "können", "pos": "Modalverb", "ex": "Ich <b>kann</b> schwimmen." },
-          "why": "„kennen“ steht mit einer Person oder Sache. „können“ steht mit einem zweiten Verb.",
-          "tr": { "en": "„kennen“ (to know someone or something) takes a person or thing. „können“ (can) takes a second verb.", "ar": "„kennen“ (يعرف شخصًا أو شيئًا) يأتي مع شخص أو شيء. „können“ (يستطيع) يأتي مع فعل ثانٍ.", "uk": "„kennen“ (знати когось чи щось) — з людиною або річчю. „können“ (могти, вміти) — з другим дієсловом.", "tr": "„kennen“ (birini ya da bir şeyi tanımak) bir kişi ya da şeyle kullanılır. „können“ (-ebilmek) ikinci bir fiille kullanılır." },
-          "check": { "gap": "___ du meine Schwester?", "options": ["Kennst", "Kannst"],"answer": "a" }
+          "id": "live-leave", "level": "A1",
+          "a": { "w": "live", "pos": "verb: short i /ɪ/", "ex": "I <b>live</b> in Bristol." },
+          "b": { "w": "leave", "pos": "verb: long ee /iː/", "ex": "The train <b>leaves</b> at six." },
+          "why": "live (short i) = have your home somewhere. leave (long ee) = go away.",
+          "tr": {},
+          "check": { "gap": "What time do you ___ the office?", "answer": "b" }
         },
         {
-          "id": "lernen-lehren", "level": "A2",
-          "a": { "w": "lernen", "pos": "Verb", "ex": "Ich <b>lerne</b> Deutsch." },
-          "b": { "w": "lehren", "pos": "Verb", "ex": "Frau Kurz <b>lehrt</b> Deutsch." },
-          "why": "Wer lernt, bekommt das Wissen. Wer lehrt, gibt es weiter – wie ein Lehrer.",
-          "tr": { "en": "Who „lernt“ is learning. Who „lehrt“ is teaching, like a Lehrer.", "ar": "من „lernt“ يتعلّم. ومن „lehrt“ يعلّم، مثل المعلّم (Lehrer).", "uk": "Хто „lernt“ — вчиться. Хто „lehrt“ — навчає інших, як учитель (Lehrer).", "tr": "„lernt“ eden öğrenir. „lehrt“ eden öğretir, bir öğretmen (Lehrer) gibi." },
-          "check": { "gap": "Die Kinder ___ in der Schule lesen.", "options": ["lernen", "lehren"],"answer": "a" }
+          "id": "dessert-desert", "level": "A2",
+          "a": { "w": "dessert", "pos": "noun: sweet food after a meal", "ex": "Ice cream for <b>dessert</b>?" },
+          "b": { "w": "desert", "pos": "noun: hot, dry land", "ex": "The Sahara is a <b>desert</b>." },
+          "why": "dessert has two s – because you always want a second one!",
+          "tr": {},
+          "check": { "gap": "What would you like for ___? – Chocolate cake, please!", "answer": "a" }
         },
         {
-          "id": "liegen-legen", "level": "A2",
-          "a": { "w": "liegen", "pos": "Verb: wo?", "ex": "Das Buch <b>liegt</b> auf dem Tisch." },
-          "b": { "w": "legen", "pos": "Verb: wohin?", "ex": "Ich <b>lege</b> das Buch auf den Tisch." },
-          "why": "„liegen“: etwas ist schon da. „legen“: jemand bringt es dorthin.",
-          "tr": { "en": "„liegen“: something is already there (to lie). „legen“: someone puts it there (to lay).", "ar": "„liegen“: الشيء موجود هناك أصلًا. „legen“: شخص يضعه هناك.", "uk": "„liegen“: щось уже лежить там. „legen“: хтось кладе його туди.", "tr": "„liegen“: bir şey zaten oradadır (durmak). „legen“: biri onu oraya koyar." },
-          "check": { "gap": "Wo ist mein Handy? — Es ___ im Auto.", "options": ["liegt", "legt"],"answer": "a" }
+          "id": "felt-fell", "level": "A2",
+          "a": { "w": "felt", "pos": "past of feel", "ex": "I <b>felt</b> tired after work." },
+          "b": { "w": "fell", "pos": "past of fall", "ex": "She <b>fell</b> off her bike." },
+          "why": "feel → felt. fall → fell.",
+          "tr": {},
+          "check": { "gap": "He slipped on the ice and ___.", "answer": "b" }
         },
         {
-          "id": "bruder-brueder", "level": "A1",
-          "a": { "w": "der Bruder", "pos": "Nomen: einer", "ex": "Mein <b>Bruder</b> heißt Ali." },
-          "b": { "w": "die Brüder", "pos": "Nomen: Plural", "ex": "Meine <b>Brüder</b> heißen Ali und Omar." },
-          "why": "Die zwei Punkte zeigen hier den Plural: Bruder → Brüder, Mutter → Mütter.",
-          "tr": { "en": "Here the two dots show the plural: Bruder → Brüder, Mutter → Mütter.", "ar": "النقطتان هنا تدلّان على الجمع: Bruder ← Brüder، Mutter ← Mütter.", "uk": "Дві крапки тут показують множину: Bruder → Brüder, Mutter → Mütter.", "tr": "Buradaki iki nokta çoğulu gösterir: Bruder → Brüder, Mutter → Mütter." },
-          "check": { "gap": "Ich habe zwei ___.", "options": ["Bruder", "Brüder"],"answer": "b" }
+          "id": "of-off", "level": "A1",
+          "a": { "w": "of", "pos": "preposition: part of, belongs to", "ex": "Would you like a cup <b>of</b> tea?" },
+          "b": { "w": "off", "pos": "not on; away", "ex": "Please turn <b>off</b> the light." },
+          "why": "off (two f) is the opposite of on. of joins two nouns: a cup of tea.",
+          "tr": {},
+          "check": { "gap": "Please switch ___ your phone in the cinema.", "answer": "b" }
         }
       ]
     },
     {
       "id": "wendung",
-      "regel": ["Eine feste Wendung übersetzt man nicht Wort für Wort aus der Muttersprache.","Lerne sie als ganzen Satz: *Mir ist kalt. Ich bin 20 Jahre alt. Du hast recht.*"],
-      "regelTr": {"en":"Don't translate a fixed phrase word for word from your language. Learn it as a whole sentence: <em>Mir ist kalt. Ich bin 20 Jahre alt. Du hast recht.</em>","ar":"لا تترجم التعبير الثابت كلمة بكلمة من لغتك. تعلّمه جملةً كاملة: <em>Mir ist kalt. Ich bin 20 Jahre alt. Du hast recht.</em>","uk":"Сталий вислів не перекладають слово в слово з рідної мови. Вивчи його цілим реченням: <em>Mir ist kalt. Ich bin 20 Jahre alt. Du hast recht.</em>","tr":"Kalıp ifadeyi ana dilinden kelime kelime çevirme. Onu bütün bir cümle olarak öğren: <em>Mir ist kalt. Ich bin 20 Jahre alt. Du hast recht.</em>"},
-      "title": "Feste Wendungen",
-      "lead": "Wort für Wort übersetzt klingt es richtig, ist es aber nicht.",
+      "regel": ["Don't translate fixed expressions word for word from your first language.","Learn them as whole sentences: *I'm cold. I'm 20. I agree. You're right.*"],
+      "regelTr": {},
+      "title": "Fixed expressions",
+      "lead": "Translated word for word it sounds right – but it isn't English.",
       "pairs": [
         {
-          "id": "mir-ist-kalt", "level": "A1",
-          "a": { "w": "Mir ist kalt.", "pos": "Wendung", "ex": "= Ich friere." },
-          "b": { "w": "Ich bin kalt.", "pos": "andere Bedeutung", "ex": "= Ich bin nicht freundlich." },
-          "why": "Gefühle wie kalt, warm, schlecht: mit „mir ist“.",
-          "tr": { "en": "Feelings like cold, warm, unwell: with „mir ist“.", "ar": "للتعبير عن الشعور بالبرد أو الحرّ أو التعب: „mir ist“.", "uk": "Відчуття: холодно, тепло, погано — з „mir ist“.", "tr": "Üşümek, sıcak, kötü hissetmek gibi durumlar: „mir ist“ ile." },
-          "check": { "gap": "Mach bitte das Fenster zu. ___", "options": ["Mir ist kalt.", "Ich bin kalt."],"answer": "a" }
+          "id": "i-m-cold", "level": "A1",
+          "a": { "w": "I'm cold.", "pos": "right", "ex": "= I feel cold." },
+          "b": { "w": "I have cold.", "pos": "not like this", "ex": "Translated from French or Spanish (j'ai froid, tengo frío).", "wrong": true },
+          "why": "Feelings like cold, hot, hungry and thirsty go with be: I'm cold. (I have a cold means you are ill.)",
+          "tr": {},
+          "check": { "gap": "Can you close the window, please? ___", "options": ["I'm cold.", "I have cold."], "answer": "a" }
         },
         {
-          "id": "jahre-alt", "level": "A1",
-          "a": { "w": "Ich bin 20 Jahre alt.", "pos": "richtig", "ex": "Mit „sein“ und „alt“." },
-          "b": { "w": "Ich habe 20 Jahre.", "pos": "so nicht", "ex": "Aus dem Spanischen oder Französischen übersetzt.", "wrong":true },
-          "why": "Das Alter sagt man mit „sein“: Ich bin … Jahre alt.",
-          "tr": { "en": "Age goes with „sein“ (to be): Ich bin … Jahre alt.", "ar": "العمر يُقال مع „sein“: Ich bin … Jahre alt.", "uk": "Вік кажуть із „sein“: Ich bin … Jahre alt.", "tr": "Yaş „sein“ ile söylenir: Ich bin … Jahre alt." },
-          "check": { "gap": "Wie alt ist dein Sohn? — ___", "options": ["Er ist fünf Jahre alt.", "Er hat fünf Jahre."],"answer": "a" }
+          "id": "age-be", "level": "A1",
+          "a": { "w": "I'm 20 (years old).", "pos": "right", "ex": "Age goes with be." },
+          "b": { "w": "I have 20 years.", "pos": "not like this", "ex": "Translated from Spanish, French or Italian.", "wrong": true },
+          "why": "Say your age with be: I'm 20, or I'm 20 years old.",
+          "tr": {},
+          "check": { "gap": "How old is your son? – ___", "options": ["He's five.", "He has five years."], "answer": "a" }
         },
         {
-          "id": "recht-haben", "level": "A2",
-          "a": { "w": "Du hast recht.", "pos": "richtig", "ex": "Mit „haben“." },
-          "b": { "w": "Du bist richtig.", "pos": "so nicht", "ex": "Aus dem Englischen übersetzt: you are right.", "wrong":true },
-          "why": "Wer etwas Richtiges sagt, „hat recht“.",
-          "tr": { "en": "Someone who says something correct „hat recht“ (has right).", "ar": "من يقول شيئًا صحيحًا „hat recht“ (معه حق).", "uk": "Хто каже правильно, той „hat recht“ (має рацію).", "tr": "Doğru bir şey söyleyen „hat recht“ (haklıdır)." },
-          "check": { "gap": "Es ist schon spät. — Ja, ___", "options": ["du hast recht.", "du bist richtig."],"answer": "a" }
+          "id": "i-agree", "level": "A1",
+          "a": { "w": "I agree.", "pos": "right", "ex": "agree is a verb." },
+          "b": { "w": "I am agree.", "pos": "not like this", "ex": "No am before agree.", "wrong": true },
+          "why": "agree is a verb, like like or know: I agree, I don't agree.",
+          "tr": {},
+          "check": { "gap": "That's a great idea. ___", "options": ["I agree.", "I am agree."], "answer": "a" }
         },
         {
-          "id": "foto-machen", "level": "A1",
-          "a": { "w": "ein Foto machen", "pos": "richtig", "ex": "Ich <b>mache</b> ein Foto." },
-          "b": { "w": "ein Foto nehmen", "pos": "so nicht", "ex": "Aus dem Englischen übersetzt: take a photo.", "wrong":true },
-          "why": "Fotos „macht“ man auf Deutsch.",
-          "tr": { "en": "In German you „machen“ (make) a photo.", "ar": "بالألمانية نقول „ein Foto machen“ (نصنع صورة).", "uk": "Німецькою фото „machen“ (роблять).", "tr": "Almancada fotoğraf „machen“ (yapılır)." },
-          "check": { "gap": "Darf ich hier ein Foto ___?", "options": ["machen", "nehmen"],"answer": "a" }
+          "id": "take-a-photo", "level": "A1",
+          "a": { "w": "take a photo", "pos": "right", "ex": "Can I <b>take</b> a photo?" },
+          "b": { "w": "make a photo", "pos": "not like this", "ex": "Translated from German or Spanish (ein Foto machen, hacer una foto).", "wrong": true },
+          "why": "In English you take a photo.",
+          "tr": {},
+          "check": { "gap": "Excuse me, could you ___ a photo of us?", "options": ["take", "make"], "answer": "a" }
+        },
+        {
+          "id": "you-re-right", "level": "A2",
+          "a": { "w": "You're right.", "pos": "right", "ex": "right goes with be." },
+          "b": { "w": "You have right.", "pos": "not like this", "ex": "Translated from German, French or Polish (du hast recht, tu as raison).", "wrong": true },
+          "why": "Use be: you're right, I was wrong.",
+          "tr": {},
+          "check": { "gap": "It's getting late. – Yes, ___", "options": ["you're right.", "you have right."], "answer": "a" }
+        },
+        {
+          "id": "for-since", "level": "A2",
+          "a": { "w": "for three years", "pos": "right: for + a length of time", "ex": "I've lived here <b>for</b> three years." },
+          "b": { "w": "since three years", "pos": "not like this", "ex": "since needs a point in time: since 2022, since Monday.", "wrong": true },
+          "why": "for + a length of time (three years). since + a point in time (2022, Monday).",
+          "tr": {},
+          "check": { "gap": "She has worked here ___ two months.", "options": ["for", "since"], "answer": "a" }
+        },
+        {
+          "id": "information", "level": "A2",
+          "a": { "w": "some information", "pos": "right: no plural", "ex": "I need <b>some information</b> about the course." },
+          "b": { "w": "informations", "pos": "not like this", "ex": "information has no plural and no a/an.", "wrong": true },
+          "why": "information, advice, news and furniture are uncountable: no -s, no a/an.",
+          "tr": {},
+          "check": { "gap": "Could you send me some ___ about the flat?", "options": ["information", "informations"], "answer": "a" }
+        },
+        {
+          "id": "explain-to-me", "level": "A2",
+          "a": { "w": "explain it to me", "pos": "right", "ex": "Can you <b>explain</b> the rule <b>to me</b>?" },
+          "b": { "w": "explain me", "pos": "not like this", "ex": "explain needs to before the person.", "wrong": true },
+          "why": "You explain something to someone: Can you explain it to me?",
+          "tr": {},
+          "check": { "gap": "Can you ___ how this machine works?", "options": ["explain to me", "explain me"], "answer": "a" }
         }
       ]
     },
     {
       "id": "hinten",
-      "regel": ["*hinten* steht allein, ohne Nomen: *Der See ist hinten.*","*hinter* braucht ein Nomen: *hinter dem See* (wo? Dativ), *hinter das Haus* (wohin? Akkusativ).","Der Test: Kommt danach ein Nomen? Dann **hinter**. Ist die Angabe schon fertig? Dann **hinten**.","Wohin ohne Nomen heißt *nach hinten*: *Geh bitte nach hinten.*","Genauso: *vorne – vor*, *oben – über*, *unten – unter*."],
-      "regelTr": {"en":"<em>hinten</em> (at the back) stands alone, without a noun: <em>Der See ist hinten.</em> <em>hinter</em> (behind) needs a noun: <em>hinter dem See</em> (where? dative), <em>hinter das Haus</em> (where to? accusative). Test: does a noun follow? Then <em>hinter</em>. Where to, without a noun: <em>nach hinten</em>. The same: <em>vorne – vor</em>, <em>oben – über</em>, <em>unten – unter</em>.","ar":"<em>hinten</em> (في الخلف) تأتي وحدها بدون اسم: <em>Der See ist hinten.</em> أما <em>hinter</em> (خلف) فتحتاج إلى اسم: <em>hinter dem See</em> (أين؟ حالة الجر)، <em>hinter das Haus</em> (إلى أين؟ حالة النصب). الاختبار: هل يأتي بعدها اسم؟ إذن <em>hinter</em>. إلى أين بدون اسم: <em>nach hinten</em>. وكذلك: <em>vorne – vor</em>، <em>oben – über</em>، <em>unten – unter</em>.","uk":"<em>hinten</em> (позаду) стоїть сам, без іменника: <em>Der See ist hinten.</em> <em>hinter</em> (за) потребує іменника: <em>hinter dem See</em> (де? давальний), <em>hinter das Haus</em> (куди? знахідний). Тест: далі йде іменник? Тоді <em>hinter</em>. Куди без іменника: <em>nach hinten</em>. Так само: <em>vorne – vor</em>, <em>oben – über</em>, <em>unten – unter</em>.","tr":"<em>hinten</em> (arkada) tek başına, isimsiz durur: <em>Der See ist hinten.</em> <em>hinter</em> (arkasında) bir isim ister: <em>hinter dem See</em> (nerede? Dativ), <em>hinter das Haus</em> (nereye? Akkusativ). Test: Arkasından isim geliyor mu? O zaman <em>hinter</em>. İsimsiz nereye: <em>nach hinten</em>. Aynı şekilde: <em>vorne – vor</em>, <em>oben – über</em>, <em>unten – unter</em>."},
-      "title": "hinten oder hinter?",
-      "lead": "Ein Buchstabe Unterschied: Das eine Wort steht allein, das andere braucht ein Nomen.",
+      "regel": ["**behind** + a noun or pronoun: *behind the house, behind me*.","**at the back / at the front** = in the back or front part of something: *at the back of the bus*.","**in front of** = just before something; **opposite** = on the other side, facing it: *opposite the bank*."],
+      "regelTr": {},
+      "title": "behind, at the back, opposite",
+      "lead": "Where is it? Small words, big difference.",
       "pairs": [
         {
-          "id": "hinten-hinter", "level": "A1",
-          "a": { "w": "hinten", "pos": "Adverb: steht allein", "ex": "Der See ist <b>hinten</b>." },
-          "b": { "w": "hinter", "pos": "Präposition: + Nomen", "ex": "Die Berge sind <b>hinter</b> dem See." },
-          "why": "„hinten“ steht allein. Nach „hinter“ kommt immer ein Nomen: hinter dem See.",
-          "tr": { "en": "„hinten“ (at the back) stands alone. „hinter“ (behind) is always followed by a noun: hinter dem See.", "ar": "„hinten“ (في الخلف) تأتي وحدها. وبعد „hinter“ (خلف) يأتي دائمًا اسم: hinter dem See.", "uk": "„hinten“ (позаду) стоїть сам. Після „hinter“ (за) завжди йде іменник: hinter dem See.", "tr": "„hinten“ (arkada) tek başına durur. „hinter“ (arkasında) sonrasında hep bir isim gelir: hinter dem See." },
-          "check": { "gap": "Die Berge sind ___ dem See.", "options": ["hinten", "hinter"],"answer": "b" }
+          "id": "back-behind", "level": "A1",
+          "a": { "w": "at the back", "pos": "in the back part (of something)", "ex": "Let's sit <b>at the back</b> of the bus." },
+          "b": { "w": "behind", "pos": "preposition: + noun", "ex": "The garden is <b>behind</b> the house." },
+          "why": "behind = outside, after something. at the back = the back part inside it: at the back of the cinema.",
+          "tr": {},
+          "check": { "gap": "The car park is ___ the supermarket.", "answer": "b" }
         },
         {
-          "id": "nach-hinten", "level": "A2",
-          "a": { "w": "nach hinten", "pos": "Wohin? ohne Nomen", "ex": "Gehen Sie bitte <b>nach hinten</b>." },
-          "b": { "w": "hinter", "pos": "Wohin? + Akkusativ", "ex": "Ich stelle das Fahrrad <b>hinter</b> das Haus." },
-          "why": "Wohin ohne Nomen: „nach hinten“. Wohin mit Nomen: „hinter“ + Akkusativ.",
-          "tr": { "en": "Where to, without a noun: „nach hinten“. Where to, with a noun: „hinter“ + accusative.", "ar": "إلى أين بدون اسم: „nach hinten“. إلى أين مع اسم: „hinter“ + حالة النصب.", "uk": "Куди без іменника: „nach hinten“. Куди з іменником: „hinter“ + знахідний.", "tr": "İsimsiz nereye: „nach hinten“. İsimle nereye: „hinter“ + Akkusativ." },
-          "check": { "gap": "Im Bus ist vorne kein Platz. Gehen Sie bitte nach ___!", "options": ["hinten", "hinter"],"answer": "a" }
+          "id": "front-in-front-of", "level": "A1",
+          "a": { "w": "in front of", "pos": "preposition: just before something", "ex": "There's a bus stop <b>in front of</b> the school." },
+          "b": { "w": "at the front", "pos": "in the front part (of something)", "ex": "The driver sits <b>at the front</b> of the bus." },
+          "why": "in front of = outside, before it. at the front = the front part inside it.",
+          "tr": {},
+          "check": { "gap": "I want to sit ___ in class so I can see the board.", "answer": "b" }
+        },
+        {
+          "id": "opposite", "level": "A2",
+          "a": { "w": "opposite", "pos": "on the other side, facing it", "ex": "The bank is <b>opposite</b> the station." },
+          "b": { "w": "in front of", "pos": "just before it, same side", "ex": "The taxi stopped <b>in front of</b> our house." },
+          "why": "opposite = across the road or room, facing it. in front of = directly before it, on the same side.",
+          "tr": {},
+          "check": { "gap": "The café is ___ the park, on the other side of the road.", "answer": "a" }
         }
       ]
     }

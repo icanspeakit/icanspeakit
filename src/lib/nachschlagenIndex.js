@@ -55,7 +55,7 @@ export function nachschlagenEntries({ nouns: withNouns = true } = {}) {
     out.push([c.name, c.also ?? "", `/grammatik/wortarten#${c.id}`, "wortart", c.also ?? ""]);
   }
   for (const p of fehlerPairs) {
-    out.push([`${p.a.w} oder ${p.b.w}`, strip(p.why ?? ""), `/grammatik/typische-fehler#${p.id}`, "fehler", ""]);
+    out.push([`${p.a.w} or ${p.b.w}`, strip(p.why ?? ""), `/grammatik/typische-fehler#${p.id}`, "fehler", ""]);
   }
   if (withNouns) {
     const seen = new Set();

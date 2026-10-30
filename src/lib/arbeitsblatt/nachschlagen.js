@@ -220,17 +220,17 @@ function fehlerTopic() {
   return {
     id: "typische-fehler",
     slug: "typische-fehler",
-    name: "Typische Fehler: Wörter, die man verwechselt",
+    name: "Common mistakes: words people mix up",
     level: "A1",
-    subtitle: "man oder Mann, das oder dass, seid oder seit",
+    subtitle: "its or it's, then or than, your or you're",
     reference: "/grammatik/typische-fehler",
     concept: { qa: fehlerGroups.map((g) => g.pairs[0]).map((p) => ({ html: ruleHtml(`*${p.a.w}* ≠ *${p.b.w}*: ${p.why}`) })) },
     exercises: fehlerGroups.map((g) => ({
       type: "table",
-      title: `${g.title}: Welches Wort passt?`,
+      title: `${g.title}: Which word fits?`,
       hint: g.lead,
       // The two words in the task itself, so the Tandembogen (which reads only the task) has them too.
-      columns: ["Satz", "Lösung"],
+      columns: ["Sentence", "Answer"],
       rows: g.pairs.map((p) => ({ term: `${p.check.gap} (${optionsOf(p).join(" / ")})`, answer: answerOf(p) })),
     })),
   };
