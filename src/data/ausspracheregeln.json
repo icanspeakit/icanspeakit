@@ -1,171 +1,176 @@
 {
-  "_note": "Die Ausspracheregeln in der rechten Spalte von /aussprache (AusspracheRegeln.astro). `match` ist ein regulärer Ausdruck, geprüft am kleingeschriebenen Wort ohne Artikel: trifft er, steht die Regel unter „Für dieses Wort“. Ohne `match` gilt die Regel allgemein und wird nie hervorgehoben. Deutsch noch nicht von einer Lehrkraft geprüft.",
+  "_note": "The English pronunciation rules in the right-hand column of /aussprache (AusspracheRegeln.astro). `match` is a regular expression tested on the lower-case word without an article: if it matches, the rule is listed under “For this word”. A rule without `match` is general and is never highlighted. `mark` (optional) is the stressed syllable, shown in bold. British English (modern Standard Southern British), US notes where useful. Rule ids are the old slot ids (content-plan §1.3). Not yet reviewed by a teacher.",
   "reviewed": false,
   "rules": [
     {
       "id": "betonung",
-      "title": "Betonung",
-      "text": "Deutsche Wörter betont man meist auf der ersten Silbe. Die Vorsilben be-, ge-, ver-, zer-, ent- sind nie betont. Wörter aus anderen Sprachen betont man oft hinten.",
+      "title": "Word stress",
+      "text": "Every English word with two or more syllables has one strong syllable. Most nouns and adjectives with two syllables are strong at the start. Many verbs with two syllables are strong at the end. Words that end in -tion or -sion are strong just before the ending. The other syllables are short and weak.",
       "examples": [
-        { "w": "Arbeit", "mark": "Ar" },
-        { "w": "bezahlen", "mark": "zah" },
-        { "w": "verstehen", "mark": "ste" },
-        { "w": "Musik", "mark": "sik" }
+        { "w": "water", "mark": "wa" },
+        { "w": "begin", "mark": "gin" },
+        { "w": "information", "mark": "ma" },
+        { "w": "photograph", "mark": "pho" },
+        { "w": "photographer", "mark": "tog" }
       ],
-      "match": "^(be|ge|ver|zer|ent)."
+      "match": "(tion|sion)$"
     },
     {
       "id": "lang-kurz",
-      "title": "Langer oder kurzer Vokal",
-      "text": "Lang ist ein Vokal mit h danach, doppelt geschrieben oder vor nur einem Konsonanten. Kurz ist er vor zwei Konsonanten oder einem Doppelkonsonanten.",
+      "title": "Short i or long ee",
+      "text": "The vowel in ship /ɪ/ is short and relaxed. The vowel in sheep /iː/ is long, and your lips are spread, as in a smile. ee is always long. ea is usually long, but a few common words have a short e /e/: bread, head, weather.",
       "examples": [
-        { "w": "fahren", "note": "lang" },
-        { "w": "Boot", "note": "lang" },
-        { "w": "Name", "note": "lang" },
-        { "w": "Mann", "note": "kurz" },
-        { "w": "kommen", "note": "kurz" }
+        { "w": "ship", "note": "short /ɪ/" },
+        { "w": "sheep", "note": "long /iː/" },
+        { "w": "live", "note": "short /ɪ/" },
+        { "w": "leave", "note": "long /iː/" },
+        { "w": "bread", "note": "short /e/" }
       ],
-      "match": "[aeiouäöü]h|aa|ee|oo|(ll|mm|nn|ss|tt|pp|ff|rr|ck)"
+      "match": "ee|ea"
     },
     {
       "id": "umlaute",
-      "title": "ä, ö, ü",
-      "text": "ä klingt wie e. Für ö sagst du e und machst die Lippen rund. Für ü sagst du i und machst die Lippen rund.",
+      "title": "The weak vowel /ə/",
+      "text": "/ə/ is the most common sound in English: a short, quiet “uh”. Weak syllables often have it, whatever the spelling. Small words like a, to, of, and, for are weak in a sentence too: a cup of tea = /ə kʌp əv tiː/.",
       "examples": [
-        { "w": "Männer", "note": "ä wie e" },
-        { "w": "schön", "note": "e + runde Lippen" },
-        { "w": "Tür", "note": "i + runde Lippen" },
-        { "w": "müde" }
+        { "w": "about", "note": "a = /ə/" },
+        { "w": "teacher", "note": "-er = /ə/" },
+        { "w": "doctor", "note": "-or = /ə/" },
+        { "w": "banana", "note": "first and last a = /ə/" },
+        { "w": "a cup of tea", "note": "of = /əv/" }
       ],
-      "match": "[äöü]"
+      "match": "[aeiouy][^aeiouy]+(er|or)$"
     },
     {
       "id": "ei-ie",
-      "title": "ei, ie, eu, au",
-      "text": "ei und ai klingen wie „ai“. ie ist ein langes i. eu und äu klingen wie „oi“. au klingt wie „au“. Achtung: Wein und Wien sind zwei verschiedene Wörter.",
+      "title": "Vowel + consonant + e",
+      "text": "When a word ends in vowel + consonant + e, the e is silent and the vowel says its letter name: hat → hate, kit → kite, hop → hope, cut → cute. Some very common words don't follow this rule: have, give, live, come, love, some.",
       "examples": [
-        { "w": "mein", "note": "ai" },
-        { "w": "Liebe", "note": "langes i" },
-        { "w": "heute", "note": "oi" },
-        { "w": "Häuser", "note": "oi" },
-        { "w": "Haus", "note": "au" }
+        { "w": "name", "note": "a = /eɪ/" },
+        { "w": "time", "note": "i = /aɪ/" },
+        { "w": "home", "note": "o = /əʊ/" },
+        { "w": "cute", "note": "u = /juː/" },
+        { "w": "come", "note": "not this rule: /kʌm/" }
       ],
-      "match": "ei|ai|ie|eu|äu|au"
+      "match": "[aeiou][^aeiouyr]e$"
     },
     {
       "id": "ch",
-      "title": "ch: hinten oder vorne",
-      "text": "Nach a, o, u und au spricht man ch hinten im Hals (ach-Laut). Sonst spricht man es vorne, wie ein leises Zischen (ich-Laut). chs klingt wie ks.",
+      "title": "th: /θ/ and /ð/",
+      "text": "Put the tip of your tongue between your teeth and push air out. In think and three, it is only air /θ/. In this, the and mother, you use your voice too /ð/. It is not s, t, f, z or d: think ≠ sink, three ≠ tree.",
       "examples": [
-        { "w": "Nacht", "note": "hinten" },
-        { "w": "Buch", "note": "hinten" },
-        { "w": "ich", "note": "vorne" },
-        { "w": "Milch", "note": "vorne" },
-        { "w": "sechs", "note": "ks" }
+        { "w": "think", "note": "/θ/, only air" },
+        { "w": "three", "note": "/θ/" },
+        { "w": "this", "note": "/ð/, with voice" },
+        { "w": "mother", "note": "/ð/" }
       ],
-      "match": "(^|[^s])ch"
+      "match": "th"
     },
     {
       "id": "ig",
-      "title": "-ig am Ende",
-      "text": "-ig am Wortende spricht man wie „ich“.",
+      "title": "-ed: /t/, /d/ or /ɪd/",
+      "text": "The past ending -ed has three sounds. After p, k, s, sh, ch, f, x it is /t/: helped, watched. After other sounds it is /d/: played, lived. Only after t and d is it a new syllable /ɪd/: wanted, needed.",
       "examples": [
-        { "w": "zwanzig" },
-        { "w": "König" },
-        { "w": "richtig" }
+        { "w": "walked", "note": "/t/" },
+        { "w": "played", "note": "/d/" },
+        { "w": "wanted", "note": "/ɪd/" },
+        { "w": "needed", "note": "/ɪd/" }
       ],
-      "match": "ig$"
+      "match": "^(?!(hundred|naked|wicked|sacred)$).{2,}[^e]ed$"
     },
     {
-      "id": "sch-sp-st",
-      "title": "sch, sp, st",
-      "text": "sch klingt wie „sch“ in Schule. Am Wortanfang klingen sp und st wie „schp“ und „scht“. In der Mitte oder am Ende spricht man s + p und s + t.",
+      "id": "sch-st-sp",
+      "title": "sp, st, sk at the start",
+      "text": "Many English words start with two or three consonants: sp, st, sk, sm, sn, sl, str, spr. Say them together. Don't put a vowel before them: school, not “eschool”, and street, not “istreet”.",
       "examples": [
-        { "w": "Schule" },
-        { "w": "Sport", "note": "schp" },
-        { "w": "Straße", "note": "scht" },
-        { "w": "Fenster", "note": "s + t" }
+        { "w": "speak" },
+        { "w": "street" },
+        { "w": "school" },
+        { "w": "small" },
+        { "w": "spring" }
       ],
-      "match": "sch|^(be|ge|ver|ent|zer)?(sp|st)"
+      "match": "^s(p|t|k|m|n|l|w|c(?![eiy]))"
     },
     {
       "id": "s",
-      "title": "s, ss, ß",
-      "text": "s vor einem Vokal ist weich und summt, wie eine Biene. ss und ß sind immer scharf.",
+      "title": "-s: /s/, /z/ or /ɪz/",
+      "text": "Plurals (cats) and verbs after he, she, it (he works) end in -s. After p, t, k, f it is /s/: cats, books. After other sounds it is /z/: dogs, plays. After s, z, sh, ch, ge it is a new syllable /ɪz/: buses, watches, oranges.",
       "examples": [
-        { "w": "Sonne", "note": "weich" },
-        { "w": "lesen", "note": "weich" },
-        { "w": "essen", "note": "scharf" },
-        { "w": "Straße", "note": "scharf" }
-      ],
-      "match": "^s[aeiouäöü]|[aeiouäöü]s[aeiouäöü]|ss|ß"
+        { "w": "cats", "note": "/s/" },
+        { "w": "dogs", "note": "/z/" },
+        { "w": "plays", "note": "/z/" },
+        { "w": "watches", "note": "/ɪz/" }
+      ]
     },
     {
       "id": "auslaut",
-      "title": "b, d, g am Ende",
-      "text": "Am Ende eines Wortes oder einer Silbe werden b, d, g hart: wie p, t, k. In der Mehrzahl (Hunde, Tage) sind sie wieder weich.",
+      "title": "b, d, g, v, z at the end",
+      "text": "At the end of an English word, b, d, g, v and z keep their voice. Don't change them to p, t, k, f, s: bad ≠ bat, bag ≠ back, prize ≠ price. The vowel before them is also a little longer.",
       "examples": [
-        { "w": "gelb", "note": "p" },
-        { "w": "Hund", "note": "t" },
-        { "w": "Tag", "note": "k" },
-        { "w": "Tage", "note": "g" }
+        { "w": "bad", "note": "not bat" },
+        { "w": "bag", "note": "not back" },
+        { "w": "have", "note": "/v/, not f" },
+        { "w": "size", "note": "/z/, not s" }
       ],
-      "match": "[bdg]$|[bdg]t$"
+      "match": "[bdgvz]$|[bdgvz]e$"
     },
     {
       "id": "r",
-      "title": "r und -er",
-      "text": "Am Silbenanfang spricht man r hinten im Hals. Am Wortende klingt -er fast wie ein kurzes a. Nach einem langen Vokal ist r kaum zu hören.",
+      "title": "r: only before a vowel",
+      "text": "In British English you say r only before a vowel sound: red, very, sorry. After a vowel, r is silent and the vowel is often long: car /kɑː/, card /kɑːd/, teacher /ˈtiːtʃə/. When the next word starts with a vowel, the r comes back: far away. US English says every r.",
       "examples": [
-        { "w": "rot", "note": "r hinten" },
-        { "w": "Vater", "note": "-er ≈ a" },
-        { "w": "Lehrer", "note": "-er ≈ a" },
-        { "w": "Uhr", "note": "r leise" }
+        { "w": "red", "note": "r" },
+        { "w": "car", "note": "/kɑː/, no r" },
+        { "w": "bird", "note": "/bɜːd/, no r" },
+        { "w": "more", "note": "/mɔː/, no r" }
       ],
-      "match": "er$|ern$|r$"
+      "match": "r$|r[^aeiouyr]|[aeiou]re$"
     },
     {
       "id": "h",
       "title": "h",
-      "text": "Am Wort- oder Silbenanfang hört man h als Hauch. Nach einem Vokal ist h stumm: Es macht den Vokal nur lang.",
+      "text": "h at the start of a word is a soft breath, like breathing on a cold window: house, happy. Don't leave it out (hear ≠ ear) and don't make it hard in the throat. A few words have a silent h: hour, honest, honour. So we say an hour.",
       "examples": [
-        { "w": "Haus", "note": "Hauch" },
-        { "w": "gehen", "note": "stumm" },
-        { "w": "Sohn", "note": "stumm" }
+        { "w": "house", "note": "breath" },
+        { "w": "happy", "note": "breath" },
+        { "w": "hour", "note": "silent h" },
+        { "w": "honest", "note": "silent h" }
       ],
-      "match": "^h|[aeiouäöü]h"
+      "match": "^h"
     },
     {
       "id": "buchstaben",
-      "title": "w, v, z, j, qu, pf",
-      "text": "w klingt wie englisches v. v klingt meist wie f, in Fremdwörtern wie w. z und tz klingen wie „ts“. j klingt wie englisches y. qu ist „kw“. Bei pf hört man p und f.",
+      "title": "w and v",
+      "text": "For w, make your lips small and round, as for “oo”, then open them: we, water, what. Your teeth don't touch your lips. For v, put your top teeth on your bottom lip and use your voice: very, van. wine and vine are two different words.",
       "examples": [
-        { "w": "Wasser", "note": "w = v" },
-        { "w": "Vater", "note": "v = f" },
-        { "w": "Zeit", "note": "ts" },
-        { "w": "ja", "note": "j = y" },
-        { "w": "Apfel", "note": "p + f" }
+        { "w": "we", "note": "round lips" },
+        { "w": "water", "note": "round lips" },
+        { "w": "very", "note": "teeth on lip" },
+        { "w": "seven", "note": "teeth on lip" }
       ],
-      "match": "w|v|z|^j|qu|pf"
+      "match": "^w[aeiouy]|^wh[aeiy]|v"
     },
     {
       "id": "e-ende",
-      "title": "-e und -en am Ende",
-      "text": "-e am Ende ist kurz und schwach, aber man hört es. Bei -en hört man oft nur das n.",
+      "title": "Silent letters",
+      "text": "Some letters are written but not said. k before n at the start: know, knife. w before r: write, wrong. b after m at the end: climb, comb. l in walk, talk, half. gh in night, light, daughter.",
       "examples": [
-        { "w": "bitte" },
-        { "w": "Name" },
-        { "w": "machen", "note": "≈ machn" }
+        { "w": "know", "note": "silent k" },
+        { "w": "write", "note": "silent w" },
+        { "w": "climb", "note": "silent b" },
+        { "w": "walk", "note": "silent l" },
+        { "w": "night", "note": "silent gh" }
       ],
-      "match": "e$|en$"
+      "match": "^kn|^wr|mb$|alk$|alf$|ight"
     },
     {
       "id": "knacklaut",
-      "title": "Neuer Einsatz vor Vokalen",
-      "text": "Beginnt ein Wort oder eine Silbe mit einem Vokal, macht man vorher einen kleinen Stopp. Man verbindet die Wörter nicht.",
+      "title": "Linking words",
+      "text": "In normal speech, English joins a word that ends in a consonant to a next word that starts with a vowel. There is no stop between them: an apple sounds like “a napple”, get up like “ge tup”.",
       "examples": [
-        { "w": "am Abend", "note": "am | Abend" },
-        { "w": "beenden", "note": "be | enden" }
+        { "w": "an apple", "note": "a‿napple" },
+        { "w": "get up", "note": "ge‿tup" },
+        { "w": "turn it off", "note": "tur‿ni‿toff" }
       ]
     }
   ]
