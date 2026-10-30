@@ -45,14 +45,19 @@ function Toast($title, $body) {
   try { Start-Process -WindowStyle Hidden -FilePath 'powershell.exe' -ArgumentList '-NoProfile', '-Command', $ps | Out-Null } catch {}
 }
 
-# Keep Windows awake while the loop works or waits for a 5-hour reset (the screen may still
-# turn off). Released when the script ends, so the laptop can sleep during a weekly pause.
-# Closing the lid still sleeps the laptop unless its lid action is "Do nothing".
+# Keep Windows awake while the loop works or waits for a 5-hour reset. Released when the script
+# ends, so the laptop can sleep during a weekly pause.
+# This laptop uses Modern Standby (S0 low power idle, network disconnected): once the screen
+# goes dark it enters standby, cuts the network and throttles everything, whatever
+# ES_SYSTEM_REQUIRED says (2026-10-30: a 41 s build took over 16 min from 03:33). So the screen
+# is kept on too (ES_DISPLAY_REQUIRED), and the request is renewed every minute.
+# Closing the lid still sends the laptop to standby.
 try {
   Add-Type -Namespace EA -Name Power -MemberDefinition '[DllImport("kernel32.dll")] public static extern uint SetThreadExecutionState(uint esFlags);' -ErrorAction Stop
 } catch {}
 function KeepAwake([bool]$on) {
-  try { [void][EA.Power]::SetThreadExecutionState($(if ($on) { [uint32]'0x80000001' } else { [uint32]'0x80000000' })) } catch {}
+  # 0x80000003 = ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED
+  try { [void][EA.Power]::SetThreadExecutionState($(if ($on) { [uint32]'0x80000003' } else { [uint32]'0x80000000' })) } catch {}
 }
 
 # Weekly-cap pause inside the loop: the laptop may sleep meanwhile (no keep-awake). Ends when
@@ -188,6 +193,7 @@ try {
           # Watchdog: once a minute, stop the item if usage crossed a cap (its commits stay).
           if (((Get-Date) - $script:lastCheck).TotalSeconds -ge 60) {
             $script:lastCheck = Get-Date
+            KeepAwake $true
             $c = OverCap
             if ($c -and -not $script:capped) {
               $script:capped = $c
@@ -225,6 +231,7 @@ try {
       # clears the wait (status no longer 'waiting') and the loop continues at once.
       while ((Get-Date) -lt $until) {
         Start-Sleep -Seconds 30
+        KeepAwake $true
         $st = ReadStatus
         if (-not $st -or $st.state -ne 'waiting') { break }
       }
