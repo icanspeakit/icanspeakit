@@ -365,7 +365,7 @@ export function createLiveUebung(data, topic) {
       panel.classList.add("lu-panel--eval");
       panel.innerHTML = `
         <header class="lu-head">
-          <div class="lu-head-t"><b>Auswertung</b><span>${esc(title)} · ${new Date().toLocaleDateString("de-DE")}</span></div>
+          <div class="lu-head-t"><b>Auswertung</b><span>${esc(title)} · ${new Date().toLocaleDateString("en-GB")}</span></div>
           <button type="button" class="lu-btn" data-lu-print>Drucken / als PDF</button>
           <button type="button" class="lu-btn${fromLesson ? "" : " lu-btn--main"}" data-lu-close>Schließen</button>
           ${fromLesson ? `<button type="button" class="lu-btn lu-btn--main" data-lu-lesson>‹ Zurück zur Stunde</button>` : ""}

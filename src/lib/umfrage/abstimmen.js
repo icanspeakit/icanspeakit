@@ -202,7 +202,7 @@ export async function mountAbstimmen(root) {
           return `<label class="uf-opt">
             <input type="${type}" name="opt" value="${esc(o.id)}" ${chosen.includes(o.id) ? "checked" : ""} />
             ${o.emoji ? `<span class="uf-opt-ic" aria-hidden="true">${o.emoji}</span>` : ""}
-            <span class="uf-opt-text" ${o.k ? "" : 'lang="de" dir="ltr"'}>${esc(label)}</span>
+            <span class="uf-opt-text" ${o.k ? "" : 'lang="en" dir="ltr"'}>${esc(label)}</span>
           </label>`;
         })
         .join("");

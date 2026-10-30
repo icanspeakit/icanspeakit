@@ -8,7 +8,7 @@ import { loadText, t } from "../liveQuiz/text.js";
 import { ANZAHLEN, MAX_TESTS, PRO_NIVEAU, meineTests, testAnlegen, testLoeschen, testOffen } from "./daten.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-const datum = (iso) => new Date(iso).toLocaleDateString("de-DE", { day: "numeric", month: "short", year: "numeric" });
+const datum = (iso) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 const GENERIC = ["kl.t.err.generic", "Das hat gerade nicht geklappt. Prüfe die Internetverbindung und versuch es noch einmal."];
 const LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
 const davor = (n) => LEVELS[LEVELS.indexOf(n) - 1] ?? null;
@@ -279,7 +279,7 @@ export async function mountTests(root) {
       : t("kt.t.preview", "Die Fragen ansehen ({n})", { n: fragen.length });
     $("[data-preview-list]").innerHTML = fragen.map((f, i) => (f.open ? editor(f, i) : `<li>
         <span class="kt-pv-topic">${art() === "einstufung" && f.l ? `${esc(f.l)} · ` : ""}${esc(f.tn)}${f.edited && !f.eigen ? ` · ${esc(t("kt.t.edited", "bearbeitet"))}` : ""}</span>
-        <span class="kt-pv-q" lang="de">${esc(f.q)}</span>
+        <span class="kt-pv-q" lang="en">${esc(f.q)}</span>
         ${f.h ? `<span class="kt-pv-h">${esc(f.h)}</span>` : ""}
         ${f.typ === "text"
           ? `<span class="kt-pv-h">${esc(t("kt.t.pv.write", "Freier Text. Du bewertest ihn auf der Ergebnisseite."))}</span>`
@@ -309,7 +309,7 @@ export async function mountTests(root) {
     return `<li class="kt-ed" data-ed="${i}">
       <span class="kt-pv-topic">${esc(f.tn)}</span>
       <label class="lq-field"><span>${esc(t("kt.t.ed.q", "Frage (Lücke mit ___)"))}</span>
-        <textarea rows="2" maxlength="300" data-f="q" lang="de">${esc(f.q)}</textarea></label>
+        <textarea rows="2" maxlength="300" data-f="q" lang="en">${esc(f.q)}</textarea></label>
       <label class="lq-field"><span>${esc(t("kt.t.ed.h", "Hinweis (freiwillig)"))}</span>
         <input type="text" maxlength="120" data-f="h" value="${esc(f.h ?? "")}" /></label>
       <label class="lq-field kt-ed-right"><span>✓ ${esc(t("kt.t.ed.right", "Richtige Antwort"))}</span>

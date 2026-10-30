@@ -167,14 +167,14 @@ export async function mountTest(root) {
           ${task.source ? `<blockquote class="kt-source">${textHtml(task.source)}</blockquote>` : ""}
           ${task.points?.length ? `<ul>${task.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}
         </div>
-        <textarea class="uf-text kt-write" rows="10" maxlength="3000" data-write lang="de" aria-label="${esc(t("kt.s.write", "Dein Text"))}">${esc(chosen ?? "")}</textarea>
+        <textarea class="uf-text kt-write" rows="10" maxlength="3000" data-write lang="en" aria-label="${esc(t("kt.s.write", "Dein Text"))}">${esc(chosen ?? "")}</textarea>
         <p class="kl-muted kt-words" data-words>${esc(t("kt.s.words", "{n} Wörter", { n: words(chosen) }))}</p>`;
       return syncNav();
     }
     $("[data-opts]").innerHTML = (stand.order?.[stand.i]?.length ? stand.order[stand.i] : f.o ?? [])
       .map((o) => `<label class="uf-opt">
         <input type="radio" name="opt" value="${esc(o)}" ${o === chosen ? "checked" : ""} />
-        <span class="uf-opt-text" lang="de" dir="ltr">${esc(o)}</span>
+        <span class="uf-opt-text" lang="en" dir="ltr">${esc(o)}</span>
       </label>`)
       .join("");
     syncNav();
@@ -193,7 +193,7 @@ export async function mountTest(root) {
     if (!key) { box.innerHTML = ""; return; }
     const m = test.material?.[teil]?.[f.ref] ?? {};
     box.innerHTML = teil === "lesen"
-      ? `<details class="kt-text" open><summary>${esc(m.title ?? t("kt.t.teil.lesen", "Lesen"))}</summary><div lang="de">${textHtml(m.text)}</div></details>`
+      ? `<details class="kt-text" open><summary>${esc(m.title ?? t("kt.t.teil.lesen", "Lesen"))}</summary><div lang="en">${textHtml(m.text)}</div></details>`
       : `<div class="kt-audio"><p><strong>${esc(m.title ?? "")}</strong> · ${esc(t("kt.s.listen", "Hör zu. Du kannst den Text zweimal hören."))}</p><audio controls preload="auto" src="${esc(m.src ?? "")}"></audio></div>`;
   }
 
@@ -314,7 +314,7 @@ export async function mountTest(root) {
         }
         return `<li class="${ok ? "is-right" : "is-wrong"}">
           <span class="kt-mark" aria-hidden="true">${ok ? "✓" : "✗"}</span>
-          <span class="kt-q-text" lang="de">${esc(f.q)}</span>
+          <span class="kt-q-text" lang="en">${esc(f.q)}</span>
           ${antworten ? `<span class="kt-q-ans">${a == null ? `<em>${esc(t("kt.t.skipped", "übersprungen"))}</em>` : ok ? esc(a) : `<s>${esc(a)}</s>`}</span>` : ""}
         </li>`;
       }).join("")

@@ -14,7 +14,7 @@ const MODES = { synonym: "Synonyme", "de-meaning": "Wort → Bedeutung", "meanin
 
 const when = (iso) => {
   const d = new Date(iso);
-  return d.toLocaleDateString("de-DE", { day: "numeric", month: "short", year: "numeric" }) + ", " + d.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) + ", " + d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
 };
 
 function card(r) {

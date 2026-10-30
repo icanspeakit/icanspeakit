@@ -9,7 +9,7 @@ import { MAX_UMFRAGEN, meineUmfragen, umfrageAnlegen, umfrageLoeschen, umfrageOf
 import { MIN_SEK, ZEITEN, empfehlung, verteilung } from "./zeit.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-const datum = (iso) => new Date(iso).toLocaleDateString("de-DE", { day: "numeric", month: "short", year: "numeric" });
+const datum = (iso) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 const GENERIC = ["kl.t.err.generic", "Das hat gerade nicht geklappt. Prüfe die Internetverbindung und versuch es noch einmal."];
 
 export async function mountUmfragen(root) {

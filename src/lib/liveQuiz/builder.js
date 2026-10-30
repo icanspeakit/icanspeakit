@@ -211,8 +211,8 @@ export async function mountBuilder(root) {
               <label class="qb-item">
                 <input type="checkbox" data-src="${esc(it.src)}" ${has.has(it.src) ? "checked" : ""} />
                 ${it.t === "word"
-                  ? `<span class="qb-item-q" lang="de">${esc(it.de)}</span><span class="qb-item-a">${esc(it.en)}</span>`
-                  : `<span class="qb-item-q" lang="de">${esc(it.prompt)}</span><span class="qb-item-a" lang="de">✓ ${esc(it.options[it.correct])} <s>${it.options.filter((_, i) => i !== it.correct).map(esc).join(" · ")}</s></span>`}
+                  ? `<span class="qb-item-q" lang="en">${esc(it.de)}</span><span class="qb-item-a">${esc(it.en)}</span>`
+                  : `<span class="qb-item-q" lang="en">${esc(it.prompt)}</span><span class="qb-item-a" lang="en">✓ ${esc(it.options[it.correct])} <s>${it.options.filter((_, i) => i !== it.correct).map(esc).join(" · ")}</s></span>`}
               </label>`).join("")}
           </fieldset>`)
         .join("");
@@ -369,8 +369,8 @@ export async function mountBuilder(root) {
     $("[data-list]").innerHTML = draft.questions
       .map((q, i) => {
         const body = q.t === "word"
-          ? `<span class="qb-li-q" lang="de">${esc(q.label ?? q.id)}</span><span class="qb-li-a">${esc(q.dir === "meaning-de" ? t("lq.mode.meaningDeLabel", "Übersetzung → Deutsch") : t("lq.mode.deMeaningLabel", "Deutsch → Übersetzung"))}</span>`
-          : `${q.kind ? `<span class="qb-li-kind">${esc(q.kind)}</span>` : ""}<span class="qb-li-q" lang="de">${esc(q.prompt)}</span><span class="qb-li-a" lang="de">${q.options.map((o, k) => (k === q.correct ? `<b>✓ ${esc(o)}</b>` : esc(o))).join(" · ")}</span>`;
+          ? `<span class="qb-li-q" lang="en">${esc(q.label ?? q.id)}</span><span class="qb-li-a">${esc(q.dir === "meaning-de" ? t("lq.mode.meaningDeLabel", "Übersetzung → Deutsch") : t("lq.mode.deMeaningLabel", "Deutsch → Übersetzung"))}</span>`
+          : `${q.kind ? `<span class="qb-li-kind">${esc(q.kind)}</span>` : ""}<span class="qb-li-q" lang="en">${esc(q.prompt)}</span><span class="qb-li-a" lang="en">${q.options.map((o, k) => (k === q.correct ? `<b>✓ ${esc(o)}</b>` : esc(o))).join(" · ")}</span>`;
         return `
           <li class="${i === editing ? "is-editing" : ""}">
             <div class="qb-li-body">${body}</div>
