@@ -23,7 +23,7 @@ item, tick it by hand; to redo one, untick it. Add, remove or reorder items free
 - [x] `vocab-b1`: Lexicon and word decks, B1.
 - [x] `vocab-b2`: Lexicon and word decks, B2.
 - [x] `listening`: Listening texts (hoeren.json): English scripts (audio comes later, with a TTS provider).
-- [ ] `reading-writing`: Reading and writing tasks (lesen.json, schreiben pages).
+- [x] `reading-writing`: Reading and writing tasks (lesen.json, schreiben pages).
 - [ ] `speaking`: Speaking tasks and phrases (sprechen.json, sprechen-b1b2.json, redemittel.json).
 - [ ] `pronunciation`: Pronunciation rules, tongue twisters, sentence melody for English.
 - [ ] `idioms-mistakes`: Idioms, typical mistakes, false friends, slang, synonyms.
