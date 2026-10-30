@@ -82,6 +82,11 @@ const ERROR_CHECK = [
   "Write down the mistakes you make yourself, too. That is the point of the task.",
 ];
 
+const cardPoint = (pt) => {
+  const x = pt.replace(/^and /, "");
+  return x[0].toUpperCase() + x.slice(1);
+};
+
 function resolveSprechen(entry) {
   switch (entry.from) {
     case undefined:
@@ -93,7 +98,7 @@ function resolveSprechen(entry) {
       return {
         ...entry,
         image: pic.image,
-        prompt: "Beschreiben Sie das Bild. Danach stellt Ihnen die Prüferin Fragen zu Ihrer eigenen Erfahrung.",
+        prompt: "Describe the picture. After that, the examiner asks you about your own experience.",
         bullets: pic.beschreibung,
         followUps: pic.persoenlich,
       };
@@ -106,12 +111,14 @@ function resolveSprechen(entry) {
         image: p.image,
         prompt: diskussion
           ? p.diskussion
-          : `Kurzvortrag zum Thema „${p.kurzvortrag.topic}“. Beschreiben Sie zuerst das Bild, halten Sie dann Ihren Vortrag.`,
+          : `First talk about the photo for one minute. Then take one minute to make notes and talk for up to two minutes. Topic card: ${p.kurzvortrag.topic.replace(/ You should say:$/, "")}`,
         bullets: diskussion
-          ? ["Nehmen Sie klar Stellung.", "Nennen Sie zwei Argumente.", "Gehen Sie auf den Einwand Ihres Gegenübers ein.", "Fassen Sie Ihre Position am Ende zusammen."]
-          : [...p.beschreibung, ...p.kurzvortrag.points],
+          ? ["Say clearly what you think.", "Give two reasons, each with an example.", "Answer the other person's objection.", "Sum up your position at the end."]
+          // The card's points read on from "You should say:"; as bullets of their own they
+          // start with a capital and drop the "and" before the last one.
+          : [...p.beschreibung, ...p.kurzvortrag.points.map(cardPoint)],
         href: "/sprechen-b1b2",
-        hrefLabel: "im Kurzvortrag-Trainer",
+        hrefLabel: "in the long-turn trainer",
       };
     }
     default:
