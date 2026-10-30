@@ -17,7 +17,7 @@ export const saetze = [...Object.values(files), ...paidManifest.saetze].sort(
   (a, b) => a.exam.localeCompare(b.exam) || LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level) || a.slug.localeCompare(b.slug),
 );
 
-export const EXAM_NAMES = { goethe: "Goethe-Zertifikat", telc: "telc Deutsch" };
+export { EXAM_NAMES, examLabel } from "./names.js";
 
 export const saetzeOf = (exam) => saetze.filter((s) => s.exam === exam);
 export const hrefOf = (set) => `/${set.exam}/${set.slug}`;

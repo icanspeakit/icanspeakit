@@ -25,8 +25,7 @@ import fsIndex from "../../data/fuehrerschein/fragen-index.json";
 import { qidsOfPart } from "../dtzTrainer.js";
 // Ids only, written by scripts/check-pruefungen.mjs: the full sets stay out of this bundle.
 import saetzeIndex from "../../data/pruefungen/saetze-index.json";
-
-const EXAM_NAMES = { goethe: "Goethe-Zertifikat", telc: "telc Deutsch" };
+import { examLabel } from "./names.js";
 
 const idsOf = (part) => part.items.map((i) => i.id);
 
@@ -134,7 +133,7 @@ export const examRegistry = [
   // The Übungssätze on the generic engine (src/data/pruefungen/saetze/): one entry per file.
   ...saetzeIndex.map((set) => ({
     id: set.id,
-    title: `${EXAM_NAMES[set.exam]} ${set.level}`,
+    title: examLabel(set),
     subtitle: set.title,
     level: set.level,
     href: `/${set.exam}/${set.slug}`,
@@ -143,7 +142,7 @@ export const examRegistry = [
     passNote: set.scoring?.note ?? "",
     passPct: set.scoring?.passPct ?? 60,
     modules: set.modules.flatMap((m) =>
-      m.parts.map((p) => ({ key: `${m.key}-${p.teil}`, label: `${m.name} · Teil ${p.teil}`, ids: p.ids, scored: p.scored })),
+      m.parts.map((p) => ({ key: `${m.key}-${p.teil}`, label: `${m.name} · Part ${p.teil}`, ids: p.ids, scored: p.scored })),
     ),
   })),
 ];
