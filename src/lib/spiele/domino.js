@@ -1,6 +1,6 @@
 // Domino: a closed ring of tiles to cut out. Where two tiles touch, the right half of one
-// and the left half of the next belong together — "die | Lampe", "die Lampen | die Lampe",
-// "lamp | die Lampe" — and the last tile leads back to the first.
+// and the left half of the next belong together — "an | apple", "a lamp | lamps",
+// "a lamp | a light you can switch on" — and the last tile leads back to the first.
 //
 // Tile i is [A of item i | B of item i+1], so each joint reads B then A of the same item.
 // The tiles print in shuffled order (a ring printed in order is already solved); the
@@ -8,9 +8,9 @@
 import { chunk, esc, MEANING_LANGS, rng, sheet, shuffle, tx } from "./common.js";
 
 export const DOMINO_TYPES = {
-  artikel: { label: "der / die / das" },
+  artikel: { label: "a / an / some" },
   plural: { label: "Plural" },
-  bedeutung: { label: "Wort ↔ Bedeutung" },
+  bedeutung: { label: "Word ↔ meaning" },
 };
 
 /** The items a ring can be built from, per type, with duplicates on either side removed. */
@@ -22,19 +22,19 @@ function itemsFor(words, type, lang) {
     let a;
     let b;
     if (type === "artikel") {
-      if (w.pos !== "noun" || !["der", "die", "das"].includes(w.gender)) continue;
+      if (w.pos !== "noun" || !["a", "an", "some"].includes(w.gender)) continue;
       a = w.lemma;
       b = w.gender;
     } else if (type === "plural") {
-      if (w.pos !== "noun" || !w.gender || !w.plural) continue;
+      if (w.pos !== "noun" || !w.gender || !w.plural || w.plural === w.lemma) continue;
       a = `${w.gender} ${w.lemma}`;
-      b = `die ${w.plural}`;
+      b = w.plural;
     } else {
       if (!w[lang]) continue;
       a = w.display;
       b = w[lang];
     }
-    // Articles repeat by nature (only three of them); every other B must be unique, or two
+    // Articles repeat by nature (a, an, some); every other B must be unique, or two
     // tiles would fit the same joint for a reason the game does not intend.
     if (seenA.has(a) || (type !== "artikel" && seenB.has(b))) continue;
     seenA.add(a);
@@ -91,14 +91,14 @@ export function renderDomino(state, data) {
   const html = [
     ...tilePages.map((list) =>
       sheet(
-        `<p class="sp-sheet-sub">${esc(label)} · ${tiles.length} Steine · entlang der gestrichelten Linien ausschneiden</p>
+        `<p class="sp-sheet-sub">${esc(label)} · ${tiles.length} tiles · cut along the dashed lines</p>
          <div class="sp-dom-grid">${list.map(tileHtml).join("")}</div>`,
         { title, page: ++page, pages },
       ),
     ),
     sheet(
-      `<h2 class="sp-sheet-h">Lösung</h2>
-       <p class="sp-sheet-sub">${esc(label)} · Die Kette schließt sich: Der letzte Stein passt wieder an den ersten.</p>
+      `<h2 class="sp-sheet-h">Answers</h2>
+       <p class="sp-sheet-sub">${esc(label)} · The chain closes: the last tile fits the first one again.</p>
        <ol class="sp-dom-solution">${tiles.map((t) => `<li>${half(t.left)} <span class="sp-dom-sep">|</span> ${half(t.right, rtlB)}</li>`).join("")}</ol>`,
       { title, page: ++page, pages },
     ),
@@ -110,6 +110,6 @@ export function renderDomino(state, data) {
     error: !closes,
     status: closes
       ? tx("sp.domino.ok", "{n} Steine, geschlossene Kette, jeder Stein einmal.", { n: tiles.length })
-      : "Interner Fehler: Die Kette schließt sich nicht.",
+      : "Internal error: the chain does not close.",
   };
 }

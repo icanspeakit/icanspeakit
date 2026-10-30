@@ -1,13 +1,13 @@
-// Wörter erklären: speaking cards, Tabu-style. One student explains the word on the card,
+// Explain the word: speaking cards, taboo-style. One student explains the word on the card,
 // the group guesses, and the word itself may not be said.
 //
-// "Verbotene Wörter" only when there are real ones. A random word from the same Lernset is
-// not forbidden for any reason — "Name" with "Hose" and "Bahnhof" teaches nothing — so a
-// word counts as related only if one contains the other (Zimmer → Schlafzimmer, Reise →
-// reisen, Mieter → Vermieter) or both are built on a third word of the Lernset (Vorname ↔
-// Nachname, both on Name). Those are exactly the words a student reaches for first when
-// explaining. Words from the example sentence were tried and dropped: "Kollegin" forbidding
-// "Urlaub" only because the example mentions a holiday is noise. With no related word the
+// Forbidden words only when there are real ones. A random word from the same Lernset is
+// not forbidden for any reason — "name" with "trousers" and "station" teaches nothing — so a
+// word counts as related only if one contains the other (room → bedroom, rent → rental,
+// ticket → ticket office) or both are built on a third word of the Lernset (first name ↔
+// surname share nothing, but bus stop ↔ bus station both build on bus). Those are exactly the words a student reaches for first when
+// explaining. Words from the example sentence were tried and dropped: "colleague" forbidding
+// "holiday" only because the example mentions a holiday is noise. With no related word the
 // card shows the rule line instead, which is honest about what the card is.
 import { chunk, esc, rng, sheet, shuffle, tx } from "./common.js";
 
@@ -49,14 +49,14 @@ export function renderErklaeren(state, data) {
   if (!data.words.length) return { html: "", status: tx("sp.pickSet", "Wähle mindestens ein Lernset."), error: true };
   const cards = buildCards(data.words, { count, seed: state.seed });
   const pages = chunk(cards, 8);
-  const title = "Wörter erklären";
+  const title = "Explain the word";
   const cardHtml = ({ word, forbidden }) => `<div class="sp-card">
       <div class="sp-card-meta"><span>${esc(word.unitTitle)}</span><span>${esc(data.level)}</span></div>
       <div class="sp-card-word">${esc(word.display)}</div>
       ${
         forbidden.length
-          ? `<div class="sp-card-forbid"><span class="sp-card-forbid-h">Nicht sagen:</span>${forbidden.map((f) => `<span>${esc(f)}</span>`).join("")}</div>`
-          : `<div class="sp-card-rule">Erklär das Wort, ohne es zu sagen — 60 Sekunden.</div>`
+          ? `<div class="sp-card-forbid"><span class="sp-card-forbid-h">Don't say:</span>${forbidden.map((f) => `<span>${esc(f)}</span>`).join("")}</div>`
+          : `<div class="sp-card-rule">Explain the word without saying it — 60 seconds.</div>`
       }
     </div>`;
   const html = pages.map((list, i) => sheet(`<div class="sp-card-grid">${list.map(cardHtml).join("")}</div>`, { title, page: i + 1, pages: pages.length })).join("");

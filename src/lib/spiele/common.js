@@ -74,7 +74,7 @@ export function loadLevel(level) {
             const w = Object.fromEntries(WORD_FIELDS.map((f, i) => [f, row[i]]));
             w.unitId = units[w.unit].id;
             w.unitTitle = units[w.unit].title;
-            // "der Tisch" for a noun, the bare lemma for everything else.
+            // "a table" / "some water" for a noun, the bare lemma for everything else.
             w.display = w.pos === "noun" && w.gender ? `${w.gender} ${w.lemma}` : w.lemma;
             return w;
           });
