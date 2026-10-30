@@ -20,7 +20,7 @@ item, tick it by hand; to redo one, untick it. Add, remove or reorder items free
 - [x] `grammar-start-book`: The free starter grammar book (src/data/grammatik-start/*, scripts/generate-grammatik-start-pdf.mjs) as "English Grammar Start A1–B1": English base content (examples, tables, exercises), generator reads it instead of de.json, explanations in the help languages only where reliable (see content-plan §3 side files; split off by `grammar-structure`).
 - [x] `vocab-a1`: Lexicon and word decks, A1 (src/content/lexicon, wortschatz.json).
 - [x] `vocab-a2`: Lexicon and word decks, A2.
-- [ ] `vocab-b1`: Lexicon and word decks, B1.
+- [x] `vocab-b1`: Lexicon and word decks, B1.
 - [ ] `vocab-b2`: Lexicon and word decks, B2.
 - [ ] `listening`: Listening texts (hoeren.json): English scripts (audio comes later, with a TTS provider).
 - [ ] `reading-writing`: Reading and writing tasks (lesen.json, schreiben pages).
