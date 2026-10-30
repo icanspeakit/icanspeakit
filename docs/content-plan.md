@@ -396,6 +396,23 @@ speakers (`deutsch`); the drills `w-v`, `th` and `auslaut` fit them.
 | `wortfallen.json` | false friends per first language (German: *become/bekommen, actual/aktuell*; Spanish: *embarrassed/embarazada*…) | `idioms-mistakes` |
 | `synonyme.json` | English synonyms with register/collocation differences | `idioms-mistakes` |
 
+**Done by `idioms-mistakes` (2026-10-30):** all six files are English (British English), same
+keys and shapes. `redewendungen.json`: 60 entries (48 idioms in the 8 theme slots, 12 proverbs),
+B1–C1, all `entwurf`; field names stay German (`de` = the English idiom, `en` = a plain-English
+paraphrase, shown as “In plain words”); every entry cites its Wiktionary page, and an origin is
+told only where Wiktionary's etymology supports it, otherwise the text says it is unknown.
+`umgangssprache.json`: informal British English, slang and mild-to-strong swearing (no slurs),
+the UK law note (Public Order Act 1986). `typische-fehler.json`: 32 pairs in the same 5 group
+ids; `tr`/`regelTr` are `{}` (English is the only help language); `wortarten.json` `fehler`
+links point to them. `wortfallen.json`: 17 look-alikes and false friends with **new English
+group ids** (`kitchen`, `become`, `actual` …; only anchors and en.json keys use them, and
+`wortfallen.<id>.*` in en.json was re-keyed in the same commit), `audio: false`.
+`synonyme.json`: 128 English groups A1–B2 (word stories and the live quiz's same-language mode).
+`fehler-nach-sprache.json`: every area in English; **language slot `englisch` is now
+`deutsch` (German speakers)** with the drills `w-v`, `th`, `auslaut` (linked both ways in
+`aussprache-muttersprache.json`, lettermark `De`). A learner whose stored first language is
+`englisch` (localStorage `da-muttersprache`) simply has no matching tab any more.
+
 ### 5.8 Culture and knowledge (UK first)
 
 `kultur.json` topics, ids kept:
