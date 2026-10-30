@@ -110,7 +110,7 @@ function tfRow(qid, given, solved, correct) {
         if (v === correct) cls = "is-solved";
         else if (picked) cls = "is-wrongpick";
       } else if (picked) cls = "is-selected";
-      return `<button type="button" class="dtz-opt dtz-opt--tf ${cls}" data-q="${qid}" data-v="${v}" ${solved ? "disabled" : ""}>${v}</button>`;
+      return `<button type="button" class="dtz-opt dtz-opt--tf ${cls}" data-q="${qid}" data-v="${v}" ${solved ? "disabled" : ""}>${v === "richtig" ? "true" : "false"}</button>`;
     })
     .join("");
 }
@@ -279,7 +279,7 @@ function renderAds(part, state, solved) {
             if (k === it.correct) cls = "is-solved";
             else if (picked) cls = "is-wrongpick";
           } else if (picked) cls = "is-selected";
-          return `<button type="button" class="dtz-opt dtz-opt--letter ${cls}" data-q="${it.id}" data-v="${k}" ${solved ? "disabled" : ""}>${k === "x" ? "keine" : k}</button>`;
+          return `<button type="button" class="dtz-opt dtz-opt--letter ${cls}" data-q="${it.id}" data-v="${k}" ${solved ? "disabled" : ""}>${k === "x" ? "none" : k}</button>`;
         })
         .join("");
       return `<div class="dtz-item">
@@ -551,7 +551,7 @@ export function mountDtzTrainer(root, data, { onAnswer } = {}) {
         persist();
         if (onAnswer) onAnswer(state.answers[qid].correct);
         const info = itemInfo(data, qid, given);
-        if (info) recordResult({ source: `dtz-${data.id}`, itemId: qid, ...info, level: "A2–B1", topic: `DTZ ${data.label ?? ""}`.trim(), href: "/dtz/uebungssatz" }, state.answers[qid].correct);
+        if (info) recordResult({ source: `dtz-${data.id}`, itemId: qid, ...info, level: "B1", topic: (data.label ?? "B1 skills mock").trim(), href: "/dtz/uebungssatz" }, state.answers[qid].correct);
         renderBody();
         renderNav();
         renderSummary();

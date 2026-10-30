@@ -97,24 +97,26 @@ export const examRegistry = [
   },
   {
     id: "dtz",
-    title: "DTZ",
+    title: "B1 skills mock",
     subtitle: dtz1.label,
-    level: "A2 / B1",
+    level: "B1",
     href: "/dtz/uebungssatz",
     overview: "/dtz",
     store: { kind: "dtz", key: dtz1.id },
-    passNote: "Hören und Lesen zählen zusammen: ab 20 Punkten Stufe A2, ab 33 Stufe B1.",
+    // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not Trinity's.
+    passNote: "Our own guide: listening and reading count together; 33 of 45 points is a solid B1 result.",
     passPct: Math.round((33 / 45) * 100),
     modules: [
       ...dtz1.parts.map((part, i) => ({
         key: "teil-" + (i + 1),
-        label: part.label,
+        // part.label stays "Hören · Teil 1" in the data because dtzTrainer.js parses it.
+        label: part.label.replace("Hören", "Listening").replace("Lesen", "Reading").replace("Teil", "Part"),
         ids: qidsOfPart(part),
       })),
       // The DTZ trainer keeps its writing task outside `answers`, in its own
       // { task, text, selfRate } object, so "done" is the self-rating being set
       // rather than an id being present. `doneFrom` tells the client that.
-      { key: "schreiben", label: "Schreiben", ids: [], scored: false, doneFrom: "dtz-schreiben" },
+      { key: "schreiben", label: "Writing", ids: [], scored: false, doneFrom: "dtz-schreiben" },
     ],
   },
   // Führerschein: the own question bank, one module per lesson. Üben and the
