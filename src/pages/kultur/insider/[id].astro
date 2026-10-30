@@ -54,7 +54,7 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
   <main class="practice-main">
     <div class="ku-topbar">
       <a href="/kultur/insider" class="vp-back-link" data-i18n="kultur.insider.back">Deutschland von innen</a>
-      <ShareButton title={`${topic.title} – Deutschland von innen`} label />
+      <ShareButton title={`${topic.title} – The UK from the inside`} label />
     </div>
 
     <article class="ku-topic">
@@ -132,7 +132,7 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
           <h2>{topic.decoder.quick.label}</h2>
           {topic.decoder.quick.intro && <p class="in-decoder-intro">{topic.decoder.quick.intro}</p>}
           {topic.decoder.groups.map((g: { title?: string; mascot?: { name: string; extra?: string; expr?: string }; items: { theme?: string; say: string; mean: string }[] }, gi: number) => (
-            <div class="in-quick" lang="de">
+            <div class="in-quick" lang="en">
               <p class="in-dict-head in-quick-head">
                 {g.mascot && <span class="in-dict-fig" data-mascot-part set:html={mascotSvg({ name: g.mascot.name, extra: g.mascot.extra, expr: g.mascot.expr, view: "three", size: 44, label: "" })} />}
                 <span>{g.title}</span>
@@ -141,7 +141,7 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
               <p class="in-quick-col">{gi ? "Er meint" : "Sie meint"}</p>
               {g.items.flatMap((it, i) => [
                 topic.decoder.groups[0].items[i].theme && <p class="in-quick-theme">{topic.decoder.groups[0].items[i].theme}</p>,
-                <p class="in-quick-say">„{it.say}“</p>,
+                <p class="in-quick-say">“{it.say}”</p>,
                 <p class="in-quick-mean">{it.mean}</p>,
               ])}
             </div>
@@ -163,7 +163,7 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
             <div class="in-scene" data-mascot-part aria-hidden="true">
               {topic.decoder.scene.map((m: { name: string; extra?: string; expr?: string; say: string }, i: number) => (
                 <div class:list={["in-scene-who", i % 2 && "in-scene-who--r"]}>
-                  <span class="in-scene-say" lang="de">{m.say}</span>
+                  <span class="in-scene-say" lang="en">{m.say}</span>
                   <span class="in-scene-fig" set:html={mascotSvg({ name: m.name, extra: m.extra, expr: m.expr, view: "three", size: 76, label: "" })} />
                 </div>
               ))}
@@ -172,14 +172,14 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
           {/* A long dictionary is cut into themes: an item in the first group with `theme`
               starts a new section, shown as a full-width row and as a chip to jump to. */}
           {topic.decoder.columns && topic.decoder.groups[0].items.some((it: { theme?: string }) => it.theme) && (
-            <nav class="in-dict-toc" lang="de">
+            <nav class="in-dict-toc" lang="en">
               {topic.decoder.groups[0].items.filter((it: { theme?: string }) => it.theme).map((it: { theme: string }, n: number) => (
                 <a href={`#thema-${n + 1}`}>{it.theme}</a>
               ))}
             </nav>
           )}
           {topic.decoder.columns ? (
-            <div class="in-dict" lang="de">
+            <div class="in-dict" lang="en">
               {topic.decoder.groups.map((g: { title?: string; mascot?: { name: string; extra?: string; expr?: string } }) => (
                 <p class="in-dict-head">
                   {g.mascot && <span class="in-dict-fig" data-mascot-part set:html={mascotSvg({ name: g.mascot.name, extra: g.mascot.extra, expr: g.mascot.expr, view: "three", size: 44, label: "" })} />}
@@ -198,9 +198,9 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
                   <div class:list={["in-dict-cell", gi > 0 && "in-dict-cell--r"]}>
                     {it && (
                       <>
-                        <p class="in-decoder-say">„{it.say}“</p>
+                        <p class="in-decoder-say">“{it.say}”</p>
                         <p class="in-decoder-mean">{it.mean}</p>
-                        {it.check && <p class="in-decoder-check"><b>Realitätscheck:</b> {it.check}</p>}
+                        {it.check && <p class="in-decoder-check"><b>Reality check:</b> {it.check}</p>}
                       </>
                     )}
                   </div>
@@ -213,9 +213,9 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
               <ul class="in-decoder">
                 {g.items.map((it) => (
                   <li>
-                    <p class="in-decoder-say" lang="de">„{it.say}“</p>
-                    <p class="in-decoder-mean" lang="de">{it.mean}</p>
-                    {it.check && <p class="in-decoder-check" lang="de"><b>Realitätscheck:</b> {it.check}</p>}
+                    <p class="in-decoder-say" lang="en">“{it.say}”</p>
+                    <p class="in-decoder-mean" lang="en">{it.mean}</p>
+                    {it.check && <p class="in-decoder-check" lang="en"><b>Reality check:</b> {it.check}</p>}
                   </li>
                 ))}
               </ul>
@@ -243,14 +243,14 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
           <ul class="in-vocab">
             {topic.vocab.map((v: { word: string; grammar: string | null; meaning: Record<string, string>; example: string }) => (
               <li>
-                <p class="in-vocab-word" lang="de"><b>{v.word}</b>{v.grammar && <span>{v.grammar}</span>}</p>
+                <p class="in-vocab-word" lang="en"><b>{v.word}</b>{v.grammar && <span>{v.grammar}</span>}</p>
                 <p class="in-vocab-meaning uit">
                   <span class="uit-de" lang="de">{v.meaning.de}</span>
                   {LANGS.filter((l) => v.meaning[l]).map((l) => (
                     <span class="uit-l" lang={l} dir={isRtl(l) ? "rtl" : "ltr"}>{v.meaning[l]}</span>
                   ))}
                 </p>
-                <p class="in-vocab-ex" lang="de">{v.example}</p>
+                <p class="in-vocab-ex" lang="en">{v.example}</p>
               </li>
             ))}
           </ul>
