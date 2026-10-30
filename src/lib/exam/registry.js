@@ -9,9 +9,11 @@
  *
  * Two storage shapes exist and both are read as-is rather than migrated:
  *   store "exam" → "da-exam-v1:<key>", { answers: { id: {given, correct} } }
- *                  (src/lib/exam/state.js — Start Deutsch 1, TestDaF, Leben in Deutschland)
+ *                  (src/lib/exam/state.js — A1 practice test, IELTS, Life in the UK)
  *   store "dtz"  → "da-dtz-v1:<key>",  same answers plus a schreiben object
- *                  (src/lib/dtzTrainer.js — the DTZ Übungssatz)
+ *                  (src/lib/dtzTrainer.js — the B1 skills mock in the /dtz slot)
+ * The ids (start-deutsch-1, testdaf, leben-in-deutschland, dtz) are storage keys from the
+ * German course and stay; only the texts are English (docs/content-plan.md §2).
  *
  * A module is `scored: false` when a human marks it (a form, a free text). It still
  * carries ids so "done" survives a reload, but it stays out of every point total.
@@ -37,42 +39,42 @@ const lidFederalIds = lid.questions.map((_, i) => "bund-" + (i + 1));
 export const examRegistry = [
   {
     id: "start-deutsch-1",
-    title: "Start Deutsch 1",
-    subtitle: "Goethe A1 · telc A1",
+    title: "A1 English practice test",
+    subtitle: "Listening · Reading · Writing",
     level: "A1",
     href: "/start-deutsch-1",
     overview: "/telc",
     store: { kind: "exam", key: "start-deutsch-1" },
-    // 36 of 60 is the pass line for the whole exam; Hören and Lesen are 30 of those 60.
-    passNote: "Bestanden ab 36 von 60 Punkten (60 %). Hören und Lesen sind davon 30.",
+    // No official exam behind this test (content-plan §2): 60 % is our own convention.
+    passNote: "Our own guide: 60 % of the Listening and Reading points. This is not an official exam.",
     passPct: 60,
     modules: [
-      { key: "hoeren1", label: "Hören · Teil 1", ids: idsOf(sd1.hoeren.teil1) },
-      { key: "hoeren2", label: "Hören · Teil 2", ids: idsOf(sd1.hoeren.teil2) },
-      { key: "hoeren3", label: "Hören · Teil 3", ids: idsOf(sd1.hoeren.teil3) },
-      { key: "lesen1", label: "Lesen · Teil 1", ids: idsOf(sd1.lesen.teil1) },
-      { key: "lesen2", label: "Lesen · Teil 2", ids: idsOf(sd1.lesen.teil2) },
-      { key: "lesen3", label: "Lesen · Teil 3", ids: idsOf(sd1.lesen.teil3) },
-      { key: "schreiben", label: "Schreiben", ids: ["s-formular", "s-nachricht"], scored: false },
+      { key: "hoeren1", label: "Listening · Part 1", ids: idsOf(sd1.hoeren.teil1) },
+      { key: "hoeren2", label: "Listening · Part 2", ids: idsOf(sd1.hoeren.teil2) },
+      { key: "hoeren3", label: "Listening · Part 3", ids: idsOf(sd1.hoeren.teil3) },
+      { key: "lesen1", label: "Reading · Part 1", ids: idsOf(sd1.lesen.teil1) },
+      { key: "lesen2", label: "Reading · Part 2", ids: idsOf(sd1.lesen.teil2) },
+      { key: "lesen3", label: "Reading · Part 3", ids: idsOf(sd1.lesen.teil3) },
+      { key: "schreiben", label: "Writing", ids: ["s-formular", "s-nachricht"], scored: false },
     ],
   },
   {
     id: "testdaf",
-    title: "TestDaF",
-    subtitle: "Leseverstehen · Schreiben",
-    level: "TDN 3–5",
+    title: "IELTS Academic",
+    subtitle: "Reading · Writing",
+    level: "Band 5–7",
     href: "/testdaf/uebungssatz",
     overview: "/testdaf",
     store: { kind: "exam", key: "testdaf" },
-    // Deliberately no pass percentage: TestDaF grades each skill separately as TDN 3/4/5
-    // and every university sets its own requirement, so a line here would be invented.
-    passNote: "Keine Bestehensgrenze in Prozent — jede Fertigkeit wird einzeln als TDN 3, 4 oder 5 bewertet.",
+    // Deliberately no pass percentage: IELTS gives a band score per skill and every
+    // institution sets its own requirement, so a line here would be invented.
+    passNote: "No pass mark: IELTS gives each skill a band score from 0 to 9, and each university or employer sets the band it needs.",
     passPct: null,
     modules: [
-      { key: "lesen1", label: "Lesen · Aufgabe 1", ids: idsOf(tdaf.leseverstehen.aufgabe1) },
-      { key: "lesen2", label: "Lesen · Aufgabe 2", ids: idsOf(tdaf.leseverstehen.aufgabe2) },
-      { key: "lesen3", label: "Lesen · Aufgabe 3", ids: idsOf(tdaf.leseverstehen.aufgabe3) },
-      { key: "schreiben", label: "Schreiben", ids: ["tdaf-schreiben"], scored: false },
+      { key: "lesen1", label: "Reading · Passage 1", ids: idsOf(tdaf.leseverstehen.aufgabe1) },
+      { key: "lesen2", label: "Reading · Passage 2", ids: idsOf(tdaf.leseverstehen.aufgabe2) },
+      { key: "lesen3", label: "Reading · Passage 3", ids: idsOf(tdaf.leseverstehen.aufgabe3) },
+      { key: "schreiben", label: "Writing", ids: ["tdaf-schreiben"], scored: false },
     ],
   },
   {
