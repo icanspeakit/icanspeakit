@@ -1,4 +1,4 @@
-// Brunos Bürgeramt: cases. A case is plain JSON (docs/buergeramt-tier0-v1.md, "Datenmodell"):
+// Bruno's Front Desk (code ids keep the German game's names): cases. A case is plain JSON (docs/buergeramt-tier0-v1.md, "Datenmodell"):
 // a person, what they want (`anliegen`), the papers they slide across the desk, and the
 // mistakes in them. Every field has an id "<doc>.<field>", and every mistake lists the field
 // pairs that show it, so the Prüfen mode compares ids, never text. Besides the papers there are
@@ -11,57 +11,60 @@
 
 import { FEHLER } from "./regeln.js";
 
-// The paper kinds and their fields, in the order they are printed. The labels are the real
-// German words (that's the vocabulary); `kind` groups fields that can be compared ("Passt.").
+// The paper kinds and their fields, in the order they are printed. The labels are the words
+// printed on real UK papers (that's the vocabulary); `kind` groups fields that can be compared
+// ("That matches."). Kind and field ids are kept from the German game: `ausweis` is now the
+// photocard driving licence, `meldeschein` / `abmeldung` the parking permit application,
+// `wgb` the tenancy agreement as proof of address.
 export const DOK_ARTEN = {
   ausweis: {
-    titel: "Ausweis",
+    titel: "Driving licence",
     felder: [
-      ["familienname", "Familienname", "name"], ["vorname", "Vorname", "vorname"],
-      ["geburtsdatum", "Geburtsdatum", "geburtsdatum"], ["geburtsort", "Geburtsort", "ort"],
-      ["gueltig", "Gültig bis", "datum"], ["unterschrift", "Unterschrift", "unterschrift"],
+      ["familienname", "Surname", "name"], ["vorname", "First names", "vorname"],
+      ["geburtsdatum", "Date of birth", "geburtsdatum"], ["geburtsort", "Place of birth", "ort"],
+      ["gueltig", "Valid until", "datum"], ["unterschrift", "Signature", "unterschrift"],
     ],
   },
   pass: {
-    titel: "Reisepass",
+    titel: "Passport",
     felder: [
-      ["familienname", "Familienname", "name"], ["vorname", "Vorname", "vorname"],
-      ["geburtsdatum", "Geburtsdatum", "geburtsdatum"], ["geburtsort", "Geburtsort", "ort"],
-      ["gueltig", "Gültig bis", "datum"], ["unterschrift", "Unterschrift", "unterschrift"],
+      ["familienname", "Surname", "name"], ["vorname", "Given names", "vorname"],
+      ["geburtsdatum", "Date of birth", "geburtsdatum"], ["geburtsort", "Place of birth", "ort"],
+      ["gueltig", "Date of expiry", "datum"], ["unterschrift", "Signature", "unterschrift"],
     ],
   },
   meldeschein: {
-    titel: "Meldeschein",
+    titel: "Resident parking permit application",
     felder: [
-      ["formular", "Formular", "formular"],
-      ["familienname", "Familienname", "name"], ["vorname", "Vorname", "vorname"],
-      ["geburtsdatum", "Geburtsdatum", "geburtsdatum"],
-      ["adresse", "Neue Adresse", "adresse"], ["einzug", "Einzugsdatum", "datum"],
-      ["unterschrift", "Unterschrift", "unterschrift"],
+      ["formular", "I am applying for", "formular"],
+      ["familienname", "Surname", "name"], ["vorname", "First name", "vorname"],
+      ["geburtsdatum", "Date of birth", "geburtsdatum"],
+      ["adresse", "Address", "adresse"], ["einzug", "Date you moved in", "datum"],
+      ["unterschrift", "Signature", "unterschrift"],
     ],
   },
   abmeldung: {
-    titel: "Meldeschein",
+    titel: "Resident parking permit application",
     felder: [
-      ["formular", "Formular", "formular"],
-      ["familienname", "Familienname", "name"], ["vorname", "Vorname", "vorname"],
-      ["geburtsdatum", "Geburtsdatum", "geburtsdatum"],
-      ["adresse", "Bisherige Adresse", "adresse"], ["auszug", "Auszugsdatum", "datum"],
-      ["ziel", "Neue Adresse", "adresse"],
-      ["unterschrift", "Unterschrift", "unterschrift"],
+      ["formular", "I am applying for", "formular"],
+      ["familienname", "Surname", "name"], ["vorname", "First name", "vorname"],
+      ["geburtsdatum", "Date of birth", "geburtsdatum"],
+      ["adresse", "Current address", "adresse"], ["auszug", "Date you move out", "datum"],
+      ["ziel", "New address", "adresse"],
+      ["unterschrift", "Signature", "unterschrift"],
     ],
   },
   wgb: {
-    titel: "Wohnungsgeberbestätigung",
+    titel: "Tenancy agreement",
     felder: [
-      ["wohnungsgeber", "Wohnungsgeber", "person"], ["adresse", "Adresse der Wohnung", "adresse"],
-      ["einzug", "Einzugsdatum", "datum"], ["personen", "Meldepflichtige Person", "name"],
-      ["unterschrift", "Unterschrift Wohnungsgeber", "unterschrift"],
+      ["wohnungsgeber", "Landlord", "person"], ["adresse", "Property address", "adresse"],
+      ["einzug", "Start date", "datum"], ["personen", "Tenant", "name"],
+      ["unterschrift", "Landlord's signature", "unterschrift"],
     ],
   },
   antrag: {
-    titel: "Antrag",
-    felder: [["titel", "Antrag auf", "formular"], ["name", "Name", "name"], ["rasse", "Rasse", "ort"], ["unterschrift", "Pfote", "unterschrift"]],
+    titel: "Application",
+    felder: [["titel", "Application for", "formular"], ["name", "Name", "name"], ["rasse", "Breed", "ort"], ["unterschrift", "Paw print", "unterschrift"]],
   },
 };
 // Fields the Lernmodus leaves out: fewer lines to read, nothing a rule needs before Tag 6.
@@ -130,30 +133,31 @@ export function loese(fall, f) {
   return out;
 }
 
-// ---- Tier 1: three hand-written cases (Tag 1 rules) --------------------------------------
-const anmeldungSatz = { de: "Guten Tag! Ich bin neu in Lindenau und möchte mich anmelden.", en: "Hello! I'm new in Lindenau and would like to register." };
+// ---- Tier 1: three hand-written cases (day 1 rules) --------------------------------------
+// The box values ("New permit") must be one of FORMULARE in tisch.js.
+const anmeldungSatz = { de: "Hello! I've just moved to Brambleford, and I'd like a parking permit, please.", en: "Hi! I'm new in town and I want a permit for my car." };
 
 export const HANDFAELLE = [
   {
     nr: 147, tag: 1, heute: "2027-03-15",
-    person: { vorname: "Ayşe", familienname: "Öztürk", geburtsdatum: "1994-07-02", geburtsort: "Izmir",
+    person: { vorname: "Priya", familienname: "Sharma", geburtsdatum: "1994-07-02", geburtsort: "Leicester",
       look: { form: 1, haut: 2, haar: 1, haarfarbe: 0, brille: 1, bart: 0, kleid: 1, extra: 2 } },
     anliegen: "anmeldung", satz: anmeldungSatz,
     dokumente: [
-      { id: "ausweis", art: "ausweis", felder: { familienname: "ÖZTÜRK", vorname: "Ayşe", geburtsdatum: "02.07.1994", geburtsort: "Izmir", gueltig: "11.05.2031", unterschrift: "A. Öztürk" } },
-      { id: "meldeschein", art: "meldeschein", felder: { formular: "Anmeldung", familienname: "Öztürk", vorname: "Ayşe", geburtsdatum: "02.07.1994", adresse: "Lindenallee 12, 04177 Lindenau", einzug: "06.03.2027", unterschrift: "A. Öztürk" } },
+      { id: "ausweis", art: "ausweis", felder: { familienname: "SHARMA", vorname: "Priya", geburtsdatum: "02/07/1994", geburtsort: "Leicester", gueltig: "11/05/2031", unterschrift: "P. Sharma" } },
+      { id: "meldeschein", art: "meldeschein", felder: { formular: "New permit", familienname: "Sharma", vorname: "Priya", geburtsdatum: "02/07/1994", adresse: "12 Lime Avenue, Brambleford", einzug: "06/03/2027", unterschrift: "P. Sharma" } },
     ],
     fehler: [],
-    zeilen: { genehmigt: { de: "Super, vielen Dank! Einen schönen Tag noch!", en: "Great, thank you! Have a nice day!" } },
+    zeilen: { genehmigt: { de: "Brilliant, thank you so much! Have a nice day!", en: "Great, thanks! Have a good day!" } },
   },
   {
     nr: 148, tag: 1, heute: "2027-03-15",
-    person: { vorname: "Jonas", familienname: "Becker", geburtsdatum: "1988-11-23", geburtsort: "Leipzig",
+    person: { vorname: "Tom", familienname: "Fletcher", geburtsdatum: "1988-11-23", geburtsort: "Norwich",
       look: { form: 2, haut: 0, haar: 0, haarfarbe: 3, brille: 0, bart: 2, kleid: 2, extra: 0 } },
     anliegen: "anmeldung", satz: anmeldungSatz,
     dokumente: [
-      { id: "ausweis", art: "ausweis", felder: { familienname: "BECKER", vorname: "Jonas", geburtsdatum: "23.11.1988", geburtsort: "Leipzig", gueltig: "30.08.2029", unterschrift: "J. Becker" } },
-      { id: "meldeschein", art: "meldeschein", felder: { formular: "Anmeldung", familienname: "Becker", vorname: "Jonas", geburtsdatum: "23.11.1998", adresse: "Am Markt 3, 04177 Lindenau", einzug: "10.03.2027", unterschrift: "J. Becker" } },
+      { id: "ausweis", art: "ausweis", felder: { familienname: "FLETCHER", vorname: "Thomas", geburtsdatum: "23/11/1988", geburtsort: "Norwich", gueltig: "30/08/2029", unterschrift: "T. Fletcher" } },
+      { id: "meldeschein", art: "meldeschein", felder: { formular: "New permit", familienname: "Fletcher", vorname: "Thomas", geburtsdatum: "23/11/1998", adresse: "3 Market Square, Brambleford", einzug: "10/03/2027", unterschrift: "T. Fletcher" } },
     ],
     fehler: [
       { code: "geburtsdatum", paare: [["meldeschein.geburtsdatum", "ausweis.geburtsdatum"]], loesbar: false },
@@ -165,8 +169,8 @@ export const HANDFAELLE = [
       look: { form: 0, haut: 1, haar: 7, haarfarbe: 0, brille: 0, bart: 0, kleid: 3, extra: 0 } },
     anliegen: "anmeldung", satz: anmeldungSatz,
     dokumente: [
-      { id: "ausweis", art: "pass", felder: { familienname: "NGUYEN", vorname: "Thanh", geburtsdatum: "14.02.2001", geburtsort: "Hanoi", gueltig: "02.09.2032", unterschrift: "T. Nguyen" } },
-      { id: "meldeschein", art: "meldeschein", felder: { formular: "Anmeldung", familienname: "Nguyn", vorname: "Thanh", geburtsdatum: "14.02.2001", adresse: "Gartenweg 7, 04177 Lindenau", einzug: "12.03.2027", unterschrift: "T. Nguyen" } },
+      { id: "ausweis", art: "pass", felder: { familienname: "NGUYEN", vorname: "Thanh", geburtsdatum: "14/02/2001", geburtsort: "Hanoi", gueltig: "02/09/2032", unterschrift: "T. Nguyen" } },
+      { id: "meldeschein", art: "meldeschein", felder: { formular: "New permit", familienname: "Nguyn", vorname: "Thanh", geburtsdatum: "14/02/2001", adresse: "7 Garden Lane, Brambleford", einzug: "12/03/2027", unterschrift: "T. Nguyen" } },
     ],
     fehler: [
       { code: "familienname", paare: [["meldeschein.familienname", "ausweis.familienname"]], loesbar: true,

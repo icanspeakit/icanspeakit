@@ -1,4 +1,4 @@
-// Brunos Bürgeramt: the customers, drawn like the mascot crew (src/lib/mascots.js): a 200×200
+// Bruno’s Front Desk: the customers, drawn like the mascot crew (src/lib/mascots.js): a 200×200
 // grid, a thick round #1a2230 outline, flat colours, rosy cheeks, dot eyes. Only head and
 // shoulders show above the counter. A look is a handful of small numbers, so the generator
 // can pick one from its seed and the ID photo can redraw the same person:
@@ -108,7 +108,7 @@ export function kundeBody(look, ausdruck = "neutral", { foto = false } = {}) {
   </g>`;
 }
 
-/** The dog who wants a Hundesteuermarke (Tag 7): a fluffy poodle, not Bruno. */
+/** The dog who wants a library card (day 7): a fluffy poodle, not Bruno. */
 export function hundBody(ausdruck = "neutral") {
   const froh = ausdruck === "froh" || ausdruck === "erleichtert";
   return `<g stroke="${LINE}" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">

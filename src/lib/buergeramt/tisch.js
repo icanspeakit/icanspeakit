@@ -1,4 +1,4 @@
-// Brunos Bürgeramt: the counter and the desk, all DOM (decision 1: crisp text, tappable
+// Bruno’s Front Desk: the counter and the desk, all DOM (decision 1: crisp text, tappable
 // words, screen readers). The window at the top shows the number display, the customer and the
 // queue; the desk below holds Regi's memo (with the calendar), the papers, the Notizzettel and
 // the two stamps.
@@ -8,9 +8,9 @@
 //   tab or swipe the stack to bring a paper to the front.
 // - Prüfen (🔍 button, P, or hold Shift): tap a field, then a field on another paper or the memo.
 //   A real contradiction gets red frames and a line and goes on the Notizzettel; agreeing fields
-//   say "Passt.", unrelated ones "Das kann man nicht vergleichen." — never a penalty.
+//   say "That matches.", unrelated ones "You can’t compare those." — never a penalty.
 // - Notizzettel: each noted mistake has one question round (three questions, one fits).
-// - Stamps: tap or drag onto the form. ABGELEHNT needs a noted mistake as the reason.
+// - Stamps: tap or drag onto the form. REJECTED needs a noted mistake as the reason.
 //
 // The game flow (who comes next, points, warnings) lives in spiel.js; this module reports
 // what the player did through the callbacks passed to makeTisch().
@@ -23,7 +23,7 @@ import { setWaiting } from "../notReady.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const bold = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
-const FORMULARE = ["Anmeldung", "Ummeldung", "Abmeldung"];
+const FORMULARE = ["New permit", "Change of address", "Cancel permit"];
 export const WAPPEN = `<svg viewBox="0 0 40 40" width="26" height="26" aria-hidden="true" class="ba-wappen"><path d="M6 4 H34 V20 Q34 32 20 37 Q6 32 6 20 Z" fill="#0d9488" stroke="#1a2230" stroke-width="2.5"/><path d="M20 10 Q29 15 26 25 Q23 30 20 31 Q17 30 14 25 Q11 15 20 10 Z" fill="#a7f3d0" stroke="#1a2230" stroke-width="2"/><path d="M20 13 V32" stroke="#1a2230" stroke-width="2"/></svg>`;
 
 export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst, onWort, onHilfe }) {
@@ -66,7 +66,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
       return `<span class="ba-boxes">${FORMULARE.map((f) => `<span class="ba-box${f === v ? " is-x" : ""}">${f === v ? "☒" : "☐"} ${f}</span>`).join("")}</span>`;
     }
     if (key === "unterschrift") {
-      return v ? `<span class="ba-sig ba-sig--${esc(d.tinte || "blau")}">${esc(v)}</span>` : `<span class="ba-sig-leer">&nbsp;</span>`;
+      return v ? `<span class="ba-sig ba-sig--${esc(d.tinte || "schwarz")}">${esc(v)}</span>` : `<span class="ba-sig-leer">&nbsp;</span>`;
     }
     return esc(v);
   }
@@ -81,7 +81,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     const isId = d.art === "ausweis" || d.art === "pass";
     const foto = isId && !d.fax ? `<div class="ba-foto">${kundeSvg(fall.person.look, "neutral", { size: 64, foto: true, hund: fall.hund })}</div>` : "";
     const titel = d.art === "antrag" ? "Antrag" : art.titel;
-    const kopf = `<button type="button" class="ba-f ba-kopf" data-f="${d.id}.kopf">${d.fax ? `<span class="ba-fax-kopf">FAX · 07:52 · Seite 1/1</span>` : ""}${WAPPEN}<span class="ba-kopf-t"><small>Stadt Lindenau</small><b data-wort="${esc(titel)}">${esc(titel)}</b></span></button>`;
+    const kopf = `<button type="button" class="ba-f ba-kopf" data-f="${d.id}.kopf">${d.fax ? `<span class="ba-fax-kopf">FAX · 07:52 · Page 1/1</span>` : ""}${WAPPEN}<span class="ba-kopf-t"><small>Brambleford Town Council</small><b data-wort="${esc(titel)}">${esc(titel)}</b></span></button>`;
     return `<article class="ba-doc ba-doc--${d.art}${d.fax ? " ba-doc--fax" : ""}" data-doc="${d.id}" tabindex="-1" aria-label="${esc(art.titel)}">
       ${kopf}<div class="ba-doc-body">${foto}<div class="ba-fields">${fields}</div></div><div class="ba-stamp-slot" data-stamp-slot></div></article>`;
   }
@@ -91,12 +91,12 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
       const r = REGELN[id];
       const neu = r.tag === opts.tag && opts.tag > 0;
       const mark = r.art === "echt" ? `<span class="ba-mark ba-mark--echt">${esc(ui.echt)}</span>` : `<span class="ba-mark ba-mark--lind">${esc(ui.lindenau)}</span>`;
-      return `<button type="button" class="ba-f ba-regel${neu ? " is-neu" : ""}" data-f="memo.${id}">${mark}<span class="ba-regel-t" lang="de">${bold(r.memo.de)}</span></button>`;
+      return `<button type="button" class="ba-f ba-regel${neu ? " is-neu" : ""}" data-f="memo.${id}">${mark}<span class="ba-regel-t" lang="en">${bold(r.memo.de)}</span></button>`;
     }).join("");
     const heute = `${wochentag(fall.heute)}, ${deDatum(fall.heute)}`;
     return `<article class="ba-doc ba-doc--memo" data-doc="memo" tabindex="-1" aria-label="${esc(ui.memoTitel)}">
       <div class="ba-memo-kopf"><span class="ba-pin" aria-hidden="true"></span><b>${esc(ui.memoTitel)}</b><small>${esc(ui.memoVon)}</small></div>
-      ${feldHtml("kalender.heute", "Heute", esc(heute), " ba-kalender")}
+      ${feldHtml("kalender.heute", "Today", esc(heute), " ba-kalender")}
       <div class="ba-regeln">${lines}</div>
     </article>`;
   }
@@ -165,8 +165,8 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     bubble.hidden = !line;
     if (!line) return;
     bubble.innerHTML = anliegen
-      ? `<button type="button" class="ba-f ba-anliegen" data-f="kunde.anliegen"><span lang="de">${esc(line.de)}</span></button>`
-      : `<span lang="de">${esc(line.de)}</span>`;
+      ? `<button type="button" class="ba-f ba-anliegen" data-f="kunde.anliegen"><span lang="en">${esc(line.de)}</span></button>`
+      : `<span lang="en">${esc(line.de)}</span>`;
     bubble.dataset.en = line.en ?? "";
     bubble.classList.remove("is-pop");
     void bubble.offsetWidth;
@@ -272,7 +272,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
           const info = fehlerInfo(f);
           const done = f.status === "geloest";
           const ask = !done && !f.gefragt ? `<button type="button" class="ba-ask" data-ask="${f.code}">${esc(ui.fragen)}</button>` : "";
-          return `<li class="${done ? "is-done" : ""}"><span lang="de">${esc(info.notiz.de)}</span>${done ? `<small>${esc(ui.geklaert)}</small>` : ask}</li>`;
+          return `<li class="${done ? "is-done" : ""}"><span lang="en">${esc(info.notiz.de)}</span>${done ? `<small>${esc(ui.geklaert)}</small>` : ask}</li>`;
         }).join("")
       : `<li class="ba-notiz-leer">${esc(ui.notizLeer)}</li>`;
     paintStempel();
@@ -288,7 +288,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     const info = fehlerInfo(f);
     fragenBox.hidden = false;
     fragenBox.innerHTML = `<p class="ba-fragen-h">${esc(ui.wasFragen)}</p>
-      ${info.fragen.map((q, i) => `<button type="button" class="ba-frage" data-frage="${i}" lang="de">${esc(q.de)}</button>`).join("")}
+      ${info.fragen.map((q, i) => `<button type="button" class="ba-frage" data-frage="${i}" lang="en">${esc(q.de)}</button>`).join("")}
       <button type="button" class="ba-quiet" data-frage-zu>${esc(ui.abbrechen)}</button>`;
     fragenBox.dataset.code = f.code;
     fragenBox.querySelector("[data-frage]")?.focus({ preventScroll: true });
@@ -311,7 +311,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     fragenBox.hidden = false;
     fragenBox.dataset.code = "";
     fragenBox.innerHTML = `<p class="ba-fragen-h">${esc(ui.grundWaehlen)}</p>
-      ${noted.map((f) => `<button type="button" class="ba-frage" data-grund="${f.code}" lang="de">${esc(fehlerInfo(f).notiz.de)}</button>`).join("")}
+      ${noted.map((f) => `<button type="button" class="ba-frage" data-grund="${f.code}" lang="en">${esc(fehlerInfo(f).notiz.de)}</button>`).join("")}
       <button type="button" class="ba-quiet" data-frage-zu>${esc(ui.abbrechen)}</button>`;
     fragenBox.querySelector("[data-grund]")?.focus({ preventScroll: true });
   }
@@ -324,7 +324,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     if (isStack() && form) { front = form.dataset.doc; layout(); }
     const slot = form?.querySelector("[data-stamp-slot]");
     if (slot) {
-      slot.innerHTML = `<span class="ba-stamp-mark ba-stamp-mark--${entscheid}">${entscheid === "genehmigt" ? "GENEHMIGT" : "ABGELEHNT"}${grund ? `<small lang="de">${esc(fehlerInfo(grund).notiz.de)}</small>` : ""}</span>`;
+      slot.innerHTML = `<span class="ba-stamp-mark ba-stamp-mark--${entscheid}">${entscheid === "genehmigt" ? ui.genehmigt : ui.abgelehnt}${grund ? `<small lang="en">${esc(fehlerInfo(grund).notiz.de)}</small>` : ""}</span>`;
     }
     ton.stempel();
     root.classList.add("is-thunk");
@@ -457,7 +457,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     if (t.closest("[data-hilfe]")) { onHilfe?.(); return; }
   });
 
-  // keyboard: P = Prüfen, G / A = stamps, Shift held = Prüfen while held, Esc = drop selection
+  // keyboard: P = check, A / R = stamps (Approve, Reject), Shift held = Prüfen while held, Esc = drop selection
   function onKey(e) {
     if (root.closest("[hidden]") || root.querySelector(".ba-amt")?.hidden) return;
     if (e.key === "Shift") { if (!shiftHeld) { shiftHeld = true; paintPruefen(); } return; }
@@ -465,8 +465,8 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     const k = e.key.toLowerCase();
     if (k === "p") { e.preventDefault(); setPruefen(!pruefen); }
-    else if (k === "g") { e.preventDefault(); stempeln("genehmigt"); }
-    else if (k === "a") { e.preventDefault(); stempeln("abgelehnt"); }
+    else if (k === "a") { e.preventDefault(); stempeln("genehmigt"); }
+    else if (k === "r") { e.preventDefault(); stempeln("abgelehnt"); }
     else if (e.key === "Escape") { if (!fragenBox.hidden) schliesseFragen(); else select(null); }
     else if (isStack() && (e.key === "ArrowRight" || e.key === "ArrowLeft") && !e.target.closest?.(".ba-fragen")) { blaettern(e.key === "ArrowRight" ? 1 : -1); }
   }

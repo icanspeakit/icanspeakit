@@ -1,7 +1,7 @@
 ---
-// /spiele/buergeramt — Brunos Bürgeramt: Bruno works counter 3 in the Bürgeramt Lindenau. A
-// customer slides papers across the desk; the player finds what contradicts (Prüfen), asks a
-// question in German and stamps GENEHMIGT or ABGELEHNT. Papers are DOM, not canvas.
+// /spiele/buergeramt — Bruno’s Front Desk: Bruno works desk 3 at Brambleford Town Hall (resident parking permits). A
+// customer slides papers across the desk; the player finds what contradicts (Check), asks a
+// question in English and stamps APPROVED or REJECTED. Papers are DOM, not canvas.
 // Logic: src/lib/buergeramt/. Plan: BUERGERAMT-TIERED-PROMPT.md.
 // A prototype since 2026-10-28: noindex, not in the menu (EXPERIMENTE.md).
 import Layout from "../../layouts/Layout.astro";
@@ -60,8 +60,8 @@ import "../../styles/buergeramt.css";
             </div>
             <div class="ba-fragen" data-fragen hidden role="dialog"></div>
             <div class="ba-stempel-row">
-              <button type="button" class="ba-stempel ba-stempel--ok" data-stempel="genehmigt"><span data-ui="genehmigt">APPROVED</span> <kbd>G</kbd></button>
-              <button type="button" class="ba-stempel ba-stempel--no" data-stempel="abgelehnt"><span data-ui="abgelehnt">REJECTED</span> <kbd>A</kbd></button>
+              <button type="button" class="ba-stempel ba-stempel--ok" data-stempel="genehmigt"><span data-ui="genehmigt">APPROVED</span> <kbd>A</kbd></button>
+              <button type="button" class="ba-stempel ba-stempel--no" data-stempel="abgelehnt"><span data-ui="abgelehnt">REJECTED</span> <kbd>R</kbd></button>
             </div>
           </aside>
           <div class="ba-rosa" data-rosa hidden role="alert"></div>

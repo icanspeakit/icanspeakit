@@ -1,218 +1,219 @@
-// Brunos Bürgeramt: the rules of the counter and the mistakes papers can have.
+// Bruno's Front Desk: the rules of the counter and the mistakes papers can have.
 //
-// REGELN: one entry per rule. Regi pins the new ones on the memo each morning; `art` says
-// whether it is how it really works in Germany ("echt", with its source, checked 2026-10-28,
-// docs/buergeramt-tier0-v1.md) or an openly made-up Lindenau rule ("lindenau"). `memo` is the
-// line on the memo, the key word in **bold**; `wirklich` is the "So ist es wirklich" text.
+// Bruno works desk 3 at Brambleford Town Hall, where residents apply for a resident parking
+// permit. REGELN: one entry per rule. Regi pins the new ones on the memo each morning; `art` says
+// whether it is how it usually works at UK councils ("echt", with a source; every council sets
+// its own permit rules, so the texts say "many councils") or an openly made-up Brambleford rule
+// ("lindenau"; the key value is kept so the code keeps working). `memo` is the line on the memo,
+// the key word in **bold**; `wirklich` is the "How it really works" text.
 //
 // FEHLER: every mistake a case can carry. `regel` is the rule that makes it a mistake (only
-// rules active today inject mistakes), `notiz` is what the Notizzettel says once the player has
+// rules active today inject mistakes), `notiz` is what the notes say once the player has
 // found it, `fragen` are the three questions offered, `passt` the one that fits; `loest` is the
 // customer's answer when the right question fixes the case, `nicht` when it can't be fixed
-// today. The German is the content being learnt; `en` is the gloss.
+// today. The key `de` holds the English being learnt (A2–B1); `en` is a plainer paraphrase.
 
 export const REGELN = {
   name: {
     tag: 1,
     art: "echt",
-    memo: { de: "**Name** und **Geburtsdatum** auf dem Meldeschein und im Ausweis müssen gleich sein.", en: "Name and date of birth on the registration form and in the ID must be the same." },
-    wirklich: { de: "Zur Anmeldung füllst du den Meldeschein aus und zeigst deinen Personalausweis oder Pass. Das Amt vergleicht die Daten.", en: "To register you fill in the form and show your ID card or passport. The office compares the data." },
-    quelle: "§ 23 Abs. 1 BMG",
-    url: "https://www.gesetze-im-internet.de/bmg/__23.html",
+    memo: { de: "The **name** and **date of birth** on the application must be the same as on the **photo ID**.", en: "Name and date of birth on the form and on the ID must match." },
+    wirklich: { de: "Many councils ask for photo ID, such as a passport or a photocard driving licence, when you apply for a resident permit, and check that it matches the form.", en: "The council compares your form with your ID." },
+    quelle: "GOV.UK: Get a parking permit (each council sets its own rules)",
+    url: "https://www.gov.uk/parking-permit",
   },
   gueltig: {
     tag: 2,
     art: "echt",
-    memo: { de: "Der Ausweis darf nicht **abgelaufen** sein. Schau auf „gültig bis“ und auf den Kalender.", en: "The ID must not be expired. Look at “valid until” and at the calendar." },
-    wirklich: { de: "Ein Personalausweis gilt 10 Jahre, wenn du unter 24 bist 6 Jahre. Ein abgelaufener Ausweis ist kein gültiges Dokument.", en: "An ID card is valid for 10 years, 6 years if you are under 24. An expired ID is not a valid document." },
-    quelle: "§ 6 PAuswG",
-    url: "https://www.gesetze-im-internet.de/pauswg/__6.html",
+    memo: { de: "The ID must not be **out of date**. Look at “valid until” and at the calendar.", en: "The ID must not be expired. Check the date on it and today's date." },
+    wirklich: { de: "You must renew the photocard of a UK driving licence every 10 years, and an adult passport is usually valid for 10 years. An expired document is not normally accepted as ID.", en: "Old, expired ID usually doesn't count." },
+    quelle: "GOV.UK: Renew your driving licence",
+    url: "https://www.gov.uk/renew-driving-licence",
   },
   wgb: {
     tag: 3,
     art: "echt",
-    memo: { de: "Zur **Anmeldung** gehört eine **Wohnungsgeberbestätigung**. Adresse, Einzugsdatum und Name müssen passen.", en: "Registering needs a landlord's confirmation. Address, move-in date and name must match." },
-    wirklich: { de: "Der Vermieter (Wohnungsgeber) bestätigt schriftlich, dass du eingezogen bist: mit Adresse, Einzugsdatum und deinem Namen. Ein Mietvertrag reicht nicht.", en: "The landlord confirms in writing that you moved in: address, move-in date and your name. A rental contract is not enough." },
-    quelle: "§ 19 Abs. 1 und 3 BMG",
-    url: "https://www.gesetze-im-internet.de/bmg/__19.html",
+    memo: { de: "A resident permit needs **proof of address**, for example a **tenancy agreement**. Address, start date and name must match.", en: "You need a paper that shows where you live. Address, date and name must match." },
+    wirklich: { de: "A resident permit is only for people who live in the zone, so councils ask for proof of address: a tenancy agreement, a council tax bill or a recent utility bill. Each council decides which papers it accepts.", en: "You show a paper with your name and address on it." },
+    quelle: "GOV.UK: Get a parking permit (each council sets its own rules)",
+    url: "https://www.gov.uk/parking-permit",
   },
   frist: {
     tag: 4,
-    art: "echt",
-    memo: { de: "Anmelden **innerhalb von 2 Wochen** nach dem Einzug. Später? Erst zu Zimmer 5 (Bußgeldstelle).", en: "Register within 2 weeks after moving in. Later? First to room 5 (fines office)." },
-    wirklich: { de: "Du musst dich innerhalb von zwei Wochen nach dem Einzug anmelden. Wer zu spät kommt, wird trotzdem angemeldet, kann aber ein Bußgeld bekommen (bis 1.000 €). Das Wegschicken zu Zimmer 5 gibt es nur in Lindenau.", en: "You must register within two weeks of moving in. If you are late you are still registered but can be fined (up to €1,000). Being sent to room 5 only happens in Lindenau." },
-    quelle: "§ 17 Abs. 1 und § 54 BMG",
-    url: "https://www.gesetze-im-internet.de/bmg/__17.html",
+    art: "lindenau",
+    memo: { de: "Apply **within 2 weeks** of moving in. Later? Go to room 5 (Parking Fines) first.", en: "Apply less than 2 weeks after you moved in. If not, go to room 5 first." },
+    wirklich: null,
   },
   formular: {
     tag: 5,
     art: "echt",
-    memo: { de: "Das richtige **Formular**: neu in Lindenau → **Anmeldung**. Umzug in Lindenau → **Ummeldung**. Ins Ausland → **Abmeldung**. In eine andere deutsche Stadt → dort anmelden, hier nichts.", en: "The right form: new in Lindenau → registration. Moving within Lindenau → change of address. Abroad → deregistration. To another German town → register there, nothing here." },
-    wirklich: { de: "Ziehst du innerhalb Deutschlands um, meldest du dich nur am neuen Ort an – die alte Stadt erfährt es automatisch. Abmelden musst du dich nur, wenn du ins Ausland ziehst oder keine neue Wohnung in Deutschland hast.", en: "If you move within Germany, you only register at the new place – the old town is told automatically. You only deregister when you move abroad or have no new flat in Germany." },
-    quelle: "§ 17 Abs. 2 BMG; service.berlin.de „Abmeldung einer Wohnung“",
-    url: "https://service.berlin.de/dienstleistung/120335/",
+    memo: { de: "Tick the right **box**: new in Brambleford → **New permit**. Moving inside Brambleford → **Change of address**. Moving away → **Cancel permit**.", en: "The right box: new here, moving inside the town, or leaving." },
+    wirklich: { de: "A resident permit belongs to one address. If you move inside the same council area, the permit is changed to the new address; if you move away, it is cancelled, and many councils refund the months you haven't used.", en: "When you move, you tell the council, and the permit is changed or cancelled." },
+    quelle: "GOV.UK: Get a parking permit (each council sets its own rules)",
+    url: "https://www.gov.uk/parking-permit",
   },
   unterschrift: {
     tag: 6,
     art: "echt",
-    memo: { de: "Ohne **Unterschrift** kein Stempel.", en: "No signature, no stamp." },
-    wirklich: { de: "Den Meldeschein musst du selbst unterschreiben.", en: "You have to sign the registration form yourself." },
-    quelle: "§ 23 Abs. 1 BMG",
-    url: "https://www.gesetze-im-internet.de/bmg/__23.html",
+    memo: { de: "No **signature**, no stamp.", en: "Without a signature there is no stamp." },
+    wirklich: { de: "On a paper form you sign a declaration that what you wrote is true. Online forms ask you to tick a box instead.", en: "You sign to say that the form is true." },
+    quelle: "Common practice on UK council paper forms",
+    url: "https://www.gov.uk/parking-permit",
   },
   schreibweise: {
     tag: 6,
     art: "lindenau",
-    memo: { de: "**Familienname** und **Vorname** nicht vertauschen. **Umlaute** zählen: Müller ist nicht Muller. Steht im Ausweis MUELLER, passt Müller.", en: "Don't swap family name and first name. Umlauts count: Müller is not Muller. If the ID says MUELLER, Müller is fine." },
+    memo: { de: "Don't mix up **surname** and **first name**. **Every letter** counts: McKenzie is not Mackenzie. If the passport says O’NEILL in capitals, O’Neill is fine.", en: "Surname and first name in the right boxes, spelt exactly as on the ID." },
     wirklich: null,
   },
   kuli: {
     tag: 6,
     art: "lindenau",
-    memo: { de: "Heute nur **blauer Kuli**!", en: "Today only blue pen!" },
+    memo: { de: "Today **black pen** only!", en: "Today only black pen!" },
     wirklich: null,
   },
   meldesachen: {
     tag: 7,
     art: "lindenau",
-    memo: { de: "An Schalter 3 nur **Meldesachen**. Ausweis nur im **Original**, nie als Fax.", en: "Counter 3 only does registrations. ID only as the original, never as a fax." },
+    memo: { de: "Desk 3 only does **parking permits**. ID only as the **original**, never as a fax.", en: "This desk is only for parking permits. Bring the real ID, not a fax." },
     wirklich: null,
   },
 };
 
-/** The rules active on a day: everything up to it (Tagesschicht and Endlos play Tag 7). */
+/** The rules active on a day: everything up to it (day shift and endless mode play day 7). */
 export const regelnBis = (tag) => Object.keys(REGELN).filter((id) => REGELN[id].tag <= tag);
 export const neueRegeln = (tag) => Object.keys(REGELN).filter((id) => REGELN[id].tag === tag);
 
 const q = (de, en) => ({ de, en });
 // Questions that fit some other mistake; mixed into each list as the two wrong ones.
 const F = {
-  name: q("Können Sie Ihren Namen bitte noch einmal prüfen?", "Could you please check your name again?"),
-  datum: q("Können Sie Ihr Geburtsdatum bitte noch einmal prüfen?", "Could you please check your date of birth again?"),
-  pass: q("Haben Sie noch einen anderen Ausweis, zum Beispiel einen Reisepass?", "Do you have another ID, for example a passport?"),
-  wgb: q("Können Sie mir bitte Ihre Wohnungsgeberbestätigung zeigen?", "Could you please show me your landlord's confirmation?"),
-  adresse: q("Stimmt die Adresse? Hier steht eine andere Hausnummer.", "Is the address right? A different house number is written here."),
-  einzug: q("Wann sind Sie genau eingezogen?", "When exactly did you move in?"),
-  wohin: q("Wohin ziehen Sie denn?", "Where are you moving to?"),
-  unterschreiben: q("Könnten Sie bitte hier unterschreiben?", "Could you please sign here?"),
-  familienname: q("Was ist Ihr Familienname, und was ist Ihr Vorname?", "What is your family name, and what is your first name?"),
-  kuli: q("Könnten Sie bitte noch einmal mit blauem Kuli unterschreiben?", "Could you please sign again with a blue pen?"),
-  original: q("Haben Sie den Ausweis auch im Original dabei?", "Do you have the original ID with you?"),
-  zimmer: q("Möchten Sie eine Hundesteuermarke?", "Would you like a dog tax tag?"),
+  name: q("Could you check your name again, please?", "Please look at your name again."),
+  datum: q("Could you check your date of birth again, please?", "Please look at your birthday again."),
+  pass: q("Have you got any other ID, like a passport?", "Do you have a second ID?"),
+  wgb: q("Could I see your proof of address, please?", "Please show me the paper with your address."),
+  adresse: q("Is this address right? The house number here is different.", "The house numbers are not the same."),
+  einzug: q("When exactly did you move in?", "On what day did you move in?"),
+  wohin: q("Where are you moving to?", "Where is your new home?"),
+  unterschreiben: q("Could you sign here, please?", "Please write your signature here."),
+  familienname: q("Which is your surname, and which is your first name?", "What is your family name, and what is your first name?"),
+  kuli: q("Could you sign again in black pen, please?", "Please sign again with a black pen."),
+  original: q("Have you got the original ID with you?", "Do you have the real ID, not a copy?"),
+  zimmer: q("Are you here for a library card?", "Do you want a library card?"),
 };
 
 export const FEHLER = {
   familienname: {
     regel: "name",
-    notiz: q("Familienname passt nicht", "Family name doesn't match"),
+    notiz: q("Surname doesn't match", "The family name is different"),
     fragen: [F.name, F.wgb, F.einzug], passt: 0,
-    loest: q("Oh, ein Tippfehler! Ich korrigiere das sofort.", "Oh, a typo! I'll correct it right away."),
-    nicht: q("Hm, ich bin mir nicht sicher … Ich komme morgen wieder.", "Hm, I'm not sure … I'll come back tomorrow."),
+    loest: q("Oh, a typo! I'll correct it straight away.", "Oh, a small mistake! I'll fix it now."),
+    nicht: q("Hmm, I'm not sure … I'll come back tomorrow.", "I don't know. I'll come again tomorrow."),
   },
   vorname: {
     regel: "name",
-    notiz: q("Vorname passt nicht", "First name doesn't match"),
+    notiz: q("First name doesn't match", "The first name is different"),
     fragen: [F.pass, F.name, F.unterschreiben], passt: 1,
-    loest: q("Ach so, ja! Da fehlt ein Buchstabe. Ich korrigiere das.", "Oh yes! A letter is missing. I'll correct it."),
-    nicht: q("Hm, ich bin mir nicht sicher … Ich komme morgen wieder.", "Hm, I'm not sure … I'll come back tomorrow."),
+    loest: q("Oh yes! There's a letter missing. I'll correct it.", "One letter is missing. I'll fix it."),
+    nicht: q("Hmm, I'm not sure … I'll come back tomorrow.", "I don't know. I'll come again tomorrow."),
   },
   geburtsdatum: {
     regel: "name",
-    notiz: q("Geburtsdatum passt nicht", "Date of birth doesn't match"),
+    notiz: q("Date of birth doesn't match", "The birthday is different"),
     fragen: [F.adresse, F.wohin, F.datum], passt: 2,
-    loest: q("Oh nein, die Zahlen sind vertauscht! Moment, ich schreibe es richtig.", "Oh no, the numbers are mixed up! One moment, I'll write it correctly."),
-    nicht: q("Das weiß ich nicht genau … Ich frage meine Mutter und komme wieder.", "I don't know exactly … I'll ask my mother and come back."),
+    loest: q("Oh no, I've mixed up the numbers! Hang on, I'll write it properly.", "The numbers are in the wrong order. I'll write them again."),
+    nicht: q("I'm not completely sure … I'll check with my mum and come back.", "I don't know exactly. I'll ask my mother."),
   },
   abgelaufen: {
     regel: "gueltig",
-    notiz: q("Ausweis ist abgelaufen", "ID has expired"),
+    notiz: q("ID is out of date", "The ID has expired"),
     fragen: [F.pass, F.unterschreiben, F.name], passt: 0,
-    loest: q("Ja, hier ist mein Reisepass. Der ist noch gültig.", "Yes, here is my passport. It's still valid."),
-    nicht: q("Nein, leider nicht. Ich beantrage einen neuen und komme wieder.", "No, unfortunately not. I'll apply for a new one and come back."),
+    loest: q("Yes, here's my passport. That's still valid.", "Here is my passport. It is still OK."),
+    nicht: q("No, I'm afraid not. I'll renew it and come back.", "No. I'll get a new one and come again."),
   },
   wgb_fehlt: {
     regel: "wgb",
-    notiz: q("Wohnungsgeberbestätigung fehlt", "Landlord's confirmation is missing"),
+    notiz: q("Proof of address is missing", "There is no paper with the address"),
     fragen: [F.einzug, F.wgb, F.pass], passt: 1,
-    loest: q("Ach ja, die ist noch in meiner Tasche. Bitte schön!", "Oh yes, it's still in my bag. Here you are!"),
-    nicht: q("Die habe ich nicht. Ich frage meinen Vermieter.", "I don't have it. I'll ask my landlord."),
+    loest: q("Oh yes, it's still in my bag. Here you are!", "It was in my bag. Here it is!"),
+    nicht: q("I haven't got one. I'll ask my landlord.", "I don't have it. I'll ask the owner of my flat."),
   },
   wgb_adresse: {
     regel: "wgb",
-    notiz: q("Adresse passt nicht zur Wohnungsgeberbestätigung", "Address doesn't match the landlord's confirmation"),
+    notiz: q("Address doesn't match the tenancy agreement", "The two addresses are different"),
     fragen: [F.adresse, F.datum, F.zimmer], passt: 0,
-    loest: q("Stimmt, ich habe die Zahlen vertauscht. Ich korrigiere das.", "Right, I mixed up the numbers. I'll correct it."),
-    nicht: q("Hm, mein Vermieter hat das falsch geschrieben. Ich komme mit einer neuen wieder.", "Hm, my landlord wrote it wrong. I'll come back with a new one."),
+    loest: q("You're right, I swapped the numbers. I'll correct it.", "I wrote the numbers in the wrong order. I'll fix it."),
+    nicht: q("Hmm, my landlord wrote it wrong. I'll come back with a new one.", "The owner made a mistake. I'll bring a new paper."),
   },
   wgb_einzug: {
     regel: "wgb",
-    notiz: q("Einzugsdatum passt nicht zur Wohnungsgeberbestätigung", "Move-in date doesn't match the landlord's confirmation"),
+    notiz: q("Move-in date doesn't match the tenancy agreement", "The two dates are different"),
     fragen: [F.wohin, F.einzug, F.original], passt: 1,
-    loest: q("Oh, der Vermieter hat recht. Ich korrigiere das Datum.", "Oh, the landlord is right. I'll correct the date."),
-    nicht: q("Das weiß ich nicht mehr genau … Ich frage meinen Vermieter.", "I don't remember exactly … I'll ask my landlord."),
+    loest: q("Oh, the agreement is right. I'll correct the date.", "The contract has the right date. I'll fix mine."),
+    nicht: q("I can't remember exactly … I'll ask my landlord.", "I don't know the day. I'll ask the owner."),
   },
   frist: {
     regel: "frist",
-    notiz: q("Mehr als 2 Wochen nach dem Einzug", "More than 2 weeks after moving in"),
+    notiz: q("More than 2 weeks after moving in", "Moved in too long ago"),
     fragen: [F.einzug, F.kuli, F.name], passt: 0,
-    loest: q("Oh, da habe ich mich verschrieben! Ich bin erst letzte Woche eingezogen.", "Oh, I wrote it wrong! I only moved in last week."),
-    nicht: q("Oje, das ist schon lange her … Dann gehe ich zu Zimmer 5.", "Oh dear, that was a while ago … Then I'll go to room 5."),
+    loest: q("Oh, I wrote the wrong date! I only moved in last week.", "The date was wrong. I moved in last week."),
+    nicht: q("Oh dear, that was a while ago … I'll go to room 5, then.", "That was long ago. I'll go to room 5."),
   },
   formular: {
     regel: "formular",
-    notiz: q("Falsches Formular", "Wrong form"),
+    notiz: q("Wrong box ticked", "The wrong kind of application"),
     fragen: [F.wgb, F.unterschreiben, F.wohin], passt: 2,
-    loest: q("Ach so! Dann nehme ich das andere Formular. Hier, schon ausgefüllt.", "I see! Then I'll take the other form. Here, already filled in."),
-    nicht: q("Ach so, dann muss ich hier gar nichts machen? Super, danke!", "Oh, so I don't have to do anything here? Great, thanks!"),
+    loest: q("I see! Then I'll tick the other box. There you go.", "I'll choose the other box. Done."),
+    nicht: q("Oh, so I don't need to do anything here? Brilliant, thanks!", "So I don't need this? Great, thank you!"),
   },
   unterschrift: {
     regel: "unterschrift",
-    notiz: q("Unterschrift fehlt", "Signature is missing"),
+    notiz: q("Signature is missing", "No signature"),
     fragen: [F.datum, F.unterschreiben, F.adresse], passt: 1,
-    loest: q("Oh, vergessen! So, bitte.", "Oh, forgot! There you go."),
-    nicht: q("Mein Kuli ist leer … Ich komme gleich wieder.", "My pen is empty … I'll be right back."),
+    loest: q("Oops, I forgot! There you go.", "I forgot. Here it is."),
+    nicht: q("My pen's run out … I'll be right back.", "My pen is empty. I'll come back soon."),
   },
   vertauscht: {
     regel: "schreibweise",
-    notiz: q("Vorname und Familienname vertauscht", "First name and family name swapped"),
+    notiz: q("First name and surname swapped", "The names are in the wrong boxes"),
     fragen: [F.familienname, F.pass, F.einzug], passt: 0,
-    loest: q("Oh! Mein Familienname kommt in das andere Feld. Ich korrigiere das.", "Oh! My family name goes in the other box. I'll correct it."),
-    nicht: q("Das verstehe ich nicht … Ich komme mit Hilfe wieder.", "I don't understand … I'll come back with help."),
+    loest: q("Oh! My surname goes in the other box. I'll correct it.", "My family name goes in the other box. I'll fix it."),
+    nicht: q("I don't understand … I'll come back with someone to help.", "I don't understand. I'll bring a helper."),
   },
+  // code kept from the German umlaut mistake; in English it is any spelling slip
   umlaut: {
     regel: "schreibweise",
-    notiz: q("Name falsch geschrieben (Umlaut)", "Name spelt wrong (umlaut)"),
+    notiz: q("Name spelt wrong", "The name has a spelling mistake"),
     fragen: [F.wohin, F.name, F.kuli], passt: 1,
-    loest: q("Stimmt, da fehlen die zwei Punkte! So ist es richtig.", "Right, the two dots are missing! That's correct now."),
-    nicht: q("Hm, ich bin mir nicht sicher … Ich komme morgen wieder.", "Hm, I'm not sure … I'll come back tomorrow."),
+    loest: q("You're right, I missed a letter! That's correct now.", "A letter was missing. Now it's right."),
+    nicht: q("Hmm, I'm not sure … I'll come back tomorrow.", "I don't know. I'll come again tomorrow."),
   },
   kuli: {
     regel: "kuli",
-    notiz: q("Unterschrift nicht mit blauem Kuli", "Signature not in blue pen"),
+    notiz: q("Signature not in black pen", "The signature is not black"),
     fragen: [F.kuli, F.original, F.datum], passt: 0,
-    loest: q("Blau? Na gut. So, jetzt ist sie blau.", "Blue? Fine. There, now it's blue."),
-    nicht: q("Ich habe nur einen roten Kuli … Ich kaufe schnell einen blauen.", "I only have a red pen … I'll quickly buy a blue one."),
+    loest: q("Black? Fine. There, now it's black.", "OK, I'll sign in black. Done."),
+    nicht: q("I've only got a red pen … I'll pop out and buy a black one.", "I only have a red pen. I'll buy a black one."),
   },
   fax: {
     regel: "meldesachen",
-    notiz: q("Ausweis nur als Fax", "ID only as a fax"),
+    notiz: q("ID only as a fax", "The ID is a fax, not the original"),
     fragen: [F.unterschreiben, F.original, F.wohin], passt: 1,
-    loest: q("Ach, Sie wollen das Original? Hier, bitte.", "Oh, you want the original? Here you go."),
-    nicht: q("Das Original liegt zu Hause. Aber das Fax ist doch ganz neu!", "The original is at home. But the fax is brand new!"),
+    loest: q("Oh, you want the original? Here you are.", "You want the real one? Here it is."),
+    nicht: q("The original's at home. But the fax is brand new!", "The real ID is at home. But the fax is new!"),
   },
   zimmer: {
     regel: "meldesachen",
-    notiz: q("Falscher Schalter – Zimmer 12", "Wrong counter – room 12"),
+    notiz: q("Wrong desk – the library is in room 12", "Wrong desk – go to room 12"),
     fragen: [F.zimmer, F.wgb, F.name], passt: 0,
     loest: null,
-    nicht: q("Wuff! Ja, bitte! … Zimmer 12? Wuff, danke!", "Woof! Yes, please! … Room 12? Woof, thanks!"),
+    nicht: q("Woof! Yes, please! … Room 12? Woof, thanks!", "Woof! Yes! … Room 12? Woof, thank you!"),
   },
 };
 
 // What a customer says to a question that doesn't fit their case.
 export const WIRR = [
-  q("Wie bitte? Das verstehe ich nicht.", "Sorry? I don't understand."),
-  q("Ähm … warum fragen Sie das?", "Um … why are you asking that?"),
-  q("Das steht doch alles da, oder?", "It's all written there, isn't it?"),
-  q("Hm? Ich glaube, das ist nicht das Problem.", "Hm? I don't think that's the problem."),
+  q("Sorry? I don't understand.", "Pardon? I don't understand."),
+  q("Erm … why are you asking that?", "Why do you ask that?"),
+  q("It's all on there, isn't it?", "Everything is written there, right?"),
+  q("Hmm? I don't think that's the problem.", "That is not the problem, I think."),
 ];

@@ -1,4 +1,4 @@
-// Brunos Bürgeramt sounds, made with WebAudio like Hamstis Wachtelhuhn (src/lib/hoerSafari/
+// Bruno’s Front Desk sounds, made with WebAudio like Hamstis Wachtelhuhn (src/lib/hoerSafari/
 // sound.js): the number display's ding-dong, paper sliding, the stamp's thunk, a low murmur of
 // the queue. No files. One mute switch for all games (src/lib/spieleEinstellungen.js).
 
