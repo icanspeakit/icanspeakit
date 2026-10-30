@@ -105,7 +105,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
       {/* The Nachfrage keeps statement word order, so it is not the regular question form and
           means something else: surprise or checking. Learners must not take it as a model. */}
       <aside class="sm-caveat" aria-label="Careful: echo question" data-i18n-attr="aria-label:satzmelodie.caveat.aria" data-i18n-html="satzmelodie.caveat">
-        <b>Achtung, Nachfrage ↗↗:</b> „Du kommst morgen?“ ist keine normale Frage. In der Ja/Nein-Frage steht das Verb auf Position 1: „<b>Kommst</b> du morgen?“ Die Nachfrage behält die Wortstellung der Aussage, nur die Stimme geht stark nach oben. Sie bedeutet auch etwas anderes: Man ist überrascht oder prüft, ob man richtig gehört hat („Wirklich? Du kommst morgen?“). Beim Schreiben und in der Prüfung: Verb auf Position 1.
+        <b>Careful, echo question ↗↗:</b> “You're coming tomorrow?” is not a normal question. A yes/no question starts with a helping verb: “<b>Are</b> you coming tomorrow?” The echo question keeps the word order of a statement; only the voice goes up a lot. It also means something different: you're surprised or checking that you heard right (“Really? You're coming tomorrow?”). In writing and in exams, use the normal question.
       </aside>
       <div class="sm-families">
         {families.map((f, fi) => (
@@ -121,7 +121,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
               <div class="sm-row" data-line data-type={l.type} data-text={l.text} data-src={l.src}>
                 <button type="button" class="sm-play" aria-label={`Listen to ${l.text}`}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" /></svg></button>
                 <svg class={`sm-curve sm-curve--${chip(l.curve)}`} viewBox="0 0 70 26" aria-hidden="true"><path d={CURVE[l.curve]} /></svg>
-                <span class="sm-sent" lang="de">{l.text.slice(0, -1)}<b>{l.text.slice(-1)}</b></span>
+                <span class="sm-sent" lang="en">{l.text.slice(0, -1)}<b>{l.text.slice(-1)}</b></span>
                 <span class={`sm-chip sm-chip--${chip(l.curve)}`}>{l.mark} <span data-i18n={`satzmelodie.type.${l.type}`}>{l.label}</span></span>
                 <button type="button" class="sm-mic" data-mic aria-label={`Repeat “${l.text}” and check the melody`} title="Repeat and check" data-i18n-attr="title:satzmelodie.mic.title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z" /></svg></button>
               </div>
@@ -136,7 +136,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
       <div class="sm-task"><span class="sm-num">2</span><div><h2 data-i18n="satzmelodie.task2.title">Hören Sie. Aussage, Frage oder Ausruf?</h2><p data-i18n="satzmelodie.task2.text">Die Wörter sind immer gleich. Nur die Melodie ist anders. Ergänzen Sie das Satzzeichen.</p></div></div>
       <div class="sm-box sm-center">
         <button type="button" class="sm-play sm-play--big" id="sm-q-play" aria-label="Listen to the sentence" data-i18n-attr="aria-label:af.listen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" /></svg></button>
-        <p class="sm-q-sent" id="sm-q-sent" lang="de"></p>
+        <p class="sm-q-sent" id="sm-q-sent" lang="en"></p>
         <div class="sm-answers" id="sm-q-answers">
           <button type="button" class="sm-btn" data-a="aussage">. <span data-i18n="satzmelodie.type.aussage">Aussage</span> ↘</button>
           <button type="button" class="sm-btn" data-a="echo">? <span data-i18n="qb.own.prompt">Frage</span> ↗</button>
@@ -151,8 +151,8 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
     <section id="sm-p-akzent" role="tabpanel" aria-labelledby="sm-tab-akzent" hidden>
       <div class="sm-task"><span class="sm-num">3</span><div><h2 data-i18n="satzmelodie.task3.title">Welches Wort ist betont? Klicken Sie.</h2><p data-i18n="satzmelodie.task3.text">Die Antwort ist immer derselbe Satz. Die Frage bestimmt, welches Wort den Akzent bekommt.</p></div></div>
       <div class="sm-box sm-center">
-        <p class="sm-st-q" id="sm-st-q" lang="de"></p>
-        <div class="sm-words" id="sm-st-words" lang="de"></div>
+        <p class="sm-st-q" id="sm-st-q" lang="en"></p>
+        <div class="sm-words" id="sm-st-words" lang="en"></div>
         <p class="sm-fb" id="sm-st-fb" aria-live="polite"></p>
         <div class="sm-fam-actions sm-center-row">
           <button type="button" class="sm-btn" id="sm-st-hear" data-i18n="satzmelodie.hearAnswer">Antwort anhören</button>
@@ -165,7 +165,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
     <section id="sm-p-labyrinth" role="tabpanel" aria-labelledby="sm-tab-labyrinth" hidden>
       <div class="sm-task"><span class="sm-num">4</span><div><h2 data-i18n="satzmelodie.task4.title">Melodie-Labyrinth: Welcher Ausgang?</h2><p data-i18n="satzmelodie.task4.text">Quaki hüpft mit der Stimme durch den Satz. Am Ende teilt sich der Weg: Geht die Stimme nach oben, nach unten oder ganz steil nach unten? Danach sehen Sie die echte Melodie – und Quaki fährt sie mit.</p></div></div>
       <div class="sm-box lab-box">
-        <p class="lab-sent" aria-live="polite" lang="de"></p>
+        <p class="lab-sent" aria-live="polite" lang="en"></p>
         <div class="lab-stage">
           <svg class="lab-svg" viewBox="0 0 360 250" role="img" aria-label="Maze: at the end of the sentence the path splits into three exits – top: question, bottom: statement, very bottom: exclamation." data-i18n-attr="aria-label:satzmelodie.lab.aria">
             <g class="lab-maze">
@@ -234,10 +234,10 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
             <span class={`sm-chip sm-chip--${chip(r.curve)}`} data-i18n={`satzmelodie.type.${r.id}`}>{r.name}</span>
           </div>
           <p class="sm-rule-text" data-i18n={`satzmelodie.rule.${r.id}`}>{r.text}</p>
-          <p class="sm-rule-ex" lang="de">{r.ex}</p>
+          <p class="sm-rule-ex" lang="en">{r.ex}</p>
         </section>
       ))}
-      <p class="sm-tip" data-i18n="satzmelodie.teacherTip">Für Lehrkräfte: Partnerübung mit drei Karten (. ? !). A sagt „Du kommst morgen“ mit einer Melodie, B zeigt die passende Karte.</p>
+      <p class="sm-tip" data-i18n="satzmelodie.teacherTip">For teachers: a pair activity with three cards (. ? !). A says “You're coming tomorrow” with one melody, B holds up the matching card.</p>
     </div>
   </aside>
   </div>
@@ -258,10 +258,13 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
   const audio = new Audio();
   let run = 0;
   const synth = "speechSynthesis" in window ? window.speechSynthesis : null;
-  let deVoice: SpeechSynthesisVoice | null = null;
+  let enVoice: SpeechSynthesisVoice | null = null;
   const pickVoice = () => {
-    const v = synth?.getVoices().filter((x) => /^de/i.test(x.lang)) ?? [];
-    deVoice = v.find((x) => /natural|online|neural|premium/i.test(x.name)) ?? v[0] ?? null;
+    const all = synth?.getVoices().filter((x) => /^en/i.test(x.lang)) ?? [];
+    // British first (the site's variety), then any English voice.
+    const gb = all.filter((x) => /^en[-_]GB/i.test(x.lang));
+    const v = gb.length ? gb : all;
+    enVoice = v.find((x) => /natural|online|neural|premium/i.test(x.name)) ?? v[0] ?? null;
   };
   if (synth) { pickVoice(); synth.onvoiceschanged = pickVoice; }
   // Browser fallback: pitch is all it can do, so the type sets it.
@@ -277,8 +280,8 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
     return new Promise((res) => {
       if (!synth) return res();
       const u = new SpeechSynthesisUtterance(text);
-      u.lang = "de-DE";
-      if (deVoice) u.voice = deVoice;
+      u.lang = "en-GB";
+      if (enVoice) u.voice = enVoice;
       u.pitch = pitch; u.rate = rate;
       let done = false;
       const fin = () => { if (!done) { done = true; res(); } };

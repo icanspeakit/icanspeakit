@@ -4,14 +4,14 @@
 import data, { allLines } from "../src/lib/satzmelodieData.js";
 
 const problems = [];
-const W = /^(Wer|Was|Wann|Wo|Woher|Wohin|Wie|Welche[nrsm]?|Warum|Wessen|Wem|Wen)\b/;
+const W = /^(What|What's|When|Where|Who|Whom|Whose|Which|Why|How)\b/;
 const TYPES = Object.keys(data.types);
 
 for (const f of data.families) {
   if (/[.?!]$/.test(f.base)) problems.push(`${f.topic}: base "${f.base}" must not end in a punctuation mark (the page adds . ? !)`);
-  if (!f.jn?.endsWith("?")) problems.push(`${f.topic}: Ja/Nein-Frage must end with "?"`);
-  if (W.test(f.jn ?? "")) problems.push(`${f.topic}: Ja/Nein-Frage starts with a W-word`);
-  if (!f.w?.endsWith("?") || !W.test(f.w)) problems.push(`${f.topic}: W-Frage "${f.w}" must start with a W-word and end with "?"`);
+  if (!f.jn?.endsWith("?")) problems.push(`${f.topic}: yes/no question must end with "?"`);
+  if (W.test(f.jn ?? "")) problems.push(`${f.topic}: yes/no question starts with a wh-word`);
+  if (!f.w?.endsWith("?") || !W.test(f.w)) problems.push(`${f.topic}: wh- question "${f.w}" must start with a wh-word and end with "?"`);
 }
 for (const [i, s] of data.stress.entries()) {
   if (!Number.isInteger(s.k) || s.k < 0 || s.k >= s.words.length) problems.push(`stress ${i}: index ${s.k} out of range`);
