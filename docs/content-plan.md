@@ -364,6 +364,27 @@ for the same reason. `uebersetzungen/sprechen.json` is empty (`entries: {}`), li
 | `satzmelodie.json` | intonation: questions, lists, sentence stress, polite vs flat | `pronunciation` |
 | `zungenbrecher.json` | English tongue twisters (traditional, public domain) | `pronunciation` |
 
+**Done by `pronunciation` (2026-10-30):** all five files are English (British English), with
+the same keys and ids. `ausspracheregeln.json`: 14 rules in the old rule slots (word stress,
+ship/sheep, /ə/ and weak forms, magic e, th, -ed, s-clusters, -s, voiced endings, non-rhotic r,
+h, w/v, silent letters, linking), `match` regexes for English words. `aussprache-check.json`:
+26 sentences A1–B1 in the old ids (question slots stay questions). `zungenbrecher.json`:
+22 traditional twisters, levels `Easy`/`Medium`/`Hard` (was 25; no dialect take).
+`satzmelodie.json`: 10 families, 10 stress items, 7 rules; family `topic` is now an English
+word and its en.json key follows it (`satzmelodie.topic.plans` …). Sound/focus ids are English
+now (`th`, `w-v`, `i-ee`, `ae`, `ed`, `s-cluster`, `h`, `r`, `ng`, `end`; `src/lib/ausspracheTipps.js`).
+Every `audio` flag is `false` until English recordings exist; the pages read the text with an
+en-GB browser voice (`LANG = "en-GB"` in the check libs). **Drills by first language
+(`aussprache-muttersprache.json`):** 18 drills; ids that still name an English problem kept
+their slot (`p-b`, `sp-st`, `h`, `auslaut`, `ende`, `kurz-lang` = ship/sheep, `w-b` = v/b, …),
+`th`, `w-v`, `ae` are new, the German-only `ue-oe`, `ch`, `hart`, `g-h`, `z-w` are gone. Because
+drills and mistakes link both ways (`pnpm check:aussprache`), this run also rewrote the
+**`area: "aussprache"` entries of `fehler-nach-sprache.json`** in English (new ids where the
+sound changed, e.g. `franzoesisch-th`, `polnisch-w-v`); every other area of that file is still
+German and stays with `idioms-mistakes`. The language slot `englisch` (English speakers) has no
+pronunciation mistakes or drills any more: `idioms-mistakes` should turn it into German
+speakers (`deutsch`); the drills `w-v`, `th` and `auslaut` fit them.
+
 ### 5.7 Idioms, mistakes, slang
 
 | German | English | Item |
