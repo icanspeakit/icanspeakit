@@ -465,7 +465,7 @@ export function mountHost(root) {
     const text = cleanClue(body?.text);
     if (!text || round.clues.some((c) => c.id === id && c.cr === round.clueRound)) return;
     // A clue that names the word itself is held back on its own.
-    const lemma = round.word.de.split(" ").pop().toLowerCase();
+    const lemma = round.word.de.replace(/^(a|an) /, "").toLowerCase();
     const named = text.toLowerCase().includes(lemma.slice(0, Math.max(4, lemma.length - 2)));
     const clue = { id, cr: round.clueRound, text, shown: false, hidden: named, named, at: Date.now() };
     round.clues.push(clue);
