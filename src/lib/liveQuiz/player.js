@@ -146,7 +146,7 @@ export function mountPlayer(root) {
     $("[data-other-pin]").hidden = true;
   }
   // The name is a step of its own, after the PIN has found a room: the field starts with
-  // the name this tab used last, else an animal name ("Mutiger Fuchs"); the dice draws
+  // the name this tab used last, else an animal name ("Brave Fox"); the dice draws
   // another, typing replaces it, and an empty field falls back to the drawn animal. The
   // animal is the player's picture too: an own name keeps the last animal shown.
   const nameForm = $("[data-name-form]");
