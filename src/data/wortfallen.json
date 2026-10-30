@@ -1,747 +1,294 @@
 {
-  "_about": "Wortfallen (/wissen/wortfallen): German words that sound almost alike and that learners mix up, each with the funny wrong sentence, the right one and a memory trick. *word* marks the word to highlight. quiz.a is the right option. Emoji are fetched by scripts/fetch-openmoji.mjs.",
+  "_about": "Word traps (/wissen/wortfallen): English words that learners mix up – look-alikes (kitchen/chicken, receipt/recipe) and false friends from other languages (become ≠ German bekommen, actual ≠ aktuell/actual, embarrassed ≠ Spanish embarazada) – each with the funny wrong sentence, the right one and a memory trick. *word* marks the word to highlight. quiz.a is the right option. Emoji are OpenMoji SVGs already in public/img/openmoji (scripts/fetch-openmoji.mjs). `audio` stays false until English recordings exist (scripts/generate-wortfallen-audio.mjs). British English, A1–B1; idioms-mistakes run (2026-10-30), not yet reviewed. The meanings, reactions and tips are also in public/i18n/en.json (wortfallen.<id>.*), which the build renders over the HTML: change both.",
   "groups": [
     {
-      "id": "kueche",
+      "id": "kitchen",
       "words": [
-        {
-          "w": "die Küche",
-          "emoji": "🍳",
-          "meaning": "der Raum, in dem man kocht"
-        },
-        {
-          "w": "der Kuchen",
-          "emoji": "🍰",
-          "meaning": "süß, mit Sahne, zum Kaffee"
-        },
-        {
-          "w": "der Koch",
-          "emoji": "🧑‍🍳",
-          "meaning": "der Mann, der kocht (die Köchin)"
-        }
+        { "w": "kitchen", "emoji": "🍳", "meaning": "the room where you cook" },
+        { "w": "chicken", "emoji": "🐥", "meaning": "a farm bird; also its meat" }
       ],
       "who": "hamsti",
-      "oops": "Ich bringe eine *Küche* zum Grillen mit!",
-      "react": "Eine ganze Küche? Mit Herd und Spüle? Du bist aber stark!",
-      "right": "Ich bringe einen *Kuchen* zum Grillen mit!",
-      "tip": "Ein Satz für alle drei: Der Koch backt in der Küche einen Kuchen.",
+      "oops": "I'm roasting a *kitchen* for dinner tonight.",
+      "react": "A whole kitchen? With the fridge and the sink? You must be really hungry!",
+      "right": "I'm roasting a *chicken* for dinner tonight.",
+      "tip": "One sentence for both: the chicken is in the kitchen. You can eat only one of them.",
       "quiz": [
-        {
-          "s": "Zum Kaffee gibt es ___ mit Sahne.",
-          "o": [
-            "Kuchen",
-            "Küche",
-            "Koch"
-          ],
-          "a": "Kuchen"
-        },
-        {
-          "s": "Unsere ___ ist klein, aber der Herd ist neu.",
-          "o": [
-            "Küche",
-            "Kuchen",
-            "Koch"
-          ],
-          "a": "Küche"
-        },
-        {
-          "s": "Der ___ in diesem Restaurant kommt aus Italien.",
-          "o": [
-            "Koch",
-            "Kuchen",
-            "Küche"
-          ],
-          "a": "Koch"
-        }
+        { "s": "We had roast ___ with potatoes.", "o": ["chicken", "kitchen"], "a": "chicken" },
+        { "s": "Our ___ is small, but the cooker is new.", "o": ["kitchen", "chicken"], "a": "kitchen" }
       ],
-      "audio": true
+      "audio": false
     },
     {
-      "id": "schenken",
+      "id": "sheep",
       "words": [
-        {
-          "w": "schenken",
-          "emoji": "🎁",
-          "meaning": "jemandem ein Geschenk geben"
-        },
-        {
-          "w": "schicken",
-          "emoji": "✉️",
-          "meaning": "mit der Post oder per E-Mail senden"
-        },
-        {
-          "w": "der Schinken",
-          "emoji": "🍖",
-          "meaning": "Fleisch vom Schwein, z. B. aufs Brot"
-        }
-      ],
-      "who": "bruno",
-      "oops": "Zum Geburtstag *schinke* ich dir ein Buch.",
-      "react": "Ein Buch mit Schinken? Na ja … in Bayern vielleicht.",
-      "right": "Zum Geburtstag *schenke* ich dir ein Buch.",
-      "tip": "schenken → das Geschenk: beide mit „e“. schicken → mit „i“ wie im Brief. Und den Schinken isst du.",
-      "quiz": [
-        {
-          "s": "Ich ___ dir morgen die Fotos per E-Mail.",
-          "o": [
-            "schicke",
-            "schenke",
-            "schinke"
-          ],
-          "a": "schicke"
-        },
-        {
-          "s": "Was ___ wir Oma zum Geburtstag?",
-          "o": [
-            "schenken",
-            "schicken",
-            "Schinken"
-          ],
-          "a": "schenken"
-        },
-        {
-          "s": "Ein Brötchen mit ___ und Käse, bitte.",
-          "o": [
-            "Schinken",
-            "Schenken",
-            "Schicken"
-          ],
-          "a": "Schinken"
-        }
-      ],
-      "audio": true
-    },
-    {
-      "id": "kirche",
-      "words": [
-        {
-          "w": "die Kirche",
-          "emoji": "⛪",
-          "meaning": "dort beten Christen, mit Turm und Glocke"
-        },
-        {
-          "w": "die Kirsche",
-          "emoji": "🍒",
-          "meaning": "kleines rotes Obst"
-        }
+        { "w": "ship", "emoji": "⛴️", "meaning": "a big boat (short i)" },
+        { "w": "sheep", "emoji": "🐑", "meaning": "a farm animal with wool (long ee)" }
       ],
       "who": "quaki",
-      "oops": "Im Sommer esse ich gern *Kirchen*.",
-      "react": "Mit Turm und Glocke? Guten Appetit!",
-      "right": "Im Sommer esse ich gern *Kirschen*.",
-      "tip": "Die Kirsche hat ein „s“ mehr – „s“ wie süß.",
+      "oops": "We went to France by *sheep*.",
+      "react": "On a sheep? That was a slow and very woolly trip!",
+      "right": "We went to France by *ship*.",
+      "tip": "ship: short i, quick like a wave. sheep: long ee – make it as long as the sheep's baaa.",
       "quiz": [
-        {
-          "s": "Am Sonntag gehen wir in die ___.",
-          "o": [
-            "Kirche",
-            "Kirsche"
-          ],
-          "a": "Kirche"
-        },
-        {
-          "s": "Ich kaufe ein Kilo ___ auf dem Markt.",
-          "o": [
-            "Kirschen",
-            "Kirchen"
-          ],
-          "a": "Kirschen"
-        }
+        { "s": "The ___ leaves Dover at nine o'clock.", "o": ["ship", "sheep"], "a": "ship" },
+        { "s": "The farmer has two hundred ___.", "o": ["sheep", "ships"], "a": "sheep" }
       ],
-      "audio": true
+      "audio": false
     },
     {
-      "id": "schluessel",
+      "id": "hungry",
       "words": [
-        {
-          "w": "der Schlüssel",
-          "emoji": "🔑",
-          "meaning": "damit öffnest du die Tür"
-        },
-        {
-          "w": "die Schüssel",
-          "emoji": "🥣",
-          "meaning": "tiefer Teller für Suppe oder Müsli"
-        }
-      ],
-      "who": "hamsti",
-      "oops": "Ich esse mein Müsli aus dem *Schlüssel*.",
-      "react": "Da brauchst du aber einen sehr kleinen Löffel.",
-      "right": "Ich esse mein Müsli aus der *Schüssel*.",
-      "tip": "Das „l“ im Schlüssel passt ins Schloss: Schlüssel – Schloss.",
-      "quiz": [
-        {
-          "s": "Wo ist mein ___? Ich komme nicht in die Wohnung!",
-          "o": [
-            "Schlüssel",
-            "Schüssel"
-          ],
-          "a": "Schlüssel"
-        },
-        {
-          "s": "Der Salat ist in der großen ___.",
-          "o": [
-            "Schüssel",
-            "Schlüssel"
-          ],
-          "a": "Schüssel"
-        }
-      ],
-      "audio": true
-    },
-    {
-      "id": "kissen",
-      "words": [
-        {
-          "w": "das Kissen",
-          "emoji": "🛏️",
-          "meaning": "darauf liegt dein Kopf im Bett"
-        },
-        {
-          "w": "küssen",
-          "emoji": "💋",
-          "meaning": "einen Kuss geben"
-        }
-      ],
-      "who": "quaki",
-      "oops": "Darf ich dich *kissen*?",
-      "react": "Du willst auf mir schlafen? Das ist … komisch.",
-      "right": "Darf ich dich *küssen*?",
-      "tip": "küssen → der Kuss: immer mit „u“ oder „ü“. Das Kissen liegt im Bett.",
-      "quiz": [
-        {
-          "s": "Ohne mein ___ schlafe ich schlecht.",
-          "o": [
-            "Kissen",
-            "Küssen"
-          ],
-          "a": "Kissen"
-        },
-        {
-          "s": "Zum Abschied ___ sie ihren Mann.",
-          "o": [
-            "küsst",
-            "kisst"
-          ],
-          "a": "küsst"
-        }
-      ],
-      "audio": true
-    },
-    {
-      "id": "bett",
-      "words": [
-        {
-          "w": "das Bett",
-          "emoji": "🛏️",
-          "meaning": "darin schläfst du"
-        },
-        {
-          "w": "das Beet",
-          "emoji": "🌷",
-          "meaning": "Stück Garten mit Blumen oder Gemüse"
-        }
+        { "w": "hungry", "emoji": "😋", "meaning": "you want to eat" },
+        { "w": "angry", "emoji": "😠", "meaning": "you are very cross" }
       ],
       "who": "bruno",
-      "oops": "Ich bin müde, ich gehe jetzt ins *Beet*.",
-      "react": "Schlaf gut zwischen den Karotten!",
-      "right": "Ich bin müde, ich gehe jetzt ins *Bett*.",
-      "tip": "Bett: kurzes „e“, zwei „t“. Beet: langes „e“, zwei „e“ – da wachsen Blumen.",
+      "oops": "I haven't eaten all day – I'm so *angry*!",
+      "react": "Angry? With me? What have I done?",
+      "right": "I haven't eaten all day – I'm so *hungry*!",
+      "tip": "hungry starts with h, like hamburger. angry starts with a, like argh!",
       "quiz": [
-        {
-          "s": "Um zehn Uhr gehen die Kinder ins ___.",
-          "o": [
-            "Bett",
-            "Beet"
-          ],
-          "a": "Bett"
-        },
-        {
-          "s": "Im Garten haben wir ein ___ mit Tomaten.",
-          "o": [
-            "Beet",
-            "Bett"
-          ],
-          "a": "Beet"
-        }
+        { "s": "Let's have lunch, I'm really ___.", "o": ["hungry", "angry"], "a": "hungry" },
+        { "s": "My boss was ___ because I was late again.", "o": ["angry", "hungry"], "a": "angry" }
       ],
-      "audio": true
+      "audio": false
     },
     {
-      "id": "zahlen",
+      "id": "walk",
       "words": [
-        {
-          "w": "zahlen",
-          "emoji": "💳",
-          "meaning": "Geld geben, bezahlen"
-        },
-        {
-          "w": "zählen",
-          "emoji": "🔢",
-          "meaning": "1, 2, 3 …"
-        }
+        { "w": "walk", "emoji": "🚶", "meaning": "to go on foot" },
+        { "w": "work", "emoji": "💼", "meaning": "to do your job" }
       ],
       "who": "regi",
-      "oops": "Kann ich mit Karte *zählen*?",
-      "react": "Eins, zwei, drei … Karte! Fertig.",
-      "right": "Kann ich mit Karte *zahlen*?",
-      "tip": "Die Kinder zählen, die Eltern zahlen. Mit „ä“ wird gezählt, ohne „ä“ wird bezahlt.",
+      "oops": "Every morning I *work* to the station.",
+      "react": "You do your job on the way there? That's very busy!",
+      "right": "Every morning I *walk* to the station.",
+      "tip": "In walk the l is silent and the sound is long, like in door: /wɔːk/. work sounds like bird: /wɜːk/.",
       "quiz": [
-        {
-          "s": "Die Rechnung, bitte. Wir möchten ___.",
-          "o": [
-            "zahlen",
-            "zählen"
-          ],
-          "a": "zahlen"
-        },
-        {
-          "s": "Unsere Tochter kann schon bis hundert ___.",
-          "o": [
-            "zählen",
-            "zahlen"
-          ],
-          "a": "zählen"
-        }
+        { "s": "It's a nice day – let's ___ to the park.", "o": ["walk", "work"], "a": "walk" },
+        { "s": "I ___ in a hospital as a nurse.", "o": ["work", "walk"], "a": "work" }
       ],
-      "audio": true
+      "audio": false
+    },
+    {
+      "id": "become",
+      "words": [
+        { "w": "get", "emoji": "📦", "meaning": "to receive something" },
+        { "w": "become", "emoji": "🌱", "meaning": "to change into something, to start to be" }
+      ],
+      "who": "bruno",
+      "oops": "Can I *become* a coffee, please?",
+      "react": "You want to turn into a coffee? Hot and black?",
+      "right": "Can I *get* a coffee, please?",
+      "tip": "False friend for German speakers: bekommen = get. become = werden: She became a doctor.",
+      "quiz": [
+        { "s": "I ___ a lot of emails every day.", "o": ["get", "become"], "a": "get" },
+        { "s": "She wants to ___ a doctor.", "o": ["become", "get"], "a": "become" }
+      ],
+      "audio": false
     },
     {
       "id": "gift",
       "words": [
-        {
-          "w": "das Gift",
-          "emoji": "☠️",
-          "meaning": "macht krank oder tötet (englisch: poison)"
-        },
-        {
-          "w": "das Geschenk",
-          "emoji": "🎁",
-          "meaning": "bekommst du zum Geburtstag (englisch: gift)"
-        }
+        { "w": "gift", "emoji": "🎁", "meaning": "a present" },
+        { "w": "poison", "emoji": "☠️", "meaning": "it makes you ill or kills you" }
       ],
       "who": "regi",
-      "oops": "Ich habe ein kleines *Gift* für dich!",
-      "react": "Oh … danke. Ich öffne es später. Vielleicht.",
-      "right": "Ich habe ein kleines *Geschenk* für dich!",
-      "tip": "Ein „falscher Freund“ aus dem Englischen: Gift ist auf Deutsch nie ein Geschenk.",
+      "oops": "Careful, there's *gift* in that bottle!",
+      "react": "A present in a bottle? How lovely! Can I open it?",
+      "right": "Careful, there's *poison* in that bottle!",
+      "tip": "False friend for German speakers: Gift = poison. In English a gift is always a present.",
       "quiz": [
-        {
-          "s": "Zu Weihnachten liegen viele ___ unter dem Baum.",
-          "o": [
-            "Geschenke",
-            "Gifte"
-          ],
-          "a": "Geschenke"
-        },
-        {
-          "s": "Vorsicht, diese Pilze sind ___!",
-          "o": [
-            "giftig",
-            "geschenkt"
-          ],
-          "a": "giftig"
-        }
+        { "s": "Thank you for the lovely birthday ___!", "o": ["gift", "poison"], "a": "gift" },
+        { "s": "Keep the rat ___ away from children.", "o": ["poison", "gift"], "a": "poison" }
       ],
-      "audio": true
+      "audio": false
     },
     {
-      "id": "bekommen",
+      "id": "actual",
       "words": [
-        {
-          "w": "bekommen",
-          "emoji": "📦",
-          "meaning": "etwas kriegen (englisch: get, receive)"
-        },
-        {
-          "w": "werden",
-          "emoji": "🌱",
-          "meaning": "sich ändern, später etwas sein (englisch: become)"
-        }
-      ],
-      "who": "bruno",
-      "oops": "Ich will Arzt *bekommen*.",
-      "react": "Willst du einen bestellen? Mit Lieferung?",
-      "right": "Ich will Arzt *werden*.",
-      "tip": "Noch ein falscher Freund: „become“ heißt werden. Bekommen ist „get“.",
-      "quiz": [
-        {
-          "s": "Gestern habe ich einen Brief ___.",
-          "o": [
-            "bekommen",
-            "geworden"
-          ],
-          "a": "bekommen"
-        },
-        {
-          "s": "Mein Bruder möchte Lehrer ___.",
-          "o": [
-            "werden",
-            "bekommen"
-          ],
-          "a": "werden"
-        }
-      ],
-      "audio": true
-    },
-    {
-      "id": "schoen",
-      "words": [
-        {
-          "w": "schön",
-          "emoji": "🌸",
-          "meaning": "hübsch, toll"
-        },
-        {
-          "w": "schon",
-          "emoji": "⏰",
-          "meaning": "bereits, früher als gedacht"
-        }
+        { "w": "current", "emoji": "📰", "meaning": "happening now, of today" },
+        { "w": "actual", "emoji": "🎯", "meaning": "real, true" }
       ],
       "who": "quaki",
-      "oops": "Bist du *schön* fertig?",
-      "react": "Danke! Ich bin immer schön.",
-      "right": "Bist du *schon* fertig?",
-      "tip": "Die zwei Punkte auf dem „ö“ sind Augen – die sehen etwas Schönes.",
+      "oops": "Our *actual* prices are on the website.",
+      "react": "And the other prices? Were they not real?",
+      "right": "Our *current* prices are on the website.",
+      "tip": "False friend: aktuell (German), actuel (French), attuale (Italian), actual (Spanish) = current. In English, actual means real: the actual price is the price you really pay.",
       "quiz": [
-        {
-          "s": "Es ist ___ acht Uhr! Wir sind zu spät.",
-          "o": [
-            "schon",
-            "schön"
-          ],
-          "a": "schon"
-        },
-        {
-          "s": "Das Wetter ist heute sehr ___.",
-          "o": [
-            "schön",
-            "schon"
-          ],
-          "a": "schön"
-        }
+        { "s": "The ___ timetable is valid until December.", "o": ["current", "actual"], "a": "current" },
+        { "s": "The photos looked great, but the ___ hotel was awful.", "o": ["actual", "current"], "a": "actual" }
       ],
-      "audio": true
+      "audio": false
     },
     {
-      "id": "liegen",
+      "id": "eventually",
       "words": [
-        {
-          "w": "liegen",
-          "emoji": "🛌",
-          "meaning": "flach im Bett oder auf dem Sofa sein"
-        },
-        {
-          "w": "lügen",
-          "emoji": "🤥",
-          "meaning": "nicht die Wahrheit sagen"
-        }
+        { "w": "maybe", "emoji": "🤔", "meaning": "perhaps, it is possible" },
+        { "w": "eventually", "emoji": "🏁", "meaning": "in the end, after a long time" }
       ],
       "who": "hamsti",
-      "oops": "Ich bin krank und *lüge* den ganzen Tag im Bett.",
-      "react": "Und wem erzählst du da Geschichten?",
-      "right": "Ich bin krank und *liege* den ganzen Tag im Bett.",
-      "tip": "lügen → die Lüge: beide mit „ü“. Liegen mit „ie“ wie im Liegestuhl.",
+      "oops": "I'll *eventually* come to the party – I'm not sure yet.",
+      "react": "So you'll definitely come – just very, very late?",
+      "right": "*Maybe* I'll come to the party – I'm not sure yet.",
+      "tip": "False friend: eventuell (German), éventuellement (French), eventualmente (Spanish, Italian) = maybe. eventually = in the end.",
       "quiz": [
-        {
-          "s": "Dein Handy ___ auf dem Tisch.",
-          "o": [
-            "liegt",
-            "lügt"
-          ],
-          "a": "liegt"
-        },
-        {
-          "s": "Pinocchio ___, und seine Nase wird lang.",
-          "o": [
-            "lügt",
-            "liegt"
-          ],
-          "a": "lügt"
-        }
+        { "s": "We waited for an hour, but the bus ___ came.", "o": ["eventually", "maybe"], "a": "eventually" },
+        { "s": "___ it will rain later – take an umbrella.", "o": ["Maybe", "Eventually"], "a": "Maybe" }
       ],
-      "audio": true
+      "audio": false
     },
     {
-      "id": "wahl",
+      "id": "sensible",
       "words": [
-        {
-          "w": "die Wahl",
-          "emoji": "🗳️",
-          "meaning": "man wählt, z. B. die Regierung"
-        },
-        {
-          "w": "der Wal",
-          "emoji": "🐋",
-          "meaning": "das größte Tier im Meer"
-        }
+        { "w": "sensitive", "emoji": "😢", "meaning": "easily hurt or upset" },
+        { "w": "sensible", "emoji": "👟", "meaning": "practical, with good judgement" }
       ],
       "who": "regi",
-      "oops": "Am Sonntag ist *Wal*. Ich gehe auf jeden Fall hin!",
-      "react": "Bring ein Boot mit!",
-      "right": "Am Sonntag ist *Wahl*. Ich gehe auf jeden Fall hin!",
-      "tip": "Die Wahl kommt von wählen – darum das „h“. Der Wal schwimmt ohne.",
+      "oops": "Don't shout at him – he's very *sensible*.",
+      "react": "Sensible? Then he'll understand why you're shouting!",
+      "right": "Don't shout at him – he's very *sensitive*.",
+      "tip": "False friend: sensibel (German), sensible (French, Spanish) = sensitive. In English, sensible means practical: sensible shoes for a long walk.",
       "quiz": [
-        {
-          "s": "Der ___ ist kein Fisch, sondern ein Säugetier.",
-          "o": [
-            "Wal",
-            "Wahl"
-          ],
-          "a": "Wal"
-        },
-        {
-          "s": "Bei der ___ darf jeder ab 18 seine Stimme abgeben.",
-          "o": [
-            "Wahl",
-            "Wal"
-          ],
-          "a": "Wahl"
-        }
+        { "s": "Wear ___ shoes – we're walking ten miles.", "o": ["sensible", "sensitive"], "a": "sensible" },
+        { "s": "My skin is very ___ to the sun.", "o": ["sensitive", "sensible"], "a": "sensitive" }
       ],
-      "audio": true
+      "audio": false
     },
     {
-      "id": "huette",
+      "id": "embarrassed",
       "words": [
-        {
-          "w": "die Hütte",
-          "emoji": "🛖",
-          "meaning": "kleines Haus, oft in den Bergen"
-        },
-        {
-          "w": "die Hüte",
-          "emoji": "🎩",
-          "meaning": "mehr als ein Hut (der Hut)"
-        }
-      ],
-      "who": "bruno",
-      "oops": "In den Bergen schlafen wir in einer *Hüte*.",
-      "react": "Wie viele Leute passen denn in deinen Hut?",
-      "right": "In den Bergen schlafen wir in einer *Hütte*.",
-      "tip": "Hütte: kurzes „ü“, zwei „t“. Hüte: langes „ü“ – viele Hüte auf vielen Köpfen.",
-      "quiz": [
-        {
-          "s": "Die ___ in den Bergen hat kein WLAN.",
-          "o": [
-            "Hütte",
-            "Hüte"
-          ],
-          "a": "Hütte"
-        },
-        {
-          "s": "Meine Oma hat zwanzig ___ im Schrank.",
-          "o": [
-            "Hüte",
-            "Hütten"
-          ],
-          "a": "Hüte"
-        }
-      ],
-      "audio": true
-    },
-    {
-      "id": "bier",
-      "words": [
-        {
-          "w": "das Bier",
-          "emoji": "🍺",
-          "meaning": "Getränk mit Alkohol"
-        },
-        {
-          "w": "der Bär",
-          "emoji": "🐻",
-          "meaning": "großes Tier im Wald"
-        },
-        {
-          "w": "die Beere",
-          "emoji": "🍓",
-          "meaning": "kleines Obst, z. B. Erdbeere"
-        }
+        { "w": "embarrassed", "emoji": "😬", "meaning": "you feel silly in front of other people" },
+        { "w": "pregnant", "emoji": "👶", "meaning": "a baby is growing inside you" }
       ],
       "who": "hamsti",
-      "oops": "Im Biergarten bestelle ich ein großes *Bär*.",
-      "react": "Der Kellner hat jetzt ein bisschen Angst.",
-      "right": "Im Biergarten bestelle ich ein großes *Bier*.",
-      "tip": "Bier mit „ie“ wie in „vier Bier“. Der Bär mit „ä“. Die Beere mit zwei „e“.",
+      "oops": "I'm *embarrassed* – the baby is due in May!",
+      "react": "Embarrassed? But a baby is wonderful news!",
+      "right": "I'm *pregnant* – the baby is due in May!",
+      "tip": "False friend for Spanish speakers: embarazada = pregnant. embarrassed = you go red because you feel silly.",
       "quiz": [
-        {
-          "s": "Im Wald sehen wir einen braunen ___!",
-          "o": [
-            "Bären",
-            "Bier",
-            "Beeren"
-          ],
-          "a": "Bären"
-        },
-        {
-          "s": "Ein ___ und eine Cola, bitte.",
-          "o": [
-            "Bier",
-            "Bär",
-            "Beere"
-          ],
-          "a": "Bier"
-        },
-        {
-          "s": "Im Sommer sammeln wir ___ im Wald.",
-          "o": [
-            "Beeren",
-            "Bären",
-            "Biere"
-          ],
-          "a": "Beeren"
-        }
+        { "s": "I was so ___ when I fell over in the street.", "o": ["embarrassed", "pregnant"], "a": "embarrassed" },
+        { "s": "My sister is ___ with twins.", "o": ["pregnant", "embarrassed"], "a": "pregnant" }
       ],
-      "audio": true
+      "audio": false
     },
     {
-      "id": "maedchen",
+      "id": "library",
       "words": [
-        {
-          "w": "das Mädchen",
-          "emoji": "👧",
-          "meaning": "ein Kind, weiblich"
-        },
-        {
-          "w": "das Märchen",
-          "emoji": "📖",
-          "meaning": "Geschichte mit Hexen und Prinzessinnen"
-        }
-      ],
-      "who": "quaki",
-      "oops": "Vor dem Schlafen lese ich meinem Sohn ein *Mädchen* vor.",
-      "react": "Und was sagt das Mädchen dazu?",
-      "right": "Vor dem Schlafen lese ich meinem Sohn ein *Märchen* vor.",
-      "tip": "Märchen mit „r“ wie Rotkäppchen.",
-      "quiz": [
-        {
-          "s": "Das ___ heißt Lea und ist sechs Jahre alt.",
-          "o": [
-            "Mädchen",
-            "Märchen"
-          ],
-          "a": "Mädchen"
-        },
-        {
-          "s": "„Hänsel und Gretel“ ist ein bekanntes ___.",
-          "o": [
-            "Märchen",
-            "Mädchen"
-          ],
-          "a": "Märchen"
-        }
-      ],
-      "audio": true
-    },
-    {
-      "id": "fuehlen",
-      "words": [
-        {
-          "w": "fühlen",
-          "emoji": "🤒",
-          "meaning": "spüren, wie es dir geht"
-        },
-        {
-          "w": "füllen",
-          "emoji": "🥛",
-          "meaning": "voll machen"
-        }
-      ],
-      "who": "regi",
-      "oops": "Ich *fülle* mich heute nicht so gut.",
-      "react": "Womit denn? Mit Suppe?",
-      "right": "Ich *fühle* mich heute nicht so gut.",
-      "tip": "fühlen mit „h“ wie das Gefühl. füllen mit „ll“ wie ein volles Glas.",
-      "quiz": [
-        {
-          "s": "Kannst du bitte mein Glas ___?",
-          "o": [
-            "füllen",
-            "fühlen"
-          ],
-          "a": "füllen"
-        },
-        {
-          "s": "Wie ___ du dich nach dem Urlaub?",
-          "o": [
-            "fühlst",
-            "füllst"
-          ],
-          "a": "fühlst"
-        }
-      ],
-      "audio": true
-    },
-    {
-      "id": "hoehle",
-      "words": [
-        {
-          "w": "die Höhle",
-          "emoji": "🦇",
-          "meaning": "dunkles Loch im Berg"
-        },
-        {
-          "w": "die Hölle",
-          "emoji": "😈",
-          "meaning": "dort wohnt der Teufel"
-        }
+        { "w": "library", "emoji": "📚", "meaning": "you borrow books there, for free" },
+        { "w": "bookshop", "emoji": "📖", "meaning": "you buy books there" }
       ],
       "who": "bruno",
-      "oops": "Im Winter schläft der Bär in der *Hölle*.",
-      "react": "Da ist es wenigstens schön warm.",
-      "right": "Im Winter schläft der Bär in der *Höhle*.",
-      "tip": "Höhle: langes „ö“ mit „h“. Hölle: kurzes „ö“ mit „ll“ – heiß!",
+      "oops": "I bought this novel at the *library*.",
+      "react": "You paid at the library? There you borrow books – for free!",
+      "right": "I bought this novel at the *bookshop*.",
+      "tip": "False friend: librería (Spanish), librairie (French), libreria (Italian) = bookshop. A library lends books.",
       "quiz": [
-        {
-          "s": "In der ___ wohnen viele Fledermäuse.",
-          "o": [
-            "Höhle",
-            "Hölle"
-          ],
-          "a": "Höhle"
-        },
-        {
-          "s": "Der Montag war die ___: Stau, Regen und kein Kaffee.",
-          "o": [
-            "Hölle",
-            "Höhle"
-          ],
-          "a": "Hölle"
-        }
+        { "s": "You can borrow films from the ___ too.", "o": ["library", "bookshop"], "a": "library" },
+        { "s": "The ___ in town sells second-hand books.", "o": ["bookshop", "library"], "a": "bookshop" }
       ],
-      "audio": true
+      "audio": false
     },
     {
-      "id": "schwuel",
+      "id": "chef",
       "words": [
-        {
-          "w": "schwül",
-          "emoji": "🥵",
-          "meaning": "heiß und feucht (Wetter)"
-        },
-        {
-          "w": "schwul",
-          "emoji": "🏳️‍🌈",
-          "meaning": "homosexuell (Männer)"
-        }
+        { "w": "boss", "emoji": "👔", "meaning": "the person you work for" },
+        { "w": "chef", "emoji": "🧑‍🍳", "meaning": "a cook in a restaurant" }
       ],
       "who": "quaki",
-      "oops": "Puh, heute ist es aber *schwul*!",
-      "react": "Das Wetter liebt, wen es will. Gemeint war aber: heiß und feucht.",
-      "right": "Puh, heute ist es aber *schwül*!",
-      "tip": "Die zwei Punkte auf dem „ü“ sind Schweißtropfen: schwül.",
+      "oops": "My *chef* gave me Friday off.",
+      "react": "Your chef? I didn't know you worked in a restaurant!",
+      "right": "My *boss* gave me Friday off.",
+      "tip": "False friend: Chef (German), chef (French) = boss. In English, a chef cooks in a restaurant kitchen.",
       "quiz": [
-        {
-          "s": "Vor dem Gewitter war es sehr ___.",
-          "o": [
-            "schwül",
-            "schwul"
-          ],
-          "a": "schwül"
-        }
+        { "s": "The ___ in this restaurant is from Naples.", "o": ["chef", "boss"], "a": "chef" },
+        { "s": "I asked my ___ for a pay rise.", "o": ["boss", "chef"], "a": "boss" }
       ],
-      "audio": true
+      "audio": false
+    },
+    {
+      "id": "handy",
+      "words": [
+        { "w": "mobile", "emoji": "📱", "meaning": "a phone you carry with you" },
+        { "w": "handy", "emoji": "🔧", "meaning": "useful, easy to use" }
+      ],
+      "who": "regi",
+      "oops": "Can I borrow your *handy*? Mine's dead.",
+      "react": "Your handy what? Your handy umbrella?",
+      "right": "Can I borrow your *mobile*? Mine's dead.",
+      "tip": "False friend for German speakers: das Handy = mobile (UK) or cell phone (US). In English, handy is an adjective: useful.",
+      "quiz": [
+        { "s": "Call me on my ___ if you're late.", "o": ["mobile", "handy"], "a": "mobile" },
+        { "s": "This little torch is very ___ when you go camping.", "o": ["handy", "mobile"], "a": "handy" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "borrow",
+      "words": [
+        { "w": "borrow", "emoji": "🤝", "meaning": "to take something and give it back later" },
+        { "w": "lend", "emoji": "💵", "meaning": "to give something and get it back later" }
+      ],
+      "who": "hamsti",
+      "oops": "Can you *borrow* me ten pounds until Friday?",
+      "react": "Borrow you? From whom? You're not a library book!",
+      "right": "Can you *lend* me ten pounds until Friday?",
+      "tip": "You borrow FROM someone; someone lends TO you. The bank lends you money – you borrow money from the bank.",
+      "quiz": [
+        { "s": "Can I ___ your pen for a minute?", "o": ["borrow", "lend"], "a": "borrow" },
+        { "s": "Could you ___ me your car tomorrow?", "o": ["lend", "borrow"], "a": "lend" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "fun",
+      "words": [
+        { "w": "fun", "emoji": "🎉", "meaning": "you enjoy it" },
+        { "w": "funny", "emoji": "😂", "meaning": "it makes you laugh" }
+      ],
+      "who": "quaki",
+      "oops": "The party was really *funny* – we danced all night.",
+      "react": "Funny? Did somebody tell jokes all night?",
+      "right": "The party was really *fun* – we danced all night.",
+      "tip": "fun = you enjoy it. funny = it makes you laugh. A holiday is fun; a clown is funny.",
+      "quiz": [
+        { "s": "Skiing is great ___!", "o": ["fun", "funny"], "a": "fun" },
+        { "s": "He told a really ___ joke.", "o": ["funny", "fun"], "a": "funny" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "factory",
+      "words": [
+        { "w": "factory", "emoji": "🏭", "meaning": "a building where things are made" },
+        { "w": "fabric", "emoji": "🧶", "meaning": "material for clothes and curtains" }
+      ],
+      "who": "bruno",
+      "oops": "My dad works in a car *fabric*.",
+      "react": "A car made of fabric? Soft, but not very safe!",
+      "right": "My dad works in a car *factory*.",
+      "tip": "False friend: Fabrik (German), fábrica (Spanish), fabbrica (Italian) = factory. fabric = cloth, material.",
+      "quiz": [
+        { "s": "The ___ makes 500 bikes a day.", "o": ["factory", "fabric"], "a": "factory" },
+        { "s": "This shirt is made of a soft ___.", "o": ["fabric", "factory"], "a": "fabric" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "receipt",
+      "words": [
+        { "w": "receipt", "emoji": "🧾", "meaning": "the paper you get when you pay" },
+        { "w": "recipe", "emoji": "📝", "meaning": "it tells you how to cook something" }
+      ],
+      "who": "regi",
+      "oops": "Could I have the *recipe*, please? I might take the shoes back.",
+      "react": "The recipe? Do you want to cook the shoes?",
+      "right": "Could I have the *receipt*, please? I might take the shoes back.",
+      "tip": "receipt: the p is silent (/rɪˈsiːt/), you get it at the till. recipe has three syllables (/ˈresəpi/) and lives in the kitchen.",
+      "quiz": [
+        { "s": "Keep the ___ in case you want to return it.", "o": ["receipt", "recipe"], "a": "receipt" },
+        { "s": "This cake ___ is from my grandmother.", "o": ["recipe", "receipt"], "a": "recipe" }
+      ],
+      "audio": false
     }
   ]
 }

@@ -1,11 +1,11 @@
 ---
-// /wissen/wortfallen — Küche, Kuchen, Koch: German words that sound almost alike and that
-// learners mix up. Each trap gets the funny wrong sentence (said by one of the crew, the
-// wrong word in red), a reaction, the right sentence and a memory trick. At the foot a
-// quiz over all of them, ten gaps a round.
+// /wissen/wortfallen — kitchen/chicken, become/get, actual/current: English words that
+// learners mix up, look-alikes and false friends. Each trap gets the funny wrong sentence
+// (said by one of the crew, the wrong word in red), a reaction, the right sentence and a
+// memory trick. At the foot a quiz over all of them, ten gaps a round.
 //
 // The words live in src/data/wortfallen.json; their pictures are OpenMoji fetched by
-// scripts/fetch-openmoji.mjs. Easy German (A1–B1) like /wissen/lernen, linked from the
+// scripts/fetch-openmoji.mjs. Easy English (A1–B1) like /wissen/lernen, linked from the
 // Wissen menu (navWortfallen in catalog.js). With the mascots switched off the figures
 // hide and each card still reads on its own.
 import Layout from "../../layouts/Layout.astro";
@@ -20,7 +20,7 @@ const NAMES: Record<Name, string> = { bruno: "Bruno", regi: "Regi", hamsti: "Ham
 const COLORS: Record<Name, string> = { bruno: "#f97316", regi: "#0d9488", hamsti: "#f2a900", quaki: "#2563eb" };
 
 const groups = data.groups.map((g) => ({ ...g, who: g.who as Name, audio: Boolean((g as { audio?: boolean }).audio) }));
-// "*Küche*" → the marked word in its own span.
+// "*kitchen*" → the marked word in its own span.
 const parts = (s: string) => s.split(/\*([^*]+)\*/).map((t, i) => ({ t, mark: i % 2 === 1 }));
 const title = (g: (typeof groups)[number]) => g.words.map((w) => w.w.replace(/^(der|die|das) /, "")).join(" · ");
 
@@ -30,7 +30,7 @@ const quiz = groups.flatMap((g) => g.quiz.map((q, n) => ({ ...q, g: g.id, tip: g
 // The same sentences as a chapter of the teachers' live quiz (src/lib/liveQuiz/chapters.js).
 const LIVE = "/lehrkraefte/quiz?grammar=g-wortfallen";
 // Interface keys: what each word means, the reaction and the memory trick are translated
-// (wortfallen.<id>.*); the words and sentences themselves stay German.
+// (wortfallen.<id>.*); the words and sentences themselves are the English being taught.
 const K = (id: string) => `wortfallen.${id}`;
 ---
 <Layout
@@ -60,7 +60,7 @@ const K = (id: string) => `wortfallen.${id}`;
           <li>
             <a href={`#${g.id}`}>
               <img src={emojiSrc(g.words[0].emoji)} alt="" width="20" height="20" loading="lazy" />
-              <span lang="de">{title(g)}</span>
+              <span>{title(g)}</span>
             </a>
           </li>
         ))}
@@ -70,12 +70,12 @@ const K = (id: string) => `wortfallen.${id}`;
     <ol class="wf-list">
       {groups.map((g) => (
         <li class="wf-card" id={g.id} style={`--mk:${COLORS[g.who]}`}>
-          <h2 class="wf-title" lang="de">{title(g)}</h2>
+          <h2 class="wf-title">{title(g)}</h2>
           <ul class="wf-words">
             {g.words.map((w, wi) => (
               <li>
                 <img src={emojiSrc(w.emoji)} alt="" width="44" height="44" loading="lazy" />
-                <span><b lang="de">{w.w}</b><i data-i18n={`${K(g.id)}.m${wi + 1}`}>{w.meaning}</i></span>
+                <span><b>{w.w}</b><i data-i18n={`${K(g.id)}.m${wi + 1}`}>{w.meaning}</i></span>
               </li>
             ))}
           </ul>
@@ -87,7 +87,7 @@ const K = (id: string) => `wortfallen.${id}`;
             </span>
             <div class="wf-bubble">
               <p class="wf-label"><span aria-hidden="true">✗</span> <span data-i18n="vt.mark.wrong">Falsch</span>{g.audio && <button class="wf-play" type="button" data-play={`${AUDIO}/${g.id}-falsch.mp3`} aria-label="Falschen Satz anhören" data-i18n-attr="aria-label:wortfallen.playWrong"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>}</p>
-              <p class="wf-said" lang="de">{parts(g.oops).map((p) => (p.mark ? <s class="wf-bad">{p.t}</s> : p.t))}</p>
+              <p class="wf-said">{parts(g.oops).map((p) => (p.mark ? <s class="wf-bad">{p.t}</s> : p.t))}</p>
               <p class="wf-react" data-i18n={`${K(g.id)}.react`}>{g.react}</p>
             </div>
           </div>
@@ -95,7 +95,7 @@ const K = (id: string) => `wortfallen.${id}`;
           <div class="wf-yay">
             <div class="wf-right">
               <p class="wf-label"><span aria-hidden="true">✓</span> <span data-i18n="vt.mark.right">Richtig</span>{g.audio && <button class="wf-play" type="button" data-play={`${AUDIO}/${g.id}-richtig.mp3`} aria-label="Richtigen Satz anhören" data-i18n-attr="aria-label:wortfallen.playRight"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></button>}</p>
-              <p lang="de">{parts(g.right).map((p) => (p.mark ? <b class="wf-good">{p.t}</b> : p.t))}</p>
+              <p>{parts(g.right).map((p) => (p.mark ? <b class="wf-good">{p.t}</b> : p.t))}</p>
             </div>
             <span class="wf-fig" aria-hidden="true" data-mascot-part>
               <Fragment set:html={mascotSvg({ name: g.who, expr: "happy", view: "front", size: 56, label: "" })} />
@@ -119,7 +119,7 @@ const K = (id: string) => `wortfallen.${id}`;
       </div>
       <div class="wf-q" data-quiz>
         <p class="wf-q-count" data-count aria-live="polite"></p>
-        <p class="wf-q-s" data-sentence lang="de"></p>
+        <p class="wf-q-s" data-sentence></p>
         <div class="wf-q-opts" data-opts></div>
         <p class="wf-q-fb" data-feedback aria-live="polite" hidden></p>
         <button class="wf-play wf-play--quiz" type="button" data-replay hidden aria-label="Satz noch einmal anhören" data-i18n-attr="aria-label:wortfallen.quiz.replay"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg><span data-i18n="wg.listen">Anhören</span></button>
@@ -139,12 +139,12 @@ const K = (id: string) => `wortfallen.${id}`;
     <section class="wf-print-sheet" aria-hidden="true">
       <h2 data-i18n="wortfallen.print.title">Übung: Welches Wort passt?</h2>
       <p data-i18n-html="wortfallen.print.nameDate">Name: ______________________ &nbsp; Datum: ____________</p>
-      <ol class="wf-print-ex" lang="de">
+      <ol class="wf-print-ex">
         {quiz.map((q) => <li>{q.s.replace("___", "__________")} <small>({[...q.o].sort((a, b) => a.localeCompare(b, "de")).join(" / ")})</small></li>)}
       </ol>
       <div class="wf-print-key">
         <h2 data-i18n="wortfallen.print.key">Lösungen</h2>
-        <ol lang="de">{quiz.map((q) => <li>{q.a}</li>)}</ol>
+        <ol>{quiz.map((q) => <li>{q.a}</li>)}</ol>
       </div>
     </section>
 
