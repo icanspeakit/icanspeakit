@@ -1,5 +1,6 @@
 ---
-// The der/die/das trainer: a rail of levels A1–B2 and the Häufigkeit order beside a
+// The a / an / some trainer (the German der/die/das trainer, same machinery; the lexicon's
+// `gender` holds the English indefinite article): a rail of levels A1–B2 and the Häufigkeit order beside a
 // Fokus/Testmodus workspace over every gendered noun in the lexicon, with the spoken
 // answer, Langsam and the back button. A level's pane offers "Weiter üben" and packs by
 // topic and rule; sessions are built from the learner's own per-noun history
@@ -34,92 +35,46 @@ import { uiTr } from "../lib/grammarUi.js";
 // ~860 nouns (was 31 hand-listed ones), far too many for a single sitting.
 const SESSION_SIZE = 25;
 
-/* Which ending rule, if any, a noun falls under. The rules are only tendencies, so a rule
- * is returned with the gender it predicts and the caller checks it against the real one:
- * before this check "der Kuchen" was told "-chen ist immer neutrum" and "die Mutter"
- * "-er ist maskulin" — the explanation contradicting the answer it was explaining.
- * -in only counts as the female form when the lexicon holds the male noun it is made from
- * (Ärztin → Arzt, Kollegin → Kollege); der Termin, das Benzin and die Medizin are not. */
-const maleLemmas = new Set(nouns({ has: "gender" }).filter((n) => n.gender === "der").map((n) => n.lemma));
-const deUmlaut = (w) => w.replace("Ä", "A").replace("Ö", "O").replace("Ü", "U").replace("ä", "a").replace("ö", "o").replace("ü", "u");
-function isFemaleForm(word) {
-  if (!word.endsWith("in")) return false;
-  const stem = word.slice(0, -2);
-  return [stem, stem + "e", deUmlaut(stem), deUmlaut(stem) + "e"].some((w) => maleLemmas.has(w));
-}
-function endingRule(word) {
-  const lower = word.toLowerCase();
-  if (isFemaleForm(word)) return { ending: "-in", gender: "die" };
-  if (lower.endsWith("chen") || lower.endsWith("lein")) return { ending: lower.endsWith("chen") ? "-chen" : "-lein", gender: "das", always: true };
-  if (lower.endsWith("e")) return { ending: "-e", gender: "die" };
-  if (lower.endsWith("er")) return { ending: "-er", gender: "der" };
-  if (lower.endsWith("el")) return { ending: "-el", gender: "der" };
-  return null;
-}
-// -chen/-lein is the one rule without exceptions, so a noun that ends in it and is not
-// neuter (der Kuchen) is simply not a diminutive: no rule applies, rather than an "Ausnahme".
-function ruleFor(word, gender) {
-  const rule = endingRule(word);
-  return rule?.always && rule.gender !== gender ? null : rule;
+/* Why a noun takes a, an or some (English since the games run, content-plan §1.4: the
+ * lexicon's `gender` is the indefinite article). The choice between a and an follows the
+ * first SOUND, not the first letter, so the two interesting cases are the words where letter
+ * and sound disagree: a university, a European, a one-way ticket (vowel letter, consonant
+ * sound) and an hour, an honest man (silent h). `some` marks uncountable and plural-only
+ * nouns (some water, some trousers). */
+const VOWEL_LETTER = /^[aeiou]/i;
+function articleRule(word, gender, pluralOnly) {
+  if (gender === "some") return pluralOnly ? "plural" : "some";
+  if (gender === "an") return VOWEL_LETTER.test(word) ? "vowel" : "silent";
+  return VOWEL_LETTER.test(word) ? "yu" : "consonant";
 }
 
-function explainArtikel(word, gender) {
-  if (word === "Mann" || word === "Arzt") return `„${word}“ bezeichnet eine männliche Person – solche Wörter sind maskulin.`;
-  if (word === "Frau") return `„${word}“ bezeichnet eine weibliche Person – solche Wörter sind feminin.`;
-  if (word === "Kind") return `„Kind“ ist ein Sonderfall: Es bezieht sich auf Jungen und Mädchen, ist aber grammatisch neutrum.`;
-  if (word === "Kollege") return `„Kollege“ endet zwar auf -e, bezeichnet aber eine männliche Person – solche Personenbezeichnungen bleiben maskulin.`;
-  const rule = ruleFor(word, gender);
-  if (rule && rule.gender !== gender) return `„${word}“ endet auf ${rule.ending}, ist aber eine Ausnahme: Es heißt „${gender} ${word}“. Dieses Wort lernst du am besten mit dem Artikel zusammen.`;
-  if (rule?.ending === "-in") return `Die Endung -in kennzeichnet die weibliche Form (z. B. Ärztin, Kollegin) – solche Wörter sind feminin.`;
-  if (rule?.ending === "-chen" || rule?.ending === "-lein") return `Verkleinerungsformen auf -chen oder -lein sind immer neutrum.`;
-  if (rule?.ending === "-e") return `Viele zweisilbige Wörter auf -e sind feminin (z. B. Tasche, Sonne, Katze).`;
-  if (rule?.ending === "-er") return `Viele Wörter auf -er – Werkzeuge, Geräte und männliche Personenbezeichnungen – sind maskulin.`;
-  if (rule?.ending === "-el") return `Viele Wörter auf -el sind maskulin (z. B. Schlüssel, Apfel).`;
-  return `Für „${word}“ gibt es keine feste Regel – der Artikel wird mit dem Wort zusammen gelernt.`;
-}
+const EXPLAIN = {
+  vowel: (w) => `“${w}” starts with a vowel sound, so it takes “an”: an ${w}.`,
+  consonant: (w) => `“${w}” starts with a consonant sound, so it takes “a”: a ${w}.`,
+  yu: (w) => `“${w}” starts with a vowel letter but a consonant sound (like “you” or “w”), so it takes “a”: a ${w}.`,
+  silent: (w) => `“${w}” starts with a consonant letter but a vowel sound (a silent h, or a letter said like “em” or “ex”), so it takes “an”: an ${w}.`,
+  some: (w) => `“${w}” is uncountable: in English you don't count it. So you say “some ${w}”, not “a ${w}”.`,
+  plural: (w) => `“${w}” is always plural, so you say “some ${w}”, not “a ${w}”.`,
+};
+
+/* The same explanations in very simple English (A1), for the Leicht switch — see
+ * src/lib/leichteSprache.js. Short sentences, one statement each, the example carries the rule. */
+const EXPLAIN_LEICHT = {
+  vowel: (w) => `The word starts with the sound a, e, i, o or u. Then you say “an”: an ${w}.`,
+  consonant: (w) => `The word does not start with the sound a, e, i, o or u. Then you say “a”: a ${w}.`,
+  yu: (w) => `Listen to the first sound. It sounds like “you” or “w”. So you say “a”: a ${w}.`,
+  silent: (w) => `Listen to the first sound. You don't say the first letter like “h”. The word starts with a vowel sound. So you say “an”: an ${w}.`,
+  some: (w) => `You can't count ${w}. So you say “some ${w}”.`,
+  plural: (w) => `“${w}” is always more than one. So you say “some ${w}”.`,
+};
+
+const explainArtikel = (word, gender, pluralOnly) => EXPLAIN[articleRule(word, gender, pluralOnly)](word);
+const explainArtikelLeicht = (word, gender, pluralOnly) => EXPLAIN_LEICHT[articleRule(word, gender, pluralOnly)](word);
 
 /* Which of the explanations above applies, as an i18n key suffix and its variables, so the
  * page can say it in the UI language: `ap.ex.<k>` and `ap.ex.<k>.leicht` in public/i18n.
- * The German in the dictionary is exactly the German above. */
-function explainKey(word, gender) {
-  if (word === "Mann" || word === "Arzt") return { k: "male", v: { word } };
-  if (word === "Frau") return { k: "female", v: { word } };
-  if (word === "Kind") return { k: "kind", v: { word } };
-  if (word === "Kollege") return { k: "kollege", v: { word } };
-  const rule = ruleFor(word, gender);
-  if (rule && rule.gender !== gender) return { k: "exception", v: { word, ending: rule.ending, gender, ruleGender: rule.gender } };
-  if (rule?.ending === "-in") return { k: "in", v: { word } };
-  if (rule?.ending === "-chen" || rule?.ending === "-lein") return { k: "chen", v: { word } };
-  if (rule?.ending === "-e") return { k: "e", v: { word } };
-  if (rule?.ending === "-er") return { k: "er", v: { word } };
-  if (rule?.ending === "-el") return { k: "el", v: { word } };
-  return { k: "none", v: { word, gender } };
-}
-
-/* The same explanations in Leichte Sprache — see src/lib/leichteSprache.js.
- *
- * Every one of the sentences above is harder than the question it explains: "Verkleinerungs-
- * formen", "Personenbezeichnungen", "kennzeichnet die weibliche Form" are B2 vocabulary in
- * front of an A1 task, read by the learner who just got it wrong. These say the same thing
- * in short main clauses, one statement each, with the grammatical term either dropped or
- * restated in plain words right after it.
- *
- * Written by hand beside the originals on purpose: nothing here is generated, so a case
- * without an easy version keeps its normal text instead of an unchecked simplification. */
-function explainArtikelLeicht(word, gender) {
-  if (word === "Mann" || word === "Arzt") return `Ein ${word} ist ein Mann. Wörter für Männer haben „der“.`;
-  if (word === "Frau") return `Eine Frau ist kein Mann. Wörter für Frauen haben „die“.`;
-  if (word === "Kind") return `Ein Kind kann ein Junge sein. Oder ein Mädchen. Trotzdem sagt man immer „das Kind“.`;
-  if (word === "Kollege") return `„Kollege“ endet auf -e. Aber ein Kollege ist ein Mann. Darum sagt man „der Kollege“.`;
-  const rule = ruleFor(word, gender);
-  if (rule && rule.gender !== gender) return `Das Wort endet auf ${rule.ending}. Solche Wörter haben oft „${rule.gender}“. Aber dieses Wort nicht. Man sagt „${gender} ${word}“.`;
-  if (rule?.ending === "-in") return `Das Wort endet auf -in. Das ist die Form für eine Frau. Solche Wörter haben „die“.`;
-  if (rule?.ending === "-chen" || rule?.ending === "-lein") return `Das Wort endet auf -chen oder -lein. Das heißt: Es ist etwas Kleines. Solche Wörter haben immer „das“.`;
-  if (rule?.ending === "-e") return `Das Wort endet auf -e. Sehr viele kurze Wörter auf -e haben „die“. Zum Beispiel: die Tasche, die Sonne.`;
-  if (rule?.ending === "-er") return `Das Wort endet auf -er. Sehr viele Wörter auf -er haben „der“. Zum Beispiel: der Computer.`;
-  if (rule?.ending === "-el") return `Das Wort endet auf -el. Sehr viele Wörter auf -el haben „der“. Zum Beispiel: der Schlüssel.`;
-  return `Für „${word}“ gibt es keine Regel. Lerne das Wort immer zusammen mit „${gender}“.`;
-}
+ * The English in the dictionary is exactly the English above. */
+const explainKey = (word, gender, pluralOnly) => ({ k: articleRule(word, gender, pluralOnly), v: { word } });
 
 // `id` is the lexicon's stable slug, not an array index, so a learner's progress for
 // "haus" survives every future addition to the pool.
@@ -144,15 +99,15 @@ const pool = lexNouns.map((n) => ({
   lemma: n.lemma,
   freq: freqPos.has(n.id) ? haeufigkeit[n.id] : null,
   prompt: `___ ${n.lemma}`,
-  options: ["der", "die", "das"],
+  options: ["a", "an", "some"],
   answer: n.gender,
-  explain: explainArtikel(n.lemma, n.gender),
-  explainLeicht: explainArtikelLeicht(n.lemma, n.gender),
-  ex: explainKey(n.lemma, n.gender),
+  explain: explainArtikel(n.lemma, n.gender, n.pluralOnly),
+  explainLeicht: explainArtikelLeicht(n.lemma, n.gender, n.pluralOnly),
+  ex: explainKey(n.lemma, n.gender, n.pluralOnly),
   change: `${n.gender} ${n.lemma}`,
-  // Shown under the instruction. Safe before the answer: the plural article is always "die".
+  // Shown under the instruction. Safe before the answer: the plural never shows a or an.
   ...(n.plural ? { plural: n.plural } : {}),
-  // die Eltern, die Ferien: the "die" shown after a wrong answer takes the plural colour.
+  // some trousers, some clothes: the "some" shown after a wrong answer takes the plural colour.
   ...(n.pluralOnly ? { pluralOnly: true } : {}),
   // "der Tisch", spoken — only for nouns that have a file (see generate-wortschatz-audio
   // --nouns). Played once the answer is settled, never before: it says the article.
@@ -189,8 +144,8 @@ const { byLevel: packs, exceptions } = buildArtikelPacks(lexNouns);
 const exceptionText = Object.fromEntries(exceptions.map((e) => [e.id, {
   // For the UI language: ap.ex.pack.exception, with the rule's name and `why` given as keys.
   ev: { word: e.lemma, gender: e.gender, rule: PACK_CONFIG.rules.find((r) => r.id === e.rule)?.name ?? "", why: e.why },
-  explain: `„${e.lemma}“ sieht aus wie „${PACK_CONFIG.rules.find((r) => r.id === e.rule)?.name}“ (${e.why}) — hat aber „${e.gender}“. Eine Ausnahme.`,
-  explainLeicht: `„${e.lemma}“ passt nicht zur Regel. Man sagt „${e.gender} ${e.lemma}“.`,
+  explain: `“${e.lemma}” looks like “${PACK_CONFIG.rules.find((r) => r.id === e.rule)?.name}” (${e.why}) – but it takes “${e.gender}”: ${e.gender} ${e.lemma}. An exception.`,
+  explainLeicht: `“${e.lemma}” does not follow the rule. You say “${e.gender} ${e.lemma}”.`,
 }]));
 // `tr`: the pack's name and rule in the UI languages (grammatik-ui.json), picked client-side.
 const packTr = (p) => ({ name: uiTr(p.name), rule: uiTr(p.rule), ruleLeicht: uiTr(p.ruleLeicht) });

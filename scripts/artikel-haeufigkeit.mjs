@@ -18,7 +18,8 @@ import path from "node:path";
 import { nouns } from "../src/lib/lexicon.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
-const CACHE = path.join(ROOT, "node_modules", ".cache", "de_50k.txt");
+// English lexicon since the vocab runs: the English list (attach-ranks.mjs downloads en_50k).
+const CACHE = path.join(ROOT, "node_modules", ".cache", "en_50k.txt");
 const OUT = path.join(ROOT, "src", "data", "artikel-haeufigkeit.json");
 
 if (!existsSync(CACHE)) {
