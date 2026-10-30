@@ -90,6 +90,8 @@ Inventory basis: `src/data/**`, `src/content/**`, `src/paid/**`, `src/pages/**` 
 
 **Dropped:** none of the exam slots except as noted under Führerschein (§4).
 
+**Done by `exams` (2026-10-30):** formats in `formate-a2-c1.research.json` (A2–B2 entries), `goethe-formate.json`, `telc-formate.json`, `testdaf-formate.json`; one practice set per exam: A2 Key, B1 Preliminary, B2 First, ISE Foundation, ISE I, ISE II (`saetze/*-1.json`), the A1 test, IELTS Academic (Reading + Writing Task 1), Use of English gap fills, Life in the UK bank (four nations as extra practice; the real test has none). Decisions: the `/dtz` slot is a **B1 skills mock** in the old trainer shape (the trainer can't hold the ISE task structure; `/telc/b1` is the ISE I-format set) with our own point bands; Cambridge names come from `src/lib/exam/names.js`. **Still German / open:** the paid sets (`src/paid/pruefungen/saetze/*-c1-1.json`, `dtz/uebungssatz-2..4.json`) and the C1 research entries; Life in the UK PDFs and the Bavaria downloads on `/leben-in-deutschland/fakten`; see `automation/reports/exams.md`.
+
 ---
 
 ## 3. Grammar: slot map (90 topic files + `akkusativ`)
