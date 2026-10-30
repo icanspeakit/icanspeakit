@@ -68,7 +68,10 @@ const { counts, session, current, freq, packs } = Astro.props;
 // is greyed rather than left out.
 const ALL_LEVELS = ["A1", "A2", "B1", "B2"];
 const LEVELS = ALL_LEVELS.filter((l) => (counts[l] ?? 0) > 0);
-const openLevel = LEVELS.includes(current) || current === "haeufigkeit" ? current : LEVELS[0];
+// No ranked nouns (the English levels have rank: null until scripts/attach-ranks.mjs runs, see
+// docs/content-plan.md §1.4): no rounds, so the frequency entry and its pane are left out.
+const hasFreq = freq.rounds.length > 0;
+const openLevel = LEVELS.includes(current) || (hasFreq && current === "haeufigkeit") ? current : LEVELS[0];
 
 // --- Nach Häufigkeit --------------------------------------------------------------------
 // "Alle Stufen" was the whole pool shuffled: 2577 nouns in random order, which answers no
@@ -172,7 +175,7 @@ const markerData = JSON.stringify(
 
     <!-- The same pool in the order a learner meets it. Its own entry rather than a fifth
          badge: frequency is not a level, and it cuts across all four. -->
-    <button
+    {hasFreq && <button
       type="button"
       role="tab"
       class:list={["nvb-railbtn", current === "haeufigkeit" && "active"]}
@@ -185,7 +188,7 @@ const markerData = JSON.stringify(
     >
       <Icon name="bars" size={20} />
       <span class="nvb-tip" data-i18n="ap.byFreqTip" data-i18n-vars={JSON.stringify({ n: freq.words })}>Nach Häufigkeit · {freq.words} Nomen</span>
-    </button>
+    </button>}
 
     <!-- The Regel: opens the drawer on the right (ArtikelRegel.astro); the panel keeps the
          level you were on. -->
@@ -273,7 +276,7 @@ const markerData = JSON.stringify(
 
     <!-- Nach Häufigkeit: the curve first, because it is the reason to be here, then the
          rounds under the part of the timeline they belong to. -->
-    <div
+    {hasFreq && <div
       class="nvb-section ap-sets ap-freq"
       id="ap-pane-haeufigkeit"
       data-pane="haeufigkeit"
@@ -363,7 +366,7 @@ const markerData = JSON.stringify(
         zählen dort auch als Adverb mit. {freq.unranked} Nomen stehen nicht in der Liste,
         meist zusammengesetzte Wörter. Du findest sie unter ihrer Stufe.
       </p>
-    </div>
+    </div>}
 
   </div>
 </div>
