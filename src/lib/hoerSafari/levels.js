@@ -1,6 +1,7 @@
-// Hör-Safari levels: eight steps per board (Niveau × card mode), each with a goal (so many
+// Hör-Safari levels: eight steps per board (level × card mode), each with a goal (so many
 // right birds before the time runs out) and its own difficulty. The free 90-second round with
-// the ranking stays as "Highscore" (game.js TUNING).
+// the ranking stays as "Highscore" (game.js TUNING). The texts shown are hs.lv<n>.* in en.json;
+// name and news here are the fallbacks.
 //
 // Progress is kept on this device under "da_hoerSafari_levels". The da_ prefix is on purpose:
 // appState.js mirrors da_* keys in the Android app, and a later account sync hooks in there.
@@ -12,22 +13,22 @@
  * · hint: seconds until the word shows · news: what is new here, for the level's start card.
  */
 export const LEVELS = [
-  { name: "Erste Schritte", goal: 6, time: 75, speed: 0.65, birds: 4, dives: 0, divers: 0, dive: 1, hint: 6,
-    news: ["Langsame Vögel, nur vier auf einmal", "Keine Sturzflieger", "Nach 6 Sekunden steht das Wort oben"] },
-  { name: "Mehr Vögel", goal: 7, time: 75, speed: 0.8, birds: 5, dives: 0, divers: 0, dive: 1, hint: 7,
-    news: ["Fünf Vögel auf einmal", "Etwas schneller"] },
-  { name: "Achtung, von oben!", goal: 8, time: 75, speed: 0.9, birds: 5, dives: 11, divers: 1, dive: 1.15, hint: 8,
-    news: ["Jetzt kommen Sturzflieger: schnell treffen, sonst ist ein Herz weg"] },
-  { name: "Schneller", goal: 8, time: 75, speed: 1.05, birds: 6, dives: 9, divers: 1, dive: 1.05, hint: 8,
-    news: ["Die Vögel fliegen schneller", "Sechs auf einmal"] },
-  { name: "Gedränge", goal: 9, time: 75, speed: 1.15, birds: 7, dives: 8, divers: 1, dive: 1, hint: 9,
-    news: ["Sieben Vögel auf einmal", "Sturzflieger öfter"] },
-  { name: "Ohne Hilfe", goal: 10, time: 75, speed: 1.25, birds: 7, dives: 7, divers: 2, dive: 0.95, hint: 12,
-    news: ["Das Wort kommt erst nach 12 Sekunden", "Zwei Sturzflieger auf einmal möglich"] },
-  { name: "Sturm", goal: 10, time: 70, speed: 1.45, birds: 8, dives: 6, divers: 2, dive: 0.85, hint: 12,
-    news: ["Sehr schnelle Vögel", "Nur 70 Sekunden"] },
-  { name: "Safari-Profi", goal: 12, time: 70, speed: 1.6, birds: 8, dives: 5, divers: 2, dive: 0.8, hint: 15,
-    news: ["Das letzte Level: alles auf einmal", "Das Wort kommt erst nach 15 Sekunden"] },
+  { name: "First steps", goal: 6, time: 75, speed: 0.65, birds: 4, dives: 0, divers: 0, dive: 1, hint: 6,
+    news: ["Slow birds, only four at a time", "No diving birds", "The word appears at the top after 6 seconds"] },
+  { name: "More birds", goal: 7, time: 75, speed: 0.8, birds: 5, dives: 0, divers: 0, dive: 1, hint: 7,
+    news: ["Five birds at a time", "A little faster"] },
+  { name: "Look out, from above!", goal: 8, time: 75, speed: 0.9, birds: 5, dives: 11, divers: 1, dive: 1.15, hint: 8,
+    news: ["Diving birds now: hit them fast or you lose a heart"] },
+  { name: "Faster", goal: 8, time: 75, speed: 1.05, birds: 6, dives: 9, divers: 1, dive: 1.05, hint: 8,
+    news: ["The birds fly faster", "Six at a time"] },
+  { name: "Crowded skies", goal: 9, time: 75, speed: 1.15, birds: 7, dives: 8, divers: 1, dive: 1, hint: 9,
+    news: ["Seven birds at a time", "Diving birds more often"] },
+  { name: "No help", goal: 10, time: 75, speed: 1.25, birds: 7, dives: 7, divers: 2, dive: 0.95, hint: 12,
+    news: ["The word only appears after 12 seconds", "Two diving birds at once are possible"] },
+  { name: "Storm", goal: 10, time: 70, speed: 1.45, birds: 8, dives: 6, divers: 2, dive: 0.85, hint: 12,
+    news: ["Very fast birds", "Only 70 seconds"] },
+  { name: "Safari pro", goal: 12, time: 70, speed: 1.6, birds: 8, dives: 5, divers: 2, dive: 0.8, hint: 15,
+    news: ["The last level: everything at once", "The word only appears after 15 seconds"] },
 ];
 
 const KEY = "da_hoerSafari_levels";

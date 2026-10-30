@@ -414,10 +414,10 @@ export function drawPellet(ctx, x, y, r, trail) {
 }
 
 export const ITEM_LOOK = {
-  zeit: { color: "#3b82f6", icon: "⏱", label: "+5 Sekunden" },
-  herz: { color: "#ef4444", icon: "❤", label: "+1 Herz" },
-  streu: { color: "#a855f7", icon: "✳", label: "Streuschuss!" },
-  zeitlupe: { color: "#14b8a6", icon: "🐌", label: "Zeitlupe!" },
+  zeit: { color: "#3b82f6", icon: "⏱", label: "+5 seconds" },
+  herz: { color: "#ef4444", icon: "❤", label: "+1 heart" },
+  streu: { color: "#a855f7", icon: "✳", label: "Spread shot!" },
+  zeitlupe: { color: "#14b8a6", icon: "🐌", label: "Slow motion!" },
 };
 
 export function drawBalloon(ctx, x, y, s, kind, time) {

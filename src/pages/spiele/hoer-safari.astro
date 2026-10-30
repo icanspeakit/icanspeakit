@@ -12,12 +12,14 @@ import { nouns } from "../../lib/lexicon.js";
 import { wortBild } from "../../lib/wortBild.js";
 import "../../styles/hoer-safari.css";
 
-// Only nouns with both a picture and a recorded voice (/audio/wortschatz/<audio>.mp3; every
-// lexicon noun with a picture has one, checked 2026-10-26). Short keys: the list is inlined.
+// Only a / an nouns with a picture: the game is about hearing a or an in front of the noun, so
+// uncountables (some bread) stay out. The voice is the browser's British English one (game.js
+// say()); `a` keeps the lexicon's clip slug for when English recordings exist. Short keys: the
+// list is inlined.
 // m = what the word means, for the end screen's word help (en/ar/uk/tr; the other interface
 // languages are fetched from /wortschatz/glossen/ by the game).
 const words = nouns()
-  .filter((n) => n.gender && n.audio && wortBild(n.id))
+  .filter((n) => (n.gender === "a" || n.gender === "an") && wortBild(n.id))
   .map((n) => ({
     id: n.id, w: n.lemma, g: n.gender, a: n.audio, i: wortBild(n.id), lv: n.level,
     m: Object.fromEntries(["en", "ar", "uk", "tr"].filter((l) => n[l]).map((l) => [l, n[l]])),

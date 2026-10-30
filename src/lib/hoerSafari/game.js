@@ -1,5 +1,5 @@
 // Hör-Safari (/spiele/hoer-safari): a listening game in the spirit of the classic shooting
-// galleries. A voice says a noun with its article ("die Gabel"); birds — our own "Pieper",
+// galleries. A voice says a noun with a / an / some ("a fork"); birds — our own "Pieper",
 // not anybody's chicken — fly over a wide landscape carrying picture or word cards, and the
 // player hits the matching one with the Gummi-Blaster, a toy that fires harmless rubber
 // pellets. A hit bird goes "Bonk!", sees stars and flies off; nothing falls.
@@ -19,8 +19,8 @@
 //   right bubble.
 // - Records on this device (records.js) and a weekly / all-time board (board.js).
 //
-// Words: nouns from the lexicon with a picture (wort-bilder.json → OpenMoji) and a recorded
-// voice (/audio/wortschatz/<audio>.mp3), passed in by the page. Plan and decisions:
+// Words: nouns from the lexicon with a picture (wort-bilder.json → OpenMoji), passed in by the
+// page. The browser's British English voice says them (see say()). Plan and decisions:
 // HOER-SAFARI-TIERED-PROMPT.md, docs/hoer-safari-tier*-v1.md.
 
 import { makeSfx } from "./sound.js";
@@ -306,15 +306,24 @@ export function mountHoerSafari(root, allWords) {
     }
     return im;
   }
-  const voices = new Map();
-  function voice(w) {
-    let a = voices.get(w.id);
-    if (!a) {
-      a = new Audio(`/audio/wortschatz/${w.a}.mp3`);
-      a.preload = "auto";
-      voices.set(w.id, a);
-    }
-    return a;
+  // The voice: the browser's British English voice says the word with its article ("a fork",
+  // "an egg", "some bread"), as in Bruno Kart. The lexicon's clips (/audio/wortschatz/<audio>.mp3,
+  // w.a) say the bare noun, and no English clips are recorded yet, so the game does not play
+  // them; recorded "a fork" clips would go here. A browser without speech shows the word at once
+  // (nextTarget), so the round can still be played by reading.
+  const synth = typeof speechSynthesis !== "undefined" ? speechSynthesis : null;
+  let enVoice = null;
+  const pickVoice = () => {
+    const vs = synth?.getVoices?.() ?? [];
+    enVoice = vs.find((v) => /^en[-_]GB/i.test(v.lang)) ?? vs.find((v) => /^en[-_]/i.test(v.lang)) ?? null;
+  };
+  if (synth) {
+    pickVoice();
+    synth.addEventListener?.("voiceschanged", pickVoice);
+  }
+  const spoken = (w) => (typeof w === "string" ? w : label(w));
+  function hush() {
+    try { synth?.cancel(); } catch { /* nothing to stop */ }
   }
   // One voice at a time. While one speaks, no new target is called (`speaking`), so a word
   // said after a hit never runs into the next one. `after` runs when this word is done, unless
@@ -324,27 +333,29 @@ export function mountHoerSafari(root, allWords) {
   function say(w, after, delay = 0) {
     const tok = ++voiceTok;
     speaking = true;
-    for (const v of voices.values()) if (!v.paused) v.pause();
-    const a = voice(w);
+    hush();
     let done = false;
     const finish = () => {
       if (done) return;
       done = true;
-      a.removeEventListener("ended", finish);
       if (tok !== voiceTok) return;
       speaking = false;
       if (after) after();
     };
-    a.addEventListener("ended", finish);
-    setTimeout(finish, delay + 3000); // no audio, or it never ends: go on anyway
+    setTimeout(finish, delay + 3000); // no voice, or it never ends: go on anyway
     setTimeout(() => {
       if (tok !== voiceTok) return;
+      if (!synth) return finish();
       try {
-        a.currentTime = 0;
-        const p = a.play();
-        if (p && p.catch) p.catch(finish);
+        const u = new SpeechSynthesisUtterance(spoken(w));
+        u.lang = "en-GB";
+        u.rate = 0.9;
+        if (enVoice) u.voice = enVoice;
+        u.onend = finish;
+        u.onerror = finish;
+        synth.speak(u);
       } catch {
-        finish(); /* no audio: the written hint still comes after a few seconds */
+        finish(); /* no voice: the written hint still comes after a few seconds */
       }
     }, delay);
   }
@@ -493,9 +504,9 @@ export function mountHoerSafari(root, allWords) {
     // The hot-air balloon is not a find: it comes back every round (see shootBalloon).
     const keep = new Map(hidden.filter((b) => b.id !== "ballon").map((b) => [b.id, b.found]));
     hidden = [
-      { id: "muehle", depth: "mid", x: layerW(DEPTHS.mid.par) * 0.8, y: 0, word: "die Windmühle", pts: 25 },
-      { id: "wegweiser", depth: "near", x: layerW(1) * 0.07 + 40, y: 0, word: "der Wegweiser", pts: 15 },
-      { id: "ballon", depth: "far", x: layerW(DEPTHS.far.par) * 0.12, y: 120, word: "der Heißluftballon", pts: 25 },
+      { id: "muehle", depth: "mid", x: layerW(DEPTHS.mid.par) * 0.8, y: 0, word: "a windmill", pts: 25 },
+      { id: "wegweiser", depth: "near", x: layerW(1) * 0.07 + 40, y: 0, word: "a signpost", pts: 15 },
+      { id: "ballon", depth: "far", x: layerW(DEPTHS.far.par) * 0.12, y: 120, word: "a hot-air balloon", pts: 25 },
     ].map((b) => ({ ...b, found: keep.get(b.id) || false, spin: 0 }));
   }
   function hiddenScreen(h) {
@@ -646,7 +657,8 @@ export function mountHoerSafari(root, allWords) {
     S.targetSeen = false;
     say(w);
     ui.hint.dataset.state = "listen";
-    ui.hintText.textContent = t("hs.listen", "Hör zu …");
+    ui.hintText.textContent = t("hs.listen", "Listen …");
+    if (!synth) showWord("hint", w);
   }
 
   // ---- the blaster -------------------------------------------------------------------
@@ -985,16 +997,16 @@ export function mountHoerSafari(root, allWords) {
     if (Math.random() < 0.5) {
       return {
         word: w,
-        prompt: t("hs.q.article", "Welcher Artikel?"),
+        prompt: t("hs.q.article", "a or an?"),
         big: `___ ${w.w}`,
-        options: ["der", "die", "das"].map((g) => ({ text: g, ok: g === w.g, popped: false, shake: 0 })),
+        options: ["a", "an"].map((g) => ({ text: g, ok: g === w.g, popped: false, shake: 0 })),
         wrong: false,
       };
     }
     const others = shuffle(S.pool.filter((x) => x.id !== w.id && x.i !== w.i && x.w !== w.w)).slice(0, 2);
     return {
       word: w,
-      prompt: t("hs.q.what", "Was ist das?"),
+      prompt: t("hs.q.what", "What is it?"),
       big: "",
       options: shuffle([w, ...others]).map((x) => ({ text: label(x), ok: x.id === w.id, popped: false, shake: 0 })),
       wrong: false,
@@ -1140,7 +1152,7 @@ export function mountHoerSafari(root, allWords) {
     S.paused = true;
     voiceTok++;
     speaking = false;
-    for (const v of voices.values()) if (!v.paused) v.pause();
+    hush();
     ui.pauseCard.hidden = false;
     music.setPlaying(false);
     ui.pauseGo.focus({ preventScroll: true });
