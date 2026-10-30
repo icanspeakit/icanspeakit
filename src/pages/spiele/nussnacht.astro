@@ -1,7 +1,7 @@
 ---
 // /spiele/nussnacht — Hamstis Nussnacht: an article survivor. Night in Hamsti's garden, word
 // creatures crawl in from all sides; Hamsti fires on his own, the learner moves and switches
-// the article of the shots (der / die / das). Right article hurts, wrong article makes the word
+// the word on the shots (a / an / some). The right one hurts, the wrong one makes the word
 // angrier. Survive 10 minutes. Logic: src/lib/nussnacht/. Plan: NUSSNACHT-TIERED-PROMPT.md.
 // A prototype since 2026-10-28: noindex and not in the menu (EXPERIMENTE.md).
 import Layout from "../../layouts/Layout.astro";
@@ -27,7 +27,7 @@ const data = { words, bosse };
   <SiteNav active="ueben" />
   <main class="nn-page" lang="en">
     <div class="nn" id="nussnacht" data-phase="start">
-      <div class="nn-stage" data-stage data-cur-art="der">
+      <div class="nn-stage" data-stage data-cur-art="a">
         <canvas class="nn-canvas" data-canvas role="img" aria-label="Game area: a garden at night, Hamsti in the middle, words crawling towards him"></canvas>
 
         <div class="nn-hud" data-hud hidden>

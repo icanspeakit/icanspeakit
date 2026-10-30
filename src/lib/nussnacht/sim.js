@@ -63,13 +63,14 @@ export const EV = {
   BOSS_DOWN: 8, SKILL: 9, HEAL: 10, MINUTE: 11, WIN: 12, DIE: 13, SPLIT: 14, BURST: 15, ORBIT: 16,
 };
 
-// Endungs-Radar: ending → article index, by radar level. A word glows only when its ending
-// predicts its article *and* it has that article (der Kuchen does not glow), so the radar
-// never teaches anything wrong.
+// First-sound radar: first letter → article index, by radar level. A word glows only when it
+// starts that way *and* has that article (an apple glows, some orange juice does not), so the
+// radar never teaches anything wrong. Level 3 adds h and u, where the letter does not tell the
+// sound: those words glow in whichever of a / an they take (an hour, a hotel, an uncle).
 const RADAR = [
-  [["ung", 1], ["heit", 1], ["keit", 1]],
-  [["chen", 2], ["ment", 2], ["um", 2]],
-  [["schaft", 1], ["tät", 1], ["ion", 1], ["ling", 0]],
+  [[/^[aeio]/, 1]],
+  [[/^[bcdfgjklmnpqrstvwxyz]/, 0]],
+  [[/^[hu]/, 0], [/^[hu]/, 1]],
 ];
 
 // Rotation of the orbiting acorns per tick (2.4 rad/s), as literal numbers: cos and sin of
@@ -109,7 +110,7 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
   for (let i = 0; i < W.length; i++) {
     const lw = W[i].w.toLowerCase();
     for (let l = 0; l < RADAR.length && !radarLv[i]; l++) {
-      for (const [end, art] of RADAR[l]) if (lw.endsWith(end) && W[i].g === art) { radarLv[i] = l + 1; break; }
+      for (const [start, art] of RADAR[l]) if (start.test(lw) && W[i].g === art) { radarLv[i] = l + 1; break; }
     }
   }
   // The bosses of this run, in an order from the seed.
@@ -241,7 +242,7 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
     c.alive = true; c.gen++;
     c.x = c.px = x; c.y = c.py = y;
     c.w = wi; c.kind = kind; c.boss = -1; c.scale = 1; c.angry = 0;
-    c.art = kind === 1 ? 1 : w.g;
+    c.art = kind === 1 ? 2 : w.g; // a plural takes some
     c.text = kind === 1 ? w.pl : w.w;
     c.r = T.CRE_R;
     c.maxHp = c.hp = T.CRE_HP * hpMul * (kind === 2 ? 1.5 : 1);

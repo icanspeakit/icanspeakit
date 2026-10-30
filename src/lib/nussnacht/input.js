@@ -1,10 +1,10 @@
 // Hamstis Nussnacht: keyboard, touch and gamepad, read once per tick as
 // { mx, my, art, skill, pick } – exactly what the simulation takes and the replay records.
 //
-//   Desktop  WASD / arrows move · 1 2 3 or J K L = der die das · Space = skill · Esc / P = pause
+//   Desktop  WASD / arrows move · 1 2 3 or J K L = a an some · Space = skill · Esc / P = pause
 //   Touch    a floating joystick on the left half · three article buttons on the right
 //            (thumb zone) · the skill button above them
-//   Gamepad  left stick / d-pad · X der, A die, B das (LB/RB step through) · Y skill · Start pause
+//   Gamepad  left stick / d-pad · X a, A an, B some (LB/RB step through) · Y skill · Start pause
 //
 // Movement is rounded to 1/64 so a recorded run stays small and replays bit for bit.
 
