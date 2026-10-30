@@ -12,6 +12,7 @@ import SiteNav from "../../../components/SiteNav.astro";
 import { chapterList } from "../../../lib/liveQuiz/chapters.js";
 import hoeren from "../../../data/hoeren.json";
 import lesen from "../../../data/fertigkeiten/lesen.json";
+import { examLabel } from "../../../lib/exam/names.js";
 import "../../../styles/live-quiz.css";
 import "../../../styles/quiz-builder.css";
 import "../../../styles/klassen.css";
@@ -19,20 +20,19 @@ import "../../../styles/teacher-switch.css";
 
 // ref → readable name, for the refs a teacher sees most (docs/klassen-tier0-v1.md §6).
 // Anything else is named from its id by klassenAuswertung.refLabel().
-const EXAM = { goethe: "Goethe", telc: "telc" };
 const saetze = Object.values(import.meta.glob("../../../data/pruefungen/saetze/*.json", { eager: true, import: "default" })) as any[];
 const names: Record<string, string> = {
   ...Object.fromEntries(chapterList().map((c) => [c.slug.replace("-", ":"), c.name])),
   ...Object.fromEntries(hoeren.texts.map((x: any) => [`h:${x.id}`, x.title])),
   ...Object.fromEntries(lesen.texts.map((x: any) => [`l:${x.id}`, x.title])),
-  ...Object.fromEntries(saetze.map((s) => [`x:${s.exam}/${s.id}`, `${EXAM[s.exam as keyof typeof EXAM] ?? s.exam} ${s.level} · ${s.title}`])),
-  "x:telc/sprachbausteine": "telc Sprachbausteine",
-  "x:dtz/uebungssatz-1": "DTZ Übungssatz",
-  "x:dtz/mock-test": "DTZ Modelltest Lesen",
-  "x:start-deutsch-1": "Start Deutsch 1",
-  "x:testdaf": "TestDaF",
-  "x:leben-in-deutschland": "Leben in Deutschland",
-  "sp:b1b2": "Sprechen B1/B2",
+  ...Object.fromEntries(saetze.map((s) => [`x:${s.exam}/${s.id}`, `${examLabel(s)} · ${s.title}`])),
+  "x:telc/sprachbausteine": "Use of English B2",
+  "x:dtz/uebungssatz-1": "B1 skills mock",
+  "x:dtz/mock-test": "B1 reading mock",
+  "x:start-deutsch-1": "A1 practice test",
+  "x:testdaf": "IELTS Academic",
+  "x:leben-in-deutschland": "Life in the UK",
+  "sp:b1b2": "Speaking B1/B2",
 };
 ---
 <Layout

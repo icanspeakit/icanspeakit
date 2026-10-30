@@ -509,7 +509,7 @@ export function mountHost(root) {
     const err = $("[data-setup-error]");
     err.textContent = "";
     if (submitter?.hasAttribute("data-solo-submit")) {
-      err.textContent = "Eigene Kartensets laufen nur mit Raum. Allein üben: im Kartenset auf „Lernen“.";
+      err.textContent = "Your own card sets only run with a room. To practise alone: “Learn” in the card set.";
       return;
     }
     const btns = form.querySelectorAll("[type=submit]");
@@ -540,7 +540,7 @@ export function mountHost(root) {
     } catch (e) {
       console.error(e);
       err.textContent = e?.message === "empty"
-        ? "Aus diesem Kartenset lassen sich keine Fragen bauen: Die Wörter brauchen eine Übersetzung oder einen Artikel."
+        ? "No questions can be built from this card set: the words need a translation or a/an/some."
         : t("lq.host.error.create", "Der Raum konnte nicht geöffnet werden. Prüfe die Internetverbindung und versuch es noch einmal.");
     } finally {
       btns.forEach((b) => (b.disabled = false));

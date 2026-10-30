@@ -229,15 +229,15 @@ function grammarGroups(key) {
     // (haben / sein): forms from another exercise of the chapter would be nonsense there.
     // Only an exercise whose items all share one answer borrows from the chapter.
     const extra = e.type === "match" || own.size >= 2 ? [] : chapterPool.filter((a) => words(a) === words(pairs[0].answers[0]));
-    const items = toChoices(pairs, plain(e.title) || "Was passt?", `g:${key}#${ei}`, extra);
+    const items = toChoices(pairs, plain(e.title) || "Which answer fits?", `g:${key}#${ei}`, extra);
     if (items.length) groups.push({ title: plain(e.title), items });
   });
 
   // The older quiz-only topics: one list of questions, no exercises.
   if (!exercises.length && Array.isArray(data.questions)) {
     const pairs = data.questions.map((q) => ({ prompt: plain(q.prompt), answers: accepted(q.answer) }));
-    const items = toChoices(pairs, "Was passt in die Lücke?", `g:${key}#q`);
-    if (items.length) groups.push({ title: "Lückensätze", items });
+    const items = toChoices(pairs, "Which word fits the gap?", `g:${key}#q`);
+    if (items.length) groups.push({ title: "Gap sentences", items });
   }
   return groups;
 }
@@ -247,7 +247,7 @@ function wordGroups(id) {
   const words = byUnit(id).filter((e) => MEANING_LANGS.every((l) => e[l]));
   if (!words.length) return [];
   return [{
-    title: "Wörter",
+    title: "Words",
     items: words.map((e) => ({ t: "word", id: e.id, dir: "de-meaning", de: spokenForm(e), en: e.en, src: `w:${e.id}` })),
   }];
 }
@@ -265,13 +265,13 @@ export function chapterList() {
   // The verb tables are a reference page (/grammatik/verben), not a topic in the catalog.
   // `assign: false` keeps it out of the Aufgaben catalog, which counts what a student
   // finished from the topic pages' scored exercises. Last of A1 (the sort is stable).
-  grammar.push({ key: VERB_KEY, name: "Verbtabellen: die wichtigsten Verben", level: "A1", assign: false });
+  grammar.push({ key: VERB_KEY, name: "Verb tables: the most important verbs", level: "A1", assign: false });
   // The other Nachschlagewerk lists, the same way (refGroups above).
   for (const [file, data] of Object.entries(refLists)) {
     grammar.push({ key: `${REF_PREFIX}${file}`, name: data.title, level: REF_LEVEL[file] ?? "A2", assign: false });
   }
-  grammar.push({ key: WF_KEY, name: "Wortfallen: Küche, Kuchen, Koch", level: "A2", assign: false });
-  grammar.push({ key: TF_KEY, name: "Typische Fehler: man oder Mann, das oder dass", level: "A1", assign: false });
+  grammar.push({ key: WF_KEY, name: "Word traps: kitchen or chicken?", level: "A2", assign: false });
+  grammar.push({ key: TF_KEY, name: "Typical mistakes: your or you're, its or it's", level: "A1", assign: false });
   grammar.sort((x, y) => QUIZ_LEVELS.indexOf(x.level) - QUIZ_LEVELS.indexOf(y.level));
   for (const t of grammar) {
     if (!QUIZ_LEVELS.includes(t.level)) continue;

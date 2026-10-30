@@ -152,7 +152,7 @@ export async function mountKlassenDashboard(root, names) {
       el.innerHTML = `<p class="kl-muted">${esc(t("kl.d.noData", "In den letzten 4 Wochen hat noch niemand aus der Klasse geübt."))}</p>`;
       return;
     }
-    const members_ = [...members].sort((a, b) => a.anzeigename.localeCompare(b.anzeigename, "de"));
+    const members_ = [...members].sort((a, b) => a.anzeigename.localeCompare(b.anzeigename, "en"));
     const head = heat.themen.map((th) => `<th scope="col" class="kld-topic" title="${esc(th)}"><small>${esc(kindLabel(th))}</small><span>${esc(refLabel(th, names))}</span></th>`).join("");
     const body = members_.map((m) => {
       const cells = heat.zellen.get(m.user_id);
@@ -498,16 +498,16 @@ export async function mountKlassenDashboard(root, names) {
     } else if (state.tab === "themen") {
       part = "themen";
       header = [t("kl.d.col.name", "Name"), ...heat.themen.map((th) => `${kindLabel(th)}: ${refLabel(th, names)}`)];
-      data = [...members].sort((a, b) => a.anzeigename.localeCompare(b.anzeigename, "de")).map((m) => [
+      data = [...members].sort((a, b) => a.anzeigename.localeCompare(b.anzeigename, "en")).map((m) => [
         m.anzeigename,
         ...heat.themen.map((th) => {
           const c = heat.zellen.get(m.user_id).get(th);
-          return !c ? "" : c.gesamt ? Math.round((c.richtig / c.gesamt) * 100) : "geübt";
+          return !c ? "" : c.gesamt ? Math.round((c.richtig / c.gesamt) * 100) : "practised";
         }),
       ]);
     } else if (state.tab === "detail") {
       part = "uebungen";
-      header = ["Name", "Ende", "Bereich", "Übung", "Richtig", "Gesamt", "Minuten", "Quelle", "Hinweise"];
+      header = ["Name", "Finished", "Area", "Exercise", "Correct", "Total", "Minutes", "Source", "Notes"];
       data = (byMember.get(state.detail) ?? []).map((r) => [
         nameOf.get(r.user_id), new Date(r.beendet_at).toLocaleString("en-GB"), kindLabel(r.uebung_ref), refLabel(r.uebung_ref, names),
         r.richtig, r.gesamt, r.dauer_ms != null ? Math.round(r.dauer_ms / 60000) : "", (TRUST[r.quelle] ?? TRUST.client)(), hinweisText(r.hinweise, t),

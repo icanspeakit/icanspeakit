@@ -45,41 +45,41 @@ function auswertungHtml(a) {
   const idle = a.students.filter((s) => !s.answered).length;
   const kpi = (n, label, cls = "") => `<div class="lu-kpi ${cls}"><b>${n}</b><span>${label}</span></div>`;
   const kpis = `<div class="lu-kpis">
-    ${kpi(a.count, a.count === 1 ? "Person dabei" : "Personen dabei")}
-    ${kpi(`${pct(a.answered, a.possible)} %`, "der Aufgaben beantwortet")}
-    ${kpi(`${pct(a.right, a.answered)} %`, "davon richtig", `lu-cell--${band(a.right, a.answered)}`)}
+    ${kpi(a.count, a.count === 1 ? "person taking part" : "people taking part")}
+    ${kpi(`${pct(a.answered, a.possible)} %`, "of the tasks answered")}
+    ${kpi(`${pct(a.right, a.answered)} %`, "of those correct", `lu-cell--${band(a.right, a.answered)}`)}
     ${kpi(help, help === 1 ? "braucht Hilfe (unter 50 %)" : "brauchen Hilfe (unter 50 %)", help ? "lu-cell--schwach" : "")}
   </div>`;
   const top = a.mistakes.slice(0, 8);
   const mistakes = top.length
     ? `<ol class="lu-err">${top.map((m) => {
       const ex = a.exercises.find((e) => e.index === m.ex);
-      const where = `Übung ${m.ex + 1}${/^\d+$/.test(m.item) ? ` · Aufgabe ${+m.item + 1}` : ""}`;
+      const where = `Exercise ${m.ex + 1}${/^\d+$/.test(m.item) ? ` · task ${+m.item + 1}` : ""}`;
       const given = m.given.slice(0, 4).map(([g, n]) => `<span class="lu-err-g"><s>${esc(g)}</s>${n > 1 ? ` <small>×${n}</small>` : ""}</span>`).join("");
       return `<li>
-        <div class="lu-err-n"><b>${m.n}</b><span>von ${a.count}</span></div>
+        <div class="lu-err-n"><b>${m.n}</b><span>of ${a.count}</span></div>
         <div class="lu-err-t">
           <p class="lu-err-p">${m.prompt ? esc(m.prompt) : esc(ex?.title ?? "")}</p>
-          ${m.expected || given ? `<p class="lu-err-a">${given ? `<span class="lu-err-l">geschrieben</span>${given}` : ""}${m.expected ? `<span class="lu-err-l">richtig</span><span class="lu-err-e">${esc(m.expected)}</span>` : ""}</p>` : ""}
+          ${m.expected || given ? `<p class="lu-err-a">${given ? `<span class="lu-err-l">written</span>${given}` : ""}${m.expected ? `<span class="lu-err-l">correct</span><span class="lu-err-e">${esc(m.expected)}</span>` : ""}</p>` : ""}
           <p class="lu-err-w">${where}</p>
         </div></li>`;
     }).join("")}</ol>`
-    : `<p class="lu-eval-none">Keine offenen Fehler – was falsch war, wurde verbessert.</p>`;
+    : `<p class="lu-eval-none">No open mistakes – everything that was wrong has been corrected.</p>`;
   const exRows = a.exercises.map((e) => {
     const q = pct(e.right, e.answered);
     return `<li><span class="lu-ex-t"><b>${e.index + 1}</b> ${esc(e.title)}</span>
       <span class="lu-ex-bar lu-cell--${band(e.right, e.answered)}"><i style="width:${q}%"></i></span>
-      <span class="lu-ex-n">${e.answered ? `${q} % richtig` : "–"}<small>${pct(e.answered, e.possible)} % beantwortet</small></span></li>`;
+      <span class="lu-ex-n">${e.answered ? `${q} % correct` : "–"}<small>${pct(e.answered, e.possible)} % answered</small></span></li>`;
   }).join("");
   const people = a.students.map((s) => `<li class="lu-cell--${band(s.right, s.answered)}"><span>${esc(s.name)}</span>
-      <b>${s.answered ? `${pct(s.right, s.answered)} %` : "–"}</b><small>${s.right}/${s.answered} richtig</small></li>`).join("");
+      <b>${s.answered ? `${pct(s.right, s.answered)} %` : "–"}</b><small>${s.right}/${s.answered} correct</small></li>`).join("");
   return `${kpis}
     <div class="lu-eval-cols">
-      <section class="lu-eval-box lu-eval-box--err"><h3>Häufige Fehler</h3><p class="lu-eval-how">Was gerade noch falsch ist, die häufigsten zuerst – gut für die Besprechung an der Tafel.</p>${mistakes}</section>
-      <section class="lu-eval-box"><h3>Übungen</h3><ul class="lu-ex">${exRows}</ul></section>
+      <section class="lu-eval-box lu-eval-box--err"><h3>Common mistakes</h3><p class="lu-eval-how">What is still wrong right now, the most common first – good for going through on the board.</p>${mistakes}</section>
+      <section class="lu-eval-box"><h3>Exercises</h3><ul class="lu-ex">${exRows}</ul></section>
       <section class="lu-eval-box"><h3>Lernende</h3><p class="lu-eval-how">Wer Hilfe braucht, steht oben.${idle ? ` ${idle} ohne Antwort.` : ""}</p><ul class="lu-people">${people}</ul></section>
     </div>
-    <p class="lu-eval-note">Von den Handys selbst gemeldet und nirgends gespeichert: nach „Schließen“ ist die Auswertung weg.</p>`;
+    <p class="lu-eval-note">Reported by the phones themselves and not saved anywhere: after “Close” the results are gone.</p>`;
 }
 
 export function createLiveUebung(data, topic) {
@@ -109,20 +109,20 @@ export function createLiveUebung(data, topic) {
     const panel = document.createElement("div");
     panel.className = "lu-panel";
     panel.setAttribute("role", "dialog");
-    panel.setAttribute("aria-label", "Live üben");
+    panel.setAttribute("aria-label", "Live practice");
     panel.innerHTML = `
       <header class="lu-head">
         <span class="lu-live" aria-hidden="true"></span>
-        <div class="lu-head-t"><b>Live üben</b><span>${esc(title)}</span></div>
-        ${fromLesson ? `<button type="button" class="lu-btn lu-btn--main" data-lu-lesson>‹ Zurück zur Stunde</button>` : ""}
-        <button type="button" class="lu-btn" data-lu-code aria-pressed="false">Code klein</button>
-        <button type="button" class="lu-btn" data-lu-fold>Einklappen</button>
-        <button type="button" class="lu-btn lu-btn--end" data-lu-end>Beenden</button>
+        <div class="lu-head-t"><b>Live practice</b><span>${esc(title)}</span></div>
+        ${fromLesson ? `<button type="button" class="lu-btn lu-btn--main" data-lu-lesson>‹ Back to the lesson</button>` : ""}
+        <button type="button" class="lu-btn" data-lu-code aria-pressed="false">Smaller code</button>
+        <button type="button" class="lu-btn" data-lu-fold>Fold away</button>
+        <button type="button" class="lu-btn lu-btn--end" data-lu-end>End</button>
       </header>
       <div class="lu-body">
         <aside class="lu-join">
           <div class="lu-qr" data-lu-qr aria-hidden="true"></div>
-          <p class="lu-join-how">Handy-Kamera auf den Code – oder öffnen:</p>
+          <p class="lu-join-how">Point your phone camera at the code – or open:</p>
           <p class="lu-url">${esc(shown)}</p>
           <p class="lu-pin"><span>PIN</span> <b>${pin.slice(0, 3)} ${pin.slice(3)}</b></p>
         </aside>
@@ -131,15 +131,15 @@ export function createLiveUebung(data, topic) {
           <details class="lu-pick" data-lu-pick-box open>
             <summary class="lu-pick-head">
               <span class="lu-pick-step" aria-hidden="true">1</span>
-              <span class="lu-pick-h"><b>Was übt die Klasse?</b><span data-lu-pick-n></span></span>
+              <span class="lu-pick-h"><b>What is the class practising?</b><span data-lu-pick-n></span></span>
               <span class="lu-pick-chev" aria-hidden="true"></span>
             </summary>
-            <p class="lu-pick-how">Tippe an, was wegfallen soll. Die Handys zeigen nur die Übungen mit Haken.</p>
-            <div class="lu-pick-list" data-lu-pick role="group" aria-label="Übungen für die Klasse"></div>
+            <p class="lu-pick-how">Tap what to leave out. The phones only show the exercises with a tick.</p>
+            <div class="lu-pick-list" data-lu-pick role="group" aria-label="Exercises for the class"></div>
           </details>
           <div class="lu-table-wrap" data-lu-table></div>
-          <p class="lu-legend" data-lu-legend hidden>Spalten = Übungen der Seite. In der Zelle: richtig / Aufgaben; der Streifen zeigt, wie viel schon beantwortet ist.
-            <span class="lu-cell--gut">ab 80 % richtig</span> <span class="lu-cell--mittel">ab 50 %</span> <span class="lu-cell--schwach">darunter</span></p>
+          <p class="lu-legend" data-lu-legend hidden>Columns = the page's exercises. In each cell: correct / tasks; the bar shows how much has been answered.
+            <span class="lu-cell--gut">80 % correct or more</span> <span class="lu-cell--mittel">50 % or more</span> <span class="lu-cell--schwach">below that</span></p>
         </section>
       </div>`;
     document.body.append(panel);
@@ -147,7 +147,7 @@ export function createLiveUebung(data, topic) {
     chip.type = "button";
     chip.className = "lu-chip";
     chip.hidden = true;
-    chip.setAttribute("aria-label", "Live üben öffnen");
+    chip.setAttribute("aria-label", "Open live practice");
     document.body.append(chip);
     const $ = (s) => panel.querySelector(s);
 
@@ -166,13 +166,13 @@ export function createLiveUebung(data, topic) {
       const elsewhere = [...phones.values()].filter((p) => p.topic !== topic && online.has(p.id)).length;
       const n = here.filter(([id]) => online.has(id)).length;
       $("[data-lu-count]").textContent = n
-        ? `${n} dabei${elsewhere ? ` · ${elsewhere} noch auf einer anderen Seite` : ""}`
-        : here.length ? "Gerade niemand verbunden." : "Noch niemand da. Die Klasse scannt den Code.";
+        ? `${n} taking part${elsewhere ? ` · ${elsewhere} still on another page` : ""}`
+        : here.length ? "Nobody connected right now." : "Nobody here yet. The class scans the code.";
       let sumR = 0, sumA = 0, sumT = 0;
       const rows = here.map(([id, p]) => {
         const r = rowOf(p.ex, totals, shownIdx());
         sumR += r.right; sumA += r.answered; sumT += r.total;
-        const cells = r.cells.map((c) => `<td class="lu-cell lu-cell--${band(c.right, c.answered)}" title="${c.right} richtig von ${c.answered} beantwortet (${c.total} Aufgaben)">
+        const cells = r.cells.map((c) => `<td class="lu-cell lu-cell--${band(c.right, c.answered)}" title="${c.right} correct of ${c.answered} answered (${c.total} tasks)">
             <span class="lu-cell-n">${c.answered ? `${c.right}/${c.total}` : "–"}</span>
             <i style="width:${c.total ? Math.round((c.answered / c.total) * 100) : 0}%"></i></td>`).join("");
         const pct = r.total ? Math.round((r.answered / r.total) * 100) : 0;
@@ -180,13 +180,13 @@ export function createLiveUebung(data, topic) {
           <td class="lu-sum lu-cell--${band(r.right, r.answered)}"><b>${r.right}</b><span>/${r.total}</span><small>${pct} %</small></td></tr>`;
       }).join("");
       $("[data-lu-table]").innerHTML = here.length ? `<table class="lu-table">
-        <thead><tr><th scope="col">Name</th>${shownIdx().map((i) => `<th scope="col" title="${esc(exercises[i]?.title ?? "")}">${i + 1}</th>`).join("")}<th scope="col">Gesamt</th></tr></thead>
+        <thead><tr><th scope="col">Name</th>${shownIdx().map((i) => `<th scope="col" title="${esc(exercises[i]?.title ?? "")}">${i + 1}</th>`).join("")}<th scope="col">Total</th></tr></thead>
         <tbody>${rows}</tbody></table>` : "";
       $("[data-lu-legend]").hidden = !here.length;
       // The first phone in: the checklist folds to its summary line and the board gets the room.
       if (here.length && !pickFolded) { pickFolded = true; $("[data-lu-pick-box]").open = false; }
       const share = sumT ? Math.round((sumA / sumT) * 100) : 0;
-      chip.innerHTML = `<span class="lu-live" aria-hidden="true"></span> Live üben · ${n} dabei${here.length ? ` · ${share} %` : ""}`;
+      chip.innerHTML = `<span class="lu-live" aria-hidden="true"></span> Live practice · ${n} taking part${here.length ? ` · ${share} %` : ""}`;
     }
 
     const supabase = createBrowserSupabase();
@@ -222,13 +222,13 @@ export function createLiveUebung(data, topic) {
     function drawPick() {
       const on = new Set(shownIdx());
       const tasks = shownIdx().reduce((n, i) => n + totals[i], 0);
-      $("[data-lu-pick-n]").textContent = `${on.size} von ${countable.length} Übungen · ${tasks} Aufgaben`;
+      $("[data-lu-pick-n]").textContent = `${on.size} of ${countable.length} exercises · ${tasks} tasks`;
       $("[data-lu-pick]").innerHTML = `
         ${countable.map((i) => `<button type="button" class="lu-pick-btn" data-lu-ex="${i}" aria-pressed="${on.has(i)}">
           <span class="lu-pick-box" aria-hidden="true"></span><span class="lu-pick-i">${i + 1}</span>
-          <span class="lu-pick-title">${esc(exercises[i]?.title ?? `Übung ${i + 1}`)}</span>
-          <span class="lu-pick-c" title="Aufgaben">${totals[i]}</span></button>`).join("")}
-        ${pick ? `<button type="button" class="lu-pick-all" data-lu-all>Alle wieder auswählen</button>` : ""}`;
+          <span class="lu-pick-title">${esc(exercises[i]?.title ?? `Exercise ${i + 1}`)}</span>
+          <span class="lu-pick-c" title="Tasks">${totals[i]}</span></button>`).join("")}
+        ${pick ? `<button type="button" class="lu-pick-all" data-lu-all>Select all again</button>` : ""}`;
       // The page underneath shows the same choice: left-out exercises greyed and labelled.
       exercises.forEach((_, i) => {
         const card = document.getElementById(`uebung-${i + 1}`);
@@ -285,7 +285,7 @@ export function createLiveUebung(data, topic) {
       const note = document.createElement("div");
       note.className = "lu-note";
       note.setAttribute("role", "status");
-      note.innerHTML = `<b>Die Klasse übt weiter.</b> Hier öffnest du Live üben wieder: Code, Übungen und wer wie weit ist.`;
+      note.innerHTML = `<b>The class is still practising.</b> Open live practice again here: code, exercises and how far everyone is.`;
       document.body.append(note);
       const c = chip.getBoundingClientRect();
       const w = note.offsetWidth, h = note.offsetHeight;
@@ -343,7 +343,7 @@ export function createLiveUebung(data, topic) {
     $("[data-lu-code]").addEventListener("click", (e) => {
       const small = panel.classList.toggle("lu-panel--klein");
       e.currentTarget.setAttribute("aria-pressed", String(small));
-      e.currentTarget.textContent = small ? "Code groß" : "Code klein";
+      e.currentTarget.textContent = small ? "Bigger code" : "Smaller code";
     });
     $("[data-lu-end]").addEventListener("click", async () => {
       dropPin();
@@ -365,10 +365,10 @@ export function createLiveUebung(data, topic) {
       panel.classList.add("lu-panel--eval");
       panel.innerHTML = `
         <header class="lu-head">
-          <div class="lu-head-t"><b>Auswertung</b><span>${esc(title)} · ${new Date().toLocaleDateString("en-GB")}</span></div>
-          <button type="button" class="lu-btn" data-lu-print>Drucken / als PDF</button>
-          <button type="button" class="lu-btn${fromLesson ? "" : " lu-btn--main"}" data-lu-close>Schließen</button>
-          ${fromLesson ? `<button type="button" class="lu-btn lu-btn--main" data-lu-lesson>‹ Zurück zur Stunde</button>` : ""}
+          <div class="lu-head-t"><b>Results</b><span>${esc(title)} · ${new Date().toLocaleDateString("en-GB")}</span></div>
+          <button type="button" class="lu-btn" data-lu-print>Print / save as PDF</button>
+          <button type="button" class="lu-btn${fromLesson ? "" : " lu-btn--main"}" data-lu-close>Close</button>
+          ${fromLesson ? `<button type="button" class="lu-btn lu-btn--main" data-lu-lesson>‹ Back to the lesson</button>` : ""}
         </header>
         <div class="lu-eval">${auswertungHtml(a)}</div>`;
       panel.querySelector("[data-lu-print]").addEventListener("click", () => print());

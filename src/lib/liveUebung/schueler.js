@@ -61,7 +61,7 @@ export function joinLiveUebung(data, topic, pin) {
     const right = mine.filter(([, ok]) => ok).length;
     const total = exercises.reduce((n, ex, i) => n + (picked(i) ? totalOf(ex) : 0), 0);
     if (state === "ende") {
-      bar.innerHTML = `<span class="lu-bar-t">Die Live-Runde ist beendet. Du kannst hier weiterüben.</span>`;
+      bar.innerHTML = `<span class="lu-bar-t">The live round has ended. You can keep practising here.</span>`;
       return;
     }
     const where = away
@@ -69,9 +69,9 @@ export function joinLiveUebung(data, topic, pin) {
       : "";
     bar.innerHTML = `
       <span class="lu-live${state === "live" ? "" : " lu-live--wait"}" aria-hidden="true"></span>
-      <span class="lu-bar-t"><b>${esc(name)}</b> · ${state === "live" ? `${right} richtig · ${Math.min(done, total)}/${total}` : "Warte auf die Lehrkraft …"}</span>
+      <span class="lu-bar-t"><b>${esc(name)}</b> · ${state === "live" ? `${right} correct · ${Math.min(done, total)}/${total}` : "Waiting for the teacher …"}</span>
       ${where}
-      <button type="button" class="lu-bar-name" data-lu-rename>Name ändern</button>`;
+      <button type="button" class="lu-bar-name" data-lu-rename>Change name</button>`;
     bar.querySelector("[data-lu-rename]").addEventListener("click", () => ask(true));
   }
 
@@ -81,12 +81,12 @@ export function joinLiveUebung(data, topic, pin) {
       const sheet = document.createElement("div");
       sheet.className = "lu-ask";
       sheet.innerHTML = `<form class="lu-ask-card" novalidate>
-          <p class="lu-ask-eyebrow"><span class="lu-live" aria-hidden="true"></span> Live mit deiner Klasse</p>
+          <p class="lu-ask-eyebrow"><span class="lu-live" aria-hidden="true"></span> Live with your class</p>
           <h2>${esc(data.name ?? "")}</h2>
-          <label for="lu-name">Wie heißt du?</label>
+          <label for="lu-name">What's your name?</label>
           <input id="lu-name" name="name" autocomplete="given-name" maxlength="24" value="${esc(again ? name : "")}" />
-          <p class="lu-ask-note">Deine Lehrkraft sieht deinen Namen und wie weit du bist. Gespeichert wird nichts.</p>
-          <button type="submit" class="lu-btn lu-btn--main">Mitmachen</button>
+          <p class="lu-ask-note">Your teacher sees your name and how far you are. Nothing is saved.</p>
+          <button type="submit" class="lu-btn lu-btn--main">Join</button>
         </form>`;
       document.body.append(sheet);
       const input = sheet.querySelector("input");
