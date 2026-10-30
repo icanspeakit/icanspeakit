@@ -57,7 +57,12 @@ Inventory basis: `src/data/**`, `src/content/**`, `src/paid/**`, `src/pages/**` 
 | lexicon `en` | English gloss of the German word | **Short learner definition in simple English** (*table → “a piece of furniture with a flat top and legs”*). |
 | lexicon `ipa`, `ipaSource` | German IPA from Wiktionary | British IPA (SSB); `ipaSource` stays `"wiktionary"` only if taken from there, otherwise `"authored"`. |
 | lexicon `audio` | `der-name` style filename | `<lemma>` (`name`, `ice-cream`); files don't exist yet (TTS later). |
-| lexicon `rank`, `source` | German OpenSubtitles frequency | English OpenSubtitles 2018 frequency list (hermitdave/FrequencyWords, MIT, `en_50k`). Level banding stays frequency-derived; the UI must not claim it is the official Cambridge *English Vocabulary Profile* (copyrighted, may be consulted for level sanity checks, never copied). |
+| lexicon word id (`id` or slug of `lemma`) | German lemma slug | English lemma slug (**set by `vocab-a1`, 2026-10-30**). A noun/verb pair with one spelling keeps the plain slug on the more basic word and suffixes the other (`work` verb, `work-noun`; `love` verb, `love-noun`; `rain` noun, `rain-verb`), like the German data did (`husten-noun`). An English slug that is still taken by a German word of a later level gets `-en` (`computer-en`, `station-en`, `tablet-en`, `patient-en`, `jeans-en`): ids are unique across all levels, and the sidecars are keyed by id. Modules still in German must not resolve their ids into English levels: `ENGLISH_LEVELS` in `src/lib/lexicon.js`. |
+| lexicon `forms` | 3rd sg, Präteritum, Partizip II | 3rd sg, past simple, past participle (`works, worked, worked`); modals (*can, must, should*) have none. Phrasal verbs (*get up*) carry `separable: true` and split forms (`gets up, got up, got up`). |
+| lexicon `comparative`/`superlative`, `irregular` | *älter, am ältesten* | *older, oldest* / *more tired, most tired*; `irregular` only for *good, bad, far*. |
+| lexicon `aux`, `case`, `reflexive` | haben/sein, Kasus, sich | not used for English words (keys omitted). `prep` holds a dependent preposition (*wait for, listen to*). |
+| lexicon `i18n/de.json` | German explanation of a German word | **German translation** of the English word (nouns with article). |
+| lexicon `rank`, `source` | German OpenSubtitles frequency | English OpenSubtitles 2018 frequency list (hermitdave/FrequencyWords, MIT, `en_50k`). Level banding stays frequency-derived; the UI must not claim it is the official Cambridge *English Vocabulary Profile* (copyrighted, may be consulted for level sanity checks, never copied). **`vocab-a1` (2026-10-30):** the list could not be downloaded in that run, so A1 has `rank: null` (no guessed ranks); `node scripts/attach-ranks.mjs a1` now ranks English levels against `en_50k` and fills it in one go. Until then the A1 words are out of the frequency rounds (`lernsets.js` cohorts). |
 | `artikel-sprint/words.json` `article`, `plural`, `pluralWrong`, `english` | der/die/das, plural, wrong plurals, gloss | `a`/`an`/`some`; English plural; plausible wrong plurals (*childs, mouses, informations*); `english` = short simple definition. |
 | Case fields (Nominativ/Akkusativ/Dativ/Genitiv) | four cases | subject / object / possessive adjective / possessive pronoun where a 4-slot shape exists (*I / me / my / mine*); otherwise leave the key with `""` and note it. |
 | Separable verbs (`trennbare-verben`) | *an-rufen* | **phrasal verbs** (*call back*, *give up*); the prefix field holds the particle. |
@@ -243,7 +248,7 @@ question tags, *have got*, *can* for ability at A1, quantifiers at B2.
 | Tax havens | `steueroasen.js`, `steueroasen-map.json`, `/steueroasen` | Off-topic for an English course. |
 | German beer map | `bier.json`, `bier-karte.json` (and their use on `/wissen/dialekte`) | German-specific. |
 | German case/declension | `kasus-haeufigkeit.json`, `/grammatik/deklination`, `KasusChart.astro` | No English equivalent. |
-| German-only lexicon helpers | `lexicon/i18n/de-fill.json`, `de-syn.json` **if** `vocab-a1` finds they only serve German morphology | decided by `vocab-a1` |
+| German-only lexicon helpers | `lexicon/i18n/de-fill.json`, `de-syn.json` **if** `vocab-a1` finds they only serve German morphology | **Decided by `vocab-a1` (2026-10-30):** both only serve German words (gap answers of German hints, German synonyms). Their A1 entries are gone; the files stay while A2–B2 are German and are removed by the vocab item that migrates the last German level (or `cleanup`). |
 
 `cleanup` must follow CLAUDE.md: archive entries in `EXPERIMENTE.md` for any experiment page,
 and record the removing commit in its report. Redirect dropped URLs to the nearest hub
@@ -272,9 +277,9 @@ Each row: German module → English equivalent → queue item that does it.
 |---|---|---|
 | `content/lexicon/a1…b2.json` (units of 25 words, topics) | Same units and topics (*Person & introductions, Family, Feelings, House & rooms…*); English lemmas chosen by English frequency + topic; schema per §1.4 | `vocab-a1` … `vocab-b2` |
 | `content/lexicon/c1.json`, `c2.json` | stay German for now (no queue item; see §9) | — |
-| `wortschatz.json` (phrase cards `front/note/translations`) | English phrases (*I'm of the opinion that…*), `note` = usage tip in simple English | `vocab-a1` |
-| `haeufigste-woerter.json` | most frequent English words | `vocab-a1` |
-| `bildkarten.json`, `wort-bilder.json`, `wortschatz-szenen.json` | keep pictures; re-key to the English lexicon ids | `vocab-a1` (A1), later levels by their vocab item |
+| `wortschatz.json` (phrase cards `front/note/translations`) | English phrases (*I'm of the opinion that…*), `note` = usage tip in simple English | `vocab-a1` (done 2026-10-30) |
+| `haeufigste-woerter.json` | most frequent English words | `vocab-a1`: generator switched to English (`scripts/haeufigste-woerter.mjs`), **data not regenerated yet** (needs the `en_50k` download, see §1.4 rank). Only the grammar PDF script reads it. |
+| `bildkarten.json`, `wort-bilder.json`, `wortschatz-szenen.json` | keep pictures; re-key to the English lexicon ids | `vocab-a1` (A1), later levels by their vocab item. Done for A1 (2026-10-30): `bildkarten.json` has English ids plus a `drawings` map to the drawing names in `src/lib/bildwoerter.js`, which stay German; `wort-bilder.json` lists the English A1 ids first. |
 | `lexicon/i18n/<lang>.json` | glosses English → <lang> (§1.4) | each `vocab-*` for its level |
 
 ### 5.3 Listening (`hoeren.json`, ids kept, UK settings)
