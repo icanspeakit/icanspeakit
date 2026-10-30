@@ -49,12 +49,13 @@ export function unterrichtDaten() {
   const wortfelder = Object.fromEntries(Object.entries(wortfelderRoh).filter(([k]) => !k.startsWith("_")).map(([feld, f]) => [feld, {
     aufgabe: f.aufgabe,
     woerter: f.woerter.map((t) => {
-      // "die Apotheke": a noun the A1 list does not have, written with its article.
-      const [, artikel, wort] = /^(der|die|das) (\S.*)$/.exec(t) ?? [, null, t];
-      const w = lexikon.get(wort);
+      // "a menu": a noun written with its article. The article is split off only when the rest
+      // is an A1 word, so phrases like "a bottle of water" or "a week ago" stay whole.
+      const [, artikel, wort] = /^(a|an|some) (\S.*)$/.exec(t) ?? [, null, t];
+      const w = lexikon.get(t) ?? lexikon.get(wort);
       return w
-        ? { text: wort, artikel: w.gender ?? artikel, plural: w.plural ?? null, beispiel: w.example ?? null }
-        : { text: wort, artikel };
+        ? { text: w.lemma, artikel: w.gender ?? artikel, plural: w.plural ?? null, beispiel: w.example ?? null }
+        : { text: t, artikel: null };
     }),
   }]));
 
