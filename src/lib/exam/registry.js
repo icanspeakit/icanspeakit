@@ -79,20 +79,20 @@ export const examRegistry = [
   },
   {
     id: "leben-in-deutschland",
-    title: "Leben in Deutschland",
-    subtitle: "Einbürgerungstest",
-    level: "Wissenstest",
+    title: "Life in the UK",
+    subtitle: "Practice test",
+    level: "Knowledge test",
     href: "/leben-in-deutschland/test",
     overview: "/leben-in-deutschland",
     store: { kind: "exam", key: "leben-in-deutschland" },
-    passNote: `Bestanden ab ${lid.meta.passScore} von ${lid.meta.totalQuestions} Fragen.`,
+    passNote: `Real test: pass with ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions.`,
     passPct: Math.round((lid.meta.passScore / lid.meta.totalQuestions) * 100),
     modules: [
-      { key: "bund", label: "Bundesweit", ids: lidFederalIds },
-      // The ids depend on the Bundesland stored in "da-lid-land"; only the browser
-      // knows which one, so the client resolves this. The count shown until then is
-      // Bayern's, the default the trainer itself falls back to.
-      { key: "land", label: "Mein Bundesland", idsFrom: "lid-land" },
+      { key: "bund", label: "UK-wide", ids: lidFederalIds },
+      // The ids depend on the nation stored in "da-lid-land"; only the browser knows
+      // which one, so the client resolves this. The count shown until then is the first
+      // nation's (England), the default the trainer itself falls back to.
+      { key: "land", label: "My part of the UK", idsFrom: "lid-land" },
     ],
   },
   {
@@ -149,15 +149,15 @@ export const examRegistry = [
   })),
 ];
 
-/** The Bundesland question ids for one state, in the trainer's own numbering. */
+/** The question ids for one nation (the slot was the German Bundesland), in the trainer's own numbering. */
 export function lidLandIds(landId) {
   const land = lid.bundeslaender.find((l) => l.id === landId) ?? lid.bundeslaender[0];
   return land.stateQuestions.map((_, i) => "land-" + land.id + "-" + (i + 1));
 }
 
-/** Bayern is the trainer's fallback, so it is what the registry counts until the
- *  browser says otherwise. */
-export const lidDefaultLandIds = lidLandIds("bayern");
+/** The first nation is the trainer's fallback, so it is what the registry counts until
+ *  the browser says otherwise. */
+export const lidDefaultLandIds = lidLandIds(lid.bundeslaender[0].id);
 
 export function examById(id) {
   return examRegistry.find((e) => e.id === id) ?? null;

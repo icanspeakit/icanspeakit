@@ -38,27 +38,25 @@ const { questions, meta, bundeslaender } = lid;
     </div>
     <ExamDisclaimer />
 
-    {/* Official rules: § 1 EinbTestV and the BAMF pages, read 2026-10-04. Our test scores
-        against 17 (Einbürgerung), the stricter of the two pass marks. */}
+    {/* Official rules: gov.uk "Life in the UK test", read 2026-10-30. The real test has no
+        nation-specific part; our nation questions are an extra (meta.realTestNote). */}
     <ExamFacts
-      title="So läuft der Test ab"
+      title="How the test works"
       titleKey="lid.facts.title"
       rows={[
-        [{ text: "Fragen", key: "lid.facts.questions" }, { text: "33, davon 3 zu deinem Bundesland", key: "lid.facts.questionsVal" }],
-        [{ text: "Antworten", key: "lid.facts.answers" }, { text: "je 4, eine ist richtig", key: "lid.facts.answersVal" }],
-        [{ text: "Zeit", key: "ps.format.th.time" }, "60 Min."],
-        [{ text: "Bestanden", key: "sd1.facts.pass" }, { text: "ab 15 richtigen: Bescheinigung „Leben in Deutschland“. Ab 17: Nachweis für die Einbürgerung", key: "lid.facts.passVal" }],
-        [{ text: "Fragenkatalog", key: "lid.facts.catalog" }, { text: "310 Fragen je Bundesland: 300 allgemeine und 10 zum Bundesland", key: "lid.facts.catalogVal" }],
+        [{ text: "Questions", key: "lid.facts.questions" }, { text: `${meta.totalQuestions}, about the whole UK`, key: "lid.facts.questionsVal" }],
+        [{ text: "Answers", key: "lid.facts.answers" }, { text: "multiple choice, on a computer", key: "lid.facts.answersVal" }],
+        [{ text: "Time", key: "ps.format.th.time" }, `${meta.minutes} min`],
+        [{ text: "Pass", key: "sd1.facts.pass" }, { text: `${meta.passScore} of ${meta.totalQuestions} correct (75 %)`, key: "lid.facts.passVal" }],
+        [{ text: "Based on", key: "lid.facts.catalog" }, { text: "the official handbook “Life in the United Kingdom: A Guide for New Residents”", key: "lid.facts.catalogVal" }],
       ]}
       notes={[
-        { key: "lid.facts.note", html: "Der Test „Leben in Deutschland“ am Ende des Orientierungskurses und der Einbürgerungstest sind gleich aufgebaut. Unser Übungstest wertet nach der strengeren Grenze aus: 17 von 33." },
+        { key: "lid.facts.note", html: "Our questions are our own, written from public sources; they are not the official questions. The real test has no part about one nation: our questions on England, Scotland, Wales and Northern Ireland are extra practice." },
       ]}
       sources={[
-        { label: "§ 1 EinbTestV", url: "https://www.gesetze-im-internet.de/einbtestv/__1.html" },
-        { label: "BAMF: Abschlussprüfung", url: "https://www.bamf.de/DE/Themen/Integration/ZugewanderteTeilnehmende/Integrationskurse/Abschlusspruefung/abschlusspruefung-node.html" },
-        { label: "BAMF: Online-Testcenter mit allen Fragen", url: "https://www.bamf.de/DE/Themen/Integration/ZugewanderteTeilnehmende/OnlineTestcenter/online-testcenter-node.html" },
+        { label: "GOV.UK: Life in the UK test", url: "https://www.gov.uk/life-in-the-uk-test" },
       ]}
-      checked="04.10.2026"
+      checked="30.10.2026"
     />
 
     <ExamApp brand="Life in the UK" sub="Practice test" subKey="lid.test.eyebrow" unit="questions" />
@@ -88,7 +86,7 @@ const { questions, meta, bundeslaender } = lid;
         const id = localStorage.getItem(LAND_KEY);
         if (bundeslaender.some((l) => l.id === id)) return id;
       } catch {}
-      return "bayern";
+      return bundeslaender[0].id;
     }
     let landId = savedLand();
     const land = () => bundeslaender.find((l) => l.id === landId) ?? bundeslaender[0];

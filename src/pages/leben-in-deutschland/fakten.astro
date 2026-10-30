@@ -158,7 +158,7 @@ const dlVars = (d: { vars?: Record<string, string> }) => (d.vars ? JSON.stringif
         <h3 data-i18n="lid.fk.yourState">Dein Bundesland</h3>
         <div data-land-wrap>
           <select class="fk-land-select">
-            {bundeslaender.map((l) => <option value={l.id} selected={l.id === "bayern"}>{l.name}</option>)}
+            {bundeslaender.map((l) => <option value={l.id} selected={l.id === bundeslaender[0].id}>{l.name}</option>)}
           </select>
           <div class="fk-land-detail"></div>
         </div>
@@ -209,7 +209,7 @@ const dlVars = (d: { vars?: Record<string, string> }) => (d.vars ? JSON.stringif
             <h3 data-i18n="lid.fk.yourState">Dein Bundesland</h3>
             <div data-land-wrap>
               <select class="fk-land-select">
-                {bundeslaender.map((l) => <option value={l.id} selected={l.id === "bayern"}>{l.name}</option>)}
+                {bundeslaender.map((l) => <option value={l.id} selected={l.id === bundeslaender[0].id}>{l.name}</option>)}
               </select>
               <div class="fk-land-detail"></div>
             </div>
@@ -250,7 +250,7 @@ const dlVars = (d: { vars?: Record<string, string> }) => (d.vars ? JSON.stringif
           <summary><span class="fk-fact-card-title" data-i18n="lid.fk.yourState">Dein Bundesland</span></summary>
           <div data-land-wrap>
             <select class="fk-land-select">
-              {bundeslaender.map((l) => <option value={l.id} selected={l.id === "bayern"}>{l.name}</option>)}
+              {bundeslaender.map((l) => <option value={l.id} selected={l.id === bundeslaender[0].id}>{l.name}</option>)}
             </select>
             <div class="fk-land-detail"></div>
           </div>
