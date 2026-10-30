@@ -67,9 +67,9 @@ const tx = (hoerenHelp.entries as Record<string, any>)[text.id] ?? null;
           <audio id="ho-audio" controls preload="none" src={clipHref(text.id)}></audio>
           <div class="ho-speed" role="group" aria-label="Wiedergabegeschwindigkeit" data-i18n-attr="aria-label:hoeren.speed.aria">
             <span class="ho-speed-label" data-i18n="hoeren.speed">Tempo</span>
-            <button class="ho-speed-btn" type="button" data-rate="0.75">0,75×</button>
+            <button class="ho-speed-btn" type="button" data-rate="0.75">0.75×</button>
             <button class="ho-speed-btn is-on" type="button" data-rate="1">1×</button>
-            <button class="ho-speed-btn" type="button" data-rate="1.25">1,25×</button>
+            <button class="ho-speed-btn" type="button" data-rate="1.25">1.25×</button>
           </div>
           <p class="ho-player-hint" data-i18n="hoeren.playerHint" data-i18n-vars={JSON.stringify({ s: seconds })}>{seconds} Sekunden. Hör zuerst einmal ganz durch, ohne mitzulesen — danach kommen die Fragen.</p>
         </div>
