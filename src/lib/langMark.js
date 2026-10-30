@@ -2,6 +2,6 @@
 // flag, because a language is not a country (Arabisch, Persisch, Spanisch are spoken in many).
 const MARK = {
   arabisch: "ع", tuerkisch: "Tr", persisch: "ف", russisch: "Ру", ukrainisch: "Ук", polnisch: "Pl",
-  englisch: "En", franzoesisch: "Fr", italienisch: "It", spanisch: "Es", chinesisch: "中", vietnamesisch: "Vi", tagalog: "Tl",
+  deutsch: "De", franzoesisch: "Fr", italienisch: "It", spanisch: "Es", chinesisch: "中", vietnamesisch: "Vi", tagalog: "Tl",
 };
 export const langMark = (id) => MARK[id] ?? id.slice(0, 2);
