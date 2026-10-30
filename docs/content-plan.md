@@ -456,6 +456,8 @@ Facts that change (fees, figures, rules) need a source and an “as of” date i
 | `sprachen-welt.json`, `sprachen-karte.json` | Where English is spoken (official/de facto language countries) on the existing world map | `culture` |
 | `/spiele/knigge` (prototype) | Manners simulator in the UK | `games` |
 
+**Status (`culture`, 2026-10-30):** `kultur.json` holds the 23 UK topics of the table above (ids kept, all `sourcing: "sachwissen"`, eyebrows *Language & manners / Everyday life & housing / State & society / Services & health / Education & work*); `uebersetzungen/kultur.json` entries emptied (they explained the German topics; the page hides the help block). `kultur-insider.json` is down to **13 UK topics** (24 German dating/gender-survey and politics topics dropped; etiquette topics have `sources: []` and say they describe common practice). `zitate.json`: **131** English public-domain quotes (rotation is modulo the list, 366 not needed); `uebersetzungen/zitate.json` quotes emptied. `wusstest-du.json`, `kalender-saetze.json`: English. **Split off** to the new queue item `accents-languages`: `dialekte.json`/`dialekte-karte.json`/`dachMap.js` (/wissen/dialekte) and `sprachen-welt.json`/`sprachen-karte.json` (/wissen/sprachen): both need new map geometry from geo packages that are not installed (see the generator scripts' headers) and about 260 prose keys in en.json (`dialekte.*`, `sprachen.*`).
+
 ### 5.9 Games
 
 | German | English | Item |
