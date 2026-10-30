@@ -3,1148 +3,602 @@
   "slug": "b2",
   "exam": "goethe",
   "level": "B2",
-  "title": "Übungssatz 1",
+  "title": "Cambridge English B2 First · Practice set 1",
   "formatRef": "goethe-b2",
-  "origin": "EnglishAcademy — alle Texte, Aufgaben und Hörskripte selbst geschrieben (2026-09-30).",
-  "sourcing": "Aufbau, Aufgabenzahl, Aufgabentypen, Zeiten und Punkte folgen dem Goethe-Zertifikat B2 (Modellsatz Erwachsene, Goethe-Institut). Alle Texte, Aufgaben und Hörtexte hier sind von EnglishAcademy selbst geschrieben; es ist nichts aus einem Goethe-Prüfungssatz übernommen. Die Hörtexte sind mit Sprachsynthese vertont.",
+  "origin": "EnglishAcademy: all texts, tasks and listening scripts written by us for this practice set (2026-10-30).",
+  "sourcing": "Our own material. The structure (papers, parts, number of questions, task types and timings) follows the official Cambridge English B2 First format. Nothing is copied from Cambridge past papers or sample tests. The listening texts are voiced with speech synthesis. Cambridge English B2 First is a qualification of Cambridge University Press & Assessment; © Cambridge University Press & Assessment. This set is not produced or endorsed by Cambridge.",
   "scoring": {
     "passPct": 60,
-    "note": "Goethe-Zertifikat B2: Jedes Modul (Lesen, Hören, Schreiben, Sprechen) wird einzeln auf 100 Punkte umgerechnet; bestanden ab 60 Punkten. In Lesen und Hören gibt es je 30 Aufgaben à 1 Punkt. Die Module können einzeln abgelegt werden."
+    "note": "In the real exam, B2 First is reported on the Cambridge English Scale: 160–179 is a B2 pass (Grade C 160–172, Grade B 173–179), 180–190 is Grade A (certificate at C1) and 140–159 gives a B1 certificate. You get one overall score plus a score for each of the four skills and Use of English; there is no pass mark for each paper. The 60 % line in this practice set is our own guide to the auto-marked points, not an official pass mark. Part 4 (key word transformation) gives up to 2 marks in the real exam, 1 point here. Writing and Speaking are not auto-marked: compare your work with the model answers and checklists."
   },
   "speakers": {
-    "frau": {
-      "name": "Frau",
-      "voice": "de-DE-KatjaNeural"
-    },
-    "frau2": {
-      "name": "Frau",
-      "voice": "de-DE-AmalaNeural"
-    },
-    "frau3": {
-      "name": "Frau",
-      "voice": "de-DE-TanjaNeural"
-    },
-    "frau4": {
-      "name": "Frau",
-      "voice": "de-DE-KlarissaNeural"
-    },
-    "frau5": {
-      "name": "Frau",
-      "voice": "de-DE-ElkeNeural"
-    },
-    "mann": {
-      "name": "Mann",
-      "voice": "de-DE-ConradNeural"
-    },
-    "mann2": {
-      "name": "Mann",
-      "voice": "de-DE-KillianNeural"
-    },
-    "mann3": {
-      "name": "Mann",
-      "voice": "de-DE-BerndNeural"
-    },
-    "mod": {
-      "name": "Moderatorin",
-      "voice": "de-DE-SeraphinaMultilingualNeural"
-    },
-    "mod2": {
-      "name": "Moderator",
-      "voice": "de-DE-FlorianMultilingualNeural"
-    }
+    "f1": { "name": "Woman", "voice": "en-GB-SoniaNeural" },
+    "f2": { "name": "Woman", "voice": "en-GB-LibbyNeural" },
+    "f3": { "name": "Woman", "voice": "en-GB-HollieNeural" },
+    "f4": { "name": "Woman", "voice": "en-GB-MaisieNeural" },
+    "f5": { "name": "Woman", "voice": "en-GB-AbbiNeural" },
+    "f6": { "name": "Woman", "voice": "en-GB-BellaNeural" },
+    "f7": { "name": "Woman", "voice": "en-GB-OliviaNeural" },
+    "m1": { "name": "Man", "voice": "en-GB-RyanNeural" },
+    "m2": { "name": "Man", "voice": "en-GB-ThomasNeural" },
+    "m3": { "name": "Man", "voice": "en-GB-AlfieNeural" },
+    "m4": { "name": "Man", "voice": "en-GB-ElliotNeural" },
+    "m5": { "name": "Man", "voice": "en-GB-EthanNeural" },
+    "m6": { "name": "Man", "voice": "en-GB-NoahNeural" },
+    "m7": { "name": "Man", "voice": "en-GB-OliverNeural" }
   },
   "modules": [
     {
-      "key": "lesen",
-      "name": "Lesen",
-      "minutes": 65,
+      "key": "reading",
+      "name": "Reading and Use of English",
+      "minutes": 75,
       "parts": [
         {
-          "key": "l1",
+          "key": "r1",
           "teil": 1,
-          "type": "match",
+          "type": "gap-mc",
           "points": 1,
-          "allowReuse": true,
-          "poolKind": "people",
-          "title": "Forumsbeiträge: Wer meint was?",
-          "instruction": "Lies die Beiträge und die Aussagen 1 bis 9. Auf welche Person trifft die Aussage zu? Die Personen können mehrmals gewählt werden. Du hast etwa 18 Minuten Zeit.",
-          "pool": {
-            "a": "Jana",
-            "b": "Mehmet",
-            "c": "Ulrike",
-            "d": "Tobias"
-          },
+          "title": "Multiple-choice cloze",
+          "instruction": "For questions 1–8, read the text below and decide which answer (A, B, C or D) best fits each gap.",
+          "textTitle": "The return of the allotment",
+          "segments": [
+            { "t": "A few years ago, allotments seemed to belong to another age, a hobby for retired men in flat caps. Today the picture is very different. In many towns the waiting lists are so long that people may have to wait years before a plot " },
+            { "gap": "u1-1" },
+            { "t": " available. Those lucky enough to have one say the appeal is simple. After a long week in front of a screen, there is nothing like " },
+            { "gap": "u1-2" },
+            { "t": " your hands dirty." },
+            { "br": true },
+            { "t": "Plot holders soon " },
+            { "gap": "u1-3" },
+            { "t": " on well with one another, swapping seeds, tools and advice. Yet the work is not always easy. A summer without rain can " },
+            { "gap": "u1-4" },
+            { "t": " a heavy toll on even the best-kept plot, and slugs can " },
+            { "gap": "u1-5" },
+            { "t": " short work of a row of young lettuces in a single night." },
+            { "br": true },
+            { "gap": "u1-6" },
+            { "t": " the effort involved, very few holders ever give up their plots. Some have even " },
+            { "gap": "u1-7" },
+            { "t": " up small businesses selling their surplus fruit and vegetables. For most, though, the real satisfaction comes from taking great pride " },
+            { "gap": "u1-8" },
+            { "t": " what they have grown themselves." }
+          ],
+          "items": [
+            { "id": "u1-1", "options": ["turns", "grows", "becomes", "happens"], "correct": 2, "why": "A plot ‘becomes available’ is the normal collocation; the other verbs do not combine with the adjective." },
+            { "id": "u1-2", "options": ["getting", "making", "putting", "taking"], "correct": 0, "why": "We say ‘get your hands dirty’." },
+            { "id": "u1-3", "options": ["make", "get", "take", "pull"], "correct": 1, "why": "‘Get on well with’ someone is the fixed phrasal verb." },
+            { "id": "u1-4", "options": ["bring", "make", "take", "set"], "correct": 2, "why": "‘Take a heavy toll on’ something is a fixed phrase meaning to damage it badly." },
+            { "id": "u1-5", "options": ["do", "make", "take", "give"], "correct": 1, "why": "‘Make short work of’ means to deal with something quickly and easily." },
+            { "id": "u1-6", "options": ["Although", "Despite", "However", "Whereas"], "correct": 1, "why": "‘Despite’ is followed by a noun phrase (‘the effort involved’); the others need a clause." },
+            { "id": "u1-7", "options": ["put", "set", "brought", "made"], "correct": 1, "why": "‘Set up a business’ is the standard phrasal verb." },
+            { "id": "u1-8", "options": ["of", "for", "in", "on"], "correct": 2, "why": "We ‘take pride in’ something." }
+          ]
+        },
+        {
+          "key": "r2",
+          "teil": 2,
+          "type": "write-in",
+          "points": 1,
+          "title": "Open cloze",
+          "instruction": "For questions 9–16, read the text below and think of the word which best fits each gap. Use only one word in each gap.",
+          "textTitle": "Learning to cook",
+          "segments": [
+            { "t": "Last year I decided that I was tired " },
+            { "gap": "u2-1" },
+            { "t": " eating ready meals every evening, so I signed up for a cooking course at my local college. I had never been " },
+            { "gap": "u2-2" },
+            { "t": " good cook, and my friends often joked that I could burn water. The first lesson was nothing like " },
+            { "gap": "u2-3" },
+            { "t": " I had expected. Hardly " },
+            { "gap": "u2-4" },
+            { "t": " the class begun when the teacher handed each of us a knife and an onion, and by the end of the evening my eyes " },
+            { "gap": "u2-5" },
+            { "t": " streaming." },
+            { "br": true },
+            { "t": "Nevertheless, I kept going, and I now cook " },
+            { "gap": "u2-6" },
+            { "t": " least three times a week. What surprised me most was how relaxing it is: when I am slicing vegetables, I forget all about work. My neighbour, " },
+            { "gap": "u2-7" },
+            { "t": " is a keen cook herself, has even given me some of her favourite recipes. If you have ever thought about trying " },
+            { "gap": "u2-8" },
+            { "t": " new, I would strongly recommend a course like this." }
+          ],
+          "items": [
+            { "id": "u2-1", "prompt": "Gap 9", "accept": ["of"], "why": "‘Tired of’ + -ing." },
+            { "id": "u2-2", "prompt": "Gap 10", "accept": ["a"], "why": "‘Never been a good cook’: the indefinite article is needed." },
+            { "id": "u2-3", "prompt": "Gap 11", "accept": ["what"], "why": "‘Nothing like what I had expected’." },
+            { "id": "u2-4", "prompt": "Gap 12", "accept": ["had"], "why": "‘Hardly had … begun when …’ is the inverted past perfect." },
+            { "id": "u2-5", "prompt": "Gap 13", "accept": ["were"], "why": "Past continuous: ‘my eyes were streaming’." },
+            { "id": "u2-6", "prompt": "Gap 14", "accept": ["at"], "why": "‘At least’ is a fixed phrase." },
+            { "id": "u2-7", "prompt": "Gap 15", "accept": ["who"], "why": "A non-defining relative clause about a person needs ‘who’ (not ‘that’)." },
+            { "id": "u2-8", "prompt": "Gap 16", "accept": ["something", "anything"], "why": "‘Trying something new’ (‘anything new’ also works after ‘ever’)." }
+          ]
+        },
+        {
+          "key": "r3",
+          "teil": 3,
+          "type": "write-in",
+          "points": 1,
+          "title": "Word formation",
+          "instruction": "For questions 17–24, read the text below. Use the word given in capitals in the question to form a word that fits in the gap. Write the new word.",
+          "textTitle": "Working from home",
+          "segments": [
+            { "t": "Working from home has become " },
+            { "gap": "u3-1" },
+            { "t": " common in recent years. Many employees say they are more " },
+            { "gap": "u3-2" },
+            { "t": " because there are fewer interruptions, while others value the " },
+            { "gap": "u3-3" },
+            { "t": " of choosing their own hours." },
+            { "br": true },
+            { "t": "However, the arrangement is not " },
+            { "gap": "u3-4" },
+            { "t": " for everyone. People who live alone can feel " },
+            { "gap": "u3-5" },
+            { "t": " after several days without talking to a colleague, and managers sometimes worry about the " },
+            { "gap": "u3-6" },
+            { "t": " of new staff, who usually learn faster when they sit beside experienced people. Another problem is that the " },
+            { "gap": "u3-7" },
+            { "t": " between work and free time can slowly disappear." },
+            { "br": true },
+            { "t": "Experts believe that the most " },
+            { "gap": "u3-8" },
+            { "t": " solution is a mixture of both: a few days at home and a few days in the office." }
+          ],
+          "items": [
+            { "id": "u3-1", "prompt": "INCREASE", "accept": ["increasingly"], "why": "An adverb is needed to modify the adjective ‘common’." },
+            { "id": "u3-2", "prompt": "PRODUCE", "accept": ["productive"], "why": "An adjective after ‘more’." },
+            { "id": "u3-3", "prompt": "FLEXIBLE", "accept": ["flexibility"], "why": "A noun after ‘the’." },
+            { "id": "u3-4", "prompt": "SUIT", "accept": ["suitable", "suited"], "why": "An adjective after ‘not’: ‘not suitable for everyone’." },
+            { "id": "u3-5", "prompt": "ISOLATE", "accept": ["isolated"], "why": "‘Feel isolated’: past participle used as an adjective." },
+            { "id": "u3-6", "prompt": "TRAIN", "accept": ["training"], "why": "A noun after ‘the’: ‘the training of new staff’." },
+            { "id": "u3-7", "prompt": "SEPARATE", "accept": ["separation"], "why": "A noun is needed: ‘the separation between work and free time’." },
+            { "id": "u3-8", "prompt": "SUCCESS", "accept": ["successful"], "why": "An adjective after ‘the most’." }
+          ]
+        },
+        {
+          "key": "r4",
+          "teil": 4,
+          "type": "write-in",
+          "points": 1,
+          "title": "Key word transformation",
+          "instruction": "For questions 25–30, complete the second sentence so that it has a similar meaning to the first sentence, using the word given. Do not change the word given. You must use between two and five words, including the word given.",
+          "items": [
+            { "id": "u4-1", "prompt": "I haven’t seen Maria for three years. | LAST | The ______ Maria was three years ago.", "accept": ["last time I saw"], "answer": "last time I saw", "why": "‘The last time I saw Maria was three years ago’ keeps the meaning with the simple past." },
+            { "id": "u4-2", "prompt": "‘You should see a doctor,’ Ali told his brother. | ADVISED | Ali ______ a doctor.", "accept": ["advised his brother to see", "advised his brother to visit"], "answer": "advised his brother to see", "why": "‘Advise someone to do something’ is reported advice." },
+            { "id": "u4-3", "prompt": "He started learning Spanish ten years ago. | BEEN | He ______ Spanish for ten years.", "accept": ["has been learning", "'s been learning"], "answer": "has been learning", "why": "Present perfect continuous for an action that began in the past and continues." },
+            { "id": "u4-4", "prompt": "We will miss the train if we don’t hurry. | UNLESS | We will miss the train ______ hurry.", "accept": ["unless we"], "answer": "unless we", "why": "‘Unless’ replaces ‘if … not’, so the second clause is positive." },
+            { "id": "u4-5", "prompt": "A mechanic repaired Tom’s car yesterday. | HAD | Tom ______ yesterday.", "accept": ["had his car repaired"], "answer": "had his car repaired", "why": "Causative ‘have something done’ for a service done by someone else." },
+            { "id": "u4-6", "prompt": "I’m sorry I didn’t phone you earlier. | WISH | I ______ you earlier.", "accept": ["wish I had phoned", "wish I'd phoned", "wish I had called", "wish I'd called", "wish I had rung", "wish I'd rung"], "answer": "wish I had phoned", "why": "‘Wish’ + past perfect expresses regret about the past." }
+          ]
+        },
+        {
+          "key": "r5",
+          "teil": 5,
+          "type": "mc",
+          "points": 1,
+          "title": "Multiple choice: one long text",
+          "instruction": "For questions 31–36, read the article and choose the answer (A, B, C or D) which you think fits best according to the text.",
           "texts": [
             {
-              "id": "l1-intro",
-              "kind": "anzeige",
-              "label": "Forum",
-              "title": "Mit den Eltern unter einem Dach?",
+              "id": "u5-t",
+              "label": "Article",
+              "title": "Up before the birds",
               "paras": [
-                "In einem Onlineforum diskutieren Leserinnen und Leser, ob erwachsene Kinder und ihre Eltern wieder zusammenziehen sollten."
-              ]
-            },
-            {
-              "id": "l1-a",
-              "label": "a · Jana, Graz",
-              "paras": [
-                "Vor drei Jahren haben mein Mann und ich zusammen mit meinen Eltern ein altes Bauernhaus am Stadtrand gekauft. Allein hätten wir uns das nie leisten können, und ehrlich gesagt war das Geld der wichtigste Grund. Inzwischen sehe ich aber noch andere Vorteile: Meine Mutter holt die Kinder zweimal pro Woche vom Kindergarten ab, mein Vater repariert alles, was kaputtgeht. Natürlich gibt es auch Reibereien, etwa wenn meine Mutter mir erklärt, wie ich die Wäsche aufhängen soll. Unsere Nachbarn haben uns anfangs prophezeit, dass wir uns spätestens nach einem Jahr zerstreiten würden. Deshalb haben wir von Anfang an zwei getrennte Eingänge und zwei Küchen eingeplant. Ohne diese räumliche Trennung würde es, glaube ich, nicht funktionieren. Wer so etwas vorhat, sollte außerdem vorher klären, wer welche Kosten übernimmt – das erspart später viel Streit."
-              ]
-            },
-            {
-              "id": "l1-b",
-              "label": "b · Mehmet, Duisburg",
-              "paras": [
-                "In meiner Familie war es immer selbstverständlich, dass mehrere Generationen zusammenleben. Mein Großvater hat bis zu seinem Tod bei uns gewohnt, und ich habe als Kind unglaublich viel von ihm gelernt – Schach, Geduld und ein paar Lieder, die ich heute meinen Kindern vorsinge. Heute wohne ich mit meiner Frau und unseren beiden Söhnen in einer Mietwohnung, meine Eltern leben zwei Straßen weiter. Das ist für mich der perfekte Kompromiss: Man ist nah genug, um sich gegenseitig zu helfen, kann aber die Tür hinter sich zumachen. Was mich an dieser Diskussion stört, ist der Ton. Viele schreiben so, als wäre das Wohnen bei den Eltern ein Beweis dafür, dass man es im Leben nicht geschafft hat. Das finde ich ziemlich überheblich. In vielen Ländern ist das völlig normal, und niemand käme auf die Idee, jemanden deswegen zu bemitleiden."
-              ]
-            },
-            {
-              "id": "l1-c",
-              "label": "c · Ulrike, Winterthur",
-              "paras": [
-                "Ich bin 67 und lebe seit dem Tod meines Mannes allein in unserer Vierzimmerwohnung. Meine Tochter hat mir angeboten, zu ihr und ihrer Familie zu ziehen, aber ich habe abgelehnt. Ich liebe meine Enkel, doch ich möchte nicht die Oma sein, die ständig verfügbar ist, sobald jemand einen Babysitter braucht. Ich singe im Chor, reise gern und habe meinen eigenen Rhythmus. Außerdem befürchte ich, dass ich meiner Tochter irgendwann zur Last falle, wenn ich älter werde und Pflege brauche. Stattdessen überlege ich, in eine Hausgemeinschaft mit Menschen in meinem Alter zu ziehen. Eine Freundin von mir wohnt schon seit zwei Jahren in so einem Projekt und ist begeistert. Dort hätte ich Gesellschaft, ohne meine Familie zu belasten."
-              ]
-            },
-            {
-              "id": "l1-d",
-              "label": "d · Tobias, Rostock",
-              "paras": [
-                "Als ich nach dem Studium keine Stelle gefunden habe, bin ich mit 26 wieder in mein altes Kinderzimmer gezogen. Anfangs habe ich mich dafür geschämt und es meinen Freunden lieber nicht erzählt. Rückblickend war es aber eine gute Zeit: Ich konnte Geld zurücklegen und meine Eltern zum ersten Mal als Erwachsener kennenlernen. Trotzdem glaube ich nicht, dass dieses Modell auf Dauer funktioniert. Nach anderthalb Jahren haben wir uns ständig über Kleinigkeiten gestritten, und ich war froh, als ich ausziehen konnte. Mein Rat an alle, die zurück zu den Eltern ziehen: Übernehmt von Anfang an feste Aufgaben im Haushalt. Sonst rutscht man ganz automatisch wieder in die Rolle des Kindes. Heute wohne ich mit meiner Freundin in einer eigenen Wohnung, besuche meine Eltern aber fast jeden Sonntag – und wir verstehen uns besser als je zuvor."
+                "At half past two in the morning, the only light on the high street comes from the window of Hartley’s Bakery. Inside, Tomasz Kowalski, who took over the business eight years ago, is already shaping the first loaves of the day. He moves quickly but without hurry, the way people do when they have done the same thing thousands of times. “People assume I must hate this,” he says, without looking up from the dough. “They think nobody would choose to get up at one o’clock. But I did choose it.”",
+                "Tomasz was not born into baking. He trained as an accountant and spent ten years in an office, a job he describes as “perfectly fine, and perfectly forgettable”. The turning point came during a holiday, when he spent a week helping a friend at a village bakery in France. “I came back and could not stop thinking about it,” he says. “At my desk I could never point to anything and say I had made it. Here, by seven o’clock, there are two hundred loaves that did not exist the night before.”",
+                "The reality has not always been as romantic as that sounds. In his first year the business nearly failed, partly because he tried to copy the supermarket on the edge of town: dozens of products, all of them average. “I was frightened of saying no to customers,” he admits. In the end it was his oldest customer, a retired teacher called Mrs Adeyemi, who changed his mind. She told him that she would walk past three shops to buy one loaf she liked, but she would not cross the road for ten she did not. He cut the range to seven breads, and the shop has been busy ever since.",
+                "The hours remain the hardest part. Tomasz sleeps in two blocks, one in the early evening and another after lunch, and he rarely sees his friends at weekends. “It’s the social life that suffers, not the health,” he says. “I have learned to say it plainly: if you invite me to dinner on a Friday, I will be asleep by nine.” His partner, Lena, who works regular office hours, says they manage because they have stopped pretending the arrangement is normal. “We plan our time together the way other couples plan a holiday,” she says.",
+                "Not everyone in the town is convinced. A few shopkeepers think his prices are too high, and one local councillor complained about the noise of early deliveries. Tomasz took the complaints calmly. He now delivers by bicycle before four o’clock, “which seems to have satisfied everyone except the foxes”. What matters to him is that the bakery, on a high street where five shops have closed in two years, is full by eight every morning.",
+                "Asked whether he would ever go back to an office, he laughs. “I might one day, but only if somebody can show me a desk where I can smell bread at five in the morning.” He pauses, then adds more seriously: “I think the work I do is small, but it is honest. Not many people can say that about their jobs, and I never could.”"
               ]
             }
           ],
           "items": [
+            { "id": "u5-1", "question": "What impression does the writer give of Tomasz in the first paragraph?", "options": ["He is worried about starting so early.", "He works calmly, with the ease of long practice.", "He is irritated by what people say about him.", "He is rushing to finish before morning."], "correct": 1, "why": "‘Quickly but without hurry, the way people do when they have done the same thing thousands of times’." },
+            { "id": "u5-2", "question": "What made Tomasz decide to change his career?", "options": ["He disliked the people he worked with.", "He had lost his job as an accountant.", "A week working in a bakery showed him what he was missing.", "A friend offered him a bakery in France."], "correct": 2, "why": "After helping at the French bakery he ‘could not stop thinking about it’ and wanted to make something he could point to." },
+            { "id": "u5-3", "question": "What did Mrs Adeyemi’s comment make Tomasz realise?", "options": ["His shop was too far from the town centre.", "Customers would pay more for fresh bread.", "He should copy the supermarket more closely.", "Customers value a few good products more than a large choice."], "correct": 3, "why": "She would walk past three shops for one loaf she liked but not cross the road for ten she did not; he then cut his range to seven breads." },
+            { "id": "u5-4", "question": "What does Lena’s comparison with a holiday suggest about their relationship?", "options": ["They have to organise their time together carefully.", "They go away together very often.", "They find their different working hours amusing.", "They argue about how to spend free time."], "correct": 0, "why": "Couples plan a holiday deliberately; Lena says they plan time together in the same way because their schedules differ." },
+            { "id": "u5-5", "question": "What does the writer say about Tomasz’s response to the complaints?", "options": ["He ignored them because the bakery is popular.", "He changed the way he makes his deliveries.", "He lowered his prices for local shopkeepers.", "He moved the baking to another part of town."], "correct": 1, "why": "He now delivers by bicycle before four o’clock." },
+            { "id": "u5-6", "question": "How does Tomasz feel about his work, according to the last paragraph?", "options": ["He is unsure whether he made the right choice.", "He regrets not staying in accountancy.", "He sees it as modest but worthwhile.", "He hopes to run a much larger business."], "correct": 2, "why": "He calls the work ‘small, but … honest’, something he could not say about his old job." }
+          ]
+        },
+        {
+          "key": "r6",
+          "teil": 6,
+          "type": "gap-bank",
+          "points": 1,
+          "title": "Gapped text",
+          "instruction": "For questions 37–42, you are going to read an article about a village pub. Six sentences have been removed from the article. Choose from the sentences A–G the one which fits each gap. There is one extra sentence which you do not need to use.",
+          "textTitle": "The pub that belongs to the village",
+          "bank": {
+            "a": "Shareholders do not expect to get rich from their investment.",
+            "b": "In the end, the target was reached with three days to spare.",
+            "c": "It had stood on the green for over three hundred years and was the only place in the village where people could meet.",
+            "d": "The committee decided to ask the community itself rather than a bank.",
+            "e": "He had read about a village in Devon that had bought its own shop and wondered whether a pub could work in the same way.",
+            "f": "The brewery has since sold several of its other pubs to a property company.",
+            "g": "Local builders, plumbers and electricians gave up their weekends to do much of the work for free."
+          },
+          "segments": [
+            { "t": "When the Red Lion in the Yorkshire village of Marsden Cross closed in 2019, residents assumed it was the end of an era. " },
+            { "gap": "u6-1" },
+            { "t": " So when a notice appeared in the post office window inviting everyone to a meeting, nearly a third of the village turned up." },
+            { "br": true },
+            { "t": "The idea came from a retired engineer called Hassan Ali. " },
+            { "gap": "u6-2" },
+            { "t": " Within a week, a committee of eight volunteers had been formed." },
+            { "br": true },
+            { "t": "The first problem was money. The brewery wanted £340,000 and would wait only until the end of March. " },
+            { "gap": "u6-3" },
+            { "t": " Each household was invited to buy shares at £100 each, and nobody was allowed to hold more than twenty, so that no single person could take control." },
+            { "br": true },
+            { "t": "Over the following weeks, 412 people bought shares, from teenagers with their first wages to pensioners who had drunk in the pub for fifty years. " },
+            { "gap": "u6-4" },
+            { "t": " The sale went through in April." },
+            { "br": true },
+            { "t": "Reopening was not easy either. The building needed a new roof, a new kitchen and a great deal of paint. " },
+            { "gap": "u6-5" },
+            { "t": " On the opening night in June, the queue stretched across the green." },
+            { "br": true },
+            { "t": "Today the Red Lion is busier than it has been for years. " },
+            { "gap": "u6-6" },
+            { "t": " Instead, any profit goes into a fund for the village hall and the bus service. Hassan, who still helps behind the bar on Fridays, says the real return is simply having somewhere to go." }
+          ],
+          "items": [
+            { "id": "u6-1", "correct": "c", "why": "‘It’ refers to the Red Lion and explains why its closing felt like the end of an era." },
+            { "id": "u6-2", "correct": "e", "why": "‘He’ is Hassan Ali, and the sentence explains where the idea came from." },
+            { "id": "u6-3", "correct": "d", "why": "It answers the money problem, and the next sentence describes how the community was asked to buy shares." },
+            { "id": "u6-4", "correct": "b", "why": "It links the 412 shareholders to the March deadline, before the sale in April." },
+            { "id": "u6-5", "correct": "g", "why": "It tells how the work listed in the previous sentence was done, before the opening night." },
+            { "id": "u6-6", "correct": "a", "why": "The following ‘Instead, any profit goes into a fund …’ contrasts with not expecting to get rich." }
+          ]
+        },
+        {
+          "key": "r7",
+          "teil": 7,
+          "type": "match",
+          "points": 1,
+          "allowReuse": true,
+          "poolKind": "people",
+          "title": "Multiple matching",
+          "instruction": "For questions 43–52, choose from the people (A–E). The people may be chosen more than once. Five readers describe learning a musical instrument as an adult. Which person …",
+          "pool": {
+            "a": { "title": "A · Nadia, piano", "body": "I started piano at 41, after my daughter left for university and the house suddenly felt very quiet. I found a teacher who is younger than I am, which was odd at first, but she is endlessly patient. I practise for twenty minutes before work, and I have learned that little and often works better than a long session once a week. What I did not expect was how much the lessons would calm me down: after a difficult day, ten minutes of scales does more for me than a holiday could. I still avoid playing when anyone else is in the house, though." },
+            "b": { "title": "B · Giorgos, guitar", "body": "I bought my guitar on impulse and then left it under the bed for a year. In the end it was a video that got me going. I followed a free online course and within a month I could play three songs. The problem is that nobody tells you how much your fingers hurt at the start, and I nearly gave up in week two. Now I play in a small band with colleagues, and we perform at the staff party every December, which gives me a reason to keep improving." },
+            "c": { "title": "C · Mei, violin", "body": "I played the violin as a child and gave it up at fifteen, so for me this is a return rather than a beginning. Everyone told me it would come back quickly. It did not. My ear was fine, but my hands had forgotten everything. I now have lessons online with a teacher in another country, and I find it easier to concentrate without anyone else in the room. The best moment so far was when my mother, who once paid for my lessons, heard me play a whole piece and cried." },
+            "d": { "title": "D · Rob, drums", "body": "Drumming is not a quiet hobby, which was a problem in a flat with thin walls. I solved it by renting a small room at a music centre two evenings a week. People assume you need natural rhythm, but my teacher says it is mostly counting, and she is right. I am the oldest in my group by about thirty years, and the others have been wonderfully kind about it. The physical side surprised me: after an hour I am more tired than after a run." },
+            "e": { "title": "E · Fatima, singing", "body": "I always said I could not sing, because a teacher told me so when I was nine. It took me thirty years to question that. I joined a community choir last year, mainly for company, and discovered that standing between other voices makes it much easier to find your own. We have a concert next month and I am terrified, but I would not miss it. If I could tell my younger self one thing, it would be not to let one comment decide something that big." }
+          },
+          "items": [
+            { "id": "u7-1", "prompt": "found that practising for short periods regularly is better than occasional long sessions", "correct": "a" },
+            { "id": "u7-2", "prompt": "had to find a way of dealing with the noise made by the instrument", "correct": "d" },
+            { "id": "u7-3", "prompt": "found the first weeks of learning physically painful", "correct": "b" },
+            { "id": "u7-4", "prompt": "gave up the idea of singing for years because of something a teacher said", "correct": "e" },
+            { "id": "u7-5", "prompt": "feels calmer after playing", "correct": "a" },
+            { "id": "u7-6", "prompt": "found learning harder than other people had led them to expect", "correct": "c" },
+            { "id": "u7-7", "prompt": "is much older than the other people who are learning", "correct": "d" },
+            { "id": "u7-8", "prompt": "plays together with people from work", "correct": "b" },
+            { "id": "u7-9", "prompt": "finds it easier to concentrate when taught from a distance", "correct": "c" },
+            { "id": "u7-10", "prompt": "is nervous about a performance that is coming soon", "correct": "e" }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "writing",
+      "name": "Writing",
+      "minutes": 80,
+      "parts": [
+        {
+          "key": "w1",
+          "teil": 1,
+          "type": "schreiben",
+          "points": 20,
+          "title": "Part 1 · Essay (compulsory)",
+          "instruction": "Question 1. You must answer this question. Write your answer in 140–190 words in an appropriate style.",
+          "tasks": [
             {
-              "id": "gb2-l1-1",
-              "prompt": "Wem war es zunächst peinlich, wieder bei den Eltern zu wohnen?",
-              "correct": "d"
-            },
-            {
-              "id": "gb2-l1-2",
-              "prompt": "Wer ärgert sich darüber, wie abwertend manche über das Wohnen mit den Eltern urteilen?",
-              "correct": "b"
-            },
-            {
-              "id": "gb2-l1-3",
-              "prompt": "Wer meint, dass das Zusammenleben unter einem Dach nur mit baulichen Vorkehrungen gelingt?",
-              "correct": "a"
-            },
-            {
-              "id": "gb2-l1-4",
-              "prompt": "Wer möchte nicht vor allem als Betreuung für die Enkelkinder gebraucht werden?",
-              "correct": "c"
-            },
-            {
-              "id": "gb2-l1-5",
-              "prompt": "Wer hat als Kind vom Zusammenleben mit einem älteren Familienmitglied profitiert?",
-              "correct": "b"
-            },
-            {
-              "id": "gb2-l1-6",
-              "prompt": "Wer empfiehlt, Geldfragen zu besprechen, bevor man zusammenzieht?",
-              "correct": "a"
-            },
-            {
-              "id": "gb2-l1-7",
-              "prompt": "Wer denkt über eine Wohnform mit Gleichaltrigen nach?",
-              "correct": "c"
-            },
-            {
-              "id": "gb2-l1-8",
-              "prompt": "Wer rät, im Elternhaus Verantwortung für den Haushalt zu übernehmen?",
-              "correct": "d"
-            },
-            {
-              "id": "gb2-l1-9",
-              "prompt": "Wer befürchtet, im Alter für die eigenen Kinder eine Belastung zu werden?",
-              "correct": "c"
+              "id": "w1",
+              "title": "Question 1 · Essay",
+              "minutes": 40,
+              "words": 165,
+              "situation": "In your English class you have been talking about transport in cities. Now your teacher has asked you to write an essay.",
+              "prompt": "Write an essay using all the notes and give reasons for your point of view. Statement: Cities should do more to encourage people to leave their cars at home. Do you agree?",
+              "points": [
+                "Write about: 1. public transport",
+                "2. the cost of driving",
+                "3. (your own idea)"
+              ],
+              "model": "Many cities are now trying to persuade people to leave their cars at home. In my opinion, they are right to do so, although it has to be done carefully.\nThe most important step is to improve public transport. Nobody will give up a car if the bus is slow, crowded or only comes once an hour. If trains and buses are frequent, clean and reliable, many drivers will happily change their habits.\nMoney matters too. Fuel, parking and insurance make driving expensive, and city councils could add to this by charging cars that enter the busiest streets. On the other hand, this might be unfair to people on low incomes who have no other way of getting to work, so the money raised should be spent on cheaper tickets.\nA further idea is to create safe cycle lanes, so that short journeys can be made by bike. This would also make the air cleaner.\nIn conclusion, cities should certainly encourage people to drive less, but they must offer a real alternative first.",
+              "checklist": [
+                "Content: I gave my opinion and covered both notes plus an idea of my own.",
+                "Communicative achievement: a neutral or formal tone, with reasons for my view.",
+                "Organisation: an introduction, a paragraph for each point and a conclusion, with linking words.",
+                "Language: a range of vocabulary and structures (conditionals, modal verbs), with few mistakes.",
+                "Length: 140–190 words."
+              ]
             }
+          ]
+        },
+        {
+          "key": "w2",
+          "teil": 2,
+          "type": "schreiben",
+          "points": 20,
+          "title": "Part 2 · Choose one task",
+          "instruction": "Questions 2–4. Write an answer to ONE of the questions 2–4 in this part. Write your answer in 140–190 words in an appropriate style.",
+          "tasks": [
+            {
+              "id": "w2",
+              "title": "Question 2 · Article",
+              "minutes": 40,
+              "words": 165,
+              "situation": "You see this notice in an English-language magazine for local residents.",
+              "prompt": "Articles wanted: The best place to relax in my town. Tell us about a place where you go to relax, why you like it and what could make it even better. We will publish the best articles. Write your article.",
+              "points": [
+                "describe the place",
+                "say why you like going there",
+                "suggest one improvement"
+              ],
+              "model": "My place to switch off\nWhen I need a break from work, I walk ten minutes to Riverside Park, my favourite place to relax in town. It is not large, but it has everything I need: old trees, a quiet café and a long path along the water.\nI usually go on Sunday mornings, when it is still peaceful. I take a book, buy a coffee and sit on the bench by the little bridge. Watching the ducks and listening to the water helps me forget the week behind me. In summer there is sometimes live music, which makes the park feel like the heart of the community.\nHowever, the park could be even better. At the moment there are not enough bins, and the toilets are often closed. I would also like to see more benches near the playground, so that parents can sit down while their children play.\nIf the council made these small changes, Riverside Park would be perfect. In the meantime, I recommend a visit to anyone who needs a few quiet hours.",
+              "checklist": [
+                "Content: I described the place, gave reasons and made one suggestion.",
+                "Communicative achievement: a lively, friendly tone that suits a magazine article, with a title.",
+                "Organisation: a clear opening, paragraphs for each point and a closing sentence.",
+                "Language: descriptive vocabulary, a mix of tenses, and few mistakes.",
+                "Length: 140–190 words."
+              ]
+            },
+            {
+              "id": "w3",
+              "title": "Question 3 · Email",
+              "minutes": 40,
+              "words": 165,
+              "situation": "You have received an email from your English-speaking friend Sam, who is planning to visit you.",
+              "prompt": "Sam wrote: ‘I’m planning to visit you for a long weekend in the spring! What should I pack? What would you like us to do? And is there anything I should know about getting around?’ Write your email to Sam.",
+              "points": [
+                "what to pack, and the weather",
+                "what you could do together",
+                "how to get to your home"
+              ],
+              "model": "Hi Sam,\nThat’s fantastic news! I can’t wait to see you. Spring is a lovely time to visit, but the weather can change quickly, so please bring a warm jumper and a waterproof jacket as well as something lighter for sunny afternoons. Comfortable shoes are a must, because I’d like to show you the old town on foot.\nOn Saturday we could walk up to the castle and have lunch at a market I know, where you can try some local food. If the weather is good, we might hire bikes on Sunday and cycle along the canal. Let me know if you would prefer something more relaxing.\nGetting here is easy. A train runs from the airport to the central station every half hour, and the journey takes about forty minutes. Buy your ticket from the machine, as it is cheaper than buying it on the train. I will meet you at the station.\nLet me know your arrival time as soon as you have booked your flight.\nBest wishes,\nAna",
+              "checklist": [
+                "Content: I answered all three of Sam’s questions.",
+                "Communicative achievement: a friendly, informal tone (contractions, a greeting and a sign-off).",
+                "Organisation: short paragraphs, one for each topic.",
+                "Language: suggestions (we could …, we might …), advice (please bring …) and few mistakes.",
+                "Length: 140–190 words."
+              ]
+            },
+            {
+              "id": "w4",
+              "title": "Question 4 · Review",
+              "minutes": 40,
+              "words": 165,
+              "situation": "A website for English learners is collecting reviews written by its readers.",
+              "prompt": "Write a review of a film that you have seen recently. Say what the film is about, what you liked and disliked, and whether you would recommend it to other people.",
+              "points": [
+                "what the film is about",
+                "what you liked and disliked",
+                "whether you recommend it"
+              ],
+              "model": "The Lighthouse Letters: a quiet film with a big heart\nThe Lighthouse Letters tells the story of Ingrid, a young woman who inherits her grandfather’s lighthouse on a remote island. While clearing his belongings, she discovers a box of letters that slowly reveals a secret from his past.\nWhat I liked most was the photography. The island, with its grey skies and wild water, is almost a character in itself. The two main actors are also very convincing, and their scenes together are warm and funny without ever feeling forced.\nOn the other hand, the middle of the film is rather slow, and a few of the minor characters are not developed enough. Some viewers may find the ending too sentimental.\nOverall, I would recommend the film to anyone who enjoys thoughtful stories rather than fast action. Take a friend, and bring a handkerchief.",
+              "checklist": [
+                "Content: I explained the story briefly, gave likes and dislikes, and made a recommendation.",
+                "Communicative achievement: an opinion-led tone that keeps the reader interested, without giving away the ending.",
+                "Organisation: a title, a paragraph for the story, one for opinions and a final recommendation.",
+                "Language: evaluative adjectives and linking words such as ‘on the other hand’ and ‘overall’, with few mistakes.",
+                "Length: 140–190 words."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "listening",
+      "name": "Listening",
+      "minutes": 40,
+      "parts": [
+        {
+          "key": "l1",
+          "teil": 1,
+          "type": "mc",
+          "points": 1,
+          "title": "Eight short extracts",
+          "instruction": "For questions 1–8, you will hear people talking in eight different situations. For each question, choose the best answer (A, B or C). You will hear each extract twice.",
+          "clips": [
+            { "id": "l1-1", "title": "Extract 1", "plays": 2, "script": [
+              { "s": "f1", "t": "Hello, Mr Okafor, it’s Sandra from the Eastgate Dental Practice. I’m calling about your appointment tomorrow at ten o’clock. I’m afraid Dr Hughes has to go on a training day, so we’ll need to move you. I can offer you Thursday at half past two, or the following Monday, first thing in the morning. If neither of those suits you, please ring reception on 0117 496 0123 and we’ll find something else. Oh, and there’s no need to bring the form again, we already have it. Thank you, bye." }
+            ] },
+            { "id": "l1-2", "title": "Extract 2", "plays": 2, "script": [
+              { "s": "f2", "t": "So, how are you finding the new gym?" },
+              { "s": "m1", "t": "Well, I thought I’d love it. The equipment’s brilliant, and it’s actually cheaper than my old one. But in the evenings it’s so busy that I spend half the time waiting for a machine." },
+              { "s": "f2", "t": "Can’t you go at a different time?" },
+              { "s": "m1", "t": "I’m thinking of trying six in the morning. I’m not sure I’m a morning person, though." }
+            ] },
+            { "id": "l1-3", "title": "Extract 3", "plays": 2, "script": [
+              { "s": "m2", "t": "Before we finish, just a quick reminder. From Monday, the kitchen on the second floor will be closed while it’s being refitted, so please use the one on the ground floor instead. I know, builders, noise, dust, it won’t be pretty, but it should only take three weeks. And if anyone has ideas about what we’d like in the new kitchen, put them in the box by reception before Friday." }
+            ] },
+            { "id": "l1-4", "title": "Extract 4", "plays": 2, "script": [
+              { "s": "m3", "t": "Well done, that went really well." },
+              { "s": "f3", "t": "Did it? I couldn’t stop thinking about the slide that wouldn’t load. I kept waiting for someone to say something." },
+              { "s": "m3", "t": "Nobody noticed. They were too busy taking notes." },
+              { "s": "f3", "t": "I suppose so. I just wish I’d practised the ending a bit more." }
+            ] },
+            { "id": "l1-5", "title": "Extract 5", "plays": 2, "script": [
+              { "s": "m4", "t": "People always ask why I don’t just fly, and yes, the plane’s quicker. But on the sleeper I have dinner, go to bed, and wake up in the Highlands. No airport queues, no early start. The beds are small, I won’t pretend otherwise, and the tea is dreadful. Nor is it cheaper than a budget flight. But arriving somewhere without feeling I’ve been processed, that’s what I love." }
+            ] },
+            { "id": "l1-6", "title": "Extract 6", "plays": 2, "script": [
+              { "s": "f4", "t": "Shall I book the Italian place for Friday? Eight o’clock?" },
+              { "s": "m5", "t": "Friday’s fine. The thing is, it’s so noisy in there, and we’ll want to talk. What about that new Lebanese place near the library? It’s bigger and much quieter." },
+              { "s": "f4", "t": "I haven’t been. Is it expensive?" },
+              { "s": "m5", "t": "Not at all." },
+              { "s": "f4", "t": "Okay, I’ll ring them tomorrow." }
+            ] },
+            { "id": "l1-7", "title": "Extract 7", "plays": 2, "script": [
+              { "s": "f5", "t": "I signed up for the half marathon in a moment of madness, and everyone I know thinks I’ve lost my mind. I haven’t lost a single pound since January, if that’s what you’re wondering. But I sleep like a baby, and I’ve made friends on the Saturday group run. So whatever happens on the day, it’s been worth it." }
+            ] },
+            { "id": "l1-8", "title": "Extract 8", "plays": 2, "script": [
+              { "s": "m6", "t": "People say high streets are dying because of the internet, and in a way that’s true. But when someone brings back a jumper they ordered online, it’s usually because it didn’t fit, and that’s where we come in. We can’t compete on price, so we compete on service. The shops that will survive are the ones where the staff know your name." }
+            ] }
+          ],
+          "items": [
+            { "id": "l1-q1", "clip": "l1-1", "question": "Why is Sandra calling?", "options": ["to confirm an appointment", "to change an appointment", "to ask for a form"], "correct": 1, "why": "Dr Hughes is away, so ‘we’ll need to move you’ to Thursday or Monday." },
+            { "id": "l1-q2", "clip": "l1-2", "question": "What problem does the man have with the gym?", "options": ["The equipment is old.", "It costs too much.", "It is too crowded in the evening."], "correct": 2, "why": "‘In the evenings it’s so busy that I spend half the time waiting for a machine.’" },
+            { "id": "l1-q3", "clip": "l1-3", "question": "What is the speaker doing?", "options": ["announcing a temporary change", "asking for volunteers", "complaining about building work"], "correct": 0, "why": "The second-floor kitchen will be closed for three weeks." },
+            { "id": "l1-q4", "clip": "l1-4", "question": "How does the woman feel about her presentation?", "options": ["annoyed with the audience", "disappointed with part of it", "sure that it went well"], "correct": 1, "why": "She is bothered by the slide that would not load and wishes she had practised the ending." },
+            { "id": "l1-q5", "clip": "l1-5", "question": "What does the man like most about travelling on the sleeper train?", "options": ["It costs less than flying.", "He avoids the stress of airports.", "The beds are comfortable."], "correct": 1, "why": "He mentions no airport queues and not feeling ‘processed’; he says it is not cheaper and the beds are small." },
+            { "id": "l1-q6", "clip": "l1-6", "question": "What does the man suggest?", "options": ["going to a different restaurant", "meeting on a different day", "inviting more people"], "correct": 0, "why": "He says Friday is fine but proposes the Lebanese place instead of the noisy Italian one." },
+            { "id": "l1-q7", "clip": "l1-7", "question": "What does the woman say about her training?", "options": ["She has lost weight.", "She sleeps better.", "She finds it boring."], "correct": 1, "why": "She has not lost a pound, but she ‘sleeps like a baby’." },
+            { "id": "l1-q8", "clip": "l1-8", "question": "What does the speaker think about the future of high-street shops?", "options": ["They will survive if they offer good service.", "They will soon disappear.", "They should lower their prices."], "correct": 0, "why": "He says shops cannot compete on price, so they compete on service, and those will survive." }
           ]
         },
         {
           "key": "l2",
           "teil": 2,
-          "type": "gap-bank",
+          "type": "write-in",
           "points": 1,
-          "title": "Sätze in einen Artikel einsetzen",
-          "instruction": "Lies den Text aus einer Zeitschrift. Welcher Satz a bis h passt in die Lücken 10 bis 15? Jeder Satz passt nur einmal. Zwei Sätze passen nicht. Der Satz nach (0) ist das Beispiel und steht schon im Text. Du hast etwa 12 Minuten Zeit.",
-          "textTitle": "Warum Bäume die besseren Klimaanlagen sind",
-          "bank": {
-            "a": "Darin kann sich das Regenwasser sammeln, und die Wurzeln finden genug Platz, um sich auszubreiten.",
-            "b": "Diese Arten stammen fast alle aus Nordeuropa und kommen mit Kälte besonders gut zurecht.",
-            "c": "Mindestens ebenso wichtig ist jedoch ein zweiter Effekt, den man nicht sehen kann.",
-            "d": "Viele Straßenbäume werden deshalb nicht einmal halb so alt wie ihre Artgenossen im Wald.",
-            "e": "Ob sich diese Bäume langfristig bewähren, wird sich allerdings erst in einigen Jahrzehnten zeigen.",
-            "f": "Wer einen Baum pflanzen möchte, braucht dafür in den meisten Städten keine Genehmigung.",
-            "g": "Eine ausgewachsene Linde kann an einem heißen Tag auf diese Weise mehrere Hundert Liter Wasser verdunsten.",
-            "h": "Allerdings haben es gerade die Bäume, die am dringendsten gebraucht werden, besonders schwer."
-          },
-          "segments": [
-            {
-              "t": "Wer an einem Hochsommertag über einen asphaltierten Platz geht und danach einen Park betritt, spürt den Unterschied sofort. (0) Messungen zeigen, dass es unter großen Baumkronen bis zu zehn Grad kühler sein kann als in der prallen Sonne. Doch woran liegt das eigentlich?"
-            },
-            {
-              "br": true
-            },
-            {
-              "t": "Ein Teil der Antwort ist einfach: Blätter spenden Schatten, sodass sich Straßen und Hauswände weniger aufheizen. "
-            },
-            {
-              "gap": "gb2-l2-1"
-            },
-            {
-              "t": " Bäume nehmen über ihre Wurzeln Wasser auf und geben es über die Blätter als Dampf wieder ab. Bei diesem Vorgang, der Verdunstung, wird der Umgebung Wärme entzogen – ähnlich wie beim Schwitzen, das unseren Körper kühlt. "
-            },
-            {
-              "gap": "gb2-l2-2"
-            },
-            {
-              "br": true
-            },
-            {
-              "t": "Für Städte, in denen die Zahl der Hitzetage seit Jahren steigt, ist das eine gute Nachricht. "
-            },
-            {
-              "gap": "gb2-l2-3"
-            },
-            {
-              "t": " An Straßen steht ihnen oft nur ein winziges Stück offener Boden zur Verfügung; darunter liegen Leitungen, Kabel und verdichteter Schotter. Regenwasser fließt über die versiegelten Flächen direkt in die Kanalisation, statt die Wurzeln zu erreichen. "
-            },
-            {
-              "gap": "gb2-l2-4"
-            },
-            {
-              "br": true
-            },
-            {
-              "t": "Einige Städte gehen inzwischen neue Wege. Beim sogenannten Schwammstadt-Prinzip werden unter Gehwegen große Hohlräume angelegt, die mit Erde und grobem Gestein gefüllt sind. "
-            },
-            {
-              "gap": "gb2-l2-5"
-            },
-            {
-              "t": " Außerdem pflanzen die Grünflächenämter vermehrt Arten, die aus wärmeren Regionen stammen und Trockenheit besser vertragen. "
-            },
-            {
-              "gap": "gb2-l2-6"
-            },
-            {
-              "t": " Fest steht nur: Ein junger Baum braucht Jahrzehnte, bis er so viel Kühlung liefert wie ein alter. Jeder gefällte Altbaum ist daher ein Verlust, den keine Neupflanzung so schnell ausgleicht."
-            }
+          "title": "Sentence completion",
+          "instruction": "For questions 9–18, you will hear a guide talking to a group of visitors at a nature reserve. For each question, write a word or short phrase in the gap. You will hear the recording twice.",
+          "clips": [
+            { "id": "l2-1", "title": "Welcome talk", "plays": 2, "names": { "f6": "Helen" }, "script": [
+              { "s": "f6", "t": "Good morning, everyone, and welcome to Millbrook Wetland Centre. My name’s Helen and I’ll be your guide for the next two hours. Before we set off, a few practical points. The centre covers about sixty hectares, but don’t worry, the main path is flat and only four kilometres long, so you won’t need hiking boots. Ordinary walking shoes are fine. The reserve was created in 1996 on the site of an old gravel quarry, and today it’s home to over two hundred species of birds. Our most famous residents are the otters, which were brought back to the area in 2008. You’re most likely to see them at dawn, I’m afraid, but we’ll look for signs of them on our walk this morning. Now, our route. We’ll start at the main lake, where you can see the ducks and swans, then follow the boardwalk through the reed beds. If we’re quiet, we may spot a kingfisher. It’s small and bright blue, and it usually sits on the wooden posts along the water. At the far end there’s a hide with a view over the shallow pools, and that’s where we’ll stop for a hot drink. The café there is run by volunteers, and all the profits go to conservation. Please remember not to feed the birds, because bread is actually harmful to them. And finally, if you enjoy today, you can become a member for thirty-five pounds a year, which includes free entry and a magazine. Right, if everyone’s ready, let’s go." }
+            ] }
           ],
           "items": [
-            {
-              "id": "gb2-l2-1",
-              "correct": "c"
-            },
-            {
-              "id": "gb2-l2-2",
-              "correct": "g"
-            },
-            {
-              "id": "gb2-l2-3",
-              "correct": "h"
-            },
-            {
-              "id": "gb2-l2-4",
-              "correct": "d"
-            },
-            {
-              "id": "gb2-l2-5",
-              "correct": "a"
-            },
-            {
-              "id": "gb2-l2-6",
-              "correct": "e"
-            }
+            { "id": "l2-q1", "prompt": "The main path in the reserve is ______ kilometres long.", "accept": ["four", "4"], "why": "‘Only four kilometres long’." },
+            { "id": "l2-q2", "prompt": "Visitors do not need hiking boots because ordinary ______ are fine.", "accept": ["walking shoes", "shoes"], "why": "‘Ordinary walking shoes are fine’." },
+            { "id": "l2-q3", "prompt": "The reserve was created on the site of an old ______.", "accept": ["gravel quarry", "quarry"], "why": "‘On the site of an old gravel quarry’." },
+            { "id": "l2-q4", "prompt": "More than ______ species of birds live in the reserve.", "accept": ["two hundred", "200", "two-hundred"], "why": "‘Over two hundred species of birds’." },
+            { "id": "l2-q5", "prompt": "Otters were brought back to the area in ______.", "accept": ["2008"], "why": "‘Brought back to the area in 2008’." },
+            { "id": "l2-q6", "prompt": "The best chance of seeing otters is at ______.", "accept": ["dawn", "at dawn"], "why": "‘You’re most likely to see them at dawn’." },
+            { "id": "l2-q7", "prompt": "Kingfishers usually sit on ______ along the water.", "accept": ["wooden posts", "posts"], "why": "‘It usually sits on the wooden posts’." },
+            { "id": "l2-q8", "prompt": "At the far end, the group will visit a ______ with a view over the shallow pools.", "accept": ["hide", "bird hide"], "why": "‘At the far end there’s a hide with a view over the shallow pools’." },
+            { "id": "l2-q9", "prompt": "Visitors are asked not to feed the birds with ______.", "accept": ["bread"], "why": "‘Bread is actually harmful to them’." },
+            { "id": "l2-q10", "prompt": "Membership costs £______ a year.", "accept": ["35", "thirty-five", "thirty five", "£35"], "why": "‘Thirty-five pounds a year’." }
           ]
         },
         {
           "key": "l3",
           "teil": 3,
-          "type": "mc",
+          "type": "match",
           "points": 1,
-          "title": "Einen Zeitungsartikel verstehen",
-          "instruction": "Lies den Text und die Aufgaben 16 bis 21. Wähle bei jeder Aufgabe die richtige Lösung a, b oder c. Du hast etwa 12 Minuten Zeit.",
-          "texts": [
-            {
-              "id": "l3-text",
-              "label": "Zeitungsartikel",
-              "title": "Ein Dorf kauft sich seinen Laden zurück",
-              "paras": [
-                "Kirchbrunn. Als vor vier Jahren der letzte Lebensmittelladen in Kirchbrunn schloss, dachten viele der knapp 900 Einwohnerinnen und Einwohner, das sei das Ende des Dorfes, wie sie es kannten. Die Inhaberin, Gertraud Wimmer, hatte das Geschäft über dreißig Jahre geführt; einen Nachfolger fand sie nicht. „Die Jungen fahren sowieso zum Supermarkt in die Bezirksstadt, hat man mir gesagt“, erinnert sie sich. „Aber die Älteren, die kein Auto haben, standen plötzlich ohne Milch und Brot da.“",
-                "Heute ist der Laden wieder geöffnet – und gehört dem Dorf. Mehr als 300 Kirchbrunnerinnen und Kirchbrunner haben Anteile an einer Genossenschaft gekauft, jeder Anteil kostet 250 Euro. Die Idee stammt von Florian Aigner, einem Tischler, der erst vor sechs Jahren mit seiner Familie aus Linz aufs Land gezogen ist. „Am Anfang wurde ich belächelt“, sagt er. „Ein Zugezogener, der den Leuten erklärt, wie man einen Laden rettet – das kam nicht bei allen gut an.“ Überzeugt habe er die Skeptiker erst, als er bei einer Versammlung im Gasthaus eine genaue Rechnung vorlegte: Wenn jeder Haushalt nur ein Viertel seiner Einkäufe im Dorf erledige, könne sich der Laden tragen.",
-                "Ganz ohne Hilfe von außen ging es trotzdem nicht. Das Land förderte den Umbau der Räume, und ein Berater des Genossenschaftsverbands half bei den Verträgen mit den Lieferanten. Die größte Herausforderung sei jedoch nicht das Geld gewesen, sondern das Personal, erzählt Aigner. Zwei Verkäuferinnen sind fest angestellt; an den Nachmittagen und am Samstag helfen Ehrenamtliche aus. „Es hat Monate gedauert, bis die Liste voll war. Heute stehen über vierzig Namen darauf, vom Schüler bis zur pensionierten Lehrerin.“",
-                "Das Sortiment unterscheidet sich deutlich von dem eines Supermarkts. Es gibt weniger Marken, dafür viele Produkte aus der Umgebung: Eier vom Nachbarhof, Käse aus einer Sennerei im Nachbartal, Brot aus einer Bäckerei, die sonst nur Gasthäuser beliefert. Die Preise liegen etwas über denen der Discounter. „Das akzeptieren die meisten, weil sie wissen, wofür sie bezahlen“, meint die Verkäuferin Sabine Leitner. Wirklich überrascht habe sie etwas anderes: dass der Laden zum Treffpunkt geworden sei. In einer Ecke stehen seit dem zweiten Jahr ein Tisch und eine Kaffeemaschine; vormittags sitzen dort oft ältere Menschen, die früher kaum aus dem Haus gegangen sind.",
-                "Wirtschaftlich steht der Laden inzwischen auf stabilen Beinen, auch wenn der Gewinn gering bleibt. Eine Dividende für die Mitglieder gibt es nicht; was übrig bleibt, fließt in Rücklagen für eine neue Kühltheke. Aigner stört das nicht. „Wer hier einen Anteil gekauft hat, wollte nie reich werden“, sagt er. „Die Leute wollten, dass im Ort wieder das Licht angeht.“ Mehrere Gemeinden aus der Region haben sich bereits nach dem Modell erkundigt. Einen Rat gibt Aigner allen mit: nicht mit dem Laden anfangen, sondern mit den Menschen. „Ein Geschäft, das niemand wirklich will, rettet auch keine Genossenschaft.“"
-              ]
-            }
+          "title": "Five short monologues",
+          "instruction": "For questions 19–23, you will hear five different people talking about a hobby they gave up. For each speaker, choose from the list (A–H) the reason why they stopped. Use the letters only once. There are three extra letters which you do not need to use. You will hear the recordings twice.",
+          "pool": {
+            "a": "The cost became too high.",
+            "b": "An injury made it too risky.",
+            "c": "The speaker moved to a new area.",
+            "d": "A new job left too little time.",
+            "e": "The group that organised it came to an end.",
+            "f": "The speaker lost confidence after a poor result.",
+            "g": "The speaker felt too old for it.",
+            "h": "Neighbours complained about the noise."
+          },
+          "clips": [
+            { "id": "l3-1", "title": "Speaker 1", "plays": 2, "script": [
+              { "s": "f7", "t": "I played the cello in an amateur orchestra for ten years, and I loved every minute. Then my husband got a job in Aberdeen and we packed up and went north. I did look for another orchestra, but the nearest one rehearses an hour’s drive away. Nobody’s been unfriendly, and I haven’t lost interest. I still play at home most evenings. I just haven’t found the right place yet." }
+            ] },
+            { "id": "l3-2", "title": "Speaker 2", "plays": 2, "script": [
+              { "s": "m7", "t": "I played five-a-side football on Tuesday evenings with the same lads for years. Then last winter I twisted my knee quite badly. The doctor told me it could easily happen again, and I wasn’t prepared to take the risk. I do miss it, and I still go along to watch, but swimming’s my thing now." }
+            ] },
+            { "id": "l3-3", "title": "Speaker 3", "plays": 2, "script": [
+              { "s": "f1", "t": "I sang in a choir for about six years. We rehearsed in the church hall, until the church was sold last spring. We looked around for somewhere else, but there was nowhere that suited us, and after a few months of meeting in each other’s kitchens it just faded away. A shame, because the singing was never the problem. We still have a group chat." }
+            ] },
+            { "id": "l3-4", "title": "Speaker 4", "plays": 2, "script": [
+              { "s": "m3", "t": "I loved sailing, but a boat is a bottomless pit. Mooring fees, insurance, repairs, new sails. In the end I worked out I was spending more every month than I pay in rent, and that was that. I sold the boat to a young couple, and they seem to be having a lovely time." }
+            ] },
+            { "id": "l3-5", "title": "Speaker 5", "plays": 2, "script": [
+              { "s": "f4", "t": "I went to a painting class every Wednesday evening until I was promoted last year. Now I often work late, or I’m travelling, and I can’t promise to turn up every week. My teacher still emails me, which is kind of her. I would love to go back, and I hope that one day I will." }
+            ] }
           ],
           "items": [
-            {
-              "id": "gb2-l3-1",
-              "text": "l3-text",
-              "question": "Nach der Schließung des alten Ladens …",
-              "options": [
-                "zogen viele junge Familien aus Kirchbrunn weg.",
-                "hatten vor allem Menschen ohne Auto Probleme, sich zu versorgen.",
-                "lieferte ein Supermarkt aus der Bezirksstadt Lebensmittel ins Dorf."
-              ],
-              "correct": 1
-            },
-            {
-              "id": "gb2-l3-2",
-              "text": "l3-text",
-              "question": "Florian Aigner …",
-              "options": [
-                "stammt aus einer alten Kirchbrunner Familie.",
-                "konnte die Dorfbewohner sofort für seine Idee gewinnen.",
-                "hat die Zweifler mit konkreten Zahlen überzeugt."
-              ],
-              "correct": 2
-            },
-            {
-              "id": "gb2-l3-3",
-              "text": "l3-text",
-              "question": "Was war beim Aufbau des Ladens am schwierigsten?",
-              "options": [
-                "Genügend Leute für den Verkauf zu finden.",
-                "Das Geld für den Umbau aufzubringen.",
-                "Verträge mit Lieferanten abzuschließen."
-              ],
-              "correct": 0
-            },
-            {
-              "id": "gb2-l3-4",
-              "text": "l3-text",
-              "question": "Über die Waren im Laden erfährt man, dass …",
-              "options": [
-                "sie günstiger sind als beim Discounter.",
-                "ein großer Teil davon aus der Region kommt.",
-                "sie ausschließlich von Bauernhöfen stammen."
-              ],
-              "correct": 1
-            },
-            {
-              "id": "gb2-l3-5",
-              "text": "l3-text",
-              "question": "Was hat die Verkäuferin Sabine Leitner nicht erwartet?",
-              "options": [
-                "Dass der Laden auch ein Ort der Begegnung geworden ist.",
-                "Dass die Kundschaft die höheren Preise akzeptiert.",
-                "Dass vor allem Jüngere im Laden einkaufen."
-              ],
-              "correct": 0
-            },
-            {
-              "id": "gb2-l3-6",
-              "text": "l3-text",
-              "question": "Was geschieht mit dem Gewinn des Ladens?",
-              "options": [
-                "Er wird an die Mitglieder ausgezahlt.",
-                "Er geht an andere Gemeinden, die einen Laden gründen wollen.",
-                "Er wird für eine künftige Anschaffung gespart."
-              ],
-              "correct": 2
-            }
+            { "id": "l3-q1", "clip": "l3-1", "prompt": "Speaker 1", "correct": "c", "why": "Her husband’s job in Aberdeen meant they moved north." },
+            { "id": "l3-q2", "clip": "l3-2", "prompt": "Speaker 2", "correct": "b", "why": "He twisted his knee and would not risk it happening again." },
+            { "id": "l3-q3", "clip": "l3-3", "prompt": "Speaker 3", "correct": "e", "why": "The choir lost its rehearsal room and faded away." },
+            { "id": "l3-q4", "clip": "l3-4", "prompt": "Speaker 4", "correct": "a", "why": "The boat cost more each month than his rent." },
+            { "id": "l3-q5", "clip": "l3-5", "prompt": "Speaker 5", "correct": "d", "why": "Since her promotion she works late and travels." }
           ]
         },
         {
           "key": "l4",
           "teil": 4,
-          "type": "match",
+          "type": "mc",
           "points": 1,
-          "title": "Meinungen zuordnen",
-          "instruction": "Lies die Aussagen 22 bis 27 und die Kommentare a bis h. Welcher Kommentar passt zu welcher Aussage? Jeder Kommentar passt nur einmal. Kommentar a gehört zum Beispiel und wird nicht mehr gebraucht. Ein Kommentar passt zu keiner Aussage. Du hast etwa 12 Minuten Zeit.",
-          "pool": {
-            "a": {
-              "title": "Karin, Bremen",
-              "body": "Als Studentin war ich fast nie im Museum, weil mir zwölf Euro für zwei Stunden einfach zu viel waren. Wenn der Eintritt frei wäre, würde ich sicher öfter hingehen – auch mal nur für eine halbe Stunde in der Mittagspause."
-            },
-            "b": {
-              "title": "Lorenz, Innsbruck",
-              "body": "Freier Eintritt klingt sozial, aber bezahlen tun es am Ende alle Steuerzahler, auch die, die nie einen Fuß in ein Museum setzen. Gerechter fände ich es, wenn diejenigen zahlen, die das Angebot nutzen. Für Menschen mit wenig Geld gibt es ja schon heute Ermäßigungen."
-            },
-            "c": {
-              "title": "Aylin, Mannheim",
-              "body": "Ich arbeite als Aufsicht in einem Kunstmuseum. An den Tagen mit freiem Eintritt ist es so voll, dass man die Bilder kaum sieht, und leider gehen nicht alle Besucher vorsichtig mit den Werken um. Mehr Besucher allein sind noch kein Erfolg."
-            },
-            "d": {
-              "title": "Beat, Luzern",
-              "body": "Bei Freunden im Ausland habe ich erlebt, wie selbstverständlich Familien sonntags ins Museum gehen, weil es nichts kostet. Die Kinder wachsen damit auf. Ich bin überzeugt, dass wir so ein Publikum gewinnen, das später auch Sonderausstellungen mit Eintritt besucht."
-            },
-            "e": {
-              "title": "Sven, Leipzig",
-              "body": "Ob mit oder ohne Eintritt – viele Museen sind einfach langweilig gestaltet: lange Texte an der Wand, nichts zum Ausprobieren. Statt über Preise zu diskutieren, sollten die Häuser lieber in bessere Ausstellungen investieren. Dann kommen die Leute von allein."
-            },
-            "f": {
-              "title": "Marta, Kassel",
-              "body": "Bei uns hat man es ausprobiert: Im Jahr ohne Eintritt kamen tatsächlich mehr Besucher, aber es waren überwiegend dieselben Leute wie vorher, nur eben häufiger. Diejenigen, die man eigentlich erreichen wollte, blieben weiterhin weg. Das hat mich ehrlich gesagt enttäuscht."
-            },
-            "g": {
-              "title": "Jonas, Graz",
-              "body": "Für mich ist ein Museum wie eine Bibliothek oder ein Stadtpark: etwas, das allen gehört. Niemand käme auf die Idee, für einen Spaziergang im Park Eintritt zu verlangen. Museen bewahren unser gemeinsames Erbe, also sollten sie auch allen offenstehen."
-            },
-            "h": {
-              "title": "Petra, Dortmund",
-              "body": "Ich leite ein kleines Heimatmuseum. Die Eintrittsgelder machen bei uns fast ein Drittel des Budgets aus. Wenn die Stadt das nicht ausgleicht, müssen wir die Öffnungszeiten kürzen oder Stellen streichen. Die Idee ist schön, aber jemand muss sie bezahlen."
-            }
-          },
-          "texts": [
-            {
-              "id": "l4-intro",
-              "kind": "anzeige",
-              "label": "Kommentare",
-              "title": "Freier Eintritt für alle?",
-              "paras": [
-                "In einer Onlinezeitung liest du Kommentare zu einem Artikel: Eine Stadt überlegt, den Eintritt in alle städtischen Museen abzuschaffen.",
-                "Beispiel (0): „Ohne Eintritt würden Menschen Museen auch für kurze Besuche nutzen.“ – Lösung: a"
-              ]
-            }
+          "title": "Radio interview",
+          "instruction": "For questions 24–30, you will hear an interview with a woman called Gina Marsh, who runs a repair café. For each question, choose the best answer (A, B or C). You will hear the recording twice.",
+          "clips": [
+            { "id": "l4-1", "title": "Interview", "plays": 2, "names": { "m2": "Presenter", "f5": "Gina" }, "script": [
+              { "s": "m2", "t": "My guest today is Gina Marsh, who started a repair café in her home town three years ago. Gina, welcome. What was the idea behind it?" },
+              { "s": "f5", "t": "Well, it wasn’t a grand plan, to be honest. My toaster broke, and the shop told me it would cost more to repair than to replace it. That made me so cross that I took it to a neighbour who fixes radios as a hobby. He mended it in ten minutes, for nothing. I thought, why isn’t everybody doing this? So I booked the village hall for one Saturday morning and put up a few posters." },
+              { "s": "m2", "t": "And how many people came?" },
+              { "s": "f5", "t": "Forty, which was a shock. I’d have been happy with ten. We ran out of tables and chairs, and one man had to stand holding his lamp for an hour while he waited for a free volunteer." },
+              { "s": "m2", "t": "What do people bring along?" },
+              { "s": "f5", "t": "You’d think it would be electrical things, and we get plenty of those, but what we see most is clothes. Zips, hems, jackets that have lost a button. They’re the easiest to fix, and the volunteers who sew are always the busiest. The hardest things are laptops. Often there’s nothing we can do." },
+              { "s": "m2", "t": "Do you get disappointed when something can’t be repaired?" },
+              { "s": "f5", "t": "Less than you’d think. People are usually grateful anyway, because they’ve learned why it broke. And we always say, don’t be embarrassed to ask, because most of the time the answer is a loose wire or a blocked filter, something anyone could do with a little help." },
+              { "s": "m2", "t": "Do younger people come?" },
+              { "s": "f5", "t": "More than I expected. I assumed it would be mostly pensioners, but students turn up with their bicycles and headphones. They often stay to help someone else, and that’s my favourite thing. A fifteen-year-old taught a woman of eighty how to replace the cord on her vacuum cleaner. They were both delighted." },
+              { "s": "m2", "t": "Is the café a way to change how we shop?" },
+              { "s": "f5", "t": "I’d like to think it helps, but I’m realistic. People will still buy cheap things. What I hope is that when something breaks, they stop and ask, can this be mended? Even if the answer is no. If that question becomes automatic, we’ve achieved something. The money we collect in donations, by the way, pays for the tools, not for anyone’s wages. We’re all volunteers." }
+            ] }
           ],
           "items": [
-            {
-              "id": "gb2-l4-1",
-              "prompt": "Das Geld für freien Eintritt kommt auch von Menschen, die gar nicht ins Museum gehen.",
-              "correct": "b"
-            },
-            {
-              "id": "gb2-l4-2",
-              "prompt": "Ein kostenloses Angebot erreicht nicht automatisch neue Besuchergruppen.",
-              "correct": "f"
-            },
-            {
-              "id": "gb2-l4-3",
-              "prompt": "Wie ein Museum seine Inhalte präsentiert, ist wichtiger als der Preis.",
-              "correct": "e"
-            },
-            {
-              "id": "gb2-l4-4",
-              "prompt": "Wer schon als Kind ins Museum geht, kommt später eher auch zu Ausstellungen, die Geld kosten.",
-              "correct": "d"
-            },
-            {
-              "id": "gb2-l4-5",
-              "prompt": "Großer Andrang kann für die Ausstellungsstücke gefährlich werden.",
-              "correct": "c"
-            },
-            {
-              "id": "gb2-l4-6",
-              "prompt": "Kultur ist Gemeingut und sollte daher für jeden kostenlos zugänglich sein.",
-              "correct": "g"
-            }
-          ]
-        },
-        {
-          "key": "l5",
-          "teil": 5,
-          "type": "match",
-          "points": 1,
-          "title": "Eine Nutzungsordnung verstehen",
-          "instruction": "Lies die Überschriften a bis h und die Nutzungsordnung. Welche Überschrift passt zu welchem Paragrafen (Aufgaben 28 bis 30)? Jede Überschrift passt nur einmal. § 1 ist das Beispiel. Vier Überschriften brauchst du nicht. Du hast etwa 6 Minuten Zeit.",
-          "pool": {
-            "a": "Kursangebote für Anfänger",
-            "b": "Nutzung der Maschinen",
-            "c": "Wer die Werkstatt nutzen darf",
-            "d": "Öffnungszeiten",
-            "e": "Haftung bei Unfällen",
-            "f": "Aufräumen und Aufbewahren",
-            "g": "Mitgliedsbeiträge",
-            "h": "Material und Verbrauchskosten"
-          },
-          "texts": [
-            {
-              "id": "l5-regeln",
-              "kind": "regeln",
-              "label": "Nutzungsordnung",
-              "title": "Offene Holzwerkstatt „Werkraum Süd“ e. V. – Nutzungsordnung",
-              "paras": [
-                "§ 1 (Beispiel: c) Die Werkstatt steht allen Vereinsmitgliedern ab 16 Jahren offen. Jugendliche unter 18 Jahren benötigen die schriftliche Einverständniserklärung eines Erziehungsberechtigten. Gäste können die Werkstatt bis zu dreimal im Jahr gegen eine Tagesgebühr nutzen.",
-                "§ 2 Elektrische Geräte wie Kreissäge, Drechselbank oder Standbohrmaschine dürfen erst nach einer Einweisung durch eine Werkstattbetreuerin oder einen Werkstattbetreuer bedient werden. Die Einweisung wird im Mitgliedsausweis vermerkt. Handwerkzeuge dürfen ohne Einweisung verwendet werden. Beim Arbeiten an den Geräten sind Schutzbrille und Gehörschutz zu tragen; beides liegt im Werkstattschrank bereit. Wer ein Gerät länger als ein Jahr nicht benutzt hat, muss die Einweisung wiederholen.",
-                "§ 3 Holz, Schrauben und anderes Material bringen die Nutzerinnen und Nutzer grundsätzlich selbst mit. Größere Mengen Holz können über den Verein zum Einkaufspreis bestellt werden. Reststücke aus dem Regal im Eingangsbereich dürfen kostenlos verwendet werden. Für Schleifpapier, Leim und Sägeblätter wird eine Pauschale von zwei Euro pro Werkstattbesuch erhoben, die in die Kasse am Eingang zu zahlen ist.",
-                "§ 4 Spätestens 30 Minuten vor Ende der Öffnungszeit ist mit dem Aufräumen zu beginnen. Werkzeuge werden gereinigt an ihren Platz zurückgelegt, Späne und Staub mit der Absauganlage entfernt. Unfertige Werkstücke dürfen höchstens zwei Wochen im gekennzeichneten Lagerregal bleiben; danach werden sie entsorgt. Wer die Werkstatt als Letzte oder Letzter verlässt, schließt die Fenster und schaltet den Hauptschalter aus."
-              ]
-            }
-          ],
-          "items": [
-            {
-              "id": "gb2-l5-1",
-              "text": "l5-regeln",
-              "prompt": "§ 2",
-              "correct": "b"
-            },
-            {
-              "id": "gb2-l5-2",
-              "text": "l5-regeln",
-              "prompt": "§ 3",
-              "correct": "h"
-            },
-            {
-              "id": "gb2-l5-3",
-              "text": "l5-regeln",
-              "prompt": "§ 4",
-              "correct": "f"
-            }
+            { "id": "l4-q1", "question": "Why did Gina start the repair café?", "options": ["She wanted to earn money from repairs.", "A neighbour’s free repair gave her the idea.", "She had trained as an electrician."], "correct": 1, "why": "The neighbour mended her toaster for nothing, and she thought everybody should be able to get this." },
+            { "id": "l4-q2", "question": "How did Gina feel about the first event?", "options": ["surprised at how many people came", "disappointed by how few people came", "worried that there were too few volunteers"], "correct": 0, "why": "Forty came, when she would have been happy with ten." },
+            { "id": "l4-q3", "question": "What do visitors bring most often?", "options": ["electrical items", "clothes", "laptops"], "correct": 1, "why": "‘What we see most is clothes.’" },
+            { "id": "l4-q4", "question": "What does Gina say about things that cannot be repaired?", "options": ["Their owners are usually still glad of the help.", "The volunteers feel embarrassed.", "Their owners ask for their money back."], "correct": 0, "why": "‘People are usually grateful anyway.’" },
+            { "id": "l4-q5", "question": "What does Gina like best about younger visitors?", "options": ["They bring unusual things to repair.", "They help other people.", "They repair things more quickly."], "correct": 1, "why": "‘They often stay to help someone else, and that’s my favourite thing.’" },
+            { "id": "l4-q6", "question": "What is Gina’s hope for the repair café?", "options": ["that people will stop buying cheap goods", "that people will think about repairing before throwing things away", "that shops will sell more spare parts"], "correct": 1, "why": "She hopes people will ask ‘can this be mended?’ when something breaks." },
+            { "id": "l4-q7", "question": "What is the money from donations used for?", "options": ["paying the volunteers", "buying tools", "giving to charity"], "correct": 1, "why": "‘Pays for the tools, not for anyone’s wages.’" }
           ]
         }
       ]
     },
     {
-      "key": "hoeren",
-      "name": "Hören",
-      "minutes": 40,
-      "parts": [
-        {
-          "key": "h1",
-          "teil": 1,
-          "type": "mc",
-          "points": 1,
-          "title": "Alltagsgespräche und Äußerungen",
-          "instruction": "Du hörst fünf kurze Texte. Du hörst jeden Text einmal. Zu jedem Text gibt es zwei Aufgaben (1 bis 10): Entscheide zuerst, ob die Aussage richtig oder falsch ist, und wähle dann die richtige Lösung a, b oder c. Lies vor jedem Text die beiden Aufgaben; du hast dazu 15 Sekunden Zeit.",
-          "clips": [
-            {
-              "id": "h1-1",
-              "title": "Text 1 · Nachricht auf der Mailbox",
-              "plays": 1,
-              "names": {
-                "frau": "Miriam Scholz"
-              },
-              "script": [
-                {
-                  "s": "frau",
-                  "t": "Hallo Herr Petrović, hier ist Miriam Scholz aus der Marketingabteilung. Äh, es geht um die Präsentation für die Firma Kellner am Donnerstag. Ich hab gerade erfahren, dass die Kunden schon um neun statt um elf kommen wollen – die haben am Nachmittag noch einen anderen Termin in Frankfurt. Das heißt, die Folien müssen eigentlich schon morgen Abend fertig sein. Ich weiß, das ist knapp. Mein Vorschlag wäre, dass Sie sich um die Umsatzzahlen kümmern und ich die Beispiele aus den Kampagnen einbaue. Könnten Sie mir kurz Bescheid geben, ob das für Sie passt? Am besten per Mail, ich sitz den ganzen Nachmittag in Besprechungen und geh nicht ans Telefon. Danke Ihnen!"
-                }
-              ]
-            },
-            {
-              "id": "h1-2",
-              "title": "Text 2 · Veranstaltungstipp im Radio",
-              "plays": 1,
-              "names": {
-                "mod2": "Radiomoderator"
-              },
-              "script": [
-                {
-                  "s": "mod2",
-                  "t": "Und jetzt noch ein Tipp fürs Wochenende: In Freiburg beginnt am Freitag das Festival „Stadt liest“. Drei Tage lang lesen Autorinnen und Autoren an ungewöhnlichen Orten – in einer Straßenbahn, in einem Waschsalon oder auf dem Dach des Stadttheaters. Die meisten Lesungen sind kostenlos. Für die Abende auf dem Theaterdach braucht man allerdings Karten, weil da oben nur sechzig Leute Platz haben – und die sind, wie uns die Veranstalter verraten haben, schon fast weg. Neu ist in diesem Jahr ein Programm für Kinder: Am Samstagvormittag können sie im Stadtgarten zusammen mit einer Illustratorin ihr eigenes Bilderbuch gestalten. Das komplette Programm finden Sie wie immer auf unserer Webseite."
-                }
-              ]
-            },
-            {
-              "id": "h1-3",
-              "title": "Text 3 · Gespräch unter Freunden",
-              "plays": 1,
-              "names": {
-                "frau2": "Nele",
-                "mann": "Jannik"
-              },
-              "script": [
-                {
-                  "s": "frau2",
-                  "t": "Sag mal, Jannik, machst du eigentlich noch diesen Italienischkurs an der Volkshochschule?"
-                },
-                {
-                  "s": "mann",
-                  "t": "Nee, den hab ich im Frühjahr abgebrochen. Nicht wegen der Lehrerin, die war super. Aber der Kurs war immer mittwochs um halb sieben, und das hab ich nach der Arbeit fast nie pünktlich geschafft."
-                },
-                {
-                  "s": "frau2",
-                  "t": "Schade. Und jetzt lernst du gar nicht mehr?"
-                },
-                {
-                  "s": "mann",
-                  "t": "Doch, doch – sogar mehr als vorher. Ich hab über eine Plattform einen Tandempartner gefunden, Matteo aus Bologna. Der lernt Deutsch. Wir telefonieren zweimal die Woche per Video, eine halbe Stunde Italienisch, eine halbe Stunde Deutsch."
-                },
-                {
-                  "s": "frau2",
-                  "t": "Und das klappt? Ich stell mir das anstrengend vor, mit jemandem, den man gar nicht kennt."
-                },
-                {
-                  "s": "mann",
-                  "t": "Am Anfang war's ein bisschen komisch, ja. Aber inzwischen reden wir über alles Mögliche. Grammatik lern ich dabei natürlich weniger, die mach ich nebenbei mit einer App. Aber ich trau mich viel mehr, einfach draufloszureden. Im Sommer will ich ihn sogar mal besuchen."
-                }
-              ]
-            },
-            {
-              "id": "h1-4",
-              "title": "Text 4 · Verbrauchertipp im Radio",
-              "plays": 1,
-              "names": {
-                "mod": "Moderatorin",
-                "frau3": "Frau Obermeier"
-              },
-              "script": [
-                {
-                  "s": "mod",
-                  "t": "In unserer Reihe „Gut beraten“ geht es heute um Handyverträge. Frau Obermeier von der Verbraucherzentrale, worauf sollte man achten?"
-                },
-                {
-                  "s": "frau3",
-                  "t": "Also, das Wichtigste zuerst: Viele Menschen zahlen für Datenvolumen, das sie gar nicht verbrauchen. Schauen Sie mal in den Einstellungen Ihres Handys nach, wie viele Gigabyte Sie in den letzten Monaten tatsächlich genutzt haben. Oft reicht ein deutlich günstigerer Tarif. Zweitens: Vorsicht bei Angeboten mit einem neuen Smartphone für einen Euro. Das klingt verlockend, aber über die monatliche Grundgebühr zahlt man das Gerät am Ende meistens teurer, als wenn man es gleich selbst kauft. Und noch etwas: Nach den ersten vierundzwanzig Monaten kann man einen Vertrag heute jeden Monat kündigen. Niemand muss also in einem alten, teuren Tarif bleiben."
-                }
-              ]
-            },
-            {
-              "id": "h1-5",
-              "title": "Text 5 · Gespräch in der Kantine",
-              "plays": 1,
-              "names": {
-                "frau4": "Frau Yıldız",
-                "mann2": "Herr Hartmann"
-              },
-              "script": [
-                {
-                  "s": "frau4",
-                  "t": "Und, Herr Hartmann, haben Sie sich schon für die Weiterbildung zum Projektmanagement angemeldet?"
-                },
-                {
-                  "s": "mann2",
-                  "t": "Ehrlich gesagt bin ich noch unschlüssig. Inhaltlich reizt mich das schon, aber das sind sechs Samstage am Stück, und meine Frau hat am Wochenende Dienst im Krankenhaus. Wer soll denn da auf die Kinder aufpassen?"
-                },
-                {
-                  "s": "frau4",
-                  "t": "Ach, wissen Sie das noch gar nicht? Seit letzter Woche gibt es auch eine Online-Variante, abends, zweimal die Woche. Die Kosten übernimmt die Firma genauso."
-                },
-                {
-                  "s": "mann2",
-                  "t": "Online? Hm. Ich sitz ja den ganzen Tag schon vorm Bildschirm … Aber gut, das wär wenigstens machbar. Bis wann muss man sich denn anmelden?"
-                },
-                {
-                  "s": "frau4",
-                  "t": "Bis Ende des Monats, glaub ich. Fragen Sie am besten Frau Brandl in der Personalabteilung, die hat alle Details."
-                }
-              ]
-            }
-          ],
-          "items": [
-            {
-              "id": "gb2-h1-1",
-              "clip": "h1-1",
-              "type": "tf",
-              "statement": "Die Kunden kommen früher zur Präsentation als ursprünglich geplant.",
-              "correct": "richtig"
-            },
-            {
-              "id": "gb2-h1-2",
-              "clip": "h1-1",
-              "question": "Was soll Herr Petrović tun?",
-              "options": [
-                "Die Beispiele aus den Kampagnen vorbereiten.",
-                "Frau Scholz schriftlich antworten.",
-                "Frau Scholz am Nachmittag anrufen."
-              ],
-              "correct": 1
-            },
-            {
-              "id": "gb2-h1-3",
-              "clip": "h1-2",
-              "type": "tf",
-              "statement": "Für alle Lesungen des Festivals braucht man eine Eintrittskarte.",
-              "correct": "falsch"
-            },
-            {
-              "id": "gb2-h1-4",
-              "clip": "h1-2",
-              "question": "Was ist in diesem Jahr neu?",
-              "options": [
-                "Lesungen in öffentlichen Verkehrsmitteln.",
-                "Veranstaltungen auf dem Dach des Theaters.",
-                "Ein Angebot, bei dem Kinder selbst kreativ werden."
-              ],
-              "correct": 2
-            },
-            {
-              "id": "gb2-h1-5",
-              "clip": "h1-3",
-              "type": "tf",
-              "statement": "Jannik beschäftigt sich inzwischen intensiver mit Italienisch als zur Zeit des Kurses.",
-              "correct": "richtig"
-            },
-            {
-              "id": "gb2-h1-6",
-              "clip": "h1-3",
-              "question": "Was sagt Jannik über das Tandem?",
-              "options": [
-                "Er hat dadurch mehr Mut zum Sprechen bekommen.",
-                "Er lernt dabei vor allem Grammatik.",
-                "Er trifft seinen Partner jede Woche persönlich."
-              ],
-              "correct": 0
-            },
-            {
-              "id": "gb2-h1-7",
-              "clip": "h1-4",
-              "type": "tf",
-              "statement": "Laut Frau Obermeier haben viele Kunden zu wenig Datenvolumen.",
-              "correct": "falsch"
-            },
-            {
-              "id": "gb2-h1-8",
-              "clip": "h1-4",
-              "question": "Was sagt Frau Obermeier über Verträge mit einem Smartphone für einen Euro?",
-              "options": [
-                "Sie lohnen sich vor allem für junge Leute.",
-                "Man bezahlt das Gerät am Ende oft teurer.",
-                "Man kann sie schon nach einem Jahr kündigen."
-              ],
-              "correct": 1
-            },
-            {
-              "id": "gb2-h1-9",
-              "clip": "h1-5",
-              "type": "tf",
-              "statement": "Die Firma bezahlt auch die Online-Weiterbildung.",
-              "correct": "richtig"
-            },
-            {
-              "id": "gb2-h1-10",
-              "clip": "h1-5",
-              "question": "Warum zögert Herr Hartmann, den Kurs am Samstag zu besuchen?",
-              "options": [
-                "Er weiß nicht, wer dann die Kinder betreut.",
-                "Der Kurs ist ihm zu teuer.",
-                "Er muss am Wochenende im Krankenhaus arbeiten."
-              ],
-              "correct": 0
-            }
-          ]
-        },
-        {
-          "key": "h2",
-          "teil": 2,
-          "type": "mc",
-          "points": 1,
-          "title": "Ein Radiointerview verstehen",
-          "instruction": "Du hörst ein Interview. Du hörst das Interview zweimal. Dazu gibt es sechs Aufgaben (11 bis 16). Wähle bei jeder Aufgabe die richtige Lösung a, b oder c. Lies zuerst die Aufgaben; du hast dazu 90 Sekunden Zeit. Im Radio spricht eine Moderatorin mit der Wildtierbiologin Dr. Lena Hofstätter über Füchse in der Stadt.",
-          "clips": [
-            {
-              "id": "h2-1",
-              "title": "Interview · Füchse in der Großstadt",
-              "plays": 2,
-              "names": {
-                "mod": "Moderatorin",
-                "frau": "Dr. Lena Hofstätter"
-              },
-              "script": [
-                {
-                  "s": "mod",
-                  "t": "Herzlich willkommen zu „Forschung am Mittag“. Mein Gast heute ist die Wildtierbiologin Doktor Lena Hofstätter. Sie erforscht seit acht Jahren, wie Füchse in Wien leben. Frau Hofstätter, wie kommt man eigentlich auf so ein Thema?"
-                },
-                {
-                  "s": "frau",
-                  "t": "Ehrlich gesagt, durch Zufall. Ich hab ursprünglich über Rehe im Alpenvorland geforscht, also ganz klassisch im Wald. Und dann hat mir eine Nachbarin ein Handyvideo gezeigt: ein Fuchs, der nachts seelenruhig über ihren Balkon im dritten Stock spaziert. Da dachte ich: Moment mal – über diese Tiere direkt vor unserer Haustür wissen wir eigentlich erstaunlich wenig."
-                },
-                {
-                  "s": "mod",
-                  "t": "Und wie untersucht man Tiere, die man kaum zu Gesicht bekommt?"
-                },
-                {
-                  "s": "frau",
-                  "t": "Zum einen mit Kamerafallen, die wir in Parks, auf Friedhöfen und in Kleingärten aufstellen. Zum anderen tragen einige Füchse ein leichtes Halsband mit GPS-Sender. Das ist allerdings aufwendig, weil wir die Tiere dafür kurz einfangen müssen. Und dann – das hat uns am Anfang wirklich überrascht – helfen uns die Bürgerinnen und Bürger enorm. Wir haben eine Meldeplattform im Internet, und da kommen pro Jahr mehrere Tausend Beobachtungen rein. Ohne diese Daten wären wir ziemlich aufgeschmissen."
-                },
-                {
-                  "s": "mod",
-                  "t": "Was haben Sie denn herausgefunden? Leben Stadtfüchse anders als ihre Verwandten auf dem Land?"
-                },
-                {
-                  "s": "frau",
-                  "t": "In vielem, ja. Das Auffälligste ist: Ihre Reviere sind viel kleiner. Ein Fuchs auf dem Land braucht oft mehrere Quadratkilometer, um satt zu werden. In der Stadt reichen manchmal ein paar Straßenzüge, weil es so viel Nahrung gibt – Mäuse, Obst aus den Gärten und, na ja, leider auch das, was wir wegwerfen. Außerdem sind sie weniger scheu. Das heißt aber nicht, dass sie zahm sind. Man sollte sie auf keinen Fall füttern."
-                },
-                {
-                  "s": "mod",
-                  "t": "Warum eigentlich nicht? Viele finden das doch nett."
-                },
-                {
-                  "s": "frau",
-                  "t": "Weil die Tiere dann lernen: Menschen bedeuten Futter. Sie kommen immer näher, gehen auf Terrassen, manchmal sogar in Wohnungen. Und dann beschweren sich genau die Leute, die sie vorher gefüttert haben. Am Ende muss die Stadt eingreifen – und das geht für den Fuchs selten gut aus."
-                },
-                {
-                  "s": "mod",
-                  "t": "Viele Menschen haben ja auch Angst vor Krankheiten, etwa vor der Tollwut."
-                },
-                {
-                  "s": "frau",
-                  "t": "Da kann ich beruhigen: Die Tollwut gilt in Österreich seit vielen Jahren als ausgerottet. Was es gibt, sind Parasiten, zum Beispiel der Fuchsbandwurm. Aber das Risiko ist gering, wenn man sich an ein paar einfache Regeln hält: nach der Gartenarbeit die Hände waschen und Obst und Gemüse gründlich abspülen."
-                },
-                {
-                  "s": "mod",
-                  "t": "Zum Schluss: Wie geht es mit Ihrem Projekt weiter?"
-                },
-                {
-                  "s": "frau",
-                  "t": "Wir wollen jetzt genauer verstehen, wie Füchse die Stadt durchqueren. Also: Nutzen sie Bahntrassen, Flussufer, Grünstreifen? Das ist nicht nur für Füchse interessant. Wenn wir wissen, welche Wege Wildtiere nehmen, können Stadtplaner solche grünen Korridore gezielt erhalten – und davon profitieren dann auch Igel, Vögel und letztlich wir Menschen."
-                },
-                {
-                  "s": "mod",
-                  "t": "Frau Hofstätter, vielen Dank für das Gespräch."
-                }
-              ]
-            }
-          ],
-          "items": [
-            {
-              "id": "gb2-h2-1",
-              "clip": "h2-1",
-              "question": "Wie kam Frau Hofstätter zu ihrem Forschungsthema?",
-              "options": [
-                "Durch eine Aufnahme, die eine Bekannte gemacht hatte.",
-                "Durch ein Projekt über Rehe in der Stadt.",
-                "Durch einen Auftrag der Stadtverwaltung."
-              ],
-              "correct": 0
-            },
-            {
-              "id": "gb2-h2-2",
-              "clip": "h2-1",
-              "question": "Was hat das Forschungsteam überrascht?",
-              "options": [
-                "Dass die GPS-Halsbänder so wenig Aufwand machen.",
-                "Wie viele Hinweise aus der Bevölkerung kommen.",
-                "Dass die Füchse die Kamerafallen meiden."
-              ],
-              "correct": 1
-            },
-            {
-              "id": "gb2-h2-3",
-              "clip": "h2-1",
-              "question": "Was unterscheidet Stadtfüchse von Füchsen auf dem Land?",
-              "options": [
-                "Sie lassen sich von Menschen anfassen.",
-                "Sie ernähren sich fast nur von Abfällen.",
-                "Sie kommen mit einem kleineren Gebiet aus."
-              ],
-              "correct": 2
-            },
-            {
-              "id": "gb2-h2-4",
-              "clip": "h2-1",
-              "question": "Warum sollte man Füchse nicht füttern?",
-              "options": [
-                "Weil das Futter sie krank macht.",
-                "Weil sie ihre Scheu vor Menschen dann ganz verlieren.",
-                "Weil man sonst eine Strafe zahlen muss."
-              ],
-              "correct": 1
-            },
-            {
-              "id": "gb2-h2-5",
-              "clip": "h2-1",
-              "question": "Was sagt Frau Hofstätter über Krankheiten?",
-              "options": [
-                "Mit einfacher Hygiene lässt sich das Risiko gering halten.",
-                "Der Fuchsbandwurm ist für Gärtner sehr gefährlich.",
-                "Obst aus dem eigenen Garten sollte man nicht essen."
-              ],
-              "correct": 0
-            },
-            {
-              "id": "gb2-h2-6",
-              "clip": "h2-1",
-              "question": "Was möchte das Team als Nächstes untersuchen?",
-              "options": [
-                "Wie sich Füchse in anderen Städten verhalten.",
-                "Wie man Igel und Vögel besser schützen kann.",
-                "Auf welchen Wegen sich Füchse durch die Stadt bewegen."
-              ],
-              "correct": 2
-            }
-          ]
-        },
-        {
-          "key": "h3",
-          "teil": 3,
-          "type": "match",
-          "points": 1,
-          "allowReuse": true,
-          "poolKind": "people",
-          "title": "Eine Gesprächsrunde verstehen",
-          "instruction": "Du hörst ein Gespräch. Du hörst das Gespräch einmal. Dazu gibt es sechs Aufgaben (17 bis 22). Wer sagt das? Wähle a, b oder c. Lies zuerst die Aussagen; du hast dazu 60 Sekunden Zeit. In der Radiosendung „Streitfrage“ diskutiert der Moderator mit Selin Demir, Ausbildungsleiterin in einem Elektrotechnikbetrieb, und Prof. Martin Wendland, Studienberater an einer Hochschule, über das Thema: Studium oder Ausbildung?",
-          "pool": {
-            "a": "Moderator",
-            "b": "Selin Demir",
-            "c": "Martin Wendland"
-          },
-          "clips": [
-            {
-              "id": "h3-1",
-              "title": "Gesprächsrunde · Studium oder Ausbildung?",
-              "plays": 1,
-              "names": {
-                "mod2": "Moderator",
-                "frau2": "Selin Demir",
-                "mann3": "Martin Wendland"
-              },
-              "script": [
-                {
-                  "s": "mod2",
-                  "t": "Guten Abend und willkommen bei „Streitfrage“. Jedes Jahr stehen Hunderttausende junge Menschen vor derselben Entscheidung: studieren oder eine Ausbildung machen? Lange galt das Studium als der sicherere Weg in einen guten Job. Bei mir sind Selin Demir, sie leitet die Ausbildung in einem Elektrotechnikbetrieb in Kassel, und Professor Martin Wendland, er berät an einer Hochschule in Münster Studieninteressierte. Frau Demir, wie ist die Lage bei Ihnen?"
-                },
-                {
-                  "s": "frau2",
-                  "t": "Ehrlich gesagt: angespannt. Wir hatten dieses Jahr zwölf Ausbildungsplätze und haben gerade mal sieben besetzt. Und das liegt nicht am Geld – unsere Azubis verdienen schon im ersten Jahr über tausend Euro. Ich glaube, viele Eltern haben immer noch das Bild im Kopf, dass Handwerk was für Leute ist, die in der Schule nicht so gut waren. Und dieses Bild geben sie an ihre Kinder weiter."
-                },
-                {
-                  "s": "mod2",
-                  "t": "Herr Wendland, wird das Studium überschätzt?"
-                },
-                {
-                  "s": "mann3",
-                  "t": "Überschätzt würde ich nicht sagen. Statistisch verdienen Akademiker übers ganze Berufsleben gesehen immer noch mehr. Aber – und das sag ich den jungen Leuten in der Beratung auch ganz offen – so ein Durchschnittswert hilft dem Einzelnen wenig. Wer ohne echtes Interesse ein Fach studiert, nur weil die Familie das erwartet, bricht oft ab. Bei uns ist das fast jeder Dritte in den ersten Semestern."
-                },
-                {
-                  "s": "mod2",
-                  "t": "Das ist eine hohe Zahl. Was passiert mit diesen jungen Leuten?"
-                },
-                {
-                  "s": "mann3",
-                  "t": "Viele fühlen sich erst mal als Versager. Dabei ist ein Abbruch keine Katastrophe, sondern oft eine Korrektur. Wir arbeiten deshalb inzwischen mit den Handwerkskammern zusammen, damit Studienaussteiger schnell in eine verkürzte Ausbildung wechseln können."
-                },
-                {
-                  "s": "frau2",
-                  "t": "Und die sind bei uns übrigens sehr willkommen! Letztes Jahr kam eine junge Frau zu uns, die vier Semester Maschinenbau studiert hatte. Die bringt so viel Theorie mit – das ist für den ganzen Betrieb ein Gewinn."
-                },
-                {
-                  "s": "mod2",
-                  "t": "Da muss ich ehrlich sagen: Ich hab nach dem Abitur auch erst mal eine Lehre als Buchhändler gemacht und erst danach studiert. Für mich war das damals kein Umweg, sondern die beste Grundlage, die ich mir vorstellen kann. Frau Demir, was müsste sich ändern, damit mehr junge Leute eine Ausbildung wählen?"
-                },
-                {
-                  "s": "frau2",
-                  "t": "Die Betriebe müssen sich auch bewegen, ganz klar. Früher hat man eine Anzeige in die Zeitung gesetzt, und dann kamen die Bewerbungen. Heute gehen wir in die Schulen, laden Klassen zu Schnuppertagen ein, und unsere Azubis erzählen selbst in den sozialen Netzwerken aus ihrem Alltag. Das wirkt viel glaubwürdiger als jede Broschüre."
-                },
-                {
-                  "s": "mod2",
-                  "t": "Ist das Ganze denn überhaupt noch ein Entweder-oder? Es gibt ja auch duale Studiengänge."
-                },
-                {
-                  "s": "mann3",
-                  "t": "Genau, und die sind sehr gefragt. Man ist im Betrieb und an der Hochschule, verdient Geld und hat am Ende einen Bachelor. Allerdings muss man ehrlich sagen: Das ist ein ziemlich hartes Programm. Semesterferien gibt es praktisch nicht, und wer abends noch lernen muss, hat wenig Freizeit. Das ist nicht für jeden was."
-                },
-                {
-                  "s": "mod2",
-                  "t": "Zum Schluss ganz kurz: Welchen Rat geben Sie jungen Leuten?"
-                },
-                {
-                  "s": "frau2",
-                  "t": "Ausprobieren! Praktika machen, bevor man sich festlegt."
-                },
-                {
-                  "s": "mann3",
-                  "t": "Und sich nicht von Ranglisten oder Gehaltstabellen leiten lassen, sondern von dem, was einen wirklich interessiert."
-                },
-                {
-                  "s": "mod2",
-                  "t": "Vielen Dank Ihnen beiden."
-                }
-              ]
-            }
-          ],
-          "items": [
-            {
-              "id": "gb2-h3-1",
-              "clip": "h3-1",
-              "prompt": "Früher hielt man ein Studium für die bessere Absicherung.",
-              "correct": "a"
-            },
-            {
-              "id": "gb2-h3-2",
-              "clip": "h3-1",
-              "prompt": "Vorurteile in den Familien halten junge Menschen von einer Ausbildung ab.",
-              "correct": "b"
-            },
-            {
-              "id": "gb2-h3-3",
-              "clip": "h3-1",
-              "prompt": "Allgemeine Zahlen sagen wenig über den Erfolg einer einzelnen Person aus.",
-              "correct": "c"
-            },
-            {
-              "id": "gb2-h3-4",
-              "clip": "h3-1",
-              "prompt": "Wer das Studium abgebrochen hat, bringt wertvolles Wissen in den Betrieb.",
-              "correct": "b"
-            },
-            {
-              "id": "gb2-h3-5",
-              "clip": "h3-1",
-              "prompt": "Eine Berufsausbildung vor dem Studium hat sich im eigenen Leben bewährt.",
-              "correct": "a"
-            },
-            {
-              "id": "gb2-h3-6",
-              "clip": "h3-1",
-              "prompt": "Ausbildung und Studium gleichzeitig zu machen, verlangt viel Einsatz.",
-              "correct": "c"
-            }
-          ]
-        },
-        {
-          "key": "h4",
-          "teil": 4,
-          "type": "mc",
-          "points": 1,
-          "title": "Einen Vortrag verstehen",
-          "instruction": "Du hörst einen Vortrag. Du hörst den Vortrag zweimal. Dazu gibt es acht Aufgaben (23 bis 30). Wähle bei jeder Aufgabe die richtige Lösung a, b oder c. Lies zuerst die Aufgaben; du hast dazu 90 Sekunden Zeit. Die Akustikerin Dr. Hanna Seidl spricht an der Volkshochschule über das Thema Lärm.",
-          "clips": [
-            {
-              "id": "h4-1",
-              "title": "Vortrag · Lärm – der unterschätzte Stressfaktor",
-              "plays": 2,
-              "names": {
-                "frau5": "Dr. Hanna Seidl"
-              },
-              "script": [
-                {
-                  "s": "frau5",
-                  "t": "Guten Abend, meine Damen und Herren, schön, dass Sie so zahlreich gekommen sind – und das, obwohl draußen, wie ich gerade gehört habe, die Straße wegen Bauarbeiten aufgerissen wird. Ein passenderes Thema hätte ich mir für heute also kaum aussuchen können. Ich möchte mit Ihnen über Lärm sprechen: was er mit uns macht, warum wir ihn so oft unterschätzen und was man dagegen tun kann."
-                },
-                {
-                  "s": "frau5",
-                  "t": "Fangen wir mit einer einfachen Frage an: Was ist eigentlich Lärm? Physikalisch ist das schnell beantwortet – Schall, gemessen in Dezibel. Aber das erklärt nicht, warum uns ein tropfender Wasserhahn nachts in den Wahnsinn treibt, während wir bei einem lauten Konzert begeistert mitsingen. Lärm ist also nicht einfach lauter Schall, sondern Schall, den wir nicht wollen. Und entscheidend ist dabei, ob wir ihn selbst beeinflussen können. Das Geräusch der eigenen Bohrmaschine stört uns viel weniger als die Bohrmaschine der Nachbarn – auch wenn sie genauso laut ist."
-                },
-                {
-                  "s": "frau5",
-                  "t": "Nun könnte man sagen: Das ist doch alles Geschmackssache. Leider nicht ganz. Unser Gehör schläft nämlich nie. Auch wenn wir nachts nicht aufwachen, reagiert der Körper auf Geräusche: Das Herz schlägt schneller, es werden Stresshormone ausgeschüttet. Wer jahrelang an einer stark befahrenen Straße wohnt, hat nach mehreren Studien ein erhöhtes Risiko für Bluthochdruck. Das Tückische daran: Die meisten Betroffenen sind fest überzeugt, dass sie sich längst an den Lärm gewöhnt haben. Subjektiv stimmt das vielleicht – körperlich aber nicht."
-                },
-                {
-                  "s": "frau5",
-                  "t": "Besonders betroffen sind übrigens Kinder. In Schulen, die in der Nähe von Flughäfen liegen, hat man beobachtet, dass die Kinder beim Lesenlernen langsamer vorankommen. Und das liegt nicht nur an den Unterbrechungen im Unterricht. Kinder, die ständig Lärm ausgesetzt sind, lernen offenbar, Geräusche auszublenden – und blenden dabei leider auch manches aus, was sie eigentlich hören sollten, zum Beispiel die Stimme der Lehrerin."
-                },
-                {
-                  "s": "frau5",
-                  "t": "Was kann man tun? Am wirksamsten ist es, an der Quelle anzusetzen: leisere Fahrbahnbeläge, Tempolimits in der Nacht, leisere Motoren. Schallschutzfenster sind sinnvoll, helfen aber nur, solange sie geschlossen sind – und wer schläft im Sommer schon gern bei geschlossenem Fenster? Deshalb rate ich allen, die gerade eine Wohnung suchen: Achten Sie darauf, dass das Schlafzimmer zur ruhigen Seite des Hauses liegt. Das kostet nichts und bringt oft mehr als teure Technik."
-                },
-                {
-                  "s": "frau5",
-                  "t": "Und dann gibt es noch etwas, das wir alle beitragen können – damit komme ich auch schon zum Schluss. Wir reden viel über den Lärm, den andere machen. Über unseren eigenen denken wir selten nach: der Laubbläser am Samstagmorgen, das laute Telefonat im Zugabteil, die Musik aus dem offenen Autofenster. Ruhe ist ein gemeinsames Gut, ein bisschen wie saubere Luft. Wenn jeder ein wenig Rücksicht nimmt, gewinnen alle. Im zweiten Teil des Abends messen wir übrigens gemeinsam, wie laut es hier im Saal wird, wenn alle gleichzeitig reden – Sie werden staunen. Aber vorher beantworte ich gern Ihre Fragen."
-                }
-              ]
-            }
-          ],
-          "items": [
-            {
-              "id": "gb2-h4-1",
-              "clip": "h4-1",
-              "question": "Was macht Schall laut Frau Seidl zu Lärm?",
-              "options": [
-                "Seine Lautstärke in Dezibel.",
-                "Dass man ihn nicht haben möchte.",
-                "Dass er in der Nacht auftritt."
-              ],
-              "correct": 1
-            },
-            {
-              "id": "gb2-h4-2",
-              "clip": "h4-1",
-              "question": "Das Beispiel mit der Bohrmaschine zeigt, dass …",
-              "options": [
-                "Lärm von Handwerkern besonders belastend ist.",
-                "Geräusche von Nachbarn meistens lauter sind.",
-                "es darauf ankommt, ob man ein Geräusch selbst steuern kann."
-              ],
-              "correct": 2
-            },
-            {
-              "id": "gb2-h4-3",
-              "clip": "h4-1",
-              "question": "Was sagt Frau Seidl über Lärm in der Nacht?",
-              "options": [
-                "Wer davon nicht aufwacht, wird auch nicht belastet.",
-                "Der Körper reagiert auch ohne Aufwachen darauf.",
-                "Das Gehör schaltet sich im Schlaf weitgehend ab."
-              ],
-              "correct": 1
-            },
-            {
-              "id": "gb2-h4-4",
-              "clip": "h4-1",
-              "question": "Menschen, die an lauten Straßen wohnen, …",
-              "options": [
-                "glauben oft zu Unrecht, dass der Lärm ihnen nichts mehr ausmacht.",
-                "gewöhnen sich nach einigen Jahren auch körperlich an den Lärm.",
-                "leiden besonders häufig unter Schlaflosigkeit."
-              ],
-              "correct": 0
-            },
-            {
-              "id": "gb2-h4-5",
-              "clip": "h4-1",
-              "question": "Was sagt Frau Seidl über die Unterbrechungen im Unterricht an Schulen in Flughafennähe?",
-              "options": [
-                "Sie erklären die Lernprobleme der Kinder nur zum Teil.",
-                "Sie sind der Hauptgrund für die Lernprobleme der Kinder.",
-                "Sie kommen seltener vor, als man denkt."
-              ],
-              "correct": 0
-            },
-            {
-              "id": "gb2-h4-6",
-              "clip": "h4-1",
-              "question": "Warum ist es ein Problem, wenn Kinder Geräusche ausblenden?",
-              "options": [
-                "Sie werden dadurch schneller müde.",
-                "Sie verlernen, selbst leise zu sein.",
-                "Sie überhören dabei auch Wichtiges."
-              ],
-              "correct": 2
-            },
-            {
-              "id": "gb2-h4-7",
-              "clip": "h4-1",
-              "question": "Welchen Tipp gibt Frau Seidl Menschen, die eine Wohnung suchen?",
-              "options": [
-                "Schallschutzfenster einbauen zu lassen.",
-                "Auf die Lage des Schlafzimmers zu achten.",
-                "Nur in Straßen mit Tempolimit zu ziehen."
-              ],
-              "correct": 1
-            },
-            {
-              "id": "gb2-h4-8",
-              "clip": "h4-1",
-              "question": "Was kündigt Frau Seidl für den zweiten Teil des Abends an?",
-              "options": [
-                "Eine Runde mit Fragen aus dem Publikum.",
-                "Eine gemeinsame Messung im Saal.",
-                "Einen Besuch an der Baustelle vor dem Haus."
-              ],
-              "correct": 1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "key": "schreiben",
-      "name": "Schreiben",
-      "minutes": 75,
+      "key": "speaking",
+      "name": "Speaking",
+      "minutes": 14,
       "parts": [
         {
           "key": "s1",
           "teil": 1,
-          "type": "schreiben",
-          "title": "Forumsbeitrag: Meinung äußern",
-          "instruction": "Schreib einen Forumsbeitrag von ungefähr 150 Wörtern. Schreib etwas zu allen vier Punkten und überlege dir eine passende Reihenfolge. Denk an eine Einleitung und einen Schluss. Du hast etwa 50 Minuten Zeit.",
+          "type": "sprechen",
+          "points": 5,
+          "title": "Part 1 · Interview",
+          "instruction": "The examiner asks each candidate some general and personal questions about everyday topics such as home, work, free time and travel. Answer in two or three full sentences, and give a reason or an example. In the exam this part takes about 2 minutes.",
           "tasks": [
             {
-              "id": "gb2-s1",
-              "title": "Aufgabe 1 · Weniger Fleisch in der Kantine?",
-              "minutes": 50,
-              "words": 150,
-              "situation": "Du hast in einer Onlinezeitschrift gelesen, dass mehrere Hochschulen und Unternehmen in ihren Kantinen nur noch an drei Tagen pro Woche Gerichte mit Fleisch anbieten. Im Forum der Zeitschrift diskutieren die Leserinnen und Leser darüber.",
-              "prompt": "Schreib einen Beitrag für das Forum.",
-              "points": [
-                "Äußere deine Meinung zu Kantinen mit weniger Fleisch.",
-                "Nenne Gründe, warum Kantinen ihr Angebot so verändern.",
-                "Schlag vor, wie Kantinen ihr Essen auf andere Weise gesünder oder umweltfreundlicher machen könnten.",
-                "Nenne Vor- und Nachteile einer solchen Regel."
+              "id": "s1",
+              "title": "Part 1 · Interview",
+              "mode": "paar",
+              "minutes": 2,
+              "situation": "Two candidates and an examiner. The examiner asks each of you a few questions.",
+              "card": {
+                "title": "Examiner’s questions",
+                "lines": [
+                  "Where are you from? What do you like about the place?",
+                  "What do you usually do at the weekend?",
+                  "Tell us about a trip you would like to take.",
+                  "What kind of food do you enjoy cooking or eating?",
+                  "How do you usually get to work or to your classes?"
+                ]
+              },
+              "redemittel": [
+                "I’m from … It’s a … town/city in …",
+                "What I like most about it is …",
+                "It depends. If the weather is good, I …; otherwise I …",
+                "I’d really love to go to … because …",
+                "I’ve always been interested in …"
               ],
-              "model": "Der Artikel über Kantinen mit weniger Fleisch hat mich sofort angesprochen, weil ich selbst fast jeden Tag in der Mensa meiner Hochschule esse.\nIch kann gut nachvollziehen, warum immer mehr Kantinen ihr Angebot umstellen: Die Produktion von Fleisch belastet das Klima erheblich, und viele Gäste wünschen sich inzwischen ohnehin mehr vegetarische Gerichte. Außerdem sind Gemüse und Hülsenfrüchte für die Küchen oft günstiger.\nDer größte Vorteil einer solchen Regel liegt für mich darin, dass man neue Gerichte kennenlernt, die man zu Hause nie kochen würde. Ein Nachteil ist allerdings, dass sich manche Menschen bevormundet fühlen. Wer körperlich schwer arbeitet, möchte vielleicht nicht auf Fleisch verzichten.\nMeiner Meinung nach sollte man deshalb weniger verbieten und mehr überzeugen. Kantinen könnten zum Beispiel das vegetarische Gericht billiger anbieten oder mehr regionale Zutaten verwenden. Auch eine Salatbar mit frischem Gemüse aus der Umgebung wäre eine gute Idee.\nInsgesamt halte ich einige fleischfreie Tage für einen vernünftigen Kompromiss – vorausgesetzt, das Essen schmeckt.",
+              "model": "Where are you from? I’m from a small town near the coast. I’ve lived there all my life, apart from two years when I studied in a bigger city. What I like most about it is that everything is close, and you can walk to the beach in ten minutes.\nWhat do you usually do at the weekend? It depends. If the weather is good, I try to get outside, perhaps go for a long walk or meet friends for a picnic. If it’s raining, I’m usually at home, cooking or watching a series.\nTell us about a trip you would like to take. I’d love to go to Iceland. I’ve always wanted to see the northern lights, and I enjoy places with lots of space and very few people.",
               "checklist": [
-                "Erfüllung: Alle vier Punkte sind behandelt – Meinung, Gründe, ein eigener Vorschlag, Vor- und Nachteile. Umfang etwa 150 Wörter, Register passend für ein Forum (sachlich, aber persönlich).",
-                "Kohärenz: Einleitung mit Bezug auf den Artikel, klarer Aufbau in Absätzen, Schluss mit Fazit; Verknüpfungen wie außerdem, allerdings, deshalb, vorausgesetzt.",
-                "Wortschatz: treffende, abwechslungsreiche Wörter zum Thema (umstellen, bevormunden, verzichten, Kompromiss) statt Wiederholungen.",
-                "Strukturen: Nebensätze, Konjunktiv II für Vorschläge (Kantinen könnten …), Passiv oder Nominalisierungen, wo es passt; korrekte Rechtschreibung.",
-                "Weniger als die Hälfte der Wörter oder am Thema vorbei: Dann gibt es für diese Aufgabe keine Punkte."
+                "I answered with full sentences, not just one word.",
+                "I gave a reason or an example for each answer.",
+                "I spoke clearly and at a natural speed.",
+                "I used a range of tenses (present, past, ‘would like to’)."
               ]
             }
           ]
@@ -1152,133 +606,127 @@
         {
           "key": "s2",
           "teil": 2,
-          "type": "schreiben",
-          "title": "Nachricht an eine Vorgesetzte",
-          "instruction": "Schreib eine Nachricht von ungefähr 100 Wörtern. Schreib etwas zu allen vier Punkten und überlege dir eine passende Reihenfolge. Vergiss die Anrede und den Gruß am Schluss nicht. Du hast etwa 25 Minuten Zeit.",
-          "tasks": [
-            {
-              "id": "gb2-s2",
-              "title": "Aufgabe 2 · Einarbeitung eines neuen Kollegen",
-              "minutes": 25,
-              "words": 100,
-              "situation": "Du arbeitest in der Kundenbetreuung eines Reiseveranstalters. Deine Abteilungsleiterin, Frau Kowalski, hat dich gebeten, einen neuen Kollegen, Herrn Sander, in seiner ersten Woche ab Montag einzuarbeiten. Am Montag und Dienstag nimmst du aber an einer Schulung teil, die schon lange geplant ist.",
-              "prompt": "Schreib Frau Kowalski eine Nachricht.",
-              "points": [
-                "Entschuldige dich und erkläre, warum du nicht die ganze Woche Zeit hast.",
-                "Beschreibe, was du für die Einarbeitung schon vorbereitet hast.",
-                "Mach einen Vorschlag, wie die ersten beiden Tage organisiert werden können.",
-                "Bitte höflich um eine Rückmeldung."
-              ],
-              "model": "Sehr geehrte Frau Kowalski,\nvielen Dank für Ihr Vertrauen, dass ich Herrn Sander einarbeiten soll. Leider muss ich Ihnen mitteilen, dass ich am Montag und Dienstag an der Schulung zum neuen Buchungssystem teilnehme, die Sie mir im Sommer genehmigt haben. Das tut mir sehr leid.\nIch habe aber bereits einen Einarbeitungsplan mit den wichtigsten Abläufen und Ansprechpartnern erstellt, den ich Ihnen anhänge. Mein Vorschlag wäre, dass Frau Öztürk die ersten beiden Tage übernimmt und ich ab Mittwoch weitermache.\nWären Sie damit einverstanden? Ich wäre Ihnen dankbar, wenn Sie mir bis Freitag kurz Bescheid geben könnten.\nMit freundlichen Grüßen\nDeniz Aydın",
-              "checklist": [
-                "Erfüllung: Alle vier Punkte – Entschuldigung mit Grund, Vorbereitetes, Vorschlag, höfliche Bitte. Umfang etwa 100 Wörter.",
-                "Register: formell und höflich gegenüber einer Vorgesetzten (Sie, Konjunktiv II: wäre, könnten, würde).",
-                "Kohärenz: passende Anrede und Grußformel, logische Reihenfolge, klare Absätze.",
-                "Wortschatz und Strukturen: Redemittel für Entschuldigung, Vorschlag und Bitte; korrekte Rechtschreibung."
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "key": "sprechen",
-      "name": "Sprechen",
-      "minutes": 15,
-      "prepMinutes": 15,
-      "parts": [
-        {
-          "key": "sp1",
-          "teil": 1,
           "type": "sprechen",
-          "title": "Einen Vortrag halten",
-          "instruction": "Wähle eines der beiden Themen und halte einen kurzen Vortrag von etwa vier Minuten. Bearbeite alle drei Punkte und gliedere deinen Vortrag mit Einleitung und Schluss. Danach beantwortest du Fragen deiner Partnerin oder deines Partners und der Prüfenden. Nach dem Vortrag deiner Partnerin oder deines Partners stellst du selbst eine Frage. Die Vorbereitungszeit für Teil 1 und 2 beträgt zusammen 15 Minuten; Notizen sind erlaubt.",
+          "points": 5,
+          "title": "Part 2 · Long turn",
+          "instruction": "The examiner gives you two photographs and asks you a question about them. Compare the photographs and answer the question. You have about 1 minute. Then your partner has about 30 seconds to comment on your photographs. In the exam you do not get any preparation time.",
           "tasks": [
             {
-              "id": "gb2-sp1",
-              "title": "Teil 1 · Vortrag (Thema A oder B)",
+              "id": "s2",
+              "title": "Part 2 · Two photographs",
               "mode": "einzeln",
-              "prepMinutes": 15,
-              "minutes": 4,
-              "situation": "Du nimmst an einem Seminar teil und sollst einen kurzen Vortrag halten. Wähle Thema A oder Thema B.",
+              "minutes": 1,
+              "situation": "Look at the two photographs described below. Compare them, and say why the people have chosen to eat in these places.",
               "slides": [
-                {
-                  "title": "Thema A: Teilen statt besitzen",
-                  "lines": [
-                    "Beschreibe verschiedene Möglichkeiten, Dinge zu teilen oder zu leihen (z. B. Carsharing, Leihläden, Tauschbörsen).",
-                    "Erkläre eine Möglichkeit genauer, auch mit Beispielen aus deinem Heimatland oder deinem Alltag.",
-                    "Nenne Vor- und Nachteile, bewerte sie und sag deine Meinung."
-                  ]
-                },
-                {
-                  "title": "Thema B: Ehrenamt neben dem Beruf",
-                  "lines": [
-                    "Beschreibe verschiedene Formen von ehrenamtlichem Engagement.",
-                    "Erkläre eine Form genauer, auch mit Beispielen aus deinem Heimatland oder deinem Alltag.",
-                    "Nenne Vor- und Nachteile, bewerte sie und sag deine Meinung."
-                  ]
-                }
+                { "title": "Photo 1", "lines": ["A family is having a picnic on a blanket in a park.", "The sun is shining and two children are playing nearby."] },
+                { "title": "Photo 2", "lines": ["Two friends are sitting at a small table in a busy café.", "They are eating sandwiches and looking at a phone."] }
               ],
+              "card": {
+                "title": "Why have the people chosen to eat in these places?",
+                "lines": [
+                  "Compare the two photographs and answer the question (about 1 minute).",
+                  "Your partner then says, in about 30 seconds, which of the two places they would prefer."
+                ]
+              },
               "redemittel": [
-                "In meinem Vortrag geht es um …; zuerst …, anschließend …, zum Schluss …",
-                "Es gibt verschiedene Möglichkeiten, zum Beispiel …",
-                "Ich möchte näher auf … eingehen.",
-                "In meinem Heimatland ist es eher üblich, dass …",
-                "Dafür spricht, dass …; dagegen spricht allerdings …",
-                "Wenn ich die Vor- und Nachteile abwäge, komme ich zu dem Schluss, dass …",
-                "Damit bin ich am Ende meines Vortrags. Haben Sie Fragen?",
-                "Darf ich dazu eine Frage stellen? Mich würde interessieren, …"
+                "Both photos show …, but in the first one … whereas in the second …",
+                "One difference is that …",
+                "I suppose the family have chosen to … because …",
+                "They might be doing this because …",
+                "They look as if they are …",
+                "In the background I can see …"
               ],
-              "model": "In meinem Vortrag geht es um das Thema „Teilen statt besitzen“. Zuerst stelle ich verschiedene Möglichkeiten vor, dann gehe ich genauer auf eine davon ein, und zum Schluss spreche ich über Vor- und Nachteile und sage, was ich selbst davon halte.\nIn den letzten Jahren sind viele Angebote entstanden, bei denen man Dinge nicht mehr kaufen muss. Am bekanntesten ist wahrscheinlich das Carsharing: Man bucht ein Auto per App und bezahlt nur für die Zeit, in der man es nutzt. Daneben gibt es Leihläden, in denen man Werkzeug, Campingausrüstung oder Küchengeräte ausleihen kann, und Tauschbörsen für Kleidung oder Kinderspielzeug.\nIch möchte näher auf die Leihläden eingehen, weil ich selbst einen nutze. In meinem Viertel gibt es einen kleinen Laden, der von Freiwilligen betrieben wird. Für zwanzig Euro im Jahr kann ich dort fast alles ausleihen. Letzten Monat habe ich zum Beispiel eine Bohrmaschine gebraucht, um Regale aufzuhängen – eine eigene hätte ich danach wahrscheinlich nie wieder benutzt. In meinem Heimatland, in Polen, ist so etwas bisher eher selten. Dort leiht man sich solche Dinge meistens von Nachbarn oder Verwandten, also eher privat.\nWas spricht dafür? Erstens spart man Geld und Platz, zweitens werden weniger Dinge produziert, die dann im Keller verstauben. Das schont Ressourcen. Dagegen spricht allerdings, dass es manchmal unpraktisch ist: Man muss die Sachen abholen und pünktlich zurückbringen, und gerade am Wochenende ist beliebtes Werkzeug oft schon verliehen. Außerdem funktioniert das Modell vor allem in Städten; auf dem Land sind die Wege oft zu weit.\nWenn ich die Vor- und Nachteile abwäge, komme ich zu dem Schluss, dass Teilen für Dinge, die man selten braucht, eine sehr gute Lösung ist. Was ich täglich nutze, möchte ich aber weiterhin selbst besitzen.\nDamit bin ich am Ende meines Vortrags. Vielen Dank für Ihre Aufmerksamkeit – haben Sie Fragen?\nFrage der Partnerin: „Würdest du auch ein Auto dauerhaft mit anderen teilen?“ – Antwort: Das ist eine gute Frage. Für den Alltag in der Stadt, ja, denn ich fahre höchstens zweimal im Monat. Wenn ich aber Kinder hätte und aufs Land ziehen würde, sähe das vermutlich anders aus.",
+              "model": "Both photographs show people eating, but in very different places. In the first one, a family is having a picnic in a park, while in the second two friends are sitting in a busy café.\nI suppose the family have chosen a picnic because it is cheap and the children can run around. It also looks like a sunny day, so it is pleasant to be outside, and they can stay as long as they like. The friends, on the other hand, might have chosen the café because they only have a short time, perhaps during their lunch break, and they want something quick and convenient. They may also want to be in the middle of the town, where it is lively.\nIn both cases, I think the people want to enjoy their time together. The family look relaxed and the friends look as if they are catching up on news.",
               "checklist": [
-                "Erfüllung: Alle drei Punkte des gewählten Themas sind behandelt; etwa vier Minuten, frei gesprochen mit Notizen.",
-                "Kohärenz: Einleitung mit Überblick, klare Übergänge zwischen den Punkten (zuerst, anschließend, erstens, zweitens), Schluss mit Fazit.",
-                "Wortschatz: präzise und abwechslungsreich, auch abstrakte Begriffe (Ressourcen, abwägen, Modell).",
-                "Strukturen: komplexe Sätze, Nebensätze, Konjunktiv II für Hypothesen (hätte, würde).",
-                "Fragen und Antworten: Du beantwortest Rückfragen spontan und stellst nach dem Vortrag deiner Partnerin oder deines Partners selbst eine passende Frage.",
-                "Aussprache: Sie wird über Teil 1 und Teil 2 zusammen bewertet."
+                "I compared the photos instead of describing each one separately.",
+                "I answered the question: why have the people chosen to eat there?",
+                "I used speculation (might, may, perhaps, I suppose, they look as if …).",
+                "I kept talking for about a minute, with linking words."
               ]
             }
           ]
         },
         {
-          "key": "sp2",
-          "teil": 2,
+          "key": "s3",
+          "teil": 3,
           "type": "sprechen",
-          "title": "Über ein Thema diskutieren",
-          "instruction": "Diskutiere mit deiner Partnerin oder deinem Partner über die Frage auf der Karte. Tauscht eure Standpunkte aus, begründet sie und reagiert auf die Argumente des anderen. Die Stichpunkte helfen dir. Fasst am Ende zusammen, ob ihr euch einig seid. Im Test dauert dieser Teil etwa fünf Minuten.",
+          "points": 5,
+          "title": "Part 3 · Collaborative task",
+          "instruction": "Talk to your partner about the question on the card, using the five prompts. Discuss each idea, give your opinions and react to your partner. After about 2 minutes, the examiner asks you to decide which two ideas would be best. In the exam this part takes about 3 minutes.",
           "tasks": [
             {
-              "id": "gb2-sp2",
-              "title": "Teil 2 · Diskussion: Hunde im Büro?",
+              "id": "s3",
+              "title": "Part 3 · Attracting visitors",
               "mode": "paar",
-              "minutes": 5,
-              "situation": "In deiner Firma wird diskutiert, ob Mitarbeiterinnen und Mitarbeiter ihre Hunde mit ins Büro bringen dürfen.",
+              "minutes": 3,
+              "situation": "A town council wants to attract more visitors. Talk to your partner about how each idea could help. Then decide which two ideas would be the most effective.",
               "card": {
-                "title": "Sollten Hunde im Büro erlaubt sein?",
+                "title": "How could the town attract more visitors?",
                 "lines": [
-                  "Arbeitsklima und Stress",
-                  "Allergien und Ängste von Kolleginnen und Kollegen",
-                  "Ablenkung und Verantwortung",
-                  "Regeln, die nötig wären"
+                  "a food festival",
+                  "better train and bus links",
+                  "a new museum",
+                  "cheaper hotels",
+                  "a weekly market"
                 ]
               },
               "redemittel": [
-                "Ich bin der Ansicht, dass …, weil …",
-                "Da muss ich dir widersprechen: …",
-                "Das ist ein berechtigter Einwand, aber …",
-                "Wie siehst du das?",
-                "Man darf nicht vergessen, dass …",
-                "Könnten wir uns darauf einigen, dass …?",
-                "Zusammenfassend lässt sich sagen, dass …"
+                "Shall we start with …?",
+                "What do you think about …?",
+                "I’m not sure that would work, because …",
+                "That’s a good point, but …",
+                "I see what you mean, however …",
+                "So, which two shall we choose?",
+                "I think we both agree that … and … would be the best."
               ],
-              "model": "A: Ich fände es ehrlich gesagt schön, wenn Hunde im Büro erlaubt wären. Es gibt Studien, nach denen Tiere Stress reduzieren, und die Stimmung im Team wird oft lockerer. Wie siehst du das?\nB: Ich verstehe den Gedanken, aber ich bin skeptisch. Man darf nicht vergessen, dass manche Kolleginnen und Kollegen allergisch sind oder richtig Angst vor Hunden haben. Die können ja nicht einfach nach Hause gehen.\nA: Das ist ein berechtigter Einwand. Aber man könnte doch Bereiche festlegen, in denen keine Hunde erlaubt sind – zum Beispiel die Küche und die Besprechungsräume.\nB: Hm, in einem Großraumbüro funktioniert das kaum. Und was ist mit der Ablenkung? Wenn ein Hund bellt, während jemand telefoniert, ist das für alle unangenehm.\nA: Da hast du recht, nicht jeder Hund ist geeignet. Ich würde es deshalb nur für ruhige, gut erzogene Tiere erlauben, und der Besitzer müsste die volle Verantwortung übernehmen – also auch rausgehen, wenn der Hund unruhig wird.\nB: Das klingt vernünftiger. Trotzdem finde ich, dass die Kolleginnen und Kollegen vorher gefragt werden sollten. Wenn auch nur eine Person im Team dagegen ist, sollte man darauf Rücksicht nehmen.\nA: Einverstanden, eine Abstimmung im Team fände ich fair. Vielleicht könnte man es erst mal ein paar Wochen ausprobieren?\nB: Eine Probephase – ja, damit könnte ich leben.\nA: Dann fasse ich zusammen: Grundsätzlich sehen wir beide Vorteile für das Arbeitsklima, aber nur mit klaren Regeln, mit Zustimmung des Teams und zunächst als Test.\nB: Genau. Ganz einig sind wir uns nicht, weil ich skeptischer bin als du, aber mit einer Probephase bin ich einverstanden.",
+              "model": "A: Shall we start with the food festival? I think it could bring a lot of people, because everyone likes food.\nB: That’s a good point, but it would only happen once a year. A weekly market would bring people more regularly, and they could buy local products.\nA: I see what you mean. And what about better transport? If it’s hard to reach the town, people won’t come, however good the attractions are.\nB: Absolutely. I’m not sure a new museum would work, though. It would cost a lot, and many towns already have one.\nA: Cheaper hotels might help families, but I’m not sure that is the main reason people visit.\nB: So, which two shall we choose?\nA: I think transport and the weekly market would be the most effective.\nB: I agree. Let’s go for those.",
               "checklist": [
-                "Erfüllung: Du vertrittst einen klaren Standpunkt, begründest ihn und gehst auf mehrere Stichpunkte ein.",
-                "Interaktion: Du reagierst auf die Argumente deiner Partnerin oder deines Partners, widersprichst höflich, fragst nach und suchst einen Kompromiss; am Ende fasst ihr zusammen.",
-                "Wortschatz: Redemittel für Zustimmung, Widerspruch und Einwände; passende Wörter zum Thema.",
-                "Strukturen: Konjunktiv II (fände, müsste, könnte), Nebensätze, Passiv, wo es passt.",
-                "Aussprache: verständlich und flüssig, mit natürlicher Betonung."
+                "I discussed all five prompts, not just one or two.",
+                "I invited my partner’s opinion and reacted to it.",
+                "I gave reasons for my views.",
+                "We reached a decision together at the end."
+              ]
+            }
+          ]
+        },
+        {
+          "key": "s4",
+          "teil": 4,
+          "type": "sprechen",
+          "points": 5,
+          "title": "Part 4 · Discussion",
+          "instruction": "The examiner asks you and your partner further questions connected with the topic of Part 3. Give your own opinions, answer your partner’s comments and explain your reasons. In the exam this part takes about 4 minutes.",
+          "tasks": [
+            {
+              "id": "s4",
+              "title": "Part 4 · Tourism and travel",
+              "mode": "paar",
+              "minutes": 4,
+              "situation": "Discuss these questions with your partner. The examiner may ask each of you a different question.",
+              "card": {
+                "title": "Examiner’s questions",
+                "lines": [
+                  "Do you think tourism is always good for a town? Why (not)?",
+                  "What can visitors do to respect the places they visit?",
+                  "Do you prefer to travel to quiet places or to busy cities?",
+                  "Is it better to travel often for short trips, or rarely for a long time?",
+                  "How important is it for a town to keep its traditions?"
+                ]
+              },
+              "redemittel": [
+                "In my opinion, … because …",
+                "I tend to think that …",
+                "On the one hand …, but on the other hand …",
+                "That’s true, although …",
+                "I’d say it depends on …",
+                "What about you? Do you agree?"
+              ],
+              "model": "Do you think tourism is always good for a town? I’d say it depends. On the one hand, tourists bring money and jobs, especially to small places. On the other hand, too many visitors can push up prices and make life harder for local people, for example by making housing more expensive.\nWhat can visitors do to respect the places they visit? I think the most important thing is to be considerate. They can avoid dropping litter, keep the noise down in residential areas, and shop in local businesses instead of big chains.\nDo you prefer quiet places or busy cities? I tend to prefer quiet places, because I like to relax on holiday. But I agree with you that cities can be exciting for a weekend, and you can see a lot in a short time.",
+              "checklist": [
+                "I gave my own opinion and a reason, not just ‘yes’ or ‘no’.",
+                "I responded to what my partner said.",
+                "I used a range of vocabulary connected with travel and towns.",
+                "I did not interrupt my partner and I took my turn."
               ]
             }
           ]
