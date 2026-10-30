@@ -1,34 +1,34 @@
 // Search keywords for the Landeskunde topics (kultur.json and kultur-insider.json): the
 // words a learner types when looking for a topic, which are rarely the topic's title.
-// „Frau“ should find the Frau-Mann-Wörterbuch, „Miete“ the Kaution page, „tip“ Trinkgeld.
-// German first, then the English a learner from an English course uses. Read by
+// „queue“ should find the queuing topic, „licence fee“ the BBC one. The kultur.json entries are
+// English (UK topics in the old German-named slots); the insider entries follow that file. Read by
 // src/lib/searchIndex.js, together with each topic's eyebrow and vocab words.
 
 export const KULTUR_KEYWORDS = {
   // kultur.json
-  "duzen-siezen": "du sie duzen siezen höflich anrede formell informell formal informal you",
-  pfand: "pfand flaschen flasche dose automat leergut rückgabe bottle deposit recycling",
-  sonntagsruhe: "sonntag sonntagsruhe ruhe geschäfte laden geschlossen einkaufen ruhezeit sunday shops closed quiet",
-  trinkgeld: "trinkgeld kellner restaurant bezahlen rechnung stimmt so tip tipping waiter",
-  bundeslaender: "bundesland bundesländer land länder hauptstadt bayern berlin hamburg states map karte",
-  feiertage: "feiertag feiertage weihnachten ostern frei urlaub holiday holidays christmas easter",
-  muelltrennung: "müll mülltrennung tonne biomüll gelber sack papier glas abfall recycling trash waste garbage bin",
-  termine: "termin termine vereinbaren arzt amt online buchen appointment booking",
-  anmeldung: "anmeldung anmelden wohnung bürgeramt meldebescheinigung wohnungsgeberbestätigung adresse umzug register address",
-  krankenversicherung: "krankenversicherung krankenkasse gesetzlich privat arzt versicherung gesundheit health insurance doctor",
-  mieten: "miete mieten wohnung kaltmiete warmmiete nebenkosten kaution vermieter mietvertrag rent flat apartment deposit landlord",
-  schulsystem: "schule schulsystem grundschule gymnasium realschule hauptschule abitur kinder school education",
-  "arbeit-finden": "arbeit job stelle bewerbung bewerben lebenslauf jobcenter agentur für arbeit work job application cv",
-  ausbildung: "ausbildung duale ausbildung lehre azubi beruf berufsschule apprenticeship vocational training",
-  kuendigung: "kündigung kündigen frist kündigungsfrist zeugnis arbeitszeugnis job verlieren arbeitsvertrag notice resignation dismissal reference",
-  "oeffentlich-rechtlicher-rundfunk": "ard zdf rundfunkbeitrag gez fernsehen radio rundfunk tv broadcasting licence fee",
-  vereine: "verein vereine sportverein ehrenamt mitglied hobby club clubs volunteering",
-  foederalismus: "föderalismus bund länder kommunen gemeinde stadt zuständig federalism government",
-  sozialversicherung: "sozialversicherung rente rentenversicherung arbeitslosenversicherung pflegeversicherung unfallversicherung krankenversicherung social security pension",
-  wahlen: "wahl wahlen wählen bundestag erststimme zweitstimme partei parteien fünfprozenthürde election vote voting",
-  erinnerungskultur: "erinnerung erinnerungskultur geschichte holocaust nationalsozialismus ns-zeit gedenkstätte stolpersteine history remembrance",
-  grundgesetz: "grundgesetz verfassung verfassungsgericht grundrechte bundesverfassungsgericht constitution rights",
-  mitbestimmung: "mitbestimmung tarif tarifvertrag tarifautonomie gewerkschaft betriebsrat streik lohn union works council strike",
+  "duzen-siezen": "mr ms mrs dr title first name surname formal informal polite address call me",
+  pfand: "queue queuing line wait jump the queue polite turn",
+  sonntagsruhe: "sunday trading shop opening hours open closed supermarket corner shop",
+  trinkgeld: "tip tipping service charge bill waiter restaurant pub",
+  bundeslaender: "england scotland wales northern ireland four nations great britain uk capital map",
+  feiertage: "bank holiday holidays public holiday christmas easter boxing day st patrick st andrew",
+  muelltrennung: "rubbish recycling bin bin day council waste food caddy tip",
+  termine: "appointment booking book gp doctor dentist nhs app 111 cancel",
+  anmeldung: "register gp national insurance ni number bank account council tax electoral roll first steps",
+  krankenversicherung: "nhs health doctor gp prescription a&e hospital 111 999 surcharge",
+  mieten: "rent renting flat landlord deposit council tax bills tenancy letting agent",
+  schulsystem: "school education primary secondary gcse a level reception year state school private scotland highers",
+  "arbeit-finden": "job cv cover letter references application interview right to work",
+  ausbildung: "apprenticeship university ucas personal statement tuition fees student loan",
+  kuendigung: "notice period resign resignation dismissal leave a job p45 reference unfair dismissal",
+  "oeffentlich-rechtlicher-rundfunk": "bbc tv licence licence fee iplayer broadcasting public broadcaster",
+  vereine: "club society volunteering volunteer charity shop hobby",
+  foederalismus: "devolution westminster holyrood senedd stormont parliament assembly council mayor",
+  sozialversicherung: "national insurance welfare state pension universal credit sick pay benefits",
+  wahlen: "election general election vote voting first past the post constituency mp prime minister",
+  erinnerungskultur: "remembrance poppy armistice cenotaph two minutes silence war memorial history",
+  grundgesetz: "constitution uncodified supreme court parliamentary sovereignty magna carta human rights act",
+  mitbestimmung: "trade union union strike workers rights minimum wage living wage acas tribunal",
 
   // kultur-insider.json
   gleichberechtigung: "gleichberechtigung frau frauen mann männer gender pay gap lohn teilzeit hausarbeit equality women men",
