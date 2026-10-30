@@ -1,14 +1,14 @@
-// Der Knigge-Simulator (/spiele/knigge): one day of manners and small talk, as a life sim.
+// The Manners Simulator (/spiele/knigge): one day of manners and small talk, as a life sim.
 // The learner picks a mascot and lives through scenes (./scenes.js). In each turn someone
 // talks, the learner picks a reply; the reply moves that person's Sympathie (0–100, starts at
-// 50) and the overall Ruf (moved by delta / 2). A floating label („+12 😊 Gut zugehört“) rises
-// over the player, the Laune-Blase above their head follows the last delta, and a „Warum?“
+// 50) and the overall Ruf (moved by delta / 2). A floating label (“+12 😊 Asked back”) rises
+// over the player, the Laune-Blase above their head follows the last delta, and a “Why?”
 // line explains every choice – good ones too. No single right answer, no game over.
 //
 // Screens: start (mascot picker) → the day's areas → scenes of an area → the area's result →
 // the next area. The first day goes in order; after one full day every area is free to pick
 // (localStorage, try/catch: if storage fails, everything is open). Sympathie and Ruf carry
-// over from area to area within a day. Keys: 1–4 pick a reply, Enter = Weiter. „Weiter“
+// over from area to area within a day. Keys: 1–4 pick a reply, Enter = Next. “Next”
 // before a choice stays tappable and says why (notReady.js).
 import { recordAttempt } from "../progress.js";
 import { MASCOT_LABELS, mascotSvg } from "../mascots.js";
@@ -97,8 +97,8 @@ export function mountKnigge(root) {
         <div class="kn-actor kn-actor--me" data-me>
           <span class="kn-blase" data-blase>${icon(mood.icon, 34)}</span>
           <span class="kn-float" data-float hidden></span>
-          <span data-me-svg>${mascotSvg({ name: S.player, expr: mood.expr, size: 112, label: t("kn.you", "Du") })}</span>
-          <span class="kn-actor-name">${esc(t("kn.you", "Du"))}</span>
+          <span data-me-svg>${mascotSvg({ name: S.player, expr: mood.expr, size: 112, label: t("kn.you", "You") })}</span>
+          <span class="kn-actor-name">${esc(t("kn.you", "You"))}</span>
         </div>
         ${sc.people.map((p) => `
           <div class="kn-actor" data-actor="${p.id}">
@@ -110,7 +110,7 @@ export function mountKnigge(root) {
 
   function barHtml(p, mascot) {
     const v = symp(p.id);
-    return `<div class="kn-bar" data-bar="${p.id}" role="img" aria-label="${esc(t("kn.sympAria", "Sympathie von {name}: {n} von 100", { name: p.name, n: v }))}">
+    return `<div class="kn-bar" data-bar="${p.id}" role="img" aria-label="${esc(t("kn.sympAria", "How much {name} likes you: {n} of 100", { name: p.name, n: v }))}">
       <span class="kn-bar-head">${mascotSvg({ name: mascot, size: 30, label: "" })}</span>
       <span class="kn-bar-track"><i style="width:${v}%" class="${v < 40 ? "is-low" : v > 70 ? "is-high" : ""}"></i></span>
     </div>`;
@@ -124,7 +124,7 @@ export function mountKnigge(root) {
       const i = el.querySelector("i");
       i.style.width = `${v}%`;
       i.className = v < 40 ? "is-low" : v > 70 ? "is-high" : "";
-      el.setAttribute("aria-label", t("kn.sympAria", "Sympathie von {name}: {n} von 100", { name: p.name, n: v }));
+      el.setAttribute("aria-label", t("kn.sympAria", "How much {name} likes you: {n} of 100", { name: p.name, n: v }));
     }
   }
 
@@ -132,7 +132,7 @@ export function mountKnigge(root) {
     const r = Math.round(S.ruf);
     $("[data-ruf-n]").textContent = r;
     $("[data-ruf-bar]").style.width = `${r}%`;
-    $("[data-ruf]").setAttribute("aria-label", t("kn.rufAria", "Ruf: {n} von 100", { n: r }));
+    $("[data-ruf]").setAttribute("aria-label", t("kn.rufAria", "Reputation: {n} of 100", { n: r }));
   }
 
   /** The label that rises over the player, and the mood bubble / face. */
@@ -140,7 +140,7 @@ export function mountKnigge(root) {
     const mood = (S.mood = moodOf(o.delta));
     const me = stage.querySelector("[data-me]");
     me.querySelector("[data-blase]").innerHTML = icon(mood.icon, 34);
-    me.querySelector("[data-me-svg]").innerHTML = mascotSvg({ name: S.player, expr: mood.expr, size: 112, label: t("kn.you", "Du") });
+    me.querySelector("[data-me-svg]").innerHTML = mascotSvg({ name: S.player, expr: mood.expr, size: 112, label: t("kn.you", "You") });
     const f = me.querySelector("[data-float]");
     f.hidden = false;
     f.className = `kn-float ${o.delta >= 3 ? "is-good" : o.delta <= -3 ? "is-bad" : "is-meh"}`;
@@ -167,28 +167,28 @@ export function mountKnigge(root) {
       if (S.wheel?.turn !== tu) S.wheel = { turn: tu, left: tu.wheel, picked: new Set() };
       return paintWheel(sc, tu, who);
     }
-    const step = t("kn.step", "{place} · {i} von {n}", { place: sc.place, i: S.turnIdx + 1, n: sc.turns.length });
+    const step = t("kn.step", "{place} · {i} of {n}", { place: sc.place, i: S.turnIdx + 1, n: sc.turns.length });
     sheet.innerHTML = `
       <p class="kn-step">${esc(step)}</p>
-      ${tu.situation ? `<p class="kn-situation" lang="de">${esc(tu.situation)}</p>` : ""}
+      ${tu.situation ? `<p class="kn-situation" lang="en">${esc(tu.situation)}</p>` : ""}
       ${tu.npc ? `
         <div class="kn-who">
           ${mascotSvg({ name: S.casting[who.id], size: 40, label: "" })}
           <div><b>${esc(who.name)}</b><span>${esc(who.role)}</span></div>
         </div>
-        <p class="kn-line" lang="de">„${esc(tu.npc)}“</p>
+        <p class="kn-line" lang="en">“${esc(tu.npc)}”</p>
         <div class="kn-tools">
-          <button type="button" class="kn-tool" data-hear>🔊 ${esc(t("kn.hear", "Anhören"))}</button>
-          ${tu.en ? `<button type="button" class="kn-tool" data-help aria-expanded="false">💡 ${esc(t("kn.help", "Hilfe"))}</button>` : ""}
+          <button type="button" class="kn-tool" data-hear>🔊 ${esc(t("kn.hear", "Listen"))}</button>
+          ${tu.en ? `<button type="button" class="kn-tool" data-help aria-expanded="false">💡 ${esc(t("kn.help", "Help"))}</button>` : ""}
         </div>
         ${tu.en ? `<p class="kn-gloss" lang="en" data-gloss hidden>${esc(tu.en)}</p>` : ""}` : ""}
-      <p class="kn-you">${esc(t("kn.youSay", "Was machst du?"))}</p>
+      <p class="kn-you">${esc(t("kn.youSay", "What do you do?"))}</p>
       <div class="kn-opts">${tu.options.map((o, k) => `
-        <button type="button" class="kn-opt" data-opt="${k}" lang="de"><span class="kn-opt-n">${k + 1}</span><span>${esc(o.de)}${o.en ? `<small class="kn-opt-en" lang="en" data-gloss hidden>${esc(o.en)}</small>` : ""}</span></button>`).join("")}
+        <button type="button" class="kn-opt" data-opt="${k}" lang="en"><span class="kn-opt-n">${k + 1}</span><span>${esc(o.de)}${o.en ? `<small class="kn-opt-en" lang="en" data-gloss hidden>${esc(o.en)}</small>` : ""}</span></button>`).join("")}
       </div>
       <div class="kn-after" data-after></div>
-      <div class="kn-btns"><button type="button" class="quiz-btn quiz-btn--primary" data-go>${esc(t("kn.next", "Weiter"))}</button></div>`;
-    setWaiting(sheet.querySelector("[data-go]"), t("kn.pickFirst", "Wähl erst eine Antwort."), ".kn-opt");
+      <div class="kn-btns"><button type="button" class="quiz-btn quiz-btn--primary" data-go>${esc(t("kn.next", "Next"))}</button></div>`;
+    setWaiting(sheet.querySelector("[data-go]"), t("kn.pickFirst", "Pick an answer first."), ".kn-opt");
     sheet.querySelector("[data-hear]")?.addEventListener("click", () => voice.say(null, tu.npc, true));
     sheet.querySelector("[data-help]")?.addEventListener("click", (e) => {
       const open = e.currentTarget.getAttribute("aria-expanded") !== "true";
@@ -216,7 +216,7 @@ export function mountKnigge(root) {
     apply(o, `knigge-${scene().id}-${S.turnIdx}`, k);
   }
 
-  /** A reply counts: the bars move, the label rises, the person answers, „Warum?“ shows. */
+  /** A reply counts: the bars move, the label rises, the person answers, “Why?” shows. */
   function apply(o, item, option) {
     const target = o.by ?? turn().who;
     S.symp[target] = clamp(symp(target) + o.delta);
@@ -228,10 +228,10 @@ export function mountKnigge(root) {
     sheet.querySelector("[data-after]").innerHTML = `
       <div class="kn-react">
         ${mascotSvg({ name: S.casting[target], size: 36, label: "" })}
-        <p lang="de"><b>${esc(by.name)}:</b> ${esc(o.react)}</p>
+        <p lang="en"><b>${esc(by.name)}:</b> ${esc(o.react)}</p>
       </div>
-      <p class="kn-why"><b>${esc(t("kn.why", "Warum?"))}</b> <span lang="de">${esc(o.why)}</span></p>
-      ${more ? `<a class="kn-more" href="${esc(more)}" target="_blank" rel="noopener">${esc(t("kn.more", "Mehr dazu"))} ↗</a>` : ""}`;
+      <p class="kn-why"><b>${esc(t("kn.why", "Why?"))}</b> <span lang="en">${esc(o.why)}</span></p>
+      ${more ? `<a class="kn-more" href="${esc(more)}" target="_blank" rel="noopener">${esc(t("kn.more", "Find out more"))} ↗</a>` : ""}`;
     const go = sheet.querySelector("[data-go]");
     setWaiting(go, null);
     go.focus({ preventScroll: true });
@@ -243,34 +243,34 @@ export function mountKnigge(root) {
 
   // --- the Smalltalk-Rad: pick a topic; the person's hidden taste decides ----------------------
   const KIND_TAG = {
-    like: ["kn.topic.like", "😊 Lieblingsthema!"],
-    ok: ["kn.topic.ok", "🙂 Sicheres Thema"],
-    dislike: ["kn.topic.dislike", "😐 Kein Interesse"],
-    taboo: ["kn.topic.taboo", "😱 Tabu-Thema"],
+    like: ["kn.topic.like", "😊 Favourite topic!"],
+    ok: ["kn.topic.ok", "🙂 Safe topic"],
+    dislike: ["kn.topic.dislike", "😐 Not interested"],
+    taboo: ["kn.topic.taboo", "😱 Taboo topic"],
   };
   function paintWheel(sc, tu, who) {
     const w = S.wheel;
     const known = new Set(knownLikes()[who.id] ?? []);
     const n = TOPICS.length;
     sheet.innerHTML = `
-      <p class="kn-step">${esc(t("kn.step", "{place} · {i} von {n}", { place: sc.place, i: S.turnIdx + 1, n: sc.turns.length }))}</p>
-      ${tu.situation ? `<p class="kn-situation" lang="de">${esc(tu.situation)}</p>` : ""}
-      <p class="kn-you">${esc(w.left > 1 ? t("kn.wheelPickN", "Smalltalk-Rad: Wähl ein Thema (noch {n}).", { n: w.left }) : t("kn.wheelPick", "Smalltalk-Rad: Wähl ein Thema."))}</p>
-      <div class="kn-wheel" role="group" aria-label="${esc(t("kn.wheel", "Smalltalk-Rad"))}">
+      <p class="kn-step">${esc(t("kn.step", "{place} · {i} of {n}", { place: sc.place, i: S.turnIdx + 1, n: sc.turns.length }))}</p>
+      ${tu.situation ? `<p class="kn-situation" lang="en">${esc(tu.situation)}</p>` : ""}
+      <p class="kn-you">${esc(w.left > 1 ? t("kn.wheelPickN", "Small-talk wheel: pick a topic ({n} to go).", { n: w.left }) : t("kn.wheelPick", "Small-talk wheel: pick a topic."))}</p>
+      <div class="kn-wheel" role="group" aria-label="${esc(t("kn.wheel", "Small-talk wheel"))}">
         <span class="kn-wheel-hub">${mascotSvg({ name: S.casting[who.id], size: 64, label: who.name })}</span>
         ${TOPICS.map((tp, i) => {
           const a = (i / n) * Math.PI * 2 - Math.PI / 2;
           const x = 50 + 39 * Math.cos(a), y = 50 + 39 * Math.sin(a);
           const used = w.picked.has(tp.id);
           return `<button type="button" class="kn-topic${used ? " is-used" : ""}" data-topic="${tp.id}" style="left:${x.toFixed(1)}%;top:${y.toFixed(1)}%"${used ? ' aria-disabled="true"' : ""}>
-            ${icon(tp.icon, 30)}<span lang="de">${esc(t(`kn.topic.${tp.id}`, tp.label))}</span>${known.has(tp.id) ? '<b class="kn-topic-tip" title="Mag dieses Thema">💡</b>' : ""}
+            ${icon(tp.icon, 30)}<span lang="en">${esc(t(`kn.topic.${tp.id}`, tp.label))}</span>${known.has(tp.id) ? '<b class="kn-topic-tip" title="Likes this topic">💡</b>' : ""}
           </button>`;
         }).join("")}
       </div>
-      ${known.size ? `<p class="kn-hint">💡 ${esc(t("kn.wheelKnown", "= Darüber redet {name} gern. Das hast du schon herausgefunden.", { name: who.name }))}</p>` : ""}
+      ${known.size ? `<p class="kn-hint">💡 ${esc(t("kn.wheelKnown", "= {name} likes talking about this. You found that out earlier.", { name: who.name }))}</p>` : ""}
       <div class="kn-after" data-after></div>
-      <div class="kn-btns"><button type="button" class="quiz-btn quiz-btn--primary" data-go>${esc(t("kn.next", "Weiter"))}</button></div>`;
-    setWaiting(sheet.querySelector("[data-go]"), t("kn.pickTopic", "Wähl erst ein Thema."), ".kn-topic:not(.is-used)");
+      <div class="kn-btns"><button type="button" class="quiz-btn quiz-btn--primary" data-go>${esc(t("kn.next", "Next"))}</button></div>`;
+    setWaiting(sheet.querySelector("[data-go]"), t("kn.pickTopic", "Pick a topic first."), ".kn-topic:not(.is-used)");
     sheet.querySelectorAll("[data-topic]").forEach((b) => b.addEventListener("click", () => pickTopic(b.dataset.topic)));
     sheet.querySelector("[data-go]").addEventListener("click", () => {
       if (S.chosen == null) return;
@@ -291,9 +291,9 @@ export function mountKnigge(root) {
     w.left--;
     const label = t(`kn.topic.${tp.id}`, tp.label);
     const why = kind === "taboo" ? tp.why
-      : kind === "like" ? `Volltreffer: ${who.name} redet gern über ${label}. Merk dir das!`
-      : kind === "dislike" ? `Kein Tabu – aber ${who.name} hat gerade keine Lust auf ${label}.`
-      : `${label} ist ein sicheres Smalltalk-Thema.`;
+      : kind === "like" ? `Bingo: ${who.name} loves talking about ${label.toLowerCase()}. Remember that!`
+      : kind === "dislike" ? `Not taboo – but ${who.name} doesn’t feel like talking about ${label.toLowerCase()} right now.`
+      : `${label} is a safe small-talk topic.`;
     if (kind === "like") learnLike(who.id, id);
     const [tagKey, tagDe] = KIND_TAG[kind];
     sheet.querySelectorAll("[data-topic]").forEach((b) => {
@@ -302,7 +302,7 @@ export function mountKnigge(root) {
     });
     // What you said, above the answer.
     const said = tp.say[tu.du ? "du" : "sie"];
-    sheet.querySelector(".kn-wheel").insertAdjacentHTML("afterend", `<p class="kn-said" lang="de"><b>${esc(t("kn.you", "Du"))}:</b> „${esc(said)}“</p>`);
+    sheet.querySelector(".kn-wheel").insertAdjacentHTML("afterend", `<p class="kn-said" lang="en"><b>${esc(t("kn.you", "You"))}:</b> “${esc(said)}”</p>`);
     apply({ de: said, delta: TOPIC_DELTA[kind], tag: t(tagKey, tagDe), react: tp.re[kind] ?? tp.re.ok ?? tp.re.taboo, why }, `knigge-${scene().id}-${S.turnIdx}-${id}`, id);
   }
 
@@ -339,23 +339,23 @@ export function mountKnigge(root) {
     stage.className = "kn-stage kn-bg--bilanz";
     stage.innerHTML = `<div class="kn-cast kn-cast--solo"><div class="kn-actor kn-actor--me">
       <span class="kn-blase">${icon(title.icon, 34)}</span>
-      ${mascotSvg({ name: S.player, expr: S.ruf >= 55 ? "celebrate" : "oops", size: 120, label: t("kn.you", "Du") })}
+      ${mascotSvg({ name: S.player, expr: S.ruf >= 55 ? "celebrate" : "oops", size: 120, label: t("kn.you", "You") })}
     </div></div>`;
     sheet.innerHTML = `
-      <p class="kn-step">${esc(t("kn.areaDone", "Geschafft: {area}", { area: S.area.title }))}</p>
+      <p class="kn-step">${esc(t("kn.areaDone", "Done: {area}", { area: S.area.title }))}</p>
       <h2 class="kn-result-title">${icon(title.icon, 36)} ${esc(t(title.key, title.de))}</h2>
-      <p class="kn-result-ruf">${esc(t("kn.rufNow", "Dein Ruf: {n} von 100", { n: Math.round(S.ruf) }))}</p>
-      <h3 class="kn-h3">${esc(t("kn.people", "Wie sie dich finden"))}</h3>
+      <p class="kn-result-ruf">${esc(t("kn.rufNow", "Your reputation: {n} of 100", { n: Math.round(S.ruf) }))}</p>
+      <h3 class="kn-h3">${esc(t("kn.people", "What they think of you"))}</h3>
       <ul class="kn-people">${[...met.values()].map(({ p, mascot }) => `
         <li>${mascotSvg({ name: mascot, size: 34, label: "" })}<span><b>${esc(p.name)}</b> <small>${esc(p.role)}</small></span>
           <span class="kn-bar-track"><i style="width:${symp(p.id)}%" class="${symp(p.id) < 40 ? "is-low" : symp(p.id) > 70 ? "is-high" : ""}"></i></span></li>`).join("")}
       </ul>
-      ${best ? `<div class="kn-moment is-best"><b>${esc(t("kn.best", "Bester Moment"))}</b><p lang="de">„${esc(best.de)}“ <span class="kn-tag">${esc(best.tag)}</span></p><p class="kn-why" lang="de">${esc(best.why)}</p></div>` : ""}
-      ${worst && worst.delta < 0 ? `<div class="kn-moment is-worst"><b>${esc(t("kn.worst", "Fettnäpfchen"))}</b><p lang="de">„${esc(worst.de)}“ <span class="kn-tag">${esc(worst.tag)}</span></p><p class="kn-why" lang="de">${esc(worst.why)}</p></div>` : ""}
+      ${best ? `<div class="kn-moment is-best"><b>${esc(t("kn.best", "Best moment"))}</b><p lang="en">“${esc(best.de)}” <span class="kn-tag">${esc(best.tag)}</span></p><p class="kn-why" lang="en">${esc(best.why)}</p></div>` : ""}
+      ${worst && worst.delta < 0 ? `<div class="kn-moment is-worst"><b>${esc(t("kn.worst", "Biggest blunder"))}</b><p lang="en">“${esc(worst.de)}” <span class="kn-tag">${esc(worst.tag)}</span></p><p class="kn-why" lang="en">${esc(worst.why)}</p></div>` : ""}
       <div class="kn-btns">
-        ${nextArea ? `<button type="button" class="quiz-btn quiz-btn--primary" data-next-area>${esc(t("kn.nextArea", "Weiter: {area}", { area: nextArea.title }))}</button>` : ""}
-        <button type="button" class="quiz-btn${nextArea ? "" : " quiz-btn--primary"}" data-areas>${esc(nextArea ? t("kn.areas", "Bereiche") : t("kn.dayDone", "Tag geschafft – Bereiche"))}</button>
-        <button type="button" class="quiz-btn" data-again>${esc(t("kn.againArea", "Diesen Bereich nochmal"))}</button>
+        ${nextArea ? `<button type="button" class="quiz-btn quiz-btn--primary" data-next-area>${esc(t("kn.nextArea", "Next: {area}", { area: nextArea.title }))}</button>` : ""}
+        <button type="button" class="quiz-btn${nextArea ? "" : " quiz-btn--primary"}" data-areas>${esc(nextArea ? t("kn.areas", "Areas") : t("kn.dayDone", "Day done – areas"))}</button>
+        <button type="button" class="quiz-btn" data-again>${esc(t("kn.againArea", "Play this area again"))}</button>
       </div>`;
     sheet.querySelector("[data-next-area]")?.addEventListener("click", () => playArea(nextArea.id));
     sheet.querySelector("[data-areas]").addEventListener("click", showAreas);
@@ -385,22 +385,22 @@ export function mountKnigge(root) {
       <div class="kn-props" aria-hidden="true">${AREAS.map((a, i) => `<img src="/img/openmoji/${a.icon}.svg" alt="" style="left:${12 + i * 19}%;top:16%;" width="56" height="56" />`).join("")}</div>
       <div class="kn-cast kn-cast--solo"><div class="kn-actor kn-actor--me">
         <span class="kn-blase">${icon("1F642", 34)}</span>
-        ${mascotSvg({ name: S.player, expr: "happy", size: 120, label: t("kn.you", "Du") })}
+        ${mascotSvg({ name: S.player, expr: "happy", size: 120, label: t("kn.you", "You") })}
       </div></div>`;
     sheet.innerHTML = `
-      <p class="kn-step">${esc(t("kn.dayTitle", "Dein Tag"))}</p>
-      <h2 class="kn-h2">${esc(t("kn.whereTo", "Wohin jetzt?"))}</h2>
+      <p class="kn-step">${esc(t("kn.dayTitle", "Your day"))}</p>
+      <h2 class="kn-h2">${esc(t("kn.whereTo", "Where to now?"))}</h2>
       <div class="kn-areas">${AREAS.map((a) => {
         const done = S.done.has(a.id);
         return `<button type="button" class="kn-area${done ? " is-done" : ""}" data-area="${a.id}">
           ${icon(a.icon, 36)}
-          <span><b lang="de">${esc(a.title)}</b><small lang="de">${esc(a.scenes.map((sc) => sc.place).join(" · "))}</small></span>
+          <span><b lang="en">${esc(a.title)}</b><small lang="en">${esc(a.scenes.map((sc) => sc.place).join(" · "))}</small></span>
           <span class="kn-area-state">${done ? "✓" : areaOpen(a.id) ? "▶" : "🔒"}</span>
         </button>`;
       }).join("")}</div>`;
     sheet.querySelectorAll("[data-area]").forEach((b) => {
       const open = areaOpen(b.dataset.area);
-      setWaiting(b, open ? null : t("kn.areaLocked", "Beim ersten Mal geht der Tag der Reihe nach. Danach kannst du frei wählen."));
+      setWaiting(b, open ? null : t("kn.areaLocked", "The first time, the day goes in order. After that you can choose freely."));
       b.addEventListener("click", () => { if (areaOpen(b.dataset.area)) playArea(b.dataset.area); });
     });
     (sheet.querySelector(".kn-area:not([aria-disabled]):not(.is-done)") ?? sheet.querySelector(".kn-area"))?.focus({ preventScroll: true });
@@ -425,7 +425,7 @@ export function mountKnigge(root) {
     showAreas();
   }
 
-  // --- keys: 1–4 pick a reply, Enter = Weiter. On the document: after „Weiter“ the focused
+  // --- keys: 1–4 pick a reply, Enter = Next. On the document: after “Next” the focused
   // button is gone and focus sits on <body>. ---------------------------------------------------
   document.addEventListener("keydown", (e) => {
     if (!S || root.hidden || e.altKey || e.ctrlKey || e.metaKey) return;
