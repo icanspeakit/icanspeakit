@@ -1,11 +1,11 @@
 ---
-// Exam traps: places in the B1 exams (ids "dtz" = ISE I mock test, "telc" = ISE I practice tests) that look easy and have a catch. Each card is tied
+// Exam traps: places in the B1 exams (ids "dtz" = our B1 skills mock, "telc" = the Trinity ISE I practice set) that look easy and have a catch. Each card is tied
 // to a real task in our practice sets (fallen.json → source) and links into that set/part.
 // The ids are anchors the Instagram reels point to (/pruefungen/fallen#<id>) — keep them.
 //
 // Look and the gap check come from /grammatik/typische-fehler (typische-fehler.css), the head
-// from /telc/sprachbausteine. The traps are exam German and stay German; the frame (chips,
-// labels, buttons) is translated. No claims about how many people fail anything: wrong
+// from /telc/sprachbausteine. The traps are English exam content (lang="en"); the frame (chips,
+// labels, buttons) goes through data-i18n. No claims about how many people fail anything: wrong
 // answers are only ever stored in the learner's own browser (src/lib/fehler.js).
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
@@ -20,7 +20,8 @@ const fallen = data.fallen;
 const count = (exam: string) => fallen.filter((f) => f.exams.includes(exam)).length;
 const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 const bold = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
-const level = (f: (typeof fallen)[number]) => (f.exams.includes("dtz") && !f.exams.includes("telc") ? "A2–B1" : "B1");
+// Both slots (B1 mock, ISE I) are B1 now.
+const level = (_f: (typeof fallen)[number]) => "B1";
 ---
 <Layout
   title="Exam traps at B1 – EnglishAcademy"
@@ -44,8 +45,8 @@ const level = (f: (typeof fallen)[number]) => (f.exams.includes("dtz") && !f.exa
 
     <div class="fl-chips" role="group" aria-label="Filter by exam" data-i18n-attr="aria-label:fallen.filter.label" data-fl-chips>
       <button type="button" class="fl-chip" data-fl-filter="" aria-pressed="true"><span data-i18n="fallen.filter.all">Alle</span> <span class="fl-chip-n">{fallen.length}</span></button>
-      <button type="button" class="fl-chip" data-fl-filter="dtz" aria-pressed="false" lang="en">ISE I mock test <span class="fl-chip-n">{count("dtz")}</span></button>
-      <button type="button" class="fl-chip" data-fl-filter="telc" aria-pressed="false" lang="en">ISE I practice tests <span class="fl-chip-n">{count("telc")}</span></button>
+      <button type="button" class="fl-chip" data-fl-filter="dtz" aria-pressed="false" lang="en">B1 skills mock <span class="fl-chip-n">{count("dtz")}</span></button>
+      <button type="button" class="fl-chip" data-fl-filter="telc" aria-pressed="false" lang="en">ISE I practice set <span class="fl-chip-n">{count("telc")}</span></button>
     </div>
 
     <span hidden data-fl-msg="ok" data-i18n="fallen.ok">Richtig!</span>
@@ -57,11 +58,11 @@ const level = (f: (typeof fallen)[number]) => (f.exams.includes("dtz") && !f.exa
         const long = t.options.some((o) => o.length > 16);
         return (
           <li class={`tf-card fl-card fl-skill--${f.skill}`} id={f.id} data-exams={f.exams.join(" ")} data-level={level(f)}>
-            <p class="fl-wo" lang="de">{f.wo}</p>
-            <h2 class="fl-title" lang="de">{f.title}</h2>
-            <p class="tf-why" lang="de">{f.why}</p>
+            <p class="fl-wo" lang="en">{f.wo}</p>
+            <h2 class="fl-title" lang="en">{f.title}</h2>
+            <p class="tf-why" lang="en">{f.why}</p>
 
-            <div class="fl-pair" lang="de">
+            <div class="fl-pair" lang="en">
               <p class="fl-side fl-side--wrong"><span class="fl-mark"><span aria-hidden="true">✗ </span><span data-i18n="fallen.wrong">So nicht</span></span><span set:html={bold(f.wrong)} /></p>
               <p class="fl-side fl-side--right"><span class="fl-mark"><span aria-hidden="true">✓ </span><span data-i18n="fallen.right">So richtig</span></span><span set:html={bold(f.right)} /></p>
             </div>
@@ -70,21 +71,21 @@ const level = (f: (typeof fallen)[number]) => (f.exams.includes("dtz") && !f.exa
                 A wrong tap goes to „Meine Fehler“ (this device only). */}
             <div class="tf-check" data-fl-check data-answer={t.answer}>
               <p class="fl-try" data-i18n="fallen.try">Probier es aus</p>
-              {t.context && <p class="fl-context" lang="de">{t.context}</p>}
+              {t.context && <p class="fl-context" lang="en">{t.context}</p>}
               {t.gap
-                ? <p class="tf-gap" lang="de" data-fl-q={t.gap} set:html={esc(t.gap).replace("___", '<span class="tf-blank" data-tf-blank>___</span>')} />
-                : <p class="fl-prompt" lang="de" data-fl-q={t.prompt}>{t.prompt}</p>}
-              <div class:list={["tf-opts", { "fl-opts--long": long }]} lang="de">
+                ? <p class="tf-gap" lang="en" data-fl-q={t.gap} set:html={esc(t.gap).replace("___", '<span class="tf-blank" data-tf-blank>___</span>')} />
+                : <p class="fl-prompt" lang="en" data-fl-q={t.prompt}>{t.prompt}</p>}
+              <div class:list={["tf-opts", { "fl-opts--long": long }]} lang="en">
                 {t.options.map((o) => <button type="button" class="tf-opt" data-fl-opt={o}>{o}</button>)}
               </div>
               <p class="tf-fb" data-fl-fb aria-live="polite"></p>
-              <p class="fl-why-after" lang="de" data-fl-why hidden>{t.fb}</p>
+              <p class="fl-why-after" lang="en" data-fl-why hidden>{t.fb}</p>
             </div>
 
             <div class="fl-foot">
               <a class="tf-next-btn" href={f.practice.href} data-i18n="fallen.practice">Im Übungssatz üben</a>
-              <span class="fl-foot-where" lang="de">{f.practice.label}</span>
-              <p class="fl-source" lang="de"><span data-i18n="fallen.source">Aufgabe aus:</span> {f.source}</p>
+              <span class="fl-foot-where" lang="en">{f.practice.label}</span>
+              <p class="fl-source" lang="en"><span data-i18n="fallen.source">Aufgabe aus:</span> {f.source}</p>
             </div>
           </li>
         );
