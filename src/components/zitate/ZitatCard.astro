@@ -28,12 +28,12 @@ const Tag = heading;
     <span class="zt-level">{q.level}</span>
   </div>
 
-  <blockquote class="zt-quote" lang="de" data-original>
+  <blockquote class="zt-quote" lang="en" data-original>
     <Tag class="zt-quote-text">{q.text.split(" / ").map((line: string, n: number) => <>{n > 0 && <br />}{line}</>)}</Tag>
   </blockquote>
   <div class="zt-easy" data-easy hidden>
     <p class="zt-easy-label" data-i18n="lid.fk.level.easy">In einfachem Deutsch</p>
-    <p class="zt-easy-text" lang="de">{q.meaning}</p>
+    <p class="zt-easy-text" lang="en">{q.meaning}</p>
   </div>
 
   <div class="zt-tl-wrap" data-tl-wrap hidden>
@@ -50,10 +50,10 @@ const Tag = heading;
       ? <img class="zt-face" src={q.who.bild.src} alt="" width="56" height="56" loading="lazy" decoding="async" />
       : <span class="zt-mono zt-face" aria-hidden="true">{initials(q.who.name)}</span>}
     <div>
-      <p class="zt-by-name"><b lang="de">{q.who.name}</b> <span class="zt-by-years">{q.who.years}</span></p>
-      {q.who.kurz && <p class="zt-kurz" lang="de">{q.who.kurz}</p>}
+      <p class="zt-by-name"><b lang="en">{q.who.name}</b> <span class="zt-by-years">{q.who.years}</span></p>
+      {q.who.kurz && <p class="zt-kurz" lang="en">{q.who.kurz}</p>}
       <p class="zt-by-src">
-        <span lang="de">{q.source}{q.year && `, ${q.year}`}</span>
+        <span lang="en">{q.source}{q.year && `, ${q.year}`}</span>
         {q.disputed && <span class="zt-disputed" data-i18n="wg.cert.umstritten">umstritten</span>}
       </p>
     </div>
@@ -61,7 +61,7 @@ const Tag = heading;
 
   <div class="zt-mean" data-mean>
     <h2 data-i18n="zitate.card.meaningH">Was heißt das?</h2>
-    <p lang="de">{q.meaning}</p>
+    <p lang="en">{q.meaning}</p>
     <p class="zt-mean-tl" data-mean-tl hidden></p>
   </div>
 
@@ -70,11 +70,11 @@ const Tag = heading;
     <ul>
       {q.words.map((w: any) => (
         <li>
-          <p class="zt-w" lang="de">
+          <p class="zt-w" lang="en">
             {w.art && <span class={`zt-art zt-art--${w.art}`}>{w.art}</span>} <b>{w.de}</b>
-            {w.art && w.pl && <small>, die {w.pl}</small>}
+            {w.art && w.pl && <small>, plural: {w.pl}</small>}
           </p>
-          <p class="zt-hint" lang="de">{w.hint}</p>
+          <p class="zt-hint" lang="en">{w.hint}</p>
           <p class="zt-tr" data-tr={JSON.stringify(w.tr)} hidden></p>
         </li>
       ))}
@@ -84,9 +84,9 @@ const Tag = heading;
   {/* No second portrait here: the face already stands beside the name under the quote. */}
   <aside class="zt-bio" aria-label={`About ${q.who.name}`} data-bio-name={q.who.name}>
     <div>
-      <h2 lang="de">{q.who.name}</h2>
-      <p class="zt-meta"><span lang="de">{q.who.role}</span> · {q.who.years} · <span data-i18n="zitate.card.born" data-i18n-vars={JSON.stringify({ place: q.who.place })}>geboren in {q.who.place}</span></p>
-      <p lang="de">{q.who.bio}</p>
+      <h2 lang="en">{q.who.name}</h2>
+      <p class="zt-meta"><span lang="en">{q.who.role}</span> · {q.who.years} · <span data-i18n="zitate.card.born" data-i18n-vars={JSON.stringify({ place: q.who.place })}>geboren in {q.who.place}</span></p>
+      <p lang="en">{q.who.bio}</p>
       <a href={q.who.wiki} rel="noopener" target="_blank" data-i18n="zitate.card.wiki">Mehr bei Wikipedia</a>
       {q.who.bild && <p class="zt-credit">Image: <a href={q.who.bild.quelle} rel="noopener" target="_blank">{q.who.bild.von}, {q.who.bild.lizenz === "Public domain" ? "public domain" : q.who.bild.lizenz}</a> <span translate="no">(Wikimedia Commons)</span></p>}
     </div>
