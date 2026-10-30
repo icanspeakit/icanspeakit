@@ -21,7 +21,7 @@ item, tick it by hand; to redo one, untick it. Add, remove or reorder items free
 - [x] `vocab-a1`: Lexicon and word decks, A1 (src/content/lexicon, wortschatz.json).
 - [x] `vocab-a2`: Lexicon and word decks, A2.
 - [x] `vocab-b1`: Lexicon and word decks, B1.
-- [ ] `vocab-b2`: Lexicon and word decks, B2.
+- [x] `vocab-b2`: Lexicon and word decks, B2.
 - [ ] `listening`: Listening texts (hoeren.json): English scripts (audio comes later, with a TTS provider).
 - [ ] `reading-writing`: Reading and writing tasks (lesen.json, schreiben pages).
 - [ ] `speaking`: Speaking tasks and phrases (sprechen.json, sprechen-b1b2.json, redemittel.json).
