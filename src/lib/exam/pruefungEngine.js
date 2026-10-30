@@ -311,7 +311,8 @@ function gapText(part, ctx, numberOf) {
     if (seg.t != null) { para.appendChild(document.createTextNode(seg.t)); continue; }
     const item = byId[seg.gap];
     const given = ctx.state.answers[seg.gap]?.given;
-    const word = given == null ? null : part.type === "gap-bank" ? (given === "x" ? "—" : part.bank[given]) : item.options[LETTERS.indexOf(given)];
+    // write-in gaps (open cloze, word formation) show what the learner typed.
+    const word = given == null ? null : part.type === "write-in" ? given : part.type === "gap-bank" ? (given === "x" ? "—" : part.bank[given]) : item.options[LETTERS.indexOf(given)];
     const gap = el("span", "ps-gap" + (word ? " is-filled" : ""), word ? escapeHtml(word) : "(" + numberOf(seg.gap) + ") ______");
     para.appendChild(gap);
   }

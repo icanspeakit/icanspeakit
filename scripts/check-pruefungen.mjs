@@ -115,7 +115,7 @@ for (const [dir, file] of files) {
             else if (!(it.correct in p.bank)) P(`${wi}: Lösung "${it.correct}" nicht in der Wortliste`);
             break;
         }
-        if ((p.type === "gap-mc" || p.type === "gap-bank") && !gaps.has(it.id)) P(`${wi}: Lücke steht nicht im Text`);
+        if ((p.type === "gap-mc" || p.type === "gap-bank" || (p.type === "write-in" && p.segments)) && !gaps.has(it.id)) P(`${wi}: Lücke steht nicht im Text`);
       }
       if (p.type === "match" && p.pool && !p.allowReuse) {
         const used = p.items.map((i) => i.correct).filter((c) => c !== "x");
