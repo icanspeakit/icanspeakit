@@ -1,14 +1,13 @@
 ---
-// /wissen/umgangssprache — how German is really spoken: the short forms (haste, 'ne), the
-// everyday words (gucken, Kohle), numbers you hear but needn't say (zwo, fuffzig), slang and
-// youth words, and the swear words — each with its standard equivalent, an example and
-// where it is fine. The four registers as a ladder at the top; the vulgar section folded
-// until opened, so the page can be shown in class. At the foot: polite instead of rude,
-// and why insults are a legal matter in Germany.
+// /wissen/umgangssprache — how English is really spoken in the UK: the short forms (gonna,
+// dunno), the everyday words (cheers, knackered), money words you hear but needn't say
+// (quid, a fiver, oh for zero), slang and young people's words, and the swear words — each
+// with its standard equivalent, an example and where it is fine. The four registers as a
+// ladder at the top; the rude section folded until opened, so the page can be shown in
+// class. At the foot: polite instead of rude, and what UK law says about abusive words.
 //
-// The words live in src/data/umgangssprache.json (own draft, unreviewed). Easy German
-// (A2–B1), German only for now like /wissen/bildwoerterbuch. Linked from the Wissen menu
-// (navUmgangssprache in catalog.js) and the phone drawer.
+// The words live in src/data/umgangssprache.json (own draft, unreviewed), British English
+// at A2–B1. Linked from the Wissen menu (navUmgangssprache in catalog.js) and the phone drawer.
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
 import data from "../../data/umgangssprache.json";
@@ -78,7 +77,7 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
             </div>
             <b>{s.name}</b>
             <span class="us-step-wo">{s.wo}</span>
-            <q class="us-step-say" lang="de">{s.satz}</q>
+            <q class="us-step-say">{s.satz}</q>
           </li>
         ))}
       </ol>
@@ -102,9 +101,9 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
         <ul class="us-list">
           {g.eintraege.map((e) => (
             <li class="us-card">
-              <p class="us-w" lang="de">{e.w}</p>
-              <p class="us-std"><span>Standard English</span> <b lang="de">{e.std}</b></p>
-              {e.bsp && <p class="us-bsp" lang="de">„{e.bsp}“</p>}
+              <p class="us-w">{e.w}</p>
+              <p class="us-std"><span>Standard English</span> <b>{e.std}</b></p>
+              {e.bsp && <p class="us-bsp">“{e.bsp}”</p>}
               {e.info && <p class="us-info"><span aria-hidden="true">ℹ️</span> {e.info}</p>}
             </li>
           ))}
@@ -130,12 +129,12 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
         <ul class="us-list">
           {vulgaer.eintraege.map((e) => (
             <li class="us-card" data-s={e.stufe}>
-              <p class="us-w" lang="de">
+              <p class="us-w">
                 {e.w}
                 <span class="us-dots" data-s={e.stufe} title={STUFE[e.stufe ?? 0]}><span class="sr-only">{STUFE[e.stufe ?? 0]}</span></span>
               </p>
-              <p class="us-std"><span>Meaning</span> <b lang="de">{e.std}</b></p>
-              {e.bsp && <p class="us-bsp" lang="de">„{e.bsp}“</p>}
+              <p class="us-std"><span>Meaning</span> <b>{e.std}</b></p>
+              {e.bsp && <p class="us-bsp">“{e.bsp}”</p>}
               {e.info && <p class="us-info"><span aria-hidden="true">ℹ️</span> {e.info}</p>}
             </li>
           ))}
@@ -151,9 +150,9 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
       <ul class="us-swap">
         {data.hoeflich.map((h) => (
           <li>
-            <span class="us-swap-side us-swap-side--bad"><i aria-hidden="true">✗</i><s lang="de">{h.von}</s></span>
+            <span class="us-swap-side us-swap-side--bad"><i aria-hidden="true">✗</i><s>{h.von}</s></span>
             <span class="us-swap-arrow" aria-hidden="true">→</span>
-            <span class="us-swap-side us-swap-side--good"><i aria-hidden="true">✓</i><b lang="de">{h.zu}</b></span>
+            <span class="us-swap-side us-swap-side--good"><i aria-hidden="true">✓</i><b>{h.zu}</b></span>
           </li>
         ))}
       </ul>
