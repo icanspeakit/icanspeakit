@@ -75,8 +75,11 @@ function validate(s, lineNo) {
   if (s.v < 0) err(lineNo, "kein konjugiertes Verb (*)");
   if (s.mode === "janein" && s.v !== 0) err(lineNo, "Ja/Nein-Frage: Verb nicht auf Platz 1");
   if ((s.mode === "v2" || s.mode === "klammer") && s.v !== 1) err(lineNo, "Verb nicht auf Platz 2");
-  if (s.mode === "nebensatz" && !s.c.some((c) => c.startsWith(","))) err(lineNo, "Nebensatz ohne Konjunktion „, …“");
-  if (s.mode === "nebensatz" && s.v !== n - 1) err(lineNo, "Nebensatz: Verb nicht am Ende");
+  // English B1 mode: indirect questions ("Can you tell me / where / the station / is?"):
+  // a question word or if/whether, and the verb after its subject at the end.
+  if (s.mode === "nebensatz" && !s.c.some((c) => /^(where|when|what|what time|who|why|how|how much|which \w+|if|whether)$/.test(c)))
+    err(lineNo, "indirect question without question word / if / whether chunk");
+  if (s.mode === "nebensatz" && s.v !== n - 1) err(lineNo, "indirect question: verb not at the end");
   for (const a of s.a || []) {
     const sorted = [...a].sort((x, y) => x - y);
     if (a.length !== n || sorted.some((x, i) => x !== i)) err(lineNo, `alt ${a.join(" ")} ist keine Umstellung aller ${n} Chunks`);

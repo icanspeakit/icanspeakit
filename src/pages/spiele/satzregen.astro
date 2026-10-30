@@ -1,8 +1,9 @@
 ---
-// /spiele/satzregen — Regis Satzregen: a word-order puzzle. Chunks of a German sentence
-// („am Montag“, „gehe“, „ich“) rain down one at a time; the learner steers each into a slot
+// /spiele/satzregen — Regi's Sentence Rain: a word-order puzzle. Chunks of an English sentence
+// ("on Mondays", "play", "I") rain down one at a time; the learner steers each into a slot
 // of the sentence line. A correct sentence clears, a wrong one turns to stone and the stack
-// grows. Verb auf Platz 2, Ja/Nein-Fragen, Satzklammer, Nebensatz.
+// grows. Modes in the data: statements and wh-questions, yes/no questions, auxiliaries and
+// modals, indirect questions (only the first is offered in the game so far).
 // Logic: src/lib/satzregen/ (check.js = what counts as correct, engine.js = the game,
 // game.js = the page). Sentences: src/data/satzregen/saetze.json, built from quelle.txt by
 // scripts/build-satzregen.mjs. Plan: SATZREGEN-TIERED-PROMPT.md, notes docs/satzregen-tier*-v1.md.
