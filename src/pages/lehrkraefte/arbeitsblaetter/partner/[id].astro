@@ -28,10 +28,10 @@ const hasPdf = !draft && existsSync(path.join(process.cwd(), "public", pdf));
 const group = groupTwin(spec.id);
 const pair = pairTwin(spec.id);
 const twin = group ?? pair;
-const social = spec.modus === "gruppe" ? `Gruppe (${spec.personen})` : "Paar";
+const social = spec.modus === "gruppe" ? "group work" : "pair work";
 ---
 <Layout
-  title={`${spec.titel} – ${social === "Paar" ? "pair work" : "group work"} ${spec.niveau} – EnglishAcademy`}
+  title={`${spec.titel} – ${social} ${spec.niveau} – EnglishAcademy`}
   description={`${spec.niveau}, ${FORMAT_NAMES[spec.format]}: ${unmark(spec.untertitel)}. Worksheet with cards to cut out, tips and answers, free for your class.`}
   noindex={draft}
 >
@@ -47,15 +47,15 @@ const social = spec.modus === "gruppe" ? `Gruppe (${spec.personen})` : "Paar";
         {hasPdf && <a class="ab-btn" href={pdf} download data-i18n="ab.partner.pdf">PDF herunterladen</a>}
         {twin && (
           <a class="ab-btn" href={`/lehrkraefte/arbeitsblaetter/partner/${twin.id}`} data-i18n={group ? "ab.partner.asGroup" : "ab.partner.asPair"} data-i18n-vars={group ? JSON.stringify({ n: group.personen }) : undefined}>
-            {group ? `Als Gruppe (${group.personen})` : "Als Partnerübung"}
+            {group ? `As group work (${group.personen})` : "As pair work"}
           </a>
         )}
         <PartnerMelden kind="partner" id={spec.id} titel={spec.titel} loesungen={spec.loesungen} />
       </div>
     </div>
 
-    <article class="ab-sheet pu-sheet" lang="de" set:html={renderBody(spec)} />
-    <article class="ab-sheet ab-key pu-sheet" lang="de" aria-label="Lösungen" set:html={renderKey(spec)} />
+    <article class="ab-sheet pu-sheet" lang="en" set:html={renderBody(spec)} />
+    <article class="ab-sheet ab-key pu-sheet" lang="en" aria-label="Answers" set:html={renderKey(spec)} />
   </main>
 
   <script>

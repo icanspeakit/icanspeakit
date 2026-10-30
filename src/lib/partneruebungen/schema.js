@@ -24,15 +24,15 @@ import { hasIcon } from "./icons.js";
 
 export const FORMATS = ["infogap-ab", "dialog-muster", "interview", "rollenspiel", "bingo-umfrage", "spiel", "bildvergleich", "wuerfel", "schreiben-zu-zweit"];
 export const FORMAT_NAMES = {
-  "infogap-ab": "Informationslücke",
-  "dialog-muster": "Dialog nach Muster",
+  "infogap-ab": "Information gap",
+  "dialog-muster": "Model dialogue",
   interview: "Interview",
-  rollenspiel: "Rollenspiel",
-  "bingo-umfrage": "Bingo / Umfrage",
-  spiel: "Spiel",
-  bildvergleich: "Bildvergleich",
-  wuerfel: "Würfelspiel",
-  "schreiben-zu-zweit": "Schreiben zu zweit",
+  rollenspiel: "Role play",
+  "bingo-umfrage": "Bingo / survey",
+  spiel: "Game",
+  bildvergleich: "Spot the difference",
+  wuerfel: "Dice game",
+  "schreiben-zu-zweit": "Writing in pairs",
 };
 export const STEP_TYPES = ["allein", "zusammen", "tabelle", "rolle", "raster", "bild", "wuerfel", "regeln", "schreiben", "interview"];
 export const LEVELS = ["A1", "A2", "B1", "B2", "C1"];

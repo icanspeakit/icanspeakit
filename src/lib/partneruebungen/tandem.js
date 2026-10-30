@@ -26,7 +26,7 @@ function pairs(ex) {
     {
       // A table's second column names what to make („Dativ“, „Perfekt“): the task needs it.
       const want = plain(ex.columns?.[1] ?? "");
-      const ask = want && !/^(lösung|antwort|endung)$/i.test(want) ? ` (${want})` : "";
+      const ask = want && !/^(lösung|antwort|endung|answer|solution)$/i.test(want) ? ` (${want})` : "";
       return (ex.rows ?? []).map((r) => ({ task: plain(r.term) + ask, answer: plain(answersOf(r.answer)[0]) }));
     }
     case "build":
@@ -55,7 +55,7 @@ function positions(topic, items) {
     const verb = (topic.concept.flow ?? []).map((f, i) => (f.variant === "verb" ? i : -1)).filter((i) => i >= 0);
     return { positionen: [flow], ...(verb.length ? { markiere: { verb } } : {}) };
   }
-  return { kopf: ["Aufgabe", "Lösung"], positionen: items.slice(0, 2).map((p) => [p.task, p.answer]) };
+  return { kopf: ["Task", "Answer"], positionen: items.slice(0, 2).map((p) => [p.task, p.answer]) };
 }
 
 /* Question and answer (a topic's sheet extras, `tandemFragen`): one partner asks a whole
@@ -67,24 +67,24 @@ function positions(topic, items) {
 const qaCard = (rolle, items, mine, bsp) => ({
   rolle,
   tipp: {
-    formel: rolle === "A" ? "Sie beginnen: Sie stellen Frage 1." : "Ihr Partner fragt zuerst. Sie antworten mit den Kärtchen.",
+    formel: rolle === "A" ? "You start: you ask question 1." : "Your partner asks first. You answer with the cards.",
     // No example line when the worked pair stands as its own row under task 1 (Bsp.):
     // the Tipp would show the very same question a few lines above it.
     beispiel: items[0].frageKacheln && bsp
-      ? (bsp.antwortKacheln ? null : `Beispiel: ${bsp.kacheln.join(" + ")} = *${bsp.frage}*`)
+      ? (bsp.antwortKacheln ? null : `Example: ${bsp.kacheln.join(" + ")} = *${bsp.frage}*`)
       : ((p) => `${p.task} → …`)(items.find((_, i) => mine(i)) ?? items[0]),
     hinweise: [
       items[0].frageKacheln
-        ? "„Sie fragen“? Bauen Sie die Frage: Verb konjugieren, Wörter ordnen. Ihr Partner baut die Antwort."
-        : "„Sie fragen“? Lesen Sie die Frage vor. Ihr Partner baut die Antwort.",
-      "„Sie antworten“? Hören Sie die Frage und bauen Sie den Satz: Verb konjugieren, Artikel anpassen!",
-      "Die Lösungen stehen auf dem Lösungsblatt. Vergleichen Sie am Ende.",
+        ? "“You ask”? Build the question: put the words in order and the verb in the right form. Your partner builds the answer."
+        : "“You ask”? Read the question aloud. Your partner builds the answer.",
+      "“You answer”? Listen to the question and build the sentence: put the blue verb in the right form!",
+      "The answers are on the answer sheet. Compare at the end.",
     ],
   },
   schritte: [{
     typ: "tabelle",
-    anweisung: "Fragen und antworten Sie abwechselnd. Am Ende kontrollieren Sie mit dem Lösungsblatt.",
-    spalten: ["Frage", "Antwort"],
+    anweisung: "Take turns to ask and answer. At the end, check with the answer sheet.",
+    spalten: ["Question", "Answer"],
     zeilen: items.map((p, i) => [`${i + 1}. ${p.task}`, mine(i) ? p.answer : null]),
     qa: items.map((p, i) => ({ n: i + 1, ask: mine(i), frage: p.task, antwort: p.answer, kacheln: p.kacheln, infinitiv: p.infinitiv, frageKacheln: p.frageKacheln })),
     // A worked pair above row 1, the same on both cards: tiles turned into a question and an
@@ -96,20 +96,20 @@ const qaCard = (rolle, items, mine, bsp) => ({
 const card = (rolle, items, mine, bsp) => (items[0]?.kacheln ? qaCard(rolle, items, mine, bsp) : {
   rolle,
   tipp: {
-    formel: rolle === "A" ? "Sie beginnen: Aufgabe 1." : "Ihr Partner beginnt. Sie antworten auf Aufgabe 1.",
+    formel: rolle === "A" ? "You start: task 1." : "Your partner starts. You answer task 1.",
     beispiel: ((p) => `${p.task} → …`)(items.find((_, i) => mine(i)) ?? items[0]),
     hinweise: [
-      "„Sie lesen vor“? Lesen Sie die Aufgabe vor. Ihr Partner antwortet.",
-      "„Sie antworten“? Antworten Sie und schreiben Sie die Antwort auf die Linie.",
-      "Die Lösungen stehen auf dem Lösungsblatt. Vergleichen Sie am Ende.",
+      "“You read”? Read the task aloud. Your partner answers.",
+      "“You answer”? Answer and write your answer on the line.",
+      "The answers are on the answer sheet. Compare at the end.",
     ],
   },
   schritte: [{
     typ: "tabelle",
     anweisung: rolle === "A"
-      ? "Sie beginnen: Lesen Sie Aufgabe 1 vor. Dann antworten Sie auf Aufgabe 2. Immer abwechselnd."
-      : "Ihr Partner beginnt: Antworten Sie auf Aufgabe 1. Dann lesen Sie Aufgabe 2 vor. Immer abwechselnd.",
-    spalten: ["Aufgabe", "Lösung"],
+      ? "You start: read task 1 aloud. Then answer task 2. Take turns."
+      : "Your partner starts: answer task 1. Then read task 2 aloud. Take turns.",
+    spalten: ["Task", "Answer"],
     zeilen: items.map((p, i) => [`${i + 1}. ${p.task}`, mine(i) ? p.answer : null]),
   }],
 });
@@ -127,10 +127,10 @@ export function tandemSpec(topic) {
   const name = plain(topic.name);
   const spec = {
     id: `pa-${topic.level.toLowerCase()}-tandem-${slug}`,
-    titel: `${name}: Tandembogen`,
-    untertitel: "Fragen, antworten, am Ende mit dem Lösungsblatt vergleichen",
+    titel: `${name}: tandem sheet`,
+    untertitel: "Ask, answer, and compare with the answer sheet at the end",
     niveau: topic.level,
-    thema: "Grammatik",
+    thema: "Grammar",
     grammatik: [name],
     format: "infogap-ab",
     modus: "paar",
@@ -139,16 +139,16 @@ export function tandemSpec(topic) {
     intro: {
       grammatik: { ...positions(topic, items), regel: plain(topic.subtitle) || name },
       redemittel: [
-        { p1: "Nummer 1: … Was ist richtig?", p2: "Ich glaube: …" },
-        { p1: "Ich glaube: … Und du?", p2: "Ich habe: …" },
-        { p1: "Wie bitte? Noch einmal, bitte.", p2: "Nummer 2: …" },
+        { p1: "Number 1: … What's right?", p2: "I think: …" },
+        { p1: "I think: … And you?", p2: "My answer is: …" },
+        { p1: "Sorry? Can you say that again, please?", p2: "Number 2: …" },
       ],
       soGehts: [
-        "Schneiden Sie die Karten in der Mitte durch. Partner A nimmt die linke Hälfte, Partner B die rechte.",
-        "A liest Aufgabe 1 vor. B antwortet und schreibt die Antwort auf.",
-        "Dann liest B Aufgabe 2 vor, A antwortet. Immer abwechselnd.",
-        "Am Ende bekommen Sie das Lösungsblatt. Vergleichen Sie zusammen: Was war richtig?",
-        "Zum Schluss: Tauschen Sie die Karten und machen Sie alles noch einmal – schneller.",
+        "Cut the cards down the middle. Partner A takes the left half, Partner B the right half.",
+        "A reads task 1 aloud. B answers and writes the answer down.",
+        "Then B reads task 2 aloud and A answers. Take turns.",
+        "At the end you get the answer sheet. Compare together: what was right?",
+        "Finally, swap cards and do it all again – faster.",
       ],
     },
     // A holds the solutions of the odd numbers (1, 3, …), which A reads; B those of the even ones.
@@ -161,19 +161,19 @@ export function tandemSpec(topic) {
   // A topic with hand-made sheet extras (src/data/arbeitsblatt/<id>.json) brings its Wo/Wohin
   // rule and, with a picture, a second round: „Unterschiede finden" on rooms A and B.
   if (qa?.length) {
-    spec.untertitel = "Fragen stellen, Sätze bauen, am Ende mit dem Lösungsblatt vergleichen";
+    spec.untertitel = "Ask questions, build sentences, and compare with the answer sheet at the end";
     // The topic's own steps and phrases (`tandemSoGehts`, `tandemRedemittel`), else generic ones.
     spec.intro.soGehts = extra.tandemSoGehts ?? [
-      "Schneiden Sie die Karten in der Mitte durch. Partner A nimmt die linke Hälfte, Partner B die rechte.",
-      `A liest Frage 1 vor: „${items[0].task}“`,
-      "B hat nur Kärtchen mit Wörtern in der Grundform. B baut daraus die Antwort – Verb konjugieren, Wörter in die richtige Reihenfolge!",
-      "Dann fragt B Frage 2, A antwortet. Immer abwechselnd. Am Ende vergleichen Sie mit dem Lösungsblatt.",
-      "Zum Schluss: Karten tauschen und alles noch einmal – schneller.",
+      "Cut the cards down the middle. Partner A takes the left half, Partner B the right half.",
+      `A reads question 1 aloud: “${items[0].task}”`,
+      "B only has cards with words in their base form. B builds the answer from them – verb in the right form, words in the right order!",
+      "Then B asks question 2 and A answers. Take turns. At the end, compare with the answer sheet.",
+      "Finally, swap cards and do it all again – faster.",
     ];
     spec.intro.redemittel = extra.tandemRedemittel ?? [
-      { p1: "Nummer 1: …?", p2: "Moment … Ich glaube: …" },
-      { p1: "Stimmt das so?", p2: "Ich glaube, ja. / Nein, besser: …" },
-      { p1: "Wie bitte? Noch einmal, bitte.", p2: "Nummer 2: …?" },
+      { p1: "Number 1: …?", p2: "Just a moment … I think: …" },
+      { p1: "Is that right?", p2: "I think so. / No, better: …" },
+      { p1: "Sorry? Can you say that again, please?", p2: "Number 2: …?" },
     ];
   }
   if (extra?.regel) spec.woWohin = extra.regel;

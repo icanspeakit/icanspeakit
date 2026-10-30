@@ -33,7 +33,7 @@ const { spec } = t;
       <AbTopicSwitch slug={t.slug} current="tandem" hasTandem={true} />
       {/* For online lessons, where nobody can cut the page in half: one partner's sheet on
           its own, without the other card and without the answer key, to send to that student. */}
-      <div class="ab-seg t-sw t-sw--fill pu-who" role="group" aria-label="Blatt für">
+      <div class="ab-seg t-sw t-sw--fill pu-who" role="group" aria-label="Sheet for">
         <button type="button" data-pu-partner="both" aria-pressed="true"><span class="t-sw-txt"><b>A + B</b><small data-i18n="pu.sw.cut">to cut out</small></span></button>
         <button type="button" data-pu-partner="A" aria-pressed="false"><span class="t-sw-txt"><b data-i18n="pu.sw.onlyA">Partner A only</b><small data-i18n="pu.sw.online">for online lessons</small></span></button>
         <button type="button" data-pu-partner="B" aria-pressed="false"><span class="t-sw-txt"><b data-i18n="pu.sw.onlyB">Partner B only</b><small data-i18n="pu.sw.online">for online lessons</small></span></button>
@@ -47,8 +47,8 @@ const { spec } = t;
       </div>
     </div>
 
-    <article class="ab-sheet pu-sheet pu-sheet--tandem" lang="de" set:html={renderBody(spec)} />
-    <article class="ab-sheet ab-key pu-sheet pu-sheet--tandem" lang="de" aria-label="Lösungen" set:html={renderKey(spec)} />
+    <article class="ab-sheet pu-sheet pu-sheet--tandem" lang="en" set:html={renderBody(spec)} />
+    <article class="ab-sheet ab-key pu-sheet pu-sheet--tandem" lang="en" aria-label="Answers" set:html={renderKey(spec)} />
   </main>
 
   <script>
