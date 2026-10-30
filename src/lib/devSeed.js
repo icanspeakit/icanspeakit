@@ -113,7 +113,7 @@ export function seedProgress(items = {}, { streak = 6, days = 24, seed = 7 } = {
     // What the "Weitermachen" card is built from. Real routes, so the card links somewhere.
     recents: [
       { path: "/dativ", title: "Dativ", n: 3, at: today },
-      { path: "/wortschatz/a1-01", title: "Person & Vorstellung", n: 2, at: daysAgoStr(1) },
+      { path: "/wortschatz/a1-01", title: "Personal details & introductions", n: 2, at: daysAgoStr(1) },
       { path: "/artikel", title: "Artikel-Trainer", n: 5, at: daysAgoStr(2) },
     ],
   };
@@ -190,7 +190,7 @@ export function fillProgress(items = {}, { accuracy = 0.8, streak = 12, days = 3
     drills: { dativ: { said: 40, sure: 36 }, "artikel-trainer": { said: 60, sure: 54 } },
     recents: [
       { path: "/dativ", title: "Dativ", n: 9, at: today },
-      { path: "/wortschatz/a1-01", title: "Person & Vorstellung", n: 7, at: today },
+      { path: "/wortschatz/a1-01", title: "Personal details & introductions", n: 7, at: today },
       { path: "/artikel", title: "Artikel-Trainer", n: 12, at: daysAgoStr(1) },
     ],
   };
