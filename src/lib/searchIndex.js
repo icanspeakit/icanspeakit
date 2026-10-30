@@ -186,8 +186,8 @@ export function buildSearchIndex() {
     // finds the topics about them, not only a title that happens to contain the word.
     ...kulturInsider.topics.map((k) => ({
       t: k.title,
-      s: "Deutschland von innen",
-      k: kulturHay(k, "landeskunde deutschland von innen insider"),
+      s: "The UK from the inside",
+      k: kulturHay(k, "culture uk from the inside insider"),
       l: k.level ?? "",
       h: `/kultur/insider/${k.id}`,
       c: "kultur",

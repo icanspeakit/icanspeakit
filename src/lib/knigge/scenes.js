@@ -627,7 +627,7 @@ const date = [
         ],
       },
     ],
-    more: "/kultur/insider/date-knigge",
+    more: "/kultur/insider/erstes-date",
   },
   {
     id: "date-smalltalk", place: "Im Café", backdrop: "cafe",
@@ -749,7 +749,7 @@ const date = [
         ],
       },
     ],
-    more: "/kultur/insider/nein-ist-nein",
+    more: "/kultur/insider/erstes-date",
   },
 ];
 

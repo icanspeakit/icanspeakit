@@ -104,7 +104,7 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
 
       {topic.facts && (
         <section class="ku-block">
-          <h2 data-i18n="kultur.insider.h2.facts">Zahlen und Fakten</h2>
+          <h2 data-i18n="kultur.insider.h2.facts">Facts and figures</h2>
           <ul class="ku-facts in-facts">{topic.facts.map((f: string) => <li set:html={numHtml(f)} />)}</ul>
         </section>
       )}
@@ -137,7 +137,7 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
                 {g.mascot && <span class="in-dict-fig" data-mascot-part set:html={mascotSvg({ name: g.mascot.name, extra: g.mascot.extra, expr: g.mascot.expr, view: "three", size: 44, label: "" })} />}
                 <span>{g.title}</span>
               </p>
-              <p class="in-quick-col">{gi ? "Er sagt" : "Sie sagt"}</p>
+              <p class="in-quick-col">{gi ? "He says" : "She says"}</p>
               <p class="in-quick-col">{gi ? "Er meint" : "Sie meint"}</p>
               {g.items.flatMap((it, i) => [
                 topic.decoder.groups[0].items[i].theme && <p class="in-quick-theme">{topic.decoder.groups[0].items[i].theme}</p>,
@@ -257,17 +257,19 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
         </section>
       )}
 
+      {sources.length > 0 && (
       <section class="in-sources">
-        <h2 data-i18n="kultur.insider.h2.sources">Quellen</h2>
+        <h2 data-i18n="kultur.insider.h2.sources">Sources</h2>
         <ol>
           {sources.map((s: { label: string; href: string; stand: string }) => (
             <li>
               <a href={s.href} target="_blank" rel="noopener noreferrer">{s.label} ↗</a>
-              <span class="in-stand" data-i18n="kultur.insider.stand" data-i18n-vars={vars({ stand: s.stand })}>Stand: {s.stand}</span>
+              <span class="in-stand" data-i18n="kultur.insider.stand" data-i18n-vars={vars({ stand: s.stand })}>As of: {s.stand}</span>
             </li>
           ))}
         </ol>
       </section>
+      )}
 
       {topic.links && (
         <div class="ku-links">
