@@ -31,7 +31,7 @@ item, tick it by hand; to redo one, untick it. Add, remove or reorder items free
 - [x] `culture`: Culture and knowledge hub for English-speaking countries.
 - [x] `games`: Game data (satzregen, quakiSpringt, hochstapler, artikel-sprint → English equivalents).
 - [x] `games-arcade`: Nut night (src/lib/nussnacht: a/an/some instead of der/die/das, English bosses and rules, no German compound splitting, upgrade texts) and Listening safari (src/lib/hoerSafari: hear a/an + noun, English level texts; decide what to do while no English audio exists), per content-plan §5.9 (split off by `games`, see its report).
-- [ ] `games-dialogue`: Front desk sim (buergeramt: UK council office customers and rules), manners simulator (knigge scenes in the UK) and the Lindenau RPG as Brambleford, per content-plan §5.9 (split off by `games`, see its report).
+- [x] `games-dialogue`: Front desk sim (buergeramt: UK council office customers and rules), manners simulator (knigge scenes in the UK) and the Lindenau RPG as Brambleford, per content-plan §5.9 (split off by `games`, see its report).
 - [ ] `teachers`: Worksheets, partner exercises, printable games for English.
 - [ ] `word-stories`: Word stories (src/content/wortgeschichte) as English etymology stories, first batch.
 - [ ] `english-for-work`: English for work (src/data/berufe, /berufe): the 10 sectors per content-plan §5.12, workplace phrases and vocabulary in British English.
