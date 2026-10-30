@@ -1,27 +1,28 @@
 {
   "_note": [
-    "Schreiben A1–B2, one entry per task, same shape as src/data/fertigkeiten/lesen.json.",
+    "Writing A1–B2, one entry per task, same shape as src/data/fertigkeiten/lesen.json.",
     "",
-    "Writing cannot be auto-graded, so every task ends in a Modelltext rather than a right",
-    "answer. That is not a cop-out — it is what the DTZ and telc Schreibteile are actually",
-    "marked against, and a learner who compares their own text to a model sees more than a",
-    "score would tell them. The `check` list is what the examiner ticks off; it is shown",
-    "AFTER the learner has written, never before.",
+    "Writing cannot be auto-graded, so every task ends in a model text rather than a right",
+    "answer. That is not a cop-out: exam writing tasks are marked against criteria, not an",
+    "answer key, and a learner who compares their own text to a model sees more than a score",
+    "would tell them. The `check` list is what the examiner looks for; it is shown AFTER the",
+    "learner has written, never before.",
     "",
     "`kind` decides which editor the page renders:",
-    "  form    a source text plus fields to transfer  (DTZ Aufgabe 5)",
-    "  prompt  a situation plus points to cover        (DTZ Brief, telc)",
+    "  form    a source text plus fields to transfer",
+    "  prompt  a situation plus points to cover (messages, emails, letters)",
     "  errors  a text with mistakes to find",
     "",
-    "The three B1 entries are the DTZ simulation from src/data/lesen.json, pulled in at build",
-    "time via `from` so there is exactly one copy of that text on the site."
+    "The three B1 entries are the B1 simulation from src/data/lesen.json, pulled in at build",
+    "time via `from` so there is exactly one copy of that text on the site. Form `answer`",
+    "values use straight apostrophes and plain hyphens, because learners type them."
   ],
   "types": {
-    "formular": "Formular",
-    "nachricht": "Kurznachricht",
-    "email": "E-Mail",
-    "brief": "Brief",
-    "fehlerjagd": "Fehlersuche"
+    "formular": "Form",
+    "nachricht": "Short message",
+    "email": "Email",
+    "brief": "Letter",
+    "fehlerjagd": "Error hunt"
   },
   "tasks": [
     {
@@ -29,26 +30,26 @@
       "level": "A1",
       "type": "formular",
       "kind": "form",
-      "title": "Anmeldung im Sportverein",
-      "blurb": "Zehn Felder, ein kurzer Text — die häufigste Schreibaufgabe im Alltag.",
+      "title": "Joining the leisure centre",
+      "blurb": "Ten fields, one short text – the most common writing task in everyday life.",
       "minutes": 6,
-      "source": "Hallo! Ich heiße Amina Yusuf und bin am 4. März 1996 in Hargeisa geboren. Ich wohne jetzt in der Gartenstraße 12 in 34117 Kassel. Meine Handynummer ist 0176 5544 332, meine E-Mail amina.yusuf@mail.de. Ich möchte gern zweimal pro Woche schwimmen, am liebsten abends. Ich bin Anfängerin.",
+      "source": "Hello! My name is Amina Yusuf. I was born on 4 March 1996 in Hargeisa. Now I live at 12 Garden Street, Westbridge, WB3 7QT. My mobile number is 07700 900 482 and my email is amina.yusuf@example.com. I would like to go swimming two times a week, in the evening. I am a beginner.",
       "fields": [
-        { "label": "Familienname", "answer": "Yusuf" },
-        { "label": "Vorname", "answer": "Amina" },
-        { "label": "Geburtsdatum", "answer": "04.03.1996" },
-        { "label": "Geburtsort", "answer": "Hargeisa" },
-        { "label": "Straße und Hausnummer", "answer": "Gartenstraße 12" },
-        { "label": "Postleitzahl", "answer": "34117" },
-        { "label": "Ort", "answer": "Kassel" },
-        { "label": "Telefon", "answer": "0176 5544 332" },
-        { "label": "E-Mail", "answer": "amina.yusuf@mail.de" },
-        { "label": "Sportart", "answer": "Schwimmen" }
+        { "label": "Surname", "answer": "Yusuf" },
+        { "label": "First name", "answer": "Amina" },
+        { "label": "Date of birth (DD/MM/YYYY)", "answer": "04/03/1996" },
+        { "label": "Place of birth", "answer": "Hargeisa" },
+        { "label": "House number and street", "answer": "12 Garden Street" },
+        { "label": "Town", "answer": "Westbridge" },
+        { "label": "Postcode", "answer": "WB3 7QT" },
+        { "label": "Mobile", "answer": "07700 900 482" },
+        { "label": "Email", "answer": "amina.yusuf@example.com" },
+        { "label": "Activity", "answer": "swimming" }
       ],
       "check": [
-        "Familienname und Vorname nicht vertauscht.",
-        "Das Datum im deutschen Format: 04.03.1996, nicht 1996-03-04.",
-        "Postleitzahl und Ort stehen in getrennten Feldern, auch wenn sie im Text zusammenstehen."
+        "Surname and first name are not swapped. Your surname is your family name.",
+        "The date is in British order, day/month/year: 04/03/1996. 03/04/1996 would be 3 April.",
+        "Town and postcode go in separate fields, even if they are together in the text."
       ]
     },
     {
@@ -56,27 +57,27 @@
       "level": "A1",
       "type": "nachricht",
       "kind": "prompt",
-      "title": "Du kannst nicht kommen",
-      "blurb": "Absagen in drei Sätzen: Grund, Bedauern, neuer Vorschlag.",
+      "title": "You can't come",
+      "blurb": "Saying no in three sentences: the reason, sorry, a new idea.",
       "minutes": 8,
-      "situation": "Deine Freundin Mira hat dich zu ihrer Geburtstagsparty am Samstag eingeladen. Du kannst nicht kommen, weil du arbeiten musst. Schreib ihr eine kurze Nachricht (30–40 Wörter).",
+      "situation": "Your friend Mira has invited you to her birthday party on Saturday. You can't go, because you have to work. Write her a short message (30–40 words).",
       "points": [
-        "Sag, dass du nicht kommen kannst.",
-        "Schreib den Grund.",
-        "Gratuliere ihr zum Geburtstag.",
-        "Mach einen Vorschlag für einen anderen Tag."
+        "Say that you can't come.",
+        "Give the reason.",
+        "Say happy birthday.",
+        "Suggest another day to meet."
       ],
       "phrases": [
-        "Leider kann ich nicht kommen.",
-        "Ich muss am Samstag arbeiten.",
-        "Alles Gute zum Geburtstag!",
-        "Können wir uns am Sonntag treffen?"
+        "Sorry, I can't come.",
+        "I have to work on Saturday.",
+        "Happy birthday!",
+        "Can we meet on Sunday?"
       ],
-      "model": "Liebe Mira,\n\nvielen Dank für die Einladung! Leider kann ich am Samstag nicht kommen. Ich muss arbeiten.\n\nAlles Gute zum Geburtstag! Können wir uns vielleicht am Sonntag treffen?\n\nLiebe Grüße\nSam",
+      "model": "Hi Mira,\n\nThanks for the invitation! I'm really sorry, but I can't come on Saturday. I have to work.\n\nHappy birthday! Can we meet on Sunday? I can buy you a coffee.\n\nLove,\nSam",
       "check": [
-        "Alle vier Punkte kommen vor — das ist beim DTZ die halbe Note.",
-        "Anrede und Gruß stehen da (Liebe Mira / Liebe Grüße).",
-        "Die Sätze sind kurz. Auf A1 ist „Ich muss arbeiten.“ besser als ein langer Nebensatz mit Fehler."
+        "All four points are there – in an exam, a missing point costs more than a small grammar mistake.",
+        "There is a greeting and a sign-off (Hi Mira / Love, Sam).",
+        "The sentences are short. At A1, \"I have to work.\" is better than a long sentence with a mistake."
       ]
     },
     {
@@ -84,27 +85,27 @@
       "level": "A2",
       "type": "email",
       "kind": "prompt",
-      "title": "E-Mail an die Nachbarin",
-      "blurb": "Höflich um etwas bitten — mit „könnten Sie“ statt „Sie müssen“.",
+      "title": "An email to your neighbour",
+      "blurb": "Asking for help politely – with \"Could you …?\" instead of \"You must …\".",
       "minutes": 10,
-      "situation": "Sie fahren für zwei Wochen in den Urlaub. Ihre Nachbarin, Frau Lehmann, hat angeboten, sich um Ihre Wohnung zu kümmern. Schreiben Sie ihr eine E-Mail (50–60 Wörter). Sie kennen Frau Lehmann nur wenig — schreiben Sie „Sie“.",
+      "situation": "You are going on holiday for two weeks. Your neighbour, Mrs Clarke, has offered to help while you are away. Write her an email (50–60 words). You don't know Mrs Clarke very well, so be polite.",
       "points": [
-        "Sagen Sie, wann Sie weg sind.",
-        "Bitten Sie darum, die Blumen zu gießen.",
-        "Bitten Sie darum, den Briefkasten zu leeren.",
-        "Sagen Sie, wo der Schlüssel ist, und bedanken Sie sich."
+        "Say when you will be away.",
+        "Ask her to water your plants.",
+        "Ask her to take in your post.",
+        "Say where the key is and thank her."
       ],
       "phrases": [
-        "Ich bin vom … bis zum … nicht da.",
-        "Könnten Sie bitte …?",
-        "Es wäre sehr nett, wenn Sie …",
-        "Vielen Dank im Voraus!"
+        "I'll be away from … to …",
+        "Could you possibly …?",
+        "Would you mind …ing …?",
+        "Thank you so much for your help."
       ],
-      "model": "Sehr geehrte Frau Lehmann,\n\nich fahre vom 3. bis zum 17. Juli in den Urlaub. Könnten Sie in dieser Zeit bitte die Blumen gießen? Zweimal pro Woche reicht.\n\nUnd wäre es möglich, dass Sie ab und zu den Briefkasten leeren? Er ist sonst schnell voll.\n\nDen Schlüssel bringe ich Ihnen am Dienstagabend vorbei. Vielen Dank im Voraus!\n\nMit freundlichen Grüßen\nNoor Haddad",
+      "model": "Dear Mrs Clarke,\n\nThank you for offering to help. I'll be away from 3 to 17 July. Could you possibly water my plants while I'm away? Twice a week is enough.\n\nWould you mind taking in my post too? Otherwise it piles up behind the door.\n\nI'll bring the key round on Tuesday evening. Thank you so much!\n\nKind regards,\nNoor Haddad",
       "check": [
-        "Durchgehend „Sie“, auch in den Possessivpronomen (Ihnen, Ihre).",
-        "Die Bitten stehen als Frage („Könnten Sie …?“), nicht als Befehl („Gießen Sie …“).",
-        "Sehr geehrte Frau Lehmann → Mit freundlichen Grüßen. Anrede und Gruß müssen zusammenpassen."
+        "The requests are questions (\"Could you …?\", \"Would you mind …ing?\"), not orders (\"Water my plants.\", \"You must …\").",
+        "After \"Would you mind\" comes the -ing form: \"Would you mind taking in my post?\", not \"Would you mind to take …\".",
+        "Greeting and sign-off match: Dear Mrs Clarke → Kind regards. \"Love\" is too familiar for a neighbour you hardly know."
       ]
     },
     {
@@ -112,24 +113,24 @@
       "level": "A2",
       "type": "formular",
       "kind": "form",
-      "title": "Aufnahmebogen in der Arztpraxis",
-      "blurb": "Ein Anruf, ein Formular — und zwei Angaben, die im Text nicht wörtlich stehen.",
+      "title": "Booking a GP appointment",
+      "blurb": "One phone call, one form – and two details that are not said in so many words.",
       "minutes": 7,
-      "source": "„Praxis Dr. Vogel, guten Tag.“ — „Guten Tag, hier ist Pjotr Kowalczyk. Ich hätte gern einen Termin.“ — „Gern. Waren Sie schon einmal bei uns?“ — „Nein, ich bin neu in Leipzig, ich bin letzten Monat aus Danzig hergezogen.“ — „Ihr Geburtsdatum bitte?“ — „Der zwanzigste November neunzehnhundertachtundachtzig.“ — „Und wie sind Sie versichert?“ — „Bei der AOK, gesetzlich.“ — „Worum geht es denn?“ — „Ich habe seit zehn Tagen starke Rückenschmerzen.“ — „Dann schlage ich Donnerstag, den 14., um 15:30 Uhr vor.“ — „Das passt.“",
+      "source": "\"Oakfield Medical Centre, good morning.\" – \"Good morning. My name's Piotr Kowalczyk. I'd like to make an appointment, please.\" – \"Of course. Have you seen one of our doctors before?\" – \"No, I only registered with you last week. I moved to Westbridge last month.\" – \"And your date of birth, please?\" – \"The twentieth of November, nineteen eighty-eight.\" – \"What's the best number to call you on?\" – \"My mobile: oh seven seven oh oh, nine oh oh, three one five.\" – \"And what's the problem?\" – \"I've had bad back pain for ten days.\" – \"Dr Patel can see you on Thursday the 14th at half past three.\" – \"That's fine, thank you.\"",
       "fields": [
-        { "label": "Name, Vorname", "answer": "Kowalczyk, Pjotr" },
-        { "label": "Geburtsdatum", "answer": "20.11.1988" },
-        { "label": "Krankenkasse", "answer": "AOK" },
-        { "label": "Versichertenstatus", "answer": "gesetzlich" },
-        { "label": "Neue Patientin / neuer Patient?", "answer": "ja" },
-        { "label": "Beschwerden", "answer": "Rückenschmerzen (seit 10 Tagen)" },
-        { "label": "Termin (Datum)", "answer": "14. (Donnerstag)" },
-        { "label": "Termin (Uhrzeit)", "answer": "15:30" }
+        { "label": "Name (surname, first name)", "answer": "Kowalczyk, Piotr" },
+        { "label": "Date of birth (DD/MM/YYYY)", "answer": "20/11/1988" },
+        { "label": "Contact number", "answer": "07700 900 315" },
+        { "label": "First appointment at this practice? (yes/no)", "answer": "yes" },
+        { "label": "Reason for appointment", "answer": "back pain (10 days)" },
+        { "label": "Doctor", "answer": "Dr Patel" },
+        { "label": "Appointment date", "answer": "Thursday 14th" },
+        { "label": "Appointment time", "answer": "3.30 pm" }
       ],
       "check": [
-        "Das Geburtsdatum wird gesprochen, nicht geschrieben: „der zwanzigste November neunzehnhundertachtundachtzig“ → 20.11.1988.",
-        "„Neue Patientin / neuer Patient?“ steht nirgends als Wort — das muss man aus „Nein, ich bin neu in Leipzig“ schließen.",
-        "„Das passt.“ heißt: der Termin gilt. Also beide Terminfelder ausfüllen."
+        "Numbers are spoken, not written: \"the twentieth of November, nineteen eighty-eight\" → 20/11/1988, and \"oh\" in a phone number is the number 0.",
+        "\"First appointment?\" is never asked in those words – you have to work it out from \"No, I only registered with you last week.\"",
+        "\"That's fine\" means the appointment is confirmed, so fill in the doctor, the date and the time. \"Half past three\" in the afternoon is 3.30 pm (or 15:30)."
       ]
     },
     {
@@ -137,8 +138,8 @@
       "level": "B1",
       "type": "formular",
       "kind": "form",
-      "title": "DTZ Aufgabe 5: Formular ausfüllen",
-      "blurb": "Eine Bestätigungs-E-Mail, acht Felder.",
+      "title": "B1 task 5: completing a form",
+      "blurb": "One confirmation email, eight fields.",
       "minutes": 8,
       "from": "dtz-formTask"
     },
@@ -147,8 +148,8 @@
       "level": "B1",
       "type": "brief",
       "kind": "prompt",
-      "title": "DTZ Schreiben: Antwort an David",
-      "blurb": "Vier Leitpunkte, ein halbformeller Brief.",
+      "title": "B1 writing: reply to David",
+      "blurb": "Five points, one informal email to a friend.",
       "minutes": 25,
       "from": "dtz-writingPrompt"
     },
@@ -157,8 +158,8 @@
       "level": "B1",
       "type": "fehlerjagd",
       "kind": "errors",
-      "title": "Fehlersuche im Modelltext",
-      "blurb": "Erst die Fehler im fremden Text finden — dann sieht man sie im eigenen.",
+      "title": "Error hunt in a model letter",
+      "blurb": "Find the mistakes in someone else's text first – then you start seeing them in your own.",
       "minutes": 10,
       "from": "dtz-errorHunt"
     },
@@ -167,29 +168,29 @@
       "level": "B2",
       "type": "brief",
       "kind": "prompt",
-      "title": "Beschwerde an den Reiseveranstalter",
-      "blurb": "Sachlich bleiben und trotzdem eine Forderung stellen — der schwierigste Ton auf B2.",
+      "title": "A complaint to a holiday company",
+      "blurb": "Staying calm and factual while still making a clear demand – the hardest tone at B2.",
       "minutes": 30,
-      "situation": "Sie haben eine einwöchige Reise gebucht. Vor Ort war vieles anders als im Katalog: Das Hotel lag nicht am Strand, sondern 3 km entfernt, der Pool war wegen Renovierung geschlossen, und die zugesagten Ausflüge fanden nicht statt. Schreiben Sie eine Beschwerde an den Veranstalter (180–200 Wörter).",
+      "situation": "You booked a one-week package holiday. When you got there, a lot of things were different from the brochure: the hotel was not on the beach but 3 km away, the pool was closed for repairs, and the excursions you had paid for did not take place. Write a letter of complaint to the holiday company (180–200 words).",
       "points": [
-        "Nennen Sie Buchung, Reisezeitraum und Reiseziel.",
-        "Beschreiben Sie die Mängel sachlich und konkret.",
-        "Begründen Sie, warum das für Sie erheblich war.",
-        "Formulieren Sie eine klare Forderung und eine Frist."
+        "Give your booking reference, the dates and the destination.",
+        "Describe the problems clearly and factually.",
+        "Explain why they mattered to you.",
+        "Say exactly what you want and give a deadline."
       ],
       "phrases": [
-        "Bezug nehmend auf meine Buchung Nr. …",
-        "Im Katalog wurde ausdrücklich zugesichert, dass …",
-        "Tatsächlich war jedoch …",
-        "Ich fordere Sie daher auf, … bis zum …",
-        "Andernfalls behalte ich mir vor, …"
+        "I am writing with regard to my booking (reference …).",
+        "Your brochure clearly stated that …",
+        "In fact, however, …",
+        "I would therefore ask you to … by …",
+        "If I do not hear from you by …, I will have no choice but to …"
       ],
-      "model": "Sehr geehrte Damen und Herren,\n\nbezug nehmend auf meine Buchung Nr. 884-2210 für die Reise nach Antalya vom 12. bis 19. September muss ich Ihnen leider erhebliche Mängel anzeigen.\n\nIm Katalog wurde die Anlage ausdrücklich als „direkt am Strand gelegen“ beworben. Tatsächlich beträgt die Entfernung rund drei Kilometer, die nur mit einem kostenpflichtigen Shuttle zu überbrücken sind. Der ebenfalls beworbene Pool war während des gesamten Aufenthalts wegen Renovierungsarbeiten geschlossen, ohne dass wir darüber vorab informiert worden wären. Die beiden im Reisepreis enthaltenen Ausflüge wurden ersatzlos gestrichen.\n\nDa ich die Reise gerade wegen der Strandlage und des Sportangebots gebucht hatte, war der Erholungswert für mich deutlich eingeschränkt. Es handelt sich hier nicht um Kleinigkeiten, sondern um Leistungen, die den Charakter der Reise ausmachen.\n\nIch fordere Sie daher auf, mir bis zum 15. Oktober eine angemessene Minderung des Reisepreises anzubieten. Andernfalls behalte ich mir weitere Schritte vor.\n\nMit freundlichen Grüßen\nClara Menéndez",
+      "model": "Dear Sir or Madam,\n\nI am writing with regard to my booking (reference 884-2210) for a holiday in Antalya from 12 to 19 September. I regret to say that there were several serious problems.\n\nYour brochure clearly described the hotel as \"right on the beach\". In fact, however, it was about three kilometres away, and the only way to get there was a shuttle bus that cost extra. The pool, which was also advertised, was closed for repairs during our entire stay, and we were not told about this in advance. In addition, both excursions included in the price were cancelled without any alternative being offered.\n\nSince I chose this holiday precisely because of the beach location and the facilities, it was far less relaxing than I had expected. These were not minor issues but the main features of the holiday I paid for.\n\nI would therefore ask you to offer me an appropriate partial refund by 15 October. If I do not hear from you by then, I will have no choice but to take the matter further.\n\nYours faithfully,\nClara Menéndez",
       "check": [
-        "Kein Wort Ärger: „muss ich Ihnen leider … anzeigen“ statt „das war eine Frechheit“. Sachlichkeit ist auf B2 die Bewertung, nicht die Höflichkeit.",
-        "Jeder Mangel ist gegen eine Zusage gestellt („Im Katalog … Tatsächlich jedoch …“). Eine Beschwerde ohne den Vergleich ist nur eine Meinung.",
-        "Es steht eine konkrete Forderung UND eine Frist da. Ohne Datum ist kein Beschwerdebrief vollständig.",
-        "Konnektoren auf B2-Niveau: da, ohne dass, andernfalls, daher."
+        "No angry words: \"I regret to say that there were several serious problems\" instead of \"this was a disgrace\". At B2 the tone is part of the mark – firm, but never rude.",
+        "Each problem is set against a promise (\"Your brochure clearly stated … In fact, however, …\"). A complaint without that comparison is only an opinion.",
+        "There is a clear demand AND a deadline. Without a date, a letter of complaint is not complete.",
+        "B2 linking words: since, in addition, however, therefore. Dear Sir or Madam → Yours faithfully (with a name: Dear Ms Jones → Yours sincerely)."
       ]
     }
   ]

@@ -1,23 +1,24 @@
 {
   "_note": [
-    "Leseverstehen A1–B2, in the shape src/data/hoeren.json already proved: one entry per",
-    "exercise, each with its own level, so the skill can be offered level by level instead",
-    "of as one B1 page. Every text is written for this site — no Lehrwerk scans.",
+    "Reading A1–B2, in the shape src/data/hoeren.json already proved: one entry per exercise,",
+    "each with its own level, so the skill can be offered level by level instead of as one B1",
+    "page. Every text is written for this site in British English; places and firms are made up",
+    "(Westbridge, Kingsford), so no real local rule is misquoted.",
     "",
-    "`type` names the TEXT SORT, not the topic, because that is what DTZ and telc actually",
-    "vary between items: a learner who can read a Zeitungsartikel may still be lost in front",
-    "of six Kleinanzeigen. The hub and the nav show it for the same reason.",
+    "`type` names the TEXT TYPE, not the topic, because that is what exam tasks actually vary",
+    "between items: a learner who can read a newspaper article may still be lost in front of",
+    "six small ads. The hub and the nav show it for the same reason.",
     "",
-    "The five B1 entries below are the DTZ simulation from src/data/lesen.json, moved here so",
-    "each part is reachable on its own. That file and /lesen-schreiben stay: running",
-    "the five parts back to back under time is a different exercise from practising one."
+    "The five B1 entries below borrow the B1 simulation from src/data/lesen.json (`from`), so",
+    "each part is reachable on its own. That file and /lesen-schreiben stay: doing the five",
+    "parts one after the other under time is a different exercise from practising one."
   ],
   "types": {
-    "schild": "Schilder & Aushänge",
-    "nachricht": "Nachricht",
-    "anzeige": "Anzeigen",
-    "brief": "Brief & E-Mail",
-    "artikel": "Zeitungsartikel",
+    "schild": "Signs & notices",
+    "nachricht": "Message",
+    "anzeige": "Adverts",
+    "brief": "Letter & email",
+    "artikel": "Newspaper article",
     "forum": "Forum",
     "interview": "Interview"
   },
@@ -26,48 +27,48 @@
       "id": "a1-schilder-im-haus",
       "level": "A1",
       "type": "schild",
-      "title": "Schilder im Haus",
-      "blurb": "Sechs Aushänge im Treppenhaus — wo darf man was?",
+      "title": "Notices in a block of flats",
+      "blurb": "Six notices in the hallway – what can you do where?",
       "minutes": 4,
-      "text": "**Aushang 1 — Haustür**\nBitte die Tür immer schließen. Danke!\n\n**Aushang 2 — Waschküche**\nWaschmaschine: Montag bis Samstag, 7–20 Uhr. Sonntag ist Ruhetag.\n\n**Aushang 3 — Keller**\nFahrräder bitte nur in den Fahrradkeller. Im Flur ist kein Platz.\n\n**Aushang 4 — Briefkästen**\nDie Post kommt täglich zwischen 9 und 11 Uhr.\n\n**Aushang 5 — Hof**\nMülltonnen: gelb = Plastik, blau = Papier, braun = Bio.\n\n**Aushang 6 — Treppenhaus**\nAm Freitag, 14 Uhr: Der Hausmeister repariert das Licht. Bitte nicht stören.",
+      "text": "**Notice 1 – Front door**\nPlease always close the door. Thank you!\n\n**Notice 2 – Laundry room**\nWashing machines: Monday to Saturday, 7 am to 8 pm. No washing on Sundays.\n\n**Notice 3 – Bike store**\nPlease put bikes in the bike store only. There is no space in the hallway.\n\n**Notice 4 – Post boxes**\nThe post comes every day between 9 and 11 am.\n\n**Notice 5 – Bins (back yard)**\nGreen bin = plastic and cans. Blue bin = paper. Brown bin = food waste.\n\n**Notice 6 – Stairs**\nFriday, 2 pm: the caretaker is repairing the lights. Please do not disturb him.",
       "questions": [
         {
-          "prompt": "Sie wollen am Sonntag um 10 Uhr waschen. Geht das?",
+          "prompt": "You want to wash your clothes on Sunday at 10 am. Can you?",
           "options": [
-            "Ja, jeden Tag von 7 bis 20 Uhr",
-            "Nein, am Sonntag nicht",
-            "Ja, aber nur bis 11 Uhr"
+            "Yes, every day from 7 am to 8 pm",
+            "No, not on Sundays",
+            "Yes, but only until 11 am"
           ],
-          "answer": "Nein, am Sonntag nicht",
-          "explain": "„Sonntag ist Ruhetag“ — Ruhetag heißt: an diesem Tag nicht."
+          "answer": "No, not on Sundays",
+          "explain": "\"No washing on Sundays\" – the times 7 am to 8 pm are only for Monday to Saturday."
         },
         {
-          "prompt": "Wo soll Ihr Fahrrad stehen?",
+          "prompt": "Where should your bike go?",
           "options": [
-            "Im Flur",
-            "Im Fahrradkeller",
-            "Im Hof"
+            "In the hallway",
+            "In the bike store",
+            "In the back yard"
           ],
-          "answer": "Im Fahrradkeller"
+          "answer": "In the bike store"
         },
         {
-          "prompt": "Ihr Altpapier kommt in welche Tonne?",
+          "prompt": "Which bin is for old newspapers?",
           "options": [
-            "In die gelbe",
-            "In die blaue",
-            "In die braune"
+            "The green one",
+            "The blue one",
+            "The brown one"
           ],
-          "answer": "In die blaue"
+          "answer": "The blue one"
         },
         {
-          "prompt": "Wann kommt die Post?",
+          "prompt": "When does the post come?",
           "options": [
-            "Am Freitag um 14 Uhr",
-            "Zwischen 9 und 11 Uhr",
-            "Von 7 bis 20 Uhr"
+            "On Friday at 2 pm",
+            "Between 9 and 11 am",
+            "From 7 am to 8 pm"
           ],
-          "answer": "Zwischen 9 und 11 Uhr",
-          "explain": "Freitag 14 Uhr ist der Hausmeister, nicht die Post — die Zahl allein reicht nicht, man muss das Schild dazu lesen."
+          "answer": "Between 9 and 11 am",
+          "explain": "Friday at 2 pm is the caretaker, not the post. The number alone is not enough – you have to read which notice it is on."
         }
       ]
     },
@@ -75,48 +76,48 @@
       "id": "a1-nachricht-einladung",
       "level": "A1",
       "type": "nachricht",
-      "title": "Eine Einladung per Nachricht",
-      "blurb": "Wer, wann, wo — und was soll man mitbringen?",
+      "title": "An invitation by text message",
+      "blurb": "Who, when, where – and what should you bring?",
       "minutes": 3,
-      "text": "**Mira, 18:42**\nHallo Sam! Am Samstag habe ich Geburtstag. Ich mache eine kleine Party bei mir zu Hause. Kommst du?\n\n**Mira, 18:43**\nWir fangen um 19 Uhr an. Meine Adresse: Lindenstraße 8, dritter Stock. Die Klingel ist kaputt, ruf bitte an, dann komme ich runter.\n\n**Mira, 18:44**\nEssen und Trinken habe ich genug. Bring bitte nichts mit — aber vielleicht Musik? Du hast doch immer gute Musik. 🙂",
+      "text": "**Mira, 18:42**\nHi Sam! It's my birthday on Saturday. I'm having a small party at my flat. Can you come?\n\n**Mira, 18:43**\nWe start at 7 pm. My address is Flat 3, 8 Linden Road. It's on the second floor. The doorbell doesn't work, so please call me and I'll come down.\n\n**Mira, 18:44**\nI've got lots of food and drink, so please don't bring anything – but maybe some music? You always have good music. 🙂",
       "questions": [
         {
-          "prompt": "Warum macht Mira eine Party?",
+          "prompt": "Why is Mira having a party?",
           "options": [
-            "Sie hat eine neue Wohnung",
-            "Sie hat Geburtstag",
-            "Sie hat eine neue Arbeit"
+            "She has a new flat",
+            "It's her birthday",
+            "She has a new job"
           ],
-          "answer": "Sie hat Geburtstag"
+          "answer": "It's her birthday"
         },
         {
-          "prompt": "Wann beginnt die Party?",
+          "prompt": "When does the party start?",
           "options": [
-            "Um 18:42",
-            "Um 19 Uhr",
-            "Am dritten Samstag"
+            "At 6.42 pm",
+            "At 7 pm",
+            "At 8 pm"
           ],
-          "answer": "Um 19 Uhr",
-          "explain": "18:42 ist die Uhrzeit der Nachricht, nicht der Party. Bei Nachrichten steht die Uhrzeit immer daneben — die gehört nicht zum Text."
+          "answer": "At 7 pm",
+          "explain": "18:42 is the time of the message, not the party. Text messages always show the time next to them – it is not part of the text."
         },
         {
-          "prompt": "Was soll Sam tun, wenn er ankommt?",
+          "prompt": "What should Sam do when he arrives?",
           "options": [
-            "Klingeln",
-            "Anrufen",
-            "In den dritten Stock gehen"
+            "Ring the doorbell",
+            "Phone Mira",
+            "Go up to the second floor"
           ],
-          "answer": "Anrufen",
-          "explain": "„Die Klingel ist kaputt, ruf bitte an.“"
+          "answer": "Phone Mira",
+          "explain": "\"The doorbell doesn't work, so please call me.\""
         },
         {
-          "prompt": "Was soll Sam mitbringen?",
+          "prompt": "What should Sam bring?",
           "options": [
-            "Essen",
-            "Getränke",
-            "Musik"
+            "Food",
+            "Drinks",
+            "Music"
           ],
-          "answer": "Musik"
+          "answer": "Music"
         }
       ]
     },
@@ -124,51 +125,51 @@
       "id": "a2-wohnungsanzeigen",
       "level": "A2",
       "type": "anzeige",
-      "title": "Wohnungsanzeigen lesen",
-      "blurb": "Vier Anzeigen, vier Suchende — wer passt zu wem?",
+      "title": "Reading adverts for flats",
+      "blurb": "Four adverts, four people looking – who matches which home?",
       "minutes": 6,
-      "text": "**Anzeige A**\n2-Zimmer-Wohnung, 48 m², 3. Stock ohne Aufzug. 620 € warm. Ab sofort frei. Keine Haustiere.\n\n**Anzeige B**\nZimmer in 4er-WG, 18 m². 330 € warm. Küche und Bad gemeinsam. Wir sind Studierende und suchen jemanden, der gern kocht.\n\n**Anzeige C**\n3-Zimmer-Wohnung mit kleinem Garten, Erdgeschoss. 980 € warm. Hunde und Katzen willkommen. Ab 1. Oktober.\n\n**Anzeige D**\n1-Zimmer-Apartment, möbliert, 30 m². 550 € warm, Internet inklusive. Nur für 6 Monate (Zwischenmiete).",
+      "text": "**Advert A**\nOne-bedroom flat, third floor, no lift. £780 per month. Available now. No pets.\n\n**Advert B**\nRoom in a shared house with three students. £520 per month, bills included. Shared kitchen and bathroom. We're looking for someone who likes cooking.\n\n**Advert C**\nTwo-bedroom ground-floor flat with a small garden. £1,150 per month. Dogs and cats welcome. Available from 1 October.\n\n**Advert D**\nFurnished studio flat. £850 per month, internet included. Six months only.",
       "questions": [
         {
-          "prompt": "Herr Adem kommt für ein halbes Jahr zum Praktikum und hat keine Möbel.",
+          "prompt": "Mr Adeyemi is coming for a six-month work placement. He has no furniture.",
           "options": [
-            "Anzeige A",
-            "Anzeige B",
-            "Anzeige C",
-            "Anzeige D"
+            "Advert A",
+            "Advert B",
+            "Advert C",
+            "Advert D"
           ],
-          "answer": "Anzeige D",
-          "explain": "Zwei Bedingungen müssen stimmen: möbliert UND 6 Monate. Nur D hat beides."
+          "answer": "Advert D",
+          "explain": "Two things must be right: furnished AND six months. Only D has both."
         },
         {
-          "prompt": "Familie Nowak hat einen Hund und zwei Kinder.",
+          "prompt": "The Novak family have a dog and two children.",
           "options": [
-            "Anzeige A",
-            "Anzeige B",
-            "Anzeige C",
-            "Anzeige D"
+            "Advert A",
+            "Advert B",
+            "Advert C",
+            "Advert D"
           ],
-          "answer": "Anzeige C"
+          "answer": "Advert C"
         },
         {
-          "prompt": "Lena studiert, hat wenig Geld und kocht gern für andere.",
+          "prompt": "Lena is a student. She doesn't have much money, and she likes cooking for other people.",
           "options": [
-            "Anzeige A",
-            "Anzeige B",
-            "Anzeige C",
-            "Anzeige D"
+            "Advert A",
+            "Advert B",
+            "Advert C",
+            "Advert D"
           ],
-          "answer": "Anzeige B"
+          "answer": "Advert B"
         },
         {
-          "prompt": "Herr Fischer ist 71 und kann keine Treppen steigen.",
+          "prompt": "Mr Fisher is 71 and can't climb stairs.",
           "options": [
-            "Anzeige A",
-            "Anzeige C",
-            "Anzeige D"
+            "Advert A",
+            "Advert C",
+            "Advert D"
           ],
-          "answer": "Anzeige C",
-          "explain": "„Erdgeschoss“ — A ist 3. Stock ohne Aufzug, und bei D steht nichts vom Stockwerk, also ist C die sichere Antwort."
+          "answer": "Advert C",
+          "explain": "\"Ground-floor\": A is on the third floor with no lift, and D doesn't say which floor it is on, so C is the safe answer."
         }
       ]
     },
@@ -176,48 +177,48 @@
       "id": "a2-email-kurs-absage",
       "level": "A2",
       "type": "brief",
-      "title": "E-Mail von der Sprachschule",
-      "blurb": "Der Kurs fällt aus. Was heißt das jetzt genau?",
+      "title": "An email from the language school",
+      "blurb": "The class is cancelled. What does that mean for you?",
       "minutes": 5,
-      "text": "Betreff: Änderung Deutschkurs A2 — bitte lesen\n\nLiebe Kursteilnehmerinnen und Kursteilnehmer,\n\nunsere Lehrerin Frau Berger ist krank. Deshalb fällt der Unterricht am Dienstag und am Donnerstag dieser Woche leider aus.\n\nAb der nächsten Woche unterrichtet Herr Aydın. Der Kurs findet dann wie immer statt, aber in Raum 2.14 statt in Raum 1.03 — das große Zimmer im ersten Stock ist im Moment zu kalt.\n\nDie beiden Stunden holen wir nach: am Samstag, den 18., von 10 bis 13 Uhr. Wer an diesem Samstag nicht kann, schreibt uns bitte bis Freitag eine kurze E-Mail. Der Test bleibt am Ende des Monats.\n\nViele Grüße\nIhr Kursbüro",
+      "text": "Subject: Change to your A2 English class – please read\n\nDear students,\n\nUnfortunately, your teacher, Ms Berger, is ill. Because of this, there are no classes on Tuesday or Thursday this week.\n\nFrom next week, Mr Osei will teach your class. Lessons will be at the usual times, but in Room 2.14 instead of Room 1.03 – the big room on the first floor is too cold at the moment.\n\nWe will make up the two lessons on Saturday the 18th, from 10 am to 1 pm. If you can't come on that Saturday, please send us a short email by Friday. The test is still at the end of the month.\n\nBest wishes\nThe course office",
       "questions": [
         {
-          "prompt": "Warum fällt der Unterricht aus?",
+          "prompt": "Why are the classes cancelled?",
           "options": [
-            "Der Raum ist zu kalt",
-            "Die Lehrerin ist krank",
-            "Es ist Samstag"
+            "The room is too cold",
+            "The teacher is ill",
+            "It's a Saturday"
           ],
-          "answer": "Die Lehrerin ist krank"
+          "answer": "The teacher is ill"
         },
         {
-          "prompt": "In welchem Raum ist der Kurs ab nächster Woche?",
+          "prompt": "Which room is the class in from next week?",
           "options": [
-            "Raum 1.03",
-            "Raum 2.14",
-            "Im großen Zimmer im ersten Stock"
+            "Room 1.03",
+            "Room 2.14",
+            "The big room on the first floor"
           ],
-          "answer": "Raum 2.14",
-          "explain": "„in Raum 2.14 statt in Raum 1.03“ — „statt“ zeigt immer auf das Alte, nicht auf das Neue."
+          "answer": "Room 2.14",
+          "explain": "\"in Room 2.14 instead of Room 1.03\" – \"instead of\" always points to the old thing, not the new one."
         },
         {
-          "prompt": "Was müssen Sie tun, wenn Sie am Samstag keine Zeit haben?",
+          "prompt": "What must you do if you are not free on the Saturday?",
           "options": [
-            "Nichts",
-            "Bis Freitag eine E-Mail schreiben",
-            "Herrn Aydın anrufen"
+            "Nothing",
+            "Send an email by Friday",
+            "Phone Mr Osei"
           ],
-          "answer": "Bis Freitag eine E-Mail schreiben"
+          "answer": "Send an email by Friday"
         },
         {
-          "prompt": "Wann ist der Test?",
+          "prompt": "When is the test?",
           "options": [
-            "Am Samstag, den 18.",
-            "Am Ende des Monats",
-            "Am Dienstag"
+            "On Saturday the 18th",
+            "At the end of the month",
+            "On Tuesday"
           ],
-          "answer": "Am Ende des Monats",
-          "explain": "„Der Test bleibt“ — bleiben heißt hier: der Termin ändert sich nicht."
+          "answer": "At the end of the month",
+          "explain": "\"The test is still at the end of the month\" – \"still\" means here: the date does not change."
         }
       ]
     },
@@ -225,8 +226,8 @@
       "id": "b1-digitales-buero",
       "level": "B1",
       "type": "brief",
-      "title": "Kurztext: Das digitale Büro",
-      "blurb": "Ein Rundschreiben der Geschäftsleitung — drei Aussagen, richtig oder falsch?",
+      "title": "Short text: the paperless office",
+      "blurb": "A notice from the management – three questions.",
       "minutes": 5,
       "from": "dtz-simulation"
     },
@@ -234,8 +235,8 @@
       "id": "b1-anzeigen",
       "level": "B1",
       "type": "anzeige",
-      "title": "DTZ Aufgabe 1: Anzeigen zuordnen",
-      "blurb": "Fünf Situationen, sechs Anzeigen — eine bleibt übrig.",
+      "title": "B1 task 1: matching adverts",
+      "blurb": "Five people, six adverts – one is left over.",
       "minutes": 8,
       "from": "dtz-simulation"
     },
@@ -243,8 +244,8 @@
       "id": "b1-zeitungsartikel",
       "level": "B1",
       "type": "artikel",
-      "title": "DTZ Aufgabe 2: Zeitungsartikel",
-      "blurb": "Ein Artikel, fünf Aussagen — richtig oder falsch?",
+      "title": "B1 task 2: newspaper article",
+      "blurb": "One article, five statements – true or false?",
       "minutes": 8,
       "from": "dtz-simulation"
     },
@@ -252,8 +253,8 @@
       "id": "b1-forumsbeitraege",
       "level": "B1",
       "type": "forum",
-      "title": "DTZ Aufgabe 3: Forumsbeiträge",
-      "blurb": "Vier Meinungen — wer sagt was?",
+      "title": "B1 task 3: forum posts",
+      "blurb": "Four opinions – who says what?",
       "minutes": 7,
       "from": "dtz-simulation"
     },
@@ -261,8 +262,8 @@
       "id": "b1-interview",
       "level": "B1",
       "type": "interview",
-      "title": "DTZ Aufgabe 4: Interview",
-      "blurb": "Ein Interview mit Lücken — welche Antwort passt?",
+      "title": "B1 task 4: interview",
+      "blurb": "One interview, four questions – which answer fits?",
       "minutes": 7,
       "from": "dtz-simulation"
     },
@@ -270,57 +271,57 @@
       "id": "b2-artikel-homeoffice",
       "level": "B2",
       "type": "artikel",
-      "title": "Zeitungsartikel: Streit ums Homeoffice",
-      "blurb": "Zwei Studien, zwei Ergebnisse — und was der Text dazu wirklich behauptet.",
+      "title": "Newspaper article: the working-from-home debate",
+      "blurb": "Two studies, two results – and what the article really says about them.",
       "minutes": 9,
-      "text": "**Zu Hause produktiver — oder nur einsamer?**\n\nDrei Jahre nach dem großen Umbruch in der Arbeitswelt ist der Streit über das Homeoffice keineswegs entschieden. Eine im Frühjahr veröffentlichte Untersuchung der Universität Konstanz kommt zu dem Ergebnis, dass Beschäftigte im Homeoffice im Durchschnitt rund acht Prozent mehr Aufgaben abschließen als im Büro. Die Autorinnen führen das vor allem auf die weggefallenen Unterbrechungen zurück: Wer nicht alle zwanzig Minuten angesprochen wird, arbeitet konzentrierter.\n\nEine Erhebung des Münchner ifo-Instituts relativiert dieses Bild allerdings. Zwar bestätigt auch sie den Produktivitätsgewinn bei klar abgegrenzten Einzelaufgaben, stellt jedoch fest, dass kreative Teamarbeit unter der Distanz leidet. Besonders neue Mitarbeitende, so die Studie, kämen deutlich langsamer in ihre Rolle hinein, weil ihnen das beiläufige Lernen von erfahrenen Kolleginnen fehle.\n\nDie Unternehmen reagieren unterschiedlich. Während einige Konzerne ihre Belegschaft inzwischen wieder an vier Tagen pro Woche ins Büro beordern, setzen andere auf feste Präsenztage für das ganze Team und lassen den Rest der Woche frei wählbar. Arbeitsrechtlich ist die Lage eindeutig: Einen gesetzlichen Anspruch auf Homeoffice gibt es in Deutschland bis heute nicht. Was gilt, steht im Arbeitsvertrag oder in einer Betriebsvereinbarung.\n\nEinig sind sich die Fachleute nur in einem Punkt: Die Frage „Büro oder zu Hause?“ ist falsch gestellt. Entscheidend sei nicht der Ort, sondern ob eine Aufgabe Austausch braucht oder Ruhe.",
+      "text": "**More productive at home – or just lonelier?**\n\nSeveral years after the great upheaval in the world of work, the argument about working from home is far from settled. A university study published this spring found that people working from home complete, on average, around eight per cent more tasks than they do in the office. The researchers put this down mainly to the lack of interruptions: if nobody stops you for a chat every twenty minutes, you concentrate better.\n\nA second survey, carried out by an economic research institute, puts this picture into perspective. While it also finds a gain in productivity for clearly defined individual tasks, it concludes that creative teamwork suffers when colleagues are apart. New employees in particular, the authors say, take much longer to settle into their roles, because they miss out on the informal learning that happens when experienced colleagues are close by.\n\nEmployers are responding in different ways. Some large companies now want their staff back in the office four days a week; others set fixed office days for the whole team and leave the rest of the week up to the individual. The legal position in the UK is clear: there is no legal right to work from home. Employees can make a request for flexible working, which may include working from home, and employers must deal with it in a reasonable way – but they can turn it down for business reasons. What applies in practice is set out in the employment contract or in company policy.\n\nThe experts agree on only one point: \"office or home?\" is the wrong question. What matters, they say, is not the place but whether a task needs discussion or quiet.",
       "questions": [
         {
-          "prompt": "Die Konstanzer Untersuchung erklärt den Produktivitätsgewinn vor allem damit, dass …",
+          "prompt": "The university study explains the gain in productivity mainly by the fact that …",
           "options": [
-            "… die Beschäftigten zu Hause länger arbeiten.",
-            "… die ständigen Unterbrechungen wegfallen.",
-            "… die Aufgaben im Homeoffice leichter sind."
+            "… people work longer hours at home.",
+            "… there are fewer interruptions at home.",
+            "… the tasks done at home are easier."
           ],
-          "answer": "… die ständigen Unterbrechungen wegfallen.",
-          "explain": "„führen das vor allem auf die weggefallenen Unterbrechungen zurück“ — von längerer Arbeitszeit steht nichts im Text."
+          "answer": "… there are fewer interruptions at home.",
+          "explain": "\"put this down mainly to the lack of interruptions\" – the text says nothing about longer working hours."
         },
         {
-          "prompt": "Was sagt die ifo-Studie über neue Mitarbeitende?",
+          "prompt": "What does the second survey say about new employees?",
           "options": [
-            "Sie arbeiten im Homeoffice produktiver als erfahrene Kollegen.",
-            "Sie brauchen länger, um in ihre Rolle zu finden.",
-            "Sie lehnen das Homeoffice mehrheitlich ab."
+            "They are more productive at home than experienced staff.",
+            "They need more time to settle into their roles.",
+            "Most of them are against working from home."
           ],
-          "answer": "Sie brauchen länger, um in ihre Rolle zu finden."
+          "answer": "They need more time to settle into their roles."
         },
         {
-          "prompt": "Wie stehen die beiden Studien zueinander?",
+          "prompt": "How do the two studies relate to each other?",
           "options": [
-            "Die zweite widerlegt die erste vollständig.",
-            "Die zweite bestätigt einen Teil und schränkt einen anderen ein.",
-            "Beide kommen zum selben Ergebnis."
+            "The second one proves the first one completely wrong.",
+            "The second confirms one part but limits another.",
+            "Both studies come to exactly the same conclusion."
           ],
-          "answer": "Die zweite bestätigt einen Teil und schränkt einen anderen ein.",
-          "explain": "„relativiert“ + „Zwar …, stellt jedoch fest“ — das ist die Einschränkung, nicht der Widerspruch. „Zwar … jedoch“ ist auf B2 fast immer das Signal dafür."
+          "answer": "The second confirms one part but limits another.",
+          "explain": "\"puts this picture into perspective\" + \"While it also finds …, it concludes that …\" – that is a limitation, not a contradiction. At B2, \"while … , …\" and \"puts into perspective\" are typical signals for this."
         },
         {
-          "prompt": "Was gilt in Deutschland rechtlich?",
+          "prompt": "What is the legal position in the UK?",
           "options": [
-            "Jede und jeder hat einen Anspruch auf Homeoffice.",
-            "Homeoffice ist an vier Tagen pro Woche erlaubt.",
-            "Es gibt keinen gesetzlichen Anspruch; es zählt der Vertrag."
+            "Every employee has a legal right to work from home.",
+            "Working from home is allowed four days a week.",
+            "You can ask for it, but there is no legal right to it."
           ],
-          "answer": "Es gibt keinen gesetzlichen Anspruch; es zählt der Vertrag."
+          "answer": "You can ask for it, but there is no legal right to it."
         },
         {
-          "prompt": "Worin sind sich die Fachleute laut Text einig?",
+          "prompt": "What do the experts agree on, according to the article?",
           "options": [
-            "Dass das Büro auf Dauer die bessere Lösung ist.",
-            "Dass nicht der Ort entscheidet, sondern die Art der Aufgabe.",
-            "Dass feste Präsenztage die einzige sinnvolle Regel sind."
+            "That the office is the better solution in the long run.",
+            "That the type of task matters more than the place.",
+            "That fixed office days are the only sensible rule."
           ],
-          "answer": "Dass nicht der Ort entscheidet, sondern die Art der Aufgabe."
+          "answer": "That the type of task matters more than the place."
         }
       ]
     },
@@ -328,60 +329,60 @@
       "id": "b2-kommentare-innenstadt",
       "level": "B2",
       "type": "forum",
-      "title": "Leserkommentare: Autofreie Innenstadt",
-      "blurb": "Fünf Kommentare, fünf Haltungen — wer argumentiert womit?",
+      "title": "Readers' comments: a car-free town centre",
+      "blurb": "Five comments, five positions – who argues how?",
       "minutes": 8,
-      "text": "**Thema: Soll die Innenstadt autofrei werden?**\n\n**Kommentar A — Dario_87**\nIch fahre die Strecke seit zwölf Jahren mit dem Rad und habe mich an das tägliche Risiko gewöhnt. Gewöhnen sollte man sich daran aber nicht müssen. Wer Kinder hat, weiß, wovon ich rede.\n\n**Kommentar B — M. Krüger**\nNiemand bestreitet, dass weniger Autos angenehmer wären. Nur: Solange die Bahn zweimal pro Woche ausfällt und der letzte Bus um halb neun fährt, ist das keine ehrliche Wahl, sondern eine Umverteilung von oben nach unten.\n\n**Kommentar C — Ilse W.**\nMein Geschäft lebt von Kundschaft, die kurz hält, etwas abholt und weiterfährt. Dreißig Jahre hat das funktioniert. Man nimmt uns nicht die Autos weg, man nimmt uns die Kundschaft weg.\n\n**Kommentar D — fahrrad_fee**\nIn Gent, Pontevedra, Groningen — überall dasselbe Muster: Im ersten Jahr Proteste der Geschäftsleute, im dritten Jahr höhere Umsätze als vorher. Wir diskutieren hier etwas, das anderswo längst beantwortet ist.\n\n**Kommentar E — Henning R.**\nMich stört weniger die Sache als das Verfahren. Der Beschluss stand fest, bevor die Bürgerbefragung überhaupt begonnen hatte. Über das Ergebnis kann man streiten, über diesen Ablauf nicht.",
+      "text": "**Topic: Should Kingsford town centre become car-free?**\n\n**Comment A – Dario_87**\nI've cycled this route for twelve years and I've got used to the daily risk. But nobody should have to get used to it. Anyone with children will know what I mean.\n\n**Comment B – M. Kerr**\nNobody denies that fewer cars would be nicer. But as long as the trains are cancelled twice a week and the last bus leaves at half eight, it isn't a fair choice. It's the people with the least money who will pay for it.\n\n**Comment C – Irene W.**\nMy shop depends on customers who stop for a minute, pick something up and drive on. That has worked for thirty years. They're not taking away our cars – they're taking away our customers.\n\n**Comment D – bike_belle**\nGhent, Pontevedra, Groningen – it's the same story everywhere: shopkeepers protest in the first year, and a few years later nobody wants the cars back. We're arguing about something that other towns settled long ago.\n\n**Comment E – Henry R.**\nWhat bothers me is not the idea but the process. The decision had been made before the public consultation even started. You can argue about the result, but not about the way it was reached.",
       "questions": [
         {
-          "prompt": "Wer ist im Grundsatz einverstanden, hält die Umsetzung aber für sozial ungerecht?",
+          "prompt": "Who agrees with the idea in principle but thinks the plan is unfair on poorer people?",
           "options": [
-            "Kommentar A",
-            "Kommentar B",
-            "Kommentar C",
-            "Kommentar D",
-            "Kommentar E"
+            "Comment A",
+            "Comment B",
+            "Comment C",
+            "Comment D",
+            "Comment E"
           ],
-          "answer": "Kommentar B",
-          "explain": "„Niemand bestreitet, dass …“ ist Zustimmung; „Nur:“ leitet den Einwand ein. Der Einwand ist die Verkehrsanbindung, nicht die Idee."
+          "answer": "Comment B",
+          "explain": "\"Nobody denies that …\" is agreement; \"But as long as …\" brings in the objection. The objection is about public transport, not about the idea itself."
         },
         {
-          "prompt": "Wer kritisiert nicht den Inhalt, sondern wie entschieden wurde?",
+          "prompt": "Who criticises not the plan itself but the way the decision was made?",
           "options": [
-            "Kommentar A",
-            "Kommentar B",
-            "Kommentar D",
-            "Kommentar E"
+            "Comment A",
+            "Comment B",
+            "Comment D",
+            "Comment E"
           ],
-          "answer": "Kommentar E"
+          "answer": "Comment E"
         },
         {
-          "prompt": "Wer argumentiert mit Erfahrungen aus anderen Städten?",
+          "prompt": "Who uses the experience of other towns as an argument?",
           "options": [
-            "Kommentar B",
-            "Kommentar C",
-            "Kommentar D",
-            "Kommentar E"
+            "Comment B",
+            "Comment C",
+            "Comment D",
+            "Comment E"
           ],
-          "answer": "Kommentar D"
+          "answer": "Comment D"
         },
         {
-          "prompt": "Wer fürchtet wirtschaftliche Nachteile für sich selbst?",
+          "prompt": "Who is worried about losing money personally?",
           "options": [
-            "Kommentar A",
-            "Kommentar C",
-            "Kommentar D"
+            "Comment A",
+            "Comment C",
+            "Comment D"
           ],
-          "answer": "Kommentar C"
+          "answer": "Comment C"
         },
         {
-          "prompt": "Wer begründet seine Haltung mit dem eigenen Sicherheitsgefühl?",
+          "prompt": "Whose position is based on their own feeling of safety?",
           "options": [
-            "Kommentar A",
-            "Kommentar B",
-            "Kommentar E"
+            "Comment A",
+            "Comment B",
+            "Comment E"
           ],
-          "answer": "Kommentar A"
+          "answer": "Comment A"
         }
       ]
     }
