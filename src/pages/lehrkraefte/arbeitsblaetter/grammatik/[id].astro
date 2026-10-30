@@ -5,8 +5,8 @@ import { isDraft } from "../../../../lib/topicStatus.js";
 // rule box on top, the answer key on its own page. Built by src/lib/arbeitsblatt/grammatik.js;
 // print/online/check behaviour in src/lib/arbeitsblatt/client.js.
 //
-// Like the vocabulary sheets, the paper is German (the exercise titles and hints are the
-// data's German instructions); only the controls around it follow the site language.
+// The paper is English (the exercise titles and hints are the data's instructions); the
+// controls around it follow the site language (data-i18n).
 import Layout from "../../../../layouts/Layout.astro";
 import { markedHtml } from "../../../../lib/markedText.js";
 import SiteNav from "../../../../components/SiteNav.astro";
@@ -74,18 +74,18 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
       </div>
     </div>
 
-    <article class="ab-sheet" lang="de">
+    <article class="ab-sheet" lang="en">
       <header class="ab-head">
-        <p class="ab-eyebrow">EnglishAcademy · Arbeitsblatt Grammatik · {levelLabel}</p>
+        <p class="ab-eyebrow">EnglishAcademy · Grammar worksheet · {levelLabel}</p>
         <h1 class="ab-title">{topic.name}</h1>
-        <p class="ab-namerow"><span>Name: <i></i></span><span>Datum: <i></i></span></p>
+        <p class="ab-namerow"><span>Name: <i></i></span><span>Date: <i></i></span></p>
       </header>
 
       {extra?.regel && (
-        <aside class="ab-wowo" aria-label="Die Regel">
+        <aside class="ab-wowo" aria-label="The rule">
           {[["wo", extra.regel.wo], ["wohin", extra.regel.wohin]].map(([k, r]) => (
             <div class={`ab-wowo-card ab-wowo-card--${k}`}>
-              <p class="ab-wowo-q"><b>{r.frage}</b> {r.kasus}</p>
+              <p class="ab-wowo-q"><b>{r.frage}</b> → {r.kasus}</p>
               <p class="ab-wowo-was">{r.was}</p>
               <p class="ab-wowo-verbs">{r.verben.map((v: string) => <span>{v}</span>)}</p>
               <p class="ab-wowo-ex" set:html={r.beispiel} />
@@ -95,13 +95,13 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
             <ul class="ab-wowo-lage">
               {extra.regel.lage.map((l: any) => (
                 <li>
-                  <svg viewBox="0 0 28 28" aria-hidden="true">{l.form === "vertikal" ? <rect x="9" y="3" width="10" height="22" rx="2" /> : <rect x="2" y="13" width="24" height="10" rx="2" />}</svg>
+                  <svg viewBox="0 0 28 28" aria-hidden="true">{l.form === "upright" || l.form === "vertikal" ? <rect x="9" y="3" width="10" height="22" rx="2" /> : <rect x="2" y="13" width="24" height="10" rx="2" />}</svg>
                   <span><b>{l.verben}</b> <em>{l.form}</em><br />{l.text}</span>
                 </li>
               ))}
             </ul>
           )}
-          <p class="ab-wowo-nine"><span class="ab-wowo-label">Die Neun:</span> {extra.regel.neun.map((p: string) => <b>{p}</b>)}</p>
+          <p class="ab-wowo-nine"><span class="ab-wowo-label">Place words:</span> {extra.regel.neun.map((p: string) => <b>{p}</b>)}</p>
           <p class="ab-wowo-kurz">{extra.regel.kurz}</p>
         </aside>
       )}
@@ -121,14 +121,14 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
           <h2 class="ab-h"><b>{LETTER[si]}</b> {s.title}</h2>
           {s.hint && <p class="ab-instr">{s.hint}</p>}
           {s.box && <p class="ab-box">{s.box.map((b: string) => <span>{b}</span>)}</p>}
-          {s.pfeile && <ZimmerSzene moves label="Das Zimmer mit Pfeilen: Jeder Pfeil zeigt, wohin ein Ding kommt." />}
+          {s.pfeile && <ZimmerSzene moves label="The room with arrows: each arrow shows where a thing goes." />}
           {s.type === "scene" && (
             <ol class="ab-lines ab-lines--pic">
               {s.items.map((it: any) => (
                 <li>
-                  <span class="ab-pin" aria-label={`Bild Nummer ${it.n}`}>{it.n}</span>
+                  <span class="ab-pin" aria-label={`Picture number ${it.n}`}>{it.n}</span>
                   {it.seg.map((x: any) => isGap(x)
-                    ? <input class="ab-in" style={w(x.a)} data-a={json(x.a)} data-kind="text" aria-label={`Lücke ${++gap}`} autocomplete="off" autocapitalize="off" />
+                    ? <input class="ab-in" style={w(x.a)} data-a={json(x.a)} data-kind="text" aria-label={`Gap ${++gap}`} autocomplete="off" autocapitalize="off" />
                     : x)}
                 </li>
               ))}
@@ -138,7 +138,7 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
             <ol class="ab-tf">
               {s.items.map((it: any) => (
                 <li>
-                  <input class="ab-in ab-in--letter" data-a={json([it.a])} data-kind="letter" maxlength="1" aria-label={`r oder f, Satz ${++gap}`} autocomplete="off" />
+                  <input class="ab-in ab-in--letter" data-a={json([it.a])} data-kind="letter" maxlength="1" aria-label={`t or f, sentence ${++gap}`} autocomplete="off" />
                   <span>{it.text}</span>
                 </li>
               ))}
@@ -160,7 +160,7 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
 
       {!extra?.regel && (sheet.rule.subtitle || sheet.rule.points.length > 0) && (
         <aside class="ab-rule">
-          <p class="ab-rule-title">Die Regel</p>
+          <p class="ab-rule-title">The rule</p>
           {sheet.rule.subtitle && <p>{sheet.rule.subtitle}</p>}
           {sheet.rule.example && <p class="ab-rule-ex" set:html={sheet.rule.example} />}
           {sheet.rule.points.length > 0 && <ul>{sheet.rule.points.map((p) => <li set:html={p} />)}</ul>}
@@ -177,7 +177,7 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
             <ol class="ab-lines">
               {s.items.map((it) => (
                 <li>
-                  {it.before}<input class="ab-in" style={w(it.answers)} data-a={json(it.answers)} data-kind="text" aria-label={`Lücke ${++gap}`} autocomplete="off" autocapitalize="off" />{it.after}
+                  {it.before}<input class="ab-in" style={w(it.answers)} data-a={json(it.answers)} data-kind="text" aria-label={`Gap ${++gap}`} autocomplete="off" autocapitalize="off" />{it.after}
                   {it.hint && <span class="ab-hint"> ({it.hint})</span>}
                 </li>
               ))}
@@ -191,7 +191,7 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
                 {s.items.map((it) => (
                   <tr>
                     <td set:html={markedHtml(it.term)} />
-                    <td><input class="ab-in ab-in--cell" style={w(it.answers)} data-a={json(it.answers)} data-kind="text" aria-label={`Lücke ${++gap}`} autocomplete="off" autocapitalize="off" /></td>
+                    <td><input class="ab-in ab-in--cell" style={w(it.answers)} data-a={json(it.answers)} data-kind="text" aria-label={`Gap ${++gap}`} autocomplete="off" autocapitalize="off" /></td>
                   </tr>
                 ))}
               </tbody>
@@ -203,7 +203,7 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
               <ol class="ab-match-left">
                 {s.left.map((q, i) => (
                   <li>
-                    <input class="ab-in ab-in--letter" data-a={json([s.answers[i]])} data-kind="letter" maxlength="1" aria-label={`Buchstabe für Zeile ${i + 1}`} autocomplete="off" />
+                    <input class="ab-in ab-in--letter" data-a={json([s.answers[i]])} data-kind="letter" maxlength="1" aria-label={`Letter for line ${i + 1}`} autocomplete="off" />
                     <span set:html={markedHtml(q)} />
                   </li>
                 ))}
@@ -219,7 +219,7 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
               {s.items.map((it) => (
                 <li>
                   <p class="ab-words">{it.words.map((wd) => <span>{wd}</span>)}{it.hint && <span class="ab-hint">({it.hint})</span>}</p>
-                  <input class="ab-in ab-in--line" data-a={json(it.answers)} data-kind="sentence" aria-label={`Satz ${++gap}`} autocomplete="off" autocapitalize="off" />
+                  <input class="ab-in ab-in--line" data-a={json(it.answers)} data-kind="sentence" aria-label={`Sentence ${++gap}`} autocomplete="off" autocapitalize="off" />
                 </li>
               ))}
             </ol>
@@ -229,7 +229,7 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
             <p class="ab-story">
               {s.segments.map((seg) =>
                 seg.blank
-                  ? <input class="ab-in" style={w(seg.answers)} data-a={json(seg.answers)} data-kind="text" aria-label={`Lücke ${++gap}`} autocomplete="off" autocapitalize="off" />
+                  ? <input class="ab-in" style={w(seg.answers)} data-a={json(seg.answers)} data-kind="text" aria-label={`Gap ${++gap}`} autocomplete="off" autocapitalize="off" />
                   : seg.text,
               )}
             </p>
@@ -249,9 +249,9 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
               <ol class="ab-lines ab-lines--pic">
                 {s.items.map((it: any) => (
                   <li>
-                    <span class="ab-pin" aria-label={`Bild Nummer ${it.n}`}>{it.n}</span>
+                    <span class="ab-pin" aria-label={`Picture number ${it.n}`}>{it.n}</span>
                     {it.seg.map((x: any) => isGap(x)
-                      ? <input class="ab-in" style={w(x.a)} data-a={json(x.a)} data-kind="text" aria-label={`Lücke ${++gap}`} autocomplete="off" autocapitalize="off" />
+                      ? <input class="ab-in" style={w(x.a)} data-a={json(x.a)} data-kind="text" aria-label={`Gap ${++gap}`} autocomplete="off" autocapitalize="off" />
                       : x)}
                   </li>
                 ))}
@@ -261,12 +261,12 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
         </div>
       )}
 
-      <footer class="ab-foot">EnglishAcademy · englishacademy.com{path} · kostenlos zum Kopieren im Unterricht</footer>
+      <footer class="ab-foot">EnglishAcademy · englishacademy.com{path} · free to copy for use in class</footer>
     </article>
 
-    <article class="ab-sheet ab-key" lang="de" aria-label="Lösungen">
+    <article class="ab-sheet ab-key" lang="en" aria-label="Answers">
       <header class="ab-head">
-        <p class="ab-eyebrow">EnglishAcademy · Lösungen · {levelLabel}</p>
+        <p class="ab-eyebrow">EnglishAcademy · Answers · {levelLabel}</p>
         <h2 class="ab-title ab-title--key">{topic.name}</h2>
       </header>
       {pics.map((s: any, si: number) => (

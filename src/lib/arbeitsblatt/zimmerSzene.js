@@ -9,6 +9,10 @@
 //  4 Bild über dem Bett       5 Katze unter dem Tisch     6 Schuhe vor dem Schrank
 //  7 Jacke über dem Stuhl (the door has a hook: B hangs it there)     8 Teppich vor dem Bett      9 Handy unter dem Bett
 // 10 Ball zwischen Schrank und Bett   11 Pflanze am Fenster   12 Uhr über der Tür
+// English: 1 book on the bed, 2 vase on the table, 3 lamp on the desk, 4 picture above the bed,
+// 5 cat under the table, 6 shoes in front of the wardrobe (Schrank), 7 jacket on/over the chair,
+// 8 rug in front of the bed, 9 phone under the bed, 10 ball between the wardrobe and the bed,
+// 11 plant by the window, 12 clock above the door.
 // Variant "b" is Partner B's room for „Unterschiede finden": five things elsewhere (DIFFS).
 // Moving a thing means changing its sentences and the answer keys too.
 
@@ -16,11 +20,11 @@ const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<
 
 /** Partner B's room: how far each moved thing goes, and the sentence for the key. */
 export const DIFFS = [
-  { key: "katze", dx: 540, dy: -186, a: "Die Katze liegt unter dem Tisch.", b: "Die Katze liegt auf dem Bett." },
-  { key: "vase", dx: 520, dy: -136, a: "Die Vase steht auf dem Tisch.", b: "Die Vase steht am Fenster." },
-  { key: "schuhe", dx: 236, dy: 4, a: "Die Schuhe stehen vor dem Schrank.", b: "Die Schuhe stehen unter dem Bett." },
-  { key: "ball", dx: -446, dy: 6, a: "Der Ball liegt zwischen dem Schrank und dem Bett.", b: "Der Ball liegt vor der Tür." },
-  { key: "uhr", dx: 252, dy: 70, a: "Die Uhr hängt über der Tür.", b: "Die Uhr hängt über dem Schreibtisch." },
+  { key: "katze", dx: 540, dy: -186, a: "The cat is under the table.", b: "The cat is on the bed." },
+  { key: "vase", dx: 520, dy: -136, a: "The vase is on the table.", b: "The vase is on the windowsill." },
+  { key: "schuhe", dx: 236, dy: 4, a: "The shoes are in front of the wardrobe.", b: "The shoes are under the bed." },
+  { key: "ball", dx: -446, dy: 6, a: "The ball is between the wardrobe and the bed.", b: "The ball is in front of the door." },
+  { key: "uhr", dx: 252, dy: 70, a: "The clock is above the door.", b: "The clock is above the desk." },
 ];
 
 const NUMS = [
@@ -65,7 +69,7 @@ function arrows() {
 /**
  * @param {{ variant?: "a" | "b", nums?: boolean, moves?: boolean, label?: string }} [o]
  */
-export function zimmerSvg({ variant = "a", nums = true, moves = false, label = "Ein Zimmer mit Bett, Schrank, Schreibtisch, Regal, Tisch und Stuhl." } = {}) {
+export function zimmerSvg({ variant = "a", nums = true, moves = false, label = "A room with a bed, a wardrobe, a desk, shelves, a table and a chair." } = {}) {
   const moved = variant === "b" ? Object.fromEntries(DIFFS.map((d) => [d.key, d])) : {};
   const move = (k) => (moved[k] ? ` transform="translate(${moved[k].dx} ${moved[k].dy})"` : "");
   return `<svg viewBox="0 0 800 440" role="img" aria-label="${esc(label)}" xmlns="http://www.w3.org/2000/svg">
