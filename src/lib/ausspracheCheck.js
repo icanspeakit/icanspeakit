@@ -11,52 +11,52 @@ import { referenceMelody, learnerMelody, compareMelody, melodyChart } from "./sa
 import { wouldLock } from "./intent.js";
 import { setWaiting } from "./notReady.js";
 
-const LANG = "de-DE";
+const LANG = "en-GB";
 const BEST_KEY = "ac.best";
 const POS_KEY = "ac.pos";
 
 // Every message the learner can see, in one place, keyed by PronunciationErrorCode where
-// one applies. German only for now: this page is speaking practice, and the words around
+// one applies. English only for now: this page is speaking practice, and the words around
 // it stay simple.
 export const MSG = {
-  ready: "Tippe auf „Aufnehmen“ und lies den Satz laut vor.",
-  preparing: "Mikrofon wird vorbereitet …",
-  listening: "Ich höre zu … Lies jetzt den Satz vor.",
-  analysing: "Wird ausgewertet …",
-  done: "Fertig! Tippe auf ein Wort, um es zu hören.",
+  ready: "Tap “Record” and read the sentence aloud.",
+  preparing: "Getting the microphone ready …",
+  listening: "I'm listening … Read the sentence now.",
+  analysing: "Checking …",
+  done: "Done! Tap a word to hear it.",
   // The Android app has no address bar: Android asks itself, and src/lib/appFeel.js points
   // to the app's settings page once Android stops asking.
   micDenied: import.meta.env.PUBLIC_TARGET === "app"
-    ? "Kein Zugriff auf das Mikrofon. Ohne Mikrofon kannst du hier nicht sprechen."
-    : "Kein Zugriff auf das Mikrofon. Erlaube das Mikrofon in den Browser-Einstellungen (Schloss-Symbol neben der Adresse) und lade die Seite neu.",
-  micMissing: "Kein Mikrofon gefunden. Schließ ein Mikrofon oder Headset an und versuch es noch einmal.",
-  micUnsupported: "Dein Browser kann hier nicht aufnehmen. Öffne die Seite in Chrome, Edge oder Safari.",
-  insecure: "Aufnehmen geht nur über eine sichere Verbindung (https).",
-  auth: "Für die Auswertung musst du angemeldet sein. Mit Konto 2× täglich kostenlos.",
-  rate: "Du hast gerade sehr viele Auswertungen gestartet. Mach eine kurze Pause und versuch es in ein paar Minuten noch einmal.",
-  limit: "Deine Sitzungen für heute sind aufgebraucht. Morgen geht es weiter.",
+    ? "No access to the microphone. Without a microphone you can't speak here."
+    : "No access to the microphone. Allow the microphone in your browser settings (the lock icon next to the address) and reload the page.",
+  micMissing: "No microphone found. Connect a microphone or headset and try again.",
+  micUnsupported: "Your browser can't record here. Open the page in Chrome, Edge or Safari.",
+  insecure: "Recording only works over a secure connection (https).",
+  auth: "You need to be signed in to get a score. Free twice a day with an account.",
+  rate: "You have started a lot of checks just now. Take a short break and try again in a few minutes.",
+  limit: "You have used all your sessions for today. You can go on tomorrow.",
   // All learners together used today's share of the Azure quota (GLOBAL_DAILY_CAP, src/lib/usage.ts).
-  full: "Heute ausgelastet – morgen geht's weiter.",
-  retrying: "Kurz warten, gleich geht's weiter…",
-  busy: "Der Sprachdienst ist gerade ausgelastet. Versuch es in ein paar Sekunden noch einmal.",
-  quota: "Aussprache-Check diesen Monat ausgelastet – bitte später erneut versuchen.",
-  config: "Die Aussprache-Auswertung ist gerade nicht eingerichtet. Bitte versuch es später noch einmal.",
-  token: "Keine Verbindung zum Sprachdienst. Prüfe deine Internetverbindung und versuch es noch einmal.",
-  noSpeech: "Ich habe nichts gehört. Sprich etwas lauter oder näher am Mikrofon und versuch es noch einmal.",
-  wrongText: "Ich habe etwas anderes gehört. Lies genau den Satz oben vor.",
-  failed: "Die Auswertung hat nicht geklappt. Versuch es bitte noch einmal.",
-  listenFailed: "Das Anhören hat nicht geklappt.",
+  full: "Fully booked today – back tomorrow.",
+  retrying: "One moment, nearly there …",
+  busy: "The speech service is busy right now. Try again in a few seconds.",
+  quota: "The pronunciation check is fully used for this month. Please try again later.",
+  config: "Pronunciation scoring is not set up at the moment. Please try again later.",
+  token: "No connection to the speech service. Check your internet connection and try again.",
+  noSpeech: "I didn't hear anything. Speak a bit louder or closer to the microphone and try again.",
+  wrongText: "I heard something different. Read exactly the sentence above.",
+  failed: "The check didn't work. Please try again.",
+  listenFailed: "Playing the audio didn't work.",
 };
 
 /** WordError → what the detail panel says. */
 const ERROR_LABEL = {
   none: "",
-  mispronunciation: "Falsch ausgesprochen",
-  omission: "Ausgelassen",
-  insertion: "Zusätzlich gesagt",
-  unexpectedBreak: "Unerwartete Pause",
-  missingBreak: "Pause fehlt",
-  monotone: "Zu monoton",
+  mispronunciation: "Mispronounced",
+  omission: "Left out",
+  insertion: "Extra word",
+  unexpectedBreak: "Unexpected pause",
+  missingBreak: "Missing pause",
+  monotone: "Too flat",
 };
 
 const band = (s) => (s >= 80 ? "good" : s >= 60 ? "ok" : "bad");
@@ -133,8 +133,9 @@ function browserSpeak(text, rate = 0.9) {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = LANG;
     u.rate = rate;
-    const de = synth.getVoices().find((v) => v.lang?.startsWith("de"));
-    if (de) u.voice = de;
+    const voices = synth.getVoices();
+    const en = voices.find((v) => v.lang?.replace("_", "-") === "en-GB") ?? voices.find((v) => v.lang?.startsWith("en"));
+    if (en) u.voice = en;
     u.onend = resolve;
     u.onerror = reject;
     synth.speak(u);
@@ -142,7 +143,7 @@ function browserSpeak(text, rate = 0.9) {
 }
 
 // The provider's voice when it can speak without asking for credentials (so listening
-// never forces a sign-in), the browser's own German voice otherwise.
+// never forces a sign-in), the browser's own English voice otherwise.
 async function speak(text, { slow = false } = {}) {
   stopAudio();
   if (provider.canSpeak()) {
@@ -186,9 +187,9 @@ export function playTake(s, url, take) {
 export function mountAusspracheCheck(root, data) {
   const POS = data.posKey || POS_KEY;
   const BEST = data.bestKey || BEST_KEY;
-  const unit = data.unit || "Satz";
+  const unit = data.unit || "Sentence";
   const listenFirst = Boolean(data.listenFirst);
-  const ready = listenFirst ? "Hör erst zu – dann tippe auf „Aufnehmen“ und sprich nach." : MSG.ready;
+  const ready = listenFirst ? "Listen first – then tap “Record” and say it after the model." : MSG.ready;
   let heard = false;
   const $ = (sel) => root.querySelector(sel);
   const els = {
@@ -226,8 +227,8 @@ export function mountAusspracheCheck(root, data) {
 
   // Names the listen buttons as they read on screen ("Langsam" / "Schnell"), else the play sign.
   const listenFirstWhy = () => {
-    const names = els.listen.map((x) => x.textContent.trim()).filter(Boolean).map((n) => `„${n}“`);
-    return `Hör dir den Satz zuerst an – tippe auf ${names.length ? names.join(" oder ") : "▶"}.`;
+    const names = els.listen.map((x) => x.textContent.trim()).filter(Boolean).map((n) => `“${n}”`);
+    return `Listen to the sentence first – tap ${names.length ? names.join(" or ") : "▶"}.`;
   };
 
   function setStatus(text, kind = "") {
@@ -300,11 +301,11 @@ export function mountAusspracheCheck(root, data) {
   function renderWordDetail(i) {
     const w = words[i];
     els.sentence.querySelectorAll(".ac-w").forEach((b, k) => b.setAttribute("aria-pressed", String(k === i)));
-    const label = w.error === "omission" ? "Ausgelassen" : `${w.score} von 100`;
+    const label = w.error === "omission" ? "Left out" : `${w.score} out of 100`;
     const err = w.error !== "none" && w.error !== "omission" ? ERROR_LABEL[w.error] ?? "" : "";
     // Only with names: de-DE scores the sounds but does not name them, and a row of blanks says nothing.
     const phon = w.phonemes.some((p) => p.symbol)
-      ? `<p class="ac-detail-sub">Laute</p><div class="ac-phonemes">${w.phonemes
+      ? `<p class="ac-detail-sub">Sounds</p><div class="ac-phonemes">${w.phonemes
           .map((p) => `<span class="ac-ph ac-ph--${band(p.score)}" title="${p.score}"><b>${esc(p.symbol)}</b><small>${p.score}</small></span>`)
           .join("")}</div>`
       : "";
@@ -316,8 +317,8 @@ export function mountAusspracheCheck(root, data) {
       ${err ? `<p class="ac-detail-err">${esc(err)}</p>` : ""}
       ${phon}
       <div class="ac-detail-actions">
-        <button type="button" class="ac-btn ac-btn--quiet" data-say="normal">▶ Wort anhören</button>
-        <button type="button" class="ac-btn ac-btn--quiet" data-say="slow">Langsam</button>
+        <button type="button" class="ac-btn ac-btn--quiet" data-say="normal">▶ Hear the word</button>
+        <button type="button" class="ac-btn ac-btn--quiet" data-say="slow">Slowly</button>
       </div>`;
     els.detail.hidden = false;
     els.detail.querySelectorAll("[data-say]").forEach((b) =>
@@ -341,21 +342,21 @@ export function mountAusspracheCheck(root, data) {
     els.overallRing.dataset.band = band(overall);
 
     const rows = [
-      ["Genauigkeit", assessment.accuracy, "Wie genau die Laute stimmen"],
-      ["Flüssigkeit", assessment.fluency, "Tempo und Pausen"],
-      ["Vollständigkeit", assessment.completeness, "Wie viele Wörter du gesagt hast"],
+      ["Accuracy", assessment.accuracy, "How exact the sounds are"],
+      ["Fluency", assessment.fluency, "Speed and pauses"],
+      ["Completeness", assessment.completeness, "How many of the words you said"],
       // Our own score, filled in by renderMelody() — the provider's prosody score is
       // English-only.
-      ["Satzmelodie", null, "Betonung und Melodie"],
+      ["Sentence melody", null, "Stress and melody"],
     ];
     els.scores.innerHTML = rows
       .map(([name, v, hint]) => {
         const has = typeof v === "number";
         const n = has ? Math.round(v) : null;
-        return `<div class="ac-score" data-band="${has ? band(n) : "none"}"${name === "Satzmelodie" ? " data-melody-score" : ""}>
+        return `<div class="ac-score" data-band="${has ? band(n) : "none"}"${name === "Sentence melody" ? " data-melody-score" : ""}>
           <div class="ac-score-top"><span>${name}</span><b>${has ? n : "—"}</b></div>
           <span class="ac-score-bar"><span style="width:${has ? n : 0}%"></span></span>
-          <small>${has ? hint : name === "Satzmelodie" ? "Wird berechnet …" : "Nicht bewertet"}</small>
+          <small>${has ? hint : name === "Sentence melody" ? "Working it out …" : "Not scored"}</small>
         </div>`;
       })
       .join("");
@@ -363,7 +364,7 @@ export function mountAusspracheCheck(root, data) {
     els.sentence.innerHTML = words
       .map((w, i) => {
         const cls = w.error === "omission" ? "omit" : band(w.score);
-        const aria = w.error === "omission" ? `${w.word}: ausgelassen` : `${w.word}: ${w.score} von 100`;
+        const aria = w.error === "omission" ? `${w.word}: left out` : `${w.word}: ${w.score} out of 100`;
         return `<button type="button" class="ac-w ac-w--${cls}" data-word="${i}" aria-pressed="false" aria-label="${esc(aria)}">${esc(w.display)}</button>`;
       })
       .join(" ");
@@ -372,17 +373,17 @@ export function mountAusspracheCheck(root, data) {
     // one. Left-out words get their own line underneath, since there is no sound to fix.
     const spoken = words.filter((w) => w.error !== "omission");
     const worst = spoken.reduce((a, w) => (w.score < a.score ? w : a), spoken[0]);
-    const missing = words.filter((w) => w.error === "omission").map((w) => `„${esc(w.word)}“`);
+    const missing = words.filter((w) => w.error === "omission").map((w) => `“${esc(w.word)}”`);
     const missingLine = missing.length
-      ? `<p class="ac-tip-missing">Nicht gehört: ${missing.join(", ")}. Lies jedes Wort — auch die kleinen.</p>`
+      ? `<p class="ac-tip-missing">Not heard: ${missing.join(", ")}. Read every word, the small ones too.</p>`
       : "";
     if (worst.score >= 85) {
       els.tip.innerHTML = missing.length
-        ? `<p class="ac-tip-title">Gut ausgesprochen!</p>${missingLine}`
-        : `<p class="ac-tip-title">Sehr gut!</p><p>Jedes Wort hat 85 Punkte oder mehr. Probier den nächsten Satz.</p>`;
+        ? `<p class="ac-tip-title">Well pronounced!</p>${missingLine}`
+        : `<p class="ac-tip-title">Very good!</p><p>Every word has 85 points or more. Try the next sentence.</p>`;
     } else {
       const t = tipFor(worst.word, s.focus);
-      els.tip.innerHTML = `<p class="ac-tip-title">Tipp für „${esc(worst.word)}“${t.label ? ` <span class="ac-chip">${esc(t.label)}</span>` : ""}</p><p>${esc(t.text)}</p>${missingLine}`;
+      els.tip.innerHTML = `<p class="ac-tip-title">Tip for “${esc(worst.word)}”${t.label ? ` <span class="ac-chip">${esc(t.label)}</span>` : ""}</p><p>${esc(t.text)}</p>${missingLine}`;
     }
 
     // A mistake typical for the learner's first language replaces the generic tip. The page
@@ -390,8 +391,8 @@ export function mountAusspracheCheck(root, data) {
     // explains ("Hun" heard for "Hund") is not also listed as not heard.
     const native = data.nativeTip?.({ words, assessment });
     if (native) {
-      const rest = words.filter((w) => w.error === "omission" && !native.words.includes(w.word)).map((w) => `„${esc(w.word)}“`);
-      els.tip.innerHTML = native.html + (rest.length ? `<p class="ac-tip-missing">Nicht gehört: ${rest.join(", ")}. Lies jedes Wort — auch die kleinen.</p>` : "");
+      const rest = words.filter((w) => w.error === "omission" && !native.words.includes(w.word)).map((w) => `“${esc(w.word)}”`);
+      els.tip.innerHTML = native.html + (rest.length ? `<p class="ac-tip-missing">Not heard: ${rest.join(", ")}. Read every word, the small ones too.</p>` : "");
     }
 
     els.detail.hidden = true;
@@ -420,24 +421,24 @@ export function mountAusspracheCheck(root, data) {
     els.melody.hidden = true;
     try {
       const [ref, you] = await Promise.all([referenceMelody(s), blob ? learnerMelody(blob) : null]);
-      if (!ref?.length) return setRow(null, "Für diesen Satz gibt es noch kein Vorbild");
-      if (!you?.length) return setRow(null, "Zu wenig Stimme gehört");
+      if (!ref?.length) return setRow(null, "No model recording for this sentence yet");
+      if (!you?.length) return setRow(null, "Not enough voice heard");
       const r = compareMelody(ref, you, s);
-      if (!r) return setRow(null, "Zu wenig Stimme gehört");
-      setRow(r.score, "Betonung und Melodie");
-      const kind = { "ja-nein": "Ja/Nein-Frage: am Ende hoch", "w-frage": "W-Frage: am Ende runter", aussage: "Aussage: am Ende runter" }[r.type];
+      if (!r) return setRow(null, "Not enough voice heard");
+      setRow(r.score, "Stress and melody");
+      const kind = { "ja-nein": "Yes/no question: up at the end", "w-frage": "Wh- question: down at the end", aussage: "Statement: down at the end" }[r.type];
       els.melody.innerHTML = `
         <div class="ac-mel-head">
-          <span class="ac-mel-title">Satzmelodie</span>
+          <span class="ac-mel-title">Sentence melody</span>
           <span class="ac-mel-kind">${esc(kind)}</span>
         </div>
         ${melodyChart(ref, you)}
-        <div class="ac-mel-legend"><span><i class="ac-mel-key ac-mel-key--ref"></i>Vorbild</span><span><i class="ac-mel-key ac-mel-key--you"></i>Du</span></div>
-        ${r.tip ? `<p class="ac-mel-tip">${esc(r.tip)}</p>` : r.score >= 75 ? `<p class="ac-mel-tip">Deine Melodie passt gut zum Vorbild.</p>` : ""}`;
+        <div class="ac-mel-legend"><span><i class="ac-mel-key ac-mel-key--ref"></i>Model</span><span><i class="ac-mel-key ac-mel-key--you"></i>You</span></div>
+        ${r.tip ? `<p class="ac-mel-tip">${esc(r.tip)}</p>` : r.score >= 75 ? `<p class="ac-mel-tip">Your melody matches the model well.</p>` : ""}`;
       els.melody.hidden = false;
     } catch (err) {
       console.error(err);
-      setRow(null, "Nicht bewertet");
+      setRow(null, "Not scored");
     }
   }
 
@@ -470,7 +471,7 @@ export function mountAusspracheCheck(root, data) {
         language: LANG,
         onListening: () => {
           els.record.dataset.state = "rec";
-          els.recordLabel.textContent = "Ich höre zu …";
+          els.recordLabel.textContent = "Listening …";
           setStatus(MSG.listening, "live");
         },
         onRetry: () => {
@@ -494,7 +495,7 @@ export function mountAusspracheCheck(root, data) {
       stream?.getTracks().forEach((t) => t.stop());
       busy = false;
       els.record.dataset.state = "idle";
-      els.recordLabel.textContent = words ? "Noch einmal" : "Aufnehmen";
+      els.recordLabel.textContent = words ? "Again" : "Record";
     }
   }
 
@@ -503,7 +504,7 @@ export function mountAusspracheCheck(root, data) {
     si += delta;
     if (si < 0) { li = Math.max(0, li - 1); si = levels[li].sentences.length - 1; }
     if (si >= levels[li].sentences.length) { li = Math.min(levels.length - 1, li + 1); si = 0; }
-    els.recordLabel.textContent = "Aufnehmen";
+    els.recordLabel.textContent = "Record";
     renderSentence(Math.sign(delta));
     if (listenFirst) listen(preferSlow);
   }
@@ -513,7 +514,7 @@ export function mountAusspracheCheck(root, data) {
       if (busy || i === li) return;
       const dir = Math.sign(i - li);
       li = i; si = 0;
-      els.recordLabel.textContent = "Aufnehmen";
+      els.recordLabel.textContent = "Record";
       renderSentence(dir);
       if (listenFirst) listen(preferSlow);
     }),
@@ -574,7 +575,7 @@ export function mountAusspracheCheck(root, data) {
     select(l, i) {
       if (busy || (l === li && i === si)) return;
       li = l; si = i;
-      els.recordLabel.textContent = "Aufnehmen";
+      els.recordLabel.textContent = "Record";
       renderSentence(0);
       if (listenFirst) listen(preferSlow);
     },

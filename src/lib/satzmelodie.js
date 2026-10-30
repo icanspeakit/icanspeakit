@@ -27,7 +27,9 @@ const WIN = 2048;            // ~43 ms at 48 kHz: long enough for a low male voi
 const MIN_HZ = 60;
 const MAX_HZ = 500;
 const MIN_CLARITY = 0.85;
-const W_WORDS = /^(wer|wen|wem|wessen|was|wann|wo|wohin|woher|wie|warum|wieso|weshalb|welche[rsmn]?|wieviel|wie viel)$/i;
+// English wh-words, with the contracted forms: the first word is read without its
+// apostrophe ("What's" → "Whats").
+const W_WORDS = /^(what|whats|when|whens|where|wheres|who|whos|whom|whose|which|why|whys|how|hows)$/i;
 
 /** "ja-nein" (voice goes up), "w-frage" and "aussage" (voice goes down). */
 export function melodyType(text) {
@@ -166,7 +168,7 @@ function wordAt(text, x) {
 
 /**
  * Compare two normalised contours. `sentence` is { text, stress? } — `stress` maps a word
- * to its spoken stress pattern ("Brötchen": "BRÖT-chen") for the stress tip.
+ * to its spoken stress pattern ("sandwiches": "SAND-wich-es") for the stress tip.
  */
 export function compareMelody(ref, you, sentence) {
   if (ref.length < 8 || you.length < 8) return null;
@@ -202,13 +204,13 @@ export function compareMelody(ref, you, sentence) {
   // little less or later than the model, and a tip would nag about it.
   if (score >= 75) return { score, cost, tip, type };
   if (type === "ja-nein" && endingWrong) {
-    tip = "Bei Ja/Nein-Fragen geht die Stimme am Ende nach oben. Heb die Stimme beim letzten Wort.";
+    tip = "In yes/no questions your voice goes up at the end. Lift your voice on the last word.";
   } else if ((type === "aussage" || type === "w-frage") && endingWrong) {
     tip = type === "w-frage"
-      ? "Bei W-Fragen geht die Stimme am Ende nach unten — wie bei einem normalen Satz."
-      : "Bei Aussagesätzen geht die Stimme am Ende nach unten. Sonst klingt der Satz wie eine Frage.";
+      ? "In wh- questions (what, where, when …) your voice goes down at the end, as in a normal sentence."
+      : "In a statement your voice goes down at the end. If it goes up, the sentence sounds like a question.";
   } else if (monotone) {
-    tip = "Deine Stimme ist sehr gleichmäßig. Geh beim wichtigsten Wort ruhig deutlich höher — Deutsch darf lebendig klingen.";
+    tip = "Your voice is very flat. Go clearly higher on the most important word: English sounds lively, with strong and weak words.";
   } else {
     // The single worst stretch of the aligned path, mapped back to a word.
     let worst = 0, at = 0;
@@ -221,8 +223,8 @@ export function compareMelody(ref, you, sentence) {
       const word = wordAt(sentence.text, at);
       const pattern = sentence.stress?.[word];
       tip = pattern
-        ? `Achte auf die Betonung: ${pattern}. Bei „${word}“ bewegt sich die Stimme im Vorbild anders als bei dir.`
-        : `Hör dir „${word}“ im Vorbild noch einmal an: Dort macht die Stimme eine andere Bewegung als bei dir.`;
+        ? `Watch the stress: ${pattern}. On “${word}” the model's voice moves differently from yours.`
+        : `Listen to “${word}” in the model again: the voice moves differently there.`;
     }
   }
   return { score, cost, tip, type };
@@ -284,7 +286,7 @@ export function melodyChart(ref, you) {
   const y = (st) => P + (H - 2 * P) * (1 - (Math.max(-9, Math.min(9, st)) + 9) / 18);
   const x = (v) => P + (W - 2 * P) * v;
   const line = (pts) => thin(pts, 160).map((p, i) => `${i ? "L" : "M"}${x(p.x).toFixed(1)} ${y(p.st).toFixed(1)}`).join(" ");
-  return `<svg class="ac-mel-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Tonhöhenverlauf: Vorbild und deine Aufnahme" preserveAspectRatio="none">
+  return `<svg class="ac-mel-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Pitch: the model and your recording" preserveAspectRatio="none">
     <line x1="${P}" x2="${W - P}" y1="${y(0)}" y2="${y(0)}" class="ac-mel-mid" />
     <path d="${line(ref)}" class="ac-mel-ref" />
     <path d="${line(you)}" class="ac-mel-you" />

@@ -232,7 +232,7 @@ function mountLive(root, { info, levels, lang, catchPractice }) {
       stream?.getTracks().forEach((tr) => tr.stop());
       session = await provider.assessLive({
         referenceText: sentences.map((s) => s.text).join(" "),
-        language: "de-DE",
+        language: "en-GB",
         maxMs: LIVE_MS,
         onListening: () => {
           startBtn.disabled = false;

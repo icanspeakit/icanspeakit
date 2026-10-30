@@ -15,7 +15,7 @@ import { checkMicrophone, alignWords, MSG } from "./ausspracheCheck.js";
 import { findingsFor, findingsHtml, insertionsOf, esc, t } from "./aussprachePatterns.js";
 import { DRILL_AUDIO_DIR, drillSlug } from "./drillAudio.js";
 
-const LANG = "de-DE";
+const LANG = "en-GB";
 const ROUNDS = 5;
 const band = (s) => (s >= 80 ? "good" : s >= 60 ? "ok" : "bad");
 
@@ -28,8 +28,9 @@ function browserSpeak(text) {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = LANG;
     u.rate = 0.85;
-    const de = synth.getVoices().find((v) => v.lang?.startsWith("de"));
-    if (de) u.voice = de;
+    const voices = synth.getVoices();
+    const en = voices.find((v) => v.lang?.replace("_", "-") === "en-GB") ?? voices.find((v) => v.lang?.startsWith("en"));
+    if (en) u.voice = en;
     u.onend = resolve;
     u.onerror = resolve;
     synth.speak(u);
