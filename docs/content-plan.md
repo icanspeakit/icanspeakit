@@ -304,6 +304,13 @@ Each row: German module → English equivalent → queue item that does it.
 | `b2-vortrag-ehrenamt` | Short talk: volunteering in the UK |
 
 `voices` describe British voices; audio is generated later (TTS). Item: `listening`.
+**Done by `listening` (2026-10-30):** all 16 scripts English, same ids, levels, types and
+speaker keys; titles are the English ones above (slightly shortened, e.g. *At the council:
+changing an appointment*). Places and firms are made up (*Westbridge, Kingsford, Ashby Green,
+Swiftline, Hartley Plumbing*), so no real local rule is misquoted. `voices` carry `en-GB` Azure
+names and British ElevenLabs ids (to check before the first render; `frau2` has none yet).
+`uebersetzungen/hoeren.json` is empty (`entries: {}`): it translated the German scripts, and
+English is the only help language registered.
 
 ### 5.4 Reading and writing
 
