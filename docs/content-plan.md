@@ -341,6 +341,19 @@ are Ofcom drama numbers (`0121 496 0xxx`, `07700 900xxx`), emails use `example.c
 | `fertigkeiten/sprechen.json` | English speaking hub | `speaking` |
 | `hochstapler/redemittel.json` | game phrases in English | `games` |
 
+**Done by `speaking` (2026-10-30):** `sprechen.json` (3 picture tasks, A2: description +
+follow-up questions), `sprechen-b1b2.json` and `fertigkeiten/sprechen.json` (21 tasks A1–B2)
+are English, with the same ids, slugs, types, sets, `from`/`index`/`stage` links and images.
+B1/B2 stages: **1 · The photo** 60 s (Cambridge B1/B2 Part 2 long turn), **2 · The talk** 120 s
+after one minute of notes (IELTS Part 2 topic card: `topic` ends in “You should say:”, the three
+`points` follow), **3 · Discussion** 240 s. Every model answer describes the photo on disk.
+`exam` lines are English and keyed by their text in `src/pages/sprechen/[id].astro`.
+`redemittel.json`: same 14 set ids and phrase order (the beginner path addresses
+`redemittel:<set>#<index>`); **the key `de` holds the English phrase**, `en` a plain-English
+paraphrase or usage note, `ar/uk/ru/tr` stay as drafts (each English phrase keeps the meaning
+of the German one they translated). `redemittel-i18n/*` are re-keyed to the English phrases
+for the same reason. `uebersetzungen/sprechen.json` is empty (`entries: {}`), like listening.
+
 ### 5.6 Pronunciation
 
 | German | English | Item |
