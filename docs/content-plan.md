@@ -320,6 +320,16 @@ English is the only help language registered.
 | `fertigkeiten/lesen.json`, `schreiben.json` | English reading/writing skill hubs | `reading-writing` |
 | `/schreiben/[id]` pages' data | English writing tasks A1–B2 (forms, messages, emails, opinion essays) | `reading-writing` |
 
+**Done by `reading-writing` (2026-10-30):** `lesen.json`, `fertigkeiten/lesen.json` and
+`fertigkeiten/schreiben.json` are English, with the same ids, levels, types, `kind`s and `from`
+links. The B1 simulation has one topic, *learning as an adult*, at the made-up *Westbridge Adult
+Learning*. Its group titles say "B1 reading, task N" (no exam brand in the data; the `/dtz` page
+frames it as ISE I practice). The writing prompt is David's visit, not the (past) 2026 World Cup.
+Form answers use UK formats (`04/03/1996`, `3.30 pm`, `£45`) with plain hyphens; phone numbers
+are Ofcom drama numbers (`0121 496 0xxx`, `07700 900xxx`), emails use `example.com`/`example.co.uk`.
+`uebersetzungen/lesen.json` and `schreiben.json` are empty (`entries: {}`), as for listening.
+`src/lib/schreibKorrektur.js` checks English (LanguageTool `en-GB`, English own rules).
+
 ### 5.5 Speaking
 
 | German | English | Item |
