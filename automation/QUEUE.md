@@ -34,7 +34,7 @@ item, tick it by hand; to redo one, untick it. Add, remove or reorder items free
 - [x] `games-dialogue`: Front desk sim (buergeramt: UK council office customers and rules), manners simulator (knigge scenes in the UK) and the Lindenau RPG as Brambleford, per content-plan §5.9 (split off by `games`, see its report).
 - [x] `teachers`: Worksheets, partner exercises, printable games for English.
 - [x] `word-stories`: Word stories (src/content/wortgeschichte) as English etymology stories, first batch.
-- [ ] `english-for-work`: English for work (src/data/berufe, /berufe): the 10 sectors per content-plan §5.12, workplace phrases and vocabulary in British English.
+- [x] `english-for-work`: English for work (src/data/berufe, /berufe): the 10 sectors per content-plan §5.12, workplace phrases and vocabulary in British English.
 - [ ] `vocab-c1-c2`: Lexicon and word decks, C1 and C2 (src/content/lexicon/c1.json, c2.json), per content-plan §1.4 and §5.2.
 - [ ] `accents-languages`: /wissen/dialekte as accents of English in the British Isles and /wissen/sprachen as where English is spoken (dialekte.json, sprachen-welt.json, their map geometry and the dialekte.*/sprachen.* texts in en.json), per content-plan §5.8 (split off by `culture`, see its report).
 - [ ] `routes`: Rename German routes/slugs to English per content-plan, with redirects from the old ones.
