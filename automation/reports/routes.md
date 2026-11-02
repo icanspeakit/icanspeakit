@@ -1,0 +1,41 @@
+# Run report: `routes`
+
+Date: 2026-11-02 · Branch: `content` · Result: in progress (see "State" at the end)
+
+## What was done
+
+| Area | Now | Commit |
+|---|---|---|
+| Route table | `src/lib/routes.js`: `ROUTE_RENAMES` (old → new path prefixes, every row of content-plan §6), `TOPIC_SLUGS` (the 91 grammar keys → §3 "New slug"), `REF_SLUGS` (the three reference tables), sheet slugs for worksheets; helpers `englishPath`, `germanPath`, `topicPath`, `refPath`, `examPath`, `examOfPath`, `sheetPath`, `tandemPath`. | 36a432d, fc9901b |
+| Pages | 142 files under `src/pages` moved with `git mv` to the §6 names: `/grammar` (+ `/path`, `/verbs`, `/parts-of-speech`, `/common-mistakes`, `/quiz`), `/object-pronouns`, `/prepositions`, `/vocabulary` (+ `/phrases`, `/print`, `/glosses`), `/listening`, `/reading`, `/writing`, `/reading-writing`, `/speaking`, `/speaking-b1-b2`, `/pronunciation`, `/pronunciation-check`, `/intonation` (+ `/check`), `/tongue-twisters`, `/placement-test`, `/step-by-step`, `/start`, `/progress`, `/my-mistakes`, `/syllabus`, `/reference`, `/skills`, `/exercises`, `/game`, `/lesson`, `/card-set`, `/survey`, `/games/*` (countable-sprint, front-desk, impostor, listening-safari, manners, brambleford, nut-night, quaki-jumps, sentence-rain), `/exams` (+ `/traps`), `/exam-plan`, `/cambridge` (+ `/use-of-english`), `/trinity`, `/trinity/ise-1` (+ `/mock-test`, `/practice-set`), `/ielts` (+ `/practice-set`), `/a1-test`, `/life-in-the-uk` (+ `/test`, `/facts`), `/culture` (+ `/mistakes`), `/knowledge/*` (picture-dictionary, accents, country-and-culture, learning, idioms, languages, slang, false-friends, word-stories, quotes), `/explore` (+ `/films`), `/teachers/*` (worksheets, cards, classes, quiz, quiz-chapters, games, timetable, tests, surveys, lesson), `/english-for-work` (+ `…/print`), `/mascots`, `/about`, `/join`, `/privacy`, `/terms`, `/legal-notice`. | 36a432d, fc9901b |
+| Grammar topic URLs | Topics stay at the top level, now `/<English slug>` (`/present-simple`, `/phrasal-verbs`, `/verbs-prepositions` …). `[id].astro` generates the English slug and works with the German key inside. Reference tables: `/grammar/irregular-verbs`, `/grammar/phrasal-verbs-list`, `/grammar/verbs-with-prepositions`. Worksheets and tandem sheets: `/teachers/worksheets/grammar/<slug>`, `/teachers/worksheets/tandem/<slug>` (reference sheets `reference-<slug>`, `verb-tables`, `common-mistakes`). | 36a432d, fc9901b |
+| Redirects | `astro.config.mjs`: `englishRedirects()` makes a 301 from the German address of every page under a renamed path (with its `[params]`, e.g. `/wortschatz/[deck]` → `/vocabulary/[deck]`), plus every pair of the table itself; `grammarTopicRedirects()` sends `/<German key>`, `/grammatik/<key>` and the guessed `/grammar/<slug>` to `/<slug>`; old worksheet and tandem addresses (German and English folder with the German key) redirect too. The older `legacyRedirects()` (`/uebungen/…`, `/pruefungen/telc` …) now point straight at the English pages. ~3,000 redirect pages in `dist/`. | 36a432d, fc9901b |
+| Internal links | `scripts/rename-routes.mjs` (kept as the record) rewrote **2,761 path literals** in ~510 files (`.astro`, `.js`, `.ts`, `.json`, `public/i18n/*.json`, `robots.txt`, `scripts/`), only where a literal starts a URL, so import paths and asset paths (`/audio/pruefungen/…`, `src/data/grammatik/…`) were left alone. By hand: every place that builds a topic, exam, reference or worksheet URL from an id (`catalog.js`, `CourseBar`, `LevelFold`, `LearnShell`, `GrammarRelated`, `GrammarActions`, `RefActions`, `grammarCatalog`, `aufgabenKatalog`, `klassentest/pool`, `unterricht/*`, `liveUebung`, `grammarWorkspace`, `exam/registry`, `exam/saetze`, `pruefungEngine`, `PruefungSatz` …), the path regexes the script could not see (`mascotHelp`, `deckSwap`, `liveQuizNav`, `LanguageOffer`, `arbeitsblatt/client`, `build-suche-seiten`, `check-i18n-luecken`, `check-redewendungen`), the join/share links built from `location.origin` (`/game`, `/join`, `/survey`, `/card-set`), the mock browser bars. | 36a432d, fc9901b |
+| `entry-pages.json`, `suche-seiten.json`, `llms.txt` | Language entry slugs English (`exams`, `english-for-work`, `life-in-the-uk`); the search index paths rewritten in place; `llms.txt` is built from the pages and follows by itself. | 36a432d |
+
+## Decisions
+
+- **Only the URL changed, not the keys.** Grammar topic keys (`praesens`, `verben-praepositionen`), data ids, data file names, localStorage keys, class-task refs (`g:praesens`, `x:telc/…`, `h:<id>`) and JSON endpoint file names (`woerter-a1.json`, `fragen.json`) stayed German. Progress, lehrplan, verwandt, worksheets, live quiz chapters and saved class tasks all key on them, and the plan recommends keeping storage keys (§2). The URL layer maps both ways: `topicPath(key)` / `topicKeyFromSlug(slug)`, and `versuche.js` (`pageRef`) and `examApp.js` map an English path back with `germanPath()` / `examOfPath()`, so refs are what they were.
+- **Grammar topics stay at the top level** (`/present-simple`, not `/grammar/present-simple`), as the site was built (`src/lib/routes.js` header); `/grammar/<slug>` redirects there. §6 says "`/grammatik` → `/grammar` (topics: §3 new slugs)", which this follows for the hub and the slugs.
+- **Saved paths**: `progress.js` runs old "where I was" entries through `englishPath()`, so a browser with German paths in its store resumes on the English page.
+- **Exam families**: the registry ids (`goethe`, `telc`, `dtz`, `testdaf` …) stay; `EXAM_PATHS` gives their pages. `/trinity/ise-1` is the DTZ slot (B1 skills mock) as §6 says; note that `/trinity/b1` is the ISE I-format practice set — two ISE I pages, as decided by `exams`.
+- **Not renamed (left for `cleanup`, which removes them):** `/fuehrerschein/**`, `/politik`, `/steueroasen`, `/games/stadtfahrt`, `/games/vorfahrt` (moved with their folder, names kept), `/grammar/deklination`. Their redirects to `/exams` / `/culture` / `/grammar` belong to the removing commit (§4).
+- **Teacher card print** (`/teachers/cards/print`): there is no such page in this build (the old `/lehrkraefte/karten/drucken` was already an account redirect), so the new address joins `ACCOUNT_REDIRECTS`.
+- **Comments and German UI text** that mention an old path were rewritten with the links; German prose in `de.json` keeps its words, only the URLs changed.
+- **Docs** (`ARCHITECTURE.md`, `docs/*.md`, the prompt files) were not rewritten; they describe history and still name some German routes.
+
+## Checked
+
+- `pnpm build` green: 1,758 pages, postbuild `check-paid-leak` / `check-lehrwerk-leak` ok, sitemap 1,611 URLs.
+- A link check over every built HTML page (`dist/**/*.html`, hrefs and srcs): **no internal link hits a German redirect** (apart from `/merch`, an account redirect from before), and the only missing targets are asset gaps that were there before (`/img/openmoji/*` 6 icons, `/email/*.png`, `/downloads/leben-in-deutschland-*.pdf`, one audio file) and the old dead link to the class version of the impostor game (`/teachers/games/hochstapler`, was `/lehrkraefte/spiele/hochstapler`, no page existed).
+- Spot checks of the redirect pages: `/wortschatz/a1-01` → `/vocabulary/a1-01`, `/praesens` and `/grammatik/praesens` → `/present-simple`, `/grammatik/trennbare-verben` → `/grammar/phrasal-verbs-list`, `/dtz/uebungssatz` → `/trinity/ise-1/practice-set`, `/telc/sprachbausteine` → `/cambridge/use-of-english`, `/lehrkraefte/arbeitsblaetter/grammatik/praesens` → `/teachers/worksheets/grammar/present-simple`, `/dashboard` → `/progress`.
+
+## For Edgar to review
+
+- The grammar topic slugs come straight from content-plan §3; two are a little odd next to each other: `/phrasal-verbs` (A2 topic) and `/grammar/phrasal-verbs-list` (the reference table).
+- `/uebungen/grammatik/<German key>` (deutschacademy's URLs from before 2026-09) no longer resolves: the dynamic legacy redirect now produces `/uebungen/grammatik/<English slug>`. englishacademy never had those URLs, so this was left.
+- When a deploy target exists: the redirects are static meta-refresh pages; a host-level `_redirects` file would make them real 301s.
+
+## State
+
+Phase 1 (§6 route table, grammar topics, worksheets, redirects) done. Next: English slugs for the item ids under the skill, culture and work sections (§1.3).
