@@ -118,7 +118,7 @@ const DROPPED = {
   ],
   // No /games hub page exists; the games are listed under the exercises.
   '/exercises': ['/games/stadtfahrt', '/games/vorfahrt', '/spiele/stadtfahrt', '/spiele/vorfahrt'],
-  '/culture': ['/politik'],
+  '/culture': ['/politik', '/steueroasen'],
 };
 const DROPPED_REDIRECTS = Object.fromEntries(
   Object.entries(DROPPED).flatMap(([to, froms]) => froms.map((from) => [from, r301(to)])),
