@@ -3,16 +3,19 @@
 // Projects Natural Earth country outlines (world-atlas) into two SVG views and writes
 // src/data/sprachen-karte.json: { europe, world } each with a viewBox size, one path per
 // country named in sprachen-welt.json, one merged path for every other country (the
-// grey "land"), the markers projected to x/y, the German-speaking regions per country
-// (x, y, radius), and — Europe only — the Benrath line.
+// grey "land"), the markers projected to x/y, the English-speaking regions per country
+// (x, y, radius), and — Europe only, when `benrath` has points — a line (the English map
+// has none).
 // Pre-projected so the page ships plain <path d> and needs no map library at runtime.
 //
 // The three geo packages are not dependencies of the site. To re-run:
 //   mkdir /tmp/geo && cd /tmp/geo && npm i world-atlas@2 d3-geo@3 topojson-client@3
 //   NODE_PATH=/tmp/geo/node_modules node scripts/generate-sprachen-karte.mjs
+// or pass the folder that holds node_modules: node scripts/generate-sprachen-karte.mjs /tmp/geo
 import fs from "fs";
+import path from "path";
 import { createRequire } from "module";
-const require = createRequire(import.meta.url);
+const require = createRequire(process.argv[2] ? path.resolve(process.argv[2]) + "/" : import.meta.url);
 const { geoPath, geoAzimuthalEqualArea, geoEqualEarth } = require("d3-geo");
 const { feature } = require("topojson-client");
 
@@ -38,7 +41,7 @@ function view({ res, projection, w, h, name }) {
   const markers = data.markers
     .filter((m) => m.views.includes(name))
     .map((m) => ({ id: m.id, pts: m.points.map((p) => projection(p).map(r1)) }));
-  // The German-speaking areas inside a country, drawn when it is selected: a soft disc
+  // The English-speaking areas inside a country, drawn when it is selected: a soft disc
   // per town or area (`km` is its rough radius), its name at the first one. Only for
   // countries drawn in this view.
   const regions = {};
@@ -55,21 +58,21 @@ function view({ res, projection, w, h, name }) {
     }));
   }
   const out = { w, h, countries, land, markers, regions };
-  if (name === "europe") {
+  if (name === "europe" && data.benrath.length > 1) {
     out.benrath = path({ type: "LineString", coordinates: data.benrath });
-    // Where the "maken | machen" label sits: on the line, east of Kassel.
-    out.benrathAt = projection([10.4, 51.55]).map(r1);
+    // Where the line's label sits: at its middle point.
+    out.benrathAt = projection(data.benrath[Math.floor(data.benrath.length / 2)]).map(r1);
   }
   return out;
 }
 
 const EW = 800, EH = 600;
-// Centred on the German-speaking area; the frame runs from Brittany to the Black Sea,
-// so Romania and Denmark fit whole.
-const europeProj = geoAzimuthalEqualArea().rotate([-12, -50]).clipExtent([[0, 0], [EW, EH]]);
+// Centred west of the North Sea; the frame runs from the west coast of Ireland to the
+// Baltic and from southern Sweden down to Malta and Gibraltar.
+const europeProj = geoAzimuthalEqualArea().rotate([-4, -48]).clipExtent([[0, 0], [EW, EH]]);
 europeProj.fitExtent([[0, 0], [EW, EH]], {
   type: "MultiPoint",
-  coordinates: [[-5, 41], [30, 41], [-5, 58], [30, 58], [12, 59.5], [12, 39.5]],
+  coordinates: [[-11, 51], [21, 51], [-9, 60.5], [17, 61], [14.5, 35.5], [-6, 35.8]],
 });
 
 const WW = 1000, WH = 487;

@@ -1,630 +1,386 @@
 {
-  "_comment": "Structure for /wissen/sprachen. All prose lives in public/i18n/*.json under sprachen.*; this file holds what is not translated: ids, ISO codes, coordinates, the words compared. Map geometry is generated from it by scripts/generate-sprachen-karte.mjs into sprachen-karte.json.",
+  "_comment": "Structure for /wissen/sprachen (English around the world). All prose lives in public/i18n/en.json under sprachen.*; this file holds what is not translated: ids, ISO codes, coordinates, the words compared. Status keys keep their old names: amtssprache = English is the main language, region = English is an official language but most people grow up with another, minderheit = not official but widely spoken as a second language, gemeinschaft = small English-speaking territories. compare: the learner's first language next to English (compareWords). decoder: German sound → English sound (from → to), pairs [German, English]. `benrath` is empty (no line on the English map). Map geometry is generated from it by scripts/generate-sprachen-karte.mjs into sprachen-karte.json.",
   "countries": [
     {
-      "id": "DEU",
-      "iso": "276",
+      "id": "GBR",
+      "iso": "826",
       "status": "amtssprache",
-      "name": "Deutschland",
+      "name": "United Kingdom"
+    },
+    {
+      "id": "IRL",
+      "iso": "372",
+      "status": "amtssprache",
+      "name": "Ireland"
+    },
+    {
+      "id": "USA",
+      "iso": "840",
+      "status": "amtssprache",
+      "name": "United States",
       "speakers": {
-        "n": 80000000,
-        "of": "speak"
+        "n": 244000000,
+        "of": "minority"
       }
     },
     {
-      "id": "AUT",
-      "iso": "040",
+      "id": "CAN",
+      "iso": "124",
       "status": "amtssprache",
-      "name": "Österreich",
+      "name": "Canada"
+    },
+    {
+      "id": "AUS",
+      "iso": "036",
+      "status": "amtssprache",
+      "name": "Australia",
       "speakers": {
-        "n": 8800000,
-        "of": "speak"
+        "n": 18300000,
+        "of": "minority"
       }
     },
     {
-      "id": "CHE",
-      "iso": "756",
+      "id": "NZL",
+      "iso": "554",
       "status": "amtssprache",
-      "name": "Schweiz",
-      "speakers": {
-        "n": 5500000,
-        "of": "native"
-      },
-      "regions": [
-        {
-          "id": "deutschschweiz",
-          "name": "Deutschschweiz",
-          "km": 38,
-          "points": [
-            [
-              8.54,
-              47.37
-            ],
-            [
-              7.45,
-              46.95
-            ],
-            [
-              7.59,
-              47.56
-            ],
-            [
-              8.31,
-              47.05
-            ],
-            [
-              9.38,
-              47.42
-            ]
-          ]
-        }
-      ]
+      "name": "New Zealand"
     },
     {
-      "id": "LIE",
-      "iso": "438",
-      "status": "amtssprache",
-      "name": "Liechtenstein",
-      "speakers": {
-        "n": 39000,
-        "of": "speak"
-      }
-    },
-    {
-      "id": "LUX",
-      "iso": "442",
-      "status": "amtssprache",
-      "name": "Luxemburg",
-      "speakers": {
-        "n": 500000,
-        "of": "speak"
-      }
-    },
-    {
-      "id": "BEL",
-      "iso": "056",
+      "id": "IND",
+      "iso": "356",
       "status": "region",
-      "name": "Belgien",
+      "name": "India",
       "speakers": {
-        "n": 78000,
-        "of": "native"
-      },
+        "n": 129000000,
+        "of": "speak"
+      }
+    },
+    {
+      "id": "PAK",
+      "iso": "586",
+      "status": "region",
+      "name": "Pakistan"
+    },
+    {
+      "id": "PHL",
+      "iso": "608",
+      "status": "region",
+      "name": "Philippines"
+    },
+    {
+      "id": "SGP",
+      "iso": "702",
+      "status": "region",
+      "name": "Singapore"
+    },
+    {
+      "id": "HKG",
+      "iso": "344",
+      "status": "region",
+      "name": "Hong Kong"
+    },
+    {
+      "id": "MLT",
+      "iso": "470",
+      "status": "region",
+      "name": "Malta"
+    },
+    {
+      "id": "NGA",
+      "iso": "566",
+      "status": "region",
+      "name": "Nigeria"
+    },
+    {
+      "id": "GHA",
+      "iso": "288",
+      "status": "region",
+      "name": "Ghana"
+    },
+    {
+      "id": "SLE",
+      "iso": "694",
+      "status": "region",
+      "name": "Sierra Leone"
+    },
+    {
+      "id": "LBR",
+      "iso": "430",
+      "status": "region",
+      "name": "Liberia"
+    },
+    {
+      "id": "CMR",
+      "iso": "120",
+      "status": "region",
+      "name": "Cameroon",
       "regions": [
         {
-          "id": "ostbelgien",
-          "name": "Ostbelgien",
-          "km": 16,
+          "id": "anglophone",
+          "name": "Northwest and Southwest",
+          "km": 70,
           "points": [
             [
-              6.03,
-              50.63
+              10.15,
+              5.96
             ],
             [
-              6.13,
-              50.28
+              9.3,
+              4.6
             ]
           ]
         }
       ]
     },
     {
-      "id": "ITA",
-      "iso": "380",
+      "id": "KEN",
+      "iso": "404",
       "status": "region",
-      "name": "Italien",
-      "speakers": {
-        "n": 315000,
-        "of": "native"
-      },
-      "regions": [
-        {
-          "id": "suedtirol",
-          "name": "Südtirol",
-          "km": 42,
-          "points": [
-            [
-              11.35,
-              46.6
-            ]
-          ]
-        }
-      ]
+      "name": "Kenya"
+    },
+    {
+      "id": "UGA",
+      "iso": "800",
+      "status": "region",
+      "name": "Uganda"
+    },
+    {
+      "id": "TZA",
+      "iso": "834",
+      "status": "region",
+      "name": "Tanzania"
+    },
+    {
+      "id": "RWA",
+      "iso": "646",
+      "status": "region",
+      "name": "Rwanda"
+    },
+    {
+      "id": "ZMB",
+      "iso": "894",
+      "status": "region",
+      "name": "Zambia"
+    },
+    {
+      "id": "ZWE",
+      "iso": "716",
+      "status": "region",
+      "name": "Zimbabwe"
+    },
+    {
+      "id": "BWA",
+      "iso": "072",
+      "status": "region",
+      "name": "Botswana"
+    },
+    {
+      "id": "NAM",
+      "iso": "516",
+      "status": "region",
+      "name": "Namibia"
+    },
+    {
+      "id": "ZAF",
+      "iso": "710",
+      "status": "region",
+      "name": "South Africa"
+    },
+    {
+      "id": "PNG",
+      "iso": "598",
+      "status": "region",
+      "name": "Papua New Guinea"
+    },
+    {
+      "id": "FJI",
+      "iso": "242",
+      "status": "region",
+      "name": "Fiji"
+    },
+    {
+      "id": "JAM",
+      "iso": "388",
+      "status": "region",
+      "name": "Jamaica"
+    },
+    {
+      "id": "TTO",
+      "iso": "780",
+      "status": "region",
+      "name": "Trinidad and Tobago"
+    },
+    {
+      "id": "BHS",
+      "iso": "044",
+      "status": "region",
+      "name": "Bahamas"
+    },
+    {
+      "id": "BRB",
+      "iso": "052",
+      "status": "region",
+      "name": "Barbados"
+    },
+    {
+      "id": "GUY",
+      "iso": "328",
+      "status": "region",
+      "name": "Guyana"
+    },
+    {
+      "id": "BLZ",
+      "iso": "084",
+      "status": "region",
+      "name": "Belize"
+    },
+    {
+      "id": "NLD",
+      "iso": "528",
+      "status": "minderheit",
+      "name": "Netherlands"
     },
     {
       "id": "DNK",
       "iso": "208",
       "status": "minderheit",
-      "name": "Dänemark",
-      "speakers": {
-        "n": 15000,
-        "of": "minority"
-      },
-      "regions": [
-        {
-          "id": "nordschleswig",
-          "name": "Nordschleswig",
-          "km": 22,
-          "points": [
-            [
-              9.42,
-              55.04
-            ],
-            [
-              9.79,
-              54.91
-            ]
-          ]
-        }
-      ]
+      "name": "Denmark"
     },
     {
-      "id": "POL",
-      "iso": "616",
+      "id": "SWE",
+      "iso": "752",
       "status": "minderheit",
-      "name": "Polen",
-      "speakers": {
-        "n": 145000,
-        "of": "minority"
-      },
-      "regions": [
-        {
-          "id": "oppeln",
-          "name": "Oppelner Schlesien",
-          "km": 45,
-          "points": [
-            [
-              17.93,
-              50.67
-            ]
-          ]
-        },
-        {
-          "id": "oberschlesien",
-          "name": "Oberschlesien",
-          "km": 28,
-          "points": [
-            [
-              18.67,
-              50.3
-            ]
-          ]
-        }
-      ]
+      "name": "Sweden"
     },
     {
-      "id": "CZE",
-      "iso": "203",
+      "id": "MYS",
+      "iso": "458",
       "status": "minderheit",
-      "name": "Tschechien",
-      "speakers": {
-        "n": 20000,
-        "of": "minority"
-      },
-      "regions": [
-        {
-          "id": "egerland",
-          "name": "Egerland",
-          "km": 28,
-          "points": [
-            [
-              12.6,
-              50.15
-            ]
-          ]
-        },
-        {
-          "id": "nordboehmen",
-          "name": "Nordböhmen",
-          "km": 28,
-          "points": [
-            [
-              15.05,
-              50.77
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "SVK",
-      "iso": "703",
-      "status": "minderheit",
-      "name": "Slowakei",
-      "speakers": {
-        "n": 4000,
-        "of": "minority"
-      },
-      "regions": [
-        {
-          "id": "pressburg",
-          "name": "Pressburg",
-          "km": 14,
-          "points": [
-            [
-              17.11,
-              48.15
-            ]
-          ]
-        },
-        {
-          "id": "hauerland",
-          "name": "Hauerland",
-          "km": 20,
-          "points": [
-            [
-              18.9,
-              48.7
-            ]
-          ]
-        },
-        {
-          "id": "zips",
-          "name": "Zips",
-          "km": 24,
-          "points": [
-            [
-              20.4,
-              49.05
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "HUN",
-      "iso": "348",
-      "status": "minderheit",
-      "name": "Ungarn",
-      "speakers": {
-        "n": 140000,
-        "of": "minority"
-      },
-      "regions": [
-        {
-          "id": "branau",
-          "name": "Fünfkirchen · Branau",
-          "km": 34,
-          "points": [
-            [
-              18.4,
-              46
-            ]
-          ]
-        },
-        {
-          "id": "ofner-bergland",
-          "name": "Ofner Bergland",
-          "km": 24,
-          "points": [
-            [
-              18.85,
-              47.6
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "ROU",
-      "iso": "642",
-      "status": "minderheit",
-      "name": "Rumänien",
-      "speakers": {
-        "n": 23000,
-        "of": "minority"
-      },
-      "regions": [
-        {
-          "id": "siebenbuergen",
-          "name": "Siebenbürgen",
-          "km": 55,
-          "points": [
-            [
-              24.4,
-              45.95
-            ]
-          ]
-        },
-        {
-          "id": "banat",
-          "name": "Banat",
-          "km": 38,
-          "points": [
-            [
-              21.3,
-              45.7
-            ]
-          ]
-        },
-        {
-          "id": "sathmar",
-          "name": "Sathmar",
-          "km": 24,
-          "points": [
-            [
-              22.88,
-              47.79
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "NAM",
-      "iso": "516",
-      "status": "minderheit",
-      "name": "Namibia",
-      "speakers": {
-        "n": 20000,
-        "of": "native"
-      },
-      "regions": [
-        {
-          "id": "windhuk",
-          "name": "Windhuk",
-          "km": 120,
-          "points": [
-            [
-              17.08,
-              -22.56
-            ]
-          ]
-        },
-        {
-          "id": "swakopmund",
-          "name": "Swakopmund",
-          "km": 120,
-          "points": [
-            [
-              14.53,
-              -22.68
-            ]
-          ]
-        }
-      ]
+      "name": "Malaysia"
     }
   ],
   "markers": [
     {
-      "id": "liechtenstein",
-      "ref": "LIE",
-      "kind": "amtssprache",
-      "name": "Liechtenstein",
-      "views": [
-        "europe"
-      ],
-      "points": [
-        [
-          9.55,
-          47.15
-        ]
-      ]
-    },
-    {
-      "id": "suedtirol",
-      "ref": "ITA",
+      "id": "malta",
+      "ref": "MLT",
       "kind": "region",
-      "name": "Südtirol",
+      "name": "Malta",
       "views": [
-        "europe"
+        "europe",
+        "world"
       ],
       "points": [
         [
-          11.35,
-          46.6
+          14.45,
+          35.9
         ]
       ]
     },
     {
-      "id": "ostbelgien",
-      "ref": "BEL",
+      "id": "singapore",
+      "ref": "SGP",
       "kind": "region",
-      "name": "Ostbelgien",
+      "name": "Singapore",
       "views": [
-        "europe"
+        "world"
       ],
       "points": [
         [
-          6.1,
-          50.45
+          103.82,
+          1.35
         ]
       ]
     },
     {
-      "id": "elsass",
-      "kind": "gemeinschaft",
-      "name": "Elsass",
-      "views": [
-        "europe"
-      ],
-      "points": [
-        [
-          7.45,
-          48.3
-        ]
-      ],
-      "speakers": {
-        "n": 800000,
-        "of": "dialect"
-      }
-    },
-    {
-      "id": "pennsylvania",
-      "kind": "gemeinschaft",
-      "name": "Pennsylvaniadeutsch",
+      "id": "hongkong",
+      "ref": "HKG",
+      "kind": "region",
+      "name": "Hong Kong",
       "views": [
         "world"
       ],
       "points": [
         [
-          -77.5,
-          40.4
-        ],
-        [
-          -81.5,
-          40.6
+          114.17,
+          22.32
         ]
-      ],
-      "speakers": {
-        "n": 300000,
-        "of": "dialect"
-      }
+      ]
     },
     {
-      "id": "plautdietsch",
-      "kind": "gemeinschaft",
-      "name": "Plautdietsch",
+      "id": "barbados",
+      "ref": "BRB",
+      "kind": "region",
+      "name": "Barbados",
       "views": [
         "world"
       ],
       "points": [
         [
-          -106.9,
-          28.6
-        ],
-        [
-          -63.2,
-          -17.8
-        ],
-        [
-          -60,
-          -22.3
-        ],
-        [
-          -88.6,
-          17.3
-        ],
-        [
-          -97.5,
-          49.4
+          -59.55,
+          13.15
         ]
-      ],
-      "speakers": {
-        "n": 400000,
-        "of": "dialect"
-      }
+      ]
     },
     {
-      "id": "brasilien",
-      "kind": "gemeinschaft",
-      "name": "Südbrasilien",
+      "id": "trinidad",
+      "ref": "TTO",
+      "kind": "region",
+      "name": "Trinidad and Tobago",
       "views": [
         "world"
       ],
       "points": [
         [
-          -49.2,
-          -26.7
-        ],
-        [
-          -51.8,
-          -29.4
-        ],
-        [
-          -40.7,
-          -20.1
+          -61.25,
+          10.45
         ]
-      ],
-      "speakers": {
-        "n": 1000000,
-        "of": "dialect"
-      }
+      ]
     },
     {
-      "id": "chile",
+      "id": "gibraltar",
       "kind": "gemeinschaft",
-      "name": "Südchile",
+      "name": "Gibraltar",
+      "views": [
+        "europe",
+        "world"
+      ],
+      "points": [
+        [
+          -5.35,
+          36.14
+        ]
+      ]
+    },
+    {
+      "id": "bermuda",
+      "kind": "gemeinschaft",
+      "name": "Bermuda",
       "views": [
         "world"
       ],
       "points": [
         [
-          -72.9,
-          -41.2
+          -64.75,
+          32.3
         ]
-      ],
-      "speakers": {
-        "n": 30000,
-        "of": "speak"
-      }
+      ]
     },
     {
-      "id": "russlanddeutsche",
+      "id": "falklands",
       "kind": "gemeinschaft",
-      "name": "Russlanddeutsche",
+      "name": "Falkland Islands",
       "views": [
         "world"
       ],
       "points": [
         [
-          71.4,
-          51.2
-        ],
-        [
-          80,
-          52.9
+          -59,
+          -51.75
         ]
-      ],
-      "speakers": {
-        "n": 400000,
-        "of": "minority"
-      }
+      ]
     }
   ],
-  "benrath": [
-    [
-      5.95,
-      50.75
-    ],
-    [
-      6.45,
-      51.05
-    ],
-    [
-      6.88,
-      51.16
-    ],
-    [
-      7.55,
-      51.12
-    ],
-    [
-      8.2,
-      51.05
-    ],
-    [
-      8.9,
-      51.2
-    ],
-    [
-      9.55,
-      51.35
-    ],
-    [
-      10.4,
-      51.55
-    ],
-    [
-      11.3,
-      51.75
-    ],
-    [
-      12.1,
-      51.85
-    ],
-    [
-      12.9,
-      51.9
-    ],
-    [
-      13.9,
-      51.95
-    ],
-    [
-      14.6,
-      52.3
-    ]
-  ],
+  "benrath": [],
   "tree": {
     "id": "ie",
     "children": [
@@ -634,22 +390,23 @@
           {
             "id": "west",
             "langs": [
-              "Deutsch",
-              "Englisch",
-              "Niederländisch",
-              "Luxemburgisch",
-              "Jiddisch",
+              "English",
+              "German",
+              "Dutch",
+              "Frisian",
+              "Scots",
               "Afrikaans",
-              "Friesisch"
+              "Yiddish",
+              "Luxembourgish"
             ]
           },
           {
             "id": "nord",
             "langs": [
-              "Schwedisch",
-              "Dänisch",
-              "Norwegisch",
-              "Isländisch"
+              "Swedish",
+              "Danish",
+              "Norwegian",
+              "Icelandic"
             ]
           }
         ]
@@ -657,43 +414,44 @@
       {
         "id": "rom",
         "langs": [
-          "Französisch",
-          "Italienisch",
-          "Spanisch",
-          "Portugiesisch",
-          "Rumänisch"
+          "French",
+          "Italian",
+          "Spanish",
+          "Portuguese",
+          "Romanian"
         ]
       },
       {
         "id": "slaw",
         "langs": [
-          "Russisch",
-          "Ukrainisch",
-          "Polnisch",
-          "Tschechisch",
-          "Kroatisch",
-          "Bulgarisch"
+          "Russian",
+          "Ukrainian",
+          "Polish",
+          "Czech",
+          "Croatian",
+          "Bulgarian"
         ]
       },
       {
         "id": "iran",
         "langs": [
-          "Persisch",
-          "Kurdisch",
-          "Paschtu",
+          "Persian",
+          "Kurdish",
+          "Pashto",
           "Hindi",
           "Urdu",
-          "Bengalisch"
+          "Bengali"
         ]
       },
       {
         "id": "weitere",
         "langs": [
-          "Griechisch",
-          "Albanisch",
-          "Armenisch",
-          "Litauisch",
-          "Irisch"
+          "Greek",
+          "Albanian",
+          "Armenian",
+          "Lithuanian",
+          "Irish",
+          "Welsh"
         ]
       }
     ]
@@ -702,8 +460,8 @@
     {
       "id": "afro",
       "langs": [
-        "Arabisch",
-        "Hebräisch",
+        "Arabic",
+        "Hebrew",
         "Tigrinya",
         "Somali"
       ]
@@ -711,24 +469,24 @@
     {
       "id": "turk",
       "langs": [
-        "Türkisch",
-        "Aserbaidschanisch",
-        "Kasachisch",
-        "Usbekisch"
+        "Turkish",
+        "Azerbaijani",
+        "Kazakh",
+        "Uzbek"
       ]
     },
     {
       "id": "sino",
       "langs": [
-        "Chinesisch",
-        "Tibetisch",
-        "Birmanisch"
+        "Chinese",
+        "Tibetan",
+        "Burmese"
       ]
     },
     {
       "id": "austro",
       "langs": [
-        "Vietnamesisch",
+        "Vietnamese",
         "Khmer"
       ]
     },
@@ -736,72 +494,72 @@
       "id": "austron",
       "langs": [
         "Tagalog",
-        "Indonesisch",
-        "Malaiisch"
+        "Indonesian",
+        "Malay"
       ]
     },
     {
       "id": "ural",
       "langs": [
-        "Ungarisch",
-        "Finnisch",
-        "Estnisch"
+        "Hungarian",
+        "Finnish",
+        "Estonian"
       ]
     }
   ],
   "compareWords": [
-    "Mutter",
-    "Bruder",
-    "Nacht",
-    "drei",
-    "neu",
-    "Name",
-    "Haus",
-    "Wasser"
+    "mother",
+    "brother",
+    "night",
+    "three",
+    "new",
+    "name",
+    "house",
+    "water"
   ],
   "compare": [
     {
-      "id": "englisch",
-      "tree": "Englisch",
+      "id": "deutsch",
+      "tree": "German",
       "level": "sehr-nah",
       "words": [
         [
-          "mother",
+          "Mutter",
           null,
           1
         ],
         [
-          "brother",
+          "Bruder",
           null,
           1
         ],
         [
-          "night",
+          "Nacht",
           null,
           1
         ],
         [
-          "three",
+          "drei",
           null,
           1
         ],
         [
-          "new",
+          "neu",
           null,
           1
         ],
         [
-          "name",
+          "Name",
           null,
           1
         ],
         [
-          "house",
+          "Haus",
           null,
           1
         ],
         [
-          "water",
+          "Wasser",
           null,
           1
         ]
@@ -809,7 +567,7 @@
     },
     {
       "id": "persisch",
-      "tree": "Persisch",
+      "tree": "Persian",
       "level": "entfernt",
       "rtl": true,
       "words": [
@@ -857,7 +615,7 @@
     },
     {
       "id": "russisch",
-      "tree": "Russisch",
+      "tree": "Russian",
       "level": "entfernt",
       "words": [
         [
@@ -904,7 +662,7 @@
     },
     {
       "id": "ukrainisch",
-      "tree": "Ukrainisch",
+      "tree": "Ukrainian",
       "level": "entfernt",
       "words": [
         [
@@ -951,7 +709,7 @@
     },
     {
       "id": "polnisch",
-      "tree": "Polnisch",
+      "tree": "Polish",
       "level": "entfernt",
       "words": [
         [
@@ -998,7 +756,7 @@
     },
     {
       "id": "franzoesisch",
-      "tree": "Französisch",
+      "tree": "French",
       "level": "entfernt",
       "words": [
         [
@@ -1045,7 +803,7 @@
     },
     {
       "id": "italienisch",
-      "tree": "Italienisch",
+      "tree": "Italian",
       "level": "entfernt",
       "words": [
         [
@@ -1092,7 +850,7 @@
     },
     {
       "id": "spanisch",
-      "tree": "Spanisch",
+      "tree": "Spanish",
       "level": "entfernt",
       "words": [
         [
@@ -1139,7 +897,7 @@
     },
     {
       "id": "arabisch",
-      "tree": "Arabisch",
+      "tree": "Arabic",
       "level": "fremd",
       "rtl": true,
       "words": [
@@ -1187,7 +945,7 @@
     },
     {
       "id": "tuerkisch",
-      "tree": "Türkisch",
+      "tree": "Turkish",
       "level": "fremd",
       "words": [
         [
@@ -1234,7 +992,7 @@
     },
     {
       "id": "chinesisch",
-      "tree": "Chinesisch",
+      "tree": "Chinese",
       "level": "fremd",
       "words": [
         [
@@ -1281,7 +1039,7 @@
     },
     {
       "id": "vietnamesisch",
-      "tree": "Vietnamesisch",
+      "tree": "Vietnamese",
       "level": "fremd",
       "words": [
         [
@@ -1377,171 +1135,171 @@
   "decoder": [
     {
       "id": "t",
-      "from": "t",
-      "to": "z · ss · ß",
+      "from": "z · ss · ß",
+      "to": "t",
       "pairs": [
         [
-          "ten",
-          "zehn"
+          "zehn",
+          "ten"
         ],
         [
-          "two",
-          "zwei"
+          "zwei",
+          "two"
         ],
         [
-          "water",
-          "Wasser"
+          "Wasser",
+          "water"
         ],
         [
-          "eat",
-          "essen"
+          "essen",
+          "eat"
         ],
         [
-          "foot",
-          "Fuß"
+          "Fuß",
+          "foot"
         ]
       ]
     },
     {
       "id": "p",
-      "from": "p",
-      "to": "pf · f",
+      "from": "pf · f",
+      "to": "p",
       "pairs": [
         [
-          "apple",
-          "Apfel"
+          "Apfel",
+          "apple"
         ],
         [
-          "pepper",
-          "Pfeffer"
+          "Pfeffer",
+          "pepper"
         ],
         [
-          "ship",
-          "Schiff"
+          "Schiff",
+          "ship"
         ],
         [
-          "sleep",
-          "schlafen"
+          "schlafen",
+          "sleep"
         ]
       ]
     },
     {
       "id": "k",
-      "from": "k",
-      "to": "ch",
+      "from": "ch",
+      "to": "k",
       "pairs": [
         [
-          "make",
-          "machen"
+          "machen",
+          "make"
         ],
         [
-          "book",
-          "Buch"
+          "Buch",
+          "book"
         ],
         [
-          "week",
-          "Woche"
+          "Woche",
+          "week"
         ],
         [
-          "cook",
-          "kochen"
+          "kochen",
+          "cook"
         ]
       ]
     },
     {
       "id": "d",
-      "from": "d",
-      "to": "t",
+      "from": "t",
+      "to": "d",
       "pairs": [
         [
-          "day",
-          "Tag"
+          "Tag",
+          "day"
         ],
         [
-          "drink",
-          "trinken"
+          "trinken",
+          "drink"
         ],
         [
-          "daughter",
-          "Tochter"
+          "Tochter",
+          "daughter"
         ],
         [
-          "bed",
-          "Bett"
+          "Bett",
+          "bed"
         ]
       ]
     },
     {
       "id": "th",
-      "from": "th",
-      "to": "d",
+      "from": "d",
+      "to": "th",
       "pairs": [
         [
-          "three",
-          "drei"
+          "drei",
+          "three"
         ],
         [
-          "thing",
-          "Ding"
+          "Ding",
+          "thing"
         ],
         [
-          "think",
-          "denken"
+          "denken",
+          "think"
         ],
         [
-          "brother",
-          "Bruder"
+          "Bruder",
+          "brother"
         ]
       ]
     },
     {
       "id": "v",
-      "from": "v",
-      "to": "b",
+      "from": "b",
+      "to": "v",
       "pairs": [
         [
-          "have",
-          "haben"
+          "haben",
+          "have"
         ],
         [
-          "give",
-          "geben"
+          "geben",
+          "give"
         ],
         [
-          "live",
-          "leben"
+          "leben",
+          "live"
         ],
         [
-          "seven",
-          "sieben"
+          "sieben",
+          "seven"
         ]
       ]
     }
   ],
   "decoderQuiz": [
     [
-      "salt",
-      "Salz"
+      "Salz",
+      "salt"
     ],
     [
-      "heart",
-      "Herz"
+      "Herz",
+      "heart"
     ],
     [
-      "pipe",
-      "Pfeife"
+      "Pfeife",
+      "pipe"
     ],
     [
-      "open",
-      "offen"
+      "offen",
+      "open"
     ],
     [
-      "deep",
-      "tief"
+      "tief",
+      "deep"
     ],
     [
-      "thank",
-      "danken"
+      "danken",
+      "thank"
     ]
   ]
 }
