@@ -525,7 +525,18 @@ Same 10 sectors, ids kept: `pflege` care work · `gastronomie` restaurants & kit
 `hotel` hotels · `einzelhandel` retail · `lager-logistik` warehouse & logistics ·
 `kraftfahrer` drivers (van/HGV) · `bau-handwerk` construction & trades · `elektro-technik`
 electrical work · `buero` office · `kita` childcare (nursery). Workplace phrases and
-vocabulary in British English. Not in the queue yet (see §9).
+vocabulary in British English.
+
+**Done by `english-for-work` (2026-11-02):** all 10 decks are English, same group ids
+(learners' progress keys), ~85–95 entries per deck, `pflege` one short group of 30 (its
+pflegeplace.com box is gone: `external: null`). Conventions: an own word's `gender` =
+`a`/`an`/`some`, `plural` English (`null` for uncountables), `forms` = 3rd person · past ·
+participle, no `aux`; `translations` holds only `en` (= short simple-English definition, the
+only registered `berufe` language); `deHint` = **German translation** (the "German" tab,
+like lexicon `i18n/de.json`). A lemma that exists in the English A1–B2 lexicon is a `{ ref,
+example }` with a job-specific example (about half of all entries), a lemma from another deck is a
+`bv-…` ref. `fs-…` refs (Führerschein) are gone. Validator: `src/lib/berufeCore.js`
+(`pnpm check:berufe`). `liveDeck` now drops refs into levels that are **not** English.
 
 ---
 
@@ -619,7 +630,7 @@ titles) are handled by the `ui-*` items where they are rendered.
 
 - **C1/C2 lexicon** (`content/lexicon/c1.json`, `c2.json`): no queue item. Suggest
   `vocab-c1` later, or hide C1/C2 vocabulary until then.
-- **English for work** (`data/berufe/`): no queue item. Suggest adding `english-for-work`.
+- **English for work** (`data/berufe/`): done by `english-for-work` (2026-11-02), see §5.12.
 - **`uebersetzungen/grammatik*.json`, `woerter-uk.json`, `rechtliches.json`**: learner-language
   translations of grammar UI/topics, Ukrainian word glosses, legal texts. Grammar ones go with
   `grammar-structure`; `rechtliches.json` with `ui-pages-m-z` (legal pages); `woerter-uk.json`
