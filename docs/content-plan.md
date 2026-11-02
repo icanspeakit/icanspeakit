@@ -503,6 +503,22 @@ Facts that change (fees, figures, rules) need a source and an “as of” date i
   useful to learners of English).
 - First batch (`word-stories` item): about 30 everyday A1–A2 words.
 
+**Status (`word-stories`, 2026-11-02):** 30 English stories, all `status: "entwurf"` (the
+validator refuses `geprueft` while `checkedBy` names Claude, so none is public until Edgar
+approves): house, bread, window, egg, sky, Wednesday, Thursday, Saturday, cow, coffee, tea,
+sugar, money, school, holiday, friend, husband, nice, breakfast, bus, taxi, hotel, sandwich,
+tomato, potato, chocolate, knife, boss, dog, shampoo. 24 replace a German story (deleted in the
+same commit, its `publishOn` reused); sky, husband, nice, breakfast, sandwich, shampoo are new
+(publishOn 2027-10-02 … 07). Field values stay German where the code reads them (`certainty`:
+sicher/wahrscheinlich/umstritten/unklar, `kind`: verwandt/entlehnt/zufall/parallele; en.json
+prints them in English). Stage/tree `lang` labels are written out in English (Old English, Old
+Norse …). `relatives.family` is always given by hand (an empty list = none), because the
+computed family matches substrings (bus → business). Sources: Wiktionary checked by a second
+model pass; Etymonline is listed but returned 403, so `checkedBy` says so. The page code now
+picks the language per entry (`entryLang` in `wortgeschichteCore.js`): English stories get
+`lang="en"`, ‘…’ quotes, *a house · houses* forms; the 342 German stories left keep German
+rendering until `cleanup` removes them. `LANG_NAMES` are English.
+
 ### 5.12 English for work (`data/berufe/`, `/berufe`)
 
 Same 10 sectors, ids kept: `pflege` care work · `gastronomie` restaurants & kitchens ·
