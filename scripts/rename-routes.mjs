@@ -15,7 +15,7 @@ import { readdirSync, readFileSync, statSync, writeFileSync, existsSync, mkdirSy
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-import { ROUTE_RENAMES, TOPIC_SLUGS } from "../src/lib/routes.js";
+import { ROUTE_RENAMES, TOPIC_SLUGS, ITEM_SLUGS, englishPath } from "../src/lib/routes.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DRY = process.argv.includes("--dry");
@@ -105,6 +105,11 @@ const halfRe = new RegExp(BEFORE + "(" + Object.keys(halfTo).sort((a, b) => b.le
 const topicKeys = Object.keys(TOPIC_SLUGS).filter((k) => TOPIC_SLUGS[k] !== k && !sectionTo[`/${k}`]).sort((a, b) => b.length - a.length);
 const topicRe = new RegExp(BEFORE + "/(" + topicKeys.map(esc).join("|") + `)(?=["'\`?#)\\s,<\\]\\\\]|$)`, "gm");
 
+// Item pages (ITEM_SLUGS): /listening/a1-ansage-bahnhof → /listening/a1-station-announcement,
+// /english-for-work/pflege/pflege-kurz → /english-for-work/care-work/first-words.
+const itemSections = Object.keys(ITEM_SLUGS).sort((a, b) => b.length - a.length).map(esc).join("|");
+const itemRe = new RegExp(BEFORE + `((?:${itemSections})/[a-z0-9-]+(?:/[a-z0-9-]+)?)` + AFTER, "gm");
+
 const SKIP = new Set(["src/lib/routes.js", "scripts/rename-routes.mjs"].map((p) => path.join(ROOT, p)));
 const TEXT = /\.(astro|js|mjs|cjs|ts|tsx|jsx|json|md|css|html|txt)$/;
 const files = [
@@ -121,6 +126,7 @@ for (const f of files) {
   const out = t
     .replace(sectionRe, (m) => { n++; return sectionTo[m]; })
     .replace(halfRe, (m) => { n++; return halfTo[m]; })
+    .replace(itemRe, (m) => { const e = englishPath(m); if (e !== m) n++; return e; })
     .replace(topicRe, (m, key) => { n++; return `/${TOPIC_SLUGS[key]}`; });
   if (n) {
     total += n; changed++;

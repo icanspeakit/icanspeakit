@@ -4,6 +4,7 @@ import { fitTitle } from "../../../lib/seo/title.js";
 // the PDF, Tier 2). Built only for a deck with words, plus Pflege, whose page carries the
 // pflegeplace.com box even before its words are in (noindex until then).
 import Layout from "../../../layouts/Layout.astro";
+import { itemSlug, itemKey, workPath } from "../../../lib/routes.js";
 import SiteNav from "../../../components/SiteNav.astro";
 import SectionMascot from "../../../components/mascots/SectionMascot.astro";
 import LeichtToggle from "../../../components/LeichtToggle.astro";
@@ -19,9 +20,10 @@ import "../../../styles/kultur-hub.css";
 import "../../../styles/berufe.css";
 
 export function getStaticPaths() {
-  return BERUFE.filter((b) => hasPage(b.slug)).map((b) => ({ params: { beruf: b.slug }, props: { emoji: b.emoji } }));
+  return BERUFE.filter((b) => hasPage(b.slug)).map((b) => ({ params: { beruf: itemSlug("/english-for-work", b.slug) }, props: { emoji: b.emoji } }));
 }
-const { beruf } = Astro.params as { beruf: string };
+// The sector's key (berufe/<key>.json, refs, downloads); the URL slug is English.
+const beruf = itemKey("/english-for-work", (Astro.params as { beruf: string }).beruf);
 const { emoji } = Astro.props as { emoji: string };
 const deck = DECKS[beruf];
 const groups = groupsOf(beruf);
@@ -77,7 +79,7 @@ const v = (o: Record<string, unknown>) => JSON.stringify(o);
           <h2 class="ku-group-title" data-i18n="berufe.deck.groups">Die Wörter — Gruppe für Gruppe</h2>
           <div class="ku-grid ku-grid--fill">
             {groups.map((g: any) => (
-              <a class="ku-card" href={`/english-for-work/${beruf}/${g.id}`}>
+              <a class="ku-card" href={workPath(beruf, g.id)}>
                 <span class="ku-card-txt"><b lang="en">{g.title}</b></span>
                 <span class="bv-card-meta" data-i18n="sets.wordCount" data-i18n-vars={v({ n: g.words.length })}>{g.words.length} Wörter</span>
               </a>

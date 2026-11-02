@@ -4,6 +4,7 @@ import { fitTitle } from "../../../lib/seo/title.js";
 // phrases, quiz), a vocab list for the words the text leans on, plus the one thing this section cannot do without: a source list with a
 // Stand for every number on the page.
 import Layout from "../../../layouts/Layout.astro";
+import { itemPath, itemSlug, itemKey } from "../../../lib/routes.js";
 import SiteNav from "../../../components/SiteNav.astro";
 import Icon from "../../../components/Icon.astro";
 import ShareButton from "../../../components/ShareButton.astro";
@@ -19,7 +20,7 @@ import "../../../styles/ui-text.css";
 
 export function getStaticPaths() {
   return insider.topics.map((topic, i) => ({
-    params: { id: topic.id },
+    params: { id: itemSlug("/culture/insider", topic.id) },
     props: {
       topic,
       prev: insider.topics[i - 1] ?? null,
@@ -70,13 +71,13 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
       </header>
 
       {original && (
-        <a class="in-version" href={`/culture/insider/${original.id}`}>
+        <a class="in-version" href={itemPath("/culture/insider", original.id)}>
           <span class="in-version-tag" data-i18n="insider.easyTag">Simple English</span>
           <span><span data-i18n="insider.moreDetail">More detail:</span> <b>{original.title}</b> <span class="ku-badge">{original.level}</span></span>
         </a>
       )}
       {easy && (
-        <a class="in-version" href={`/culture/insider/${easy.id}`}>
+        <a class="in-version" href={itemPath("/culture/insider", easy.id)}>
           <span class="in-version-tag" data-i18n="insider.tooHard">Too hard?</span>
           <span><span data-i18n="insider.sameEasy">The same topic in simple English:</span> <b>{easy.title}</b> <span class="ku-badge">{easy.level}</span></span>
         </a>
@@ -302,8 +303,8 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
     )}
 
     <nav class="ku-prevnext">
-      {prev ? <a href={`/culture/insider/${prev.id}`}>← {prev.title}</a> : <span />}
-      {next ? <a href={`/culture/insider/${next.id}`}>{next.title} →</a> : <span />}
+      {prev ? <a href={itemPath("/culture/insider", prev.id)}>← {prev.title}</a> : <span />}
+      {next ? <a href={itemPath("/culture/insider", next.id)}>{next.title} →</a> : <span />}
     </nav>
   </main>
 
@@ -313,7 +314,7 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
     import { recordAttempt } from "../../../lib/progress.js";
 
     const questions = JSON.parse(document.getElementById("in-quiz-data").textContent);
-    const topicId = location.pathname.split("/").filter(Boolean)[2];
+    const topicId = itemKey("/culture/insider", location.pathname.split("/").filter(Boolean)[2]);
     if (questions.length) mountQuiz(document.getElementById("in-quiz"), questions, {
       mode: "choice",
       meldung: (q, i) => `k:insider/${topicId}/q${i + 1}`,

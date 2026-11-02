@@ -19,7 +19,7 @@ import { categories, featured, files, links, rightsNote, totals } from "../lib/d
 import { isRtl } from "../lib/languages.js";
 import { grammarTopics } from "../lib/catalog.js";
 import { orderOf } from "../lib/grammatikOrder.js";
-import { topicPath } from "../lib/routes.js";
+import { topicPath, workPath } from "../lib/routes.js";
 import { lernsets } from "../lib/lernsets.js";
 import startBook from "../data/grammatik-start/en.json";
 import "../styles/practice.css";
@@ -79,7 +79,7 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
       subKey: "wissen.next.cardsSub", sub: `With audio, ${set.words} words.`, subVars: { n: set.words }, alt,
     };
   }
-  if (f.category === "berufe") return { mascot: "hamsti", href: `/english-for-work/${f.id.replace(/^berufe-/, "")}`, key: "wissen.next.berufe", label: "Learn the words for your job with flashcards", subKey: "wissen.next.cardsSubPlain", sub: "With audio, one set at a time." };
+  if (f.category === "berufe") return { mascot: "hamsti", href: workPath(f.id.replace(/^berufe-/, "")), key: "wissen.next.berufe", label: "Learn the words for your job with flashcards", subKey: "wissen.next.cardsSubPlain", sub: "With audio, one set at a time." };
   if (f.id.startsWith("lid")) return { mascot: "bruno", href: "/life-in-the-uk/test", key: "wissen.next.lid", label: "Practise the Life in the UK test online", ...PRACTICE_SUB };
   return { mascot: "bruno", ...PLACEMENT, subKey: "wissen.next.placementSub", sub: "2 minutes, then you know where to start." };
 }

@@ -6,6 +6,7 @@
 // and the thing you most often want is "all of them" — a chip row shows that as the
 // selected state instead of hiding it behind a menu.
 import Layout from "../../layouts/Layout.astro";
+import { itemPath } from "../../lib/routes.js";
 import SiteNav from "../../components/SiteNav.astro";
 import Icon from "../../components/Icon.astro";
 import kultur from "../../data/kultur.json";
@@ -39,7 +40,7 @@ const pool = topics.flatMap((t) =>
     qi: t.quiz.indexOf(q),
     // "Mehr zu" is a placeholder token, swapped for the UI language's words in the script
     // below — the explanation is painted by quiz.js long after the page's i18n pass ran.
-    explain: `${q.explain ?? ""} <a class="ku-quiz-src" href="/culture/${t.id}">{{MORE}} „${t.title}“</a>`,
+    explain: `${q.explain ?? ""} <a class="ku-quiz-src" href="${itemPath("/culture", t.id)}">{{MORE}} „${t.title}“</a>`,
   }))
 );
 ---

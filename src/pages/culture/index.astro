@@ -10,6 +10,7 @@
 // institutions and amounts, written by us. Nothing here claims anything about what
 // German people are like — only about what the rules say and where practice varies.
 import Layout from "../../layouts/Layout.astro";
+import { itemPath } from "../../lib/routes.js";
 import SiteNav from "../../components/SiteNav.astro";
 import Icon from "../../components/Icon.astro";
 import kultur from "../../data/kultur.json";
@@ -75,7 +76,7 @@ const groups = kulturLevels.map((lv) => ({
         </h2>
         <div class="ku-grid">
           {g.items.map((t) => (
-            <a class="ku-card" href={`/culture/${t.id}`}>
+            <a class="ku-card" href={itemPath("/culture", t.id)}>
               {bild(bilder.topics[t.id])
                 ? <span class="ku-card-ic ku-card-pic"><img src={bild(bilder.topics[t.id])} alt="" width="40" height="40" loading="lazy" /></span>
                 : <span class="ku-card-ic"><Icon name={t.icon} size={20} /></span>}

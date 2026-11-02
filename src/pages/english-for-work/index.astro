@@ -4,6 +4,7 @@
 // is still empty shows as „kommt bald“ without a link, so no thin page is built for it.
 // Pflege links on to pflegeplace.com for depth (the Pflege rule in the prompt).
 import Layout from "../../layouts/Layout.astro";
+import { workPath } from "../../lib/routes.js";
 import SiteNav from "../../components/SiteNav.astro";
 import SectionMascot from "../../components/mascots/SectionMascot.astro";
 import HubBild from "../../components/HubBild.astro";
@@ -67,7 +68,7 @@ const total = cards.reduce((s, c) => s + c.n, 0);
             </>
           );
           return c.page
-            ? <a class="bv-pcard" href={`/english-for-work/${c.slug}`}>{inner}</a>
+            ? <a class="bv-pcard" href={workPath(c.slug)}>{inner}</a>
             : <div class="bv-pcard bv-card-soon" aria-disabled="true">{inner}</div>;
         })}
       </div>

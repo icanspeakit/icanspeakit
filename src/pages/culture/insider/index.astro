@@ -6,6 +6,7 @@
 // behind them: every topic carries `sources` (label, link, Stand), rendered on its page,
 // and the wording stays at "viele / die Mehrheit", never "die Deutschen sind …".
 import Layout from "../../../layouts/Layout.astro";
+import { itemPath } from "../../../lib/routes.js";
 import SiteNav from "../../../components/SiteNav.astro";
 import Icon from "../../../components/Icon.astro";
 import insider from "../../../data/kultur-insider.json";
@@ -50,7 +51,7 @@ const groups = LEVELS
         </h2>
         <div class="ku-grid ku-grid--fill">
           {g.items.map((t) => (
-            <a class="ku-card" href={`/culture/insider/${t.id}`}>
+            <a class="ku-card" href={itemPath("/culture/insider", t.id)}>
               {(bilder as any).insider?.[t.id]
                 ? <span class="ku-card-ic ku-card-pic"><img src={emojiSrc((bilder as any).insider[t.id])} alt="" width="40" height="40" loading="lazy" /></span>
                 : <span class="ku-card-ic"><Icon name={t.icon} size={20} /></span>}

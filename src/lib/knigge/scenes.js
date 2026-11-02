@@ -141,7 +141,7 @@ const unterwegs = [
         ],
       },
     ],
-    more: "/culture/pfand",
+    more: "/culture/queuing",
   },
   {
     id: "sbahn", place: "On the train", backdrop: "sbahn",
@@ -190,7 +190,7 @@ const unterwegs = [
         ],
       },
     ],
-    more: "/culture/insider/naehe-abstand",
+    more: "/culture/insider/personal-space",
   },
   {
     id: "aufzug", place: "In the lift", backdrop: "aufzug",
@@ -244,7 +244,7 @@ const unterwegs = [
         ],
       },
     ],
-    more: "/culture/insider/hallo-sagen",
+    more: "/culture/insider/saying-hello",
   },
   {
     id: "weg", place: "In the street", backdrop: "strasse",
@@ -280,7 +280,7 @@ const unterwegs = [
         ],
       },
     ],
-    more: "/culture/insider/hoefliche-notluegen",
+    more: "/culture/insider/sorry-please-thank-you",
   },
 ];
 
@@ -322,7 +322,7 @@ const arbeit = [
         who: "lena", wheel: 2, du: true, situation: "You're still in the kitchen with your tea. What do you talk to Lena about?",
       },
     ],
-    more: "/culture/insider/leute-kennenlernen",
+    more: "/culture/insider/small-talk",
   },
   {
     id: "erster-tag", place: "First day at work", backdrop: "buero",
@@ -357,7 +357,7 @@ const arbeit = [
         ],
       },
     ],
-    more: "/culture/insider/puenktlichkeit",
+    more: "/culture/insider/being-on-time",
   },
   {
     id: "meeting", place: "In the meeting", backdrop: "buero",
@@ -391,7 +391,7 @@ const arbeit = [
         ],
       },
     ],
-    more: "/culture/insider/direktheit",
+    more: "/culture/insider/understatement",
   },
   {
     id: "feierabend", place: "After work", backdrop: "kneipe",
@@ -445,7 +445,7 @@ const arbeit = [
         who: "becker", wheel: 1, situation: "Graham sips his pint. Now it's your turn to pick a topic.",
       },
     ],
-    more: "/culture/insider/zusammen-oder-getrennt",
+    more: "/culture/insider/paying-the-bill",
   },
 ];
 
@@ -488,7 +488,7 @@ const zuhause = [
         who: "schulz", wheel: 1, situation: "Jean stays by the post boxes. She seems to have time for a bit of small talk.",
       },
     ],
-    more: "/culture/insider/hallo-sagen",
+    more: "/culture/insider/saying-hello",
   },
   {
     id: "paket", place: "At your front door", backdrop: "wohnungstuer",
@@ -559,7 +559,7 @@ const zuhause = [
         ],
       },
     ],
-    more: "/culture/insider/hoefliche-notluegen",
+    more: "/culture/insider/sorry-please-thank-you",
   },
   {
     id: "einladung", place: "Invited for dinner", backdrop: "esszimmer",
@@ -606,7 +606,7 @@ const zuhause = [
         ],
       },
     ],
-    more: "/culture/insider/hoefliche-notluegen",
+    more: "/culture/insider/sorry-please-thank-you",
   },
 ];
 
@@ -644,7 +644,7 @@ const date = [
         ],
       },
     ],
-    more: "/culture/insider/erstes-date",
+    more: "/culture/insider/dating",
   },
   {
     id: "date-smalltalk", place: "In the café", backdrop: "cafe",
@@ -695,7 +695,7 @@ const date = [
         ],
       },
     ],
-    more: "/culture/insider/erstes-date",
+    more: "/culture/insider/dating",
   },
   {
     id: "date-rechnung", place: "The bill", backdrop: "cafe",
@@ -732,7 +732,7 @@ const date = [
         ],
       },
     ],
-    more: "/culture/trinkgeld",
+    more: "/culture/tipping",
   },
   {
     id: "date-tschuess", place: "Saying goodbye", backdrop: "abend",
@@ -766,7 +766,7 @@ const date = [
         ],
       },
     ],
-    more: "/culture/insider/erstes-date",
+    more: "/culture/insider/dating",
   },
 ];
 
@@ -801,7 +801,7 @@ const schule = [
         ],
       },
     ],
-    more: "/culture/insider/puenktlichkeit",
+    more: "/culture/insider/being-on-time",
   },
   {
     id: "du-oder-sie", place: "First day of the course", backdrop: "klasse",
@@ -840,7 +840,7 @@ const schule = [
         who: "novak", wheel: 1, du: true, situation: "Break time. Martin is standing next to you at the coffee machine.",
       },
     ],
-    more: "/culture/duzen-siezen",
+    more: "/culture/names-and-titles",
   },
   {
     id: "elterngespraech", place: "Parents' evening", backdrop: "klasse",
@@ -873,7 +873,7 @@ const schule = [
         ],
       },
     ],
-    more: "/culture/schulsystem",
+    more: "/culture/school-system",
   },
   {
     id: "gruppenarbeit", place: "Group work", backdrop: "klasse",
@@ -906,7 +906,7 @@ const schule = [
         ],
       },
     ],
-    more: "/culture/insider/direktheit",
+    more: "/culture/insider/understatement",
   },
 ];
 

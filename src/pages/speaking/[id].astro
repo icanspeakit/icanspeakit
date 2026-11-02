@@ -16,6 +16,7 @@ import { fitTitle } from "../../lib/seo/title.js";
 // not understanding the instruction is no reason to fail a speaking task. The useful
 // phrases and the model answer stay English — they are what is being practised.
 import Layout from "../../layouts/Layout.astro";
+import { itemPath, itemSlug } from "../../lib/routes.js";
 import SiteNav from "../../components/SiteNav.astro";
 import Icon from "../../components/Icon.astro";
 import GrammarHelp from "../../components/GrammarHelp.astro";
@@ -30,7 +31,7 @@ import "../../styles/skills.css";
 export function getStaticPaths() {
   const sets = Object.fromEntries(sprechenSets().map((s) => [s.id, { id: s.id, title: s.title }]));
   return sprechen.tasks.map((task) => ({
-    params: { id: task.id },
+    params: { id: itemSlug("/speaking", task.id) },
     props: { task, set: sets[task.set] ?? null, ...neighbours(sprechen.tasks, task) },
   }));
 }
@@ -44,7 +45,7 @@ const tx = (sprechenHelp.entries as Record<string, any>)[task.id] ?? null;
 // Inside a set the way back is to the set, not to the whole library: that is where the
 // learner came from and where the other three pictures are.
 const back = set
-  ? { href: `/speaking/set/${set.id}`, label: set.title, key: `sprechenSet.${set.id}.title` }
+  ? { href: itemPath("/speaking/set", set.id), label: set.title, key: `sprechenSet.${set.id}.title` }
   : { href: "/speaking/", label: "Alle Sprechaufgaben", key: "sprechen.backAll" };
 // The exam line under a task is one of a handful of fixed sentences — keyed by its text, so
 // a sentence with no key yet simply stays as written in the data.
@@ -176,8 +177,8 @@ const ALSO_KEYS: Record<string, string> = {
       )}
 
       <nav class="sk-prevnext">
-        {prev ? <a href={`/speaking/${prev.id}`}>← {prev.title}</a> : <span />}
-        {next ? <a href={`/speaking/${next.id}`}>{next.title} →</a> : <span />}
+        {prev ? <a href={itemPath("/speaking", prev.id)}>← {prev.title}</a> : <span />}
+        {next ? <a href={itemPath("/speaking", next.id)}>{next.title} →</a> : <span />}
       </nav>
     </article>
   </main>

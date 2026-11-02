@@ -278,6 +278,124 @@ export const sheetKeys = () => [
   ...Object.keys(TOPIC_SLUGS), ...Object.keys(SHEET_SLUGS), ...Object.keys(REF_SLUGS).map((f) => `nachschlagen-${f}`),
 ].filter((k) => sheetSlug(k) !== k);
 
+// Item pages under a section (content-plan §1.3: "kebab-case of the English title, keep any
+// level prefix"). Keyed by the section's English path, then by the item's id, which stays
+// the key in the data, in progress and in class-task refs (h:<id>, l:<id>, k:<id> …).
+export const ITEM_SLUGS = {
+  "/listening": {
+    "a1-ansage-bahnhof": "a1-station-announcement", "a1-anruf-arzt": "a1-doctors-voicemail",
+    "a1-supermarkt": "a1-supermarket", "a1-verabredung": "a1-arranging-to-meet",
+    "a2-amt-termin": "a2-council-appointment", "a2-wohnungsbesichtigung": "a2-flat-viewing",
+    "a2-radio-wetter-verkehr": "a2-radio-weather-traffic", "a2-paketdienst": "a2-parcel-voicemails",
+    "b1-krankmeldung": "b1-calling-in-sick", "b1-elterngespraech": "b1-parents-evening",
+    "b1-radio-muelltrennung": "b1-radio-recycling", "b1-durchsage-ersatzverkehr": "b1-replacement-buses",
+    "b2-diskussion-homeoffice": "b2-working-from-home-meeting", "b2-interview-anerkennung": "b2-qualifications-interview",
+    "b2-beschwerde-versicherung": "b2-insurance-complaint", "b2-vortrag-ehrenamt": "b2-volunteering-talk",
+  },
+  "/reading": {
+    "a1-schilder-im-haus": "a1-notices-in-flats", "a1-nachricht-einladung": "a1-text-invitation",
+    "a2-wohnungsanzeigen": "a2-flat-adverts", "a2-email-kurs-absage": "a2-language-school-email",
+    "b1-digitales-buero": "b1-paperless-office", "b1-anzeigen": "b1-matching-adverts",
+    "b1-zeitungsartikel": "b1-newspaper-article", "b1-forumsbeitraege": "b1-forum-posts",
+    "b2-artikel-homeoffice": "b2-working-from-home-article", "b2-kommentare-innenstadt": "b2-car-free-town-centre",
+  },
+  "/writing": {
+    "a1-formular-anmeldung": "a1-leisure-centre-form", "a1-nachricht-absage": "a1-cant-come",
+    "a2-email-nachbarn": "a2-email-to-neighbour", "a2-formular-arztpraxis": "a2-gp-appointment-form",
+    "b1-formular-vhs": "b1-completing-a-form", "b1-brief-david": "b1-reply-to-david",
+    "b1-fehlerjagd": "b1-error-hunt", "b2-beschwerde-reiseveranstalter": "b2-holiday-complaint",
+  },
+  "/speaking": {
+    "a1-sich-vorstellen": "a1-introducing-yourself", "a1-bild-bahnhof": "a1-picture-station",
+    "a1-bild-kueche": "a1-picture-kitchen", "a1-bild-supermarkt": "a1-picture-supermarket",
+    "a1-bild-spielplatz": "a1-picture-park", "a2-bild-gartenarbeit": "a2-picture-outdoor-work",
+    "a2-bild-bus": "a2-picture-bus", "a2-bild-nachbarschaftsfest": "a2-picture-garden-meal",
+    "a2-bild-wartezimmer": "a2-picture-doctors", "b1-bild-rolltreppe": "b1-picture-park",
+    "b1-bild-bewerbungsgespraech": "b1-picture-job-interview", "b1-bild-werkstatt": "b1-picture-workshop",
+    "b1-bild-buergeramt": "b1-picture-front-desk", "b2-vortrag-ehrenamt": "b2-talk-volunteering",
+    "b2-diskussion-ehrenamt-schule": "b2-discussion-volunteering-school", "b2-planen-abschiedsfeier": "b2-planning-leaving-party",
+    "b2-bild-wochenmarkt": "b2-picture-market", "b2-bild-videokonferenz": "b2-picture-video-call",
+    "b2-bild-baustelle-innenstadt": "b2-picture-building-work", "b2-bild-wertstoffhof": "b2-picture-recycling-centre",
+  },
+  "/speaking/set": {
+    "a1-zuhause": "a1-at-home", "a2-unterwegs": "a2-out-and-about", "b1-arbeit": "b1-work", "b2-gesellschaft": "b2-society",
+  },
+  "/culture": {
+    "duzen-siezen": "names-and-titles", pfand: "queuing", sonntagsruhe: "sunday-trading", trinkgeld: "tipping",
+    bundeslaender: "four-nations", feiertage: "bank-holidays", muelltrennung: "recycling", termine: "appointments",
+    anmeldung: "first-steps", krankenversicherung: "nhs", mieten: "renting", schulsystem: "school-system",
+    "arbeit-finden": "finding-a-job", ausbildung: "apprenticeships-and-university", kuendigung: "resigning-and-notice",
+    "oeffentlich-rechtlicher-rundfunk": "bbc-and-tv-licence", vereine: "clubs-and-volunteering",
+    foederalismus: "devolution", sozialversicherung: "national-insurance", wahlen: "general-elections",
+    erinnerungskultur: "remembrance", grundgesetz: "constitution", mitbestimmung: "trade-unions",
+  },
+  "/culture/insider": {
+    "hallo-sagen": "saying-hello", "naehe-abstand": "personal-space", "hoefliche-notluegen": "sorry-please-thank-you",
+    puenktlichkeit: "being-on-time", "zusammen-oder-getrennt": "paying-the-bill", "leute-kennenlernen": "small-talk",
+    "freunde-finden": "making-friends", "arbeit-finden": "how-hiring-works", "deutschland-und-das-auto": "cars-and-driving",
+    gleichberechtigung: "women-and-men-at-work", "erstes-date": "dating", direktheit: "understatement",
+    vertrauen: "banter-and-humour",
+  },
+  "/vocabulary/phrases": {
+    zustimmen: "agreeing", widersprechen: "disagreeing", zweifeln: "doubt", troesten: "comforting",
+    meinung: "opinions", nachfragen: "checking-understanding", bitten: "asking-for-help", entschuldigen: "apologising",
+    danken: "thanking", vorschlagen: "suggestions", gratulieren: "congratulating", begruessen: "greetings",
+    bildbeschreibung: "describing-pictures", "wo-ist-der-ball": "wheres-the-ball",
+  },
+  // English for work: the sectors; their word groups are WORK_GROUP_SLUGS (one table for
+  // all sectors, because the group ids repeat: taetigkeiten, ablaeufe, kunden-team …).
+  "/english-for-work": {
+    "bau-handwerk": "construction", buero: "office", einzelhandel: "retail", "elektro-technik": "electrical-and-plumbing",
+    gastronomie: "restaurants", hotel: "hotels", kita: "childcare", kraftfahrer: "driving",
+    "lager-logistik": "warehouse", pflege: "care-work",
+  },
+};
+export const WORK_GROUP_SLUGS = {
+  "baustelle-werkzeug": "site-and-tools", taetigkeiten: "tasks", ablaeufe: "workflow", sicherheit: "safety",
+  "kunden-team": "customers-and-team", "buero-geraete": "office-and-equipment", datenschutz: "data-protection",
+  "kasse-laden": "till-and-shop-floor", "bauteile-geraete": "parts-and-equipment", "kueche-geraete": "kitchen-and-equipment",
+  "hygiene-sicherheit": "hygiene-and-safety", "gaeste-team": "guests-and-team", "rezeption-zimmer": "reception-and-rooms",
+  "sicherheit-hygiene": "safety-and-cleaning", "kita-material": "nursery-and-materials", tagesablauf: "nursery-day",
+  "sicherheit-gesundheit": "safety-and-health", "eltern-team": "parents-and-team", fahrzeug: "vehicle",
+  "sicherheit-regeln": "safety-and-rules", "lager-geraete": "warehouse-and-equipment", team: "team",
+  "pflege-kurz": "first-words",
+};
+const invert = (o) => Object.fromEntries(Object.entries(o).map(([k, v]) => [v, k]));
+const ITEM_KEYS = Object.fromEntries(Object.entries(ITEM_SLUGS).map(([s, m]) => [s, invert(m)]));
+const WORK_GROUP_KEYS = invert(WORK_GROUP_SLUGS);
+const ITEM_SECTIONS = Object.keys(ITEM_SLUGS).sort((a, b) => b.length - a.length);
+
+/** An item's URL slug in a section (English path, e.g. "/listening"). Unknown ids pass through. */
+export const itemSlug = (section, id) => ITEM_SLUGS[section]?.[id] ?? id;
+/** An item's id from its URL slug. Unknown slugs pass through. */
+export const itemKey = (section, slug) => ITEM_KEYS[section]?.[slug] ?? slug;
+/** The page of an item. */
+export const itemPath = (section, id) => `${section}/${itemSlug(section, id)}`;
+/** A work sector, or one word group of it. */
+export const workPath = (sector, group) =>
+  `/english-for-work/${itemSlug("/english-for-work", sector)}${group ? `/${WORK_GROUP_SLUGS[group] ?? group}` : ""}`;
+/** A work group's id from its URL slug. */
+export const workGroupKey = (slug) => WORK_GROUP_KEYS[slug] ?? slug;
+
+// "/listening/a1-ansage-bahnhof/x" ⇄ "/listening/a1-station-announcement/x" (English section paths).
+function mapItem(path, toSlug) {
+  for (const section of ITEM_SECTIONS) {
+    if (!path.startsWith(section + "/")) continue;
+    const [seg, ...rest] = path.slice(section.length + 1).split("/");
+    const [id, tail = ""] = seg.split(/(?=[?#])/);
+    const table = toSlug ? ITEM_SLUGS[section] : ITEM_KEYS[section];
+    if (!table[id]) continue;
+    let more = rest;
+    if (section === "/english-for-work" && rest.length) {
+      const [g, ...r2] = rest;
+      const [gid, gtail = ""] = g.split(/(?=[?#])/);
+      more = [((toSlug ? WORK_GROUP_SLUGS : WORK_GROUP_KEYS)[gid] ?? gid) + gtail, ...r2];
+    }
+    return [section, table[id] + tail, ...more].join("/");
+  }
+  return path;
+}
+
 // The exam families: registry ids (localStorage keys, set.exam) stayed; their pages moved.
 export const EXAM_PATHS = {
   goethe: "/cambridge", telc: "/trinity", dtz: "/trinity/ise-1", testdaf: "/ielts",
@@ -305,20 +423,25 @@ const BY_NEW = ROUTE_RENAMES.map(([a, b]) => [b, a]).sort((a, b) => b[0].length 
 
 /**
  * Any old (German) path → its English path: the older flat-URL moves (flattenPath), the
- * section renames, then a grammar topic at the top level (/praesens → /present-simple).
+ * section renames and item slugs (/hoeren/a1-ansage-bahnhof → /listening/a1-station-announcement),
+ * then a grammar topic at the top level (/praesens → /present-simple).
  * Paths that did not move come back unchanged.
  */
 export function englishPath(path) {
   if (typeof path !== "string" || !path.startsWith("/")) return path;
   const p = flattenPath(path);
   const renamed = renameOf(p, BY_OLD);
-  if (renamed) return renamed;
+  if (renamed) return mapItem(renamed, true);
   const m = p.match(/^\/([a-z0-9-]+)([?#].*)?$/);
   if (m && TOPIC_SLUGS[m[1]] && m[1] !== TOPIC_SLUGS[m[1]]) return `/${TOPIC_SLUGS[m[1]]}${m[2] ?? ""}`;
-  return p;
+  return mapItem(p, true);
 }
 
-/** An English path → the German path it replaced (for the redirects). Unchanged when nothing matched. */
+/**
+ * An English path → the German path it replaced (for the redirects, and for the refs that
+ * stayed German: versuche.js). Unchanged when nothing matched.
+ */
 export function germanPath(path) {
-  return renameOf(path, BY_NEW) ?? path;
+  const p = mapItem(path, false);
+  return renameOf(p, BY_NEW) ?? p;
 }

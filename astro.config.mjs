@@ -4,7 +4,10 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import postcssRTLCSS from 'postcss-rtlcss';
-import { legacyRedirects, ROUTE_RENAMES, germanPath, topicSlug, refSlug, sheetKeys, sheetPath, tandemPath } from './src/lib/routes.js';
+import {
+  legacyRedirects, ROUTE_RENAMES, germanPath, topicSlug, refSlug, sheetKeys, sheetPath, tandemPath,
+  ITEM_SLUGS, itemPath, workPath,
+} from './src/lib/routes.js';
 import sitemap from './src/integrations/sitemap.mjs';
 import baseLanguage from './src/integrations/base-language.mjs';
 import entryPages from './src/integrations/entry-pages.mjs';
@@ -62,6 +65,28 @@ function englishRedirects() {
     out[`/teachers/worksheets/grammar/${key}`] = r301(sheetPath(key));
     out[`/lehrkraefte/arbeitsblaetter/tandem/${key}`] = r301(tandemPath(key));
     out[`/teachers/worksheets/tandem/${key}`] = r301(tandemPath(key));
+  }
+  // Item pages by their German id (§1.3), under the German and the English section path.
+  for (const [section, ids] of Object.entries(ITEM_SLUGS)) {
+    if (section === '/english-for-work') continue;
+    for (const id of Object.keys(ids)) {
+      const to = itemPath(section, id);
+      out[germanPath(to)] = r301(to);
+      out[`${section}/${id}`] = r301(to);
+    }
+  }
+  // English for work: sectors and their word groups (with the print page), from src/data/berufe.
+  const berufeDir = new URL('./src/data/berufe/', import.meta.url);
+  for (const f of readdirSync(berufeDir).filter((f) => f.endsWith('.json'))) {
+    const sector = f.replace(/\.json$/, '');
+    const groups = JSON.parse(readFileSync(new URL(f, berufeDir), 'utf8')).groups ?? [];
+    for (const base of ['/berufe', '/english-for-work']) {
+      out[`${base}/${sector}`] = r301(workPath(sector));
+      for (const g of groups) {
+        out[`${base}/${sector}/${g.id}`] = r301(workPath(sector, g.id));
+        out[`${base}/${sector}/${g.id}/drucken`] = r301(`${workPath(sector, g.id)}/print`);
+      }
+    }
   }
   // The print page of a work deck: …/drucken → …/print, under the old and the new folder.
   out['/berufe/[beruf]/[gruppe]/drucken'] = r301('/english-for-work/[beruf]/[gruppe]/print');

@@ -6,6 +6,7 @@
 // rather than the topic, because that is what a DTZ or telc Leseteil actually varies — a
 // learner who handles an article can still be lost in front of six Kleinanzeigen.
 import Layout from "../../layouts/Layout.astro";
+import { itemPath } from "../../lib/routes.js";
 import HubBild from "../../components/HubBild.astro";
 import SectionMascot from "../../components/mascots/SectionMascot.astro";
 import SiteNav from "../../components/SiteNav.astro";
@@ -42,7 +43,7 @@ const groups = byLevel(texts);
         </h2>
         <div class="sk-grid">
           {g.items.map((t) => (
-            <a class="sk-card" href={`/reading/${t.id}`}>
+            <a class="sk-card" href={itemPath("/reading", t.id)}>
               <span class="sk-card-ic"><Icon name={LESEN_ICON[t.type] ?? "book-open"} size={20} /></span>
               <span class="sk-card-txt">
                 <b>{t.title}</b>

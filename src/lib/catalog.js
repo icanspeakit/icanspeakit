@@ -12,7 +12,7 @@ import { REDEWENDUNGEN_LIVE } from "./redewendungenLive.js";
 import { counts, asArtikelRows } from "./lexicon.js";
 import { taskCountOf } from "./grammarTasks.js";
 import { isReviewed } from "./topicStatus.js";
-import { topicPath } from "./routes.js";
+import { topicPath, itemPath } from "./routes.js";
 import { lernsets } from "./lernsets.js";
 import { published as publishedWords } from "./wortgeschichte.js";
 import artikel from "../data/artikel.json";
@@ -648,7 +648,7 @@ const kulturFeatures = [kulturQuizItem, kulturFehlerItem, kulturInsiderItem];
    list below has no heading over it, so there it stays. */
 const kulturItem = (t, { level = true } = {}) => ({
   id: `kultur-${t.id}`,
-  href: `/culture/${t.id}`,
+  href: itemPath("/culture", t.id),
   icon: t.icon,
   title: t.title,
   count: level ? `${t.level} · ${t.quiz.length} Fragen` : `${t.quiz.length} Fragen`,
@@ -757,7 +757,7 @@ const SKILLS = [
     // The count line names the task type rather than the topic, because that is what a DTZ
     // or telc Hörteil actually varies between items. The three skills below follow it.
     byLevel: indexLevels(hoeren.texts, (t) =>
-      levelRow(t.title, `/listening/${t.id}`,
+      levelRow(t.title, itemPath("/listening", t.id),
         `${hoeren.types[t.type]} · ${t.questions.length} Fragen`,
         { typeKey: `type.hoeren.${t.type}`, typeText: hoeren.types[t.type],
           countKey: "grammatik.card.questions", countVars: { n: t.questions.length },
@@ -767,7 +767,7 @@ const SKILLS = [
     id: "lesen", name: "Lesen", nameKey: "nav.skill.lesen", icon: "book-open",
     href: "/reading",
     byLevel: indexLevels(lesenIndex.texts, (t) =>
-      levelRow(t.title, `/reading/${t.id}`,
+      levelRow(t.title, itemPath("/reading", t.id),
         `${lesenIndex.types[t.type]} · ca. ${t.minutes} Min.`,
         { typeKey: `type.lesen.${t.type}`, typeText: lesenIndex.types[t.type],
           countKey: "meta.min", countVars: { m: t.minutes },
@@ -777,7 +777,7 @@ const SKILLS = [
     id: "schreiben", name: "Schreiben", nameKey: "nav.skill.schreiben", icon: "pencil",
     href: "/writing",
     byLevel: indexLevels(schreibenIndex.tasks, (t) =>
-      levelRow(t.title, `/writing/${t.id}`,
+      levelRow(t.title, itemPath("/writing", t.id),
         `${schreibenIndex.types[t.type]} · ca. ${t.minutes} Min.`,
         { typeKey: `type.schreiben.${t.type}`, typeText: schreibenIndex.types[t.type],
           countKey: "meta.min", countVars: { m: t.minutes },
@@ -787,7 +787,7 @@ const SKILLS = [
     id: "sprechen", name: "Sprechen", nameKey: "nav.skill.sprechen", icon: "mic",
     href: "/speaking/",
     byLevel: indexLevels(sprechenIndex.tasks, (t) =>
-      levelRow(t.title, `/speaking/${t.id}`,
+      levelRow(t.title, itemPath("/speaking", t.id),
         `${sprechenIndex.types[t.type]} · ${t.seconds} Sek.`,
         { typeKey: `type.sprechen.${t.type}`, typeText: sprechenIndex.types[t.type],
           countKey: "meta.sek", countVars: { s: t.seconds },
@@ -1186,7 +1186,7 @@ export const navWissenMenu = {
           hintKey: "nav.kultur.politikHint", hint: "Parteien, Parlamente, Test: Wo stehe ich?" },
         // One „Deutschland von innen" topic by name: it is the Wissen entry to the
         // Führerschein section (FUEHRERSCHEIN-TIERED-PROMPT.md, Tier 7).
-        { href: "/culture/insider/deutschland-und-das-auto", titleKey: "nav.kultur.auto", title: "Deutschland und das Auto",
+        { href: "/culture/insider/cars-and-driving", titleKey: "nav.kultur.auto", title: "Deutschland und das Auto",
           hintKey: "nav.kultur.autoHint", hint: "Auto, Tempolimit, Führerschein" },
       ] },
     // The levels as one-line rows (badge + blurb), the way "Wo anfangen?" lists them in

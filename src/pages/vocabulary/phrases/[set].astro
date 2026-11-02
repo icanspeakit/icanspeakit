@@ -3,11 +3,12 @@ import { fitTitle } from "../../../lib/seo/title.js";
 // One Redemittel set (~8 phrases for one speech act) as flashcards. The side nav shows
 // all the sets in its Redemittel pane (LernsetPicker.astro, deck redemittel-<id>).
 import Layout from "../../../layouts/Layout.astro";
+import { itemSlug } from "../../../lib/routes.js";
 import VokabelTrainer from "../../../components/VokabelTrainer.astro";
 import { SETS, cardsOf, langsOf } from "../../../lib/redemittelWortschatz.js";
 
 export function getStaticPaths() {
-  return SETS.map((s: any) => ({ params: { set: s.id }, props: { set: s } }));
+  return SETS.map((s: any) => ({ params: { set: itemSlug("/vocabulary/phrases", s.id) }, props: { set: s } }));
 }
 const { set } = Astro.props as any;
 const cards = cardsOf(set.id);

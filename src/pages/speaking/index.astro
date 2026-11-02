@@ -11,6 +11,7 @@
 // is gone: its three pictures are tasks in the Bildserien, with the Nachfragen as a
 // second timed half on the task page.
 import Layout from "../../layouts/Layout.astro";
+import { itemPath } from "../../lib/routes.js";
 import HubBild from "../../components/HubBild.astro";
 import SectionMascot from "../../components/mascots/SectionMascot.astro";
 import SiteNav from "../../components/SiteNav.astro";
@@ -47,7 +48,7 @@ const credits = photoSources();
       <h2 class="sk-group-title"><span data-i18n="sprechen.hub.series" data-i18n-vars={JSON.stringify({ n: sets.length })}>Bildbeschreibung · {sets.length} Serien zu vier</span></h2>
       <div class="sk-grid sk-grid--pairs">
         {sets.map((set) => (
-          <a class="sk-card" href={`/speaking/set/${set.id}`}>
+          <a class="sk-card" href={itemPath("/speaking/set", set.id)}>
             {/* The series' first picture stands for the series. Four cards that differ only
                 in their heading, each behind the same map pin, made the Bildserien look like
                 categories rather than pictures. */}
@@ -75,7 +76,7 @@ const credits = photoSources();
       <h2 class="sk-group-title"><span data-i18n="sprechen.moreTasks">Weitere Sprechaufgaben</span></h2>
       <div class="sk-grid sk-grid--pairs">
         {loose.flatMap((g) => g.items.map((t) => ({ ...t, level: g.level }))).map((t) => (
-          <a class="sk-card" href={`/speaking/${t.id}`}>
+          <a class="sk-card" href={itemPath("/speaking", t.id)}>
             {/* Picture tasks show the picture; Kurzvortrag, Diskussion and the rest keep
                 their type icon, because for those the icon is the honest summary. */}
             {t.image

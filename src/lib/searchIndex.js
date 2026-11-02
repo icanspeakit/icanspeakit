@@ -14,7 +14,7 @@
 // Rows are arrays, not objects, for words: ~2700 of them, and the keys would be most of
 // the file. The overlay knows the column order (see WORD_COLUMNS).
 import { grammarCatalog } from "./grammarCatalog.js";
-import { refPath } from "./routes.js";
+import { refPath, itemPath } from "./routes.js";
 import { tools, exams } from "./catalog.js";
 import { all, LEVELS } from "./lexicon.js";
 import { lernsets, lernsetCards } from "./lernsets.js";
@@ -180,7 +180,7 @@ export function buildSearchIndex() {
       s: "Kultur",
       k: kulturHay(k, "kultur landeskunde culture"),
       l: k.level ?? "",
-      h: `/culture/${k.id}`,
+      h: itemPath("/culture", k.id),
       c: "kultur",
     })),
     // „Deutschland von innen": matched on the same kind of keywords, so „Frau" or „Dating"
@@ -190,7 +190,7 @@ export function buildSearchIndex() {
       s: "The UK from the inside",
       k: kulturHay(k, "culture uk from the inside insider"),
       l: k.level ?? "",
-      h: `/culture/insider/${k.id}`,
+      h: itemPath("/culture/insider", k.id),
       c: "kultur",
     })),
   ];
@@ -314,7 +314,7 @@ export function buildSearchIndex() {
       t: `Redemittel: ${set.name}`,
       s: `${set.phrases.length} Sätze mit Audio, z. B. „${set.phrases[0]?.de ?? ""}“`,
       k: `redemittel sätze phrases ${set.id} ${set.name} ${set.phrases.map((p) => `${p.de} ${p.en ?? ""}`).join(" ")}`.toLowerCase(),
-      h: `/vocabulary/phrases/${set.id}`,
+      h: itemPath("/vocabulary/phrases", set.id),
     });
   }
   // Redewendungen & Sprichwörter: the hub and every phrase, found by its words, its meaning

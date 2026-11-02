@@ -12,6 +12,7 @@ import { fitTitle } from "../../lib/seo/title.js";
 // behind the same "in meiner Sprache" switch as the grammar rules. It lives inside the
 // closed transcript on purpose: it is for after listening, like the transcript itself.
 import Layout from "../../layouts/Layout.astro";
+import { itemPath, itemSlug, itemKey } from "../../lib/routes.js";
 import SiteNav from "../../components/SiteNav.astro";
 import Icon from "../../components/Icon.astro";
 import GrammarHelp from "../../components/GrammarHelp.astro";
@@ -30,7 +31,7 @@ export function getStaticPaths() {
     const sameLevel = hoeren.texts.filter((t) => t.level === text.level);
     const i = sameLevel.indexOf(text);
     return {
-      params: { id: text.id },
+      params: { id: itemSlug("/listening", text.id) },
       props: { text, prev: sameLevel[i - 1] ?? null, next: sameLevel[i + 1] ?? null },
     };
   });
@@ -100,8 +101,8 @@ const tx = (hoerenHelp.entries as Record<string, any>)[text.id] ?? null;
       </details>
 
       <nav class="ho-prevnext">
-        {prev ? <a href={`/listening/${prev.id}`}>← {prev.title}</a> : <span />}
-        {next ? <a href={`/listening/${next.id}`}>{next.title} →</a> : <span />}
+        {prev ? <a href={itemPath("/listening", prev.id)}>← {prev.title}</a> : <span />}
+        {next ? <a href={itemPath("/listening", next.id)}>{next.title} →</a> : <span />}
       </nav>
     </article>
   </main>
@@ -112,7 +113,7 @@ const tx = (hoerenHelp.entries as Record<string, any>)[text.id] ?? null;
     import { recordAttempt } from "../../lib/progress.js";
 
     const questions = JSON.parse(document.getElementById("ho-quiz-data").textContent);
-    const textId = location.pathname.split("/").filter(Boolean)[1];
+    const textId = itemKey("/listening", location.pathname.split("/").filter(Boolean)[1]);
     mountQuiz(document.getElementById("ho-quiz"), questions, {
       mode: "choice",
       meldung: (q, i) => `h:${textId}/q${i + 1}`,

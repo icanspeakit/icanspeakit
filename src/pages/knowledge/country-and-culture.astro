@@ -4,6 +4,7 @@
 // then every single topic, so nothing has to be found through a sub-hub first.
 // The Wissen menu's Landeskunde box points here ("Land und Kultur").
 import Layout from "../../layouts/Layout.astro";
+import { itemPath } from "../../lib/routes.js";
 import SiteNav from "../../components/SiteNav.astro";
 import SectionMascot from "../../components/mascots/SectionMascot.astro";
 import kultur from "../../data/kultur.json";
@@ -28,14 +29,14 @@ const areas = [
   { href: "/culture/mistakes", pic: bilder.extras.fehler, title: "Common mistakes by first language", text: "Which mistakes come from which first language, and how do you get rid of them?", meta: `${fehler.languages.length} languages` },
   { href: "/life-in-the-uk/facts", pic: "🇬🇧", title: "Facts about the UK", text: "Government, history, the four nations: the knowledge for the Life in the UK test.", meta: "Life in the UK test" },
   { href: "/culture/quiz", pic: bilder.extras.quiz, title: "Culture quiz", text: "Questions from all the culture topics, mixed or by topic.", meta: `${quizCount} questions` },
-  { href: "/culture/insider/deutschland-und-das-auto", pic: "🚗", title: "Cars and driving", text: "Roads, speed limits and what to know about driving.", meta: "Cars & driving" },
+  { href: "/culture/insider/cars-and-driving", pic: "🚗", title: "Cars and driving", text: "Roads, speed limits and what to know about driving.", meta: "Cars & driving" },
 ];
 
 const lists = [
   { id: "kulturwissen", title: "UK culture", href: "/culture",
-    items: byLevel(kultur.topics).map((t) => ({ href: `/culture/${t.id}`, title: t.title, level: t.level, pic: (bilder.topics as Record<string, string>)[t.id] })) },
+    items: byLevel(kultur.topics).map((t) => ({ href: itemPath("/culture", t.id), title: t.title, level: t.level, pic: (bilder.topics as Record<string, string>)[t.id] })) },
   { id: "von-innen", title: "The UK from the inside", href: "/culture/insider",
-    items: byLevel(insider.topics).map((t) => ({ href: `/culture/insider/${t.id}`, title: t.title, level: t.level, pic: (bilder.insider as Record<string, string>)[t.id] })) },
+    items: byLevel(insider.topics).map((t) => ({ href: itemPath("/culture/insider", t.id), title: t.title, level: t.level, pic: (bilder.insider as Record<string, string>)[t.id] })) },
   { id: "fehler", title: "Common mistakes by first language", href: "/culture/mistakes",
     items: fehler.languages.map((l) => ({ href: `/culture/mistakes?lang=${l.id}`, title: l.name, level: "", pic: undefined })) },
 ];

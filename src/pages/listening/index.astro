@@ -8,6 +8,7 @@
 // Every clip here is voiced with generated TTS from a script written for this site — see the
 // note at the top of src/data/hoeren.json for why none of it comes off a Lehrwerk-CD.
 import Layout from "../../layouts/Layout.astro";
+import { itemPath } from "../../lib/routes.js";
 import HubBild from "../../components/HubBild.astro";
 import SectionMascot from "../../components/mascots/SectionMascot.astro";
 import SiteNav from "../../components/SiteNav.astro";
@@ -58,7 +59,7 @@ const rendered = texts.filter((t) => hasClip(t.id)).length;
         </h2>
         <div class="ho-grid">
           {g.items.map((t) => (
-            <a class="ho-card" href={`/listening/${t.id}`}>
+            <a class="ho-card" href={itemPath("/listening", t.id)}>
               <span class="ho-card-ic"><Icon name={TYPE_ICON[t.type] ?? "volume"} size={20} /></span>
               <span class="ho-card-txt">
                 <b>{t.title}</b>

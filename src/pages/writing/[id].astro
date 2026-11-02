@@ -16,6 +16,7 @@ import { fitTitle } from "../../lib/seo/title.js";
 // it: a score on a Beschwerdebrief would have to come from counting words. What there is, on
 // request, is a correction: mistakes found and sorted, no mark (src/lib/schreibKorrektur.js).
 import Layout from "../../layouts/Layout.astro";
+import { itemPath, itemSlug } from "../../lib/routes.js";
 import SiteNav from "../../components/SiteNav.astro";
 import Icon from "../../components/Icon.astro";
 import VocabList from "../../components/VocabList.astro";
@@ -26,7 +27,7 @@ import "../../styles/skills.css";
 
 export function getStaticPaths() {
   return schreiben.tasks.map((task) => ({
-    params: { id: task.id },
+    params: { id: itemSlug("/writing", task.id) },
     props: { task, ...neighbours(schreiben.tasks, task) },
   }));
 }
@@ -160,8 +161,8 @@ const parts = (task.source ?? "").split(/\*\*(.+?)\*\*/g);
       )}
 
       <nav class="sk-prevnext">
-        {prev ? <a href={`/writing/${prev.id}`}>← {prev.title}</a> : <span />}
-        {next ? <a href={`/writing/${next.id}`}>{next.title} →</a> : <span />}
+        {prev ? <a href={itemPath("/writing", prev.id)}>← {prev.title}</a> : <span />}
+        {next ? <a href={itemPath("/writing", next.id)}>{next.title} →</a> : <span />}
       </nav>
     </article>
   </main>

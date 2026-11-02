@@ -10,6 +10,7 @@ import { fitTitle } from "../../../lib/seo/title.js";
 // (see neighbours() in src/lib/fertigkeiten.js), so nobody wanders out of a subject
 // halfway through.
 import Layout from "../../../layouts/Layout.astro";
+import { itemPath, itemSlug } from "../../../lib/routes.js";
 import SiteNav from "../../../components/SiteNav.astro";
 import Icon from "../../../components/Icon.astro";
 import { sprechenSets, sprechen } from "../../../lib/fertigkeiten.js";
@@ -22,7 +23,7 @@ export function getStaticPaths() {
   return sets
     .filter((set) => set.items.length)
     .map((set, i) => ({
-      params: { id: set.id },
+      params: { id: itemSlug("/speaking/set", set.id) },
       props: { set, prev: sets[i - 1] ?? null, next: sets[i + 1] ?? null },
     }));
 }
@@ -57,14 +58,14 @@ const pending = set.items.filter((t) => t.imageNeeded && !t.image).length;
       </p>
 
       <p style="margin:0 0 30px">
-        <a class="sk-btn" href={`/speaking/${set.items[0].id}`} data-i18n="sprechen.set.start">Serie starten</a>
+        <a class="sk-btn" href={itemPath("/speaking", set.items[0].id)} data-i18n="sprechen.set.start">Serie starten</a>
       </p>
 
       <section class="sk-block">
         <h2 data-i18n="sprechen.set.pictures" data-i18n-vars={JSON.stringify({ n: set.items.length })}>Die {set.items.length} Bilder</h2>
         <div class="sk-grid sk-grid--bilder">
           {set.items.map((t, i) => (
-            <a class="sk-card" href={`/speaking/${t.id}`}>
+            <a class="sk-card" href={itemPath("/speaking", t.id)}>
               {/* The picture, not a pin. This is a list of pictures; showing four identical
                   map-pin glyphs above the word "Bildbeschreibung" told a learner nothing and
                   hid the one thing that distinguishes the four cards. Falls back to the icon
@@ -92,8 +93,8 @@ const pending = set.items.filter((t) => t.imageNeeded && !t.image).length;
       )}
 
       <nav class="sk-prevnext">
-        {prev ? <a href={`/speaking/set/${prev.id}`}>← <span data-i18n={`sprechenSet.${prev.id}.title`}>{prev.title}</span></a> : <span />}
-        {next ? <a href={`/speaking/set/${next.id}`}><span data-i18n={`sprechenSet.${next.id}.title`}>{next.title}</span></a> : <span />}
+        {prev ? <a href={itemPath("/speaking/set", prev.id)}>← <span data-i18n={`sprechenSet.${prev.id}.title`}>{prev.title}</span></a> : <span />}
+        {next ? <a href={itemPath("/speaking/set", next.id)}><span data-i18n={`sprechenSet.${next.id}.title`}>{next.title}</span></a> : <span />}
       </nav>
     </article>
   </main>

@@ -7,6 +7,7 @@ import { fitTitle } from "../../lib/seo/title.js";
 // the sheet lies in front of you, and an exercise that takes it away is testing something
 // the exam never asks for.
 import Layout from "../../layouts/Layout.astro";
+import { itemPath, itemSlug, itemKey } from "../../lib/routes.js";
 import SiteNav from "../../components/SiteNav.astro";
 import Icon from "../../components/Icon.astro";
 import TextWithTranslation from "../../components/TextWithTranslation.astro";
@@ -18,7 +19,7 @@ import "../../styles/skills.css";
 
 export function getStaticPaths() {
   return lesen.texts.map((text) => ({
-    params: { id: text.id },
+    params: { id: itemSlug("/reading", text.id) },
     props: { text, ...neighbours(lesen.texts, text) },
   }));
 }
@@ -64,8 +65,8 @@ const help = (uebersetzungen.entries as Record<string, any>)[text.id] ?? null;
       </section>
 
       <nav class="sk-prevnext">
-        {prev ? <a href={`/reading/${prev.id}`}>← {prev.title}</a> : <span />}
-        {next ? <a href={`/reading/${next.id}`}>{next.title} →</a> : <span />}
+        {prev ? <a href={itemPath("/reading", prev.id)}>← {prev.title}</a> : <span />}
+        {next ? <a href={itemPath("/reading", next.id)}>{next.title} →</a> : <span />}
       </nav>
     </article>
   </main>
@@ -76,7 +77,7 @@ const help = (uebersetzungen.entries as Record<string, any>)[text.id] ?? null;
     import { recordAttempt } from "../../lib/progress.js";
 
     const questions = JSON.parse(document.getElementById("sk-quiz-data").textContent);
-    const textId = location.pathname.split("/").filter(Boolean)[1];
+    const textId = itemKey("/reading", location.pathname.split("/").filter(Boolean)[1]);
     mountQuiz(document.getElementById("sk-quiz"), questions, {
       mode: "choice",
       meldung: (q, i) => `l:${textId}/q${i + 1}`,

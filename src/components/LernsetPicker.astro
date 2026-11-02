@@ -21,6 +21,7 @@
 // time. Nothing here is hand-typed, so a Lernset cannot appear unless its words exist
 // (docs/wortschatz-programm-v1.md §3).
 import Icon from "./Icon.astro";
+import { itemPath, workPath } from "../lib/routes.js";
 import { counts, modules, cohorts, frequencyCounts, portions } from "../lib/lernsets.js";
 import { LEVELS, LEVEL_NAMES, byUnit, spokenForm } from "../lib/lexicon.js";
 import { unitIcon, duplicateIconsIn } from "../lib/unitIcon.js";
@@ -424,7 +425,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
                 {levelRmSets(level).map((s) => {
                   const on = current === `redemittel-${s.id}`;
                   return (
-                    <a class:list={["nvb-item", on && "active"]} href={`/vocabulary/phrases/${s.id}`} aria-current={on ? "page" : undefined}>
+                    <a class:list={["nvb-item", on && "active"]} href={itemPath("/vocabulary/phrases", s.id)} aria-current={on ? "page" : undefined}>
                       <span class="nv-icon" aria-hidden="true">{s.icon}</span>
                       <span class="ls-name" data-i18n={`rm.set.${s.id}`}>{s.name}</span>
                       <span class="nv-count">{s.phrases.length}</span>
@@ -502,7 +503,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
               return (
                 <a
                   class:list={["nvb-item", on && "active"]}
-                  href={`/english-for-work/${b.slug}/${g.id}`}
+                  href={workPath(b.slug, g.id)}
                   aria-current={on ? "page" : undefined}
                   data-pick={`unit:berufe-${b.slug}-${g.id}`}
                   data-level={BERUF_DECKS[b.slug].level}
@@ -534,7 +535,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
       {RM_SETS.filter((s) => !s.level).map((s) => {
         const on = current === `redemittel-${s.id}`;
         return (
-          <a class:list={["nvb-item", on && "active"]} href={`/vocabulary/phrases/${s.id}`} aria-current={on ? "page" : undefined}>
+          <a class:list={["nvb-item", on && "active"]} href={itemPath("/vocabulary/phrases", s.id)} aria-current={on ? "page" : undefined}>
             <span class="nv-icon" aria-hidden="true">{s.icon}</span>
             <span class="ls-name" data-i18n={`rm.set.${s.id}`}>{s.name}</span>
             <span class="nv-count">{s.phrases.length}</span>

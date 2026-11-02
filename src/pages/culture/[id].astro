@@ -11,6 +11,7 @@ import { fitTitle } from "../../lib/seo/title.js";
 // language (src/data/uebersetzungen/kultur.json), under the German block it belongs to.
 // "So sagt man das" and the quiz stay German only: those are the part to learn.
 import Layout from "../../layouts/Layout.astro";
+import { itemPath, itemSlug, itemKey } from "../../lib/routes.js";
 import SiteNav from "../../components/SiteNav.astro";
 import Icon from "../../components/Icon.astro";
 import ShareButton from "../../components/ShareButton.astro";
@@ -26,7 +27,7 @@ import "../../styles/kultur.css";
 
 export function getStaticPaths() {
   return kultur.topics.map((topic, i) => ({
-    params: { id: topic.id },
+    params: { id: itemSlug("/culture", topic.id) },
     props: {
       topic,
       prev: kultur.topics[i - 1] ?? null,
@@ -156,8 +157,8 @@ const pc = (key: string) => tx?.prosCons ? Object.fromEntries(Object.entries(tx.
     </section>
 
     <nav class="ku-prevnext">
-      {prev ? <a href={`/culture/${prev.id}`}>← {prev.title}</a> : <span />}
-      {next ? <a href={`/culture/${next.id}`}>{next.title} →</a> : <span />}
+      {prev ? <a href={itemPath("/culture", prev.id)}>← {prev.title}</a> : <span />}
+      {next ? <a href={itemPath("/culture", next.id)}>{next.title} →</a> : <span />}
     </nav>
   </main>
 
@@ -167,7 +168,7 @@ const pc = (key: string) => tx?.prosCons ? Object.fromEntries(Object.entries(tx.
     import { recordAttempt } from "../../lib/progress.js";
 
     const questions = JSON.parse(document.getElementById("ku-quiz-data").textContent);
-    const topicId = location.pathname.split("/").filter(Boolean)[1];
+    const topicId = itemKey("/culture", location.pathname.split("/").filter(Boolean)[1]);
     mountQuiz(document.getElementById("ku-quiz"), questions, {
       mode: "choice",
       meldung: (q, i) => `k:${topicId}/q${i + 1}`,
