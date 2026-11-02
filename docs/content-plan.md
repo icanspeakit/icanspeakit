@@ -580,6 +580,21 @@ Put them in `astro.config.mjs` next to `ACCOUNT_REDIRECTS`.
 `suche-seiten.json` (search) and `entry-pages.json` are updated by `routes`.
 Internal links, `catalog.js` menus and `llms.txt` follow the new routes in the same item.
 
+**Done by `routes` (2026-11-02):** every row above, the §3 grammar slugs (topics stay at the
+top level: `/present-simple`; `/grammar/<slug>` redirects there), reference tables
+(`/grammar/irregular-verbs`, `/grammar/phrasal-verbs-list`, `/grammar/verbs-with-prepositions`),
+worksheets and tandem sheets (`/teachers/worksheets/{grammar,tandem}/<slug>`), and §1.3 item
+slugs for listening, reading, writing, speaking (+ sets), culture (+ insider), phrases and
+English for work (sectors and word groups). One table in `src/lib/routes.js` (`ROUTE_RENAMES`,
+`TOPIC_SLUGS`, `REF_SLUGS`, `ITEM_SLUGS`, `WORK_GROUP_SLUGS`); `astro.config.mjs` builds the
+301s from it. **Ids, data file names, storage keys and class-task refs stayed German**: only
+the URL changed, and `topicPath`/`itemPath`/`workPath`/`examPath` build URLs from ids. Left for
+`cleanup`: the dropped modules keep their (moved) German names (`/fuehrerschein/**`, `/politik`,
+`/steueroasen`, `/games/stadtfahrt`, `/games/vorfahrt`, `/grammar/deklination`). Not renamed:
+JSON endpoint file names (`woerter-a1.json` …), vocabulary deck ids (`a1-01`, already neutral),
+idiom and quote ids (already English), the German word-story lemmas (§5.11). Report:
+`automation/reports/routes.md`.
+
 ---
 
 ## 7. Queue item → files (quick lookup)
