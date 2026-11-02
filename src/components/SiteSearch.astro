@@ -55,8 +55,6 @@ import "../styles/site-search.css";
 </dialog>
 
 <script>
-  import { decline } from "../lib/deklination.js";
-
   const dialog = document.getElementById("site-search");
   const input = dialog.querySelector("[data-ss-input]");
   const results = dialog.querySelector("[data-ss-results]");
@@ -215,19 +213,11 @@ import "../styles/site-search.css";
     if (r.verbs.length)
       groups.push([best(r.verbs), section("verbs", r.verbs.map(([, v]) =>
         row(v.href, `<span class="ss-title">${esc(v.inf)}</span><span class="ss-sub" lang="de">${esc(v.preview)}</span>`, `<span class="ss-level">${esc(str("verbs"))}</span>`)))]);
-    // A noun that is clearly what was typed also gets its case table, and the Nachschlagewerk
-    // rows join it in one section.
+    // The Nachschlagewerk rows.
     const refRows = r.refs.map(([, e]) =>
       row(e.href, `<span class="ss-title" lang="de">${esc(e.label)}</span>${e.sub ? `<span class="ss-sub" lang="de">${esc(e.sub)}</span>` : ""}`, ""));
-    const noun = r.words[0] && r.words[0][0] >= 80 && r.words[0][1].pos === "noun" ? r.words[0][1] : null;
-    if (noun && (noun.gender || noun.plural)) {
-      const d = decline({ lemma: noun.lemma, gender: noun.gender || null, plural: noun.plural || (noun.gender ? null : noun.lemma) });
-      const forms = d.rows.map((c) => (c.sg ? `${c.sg.def} ${c.sg.form}` : `${c.pl.def} ${c.pl.form}`)).join(" · ");
-      refRows.unshift(row(`/grammar/deklination?wort=${encodeURIComponent(noun.lemma)}`,
-        `<span class="ss-title" lang="de">${esc(noun.lemma)}: alle Fälle</span><span class="ss-sub" lang="de">${esc(forms)}</span>`, ""));
-    }
     if (refRows.length)
-      groups.push([Math.max(best(r.refs), noun ? best(r.words) - 1 : 0), section("refs", refRows)]);
+      groups.push([best(r.refs), section("refs", refRows)]);
     if (r.pages.length)
       groups.push([-1, section("pages", r.pages.map(([, e]) => row(e.h, `<span class="ss-title">${esc(e.t)}</span>`, "")))]);
     groups.sort((a, b) => b[0] - a[0]);

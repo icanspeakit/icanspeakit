@@ -22,7 +22,6 @@ const QUESTION: Record<string, { text: string }> = {
   "/grammar/irregular-verbs": { text: "“he swimmed” or “he swam”?" },
   "/grammar/phrasal-verbs-list": { text: "“Turn off it” or “Turn it off”?" },
   "/grammar/verbs-with-prepositions": { text: "“wait for” or “wait to”?" },
-  "/grammar/deklination": { text: "“two childs” or “two children”?" },
   "/grammar/parts-of-speech": { text: "Is “fast” an adjective or an adverb?" },
   "/grammar/common-mistakes": { text: "“their” or “there”?" },
 };
@@ -128,14 +127,6 @@ const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: 96, l
     for (const [inf, preview, href, forms] of ix.verbs ?? [])
       out.push({ label: inf, sub: preview, href, kind: "verb", n: norm(inf),
         keys: new Set(String(forms).split("|").flatMap((f: string) => [norm(f), ...norm(f).split(" ")])) });
-    const seen = new Set<string>();
-    for (const [lemma, gender, plural, , , , pos] of ix.words ?? []) {
-      if (pos !== "noun" || seen.has(lemma)) continue;
-      seen.add(lemma);
-      out.push({ label: gender ? `${gender} ${lemma}` : `die ${lemma}`, sub: plural ? `Plural: die ${plural}` : "",
-        href: `/grammar/deklination?wort=${encodeURIComponent(lemma)}`, kind: "nomen", n: norm(lemma),
-        keys: new Set(plural ? [norm(plural)] : []) });
-    }
     for (const [label, sub, href, kind] of ix.refs ?? [])
       // A strong or separable verb is also found by its forms ("schwamm", "rief an").
       out.push({ label, sub, href, kind, n: norm(label),

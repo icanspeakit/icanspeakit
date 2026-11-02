@@ -1230,8 +1230,6 @@ export const navWissenMenu = {
           hintKey: "nav.wissen.trennbarHint", hint: "anrufen, verstehen, übersetzen" },
         { href: "/grammar/verbs-with-prepositions", titleKey: "nav.wissen.verbPraep", title: "Verben mit Präpositionen",
           hintKey: "nav.wissen.verbPraepHint", hint: "warten auf, sich freuen über" },
-        { href: "/grammar/deklination", titleKey: "nav.wissen.deklination", title: "Nomen in allen Fällen",
-          hintKey: "nav.wissen.deklinationHint", hint: "der, den, dem, des Kuchen(s)" },
         { href: "/grammar/parts-of-speech", titleKey: "nav.wissen.wortarten", title: "Wortarten",
           hintKey: "nav.wissen.wortartenHint", hint: "Nomen, Verb, Adjektiv und Co." },
         { href: "/grammar/common-mistakes", titleKey: "nav.wissen.typischeFehler", title: "Typische Fehler",

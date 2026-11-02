@@ -297,12 +297,6 @@ export function buildSearchIndex() {
     h: "/grammar/parts-of-speech",
   });
   pages.push({
-    t: "Nomen in allen Fällen",
-    s: "Deklinationstabellen: Nominativ, Akkusativ, Dativ, Genitiv – Singular und Plural",
-    k: "deklination deklinieren nomen substantiv fälle fall kasus nominativ akkusativ dativ genitiv singular plural der den dem des ein einen einem eines declension noun cases case table",
-    h: "/grammar/deklination",
-  });
-  pages.push({
     t: "Accents: the map",
     s: "Accents of English in the UK and Ireland",
     k: "accents accent map dialects dialect british accents regional accents uk ireland scouse geordie brummie cockney mancunian yorkshire west country estuary multicultural london english glaswegian scottish english welsh english irish english ulster bath trap foot strut bus rhotic hello hiya ey up alright bread roll barm cob bap dialekte",
@@ -379,13 +373,13 @@ export function buildSearchIndex() {
   // Nachschlagewerk rows the other kinds don't cover: the verb lists, word classes and
   // Typische-Fehler pairs, each opening on its entry. [label, preview, href, kind]. Verbs
   // and nouns are left out: the verb tables and the words above already find those, and
-  // the overlay adds a noun's case table to its word hit itself.
+  // the overlay shows a noun as a word hit.
   const refs = nachschlagenEntries({ nouns: false })
     .filter(([, , , kind]) => kind !== "verb")
     .map(([label, sub, href, kind]) => [label, sub, href, kind]);
 
   // Pages without a data source of their own (scripts/build-suche-seiten.mjs reads them from
-  // the sitemap): Berufe, Fertigkeiten, Prüfungen, Führerschein, Wortgeschichten, Spiele …
+  // the sitemap): Berufe, Fertigkeiten, Prüfungen, Wortgeschichten, Spiele …
   // Only those not indexed above.
   const have = new Set(pages.map((p) => p.h));
   for (const p of seitenSuche) if (!have.has(p.h)) pages.push(p);
