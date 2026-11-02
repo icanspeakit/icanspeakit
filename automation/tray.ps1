@@ -49,7 +49,11 @@ function Ensure-Monitor {
   Start-Process -WindowStyle Hidden -FilePath 'node' -ArgumentList "`"$(Join-Path $Auto 'monitor.mjs')`""
   Start-Sleep -Milliseconds 800
 }
-function Open-Monitor { Ensure-Monitor; Start-Process $Url }
+# The monitor as its own app window (automation/open-monitor.ps1), not a browser tab.
+function Open-Monitor {
+  $exe = if (Get-Command pwsh -ErrorAction SilentlyContinue) { (Get-Command pwsh).Source } else { 'powershell.exe' }
+  Start-Process -FilePath 'conhost.exe' -ArgumentList '--headless', "`"$exe`"", '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', "`"$(Join-Path $Auto 'open-monitor.ps1')`""
+}
 
 $tray = New-Object System.Windows.Forms.NotifyIcon
 $tray.Icon = $Icons.stopped
