@@ -1,0 +1,165 @@
+---
+// Common mistakes: words a learner mixes up — its ≠ it's, then ≠ than, I agree ≠ I am agree.
+// Not the mistakes by mother tongue (/culture/mistakes) but the look-alikes of English itself:
+// the two side by side with their word class and a sentence each, the difference in one
+// line (translated into the help languages like every grammar explanation), and a gap to
+// try it at once. The word-class cards on /grammar/parts-of-speech point here (#<pair id>).
+//
+// Look-alikes of meaning (kitchen, chicken; become, get) are /knowledge/false-friends; this page is the ones
+// of spelling and grammar. Content: src/data/typische-fehler.json, read through
+// src/lib/typischeFehler.js — the worksheet, Tandembogen and live quiz ask the same gaps.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import SectionMascot from "../../components/mascots/SectionMascot.astro";
+import RefActions from "../../components/RefActions.astro";
+import GrammarHelp from "../../components/GrammarHelp.astro";
+import GrammarHelpText from "../../components/GrammarHelpText.astro";
+import MascotComic from "../../components/MascotComic.astro";
+import fehler from "../../data/typische-fehler.json";
+import { field } from "../../lib/helpContent.js";
+import { optionsOf, answerOf } from "../../lib/typischeFehler.js";
+import "../../styles/practice.css";
+import "../../styles/typische-fehler.css";
+
+const total = fehler.groups.reduce((n, g) => n + g.pairs.length, 0);
+// A Regel line: *…* an example, **…** a word to notice (as on the Verbtabellen).
+const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+const rule = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").replace(/\*([^*]+)\*/g, "<em>$1</em>");
+---
+<Layout
+  title="Common mistakes: words people mix up – Grammar – EnglishAcademy"
+  description="its or it's, then or than, your or you're: English words that are easy to mix up, side by side, with an example and a gap to try."
+  breadcrumb={[{ name: "Grammar", path: "/grammar" }]}
+>
+  <SiteNav active="grammatik" />
+  <main class="practice-main tf-page" id="tf-page">
+    <a href="/grammar" class="vp-back-link" data-i18n="header.back">Zurück zur Übersicht</a>
+
+    <header class="tf-head">
+      <p class="eyebrow" data-i18n="tf.eyebrow">Grammar · Reference</p>
+      <h1 data-i18n="grammatik.tf.title">Common mistakes</h1>
+      <SectionMascot name="regi" say="Two words, one sound – which one is it?" sayKey="tf.mascot" />
+      <p class="tf-lead" data-i18n="tf.lead" data-i18n-vars={JSON.stringify({ n: total })}>{total} pairs of words that are easy to mix up. Each pair with an example, the difference in one sentence and a gap to try.</p>
+      <RefActions chapter="g-typische-fehler" sheet="typische-fehler" />
+    </header>
+    <GrammarHelp level="A1" root="tf-page" reviewed={fehler.reviewed} />
+
+    {/* Bruno, Quaki, Regi and Hamsti act out the page's first pair: its ≠ it's. */}
+    <MascotComic comic={fehler.comic as any} chip="form" fit />
+
+    <nav class="tf-jump" aria-label="Groups" data-i18n-attr="aria-label:tf.groups">
+      {fehler.groups.map((g, i) => (
+        <a class={`tf-jump-item tf-grp--${g.id}`} href={`#${g.id}`}>
+          <span class="tf-num" aria-hidden="true">{i + 1}</span>
+          <span class="tf-jump-txt"><b>{g.title}</b><i>{g.pairs.length} pairs</i></span>
+        </a>
+      ))}
+    </nav>
+
+    {fehler.groups.map((g: any, i: number) => (
+      <section class={`tf-group tf-grp--${g.id}`} id={g.id} aria-labelledby={`${g.id}-h`}>
+        <header class="tf-group-head">
+          <span class="tf-num" aria-hidden="true">{i + 1}</span>
+          <div>
+            <h2 id={`${g.id}-h`}>{g.title}</h2>
+            <p class="tf-group-lead">{g.lead}</p>
+          </div>
+        </header>
+        {/* The group's rule, folded like the Regel boxes of the Verbtabellen (mountRefToggle);
+            open on load — on a reference page the rule is content. */}
+        {g.regel && (
+          <aside class="tf-regel" aria-label={`Rule: ${g.title}`}>
+            <div class="tf-regel-bar">
+              <p class="tf-regel-label" data-i18n="ak.rule">Rule</p>
+              <button
+                type="button"
+                class="tf-regel-toggle"
+                aria-controls={`regel-${g.id}`}
+                data-show="Show rule"
+                data-hide="Hide rule"
+                data-i18n-attr="data-show:vp.rule.show;data-hide:vp.rule.hide"
+                data-i18n="vp.rule.hide"
+              >Hide rule</button>
+            </div>
+            <div class="tf-regel-body" id={`regel-${g.id}`}>
+              <div class="tf-regel-inner">
+                <ul>{g.regel.map((t: string) => <li set:html={rule(t)} />)}</ul>
+                <GrammarHelpText text={field(g.regelTr)} />
+              </div>
+            </div>
+          </aside>
+        )}
+        <ol class="tf-list">
+          {g.pairs.map((p: any) => (
+            <li class="tf-card" id={p.id}>
+              <div class="tf-pair">
+                {[p.a, p.b].map((m: any, k: number) => (
+                  <>
+                    {k === 1 && <span class="tf-vs" aria-label="not to be confused with">≠</span>}
+                    <div class:list={["tf-side", { "tf-side--wrong": m.wrong }]}>
+                      <b class="tf-w">{m.w}</b>
+                      <span class="tf-pos">{m.pos}</span>
+                      <span class="tf-ex" set:html={m.ex} />
+                    </div>
+                  </>
+                ))}
+              </div>
+              <p class="tf-why">{p.why}</p>
+              <GrammarHelpText text={field(p.tr)} />
+
+              {/* The gap: tap a word, it says right away. Two tries, no score — a check, not a test. */}
+              <div class="tf-check" data-tf-check data-answer={answerOf(p)}>
+                <p class="tf-gap" set:html={p.check.gap.replace("___", '<span class="tf-blank" data-tf-blank>___</span>')} />
+                <div class="tf-opts">
+                  {optionsOf(p).map((o) => <button type="button" class="tf-opt" data-tf-opt={o}>{o}</button>)}
+                </div>
+                <p class="tf-fb" data-tf-fb aria-live="polite"></p>
+              </div>
+              <span class="tf-level">{p.level}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+
+    <aside class="tf-next">
+      <SectionMascot name="regi" say="Which part of speech is it? That almost always helps." sayKey="tf.next.mascot" />
+      <div class="tf-next-links">
+        <a class="tf-next-btn" href="/grammar/parts-of-speech" data-i18n="tf.next.look">Look up parts of speech</a>
+        <a class="tf-next-btn tf-next-btn--ghost" href="/parts-of-speech" data-i18n="tf.next.practise">Practise parts of speech</a>
+      </div>
+      <p class="tf-next-more" data-i18n-html="tf.next.more">Words that look like words in your language but mean something else: <a href="/knowledge/false-friends">False friends</a>.</p>
+    </aside>
+  </main>
+</Layout>
+
+<script>
+  import { mountRefToggle } from "../../lib/ruleColumn.js";
+  for (const btn of document.querySelectorAll<HTMLButtonElement>(".tf-regel-toggle")) {
+    mountRefToggle(btn, document.getElementById(btn.getAttribute("aria-controls") ?? ""));
+  }
+
+  // Each gap on its own: the tapped word goes into the sentence, green when it fits;
+  // a wrong one is marked and the other stays open to try.
+  document.querySelectorAll<HTMLElement>("[data-tf-check]").forEach((box) => {
+    const answer = box.dataset.answer;
+    const blank = box.querySelector<HTMLElement>("[data-tf-blank]")!;
+    const fb = box.querySelector<HTMLElement>("[data-tf-fb]")!;
+    box.querySelectorAll<HTMLButtonElement>("[data-tf-opt]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (box.dataset.state === "done") return;
+        const ok = btn.dataset.tfOpt === answer;
+        btn.dataset.result = ok ? "ok" : "no";
+        if (ok) {
+          blank.textContent = answer!;
+          blank.dataset.result = "ok";
+          box.dataset.state = "done";
+          fb.textContent = "Correct!";
+          box.querySelectorAll<HTMLButtonElement>("[data-tf-opt]").forEach((b) => (b.disabled = true));
+        } else {
+          fb.textContent = "Not quite – read the difference above again.";
+        }
+      });
+    });
+  });
+</script>

@@ -9,9 +9,11 @@
  *
  * Two storage shapes exist and both are read as-is rather than migrated:
  *   store "exam" → "da-exam-v1:<key>", { answers: { id: {given, correct} } }
- *                  (src/lib/exam/state.js — Start Deutsch 1, TestDaF, Leben in Deutschland)
+ *                  (src/lib/exam/state.js — A1 practice test, IELTS, Life in the UK)
  *   store "dtz"  → "da-dtz-v1:<key>",  same answers plus a schreiben object
- *                  (src/lib/dtzTrainer.js — the DTZ Übungssatz)
+ *                  (src/lib/dtzTrainer.js — the B1 skills mock in the /trinity/ise-1 slot)
+ * The ids (start-deutsch-1, testdaf, leben-in-deutschland, dtz) are storage keys from the
+ * German course and stay; only the texts are English (docs/content-plan.md §2).
  *
  * A module is `scored: false` when a human marks it (a form, a free text). It still
  * carries ids so "done" survives a reload, but it stays out of every point total.
@@ -20,13 +22,11 @@ import sd1 from "../../data/pruefungen/start-deutsch-1/uebungssatz-1.json";
 import tdaf from "../../data/pruefungen/testdaf/uebungssatz-1.json";
 import lid from "../../data/leben-in-deutschland.json";
 import dtz1 from "../../data/pruefungen/dtz/uebungssatz-1.json";
-// Ids only, written by scripts/check-fuehrerschein.mjs, for the same reason as saetze-index.
-import fsIndex from "../../data/fuehrerschein/fragen-index.json";
 import { qidsOfPart } from "../dtzTrainer.js";
 // Ids only, written by scripts/check-pruefungen.mjs: the full sets stay out of this bundle.
 import saetzeIndex from "../../data/pruefungen/saetze-index.json";
-
-const EXAM_NAMES = { goethe: "Goethe-Zertifikat", telc: "telc Deutsch" };
+import { examLabel } from "./names.js";
+import { examPath } from "../routes.js";
 
 const idsOf = (part) => part.items.map((i) => i.id);
 
@@ -38,125 +38,112 @@ const lidFederalIds = lid.questions.map((_, i) => "bund-" + (i + 1));
 export const examRegistry = [
   {
     id: "start-deutsch-1",
-    title: "Start Deutsch 1",
-    subtitle: "Goethe A1 · telc A1",
+    title: "A1 English practice test",
+    subtitle: "Listening · Reading · Writing",
     level: "A1",
-    href: "/start-deutsch-1",
-    overview: "/telc",
+    href: "/a1-test",
+    overview: "/trinity",
     store: { kind: "exam", key: "start-deutsch-1" },
-    // 36 of 60 is the pass line for the whole exam; Hören and Lesen are 30 of those 60.
-    passNote: "Bestanden ab 36 von 60 Punkten (60 %). Hören und Lesen sind davon 30.",
+    // No official exam behind this test (content-plan §2): 60 % is our own convention.
+    passNote: "Our own guide: 60 % of the Listening and Reading points. This is not an official exam.",
     passPct: 60,
     modules: [
-      { key: "hoeren1", label: "Hören · Teil 1", ids: idsOf(sd1.hoeren.teil1) },
-      { key: "hoeren2", label: "Hören · Teil 2", ids: idsOf(sd1.hoeren.teil2) },
-      { key: "hoeren3", label: "Hören · Teil 3", ids: idsOf(sd1.hoeren.teil3) },
-      { key: "lesen1", label: "Lesen · Teil 1", ids: idsOf(sd1.lesen.teil1) },
-      { key: "lesen2", label: "Lesen · Teil 2", ids: idsOf(sd1.lesen.teil2) },
-      { key: "lesen3", label: "Lesen · Teil 3", ids: idsOf(sd1.lesen.teil3) },
-      { key: "schreiben", label: "Schreiben", ids: ["s-formular", "s-nachricht"], scored: false },
+      { key: "hoeren1", label: "Listening · Part 1", ids: idsOf(sd1.hoeren.teil1) },
+      { key: "hoeren2", label: "Listening · Part 2", ids: idsOf(sd1.hoeren.teil2) },
+      { key: "hoeren3", label: "Listening · Part 3", ids: idsOf(sd1.hoeren.teil3) },
+      { key: "lesen1", label: "Reading · Part 1", ids: idsOf(sd1.lesen.teil1) },
+      { key: "lesen2", label: "Reading · Part 2", ids: idsOf(sd1.lesen.teil2) },
+      { key: "lesen3", label: "Reading · Part 3", ids: idsOf(sd1.lesen.teil3) },
+      { key: "schreiben", label: "Writing", ids: ["s-formular", "s-nachricht"], scored: false },
     ],
   },
   {
     id: "testdaf",
-    title: "TestDaF",
-    subtitle: "Leseverstehen · Schreiben",
-    level: "TDN 3–5",
-    href: "/testdaf/uebungssatz",
-    overview: "/testdaf",
+    title: "IELTS Academic",
+    subtitle: "Reading · Writing",
+    level: "Band 5–7",
+    href: "/ielts/practice-set",
+    overview: "/ielts",
     store: { kind: "exam", key: "testdaf" },
-    // Deliberately no pass percentage: TestDaF grades each skill separately as TDN 3/4/5
-    // and every university sets its own requirement, so a line here would be invented.
-    passNote: "Keine Bestehensgrenze in Prozent — jede Fertigkeit wird einzeln als TDN 3, 4 oder 5 bewertet.",
+    // Deliberately no pass percentage: IELTS gives a band score per skill and every
+    // institution sets its own requirement, so a line here would be invented.
+    passNote: "No pass mark: IELTS gives each skill a band score from 0 to 9, and each university or employer sets the band it needs.",
     passPct: null,
     modules: [
-      { key: "lesen1", label: "Lesen · Aufgabe 1", ids: idsOf(tdaf.leseverstehen.aufgabe1) },
-      { key: "lesen2", label: "Lesen · Aufgabe 2", ids: idsOf(tdaf.leseverstehen.aufgabe2) },
-      { key: "lesen3", label: "Lesen · Aufgabe 3", ids: idsOf(tdaf.leseverstehen.aufgabe3) },
-      { key: "schreiben", label: "Schreiben", ids: ["tdaf-schreiben"], scored: false },
+      { key: "lesen1", label: "Reading · Passage 1", ids: idsOf(tdaf.leseverstehen.aufgabe1) },
+      { key: "lesen2", label: "Reading · Passage 2", ids: idsOf(tdaf.leseverstehen.aufgabe2) },
+      { key: "lesen3", label: "Reading · Passage 3", ids: idsOf(tdaf.leseverstehen.aufgabe3) },
+      { key: "schreiben", label: "Writing", ids: ["tdaf-schreiben"], scored: false },
     ],
   },
   {
     id: "leben-in-deutschland",
-    title: "Leben in Deutschland",
-    subtitle: "Einbürgerungstest",
-    level: "Wissenstest",
-    href: "/leben-in-deutschland/test",
-    overview: "/leben-in-deutschland",
+    title: "Life in the UK",
+    subtitle: "Practice test",
+    level: "Knowledge test",
+    href: "/life-in-the-uk/test",
+    overview: "/life-in-the-uk",
     store: { kind: "exam", key: "leben-in-deutschland" },
-    passNote: `Bestanden ab ${lid.meta.passScore} von ${lid.meta.totalQuestions} Fragen.`,
+    passNote: `Real test: pass with ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions.`,
     passPct: Math.round((lid.meta.passScore / lid.meta.totalQuestions) * 100),
     modules: [
-      { key: "bund", label: "Bundesweit", ids: lidFederalIds },
-      // The ids depend on the Bundesland stored in "da-lid-land"; only the browser
-      // knows which one, so the client resolves this. The count shown until then is
-      // Bayern's, the default the trainer itself falls back to.
-      { key: "land", label: "Mein Bundesland", idsFrom: "lid-land" },
+      { key: "bund", label: "UK-wide", ids: lidFederalIds },
+      // The ids depend on the nation stored in "da-lid-land"; only the browser knows
+      // which one, so the client resolves this. The count shown until then is the first
+      // nation's (England), the default the trainer itself falls back to.
+      { key: "land", label: "My part of the UK", idsFrom: "lid-land" },
     ],
   },
   {
     id: "dtz",
-    title: "DTZ",
+    title: "B1 skills mock",
     subtitle: dtz1.label,
-    level: "A2 / B1",
-    href: "/dtz/uebungssatz",
-    overview: "/dtz",
+    level: "B1",
+    href: "/trinity/ise-1/practice-set",
+    overview: "/trinity/ise-1",
     store: { kind: "dtz", key: dtz1.id },
-    passNote: "Hören und Lesen zählen zusammen: ab 20 Punkten Stufe A2, ab 33 Stufe B1.",
+    // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not Trinity's.
+    passNote: "Our own guide: listening and reading count together; 33 of 45 points is a solid B1 result.",
     passPct: Math.round((33 / 45) * 100),
     modules: [
       ...dtz1.parts.map((part, i) => ({
         key: "teil-" + (i + 1),
-        label: part.label,
+        // part.label stays "Hören · Teil 1" in the data because dtzTrainer.js parses it.
+        label: part.label.replace("Hören", "Listening").replace("Lesen", "Reading").replace("Teil", "Part"),
         ids: qidsOfPart(part),
       })),
       // The DTZ trainer keeps its writing task outside `answers`, in its own
       // { task, text, selfRate } object, so "done" is the self-rating being set
       // rather than an id being present. `doneFrom` tells the client that.
-      { key: "schreiben", label: "Schreiben", ids: [], scored: false, doneFrom: "dtz-schreiben" },
+      { key: "schreiben", label: "Writing", ids: [], scored: false, doneFrom: "dtz-schreiben" },
     ],
-  },
-  // Führerschein: the own question bank, one module per lesson. Üben and the
-  // Übungssimulation both write their answers here (src/lib/fahrQuiz.js). No pass percentage:
-  // the real test counts Fehlerpunkte, not a share of right answers.
-  {
-    id: "fuehrerschein",
-    title: "Führerschein",
-    subtitle: "Theorie Klasse B · eigene Fragen",
-    level: "Wissenstest",
-    href: "/fuehrerschein/ueben",
-    overview: "/fuehrerschein",
-    store: { kind: "exam", key: "fuehrerschein" },
-    passNote: `Prüfung: bestanden mit höchstens ${fsIndex.maxFehlerpunkte} Fehlerpunkten, nie mit zwei falschen 5-Punkte-Fragen. Die Simulation prüft genau das.`,
-    passPct: null,
-    modules: fsIndex.modules,
   },
   // The Übungssätze on the generic engine (src/data/pruefungen/saetze/): one entry per file.
   ...saetzeIndex.map((set) => ({
     id: set.id,
-    title: `${EXAM_NAMES[set.exam]} ${set.level}`,
+    title: examLabel(set),
     subtitle: set.title,
     level: set.level,
-    href: `/${set.exam}/${set.slug}`,
-    overview: `/${set.exam}`,
+    href: `${examPath(set.exam)}/${set.slug}`,
+    overview: examPath(set.exam),
     store: { kind: "exam", key: set.id },
     passNote: set.scoring?.note ?? "",
     passPct: set.scoring?.passPct ?? 60,
     modules: set.modules.flatMap((m) =>
-      m.parts.map((p) => ({ key: `${m.key}-${p.teil}`, label: `${m.name} · Teil ${p.teil}`, ids: p.ids, scored: p.scored })),
+      m.parts.map((p) => ({ key: `${m.key}-${p.teil}`, label: `${m.name} · Part ${p.teil}`, ids: p.ids, scored: p.scored })),
     ),
   })),
 ];
 
-/** The Bundesland question ids for one state, in the trainer's own numbering. */
+/** The question ids for one nation (the slot was the German Bundesland), in the trainer's own numbering. */
 export function lidLandIds(landId) {
   const land = lid.bundeslaender.find((l) => l.id === landId) ?? lid.bundeslaender[0];
   return land.stateQuestions.map((_, i) => "land-" + land.id + "-" + (i + 1));
 }
 
-/** Bayern is the trainer's fallback, so it is what the registry counts until the
- *  browser says otherwise. */
-export const lidDefaultLandIds = lidLandIds("bayern");
+/** The first nation is the trainer's fallback, so it is what the registry counts until
+ *  the browser says otherwise. */
+export const lidDefaultLandIds = lidLandIds(lid.bundeslaender[0].id);
 
 export function examById(id) {
   return examRegistry.find((e) => e.id === id) ?? null;

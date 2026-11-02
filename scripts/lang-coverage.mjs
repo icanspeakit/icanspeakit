@@ -13,7 +13,6 @@
 //   help, legal   translation blocks in src/data/uebersetzungen/*.json: every object that
 //                 carries at least one language code of the registry as a key
 //   berufe        the decks' own words (not refs) with a translation
-//   fuehrerschein Fahrschul-Wortschatz words + blocks of uebersetzungen/fuehrerschein.json
 // German is the source, so it is 100 % wherever it is registered.
 //
 // `--check` exits 1 when a language registered on a gated surface is below the gate.
@@ -48,8 +47,6 @@ const berufeWords = fs
   .filter((f) => f.endsWith(".json"))
   .flatMap((f) => readJson("src", "data", "berufe", f).groups.flatMap((g) => g.words ?? []))
   .filter((w) => !w.ref);
-const fsWords = readJson("src", "data", "fuehrerschein", "wortschatz.json").groups.flatMap((g) => g.words);
-const fsBlocks = blocks(readJson("src", "data", "uebersetzungen", "fuehrerschein.json"));
 
 /** The sidecar of a fetched flashcard language (lexicon.js does not join those). */
 function sidecar(code) {
@@ -78,11 +75,6 @@ function measure(code) {
     legal: inBlocks(legalBlocks),
     sheets: lex,
     berufe: [isDe ? berufeWords.length : berufeWords.filter((w) => filled(w.translations?.[code])).length, berufeWords.length],
-    fuehrerschein: (() => {
-      const words = isDe ? fsWords.length : fsWords.filter((w) => filled(w.translations?.[code])).length;
-      const [b, bt] = inBlocks(fsBlocks);
-      return [words + b, fsWords.length + bt];
-    })(),
   };
 }
 

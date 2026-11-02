@@ -4,24 +4,33 @@
 // the quiz host can load it in the browser. A deck's unit id is `berufe-<beruf>-<gruppe>`,
 // the same id VokabelTrainer gets as its deck.
 import { BERUFE, refKind } from "./berufeCore.js";
-import { byId as lexiconById } from "./lexicon.js";
-import fuehrerschein from "../data/fuehrerschein/wortschatz.json" with { type: "json" };
+import { byId as lexiconById, ENGLISH_LEVELS } from "./lexicon.js";
 
 const modules = import.meta.glob("../data/berufe/*.json", { eager: true, import: "default" });
+
+/** The decks are English (english-for-work) and point at English lexicon ids. A ref into a
+ *  level that is not English, or into a word that is gone, drops out rather than showing a
+ *  German card in an English deck. */
+const resolves = (w) => {
+  if (!w.ref || refKind(w.ref) !== "lexicon") return true;
+  const row = lexiconById(w.ref);
+  return !!row && ENGLISH_LEVELS.has(row.level);
+};
+export const liveDeck = (deck) => ({ ...deck, groups: (deck.groups ?? []).map((g) => ({ ...g, words: (g.words ?? []).filter(resolves) })) });
+
 const decks = Object.fromEntries(
-  BERUFE.map((b) => [b.slug, Object.values(modules).find((d) => d?.beruf === b.slug)]).filter(([, d]) => d)
+  BERUFE.map((b) => [b.slug, Object.values(modules).find((d) => d?.beruf === b.slug)]).filter(([, d]) => d).map(([s, d]) => [s, liveDeck(d)])
 );
 
 const own = new Map(
   Object.values(decks).flatMap((d) => d.groups.flatMap((g) => g.words.filter((w) => !w.ref).map((w) => [w.id, w])))
 );
-const fs = new Map(fuehrerschein.groups.flatMap((g) => g.words.map((w) => [w.id, w])));
 
 const ownRow = (w) => ({
   id: w.id,
   lemma: w.lemma,
   pos: w.pos === "adverb" ? "adv" : w.pos,
-  gender: w.gender ?? (w.pluralOnly ? "die" : null),
+  gender: w.gender ?? (w.pluralOnly ? "some" : null),
   plural: w.plural ?? null,
   pluralOnly: !!w.pluralOnly,
   example: w.example,
@@ -34,10 +43,7 @@ const ownRow = (w) => ({
 export function rowOf(w) {
   if (!w.ref) return ownRow(w);
   const kind = refKind(w.ref);
-  const row =
-    kind === "berufe" ? ownRow(own.get(w.ref))
-    : kind === "fuehrerschein" ? ownRow(fs.get(w.ref))
-    : { ...lexiconById(w.ref) };
+  const row = kind === "berufe" ? ownRow(own.get(w.ref)) : { ...lexiconById(w.ref) };
   if (w.deHint) { row.deHint = w.deHint; delete row.deFill; }
   if (w.example) row.example = w.example;
   return row;

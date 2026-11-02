@@ -19,8 +19,12 @@ Rules:
 5. No integrations, no new dependencies, no server routes (see src/lib/backend.js).
 6. Commit early and often on this branch, message format `content({{MODULE}}): what changed`,
    so a stopped run loses nothing. Stage files by name. Never push. Never touch the main branch.
-7. Before you finish, `pnpm build` must succeed. If it fails because of your change, fix it.
-   If you cannot fix it, revert your last change and record why.
+7. Before you finish, the build must succeed. Run it exactly like this, in the foreground:
+   `timeout 1500 pnpm build 2>&1 | tail -40`
+   Never run a build in the background, never start a second build while one may still be
+   running, and never wait in a loop for a build log. A normal build takes 2-4 minutes. If it
+   fails because of your change, fix it; if you cannot, revert your last change and record why.
+   If it times out twice, stop: record it in the report and end with RESULT: PARTIAL.
 8. Write automation/reports/{{MODULE}}.md: what you did, decisions you made, what is left
    or uncertain, anything Edgar should review. Commit it.
 9. Only when the item is fully done: in automation/QUEUE.md change `- [ ] \`{{MODULE}}\`` to

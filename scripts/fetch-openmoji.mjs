@@ -2,7 +2,7 @@
 // and GRAMMAR_ICON use into public/img/openmoji/,
 // named by the emoji's code points without FE0F (see iconFile() in src/lib/wortBild.js).
 // Idempotent: files already there are skipped. OpenMoji is CC BY-SA 4.0 — the credit
-// line is on /lehrkraefte/quiz.
+// line is on /teachers/quiz.
 //
 //   node scripts/fetch-openmoji.mjs
 import { readFile, writeFile, mkdir, access } from "node:fs/promises";
@@ -11,15 +11,15 @@ import { iconFile } from "../src/lib/wortBild.js";
 import { ANIMAL_EMOJI } from "../src/lib/liveQuiz/names.js";
 // And the synonym groups' pictures (src/data/synonyme.json, "emoji").
 const synonyme = JSON.parse(await readFile(new URL("../src/data/synonyme.json", import.meta.url), "utf8"));
-// And the confusable words on /wissen/wortfallen (src/data/wortfallen.json).
+// And the confusable words on /knowledge/false-friends (src/data/wortfallen.json).
 const wortfallen = JSON.parse(await readFile(new URL("../src/data/wortfallen.json", import.meta.url), "utf8"));
 
 const VERSION = "15.1.0";
 const OUT = new URL("../public/img/openmoji/", import.meta.url);
 const bilder = JSON.parse(await readFile(new URL("../src/data/wort-bilder.json", import.meta.url), "utf8"));
-// The Landeskunde topic pictures on /kultur use the same folder (src/data/kultur-bilder.json).
+// The Landeskunde topic pictures on /culture use the same folder (src/data/kultur-bilder.json).
 const kultur = JSON.parse(await readFile(new URL("../src/data/kultur-bilder.json", import.meta.url), "utf8"));
-// The hub pictures: /uebungen's cards (hub-emoji.json) and the grammar topics, whose
+// The hub pictures: /exercises's cards (hub-emoji.json) and the grammar topics, whose
 // emoji live in GRAMMAR_ICON in catalog.js — read from the source, since catalog.js pulls
 // in JSON without import attributes and so cannot be imported here.
 const hub = JSON.parse(await readFile(new URL("../src/data/hub-emoji.json", import.meta.url), "utf8"));

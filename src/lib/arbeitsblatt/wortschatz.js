@@ -3,14 +3,13 @@
 // trainer uses, so the sheet and the site never disagree.
 //
 // Three parts, each with its own answer key:
-//   A  Wort ↔ Bedeutung — up to 10 words against their meanings, shuffled by a seed.
-//   B  der, die oder das? — up to 10 nouns with the article left out.
-//   C  Lückensätze — the lexicon's example sentences with the word blanked (up to 6).
+//   A  Word and meaning — up to 10 words against their meanings, shuffled by a seed.
+//   B  a, an or some? — up to 10 nouns with the article left out.
+//   C  Gap sentences — the lexicon's example sentences with the word blanked (up to 6).
 //
-// Meanings exist in en/ar/ru/tr for (nearly) every word. The sheet carries all four and
-// the page shows the one the teacher picks, so one static page serves every class.
-// Ukrainian is not offered: the lexicon has no uk glosses yet (the few in
-// src/data/uebersetzungen/woerter-uk.json cover the grammar tables, not whole Lernsets).
+// Meanings: `en` is the word's simple English definition, `de` its German translation
+// (lexicon deHint). The sheet carries every offered language and the page shows the one
+// the teacher picks, so one static page serves every class.
 import { select, units } from "../lexicon.js";
 import { shuffle, LETTERS } from "./seed.js";
 import { languagesFor } from "../languages.js";
@@ -68,9 +67,10 @@ export function wortschatzSheet(unitId, { words = select({ unit: unitId }), lang
     answers: picked.map((_, i) => LETTERS[order.indexOf(i)]),
   };
 
-  // B — nouns with a known gender.
+  // B — nouns with a known article: a, an, or some for uncountables (lexicon `gender`,
+  // content-plan §1.4). Plural-only nouns (some trousers) stay out: no a/an choice to make.
   const nouns = words
-    .filter((w) => w.pos === "noun" && ["der", "die", "das"].includes(w.gender) && !w.pluralOnly)
+    .filter((w) => w.pos === "noun" && ["a", "an", "some"].includes(w.gender) && !w.pluralOnly)
     .slice(0, NOUN_MAX)
     .map((w) => ({ lemma: w.lemma, gender: w.gender, plural: w.plural ?? null }));
 

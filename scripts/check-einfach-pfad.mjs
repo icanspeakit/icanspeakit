@@ -5,7 +5,7 @@
 //                                               touches a ref whose checksum is wrong —
 //                                               that means the source changed, and a
 //                                               person has to look at it.
-// The same checks run when /einfach is built (src/pages/einfach.astro), so a broken path
+// The same checks run when /step-by-step is built (src/pages/einfach.astro), so a broken path
 // cannot ship even if nobody runs this.
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -25,7 +25,6 @@ const sources = {
   akkusativ: read("src/data/akkusativ.json"),
   kultur: read("src/data/kultur.json"),
   kulturInsider: read("src/data/kultur-insider.json"),
-  articleRules: read("src/data/artikel-packs.json").rules,
   hoeren: read("src/data/hoeren.json"),
   aussprache: read("src/data/aussprache-check.json"),
   redemittel: read("src/data/redemittel.json"),

@@ -1,0 +1,161 @@
+---
+// The Nachschlagewerk lists: one page per file in src/data/nachschlagen/ —
+// /grammar/phrasal-verbs-list, /grammar/verbs-with-prepositions,
+// /grammar/irregular-verbs. Lists to look things up in, not exercises: each
+// section has its Regel (the same folding card as the Verbtabellen, verbtabellen.css)
+// and then the verbs, one row each. A filter field narrows every list at once.
+//
+// The static pages next door (verben, wortarten, …) win over this route.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import RefActions from "../../components/RefActions.astro";
+import { refSlug } from "../../lib/routes.js";
+import "../../styles/practice.css";
+import "../../styles/verbtabellen.css";
+import "../../styles/nachschlagen.css";
+
+export function getStaticPaths() {
+  const files = import.meta.glob("../../data/nachschlagen/*.json", { eager: true, import: "default" });
+  return Object.entries(files).map(([path, data]) => ({
+    params: { ref: refSlug(path.split("/").pop()!.replace(/\.json$/, "")) },
+    props: { data, file: path.split("/").pop()!.replace(/\.json$/, "") },
+  }));
+}
+
+// `file` is the data file's name (the key quiz chapters and worksheets use); the URL is English.
+const { data, file } = Astro.props as { data: any; file: string };
+const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+// *…* in a Regel line marks an example; it becomes bold.
+const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, "<b>$1</b>");
+const isHead = (it: unknown): it is string => typeof it === "string";
+// Stress in a verb ("[an]|rufen", "ver[ste]hen"): [..] is the stressed syllable, | where a
+// separable verb splits. The bar is drawn by CSS on an empty span, so the row's text (and
+// the search) still reads "anrufen".
+const verbHtml = (v: string) => esc(v)
+  .replace(/\[([^\]]+)\]/g, '<span class="nr-stress">$1</span>')
+  .replace(/\|/g, '<span class="nr-sep" aria-hidden="true"></span>');
+const count = data.sections.reduce((n: number, s: any) => n + s.items.filter((it: unknown) => !isHead(it)).length, 0);
+---
+<Layout title={data.metaTitle} description={data.description}>
+  <SiteNav active="grammatik" />
+  <main class="practice-main vb-page nr-page" id="nr-page">
+    <a href="/grammar" class="vp-back-link" data-i18n="header.back">Back to overview</a>
+    <header class="vb-head">
+      <p class="eyebrow" data-i18n="nav.wissen.nachschlagen">Reference</p>
+      <h1>{data.title}</h1>
+      <p class="vb-lead">{data.lead}</p>
+      <RefActions chapter={`g-nachschlagen-${file}`} sheet={`nachschlagen-${file}`} />
+    </header>
+
+    {data.regel && (
+      <aside class="vb-regel" lang="en" aria-label={`Rule: ${data.title}`}>
+        <div class="vb-regel-bar">
+          <p class="vb-regel-label">Rule</p>
+          <button type="button" class="vb-regel-toggle" aria-controls="regel-page"
+            data-show="Show rule" data-hide="Hide rule"
+            data-i18n-attr="data-show:vp.rule.show;data-hide:vp.rule.hide">Hide rule</button>
+        </div>
+        <div class="vb-regel-body" id="regel-page"><div class="vb-regel-inner">
+          <ul>{data.regel.map((r: string) => <li set:html={rule(r)} />)}</ul>
+        </div></div>
+      </aside>
+    )}
+
+    <div class="nr-tools">
+      <nav class="nr-jump" aria-label="Sections" lang="en">
+        {data.sections.map((s: any) => <a class="nr-jump-chip" href={`#${s.id}`}>{s.name}</a>)}
+      </nav>
+      <div class="nr-search">
+        <input type="search" id="nr-q" class="nr-input" placeholder={`Search ${count} verbs`}
+          aria-label="Search for a verb" autocomplete="off" lang="en" />
+      </div>
+      <p class="nr-empty" id="nr-empty" hidden data-i18n="nr.empty">No verb found.</p>
+    </div>
+
+    {data.sections.map((s: any) => (
+      <section class="nr-section" id={s.id} data-nr-section>
+        <h2 class="nr-title" lang="en">{s.name}</h2>
+        {s.what && <p class="vb-group-what nr-what">{s.what}</p>}
+        {s.regel && (
+          <aside class="vb-regel" lang="en" aria-label={`Rule: ${s.name}`}>
+            <div class="vb-regel-bar">
+              <p class="vb-regel-label">Rule</p>
+              <button type="button" class="vb-regel-toggle" aria-controls={`regel-${s.id}`}
+                data-show="Show rule" data-hide="Hide rule"
+                data-i18n-attr="data-show:vp.rule.show;data-hide:vp.rule.hide">Hide rule</button>
+            </div>
+            <div class="vb-regel-body" id={`regel-${s.id}`}><div class="vb-regel-inner">
+              <ul>{s.regel.map((r: string) => <li set:html={rule(r)} />)}</ul>
+            </div></div>
+          </aside>
+        )}
+        <p class="nr-cols" aria-hidden="true">
+          {data.stress && <span class="nr-legend"><span class="nr-stress">be</span>tont<span class="nr-legend-gap">·</span>an<span class="nr-sep"></span>rufen = trennt hier<span class="nr-legend-gap">·</span></span>}
+          {data.cols}
+        </p>
+        <ul class="nr-list" lang="en">
+          {s.items.map((it: any) => isHead(it) ? (
+            <li class="nr-head" data-nr-head>{it.replace(/^#\s*/, "")}</li>
+          ) : (
+            <li class="nr-item" data-nr-item>
+              <span class="nr-de" set:html={verbHtml(it[0])} />
+              <span class="nr-meta">{it[1]}</span>
+              {it[3] && <span class="nr-lvl">{it[3]}</span>}
+              {it[2] && <span class="nr-ex">{it[2]}</span>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    {data.practice?.length > 0 && (
+      <p class="vb-practice-row">
+        {data.practice.map(([href, label]: string[], i: number) => (
+          <a class:list={["vb-practice", i > 0 && "vb-practice--ghost"]} href={href} lang="en">{label}</a>
+        ))}
+      </p>
+    )}
+  </main>
+</Layout>
+
+<script>
+  import { mountRefToggle } from "../../lib/ruleColumn.js";
+  for (const btn of document.querySelectorAll<HTMLButtonElement>(".vb-regel-toggle")) {
+    mountRefToggle(btn, document.getElementById(btn.getAttribute("aria-controls") ?? ""));
+  }
+
+  // Filter: every list at once, by any part of the row (verb, forms, sentence). A section
+  // with no hit hides; a Vokalreihe heading hides with its last verb.
+  const norm = (s: string) => s.toLocaleLowerCase("de").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/ß/g, "ss");
+  const q = document.getElementById("nr-q") as HTMLInputElement | null;
+  const sections = [...document.querySelectorAll<HTMLElement>("[data-nr-section]")];
+  const empty = document.getElementById("nr-empty");
+  q?.addEventListener("input", () => {
+    const term = norm(q.value.trim());
+    let any = false;
+    for (const sec of sections) {
+      let secHit = false;
+      let head: HTMLElement | null = null;
+      let headHit = false;
+      const closeHead = () => { if (head) head.hidden = !headHit; };
+      for (const li of sec.querySelectorAll<HTMLElement>(".nr-list > li")) {
+        if (li.hasAttribute("data-nr-head")) { closeHead(); head = li; headHit = false; continue; }
+        const hit = !term || norm(li.textContent ?? "").includes(term);
+        li.hidden = !hit;
+        if (hit) { secHit = true; headHit = true; }
+      }
+      closeHead();
+      sec.hidden = !secHit;
+      any ||= secHit;
+    }
+    if (empty) empty.hidden = any;
+    // While searching, the Regeln step aside; the matches are what is being looked for.
+    document.getElementById("nr-page")?.classList.toggle("is-searching", !!term);
+  });
+  // ?q=warten%20auf (from the search on /reference and the nav search): open filtered.
+  const asked = new URLSearchParams(location.search).get("q");
+  if (q && asked) {
+    q.value = asked;
+    q.dispatchEvent(new Event("input"));
+  }
+</script>

@@ -5,10 +5,12 @@
 // (17 of the 386 A1 nouns do); it belongs to the pack of its first, so every noun sits in
 // exactly one pack and the packs of a level add up to the level.
 //
-// Rule packs are article patterns — -ung → die, -chen → das. A noun joins one only when
-// it matches the pattern AND its real article is the pack's article. The ones that match
-// and break the rule (der Reichtum, das Stadion) are returned as exceptions: they are what
-// a rule pack must never teach, and together they make the "Ausnahmen" pack.
+// Rule packs are article patterns — English: vowel letter → an, consonant letter → a,
+// uncountable → some (the German data had -ung → die, -chen → das; the suffix code stays).
+// A noun joins one only when it matches the pattern AND its real article is the pack's
+// article. The ones that match and break the rule (a university, an hour) are returned as
+// exceptions: they are what a rule pack must never teach, and together they make the
+// "Exceptions" pack (id "ausnahmen").
 //
 // Also importable from plain `node`, like lexicon.js — scripts can print the stats.
 import config from "../data/artikel-packs.json" with { type: "json" };
@@ -42,9 +44,19 @@ const isInfinitive = (lemma) => {
 export function ruleMatch(noun) {
   const L = noun.lemma;
   for (const r of config.rules) {
+    // English (a / an / some): `uncountable` takes the "some" nouns; `countableOnly` rules
+    // skip them; `prefixes` match the first letter(s), so "university" matches the vowel rule
+    // and breaks it (a university), "hour" the consonant rule (an hour): the exceptions.
+    if (r.uncountable) {
+      if (noun.gender === "some") return { rule: r, why: noun.pluralOnly ? "always plural" : "uncountable" };
+      continue;
+    }
+    if (r.countableOnly && noun.gender === "some") continue;
+    const prefix = r.prefixes?.find((p) => L.toLowerCase().startsWith(p));
+    if (prefix) return { rule: r, why: `starts with ${prefix}` };
     if (r.names?.includes(L)) return { rule: r, why: "Name" };
     if (r.notSuffixes?.some((s) => L.endsWith(s))) continue;
-    const suffix = r.suffixes.find((s) => L.endsWith(s));
+    const suffix = r.suffixes?.find((s) => L.endsWith(s));
     if (suffix) {
       // -chen is a diminutive only after a consonant other than s: Brötchen, Mädchen —
       // not Kuchen, Knochen, Groschen, which merely end in the same letters.
@@ -96,9 +108,9 @@ export function buildArtikelPacks(lexNouns) {
     const exc = exceptions.filter((e) => upTo.has(e.level));
     if (exc.length >= 5) {
       rules.push({
-        id: "ausnahmen", article: null, name: "Ausnahmen",
-        rule: "Diese Wörter sehen aus wie eine Regel — und brechen sie. Sie muss man einzeln lernen.",
-        ruleLeicht: "Diese Wörter passen nicht zur Regel. Lerne sie mit ihrem Artikel.",
+        id: "ausnahmen", article: null, name: "Exceptions",
+        rule: "These words look as if a rule applies – and break it: a university, a European, an hour. Learn them one by one.",
+        ruleLeicht: "These words do not follow the rule. Learn each word with a or an.",
         ids: exc.map((e) => e.id),
       });
     }

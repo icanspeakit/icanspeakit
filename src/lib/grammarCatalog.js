@@ -11,6 +11,7 @@
 import { taskCountOf, topicKeyOf } from "./grammarTasks.js";
 import grammatik from "../data/grammatik.json";
 import { byPlan } from "./lehrplan.js";
+import { topicPath } from "./routes.js";
 import { isReviewed, statusOf } from "./topicStatus.js";
 
 const workspaceMods = import.meta.glob("../data/grammatik/*.json", { eager: true });
@@ -22,7 +23,7 @@ const topicOf = (t, kind) => ({
   key: topicKeyOf(t),
   name: t.name,
   level: t.level,
-  href: `/${topicKeyOf(t)}`,
+  href: topicPath(topicKeyOf(t)),
   tasks: taskCountOf(t),
   kind,
   // Whether this topic can be heard and spoken, not just read and typed. Surfaces on the

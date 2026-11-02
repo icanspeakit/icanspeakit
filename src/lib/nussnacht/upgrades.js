@@ -1,6 +1,6 @@
 // Hamstis Nussnacht: the upgrades. A full cheek pouch is a level-up, the run pauses and the
 // learner picks one of three. Each goes up to level 5; `b1` ones only come at level B1 (they
-// bring plural and compound creatures, which A1/A2 do not have yet).
+// bring plural and two-word creatures, which A1/A2 do not have yet).
 //
 // The numbers are not here: sim.js turns the levels into the run's stats (`stats()`), so the
 // whole balance sits in one place (TUNING in sim.js). This file is what the card shows.
@@ -8,29 +8,29 @@
 export const MAX_LV = 5;
 
 export const UPGRADES = [
-  { id: "schleuder", icon: "🥜", name: "Nuss-Schleuder", text: ["Ein Schuss mehr auf einmal."] },
-  { id: "backentaschen", icon: "🐹", name: "Backentaschen", text: ["Nüsse fliegen von weiter her zu dir."] },
-  { id: "kreisel", icon: "🌰", name: "Eichel-Kreisel", text: ["Eicheln kreisen um Hamsti und treffen jeden Artikel (wenig Schaden).", "Noch eine Eichel, etwas mehr Schaden."] },
-  { id: "salve", icon: "🌻", name: "Sonnenblumenkern-Salve", text: ["Schüsse fliegen durch ein Wort mehr hindurch."] },
-  { id: "laterne", icon: "🏮", name: "Laterne", text: ["Wörter im Licht werden langsamer.", "Mehr Licht, noch langsamer."] },
-  { id: "radar", icon: "📡", name: "Endungs-Radar", text: [
-    "-ung, -heit, -keit: Diese Wörter leuchten in ihrer Artikelfarbe.",
-    "Dazu -chen, -ment, -um (das).",
-    "Dazu -schaft, -tät, -ion (die) und -ling (der).",
-    "Leuchtende Wörter bekommen mehr Schaden.",
-    "Leuchtende Wörter bekommen noch mehr Schaden.",
+  { id: "schleuder", icon: "🥜", name: "Nut slingshot", text: ["One more shot at a time."] },
+  { id: "backentaschen", icon: "🐹", name: "Cheek pouches", text: ["Nuts fly to you from further away."] },
+  { id: "kreisel", icon: "🌰", name: "Acorn spinner", text: ["Acorns circle Hamsti and hit every word, whatever its article (low damage).", "One more acorn, a bit more damage."] },
+  { id: "salve", icon: "🌻", name: "Sunflower seed volley", text: ["Shots fly through one more word."] },
+  { id: "laterne", icon: "🏮", name: "Lantern", text: ["Words in the light slow down.", "More light, even slower."] },
+  { id: "radar", icon: "📡", name: "First-sound radar", text: [
+    "Words that start with a, e, i or o and take an glow in the colour of an.",
+    "Also words that start with a consonant (not h) and take a glow in the colour of a.",
+    "Also the tricky ones with h and u glow in their right colour: an hour, a hotel, an uncle, a university.",
+    "Glowing words take more damage.",
+    "Glowing words take even more damage.",
   ] },
-  { id: "plural", icon: "👯", name: "Plural-Platzer", b1: true, text: ["Plural-Wörter kommen dazu – Plural ist immer die. Sie platzen und treffen alles um sich herum.", "Größerer Platzer."] },
-  { id: "kompositum", icon: "🧩", name: "Kompositum-Kracher", b1: true, text: ["Zusammengesetzte Wörter kommen dazu. Sie zerfallen – das letzte Wort bestimmt den Artikel.", "Mehr Nüsse aus Komposita."] },
-  { id: "pfoten", icon: "🐾", name: "Flinke Pfoten", text: ["Hamsti läuft schneller."] },
-  { id: "vorrat", icon: "🍎", name: "Wintervorrat", text: ["Mehr Lebenspunkte, und du wirst etwas geheilt."] },
-  { id: "kauen", icon: "⚡", name: "Schnell-Kauen", text: ["Hamsti schießt öfter."] },
-  { id: "schale", icon: "🥥", name: "Harte Schale", text: ["Mehr Schaden pro Treffer."] },
-  { id: "fernrohr", icon: "🔭", name: "Fernrohr", text: ["Hamsti zielt weiter."] },
+  { id: "plural", icon: "👯", name: "Plural popper", b1: true, text: ["Plural words join in – a plural never takes a or an: some apples. They pop and hit everything around them.", "Bigger pop."] },
+  { id: "kompositum", icon: "🧩", name: "Two-word cracker", b1: true, text: ["Two-word nouns join in (a bus stop, an email address). They crack in two: the first word’s sound decides between a and an.", "More nuts from two-word nouns."] },
+  { id: "pfoten", icon: "🐾", name: "Quick paws", text: ["Hamsti runs faster."] },
+  { id: "vorrat", icon: "🍎", name: "Winter store", text: ["More health, and you heal a little."] },
+  { id: "kauen", icon: "⚡", name: "Fast chewing", text: ["Hamsti shoots more often."] },
+  { id: "schale", icon: "🥥", name: "Hard shell", text: ["More damage per hit."] },
+  { id: "fernrohr", icon: "🔭", name: "Telescope", text: ["Hamsti aims further."] },
 ];
 
 // When everything offered is at level 5: a snack instead.
-export const SNACK = { id: "snack", icon: "🍪", name: "Nusskeks", text: ["Heilt dich ein Stück."] };
+export const SNACK = { id: "snack", icon: "🍪", name: "Nut biscuit", text: ["Heals you a bit."] };
 
 export const upgradeById = (id) => UPGRADES.find((u) => u.id === id) ?? (id === SNACK.id ? SNACK : null);
 

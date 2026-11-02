@@ -12,7 +12,7 @@ import LevelFold from "../components/LevelFold.astro";
 import PracticePicker from "../components/PracticePicker.astro";
 import Icon from "../components/Icon.astro";
 import WortDesTagesCard from "../components/wortgeschichte/WortDesTagesCard.astro";
-// One catalogue for / and /uebungen — see src/lib/catalog.js.
+// One catalogue for / and /exercises — see src/lib/catalog.js.
 import { tools, landingTools, exams } from "../lib/catalog.js";
 import { grammarTopicCount } from "../lib/inventory.js";
 import "../styles/landing.css";
@@ -65,7 +65,7 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
             </p>
             <div class="fr-actions">
               <NextStepCta variant="hero" />
-              <a href="/pruefungen" class="lp-btn lp-btn--outline" data-i18n="home3.hero.cta2">Prüfungen ansehen</a>
+              <a href="/exams" class="lp-btn lp-btn--outline" data-i18n="home3.hero.cta2">Prüfungen ansehen</a>
             </div>
           </div>
 
@@ -256,7 +256,7 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
       <div class="lp-wrap lp-final-cta-inner">
         <h2 data-i18n="home3.finalcta.title">Einstufungstest</h2>
         <p data-i18n="home3.finalcta.subtitle">Finde heraus, ob du bei A1, A2, B1 oder B2 einsteigst, und fang dort an.</p>
-        <a href="/einstufungstest" class="lp-final-cta-btn" data-i18n="home3.finalcta.cta">Test starten</a>
+        <a href="/placement-test" class="lp-final-cta-btn" data-i18n="home3.finalcta.cta">Test starten</a>
         <div class="lp-final-cta-login"><span data-i18n="home.finalcta.loginQuestion">Schon dabei?</span> <a href="/anmelden" data-i18n="home.finalcta.loginAction">Einloggen</a></div>
       </div>
     </section>
@@ -274,46 +274,46 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
                construction site as a footer of filler text, only harder to spot. -->
           <div class="lp-footer-col">
             <h5 data-i18n="home.footer.col.practise">Üben</h5>
-            <a href="/grammatik" data-i18n="nav.subject.grammatik">Grammatik</a>
-            <a href="/wortschatz" data-i18n="nav.subject.wortschatz">Wortschatz</a>
-            <a href="/fertigkeiten" data-i18n="nav.subject.fertigkeiten">Fertigkeiten</a>
-            <a href="/kultur" data-i18n="group.kultur.name">Landeskunde</a>
+            <a href="/grammar" data-i18n="nav.subject.grammatik">Grammatik</a>
+            <a href="/vocabulary" data-i18n="nav.subject.wortschatz">Wortschatz</a>
+            <a href="/skills" data-i18n="nav.subject.fertigkeiten">Fertigkeiten</a>
+            <a href="/culture" data-i18n="group.kultur.name">Landeskunde</a>
           </div>
           <div class="lp-footer-col">
             <h5 data-i18n="nav.exams">Prüfungen</h5>
-            <a href="/dtz">DTZ</a>
-            <a href="/telc">telc</a>
-            <a href="/goethe">Goethe-Zertifikat</a>
-            <a href="/testdaf">TestDaF</a>
+            <a href="/cambridge" data-i18n="home.footer.exam.cambridge">Cambridge English</a>
+            <a href="/ielts" data-i18n="home.footer.exam.ielts">IELTS Academic</a>
+            <a href="/trinity" data-i18n="home.footer.exam.trinity">Trinity ISE</a>
+            <a href="/life-in-the-uk" data-i18n="home.footer.exam.lifeUk">Life in the UK</a>
           </div>
           <div class="lp-footer-col">
             <h5 data-i18n="home.footer.col.practiseExam">Direkt üben</h5>
-            <a href="/dtz/uebungssatz">DTZ Modelltest</a>
-            <a href="/leben-in-deutschland/test">Leben in Deutschland Test</a>
-            <a href="/start-deutsch-1">Start Deutsch 1 Übungssatz</a>
-            <a href="/telc/b1">telc B1 Übungssatz</a>
-            <a href="/goethe/b1">Goethe B1 Übungssatz</a>
+            <a href="/cambridge/b1" data-i18n="home.footer.practice.b1Prelim">B1 Preliminary practice test</a>
+            <a href="/ielts/practice-set" data-i18n="home.footer.practice.ielts">IELTS Academic practice set</a>
+            <a href="/trinity/ise-1/practice-set" data-i18n="home.footer.practice.ise1">Trinity ISE I mock test</a>
+            <a href="/life-in-the-uk/test" data-i18n="home.footer.practice.lifeUk">Life in the UK practice test</a>
+            <a href="/a1-test" data-i18n="home.footer.practice.a1">A1 English practice test</a>
           </div>
           <div class="lp-footer-col">
             <h5 data-i18n="home.footer.col.more">Mehr</h5>
-            <a href="/uebungen" data-i18n="nav.exercises">Übungen</a>
-            <a href="/einstufungstest" data-i18n="home.footer.link.placement">Einstufungstest</a>
-            <a href="/wissen" data-i18n="home.footer.link.knowledge">Wissen</a>
-            <a href="/fortschritt" data-i18n="home.footer.link.dashboard">Dein Fortschritt</a>
-            <a href="/maskottchen" data-i18n="home.footer.link.mascots">Die Maskottchen</a>
+            <a href="/exercises" data-i18n="nav.exercises">Übungen</a>
+            <a href="/placement-test" data-i18n="home.footer.link.placement">Einstufungstest</a>
+            <a href="/knowledge" data-i18n="home.footer.link.knowledge">Wissen</a>
+            <a href="/progress" data-i18n="home.footer.link.dashboard">Dein Fortschritt</a>
+            <a href="/mascots" data-i18n="home.footer.link.mascots">Die Maskottchen</a>
             <a href="/merch" data-i18n="home.footer.link.merch">Merch</a>
-            <a href="/ueber-mich" data-i18n="home.footer.link.about">Über mich</a>
+            <a href="/about" data-i18n="home.footer.link.about">Über mich</a>
           </div>
           <!-- Pflichtangaben. Impressum and Datenschutz are not "more links" — a German
                site has to carry them, and they have to be reachable from every page, so
                they get their own column rather than being appended to one above. -->
           <div class="lp-footer-col">
             <h5 data-i18n="home.footer.col.legal">Rechtliches</h5>
-            <a href="/impressum" data-i18n="home.footer.link.imprint">Impressum</a>
-            <a href="/datenschutz" data-i18n="home.footer.link.privacy">Datenschutz</a>
-            <a href="/nutzungsbedingungen" data-i18n="home.footer.link.terms">Nutzungsbedingungen</a>
-            {PAYWALL && <a href="/kuendigen">Verträge hier kündigen</a>}
-            {PAYWALL && <a href="/widerrufen">Vertrag widerrufen</a>}
+            <a href="/legal-notice" data-i18n="home.footer.link.imprint">Impressum</a>
+            <a href="/privacy" data-i18n="home.footer.link.privacy">Datenschutz</a>
+            <a href="/terms" data-i18n="home.footer.link.terms">Nutzungsbedingungen</a>
+            {PAYWALL && <a href="/kuendigen" data-i18n="home.footer.link.cancel">Cancel a contract</a>}
+            {PAYWALL && <a href="/widerrufen" data-i18n="home.footer.link.withdraw">Withdraw from a contract</a>}
           </div>
         </div>
         <div class="lp-footer-bottom">

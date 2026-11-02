@@ -1,0 +1,168 @@
+---
+// Exam traps: places in the B1 exams (ids "dtz" = our B1 skills mock, "telc" = the Trinity ISE I practice set) that look easy and have a catch. Each card is tied
+// to a real task in our practice sets (fallen.json → source) and links into that set/part.
+// The ids are anchors the Instagram reels point to (/exams/traps#<id>) — keep them.
+//
+// Look and the gap check come from /grammar/common-mistakes (typische-fehler.css), the head
+// from /cambridge/use-of-english. The traps are English exam content (lang="en"); the frame (chips,
+// labels, buttons) goes through data-i18n. No claims about how many people fail anything: wrong
+// answers are only ever stored in the learner's own browser (src/lib/fehler.js).
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
+import data from "../../data/pruefungen/fallen.json";
+import "../../styles/practice.css";
+import "../../styles/verben-praepositionen.css";
+import "../../styles/typische-fehler.css";
+import "../../styles/fallen.css";
+
+const fallen = data.fallen;
+const count = (exam: string) => fallen.filter((f) => f.exams.includes(exam)).length;
+const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+const bold = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+// Both slots (B1 mock, ISE I) are B1 now.
+const level = (_f: (typeof fallen)[number]) => "B1";
+---
+<Layout
+  title="Exam traps at B1 – EnglishAcademy"
+  description="Parts of B1 exams that look easy but have a catch: a short explanation, a ✗/✓ example, a task to try and a link to the practice set."
+  breadcrumb={[{ name: "Exams", path: "/exams" }]}
+>
+  <SiteNav active="pruefungen" />
+
+  <main class="vp-page fl-page" id="fl-page">
+    <a href="/exams" class="vp-back-link" data-i18n="fallen.back">Zurück zu den Prüfungen</a>
+
+    <div class="vp-hero">
+      <div class="vp-hero-badges">
+        <span class="badge badge-brand" lang="en">ISE I mock test</span>
+        <span class="badge badge-info" lang="en">ISE I practice tests</span>
+      </div>
+      <h1 data-i18n="fallen.title">Prüfungsfallen: DTZ und telc B1</h1>
+      <p data-i18n="fallen.lead">Diese Stellen in der Prüfung sehen leicht aus, haben aber einen Haken. Zu jeder Falle gibt es eine kurze Erklärung, ein Beispiel, eine Aufgabe zum Ausprobieren und den Weg in den Übungssatz.</p>
+      <ExamDisclaimer />
+    </div>
+
+    <div class="fl-chips" role="group" aria-label="Filter by exam" data-i18n-attr="aria-label:fallen.filter.label" data-fl-chips>
+      <button type="button" class="fl-chip" data-fl-filter="" aria-pressed="true"><span data-i18n="fallen.filter.all">Alle</span> <span class="fl-chip-n">{fallen.length}</span></button>
+      <button type="button" class="fl-chip" data-fl-filter="dtz" aria-pressed="false" lang="en">B1 skills mock <span class="fl-chip-n">{count("dtz")}</span></button>
+      <button type="button" class="fl-chip" data-fl-filter="telc" aria-pressed="false" lang="en">ISE I practice set <span class="fl-chip-n">{count("telc")}</span></button>
+    </div>
+
+    <span hidden data-fl-msg="ok" data-i18n="fallen.ok">Richtig!</span>
+    <span hidden data-fl-msg="no" data-i18n="fallen.no">Nicht ganz – lies die Erklärung oben und probier es noch einmal.</span>
+
+    <ol class="fl-list">
+      {fallen.map((f) => {
+        const t = f.task as { context?: string; prompt?: string; gap?: string; options: string[]; answer: string; fb: string };
+        const long = t.options.some((o) => o.length > 16);
+        return (
+          <li class={`tf-card fl-card fl-skill--${f.skill}`} id={f.id} data-exams={f.exams.join(" ")} data-level={level(f)}>
+            <p class="fl-wo" lang="en">{f.wo}</p>
+            <h2 class="fl-title" lang="en">{f.title}</h2>
+            <p class="tf-why" lang="en">{f.why}</p>
+
+            <div class="fl-pair" lang="en">
+              <p class="fl-side fl-side--wrong"><span class="fl-mark"><span aria-hidden="true">✗ </span><span data-i18n="fallen.wrong">So nicht</span></span><span set:html={bold(f.wrong)} /></p>
+              <p class="fl-side fl-side--right"><span class="fl-mark"><span aria-hidden="true">✓ </span><span data-i18n="fallen.right">So richtig</span></span><span set:html={bold(f.right)} /></p>
+            </div>
+
+            {/* Tap an answer, it says right away – like the gaps on /grammar/common-mistakes.
+                A wrong tap goes to „Meine Fehler“ (this device only). */}
+            <div class="tf-check" data-fl-check data-answer={t.answer}>
+              <p class="fl-try" data-i18n="fallen.try">Probier es aus</p>
+              {t.context && <p class="fl-context" lang="en">{t.context}</p>}
+              {t.gap
+                ? <p class="tf-gap" lang="en" data-fl-q={t.gap} set:html={esc(t.gap).replace("___", '<span class="tf-blank" data-tf-blank>___</span>')} />
+                : <p class="fl-prompt" lang="en" data-fl-q={t.prompt}>{t.prompt}</p>}
+              <div class:list={["tf-opts", { "fl-opts--long": long }]} lang="en">
+                {t.options.map((o) => <button type="button" class="tf-opt" data-fl-opt={o}>{o}</button>)}
+              </div>
+              <p class="tf-fb" data-fl-fb aria-live="polite"></p>
+              <p class="fl-why-after" lang="en" data-fl-why hidden>{t.fb}</p>
+            </div>
+
+            <div class="fl-foot">
+              <a class="tf-next-btn" href={f.practice.href} data-i18n="fallen.practice">Im Übungssatz üben</a>
+              <span class="fl-foot-where" lang="en">{f.practice.label}</span>
+              <p class="fl-source" lang="en"><span data-i18n="fallen.source">Aufgabe aus:</span> {f.source}</p>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+
+    <aside class="tf-next">
+      <div class="tf-next-links">
+        <a class="tf-next-btn" href="/my-mistakes" data-i18n="fallen.next.meine">Meine Fehler</a>
+        <a class="tf-next-btn tf-next-btn--ghost" href="/grammar/common-mistakes" data-i18n="fallen.next.typisch">Typische Fehler</a>
+      </div>
+      <p class="tf-next-more" data-i18n="fallen.next.note">Falsche Antworten aus den Aufgaben oben speichern wir in „Meine Fehler“ – nur auf diesem Gerät.</p>
+    </aside>
+  </main>
+</Layout>
+
+<script>
+  import { recordResult } from "../../lib/fehler.js";
+
+  // The two feedback lines sit translated in the page (data-fl-msg), read when needed.
+  const msg = (k: string) => document.querySelector(`[data-fl-msg="${k}"]`)?.textContent ?? "";
+
+  // Chips only filter: without JavaScript „Alle“ stays chosen and every card is on the page.
+  const chips = document.querySelector<HTMLElement>("[data-fl-chips]");
+  const cards = [...document.querySelectorAll<HTMLElement>(".fl-card")];
+  if (chips) {
+    chips.querySelectorAll<HTMLButtonElement>("[data-fl-filter]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const exam = btn.dataset.flFilter ?? "";
+        chips.querySelectorAll<HTMLButtonElement>("[data-fl-filter]").forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+        for (const c of cards) c.hidden = !!exam && !(c.dataset.exams ?? "").split(" ").includes(exam);
+      });
+    });
+  }
+
+  // Each mini-task on its own: right → green, the reason under it, done; wrong → marked, the
+  // others stay open, and the mistake goes to „Meine Fehler“ the way the exam engines do it.
+  document.querySelectorAll<HTMLElement>("[data-fl-check]").forEach((box) => {
+    const card = box.closest<HTMLElement>(".fl-card")!;
+    const answer = box.dataset.answer!;
+    const blank = box.querySelector<HTMLElement>("[data-tf-blank]");
+    const fb = box.querySelector<HTMLElement>("[data-fl-fb]")!;
+    const why = box.querySelector<HTMLElement>("[data-fl-why]")!;
+    const context = box.querySelector(".fl-context")?.textContent ?? "";
+    const q = box.querySelector<HTMLElement>("[data-fl-q]")?.dataset.flQ ?? "";
+    const item = {
+      source: "fallen",
+      itemId: card.id,
+      prompt: [context, q].filter(Boolean).join(" "),
+      expected: answer,
+      level: card.dataset.level,
+      topic: "Exam traps",
+      href: `/exams/traps#${card.id}`,
+    };
+    let missed = false;
+    box.querySelectorAll<HTMLButtonElement>("[data-fl-opt]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (box.dataset.state === "done") return;
+        const given = btn.dataset.flOpt!;
+        const ok = given === answer;
+        btn.dataset.result = ok ? "ok" : "no";
+        // First answer counts: a right answer after a miss does not clear the mistake.
+        if (!ok || !missed) recordResult({ ...item, given }, ok);
+        if (!ok) missed = true;
+        if (ok) {
+          if (blank) {
+            blank.textContent = answer;
+            blank.dataset.result = "ok";
+          }
+          box.dataset.state = "done";
+          fb.textContent = msg("ok");
+          why.hidden = false;
+          box.querySelectorAll<HTMLButtonElement>("[data-fl-opt]").forEach((b) => (b.disabled = true));
+        } else {
+          fb.textContent = msg("no");
+        }
+      });
+    });
+  });
+</script>

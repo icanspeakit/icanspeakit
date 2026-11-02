@@ -1,4 +1,4 @@
-// Melodie-Labyrinth (/satzmelodie#labyrinth): the melody as height you can see.
+// Melodie-Labyrinth (/intonation#labyrinth): the melody as height you can see.
 // Quaki hops along the words while the sentence plays. At the end the corridor splits into
 // three exits by height: up for the question (↗), down for the statement (↘), the deep
 // slide for the exclamation (↘!). The learner picks one, Quaki takes it. Then the stones
@@ -14,9 +14,9 @@ const NS = "http://www.w3.org/2000/svg";
 const MID = 125, X0 = 34, XW = 236, XEND = 330;
 const MARK = { aussage: ".", echo: "?", ausruf: "!" };
 const WHY = {
-  aussage: "Aussage: Die Stimme geht am Ende nach unten ↘ – der Weg nach unten.",
-  echo: "Nachfrage: Die Stimme geht am Ende stark nach oben ↗ – der Weg nach oben. Man ist überrascht oder prüft nach.",
-  ausruf: "Ausruf: Wie bei der Aussage, nur viel stärker – das betonte Wort geht weit nach oben, danach fällt die Stimme steil ↘ – die Rutsche ganz nach unten.",
+  aussage: "Statement: the voice goes down at the end ↘ – the way down.",
+  echo: "Echo question: the voice goes up a lot at the end ↗ – the way up. You're surprised or checking.",
+  ausruf: "Exclamation: like a statement, only much stronger – the stressed word goes very high, then the voice falls steeply ↘ – the slide all the way down.",
 };
 // A drawn contour (time 0..1, semitones) for lines the browser reads.
 const SKETCH = {
@@ -161,7 +161,7 @@ export function initLabyrinth({ panel, quiz, audio, play, stop, runId }) {
     btns.forEach((b) => { b.classList.remove("is-right", "is-wrong"); b.disabled = false; });
     rideBtn.hidden = true;
     fb.textContent = ""; fb.className = "sm-fb lab-fb";
-    say.textContent = "Hör zu – dann such den Ausgang!";
+    say.textContent = "Listen – then find the way out!";
     face("happy");
     place(14, MID);
   }
@@ -183,7 +183,7 @@ export function initLabyrinth({ panel, quiz, audio, play, stop, runId }) {
     if (answered) return ride();
     stop(); cancel();
     face("happy"); place(14, MID);
-    say.textContent = "Hör gut zu …";
+    say.textContent = "Listen carefully …";
     const id = runId();
     const n = words.length;
     const c = await contourOf(cur.src);
@@ -217,7 +217,7 @@ export function initLabyrinth({ panel, quiz, audio, play, stop, runId }) {
 
   async function answer(type) {
     if (!cur || answered) return;
-    if (!heard) { say.textContent = "Erst hören! Tipp auf ▶."; return; }
+    if (!heard) { say.textContent = "Listen first! Tap ▶."; return; }
     answered = true;
     stop(); cancel();
     const ok = type === cur.t;
@@ -251,7 +251,7 @@ export function initLabyrinth({ panel, quiz, audio, play, stop, runId }) {
       svg.querySelector(`[data-door="${cur.t}"]`).classList.add("is-right");
       face("happy");
     }
-    fb.textContent = (ok ? "Richtig! " : "Leider nicht. ") + WHY[cur.t];
+    fb.textContent = (ok ? "Correct! " : "Not quite. ") + WHY[cur.t];
     fb.className = `sm-fb lab-fb ${ok ? "is-ok" : "is-bad"}`;
     rideBtn.hidden = false;
     await new Promise((r) => setTimeout(r, 500));
@@ -277,7 +277,7 @@ export function initLabyrinth({ panel, quiz, audio, play, stop, runId }) {
     trail.setAttribute("d", c.pts.filter((_, i) => i % step === 0).map((p, i) => `${i ? "L" : "M"}${xOf(p.t).toFixed(1)} ${yOf(p.st).toFixed(1)}`).join(" "));
     trail.dataset.type = cur.t;
     svg.classList.add("is-melody");
-    say.textContent = c.sketch ? "So ungefähr geht die Melodie. Fahr mit!" : "Das ist die echte Melodie. Fahr mit!";
+    say.textContent = c.sketch ? "This is roughly how the melody goes. Ride along!" : "This is the real melody. Ride along!";
     if (n) place(xOf(c.t1), yOf(stAt(c, c.t1)));
   }
 

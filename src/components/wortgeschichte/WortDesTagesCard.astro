@@ -2,18 +2,18 @@
 // The one small homepage card („Wort des Tages: die Arbeit →“). Never a section
 // (WORTGESCHICHTE-TIERED-PROMPT.md, Placement). Renders nothing until a word is really
 // published — approved and its day has come — so the homepage is unchanged before launch.
-import { published, today, headword } from "../../lib/wortgeschichte.js";
+import { published, today, headword, entryLang } from "../../lib/wortgeschichte.js";
 
 const list = published(today());
 const entry = list[list.length - 1];
 ---
 {entry && (
   <div class="wg-card-band">
-    <a class="wg-card" href="/wissen/wortgeschichte">
+    <a class="wg-card" href="/knowledge/word-stories">
       <span class="wg-card-ic" aria-hidden="true">🌱</span>
       <span class="wg-card-txt">
         <small data-i18n="wg.eyebrow">Wort des Tages</small>
-        <b lang="de">{headword(entry)}</b>
+        <b lang={entryLang(entry)}>{headword(entry)}</b>
       </span>
       <span class="wg-card-go" data-i18n="wg.card.go">Woher kommt es? →</span>
     </a>

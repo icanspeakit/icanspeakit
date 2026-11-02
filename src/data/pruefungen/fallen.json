@@ -1,228 +1,233 @@
 {
-  "_note": "Prüfungsfallen DTZ und telc B1 (/pruefungen/fallen). Jede Falle steckt in einer echten Aufgabe unserer Übungssätze (source). Keine Aussagen darüber, wie viele Menschen an etwas scheitern. Die ids sind Anker für Reels (/pruefungen/fallen#<id>) – nicht umbenennen. **…** = hervorgehoben. Auswahl und Belege: docs/pruefungsfallen-v1.md.",
+  "_note": "Exam traps for B1 (/exams/traps): the Trinity ISE I practice set (exam id \"telc\", /trinity/b1) and our B1 skills mock (exam id \"dtz\", /trinity/ise-1/practice-set). Each trap sits in a real task of those sets (source); the small task on the card is a short example of the same trap, written for the card. No claims about how many people fail at something. The ids are anchors for reels (/exams/traps#<id>) and stay as they are (the routes item may rename them with redirects); some ids still name the German trap that used the slot. **…** = highlighted. Rewritten in English by the exams run, 2026-10-30.",
   "fallen": [
     {
       "id": "wort-aus-dem-text",
       "exams": ["dtz"],
       "skill": "hoeren",
-      "wo": "DTZ · Hören, Teil 1 und 2",
-      "title": "Du hörst das Wort – aber es ist nicht die Antwort",
-      "why": "In einer Ansage kommen manchmal zwei Zahlen oder zwei Orte vor. Eine falsche Antwort nimmt genau das Wort, das du gehört hast. Achte auf „nicht …, sondern …“ und auf „Ich wiederhole“.",
-      "wrong": "„Der Zug fährt heute nicht von Gleis 5 …“ – ich habe **Gleis 5** gehört, also Gleis 5.",
-      "right": "„… nicht von Gleis 5, **sondern von Gleis 8**.“ – Die Antwort ist Gleis 8.",
+      "wo": "B1 skills mock · Listening, Part 1",
+      "title": "You hear the word – but it is not the answer",
+      "why": "An announcement often gives two numbers or two places. A wrong option uses exactly the word you heard. Listen for “not …”, “instead” and “now”.",
+      "wrong": "“… it will now leave from platform 6, not **platform 3**.” – I heard 3, so the answer is platform 3.",
+      "right": "“It will **now leave from platform 6**, not platform 3.” – The answer is platform 6.",
       "task": {
-        "context": "Radio: „Ab dem ersten Juni ändern sich die Öffnungszeiten der Stadtbücherei. Die Ausleihe bleibt wie bisher kostenlos, nur für verspätete Bücher gibt es eine Gebühr.“",
-        "prompt": "Was ändert sich ab Juni?",
-        "options": ["Die Öffnungszeiten.", "Die Ausleihe kostet Geld.", "Die Bücherei zieht um."],
-        "answer": "Die Öffnungszeiten.",
-        "fb": "Du hörst „Gebühr“ – aber die Ausleihe bleibt kostenlos. Neu sind nur die Öffnungszeiten."
+        "context": "Radio: “The library is closing early on Friday, at four o’clock instead of six. On Saturday it is open as usual, from nine until five.”",
+        "prompt": "When does the library close on Friday?",
+        "options": ["At four o'clock.", "At six o'clock.", "At five o'clock."],
+        "answer": "At four o'clock.",
+        "fb": "You hear “six” and “five” too – but on Friday it closes at four, “instead of six”."
       },
-      "source": "DTZ-Übungssatz 1, Aufgabe 1 und 9",
-      "practice": { "href": "/dtz/uebungssatz#h1", "label": "DTZ · Hören, Teil 1" }
+      "source": "B1 skills mock, set 1, task 1",
+      "practice": { "href": "/trinity/ise-1/practice-set#h1", "label": "B1 mock · Listening, Part 1" }
     },
     {
       "id": "kleine-woerter",
-      "exams": ["telc", "dtz"],
-      "skill": "hoeren",
-      "wo": "telc B1 · Hören, Teil 3 – auch DTZ · Lesen, Teil 4",
-      "title": "Ein kleines Wort macht die Aussage falsch",
-      "why": "Bei Richtig oder Falsch klingt die Aussage fast wie der Text. Achte auf kleine Wörter wie erst, nur, alle, nie, immer. Eins davon reicht, und die Aussage stimmt nicht mehr.",
-      "wrong": "„Herr Lindner kann sein Auto **erst morgen** abholen.“ – „morgen“ kam vor, also richtig.",
-      "right": "Falsch: Er kann es **heute bis 18 Uhr** oder morgen abholen. „erst morgen“ stimmt nicht.",
+      "exams": ["dtz", "telc"],
+      "skill": "lesen",
+      "wo": "B1 skills mock · Reading, Part 4 – also ISE I · Reading, true or false",
+      "title": "One small word makes the statement false",
+      "why": "In true/false tasks the statement sounds almost like the text. Watch small words such as only, all, never, always, every. One of them is enough to make it false.",
+      "wrong": "“A Standard member can use the gym at 6 pm.” – The gym is open until 10 pm, so true.",
+      "right": "False: Standard members may use the gym **only between 9 am and 4 pm**. 6 pm is peak time, for Premium members.",
       "task": {
-        "context": "Hausordnung: „Kinderwagen dürfen ausnahmsweise unter der Treppe im Erdgeschoss stehen, wenn der Durchgang frei bleibt.“",
-        "prompt": "„Ein Kinderwagen darf niemals im Haus abgestellt werden.“",
-        "options": ["richtig", "falsch"],
-        "answer": "falsch",
-        "fb": "„niemals“ ist zu stark: Unter der Treppe ist es erlaubt."
+        "context": "House rules: “Bikes may be left in the hall only if they do not block the way to the stairs.”",
+        "prompt": "“You can never leave a bike in the hall.”",
+        "options": ["true", "false"],
+        "answer": "false",
+        "fb": "“never” is too strong: you can leave it there if it doesn’t block the stairs."
       },
-      "source": "telc B1 Übungssatz 1, Aufgabe 56 · DTZ-Übungssatz 1, Aufgabe 38",
-      "practice": { "href": "/telc/b1#hoeren-3", "label": "telc B1 · Hören, Teil 3" }
+      "source": "B1 skills mock, set 1, task 37 · ISE I practice set 1, Reading, questions 6–13",
+      "practice": { "href": "/trinity/ise-1/practice-set#l4", "label": "B1 mock · Reading, Part 4" }
     },
     {
       "id": "keine-passende-anzeige",
-      "exams": ["dtz", "telc"],
+      "exams": ["dtz"],
       "skill": "lesen",
-      "wo": "DTZ · Lesen, Teil 2 – auch telc B1 · Lesen, Teil 3",
-      "title": "Für eine Situation gibt es keine Anzeige",
-      "why": "In diesem Teil passt für eine Situation keine Anzeige – das steht so in der Aufgabe. Eine Anzeige mit denselben Wörtern ist deshalb noch keine Lösung. Prüf, ob wirklich alles passt.",
-      "wrong": "„Kinderarzt, auch am Samstag“ → Anzeige „Kleiderbasar“: **Kinder**, **Samstag** – passt!",
-      "right": "Ein Basar ist kein Arzt. Keine Anzeige hat einen Kinderarzt → **keine**.",
+      "wo": "B1 skills mock · Reading, Part 2",
+      "title": "For one situation there is no advert",
+      "why": "There are more situations than adverts that fit. If an advert matches only half of what the person needs, it is not the answer – choose “none”.",
+      "wrong": "You want a dentist who is open on Saturdays. – There is a dentist advert, so I choose it.",
+      "right": "Read the opening times: if no advert offers **Saturdays**, the answer is **none**.",
       "task": {
-        "context": "Deine Schwester studiert und sucht ein günstiges Zimmer, von dem sie zu Fuß zur Uni gehen kann.",
-        "prompt": "Welche Anzeige passt?",
-        "options": ["3-Zimmer-Wohnung am Stadtrand, Bus 25 Min. in die Innenstadt, 890 € warm", "Kino sucht Aushilfen, abends ab 18 Uhr", "keine Anzeige passt"],
-        "answer": "keine Anzeige passt",
-        "fb": "Die Wohnung ist groß, teuer und weit weg. Für diese Situation gibt es keine Anzeige."
+        "context": "Advert: “City Swimming Pool – lessons for adults, Monday to Friday evenings.”",
+        "prompt": "You want swimming lessons on Sunday mornings. Does this advert fit?",
+        "options": ["Yes, it fits.", "No – choose “none”."],
+        "answer": "No – choose “none”.",
+        "fb": "The pool has adult lessons, but only on weekday evenings – not on Sunday mornings."
       },
-      "source": "DTZ-Übungssatz 1, Aufgabe 30 · telc B1 Übungssatz 1, Aufgabe 15",
-      "practice": { "href": "/dtz/uebungssatz#l2", "label": "DTZ · Lesen, Teil 2" }
+      "source": "B1 skills mock, set 1, task 30",
+      "practice": { "href": "/trinity/ise-1/practice-set#l2", "label": "B1 mock · Reading, Part 2" }
     },
     {
       "id": "andere-woerter",
       "exams": ["telc"],
       "skill": "lesen",
-      "wo": "telc B1 · Lesen, Teil 3",
-      "title": "Die richtige Anzeige sagt es mit anderen Wörtern",
-      "why": "Situation und passende Anzeige benutzen nicht immer dieselben Wörter. Such nicht das gleiche Wort, sondern die gleiche Sache. Untergeschoss ist Keller, Rad ist Fahrrad.",
-      "wrong": "„Herr Kaya möchte, dass jemand die alten Sachen aus seinem **Untergeschoss** abholt.“ – Das Wort steht in keiner Anzeige, also x.",
-      "right": "„**Keller**, Dachböden …: Wir holen alte Möbel und Sachen ab.“ – Diese Anzeige passt.",
+      "wo": "ISE I · Reading, Task 2 (which text?)",
+      "title": "The right text says it in other words",
+      "why": "The question and the text rarely use the same words. Look for the same idea, not the same word: “help with the cost” can be “staff can claim money towards …”.",
+      "wrong": "“Which text offers help with the cost of a season ticket?” – I look for the word **cost** and choose the text with “costs”.",
+      "right": "Text C says staff “can **claim up to £20 a month towards** a season ticket” – that is help with the cost.",
       "task": {
-        "context": "Dein Kollege sucht für seinen Sohn ein billiges Rad, das nicht neu sein muss.",
-        "prompt": "Welche Anzeige passt?",
-        "options": ["Kinderflohmarkt: Kleidung, Spielzeug, Fahrräder und Roller aus zweiter Hand", "Mit dem Wanderbus in die Berge, Fahrkarte 15 Euro", "keine Anzeige passt"],
-        "answer": "Kinderflohmarkt: Kleidung, Spielzeug, Fahrräder und Roller aus zweiter Hand",
-        "fb": "„aus zweiter Hand“ heißt: nicht neu. Und Rad = Fahrrad."
+        "context": "Text: “Members don’t pay anything for the first lesson.”",
+        "prompt": "Does this text say the first lesson is free?",
+        "options": ["Yes", "No"],
+        "answer": "Yes",
+        "fb": "“don’t pay anything” means the same as “free”."
       },
-      "source": "telc B1 Übungssatz 1, Aufgabe 13 und 16",
-      "practice": { "href": "/telc/b1#lesen-3", "label": "telc B1 · Lesen, Teil 3" }
+      "source": "ISE I practice set 1, Reading, question 21",
+      "practice": { "href": "/trinity/b1#reading-4", "label": "ISE I · Reading, Task 2" }
     },
     {
       "id": "ueberschrift-thema",
       "exams": ["telc"],
       "skill": "lesen",
-      "wo": "telc B1 · Lesen, Teil 1",
-      "title": "Die Überschrift passt zum ganzen Text, nicht zu einem Satz",
-      "why": "Manche Überschriften passen zu einem Satz im Text, aber nicht zum ganzen Text. Frag dich: Worum geht es im ganzen Text? Ein Grund oder ein Detail ist noch nicht das Thema.",
-      "wrong": "Text über 200 neue Nistkästen im Park → „Stadtpark verliert seine **alten Bäume**“. Die Bäume sind nur der Grund.",
-      "right": "„Neue **Wohnungen für Vögel**“ – das ist das Thema des ganzen Textes.",
+      "wo": "ISE I · Reading, Task 1 (titles)",
+      "title": "The title fits the whole paragraph, not one sentence",
+      "why": "A wrong title often matches one detail in the paragraph. Ask: what is the whole paragraph about? There is one extra title that fits no paragraph.",
+      "wrong": "The paragraph mentions a van, so I choose the title about transport.",
+      "right": "The paragraph is about **how the project began** – the van is only one detail.",
       "task": {
-        "context": "„Wer im Gasthaus eine eigene Dose mitbringt und die Reste mit nach Hause nimmt, bekommt zehn Prozent Rabatt. Der Wirt ärgert sich schon lange darüber, wie viel Essen im Müll landet.“",
-        "prompt": "Welche Überschrift passt?",
-        "options": ["Gasthaus verbietet Essen zum Mitnehmen", "Wer Reste mitnimmt, zahlt weniger", "Immer mehr Essen im Müll"],
-        "answer": "Wer Reste mitnimmt, zahlt weniger",
-        "fb": "Das Thema ist der Rabatt für Reste. Der Müll ist nur der Grund, und verboten wird nichts."
+        "context": "Paragraph: “At first Sam fixed bikes alone in his garage. Then friends started to help, and after a year twenty people came every Saturday.”",
+        "prompt": "Which title fits best?",
+        "options": ["How a small idea grew", "Sam's garage", "Saturday sport"],
+        "answer": "How a small idea grew",
+        "fb": "The garage and Saturday are details. The paragraph tells how the project grew."
       },
-      "source": "telc B1 Übungssatz 1, Aufgabe 1 und 5",
-      "practice": { "href": "/telc/b1#lesen-1", "label": "telc B1 · Lesen, Teil 1" }
+      "source": "ISE I practice set 1, Reading, questions 1–5",
+      "practice": { "href": "/trinity/b1#reading-1", "label": "ISE I · Reading, Task 1" }
     },
     {
       "id": "konnektor-sinn",
       "exams": ["dtz"],
-      "skill": "lesen",
-      "wo": "DTZ · Lesen, Teil 5 (Brief mit Lücken)",
-      "title": "Deshalb, trotzdem, damit: Erst den Sinn prüfen",
-      "why": "Deshalb nennt eine Folge, trotzdem einen Gegensatz, damit ein Ziel. Lies den Satz vor der Lücke und frag: Was ist die Verbindung? Erst dann wählst du das Wort.",
-      "wrong": "„Ich habe Sie nicht erreicht. **Trotzdem** schreibe ich Ihnen.“",
-      "right": "„Ich habe Sie nicht erreicht. **Deshalb** schreibe ich Ihnen.“ – Das Schreiben ist die Folge.",
+      "skill": "sprachbausteine",
+      "wo": "B1 skills mock · Reading, Part 5 (gaps in a letter)",
+      "title": "because, so that, although: check the meaning first",
+      "why": "All three words join two parts of a sentence. Only the meaning decides: a reason (because), a purpose (so that) or a contrast (although).",
+      "wrong": "“I have turned off the water **because** nothing worse happens.” – because sounds fine.",
+      "right": "“I have turned off the water **so that** nothing worse happens.” – the second part is the purpose.",
       "task": {
-        "gap": "Ich habe den Haupthahn zugedreht, ___ nicht noch mehr passiert.",
-        "options": ["weil", "damit", "obwohl"],
-        "answer": "damit",
-        "fb": "Das Ziel: Es soll nicht noch mehr passieren. Ziel = damit."
+        "context": "“I left early ______ I could catch the first bus.”",
+        "prompt": "Which word fits?",
+        "options": ["so that", "although", "because of"],
+        "answer": "so that",
+        "fb": "Catching the bus is the purpose of leaving early: so that."
       },
-      "source": "DTZ-Übungssatz 1, Aufgabe 41 und 43",
-      "practice": { "href": "/dtz/uebungssatz#l5", "label": "DTZ · Lesen, Teil 5" }
+      "source": "B1 skills mock, set 1, task 41",
+      "practice": { "href": "/trinity/ise-1/practice-set#l5", "label": "B1 mock · Reading, Part 5" }
     },
     {
       "id": "verb-nach-der-luecke",
       "exams": ["telc"],
-      "skill": "sprachbausteine",
-      "wo": "telc B1 · Sprachbausteine, Teil 1",
-      "title": "Das Verb nach der Lücke verrät das Wort",
-      "why": "Nach weil, dass, obwohl steht das Verb am Ende. Nach deshalb kommt sofort das Verb. Nach aber, und, denn bleibt der Satz normal: erst das Subjekt, dann das Verb.",
-      "wrong": "„Ich komme nicht, weil ich **habe** keine Zeit.“",
-      "right": "„Ich komme nicht, weil ich keine Zeit **habe**.“ – oder: „…, denn ich **habe** keine Zeit.“",
+      "skill": "lesen",
+      "wo": "ISE I · Reading, Task 1 (complete the sentences)",
+      "title": "Copy the exact words from the text",
+      "why": "In sentence and note completion the answer is a number, word or phrase from the text – maximum three words. Don’t write it in your own words and don’t add extra words.",
+      "wrong": "“Priya paid ____ for a van.” – I write **forty pounds for it**.",
+      "right": "The text says “She paid **£40** for a van.” – write £40.",
       "task": {
-        "gap": "Sie ist sehr freundlich, ___ ich möchte ihr nicht zu lange zur Last fallen.",
-        "options": ["deshalb", "aber", "weil"],
-        "answer": "aber",
-        "fb": "Nach der Lücke kommt „ich möchte“: Subjekt, dann Verb. Das geht nur mit aber."
+        "context": "Text: “The café opened in a former bank in 2019.”",
+        "prompt": "The café is in an old ____ . Which answer is best?",
+        "options": ["bank", "building where people kept money", "former bank in 2019"],
+        "answer": "bank",
+        "fb": "Use the word from the text and keep it short: bank."
       },
-      "source": "telc B1 Übungssatz 1, Aufgabe 26",
-      "practice": { "href": "/telc/b1#sprachbausteine-1", "label": "telc B1 · Sprachbausteine, Teil 1" }
+      "source": "ISE I practice set 1, Reading, questions 14–18",
+      "practice": { "href": "/trinity/b1#reading-3", "label": "ISE I · Reading, Task 1" }
     },
     {
       "id": "wenn-als",
-      "exams": ["telc"],
+      "exams": ["dtz"],
       "skill": "sprachbausteine",
-      "wo": "telc B1 · Sprachbausteine, Teil 1",
-      "title": "wenn oder als? Einmal in der Vergangenheit heißt als",
-      "why": "Als steht für etwas, das einmal in der Vergangenheit passiert ist. Wenn steht für heute, für die Zukunft und für „immer wenn“.",
-      "wrong": "„**Wenn** ich nach Graz gezogen bin, war alles neu.“",
-      "right": "„**Als** ich nach Graz gezogen bin, war alles neu.“ – einmal, in der Vergangenheit.",
+      "wo": "B1 skills mock · Reading, Part 5 (gaps in a letter)",
+      "title": "last weekend, yesterday, ago: past simple, not present perfect",
+      "why": "A finished time (last weekend, yesterday, two days ago) needs the past simple. The present perfect (has started) does not go with a finished time.",
+      "wrong": "“A leak **has started** in my flat last weekend.”",
+      "right": "“A leak **started** in my flat last weekend.”",
       "task": {
-        "gap": "Schreib mir, ___ du wieder Zeit hast!",
-        "options": ["als", "seit", "wenn"],
-        "answer": "wenn",
-        "fb": "Das ist in der Zukunft, nicht einmal in der Vergangenheit. Also wenn."
+        "context": "“We ______ to Leeds two years ago.”",
+        "prompt": "Which form fits?",
+        "options": ["moved", "have moved", "move"],
+        "answer": "moved",
+        "fb": "“two years ago” is a finished time: past simple, moved."
       },
-      "source": "telc B1 Übungssatz 1, Aufgabe 30",
-      "practice": { "href": "/telc/b1#sprachbausteine-1", "label": "telc B1 · Sprachbausteine, Teil 1" }
+      "source": "B1 skills mock, set 1, task 40",
+      "practice": { "href": "/trinity/ise-1/practice-set#l5", "label": "B1 mock · Reading, Part 5" }
     },
     {
       "id": "verb-praeposition",
-      "exams": ["telc", "dtz"],
+      "exams": ["dtz"],
       "skill": "sprachbausteine",
-      "wo": "telc B1 · Sprachbausteine, Teil 1 – auch DTZ · Lesen, Teil 5",
-      "title": "sich freuen über, dankbar für: Das Verb wählt die Präposition",
-      "why": "Viele Verben und Adjektive haben eine feste Präposition. In der Lücke steht dann oft da(r) + Präposition: darüber, darauf, dafür. Lern das Verb immer mit seiner Präposition.",
-      "wrong": "„Ich habe mich sehr **dafür** gefreut.“",
-      "right": "„Ich habe mich sehr **darüber** gefreut.“ – sich freuen **über**.",
+      "wo": "B1 skills mock · Reading, Part 5 (gaps in a letter)",
+      "title": "grateful for, interested in: the word chooses the preposition",
+      "why": "Many adjectives and verbs always take the same preposition. Learn them as a pair: grateful for, interested in, good at, wait for.",
+      "wrong": "“I would be very grateful **of** a quick reply.”",
+      "right": "“I would be very grateful **for** a quick reply.”",
       "task": {
-        "gap": "___ eine kurze Rückmeldung wäre ich Ihnen sehr dankbar.",
-        "options": ["Für", "Über", "Auf"],
-        "answer": "Für",
-        "fb": "Man ist dankbar für etwas."
+        "context": "“Are you interested ______ the job?”",
+        "prompt": "Which preposition fits?",
+        "options": ["in", "for", "on"],
+        "answer": "in",
+        "fb": "interested in – always with in."
       },
-      "source": "telc B1 Übungssatz 1, Aufgabe 21 · DTZ-Übungssatz 1, Aufgabe 45",
-      "practice": { "href": "/telc/b1#sprachbausteine-1", "label": "telc B1 · Sprachbausteine, Teil 1" }
+      "source": "B1 skills mock, set 1, task 45",
+      "practice": { "href": "/trinity/ise-1/practice-set#l5", "label": "B1 mock · Reading, Part 5" }
     },
     {
       "id": "alle-punkte",
       "exams": ["dtz"],
       "skill": "schreiben",
-      "wo": "DTZ · Schreiben",
-      "title": "Vier Punkte in der Aufgabe – vier Punkte im Text",
-      "why": "Die Aufgabe nennt vier Punkte, und sie sagt: Bearbeite alle vier. Bewertet wird auch der Inhalt. Hak jeden Punkt ab, bevor du abgibst.",
-      "wrong": "Grund, Problem und Wunsch stehen im Brief – aber nicht, **bis wann** du eine Antwort möchtest.",
-      "right": "Ein Satz mehr: „Bitte antworten Sie mir **bis zum 15. Mai**.“",
+      "wo": "B1 skills mock · Writing",
+      "title": "Four points in the task – four points in your text",
+      "why": "Examiners check every point. A beautiful text that forgets one point loses marks. Tick the points off before you finish.",
+      "wrong": "I say yes and say when I can come – and stop. The key and my question are missing.",
+      "right": "**Say yes · say when · say where the key is · ask a question** – one or two sentences for each.",
       "task": {
-        "context": "„Sehr geehrte Damen und Herren, vor drei Wochen habe ich bei Ihnen eine Waschmaschine gekauft. Sie funktioniert nicht: Das Wasser bleibt in der Maschine. Bitte reparieren Sie die Maschine oder tauschen Sie sie um. Mit freundlichen Grüßen“",
-        "prompt": "Welcher Punkt fehlt?",
-        "options": ["Grund für Ihr Schreiben", "Was Sie jetzt möchten", "Bis wann Sie eine Antwort erwarten"],
-        "answer": "Bis wann Sie eine Antwort erwarten",
-        "fb": "Kein Datum, keine Frist. Ein kurzer Satz am Ende reicht."
+        "context": "Task: “Say yes. Say when you can come. Say where you will keep the key. Ask what else you need to know.”",
+        "prompt": "A text says: “Of course I can feed your cat. I can come every morning at 7.30.” What is missing?",
+        "options": ["The key and a question.", "Nothing – it is complete.", "Only a greeting."],
+        "answer": "The key and a question.",
+        "fb": "Two of the four points are missing: where the key will be and a question."
       },
-      "source": "DTZ-Übungssatz 1, Schreiben, Aufgabe B",
-      "practice": { "href": "/dtz/uebungssatz#schreiben", "label": "DTZ · Schreiben" }
+      "source": "B1 skills mock, set 1, writing task A",
+      "practice": { "href": "/trinity/ise-1/practice-set#schreiben", "label": "B1 mock · Writing" }
     },
     {
       "id": "formeller-brief",
       "exams": ["dtz"],
       "skill": "schreiben",
-      "wo": "DTZ · Schreiben",
-      "title": "An ein Geschäft schreibst du Sie, nicht du",
-      "why": "An ein Geschäft, ein Amt oder die Vermieterin schreibst du formell: „Sehr geehrte Damen und Herren“, Sie und Ihnen groß, am Ende „Mit freundlichen Grüßen“. An die Nachbarin passt „Liebe Frau Hoffmann“.",
-      "wrong": "„**Hallo**, ich habe bei **euch** eine Waschmaschine gekauft. **Kannst du** mir helfen? **Tschüss**“",
-      "right": "„**Sehr geehrte Damen und Herren**, ich habe bei **Ihnen** eine Waschmaschine gekauft. **Können Sie** mir helfen? **Mit freundlichen Grüßen**“",
+      "wo": "B1 skills mock · Writing and Reading, Part 5",
+      "title": "To a landlord or a company, write a formal letter",
+      "why": "To a friend you can write “Hi Sam” and “See you!”. To a landlord, a shop or an office, use a formal greeting and ending, and polite requests.",
+      "wrong": "“Hi Ms Berger, fix my sink pls! Bye”",
+      "right": "“**Dear Ms Berger**, … **Could you please** send a plumber? … **Yours sincerely**, Folake Adeyemi”",
       "task": {
-        "gap": "Können ___ mir bitte bis Freitag antworten?",
-        "options": ["du", "Sie", "sie"],
-        "answer": "Sie",
-        "fb": "Formell heißt Sie, immer mit großem S. Klein „sie“ ist eine andere Person."
+        "context": "You are writing to the manager of a hotel about a problem with your booking.",
+        "prompt": "Which ending fits?",
+        "options": ["Yours sincerely,", "Love,", "See ya!"],
+        "answer": "Yours sincerely,",
+        "fb": "A formal letter to someone you know by name ends with “Yours sincerely”."
       },
-      "source": "DTZ-Übungssatz 1, Schreiben, Aufgabe A und B",
-      "practice": { "href": "/dtz/uebungssatz#schreiben", "label": "DTZ · Schreiben" }
+      "source": "B1 skills mock, set 1, Reading Part 5 (letter to the landlord) and writing task B",
+      "practice": { "href": "/trinity/ise-1/practice-set#schreiben", "label": "B1 mock · Writing" }
     },
     {
       "id": "gemeinsam-planen",
       "exams": ["telc"],
       "skill": "sprechen",
-      "wo": "telc B1 · Sprechen, Teil 3",
-      "title": "Teil 3 ist kein Vortrag: Reagier auf deinen Partner",
-      "why": "In Teil 3 plant ihr etwas zusammen. Die Aufgabe sagt: Vorschläge machen, auf Vorschläge reagieren, zusammen entscheiden. Wer nur den eigenen Plan erzählt, macht nur einen Teil davon.",
-      "wrong": "A: „Wie wäre es mit einer Schifffahrt?“ B: „**Mein Plan:** Wir gehen ins Museum und dann essen wir Pizza.“",
-      "right": "B: „**Gute Idee!** Aber wenn es regnet? **Wir könnten doch** …“",
+      "wo": "ISE I · Speaking, Conversation",
+      "title": "The conversation is not an interview: ask questions too",
+      "why": "In the ISE I conversation the examiner wants to hear you ask for information and opinions, not only answer. A short question back keeps the conversation going.",
+      "wrong": "Examiner: “Do you like travelling by train?” – “Yes.” (and silence)",
+      "right": "“Yes, I do, because I can read on the way. **What about you – do you prefer the train or the car?**”",
       "task": {
-        "context": "Deine Partnerin sagt: „Ich schlage vor, dass wir am Samstag wandern.“",
-        "prompt": "Was passt am besten?",
-        "options": ["Ich gehe am Samstag ins Kino.", "Gute Idee! Wer kümmert sich um das Essen?", "Samstag."],
-        "answer": "Gute Idee! Wer kümmert sich um das Essen?",
-        "fb": "Du reagierst auf den Vorschlag und planst weiter. Genau das will Teil 3."
+        "context": "Examiner: “I went to Scotland last summer.”",
+        "prompt": "Which answer keeps the conversation going best?",
+        "options": ["Really? What did you like most there?", "OK.", "I don't know Scotland."],
+        "answer": "Really? What did you like most there?",
+        "fb": "A follow-up question shows interest and uses the function “asking for information”."
       },
-      "source": "telc B1 Übungssatz 1, Sprechen, Teil 3",
-      "practice": { "href": "/telc/b1#sprechen-3", "label": "telc B1 · Sprechen, Teil 3" }
+      "source": "ISE I practice set 1, Speaking, conversation task",
+      "practice": { "href": "/trinity/b1#speaking-2", "label": "ISE I · Speaking, Conversation" }
     }
   ]
 }

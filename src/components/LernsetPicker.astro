@@ -21,12 +21,12 @@
 // time. Nothing here is hand-typed, so a Lernset cannot appear unless its words exist
 // (docs/wortschatz-programm-v1.md §3).
 import Icon from "./Icon.astro";
+import { itemPath, workPath } from "../lib/routes.js";
 import { counts, modules, cohorts, frequencyCounts, portions } from "../lib/lernsets.js";
 import { LEVELS, LEVEL_NAMES, byUnit, spokenForm } from "../lib/lexicon.js";
 import { unitIcon, duplicateIconsIn } from "../lib/unitIcon.js";
 import { BERUFE } from "../lib/berufeCore.js";
 import { DECKS as BERUF_DECKS, groupsOf as berufGroups } from "../lib/berufeWortschatz.js";
-import { GROUPS as FS_GROUPS } from "../lib/fuehrerscheinWortschatz.js";
 import { SETS as RM_SETS } from "../lib/redemittelWortschatz.js";
 import curated from "../data/wortschatz.json";
 import "../styles/nav.css";
@@ -122,9 +122,9 @@ const freq = frequencyCounts();
 const cohortList = cohorts();
 const isFreq = current.startsWith("haeufigkeit-");
 
-// On a profession deck (/berufe/<beruf>/<gruppe>, deck id berufe-<beruf>-<gruppe>) the panel
+// On a profession deck (/english-for-work/<beruf>/<gruppe>, deck id berufe-<beruf>-<gruppe>) the panel
 // shows the Berufe — this one open with its word groups — instead of an A1 list that has
-// nothing to do with the page. Elsewhere the Berufe icon stays a plain link to /berufe.
+// nothing to do with the page. Elsewhere the Berufe icon stays a plain link to /english-for-work.
 const berufList = BERUFE.filter((b) => berufGroups(b.slug).length > 0).map((b) => ({
   ...b,
   title: BERUF_DECKS[b.slug].title,
@@ -135,18 +135,13 @@ const isBerufe = !select && !!currentBeruf;
 // Every trainer page carries the Berufe pane (open on a Beruf page), and so does the live
 // quiz (select mode), whose rows choose instead of link.
 const showBerufe = true;
-// The Fahrschul-Wortschatz (deck fuehrerschein / fuehrerschein-<gruppe>) the same way: its
-// word groups in the panel, not as a chip row above the trainer.
-const isFs = !select && current.startsWith("fuehrerschein");
-const fsTotal = FS_GROUPS.reduce((n, g) => n + g.words.length, 0);
-const FS_ICON = { auto: "🚗", strasse: "🛣️", anweisungen: "🧑‍🏫", pruefung: "📋" };
 // Redemittel (deck redemittel / redemittel-<set>) the same way: on its pages the rail icon
 // is a tab and the pane lists the curated Alltag deck and the speech-act sets
 // (src/data/redemittel.json), instead of an A1 list that has nothing to do with the page.
 const isRm = !select && !rmOnLevel && (current === "redemittel" || current.startsWith("redemittel-"));
-// A teacher's own card set (/lehrkraefte/karten/lernen?set=…): its rail entry is open there.
+// A teacher's own card set (/teachers/cards/learn?set=…): its rail entry is open there.
 const isOwn = current === "vokabel-set";
-const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn && level === openLevel;
+const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level === openLevel;
 ---
 <div class:list={["nvb ls-nvb snav", select && "ls-nvb--select"]} data-nvb data-current={current} data-select={select ? "" : undefined}>
   <!-- The fold tab, on the panel's right edge, where a Karteiordner carries its own: the
@@ -234,22 +229,9 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
       <Icon name="volume" size={20} />
       <span class="nvb-tip" data-i18n="sets.redemittel.tip">Redemittel · Alltag, 4 Sprachen</span>
     </button>
-    {/* The Fahrschul-Wortschatz (src/data/fuehrerschein/) and the Berufe decks: tabs with
-        their own panes on every trainer page, so switching to them is a list, not a page.
+    {/* The Berufe decks: a tab with
+        its own pane on every trainer page, so switching to them is a list, not a page.
         A pick then swaps the trainer in place (src/lib/deckSwap.js). */}
-    <button
-      type="button"
-      role="tab"
-      class:list={["nvb-railbtn", isFs && "active"]}
-      data-rail="fuehrerschein"
-      aria-selected={isFs ? "true" : "false"}
-      aria-controls="ls-pane-fuehrerschein"
-      aria-label="Fahrschul-Wortschatz"
-      data-i18n-attr="aria-label:fs.ws.title"
-    >
-      <Icon name="car" size={20} />
-      <span class="nvb-tip" data-i18n="sets.fuehrerschein.tip">Führerschein · Fahrschul-Wortschatz</span>
-    </button>
     <button
       type="button"
       role="tab"
@@ -292,10 +274,11 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
       aria-selected={isOwn ? "true" : "false"}
       aria-controls="ls-pane-kartensets"
       aria-label="Meine Kartensets"
+      data-i18n-attr="aria-label:ls.ownSets"
       hidden
     >
       <Icon name="folder" size={20} />
-      <span class="nvb-tip">Meine Kartensets</span>
+      <span class="nvb-tip" data-i18n="ls.ownSets">Meine Kartensets</span>
     </button>
   </div>
 
@@ -305,7 +288,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
         <input type="search" class="ls-search-input" data-ls-q placeholder="Lernset oder Wort suchen …" data-i18n-attr="placeholder:sets.searchPh;aria-label:sets.searchPh" aria-label="Lernset oder Wort suchen" autocomplete="off" />
         <div class="ls-search-results" data-ls-results hidden>
           {searchSets.map(({ level, set, words }) => (
-            <a class="nvb-item ls-search-row" href={`/wortschatz/${set.id}`} data-pick={`unit:${set.id}`} data-level={level} data-hay={`${set.title}~${words}`.toLowerCase()} data-words={words} hidden>
+            <a class="nvb-item ls-search-row" href={`/vocabulary/${set.id}`} data-pick={`unit:${set.id}`} data-level={level} data-hay={`${set.title}~${words}`.toLowerCase()} data-words={words} hidden>
               <span class="ls-search-lv" aria-hidden="true">{level}</span>
               <span class="ls-name">
                 <span data-i18n={`ws.set.${set.id}`}>{set.title}</span>
@@ -331,7 +314,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
         {/* "x von N sicher" — filled by the script once this browser has learnt a word here. */}
         {/* Choosing: the whole level, mixed, before its Lernsets. */}
         {select && (
-          <a class:list={["nvb-item", "ls-item--whole", current === level.toLowerCase() && "active"]} href={`/wortschatz/${level.toLowerCase()}`} data-pick={`level:${level}`} data-level={level}>
+          <a class:list={["nvb-item", "ls-item--whole", current === level.toLowerCase() && "active"]} href={`/vocabulary/${level.toLowerCase()}`} data-pick={`level:${level}`} data-level={level}>
             <span class="nv-icon" aria-hidden="true">🎲</span>
             <span data-i18n="lq.host.wholeLevelRow" data-i18n-vars={JSON.stringify({ level })}>Ganze Stufe {level}, gemischt</span>
             <span class="nv-count">{c[level].words}</span>
@@ -397,7 +380,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
                 {group.sets.map((set) => (
                   <a
                     class:list={["nvb-item", set.id === current && "active"]}
-                    href={`/wortschatz/${set.id}`}
+                    href={`/vocabulary/${set.id}`}
                     aria-current={set.id === current ? "page" : undefined}
                     data-pick={`unit:${set.id}`}
                     data-level={level}
@@ -423,7 +406,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
                 {levelRmSets(level).map((s) => {
                   const on = current === `redemittel-${s.id}`;
                   return (
-                    <a class:list={["nvb-item", on && "active"]} href={`/wortschatz/redemittel/${s.id}`} aria-current={on ? "page" : undefined}>
+                    <a class:list={["nvb-item", on && "active"]} href={itemPath("/vocabulary/phrases", s.id)} aria-current={on ? "page" : undefined}>
                       <span class="nv-icon" aria-hidden="true">{s.icon}</span>
                       <span class="ls-name" data-i18n={`rm.set.${s.id}`}>{s.name}</span>
                       <span class="nv-count">{s.phrases.length}</span>
@@ -451,7 +434,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
             {teileList[level].map((teil) => (
               <a
                 class:list={["nvb-item", "ls-item--teil", "ls-item--lead", teil.id === current && "active"]}
-                href={`/wortschatz/${teil.id}`}
+                href={`/vocabulary/${teil.id}`}
                 aria-current={teil.id === current ? "page" : undefined}
               >
                 <span class="nv-icon ls-num">{teil.index}</span>
@@ -501,7 +484,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
               return (
                 <a
                   class:list={["nvb-item", on && "active"]}
-                  href={`/berufe/${b.slug}/${g.id}`}
+                  href={workPath(b.slug, g.id)}
                   aria-current={on ? "page" : undefined}
                   data-pick={`unit:berufe-${b.slug}-${g.id}`}
                   data-level={BERUF_DECKS[b.slug].level}
@@ -516,7 +499,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
           </div>
         </section>
       ))}
-      {!select && <a class="ls-prog-more" href="/berufe" data-i18n="berufe.back.hub">← Alle Berufe</a>}
+      {!select && <a class="ls-prog-more" href="/english-for-work" data-i18n="berufe.back.hub">← Alle Berufe</a>}
     </div>
     )}
 
@@ -525,7 +508,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
       <div class="nvb-panelhead">
         <h3><span data-i18n="sets.redemittel">Redemittel</span></h3>
       </div>
-      <a class:list={["nvb-item", "ls-item--whole", current === "redemittel" && "active"]} href="/wortschatz" aria-current={current === "redemittel" ? "page" : undefined}>
+      <a class:list={["nvb-item", "ls-item--whole", current === "redemittel" && "active"]} href="/vocabulary" aria-current={current === "redemittel" ? "page" : undefined}>
         <span class="nv-icon" aria-hidden="true">💬</span>
         <span class="ls-name" data-i18n="rm.set.alltag">Alltag: die wichtigsten Sätze</span>
         <span class="nv-count">{curated.length}</span>
@@ -533,37 +516,13 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
       {RM_SETS.filter((s) => !s.level).map((s) => {
         const on = current === `redemittel-${s.id}`;
         return (
-          <a class:list={["nvb-item", on && "active"]} href={`/wortschatz/redemittel/${s.id}`} aria-current={on ? "page" : undefined}>
+          <a class:list={["nvb-item", on && "active"]} href={itemPath("/vocabulary/phrases", s.id)} aria-current={on ? "page" : undefined}>
             <span class="nv-icon" aria-hidden="true">{s.icon}</span>
             <span class="ls-name" data-i18n={`rm.set.${s.id}`}>{s.name}</span>
             <span class="nv-count">{s.phrases.length}</span>
           </a>
         );
       })}
-    </div>
-    )}
-
-    {!select && (
-    <div class="nvb-section" id="ls-pane-fuehrerschein" data-pane="fuehrerschein" hidden={!isFs}>
-      <div class="nvb-panelhead">
-        <h3><span data-i18n="fs.ws.title">Fahrschul-Wortschatz</span></h3>
-      </div>
-      <a class:list={["nvb-item", "ls-item--whole", current === "fuehrerschein" && "active"]} href="/fuehrerschein/wortschatz" aria-current={current === "fuehrerschein" ? "page" : undefined}>
-        <span class="nv-icon" aria-hidden="true">🚦</span>
-        <span class="ls-name" data-i18n="fs.ws.all">Alle</span>
-        <span class="nv-count">{fsTotal}</span>
-      </a>
-      {FS_GROUPS.map((g) => {
-        const on = current === `fuehrerschein-${g.id}`;
-        return (
-          <a class:list={["nvb-item", on && "active"]} href={`/fuehrerschein/wortschatz/${g.id}`} aria-current={on ? "page" : undefined}>
-            <span class="nv-icon" aria-hidden="true">{FS_ICON[g.id] ?? "🚗"}</span>
-            <span class="ls-name" data-i18n={`fs.ws.group.${g.id}`}>{g.title}</span>
-            <span class="nv-count">{g.words.length}</span>
-          </a>
-        );
-      })}
-      <a class="ls-prog-more" href="/fuehrerschein" data-i18n="fs.ws.back">← Zum Führerschein-Bereich</a>
     </div>
     )}
 
@@ -595,7 +554,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
         {cohortList.map((co) => (
           <a
             class:list={["nvb-item", "ls-item--lead", co.id === current && "active"]}
-            href={`/wortschatz/${co.id}`}
+            href={`/vocabulary/${co.id}`}
             aria-current={co.id === current ? "page" : undefined}
           >
             <span class="nv-icon ls-num">{co.index}</span>
@@ -625,7 +584,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
     </>)}
     <div class="nvb-section" id="ls-pane-kartensets" data-pane="kartensets" hidden={!isOwn}>
       <div class="nvb-panelhead">
-        <h3>Meine Kartensets</h3>
+        <h3 data-i18n="ls.ownSets">Meine Kartensets</h3>
       </div>
       <div class="ls-grouplist" data-own-sets></div>
     </div>
@@ -644,14 +603,14 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
 
   // This panel is built as an HTML string, so it cannot carry data-i18n attributes the way
   // the rest of the picker does — it reads the dictionary directly instead. Seeded with the
-  // German so the first paint, before initI18n() has fetched anything, says words rather
+  // English so the first paint, before initI18n() has fetched anything, says words rather
   // than a key.
   let dict = {
-    "sets.progressEmpty": "Noch nichts geübt. Sobald du Karten umdrehst, steht hier, wie viele Wörter du schon kannst und wo du weitermachst.",
-    "sets.prog.more": "Alles im Fortschritt ansehen",
-    "sets.collapseList": "Liste einklappen",
-    "sets.expandList": "Liste ausklappen",
-    "ap.sure": "{n} von {total} sicher",
+    "sets.progressEmpty": "Nothing practised yet. As soon as you start turning cards over, this will say how many words you already know and where to carry on.",
+    "sets.prog.more": "See everything in Progress",
+    "sets.collapseList": "Collapse the list",
+    "sets.expandList": "Expand list",
+    "ap.sure": "{n} of {total} secure",
   };
   const say = (k, vars) => translate(dict, k, vars);
 
@@ -788,7 +747,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
       const scope = btn.closest(".ls-cut-panel") ?? btn.closest(".nvb-section") ?? root;
       const panel = document.getElementById(`ls-block-${btn.dataset.block}`);
       const open = panel.hidden;
-      // The same pivot as the exam rail on /fortschritt: the one that was open slides
+      // The same pivot as the exam rail on /progress: the one that was open slides
       // shut while this one slides open, and its rows arrive staggered — so the two
       // movements read as one list being replaced rather than as the page jumping.
       scope.querySelectorAll(".ls-block-toggle").forEach((b) => {
@@ -849,7 +808,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
     const data = getProgress();
     const here = location.pathname.replace(/\/+$/, "");
     const mine = (resume ? [resume.last, ...resume.recents] : []).filter(
-      (r) => r && r.path.startsWith("/wortschatz")
+      (r) => r && r.path.startsWith("/vocabulary")
     );
     const next = mine.find((r) => r.path !== here);
     const words = (data.vocabMastered || []).filter((k) => k.startsWith("wortschatz:")).length;
@@ -887,7 +846,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
         </a>`)
         .join("")}</div>` : ""}
 
-      <a class="ls-prog-more" href="/fortschritt">${esc(say("sets.prog.more"))}</a>`;
+      <a class="ls-prog-more" href="/progress">${esc(say("sets.prog.more"))}</a>`;
   }
 
   const progEl = root.querySelector("[data-ls-prog]");
@@ -934,7 +893,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
   addEventListener("da:progress", loadCounts);
 
   // ── Where a level deck is ─────────────────────────────────────────────────────
-  // On /wortschatz/b1 no row is the page, so the trainer says what is on screen
+  // On /vocabulary/b1 no row is the page, so the trainer says what is on screen
   // (wortschatz-app.js, "da:deck-here") and the rail lights it: in "Der Reihe nach" the
   // Runde (Runde n is Portion n — the same 25-word ruler), in "Nach Thema" the Lernset the
   // card belongs to, with its Bereich opened when the Runde moves into a new one.
@@ -986,13 +945,13 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
         ? sets.map((s) => {
             const n = s.words?.length ?? 0;
             const on = !select && s.id === here;
-            return `<a class="nvb-item${on ? " active" : ""}" href="/lehrkraefte/karten/lernen?set=${esc(s.id)}"${on ? ' aria-current="page"' : ""}${select ? ` data-pick="kartenset:${esc(s.id)}" data-level="${esc(s.level || "A1")}" data-name="${esc(s.name)}"` : ""}>
+            return `<a class="nvb-item${on ? " active" : ""}" href="/teachers/cards/learn?set=${esc(s.id)}"${on ? ' aria-current="page"' : ""}${select ? ` data-pick="kartenset:${esc(s.id)}" data-level="${esc(s.level || "A1")}" data-name="${esc(s.name)}"` : ""}>
               <span class="nv-icon" aria-hidden="true">🗂️</span>
               <span class="ls-name"><span>${esc(s.name)}</span>${s.level ? `<small class="ls-item-sub">${esc(s.level)}</small>` : ""}</span>
               <span class="nv-count">${n}</span>
             </a>`;
-          }).join("") + (select ? "" : `<p class="ls-plan"><a href="/lehrkraefte/karten">Alle Kartensets verwalten</a></p>`)
-        : `<p class="ls-plan">Noch keine eigenen Kartensets. Mit <a href="/lehrkraefte/karten/foto">Vokabeln vom Foto</a> machen Sie aus einer Buchseite eigene Karten.</p>`;
+          }).join("") + (select ? "" : `<p class="ls-plan"><a href="/teachers/cards">Manage all card sets</a></p>`)
+        : `<p class="ls-plan">No card sets of your own yet. With <a href="/teachers/cards/photo">Words from a photo</a> you can turn a page of a book into your own cards.</p>`;
       ownBtn.hidden = false;
     })();
   }

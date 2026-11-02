@@ -1,7 +1,7 @@
 // Item refs and fingerprints for "Problem melden" (docs/problem-melden-tier0-v1.md §2).
 //
 //   ref          "<prefix>:<set>/<item>", e.g. g:als-oder-wenn/2/5, k:insider/dating/q1,
-//                x:lid/q12, f:vorfahrt-01. 1-based indices; "q<n>" marks a question index.
+//                x:lid/q12. 1-based indices; "q<n>" marks a question index.
 //   fingerprint  checksum(prompt + "␟" + answer), 6 hex (the Einfach tripwire), so a
 //                report can be matched to its item after the JSON was edited or reordered.
 //

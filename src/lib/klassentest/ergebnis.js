@@ -1,4 +1,4 @@
-// /lehrkraefte/tests/ergebnis — one test's QR code and results. The results are read again
+// /teachers/tests/result — one test's QR code and results. The results are read again
 // every few seconds while the tab is visible, so the table fills as the class hands in.
 //
 // The grading happened in the database (klassentest_abgeben); `korrekt` is per question, in
@@ -18,7 +18,7 @@ const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<
 const REFRESH_MS = 5000;
 const pct = (x, n) => (n ? Math.round((100 * x) / n) : 0);
 const stufe = (share) => Math.min(4, Math.floor(share * 5));
-const uhrzeit = (iso) => new Date(iso).toLocaleString("de-DE", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+const uhrzeit = (iso) => new Date(iso).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
 
 /** The topics of a test in the order its questions have them: [{ id, name, idx: [question indices] }]. */
 export function themenOf(fragen) {
@@ -100,7 +100,7 @@ export async function mountErgebnis(root) {
   // Model text and examiner checklist for the writing task: teacher-only, from the pool.
   let fk = { schreiben: [] };
   if (PARTS.includes("schreiben")) {
-    try { fk = await (await fetch("/lehrkraefte/tests/fertigkeiten.json")).json(); } catch (err) { console.error(err); }
+    try { fk = await (await fetch("/teachers/tests/fertigkeiten.json")).json(); } catch (err) { console.error(err); }
   }
   const entwurf = new Map(); // student key → unsaved rating, so a refresh does not wipe it
 
@@ -250,7 +250,7 @@ export async function mountErgebnis(root) {
         if (f.typ === "text") return schreibHtml(f, r);
         return `<li class="${ok ? "is-right" : "is-wrong"}">
           <span class="kt-mark" aria-hidden="true">${ok ? "✓" : "✗"}</span>
-          <span class="kt-q-text" lang="de">${esc(f.q)}</span>
+          <span class="kt-q-text" lang="en">${esc(f.q)}</span>
           <span class="kt-q-ans">${ok
             ? esc(a)
             : `${a == null || a === "" ? `<em>${esc(t("kt.t.skipped", "übersprungen"))}</em>` : `<s>${esc(a)}</s>`} → <strong>${esc(f.a[0])}</strong>`}</span>
@@ -276,13 +276,13 @@ export async function mountErgebnis(root) {
       <span class="kt-mark" aria-hidden="true">✍</span>
       <span class="kt-q-text"><strong>${esc(task.title ?? TEIL_TEXT.schreiben())}</strong> <small>(${esc(f.l ?? "")})</small></span>
       <div class="kt-rate-body">
-        ${text ? `<div class="kt-written" lang="de">${esc(text)}</div><small class="kl-muted">${esc(t("kt.s.words", "{n} Wörter", { n }))}</small>` : `<em>${esc(t("kt.t.skipped", "übersprungen"))}</em>`}
+        ${text ? `<div class="kt-written" lang="en">${esc(text)}</div><small class="kl-muted">${esc(t("kt.s.words", "{n} Wörter", { n }))}</small>` : `<em>${esc(t("kt.t.skipped", "übersprungen"))}</em>`}
         ${(task.points ?? []).length ? `<fieldset class="kt-rate-points"><legend>${esc(t("kt.t.rate.points", "Kommt im Text vor"))}</legend>${task.points.map((p, j) => `<label><input type="checkbox" data-rate-point="${j}" ${b.punkte?.[j] ? "checked" : ""} /> ${esc(p)}</label>`).join("")}</fieldset>` : ""}
         <label class="lq-field kt-rate-level"><span>${esc(t("kt.t.rate.level", "Der Text passt zu Niveau"))}</span>
           <select data-rate-level>${opts.map((o) => `<option value="${o}" ${(b.niveau ?? "") === o ? "selected" : ""}>${esc(optText(o))}</option>`).join("")}</select></label>
         ${extra.model || extra.check?.length ? `<details class="kt-model"><summary>${esc(t("kt.t.rate.model", "Musterlösung und Checkliste"))}</summary>
           ${extra.check?.length ? `<ul>${extra.check.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>` : ""}
-          ${extra.model ? `<div class="kt-written" lang="de">${esc(extra.model)}</div>` : ""}</details>` : ""}
+          ${extra.model ? `<div class="kt-written" lang="en">${esc(extra.model)}</div>` : ""}</details>` : ""}
         <div class="kl-row"><button type="button" class="lq-btn lq-btn--primary" data-rate-save>${esc(t("kt.t.rate.save", "Bewertung speichern"))}</button>
           <span class="kl-muted" data-rate-status role="status"></span></div>
       </div>
@@ -298,7 +298,7 @@ export async function mountErgebnis(root) {
       const top = [...s.wrong.entries()].sort((a, b) => b[1] - a[1])[0];
       return `<li class="lq-card kt-q">
         <div class="kt-q-head">
-          <span class="kt-q-text" lang="de">${esc(f.q)}</span>
+          <span class="kt-q-text" lang="en">${esc(f.q)}</span>
           <span class="kt-q-pct kld-heat kld-s${stufe(s.n ? s.r / s.n : 0)}">${p} %</span>
         </div>
         ${f.x ? `<small class="kl-muted">${esc(f.x)}${f.h ? ` · ${esc(f.h)}` : ""}</small>` : ""}

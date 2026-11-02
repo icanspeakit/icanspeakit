@@ -1,1202 +1,1109 @@
 {
-  "_comment": "Extras for the worksheet /lehrkraefte/arbeitsblaetter/grammatik/wechselpraepositionen, on top of the topic's own exercises: a Wo/Wohin rule, a mascot comic, and picture exercises on the room in src/components/arbeitsblatt/ZimmerSzene.astro (numbers 1–12 are the things in the picture). In segments, a string is text and {\"a\": [...]} is a gap with every accepted answer.",
+  "_comment": "Extras for the worksheet /teachers/worksheets/grammar/wechselpraepositionen (English: position vs movement), on top of the topic's own exercises: a position/movement rule (the keys keep their old names: regel.wo = position, regel.wohin = movement, kasus = the label 'position' / 'movement'), a mascot comic, and picture exercises on the room in src/components/arbeitsblatt/ZimmerSzene.astro (numbers 1–12 are the things in the picture). In segments, a string is text and {\"a\": [...]} is a gap with every accepted answer.",
   "regel": {
     "wo": {
-      "frage": "Wo?",
-      "kasus": "Dativ",
-      "was": "Ort: Es bleibt da.",
+      "frage": "Where is it?",
+      "kasus": "position",
+      "was": "Place: it stays there.",
       "verben": [
-        "liegen",
-        "stehen",
-        "hängen",
-        "sitzen"
+        "be",
+        "lie",
+        "stand",
+        "hang"
       ],
-      "beispiel": "Das Buch <b>liegt</b> auf <b>dem</b> Bett."
+      "beispiel": "The book <b>is</b> <b>on</b> the bed."
     },
     "wohin": {
-      "frage": "Wohin?",
-      "kasus": "Akkusativ",
-      "was": "Richtung: Jemand bewegt es.",
+      "frage": "Where does it go?",
+      "kasus": "movement",
+      "was": "Direction: someone moves it.",
       "verben": [
-        "legen",
-        "stellen",
-        "hängen",
-        "setzen"
+        "put",
+        "hang",
+        "lift",
+        "move"
       ],
-      "beispiel": "Ich <b>lege</b> das Buch auf <b>das</b> Bett."
+      "beispiel": "I <b>put</b> the book <b>on</b> the bed."
     },
     "lage": [
       {
-        "form": "vertikal",
-        "verben": "stellen · stehen",
-        "text": "Das Ding ist aufrecht, wie eine Flasche oder eine Vase."
+        "form": "upright",
+        "verben": "stand",
+        "text": "The thing is upright, like a bottle or a vase."
       },
       {
-        "form": "horizontal",
-        "verben": "legen · liegen",
-        "text": "Das Ding ist flach, wie ein Buch oder ein Handy."
+        "form": "flat",
+        "verben": "lie",
+        "text": "The thing is flat, like a book or a phone."
       }
     ],
     "neun": [
       "in",
-      "an",
-      "auf",
-      "über",
-      "unter",
-      "vor",
-      "hinter",
-      "neben",
-      "zwischen"
+      "on",
+      "at",
+      "above",
+      "under",
+      "in front of",
+      "behind",
+      "next to",
+      "between"
     ],
-    "kurz": "in + dem = im · an + dem = am · in + das = ins · an + das = ans · auf + das = aufs"
+    "kurz": "After put we usually say in / on: put it on the table. With go, walk, jump we say into · onto · out of · off. Into and onto stress the movement."
   },
   "comic": {
-    "title": "Bruno räumt auf",
+    "title": "Bruno tidies up",
     "panels": [
       {
-        "caption": "legen: wohin?",
-        "tag": "Wohin? {auf den} Tisch (Akk.)",
+        "caption": "put: where to?",
+        "tag": "Where to? {on} the table (movement)",
         "left": {
           "name": "bruno",
           "expr": "happy",
-          "say": "Ich {lege} das Buch {auf den} Tisch."
+          "say": "I {put} the book {on} the table."
         },
         "right": {
           "name": "regi",
           "expr": "thinking",
-          "say": "Bewegung! Wohin? Also Akkusativ."
+          "say": "It moves! So we say {put} + {on}."
         }
       },
       {
-        "caption": "liegen: wo?",
-        "tag": "Wo? {auf dem} Tisch (Dat.)",
+        "caption": "be: where?",
+        "tag": "Where? {on} the table (position)",
         "left": {
           "name": "hamsti",
           "expr": "thinking",
-          "say": "Und wo ist das Buch jetzt?"
+          "say": "And where is the book now?"
         },
         "right": {
           "name": "regi",
           "expr": "happy",
-          "say": "Es {liegt} {auf dem} Tisch. Wo? Dativ!"
+          "say": "It {is} {on} the table. It stays there!"
         }
       },
       {
-        "caption": "stellen und stehen",
-        "tag": "{stellen} + Akk. · {stehen} + Dat.",
+        "caption": "in or into?",
+        "tag": "{put} it {in} or {into} the bag",
         "left": {
           "name": "quaki",
           "expr": "happy",
-          "say": "Ich {stelle} die Vase {ans} Fenster."
+          "say": "I {put} my keys {in} my bag."
         },
         "right": {
           "name": "bruno",
           "expr": "celebrate",
-          "say": "Super! Jetzt {steht} sie {am} Fenster."
+          "say": "Great! You can say {into} too. It shows the movement."
         }
       },
       {
-        "caption": "zweimal hängen",
-        "tag": "{hängen} geht beides: Akk. oder Dat.",
+        "caption": "hang and hangs",
+        "tag": "{hang} = movement · {hangs} = position",
         "left": {
           "name": "hamsti",
           "expr": "happy",
-          "say": "Ich {hänge} das Bild {an die} Wand."
+          "say": "I {hang} the picture {on} the wall."
         },
         "right": {
           "name": "quaki",
           "expr": "oops",
-          "say": "Es {hängt} {an der} Wand … aber schief!"
+          "say": "It {hangs} {on} the wall … but it's crooked!"
         }
       }
     ]
   },
   "bild": {
-    "title": "Das Zimmer",
-    "hint": "Schauen Sie das Bild genau an. Die Nummern brauchen Sie für A, B und C."
+    "title": "The room",
+    "hint": "Look at the picture carefully. You need the numbers for A, B and C."
   },
   "bildUebungen": [
     {
       "type": "scene",
-      "title": "Wo ist was? (Dativ)",
-      "hint": "Schreiben Sie das Verb und die Präposition mit Artikel. Die Nummer zeigt das Ding im Bild.",
+      "title": "Where is everything? (position)",
+      "hint": "Write the verb and the preposition. The number shows the thing in the picture.",
       "box": [
-        "liegt",
-        "liegen",
-        "steht",
-        "stehen",
-        "hängt",
-        "auf",
-        "unter",
-        "über",
-        "vor",
-        "zwischen"
+        "is",
+        "are",
+        "lies",
+        "stands",
+        "hangs",
+        "on",
+        "under",
+        "above",
+        "in front of",
+        "between"
       ],
       "items": [
         {
           "n": 1,
           "seg": [
-            "Das Buch ",
+            "The book ",
             {
               "a": [
-                "liegt"
+                "is",
+                "lies"
               ]
             },
             " ",
             {
               "a": [
-                "auf dem"
+                "on"
               ]
             },
-            " Bett."
+            " the bed."
           ]
         },
         {
           "n": 2,
           "seg": [
-            "Die Vase ",
+            "The vase ",
             {
               "a": [
-                "steht"
+                "is",
+                "stands"
               ]
             },
             " ",
             {
               "a": [
-                "auf dem"
+                "on"
               ]
             },
-            " Tisch."
+            " the table."
           ]
         },
         {
           "n": 5,
           "seg": [
-            "Die Katze ",
+            "The cat ",
             {
               "a": [
-                "liegt",
-                "schläft"
+                "is",
+                "lies",
+                "sleeps"
               ]
             },
             " ",
             {
               "a": [
-                "unter dem"
+                "under"
               ]
             },
-            " Tisch."
+            " the table."
           ]
         },
         {
           "n": 4,
           "seg": [
-            "Das Bild ",
+            "The picture ",
             {
               "a": [
-                "hängt"
+                "is",
+                "hangs"
               ]
             },
             " ",
             {
               "a": [
-                "über dem"
+                "above",
+                "over"
               ]
             },
-            " Bett."
+            " the bed."
           ]
         },
         {
           "n": 6,
           "seg": [
-            "Die Schuhe ",
+            "The shoes ",
             {
               "a": [
-                "stehen"
+                "are",
+                "stand"
               ]
             },
             " ",
             {
               "a": [
-                "vor dem"
+                "in front of"
               ]
             },
-            " Schrank."
+            " the wardrobe."
           ]
         },
         {
           "n": 7,
           "seg": [
-            "Die Jacke ",
+            "The jacket ",
             {
               "a": [
-                "hängt"
+                "is",
+                "hangs"
               ]
             },
             " ",
             {
               "a": [
-                "über dem",
-                "auf dem"
+                "on",
+                "over"
               ]
             },
-            " Stuhl."
+            " the chair."
           ]
         },
         {
           "n": 9,
           "seg": [
-            "Das Handy ",
+            "The phone ",
             {
               "a": [
-                "liegt"
+                "is",
+                "lies"
               ]
             },
             " ",
             {
               "a": [
-                "unter dem"
+                "under"
               ]
             },
-            " Bett."
+            " the bed."
           ]
         },
         {
           "n": 10,
           "seg": [
-            "Der Ball ",
+            "The ball ",
             {
               "a": [
-                "liegt"
+                "is",
+                "lies"
               ]
             },
             " ",
             {
               "a": [
-                "zwischen dem"
+                "between"
               ]
             },
-            " Schrank und dem Bett."
+            " the wardrobe and the bed."
           ]
         },
         {
           "n": 3,
           "seg": [
-            "Die Lampe ",
+            "The lamp ",
             {
               "a": [
-                "steht"
+                "is",
+                "stands"
               ]
             },
             " ",
             {
               "a": [
-                "auf dem"
+                "on"
               ]
             },
-            " Schreibtisch."
+            " the desk."
           ]
         },
         {
           "n": 12,
           "seg": [
-            "Die Uhr ",
+            "The clock ",
             {
               "a": [
-                "hängt"
+                "is",
+                "hangs"
               ]
             },
             " ",
             {
               "a": [
-                "über der"
+                "above",
+                "over"
               ]
             },
-            " Tür."
+            " the door."
           ]
         }
       ]
     },
     {
       "type": "scene",
-      "title": "Räumen Sie auf! (Akkusativ)",
-      "hint": "Bruno räumt das Zimmer auf. Folgen Sie den Pfeilen: Wohin kommen die Sachen? Verb + Präposition mit Artikel.",
+      "title": "Tidy up! (movement)",
+      "hint": "Bruno is tidying the room. Follow the arrows: where does each thing go? Write the verb and the preposition. After put, in and on are fine.",
       "pfeile": true,
       "box": [
-        "lege",
-        "stelle",
-        "hänge",
-        "setze",
-        "in den",
-        "an die",
-        "aufs",
-        "auf den",
-        "unter das",
-        "über den",
-        "vor den"
+        "put",
+        "hang",
+        "lift",
+        "in",
+        "on",
+        "onto",
+        "under",
+        "above",
+        "in front of"
       ],
       "items": [
         {
           "n": 6,
           "seg": [
-            "Ich ",
+            "I ",
             {
               "a": [
-                "stelle",
-                "lege"
+                "put"
               ]
             },
-            " die Schuhe ",
+            " the shoes ",
             {
               "a": [
-                "in den"
+                "in",
+                "into"
               ]
             },
-            " Schrank."
+            " the wardrobe."
           ]
         },
         {
           "n": 7,
           "seg": [
-            "Ich ",
+            "I ",
             {
               "a": [
-                "hänge"
+                "hang"
               ]
             },
-            " die Jacke ",
+            " the jacket ",
             {
               "a": [
-                "an die"
+                "on"
               ]
             },
-            " Tür (an den Haken)."
+            " the door (on the hook)."
           ]
         },
         {
           "n": 9,
           "seg": [
-            "Ich ",
+            "I ",
             {
               "a": [
-                "lege"
+                "put"
               ]
             },
-            " das Handy ",
+            " the phone ",
             {
               "a": [
-                "aufs",
-                "auf das"
+                "on",
+                "onto"
               ]
             },
-            " Bett."
+            " the bed."
           ]
         },
         {
           "n": 2,
           "seg": [
-            "Ich ",
+            "I ",
             {
               "a": [
-                "stelle"
+                "put"
               ]
             },
-            " die Vase ",
+            " the vase ",
             {
               "a": [
-                "aufs",
-                "auf das"
+                "on",
+                "onto"
               ]
             },
-            " Regal."
+            " the shelf."
           ]
         },
         {
           "n": 5,
           "seg": [
-            "Ich ",
+            "I ",
             {
               "a": [
-                "setze",
-                "lege"
+                "lift",
+                "put"
               ]
             },
-            " die Katze ",
+            " the cat ",
             {
               "a": [
-                "auf den"
+                "onto",
+                "on"
               ]
             },
-            " Tisch."
+            " the table."
           ]
         },
         {
           "n": 10,
           "seg": [
-            "Ich ",
+            "I ",
             {
               "a": [
-                "lege"
+                "put"
               ]
             },
-            " den Ball ",
+            " the ball ",
             {
               "a": [
-                "unter das",
-                "unters"
+                "under"
               ]
             },
-            " Bett."
+            " the bed."
           ]
         },
         {
           "n": 4,
           "seg": [
-            "Ich ",
+            "I ",
             {
               "a": [
-                "hänge"
+                "hang"
               ]
             },
-            " das Bild ",
+            " the picture ",
             {
               "a": [
-                "über den"
+                "above",
+                "over"
               ]
             },
-            " Schreibtisch."
+            " the desk."
           ]
         },
         {
           "n": 8,
           "seg": [
-            "Ich ",
+            "I ",
             {
               "a": [
-                "lege"
+                "put"
               ]
             },
-            " den Teppich ",
+            " the rug ",
             {
               "a": [
-                "vor den"
+                "in front of"
               ]
             },
-            " Schrank."
+            " the wardrobe."
           ]
         }
       ]
     },
     {
       "type": "truefalse",
-      "title": "Richtig oder falsch?",
-      "hint": "Schauen Sie ins Bild. Schreiben Sie r (richtig) oder f (falsch). Korrigieren Sie die falschen Sätze im Heft.",
+      "title": "True or false?",
+      "hint": "Look at the picture. Write t (true) or f (false). Correct the false sentences in your notebook.",
       "items": [
         {
-          "text": "Der Teppich (8) liegt vor dem Bett.",
-          "a": "r"
+          "text": "The rug (8) is in front of the bed.",
+          "a": "t"
         },
         {
-          "text": "Die Pflanze (11) steht auf dem Schreibtisch.",
+          "text": "The plant (11) is on the desk.",
           "a": "f",
-          "fix": "Die Pflanze steht am Fenster."
+          "fix": "The plant is by the window."
         },
         {
-          "text": "Die Katze (5) liegt auf dem Bett.",
+          "text": "The cat (5) is on the bed.",
           "a": "f",
-          "fix": "Die Katze liegt unter dem Tisch."
+          "fix": "The cat is under the table."
         },
         {
-          "text": "Das Bild (4) hängt über dem Bett.",
-          "a": "r"
+          "text": "The picture (4) is above the bed.",
+          "a": "t"
         },
         {
-          "text": "Die Lampe (3) hängt an der Decke.",
+          "text": "The lamp (3) hangs from the ceiling.",
           "a": "f",
-          "fix": "Die Lampe steht auf dem Schreibtisch."
+          "fix": "The lamp is on the desk."
         },
         {
-          "text": "Der Ball (10) liegt zwischen dem Schrank und dem Bett.",
-          "a": "r"
+          "text": "The ball (10) is between the wardrobe and the bed.",
+          "a": "t"
         }
       ]
     }
   ],
   "tandemSoGehts": [
-    "Schneiden Sie die Karten in der Mitte durch. Partner A nimmt die linke Hälfte, Partner B die rechte.",
-    "A baut Frage 1 aus den Kärtchen und liest sie vor: „Wohin stellt Lisa die Flasche?“",
-    "B hat nur Kärtchen: das Verb im Infinitiv und Satzteile. B baut daraus die Antwort: Verb konjugieren, Artikel in den richtigen Kasus!",
-    "Dann fragt B Frage 2, A antwortet. Immer abwechselnd. Am Ende vergleichen Sie mit dem Lösungsblatt.",
-    "Zum Schluss: Karten tauschen und alles noch einmal, schneller."
+    "Cut the cards in the middle. Partner A takes the left half, Partner B the right half.",
+    "A builds question 1 from the tiles and reads it out: \"Where does Tom put the bottle?\" (A adds does.)",
+    "B only has tiles: the verb in its base form and the parts of the sentence. Build the answer and put the verb in the right form (puts, is, are). Watch the point: put and hang = movement, be = position.",
+    "Then B asks question 2 and A answers. Take turns. At the end, check with the answer sheet.",
+    "Now swap cards and do it all again, faster."
   ],
   "tandemRedemittel": [
-    {
-      "p1": "Nummer 1: Wohin stellt Lisa …?",
-      "p2": "Lisa stellt … in den …"
-    },
-    {
-      "p1": "Ist das Akkusativ oder Dativ?",
-      "p2": "Wohin? Also Akkusativ."
-    },
-    {
-      "p1": "Wie bitte? Noch einmal, bitte.",
-      "p2": "Nummer 2: Wo steht …?"
-    }
+    { "p1": "Number 1: Where does Tom put …?", "p2": "Tom puts … in the …" },
+    { "p1": "Does it move or does it stay?", "p2": "Where is it? That's position: is + on." },
+    { "p1": "Sorry? Can you say that again, please?", "p2": "Number 2: Where is …?" }
   ],
   "tandemFrageBeispiel": {
-    "infinitiv": "liegen",
+    "infinitiv": "be",
     "kacheln": [
-      "wo",
-      "liegen",
-      "der Ball"
+      "where",
+      "be",
+      "the ball"
     ],
-    "frage": "Wo liegt der Ball?",
+    "frage": "Where is the ball?",
     "antwortKacheln": [
-      "liegen",
-      "unter",
-      "der Tisch",
-      "der Ball"
+      "be",
+      "under",
+      "the table",
+      "the ball"
     ],
-    "antwort": "Der Ball liegt unter dem Tisch."
+    "antwort": "The ball is under the table."
   },
   "tandemFragen": [
     {
-      "frage": "Wohin stellt Lisa die Flasche?",
-      "infinitiv": "stellen",
-      "frageKacheln": [
-        "wohin",
-        "stellen",
-        "Lisa",
-        "die Flasche"
-      ],
-      "kacheln": [
-        "stellen",
-        "Lisa",
-        "die Flasche",
-        "in",
-        "der Kühlschrank"
-      ],
-      "antwort": "Lisa stellt die Flasche in den Kühlschrank."
+      "frage": "Where does Tom put the bottle?",
+      "infinitiv": "put",
+      "frageKacheln": ["where", "put", "Tom", "the bottle"],
+      "kacheln": ["put", "Tom", "the bottle", "in", "the fridge"],
+      "antwort": "Tom puts the bottle in the fridge."
     },
     {
-      "frage": "Wo liegt das Handy?",
-      "infinitiv": "liegen",
-      "frageKacheln": [
-        "wo",
-        "liegen",
-        "das Handy"
-      ],
-      "kacheln": [
-        "liegen",
-        "das Handy",
-        "unter",
-        "das Bett"
-      ],
-      "antwort": "Das Handy liegt unter dem Bett."
+      "frage": "Where is the phone?",
+      "infinitiv": "be",
+      "frageKacheln": ["where", "be", "the phone"],
+      "kacheln": ["be", "the phone", "under", "the bed"],
+      "antwort": "The phone is under the bed."
     },
     {
-      "frage": "Wo steht die Flasche jetzt?",
-      "infinitiv": "stehen",
-      "frageKacheln": [
-        "wo",
-        "stehen",
-        "die Flasche",
-        "jetzt"
-      ],
-      "kacheln": [
-        "stehen",
-        "die Flasche",
-        "in",
-        "der Kühlschrank"
-      ],
-      "antwort": "Die Flasche steht im Kühlschrank."
+      "frage": "Where is the bottle now?",
+      "infinitiv": "be",
+      "frageKacheln": ["where", "be", "the bottle", "now"],
+      "kacheln": ["be", "the bottle", "in", "the fridge"],
+      "antwort": "The bottle is in the fridge."
     },
     {
-      "frage": "Wohin legt Lisa das Handy?",
-      "infinitiv": "legen",
-      "frageKacheln": [
-        "wohin",
-        "legen",
-        "Lisa",
-        "das Handy"
-      ],
-      "kacheln": [
-        "legen",
-        "Lisa",
-        "das Handy",
-        "auf",
-        "der Schreibtisch"
-      ],
-      "antwort": "Lisa legt das Handy auf den Schreibtisch."
+      "frage": "Where does Amira put the phone?",
+      "infinitiv": "put",
+      "frageKacheln": ["where", "put", "Amira", "the phone"],
+      "kacheln": ["put", "Amira", "the phone", "on", "the desk"],
+      "antwort": "Amira puts the phone on the desk."
     },
     {
-      "frage": "Wohin hängt Lisa die Jacke?",
-      "infinitiv": "hängen",
-      "frageKacheln": [
-        "wohin",
-        "hängen",
-        "Lisa",
-        "die Jacke"
-      ],
-      "kacheln": [
-        "hängen",
-        "Lisa",
-        "die Jacke",
-        "an",
-        "die Tür"
-      ],
-      "antwort": "Lisa hängt die Jacke an die Tür."
+      "frage": "Where does Priya hang the jacket?",
+      "infinitiv": "hang",
+      "frageKacheln": ["where", "hang", "Priya", "the jacket"],
+      "kacheln": ["hang", "Priya", "the jacket", "on", "the door"],
+      "antwort": "Priya hangs the jacket on the door."
     },
     {
-      "frage": "Wo sitzt die Katze?",
-      "infinitiv": "sitzen",
-      "frageKacheln": [
-        "wo",
-        "sitzen",
-        "die Katze"
-      ],
-      "kacheln": [
-        "sitzen",
-        "die Katze",
-        "unter",
-        "der Tisch"
-      ],
-      "antwort": "Die Katze sitzt unter dem Tisch."
+      "frage": "Where is the dog?",
+      "infinitiv": "be",
+      "frageKacheln": ["where", "be", "the dog"],
+      "kacheln": ["be", "the dog", "behind", "the door"],
+      "antwort": "The dog is behind the door."
     },
     {
-      "frage": "Wo hängt die Jacke jetzt?",
-      "infinitiv": "hängen",
-      "frageKacheln": [
-        "wo",
-        "hängen",
-        "die Jacke",
-        "jetzt"
-      ],
-      "kacheln": [
-        "hängen",
-        "die Jacke",
-        "an",
-        "die Tür"
-      ],
-      "antwort": "Die Jacke hängt an der Tür."
+      "frage": "Where is the jacket now?",
+      "infinitiv": "be",
+      "frageKacheln": ["where", "be", "the jacket", "now"],
+      "kacheln": ["be", "the jacket", "on", "the door"],
+      "antwort": "The jacket is on the door."
     },
     {
-      "frage": "Wohin setzt Lisa die Katze?",
-      "infinitiv": "setzen",
-      "frageKacheln": [
-        "wohin",
-        "setzen",
-        "Lisa",
-        "die Katze"
-      ],
-      "kacheln": [
-        "setzen",
-        "Lisa",
-        "die Katze",
-        "auf",
-        "das Sofa"
-      ],
-      "antwort": "Lisa setzt die Katze auf das Sofa."
+      "frage": "Where does the cat jump?",
+      "infinitiv": "jump",
+      "frageKacheln": ["where", "jump", "the cat"],
+      "kacheln": ["jump", "the cat", "onto", "the sofa"],
+      "antwort": "The cat jumps onto the sofa."
     },
     {
-      "frage": "Wohin stellt Lisa die Schuhe?",
-      "infinitiv": "stellen",
-      "frageKacheln": [
-        "wohin",
-        "stellen",
-        "Lisa",
-        "die Schuhe"
-      ],
-      "kacheln": [
-        "stellen",
-        "Lisa",
-        "die Schuhe",
-        "vor",
-        "die Tür"
-      ],
-      "antwort": "Lisa stellt die Schuhe vor die Tür."
+      "frage": "Where does Kwame put the shoes?",
+      "infinitiv": "put",
+      "frageKacheln": ["where", "put", "Kwame", "the shoes"],
+      "kacheln": ["put", "Kwame", "the shoes", "in front of", "the door"],
+      "antwort": "Kwame puts the shoes in front of the door."
     },
     {
-      "frage": "Wo stehen die Schuhe?",
-      "infinitiv": "stehen",
-      "frageKacheln": [
-        "wo",
-        "stehen",
-        "die Schuhe"
-      ],
-      "kacheln": [
-        "stehen",
-        "die Schuhe",
-        "neben",
-        "der Schrank"
-      ],
-      "antwort": "Die Schuhe stehen neben dem Schrank."
+      "frage": "Where are the shoes?",
+      "infinitiv": "be",
+      "frageKacheln": ["where", "be", "the shoes"],
+      "kacheln": ["be", "the shoes", "next to", "the wardrobe"],
+      "antwort": "The shoes are next to the wardrobe."
     },
     {
-      "frage": "Wohin legt Lisa das Buch?",
-      "infinitiv": "legen",
-      "frageKacheln": ["wohin", "legen", "Lisa", "das Buch"],
-      "kacheln": ["legen", "Lisa", "das Buch", "auf", "der Tisch"],
-      "antwort": "Lisa legt das Buch auf den Tisch."
+      "frage": "Where does Zofia put the book?",
+      "infinitiv": "put",
+      "frageKacheln": ["where", "put", "Zofia", "the book"],
+      "kacheln": ["put", "Zofia", "the book", "on", "the table"],
+      "antwort": "Zofia puts the book on the table."
     },
     {
-      "frage": "Wo liegt das Buch jetzt?",
-      "infinitiv": "liegen",
-      "frageKacheln": ["wo", "liegen", "das Buch", "jetzt"],
-      "kacheln": ["liegen", "das Buch", "auf", "der Tisch"],
-      "antwort": "Das Buch liegt auf dem Tisch."
+      "frage": "Where is the book now?",
+      "infinitiv": "be",
+      "frageKacheln": ["where", "be", "the book", "now"],
+      "kacheln": ["be", "the book", "on", "the table"],
+      "antwort": "The book is on the table."
     },
     {
-      "frage": "Wohin hängt Lisa das Bild?",
-      "infinitiv": "hängen",
-      "frageKacheln": ["wohin", "hängen", "Lisa", "das Bild"],
-      "kacheln": ["hängen", "Lisa", "das Bild", "über", "das Bett"],
-      "antwort": "Lisa hängt das Bild über das Bett."
+      "frage": "Where does Tom hang the picture?",
+      "infinitiv": "hang",
+      "frageKacheln": ["where", "hang", "Tom", "the picture"],
+      "kacheln": ["hang", "Tom", "the picture", "above", "the bed"],
+      "antwort": "Tom hangs the picture above the bed."
     },
     {
-      "frage": "Wo hängt das Bild jetzt?",
-      "infinitiv": "hängen",
-      "frageKacheln": ["wo", "hängen", "das Bild", "jetzt"],
-      "kacheln": ["hängen", "das Bild", "über", "das Bett"],
-      "antwort": "Das Bild hängt über dem Bett."
+      "frage": "Where is the picture now?",
+      "infinitiv": "be",
+      "frageKacheln": ["where", "be", "the picture", "now"],
+      "kacheln": ["be", "the picture", "above", "the bed"],
+      "antwort": "The picture is above the bed."
     },
     {
-      "frage": "Wohin stellt Lisa die Lampe?",
-      "infinitiv": "stellen",
-      "frageKacheln": ["wohin", "stellen", "Lisa", "die Lampe"],
-      "kacheln": ["stellen", "Lisa", "die Lampe", "neben", "das Sofa"],
-      "antwort": "Lisa stellt die Lampe neben das Sofa."
+      "frage": "Where does Mei put the lamp?",
+      "infinitiv": "put",
+      "frageKacheln": ["where", "put", "Mei", "the lamp"],
+      "kacheln": ["put", "Mei", "the lamp", "next to", "the sofa"],
+      "antwort": "Mei puts the lamp next to the sofa."
     },
     {
-      "frage": "Wo sitzt der Hund?",
-      "infinitiv": "sitzen",
-      "frageKacheln": ["wo", "sitzen", "der Hund"],
-      "kacheln": ["sitzen", "der Hund", "hinter", "die Tür"],
-      "antwort": "Der Hund sitzt hinter der Tür."
+      "frage": "Where is the cat now?",
+      "infinitiv": "be",
+      "frageKacheln": ["where", "be", "the cat", "now"],
+      "kacheln": ["be", "the cat", "on", "the sofa"],
+      "antwort": "The cat is on the sofa."
     }
   ],
   "tandemKueche": {
-    "title": "Runde 3: Die Küche aufräumen",
-    "hint": "Bruno räumt die Küche auf. A hat das Bild mit den Pfeilen und weiß, wohin alles kommt. B sieht nur die Unordnung. Zeigen Sie Ihr Bild nicht!",
-    "teil1": "Teil 1 (Wohin? Akkusativ): B fragt, A antwortet. B schreibt die Antwort auf.",
-    "teil2": "Teil 2 (Wo? Dativ): Jetzt fragt A. B antwortet mit den eigenen Notizen.",
+    "title": "Round 3: Tidy the kitchen",
+    "hint": "Bruno is tidying the kitchen. A has the picture with arrows and knows where everything goes. B only sees the mess. Don't show your picture!",
+    "teil1": "Part 1 (Where does he put it?): B asks, A answers. B writes the answer down.",
+    "teil2": "Part 2 (Where is it now?): Now A asks. B answers from their notes.",
     "redemittel": [
-      "Nummer 4: Wohin _stellt_ Bruno *den* Topf?",
-      "Er _stellt_ den Topf *auf den* Herd.",
-      "Wo _steht_ der Topf jetzt?",
-      "Der Topf _steht_ *auf dem* Herd."
+      "Number 4: Where does Bruno _put_ the pot?",
+      "He _puts_ the pot *on* the hob.",
+      "Where _is_ the pot now?",
+      "The pot _is_ *on* the hob."
     ],
     "items": [
       {
         "n": 4,
-        "verb": "stellen",
-        "ding": "der Topf",
-        "frage": "Wohin stellt Bruno den Topf?",
-        "wohin": "Er stellt den Topf auf den Herd.",
-        "woFrage": "Wo steht der Topf jetzt?",
-        "wo": "Der Topf steht auf dem Herd."
+        "verb": "put",
+        "ding": "the pot",
+        "frage": "Where does Bruno put the pot?",
+        "wohin": "He puts the pot on the hob.",
+        "woFrage": "Where is the pot now?",
+        "wo": "The pot is on the hob."
       },
       {
         "n": 1,
-        "verb": "stellen",
-        "ding": "die Milch",
-        "frage": "Wohin stellt Bruno die Milch?",
-        "wohin": "Er stellt die Milch in den Kühlschrank.",
-        "woFrage": "Wo steht die Milch jetzt?",
-        "wo": "Die Milch steht im Kühlschrank."
+        "verb": "put",
+        "ding": "the milk",
+        "frage": "Where does Bruno put the milk?",
+        "wohin": "He puts the milk in the fridge.",
+        "woFrage": "Where is the milk now?",
+        "wo": "The milk is in the fridge."
       },
       {
         "n": 2,
-        "verb": "legen",
-        "ding": "der Löffel",
-        "frage": "Wohin legt Bruno den Löffel?",
-        "wohin": "Er legt den Löffel in die Schublade.",
-        "woFrage": "Wo liegt der Löffel jetzt?",
-        "wo": "Der Löffel liegt in der Schublade."
+        "verb": "put",
+        "ding": "the spoon",
+        "frage": "Where does Bruno put the spoon?",
+        "wohin": "He puts the spoon in the drawer.",
+        "woFrage": "Where is the spoon now?",
+        "wo": "The spoon is in the drawer."
       },
       {
         "n": 8,
-        "verb": "hängen",
-        "ding": "das Handtuch",
-        "frage": "Wohin hängt Bruno das Handtuch?",
-        "wohin": "Er hängt das Handtuch an den Haken.",
-        "woFrage": "Wo hängt das Handtuch jetzt?",
-        "wo": "Das Handtuch hängt am Haken."
+        "verb": "hang",
+        "ding": "the towel",
+        "frage": "Where does Bruno hang the towel?",
+        "wohin": "He hangs the towel on the hook.",
+        "woFrage": "Where is the towel now?",
+        "wo": "The towel is on the hook."
       },
       {
         "n": 3,
-        "verb": "stellen",
-        "ding": "die Teller",
-        "frage": "Wohin stellt Bruno die Teller?",
-        "wohin": "Er stellt die Teller in den Schrank.",
-        "woFrage": "Wo stehen die Teller jetzt?",
-        "wo": "Die Teller stehen im Schrank."
+        "verb": "put",
+        "ding": "the plates",
+        "frage": "Where does Bruno put the plates?",
+        "wohin": "He puts the plates in the cupboard.",
+        "woFrage": "Where are the plates now?",
+        "wo": "The plates are in the cupboard."
       },
       {
         "n": 7,
-        "verb": "stellen",
-        "ding": "die Pflanze",
-        "frage": "Wohin stellt Bruno die Pflanze?",
-        "wohin": "Er stellt die Pflanze ans Fenster.",
-        "woFrage": "Wo steht die Pflanze jetzt?",
-        "wo": "Die Pflanze steht am Fenster."
+        "verb": "put",
+        "ding": "the plant",
+        "frage": "Where does Bruno put the plant?",
+        "wohin": "He puts the plant on the windowsill.",
+        "woFrage": "Where is the plant now?",
+        "wo": "The plant is on the windowsill."
       },
       {
         "n": 9,
-        "verb": "hängen",
-        "ding": "der Kalender",
-        "frage": "Wohin hängt Bruno den Kalender?",
-        "wohin": "Er hängt den Kalender an die Wand.",
-        "woFrage": "Wo hängt der Kalender jetzt?",
-        "wo": "Der Kalender hängt an der Wand."
+        "verb": "hang",
+        "ding": "the calendar",
+        "frage": "Where does Bruno hang the calendar?",
+        "wohin": "He hangs the calendar on the wall.",
+        "woFrage": "Where is the calendar now?",
+        "wo": "The calendar is on the wall."
       },
       {
         "n": 5,
-        "verb": "stellen",
-        "ding": "der Stuhl",
-        "frage": "Wohin stellt Bruno den Stuhl?",
-        "wohin": "Er stellt den Stuhl an den Tisch.",
-        "woFrage": "Wo steht der Stuhl jetzt?",
-        "wo": "Der Stuhl steht am Tisch."
+        "verb": "put",
+        "ding": "the chair",
+        "frage": "Where does Bruno put the chair?",
+        "wohin": "He puts the chair next to the table.",
+        "woFrage": "Where is the chair now?",
+        "wo": "The chair is next to the table."
       },
-      { "n": 6, "verb": "werfen", "ding": "das Papier", "frage": "Wohin wirft Bruno das Papier?", "wohin": "Er wirft das Papier in den Mülleimer.", "woFrage": "Wo liegt das Papier jetzt?", "wo": "Das Papier liegt im Mülleimer." }
+      {
+        "n": 6,
+        "verb": "throw",
+        "ding": "the paper",
+        "frage": "Where does Bruno throw the paper?",
+        "wohin": "He throws the paper in the bin.",
+        "woFrage": "Where is the paper now?",
+        "wo": "The paper is in the bin."
+      }
     ]
   },
   "tandemBild": {
-    "title": "Runde 2: Unterschiede finden",
-    "hint": "A und B haben fast das gleiche Zimmer. Fünf Dinge sind an einem anderen Ort. Beschreiben Sie Ihr Bild abwechselnd mit _liegen_, _stehen_ und _hängen_ und dem *Dativ*. Kreuzen Sie jeden Unterschied an.",
+    "title": "Round 2: Spot the differences",
+    "hint": "A and B have almost the same room. Five things are in a different place. Take turns to describe your picture with _is_ or _are_ and a *place word* (on, under, in front of …). Tick every difference.",
     "redemittel": [
-      "Bei mir _liegt_ die Katze *unter dem* Tisch.",
-      "Und bei dir?",
-      "Wo _steht_ die Vase?",
-      "Bei mir auch! / Bei mir nicht."
+      "In my picture, the cat _is_ *under* the table.",
+      "And in yours?",
+      "Where _is_ the vase?",
+      "Same here! / Not in mine."
     ]
   },
   "zuZweit": {
-    "title": "Zu zweit: Gedächtnis-Spiel",
+    "title": "In pairs: memory game",
     "mascot": "quaki",
-    "say": "Wer hat das bessere Gedächtnis?",
+    "say": "Who has the better memory?",
     "steps": [
-      "A schaut 30 Sekunden auf das Bild. Dann deckt A das Bild ab.",
-      "B fragt: „Wo liegt das Handy?“ oder „Wo hängt die Uhr?“",
-      "A antwortet: „Das Handy liegt unter dem Bett.“",
-      "Fünf Fragen, dann tauschen. Wer hat mehr richtig?"
+      "A looks at the picture for 30 seconds. Then A covers the picture.",
+      "B asks: “Where is the phone?” or “Where is the clock?”",
+      "A answers: “The phone is under the bed.”",
+      "Five questions, then swap. Who gets more right?"
     ]
   },
   "zusatz": {
     "_comment": "Extra sheet below the worksheet: the messy kitchen in src/lib/arbeitsblatt/kuecheSzene.js (numbers 1–9 are the things, the arrows show where they go).",
-    "title": "Zusatz: Die Küche",
+    "title": "Extra: the kitchen",
     "uebungen": [
       {
         "type": "scene",
-        "title": "Räumen Sie die Küche auf! (Akkusativ)",
-        "hint": "Bruno räumt die Küche auf. Folgen Sie den Pfeilen: Wohin kommen die Sachen? Verb + Präposition mit Artikel.",
+        "title": "Tidy the kitchen! (movement)",
+        "hint": "Bruno is tidying the kitchen. Follow the arrows: where does each thing go? Write the verb and the preposition. After put, in and on are fine.",
         "pfeile": true,
         "box": [
-          "lege",
-          "stelle",
-          "hänge",
-          "werfe",
-          "in den",
-          "in die",
-          "auf den",
-          "an den",
-          "an die",
-          "ans"
+          "put",
+          "hang",
+          "throw",
+          "in",
+          "on",
+          "next to"
         ],
         "items": [
           {
             "n": 4,
             "seg": [
-              "Ich ",
+              "I ",
               {
                 "a": [
-                  "stelle"
+                  "put"
                 ]
               },
-              " den Topf ",
+              " the pot ",
               {
                 "a": [
-                  "auf den"
+                  "on",
+                  "onto"
                 ]
               },
-              " Herd."
+              " the hob."
             ]
           },
           {
             "n": 8,
             "seg": [
-              "Ich ",
+              "I ",
               {
                 "a": [
-                  "hänge"
+                  "hang"
                 ]
               },
-              " das Handtuch ",
+              " the towel ",
               {
                 "a": [
-                  "an den"
+                  "on"
                 ]
               },
-              " Haken."
+              " the hook."
             ]
           },
           {
             "n": 1,
             "seg": [
-              "Ich ",
+              "I ",
               {
                 "a": [
-                  "stelle"
+                  "put"
                 ]
               },
-              " die Milch ",
+              " the milk ",
               {
                 "a": [
-                  "in den"
+                  "in",
+                  "into"
                 ]
               },
-              " Kühlschrank."
+              " the fridge."
             ]
           },
           {
             "n": 6,
             "seg": [
-              "Ich ",
+              "I ",
               {
                 "a": [
-                  "werfe"
+                  "throw",
+                  "put"
                 ]
               },
-              " das Papier ",
+              " the paper ",
               {
                 "a": [
-                  "in den"
+                  "in",
+                  "into"
                 ]
               },
-              " Mülleimer."
+              " the bin."
             ]
           },
           {
             "n": 2,
             "seg": [
-              "Ich ",
+              "I ",
               {
                 "a": [
-                  "lege"
+                  "put"
                 ]
               },
-              " den Löffel ",
+              " the spoon ",
               {
                 "a": [
-                  "in die"
+                  "in",
+                  "into"
                 ]
               },
-              " Schublade."
+              " the drawer."
             ]
           },
           {
             "n": 7,
             "seg": [
-              "Ich ",
+              "I ",
               {
                 "a": [
-                  "stelle"
+                  "put"
                 ]
               },
-              " die Pflanze ",
+              " the plant ",
               {
                 "a": [
-                  "ans",
-                  "an das"
+                  "on",
+                  "onto"
                 ]
               },
-              " Fenster."
+              " the windowsill."
             ]
           },
           {
             "n": 3,
             "seg": [
-              "Ich ",
+              "I ",
               {
                 "a": [
-                  "stelle",
-                  "lege"
+                  "put"
                 ]
               },
-              " die Teller ",
+              " the plates ",
               {
                 "a": [
-                  "in den"
+                  "in",
+                  "into"
                 ]
               },
-              " Schrank."
+              " the cupboard."
             ]
           },
           {
             "n": 9,
             "seg": [
-              "Ich ",
+              "I ",
               {
                 "a": [
-                  "hänge"
+                  "hang"
                 ]
               },
-              " den Kalender ",
+              " the calendar ",
               {
                 "a": [
-                  "an die"
+                  "on"
                 ]
               },
-              " Wand."
+              " the wall."
             ]
           },
           {
             "n": 5,
             "seg": [
-              "Ich ",
+              "I ",
               {
                 "a": [
-                  "stelle"
+                  "put"
                 ]
               },
-              " den Stuhl ",
+              " the chair ",
               {
                 "a": [
-                  "an den"
+                  "next to"
                 ]
               },
-              " Tisch."
+              " the table."
             ]
           }
         ]
       },
       {
         "type": "scene",
-        "title": "Fertig! Wo ist jetzt alles? (Dativ)",
-        "hint": "Die Küche ist aufgeräumt. Schreiben Sie das Verb und die Präposition mit Artikel.",
+        "title": "Done! Where is everything now? (position)",
+        "hint": "The kitchen is tidy. Write the verb and the preposition.",
         "box": [
-          "steht",
-          "stehen",
-          "liegt",
-          "hängt",
-          "im",
-          "in der",
-          "auf dem",
-          "am",
-          "an der"
+          "is",
+          "are",
+          "hangs",
+          "in",
+          "on"
         ],
         "items": [
           {
             "n": 4,
             "seg": [
-              "Der Topf ",
+              "The pot ",
               {
                 "a": [
-                  "steht"
+                  "is",
+                  "stands"
                 ]
               },
               " ",
               {
                 "a": [
-                  "auf dem"
+                  "on"
                 ]
               },
-              " Herd."
+              " the hob."
             ]
           },
           {
             "n": 2,
             "seg": [
-              "Der Löffel ",
+              "The spoon ",
               {
                 "a": [
-                  "liegt"
+                  "is",
+                  "lies"
                 ]
               },
               " ",
               {
                 "a": [
-                  "in der"
+                  "in"
                 ]
               },
-              " Schublade."
+              " the drawer."
             ]
           },
           {
             "n": 1,
             "seg": [
-              "Die Milch ",
+              "The milk ",
               {
                 "a": [
-                  "steht"
+                  "is",
+                  "stands"
                 ]
               },
               " ",
               {
                 "a": [
-                  "im",
-                  "in dem"
+                  "in"
                 ]
               },
-              " Kühlschrank."
+              " the fridge."
             ]
           },
           {
             "n": 8,
             "seg": [
-              "Das Handtuch ",
+              "The towel ",
               {
                 "a": [
-                  "hängt"
+                  "is",
+                  "hangs"
                 ]
               },
               " ",
               {
                 "a": [
-                  "am",
-                  "an dem"
+                  "on"
                 ]
               },
-              " Haken."
+              " the hook."
             ]
           },
           {
             "n": 3,
             "seg": [
-              "Die Teller ",
+              "The plates ",
               {
                 "a": [
-                  "stehen",
-                  "liegen"
+                  "are",
+                  "stand"
                 ]
               },
               " ",
               {
                 "a": [
-                  "im",
-                  "in dem"
+                  "in"
                 ]
               },
-              " Schrank."
+              " the cupboard."
             ]
           },
           {
             "n": 9,
             "seg": [
-              "Der Kalender ",
+              "The calendar ",
               {
                 "a": [
-                  "hängt"
+                  "is",
+                  "hangs"
                 ]
               },
               " ",
               {
                 "a": [
-                  "an der"
+                  "on"
                 ]
               },
-              " Wand."
+              " the wall."
             ]
           }
         ]

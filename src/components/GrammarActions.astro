@@ -1,22 +1,23 @@
 ---
 // The grammar topic's twin of DeckActions (the Lernset pages' row), under the topic's intro:
-//   „Drucken / PDF“  the topic's worksheet (/lehrkraefte/arbeitsblaetter/grammatik/<slug>):
+//   „Drucken / PDF“  the topic's worksheet (/teachers/worksheets/grammar/<slug>):
 //                    the same exercises on paper, the answer key on its own page. Every
 //                    topic with free exercises, drafts too (arbeitsblatt/grammatik.js).
 //   „Live-Quiz“      the live quiz with this chapter chosen as „Nur Grammatik“
-//                    (/lehrkraefte/quiz?grammar=g-<key>, host.js): its fill-in, table and
+//                    (/teachers/quiz?grammar=g-<key>, host.js): its fill-in, table and
 //                    matching items as four-button questions (liveQuiz/chapters.js).
-//   „Partnerblatt“   the topic's Tandembogen (/lehrkraefte/arbeitsblaetter/tandem/<slug>),
+//   „Partnerblatt“   the topic's Tandembogen (/teachers/worksheets/tandem/<slug>),
 //                    when its items make one (partneruebungen/tandem.js). Tried on /test1
 //                    (EXPERIMENTE.md), now on every topic instead of the teachers-only link.
 //   „Präsentieren“   the topic as a slide deck (?mode=present, praesentationDeck.js): the
 //                    same screens the Stundenplan opens, for every topic with a deck.
 //   „Live üben“      teaching mode only (shown by [id].astro's script): the class does these
 //                    exercises on their phones, the teacher sees the board (liveUebung/).
-// Neither in the Android app, whose build drops /lehrkraefte.
+// Neither in the Android app, whose build drops /teachers.
 import { hasChapter } from "../lib/liveQuiz/chapters.js";
 import { sheetTopics, topicSlug } from "../lib/arbeitsblatt/grammatik.js";
 import { tandemFor } from "../lib/partneruebungen/tandem.js";
+import { topicPath, sheetPath, tandemPath } from "../lib/routes.js";
 
 interface Props {
   /** The topic's URL slug: the worksheet's path. */
@@ -40,33 +41,33 @@ const tandem = web && !!tandemFor(slug);
 {(print || quiz || tandem || web || present) && (
   <div class:list={["ga-actions", place && `ga-actions--${place}`]}>
     {present && (
-      <a class="ga-btn" href={`/${slug}?mode=present`} title="Die Regel und die Beispiele als Folien, groß für den Beamer">
+      <a class="ga-btn" href={`${topicPath(slug)}?mode=present`} title="The rule and the examples as slides, large for the projector" data-i18n-attr="title:ga.present.title">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="13" rx="2"/><path d="M12 16v5M8 21h8"/></svg>
-        <span>Präsentieren</span>
+        <span data-i18n="ga.present">Präsentieren</span>
       </a>
     )}
     {print && (
-      <a class="ga-btn" href={`/lehrkraefte/arbeitsblaetter/grammatik/${slug}`}>
+      <a class="ga-btn" href={sheetPath(slug)}>
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
         <span data-i18n="pr.open">Drucken / PDF</span>
       </a>
     )}
     {quiz && (
-      <a class="ga-btn" href={`/lehrkraefte/quiz?grammar=${encodeURIComponent(chapter)}`} target="_blank" rel="noopener">
+      <a class="ga-btn" href={`/teachers/quiz?grammar=${encodeURIComponent(chapter)}`} target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>
         <span data-i18n="pr.quizGrammar">Live-Quiz</span>
       </a>
     )}
     {web && (
-      <button type="button" class="ga-btn ga-btn--live" data-live-uebung hidden title="Die Klasse übt diese Aufgaben auf dem Handy, du siehst den Fortschritt">
+      <button type="button" class="ga-btn ga-btn--live" data-live-uebung hidden title="The class does these exercises on their phones; you see their progress" data-i18n-attr="title:ga.live.title">
         <span class="ga-live-dot" aria-hidden="true"></span>
-        <span>Live üben</span>
+        <span data-i18n="ga.live">Live üben</span>
       </button>
     )}
     {tandem && (
-      <a class="ga-btn" href={`/lehrkraefte/arbeitsblaetter/tandem/${slug}`} target="_blank" rel="noopener">
+      <a class="ga-btn" href={tandemPath(slug)} target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"/><path d="M18.5 14.3A6.5 6.5 0 0 1 21.5 20"/></svg>
-        <span>Partnerblatt</span>
+        <span data-i18n="ga.partnerSheet">Partnerblatt</span>
       </a>
     )}
   </div>

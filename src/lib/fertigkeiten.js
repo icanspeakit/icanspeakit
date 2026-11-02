@@ -11,7 +11,7 @@
 //   from: "sprechen-dtz"      one picture of src/data/sprechen.json,       by `index`
 //   from: "sprechen-telc"     one prompt of src/data/sprechen-b1b2.json,   by `index`
 //
-// Borrowing rather than copying, because /lesen-schreiben, /sprechen and
+// Borrowing rather than copying, because /reading-writing, /speaking and
 // the DTZ mock test all still read those files. Two copies of a Prüfungstext would drift
 // apart, and the one that drifted would be the one nobody reopened.
 //
@@ -53,7 +53,7 @@ function resolveSchreiben(entry) {
                phrases: (p.tips ?? "").split(" · ").filter(Boolean), model: "", check: BRIEF_CHECK };
     }
     case "dtz-errorHunt": {
-      // No Lösungsschlüssel, deliberately — see the `context` in lesen.json. The page shows
+      // No answer key, deliberately — see the `context` in lesen.json. The page shows
       // the text and says so; this is the one task on the site meant for a second pair of
       // eyes rather than a click.
       const e = dtz.errorHunt;
@@ -64,23 +64,28 @@ function resolveSchreiben(entry) {
   }
 }
 
-// The DTZ file predates this index and carries no examiner checklist of its own, so the
-// three ported tasks get the generic one for their kind. A task written for this folder
-// brings its own, which is always the better text.
+// The B1 simulation file predates this index and carries no examiner checklist of its own,
+// so the three borrowed tasks get the generic one for their kind. A task written for this
+// folder brings its own, which is always the better text.
 const FORM_CHECK = [
-  "Jedes Feld ist ausgefüllt — ein leeres Feld zählt beim DTZ als Fehler, auch wenn die Angabe im Text steht.",
-  "Datum im deutschen Format (TT.MM.JJJJ).",
-  "Nichts erfunden: Was nicht im Text steht, bleibt leer oder bekommt einen Strich.",
+  "Every field is filled in. An empty field counts as a mistake, even if the information is in the text.",
+  "Copy names, numbers and dates exactly as they are in the text; a date in British order is day, then month (12 August, 12/08).",
+  "Nothing made up: if something is not in the text, leave the field empty or put a dash.",
 ];
 const BRIEF_CHECK = [
-  "Alle Leitpunkte kommen vor. Ein fehlender Punkt kostet mehr als drei Grammatikfehler.",
-  "Anrede und Gruß passen zueinander und zur Person.",
-  "Die Sätze sind verbunden (deshalb, trotzdem, außerdem), nicht aneinandergereiht.",
+  "Every point in the task is covered. A missing point costs more than three grammar mistakes.",
+  "Greeting and sign-off suit each other and the person (Hi David … Best wishes / See you soon).",
+  "The sentences are linked (so, because, but, also, although), not just one after the other.",
 ];
 const ERROR_CHECK = [
-  "Erst lesen, dann vergleichen — die Lösung erst öffnen, wenn Sie alle Fehler markiert haben.",
-  "Die eigenen Lieblingsfehler notieren. Das ist der Zweck der Aufgabe.",
+  "Read first, then compare: discuss the text only once you have marked every mistake you can find.",
+  "Write down the mistakes you make yourself, too. That is the point of the task.",
 ];
+
+const cardPoint = (pt) => {
+  const x = pt.replace(/^and /, "");
+  return x[0].toUpperCase() + x.slice(1);
+};
 
 function resolveSprechen(entry) {
   switch (entry.from) {
@@ -93,7 +98,7 @@ function resolveSprechen(entry) {
       return {
         ...entry,
         image: pic.image,
-        prompt: "Beschreiben Sie das Bild. Danach stellt Ihnen die Prüferin Fragen zu Ihrer eigenen Erfahrung.",
+        prompt: "Describe the picture. After that, the examiner asks you about your own experience.",
         bullets: pic.beschreibung,
         followUps: pic.persoenlich,
       };
@@ -106,12 +111,14 @@ function resolveSprechen(entry) {
         image: p.image,
         prompt: diskussion
           ? p.diskussion
-          : `Kurzvortrag zum Thema „${p.kurzvortrag.topic}“. Beschreiben Sie zuerst das Bild, halten Sie dann Ihren Vortrag.`,
+          : `First talk about the photo for one minute. Then take one minute to make notes and talk for up to two minutes. Topic card: ${p.kurzvortrag.topic.replace(/ You should say:$/, "")}`,
         bullets: diskussion
-          ? ["Nehmen Sie klar Stellung.", "Nennen Sie zwei Argumente.", "Gehen Sie auf den Einwand Ihres Gegenübers ein.", "Fassen Sie Ihre Position am Ende zusammen."]
-          : [...p.beschreibung, ...p.kurzvortrag.points],
-        href: "/sprechen-b1b2",
-        hrefLabel: "im Kurzvortrag-Trainer",
+          ? ["Say clearly what you think.", "Give two reasons, each with an example.", "Answer the other person's objection.", "Sum up your position at the end."]
+          // The card's points read on from "You should say:"; as bullets of their own they
+          // start with a capital and drop the "and" before the last one.
+          : [...p.beschreibung, ...p.kurzvortrag.points.map(cardPoint)],
+        href: "/speaking-b1-b2",
+        hrefLabel: "in the long-turn trainer",
       };
     }
     default:

@@ -1,4 +1,4 @@
-// The clock of a lesson session (/lehrkraefte/unterricht): pure functions, no DOM, no
+// The clock of a lesson session (/teachers/lesson): pure functions, no DOM, no
 // Supabase, every one takes `now` (ms) so the tests can drive time by hand.
 //
 // Time comes from timestamps, never from counting ticks. A state is
@@ -177,4 +177,4 @@ export function mmss(t) {
 }
 
 /** Overrun as the bar and the clock say it: "+1 Min." from the first second over. */
-export const overText = (t) => `+${Math.max(1, Math.ceil(t / 60_000))} Min.`;
+export const overText = (t) => `+${Math.max(1, Math.ceil(t / 60_000))} min`;

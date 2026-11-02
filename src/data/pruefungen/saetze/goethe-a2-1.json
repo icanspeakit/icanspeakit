@@ -3,60 +3,431 @@
   "slug": "a2",
   "exam": "goethe",
   "level": "A2",
-  "title": "Übungssatz 1",
+  "title": "Practice set 1",
   "formatRef": "goethe-a2",
-  "origin": "EnglishAcademy — alle Texte, Aufgaben und Hörskripte selbst geschrieben (2026-09-30).",
-  "sourcing": "Aufbau, Aufgabenzahl, Aufgabentypen, Zeiten und Punkte folgen dem Goethe-Zertifikat A2 (Modellsatz Erwachsene, Goethe-Institut). Alle Texte, Aufgaben und Hörtexte hier sind von EnglishAcademy selbst geschrieben; es ist nichts aus einem Goethe-Prüfungssatz übernommen. Die Hörtexte sind mit Sprachsynthese vertont.",
+  "origin": "EnglishAcademy: all texts, tasks and recordings are our own (2026-10-30).",
+  "sourcing": "The structure (papers, parts, number of questions, task types and timings) follows Cambridge English A2 Key as described in the official Information for candidates. All texts, questions and listening scripts here were written by EnglishAcademy; nothing is copied from a Cambridge exam paper. Cambridge English A2 Key is a trademark of, and the exam is © Cambridge University Press & Assessment. The listening scripts are voiced with speech synthesis. Where the real Listening Part 1 uses pictures, we use short text options instead.",
   "scoring": {
     "passPct": 60,
-    "note": "Goethe-Zertifikat A2: Lesen, Hören, Schreiben und Sprechen zählen je höchstens 25 Punkte, zusammen 100. Bestanden hat man ab 60 Punkten. Außerdem braucht man im schriftlichen Teil (Lesen, Hören, Schreiben) mindestens 45 von 75 Punkten und im Sprechen mindestens 15 von 25 Punkten. Die Prüfung wird als Ganzes abgelegt, nicht in einzelnen Modulen."
+    "note": "In the real exam, Reading, Writing, Listening and Speaking each get a score on the Cambridge English Scale, and you get one overall score: 120 or more is a pass at A2 level (140-150 is Grade A, with a certificate at B1). You cannot fail a single paper. The 60 % line is our own guide for this practice set, not an official pass mark."
   },
   "speakers": {
-    "ansage": {
-      "name": "Durchsage",
-      "voice": "de-DE-LouisaNeural"
-    },
-    "radio": {
-      "name": "Radiosprecher",
-      "voice": "de-DE-KlausNeural"
-    },
-    "frau": {
-      "name": "Frau",
-      "voice": "de-DE-KatjaNeural"
-    },
-    "frau2": {
-      "name": "Frau",
-      "voice": "de-DE-AmalaNeural"
-    },
-    "frau3": {
-      "name": "Frau",
-      "voice": "de-DE-TanjaNeural"
-    },
-    "gast": {
-      "name": "Gast",
-      "voice": "de-DE-ElkeNeural"
-    },
-    "mann": {
-      "name": "Mann",
-      "voice": "de-DE-ConradNeural"
-    },
-    "mann2": {
-      "name": "Mann",
-      "voice": "de-DE-KillianNeural"
-    },
-    "mann3": {
-      "name": "Mann",
-      "voice": "de-DE-BerndNeural"
-    },
-    "mod": {
-      "name": "Moderator",
-      "voice": "de-DE-FlorianMultilingualNeural"
-    }
+    "ann": { "name": "Announcer", "voice": "en-GB-ElliotNeural" },
+    "w1": { "name": "Woman", "voice": "en-GB-SoniaNeural" },
+    "w2": { "name": "Woman", "voice": "en-GB-LibbyNeural" },
+    "w3": { "name": "Woman", "voice": "en-GB-HollieNeural" },
+    "w4": { "name": "Woman", "voice": "en-GB-MaisieNeural" },
+    "m1": { "name": "Man", "voice": "en-GB-RyanNeural" },
+    "m2": { "name": "Man", "voice": "en-GB-ThomasNeural" },
+    "m3": { "name": "Man", "voice": "en-GB-AlfieNeural" }
   },
   "modules": [
     {
-      "key": "lesen",
-      "name": "Lesen",
+      "key": "reading",
+      "name": "Reading",
+      "minutes": 60,
+      "timer": "rw",
+      "timerLabel": "Reading and Writing",
+      "parts": [
+        {
+          "key": "r1",
+          "teil": 1,
+          "type": "mc",
+          "points": 1,
+          "title": "Notices, signs and messages",
+          "instruction": "Read the six short texts and questions 1-6. For each question, choose the correct answer: A, B or C.",
+          "texts": [
+            {
+              "id": "r1-t1",
+              "kind": "notice",
+              "label": "Text 1",
+              "title": "Hartley Library",
+              "paras": [
+                "Closed on Mondays.",
+                "If you need to return books, please use the box by the main door. Late books cost 20p a day."
+              ]
+            },
+            {
+              "id": "r1-t2",
+              "kind": "message",
+              "label": "Text 2",
+              "title": "Message from Tom to Amira",
+              "paras": [
+                "Hi Amira, I'm at the station but the 5.15 train has been cancelled. The next one is at 5.45, so I'll be late for dinner. Please start without me! Tom"
+              ]
+            },
+            {
+              "id": "r1-t3",
+              "kind": "notice",
+              "label": "Text 3",
+              "title": "Summer Sale",
+              "paras": [
+                "T-shirts and shorts: £5",
+                "Jeans: £10",
+                "Sale ends on Sunday."
+              ]
+            },
+            {
+              "id": "r1-t4",
+              "kind": "email",
+              "label": "Text 4",
+              "title": "Email from Greenfield Sports Centre",
+              "paras": [
+                "Dear members, the swimming pool will be closed from 3 to 7 June for cleaning. The gym and the café will stay open as usual. Sorry for any problems."
+              ]
+            },
+            {
+              "id": "r1-t5",
+              "kind": "message",
+              "label": "Text 5",
+              "title": "Note from Zofia to Kwame",
+              "paras": [
+                "Hi Kwame, a parcel came for you this morning and I took it. I'm out until six, but my husband is at home all day. Just knock on the door of number 14. Zofia"
+              ]
+            },
+            {
+              "id": "r1-t6",
+              "kind": "notice",
+              "label": "Text 6",
+              "title": "Park Café",
+              "paras": [
+                "Dogs are welcome in our garden.",
+                "Dogs are not allowed inside the café."
+              ]
+            }
+          ],
+          "items": [
+            {
+              "id": "r1-1",
+              "text": "r1-t1",
+              "question": "What can you do when the library is closed?",
+              "options": [
+                "Pay for late books.",
+                "Put books in the box by the door.",
+                "Take books out of the box."
+              ],
+              "correct": 1,
+              "why": "The notice says to use the box by the main door to return books."
+            },
+            {
+              "id": "r1-2",
+              "text": "r1-t2",
+              "question": "Why is Tom writing to Amira?",
+              "options": [
+                "To say that he will be late.",
+                "To ask her to meet him at the station.",
+                "To cancel the dinner."
+              ],
+              "correct": 0,
+              "why": "His train was cancelled, so he will be late for dinner."
+            },
+            {
+              "id": "r1-3",
+              "text": "r1-t3",
+              "question": "How much are jeans in the sale?",
+              "options": ["£5", "£10", "£15"],
+              "correct": 1,
+              "why": "The notice says: Jeans: £10."
+            },
+            {
+              "id": "r1-4",
+              "text": "r1-t4",
+              "question": "What can members do between 3 and 7 June?",
+              "options": [
+                "Swim in the morning.",
+                "Use the gym.",
+                "Have a free coffee."
+              ],
+              "correct": 1,
+              "why": "Only the pool is closed; the gym stays open as usual."
+            },
+            {
+              "id": "r1-5",
+              "text": "r1-t5",
+              "question": "What should Kwame do?",
+              "options": [
+                "Go to number 14 to get his parcel.",
+                "Wait until six o'clock to collect it.",
+                "Take the parcel to the post office."
+              ],
+              "correct": 0,
+              "why": "Zofia's husband is at home all day, so Kwame can knock on the door of number 14."
+            },
+            {
+              "id": "r1-6",
+              "text": "r1-t6",
+              "question": "Where can people take their dogs?",
+              "options": [
+                "Into the garden and the café.",
+                "Into the garden, but not into the café.",
+                "Into the café, but not into the garden."
+              ],
+              "correct": 1,
+              "why": "Dogs are welcome in the garden but not allowed inside the café."
+            }
+          ]
+        },
+        {
+          "key": "r2",
+          "teil": 2,
+          "type": "match",
+          "allowReuse": true,
+          "points": 1,
+          "title": "Three people, one topic",
+          "instruction": "Read the three texts about learning a musical instrument and questions 7-13. For each question, choose the correct answer: A, B or C. You can choose any letter more than once.",
+          "pool": {
+            "a": {
+              "title": "A - Priya",
+              "body": "I started playing the piano two years ago, when I was 28. I have a lesson every Thursday evening with a teacher who comes to my flat, and I practise for twenty minutes every morning before work. My neighbours don't mind because I use headphones with my electric piano. My dream is to play at my sister's wedding next year."
+            },
+            "b": {
+              "title": "B - Liam",
+              "body": "My grandfather gave me his old guitar when I was ten, so I learnt from videos online. I don't have lessons. I play in a small band with three friends from work, and we practise every Sunday in Dan's garage. We have never played for an audience, but we are going to play in a café next month. I'm a bit nervous!"
+            },
+            "c": {
+              "title": "C - Mei",
+              "body": "I have played the violin since I was six. Now I teach it to children after school. I like teaching, but my favourite thing is the orchestra in our town, where I play every Tuesday. We give four concerts a year. I don't practise much at home because I'm too tired after work."
+            }
+          },
+          "items": [
+            { "id": "r2-1", "prompt": "Who was given an instrument by a relative?", "correct": "b" },
+            { "id": "r2-2", "prompt": "Who practises every morning?", "correct": "a" },
+            { "id": "r2-3", "prompt": "Who teaches children?", "correct": "c" },
+            { "id": "r2-4", "prompt": "Who will play in front of people for the first time soon?", "correct": "b" },
+            { "id": "r2-5", "prompt": "Who would like to play at a family event?", "correct": "a" },
+            { "id": "r2-6", "prompt": "Who is often too tired to practise at home?", "correct": "c" },
+            { "id": "r2-7", "prompt": "Who uses headphones so the neighbours can't hear?", "correct": "a" }
+          ]
+        },
+        {
+          "key": "r3",
+          "teil": 3,
+          "type": "mc",
+          "points": 1,
+          "title": "A magazine article",
+          "instruction": "Read the article about a baker and questions 14-18. For each question, choose the correct answer: A, B or C.",
+          "texts": [
+            {
+              "id": "r3-article",
+              "kind": "article",
+              "label": "Magazine",
+              "title": "From teacher to baker",
+              "paras": [
+                "Hannah Cole was a primary school teacher for eight years. She liked her job, but she was always tired and had little time for her hobby, baking. 'Every Sunday I made bread and cakes for my family and neighbours,' she says. 'One day my neighbour said, You should sell these! I laughed, but I couldn't stop thinking about it.'",
+                "Last spring, Hannah left the school and rented a small shop in the centre of Whitby. She painted the walls yellow herself, and her brother built the shelves. The bakery opened in May, and on the first day she sold all her bread by ten o'clock.",
+                "Now Hannah gets up at four every morning. She bakes until seven, and then her helper, a student called Ravi, arrives to serve the customers. The bakery is open from eight to four, Tuesday to Saturday. 'Some people think I'm crazy,' says Hannah. 'I work longer hours than before, and I earn less money. But I'm much happier.'",
+                "Her most popular product is a cheese and onion loaf. Hannah's next idea is a small café with tables outside, where customers can eat cake and drink tea. 'I'd like to do it one day,' she says. 'First I need to find more space.'"
+              ]
+            }
+          ],
+          "items": [
+            {
+              "id": "r3-1",
+              "text": "r3-article",
+              "question": "Before she opened the bakery, Hannah",
+              "options": [
+                "sold cakes to her neighbours.",
+                "worked in a school.",
+                "ran a café."
+              ],
+              "correct": 1,
+              "why": "She was a primary school teacher for eight years."
+            },
+            {
+              "id": "r3-2",
+              "text": "r3-article",
+              "question": "Who built the shelves in the shop?",
+              "options": ["Hannah", "Hannah's brother", "Ravi"],
+              "correct": 1,
+              "why": "Hannah painted the walls herself, and her brother built the shelves."
+            },
+            {
+              "id": "r3-3",
+              "text": "r3-article",
+              "question": "What happened on the first day?",
+              "options": [
+                "Hannah sold all her bread early.",
+                "Hardly any customers came.",
+                "Hannah closed the shop at ten o'clock."
+              ],
+              "correct": 0,
+              "why": "She sold all her bread by ten o'clock."
+            },
+            {
+              "id": "r3-4",
+              "text": "r3-article",
+              "question": "What does Hannah say about her new life?",
+              "options": [
+                "She earns more money than before.",
+                "She works more hours but is happier.",
+                "She is less happy than before."
+              ],
+              "correct": 1,
+              "why": "She works longer hours and earns less, but she is much happier."
+            },
+            {
+              "id": "r3-5",
+              "text": "r3-article",
+              "question": "What would Hannah like to do in the future?",
+              "options": [
+                "Sell her bread in other towns.",
+                "Open a café with tables outside.",
+                "Employ more students."
+              ],
+              "correct": 1,
+              "why": "Her next idea is a small café with tables outside."
+            }
+          ]
+        },
+        {
+          "key": "r4",
+          "teil": 4,
+          "type": "gap-mc",
+          "points": 1,
+          "title": "Choose the missing word",
+          "instruction": "Read the email and choose the correct word for each space (questions 19-24). For each question, choose the correct answer: A, B or C.",
+          "textTitle": "An email from Amira",
+          "segments": [
+            { "t": "Hi Zofia," },
+            { "br": true },
+            { "t": "Greetings from Edinburgh! We " },
+            { "gap": "r4-1" },
+            { "t": " in Edinburgh on Friday evening, and the weather has been lovely so " },
+            { "gap": "r4-2" },
+            { "t": ". Yesterday we walked up a big hill called Arthur's Seat. The " },
+            { "gap": "r4-3" },
+            { "t": " from the top was amazing! In the afternoon we " },
+            { "gap": "r4-4" },
+            { "t": " a bus tour round the city. Tom wanted to see the castle, but it was " },
+            { "gap": "r4-5" },
+            { "t": " when we got there, so we'll go tomorrow." },
+            { "br": true },
+            { "t": "Tonight we're having dinner in a small restaurant near our hotel. I hope you and Ravi " },
+            { "gap": "r4-6" },
+            { "t": " well. See you next week!" },
+            { "br": true },
+            { "t": "Love, Amira" }
+          ],
+          "items": [
+            { "id": "r4-1", "options": ["arrived", "reached", "came"], "correct": 0, "why": "We say 'arrive in' a city; 'reached in' and 'came in' do not fit." },
+            { "id": "r4-2", "options": ["far", "well", "late"], "correct": 0, "why": "'So far' means 'until now'." },
+            { "id": "r4-3", "options": ["view", "map", "ticket"], "correct": 0, "why": "You see a view from the top of a hill." },
+            { "id": "r4-4", "options": ["took", "put", "brought"], "correct": 0, "why": "We 'take' a bus tour." },
+            { "id": "r4-5", "options": ["closed", "lost", "ended"], "correct": 0, "why": "A castle can be closed to visitors; it cannot be 'lost' or 'ended'." },
+            { "id": "r4-6", "options": ["are", "is", "be"], "correct": 0, "why": "'You and Ravi' is plural, so we need 'are'." }
+          ]
+        },
+        {
+          "key": "r5",
+          "teil": 5,
+          "type": "write-in",
+          "points": 1,
+          "title": "Write the missing word",
+          "instruction": "Read the email and write ONE word for each space (questions 25-30).",
+          "textTitle": "An email from Tara",
+          "segments": [
+            { "t": "Hi Kwame," },
+            { "br": true },
+            { "t": "Thanks " },
+            { "gap": "r5-1" },
+            { "t": " your message. I'm really glad you can come to my birthday party on Saturday! It starts " },
+            { "gap": "r5-2" },
+            { "t": " seven o'clock. You can come by train, but it is easier " },
+            { "gap": "r5-3" },
+            { "t": " take the bus. The number 12 stops " },
+            { "gap": "r5-4" },
+            { "t": " front of my building." },
+            { "br": true },
+            { "gap": "r5-5" },
+            { "t": " will be about twenty people, so it will be a big party. I hope " },
+            { "gap": "r5-6" },
+            { "t": " like pizza, because we are ordering a lot!" },
+            { "br": true },
+            { "t": "See you on Saturday," },
+            { "br": true },
+            { "t": "Tara" }
+          ],
+          "items": [
+            { "id": "r5-1", "accept": ["for"], "answer": "for", "why": "'Thanks for' + noun." },
+            { "id": "r5-2", "accept": ["at"], "answer": "at", "why": "We use 'at' with clock times." },
+            { "id": "r5-3", "accept": ["to"], "answer": "to", "why": "'It is easier to + verb'." },
+            { "id": "r5-4", "accept": ["in"], "answer": "in", "why": "The fixed phrase is 'in front of'." },
+            { "id": "r5-5", "accept": ["there"], "answer": "There", "why": "'There will be' says that something exists." },
+            { "id": "r5-6", "accept": ["you"], "answer": "you", "why": "'I hope you like pizza' - the subject is 'you'." }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "writing",
+      "name": "Writing",
+      "minutes": 60,
+      "timer": "rw",
+      "timerLabel": "Reading and Writing",
+      "parts": [
+        {
+          "key": "w6",
+          "teil": 6,
+          "type": "schreiben",
+          "title": "Write an email",
+          "instruction": "Question 1. Read the situation and write your email. Write 25 words or more. Write about all three things.",
+          "tasks": [
+            {
+              "id": "w6-1",
+              "title": "Question 1 · Email to a friend",
+              "minutes": 15,
+              "words": 25,
+              "situation": "Your English friend Alex has invited you to stay with him next weekend.",
+              "prompt": "Write an email to Alex.",
+              "points": [
+                "Say when you can arrive.",
+                "Say what you would like to do.",
+                "Ask what clothes to bring."
+              ],
+              "model": "Hi Alex,\nThank you for inviting me! I can arrive on Saturday at about ten o'clock. I would like to visit the new museum and then have lunch in the park. What clothes should I bring?\nSee you soon,\nMei",
+              "checklist": [
+                "Content: all three points are covered - when you can arrive, what you would like to do, and a question about clothes.",
+                "Organisation: a greeting (Hi Alex), short clear sentences and a closing (See you soon / Love).",
+                "Language: simple correct sentences; 'I can ...', 'I would like to ...' and a question with 'What ... should I ...?'",
+                "Length: 25 words or more. Writing about only one or two points loses marks for content."
+              ]
+            }
+          ]
+        },
+        {
+          "key": "w7",
+          "teil": 7,
+          "type": "schreiben",
+          "title": "Write a story",
+          "instruction": "Question 2. Look at the three pictures (described below) and write the story. Write 35 words or more.",
+          "tasks": [
+            {
+              "id": "w7-1",
+              "title": "Question 2 · Picture story",
+              "minutes": 15,
+              "words": 35,
+              "situation": "Picture 1: It is raining. A woman called Maya is waiting at a bus stop with an umbrella. She looks cold and unhappy.\nPicture 2: A car stops next to the bus stop. Maya's friend Ben is driving. He opens the door for her.\nPicture 3: Maya and Ben are in the car. They are laughing. A cinema is in front of them.",
+              "prompt": "Write the story shown in the three pictures.",
+              "points": [
+                "Say what is happening in picture 1.",
+                "Say what is happening in picture 2.",
+                "Say how the story ends in picture 3."
+              ],
+              "model": "It was raining and Maya was waiting at the bus stop. She was cold and wet. Then she saw her friend Ben in his car. He stopped and opened the door for her. Now Maya and Ben are driving to the cinema and they are laughing.",
+              "checklist": [
+                "Content: the story covers all three pictures in the right order.",
+                "Organisation: simple linking words (then, and, but, now) so the sentences form a story.",
+                "Language: past tenses (was waiting, saw, stopped) or present tenses used consistently; weather and travel words.",
+                "Length: 35 words or more."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "listening",
+      "name": "Listening",
       "minutes": 30,
       "parts": [
         {
@@ -64,154 +435,86 @@
           "teil": 1,
           "type": "mc",
           "points": 1,
-          "title": "Einen Zeitungsartikel lesen",
-          "instruction": "Lies den Text aus der Zeitung und die Aufgaben 1 bis 5. Wähle bei jeder Aufgabe die richtige Lösung a, b oder c.",
-          "texts": [
+          "title": "Five short recordings",
+          "instruction": "Questions 1-5. You will hear five short recordings. You will hear each recording twice. For each question, choose the correct answer: A, B or C. (The real exam uses pictures here; we use short text options instead.)",
+          "clips": [
             {
-              "id": "l1-artikel",
-              "kind": "artikel",
-              "label": "Zeitung",
-              "title": "Wieder einkaufen im Dorf: der neue Laden in Hollerbach",
-              "paras": [
-                "Drei Jahre lang gab es in Hollerbach, einem kleinen Dorf in Oberösterreich, kein Geschäft. Wer Brot oder Milch brauchte, musste mit dem Auto in die nächste Stadt fahren. Das sind zwölf Kilometer. Für viele ältere Menschen im Dorf war das ein großes Problem.",
-                "Dann hatte Maria Leitner eine Idee. Die 34-Jährige hat früher als Verkäuferin in einem Supermarkt gearbeitet. „Ich habe gedacht: Warum machen wir nicht selbst einen Laden?“, erzählt sie. Sie hat mit den Nachbarn gesprochen, und 120 Familien haben Geld gegeben. Im alten Gasthaus am Kirchplatz war genug Platz.",
-                "Seit März ist der Laden offen, von Montag bis Samstag immer vormittags, am Freitag auch am Nachmittag. Es gibt Brot vom Bäcker aus dem Nachbarort, Obst und Gemüse, Eier und Käse von Bauern aus der Region. Maria ist jeden Tag im Laden. Zwölf Frauen und Männer aus dem Dorf helfen ihr – sie bekommen dafür kein Geld.",
-                "In einer Ecke stehen ein Tisch und ein paar Stühle. „Viele kommen nicht nur zum Einkaufen. Sie trinken hier einen Kaffee und erzählen, was es Neues gibt“, sagt Maria. „Das finde ich fast am schönsten.“ Im Sommer möchte sie auch Eis verkaufen."
+              "id": "l1-c1",
+              "title": "Recording 1",
+              "plays": 2,
+              "script": [
+                { "s": "w1", "t": "Shall we go to the cinema tonight? I've checked the website, and the film starts at half past seven, not seven o'clock." },
+                { "s": "m1", "t": "Half past seven is fine. I finish work at six, so there's plenty of time to get there." }
+              ]
+            },
+            {
+              "id": "l1-c2",
+              "title": "Recording 2",
+              "plays": 2,
+              "script": [
+                { "s": "m2", "t": "Hi Amira, it's Tom. It's about tomorrow's trip to the lake. The forecast is good, so you won't need your raincoat. But please bring some sun cream. I'll bring the sandwiches. See you at nine!" }
+              ]
+            },
+            {
+              "id": "l1-c3",
+              "title": "Recording 3",
+              "plays": 2,
+              "script": [
+                { "s": "w2", "t": "Excuse me, do you have these boots in a size six?" },
+                { "s": "m1", "t": "Let me check. I'm sorry, we only have black in size five and size seven. But we do have size six in brown." },
+                { "s": "w2", "t": "Brown is fine, actually. I'll take them." }
+              ]
+            },
+            {
+              "id": "l1-c4",
+              "title": "Recording 4",
+              "plays": 2,
+              "script": [
+                { "s": "ann", "t": "Attention, please. The ten fifteen train to Leeds will now leave from platform six, not platform three. Please go to platform six. The train is running ten minutes late. We are sorry for the delay." }
+              ]
+            },
+            {
+              "id": "l1-c5",
+              "title": "Recording 5",
+              "plays": 2,
+              "script": [
+                { "s": "w3", "t": "Are we still having the barbecue on Saturday?" },
+                { "s": "m3", "t": "Yes. I heard it's going to rain in the morning, but it will be dry and sunny after lunch. So let's start at three." }
               ]
             }
           ],
           "items": [
-            {
-              "id": "ga2-l1-1",
-              "text": "l1-artikel",
-              "question": "Bevor es den Laden gab, …",
-              "options": [
-                "haben die Leute in Hollerbach ihr Essen direkt beim Bauern gekauft.",
-                "mussten die Leute zum Einkaufen in eine andere Stadt fahren.",
-                "ist jeden Tag ein Bus zum Supermarkt gefahren."
-              ],
-              "correct": 1
-            },
-            {
-              "id": "ga2-l1-2",
-              "text": "l1-artikel",
-              "question": "Maria Leitner …",
-              "options": [
-                "hat früher in einem Geschäft gearbeitet.",
-                "hat das alte Gasthaus am Kirchplatz gekauft.",
-                "hat den Laden mit ihrem eigenen Geld bezahlt."
-              ],
-              "correct": 0
-            },
-            {
-              "id": "ga2-l1-3",
-              "text": "l1-artikel",
-              "question": "Im Laden kann man …",
-              "options": [
-                "Brot kaufen, das Maria selbst backt.",
-                "jeden Tag bis zum Abend einkaufen.",
-                "Lebensmittel von Bauern aus der Nähe kaufen."
-              ],
-              "correct": 2
-            },
-            {
-              "id": "ga2-l1-4",
-              "text": "l1-artikel",
-              "question": "Die Helferinnen und Helfer im Laden …",
-              "options": [
-                "arbeiten ohne Bezahlung.",
-                "kommen aus dem Nachbarort.",
-                "arbeiten nur am Freitag."
-              ],
-              "correct": 0
-            },
-            {
-              "id": "ga2-l1-5",
-              "text": "l1-artikel",
-              "question": "Was gefällt Maria besonders gut?",
-              "options": [
-                "Dass sie im Sommer Eis verkaufen kann.",
-                "Dass die Leute im Laden zusammensitzen und sich unterhalten.",
-                "Dass sie jeden Tag im Laden arbeiten kann."
-              ],
-              "correct": 1
-            }
+            { "id": "l1-1", "clip": "l1-c1", "question": "What time does the film start?", "options": ["7.00", "7.30", "6.00"], "correct": 1, "why": "The woman says half past seven, not seven o'clock." },
+            { "id": "l1-2", "clip": "l1-c2", "question": "What must Amira bring?", "options": ["A raincoat", "Sun cream", "Sandwiches"], "correct": 1, "why": "Tom says she won't need a raincoat, he will bring the sandwiches, and she should bring sun cream." },
+            { "id": "l1-3", "clip": "l1-c3", "question": "Which boots does the woman buy?", "options": ["Black boots, size seven", "Brown boots, size six", "Black boots, size five"], "correct": 1, "why": "The only size six is brown, and she says she will take them." },
+            { "id": "l1-4", "clip": "l1-c4", "question": "Which platform does the Leeds train leave from?", "options": ["Platform 3", "Platform 6", "Platform 10"], "correct": 1, "why": "It leaves from platform six, not platform three. Ten is the number of minutes it is late." },
+            { "id": "l1-5", "clip": "l1-c5", "question": "When will the weather be good on Saturday?", "options": ["In the morning", "In the afternoon", "All day"], "correct": 1, "why": "It rains in the morning but is dry and sunny after lunch." }
           ]
         },
         {
           "key": "l2",
           "teil": 2,
-          "type": "mc",
+          "type": "write-in",
           "points": 1,
-          "title": "Eine Informationstafel lesen",
-          "instruction": "Du bist im Einkaufszentrum „Löwenhof“. Lies die Aufgaben 6 bis 10 und den Wegweiser. In welches Stockwerk gehst du? Wähle bei jeder Aufgabe die richtige Lösung a, b oder c.",
-          "texts": [
+          "title": "Complete the notes",
+          "instruction": "Questions 6-10. You will hear a woman leaving a message about a pottery class. For each question, write the correct answer in the gap. Write ONE word or a number or a date or a time. You will hear the recording twice.",
+          "clips": [
             {
-              "id": "l2-tafel",
-              "kind": "anzeige",
-              "label": "Wegweiser",
-              "title": "Einkaufszentrum Löwenhof",
-              "paras": [
-                "3. Stock: Restaurant „Panorama“ mit Terrasse · Spielecke für Kinder (3 bis 8 Jahre) · Kundenservice und Fundbüro · Toiletten und Wickelraum",
-                "2. Stock: Sport und Freizeit · Fahrräder und Zubehör · Koffer und Taschen · Spielwaren · Bastel- und Malbedarf",
-                "1. Stock: Damenmode · Herrenmode · Kindermode · Schuhe und Strümpfe · Friseursalon „Schnittpunkt“ (auch ohne Termin)",
-                "Erdgeschoss: Information · Parfümerie · Uhren und Schmuck · Bücher und Zeitschriften · Blumen Hofer · Apotheke · Eiscafé",
-                "Untergeschoss: Supermarkt · Getränke · Bäckerei · Haushaltswaren · Elektro (Handys, Computer, Fernseher) · Schlüsseldienst",
-                "Öffnungszeiten: Montag bis Samstag 9 bis 20 Uhr. Parkhaus: Einfahrt Bahnhofstraße, die erste Stunde ist kostenlos."
+              "id": "l2-c1",
+              "title": "Voicemail · Pottery class",
+              "plays": 2,
+              "script": [
+                { "s": "w3", "t": "Hello, this is Karen from Riverside Community Centre. You asked about our pottery class for beginners. There is a Tuesday class, but it's full, so I've put you on the Thursday class instead. It starts on the twelfth of October at seven o'clock in the evening, and it lasts for eight weeks." },
+                { "s": "w3", "t": "The course costs ninety-six pounds, and that includes the clay. The teacher is Mr Okafor. That's O-K-A-F-O-R. Please bring an apron, but you don't need to bring any tools. If you'd like to book, please call me back before Friday. Thank you. Goodbye." }
               ]
             }
           ],
           "items": [
-            {
-              "id": "ga2-l2-1",
-              "question": "Deine Nichte hat morgen Geburtstag. Du möchtest ihr einen Ball und ein Puzzle schenken.",
-              "options": [
-                "Erdgeschoss",
-                "2. Stock",
-                "3. Stock"
-              ],
-              "correct": 1
-            },
-            {
-              "id": "ga2-l2-2",
-              "question": "Du hast gestern beim Essen im Einkaufszentrum deinen Schal liegen lassen.",
-              "options": [
-                "1. Stock",
-                "Untergeschoss",
-                "3. Stock"
-              ],
-              "correct": 2
-            },
-            {
-              "id": "ga2-l2-3",
-              "question": "Du bist bei Freunden zum Abendessen eingeladen und möchtest Rosen mitbringen.",
-              "options": [
-                "Untergeschoss",
-                "Erdgeschoss",
-                "1. Stock"
-              ],
-              "correct": 1
-            },
-            {
-              "id": "ga2-l2-4",
-              "question": "Dein Handy ist kaputt. Du brauchst ein neues.",
-              "options": [
-                "Erdgeschoss",
-                "2. Stock",
-                "Untergeschoss"
-              ],
-              "correct": 2
-            },
-            {
-              "id": "ga2-l2-5",
-              "question": "Deine Haare sind zu lang. Du hast heute Nachmittag Zeit, aber keinen Termin.",
-              "options": [
-                "1. Stock",
-                "Erdgeschoss",
-                "3. Stock"
-              ],
-              "correct": 0
-            }
+            { "id": "l2-1", "prompt": "Day of class: ____", "accept": ["thursday", "thursdays"], "answer": "Thursday", "why": "Tuesday is full, so she is on the Thursday class." },
+            { "id": "l2-2", "prompt": "Starts at: ____ pm", "accept": ["7", "7pm", "7 pm", "7.00", "7:00", "7.00 pm", "7:00 pm", "seven", "seven o'clock", "19.00", "19:00"], "answer": "7", "why": "The class starts at seven o'clock in the evening." },
+            { "id": "l2-3", "prompt": "Cost: £ ____", "accept": ["96", "£96", "96 pounds", "ninety-six", "ninety six", "ninety-six pounds", "ninety six pounds"], "answer": "96", "why": "The course costs ninety-six pounds." },
+            { "id": "l2-4", "prompt": "Teacher: Mr ____", "accept": ["okafor", "mr okafor"], "answer": "Okafor", "why": "The name is spelt O-K-A-F-O-R." },
+            { "id": "l2-5", "prompt": "Bring: an ____", "accept": ["apron", "an apron"], "answer": "apron", "why": "She says to bring an apron but no tools." }
           ]
         },
         {
@@ -219,833 +522,186 @@
           "teil": 3,
           "type": "mc",
           "points": 1,
-          "title": "Eine E-Mail lesen",
-          "instruction": "Lies die E-Mail und die Aufgaben 11 bis 15. Wähle bei jeder Aufgabe die richtige Lösung a, b oder c.",
-          "texts": [
+          "title": "A conversation about a new flat",
+          "instruction": "Questions 11-15. You will hear a conversation between a man, Liam, and a woman, Mei, about her new flat. For each question, choose the correct answer: A, B or C. You will hear the conversation twice.",
+          "clips": [
             {
-              "id": "l3-mail",
-              "kind": "mail",
-              "label": "E-Mail",
-              "title": "Grüße aus Innsbruck",
-              "paras": [
-                "Liebe Jana,",
-                "vielen Dank für deine lange Nachricht und die Fotos von eurer neuen Wohnung! Der Balkon ist wirklich toll. Entschuldige bitte, dass ich erst heute antworte. Ich hatte in den letzten Wochen so viel zu tun.",
-                "Du weißt ja, dass ich seit Anfang September in Innsbruck wohne. Ich arbeite jetzt an der Rezeption in einem Hotel in der Altstadt. Die Arbeit gefällt mir gut, weil ich jeden Tag mit Gästen aus vielen Ländern spreche. Nur die Arbeitszeiten sind nicht so schön: Oft fange ich schon um sechs Uhr morgens an, und jedes zweite Wochenende muss ich arbeiten.",
-                "Am Anfang habe ich bei meiner Kollegin Petra gewohnt. Seit zwei Wochen habe ich endlich ein eigenes Zimmer in einer WG. Ich wohne dort mit zwei Studenten zusammen, Tobias und Mirela. Die beiden sind sehr nett und kochen oft für alle. Dafür putze ich jeden Samstag die Küche – ein guter Tausch, finde ich!",
-                "Innsbruck ist wunderschön. Von meinem Fenster aus sehe ich die Berge. An meinen freien Tagen fahre ich mit dem Rad am Fluss entlang oder gehe wandern. Skifahren kann ich leider noch nicht, aber Tobias will es mir im Winter zeigen.",
-                "Hast du nicht Lust, mich bald zu besuchen? Vom 14. bis zum 17. November habe ich frei. Du kannst in meinem Zimmer schlafen, ich habe eine Luftmatratze. Mit dem Zug bist du von München aus in knapp zwei Stunden hier. Wir könnten zusammen ins Museum gehen und abends in meinem Lieblingslokal Knödel essen.",
-                "Schreib mir bald, ob es dir passt!",
-                "Liebe Grüße",
-                "Aylin"
+              "id": "l3-c1",
+              "title": "Conversation · The new flat",
+              "plays": 2,
+              "script": [
+                { "s": "m1", "t": "Hi Mei! How's the new flat?" },
+                { "s": "w1", "t": "Hi Liam. It's really nice, thanks. I moved in two weeks ago, and I'm still unpacking boxes!" },
+                { "s": "m1", "t": "Is it far from your old place?" },
+                { "s": "w1", "t": "Not really, only about two kilometres. But it's much nearer my office. I used to take two buses to work, and now I can walk there in fifteen minutes." },
+                { "s": "m1", "t": "That's great. And what about the flat itself?" },
+                { "s": "w1", "t": "It has two bedrooms, so I use the small one as an office. There's no garden, but there's a lovely park across the road." },
+                { "s": "m1", "t": "Do you like your neighbours?" },
+                { "s": "w1", "t": "I've only met one so far, an older man called Mr Evans who lives downstairs. He's very friendly. He brought me a cake on the first day!" },
+                { "s": "m1", "t": "How kind! When can I come and see it?" },
+                { "s": "w1", "t": "How about this Saturday? I'm having a small party in the evening, but you could come in the afternoon and help me put up some shelves." },
+                { "s": "m1", "t": "Sure, I'm free after two o'clock. Shall I bring my tools?" },
+                { "s": "w1", "t": "Yes, please. That would be brilliant. I only have a very small screwdriver." }
               ]
             }
           ],
           "items": [
-            {
-              "id": "ga2-l3-1",
-              "text": "l3-mail",
-              "question": "Aylin antwortet erst jetzt, weil …",
-              "options": [
-                "sie sehr viel Arbeit hatte.",
-                "sie Janas Nachricht nicht bekommen hat.",
-                "sie krank war."
-              ],
-              "correct": 0
-            },
-            {
-              "id": "ga2-l3-2",
-              "text": "l3-mail",
-              "question": "Was schreibt Aylin über ihre Arbeit?",
-              "options": [
-                "Sie muss nie am Wochenende arbeiten.",
-                "Sie findet die Arbeitszeiten nicht gut.",
-                "Sie hat nur wenig Kontakt mit Gästen."
-              ],
-              "correct": 1
-            },
-            {
-              "id": "ga2-l3-3",
-              "text": "l3-mail",
-              "question": "Wo wohnt Aylin jetzt?",
-              "options": [
-                "Bei ihrer Kollegin Petra.",
-                "Allein in einer kleinen Wohnung.",
-                "Zusammen mit zwei anderen Personen."
-              ],
-              "correct": 2
-            },
-            {
-              "id": "ga2-l3-4",
-              "text": "l3-mail",
-              "question": "In der WG …",
-              "options": [
-                "kocht Aylin am Samstag für alle.",
-                "macht Aylin einmal pro Woche die Küche sauber.",
-                "putzen alle zusammen am Wochenende."
-              ],
-              "correct": 1
-            },
-            {
-              "id": "ga2-l3-5",
-              "text": "l3-mail",
-              "question": "Aylin möchte, dass Jana …",
-              "options": [
-                "im November nach Innsbruck kommt.",
-                "im Winter mit ihr Ski fahren lernt.",
-                "eine Luftmatratze mitbringt."
-              ],
-              "correct": 0
-            }
+            { "id": "l3-1", "question": "How long has Mei lived in the flat?", "options": ["Two days", "Two weeks", "Two months"], "correct": 1, "why": "She moved in two weeks ago." },
+            { "id": "l3-2", "question": "How does Mei go to work now?", "options": ["By bus", "By car", "On foot"], "correct": 2, "why": "She used to take two buses, but now she walks in fifteen minutes." },
+            { "id": "l3-3", "question": "What does Mei use the small bedroom for?", "options": ["A guest room", "An office", "A storeroom"], "correct": 1, "why": "She says she uses the small one as an office." },
+            { "id": "l3-4", "question": "What does Mei say about Mr Evans?", "options": ["He gave her a cake.", "He lives upstairs.", "He is very noisy."], "correct": 0, "why": "He brought her a cake on the first day; he lives downstairs." },
+            { "id": "l3-5", "question": "What will Liam do on Saturday?", "options": ["Cook for the party", "Help Mei with some shelves", "Meet Mr Evans"], "correct": 1, "why": "He will come in the afternoon with his tools to help put up shelves." }
           ]
         },
         {
           "key": "l4",
           "teil": 4,
-          "type": "match",
-          "points": 1,
-          "title": "Anzeigen zuordnen",
-          "instruction": "Sechs Personen suchen im Internet nach Angeboten. Lies die Situationen 16 bis 20 und die Anzeigen a bis f. Welche Anzeige passt zu welcher Person? Jede Anzeige passt nur einmal. Beispiel: 0 – Familie Gruber möchte am Sonntag mit den Kindern etwas draußen machen. Lösung: Anzeige b. Die Anzeige aus dem Beispiel passt zu keiner anderen Situation.",
-          "pool": {
-            "a": {
-              "title": "Gitarrenunterricht",
-              "body": "Ich bin Musikstudentin und gebe Gitarrenunterricht bei Ihnen zu Hause – für Anfänger, auch für Kinder ab 8 Jahren. 45 Minuten kosten 20 Euro, die erste Stunde ist kostenlos. Anruf oder SMS: 0176 553 19 02."
-            },
-            "b": {
-              "title": "Radtour am See",
-              "body": "Wir fahren am Sonntag gemütlich 30 Kilometer um den Mondsee, mit Pause im Gasthaus. Für Kinder gibt es Leihräder und Helme. Treffpunkt: 10 Uhr am Bahnhof. Die Teilnahme ist kostenlos, eine Anmeldung ist nicht nötig."
-            },
-            "c": {
-              "title": "Zimmer frei ab 1. November",
-              "body": "Helles, möbliertes Zimmer (14 m²) in ruhiger Wohnung in Linz, 10 Minuten zur Universität. Internet und Waschmaschine vorhanden. 390 Euro im Monat mit Heizung. Nur für Nichtraucher. Tel. 0732 48 11 67."
-            },
-            "d": {
-              "title": "Alles fürs Baby",
-              "body": "Wir verkaufen einen Kinderwagen (1 Jahr alt), einen Autositz und viele Kleider für Babys bis 12 Monate. Alles ist sehr gut erhalten und kostet zusammen nur 150 Euro. Abholen in Graz-Liebenau."
-            },
-            "e": {
-              "title": "Mittagstisch im Pfarrzentrum",
-              "body": "Jeden Mittwoch kochen wir für Seniorinnen und Senioren ein warmes Mittagessen: Suppe, Hauptgericht und Nachtisch für 6 Euro. Man isst gemeinsam an großen Tischen. Wer nicht gut gehen kann, wird mit dem Auto abgeholt."
-            },
-            "f": {
-              "title": "Deutsch im Café",
-              "body": "Du lernst Deutsch und möchtest mehr sprechen? Jeden Donnerstagabend treffen wir uns im Café Mondschein und reden über alles, was uns interessiert. Kein Kurs, keine Lehrer, keine Kosten – komm einfach vorbei!"
-            }
-          },
-          "items": [
-            {
-              "id": "ga2-l4-1",
-              "prompt": "Herr Pichler ist 78 Jahre alt und wohnt allein. Er kocht nicht gern und möchte einmal pro Woche mit anderen Leuten essen.",
-              "correct": "e"
-            },
-            {
-              "id": "ga2-l4-2",
-              "prompt": "Nadia lernt seit vier Monaten Deutsch. Sie möchte mit anderen üben, aber keinen Kurs bezahlen.",
-              "correct": "f"
-            },
-            {
-              "id": "ga2-l4-3",
-              "prompt": "Tomasz beginnt im Herbst sein Studium und sucht eine Unterkunft.",
-              "correct": "c"
-            },
-            {
-              "id": "ga2-l4-4",
-              "prompt": "Frau Berger bekommt im Frühling ein Kind. Sie hat nicht viel Geld für neue Sachen.",
-              "correct": "d"
-            },
-            {
-              "id": "ga2-l4-5",
-              "prompt": "Der Sohn von Herrn Adeyemi ist zehn und möchte ein Instrument lernen.",
-              "correct": "a"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "key": "hoeren",
-      "name": "Hören",
-      "minutes": 30,
-      "parts": [
-        {
-          "key": "h1",
-          "teil": 1,
           "type": "mc",
           "points": 1,
-          "title": "Kurze Texte: Nachrichten und Durchsagen",
-          "instruction": "Du hörst fünf kurze Texte. Du hörst jeden Text zweimal. Wähle bei den Aufgaben 1 bis 5 die richtige Lösung a, b oder c. Lies zuerst die Aufgabe, dann hörst du den Text.",
+          "title": "Five short conversations and messages",
+          "instruction": "Questions 16-20. You will hear five short recordings. For each question, choose the correct answer: A, B or C. You will hear each recording twice.",
           "clips": [
             {
-              "id": "h1-1",
-              "title": "Text 1 · Nachricht auf der Mailbox",
+              "id": "l4-c1",
+              "title": "Recording 1",
               "plays": 2,
-              "names": {
-                "frau": "Sandra"
-              },
               "script": [
-                {
-                  "s": "frau",
-                  "t": "Hallo Kemal, hier ist Sandra. Du, wegen morgen: Wir wollten uns ja um sieben vor dem Kino treffen. Aber Lena hat Geburtstag, und wir gehen vorher alle zusammen eine Pizza essen. Kannst du schon um halb sieben kommen? Die Pizzeria ist direkt neben dem Kino. Der Film fängt dann um acht an, wie geplant. Bis morgen, tschüss!"
-                }
+                { "s": "w4", "t": "Hello, Mr Singh, this is Bella at Parkside Dental Practice. Dr Hughes is ill on Wednesday, so we can't see you at three o'clock. Could you come on Thursday at the same time instead? Please call us back on 01632 960 331 to say if that's all right. Thank you." }
               ]
             },
             {
-              "id": "h1-2",
-              "title": "Text 2 · Durchsage am Bahnhof",
+              "id": "l4-c2",
+              "title": "Recording 2",
               "plays": 2,
               "script": [
-                {
-                  "s": "ansage",
-                  "t": "Achtung an Gleis vier: Der Regionalexpress nach Salzburg, Abfahrt vierzehn Uhr zwölf, fährt heute von Gleis sieben. Ich wiederhole: Der Regionalexpress nach Salzburg fährt heute von Gleis sieben. Der Zug hat etwa zehn Minuten Verspätung. Wir bitten um Entschuldigung."
-                }
+                { "s": "m2", "t": "Good evening. Do you have a table for two, please?" },
+                { "s": "w2", "t": "I have one outside now, but it's a bit cold. Or I can give you a table by the window in about ten minutes." },
+                { "s": "m2", "t": "It's too cold outside. We'll wait for the table by the window, thank you." }
               ]
             },
             {
-              "id": "h1-3",
-              "title": "Text 3 · Wetter im Radio",
+              "id": "l4-c3",
+              "title": "Recording 3",
               "plays": 2,
               "script": [
-                {
-                  "s": "radio",
-                  "t": "Und jetzt noch das Wetter für das Wochenende. Am Samstagvormittag regnet es noch im ganzen Land, ab Mittag kommt dann im Westen die Sonne. Im Osten bleibt es den ganzen Tag bewölkt, bei vierzehn bis achtzehn Grad. Am Sonntag wird es dann überall schön: Es bleibt trocken, und die Temperaturen steigen auf zweiundzwanzig Grad."
-                }
+                { "s": "m3", "t": "Good morning, everyone. A quick reminder about tomorrow's trip to the museum. The coach will leave at half past eight, not at nine as it said in the letter. Please bring a packed lunch and wear comfortable shoes. You don't need any money, because the museum is free." }
               ]
             },
             {
-              "id": "h1-4",
-              "title": "Text 4 · Durchsage im Supermarkt",
+              "id": "l4-c4",
+              "title": "Recording 4",
               "plays": 2,
               "script": [
-                {
-                  "s": "ansage",
-                  "t": "Liebe Kundinnen und Kunden, nur heute bei uns: Alle Äpfel und Birnen aus der Region kosten die Hälfte! Und an unserer Brottheke bekommen Sie ab sechzehn Uhr jedes Brot für nur einen Euro. Bitte beachten Sie: Wegen einer Betriebsfeier schließen wir heute schon um achtzehn Uhr. Vielen Dank für Ihren Einkauf."
-                }
+                { "s": "w1", "t": "Did you watch the football last night?" },
+                { "s": "m1", "t": "Yes, but I didn't enjoy the first half. Nothing happened. The last twenty minutes were really exciting, though." }
               ]
             },
             {
-              "id": "h1-5",
-              "title": "Text 5 · Nachricht auf dem Anrufbeantworter",
+              "id": "l4-c5",
+              "title": "Recording 5",
               "plays": 2,
-              "names": {
-                "mann3": "Volkshochschule"
-              },
               "script": [
-                {
-                  "s": "mann3",
-                  "t": "Guten Tag, Frau Hoxha, hier ist die Volkshochschule, Anmeldung, Herr Wendt. Es geht um Ihren Deutschkurs A zwei. Der Kurs beginnt nicht am Montag, sondern erst am Mittwoch, und wir sind in einem anderen Raum: Raum zweihundertvierzehn im zweiten Stock. Bitte bringen Sie am ersten Tag Ihr Kursbuch mit. Sie müssen uns nicht zurückrufen. Auf Wiederhören!"
-                }
+                { "s": "w3", "t": "Hi Ravi, it's me. Sorry, I'm going to be about twenty minutes late. It's not the bus, I caught that one. There's been an accident on the High Street and the traffic isn't moving. Please start without me." }
               ]
             }
           ],
           "items": [
-            {
-              "id": "ga2-h1-1",
-              "clip": "h1-1",
-              "question": "Wann soll Kemal morgen kommen?",
-              "options": [
-                "Um sieben Uhr.",
-                "Um halb sieben.",
-                "Um acht Uhr."
-              ],
-              "correct": 1
-            },
-            {
-              "id": "ga2-h1-2",
-              "clip": "h1-2",
-              "question": "Von welchem Gleis fährt der Zug nach Salzburg heute ab?",
-              "options": [
-                "Von Gleis 4.",
-                "Von Gleis 10.",
-                "Von Gleis 7."
-              ],
-              "correct": 2
-            },
-            {
-              "id": "ga2-h1-3",
-              "clip": "h1-3",
-              "question": "Wie wird das Wetter am Sonntag?",
-              "options": [
-                "Am Vormittag regnet es.",
-                "Es ist warm und trocken.",
-                "Im Osten bleibt es bewölkt."
-              ],
-              "correct": 1
-            },
-            {
-              "id": "ga2-h1-4",
-              "clip": "h1-4",
-              "question": "Was kostet heute nur die Hälfte?",
-              "options": [
-                "Obst.",
-                "Brot.",
-                "Getränke."
-              ],
-              "correct": 0
-            },
-            {
-              "id": "ga2-h1-5",
-              "clip": "h1-5",
-              "question": "Was soll Frau Hoxha tun?",
-              "options": [
-                "Am Montag in die Volkshochschule kommen.",
-                "Die Volkshochschule zurückrufen.",
-                "Ihr Buch in den Kurs mitbringen."
-              ],
-              "correct": 2
-            }
+            { "id": "l4-1", "clip": "l4-c1", "question": "What is the message about?", "options": ["A bill", "A changed appointment", "A new dentist"], "correct": 1, "why": "The practice asks him to come on Thursday instead of Wednesday." },
+            { "id": "l4-2", "clip": "l4-c2", "question": "What does the man decide to do?", "options": ["Sit outside", "Wait for a table by the window", "Come back tomorrow"], "correct": 1, "why": "It is too cold outside, so they will wait for the window table." },
+            { "id": "l4-3", "clip": "l4-c3", "question": "What does the speaker tell the students about the trip?", "options": ["It will start earlier than planned.", "It will cost more than planned.", "It has been cancelled."], "correct": 0, "why": "The coach leaves at half past eight, not at nine." },
+            { "id": "l4-4", "clip": "l4-c4", "question": "What does the man think of the match?", "options": ["It was boring all the way through.", "It got better at the end.", "It was too long."], "correct": 1, "why": "The first half was dull, but the last twenty minutes were exciting." },
+            { "id": "l4-5", "clip": "l4-c5", "question": "Why will the woman be late?", "options": ["She missed the bus.", "There is a lot of traffic.", "She has lost her keys."], "correct": 1, "why": "She says she caught the bus but the traffic isn't moving after an accident." }
           ]
         },
         {
-          "key": "h2",
-          "teil": 2,
+          "key": "l5",
+          "teil": 5,
           "type": "match",
           "points": 1,
-          "title": "Ein Gespräch verstehen",
-          "instruction": "Du hörst ein Gespräch. Du hörst den Text einmal. Was bringen die Nachbarn zum Hoffest mit? Wähle für die Aufgaben 6 bis 10 einen passenden Buchstaben a bis i. Jeden Buchstaben kannst du nur einmal wählen. Beispiel: 0 – Katharina: Kuchen (c). Lies jetzt die Aufgaben.",
+          "title": "Matching: presents",
+          "instruction": "Questions 21-25. You will hear Kwame and Mei talking about presents for Kwame's family. What present is Kwame giving to each person? For each question, choose the correct letter, A-H. You will hear the conversation twice. There are three letters you do not need.",
           "pool": {
-            "a": "Salat",
-            "b": "Getränke",
-            "c": "Kuchen",
-            "d": "Stühle",
-            "e": "Musikbox",
-            "f": "Grill",
-            "g": "Würstchen",
-            "h": "Teller und Gläser",
-            "i": "Brot"
+            "a": "a scarf",
+            "b": "a cookery book",
+            "c": "headphones",
+            "d": "a plant",
+            "e": "a board game",
+            "f": "chocolates",
+            "g": "a watch",
+            "h": "a mug"
           },
           "clips": [
             {
-              "id": "h2-1",
-              "title": "Gespräch · Das Hoffest",
-              "plays": 1,
-              "names": {
-                "frau": "Katharina",
-                "mann2": "Georg"
-              },
-              "script": [
-                {
-                  "s": "mann2",
-                  "t": "Hallo Katharina! Na, ist alles fertig für Samstag?"
-                },
-                {
-                  "s": "frau",
-                  "t": "Hallo Georg! Fast. Ich schreibe gerade die Liste. Also, ich backe zwei Kuchen, das ist klar."
-                },
-                {
-                  "s": "mann2",
-                  "t": "Sehr gut. Und was bringen die anderen mit? Hast du mit allen gesprochen?"
-                },
-                {
-                  "s": "frau",
-                  "t": "Ja, gestern. Frau Weber aus dem ersten Stock wollte zuerst einen Kartoffelsalat machen. Aber Salat bringen schon die Studenten aus dem Dachgeschoss mit. Jetzt kauft Frau Weber die Getränke: Wasser, Saft und ein bisschen Bier."
-                },
-                {
-                  "s": "mann2",
-                  "t": "Prima. Und Herr Yilmaz? Der hat doch so einen großen Grill."
-                },
-                {
-                  "s": "frau",
-                  "t": "Den Grill bringt er leider nicht, er ist am Freitag bei seiner Tochter und kommt erst am Samstagmittag zurück. Aber er leiht uns seine Musikbox. Die ist ganz laut, sagt er."
-                },
-                {
-                  "s": "mann2",
-                  "t": "Ha, gut. Den Grill bringe ich dann. Meiner ist zwar klein, aber das geht schon. Und Familie Novak?"
-                },
-                {
-                  "s": "frau",
-                  "t": "Die bringen Teller und Gläser. Die haben so viel Geschirr, das reicht für alle."
-                },
-                {
-                  "s": "mann2",
-                  "t": "Und Stühle? Im Hof stehen doch nur zwei Bänke."
-                },
-                {
-                  "s": "frau",
-                  "t": "Stimmt. Die Stühle holt Luisa. Sie arbeitet doch im Jugendzentrum, und da gibt es genug im Keller."
-                },
-                {
-                  "s": "mann2",
-                  "t": "Super. Und was ist mit Würstchen und Brot?"
-                },
-                {
-                  "s": "frau",
-                  "t": "Brot kauft Herr Brandl am Samstagmorgen beim Bäcker, ganz frisch. Und Würstchen oder Käse zum Grillen bringt einfach jeder selbst mit."
-                },
-                {
-                  "s": "mann2",
-                  "t": "Gute Idee. Dann freue ich mich auf Samstag!"
-                }
-              ]
-            }
-          ],
-          "items": [
-            {
-              "id": "ga2-h2-1",
-              "clip": "h2-1",
-              "prompt": "Frau Weber",
-              "correct": "b"
-            },
-            {
-              "id": "ga2-h2-2",
-              "clip": "h2-1",
-              "prompt": "Herr Yilmaz",
-              "correct": "e"
-            },
-            {
-              "id": "ga2-h2-3",
-              "clip": "h2-1",
-              "prompt": "Familie Novak",
-              "correct": "h"
-            },
-            {
-              "id": "ga2-h2-4",
-              "clip": "h2-1",
-              "prompt": "Luisa",
-              "correct": "d"
-            },
-            {
-              "id": "ga2-h2-5",
-              "clip": "h2-1",
-              "prompt": "Herr Brandl",
-              "correct": "i"
-            }
-          ]
-        },
-        {
-          "key": "h3",
-          "teil": 3,
-          "type": "mc",
-          "points": 1,
-          "title": "Kurze Gespräche verstehen",
-          "instruction": "Du hörst fünf kurze Gespräche. Du hörst jeden Text einmal. Wähle bei den Aufgaben 11 bis 15 die richtige Lösung a, b oder c.",
-          "clips": [
-            {
-              "id": "h3-1",
-              "title": "Gespräch 1 · Im Büro",
-              "plays": 1,
-              "names": {
-                "frau2": "Kollegin",
-                "mann": "Jan"
-              },
-              "script": [
-                {
-                  "s": "frau2",
-                  "t": "Morgen, Jan! Du bist ja ganz nass!"
-                },
-                {
-                  "s": "mann",
-                  "t": "Ja, ich bin heute mit dem Fahrrad gekommen. Mein Auto ist in der Werkstatt."
-                },
-                {
-                  "s": "frau2",
-                  "t": "Und warum hast du nicht die Straßenbahn genommen?"
-                },
-                {
-                  "s": "mann",
-                  "t": "Die fährt diese Woche nicht, wegen einer Baustelle. Es gibt zwar einen Bus, aber der braucht fast eine Stunde."
-                }
-              ]
-            },
-            {
-              "id": "h3-2",
-              "title": "Gespräch 2 · Am Telefon",
-              "plays": 1,
-              "names": {
-                "frau3": "Praxis",
-                "mann3": "Herr Kovač"
-              },
-              "script": [
-                {
-                  "s": "frau3",
-                  "t": "Praxis Doktor Albrecht, guten Tag."
-                },
-                {
-                  "s": "mann3",
-                  "t": "Guten Tag, hier ist Milan Kovač. Ich brauche einen Termin, ich habe seit drei Tagen Halsschmerzen."
-                },
-                {
-                  "s": "frau3",
-                  "t": "Heute ist leider alles voll. Geht es morgen um neun Uhr?"
-                },
-                {
-                  "s": "mann3",
-                  "t": "Da muss ich arbeiten. Haben Sie auch am Nachmittag etwas frei?"
-                },
-                {
-                  "s": "frau3",
-                  "t": "Morgen Nachmittag ist die Praxis geschlossen. Aber am Donnerstag um Viertel nach drei ist noch ein Termin frei."
-                },
-                {
-                  "s": "mann3",
-                  "t": "Donnerstag passt gut. Den nehme ich."
-                }
-              ]
-            },
-            {
-              "id": "h3-3",
-              "title": "Gespräch 3 · Im Geschäft",
-              "plays": 1,
-              "names": {
-                "mann": "Verkäufer",
-                "frau2": "Kundin"
-              },
-              "script": [
-                {
-                  "s": "mann",
-                  "t": "Guten Tag, kann ich Ihnen helfen?"
-                },
-                {
-                  "s": "frau2",
-                  "t": "Ja, ich suche eine Regenjacke. Die rote hier gefällt mir sehr, aber sie ist mir zu klein. Haben Sie die auch in Größe vierzig?"
-                },
-                {
-                  "s": "mann",
-                  "t": "In Rot leider nicht mehr. Aber in Blau und in Schwarz haben wir sie noch in vierzig."
-                },
-                {
-                  "s": "frau2",
-                  "t": "Hm, schwarze Jacken habe ich schon so viele. Dann nehme ich die blaue."
-                }
-              ]
-            },
-            {
-              "id": "h3-4",
-              "title": "Gespräch 4 · Pläne fürs Wochenende",
-              "plays": 1,
-              "names": {
-                "frau": "Maja",
-                "mann2": "Tim"
-              },
-              "script": [
-                {
-                  "s": "frau",
-                  "t": "Tim, kommst du am Samstag mit ins Schwimmbad?"
-                },
-                {
-                  "s": "mann2",
-                  "t": "Ich würde gern, aber meine Eltern kommen zu Besuch. Wir wollen am Samstag zusammen in die Berge fahren."
-                },
-                {
-                  "s": "frau",
-                  "t": "Und am Sonntag? Da wollen wir vielleicht noch mal gehen."
-                },
-                {
-                  "s": "mann2",
-                  "t": "Am Sonntag fahren meine Eltern schon wieder nach Hause, und ich muss lernen. Am Montag habe ich doch meine Prüfung."
-                },
-                {
-                  "s": "frau",
-                  "t": "Ach so, schade. Dann viel Glück!"
-                }
-              ]
-            },
-            {
-              "id": "h3-5",
-              "title": "Gespräch 5 · An der Kinokasse",
-              "plays": 1,
-              "names": {
-                "mann": "Kasse",
-                "frau3": "Kundin"
-              },
-              "script": [
-                {
-                  "s": "mann",
-                  "t": "Zwei Karten für den Film um acht? Das macht achtzehn Euro."
-                },
-                {
-                  "s": "frau3",
-                  "t": "Oh, warten Sie, ich habe einen Studentenausweis. Ist es dann billiger?"
-                },
-                {
-                  "s": "mann",
-                  "t": "Ja, für Studenten kostet die Karte sieben Euro statt neun. Hat Ihr Freund auch einen Ausweis?"
-                },
-                {
-                  "s": "frau3",
-                  "t": "Nein, leider nicht, er arbeitet schon."
-                },
-                {
-                  "s": "mann",
-                  "t": "Gut, dann sind es sechzehn Euro."
-                }
-              ]
-            }
-          ],
-          "items": [
-            {
-              "id": "ga2-h3-1",
-              "clip": "h3-1",
-              "question": "Wie ist Jan heute zur Arbeit gekommen?",
-              "options": [
-                "Mit dem Auto.",
-                "Mit dem Bus.",
-                "Mit dem Fahrrad."
-              ],
-              "correct": 2
-            },
-            {
-              "id": "ga2-h3-2",
-              "clip": "h3-2",
-              "question": "Wann geht Herr Kovač zum Arzt?",
-              "options": [
-                "Am Donnerstagnachmittag.",
-                "Morgen um neun Uhr.",
-                "Morgen am Nachmittag."
-              ],
-              "correct": 0
-            },
-            {
-              "id": "ga2-h3-3",
-              "clip": "h3-3",
-              "question": "Welche Jacke kauft die Frau?",
-              "options": [
-                "Die blaue.",
-                "Die schwarze.",
-                "Die rote."
-              ],
-              "correct": 0
-            },
-            {
-              "id": "ga2-h3-4",
-              "clip": "h3-4",
-              "question": "Was macht Tim am Sonntag?",
-              "options": [
-                "Er geht schwimmen.",
-                "Er lernt für eine Prüfung.",
-                "Er fährt in die Berge."
-              ],
-              "correct": 1
-            },
-            {
-              "id": "ga2-h3-5",
-              "clip": "h3-5",
-              "question": "Wie viel bezahlt die Frau für beide Karten?",
-              "options": [
-                "18 Euro.",
-                "14 Euro.",
-                "16 Euro."
-              ],
-              "correct": 2
-            }
-          ]
-        },
-        {
-          "key": "h4",
-          "teil": 4,
-          "type": "tf",
-          "labels": [
-            "ja",
-            "nein"
-          ],
-          "points": 1,
-          "title": "Ein Interview im Radio verstehen",
-          "instruction": "Du hörst ein Interview. Du hörst den Text zweimal. Wähle bei den Aufgaben 16 bis 20: Ja oder Nein? Lies jetzt die Aufgaben. Der Moderator der Radiosendung „Menschen bei der Arbeit“ spricht mit Samira Haddad. Sie ist Tierpflegerin.",
-          "clips": [
-            {
-              "id": "h4-1",
-              "title": "Interview · Menschen bei der Arbeit",
+              "id": "l5-c1",
+              "title": "Conversation · Presents",
               "plays": 2,
-              "names": {
-                "mod": "Moderator",
-                "gast": "Samira Haddad"
-              },
               "script": [
-                {
-                  "s": "mod",
-                  "t": "Guten Abend und willkommen bei „Menschen bei der Arbeit“. Heute ist Samira Haddad bei mir im Studio. Frau Haddad, Sie arbeiten in einem Tierpark in der Nähe von Luzern, richtig?"
-                },
-                {
-                  "s": "gast",
-                  "t": "Genau, ich bin Tierpflegerin. Und das schon seit elf Jahren."
-                },
-                {
-                  "s": "mod",
-                  "t": "Wie sieht denn Ihr Arbeitstag aus?"
-                },
-                {
-                  "s": "gast",
-                  "t": "Er beginnt sehr früh, um halb sieben. Zuerst schaue ich, ob alle Tiere gesund sind. Dann mache ich die Ställe sauber, und danach bekommen die Tiere ihr Futter. Um neun Uhr kommen dann die ersten Besucher."
-                },
-                {
-                  "s": "mod",
-                  "t": "Und um welche Tiere kümmern Sie sich?"
-                },
-                {
-                  "s": "gast",
-                  "t": "Vor allem um die Bären und die Wölfe. Früher habe ich im Streichelzoo gearbeitet, bei den Ziegen und Kaninchen. Das war auch schön, aber die großen Tiere finde ich interessanter."
-                },
-                {
-                  "s": "mod",
-                  "t": "Haben Sie keine Angst vor den Bären?"
-                },
-                {
-                  "s": "gast",
-                  "t": "Angst nicht, aber Respekt. Ich gehe nie zu den Bären ins Gehege, wenn sie dort sind. Das ist verboten, und das ist auch gut so."
-                },
-                {
-                  "s": "mod",
-                  "t": "Wollten Sie schon als Kind mit Tieren arbeiten?"
-                },
-                {
-                  "s": "gast",
-                  "t": "Nein, gar nicht. Ich wollte eigentlich Lehrerin werden und habe nach der Schule auch ein Jahr studiert. Aber dann habe ich in den Ferien im Tierpark gejobbt – und ich bin geblieben."
-                },
-                {
-                  "s": "mod",
-                  "t": "Und was gefällt Ihnen an Ihrem Beruf nicht so gut?"
-                },
-                {
-                  "s": "gast",
-                  "t": "Das Wetter! Wir arbeiten immer draußen, auch bei Regen und Schnee. Und man verdient nicht besonders viel. Aber einen anderen Beruf möchte ich trotzdem nicht."
-                },
-                {
-                  "s": "mod",
-                  "t": "Frau Haddad, vielen Dank für das Gespräch."
-                }
+                { "s": "w2", "t": "Have you finished your present shopping, Kwame?" },
+                { "s": "m1", "t": "Nearly. For my mum, I was thinking of a mug, because she loves tea. But she already has about twenty, so I bought her a small plant for the kitchen." },
+                { "s": "w2", "t": "Lovely. And your dad?" },
+                { "s": "m1", "t": "That was hard. I almost bought him a watch, but he never wears one. In the end I found a cookery book with recipes from Italy. He loves cooking." },
+                { "s": "w2", "t": "And your sister?" },
+                { "s": "m1", "t": "Amira? I thought about a board game, but she would much rather have headphones. Hers are broken." },
+                { "s": "w2", "t": "What about your grandmother?" },
+                { "s": "m1", "t": "She always feels the cold, so I got her a scarf. It's dark green." },
+                { "s": "w2", "t": "And your uncle Ben?" },
+                { "s": "m1", "t": "Chocolates. He has a sweet tooth, and I always give him chocolates." }
               ]
             }
           ],
           "items": [
-            {
-              "id": "ga2-h4-1",
-              "clip": "h4-1",
-              "statement": "Frau Haddad arbeitet seit mehr als zehn Jahren als Tierpflegerin.",
-              "correct": "ja"
-            },
-            {
-              "id": "ga2-h4-2",
-              "clip": "h4-1",
-              "statement": "Am Morgen gibt sie den Tieren zuerst ihr Futter.",
-              "correct": "nein"
-            },
-            {
-              "id": "ga2-h4-3",
-              "clip": "h4-1",
-              "statement": "Frau Haddad arbeitet lieber mit großen Tieren.",
-              "correct": "ja"
-            },
-            {
-              "id": "ga2-h4-4",
-              "clip": "h4-1",
-              "statement": "Nach der Schule hat Frau Haddad zuerst studiert.",
-              "correct": "ja"
-            },
-            {
-              "id": "ga2-h4-5",
-              "clip": "h4-1",
-              "statement": "Frau Haddad verdient in ihrem Beruf gut.",
-              "correct": "nein"
-            }
+            { "id": "l5-1", "prompt": "Kwame's mum", "correct": "d" },
+            { "id": "l5-2", "prompt": "Kwame's dad", "correct": "b" },
+            { "id": "l5-3", "prompt": "Kwame's sister, Amira", "correct": "c" },
+            { "id": "l5-4", "prompt": "Kwame's grandmother", "correct": "a" },
+            { "id": "l5-5", "prompt": "Kwame's uncle, Ben", "correct": "f" }
           ]
         }
       ]
     },
     {
-      "key": "schreiben",
-      "name": "Schreiben",
-      "minutes": 30,
-      "parts": [
-        {
-          "key": "s1",
-          "teil": 1,
-          "type": "schreiben",
-          "title": "Eine Kurznachricht schreiben",
-          "instruction": "Schreib 20 bis 30 Wörter. Schreib zu allen drei Punkten. Du hast für beide Aufgaben zusammen 30 Minuten Zeit.",
-          "tasks": [
-            {
-              "id": "ga2-s1",
-              "title": "Aufgabe 1 · SMS an eine Freundin",
-              "minutes": 15,
-              "words": 25,
-              "situation": "Du wolltest morgen mit deiner Freundin Clara schwimmen gehen. Aber du bist krank.",
-              "prompt": "Schreib Clara eine SMS.",
-              "points": [
-                "Schreib, dass du nicht kommen kannst, und warum.",
-                "Bitte Clara um etwas aus der Apotheke.",
-                "Schlag einen neuen Termin vor."
-              ],
-              "model": "Hallo Clara, ich kann morgen leider nicht schwimmen gehen, ich habe Fieber. Kannst du mir Tabletten aus der Apotheke bringen? Gehen wir nächsten Samstag?\nLiebe Grüße\nAna",
-              "checklist": [
-                "Aufgabe: Alle drei Punkte sind da — absagen mit Grund, um etwas bitten, neuen Termin vorschlagen.",
-                "Register: Es ist eine Nachricht an eine Freundin — „du“, kurze Anrede (Hallo/Liebe Clara) und ein Gruß.",
-                "Sprache: einfache, richtige Sätze; eine Frage für die Bitte (Kannst du …?), Modalverben (kann, möchte).",
-                "Länge: 20 bis 30 Wörter. Unter 10 Wörtern oder am Thema vorbei gibt es für die Aufgabe keine Punkte."
-              ]
-            }
-          ]
-        },
-        {
-          "key": "s2",
-          "teil": 2,
-          "type": "schreiben",
-          "title": "Eine E-Mail schreiben",
-          "instruction": "Schreib 30 bis 40 Wörter. Schreib zu allen drei Punkten. Vergiss die Anrede und den Gruß nicht.",
-          "tasks": [
-            {
-              "id": "ga2-s2",
-              "title": "Aufgabe 2 · E-Mail an den Vermieter",
-              "minutes": 15,
-              "words": 35,
-              "situation": "In deiner Wohnung funktioniert die Heizung seit Montag nicht. Dein Vermieter heißt Herr Aigner.",
-              "prompt": "Schreib Herrn Aigner eine E-Mail.",
-              "points": [
-                "Beschreib das Problem.",
-                "Bitte um Hilfe.",
-                "Schreib, wann du zu Hause bist."
-              ],
-              "model": "Sehr geehrter Herr Aigner,\nseit Montag funktioniert die Heizung in meiner Wohnung nicht mehr. Es ist kalt. Können Sie bitte einen Handwerker schicken? Ich bin jeden Tag ab 16 Uhr zu Hause.\nMit freundlichen Grüßen\nEmre Kaya",
-              "checklist": [
-                "Aufgabe: Alle drei Punkte sind da — Problem, Bitte, Zeit, wann du da bist.",
-                "Register: Sie-Form, passende Anrede (Sehr geehrter Herr Aigner / Lieber Herr Aigner) und Gruß (Mit freundlichen Grüßen / Viele Grüße).",
-                "Sprache: höfliche Bitte (Können Sie bitte …? / Könnten Sie …?), Zeitangaben (seit Montag, ab 16 Uhr).",
-                "Länge: 30 bis 40 Wörter. Unter 15 Wörtern oder am Thema vorbei gibt es für die Aufgabe keine Punkte."
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "key": "sprechen",
-      "name": "Sprechen",
-      "minutes": 15,
+      "key": "speaking",
+      "name": "Speaking",
+      "minutes": 10,
       "parts": [
         {
           "key": "sp1",
           "teil": 1,
           "type": "sprechen",
-          "title": "Fragen zur Person",
-          "instruction": "Du bekommst vier Karten mit einem Wort. Stell deiner Partnerin oder deinem Partner mit jeder Karte eine Frage und beantworte ihre oder seine Fragen. Du hast etwa 20 Sekunden Zeit, die Karten anzusehen.",
+          "title": "Interview",
+          "instruction": "The examiner asks you some questions about yourself, your daily life and your interests. Answer each question with a full sentence and try to add one more detail. Then your partner answers questions too. (In the real exam this part lasts about 3-4 minutes.)",
           "tasks": [
             {
-              "id": "ga2-sp1",
-              "title": "Teil 1 · Fragen stellen und beantworten",
+              "id": "sp1-1",
+              "title": "Part 1 · Questions about you",
               "mode": "paar",
-              "minutes": 3,
-              "situation": "Ihr kennt euch noch nicht gut. Stellt euch gegenseitig Fragen.",
+              "minutes": 4,
+              "situation": "The examiner asks you and your partner questions. Practise answering these aloud.",
               "card": {
-                "title": "Deine vier Karten",
+                "title": "Examiner's questions",
                 "lines": [
-                  "Lieblingsessen?",
-                  "Sprachen?",
-                  "Arbeit / Schule?",
-                  "Wochenende?"
+                  "What's your name? How do you spell your surname?",
+                  "Where do you live? Do you like living there?",
+                  "What do you do - do you work or study?",
+                  "What do you usually do at the weekend?",
+                  "Tell me about your family or your best friend.",
+                  "What did you do last weekend?"
                 ]
               },
               "redemittel": [
-                "Was isst du am liebsten?",
-                "Welche Sprachen sprichst du?",
-                "Was machst du beruflich?",
-                "Was machst du am Wochenende?",
-                "Am liebsten …",
-                "Ich arbeite als … / Ich gehe noch zur Schule.",
-                "Und du?"
+                "My name is ... and I'm from ...",
+                "I live in ... It's a quiet / busy / friendly place.",
+                "I work as a ... / I'm a student of ...",
+                "At the weekend I usually ... with my friends.",
+                "I like ... because it's ...",
+                "Last weekend I went to ... and I ..."
               ],
-              "model": "A: Was isst du am liebsten?\nB: Am liebsten esse ich Nudeln mit Tomatensoße. Und die Suppe von meiner Mutter!\nA: Welche Sprachen sprichst du?\nB: Ich spreche Arabisch, Englisch und ein bisschen Deutsch.\nA: Was machst du beruflich?\nB: Ich arbeite als Verkäuferin in einer Bäckerei. Ich fange immer sehr früh an.\nA: Und was machst du am Wochenende?\nB: Am Samstag gehe ich oft mit meinen Kindern in den Park. Am Sonntag schlafe ich lange.\n(Danach tauscht ihr: B fragt, A antwortet.)\nB: Was isst du gern?\nA: Ich esse gern Reis mit Gemüse, aber kein Fleisch.\nB: Sprichst du auch Englisch?\nA: Ja, ein bisschen. Und Polnisch natürlich, das ist meine Muttersprache.\nB: Arbeitest du oder gehst du zur Schule?\nA: Ich arbeite in einem Lager, von Montag bis Freitag.\nB: Was machst du am Wochenende?\nA: Am Wochenende spiele ich Fußball im Verein.",
+              "model": "Examiner: What's your name?\nMei: My name is Mei Lin. That's M-E-I, and Lin is L-I-N.\nExaminer: Where do you live?\nMei: I live in Manchester, in a small flat near the centre. I like it because there are lots of shops and cafés.\nExaminer: Do you work or study?\nMei: I work in a bookshop. I start at nine and finish at five.\nExaminer: What do you usually do at the weekend?\nMei: I usually see my friends. Sometimes we go to the cinema, and on Sundays I cook dinner for my family.\nExaminer: What did you do last weekend?\nMei: I went to a market with my sister and bought some vegetables. Then we cooked together.",
               "checklist": [
-                "Aufgabe: Mit allen vier Karten eine passende Frage stellen und auf alle Fragen antworten.",
-                "Interaktion: Die Frage passt zum Wort auf der Karte; die Antwort passt zur Frage, gern mit einem Satz mehr.",
-                "Sprache: W-Fragen und Ja/Nein-Fragen richtig bilden (Verb an der richtigen Stelle), einfacher Alltagswortschatz.",
-                "Aussprache: Sie wird einmal für die ganze Prüfung bewertet — verständlich sprechen, Frageintonation."
+                "Task: you answer every question and say a little more than one word.",
+                "Interaction: you listen to the question and your answer fits it; you can spell your name.",
+                "Language: simple present for routines, simple past for last weekend, everyday vocabulary.",
+                "Pronunciation: clear enough to understand; word stress and sentence rhythm."
               ]
             }
           ]
@@ -1054,116 +710,39 @@
           "key": "sp2",
           "teil": 2,
           "type": "sprechen",
-          "title": "Von sich erzählen",
-          "instruction": "Du bekommst ein Blatt mit einer Frage und vier Stichwörtern. Erzähl etwas über dein Leben. Die Stichwörter helfen dir. Danach stellt dir die Prüferin oder der Prüfer noch eine oder zwei Fragen. Du hast etwa 20 Sekunden Zeit, das Blatt zu lesen.",
+          "title": "Discussion with pictures",
+          "instruction": "You and your partner talk together. The examiner gives you a sheet with pictures (described below). Talk about the pictures and decide which one is best. Then the examiner asks you each a few more questions. (In the real exam this part lasts about 5-6 minutes.)",
           "tasks": [
             {
-              "id": "ga2-sp2",
-              "title": "Teil 2 · Essen und Kochen",
-              "mode": "einzeln",
-              "minutes": 2,
-              "situation": "Was isst du gern, und wer kocht bei dir?",
-              "card": {
-                "title": "Was isst du gern, und wer kocht bei dir?",
-                "lines": [
-                  "Frühstück?",
-                  "Selbst kochen?",
-                  "Restaurant?",
-                  "Essen in deinem Heimatland?"
-                ]
-              },
-              "redemittel": [
-                "Zum Frühstück esse / trinke ich …",
-                "Bei uns kocht meistens …",
-                "Ich koche gern / nicht so gern, weil …",
-                "Ins Restaurant gehe ich …",
-                "In meinem Heimatland isst man oft …",
-                "Am liebsten mag ich …"
-              ],
-              "model": "Morgens habe ich nicht viel Zeit. Zum Frühstück trinke ich einen Kaffee und esse ein Brot mit Käse. Am Wochenende frühstücke ich lange mit meiner Familie, dann gibt es auch Eier und Obst.\nBei uns kocht meistens mein Mann, weil er früher von der Arbeit nach Hause kommt. Ich koche am Wochenende. Ich koche gern, aber es muss schnell gehen.\nIns Restaurant gehen wir nicht so oft, vielleicht einmal im Monat. Das ist ziemlich teuer. Aber zum Geburtstag gehen wir immer in unser Lieblingsrestaurant, ein kleines griechisches Restaurant in der Nähe.\nIn meinem Heimatland, in Kolumbien, essen wir viel Reis und Bohnen. Am Sonntag kocht meine Mutter eine große Suppe mit Hähnchen und Kartoffeln. Die vermisse ich hier sehr.\nPrüferin: Was hast du gestern gegessen?\nIch: Gestern habe ich Spaghetti mit Tomatensoße gegessen. Das geht schnell, und meine Kinder mögen das.",
-              "checklist": [
-                "Aufgabe: Zu allen vier Stichwörtern etwas sagen und die Frage der Prüferin oder des Prüfers beantworten.",
-                "Zusammenhang: nicht nur einzelne Wörter — kurze Sätze, verbunden mit und, aber, weil, dann.",
-                "Sprache: Alltagswortschatz zu Essen und Kochen; Präsens, für die Zusatzfrage auch Perfekt (Ich habe … gegessen).",
-                "Aussprache: verständlich, auch bei Wörtern aus dem Thema (Frühstück, Gemüse, Hähnchen)."
-              ]
-            }
-          ]
-        },
-        {
-          "key": "sp3",
-          "teil": 3,
-          "type": "sprechen",
-          "title": "Gemeinsam einen Termin finden",
-          "instruction": "Ihr wollt zusammen etwas machen und müsst einen Termin finden. Jede Person hat einen eigenen Kalender. Macht Vorschläge, antwortet auf die Vorschläge und findet zusammen eine Zeit. Du hast etwa 20 Sekunden Zeit, deinen Kalender zu lesen.",
-          "tasks": [
-            {
-              "id": "ga2-sp3",
-              "title": "Teil 3 · Einkaufen für das Kursfest",
+              "id": "sp2-1",
+              "title": "Part 2 · A birthday for a friend",
               "mode": "paar",
-              "minutes": 3,
-              "situation": "Euer Deutschkurs macht nächste Woche ein Fest. Ihr wollt am Samstag zusammen die Getränke und Snacks kaufen. Das dauert etwa eine Stunde. Wann habt ihr beide Zeit?",
+              "minutes": 6,
+              "situation": "A friend has a birthday next week. You and your partner want to do something special together. Talk about the different things you can do and decide which is best.",
               "card": {
-                "title": "Einkaufen für das Kursfest – Samstag",
+                "title": "What can we do for our friend's birthday?",
                 "lines": [
-                  "Ihr braucht etwa eine Stunde.",
-                  "Im Test siehst du nur deinen eigenen Kalender.",
-                  "„—“ bedeutet: frei."
+                  "Picture 1: a restaurant meal",
+                  "Picture 2: a trip to the cinema",
+                  "Picture 3: a picnic in the park",
+                  "Picture 4: bowling with friends",
+                  "Picture 5: a visit to a museum"
                 ]
               },
-              "slides": [
-                {
-                  "title": "Kalender A (du)",
-                  "lines": [
-                    "8:00 Frühstück mit der Familie",
-                    "9:00 Fahrrad in die Werkstatt bringen",
-                    "10:00 Wochenmarkt",
-                    "11:00 Mama anrufen",
-                    "12:00 Mittagessen kochen",
-                    "13:00 Mittagessen",
-                    "14:00 —",
-                    "15:00 Sohn zum Fußball bringen",
-                    "16:00 Fußballspiel ansehen",
-                    "17:00 —",
-                    "18:00 Wohnung putzen",
-                    "19:00 Kino mit Jonas",
-                    "20:00 Kino mit Jonas"
-                  ]
-                },
-                {
-                  "title": "Kalender B (deine Partnerin / dein Partner)",
-                  "lines": [
-                    "8:00 ausschlafen!",
-                    "9:00 ausschlafen!",
-                    "10:00 Joggen im Park",
-                    "11:00 Hausaufgaben für den Deutschkurs",
-                    "12:00 —",
-                    "13:00 Mittagessen bei Oma",
-                    "14:00 bei Oma",
-                    "15:00 Frau Novak beim Umzug helfen",
-                    "16:00 Umzug Frau Novak",
-                    "17:00 —",
-                    "18:00 Abendessen mit Freunden",
-                    "19:00 Abendessen mit Freunden",
-                    "20:00 Serie schauen"
-                  ]
-                }
-              ],
               "redemittel": [
-                "Wann hast du am Samstag Zeit?",
-                "Hast du um … Uhr Zeit?",
-                "Geht es bei dir um …?",
-                "Tut mir leid, da kann ich nicht. Da …",
-                "Um … Uhr habe ich Zeit.",
-                "Gut, dann treffen wir uns um …",
-                "Wo treffen wir uns?"
+                "What do you think about ...?",
+                "I think a ... would be good because ...",
+                "How about going to ...?",
+                "That's a good idea, but ...",
+                "I don't think ... is a good idea because it's too ...",
+                "Let's choose ... Do you agree?"
               ],
-              "model": "A: Wann hast du am Samstag Zeit? Geht es am Vormittag?\nB: Nein, am Vormittag geht es nicht. Da schlafe ich lange, und dann gehe ich joggen. Um elf mache ich Hausaufgaben. Aber um zwölf habe ich Zeit.\nA: Um zwölf kann ich leider nicht, da koche ich Mittagessen. Und um zwei? Da habe ich Zeit.\nB: Um zwei bin ich bei meiner Oma. Und danach helfe ich Frau Novak beim Umzug, bis fünf.\nA: Um drei muss ich meinen Sohn zum Fußball bringen. Aber um fünf habe ich wieder Zeit. Geht es bei dir um fünf?\nB: Ja, um fünf passt es gut! Um sechs esse ich mit Freunden.\nA: Und ich muss um sechs die Wohnung putzen. Eine Stunde reicht aber.\nB: Super. Dann treffen wir uns um fünf vor dem Supermarkt am Bahnhof?\nA: Einverstanden. Bis Samstag!",
+              "model": "A: What do you think about the restaurant?\nB: A meal is nice, but it can be expensive. How about a picnic in the park?\nA: That's a good idea, but the weather might be bad. What about bowling? It's fun with a group.\nB: Yes, our friend loves games, and we can all join in. Afterwards we can have pizza.\nA: Great. Let's choose bowling. Do you agree?\nB: Yes, I agree.\nExaminer (to A): Do you like birthday parties? Why / why not?\nA: Yes, I do. I like seeing all my friends together, and I like the cake!\nExaminer (to B): What did you do on your last birthday?\nB: I had dinner at home with my family. My mum made my favourite food.",
               "checklist": [
-                "Aufgabe: Ihr sprecht über mehrere Zeiten und findet am Ende einen gemeinsamen Termin.",
-                "Interaktion: Vorschläge machen, auf die Vorschläge reagieren (zustimmen oder ablehnen mit Grund), nachfragen.",
-                "Sprache: Uhrzeiten, Wochentage, Modalverben (können, müssen), Sätze mit Zeitangabe (Um drei muss ich …).",
-                "Aussprache: verständlich, auch bei Uhrzeiten und Zahlen."
+                "Task: you talk about most of the pictures, give reasons and agree on one idea.",
+                "Interaction: you ask your partner questions, react to what they say, and do not just give a list.",
+                "Language: suggestions (How about ...? Let's ...), opinions with 'because', and a few linking words (but, and, so).",
+                "Pronunciation: clear and easy to follow; use question intonation when you ask your partner."
               ]
             }
           ]

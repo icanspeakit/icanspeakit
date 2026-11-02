@@ -1,0 +1,34 @@
+---
+import { fitTitle } from "../../../lib/seo/title.js";
+// The printable sheet of one Lernset, for learners: „Drucken / als PDF speichern“ on the
+// set page and in its Wortliste tab lands here. The sheet itself: WortschatzDruck.astro.
+// Built for every Lernset with words.
+import Layout from "../../../layouts/Layout.astro";
+import WortschatzDruck from "../../../components/WortschatzDruck.astro";
+import { wortschatzSheet, SHEET_LANGS } from "../../../lib/arbeitsblatt/wortschatz.js";
+import { lernsets, cohorts, cohort } from "../../../lib/lernsets.js";
+import { select } from "../../../lib/lexicon.js";
+import wusstest from "../../../data/wusstest-du.json";
+
+export function getStaticPaths() {
+  return lernsets({ status: "built" })
+    .filter((s) => select({ unit: s.id }).length > 0)
+    .map((s) => ({ params: { set: s.id } }))
+    // The frequency rounds too: their words come from many Lernsets.
+    .concat(cohorts().map((c) => ({ params: { set: c.id } })));
+}
+
+const { set: unitId } = Astro.params;
+const round = cohort(unitId);
+const words = round ? round.items : select({ unit: unitId });
+const sheet = wortschatzSheet(unitId, { words });
+const title = round ? round.lead.join(" · ") : sheet.unit?.title ?? unitId;
+const level = round ? round.levels.join("–") : sheet.unit?.level ?? "";
+const facts: string[] = (wusstest as Record<string, any>)[unitId] ?? [];
+---
+<Layout
+  title={fitTitle(`${title} (${level}) – word list & test to print`, `${title} (${level}) to print`, `${title} – print`)}
+  description={`Word set “${title}” (${level}) as a PDF: every word with a/an, a translation, a simple explanation and an example sentence, plus “Did you know?” and a short test with answers.`}
+>
+  <WortschatzDruck title={title} level={level} words={words} sheet={sheet} langs={SHEET_LANGS} facts={facts} setPath={`/vocabulary/${unitId}`} />
+</Layout>

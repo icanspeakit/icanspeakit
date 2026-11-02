@@ -9,8 +9,9 @@ import path from "node:path";
 import Layout from "../layouts/Layout.astro";
 import SiteNav from "./SiteNav.astro";
 import ExamApp from "./ExamApp.astro";
-import { EXAM_NAMES, idsOfPart, isScored } from "../lib/exam/saetze.js";
+import { EXAM_NAMES, examLabel, idsOfPart, isScored } from "../lib/exam/saetze.js";
 import { examMinutes } from "../lib/exam/minutes.js";
+import { examPath } from "../lib/routes.js";
 import formate from "../data/pruefungen/formate-a2-c1.research.json";
 import LevelGrammar from "./LevelGrammar.astro";
 import PremiumLock from "./PremiumLock.astro";
@@ -25,7 +26,9 @@ const { set } = Astro.props;
 // /inhalt/ once can(feature) allows it. Nothing of the set's content is in this HTML.
 const paid = set.paid === true;
 const examName = EXAM_NAMES[set.exam] ?? set.exam;
-const overview = `/${set.exam}`;
+const overview = examPath(set.exam);
+// "Cambridge B1 Preliminary", "Trinity ISE I": the name learners search for.
+const examLevel = examLabel(set);
 
 // Which clips have their mp3 (scripts/generate-pruefungen-audio.mjs). A clip without one
 // shows its transcript instead, so a set is usable before its audio is rendered.
@@ -59,30 +62,29 @@ const formatRows = set.modules.map((m: any, i: number) => {
     points: pointsOf(m.name),
   };
 });
-const formatChecked = "30.09.2026";
+const formatChecked = "30 October 2026";
 
-// Title and description in the words people search: "telc a2 übungstest", "goethe b1
-// übungstest", "telc a2 modelltest" (Search Console, Oct 2026). The first " – " segment
-// stays the topic (src/lib/progress.js names the "Weitermachen" card after it). A second
-// set of the same level gets its number ("telc A2 Übungstest 2").
-const shortExam = set.exam === "goethe" ? "Goethe" : set.exam;
+// Title and description in the words people search ("b1 preliminary practice test",
+// "ielts practice test free"). The first " – " segment stays the topic (src/lib/progress.js
+// names the "Weitermachen" card after it). A second set of the same level gets its number
+// ("… A2 practice test 2").
 const setNo = Number(String(set.id).split("-").pop()) || 1;
-const topic = `${shortExam} ${set.level} Übungstest${setNo > 1 ? ` ${setNo}` : ""}`;
+const topic = `${examLevel} practice test${setNo > 1 ? ` ${setNo}` : ""}`;
 const skills = set.modules.map((m: any) => m.name).join(", ");
-const pageTitle = paid ? fitTitle(`${topic} – mit Lösungen`, topic) : fitTitle(`${topic} – kostenlos mit Lösungen`, `${topic} – kostenlos`, topic);
+const pageTitle = paid ? fitTitle(`${topic} – with answers`, topic) : fitTitle(`${topic} – free, with answers`, `${topic} – free`, topic);
 const pageDescription = paid
-  ? `${examName} ${set.level} Übungstest im Prüfungsformat, aufgebaut wie der Modelltest: ${skills}. Mit Timer, automatischer Auswertung und Musterlösungen.`
-  : `Kostenloser ${examName} ${set.level} Übungstest im Prüfungsformat, aufgebaut wie der Modelltest: ${skills}. Mit Timer, automatischer Auswertung und Musterlösungen.`;
+  ? `${examLevel} practice test in the official exam format: ${skills}. With a timer, automatic marking and model answers.`
+  : `Free ${examLevel} practice test in the official exam format: ${skills}. With a timer, automatic marking and model answers.`;
 ---
 <Layout
   title={pageTitle}
   description={pageDescription}
   schema={{
     "@type": "LearningResource",
-    name: `${examName} ${set.level}: ${set.title}`,
-    learningResourceType: "Übungssatz",
+    name: `${examLevel}: ${set.title}`,
+    learningResourceType: "Practice test",
     educationalLevel: set.level,
-    assesses: `${examName} ${set.level}`,
+    assesses: `${examLevel}`,
     ...(minutes ? { timeRequired: `PT${minutes}M` } : {}),
   }}
 >
@@ -91,7 +93,7 @@ const pageDescription = paid
     <a href={overview} class="vp-back-link"><span data-i18n="ps.back" data-i18n-vars={JSON.stringify({ exam: examName })}>Zurück zu {examName}</span></a>
     <div class="practice-hero">
       <p class="eyebrow" data-i18n="ps.eyebrow">Prüfung simulieren</p>
-      <h1><span class="hero-exam">{examName} {set.level}</span> {set.title}</h1>
+      <h1><span class="hero-exam">{examLevel}</span> {set.title}</h1>
       <p data-i18n="ps.hero" data-i18n-vars={JSON.stringify({ n: scoredItems, min: minutes })}>
         Alle Prüfungsteile im Format der echten Prüfung: {scoredItems} automatisch ausgewertete Aufgaben, dazu
         Schreiben und Sprechen mit Musterlösung. Prüfungszeit insgesamt ca. {minutes} Minuten.
@@ -102,7 +104,7 @@ const pageDescription = paid
       )}
     </div>
     <section class="ps-format" aria-labelledby="ps-format-h">
-      <h2 id="ps-format-h" data-i18n="ps.format.title" data-i18n-vars={JSON.stringify({ exam: `${examName} ${set.level}` })}>So ist {examName} {set.level} aufgebaut</h2>
+      <h2 id="ps-format-h" data-i18n="ps.format.title" data-i18n-vars={JSON.stringify({ exam: `${examLevel}` })}>So ist {examLevel} aufgebaut</h2>
       <div class="format-table-wrap">
         <table class="format-table">
           <thead><tr>
@@ -116,7 +118,7 @@ const pageDescription = paid
               <tr>
                 <th scope="row">{r.name}</th>
                 <td>{r.parts}</td>
-                {r.timeSpan > 0 && <td class="ps-nowrap" rowspan={r.timeSpan > 1 ? r.timeSpan : undefined}>{r.minutes} Min.</td>}
+                {r.timeSpan > 0 && <td class="ps-nowrap" rowspan={r.timeSpan > 1 ? r.timeSpan : undefined}>{r.minutes} min</td>}
                 {ref && <td>{r.points ?? "–"}</td>}
               </tr>
             ))}
@@ -134,7 +136,7 @@ const pageDescription = paid
     </section>
     {paid && <PremiumLock feature={set.feature} variant="inline" />}
     <div data-needs={paid ? (set.feature === "c1" ? "premium" : "pack") : undefined}>
-      <ExamApp brand={`${examName} ${set.level}`} sub={set.title} unit="Aufgaben" />
+      <ExamApp brand={`${examLevel}`} sub={set.title} unit="tasks" />
     </div>
     <LevelGrammar levels={[set.level]} />
     <p class="format-note">{set.sourcing}</p>

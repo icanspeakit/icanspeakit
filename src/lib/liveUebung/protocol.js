@@ -137,7 +137,7 @@ export function auswertung(phones, totals, pick = null, titles = []) {
       answered += done;
       right += Math.min(r, done);
     }
-    return { index: i, title: titles[i] ?? `Übung ${i + 1}`, right, answered, possible: totals[i] * phones.length };
+    return { index: i, title: titles[i] ?? `Exercise ${i + 1}`, right, answered, possible: totals[i] * phones.length };
   });
   const byItem = new Map();
   for (const p of phones) {

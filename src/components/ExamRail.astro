@@ -1,7 +1,7 @@
 ---
-// The exam switcher on a /pruefungen detail page (ExamShell.astro): Übersicht, then every
+// The exam switcher on a /exams detail page (ExamShell.astro): Übersicht, then every
 // exam by the name a learner knows it by, the current one marked. It used to be a side
-// rail on the /pruefungen hub itself — but there the page body already lists every exam
+// rail on the /exams hub itself — but there the page body already lists every exam
 // as a card, so the rail said the same thing twice. One level deeper it is the way
 // sideways from one exam to the next without going back up.
 //
@@ -15,17 +15,17 @@
 import "../styles/exam-rail.css";
 
 const exams = [
-  { name: "Start Deutsch 1", href: "/start-deutsch-1", level: "A1" },
-  { name: "DTZ", href: "/dtz", level: "A2/B1" },
-  { name: "telc", href: "/telc", level: "A1–C2" },
-  { name: "Goethe-Zertifikat", href: "/goethe", level: "A1–C2" },
-  { name: "TestDaF", href: "/testdaf", level: "B2–C1" },
+  { name: "Start Deutsch 1", href: "/a1-test", level: "A1" },
+  { name: "DTZ", href: "/trinity/ise-1", level: "A2/B1" },
+  { name: "telc", href: "/trinity", level: "A1–C2" },
+  { name: "Goethe-Zertifikat", href: "/cambridge", level: "A1–C2" },
+  { name: "TestDaF", href: "/ielts", level: "B2–C1" },
 ];
-const lid = { name: "Leben in Deutschland", href: "/leben-in-deutschland" };
+const lid = { name: "Leben in Deutschland", href: "/life-in-the-uk" };
 const here = Astro.url.pathname.replace(/\/+$/, "");
 ---
 <nav class="ex-rail" aria-label="Prüfungen" data-i18n-attr="aria-label:nav.exams">
-  <a class="ex-rail-up" href="/pruefungen"><span data-i18n="nav.panel.allExams">Alle Prüfungen ansehen</span></a>
+  <a class="ex-rail-up" href="/exams"><span data-i18n="nav.panel.allExams">Alle Prüfungen ansehen</span></a>
   <div class="ex-rail-tabs">
     {exams.map((e) => (
       <a class="ex-rail-item" href={e.href} aria-current={here === e.href ? "page" : undefined}>

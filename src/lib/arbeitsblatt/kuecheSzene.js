@@ -6,6 +6,9 @@
 //  4 Topf → auf den Herd            5 Stuhl → an den Tisch         6 Papier → in den Mülleimer
 //  7 Pflanze → ans Fenster          8 Handtuch → an den Haken      9 Kalender → an die Wand
 // Each thing lies in a strip under its new place, so the arrows do not cross.
+// English: 1 milk → in the fridge, 2 spoon → in the drawer, 3 plates → in the cupboard,
+// 4 pot → on the hob, 5 chair → next to the table, 6 paper → in the bin, 7 plant → on the
+// windowsill, 8 towel → on the hook, 9 calendar → on the wall.
 // Moving a thing means changing its sentence and the answer key too.
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
@@ -52,7 +55,7 @@ function arrows() {
 /**
  * @param {{ nums?: boolean, moves?: boolean, label?: string }} [o]
  */
-export function kuecheSvg({ nums = true, moves = true, label = "Eine unordentliche Küche. Neun Dinge sind nummeriert, Pfeile zeigen, wohin sie kommen." } = {}) {
+export function kuecheSvg({ nums = true, moves = true, label = "A messy kitchen. Nine things are numbered, and arrows show where they go." } = {}) {
   return `<svg viewBox="0 0 800 440" role="img" aria-label="${esc(label)}" xmlns="http://www.w3.org/2000/svg">
     <g stroke="#1c2b3f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
       <!-- Wand (Fliesen) und Boden -->

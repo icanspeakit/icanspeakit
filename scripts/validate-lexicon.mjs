@@ -12,7 +12,9 @@ const ROOT = path.join(__dirname, "..");
 
 const LEVELS = ["a1", "a2", "b1", "b2", "c1", "c2"];
 const POS = ["noun", "verb", "adj", "adv", "prep", "conj", "pron", "num", "phrase"];
-const GENDERS = ["der", "die", "das"];
+// der/die/das for the German levels still in the files; a/an/some for the English ones
+// (docs/content-plan.md §1.4: the indefinite article, "some" = uncountable or plural-only).
+const GENDERS = ["der", "die", "das", "a", "an", "some"];
 const CASES = ["akk", "dat", "gen", "akk/dat"];
 const AUX = ["haben", "sein"];
 
@@ -31,7 +33,8 @@ const TOPICS = new Set([
 // Provenance values scripts/fetch-wiktionary.mjs is allowed to stamp. A sourced field has to say
 // where it came from, so a later pass can find the rows that were never sourced instead of
 // guessing which of them to re-check. See docs/lexicon-enrichment-v1.md §2.1.
-const IPA_SOURCES = ["wiktionary"];
+// "authored": British IPA written by hand for the English levels (content-plan §1.4).
+const IPA_SOURCES = ["wiktionary", "authored"];
 
 // grammar_anchor keys to a grammar topic that must actually exist — same reasoning as the closed
 // §4 topic taxonomy: an unchecked free-text field accumulates typos that no page ever selects,
@@ -92,7 +95,7 @@ for (const level of LEVELS) {
       if (w.pos === "verb") {
         if (w.aux && !AUX.includes(w.aux)) err(where, `bad aux "${w.aux}"`);
         if (w.forms && w.forms.length !== 3) {
-          err(where, `forms must be [3rd sg, Präteritum, Partizip II], got ${w.forms.length}`);
+          err(where, `forms must be [3rd sg, past / Präteritum, past participle / Partizip II], got ${w.forms.length}`);
         }
         if (w.separable && w.forms && !w.forms[0].includes(" ")) {
           err(where, `separable verb but present form "${w.forms[0]}" has no split prefix`);

@@ -22,7 +22,6 @@ const SCHNELL_MS = {
   grammatik: 1200,
   // Short multiple-choice questions about a topic text.
   kultur: 1200,
-  fuehrerschein: 1500,
   // Questions about a text you have to read or listen to first.
   hoeren: 1500,
   lesen: 2000,

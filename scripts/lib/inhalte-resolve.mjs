@@ -117,10 +117,6 @@ export function resolveRef(raw) {
         return { datei: `src/content/lexicon/${e.level.toLowerCase()}.json`, text: `${e.gender ? `${e.gender} ` : ""}${e.lemma}`, loesung: norm(e.en), fingerprint: fingerprint(e.lemma, e.en ?? "") };
       }
       case "s": return { datei: `src/lib/ (Spiel ${p[0]})`, text: `Spiel ${p[0]} – das Wort steht im Kommentar / in der Momentaufnahme`, loesung: "", fingerprint: null };
-      case "f": {
-        const q = read("fuehrerschein/fragen.json").questions.find((x) => x.id === p[0]);
-        return q ? { datei: "src/data/fuehrerschein/fragen.json", text: norm(q.prompt), loesung: "", fingerprint: null } : null;
-      }
     }
   } catch {}
   return null;

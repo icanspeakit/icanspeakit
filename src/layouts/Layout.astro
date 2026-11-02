@@ -8,7 +8,7 @@ import "../styles/components.css";
 import { i18nGlobals } from "../lib/inventory.js";
 import hubBilder from "../data/hub-bilder.manifest.json";
 import { LANGUAGES } from "../lib/i18n.js";
-import { languageOf } from "../lib/languages.js";
+import { languageOf, BASE } from "../lib/languages.js";
 import { fontFaceCss } from "../lib/scriptFonts.js";
 import { langRules } from "../lib/langCss.js";
 import { organizationLd, websiteLd, breadcrumbLd, trailFor, orgId, type Crumb } from "../lib/seo/jsonld";
@@ -39,18 +39,17 @@ interface Props {
       the page itself shows; see the structured-data block below. */
   schema?: Record<string, unknown> | Record<string, unknown>[];
   /** The pages above this one in the breadcrumb trail, when the route alone does not name
-      them (a dynamic parent such as /berufe/pflege, or a top-level grammar topic that belongs
-      under /grammatik). Start and the page itself are added. */
+      them (a dynamic parent such as /english-for-work/care-work, or a top-level grammar topic that belongs
+      under /grammar). Start and the page itself are added. */
   breadcrumb?: Crumb[];
   /** No analytics on this page at all: no consent banner, so PostHog,
-      GA and the Meta Pixel never load. For pages that promise it (/politik: the quiz says
-      nothing about the visitor leaves the browser). */
+      GA and the Meta Pixel never load. For pages that promise it. */
   noTracking?: boolean;
 }
 
 const {
-  title = "EnglishAcademy – kostenlos Deutsch üben: telc, Goethe, DTZ",
-  description = "Deutsch lernen mit echtem Unterrichtsmaterial: kostenlose Übungen für telc, Goethe-Zertifikat, TestDaF, DTZ und den Einbürgerungstest.",
+  title = "EnglishAcademy – practise English for free: Cambridge, IELTS, Trinity",
+  description = "Learn English with real classroom material: free practice for Cambridge English, IELTS, Trinity ISE and the Life in the UK test.",
   noindex = false,
   schema,
   breadcrumb,
@@ -73,7 +72,7 @@ const route = Astro.url.pathname.replace(/\/+$/, "") || "/";
 const hubOg = Object.values(hubBilder as Record<string, { path: string; og: string; alt: string }>)
   .find((h) => h.path === route);
 const OG_IMAGE = hubOg?.og ?? "/assets/og-default.png";
-const OG_ALT = hubOg?.alt ?? "da für Dich — EnglishAcademy";
+const OG_ALT = hubOg?.alt ?? "EnglishAcademy – learn English for free";
 const abs = (path) => (Astro.site ? new URL(path, Astro.site).href : path);
 // One address per page for search engines: no trailing slash (the form every internal link
 // uses and the one in /sitemap.xml), no query string — ?voll, ?lang=…, tracking parameters all
@@ -87,7 +86,7 @@ const canonical = Astro.site && route !== "/404" ? new URL(route, Astro.site).hr
 const SITE_URL = Astro.site ? Astro.site.href.replace(/\/$/, "") : "";
 const pageName = title.replace(/\s+[–|-]\s+(EnglishAcademy|English Academy)$/, "");
 const trail = trailFor(route, pageName, breadcrumb);
-const pageSchema = [schema ?? []].flat().map((o) => ({ provider: { "@id": orgId(SITE_URL) }, inLanguage: "de", ...o }));
+const pageSchema = [schema ?? []].flat().map((o) => ({ provider: { "@id": orgId(SITE_URL) }, inLanguage: BASE, ...o }));
 const graph = SITE_URL && !noindex
   ? [
       ...(route === "/" ? [organizationLd(SITE_URL), websiteLd(SITE_URL)] : []),
@@ -106,7 +105,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     {canonical && !noindex && <link rel="canonical" href={canonical} />}
     <!-- Rights reservation for text and data mining (§ 44b UrhG, TDMRep). Same reservation as
-         robots.txt, public/.well-known/tdmrep.json and /nutzungsbedingungen. -->
+         robots.txt, public/.well-known/tdmrep.json and /terms. -->
     <meta name="tdm-reservation" content="1" />
     <!-- No "Translate this page?" prompt from Chrome or Edge.
 
@@ -125,7 +124,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
          example sentences and exercises stay German. -->
     <meta name="google" content="notranslate" />
     <!-- translate="no" on <html> (above) is the standard attribute for the same thing. Chrome
-         on iOS ignores the meta tag but honours the attribute; it translated /berufe and
+         on iOS ignores the meta tag but honours the attribute; it translated /english-for-work and
          /anmelden anyway, and the translated text nodes crashed the React sign-in island
          (Sentry DEUTSCHACADEMY-WEB-A, NotFoundError on insertBefore; WEB-B is the same
          translation loading its CSS from www.gstatic.com). -->
@@ -188,8 +187,8 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
       (function () {
         var DIR = ${LANG_DIRS};
         // The page's own language as served (/es/…), before the line below sets the chosen one.
-        var pageLang = (document.documentElement.getAttribute("lang") || "de").split("-")[0];
-        var lang = "de";
+        var pageLang = (document.documentElement.getAttribute("lang") || "${BASE}").split("-")[0];
+        var lang = "${BASE}";
         var saved = null;
         try {
           saved = localStorage.getItem("da_lang");
@@ -307,7 +306,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     <link rel="preload" href="/fonts/albert-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="EnglishAcademy" />
-    <meta property="og:locale" content="de_DE" />
+    <meta property="og:locale" content="en_GB" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={abs(OG_IMAGE)} />
@@ -327,7 +326,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
   <body>
     <LanguageOffer />
     <slot />
-    {/* A lesson is running (/lehrkraefte/unterricht): its bar and clock come along to every
+    {/* A lesson is running (/teachers/lesson): its bar and clock come along to every
         page opened from it. Only the localStorage copy is read here; the module loads only
         when one exists (src/lib/unterricht/leiste.js). */}
     {(
@@ -335,10 +334,10 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         let running = false;
         let lernt = false;
         try { running = !!localStorage.getItem("da:unterricht"); lernt = !!localStorage.getItem("da:lernstunde"); } catch {}
-        if (running && !location.pathname.startsWith("/lehrkraefte/unterricht")) {
+        if (running && !location.pathname.startsWith("/teachers/lesson")) {
           import("../lib/unterricht/leiste.js").then((m) => m.boot()).catch(() => {});
-        } else if (!running && lernt && location.pathname !== "/stunde") {
-          // A learner's Stunde (/stunde): the same bar in its learner mode. A teacher session
+        } else if (!running && lernt && location.pathname !== "/lesson") {
+          // A learner's Stunde (/lesson): the same bar in its learner mode. A teacher session
           // on the same device wins (the learner's stays stored).
           import("../lib/unterricht/leiste.js").then((m) => m.bootLern()).catch(() => {});
         }
@@ -354,15 +353,15 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     <script>import "../lib/notReady.js";</script>
     {/* The live quiz goes on the projector: every link to it (nav, Lehrkräfte hub, a page's
         „Live-Quiz“ button) opens a new tab, so the page the teacher came from stays open.
-        Inside the quiz pages themselves (builder, /spiel) links keep the same tab. */}
+        Inside the quiz pages themselves (builder, /game) links keep the same tab. */}
     {(
       <script is:inline>
         document.addEventListener("click", (e) => {
           const a = e.target instanceof Element && e.target.closest("a[href]");
           if (!a || a.target) return;
           const u = new URL(a.href, location.href);
-          if (u.origin !== location.origin || u.pathname.replace(/\/$/, "") !== "/lehrkraefte/quiz") return;
-          if (location.pathname.startsWith("/lehrkraefte/quiz") || location.pathname.startsWith("/spiel")) return;
+          if (u.origin !== location.origin || u.pathname.replace(/\/$/, "") !== "/teachers/quiz") return;
+          if (location.pathname.startsWith("/teachers/quiz") || location.pathname.startsWith("/game")) return;
           a.target = "_blank";
           a.rel = "noopener";
         }, true);
@@ -389,8 +388,8 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         window.addEventListener(type, (e) => { tips().then((m) => m.handle(e as CustomEvent)); });
       }
       try {
-        if (localStorage.getItem("da-tips-v1") == null || location.pathname.startsWith("/fortschritt")) {
-          tips().then((m) => { m.noteVisit(); if (location.pathname.startsWith("/fortschritt")) m.markProgressSeen(); });
+        if (localStorage.getItem("da-tips-v1") == null || location.pathname.startsWith("/progress")) {
+          tips().then((m) => { m.noteVisit(); if (location.pathname.startsWith("/progress")) m.markProgressSeen(); });
         }
       } catch {}
     </script>

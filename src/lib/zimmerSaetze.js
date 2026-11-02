@@ -11,7 +11,7 @@ export function parseSentence(s) {
   for (const m of String(s).matchAll(/\[([^\]]+)\]/g)) {
     if (m.index > last) parts.push({ text: s.slice(last, m.index) });
     const opts = m[1].split("|").map((o) => o.trim());
-    parts.push({ gap: true, answer: opts[0], options: [...opts].sort((a, b) => a.localeCompare(b, "de")) });
+    parts.push({ gap: true, answer: opts[0], options: [...opts].sort((a, b) => a.localeCompare(b, "en")) });
     last = m.index + m[0].length;
   }
   if (last < s.length) parts.push({ text: s.slice(last) });

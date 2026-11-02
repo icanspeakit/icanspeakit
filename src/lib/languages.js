@@ -20,9 +20,8 @@ const coverage = { langs: {} };
  *  help          help texts under the German (src/data/uebersetzungen/*, textHelp.js, grammarUi.js)
  *  legal         translations of the legal pages (src/data/uebersetzungen/rechtliches.json)
  *  sheets        meanings on the Wortschatz worksheets (src/lib/arbeitsblatt/wortschatz.js)
- *  berufe        the profession decks (src/data/berufe/*.json)
- *  fuehrerschein the Fahrschul-Wortschatz and the rule pages (src/data/fuehrerschein/*) */
-export const SURFACES = ["ui", "cards", "help", "legal", "sheets", "berufe", "fuehrerschein"];
+ *  berufe        the profession decks (src/data/berufe/*.json) */
+export const SURFACES = ["ui", "cards", "help", "legal", "sheets", "berufe"];
 
 /** Minimum coverage (% of the German keys or words) a language needs before `langsFor` offers
  *  it on a surface. Surfaces without a number here are gated elsewhere:
@@ -52,7 +51,7 @@ export const LANGUAGE_REGISTRY = [
     code: "en", native: "English", de: "Englisch", en: "English", word: "Language",
     dir: "ltr", script: "Latn", region: "europa", fontFamily: null,
     // The source language: the interface and every text exist in English first.
-    surfaces: { ui: { ...reviewed, order: 0 }, cards: reviewed, help: reviewed, legal: { ...reviewed, order: 0 }, sheets: reviewed, berufe: reviewed, fuehrerschein: reviewed },
+    surfaces: { ui: { ...reviewed, order: 0 }, cards: reviewed, help: reviewed, legal: { ...reviewed, order: 0 }, sheets: reviewed, berufe: reviewed },
   },
   // To add a language: copy the entry above, set code/native/dir/script (and fontFamily for
   // non-Latin scripts, hreflang/urlPrefix for its own entry-page URLs), start every surface

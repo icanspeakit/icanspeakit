@@ -1,4 +1,4 @@
-// The quotes with their authors attached, for the /wissen/zitate pages and the mail.
+// The quotes with their authors attached, for the /knowledge/quotes pages and the mail.
 // Build/server side: imports the whole src/data/zitate.json.
 //
 // Translations (machine drafts, reviewed: false) live beside it in

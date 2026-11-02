@@ -1,0 +1,140 @@
+---
+// /teachers/surveys — a teacher asks the class what it wants to learn: which grammar to
+// repeat, Sprechen or Schreiben (and what kind), topics, how they like to work, tempo and
+// homework, a free wish, and up to five own questions. Students answer anonymously on their
+// phone through a QR code (/survey?c=CODE); results on /teachers/surveys/result?id=….
+//
+// Static like the rest of the section; sign-in and the teacher switch are settled in the
+// browser, with the same gates as Klassen. The grammar topics come from catalog.js at build
+// time and travel to the script as JSON. Not in the Android app (build-app.mjs drops
+// /teachers).
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import MascotGuide from "../../../components/mascots/MascotGuide.astro";
+import UmfrageSim from "../../../components/sims/UmfrageSim.astro";
+import { grammarTopics } from "../../../lib/catalog.js";
+import { BLOECKE, NIVEAUS } from "../../../lib/umfrage/katalog.js";
+import "../../../styles/live-quiz.css";
+import "../../../styles/quiz-builder.css";
+import "../../../styles/klassen.css";
+import "../../../styles/umfrage.css";
+
+const topics = grammarTopics.map(({ id, name, level }) => ({ id, name, level }));
+---
+<Layout
+  title="Polls – For teachers – EnglishAcademy"
+  description="Ask your class anonymously via a QR code which grammar they want to revise, whether they want more speaking or writing, and which topics interest them."
+  noindex
+>
+  <SiteNav active="lehrkraefte" />
+
+  <main class="lq kl uf" id="uf-root" data-topics={JSON.stringify(topics)}>
+    <a class="qb-back" href="/teachers" data-i18n="kl.t.back">Für Lehrkräfte</a>
+    <header class="lq-head">
+      <p class="lq-eyebrow" data-i18n="uf.t.eyebrow">Für Lehrkräfte · Umfragen</p>
+      <h1 class="lq-title" data-i18n="uf.t.title">Umfrage: Was will die Klasse lernen?</h1>
+      <p class="lq-lead" data-i18n="uf.t.lead">Frag deine Klasse, welche Grammatik sie wiederholen will, was sie mehr üben möchte und wie sie gern lernt. Alle antworten mit dem Handy über einen QR-Code: anonym, ohne Konto, ohne Namen.</p>
+    </header>
+
+    <MascotGuide id="umfragen" title="So funktioniert’s" titleKey="uf.t.guide.title" extra="klemmbrett">
+      <UmfrageSim slot="sim" />
+      <li data-i18n="uf.t.guide.1">Wähle unten Niveau und Fragen und tippe auf „Umfrage erstellen und QR-Code zeigen“.</li>
+      <li data-i18n="uf.t.guide.2">Der QR-Code erscheint. Zeig ihn groß am Beamer: Die Klasse scannt ihn mit dem Handy und antwortet, ohne Konto und ohne Namen.</li>
+      <li data-i18n="uf.t.guide.3">Die Ergebnisse kommen live an. Wenn alle fertig sind, tippst du auf „Schließen“.</li>
+      <li class="mg-tip" data-i18n="uf.t.guide.tip">Deine Umfragen bleiben in der Liste. „Ergebnisse und QR-Code“ öffnet sie wieder.</li>
+    </MascotGuide>
+
+    <section class="lq-card" data-gate="loading">
+      <p data-i18n="kl.loading">Einen Moment …</p>
+    </section>
+    <section class="lq-card kl-stack" data-gate="signin" hidden>
+      <h2 data-i18n="uf.t.signin.title">Melde dich an, um eine Umfrage zu starten</h2>
+      <p data-i18n="uf.t.signin.text">Die Ergebnisse gehören zu deinem Konto, damit du sie auch nächste Woche noch siehst. Das Konto ist kostenlos. Deine Schülerinnen und Schüler brauchen keins.</p>
+      <a class="lq-btn lq-btn--primary" data-signin-link href="/anmelden?next=/teachers/surveys" data-i18n="kl.t.signin.button">Anmelden oder registrieren</a>
+    </section>
+    <section class="lq-card kl-stack" data-gate="teacher" hidden>
+      <h2 data-i18n="qb.teacher.title">Unterrichtest du Deutsch?</h2>
+      <p data-i18n="uf.t.teacher.text">Dann schalte die Werkzeuge für Lehrkräfte frei: Umfragen, Klassen und eigene Live-Quizze. Du kannst das jederzeit in deinem Konto unter Einstellungen wieder ausschalten.</p>
+      <button type="button" class="lq-btn lq-btn--primary" data-teacher-on data-i18n="qb.teacher.button">Ja, ich unterrichte</button>
+      <p class="lq-error" data-teacher-error role="alert"></p>
+    </section>
+
+    <div class="kl-stack" data-gate="ok" hidden>
+      <p class="kl-status" data-status role="status" aria-live="polite"></p>
+      <ul class="kl-list" data-list></ul>
+
+      <form class="lq-card uf-new" data-new novalidate>
+        <h2 data-new-head data-i18n="uf.t.new.title">Neue Umfrage</h2>
+        <div class="kl-new-fields">
+          <label class="lq-field">
+            <span data-i18n="uf.t.new.name">Titel</span>
+            <input type="text" maxlength="120" data-new-name value="Was möchtest du lernen?" />
+          </label>
+          <label class="lq-field">
+            <span data-i18n="kl.t.new.level">Niveau</span>
+            <select data-new-level>
+              {NIVEAUS.map((n) => <option value={n} selected={n === "A2"}>{n}</option>)}
+            </select>
+          </label>
+        </div>
+
+        <fieldset class="lq-field uf-blocks">
+          <legend data-i18n="uf.t.new.blocks">Was soll die Klasse gefragt werden?</legend>
+          {BLOECKE.map((b) => (
+            <label class="uf-block">
+              <input type="checkbox" name="block" value={b.id} checked />
+              <span>
+                <strong data-i18n={b.k}>{b.titel}</strong>
+                <small data-i18n={b.infoK}>{b.info}</small>
+              </span>
+            </label>
+          ))}
+        </fieldset>
+
+        <fieldset class="lq-field uf-topics" data-topics-box>
+          <legend data-i18n="uf.t.new.topics">Grammatik zur Auswahl</legend>
+          <small data-topics-note></small>
+          <div class="uf-chips" data-topics-list></div>
+        </fieldset>
+
+        <div class="uf-own" data-own></div>
+        <div class="kl-row">
+          <button type="button" class="lq-btn lq-btn--ghost" data-own-add data-i18n="uf.t.own.add">+ Eigene Frage</button>
+        </div>
+
+        {/* After the questions: the recommendation is worked out from them (zeit.js). */}
+        <div class="uf-zeit">
+          <label class="lq-field">
+            <span data-i18n="uf.t.new.zeit">Zeit zum Antworten</span>
+            <select data-new-zeit></select>
+          </label>
+          <p class="uf-zeit-rec" data-zeit-rec hidden>
+            <span data-zeit-rec-text></span>
+            <button type="button" class="qb-link" data-zeit-use data-i18n="uf.t.zeit.use">Übernehmen</button>
+          </p>
+          <p class="kl-muted uf-zeit-hint" data-i18n="uf.t.zeit.hint">Die Zeit gilt für die ganze Umfrage. Jede Frage bekommt davon ihren Teil: mehr Wörter und Antworten, mehr Zeit; ein freier Text am meisten. Ist die Zeit einer Frage um, geht es zur nächsten.</p>
+        </div>
+
+        <p class="lq-error" data-new-error role="alert"></p>
+        <div class="kl-row">
+          <button type="submit" class="lq-btn lq-btn--primary" data-new-submit data-i18n="uf.t.new.button">Umfrage erstellen und QR-Code zeigen</button>
+        </div>
+      </form>
+
+      <section class="lq-card uf-anon" aria-labelledby="uf-anon-h">
+        <h2 id="uf-anon-h" data-i18n="uf.t.anon.title">So bleibt die Umfrage anonym</h2>
+        <ul>
+          <li data-i18n="uf.t.anon.1">Niemand gibt einen Namen ein, niemand braucht ein Konto.</li>
+          <li data-i18n="uf.t.anon.2">Du siehst nur, wie viele was gewählt haben. Freie Texte erscheinen ohne Namen und in zufälliger Reihenfolge.</li>
+          <li data-i18n="uf.t.anon.3">Gespeichert werden die Antworten und das Datum, keine Uhrzeit, keine IP-Adresse. Jedes Handy kann einmal antworten und seine Antwort ändern, solange die Umfrage offen ist.</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    import { mountUmfragen } from "../../../lib/umfrage/lehrkraft.js";
+    const root = document.getElementById("uf-root");
+    if (root) mountUmfragen(root);
+  </script>
+</Layout>

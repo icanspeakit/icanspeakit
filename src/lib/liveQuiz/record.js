@@ -1,4 +1,4 @@
-// A finished Live-Quiz round into the signed-in learner's record (/fortschritt, tab „Quiz“).
+// A finished Live-Quiz round into the signed-in learner's record (/progress, tab „Quiz“).
 //
 // Called once from the end screen (player.js) for a solo round and for the phone's own place
 // in a class game. Signed out, nothing is sent: the auth cookie decides whether to try, the

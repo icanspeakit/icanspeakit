@@ -1,7 +1,7 @@
 // „Für dich": the pronunciation drills by first language, wired up in the browser —
-// src/components/AusspracheFuerDich.astro renders them, on /kultur/fehler (under each
+// src/components/AusspracheFuerDich.astro renders them, on /culture/mistakes (under each
 // language) and in the Aussprache-Check (the „Für dich" section). Was ausspracheDrills.js,
-// which only served /kultur/fehler.
+// which only served /culture/mistakes.
 //
 // Three things per drill:
 //   [data-say]        a word or sentence to hear — the pre-made Azure mp3, the browser's
@@ -15,7 +15,7 @@ import { checkMicrophone, alignWords, MSG } from "./ausspracheCheck.js";
 import { findingsFor, findingsHtml, insertionsOf, esc, t } from "./aussprachePatterns.js";
 import { DRILL_AUDIO_DIR, drillSlug } from "./drillAudio.js";
 
-const LANG = "de-DE";
+const LANG = "en-GB";
 const ROUNDS = 5;
 const band = (s) => (s >= 80 ? "good" : s >= 60 ? "ok" : "bad");
 
@@ -28,8 +28,9 @@ function browserSpeak(text) {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = LANG;
     u.rate = 0.85;
-    const de = synth.getVoices().find((v) => v.lang?.startsWith("de"));
-    if (de) u.voice = de;
+    const voices = synth.getVoices();
+    const en = voices.find((v) => v.lang?.replace("_", "-") === "en-GB") ?? voices.find((v) => v.lang?.startsWith("en"));
+    if (en) u.voice = en;
     u.onend = resolve;
     u.onerror = resolve;
     synth.speak(u);
@@ -170,7 +171,7 @@ function mountRecord(root, ctx) {
  * Wire up every „Für dich" block under `scope`.
  *   info     the first-language data (src/lib/mutterspracheData.ts), embedded by the page
  *   lang()   the learner's first language for findings; a block with data-af-lang uses its own
- *   why      show „Warum passiert das?" links (false on /kultur/fehler, where the reason is on screen)
+ *   why      show „Warum passiert das?" links (false on /culture/mistakes, where the reason is on screen)
  *   onFindings(box)  called after findings render, for the page to intercept links
  */
 export function mountFuerDich(scope, { info, lang = () => null, why = true, onFindings } = {}) {

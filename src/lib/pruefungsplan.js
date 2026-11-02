@@ -74,7 +74,7 @@ export function buildPlan({ exam, date, minutesPerDay, level, today }) {
       const pool = [];
       if (grammar.length) pool.push(() => ({ kind: "grammar", label: grammar[gi % grammar.length].name, href: grammar[gi++ % grammar.length].href }));
       if (words.length) pool.push(() => ({ kind: "words", label: `Wortschatz: ${words[wi % words.length].title}`, href: words[wi++ % words.length].href }));
-      if (d % 3 === 2) pool.push(() => ({ kind: "aussprache", label: "Aussprache-Check: 5 Sätze laut lesen", href: "/aussprache-check" }));
+      if (d % 3 === 2) pool.push(() => ({ kind: "aussprache", label: "Aussprache-Check: 5 Sätze laut lesen", href: "/pronunciation-check" }));
       for (let k = 0; k < per && pool.length; k++) items.push(pool[k % pool.length]());
     }
     days.push({ date: ymd(start + d * DAY), week: Math.floor(d / 7) + 1, items });

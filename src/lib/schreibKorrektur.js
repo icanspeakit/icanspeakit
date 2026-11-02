@@ -1,18 +1,20 @@
-// "Text korrigieren" on a Schreibaufgabe.
+// "Correct my text" on a writing task (/writing/[id]).
 //
 // Two checkers, one result:
-//   1. LanguageTool (api.languagetool.org, the free public API) — spelling, capitals,
-//      punctuation and a good share of grammar. Called from the browser, so each learner is
-//      under LanguageTool's own per-IP limit (20 checks a minute) and nothing of ours has to
-//      hold a key. It is the only thing that sends the text anywhere, and only on the click.
-//   2. Our own rules, in the browser — what LanguageTool misses in learner German and what
-//      only the task knows: the comma before weil/dass, the verb at the end after them, a
-//      question without "?", Anrede and Gruß in a message, the word count the task asks for,
-//      three sentences in a row that start with "Ich".
+//   1. LanguageTool (api.languagetool.org, the free public API, British English) — spelling,
+//      capitals, punctuation and a good share of grammar. Called from the browser, so each
+//      learner is under LanguageTool's own per-IP limit (20 checks a minute) and nothing of
+//      ours has to hold a key. It is the only thing that sends the text anywhere, and only on
+//      the click.
+//   2. Our own rules, in the browser — what only the task knows, plus two things learners of
+//      English get wrong all the time: a lower-case "i", a question without "?", a greeting
+//      and sign-off in a message, the word count the task asks for, three sentences in a row
+//      that start with "I".
 //
-// Every finding lands in one of four groups — Grammatik, Ausdruck, Satzzeichen,
-// Rechtschreibung — which is how a DTZ/Goethe examiner sorts them too. If LanguageTool is
-// unreachable the own rules still run and the panel says the spelling check is missing.
+// Every finding lands in one of four groups — grammar, expression, punctuation, spelling —
+// which is how an examiner sorts them too. (The group keys are the old German ones; they
+// are CSS classes and i18n keys.) If LanguageTool is unreachable the own rules still run and
+// the panel says the spelling check is missing.
 
 import { getLang, onLangChange } from "./i18n.js";
 
@@ -21,8 +23,8 @@ const COOLDOWN_MS = 6000; // a click every few seconds is plenty; LanguageTool a
 
 export const CATS = ["grammatik", "ausdruck", "satzzeichen", "rechtschreibung"];
 
-// UI strings in the UI language. The German findings stay German on purpose: the learner is
-// looking at German text, and the correction is German.
+// UI strings in the UI language. The findings stay English on purpose: the learner is
+// looking at English text, and the correction is English.
 const T = {
   de: {
     button: "Text korrigieren", again: "Noch einmal korrigieren", busy: "Wird geprüft …",
@@ -89,12 +91,12 @@ function ltCat(m) {
 }
 
 async function languageTool(text) {
-  const body = new URLSearchParams({ text, language: "de-DE", level: "default" });
+  const body = new URLSearchParams({ text, language: "en-GB", level: "default" });
   const res = await fetch(LT_URL, { method: "POST", body });
   if (!res.ok) throw new Error(`LanguageTool ${res.status}`);
   const j = await res.json();
   return j.matches
-    // Gendern-Hinweise are a style debate, not a learner's mistake.
+    // Gender-neutral wording hints are a style debate, not a learner's mistake.
     .filter((m) => m.rule?.category?.id !== "GENDER_NEUTRALITY")
     .map((m) => ({
       cat: ltCat(m),
@@ -108,77 +110,66 @@ async function languageTool(text) {
 
 // ---- Our own rules ------------------------------------------------------------------
 
-const SUBORD = "weil|dass|obwohl|damit|ob|wenn|nachdem|bevor|sodass";
-const FINITE = "bin|bist|ist|sind|seid|war|warst|waren|habe|hast|hat|haben|habt|hatte|hatten|muss|musst|müssen|müsst|kann|kannst|können|könnt|will|willst|wollen|wollt|möchte|möchtest|möchten|darf|darfst|dürfen|soll|sollst|sollen|werde|wirst|wird|werden|werdet|gehe|gehst|geht|gehen|komme|kommst|kommt|kommen|arbeite|arbeitest|arbeitet|arbeiten|habe";
-const PRON = "ich|du|er|sie|es|wir|ihr|man|Sie|meine?|mein|deine?|dein";
-const QUESTION_START = /^(Wann|Wo|Woher|Wohin|Was|Wer|Wen|Wem|Wie|Warum|Wieso|Weshalb|Welche[rsnm]?|Können|Kannst|Könnt|Kann|Hast|Hat|Haben|Habt|Bist|Sind|Ist|Seid|Willst|Wollen|Möchtest|Möchten|Darf|Darfst|Dürfen|Soll|Sollen|Gehst|Kommst|Kommen Sie|Hättest|Hätten|Würdest|Würden)\b/;
+// A sentence that starts like this is a question. "Have", "Do" and "Will" are left out on
+// purpose: "Have a great trip.", "Do come round." and the name Will start statements too.
+const QUESTION_START = /^(What|Where|When|Who|Whose|Why|How|Which|Can|Could|Would|Shall|Should|Are|Is|Was|Were|Does|Did|Do you|Have you|Has|May|Might)\b/;
+// The lower-case pronoun "i" (also in "i'm", "i've"), but not "i.e." or a list item "i)".
+const LOWER_I = /(?<![\p{L}\d.'’-])i(?=['’\s,!?;:]|$)/gu;
 
 function ownRules(text, task) {
   const out = [];
   const add = (cat, offset, length, message, replacements = []) => out.push({ cat, offset, length, message, replacements, source: "own" });
 
-  // 1. Comma before a subordinating conjunction that is not the first word of a sentence.
-  // Not after "und", "aber", "oder" …: "und weil" takes no comma between the two.
-  for (const m of text.matchAll(new RegExp(`([\\p{L}\\d]+)(\\s+)(${SUBORD})\\b`, "giu"))) {
-    if (/^(und|oder|aber|sondern|denn|so|als|auch|nur|gerade|genau)$/i.test(m[1])) continue;
-    const at = m.index + m[1].length;
-    add("satzzeichen", at, m[2].length + m[3].length, `Vor „${m[3]}“ steht ein Komma.`, [`, ${m[3]}`]);
+  // 1. "I" is always a capital letter.
+  for (const m of text.matchAll(LOWER_I)) {
+    add("rechtschreibung", m.index, 1, "“I” is always written with a capital letter.", ["I"]);
   }
 
-  // 2. Verb at the end after weil/dass/obwohl/wenn: "weil ich muss arbeiten" → "weil ich arbeiten muss".
-  for (const m of text.matchAll(new RegExp(`\\b(${SUBORD})\\s+(${PRON})\\s+(${FINITE})\\s+([^.,!?;\\n]+)`, "gu"))) {
-    const rest = m[4].trim();
-    if (!rest) continue;
-    const start = m.index + m[0].indexOf(m[3], m[1].length + m[2].length);
-    const end = m.index + m[0].length;
-    add("grammatik", start, end - start, `Nach „${m[1]}“ steht das Verb am Ende: „… ${m[1]} ${m[2]} ${rest} ${m[3]}“.`, [`${rest} ${m[3]}`]);
-  }
-
-  // 3. Sentence ends: a question needs "?", and the text needs a final mark.
+  // 2. Sentence ends: a question needs "?", and the text needs a final mark.
   const sentences = [...text.matchAll(/[^.!?\n]+[.!?]*/g)];
   for (const s of sentences) {
     const raw = s[0];
     const body = raw.trimEnd();
     const lead = raw.length - raw.trimStart().length;
     const sentence = body.trimStart();
-    if (!sentence || sentence.split(/\s+/).length < 3) continue; // "Liebe Mira," and the Gruß are not sentences
+    if (!sentence || sentence.split(/\s+/).length < 3) continue; // "Dear Mira," and the sign-off are not sentences
     const endAt = s.index + body.length;
     const lastWord = sentence.match(/(\S+)$/)[1];
     const wordAt = endAt - lastWord.length;
-    if (QUESTION_START.test(sentence) && !/\?$/.test(sentence)) {
-      add("satzzeichen", wordAt, lastWord.length, "Eine Frage endet mit einem Fragezeichen.", [lastWord.replace(/[.!]$/, "") + "?"]);
+    if (QUESTION_START.test(sentence) && !/[?!]$/.test(sentence)) {
+      add("satzzeichen", wordAt, lastWord.length, "A question ends with a question mark.", [lastWord.replace(/[.]$/, "") + "?"]);
     } else if (!/[.!?:]$/.test(sentence) && s.index + lead + sentence.length === text.trimEnd().length && !/,$/.test(sentence)) {
-      add("satzzeichen", wordAt, lastWord.length, "Am Satzende fehlt ein Punkt.", [`${lastWord}.`]);
+      add("satzzeichen", wordAt, lastWord.length, "The sentence needs a full stop at the end.", [`${lastWord}.`]);
     }
   }
 
-  // 4. Three sentences in a row that start with "Ich".
+  // 3. Three sentences in a row that start with "I".
   let run = 0;
   for (const s of sentences) {
     const sentence = s[0].trimStart();
-    if (/^Ich\b/.test(sentence)) {
+    if (/^I\b/.test(sentence)) {
       run++;
-      if (run === 3) add("ausdruck", s.index + (s[0].length - sentence.length), 3, "Drei Sätze hintereinander mit „Ich“. Beginne einen anders: „Leider …“, „Am Samstag …“, „Dann …“.");
+      if (run === 3) add("ausdruck", s.index + (s[0].length - sentence.length), 1, "Three sentences in a row start with “I”. Start one differently: “Unfortunately …”, “On Saturday …”, “Then …”.");
     } else run = 0;
   }
 
-  // 5. A message or letter needs an Anrede and a Gruß.
+  // 4. A message, email or letter needs a greeting and a sign-off.
   if (["nachricht", "email", "brief"].includes(task?.type)) {
     const lines = text.split("\n").map((l) => l.trim()).filter(Boolean);
-    if (lines.length && !/^(Liebe|Lieber|Hallo|Hi|Hey|Sehr geehrte|Guten Tag|Servus|Moin)\b/i.test(lines[0])) {
-      add("ausdruck", 0, 0, "Am Anfang fehlt eine Anrede, z. B. „Liebe Mira,“ oder „Sehr geehrte Frau …,“.");
+    if (lines.length && !/^(Dear|Hi|Hello|Hey|Good (morning|afternoon|evening)|To whom it may concern)\b/i.test(lines[0])) {
+      add("ausdruck", 0, 0, "A greeting is missing at the start, e.g. “Hi Mira,” or “Dear Mrs Clarke,”.");
     }
     const tail = lines.slice(-3).join(" ");
-    if (lines.length > 1 && !/(Grüße|Gruß|Grüßen|Bis bald|Tschüss|Ciao|LG\b|Mit freundlichen|Bis dann|Viele Grüße|Alles Liebe)/i.test(tail)) {
-      add("ausdruck", text.trimEnd().length, 0, "Am Ende fehlt ein Gruß, z. B. „Liebe Grüße“ oder „Mit freundlichen Grüßen“.");
+    if (lines.length > 1 && !/(regards|wishes|Yours|Love\b|Thanks|Thank you|See you|Speak soon|Take care|Cheers|All the best|Best\b|x{1,3}$)/i.test(tail)) {
+      add("ausdruck", text.trimEnd().length, 0, "A sign-off is missing at the end, e.g. “Best wishes,” or “Kind regards,”.");
     }
   }
   return out;
 }
 
-/** "(30–40 Wörter)" in the task situation, or null. */
+/** "(30–40 words)" in the task situation, or null. */
 export function wordRange(task) {
-  const m = (task?.situation ?? "").match(/(\d+)\s*[–-]\s*(\d+)\s*Wörter/);
+  const m = (task?.situation ?? "").match(/(\d+)\s*[–-]\s*(\d+)\s*(words|Wörter)/);
   return m ? { min: +m[1], max: +m[2] } : null;
 }
 
@@ -255,14 +246,14 @@ export function mountKorrektur(root, area, task) {
     out.innerHTML = `
       ${ltDown ? `<p class="skk-note">${esc(t("ltDown"))}</p>` : ""}
       <div class="skk-chips">${CATS.map((c) => `<span class="skk-chip skk-${c}${counts[c] ? "" : " is-zero"}"><b>${counts[c]}</b> ${esc(t(c))}</span>`).join("")}</div>
-      ${issues.length ? `<div class="skk-text" lang="de">${marked}</div>` : `<p class="skk-none">${esc(t("none"))}</p>`}
+      ${issues.length ? `<div class="skk-text" lang="en">${marked}</div>` : `<p class="skk-none">${esc(t("none"))}</p>`}
       ${issues.length ? `<ol class="skk-list">${issues.map((i, k) => {
         const bad = text.slice(i.offset, i.offset + i.length);
         const fix = i.replacements[0];
         return `<li class="skk-item" data-n="${k}">
           <span class="skk-tag skk-${i.cat}">${esc(t(i.cat))}</span>
-          <span class="skk-what" lang="de">${bad.trim() ? `<s>${esc(bad)}</s>` : ""}${fix != null ? ` → <b>${esc(fix.trim() || fix)}</b>` : ""}</span>
-          <span class="skk-msg" lang="de">${esc(i.message)}</span>
+          <span class="skk-what" lang="en">${bad.trim() ? `<s>${esc(bad)}</s>` : ""}${fix != null ? ` → <b>${esc(fix.trim() || fix)}</b>` : ""}</span>
+          <span class="skk-msg" lang="en">${esc(i.message)}</span>
           ${fix != null ? `<button type="button" class="skk-apply" data-apply="${k}">${esc(t("apply"))}</button>` : ""}
         </li>`;
       }).join("")}</ol>
@@ -270,7 +261,7 @@ export function mountKorrektur(root, area, task) {
       <div class="skk-task">
         <p class="skk-task-h">${esc(t("task"))}</p>
         <p class="skk-words${wordsOk ? "" : " is-off"}">${esc(wordsLine)}</p>
-        ${task?.points?.length ? `<p class="skk-task-q">${esc(t("points"))}</p><ul class="skk-points" lang="de">${task.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}
+        ${task?.points?.length ? `<p class="skk-task-q">${esc(t("points"))}</p><ul class="skk-points" lang="en">${task.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}
       </div>`;
     out.hidden = false;
   }

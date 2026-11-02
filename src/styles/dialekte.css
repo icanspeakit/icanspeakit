@@ -1,4 +1,4 @@
-/* /wissen/dialekte — the dialect map. Built on sprachen.css (.sp-sec, .sp-map-wrap, .sp-card,
+/* /knowledge/accents — the dialect map. Built on sprachen.css (.sp-sec, .sp-map-wrap, .sp-card,
  * .sp-chip, .sp-legend …); everything specific to this page is .dl-*. Region colours come
  * from src/data/dialekte.json as --c on each path, card and chip. */
 
@@ -164,75 +164,3 @@
   .dl-card.is-in .dl-say li { animation: none; }
 }
 
-/* ------------------------------------------------------- Bierkarte -- */
-/* Same land and borders as the dialect map; the beer regions (bier-karte.json) carry their
- * colour as --c, the dots the colour of their kind as --k (both from src/data/bier.json). */
-
-.bk-tools { margin: -4px 0 14px; }
-.bk-seg button[data-kind]:not([data-kind=""])::before {
-  content: ""; display: inline-block; width: 9px; height: 9px; margin-inline-end: 6px;
-  border-radius: 50%; background: var(--k); vertical-align: .05em;
-}
-.bk-r {
-  fill: var(--c); filter: brightness(var(--dl-dim));
-  stroke: var(--dl-line); stroke-width: .9; stroke-linejoin: round;
-  cursor: pointer; outline: none; transition: opacity .2s ease, filter .15s ease;
-}
-.bk-r:hover, .bk-r:focus-visible { filter: brightness(calc(var(--dl-dim) * 1.06)) saturate(1.25); }
-.bk-svg.has-sel .bk-r:not(.is-on) { opacity: .45; }
-.bk-r.is-on { stroke: var(--dl-ink); stroke-width: 2; paint-order: stroke; }
-:root[data-theme="dark"] .bk-r.is-on { stroke: #f7f9fc; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bk-r.is-on { stroke: #f7f9fc; } }
-
-.bk-m { cursor: pointer; outline: none; transition: opacity .25s ease; }
-.bk-m-hit { fill: transparent; }
-.bk-m-dot { fill: var(--k); stroke: #fff; stroke-width: 2; transition: r .15s ease; }
-.bk-m-name {
-  font-family: var(--font-body); font-size: 10.5px; font-weight: 600; fill: var(--dl-ink);
-  paint-order: stroke; stroke: rgba(255, 255, 255, .85); stroke-width: 2.5px; stroke-linejoin: round; pointer-events: none;
-}
-.bk-m:hover .bk-m-dot, .bk-m:focus-visible .bk-m-dot { r: 8.5; }
-.bk-m.is-on .bk-m-dot { r: 9; stroke: var(--dl-ink); stroke-width: 2.5; }
-.bk-svg[data-kind="ober"] .bk-m:not([data-kind="ober"]),
-.bk-svg[data-kind="unter"] .bk-m:not([data-kind="unter"]),
-.bk-svg[data-kind="sauer"] .bk-m:not([data-kind="sauer"]),
-.bk-svg[data-kind="geschichte"] .bk-m:not([data-kind="geschichte"]) { opacity: .15; pointer-events: none; }
-
-.bk-beers { list-style: none; padding: 0; margin: 4px 0 12px; display: flex; flex-wrap: wrap; gap: 6px; }
-.bk-beers li {
-  padding: 3px 10px; border-radius: 999px; font-size: .86rem; font-weight: var(--fw-semibold); color: var(--ink);
-  background: color-mix(in srgb, var(--c) 16%, transparent); border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
-}
-.bk-beers .bk-disputed { background: none; border-style: dashed; border-color: var(--border); color: var(--muted); font-weight: var(--fw-regular); }
-.bk-card.is-in .bk-beers li { animation: sp-chip-in .4s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(120ms + var(--i, 0) * 70ms); }
-
-.bk-chip { display: inline-flex; align-items: center; gap: 7px; }
-.bk-chip::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--c); flex: none; }
-.bk-chip--m::before { border-radius: 50%; }
-.bk-here { margin-top: 6px; }
-.bk-chip span { color: var(--muted); font-weight: var(--fw-regular); }
-
-.bk-order-title { margin: 28px 0 4px; font-family: var(--font-body); font-weight: var(--fw-semibold); font-size: 1.15rem; color: var(--ink); }
-.bk-words tbody th { white-space: nowrap; }
-.bk-where { color: var(--muted); white-space: nowrap; }
-
-@media (max-width: 640px) {
-  /* Phone: the map is ~360px wide, names would be 5px — the chips below are the list. */
-  .bk-m-name { display: none; }
-  .bk-labels text { font-size: 15px; }
-  .bk-m-dot { r: 11; stroke-width: 3; }
-  .bk-m.is-on .bk-m-dot { r: 14; }
-  .bk-m-hit { r: 22; }
-  .bk-tools .sp-seg { flex-wrap: wrap; justify-content: center; border-radius: 20px; }
-  /* The word table as stacked rows: word and region on one line, the meaning below. */
-  .bk-words thead { display: none; }
-  .bk-words, .bk-words tbody { display: block; }
-  .bk-words tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
-  .bk-words tr:last-child { border-bottom: 0; }
-  .bk-words th, .bk-words td { display: block; padding: 0; border: 0; width: auto; }
-  .bk-words td:last-child { grid-column: 1 / -1; color: var(--ink); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .bk-m, .bk-r { transition: none; }
-  .bk-card.is-in .bk-beers li { animation: none; }
-}

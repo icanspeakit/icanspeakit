@@ -27,17 +27,19 @@ export const BERUFE = [
 export const SLUGS = BERUFE.map((b) => b.slug);
 
 /** Translation languages of a deck (registry surface "berufe"); LANGS adds "de", the German
- *  hint tab („Auf Deutsch"), which is not a translation. */
+ *  tab: an own word's deHint holds its German translation (docs/content-plan.md §5.12). */
 export const TRANSLATIONS = langsFor("berufe");
 export const LANGS = ["de", ...TRANSLATIONS];
 export const POS = ["noun", "verb", "adj", "adverb", "phrase"];
-export const GENDERS = ["der", "die", "das"];
+/** English decks: the indefinite article, "some" for uncountable and plural-only nouns
+ *  (docs/content-plan.md §1.4). */
+export const GENDERS = ["a", "an", "some"];
 
 /** `bv-gastronomie-schneidebrett` */
 export const idFor = (slug, lemma) => `bv-${slug}-${slugify(lemma)}`;
 
-/** Where a ref points: the lexicon, the Fahrschul-Wortschatz or a profession deck. */
-export const refKind = (ref) => (ref.startsWith("bv-") ? "berufe" : ref.startsWith("fs-") ? "fuehrerschein" : "lexicon");
+/** Where a ref points: the lexicon or a profession deck. */
+export const refKind = (ref) => (ref.startsWith("bv-") ? "berufe" : "lexicon");
 
 /** Every word a deck defines itself (not the refs), with its group. */
 export const ownWords = (deck) =>
@@ -48,7 +50,7 @@ export const entryCount = (deck) => (deck.groups ?? []).reduce((n, g) => n + (g.
 
 /**
  * Every rule of the data format, in one place. `files` is [{ file, deck }]. `known` holds the
- * ids that exist outside the berufe files: { lexicon: Map<id, lemma>, fuehrerschein: Map<id, lemma> }.
+ * ids that exist outside the berufe files: { lexicon: Map<id, lemma> }.
  * Returns { errors, warnings }, never throws.
  */
 export function validate(files, known) {
@@ -58,7 +60,6 @@ export function validate(files, known) {
   const lemmas = new Map(); // slugify(lemma) → "file id" — one definition across every source
 
   for (const [id, lemma] of known.lexicon) lemmas.set(slugify(lemma), `lexicon ${id}`);
-  for (const [id, lemma] of known.fuehrerschein) if (!lemmas.has(slugify(lemma))) lemmas.set(slugify(lemma), `fuehrerschein ${id}`);
 
   // Pass 1: own words, so a ref to a word defined later in another file still resolves.
   for (const { file, deck } of files) {
@@ -92,17 +93,16 @@ export function validate(files, known) {
         if (!w.lemma) { at(`${where}: no lemma`); continue; }
         const want = idFor(slug, w.lemma);
         if (w.id !== want) at(`${where}: id must be "${want}" (bv-<beruf>-<slugify(lemma)>)`);
-        if (known.lexicon.has(w.id) || known.fuehrerschein.has(w.id)) at(`${where}: id ${w.id} already exists outside the berufe files`);
+        if (known.lexicon.has(w.id)) at(`${where}: id ${w.id} already exists outside the berufe files`);
         if (berufeIds.has(w.id)) at(`${where}: id ${w.id} also in ${berufeIds.get(w.id)}`);
         berufeIds.set(w.id, file);
         const key = slugify(w.lemma);
         if (lemmas.has(key)) at(`${where}: „${w.lemma}" is already defined (${lemmas.get(key)}) — use { "ref": "<id>" }`);
         else lemmas.set(key, `${file} ${w.id}`);
         if (!POS.includes(w.pos)) at(`${where}: pos must be one of ${POS.join(", ")}`);
-        if (w.pos === "noun" && !w.pluralOnly && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender der/die/das`);
+        if (w.pos === "noun" && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender a/an/some`);
         if (w.pos === "noun" && w.plural === undefined && !w.pluralOnly) at(`${where}: a noun needs "plural" (null when there is none)`);
-        if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [er-Form, Präteritum, Partizip II]`);
-        if (w.pos === "verb" && !["haben", "sein"].includes(w.aux)) at(`${where}: a verb needs aux haben/sein`);
+        if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [3rd person, past simple, past participle]`);
         if (!w.example) at(`${where}: no example sentence`);
         if (!w.deHint) at(`${where}: no deHint`);
         for (const l of TRANSLATIONS) if (!w.translations?.[l]) at(`${where}: no ${l} translation`);
@@ -121,7 +121,7 @@ export function validate(files, known) {
         seen.add(key);
         if (!w.ref) continue;
         const kind = refKind(w.ref);
-        const ok = kind === "berufe" ? berufeIds.has(w.ref) : kind === "fuehrerschein" ? known.fuehrerschein.has(w.ref) : known.lexicon.has(w.ref);
+        const ok = kind === "berufe" ? berufeIds.has(w.ref) : known.lexicon.has(w.ref);
         if (!ok) errors.push(`${file}: ${g.id}: ref „${w.ref}" does not resolve (${kind})`);
       }
     }

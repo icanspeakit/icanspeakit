@@ -1,7 +1,7 @@
 // What the pricing surfaces say, derived from the two data files and nothing else
 // (PREMIUM-FEATURES Tier 6): src/data/produkte.json (products, display prices) and
 // src/data/premium-features.json (what each plan includes, the limits). A limit or price
-// changed there changes /preise, the homepage block, /pruefungen and the lock cards alike.
+// changed there changes /preise, the homepage block, /exams and the lock cards alike.
 //
 // The display price must match the Stripe price behind the product's lookup key; Stripe is
 // what is charged. A price change is a Stripe change AND a line in produkte.json.
@@ -63,7 +63,7 @@ export const comparison = liveFeatures.map((f) => ({
   premium: cell(f, "premium"),
 }));
 
-/** The first `n` live features for the compact summaries (homepage, /pruefungen). */
+/** The first `n` live features for the compact summaries (homepage, /exams). */
 export const topFeatures = (n = 4) => liveFeatures.slice(0, n);
 
 /* The price cards (src/components/PriceCards.astro). The Premium card names what it adds on

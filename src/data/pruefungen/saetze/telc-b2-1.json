@@ -3,1150 +3,508 @@
   "slug": "b2",
   "exam": "telc",
   "level": "B2",
-  "title": "Übungssatz 1",
+  "title": "Practice set 1",
   "formatRef": "telc-b2",
-  "origin": "EnglishAcademy — alle Texte, Aufgaben und Hörskripte selbst geschrieben (2026-09-30).",
-  "sourcing": "Aufbau, Aufgabenzahl, Aufgabentypen, Zeiten und Punkte folgen der Prüfung telc Deutsch B2 (Übungstest 1, telc gGmbH). Alle Texte, Aufgaben und Hörtexte hier sind von EnglishAcademy selbst geschrieben; es ist nichts aus einem telc-Prüfungssatz übernommen. Die Hörtexte sind mit Sprachsynthese vertont.",
+  "origin": "EnglishAcademy: all texts, tasks and listening scripts written by us (2026-10-30).",
+  "sourcing": "Our own material in the ISE II format. The structure (task types, number of questions, timings) follows the published Trinity ISE II (B2) test overview; no text, task or recording is copied from Trinity material. ISE is a registered exam of Trinity College London (© Trinity College London). The listening talk is voiced with speech synthesis.",
   "scoring": {
     "passPct": 60,
-    "note": "telc Deutsch B2: insgesamt 300 Punkte. Die schriftliche Prüfung (Leseverstehen 75, Sprachbausteine 30, Hörverstehen 75, Schriftlicher Ausdruck 45 = 225 Punkte) und die mündliche Prüfung (75 Punkte) müssen jeweils mit mindestens 60 % bestanden werden, also mit 135 bzw. 45 Punkten. Die Punkte der Teile werden dazu zusammengezählt; die Teile müssen nicht einzeln bestanden werden. Die Prüfung ist nicht modular, ein Prüfungsteil (schriftlich oder mündlich) kann aber im selben oder im folgenden Kalenderjahr einzeln wiederholt werden."
+    "note": "Trinity reports Pass, Merit or Distinction for each skill (Reading, Writing, Listening, Speaking); there is no percentage pass mark. The 60 % line is our own guide for this practice set, not a Trinity pass mark. It applies to the auto-marked questions only; compare your writing and speaking with the model answers and checklists."
   },
   "speakers": {
-    "nachr": {
-      "name": "Nachrichtensprecher",
-      "voice": "de-DE-BerndNeural"
-    },
-    "mod": {
-      "name": "Moderatorin",
-      "voice": "de-DE-SeraphinaMultilingualNeural"
-    },
-    "gast": {
-      "name": "Gast",
-      "voice": "de-DE-KlausNeural"
-    },
-    "ansage": {
-      "name": "Durchsage",
-      "voice": "de-DE-LouisaNeural"
-    },
-    "frau": {
-      "name": "Frau",
-      "voice": "de-DE-KatjaNeural"
-    },
-    "frau2": {
-      "name": "Frau",
-      "voice": "de-DE-AmalaNeural"
-    },
-    "mann": {
-      "name": "Mann",
-      "voice": "de-DE-ConradNeural"
-    },
-    "mann2": {
-      "name": "Mann",
-      "voice": "de-DE-KillianNeural"
-    }
+    "mod": { "name": "Presenter", "voice": "en-GB-SoniaNeural" },
+    "head": { "name": "Daniel Whitfield", "voice": "en-GB-RyanNeural" },
+    "res": { "name": "Dr Amara Osei", "voice": "en-GB-LibbyNeural" }
   },
   "modules": [
     {
       "key": "lesen",
-      "name": "Leseverstehen",
-      "minutes": 90,
+      "name": "Reading",
+      "minutes": 120,
+      "timer": "rw",
+      "timerLabel": "Reading & Writing",
       "parts": [
         {
           "key": "l1",
           "teil": 1,
           "type": "match",
           "points": 5,
-          "title": "Überschriften zuordnen",
-          "instruction": "Lies zuerst die zehn Überschriften a bis j. Lies dann die fünf Texte und entscheide, welche Überschrift am besten zu welchem Text passt (Aufgaben 1 bis 5). Jede Überschrift passt nur einmal; fünf Überschriften bleiben übrig. Für Leseverstehen und Sprachbausteine hast du zusammen 90 Minuten Zeit.",
+          "title": "Task 1 · Long reading: choose a title for each paragraph",
+          "instruction": "Read the article about a village shop. It has five paragraphs, numbered 1 to 5. Choose the best title (a to f) for each paragraph (questions 1 to 5). Each title can be used only once, and one title is not needed. Task 1 should take about 20 minutes. You have 120 minutes for Reading and Writing together.",
           "pool": {
-            "a": "Beliebt, aber knapp: Warum es nicht mehr Nachtzüge gibt",
-            "b": "Softwarefirma beendet Versuch mit der Vier-Tage-Woche",
-            "c": "Teilen statt besitzen: Ein Laden, in dem nichts verkauft wird",
-            "d": "Senioren unterrichten Schüler im Fach Geschichte",
-            "e": "Honig vom Supermarktdach",
-            "f": "Baumarkt vermietet Werkzeug jetzt auch stundenweise",
-            "g": "Vier Tage Arbeit, volle Leistung – aber weniger Zeit zum Plaudern",
-            "h": "Stadt verbietet Pflanzenschutzmittel in allen Parks",
-            "i": "Handy-Sprechstunde: Jugendliche erklären, Ältere erzählen",
-            "j": "Letzte Fahrt: Nachtzug nach Wien wird eingestellt"
+            "a": "More than somewhere to shop",
+            "b": "A big supermarket opens in Harnford",
+            "c": "Why the village needed a shop",
+            "d": "Costs, profit and advice for others",
+            "e": "Raising the money",
+            "f": "Who works there and what it sells"
           },
           "texts": [
             {
-              "id": "l1-1",
-              "kind": "artikel",
-              "label": "Text 1",
+              "id": "r1-t1",
+              "kind": "article",
+              "label": "Task 1",
+              "title": "The shop that the village built",
               "paras": [
-                "Wer in Leipzig-Plagwitz eine Bohrmaschine braucht, muss sie nicht mehr kaufen. In einem ehemaligen Schuhgeschäft stehen heute über 600 Gegenstände in den Regalen: Werkzeug, Campingzelte, Nähmaschinen, sogar ein Raclette-Gerät für zwölf Personen. Mitglieder des Vereins zahlen 30 Euro im Jahr und dürfen dafür bis zu drei Dinge gleichzeitig für eine Woche mitnehmen.",
-                "„Eine Bohrmaschine wird in ihrem ganzen Leben im Durchschnitt nur wenige Minuten benutzt“, sagt Mitgründerin Carla Weinert. „Trotzdem besitzt fast jeder Haushalt eine. Das ist doch absurd.“ Die meisten Gegenstände sind Spenden von Nachbarn, die beim Aufräumen feststellen, wie viel ungenutzt im Keller liegt. Inzwischen hat der Verein knapp 900 Mitglieder, darunter viele Studierende und junge Familien. Wer etwas ausleihen möchte, kann vorher auf der Website nachsehen, ob der Gegenstand gerade verfügbar ist.",
-                "Weil das Team ehrenamtlich arbeitet, ist der Laden nur an drei Nachmittagen pro Woche geöffnet. Kaputt geht übrigens erstaunlich wenig: „Die Leute gehen mit geliehenen Sachen sorgfältiger um als mit ihren eigenen“, hat Weinert beobachtet."
-              ]
-            },
-            {
-              "id": "l1-2",
-              "kind": "artikel",
-              "label": "Text 2",
-              "paras": [
-                "Seit einem Jahr arbeiten die 140 Beschäftigten eines Grazer Softwareunternehmens nur noch von Montag bis Donnerstag – bei vollem Gehalt. Die wöchentliche Arbeitszeit wurde von 38,5 auf 34 Stunden gesenkt. Überstunden sind nur in Ausnahmefällen erlaubt. Nun hat die Geschäftsführung eine erste Bilanz gezogen, und die fällt überwiegend positiv aus: Die Zahl der Krankheitstage ist um ein Viertel zurückgegangen, und es gehen deutlich mehr Bewerbungen ein als früher. Die Produktivität ist nach Angaben der Firma gleich geblieben, weil Besprechungen gekürzt und E-Mails nur noch zu festen Zeiten beantwortet werden.",
-                "Ganz ohne Probleme verlief der Versuch allerdings nicht. Im Kundenservice mussten Schichtpläne eingeführt werden, damit auch freitags jemand ans Telefon geht. Und einige Mitarbeitende berichten, dass die vier Tage anstrengender geworden sind: Für ein kurzes Gespräch in der Küche bleibe kaum noch Zeit. Trotzdem will das Unternehmen an dem Modell festhalten. Eine Rückkehr zur Fünf-Tage-Woche wünscht sich laut einer internen Umfrage nur jeder Zwanzigste. Auch andere Unternehmen der Region haben sich bereits nach den Erfahrungen erkundigt."
-              ]
-            },
-            {
-              "id": "l1-3",
-              "kind": "artikel",
-              "label": "Text 3",
-              "paras": [
-                "Auf dem Flachdach eines Supermarkts im Bremer Stadtteil Findorff summt es seit dem Frühjahr. Ein Imker aus der Nachbarschaft hat dort acht Bienenvölker aufgestellt; der Marktleiter stellt ihm die Fläche kostenlos zur Verfügung. Im Gegenzug wird der Honig direkt unten im Laden verkauft. 250 Gläser waren es in diesem Sommer – nach wenigen Tagen war alles weg.",
-                "Dass Bienen mitten in der Stadt gut zurechtkommen, überrascht nur auf den ersten Blick. In Parks, Gärten und auf Balkonen blüht von März bis Oktober fast immer etwas, und anders als auf vielen Feldern werden hier kaum Pflanzenschutzmittel gespritzt. Außerdem ist es in der Stadt meist ein paar Grad wärmer als auf dem Land, sodass die Bienen früher im Jahr ausfliegen können.",
-                "Imker Hauke Janssen warnt allerdings vor zu viel Begeisterung: Leben in einem Viertel zu viele Honigbienen, nehmen sie den wilden Bienenarten das Futter weg. Wer helfen möchte, solle deshalb lieber Blumen pflanzen, als selbst einen Bienenkasten auf den Balkon zu stellen."
-              ]
-            },
-            {
-              "id": "l1-4",
-              "kind": "artikel",
-              "label": "Text 4",
-              "paras": [
-                "Wie schickt man ein Foto an die Enkelin? Und warum fragt die Bank-App ständig nach einem Code? Mit solchen Fragen kommen jeden Mittwochnachmittag rund zwanzig Seniorinnen und Senioren in die Aula einer Basler Sekundarschule. Dort warten Jugendliche aus der achten und neunten Klasse, die ihnen am eigenen Handy oder Tablet zeigen, wie es geht. Manche bringen auch Briefe von Behörden mit, die sie nur noch online beantworten können.",
-                "Die Idee stammt von einer Lehrerin, deren Mutter nach dem Tod des Vaters plötzlich alle Rechnungen online bezahlen musste. Für die Schülerinnen und Schüler ist die Sprechstunde Teil eines Projekts zum sozialen Lernen; Noten gibt es dafür nicht. „Am Anfang dachte ich, das wird langweilig“, sagt der 14-jährige Luca. „Aber man lernt, Dinge langsam und geduldig zu erklären. Das hilft mir jetzt sogar bei meinem kleinen Bruder.“",
-                "Und die Älteren geben etwas zurück: Nach der Sprechstunde erzählen sie oft, wie ihre eigene Schulzeit ausgesehen hat – ganz ohne Bildschirm."
-              ]
-            },
-            {
-              "id": "l1-5",
-              "kind": "artikel",
-              "label": "Text 5",
-              "paras": [
-                "Wer im Sommer mit dem Nachtzug von Hamburg nach Wien fahren möchte, sollte früh buchen: Schon im März waren viele Verbindungen für Juli und August ausverkauft. Die Nachfrage nach Nachtzügen ist in den letzten Jahren stark gestiegen, vor allem bei jüngeren Reisenden, die der Umwelt zuliebe aufs Fliegen verzichten wollen. Auch Geschäftsleute entdecken den Nachtzug wieder für sich: Sie steigen abends ein und sind am nächsten Morgen ausgeruht am Ziel.",
-                "Die Bahnunternehmen können trotzdem nur langsam reagieren. Moderne Schlaf- und Liegewagen sind teuer, und es dauert oft Jahre, bis neue Wagen geliefert werden. Außerdem bringt ein Nachtzug weniger ein als ein Zug am Tag, weil in einem Wagen nur wenige Menschen liegend Platz finden.",
-                "Fahrgastverbände fordern deshalb, dass der Staat die Verbindungen stärker unterstützt, zum Beispiel durch niedrigere Gebühren für die Nutzung der Schienen. Bis dahin bleibt vielen Reisenden nur ein Platz im Sitzwagen – oder die Hoffnung, dass kurz vor der Abfahrt jemand sein Bett storniert."
+                "[1] When the last shop in the Devon village of Harnford closed in 2016, residents lost more than a place to buy milk. The nearest supermarket was eleven miles away, and the bus ran only twice a day. “People who didn't drive simply stopped eating fresh food,” says Priya Nair, a retired nurse. Within a year, she and a group of neighbours had decided to do something about it.",
+                "[2] Rather than look for a single owner, the group offered shares in the shop at £10 each. Nobody was allowed to buy more than 200 shares, so that no one person could take control. Within four months, 312 residents had bought shares and raised £94,000. A grant of £30,000 from a lottery fund then covered the cost of buying the empty building and fitting it out.",
+                "[3] Today the shop employs a full-time manager, Tom Achebe, and two part-time assistants. Around 40 volunteers cover the rest of the opening hours, working three-hour shifts. About a third of the stock comes from farms and small producers within 15 miles, including eggs, cheese and bread from a bakery in the next valley. Prices are higher than in the supermarket for most everyday items, Achebe admits. “We can't compete on baked beans,” he says. “But customers know where their money goes, and they seem happy to pay a little extra for that.”",
+                "[4] The shop has become a meeting point as well as a place to buy food. A post office counter operates on two mornings a week, and a coffee morning every Friday attracts about 25 people, many of them elderly residents who live alone. On Thursdays, volunteers deliver orders to neighbours who cannot leave their homes. “Some of them used to see nobody all week,” Nair says. “Now they see at least one friendly face.”",
+                "[5] Running a community shop is not easy. Refrigeration is expensive, so last year solar panels were fitted on the roof, which has cut electricity costs by about a quarter. The volunteers are getting older, too, and finding younger helpers is a constant worry. Even so, the shop made a profit of £6,200 last year, which goes into a fund for village projects. The Harnford group has also advised seven other villages that want to follow its example, and Nair is optimistic. “If a shop run by retired teachers and part-time gardeners can survive, so can yours,” she tells them."
               ]
             }
           ],
           "items": [
-            {
-              "id": "tb2-l1-1",
-              "text": "l1-1",
-              "prompt": "Welche Überschrift passt zu Text 1?",
-              "correct": "c"
-            },
-            {
-              "id": "tb2-l1-2",
-              "text": "l1-2",
-              "prompt": "Welche Überschrift passt zu Text 2?",
-              "correct": "g"
-            },
-            {
-              "id": "tb2-l1-3",
-              "text": "l1-3",
-              "prompt": "Welche Überschrift passt zu Text 3?",
-              "correct": "e"
-            },
-            {
-              "id": "tb2-l1-4",
-              "text": "l1-4",
-              "prompt": "Welche Überschrift passt zu Text 4?",
-              "correct": "i"
-            },
-            {
-              "id": "tb2-l1-5",
-              "text": "l1-5",
-              "prompt": "Welche Überschrift passt zu Text 5?",
-              "correct": "a"
-            }
+            { "id": "e2-r1-1", "text": "r1-t1", "prompt": "Paragraph 1", "correct": "c" },
+            { "id": "e2-r1-2", "text": "r1-t1", "prompt": "Paragraph 2", "correct": "e" },
+            { "id": "e2-r1-3", "text": "r1-t1", "prompt": "Paragraph 3", "correct": "f" },
+            { "id": "e2-r1-4", "text": "r1-t1", "prompt": "Paragraph 4", "correct": "a" },
+            { "id": "e2-r1-5", "text": "r1-t1", "prompt": "Paragraph 5", "correct": "d" }
           ]
         },
         {
           "key": "l2",
           "teil": 2,
-          "type": "mc",
-          "points": 5,
-          "title": "Zwei Artikel im Detail lesen",
-          "instruction": "Lies die beiden Zeitungsartikel und löse die Aufgaben 6 bis 10. Wähle bei jeder Aufgabe die richtige Lösung a, b oder c.",
+          "type": "tf",
+          "points": 8,
+          "title": "Task 1 · Long reading: true or false?",
+          "instruction": "Read the article again. In the exam, five of eight statements are true and you tick those five (questions 6 to 10). Here, decide for each of the eight statements (questions 6 to 13) whether it is true (Richtig) or false (Falsch) according to the article. Five are true and three are false.",
           "texts": [
             {
-              "id": "l2-a",
-              "kind": "artikel",
-              "label": "Text 1",
-              "title": "Schule um neun: Ein Gymnasium testet den späteren Beginn",
+              "id": "r2-t1",
+              "kind": "article",
+              "label": "Task 1",
+              "title": "The shop that the village built",
               "paras": [
-                "Um halb acht ist es in Hannover im Winter noch dunkel. Für die älteren Schülerinnen und Schüler eines Gymnasiums im Stadtteil Linden beginnt der Unterricht trotzdem nicht mehr um 7.55 Uhr, sondern erst um 8.50 Uhr. Seit Beginn des Schuljahres gilt der spätere Start für die Klassen 9 bis 13. Die Jüngeren fangen weiterhin früh an, weil viele Eltern ihre Kinder auf dem Weg zur Arbeit an der Schule absetzen.",
-                "Hinter dem Versuch steht ein Befund aus der Schlafforschung: In der Pubertät verschiebt sich die innere Uhr. Jugendliche werden abends später müde und brauchen morgens länger, um richtig wach zu werden. Wer trotzdem um sechs Uhr aufstehen muss, sitzt in den ersten Stunden oft mit halb geschlossenen Augen im Unterricht. „Das hat nichts mit Faulheit zu tun, sondern mit Biologie“, sagt Schulleiterin Birgit Oldenburg. Studien aus den USA und Skandinavien zeigen, dass ein späterer Schulbeginn nicht nur die Laune, sondern auch die Noten verbessern kann.",
-                "Nach einem halben Jahr fällt die Bilanz gemischt aus. Eine Befragung der Schule zeigt, dass die Älteren im Durchschnitt 40 Minuten länger schlafen und sich in der ersten Stunde besser konzentrieren können. Die Zahl der Verspätungen ist fast um die Hälfte gesunken. Weniger begeistert sind manche Lehrkräfte: Weil der Unterricht nun später endet, bleibt am Nachmittag weniger Zeit für Konferenzen und Elterngespräche. Auch Sportvereine klagen, dass die Jugendlichen erst später zum Training kommen. Eltern mit jüngeren Kindern berichten außerdem, dass der Morgen in der Familie komplizierter geworden sei, weil Geschwister nun zu unterschiedlichen Zeiten aus dem Haus gehen.",
-                "Ob das Modell bleibt, wird im Sommer entschieden. Die Schülervertretung hat bereits Unterschriften für eine Fortsetzung gesammelt. Die Schulleiterin wünscht sich vor allem, dass die Verkehrsbetriebe ihre Fahrpläne anpassen. Bisher fahren nämlich viele Schüler mit demselben Bus wie früher und warten dann fast eine Stunde im Schulgebäude."
-              ]
-            },
-            {
-              "id": "l2-b",
-              "kind": "artikel",
-              "label": "Text 2",
-              "title": "Zimmer gegen Hilfe: Wenn Studierende bei Senioren einziehen",
-              "paras": [
-                "Eine Studentin, die für ein kleines WG-Zimmer 450 Euro im Monat bezahlen müsste, und eine 81-jährige Witwe, die allein in einer Vierzimmerwohnung lebt – in Dresden bringt ein Projekt des Studentenwerks solche Menschen zusammen. Die Regel ist einfach: Für jeden Quadratmeter Wohnfläche leisten die Studierenden eine Stunde Hilfe im Monat. Wer in einem 16 Quadratmeter großen Zimmer wohnt, kauft also zum Beispiel ein, mäht den Rasen oder begleitet die Vermieterin zum Arzt – insgesamt 16 Stunden. Miete wird nicht bezahlt, nur die Nebenkosten für Strom und Wasser.",
-                "Pflege gehört ausdrücklich nicht zu den Aufgaben. „Die Studierenden sind keine billigen Pflegekräfte“, betont Projektleiterin Anja Kretschmer. Bevor zwei Menschen zusammenziehen, führt sie mit beiden Seiten ausführliche Gespräche und sieht sich die Wohnung an. Danach wohnen die beiden vier Wochen zur Probe zusammen. Außerdem wird ein schriftlicher Vertrag geschlossen, in dem genau steht, welche Aufgaben übernommen werden und wann im Haus Ruhezeiten gelten.",
-                "Seit dem Start vor sechs Jahren sind rund 140 Wohnpartnerschaften entstanden. Nicht alle halten: Etwa jede fünfte endet vorzeitig, meist weil die Erwartungen zu unterschiedlich waren – etwa wenn sich eine Seniorin abends Gesellschaft wünscht, der Student aber lieber mit Freunden unterwegs ist. Viele Paare verbindet dagegen nach Jahren eine echte Freundschaft.",
-                "Das größte Problem sieht Kretschmer an anderer Stelle: Es melden sich dreimal so viele Studierende wie ältere Menschen. Viele Seniorinnen und Senioren hätten Hemmungen, einen Fremden in ihre Wohnung zu lassen, vermutet sie. Deshalb wirbt sie inzwischen in Kirchengemeinden und Seniorentreffs für das Projekt. Dabei profitierten gerade Menschen, die allein leben, oft am meisten: Sie fühlten sich sicherer, wenn nachts noch jemand in der Wohnung sei."
+                "[1] When the last shop in the Devon village of Harnford closed in 2016, residents lost more than a place to buy milk. The nearest supermarket was eleven miles away, and the bus ran only twice a day. “People who didn't drive simply stopped eating fresh food,” says Priya Nair, a retired nurse. Within a year, she and a group of neighbours had decided to do something about it.",
+                "[2] Rather than look for a single owner, the group offered shares in the shop at £10 each. Nobody was allowed to buy more than 200 shares, so that no one person could take control. Within four months, 312 residents had bought shares and raised £94,000. A grant of £30,000 from a lottery fund then covered the cost of buying the empty building and fitting it out.",
+                "[3] Today the shop employs a full-time manager, Tom Achebe, and two part-time assistants. Around 40 volunteers cover the rest of the opening hours, working three-hour shifts. About a third of the stock comes from farms and small producers within 15 miles, including eggs, cheese and bread from a bakery in the next valley. Prices are higher than in the supermarket for most everyday items, Achebe admits. “We can't compete on baked beans,” he says. “But customers know where their money goes, and they seem happy to pay a little extra for that.”",
+                "[4] The shop has become a meeting point as well as a place to buy food. A post office counter operates on two mornings a week, and a coffee morning every Friday attracts about 25 people, many of them elderly residents who live alone. On Thursdays, volunteers deliver orders to neighbours who cannot leave their homes. “Some of them used to see nobody all week,” Nair says. “Now they see at least one friendly face.”",
+                "[5] Running a community shop is not easy. Refrigeration is expensive, so last year solar panels were fitted on the roof, which has cut electricity costs by about a quarter. The volunteers are getting older, too, and finding younger helpers is a constant worry. Even so, the shop made a profit of £6,200 last year, which goes into a fund for village projects. The Harnford group has also advised seven other villages that want to follow its example, and Nair is optimistic. “If a shop run by retired teachers and part-time gardeners can survive, so can yours,” she tells them."
               ]
             }
           ],
           "items": [
-            {
-              "id": "tb2-l2-1",
-              "text": "l2-a",
-              "question": "Der spätere Unterrichtsbeginn gilt …",
-              "options": [
-                "für alle Klassen der Schule.",
-                "nur für die älteren Schülerinnen und Schüler.",
-                "nur in den Wintermonaten, wenn es morgens dunkel ist."
-              ],
-              "correct": 1
-            },
-            {
-              "id": "tb2-l2-2",
-              "text": "l2-a",
-              "question": "Nach einem halben Jahr zeigt sich, dass …",
-              "options": [
-                "die Sportvereine ihr Training früher beginnen.",
-                "die Lehrkräfte mehr Zeit für Elterngespräche haben.",
-                "die Zahl der Verspätungen deutlich zurückgegangen ist."
-              ],
-              "correct": 2
-            },
-            {
-              "id": "tb2-l2-3",
-              "text": "l2-a",
-              "question": "Was möchte die Schulleiterin noch verbessern?",
-              "options": [
-                "Die Busse sollen besser zum neuen Schulbeginn passen.",
-                "Die Schülervertretung soll mehr Unterschriften sammeln.",
-                "Die Jugendlichen sollen abends früher ins Bett gehen."
-              ],
-              "correct": 0
-            },
-            {
-              "id": "tb2-l2-4",
-              "text": "l2-b",
-              "question": "Die Studierenden in dem Dresdner Projekt …",
-              "options": [
-                "helfen jeden Tag eine Stunde im Haushalt.",
-                "übernehmen auch die Pflege ihrer Vermieterin oder ihres Vermieters.",
-                "zahlen keine Miete, aber die Kosten für Strom und Wasser."
-              ],
-              "correct": 2
-            },
-            {
-              "id": "tb2-l2-5",
-              "text": "l2-b",
-              "question": "Was ist nach Meinung der Projektleiterin das größte Problem?",
-              "options": [
-                "Viele Wohnpartnerschaften enden schon nach der Probezeit.",
-                "Es wollen zu wenige ältere Menschen mitmachen.",
-                "Die Kirchengemeinden unterstützen das Projekt nicht."
-              ],
-              "correct": 1
-            }
+            { "id": "e2-r2-1", "statement": "Before the shop opened, the nearest supermarket was about eleven miles from the village.", "correct": "richtig" },
+            { "id": "e2-r2-2", "statement": "Residents could buy as many shares in the shop as they wanted.", "correct": "falsch" },
+            { "id": "e2-r2-3", "statement": "More than 300 residents bought shares in the shop.", "correct": "richtig" },
+            { "id": "e2-r2-4", "statement": "Volunteers work in shifts of three hours.", "correct": "richtig" },
+            { "id": "e2-r2-5", "statement": "Most everyday items in the shop cost less than they do in the supermarket.", "correct": "falsch" },
+            { "id": "e2-r2-6", "statement": "The shop offers a post office service on two days of the week.", "correct": "richtig" },
+            { "id": "e2-r2-7", "statement": "The solar panels have reduced the shop's electricity costs.", "correct": "richtig" },
+            { "id": "e2-r2-8", "statement": "Last year the shop made a loss.", "correct": "falsch" }
           ]
         },
         {
           "key": "l3",
           "teil": 3,
+          "type": "write-in",
+          "points": 5,
+          "title": "Task 1 · Long reading: complete the sentences",
+          "instruction": "Read the article again and complete sentences 14 to 18. Write a number, a word or a phrase from the article, with no more than three words. Copy it exactly as it appears in the text.",
+          "texts": [
+            {
+              "id": "r3-t1",
+              "kind": "article",
+              "label": "Task 1",
+              "title": "The shop that the village built",
+              "paras": [
+                "[1] When the last shop in the Devon village of Harnford closed in 2016, residents lost more than a place to buy milk. The nearest supermarket was eleven miles away, and the bus ran only twice a day. “People who didn't drive simply stopped eating fresh food,” says Priya Nair, a retired nurse. Within a year, she and a group of neighbours had decided to do something about it.",
+                "[2] Rather than look for a single owner, the group offered shares in the shop at £10 each. Nobody was allowed to buy more than 200 shares, so that no one person could take control. Within four months, 312 residents had bought shares and raised £94,000. A grant of £30,000 from a lottery fund then covered the cost of buying the empty building and fitting it out.",
+                "[3] Today the shop employs a full-time manager, Tom Achebe, and two part-time assistants. Around 40 volunteers cover the rest of the opening hours, working three-hour shifts. About a third of the stock comes from farms and small producers within 15 miles, including eggs, cheese and bread from a bakery in the next valley. Prices are higher than in the supermarket for most everyday items, Achebe admits. “We can't compete on baked beans,” he says. “But customers know where their money goes, and they seem happy to pay a little extra for that.”",
+                "[4] The shop has become a meeting point as well as a place to buy food. A post office counter operates on two mornings a week, and a coffee morning every Friday attracts about 25 people, many of them elderly residents who live alone. On Thursdays, volunteers deliver orders to neighbours who cannot leave their homes. “Some of them used to see nobody all week,” Nair says. “Now they see at least one friendly face.”",
+                "[5] Running a community shop is not easy. Refrigeration is expensive, so last year solar panels were fitted on the roof, which has cut electricity costs by about a quarter. The volunteers are getting older, too, and finding younger helpers is a constant worry. Even so, the shop made a profit of £6,200 last year, which goes into a fund for village projects. The Harnford group has also advised seven other villages that want to follow its example, and Nair is optimistic. “If a shop run by retired teachers and part-time gardeners can survive, so can yours,” she tells them."
+              ]
+            }
+          ],
+          "items": [
+            { "id": "e2-r3-1", "prompt": "Each share in the shop cost ____.", "answer": "£10", "accept": ["£10", "£10 each", "10 pounds", "ten pounds"] },
+            { "id": "e2-r3-2", "prompt": "The £30,000 that paid for the building and its fitting out came from a ____ fund.", "answer": "lottery", "accept": ["lottery", "a lottery", "a lottery fund"] },
+            { "id": "e2-r3-3", "prompt": "About a third of the stock comes from producers within ____ miles.", "answer": "15", "accept": ["15", "fifteen", "15 miles"] },
+            { "id": "e2-r3-4", "prompt": "The ____ morning on Fridays attracts about 25 people.", "answer": "coffee", "accept": ["coffee", "a coffee", "coffee morning"] },
+            { "id": "e2-r3-5", "prompt": "Last year's profit goes into a fund for ____.", "answer": "village projects", "accept": ["village projects"] }
+          ]
+        },
+        {
+          "key": "l4",
+          "teil": 4,
           "type": "match",
-          "points": 2.5,
-          "title": "Anzeigen zuordnen",
-          "instruction": "Lies die Situationen 11 bis 20 und die Anzeigen a bis l. Welche Anzeige passt zu welcher Situation? Jede Anzeige passt höchstens einmal. Für eine Situation gibt es keine passende Anzeige; wähle dort „x“.",
-          "none": "x — keine passende Anzeige",
+          "allowReuse": true,
+          "points": 5,
+          "title": "Task 2 · Multi-text reading: which text?",
+          "instruction": "Read the four texts, A to D, about a trial in the town of Aldbury. For questions 19 to 23, decide which text each question refers to. You can use a text more than once. Task 2 should take about 20 minutes.",
           "pool": {
-            "a": {
-              "title": "Buchführung für Selbstständige",
-              "body": "Rechnungen schreiben, Belege sammeln, Einnahmen und Ausgaben richtig erfassen: In diesem Kurs lernen Sie die Grundlagen der Buchführung, die jede Selbstständige und jeder Freiberufler kennen sollte. Wir arbeiten mit Beispielen aus der Praxis und zeigen Ihnen einfache Programme, mit denen Sie viel Zeit sparen. Zehn Abende, dienstags 18.30–21.00 Uhr, Beginn am 7. Oktober. Voraussetzung sind lediglich Grundkenntnisse am Computer. Gebühr: 180 Euro. Auf Wunsch können Sie auch online teilnehmen. Nach dem Kurs können Sie Ihre Unterlagen für das Finanzamt selbst vorbereiten. Volkshochschule Augsburg, Kursnummer 4120."
-            },
-            "b": {
-              "title": "Rückenfit vor der Arbeit",
-              "body": "Sie sitzen täglich viele Stunden am Schreibtisch und spüren das im Nacken und im Rücken? Unser Kurs richtet sich an Berufstätige, die den Tag aktiv beginnen möchten. Mitmachen können alle, auch wenn sie lange keinen Sport getrieben haben. Montags, mittwochs und freitags von 7.00 bis 7.45 Uhr trainieren wir unter Anleitung einer Physiotherapeutin im Wittelsbacher Park, bei Regen in der Turnhalle nebenan. Duschen sind vorhanden. Zwölf Wochen kosten 120 Euro; viele Krankenkassen erstatten bis zu 80 Prozent. Gesundheitszentrum am Park."
-            },
-            "c": {
-              "title": "Mieterinitiative Lechviertel",
-              "body": "Die Miete soll steigen? Ihr Vermieter hat Ihnen gekündigt, oder die Heizung ist seit Wochen kaputt? Als Mitglied erhalten Sie bei uns Rechtsberatung durch erfahrene Juristinnen und Juristen – persönlich, am Telefon oder per Video. Wir prüfen Ihren Mietvertrag, schreiben für Sie an den Vermieter und begleiten Sie, wenn nötig, auch vor Gericht. Mitgliedsbeitrag: 90 Euro im Jahr. Neumitglieder erhalten ihre erste Beratung schon am Tag des Beitritts. Beratungszeiten Montag bis Donnerstag 9–18 Uhr, Hermanstraße 5."
-            },
-            "d": {
-              "title": "Deutsch für den Beruf (B2)",
-              "body": "Sie sprechen schon gut Deutsch und möchten sich auf Vorstellungsgespräche, Telefonate und E-Mails im Berufsalltag vorbereiten? In unserem Kurs üben Sie typische Situationen aus der Arbeitswelt und erstellen mit unserer Hilfe Ihre Bewerbungsunterlagen. Samstags 9–13 Uhr, 16 Wochen. Für Arbeitsuchende mit Bildungsgutschein ist der Kurs kostenlos. Vor Kursbeginn machen alle Teilnehmenden einen kurzen Einstufungstest, damit die Gruppe möglichst einheitlich ist. Die Kursräume liegen direkt am Hauptbahnhof. Sprachschule Lechbrücke, Beratung nach Terminvereinbarung."
-            },
-            "e": {
-              "title": "Ferien in der Stadt",
-              "body": "In den Sommerferien bieten wir Kindern von 6 bis 12 Jahren ein abwechslungsreiches Programm: Wir bauen Flöße, besuchen den Zoo, machen Stadtrallyes und kochen zusammen. Betreuung montags bis freitags von 8 bis 16 Uhr, Mittagessen inklusive. Die Kinder werden in altersgerechten Gruppen von ausgebildeten Pädagoginnen und Pädagogen betreut, und alle Eltern erhalten rechtzeitig einen Wochenplan. Eine Woche kostet 95 Euro, Geschwister erhalten 20 Prozent Rabatt. Die Plätze sind begrenzt – bitte melden Sie Ihr Kind bis Ende Mai an. Jugendhaus Oberhausen."
-            },
-            "f": {
-              "title": "Nachhilfe von Studierenden",
-              "body": "Mathe, Physik oder Chemie machen Ihrem Kind Sorgen? Unser Team aus Lehramts- und Technikstudierenden hilft Schülerinnen und Schülern der Klassen 5 bis 13 – auch gezielt bei der Vorbereitung auf das Abitur. Der Unterricht findet bei Ihnen zu Hause oder online statt, einzeln oder in Kleingruppen. Zu Beginn besprechen wir mit Ihnen, wo die Lücken liegen, und erstellen einen persönlichen Lernplan. Die erste Stunde ist kostenlos, danach zahlen Sie 25 Euro für 60 Minuten. Lernwerk Augsburg – rufen Sie uns an oder schreiben Sie uns."
-            },
-            "g": {
-              "title": "Alte Möbel, neuer Glanz",
-              "body": "Auf dem Dachboden steht eine Kommode von der Großmutter? In unserem Wochenendkurs lernen Sie, alte Möbel selbst zu restaurieren: alten Lack entfernen, kleine Schäden reparieren, schleifen, ölen oder neu lackieren. Bringen Sie Ihr eigenes Möbelstück mit – Werkzeug und Material stellen wir. Der Kurs ist auch für Anfängerinnen und Anfänger ohne handwerkliche Erfahrung geeignet; es gibt höchstens sechs Plätze. Samstag und Sonntag jeweils 10 bis 17 Uhr in unserer Werkstatt. Kosten: 160 Euro plus Material. Schreinerei Huber & Söhne, Lechhausen."
-            },
-            "h": {
-              "title": "Kostenloser Energie-Check",
-              "body": "Ihre Strom- oder Heizkosten sind zu hoch? Die Energieberaterinnen und -berater des städtischen Klimabüros kommen zu Ihnen nach Hause, prüfen Geräte, Fenster und Heizkörper und zeigen Ihnen, wie Sie im Alltag mit einfachen Mitteln Energie sparen. Auf Wunsch erhalten Sie anschließend einen schriftlichen Bericht mit konkreten Tipps, etwa zum richtigen Lüften oder zum Austausch alter Kühlgeräte. Für Mieterinnen und Mieter ist der Check kostenlos. Termine vereinbaren Sie telefonisch montags bis freitags zwischen 9 und 12 Uhr. Klimabüro der Stadt Augsburg."
-            },
-            "i": {
-              "title": "Männerstimmen gesucht!",
-              "body": "Unser gemischter Chor „Lechklang“ singt Pop, Jazz und Volkslieder aus aller Welt und sucht dringend Verstärkung bei den Tenören und Bässen. Notenkenntnisse sind nicht nötig – wir lernen die Stücke gemeinsam. Wir proben jeden Donnerstag von 19.30 bis 21.30 Uhr im Gemeindehaus St. Ulrich, zweimal im Jahr geben wir Konzerte. Wer möchte, kann vor dem ersten Auftritt einige Einzelstunden bei unserer Stimmbildnerin nehmen – für Mitglieder kostenlos. Einfach vorbeikommen und mitsingen! Kontakt: Chorleiterin Mira Tomić."
-            },
-            "j": {
-              "title": "Crashkurs Hochzeitstanz",
-              "body": "Sie heiraten bald und haben noch nie zusammen getanzt? Keine Sorge: An drei Abenden bringen wir Ihnen einen langsamen Walzer oder einen Discofox bei, mit dem Sie Ihre Gäste überraschen. Auf Wunsch studieren wir auch eine eigene kleine Choreografie zu Ihrem Lieblingslied ein. Und falls Sie schon Übung haben, zeigen wir Ihnen gern ein paar neue Figuren. Bitte bequeme Schuhe mitbringen – die Hochzeitsschuhe kommen erst in der letzten Stunde zum Einsatz! Termine nach Vereinbarung, auch am Wochenende. Preis pro Paar: 150 Euro. Tanzschule Rondo, Maximilianstraße 30."
-            },
-            "k": {
-              "title": "Babysitter-Führerschein",
-              "body": "Du bist mindestens 14 Jahre alt und möchtest als Babysitter Geld verdienen? In unserem Kurs lernst du, wie man Kinder verschiedenen Alters beschäftigt, was bei kleinen Unfällen zu tun ist und wie man ein Baby füttert und wickelt. Am Ende bekommst du ein Zertifikat, und auf Wunsch nehmen wir dich in unsere Babysitter-Kartei auf. Eltern können die Kartei kostenlos nutzen und finden so zuverlässige Babysitter in ihrer Nähe. Zwei Samstage, jeweils 9–15 Uhr, 35 Euro. Familienbildungsstätte Augsburg."
-            },
-            "l": {
-              "title": "Arbeiten mit Kind nebenan",
-              "body": "Unser Coworking-Space im Textilviertel bietet ruhige Schreibtischplätze mit schnellem Internet, Drucker und Besprechungsraum. Das Besondere: Im Nebenraum betreuen zwei Erzieherinnen Kinder zwischen einem und drei Jahren, während ihre Eltern arbeiten. So sind Sie in der Nähe und können trotzdem konzentriert arbeiten. Tagesticket inklusive Betreuung: 25 Euro, Zehnerkarte: 220 Euro. Kaffee und Tee sind im Preis enthalten, eine Küche steht allen zur Verfügung. Bitte melden Sie Ihr Kind einen Tag vorher an. Coworking Kleine Freiheit."
-            }
+            "a": "Text A",
+            "b": "Text B",
+            "c": "Text C",
+            "d": "Text D"
           },
-          "items": [
+          "texts": [
             {
-              "id": "tb2-l3-1",
-              "prompt": "Sie haben sich gerade als Übersetzerin selbstständig gemacht und wissen nicht, wie Sie Ihre Einnahmen und Ausgaben ordentlich festhalten sollen.",
-              "correct": "a"
+              "id": "r4-a",
+              "kind": "article",
+              "label": "Text A",
+              "title": "Cars off the High Street: trial begins in Aldbury",
+              "paras": [
+                "From the first Saturday in June, private cars will be banned from Aldbury High Street between 10 am and 5 pm. The six-month trial, approved by the town council by nine votes to five, will cost £48,000, mostly for removable barriers and new signs. Buses, taxis and cyclists may still use the street, and drivers with a disabled badge will be allowed to park in two marked bays.",
+                "Councillor Rosa Delgado says the aim is to make the town centre “a place people want to stay in, not just drive through”. Pedestrian counts will be taken every Saturday, and the results will be published on the council website. If the trial is a success, the ban could be extended to Sundays next year."
+              ]
             },
             {
-              "id": "tb2-l3-2",
-              "prompt": "Ihr Vermieter will die Miete um 15 Prozent erhöhen. Sie möchten wissen, ob er das darf.",
-              "correct": "c"
+              "id": "r4-b",
+              "kind": "email",
+              "label": "Text B",
+              "title": "From Hannah Okafor, owner of Okafor Books, to the Aldbury Traders' Association",
+              "paras": [
+                "Dear all, I want to be fair: I'm not against the idea of a car-free High Street. But Saturday is my busiest day, and it brings in almost a third of my weekly takings. Many of my customers come from villages where there is no bus on Saturdays, and they leave with heavy bags of books.",
+                "I'd have preferred the council to try the ban on a quieter day first, say a Tuesday. I have also asked for a free shuttle from the Mill Lane car park, but I haven't had a reply. If our takings fall by more than 10 per cent in the first month, I will ask everyone here to sign a petition to end the trial. Best wishes, Hannah"
+              ]
             },
             {
-              "id": "tb2-l3-3",
-              "prompt": "Sie haben durch die Arbeit am Computer oft Rückenschmerzen und möchten morgens vor dem Büro etwas dagegen tun.",
-              "correct": "b"
+              "id": "r4-c",
+              "kind": "message",
+              "label": "Text C",
+              "title": "Letter to the editor from Ibrahim Khalil",
+              "paras": [
+                "I am 78 and walk with a stick, so the news about the High Street made me nervous. Until now I have driven in every Saturday to meet friends for coffee. The two bays for badge holders are at the far end of the street, 300 metres from the chemist, and that is a long way when your legs are tired.",
+                "I am not saying the idea is wrong. In fact, I would welcome the trial if the council put a bench every fifty metres, so that people like me could rest. I imagine my grandchildren would love a street where they can walk about without worrying about traffic."
+              ]
             },
             {
-              "id": "tb2-l3-4",
-              "prompt": "Ihre Tochter macht im nächsten Frühjahr Abitur und hat große Schwierigkeiten in Physik.",
-              "correct": "f"
-            },
-            {
-              "id": "tb2-l3-5",
-              "prompt": "Sie arbeiten als Grafikerin von zu Hause aus. In den Sommerferien ist Ihre achtjährige Tochter den ganzen Tag in der Wohnung, und Sie können sich dann kaum auf Ihre Aufträge konzentrieren.",
-              "correct": "e"
-            },
-            {
-              "id": "tb2-l3-6",
-              "prompt": "Ihr Sohn ist 15 und möchte sich mit Kinderbetreuung bei Nachbarn etwas Taschengeld verdienen.",
-              "correct": "k"
-            },
-            {
-              "id": "tb2-l3-7",
-              "prompt": "Ihre letzte Heizkostenabrechnung war sehr hoch. Sie möchten erfahren, wie Sie in Ihrer Wohnung weniger Energie verbrauchen.",
-              "correct": "h"
-            },
-            {
-              "id": "tb2-l3-8",
-              "prompt": "Sie haben einen alten Holztisch geerbt, der dringend neu gestrichen werden müsste, und möchten das selbst machen.",
-              "correct": "g"
-            },
-            {
-              "id": "tb2-l3-9",
-              "prompt": "Sie singen gern und suchen einen Chor. Weil Sie unter der Woche abends im Schichtdienst arbeiten, haben Sie nur am Wochenende Zeit.",
-              "correct": "x"
-            },
-            {
-              "id": "tb2-l3-10",
-              "prompt": "Sie und Ihr Partner heiraten in zwei Monaten. Discofox tanzen Sie schon seit Jahren zusammen, aber für die Feier möchten Sie etwas Neues einüben.",
-              "correct": "j"
-            }
-          ]
-        }
-      ],
-      "timer": "lesen-sprachbausteine",
-      "timerLabel": "Leseverstehen und Sprachbausteine"
-    },
-    {
-      "key": "sprachbausteine",
-      "name": "Sprachbausteine",
-      "minutes": 90,
-      "parts": [
-        {
-          "key": "sb1",
-          "teil": 1,
-          "type": "gap-mc",
-          "points": 1.5,
-          "title": "Ein persönlicher Brief",
-          "instruction": "Lies den Brief und entscheide, welches Wort (a, b oder c) in die Lücken 1 bis 10 passt. Die 90 Minuten für Leseverstehen und Sprachbausteine gelten zusammen.",
-          "segments": [
-            {
-              "t": "Liebe Johanna,"
-            },
-            {
-              "br": true
-            },
-            {
-              "t": "vielen Dank für deine lange Mail und die Fotos von eurem neuen Garten! Entschuldige bitte, dass ich erst jetzt antworte, aber die letzten Wochen waren ziemlich chaotisch."
-            },
-            {
-              "br": true
-            },
-            {
-              "t": "Wie du weißt, bin ich im März nach Salzburg gezogen, "
-            },
-            {
-              "gap": "tb2-sb1-1"
-            },
-            {
-              "t": " ich hier eine Stelle an der Rezeption eines großen Hotels bekommen habe. Die Arbeit macht mir viel Spaß, auch "
-            },
-            {
-              "gap": "tb2-sb1-2"
-            },
-            {
-              "t": " die Schichten manchmal sehr lang sind. Meine Kolleginnen und Kollegen kommen aus acht verschiedenen Ländern, und in der Kantine hört man ständig ein wildes Sprachgemisch. Ich habe sogar angefangen, ein bisschen Italienisch zu lernen, weil unser Küchenchef aus Bologna kommt."
-            },
-            {
-              "br": true
-            },
-            {
-              "t": "Die ersten Wochen habe ich bei einer Kollegin gewohnt, "
-            },
-            {
-              "gap": "tb2-sb1-3"
-            },
-            {
-              "t": " mir spontan ihr Gästezimmer angeboten hatte. Seit Anfang Mai habe ich nun endlich eine eigene Wohnung – klein, aber mit Blick auf die "
-            },
-            {
-              "gap": "tb2-sb1-4"
-            },
-            {
-              "t": " Berge! Bis alles fertig war, hat es allerdings gedauert. Ich musste Möbel kaufen und einen Internetanschluss beantragen, außerdem musste ich "
-            },
-            {
-              "gap": "tb2-sb1-5"
-            },
-            {
-              "t": " beim Meldeamt anmelden. "
-            },
-            {
-              "gap": "tb2-sb1-6"
-            },
-            {
-              "t": " den Kleiderschrank warte ich übrigens immer noch: Er hätte schon vor drei Wochen geliefert werden "
-            },
-            {
-              "gap": "tb2-sb1-7"
-            },
-            {
-              "t": ", aber das Möbelhaus vertröstet mich jedes Mal auf die nächste Woche."
-            },
-            {
-              "br": true
-            },
-            {
-              "gap": "tb2-sb1-8"
-            },
-            {
-              "t": " ich letzten Sonntag meinen ersten ganz freien Tag hatte, bin ich auf den Gaisberg gewandert. Die Aussicht über die Stadt war unglaublich, und ich habe an dich gedacht, weil wir früher so oft zusammen in den Bergen unterwegs waren. Nächstes Mal nehme ich allerdings bessere Schuhe mit – meine Füße haben noch zwei Tage wehgetan."
-            },
-            {
-              "br": true
-            },
-            {
-              "t": "Du hast gefragt, ob du mich im Sommer besuchen kannst – natürlich, sehr gern! "
-            },
-            {
-              "gap": "tb2-sb1-9"
-            },
-            {
-              "t": " im Hotel zu übernachten, kannst du bei mir auf dem Schlafsofa schlafen. Nur Ende Juli ist es schwierig: "
-            },
-            {
-              "gap": "tb2-sb1-10"
-            },
-            {
-              "t": " der Festspiele ist die ganze Stadt voller Touristen, und ich muss fast jeden Tag arbeiten. Wie wäre es mit der zweiten Augusthälfte?"
-            },
-            {
-              "br": true
-            },
-            {
-              "t": "Schreib mir bald, wann es dir passt!"
-            },
-            {
-              "br": true
-            },
-            {
-              "t": "Liebe Grüße"
-            },
-            {
-              "br": true
-            },
-            {
-              "t": "deine Mirela"
+              "id": "r4-d",
+              "kind": "notice",
+              "label": "Text D",
+              "title": "Aldbury Families Group: newsletter",
+              "paras": [
+                "We asked 400 local parents about the High Street. A clear 71 per cent told us they avoid it at weekends because of the traffic and the narrow pavements. That is why we back the car-free Saturdays.",
+                "On the first Saturday of the trial, our volunteers will run chalk drawing and music for children in the middle of the street. We would also like to see more places to leave bicycles: at the moment there are only six cycle racks on the whole street."
+              ]
             }
           ],
           "items": [
-            {
-              "id": "tb2-sb1-1",
-              "options": [
-                "obwohl",
-                "weil",
-                "damit"
-              ],
-              "correct": 1
-            },
-            {
-              "id": "tb2-sb1-2",
-              "options": [
-                "wenn",
-                "ob",
-                "als"
-              ],
-              "correct": 0
-            },
-            {
-              "id": "tb2-sb1-3",
-              "options": [
-                "der",
-                "deren",
-                "die"
-              ],
-              "correct": 2
-            },
-            {
-              "id": "tb2-sb1-4",
-              "options": [
-                "hohe",
-                "hohen",
-                "hoher"
-              ],
-              "correct": 1
-            },
-            {
-              "id": "tb2-sb1-5",
-              "options": [
-                "mir",
-                "sich",
-                "mich"
-              ],
-              "correct": 2
-            },
-            {
-              "id": "tb2-sb1-6",
-              "options": [
-                "Auf",
-                "Für",
-                "An"
-              ],
-              "correct": 0
-            },
-            {
-              "id": "tb2-sb1-7",
-              "options": [
-                "soll",
-                "sollen",
-                "gesollt"
-              ],
-              "correct": 1
-            },
-            {
-              "id": "tb2-sb1-8",
-              "options": [
-                "Wenn",
-                "Als",
-                "Wann"
-              ],
-              "correct": 1
-            },
-            {
-              "id": "tb2-sb1-9",
-              "options": [
-                "Damit",
-                "Obwohl",
-                "Statt"
-              ],
-              "correct": 2
-            },
-            {
-              "id": "tb2-sb1-10",
-              "options": [
-                "Während",
-                "Seit",
-                "Bis"
-              ],
-              "correct": 0
-            }
+            { "id": "e2-r4-1", "prompt": "Which text says how much the trial will cost?", "correct": "a" },
+            { "id": "e2-r4-2", "prompt": "Which text suggests trying the ban on a different day of the week?", "correct": "b" },
+            { "id": "e2-r4-3", "prompt": "Which text asks for places to sit down?", "correct": "c" },
+            { "id": "e2-r4-4", "prompt": "Which text reports the results of a survey?", "correct": "d" },
+            { "id": "e2-r4-5", "prompt": "Which text mentions that people might sign a petition against the trial?", "correct": "b" }
           ]
         },
         {
-          "key": "sb2",
-          "teil": 2,
-          "type": "gap-bank",
-          "points": 1.5,
-          "title": "Ein Pressetext",
-          "instruction": "Lies den Text und entscheide, welches Wort aus der Liste a bis o in die Lücken 11 bis 20 passt. Jedes Wort passt nur einmal; fünf Wörter bleiben übrig.",
-          "textTitle": "Arbeiten im Ruhestand: Immer mehr Ältere bleiben im Job",
-          "bank": {
-            "a": "LAGE",
-            "b": "GEFORDERT",
-            "c": "JEDOCH",
-            "d": "ZWISCHEN",
-            "e": "ERGEBNIS",
-            "f": "FORDERN",
-            "g": "GRUND",
-            "h": "AUF",
-            "i": "ROLLE",
-            "j": "OHNE",
-            "k": "BEFRAGT",
-            "l": "AUFGABE",
-            "m": "SINN",
-            "n": "PROFITIEREN",
-            "o": "NEBEN"
-          },
-          "segments": [
+          "key": "l5",
+          "teil": 5,
+          "type": "tf",
+          "points": 8,
+          "title": "Task 2 · Multi-text reading: true or false?",
+          "instruction": "Read texts A to D again. In the exam, five of eight statements are true and you tick those five (questions 24 to 28). Here, decide for each of the eight statements (questions 24 to 31) whether it is true (Richtig) or false (Falsch) according to the texts. Five are true and three are false.",
+          "texts": [
             {
-              "t": "Immer mehr Rentnerinnen und Rentner in Deutschland gehen auch nach dem Ende ihres Berufslebens einer bezahlten Tätigkeit nach. Das ist das "
+              "id": "r5-a",
+              "kind": "article",
+              "label": "Text A",
+              "title": "Cars off the High Street: trial begins in Aldbury",
+              "paras": [
+                "From the first Saturday in June, private cars will be banned from Aldbury High Street between 10 am and 5 pm. The six-month trial, approved by the town council by nine votes to five, will cost £48,000, mostly for removable barriers and new signs. Buses, taxis and cyclists may still use the street, and drivers with a disabled badge will be allowed to park in two marked bays.",
+                "Councillor Rosa Delgado says the aim is to make the town centre “a place people want to stay in, not just drive through”. Pedestrian counts will be taken every Saturday, and the results will be published on the council website. If the trial is a success, the ban could be extended to Sundays next year."
+              ]
             },
             {
-              "gap": "tb2-sb2-1"
+              "id": "r5-b",
+              "kind": "email",
+              "label": "Text B",
+              "title": "From Hannah Okafor, owner of Okafor Books, to the Aldbury Traders' Association",
+              "paras": [
+                "Dear all, I want to be fair: I'm not against the idea of a car-free High Street. But Saturday is my busiest day, and it brings in almost a third of my weekly takings. Many of my customers come from villages where there is no bus on Saturdays, and they leave with heavy bags of books.",
+                "I'd have preferred the council to try the ban on a quieter day first, say a Tuesday. I have also asked for a free shuttle from the Mill Lane car park, but I haven't had a reply. If our takings fall by more than 10 per cent in the first month, I will ask everyone here to sign a petition to end the trial. Best wishes, Hannah"
+              ]
             },
             {
-              "t": " einer aktuellen Studie, die ein Mannheimer Forschungsinstitut am Dienstag vorgestellt hat. Demnach arbeitet inzwischen fast jede achte Person zwischen 66 und 70 Jahren – vor zehn Jahren war es nur jede zwölfte. Besonders stark ist der Anstieg bei Männern in Süddeutschland."
+              "id": "r5-c",
+              "kind": "message",
+              "label": "Text C",
+              "title": "Letter to the editor from Ibrahim Khalil",
+              "paras": [
+                "I am 78 and walk with a stick, so the news about the High Street made me nervous. Until now I have driven in every Saturday to meet friends for coffee. The two bays for badge holders are at the far end of the street, 300 metres from the chemist, and that is a long way when your legs are tired.",
+                "I am not saying the idea is wrong. In fact, I would welcome the trial if the council put a bench every fifty metres, so that people like me could rest. I imagine my grandchildren would love a street where they can walk about without worrying about traffic."
+              ]
             },
             {
-              "br": true
-            },
-            {
-              "t": "Für die Studie wurden rund 4.000 Menschen im Rentenalter "
-            },
-            {
-              "gap": "tb2-sb2-2"
-            },
-            {
-              "t": ". Anders als oft vermutet, spielt Geld dabei nicht immer die wichtigste "
-            },
-            {
-              "gap": "tb2-sb2-3"
-            },
-            {
-              "t": ". Zwar gab etwa ein Drittel an, auf das zusätzliche Einkommen angewiesen zu sein. Die Mehrheit nannte "
-            },
-            {
-              "gap": "tb2-sb2-4"
-            },
-            {
-              "t": " andere Gründe: Sie möchte weiterhin gebraucht werden, den Kontakt zu Kolleginnen und Kollegen nicht verlieren oder einfach eine "
-            },
-            {
-              "gap": "tb2-sb2-5"
-            },
-            {
-              "t": " haben, die ihrem Tag eine feste Struktur gibt."
-            },
-            {
-              "br": true
-            },
-            {
-              "t": "Besonders häufig arbeiten Rentner im Einzelhandel, in der Gastronomie und in Büros, meist in Teilzeit oder als Minijobber. Auch viele Handwerksbetriebe "
-            },
-            {
-              "gap": "tb2-sb2-6"
-            },
-            {
-              "t": " von erfahrenen Kräften, die zum Beispiel Auszubildende anleiten. „Angesichts des Fachkräftemangels sind ältere Beschäftigte für viele Unternehmen ein echter Gewinn“, sagt Studienleiterin Dr. Petra Sommer. Oft seien sie besonders zuverlässig und brächten Wissen mit, das in keinem Lehrbuch steht."
-            },
-            {
-              "br": true
-            },
-            {
-              "t": "Die Forscher weisen allerdings "
-            },
-            {
-              "gap": "tb2-sb2-7"
-            },
-            {
-              "t": " deutliche Unterschiede hin. Menschen mit Hochschulabschluss arbeiten im Alter viel häufiger als Menschen, die ihr Leben lang körperlich schwer gearbeitet haben. Viele von ihnen seien gesundheitlich gar nicht mehr in der "
-            },
-            {
-              "gap": "tb2-sb2-8"
-            },
-            {
-              "t": ", noch einen Job anzunehmen – auch wenn sie das Geld dringend bräuchten. Auch Frauen, die wegen der Kindererziehung lange in Teilzeit gearbeitet haben, sind unter den arbeitenden Rentnern seltener vertreten, obwohl gerade sie oft nur eine kleine Rente beziehen."
-            },
-            {
-              "br": true
-            },
-            {
-              "t": "Die Autorinnen und Autoren der Studie "
-            },
-            {
-              "gap": "tb2-sb2-9"
-            },
-            {
-              "t": " deshalb flexiblere Modelle für den Übergang in den Ruhestand. Wer möchte, solle schrittweise weniger arbeiten können, statt von einem Tag auf den anderen ganz aufzuhören. Zudem müsse die Politik dafür sorgen, dass sich eine Beschäftigung "
-            },
-            {
-              "gap": "tb2-sb2-10"
-            },
-            {
-              "t": " der Rente auch finanziell lohnt. Bisher bleibe nach Steuern und Abgaben bei manchen Modellen zu wenig übrig. Das Bundesarbeitsministerium kündigte an, die Vorschläge genau prüfen zu wollen."
+              "id": "r5-d",
+              "kind": "notice",
+              "label": "Text D",
+              "title": "Aldbury Families Group: newsletter",
+              "paras": [
+                "We asked 400 local parents about the High Street. A clear 71 per cent told us they avoid it at weekends because of the traffic and the narrow pavements. That is why we back the car-free Saturdays.",
+                "On the first Saturday of the trial, our volunteers will run chalk drawing and music for children in the middle of the street. We would also like to see more places to leave bicycles: at the moment there are only six cycle racks on the whole street."
+              ]
             }
           ],
           "items": [
-            {
-              "id": "tb2-sb2-1",
-              "correct": "e"
-            },
-            {
-              "id": "tb2-sb2-2",
-              "correct": "k"
-            },
-            {
-              "id": "tb2-sb2-3",
-              "correct": "i"
-            },
-            {
-              "id": "tb2-sb2-4",
-              "correct": "c"
-            },
-            {
-              "id": "tb2-sb2-5",
-              "correct": "l"
-            },
-            {
-              "id": "tb2-sb2-6",
-              "correct": "n"
-            },
-            {
-              "id": "tb2-sb2-7",
-              "correct": "h"
-            },
-            {
-              "id": "tb2-sb2-8",
-              "correct": "a"
-            },
-            {
-              "id": "tb2-sb2-9",
-              "correct": "f"
-            },
-            {
-              "id": "tb2-sb2-10",
-              "correct": "o"
-            }
+            { "id": "e2-r5-1", "statement": "The council voted in favour of the trial by a majority of four votes.", "correct": "richtig" },
+            { "id": "e2-r5-2", "statement": "Drivers with a disabled badge will not be allowed to park on the High Street during the trial.", "correct": "falsch" },
+            { "id": "e2-r5-3", "statement": "The council plans to publish its counts of people on the High Street.", "correct": "richtig" },
+            { "id": "e2-r5-4", "statement": "Hannah Okafor believes that a car-free High Street is a bad idea in principle.", "correct": "falsch" },
+            { "id": "e2-r5-5", "statement": "Hannah Okafor's shop earns nearly a third of its weekly income on Saturdays.", "correct": "richtig" },
+            { "id": "e2-r5-6", "statement": "Ibrahim Khalil would be happy with the trial if more benches were provided.", "correct": "richtig" },
+            { "id": "e2-r5-7", "statement": "The Families Group thinks the High Street already has enough places to leave bicycles.", "correct": "falsch" },
+            { "id": "e2-r5-8", "statement": "The Families Group will organise activities for children on the first day of the trial.", "correct": "richtig" }
           ]
-        }
-      ],
-      "timer": "lesen-sprachbausteine",
-      "timerLabel": "Leseverstehen und Sprachbausteine"
-    },
-    {
-      "key": "hoeren",
-      "name": "Hörverstehen",
-      "minutes": 20,
-      "parts": [
+        },
         {
-          "key": "h1",
-          "teil": 1,
-          "type": "tf",
+          "key": "l6",
+          "teil": 6,
+          "type": "write-in",
           "points": 5,
-          "title": "Nachrichten verstehen",
-          "instruction": "Du hörst Nachrichten aus dem Radio. Du hörst den Text nur einmal. Entscheide beim Hören, ob die Aussagen 1 bis 5 richtig oder falsch sind. Lies zuerst die Aussagen; du hast dazu 30 Sekunden Zeit.",
-          "clips": [
+          "title": "Task 2 · Multi-text reading: complete the notes",
+          "instruction": "Read texts A to D again and complete the notes (questions 32 to 36). Write a number, a word or a phrase from the texts, with no more than three words. Copy it exactly as it appears in the texts.",
+          "texts": [
             {
-              "id": "h1-1",
-              "title": "Nachrichtensendung",
-              "plays": 1,
-              "script": [
-                {
-                  "s": "nachr",
-                  "t": "Guten Abend, meine Damen und Herren. Sie hören die Nachrichten."
-                },
-                {
-                  "s": "nachr",
-                  "t": "Dresden. Sachsen will dem Lehrermangel mit Fachkräften aus dem Ausland begegnen. Wie das Kultusministerium heute mitteilte, sollen im kommenden Schuljahr bis zu vierhundert Lehrerinnen und Lehrer aus anderen Ländern eingestellt werden. Damit das gelingt, will das Land die Anerkennung ausländischer Abschlüsse deutlich beschleunigen: Statt wie bisher oft mehr als ein Jahr sollen die Verfahren künftig höchstens drei Monate dauern. Die Lehrergewerkschaft begrüßte den Plan, forderte aber zusätzliche Deutschkurse für die neuen Kolleginnen und Kollegen."
-                },
-                {
-                  "s": "nachr",
-                  "t": "Zürich. Die fahrerlosen Kleinbusse in der Zürcher Innenstadt bleiben länger unterwegs als geplant. Die Verkehrsbetriebe haben den Test, der eigentlich Ende Juni auslaufen sollte, um ein weiteres Jahr verlängert. Nach Angaben der Stadt sind seit dem Start mehr als achtzigtausend Fahrgäste mitgefahren; ernsthafte Zwischenfälle habe es nicht gegeben. Künftig sollen die Busse auch am Abend fahren."
-                },
-                {
-                  "s": "nachr",
-                  "t": "Göttingen. Beim Fahrradhersteller Velomont gilt ab dem ersten Oktober Kurzarbeit. Betroffen sind rund zweihundert der insgesamt sechshundert Beschäftigten. Das Unternehmen begründet den Schritt mit der schwachen Nachfrage nach teuren E-Bikes. Kündigungen seien nicht geplant, betonte die Geschäftsführung; man rechne damit, dass sich der Markt im Frühjahr wieder erholt."
-                },
-                {
-                  "s": "nachr",
-                  "t": "Lübeck. Bei Bauarbeiten in einem Haus in der Altstadt ist ein Gemälde aus dem siebzehnten Jahrhundert entdeckt worden. Das Bild, das eine Hafenszene zeigt, lag in alte Decken gewickelt hinter einer Kellerwand. Fachleute des Landesmuseums wollen es in den kommenden Monaten restaurieren. Ab dem nächsten Frühjahr soll es dann in einer Ausstellung zu sehen sein."
-                },
-                {
-                  "s": "nachr",
-                  "t": "Und nun zum Wetter. Im Norden und Osten scheint am Wochenende meist die Sonne, bei Temperaturen bis sechsundzwanzig Grad. Im Süden ziehen dagegen ab Samstagnachmittag Gewitter auf, örtlich mit Starkregen. Am Sonntag wird es auch dort wieder freundlicher."
-                }
+              "id": "r6-a",
+              "kind": "article",
+              "label": "Text A",
+              "title": "Cars off the High Street: trial begins in Aldbury",
+              "paras": [
+                "From the first Saturday in June, private cars will be banned from Aldbury High Street between 10 am and 5 pm. The six-month trial, approved by the town council by nine votes to five, will cost £48,000, mostly for removable barriers and new signs. Buses, taxis and cyclists may still use the street, and drivers with a disabled badge will be allowed to park in two marked bays.",
+                "Councillor Rosa Delgado says the aim is to make the town centre “a place people want to stay in, not just drive through”. Pedestrian counts will be taken every Saturday, and the results will be published on the council website. If the trial is a success, the ban could be extended to Sundays next year."
+              ]
+            },
+            {
+              "id": "r6-b",
+              "kind": "email",
+              "label": "Text B",
+              "title": "From Hannah Okafor, owner of Okafor Books, to the Aldbury Traders' Association",
+              "paras": [
+                "Dear all, I want to be fair: I'm not against the idea of a car-free High Street. But Saturday is my busiest day, and it brings in almost a third of my weekly takings. Many of my customers come from villages where there is no bus on Saturdays, and they leave with heavy bags of books.",
+                "I'd have preferred the council to try the ban on a quieter day first, say a Tuesday. I have also asked for a free shuttle from the Mill Lane car park, but I haven't had a reply. If our takings fall by more than 10 per cent in the first month, I will ask everyone here to sign a petition to end the trial. Best wishes, Hannah"
+              ]
+            },
+            {
+              "id": "r6-c",
+              "kind": "message",
+              "label": "Text C",
+              "title": "Letter to the editor from Ibrahim Khalil",
+              "paras": [
+                "I am 78 and walk with a stick, so the news about the High Street made me nervous. Until now I have driven in every Saturday to meet friends for coffee. The two bays for badge holders are at the far end of the street, 300 metres from the chemist, and that is a long way when your legs are tired.",
+                "I am not saying the idea is wrong. In fact, I would welcome the trial if the council put a bench every fifty metres, so that people like me could rest. I imagine my grandchildren would love a street where they can walk about without worrying about traffic."
+              ]
+            },
+            {
+              "id": "r6-d",
+              "kind": "notice",
+              "label": "Text D",
+              "title": "Aldbury Families Group: newsletter",
+              "paras": [
+                "We asked 400 local parents about the High Street. A clear 71 per cent told us they avoid it at weekends because of the traffic and the narrow pavements. That is why we back the car-free Saturdays.",
+                "On the first Saturday of the trial, our volunteers will run chalk drawing and music for children in the middle of the street. We would also like to see more places to leave bicycles: at the moment there are only six cycle racks on the whole street."
               ]
             }
           ],
           "items": [
-            {
-              "id": "tb2-h1-1",
-              "clip": "h1-1",
-              "statement": "In Sachsen sollen die Abschlüsse ausländischer Lehrkräfte künftig schneller anerkannt werden.",
-              "correct": "richtig"
-            },
-            {
-              "id": "tb2-h1-2",
-              "clip": "h1-1",
-              "statement": "Der Versuch mit fahrerlosen Bussen in Zürich wird im Sommer beendet.",
-              "correct": "falsch"
-            },
-            {
-              "id": "tb2-h1-3",
-              "clip": "h1-1",
-              "statement": "Beim Fahrradhersteller in Göttingen verlieren zweihundert Menschen ihren Arbeitsplatz.",
-              "correct": "falsch"
-            },
-            {
-              "id": "tb2-h1-4",
-              "clip": "h1-1",
-              "statement": "Das in Lübeck gefundene Gemälde soll später öffentlich gezeigt werden.",
-              "correct": "richtig"
-            },
-            {
-              "id": "tb2-h1-5",
-              "clip": "h1-1",
-              "statement": "Am Wochenende muss man in ganz Deutschland mit Gewittern rechnen.",
-              "correct": "falsch"
-            }
-          ]
-        },
-        {
-          "key": "h2",
-          "teil": 2,
-          "type": "tf",
-          "points": 2.5,
-          "title": "Ein Radiointerview verstehen",
-          "instruction": "Du hörst ein Interview aus dem Radio. Du hörst das Interview nur einmal. Entscheide beim Hören, ob die Aussagen 6 bis 15 richtig oder falsch sind. Lies zuerst die Aussagen; du hast dazu 60 Sekunden Zeit. In der Sendung „Zweite Halbzeit“ spricht eine Moderatorin mit Stefan Brückner, der mit Anfang vierzig den Beruf gewechselt hat.",
-          "clips": [
-            {
-              "id": "h2-1",
-              "title": "Interview: „Zweite Halbzeit“",
-              "plays": 1,
-              "names": {
-                "mod": "Moderatorin",
-                "gast": "Stefan Brückner"
-              },
-              "script": [
-                {
-                  "s": "mod",
-                  "t": "Und hier ist wieder „Zweite Halbzeit“, unsere Sendung über Menschen, die im Leben noch einmal ganz neu anfangen. Mein Gast heute ist Stefan Brückner aus Freiburg. Herr Brückner, Sie waren viele Jahre Versicherungskaufmann und sind heute Tischler. Herzlich willkommen!"
-                },
-                {
-                  "s": "gast",
-                  "t": "Danke schön, ich freu mich, dass ich hier sein darf."
-                },
-                {
-                  "s": "mod",
-                  "t": "Wie lange haben Sie denn bei der Versicherung gearbeitet?"
-                },
-                {
-                  "s": "gast",
-                  "t": "Ach, das waren … achtzehn Jahre, fast neunzehn. Direkt nach dem Abitur hab ich da die Ausbildung gemacht und bin dann einfach geblieben. War ja auch ein sicherer Job, ordentlich bezahlt, nette Kollegen."
-                },
-                {
-                  "s": "mod",
-                  "t": "Das klingt eigentlich nicht nach einem Grund zu gehen."
-                },
-                {
-                  "s": "gast",
-                  "t": "Nee, am Geld lag’s wirklich nicht. Aber ich hab irgendwann gemerkt: Ich komm abends nach Hause und kann überhaupt nicht sagen, was ich eigentlich gemacht hab. Tabellen, E-Mails, Telefonate … man sieht nichts. Und dann haben meine Frau und ich vor ungefähr sechs Jahren unsere Altbauwohnung renoviert, und ich hab zum ersten Mal selbst Regale gebaut und alte Türen abgeschliffen. Da hab ich gedacht: Das ist es. Da seh ich am Ende des Tages, was ich geschafft hab."
-                },
-                {
-                  "s": "mod",
-                  "t": "Und wie hat Ihre Familie reagiert, als Sie gesagt haben: Ich kündige?"
-                },
-                {
-                  "s": "gast",
-                  "t": "Meine Frau hat sofort gesagt: Mach das, sonst ärgerst du dich in zehn Jahren. Die war eigentlich mutiger als ich. Mein Vater dagegen … der hat erst mal gar nichts gesagt und dann gefragt, ob ich eine Midlife-Crisis hab."
-                },
-                {
-                  "s": "mod",
-                  "t": "Wie lange hat die Ausbildung zum Tischler gedauert?"
-                },
-                {
-                  "s": "gast",
-                  "t": "Normalerweise sind’s ja drei Jahre. Aber weil ich Abitur hatte und schon eine abgeschlossene Ausbildung, durfte ich auf zwei Jahre verkürzen. Das war ehrlich gesagt auch nötig."
-                },
-                {
-                  "s": "mod",
-                  "t": "Weil das Geld knapp war?"
-                },
-                {
-                  "s": "gast",
-                  "t": "Genau. Als Azubi verdient man ja nicht viel, im ersten Jahr waren das so um die siebenhundert Euro. Wir haben in der Zeit vor allem von dem gelebt, was wir gespart hatten, und vom Gehalt meiner Frau. Sie ist Ärztin und arbeitet Vollzeit. Ohne sie wär das nicht gegangen."
-                },
-                {
-                  "s": "mod",
-                  "t": "Sie saßen dann ja auch wieder in der Berufsschule. Wie war das, mit Anfang vierzig zwischen lauter Jugendlichen?"
-                },
-                {
-                  "s": "gast",
-                  "t": "Also, die ersten Wochen fand ich schon komisch. Die anderen waren siebzehn, achtzehn – ich hätte ihr Vater sein können. Aber die waren total offen. Und bei den Computerprogrammen, mit denen man heute Möbel plant, da waren die viel schneller als ich. Die haben mir echt oft geholfen. Dafür hab ich ihnen bei den Rechenaufgaben geholfen. Das war ein guter Tausch."
-                },
-                {
-                  "s": "mod",
-                  "t": "Und körperlich? Tischler ist ja kein Schreibtischjob."
-                },
-                {
-                  "s": "gast",
-                  "t": "Oh ja, das hab ich unterschätzt. Die ersten drei, vier Monate hatte ich ständig Rückenschmerzen, abends bin ich nur noch aufs Sofa gefallen. Aber der Körper gewöhnt sich dran. Heute bin ich fitter als mit dreißig, ich brauch kein Fitnessstudio mehr."
-                },
-                {
-                  "s": "mod",
-                  "t": "Wo arbeiten Sie heute?"
-                },
-                {
-                  "s": "gast",
-                  "t": "In einer kleinen Werkstatt hier in Freiburg, wir sind zu fünft. Wir bauen vor allem Möbel nach Maß – Küchen, Einbauschränke, so was. Ich bin da angestellt. Viele fragen mich, ob ich mich nicht selbstständig machen will … Vielleicht irgendwann mal. Im Moment bin ich froh, dass sich jemand anders um Rechnungen und Steuern kümmert. Davon hatte ich in der Versicherung genug."
-                },
-                {
-                  "s": "mod",
-                  "t": "Und finanziell – bereuen Sie den Schritt manchmal?"
-                },
-                {
-                  "s": "gast",
-                  "t": "Ich verdiene heute ungefähr ein Drittel weniger als früher, das muss man ganz klar sagen. Wir fahren nicht mehr so oft in Urlaub. Aber bereuen? Nein. Keinen einzigen Tag."
-                },
-                {
-                  "s": "mod",
-                  "t": "Was würden Sie Hörerinnen und Hörern raten, die auch über so einen Wechsel nachdenken?"
-                },
-                {
-                  "s": "gast",
-                  "t": "Nicht einfach von heute auf morgen kündigen. Ich hab damals erst mal zwei Wochen Urlaub genommen und in einer Tischlerei ein Praktikum gemacht. Da merkt man ziemlich schnell, ob man den Beruf nur romantisch findet oder ob man den Alltag wirklich mag. Das würd ich jedem empfehlen."
-                },
-                {
-                  "s": "mod",
-                  "t": "Herr Brückner, vielen Dank für das Gespräch!"
-                },
-                {
-                  "s": "gast",
-                  "t": "Sehr gern."
-                }
-              ]
-            }
-          ],
-          "items": [
-            {
-              "id": "tb2-h2-1",
-              "clip": "h2-1",
-              "statement": "Herr Brückner war fast zwei Jahrzehnte lang bei einer Versicherung beschäftigt.",
-              "correct": "richtig"
-            },
-            {
-              "id": "tb2-h2-2",
-              "clip": "h2-1",
-              "statement": "Er hat die Versicherung verlassen, weil er dort zu wenig verdient hat.",
-              "correct": "falsch"
-            },
-            {
-              "id": "tb2-h2-3",
-              "clip": "h2-1",
-              "statement": "Seine Frau hatte zuerst Bedenken gegen den Berufswechsel.",
-              "correct": "falsch"
-            },
-            {
-              "id": "tb2-h2-4",
-              "clip": "h2-1",
-              "statement": "Er konnte seine Ausbildung zum Tischler verkürzen.",
-              "correct": "richtig"
-            },
-            {
-              "id": "tb2-h2-5",
-              "clip": "h2-1",
-              "statement": "In der Ausbildungszeit war die Familie vor allem auf das Ersparte und das Einkommen seiner Frau angewiesen.",
-              "correct": "richtig"
-            },
-            {
-              "id": "tb2-h2-6",
-              "clip": "h2-1",
-              "statement": "In der Berufsschule haben ihm die jüngeren Mitschüler bei der Arbeit am Computer geholfen.",
-              "correct": "richtig"
-            },
-            {
-              "id": "tb2-h2-7",
-              "clip": "h2-1",
-              "statement": "Die körperliche Arbeit fällt ihm bis heute schwer.",
-              "correct": "falsch"
-            },
-            {
-              "id": "tb2-h2-8",
-              "clip": "h2-1",
-              "statement": "Herr Brückner hat inzwischen eine eigene Werkstatt eröffnet.",
-              "correct": "falsch"
-            },
-            {
-              "id": "tb2-h2-9",
-              "clip": "h2-1",
-              "statement": "Heute verdient er weniger als in seinem alten Beruf.",
-              "correct": "richtig"
-            },
-            {
-              "id": "tb2-h2-10",
-              "clip": "h2-1",
-              "statement": "Er rät anderen, vor einem Berufswechsel zuerst ein Praktikum zu machen.",
-              "correct": "richtig"
-            }
-          ]
-        },
-        {
-          "key": "h3",
-          "teil": 3,
-          "type": "tf",
-          "points": 5,
-          "title": "Kurze Ansagen verstehen",
-          "instruction": "Du hörst fünf kurze Texte: Ansagen, Durchsagen und Telefonansagen. Du hörst jeden Text nur einmal. Entscheide, ob die Aussagen 16 bis 20 richtig oder falsch sind. Lies vor jedem Text zuerst die Aussage.",
-          "clips": [
-            {
-              "id": "h3-1",
-              "title": "Ansage 1 · Am Bahnhof",
-              "plays": 1,
-              "script": [
-                {
-                  "s": "ansage",
-                  "t": "Achtung an Gleis vier: Der Eurocity nach Innsbruck, planmäßige Abfahrt vierzehn Uhr zwölf, fährt heute ausnahmsweise von Gleis sieben ab. Ich wiederhole: Der Eurocity nach Innsbruck fährt heute von Gleis sieben. Die Abfahrt verzögert sich um etwa zehn Minuten. Wir bitten um Entschuldigung."
-                }
-              ]
-            },
-            {
-              "id": "h3-2",
-              "title": "Ansage 2 · Anrufbeantworter einer Arztpraxis",
-              "plays": 1,
-              "script": [
-                {
-                  "s": "frau",
-                  "t": "Guten Tag, Sie sind verbunden mit der Hausarztpraxis Doktor Yıldız und Doktor Kessler. Am Freitag, dem vierzehnten, ist unsere Praxis wegen einer Fortbildung den ganzen Tag geschlossen. Die Vertretung übernimmt die Praxis Doktor Hofmann in der Goethestraße zwölf. Wiederholungsrezepte können Sie jederzeit über unsere Website bestellen; sie liegen dann ab Montag für Sie bereit. In dringenden Fällen außerhalb der Sprechzeiten wählen Sie bitte eins-eins-sechs, eins-eins-sieben."
-                }
-              ]
-            },
-            {
-              "id": "h3-3",
-              "title": "Ansage 3 · Verkehrsfunk",
-              "plays": 1,
-              "script": [
-                {
-                  "s": "mann",
-                  "t": "Und jetzt der Verkehr. A sieben Hamburg Richtung Hannover: Zwischen Bispingen und Soltau-Ost ist die Autobahn nach einem Unfall mit einem Lastwagen voll gesperrt. Die Bergungsarbeiten dauern voraussichtlich bis in den späten Nachmittag. Bitte umfahren Sie den Bereich großräumig über die A eins. In der Gegenrichtung staut sich der Verkehr wegen Schaulustiger auf etwa fünf Kilometern."
-                }
-              ]
-            },
-            {
-              "id": "h3-4",
-              "title": "Ansage 4 · Im Kaufhaus",
-              "plays": 1,
-              "script": [
-                {
-                  "s": "frau2",
-                  "t": "Liebe Kundinnen und Kunden, wegen unserer jährlichen Inventur schließt unser Haus heute bereits um achtzehn Uhr. Ab morgen sind wir wieder wie gewohnt von neun bis zwanzig Uhr für Sie da. Nutzen Sie die letzte Stunde doch für einen Besuch in unserer Schuhabteilung im zweiten Stock: Dort bekommen Sie heute auf alle Sommermodelle dreißig Prozent Rabatt."
-                }
-              ]
-            },
-            {
-              "id": "h3-5",
-              "title": "Ansage 5 · Telefonansage eines Museums",
-              "plays": 1,
-              "script": [
-                {
-                  "s": "mann2",
-                  "t": "Herzlich willkommen im Stadtmuseum Winterthur. Wir haben Dienstag bis Sonntag von zehn bis siebzehn Uhr geöffnet, donnerstags bis zwanzig Uhr. Öffentliche Führungen durch die Ausstellung „Stadt am Wasser“ finden jeden Sonntag um elf Uhr statt. Eine Anmeldung ist dafür nicht nötig, Sie bezahlen nur den normalen Eintritt. Gruppen ab zehn Personen bitten wir, eine eigene Führung mindestens zwei Wochen im Voraus zu buchen."
-                }
-              ]
-            }
-          ],
-          "items": [
-            {
-              "id": "tb2-h3-1",
-              "clip": "h3-1",
-              "statement": "Der Zug nach Innsbruck fährt heute pünktlich, aber von einem anderen Gleis ab.",
-              "correct": "falsch"
-            },
-            {
-              "id": "tb2-h3-2",
-              "clip": "h3-2",
-              "statement": "Rezepte kann man auch bestellen, während die Praxis geschlossen ist.",
-              "correct": "richtig"
-            },
-            {
-              "id": "tb2-h3-3",
-              "clip": "h3-3",
-              "statement": "Auf der A7 Richtung Hannover ist wegen Bauarbeiten nur eine Spur frei.",
-              "correct": "falsch"
-            },
-            {
-              "id": "tb2-h3-4",
-              "clip": "h3-4",
-              "statement": "Das Kaufhaus schließt heute früher als an anderen Tagen.",
-              "correct": "richtig"
-            },
-            {
-              "id": "tb2-h3-5",
-              "clip": "h3-5",
-              "statement": "Wer an der Führung am Sonntag teilnehmen möchte, muss sich vorher anmelden.",
-              "correct": "falsch"
-            }
+            { "id": "e2-r6-1", "prompt": "Notes on the Aldbury trial. Length of the trial, in months: ____", "answer": "six", "accept": ["six", "6", "six months", "6 months"] },
+            { "id": "e2-r6-2", "prompt": "Apart from buses and taxis, ____ may also use the street during the ban.", "answer": "cyclists", "accept": ["cyclists"] },
+            { "id": "e2-r6-3", "prompt": "Hannah Okafor wants a free shuttle from the ____ car park.", "answer": "Mill Lane", "accept": ["Mill Lane", "the Mill Lane"] },
+            { "id": "e2-r6-4", "prompt": "Ibrahim Khalil: the disabled bays are ____ metres from the chemist.", "answer": "300", "accept": ["300", "three hundred", "300 metres"] },
+            { "id": "e2-r6-5", "prompt": "Families Group survey: ____ per cent of parents avoid the High Street at weekends.", "answer": "71", "accept": ["71", "71 per cent", "71%", "seventy-one"] }
           ]
         }
       ]
     },
     {
       "key": "schreiben",
-      "name": "Schriftlicher Ausdruck",
-      "minutes": 30,
+      "name": "Writing",
+      "minutes": 120,
+      "timer": "rw",
+      "timerLabel": "Reading & Writing",
       "parts": [
         {
-          "key": "s1",
-          "teil": 1,
+          "key": "s3",
+          "teil": 3,
           "type": "schreiben",
-          "title": "Halbformelle E-Mail (Aufgabe A oder B)",
-          "instruction": "Wähle eine der beiden Aufgaben, A oder B, und schreib eine E-Mail von mindestens 150 Wörtern. Behandle drei der vier Leitpunkte – oder zwei Leitpunkte und einen eigenen Aspekt. Achte auf Betreff, Anrede, Einleitung, eine sinnvolle Reihenfolge und einen passenden Schluss. Du hast 30 Minuten Zeit.",
+          "title": "Task 3 · Reading into writing",
+          "instruction": "Use the information in all four Task 2 texts (A to D) to write 150 to 180 words. Use your own words: do not copy whole sentences from the texts. Organise your answer clearly and give your own recommendation. Task 3 should take about 40 minutes. Reading and Writing share one 120-minute clock.",
           "tasks": [
             {
-              "id": "tb2-s1a",
-              "title": "Aufgabe A · Bitte um Informationen",
-              "minutes": 30,
-              "words": 150,
-              "situation": "Du hast in einer Zeitschrift diese Anzeige gelesen: „Kreativwoche am Bodensee – eine Woche Zeit für dich! Vom 3. bis 9. August bieten wir in unserem Seminarhaus in Überlingen Kurse in Fotografie, Aquarellmalerei und Töpfern an, für Anfänger und Fortgeschrittene. Kleine Gruppen mit höchstens acht Personen, erfahrene Kursleiterinnen und Kursleiter, täglich vier Stunden Unterricht. Nachmittags bleibt Zeit zum Baden, Wandern oder für Ausflüge mit dem Schiff. Übernachtung in Doppelzimmern mit Seeblick, Vollpension mit regionalen und vegetarischen Gerichten. Preis: ab 890 Euro pro Person. Anmeldung bis 30. Juni. Seminarhaus Seeblick, Überlingen.“",
-              "prompt": "Du interessierst dich für einen Kurs und schreibst eine E-Mail an das Seminarhaus. Bitte um genauere Informationen. Wähle drei der vier Punkte oder zwei Punkte und einen eigenen Aspekt. Überlege dir eine passende Reihenfolge und vergiss Betreff, Anrede und Gruß nicht.",
+              "id": "e2-s3",
+              "title": "Task 3 · Report on the Aldbury High Street trial",
+              "minutes": 40,
+              "words": 165,
+              "situation": "The four Task 2 texts are about a six-month trial in the town of Aldbury. Text A, a news report: private cars are banned from the High Street on Saturdays from 10 am to 5 pm; the trial costs £48,000; buses, taxis and cyclists are still allowed, and disabled badge holders may park in two bays. Text B, an email from bookshop owner Hannah Okafor: she is not against the idea, but Saturday brings in almost a third of her weekly takings; she wants a free shuttle from the Mill Lane car park and would petition against the trial if takings fall by more than 10 per cent in the first month. Text C, a letter from 78-year-old Ibrahim Khalil: the disabled bays are 300 metres from the chemist; he would welcome the trial with a bench every fifty metres. Text D, a newsletter from the Families Group: 71 per cent of 400 parents avoid the High Street at weekends because of traffic; they back the trial but want more cycle racks (there are six).",
+              "prompt": "You work for the town council. Write a short report for the councillors that summarises the main views in the four texts and recommends what the council should do next.",
               "points": [
-                "Vorkenntnisse und Niveau der Kurse",
-                "Einzelzimmer und Zusatzkosten",
-                "Material und Ausrüstung",
-                "Rücktritt bei Krankheit"
+                "Say briefly what the trial is.",
+                "Summarise what the supporters and the worried residents say.",
+                "Recommend what the council should do next, and give a reason.",
+                "Use your own words and a clear report structure."
               ],
-              "model": "Betreff: Anfrage zur Kreativwoche im August\nSehr geehrte Damen und Herren,\nmit großem Interesse habe ich Ihre Anzeige für die Kreativwoche am Bodensee gelesen. Ich würde gern am Fotografiekurs teilnehmen und hätte dazu vorab noch einige Fragen.\nZunächst möchte ich wissen, welche Vorkenntnisse man für den Kurs braucht. Ich fotografiere seit zwei Jahren in meiner Freizeit, habe aber noch nie einen Kurs besucht. Wäre ich in einer Gruppe für Fortgeschrittene überfordert, oder gibt es eine Einstufung am ersten Tag?\nAußerdem würde ich lieber allein übernachten, weil ich sehr schlecht schlafe, wenn jemand Fremdes im Zimmer ist. Bieten Sie auch Einzelzimmer an, und wenn ja, wie hoch ist der Aufpreis?\nSchließlich interessiert mich, was ich selbst mitbringen muss. Reicht eine einfache Digitalkamera, oder brauche ich eine Spiegelreflexkamera mit mehreren Objektiven? Muss ich einen eigenen Laptop für die Bildbearbeitung mitnehmen, oder kann man bei Ihnen vor Ort Geräte ausleihen?\nDa die Anmeldefrist bald endet, wäre ich Ihnen für eine schnelle Antwort sehr dankbar.\nMit freundlichen Grüßen\nDaniela Kovač",
+              "model": "Subject: Views on the High Street trial\n\nThis report summarises four opinions on the car-free Saturday trial in Aldbury.\n\nThe council has approved a six-month ban on private cars between 10 am and 5 pm, costing £48,000. Buses, taxis and cyclists may still use the street, and badge holders can park in two bays. The Families Group strongly supports the idea: 71 per cent of the parents it asked avoid the High Street at weekends because of traffic. However, other residents have worries. Ibrahim Khalil, who walks with a stick, says the disabled bays are 300 metres from the chemist and wants benches. Hannah Okafor, a bookseller, brings in nearly a third of her weekly income on Saturdays and fears losing customers from villages without buses.\n\nI would recommend keeping the trial but adding benches, a free shuttle from Mill Lane car park and more cycle racks. The council should also review shop takings after the first month. That would show whether the benefits for walkers outweigh the costs to traders.",
               "checklist": [
-                "Aufgabenbewältigung: Drei Leitpunkte (oder zwei und ein eigener Aspekt) sind klar und ausführlich behandelt, der Zweck – Bitte um Informationen – ist deutlich. Mindestens 150 Wörter.",
-                "Kommunikative Gestaltung: Betreff, passende Anrede und Gruß, eine Einleitung mit Bezug auf die Anzeige, die Punkte in logischer Reihenfolge mit Verbindungswörtern (zunächst, außerdem, schließlich), ein Schlusssatz.",
-                "Register: durchgehend Sie-Form und höfliche, halbformelle Sprache (Ich würde gern wissen …, Wäre es möglich …, Könnten Sie …).",
-                "Formale Richtigkeit: Wortschatz und Satzbau auf B2-Niveau (Nebensätze, Konjunktiv II, indirekte Fragen); Fehler stören das Verständnis nicht.",
-                "Wer das Thema verfehlt, bekommt in allen drei Kriterien 0 Punkte."
+                "Task fulfilment: you cover the trial, the views of supporters and of worried residents, and you make a clear recommendation. 150 to 180 words.",
+                "Reading for writing: you use information from all four texts (A, B, C and D), selected and combined in your own words rather than copied.",
+                "Organisation and structure: a heading or subject line, a short introduction, clear paragraphs and linking words (however, on the other hand, therefore).",
+                "Language control: a suitably formal, neutral register; accurate B2 grammar (reporting verbs, conditionals, linking); vocabulary such as takings, badge holders, trial.",
+                "Check the word count: more than 180 words or fewer than 150 can lose marks."
               ]
+            }
+          ]
+        },
+        {
+          "key": "s4",
+          "teil": 4,
+          "type": "schreiben",
+          "title": "Task 4 · Extended writing",
+          "instruction": "Write an article of 150 to 180 words on the topic below. Give your own opinion and support it with reasons and examples. Task 4 should take about 40 minutes.",
+          "tasks": [
+            {
+              "id": "e2-s4",
+              "title": "Task 4 · Article: working from home",
+              "minutes": 40,
+              "words": 165,
+              "situation": "Your college careers website is running a series called “The world of work today”. Many employees now work from home for part or all of the week. The editor has asked readers to send in short articles.",
+              "prompt": "Write an article for the website: Is working from home a good thing for most people? Discuss the advantages and the disadvantages and say what you think is the best solution.",
+              "points": [
+                "Give two or three advantages of working from home.",
+                "Give two or three disadvantages.",
+                "Say what you think is the best solution, and why.",
+                "Use a title, clear paragraphs and linking words."
+              ],
+              "model": "Working from home: a blessing or a trap?\n\nSince remote work became common, the question is whether it really suits everyone. In my experience, the answer is both yes and no.\n\nThe advantages are obvious. You save time and money on commuting, and you can organise your day around your own needs. I have more energy for my family because I no longer spend two hours a day on trains. Many employers also report that staff concentrate better without constant interruptions.\n\nOn the other hand, working at home has disadvantages. It can be lonely, especially for people who live alone, and it is surprisingly difficult to switch off when your desk is in the living room. Younger employees may also miss the chance to learn from more experienced colleagues.\n\nIn my opinion, the best solution is a mixture: two or three days at home and the rest in the office. That way people enjoy flexibility without losing contact with their team. Companies should let employees choose what suits them.",
+              "checklist": [
+                "Task fulfilment: advantages, disadvantages and your own conclusion are all covered, with reasons and examples. 150 to 180 words.",
+                "Organisation and structure: a title, an introduction, one paragraph per main idea, a conclusion, and linking words (on the other hand, in my opinion, that way).",
+                "Register: an engaging but fairly neutral style that suits a website article for adult readers.",
+                "Language control: a range of B2 structures (comparatives, relative clauses, conditionals, passive) and accurate spelling and punctuation.",
+                "Keep to the word limit and leave a minute to check your text."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "hoeren",
+      "name": "Listening",
+      "minutes": 8,
+      "parts": [
+        {
+          "key": "h1",
+          "teil": 1,
+          "type": "mc",
+          "points": 1,
+          "title": "Independent listening · first listening: what is it about?",
+          "instruction": "You will hear a radio discussion once. In the exam, you would tell the examiner in one or two sentences what the talk is about. Here, choose the best answer (question 1).",
+          "clips": [
+            {
+              "id": "h1-1",
+              "title": "Radio discussion: mobile phones in schools",
+              "plays": 1,
+              "script": [
+                { "s": "mod", "t": "Good morning, and welcome to Morning Debate. Today we're asking whether schools should ban mobile phones during the school day. More and more head teachers say yes, but not everyone agrees. With me are Daniel Whitfield, head teacher of a secondary school in Leeds, and Dr Amara Osei, who researches how teenagers use technology." },
+                { "s": "mod", "t": "Daniel, your school introduced a ban two years ago. Why?" },
+                { "s": "head", "t": "Honestly, because break times had become silent. Pupils were sitting in rows, staring at screens instead of talking to each other. And teachers were spending a lot of every lesson telling children to put their phones away. Now pupils lock their phones in their bags at the start of the day. Lessons run much more smoothly, and what surprised me is that pupils say they feel less anxious, because they're no longer checking what everyone else is posting. Some parents were worried at first, because they wanted to be able to reach their children in an emergency. So we told them to phone the school office, and that has worked well." },
+                { "s": "mod", "t": "Amara, do you agree with that approach?" },
+                { "s": "res", "t": "I understand why schools do it, but I'm not sure a complete ban is the answer. The evidence is mixed. Some studies find a small improvement in test results, mainly for pupils who usually struggle, but very little difference for everyone else. My worry is that a ban doesn't teach anything. These young people will use phones all their lives, so it would be better to teach them how to manage them, to decide for themselves when to put the phone away. And phones can be useful in class, for research or for translating a word. A blanket ban throws that away." },
+                { "s": "head", "t": "We did try managed use first, Amara, and it didn't work. Teachers can't be police officers. And I'd argue that pupils learn self-control precisely because the phone is out of reach for six hours." },
+                { "s": "res", "t": "Perhaps. But does it carry over to home? In one study I worked on, pupils at schools with a ban spent just as long on their phones in the evening as everybody else." },
+                { "s": "mod", "t": "So where does that leave us? Daniel, last word." },
+                { "s": "head", "t": "Whatever a school decides, it should talk to pupils and parents first. We held meetings for a whole term before we introduced our rule, and that made all the difference." },
+                { "s": "res", "t": "I'd completely agree with that. Consulting people is the one thing every school should do, whatever the rule is." }
+              ]
+            }
+          ],
+          "items": [
+            {
+              "id": "e2-h1-1",
+              "clip": "h1-1",
+              "question": "What is the discussion mainly about?",
+              "options": [
+                "How teenagers can be kept safe on social media.",
+                "Whether schools should stop pupils using mobile phones.",
+                "Why pupils' test results have fallen in recent years."
+              ],
+              "correct": 1
+            }
+          ]
+        },
+        {
+          "key": "h2",
+          "teil": 2,
+          "type": "mc",
+          "points": 5,
+          "title": "Independent listening · second listening: opinions and ideas",
+          "instruction": "You will hear the discussion a second time, once. In the exam, you would then answer the examiner's question and report the speakers' opinions, ideas, advantages and disadvantages in about one minute. Here, the spoken answer becomes five questions on what the speakers think (questions 2 to 6). Choose the best answer, a, b or c.",
+          "clips": [
+            {
+              "id": "h2-1",
+              "title": "Radio discussion: mobile phones in schools",
+              "plays": 1,
+              "script": [
+                { "s": "mod", "t": "Good morning, and welcome to Morning Debate. Today we're asking whether schools should ban mobile phones during the school day. More and more head teachers say yes, but not everyone agrees. With me are Daniel Whitfield, head teacher of a secondary school in Leeds, and Dr Amara Osei, who researches how teenagers use technology." },
+                { "s": "mod", "t": "Daniel, your school introduced a ban two years ago. Why?" },
+                { "s": "head", "t": "Honestly, because break times had become silent. Pupils were sitting in rows, staring at screens instead of talking to each other. And teachers were spending a lot of every lesson telling children to put their phones away. Now pupils lock their phones in their bags at the start of the day. Lessons run much more smoothly, and what surprised me is that pupils say they feel less anxious, because they're no longer checking what everyone else is posting. Some parents were worried at first, because they wanted to be able to reach their children in an emergency. So we told them to phone the school office, and that has worked well." },
+                { "s": "mod", "t": "Amara, do you agree with that approach?" },
+                { "s": "res", "t": "I understand why schools do it, but I'm not sure a complete ban is the answer. The evidence is mixed. Some studies find a small improvement in test results, mainly for pupils who usually struggle, but very little difference for everyone else. My worry is that a ban doesn't teach anything. These young people will use phones all their lives, so it would be better to teach them how to manage them, to decide for themselves when to put the phone away. And phones can be useful in class, for research or for translating a word. A blanket ban throws that away." },
+                { "s": "head", "t": "We did try managed use first, Amara, and it didn't work. Teachers can't be police officers. And I'd argue that pupils learn self-control precisely because the phone is out of reach for six hours." },
+                { "s": "res", "t": "Perhaps. But does it carry over to home? In one study I worked on, pupils at schools with a ban spent just as long on their phones in the evening as everybody else." },
+                { "s": "mod", "t": "So where does that leave us? Daniel, last word." },
+                { "s": "head", "t": "Whatever a school decides, it should talk to pupils and parents first. We held meetings for a whole term before we introduced our rule, and that made all the difference." },
+                { "s": "res", "t": "I'd completely agree with that. Consulting people is the one thing every school should do, whatever the rule is." }
+              ]
+            }
+          ],
+          "items": [
+            {
+              "id": "e2-h2-1",
+              "clip": "h2-1",
+              "question": "Why did Daniel Whitfield's school introduce the ban?",
+              "options": [
+                "Pupils' exam results had fallen.",
+                "Pupils had stopped talking to each other at break.",
+                "Parents had complained about phone use."
+              ],
+              "correct": 1
             },
             {
-              "id": "tb2-s1b",
-              "title": "Aufgabe B · Beschwerde",
-              "minutes": 30,
-              "words": 150,
-              "situation": "Du hast vor einem Monat auf diese Anzeige hin einen Probemonat gebucht: „Sportpark Nordlicht Kassel – Neueröffnung! Probemonat für nur 19 Euro: moderne Geräte, täglich von 6 bis 23 Uhr geöffnet, über 40 Kurse pro Woche, ein persönliches Einführungstraining mit einer Trainerin oder einem Trainer, Sauna inklusive. Kündigung jederzeit zum Monatsende möglich. Kostenlose Parkplätze direkt vor dem Haus.“ Vieles war leider anders als versprochen.",
-              "prompt": "Schreib eine Beschwerde an den Sportpark. Wähle drei der vier Punkte oder zwei Punkte und einen eigenen Aspekt. Überlege dir eine passende Reihenfolge und vergiss Betreff, Anrede und Gruß nicht.",
-              "points": [
-                "Kurse und Öffnungszeiten",
-                "Einführungstraining",
-                "Kündigung des Vertrags",
-                "Deine Erwartung (z. B. Geld zurück)"
+              "id": "e2-h2-2",
+              "clip": "h2-1",
+              "question": "How does the school deal with parents who want to contact their children?",
+              "options": [
+                "Pupils may send them a message at lunchtime.",
+                "Pupils may keep their phones switched on in their bags.",
+                "Parents can phone the school office."
               ],
-              "model": "Betreff: Beschwerde über meinen Probemonat\nSehr geehrte Damen und Herren,\nam 2. September habe ich bei Ihnen einen Probemonat gebucht, weil mich Ihre Anzeige überzeugt hatte. Leider war ich sehr enttäuscht, und ich möchte mich deshalb bei Ihnen beschweren.\nIn Ihrer Anzeige versprechen Sie über 40 Kurse pro Woche. Tatsächlich ist in diesem Monat mindestens die Hälfte der Kurse ausgefallen, die ich besuchen wollte, meistens ohne vorherige Information. Außerdem war das Studio zweimal schon um 21 Uhr geschlossen.\nAuch das persönliche Einführungstraining hat mich geärgert. Es dauerte nur zehn Minuten, und der Trainer hat mir die Geräte nicht wirklich erklärt, weil er gleichzeitig telefoniert hat.\nAls ich den Vertrag dann zum Monatsende kündigen wollte, sagte man mir an der Theke, dass dies nur schriftlich und mit einer Frist von drei Monaten möglich sei. Das widerspricht eindeutig Ihrer Anzeige.\nIch erwarte daher, dass Sie meine Kündigung zum 30. September bestätigen und mir die 19 Euro zurückzahlen. Sollte ich bis Ende nächster Woche keine Antwort erhalten, werde ich mich an die Verbraucherberatung wenden.\nMit freundlichen Grüßen\nTomasz Wiśniewski",
-              "checklist": [
-                "Aufgabenbewältigung: Drei Leitpunkte (oder zwei und ein eigener Aspekt) sind konkret behandelt: Was wurde versprochen, was ist passiert, was erwartest du? Mindestens 150 Wörter.",
-                "Kommunikative Gestaltung: Betreff, Anrede, Einleitung mit Anlass (wann gebucht, worauf du dich beziehst), die Beschwerdepunkte in logischer Reihenfolge, eine klare Forderung am Schluss, Gruß.",
-                "Register: bestimmt, aber sachlich und höflich – keine Beleidigungen, Sie-Form (Ich erwarte, dass …, Ich bitte Sie, …, Sollte ich … nicht …).",
-                "Formale Richtigkeit: Wortschatz und Satzbau auf B2-Niveau (Vergangenheit, Nebensätze, indirekte Rede wie „dass dies nur schriftlich möglich sei“); Fehler stören das Verständnis nicht.",
-                "Wer das Thema verfehlt, bekommt in allen drei Kriterien 0 Punkte."
-              ]
+              "correct": 2
+            },
+            {
+              "id": "e2-h2-3",
+              "clip": "h2-1",
+              "question": "What does Dr Osei say about the evidence on phone bans?",
+              "options": [
+                "Test results improve a little, mainly for pupils who usually struggle.",
+                "Test results improve a great deal for all pupils.",
+                "Bans have no effect on test results at all."
+              ],
+              "correct": 0
+            },
+            {
+              "id": "e2-h2-4",
+              "clip": "h2-1",
+              "question": "What would Dr Osei prefer schools to do?",
+              "options": [
+                "Ban phones for the whole day, as Daniel's school has done.",
+                "Teach pupils to manage their own phone use.",
+                "Let pupils use their phones whenever they like."
+              ],
+              "correct": 1
+            },
+            {
+              "id": "e2-h2-5",
+              "clip": "h2-1",
+              "question": "What do both speakers agree on at the end?",
+              "options": [
+                "Schools should consult pupils and parents before deciding.",
+                "Parents should take phones away from their children at home.",
+                "Phones should also be banned in primary schools."
+              ],
+              "correct": 0
             }
           ]
         }
@@ -1154,89 +512,47 @@
     },
     {
       "key": "sprechen",
-      "name": "Mündlicher Ausdruck",
-      "minutes": 15,
-      "prepMinutes": 20,
+      "name": "Speaking",
+      "minutes": 10,
       "parts": [
-        {
-          "key": "sp0",
-          "teil": 0,
-          "type": "sprechen",
-          "title": "Einander kennenlernen",
-          "instruction": "Die mündliche Prüfung beginnt mit einem kurzen Gespräch, in dem ihr euch gegenseitig vorstellt. Dieser Teil dauert etwa eine Minute und wird nicht bewertet.",
-          "tasks": [
-            {
-              "id": "tb2-sp0",
-              "title": "Teil 0 · Einander kennenlernen",
-              "mode": "paar",
-              "minutes": 1,
-              "situation": "Zu Beginn der Prüfung stellt ihr euch kurz gegenseitig vor. Die Prüfenden hören zu, bewerten diesen Teil aber nicht – er soll euch nur die Nervosität nehmen.",
-              "card": {
-                "title": "Worüber ihr sprechen könnt",
-                "lines": [
-                  "Name, Herkunft, Wohnort",
-                  "Beruf, Studium oder Ausbildung",
-                  "Warum lernst du Deutsch?",
-                  "Was machst du gern in deiner Freizeit?"
-                ]
-              },
-              "redemittel": [
-                "Ich heiße … und komme aus …",
-                "Seit … wohne ich in …",
-                "Ich arbeite als … / Ich studiere …",
-                "Deutsch brauche ich vor allem für …",
-                "Und du? Was machst du beruflich?"
-              ],
-              "model": "A: Hallo, ich heiße Sofia Almeida. Ich komme aus Porto und wohne seit zwei Jahren in Stuttgart. Und du?\nB: Ich bin Karim Haddad, ich komme aus dem Libanon. Ich lebe schon etwas länger hier, seit fünf Jahren, in Esslingen.\nA: Ach, Esslingen ist ja ganz in der Nähe. Was machst du beruflich?\nB: Ich bin Elektroingenieur und arbeite bei einem Zulieferer für die Autoindustrie. Für eine Beförderung brauche ich das B2-Zertifikat. Und warum machst du die Prüfung?\nA: Ich möchte im nächsten Jahr eine Weiterbildung zur Pflegefachkraft anfangen, und dafür ist B2 Voraussetzung. In meiner Freizeit gehe ich übrigens gern klettern.\nB: Klettern? Das wollte ich schon immer mal ausprobieren!",
-              "checklist": [
-                "Dieser Teil wird nicht bewertet.",
-                "Stell dich in ein paar Sätzen vor und stell deiner Partnerin oder deinem Partner mindestens eine Frage.",
-                "Nutze die Minute zum Warmwerden: laut und deutlich sprechen, Blickkontakt."
-              ]
-            }
-          ]
-        },
         {
           "key": "sp1",
           "teil": 1,
           "type": "sprechen",
-          "title": "Über Erfahrungen sprechen",
-          "instruction": "Wähle ein Thema und berichte etwa anderthalb Minuten darüber. Danach stellt dir deine Partnerin oder dein Partner Fragen, dann tauscht ihr die Rollen. Dieser Teil dauert zusammen etwa fünf Minuten. In der Prüfung bereitest du Teil 1 in der Regel zu Hause vor.",
+          "title": "Topic",
+          "instruction": "Speak to the examiner for up to 4 minutes about a topic you have prepared. Choose a topic you can discuss in detail, plan four or five points (a mind map or short notes is fine) and bring them with you. The examiner will ask you questions about what you say. This practice task shows a sample topic and how to prepare it.",
           "tasks": [
             {
-              "id": "tb2-sp1",
-              "title": "Teil 1 · Über Erfahrungen sprechen",
+              "id": "e2-sp1",
+              "title": "Topic · Volunteering in my community (sample)",
               "mode": "paar",
-              "minutes": 5,
-              "situation": "Wähle eines der sieben Themen und berichte etwa anderthalb Minuten darüber. Deine Partnerin oder dein Partner hört zu und stellt dir danach Fragen. Dann tauscht ihr die Rollen. In der echten Prüfung bekommst du die Themen vorher und bereitest dich zu Hause vor.",
-              "prompt": "Erzähle: Worum ging es? Was hast du erlebt? Wie hat es dir gefallen – und warum?",
+              "minutes": 4,
+              "situation": "In the exam you choose your own topic (for example a hobby, a place, a social issue or an experience) and tell the examiner in advance. Here is a sample mind map. Prepare your own topic in the same way: four or five points, a few key words for each, one example or personal story per point, and an opinion. Practise speaking for about two minutes, then expect questions.",
               "card": {
-                "title": "Themen zur Auswahl",
+                "title": "Sample mind map: Volunteering in my community",
                 "lines": [
-                  "ein Buch, das dich beeindruckt hat",
-                  "ein Film oder eine Serie, über die du lange nachgedacht hast",
-                  "eine Reise, die anders verlief als geplant",
-                  "ein Fest oder eine Feier, an die du dich gern erinnerst",
-                  "ein Hobby, mit dem du erst vor kurzem angefangen hast",
-                  "ein Konzert, eine Ausstellung oder ein Theaterbesuch",
-                  "eine Entscheidung, die dein Leben verändert hat"
+                  "1. What volunteering is and who does it",
+                  "2. Why people volunteer",
+                  "3. My own experience (a food bank, a sports club, a charity shop)",
+                  "4. Advantages and disadvantages",
+                  "5. Should schools ask students to volunteer?"
                 ]
               },
               "redemittel": [
-                "Ich möchte von … erzählen.",
-                "Das war im Sommer vor zwei Jahren, als …",
-                "Am Anfang lief alles nach Plan, aber dann …",
-                "Besonders beeindruckt hat mich, dass …",
-                "Im Nachhinein würde ich sagen, …",
-                "Was mich interessieren würde: …",
-                "Hast du so etwas auch schon einmal erlebt?"
+                "The topic I've chosen is …",
+                "First of all, I'd like to explain what … means.",
+                "One of the main reasons why people … is that …",
+                "From my own experience, I can say that …",
+                "On the one hand … on the other hand …",
+                "As far as I'm concerned, … / In my view, …",
+                "That's a good question. I suppose it depends on …"
               ],
-              "model": "A (Bericht, Thema „eine Reise, die anders verlief als geplant“): Ich möchte von einer Radtour erzählen, die ich vor zwei Jahren mit meinem Bruder gemacht habe. Wir wollten in einer Woche an der Donau von Passau bis nach Wien fahren, ungefähr dreihundert Kilometer. Wir hatten alles genau geplant: jeden Tag etwa fünfzig Kilometer, die Pensionen waren gebucht. Am zweiten Tag ist mein Bruder dann aber mit dem Fahrrad in einer Kurve gestürzt und hat sich das Handgelenk verstaucht. Zum Glück war es nicht gebrochen, aber Radfahren war erst mal unmöglich. Wir mussten also improvisieren. Wir haben die Räder auf ein Schiff geladen und sind drei Tage lang mit dem Schiff weitergefahren, von Ort zu Ort. Am Anfang war ich ziemlich enttäuscht, weil ich mich so auf die Tour gefreut hatte. Aber im Nachhinein war das der schönste Teil der Reise: Wir hatten plötzlich Zeit, haben Klöster und Weingüter besichtigt und nette Leute kennengelernt. Die letzten sechzig Kilometer nach Wien sind wir dann doch noch geradelt. Seitdem plane ich meine Urlaube nicht mehr so genau.\nB: Das klingt spannend! Hattet ihr keine Probleme, die Pensionen zu stornieren?\nA: Doch, zwei Pensionen wollten Geld haben. Aber eine hat uns sogar geholfen und ein Zimmer im nächsten Ort für uns gefunden.\nB: Und würdest du so eine Tour noch einmal machen?\nA: Auf jeden Fall – aber nächstes Mal mit weniger festen Etappen und mit einer guten Reiseversicherung.",
+              "model": "Candidate: The topic I've chosen is volunteering in my community. First of all, volunteering means giving your time without being paid, for example at a food bank or a youth club. In my town, it's mostly retired people and students who do it. People volunteer for different reasons: some want to help, others want to meet people or add something to their CV. I've been helping at a food bank for about a year, every second Saturday. It's tiring, but it's rewarding to see how grateful families are. The advantages are obvious: you learn new skills and feel part of a community. The main disadvantage is that it takes time, and not everybody can afford to work for free. As far as I'm concerned, schools should encourage students to volunteer, but they shouldn't force them.\nExaminer: Do you think volunteering can replace paid work in some areas?\nCandidate: I don't think so. Volunteers are a wonderful addition, but important services such as hospitals or care homes need trained, paid staff. If we relied on volunteers too much, standards could fall.\nExaminer: What would you say to someone who has never volunteered?\nCandidate: I'd suggest starting small, perhaps just one afternoon a month, so that they can see whether they enjoy it.",
               "checklist": [
-                "Aufgabenbewältigung: Du berichtest etwa anderthalb Minuten zusammenhängend und anschaulich (Situation, Erlebnis, Bewertung mit Begründung) und beantwortest die Fragen ausführlich. Als Zuhörer stellst du passende Fragen zum Bericht.",
-                "Ausdrucksfähigkeit: angemessener, abwechslungsreicher Wortschatz; du formulierst flüssig und findest Umschreibungen, wenn dir ein Wort fehlt.",
-                "Formale Richtigkeit: Satzbau und Endungen meist korrekt, auch in längeren Sätzen mit Nebensätzen.",
-                "Aussprache und Intonation: gut verständlich, natürliche Satzmelodie."
+                "Communicative effectiveness: you talk about all four or five points, give reasons and examples, and develop your opinions rather than just listing facts.",
+                "Interactive listening: you understand the examiner's questions, answer them fully and, if needed, ask for repetition politely.",
+                "Language control: a range of B2 structures and vocabulary, with errors that do not get in the way of meaning.",
+                "Delivery: clear pronunciation, natural rhythm, and you speak from notes rather than reading them out."
               ]
             }
           ]
@@ -1245,40 +561,40 @@
           "key": "sp2",
           "teil": 2,
           "type": "sprechen",
-          "title": "Diskussion",
-          "instruction": "Lies den Zeitungstext. Sag zuerst kurz (höchstens eine Minute), worum es geht und was du davon hältst. Diskutiert dann miteinander: Argumente, eigene Erfahrungen, mögliche Lösungen. Dieser Teil dauert etwa fünf Minuten. Für Teil 2 und Teil 3 hast du vor der Prüfung zusammen 20 Minuten Vorbereitungszeit.",
+          "title": "Collaborative",
+          "instruction": "The examiner reads out a short problem. Ask questions to find out more, comment on what you hear, offer advice and keep the conversation going. You have up to 4 minutes. You do not prepare this part: you respond to what the examiner says.",
           "tasks": [
             {
-              "id": "tb2-sp2",
-              "title": "Teil 2 · Diskussion über einen Zeitungstext",
+              "id": "e2-sp2",
+              "title": "Collaborative · A noisy neighbour",
               "mode": "paar",
-              "prepMinutes": 20,
-              "minutes": 5,
-              "situation": "Du und deine Partnerin oder dein Partner habt den folgenden Zeitungstext gelesen. Äußere dich zuerst kurz (höchstens eine Minute) zum Inhalt und zu deiner Meinung. Diskutiert dann: Nennt Argumente dafür und dagegen, berichtet von eigenen Erfahrungen – auch aus eurem Heimatland – und überlegt, welche Lösungen es geben könnte. Die Vorbereitungszeit von 20 Minuten gilt für Teil 2 und Teil 3 zusammen.",
+              "minutes": 4,
+              "situation": "The examiner says: “I'm having a problem with my neighbour. Her dog barks all day while she's at work, and it's driving me mad. I've never spoken to her, and I don't know whether to knock on her door, leave her a note or complain to the landlord. I really don't know what to do.” Ask questions, give your opinion and advice, and keep the conversation going.",
               "card": {
-                "title": "Ein Jahr für die Gesellschaft – Pflicht für alle?",
+                "title": "What you can do",
                 "lines": [
-                  "Nach der Schule direkt an die Uni oder in die Ausbildung? Wenn es nach einer Gruppe von Landespolitikern geht, soll es bald einen Zwischenschritt für alle geben: ein verpflichtendes Gesellschaftsjahr. Junge Menschen zwischen 18 und 25 würden dann zwölf Monate lang in Krankenhäusern, Pflegeheimen, Kindergärten, beim Katastrophenschutz oder im Naturschutz arbeiten – gegen ein kleines Taschengeld.",
-                  "Die Befürworter versprechen sich viel davon. Junge Leute lernten Lebensbereiche kennen, mit denen sie sonst nie in Berührung kämen, und träfen Menschen aus ganz anderen Milieus. „Das stärkt den Zusammenhalt in einer Gesellschaft, die immer weiter auseinanderdriftet“, sagt eine Abgeordnete. Außerdem könnten soziale Einrichtungen, in denen Personal fehlt, dringend Unterstützung gebrauchen. Und auch für die Berufswahl könne ein solches Jahr hilfreich sein: Wer zwölf Monate im Krankenhaus gearbeitet hat, weiß danach besser, ob ein Medizin- oder Pflegestudium das Richtige ist.",
-                  "Kritiker halten dagegen, dass eine Pflicht dem Gedanken des freiwilligen Engagements widerspricht. Wer gezwungen werde, arbeite selten motiviert. Jugendverbände weisen darauf hin, dass schon heute viele junge Menschen ein Freiwilliges Soziales Jahr machen möchten, aber keinen Platz finden oder sich das niedrige Taschengeld nicht leisten können. Statt einer Pflicht fordern sie, die bestehenden Angebote besser zu bezahlen. Gewerkschaften befürchten zudem, dass Dienstleistende auf Dauer ausgebildete Fachkräfte ersetzen – ein billiger Ausweg aus dem Personalmangel.",
-                  "Hinzu kommen praktische Fragen: Wer organisiert Hunderttausende Plätze pro Jahr? Wer betreut die jungen Leute? Und was ist mit denen, die gerade eine Ausbildung beginnen könnten? Nach ersten Schätzungen würde ein Pflichtdienst für alle außerdem mehrere Milliarden Euro im Jahr kosten, und ob er überhaupt mit dem Grundgesetz vereinbar wäre, ist unter Juristen umstritten. Klar ist nur: Die Debatte wird so schnell nicht enden."
+                  "Ask questions to find out more (how long, how often, what you have tried).",
+                  "Comment on what the examiner says (that sounds stressful).",
+                  "Give advice and say why it might work.",
+                  "Speculate about what could happen.",
+                  "Keep the conversation going: ask what the examiner thinks of your ideas."
                 ]
               },
               "redemittel": [
-                "In dem Text geht es um die Frage, ob …",
-                "Die Befürworter argumentieren, dass …",
-                "Ich persönlich halte das für …, weil …",
-                "Da muss ich dir widersprechen: …",
-                "Das sehe ich ähnlich, aber man darf nicht vergessen, dass …",
-                "In meinem Heimatland gibt es …",
-                "Ein Kompromiss könnte sein, dass …"
+                "How long has this been going on?",
+                "Have you thought about …?",
+                "That sounds really stressful.",
+                "If I were you, I'd … because …",
+                "She might not even realise that …",
+                "What do you think would happen if …?",
+                "Do you think that would help, or would it make things worse?"
               ],
-              "model": "A: In dem Text geht es darum, ob alle jungen Menschen ein Pflichtjahr in sozialen Einrichtungen oder im Naturschutz machen sollen. Die Befürworter meinen, dass das den Zusammenhalt stärkt und dem Personal in Pflegeheimen hilft. Kritiker sagen, dass Zwang nicht motiviert. Ich finde die Idee eigentlich gut, denn viele junge Leute wissen gar nicht, wie es in einem Pflegeheim aussieht.\nB: Ich sehe das kritischer. Meiner Meinung nach sollte man niemanden zwingen, ein Jahr lang fast ohne Geld zu arbeiten. Wer einen Studienplatz hat, verliert ein ganzes Jahr.\nA: Aber ist ein Jahr wirklich verloren? Ich habe nach der Schule in Portugal ein halbes Jahr in einem Kinderheim geholfen, und das hat mir mehr gebracht als das erste Semester an der Uni.\nB: Das glaube ich dir, aber du hast dich freiwillig dafür entschieden. Das ist der Unterschied. In meinem Heimatland gab es früher die Wehrpflicht, und die meisten jungen Männer haben nur die Tage gezählt.\nA: Da hast du recht, Motivation kann man nicht erzwingen. Und das Argument mit den Fachkräften finde ich auch wichtig: Die Pflege braucht ausgebildete Leute, keine billigen Hilfskräfte.\nB: Eben. Deshalb wäre es aus meiner Sicht besser, die freiwilligen Dienste attraktiver zu machen – mit einem richtigen Gehalt und mit Vorteilen, zum Beispiel einem Bonus bei der Vergabe von Studienplätzen.\nA: Das wäre ein guter Kompromiss. Vielleicht könnte man auch an allen Schulen besser über diese Möglichkeiten informieren. Viele wissen ja gar nicht, dass es so etwas gibt.\nB: Einverstanden. Freiwillig, aber gut bezahlt und bekannt – damit könnte ich leben.",
+              "model": "Examiner: I'm having a problem with my neighbour. Her dog barks all day while she's at work. I don't know whether to knock on her door, leave her a note or complain to the landlord.\nCandidate: That sounds really stressful. How long has this been going on?\nExaminer: For about three months now.\nCandidate: That's a long time. Have you ever spoken to her, or does she know that it bothers you?\nExaminer: No, I've never spoken to her.\nCandidate: Then she might not even realise there's a problem, because she's out all day. If I were you, I'd start by writing a friendly note, because that's less confrontational than knocking on her door.\nExaminer: But what if she ignores it?\nCandidate: That's possible. In that case, you could try speaking to her in person. People often react better when they meet you face to face. And if that doesn't work, going to the landlord would be the next step. Do you get on with the other neighbours?\nExaminer: Yes, quite well.\nCandidate: Then perhaps you could ask them whether the barking bothers them too. If several people complain, it's harder to ignore. What do you think about that idea?\nExaminer: Good idea. Thanks.",
               "checklist": [
-                "Aufgabenbewältigung: Du gibst den Inhalt kurz wieder und sagst deine Meinung, begründest sie mit Argumenten und Beispielen (auch eigenen Erfahrungen), gehst auf die Argumente deiner Partnerin oder deines Partners ein und sucht gemeinsam nach Lösungen.",
-                "Ausdrucksfähigkeit: angemessener, abwechslungsreicher Wortschatz; du formulierst flüssig und findest Umschreibungen, wenn dir ein Wort fehlt.",
-                "Formale Richtigkeit: Satzbau und Endungen meist korrekt, auch in längeren Sätzen mit Nebensätzen.",
-                "Aussprache und Intonation: gut verständlich, natürliche Satzmelodie."
+                "Communicative effectiveness: you ask relevant questions, react to the answers and give clear advice with reasons.",
+                "Interactive listening: you use what the examiner says in your next turn (in that case, then, so) instead of preparing separate speeches.",
+                "Language control: B2 functions such as advising, speculating, eliciting information and comparing options, with accurate conditionals and modal verbs.",
+                "Delivery: friendly, supportive intonation, and no long pauses; you keep the conversation moving."
               ]
             }
           ]
@@ -1287,40 +603,37 @@
           "key": "sp3",
           "teil": 3,
           "type": "sprechen",
-          "title": "Gemeinsam etwas planen",
-          "instruction": "Plant gemeinsam ein Fest. Sprecht über alle Punkte, macht Vorschläge und reagiert auf die Vorschläge eurer Partnerin oder eures Partners. Am Ende sollt ihr euch auf ein Programm einigen. Dieser Teil dauert etwa fünf Minuten.",
+          "title": "Conversation",
+          "instruction": "The examiner chooses one subject area and starts a conversation with you for about 2 minutes. The subject areas are: society and living standards, personal values and ideals, the world of work, national environmental concerns, and public figures past and present. Give full answers with reasons and examples, and be ready to explain your opinions.",
           "tasks": [
             {
-              "id": "tb2-sp3",
-              "title": "Teil 3 · Gemeinsam etwas planen",
+              "id": "e2-sp3",
+              "title": "Conversation · The world of work (sample)",
               "mode": "paar",
-              "minutes": 5,
-              "situation": "Euer Sportverein wird 50 Jahre alt. Der Vorstand hat euch beide gebeten, für einen Samstag im Juni ein Jubiläumsfest auf dem Vereinsgelände zu planen. Es kommen Mitglieder jeden Alters, ihre Familien und Gäste aus dem Stadtteil. Sprecht über die Punkte unten, macht Vorschläge, reagiert auf die Vorschläge eurer Partnerin oder eures Partners und einigt euch am Ende auf ein Programm.",
+              "minutes": 2,
+              "situation": "The examiner has chosen the subject area “the world of work” and asks you about it. Your answers should be longer than one sentence: give an opinion, a reason and, where you can, an example.",
               "card": {
-                "title": "Jubiläumsfest „50 Jahre Sportverein“",
+                "title": "Examiner's questions",
                 "lines": [
-                  "Programm für Kinder und Erwachsene",
-                  "Essen und Getränke",
-                  "Helferinnen und Helfer",
-                  "Werbung für das Fest",
-                  "Was tun bei schlechtem Wetter?"
+                  "Do you think people today are under more pressure at work than in the past?",
+                  "How important is it to enjoy your job, compared with earning a good salary?",
+                  "Some people say that you should stay in one job for many years. What do you think?"
                 ]
               },
               "redemittel": [
-                "Was hältst du davon, wenn wir …?",
-                "Ich würde vorschlagen, dass …",
-                "Das finde ich gut, allerdings …",
-                "Ich bin mir nicht sicher, ob … – was meinst du?",
-                "Lass uns lieber …",
-                "Dann halten wir fest: …",
-                "Wer kümmert sich um …?"
+                "I'd say that … because …",
+                "It depends on …",
+                "Personally, I think … although …",
+                "For example, a friend of mine …",
+                "Compared with the past, …",
+                "That's partly true, but …"
               ],
-              "model": "A: Also, wir sollen das Jubiläumsfest planen. Womit fangen wir an – mit dem Programm?\nB: Gute Idee. Ich würde vorschlagen, dass die einzelnen Abteilungen etwas vorführen: die Turnkinder eine kleine Show, die Tischtennisgruppe ein Turnier, bei dem Gäste mitspielen dürfen.\nA: Das finde ich gut. Für die Kinder könnten wir außerdem eine Art Mini-Sportabzeichen anbieten: Stationen mit Weitsprung, Sackhüpfen und Torwandschießen, und am Ende gibt es eine Urkunde.\nB: Super. Und für die Älteren? Vielleicht eine kleine Ausstellung mit alten Fotos aus fünfzig Jahren Vereinsgeschichte im Vereinsheim.\nA: Ja, das interessiert bestimmt viele. Beim Essen bin ich mir nicht sicher: Sollen wir einen Caterer bestellen oder machen wir alles selbst?\nB: Ein Caterer ist zu teuer, glaube ich. Lass uns lieber grillen und die Mitglieder bitten, Salate und Kuchen mitzubringen. Den Erlös vom Verkauf bekommt die Jugendabteilung.\nA: Einverstanden. Dafür brauchen wir aber viele Helfer. Wir könnten eine Liste im Vereinsheim aufhängen, und jeder übernimmt eine Schicht von zwei Stunden.\nB: Genau, dann muss niemand den ganzen Tag arbeiten. Und für die Werbung? Plakate in den Geschäften im Stadtteil und ein Artikel in der Lokalzeitung?\nA: Und in den sozialen Medien, da erreichen wir die Jüngeren. Bleibt noch das Wetter. Was machen wir, wenn es regnet?\nB: Dann ziehen wir in die Turnhalle um. Die Vorführungen gehen dort sowieso, nur das Grillen müssten wir unter ein Zelt verlegen.\nA: Gut, dann leihen wir vorsichtshalber zwei Partyzelte. Dann halten wir fest: Vorführungen und Kinderstationen, Fotoausstellung, Grillen mit Salaten und Kuchen, eine Helferliste, Plakate, Zeitung und soziale Medien – und bei Regen die Turnhalle.\nB: Perfekt, so machen wir das.",
+              "model": "Examiner: Do you think people today are under more pressure at work than in the past?\nCandidate: I'd say yes, in some ways. Because of email and smartphones, it's difficult to switch off. A friend of mine answers messages from her boss in the evenings. On the other hand, working conditions are better in many ways, for example there is more flexibility.\nExaminer: How important is it to enjoy your job, compared with earning a good salary?\nCandidate: Personally, I think enjoying your job matters more in the long run. A high salary is nice, but if you dislike what you do, you'll probably be unhappy. Of course, it depends on your situation: if you have a family to support, money may be the priority.\nExaminer: Some people say that you should stay in one job for many years. What do you think?\nCandidate: That's partly true, because you build up experience. But I think changing jobs can be a good way to learn new skills, so I wouldn't say there is one right answer.",
               "checklist": [
-                "Aufgabenbewältigung: Ihr sprecht über alle Punkte, macht konkrete Vorschläge, begründet sie, reagiert auf die Vorschläge (zustimmen, einschränken, Alternativen anbieten) und einigt euch am Ende auf ein gemeinsames Programm.",
-                "Ausdrucksfähigkeit: angemessener, abwechslungsreicher Wortschatz; du formulierst flüssig und findest Umschreibungen, wenn dir ein Wort fehlt.",
-                "Formale Richtigkeit: Satzbau und Endungen meist korrekt, auch in längeren Sätzen mit Nebensätzen.",
-                "Aussprache und Intonation: gut verständlich, natürliche Satzmelodie."
+                "Communicative effectiveness: each answer contains an opinion, a reason and, where possible, an example; you do not stop after one sentence.",
+                "Interactive listening: you answer the question you were asked and react naturally to follow-up questions.",
+                "Language control: appropriate B2 vocabulary for work and society, and a mix of simple and complex sentences.",
+                "Delivery: clear and natural; do not rush, as you have only about two minutes."
               ]
             }
           ]

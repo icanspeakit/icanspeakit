@@ -1,4 +1,4 @@
-// Shared machinery for the printable group games (/lehrkraefte/spiele/*): the seeded
+// Shared machinery for the printable group games (/teachers/games/*): the seeded
 // shuffle, the settings in the URL, the word data, the Lernset picker, the on-screen
 // preview and the A4 sheet frame. Each game (bingo.js, domino.js, erklaeren.js) only
 // decides what goes on the sheets.
@@ -45,7 +45,7 @@ export function shuffle(list, rand) {
 
 /* ------------------------------------------------------------------ words -- */
 
-// Column order of the rows in /lehrkraefte/spiele/woerter-<level>.json — see
+// Column order of the rows in /teachers/games/woerter-<level>.json — see
 // src/pages/lehrkraefte/spiele/woerter-[level].json.ts: five word fields, then one column per
 // card language of the registry, in its order.
 const WORD_FIELDS = ["unit", "lemma", "pos", "gender", "plural", ...langsFor("cards")];
@@ -63,7 +63,7 @@ export function loadLevel(level) {
   if (!levelCache.has(key)) {
     levelCache.set(
       key,
-      fetch(`/lehrkraefte/spiele/woerter-${key}.json`)
+      fetch(`/teachers/games/woerter-${key}.json`)
         .then((r) => {
           if (!r.ok) throw new Error(String(r.status));
           return r.json();
@@ -74,7 +74,7 @@ export function loadLevel(level) {
             const w = Object.fromEntries(WORD_FIELDS.map((f, i) => [f, row[i]]));
             w.unitId = units[w.unit].id;
             w.unitTitle = units[w.unit].title;
-            // "der Tisch" for a noun, the bare lemma for everything else.
+            // "a table" / "some water" for a noun, the bare lemma for everything else.
             w.display = w.pos === "noun" && w.gender ? `${w.gender} ${w.lemma}` : w.lemma;
             return w;
           });

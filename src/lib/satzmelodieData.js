@@ -1,5 +1,5 @@
-// Satzmelodie (/satzmelodie): the lines that get a recording, and where each file lives.
-// (Not to be confused with satzmelodie.js, the pitch analysis behind /aussprache-check.)
+// Satzmelodie (/intonation): the lines that get a recording, and where each file lives.
+// (Not to be confused with satzmelodie.js, the pitch analysis behind /pronunciation-check.)
 // One list for scripts/generate-satzmelodie-audio.mjs and the page, so both find the same
 // file. Text + kind go into the name: "Du kommst morgen." and "Du kommst morgen?" are
 // different recordings of the same words.

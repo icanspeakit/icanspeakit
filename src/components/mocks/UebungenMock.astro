@@ -42,28 +42,29 @@ const bildQuestions = sprechen.reduce((n, b) => n + b.beschreibung.length + b.pe
 // --- Grammatik: one question per level band, each lifted from the topic it
 // names so the demo round is a real sample. `answer` indexes `choices`.
 //
-// Deliberately disjoint from DashboardMock's quiz next door, which covers
-// Akkusativ, Dativ and Perfekt — both mocks are visible at once on the homepage,
-// so an overlapping first question made the pair look like one screenshot twice.
-// This round leads with Präpositionen instead.
+// Deliberately disjoint from DashboardMock's quiz next door, which covers the
+// present perfect, a/an and the past simple — both mocks are visible at once on the
+// homepage, so an overlapping first question made the pair look like one screenshot
+// twice. This round leads with prepositions instead.
 const ROUND = [
-  { topic: "Verben mit Präpositionen", level: "B1", pre: "Ich warte ", post: " den Bus.", hint: "warten + feste Präposition", choices: ["auf", "für", "an"], answer: 0 },
-  { topic: "Artikel", level: "A1", pre: "", post: " Wohnung", hint: "Die Endung verrät das Genus.", choices: ["die", "der", "das"], answer: 0 },
-  { topic: "Wechselpräpositionen", level: "A2", pre: "Heute Abend gehe ich ", post: " Kino.", hint: "Wohin? — Richtung", choices: ["im", "in", "ins"], answer: 2 },
-  { topic: "Modalverben", level: "A2", pre: "Im Museum ", post: " man die Bilder nicht anfassen.", hint: "Verbot — es ist nicht erlaubt.", choices: ["kann", "darf", "mag"], answer: 1 },
-  { topic: "Zweiteilige Konnektoren", level: "B1", pre: "Er hat nicht nur einen Job, ", post: " auch eine Wohnung.", hint: "Der zweite Teil von „nicht nur …“", choices: ["aber", "oder", "sondern"], answer: 2 },
-  { topic: "N-Deklination", level: "B1", pre: "Ich gehe mit dem ", post: " spazieren.", hint: "(der Herr)", choices: ["Herr", "Herrn", "Herren"], answer: 1 },
+  { topic: "Verbs + prepositions", level: "B1", pre: "I'm waiting ", post: " the bus.", hint: "wait + fixed preposition", choices: ["for", "on", "to"], answer: 0 },
+  { topic: "a / an / some", level: "A1", pre: "I need ", post: " umbrella.", hint: "Listen to the first sound of the next word.", choices: ["an", "a", "some"], answer: 0 },
+  { topic: "Prepositions of time", level: "A1", pre: "My birthday is ", post: " May.", hint: "Months take one preposition.", choices: ["in", "on", "at"], answer: 0 },
+  { topic: "Modal verbs", level: "A2", pre: "You ", post: " touch the paintings in the museum.", hint: "A ban — it is not allowed.", choices: ["can", "mustn't", "don't have to"], answer: 1 },
+  { topic: "Paired conjunctions", level: "B2", pre: "She speaks not only French ", post: " Spanish.", hint: "The second half of “not only …”", choices: ["and also", "or", "but also"], answer: 2 },
+  { topic: "used to", level: "B1", pre: "When I was a child, I ", post: " play football every day.", hint: "a past habit", choices: ["use to", "used to", "was used to"], answer: 1 },
 ];
 
-// --- Aussprache: five entries whose recordings exist in public/audio/aussprache.
-// Kept as an explicit list rather than a slice of the data files so the mock can
-// never point at a missing mp3.
+// --- Aussprache: five entries, as an explicit list rather than a slice of the data
+// files. The English recordings do not exist yet (they come with a TTS provider,
+// BACKEND.speech); until then the play button fails softly, as it does for every
+// missing file.
 const PRON = [
-  { text: "Ich bin der Meinung, dass …", audio: "/audio/aussprache/ich-bin-der-meinung-dass.mp3", note: "Meinung äußern — Verb ans Satzende!" },
-  { text: "Das sehe ich auch so.", audio: "/audio/aussprache/das-sehe-ich-auch-so.mp3", note: "Zustimmen — höflicher als ein bloßes „Ja“." },
-  { text: "der Schlüssel", audio: "/audio/aussprache/der-schluessel.mp3", note: "ü lang und gerundet, sch wie „sh“." },
-  { text: "die Ärztin", audio: "/audio/aussprache/die-aerztin.mp3", note: "Ä wie in „Bär“, das r fast verschluckt." },
-  { text: "der Käfig", audio: "/audio/aussprache/der-kaefig.mp3", note: "Endung -ig klingt wie „-ich“." },
+  { text: "In my opinion, …", audio: "/audio/aussprache/in-my-opinion.mp3", note: "Giving an opinion — stress the middle of “o-PIN-ion”." },
+  { text: "I see what you mean.", audio: "/audio/aussprache/i-see-what-you-mean.mp3", note: "Agreeing politely — the stress falls on “mean”." },
+  { text: "Thank you", audio: "/audio/aussprache/thank-you.mp3", note: "th: put your tongue between your teeth — not “s”, not “t”." },
+  { text: "vegetables", audio: "/audio/aussprache/vegetables.mp3", note: "Three syllables, not four: VEJ-tuh-bulz." },
+  { text: "comfortable", audio: "/audio/aussprache/comfortable.mp3", note: "Usually three syllables: KUMF-tuh-bul." },
 ];
 
 // --- Kulturwissen: four questions in the Einbürgerungstest format.
@@ -74,10 +75,10 @@ const CULTURE = lid.questions.slice(0, 4).map((q) => ({
 }));
 
 const PANELS = [
-  { key: "grammatik", url: "englishacademy.com/grammatik" },
-  { key: "aussprache", url: "englishacademy.com/aussprache" },
-  { key: "bild", url: "englishacademy.com/sprechen" },
-  { key: "kultur", url: "englishacademy.com/kultur" },
+  { key: "grammatik", url: "englishacademy.com/grammar" },
+  { key: "aussprache", url: "englishacademy.com/pronunciation" },
+  { key: "bild", url: "englishacademy.com/speaking" },
+  { key: "kultur", url: "englishacademy.com/culture" },
 ];
 
 const firstQ = ROUND[0];
@@ -121,7 +122,7 @@ const firstC = CULTURE[0];
         <div class="lp-dash-header">
           <div class="lp-dash-greeting">
             <strong data-i18n="tool.grammatik.title">Grammatik</strong>
-            <span data-quiz-position>Frage 1 von {ROUND.length}</span>
+            <span data-quiz-position data-i18n="home.mock.position" data-i18n-vars={JSON.stringify({ i: 1, n: ROUND.length })}>Frage 1 von {ROUND.length}</span>
           </div>
         </div>
         <div class="lp-dash-stat-row">
@@ -152,7 +153,7 @@ const firstC = CULTURE[0];
         <div class="lp-dash-header">
           <div class="lp-dash-greeting">
             <strong data-i18n="tool.aussprache.title">Aussprache-Training</strong>
-            <span data-pron-position>Phrase 1 von {PRON.length}</span>
+            <span data-pron-position data-i18n="home.mock.phrasePosition" data-i18n-vars={JSON.stringify({ i: 1, n: PRON.length })}>Phrase 1 von {PRON.length}</span>
           </div>
         </div>
         <div class="lp-dash-stat-row">
@@ -223,7 +224,7 @@ const firstC = CULTURE[0];
         <div class="lp-dash-header">
           <div class="lp-dash-greeting">
             <strong data-i18n="tool.kultur.title">Kulturwissen</strong>
-            <span data-kultur-position>Frage 1 von {CULTURE.length}</span>
+            <span data-kultur-position data-i18n="home.mock.position" data-i18n-vars={JSON.stringify({ i: 1, n: CULTURE.length })}>Frage 1 von {CULTURE.length}</span>
           </div>
           <div class="lp-kultur-score" data-kultur-score>0 / {CULTURE.length}</div>
         </div>
@@ -311,9 +312,9 @@ const firstC = CULTURE[0];
 
       function render() {
         const q = ROUND[index];
-        position.textContent = t("home.mock.position", "Frage {i} von {n}", { i: index + 1, n: ROUND.length });
+        position.textContent = t("home.mock.position", "Question {i} of {n}", { i: index + 1, n: ROUND.length });
         kicker.textContent = `${q.topic} · ${q.level}`;
-        // The hint explains the rule, so it follows the UI language; the sentence stays German.
+        // The hint explains the rule, so it follows the UI language; the sentence stays English.
         hint.textContent = t(`home.mock.hint.${index}`, q.hint);
 
         // The blank fills in with the word once it is right — the small payoff
@@ -335,8 +336,8 @@ const firstC = CULTURE[0];
           })
           .join("");
 
-        if (solved) feedback.textContent = t("home.mock.correct", "Richtig!");
-        else if (tried.size) feedback.textContent = t("home.mock.tryAgain", "Fast — noch mal.");
+        if (solved) feedback.textContent = t("home.mock.correct", "Correct!");
+        else if (tried.size) feedback.textContent = t("home.mock.tryAgain", "Close — try again.");
         else feedback.textContent = "";
         feedback.className = `lp-quiz-feedback${solved ? " is-correct" : tried.size ? " is-wrong" : ""}`;
 
@@ -394,7 +395,7 @@ const firstC = CULTURE[0];
 
       function render() {
         const item = PRON[index];
-        position.textContent = t("home.mock.phrasePosition", "Phrase {i} von {n}", { i: index + 1, n: PRON.length });
+        position.textContent = t("home.mock.phrasePosition", "Phrase {i} of {n}", { i: index + 1, n: PRON.length });
         text.textContent = item.text;
         note.textContent = t(`home.mock.pronNote.${index}`, item.note);
         if (!audio.src.endsWith(item.audio)) {

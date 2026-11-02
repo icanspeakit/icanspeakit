@@ -5,36 +5,36 @@
 // signpost after the work, not more work.
 import { grammarTopics } from "../lib/catalog.js";
 import verwandt from "../data/grammatik-verwandt.json";
+import { topicPath } from "../lib/routes.js";
 
 interface Props { id: string }
 const { id } = Astro.props;
 const byId = new Map(grammarTopics.map((t) => [t.href.slice(1), t]));
 const related = ((verwandt.topics as Record<string, string[]>)[id] ?? [])
   .map((r) => byId.get(r))
-  .filter((t): t is NonNullable<typeof t> => !!t && t.href !== `/${id}`);
+  .filter((t): t is NonNullable<typeof t> => !!t && t.href !== topicPath(id));
 
 // The exam sets this topic's level prepares for (SEO-BRAND-TIERED-PROMPT.md Tier 4: grammar
 // links to the exam it helps with). The anchors are what learners type into a search.
 const EXAMS: Record<string, { href: string; label: string }[]> = {
-  A1: [{ href: "/start-deutsch-1", label: "Start Deutsch 1 Übungssatz" }],
+  A1: [{ href: "/a1-test", label: "A1 English practice test" }],
   A2: [
-    { href: "/dtz/uebungssatz", label: "DTZ Modelltest" },
-    { href: "/telc/a2", label: "telc A2 Übungssatz" },
-    { href: "/goethe/a2", label: "Goethe A2 Übungssatz" },
+    { href: "/trinity/a2", label: "Trinity ISE Foundation practice test" },
+    { href: "/cambridge/a2", label: "Cambridge A2 Key practice test" },
   ],
   B1: [
-    { href: "/dtz/uebungssatz", label: "DTZ Modelltest" },
-    { href: "/telc/b1", label: "telc B1 Übungssatz" },
-    { href: "/goethe/b1", label: "Goethe B1 Übungssatz" },
+    { href: "/trinity/ise-1/practice-set", label: "Trinity ISE I full mock test" },
+    { href: "/trinity/b1", label: "Trinity ISE I practice test" },
+    { href: "/cambridge/b1", label: "Cambridge B1 Preliminary practice test" },
   ],
   B2: [
-    { href: "/telc/b2", label: "telc B2 Übungssatz" },
-    { href: "/goethe/b2", label: "Goethe B2 Übungssatz" },
-    { href: "/testdaf", label: "TestDaF Übungen" },
+    { href: "/trinity/b2", label: "Trinity ISE II practice test" },
+    { href: "/cambridge/b2", label: "Cambridge B2 First practice test" },
+    { href: "/ielts", label: "IELTS Academic practice" },
   ],
   C1: [
-    { href: "/telc/c1", label: "telc C1 Übungssatz" },
-    { href: "/goethe/c1", label: "Goethe C1 Übungssatz" },
+    { href: "/trinity/c1", label: "Trinity ISE III practice test" },
+    { href: "/cambridge/c1", label: "Cambridge C1 Advanced practice test" },
   ],
 };
 const level = String(byId.get(id)?.level ?? "").match(/[ABC][12]/)?.[0] ?? "";

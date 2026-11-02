@@ -343,7 +343,7 @@ function buildPdf(mode) {
   }
 
   // Record pages and size for the Wissensdatenbank, the same way the newer generators do
-  // (see scripts/lib/pdf-brand.mjs) — otherwise these five are the only downloads on /wissen
+  // (see scripts/lib/pdf-brand.mjs) — otherwise these five are the only downloads on /knowledge
   // that cannot say how long they are.
   const pages = doc.bufferedPageRange().count;
   const stream = doc.pipes?.[0];

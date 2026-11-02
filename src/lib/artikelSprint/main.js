@@ -110,7 +110,7 @@ export function mountArtikelSprint(root, data) {
   const pools = new Map();
   async function wordsForRoom(lvl) {
     if (!roomWords.has(lvl)) {
-      roomWords.set(lvl, fetch(`/spiele/artikel-sprint/woerter-${lvl.toLowerCase()}.json`)
+      roomWords.set(lvl, fetch(`/games/countable-sprint/woerter-${lvl.toLowerCase()}.json`)
         .then((r) => (r.ok ? r.json() : { nouns: [] }))
         .catch(() => ({ nouns: [] }))
         .then((lex) => {
@@ -402,7 +402,7 @@ export function mountArtikelSprint(root, data) {
           else showToast(t("sprint.toast.correct", "Richtig: {w}", { w: right }), "bad");
           // A miss: say the right form out loud ("der Tisch"), after the buzz of the wrong sound.
           if (!r.ok) setTimeout(() => { if (phase === "play") speak(r.q); }, 380);
-          // Progress (/fortschritt, "Wörter gelernt"): every answer that was given; riding under the box is no answer.
+          // Progress (/progress, "Wörter gelernt"): every answer that was given; riding under the box is no answer.
           if (!r.nojump) {
             const q = r.q;
             recordAttempt({
@@ -410,7 +410,7 @@ export function mountArtikelSprint(root, data) {
               correct: r.ok,
               id: q.id,
               trackVocab: q.kind === "artikel" && !!q.id,
-              topic: q.kind === "artikel" ? "artikel" : q.kind === "plural" ? "plural" : (!q.item?.tense || /präsens/i.test(q.item.tense)) ? "praesens" : undefined,
+              topic: q.kind === "artikel" ? "artikel" : q.kind === "plural" ? "plural" : (!q.item?.tense || /present simple/i.test(q.item.tense)) ? "praesens" : undefined,
               item: `sprint-${q.key}`,
             });
           }

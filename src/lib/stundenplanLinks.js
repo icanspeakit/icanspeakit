@@ -1,7 +1,7 @@
 // What build() (src/lib/stundenplan.js) needs besides the course plan: for every level its
 // Wortliste and game, and for every block the topic pages each grammar line links to.
 // Build time only (it reads the catalogs); the pages serialise the result for the browser,
-// so /lehrkraefte/stundenplan and /lehrkraefte/unterricht build the very same Stunde.
+// so /teachers/timetable and /teachers/lesson build the very same Stunde.
 import data from "../data/kursinhalte.json";
 import { grammarByKey } from "./grammarCatalog.js";
 import { lexiconCounts } from "./catalog.js";
@@ -17,8 +17,8 @@ const NICO = { name: "Nicos Weg (DW, Videokurs)", href: `${DW}/nicos-weg/c-36519
 const EASY = { name: "Easy German (YouTube)", href: "https://www.youtube.com/@EasyGerman", ext: true };
 const VIDEO_THEMA = { name: "Video-Thema (DW)", href: `${DW}/video-thema/s-55861568`, ext: true };
 const NACHRICHTEN = { name: "Langsam gesprochene Nachrichten (DW)", href: `${DW}/langsam-gesprochene-nachrichten/s-60040332`, ext: true };
-// /akkusativ is a page of its own, not in grammarCatalog ([id] route): the plan links it too.
-const AKKUSATIV = { key: "akkusativ", name: "Akkusativ", href: "/akkusativ", level: "A1" };
+// /object-pronouns is a page of its own, not in grammarCatalog ([id] route): the plan links it too.
+const AKKUSATIV = { key: "akkusativ", name: "Akkusativ", href: "/object-pronouns", level: "A1" };
 const topicByKey = (k) => grammarByKey(k) ?? (k === AKKUSATIV.key ? AKKUSATIV : null);
 
 const VIDEOS = { A1: [NICO], A2: [NICO], B1: [NICO, EASY], B2: [VIDEO_THEMA, EASY], C1: [VIDEO_THEMA, NACHRICHTEN] };
@@ -32,9 +32,9 @@ export function planLevels() {
       titel: l.titel,
       // The series this level goes with, by name only (kursinhalte.json: no levels, no lessons).
       books: data.lehrwerke[l.lehrwerke] ?? [],
-      words: lexiconCounts[cefr]?.words ? { name: `Wortliste ${cefr}`, href: `/wortschatz/${cefr.toLowerCase()}` } : null,
+      words: lexiconCounts[cefr]?.words ? { name: `Wortliste ${cefr}`, href: `/vocabulary/${cefr.toLowerCase()}` } : null,
       videos: VIDEOS[cefr] ?? [],
-      game: GAME_LEVELS.includes(cefr) ? { name: `Wortschatz-Bingo ${cefr}`, href: `/lehrkraefte/spiele/bingo?level=${cefr}` } : null,
+      game: GAME_LEVELS.includes(cefr) ? { name: `Wortschatz-Bingo ${cefr}`, href: `/teachers/games/bingo?level=${cefr}` } : null,
       blocks: l.bloecke.map((b) => ({
         ...b,
         grammar: b.grammatik.map((g) => grammarKeys(g, cefr, topicByKey).map((k) => {

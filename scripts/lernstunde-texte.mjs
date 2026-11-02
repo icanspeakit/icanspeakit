@@ -1,11 +1,11 @@
-// Learner texts for /stunde: one du-form solo draft per phase template of the Stundenplan
+// Learner texts for /lesson: one du-form solo draft per phase template of the Stundenplan
 // (the `variant` ids in build(), src/lib/stundenplan.js), next to the teacher's text it
 // comes from. Writes src/data/lernstunde-texte.json and prints the review list.
 //
 //   node scripts/lernstunde-texte.mjs
 //
 // Production shows a text only once it has "geprueft": true (Edgar sets that in the JSON);
-// until then /stunde falls back to a short neutral text per phase (FALLBACK in lernen.js).
+// until then /lesson falls back to a short neutral text per phase (FALLBACK in lernen.js).
 // Running this again never overwrites a reviewed text, and keeps a draft that was edited
 // by hand in the JSON (only new templates are added; drafts unchanged here stay as they are).
 //
@@ -133,7 +133,7 @@ const DRAFTS = {
 let current = {};
 try { current = JSON.parse(fs.readFileSync(OUT, "utf8")); } catch {}
 
-const out = { _hinweis: "Lerntexte für /stunde (scripts/lernstunde-texte.mjs). Nur \"geprueft\": true erscheint auf der Website; sonst ein neutraler Text je Phase." };
+const out = { _hinweis: "Lerntexte für /lesson (scripts/lernstunde-texte.mjs). Nur \"geprueft\": true erscheint auf der Website; sonst ein neutraler Text je Phase." };
 const review = [];
 for (const [id, d] of Object.entries(DRAFTS)) {
   const was = current[id];

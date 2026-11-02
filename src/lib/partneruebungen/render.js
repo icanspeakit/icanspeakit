@@ -34,7 +34,7 @@ const WRITE = new Set(["allein", "schreiben", "interview", "tabelle"]);
 export function skills(spec) {
   const types = new Set(spec.karten.flatMap((k) => k.schritte.map((s) => s.typ)));
   const has = (set) => [...types].some((t) => set.has(t));
-  return ["Sprechen", "Hören", ...(has(READ) ? ["Lesen"] : []), ...(has(WRITE) ? ["Schreiben"] : [])];
+  return ["Speaking", "Listening", ...(has(READ) ? ["Reading"] : []), ...(has(WRITE) ? ["Writing"] : [])];
 }
 /** Level and skills in one strip, the first thing on the sheet. */
 export const topStrip = (spec) => `<div class="pu-top"><span class="pu-level">${esc(spec.niveau)}</span>
@@ -47,15 +47,58 @@ const roleLabel = (spec, r) => (spec.modus === "gruppe" ? `Person ${r}` : `Partn
 // ("ich" → "Ich"): the tile the sentence starts with, else the verb tile closest to the
 // conjugated first word (kommen → Kommst, können → Kann, anrufen → Rufst … an). A choice tile
 // („ja / nein / doch“) opens the sentence when one of its options does.
+// English (the site's language): tiles are base-form verbs (be, have, go), the sentence may open
+// with a conjugated form (Is, Has, Does, Went …), with a contraction (He's, What's), with an
+// auxiliary that is no tile at all (Do you like tea? from you / like / tea: then nothing is
+// capitalised), or with another case of a pronoun tile (he → Him). "I" stays "I".
+// The German branches below only run when GERMAN is switched on: on English tiles they misfire
+// (the "declined word" test would capitalise a tile "dog" for "Does …").
+const GERMAN = false;
+const EN_IRREGULAR = {
+  be: /^(am|is|are|was|were|isn't|aren't|wasn't|weren't|being|been)$/,
+  have: /^(has|had|hasn't|haven't|hadn't|having)$/,
+  do: /^(does|did|doesn't|didn't|don't|doing|done)$/,
+  go: /^(goes|went|gone|going)$/,
+  get: /^(gets|got|getting)$/,
+  come: /^(comes|came|coming)$/,
+  take: /^(takes|took|taken|taking)$/,
+  make: /^(makes|made|making)$/,
+  buy: /^(buys|bought|buying)$/,
+  eat: /^(eats|ate|eaten|eating)$/,
+  see: /^(sees|saw|seen|seeing)$/,
+  say: /^(says|said|saying)$/,
+  leave: /^(leaves|left|leaving)$/,
+  meet: /^(meets|met|meeting)$/,
+  can: /^(can't|cannot)$/,
+};
+const EN_CASES = { i: ["my", "me", "mine"], he: ["him", "his"], she: ["her", "hers"], we: ["us", "our", "ours"], they: ["them", "their", "theirs"], you: ["your", "yours"], it: ["its"] };
+/** Regular forms of a base word: -s, -es, -ed, -ing (stop → stopped, make → making, study → studies). */
+function enForms(w) {
+  const last = w.slice(-1);
+  return [w + "s", w + "es", w + "ed", w + "d", w + "ing", w.replace(/e$/, "") + "ing", w.replace(/y$/, "ies"), w.replace(/y$/, "ied"), w + last + "ed", w + last + "ing"];
+}
+function openerEn(list, first) {
+  const lc = (w) => w.toLowerCase();
+  const pron = Object.keys(EN_CASES).find((p) => EN_CASES[p].includes(first) && list.some((w) => lc(w) === p));
+  if (pron) return list.find((w) => lc(w) === pron);
+  for (const w of list) {
+    if (/ \/ /.test(w) || !/^[a-z]/.test(w)) continue; // choice tiles and names / "I" are matched by the sentence start
+    const head = w.split(" ")[0];
+    if (EN_IRREGULAR[head]?.test(first) || (head.length >= 2 && enForms(head).includes(first))) return w;
+  }
+  return null;
+}
 const IRREGULAR = { sein: /^(bin|bist|ist|sind|seid|war|warst|waren|wart)$/, wissen: /^(weiß|weißt|wisst|wusste|wusstest)$/, nehmen: /^(nimm|nimmst|nimmt)$/, geben: /^(gib|gibst|gibt)$/ };
 const PREFIX = /^(sich |an|auf|ab|aus|ein|mit|nach|vor|zu|zurück|weg|herein|her|hin|los|fest)(?=\S)/;
 function opener(list, satz) {
   const low = String(satz ?? "").replace(/<[^>]+>/g, "").replace(/\*/g, "").trim().toLowerCase();
   if (!low) return null;
-  const opens = (w) => w.toLowerCase().split(" / ").some((o) => low.startsWith(o) && /^[\s,.?!]?$/.test(low.charAt(o.length)));
+  // After the tile: a space, punctuation, the end, or an apostrophe (He's, What's, Tom's).
+  const opens = (w) => w.toLowerCase().split(" / ").some((o) => low.startsWith(o) && /^[\s,.?!']?$/.test(low.charAt(o.length)));
   const starts = list.filter(opens);
   if (starts.length) return starts.sort((a, b) => b.length - a.length)[0];
   const first = low.split(/[\s,]/)[0];
+  if (!GERMAN) return openerEn(list, first);
   const pron = Object.keys(CASES).find((p) => CASES[p].includes(first) && list.includes(p));
   if (pron) return pron;
   // A declined word: wer → Wem, welcher Zug → Welchen Zug, irgend → Irgendjemand.
@@ -117,17 +160,17 @@ function stepTabelle(s) {
 
 function stepRolle(s) {
   return `<div class="pu-role">
-    <p class="pu-role-name">Ihre Rolle: <b>${fmt(s.rolle)}</b></p>
-    <p><b>Ihr Ziel:</b> ${fmt(s.ziel)}</p>
-    <p class="pu-label">Das wissen Sie:</p><ul>${s.infos.map((i) => `<li>${fmt(i)}</li>`).join("")}</ul>
-    <p class="pu-label">Das können Sie sagen:</p><div class="pu-chips">${s.redemittel.map((r) => `<span>${fmt(r)}</span>`).join("")}</div>
-    ${s.situationen ? `<p class="pu-label">Situationen:</p><ol class="pu-sits">${s.situationen.map((x) => `<li>${fmt(x)}</li>`).join("")}</ol>` : ""}
+    <p class="pu-role-name">Your role: <b>${fmt(s.rolle)}</b></p>
+    <p><b>Your goal:</b> ${fmt(s.ziel)}</p>
+    <p class="pu-label">What you know:</p><ul>${s.infos.map((i) => `<li>${fmt(i)}</li>`).join("")}</ul>
+    <p class="pu-label">What you can say:</p><div class="pu-chips">${s.redemittel.map((r) => `<span>${fmt(r)}</span>`).join("")}</div>
+    ${s.situationen ? `<p class="pu-label">Situations:</p><ol class="pu-sits">${s.situationen.map((x) => `<li>${fmt(x)}</li>`).join("")}</ol>` : ""}
   </div>`;
 }
 
 // A pair ticks yes or no; in a group the field takes the name of whoever said yes.
 function stepRaster(spec, s) {
-  const foot = spec.modus === "gruppe" ? '<span class="pu-cell-name">Name: <i></i></span>' : '<span class="pu-cell-name">☐ ja &nbsp; ☐ nein</span>';
+  const foot = spec.modus === "gruppe" ? '<span class="pu-cell-name">Name: <i></i></span>' : '<span class="pu-cell-name">☐ yes &nbsp; ☐ no</span>';
   return `<div class="pu-grid">${s.felder.map((f) => `<div class="pu-cell"><span>${fmt(f)}</span>${foot}</div>`).join("")}</div>`;
 }
 
@@ -149,7 +192,7 @@ function stepSchreiben(spec, s, k, si) {
 }
 
 function stepInterview(spec, s, k, si) {
-  return `<table class="pu-table pu-iv"><thead><tr><th>Frage</th><th>${spec.modus === "gruppe" ? "Antwort" : "Partner/in"}</th></tr></thead><tbody>${s.fragen.map((q, qi) => `<tr><td>${q.kacheln ? tiles(q.kacheln, q.infinitive ?? [], shuffle(q.kacheln, `${spec.id}:${k.rolle}:${si}:${qi}`)) + '<div class="pu-wline"><span class="pu-wl"></span>?</div>' : fmt(q.frage)}</td><td class="pu-gap"></td></tr>`).join("")}</tbody></table>
+  return `<table class="pu-table pu-iv"><thead><tr><th>Question</th><th>${spec.modus === "gruppe" ? "Answer" : "Partner"}</th></tr></thead><tbody>${s.fragen.map((q, qi) => `<tr><td>${q.kacheln ? tiles(q.kacheln, q.infinitive ?? [], shuffle(q.kacheln, `${spec.id}:${k.rolle}:${si}:${qi}`)) + '<div class="pu-wline"><span class="pu-wl"></span>?</div>' : fmt(q.frage)}</td><td class="pu-gap"></td></tr>`).join("")}</tbody></table>
     ${s.bericht ? `<div class="pu-wline pu-report">${fmt(s.bericht)} <span class="pu-wl"></span></div><div class="pu-wline"><span class="pu-wl"></span></div>` : ""}`;
 }
 
@@ -160,8 +203,8 @@ function stepTandem(spec, s, k) {
   return `<ol class="pu-td">${s.zeilen.map(([task, sol]) => {
     const [, n, text] = String(task).match(/^(\d+)\.\s*(.*)$/) ?? [null, "", task];
     return sol == null
-      ? `<li class="pu-td-row pu-td-row--ans"><span class="pu-td-n">${esc(n)}</span><span class="pu-td-task">${fmt(text)}</span><span class="pu-td-do">Sie antworten</span><span class="pu-td-line"></span></li>`
-      : `<li class="pu-td-row pu-td-row--read"><span class="pu-td-n">${esc(n)}</span><span class="pu-td-task">${fmt(text)}</span><span class="pu-td-do">Sie lesen vor</span></li>`;
+      ? `<li class="pu-td-row pu-td-row--ans"><span class="pu-td-n">${esc(n)}</span><span class="pu-td-task">${fmt(text)}</span><span class="pu-td-do">You answer</span><span class="pu-td-line"></span></li>`
+      : `<li class="pu-td-row pu-td-row--read"><span class="pu-td-n">${esc(n)}</span><span class="pu-td-task">${fmt(text)}</span><span class="pu-td-do">You read aloud</span></li>`;
   }).join("")}</ol>`;
 }
 
@@ -173,17 +216,17 @@ function stepTandemQa(spec, s, k) {
   const b = s.beispiel;
   const inf = b ? [b.infinitiv ?? ""] : [];
   const bspQ = b
-    ? `<li class="pu-td-row pu-td-row--bsp"><span class="pu-td-n pu-td-n--bsp">Bsp.</span><span class="pu-td-do">Sie fragen: Bauen Sie die Frage</span><span class="pu-td-task">${tiles(b.kacheln, inf, b.kacheln, b.frage)}</span><span class="pu-td-line pu-td-line--filled">${fmt(b.frage)}</span></li>`
+    ? `<li class="pu-td-row pu-td-row--bsp"><span class="pu-td-n pu-td-n--bsp">Ex.</span><span class="pu-td-do">You ask: build the question</span><span class="pu-td-task">${tiles(b.kacheln, inf, b.kacheln, b.frage)}</span><span class="pu-td-line pu-td-line--filled">${fmt(b.frage)}</span></li>`
     : "";
   const bspA = b
-    ? `<li class="pu-td-row pu-td-row--bsp"><span class="pu-td-n pu-td-n--bsp">Bsp.</span><span class="pu-td-do">Sie antworten: Bauen Sie den Satz</span><span class="pu-td-task">${tiles(b.antwortKacheln, inf, b.antwortKacheln, b.antwort)}</span><span class="pu-td-line pu-td-line--filled">${fmt(b.antwort)}</span></li>`
+    ? `<li class="pu-td-row pu-td-row--bsp"><span class="pu-td-n pu-td-n--bsp">Ex.</span><span class="pu-td-do">You answer: build the sentence</span><span class="pu-td-task">${tiles(b.antwortKacheln, inf, b.antwortKacheln, b.antwort)}</span><span class="pu-td-line pu-td-line--filled">${fmt(b.antwort)}</span></li>`
     : "";
   const bsp = k?.rolle === "B" ? bspA : bspQ;
   return `<ol class="pu-td pu-td--qa">${bsp}${s.qa.map((q) => q.ask
     ? (q.frageKacheln
-      ? `<li class="pu-td-row pu-td-row--read pu-td-row--build"><span class="pu-td-n">${q.n}</span><span class="pu-td-do">Sie fragen: Bauen Sie die Frage</span><span class="pu-td-task">${tiles(q.frageKacheln, [q.infinitiv], shuffle(q.frageKacheln, `${spec.id}:qa:${q.n}?`), q.frage)}</span><span class="pu-td-line pu-td-line--q"><span class="pu-td-wl"></span><b class="pu-td-end">?</b></span></li>`
-      : `<li class="pu-td-row pu-td-row--read"><span class="pu-td-n">${q.n}</span><span class="pu-td-do">Sie fragen</span><span class="pu-td-task pu-td-q">${fmt(q.frage)}</span></li>`)
-    : `<li class="pu-td-row pu-td-row--ans"><span class="pu-td-n">${q.n}</span><span class="pu-td-do">Sie antworten: Bauen Sie den Satz</span><span class="pu-td-task">${tiles(q.kacheln, [q.infinitiv], shuffle(q.kacheln, `${spec.id}:qa:${q.n}`), q.antwort)}</span><span class="pu-td-line"></span></li>`).join("")}</ol>`;
+      ? `<li class="pu-td-row pu-td-row--read pu-td-row--build"><span class="pu-td-n">${q.n}</span><span class="pu-td-do">You ask: build the question</span><span class="pu-td-task">${tiles(q.frageKacheln, [q.infinitiv], shuffle(q.frageKacheln, `${spec.id}:qa:${q.n}?`), q.frage)}</span><span class="pu-td-line pu-td-line--q"><span class="pu-td-wl"></span><b class="pu-td-end">?</b></span></li>`
+      : `<li class="pu-td-row pu-td-row--read"><span class="pu-td-n">${q.n}</span><span class="pu-td-do">You ask</span><span class="pu-td-task pu-td-q">${fmt(q.frage)}</span></li>`)
+    : `<li class="pu-td-row pu-td-row--ans"><span class="pu-td-n">${q.n}</span><span class="pu-td-do">You answer: build the sentence</span><span class="pu-td-task">${tiles(q.kacheln, [q.infinitiv], shuffle(q.kacheln, `${spec.id}:qa:${q.n}`), q.antwort)}</span><span class="pu-td-line"></span></li>`).join("")}</ol>`;
 }
 
 function step(spec, k, s, si, n) {
@@ -204,7 +247,7 @@ function step(spec, k, s, si, n) {
 }
 
 function tipp(t) {
-  return `<div class="pu-tipp"><b class="pu-tipp-h">💡 Tipp</b>
+  return `<div class="pu-tipp"><b class="pu-tipp-h">💡 Tip</b>
     <div class="pu-formel">${fmt(t.formel)}</div>
     ${t.beispiel ? `<div class="pu-bsp">${fmt(t.beispiel)}</div>` : ""}
     ${t.hinweise?.length ? `<ul>${t.hinweise.map((h) => `<li>${fmt(h)}</li>`).join("")}</ul>` : ""}</div>`;
@@ -231,7 +274,7 @@ function card(spec, k, later) {
   if (!parts.length) return "";
   const last = later || !hasLater(spec);
   const extra = last && group ? `<p class="pu-rot">${fmt(spec.gruppe.rotation)}</p>` : "";
-  const undSie = last && k.undSie ? `<div class="pu-undsie"><b>Und Sie?</b> ${fmt(k.undSie)}</div>` : "";
+  const undSie = last && k.undSie ? `<div class="pu-undsie"><b>And you?</b> ${fmt(k.undSie)}</div>` : "";
   const fig = spec.tandem ? `<span class="pu-card-fig" data-mascot-part>${mascotSvg({ name: ROLE_MASCOT[k.rolle] ?? "quaki", expr: "happy", view: "three", size: 40, label: "" })}</span>` : "";
   // A Tandembogen's two cards share their rows (subgrid, partner-sheet.css), so task 1 on A
   // sits level with task 1 on B however tall either one is: header, Tipp, then per step its
@@ -245,7 +288,7 @@ function card(spec, k, later) {
 // Who stands for whom on a Tandembogen: Bruno is Partner A, Regi Partner B.
 const ROLE_MASCOT = { A: "bruno", B: "regi" };
 
-const CUT = '<div class="pu-cut">✂ - - - - - - - - - - hier durchschneiden - - - - - - - - - - ✂</div>';
+const CUT = '<div class="pu-cut">✂ - - - - - - - - - - cut here - - - - - - - - - - ✂</div>';
 
 /** The card pages: a pair side by side; a group two cards per page (A|B, then C|D), so every
     printed page cuts into whole cards. Three persons share one page in three columns. */
@@ -258,8 +301,8 @@ function cardPages(spec, later) {
 /** „Und Sie?“ alone fits under the intro; a page for three questions wastes paper. */
 export const ownTogetherPage = (spec) => !!spec.gruppe || !!spec.zusammen?.wortkarten?.length || !!spec.zusammen?.regeln?.length;
 export const freeTitle = (t) => {
-  const own = String(t ?? "").replace(/^Zusammen:?\s*/, "");
-  return own && !/^Und Sie\??$/.test(own) ? `${own} – Und Sie?` : "Und Sie? Fragen und antworten Sie.";
+  const own = String(t ?? "").replace(/^(Zusammen|Together):?\s*/, "");
+  return own && !/^(Und Sie|And you)\??$/i.test(own) ? `${own} – And you?` : "And you? Ask and answer.";
 };
 const freeBox = (z) => (z?.freiFragen?.length ? `<div class="pu-box"><b class="pu-box-h">${esc(freeTitle(z.titel))}</b><ul>${z.freiFragen.map((q) => `<li>${fmt(q)}</li>`).join("")}</ul></div>` : "");
 
@@ -269,17 +312,17 @@ function tandemStrip(spec) {
   const task = String(first[0]).replace(/^\d+\.\s*/, "");
   const panel = (name, expr, role, say, cap) => `<div class="pu-ts-step pu-ts-step--${role}">
       <span class="pu-ts-fig" data-mascot-part>${mascotSvg({ name, expr, view: "three", size: 64, label: "" })}</span>
-      <p class="pu-ts-say" lang="de">${say}</p>
+      <p class="pu-ts-say" lang="en">${say}</p>
       <p class="pu-ts-cap">${cap}</p></div>`;
   return `<div class="pu-ts">
-    ${panel("bruno", "happy", "A", `Nummer 1: ${esc(task)}`, "<b>A</b> liest vor")}
-    ${panel("regi", "thinking", "B", "Ich glaube: …", "<b>B</b> antwortet")}
-    ${panel("regi", "happy", "B", "Nummer 2: …", "Dann <b>B</b> liest vor")}
-    ${panel("bruno", "thinking", "A", "Ich glaube: …", "<b>A</b> antwortet")}
+    ${panel("bruno", "happy", "A", `Number 1: ${esc(task)}`, "<b>A</b> reads out")}
+    ${panel("regi", "thinking", "B", "I think: …", "<b>B</b> answers")}
+    ${panel("regi", "happy", "B", "Number 2: …", "Then <b>B</b> reads out")}
+    ${panel("bruno", "thinking", "A", "I think: …", "<b>A</b> answers")}
   </div>`;
 }
 
-/** The Wo/Wohin rule as two colour cards (a topic's sheet extras, src/data/arbeitsblatt). */
+/** The position/movement rule (keys wo / wohin) as two colour cards (a topic's sheet extras, src/data/arbeitsblatt). */
 function woWohinBox(r) {
   const c = (k, x) => `<div class="pu-ww pu-ww--${k}"><p class="pu-ww-q"><b>${esc(x.frage)}</b> → ${esc(x.kasus)}</p><p class="pu-ww-was">${esc(x.was)}</p><p class="pu-ww-verbs">${x.verben.map((v) => `<span>${esc(v)}</span>`).join("")}</p><p class="pu-ww-ex">${x.beispiel}</p></div>`;
   return `<div class="pu-wwgrid">${c("wo", r.wo)}${c("wohin", r.wohin)}</div><p class="pu-ww-nine">${r.neun.map((p) => `<b>${esc(p)}</b>`).join("")}</p>`;
@@ -294,13 +337,13 @@ function intro(spec) {
   return `<section class="pu-page pu-page--intro">
     <div class="pu-name">Name: <span></span></div>
     ${topStrip(spec)}
-    <p class="pu-eyebrow">${esc(FORMAT_NAMES[spec.format])} · ${spec.modus === "gruppe" ? `Gruppe (${spec.personen})` : "Paar"} · ca. ${spec.dauerMin} Min.</p>
+    <p class="pu-eyebrow">${esc(FORMAT_NAMES[spec.format])} · ${spec.modus === "gruppe" ? `Group (${spec.personen})` : "Pair"} · about ${spec.dauerMin} min.</p>
     <h1 class="pu-title">${esc(spec.titel)}</h1>
     <p class="pu-sub">${fmt(spec.untertitel)}</p>
     ${spec.tandem ? tandemStrip(spec) : ""}
-    <div class="pu-box pu-box--gram"><b class="pu-box-h">Grammatik: ${esc(spec.grammatik.join(", "))}</b>${spec.woWohin ? woWohinBox(spec.woWohin) : `${pos}<p>${fmt(g.regel)}</p>`}${conj}</div>
-    <div class="pu-box"><b class="pu-box-h">Redemittel</b><ul class="pu-red">${red}</ul></div>
-    <div class="pu-box"><b class="pu-box-h">So geht's</b><ol>${spec.intro.soGehts.map((s) => `<li>${fmt(s)}</li>`).join("")}</ol></div>
+    <div class="pu-box pu-box--gram"><b class="pu-box-h">Grammar: ${esc(spec.grammatik.join(", "))}</b>${spec.woWohin ? woWohinBox(spec.woWohin) : `${pos}<p>${fmt(g.regel)}</p>`}${conj}</div>
+    <div class="pu-box"><b class="pu-box-h">Useful phrases</b><ul class="pu-red">${red}</ul></div>
+    <div class="pu-box"><b class="pu-box-h">How it works</b><ol>${spec.intro.soGehts.map((s) => `<li>${fmt(s)}</li>`).join("")}</ol></div>
     ${ownTogetherPage(spec) ? "" : freeBox(spec.zusammen)}
   </section>`;
 }
@@ -309,20 +352,20 @@ function together(spec) {
   const z = spec.zusammen;
   const g = spec.gruppe;
   if (!ownTogetherPage(spec)) return "";
-  const result = g ? `<div class="pu-box"><b class="pu-box-h">Gruppen-Ergebnis</b>
+  const result = g ? `<div class="pu-box"><b class="pu-box-h">Group result</b>
     <table class="pu-table"><thead><tr><th>Person</th>${g.ergebnis.spalten.map((c) => `<th>${fmt(c)}</th>`).join("")}</tr></thead>
     <tbody>${spec.karten.map((k) => `<tr><td>${k.rolle}</td>${g.ergebnis.spalten.map(() => '<td class="pu-gap"></td>').join("")}</tr>`).join("")}</tbody></table>
     <div class="pu-wline pu-report">${fmt(g.ergebnis.bericht)} <span class="pu-wl"></span></div></div>` : "";
-  const rules = z?.regeln?.length ? `<div class="pu-box"><b class="pu-box-h">Spielregeln</b><ol>${z.regeln.map((r) => `<li>${fmt(r)}</li>`).join("")}</ol></div>` : "";
-  const cards = z?.wortkarten?.length ? `<p class="pu-label">Wortkarten ✂</p><div class="pu-wk">${shuffle(z.wortkarten, `${spec.id}:wk`).map((w) => `<div>${fmt(w)}</div>`).join("")}</div>` : "";
+  const rules = z?.regeln?.length ? `<div class="pu-box"><b class="pu-box-h">Game rules</b><ol>${z.regeln.map((r) => `<li>${fmt(r)}</li>`).join("")}</ol></div>` : "";
+  const cards = z?.wortkarten?.length ? `<p class="pu-label">Word cards ✂</p><div class="pu-wk">${shuffle(z.wortkarten, `${spec.id}:wk`).map((w) => `<div>${fmt(w)}</div>`).join("")}</div>` : "";
   const free = freeBox({ freiFragen: z?.freiFragen });
-  return `<section class="pu-page pu-page--together"><h2 class="pu-h2">${esc(z?.titel ?? "Zusammen")}</h2>${result}${rules}${cards}${free}</section>`;
+  return `<section class="pu-page pu-page--together"><h2 class="pu-h2">${esc(z?.titel ?? "Together")}</h2>${result}${rules}${cards}${free}</section>`;
 }
 
 function solutions(spec) {
   const withQ = spec.loesungen.some((l) => l.frage);
-  return `<section class="pu-page pu-page--sol"><h2 class="pu-h2">Lösungen</h2>
-    <table class="pu-table pu-sol"><thead><tr><th></th>${withQ ? "<th>Frage</th>" : ""}<th>Antwort</th></tr></thead><tbody>
+  return `<section class="pu-page pu-page--sol"><h2 class="pu-h2">Answers</h2>
+    <table class="pu-table pu-sol"><thead><tr><th></th>${withQ ? "<th>Question</th>" : ""}<th>Answer</th></tr></thead><tbody>
     ${spec.loesungen.map((l) => `<tr><td class="pu-c">${esc(l.buchstabe ?? "")}</td>${withQ ? `<td>${fmt(l.frage ?? "")}</td>` : ""}<td>${fmt(l.antwort)}</td></tr>`).join("")}
     </tbody></table></section>`;
 }
@@ -333,9 +376,9 @@ function bildTandem(spec) {
   const b = spec.bildTandem;
   if (!b) return "";
   const half = (r, variant) => `<div class="pu-card pu-card--${r} pu-bt-half">
-      <div class="pu-card-h"><span class="pu-card-fig" data-mascot-part>${mascotSvg({ name: ROLE_MASCOT[r], expr: "happy", view: "three", size: 40, label: "" })}</span>Partner ${r} · Ihr Bild</div>
-      <div class="pu-bt-pic">${zimmerSvg({ variant, nums: false, label: `Das Zimmer von Partner ${r}` })}</div>
-      <p class="pu-bt-note">Zeigen Sie Ihr Bild nicht! Unterschiede: ${Array.from({ length: DIFFS.length }, () => '<span class="pu-bt-box"></span>').join("")}</p>
+      <div class="pu-card-h"><span class="pu-card-fig" data-mascot-part>${mascotSvg({ name: ROLE_MASCOT[r], expr: "happy", view: "three", size: 40, label: "" })}</span>Partner ${r} · Your picture</div>
+      <div class="pu-bt-pic">${zimmerSvg({ variant, nums: false, label: `Partner ${r}'s room` })}</div>
+      <p class="pu-bt-note">Don't show your picture! Differences: ${Array.from({ length: DIFFS.length }, () => '<span class="pu-bt-box"></span>').join("")}</p>
     </div>`;
   return `<section class="pu-page pu-page--bild">
     <h2 class="pu-h2"><span class="pu-step-n pu-step-n--big">2</span> ${esc(b.title)}</h2>
@@ -346,7 +389,7 @@ function bildTandem(spec) {
 }
 
 const bildKey = (spec) => (spec.bildTandem
-  ? `<h3 class="pu-h3">Unterschiede finden</h3><table class="pu-table pu-sol"><thead><tr><th>Partner A</th><th>Partner B</th></tr></thead><tbody>${DIFFS.map((d) => `<tr><td>${esc(d.a)}</td><td>${esc(d.b)}</td></tr>`).join("")}</tbody></table>`
+  ? `<h3 class="pu-h3">Spot the differences</h3><table class="pu-table pu-sol"><thead><tr><th>Partner A</th><th>Partner B</th></tr></thead><tbody>${DIFFS.map((d) => `<tr><td>${esc(d.a)}</td><td>${esc(d.b)}</td></tr>`).join("")}</tbody></table>`
   : "");
 
 /* Round 3 of a Tandembogen with the kitchen (kuecheSzene.js): an information gap. A has the
@@ -362,28 +405,29 @@ function kuecheTandem(spec) {
     <p class="pu-sub">${fmt(k.hint)}</p>
     <div class="pu-chips pu-bt-red">${k.redemittel.map((r) => `<span>${fmt(r)}</span>`).join("")}</div>`;
   const a = `<section class="pu-page pu-page--kueche pu-page--for-A">${top}
-    <div class="pu-card pu-card--A pu-bt-half">${head("A", "Ihr Bild mit Pfeilen")}
-      <div class="pu-bt-pic">${kuecheSvg({ moves: true, label: "Die Küche von Partner A: Pfeile zeigen, wohin Bruno die Sachen bringt." })}</div>
+    <div class="pu-card pu-card--A pu-bt-half">${head("A", "Your picture with arrows")}
+      <div class="pu-bt-pic">${kuecheSvg({ moves: true, label: "Partner A's kitchen: arrows show where Bruno puts things." })}</div>
       <ol class="pu-kt-steps">
-        <li><b>${fmt(k.teil1)}</b> Folgen Sie dem Pfeil mit der Nummer und antworten Sie mit „Er …“.</li>
-        <li><b>${fmt(k.teil2)}</b> Fragen Sie: „Wo steht … jetzt?“ Kontrollieren Sie mit Ihrem Bild.</li>
+        <li><b>${fmt(k.teil1)}</b> Follow the arrow with that number and answer with “He …”.</li>
+        <li><b>${fmt(k.teil2)}</b> Ask: “Where is … now?” Check with your picture.</li>
       </ol>
     </div>
   </section>`;
-  const rows = k.items.map((it) => `<li class="pu-td-row pu-td-row--ans"><span class="pu-td-n">${it.n}</span><span class="pu-td-task">${tiles(["wohin", it.verb, "Bruno", it.ding], [it.verb], shuffle(["wohin", it.verb, "Bruno", it.ding], `${spec.id}:kt:${it.n}`))}</span><span class="pu-td-line"></span></li>`).join("");
+  // B builds the question from ["where", verb, "Bruno", thing]; B adds does (Where does Bruno put the pot?).
+  const rows = k.items.map((it) => { const t = ["where", it.verb, "Bruno", it.ding]; return `<li class="pu-td-row pu-td-row--ans"><span class="pu-td-n">${it.n}</span><span class="pu-td-task">${tiles(t, [it.verb], shuffle(t, `${spec.id}:kt:${it.n}`), it.frage)}</span><span class="pu-td-line"></span></li>`; }).join("");
   const b = `<section class="pu-page pu-page--kueche pu-page--for-B">${top}
-    <div class="pu-card pu-card--B pu-bt-half">${head("B", "Ihr Bild ohne Pfeile")}
-      <div class="pu-bt-pic">${kuecheSvg({ moves: false, label: "Die Küche von Partner B: Neun Dinge liegen herum, ohne Pfeile." })}</div>
-      <p class="pu-kt-teil"><b>${fmt(k.teil1)}</b> Bauen Sie die Frage aus den Kärtchen. Schreiben Sie die Antwort von A auf.</p>
+    <div class="pu-card pu-card--B pu-bt-half">${head("B", "Your picture without arrows")}
+      <div class="pu-bt-pic">${kuecheSvg({ moves: false, label: "Partner B's kitchen: nine things lie around, no arrows." })}</div>
+      <p class="pu-kt-teil"><b>${fmt(k.teil1)}</b> Build the question from the tiles (add does). Write down A's answer.</p>
       <ol class="pu-td pu-td--qa">${rows}</ol>
-      <p class="pu-kt-teil"><b>${fmt(k.teil2)}</b> Antworten Sie mit Ihren Notizen: aus „in den“ wird „im“, aus „auf den“ wird „auf dem“.</p>
+      <p class="pu-kt-teil"><b>${fmt(k.teil2)}</b> Answer from your notes: “He puts the pot on the hob” becomes “The pot is on the hob”.</p>
     </div>
   </section>`;
   return a + b;
 }
 
 const kuecheKey = (spec) => (spec.kuecheTandem
-  ? `<h3 class="pu-h3">${esc(spec.kuecheTandem.title)}</h3><table class="pu-table pu-sol"><thead><tr><th></th><th>Teil 1: Wohin?</th><th>Teil 2: Wo?</th></tr></thead><tbody>${spec.kuecheTandem.items.map((it) => `<tr><td class="pu-c">${it.n}</td><td>${esc(it.frage)} ${esc(it.wohin)}</td><td>${esc(it.woFrage)} ${esc(it.wo)}</td></tr>`).join("")}</tbody></table>`
+  ? `<h3 class="pu-h3">${esc(spec.kuecheTandem.title)}</h3><table class="pu-table pu-sol"><thead><tr><th></th><th>Part 1: Where to?</th><th>Part 2: Where?</th></tr></thead><tbody>${spec.kuecheTandem.items.map((it) => `<tr><td class="pu-c">${it.n}</td><td>${esc(it.frage)} ${esc(it.wohin)}</td><td>${esc(it.woFrage)} ${esc(it.wo)}</td></tr>`).join("")}</tbody></table>`
   : "");
 
 /** Every page but the answers: intro, cards, together. One <section> per printed page. */
@@ -393,5 +437,5 @@ export const renderKey = (spec) => solutions(spec).replace(/<\/section>$/, `${bi
 
 /** The whole sheet as one <article>, answers last. */
 export function renderSheet(spec) {
-  return `<article class="pu-sheet" lang="de">${renderBody(spec)}${renderKey(spec)}</article>`;
+  return `<article class="pu-sheet" lang="en">${renderBody(spec)}${renderKey(spec)}</article>`;
 }

@@ -1,14 +1,14 @@
-// Builds „Grammatik-Start A1–B1 – Die 10 wichtigsten Kapitel“, the free starter grammar book,
-// in German and in eleven learner languages:
+// Builds „English Grammar Start A1–B1 – The 10 most important chapters“, the free starter
+// grammar book, in English and in every help language with a translation file:
 //
 //   pnpm generate:grammatik-start-pdf          all editions
-//   node scripts/generate-grammatik-start-pdf.mjs de tr ar   some
+//   node scripts/generate-grammatik-start-pdf.mjs en de   some
 //
-// → public/downloads/grammatik-start.pdf (German) and grammatik-start-<code>.pdf.
+// → public/downloads/grammatik-start.pdf (English) and grammatik-start-<code>.pdf.
 //
-// The content is src/data/grammatik-start/de.json; each translation (<code>.json) carries only
+// The content is src/data/grammatik-start/en.json; each translation (<code>.json) carries only
 // the explaining blocks — the book rule: rules, explanations and Merke boxes in the learner's
-// language, examples, tables, exercises and solutions German, because German is the subject.
+// language, examples, tables, exercises and solutions English, because English is the subject.
 // Check them with scripts/check-grammatik-start.mjs.
 //
 // The look is the Grammatik books' (scripts/lib/pdf-brand.mjs) with more of the crew
@@ -16,11 +16,11 @@
 // page, Bruno on the contents, Regi on the book's rule and at every Merke, Hamsti at the
 // exercises, Bruno at a typical mistake and dozing over the answer key, Quaki pointing to the
 // matching exercises online. Every chapter has a three-panel comic before its exercises,
-// in German (the crew makes the chapter's typical mistake and puts it right), and a page
+// in English (the crew makes the chapter's typical mistake and puts it right), and a page
 // with none of them gets a small one beside the page number. Never more than three on a
 // page (the comic counts as three), never on top of text.
 //
-// Every page says where it is from (footer, in the reader's language and German); the last
+// Every page says where it is from (footer, in the reader's language and English); the last
 // page sends the reader back to englishacademy.com, with a QR code.
 import { readFileSync, existsSync } from "node:fs";
 import { createRequire } from "node:module";
@@ -41,30 +41,31 @@ const FREDOKA_FILE = path.join(root, "scripts", "fonts", "Fredoka-SemiBold.ttf")
 const fontkit = createRequire(createRequire(import.meta.url).resolve("pdfkit"))("fontkit");
 const FREDOKA = fontkit.openSync(FREDOKA_FILE);
 
-// The editions: German, then every registry language with a translation file in
+// The editions: English, then every registry language with a translation file in
 // src/data/grammatik-start/ (registry order, so a new language needs only its file).
-export const EDITIONS = ["de", ...LANGUAGE_REGISTRY.map((l) => l.code).filter((c) => c !== "de" && existsSync(path.join(root, "src", "data", "grammatik-start", `${c}.json`)))];
+const BASE = "en";
+export const EDITIONS = [BASE, ...LANGUAGE_REGISTRY.map((l) => l.code).filter((c) => c !== BASE && existsSync(path.join(root, "src", "data", "grammatik-start", `${c}.json`)))];
 const RTL = new Set(["ar", "fa", "ps"]);
 const RED = "#c0392b";
 const GREEN = "#1f8a4c";
 
-const de = JSON.parse(readFileSync(path.join(dataDir, "de.json"), "utf8"));
-// Bidi control marks a translator may have set: the RTL drawing places German runs itself,
+const base = JSON.parse(readFileSync(path.join(dataDir, `${BASE}.json`), "utf8"));
+// Bidi control marks a translator may have set: the RTL drawing places English runs itself,
 // and the fonts have no glyph for them.
 const load = (code) => JSON.parse(readFileSync(path.join(dataDir, `${code}.json`), "utf8").replace(/[‎‏‪-‮⁦-⁩]/g, ""));
 const date = new Date().toISOString().slice(0, 10).split("-").reverse().join(".");
 const fill = (s, vars) => String(s).replace(/\{(\w+)\}/g, (m, k) => (k in vars ? String(vars[k]) : m));
 
 async function build(lang) {
-  const tr = lang === "de" ? null : load(lang);
+  const tr = lang === BASE ? null : load(lang);
   const rtl = RTL.has(lang);
-  const ui = { ...de.ui, ...(tr?.ui ?? {}) };
-  const deUi = de.ui;
+  const ui = { ...base.ui, ...(tr?.ui ?? {}) };
+  const baseUi = base.ui;
   const draft = tr && tr.status !== "reviewed";
-  const T = (id, field, german) => tr?.blocks?.[id]?.[field] ?? german;
+  const T = (id, field, english) => tr?.blocks?.[id]?.[field] ?? english;
   const chTitle = (c) => tr?.chapters?.[c.id]?.title ?? c.titleDe;
   const chBubble = (c) => tr?.chapters?.[c.id]?.bubble ?? c.bubble;
-  const file = lang === "de" ? "grammatik-start.pdf" : `grammatik-start-${lang}.pdf`;
+  const file = lang === BASE ? "grammatik-start.pdf" : `grammatik-start-${lang}.pdf`;
   const art = await loadArt();
   const pics = {
     regi: await single("regi", "thinking"),
@@ -83,7 +84,7 @@ async function build(lang) {
   let footerDraw = null;
   const pdf = createDoc({
     outPath: path.join(outDir, file),
-    runningHead: `GRAMMATIK-START A1–B1 · DEUTSCHACADEMY · ${SITE.toUpperCase()}`,
+    runningHead: `ENGLISH GRAMMAR START A1–B1 · ${SITE.toUpperCase()}`,
     unicode: true,
     script: languageOf(lang)?.script,
     footer: (i, n) => footerDraw(i, n),
@@ -302,21 +303,24 @@ async function build(lang) {
     const bottom = doc.page.margins.bottom;
     doc.page.margins.bottom = 0;
     doc.rect(0, 0, pw, 318).fill(TEAL_SOFT);
-    // The logo is the slogan („da für Dich“); the name stands beside it.
+    // The logo, with the name and the slogan beside it.
     doc.image(pdf.pic(LOGO), MARGIN, 36, { width: 150 });
     doc.fillColor(INK).font(F.bold).fontSize(13).text("EnglishAcademy", MARGIN + 164, 46, { lineBreak: false });
-    doc.fillColor(TEAL_DARK).font("Fredoka").fontSize(11).text("Da für Dich!", MARGIN + 164, 63, { lineBreak: false });
-    doc.fillColor(TEAL_DARK).font(F.bold).fontSize(9).text("DEUTSCH LERNEN · A1 – B1", MARGIN, 104, { characterSpacing: 1.2 });
-    doc.fillColor(INK).font(F.bold).fontSize(34).text(deUi.bookTitle, MARGIN, 120, { width: W });
-    doc.fillColor(MUTED).font(F.regular).fontSize(16).text(deUi.bookSubtitle, MARGIN, doc.y + 2, { width: W });
+    doc.fillColor(TEAL_DARK).font("Fredoka").fontSize(11).text("Here for you!", MARGIN + 164, 63, { lineBreak: false });
+    doc.fillColor(TEAL_DARK).font(F.bold).fontSize(9).text("LEARN ENGLISH · A1 – B1", MARGIN, 104, { characterSpacing: 1.2 });
+    // As large as fits on one line: a break inside „A1–B1“ reads badly.
+    let titleSize = 34;
+    while (titleSize > 24 && doc.font(F.bold).fontSize(titleSize).widthOfString(baseUi.bookTitle) > W) titleSize -= 1;
+    doc.fillColor(INK).font(F.bold).fontSize(titleSize).text(baseUi.bookTitle, MARGIN, 120, { width: W });
+    doc.fillColor(MUTED).font(F.regular).fontSize(16).text(baseUi.bookSubtitle, MARGIN, doc.y + 2, { width: W });
     let y = doc.y + 14;
     if (tr) {
-      // The book's name in the reader's language, under the German one.
+      // The book's name in the reader's language, under the English one.
       y += draw(ui.bookTitle, MARGIN, y, W, { size: 21, bold: true, rtl, color: TEAL_DARK }) + 4;
       y += draw(ui.bookSubtitle, MARGIN, y, W, { size: 12.5, rtl, color: INK }) + 3;
       y += draw(ui.forSpeakers, MARGIN, y, W, { size: 11, rtl, color: MUTED });
     } else {
-      y += draw(deUi.forSpeakers, MARGIN, y, W, { size: 12, color: MUTED });
+      y += draw(baseUi.forSpeakers, MARGIN, y, W, { size: 12, color: MUTED });
     }
 
     // The crew, with the slogan in the reader's language.
@@ -342,7 +346,7 @@ async function build(lang) {
     doc.fillColor(TEAL_DARK).font(F.bold).fontSize(20).text(SITE, MARGIN, by + 12, { width: W, align: "center", link: `https://${SITE}` });
     let sy = by + 42;
     sy += draw(ui.share, MARGIN, sy, W, { size: 8.5, rtl: rtl && !!tr, color: MUTED, align: rtl ? "left" : "center" }) + 2;
-    doc.fillColor(MUTED).font(F.regular).fontSize(8).text(`${fill(deUi.made, { date })} · © EnglishAcademy`, MARGIN, sy + 2, { width: W, align: "center", lineBreak: false });
+    doc.fillColor(MUTED).font(F.regular).fontSize(8).text(`${fill(baseUi.made, { date })} · © EnglishAcademy`, MARGIN, sy + 2, { width: W, align: "center", lineBreak: false });
     doc.page.margins.bottom = bottom;
     doc.x = MARGIN;
   }
@@ -366,7 +370,7 @@ async function build(lang) {
       doc.roundedRect(MARGIN, by, bw, 18, 9).fill(TEAL_SOFT);
       doc.fillColor(TEAL_DARK).font(F.bold).fontSize(9).text(S(badge), MARGIN + 9, by + 4.5, { lineBreak: false });
     }
-    // Title (and the German title under a translated one), clear of the mascot's corner.
+    // Title (and the English title under a translated one), clear of the mascot's corner.
     const tw = W - 236;
     let y = by + 28;
     const tx = rtl ? MARGIN + 236 : MARGIN;
@@ -468,7 +472,7 @@ async function build(lang) {
     }
   }
 
-  /* A comic strip: three panels, a crew member and a speech bubble in each, in German. A
+  /* A comic strip: three panels, a crew member and a speech bubble in each, in English. A
      panel with the mistake („oops“) gets a red bubble, so the wrong sentence reads as wrong. */
   function comic(panels) {
     const gap = 10;
@@ -510,7 +514,7 @@ async function build(lang) {
       pdf.ensureSpace(130);
       doc.y += 10;
       const y = doc.y;
-      // The heading, with Hamsti and his „Jetzt du!" at its end.
+      // The heading, with Hamsti and his „Your turn!“ at its end.
       const label = ui.exercises;
       const lh = measure(label, W - 200, { size: 15, bold: true, rtl: r });
       draw(label, r ? MARGIN + 200 : MARGIN, y + 6, W - 200, { size: 15, bold: !r, rtl: r, color: INK });
@@ -562,7 +566,7 @@ async function build(lang) {
     doc.y = y0 + 62;
     doc.moveTo(MARGIN, doc.y).lineTo(RIGHT, doc.y).strokeColor(TEAL).lineWidth(1.5).stroke();
     doc.y += 8;
-    for (const c of de.chapters) {
+    for (const c of base.chapters) {
       heading(fill(ui.solutionsOf, { n: c.nr, title: chTitle(c) }), { keep: 50, size: 11.5, r });
       for (const b of c.blocks.filter((x) => x.type === "exercise")) {
         const letter = b.title.match(/^([A-Z])\./)?.[1] ?? "";
@@ -624,7 +628,7 @@ async function build(lang) {
     doc.moveTo(MARGIN, fy).lineTo(RIGHT, fy).strokeColor(TEAL).lineWidth(1.5).stroke();
     doc.image(pdf.pic(LOGO), MARGIN, fy + 14, { width: 120 });
     doc.fillColor(INK).font(F.bold).fontSize(11).text("EnglishAcademy", MARGIN + 130, fy + 18, { lineBreak: false });
-    doc.fillColor(TEAL_DARK).font("Fredoka").fontSize(10).text("Da für Dich!", MARGIN + 130, fy + 33, { lineBreak: false });
+    doc.fillColor(TEAL_DARK).font("Fredoka").fontSize(10).text("Here for you!", MARGIN + 130, fy + 33, { lineBreak: false });
     draw(ui.share, MARGIN + 250, fy + 12, W - 250, { size: 8.5, rtl: r, color: MUTED });
     doc.x = MARGIN;
   }
@@ -646,9 +650,9 @@ async function build(lang) {
     doc.y = ry + 100;
     box({ title: null, lines: [{ text: ui.aboutRule, rtl: r, size: 11.5, color: INK }], fillColor: TEAL_SOFT, stroke: TEAL_SOFT, artW: 0 });
     if (tr) {
-      // The same in German, for the teacher.
+      // The same in English, for the teacher.
       doc.y += 6;
-      para(`${deUi.aboutText} ${deUi.aboutRule}`, { size: 9.5, color: MUTED });
+      para(`${baseUi.aboutText} ${baseUi.aboutRule}`, { size: 9.5, color: MUTED });
     }
   }
 
@@ -678,8 +682,8 @@ async function build(lang) {
       y += Math.max(h + sh + 12, 30);
       doc.moveTo(MARGIN, y - 6).lineTo(RIGHT, y - 6).strokeColor(BORDER).lineWidth(0.5).stroke();
     };
-    for (const c of de.chapters) {
-      const sub = [tr ? c.titleDe : null, `${c.level} · ${fill(deUi.priority, { n: c.priority })}`].filter(Boolean).join(" · ");
+    for (const c of base.chapters) {
+      const sub = [tr ? c.titleDe : null, `${c.level} · ${fill(baseUi.priority, { n: c.priority })}`].filter(Boolean).join(" · ");
       row(chTitle(c), sub, starts[c.id], c.nr);
     }
     row(ui.solutions, null, starts.solutions, null);
@@ -701,9 +705,9 @@ async function build(lang) {
       } else {
         doc.fillColor(MUTED).font(F.regular).fontSize(7.5).text(S(ui.footer), MARGIN, y, { width: maxW, lineBreak: false });
       }
-      doc.fillColor(MUTED).font(F.regular).fontSize(7.5).text(deUi.footer, MARGIN, y + 10, { width: maxW, lineBreak: false, align: rtl ? "right" : "left" });
+      doc.fillColor(MUTED).font(F.regular).fontSize(7.5).text(baseUi.footer, MARGIN, y + 10, { width: maxW, lineBreak: false, align: rtl ? "right" : "left" });
     } else {
-      doc.fillColor(MUTED).font(F.regular).fontSize(7.5).text(deUi.footer, MARGIN, y + 6, { width: maxW, lineBreak: false });
+      doc.fillColor(MUTED).font(F.regular).fontSize(7.5).text(baseUi.footer, MARGIN, y + 6, { width: maxW, lineBreak: false });
     }
   };
 
@@ -713,7 +717,7 @@ async function build(lang) {
   doc.addPage(); // contents, filled in once the page numbers are known
   const tocPage = pdf.pageNumber();
   about();
-  for (const c of de.chapters) chapter(c, starts);
+  for (const c of base.chapters) chapter(c, starts);
   solutions(starts);
   await back(starts);
   contents(tocPage, starts);
@@ -726,7 +730,7 @@ async function build(lang) {
 const asked = process.argv.slice(2);
 const langs = asked.length ? asked : EDITIONS;
 for (const lang of langs) {
-  if (!EDITIONS.includes(lang)) throw new Error(`unbekannte Ausgabe: ${lang}`);
+  if (!EDITIONS.includes(lang)) throw new Error(`unknown edition: ${lang}`);
   const { file, pages } = await build(lang);
-  console.log(`${file.padEnd(28)} ${String(pages).padStart(3)} Seiten  ${languageOf(lang)?.native ?? lang}`);
+  console.log(`${file.padEnd(28)} ${String(pages).padStart(3)} pages  ${languageOf(lang)?.native ?? lang}`);
 }

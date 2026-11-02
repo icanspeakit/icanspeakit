@@ -1,7 +1,7 @@
-// The Mini-Crew: small sidekick animals for /zungenbrecher (fish, goat, snail …). They are
+// The Mini-Crew: small sidekick animals for /tongue-twisters (fish, goat, snail …). They are
 // deliberately NOT mascots: a round sticker, a thin outline and no moods, so they never
 // compete with Bruno, Regi, Hamsti and Quaki (src/lib/mascots.js). Each one only says the
-// sound its animal makes — German onomatopoeia is a small lesson of its own.
+// sound its animal makes — English onomatopoeia is a small lesson of its own.
 //
 //   miniSvg("ziege", { size: 48 })
 //
@@ -104,16 +104,16 @@ const DRAW = {
 
 /** The sound each animal makes — the only thing a mini ever says. */
 export const MINI_SOUND = {
-  fisch: "Blubb!",
-  katze: "Miau!",
-  esel: "I-aah!",
-  ameise: "Krabbel, krabbel!",
-  ziege: "Mäh!",
-  fliege: "Summ, summ!",
-  fink: "Piep!",
-  schwalbe: "Zwitscher!",
-  schnecke: "Laaangsam …",
-  schlange: "Ssss … klapper!",
+  fisch: "Blub blub!",
+  katze: "Miaow!",
+  esel: "Hee-haw!",
+  ameise: "Scurry, scurry!",
+  ziege: "Maa!",
+  fliege: "Buzz, buzz!",
+  fink: "Tweet!",
+  schwalbe: "Tweet tweet!",
+  schnecke: "Sloooowly …",
+  schlange: "Hisss … rattle!",
 };
 
 export const MINI_NAMES = Object.keys(DRAW);

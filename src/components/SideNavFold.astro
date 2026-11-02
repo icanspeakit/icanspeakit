@@ -10,7 +10,7 @@
     if (!root || !matchMedia("(min-width: 1001px)").matches) return;
     var on = false;
     try { on = localStorage.getItem("da-sidenav-fold") === "1"; } catch (e) {}
-    // Opened from a running lesson (/lehrkraefte/unterricht adds ?ut=1): the page is on
+    // Opened from a running lesson (/teachers/lesson adds ?ut=1): the page is on
     // the projector, so the list starts folded — without touching the learner's choice.
     if (/[?&]ut=1(&|$)/.test(location.search)) on = true;
     if (!on) return;

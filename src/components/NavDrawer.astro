@@ -28,7 +28,7 @@ const APP_BUILD = import.meta.env.PUBLIC_TARGET === "app";
 const einfachBruno = mascotSvg({ name: "bruno", expr: "happy", view: "front", size: 34, label: "" });
 // "old" drops the Nachschlagewerk row, for the /nav2 comparison page (see NavMenubar.astro).
 const { wissenVariant = "current" } = Astro.props as { wissenVariant?: "lean" | "current" | "old" | "oldplus" | "oldbooks" | "oldchips" | "tabs" };
-const WISSEN_HREF = "/wissen";
+const WISSEN_HREF = "/knowledge";
 const LEHRKRAEFTE_HREF = navLehrkraefte.href;
 // Sections that a phone reaches through Wissen instead of from the home list.
 const DRAWER_UNDER_WISSEN = ["landeskunde"];
@@ -81,21 +81,21 @@ const vars = (v) => (v ? JSON.stringify(v) : undefined);
           mega menu does not, so Üben lists its four rather than hiding them behind a
           fifth tap. The sub-panes each subject opens are unchanged. */}
       <div data-pane="home">
-        {/* /einfach — „Einfach lernen" leads the drawer: on a phone this is the one
+        {/* /step-by-step — „Einfach lernen" leads the drawer: on a phone this is the one
             permanent door into it, and the learners it is for are the ones least likely
             to scroll past the subjects to find it. */}
-        <a class="lp-drawer-einfach" href="/einfach" data-einfach-entry>
+        <a class="lp-drawer-einfach" href="/step-by-step" data-einfach-entry>
           <span class="lp-drawer-einfach-bruno" aria-hidden="true" set:html={einfachBruno} />
           <span class="lp-drawer-einfach-paw" aria-hidden="true">🐾</span>
           <span class="lp-drawer-txt">
-            <b>Einfach lernen</b>
+            <b data-i18n="einfach.name">Einfach lernen</b>
             <i data-i18n="nav.einfach.drawerSub">Ganz neu? Hier anfangen</i>
           </span>
           <span class="lp-drawer-einfach-go" aria-hidden="true">→</span>
         </a>
         {/* Teachers only (src/lib/liveQuizNav.js). On desktop it is „Für Lehrkräfte → Live-Quiz“. */}
         {!APP_BUILD && (
-          <a class="lp-drawer-row lp-drawer-lq" href="/lehrkraefte/quiz" hidden data-lq-nav>
+          <a class="lp-drawer-row lp-drawer-lq" href="/teachers/quiz" hidden data-lq-nav>
             <span class="lp-drawer-ic" aria-hidden="true">🎯</span>
             <span class="lp-drawer-txt">
               <b data-i18n="nav.lq.title">Live-Quiz für die Klasse</b>
@@ -161,7 +161,7 @@ const vars = (v) => (v ? JSON.stringify(v) : undefined);
           <span class="lp-drawer-levelbar-lbl" data-i18n="nav.ueben.levelShort">Niveau</span>
           <div class="lp-chiprow">
             {levels.map((lv) => (
-              <a class="lp-chip lp-chip--drawer" href={`/grammatik#niveau-${lv.slug}`}>{lv.level}</a>
+              <a class="lp-chip lp-chip--drawer" href={`/grammar#niveau-${lv.slug}`}>{lv.level}</a>
             ))}
           </div>
         </div>
@@ -584,7 +584,7 @@ const vars = (v) => (v ? JSON.stringify(v) : undefined);
             </a>
           ))}
           {lv.grammar.length > GRAMMAR_PREVIEW && (
-            <a class="lp-drawer-all" href={`/grammatik#niveau-${lv.slug}`}>
+            <a class="lp-drawer-all" href={`/grammar#niveau-${lv.slug}`}>
               <span
                 data-i18n="nav.level.allTopics"
                 data-i18n-vars={JSON.stringify({ n: lv.grammar.length })}

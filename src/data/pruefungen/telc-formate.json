@@ -1,96 +1,359 @@
 {
-  "note": "Prüfungsformate telc (allgemeines Deutsch). Jede Zahl hier ist aus dem jeweiligen telc-Übungstest abgelesen — Zeiten, Punkte, Aufgabenzahlen und Aufgabentypen. Keine geschätzten oder erfundenen Werte. Berufsbezogene telc-Varianten (telc Deutsch B1·B2 Beruf, Pflege, Medizin usw.) sind hier bewusst nicht abgebildet — diese Seite deckt allgemeines Deutsch ab. Die Prüfungsaufgaben selbst sind urheberrechtlich geschützt (© telc gGmbH) und stehen NICHT in dieser Datei; hier steht nur die Struktur.",
+  "note": "Exam formats shown on /trinity (Trinity ISE). Built from src/data/pruefungen/formate-a2-c1.research.json (entries telc-a2/b1/b2), checked against trinitycollege.com on 2026-10-30 (ISE I and ISE II from the official test overviews; ISE Foundation from the resources page, task details assumed to match ISE I — see the research file). In our practice sets the Speaking & Listening module is split into its two skills. Structure only; no exam content is reproduced (© Trinity College London).",
   "formate": [
     {
-      "id": "a1",
-      "exam": "telc Deutsch A1",
-      "alt": "Start Deutsch 1",
-      "level": "A1",
-      "source": "telc Start Deutsch 1, Übungstest 1 — „Testformat“, S. 5",
-      "totalPoints": 60,
+      "id": "ise-foundation",
+      "exam": "Trinity ISE Foundation",
+      "alt": "Integrated Skills in English, A2",
+      "level": "A2",
+      "source": "Trinity College London, ISE Foundation (A2) resources — https://trinitycollege.com/qualifications/english-language/ISE/ISE-Foundation-A2-resources; task types follow the ISE I/ISE II test overviews, checked 2026-10-30",
+      "intro": "ISE Foundation is the A2 exam. Reading & Writing takes 2 hours; Speaking & Listening takes about 13 minutes, one-to-one with an examiner (by video conference at some centres). Each skill gets its own result.",
       "blocks": [
         {
-          "label": "Schriftliche Prüfung",
-          "total": {
-            "time": "75 Minuten"
-          },
+          "label": "Module 1: Reading & Writing (2 hours)",
           "rows": [
             {
-              "part": "Formalitäten",
-              "what": "Antwortbogen ausfüllen",
-              "time": "10 Minuten",
-              "points": null
+              "part": "Reading · 1",
+              "what": "Task 1, Long reading, questions 1–5: choose a title for each paragraph",
+              "type": "Title matching (six titles, five are used)",
+              "time": "120 minutes for Reading and Writing together (Tasks 1–4)"
             },
             {
-              "part": "1 Hören",
-              "what": "Hörverstehen",
-              "time": "ca. 20 Minuten",
-              "points": 15
+              "part": "Reading · 2",
+              "what": "Task 1, Long reading, questions 6–10: which statements are true?",
+              "type": "Five of eight statements are true (here you judge all eight: true or false)",
+              "time": null
             },
             {
-              "part": "2 und 3 Lesen und Schreiben",
-              "what": "Leseverstehen und schriftlicher Ausdruck",
-              "time": "45 Minuten",
-              "points": "15 + 15"
+              "part": "Reading · 3",
+              "what": "Task 1, Long reading, questions 11–15: complete sentences",
+              "type": "An exact word, number or phrase from the text (maximum three words)",
+              "time": null
+            },
+            {
+              "part": "Reading · 4",
+              "what": "Task 2, Multi-text reading, questions 16–20: which text is it?",
+              "type": "Multiple matching, three texts (a text can be used more than once)",
+              "time": null
+            },
+            {
+              "part": "Reading · 5",
+              "what": "Task 2, Multi-text reading, questions 21–25: which statements are true?",
+              "type": "Five of eight statements are true (here you judge all eight: true or false)",
+              "time": null
+            },
+            {
+              "part": "Reading · 6",
+              "what": "Task 2, Multi-text reading, questions 26–30: complete the notes",
+              "type": "An exact word, number or phrase from the texts (maximum three words)",
+              "time": null
+            },
+            {
+              "part": "Writing · 3",
+              "what": "Task 3, Reading into writing: answer a question using information from all three Task 2 texts",
+              "type": "Free writing, 70–100 words",
+              "time": "same 120 minutes as Reading"
+            },
+            {
+              "part": "Writing · 4",
+              "what": "Task 4, Extended writing: e.g. an email, article, review or essay",
+              "type": "Free writing, 70–100 words",
+              "time": null
             }
           ]
         },
         {
-          "label": "Mündliche Prüfung",
-          "total": {
-            "time": "15 Minuten",
-            "points": 15
-          },
+          "label": "Module 2: Speaking & Listening (one-to-one with the examiner)",
           "rows": [
             {
-              "part": "4 Sprechen · Teil 1",
-              "what": "Sich vorstellen",
-              "time": "ca. 3 Minuten",
-              "points": null
+              "part": "Speaking · 1",
+              "what": "Topic discussion: talk with the examiner about a topic you prepared",
+              "type": "One-to-one with the examiner",
+              "time": "6 minutes (our estimate for the two speaking tasks)"
             },
             {
-              "part": "Teil 2",
-              "what": "Um Informationen bitten und Informationen geben",
-              "time": "ca. 4 Minuten",
-              "points": null
+              "part": "Speaking · 2",
+              "what": "Conversation: on one subject area the examiner chooses",
+              "type": "One-to-one with the examiner",
+              "time": null
             },
             {
-              "part": "Teil 3",
-              "what": "Bitten formulieren und darauf reagieren",
-              "time": "ca. 4 Minuten",
-              "points": null
+              "part": "Listening · 1",
+              "what": "Independent listening, talk 1: listen twice, then answer six questions",
+              "type": "Short answers (spoken to the examiner in the exam; written here)",
+              "time": "our estimate; the whole Speaking & Listening module is about 13 minutes"
             },
             {
-              "part": "Beschlussfassung der Prüfenden",
-              "what": "—",
-              "time": "ca. 4 Minuten",
-              "points": null
+              "part": "Listening · 2",
+              "what": "Independent listening, talk 2: say what the talk is about, then give six pieces of information",
+              "type": "Gist + short answers (spoken in the exam; written here)",
+              "time": null
             }
           ]
         }
       ],
       "grading": {
-        "caption": "Ergebnispunkte und Prädikat",
+        "caption": "Results",
+        "columns": [
+          "Result",
+          "For each skill"
+        ],
         "rows": [
           [
-            "54–60",
-            "sehr gut"
+            "Distinction",
+            "the highest result"
           ],
           [
-            "48–53,5",
-            "gut"
+            "Merit",
+            "a good pass"
           ],
           [
-            "42–47,5",
-            "befriedigend"
+            "Pass",
+            "the level is reached"
           ],
           [
-            "36–41,5",
-            "ausreichend"
+            "Fail",
+            "the level is not reached yet"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "ise-1",
+      "exam": "Trinity ISE I",
+      "alt": "Integrated Skills in English, B1",
+      "level": "B1",
+      "source": "Trinity College London, Test overview — ISE I (B1) — https://www.trinitycollege.com/resource?id=7516; timings confirmed on trinitycollege.com, checked 2026-10-30",
+      "intro": "ISE I is the B1 exam. Reading & Writing takes 2 hours (20 + 20 + 40 + 40 minutes); Speaking & Listening takes about 18 minutes including 2 minutes of admin time. Each skill gets its own result.",
+      "blocks": [
+        {
+          "label": "Module 1: Reading & Writing (2 hours)",
+          "rows": [
+            {
+              "part": "Reading · 1",
+              "what": "Task 1, Long reading, questions 1–5: choose a title for each paragraph",
+              "type": "Title matching (six titles, five are used)",
+              "time": "120 minutes for Reading and Writing together; 20 minutes each for Tasks 1 and 2"
+            },
+            {
+              "part": "Reading · 2",
+              "what": "Task 1, Long reading, questions 6–10: which statements are true?",
+              "type": "Five of eight statements are true (here you judge all eight: true or false)",
+              "time": null
+            },
+            {
+              "part": "Reading · 3",
+              "what": "Task 1, Long reading, questions 11–15: complete sentences",
+              "type": "An exact word, number or phrase from the text (maximum three words)",
+              "time": null
+            },
+            {
+              "part": "Reading · 4",
+              "what": "Task 2, Multi-text reading, questions 16–20: which text is it?",
+              "type": "Multiple matching, four texts (a text can be used more than once)",
+              "time": null
+            },
+            {
+              "part": "Reading · 5",
+              "what": "Task 2, Multi-text reading, questions 21–25: which statements are true?",
+              "type": "Five of eight statements are true (here you judge all eight: true or false)",
+              "time": null
+            },
+            {
+              "part": "Reading · 6",
+              "what": "Task 2, Multi-text reading, questions 26–30: complete the notes",
+              "type": "An exact word, number or phrase from the texts (maximum three words)",
+              "time": null
+            },
+            {
+              "part": "Writing · 3",
+              "what": "Task 3, Reading into writing: answer a question using information from all four Task 2 texts",
+              "type": "Free writing, 100–130 words",
+              "time": "same 120 minutes; 40 minutes each for Tasks 3 and 4"
+            },
+            {
+              "part": "Writing · 4",
+              "what": "Task 4, Extended writing: e.g. an email, article, review or essay",
+              "type": "Free writing, 100–130 words",
+              "time": null
+            }
+          ]
+        },
+        {
+          "label": "Module 2: Speaking & Listening (one-to-one with the examiner)",
+          "rows": [
+            {
+              "part": "Speaking · 1",
+              "what": "Topic: talk with the examiner about a topic you prepared (topic form with four points)",
+              "type": "One-to-one with the examiner, up to 4 minutes",
+              "time": "Topic 4 minutes + Conversation 2 minutes"
+            },
+            {
+              "part": "Speaking · 2",
+              "what": "Conversation: one subject area chosen by the examiner (travel, money, fashion, rules and regulations, health and fitness, learning a foreign language)",
+              "type": "One-to-one with the examiner, up to 2 minutes",
+              "time": null
+            },
+            {
+              "part": "Listening · 1",
+              "what": "Independent listening, talk 1: listen twice, then answer six questions",
+              "type": "Short answers (spoken to the examiner in the exam; written here)",
+              "time": "Task 3 of the Speaking & Listening module (about 18 minutes in total)"
+            },
+            {
+              "part": "Listening · 2",
+              "what": "Independent listening, talk 2: first say what it is about, then (second listening) give six pieces of information",
+              "type": "Gist + short answers (spoken in the exam; written here; the four follow-up questions are not included)",
+              "time": null
+            }
+          ]
+        }
+      ],
+      "grading": {
+        "caption": "Results",
+        "columns": [
+          "Result",
+          "For each skill"
+        ],
+        "rows": [
+          [
+            "Distinction",
+            "the highest result"
           ],
           [
-            "0–35,5",
-            "teilgenommen"
+            "Merit",
+            "a good pass"
+          ],
+          [
+            "Pass",
+            "the level is reached"
+          ],
+          [
+            "Fail",
+            "the level is not reached yet"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "ise-2",
+      "exam": "Trinity ISE II",
+      "alt": "Integrated Skills in English, B2",
+      "level": "B2",
+      "source": "Trinity College London, Online test overview — ISE II (B2) — https://www.trinitycollege.com/resource?id=8447; timings confirmed on trinitycollege.com, checked 2026-10-30",
+      "intro": "ISE II is the B2 exam. Reading & Writing takes 2 hours (20 + 20 + 40 + 40 minutes); Speaking & Listening takes about 20 minutes including 2 minutes of admin time. Each skill gets its own result.",
+      "blocks": [
+        {
+          "label": "Module 1: Reading & Writing (2 hours)",
+          "rows": [
+            {
+              "part": "Reading · 1",
+              "what": "Task 1, Long reading, questions 1–5: choose a title for each paragraph",
+              "type": "Title matching (six titles, five are used)",
+              "time": "120 minutes for Reading and Writing together; 20 minutes each for Tasks 1 and 2"
+            },
+            {
+              "part": "Reading · 2",
+              "what": "Task 1, Long reading, questions 6–10: which statements are true?",
+              "type": "Five of eight statements are true (here you judge all eight: true or false)",
+              "time": null
+            },
+            {
+              "part": "Reading · 3",
+              "what": "Task 1, Long reading, questions 11–15: complete sentences",
+              "type": "An exact word, number or phrase from the text (maximum three words)",
+              "time": null
+            },
+            {
+              "part": "Reading · 4",
+              "what": "Task 2, Multi-text reading, questions 16–20: which text is it?",
+              "type": "Multiple matching, four texts (a text can be used more than once)",
+              "time": null
+            },
+            {
+              "part": "Reading · 5",
+              "what": "Task 2, Multi-text reading, questions 21–25: which statements are true?",
+              "type": "Five of eight statements are true (here you judge all eight: true or false)",
+              "time": null
+            },
+            {
+              "part": "Reading · 6",
+              "what": "Task 2, Multi-text reading, questions 26–30: complete the notes",
+              "type": "An exact word, number or phrase from the texts (maximum three words)",
+              "time": null
+            },
+            {
+              "part": "Writing · 3",
+              "what": "Task 3, Reading into writing: answer a question using information from all four Task 2 texts",
+              "type": "Free writing, 150–180 words",
+              "time": "same 120 minutes; 40 minutes each for Tasks 3 and 4"
+            },
+            {
+              "part": "Writing · 4",
+              "what": "Task 4, Extended writing: e.g. an email, article, review or essay",
+              "type": "Free writing, 150–180 words",
+              "time": null
+            }
+          ]
+        },
+        {
+          "label": "Module 2: Speaking & Listening (one-to-one with the examiner)",
+          "rows": [
+            {
+              "part": "Speaking · 1",
+              "what": "Topic: discuss a topic you prepared (four or five points)",
+              "type": "One-to-one with the examiner, up to 4 minutes",
+              "time": "Topic 4 + Collaborative 4 + Conversation 2 minutes"
+            },
+            {
+              "part": "Speaking · 2",
+              "what": "Collaborative: the examiner reads a prompt; you ask questions and keep the conversation going",
+              "type": "One-to-one with the examiner, up to 4 minutes",
+              "time": null
+            },
+            {
+              "part": "Speaking · 3",
+              "what": "Conversation: one subject area chosen by the examiner (society and living standards, personal values and ideals, the world of work, national environmental concerns, public figures past and present)",
+              "type": "One-to-one with the examiner, up to 2 minutes",
+              "time": null
+            },
+            {
+              "part": "Listening · 1",
+              "what": "Independent listening, first listening: what is the talk about?",
+              "type": "Gist (one or two sentences to the examiner in the exam; multiple choice here)",
+              "time": "Task 4 of the Speaking & Listening module (about 20 minutes in total)"
+            },
+            {
+              "part": "Listening · 2",
+              "what": "Independent listening, second listening: report the opinions, ideas, advantages and disadvantages in the talk",
+              "type": "One minute of speaking in the exam; here five questions on what the speakers think",
+              "time": null
+            }
+          ]
+        }
+      ],
+      "grading": {
+        "caption": "Results",
+        "columns": [
+          "Result",
+          "For each skill"
+        ],
+        "rows": [
+          [
+            "Distinction",
+            "the highest result"
+          ],
+          [
+            "Merit",
+            "a good pass"
+          ],
+          [
+            "Pass",
+            "the level is reached"
+          ],
+          [
+            "Fail",
+            "the level is not reached yet"
           ]
         ]
       }

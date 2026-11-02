@@ -6,14 +6,14 @@
  */
 /* No width or gutter of its own. All three pages that mount this already sit inside
    .practice-main--wide, so a second 1180px cap with its own 16px padding made a sitting
-   116px narrower than /fortschritt and indented it against everything else on the page.
+   116px narrower than /progress and indented it against everything else on the page.
    The page container owns the width; this owns only the space under itself. */
 .exam-app {
   padding-bottom: 48px;
 }
 
 /* The shell no longer draws a box of its own: the rail and the pane are each their own
-   card, the way /fortschritt composes them. One outer border around both, with the rail
+   card, the way /progress composes them. One outer border around both, with the rail
    as a shaded pane inside it, is what made this read as a different product. */
 .exam-shell {
   display: grid;
@@ -46,7 +46,7 @@
   color: var(--brand-blue-dark);
 }
 /* Inline, not stacked: .fs-topbar-brand keeps the sub on the same baseline, and a
-   two-line brand made this bar 14px taller than the one on /fortschritt. */
+   two-line brand made this bar 14px taller than the one on /progress. */
 .exam-brand small {
   margin-left: 8px;
   font-size: .8rem;
@@ -540,7 +540,7 @@
 
 /* --- wider than a phone ------------------------------------------------------ */
 @media (min-width: 860px) {
-  /* 268px and a 22px gutter are /fortschritt's numbers (.fs-shell), so the rail lines up
+  /* 268px and a 22px gutter are /progress's numbers (.fs-shell), so the rail lines up
      between the two pages instead of being 32px narrower on one of them. */
   .exam-shell { grid-template-columns: 268px minmax(0, 1fr); gap: 22px; }
   .exam-sidebar {

@@ -17,7 +17,7 @@ import lid from "../data/leben-in-deutschland.json";
 import lidTr from "../data/uebersetzungen/leben-in-deutschland.json";
 import themenTr from "../data/uebersetzungen/grammatik-themen.json";
 import { langsFor, languagesFor, languageOf } from "./languages.js";
-import startDe from "../data/grammatik-start/de.json";
+import startBook from "../data/grammatik-start/en.json";
 
 const DIR = path.join(process.cwd(), "public", "downloads");
 
@@ -127,9 +127,9 @@ function contentsOf(entry) {
   if (entry.id === "grammatik-start") {
     return {
       label: "10 Kapitel",
-      labelKey: "wissen.toc.chapters", labelVars: { n: startDe.chapters.length },
-      items: startDe.chapters.map((c) => `${c.level} · ${c.titleDe}`),
-      itemTr: startDe.chapters.map((c) => pick((l) => startTr[l]?.chapters?.[c.id]?.title)),
+      labelKey: "wissen.toc.chapters", labelVars: { n: startBook.chapters.length },
+      items: startBook.chapters.map((c) => `${c.level} · ${c.titleDe}`),
+      itemTr: startBook.chapters.map((c) => pick((l) => startTr[l]?.chapters?.[c.id]?.title)),
     };
   }
   if (entry.category === "grammatik") {

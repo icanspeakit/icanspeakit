@@ -5,8 +5,9 @@
 //
 // There is no Pause for a learner. The clock stops by itself when the tab is closed or
 // asleep (timer.js) and runs again as soon as a page of the Stunde is open – unless the
-// learner chose „Später weiter“ (extra.parked), which stops it until /stunde is opened again.
+// learner chose „Später weiter“ (extra.parked), which stops it until /lesson is opened again.
 import { createSteuerung } from "./steuerung.js";
+import { topicPath } from "../routes.js";
 import { readLocal, writeLocal, clearLocal } from "./speichern.js";
 import { ARCHIV_KEY, LERN_KEY, keyText, mergeExtra, record } from "./lernen.js";
 
@@ -40,7 +41,7 @@ export function listenSteps(ctl) {
   };
   const handlers = {
     // A checked answer on a topic page (grammarWorkspace.js): which page, which item, right?
-    "da:answer": (d) => d?.topic && d.ex != null && d.item != null && add({ type: "answer", topic: `/${d.topic}`, key: `${d.ex}/${d.item}`, ok: !!d.ok }),
+    "da:answer": (d) => d?.topic && d.ex != null && d.item != null && add({ type: "answer", topic: topicPath(d.topic), key: `${d.ex}/${d.item}`, ok: !!d.ok }),
     // A round of word cards finished (wortschatz-app.js).
     "da:round": (d) => d?.kind === "karten" && add({ type: "karten" }),
     // A presentation seen to its end or its whole rule opened (praesentationDeck.js).

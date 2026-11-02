@@ -17,7 +17,7 @@
 //             emit entries whose day has come; a daily deploy hook publishes the next one.
 // In `astro dev`, or with WORTGESCHICHTE_VORSCHAU=1 at build time, both gates are lifted
 // so entries can be reviewed on their real page (noindex, with a draft banner).
-import { all as lexicon, spokenForm, TRANSLATION_LANGS } from "./lexicon.js";
+import { all as lexicon, spokenForm, TRANSLATION_LANGS, ENGLISH_LEVELS } from "./lexicon.js";
 import { slugify } from "./audioSlug.js";
 import synonyme from "../data/synonyme.json" with { type: "json" };
 
@@ -28,16 +28,18 @@ export const CERTAINTY = ["sicher", "wahrscheinlich", "umstritten", "unklar"];
  *  marked as unrelated so it cannot be read as a cognate. */
 export const KINDS = ["verwandt", "entlehnt", "zufall", "parallele"];
 
-/** Language names as the German page prints them. Content, not chrome: they stay German. */
+/** Language names as the page prints them. English since the `word-stories` run: the
+ *  German stories still in the folder are replaced one by one or removed by `cleanup`. */
 export const LANG_NAMES = {
-  de: "Deutsch", en: "Englisch", nl: "Niederländisch", sv: "Schwedisch", da: "Dänisch",
-  got: "Gotisch", ang: "Altenglisch", non: "Altnordisch", ru: "Russisch", uk: "Ukrainisch",
-  cs: "Tschechisch", pl: "Polnisch", ar: "Arabisch", tr: "Türkisch", fa: "Persisch",
-  la: "Latein", grc: "Altgriechisch", el: "Griechisch", fr: "Französisch", it: "Italienisch",
-  es: "Spanisch", pt: "Portugiesisch", ro: "Rumänisch", sa: "Sanskrit", hi: "Hindi",
-  lt: "Litauisch", lv: "Lettisch", hu: "Ungarisch", fi: "Finnisch", he: "Hebräisch", ku: "Kurdisch",
-  is: "Isländisch", no: "Norwegisch", ga: "Irisch", cy: "Walisisch", bg: "Bulgarisch", sr: "Serbisch",
-  hr: "Kroatisch", sk: "Slowakisch", goh: "Althochdeutsch", ja: "Japanisch", zh: "Chinesisch",
+  de: "German", en: "English", nl: "Dutch", sv: "Swedish", da: "Danish",
+  got: "Gothic", ang: "Old English", enm: "Middle English", non: "Old Norse", ru: "Russian", uk: "Ukrainian",
+  cs: "Czech", pl: "Polish", ar: "Arabic", tr: "Turkish", ota: "Ottoman Turkish", fa: "Persian",
+  la: "Latin", grc: "Ancient Greek", el: "Greek", fr: "French", fro: "Old French", xno: "Anglo-Norman",
+  it: "Italian", es: "Spanish", pt: "Portuguese", ro: "Romanian", sa: "Sanskrit", hi: "Hindi",
+  lt: "Lithuanian", lv: "Latvian", hu: "Hungarian", fi: "Finnish", he: "Hebrew", ku: "Kurdish",
+  is: "Icelandic", no: "Norwegian", ga: "Irish", cy: "Welsh", bg: "Bulgarian", sr: "Serbian",
+  hr: "Croatian", sk: "Slovak", goh: "Old High German", ja: "Japanese", zh: "Chinese",
+  nan: "Hokkien", nah: "Nahuatl", tnq: "Taíno", fy: "West Frisian", dum: "Middle Dutch",
 };
 export const RTL = new Set(["ar", "fa", "he"]);
 
@@ -53,7 +55,7 @@ export function berlinDate(at = new Date()) {
 /** "2. November 2026" */
 export function formatDe(iso) {
   const [y, m, d] = iso.split("-").map(Number);
-  return new Intl.DateTimeFormat("de-DE", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })
+  return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })
     .format(new Date(Date.UTC(y, m - 1, d)));
 }
 
@@ -73,7 +75,7 @@ const rowByLemma = (lemma) => lexicon().find((r) => r.lemma === lemma) ?? null;
 
 /** URL slug: the lexicon id (Arbeit → arbeit, Straße → strasse). */
 export const slugOf = (entry) => lexiconRow(entry)?.id ?? slugify(entry.lemma);
-export const hrefOf = (entry) => `/wissen/wortgeschichte/${slugOf(entry)}`;
+export const hrefOf = (entry) => `/knowledge/word-stories/${slugOf(entry)}`;
 
 /** "die Arbeit" / "arbeiten" */
 export function headword(entry) {
@@ -91,7 +93,16 @@ export function formsOf(entry) {
     const row = lemma === entry.lemma ? lexiconRow(entry) : rowByLemma(lemma);
     if (!row) continue;
     const parts = [];
-    if (row.pos === "noun") {
+    const english = ENGLISH_LEVELS.has(row.level);
+    if (row.pos === "noun" && english) {
+      // a house · houses / some bread · no plural (content-plan §1.4: gender = a/an/some)
+      parts.push(row.gender ? `${row.gender} ${row.lemma}` : row.lemma);
+      if (row.plural && row.plural !== row.lemma) parts.push(row.plural);
+      else if (!row.pluralOnly) parts.push("no plural");
+    } else if (row.pos === "verb" && english && Array.isArray(row.forms) && row.forms.length === 3) {
+      // base · 3rd person -s · past simple · past participle
+      parts.push(row.lemma, ...row.forms);
+    } else if (row.pos === "noun") {
       const g = row.gender ?? (row.pluralOnly ? "die" : null);
       parts.push(g ? `${g} ${row.lemma}` : row.lemma);
       if (row.plural) parts.push(`die ${row.plural}`);
@@ -109,6 +120,16 @@ export function formsOf(entry) {
   return lines;
 }
 
+/** The language an entry is written in: "en" for the English stories (lemma in an English
+ *  lexicon level), "de" for the German ones still waiting for `cleanup`. */
+export function entryLang(entry) {
+  const row = lexiconRow(entry);
+  return row && ENGLISH_LEVELS.has(row.level) ? "en" : "de";
+}
+
+/** A meaning in single quotes as the entry's language writes them: ‘…’ / ‚…‘. */
+export const quoteIn = (lang) => (text) => (lang === "de" ? `‚${text}‘` : `‘${text}’`);
+
 /** Audio file for the headword, when the lexicon has one. */
 export function audioOf(entry) {
   const row = lexiconRow(entry);
@@ -122,7 +143,7 @@ export function glossesOf(entry) {
   return Object.fromEntries(TRANSLATION_LANGS.filter((l) => row[l]).map((l) => [l, row[l]]));
 }
 
-const bare = (w) => String(w).replace(/^(der|die|das)\s+/i, "");
+const bare = (w) => String(w).replace(/^(der|die|das|a|an|some)\s+/i, "");
 
 /**
  * Synonyms: the entry's own list first (it may carry a note: „umgangssprachlich"), then
@@ -236,7 +257,7 @@ export function validate(items) {
     else days.set(e.publishOn, file);
     if (e.lemma) {
       const slug = slugOf(e);
-      if (slugs.has(slug)) at(`same URL /wissen/wortgeschichte/${slug} as ${slugs.get(slug)}`);
+      if (slugs.has(slug)) at(`same URL /knowledge/word-stories/${slug} as ${slugs.get(slug)}`);
       slugs.set(slug, file);
     }
     if (!e.root?.form || !e.root?.lang) at("root needs form and lang");

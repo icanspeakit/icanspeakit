@@ -1,6 +1,6 @@
 ---
-// Renders a "practice for this exam" section on a /pruefungen detail page,
-// reusing the existing /uebungen tool catalog. `tools` picks which of the five
+// Renders a "practice for this exam" section on a /exams detail page,
+// reusing the existing /exercises tool catalog. `tools` picks which of the five
 // existing tools to show — see docs/exams-hub-tier2-v1.md for which exams get which,
 // and why (DTZ-authentic tools aren't shown as exam-authentic for exams they don't match).
 import Icon from "./Icon.astro";
@@ -29,7 +29,7 @@ const readingQuestionCount = lesen.groups.reduce((sum, g) => sum + g.questions.l
 // since this page has five translations, their own keys.
 const catalog = {
   artikel: {
-    href: "/artikel",
+    href: "/articles",
     icon: "target",
     title: "der/die/das-Trainer",
     titleKey: "tool.artikel.title",
@@ -40,7 +40,7 @@ const catalog = {
     countVars: { n: artikel.length },
   },
   grammatik: {
-    href: "/grammatik",
+    href: "/grammar",
     icon: "book",
     title: "Grammatik",
     titleKey: "tool.grammatik.title",
@@ -51,7 +51,7 @@ const catalog = {
     countVars: { n: grammatik.length, q: grammarQuestionCount },
   },
   wortschatz: {
-    href: "/wortschatz",
+    href: "/vocabulary",
     icon: "folder",
     title: "Wortschatz & Redemittel",
     titleKey: "tool.wortschatz.title",
@@ -62,7 +62,7 @@ const catalog = {
     countVars: { n: wortschatz.length },
   },
   sprechen: {
-    href: "/sprechen/set/a2-unterwegs",
+    href: "/speaking/set/a2-out-and-about",
     icon: "mic",
     title: "Sprechen: Bildbeschreibung",
     titleKey: "exam.tool.sprechen.title",
@@ -73,7 +73,7 @@ const catalog = {
     countVars: { n: sprechen.length },
   },
   lesen: {
-    href: "/lesen-schreiben",
+    href: "/reading-writing",
     icon: "pencil",
     title: "Lesen & Schreiben",
     titleKey: "lesen.hero.title.plain",

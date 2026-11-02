@@ -158,7 +158,7 @@
 
 /* Phone: the hub is a menu, not a showcase.
    ---------------------------------------------------------------------------
-   /uebungen now opens on the ask-first picker (src/components/PracticePicker.astro),
+   /exercises now opens on the ask-first picker (src/components/PracticePicker.astro),
    so the only thing that matters here is how much chrome stands between the learner
    and the question. Measured at 390x664 before this block existed: a nav that wrapped
    onto three rows (199px), a hero with a subtitle nobody reads (278px) and the mode
@@ -166,7 +166,7 @@
    it. Tightening the two of them puts four of the five on the first screen.
 
    The old `.uv[data-hub="compact"]` list styles lived here; they styled `.uv-grid`,
-   which /uebungen no longer renders. /uebungen-vorschau keeps the grid and never set
+   which /exercises no longer renders. /uebungen-vorschau keeps the grid and never set
    `data-hub`, so those rules were unreachable and are gone. */
 @media (max-width: 640px) {
   .uv-nav-row { flex-wrap: wrap; padding: 10px 16px; gap: 10px 14px; }

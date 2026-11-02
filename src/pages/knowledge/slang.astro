@@ -1,0 +1,285 @@
+---
+// /knowledge/slang — how English is really spoken in the UK: the short forms (gonna,
+// dunno), the everyday words (cheers, knackered), money words you hear but needn't say
+// (quid, a fiver, oh for zero), slang and young people's words, and the swear words — each
+// with its standard equivalent, an example and where it is fine. The four registers as a
+// ladder at the top; the rude section folded until opened, so the page can be shown in
+// class. At the foot: polite instead of rude, and what UK law says about abusive words.
+//
+// The words live in src/data/umgangssprache.json (own draft, unreviewed), British English
+// at A2–B1. Linked from the Wissen menu (navUmgangssprache in catalog.js) and the phone drawer.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import data from "../../data/umgangssprache.json";
+import SectionMascot from "../../components/mascots/SectionMascot.astro";
+import MascotComic from "../../components/MascotComic.astro";
+import { mascotSvg } from "../../lib/mascots.js";
+import { REDEWENDUNGEN_LIVE } from "../../lib/redewendungenLive.js";
+import "../../styles/practice.css";
+
+type Eintrag = { w: string; std: string; bsp?: string; info?: string; stufe?: number };
+type Crew = "bruno" | "regi" | "hamsti" | "quaki";
+type Expr = "happy" | "thinking" | "celebrate" | "oops" | "sleepy";
+const REG: Record<string, string> = { umgang: "Informal", slang: "Slang", vulgaer: "Rude" };
+// One crew member per step of the ladder: Bruno in a bow tie says it the formal way, Quaki
+// gets it wrong. The figure is decoration (data-mascot-part), the sentence stays in the bubble.
+const STEP_MASCOT: Record<string, [Crew, Expr, "fliege" | undefined]> = {
+  standard: ["bruno", "happy", "fliege"], umgang: ["regi", "happy", undefined],
+  slang: ["hamsti", "celebrate", undefined], vulgaer: ["quaki", "oops", undefined],
+};
+const stepFig = (id: string) => {
+  const [name, expr, extra] = STEP_MASCOT[id] ?? ["bruno", "happy", undefined];
+  return mascotSvg({ name, expr, view: "three", size: 56, extra, label: "", className: "us-step-fig" });
+};
+// A tip per section, from the mascot that fits it (≤ 6 words, easy German).
+const GROUP_MASCOT: Record<string, { name: Crew; expr: Expr; say: string }> = {
+  kurzformen: { name: "quaki", expr: "happy", say: "Say it, don’t write it!" },
+  alltag: { name: "hamsti", expr: "happy", say: "You’ll hear these daily." },
+  zahlen: { name: "regi", expr: "thinking", say: "Quid? That’s a pound!" },
+  jugend: { name: "hamsti", expr: "celebrate", say: "Cool – with friends only." },
+  vulgaer: { name: "bruno", expr: "oops", say: "Understand it, don’t say it!" },
+};
+// The four steps as one scene: the same question, said to the Amt and to a friend.
+const comic = {
+  title: "One question, two registers",
+  panels: [
+    { caption: "At the council office", tag: "Standard English", left: { name: "bruno" as Crew, say: "Could I have a moment of your time?" }, right: { name: "regi" as Crew, say: "Of course. What is it about?" } },
+    { caption: "With friends", tag: "Informal", left: { name: "hamsti" as Crew, say: "Got a minute, mate?" }, right: { name: "quaki" as Crew, say: "Sure, what’s up?" } },
+    { caption: "Wrong register", tag: "Too casual for the office", left: { name: "quaki" as Crew, expr: "oops" as Expr, say: "Oi, got a sec, bruv?" }, right: { name: "bruno" as Crew, expr: "thinking" as Expr, say: "Pardon?" } },
+  ],
+};
+const STUFE = ["", "mild", "strong", "very strong"];
+const gruppen = data.gruppen.map((g) => ({ ...g, eintraege: g.eintraege as Eintrag[] }));
+const offen = gruppen.filter((g) => g.reg !== "vulgaer");
+const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
+---
+<Layout
+  title="Informal English and slang – how people really talk in the UK – EnglishAcademy"
+  description="Gonna, cheers, quid, knackered, mate – what do they mean, and when can you say them? With standard English next to them and polite alternatives."
+>
+  <SiteNav active="wissen" />
+  <main class="practice-main practice-main--wide us-page" lang="en">
+    <header class="practice-hero us-hero">
+      <p class="eyebrow">Knowledge · Language</p>
+      <h1>Informal English, slang and rude words</h1>
+      <p class="us-lead">In class you learn standard English. On the street, at work and in films you often hear something different. Here you can see what it means – and when you can say it yourself.</p>
+      <SectionMascot name="quaki" say="Got a minute, mate?" align="center" size={64} />
+    </header>
+
+    <section class="us-ladder" aria-labelledby="us-ladder-h">
+      <h2 id="us-ladder-h">Four levels: how do I talk to whom?</h2>
+      <ol>
+        {data.stufen.map((s, i) => (
+          <li class={`us-step us-step--${s.id}`}>
+            <div class="us-step-top">
+              <span class="us-step-n" aria-hidden="true">{i + 1}</span>
+              <span class="us-step-mascot" data-mascot-part aria-hidden="true" set:html={stepFig(s.id)} />
+            </div>
+            <b>{s.name}</b>
+            <span class="us-step-wo">{s.wo}</span>
+            <q class="us-step-say">{s.satz}</q>
+          </li>
+        ))}
+      </ol>
+      <p class="us-tip"><span aria-hidden="true">💡</span> If in doubt, use standard English. Too polite is never a problem, too casual can be.</p>
+      <div class="us-comic"><MascotComic comic={comic} fit /></div>
+    </section>
+
+    <nav class="us-index" aria-label="Contents">
+      {gruppen.map((g) => <a href={`#${g.id}`}>{g.titel.replace(/:.*$/, "")}</a>)}
+      <a href="#hoeflich">Polite instead of rude</a>
+    </nav>
+
+    {offen.map((g) => (
+      <section class={`us-group us-group--${g.reg}`} id={g.id} aria-labelledby={`${g.id}-h`}>
+        <div class="us-group-head">
+          <h2 id={`${g.id}-h`}>{g.titel}</h2>
+          <span class={`us-chip us-chip--${g.reg}`}>{REG[g.reg]}</span>
+        </div>
+        <p class="us-intro">{g.intro}</p>
+        {GROUP_MASCOT[g.id] && <SectionMascot {...GROUP_MASCOT[g.id]} class="us-group-mascot" />}
+        <ul class="us-list">
+          {g.eintraege.map((e) => (
+            <li class="us-card">
+              <p class="us-w">{e.w}</p>
+              <p class="us-std"><span>Standard English</span> <b>{e.std}</b></p>
+              {e.bsp && <p class="us-bsp">“{e.bsp}”</p>}
+              {e.info && <p class="us-info"><span aria-hidden="true">ℹ️</span> {e.info}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    <section class="us-group us-group--vulgaer" id={vulgaer.id} aria-labelledby={`${vulgaer.id}-h`}>
+      <div class="us-group-head">
+        <h2 id={`${vulgaer.id}-h`}>{vulgaer.titel}</h2>
+        <span class="us-chip us-chip--vulgaer">{REG.vulgaer}</span>
+      </div>
+      <p class="us-intro">{vulgaer.intro}</p>
+      <SectionMascot {...GROUP_MASCOT.vulgaer} class="us-group-mascot" />
+      {/* Folded: the page can be on the projector without the swear words showing. */}
+      <details class="us-fold">
+        <summary>Show rude words ({vulgaer.eintraege.length})</summary>
+        <p class="us-scale">
+          <span class="us-dots" data-s="1" aria-hidden="true"></span> mild
+          <span class="us-dots" data-s="2" aria-hidden="true"></span> strong
+          <span class="us-dots" data-s="3" aria-hidden="true"></span> very strong – never say
+        </p>
+        <ul class="us-list">
+          {vulgaer.eintraege.map((e) => (
+            <li class="us-card" data-s={e.stufe}>
+              <p class="us-w">
+                {e.w}
+                <span class="us-dots" data-s={e.stufe} title={STUFE[e.stufe ?? 0]}><span class="sr-only">{STUFE[e.stufe ?? 0]}</span></span>
+              </p>
+              <p class="us-std"><span>Meaning</span> <b>{e.std}</b></p>
+              {e.bsp && <p class="us-bsp">“{e.bsp}”</p>}
+              {e.info && <p class="us-info"><span aria-hidden="true">ℹ️</span> {e.info}</p>}
+            </li>
+          ))}
+        </ul>
+      </details>
+      <p class="us-law"><span aria-hidden="true">⚖️</span> <span><b>Careful, the law:</b> {data.recht}</span></p>
+    </section>
+
+    <section class="us-group us-group--hoeflich" id="hoeflich" aria-labelledby="hoeflich-h">
+      <div class="us-group-head"><h2 id="hoeflich-h">Polite instead of rude</h2></div>
+      <p class="us-intro">Say the same thing – without a row.</p>
+      <SectionMascot name="bruno" expr="celebrate" say="No rows, just manners!" class="us-group-mascot" />
+      <ul class="us-swap">
+        {data.hoeflich.map((h) => (
+          <li>
+            <span class="us-swap-side us-swap-side--bad"><i aria-hidden="true">✗</i><s>{h.von}</s></span>
+            <span class="us-swap-arrow" aria-hidden="true">→</span>
+            <span class="us-swap-side us-swap-side--good"><i aria-hidden="true">✓</i><b>{h.zu}</b></span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {REDEWENDUNGEN_LIVE && (
+      <p class="us-more"><a href="/knowledge/idioms">More: idioms & proverbs ›</a> <span>“It’s raining cats and dogs” and many others, with a picture and where they come from.</span></p>
+    )}
+  </main>
+
+  <style is:global>
+    .us-hero { text-align: center; }
+    .us-lead { max-width: 38rem; margin: 0 auto; color: var(--muted); font-size: 1.05rem; line-height: 1.55; }
+
+    .us-ladder { max-width: 60rem; margin: 0 auto; }
+    .us-ladder h2, .us-group h2 { margin: 0; font-size: 1.25rem; }
+    .us-ladder > ol { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 10px; margin: 14px 0 0; padding: 0; list-style: none; }
+    .us-step {
+      --c: #0d9488;
+      display: grid; gap: 4px; padding: 14px; border: 1px solid var(--border); border-top: 5px solid var(--c);
+      border-radius: var(--radius-lg); background: var(--surface-card);
+    }
+    .us-step--standard { --c: #2563eb; }
+    .us-step--umgang { --c: #0d9488; }
+    .us-step--slang { --c: #f2a900; }
+    .us-step--vulgaer { --c: #dc2626; }
+    .us-step-n { width: 24px; height: 24px; border-radius: 50%; background: var(--c); color: #fff; font-size: .8rem; font-weight: 700; display: grid; place-items: center; }
+    .us-step-top { display: flex; align-items: flex-end; justify-content: space-between; min-height: 56px; }
+    .us-step-mascot { display: inline-flex; }
+    /* „Umgangssprache“ is one long word: on a phone two cards share the row, so it breaks. */
+    .us-step b { font-size: 1.05rem; hyphens: auto; overflow-wrap: anywhere; }
+    .us-step-wo { color: var(--muted); font-size: .88rem; line-height: 1.4; }
+    /* The sentence as the mascot's speech bubble, tinted in the step's colour. */
+    .us-step-say {
+      position: relative; margin-top: 6px; padding: 8px 10px; border-radius: 12px;
+      background: color-mix(in srgb, var(--c) 10%, var(--surface-card)); font-style: italic; line-height: 1.4;
+    }
+    .us-step-say::before {
+      content: ""; position: absolute; top: -6px; left: 16px; width: 12px; height: 12px; transform: rotate(45deg);
+      background: inherit;
+    }
+    .us-tip { margin: 14px 0 0; padding: 10px 14px; border-radius: var(--radius-lg); background: color-mix(in srgb, #2563eb 7%, var(--surface-card)); font-size: .95rem; }
+    .us-comic { margin-top: 22px; }
+
+    .us-index { display: flex; flex-wrap: wrap; gap: 8px; max-width: 60rem; margin: 28px auto 0; }
+    .us-index a {
+      padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface-card);
+      color: var(--ink); font-size: .88rem; font-weight: 600; text-decoration: none;
+    }
+    .us-index a:hover { border-color: var(--brand-blue, #2563eb); }
+
+    /* Each section in the colour of its step on the ladder: a bar beside the heading, a
+       stripe on every card. */
+    /* Each group its own tinted panel in its register's colour, so the sections read as
+       separate blocks instead of one long run of cards. */
+    .us-group {
+      --c: #0d9488; max-width: 60rem; margin: 28px auto 0; scroll-margin-top: 90px;
+      padding: 20px clamp(14px, 3vw, 24px) 24px; border-radius: 18px;
+      background: color-mix(in srgb, var(--c) 7%, transparent);
+      border: 1px solid color-mix(in srgb, var(--c) 28%, transparent);
+    }
+    .us-group--slang { --c: #f2a900; }
+    .us-group--vulgaer { --c: #dc2626; }
+    .us-group--hoeflich { --c: #2563eb; }
+    .us-group-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding-left: 12px; border-left: 5px solid var(--c); }
+    .us-intro { margin: 8px 0 0; color: var(--muted); line-height: 1.55; }
+    .us-group-mascot { margin-top: 12px; }
+    .us-chip { padding: 2px 10px; border-radius: 999px; font-size: .75rem; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; }
+    .us-chip--umgang { background: color-mix(in srgb, #0d9488 14%, transparent); color: #0f766e; }
+    .us-chip--slang { background: color-mix(in srgb, #f2a900 20%, transparent); color: #8a5a00; }
+    .us-chip--vulgaer { background: color-mix(in srgb, #dc2626 14%, transparent); color: #b91c1c; }
+
+    .us-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 12px; margin: 16px 0 0; padding: 0; list-style: none; }
+    .us-card {
+      display: grid; align-content: start; gap: 8px; padding: 14px 16px; border: 1px solid var(--border); border-top: 4px solid var(--c);
+      border-radius: var(--radius-lg); background: var(--surface-card); transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .us-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0, 0, 0, .07); }
+    .us-card p { margin: 0; }
+    .us-w { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 1.2rem; font-weight: 700; color: color-mix(in srgb, var(--c) 70%, var(--ink)); }
+    /* „Hochdeutsch“ as a small label, the standard form in bold beside it. */
+    .us-std { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; font-size: .95rem; }
+    .us-std span {
+      padding: 1px 8px; border-radius: 999px; background: color-mix(in srgb, #2563eb 10%, var(--surface-card));
+      color: #1d4ed8; font-size: .72rem; font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+    }
+    .us-bsp { padding-left: 10px; border-left: 3px solid color-mix(in srgb, var(--c) 45%, transparent); font-style: italic; line-height: 1.45; }
+    .us-info { padding: 6px 10px; border-radius: 8px; background: var(--surface-muted, #f4f4f5); color: var(--ink); font-size: .86rem; line-height: 1.45; }
+    :root[data-theme="dark"] .us-std span { color: #93c5fd; }
+    @media (prefers-reduced-motion: reduce) { .us-card, .us-card:hover { transition: none; transform: none; } }
+
+    .us-fold { margin-top: 14px; }
+    .us-fold summary {
+      display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border: 1px solid #fca5a5; border-radius: 999px;
+      color: #b91c1c; font-weight: 700; cursor: pointer; list-style: none;
+    }
+    .us-fold summary::-webkit-details-marker { display: none; }
+    .us-fold[open] summary { margin-bottom: 4px; }
+    .us-scale { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 12px 0 0; color: var(--muted); font-size: .88rem; }
+    /* One to three red dots: how strong a word is. */
+    .us-dots { display: inline-block; flex: none; width: 30px; height: 10px; background:
+      radial-gradient(circle at 5px 5px, #dc2626 4px, transparent 4.5px),
+      radial-gradient(circle at 15px 5px, var(--d2, #e5e7eb) 4px, transparent 4.5px),
+      radial-gradient(circle at 25px 5px, var(--d3, #e5e7eb) 4px, transparent 4.5px); }
+    .us-dots[data-s="2"] { --d2: #dc2626; }
+    .us-dots[data-s="3"] { --d2: #dc2626; --d3: #dc2626; }
+    .us-card[data-s="3"] { border-color: #fca5a5; }
+    .us-law { display: flex; gap: 10px; margin: 16px 0 0; padding: 12px 14px; border-left: 4px solid #dc2626; border-radius: 8px; background: color-mix(in srgb, #dc2626 7%, transparent); line-height: 1.5; }
+
+    /* Rude on the left (red, crossed out), polite on the right (green). */
+    .us-swap { display: grid; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
+    .us-swap li { display: grid; grid-template-columns: 1fr auto 1fr; align-items: stretch; gap: 10px; }
+    .us-swap-side { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: var(--radius-lg); }
+    .us-swap-side i { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; color: #fff; font-size: .8rem; font-style: normal; font-weight: 700; }
+    .us-swap-side--bad { background: color-mix(in srgb, #dc2626 7%, var(--surface-card)); }
+    .us-swap-side--bad i { background: #dc2626; }
+    .us-swap-side--good { background: color-mix(in srgb, #16a34a 9%, var(--surface-card)); }
+    .us-swap-side--good i { background: #16a34a; }
+    .us-swap s { color: #b91c1c; text-decoration-thickness: 1px; }
+    .us-swap-arrow { align-self: center; color: var(--muted); font-size: 1.2rem; }
+    :root[data-theme="dark"] .us-swap s { color: #fca5a5; }
+    @media (max-width: 520px) {
+      .us-swap li { grid-template-columns: 1fr; gap: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+      .us-swap-arrow { display: none; }
+    }
+    .us-more { max-width: 60rem; margin: 24px auto 0; color: var(--muted); }
+    .us-more a { font-weight: 700; color: var(--brand-blue-dark); }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  </style>
+</Layout>

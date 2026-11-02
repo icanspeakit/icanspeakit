@@ -7,11 +7,11 @@
 // builder with that chapter, a Lernset's DeckActions to the quiz with the set chosen), otherwise
 // the quiz start. Always a new tab: the quiz goes on the projector, this page stays open.
 // Not on the quiz pages themselves.
-const ON_QUIZ = /^\/(lehrkraefte\/quiz|spiel)(\/|$)/;
+const ON_QUIZ = /^\/(teachers\/quiz|game)(\/|$)/;
 
 function contextHref() {
-  const a = document.querySelector('[data-lq-link] a[href], a.da-btn[href^="/lehrkraefte/quiz"]');
-  return a?.getAttribute("href") || "/lehrkraefte/quiz";
+  const a = document.querySelector('[data-lq-link] a[href], a.da-btn[href^="/teachers/quiz"]');
+  return a?.getAttribute("href") || "/teachers/quiz";
 }
 
 function show(buttons) {

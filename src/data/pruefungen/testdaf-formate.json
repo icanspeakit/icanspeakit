@@ -1,327 +1,118 @@
 {
-  "note": "Prüfungsformate TestDaF (digital und papierbasiert). Nur Struktur: Aufgabentypen, Itemzahlen, Zeiten, Wortzahlen, Antwortformen. Quellen: testdaf.de-Seiten zum Aufbau und die Beispielaufgaben der Demo-Version (Stand 30.09.2026). Die Aufgaben, Texte, Grafiken und Tonaufnahmen selbst sind urheberrechtlich geschützt (© g.a.s.t., TestDaF-Institut, Bochum 2020) und stehen NICHT in dieser Datei. Werte mit \"verify\": true stammen aus den Demo-PDFs und sollten vor Veröffentlichung einmal von Hand gegen das PDF geprüft werden.",
+  "note": "Format of IELTS Academic (the slot formerly used for TestDaF). Structure only: parts, question counts, timings, word counts and answer forms. As of 2026-10-30, from the public description of the test on ielts.org; the page was not re-fetched when this file was written, so entries marked \"verify\": true (finer details such as the timing of single speaking parts, the extra transfer time on paper, and the kinds of recordings and texts) should be checked once by hand against ielts.org before publication. The tasks, texts, charts and recordings of the real test are protected by copyright and are NOT in this file. IELTS can be taken on paper or on a computer; the content is the same, and Speaking is always a face-to-face interview with an examiner (in person or by video call).",
   "sources": {
-    "aufbauDigital": "https://www.testdaf.de/de/teilnehmende/der-digitale-testdaf/aufbau-des-digitalen-testdaf/",
-    "aufbauPapier": "https://www.testdaf.de/de/teilnehmende/der-papierbasierte-testdaf/aufbau-des-papierbasierten-testdaf/",
-    "beispielaufgabenDigital": "https://www.testdaf.de/de/teilnehmende/der-digitale-testdaf/vorbereitung-auf-den-digitalen-testdaf/beispielaufgaben-zum-digitalen-testdaf/",
-    "demoLesen": "https://www.testdaf.de/fileadmin/testdaf/downloads/Demo_Version_digitaler_TestDaF/Beispielaufgaben_Demo-Version_digitaler_TestDaF_Lesen.pdf",
-    "demoHoeren": "https://www.testdaf.de/fileadmin/testdaf/downloads/Demo_Version_digitaler_TestDaF/Beispielaufgaben_Demo-Version_digitaler_TestDaF_Hoeren.pdf",
-    "demoSchreiben": "https://www.testdaf.de/fileadmin/testdaf/downloads/Demo_Version_digitaler_TestDaF/Beispielaufgaben_Demo-Version_digitaler_TestDaF_Schreiben.pdf",
-    "demoSprechen": "https://www.testdaf.de/fileadmin/testdaf/downloads/Demo_Version_digitaler_TestDaF/Beispielaufgaben_Demo-Version_digitaler_TestDaF_Sprechen.pdf"
+    "ieltsOrg": "https://ielts.org/",
+    "aboutIelts": "https://ielts.org/take-a-test/test-types/ielts-academic-test",
+    "bandScores": "https://ielts.org/cms/ielts-scoring/understanding-ielts-scoring",
+    "practiceMaterial": "https://ielts.org/take-a-test/preparation-resources/sample-test-questions"
   },
-  "grading": "Jede Fertigkeit wird einzeln bewertet (TDN 3, 4 oder 5). Keine Gesamtnote, keine Bestehensgrenze in Prozent; die Hochschule legt fest, welche Kombination sie verlangt.",
-  "pilotNote": "Im digitalen TestDaF bearbeiten alle zusätzlich Erprobungsaufgaben, die nicht bewertet werden.",
+  "grading": "Each skill (Listening, Reading, Writing, Speaking) gets a band score from 0 to 9, in half bands where reported. The overall band is the average of the four scores, rounded to the nearest half band. There is no pass mark: each university, employer or immigration body sets the bands it asks for.",
+  "pilotNote": "This practice site's own set (testdaf/uebungssatz-1.json) has Reading (30 questions) and Writing Task 1 only. Listening and Speaking are not part of it.",
   "formate": [
     {
       "id": "digital",
-      "exam": "TestDaF (digital)",
-      "delivery": "am Computer im Testzentrum",
+      "exam": "IELTS Academic (computer-delivered)",
+      "delivery": "at a test centre on a computer; Speaking face to face with an examiner",
       "sections": [
         {
-          "skill": "lesen",
-          "label": "Lesen",
-          "time": "ca. 55 Minuten",
-          "tasks": 7,
-          "items": 34,
-          "rows": [
-            {
-              "nr": 1,
-              "type": "Lückentext ergänzen",
-              "items": 5,
-              "text": "kurzer Sachtext, ca. 250 Wörter",
-              "answer": "Dropdown, 4 Optionen je Lücke",
-              "time": "4 Min.",
-              "verify": true
-            },
-            {
-              "nr": 2,
-              "type": "Textabschnitte ordnen",
-              "items": 4,
-              "text": "5 Abschnitte, ungeordnet",
-              "answer": "Drag-and-drop",
-              "time": "5 Min.",
-              "verify": true
-            },
-            {
-              "nr": 3,
-              "type": "Multiple-Choice",
-              "items": 7,
-              "text": "Artikel, ca. 400 Wörter",
-              "answer": "1 aus 4",
-              "time": "15 Min.",
-              "verify": true
-            },
-            {
-              "nr": 4,
-              "type": "Sprachhandlungen zuordnen",
-              "items": 4,
-              "text": "Expertenkommentar, ca. 300 Wörter, 4 markierte Stellen",
-              "answer": "Drag-and-drop, 8 Sprachhandlungen zur Auswahl",
-              "time": "6 Min.",
-              "verify": true
-            },
-            {
-              "nr": 5,
-              "type": "Aussagen Kategorien zuordnen",
-              "items": 7,
-              "text": "Sachtext, ca. 350 Wörter",
-              "answer": "Matrix: Kategorie A / B / beide / keine; Aussagen nicht in Textreihenfolge",
-              "time": "9 Min.",
-              "verify": true
-            },
-            {
-              "nr": 6,
-              "type": "Aussagen einem Begriffspaar zuordnen",
-              "items": 4,
-              "text": "Artikel, ca. 300 Wörter",
-              "answer": "8 Aussagen, genau 4 davon in eine Zweispaltentabelle ziehen",
-              "time": "7 Min.",
-              "verify": true
-            },
-            {
-              "nr": 7,
-              "type": "Fehler in Zusammenfassung erkennen",
-              "items": 3,
-              "text": "Sachtext mit Grafik, ca. 400 Wörter",
-              "answer": "in einer Zusammenfassung genau 3 falsche Sätze anklicken",
-              "time": "7 Min.",
-              "verify": true
-            }
-          ]
-        },
-        {
           "skill": "hoeren",
-          "label": "Hören",
-          "time": "ca. 40 Minuten",
-          "tasks": 7,
-          "items": 30,
+          "label": "Listening",
+          "time": "about 30 minutes",
+          "tasks": 4,
+          "items": 40,
           "playsEach": 1,
           "rows": [
-            {
-              "nr": 1,
-              "type": "Kurzantwort: Übersicht ergänzen",
-              "medium": "Audio",
-              "items": 5,
-              "input": "Gespräch unter Studierenden",
-              "answer": "eintippen, max. 2 Wörter",
-              "verify": true
-            },
-            {
-              "nr": 2,
-              "type": "Kurzantwort: Textstellen zu Begriffspaar notieren",
-              "medium": "Audio",
-              "items": 4,
-              "input": "Diskussion",
-              "answer": "Stichpunkte eintippen",
-              "verify": true
-            },
-            {
-              "nr": 3,
-              "type": "Fehler in Zusammenfassung erkennen",
-              "medium": "Audio",
-              "items": 2,
-              "input": "Vortrag",
-              "answer": "falsche Sätze anklicken",
-              "verify": true
-            },
-            {
-              "nr": 4,
-              "type": "Aussagen Personen zuordnen",
-              "medium": "Video",
-              "items": 6,
-              "input": "Podiumsdiskussion",
-              "answer": "Person anklicken",
-              "verify": true
-            },
-            {
-              "nr": 5,
-              "type": "Kurzantwort: Gliederungspunkte zu Vortrag ergänzen",
-              "medium": "Video",
-              "items": 4,
-              "input": "Vortrag",
-              "answer": "Stichpunkte eintippen",
-              "verify": true
-            },
-            {
-              "nr": 6,
-              "type": "Multiple-Choice",
-              "medium": "Audio",
-              "items": 5,
-              "input": "Vortrag / Präsentation",
-              "answer": "Auswahl",
-              "verify": true
-            },
-            {
-              "nr": 7,
-              "type": "Laut- und Schriftbild abgleichen",
-              "medium": "Audio",
-              "items": 4,
-              "input": "Text lesen und gleichzeitig hören",
-              "answer": "abweichende Wörter anklicken",
-              "verify": true
-            }
-          ]
+            { "nr": 1, "type": "Conversation between two people in an everyday social setting", "items": 10, "verify": true },
+            { "nr": 2, "type": "Monologue in an everyday social setting", "items": 10, "verify": true },
+            { "nr": 3, "type": "Conversation of up to four people in an educational or training setting", "items": 10, "verify": true },
+            { "nr": 4, "type": "Monologue on an academic subject", "items": 10, "verify": true }
+          ],
+          "note": "Each recording is played once. Question types include multiple choice, matching, form or note completion, and short answers."
+        },
+        {
+          "skill": "lesen",
+          "label": "Reading",
+          "time": "60 minutes",
+          "tasks": 3,
+          "items": 40,
+          "rows": [
+            { "nr": 1, "type": "Passage 1", "text": "long text on an academic subject" },
+            { "nr": 2, "type": "Passage 2", "text": "long text on an academic subject" },
+            { "nr": 3, "type": "Passage 3", "text": "long text on an academic subject" }
+          ],
+          "note": "40 questions in total over three passages. Question types include multiple choice, matching headings or information, True / False / Not given and Yes / No / Not given, and sentence or summary completion."
         },
         {
           "skill": "schreiben",
-          "label": "Schreiben",
-          "time": "ca. 60 Minuten",
+          "label": "Writing",
+          "time": "60 minutes",
           "tasks": 2,
           "rows": [
-            {
-              "nr": 1,
-              "type": "Argumentativen Text schreiben",
-              "words": "mind. 200 Wörter",
-              "time": "30 Min.",
-              "input": "Diskussionsthema aus dem Hochschulkontext",
-              "demand": "Vor- und Nachteile für verschiedene Gruppen erläutern und begründen",
-              "verify": true
-            },
-            {
-              "nr": 2,
-              "type": "Informationen aus Lesetext und Grafik zusammenfassen",
-              "words": "ca. 100–150 Wörter",
-              "time": "30 Min.",
-              "input": "kurzer Lesetext + Grafik",
-              "demand": "Informationen aus beiden Quellen in eigenen Worten zusammenfassen; kein Abschreiben",
-              "verify": true
-            }
+            { "nr": 1, "type": "Task 1: describe a chart, graph, table or diagram", "words": "at least 150 words", "time": "about 20 min." },
+            { "nr": 2, "type": "Task 2: essay in response to a point of view, argument or problem", "words": "at least 250 words", "time": "about 40 min." }
           ],
-          "note": "Getippt; Wortzähler wird angezeigt."
+          "note": "Task 2 counts for more than Task 1 in the Writing band."
         },
         {
           "skill": "sprechen",
-          "label": "Sprechen",
-          "time": "ca. 35 Minuten",
-          "tasks": 7,
+          "label": "Speaking",
+          "time": "11–14 minutes",
+          "tasks": 3,
           "rows": [
-            {
-              "nr": 1,
-              "type": "Rat geben",
-              "speak": "0:45",
-              "prep": "0:30",
-              "verify": true
-            },
-            {
-              "nr": 2,
-              "type": "Optionen abwägen",
-              "speak": "1:30",
-              "prep": "0:45",
-              "verify": true
-            },
-            {
-              "nr": 3,
-              "type": "Text zusammenfassen",
-              "speak": "2:00",
-              "prep": "4:00 (Lesezeit)",
-              "verify": true
-            },
-            {
-              "nr": 4,
-              "type": "Informationen abgleichen, Stellung nehmen",
-              "speak": "1:30",
-              "input": "Audio + Grafik",
-              "verify": true
-            },
-            {
-              "nr": 5,
-              "type": "Thema präsentieren",
-              "speak": "2:30",
-              "prep": "2:00",
-              "verify": true
-            },
-            {
-              "nr": 6,
-              "type": "Argumente wiedergeben, Stellung nehmen",
-              "speak": "2:00",
-              "input": "Audio",
-              "verify": true
-            },
-            {
-              "nr": 7,
-              "type": "Maßnahmen kritisieren",
-              "speak": "1:30",
-              "prep": "1:30",
-              "verify": true
-            }
+            { "nr": 1, "type": "Introduction and interview on familiar topics", "speak": "4–5 min.", "verify": true },
+            { "nr": 2, "type": "Long turn on a topic card (short preparation time)", "speak": "3–4 min.", "prep": "1 min.", "verify": true },
+            { "nr": 3, "type": "Two-way discussion of more abstract questions linked to the topic", "speak": "4–5 min.", "verify": true }
           ],
-          "note": "Am Computer mit Headset, Antworten werden aufgezeichnet. Sprechzeiten laut testdaf.de; Vorbereitungszeiten aus der Demo-Version."
+          "note": "Face to face with an examiner; the interview is recorded."
         }
       ]
     },
     {
       "id": "papier",
-      "exam": "TestDaF (papierbasiert)",
-      "delivery": "auf Papier; Sprechen am Computer",
-      "totalTime": "3 Std. 15 Min. (plus Pausen)",
+      "exam": "IELTS Academic (paper-based)",
+      "delivery": "on paper at a test centre; Speaking face to face with an examiner",
+      "totalTime": "2 hours 45 minutes for Listening, Reading and Writing (Speaking is on the same day or up to a week before or after)",
       "sections": [
         {
-          "skill": "lesen",
-          "label": "Leseverstehen",
-          "time": "60 Minuten",
-          "items": 30,
+          "skill": "hoeren",
+          "label": "Listening",
+          "time": "about 30 minutes, plus 10 minutes to copy the answers onto the answer sheet",
+          "items": 40,
           "rows": [
-            {
-              "nr": 1,
-              "type": "Zuordnung",
-              "items": 10,
-              "text": "Kurztexte"
-            },
-            {
-              "nr": 2,
-              "type": "Multiple-Choice",
-              "items": 10,
-              "text": "journalistischer Text"
-            },
-            {
-              "nr": 3,
-              "type": "Ja / Nein / Text sagt dazu nichts",
-              "items": 10,
-              "text": "Fachzeitschriftentext"
-            }
+            { "nr": 1, "type": "Part 1", "items": 10, "verify": true },
+            { "nr": 2, "type": "Part 2", "items": 10, "verify": true },
+            { "nr": 3, "type": "Part 3", "items": 10, "verify": true },
+            { "nr": 4, "type": "Part 4", "items": 10, "verify": true }
           ]
         },
         {
-          "skill": "hoeren",
-          "label": "Hörverstehen",
-          "time": "40 Minuten",
-          "items": 25,
+          "skill": "lesen",
+          "label": "Reading",
+          "time": "60 minutes",
+          "items": 40,
           "rows": [
-            {
-              "nr": 1,
-              "type": "Kurzantworten",
-              "items": 8
-            },
-            {
-              "nr": 2,
-              "type": "Richtig / Falsch",
-              "items": 10
-            },
-            {
-              "nr": 3,
-              "type": "Kurzantworten",
-              "items": 7
-            }
-          ]
+            { "nr": 1, "type": "Passage 1" },
+            { "nr": 2, "type": "Passage 2" },
+            { "nr": 3, "type": "Passage 3" }
+          ],
+          "note": "No extra time to copy answers: write them on the answer sheet during the 60 minutes."
         },
         {
           "skill": "schreiben",
-          "label": "Schriftlicher Ausdruck",
-          "time": "60 Minuten",
+          "label": "Writing",
+          "time": "60 minutes",
           "rows": [
-            {
-              "nr": 1,
-              "type": "Strukturierter Text mit Grafikbeschreibung und Argumentation",
-              "note": "handschriftlich"
-            }
-          ]
+            { "nr": 1, "type": "Task 1: describe a chart, graph, table or diagram", "words": "at least 150 words", "time": "about 20 min." },
+            { "nr": 2, "type": "Task 2: essay", "words": "at least 250 words", "time": "about 40 min." }
+          ],
+          "note": "Handwritten."
         },
         {
           "skill": "sprechen",
-          "label": "Mündlicher Ausdruck",
-          "time": "35 Minuten",
-          "tasks": 7,
-          "note": "am Computer mit Headset, aufgezeichnet"
+          "label": "Speaking",
+          "time": "11–14 minutes",
+          "tasks": 3,
+          "note": "Same interview as in the computer-delivered test."
         }
       ]
     }

@@ -1,4 +1,4 @@
-// Shared, honest progress tracking for the /uebungen dashboard. No accounts, no server —
+// Shared, honest progress tracking for the /exercises dashboard. No accounts, no server —
 // everything lives in this browser's localStorage. Every number the dashboard shows is derived
 // from real recorded activity; nothing here is a placeholder or estimate presented as fact.
 const STORE_KEY = "da_progress_v1";
@@ -10,7 +10,7 @@ const RECENTS_MAX = 6;
 // Routes worth remembering as "where I was": every page except the hubs and overviews,
 // which are places you pass through (see src/lib/routes.js). The trainers are the only
 // callers of remember(), so a page that never grades anything never lands here.
-import { NOT_RESUMABLE, flattenPath } from "./routes.js";
+import { NOT_RESUMABLE, englishPath } from "./routes.js";
 // The Klassen attempt log. It does nothing at all unless the learner is signed in and in a
 // class; see the header of ./versuche.js.
 import { logAttempt, logSession } from "./versuche.js";
@@ -40,7 +40,7 @@ function load() {
         topics: data.topics || {},
         drills: data.drills || {},
         // Saved before the flat URLs: point old entries at the new address.
-        recents: (data.recents || []).map((r) => (r && r.path ? { ...r, path: flattenPath(r.path) } : r)),
+        recents: (data.recents || []).map((r) => (r && r.path ? { ...r, path: englishPath(r.path) } : r)),
       };
     }
   } catch {}
@@ -54,7 +54,7 @@ function save(data) {
 // Where the learner was when something got graded. recordAttempt/recordSession always run
 // inside the tool's own page, so the route and its <title> ARE the record — no call site has
 // to pass them, and a page that never grades anything never appears here. This is the only
-// thing the "Weitermachen" card on /uebungen and / is built from; if it is empty, that card
+// thing the "Weitermachen" card on /exercises and / is built from; if it is empty, that card
 // does not render at all rather than inventing a plausible last session.
 function remember(data) {
   if (typeof location === "undefined") return;

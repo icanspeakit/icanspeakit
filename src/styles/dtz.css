@@ -1,11 +1,11 @@
-/* DTZ trainer (/dtz/uebungssatz).
+/* DTZ trainer (/trinity/ise-1/practice-set).
    Everything rides the shared design tokens, so the whole trainer themes with the
    site — including dark mode — without a second palette. */
 
 /* The trainer is a working surface, not an article: wider than the 880px column.
    Scoped to the DTZ page rather than redefining the shared utility. LearnShell imports
    this file too, so the bare `.practice-main--wide` rule silently narrowed every page
-   that mounts LearnShell — /fortschritt among them — from 1240px to 1080px, which is
+   that mounts LearnShell — /progress among them — from 1240px to 1080px, which is
    why a sitting and the progress view did not line up. */
 .dtz-trainer.practice-main--wide { max-width: 1080px; }
 
@@ -255,5 +255,5 @@ html[data-paywall="on"]:not([data-plan="pack"]):not([data-plan="premium"]) .dtz-
 .dtz-lock { margin: 8px 0 24px; }
 .dtz-nav[hidden], .dtz-body[hidden], .dtz-summary[hidden] { display: none !important; }
 /* Room for the trainer before its script fills it, so the source note and footer below do
-   not jump down on load (Lighthouse mobile: CLS 0.21 on /dtz/uebungssatz, 2026-10-04). */
+   not jump down on load (Lighthouse mobile: CLS 0.21 on /trinity/ise-1/practice-set, 2026-10-04). */
 .dtz-body:empty { min-height: 70vh; }

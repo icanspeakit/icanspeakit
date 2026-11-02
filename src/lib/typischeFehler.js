@@ -1,4 +1,4 @@
-// The pairs of /grammatik/typische-fehler (src/data/typische-fehler.json) and their gaps,
+// The pairs of /grammar/common-mistakes (src/data/typische-fehler.json) and their gaps,
 // read the same way by the page, its worksheet and Tandembogen (arbeitsblatt/nachschlagen.js)
 // and its live-quiz chapter (liveQuiz/chapters.js), so all four ask the same thing.
 import data from "../data/typische-fehler.json";

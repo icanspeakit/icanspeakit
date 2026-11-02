@@ -73,7 +73,7 @@ export function mountWorksheet(root) {
   root.querySelectorAll("[data-ab-mode]").forEach((b) => b.addEventListener("click", () => setMode(b.dataset.abMode)));
   root.querySelector("[data-ab-print]")?.addEventListener("click", () => {
     // traffic-baseline: teacher_tool_use — only the teachers' sheets, not "Meine Fehler".
-    const kind = location.pathname.match(/^\/lehrkraefte\/arbeitsblaetter\/(grammatik|wortschatz|partner)\//)?.[1];
+    const kind = location.pathname.match(/^\/teachers\/worksheets\/(grammar|vocabulary|partner)\//)?.[1];
     if (kind) intent("teacher_tool_use", { tool: `worksheet_${kind}` });
     window.print();
   });

@@ -66,7 +66,7 @@ export async function saveLernstunde(snap, klasseId = null) {
   return other.id;
 }
 
-/** The learner's Stunden, newest first (Tier 4: /fortschritt), as snapshots. */
+/** The learner's Stunden, newest first (Tier 4: /progress), as snapshots. */
 export async function meineLernstunden(limit = 30) {
   const uid = await myId();
   if (!uid) return [];

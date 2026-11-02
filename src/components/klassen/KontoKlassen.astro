@@ -22,7 +22,7 @@ if (user && supabase) {
     {rows.length === 0 ? (
       <p class="kt-setting-desc">
         <span data-i18n="konto.klassen.none">Du bist in keiner Klasse.</span>
-        {" "}<a href="/beitreten" data-i18n="konto.klassen.join">Mit einem Code beitreten</a>
+        {" "}<a href="/join" data-i18n="konto.klassen.join">Mit einem Code beitreten</a>
       </p>
     ) : (
       <>
@@ -39,7 +39,7 @@ if (user && supabase) {
             </li>
           ))}
         </ul>
-        <p><a href="/beitreten" data-i18n="konto.klassen.joinAnother">Einer weiteren Klasse beitreten</a></p>
+        <p><a href="/join" data-i18n="konto.klassen.joinAnother">Einer weiteren Klasse beitreten</a></p>
       </>
     )}
     <p class="kt-status" role="status" aria-live="polite" data-kt-klassen-status></p>

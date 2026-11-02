@@ -41,7 +41,7 @@ export function mountSideNavFold(root, { page = null } = {}) {
 
   let folded = false;
   try { folded = localStorage.getItem(FOLD_KEY) === "1"; } catch {}
-  // A page opened from a lesson on the projector (?ut=1, /lehrkraefte/unterricht) starts
+  // A page opened from a lesson on the projector (?ut=1, /teachers/lesson) starts
   // folded, zen-like, and does not save that: the learner's own choice stays as it was.
   if (new URLSearchParams(location.search).get("ut") === "1") folded = true;
 

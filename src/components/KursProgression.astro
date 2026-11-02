@@ -2,7 +2,7 @@
 // One level of the course plan: Dauer and the textbook series it fits, the thematic blocks
 // as an accordion, the "Ist das mein Niveau?" self-check and the two CTAs (Probestunde,
 // Kursplan drucken). Content: src/data/kursinhalte.json — nothing is written in here.
-// German only, like the course (lang="de").
+// English only, like the course (lang="en"): written into the markup, no i18n keys.
 //
 // `heading` is the level of this section's own headings (default 2, under the page's h1);
 // the block titles sit one below. The print rules at the end make window.print() give a
@@ -26,22 +26,22 @@ const H = `h${heading}` as "h2" | "h3";
 const HB = `h${heading + 1}` as "h3" | "h4";
 const probestunde = data.probestunde.href
   ? data.probestunde.href.replaceAll("{niveau}", level.label)
-  : `mailto:${LEGAL.contactEmail}?subject=${encodeURIComponent(`Probestunde ${level.label}`)}`;
-const url = `englishacademy.com/kursinhalte/${level.id}`;
+  : `mailto:${LEGAL.contactEmail}?subject=${encodeURIComponent(`Trial lesson ${level.label}`)}`;
+const url = `englishacademy.com/syllabus/${level.id}`;
 ---
-<div class="kp" lang="de" data-kp data-level={level.label}>
+<div class="kp" lang="en" data-kp data-level={level.label}>
   <dl class="kp-meta">
     <div>
-      <dt>Dauer</dt>
+      <dt>Length</dt>
       <dd>{level.dauer}</dd>
     </div>
     <div>
-      <dt>Blöcke</dt>
-      <dd>{level.bloecke.length} Themen</dd>
+      <dt>Blocks</dt>
+      <dd>{level.bloecke.length} topics</dd>
     </div>
     {books.length > 0 && (
       <div class="kp-meta-books">
-        <dt>Kursbuch-Basis, passend zu</dt>
+        <dt>Fits these coursebooks</dt>
         <dd><ul>{books.map((b) => <li>{b}</li>)}</ul></dd>
       </div>
     )}
@@ -49,8 +49,8 @@ const url = `englishacademy.com/kursinhalte/${level.id}`;
 
   <section class="kp-sec" aria-labelledby={`kp-${level.id}-themen`}>
     <div class="kp-sec-head">
-      <H id={`kp-${level.id}-themen`}>Themen &amp; Lernziele</H>
-      <button type="button" class="kp-all" data-kp-all aria-expanded="false">Alle öffnen</button>
+      <H id={`kp-${level.id}-themen`}>Topics &amp; learning goals</H>
+      <button type="button" class="kp-all" data-kp-all aria-expanded="false">Open all</button>
     </div>
     <ol class="kp-blocks">
       {level.bloecke.map((b, n) => {
@@ -66,21 +66,21 @@ const url = `englishacademy.com/kursinhalte/${level.id}`;
             </HB>
             <div class="kp-panel" id={bid} role="region" aria-labelledby={`${bid}-btn`} hidden>
               <div class="kp-part">
-                <p class="kp-label">Das lernst du</p>
+                <p class="kp-label">What you learn</p>
                 <ul class="kp-kann">{b.kannZiele.map((k) => <li>{k}</li>)}</ul>
               </div>
               <div class="kp-part">
-                <p class="kp-label">Grammatik</p>
+                <p class="kp-label">Grammar</p>
                 <ul class="kp-chips">{b.grammatik.map((g) => <li>{g}</li>)}</ul>
               </div>
               <div class="kp-part">
-                <p class="kp-label">Wortschatz</p>
+                <p class="kp-label">Vocabulary</p>
                 <p class="kp-words">{b.wortschatz.join(" · ")}</p>
               </div>
-              <a class="kp-plan" href={`/lehrkraefte/stundenplan?niveau=${level.id}&block=${n + 1}`}>Für Lehrkräfte: Stundenplan zu diesem Block</a>
+              <a class="kp-plan" href={`/teachers/timetable?niveau=${level.id}&block=${n + 1}`}>For teachers: lesson plan for this block</a>
               {b.pruefung?.length && (
                 <div class="kp-part">
-                  <p class="kp-label">Prüfung</p>
+                  <p class="kp-label">Exam</p>
                   <ul class="kp-exam">{b.pruefung.map((p) => <li>{p}</li>)}</ul>
                 </div>
               )}
@@ -92,9 +92,9 @@ const url = `englishacademy.com/kursinhalte/${level.id}`;
   </section>
 
   <section class="kp-sec kp-check" aria-labelledby={`kp-${level.id}-check`}>
-    <H id={`kp-${level.id}-check`}>Ist {level.label} mein Niveau?</H>
+    <H id={`kp-${level.id}-check`}>Is {level.label} my level?</H>
     <fieldset class="kp-check-list">
-      <legend>Kreuze an, was du schon kannst.</legend>
+      <legend>Tick what you can already do.</legend>
       {level.selbstcheck.map((s) => (
         <label><input type="checkbox" data-kp-check /> <span>{s}</span></label>
       ))}
@@ -102,32 +102,32 @@ const url = `englishacademy.com/kursinhalte/${level.id}`;
     <div class="kp-result" role="status" aria-live="polite" data-kp-result></div>
     {/* The three answers, filled in by the script. Here so the texts stay in the markup. */}
     <template data-kp-ok>
-      <p><b>Passt!</b> {level.label} ist das richtige Niveau für dich.</p>
-      <a class="lp-btn lp-btn--primary" href={probestunde}>Probestunde buchen</a>
+      <p><b>Good fit!</b> {level.label} is the right level for you.</p>
+      <a class="lp-btn lp-btn--primary" href={probestunde}>Book a trial lesson</a>
     </template>
     <template data-kp-low>
       {below ? (
         <>
-          <p>Fang lieber mit <b>{below.label}</b> an. Dort lernst du, was dir für {level.label} noch fehlt.</p>
-          <a class="lp-btn lp-btn--outline" href={`/kursinhalte/${below.id}`}>Zu {below.label}: {below.titel}</a>
+          <p>Better start with <b>{below.label}</b>. There you learn what you still need for {level.label}.</p>
+          <a class="lp-btn lp-btn--outline" href={`/syllabus/${below.id}`}>Go to {below.label}: {below.titel}</a>
         </>
       ) : (
         <>
           <p>{level.selbstcheckNiedrig}</p>
-          <a class="lp-btn lp-btn--primary" href={probestunde}>Probestunde buchen</a>
+          <a class="lp-btn lp-btn--primary" href={probestunde}>Book a trial lesson</a>
         </>
       )}
     </template>
   </section>
 
   <div class="kp-cta">
-    <a class="lp-btn lp-btn--primary" href={probestunde}>Probestunde buchen</a>
-    <button type="button" class="lp-btn lp-btn--outline" data-kp-print>Kursplan als PDF</button>
+    <a class="lp-btn lp-btn--primary" href={probestunde}>Book a trial lesson</a>
+    <button type="button" class="lp-btn lp-btn--outline" data-kp-print>Course plan as PDF</button>
   </div>
 
   <p class="kp-note">
-    Die Lehrwerke nennen wir nur zur Orientierung: Mit ihnen passt dieser Kurs zusammen. Themen und
-    Lernziele hier sind unsere eigenen, nach dem Gemeinsamen Europäischen Referenzrahmen (GER).
+    We name the coursebooks only as a guide: this course fits alongside them. The topics and
+    learning goals here are our own, based on the Common European Framework of Reference (CEFR).
   </p>
   <p class="kp-print-foot">{url}</p>
 </div>
@@ -290,7 +290,7 @@ const url = `englishacademy.com/kursinhalte/${level.id}`;
     };
     const syncAll = () => {
       const open = toggles.every((b) => b.getAttribute("aria-expanded") === "true");
-      all.textContent = open ? "Alle schließen" : "Alle öffnen";
+      all.textContent = open ? "Close all" : "Open all";
       all.setAttribute("aria-expanded", String(open));
     };
 
@@ -321,7 +321,7 @@ const url = `englishacademy.com/kursinhalte/${level.id}`;
       const n = checks.filter((c) => c.checked).length;
       result.classList.toggle("is-ok", n >= 4);
       if (!n) return result.replaceChildren();
-      const count = Object.assign(document.createElement("p"), { className: "kp-count", textContent: `${n} von ${checks.length} angekreuzt.` });
+      const count = Object.assign(document.createElement("p"), { className: "kp-count", textContent: `${n} of ${checks.length} ticked.` });
       result.replaceChildren(count, tpl(n >= 4 ? "[data-kp-ok]" : "[data-kp-low]"));
     };
     checks.forEach((c) => c.addEventListener("change", update));

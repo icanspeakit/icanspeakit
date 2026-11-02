@@ -115,7 +115,7 @@ for (const [dir, file] of files) {
             else if (!(it.correct in p.bank)) P(`${wi}: Lösung "${it.correct}" nicht in der Wortliste`);
             break;
         }
-        if ((p.type === "gap-mc" || p.type === "gap-bank") && !gaps.has(it.id)) P(`${wi}: Lücke steht nicht im Text`);
+        if ((p.type === "gap-mc" || p.type === "gap-bank" || (p.type === "write-in" && p.segments)) && !gaps.has(it.id)) P(`${wi}: Lücke steht nicht im Text`);
       }
       if (p.type === "match" && p.pool && !p.allowReuse) {
         const used = p.items.map((i) => i.correct).filter((c) => c !== "x");
@@ -129,7 +129,7 @@ for (const [dir, file] of files) {
   });
 }
 
-// The light index the /fortschritt registry imports in the browser (ids only, no content).
+// The light index the /progress registry imports in the browser (ids only, no content).
 const indexPath = path.join(ROOT, "src/data/pruefungen/saetze-index.json");
 const indexJson = JSON.stringify(index.sort((a, b) => a.id.localeCompare(b.id)), null, 2) + "\n";
 if (!existsSync(indexPath) || readFileSync(indexPath, "utf8") !== indexJson) {

@@ -167,7 +167,7 @@ export function createRuleIntro({
                 right: box.right, bottom: box.top + h };
     // Moved with transform, not left/top: a box sliding by left/top is a layout shift on
     // every frame, and the tour runs on the first visit, when Lighthouse and Google measure
-    // (CLS 0.64 on /w-fragen, mobile, 2026-10-04).
+    // (CLS 0.64 on /wh-questions, mobile, 2026-10-04).
     hole.style.transform = `translate(${r.left - pad}px, ${r.top - pad}px)`;
     hole.style.width = r.width + pad * 2 + "px";
     hole.style.height = r.height + pad * 2 + "px";

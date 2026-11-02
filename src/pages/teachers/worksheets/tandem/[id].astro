@@ -1,0 +1,132 @@
+---
+// The Tandembogen for a grammar topic: a pair sheet built from the topic's own exercises at
+// build time (src/lib/partneruebungen/tandem.js) — no account needed. Drawn like every
+// partner sheet (render.js).
+import Layout from "../../../../layouts/Layout.astro";
+import SiteNav from "../../../../components/SiteNav.astro";
+import "../../../../styles/arbeitsblatt.css";
+import "../../../../styles/partner-sheet.css";
+import { tandemSheets } from "../../../../lib/partneruebungen/tandem.js";
+import { sheetSlug } from "../../../../lib/routes.js";
+import AbTopicSwitch from "../../../../components/arbeitsblatt/AbTopicSwitch.astro";
+import AbOrigin from "../../../../components/arbeitsblatt/AbOrigin.astro";
+import PartnerMelden from "../../../../components/arbeitsblatt/PartnerMelden.astro";
+import { renderBody, renderKey } from "../../../../lib/partneruebungen/render.js";
+
+export function getStaticPaths() {
+  return tandemSheets().map((t) => ({ params: { id: sheetSlug(t.slug) }, props: { t } }));
+}
+
+const { t } = Astro.props;
+const { spec } = t;
+---
+<Layout
+  title={`${t.name}: tandem sheet ${t.level} – pair work – EnglishAcademy`}
+  description={`Tandem sheet “${t.name}” (${t.level}): pair work to print. Take turns to ask, answer and check each other, with answers.`}
+  noindex={!t.reviewed}
+>
+  <SiteNav active="lehrkraefte" />
+
+  <main class="ab pu-main" id="ab-root" data-mode="print" data-key="on">
+    <div class="ab-bar">
+      <AbOrigin />
+      <a class="ab-back" href="/teachers/worksheets/partner#tandem" data-i18n="ab.pg.title">Partner- und Gruppenarbeit</a>
+      <AbTopicSwitch slug={t.slug} current="tandem" hasTandem={true} />
+      {/* For online lessons, where nobody can cut the page in half: one partner's sheet on
+          its own, without the other card and without the answer key, to send to that student. */}
+      <div class="ab-seg t-sw t-sw--fill pu-who" role="group" aria-label="Sheet for">
+        <button type="button" data-pu-partner="both" aria-pressed="true"><span class="t-sw-txt"><b>A + B</b><small data-i18n="pu.sw.cut">to cut out</small></span></button>
+        <button type="button" data-pu-partner="A" aria-pressed="false"><span class="t-sw-txt"><b data-i18n="pu.sw.onlyA">Partner A only</b><small data-i18n="pu.sw.online">for online lessons</small></span></button>
+        <button type="button" data-pu-partner="B" aria-pressed="false"><span class="t-sw-txt"><b data-i18n="pu.sw.onlyB">Partner B only</b><small data-i18n="pu.sw.online">for online lessons</small></span></button>
+        <button type="button" data-pu-partner="key" aria-pressed="false"><span class="t-sw-txt"><b data-i18n="pu.sw.onlyKey">Answers only</b><small data-i18n="pu.sw.teacher">for the teacher</small></span></button>
+      </div>
+      <div class="ab-actions">
+        <label class="ab-check"><input type="checkbox" data-ab-withkey checked /> <span data-i18n="ab.withKey">Lösungsblatt mitdrucken</span></label>
+        <button type="button" class="ab-btn ab-btn--primary" data-ab-print data-i18n="ab.print">Drucken / als PDF speichern</button>
+        <button type="button" class="ab-btn" data-pu-shot hidden data-i18n="pu.shot">Share as an image (WhatsApp)</button>
+        <PartnerMelden kind="tandem" id={t.slug} titel={spec.titel} loesungen={spec.loesungen} />
+      </div>
+    </div>
+
+    <article class="ab-sheet pu-sheet pu-sheet--tandem" lang="en" set:html={renderBody(spec)} />
+    <article class="ab-sheet ab-key pu-sheet pu-sheet--tandem" lang="en" aria-label="Answers" set:html={renderKey(spec)} />
+  </main>
+
+  <script>
+    import { mountWorksheet } from "../../../../lib/arbeitsblatt/client.js";
+    const root = document.getElementById("ab-root");
+    if (root) mountWorksheet(root);
+
+    // „Nur Partner A / B": the other card, the cut lines, the scissors step and the key go;
+    // the PDF is named after the partner. ?partner=a|b keeps the choice in a shared link.
+    if (root) {
+      const btns = [...root.querySelectorAll<HTMLButtonElement>("[data-pu-partner]")];
+      const withKey = root.querySelector<HTMLInputElement>("[data-ab-withkey]");
+      const baseTitle = document.title;
+      const shotBtn = root.querySelector<HTMLButtonElement>("[data-pu-shot]");
+      root.querySelectorAll(".pu-page--intro li").forEach((li) => {
+        if (/schneiden/i.test(li.textContent ?? "")) li.setAttribute("data-pu-cutstep", "");
+      });
+      const set = (who: string) => {
+        root.dataset.partner = who;
+        btns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.puPartner === who)));
+        const one = who === "A" || who === "B";
+        const keyOnly = who === "key";
+        if (withKey) {
+          withKey.disabled = who !== "both";
+          withKey.checked = who !== "A" && who !== "B";
+          root.dataset.key = withKey.checked ? "on" : "off";
+        }
+        if (shotBtn) shotBtn.hidden = !one;
+        document.title = one ? `${baseTitle.split(" – ")[0]} – Partner ${who}` : keyOnly ? `${baseTitle.split(" – ")[0]} – Answers` : baseTitle;
+        const u = new URL(location.href);
+        if (who !== "both") u.searchParams.set("partner", who === "key" ? "loesungen" : who.toLowerCase()); else u.searchParams.delete("partner");
+        history.replaceState(null, "", u);
+      };
+      btns.forEach((b) => b.addEventListener("click", () => set(b.dataset.puPartner ?? "both")));
+
+      // One partner's card as a single PNG, for a class WhatsApp group: the title strip, the
+      // card(s) of the first rounds (not the picture round, which is a page of its own) and
+      // the site. A phone gets the share sheet, a computer a download.
+      shotBtn?.addEventListener("click", async () => {
+        const who = root.dataset.partner;
+        if (who !== "A" && who !== "B") return;
+        shotBtn.disabled = true;
+        const wrap = document.createElement("div");
+        wrap.className = "pu-sheet pu-sheet--tandem pu-shot";
+        wrap.setAttribute("lang", "de");
+        const top = root.querySelector(".pu-top")?.cloneNode(true);
+        const title = root.querySelector(".pu-title")?.cloneNode(true);
+        if (top) wrap.append(top);
+        if (title) wrap.append(title);
+        root.querySelectorAll(`.pu-page--cards .pu-card--${who}`).forEach((c) => wrap.append(c.cloneNode(true)));
+        const foot = document.createElement("p");
+        foot.className = "pu-shot-foot";
+        foot.textContent = "englishacademy.com · Pair work";
+        wrap.append(foot);
+        document.body.append(wrap);
+        try {
+          const { domToBlob } = await import("modern-screenshot");
+          const blob = await domToBlob(wrap, { scale: 2, backgroundColor: "#ffffff", type: "image/png", style: { position: "static", left: "0" } });
+          const name = `${location.pathname.split("/").pop()}-partner-${who.toLowerCase()}.png`;
+          const file = new File([blob], name, { type: "image/png" });
+          if (matchMedia("(pointer: coarse)").matches && navigator.canShare?.({ files: [file] })) {
+            await navigator.share({ files: [file], title: document.title }).catch(() => {});
+          } else {
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = name;
+            a.click();
+            setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+          }
+        } finally {
+          wrap.remove();
+          shotBtn.disabled = false;
+        }
+      });
+      const wanted = new URL(location.href).searchParams.get("partner")?.toUpperCase();
+      if (wanted === "A" || wanted === "B") set(wanted);
+      else if (wanted === "LOESUNGEN") set("key");
+    }
+  </script>
+</Layout>

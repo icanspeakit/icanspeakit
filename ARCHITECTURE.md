@@ -93,13 +93,14 @@ module's body. Nothing else needs to change.
 ## Build pipeline
 
 `pnpm build` runs:
-1. `prebuild`: `clean-prerender` → `build-paid-manifest` (paid content out of the public bundle)
+1. `prebuild`: `clean-prerender` → `check-content` (the content validators, see below) → `build-paid-manifest` (paid content out of the public bundle)
 2. `astro build`: prerender all pages
 3. integrations, in order: `base-language` (English HTML) → `entry-pages` (per-language URLs; idle with one language) → `sitemap` → `llms-txt`
 4. `postbuild`: `check-paid-leak` + `check-lehrwerk-leak`
 
-The German-content validators that used to gate the build are now one opt-in command:
-`pnpm check:content` (they need German audio files that were not copied).
+The content validators gate the build again (since the `cleanup` run, 2026-11-02):
+`scripts/check-content.mjs` runs them in prebuild, and `pnpm check:content` runs the same set by
+hand. The file lists which validators are left out and why (audio, network, QA reports).
 
 ## Content migration (next phase)
 

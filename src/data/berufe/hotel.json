@@ -1,1662 +1,742 @@
 {
   "beruf": "hotel",
-  "title": "Hotel: Rezeption & Housekeeping",
+  "title": "Hotels: reception & housekeeping",
   "level": "A2–B1",
   "reviewed": false,
-  "_note": "Übersetzungen und deHint: maschineller Entwurf (reviewed: false). Morphologie: de.wiktionary über scripts/berufe-morph.mjs.",
-  "intro": "Die Wörter für die Arbeit im Hotel: an der Rezeption, beim Check-in und Check-out, in der Zimmerreinigung und im Frühstücksraum.",
-  "introEasy": "Du arbeitest in einem Hotel? Hier lernst du die Wörter für die Rezeption und für die Reinigung der Zimmer.",
+  "_note": "English for work (english-for-work run, 2026-11-02): written by hand in British English, not yet checked by a second reader. translations.en = short definition in simple English; deHint = German translation (the 'German' tab). Words that already exist in the English lexicon are refs with a job-specific example.",
+  "intro": "The words for work in a hotel: reception, rooms, check-in, cleaning and talking to guests and colleagues. Every word has an example sentence from a real working day in the UK.",
+  "introEasy": "Do you work in a hotel? Learn the words for rooms, guests and cleaning here.",
   "jobs": [
-    "Rezeptionist / Rezeptionistin",
-    "Zimmermädchen / Roomboy",
-    "Housekeeping",
-    "Frühstücksservice",
-    "Nachtportier"
+    "Receptionist",
+    "Room attendant",
+    "Porter",
+    "Night auditor",
+    "Housekeeping supervisor"
   ],
   "tipps": [
-    "Zu Gästen sagst du immer Sie: „Wie kann ich Ihnen helfen?“",
-    "An der Rezeption hörst du oft Zahlen und Daten: Zimmernummer, Anreise, Abreise. Üb sie laut.",
-    "Im Housekeeping arbeitest du mit Listen: „Zimmer 212 — Abreise“, „Bitte nicht stören“. Lern diese Wörter zuerst."
+    "At reception, start with a smile and a short greeting: “Good morning, how can I help you?” Guests remember how you speak to them.",
+    "If you do not understand a guest, ask politely: “Sorry, could you say that again, please?” It is better to ask than to guess.",
+    "When you must say no, say what you CAN do: “I'm afraid the room isn't ready yet, but I can look after your bags.”"
   ],
   "links": [],
   "external": null,
   "groups": [
     {
       "id": "rezeption-zimmer",
-      "title": "Rezeption & Zimmer",
+      "title": "Reception & rooms",
       "words": [
         {
-          "ref": "rezeption"
+          "ref": "reception",
+          "example": "Please leave your key at reception when you go out."
         },
         {
-          "ref": "empfang",
-          "deHint": "Platz am Eingang, wo Gäste ankommen und Hilfe bekommen"
+          "ref": "receptionist",
+          "example": "Priya is the receptionist on the morning shift."
         },
         {
-          "ref": "lobby",
-          "deHint": "großer Raum am Eingang vom Hotel, dort warten Gäste",
-          "example": "Bitte warten Sie kurz in der Lobby, Ihr Zimmer ist gleich fertig."
+          "id": "bv-hotel-key-card",
+          "lemma": "key card",
+          "pos": "noun",
+          "gender": "a",
+          "plural": "key cards",
+          "example": "Your key card doesn't work? I'll make you a new one.",
+          "deHint": "die Schlüsselkarte",
+          "translations": {
+            "en": "a plastic card that opens a hotel room door"
+          },
+          "morphSource": "authored"
         },
         {
-          "ref": "zimmer",
-          "example": "Ihr Zimmer ist im dritten Stock."
+          "ref": "room",
+          "example": "Your room is on the third floor, next to the lift."
         },
         {
-          "ref": "einzelzimmer"
+          "ref": "single-room",
+          "example": "We have a single room for two nights."
         },
         {
-          "ref": "doppelzimmer"
+          "ref": "double-room",
+          "example": "Mr and Mrs Okafor booked a double room with a sea view."
         },
         {
-          "ref": "zimmerschluessel",
-          "deHint": "damit öffnet der Gast seine Tür, oft ist es eine Karte"
-        },
-        {
-          "ref": "aufzug",
-          "deHint": "fährt Gäste und Koffer nach oben und unten"
-        },
-        {
-          "ref": "handtuch"
-        },
-        {
-          "ref": "matratze",
-          "deHint": "darauf liegt man im Bett",
-          "example": "Der Gast in Zimmer 214 sagt, die Matratze ist zu hart."
-        },
-        {
-          "ref": "staubsauger",
-          "deHint": "Gerät, das Staub und Schmutz vom Boden saugt"
-        },
-        {
-          "ref": "buffet",
-          "deHint": "Tisch mit vielen Speisen, dort nehmen sich die Gäste selbst",
-          "example": "Das Buffet ist von 7 bis 10 Uhr geöffnet."
-        },
-        {
-          "ref": "gepaeck"
-        },
-        {
-          "ref": "fs-kofferraum"
-        },
-        {
-          "ref": "dusche",
-          "deHint": "dort wäscht man sich im Bad mit Wasser von oben",
-          "example": "Putz bitte die Dusche in jedem Zimmer gründlich."
-        },
-        {
-          "ref": "seife"
-        },
-        {
-          "ref": "shampoo",
-          "deHint": "damit wäscht man die Haare",
-          "example": "Im Bad liegen Shampoo und Duschgel für die Gäste."
-        },
-        {
-          "ref": "wlan",
-          "deHint": "Internet ohne Kabel"
-        },
-        {
-          "ref": "klimaanlage",
-          "deHint": "Gerät, das das Zimmer kühl macht"
+          "id": "bv-hotel-twin-room",
+          "lemma": "twin room",
+          "pos": "noun",
+          "gender": "a",
+          "plural": "twin rooms",
+          "example": "The friends asked for a twin room, not a double.",
+          "deHint": "das Zweibettzimmer",
+          "translations": {
+            "en": "a room with two single beds"
+          },
+          "morphSource": "authored"
         },
         {
           "id": "bv-hotel-suite",
-          "lemma": "Suite",
+          "lemma": "suite",
           "pos": "noun",
-          "gender": "die",
-          "plural": "Suiten",
-          "example": "Die Suite im fünften Stock ist heute noch frei.",
-          "deHint": "ein sehr großes Zimmer, oft mit zwei Räumen",
+          "gender": "a",
+          "plural": "suites",
+          "example": "The suite has a separate bedroom and a bathroom with a bath.",
+          "deHint": "die Suite",
           "translations": {
-            "en": "suite",
-            "ar": "جناح",
-            "uk": "люкс",
-            "tr": "süit",
-            "es": "suite",
-            "pt": "suíte",
-            "vi": "phòng suite",
-            "id": "suite",
-            "hi": "सुइट",
-            "tl": "suite"
+            "en": "a big hotel room with a bedroom and a sitting room"
           },
-          "morphSource": "wiktionary"
+          "morphSource": "authored"
         },
         {
-          "id": "bv-hotel-schluesselkarte",
-          "lemma": "Schlüsselkarte",
-          "pos": "noun",
-          "gender": "die",
-          "plural": "Schlüsselkarten",
-          "example": "Halten Sie die Schlüsselkarte einfach kurz an die Tür.",
-          "deHint": "eine Karte aus Plastik, damit öffnest du die Zimmertür",
-          "translations": {
-            "en": "key card",
-            "ar": "بطاقة المفتاح",
-            "uk": "ключ-картка",
-            "tr": "anahtar kart",
-            "es": "tarjeta llave",
-            "pt": "cartão-chave",
-            "vi": "thẻ từ, thẻ khóa phòng",
-            "id": "kartu kunci",
-            "hi": "की कार्ड",
-            "tl": "key card"
-          },
-          "morphSource": "wiktionary"
+          "ref": "ground-floor",
+          "example": "The restaurant is on the ground floor."
+        },
+        {
+          "ref": "lift",
+          "example": "The lift is on your left, past the stairs."
+        },
+        {
+          "ref": "bed",
+          "example": "Could we have an extra bed for our daughter?"
+        },
+        {
+          "ref": "pillow",
+          "example": "Would you like an extra pillow?"
+        },
+        {
+          "ref": "duvet",
+          "example": "There is a spare duvet in the wardrobe."
+        },
+        {
+          "ref": "towel",
+          "example": "Fresh towels are on the shelf in the bathroom."
         },
         {
           "id": "bv-hotel-minibar",
-          "lemma": "Minibar",
+          "lemma": "minibar",
           "pos": "noun",
-          "gender": "die",
-          "plural": "Minibars",
-          "example": "Haben Sie etwas aus der Minibar genommen?",
-          "deHint": "ein kleiner Kühlschrank mit Getränken im Zimmer",
+          "gender": "a",
+          "plural": "minibars",
+          "example": "The minibar is in the cupboard under the TV.",
+          "deHint": "die Minibar",
           "translations": {
-            "en": "minibar",
-            "ar": "ميني بار",
-            "uk": "мінібар",
-            "tr": "minibar",
-            "es": "minibar",
-            "pt": "frigobar",
-            "vi": "tủ lạnh mini",
-            "id": "minibar",
-            "hi": "मिनीबार",
-            "tl": "minibar"
+            "en": "a small fridge in a hotel room with drinks and snacks you pay for"
           },
-          "morphSource": "wiktionary"
+          "morphSource": "authored"
         },
         {
-          "id": "bv-hotel-safe",
-          "lemma": "Safe",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Safes",
-          "example": "Der Safe ist im Schrank, den Code stellen Sie selbst ein.",
-          "deHint": "ein kleiner Schrank aus Metall für Geld und Pässe",
-          "translations": {
-            "en": "safe",
-            "ar": "خزنة",
-            "uk": "сейф",
-            "tr": "kasa",
-            "es": "caja fuerte",
-            "pt": "cofre",
-            "vi": "két sắt",
-            "id": "brankas",
-            "hi": "लॉकर, सेफ़",
-            "tl": "safe"
-          },
-          "morphSource": "wiktionary"
+          "ref": "luggage",
+          "example": "The porter will take your luggage up to your room."
         },
         {
-          "id": "bv-hotel-bettwaesche",
-          "lemma": "Bettwäsche",
-          "pos": "noun",
-          "gender": "die",
-          "plural": "Bettwäschen",
-          "example": "In Zimmer 305 brauchen wir neue Bettwäsche.",
-          "deHint": "die Stoffe für das Bett: Bezüge und Laken",
-          "translations": {
-            "en": "bed linen",
-            "ar": "أغطية السرير",
-            "uk": "постільна білизна",
-            "tr": "nevresim takımı",
-            "es": "ropa de cama",
-            "pt": "roupa de cama",
-            "vi": "bộ đồ giường",
-            "id": "seprai, linen",
-            "hi": "चादर और गिलाफ़, बेड लिनन",
-            "tl": "beddings, sapin sa kama"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-bademantel",
-          "lemma": "Bademantel",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Bademäntel",
-          "example": "Ein Bademantel hängt im Bad, der zweite im Schrank.",
-          "deHint": "ein weicher Mantel, den du nach dem Duschen anziehst",
-          "translations": {
-            "en": "bathrobe",
-            "ar": "رداء الحمام",
-            "uk": "халат",
-            "tr": "bornoz",
-            "es": "bata de baño",
-            "pt": "roupão",
-            "vi": "áo choàng tắm",
-            "id": "jubah mandi",
-            "hi": "बाथरोब",
-            "tl": "bathrobe"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-kopfkissen",
-          "lemma": "Kopfkissen",
-          "pos": "noun",
-          "gender": "das",
-          "plural": "Kopfkissen",
-          "example": "Möchten Sie noch ein zweites Kopfkissen?",
-          "deHint": "darauf liegt dein Kopf im Bett",
-          "translations": {
-            "en": "pillow",
-            "ar": "وسادة",
-            "uk": "подушка",
-            "tr": "yastık",
-            "es": "almohada",
-            "pt": "travesseiro",
-            "vi": "gối",
-            "id": "bantal",
-            "hi": "तकिया",
-            "tl": "unan"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-bettdecke",
-          "lemma": "Bettdecke",
-          "pos": "noun",
-          "gender": "die",
-          "plural": "Bettdecken",
-          "example": "Leg die Bettdecke glatt auf das Bett.",
-          "deHint": "damit deckst du dich im Bett zu, sie ist warm",
-          "translations": {
-            "en": "duvet, blanket",
-            "ar": "لحاف",
-            "uk": "ковдра",
-            "tr": "yorgan",
-            "es": "edredón, cobija",
-            "pt": "edredom, cobertor",
-            "vi": "chăn",
-            "id": "selimut",
-            "hi": "रज़ाई, कंबल",
-            "tl": "kumot"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-reinigungswagen",
-          "lemma": "Reinigungswagen",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Reinigungswagen",
-          "example": "Stell den Reinigungswagen nicht vor den Aufzug.",
-          "deHint": "ein Wagen mit Putzmitteln, Handtüchern und Bettwäsche",
-          "translations": {
-            "en": "housekeeping cart",
-            "ar": "عربة التنظيف",
-            "uk": "візок для прибирання",
-            "tr": "temizlik arabası",
-            "es": "carro de limpieza",
-            "pt": "carrinho de camareira",
-            "vi": "xe đẩy dọn phòng",
-            "id": "troli housekeeping",
-            "hi": "हाउसकीपिंग ट्रॉली",
-            "tl": "housekeeping cart"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-waescherei",
-          "lemma": "Wäscherei",
-          "pos": "noun",
-          "gender": "die",
-          "plural": "Wäschereien",
-          "example": "Die schmutzigen Handtücher gehen heute Nachmittag in die Wäscherei.",
-          "deHint": "hier wäscht man die Bettwäsche und die Handtücher vom Hotel",
-          "translations": {
-            "en": "laundry",
-            "ar": "المغسلة",
-            "uk": "пральня",
-            "tr": "çamaşırhane",
-            "es": "lavandería",
-            "pt": "lavanderia",
-            "vi": "phòng giặt là",
-            "id": "binatu, laundry",
-            "hi": "लॉन्ड्री",
-            "tl": "laundry"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-fruehstuecksraum",
-          "lemma": "Frühstücksraum",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Frühstücksräume",
-          "example": "Der Frühstücksraum ist im Erdgeschoss, gleich links.",
-          "deHint": "hier essen die Gäste am Morgen",
-          "translations": {
-            "en": "breakfast room",
-            "ar": "قاعة الإفطار",
-            "uk": "зала для сніданків",
-            "tr": "kahvaltı salonu",
-            "es": "salón de desayunos",
-            "pt": "salão de café da manhã",
-            "vi": "phòng ăn sáng",
-            "id": "ruang sarapan",
-            "hi": "नाश्ते का कमरा",
-            "tl": "breakfast room"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-gepaeckwagen",
-          "lemma": "Gepäckwagen",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Gepäckwagen",
-          "example": "Nimm den Gepäckwagen, die Familie hat fünf Koffer.",
-          "deHint": "ein Wagen für Koffer und Taschen",
-          "translations": {
-            "en": "luggage trolley",
-            "ar": "عربة الأمتعة",
-            "uk": "багажний візок",
-            "tr": "bagaj arabası",
-            "es": "carrito portaequipajes",
-            "pt": "carrinho de bagagem",
-            "vi": "xe đẩy hành lý",
-            "id": "troli bagasi",
-            "hi": "सामान की ट्रॉली",
-            "tl": "luggage cart"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-bettlaken",
-          "lemma": "Bettlaken",
-          "pos": "noun",
-          "gender": "das",
-          "plural": "Bettlaken",
-          "example": "Das Bettlaken hat einen Fleck, nimm ein neues.",
-          "deHint": "ein Tuch aus Stoff, es liegt auf der Matratze",
-          "translations": {
-            "en": "bed sheet",
-            "ar": "ملاءة السرير",
-            "uk": "простирадло",
-            "tr": "çarşaf",
-            "es": "sábana",
-            "pt": "lençol",
-            "vi": "ga trải giường",
-            "id": "seprai",
-            "hi": "चादर",
-            "tl": "bedsheet"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-zustellbett",
-          "lemma": "Zustellbett",
-          "pos": "noun",
-          "gender": "das",
-          "plural": "Zustellbetten",
-          "example": "Für Ihr Kind stellen wir gern ein Zustellbett ins Zimmer.",
-          "deHint": "ein extra Bett, das man in ein Zimmer stellt",
-          "translations": {
-            "en": "extra bed",
-            "ar": "سرير إضافي",
-            "uk": "додаткове ліжко",
-            "tr": "ilave yatak",
-            "es": "cama supletoria, cama extra",
-            "pt": "cama extra",
-            "vi": "giường phụ",
-            "id": "tempat tidur tambahan, extra bed",
-            "hi": "एक्स्ट्रा बेड",
-            "tl": "extra bed"
-          },
-          "morphSource": "wiktionary-compound-head"
-        },
-        {
-          "id": "bv-hotel-foehn",
-          "lemma": "Föhn",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Föhne",
-          "example": "Ein Föhn liegt im Bad in der Schublade.",
-          "deHint": "damit machst du nasse Haare trocken",
-          "translations": {
-            "en": "hair dryer",
-            "ar": "مجفف الشعر",
-            "uk": "фен",
-            "tr": "saç kurutma makinesi",
-            "es": "secador de pelo",
-            "pt": "secador de cabelo",
-            "vi": "máy sấy tóc",
-            "id": "pengering rambut",
-            "hi": "हेयर ड्रायर",
-            "tl": "hair dryer"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-toilettenpapier",
-          "lemma": "Toilettenpapier",
-          "pos": "noun",
-          "gender": "das",
-          "plural": "Toilettenpapiere",
-          "example": "Leg in jedes Bad zwei Rollen Toilettenpapier.",
-          "deHint": "Papier für die Toilette, auf einer Rolle",
-          "translations": {
-            "en": "toilet paper",
-            "ar": "ورق التواليت",
-            "uk": "туалетний папір",
-            "tr": "tuvalet kağıdı",
-            "es": "papel higiénico",
-            "pt": "papel higiênico",
-            "vi": "giấy vệ sinh",
-            "id": "tisu toilet",
-            "hi": "टॉयलेट पेपर",
-            "tl": "toilet paper"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-etage",
-          "lemma": "Etage",
-          "pos": "noun",
-          "gender": "die",
-          "plural": "Etagen",
-          "example": "Ihr Zimmer ist in der dritten Etage.",
-          "deHint": "ein Stockwerk im Haus, zum Beispiel die 2. Etage",
-          "translations": {
-            "en": "floor, storey",
-            "ar": "طابق",
-            "uk": "поверх",
-            "tr": "kat",
-            "es": "piso, planta",
-            "pt": "andar",
-            "vi": "tầng",
-            "id": "lantai",
-            "hi": "मंज़िल, फ़्लोर",
-            "tl": "palapag"
-          },
-          "morphSource": "wiktionary"
+          "ref": "car-park",
+          "example": "The hotel car park is behind the building."
         }
       ]
     },
     {
       "id": "taetigkeiten",
-      "title": "Was du im Hotel tust",
+      "title": "What you do in a hotel",
       "words": [
         {
-          "ref": "einchecken",
-          "deHint": "im Hotel ankommen und sich an der Rezeption anmelden"
+          "ref": "clean-verb",
+          "example": "I clean twelve rooms on a normal day."
         },
         {
-          "ref": "auschecken",
-          "deHint": "das Zimmer abgeben und das Hotel verlassen"
-        },
-        {
-          "ref": "buchen"
-        },
-        {
-          "ref": "stornieren",
-          "deHint": "eine Buchung wieder absagen",
-          "example": "Der Gast möchte seine Buchung für Freitag stornieren."
-        },
-        {
-          "ref": "reservieren",
-          "deHint": "ein Zimmer oder einen Tisch für einen Gast frei halten"
-        },
-        {
-          "ref": "abholen",
-          "example": "Unser Hotelbus holt Sie um 10 Uhr am Bahnhof ab."
-        },
-        {
-          "ref": "staubsaugen",
-          "deHint": "den Boden und den Teppich mit einem Gerät sauber machen",
-          "example": "Ich staubsauge zuerst die Zimmer im zweiten Stock."
-        },
-        {
-          "ref": "putzen",
-          "example": "Putz bitte zuerst die Bäder in den Zimmern 201 bis 210."
-        },
-        {
-          "ref": "aufraeumen",
-          "deHint": "alles wieder an den richtigen Platz legen",
-          "example": "Räum bitte das Zimmer auf, bevor der neue Gast kommt."
-        },
-        {
-          "ref": "nachfuellen",
-          "deHint": "wieder voll machen, zum Beispiel Seife oder Kaffee",
-          "example": "Füll bitte im Bad die Seife nach."
-        },
-        {
-          "ref": "kontrollieren",
-          "deHint": "genau prüfen, ob alles in Ordnung ist",
-          "example": "Kontrollier bitte noch einmal, ob das Zimmer sauber ist."
-        },
-        {
-          "ref": "melden",
-          "deHint": "dem Chef oder der Rezeption sofort sagen"
-        },
-        {
-          "ref": "uebernachten",
-          "deHint": "eine Nacht im Hotel schlafen",
-          "example": "Wie viele Personen übernachten im Zimmer?"
-        },
-        {
-          "ref": "abrechnen",
-          "deHint": "am Ende alles zusammenrechnen, was der Gast zahlen muss",
-          "example": "Ich rechne die Getränke aus der Minibar gleich mit ab."
-        },
-        {
-          "id": "bv-hotel-begruessen",
-          "lemma": "begrüßen",
-          "pos": "verb",
-          "forms": [
-            "begrüßt",
-            "begrüßte",
-            "begrüßt"
-          ],
-          "aux": "haben",
-          "example": "Begrüß die Gäste immer freundlich und mit einem Lächeln.",
-          "deHint": "Hallo sagen, wenn jemand kommt",
-          "translations": {
-            "en": "greet, welcome",
-            "ar": "يرحّب",
-            "uk": "вітати",
-            "tr": "karşılamak, selamlamak",
-            "es": "saludar, dar la bienvenida",
-            "pt": "cumprimentar, receber",
-            "vi": "chào đón",
-            "id": "menyambut",
-            "hi": "स्वागत करना",
-            "tl": "batiin, salubungin"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-betten-machen",
-          "lemma": "Betten machen",
+          "id": "bv-hotel-make-the-bed",
+          "lemma": "make the bed",
           "pos": "phrase",
-          "example": "In Zimmer 210 musst du heute nur die Betten machen.",
-          "deHint": "das Bett ordentlich und schön machen",
+          "example": "Make the bed first, then clean the bathroom.",
+          "deHint": "das Bett machen",
           "translations": {
-            "en": "make the beds",
-            "ar": "ترتيب الأسرّة",
-            "uk": "застеляти ліжка",
-            "tr": "yatakları yapmak",
-            "es": "hacer las camas",
-            "pt": "arrumar as camas",
-            "vi": "dọn giường",
-            "id": "merapikan tempat tidur",
-            "hi": "बिस्तर लगाना",
-            "tl": "mag-ayos ng kama"
+            "en": "to put the sheets and the cover straight on a bed"
           }
         },
         {
-          "id": "bv-hotel-beziehen",
-          "lemma": "beziehen",
-          "pos": "verb",
-          "forms": [
-            "bezieht",
-            "bezog",
-            "bezogen"
-          ],
-          "aux": "haben",
-          "example": "Bezieh das Bett bei jeder Abreise mit frischer Wäsche.",
-          "deHint": "neue Bettwäsche auf Bett, Kissen und Decke machen",
+          "id": "bv-hotel-change-the-sheets",
+          "lemma": "change the sheets",
+          "pos": "phrase",
+          "example": "We change the sheets every day.",
+          "deHint": "die Bettwäsche wechseln",
           "translations": {
-            "en": "put fresh sheets on (a bed)",
-            "ar": "يغيّر أغطية السرير",
-            "uk": "застеляти свіжу білизну",
-            "tr": "(yatağa) temiz çarşaf geçirmek",
-            "es": "cambiar las sábanas",
-            "pt": "trocar a roupa de cama",
-            "vi": "thay ga giường",
-            "id": "memasang seprai baru",
-            "hi": "बिस्तर पर नई चादर लगाना",
-            "tl": "magpalit ng sapin ng kama"
-          },
-          "morphSource": "wiktionary"
+            "en": "to take off dirty sheets and put clean ones on a bed"
+          }
         },
         {
-          "id": "bv-hotel-wischen",
-          "lemma": "wischen",
+          "id": "bv-hotel-vacuum",
+          "lemma": "vacuum",
           "pos": "verb",
           "forms": [
-            "wischt",
-            "wischte",
-            "gewischt"
+            "vacuums",
+            "vacuumed",
+            "vacuumed"
           ],
-          "aux": "haben",
-          "example": "Wisch den Boden im Bad immer zum Schluss.",
-          "deHint": "mit einem nassen Tuch sauber machen",
+          "example": "Vacuum under the bed, too.",
+          "deHint": "staubsaugen",
           "translations": {
-            "en": "wipe, mop",
-            "ar": "يمسح",
-            "uk": "витирати, мити підлогу",
-            "tr": "silmek",
-            "es": "limpiar, trapear",
-            "pt": "limpar, passar pano",
-            "vi": "lau",
-            "id": "mengepel, mengelap",
-            "hi": "पोंछा लगाना, पोंछना",
-            "tl": "magpunas, magmop"
+            "en": "to clean the floor with a machine that sucks up dirt"
           },
-          "morphSource": "wiktionary"
+          "morphSource": "authored"
         },
         {
-          "id": "bv-hotel-auffuellen",
-          "lemma": "auffüllen",
+          "id": "bv-hotel-mop",
+          "lemma": "mop",
           "pos": "verb",
           "forms": [
-            "füllt auf",
-            "füllte auf",
-            "aufgefüllt"
+            "mops",
+            "mopped",
+            "mopped"
           ],
-          "aux": "haben",
-          "example": "Füll den Reinigungswagen vor der Schicht auf.",
-          "deHint": "wieder voll machen",
+          "example": "Mei mops the bathroom floor last.",
+          "deHint": "wischen, feucht wischen",
           "translations": {
-            "en": "restock, fill up",
-            "ar": "يعبّئ",
-            "uk": "поповнювати",
-            "tr": "doldurmak, tamamlamak",
-            "es": "reponer, rellenar",
-            "pt": "repor, reabastecer",
-            "vi": "bổ sung, làm đầy",
-            "id": "mengisi ulang",
-            "hi": "फिर से भरना",
-            "tl": "mag-restock, punuin ulit"
+            "en": "to clean a hard floor with a wet mop"
           },
-          "morphSource": "wiktionary"
+          "morphSource": "authored"
         },
         {
-          "id": "bv-hotel-wecken",
-          "lemma": "wecken",
+          "id": "bv-hotel-wipe",
+          "lemma": "wipe",
           "pos": "verb",
           "forms": [
-            "weckt",
-            "weckte",
-            "geweckt"
+            "wipes",
+            "wiped",
+            "wiped"
           ],
-          "aux": "haben",
-          "example": "Soll ich Sie morgen um sechs Uhr wecken?",
-          "deHint": "jemanden aus dem Schlaf holen",
+          "example": "Wipe the mirror and the sink with a dry cloth.",
+          "deHint": "abwischen",
           "translations": {
-            "en": "wake (someone) up",
-            "ar": "يوقظ",
-            "uk": "будити",
-            "tr": "uyandırmak",
-            "es": "despertar",
-            "pt": "acordar",
-            "vi": "đánh thức",
-            "id": "membangunkan",
-            "hi": "जगाना",
-            "tl": "gisingin"
+            "en": "to clean something with a cloth"
           },
-          "morphSource": "wiktionary"
+          "morphSource": "authored"
         },
         {
-          "id": "bv-hotel-verlaengern",
-          "lemma": "verlängern",
+          "id": "bv-hotel-polish",
+          "lemma": "polish",
           "pos": "verb",
           "forms": [
-            "verlängert",
-            "verlängerte",
-            "verlängert"
+            "polishes",
+            "polished",
+            "polished"
           ],
-          "aux": "haben",
-          "example": "Der Gast in 214 möchte um zwei Nächte verlängern.",
-          "deHint": "länger bleiben als geplant",
+          "example": "Please polish the taps until they shine.",
+          "deHint": "polieren",
           "translations": {
-            "en": "extend (a stay)",
-            "ar": "يمدّد",
-            "uk": "продовжувати",
-            "tr": "uzatmak",
-            "es": "prolongar (la estancia)",
-            "pt": "prorrogar (a estadia)",
-            "vi": "gia hạn (thời gian lưu trú)",
-            "id": "memperpanjang (menginap)",
-            "hi": "ठहरना बढ़ाना",
-            "tl": "pahabain ang pananatili"
+            "en": "to rub something so that it shines"
           },
-          "morphSource": "wiktionary"
+          "morphSource": "authored"
+        },
+        {
+          "id": "bv-hotel-fold",
+          "lemma": "fold",
+          "pos": "verb",
+          "forms": [
+            "folds",
+            "folded",
+            "folded"
+          ],
+          "example": "Fold the towels and put them on the bed.",
+          "deHint": "falten, zusammenlegen",
+          "translations": {
+            "en": "to bend cloth so that it is flat and tidy"
+          },
+          "morphSource": "authored"
+        },
+        {
+          "ref": "refill",
+          "example": "Don't forget to refill the shampoo and the soap."
+        },
+        {
+          "id": "bv-hotel-empty-the-bins",
+          "lemma": "empty the bins",
+          "pos": "phrase",
+          "example": "I empty the bins in every room before I leave.",
+          "deHint": "die Mülleimer leeren",
+          "translations": {
+            "en": "to take the rubbish out of the bins"
+          }
+        },
+        {
+          "ref": "restock",
+          "example": "Restock your trolley with towels before you start."
+        },
+        {
+          "ref": "tidy-up",
+          "example": "The guests left in a hurry, so I tidied up the room."
+        },
+        {
+          "ref": "knock",
+          "example": "Always knock and say “Housekeeping” before you go in."
+        },
+        {
+          "id": "bv-hotel-lock",
+          "lemma": "lock",
+          "pos": "verb",
+          "forms": [
+            "locks",
+            "locked",
+            "locked"
+          ],
+          "example": "Lock the storeroom when you finish.",
+          "deHint": "abschließen",
+          "translations": {
+            "en": "to close a door with a key so that nobody can open it"
+          },
+          "morphSource": "authored"
+        },
+        {
+          "ref": "carry",
+          "example": "Daniel carries the guests' bags to their rooms."
+        },
+        {
+          "id": "bv-hotel-greet",
+          "lemma": "greet",
+          "pos": "verb",
+          "forms": [
+            "greets",
+            "greeted",
+            "greeted"
+          ],
+          "example": "Greet every guest who comes through the door.",
+          "deHint": "begrüßen",
+          "translations": {
+            "en": "to say hello to someone"
+          },
+          "morphSource": "authored"
+        },
+        {
+          "id": "bv-hotel-answer-the-phone",
+          "lemma": "answer the phone",
+          "pos": "phrase",
+          "example": "Can you answer the phone? I'm with a guest.",
+          "deHint": "ans Telefon gehen",
+          "translations": {
+            "en": "to pick up the phone and speak to the person who calls"
+          }
         }
       ]
     },
     {
       "id": "ablaeufe",
-      "title": "Buchung & Abläufe",
+      "title": "Bookings & check-in",
       "words": [
         {
-          "ref": "buchung",
-          "deHint": "ein Gast hat ein Zimmer fest bestellt",
-          "example": "Ich finde Ihre Buchung leider nicht im System."
+          "ref": "booking",
+          "example": "I have a booking under the name Santos."
         },
         {
-          "ref": "reservierung",
-          "deHint": "ein Zimmer oder ein Tisch ist für einen Gast frei gehalten"
+          "ref": "book-verb",
+          "example": "I'd like to book a room for Friday night."
         },
         {
-          "ref": "anreise",
-          "deHint": "der Tag, an dem der Gast ins Hotel kommt",
-          "example": "Bei Anreise nach 22 Uhr rufen Sie bitte kurz an."
+          "ref": "check-in",
+          "example": "You can check in from two o'clock."
         },
         {
-          "ref": "abreise",
-          "deHint": "der Tag, an dem der Gast das Hotel verlässt",
-          "example": "Am Tag der Abreise geben Sie das Zimmer bitte bis 11 Uhr ab."
+          "ref": "check-out",
+          "example": "Guests must check out by eleven."
         },
         {
-          "ref": "uebernachtung",
-          "deHint": "eine Nacht im Hotel"
-        },
-        {
-          "ref": "fruehstueck"
-        },
-        {
-          "ref": "halbpension",
-          "deHint": "Zimmer mit Frühstück und Abendessen"
-        },
-        {
-          "ref": "vollpension",
-          "deHint": "Zimmer mit Frühstück, Mittagessen und Abendessen",
-          "example": "Mit Vollpension kostet das Zimmer 120 Euro pro Nacht."
-        },
-        {
-          "ref": "rechnung",
-          "example": "Hier ist Ihre Rechnung. Zahlen Sie bar oder mit Karte?"
-        },
-        {
-          "ref": "kreditkarte",
-          "deHint": "Karte von der Bank, damit zahlt man ohne Bargeld"
-        },
-        {
-          "ref": "ausweis"
-        },
-        {
-          "ref": "schicht",
-          "deHint": "deine Arbeitszeit an einem Tag, zum Beispiel früh, spät oder nachts"
-        },
-        {
-          "ref": "dienstplan",
-          "deHint": "Plan: wer arbeitet an welchem Tag und wann"
-        },
-        {
-          "id": "bv-hotel-zimmernummer",
-          "lemma": "Zimmernummer",
+          "id": "bv-hotel-late-checkout",
+          "lemma": "late checkout",
           "pos": "noun",
-          "gender": "die",
-          "plural": "Zimmernummern",
-          "example": "Wie ist Ihre Zimmernummer, bitte?",
-          "deHint": "die Zahl an der Tür vom Zimmer",
+          "gender": "a",
+          "plural": "late checkouts",
+          "example": "Can we have a late checkout, please? Our train is at four.",
+          "deHint": "der späte Check-out",
           "translations": {
-            "en": "room number",
-            "ar": "رقم الغرفة",
-            "uk": "номер кімнати",
-            "tr": "oda numarası",
-            "es": "número de habitación",
-            "pt": "número do quarto",
-            "vi": "số phòng",
-            "id": "nomor kamar",
-            "hi": "कमरा नंबर",
-            "tl": "numero ng kuwarto"
+            "en": "when a guest leaves the room later than the normal time"
           },
-          "morphSource": "wiktionary"
+          "morphSource": "authored"
         },
         {
-          "id": "bv-hotel-weckruf",
-          "lemma": "Weckruf",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Weckrufe",
-          "example": "Zimmer 118 möchte morgen einen Weckruf um halb sechs.",
-          "deHint": "ein Anruf am Morgen, damit der Gast aufwacht",
-          "translations": {
-            "en": "wake-up call",
-            "ar": "مكالمة إيقاظ",
-            "uk": "дзвінок-будильник",
-            "tr": "uyandırma araması",
-            "es": "llamada de despertador",
-            "pt": "serviço de despertar",
-            "vi": "cuộc gọi báo thức",
-            "id": "panggilan bangun, wake-up call",
-            "hi": "वेक-अप कॉल",
-            "tl": "wake-up call"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-check-in",
-          "lemma": "Check-in",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Check-ins",
-          "example": "Beim Check-in brauche ich Ihren Ausweis.",
-          "deHint": "der Gast kommt an und meldet sich an der Rezeption an",
-          "translations": {
-            "en": "check-in",
-            "ar": "تسجيل الوصول",
-            "uk": "заселення, реєстрація",
-            "tr": "giriş (check-in)",
-            "es": "check-in, registro de entrada",
-            "pt": "check-in",
-            "vi": "nhận phòng",
-            "id": "check-in",
-            "hi": "चेक-इन",
-            "tl": "check-in"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-check-out",
-          "lemma": "Check-out",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Check-outs",
-          "example": "Der Check-out ist bis 11 Uhr.",
-          "deHint": "der Gast reist ab, bezahlt und gibt den Schlüssel zurück",
-          "translations": {
-            "en": "check-out",
-            "ar": "تسجيل المغادرة",
-            "uk": "виселення",
-            "tr": "çıkış (check-out)",
-            "es": "check-out, salida",
-            "pt": "check-out",
-            "vi": "trả phòng",
-            "id": "check-out",
-            "hi": "चेक-आउट",
-            "tl": "check-out"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-reservierungsbestaetigung",
-          "lemma": "Reservierungsbestätigung",
-          "pos": "noun",
-          "gender": "die",
-          "plural": "Reservierungsbestätigungen",
-          "example": "Die Reservierungsbestätigung haben wir Ihnen per E-Mail geschickt.",
-          "deHint": "eine E-Mail oder ein Brief: das Zimmer ist für dich reserviert",
-          "translations": {
-            "en": "booking confirmation",
-            "ar": "تأكيد الحجز",
-            "uk": "підтвердження бронювання",
-            "tr": "rezervasyon onayı",
-            "es": "confirmación de reserva",
-            "pt": "confirmação de reserva",
-            "vi": "xác nhận đặt phòng",
-            "id": "konfirmasi pemesanan",
-            "hi": "बुकिंग कन्फ़र्मेशन",
-            "tl": "kumpirmasyon ng reservation"
-          },
-          "morphSource": "wiktionary-compound-head"
-        },
-        {
-          "id": "bv-hotel-meldeschein",
-          "lemma": "Meldeschein",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Meldescheine",
-          "example": "Füllen Sie bitte noch kurz den Meldeschein aus.",
-          "deHint": "ein Formular: der Gast schreibt Name und Adresse hinein",
-          "translations": {
-            "en": "registration form",
-            "ar": "استمارة التسجيل",
-            "uk": "реєстраційна картка",
-            "tr": "kayıt formu",
-            "es": "ficha de registro",
-            "pt": "ficha de registro de hóspede",
-            "vi": "phiếu đăng ký khách",
-            "id": "formulir registrasi tamu",
-            "hi": "रजिस्ट्रेशन फ़ॉर्म",
-            "tl": "Meldeschein (registration form ng bisita)"
-          },
-          "morphSource": "wiktionary-compound-head"
-        },
-        {
-          "id": "bv-hotel-kurtaxe",
-          "lemma": "Kurtaxe",
-          "pos": "noun",
-          "gender": "die",
-          "plural": "Kurtaxen",
-          "example": "Die Kurtaxe kostet zwei Euro pro Person und Nacht.",
-          "deHint": "ein kleines Geld für die Stadt, pro Gast und Nacht",
-          "translations": {
-            "en": "tourist tax",
-            "ar": "ضريبة السياحة",
-            "uk": "курортний збір",
-            "tr": "turist vergisi",
-            "es": "impuesto turístico",
-            "pt": "taxa de turismo",
-            "vi": "thuế du lịch",
-            "id": "pajak turis",
-            "hi": "पर्यटक कर",
-            "tl": "Kurtaxe (buwis ng turista)"
-          },
-          "morphSource": "wiktionary-compound-head"
-        },
-        {
-          "id": "bv-hotel-gepaeckaufbewahrung",
-          "lemma": "Gepäckaufbewahrung",
-          "pos": "noun",
-          "gender": "die",
-          "plural": null,
-          "example": "Ihre Koffer können bis zum Abend in der Gepäckaufbewahrung bleiben.",
-          "deHint": "ein Raum im Hotel, in dem Koffer warten können",
-          "translations": {
-            "en": "left-luggage room",
-            "ar": "غرفة حفظ الأمتعة",
-            "uk": "камера схову",
-            "tr": "emanet bagaj odası",
-            "es": "consigna de equipaje",
-            "pt": "guarda-volumes",
-            "vi": "phòng gửi hành lý",
-            "id": "penitipan bagasi",
-            "hi": "सामान रखने का कमरा, क्लोकरूम",
-            "tl": "lugar para iwan ang bagahe"
-          },
-          "morphSource": "wiktionary-compound-head"
-        },
-        {
-          "id": "bv-hotel-nachtschicht",
-          "lemma": "Nachtschicht",
-          "pos": "noun",
-          "gender": "die",
-          "plural": "Nachtschichten",
-          "example": "Ich habe diese Woche drei Nachtschichten an der Rezeption.",
-          "deHint": "Arbeit in der Nacht",
-          "translations": {
-            "en": "night shift",
-            "ar": "نوبة ليلية",
-            "uk": "нічна зміна",
-            "tr": "gece vardiyası",
-            "es": "turno de noche",
-            "pt": "turno da noite",
-            "vi": "ca đêm",
-            "id": "sif malam",
-            "hi": "नाइट शिफ़्ट",
-            "tl": "night shift"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-fruehstueck-inklusive",
-          "lemma": "Frühstück inklusive",
+          "id": "bv-hotel-fully-booked",
+          "lemma": "fully booked",
           "pos": "phrase",
-          "example": "Das Zimmer kostet 89 Euro, Frühstück inklusive.",
-          "deHint": "das Frühstück ist schon im Preis",
+          "example": "I'm sorry, we're fully booked this weekend.",
+          "deHint": "ausgebucht",
           "translations": {
-            "en": "breakfast included",
-            "ar": "الإفطار مشمول",
-            "uk": "сніданок включено",
-            "tr": "kahvaltı dahil",
-            "es": "desayuno incluido",
-            "pt": "café da manhã incluído",
-            "vi": "bao gồm bữa sáng",
-            "id": "termasuk sarapan",
-            "hi": "नाश्ता शामिल",
-            "tl": "kasama ang almusal"
+            "en": "with no free rooms left"
           }
         },
         {
-          "id": "bv-hotel-bitte-nicht-stoeren",
-          "lemma": "Bitte nicht stören",
-          "pos": "phrase",
-          "example": "An Zimmer 214 hängt noch das Schild „Bitte nicht stören“.",
-          "deHint": "der Gast will Ruhe, du gehst nicht ins Zimmer",
+          "ref": "available",
+          "example": "We have a double room available for tonight."
+        },
+        {
+          "ref": "passport",
+          "example": "Could I see your passport, please?"
+        },
+        {
+          "ref": "form",
+          "example": "Please fill in this form and sign at the bottom."
+        },
+        {
+          "ref": "signature",
+          "example": "I need your signature here, please."
+        },
+        {
+          "id": "bv-hotel-room-number",
+          "lemma": "room number",
+          "pos": "noun",
+          "gender": "a",
+          "plural": "room numbers",
+          "example": "Your room number is two-one-four.",
+          "deHint": "die Zimmernummer",
           "translations": {
-            "en": "do not disturb",
-            "ar": "الرجاء عدم الإزعاج",
-            "uk": "не турбувати",
-            "tr": "lütfen rahatsız etmeyin",
-            "es": "No molestar",
-            "pt": "Não perturbe",
-            "vi": "Xin đừng làm phiền",
-            "id": "Jangan diganggu",
-            "hi": "कृपया परेशान न करें",
-            "tl": "huwag istorbohin"
+            "en": "the number on the door of a hotel room"
+          },
+          "morphSource": "authored"
+        },
+        {
+          "id": "bv-hotel-wake-up-call",
+          "lemma": "wake-up call",
+          "pos": "noun",
+          "gender": "a",
+          "plural": "wake-up calls",
+          "example": "Could I have a wake-up call at half past six?",
+          "deHint": "der Weckruf",
+          "translations": {
+            "en": "a phone call from reception to wake a guest at a time they ask for"
+          },
+          "morphSource": "authored"
+        },
+        {
+          "ref": "bill",
+          "example": "I'll print your bill while you finish your coffee."
+        },
+        {
+          "ref": "receipt",
+          "example": "Would you like a receipt for your company?"
+        },
+        {
+          "ref": "cancel",
+          "example": "You can cancel for free up to two days before you arrive."
+        },
+        {
+          "ref": "confirm",
+          "example": "I'll confirm your booking by email today."
+        },
+        {
+          "id": "bv-hotel-do-you-have-a-booking",
+          "lemma": "Do you have a booking?",
+          "pos": "phrase",
+          "example": "“Good evening. Do you have a booking?” – “Yes, for two nights.”",
+          "deHint": "„Haben Sie reserviert?“",
+          "translations": {
+            "en": "a question to a guest who arrives: did you reserve a room?"
           }
         },
         {
-          "id": "bv-hotel-das-zimmer-ist-fertig",
-          "lemma": "Das Zimmer ist fertig.",
+          "id": "bv-hotel-breakfast-is-from-seven-to-ten",
+          "lemma": "Breakfast is from seven to ten.",
           "pos": "phrase",
-          "example": "Das Zimmer ist fertig, ich sag der Rezeption Bescheid.",
-          "deHint": "das Zimmer ist sauber, der nächste Gast kann kommen",
+          "example": "“Breakfast is from seven to ten. It's in the restaurant.”",
+          "deHint": "„Frühstück gibt es von sieben bis zehn Uhr.“",
           "translations": {
-            "en": "the room is ready",
-            "ar": "الغرفة جاهزة",
-            "uk": "кімната готова",
-            "tr": "oda hazır",
-            "es": "La habitación está lista.",
-            "pt": "O quarto está pronto.",
-            "vi": "Phòng đã sẵn sàng.",
-            "id": "Kamarnya sudah siap.",
-            "hi": "कमरा तैयार है।",
-            "tl": "handa na ang kuwarto"
-          }
-        },
-        {
-          "id": "bv-hotel-das-zimmer-ist-ab-15-uhr-bereit",
-          "lemma": "Das Zimmer ist ab 15 Uhr bereit.",
-          "pos": "phrase",
-          "example": "Tut mir leid, das Zimmer ist ab 15 Uhr bereit.",
-          "deHint": "vor 15 Uhr kann der Gast noch nicht ins Zimmer",
-          "translations": {
-            "en": "the room is ready from 3 p.m.",
-            "ar": "الغرفة جاهزة ابتداءً من الساعة 3 مساءً",
-            "uk": "номер буде готовий з 15:00",
-            "tr": "oda saat 15'ten itibaren hazır",
-            "es": "La habitación está lista a partir de las 15 h.",
-            "pt": "O quarto fica pronto a partir das 15h.",
-            "vi": "Phòng sẵn sàng từ 15 giờ.",
-            "id": "Kamar siap mulai pukul 15.00.",
-            "hi": "कमरा दोपहर 3 बजे से तैयार होगा।",
-            "tl": "handa na ang kuwarto simula 3 p.m."
-          }
-        },
-        {
-          "id": "bv-hotel-haben-sie-eine-reservierung",
-          "lemma": "Haben Sie eine Reservierung?",
-          "pos": "phrase",
-          "example": "Guten Abend! Haben Sie eine Reservierung?",
-          "deHint": "so fragst du, ob der Gast schon gebucht hat",
-          "translations": {
-            "en": "do you have a reservation?",
-            "ar": "هل لديك حجز؟",
-            "uk": "у вас є бронювання?",
-            "tr": "rezervasyonunuz var mı?",
-            "es": "¿Tiene una reserva?",
-            "pt": "O senhor tem reserva?",
-            "vi": "Anh/chị có đặt phòng trước không?",
-            "id": "Apakah Anda sudah reservasi?",
-            "hi": "क्या आपकी बुकिंग है?",
-            "tl": "May reservation po ba kayo?"
-          }
-        },
-        {
-          "id": "bv-hotel-ihr-ausweis-bitte",
-          "lemma": "Ihr Ausweis, bitte.",
-          "pos": "phrase",
-          "example": "Ihr Ausweis, bitte. Sie bekommen ihn gleich zurück.",
-          "deHint": "so bittest du den Gast um seinen Pass oder Ausweis",
-          "translations": {
-            "en": "your ID, please",
-            "ar": "هويتك من فضلك",
-            "uk": "ваше посвідчення, будь ласка",
-            "tr": "kimliğiniz, lütfen",
-            "es": "Su identificación, por favor.",
-            "pt": "Seu documento, por favor.",
-            "vi": "Xin cho xem giấy tờ tùy thân.",
-            "id": "Kartu identitas Anda, silakan.",
-            "hi": "आपका आईडी, प्लीज़।",
-            "tl": "Ang ID ninyo, pakiusap."
-          }
-        },
-        {
-          "id": "bv-hotel-fruehstueck-gibt-es-von-7-bis-10-uhr",
-          "lemma": "Frühstück gibt es von 7 bis 10 Uhr.",
-          "pos": "phrase",
-          "example": "Frühstück gibt es von 7 bis 10 Uhr im Erdgeschoss.",
-          "deHint": "so lange können die Gäste frühstücken",
-          "translations": {
-            "en": "breakfast is from 7 to 10",
-            "ar": "الإفطار من الساعة 7 حتى 10",
-            "uk": "сніданок з 7 до 10",
-            "tr": "kahvaltı 7'den 10'a kadar",
-            "es": "El desayuno es de 7 a 10.",
-            "pt": "O café da manhã é das 7 às 10.",
-            "vi": "Bữa sáng từ 7 đến 10 giờ.",
-            "id": "Sarapan tersedia pukul 7 sampai 10.",
-            "hi": "नाश्ता 7 से 10 बजे तक है।",
-            "tl": "may almusal mula 7 hanggang 10"
+            "en": "what you tell a guest about breakfast times"
           }
         }
       ]
     },
     {
       "id": "sicherheit-hygiene",
-      "title": "Sicherheit & Hygiene",
+      "title": "Safety & cleaning",
       "words": [
         {
+          "id": "bv-hotel-fire-alarm",
+          "lemma": "fire alarm",
+          "pos": "noun",
+          "gender": "a",
+          "plural": "fire alarms",
+          "example": "If you hear the fire alarm, take guests to the nearest exit.",
+          "deHint": "der Feueralarm",
+          "translations": {
+            "en": "a loud sound that tells people there may be a fire"
+          },
+          "morphSource": "authored"
+        },
+        {
+          "ref": "fire-exit",
+          "example": "Never put boxes in front of a fire exit."
+        },
+        {
+          "ref": "bv-gastronomie-fire-extinguisher",
+          "example": "The fire extinguisher is on the wall at the end of the corridor."
+        },
+        {
+          "ref": "bv-gastronomie-first-aid-kit",
+          "example": "Bring the first aid kit to reception, please."
+        },
+        {
+          "ref": "emergency",
+          "example": "In an emergency, dial 999 and then tell your manager."
+        },
+        {
+          "ref": "accident",
+          "example": "Write down every accident in the book at reception."
+        },
+        {
+          "ref": "bv-gastronomie-wet-floor",
+          "example": "Put the wet floor sign out when you mop the corridor."
+        },
+        {
+          "id": "bv-hotel-slip",
+          "lemma": "slip",
+          "pos": "verb",
+          "forms": [
+            "slips",
+            "slipped",
+            "slipped"
+          ],
+          "example": "A guest slipped on the wet floor by the pool.",
+          "deHint": "ausrutschen",
+          "translations": {
+            "en": "to slide and nearly fall by accident"
+          },
+          "morphSource": "authored"
+        },
+        {
+          "id": "bv-hotel-spill",
+          "lemma": "spill",
+          "pos": "noun",
+          "gender": "a",
+          "plural": "spills",
+          "example": "There's a spill by the lift. Can someone clean it up?",
+          "deHint": "verschüttete Flüssigkeit",
+          "translations": {
+            "en": "liquid that has fallen out of a cup or a bottle"
+          },
+          "morphSource": "authored"
+        },
+        {
           "ref": "hygiene",
-          "deHint": "alles sauber halten, damit niemand krank wird",
-          "example": "Im Bad ist Hygiene besonders wichtig."
+          "example": "Good hygiene keeps the guests and the staff healthy."
         },
         {
-          "ref": "handschuh",
-          "deHint": "trägst du beim Putzen an den Händen",
-          "example": "Zieh beim Putzen der Bäder immer Handschuhe an."
+          "ref": "disinfect",
+          "example": "Disinfect the door handles and the TV remote in every room."
         },
         {
-          "ref": "schaden",
-          "deHint": "etwas ist kaputt gegangen",
-          "example": "In Zimmer 312 gibt es einen Schaden am Fenster."
-        },
-        {
-          "ref": "bv-gastronomie-notausgang"
-        },
-        {
-          "ref": "bv-gastronomie-feuerloescher",
-          "example": "Der Feuerlöscher hängt im Flur neben dem Aufzug."
-        },
-        {
-          "ref": "bv-gastronomie-erste-hilfe"
-        },
-        {
-          "ref": "reparatur",
-          "deHint": "etwas Kaputtes wieder ganz machen",
-          "example": "Die Reparatur der Dusche in Zimmer 108 dauert bis morgen."
-        },
-        {
-          "ref": "kaputt",
-          "deHint": "funktioniert nicht mehr",
-          "example": "Der Föhn in Zimmer 207 ist kaputt."
-        },
-        {
-          "id": "bv-hotel-fundsache",
-          "lemma": "Fundsache",
+          "id": "bv-hotel-rubber-gloves",
+          "lemma": "rubber gloves",
           "pos": "noun",
-          "gender": "die",
-          "plural": "Fundsachen",
-          "example": "Fundsachen aus den Zimmern bringst du sofort zur Rezeption.",
-          "deHint": "etwas, das ein Gast vergessen oder verloren hat",
-          "translations": {
-            "en": "lost property item",
-            "ar": "غرض مفقود",
-            "uk": "знахідка",
-            "tr": "kayıp eşya",
-            "es": "objeto perdido",
-            "pt": "objeto achado",
-            "vi": "đồ thất lạc",
-            "id": "barang temuan",
-            "hi": "खोई हुई चीज़",
-            "tl": "naiwang gamit, nawawalang gamit na nakita"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-fundbuero",
-          "lemma": "Fundbüro",
-          "pos": "noun",
-          "gender": "das",
-          "plural": "Fundbüros",
-          "example": "Nach drei Monaten bringen wir vergessene Sachen zum Fundbüro.",
-          "deHint": "ein Amt: hier gibt man verlorene Sachen ab",
-          "translations": {
-            "en": "lost and found office",
-            "ar": "مكتب المفقودات",
-            "uk": "бюро знахідок",
-            "tr": "kayıp eşya bürosu",
-            "es": "oficina de objetos perdidos",
-            "pt": "achados e perdidos",
-            "vi": "phòng đồ thất lạc",
-            "id": "kantor barang hilang",
-            "hi": "खोया-पाया दफ़्तर",
-            "tl": "lost and found"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-rauchmelder",
-          "lemma": "Rauchmelder",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Rauchmelder",
-          "example": "Der Rauchmelder in Zimmer 407 piept, die Batterie ist leer.",
-          "deHint": "ein Gerät an der Decke, es piept laut bei Rauch",
-          "translations": {
-            "en": "smoke detector",
-            "ar": "كاشف الدخان",
-            "uk": "датчик диму",
-            "tr": "duman dedektörü",
-            "es": "detector de humo",
-            "pt": "detector de fumaça",
-            "vi": "thiết bị báo khói",
-            "id": "detektor asap",
-            "hi": "स्मोक डिटेक्टर",
-            "tl": "smoke detector"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-fluchtweg",
-          "lemma": "Fluchtweg",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Fluchtwege",
-          "example": "Stell nichts in den Fluchtweg, auch keinen Wagen.",
-          "deHint": "der Weg nach draußen, wenn es brennt",
-          "translations": {
-            "en": "escape route",
-            "ar": "طريق الهروب",
-            "uk": "шлях евакуації",
-            "tr": "kaçış yolu",
-            "es": "ruta de evacuación",
-            "pt": "rota de fuga",
-            "vi": "lối thoát nạn",
-            "id": "jalur evakuasi",
-            "hi": "बचाव मार्ग",
-            "tl": "daanan palabas kapag may sunog"
-          },
-          "morphSource": "wiktionary"
-        },
-        {
-          "id": "bv-hotel-brandschutz",
-          "lemma": "Brandschutz",
-          "pos": "noun",
-          "gender": "der",
+          "gender": "some",
           "plural": null,
-          "example": "Einmal im Jahr haben wir eine Schulung zum Brandschutz.",
-          "deHint": "alles, was vor Feuer schützt",
+          "example": "Wear rubber gloves when you clean the toilets.",
+          "deHint": "die Gummihandschuhe",
           "translations": {
-            "en": "fire safety",
-            "ar": "الحماية من الحرائق",
-            "uk": "пожежна безпека",
-            "tr": "yangın güvenliği",
-            "es": "protección contra incendios",
-            "pt": "prevenção de incêndio",
-            "vi": "phòng cháy chữa cháy",
-            "id": "proteksi kebakaran",
-            "hi": "अग्नि सुरक्षा",
-            "tl": "proteksyon laban sa sunog"
+            "en": "waterproof gloves you wear when you clean"
           },
-          "morphSource": "wiktionary"
+          "morphSource": "authored"
         },
         {
-          "id": "bv-hotel-reinigungsmittel",
-          "lemma": "Reinigungsmittel",
+          "id": "bv-hotel-cleaning-products",
+          "lemma": "cleaning products",
           "pos": "noun",
-          "gender": "das",
-          "plural": "Reinigungsmittel",
-          "example": "Das blaue Reinigungsmittel ist nur für Glas und Spiegel.",
-          "deHint": "ein Mittel zum Putzen, zum Beispiel für das Bad oder für Glas",
+          "gender": "some",
+          "plural": null,
+          "example": "Never mix different cleaning products.",
+          "deHint": "die Reinigungsmittel",
           "translations": {
-            "en": "cleaning agent",
-            "ar": "منظّف",
-            "uk": "миючий засіб",
-            "tr": "temizlik maddesi",
-            "es": "producto de limpieza",
-            "pt": "produto de limpeza",
-            "vi": "chất tẩy rửa",
-            "id": "bahan pembersih",
-            "hi": "सफ़ाई का सामान, क्लीनर",
-            "tl": "panlinis"
+            "en": "the liquids and sprays you use to clean"
           },
-          "morphSource": "wiktionary"
+          "morphSource": "authored"
         },
         {
-          "id": "bv-hotel-waeschesack",
-          "lemma": "Wäschesack",
+          "id": "bv-hotel-cleaning-trolley",
+          "lemma": "cleaning trolley",
           "pos": "noun",
-          "gender": "der",
-          "plural": "Wäschesäcke",
-          "example": "Die benutzten Handtücher kommen in den Wäschesack.",
-          "deHint": "ein großer Sack für schmutzige Wäsche",
+          "gender": "a",
+          "plural": "cleaning trolleys",
+          "example": "Park your cleaning trolley outside the room, not in the corridor.",
+          "deHint": "der Reinigungswagen",
           "translations": {
-            "en": "laundry bag",
-            "ar": "كيس الغسيل",
-            "uk": "мішок для білизни",
-            "tr": "çamaşır torbası",
-            "es": "bolsa de lavandería",
-            "pt": "saco de roupa suja",
-            "vi": "túi đựng đồ giặt",
-            "id": "kantong laundry",
-            "hi": "लॉन्ड्री बैग",
-            "tl": "laundry bag"
+            "en": "a trolley with clean towels and cleaning products for the rooms"
           },
-          "morphSource": "wiktionary-compound-head"
+          "morphSource": "authored"
         },
         {
-          "id": "bv-hotel-desinfektion",
-          "lemma": "Desinfektion",
+          "id": "bv-hotel-laundry",
+          "lemma": "laundry",
           "pos": "noun",
-          "gender": "die",
-          "plural": "Desinfektionen",
-          "example": "Die Desinfektion der Toilette machst du immer mit Handschuhen.",
-          "deHint": "Keime töten, damit niemand krank wird",
+          "gender": "some",
+          "plural": null,
+          "example": "Put the dirty laundry in the grey bag.",
+          "deHint": "die Wäsche",
           "translations": {
-            "en": "disinfection",
-            "ar": "التطهير",
-            "uk": "дезінфекція",
-            "tr": "dezenfeksiyon",
-            "es": "desinfección",
-            "pt": "desinfecção",
-            "vi": "khử trùng",
-            "id": "disinfeksi",
-            "hi": "कीटाणुनाशन, सैनिटाइज़ेशन",
-            "tl": "disinfection"
+            "en": "dirty sheets and clothes that need washing"
           },
-          "morphSource": "wiktionary"
+          "morphSource": "authored"
         },
         {
-          "id": "bv-hotel-muelleimer",
-          "lemma": "Mülleimer",
+          "id": "bv-hotel-linen",
+          "lemma": "linen",
           "pos": "noun",
-          "gender": "der",
-          "plural": "Mülleimer",
-          "example": "Leer in jedem Zimmer den Mülleimer und mach eine neue Tüte rein.",
-          "deHint": "ein Behälter für Müll",
+          "gender": "some",
+          "plural": null,
+          "example": "The clean linen is on the second shelf.",
+          "deHint": "die Bettwäsche und Handtücher, die Hotelwäsche",
           "translations": {
-            "en": "bin, trash can",
-            "ar": "سلة المهملات",
-            "uk": "смітник",
-            "tr": "çöp kutusu",
-            "es": "bote de basura",
-            "pt": "lixeira",
-            "vi": "thùng rác",
-            "id": "tempat sampah",
-            "hi": "कूड़ेदान",
-            "tl": "basurahan"
+            "en": "the sheets and towels of a hotel"
           },
-          "morphSource": "wiktionary"
+          "morphSource": "authored"
+        },
+        {
+          "id": "bv-hotel-safe",
+          "lemma": "safe",
+          "pos": "noun",
+          "gender": "a",
+          "plural": "safes",
+          "example": "You can keep your passport in the safe in your room.",
+          "deHint": "der Safe, der Tresor",
+          "translations": {
+            "en": "a strong metal box with a lock for money and passports"
+          },
+          "morphSource": "authored"
+        },
+        {
+          "ref": "lost-property",
+          "example": "The umbrella is in lost property. Guests can ask at reception."
         }
       ]
     },
     {
       "id": "gaeste-team",
-      "title": "Gäste & Team",
+      "title": "Guests & team",
       "words": [
         {
-          "ref": "gast",
-          "deHint": "Person, die im Hotel wohnt",
-          "example": "Der Gast in Zimmer 12 möchte noch ein Kissen."
+          "ref": "guest",
+          "example": "A guest in room five has asked for more towels."
         },
         {
-          "ref": "stammgast",
-          "deHint": "Gast, der immer wieder ins Hotel kommt",
-          "example": "Frau Schulz ist Stammgast, sie bekommt immer Zimmer 301."
-        },
-        {
-          "ref": "beschwerde",
-          "deHint": "der Gast sagt, dass etwas nicht gut war",
-          "example": "Ein Gast hat eine Beschwerde: Das Zimmer ist zu laut."
-        },
-        {
-          "ref": "trinkgeld",
-          "deHint": "extra Geld vom Gast für guten Service",
-          "example": "Die Gäste lassen oft Trinkgeld im Zimmer liegen."
-        },
-        {
-          "id": "bv-hotel-hotelgast",
-          "lemma": "Hotelgast",
+          "id": "bv-hotel-porter",
+          "lemma": "porter",
           "pos": "noun",
-          "gender": "der",
-          "plural": "Hotelgäste",
-          "example": "Der Parkplatz ist nur für Hotelgäste.",
-          "deHint": "eine Person, die im Hotel wohnt",
+          "gender": "a",
+          "plural": "porters",
+          "example": "The porter will bring your bags up in a few minutes.",
+          "deHint": "der Hotelpage, der Gepäckträger",
           "translations": {
-            "en": "hotel guest",
-            "ar": "نزيل الفندق",
-            "uk": "гість готелю",
-            "tr": "otel misafiri",
-            "es": "huésped",
-            "pt": "hóspede",
-            "vi": "khách lưu trú",
-            "id": "tamu hotel",
-            "hi": "होटल मेहमान",
-            "tl": "bisita ng hotel"
+            "en": "a person who carries guests' bags"
           },
-          "morphSource": "wiktionary"
+          "morphSource": "authored"
         },
         {
-          "id": "bv-hotel-rezeptionist",
-          "lemma": "Rezeptionist",
+          "id": "bv-hotel-room-attendant",
+          "lemma": "room attendant",
           "pos": "noun",
-          "gender": "der",
-          "plural": "Rezeptionisten",
-          "example": "Der Rezeptionist von der Frühschicht kommt heute später.",
-          "deHint": "ein Mann, der an der Rezeption arbeitet",
+          "gender": "a",
+          "plural": "room attendants",
+          "example": "Fatima has worked as a room attendant for three years.",
+          "deHint": "die Reinigungskraft im Hotel, der Zimmerservice",
           "translations": {
-            "en": "receptionist (male)",
-            "ar": "موظف الاستقبال",
-            "uk": "адміністратор (рецепції)",
-            "tr": "resepsiyonist (erkek)",
-            "es": "recepcionista",
-            "pt": "recepcionista",
-            "vi": "lễ tân",
-            "id": "resepsionis",
-            "hi": "रिसेप्शनिस्ट",
-            "tl": "receptionist (lalaki)"
+            "en": "a person whose job is to clean hotel rooms"
           },
-          "morphSource": "wiktionary"
+          "morphSource": "authored"
         },
         {
-          "id": "bv-hotel-rezeptionistin",
-          "lemma": "Rezeptionistin",
+          "id": "bv-hotel-housekeeping",
+          "lemma": "housekeeping",
           "pos": "noun",
-          "gender": "die",
-          "plural": "Rezeptionistinnen",
-          "example": "Die Rezeptionistin gibt Ihnen gleich Ihren Schlüssel.",
-          "deHint": "eine Frau, die an der Rezeption arbeitet",
+          "gender": "some",
+          "plural": null,
+          "example": "Please call housekeeping if you need more soap.",
+          "deHint": "die Zimmerreinigung, die Hausdamenabteilung",
           "translations": {
-            "en": "receptionist (female)",
-            "ar": "موظفة الاستقبال",
-            "uk": "адміністраторка (рецепції)",
-            "tr": "resepsiyonist (kadın)",
-            "es": "recepcionista",
-            "pt": "recepcionista",
-            "vi": "lễ tân (nữ)",
-            "id": "resepsionis (perempuan)",
-            "hi": "रिसेप्शनिस्ट (महिला)",
-            "tl": "receptionist (babae)"
+            "en": "the team that cleans the rooms in a hotel"
           },
-          "morphSource": "wiktionary"
+          "morphSource": "authored"
         },
         {
-          "id": "bv-hotel-zimmermaedchen",
-          "lemma": "Zimmermädchen",
+          "id": "bv-hotel-night-auditor",
+          "lemma": "night auditor",
           "pos": "noun",
-          "gender": "das",
-          "plural": "Zimmermädchen",
-          "example": "Das Zimmermädchen kommt jeden Tag gegen zehn Uhr.",
-          "deHint": "eine Frau, die die Zimmer putzt",
+          "gender": "a",
+          "plural": "night auditors",
+          "example": "Liam works as a night auditor from eleven to seven.",
+          "deHint": "der Nachtportier / die Nachtportierin (mit Tagesabschluss)",
           "translations": {
-            "en": "chambermaid, room attendant",
-            "ar": "عاملة تنظيف الغرف",
-            "uk": "покоївка",
-            "tr": "oda görevlisi",
-            "es": "camarista, recamarera",
-            "pt": "camareira",
-            "vi": "nhân viên dọn phòng (nữ)",
-            "id": "petugas kamar, room attendant",
-            "hi": "रूम अटेंडेंट (महिला)",
-            "tl": "room attendant, tagalinis ng kuwarto"
+            "en": "the person at reception at night who also checks the day's money"
           },
-          "morphSource": "wiktionary"
+          "morphSource": "authored"
         },
         {
-          "id": "bv-hotel-reinigungskraft",
-          "lemma": "Reinigungskraft",
-          "pos": "noun",
-          "gender": "die",
-          "plural": "Reinigungskräfte",
-          "example": "Wir suchen noch eine Reinigungskraft für das Wochenende.",
-          "deHint": "eine Person, die als Beruf putzt",
-          "translations": {
-            "en": "cleaner",
-            "ar": "عامل نظافة",
-            "uk": "прибиральник, прибиральниця",
-            "tr": "temizlik görevlisi",
-            "es": "persona de limpieza",
-            "pt": "auxiliar de limpeza, faxineiro",
-            "vi": "nhân viên vệ sinh",
-            "id": "petugas kebersihan",
-            "hi": "सफ़ाई कर्मचारी",
-            "tl": "tagalinis"
-          },
-          "morphSource": "wiktionary"
+          "ref": "manager",
+          "example": "I'll ask the manager to call you back."
         },
         {
-          "id": "bv-hotel-hausdame",
-          "lemma": "Hausdame",
-          "pos": "noun",
-          "gender": "die",
-          "plural": "Hausdamen",
-          "example": "Die Hausdame kontrolliert jedes Zimmer nach dem Putzen.",
-          "deHint": "die Chefin von der Zimmerreinigung",
-          "translations": {
-            "en": "head housekeeper",
-            "ar": "رئيسة قسم تنظيف الغرف",
-            "uk": "старша покоївка",
-            "tr": "kat şefi",
-            "es": "ama de llaves",
-            "pt": "governanta",
-            "vi": "trưởng bộ phận buồng phòng",
-            "id": "kepala housekeeping",
-            "hi": "हेड हाउसकीपर",
-            "tl": "head housekeeper"
-          },
-          "morphSource": "wiktionary-compound-head"
+          "ref": "colleague",
+          "example": "My colleague will show you to your room."
         },
         {
-          "id": "bv-hotel-portier",
-          "lemma": "Portier",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Portiers",
-          "example": "Der Portier ruft Ihnen gern ein Taxi.",
-          "deHint": "arbeitet am Eingang und hilft den Gästen",
-          "translations": {
-            "en": "porter, doorman",
-            "ar": "البوّاب",
-            "uk": "портьє",
-            "tr": "kapı görevlisi",
-            "es": "portero",
-            "pt": "porteiro",
-            "vi": "nhân viên gác cửa",
-            "id": "porter, penjaga pintu",
-            "hi": "दरबान, डोरमैन",
-            "tl": "doorman, portero"
-          },
-          "morphSource": "wiktionary"
+          "ref": "team",
+          "example": "The whole team meets at five before the evening shift."
         },
         {
-          "id": "bv-hotel-page",
-          "lemma": "Page",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Pagen",
-          "example": "Der Page bringt Ihr Gepäck gleich aufs Zimmer.",
-          "deHint": "ein junger Mitarbeiter, er trägt Koffer und hilft",
-          "translations": {
-            "en": "bellboy",
-            "ar": "حامل الحقائب",
-            "uk": "посильний",
-            "tr": "belboy, komi",
-            "es": "botones",
-            "pt": "mensageiro",
-            "vi": "nhân viên hành lý",
-            "id": "bellboy",
-            "hi": "बेलबॉय",
-            "tl": "bellboy"
-          },
-          "morphSource": "wiktionary"
+          "ref": "shift",
+          "example": "I'm on the early shift, so I start at six."
         },
         {
-          "id": "bv-hotel-concierge",
-          "lemma": "Concierge",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Concierges",
-          "example": "Fragen Sie unseren Concierge, er reserviert Ihnen einen Tisch.",
-          "deHint": "hilft den Gästen mit Tipps, Tickets und Restaurants",
-          "translations": {
-            "en": "concierge",
-            "ar": "الكونسيرج",
-            "uk": "консьєрж",
-            "tr": "konsiyerj",
-            "es": "conserje",
-            "pt": "concierge",
-            "vi": "nhân viên hỗ trợ khách (concierge)",
-            "id": "concierge",
-            "hi": "कंसीयर्ज",
-            "tl": "concierge"
-          },
-          "morphSource": "wiktionary"
+          "ref": "complaint",
+          "example": "We've had a complaint about the noise in room twelve."
         },
         {
-          "id": "bv-hotel-nachtportier",
-          "lemma": "Nachtportier",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Nachtportiers",
-          "example": "Nach 23 Uhr ist nur der Nachtportier an der Rezeption.",
-          "deHint": "arbeitet in der Nacht an der Rezeption",
-          "translations": {
-            "en": "night porter",
-            "ar": "موظف الاستقبال الليلي",
-            "uk": "нічний портьє",
-            "tr": "gece resepsiyonisti",
-            "es": "portero de noche, recepcionista nocturno",
-            "pt": "recepcionista noturno, porteiro noturno",
-            "vi": "lễ tân ca đêm",
-            "id": "resepsionis malam",
-            "hi": "नाइट रिसेप्शनिस्ट",
-            "tl": "night porter"
-          },
-          "morphSource": "wiktionary"
+          "ref": "apologise",
+          "example": "I apologise for the wait, Mrs Kaya."
         },
         {
-          "id": "bv-hotel-hoteldirektor",
-          "lemma": "Hoteldirektor",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Hoteldirektoren",
-          "example": "Der Hoteldirektor möchte selbst mit dem Gast sprechen.",
-          "deHint": "der Chef vom ganzen Hotel",
-          "translations": {
-            "en": "hotel manager",
-            "ar": "مدير الفندق",
-            "uk": "директор готелю",
-            "tr": "otel müdürü",
-            "es": "director de hotel, gerente",
-            "pt": "gerente-geral do hotel",
-            "vi": "giám đốc khách sạn",
-            "id": "manajer hotel",
-            "hi": "होटल मैनेजर",
-            "tl": "hotel manager"
-          },
-          "morphSource": "wiktionary"
+          "ref": "noise",
+          "example": "Some guests are complaining about the noise on the third floor."
         },
         {
-          "id": "bv-hotel-sonderwunsch",
-          "lemma": "Sonderwunsch",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Sonderwünsche",
-          "example": "Zimmer 220 hat einen Sonderwunsch: ein Kissen ohne Federn.",
-          "deHint": "ein besonderer Wunsch von einem Gast",
-          "translations": {
-            "en": "special request",
-            "ar": "طلب خاص",
-            "uk": "особливе побажання",
-            "tr": "özel istek",
-            "es": "petición especial",
-            "pt": "pedido especial",
-            "vi": "yêu cầu đặc biệt",
-            "id": "permintaan khusus",
-            "hi": "खास अनुरोध, स्पेशल रिक्वेस्ट",
-            "tl": "espesyal na hiling"
-          },
-          "morphSource": "wiktionary-compound-head"
+          "ref": "tip",
+          "example": "The guest left a tip for the room attendant."
         },
         {
-          "id": "bv-hotel-hausmeister",
-          "lemma": "Hausmeister",
-          "pos": "noun",
-          "gender": "der",
-          "plural": "Hausmeister",
-          "example": "Ruf den Hausmeister, die Dusche in 312 tropft.",
-          "deHint": "repariert kleine Sachen im Haus",
+          "id": "bv-hotel-do-not-disturb",
+          "lemma": "Do not disturb",
+          "pos": "phrase",
+          "example": "The “Do not disturb” sign is on the door, so skip room eight.",
+          "deHint": "„Bitte nicht stören“",
           "translations": {
-            "en": "caretaker, maintenance worker",
-            "ar": "عامل الصيانة",
-            "uk": "завгосп, технічний працівник",
-            "tr": "bina bakım görevlisi",
-            "es": "conserje, encargado de mantenimiento",
-            "pt": "zelador, faz-tudo",
-            "vi": "nhân viên bảo trì",
-            "id": "teknisi perawatan, penjaga gedung",
-            "hi": "केयरटेकर, मेंटेनेंस कर्मचारी",
-            "tl": "maintenance staff, tagapag-ayos ng gusali"
-          },
-          "morphSource": "wiktionary"
+            "en": "words on a sign: please do not come into this room"
+          }
+        },
+        {
+          "id": "bv-hotel-how-can-i-help-you",
+          "lemma": "How can I help you?",
+          "pos": "phrase",
+          "example": "“Good afternoon. How can I help you?”",
+          "deHint": "„Wie kann ich Ihnen helfen?“",
+          "translations": {
+            "en": "a polite question to start talking to a guest"
+          }
+        },
+        {
+          "id": "bv-hotel-i-m-afraid-the-room-isn-t-ready-yet",
+          "lemma": "I'm afraid the room isn't ready yet.",
+          "pos": "phrase",
+          "example": "“I'm afraid the room isn't ready yet. May I look after your bags?”",
+          "deHint": "„Das Zimmer ist leider noch nicht fertig.“",
+          "translations": {
+            "en": "a polite way to say that the room is not clean yet"
+          }
+        },
+        {
+          "id": "bv-hotel-enjoy-your-stay",
+          "lemma": "Enjoy your stay.",
+          "pos": "phrase",
+          "example": "“Here is your key card. Enjoy your stay.”",
+          "deHint": "„Einen schönen Aufenthalt!“",
+          "translations": {
+            "en": "what you say when a guest goes to their room"
+          }
+        },
+        {
+          "ref": "bv-gastronomie-give-someone-a-hand",
+          "example": "Zofia, can you give me a hand with this trolley?"
+        },
+        {
+          "ref": "bv-gastronomie-cover-a-shift",
+          "example": "Amira is ill, so Tom is covering her shift today."
         }
       ]
     }

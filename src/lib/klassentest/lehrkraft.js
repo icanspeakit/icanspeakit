@@ -1,5 +1,5 @@
-// /lehrkraefte/tests — the teacher's tests and the form for a new one: level, topics, how
-// many questions. The questions are drawn here from the pool (/lehrkraefte/tests/fragen.json,
+// /teachers/tests — the teacher's tests and the form for a new one: level, topics, how
+// many questions. The questions are drawn here from the pool (/teachers/tests/fragen.json,
 // built by pool.js), evenly across the ticked topics, and shown before the test is made, so
 // the teacher can drop one or draw again. A new test opens straight on its results page,
 // which shows the QR code big for the projector.
@@ -8,7 +8,7 @@ import { loadText, t } from "../liveQuiz/text.js";
 import { ANZAHLEN, MAX_TESTS, PRO_NIVEAU, meineTests, testAnlegen, testLoeschen, testOffen } from "./daten.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-const datum = (iso) => new Date(iso).toLocaleDateString("de-DE", { day: "numeric", month: "short", year: "numeric" });
+const datum = (iso) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 const GENERIC = ["kl.t.err.generic", "Das hat gerade nicht geklappt. Prüfe die Internetverbindung und versuch es noch einmal."];
 const LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
 const davor = (n) => LEVELS[LEVELS.indexOf(n) - 1] ?? null;
@@ -94,14 +94,14 @@ export async function mountTests(root) {
     return `
       <li class="lq-card kl-class uf-item" data-id="${k.id}">
         <div class="kl-class-head">
-          <h3><a href="/lehrkraefte/tests/ergebnis?id=${k.id}">${esc(k.titel)}</a></h3>
+          <h3><a href="/teachers/tests/result?id=${k.id}">${esc(k.titel)}</a></h3>
           <span class="kl-badge">${esc(k.art === "einstufung" ? ART_TEXT.einstufung() : k.niveau ?? ART_TEXT.thema())}</span>
           <span class="uf-state ${k.offen ? "is-open" : ""}">${esc(k.offen ? t("uf.t.open", "offen") : t("uf.t.closed", "geschlossen"))}</span>
           <span class="kl-count">${esc(n === 1 ? t("kt.t.one", "1 Ergebnis") : t("kt.t.count", "{n} Ergebnisse", { n }))}</span>
         </div>
         <p class="kl-muted">${esc(datum(k.created_at))} · ${esc(t("kl.t.code", "Code"))} <span class="uf-code-sm">${esc(k.code)}</span> · ${esc(t("uf.t.questions", "{n} Fragen", { n: k.fragen?.length ?? 0 }))}</p>
         <div class="kl-row">
-          <a class="lq-btn lq-btn--primary" href="/lehrkraefte/tests/ergebnis?id=${k.id}">${esc(t("kt.t.results", "Ergebnisse und QR-Code"))}</a>
+          <a class="lq-btn lq-btn--primary" href="/teachers/tests/result?id=${k.id}">${esc(t("kt.t.results", "Ergebnisse und QR-Code"))}</a>
           <button type="button" class="lq-btn lq-btn--ghost" data-act="toggle">${esc(k.offen ? t("uf.t.close", "Schließen") : t("uf.t.reopen", "Wieder öffnen"))}</button>
           <button type="button" class="lq-btn lq-btn--quiet" data-act="delete">${esc(t("uf.t.delete", "Löschen"))}</button>
         </div>
@@ -181,7 +181,7 @@ export async function mountTests(root) {
   let titelByHand = false;
 
   try {
-    const [a, b] = await Promise.all([fetch("/lehrkraefte/tests/fragen.json"), fetch("/lehrkraefte/tests/fertigkeiten.json")]);
+    const [a, b] = await Promise.all([fetch("/teachers/tests/fragen.json"), fetch("/teachers/tests/fertigkeiten.json")]);
     pool = await a.json();
     fk = await b.json();
   } catch (err) {
@@ -279,7 +279,7 @@ export async function mountTests(root) {
       : t("kt.t.preview", "Die Fragen ansehen ({n})", { n: fragen.length });
     $("[data-preview-list]").innerHTML = fragen.map((f, i) => (f.open ? editor(f, i) : `<li>
         <span class="kt-pv-topic">${art() === "einstufung" && f.l ? `${esc(f.l)} · ` : ""}${esc(f.tn)}${f.edited && !f.eigen ? ` · ${esc(t("kt.t.edited", "bearbeitet"))}` : ""}</span>
-        <span class="kt-pv-q" lang="de">${esc(f.q)}</span>
+        <span class="kt-pv-q" lang="en">${esc(f.q)}</span>
         ${f.h ? `<span class="kt-pv-h">${esc(f.h)}</span>` : ""}
         ${f.typ === "text"
           ? `<span class="kt-pv-h">${esc(t("kt.t.pv.write", "Freier Text. Du bewertest ihn auf der Ergebnisseite."))}</span>`
@@ -309,7 +309,7 @@ export async function mountTests(root) {
     return `<li class="kt-ed" data-ed="${i}">
       <span class="kt-pv-topic">${esc(f.tn)}</span>
       <label class="lq-field"><span>${esc(t("kt.t.ed.q", "Frage (Lücke mit ___)"))}</span>
-        <textarea rows="2" maxlength="300" data-f="q" lang="de">${esc(f.q)}</textarea></label>
+        <textarea rows="2" maxlength="300" data-f="q" lang="en">${esc(f.q)}</textarea></label>
       <label class="lq-field"><span>${esc(t("kt.t.ed.h", "Hinweis (freiwillig)"))}</span>
         <input type="text" maxlength="120" data-f="h" value="${esc(f.h ?? "")}" /></label>
       <label class="lq-field kt-ed-right"><span>✓ ${esc(t("kt.t.ed.right", "Richtige Antwort"))}</span>
@@ -447,7 +447,7 @@ export async function mountTests(root) {
         fragen: fragen.map(({ id, t: tid, tn, l, q, h, x, o, a, teil, ref, typ }) => ({ id, t: tid, tn, l, q, h, x, o, a, teil, ref, typ })),
         material: materialOf(fragen),
       });
-      location.href = `/lehrkraefte/tests/ergebnis?id=${k.id}&neu=1`;
+      location.href = `/teachers/tests/result?id=${k.id}&neu=1`;
     } catch (err) {
       btn.disabled = false;
       if (err?.code === "limit") error.textContent = t("kt.t.err.limit", "Du hast schon {n} Tests. Lösch einen alten, dann geht es wieder.", { n: MAX_TESTS });

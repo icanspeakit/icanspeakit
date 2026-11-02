@@ -16,6 +16,6 @@ const CAP = `
 
 /** Bruno the detective as an inline <svg>. */
 export function detectiveSvg({ size = 160, expr = "happy", className = "", lupe = true } = {}) {
-  const svg = mascotSvg({ name: "bruno", expr, size, className: `hst-bruno ${className}`.trim(), label: "Bruno, der Detektiv", extra: lupe ? "lupe" : undefined });
+  const svg = mascotSvg({ name: "bruno", expr, size, className: `hst-bruno ${className}`.trim(), label: "Bruno the detective", extra: lupe ? "lupe" : undefined });
   return svg.replace(/<\/svg>$/, `${CAP}</svg>`);
 }

@@ -1,4 +1,4 @@
-// Quaki springt: wires the page (/spiele/quaki-springt) to the run. Screens, HUD, the question
+// Quaki springt: wires the page (/games/quaki-jumps) to the run. Screens, HUD, the question
 // bar, the controls (hold to charge, aim left/up/right, release to jump), the fixed 120 Hz
 // loop and the sounds. All UI strings are in TXT so the release tier can move them to i18n.
 
@@ -14,48 +14,48 @@ import { gameMuted, setGameMuted, reducedMotion, GAME_MUTE_EVENT } from "../spie
 import { spielMelden } from "../spielMelden.js";
 
 export const TXT = {
-  title: "Quaki springt",
-  lead: "Halten, zielen, loslassen: Quaki springt den Sprachturm hinauf, von A1 bis C1. Auf den Seerosen stehen Antworten – die falsche sinkt.",
-  sanft: "Sanft spielen",
-  sanftHint: "Eine Fahne pro Stufe fängt dich auf.",
-  wut: "Wut-Modus",
-  wutHint: "Keine Fahnen. Ein Sturz kann bis ganz nach unten gehen.",
-  how: "So geht's",
-  how1: "<b>Halten</b> lädt den Sprung (Leertaste, Maus oder Finger). Je länger, desto höher – nach 0,9 s springt Quaki von selbst.",
-  how2: "<b>Zielen:</b> ← / → halten. Am Handy: links, Mitte oder rechts auf den Bildschirm tippen und halten.",
-  how3: "<b>Loslassen</b> = springen. In der Luft lenkst du nicht mehr. Wände schicken dich zurück, Schrägen lassen dich rutschen.",
-  how4: "Vor jeder Lücke steht ein <b>Schild</b> mit einer Frage. Spring auf die Seerose mit der richtigen Antwort.",
-  level: "Stufe",
-  height: "Höhe",
-  falls: "Stürze",
-  record: "Rekordsturz",
-  time: "Zeit",
+  title: "Quaki Jumps",
+  lead: "Hold, aim, let go: Quaki jumps up the language tower, from A1 to C1. The lily pads carry answers – the wrong one sinks.",
+  sanft: "Gentle mode",
+  sanftHint: "A flag on each level catches you.",
+  wut: "Rage mode",
+  wutHint: "No flags. One fall can take you right back to the bottom.",
+  how: "How to play",
+  how1: "<b>Hold</b> to charge the jump (space bar, mouse or finger). The longer you hold, the higher you go – after 0.9 s Quaki jumps by himself.",
+  how2: "<b>Aim:</b> hold ← / →. On a phone: tap and hold on the left, middle or right of the screen.",
+  how3: "<b>Let go</b> = jump. You can't steer in the air. Walls bounce you back, slopes make you slide.",
+  how4: "Before each gap there is a <b>sign</b> with a question. Jump onto the lily pad with the right answer.",
+  level: "Level",
+  height: "Height",
+  falls: "Falls",
+  record: "Longest fall",
+  time: "Time",
   pause: "Pause",
-  resume: "Weiter",
-  quit: "Aufgeben",
-  restart: "Neu starten",
-  sound: "Ton",
-  soundOff: "Ton aus",
+  resume: "Continue",
+  quit: "Give up",
+  restart: "Start again",
+  sound: "Sound",
+  soundOff: "Sound off",
   pauseBtn: "Pause (P)",
-  quaak: "QUAAAK!",
-  right: "Richtig!",
-  wrongSanft: "Leider falsch. Richtig ist: {a}",
-  wrongWut: "Blubb!",
-  caught: "Die Fahne fängt dich auf.",
-  flag: "Fahne {lv} – hier fängst du ab jetzt.",
-  levelUp: "Stufe {lv}: {ort}",
-  winTitle: "Oben!",
-  overTitle: "Lauf beendet",
-  overStats: { time: "Zeit", falls: "Stürze", longest: "Längster Sturz", answers: "Fragen richtig", height: "Höchster Punkt" },
-  missed: "Nochmal anschauen",
-  again: "Nochmal",
-  toStart: "Zum Start",
-  touchL: "links",
-  touchU: "hoch",
-  touchR: "rechts",
-  canvas: "Spielfeld: der Sprachturm, Quaki springt von Plattform zu Plattform",
-  questionFor: "Frage",
-  ruleLabel: "Regel",
+  quaak: "QUAAACK!",
+  right: "Right!",
+  wrongSanft: "Sorry, that's wrong. The answer is: {a}",
+  wrongWut: "Splash!",
+  caught: "The flag catches you.",
+  flag: "Flag {lv} – from now on you land here.",
+  levelUp: "Level {lv}: {ort}",
+  winTitle: "You made it!",
+  overTitle: "Run over",
+  overStats: { time: "Time", falls: "Falls", longest: "Longest fall", answers: "Questions right", height: "Highest point" },
+  missed: "Look again",
+  again: "Play again",
+  toStart: "Back to start",
+  touchL: "left",
+  touchU: "up",
+  touchR: "right",
+  canvas: "Game area: the language tower, Quaki jumps from platform to platform",
+  questionFor: "Question",
+  ruleLabel: "Rule",
 };
 
 const fill = (s, vars = {}) => s.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? "");
@@ -297,7 +297,7 @@ export function mountQuakiSpringt(root) {
     $("[data-o-answers]").textContent = `${run.richtig} / ${run.richtig + run.falsch}`;
     $("[data-o-height]").textContent = `${Math.round(s.maxHeight / P.METER)} m · ${LEVEL_IDS[run.levelReached]}`;
     const list = $("[data-o-missed]");
-    list.innerHTML = run.missed.map((m) => `<li><span lang="de">${esc(m.q).replace("___", `<b>${esc(m.right)}</b>`)}</span><br><small>${esc(TXT.ruleLabel)}: ${esc(m.rule)} · <s>${esc(m.picked)}</s></small></li>`).join("");
+    list.innerHTML = run.missed.map((m) => `<li><span lang="en">${esc(m.q).replace("___", `<b>${esc(m.right)}</b>`)}</span><br><small>${esc(TXT.ruleLabel)}: ${esc(m.rule)} · <s>${esc(m.picked)}</s></small></li>`).join("");
     $("[data-o-missed-wrap]").hidden = !run.missed.length;
     setTimeout(() => setPhase("over"), won ? 900 : 0);
   }

@@ -1,4 +1,4 @@
-/* "Mein Fortschritt" — the cross-exam progress view behind /fortschritt.
+/* "Mein Fortschritt" — the cross-exam progress view behind /progress.
  *
  * Shape borrowed from the Pflegeplace dashboard: a left rail that nests the selected
  * exam's parts under it with a per-part count, the other exams listed below it as a

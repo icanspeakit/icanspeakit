@@ -4,356 +4,408 @@
   "exercises": [
     {
       "columns": [
-        "Satz",
-        "zurück / voraus"
+        "Sentence",
+        "It refers to"
       ],
-      "placeholder": "zurück / voraus",
+      "placeholder": "refers to",
       "rows": [
         {
-          "term": "Die Ausstellung eröffnet im Mai. DAVON profitiert vor allem die Innenstadt.",
-          "answer": [
-            "zurück",
-            "rückwärts"
+          "term": "The council closed the pool. THIS decision upset families.",
+          "answer": "the closing of the pool",
+          "choices": [
+            "the closing of the pool",
+            "the council",
+            "the families"
           ]
         },
         {
-          "term": "Ich möchte DARAUF hinweisen, dass die Zahlen vorläufig sind.",
-          "answer": [
-            "voraus",
-            "vor",
-            "nach vorn"
+          "term": "Tom and Amira applied for the job. THE LATTER was successful.",
+          "answer": "Amira",
+          "choices": [
+            "Amira",
+            "Tom",
+            "both of them"
           ]
         },
         {
-          "term": "Die Autorin hat einen Roman und eine Erzählung veröffentlicht. LETZTERE wurde verfilmt.",
-          "answer": [
-            "zurück",
-            "rückwärts"
+          "term": "I lost my umbrella, so I bought a new ONE.",
+          "answer": "an umbrella",
+          "choices": [
+            "an umbrella",
+            "my bag",
+            "the shop"
           ]
         },
         {
-          "term": "FOLGENDES steht fest: Das Stück ist zu lang.",
-          "answer": [
-            "voraus",
-            "vor",
-            "nach vorn"
+          "term": "\"Will it rain?\" \"I think SO.\"",
+          "answer": "that it will rain",
+          "choices": [
+            "that it will rain",
+            "that it will not rain",
+            "that it rained"
           ]
         },
         {
-          "term": "Das Museum zeigt Plakate aus den Zwanzigerjahren. DIESE Sammlung gilt als einzigartig.",
-          "answer": [
-            "zurück",
-            "rückwärts"
+          "term": "She asked everyone to leave, and they DID SO.",
+          "answer": "left",
+          "choices": [
+            "left",
+            "stayed",
+            "asked"
           ]
         },
         {
-          "term": "Die Jury legt großen Wert DARAUF, dass kein Beitrag zu lang ist.",
-          "answer": [
-            "voraus",
-            "vor",
-            "nach vorn"
+          "term": "Prices rose sharply. THESE changes worried families.",
+          "answer": "the rise in prices",
+          "choices": [
+            "the rise in prices",
+            "the worry",
+            "the families"
           ]
         },
         {
-          "term": "Die Förderung wurde gestrichen. DAGEGEN protestierten die Kulturschaffenden.",
-          "answer": [
-            "zurück",
-            "rückwärts"
+          "term": "I can't drive, but my brother CAN.",
+          "answer": "drive",
+          "choices": [
+            "drive",
+            "swim",
+            "cook"
           ]
         },
         {
-          "term": "Der Vorwurf kam überraschend. Das Theater hat sich bisher nicht DAZU geäußert.",
-          "answer": [
-            "zurück",
-            "rückwärts"
-          ]
-        },
-        {
-          "term": "Wichtig ist DIES: Der Text braucht einen roten Faden.",
-          "answer": [
-            "voraus",
-            "vor",
-            "nach vorn"
-          ]
-        },
-        {
-          "term": "IM FOLGENDEN gehe ich auf drei Aspekte ein.",
-          "answer": [
-            "voraus",
-            "vor",
-            "nach vorn"
+          "term": "\"Is the museum open?\" \"I hope NOT.\"",
+          "answer": "that the museum is not open",
+          "choices": [
+            "that the museum is not open",
+            "that the museum is open",
+            "that the museum opened"
           ]
         }
       ]
     },
     {
-      "placeholder": "da(r)-Wort",
-      "choices": [
-        "darüber",
-        "dafür",
-        "dagegen",
-        "darauf",
-        "davon",
-        "daran",
-        "damit"
-      ],
+      "instant": true,
+      "placeholder": "word",
       "items": [
         {
-          "prompt": "Die Stadt kürzt die Mittel für die Bibliothek. ___ protestieren die Lesenden seit Wochen. (protestieren gegen)",
-          "hint": "gegen → da(r)-Wort.",
+          "prompt": "The council closed the pool. ___ decision upset many families.",
           "answer": [
-            "dagegen"
-          ]
+            "This",
+            "That"
+          ],
+          "choices": [
+            "This",
+            "Those",
+            "These"
+          ],
+          "why": "decision is singular, so this or that."
         },
         {
-          "prompt": "Das neue Stück ist endlich fertig. ___ hat das Ensemble ein Jahr lang gearbeitet. (arbeiten an)",
-          "hint": "an → da(r)-Wort.",
+          "prompt": "Prices rose and wages fell. ___ changes worried families.",
           "answer": [
-            "daran"
-          ]
+            "These",
+            "Those"
+          ],
+          "choices": [
+            "These",
+            "This",
+            "It"
+          ],
+          "why": "changes is plural, so these."
         },
         {
-          "prompt": "Das Festival wird verschoben. ___ informiert die Leitung heute Abend. (informieren über)",
-          "hint": "über → da(r)-Wort mit r.",
+          "prompt": "Tom and Amira both applied for the post. The ___ was successful, but the former was not.",
           "answer": [
-            "darüber"
-          ]
+            "latter"
+          ],
+          "choices": [
+            "latter",
+            "last",
+            "later"
+          ],
+          "why": "The latter is the second of two people named; the former is the first."
         },
         {
-          "prompt": "Die Preise steigen weiter. ___ sind vor allem die Energiekosten verantwortlich. (verantwortlich sein für)",
-          "hint": "für → da(r)-Wort.",
+          "prompt": "I don't like this phone. I prefer the black ___.",
           "answer": [
-            "dafür"
-          ]
+            "one"
+          ],
+          "choices": [
+            "one",
+            "ones",
+            "it"
+          ],
+          "why": "one replaces a singular countable noun (phone)."
         },
         {
-          "prompt": "Die Besucherzahlen steigen stark. ___ hat die Leitung nicht gerechnet. (rechnen mit)",
-          "hint": "mit → da(r)-Wort.",
+          "prompt": "These shoes are too small. Have you got any bigger ___?",
           "answer": [
-            "damit"
-          ]
+            "ones"
+          ],
+          "choices": [
+            "ones",
+            "one",
+            "them"
+          ],
+          "why": "ones replaces a plural noun (shoes)."
         },
         {
-          "prompt": "Der Entwurf wird überarbeitet. ___ haben sich die Beteiligten geeinigt. (sich einigen auf)",
-          "hint": "auf → da(r)-Wort mit r.",
+          "prompt": "Will the match be cancelled? I'm afraid ___.",
           "answer": [
-            "darauf"
-          ]
+            "so"
+          ],
+          "choices": [
+            "so",
+            "it",
+            "that"
+          ],
+          "why": "so replaces the whole clause after afraid."
         },
         {
-          "prompt": "Der Roman wurde ins Englische übersetzt. ___ erhofft sich der Verlag mehr Absatz. (sich etwas erhoffen von)",
-          "hint": "von → da(r)-Wort.",
+          "prompt": "We are having a picnic tomorrow. Will it rain? I hope ___.",
           "answer": [
-            "davon"
-          ]
+            "not"
+          ],
+          "choices": [
+            "not",
+            "no",
+            "so"
+          ],
+          "why": "You do not want rain, so I hope not."
+        },
+        {
+          "prompt": "Staff may leave early, but few choose to do ___.",
+          "answer": [
+            "so"
+          ],
+          "choices": [
+            "so",
+            "not",
+            "one"
+          ],
+          "why": "do so replaces the verb phrase leave early."
         }
       ]
     },
     {
-      "placeholder": "Satzadverb",
-      "choices": [
-        "allerdings",
-        "folglich",
-        "zunächst",
-        "schließlich",
-        "hingegen",
-        "anschließend",
-        "zudem"
-      ],
+      "instant": true,
+      "placeholder": "linking adverb",
       "items": [
         {
-          "prompt": "Der Film überzeugt durch seine Bilder. ___ ist die Musik außergewöhnlich. (Es kommt etwas hinzu.)",
-          "hint": "Zusatz, Position 1.",
+          "prompt": "The flat is in a great location. ___, the rent is very high.",
           "answer": [
-            "zudem",
-            "außerdem",
-            "ferner",
-            "überdies",
-            "darüber hinaus"
-          ]
+            "However",
+            "Nevertheless"
+          ],
+          "choices": [
+            "However",
+            "Therefore",
+            "Moreover",
+            "For example"
+          ],
+          "why": "Good location against high rent: contrast."
         },
         {
-          "prompt": "Die Kritiker lobten die Inszenierung. Das Publikum fand sie ___ zu laut. (Gegensatz zwischen zwei Gruppen)",
-          "hint": "Gegensatz, Mittelfeld.",
+          "prompt": "The trains were cancelled. ___, we took a taxi.",
           "answer": [
-            "hingegen",
-            "dagegen",
-            "demgegenüber"
-          ]
+            "As a result",
+            "Therefore",
+            "Consequently"
+          ],
+          "choices": [
+            "As a result",
+            "In contrast",
+            "For example",
+            "Moreover"
+          ],
+          "why": "The taxi is a result of the cancellation."
         },
         {
-          "prompt": "Die Zuschüsse wurden halbiert. ___ musste das Orchester Stellen streichen. (Folge)",
-          "hint": "Folge, Position 1.",
+          "prompt": "The hotel is clean and quiet. ___, it is close to the beach.",
           "answer": [
-            "folglich",
-            "somit",
-            "demnach",
-            "daher",
-            "deshalb",
-            "deswegen"
-          ]
+            "Moreover",
+            "Furthermore",
+            "In addition"
+          ],
+          "choices": [
+            "Moreover",
+            "Nevertheless",
+            "Therefore",
+            "In contrast"
+          ],
+          "why": "Another good point is added."
         },
         {
-          "prompt": "Die Inszenierung hat drei Teile. ___ tritt der Chor allein auf. (der erste Teil)",
-          "hint": "Reihenfolge: als Erstes.",
+          "prompt": "Amira prefers the city. ___, her husband loves the countryside.",
           "answer": [
-            "zunächst"
-          ]
+            "In contrast",
+            "By contrast",
+            "On the other hand"
+          ],
+          "choices": [
+            "In contrast",
+            "As a result",
+            "Moreover",
+            "Firstly"
+          ],
+          "why": "Two different people with opposite tastes: contrast."
         },
         {
-          "prompt": "Im ersten Teil tritt der Chor allein auf. ___ kommen die Solisten dazu. (der zweite Teil, danach)",
-          "hint": "Reihenfolge: danach.",
+          "prompt": "___, we compared prices. Next, we read the reviews.",
           "answer": [
-            "anschließend"
-          ]
+            "First",
+            "Firstly",
+            "First of all",
+            "To begin with"
+          ],
+          "choices": [
+            "First",
+            "Finally",
+            "However",
+            "Therefore"
+          ],
+          "why": "Next follows, so this is the first step."
         },
         {
-          "prompt": "Nach langem Zögern gab der Intendant nach. ___ wurde das Stück doch gespielt. (am Ende einer langen Entwicklung)",
-          "hint": "Reihenfolge: am Ende.",
+          "prompt": "The test was difficult. ___, nearly everyone passed.",
           "answer": [
-            "schließlich",
-            "letztlich"
-          ]
+            "Nevertheless",
+            "Nonetheless",
+            "However"
+          ],
+          "choices": [
+            "Nevertheless",
+            "Therefore",
+            "Moreover",
+            "Meanwhile"
+          ],
+          "why": "Difficult test, yet everyone passed: contrast."
         },
         {
-          "prompt": "Die Ausstellung ist sehenswert. Man sollte ___ viel Zeit mitbringen. (schränkt die Aussage davor ein)",
-          "hint": "Einschränkung, Mittelfeld.",
+          "prompt": "Public transport is cheaper than driving. ___, a monthly ticket costs less than petrol.",
           "answer": [
-            "allerdings",
-            "jedoch",
-            "freilich"
-          ]
+            "For example",
+            "For instance"
+          ],
+          "choices": [
+            "For example",
+            "Nevertheless",
+            "In contrast",
+            "Finally"
+          ],
+          "why": "The second sentence gives an example of the first."
         }
       ]
     },
     {
       "pairs": [
         {
-          "q": "Die Gemäldegalerie zeigt ab Freitag Werke von Paula Modersohn-Becker.",
-          "a": "Die Künstlerin lebte zeitweise in Worpswede."
+          "q": "The bank raised its fees for students.",
+          "a": "This decision caused protests."
         },
         {
-          "q": "Der Autor las gestern in der Stadtbibliothek aus seinem neuen Roman.",
-          "a": "Das Werk erscheint im Herbst auch als Hörbuch."
+          "q": "Tom and Mei both applied for the scholarship.",
+          "a": "The former was successful; the latter was not."
         },
         {
-          "q": "Das Staatstheater feiert 2027 sein 150-jähriges Bestehen.",
-          "a": "Das Haus wurde nach dem Krieg wieder aufgebaut."
+          "q": "The museum is closed on Mondays.",
+          "a": "Visitors should bear this in mind."
         },
         {
-          "q": "Das Berliner Kammerorchester gastiert zwei Wochen in Japan.",
-          "a": "Das Ensemble spielt dort ein Programm mit Mozart."
+          "q": "Liam has lost his keys again.",
+          "a": "This is the third time this month."
         },
         {
-          "q": "Forscher der Universität Leipzig haben 2.000 Lesende befragt.",
-          "a": "Die Untersuchung zeigt, dass junge Menschen häufiger zum Buch greifen."
+          "q": "The report says that crime is falling.",
+          "a": "Not everyone believes it."
         },
         {
-          "q": "Die Zeitschrift „Kulturblick“ stellt ihre Printausgabe ein.",
-          "a": "Das Magazin erscheint künftig nur noch online."
+          "q": "Our local cinema has closed.",
+          "a": "Many residents say they will miss it."
         }
       ]
     },
     {
       "segments": [
         {
-          "text": "Rezension: „Der Sturm“ am Stadttheater\n\nDas Stadttheater zeigt seit Samstag Shakespeares „Der Sturm“ in einer neuen Fassung. Regisseurin Lena Roth hat "
+          "text": "Report: Cycling to work\n\nLast year the city introduced a cycle-hire scheme. "
         },
         {
           "blank": 0,
           "answer": [
-            "es"
+            "This",
+            "That",
+            "The"
           ]
         },
         {
-          "text": " (das Stück) stark gekürzt. "
+          "text": " scheme was meant to reduce traffic in the centre. The first bikes were heavy, so the council bought lighter "
         },
         {
           "blank": 1,
           "answer": [
-            "Zudem",
-            "Außerdem",
-            "Ferner",
-            "Überdies",
-            "Darüber hinaus"
+            "ones"
           ]
         },
         {
-          "text": " (Zusatz) hat sie die Sprache an vielen Stellen modernisiert.\n\nDie Hauptrollen spielen Jonas Weber und Mara Klein. "
+          "text": ". Many residents tried the bikes in summer. "
         },
         {
           "blank": 2,
           "answer": [
-            "Ersterer"
+            "However",
+            "In contrast"
           ]
         },
         {
-          "text": " (Jonas Weber) gibt einen müden, fast resignierten Prospero. "
+          "text": ", very few used them in winter. Some experts expect the numbers to recover in spring, but the council does not think "
         },
         {
           "blank": 3,
           "answer": [
-            "Letztere"
+            "so"
           ]
         },
         {
-          "text": " (Mara Klein) ist als Ariel die Entdeckung des Abends.\n\nAuf der Bühne steht nur eine schräge Holzfläche. Auf "
+          "text": ". The bikes also broke down often, and repairs took weeks. "
         },
         {
           "blank": 4,
           "answer": [
-            "ihr",
-            "dieser"
+            "As a result",
+            "Therefore",
+            "Consequently"
           ]
         },
         {
-          "text": " (die Holzfläche) bewegen sich alle Figuren, als stünden sie auf einem sinkenden Schiff. Die Aufführung dauert fast drei Stunden. Langweilig wird es "
+          "text": ", many users gave up. Will the scheme fail? The council hopes "
         },
         {
           "blank": 5,
           "answer": [
-            "dennoch",
-            "trotzdem",
-            "gleichwohl",
-            "allerdings"
+            "not"
           ]
         },
         {
-          "text": " (trotz der Länge) nie.\n\nRoth verzichtet auf die berühmte Schlussszene mit dem Sturm. Das Publikum wird "
+          "text": ".\n\nTwo regular users were interviewed. Mei works in an office, and Liam works from home. "
         },
         {
           "blank": 6,
           "answer": [
-            "darüber"
+            "The former"
           ]
         },
         {
-          "text": " (Pronominaladverb) noch lange diskutieren.\n\nDie Regie vertraut dem Text. "
+          "text": " cycles to work every day, but "
         },
         {
           "blank": 7,
           "answer": [
-            "Folglich",
-            "Somit",
-            "Demnach",
-            "Daher",
-            "Deshalb",
-            "Deswegen"
+            "the latter"
           ]
         },
         {
-          "text": " (Folge) kommt der Abend mit wenigen Effekten aus. "
-        },
-        {
-          "blank": 8,
-          "answer": [
-            "Abschließend",
-            "Zusammenfassend",
-            "Insgesamt"
-          ]
-        },
-        {
-          "text": " (Fazit) lässt sich sagen: Dieser „Sturm“ ist leise, aber nicht harmlos."
+          "text": " only uses a bike at weekends."
         }
       ]
     },
@@ -361,102 +413,116 @@
       "sentences": [
         {
           "id": "b1",
-          "hint": "Zusatz auf Position 1 — das Verb folgt sofort",
+          "hint": "linking adverb first, then a comma",
           "correct": [
-            "Außerdem",
-            "verfügt",
-            "das",
-            "Museum",
-            "über",
-            "eine",
-            "große",
-            "Sammlung",
-            "moderner",
-            "Plakate",
+            "However,",
+            "most",
+            "students",
+            "passed",
+            "the",
+            "test",
             "."
           ],
           "shuffled": [
-            ".",
-            "verfügt",
-            "Außerdem",
-            "Plakate",
-            "über",
-            "eine",
-            "Sammlung",
-            "das",
-            "große",
-            "moderner",
-            "Museum"
+            "students",
+            "the",
+            "However,",
+            "test",
+            "passed",
+            "most",
+            "."
           ]
         },
         {
           "id": "b2",
-          "hint": "Folge auf Position 1",
+          "hint": "ellipsis: the repeated verb is left out",
           "correct": [
-            "Folglich",
-            "musste",
-            "die",
-            "Premiere",
-            "verschoben",
-            "werden",
+            "Tom",
+            "can",
+            "swim,",
+            "but",
+            "I",
+            "can't",
             "."
           ],
           "shuffled": [
+            "can't",
+            "swim,",
+            "I",
+            "Tom",
+            "but",
             ".",
-            "werden",
-            "Folglich",
-            "die",
-            "musste",
-            "verschoben",
-            "Premiere"
+            "can"
           ]
         },
         {
           "id": "b3",
-          "hint": "da(r)-Wort verweist auf den Gedanken davor",
+          "hint": "this + summary noun points back",
           "correct": [
-            "Darauf",
-            "komme",
-            "ich",
-            "später",
-            "zurück",
+            "This",
+            "decision",
+            "upset",
+            "many",
+            "drivers",
             "."
           ],
           "shuffled": [
-            "komme",
+            "drivers",
+            "upset",
+            "This",
             ".",
-            "ich",
-            "zurück",
-            "später",
-            "Darauf"
+            "many",
+            "decision"
           ]
         },
         {
           "id": "b4",
-          "hint": "Gliederungssignal, dann Verb an Position 2",
+          "hint": "so replaces the clause; the auxiliary stays after but",
           "correct": [
-            "Im",
-            "Folgenden",
-            "möchte",
-            "ich",
-            "drei",
-            "Aspekte",
-            "der",
-            "Inszenierung",
-            "vorstellen",
+            "I",
+            "think",
+            "so,",
+            "but",
+            "Tom",
+            "doesn't",
             "."
           ],
           "shuffled": [
-            "möchte",
-            "Aspekte",
-            "vorstellen",
+            "Tom",
+            "so,",
+            "doesn't",
+            "I",
             ".",
-            "Inszenierung",
-            "Im",
-            "der",
-            "ich",
-            "Folgenden",
-            "drei"
+            "but",
+            "think"
+          ]
+        },
+        {
+          "id": "b5",
+          "hint": "the former = the first person named",
+          "correct": [
+            "Amira",
+            "and",
+            "Zofia",
+            "applied;",
+            "the",
+            "former",
+            "got",
+            "the",
+            "job",
+            "."
+          ],
+          "shuffled": [
+            "job",
+            "former",
+            "Zofia",
+            "the",
+            "applied;",
+            "got",
+            "Amira",
+            ".",
+            "the",
+            "and"
           ]
         }
       ]

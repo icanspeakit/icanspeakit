@@ -8,7 +8,7 @@
 // the button exists only where the API does. Where it sits and whether it is folded are
 // kept in localStorage; on a phone it starts folded.
 //
-// For a learner (mode "lernend", /stunde) it is a soft guide, not a clock to beat: the
+// For a learner (mode "lernend", /lesson) it is a soft guide, not a clock to beat: the
 // sector of the step, „ca. 10 Min.“ for it and the time spent on it so far (so the learner
 // sees it running), no red, no overrun, no total countdown, no
 // pop-out. On a phone it starts hidden (the bar shows the time as text). Its own prefs key.
@@ -56,7 +56,7 @@ function dialSvg(steps, total_label = true) {
   const sectors = steps.map((st, i) => {
     const a0 = deg(starts[i]);
     const a1 = deg(starts[i] + st.minutes) - 0.0001;
-    return `<path data-sector="${i}" d="${sector(a0, a1)}" fill="${phaseColor(st.id).bg}" stroke="#fff" stroke-width="1.5"><title>${st.name} · ${st.minutes} Min.</title></path>`;
+    return `<path data-sector="${i}" d="${sector(a0, a1)}" fill="${phaseColor(st.id).bg}" stroke="#fff" stroke-width="1.5"><title>${st.name} · ${st.minutes} min</title></path>`;
   }).join("");
   // A tick every 5 minutes, a longer one every 15.
   let ticks = "";
@@ -66,11 +66,11 @@ function dialSvg(steps, total_label = true) {
     const [x2, y2] = pt(R_IN - (long ? 10 : 5), deg(m));
     ticks += `<line x1="${x1.toFixed(2)}" y1="${y1.toFixed(2)}" x2="${x2.toFixed(2)}" y2="${y2.toFixed(2)}" stroke="currentColor" stroke-opacity="${long ? 0.55 : 0.3}" stroke-width="${long ? 2 : 1.2}" stroke-linecap="round"/>`;
   }
-  return `<svg class="ut-uhr-face" viewBox="0 0 200 200" role="img" aria-label="Uhr: ${total} Minuten, ${steps.length} Phasen">
+  return `<svg class="ut-uhr-face" viewBox="0 0 200 200" role="img" aria-label="Clock: ${total} minutes, ${steps.length} phases">
     ${sectors}
     <path data-current d="" fill="none" stroke-width="3.5" stroke-linejoin="round"/>
     ${ticks}
-    ${total_label ? `<text x="${C}" y="${C - 22}" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor" fill-opacity=".55">${total} Min.</text>` : ""}
+    ${total_label ? `<text x="${C}" y="${C - 22}" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor" fill-opacity=".55">${total} min</text>` : ""}
     <line data-hand x1="${C}" y1="${C}" x2="${C}" y2="${C - R_OUT + 2}" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
     <circle cx="${C}" cy="${C}" r="6" fill="currentColor"/>
   </svg>`;
@@ -93,23 +93,23 @@ export function mountUhr(ctl, { mode = "lehrkraft", onToggle = () => {} } = {}) 
   const el = document.createElement("div");
   el.className = "ut-uhr";
   el.setAttribute("role", "timer");
-  el.setAttribute("aria-label", lern ? "Uhr der Stunde" : "Unterrichtsuhr");
+  el.setAttribute("aria-label", lern ? "Lesson clock" : "Teaching clock");
   if (lern) el.classList.add("ut-uhr--lern");
   const pip = !lern && "documentPictureInPicture" in window;
   el.innerHTML = `
     <div class="ut-uhr-head" data-uhr-drag>
-      <span class="ut-uhr-title" data-uhr-drag-hint>Uhr</span>
-      ${pip ? `<button type="button" class="ut-uhr-btn" data-uhr-pip title="In eigenem Fenster über allen Fenstern zeigen" aria-label="Uhr herauslösen">⧉</button>` : ""}
-      <button type="button" class="ut-uhr-btn" data-uhr-min title="Verkleinern" aria-label="Uhr verkleinern">–</button>
-      <button type="button" class="ut-uhr-btn" data-uhr-close title="Ausblenden – „Uhr“ in der Leiste holt sie zurück" aria-label="Uhr ausblenden">×</button>
+      <span class="ut-uhr-title" data-uhr-drag-hint>Clock</span>
+      ${pip ? `<button type="button" class="ut-uhr-btn" data-uhr-pip title="Show in its own window above all other windows" aria-label="Pop out the clock">⧉</button>` : ""}
+      <button type="button" class="ut-uhr-btn" data-uhr-min title="Make smaller" aria-label="Make the clock smaller">–</button>
+      <button type="button" class="ut-uhr-btn" data-uhr-close title="Hide – “Clock” in the bar brings it back" aria-label="Hide the clock">×</button>
     </div>
     ${dialSvg(ctl.steps, !lern)}
     <div class="ut-uhr-text">
       <p class="ut-uhr-phase" data-uhr-phase></p>
       <p class="ut-uhr-left" data-uhr-left></p>
-      <p class="ut-uhr-paused" data-uhr-paused hidden>Pause</p>
+      <p class="ut-uhr-paused" data-uhr-paused hidden>Paused</p>
     </div>
-    <button type="button" class="ut-uhr-badge" data-uhr-badge aria-label="Uhr vergrößern"><i data-uhr-dot></i><span data-uhr-badge-text></span></button>`;
+    <button type="button" class="ut-uhr-badge" data-uhr-badge aria-label="Make the clock bigger"><i data-uhr-dot></i><span data-uhr-badge-text></span></button>`;
   document.body.append(el);
   const $ = (s) => el.querySelector(s);
 
@@ -133,10 +133,10 @@ export function mountUhr(ctl, { mode = "lehrkraft", onToggle = () => {} } = {}) 
     $("[data-uhr-phase]").textContent = `${v.step.name} · ${v.index + 1}/${v.count}`;
     $("[data-uhr-phase]").style.color = col.ink;
     $("[data-uhr-left]").innerHTML = lern
-      ? `${about(v.step.minutes)}<small>für diesen Schritt</small><small class="ut-uhr-since">${v.running ? "läuft seit" : "bisher"} ${mmss(elapsed(state, Date.now()))}</small>`
-      : over ? `${v.over}<small>über der Zeit</small>` : `${v.remaining}<small>noch in dieser Phase</small>`;
+      ? `${about(v.step.minutes)}<small>for this step</small><small class="ut-uhr-since">${v.running ? "running for" : "so far"} ${mmss(elapsed(state, Date.now()))}</small>`
+      : over ? `${v.over}<small>over time</small>` : `${v.remaining}<small>left in this phase</small>`;
     $("[data-uhr-paused]").hidden = lern || v.running || v.completed;
-    $("[data-uhr-paused]").textContent = v.interrupted ? "Pause – der Tab war zu oder im Ruhezustand" : "Pause";
+    $("[data-uhr-paused]").textContent = v.interrupted ? "Paused – the tab was closed or asleep" : "Paused";
     $("[data-uhr-dot]").style.background = `conic-gradient(${over ? RED : col.ink} ${deg}deg, ${col.bg} 0)`;
     $("[data-uhr-badge-text]").textContent = lern ? about(v.step.minutes) : over ? v.over : v.remaining;
   }
@@ -210,9 +210,9 @@ export function mountUhr(ctl, { mode = "lehrkraft", onToggle = () => {} } = {}) 
       return;
     }
     const d = pipWin.document;
-    d.title = "Unterrichtsuhr";
+    d.title = "Teaching clock";
     d.head.append(Object.assign(d.createElement("style"), { textContent: `${css}\nhtml,body{margin:0;background:#fff;}` }));
-    const ph = Object.assign(document.createElement("button"), { type: "button", className: "ut-uhr-placeholder", textContent: "Uhr ist im eigenen Fenster – zurückholen" });
+    const ph = Object.assign(document.createElement("button"), { type: "button", className: "ut-uhr-placeholder", textContent: "The clock is in its own window – bring it back" });
     ph.style.right = "16px";
     ph.style.bottom = `${barHeight() + 12}px`;
     ph.addEventListener("click", () => pipWin?.close());

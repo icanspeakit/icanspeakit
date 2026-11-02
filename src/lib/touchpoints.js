@@ -1,18 +1,18 @@
 // Onboarding hints at the moments they make sense, for learners who are new here.
 //
 // A first-time learner finds the trainers from the home page and never learns that two
-// things exist: /fortschritt, which already keeps every answer they give, and the
+// things exist: /progress, which already keeps every answer they give, and the
 // Karteikarten, which most grammar learners never open. A tour on arrival would be read by
 // nobody — they came for an exercise. So the hint waits for a moment where it is the
 // obvious next thought:
 //
-//   karten-progress   a Karteikarten round is finished      → "saved; N words known" → /fortschritt
-//   uebung-karten     a grammar round is finished, and the  → "words go best on cards" → /wortschatz
+//   karten-progress   a Karteikarten round is finished      → "saved; N words known" → /progress
+//   uebung-karten     a grammar round is finished, and the  → "words go best on cards" → /vocabulary
 //                     cards have never been opened
-//   attempts-progress the 10th graded answer anywhere       → "N answers saved" → /fortschritt
+//   attempts-progress the 10th graded answer anywhere       → "N answers saved" → /progress
 //
 // Each hint shows a bounded number of times, one per page view, only in the learner's first
-// NEW_DAYS days, and the progress hints stop for good once /fortschritt has been opened —
+// NEW_DAYS days, and the progress hints stop for good once /progress has been opened —
 // at that point the learner knows. Everything lives in this browser (like progress.js).
 // Layout.astro loads this module on the first da:round / da:attempt, not on every page.
 import { getProgress } from "./progress.js";
@@ -44,7 +44,7 @@ function write(s) {
   try { localStorage.setItem(KEY, JSON.stringify(s)); } catch {}
 }
 
-/** /fortschritt was opened: the progress hints have done their job. */
+/** /progress was opened: the progress hints have done their job. */
 export function markProgressSeen() {
   const s = read();
   if (!s.progressSeen) { s.progressSeen = true; write(s); }
@@ -65,24 +65,24 @@ let shownThisPage = false;
 function pickTip(event, s) {
   const p = getProgress();
   const left = (id) => (s.seen[id] || 0) < LIMIT[id];
-  const onProgressPage = location.pathname.startsWith("/fortschritt");
+  const onProgressPage = location.pathname.startsWith("/progress");
   if (event.type === "da:round" && event.detail?.kind === "karten") {
     if (s.progressSeen || onProgressPage || !left("karten-progress")) return null;
     const n = p.vocabMastered.length;
     return {
       id: "karten-progress",
       text: n > 0 ? ["tp.karten.text", { n }] : ["tp.karten.textNone"],
-      link: ["tp.progress.link", "/fortschritt"]
+      link: ["tp.progress.link", "/progress"]
     };
   }
   if (event.type === "da:round" && event.detail?.kind === "uebung") {
-    if (p.skills.wortschatz || location.pathname.startsWith("/wortschatz") || !left("uebung-karten")) return null;
-    return { id: "uebung-karten", text: ["tp.uebung.text"], link: ["tp.uebung.link", "/wortschatz"] };
+    if (p.skills.wortschatz || location.pathname.startsWith("/vocabulary") || !left("uebung-karten")) return null;
+    return { id: "uebung-karten", text: ["tp.uebung.text"], link: ["tp.uebung.link", "/vocabulary"] };
   }
   if (event.type === "da:attempt") {
     const total = event.detail?.total ?? 0;
     if (total < ATTEMPTS_AT || s.progressSeen || onProgressPage || !left("attempts-progress")) return null;
-    return { id: "attempts-progress", text: ["tp.attempts.text", { n: total }], link: ["tp.progress.link", "/fortschritt"] };
+    return { id: "attempts-progress", text: ["tp.attempts.text", { n: total }], link: ["tp.progress.link", "/progress"] };
   }
   return null;
 }

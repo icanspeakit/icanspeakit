@@ -1,4 +1,4 @@
-// check:redewendungen — the entries of /wissen/redewendungen (src/data/redewendungen.json)
+// check:redewendungen — the entries of /knowledge/idioms (src/data/redewendungen.json)
 // hold together: unique ids, every required field, valid typ/thema/level/register/certainty,
 // at least one source with an https URL, `aehnlich` ids that exist, `siehe` routes that
 // exist, OpenMoji icons that exist, and every example sentence containing one of the
@@ -35,7 +35,7 @@ for (const e of data.eintraege) {
 /** A route on this site: a page file, or a published word history. */
 function routeExists(path) {
   const clean = path.split(/[?#]/)[0].replace(/\/+$/, "");
-  const wg = clean.match(/^\/wissen\/wortgeschichte\/([^/]+)$/);
+  const wg = clean.match(/^\/knowledge\/word-stories\/([^/]+)$/);
   if (wg) return existsSync(`${ROOT}src/content/wortgeschichte/${wg[1]}.json`);
   return [`${clean}.astro`, `${clean}/index.astro`].some((f) => existsSync(`${ROOT}src/pages${f}`));
 }

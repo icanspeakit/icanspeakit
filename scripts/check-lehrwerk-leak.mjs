@@ -6,7 +6,7 @@
 // 1. Everywhere in the build output (.html, .js, .json, .txt, .xml): no catalogue id
 //    (mA1-kb-…) and no Lehrwerk title („Menschen A1“, „Menschen Kursbuch“ …). The plain word
 //    „Menschen“ is everyday German and stays allowed.
-// 2. On the partner sheet pages (/lehrkraefte/arbeitsblaetter/partner/…) and in the sheet data
+// 2. On the partner sheet pages (/teachers/worksheets/partner/…) and in the sheet data
 //    (src/data/partneruebungen): also no „Hueber“, „Kursbuch“, „Lektion <n>“, page numbers
 //    („Seite 141“) or the book's characters. Elsewhere „Kursbuch“ and „Hueber“ appear in
 //    their own right (a Hören text, the copyright note), so the strict list is scoped.

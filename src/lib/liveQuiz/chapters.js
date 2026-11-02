@@ -1,13 +1,13 @@
-// The chapters a teacher can build a live quiz from (/lehrkraefte/quiz/erstellen), and
+// The chapters a teacher can build a live quiz from (/teachers/quiz/create), and
 // the ready-made questions each one offers. Build time only: the page gets the list in
-// its markup and each chapter's questions from /lehrkraefte/quiz-kapitel/<slug>.json.
+// its markup and each chapter's questions from /teachers/quiz-chapters/<slug>.json.
 //
 // Two kinds of chapter:
 //   g:<key>  a grammar topic — its fill-in, table and matching items turned into
 //            multiple choice. The wrong options are other answers of the same exercise
 //            (werde / wirst / wird / werden), so they are always forms a learner could
 //            plausibly mix up, never random words.
-//   g:verbtabellen  the verb tables of /grammatik/verben: a form of each verb in Präsens,
+//   g:verbtabellen  the verb tables of /grammar/verbs: a form of each verb in Präsens,
 //            Präteritum and Perfekt, the wrong options being the same verb's other forms
 //            and the form the regular pattern would wrongly give (du fahrst, ich gehte).
 //   w:<id>   a Wortschatz Lernset — its words, asked German → translation by default.
@@ -74,29 +74,29 @@ function toChoices(pairs, kind, src, extraPool = []) {
   return out;
 }
 
-/** The verb tables (/grammatik/verben) as questions, one group per verb group. Per verb:
+/** The verb tables (/grammar/verbs) as questions, one group per verb group. Per verb:
  *  a Präsens form (the first irregular one of du / er, else du), the Präteritum of ich and
  *  the Perfekt of er/sie/es. */
-// The Wortfallen of /wissen/wortfallen (Küche, Kuchen, Koch): each trap's gap sentences,
+// The Wortfallen of /knowledge/false-friends (Küche, Kuchen, Koch): each trap's gap sentences,
 // the wrong options being the words it is mixed up with. Not a grammar topic, so like the
 // verb tables it stays out of the Aufgaben catalog.
 const WF_KEY = "wortfallen";
 function wortfallenGroups() {
   return wortfallen.groups.map((g) => {
     const title = g.words.map((w) => w.w.replace(/^(der|die|das) /, "")).join(" · ");
-    const items = g.quiz.map((q, i) => mcq(q.s, q.a, q.o.filter((o) => o !== q.a), "Welches Wort passt?", `g:${WF_KEY}#${g.id}-${i}`));
+    const items = g.quiz.map((q, i) => mcq(q.s, q.a, q.o.filter((o) => o !== q.a), "Which word fits?", `g:${WF_KEY}#${g.id}-${i}`));
     return { title, items: items.filter(Boolean) };
   }).filter((g) => g.items.length);
 }
 
-// Typische Fehler (/grammatik/typische-fehler): each pair's gap, the wrong option its
+// Typische Fehler (/grammar/common-mistakes): each pair's gap, the wrong option its
 // look-alike. Two buttons, not four: the pair is the question. Built here rather than with
 // mcq(), whose case-blind de-duplication would drop Essen / essen, the very point of a pair.
 const TF_KEY = "typische-fehler";
 function fehlerQuizGroups() {
   return fehlerGroups.map((g) => ({
     title: g.title,
-    items: g.pairs.map((p) => ({ t: "mc", prompt: p.check.gap, options: [answerOf(p), wrongOf(p)], correct: 0, kind: "Welches Wort passt?", src: `g:${TF_KEY}#${p.id}` })),
+    items: g.pairs.map((p) => ({ t: "mc", prompt: p.check.gap, options: [answerOf(p), wrongOf(p)], correct: 0, kind: "Which word fits?", src: `g:${TF_KEY}#${p.id}` })),
   }));
 }
 
@@ -113,30 +113,32 @@ function verbGroups() {
   return verbGroupList.map((g) => {
     const items = [];
     for (const v of verbList.filter((x) => x.group === g.id)) {
-      // A separable verb's regular pattern is its base verb's, with the prefix after it.
-      const prefix = v.group === "trennbar" ? v.rows[0].praes.f.split(" ")[1] ?? "" : "";
-      const base = prefix ? v.inf.slice(prefix.length) : v.inf;
-      const sep = (f) => (prefix ? `${f} ${prefix}` : f);
+      // A phrasal verb's regular pattern is its verb's, with the particle after it.
+      const [base, ...rest] = v.inf.split(" ");
+      const particle = v.group === "trennbar" ? rest.join(" ") : "";
+      const verb = particle ? base : v.inf;
+      const sep = (f) => (particle ? `${f} ${particle}` : f);
       const praes = v.rows.map((r) => r.praes.f);
       const praet = v.rows.map((r) => r.praet.f);
-      const pi = [1, 2].find((i) => v.rows[i].praes.x) ?? 1;
-      items.push(q(`${PERSONS[pi]} ___ (${v.inf}) · Präsens`, praes[pi], [sep(regularPraes(base)[pi]), ...praes], g.name, `g:${VERB_KEY}#${v.id}-praes`));
-      items.push(q(`ich ___ (${v.inf}) · Präteritum`, praet[0], [sep(regularPraet(base)[0]), ...praet], g.name, `g:${VERB_KEY}#${v.id}-praet`));
-      const other = v.aux === "sein" ? "hat" : "ist";
-      const own = v.aux === "sein" ? "ist" : "hat";
-      const regP2 = prefix + regularP2(base);
-      items.push(q(`er ___ (${v.inf}) · Perfekt`, `${own} ${v.p2}`, [`${other} ${v.p2}`, `${own} ${regP2}`, `${other} ${regP2}`, `${own} ge${v.inf}`], g.name, `g:${VERB_KEY}#${v.id}-perf`));
+      // The person whose form breaks the pattern (I am, he has), else he/she/it.
+      const pi = v.rows.findIndex((r) => r.praes.x);
+      const p = pi === -1 ? 2 : pi;
+      items.push(q(`${PERSONS[p]} ___ (${v.inf}) · present simple`, praes[p], [sep(regularPraes(verb)[p]), ...praes], g.name, `g:${VERB_KEY}#${v.id}-praes`));
+      items.push(q(`I ___ (${v.inf}) · past simple`, praet[0], [sep(regularPraet(verb)[0]), v.p2, ...praet], g.name, `g:${VERB_KEY}#${v.id}-praet`));
+      const regP2 = sep(regularP2(verb));
+      items.push(q(`he ___ (${v.inf}) · present perfect`, `has ${v.p2}`, [`have ${v.p2}`, `has ${regP2}`, `has ${praet[2]}`, `has ${v.inf}`], g.name, `g:${VERB_KEY}#${v.id}-perf`));
     }
     return { title: g.name, items: items.filter(Boolean) };
   }).filter((g) => g.items.length);
 }
 
-/* ---- The Nachschlagewerk lists (/grammatik/<ref>, src/data/nachschlagen/*.json) ------
+/* ---- The Nachschlagewerk lists (/grammar/<ref>, src/data/nachschlagen/*.json) ------
    Chapter g-nachschlagen-<file>, one group per section of the list. Rows are
    [verb, forms, example, level]; a "# …" string is a sub-heading and is skipped.
-     starke-schwache-verben     Präteritum and Perfekt of each verb; wrong: the other tense's
-                                form, the regular pattern (fahrte, hat gefahrt), the other aux
-     trennbare-verben           the Partizip II; wrong: ge- in the wrong place, the other aux
+     starke-schwache-verben     past simple and past participle of each verb; wrong: the other
+                                forms, the regular pattern (goed, writed)
+     trennbare-verben           the past participle of the phrasal verb; wrong: the past
+                                simple, the regular -ed, the base form
      verben-mit-praepositionen  the preposition in the example sentence; wrong: the others */
 const REF_PREFIX = "nachschlagen-";
 const refMods = import.meta.glob("../../data/nachschlagen/*.json", { eager: true });
@@ -161,23 +163,20 @@ function refGroups(file) {
       const [v, forms, example] = row;
       const inf = bareVerb(v);
       if (file === "starke-schwache-verben") {
-        // "fährt · fuhr · ist gefahren"
-        const [er, praet, perf] = String(forms).split(" · ").map((f) => f.trim());
-        if (!praet || !perf) return;
-        const [aux, ...p2] = perf.split(" ");
-        const other = aux === "ist" ? "hat" : "ist";
-        items.push(mcq(`er ___ (${inf}) · Präteritum`, praet, [regularPraet(inf)[2], er, p2.join(" ")], sec.name, src(sec, i, "praet")));
-        items.push(mcq(`er ___ (${inf}) · Perfekt`, perf, [`${other} ${p2.join(" ")}`, `${aux} ${regularP2(inf)}`, `${other} ${regularP2(inf)}`, `${aux} ge${inf}`], sec.name, src(sec, i, "perf")));
+        // "goes · went · gone": he/she/it · past simple · past participle
+        const [he, past, p2] = String(forms).split(" · ").map((f) => f.trim());
+        if (!past || !p2) return;
+        const ed = regularPraet(inf)[0];
+        items.push(mcq(`Yesterday she ___ (${inf}) · past simple`, past, [ed, he, p2, inf], sec.name, src(sec, i, "praet")));
+        items.push(mcq(`She has ___ (${inf}) · present perfect`, p2, [past, ed, inf, he], sec.name, src(sec, i, "perf")));
       } else if (file === "trennbare-verben") {
-        // Only the clear cases: in "beides" the same verb is both, by meaning.
-        if (sec.id !== "trennbar" && sec.id !== "untrennbar") return;
-        const perf = String(forms).split(" · ").pop().trim();
-        const [aux, p2] = perf.split(" ");
-        if (!p2) return;
-        const prefix = v.includes("|") ? bareVerb(v.split("|")[0]) : "";
-        const wrongP2 = prefix && p2.startsWith(`${prefix}ge`) ? `ge${prefix}${p2.slice(prefix.length + 2)}` : `ge${p2}`;
-        const other = aux === "ist" ? "hat" : "ist";
-        items.push(mcq(`er ___ (${inf}) · Perfekt`, perf, [`${aux} ${wrongP2}`, `${other} ${p2}`, `${other} ${wrongP2}`], sec.name, src(sec, i)));
+        // The past participle; wrong: the past simple, the regular -ed, the base form.
+        const p2 = String(forms).split(" · ").pop().trim();
+        const past = String(forms).split(" · ")[0].trim();
+        const [verb, ...rest] = inf.split(" ");
+        const particle = rest.join(" ");
+        if (!particle) return;
+        items.push(mcq(`She has ___ (${inf}) · present perfect`, p2, [past, `${regularP2(verb)} ${particle}`, inf], sec.name, src(sec, i)));
       } else if (file === "verben-mit-praepositionen") {
         const prep = sec.name;
         const verb = String(v).endsWith(` ${prep}`) ? String(v).slice(0, -prep.length - 1) : String(v);
@@ -188,7 +187,7 @@ function refGroups(file) {
         // Never a preposition the same verb also takes (sich freuen auf / über).
         const own = new Set(data.sections.filter((x) => rowsOf(x).some((r) => String(r[0]) === `${verb} ${x.name}`)).map((x) => x.name));
         const others = data.sections.map((x) => x.name).filter((n) => !own.has(n));
-        items.push(mcq(prompt, prep, others, "Welche Präposition passt?", src(sec, i)));
+        items.push(mcq(prompt, prep, others, "Which preposition is right?", src(sec, i)));
       }
     });
     return { title: sec.name, items: items.filter(Boolean) };
@@ -230,15 +229,15 @@ function grammarGroups(key) {
     // (haben / sein): forms from another exercise of the chapter would be nonsense there.
     // Only an exercise whose items all share one answer borrows from the chapter.
     const extra = e.type === "match" || own.size >= 2 ? [] : chapterPool.filter((a) => words(a) === words(pairs[0].answers[0]));
-    const items = toChoices(pairs, plain(e.title) || "Was passt?", `g:${key}#${ei}`, extra);
+    const items = toChoices(pairs, plain(e.title) || "Which answer fits?", `g:${key}#${ei}`, extra);
     if (items.length) groups.push({ title: plain(e.title), items });
   });
 
   // The older quiz-only topics: one list of questions, no exercises.
   if (!exercises.length && Array.isArray(data.questions)) {
     const pairs = data.questions.map((q) => ({ prompt: plain(q.prompt), answers: accepted(q.answer) }));
-    const items = toChoices(pairs, "Was passt in die Lücke?", `g:${key}#q`);
-    if (items.length) groups.push({ title: "Lückensätze", items });
+    const items = toChoices(pairs, "Which word fits the gap?", `g:${key}#q`);
+    if (items.length) groups.push({ title: "Gap sentences", items });
   }
   return groups;
 }
@@ -248,7 +247,7 @@ function wordGroups(id) {
   const words = byUnit(id).filter((e) => MEANING_LANGS.every((l) => e[l]));
   if (!words.length) return [];
   return [{
-    title: "Wörter",
+    title: "Words",
     items: words.map((e) => ({ t: "word", id: e.id, dir: "de-meaning", de: spokenForm(e), en: e.en, src: `w:${e.id}` })),
   }];
 }
@@ -263,16 +262,16 @@ export function chapterList() {
     grammar.push({ key: "akkusativ", name: a.name, level: a.level });
     grammar.sort(byPlan((t) => [t.key])).sort((x, y) => QUIZ_LEVELS.indexOf(x.level) - QUIZ_LEVELS.indexOf(y.level));
   }
-  // The verb tables are a reference page (/grammatik/verben), not a topic in the catalog.
+  // The verb tables are a reference page (/grammar/verbs), not a topic in the catalog.
   // `assign: false` keeps it out of the Aufgaben catalog, which counts what a student
   // finished from the topic pages' scored exercises. Last of A1 (the sort is stable).
-  grammar.push({ key: VERB_KEY, name: "Verbtabellen: die wichtigsten Verben", level: "A1", assign: false });
+  grammar.push({ key: VERB_KEY, name: "Verb tables: the most important verbs", level: "A1", assign: false });
   // The other Nachschlagewerk lists, the same way (refGroups above).
   for (const [file, data] of Object.entries(refLists)) {
     grammar.push({ key: `${REF_PREFIX}${file}`, name: data.title, level: REF_LEVEL[file] ?? "A2", assign: false });
   }
-  grammar.push({ key: WF_KEY, name: "Wortfallen: Küche, Kuchen, Koch", level: "A2", assign: false });
-  grammar.push({ key: TF_KEY, name: "Typische Fehler: man oder Mann, das oder dass", level: "A1", assign: false });
+  grammar.push({ key: WF_KEY, name: "Word traps: kitchen or chicken?", level: "A2", assign: false });
+  grammar.push({ key: TF_KEY, name: "Typical mistakes: your or you're, its or it's", level: "A1", assign: false });
   grammar.sort((x, y) => QUIZ_LEVELS.indexOf(x.level) - QUIZ_LEVELS.indexOf(y.level));
   for (const t of grammar) {
     if (!QUIZ_LEVELS.includes(t.level)) continue;

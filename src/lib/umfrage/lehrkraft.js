@@ -1,4 +1,4 @@
-// /lehrkraefte/umfragen — the teacher's polls and the form for a new one. Data goes through
+// /teachers/surveys — the teacher's polls and the form for a new one. Data goes through
 // daten.js, the questions come from katalog.js. A new poll opens straight on its results
 // page, which shows the QR code big for the projector.
 import { currentUser, isTeacher, setTeacher } from "../liveQuiz/custom.js";
@@ -9,7 +9,7 @@ import { MAX_UMFRAGEN, meineUmfragen, umfrageAnlegen, umfrageLoeschen, umfrageOf
 import { MIN_SEK, ZEITEN, empfehlung, verteilung } from "./zeit.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-const datum = (iso) => new Date(iso).toLocaleDateString("de-DE", { day: "numeric", month: "short", year: "numeric" });
+const datum = (iso) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 const GENERIC = ["kl.t.err.generic", "Das hat gerade nicht geklappt. Prüfe die Internetverbindung und versuch es noch einmal."];
 
 export async function mountUmfragen(root) {
@@ -51,14 +51,14 @@ export async function mountUmfragen(root) {
     return `
       <li class="lq-card kl-class uf-item" data-id="${u.id}">
         <div class="kl-class-head">
-          <h3><a href="/lehrkraefte/umfragen/ergebnis?id=${u.id}">${esc(u.titel)}</a></h3>
+          <h3><a href="/teachers/surveys/result?id=${u.id}">${esc(u.titel)}</a></h3>
           ${u.niveau ? `<span class="kl-badge">${esc(u.niveau)}</span>` : ""}
           <span class="uf-state ${u.offen ? "is-open" : ""}">${esc(u.offen ? t("uf.t.open", "offen") : t("uf.t.closed", "geschlossen"))}</span>
           <span class="kl-count">${esc(n === 1 ? t("uf.t.one", "1 Antwort") : t("uf.t.count", "{n} Antworten", { n }))}</span>
         </div>
         <p class="kl-muted">${esc(datum(u.created_at))} · ${esc(t("kl.t.code", "Code"))} <span class="uf-code-sm">${esc(u.code)}</span> · ${esc(t("uf.t.questions", "{n} Fragen", { n: u.fragen?.length ?? 0 }))}${u.zeit ? ` · ⏱ ${esc(t("uf.t.zeit.short", "{n} Min.", { n: u.zeit }))}` : ""}</p>
         <div class="kl-row">
-          <a class="lq-btn lq-btn--primary" href="/lehrkraefte/umfragen/ergebnis?id=${u.id}">${esc(t("uf.t.results", "Ergebnisse und QR-Code"))}</a>
+          <a class="lq-btn lq-btn--primary" href="/teachers/surveys/result?id=${u.id}">${esc(t("uf.t.results", "Ergebnisse und QR-Code"))}</a>
           <button type="button" class="lq-btn lq-btn--ghost" data-act="toggle">${esc(u.offen ? t("uf.t.close", "Schließen") : t("uf.t.reopen", "Wieder öffnen"))}</button>
           <button type="button" class="lq-btn lq-btn--quiet" data-act="delete">${esc(t("uf.t.delete", "Löschen"))}</button>
         </div>
@@ -260,7 +260,7 @@ export async function mountUmfragen(root) {
     btn.disabled = true;
     try {
       const u = await umfrageAnlegen({ titel: $("[data-new-name]").value.trim() || t("uf.t.defaultTitle", "Was möchtest du lernen?"), niveau, fragen, zeit: Number(zeitSel.value) || null });
-      location.href = `/lehrkraefte/umfragen/ergebnis?id=${u.id}&neu=1`;
+      location.href = `/teachers/surveys/result?id=${u.id}&neu=1`;
     } catch (err) {
       btn.disabled = false;
       if (err?.code === "limit") error.textContent = t("uf.t.err.limit", "Du hast schon {n} Umfragen. Lösch eine alte, dann geht es wieder.", { n: MAX_UMFRAGEN });

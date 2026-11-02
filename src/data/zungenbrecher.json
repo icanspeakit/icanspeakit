@@ -1,299 +1,238 @@
 {
-  "_note": "Zungenbrecher für /zungenbrecher. Jeder wird zuerst vorgesprochen (langsam und im Tempo), dann spricht der Lerner nach und bekommt Punkte pro Wort – dieselbe Auswertung wie /aussprache-check. focus: Laut-IDs aus src/lib/ausspracheTipps.js. hint: was der Satz bedeutet, in einfachem Deutsch. `audio` setzt scripts/generate-zungenbrecher-audio.mjs, sobald public/audio/zungenbrecher/<id>-langsam.mp3 und <id>.mp3 liegen. mascot (optional): ein Tier aus der Crew kommt im Satz vor – dann springt es auf der Karte hervor (bruno, regi, hamsti, quaki). mini (optional): ein anderes Tier im Satz – dann klebt ein kleiner Sticker der Mini-Crew (src/lib/minis.js) an der Karte. dialect (optional): derselbe Zungenbrecher im Dialekt, vertont als <id>-<slug(dialect.name)>.mp3 (z. B. -bairisch), nur zum Anhören und nie bewertet; dialect.audio setzt dasselbe Skript, sobald die Datei liegt.",
+  "_note": "English tongue twisters for /tongue-twisters, all traditional (folk rhymes, public domain). Each one is first read out (slowly, then at speed), then the learner repeats it and gets points per word – the same scoring as /pronunciation-check. focus: sound ids from src/lib/ausspracheTipps.js. hint: what the twister means, in simple English. Ids are the old slot ids (content-plan §1.3); the German set had 25, this one has 22 (quality over quantity). `audio` is set to true by scripts/generate-zungenbrecher-audio.mjs once public/audio/zungenbrecher/<id>-langsam.mp3 and <id>.mp3 exist; until then the browser voice reads them. mascot (optional): an animal of the crew is in the twister, so it pops up on the card (bruno, regi, hamsti, quaki). mini (optional): another animal in the twister, so a small Mini-Crew sticker (src/lib/minis.js) sits on the card. dialect (optional): the same twister in a dialect, voiced as <id>-<slug(dialect.name)>.mp3, only for listening and never scored; none in the English set yet.",
   "levels": [
     {
-      "level": "Leicht",
+      "level": "Easy",
       "sentences": [
         {
           "id": "fischers-fritz",
-          "text": "Fischers Fritz fischt frische Fische.",
+          "text": "Fresh fried fish, fish fresh fried, fried fish fresh, fish fried fresh.",
           "focus": [
-            "sch-st-sp",
-            "r"
+            "r",
+            "end"
           ],
-          "hint": "Fritz, der Sohn vom Fischer, fängt frische Fische.",
-          "audio": true,
+          "hint": "Fish that is fresh and fried, said in four different orders.",
+          "audio": false,
           "mini": "fisch"
         },
         {
           "id": "blaukraut",
-          "text": "Blaukraut bleibt Blaukraut und Brautkleid bleibt Brautkleid.",
+          "text": "Red lorry, yellow lorry.",
           "focus": [
-            "ei-ie",
             "r"
           ],
-          "hint": "Blaukraut ist Rotkohl. Ein Brautkleid trägt die Frau bei der Hochzeit.",
-          "audio": true
+          "hint": "A lorry is a big vehicle that carries goods (US: truck). One is red, one is yellow.",
+          "audio": false
         },
         {
           "id": "katze-treppe",
-          "text": "Die Katze tritt die Treppe krumm.",
+          "text": "Toy boat, toy boat, toy boat.",
           "focus": [
-            "z",
-            "r"
+            "end"
           ],
-          "hint": "Die Katze läuft so oft über die Treppe, dass sie schief wird.",
-          "audio": true,
-          "mini": "katze"
+          "hint": "A toy boat is a small boat that children play with. Say it fast!",
+          "audio": false
         },
         {
           "id": "esel-nesseln",
-          "text": "Esel essen Nesseln nicht, Nesseln essen Esel nicht.",
+          "text": "Fred fed Ted bread, and Ted fed Fred bread.",
           "focus": [
-            "en",
-            "ch"
+            "end",
+            "r"
           ],
-          "hint": "Nesseln sind Pflanzen, die auf der Haut brennen. Esel fressen sie nicht.",
-          "audio": true,
-          "mini": "esel"
+          "hint": "Fred gives Ted some bread, and then Ted gives Fred some bread.",
+          "audio": false
         },
         {
           "id": "hundert-hemden",
-          "text": "Hinter Hermanns Haus hängen hundert Hemden raus.",
+          "text": "A big black bug bit a big black bear.",
           "focus": [
             "ae",
-            "en"
+            "end"
           ],
-          "hint": "Hinter dem Haus von Hermann trocknen hundert Hemden.",
-          "audio": true
+          "hint": "A bug is a small insect. It bit (past of bite) a big black bear.",
+          "audio": false
         },
         {
           "id": "kinder-kaffee",
-          "text": "Kleine Kinder können keinen Kaffee kochen.",
+          "text": "I scream, you scream, we all scream for ice cream.",
           "focus": [
-            "oe",
-            "ch",
-            "en"
+            "s-cluster",
+            "i-ee"
           ],
-          "hint": "Kleine Kinder können noch keinen Kaffee machen.",
-          "audio": true
+          "hint": "To scream means to shout very loudly. “I scream” and “ice cream” sound almost the same.",
+          "audio": false
         },
         {
           "id": "freche-froesche",
-          "text": "Früh fressen freche Frösche frische Früchte.",
+          "text": "Red leather, yellow leather.",
           "focus": [
-            "ue",
-            "oe",
-            "r"
+            "r",
+            "th"
           ],
-          "hint": "Am Morgen essen freche Frösche frisches Obst.",
-          "audio": true,
-          "mascot": "quaki"
+          "hint": "Leather is the skin of an animal. We use it for shoes and bags.",
+          "audio": false
         },
         {
           "id": "acht-ameisen",
-          "text": "Acht alte Ameisen aßen am Abend Ananas.",
+          "text": "Which witch is which?",
           "focus": [
-            "ch",
-            "ei-ie"
+            "w-v",
+            "i-ee"
           ],
-          "hint": "Acht alte Ameisen essen am Abend eine Ananas.",
-          "audio": true,
-          "mini": "ameise"
-        },
-        {
-          "id": "hamster-hannes",
-          "text": "Hamster Hannes hamstert heimlich hundert Haselnüsse.",
-          "focus": [
-            "ae",
-            "ei-ie"
-          ],
-          "hint": "Der Hamster Hannes sammelt heimlich viele Nüsse für den Winter.",
-          "mascot": "hamsti",
-          "audio": true
-        },
-        {
-          "id": "dackel-dieter",
-          "text": "Der dicke Dackel Dieter döst den ganzen Donnerstag.",
-          "focus": [
-            "oe",
-            "ch"
-          ],
-          "hint": "Ein Dackel ist ein kleiner Hund. Dieter schläft den ganzen Donnerstag.",
-          "mascot": "bruno",
-          "audio": true
+          "hint": "which (the question word) and witch (a woman with magic powers in old stories) sound the same.",
+          "audio": false
         }
       ]
     },
     {
-      "level": "Mittel",
+      "level": "Medium",
       "sentences": [
         {
           "id": "zehn-ziegen",
-          "text": "Zehn zahme Ziegen zogen zehn Zentner Zucker zum Zoo.",
+          "text": "She sells seashells by the seashore.",
           "focus": [
-            "z",
-            "ei-ie"
+            "i-ee",
+            "end"
           ],
-          "hint": "Zehn ruhige Ziegen bringen sehr viel Zucker (ein Zentner = 50 Kilo) in den Zoo.",
-          "audio": true,
-          "mini": "ziege"
+          "hint": "A woman sells shells from the sea, on the beach.",
+          "audio": false
         },
         {
           "id": "buersten-borsten",
-          "text": "Bürsten mit weißen Borsten bürsten besser als Bürsten mit schwarzen Borsten.",
+          "text": "Peter Piper picked a peck of pickled peppers.",
           "focus": [
-            "ue",
-            "sch-st-sp",
-            "r"
+            "ed",
+            "end"
           ],
-          "hint": "Borsten sind die Haare einer Bürste. Weiße sollen besser sein als schwarze.",
-          "audio": true
+          "hint": "A peck is an old measure, about 9 litres. Pickled peppers are kept in vinegar.",
+          "audio": false
         },
         {
           "id": "fliegen-fliegen",
-          "text": "Wenn Fliegen hinter Fliegen fliegen, fliegen Fliegen Fliegen nach.",
+          "text": "How much wood would a woodchuck chuck if a woodchuck could chuck wood?",
           "focus": [
-            "ei-ie",
-            "en"
+            "w-v",
+            "end"
           ],
-          "hint": "Fliegen (die Tiere) fliegen (das Verb) hinter anderen Fliegen her.",
-          "audio": true,
-          "mini": "fliege"
+          "hint": "A woodchuck is an animal from North America. To chuck means to throw.",
+          "audio": false
         },
         {
           "id": "dachdecker",
-          "text": "Der dicke Dachdecker deckt das dicke Dach, drum dankt das dicke Dach dem dicken Dachdecker.",
+          "text": "Round the rugged rock the ragged rascal ran.",
           "focus": [
-            "ch",
+            "r",
             "ae"
           ],
-          "hint": "Ein Dachdecker baut Dächer. Das Dach sagt ihm Danke.",
-          "audio": true
+          "hint": "A rascal is a naughty person. The rock is rugged (rough), and the rascal is ragged (in old, torn clothes).",
+          "audio": false
         },
         {
           "id": "student-stiefel",
-          "text": "Ein Student in Stulpenstiefeln stolpert über einen spitzen Stein.",
+          "text": "Six slippery snails slid slowly seaward.",
           "focus": [
-            "sch-st-sp",
-            "ue",
-            "z"
+            "s-cluster",
+            "i-ee"
           ],
-          "hint": "Ein Student in hohen Stiefeln fällt fast über einen spitzen Stein.",
-          "audio": true
+          "hint": "Snails are small, slow animals with a shell. Seaward means towards the sea.",
+          "audio": false,
+          "mini": "schnecke"
         },
         {
           "id": "fichtendickicht",
-          "text": "Im dichten Fichtendickicht picken dicke Finken tüchtig.",
+          "text": "Six thick thistle sticks.",
           "focus": [
-            "ch",
-            "ue"
+            "th",
+            "s-cluster"
           ],
-          "hint": "Fichten sind Bäume. Im dichten Wald fressen dicke Vögel (Finken) fleißig.",
-          "audio": true,
-          "mini": "fink"
+          "hint": "A thistle is a wild plant with sharp points.",
+          "audio": false
         },
         {
           "id": "grabengraeber",
-          "text": "Graben Grabengräber Gräber, graben Grabengräber Gräben.",
+          "text": "A proper copper coffee pot.",
           "focus": [
             "r",
-            "ae",
-            "en"
+            "end"
           ],
-          "hint": "Ein Graben ist ein langes Loch in der Erde, ein Grab ist für Tote.",
-          "audio": true
+          "hint": "A coffee pot made of real copper, a reddish-brown metal.",
+          "audio": false
         },
         {
           "id": "zwetschgenzweige",
-          "text": "Zwischen zwei Zwetschgenzweigen sitzen zwei zwitschernde Schwalben.",
+          "text": "Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn't fuzzy, was he?",
           "focus": [
-            "z",
-            "sch-st-sp",
-            "w-v"
+            "w-v",
+            "h"
           ],
-          "hint": "Zwetschgen sind kleine blaue Früchte. Zwei Vögel singen in dem Baum.",
-          "audio": true,
-          "mini": "schwalbe"
-        },
-        {
-          "id": "igel-ingo",
-          "text": "Igel Ingo isst im Innenhof immer irre viele Insekten.",
-          "focus": [
-            "ei-ie",
-            "z"
-          ],
-          "hint": "Der Igel Ingo frisst im Hof sehr viele kleine Tiere.",
-          "mascot": "regi",
-          "audio": true
+          "hint": "Fuzzy means covered in soft hair. A bear with no hair isn't fuzzy at all.",
+          "audio": false
         }
       ]
     },
     {
-      "level": "Schwer",
+      "level": "Hard",
       "sentences": [
         {
           "id": "wiener-waschweiber",
-          "text": "Wir Wiener Waschweiber würden weiße Wäsche waschen, wenn wir wüssten, wo warmes Wasser wär.",
+          "text": "Whether the weather is warm, whether the weather is hot, we have to put up with the weather, whether we like it or not.",
           "focus": [
             "w-v",
-            "ue",
-            "ae"
+            "th"
           ],
-          "hint": "Frauen aus Wien würden Wäsche waschen, aber sie finden kein warmes Wasser.",
-          "audio": true,
-          "dialect": {
-            "name": "Bairisch",
-            "text": "Mia Weana Wäschweiba dadn weiße Wäsch woschn, wenn ma wissadn, wo woams Wossa waar.",
-            "voice": "de-AT-JonasNeural",
-            "speaker": "bruno",
-            "audio": true
-          }
+          "hint": "whether (= if) and weather (sun, rain, wind) sound the same. To put up with something means to accept it, even if you don't like it.",
+          "audio": false
         },
         {
           "id": "postkutscher",
-          "text": "Der Cottbuser Postkutscher putzt den Cottbuser Postkutschkasten.",
+          "text": "Betty Botter bought some butter, but she said the butter's bitter. If I put it in my batter, it will make my batter bitter.",
           "focus": [
-            "sch-st-sp",
-            "z",
-            "r"
+            "end",
+            "ae"
           ],
-          "hint": "Ein Mann aus Cottbus fährt die Postkutsche und putzt ihren Kasten.",
-          "audio": true
+          "hint": "Batter is a mix of flour, eggs and milk for cakes or pancakes. Bitter is a strong, unpleasant taste.",
+          "audio": false
         },
         {
           "id": "schnecken",
-          "text": "Schnecken erschrecken, wenn Schnecken an Schnecken schlecken, weil zum Schrecken vieler Schnecken Schnecken nicht schmecken.",
+          "text": "The sixth sick sheikh's sixth sheep's sick.",
           "focus": [
-            "sch-st-sp",
-            "en"
+            "th",
+            "i-ee"
           ],
-          "hint": "Schnecken mögen den Geschmack von anderen Schnecken nicht.",
-          "audio": true,
-          "mini": "schnecke"
+          "hint": "A sheikh is a leader in some Arab countries. The sixth sheikh who is ill has a sixth sheep, and it is ill too.",
+          "audio": false
         },
         {
           "id": "klapperschlangen",
-          "text": "Es klapperten die Klapperschlangen, bis ihre Klappern schlapper klangen.",
+          "text": "Irish wristwatch, Swiss wristwatch.",
           "focus": [
-            "sch-st-sp",
-            "r",
-            "en"
+            "s-cluster",
+            "r"
           ],
-          "hint": "Die Schlangen machen so lange Lärm, bis das Geräusch müde klingt.",
-          "audio": true,
-          "mini": "schlange"
+          "hint": "A wristwatch is a watch you wear on your wrist. One is from Ireland, one is from Switzerland.",
+          "audio": false
         },
         {
           "id": "wachsmasken",
-          "text": "Max wachst Wachsmasken. Was wachst Max? Wachsmasken wachst Max.",
+          "text": "Unique New York, unique New York, you know you need unique New York.",
           "focus": [
-            "ch",
-            "w-v"
+            "r",
+            "i-ee"
           ],
-          "hint": "Max macht Masken aus Wachs. Frage und Antwort.",
-          "audio": true
+          "hint": "Unique means special, the only one of its kind. New York is a big city in the USA.",
+          "audio": false
         },
         {
           "id": "nichts-weiss",
-          "text": "Wer nichts weiß und weiß, dass er nichts weiß, weiß mehr als der, der nichts weiß und nicht weiß, dass er nichts weiß.",
+          "text": "I saw Susie sitting in a shoeshine shop. Where she sits, she shines, and where she shines, she sits.",
           "focus": [
-            "ei-ie",
-            "w-v",
-            "ch"
+            "i-ee",
+            "w-v"
           ],
-          "hint": "Wer weiß, dass er etwas nicht weiß, ist klüger als jemand, der das nicht merkt.",
-          "audio": true
+          "hint": "In a shoeshine shop, someone cleans and polishes your shoes until they shine.",
+          "audio": false
         }
       ]
     }

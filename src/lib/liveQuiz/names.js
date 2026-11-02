@@ -1,42 +1,36 @@
-// Default nicknames for the live quiz: a flattering German adjective and an animal,
-// declined the way German declines them without an article ("Mutiger Fuchs",
-// "Kluge Eule", "Flinkes Pferd") — a player learns a phrase just by joining. Only
-// adjectives nobody minds being called, and only combinations that fit the 16
-// characters cleanName() allows, so a name is never cut off mid-word.
+// Default nicknames for the live quiz: a friendly English adjective and an animal
+// ("Brave Fox", "Clever Owl", "Busy Bee") — a player learns a phrase just by joining. Only
+// adjectives nobody minds being called, and only combinations that fit the 16 characters
+// cleanName() allows, so a name is never cut off mid-word.
 //
 // The animal is also the player's picture (avatar): in the lobby, on the ranking and on
 // the podium. Only animals with an OpenMoji face, so name and picture always match
 // (public/img/openmoji/, fetched by scripts/fetch-openmoji.mjs).
 
 const ADJECTIVES = [
-  "mutig", "schlau", "klug", "flink", "stark", "fröhlich", "clever", "weise",
-  "tapfer", "witzig", "stolz", "edel", "sanft", "kühn", "elegant", "lustig", "fleißig",
+  "brave", "clever", "smart", "quick", "strong", "happy", "wise", "bold",
+  "funny", "proud", "gentle", "noble", "cool", "lucky", "kind", "busy", "jolly",
 ];
 
-/** [noun, gender, emoji] — m/f/n picks the ending: -er, -e, -es. */
+/** [noun, emoji] */
 const ANIMALS = [
-  ["Fuchs", "m", "🦊"], ["Bär", "m", "🐻"], ["Wolf", "m", "🐺"], ["Adler", "m", "🦅"], ["Löwe", "m", "🦁"],
-  ["Tiger", "m", "🐯"], ["Delfin", "m", "🐬"], ["Otter", "m", "🦦"], ["Igel", "m", "🦔"], ["Dackel", "m", "🐕"],
-  ["Hamster", "m", "🐹"], ["Pinguin", "m", "🐧"], ["Panda", "m", "🐼"], ["Biber", "m", "🦫"], ["Koala", "m", "🐨"],
-  ["Frosch", "m", "🐸"], ["Hase", "m", "🐰"], ["Affe", "m", "🐵"], ["Papagei", "m", "🦜"],
-  ["Eule", "f", "🦉"], ["Katze", "f", "🐱"], ["Biene", "f", "🐝"], ["Giraffe", "f", "🦒"], ["Robbe", "f", "🦭"],
-  ["Maus", "f", "🐭"], ["Ente", "f", "🦆"],
-  ["Pferd", "n", "🐴"], ["Einhorn", "n", "🦄"], ["Reh", "n", "🦌"], ["Zebra", "n", "🦓"], ["Känguru", "n", "🦘"],
-  ["Schaf", "n", "🐑"], ["Küken", "n", "🐥"],
+  ["Fox", "🦊"], ["Bear", "🐻"], ["Wolf", "🐺"], ["Eagle", "🦅"], ["Lion", "🦁"],
+  ["Tiger", "🐯"], ["Dolphin", "🐬"], ["Otter", "🦦"], ["Hedgehog", "🦔"], ["Dog", "🐕"],
+  ["Hamster", "🐹"], ["Penguin", "🐧"], ["Panda", "🐼"], ["Beaver", "🦫"], ["Koala", "🐨"],
+  ["Frog", "🐸"], ["Rabbit", "🐰"], ["Monkey", "🐵"], ["Parrot", "🦜"],
+  ["Owl", "🦉"], ["Cat", "🐱"], ["Bee", "🐝"], ["Giraffe", "🦒"], ["Seal", "🦭"],
+  ["Mouse", "🐭"], ["Duck", "🦆"],
+  ["Horse", "🐴"], ["Unicorn", "🦄"], ["Deer", "🦌"], ["Zebra", "🦓"], ["Kangaroo", "🦘"],
+  ["Sheep", "🐑"], ["Chick", "🐥"],
 ];
 
 /** Animal → emoji, for the icon fetch script and for avatarSrc(). */
-export const ANIMAL_EMOJI = Object.fromEntries(ANIMALS.map(([noun, , emoji]) => [noun, emoji]));
+export const ANIMAL_EMOJI = Object.fromEntries(ANIMALS);
 
-const ENDING = { m: "er", f: "e", n: "es" };
 const cap = (s) => s[0].toUpperCase() + s.slice(1);
 
-// "edel" drops its e before an ending (Edler, Edle, Edles), and so does a final e
-// ("weise": Weiser, not Weiseer).
-const stem = (adj) => (adj.endsWith("el") ? adj.slice(0, -2) + "l" : adj.endsWith("e") ? adj.slice(0, -1) : adj);
-
 const NAMES = ADJECTIVES.flatMap((adj) =>
-  ANIMALS.map(([noun, g]) => ({ name: `${cap(stem(adj))}${ENDING[g]} ${noun}`, animal: noun }))
+  ANIMALS.map(([noun]) => ({ name: `${cap(adj)} ${noun}`, animal: noun }))
 ).filter(({ name }) => name.length <= 16);
 
 const ANIMAL_NAMES = Object.keys(ANIMAL_EMOJI);
@@ -52,7 +46,7 @@ export function drawAnimal(not) {
 /** A random name, never the one passed in. */
 export const animalName = (not) => drawAnimal(not).name;
 
-/** The animal a name ends in ("Kluge Eule" → "Eule"), or null for an own name. */
+/** The animal a name ends in ("Clever Owl" → "Owl"), or null for an own name. */
 export function animalOf(name) {
   const last = String(name ?? "").trim().split(/\s+/).pop();
   return ANIMAL_NAMES.find((a) => a.toLowerCase() === last?.toLowerCase()) ?? null;

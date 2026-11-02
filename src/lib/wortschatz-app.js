@@ -226,7 +226,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
   const glossLoads = {};
   function ensureGlosses(code) {
     if (!languages.find((l) => l.code === code)?.fetch) return Promise.resolve();
-    glossLoads[code] ??= fetch(`/wortschatz/glossen/${code}.json`)
+    glossLoads[code] ??= fetch(`/vocabulary/glosses/${code}.json`)
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
       .then((map) => {
         for (const c of cards) if (c.id && map[c.id]) (c.translations ??= {})[code] = map[c.id];
@@ -1234,16 +1234,16 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
   };
   const deckHasInfo = cards.some((c) => c.pos || c.example);
   /* Regi under the class: one line on what the class is, and the way to all of them
-     (/grammatik/wortarten). The figure is a mascot part, so "Maskottchen aus" leaves the
+     (/grammar/parts-of-speech). The figure is a mascot part, so "Maskottchen aus" leaves the
      line and drops only Regi. German on purpose, like the class name above it. */
   const WA_SAY = Object.fromEntries(wortarten.classes.map((c) => [c.id, c.say]));
   const REGI = mascotSvg({ name: "regi", view: "three", size: 34, label: "", className: "vt-wa-fig" });
   /* A separable verb is a verb with one thing more to know: in the sentence its prefix
      leaves it for the end ("Zieh bitte die Jacke an."). So the chip names the subclass and
      Regi's line says that one thing, linking to the topic instead of the class list. */
-  const SEPARABLE = { label: "trennbares Verb", say: "Der Anfang steht im Satz am Ende.", href: "/trennbare-verben", more: "Trennbare Verben" };
-  // The chip and Regi's link lead to the same place: the class on /grammatik/wortarten.
-  const posHref = (card) => (card.pos === "verb" && card.separable ? SEPARABLE.href : `/grammatik/wortarten#${card.pos}`);
+  const SEPARABLE = { label: "trennbares Verb", say: "Der Anfang steht im Satz am Ende.", href: "/phrasal-verbs", more: "Trennbare Verben" };
+  // The chip and Regi's link lead to the same place: the class on /grammar/parts-of-speech.
+  const posHref = (card) => (card.pos === "verb" && card.separable ? SEPARABLE.href : `/grammar/parts-of-speech#${card.pos}`);
   function waHtml(card) {
     const sep = card.pos === "verb" && card.separable;
     const say = sep ? SEPARABLE.say : WA_SAY[card.pos];

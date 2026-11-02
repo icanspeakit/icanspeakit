@@ -10,11 +10,11 @@ import { mascotImage, ready } from "../mascotImage.js";
 import { orbitPos } from "./sim.js";
 
 export const VIEW = 520; // world units across the screen's shorter side
-const ARTS = ["der", "die", "das"];
+const ARTS = ["a", "an", "some"];
 // The blob hues: from the word, never from its article (that would give the answer away).
 const HUES = ["#f6c177", "#9ccfd8", "#c4a7e7", "#f2a7b8", "#a6da95", "#f5bde6"];
 
-/** Article colours: the site's tokens (--info der, --danger die, --success das, as in Bruno
+/** Article colours: the site's tokens (--info a, --danger an, --success some, as in Bruno
  *  Kart), lifted toward white so they read on the night garden. */
 export function articleColours(el) {
   const cs = getComputedStyle(el);

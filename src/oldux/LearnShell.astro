@@ -18,7 +18,7 @@
 // THREE CONTENT VIEWS. Picking a Stufe shows that level's OVERVIEW (own hero,
 // own ring, own content table). Picking an entry shows the ITEM view. And a
 // grammar entry ALSO mounts the real exercise inline — the same mountQuiz() the
-// live /uebungen/grammatik pages use — so you can answer questions without ever
+// live /exercises/grammatik pages use — so you can answer questions without ever
 // leaving the shell, and watch the ring, the level bar and the strip move while
 // you do. That is the open question this page exists to answer: can a learner
 // stay in this view, or does practice need its own page?
@@ -117,7 +117,7 @@ type Section = {
 const doneOf = (_id: string) => 0;
 
 // ── The Artikel-Trainer, embedded ────────────────────────────────────────
-// Same pool and same question shape as /uebungen/artikel-trainer, driven by the
+// Same pool and same question shape as /exercises/artikel-trainer, driven by the
 // same practiceWorkspace.js. The live page ships the whole ~860-noun lexicon;
 // this study page caps it at PER_LEVEL per level, which is still several rounds
 // deep and keeps the HTML from doubling.
@@ -159,7 +159,7 @@ const grammarItem = (t: (typeof grammatik)[number], level: string): Item => ({
   id: t.id,
   label: t.name,
   icon: "book",
-  href: `/uebungen/grammatik/${t.id}`,
+  href: `/exercises/grammatik/${t.id}`,
   level,
   levelSource: "data",
   eyebrow: `Grammatik · ${level}`,
@@ -173,7 +173,7 @@ const grammarItem = (t: (typeof grammatik)[number], level: string): Item => ({
 // ── The full grammar workspaces ──────────────────────────────────────────
 // src/data/grammatik/*.json each describe a complete Kursbuchseite: the
 // "Wie funktioniert das?" rule card plus four or five exercises. The live
-// /uebungen/grammatik/<topic> route renders exactly these. Here they are
+// /exercises/grammatik/<topic> route renders exactly these. Here they are
 // globbed for their metadata only — the JSON itself is loaded lazily in the
 // browser, one topic at a time, so this page does not ship all 180 KB of them.
 const workspaceMods = import.meta.glob("../data/grammatik/*.json", { eager: true });
@@ -198,7 +198,7 @@ const workspaceItem = (w: any): Item => {
     id,
     label: w.name,
     icon: "book-open",
-    href: `/uebungen/grammatik/${id}`,
+    href: `/exercises/grammatik/${id}`,
     level: w.level,
     levelSource: "data",
     eyebrow: `Grammatik · ${w.level}`,
@@ -263,12 +263,12 @@ const allGrammarMinutes = allGrammarItems.reduce((a, i) => a + (i.minutes ?? 0),
    that file holds only the seven quiz-only topics now, and counting it alone would advertise
    37 Aufgaben two centimetres above a blurb that says 664. One number, one source. */
 const scaleChips = [
-  { label: "Grammatik", value: `${de(allGrammarTasks)} Aufgaben`, href: "/uebungen/grammatik", icon: "book" as const },
-  { label: "Wortschatz", value: `${de(lexiconCounts().total)} Wörter`, href: "/uebungen/wortschatz", icon: "folder" as const },
-  { label: "Hören", value: `${hoeren.texts.length} Hörtexte`, href: "/uebungen/hoeren", icon: "volume" as const },
-  { label: "Landeskunde", value: `${kultur.topics.length} Themen`, href: "/uebungen/kultur", icon: "map-pin" as const },
-  { label: "Prüfungen", value: `${exams.length} Formate`, href: "/pruefungen", icon: "graduation-cap" as const },
-  { label: "Downloads", value: `${downloadFiles.length} PDFs`, href: "/wissen", icon: "document" as const },
+  { label: "Grammatik", value: `${de(allGrammarTasks)} Aufgaben`, href: "/exercises/grammatik", icon: "book" as const },
+  { label: "Wortschatz", value: `${de(lexiconCounts().total)} Wörter`, href: "/exercises/wortschatz", icon: "folder" as const },
+  { label: "Hören", value: `${hoeren.texts.length} Hörtexte`, href: "/exercises/hoeren", icon: "volume" as const },
+  { label: "Landeskunde", value: `${kultur.topics.length} Themen`, href: "/exercises/kultur", icon: "map-pin" as const },
+  { label: "Prüfungen", value: `${exams.length} Formate`, href: "/exams", icon: "graduation-cap" as const },
+  { label: "Downloads", value: `${downloadFiles.length} PDFs`, href: "/knowledge", icon: "document" as const },
 ];
 
 // ── The grammar module, handed out in portions ───────────────────────────
@@ -393,16 +393,16 @@ const sections: Section[] = [
     blurb: `Dein aktueller Kurs — nach Reihenfolge sortiert, nicht nach Stufe. Erst die Grammatik, dann der Wortschatz, dann der komplette Probelauf. Die Grammatik kommt in ${portions.length} Portionen von je 10 bis 30 Aufgaben; du siehst immer die, die dran ist.`,
     focus: [`Grammatik von A1 bis B2 — ${portions.length} Portionen, ${allGrammarTasks} Aufgaben`, "Redemittel für den Alltag", "Ein kompletter DTZ-Übungssatz"],
     items: [
-      { id: "start", label: "Start", icon: "sparkle", href: "/uebungen", level: "A1–B1", levelSource: "—", eyebrow: "Übersicht", lead: "Dein Einstieg: wo du stehst, was als Nächstes ansteht und wie viel bis zur Prüfung fehlt.", meta: "Übersicht", practice: "picker" },
+      { id: "start", label: "Start", icon: "sparkle", href: "/exercises", level: "A1–B1", levelSource: "—", eyebrow: "Übersicht", lead: "Dein Einstieg: wo du stehst, was als Nächstes ansteht und wie viel bis zur Prüfung fehlt.", meta: "Übersicht", practice: "picker" },
       // Not the whole grammar catalogue any more: the portion the learner is on.
       // The row, its bar and its count all speak about that one sitting, and
       // repaint() moves them to the next as soon as this one is finished. The
       // full figure still stands in the section's blurb, where it is context
       // rather than a target.
       { id: "grammatik-basis", label: firstPortion.label, icon: "book", href: firstPortion.href, level: firstPortion.level, levelSource: "data", eyebrow: `Modul 1 · Portion 1 von ${portions.length}`, lead: `Portion 1 von ${portions.length} aus ${allGrammarItems.length} Grammatikthemen von A1 bis B2 — Regelkarte und Übungen, ${firstPortion.tasks} Aufgaben in einem Durchgang.`, tasks: firstPortion.tasks, done: 0, minutes: firstPortion.minutes, practice: "picker" },
-      { id: "wortschatz-kurs", label: "Wortschatz-Karten", icon: "folder", href: "/uebungen/wortschatz", level: "A1–B1", levelSource: "abgeleitet", eyebrow: "Modul 2", lead: "Redemittel für Amt, Wohnungssuche und Alltag — als Karteikarten zum Umdrehen.", tasks: wortschatz.length, done: 0, minutes: 15, practice: "cards" },
-      { id: "probelauf", label: "Prüfungssimulation", icon: "document", href: "/pruefungen/dtz/uebungssatz", level: "A2/B1", levelSource: "abgeleitet", eyebrow: "Modul 3", lead: "Ein kompletter DTZ-Übungssatz im echten Format: neun Prüfungsteile, 45 bewertete Aufgaben.", tasks: 45, done: 0, minutes: 54, practice: "dtz" },
-      { id: "ergebnis", label: "Ergebnis", icon: "graduation-cap", href: "/pruefungen/dtz", level: "A2/B1", levelSource: "—", eyebrow: "Abschluss", lead: "Deine Auswertung nach Stufe — live aus dem, was du auf dieser Seite geübt hast.", meta: "Am Ende", practice: "result" },
+      { id: "wortschatz-kurs", label: "Wortschatz-Karten", icon: "folder", href: "/exercises/wortschatz", level: "A1–B1", levelSource: "abgeleitet", eyebrow: "Modul 2", lead: "Redemittel für Amt, Wohnungssuche und Alltag — als Karteikarten zum Umdrehen.", tasks: wortschatz.length, done: 0, minutes: 15, practice: "cards" },
+      { id: "probelauf", label: "Prüfungssimulation", icon: "document", href: "/exams/dtz/uebungssatz", level: "A2/B1", levelSource: "abgeleitet", eyebrow: "Modul 3", lead: "Ein kompletter DTZ-Übungssatz im echten Format: neun Prüfungsteile, 45 bewertete Aufgaben.", tasks: 45, done: 0, minutes: 54, practice: "dtz" },
+      { id: "ergebnis", label: "Ergebnis", icon: "graduation-cap", href: "/exams/dtz", level: "A2/B1", levelSource: "—", eyebrow: "Abschluss", lead: "Deine Auswertung nach Stufe — live aus dem, was du auf dieser Seite geübt hast.", meta: "Am Ende", practice: "result" },
     ],
   },
   {
@@ -415,7 +415,7 @@ const sections: Section[] = [
     focus: ["Artikel: der, die, das", "Akkusativ nach Verben", "Grundwortschatz"],
     items: [
       ...grammarAt("A1"),
-      { id: "artikel-trainer", label: "der/die/das-Trainer", icon: "target", href: "/uebungen/artikel-trainer", level: "A1", levelSource: "abgeleitet", eyebrow: "Übung · A1", lead: `Artikel gezielt trainieren — ${ARTIKEL_POOL.length} Nomen aus dem Lexikon, Fokus- oder Testmodus, mit sofortigem Feedback nach jeder Antwort.`, tasks: ARTIKEL_SESSION, done: doneOf("artikel-trainer"), minutes: 8, practice: "trainer" },
+      { id: "artikel-trainer", label: "der/die/das-Trainer", icon: "target", href: "/exercises/artikel-trainer", level: "A1", levelSource: "abgeleitet", eyebrow: "Übung · A1", lead: `Artikel gezielt trainieren — ${ARTIKEL_POOL.length} Nomen aus dem Lexikon, Fokus- oder Testmodus, mit sofortigem Feedback nach jeder Antwort.`, tasks: ARTIKEL_SESSION, done: doneOf("artikel-trainer"), minutes: 8, practice: "trainer" },
     ],
   },
   {
@@ -466,8 +466,8 @@ const sections: Section[] = [
     blurb: "Übungen, deren Inhalt echt über mehrere Stufen läuft — die Karteikarten reichen von „Wie geht's dir?“ bis „Ich bin der Meinung, dass …“.",
     focus: ["Redemittel A1 bis B1", "Aussprache im Langsam-Modus"],
     items: [
-      { id: "wortschatz", label: "Wortschatz & Redemittel", icon: "folder", href: "/uebungen/wortschatz", level: "A1–B1", levelSource: "abgeleitet", eyebrow: "Übung · A1–B1", lead: `${wortschatz.length} Karteikarten, von „Wie geht's dir?“ (A1) bis „Ich bin der Meinung, dass …“ (B1).`, tasks: wortschatz.length, done: 0, minutes: 15, practice: "cards" },
-      { id: "aussprache", label: "Aussprache-Training", icon: "volume", href: "/uebungen/aussprache", level: "A1–B1", levelSource: "abgeleitet", eyebrow: "Übung · A1–B1", lead: `Alle ${ausspracheWordCount} Wörter aus Wortschatz und Artikel-Trainer anhören und im Langsam-Modus nachsprechen.`, tasks: ausspracheWordCount, done: 0, minutes: 12, practice: "audio" },
+      { id: "wortschatz", label: "Wortschatz & Redemittel", icon: "folder", href: "/exercises/wortschatz", level: "A1–B1", levelSource: "abgeleitet", eyebrow: "Übung · A1–B1", lead: `${wortschatz.length} Karteikarten, von „Wie geht's dir?“ (A1) bis „Ich bin der Meinung, dass …“ (B1).`, tasks: wortschatz.length, done: 0, minutes: 15, practice: "cards" },
+      { id: "aussprache", label: "Aussprache-Training", icon: "volume", href: "/exercises/aussprache", level: "A1–B1", levelSource: "abgeleitet", eyebrow: "Übung · A1–B1", lead: `Alle ${ausspracheWordCount} Wörter aus Wortschatz und Artikel-Trainer anhören und im Langsam-Modus nachsprechen.`, tasks: ausspracheWordCount, done: 0, minutes: 12, practice: "audio" },
     ],
   },
   {
@@ -481,11 +481,11 @@ const sections: Section[] = [
     blurb: "Prüfungen sind keine Stufe, sondern ein Ziel — deshalb eine eigene Gruppe, sortiert nach Einstiegsniveau statt nach Fortschritt. Dazu die DTZ-Prüfungsteile zum Üben.",
     focus: ["Format und Dauer", "Was zum Bestehen reicht", "DTZ üben: Lesen, Bildbeschreibung, Landeskunde"],
     items: [
-      { id: "dtz", label: "DTZ", icon: "document", href: "/pruefungen/dtz", level: "A2/B1", levelSource: "data", eyebrow: "Prüfung", lead: "Deutsch-Test für Zuwanderer: Hören, Lesen, Schreiben, Sprechen — 45 bewertete Aufgaben plus Schreibteil.", tasks: 45, done: 0, minutes: 54, practice: "dtz" },
-      { id: "lid", label: "Leben in Deutschland", icon: "map-pin", href: "/pruefungen/leben-in-deutschland", level: "kein GER", levelSource: "data", eyebrow: "Prüfung", lead: `33 Fragen aus dem offiziellen Katalog, dazu die Landesfragen aller ${lid.bundeslaender.length} Bundesländer — Wissenstest, keine Sprachprüfung.`, tasks: lid.questions.length, done: 0, minutes: 20, practice: "choice" },
-      { id: "telc", label: "telc", icon: "document", href: "/pruefungen/telc", level: "A1–C2", levelSource: "data", eyebrow: "Prüfung", lead: "Sprachbausteine — der Prüfungsteil, den es so nur bei telc gibt: Grammatik im laufenden Text.", tasks: 20, done: 0, minutes: 20, practice: "bausteine" },
-      { id: "goethe", label: "Goethe-Zertifikat", icon: "landmark", href: "/pruefungen/goethe", level: "A1–C2", levelSource: "data", eyebrow: "Prüfung", lead: "Die Goethe-Zertifikate decken A1 bis C2 ab — hier alle Themen, nach Stufe sortiert.", meta: "A1–C2", practice: "picker" },
-      { id: "testdaf", label: "TestDaF", icon: "graduation-cap", href: "/pruefungen/testdaf", level: "B2–C1", levelSource: "data", eyebrow: "Prüfung", lead: "TestDaF setzt B2–C1 voraus — hier die Themen dieser Stufen.", meta: "B2–C1", practice: "picker" },
+      { id: "dtz", label: "DTZ", icon: "document", href: "/exams/dtz", level: "A2/B1", levelSource: "data", eyebrow: "Prüfung", lead: "Deutsch-Test für Zuwanderer: Hören, Lesen, Schreiben, Sprechen — 45 bewertete Aufgaben plus Schreibteil.", tasks: 45, done: 0, minutes: 54, practice: "dtz" },
+      { id: "lid", label: "Leben in Deutschland", icon: "map-pin", href: "/exams/leben-in-deutschland", level: "kein GER", levelSource: "data", eyebrow: "Prüfung", lead: `33 Fragen aus dem offiziellen Katalog, dazu die Landesfragen aller ${lid.bundeslaender.length} Bundesländer — Wissenstest, keine Sprachprüfung.`, tasks: lid.questions.length, done: 0, minutes: 20, practice: "choice" },
+      { id: "telc", label: "telc", icon: "document", href: "/exams/telc", level: "A1–C2", levelSource: "data", eyebrow: "Prüfung", lead: "Sprachbausteine — der Prüfungsteil, den es so nur bei telc gibt: Grammatik im laufenden Text.", tasks: 20, done: 0, minutes: 20, practice: "bausteine" },
+      { id: "goethe", label: "Goethe-Zertifikat", icon: "landmark", href: "/exams/goethe", level: "A1–C2", levelSource: "data", eyebrow: "Prüfung", lead: "Die Goethe-Zertifikate decken A1 bis C2 ab — hier alle Themen, nach Stufe sortiert.", meta: "A1–C2", practice: "picker" },
+      { id: "testdaf", label: "TestDaF", icon: "graduation-cap", href: "/exams/testdaf", level: "B2–C1", levelSource: "data", eyebrow: "Prüfung", lead: "TestDaF setzt B2–C1 voraus — hier die Themen dieser Stufen.", meta: "B2–C1", practice: "picker" },
 
       /* DTZ skill practice, moved here out of Stufe B1. These are exam formats —
          Bildbeschreibung with real examiner questions, the Leseverstehen simulation,
@@ -493,9 +493,9 @@ const sections: Section[] = [
          DTZ level, which made the biggest group three entries bigger still and put
          exam rehearsal in the middle of a grammar syllabus. This group is explicitly
          "ein Ziel, keine Stufe", which is exactly what they are. */
-      { id: "sprechen", label: "Sprechen: Bildbeschreibung", icon: "mic", href: "/uebungen/sprechen", level: "A2/B1", levelSource: "abgeleitet", eyebrow: "Übung · B1", lead: "Bildbeschreibung mit echten DTZ-Prüferfragen und 90-Sekunden-Timer — dieselbe Aufgabenform wie im Prüfungsteil Sprechen.", tasks: sprechen.length, done: 0, minutes: 15, practice: "speak" },
-      { id: "lesen", label: "Lesen & Schreiben", icon: "pencil", href: "/uebungen/lesen-schreiben", level: "A2/B1", levelSource: "abgeleitet", eyebrow: "Übung · B1", lead: `DTZ-Leseverstehen-Simulation mit ${readingQuestionCount} Aufgaben in vier Teilen, dazu Schreibaufgaben.`, tasks: readingQuestionCount, done: 0, minutes: 25, practice: "choice" },
-      { id: "kultur", label: "Kulturwissen", icon: "map-pin", href: "/uebungen/kultur", level: "B1", levelSource: "abgeleitet", eyebrow: "Übung · B1", lead: "Diskussionsthemen aus echten Unterrichtsgesprächen — mit Pro- und Kontra-Argumenten zum Nachsprechen.", tasks: kultur.topics.length, done: 0, minutes: 10, practice: "read" },
+      { id: "sprechen", label: "Sprechen: Bildbeschreibung", icon: "mic", href: "/exercises/sprechen", level: "A2/B1", levelSource: "abgeleitet", eyebrow: "Übung · B1", lead: "Bildbeschreibung mit echten DTZ-Prüferfragen und 90-Sekunden-Timer — dieselbe Aufgabenform wie im Prüfungsteil Sprechen.", tasks: sprechen.length, done: 0, minutes: 15, practice: "speak" },
+      { id: "lesen", label: "Lesen & Schreiben", icon: "pencil", href: "/exercises/lesen-schreiben", level: "A2/B1", levelSource: "abgeleitet", eyebrow: "Übung · B1", lead: `DTZ-Leseverstehen-Simulation mit ${readingQuestionCount} Aufgaben in vier Teilen, dazu Schreibaufgaben.`, tasks: readingQuestionCount, done: 0, minutes: 25, practice: "choice" },
+      { id: "kultur", label: "Kulturwissen", icon: "map-pin", href: "/exercises/kultur", level: "B1", levelSource: "abgeleitet", eyebrow: "Übung · B1", lead: "Diskussionsthemen aus echten Unterrichtsgesprächen — mit Pro- und Kontra-Argumenten zum Nachsprechen.", tasks: kultur.topics.length, done: 0, minutes: 10, practice: "read" },
     ],
   },
 ];
@@ -560,7 +560,7 @@ const clientData = {
     section: sectionOf[i.id].id, sectionLabel: sectionOf[i.id].label,
   }]))),
   sections: Object.fromEntries(sections.map((s) => [s.id, { label: s.label, badge: s.badge, items: s.items.map((i) => i.id) }])),
-  // Which coarse skill bucket each kind of exercise reports into, so /uebungen's
+  // Which coarse skill bucket each kind of exercise reports into, so /exercises's
   // existing per-skill stats keep working alongside the per-topic numbers.
   skillOf: Object.fromEntries(sections.flatMap((s) => s.items.map((i) => [i.id,
     i.practice === "cards" ? "wortschatz"
@@ -615,7 +615,7 @@ const defaultVariant = variants[0];
   <div class:list={["nv", study && "nv--study", topicLayout === "focus" && "nv--focus"]}>
     {study && (
       <div class="nv-banner">
-        🧪 <strong>Navigations-Studie</strong> — dieselbe Seite wie <a href="/fortschritt">/fortschritt</a>, hier mit allen drei Navigationsvarianten zum Vergleichen.
+        🧪 <strong>Navigations-Studie</strong> — dieselbe Seite wie <a href="/progress">/progress</a>, hier mit allen drei Navigationsvarianten zum Vergleichen.
       </div>
     )}
 
@@ -1939,7 +1939,7 @@ const defaultVariant = variants[0];
     let applying = false;
 
     function urlFor(section: string, item: string | null) {
-      /* Seeded from the current query, not empty: on /fortschritt this component shares
+      /* Seeded from the current query, not empty: on /progress this component shares
          the address bar with the view tabs (?ansicht=) and the exam dashboard's
          selection (?pruefung=). Rebuilding from scratch dropped both the first time
          anyone clicked a level, which silently threw you back to the practice tab. */
@@ -2066,7 +2066,7 @@ const defaultVariant = variants[0];
           intro.play();
         };
         if (!calm && matchMedia("(min-width: 1001px)").matches && (forced || !seen)) {
-          /* Only once it is actually on screen. On /fortschritt this shell sits in a tab
+          /* Only once it is actually on screen. On /progress this shell sits in a tab
              panel that starts `hidden` when the URL asks for the Prüfungen view — which
              is what every "back to the overview" link from a sitting now does. Playing
              there would run the tour where nobody can see it AND spend the once-per-

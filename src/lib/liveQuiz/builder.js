@@ -1,4 +1,4 @@
-// /lehrkraefte/quiz/erstellen — a teacher's own live quiz for one chapter.
+// /teachers/quiz/create — a teacher's own live quiz for one chapter.
 //
 // State is one draft: { id?, title, chapter, chapter2, questions[] }; custom.js saves both
 // chapters in one column as "w:a1-03+g:futur". Chapter items are ticked in and out by their `src`; own questions are added,
@@ -88,7 +88,7 @@ export async function mountBuilder(root) {
             <b>${esc(q.title)}</b>
             <small>${esc(t("qb.mine.count", "{n} Fragen", { n: q.questions?.length ?? 0 }))}${q.chapter ? ` · ${esc(chapterName(q.chapter))}` : ""}</small>
           </button>
-          <a class="qb-mine-play" href="/lehrkraefte/quiz?quiz=${q.id}" title="${esc(t("qb.mine.play", "Live starten"))}" aria-label="${esc(t("qb.mine.play", "Live starten"))}: ${esc(q.title)}">▶</a>
+          <a class="qb-mine-play" href="/teachers/quiz?quiz=${q.id}" title="${esc(t("qb.mine.play", "Live starten"))}" aria-label="${esc(t("qb.mine.play", "Live starten"))}: ${esc(q.title)}">▶</a>
         </li>`)
       .join("");
   }
@@ -186,7 +186,7 @@ export async function mountBuilder(root) {
       list.innerHTML = `<p class="qb-empty">${esc(t("qb.loading", "Einen Moment …"))}</p>`;
       try {
         if (!bankCache.has(slug)) {
-          const res = await fetch(`/lehrkraefte/quiz-kapitel/${slug}.json`);
+          const res = await fetch(`/teachers/quiz-chapters/${slug}.json`);
           if (!res.ok) throw new Error(String(res.status));
           bankCache.set(slug, await res.json());
         }
@@ -211,8 +211,8 @@ export async function mountBuilder(root) {
               <label class="qb-item">
                 <input type="checkbox" data-src="${esc(it.src)}" ${has.has(it.src) ? "checked" : ""} />
                 ${it.t === "word"
-                  ? `<span class="qb-item-q" lang="de">${esc(it.de)}</span><span class="qb-item-a">${esc(it.en)}</span>`
-                  : `<span class="qb-item-q" lang="de">${esc(it.prompt)}</span><span class="qb-item-a" lang="de">✓ ${esc(it.options[it.correct])} <s>${it.options.filter((_, i) => i !== it.correct).map(esc).join(" · ")}</s></span>`}
+                  ? `<span class="qb-item-q" lang="en">${esc(it.de)}</span><span class="qb-item-a">${esc(it.en)}</span>`
+                  : `<span class="qb-item-q" lang="en">${esc(it.prompt)}</span><span class="qb-item-a" lang="en">✓ ${esc(it.options[it.correct])} <s>${it.options.filter((_, i) => i !== it.correct).map(esc).join(" · ")}</s></span>`}
               </label>`).join("")}
           </fieldset>`)
         .join("");
@@ -369,8 +369,8 @@ export async function mountBuilder(root) {
     $("[data-list]").innerHTML = draft.questions
       .map((q, i) => {
         const body = q.t === "word"
-          ? `<span class="qb-li-q" lang="de">${esc(q.label ?? q.id)}</span><span class="qb-li-a">${esc(q.dir === "meaning-de" ? t("lq.mode.meaningDeLabel", "Übersetzung → Deutsch") : t("lq.mode.deMeaningLabel", "Deutsch → Übersetzung"))}</span>`
-          : `${q.kind ? `<span class="qb-li-kind">${esc(q.kind)}</span>` : ""}<span class="qb-li-q" lang="de">${esc(q.prompt)}</span><span class="qb-li-a" lang="de">${q.options.map((o, k) => (k === q.correct ? `<b>✓ ${esc(o)}</b>` : esc(o))).join(" · ")}</span>`;
+          ? `<span class="qb-li-q" lang="en">${esc(q.label ?? q.id)}</span><span class="qb-li-a">${esc(q.dir === "meaning-de" ? t("lq.mode.meaningDeLabel", "Übersetzung → Deutsch") : t("lq.mode.deMeaningLabel", "Deutsch → Übersetzung"))}</span>`
+          : `${q.kind ? `<span class="qb-li-kind">${esc(q.kind)}</span>` : ""}<span class="qb-li-q" lang="en">${esc(q.prompt)}</span><span class="qb-li-a" lang="en">${q.options.map((o, k) => (k === q.correct ? `<b>✓ ${esc(o)}</b>` : esc(o))).join(" · ")}</span>`;
         return `
           <li class="${i === editing ? "is-editing" : ""}">
             <div class="qb-li-body">${body}</div>
@@ -446,7 +446,7 @@ export async function mountBuilder(root) {
   $("[data-save]").addEventListener("click", save);
   const play = async () => {
     const saved = await save();
-    if (saved) location.href = `/lehrkraefte/quiz?quiz=${saved.id}`;
+    if (saved) location.href = `/teachers/quiz?quiz=${saved.id}`;
   };
   $("[data-play]").addEventListener("click", play);
   $("[data-play-top]").addEventListener("click", play);
@@ -482,7 +482,7 @@ export async function mountBuilder(root) {
     dirty = false;
   }
   // ?set=<id>: a new quiz from one of the teacher's card sets (Vokabeln vom Foto,
-  // /lehrkraefte/karten): its words as questions, ready to save and play.
+  // /teachers/cards): its words as questions, ready to save and play.
   const fromSet = new URLSearchParams(location.search).get("set");
   if (!start && fromSet) {
     try {

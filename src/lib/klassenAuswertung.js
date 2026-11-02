@@ -14,9 +14,9 @@ const DAY = 86_400_000;
 export const INAKTIV_TAGE = 7;
 
 export const KINDS = {
-  g: "Grammatik", w: "Wortschatz", x: "Prüfung", h: "Hören", l: "Lesen", k: "Kultur",
-  f: "Führerschein", s: "Schreiben", sp: "Sprechen", a: "Aussprache", q: "Quiz", vs: "Kartenset",
-  st: "Stunde",
+  g: "Grammar", w: "Vocabulary", x: "Exam", h: "Listening", l: "Reading", k: "Culture",
+  f: "Driving test", s: "Writing", sp: "Speaking", a: "Pronunciation", q: "Quiz", vs: "Card set",
+  st: "Lesson",
 };
 
 /** "g:verben-praepositionen" → { kind: "g", id: "verben-praepositionen" } */

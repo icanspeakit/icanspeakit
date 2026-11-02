@@ -1,9 +1,10 @@
-// "Ein Zimmer einrichten" — exercise type `zimmer` in src/data/grammatik/<topic>.json.
+// "Furnish a room" — exercise type `zimmer` in src/data/grammatik/<topic>.json.
 //
-// The Wechselpräpositionen partner sheet (Lektion 2, "Wohin sollen die Sachen?") as a
-// one-person exercise: a task says where a thing goes ("Das Sofa soll unter das Fenster."),
+// From the deutschacademy Wechselpräpositionen partner sheet, now on the English
+// prepositions topic: a task says where a thing goes ("The sofa goes under the window."),
 // the learner drags it into the room — or taps it, then taps the place — and then says it
-// twice: Wohin? (stellen/legen/hängen + Akkusativ) and Wo? (stehen/liegen/hängen + Dativ).
+// twice: Where to? (the action: I put / hang …) and Where? (the result: it is / they are …).
+// The dot before a thing's name marks singular (sg) or plural (pl), for is / are.
 // The room fills up round by round, so each placed thing is the reference for later ones.
 //
 // The rounds (task + the two sentences) are data; the room and the things are drawings,
@@ -24,16 +25,16 @@ const H = 300;
 // viewBox 0 0 w h. z = drawing order (the plant stands behind the armchair). needs = what
 // has to be in the room before its place is offered (the pillows go on the sofa).
 const THINGS = {
-  vorhaenge: { name: "die Vorhänge", g: "pl", box: [160, 24, 120, 125], z: 1 },
-  bild: { name: "das Bild", g: "das", box: [36, 72, 70, 55], z: 2, needs: "bett" },
-  spiegel: { name: "der Spiegel", g: "der", box: [352, 110, 28, 50], z: 3 },
-  pflanze: { name: "die Pflanze", g: "die", box: [298, 148, 34, 82], z: 4, needs: "sessel" },
-  bett: { name: "das Bett", g: "das", box: [6, 180, 124, 72], z: 5 },
-  lampe: { name: "die Lampe", g: "die", box: [134, 138, 28, 116], z: 6, needs: "bett" },
-  sofa: { name: "das Sofa", g: "das", box: [166, 182, 116, 70], z: 7 },
-  kissen: { name: "die Kissen", g: "pl", box: [186, 194, 76, 28], z: 8, needs: "sofa" },
-  sessel: { name: "der Sessel", g: "der", box: [288, 196, 52, 56], z: 9, needs: "sofa" },
-  teppich: { name: "der Teppich", g: "der", box: [158, 256, 132, 36], z: 10, needs: "sofa" },
+  vorhaenge: { name: "the curtains", g: "pl", box: [160, 24, 120, 125], z: 1 },
+  bild: { name: "the picture", g: "sg", box: [36, 72, 70, 55], z: 2, needs: "bett" },
+  spiegel: { name: "the mirror", g: "sg", box: [352, 110, 28, 50], z: 3 },
+  pflanze: { name: "the plant", g: "sg", box: [298, 148, 34, 82], z: 4, needs: "sessel" },
+  bett: { name: "the bed", g: "sg", box: [6, 180, 124, 72], z: 5 },
+  lampe: { name: "the lamp", g: "sg", box: [134, 138, 28, 116], z: 6, needs: "bett" },
+  sofa: { name: "the sofa", g: "sg", box: [166, 182, 116, 70], z: 7 },
+  kissen: { name: "the cushions", g: "pl", box: [186, 194, 76, 28], z: 8, needs: "sofa" },
+  sessel: { name: "the armchair", g: "sg", box: [288, 196, 52, 56], z: 9, needs: "sofa" },
+  teppich: { name: "the rug", g: "sg", box: [158, 256, 132, 36], z: 10, needs: "sofa" },
 };
 
 const WOOD = "#8b5a3c";
@@ -124,25 +125,28 @@ function escapeHtml(s) {
 }
 
 const L = {
-  step: (n, total) => escapeHtml(t("zi.step", "Sache {n} von {total}", { n, total })),
-  get drag() { return escapeHtml(t("zi.drag", "Ziehen Sie die Sache ins Zimmer – oder tippen Sie erst die Sache an, dann den Platz. Sie können auch eine andere Sache nehmen.")); },
-  get pickPlace() { return escapeHtml(t("zi.pickPlace", "Und jetzt: Tippen Sie auf den Platz im Zimmer.")); },
-  get task() { return escapeHtml(t("zi.task", "Auftrag")); },
-  later: (name) => t("zi.later", "Erst muss {name} ins Zimmer.", { name }),
-  get wrongPlace() { return escapeHtml(t("zi.wrongPlace", "✗ Da nicht. Lesen Sie den Auftrag noch einmal.")); },
-  get hintPlace() { return escapeHtml(t("zi.hintPlace", "Der richtige Platz blinkt jetzt.")); },
-  get placed() { return escapeHtml(t("zi.placed", "✓ Steht am richtigen Platz. Jetzt sagen Sie es:")); },
-  get check() { return `<span data-i18n="quiz.check">${escapeHtml(t("quiz.check", "Prüfen"))}</span>`; },
-  get next() { return escapeHtml(t("zi.next", "Nächste Sache")); },
-  get finish() { return escapeHtml(t("zi.finish", "Fertig")); },
-  get again() { return `<span data-i18n="vp.retry">${escapeHtml(t("vp.retry", "Nochmal"))}</span>`; },
-  get correct() { return escapeHtml(t("quiz.correct", "✓ Richtig!")); },
-  wrongIs: (a) => escapeHtml(t("vp.wrongIs", "✗ Richtig wäre: „{a}“", { a })),
-  done: (n, total) => escapeHtml(t("zi.done", "Das Zimmer ist fertig! {n} von {total} Sätzen richtig.", { n, total })),
-  get place() { return t("zi.place", "Platz"); },
+  step: (n, total) => escapeHtml(t("zi.step", "Thing {n} of {total}", { n, total })),
+  get drag() { return escapeHtml(t("zi.drag", "Drag the thing into the room – or tap the thing first, then the place. You can also take a different thing.")); },
+  get pickPlace() { return escapeHtml(t("zi.pickPlace", "Now tap the place in the room.")); },
+  get task() { return escapeHtml(t("zi.task", "Task")); },
+  later: (name) => t("zi.later", "First {name} has to go into the room.", { name }),
+  get wrongPlace() { return escapeHtml(t("zi.wrongPlace", "✗ Not there. Read the task again.")); },
+  get hintPlace() { return escapeHtml(t("zi.hintPlace", "The right place is flashing now.")); },
+  get placed() { return escapeHtml(t("zi.placed", "✓ That's the right place. Now say it:")); },
+  get check() { return `<span data-i18n="quiz.check">${escapeHtml(t("quiz.check", "Check"))}</span>`; },
+  get next() { return escapeHtml(t("zi.next", "Next thing")); },
+  get finish() { return escapeHtml(t("zi.finish", "Finish")); },
+  get again() { return `<span data-i18n="vp.retry">${escapeHtml(t("vp.retry", "Try again"))}</span>`; },
+  get correct() { return escapeHtml(t("quiz.correct", "✓ Correct!")); },
+  wrongIs: (a) => escapeHtml(t("vp.wrongIs", "✗ Correct would be: “{a}”", { a })),
+  done: (n, total) => escapeHtml(t("zi.done", "The room is ready! {n} of {total} sentences correct.", { n, total })),
+  get place() { return t("zi.place", "Place"); },
+  get room() { return t("zi.room", "Room"); },
+  get whereTo() { return t("zi.whereTo", "Where to?"); },
+  get where() { return t("zi.where", "Where?"); },
   missing: (n) => n === 1
-    ? t("zi.missingOne", "Noch 1 Lücke offen – tippen Sie dort ein Wort an.")
-    : t("zi.missing", "Noch {n} Lücken offen – tippen Sie in jeder markierten Gruppe ein Wort an.", { n }),
+    ? t("zi.missingOne", "1 gap still open – tap a word there.")
+    : t("zi.missing", "{n} gaps still open – tap one word in each marked group.", { n }),
 };
 
 export function mountZimmer(root, ex, notify) {
@@ -150,7 +154,7 @@ export function mountZimmer(root, ex, notify) {
   // Tray order: by noun, not by round, so the next thing is never simply "the first one".
   const trayOrder = Object.keys(THINGS)
     .filter((k) => rounds.some((r) => r.item === k))
-    .sort((a, b) => THINGS[a].name.split(" ")[1].localeCompare(THINGS[b].name.split(" ")[1], "de"));
+    .sort((a, b) => THINGS[a].name.split(" ")[1].localeCompare(THINGS[b].name.split(" ")[1], "en"));
   const given = {};
   let s;
   const fresh = () => ({ round: 0, placed: new Set(), done: new Set(), phase: "place", picks: { a: [], b: [] }, selected: null, msg: "", msgKind: "", misses: 0, score: 0, pop: null, nudge: false });
@@ -188,7 +192,7 @@ export function mountZimmer(root, ex, notify) {
       }).join("")
       : "";
     return `<div class="zi-room${s.selected ? " is-aiming" : ""}" data-zi-room>
-      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Zimmer" lang="de">${ROOM}${things}</svg>
+      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHtml(L.room)}">${ROOM}${things}</svg>
       <div class="zi-places">${places}</div>
     </div>`;
   }
@@ -197,7 +201,7 @@ export function mountZimmer(root, ex, notify) {
 
   function trayHtml() {
     const left = trayOrder.filter((k) => !s.placed.has(k));
-    return `<ul class="zi-tray" lang="de">${left.map((k) => `
+    return `<ul class="zi-tray">${left.map((k) => `
       <li><button type="button" class="zi-item${s.selected === k || (s.round === roundOf(k)) ? " is-selected" : ""}${ready(k) ? "" : " is-later"}" data-item="${k}" aria-pressed="${s.selected === k}"${ready(k) ? "" : ` disabled title="${escapeHtml(L.later(THINGS[THINGS[k].needs].name))}"`}>
         <span class="zi-item-pic">${icon(k)}</span>
         <span class="zi-item-name"><span class="zi-item-art"><span class="zi-dot zi-dot--${THINGS[k].g}" aria-hidden="true"></span>${escapeHtml(THINGS[k].name.split(" ")[0])}</span>${escapeHtml(THINGS[k].name.split(" ")[1])}</span>
@@ -225,7 +229,7 @@ export function mountZimmer(root, ex, notify) {
     const fb = checked ? `<span class="vp-feedback ${ok ? "is-correct" : "is-wrong"}">${ok ? L.correct : L.wrongIs(solved(parts))}</span>` : "";
     return `<div class="zi-sent${checked ? (ok ? " is-correct" : " is-wrong") : ""}" data-mitem="${s.round}${key}">
       <span class="zi-q zi-q--${key}">${label}</span>
-      <p class="zi-line" lang="de">${body}</p>${fb}</div>`;
+      <p class="zi-line">${body}</p>${fb}</div>`;
   }
 
   function render() {
@@ -241,8 +245,8 @@ export function mountZimmer(root, ex, notify) {
       const open = ["a", "b"].reduce((n, k) => n + gapsOf(r.parts[k]).filter((_, i) => !s.picks[k][i]).length, 0);
       const ready = s.phase === "say" && open === 0;
       lower = `<div class="zi-say">
-        ${sentenceHtml("a", "Wohin?")}
-        ${sentenceHtml("b", "Wo?")}
+        ${sentenceHtml("a", L.whereTo)}
+        ${sentenceHtml("b", L.where)}
         <div class="vp-actions">
           ${s.phase === "say"
             // Never disabled: a tap on an unfinished one says what is missing (notReady.js).
@@ -255,7 +259,7 @@ export function mountZimmer(root, ex, notify) {
         <span class="zi-task-pic">${icon(r.item)}</span>
         <div class="zi-task-body">
           <span class="zi-step">${L.task} · ${L.step(Math.min(s.done.size + 1, total), total)}</span>
-          <p class="zi-task-text" lang="de">${escapeHtml(r.task)}</p>
+          <p class="zi-task-text">${escapeHtml(r.task)}</p>
         </div>
       </div>`;
     const msg = s.phase === "place" ? (s.msg || (s.selected ? L.pickPlace : L.drag)) : s.phase === "say" ? L.placed : "";

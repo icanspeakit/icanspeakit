@@ -1,5 +1,18 @@
 # Übersetzungen — ar / uk / ru / tr
 
+> **English levels (since 2026-10-30, `vocab-a1`).** A level whose nouns carry `a` / `an` /
+> `some` is English (`ENGLISH_LEVELS` in `src/lib/lexicon.js`; A1–C2 since `vocab-c1-c2` on 2026-11-02, i.e. every level that has words). For those words:
+> `de.json` holds a plain **German translation** (nouns with their article: „der Vorname“), not
+> a German explanation, and `check-erklaerungen.mjs` skips them. `de-fill.json` and
+> `de-syn.json` only served German words (gap answers of German hints, German synonyms); they
+> were removed by the `cleanup` run (2026-11-02), when no German level was left. The
+> other language files lost every entry keyed by an old German A1–B2 id and have none for the
+> English words yet (since `vocab-b2` they are empty `{}` files): only `en` is registered (`src/lib/languages.js`), and a deck shows a
+> language tab only when every card has it, so nothing is missing on screen. New glosses for a
+> language are written English → that language when the language is added.
+>
+> The rest of this file describes the German-course setup; since `vocab-b2` no level uses it any more.
+
 One file per language, `{ "<word id>": "<translation>" }`, keyed by the `id` of a word in
 `src/content/lexicon/<level>.json`. `en` is **not** here: it ships inline with the word,
 because it is part of how the lexicon was compiled.

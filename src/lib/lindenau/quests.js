@@ -1,150 +1,166 @@
-// Lindenau (/spiele/lindenau): who stands where and what they say. One quest per person,
-// A1, everyday situations. The German is the content; `en` is only the "Hilfe" gloss.
+// "The Legend of Brambleford" (/games/brambleford; internal id: lindenau): who stands where and
+// what they say. One quest per person, A1, everyday situations in a British market town.
+// The English is the content (npc / de); `en` is the simpler plain-English "Help" line.
+// (The key `de` is historical: it holds the English line the learner reads and builds.)
 //
 // A dialogue is a list of turns. Each turn is one line from the person, optionally followed
 // by a task for the learner:
 //   choose  three replies, exactly one `ok`; every wrong one carries `why` (what was off)
 //   build   tap the words into order; `extra` are distractor tiles; `alts` other orders
 //           that are just as right. Tiles carry their punctuation.
-//   say     a build task the learner may also speak (game.js, taskSay): „Sprechen“ is
-//           scored by the Aussprache-Check's service, „Lieber tippen“ plays it as build.
+//   say     a build task the learner may also speak (game.js, taskSay): "Speak" is
+//           scored by the pronunciation check's service, "Type instead" plays it as build.
 //           At most one per quest.
 // The line after a task is the person's reaction to it, so the talk reads as one talk.
-// `outro` closes the quest; `item` is what the learner walks away with.
+// `outro` closes the quest; `item` is what the learner walks away with; `words` are extra
+// nouns for the monsters in the action levels (English nouns have no capital letter, so
+// game.js cannot pick them out of the sentences).
+// No straight double quotes in any text (scripts/check-lindenau.mjs): use “ ”.
 //
 // The town comes in areas (AREAS at the end): each has its own map – streets, a square with a
 // fountain, buildings (solid; a person stands at the door side), trees – its own Bruno lines
 // and three quests. The second area opens once the first is done (game.js).
 
-// --- Lindenau – Morgen ----------------------------------------------------------------------
+// --- Brambleford – Morning ------------------------------------------------------------------
 const BRUNO_MORGEN = {
-  id: "bruno", mascot: "bruno", name: "Bruno", role: "Marktplatz", x: 560, y: 500, clip: "bruno",
+  id: "bruno", mascot: "bruno", name: "Bruno", role: "Market square", x: 560, y: 500, clip: "bruno",
   intro: [
-    { npc: "Hallo! Ich bin Bruno. Willkommen in Lindenau!", en: "Hello! I'm Bruno. Welcome to Lindenau!" },
-    { npc: "Du bist neu hier. Heute hast du drei Aufgaben.", en: "You're new here. Today you have three tasks." },
-    { npc: "Kauf Brötchen in der Bäckerei, kauf eine Fahrkarte am Bahnhof und mach einen Termin beim Arzt.", en: "Buy bread rolls at the bakery, buy a ticket at the station and make a doctor's appointment." },
-    { npc: "Geh zu den Leuten mit dem Ausrufezeichen und sprich mit ihnen. Viel Erfolg!", en: "Go to the people with the exclamation mark and talk to them. Good luck!" },
+    { npc: "Hello! I'm Bruno. Welcome to Brambleford!", en: "Hi! My name is Bruno. I am happy you are in Brambleford!" },
+    { npc: "You're new here. Today you've got three jobs.", en: "You have not been here long. Today you have three things to do." },
+    { npc: "Buy a sausage roll at the bakery, get a train ticket at the station and make an appointment at the GP surgery.", en: "Buy a sausage roll in the bakery. Buy a ticket for the train at the station. Ask for a time to see the doctor." },
+    { npc: "Go to the people with the exclamation mark and talk to them. Good luck!", en: "Walk to the people with a “!” above them and speak to them. I hope it goes well!" },
   ],
-  waiting: (n) => [{ npc: n === 1 ? "Noch eine Aufgabe. Du schaffst das!" : `Noch ${n} Aufgaben. Du schaffst das!`, en: n === 1 ? "One more task. You can do it!" : `${n} more tasks. You can do it!` }],
+  waiting: (n) => [{ npc: n === 1 ? "One more job. You can do it!" : `${n} more jobs. You can do it!`, en: n === 1 ? "You have one thing left to do. You can do it!" : `You have ${n} things left to do. You can do it!` }],
   done: [
-    { npc: "Brötchen, Fahrkarte, Arzttermin – alles erledigt! Super gemacht!", en: "Rolls, ticket, appointment – all done! Well done!" },
+    { npc: "Sausage roll, ticket, appointment – all done! Well done!", en: "You did all three things! Very good!" },
   ],
 };
 
 /** Bruno's review before a run, in every area: the sentences missed last time (game.js). */
 export const BRUNO_REVIEW = {
-  offer: { npc: "Schön, dass du wieder da bist! Machen wir eine kurze Wiederholung? Ein paar Sätze vom letzten Mal.", en: "Nice that you're back! Shall we do a quick review? A few sentences from last time." },
-  done: { npc: "Prima, das sitzt schon besser! Und jetzt los in die Stadt.", en: "Great, that's getting better! And now off into town." },
+  offer: { npc: "Nice to see you again! Shall we do a quick review? A few sentences from last time.", en: "I am happy you came back! Do you want to practise a little? We can do some sentences from before." },
+  done: { npc: "Brilliant, that's much better! Now off into town.", en: "Very good, now you know them better! Now go into the town." },
 };
 
 const QUESTS_MORGEN = [
   {
-    id: "baeckerei", mascot: "hamsti", name: "Hamsti", role: "Bäckerei",
-    x: 300, y: 405, item: { label: "Brötchen", icon: "1F950" },
+    id: "baeckerei", mascot: "hamsti", name: "Hamsti", role: "Bakery",
+    x: 300, y: 405, item: { label: "Sausage rolls", icon: "1F950" },
+    words: ["coffee", "roll", "pounds"],
     turns: [
       {
-        npc: "Guten Morgen! Was darf es sein?", en: "Good morning! What would you like?",
+        npc: "Good morning! What can I get you?", en: "Good morning! What do you want to buy?",
         task: { type: "choose", options: [
-          { de: "Ich möchte zwei Brötchen, bitte.", ok: true },
-          { de: "Ich bin zwei Brötchen, bitte.", why: "„Ich bin“ sagt, wer du bist. Was du kaufen willst: „Ich möchte …“" },
-          { de: "Wo sind zwei Brötchen?", why: "Die Brötchen liegen direkt vor dir. Sag, was du haben möchtest." },
+          { de: "Can I have two sausage rolls, please?", ok: true },
+          { de: "Give me two sausage rolls.", why: "That sounds rude in English. Ask nicely: “Can I have …, please?” or “I'd like …, please.”" },
+          { de: "Where are the sausage rolls?", why: "The sausage rolls are right in front of you. Say what you want to buy." },
         ] },
       },
       {
-        npc: "Gern. Sonst noch etwas?", en: "Sure. Anything else?",
-        task: { type: "say", words: ["Ich", "möchte", "noch", "einen", "Kaffee,", "bitte."], extra: ["ein"],
-          why: "Der Kaffee → ich möchte einen Kaffee (Akkusativ). „ein“ passt hier nicht." },
+        npc: "Of course. Anything else?", en: "Yes, I can do that. Do you want something more?",
+        task: { type: "say", words: ["I'd", "like", "a", "coffee,", "please."], extra: ["an"],
+          why: "“Coffee” starts with a consonant sound, so we say “a coffee”, not “an coffee”." },
       },
       {
-        npc: "Das macht 3,40 Euro.", en: "That comes to 3.40 euros.",
+        npc: "That's £6.40, please.", en: "That is six pounds and forty pence. Please pay.",
         task: { type: "choose", options: [
-          { de: "Hier, bitte. 3,40 Euro.", ok: true },
-          { de: "Hier, bitte. 4,30 Euro.", why: "Hör nochmal hin: drei Euro vierzig – 3,40." },
-          { de: "Danke, gleichfalls!", why: "„Gleichfalls“ sagt man auf einen Wunsch, z. B. „Schönen Tag!“. Hier geht es ums Bezahlen." },
+          { de: "Here you are. £6.40.", ok: true },
+          { de: "Here you are. £4.60.", why: "Listen again: six pounds forty – £6.40." },
+          { de: "Thanks, you too!", why: "“You too!” answers a wish like “Have a nice day!”. Here the baker wants your money." },
         ] },
       },
       {
-        npc: "Danke! Schönen Tag noch!", en: "Thanks! Have a nice day!",
+        npc: "Thank you! Have a nice day!", en: "Thanks! I hope your day is good!",
         task: { type: "choose", options: [
-          { de: "Danke, gleichfalls!", ok: true },
-          { de: "Gute Nacht!", why: "Es ist Morgen – „Gute Nacht“ sagt man vor dem Schlafen." },
-          { de: "Entschuldigung!", why: "„Entschuldigung“ sagt man, wenn etwas schiefgeht. Auf „Schönen Tag!“ passt „Danke, gleichfalls!“." },
+          { de: "Thanks, you too!", ok: true },
+          { de: "Good night!", why: "It's morning. We say “Good night” before going to bed." },
+          { de: "I'm sorry!", why: "“Sorry” is for when something goes wrong. To answer “Have a nice day!” say “Thanks, you too!”." },
         ] },
       },
     ],
-    outro: { npc: "Tschüss, bis morgen!", en: "Bye, see you tomorrow!" },
+    outro: { npc: "Bye, see you soon!", en: "Goodbye! I hope to see you again soon." },
   },
   {
-    id: "bahnhof", mascot: "quaki", name: "Quaki", role: "Fahrkarten", x: 1000, y: 405,
-    item: { label: "Fahrkarte", icon: "1F9FE" },
+    id: "bahnhof", mascot: "quaki", name: "Quaki", role: "Ticket office", x: 1000, y: 405,
+    item: { label: "Train ticket", icon: "1F9FE" },
+    words: ["train", "platform", "ticket"],
     turns: [
       {
-        npc: "Hallo! Wohin möchten Sie fahren?", en: "Hello! Where would you like to go?",
-        task: { type: "say", words: ["Ich", "möchte", "nach", "Berlin", "fahren."], extra: ["in"],
-          why: "Mit „möchte“ steht das zweite Verb am Ende: Ich möchte … fahren. Für Städte sagt man „nach“." },
+        npc: "Hello! Where would you like to go?", en: "Hello! Which place do you want to go to?",
+        task: { type: "say", words: ["I'd", "like", "a", "ticket", "to", "London,", "please."], extra: ["at"],
+          why: "For the place you travel to, we say “to”: a ticket to London." },
       },
       {
-        npc: "Einfach oder hin und zurück?", en: "One way or return?",
+        npc: "Single or return?", en: "One way, or there and back?",
         task: { type: "choose", options: [
-          { de: "Hin und zurück, bitte.", ok: true },
-          { de: "Ich fahre gern Zug.", why: "Quaki fragt, welche Fahrkarte du willst: einfach oder hin und zurück." },
-          { de: "Mit dem Zug, bitte.", why: "Du bist schon am Bahnhof – die Frage ist: einfach oder hin und zurück?" },
+          { de: "Return, please.", ok: true },
+          { de: "I like trains.", why: "Quaki asks which ticket you want: single (one way) or return (there and back)." },
+          { de: "By train, please.", why: "You are already at the station. The question is: single or return?" },
         ] },
       },
       {
-        npc: "Wann möchten Sie fahren?", en: "When would you like to travel?",
+        npc: "And when would you like to travel?", en: "And at what time do you want to go?",
         task: { type: "choose", options: [
-          { de: "Morgen um neun Uhr.", ok: true },
-          { de: "Am Bahnhof.", why: "„Wann?“ fragt nach der Zeit, nicht nach dem Ort." },
-          { de: "Zwei Stunden.", why: "„Wann?“ fragt nach dem Zeitpunkt. „Wie lange?“ wäre die Frage für „zwei Stunden“." },
+          { de: "Tomorrow at ten o'clock.", ok: true },
+          { de: "At the station.", why: "“When?” asks about time, not about place." },
+          { de: "Two hours.", why: "“When?” asks for a time. “How long?” is the question for “two hours”." },
         ] },
       },
       {
-        npc: "Das kostet 59 Euro. Der Zug fährt um 9:05 Uhr von Gleis 3.", en: "That's 59 euros. The train leaves at 9:05 from platform 3.",
+        npc: "That's £39 for an off-peak return. Your train leaves at 10:05 from platform 3.", en: "The ticket costs 39 pounds. It is cheaper because it is for a quiet time of day. Your train goes at five past ten from platform number 3.",
         task: { type: "choose", options: [
-          { de: "Alles klar: Gleis 3, 9:05 Uhr. Danke!", ok: true },
-          { de: "Alles klar: Gleis 9, 3:05 Uhr. Danke!", why: "Hör nochmal hin: Gleis drei, neun Uhr fünf." },
-          { de: "Alles klar: Gleis 5, 9:03 Uhr. Danke!", why: "Hör nochmal hin: Gleis drei, neun Uhr fünf." },
+          { de: "Great: platform 3, 10:05. Thank you!", ok: true },
+          { de: "Great: platform 10, 3:05. Thank you!", why: "Listen again: platform three, ten oh five." },
+          { de: "Great: platform 5, 10:03. Thank you!", why: "Listen again: platform three, ten oh five." },
         ] },
       },
     ],
-    outro: { npc: "Gute Reise!", en: "Have a good trip!" },
+    outro: { npc: "Have a good trip!", en: "I hope you have a nice journey!" },
   },
   {
-    id: "arzt", mascot: "aerztin", moji: "1F469-200D-2695", name: "Dr. Igel", role: "Arztpraxis", x: 300, y: 555,
-    item: { label: "Arzttermin", icon: "1F4C5" },
+    id: "arzt", mascot: "aerztin", moji: "1F469-200D-2695", name: "Dr Prickle", role: "GP surgery", x: 300, y: 555,
+    item: { label: "Appointment", icon: "1F4C5" },
+    words: ["doctor", "headache", "Thursday"],
     turns: [
       {
-        npc: "Praxis Dr. Igel, guten Tag. Was kann ich für Sie tun?", en: "Dr. Igel's practice, good day. What can I do for you?",
-        task: { type: "say", words: ["Ich", "brauche", "einen", "Termin,", "bitte."], extra: ["ein"],
-          why: "Der Termin → ich brauche einen Termin (Akkusativ)." },
+        npc: "Good morning, Prickle Surgery. How can I help?", en: "Good morning, this is the doctor's office. What do you need?",
+        task: { type: "say", words: ["I", "need", "an", "appointment,", "please."], extra: ["a"],
+          why: "“Appointment” starts with a vowel sound, so we say “an appointment”." },
       },
       {
-        npc: "Was fehlt Ihnen denn?", en: "What's the matter?",
+        npc: "Are you registered here?", en: "Are you already a patient at this doctor's?",
         task: { type: "choose", options: [
-          { de: "Ich habe Kopfschmerzen.", ok: true },
-          { de: "Ich bin Kopfschmerzen.", why: "Schmerzen hat man: „Ich habe Kopfschmerzen.“" },
-          { de: "Mir geht's gut, danke.", why: "Wenn es dir gut geht, brauchst du keinen Termin. Sag, was dir wehtut." },
+          { de: "Yes, I'm registered here.", ok: true },
+          { de: "Yes, I'm a doctor.", why: "The question is whether you are a patient here (registered). You are not the doctor!" },
+          { de: "No, thank you.", why: "“No, thank you” answers an offer. This is a yes / no question: Yes, I am. / No, I'm not." },
         ] },
       },
       {
-        npc: "Passt Ihnen Donnerstag um 10 Uhr?", en: "Does Thursday at 10 work for you?",
+        npc: "What's the matter?", en: "What is wrong? What hurts?",
         task: { type: "choose", options: [
-          { de: "Ja, das passt gut.", ok: true },
-          { de: "Ja, ich passe.", why: "Der Termin passt (dir) – nicht du. „Ja, das passt gut.“" },
-          { de: "Nein, ich habe Donnerstag.", why: "Wenn es nicht geht, sag z. B.: „Nein, am Donnerstag kann ich leider nicht.“" },
+          { de: "I've got a headache.", ok: true },
+          { de: "I'm a headache.", why: "You have a headache, you are not one: “I've got a headache.”" },
+          { de: "I'm fine, thank you.", why: "If you are fine, you do not need an appointment. Say what hurts." },
         ] },
       },
       {
-        npc: "Gut. Bringen Sie bitte Ihre Versichertenkarte mit.", en: "Good. Please bring your health insurance card.",
+        npc: "Can I take your date of birth, please?", en: "What day, month and year were you born?",
         task: { type: "choose", options: [
-          { de: "Mache ich. Bis Donnerstag!", ok: true },
-          { de: "Mache ich. Bis gestern!", why: "„Gestern“ ist vorbei. Der Termin ist am Donnerstag: „Bis Donnerstag!“" },
-          { de: "Ich bringe Donnerstag.", why: "Du bringst die Karte mit – nicht den Donnerstag. „Mache ich. Bis Donnerstag!“" },
+          { de: "It's the fourth of May, 1990.", ok: true },
+          { de: "I'm thirty-five.", why: "She asks for your date of birth (day, month, year), not your age." },
+          { de: "It's Thursday.", why: "Your date of birth is the day, month and year you were born, not a day of the week." },
+        ] },
+      },
+      {
+        npc: "Thank you. Can you come on Thursday at 10 o'clock?", en: "Thanks. Is Thursday at ten OK for you?",
+        task: { type: "choose", options: [
+          { de: "Yes, that's fine. See you on Thursday!", ok: true },
+          { de: "Yes, I'm fine. See you on Thursday!", why: "“I'm fine” says you feel OK. When a time suits you, say “That's fine.”" },
+          { de: "Yes, that's fine. See you yesterday!", why: "Yesterday is in the past. The appointment is on Thursday." },
         ] },
       },
     ],
-    outro: { npc: "Gute Besserung und bis Donnerstag!", en: "Get well soon, see you Thursday!" },
+    outro: { npc: "Great. Get well soon, and see you on Thursday!", en: "Good. I hope you feel better soon. See you on Thursday!" },
   },
 ];
 
@@ -154,9 +170,9 @@ const MAP_MORGEN = {
   square: { x: 640, y: 480, r: 160, fountain: 48 },
   rails: { x: 760, y: 40, w: 520, h: 70 },
   buildings: [
-    { id: "baeckerei", x: 150, y: 150, w: 300, h: 215, roof: "#c2553d", wall: "#f3e2c7", sign: "Bäckerei", icon: "1F950", door: "s" },
-    { id: "bahnhof", x: 820, y: 130, w: 360, h: 235, roof: "#5f7d8c", wall: "#e7e2d8", sign: "Bahnhof", icon: "1F689", door: "s" },
-    { id: "arzt", x: 150, y: 595, w: 300, h: 215, roof: "#7d6a5a", wall: "#eef2f4", sign: "Arztpraxis", icon: "1F3E5", door: "n" },
+    { id: "baeckerei", x: 150, y: 150, w: 300, h: 215, roof: "#c2553d", wall: "#f3e2c7", sign: "Bakery", icon: "1F950", door: "s" },
+    { id: "bahnhof", x: 820, y: 130, w: 360, h: 235, roof: "#5f7d8c", wall: "#e7e2d8", sign: "Station", icon: "1F689", door: "s" },
+    { id: "arzt", x: 150, y: 595, w: 300, h: 215, roof: "#7d6a5a", wall: "#eef2f4", sign: "GP surgery", icon: "1F3E5", door: "n" },
     { id: "haus1", x: 830, y: 610, w: 150, h: 170, roof: "#b07a3b", wall: "#f1e6d6", door: "n" },
     { id: "haus2", x: 1025, y: 610, w: 150, h: 170, roof: "#8a5a7a", wall: "#f1e6d6", door: "n" },
   ],
@@ -166,128 +182,131 @@ const MAP_MORGEN = {
   ],
 };
 
-// --- Lindenau – Nachmittag ------------------------------------------------------------------
+// --- Brambleford – Afternoon ----------------------------------------------------------------
 const BRUNO_NACHMITTAG = {
-  id: "bruno", mascot: "bruno", name: "Bruno", role: "Brunnen", x: 860, y: 450, clip: "bruno-nachmittag",
+  id: "bruno", mascot: "bruno", name: "Bruno", role: "Fountain", x: 860, y: 450, clip: "bruno-nachmittag",
   intro: [
-    { npc: "Hallo! Jetzt ist Nachmittag in Lindenau. Hier ist die Neustadt.", en: "Hello! Now it's afternoon in Lindenau. This is the new part of town." },
-    { npc: "Du hast wieder drei Aufgaben: Kauf im Supermarkt ein, lern deine Nachbarin kennen und geh ins Café.", en: "You have three tasks again: shop at the supermarket, meet your neighbour and go to the café." },
-    { npc: "Die Leute mit dem Ausrufezeichen warten schon. Bis später!", en: "The people with the exclamation mark are already waiting. See you later!" },
+    { npc: "Hello! It's the afternoon in Brambleford now. This is the new part of town.", en: "Hi! Now it is the afternoon in Brambleford. This is the new part of the town." },
+    { npc: "You've got three jobs again: do some shopping, meet your neighbour and have a cup of tea at the café.", en: "You have three things to do again: buy things in the shop, say hello to your neighbour and go to the café for tea." },
+    { npc: "The people with the exclamation mark are already waiting. See you later!", en: "The people with a “!” are waiting for you. Goodbye for now!" },
   ],
   waiting: BRUNO_MORGEN.waiting,
   done: [
-    { npc: "Einkauf, Nachbarin, Café – alles geschafft! Du sprichst schon richtig gut Deutsch!", en: "Shopping, neighbour, café – all done! Your German is really good already!" },
+    { npc: "Shopping, neighbour, café – all done! Your English is really good already!", en: "You did all three things! Your English is already very good!" },
   ],
 };
 
 const QUESTS_NACHMITTAG = [
   {
-    id: "supermarkt", mascot: "quaki", name: "Quaki", role: "Supermarkt", x: 310, y: 410,
-    item: { label: "Einkauf", icon: "1F6D2" },
+    id: "supermarkt", mascot: "quaki", name: "Quaki", role: "Supermarket", x: 310, y: 410,
+    item: { label: "Shopping", icon: "1F6D2" },
+    words: ["tomatoes", "water", "card"],
     turns: [
       {
-        npc: "Guten Tag! Kann ich Ihnen helfen?", en: "Hello! Can I help you?",
+        npc: "Hello! Can I help you?", en: "Hello! Do you want something?",
         task: { type: "choose", options: [
-          { de: "Ja, bitte. Haben Sie Tomaten?", ok: true },
-          { de: "Ja, bitte. Sind Sie Tomaten?", why: "„Sind Sie …?“ fragt nach der Person. Ob es etwas gibt, fragt man so: „Haben Sie …?“" },
-          { de: "Ja, bitte. Wo ist der Bahnhof?", why: "Du bist im Supermarkt und möchtest etwas kaufen. Frag: „Haben Sie …?“" },
+          { de: "Yes, please. Have you got any tomatoes?", ok: true },
+          { de: "Yes, please. Are you tomatoes?", why: "“Are you …?” asks about a person. To ask if the shop has something, say “Have you got any …?”" },
+          { de: "Yes, please. Where is the station?", why: "You are in a supermarket and want to buy something. Ask: “Have you got any …?”" },
         ] },
       },
       {
-        npc: "Ja, da hinten beim Gemüse. Wie viel möchten Sie?", en: "Yes, back there with the vegetables. How much would you like?",
-        task: { type: "say", words: ["Ich", "nehme", "ein", "Kilo", "Tomaten."], extra: ["von"],
-          why: "Nach einer Menge kommt das Nomen direkt, ohne „von“: ein Kilo Tomaten." },
+        npc: "Yes, they're over there, next to the carrots. How many would you like?", en: "Yes, they are at the back, near the carrots. How many do you want?",
+        task: { type: "say", words: ["I'll", "take", "a", "kilo", "of", "tomatoes."], extra: ["an", "from"],
+          why: "After a quantity we use “of”: a kilo of tomatoes. And it is “a kilo”, not “an kilo”." },
       },
       {
-        npc: "Brauchen Sie noch etwas?", en: "Do you need anything else?",
+        npc: "Do you need anything else?", en: "Do you want something more?",
         task: { type: "choose", options: [
-          { de: "Ja, zwei Flaschen Wasser, bitte.", ok: true },
-          { de: "Ja, zwei Flasche Wasser, bitte.", why: "Eine Flasche, zwei Flaschen – nach „zwei“ steht der Plural." },
-          { de: "Ja, ich brauche nicht.", why: "„Ja“ heißt: Ich brauche noch etwas. Dann sag, was: „Ja, zwei Flaschen Wasser, bitte.“" },
+          { de: "Yes, two bottles of water, please.", ok: true },
+          { de: "Yes, two bottle of water, please.", why: "One bottle, two bottles – after “two” we use the plural." },
+          { de: "Yes, I don't need.", why: "“Yes” means you need something else. Then say what: “Yes, two bottles of water, please.”" },
         ] },
       },
       {
-        npc: "Das macht 4,80 Euro.", en: "That's 4.80 euros.",
+        npc: "That's £4.80, please.", en: "That is four pounds eighty. Please pay.",
         task: { type: "choose", options: [
-          { de: "Kann ich mit Karte zahlen?", ok: true },
-          { de: "Kann ich mit Karte zählen?", why: "„Zählen“ ist 1, 2, 3 … Für Geld sagt man „zahlen“." },
-          { de: "Kann ich mit Karte essen?", why: "Mit Karte kann man zahlen – essen nicht." },
+          { de: "Can I pay by card?", ok: true },
+          { de: "Can I pay by car?", why: "A “card” is the thing you pay with. A “car” is what you drive!" },
+          { de: "Can I pay on card?", why: "In English we say “pay by card”. The small word is “by”." },
         ] },
       },
     ],
-    outro: { npc: "Ja, klar. Danke und einen schönen Tag noch!", en: "Yes, sure. Thanks and have a nice day!" },
+    outro: { npc: "Yes, of course. Thanks, and have a lovely day!", en: "Yes, that is fine. Thank you, and I hope your day is nice!" },
   },
   {
-    id: "nachbarin", mascot: "nachbarin", moji: "1F475", name: "Frau Linde", role: "Nachbarin", x: 290, y: 620,
-    item: { label: "Nachbarin", icon: "1F44B" },
+    id: "nachbarin", mascot: "nachbarin", moji: "1F475", name: "Mrs Linden", role: "Neighbour", x: 290, y: 620,
+    item: { label: "Neighbour", icon: "1F44B" },
+    words: ["neighbour", "floor", "tea"],
     turns: [
       {
-        npc: "Hallo! Sind Sie neu hier?", en: "Hello! Are you new here?",
+        npc: "Hello! Are you new here?", en: "Hello! Did you come here not long ago?",
         task: { type: "choose", options: [
-          { de: "Ja, ich wohne seit gestern hier.", ok: true },
-          { de: "Ja, ich bin gestern.", why: "„Ich bin gestern“ sagt nichts. Sag, seit wann du hier wohnst: „Ich wohne seit gestern hier.“" },
-          { de: "Nein, ich bin alt.", why: "„Neu hier“ heißt: Wohnen Sie erst kurz hier? „Alt“ passt nicht – und du bist ja neu." },
+          { de: "Yes, I moved in yesterday.", ok: true },
+          { de: "Yes, I am yesterday.", why: "“I am yesterday” says nothing useful. Say when you moved in: “I moved in yesterday.”" },
+          { de: "No, I'm old.", why: "“New here” means you came to live here recently. “Old” does not fit – and you are new!" },
         ] },
       },
       {
-        npc: "Herzlich willkommen! Ich heiße Frau Linde. Woher kommen Sie?", en: "Welcome! My name is Mrs Linde. Where are you from?",
-        task: { type: "say", words: ["Ich", "komme", "aus", "Spanien."], extra: ["von"],
-          why: "Bei Ländern und Städten sagt man „aus“: Ich komme aus Spanien." },
+        npc: "Welcome! I'm Mrs Linden. Where are you from?", en: "Welcome! My name is Mrs Linden. Which country are you from?",
+        task: { type: "say", words: ["I'm", "from", "Spain."], extra: ["of", "in"],
+          why: "For the country you come from, we say “from”: I'm from Spain." },
       },
       {
-        npc: "Ah, schön! Und was machen Sie hier in Lindenau?", en: "Oh, nice! And what are you doing here in Lindenau?",
+        npc: "Lovely! And what do you do here in Brambleford?", en: "Nice! And what are you doing here in Brambleford?",
         task: { type: "choose", options: [
-          { de: "Ich lerne hier Deutsch.", ok: true },
-          { de: "Ich mache Lindenau.", why: "Frau Linde fragt nach deiner Arbeit oder deinem Kurs, zum Beispiel: „Ich lerne hier Deutsch.“" },
-          { de: "Ich bin aus Lindenau.", why: "Du kommst aus Spanien und bist neu. Frau Linde fragt, was du hier machst." },
+          { de: "I'm learning English here.", ok: true },
+          { de: "I do Brambleford.", why: "Mrs Linden asks about your work or your course, for example: “I'm learning English here.”" },
+          { de: "I'm from Brambleford.", why: "You said you are from Spain, and you are new here. Mrs Linden asks what you do here." },
         ] },
       },
       {
-        npc: "Toll! Ich wohne im ersten Stock. Klingeln Sie gern mal!", en: "Great! I live on the first floor. Feel free to ring the bell!",
+        npc: "Great! I live on the first floor. Pop round for a cup of tea any time!", en: "Good! I live one floor up. Come and see me for a cup of tea when you like!",
         task: { type: "choose", options: [
-          { de: "Danke, das ist sehr nett!", ok: true },
-          { de: "Danke, das ist sehr alt!", why: "„Alt“ passt hier nicht. Zu einem netten Angebot sagt man: „Das ist sehr nett!“" },
-          { de: "Bitte, gern geschehen!", why: "„Gern geschehen“ sagt man, wenn sich jemand bei dir bedankt. Hier bedankst du dich: „Danke, das ist sehr nett!“" },
+          { de: "Thank you, that's very kind!", ok: true },
+          { de: "Thank you, that's very old!", why: "“Old” does not fit here. For a nice offer, say “That's very kind!”" },
+          { de: "You're welcome!", why: "“You're welcome” is what you say when someone thanks you. Here you say thanks: “Thank you, that's very kind!”" },
         ] },
       },
     ],
-    outro: { npc: "Gern! Auf gute Nachbarschaft!", en: "You're welcome! Here's to being good neighbours!" },
+    outro: { npc: "My pleasure! Here's to good neighbours!", en: "You are welcome! I hope we will be good neighbours." },
   },
   {
     id: "cafe", mascot: "hamsti", name: "Hamsti", role: "Café", x: 1140, y: 410,
-    item: { label: "Kuchen", icon: "1F370" },
+    item: { label: "Cake", icon: "1F370" },
+    words: ["tea", "cake", "slice"],
     turns: [
       {
-        npc: "Hallo! Was möchten Sie trinken?", en: "Hello! What would you like to drink?",
+        npc: "Hello! What would you like to drink?", en: "Hello! What drink do you want?",
         task: { type: "choose", options: [
-          { de: "Einen Tee, bitte.", ok: true },
-          { de: "Am Fenster, bitte.", why: "Hamsti fragt nach dem Getränk, nicht nach dem Platz." },
-          { de: "Einen Kuchen, bitte.", why: "Hamsti fragt, was du trinken möchtest. Kuchen isst man." },
+          { de: "A cup of tea, please.", ok: true },
+          { de: "By the window, please.", why: "Hamsti asks what you want to drink, not where you want to sit." },
+          { de: "A slice of cake, please.", why: "Hamsti asks about a drink. Cake is food – you eat it." },
         ] },
       },
       {
-        npc: "Gern. Möchten Sie auch etwas essen?", en: "Sure. Would you like something to eat too?",
-        task: { type: "say", words: ["Ja,", "ein", "Stück", "Apfelkuchen,", "bitte."], extra: ["einen"],
-          why: "Das Stück → ein Stück. „Apfelkuchen“ kommt direkt danach, ohne Artikel." },
+        npc: "Of course. Would you like something to eat too?", en: "Yes. Do you also want something to eat?",
+        task: { type: "say", words: ["Yes,", "a", "slice", "of", "carrot", "cake,", "please."], extra: ["an", "some"],
+          why: "Say “a slice of carrot cake”: “slice” starts with a consonant sound, so it is “a”, not “an”." },
       },
       {
-        npc: "Schmeckt es Ihnen?", en: "Do you like it?",
+        npc: "How is your cake?", en: "Do you like your cake?",
         task: { type: "choose", options: [
-          { de: "Ja, sehr lecker! Ich möchte bitte zahlen.", ok: true },
-          { de: "Nein, sehr lecker!", why: "„Nein“ heißt: Es schmeckt nicht. Aber „lecker“ heißt: Es schmeckt gut." },
-          { de: "Ja, sehr lecker! Ich möchte bitte essen.", why: "Du hast schon gegessen. Jetzt möchtest du die Rechnung: „Ich möchte bitte zahlen.“" },
+          { de: "It's lovely, thank you! Can I pay, please?", ok: true },
+          { de: "No, it's lovely!", why: "“No” means you do not like it, but “lovely” means you like it very much." },
+          { de: "It's lovely, thank you! Can I eat, please?", why: "You have already eaten. Now you want to pay: “Can I pay, please?”" },
         ] },
       },
       {
-        npc: "Das macht 7,50 Euro.", en: "That's 7.50 euros.",
+        npc: "That's £7.50, please.", en: "That is seven pounds fifty. Please pay.",
         task: { type: "choose", options: [
-          { de: "Hier sind acht Euro. Stimmt so!", ok: true },
-          { de: "Hier sind sieben Euro. Stimmt so!", why: "Sieben Euro sind zu wenig: Es kostet sieben Euro fünfzig." },
-          { de: "Hier sind acht Euro. Gute Besserung!", why: "„Gute Besserung“ sagt man zu kranken Menschen. Mit Trinkgeld sagt man: „Stimmt so!“" },
+          { de: "Here's eight pounds. Keep the change!", ok: true },
+          { de: "Here's seven pounds. Keep the change!", why: "Seven pounds is too little. It costs seven pounds fifty." },
+          { de: "Here's eight pounds. Get well soon!", why: "“Get well soon” is for people who are ill. When you give a little extra, say “Keep the change!”" },
         ] },
       },
     ],
-    outro: { npc: "Oh, vielen Dank! Einen schönen Nachmittag noch!", en: "Oh, thank you very much! Have a nice afternoon!" },
+    outro: { npc: "Oh, thank you very much! Have a lovely afternoon!", en: "Oh, thanks a lot! I hope your afternoon is nice!" },
   },
 ];
 
@@ -297,9 +316,9 @@ const MAP_NACHMITTAG = {
   square: { x: 935, y: 515, r: 130, fountain: 40 },
   rails: null,
   buildings: [
-    { id: "supermarkt", x: 120, y: 140, w: 380, h: 230, roof: "#4f7a5a", wall: "#eef3ea", sign: "Supermarkt", icon: "1F6D2", door: "s" },
+    { id: "supermarkt", x: 120, y: 140, w: 380, h: 230, roof: "#4f7a5a", wall: "#eef3ea", sign: "Supermarket", icon: "1F6D2", door: "s" },
     { id: "cafe", x: 1030, y: 160, w: 220, h: 210, roof: "#a0522d", wall: "#f6ead8", sign: "Café", icon: "2615", door: "s" },
-    { id: "wohnhaus", x: 140, y: 660, w: 300, h: 220, roof: "#6a6f8a", wall: "#f1e6d6", sign: "Wohnhaus", icon: "1F3E0", door: "n" },
+    { id: "wohnhaus", x: 140, y: 660, w: 300, h: 220, roof: "#6a6f8a", wall: "#f1e6d6", sign: "Flats", icon: "1F3E0", door: "n" },
     { id: "haus3", x: 520, y: 680, w: 150, h: 170, roof: "#b07a3b", wall: "#f1e6d6", door: "n" },
     { id: "haus4", x: 1040, y: 670, w: 170, h: 180, roof: "#8a5a7a", wall: "#f1e6d6", door: "n" },
   ],
@@ -311,14 +330,14 @@ const MAP_NACHMITTAG = {
 
 /** The parts of town, in the order they open. */
 export const AREAS = [
-  { id: "morgen", title: "Lindenau – Morgen", bruno: BRUNO_MORGEN, quests: QUESTS_MORGEN, ...MAP_MORGEN },
-  { id: "nachmittag", title: "Lindenau – Nachmittag", bruno: BRUNO_NACHMITTAG, quests: QUESTS_NACHMITTAG, ...MAP_NACHMITTAG },
+  { id: "morgen", title: "Brambleford – Morning", bruno: BRUNO_MORGEN, quests: QUESTS_MORGEN, ...MAP_MORGEN },
+  { id: "nachmittag", title: "Brambleford – Afternoon", bruno: BRUNO_NACHMITTAG, quests: QUESTS_NACHMITTAG, ...MAP_NACHMITTAG },
 ];
 export const areaById = (id) => AREAS.find((a) => a.id === id) ?? AREAS[0];
 
 /** What the shop people say when the learner comes too early or comes back. */
-export const NOT_YET = { npc: "Guten Tag! Sprechen Sie bitte zuerst mit Bruno am Brunnen.", en: "Hello! Please talk to Bruno at the fountain first." };
-export const AGAIN = { npc: "Schön, Sie wiederzusehen!", en: "Nice to see you again!" };
+export const NOT_YET = { npc: "Hello! Please talk to Bruno at the fountain first.", en: "Hi! First, go and speak to Bruno near the fountain." };
+export const AGAIN = { npc: "Nice to see you again!", en: "I am happy to see you again!" };
 
 /** Graded tasks in an area, for the result line. */
 export const taskCount = (area) => area.quests.reduce((n, q) => n + q.turns.filter((t) => t.task).length, 0);
@@ -331,16 +350,17 @@ export const taskCount = (area) => area.quests.reduce((n, q) => n + q.turns.filt
 //   <bruno>-intro-<i>-npc.mp3, <bruno>-done-<i>-npc.mp3, where <bruno> is the area's
 //   `bruno.clip` ("bruno" in the first area, "bruno-nachmittag" in the second)
 //   bruno-waiting-<n>-npc.mp3, bruno-review-offer-npc.mp3, bruno-review-done-npc.mp3
-// One voice per mascot; the learner's replies in the site's own voice (Katja).
+// There are no clips for the English text yet (the folder does not exist): until they are
+// generated, spielKit's voice falls back to the browser's British voice for every line.
+// One voice per mascot (British English); the learner's replies in one more voice (`du`).
 export const VOICES = {
-  bruno: "de-DE-ConradNeural",
-  hamsti: "de-DE-AmalaNeural",
-  quaki: "de-DE-KillianNeural",
-  // Regi is the player now (Super-Blubb); the doctor and the neighbour kept her voice, so
-  // their clips stayed valid.
-  aerztin: "de-DE-LouisaNeural",
-  nachbarin: "de-DE-LouisaNeural",
-  du: "de-DE-KatjaNeural",
+  bruno: "en-GB-RyanNeural",
+  hamsti: "en-GB-SoniaNeural",
+  quaki: "en-GB-ThomasNeural",
+  // Regi is the player now (Super-Blubb); the doctor and the neighbour kept their own voices.
+  aerztin: "en-GB-LibbyNeural",
+  nachbarin: "en-GB-AbbiNeural",
+  du: "en-GB-OliviaNeural",
 };
 export const clipPath = (clip) => `/audio/lindenau/${clip}.mp3`;
 

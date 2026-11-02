@@ -1,5 +1,5 @@
 ---
-// Bild vs. Bedeutung for one Redewendung (/wissen/redewendungen): two panels. Left, Quaki
+// Bild vs. Bedeutung for one Redewendung (/knowledge/idioms): two panels. Left, Quaki
 // takes the phrase literally and acts it out with its props (OpenMoji); right, Bruno or Regi
 // in the real situation, saying the first example sentence. The joke is the gap between
 // the two, and it is also the lesson.
@@ -18,7 +18,7 @@ const quaki = mascotSvg({ name: "quaki", expr: "thinking", view: "three", size, 
 const other = mascotSvg({ name: partner, expr: "happy", view: "three", size, label: "", className: "rw-fig" });
 const props: string[] = e.comic?.props ?? [];
 ---
-<figure class:list={["rw-strip", side === "bild" && "rw-strip--bild"]} data-mascot-part aria-label={`Bild: ${e.comic?.quaki ?? e.bild}`}>
+<figure class:list={["rw-strip", side === "bild" && "rw-strip--bild"]} data-mascot-part aria-label={`Picture: ${e.comic?.quaki ?? e.bild}`}>
   <div class="rw-panel rw-panel--bild">
     <p class="rw-panel-cap" data-i18n="rw.strip.bild">Quaki versteht …</p>
     <div class="rw-panel-stage">
@@ -27,16 +27,16 @@ const props: string[] = e.comic?.props ?? [];
         {props.map((code) => <img src={emojiSrc(code)} alt="" width="44" height="44" loading="lazy" />)}
       </span>
     </div>
-    <p class="rw-panel-line" lang="de">{e.comic?.quaki ?? e.bild}</p>
+    <p class="rw-panel-line">{e.comic?.quaki ?? e.bild}</p>
   </div>
   {side === "both" && (
     <div class="rw-panel rw-panel--bedeutung">
       <p class="rw-panel-cap" data-i18n="rw.strip.bedeutung">Gemeint ist …</p>
       <div class="rw-panel-stage">
-        <p class="rw-say" lang="de">„{e.bsp[0]}“</p>
+        <p class="rw-say">“{e.bsp[0]}”</p>
         <span class="rw-panel-body" set:html={other} />
       </div>
-      <p class="rw-panel-line" lang="de">{e.bedeutung}</p>
+      <p class="rw-panel-line">{e.bedeutung}</p>
     </div>
   )}
 </figure>

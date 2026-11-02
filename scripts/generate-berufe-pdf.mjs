@@ -45,8 +45,6 @@ const EDITION_LANGS = langsFor("berufe").filter((c) => EDITIONS[c] && (!ONLY || 
 
 const decks = readdirSync(DIR).filter((f) => f.endsWith(".json")).map((f) => JSON.parse(readFileSync(path.join(DIR, f), "utf8")));
 const own = new Map(decks.flatMap((d) => (d.groups ?? []).flatMap((g) => g.words.filter((w) => !w.ref).map((w) => [w.id, w]))));
-const fs = JSON.parse(readFileSync(path.join(ROOT, "src/data/fuehrerschein/wortschatz.json"), "utf8"));
-const fsWords = new Map(fs.groups.flatMap((g) => g.words.map((w) => [w.id, w])));
 
 /** Any entry → one flat row: lemma, pos, gender, plural, hint, example, translations. */
 function row(w) {
@@ -57,7 +55,6 @@ function row(w) {
 }
 function refRow(w) {
   if (w.ref.startsWith("bv-")) { const o = own.get(w.ref); return { ...o, tr: o.translations ?? {} }; }
-  if (w.ref.startsWith("fs-")) { const o = fsWords.get(w.ref); return { ...o, tr: o.translations ?? {} }; }
   const r = byId(w.ref);
   // A lexicon word: the inline glosses, plus the sidecars of the fetched card languages.
   return { ...r, tr: { en: r.en, ar: r.ar, uk: r.uk, tr: r.tr, ...Object.fromEntries(FETCHED.map((c) => [c, glossTable(c)[r.id]])) } };

@@ -23,12 +23,12 @@ const BRAND = "EnglishAcademy";
 const MAX_TITLE = 60;
 
 const PRIORITY = [
-  "/", "/dtz", "/dtz/mock-test", "/dtz/uebungssatz", "/leben-in-deutschland",
-  "/leben-in-deutschland/test", "/pruefungen", "/telc", "/goethe", "/testdaf",
-  "/start-deutsch-1", "/einstufungstest", "/grammatik", "/wortschatz", "/uebungen",
-  "/aussprache-check",
+  "/", "/trinity/ise-1", "/trinity/ise-1/mock-test", "/trinity/ise-1/practice-set", "/life-in-the-uk",
+  "/life-in-the-uk/test", "/exams", "/trinity", "/cambridge", "/ielts",
+  "/a1-test", "/placement-test", "/grammar", "/vocabulary", "/exercises",
+  "/pronunciation-check",
 ];
-const isPriority = (p) => PRIORITY.includes(p) || p.startsWith("/goethe/");
+const isPriority = (p) => PRIORITY.includes(p) || p.startsWith("/cambridge/");
 
 const walk = (dir) =>
   readdirSync(dir).flatMap((name) => {

@@ -1,24 +1,97 @@
 // @ts-check
-import { readdirSync } from 'node:fs';
+import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import postcssRTLCSS from 'postcss-rtlcss';
-import { legacyRedirects } from './src/lib/routes.js';
+import {
+  legacyRedirects, ROUTE_RENAMES, germanPath, topicSlug, refSlug, sheetKeys, sheetPath, tandemPath,
+  ITEM_SLUGS, itemPath, workPath,
+} from './src/lib/routes.js';
 import sitemap from './src/integrations/sitemap.mjs';
 import baseLanguage from './src/integrations/base-language.mjs';
 import entryPages from './src/integrations/entry-pages.mjs';
 import llmsTxt from './src/integrations/llms-txt.mjs';
 
-/** /grammatik/<thema> → /<thema>, for topics with no page of their own under /grammatik. */
+const r301 = (destination) => ({ status: 301, destination });
+
+/* Grammar topics: the old top-level /<German key> and /grammatik/<key>, plus the guessed
+ * /grammar/<slug>, all land on /<English slug>. Keys are the workspaces' `slug ?? id`. */
 function grammarTopicRedirects() {
-  const slugs = (dir) => readdirSync(new URL(dir, import.meta.url)).filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5));
+  const dir = new URL('./src/data/grammatik/', import.meta.url);
+  const keys = readdirSync(dir).filter((f) => f.endsWith('.json'))
+    .map((f) => JSON.parse(readFileSync(new URL(f, dir), 'utf8')))
+    .map((w) => w.slug ?? w.id);
+  // Pages and reference tables under /grammar win over a guessed topic address.
   const taken = new Set([
-    ...slugs('./src/data/nachschlagen/'),
-    ...readdirSync(new URL('./src/pages/grammatik/', import.meta.url)).map((f) => f.replace(/\.astro$/, '')),
+    ...readdirSync(new URL('./src/data/nachschlagen/', import.meta.url)).flatMap((f) => [f.replace(/\.json$/, ''), refSlug(f.replace(/\.json$/, ''))]),
+    ...readdirSync(new URL('./src/pages/grammar/', import.meta.url)).map((f) => f.replace(/\.astro$/, '')),
   ]);
-  return Object.fromEntries(
-    slugs('./src/data/grammatik/').filter((s) => !taken.has(s)).map((s) => [`/grammatik/${s}`, { status: 301, destination: `/${s}` }]),
-  );
+  const out = {};
+  for (const key of keys) {
+    const to = `/${topicSlug(key)}`;
+    if (key !== topicSlug(key)) out[`/${key}`] = r301(to);
+    if (!taken.has(key)) out[`/grammatik/${key}`] = r301(to);
+    if (!taken.has(topicSlug(key))) out[`/grammar/${topicSlug(key)}`] = r301(to);
+  }
+  return out;
+}
+
+/* German → English routes (content-plan §6, src/lib/routes.js): every page under a renamed
+ * path, with its [params], redirects from the old address; plus every pair of the table
+ * itself (old hubs and subpaths without a page file of their own). JSON endpoints are left
+ * out: only the site's own scripts fetch them, and those use the new paths. */
+function englishRedirects() {
+  const pagesDir = fileURLToPath(new URL('./src/pages/', import.meta.url));
+  const routes = [];
+  const walk = (dir, base) => {
+    for (const f of readdirSync(dir)) {
+      const p = `${dir}/${f}`;
+      if (statSync(p).isDirectory()) walk(p, `${base}/${f}`);
+      else if (f.endsWith('.astro')) routes.push(`${base}/${f.replace(/\.astro$/, '')}`.replace(/\/index$/, '') || '/');
+    }
+  };
+  walk(pagesDir.replace(/[\\/]$/, ''), '');
+  const out = {};
+  for (const [from, to] of ROUTE_RENAMES) out[from] = r301(to);
+  for (const route of routes) {
+    const old = germanPath(route);
+    if (old !== route) out[old] = r301(route);
+  }
+  // Worksheets and tandem sheets by their old (key) address, in the German and the English
+  // folder. A key without a sheet lands on a 404 there, as its old address did.
+  for (const key of sheetKeys()) {
+    out[`/lehrkraefte/arbeitsblaetter/grammatik/${key}`] = r301(sheetPath(key));
+    out[`/teachers/worksheets/grammar/${key}`] = r301(sheetPath(key));
+    out[`/lehrkraefte/arbeitsblaetter/tandem/${key}`] = r301(tandemPath(key));
+    out[`/teachers/worksheets/tandem/${key}`] = r301(tandemPath(key));
+  }
+  // Item pages by their German id (§1.3), under the German and the English section path.
+  for (const [section, ids] of Object.entries(ITEM_SLUGS)) {
+    if (section === '/english-for-work') continue;
+    for (const id of Object.keys(ids)) {
+      const to = itemPath(section, id);
+      out[germanPath(to)] = r301(to);
+      out[`${section}/${id}`] = r301(to);
+    }
+  }
+  // English for work: sectors and their word groups (with the print page), from src/data/berufe.
+  const berufeDir = new URL('./src/data/berufe/', import.meta.url);
+  for (const f of readdirSync(berufeDir).filter((f) => f.endsWith('.json'))) {
+    const sector = f.replace(/\.json$/, '');
+    const groups = JSON.parse(readFileSync(new URL(f, berufeDir), 'utf8')).groups ?? [];
+    for (const base of ['/berufe', '/english-for-work']) {
+      out[`${base}/${sector}`] = r301(workPath(sector));
+      for (const g of groups) {
+        out[`${base}/${sector}/${g.id}`] = r301(workPath(sector, g.id));
+        out[`${base}/${sector}/${g.id}/drucken`] = r301(`${workPath(sector, g.id)}/print`);
+      }
+    }
+  }
+  // The print page of a work deck: …/drucken → …/print, under the old and the new folder.
+  out['/berufe/[beruf]/[gruppe]/drucken'] = r301('/english-for-work/[beruf]/[gruppe]/print');
+  out['/english-for-work/[beruf]/[gruppe]/drucken'] = r301('/english-for-work/[beruf]/[gruppe]/print');
+  return out;
 }
 
 /* The live domain: canonical URLs, og:url, /sitemap.xml. Set SITE_URL when the real domain
@@ -28,8 +101,33 @@ function grammarTopicRedirects() {
 const ACCOUNT_REDIRECTS = Object.fromEntries(
   ['/anmelden', '/konto', '/konto-loeschen', '/passwort-neu', '/preise', '/kuendigen', '/widerrufen', '/widerruf',
    '/mein-zugang', '/einladung', '/merch', '/live-fragestunde', '/newsletter-bestaetigt', '/kaufen/start', '/kaufen/danke',
-   '/lehrkraefte/karten/drucken']
+   '/lehrkraefte/karten/drucken', '/teachers/cards/print']
     .map((from) => [from, { status: 302, destination: '/account' }]),
+);
+
+/* Modules of the German fork that the English course dropped (docs/content-plan.md §4, removed
+ * by the `cleanup` run): every old address lands on the nearest hub instead of a 404. */
+const DROPPED = {
+  '/exams': [
+    '/fuehrerschein',
+    ...['ablauf', 'fahrspiel', 'simulation', 'ueben', 'umschreiben', 'wortschatz'].map((p) => `/fuehrerschein/${p}`),
+    ...['vorfahrt', 'verkehrszeichen', 'ampel-polizei', 'geschwindigkeit', 'abstand-ueberholen', 'fussgaenger-rad-bus',
+      'autobahn', 'halten-parken', 'alkohol-drogen-handy', 'unfall-erste-hilfe', 'licht-wetter-reifen', 'probezeit-punkte',
+      'technik-umwelt'].map((id) => `/fuehrerschein/regeln/${id}`),
+    ...['auto', 'strasse', 'anweisungen', 'pruefung'].map((g) => `/fuehrerschein/wortschatz/${g}`),
+  ],
+  // No /games hub page exists; the games are listed under the exercises.
+  '/exercises': ['/games/stadtfahrt', '/games/vorfahrt', '/spiele/stadtfahrt', '/spiele/vorfahrt'],
+  '/culture': ['/politik', '/steueroasen'],
+  '/grammar': ['/grammar/deklination', '/grammatik/deklination'],
+  // The German word stories that had a public page when they were removed (content-plan §5.11).
+  // When an English story takes one of these slugs (restaurant, note …), delete it here.
+  '/knowledge/word-stories': ['aergern', 'apfel', 'apotheke', 'arbeit', 'billig', 'blau', 'braun', 'brief', 'flasche',
+    'glueck', 'heissen', 'herbst', 'jacke', 'kalender', 'kohle', 'konzert', 'lesen', 'malen', 'monat', 'nase', 'note',
+    'panne', 'pfand', 'pinsel', 'reis', 'restaurant', 'sekunde', 'uhr', 'wasser'].map((s) => `/knowledge/word-stories/${s}`),
+};
+const DROPPED_REDIRECTS = Object.fromEntries(
+  Object.entries(DROPPED).flatMap(([to, froms]) => froms.map((from) => [from, r301(to)])),
 );
 
 const SITE_URL = process.env.SITE_URL ?? 'https://englishacademy.com';
@@ -55,25 +153,28 @@ export default defineConfig({
   // names. They are now one page at /fortschritt; this keeps old links, bookmarks and
   // anything already shared working instead of 404ing.
   redirects: {
-    '/dashboard': '/fortschritt',
+    '/dashboard': '/progress',
     // /v2 tested practising inside the dashboard (the focus layout). Retired with the
     // inline exercises — see FORTSCHRITT-KARTE-PROMPT.md.
-    '/v2': '/fortschritt',
+    '/v2': '/progress',
     // The easy-mode prototype became „Einfach lernen" (EINFACH-LERNEN-TIERED-PROMPT.md,
     // Tier 0). A real 301 keeps the #/… screen: browsers carry the fragment across it.
-    '/leicht': { status: 301, destination: '/einfach' },
-    // The films of how it all works were a dock-only page first; now they sit under Entdecken.
-    '/intern/filme': { status: 301, destination: '/entdecken/filme' },
+    '/leicht': { status: 301, destination: '/step-by-step' },
+    // The films of how it all works were a dock-only page first; now they sit under Explore.
+    '/intern/filme': { status: 301, destination: '/explore/films' },
+    // The German routes of the fork → the English ones (src/lib/routes.js, ROUTE_RENAMES).
+    ...englishRedirects(),
     // The flat URLs (/uebungen/grammatik/artikel → /artikel, /pruefungen/telc → /telc …):
     // every old address keeps working as a 301. The table lives in src/lib/routes.js.
     // /aussprache used to redirect to the scored check; it is the Aussprache page itself now,
     // and the check is at /aussprache-check.
     ...legacyRedirects(),
-    // A grammar topic lives at /<thema>, but /grammatik/<thema> is the address people
-    // guess. Every topic that isn't also a page under /grammatik (the Nachschlagewerk
-    // tables, Wortarten, Verben) redirects instead of 404ing.
+    // A grammar topic lives at /<slug>, but /grammar/<slug> is the address people guess;
+    // the German keys (/praesens, /grammatik/praesens) were the addresses until 2026-11-02.
+    // Every one that isn't also a page under /grammar redirects instead of 404ing.
     ...grammarTopicRedirects(),
     ...ACCOUNT_REDIRECTS,
+    ...DROPPED_REDIRECTS,
   },
   server: {
     // Listen on every interface, not just 127.0.0.1, so the dev server is reachable

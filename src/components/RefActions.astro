@@ -1,21 +1,22 @@
 ---
-// The Nachschlagewerk pages' row (Verbtabellen, the /grammatik/<ref> lists, Wortarten):
+// The Nachschlagewerk pages' row (Verbtabellen, the /grammar/<ref> lists, Wortarten):
 //   „Drucken / PDF“  this page on paper: the browser's print, with the page's own print
 //                    sheet (verbtabellen.css, nachschlagen.css, wortarten.css). Folded
 //                    rules are printed open; the page keeps the learner's choice.
-//   „Arbeitsblatt“   the page's worksheet (/lehrkraefte/arbeitsblaetter/grammatik/<sheet>):
+//   „Arbeitsblatt“   the page's worksheet (/teachers/worksheets/grammar/<sheet>):
 //                    rows of the list as exercises, with an answer key; built like a
 //                    grammar topic's (arbeitsblatt/nachschlagen.js).
-//   „Partnerblatt“   the same rows as a Tandembogen (/lehrkraefte/arbeitsblaetter/tandem/
+//   „Partnerblatt“   the same rows as a Tandembogen (/teachers/worksheets/tandem/
 //                    <sheet>), for everyone, as on a grammar topic (GrammarActions).
 //   „Teilen“         ShareButton, as on every exercise.
-//   „Live-Quiz“      /lehrkraefte/quiz?grammar=<chapter>: the list as four-button
+//   „Live-Quiz“      /teachers/quiz?grammar=<chapter>: the list as four-button
 //                    questions („Nur Grammatik“, liveQuiz/chapters.js). Not in the
-//                    Android app, whose build drops /lehrkraefte.
+//                    Android app, whose build drops /teachers.
 import ShareButton from "./ShareButton.astro";
 import { hasChapter } from "../lib/liveQuiz/chapters.js";
 import { sheetTopics, topicSlug } from "../lib/arbeitsblatt/grammatik.js";
 import { tandemFor } from "../lib/partneruebungen/tandem.js";
+import { sheetPath, tandemPath } from "../lib/routes.js";
 
 interface Props {
   /** The live-quiz chapter, g-<key>. */
@@ -37,22 +38,22 @@ const tandem = !!sheet && web && !!tandemFor(sheet);
     <span data-i18n="pr.open">Drucken / PDF</span>
   </button>
   {worksheet && (
-    <a class="ra-btn" href={`/lehrkraefte/arbeitsblaetter/grammatik/${sheet}`}>
+    <a class="ra-btn" href={sheetPath(sheet)}>
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>
       <span data-i18n="ab.switch.singleSub">Arbeitsblatt</span>
     </a>
   )}
   <ShareButton label size="sm" title={title} />
   {quiz && (
-    <a class="ra-btn" href={`/lehrkraefte/quiz?grammar=${encodeURIComponent(chapter!)}`} target="_blank" rel="noopener">
+    <a class="ra-btn" href={`/teachers/quiz?grammar=${encodeURIComponent(chapter!)}`} target="_blank" rel="noopener">
       <span aria-hidden="true">🎯</span>
       <span data-i18n="pr.quizGrammar">Live-Quiz</span>
     </a>
   )}
   {tandem && (
-    <a class="ra-btn" href={`/lehrkraefte/arbeitsblaetter/tandem/${sheet}`} target="_blank" rel="noopener">
+    <a class="ra-btn" href={tandemPath(sheet)} target="_blank" rel="noopener">
       <span aria-hidden="true">👥</span>
-      <span>Partnerblatt</span>
+      <span data-i18n="ga.partnerSheet">Partnerblatt</span>
     </a>
   )}
 </div>

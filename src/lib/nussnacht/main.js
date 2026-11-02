@@ -12,33 +12,35 @@ import { newSeed } from "../artikelSprint/rng.js";
 import { reducedMotion } from "../spieleEinstellungen.js";
 
 export const TXT = {
-  arts: ["der", "die", "das"],
-  levelWords: "{n} Wörter",
-  go: "Los geht's",
+  arts: ["a", "an", "some"],
+  levelWords: "{n} words",
+  go: "Let’s go",
   levelUp: "Level {n}!",
-  levelUpSub: "Such dir eins aus (1, 2 oder 3).",
-  upLv: "Stufe {n}",
-  upNew: "Neu",
+  levelUpSub: "Pick one (1, 2 or 3).",
+  upLv: "Level {n}",
+  upNew: "New",
   pause: "Pause",
-  resume: "Weiter",
-  restart: "Neu starten",
-  quit: "Beenden",
-  overTitle: "Erwischt!",
-  wonTitle: "Geschafft! Die Nacht ist vorbei.",
-  survived: "Überlebt",
-  defeated: "Wörter besiegt",
-  bestStreak: "Beste Serie",
-  accuracy: "Richtiger Artikel",
-  again: "Noch eine Nacht",
-  back: "Niveau wechseln",
-  skillReady: "Wirbel bereit! (Leertaste)",
-  skillReadyTouch: "Wirbel bereit!",
-  skillTitle: "Hamsterbacken-Wirbel: räumt alles um Hamsti weg (lädt 30 s)",
+  resume: "Continue",
+  restart: "Restart",
+  quit: "Quit",
+  overTitle: "Caught!",
+  wonTitle: "You made it! The night is over.",
+  survived: "Survived",
+  defeated: "Words defeated",
+  bestStreak: "Best streak",
+  accuracy: "Right word (a / an / some)",
+  again: "Another night",
+  back: "Change level",
+  skillReady: "Whirl ready! (Space bar)",
+  skillReadyTouch: "Whirl ready!",
+  skillTitle: "Cheek whirl: clears everything around Hamsti (recharges in 30 s)",
   bossCame: "Boss: {art} {w}?",
-  timeTitle: "Zeit",
-  killsTitle: "Besiegte Wörter",
+  split: "{art} {first} | {rest}",
+  pop: "Pop",
+  timeTitle: "Time",
+  killsTitle: "Words defeated",
   levelTitle: "Level",
-  fps: "{fps} fps · {cre} Wörter · {shots} Schüsse",
+  fps: "{fps} fps · {cre} words · {shots} shots",
 };
 const fmt = (s, vars = {}) => s.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? "");
 const mmss = (t) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, "0")}`;
@@ -207,7 +209,7 @@ export function mountNussnacht(root, data) {
           break;
         case EV.KILL:
           renderer.sparks(e.x, e.y, cols[e.a].light, 9);
-          renderer.popup(e.x, e.y - 8, "Plopp", "#fff", 0.6);
+          renderer.popup(e.x, e.y - 8, TXT.pop, "#fff", 0.6);
           break;
         case EV.HURT:
           renderer.shake(0.6);
@@ -231,11 +233,12 @@ export function mountNussnacht(root, data) {
           renderer.shake(0.8);
           break;
         case EV.BURST:
-          renderer.ring(e.x, e.y, cols[1].light, e.a, 0.45);
+          renderer.ring(e.x, e.y, cols[2].light, e.a, 0.45);
           break;
         case EV.SPLIT: {
           const w = S.words[e.a];
-          if (w?.h) renderer.popup(e.x, e.y - 30, `${w.w.slice(0, w.h)}|${w.w.slice(w.h)} → ${TXT.arts[w.g]}`, "#fff", 1.6);
+          // a two-word noun cracks at the space; the article sits with the first word
+          if (w?.h) renderer.popup(e.x, e.y - 30, fmt(TXT.split, { art: TXT.arts[w.g], first: w.w.slice(0, w.h - 1), rest: w.w.slice(w.h) }), "#fff", 1.6);
           break;
         }
         default:

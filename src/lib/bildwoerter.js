@@ -1,4 +1,4 @@
-// Bildwörter: house-style pictures for the Bildkarten (/wissen/bildwoerterbuch) and
+// Bildwörter: house-style pictures for the Bildkarten (/knowledge/picture-dictionary) and
 // for the word prints on /merch. Our own drawings (no OpenMoji, no stock), so they can go on
 // a shirt or a mug. Same world as the crew (src/lib/mascots.js) and the Mini-Crew
 // (src/lib/minis.js): the crew's ink colour as a thick round outline, flat fills, one white

@@ -1,13 +1,13 @@
-// Brunos Bürgeramt (/spiele/buergeramt): Bruno, our dachshund, works counter 3 of the
-// Bürgeramt Lindenau. The number display dings, a customer slides papers across the desk, and
-// the player checks them against Regi's rule memo: find what contradicts (Prüfen), ask a
-// question in German, then stamp GENEHMIGT or ABGELEHNT. Plan: BUERGERAMT-TIERED-PROMPT.md,
-// notes: docs/buergeramt-tier*-v1.md.
+// Bruno's Front Desk (/games/front-desk): Bruno, our dachshund, works desk 3 at Brambleford
+// Town Hall, where residents apply for a resident parking permit. The number display dings, a
+// customer slides papers across the desk, and the player checks them against Regi's rule memo:
+// find what contradicts (Check), ask a question in English, then stamp APPROVED or REJECTED.
+// Code ids keep the names of the German original (the Bürgeramt sim from deutschacademy).
 //
 // This is the game flow: the start card, the shift, points and warnings, the end card. The
 // desk itself is tisch.js, cases come from faelle.js, rules from regeln.js. Every interface
 // string is in UI below (one object, so the release tier can move them to i18n keys); the
-// German on the papers, memos and in the customers' mouths is the content being learnt and
+// English on the papers, memos and in the customers' mouths is the content being learnt and
 // stays in regeln.js / faelle.js / kunden.json.
 
 import { makeTisch } from "./tisch.js";
@@ -18,51 +18,51 @@ import kunden from "../../data/buergeramt/kunden.json";
 import { gameMuted, setGameMuted, reducedMotion, GAME_MUTE_EVENT } from "../spieleEinstellungen.js";
 
 export const UI = {
-  eyebrow: "Spiel · A2–B1 · Prototyp",
-  titel: "Brunos Bürgeramt",
-  lead: "Bruno sitzt am Schalter 3 im Bürgeramt Lindenau. Prüf die Papiere, finde die Fehler und stempel: GENEHMIGT oder ABGELEHNT.",
-  los: "Schicht beginnen",
-  uhr: "Uhr",
-  wartende: "Wartende",
-  punkte: "Punkte",
-  verwarnungen: "Verwarnungen",
-  ton: "Ton an/aus",
-  nummer: "Nummer",
-  schalter: "Schalter 3",
-  pruefen: "Prüfen",
-  pruefenTitel: "Prüfen: zwei Felder antippen, die nicht zusammenpassen (Taste P oder Shift halten)",
-  notizzettel: "Notizzettel",
-  notizLeer: "Noch nichts gefunden.",
-  fragen: "Fragen",
-  wasFragen: "Was fragst du?",
-  grundWaehlen: "Warum lehnst du ab?",
-  abbrechen: "Abbrechen",
-  geklaert: "geklärt ✓",
-  genehmigt: "GENEHMIGT",
-  abgelehnt: "ABGELEHNT",
-  ablehnenWarum: "Erst einen Fehler finden: 🔍 Prüfen, dann zwei Felder antippen, die nicht passen.",
-  erstPruefen: "Zum Vergleichen erst 🔍 Prüfen antippen (oder Shift halten).",
-  passt: "Passt.",
-  egal: "Das kann man nicht vergleichen.",
-  schonNotiert: "Steht schon auf dem Notizzettel.",
-  schonGeklaert: "Das ist schon geklärt.",
-  memoTitel: "Regeln für heute",
-  memoVon: "– Regi, Amtsleiterin",
-  tabMemo: "📌 Regeln",
-  echt: "Echt in Deutschland",
-  lindenau: "Lindenau-Regel",
-  verwarnung: "Verwarnung",
-  richtigGenehmigt: "Richtig! Alles war in Ordnung.",
-  richtigAbgelehnt: "Richtig abgelehnt.",
-  falschGenehmigt: (notiz) => `Verwarnung: ${notiz}`,
-  falschAbgelehnt: "Verwarnung: Alles war in Ordnung – genehmigen wäre richtig gewesen.",
+  eyebrow: "Game · A2–B1 · Prototype",
+  titel: "Bruno’s Front Desk",
+  lead: "Bruno works at desk 3 in Brambleford Town Hall, where people apply for a resident parking permit. Check the papers, find the mistakes and stamp: APPROVED or REJECTED.",
+  los: "Start your shift",
+  uhr: "Time",
+  wartende: "Waiting",
+  punkte: "Points",
+  verwarnungen: "Warnings",
+  ton: "Sound on/off",
+  nummer: "Number",
+  schalter: "Desk 3",
+  pruefen: "Check",
+  pruefenTitel: "Check: tap two fields that don’t match (key P, or hold Shift)",
+  notizzettel: "Notes",
+  notizLeer: "Nothing found yet.",
+  fragen: "Ask",
+  wasFragen: "What do you ask?",
+  grundWaehlen: "Why are you rejecting it?",
+  abbrechen: "Cancel",
+  geklaert: "sorted ✓",
+  genehmigt: "APPROVED",
+  abgelehnt: "REJECTED",
+  ablehnenWarum: "Find a mistake first: tap 🔍 Check, then two fields that don’t match.",
+  erstPruefen: "To compare, tap 🔍 Check first (or hold Shift).",
+  passt: "That matches.",
+  egal: "You can’t compare those.",
+  schonNotiert: "That’s already in your notes.",
+  schonGeklaert: "That’s already sorted.",
+  memoTitel: "Today’s rules",
+  memoVon: "– Regi, office manager",
+  tabMemo: "📌 Rules",
+  echt: "Real in the UK",
+  lindenau: "Brambleford rule",
+  verwarnung: "Warning",
+  richtigGenehmigt: "Correct! Everything was in order.",
+  richtigAbgelehnt: "Correctly rejected.",
+  falschGenehmigt: (notiz) => `Warning: ${notiz}`,
+  falschAbgelehnt: "Warning: everything was in order – you should have approved it.",
   plus: (n) => `+${n}`,
-  endeTitel: "Feierabend!",
-  endeKunden: (n) => `${n} Kunden`,
-  endeRichtig: (r, n) => `${r} von ${n} richtig`,
-  endeVerw: (n) => (n === 1 ? "1 Verwarnung" : `${n} Verwarnungen`),
-  nochmal: "Noch eine Schicht",
-  wirr: "Falsche Frage – das kostet Zeit.",
+  endeTitel: "Home time!",
+  endeKunden: (n) => (n === 1 ? "1 customer" : `${n} customers`),
+  endeRichtig: (r, n) => `${r} of ${n} correct`,
+  endeVerw: (n) => (n === 1 ? "1 warning" : `${n} warnings`),
+  nochmal: "Another shift",
+  wirr: "Wrong question – that costs time.",
 };
 
 export function mountBuergeramt(root) {
@@ -182,7 +182,7 @@ export function mountBuergeramt(root) {
   }
 
   function zeigeRosa(text) {
-    rosa.innerHTML = `<b>${UI.verwarnung}</b><span lang="de">${text}</span><small>– Regi</small>`;
+    rosa.innerHTML = `<b>${UI.verwarnung}</b><span lang="en">${text}</span><small>– Regi</small>`;
     rosa.hidden = false;
     rosa.classList.remove("is-in"); void rosa.offsetWidth; rosa.classList.add("is-in");
     clearTimeout(zeigeRosa.t);

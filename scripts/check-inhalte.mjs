@@ -286,17 +286,6 @@ for (const file of examFiles) {
   }
 }
 
-// Führerschein: its own checker (scripts/check-fuehrerschein.mjs) covers structure; here only guessability.
-for (const q of read("fuehrerschein/fragen.json").questions) {
-  if (q.type !== "mc1" || !Array.isArray(q.options)) continue;
-  const texts = q.options.map((o) => norm(o.text ?? o.name));
-  const ans = texts[q.answer] ?? "";
-  const longest = Math.max(0, ...texts.filter((_, i) => i !== q.answer).map((t) => t.length));
-  if (ans.length >= 20 && ans.length >= 1.6 * longest && ans.length - longest >= 12) {
-    add({ datei: "src/data/fuehrerschein/fragen.json", ref: `f:${q.id}`, check: "raten.laengste-antwort", schwere: "warn", grund: "unklar", text: `Die richtige Antwort ist viel länger als die anderen (${ans.length} gegen ${longest} Zeichen).`, snapshot: { frage: q.prompt, optionen: texts } });
-  }
-}
-
 /* ------------------------------------------------------- cross-file ---- */
 
 // Whole files: where does the right answer sit across all their questions?

@@ -5,7 +5,7 @@
 // Each booklet is what a learner in that state needs on paper: the state's profile, its
 // Landesfragen, the 30 bundesweite Fragen, and the answers at the back (so the questions
 // can be done first without the solution on the same page). Written to
-// public/downloads/leben-in-deutschland-land-<id>.pdf; /wissen offers them in one card
+// public/downloads/leben-in-deutschland-land-<id>.pdf; /knowledge offers them in one card
 // with a Bundesland dropdown.
 //
 // Bayern also has its own classroom booklets (…-bayern-a2/-b1.pdf); this one is its

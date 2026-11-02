@@ -1,0 +1,358 @@
+---
+// /knowledge/accents — the accent map of the UK and Ireland: accent areas in six groups (North,
+// Midlands, South, Scotland, Wales, Ireland), city accents and the Celtic languages as dots,
+// the FOOT–STRUT and TRAP–BATH lines (data keys benrath/speyer), and a word mode that
+// recolours the map by what people say for "bread roll" or "hello".
+//
+// Built like /knowledge/languages: all prose is in public/i18n/en.json under dialekte.*, read
+// here for the server-rendered HTML. Names, places and the examples are in
+// src/data/dialekte.json (not translated). The outlines are pre-projected
+// into dialekte-karte.json by scripts/generate-dialekte-karte.mjs, so the page ships plain
+// <path>s and no map library. Every card is in the HTML; the script only picks which one shows.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import SectionMascot from "../../components/mascots/SectionMascot.astro";
+import dl from "../../data/dialekte.json";
+import karte from "../../data/dialekte-karte.json";
+import de from "../../../public/i18n/en.json";
+import "../../styles/practice.css";
+import "../../styles/uebungen-vorschau.css";
+import "../../styles/kultur-fehler.css";
+import "../../styles/sprachen.css";
+import "../../styles/dialekte.css";
+
+const dict = de as Record<string, string>;
+const t = (key: string) => dict[key] ?? key;
+const vars = (v: Record<string, unknown>) => JSON.stringify(v);
+const K = karte as any;
+
+const groupOf = Object.fromEntries(dl.groups.flatMap((g) => g.regions.map((r) => [r, g.id])));
+// Word mode: per word, the variant index and colour of every region.
+const variantOf = (wordId: string, region: string) => {
+  const w = dl.words.find((x) => x.id === wordId)!;
+  const i = w.variants.findIndex((v) => v.regions.includes(region));
+  return i < 0 ? null : { i, w: w.variants[i].w, color: dl.variantColors[i % dl.variantColors.length] };
+};
+const regionStyle = (r: (typeof dl.regions)[number]) =>
+  [`--c:${r.color}`, ...dl.words.map((w) => `--v-${w.id}:${variantOf(w.id, r.id)?.color ?? "var(--dl-none)"}`)].join(";");
+// One CSS rule per word, so adding a word to the data is all it takes.
+const modeCss = dl.words
+  .map((w) => `.dl-svg[data-mode="${w.id}"] .dl-r{fill:var(--v-${w.id})}.dl-svg[data-mode="${w.id}"] .dl-labels[data-labels="${w.id}"]{display:inline}`)
+  .join("");
+const lines = (s: string) => s.split("\n");
+// The Celtic-language dots: their examples are not English.
+const LANG_OF: Record<string, string> = { welsh: "cy", gaelic: "gd", irish: "ga", cornish: "kw", manx: "gv" };
+---
+<Layout
+  title="Accents of English in the British Isles – EnglishAcademy"
+  description="Accents and dialects of English in the UK and Ireland: Scouse, Geordie, Glaswegian, Welsh and Irish English and more — with examples, how people say hello and what they call a bread roll."
+>
+  <style set:html={modeCss}></style>
+  <div class="uv">
+    <SiteNav active="wissen" />
+    <main class="uv-main sp dl" id="dl-page">
+      <a href="/knowledge/languages" class="vp-back-link" data-i18n="dialekte.back">{t("dialekte.back")}</a>
+
+      <SectionMascot name="quaki" say="Hiya! Alright? Ey up!" align="center" class="hub-mascot uv-hub-mascot" />
+      <header class="fe-hero">
+        <p class="uv-eyebrow" data-i18n="dialekte.eyebrow">{t("dialekte.eyebrow")}</p>
+        <h1 data-i18n="dialekte.title">{t("dialekte.title")}</h1>
+        <p data-i18n="dialekte.lead">{t("dialekte.lead")}</p>
+      </header>
+
+      <ul class="sp-stats dl-stats">
+        <li><b>{dl.groups.length}</b><span data-i18n="dialekte.stat.groups">{t("dialekte.stat.groups")}</span></li>
+        <li><b>{dl.regions.length}</b><span data-i18n="dialekte.stat.regions">{t("dialekte.stat.regions")}</span></li>
+        <li><b>2</b><span data-i18n="dialekte.stat.lines">{t("dialekte.stat.lines")}</span></li>
+      </ul>
+
+      <nav class="sp-jump" aria-label={t("dialekte.jump")} data-i18n-attr="aria-label:dialekte.jump">
+        <a href="#karte" data-i18n="dialekte.map.title">{t("dialekte.map.title")}</a>
+        <a href="#linien" data-i18n="dialekte.lines.title">{t("dialekte.lines.title")}</a>
+        <a href="#lernen" data-i18n="dialekte.learn.title">{t("dialekte.learn.title")}</a>
+      </nav>
+
+      <!-- ── Karte ─────────────────────────────────────────────────────────── -->
+      <section class="sp-sec" id="karte">
+        <div class="sp-sec-head">
+          <div>
+            <h2 data-i18n="dialekte.map.title">{t("dialekte.map.title")}</h2>
+            <p data-i18n="dialekte.map.lead">{t("dialekte.map.lead")}</p>
+          </div>
+        </div>
+        <div class="dl-tools">
+          <div class="sp-seg" role="group" aria-label={t("dialekte.map.view")} data-i18n-attr="aria-label:dialekte.map.view">
+            <button type="button" data-mode="dialects" aria-pressed="true" data-i18n="dialekte.map.dialects">{t("dialekte.map.dialects")}</button>
+            {dl.words.map((w) => (
+              <button type="button" data-mode={w.id} aria-pressed="false" data-i18n="dialekte.map.word" data-i18n-vars={vars({ w: w.de })}>{t("dialekte.map.word").replace("{w}", w.de)}</button>
+            ))}
+          </div>
+          <label class="dl-toggle"><input type="checkbox" data-lines checked /> <span data-i18n="dialekte.map.lines">{t("dialekte.map.lines")}</span></label>
+        </div>
+
+        <div class="sp-map-wrap dl-map-wrap">
+          <div class="sp-map dl-map">
+            <svg class="dl-svg" data-mode="dialects" viewBox={`0 0 ${K.w} ${K.h}`} role="group" aria-label={t("dialekte.map.title")} data-i18n-attr="aria-label:dialekte.map.title">
+              <defs>
+                <clipPath id="dl-clip"><path d={K.mask} /></clipPath>
+                <pattern id="dl-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                  <rect width="6" height="6" class="dl-hatch-bg" /><line x1="0" y1="0" x2="0" y2="6" class="dl-hatch-line" />
+                </pattern>
+              </defs>
+              <rect class="sp-sea" width={K.w} height={K.h} />
+              <path class="dl-land" d={K.land} />
+              <path class="dl-other" d={K.swiss}><title>{t("dialekte.map.other")}</title></path>
+              {dl.regions.map((r) => (
+                <path class="dl-r" d={K.dialects[r.id]} style={regionStyle(r)} data-place={r.id} data-group={groupOf[r.id]}
+                  tabindex="0" role="button" aria-label={r.name}><title>{r.name}</title></path>
+              ))}
+              <path class="dl-states" d={K.states} aria-hidden="true" />
+              <path class="dl-borders" d={K.borders + K.coast} aria-hidden="true" />
+              <g class="dl-lines" clip-path="url(#dl-clip)" aria-hidden="true">
+                <path class="dl-line dl-line--benrath" d={K.benrath} />
+                <path class="dl-line dl-line--speyer" d={K.speyer} />
+              </g>
+              <g class="dl-lines dl-line-labels" aria-hidden="true">
+                <text x={K.benrathAt[0]} y={K.benrathAt[1] - 8} text-anchor="middle">bus /ʊ/ ↑</text>
+                <text x={K.benrathAt[0]} y={K.benrathAt[1] + 16} text-anchor="middle">bus /ʌ/ ↓</text>
+                <text class="dl-line-label--speyer" x={K.speyerAt[0]} y={K.speyerAt[1] - 8} text-anchor="middle">bath /a/ ↑</text>
+                <text class="dl-line-label--speyer" x={K.speyerAt[0]} y={K.speyerAt[1] + 16} text-anchor="middle">bath /ɑː/ ↓</text>
+              </g>
+              {/* Labels: one set per view, CSS shows the one that matches data-mode. */}
+              <g class="dl-labels" data-labels="dialects" aria-hidden="true">
+                {dl.regions.map((r) => {
+                  const [x, y] = K.labels[r.id];
+                  const ls = lines(r.short);
+                  return (
+                    <text x={x} y={y - (ls.length - 1) * 5.5} text-anchor="middle" data-label={r.id}>
+                      {ls.map((l, i) => <tspan x={x} dy={i ? 11 : 0}>{l}</tspan>)}
+                    </text>
+                  );
+                })}
+              </g>
+              {dl.words.map((w) => (
+                <g class="dl-labels dl-labels--word" data-labels={w.id} aria-hidden="true">
+                  {dl.regions.map((r) => {
+                    const v = variantOf(w.id, r.id);
+                    const [x, y] = K.labels[r.id];
+                    return v && <text x={x} y={y} text-anchor="middle" data-label={r.id}>{v.w.split(",")[0]}</text>;
+                  })}
+                </g>
+              ))}
+              <g class="dl-others" aria-hidden="true">
+                {dl.others.map((o) => <text x={K.others[o.id][0]} y={K.others[o.id][1]} text-anchor="middle">{o.name}</text>)}
+              </g>
+              <g class="dl-markers">
+                {dl.markers.map((m) => {
+                  const [x, y] = K.markers[m.id];
+                  return (
+                    <g class:list={["dl-m", m.lang && "dl-m--lang"]} data-place={m.id} tabindex="0" role="button" aria-label={m.name}>
+                      <title>{m.name} · {m.where}</title>
+                      <circle class="dl-m-hit" cx={x} cy={y} r="12" />
+                      <circle class="dl-m-dot" cx={x} cy={y} r="4.5" />
+                      <text class="dl-m-name" x={x + 7} y={y + 3.5}>{m.name}</text>
+                    </g>
+                  );
+                })}
+              </g>
+            </svg>
+          </div>
+
+          <aside class="sp-info dl-info" aria-live="polite">
+            <p class="sp-info-empty" data-card="" data-i18n="dialekte.map.empty">{t("dialekte.map.empty")}</p>
+            {dl.regions.map((r) => (
+              <article class="sp-card dl-card" data-card={r.id} hidden style={`--c:${r.color}`}>
+                <p class="sp-badge dl-badge" data-i18n={`dialekte.group.${groupOf[r.id]}`}>{t(`dialekte.group.${groupOf[r.id]}`)}</p>
+                <h3>{r.name}</h3>
+                {r.alias !== r.name && <p class="dl-alias">{r.alias}</p>}
+                <p data-i18n={`dialekte.r.${r.id}`}>{t(`dialekte.r.${r.id}`)}</p>
+                {r.say.length > 0 && (
+                  <div class="dl-say">
+                    <p class="sp-where-title" data-i18n="dialekte.card.say">{t("dialekte.card.say")}</p>
+                    <ul>{r.say.map(([d, h], i) => <li style={`--i:${i}`}><b lang="en">{d}</b><span>{h}</span></li>)}</ul>
+                  </div>
+                )}
+                <div class="sp-where">
+                  <p class="sp-where-title" data-i18n="dialekte.card.where">{t("dialekte.card.where")}</p>
+                  <ul>{r.places.map((p, i) => <li style={`--i:${i}`}>{p}</li>)}</ul>
+                </div>
+              </article>
+            ))}
+            {dl.markers.map((m) => (
+              <article class="sp-card dl-card dl-card--m" data-card={m.id} hidden>
+                <p class:list={["sp-badge dl-badge", m.lang ? "dl-badge--lang" : "dl-badge--city"]} data-i18n={m.lang ? "dialekte.badge.lang" : "dialekte.badge.city"}>{t(m.lang ? "dialekte.badge.lang" : "dialekte.badge.city")}</p>
+                <h3>{m.name}<span> · {m.where}</span></h3>
+                <p data-i18n={`dialekte.m.${m.id}`}>{t(`dialekte.m.${m.id}`)}</p>
+                {m.say.length > 0 && (
+                  <div class="dl-say">
+                    <p class="sp-where-title" data-i18n="dialekte.card.say">{t("dialekte.card.say")}</p>
+                    <ul>{m.say.map(([d, h], i) => <li style={`--i:${i}`}><b lang={m.lang ? LANG_OF[m.id] : "en"}>{d}</b><span>{h}</span></li>)}</ul>
+                  </div>
+                )}
+              </article>
+            ))}
+            {dl.words.map((w) => (
+              <article class="sp-card dl-card dl-card--word" data-word-card={w.id} hidden>
+                <h3 data-i18n="dialekte.map.wordLead" data-i18n-vars={vars({ w: w.de })}>{t("dialekte.map.wordLead").replace("{w}", w.de)}</h3>
+                <ul class="dl-variants">
+                  {w.variants.map((v, i) => (
+                    <li><span class="dl-swatch" style={`background:${dl.variantColors[i % dl.variantColors.length]}`}></span><b lang="en">{v.w}</b></li>
+                  ))}
+                </ul>
+                <p class="sp-fine" data-i18n="dialekte.map.wordNote">{t("dialekte.map.wordNote")}</p>
+              </article>
+            ))}
+          </aside>
+        </div>
+
+        {/* The legend is also the list: every area and dot is a button, so nobody has to
+            hit Cumbria with a thumb — and it is the keyboard way in. */}
+        <div class="sp-legend dl-legend">
+          {dl.groups.map((g) => (
+            <div class="sp-legend-row">
+              <div class="dl-legend-key">
+                <p class="sp-legend-key" data-i18n={`dialekte.group.${g.id}`}>{t(`dialekte.group.${g.id}`)}</p>
+                <p class="dl-legend-text" data-i18n={`dialekte.group.${g.id}.text`}>{t(`dialekte.group.${g.id}.text`)}</p>
+              </div>
+              <div class="sp-chips">
+                {g.regions.map((id) => {
+                  const r = dl.regions.find((x) => x.id === id)!;
+                  return <button type="button" class="sp-chip dl-chip" data-place={id} aria-pressed="false" style={`--c:${r.color}`}>{r.name.replace("Rheinfränkisch: ", "")}</button>;
+                })}
+              </div>
+            </div>
+          ))}
+          <div class="sp-legend-row">
+            <div class="dl-legend-key"><p class="sp-legend-key" data-i18n="dialekte.legend.markers">{t("dialekte.legend.markers")}</p></div>
+            <div class="sp-chips">
+              {dl.markers.map((m) => (
+                <button type="button" class:list={["sp-chip dl-chip dl-chip--m", m.lang && "dl-chip--lang"]} data-place={m.id} aria-pressed="false">{m.name}</button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Linien ────────────────────────────────────────────────────────── -->
+      <section class="sp-sec" id="linien">
+        <h2 data-i18n="dialekte.lines.title">{t("dialekte.lines.title")}</h2>
+        <p class="sp-sec-lead" data-i18n="dialekte.lines.lead">{t("dialekte.lines.lead")}</p>
+        <div class="dl-line-cards">
+          <article class="dl-line-card dl-line-card--benrath">
+            <h3 data-i18n="dialekte.lines.benrath.title">{t("dialekte.lines.benrath.title")}</h3>
+            <p data-i18n="dialekte.lines.benrath.text">{t("dialekte.lines.benrath.text")}</p>
+          </article>
+          <article class="dl-line-card dl-line-card--speyer">
+            <h3 data-i18n="dialekte.lines.speyer.title">{t("dialekte.lines.speyer.title")}</h3>
+            <p data-i18n="dialekte.lines.speyer.text">{t("dialekte.lines.speyer.text")}</p>
+          </article>
+        </div>
+        <div class="dl-table-wrap">
+          <table class="sp-words dl-shift">
+            <thead>
+              <tr>
+                <th scope="col" data-i18n="dialekte.lines.colEn">{t("dialekte.lines.colEn")}</th>
+                {dl.groups.map((g) => <th scope="col" data-i18n={`dialekte.group.${g.id}`}>{t(`dialekte.group.${g.id}`)}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {dl.shift.map(([en, ...cols]) => (
+                <tr>
+                  <th scope="row" lang="en">{en}</th>
+                  {cols.map((c) => <td class="sp-word">{c}</td>)}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="sp-fine" data-i18n="dialekte.lines.note">{t("dialekte.lines.note")}</p>
+      </section>
+
+      <!-- ── Lernen ────────────────────────────────────────────────────────── -->
+      <section class="sp-sec" id="lernen">
+        <h2 data-i18n="dialekte.learn.title">{t("dialekte.learn.title")}</h2>
+        <p class="sp-sec-lead dl-learn" data-i18n="dialekte.learn.text">{t("dialekte.learn.text")}</p>
+      </section>
+
+      <section class="fe-note sp-sources">
+        <div>
+          <h2 data-i18n="dialekte.src.title">{t("dialekte.src.title")}</h2>
+          <p data-i18n="dialekte.src.text">{t("dialekte.src.text")}</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <noscript>
+    <style>
+      /* No JS: nothing can be selected, so every card is shown as a list beside the map. */
+      .dl-card[data-card][hidden] { display: block !important; }
+      .sp-info-empty, .dl-tools { display: none; }
+    </style>
+  </noscript>
+
+  <script>
+    const svg = document.querySelector<SVGSVGElement>(".dl-svg")!;
+    const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-card]"));
+    const wordCards = Array.from(document.querySelectorAll<HTMLElement>("[data-word-card]"));
+    const modeBtns = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-mode]")).filter((b) => b.tagName === "BUTTON");
+    const empty = document.querySelector<HTMLElement>(".sp-info-empty")!;
+    let current: string | null = null;
+    let mode = "dialects";
+
+    function render() {
+      for (const el of Array.from(svg.querySelectorAll<Element>("[data-place]"))) {
+        el.classList.toggle("is-on", el.getAttribute("data-place") === current);
+      }
+      svg.classList.toggle("has-sel", current !== null);
+      for (const b of Array.from(document.querySelectorAll<HTMLElement>(".dl-chip"))) {
+        b.setAttribute("aria-pressed", String(b.dataset.place === current));
+      }
+      for (const c of cards) if (c.dataset.card) c.hidden = c.dataset.card !== current;
+      for (const c of wordCards) c.hidden = c.dataset.wordCard !== mode || current !== null;
+      empty.hidden = current !== null || mode !== "dialects";
+    }
+
+    function select(place: string | null, fromMap = false) {
+      current = current === place && fromMap ? null : place;
+      render();
+      const card = cards.find((c) => !c.hidden && c.dataset.card);
+      if (card) {
+        card.classList.remove("is-in"); void card.offsetWidth; card.classList.add("is-in");
+        // On a phone the card is under the map: bring it into view.
+        if (fromMap && matchMedia("(max-width: 860px)").matches) card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    }
+
+    function setMode(m: string) {
+      mode = m;
+      svg.dataset.mode = m;
+      for (const b of modeBtns) b.setAttribute("aria-pressed", String(b.dataset.mode === m));
+      if (m !== "dialects") current = null;
+      render();
+    }
+
+    for (const b of modeBtns) b.addEventListener("click", () => setMode(b.dataset.mode!));
+    document.querySelector<HTMLInputElement>("[data-lines]")!.addEventListener("change", (e) => {
+      svg.classList.toggle("no-lines", !(e.target as HTMLInputElement).checked);
+    });
+    for (const el of Array.from(svg.querySelectorAll<SVGElement>("[data-place]"))) {
+      el.addEventListener("click", () => select(el.getAttribute("data-place"), true));
+      el.addEventListener("keydown", (e) => {
+        const k = (e as KeyboardEvent).key;
+        if (k === "Enter" || k === " ") { e.preventDefault(); select(el.getAttribute("data-place"), true); }
+      });
+    }
+    for (const b of Array.from(document.querySelectorAll<HTMLElement>(".dl-chip"))) {
+      b.addEventListener("click", () => {
+        select(b.dataset.place!);
+        if (matchMedia("(max-width: 860px)").matches) {
+          document.querySelector(".dl-map-wrap")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    }
+    // ?d=koeln opens a region or dot directly (shareable).
+    const fromUrl = new URLSearchParams(location.search).get("d");
+    if (fromUrl && cards.some((c) => c.dataset.card === fromUrl)) select(fromUrl);
+  </script>
+</Layout>

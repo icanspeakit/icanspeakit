@@ -1,81 +1,93 @@
 {
-  "note": "Hörverstehen, A1–B2. Every script here is written for this site and voiced with generated TTS (scripts/generate-audio.mjs --hoeren) — nothing is lifted from a Lehrwerk-CD, which is why the task shapes follow DTZ and telc but the texts do not. Speakers map to a voice in `voices` below; the generator renders one clip per turn and joins them, so a dialogue really has two people in it.",
+  "note": "Listening, A1–B2. Every script here is written for this site, in British English with UK settings, and will be voiced with generated TTS once a provider is wired (BACKEND.speech) – nothing is taken from a coursebook CD, which is why the task shapes follow the exams but the texts do not. Speakers map to a voice in `voices` below; a generator renders one clip per turn and joins them, so a dialogue really has two people in it. Places, firms and councils (Westbridge, Kingsford, Swiftline …) are made up; the UK rules mentioned (seven days of self-certification before a fit note, the six-month limit for the Financial Ombudsman Service) were checked as of 2026-10.",
   "voices": {
     "ansage": {
-      "label": "Durchsage",
-      "id": "21m00Tcm4TlvDq8ikWAM",
-      "azure": "de-DE-LouisaNeural",
-      "note": "Rachel — even and unhurried, which is what a Bahnhofs- or Amtsdurchsage sounds like."
+      "label": "Announcement",
+      "id": "Xb7hH8MSUJpSbSDYk0k2",
+      "azure": "en-GB-SoniaNeural",
+      "note": "A calm, clear British female voice – what a station announcement in the UK sounds like. ElevenLabs id: Alice (British); check before the first render."
     },
     "frau": {
-      "label": "Sprecherin",
-      "id": "EXAVITQu4vr4xnSDxMaL",
-      "azure": "de-DE-KatjaNeural",
-      "note": "Bella — the voice the Aussprache-Training already uses, so the two trainers sound like one site."
+      "label": "Speaker (f)",
+      "id": "pFZP5JQG7iQjIQuC4Bku",
+      "azure": "en-GB-LibbyNeural",
+      "note": "Warm British female voice for most female roles. ElevenLabs id: Lily (British); check before the first render."
     },
     "frau2": {
-      "label": "Zweite Sprecherin",
-      "id": "MF3mGyEYCl7XYWbV9V6O",
-      "azure": "de-DE-AmalaNeural",
-      "note": "Elli — younger and lighter, so a two-woman dialogue is still two people."
+      "label": "Second speaker (f)",
+      "id": "",
+      "azure": "en-GB-HollieNeural",
+      "note": "Younger and lighter British female voice, so a two-woman dialogue is still two people. No ElevenLabs voice chosen yet."
     },
     "mann": {
-      "label": "Sprecher",
-      "id": "ErXwobaYiN019PkySvjV",
-      "azure": "de-DE-ConradNeural",
-      "note": "Antoni."
+      "label": "Speaker (m)",
+      "id": "onwK4e9ZLuTAKqWW03F9",
+      "azure": "en-GB-RyanNeural",
+      "note": "British male voice. ElevenLabs id: Daniel (British); check before the first render."
     },
     "mann2": {
-      "label": "Zweiter Sprecher",
-      "id": "VR6AewLTigWG4xSOukaG",
-      "azure": "de-DE-KillianNeural",
-      "note": "Arnold — darker, for the second male role."
+      "label": "Second speaker (m)",
+      "id": "JBFqnCBsd6RMkjVDRZzb",
+      "azure": "en-GB-ThomasNeural",
+      "note": "A deeper British male voice for the second male role. ElevenLabs id: George (British); check before the first render."
     }
   },
   "types": {
-    "ansage": "Durchsage",
-    "anrufbeantworter": "Anrufbeantworter",
-    "telefonat": "Telefonat",
-    "gespraech": "Gespräch",
+    "ansage": "Announcement",
+    "anrufbeantworter": "Voicemail",
+    "telefonat": "Phone call",
+    "gespraech": "Conversation",
     "radio": "Radio",
-    "diskussion": "Diskussion",
-    "vortrag": "Vortrag"
+    "diskussion": "Discussion",
+    "vortrag": "Talk"
   },
   "texts": [
     {
       "id": "a1-ansage-bahnhof",
       "level": "A1",
       "type": "ansage",
-      "title": "Ansage am Bahnhof",
-      "blurb": "Gleis, Verspätung, Minuten — die drei Wörter, die man am Bahnhof wirklich hört.",
-      "seconds": 35,
+      "title": "Announcement at the station",
+      "blurb": "Platform, late, minutes – the words you really hear at a railway station.",
+      "seconds": 25,
       "script": [
         {
           "speaker": "ansage",
-          "text": "Achtung an Gleis vier. Der Regionalzug nach Stuttgart, Abfahrt zwölf Uhr zwanzig, hat heute etwa zehn Minuten Verspätung."
+          "text": "Attention, please. This is an announcement for passengers on platform four. The twelve twenty train to Manchester is running about ten minutes late today."
         },
         {
           "speaker": "ansage",
-          "text": "Der Zug fährt heute nicht von Gleis vier, sondern von Gleis sieben. Ich wiederhole: Gleis sieben. Wir bitten um Entschuldigung."
+          "text": "This train will now leave from platform seven, not platform four. I repeat: platform seven. We're sorry for the delay."
         }
       ],
       "questions": [
         {
-          "prompt": "Wohin fährt der Zug?",
-          "options": ["Nach Stuttgart", "Nach Hamburg", "Nach München"],
-          "answer": "Nach Stuttgart"
+          "prompt": "Where is the train going?",
+          "options": [
+            "To Manchester",
+            "To Leeds",
+            "To Liverpool"
+          ],
+          "answer": "To Manchester"
         },
         {
-          "prompt": "Von welchem Gleis fährt der Zug heute?",
-          "options": ["Von Gleis vier", "Von Gleis sieben", "Von Gleis zwölf"],
-          "answer": "Von Gleis sieben",
-          "explain": "„nicht von Gleis vier, sondern von Gleis sieben\" — „sondern\" korrigiert immer das Wort davor."
+          "prompt": "Which platform does the train leave from today?",
+          "options": [
+            "Platform seven",
+            "Platform four",
+            "Platform twelve"
+          ],
+          "answer": "Platform seven",
+          "explain": "“Platform seven, not platform four” – the new platform comes first, the old one comes after “not”."
         },
         {
-          "prompt": "Wie viel Verspätung hat der Zug?",
-          "options": ["Zehn Minuten", "Zwanzig Minuten", "Vier Minuten"],
-          "answer": "Zehn Minuten",
-          "explain": "„zwölf Uhr zwanzig\" ist die Abfahrtszeit, nicht die Verspätung."
+          "prompt": "How late is the train?",
+          "options": [
+            "About ten minutes",
+            "About twenty minutes",
+            "About four minutes"
+          ],
+          "answer": "About ten minutes",
+          "explain": "“Twelve twenty” is the time the train leaves, not the delay."
         }
       ]
     },
@@ -83,44 +95,60 @@
       "id": "a1-anruf-arzt",
       "level": "A1",
       "type": "anrufbeantworter",
-      "title": "Anrufbeantworter: Termin beim Arzt",
-      "blurb": "Eine Praxis sagt einen Termin ab und bietet einen neuen an. Wochentag und Uhrzeit mitschreiben.",
-      "seconds": 40,
+      "title": "Voicemail: your doctor's appointment",
+      "blurb": "The doctor's surgery cancels an appointment and offers a new one. Write down the day and the time.",
+      "seconds": 35,
       "script": [
         {
           "speaker": "frau",
-          "text": "Guten Tag, Frau Nowak. Hier ist die Praxis Doktor Berger, mein Name ist Hoffmann."
+          "text": "Hello, this is a message for Mrs Nowak. This is Sarah from Oakfield Medical Centre."
         },
         {
           "speaker": "frau",
-          "text": "Sie haben einen Termin am Mittwoch um vierzehn Uhr. Leider ist Doktor Berger am Mittwoch krank."
+          "text": "You have an appointment with Dr Patel on Wednesday at two o'clock. I'm sorry, but Dr Patel is ill on Wednesday."
         },
         {
           "speaker": "frau",
-          "text": "Können Sie am Freitag um neun Uhr kommen? Bitte rufen Sie uns kurz an. Unsere Nummer: null sieben eins eins, drei drei zwei vier. Vielen Dank und auf Wiederhören."
+          "text": "Can you come on Friday at nine o'clock? Please call us back. Our number is zero one two one, four nine six, zero three two four. Thank you. Goodbye."
         }
       ],
       "questions": [
         {
-          "prompt": "Wer ruft an?",
-          "options": ["Die Arztpraxis", "Die Apotheke", "Die Krankenkasse"],
-          "answer": "Die Arztpraxis"
+          "prompt": "Who is calling?",
+          "options": [
+            "The doctor's surgery",
+            "The chemist's",
+            "The hospital"
+          ],
+          "answer": "The doctor's surgery"
         },
         {
-          "prompt": "Warum gibt es einen neuen Termin?",
-          "options": ["Der Arzt ist krank", "Die Praxis hat zu", "Frau Nowak hat abgesagt"],
-          "answer": "Der Arzt ist krank"
+          "prompt": "Why is there a new appointment?",
+          "options": [
+            "The doctor is ill",
+            "The surgery is closed",
+            "Mrs Nowak is ill"
+          ],
+          "answer": "The doctor is ill"
         },
         {
-          "prompt": "Wann ist der neue Termin?",
-          "options": ["Am Freitag um neun Uhr", "Am Mittwoch um vierzehn Uhr", "Am Freitag um vierzehn Uhr"],
-          "answer": "Am Freitag um neun Uhr",
-          "explain": "Mittwoch um vierzehn Uhr war der alte Termin — der fällt aus."
+          "prompt": "When is the new appointment?",
+          "options": [
+            "Friday at nine o'clock",
+            "Wednesday at two o'clock",
+            "Friday at two o'clock"
+          ],
+          "answer": "Friday at nine o'clock",
+          "explain": "Wednesday at two o'clock was the old appointment. It is cancelled now."
         },
         {
-          "prompt": "Was soll Frau Nowak machen?",
-          "options": ["Zurückrufen", "Eine E-Mail schreiben", "Einfach kommen"],
-          "answer": "Zurückrufen"
+          "prompt": "What must Mrs Nowak do?",
+          "options": [
+            "Call the surgery back",
+            "Send an email",
+            "Just come on Friday"
+          ],
+          "answer": "Call the surgery back"
         }
       ]
     },
@@ -128,38 +156,59 @@
       "id": "a1-supermarkt",
       "level": "A1",
       "type": "gespraech",
-      "title": "Im Supermarkt: Wo finde ich …?",
-      "blurb": "Nach dem Weg im Laden fragen. Links, rechts, hinten — und was es gerade nicht gibt.",
-      "seconds": 40,
+      "title": "In the supermarket: Where can I find …?",
+      "blurb": "Asking the way in a shop. Left, right, at the back – and what they haven't got today.",
+      "seconds": 35,
       "script": [
-        { "speaker": "mann", "text": "Entschuldigung, wo finde ich Milch?" },
+        {
+          "speaker": "mann",
+          "text": "Excuse me, where can I find the milk?"
+        },
         {
           "speaker": "frau",
-          "text": "Die Milch ist hinten rechts, neben dem Käse. Gehen Sie einfach geradeaus bis zum Ende."
+          "text": "The milk is at the back on the right, next to the cheese. Just go straight on to the end."
         },
-        { "speaker": "mann", "text": "Danke. Und haben Sie auch frisches Brot?" },
+        {
+          "speaker": "mann",
+          "text": "Thanks. And have you got fresh bread?"
+        },
         {
           "speaker": "frau",
-          "text": "Brot ist gleich hier vorne links. Aber Brötchen haben wir heute leider keine mehr."
+          "text": "Yes, the bread is here at the front on the left. But we haven't got any bread rolls today, sorry."
         },
-        { "speaker": "mann", "text": "Kein Problem. Vielen Dank!" }
+        {
+          "speaker": "mann",
+          "text": "No problem. Thank you very much!"
+        }
       ],
       "questions": [
         {
-          "prompt": "Wo ist die Milch?",
-          "options": ["Hinten rechts", "Vorne links", "Hinten links"],
-          "answer": "Hinten rechts"
+          "prompt": "Where is the milk?",
+          "options": [
+            "At the back on the right",
+            "At the front on the left",
+            "At the back on the left"
+          ],
+          "answer": "At the back on the right"
         },
         {
-          "prompt": "Was gibt es heute nicht mehr?",
-          "options": ["Brötchen", "Brot", "Käse"],
-          "answer": "Brötchen",
-          "explain": "Brot gibt es — nur die Brötchen sind aus."
+          "prompt": "What haven't they got today?",
+          "options": [
+            "Bread rolls",
+            "Bread",
+            "Cheese"
+          ],
+          "answer": "Bread rolls",
+          "explain": "They have got bread. Only the bread rolls are gone."
         },
         {
-          "prompt": "Wo ist das Brot?",
-          "options": ["Vorne links", "Hinten rechts", "Neben der Milch"],
-          "answer": "Vorne links"
+          "prompt": "Where is the bread?",
+          "options": [
+            "At the front on the left",
+            "At the back on the right",
+            "Next to the milk"
+          ],
+          "answer": "At the front on the left"
         }
       ]
     },
@@ -167,107 +216,144 @@
       "id": "a1-verabredung",
       "level": "A1",
       "type": "telefonat",
-      "title": "Telefonat: Wann treffen wir uns?",
-      "blurb": "Zwei Freundinnen verabreden sich. Uhrzeit, Ort und ein kleiner Wechsel in letzter Minute.",
-      "seconds": 45,
+      "title": "Phone call: When shall we meet?",
+      "blurb": "Two friends make a plan. A time, a place and a small change at the last minute.",
+      "seconds": 30,
       "script": [
-        { "speaker": "frau", "text": "Hallo Maria, hier ist Lena. Hast du kurz Zeit?" },
-        { "speaker": "frau2", "text": "Hallo Lena! Ja, klar. Was gibt's?" },
         {
           "speaker": "frau",
-          "text": "Treffen wir uns morgen im Café? Um sechzehn Uhr?"
+          "text": "Hi Amira, it's Mei. Have you got a minute?"
         },
         {
           "speaker": "frau2",
-          "text": "Um sechzehn Uhr kann ich leider nicht, ich arbeite bis fünf. Geht es auch um achtzehn Uhr?"
+          "text": "Hi Mei! Yes, of course. What's up?"
         },
         {
           "speaker": "frau",
-          "text": "Ja, das passt. Dann um achtzehn Uhr. Aber nicht im Café — komm doch zu mir nach Hause."
+          "text": "Shall we meet at the café tomorrow? At four o'clock?"
         },
-        { "speaker": "frau2", "text": "Super, bis morgen!" }
+        {
+          "speaker": "frau2",
+          "text": "Sorry, I can't at four. I work until five. Is six o'clock OK?"
+        },
+        {
+          "speaker": "frau",
+          "text": "Yes, that's fine. Six o'clock, then. But not at the café – come to my flat."
+        },
+        {
+          "speaker": "frau2",
+          "text": "Great. See you tomorrow!"
+        }
       ],
       "questions": [
         {
-          "prompt": "Wann treffen sich Lena und Maria?",
-          "options": ["Um achtzehn Uhr", "Um sechzehn Uhr", "Um siebzehn Uhr"],
-          "answer": "Um achtzehn Uhr",
-          "explain": "Sechzehn Uhr war der erste Vorschlag — Maria arbeitet da noch."
+          "prompt": "When do Mei and Amira meet?",
+          "options": [
+            "At six o'clock",
+            "At four o'clock",
+            "At five o'clock"
+          ],
+          "answer": "At six o'clock",
+          "explain": "Four o'clock was Mei's first idea, but Amira is still at work then."
         },
         {
-          "prompt": "Wo treffen sie sich?",
-          "options": ["Bei Lena zu Hause", "Im Café", "Bei Maria zu Hause"],
-          "answer": "Bei Lena zu Hause"
+          "prompt": "Where do they meet?",
+          "options": [
+            "At Mei's flat",
+            "At the café",
+            "At Amira's flat"
+          ],
+          "answer": "At Mei's flat"
         },
         {
-          "prompt": "Warum kann Maria nicht früher?",
-          "options": ["Sie arbeitet bis fünf", "Sie ist krank", "Sie hat einen Termin"],
-          "answer": "Sie arbeitet bis fünf"
+          "prompt": "Why can't Amira meet earlier?",
+          "options": [
+            "She works until five",
+            "She is ill",
+            "She has an appointment"
+          ],
+          "answer": "She works until five"
         }
       ]
     },
-
     {
       "id": "a2-amt-termin",
       "level": "A2",
       "type": "telefonat",
-      "title": "Beim Amt: Termin verschieben",
-      "blurb": "Ein Termin bei der Ausländerbehörde passt nicht mehr. Was man am Telefon sagen muss — und was man mitbringt.",
-      "seconds": 55,
+      "title": "At the council: changing an appointment",
+      "blurb": "An appointment at the council doesn't work any more. What to say on the phone – and what to bring.",
+      "seconds": 60,
       "script": [
         {
           "speaker": "mann",
-          "text": "Ausländerbehörde, Sachgebiet drei, Weber. Was kann ich für Sie tun?"
+          "text": "Good morning, Westbridge Council, customer services. You're speaking to David. How can I help?"
         },
         {
           "speaker": "frau",
-          "text": "Guten Tag, Herr Weber. Mein Name ist Amina Khalil. Ich habe am Donnerstag einen Termin, aber ich muss ihn leider verschieben."
+          "text": "Good morning. My name is Amina Khalil. I've got an appointment on Thursday about a parking permit, but I'm afraid I need to change it."
         },
-        { "speaker": "mann", "text": "Kein Problem. Haben Sie Ihre Kundennummer?" },
-        { "speaker": "frau", "text": "Ja, Moment — vier acht neun zwei." },
         {
           "speaker": "mann",
-          "text": "Danke. Ich sehe den Termin. Der nächste freie ist am achtzehnten März um zehn Uhr dreißig. Passt das?"
+          "text": "No problem. Have you got your reference number?"
         },
         {
           "speaker": "frau",
-          "text": "Ja, das passt gut. Muss ich etwas mitbringen?"
+          "text": "Yes, just a moment … four eight nine two."
         },
         {
           "speaker": "mann",
-          "text": "Ihren Pass, die Meldebescheinigung und den Mietvertrag. Ohne Meldebescheinigung können wir den Antrag nicht bearbeiten."
+          "text": "Thank you. Yes, I can see your appointment. The next free one is on the eighteenth of March at half past ten. Is that OK?"
         },
-        { "speaker": "frau", "text": "Alles klar. Vielen Dank!" }
+        {
+          "speaker": "frau",
+          "text": "Yes, that's fine. Do I need to bring anything?"
+        },
+        {
+          "speaker": "mann",
+          "text": "Please bring your passport or driving licence, the logbook for your car and proof of address – a council tax bill, for example. Without proof of address we can't deal with your application."
+        },
+        {
+          "speaker": "frau",
+          "text": "OK. Thank you very much!"
+        }
       ],
       "questions": [
         {
-          "prompt": "Warum ruft Frau Khalil an?",
+          "prompt": "Why does Ms Khalil call?",
           "options": [
-            "Sie möchte den Termin verschieben",
-            "Sie möchte einen Antrag stellen",
-            "Sie hat den Termin vergessen"
+            "She wants to change her appointment",
+            "She wants to cancel her application",
+            "She forgot her appointment"
           ],
-          "answer": "Sie möchte den Termin verschieben"
+          "answer": "She wants to change her appointment"
         },
         {
-          "prompt": "Wann ist der neue Termin?",
+          "prompt": "When is the new appointment?",
           "options": [
-            "Am achtzehnten März um zehn Uhr dreißig",
-            "Am Donnerstag um zehn Uhr",
-            "Am achtzehnten Mai um zehn Uhr dreißig"
+            "18 March at 10.30",
+            "Thursday at 10.30",
+            "18 May at 10.30"
           ],
-          "answer": "Am achtzehnten März um zehn Uhr dreißig"
+          "answer": "18 March at 10.30"
         },
         {
-          "prompt": "Welches Dokument ist unbedingt nötig?",
-          "options": ["Die Meldebescheinigung", "Ein Foto", "Die Steuernummer"],
-          "answer": "Die Meldebescheinigung",
-          "explain": "„Ohne Meldebescheinigung können wir den Antrag nicht bearbeiten\" — das ist die Bedingung."
+          "prompt": "Which document does the man say is essential?",
+          "options": [
+            "Proof of address",
+            "A passport photo",
+            "A birth certificate"
+          ],
+          "answer": "Proof of address",
+          "explain": "“Without proof of address we can't deal with your application” – that is the one condition."
         },
         {
-          "prompt": "Was nennt Frau Khalil am Telefon?",
-          "options": ["Ihre Kundennummer", "Ihre Telefonnummer", "Ihre Adresse"],
-          "answer": "Ihre Kundennummer"
+          "prompt": "What does Ms Khalil give on the phone?",
+          "options": [
+            "Her reference number",
+            "Her phone number",
+            "Her address"
+          ],
+          "answer": "Her reference number"
         }
       ]
     },
@@ -275,58 +361,85 @@
       "id": "a2-wohnungsbesichtigung",
       "level": "A2",
       "type": "gespraech",
-      "title": "Wohnungsbesichtigung",
-      "blurb": "Kaltmiete, Nebenkosten, Kaution — die Zahlen, über die man in dieser Viertelstunde entscheidet.",
-      "seconds": 60,
+      "title": "Viewing a flat",
+      "blurb": "Rent, bills, deposit – the numbers you have to understand in a short viewing.",
+      "seconds": 45,
       "script": [
         {
           "speaker": "mann",
-          "text": "Also, das ist das Wohnzimmer, und da hinten die Küche. Die Wohnung hat zweiundsechzig Quadratmeter."
-        },
-        { "speaker": "frau", "text": "Schön hell. Wie hoch ist die Miete?" },
-        {
-          "speaker": "mann",
-          "text": "Die Kaltmiete sind sechshundertfünfzig Euro. Dazu kommen hundertachtzig Euro Nebenkosten."
-        },
-        { "speaker": "frau", "text": "Ist der Strom da schon dabei?" },
-        {
-          "speaker": "mann",
-          "text": "Nein, Strom müssen Sie selbst anmelden. In den Nebenkosten sind Heizung, Wasser und Müll."
-        },
-        { "speaker": "frau", "text": "Und die Kaution?" },
-        {
-          "speaker": "mann",
-          "text": "Drei Kaltmieten, also tausendneunhundertfünfzig Euro. Die bekommen Sie zurück, wenn Sie ausziehen."
+          "text": "So, this is the living room, and the kitchen is through there. There are two bedrooms upstairs."
         },
         {
           "speaker": "frau",
-          "text": "Gut. Und ab wann ist die Wohnung frei?"
+          "text": "It's nice and bright. How much is the rent?"
         },
-        { "speaker": "mann", "text": "Ab dem ersten Juni." }
+        {
+          "speaker": "mann",
+          "text": "It's nine hundred and fifty pounds a month. Water and the internet are included."
+        },
+        {
+          "speaker": "frau",
+          "text": "And electricity?"
+        },
+        {
+          "speaker": "mann",
+          "text": "No, you pay for electricity yourself, and the council tax too."
+        },
+        {
+          "speaker": "frau",
+          "text": "And how much is the deposit?"
+        },
+        {
+          "speaker": "mann",
+          "text": "One thousand pounds. You get it back when you move out, if everything is OK with the flat."
+        },
+        {
+          "speaker": "frau",
+          "text": "Good. And when is the flat free?"
+        },
+        {
+          "speaker": "mann",
+          "text": "From the first of June."
+        }
       ],
       "questions": [
         {
-          "prompt": "Wie hoch ist die Warmmiete?",
-          "options": ["830 Euro", "650 Euro", "180 Euro"],
-          "answer": "830 Euro",
-          "explain": "Warmmiete = Kaltmiete + Nebenkosten, also 650 + 180."
+          "prompt": "How much is the rent?",
+          "options": [
+            "£950 a month",
+            "£1,000 a month",
+            "£590 a month"
+          ],
+          "answer": "£950 a month",
+          "explain": "£1,000 is the deposit, not the rent."
         },
         {
-          "prompt": "Was ist NICHT in den Nebenkosten?",
-          "options": ["Der Strom", "Die Heizung", "Das Wasser"],
-          "answer": "Der Strom",
-          "explain": "„Strom müssen Sie selbst anmelden.\""
+          "prompt": "What does the tenant pay for herself?",
+          "options": [
+            "Electricity and council tax",
+            "Water and the internet",
+            "Only the internet"
+          ],
+          "answer": "Electricity and council tax",
+          "explain": "“Water and the internet are included” – they are already in the rent."
         },
         {
-          "prompt": "Wie viel Kaution muss die Mieterin zahlen?",
-          "options": ["1950 Euro", "650 Euro", "830 Euro"],
-          "answer": "1950 Euro",
-          "explain": "Drei Kaltmieten — mehr als drei darf der Vermieter in Deutschland nicht verlangen."
+          "prompt": "How much is the deposit?",
+          "options": [
+            "£1,000",
+            "£950",
+            "£1,900"
+          ],
+          "answer": "£1,000"
         },
         {
-          "prompt": "Ab wann ist die Wohnung frei?",
-          "options": ["Ab dem ersten Juni", "Ab dem ersten Juli", "Sofort"],
-          "answer": "Ab dem ersten Juni"
+          "prompt": "When is the flat free?",
+          "options": [
+            "From 1 June",
+            "From 1 July",
+            "Now"
+          ],
+          "answer": "From 1 June"
         }
       ]
     },
@@ -334,53 +447,65 @@
       "id": "a2-radio-wetter-verkehr",
       "level": "A2",
       "type": "radio",
-      "title": "Radio: Wetter und Verkehr",
-      "blurb": "Zwei kurze Meldungen hintereinander. Zahlen, Richtungen und eine Warnung.",
-      "seconds": 50,
+      "title": "Radio: weather and traffic",
+      "blurb": "Two short reports, one after the other. Numbers, directions and a warning.",
+      "seconds": 40,
       "script": [
         {
           "speaker": "frau",
-          "text": "Und jetzt das Wetter für Baden-Württemberg. Heute Vormittag noch Regen, am Nachmittag wird es trockener. Höchstwerte zwischen elf und vierzehn Grad."
+          "text": "And now the weather for the West Midlands. Rain this morning, but it will be drier this afternoon. Highs of eleven to fourteen degrees."
         },
         {
           "speaker": "frau",
-          "text": "In der Nacht kühlt es auf drei Grad ab. Achtung: In den frühen Morgenstunden kann es glatt werden."
+          "text": "Tonight it will get colder, down to three degrees. Be careful: there may be ice on the roads early tomorrow morning."
         },
         {
           "speaker": "mann",
-          "text": "Zum Verkehr: Auf der A acht Richtung München staut sich der Verkehr zwischen Stuttgart und Esslingen auf fünf Kilometern. Grund ist ein liegengebliebener Lastwagen."
+          "text": "Now the traffic. On the M6 northbound there's a five-mile queue between junction six and junction seven. A lorry has broken down in the middle lane."
         },
         {
           "speaker": "mann",
-          "text": "In der Gegenrichtung ist die Strecke frei. Bitte fahren Sie vorsichtig."
+          "text": "Southbound, the road is clear. Please drive carefully."
         }
       ],
       "questions": [
         {
-          "prompt": "Wie wird das Wetter am Nachmittag?",
-          "options": ["Trockener", "Regnerisch", "Es schneit"],
-          "answer": "Trockener"
-        },
-        {
-          "prompt": "Wovor wird gewarnt?",
-          "options": ["Vor Glätte am Morgen", "Vor Sturm", "Vor Hitze"],
-          "answer": "Vor Glätte am Morgen",
-          "explain": "„In den frühen Morgenstunden kann es glatt werden.\""
-        },
-        {
-          "prompt": "Wo ist der Stau?",
+          "prompt": "What will the weather be like this afternoon?",
           "options": [
-            "Auf der A 8 Richtung München",
-            "Auf der A 8 Richtung Stuttgart",
-            "In Esslingen in der Stadt"
+            "Drier",
+            "Rainy",
+            "Snowy"
           ],
-          "answer": "Auf der A 8 Richtung München",
-          "explain": "In der Gegenrichtung ist die Strecke ausdrücklich frei."
+          "answer": "Drier"
         },
         {
-          "prompt": "Warum staut es sich?",
-          "options": ["Ein Lastwagen ist liegengeblieben", "Es gab einen Unfall", "Eine Baustelle"],
-          "answer": "Ein Lastwagen ist liegengeblieben"
+          "prompt": "What is the warning about?",
+          "options": [
+            "Ice early tomorrow morning",
+            "Strong wind tonight",
+            "Very hot weather"
+          ],
+          "answer": "Ice early tomorrow morning",
+          "explain": "“There may be ice on the roads early tomorrow morning.”"
+        },
+        {
+          "prompt": "Where is the queue?",
+          "options": [
+            "On the M6 northbound",
+            "On the M6 southbound",
+            "In the city centre"
+          ],
+          "answer": "On the M6 northbound",
+          "explain": "The man says the southbound side is clear."
+        },
+        {
+          "prompt": "Why is there a queue?",
+          "options": [
+            "A lorry has broken down",
+            "There was an accident",
+            "There are roadworks"
+          ],
+          "answer": "A lorry has broken down"
         }
       ]
     },
@@ -388,135 +513,158 @@
       "id": "a2-paketdienst",
       "level": "A2",
       "type": "anrufbeantworter",
-      "title": "Anrufbeantworter: Paket und Handwerker",
-      "blurb": "Zwei Nachrichten auf der Mailbox. Wer war da, was soll man tun, bis wann?",
-      "seconds": 55,
+      "title": "Voicemails: a parcel and the plumber",
+      "blurb": "Two messages on your phone. Who called, what should you do, and by when?",
+      "seconds": 45,
       "script": [
         {
           "speaker": "mann",
-          "text": "Erste Nachricht. Guten Tag, hier ist der Paketdienst. Wir waren heute um elf Uhr bei Ihnen, aber Sie waren nicht zu Hause."
+          "text": "Message one. Hello, this is Swiftline Deliveries. We came to your house at eleven o'clock today, but you weren't at home."
         },
         {
           "speaker": "mann",
-          "text": "Ihr Paket liegt jetzt im Paketshop in der Bahnhofstraße zwölf. Sie können es bis Samstag abholen. Bitte bringen Sie einen Ausweis mit."
+          "text": "Your parcel is now at the parcel shop at twelve Station Road. You can collect it until Saturday. Please bring some photo ID."
         },
         {
           "speaker": "frau2",
-          "text": "Zweite Nachricht. Hallo Herr Ilić, hier ist Firma Krause, Sanitär. Wegen der Heizung: Unser Kollege kann am Dienstag zwischen acht und zwölf Uhr kommen."
+          "text": "Message two. Hello Mr Ilić, this is Kate from Hartley Plumbing. It's about your boiler: our engineer can come on Tuesday between eight and twelve."
         },
         {
           "speaker": "frau2",
-          "text": "Wenn der Termin nicht passt, schreiben Sie uns bitte eine kurze Nachricht. Sonst kommen wir am Dienstag. Auf Wiederhören."
+          "text": "If that time isn't good for you, please send us a text. If we don't hear from you, we'll come on Tuesday. Bye."
         }
       ],
       "questions": [
         {
-          "prompt": "Wo liegt das Paket jetzt?",
+          "prompt": "Where is the parcel now?",
           "options": [
-            "Im Paketshop in der Bahnhofstraße",
-            "Beim Nachbarn",
-            "Es kommt morgen noch einmal"
+            "At the parcel shop on Station Road",
+            "With a neighbour",
+            "It is coming again tomorrow"
           ],
-          "answer": "Im Paketshop in der Bahnhofstraße"
+          "answer": "At the parcel shop on Station Road"
         },
         {
-          "prompt": "Was muss man zum Abholen mitbringen?",
-          "options": ["Einen Ausweis", "Geld", "Den Schlüssel"],
-          "answer": "Einen Ausweis"
+          "prompt": "What must you bring to collect the parcel?",
+          "options": [
+            "Photo ID",
+            "Some money",
+            "Your key"
+          ],
+          "answer": "Photo ID"
         },
         {
-          "prompt": "Was soll Herr Ilić tun, wenn der Dienstag passt?",
+          "prompt": "What should Mr Ilić do if Tuesday is OK?",
           "options": [
-            "Nichts — die Firma kommt einfach",
-            "Zurückrufen",
-            "Eine Nachricht schreiben"
+            "Nothing – the engineer will just come",
+            "Call the company to say yes",
+            "Send a text to say yes"
           ],
-          "answer": "Nichts — die Firma kommt einfach",
-          "explain": "Schreiben soll er nur, wenn der Termin NICHT passt."
+          "answer": "Nothing – the engineer will just come",
+          "explain": "He only needs to send a text if the time is NOT good for him."
         },
         {
-          "prompt": "Wann kommt der Handwerker?",
+          "prompt": "When is the engineer coming?",
           "options": [
-            "Am Dienstag zwischen acht und zwölf",
-            "Am Samstag zwischen acht und zwölf",
-            "Am Dienstag um zwölf"
+            "On Tuesday between eight and twelve",
+            "On Saturday between eight and twelve",
+            "On Tuesday at twelve"
           ],
-          "answer": "Am Dienstag zwischen acht und zwölf"
+          "answer": "On Tuesday between eight and twelve"
         }
       ]
     },
-
     {
       "id": "b1-krankmeldung",
       "level": "B1",
       "type": "telefonat",
-      "title": "Krankmeldung beim Arbeitgeber",
-      "blurb": "Sich krankmelden, ohne sich zu entschuldigen — und wissen, ab wann der Schein fällig ist.",
+      "title": "Calling in sick at work",
+      "blurb": "Calling in sick without over-apologising – and knowing when you need a note from the doctor.",
       "seconds": 70,
       "script": [
-        { "speaker": "frau2", "text": "Personalbüro Lindner, guten Morgen." },
-        {
-          "speaker": "mann",
-          "text": "Guten Morgen, Frau Lindner, hier ist Tarek Mansour aus der Logistik. Ich muss mich leider krankmelden."
-        },
         {
           "speaker": "frau2",
-          "text": "Das tut mir leid. Wissen Sie schon, wie lange Sie ausfallen?"
+          "text": "HR, Helen Grant speaking. Good morning."
         },
         {
           "speaker": "mann",
-          "text": "Der Arzt hat mich erst mal bis Freitag krankgeschrieben. Wenn es nicht besser wird, verlängert er."
+          "text": "Good morning, Helen. It's Tarek Mansour from the warehouse. I'm afraid I need to call in sick today."
         },
         {
           "speaker": "frau2",
-          "text": "In Ordnung. Denken Sie bitte daran: Die Arbeitsunfähigkeitsbescheinigung brauchen wir spätestens am vierten Tag. Am besten schicken Sie sie gleich."
+          "text": "Oh, I'm sorry to hear that. Do you know how long you'll be off?"
         },
         {
           "speaker": "mann",
-          "text": "Die Praxis meldet das inzwischen elektronisch an die Krankenkasse. Reicht das nicht?"
+          "text": "I've got a bad flu. I think I'll be off until Friday. If it doesn't get better, I'll go and see my GP."
         },
         {
           "speaker": "frau2",
-          "text": "Für die Kasse ja, für uns nicht ganz — wir holen die Meldung zwar selbst ab, aber Sie müssen uns trotzdem sofort informieren, dass Sie krank sind. Das haben Sie jetzt ja gemacht."
+          "text": "OK. For the first seven days you don't need a note from a doctor – when you're back, you just fill in a self-certification form. If you're off for more than seven days, we'll need a fit note from your GP."
         },
         {
           "speaker": "mann",
-          "text": "Gut. Und meine Schicht am Donnerstag?"
+          "text": "Right. And is it OK if I just send an email next time?"
         },
         {
           "speaker": "frau2",
-          "text": "Darum kümmere ich mich. Gute Besserung, Herr Mansour."
+          "text": "Not really. Our policy is that you phone your manager or us on the first day, before your shift starts. But don't worry – you've called, so that's fine for today."
+        },
+        {
+          "speaker": "mann",
+          "text": "Good. And what about my shift on Thursday?"
+        },
+        {
+          "speaker": "frau2",
+          "text": "Leave that with me, I'll sort it out. Get well soon, Tarek."
         }
       ],
       "questions": [
         {
-          "prompt": "Bis wann ist Herr Mansour krankgeschrieben?",
-          "options": ["Bis Freitag", "Bis Donnerstag", "Bis zum vierten Tag"],
-          "answer": "Bis Freitag"
-        },
-        {
-          "prompt": "Was sagt Frau Lindner über die Krankmeldung?",
+          "prompt": "How long does Tarek think he will be off?",
           "options": [
-            "Er muss den Betrieb sofort informieren",
-            "Die Krankenkasse informiert den Betrieb, er muss nichts tun",
-            "Er muss die Bescheinigung am ersten Tag persönlich vorbeibringen"
+            "Until Friday",
+            "Until Thursday",
+            "For more than a week"
           ],
-          "answer": "Er muss den Betrieb sofort informieren",
-          "explain": "Der Schein läuft elektronisch, die Meldung beim Arbeitgeber nicht — anrufen muss man trotzdem, und zwar am ersten Tag."
+          "answer": "Until Friday"
         },
         {
-          "prompt": "Wer kümmert sich um die Schicht am Donnerstag?",
-          "options": ["Frau Lindner", "Herr Mansour selbst", "Ein Kollege aus der Logistik"],
-          "answer": "Frau Lindner"
-        },
-        {
-          "prompt": "Was passiert, wenn es Herrn Mansour nicht besser geht?",
+          "prompt": "When does the company need a fit note from a GP?",
           "options": [
-            "Der Arzt verlängert die Krankschreibung",
-            "Er muss unbezahlten Urlaub nehmen",
-            "Er muss zur Krankenkasse gehen"
+            "If he is off for more than seven days",
+            "From the first day he is off",
+            "Only when he comes back to work"
           ],
-          "answer": "Der Arzt verlängert die Krankschreibung"
+          "answer": "If he is off for more than seven days",
+          "explain": "For the first seven days, a self-certification form is enough."
+        },
+        {
+          "prompt": "How should staff report that they are ill?",
+          "options": [
+            "By phone on the first day, before the shift",
+            "By email at any time on the first day",
+            "By text to a colleague after the shift"
+          ],
+          "answer": "By phone on the first day, before the shift"
+        },
+        {
+          "prompt": "Who will deal with the shift on Thursday?",
+          "options": [
+            "Helen",
+            "Tarek himself",
+            "A colleague from the warehouse"
+          ],
+          "answer": "Helen"
+        },
+        {
+          "prompt": "What will Tarek do if he doesn't get better?",
+          "options": [
+            "See his GP",
+            "Take unpaid leave",
+            "Go back to work anyway"
+          ],
+          "answer": "See his GP"
         }
       ]
     },
@@ -524,85 +672,93 @@
       "id": "b1-elterngespraech",
       "level": "B1",
       "type": "gespraech",
-      "title": "Elterngespräch in der Schule",
-      "blurb": "Eine Lehrerin und ein Vater sprechen über Noten, Hausaufgaben und eine Empfehlung.",
-      "seconds": 75,
+      "title": "Parents' evening at school",
+      "blurb": "A teacher and a father talk about marks, homework and a recommendation.",
+      "seconds": 65,
       "script": [
         {
           "speaker": "frau",
-          "text": "Schön, dass Sie da sind, Herr Petrov. Ich wollte mit Ihnen über Dimitris Entwicklung sprechen."
+          "text": "Thanks for coming, Mr Petrov. I wanted to talk to you about how Dimitri is getting on."
         },
         {
           "speaker": "mann2",
-          "text": "Gerne. Zu Hause sagt er immer, es läuft gut."
+          "text": "Of course. At home he always says everything's fine."
         },
         {
           "speaker": "frau",
-          "text": "In Mathematik läuft es auch wirklich gut, da ist er einer der Besten. Schwierig ist im Moment Deutsch — vor allem das Schreiben."
+          "text": "In maths it really is going well – he's one of the best in the class. What's difficult at the moment is English, especially writing."
         },
         {
           "speaker": "mann2",
-          "text": "Sprechen kann er eigentlich gut. Woran liegt das?"
+          "text": "But he speaks English well. Why is that?"
         },
         {
           "speaker": "frau",
-          "text": "Genau das ist das Muster: mündlich sicher, schriftlich unsicher. Ihm fehlen die festen Formulierungen, die man in einem Text braucht. Das lernt man nicht nebenbei, das muss man üben."
+          "text": "That's exactly the pattern: confident when he speaks, unsure when he writes. He hasn't got the fixed phrases you need in a written text yet. You don't just pick those up – you have to practise them."
         },
         {
           "speaker": "mann2",
-          "text": "Und die Hausaufgaben? Er sitzt jeden Tag zwei Stunden."
+          "text": "And what about homework? He sits at his desk for two hours every day."
         },
         {
           "speaker": "frau",
-          "text": "Zwei Stunden sind viel. Ich würde lieber kürzer, aber regelmäßig sagen — und ich empfehle die Förderstunde am Mittwoch. Die ist kostenlos, in kleinen Gruppen."
+          "text": "Two hours is a lot. I'd say shorter, but regularly. And I'd recommend our writing club on Wednesdays after school. It's free, and the groups are small."
         },
         {
           "speaker": "mann2",
-          "text": "Das machen wir. Muss ich das anmelden?"
+          "text": "We'll do that. Do I need to sign him up?"
         },
         {
           "speaker": "frau",
-          "text": "Ich melde ihn an, Sie unterschreiben nur kurz das Formular."
+          "text": "I'll sign him up. You just need to sign a short form."
         }
       ],
       "questions": [
         {
-          "prompt": "In welchem Fach ist Dimitri stark?",
-          "options": ["Mathematik", "Deutsch", "In keinem"],
-          "answer": "Mathematik"
-        },
-        {
-          "prompt": "Wo liegt das eigentliche Problem?",
+          "prompt": "Which subject is Dimitri good at?",
           "options": [
-            "Beim Schreiben",
-            "Beim Sprechen",
-            "Bei den Noten insgesamt"
+            "Maths",
+            "English",
+            "Neither of them"
           ],
-          "answer": "Beim Schreiben",
-          "explain": "„mündlich sicher, schriftlich unsicher\" — die Lehrerin nennt es selbst ein Muster."
+          "answer": "Maths"
         },
         {
-          "prompt": "Was empfiehlt die Lehrerin zu den Hausaufgaben?",
+          "prompt": "What is the real problem?",
           "options": [
-            "Kürzer, aber regelmäßig",
-            "Länger als zwei Stunden",
-            "Gar keine mehr"
+            "Writing",
+            "Speaking",
+            "His marks in every subject"
           ],
-          "answer": "Kürzer, aber regelmäßig"
+          "answer": "Writing",
+          "explain": "“Confident when he speaks, unsure when he writes” – the teacher calls it a pattern herself."
         },
         {
-          "prompt": "Was kostet die Förderstunde am Mittwoch?",
-          "options": ["Nichts", "Einen kleinen Beitrag", "Das sagt die Lehrerin nicht"],
-          "answer": "Nichts"
-        },
-        {
-          "prompt": "Was muss der Vater tun?",
+          "prompt": "What does the teacher say about homework?",
           "options": [
-            "Ein Formular unterschreiben",
-            "Dimitri selbst anmelden",
-            "Mit dem Direktor sprechen"
+            "Shorter, but regularly",
+            "More than two hours a day",
+            "No homework at all"
           ],
-          "answer": "Ein Formular unterschreiben"
+          "answer": "Shorter, but regularly"
+        },
+        {
+          "prompt": "How much does the writing club cost?",
+          "options": [
+            "Nothing",
+            "A small amount",
+            "The teacher doesn't say"
+          ],
+          "answer": "Nothing"
+        },
+        {
+          "prompt": "What does the father have to do?",
+          "options": [
+            "Sign a form",
+            "Sign Dimitri up himself",
+            "Talk to the head teacher"
+          ],
+          "answer": "Sign a form"
         }
       ]
     },
@@ -610,78 +766,82 @@
       "id": "b1-radio-muelltrennung",
       "level": "B1",
       "type": "radio",
-      "title": "Radiobeitrag: Mülltrennung und Pfand",
-      "blurb": "Welche Tonne für was — und warum die gelbe Tonne der häufigste Fehler ist.",
-      "seconds": 80,
+      "title": "Radio feature: recycling and bin day",
+      "blurb": "Which bin for what – and why plastic causes the most mistakes.",
+      "seconds": 75,
       "script": [
         {
           "speaker": "frau",
-          "text": "Deutschland trennt seinen Müll seit über dreißig Jahren, und trotzdem landet jedes Jahr rund ein Drittel der Verpackungen in der falschen Tonne. Wir haben nachgefragt, woran das liegt."
+          "text": "Most of us recycle every week, but here in Westbridge about a quarter of what goes into the blue bin shouldn't be there. We asked the council's recycling team why."
         },
         {
           "speaker": "mann",
-          "text": "Der häufigste Irrtum betrifft die gelbe Tonne. Viele Leute denken, dort gehört alles aus Plastik hinein. Richtig ist: nur Verpackungen. Ein kaputtes Plastikspielzeug ist keine Verpackung, das gehört in den Restmüll."
+          "text": "The biggest mistake is plastic. Many people think every kind of plastic can go in the blue bin. But it's only packaging – bottles, pots, tubs and trays. A broken plastic toy isn't packaging, so it goes in the black bin with the general rubbish."
         },
         {
           "speaker": "frau",
-          "text": "Und der Joghurtbecher? Muss man den ausspülen?"
+          "text": "What about yoghurt pots? Do you have to wash them?"
         },
         {
           "speaker": "mann",
-          "text": "Nein, ausspülen muss man nicht — das kostet nur Wasser. Löffelrein reicht. Wichtiger ist, Deckel und Becher zu trennen, weil die aus unterschiedlichem Material sind."
+          "text": "No, a quick rinse is enough – there's no need to use lots of hot water. What's more important is that you never put your recycling in plastic bags. Our machines can't open the bags, so the whole bag ends up as rubbish."
         },
         {
           "speaker": "frau",
-          "text": "Ein zweites Thema ist das Pfand. Auf fast alle Einwegflaschen und Dosen kommen fünfundzwanzig Cent, auf Mehrwegflaschen acht oder fünfzehn."
+          "text": "And there's a change to bin day, too."
         },
         {
           "speaker": "mann",
-          "text": "Und man kann Einwegflaschen überall zurückgeben, wo es dieselbe Verpackungsart gibt — nicht nur in dem Laden, in dem man gekauft hat. Das wissen erstaunlich wenige."
+          "text": "Yes. From the first of April, food waste will still be collected every week, but the black bin only every two weeks. And all bins need to be out by seven in the morning. The new calendar is on the council website."
         }
       ],
       "questions": [
         {
-          "prompt": "Was gehört in die gelbe Tonne?",
+          "prompt": "Which plastic can go in the blue bin?",
           "options": [
-            "Nur Verpackungen",
-            "Alles aus Plastik",
-            "Plastik und Glas"
+            "Only packaging",
+            "Every kind of plastic",
+            "Only plastic bottles"
           ],
-          "answer": "Nur Verpackungen",
-          "explain": "Deshalb ist kaputtes Plastikspielzeug Restmüll — es ist keine Verpackung."
+          "answer": "Only packaging",
+          "explain": "That is why a broken plastic toy goes in the black bin – it isn't packaging."
         },
         {
-          "prompt": "Muss man den Joghurtbecher ausspülen?",
+          "prompt": "Do you have to wash yoghurt pots?",
           "options": [
-            "Nein, löffelrein reicht",
-            "Ja, mit heißem Wasser",
-            "Ja, sonst wird er nicht recycelt"
+            "No, a quick rinse is enough",
+            "Yes, with hot water",
+            "Yes, or they can't be recycled"
           ],
-          "answer": "Nein, löffelrein reicht"
+          "answer": "No, a quick rinse is enough"
         },
         {
-          "prompt": "Warum soll man Deckel und Becher trennen?",
+          "prompt": "Why shouldn't you put recycling in plastic bags?",
           "options": [
-            "Sie sind aus unterschiedlichem Material",
-            "Sonst passt der Becher nicht in die Tonne",
-            "Wegen des Geruchs"
+            "The machines can't open them",
+            "The bags are too heavy",
+            "The bags make the bin smell"
           ],
-          "answer": "Sie sind aus unterschiedlichem Material"
+          "answer": "The machines can't open them"
         },
         {
-          "prompt": "Wo kann man eine Einwegflasche zurückgeben?",
+          "prompt": "How often will the black bin be collected from April?",
           "options": [
-            "In jedem Laden, der dieselbe Verpackungsart verkauft",
-            "Nur im Laden, wo man sie gekauft hat",
-            "Nur im Getränkemarkt"
+            "Every two weeks",
+            "Every week",
+            "Once a month"
           ],
-          "answer": "In jedem Laden, der dieselbe Verpackungsart verkauft"
+          "answer": "Every two weeks",
+          "explain": "Every week is the food waste, not the black bin."
         },
         {
-          "prompt": "Wie viel Pfand ist auf einer Einwegflasche?",
-          "options": ["25 Cent", "15 Cent", "8 Cent"],
-          "answer": "25 Cent",
-          "explain": "Acht und fünfzehn Cent sind Mehrweg."
+          "prompt": "By what time must the bins be out?",
+          "options": [
+            "Seven in the morning",
+            "Eight in the morning",
+            "Nine in the morning"
+          ],
+          "answer": "Seven in the morning"
         }
       ]
     },
@@ -689,161 +849,164 @@
       "id": "b1-durchsage-ersatzverkehr",
       "level": "B1",
       "type": "ansage",
-      "title": "Durchsage: Störung und Ersatzverkehr",
-      "blurb": "Die S-Bahn fällt aus. Wer wohin muss, muss jetzt genau zuhören.",
-      "seconds": 60,
+      "title": "Announcement: disruption and replacement buses",
+      "blurb": "There are no trains on part of the line. If you need to get somewhere, listen carefully now.",
+      "seconds": 45,
       "script": [
         {
           "speaker": "ansage",
-          "text": "Sehr geehrte Fahrgäste, wegen einer Stellwerksstörung kommt es auf der Linie S drei zu erheblichen Einschränkungen."
+          "text": "Customer announcement. Due to a signalling problem, there is major disruption to services towards Kingsford this afternoon."
         },
         {
           "speaker": "ansage",
-          "text": "Zwischen Hauptbahnhof und Vaihingen fahren derzeit keine Züge. Wir richten einen Ersatzverkehr mit Bussen ein. Die Busse fahren ab dem Busbahnhof, Ausgang Nord, im Zehn-Minuten-Takt."
+          "text": "There are currently no trains between Westbridge Central and Kingsford. Rail replacement buses are running instead. They leave from the bus stop outside the north entrance of the station every ten minutes."
         },
         {
           "speaker": "ansage",
-          "text": "Fahrgäste in Richtung Flughafen nutzen bitte die Linie S zwei bis Rohr und steigen dort um. Fahrkarten der S drei gelten selbstverständlich auch im Ersatzverkehr."
+          "text": "Passengers travelling to the airport, please take the train from platform two as far as Ashby Green and change there. Train tickets are valid on the replacement buses."
         },
         {
           "speaker": "ansage",
-          "text": "Wir rechnen damit, dass die Störung bis etwa achtzehn Uhr behoben ist. Bitte planen Sie mindestens dreißig Minuten mehr Fahrzeit ein."
+          "text": "We expect the problem to be fixed by about six o'clock this evening. Please allow at least thirty minutes of extra time for your journey. We apologise for the disruption."
         }
       ],
       "questions": [
         {
-          "prompt": "Warum fallen die Züge aus?",
+          "prompt": "Why are there no trains?",
           "options": [
-            "Wegen einer Stellwerksstörung",
-            "Wegen eines Unfalls",
-            "Wegen eines Streiks"
+            "Because of a signalling problem",
+            "Because of an accident",
+            "Because of a strike"
           ],
-          "answer": "Wegen einer Stellwerksstörung"
+          "answer": "Because of a signalling problem"
         },
         {
-          "prompt": "Wo fahren die Ersatzbusse ab?",
+          "prompt": "Where do the replacement buses leave from?",
           "options": [
-            "Am Busbahnhof, Ausgang Nord",
-            "Vor dem Hauptbahnhof, Ausgang Süd",
-            "In Vaihingen"
+            "Outside the north entrance",
+            "Outside the south entrance",
+            "From Kingsford"
           ],
-          "answer": "Am Busbahnhof, Ausgang Nord"
+          "answer": "Outside the north entrance"
         },
         {
-          "prompt": "Was sollen Fahrgäste Richtung Flughafen tun?",
+          "prompt": "What should passengers for the airport do?",
           "options": [
-            "Mit der S 2 bis Rohr fahren und umsteigen",
-            "Den Ersatzbus nehmen",
-            "Warten, bis die Störung behoben ist"
+            "Take a train to Ashby Green and change",
+            "Take a replacement bus to Kingsford",
+            "Wait until the problem is fixed"
           ],
-          "answer": "Mit der S 2 bis Rohr fahren und umsteigen"
+          "answer": "Take a train to Ashby Green and change"
         },
         {
-          "prompt": "Braucht man eine neue Fahrkarte für den Bus?",
+          "prompt": "Do you need a new ticket for the bus?",
           "options": [
-            "Nein, die Fahrkarte der S 3 gilt",
-            "Ja, im Bus",
-            "Ja, am Automaten"
+            "No, train tickets are valid",
+            "Yes, you buy one on the bus",
+            "Yes, from the ticket machine"
           ],
-          "answer": "Nein, die Fahrkarte der S 3 gilt"
+          "answer": "No, train tickets are valid"
         },
         {
-          "prompt": "Wie viel mehr Zeit soll man einplanen?",
-          "options": ["Mindestens 30 Minuten", "Etwa 10 Minuten", "Bis 18 Uhr"],
-          "answer": "Mindestens 30 Minuten",
-          "explain": "Achtzehn Uhr ist das Ende der Störung, nicht die zusätzliche Fahrzeit."
+          "prompt": "How much extra time should you allow?",
+          "options": [
+            "At least thirty minutes",
+            "About ten minutes",
+            "Until six o'clock"
+          ],
+          "answer": "At least thirty minutes",
+          "explain": "Six o'clock is when the problem should be fixed, not the extra journey time."
         }
       ]
     },
-
     {
       "id": "b2-diskussion-homeoffice",
       "level": "B2",
       "type": "diskussion",
-      "title": "Teambesprechung: Homeoffice",
-      "blurb": "Drei Positionen, ein Kompromiss. Argumente erkennen — und wer am Ende worauf eingeht.",
+      "title": "Team meeting: working from home",
+      "blurb": "Three positions, one compromise. Follow the arguments – and notice who gives way on what.",
       "seconds": 95,
       "script": [
         {
           "speaker": "frau",
-          "text": "Wir müssen die Homeoffice-Regelung bis Ende des Monats neu festlegen. Momentan macht das jede Abteilung anders, und das führt regelmäßig zu Konflikten."
+          "text": "We need to agree a new working-from-home policy by the end of the month. At the moment every department does its own thing, and that keeps causing friction."
         },
         {
           "speaker": "mann2",
-          "text": "Aus meiner Sicht spricht vieles dafür, es dabei zu belassen. Die Teams sind unterschiedlich — der Support muss erreichbar sein, die Entwicklung braucht eher Ruhe. Eine einheitliche Regel würde beiden nicht gerecht."
+          "text": "To my mind, there's a lot to be said for leaving it as it is. The teams are very different – customer support has to be reachable, while the developers need peace and quiet. A single rule wouldn't do justice to either of them."
         },
         {
           "speaker": "frau2",
-          "text": "Das Argument verstehe ich, aber es übersieht etwas: Wenn jede Abteilung selbst entscheidet, entscheidet in Wirklichkeit die Führungskraft. Und dann hängt es davon ab, welchen Chef man hat. Das ist genau die Ungleichheit, über die sich die Leute beschweren."
+          "text": "I see your point, but it overlooks something. If each department decides, in practice it's the manager who decides. So it all depends on who your boss is – and that's exactly the unfairness people keep complaining about."
         },
         {
           "speaker": "mann2",
-          "text": "Da haben Sie recht. Mir ging es weniger um die Freiheit der Abteilung als um die Sache."
+          "text": "That's a fair point. I was less concerned with the departments' freedom than with getting the work done."
         },
         {
           "speaker": "frau",
-          "text": "Dann schlage ich einen Rahmen vor, keine feste Zahl: Alle dürfen bis zu drei Tage von zu Hause arbeiten, aber jedes Team legt einen gemeinsamen Bürotag fest. Damit ist der Support abgedeckt und die Entwicklung hat ihre Ruhetage."
+          "text": "Then let me suggest a framework rather than a fixed number. Everyone can work from home up to three days a week, but each team agrees on one shared office day. That way support is covered and the developers get their quiet days."
         },
         {
           "speaker": "frau2",
-          "text": "Damit könnte ich leben. Wichtig wäre mir nur, dass der Bürotag schriftlich festgehalten wird und nicht jede Woche neu verhandelt wird."
+          "text": "I could live with that. The only thing that matters to me is that the office day is put in writing and not renegotiated every week."
         },
         {
           "speaker": "mann2",
-          "text": "Einverstanden. Ich würde nur ergänzen, dass wir nach sechs Monaten prüfen, ob es funktioniert."
+          "text": "Agreed. I'd just add that we review it after six months to see whether it's working."
         },
         {
           "speaker": "frau",
-          "text": "Gut. Dann halte ich fest: Rahmen mit drei Tagen, ein fester Bürotag pro Team, schriftlich, Überprüfung nach einem halben Jahr."
+          "text": "Good. So, to sum up: up to three days at home, one fixed office day per team, in writing, and a review in six months."
         }
       ],
       "questions": [
         {
-          "prompt": "Was ist das Problem an der aktuellen Regelung?",
+          "prompt": "What is the problem with the current arrangement?",
           "options": [
-            "Jede Abteilung macht es anders",
-            "Niemand darf ins Homeoffice",
-            "Der Support ist nicht erreichbar"
+            "Every department does its own thing",
+            "Nobody is allowed to work from home",
+            "Customer support can't be reached"
           ],
-          "answer": "Jede Abteilung macht es anders"
+          "answer": "Every department does its own thing"
         },
         {
-          "prompt": "Welches Gegenargument bringt die zweite Sprecherin?",
+          "prompt": "What counter-argument does the second woman make?",
           "options": [
-            "In Wirklichkeit entscheidet die Führungskraft, nicht das Team",
-            "Homeoffice ist weniger produktiv",
-            "Die Entwicklung braucht keine Ruhe"
+            "In practice, the manager decides, not the team",
+            "Working from home is less productive",
+            "The developers don't need peace and quiet"
           ],
-          "answer": "In Wirklichkeit entscheidet die Führungskraft, nicht das Team",
-          "explain": "Sie widerspricht nicht der Vielfalt, sondern zeigt, was aus ihr in der Praxis folgt."
+          "answer": "In practice, the manager decides, not the team",
+          "explain": "She doesn't deny that the teams are different; she shows what that leads to in practice."
         },
         {
-          "prompt": "Wie reagiert der männliche Sprecher darauf?",
+          "prompt": "How does the man react to her argument?",
           "options": [
-            "Er gibt ihr recht",
-            "Er bleibt bei seiner Position",
-            "Er wechselt das Thema"
+            "He accepts it",
+            "He sticks to his position",
+            "He changes the subject"
           ],
-          "answer": "Er gibt ihr recht",
-          "explain": "„Da haben Sie recht\" — und er erklärt, worum es ihm eigentlich ging."
+          "answer": "He accepts it",
+          "explain": "“That's a fair point” – and then he explains what he really cared about."
         },
         {
-          "prompt": "Worauf einigt sich das Team?",
+          "prompt": "What does the team agree on?",
           "options": [
-            "Bis zu drei Tage Homeoffice und ein fester Bürotag pro Team",
-            "Drei feste Bürotage für alle",
-            "Jede Abteilung entscheidet weiterhin selbst"
+            "Up to three days at home and one fixed office day per team",
+            "Three fixed office days a week for everyone",
+            "Each department keeps deciding for itself"
           ],
-          "answer": "Bis zu drei Tage Homeoffice und ein fester Bürotag pro Team"
+          "answer": "Up to three days at home and one fixed office day per team"
         },
         {
-          "prompt": "Was ergänzt der männliche Sprecher zum Schluss?",
+          "prompt": "What does the man add at the end?",
           "options": [
-            "Eine Überprüfung nach sechs Monaten",
-            "Eine Abstimmung im ganzen Haus",
-            "Eine Ausnahme für den Support"
+            "A review after six months",
+            "A vote across the whole company",
+            "An exception for customer support"
           ],
-          "answer": "Eine Überprüfung nach sechs Monaten"
+          "answer": "A review after six months"
         }
       ]
     },
@@ -851,89 +1014,89 @@
       "id": "b2-interview-anerkennung",
       "level": "B2",
       "type": "radio",
-      "title": "Interview: Anerkennung ausländischer Abschlüsse",
-      "blurb": "Ein Beratungsexperte erklärt, was „Gleichwertigkeit\" heißt — und was der häufigste Fehler im Verfahren ist.",
-      "seconds": 100,
+      "title": "Interview: getting foreign qualifications recognised",
+      "blurb": "An adviser explains what “comparable” means – and the most common mistake people make in the process.",
+      "seconds": 85,
       "script": [
         {
           "speaker": "frau",
-          "text": "Herr Doktor Ahrens, viele Zugewanderte bringen eine abgeschlossene Ausbildung mit und arbeiten trotzdem unter ihrem Niveau. Woran scheitert es?"
+          "text": "Dr Hughes, many people who move to the UK have a qualification from their home country, and yet they end up working below their level. What's going wrong?"
         },
         {
           "speaker": "mann",
-          "text": "Nicht an der Qualifikation, sondern am Verfahren. Wer in einem reglementierten Beruf arbeiten will — Pflege, Medizin, Lehramt — braucht zwingend die Anerkennung. In allen anderen Berufen darf man sofort arbeiten, die Anerkennung ist dann freiwillig."
+          "text": "Usually it isn't the qualification, it's the process. If you want to work in a regulated profession – nursing, medicine, teaching – you have to be registered with the professional body first. In most other jobs you can start straight away, and getting your qualification recognised is voluntary."
         },
         {
           "speaker": "frau",
-          "text": "Und was wird dabei eigentlich geprüft?"
+          "text": "And what exactly is being checked?"
         },
         {
           "speaker": "mann",
-          "text": "Geprüft wird die Gleichwertigkeit, nicht die Gleichheit. Die Frage ist also nicht, ob die Ausbildung identisch war, sondern ob die wesentlichen Unterschiede so groß sind, dass sie relevant werden. Kleine Abweichungen im Lehrplan sind völlig normal."
+          "text": "Whether your qualification is comparable, not whether it's identical. Nobody expects your course to have been the same as a British one. The question is whether there are major differences that actually matter for the job. Small differences in the syllabus are completely normal."
         },
         {
           "speaker": "frau",
-          "text": "Was ist der häufigste Fehler?"
+          "text": "What's the most common mistake?"
         },
         {
           "speaker": "mann",
-          "text": "Dass Leute zu spät anfangen. Das Verfahren dauert im Schnitt drei bis vier Monate, und die Frist beginnt erst, wenn die Unterlagen vollständig sind. Wer erst nach der Einreise mit dem Übersetzen und Beglaubigen anfängt, verliert leicht ein halbes Jahr."
+          "text": "Starting too late. You often need official translations and documents from your old university, and getting hold of those can take months. People who only start once they've arrived can easily lose half a year."
         },
         {
           "speaker": "frau",
-          "text": "Und wenn das Ergebnis nur eine teilweise Anerkennung ist?"
+          "text": "And if the result is only partial recognition?"
         },
         {
           "speaker": "mann",
-          "text": "Dann steht im Bescheid genau, welche Unterschiede ausgeglichen werden müssen. Das ist keine Ablehnung, sondern eine Wegbeschreibung — meist über eine Anpassungsqualifizierung oder eine Prüfung. Viele lesen das leider als Nein und hören auf."
+          "text": "Then the decision tells you exactly which gaps you need to close – usually through extra training or a test. It isn't a rejection; it's more like a set of directions. Unfortunately, a lot of people read it as a no and give up."
         }
       ],
       "questions": [
         {
-          "prompt": "In welchen Berufen ist die Anerkennung zwingend?",
+          "prompt": "In which jobs do you have to be registered first?",
           "options": [
-            "In reglementierten Berufen wie der Pflege",
-            "In allen Berufen",
-            "Nur im Handwerk"
+            "In regulated professions, such as nursing",
+            "In every job, without exception",
+            "Only in skilled trades"
           ],
-          "answer": "In reglementierten Berufen wie der Pflege"
+          "answer": "In regulated professions, such as nursing"
         },
         {
-          "prompt": "Was bedeutet „Gleichwertigkeit\"?",
+          "prompt": "What does “comparable” mean here?",
           "options": [
-            "Die Ausbildung muss nicht identisch, aber vergleichbar sein",
-            "Die Ausbildung muss identisch sein",
-            "Die Ausbildung muss in Deutschland wiederholt werden"
+            "Similar enough, but not identical",
+            "Exactly the same as a British course",
+            "Repeated at a British university"
           ],
-          "answer": "Die Ausbildung muss nicht identisch, aber vergleichbar sein",
-          "explain": "„Gleichwertigkeit, nicht Gleichheit\" — geprüft werden nur wesentliche Unterschiede."
+          "answer": "Similar enough, but not identical",
+          "explain": "“Comparable, not identical” – only major differences that matter for the job count."
         },
         {
-          "prompt": "Wann beginnt die Bearbeitungsfrist?",
+          "prompt": "Why can starting late cost so much time?",
           "options": [
-            "Wenn die Unterlagen vollständig sind",
-            "Bei der Einreise",
-            "Mit dem ersten Beratungstermin"
+            "Getting documents and translations can take months",
+            "Professional bodies only accept applications once a year",
+            "You have to pass an English test first"
           ],
-          "answer": "Wenn die Unterlagen vollständig sind"
+          "answer": "Getting documents and translations can take months"
         },
         {
-          "prompt": "Was ist laut Herrn Ahrens der häufigste Fehler?",
+          "prompt": "What is the most common mistake, according to Dr Hughes?",
           "options": [
-            "Zu spät anzufangen",
-            "Die falsche Stelle anzuschreiben",
-            "Zu wenig Deutsch zu können"
+            "Starting too late",
+            "Applying to the wrong organisation",
+            "Not speaking enough English"
           ],
-          "answer": "Zu spät anzufangen"
+          "answer": "Starting too late"
         },
         {
-          "prompt": "Wie soll man eine teilweise Anerkennung verstehen?",
+          "prompt": "How should you understand partial recognition?",
           "options": [
-            "Als Wegbeschreibung, nicht als Ablehnung",
-            "Als endgültige Ablehnung",
-            "Als Aufforderung, den Beruf zu wechseln"
+            "As directions, not a rejection",
+            "As a final rejection",
+            "As advice to change careers"
           ],
-          "answer": "Als Wegbeschreibung, nicht als Ablehnung"
+          "answer": "As directions, not a rejection"
         }
       ]
     },
@@ -941,93 +1104,93 @@
       "id": "b2-beschwerde-versicherung",
       "level": "B2",
       "type": "telefonat",
-      "title": "Beschwerde bei der Versicherung",
-      "blurb": "Ein Schaden wurde abgelehnt. Wie man höflich bleibt und trotzdem nicht nachgibt.",
-      "seconds": 90,
+      "title": "Complaint to an insurance company",
+      "blurb": "A claim has been turned down. How to stay polite and still not back down.",
+      "seconds": 85,
       "script": [
         {
           "speaker": "mann2",
-          "text": "Kundenservice, Sie sprechen mit Herrn Falk. Was kann ich für Sie tun?"
+          "text": "Customer services, you're speaking to Mark. How can I help?"
         },
         {
           "speaker": "frau2",
-          "text": "Guten Tag. Es geht um meinen Wasserschaden, Schadennummer vier sieben zwei eins. Ich habe gestern die Ablehnung bekommen und verstehe die Begründung ehrlich gesagt nicht."
+          "text": "Hello. I'm calling about my water damage claim, reference four seven two one. I got a letter yesterday saying the claim has been turned down, and to be honest, I don't understand the reason."
         },
         {
           "speaker": "mann2",
-          "text": "Einen Moment … Hier steht, der Schaden sei durch Rückstau entstanden, und Rückstau ist in Ihrem Tarif nicht mitversichert."
+          "text": "Let me have a look … It says here the damage was caused by a slow leak over several months, and gradual damage isn't covered by your policy."
         },
         {
           "speaker": "frau2",
-          "text": "Das ist genau der Punkt. Der Gutachter war nie in der Wohnung. Es war kein Rückstau, sondern ein geplatzter Schlauch an der Waschmaschine — das steht so auch im Bericht des Handwerkers, den ich Ihnen am zwölften geschickt habe."
+          "text": "That's exactly the point. Your assessor never came to the flat. It wasn't a slow leak – a hose on the washing machine burst. That's what the plumber's report says, too, and I sent it to you on the twelfth."
         },
         {
           "speaker": "mann2",
-          "text": "Der Bericht ist hier leider nicht vermerkt."
+          "text": "I'm afraid there's no record of the report on your file."
         },
         {
           "speaker": "frau2",
-          "text": "Dann würde ich Sie bitten, den Vorgang noch einmal zu öffnen. Ich schicke Ihnen den Bericht heute erneut, und ich hätte gern eine schriftliche Bestätigung, dass er eingegangen ist."
+          "text": "Then I'd like you to reopen the claim, please. I'll send the report again today, and I'd like written confirmation that you've received it."
         },
         {
           "speaker": "mann2",
-          "text": "Das kann ich Ihnen zusagen. Ich setze den Vorgang auf Wiedervorlage und Sie bekommen die Eingangsbestätigung per E-Mail."
+          "text": "I can promise you that. I'll put the claim back under review, and you'll get a confirmation by email."
         },
         {
           "speaker": "frau2",
-          "text": "Und falls die Ablehnung bleibt: Wie lange habe ich Zeit zu widersprechen?"
+          "text": "And if the claim is still turned down – what can I do then?"
         },
         {
           "speaker": "mann2",
-          "text": "Einen Monat ab Zugang des Bescheids. Aber so weit kommt es hoffentlich nicht."
+          "text": "You can make a formal complaint, and if you're not happy with our final response, you have six months to take it to the Financial Ombudsman Service. But hopefully it won't come to that."
         }
       ],
       "questions": [
         {
-          "prompt": "Womit hat die Versicherung die Ablehnung begründet?",
+          "prompt": "Why did the insurer turn down the claim?",
           "options": [
-            "Der Schaden sei durch Rückstau entstanden",
-            "Die Kundin habe zu spät gemeldet",
-            "Der Tarif sei gekündigt"
+            "It said the damage came from a slow leak",
+            "It said the claim was made too late",
+            "It said the policy had been cancelled"
           ],
-          "answer": "Der Schaden sei durch Rückstau entstanden"
+          "answer": "It said the damage came from a slow leak"
         },
         {
-          "prompt": "Was war laut der Kundin die wirkliche Ursache?",
+          "prompt": "What really caused the damage, according to the customer?",
           "options": [
-            "Ein geplatzter Schlauch an der Waschmaschine",
-            "Ein Rohrbruch in der Wand",
-            "Regenwasser im Keller"
+            "A burst hose on the washing machine",
+            "A broken pipe inside the wall",
+            "Rain coming in through the roof"
           ],
-          "answer": "Ein geplatzter Schlauch an der Waschmaschine"
+          "answer": "A burst hose on the washing machine"
         },
         {
-          "prompt": "Was fordert die Kundin konkret?",
+          "prompt": "What exactly does the customer ask for?",
           "options": [
-            "Den Vorgang neu öffnen und eine schriftliche Eingangsbestätigung",
-            "Sofortige Auszahlung",
-            "Einen neuen Gutachter"
+            "To reopen the claim and confirm the report in writing",
+            "To be paid straight away, without another check",
+            "To send a different assessor to her flat"
           ],
-          "answer": "Den Vorgang neu öffnen und eine schriftliche Eingangsbestätigung",
-          "explain": "Zwei Forderungen in einem Satz — die zweite ist die, die sie später absichert."
+          "answer": "To reopen the claim and confirm the report in writing",
+          "explain": "Two requests in one sentence – the second one protects her later."
         },
         {
-          "prompt": "Wie lange kann man widersprechen?",
+          "prompt": "How long does she have to go to the Financial Ombudsman?",
           "options": [
-            "Einen Monat ab Zugang des Bescheids",
-            "Zwei Wochen",
-            "Drei Monate"
+            "Six months after the final response",
+            "Two weeks after the first letter",
+            "Three months after the damage"
           ],
-          "answer": "Einen Monat ab Zugang des Bescheids"
+          "answer": "Six months after the final response"
         },
         {
-          "prompt": "Warum war der Handwerkerbericht nicht berücksichtigt?",
+          "prompt": "Why wasn't the plumber's report taken into account?",
           "options": [
-            "Er ist im Vorgang nicht vermerkt",
-            "Er war unvollständig",
-            "Er kam zu spät"
+            "There is no record of it on her file",
+            "It was missing some pages",
+            "It arrived after the deadline"
           ],
-          "answer": "Er ist im Vorgang nicht vermerkt"
+          "answer": "There is no record of it on her file"
         }
       ]
     },
@@ -1035,77 +1198,77 @@
       "id": "b2-vortrag-ehrenamt",
       "level": "B2",
       "type": "vortrag",
-      "title": "Kurzvortrag: Ehrenamt in Deutschland",
-      "blurb": "Zahlen, ein Trend und eine These. Hauptaussage von Beispiel unterscheiden.",
-      "seconds": 95,
+      "title": "Short talk: volunteering in the UK",
+      "blurb": "A trend, a problem and a proposal. Tell the main point from the examples.",
+      "seconds": 85,
       "script": [
         {
           "speaker": "mann",
-          "text": "Etwa achtundzwanzig Millionen Menschen in Deutschland engagieren sich ehrenamtlich — im Sportverein, in der Freiwilligen Feuerwehr, in der Nachbarschaftshilfe. Das ist mehr als ein Drittel der Bevölkerung, und die Zahl ist über die Jahre bemerkenswert stabil geblieben."
+          "text": "Millions of people in the UK give their time for free – in sports clubs, charity shops and food banks, or as school governors. Volunteering is still a big part of everyday life here, but it's changing."
         },
         {
           "speaker": "mann",
-          "text": "Was sich verändert hat, ist die Form. Früher trat man in einen Verein ein und blieb dreißig Jahre. Heute engagieren sich Menschen projektbezogen: ein halbes Jahr für ein bestimmtes Vorhaben, dann wieder etwas anderes."
+          "text": "What has changed above all is the form it takes. People used to join a club or a charity and stay for thirty years. Today many prefer to help with a particular project for a few months, and then move on to something else."
         },
         {
           "speaker": "mann",
-          "text": "Für die Vereine ist das eine echte Schwierigkeit. Wer ein Amt besetzen muss — Kassenwart, Vorsitz — findet kaum noch jemanden, denn das sind Ämter auf Jahre. Die Mitmach-Bereitschaft ist also nicht gesunken, sie hat nur ihre Verbindlichkeit verloren."
+          "text": "For organisations, that's a real difficulty. If you need a treasurer or a chair, you'll struggle to find anyone, because those are roles for years, not months. So people are no less willing to help – they're just less willing to commit."
         },
         {
           "speaker": "mann",
-          "text": "Dazu kommt ein zweiter Punkt, der oft übersehen wird: Ehrenamt ist ungleich verteilt. Wer gut verdient und gut ausgebildet ist, engagiert sich deutlich häufiger. Das liegt nicht an der Haltung, sondern an der Zeit — wer zwei Jobs hat, hat abends keine Sitzung mehr übrig."
+          "text": "There's a second point that is often overlooked: volunteering isn't evenly spread. People with higher incomes and more education volunteer noticeably more often. That has less to do with attitude than with time – if you have two jobs, you haven't got an evening left for a committee meeting."
         },
         {
           "speaker": "mann",
-          "text": "Wenn wir also mehr Engagement wollen, hilft es wenig, an die Moral zu appellieren. Es hilft mehr, die Hürden zu senken: kurze Formate, klare Aufgaben, und Vereine, die auch mit Leuten arbeiten können, die nur drei Monate bleiben."
+          "text": "So if we want more people to get involved, appealing to their sense of duty won't achieve much. What helps is lowering the barriers: short formats, clear tasks, and organisations that are happy to work with people who only stay for three months."
         }
       ],
       "questions": [
         {
-          "prompt": "Wie hat sich die Zahl der Ehrenamtlichen entwickelt?",
+          "prompt": "How has volunteering changed?",
           "options": [
-            "Sie ist stabil geblieben",
-            "Sie ist stark gesunken",
-            "Sie hat sich verdoppelt"
+            "Short projects instead of long-term roles",
+            "Far fewer people volunteer at all",
+            "Most volunteers are older people now"
           ],
-          "answer": "Sie ist stabil geblieben"
+          "answer": "Short projects instead of long-term roles"
         },
         {
-          "prompt": "Was hat sich stattdessen verändert?",
+          "prompt": "Why is this a problem for organisations?",
           "options": [
-            "Die Form: projektbezogen statt langfristig",
-            "Die Altersstruktur",
-            "Die Zahl der Vereine"
+            "Some roles have to be filled for years",
+            "They don't get enough new members",
+            "Short projects cost more money"
           ],
-          "answer": "Die Form: projektbezogen statt langfristig"
+          "answer": "Some roles have to be filled for years"
         },
         {
-          "prompt": "Warum ist das für Vereine ein Problem?",
+          "prompt": "According to the speaker, people today are …",
           "options": [
-            "Ämter müssen über Jahre besetzt werden",
-            "Es kommen zu wenige Mitglieder",
-            "Projekte kosten mehr Geld"
+            "as willing to help, but less willing to commit",
+            "less willing to help than they used to be",
+            "only willing to help if they are paid"
           ],
-          "answer": "Ämter müssen über Jahre besetzt werden"
+          "answer": "as willing to help, but less willing to commit"
         },
         {
-          "prompt": "Womit erklärt der Redner die ungleiche Verteilung?",
+          "prompt": "How does the speaker explain why volunteering isn't evenly spread?",
           "options": [
-            "Mit der verfügbaren Zeit",
-            "Mit der Haltung der Menschen",
-            "Mit dem Wohnort"
+            "By how much free time people have",
+            "By people's attitudes",
+            "By where people live"
           ],
-          "answer": "Mit der verfügbaren Zeit",
-          "explain": "Er sagt es ausdrücklich: „nicht an der Haltung, sondern an der Zeit\"."
+          "answer": "By how much free time people have",
+          "explain": "He says it directly: “less to do with attitude than with time”."
         },
         {
-          "prompt": "Was ist die Schlussfolgerung des Vortrags?",
+          "prompt": "What is the conclusion of the talk?",
           "options": [
-            "Hürden senken statt an die Moral appellieren",
-            "Mehr Werbung für Vereine machen",
-            "Das Ehrenamt bezahlen"
+            "Lower the barriers instead of appealing to duty",
+            "Advertise clubs and charities more",
+            "Start paying volunteers"
           ],
-          "answer": "Hürden senken statt an die Moral appellieren"
+          "answer": "Lower the barriers instead of appealing to duty"
         }
       ]
     }

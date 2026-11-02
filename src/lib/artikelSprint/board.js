@@ -11,7 +11,7 @@ import { setWaiting } from "../notReady.js";
 import { t } from "../uiText.js";
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-const LOGIN = `/anmelden?next=${encodeURIComponent("/spiele/artikel-sprint#bestenliste")}`;
+const LOGIN = `/anmelden?next=${encodeURIComponent("/games/countable-sprint#bestenliste")}`;
 
 export function mountBoard(el, { modeName, diffName }) {
   const noop = { show() {}, runOver() {}, render() {} };

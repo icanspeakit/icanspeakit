@@ -12,64 +12,64 @@ const KEY = "da-vorschau";
 
 export const STEPS = [
   {
-    href: "/einfach",
-    title: "Einfach lernen",
-    pitch: "Ein Schritt pro Bildschirm, für alle, die ganz neu anfangen. Kein Menü, keine Entscheidung – Bruno führt.",
-    tap: "Den ersten Schritt antippen und zeigen, wie wenig auf dem Bildschirm steht.",
+    href: "/step-by-step",
+    title: "Step by step",
+    pitch: "One step per screen, for complete beginners. No menu, no choices – Bruno leads the way.",
+    tap: "Tap the first step and show how little is on the screen.",
   },
   {
-    href: "/dativ",
-    title: "Grammatik: Regel und Übungen",
-    pitch: "Jedes Thema als kurze Regel mit Beispielen, dann Übungen mit sofortiger Rückmeldung – von A1 bis C1.",
-    tap: "Eine Lücke falsch füllen: die Erklärung kommt sofort.",
+    href: "/two-objects",
+    title: "Grammar: rule and exercises",
+    pitch: "Every topic as a short rule with examples, then exercises with instant feedback – from A1 to C1.",
+    tap: "Fill a gap wrongly: the explanation appears at once.",
   },
   {
-    href: "/wortschatz/a1-04",
-    title: "Wortschatz in der eigenen Sprache",
-    pitch: "Karteikarten mit Bild, Audio und Übersetzung in die Muttersprache, 2.750 Karten von A1 bis B2, mit Wiederholung nach Plan.",
-    tap: "Karte umdrehen, oben eine andere Sprache wählen.",
+    href: "/vocabulary/a1-04",
+    title: "Vocabulary in your own language",
+    pitch: "Flashcards with a picture, audio and a translation into your first language, A1 to B2, with spaced repetition.",
+    tap: "Turn a card over, then choose another language at the top.",
   },
   {
-    href: "/aussprache-check",
-    title: "Aussprache-Check",
-    pitch: "Satz einsprechen, sofort sehen, welche Wörter gut klingen und welche noch nicht. Läuft im Browser, ohne App.",
-    tap: "Mikrofon antippen und einen Satz sprechen.",
+    href: "/pronunciation-check",
+    title: "Pronunciation check",
+    pitch: "Say a sentence and see at once which words sound right and which don't yet. Runs in the browser, no app.",
+    tap: "Tap the microphone and say a sentence.",
   },
   {
-    href: "/pruefungen",
-    title: "Prüfungstraining Goethe und telc",
-    pitch: "Übungssätze im Format der echten Prüfungen, A2 bis C1, mit Zeit und Auswertung – der Grund, warum viele kommen.",
-    tap: "Eine Prüfung öffnen und den Aufbau zeigen.",
+    href: "/exams",
+    title: "Exam practice: Cambridge, IELTS, Trinity",
+    pitch: "Practice sets in the format of the real exams, with a timer and a score – the reason many people come.",
+    tap: "Open an exam and show how it is built.",
   },
   {
-    href: "/fortschritt",
-    title: "Fortschritt",
-    pitch: "Jede Zahl kommt aus echter Übung: Serie, Themen, häufige Fehler. Hier mit Demo-Daten gefüllt.",
-    tap: "Auf die Fehler-Liste zeigen: daraus wird die nächste Übung.",
+    href: "/progress",
+    title: "Progress",
+    pitch: "Every number comes from real practice: streak, topics, common mistakes. Filled with demo data here.",
+    tap: "Point to the list of mistakes: it becomes the next exercise.",
   },
   {
-    href: "/lehrkraefte/quiz",
-    title: "Live-Quiz für die Klasse",
-    pitch: "Lehrkraft zeigt den Code am Beamer, die Klasse spielt am Handy – aus jedem Kapitel, ohne Konto für die Lernenden.",
-    tap: "Ein Kapitel wählen und das Quiz starten.",
+    href: "/teachers/quiz",
+    title: "Live quiz for the class",
+    pitch: "The teacher shows the code on the projector, the class plays on their phones – from any chapter, no account for learners.",
+    tap: "Choose a chapter and start the quiz.",
   },
   {
-    href: "/lehrkraefte/stundenplan",
-    title: "Stundenplan und Unterricht",
-    pitch: "Eine ganze Stunde geplant in Phasen, mit Uhr, Präsentation und Übungen – im Unterricht Schritt für Schritt durchklicken.",
-    tap: "„Unterricht starten“ und die Uhr zeigen.",
+    href: "/teachers/timetable",
+    title: "Lesson plan and lesson",
+    pitch: "A whole lesson planned in stages, with a timer, slides and exercises – click through it step by step in class.",
+    tap: "Tap “Start the lesson” and show the timer.",
   },
   {
-    href: "/lehrkraefte/umfragen",
-    title: "Umfragen und Tests per QR-Code",
-    pitch: "Die Klasse sagt anonym, was sie lernen will, oder schreibt einen Test – Ergebnisse live, ausgewertet ohne Korrigieren.",
-    tap: "Bruno zeigt den Ablauf in drei Schritten.",
+    href: "/teachers/surveys",
+    title: "Polls and tests via QR code",
+    pitch: "The class says anonymously what they want to learn, or takes a test – live results, scored without marking.",
+    tap: "Bruno shows how it works in three steps.",
   },
   {
-    href: "/lehrkraefte/arbeitsblaetter",
-    title: "Arbeitsblätter und Spiele zum Drucken",
-    pitch: "Fertige Arbeitsblätter zu den Grammatikthemen und Spiele für die Gruppe – zum Ausdrucken oder als PDF.",
-    tap: "Ein Blatt öffnen und die Druckansicht zeigen.",
+    href: "/teachers/worksheets",
+    title: "Worksheets and games to print",
+    pitch: "Ready-made worksheets for the grammar topics and games for the group – to print or as a PDF.",
+    tap: "Open a sheet and show the print view.",
   },
 ];
 
@@ -111,19 +111,19 @@ export function mountVorschau() {
   const last = i === STEPS.length - 1;
   const card = document.createElement("aside");
   card.className = "vs-card";
-  card.setAttribute("aria-label", "Vorschau");
+  card.setAttribute("aria-label", "Preview");
   card.innerHTML = `
     <div class="vs-top">
-      <span class="vs-step">Vorschau · ${i + 1}/${STEPS.length}</span>
-      <button type="button" class="vs-x" data-vs-end aria-label="Vorschau beenden" title="Vorschau beenden">✕</button>
+      <span class="vs-step">Preview · ${i + 1}/${STEPS.length}</span>
+      <button type="button" class="vs-x" data-vs-end aria-label="End preview" title="End preview">✕</button>
     </div>
     <ol class="vs-dots" aria-hidden="true">${STEPS.map((_, k) => `<li class="${k === i ? "is-on" : k < i ? "is-done" : ""}"></li>`).join("")}</ol>
     <h2 class="vs-title">${esc(s.title)}</h2>
     <p class="vs-pitch">${esc(s.pitch)}</p>
     <p class="vs-tap"><span aria-hidden="true">👆</span> ${esc(s.tap)}</p>
     <div class="vs-nav">
-      <button type="button" class="vs-btn" data-vs-prev ${i === 0 ? "hidden" : ""}>‹ Zurück</button>
-      <button type="button" class="vs-btn vs-btn--main" data-vs-next>${last ? "Fertig" : "Weiter ›"}</button>
+      <button type="button" class="vs-btn" data-vs-prev ${i === 0 ? "hidden" : ""}>‹ Back</button>
+      <button type="button" class="vs-btn vs-btn--main" data-vs-next>${last ? "Done" : "Next ›"}</button>
     </div>`;
   document.body.append(card);
   // a page reached by hand (not this step's): one tap back to the step's page
@@ -131,7 +131,7 @@ export function mountVorschau() {
     const back = document.createElement("a");
     back.className = "vs-here";
     back.href = s.href;
-    back.textContent = "Zur Seite dieses Schritts";
+    back.textContent = "Go to this step's page";
     card.querySelector(".vs-tap").after(back);
   }
   const end = () => { write(null); card.remove(); };

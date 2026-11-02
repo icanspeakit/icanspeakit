@@ -1,4 +1,4 @@
-// Client side of /kultur/fehler and its side-nav test /test123: the language picker, the
+// Client side of /culture/mistakes and its side-nav test /test123: the language picker, the
 // deep links from the Aussprache-Check, and the pronunciation drills.
 //
 // The chosen language is the learner's first language (src/lib/muttersprache.js), shared

@@ -1,6 +1,6 @@
 // Bingo: N different cards from the chosen Lernsets, plus the caller's list.
 //
-// The teacher calls a word — in German, or its meaning in the class's language, which turns
+// The teacher calls a word — in English, or its meaning in the class's language, which turns
 // it into a listening-and-understanding game — and the students cross it off. Every card is
 // a different SET of words, not just a different order: two cards with the same words would
 // win on the same call.
@@ -43,13 +43,13 @@ function cardHtml(card, size, i, total, label) {
       const centre = size === 5 && r === 2 && c === 2;
       cellsHtml.push(
         centre
-          ? `<div class="sp-bingo-cell sp-bingo-free">FREI</div>`
+          ? `<div class="sp-bingo-cell sp-bingo-free">FREE</div>`
           : `<div class="sp-bingo-cell">${esc(card[k++].display)}</div>`,
       );
     }
   }
   return `<div class="sp-bingo-card">
-    <div class="sp-bingo-head"><b>BINGO</b><span>${esc(label)}</span><span>Karte ${i}/${total}</span></div>
+    <div class="sp-bingo-head"><b>BINGO</b><span>${esc(label)}</span><span>Card ${i}/${total}</span></div>
     <div class="sp-bingo-grid sp-bingo-grid--${size}">${cellsHtml.join("")}</div>
     <div class="sp-bingo-name">Name: ____________________</div>
   </div>`;
@@ -77,7 +77,7 @@ export function renderBingo(state, data) {
   // box to tick when it has been called.
   const used = new Map();
   for (const card of cards) for (const w of card) used.set(w.display, w);
-  const called = [...used.values()].sort((a, b) => a.lemma.localeCompare(b.lemma, "de"));
+  const called = [...used.values()].sort((a, b) => a.lemma.localeCompare(b.lemma, "en"));
   const callerPages = chunk(called, 40);
   const pages = cardPages.length + callerPages.length;
   const title = "Bingo";
@@ -92,10 +92,10 @@ export function renderBingo(state, data) {
     ),
     ...callerPages.map((list, pi) =>
       sheet(
-        `<h2 class="sp-sheet-h">Rufliste${callerPages.length > 1 ? ` (${pi + 1}/${callerPages.length})` : ""}</h2>
-         <p class="sp-sheet-sub">${esc(label)} · ${called.length} Wörter · ${esc(MEANING_LANGS[lang].label)}</p>
+        `<h2 class="sp-sheet-h">Caller's list${callerPages.length > 1 ? ` (${pi + 1}/${callerPages.length})` : ""}</h2>
+         <p class="sp-sheet-sub">${esc(label)} · ${called.length} words · ${esc(MEANING_LANGS[lang].label)}</p>
          <table class="sp-caller">
-           <thead><tr><th></th><th>Deutsch</th><th>${esc(MEANING_LANGS[lang].label)}</th></tr></thead>
+           <thead><tr><th></th><th>Word</th><th>${esc(MEANING_LANGS[lang].label)}</th></tr></thead>
            <tbody>${list
              .map(
                (w) => `<tr><td class="sp-tick">☐</td><td>${esc(w.display)}</td><td${MEANING_LANGS[lang].rtl ? ` dir="rtl" lang="${lang}"` : ""}>${esc(w[lang] || "—")}</td></tr>`,

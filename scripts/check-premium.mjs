@@ -4,7 +4,7 @@
 // that does not exist, a metered feature has no numeric limits, or a feature is unlocked by
 // a product that produkte.json does not know (wildcards like "pack_*" must match at least
 // one product), or a feature's name / description / free-line key is missing from
-// public/i18n/de.json (the other languages are validate:i18n's job).
+// public/i18n/en.json, the base dictionary (other languages are validate:i18n's job).
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
@@ -12,7 +12,7 @@ const root = new URL("..", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "
 const read = (p) => JSON.parse(readFileSync(join(root, p), "utf8"));
 const features = read("src/data/premium-features.json");
 const produkte = read("src/data/produkte.json");
-const de = read("public/i18n/de.json");
+const de = read("public/i18n/en.json"); // the base dictionary (was de.json in deutschacademy)
 
 const GATES = new Set(["content", "meter", "soft", "server"]);
 const errors = [];
@@ -36,9 +36,9 @@ for (const f of features) {
     errors.push(`${f.id}: a metered feature needs integer free.limit and paid.limit`);
   if (f.live && !pageExists(f.page)) errors.push(`${f.id}: live, but page ${f.page} does not exist`);
   if (!f.i18n?.startsWith("premium.feature.")) errors.push(`${f.id}: i18n key must start with premium.feature.`);
-  for (const k of [f.i18n, `${f.i18n}.desc`, `${f.i18n}.free`]) if (!(k in de)) errors.push(`${f.id}: "${k}" missing in public/i18n/de.json`);
+  for (const k of [f.i18n, `${f.i18n}.desc`, `${f.i18n}.free`]) if (!(k in de)) errors.push(`${f.id}: "${k}" missing in public/i18n/en.json`);
   // The Premium price card's line (src/lib/preise.js premiumCardItems).
-  if (f.live && f.unlockedBy.includes("premium") && !(`preise.card.${f.id}` in de)) errors.push(`${f.id}: "preise.card.${f.id}" missing in public/i18n/de.json`);
+  if (f.live && f.unlockedBy.includes("premium") && !(`preise.card.${f.id}` in de)) errors.push(`${f.id}: "preise.card.${f.id}" missing in public/i18n/en.json`);
 }
 
 const pids = new Set();

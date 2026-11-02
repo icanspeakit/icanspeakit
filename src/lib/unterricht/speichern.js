@@ -11,7 +11,7 @@
 // It carries what the bar needs to draw without the plan data: the group's name, the
 // Stunde's steps (id, name, minutes), and the stored row.
 export const LOCAL_KEY = "da:unterricht";
-// The learner's Stunde (/stunde, lernen.js) uses the same functions under its own key, so a
+// The learner's Stunde (/lesson, lernen.js) uses the same functions under its own key, so a
 // teacher and a learner session on one device never touch each other.
 const UUID = /^[0-9a-f-]{36}$/i;
 export const isId = (id) => UUID.test(String(id ?? ""));
@@ -34,8 +34,8 @@ export function keyFromParams(q) {
 }
 
 /** The plan page's link for a key (without the Stunde). */
-export const planHref = (k) => `/lehrkraefte/stundenplan?niveau=${k.niveau}&block=${k.block}&stunden=${k.stunden}&min=${k.minuten}`;
-export const sessionHref = (id) => `/lehrkraefte/unterricht?sitzung=${encodeURIComponent(id)}`;
+export const planHref = (k) => `/teachers/timetable?niveau=${k.niveau}&block=${k.block}&stunden=${k.stunden}&min=${k.minuten}`;
+export const sessionHref = (id) => `/teachers/lesson?sitzung=${encodeURIComponent(id)}`;
 
 /* ---------------------------------------------------------------- progress ---- */
 

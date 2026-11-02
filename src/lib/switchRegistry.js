@@ -38,7 +38,7 @@ const SWITCHES = [
   // Prüfungen, Leben in Deutschland
   { sel: ".sb-setpicker" },
   { sel: ".fl-chips", content: ".fl-card" },
-  // Typische Fehler (/kultur/fehler)
+  // Typische Fehler (/culture/mistakes)
   { sel: ".ft-tabs" },
   // Für Lehrkräfte
   { sel: ".abi-levels", content: ".abi-sec" },
@@ -51,7 +51,7 @@ const SWITCHES = [
   // Merch: Motive by kind, and by product (the grid is redrawn on each change)
   { sel: ".mx-kinds[data-mx-filters]", content: "[data-grid]" },
   { sel: ".mx-tiles[data-mx-prodfilters]", content: "[data-grid]" },
-  // Preise: Monatlich | Jährlich (homepage, /pruefungen, /preise)
+  // Preise: Monatlich | Jährlich (homepage, /exams, /preise)
   { sel: ".pc-switch", content: ".pc-price[data-show]" },
 ];
 

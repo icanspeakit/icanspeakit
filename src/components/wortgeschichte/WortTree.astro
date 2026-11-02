@@ -10,9 +10,12 @@
 // still reads as nested lists without CSS or to a screen reader.
 interface Node { form: string; lang?: string; meaning?: string; certainty?: string }
 interface Props {
+  /** The entry's language ("en" / "de"): lang attribute and quote style. */
+  lang?: string;
   tree: { root: Node; branches: { name: string; nodes: Node[]; twig?: Node }[] };
 }
-const { tree } = Astro.props;
+const { tree, lang = "en" } = Astro.props;
+const q = (t: string) => (lang === "de" ? `‚${t}‘` : `‘${t}’`);
 const CERT_DE: Record<string, string> = { sicher: "sicher", wahrscheinlich: "wahrscheinlich", umstritten: "umstritten", unklar: "unklar" };
 
 const branches = tree.branches.filter((b) => b.nodes?.length);
@@ -23,8 +26,8 @@ const cols = Math.max(1, branches.length);
 /** Oldest node i of k sits lowest; the newest is at the top of the node rows. */
 const rowOf = (k: number, i: number) => 1 + T + (k - 1 - i);
 ---
-<figure class="wg-tree" lang="de" data-wg-tree>
-  <figcaption class="wg-sub" data-i18n="wg.tree">Der Stammbaum</figcaption>
+<figure class="wg-tree" lang={lang} data-wg-tree>
+  <figcaption class="wg-sub" data-i18n="wg.tree">The family tree</figcaption>
   <div class="wg-tree-grid" data-cols={cols} style={`--wg-cols:${cols};--wg-rows:${R}`}>
     <svg class="wg-tree-lines" aria-hidden="true" focusable="false"></svg>
     <ul class="wg-branches">
@@ -38,13 +41,13 @@ const rowOf = (k: number, i: number) => 1 + T + (k - 1 - i);
                 data-i={i}
                 style={`grid-row:${rowOf(b.nodes.length, i)};grid-column:${c + 1}`}
               >
-                <b>{n.form}</b>{n.lang && <small>{n.lang}</small>}{n.meaning && <i>‚{n.meaning}‘</i>}
+                <b>{n.form}</b>{n.lang && <small>{n.lang}</small>}{n.meaning && <i>{q(n.meaning)}</i>}
               </li>
             ))}
           </ol>
           {b.twig && (
             <p class="wg-leaf is-twig" style={`grid-row:1;grid-column:${c + 1}`}>
-              <b>{b.twig.form}</b>{b.twig.lang && <small>{b.twig.lang}</small>}{b.twig.meaning && <i>‚{b.twig.meaning}‘</i>}
+              <b>{b.twig.form}</b>{b.twig.lang && <small>{b.twig.lang}</small>}{b.twig.meaning && <i>{q(b.twig.meaning)}</i>}
             </p>
           )}
         </li>
@@ -54,7 +57,7 @@ const rowOf = (k: number, i: number) => 1 + T + (k - 1 - i);
       <div class="wg-leaf is-root">
         <small>{tree.root.lang}</small>
         <b>{tree.root.form}</b>
-        {tree.root.meaning && <i>‚{tree.root.meaning}‘</i>}
+        {tree.root.meaning && <i>{q(tree.root.meaning)}</i>}
         {tree.root.certainty && <span class={`wg-cert wg-cert--${tree.root.certainty}`} data-i18n={`wg.cert.${tree.root.certainty}`}>{CERT_DE[tree.root.certainty]}</span>}
       </div>
     </div>

@@ -1,6 +1,6 @@
 /* Folding, with the animation that makes a pivot read as one list replacing another.
  *
- * Two lists on this site pivot the same way — the exam rail on /fortschritt and the
+ * Two lists on this site pivot the same way — the exam rail on /progress and the
  * Lernset picker on every Wortschatz page — and both hit the same wall: `hidden` cannot
  * tween, and a height of `auto` cannot either. So the height is measured and animated in
  * script, and the row stagger that goes with it stays in CSS, where each list names its

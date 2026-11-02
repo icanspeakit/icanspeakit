@@ -3,7 +3,7 @@
 //
 // A round is ten nouns, drawn afresh each time. An answer is checked once; the learner then
 // sees the right form, can hear it again, and goes on. Each answer is recorded like any other
-// Artikel answer, so it counts on /fortschritt.
+// Artikel answer, so it counts on /progress.
 import { recordAttempt } from "./progress.js";
 
 const shuffle = (a) => {

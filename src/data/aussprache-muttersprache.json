@@ -1,558 +1,206 @@
 {
-  "_note": "Ausspracheübungen nach Muttersprache für /kultur/fehler. Jede Übung trainiert einen Laut, der aus einer bestimmten Muttersprache schwer ist (Transfer — siehe fehler-nach-sprache.json). `pairs`: Minimalpaare, das erste Wort ist das Ziel, das zweite das, was oft stattdessen herauskommt; beide sind echte deutsche Wörter. `words`: Übungswörter ohne Partner. `sentence`: zum Nachsprechen, bewertet mit Azure wie der Aussprache-Check. `fehler`: die ids der Fehler in fehler-nach-sprache.json, die diese Übung trainiert (Gegenstück zu deren `drill`; geprüft mit pnpm check:aussprache). Audio: scripts/generate-muttersprache-audio.mjs → public/audio/muttersprache/<slug>.mp3.",
+  "_note": "English pronunciation drills by first language, for /culture/mistakes and the Aussprache-Check. Each drill practises one English sound or pattern that is hard from a particular first language (transfer, see fehler-nach-sprache.json). `pairs`: minimal pairs, the first word is the target, the second is what often comes out instead; both are real English words. `words`: practice words without a partner. `sentence`: to repeat, scored like the Aussprache-Check; it contains one word of every pair. `fehler`: the ids of the mistakes in fehler-nach-sprache.json that this drill practises (the other side of their `drill`; checked by pnpm check:aussprache). British English. Drill ids that still describe an English problem kept their slot id; th, w-v and ae are new (content-plan §5.6). Audio: scripts/generate-muttersprache-audio.mjs → public/audio/muttersprache/<slug>.mp3.",
   "drills": {
     "p-b": {
-      "title": "p oder b?",
-      "tip": "Beim „p“ kommt ein kleiner Luftstoß. Halte ein Blatt Papier vor den Mund: Bei „p“ bewegt es sich, bei „b“ nicht.",
+      "title": "p or b?",
+      "tip": "p comes with a small puff of air. Hold a piece of paper in front of your mouth: for p it moves, for b it doesn't.",
       "pairs": [
-        [
-          "Pass",
-          "Bass"
-        ],
-        [
-          "packen",
-          "backen"
-        ],
-        [
-          "Paar",
-          "Bar"
-        ],
-        [
-          "Pier",
-          "Bier"
-        ]
+        ["pack", "back"],
+        ["pear", "bear"],
+        ["pin", "bin"],
+        ["pull", "bull"]
       ],
-      "sentence": "Am Pier packen wir ein Paar Schuhe und den Pass ein.",
-      "fehler": [
-        "arabisch-p-b"
-      ]
+      "sentence": "Please pack a pear and a pin, then pull the door shut.",
+      "fehler": ["arabisch-p-b"]
     },
     "e-i-o-u": {
-      "title": "e oder i · o oder u?",
-      "tip": "Deutsch hat mehr Vokale als viele Sprachen. „e“ und „i“, „o“ und „u“ verändern die Bedeutung. Bei „i“ und „u“ ist der Mund enger.",
+      "title": "e or i · o or u?",
+      "tip": "English has more vowels than many languages. pen and pin, lock and luck are different words. For e your mouth is a little more open than for i. For the o in lock your lips are round; for the u in luck they are relaxed.",
       "pairs": [
-        [
-          "legen",
-          "liegen"
-        ],
-        [
-          "wer",
-          "wir"
-        ],
-        [
-          "Teer",
-          "Tier"
-        ],
-        [
-          "Mond",
-          "Mund"
-        ],
-        [
-          "Ton",
-          "tun"
-        ]
+        ["pen", "pin"],
+        ["bed", "bid"],
+        ["not", "nut"],
+        ["lock", "luck"]
       ],
-      "sentence": "Wer will etwas tun, wenn das Tier unter dem Mond liegen bleibt?",
-      "fehler": [
-        "arabisch-e-i-o-u",
-        "tagalog-e-i-o-u"
-      ]
+      "sentence": "Put the pen on the bed, then lock the door, but not the window.",
+      "fehler": ["arabisch-e-i-o-u", "tagalog-e-i-o-u"]
     },
     "sp-st": {
-      "title": "sp · st · Konsonanten am Anfang",
-      "tip": "Kein Vokal davor und keiner dazwischen: „Straße“, nicht „Ischtraße“ oder „Estraße“. Am Wortanfang spricht man „sp“ und „st“ wie „schp“ und „scht“.",
-      "words": [
-        "Spiel",
-        "Sport",
-        "sprechen",
-        "Straße",
-        "Stadt",
-        "Student",
-        "Schule",
-        "Klasse",
-        "Kleid",
-        "Brot"
-      ],
-      "sentence": "Der Student spielt Sport in der Stadt.",
-      "fehler": [
-        "arabisch-sp-st",
-        "tuerkisch-sp-st",
-        "persisch-sp-st",
-        "spanisch-sp-st"
-      ]
+      "title": "sp · st · sk at the start",
+      "tip": "No vowel before them and none between them: say “school”, not “eschool” or “ischool”. Start with the s straight away and go on to the next consonant.",
+      "words": ["speak", "sport", "street", "station", "student", "school", "small", "sleep", "spring", "snow"],
+      "sentence": "The student speaks Spanish at school.",
+      "fehler": ["arabisch-sp-st", "tuerkisch-sp-st", "persisch-sp-st", "spanisch-sp-st"]
     },
-    "ue-oe": {
-      "title": "ü und ö",
-      "tip": "ü: Sag „i“ und mach die Lippen rund wie bei „u“. ö: Sag „e“ und mach die Lippen rund wie bei „o“. Die Zunge bleibt, wo sie ist.",
+    "ae": {
+      "title": "The a in cat",
+      "tip": "For /æ/, open your mouth wide and keep your tongue low and forward, a little like e. bad is not bed, cap is not cup.",
       "pairs": [
-        [
-          "Tür",
-          "Tier"
-        ],
-        [
-          "lügen",
-          "liegen"
-        ],
-        [
-          "Küste",
-          "Kiste"
-        ],
-        [
-          "für",
-          "vier"
-        ],
-        [
-          "lösen",
-          "lesen"
-        ],
-        [
-          "können",
-          "kennen"
-        ]
+        ["bad", "bed"],
+        ["man", "men"],
+        ["cap", "cup"],
+        ["sat", "set"]
       ],
-      "sentence": "Hinter der grünen Tür liegen vier Bücher in der Kiste. Die können wir lesen.",
-      "fehler": [
-        "persisch-ue-oe",
-        "polnisch-ue-oe",
-        "spanisch-ue-oe",
-        "vietnamesisch-ue-oe",
-        "tagalog-ue-oe"
-      ]
+      "sentence": "The man in the cap sat down. He had a bad day.",
+      "fehler": ["polnisch-ae", "tagalog-ae"]
     },
     "h": {
-      "title": "Das „h“ am Anfang",
-      "tip": "Das deutsche „h“ ist nur ein Hauch — wie wenn du auf eine kalte Brille atmest. Nicht weglassen, aber auch nicht im Hals kratzen.",
+      "title": "h at the start",
+      "tip": "English h is only a soft breath, like breathing on a cold window. Don't leave it out, and don't make it rough in your throat.",
       "pairs": [
-        [
-          "Haus",
-          "aus"
-        ],
-        [
-          "Hund",
-          "und"
-        ],
-        [
-          "hier",
-          "ihr"
-        ],
-        [
-          "halt",
-          "alt"
-        ],
-        [
-          "Hände",
-          "Ende"
-        ]
+        ["hand", "and"],
+        ["hear", "ear"],
+        ["hold", "old"],
+        ["hill", "ill"]
       ],
-      "sentence": "Hier ist das Haus, der Hund ist alt, und Hanna wäscht die Hände.",
-      "fehler": [
-        "russisch-h",
-        "franzoesisch-h",
-        "italienisch-h"
-      ]
-    },
-    "hart": {
-      "title": "Harte Konsonanten vor e und i",
-      "tip": "Vor „e“ und „i“ bleibt der Konsonant hart: „Bett“, nicht „Bjett“. Die Zunge geht nicht zum Gaumen hoch.",
-      "words": [
-        "Bett",
-        "Tee",
-        "nett",
-        "Liebe",
-        "Bier",
-        "denn",
-        "Mitte",
-        "Lehrer"
-      ],
-      "sentence": "Der Tee ist nett, das Bett ist neu.",
-      "fehler": [
-        "russisch-hart",
-        "polnisch-hart"
-      ]
-    },
-    "g-h": {
-      "title": "g oder h?",
-      "tip": "Das deutsche „g“ ist hart wie in „gut“ — die Zunge schließt hinten kurz. Das „h“ ist nur Luft.",
-      "pairs": [
-        [
-          "gut",
-          "Hut"
-        ],
-        [
-          "Geld",
-          "Held"
-        ],
-        [
-          "Gast",
-          "hast"
-        ],
-        [
-          "ganz",
-          "Hans"
-        ],
-        [
-          "Garten",
-          "harten"
-        ]
-      ],
-      "sentence": "Hans hat einen Hut, und der Gast hat Geld für den Garten.",
-      "fehler": [
-        "ukrainisch-g-h"
-      ]
+      "sentence": "Hold my hand. Can you hear the wind on the hill?",
+      "fehler": ["russisch-h", "franzoesisch-h", "italienisch-h"]
     },
     "auslaut": {
-      "title": "Am Wortende hart",
-      "tip": "Am Ende eines Wortes wird „d“ zu „t“, „g“ zu „k“, „b“ zu „p“: „Hund“ klingt wie „Hunt“. Das Wort schreibt man trotzdem mit „d“.",
-      "words": [
-        "Hund",
-        "Tag",
-        "Kind",
-        "Wald",
-        "gelb",
-        "Rad",
-        "Zug",
-        "halb"
+      "title": "b, d, g, z at the end",
+      "tip": "At the end of an English word, b, d, g, v and z keep their voice: bag is not back, prize is not price. Make the vowel before them a little longer.",
+      "pairs": [
+        ["bag", "back"],
+        ["prize", "price"],
+        ["feed", "feet"],
+        ["dog", "dock"]
       ],
-      "sentence": "Am Tag geht das Kind mit dem Hund in den Wald.",
-      "fehler": [
-        "ukrainisch-auslaut"
-      ]
+      "sentence": "Put the prize in the bag, then feed the dog.",
+      "fehler": ["russisch-auslaut", "deutsch-auslaut"]
     },
     "ende": {
-      "title": "Den letzten Konsonanten sprechen",
-      "tip": "Im Deutschen enden viele Wörter mit einem oder mehreren Konsonanten. Sprich sie alle, auch das letzte „t“ oder „d“.",
+      "title": "Say the last consonant",
+      "tip": "Say the last sound so people can hear it. Without it, it's another word: bike is not buy, seat is not sea.",
       "pairs": [
-        [
-          "Wald",
-          "Wal"
-        ],
-        [
-          "Kind",
-          "Kinn"
-        ]
+        ["bike", "buy"],
+        ["road", "row"],
+        ["card", "car"],
+        ["seat", "sea"]
       ],
-      "words": [
-        "Brot",
-        "Kind",
-        "Herbst",
-        "nichts",
-        "Obst"
-      ],
-      "sentence": "Im Herbst geht das Kind in den Wald und isst Brot und Obst.",
-      "fehler": [
-        "chinesisch-ende"
-      ]
+      "words": ["desk", "hand", "old", "friend", "help"],
+      "sentence": "My friend left his bike by the road and his card on the seat.",
+      "fehler": ["chinesisch-ende"]
     },
     "r-l": {
-      "title": "r oder l?",
-      "tip": "Bei „l“ liegt die Zungenspitze oben hinter den Zähnen. Das „r“ entsteht hinten im Hals, die Zungenspitze bleibt unten.",
+      "title": "r or l?",
+      "tip": "For l, touch the top of your mouth just behind your teeth with the tip of your tongue. For r, curl your tongue back a little and don't touch anything. right and light are different words.",
       "pairs": [
-        [
-          "Rand",
-          "Land"
-        ],
-        [
-          "Ratte",
-          "Latte"
-        ],
-        [
-          "rot",
-          "Lot"
-        ],
-        [
-          "Rose",
-          "lose"
-        ]
+        ["right", "light"],
+        ["road", "load"],
+        ["grass", "glass"],
+        ["correct", "collect"]
       ],
-      "sentence": "Die Rose ist rot, und links am Rand sitzt eine Ratte."
+      "sentence": "Turn right on the main road and walk across the grass. Is that correct?"
     },
     "kurz-lang": {
-      "title": "Kurz oder lang?",
-      "tip": "Ein kurzer Vokal vor zwei Konsonanten („Bett“), ein langer vor einem („Beet“) oder vor „h“ („Sohn“). Die Länge ändert die Bedeutung.",
+      "title": "Short i or long ee?",
+      "tip": "The i in ship is short and relaxed. The ee in sheep is long, and your lips are spread, as in a smile. The length changes the word: ship ≠ sheep, live ≠ leave.",
       "pairs": [
-        [
-          "Stadt",
-          "Staat"
-        ],
-        [
-          "Bett",
-          "Beet"
-        ],
-        [
-          "Kamm",
-          "kam"
-        ],
-        [
-          "Mitte",
-          "Miete"
-        ],
-        [
-          "offen",
-          "Ofen"
-        ]
+        ["ship", "sheep"],
+        ["live", "leave"],
+        ["sit", "seat"],
+        ["it", "eat"]
       ],
-      "sentence": "Er kam in die Stadt: Die Miete ist hoch, aber der Ofen ist warm und das Bett ist neu.",
-      "fehler": [
-        "polnisch-kurz-lang",
-        "italienisch-kurz-lang",
-        "italienisch-doppelkonsonant",
-        "vietnamesisch-kurz-lang"
-      ]
+      "sentence": "I live by the sea. It is lovely to sit and watch a ship go by.",
+      "fehler": ["polnisch-kurz-lang", "italienisch-kurz-lang", "spanisch-kurz-lang", "vietnamesisch-kurz-lang"]
     },
-    "z-w": {
-      "title": "z = ts · w = v",
-      "tip": "Das deutsche „z“ klingt wie „ts“ in „Katze“. Das „w“ klingt wie ein englisches „v“ — die obere Zahnreihe berührt die Unterlippe.",
-      "words": [
-        "Zoo",
-        "Zeit",
-        "zehn",
-        "Zug",
-        "Katze",
-        "Wasser",
-        "Wein",
-        "wo",
-        "Welt"
+    "w-v": {
+      "title": "w or v?",
+      "tip": "For w, make your lips small and round, as for “oo”, then open them. Your teeth don't touch your lip. For v, your top teeth touch your bottom lip.",
+      "pairs": [
+        ["wine", "vine"],
+        ["west", "vest"],
+        ["wet", "vet"]
       ],
-      "sentence": "Um zehn Uhr trinken wir Wasser im Zug.",
-      "fehler": [
-        "englisch-z-w",
-        "tagalog-z"
-      ]
+      "words": ["we", "water", "window", "work", "what", "one"],
+      "sentence": "We drove west in the wet weather with a bottle of wine.",
+      "fehler": ["persisch-w-v", "russisch-w-v", "polnisch-w-v", "deutsch-w-v"]
     },
     "w-b": {
-      "title": "w oder b?",
-      "tip": "Bei „w“ berühren die oberen Zähne die Unterlippe, und es summt. Bei „b“ schließen beide Lippen.",
+      "title": "v or b?",
+      "tip": "For v, your top teeth touch your bottom lip and you use your voice. For b, both lips close and open. van and ban, very and berry are different words.",
       "pairs": [
-        [
-          "Wein",
-          "Bein"
-        ],
-        [
-          "Wand",
-          "Band"
-        ],
-        [
-          "Wall",
-          "Ball"
-        ],
-        [
-          "wir",
-          "Bier"
-        ]
+        ["van", "ban"],
+        ["very", "berry"],
+        ["vest", "best"],
+        ["vote", "boat"]
       ],
-      "sentence": "Wir trinken Wein, und der Ball fliegt an die Wand.",
-      "fehler": [
-        "spanisch-w-b",
-        "tagalog-w-b"
-      ]
+      "sentence": "Please vote for me: my very old van is the best.",
+      "fehler": ["spanisch-w-b", "tagalog-w-b"]
     },
     "betonung": {
-      "title": "Betonung am Anfang",
-      "tip": "Deutsche Wörter betont man meistens auf der ersten Silbe, dem Stamm: AR-beit, FENS-ter, FRÜH-stück. Die Endung ist leise.",
-      "words": [
-        "Arbeit",
-        "Fenster",
-        "Frühstück",
-        "Mutter",
-        "Bahnhof",
-        "einkaufen",
-        "Wohnung"
-      ],
-      "sentence": "Nach der Arbeit gehe ich zum Bahnhof.",
-      "fehler": [
-        "franzoesisch-betonung"
-      ]
+      "title": "Word stress",
+      "tip": "Every English word with two or more syllables has one strong syllable, often the first: WAter, TEAcher, FAmily. Make it longer and louder; the other syllables are short and weak.",
+      "words": ["water", "teacher", "family", "morning", "photograph", "important", "banana", "hotel"],
+      "sentence": "My teacher drinks a lot of water every morning.",
+      "fehler": ["franzoesisch-betonung"]
     },
-    "ch": {
-      "title": "ch: ich und ach",
-      "tip": "Nach a, o, u kratzt das „ch“ hinten (Bach, Buch). Nach e, i, ü, ö und Konsonanten ist es weich und vorne — wie ein leises Fauchen (ich, Milch). Nicht „sch“!",
+    "th": {
+      "title": "th: think and this",
+      "tip": "Put the tip of your tongue between your teeth. For think and three, push out only air. For they and this, use your voice too. Not s, t, f, d or z.",
       "pairs": [
-        [
-          "mich",
-          "misch"
-        ],
-        [
-          "Kirche",
-          "Kirsche"
-        ]
+        ["think", "sink"],
+        ["three", "tree"],
+        ["they", "day"],
+        ["thank", "tank"]
       ],
-      "words": [
-        "ich",
-        "Milch",
-        "Küche",
-        "Buch",
-        "auch",
-        "acht"
-      ],
-      "sentence": "Nach der Kirche koche ich in der Küche Milch für mich.",
-      "fehler": [
-        "franzoesisch-ch",
-        "tagalog-ch"
-      ]
+      "sentence": "Thank you! I think they have three cats.",
+      "fehler": ["ukrainisch-th", "franzoesisch-th", "vietnamesisch-th", "tagalog-th", "deutsch-th"]
     },
     "kein-e": {
-      "title": "Kein Vokal am Ende",
-      "tip": "Viele deutsche Wörter enden auf einen Konsonanten. Hänge kein „e“ an: „Haus“, nicht „Hausse“. Und ein doppelter Buchstabe heißt nur: Der Vokal davor ist kurz.",
-      "words": [
-        "Haus",
-        "gut",
-        "Hund",
-        "Tag",
-        "ich habe",
-        "Mutter",
-        "Bett",
-        "kommen"
-      ],
-      "sentence": "Das Haus ist gut, der Hund ist alt.",
-      "fehler": [
-        "italienisch-kein-e"
-      ]
+      "title": "No vowel at the end",
+      "tip": "Many English words end in a consonant. Stop on it: don't add a small “e” or “a”. big, not “bigga”; good, not “goode”.",
+      "words": ["big", "good", "job", "shop", "bad", "book", "stop", "sit"],
+      "sentence": "I've got a good job in a big shop.",
+      "fehler": ["italienisch-kein-e"]
     },
     "s": {
-      "title": "Weiches s",
-      "tip": "Vor einem Vokal summt das „s“ wie eine Biene: „Sonne“, „Rose“. Nur am Ende und vor Konsonanten ist es scharf.",
-      "words": [
-        "Sonne",
-        "See",
-        "sieben",
-        "Rose",
-        "lesen",
-        "Sofa"
-      ],
-      "sentence": "Sie sitzt in der Sonne am See und liest."
+      "title": "z: the buzzing s",
+      "tip": "z, and often s between vowels, buzzes like a bee: zoo, busy, music, easy. Use your voice: put your fingers on your throat and feel it shake.",
+      "words": ["zoo", "zero", "easy", "busy", "music", "lazy", "noise", "is"],
+      "sentence": "Is the zoo busy on Tuesdays?",
+      "fehler": ["tagalog-z"]
     },
     "endkonsonanten": {
-      "title": "Konsonanten am Wortende",
-      "tip": "Sprich den letzten Laut hörbar aus — bei „Hund“ ein kurzes „t“, bei „Markt“ „k“ und „t“. Stell dir vor, das Wort geht nach dem Konsonanten noch einen Moment weiter.",
+      "title": "Consonants at the end",
+      "tip": "Finish every word: let the last sound out. You can hear s, f and l at the end of English words: ice, life, school.",
       "pairs": [
-        [
-          "Markt",
-          "Mark"
-        ],
-        [
-          "Geld",
-          "Gel"
-        ]
+        ["life", "lie"],
+        ["place", "play"],
+        ["ice", "eye"]
       ],
-      "words": [
-        "Hund",
-        "halb",
-        "Geld",
-        "Markt",
-        "jetzt",
-        "Tag",
-        "Brot"
-      ],
-      "sentence": "Am Tag holt der Hund jetzt Brot und Geld vom Markt.",
-      "fehler": [
-        "vietnamesisch-endkonsonanten"
-      ]
+      "words": ["school", "help", "milk", "desk", "friends", "next"],
+      "sentence": "Life is nice in this place, but I don't like ice in my tea.",
+      "fehler": ["vietnamesisch-endkonsonanten"]
     },
     "cluster": {
-      "title": "Konsonanten ohne Vokal dazwischen",
-      "tip": "Kein Vokal zwischen den Konsonanten: „Straße“ ist schtr-, nicht „Sitraße“. Sprich die Konsonanten langsam zusammen, dann schneller.",
-      "words": [
-        "Straße",
-        "sprechen",
-        "Pflanze",
-        "Schwester",
-        "Herbst",
-        "du sprichst",
-        "nächste"
-      ],
-      "sentence": "Im Herbst pflanzt meine Schwester Blumen an der Straße.",
-      "fehler": [
-        "vietnamesisch-cluster"
-      ]
+      "title": "Consonants with no vowel between",
+      "tip": "Some English words start with two or three consonants: str-, pl-, fr-, spr-. Say them straight after each other, with no vowel between them: “street”, not “sitreet”.",
+      "words": ["street", "play", "friend", "three", "spring", "glass", "strong", "clean"],
+      "sentence": "My friend plays on the street in spring.",
+      "fehler": ["vietnamesisch-cluster"]
     },
     "verbendungen": {
-      "title": "Die Endung am Verb",
-      "tip": "Die Endung sagt, wer es tut: du …st, er …t, ihr …t. Sprich sie immer mit — auch wenn der Satz schnell ist.",
-      "words": [
-        "du kommst",
-        "du machst",
-        "er macht",
-        "ihr lernt"
-      ],
-      "sentence": "Du kommst, er macht Kaffee, und ihr lernt Deutsch.",
-      "fehler": [
-        "vietnamesisch-verbendungen"
-      ]
+      "title": "The ending on the verb",
+      "tip": "The ending tells you who and when: he works, she lives (-s); I worked, we played (-ed). Say it, even if it's only one small sound.",
+      "words": ["works", "lives", "watches", "likes", "worked", "played", "wanted", "needed"],
+      "sentence": "She works in a shop and lives near me. Yesterday she worked late.",
+      "fehler": ["vietnamesisch-verbendungen"]
     }
   },
   "languages": {
-    "arabisch": [
-      "p-b",
-      "e-i-o-u",
-      "sp-st",
-      "ue-oe"
-    ],
-    "tuerkisch": [
-      "sp-st",
-      "ch",
-      "kurz-lang"
-    ],
-    "persisch": [
-      "sp-st",
-      "ue-oe",
-      "ch"
-    ],
-    "russisch": [
-      "h",
-      "hart",
-      "ue-oe"
-    ],
-    "ukrainisch": [
-      "g-h",
-      "auslaut",
-      "ue-oe"
-    ],
-    "polnisch": [
-      "kurz-lang",
-      "hart",
-      "ue-oe"
-    ],
-    "englisch": [
-      "z-w",
-      "ue-oe",
-      "ch"
-    ],
-    "franzoesisch": [
-      "h",
-      "betonung",
-      "ch"
-    ],
-    "italienisch": [
-      "h",
-      "kurz-lang",
-      "kein-e"
-    ],
-    "spanisch": [
-      "sp-st",
-      "w-b",
-      "ue-oe",
-      "s"
-    ],
-    "chinesisch": [
-      "ende",
-      "r-l",
-      "sp-st"
-    ],
-    "vietnamesisch": [
-      "endkonsonanten",
-      "cluster",
-      "verbendungen",
-      "ch",
-      "ue-oe",
-      "kurz-lang",
-      "betonung"
-    ],
-    "tagalog": [
-      "w-b",
-      "z-w",
-      "e-i-o-u",
-      "ue-oe",
-      "ch"
-    ]
+    "arabisch": ["p-b", "e-i-o-u", "sp-st", "w-b"],
+    "tuerkisch": ["sp-st", "th", "w-v", "kurz-lang"],
+    "persisch": ["sp-st", "w-v", "th"],
+    "russisch": ["h", "w-v", "th", "auslaut", "ae"],
+    "ukrainisch": ["th", "w-v", "ae", "kurz-lang"],
+    "polnisch": ["kurz-lang", "w-v", "ae", "th"],
+    "deutsch": ["w-v", "th", "auslaut"],
+    "franzoesisch": ["h", "th", "betonung", "kurz-lang"],
+    "italienisch": ["h", "kurz-lang", "kein-e", "th"],
+    "spanisch": ["sp-st", "w-b", "kurz-lang", "s", "ae"],
+    "chinesisch": ["ende", "th", "r-l", "cluster"],
+    "vietnamesisch": ["endkonsonanten", "cluster", "verbendungen", "th", "kurz-lang", "ae", "betonung"],
+    "tagalog": ["w-b", "s", "th", "e-i-o-u", "ae"]
   }
 }

@@ -1,4 +1,4 @@
-/* Satzmelodie (/satzmelodie) — a lesson-book column: header, tabs, one exercise per tab.
+/* Satzmelodie (/intonation) — a lesson-book column: header, tabs, one exercise per tab.
    Built on global.css tokens only. The melody colours reuse the semantic ones:
    falling = info (calm, finished), rising = danger red like the book's task numbers,
    exclamation = warning, list = success. */
@@ -267,7 +267,7 @@
 .sm-word.is-wrong { background: var(--danger-soft); border-color: var(--danger); }
 
 /* „Regel einblenden / ausblenden“: the grammar pages' pill (verben-praepositionen.css
-   .vp-rule-toggle), restated as /aussprache does; that sheet is not loaded here. */
+   .vp-rule-toggle), restated as /pronunciation does; that sheet is not loaded here. */
 .sm-regel-toggle {
   margin-left: auto; flex-shrink: 0; margin-bottom: var(--space-2);
   border: 1.5px solid var(--ink); background: var(--surface-card); border-radius: var(--radius-pill);
@@ -280,7 +280,7 @@
 .sm-regel-toggle[aria-expanded="true"]:hover { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--ink); }
 .sm-regel-toggle[aria-expanded="true"]:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--ink); }
 
-/* The rule column (as /aussprache's Ausspracheregeln): beside the exercises from 1001px,
+/* The rule column (as /pronunciation's Ausspracheregeln): beside the exercises from 1001px,
    a bottom sheet below. */
 .sm-regel {
   display: flex; flex-direction: column; min-width: 0;

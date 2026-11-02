@@ -4,8 +4,8 @@
 // typical-mistake findings for that language. One component on both pages, one client module
 // (src/lib/ausspracheFuerDich.js), so the recording code exists once.
 //
-//   /kultur/fehler            <AusspracheFuerDich lang="vietnamesisch" compact />  under each language
-//   /aussprache-check         <AusspracheFuerDich lang="*" />  every drill; the page's language
+//   /culture/mistakes            <AusspracheFuerDich lang="vietnamesisch" compact />  under each language
+//   /pronunciation-check         <AusspracheFuerDich lang="*" />  every drill; the page's language
 //                              picker decides which are shown, and in which order
 //
 // Drills: src/data/aussprache-muttersprache.json. Audio: public/audio/muttersprache/.
@@ -61,7 +61,7 @@ const drills = ids.map((id) => ({ id, ...all[id] }));
         <div class="md-rec" data-record={d.sentence} data-record-drill={d.id}>
           <p class="md-sentence">
             <button type="button" class="md-say md-say--icon" data-say={d.sentence} aria-label="Satz anhören" data-i18n-attr="aria-label:af.listen">▶</button>
-            <span lang="de">{d.sentence}</span>
+            <span lang="en">{d.sentence}</span>
           </p>
           <p class="md-words-scored" data-record-words hidden></p>
           <button type="button" class="md-btn md-btn--primary" data-record-btn>● <span data-i18n="kultur.fehler.record">Nachsprechen</span></button>

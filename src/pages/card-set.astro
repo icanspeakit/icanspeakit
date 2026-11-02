@@ -1,0 +1,26 @@
+---
+// A teacher's card set shared with students: /card-set?t=<token>. No account needed,
+// read-only, noindex. Same trainer as /vocabulary; the set comes from /api/wortschatz/set
+// (service key, by token) at runtime, so nothing of it is in the build. Not in the Android
+// app (scripts/build-app.mjs drops it with /api).
+// In a class, attempts are logged under „vs:<token>“ (src/lib/versuche.js pageRef), the
+// ref a teacher's class task for this set carries.
+import Layout from "../layouts/Layout.astro";
+import VokabelTrainer from "../components/VokabelTrainer.astro";
+import { TRANSLATION_LANGS } from "../lib/lexicon.js";
+---
+<Layout title="Card set – EnglishAcademy" description="Flashcards from your teacher." noindex>
+  <VokabelTrainer cards={[]} runtime heading="Kartenset" sub="Wird geladen …" deck="vokabel-set" langs={[...TRANSLATION_LANGS]} />
+  <p class="vs-msg" data-vs-msg hidden></p>
+</Layout>
+
+<style is:global>
+  /* The link is the teacher's to hand out, not the student's to pass on. */
+  body:has([data-runtime]) .vt-share { display: none; }
+  .vs-msg { max-width: 560px; margin: 24px auto; padding: 16px; border: 1px solid var(--border); border-radius: 12px; }
+</style>
+
+<script>
+  import { loadPlayableSet } from "../lib/vokabelFoto/play.js";
+  loadPlayableSet({ shared: true });
+</script>

@@ -1,6 +1,6 @@
 ---
 // The student's "Aufgaben" card (KLASSEN-TIERED-PROMPT.md, Tier 4): what their teacher
-// assigned, split into open, overdue and done. On /uebungen and /konto.
+// assigned, split into open, overdue and done. On /exercises and /konto.
 //
 // It stays hidden, and costs nothing, unless there is something to show:
 // - no session cookie → the script stops before loading anything
@@ -66,11 +66,11 @@ const { wo = "uebungen" } = Astro.props;
 
     function item(task: any, st: { status: string; am: string | null }) {
       // A teacher's card set is not in the catalogue: its ref is its share link's token.
-      // A Stunde (st:…) opens /stunde for this class, so the teacher sees how far it got; one
+      // A Stunde (st:…) opens /lesson for this class, so the teacher sees how far it got; one
       // from the teacher's own plan (not in the catalogue) is rebuilt from its ref.
       const stKey = task.uebung_ref.startsWith("st:") ? keyFromRef(task.uebung_ref) : null;
       const e = stKey ? { href: stundeHref(stKey, `&klasse=${task.klasse_id}`) }
-        : byRef.get(task.uebung_ref) ?? (task.uebung_ref.startsWith("vs:") ? { href: `/kartenset?t=${task.uebung_ref.slice(3)}` } : null);
+        : byRef.get(task.uebung_ref) ?? (task.uebung_ref.startsWith("vs:") ? { href: `/card-set?t=${task.uebung_ref.slice(3)}` } : null);
       const due = berlinDatum(task.faellig_at);
       const dueText =
         st.status === "ueberfaellig" ? t("kl.a.overdueSince", "überfällig, war fällig am {date}", { date: due })

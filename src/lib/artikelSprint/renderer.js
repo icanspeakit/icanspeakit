@@ -6,8 +6,10 @@ import { LANE_W, Z_FAR } from "./game.js";
 import { reducedMotion } from "../spieleEinstellungen.js";
 
 const CAM_D = 9;
-const ART = { DER: "der", DIE: "die", DAS: "das" };
-// The trap boxes of the five-lane road (DEN, DEM) and anything else without an article colour.
+// A / AN / SOME take the three article hues (the theme keys keep their old names: der = blue,
+// die = red, das = green), the same as the Wortschatz.
+const ART = { A: "der", AN: "die", SOME: "das" };
+// The trap boxes of the five-lane road (THE, ANY) and anything else without an article colour.
 const NEUTRAL_BOX = "#64748b";
 
 /** Colours from the site's tokens, so the gates use the same der/die/das hues as the Wortschatz. */

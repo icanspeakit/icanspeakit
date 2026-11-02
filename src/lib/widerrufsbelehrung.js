@@ -1,5 +1,5 @@
 // The Widerrufsbelehrung and the Muster-Widerrufsformular — one source for /widerruf, the
-// section in /nutzungsbedingungen and the purchase mail (emails/content.mjs), so the three
+// section in /terms and the purchase mail (emails/content.mjs), so the three
 // can never say different things (WIDERRUF-14-TAGE-PROMPT.md).
 //
 // Since 2026-10-04 buyers keep the full 14-day right of withdrawal: no § 356 Abs. 5 BGB

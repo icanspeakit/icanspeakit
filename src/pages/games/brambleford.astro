@@ -1,0 +1,132 @@
+---
+// /games/brambleford — "The Legend of Brambleford", a small town RPG: walk through Brambleford
+// and run A1 errands by talking to the mascots – pick the right reply or tap a sentence
+// together. Two parts of town: the morning (bakery, station, GP surgery) and, once that is
+// done, the afternoon (see AREAS in quests.js). Logic: src/lib/lindenau/game.js, content: src/lib/lindenau/quests.js.
+// Since 2026-10-22 in the „Spiele“ menu, indexable, in every UI language (ld.* keys) and in
+// the Android app; the dialogue itself is the English being learnt (EXPERIMENTE.md).
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import SectionMascot from "../../components/mascots/SectionMascot.astro";
+import { AREAS } from "../../lib/lindenau/quests.js";
+import "../../styles/practice.css";
+import "../../styles/fuehrerschein.css";
+import "../../styles/stadtfahrt.css";
+import "../../styles/lindenau.css";
+---
+<Layout
+  title="The Legend of Brambleford: an English role-playing game in the browser – EnglishAcademy"
+  description="A small role-playing game for A1 English: walk around Brambleford, buy a sausage roll and a train ticket and book a doctor's appointment – by talking to the people in the town."
+>
+  <SiteNav active="ueben" />
+  <main class="practice-main fs-page sf-page ld-page">
+    <section id="ld-intro">
+      <div class="practice-hero fs-hero">
+        <p class="eyebrow" data-i18n="ld.eyebrow">Game · A1</p>
+        <h1 data-i18n="ld.title">The Legend of Brambleford</h1>
+        <p data-i18n="ld.lead">You're new in Brambleford. Walk through town, talk to people and get your errands done – first in the morning, then in the afternoon.</p>
+      </div>
+      <section class="fs-box">
+        <h2 data-i18n="ld.howTitle">How to play</h2>
+        <ul class="fs-facts">
+          <li><b>👆</b><span data-i18n="ld.howWalk">Tap where you want to go – or walk with the arrow keys.</span></li>
+          <li><b>❗</b><span data-i18n="ld.howTalk">Anyone with an exclamation mark has a task for you. Tap them or press Enter.</span></li>
+          <li><b>💬</b><span data-i18n="ld.howAnswer">Pick the right reply or build the sentence from words. Wrong? No problem – try again.</span></li>
+          <li><b>🔊 💡</b><span data-i18n="ld.howHelp">Every sentence has a listen button and help.</span></li>
+          <li><b>🦸</b><span data-i18n="ld.howAction2">You are Super-Blubb! Space bar = jump, ↓ = duck, X = soap bubbles. Jump on the monsters or hit their crate from below. Clean the mud monsters – there is a mud alert at the start and after every task.</span></li>
+        </ul>
+        <label class="ld-action-opt">
+          <input type="checkbox" id="ld-action" checked />
+          <span data-i18n="ld.actionOpt">With action parts (jumping and soap bubbles)</span>
+        </label>
+        <h2 data-i18n="ld.areasTitle">Where to today?</h2>
+        <div class="ld-areas" role="group" aria-label="Choose a part of town" data-i18n-attr="aria-label:ld.areasLabel">
+          {AREAS.map((a, k) => (
+            <button type="button" class="ld-area" data-area={a.id} aria-pressed={k === 0 ? "true" : "false"}>
+              <span class="ld-area-title" lang="en">{a.title}</span>
+              <span class="ld-area-quests" lang="en">
+                {a.quests.map((q) => <img src={`/img/openmoji/${q.item.icon}.svg`} alt="" width="22" height="22" />)}
+                {a.quests.map((q) => q.role).join(" · ")}
+              </span>
+              {k > 0 && <span class="ld-area-lock" data-lock hidden data-i18n="ld.areaLocked">🔒 Finish the morning first</span>}
+            </button>
+          ))}
+        </div>
+        <SectionMascot name="bruno" say="Come on, I'll show you around!" class="ku-hero-mascot" />
+        <div class="fq-done-btns">
+          <button type="button" class="quiz-btn quiz-btn--primary" id="ld-start" data-i18n="ld.start">Let's go</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="sf-game" id="ld-game" hidden>
+      <div class="ld-hud">
+        <ul class="ld-items" data-items aria-label="Your tasks" data-i18n-attr="aria-label:ld.tasks"></ul>
+        <span class="ld-coins" data-coins role="img" aria-label="Coins" data-i18n-attr="aria-label:ld.coins">🪙 <b data-coins-n>0</b></span>
+        <button type="button" class="ld-sound" data-sound aria-pressed="true" aria-label="Music and sounds" data-i18n-attr="aria-label:ld.sound">🔊</button>
+        <button type="button" class="ld-sound ld-pausebtn" data-pause aria-label="Pause" data-i18n-attr="aria-label:ld.pause">⏸</button>
+      </div>
+      <div class="sf-stage ld-stage">
+        <canvas class="sf-canvas" data-canvas tabindex="-1" role="img" aria-label="Game map: the town of Brambleford from above" data-i18n-attr="aria-label:ld.canvas"></canvas>
+        <button type="button" class="ld-talk-btn" data-talk hidden>💬 <span data-talk-name data-i18n="ld.talk">Talk</span> <kbd data-i18n="ld.space">Enter</kbd></button>
+        <span class="ld-clean" data-clean hidden></span>
+        <div class="ld-town-pad" data-town-pad hidden>
+          <button type="button" class="sf-key ld-act-shoot" data-tk="shoot" aria-label="Soap bubble" data-i18n-attr="aria-label:ld.actShoot">🫧<kbd class="ld-pad-kbd" aria-hidden="true">X</kbd></button>
+          <button type="button" class="sf-key sf-key--gas" data-tk="jump" aria-label="Jump" data-i18n-attr="aria-label:ld.actJump">⤒<kbd class="ld-pad-kbd" aria-hidden="true" data-i18n="ld.space">Space</kbd></button>
+        </div>
+        <div class="sf-panel ld-panel" data-panel hidden aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    import { actionOn, areaOpen, mountLindenau, setAction } from "../../lib/lindenau/game.js";
+    import { setWaiting } from "../../lib/notReady.js";
+    import { t } from "../../lib/uiText.js";
+
+    const intro = document.getElementById("ld-intro")!;
+    const game = document.getElementById("ld-game")!;
+    const startBtn = document.getElementById("ld-start")!;
+    const cards = [...document.querySelectorAll<HTMLButtonElement>("[data-area]")];
+    const spiel = mountLindenau(game);
+    const actionBox = document.getElementById("ld-action") as HTMLInputElement;
+    actionBox.checked = actionOn();
+    actionBox.addEventListener("change", () => setAction(actionBox.checked));
+
+    // A locked part of town stays tappable and says why (src/lib/notReady.js). The newest open
+    // one is picked, so a learner who finished the morning lands in the afternoon.
+    let chosen = cards[0].dataset.area!;
+    function paint() {
+      for (const c of cards) {
+        const open = areaOpen(c.dataset.area!);
+        c.querySelector<HTMLElement>("[data-lock]")?.toggleAttribute("hidden", open);
+        c.classList.toggle("is-locked", !open);
+        setWaiting(c, open ? null : t("ld.areaLockedWhy", "Finish the morning in Brambleford first – then this part opens."));
+        c.setAttribute("aria-pressed", String(c.dataset.area === chosen));
+      }
+    }
+    chosen = [...cards].reverse().find((c) => areaOpen(c.dataset.area!))?.dataset.area ?? chosen;
+    paint();
+    for (const c of cards) c.addEventListener("click", () => {
+      if (c.getAttribute("aria-disabled") === "true") return;
+      chosen = c.dataset.area!;
+      paint();
+    });
+    game.addEventListener("ld:area", (e) => { chosen = (e as CustomEvent<string>).detail; paint(); });
+    // Back on the result screen (Escape, Android back): to the start screen.
+    game.addEventListener("ld:exit", () => {
+      game.hidden = true;
+      intro.hidden = false;
+      paint();
+      startBtn.focus({ preventScroll: true });
+      intro.scrollIntoView({ block: "start" });
+    });
+
+    startBtn.addEventListener("click", () => {
+      intro.hidden = true;
+      game.hidden = false;
+      game.scrollIntoView({ block: "start" });
+      spiel.start(chosen);
+    });
+  </script>
+</Layout>

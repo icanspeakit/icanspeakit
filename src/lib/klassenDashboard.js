@@ -1,4 +1,4 @@
-// /lehrkraefte/klassen/klasse?id=… — the teacher dashboard (KLASSEN-TIERED-PROMPT.md, Tier 3).
+// /teachers/classes/class?id=… — the teacher dashboard (KLASSEN-TIERED-PROMPT.md, Tier 3).
 // Loads the class, its members and their attempts of the last four weeks, then draws three
 // views from them: Übersicht, Themen, and one student's attempts. The numbers come from
 // ./klassenAuswertung.js; this file only draws, sorts and exports.
@@ -61,8 +61,8 @@ export async function mountKlassenDashboard(root, names) {
 
   /* --------------------------------------------------------- helpers ---- */
   const pct = (x) => (x == null ? "–" : `${Math.round(x * 100)} %`);
-  const fmtDate = (iso) => new Date(iso).toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "numeric" });
-  const fmtTime = (iso) => new Date(iso).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+  const fmtDate = (iso) => new Date(iso).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "numeric" });
+  const fmtTime = (iso) => new Date(iso).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
   function relDay(iso) {
     if (!iso) return t("kl.d.never", "nicht in 4 Wochen");
     // Calendar days in the teacher's time zone, not 24-hour blocks.
@@ -98,7 +98,7 @@ export async function mountKlassenDashboard(root, names) {
       case "live": return pct(o.live);
     }
   }
-  const textOf = (o, key) => (key === "name" ? o.name : key === "zuletzt" ? (o.zuletzt ? new Date(o.zuletzt).toLocaleString("de-DE") : "") : key === "median" || key === "live" ? (o[key] == null ? "" : Math.round(o[key] * 100)) : o[key]);
+  const textOf = (o, key) => (key === "name" ? o.name : key === "zuletzt" ? (o.zuletzt ? new Date(o.zuletzt).toLocaleString("en-GB") : "") : key === "median" || key === "live" ? (o[key] == null ? "" : Math.round(o[key] * 100)) : o[key]);
 
   function sorted() {
     const col = COLS.find((c) => c.key === state.sort) ?? COLS[1];
@@ -152,7 +152,7 @@ export async function mountKlassenDashboard(root, names) {
       el.innerHTML = `<p class="kl-muted">${esc(t("kl.d.noData", "In den letzten 4 Wochen hat noch niemand aus der Klasse geübt."))}</p>`;
       return;
     }
-    const members_ = [...members].sort((a, b) => a.anzeigename.localeCompare(b.anzeigename, "de"));
+    const members_ = [...members].sort((a, b) => a.anzeigename.localeCompare(b.anzeigename, "en"));
     const head = heat.themen.map((th) => `<th scope="col" class="kld-topic" title="${esc(th)}"><small>${esc(kindLabel(th))}</small><span>${esc(refLabel(th, names))}</span></th>`).join("");
     const body = members_.map((m) => {
       const cells = heat.zellen.get(m.user_id);
@@ -281,8 +281,8 @@ export async function mountKlassenDashboard(root, names) {
   }
 
   /* „Für Abwesende freigeben“: a lesson taught to the end becomes an Aufgabe – the same Stunde,
-     walked alone on /stunde, due in a week. An Aufgabe and not a lighter flag: students
-     already see Aufgaben (/uebungen, /konto), it has a due date and a done state, and the
+     walked alone on /lesson, due in a week. An Aufgabe and not a lighter flag: students
+     already see Aufgaben (/exercises, /konto), it has a due date and a done state, and the
      teacher can delete it. Whoever was there may do it too; nobody has to. */
   function renderNachholen() {
     const el = $("[data-kld-nachholen]");
@@ -345,7 +345,7 @@ export async function mountKlassenDashboard(root, names) {
     try {
       const titel = $("[data-task-title]").value.trim() || taskName(ref);
       // A card set: students open it by its share link, so the task carries the link's token
-      // (made now if the set isn't shared yet); their attempts on /kartenset log the same ref.
+      // (made now if the set isn't shared yet); their attempts on /card-set log the same ref.
       if (ref.startsWith("vs-set:")) {
         const set = mySets.find((x) => `vs-set:${x.id}` === ref);
         ref = `vs:${await (await import("./vokabelFoto/sets.js")).shareToken(set)}`;
@@ -380,10 +380,10 @@ export async function mountKlassenDashboard(root, names) {
       const w = table && open("", "_blank");
       if (!w) return;
       const title = li.querySelector(".kld-task-head b")?.textContent ?? "";
-      w.document.write(`<!doctype html><html lang="de"><meta charset="utf-8"><title>${esc(title)}</title>
+      w.document.write(`<!doctype html><html lang="en"><meta charset="utf-8"><title>${esc(title)}</title>
         <style>body{font:13px system-ui,sans-serif;margin:24px;color:#111}h1{font-size:17px;margin:0 0 4px}p{margin:0 0 12px;color:#444}
         table{border-collapse:collapse}th,td{border:1px solid #999;padding:4px 8px;text-align:left;vertical-align:top}small{color:#555}</style>
-        <h1>${esc(klasse.name)} · ${esc(title)}</h1><p>${esc(new Date().toLocaleString("de-DE"))} · ${esc(TRUST.client())}</p>${table.outerHTML}`);
+        <h1>${esc(klasse.name)} · ${esc(title)}</h1><p>${esc(new Date().toLocaleString("en-GB"))} · ${esc(TRUST.client())}</p>${table.outerHTML}`);
       w.document.close();
       w.focus();
       w.print();
@@ -493,23 +493,23 @@ export async function mountKlassenDashboard(root, names) {
       part = "aufgaben";
       header = [t("kl.a.form.title2", "Titel für die Klasse"), t("kl.a.form.ref", "Übung"), t("kl.a.form.due", "Fällig am"), t("kl.d.col.name", "Name"), "Status", t("kl.a.csv.doneAt", "Erledigt am")];
       data = tasks.flatMap((task) => taskStatuses(task).map(({ m, st }) => [
-        task.titel, taskName(task.uebung_ref), berlinTag(task.faellig_at), m.anzeigename, STATUS[st.status](), st.am ? new Date(st.am).toLocaleString("de-DE") : "",
+        task.titel, taskName(task.uebung_ref), berlinTag(task.faellig_at), m.anzeigename, STATUS[st.status](), st.am ? new Date(st.am).toLocaleString("en-GB") : "",
       ]));
     } else if (state.tab === "themen") {
       part = "themen";
       header = [t("kl.d.col.name", "Name"), ...heat.themen.map((th) => `${kindLabel(th)}: ${refLabel(th, names)}`)];
-      data = [...members].sort((a, b) => a.anzeigename.localeCompare(b.anzeigename, "de")).map((m) => [
+      data = [...members].sort((a, b) => a.anzeigename.localeCompare(b.anzeigename, "en")).map((m) => [
         m.anzeigename,
         ...heat.themen.map((th) => {
           const c = heat.zellen.get(m.user_id).get(th);
-          return !c ? "" : c.gesamt ? Math.round((c.richtig / c.gesamt) * 100) : "geübt";
+          return !c ? "" : c.gesamt ? Math.round((c.richtig / c.gesamt) * 100) : "practised";
         }),
       ]);
     } else if (state.tab === "detail") {
       part = "uebungen";
-      header = ["Name", "Ende", "Bereich", "Übung", "Richtig", "Gesamt", "Minuten", "Quelle", "Hinweise"];
+      header = ["Name", "Finished", "Area", "Exercise", "Correct", "Total", "Minutes", "Source", "Notes"];
       data = (byMember.get(state.detail) ?? []).map((r) => [
-        nameOf.get(r.user_id), new Date(r.beendet_at).toLocaleString("de-DE"), kindLabel(r.uebung_ref), refLabel(r.uebung_ref, names),
+        nameOf.get(r.user_id), new Date(r.beendet_at).toLocaleString("en-GB"), kindLabel(r.uebung_ref), refLabel(r.uebung_ref, names),
         r.richtig, r.gesamt, r.dauer_ms != null ? Math.round(r.dauer_ms / 60000) : "", (TRUST[r.quelle] ?? TRUST.client)(), hinweisText(r.hinweise, t),
       ]);
     } else {

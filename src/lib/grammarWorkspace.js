@@ -15,6 +15,7 @@ import { waitAttrs } from "./notReady.js";
 import { mascotHop } from "./mascotCelebrate.js";
 import { recordResult } from "./fehler.js";
 import { hintItem } from "./versuche.js";
+import { topicPath } from "./routes.js";
 import { seededShuffle } from "./seededShuffle.js";
 import { markedHtml, unmark } from "./markedText.js";
 import { meldenLink, flagElement, flagItems } from "./meldung.js";
@@ -711,6 +712,13 @@ const buildOk = (b, chosen) => { const got = wordsOf(b, chosen); return b.readin
 /** A tile as it reads at position `pos`: first word capitalised, a sentence-initial
     conjunction or pronoun lower-cased further in. */
 const shown = (w, pos) => (pos === 0 ? capW(w) : SUBORD.has(w.toLowerCase()) || PRON.has(w.toLowerCase()) ? lowW(w) : w);
+/** The right order the strip follows so far, if any. Its words give the strip their case:
+    an `alt` order writes "Every morning he waits", while the tile still reads "He". */
+const followedReading = (b, chosen) => {
+  const got = wordsOf(b, chosen);
+  return b.readings.find((r) => got.length <= r.length && got.every((g, k) => r[k].toLowerCase() === g));
+};
+const shownIn = (reading, w, pos) => (reading && !OPTIONAL.test(w) ? (pos === 0 ? capW(reading[pos]) : reading[pos]) : shown(w, pos));
 /** How many tiles from the start are right, in the closest right order. */
 function buildPrefix(b, chosen) {
   const got = wordsOf(b, chosen);
@@ -729,9 +737,10 @@ function mountBuild(root, ex, notify) {
     const wrong = bs.checked && !bs.ok;
     const complete = bs.chosen.length >= b.min;
     const stripAnim = bs.checked ? (bs.ok ? POP : SHAKE) : "none";
+    const reading = followedReading(b, bs.chosen);
     const chosen = bs.chosen.map((origIdx, pos) => {
       const mark = bs.ok ? " is-correct" : wrong ? (pos < bs.good ? " is-correct" : pos === bs.good ? " is-wrong" : "") : "";
-      return `<button type="button" class="vp-chip vp-chip-chosen${mark}" data-sentence="${sentence.id}" data-remove="${pos}" ${bs.ok ? "disabled" : ""}>${escapeHtml(shown(b.tiles[origIdx], pos))}</button>`;
+      return `<button type="button" class="vp-chip vp-chip-chosen${mark}" data-sentence="${sentence.id}" data-remove="${pos}" ${bs.ok ? "disabled" : ""}>${escapeHtml(shownIn(reading, b.tiles[origIdx], pos))}</button>`;
     }).join("") + (b.end ? `<span class="vp-build-end" aria-hidden="true">${escapeHtml(b.end)}</span>` : "");
     // Every tile keeps its place: a used one leaves an empty slot of its own width. After a
     // wrong try only the right part stays used; the rest can be tapped again straight away.
@@ -1076,7 +1085,7 @@ export function mountGrammarWorkspace(pageRoot, data, { onAnswer, meldungRef } =
       if (rich) {
         recordResult({
           source: "grammatik", itemId: `${topic}/${exIndex}/${detail.itemId}`, prompt: detail.prompt, expected: detail.expected,
-          given: detail.given, level: data.level, topic: data.name ?? topic, href: `/${topic}#uebung-${exIndex + 1}`,
+          given: detail.given, level: data.level, topic: data.name ?? topic, href: `${topicPath(topic)}#uebung-${exIndex + 1}`,
         }, ok);
       }
     };

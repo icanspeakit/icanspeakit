@@ -1,37 +1,45 @@
 {
-  "note": "Der Einstufungstest hinter der Kachel „Weiß ich nicht\" auf der Startseite (src/pages/einstufungstest.astro).\n\nJe sechs Aufgaben pro Stufe, aus denen der Test zwei zieht — wer den Test zweimal macht, bekommt nicht dieselben Sätze. Jede Aufgabe prüft genau ein Merkmal, das für ihre Stufe typisch ist und auf der Stufe darunter noch nicht vorkommt: Artikel und Konjugation für A1, Perfekt, Dativ und Nebensatzstellung für A2, Relativpronomen, Passiv und Konjunktiv II für B1, Partizipialattribut, Konjunktiv I und feste Nomen-Verb-Verbindungen für B2.\n\nNur eine Option ist richtig, und die falschen sind keine Fantasiewörter, sondern die Fehler, die an dieser Stelle wirklich gemacht werden. Ein Test, den man durch Ausschluss der unsinnigen Antwort besteht, misst nichts.",
+  "note": "The placement test behind the “I don't know” tile on the homepage (src/pages/einstufungstest.astro). The A1 set is also the quick check on /step-by-step.\n\nSix items per level; the test draws two, so someone who takes it twice does not get the same sentences. Each item tests exactly one feature that is typical of its level and not yet expected at the level below: be, present simple, a/an, irregular plurals and wh-questions for A1; past simple, comparatives, going to, prepositions of time, any and present continuous for A2; present perfect with since, first and second conditional, the passive, relative who and used to for B1; third conditional, reported questions, past deduction, wish + past perfect, so…that and be used to + -ing for B2; inversion, cleft sentences, participle clauses, mixed conditionals, distancing (is said to have) and it's time + past for C1.\n\nOnly one option is right, and the wrong ones are not nonsense words but the mistakes learners really make at that point (I have a idea, more big, If I would have, I'm not used to drive). A test you can pass by ruling out the silly answer measures nothing. Options that a native speaker could also accept in some context (some in questions, that for who, backshift-free reported speech) are deliberately left out.\n\nAnswers and options use the straight apostrophe ' because the page compares the clicked text with the answer exactly.",
   "levels": {
     "A1": [
-      { "prompt": "___ Buch liegt auf dem Tisch.", "options": ["Das", "Der", "Die"], "answer": "Das" },
-      { "prompt": "Wo ___ du?", "options": ["wohnst", "wohnt", "wohnen"], "answer": "wohnst" },
-      { "prompt": "Ich ___ einen Bruder.", "options": ["habe", "bin", "hat"], "answer": "habe" },
-      { "prompt": "Wie viel ___ das?", "options": ["kostet", "kosten", "kostest"], "answer": "kostet" },
-      { "prompt": "ein Buch – zwei ___", "options": ["Bücher", "Buchen", "Buchs"], "answer": "Bücher" },
-      { "prompt": "___ heißt du?", "options": ["Wie", "Wo", "Was"], "answer": "Wie" }
+      { "prompt": "She ___ a teacher.", "options": ["is", "are", "am"], "answer": "is" },
+      { "prompt": "My brother ___ in London.", "options": ["lives", "live", "living"], "answer": "lives" },
+      { "prompt": "I have ___ idea.", "options": ["an", "a", "any"], "answer": "an" },
+      { "prompt": "___ you like coffee?", "options": ["Do", "Are", "Does"], "answer": "Do" },
+      { "prompt": "one child – two ___", "options": ["children", "childs", "childrens"], "answer": "children" },
+      { "prompt": "___ is your name?", "options": ["What", "How", "Who"], "answer": "What" }
     ],
     "A2": [
-      { "prompt": "Gestern ___ ich ins Kino gegangen.", "options": ["bin", "habe", "war"], "answer": "bin" },
-      { "prompt": "Ich helfe ___ Kind.", "options": ["dem", "das", "den"], "answer": "dem" },
-      { "prompt": "Der Zug ___ um acht Uhr ___.", "options": ["fährt … ab", "abfährt … —", "fahrt … ab"], "answer": "fährt … ab" },
-      { "prompt": "Ich komme nicht, ___ ich keine Zeit habe.", "options": ["weil", "denn", "aber"], "answer": "weil" },
-      { "prompt": "Berlin ist ___ als Bonn.", "options": ["größer", "groß", "am größten"], "answer": "größer" },
-      { "prompt": "Stell die Flasche bitte ___.", "options": ["auf den Tisch", "auf dem Tisch", "auf der Tisch"], "answer": "auf den Tisch" }
+      { "prompt": "We ___ to Spain last summer.", "options": ["went", "go", "have gone"], "answer": "went" },
+      { "prompt": "London is ___ than Oxford.", "options": ["bigger", "more big", "biggest"], "answer": "bigger" },
+      { "prompt": "Look at those clouds! It's ___ rain.", "options": ["going to", "will", "going"], "answer": "going to" },
+      { "prompt": "The meeting is ___ Monday.", "options": ["on", "in", "at"], "answer": "on" },
+      { "prompt": "Is there ___ milk in the fridge?", "options": ["any", "a", "many"], "answer": "any" },
+      { "prompt": "Be quiet, please – the baby ___.", "options": ["is sleeping", "sleeps", "sleeping"], "answer": "is sleeping" }
     ],
     "B1": [
-      { "prompt": "Das ist der Mann, ___ ich gestern getroffen habe.", "options": ["den", "der", "dem"], "answer": "den" },
-      { "prompt": "Das Formular ___ von der Sachbearbeiterin geprüft.", "options": ["wird", "ist", "hat"], "answer": "wird" },
-      { "prompt": "Ich freue mich schon ___ das Wochenende.", "options": ["auf", "über", "für"], "answer": "auf" },
-      { "prompt": "Wissen Sie, ___?", "options": ["wann der Zug abfährt", "wann fährt der Zug ab", "wann abfährt der Zug"], "answer": "wann der Zug abfährt" },
-      { "prompt": "___ des schlechten Wetters bleiben wir zu Hause.", "options": ["Wegen", "Weil", "Obwohl"], "answer": "Wegen" },
-      { "prompt": "Wenn ich mehr Zeit ___, würde ich öfter kommen.", "options": ["hätte", "habe", "hatte"], "answer": "hätte" }
+      { "prompt": "I ___ in Manchester since 2019.", "options": ["have lived", "live", "lived"], "answer": "have lived" },
+      { "prompt": "If it rains tomorrow, we ___ at home.", "options": ["will stay", "would stay", "stayed"], "answer": "will stay" },
+      { "prompt": "If I ___ more money, I would buy a car.", "options": ["had", "have", "would have"], "answer": "had" },
+      { "prompt": "This bridge ___ in 1890.", "options": ["was built", "built", "is built"], "answer": "was built" },
+      { "prompt": "That's the woman ___ lives next door.", "options": ["who", "which", "whose"], "answer": "who" },
+      { "prompt": "When I was a child, I ___ play football every day.", "options": ["used to", "use to", "was used to"], "answer": "used to" }
     ],
     "B2": [
-      { "prompt": "Das ___ Kind wollen wir nicht wecken.", "options": ["schlafende", "geschlafene", "schlafend"], "answer": "schlafende" },
-      { "prompt": "Der Antrag muss bis Freitag ___ werden.", "options": ["eingereicht", "einreichen", "einzureichen"], "answer": "eingereicht" },
-      { "prompt": "Er ist nicht nur klug, ___ auch fleißig.", "options": ["sondern", "aber", "dennoch"], "answer": "sondern" },
-      { "prompt": "Der Minister sagte, er ___ zurücktreten.", "options": ["werde", "wird", "wurde"], "answer": "werde" },
-      { "prompt": "Wir müssen bis Montag eine Entscheidung ___.", "options": ["treffen", "machen", "nehmen"], "answer": "treffen" },
-      { "prompt": "Die bereits ___ Unterlagen liegen dem Amt vor.", "options": ["eingereichten", "einreichenden", "eingereicht"], "answer": "eingereichten" }
+      { "prompt": "If we ___ earlier, we wouldn't have missed the train.", "options": ["had left", "left", "would have left"], "answer": "had left" },
+      { "prompt": "He asked me where ___.", "options": ["I lived", "did I live", "do I live"], "answer": "I lived" },
+      { "prompt": "The streets are wet. It ___ rained in the night.", "options": ["must have", "must", "can have"], "answer": "must have" },
+      { "prompt": "I wish I ___ to the party last night.", "options": ["had gone", "went", "would go"], "answer": "had gone" },
+      { "prompt": "The film was ___ boring that I fell asleep.", "options": ["so", "such", "too"], "answer": "so" },
+      { "prompt": "I'm not used to ___ on the left.", "options": ["driving", "drive", "drove"], "answer": "driving" }
+    ],
+    "C1": [
+      { "prompt": "Never ___ such a beautiful sunset.", "options": ["have I seen", "I have seen", "I saw"], "answer": "have I seen" },
+      { "prompt": "___ I need is a long holiday.", "options": ["What", "That", "Which"], "answer": "What" },
+      { "prompt": "___ the report, she sent it to her manager.", "options": ["Having finished", "Finished", "Having been finished"], "answer": "Having finished" },
+      { "prompt": "If I had taken that job, I ___ in Paris now.", "options": ["would be living", "would have lived", "will live"], "answer": "would be living" },
+      { "prompt": "The company is said ___ millions last year.", "options": ["to have lost", "to lose", "losing"], "answer": "to have lost" },
+      { "prompt": "It's late. It's high time we ___ home.", "options": ["went", "go", "will go"], "answer": "went" }
     ]
   }
 }

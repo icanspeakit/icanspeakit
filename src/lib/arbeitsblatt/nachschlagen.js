@@ -1,5 +1,5 @@
-// The Nachschlagewerk pages as worksheet topics: the verb tables (/grammatik/verben) and the
-// lists of /grammatik/<ref> (src/data/nachschlagen/*.json) put into the shape of a grammar
+// The Nachschlagewerk pages as worksheet topics: the verb tables (/grammar/verbs) and the
+// lists of /grammar/<ref> (src/data/nachschlagen/*.json) put into the shape of a grammar
 // topic, so the worksheet (…/arbeitsblaetter/grammatik/<slug>) and the Tandembogen
 // (…/arbeitsblaetter/tandem/<slug>) are built for them exactly as for a topic.
 //
@@ -11,6 +11,7 @@
 // keys (liveQuiz/chapters.js), and never a grammar topic's slug (there is a topic
 // trennbare-verben too).
 import { shuffle } from "./seed.js";
+import { refPath } from "../routes.js";
 import { groups as verbGroupList, verbs as verbList } from "../verbtabellen.js";
 import { fehlerGroups, optionsOf, answerOf } from "../typischeFehler.js";
 
@@ -47,59 +48,58 @@ function roundRobin(lists, n, skip = 0) {
 /** "Der Zug fährt um acht Uhr ab." → ["Der", "Zug", …, "ab", "."] */
 const tokens = (s) => String(s).match(/[\p{L}\p{N}’'-]+|[.,!?]/gu) ?? [];
 
-/* ---- /grammatik/verben ---------------------------------------------------------------- */
+/* ---- /grammar/verbs ---------------------------------------------------------------- */
 function verbTopic() {
   const pools = verbGroupList.map((g) => verbList.filter((v) => v.group === g.id));
-  // A verb with a note has no past of its own (möchten: „Für die Vergangenheit nimmt man
-  // wollen“), so it is asked in the Präsens only.
+  // A verb with a note has a past that is another verb (would like: "For the past, use
+  // wanted") or a spelling trap, so it is asked in the present simple only.
   const past = pools.map((l) => l.filter((v) => !v.note));
   const pick = (skip, lists = past) => roundRobin(lists, ROWS, skip);
   const g = Object.fromEntries(verbGroupList.map((x) => [x.id, x]));
   return {
     id: "verbtabellen",
     slug: "verbtabellen",
-    name: "Verbtabellen: die wichtigsten Verben",
+    name: "Verb tables: the most important verbs",
     level: "A1",
-    subtitle: "Präsens, Präteritum und Perfekt der wichtigsten Verben",
-    reference: "/grammatik/verben",
+    subtitle: "Present simple, past simple and present perfect of the most important verbs",
+    reference: "/grammar/verbs",
     concept: {
-      qa: [g.regelmaessig?.regel?.[0], g.unregelmaessig?.regel?.[1], g.regelmaessig?.regel?.[2], g.hilfsverb?.regel?.[1]]
+      qa: [g.regelmaessig?.regel?.[0], g.unregelmaessig?.regel?.[0], g.regelmaessig?.regel?.[2], g.hilfsverb?.regel?.[1]]
         .filter(Boolean).map((r) => ({ html: ruleHtml(r) })),
     },
     exercises: [
       {
         type: "table",
-        title: "Präsens: Schreiben Sie die Verbform.",
-        hint: "Vorsicht bei du und er/sie/es: oft ändert sich der Vokal.",
-        columns: ["Person + Verb", "Präsens"],
-        // du or er/sie/es, taking turns, but the one the verb changes (the one worth
-        // asking) where only one of them does.
-        rows: pick(0, pools).map((v, i) => {
-          const turn = i % 2 ? [2, 1] : [1, 2];
-          const p = turn.find((k) => v.rows[k].praes.x) ?? turn[0];
+        title: "Present simple: write the verb form.",
+        hint: "Careful with he/she/it: -s, -es or -ies.",
+        columns: ["Person + verb", "Present simple"],
+        // The person whose form breaks the pattern (I am, he has), else he/she/it.
+        rows: pick(0, pools).map((v) => {
+          const x = v.rows.findIndex((r) => r.praes.x);
+          const p = x === -1 ? 2 : x;
           return { term: `${v.rows[p].pron} · ${v.inf}`, answer: v.rows[p].praes.f };
         }),
       },
       {
         type: "table",
-        title: "Präteritum: Wie heißt die Form für „ich“?",
-        columns: ["Verb", "ich (Präteritum)"],
+        title: "Past simple: write the form.",
+        columns: ["Verb", "Past simple"],
         rows: pick(ROWS).map((v) => ({ term: v.inf, answer: v.rows[0].praet.f })),
       },
       {
         type: "table",
-        title: "Perfekt: haben oder sein – und das Partizip.",
-        columns: ["Verb", "er/sie/es (Perfekt)"],
+        title: "Present perfect: has + past participle.",
+        columns: ["Verb", "he/she/it (present perfect)"],
         rows: pick(2 * ROWS).map((v) => ({ term: v.inf, answer: v.rows[2].perf.f })),
       },
     ],
   };
 }
 
-/* ---- /grammatik/starke-schwache-verben ------------------------------------------------- */
+/* ---- /grammar/irregular-verbs ------------------------------------------------- */
 function starkTopic(file, data) {
   const sec = (id) => data.sections.find((s) => s.id === id)?.regel ?? [];
-  // forms: "fährt · fuhr · ist gefahren"
+  // forms: "goes · went · gone" (he/she/it · past simple · past participle)
   const pools = data.sections.map((sec) => rowsOf(sec).filter((r) => String(r.forms).split(" · ").length === 3));
   const form = (r, k) => String(r.forms).split(" · ")[k].trim();
   return {
@@ -107,26 +107,26 @@ function starkTopic(file, data) {
     exercises: [
       {
         type: "table",
-        title: "Präteritum: stark, schwach oder gemischt? Schreiben Sie die Form.",
-        columns: ["Verb", "er/sie/es (Präteritum)"],
+        title: "Past simple: regular or irregular? Write the form.",
+        columns: ["Verb", "Past simple"],
         rows: roundRobin(pools, ROWS).map((r) => ({ term: bareVerb(r.verb), answer: form(r, 1) })),
       },
       {
         type: "table",
-        title: "Perfekt: haben oder sein – und das Partizip.",
-        columns: ["Verb", "er/sie/es (Perfekt)"],
+        title: "Past participle: write the form.",
+        columns: ["Verb", "Past participle"],
         rows: roundRobin(pools, ROWS, ROWS).map((r) => ({ term: bareVerb(r.verb), answer: form(r, 2) })),
       },
     ],
   };
 }
 
-/* ---- /grammatik/trennbare-verben ------------------------------------------------------- */
+/* ---- /grammar/phrasal-verbs-list ------------------------------------------------------- */
 function trennbarTopic(file, data) {
   const sec = (id) => rowsOf(data.sections.find((s) => s.id === id) ?? {});
   const trennbar = sec("trennbar");
   const untrennbar = sec("untrennbar");
-  // forms: "fährt … ab · ist abgefahren"; the Perfekt is the last part.
+  // forms: "took off · taken off"; the past participle is the last part.
   const perf = (r) => String(r.forms).split(" · ").pop().trim();
   const built = trennbar.filter((r) => r.example && tokens(r.example).length <= 9).slice(0, 8);
   const regel = (id) => data.sections.find((s) => s.id === id)?.regel ?? [];
@@ -135,7 +135,7 @@ function trennbarTopic(file, data) {
     exercises: [
       {
         type: "build",
-        title: "Bauen Sie den Satz. Wohin kommt das Präfix?",
+        title: "Build the sentence. Where does the particle go?",
         sentences: built.map((r) => {
           const correct = tokens(r.example);
           return { id: `tv-${r.i}`, hint: bareVerb(r.verb), correct, shuffled: shuffle(correct, `${file}:${r.i}`) };
@@ -143,15 +143,15 @@ function trennbarTopic(file, data) {
       },
       {
         type: "table",
-        title: "Perfekt: trennbar oder nicht? Wo steht ge-?",
-        columns: ["Verb", "er/sie/es (Perfekt)"],
+        title: "Past participle: write the phrasal verb.",
+        columns: ["Phrasal verb", "Past participle"],
         rows: roundRobin([trennbar.filter((r) => !built.includes(r)), untrennbar], ROWS).map((r) => ({ term: bareVerb(r.verb), answer: perf(r) })),
       },
     ],
   };
 }
 
-/* ---- /grammatik/verben-mit-praepositionen ---------------------------------------------- */
+/* ---- /grammar/verbs-with-prepositions ---------------------------------------------- */
 function praepTopic(file, data) {
   // The example with its preposition blanked; rows whose preposition is merged (zur, vom,
   // worum) or missing in the example are left out — their gap would be ambiguous.
@@ -169,8 +169,8 @@ function praepTopic(file, data) {
     exercises: [
       {
         type: "fill",
-        title: "Welche Präposition passt?",
-        hint: "Verb und Präposition lernt man zusammen.",
+        title: "Which preposition is right?",
+        hint: "Learn the verb and its preposition together.",
         choices: [...new Set(fill.map((r) => r.prep))].sort((a, b) => a.localeCompare(b, "de")),
         items: fill.map((r) => ({ prompt: r.prompt, hint: r.verb, answer: r.prep })),
       },
@@ -207,31 +207,31 @@ function listTopic(file) {
     level: b.level,
     // A list's lead says what the list holds, not a rule: the sheet's rule box is the rules.
     subtitle: subtitle ?? "",
-    reference: `/grammatik/${file}`,
+    reference: refPath(file),
     concept: { qa },
     exercises: exercises.map((ex) => ({ ...ex, ...(ex.rows ? { rows: ex.rows.filter((r) => r.term && r.answer) } : {}) }))
       .filter((ex) => (ex.rows ?? ex.items ?? ex.sentences ?? []).length >= 4),
   };
 }
 
-/* ---- /grammatik/typische-fehler -------------------------------------------------------
+/* ---- /grammar/common-mistakes -------------------------------------------------------
    One exercise per group of the page: each pair's gap sentence, its two words as the
    choices. The rule box: the difference of the first pairs. */
 function fehlerTopic() {
   return {
     id: "typische-fehler",
     slug: "typische-fehler",
-    name: "Typische Fehler: Wörter, die man verwechselt",
+    name: "Common mistakes: words people mix up",
     level: "A1",
-    subtitle: "man oder Mann, das oder dass, seid oder seit",
-    reference: "/grammatik/typische-fehler",
+    subtitle: "its or it's, then or than, your or you're",
+    reference: "/grammar/common-mistakes",
     concept: { qa: fehlerGroups.map((g) => g.pairs[0]).map((p) => ({ html: ruleHtml(`*${p.a.w}* ≠ *${p.b.w}*: ${p.why}`) })) },
     exercises: fehlerGroups.map((g) => ({
       type: "table",
-      title: `${g.title}: Welches Wort passt?`,
+      title: `${g.title}: Which word fits?`,
       hint: g.lead,
       // The two words in the task itself, so the Tandembogen (which reads only the task) has them too.
-      columns: ["Satz", "Lösung"],
+      columns: ["Sentence", "Answer"],
       rows: g.pairs.map((p) => ({ term: `${p.check.gap} (${optionsOf(p).join(" / ")})`, answer: answerOf(p) })),
     })),
   };
