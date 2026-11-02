@@ -17,7 +17,7 @@ bring it back.
   crossings). **Decision:** dropped with the Führerschein module (docs/content-plan.md §4,
   confirmed by Edgar 2026-10-28); a UK theory-test trainer would be a separate product. Both URLs
   301 to `/exercises`. Added in `e3dffc9` (scaffold from deutschacademy; moved to /games in
-  `36a432d`), removed in REMOVED_COMMIT by the `cleanup` run. Bring back (with the
+  `36a432d`), removed in db88ba4 by the `cleanup` run. Bring back (with the
   Führerschein data they need):
-  `git checkout REMOVED_COMMIT~1 -- src/pages/games/stadtfahrt.astro src/pages/games/vorfahrt.astro src/lib/stadtfahrt.js src/lib/vorfahrt src/styles/vorfahrt.css src/data/fuehrerschein src/lib/fahrQuiz.js src/lib/fahrQuizData.js src/lib/fahrSzene.js src/lib/fuehrerscheinData.js`
-  (or `git revert REMOVED_COMMIT` for the whole Führerschein module).
+  `git checkout db88ba4~1 -- src/pages/games/stadtfahrt.astro src/pages/games/vorfahrt.astro src/lib/stadtfahrt.js src/lib/vorfahrt src/styles/vorfahrt.css src/data/fuehrerschein src/lib/fahrQuiz.js src/lib/fahrQuizData.js src/lib/fahrSzene.js src/lib/fuehrerscheinData.js`
+  (or `git revert db88ba4` for the whole Führerschein module).
