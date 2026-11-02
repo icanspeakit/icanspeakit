@@ -268,9 +268,9 @@ export function buildSearchIndex() {
     h: "/kultur/insider",
   });
   pages.push({
-    t: "Deutsch in der Welt",
-    s: "Sprachkarte, Sprachfamilie, Wie nah ist deine Sprache?",
-    k: "sprachen sprachfamilie stammbaum karte weltkarte verbreitung amtssprache dialekte indogermanisch germanisch lautverschiebung verwandt languages language family tree map spread related english",
+    t: "English around the world",
+    s: "World map, language family, how close is your language?",
+    k: "english around the world where is english spoken official language countries world map english-speaking countries commonwealth language family tree indo-european germanic related languages cognates german english word decoder sound shift singlish pidgin creole sprachen weltkarte",
     h: "/wissen/sprachen",
   });
   // The rest of the Nachschlagewerk: the overview, the three verb lists (found by their
@@ -302,9 +302,9 @@ export function buildSearchIndex() {
     h: "/grammatik/deklination",
   });
   pages.push({
-    t: "Dialekte: die Karte",
-    s: "Dialektkarte für Deutschland, Österreich und die Schweiz",
-    k: "dialekte dialekt mundart platt plattdeutsch kölsch bairisch bayrisch schwäbisch sächsisch hessisch fränkisch pfälzisch berlinerisch wienerisch schweizerdeutsch alemannisch benrather linie brötchen tschüss dialects dialect map bier bierkarte bierstile weißbier weizen pils helles altbier rauchbier reinheitsgebot brauerei radler beer map",
+    t: "Accents: the map",
+    s: "Accents of English in the UK and Ireland",
+    k: "accents accent map dialects dialect british accents regional accents uk ireland scouse geordie brummie cockney mancunian yorkshire west country estuary multicultural london english glaswegian scottish english welsh english irish english ulster bath trap foot strut bus rhotic hello hiya ey up alright bread roll barm cob bap dialekte",
     h: "/wissen/dialekte",
   });
   // Every Redemittel set (/wortschatz/redemittel/<id>), found by its name and its phrases.

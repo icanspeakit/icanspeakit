@@ -1084,10 +1084,10 @@ export const navUebenMenu = {
 export const navSprachen = {
   href: "/wissen/sprachen",
   sections: [
-    { id: "karte", titleKey: "sprachen.map.title", title: "Wo man Deutsch spricht" },
-    { id: "familie", titleKey: "sprachen.tree.title", title: "Die Sprachfamilie" },
-    { id: "vergleich", titleKey: "sprachen.cmp.title", title: "Wie nah ist deine Sprache?" },
-    { id: "decoder", titleKey: "sprachen.dec.title", title: "Englisch → Deutsch: der Wort-Decoder" },
+    { id: "karte", titleKey: "sprachen.map.title", title: "Where English is spoken" },
+    { id: "familie", titleKey: "sprachen.tree.title", title: "The language family" },
+    { id: "vergleich", titleKey: "sprachen.cmp.title", title: "How close is your language?" },
+    { id: "decoder", titleKey: "sprachen.dec.title", title: "German → English: the word decoder" },
   ],
 };
 
@@ -1123,10 +1123,10 @@ export const navBildwoerterbuch = { href: "/wissen/bildwoerterbuch", titleKey: "
 export const navZitate = { href: "/wissen/zitate", titleKey: "nav.wissen.zitate", title: "Zitat des Tages",
   hintKey: "nav.wissen.zitateHint", hint: "Ein Satz, drei Wörter, ein Leben" };
 
-// /wissen/dialekte: the dialect map of DE, AT, CH. In the Sprachen column, under the
-// sections of „Deutsch in der Welt“, whose map it zooms into.
-export const navDialekte = { href: "/wissen/dialekte", titleKey: "nav.wissen.dialekte", title: "Dialekte: die Karte",
-  hintKey: "nav.wissen.dialekteHint", hint: "Von Moin bis Grüezi" };
+// /wissen/dialekte: the accent map of the UK and Ireland. In the Sprachen column, under the
+// sections of "English around the world", whose map it zooms into.
+export const navDialekte = { href: "/wissen/dialekte", titleKey: "nav.wissen.dialekte", title: "Accents: the map",
+  hintKey: "nav.wissen.dialekteHint", hint: "From Scouse to Cockney" };
 
 // /wissen/umgangssprache: haste, krass, Scheiße — how German is spoken, with the standard
 // word beside it and where it is fine. In the Sprachen column under Dialekte and in the
@@ -1208,15 +1208,15 @@ export const navWissenMenu = {
         { href: "/wissen#offiziell", titleKey: "wissen.official.title", title: "Offizielle Materialien" },
         { href: navLernen.href, titleKey: navLernen.titleKey, title: navLernen.title },
       ] },
-    // „Deutsch in der Welt" (/wissen/sprachen): one page. Only its map section gets a row;
+    // "English around the world" (/wissen/sprachen): one page. Only its map section gets a row;
     // the other three sections sit behind the green box, so the column stays at six rows
     // (the panel ran past the foot of a laptop screen, 2026-10-23). Merch left this column
     // then too: it is in the footer and the phone drawer.
     { id: "sprachen", icon: "globe", href: navSprachen.href,
-      nameKey: "nav.wissen.sprachen", name: "Sprachen",
+      nameKey: "nav.wissen.sprachen", name: "Languages",
       primary: { href: navSprachen.href,
-        titleKey: "nav.wissen.sprachenAll", title: "Deutsch in der Welt",
-        hintKey: "nav.wissen.sprachenHint", hint: "Karte, Sprachfamilie, Vergleich" },
+        titleKey: "nav.wissen.sprachenAll", title: "English around the world",
+        hintKey: "nav.wissen.sprachenHint", hint: "Map, language family, comparison" },
       items: [
         ...navSprachen.sections.filter((s) => s.id === "karte").map((s) => ({ href: `${navSprachen.href}#${s.id}`, titleKey: s.titleKey, title: s.title })),
         { href: navDialekte.href, titleKey: navDialekte.titleKey, title: navDialekte.title },
