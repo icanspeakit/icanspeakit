@@ -6,7 +6,7 @@ import { setWaiting } from "../notReady.js";
 import { t, onUiText } from "../uiText.js";
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-const LOGIN = `/anmelden?next=${encodeURIComponent("/spiele/hoer-safari#bestenliste")}`;
+const LOGIN = `/anmelden?next=${encodeURIComponent("/games/listening-safari#bestenliste")}`;
 const karten = (k) => (k === "bild" ? t("hs.cards.bild", "Bilder") : k === "wort" ? t("hs.cards.wort", "Wörter") : k);
 
 export function mountBoard(el) {

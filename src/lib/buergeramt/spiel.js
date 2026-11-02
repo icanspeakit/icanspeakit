@@ -1,4 +1,4 @@
-// Bruno's Front Desk (/spiele/buergeramt): Bruno, our dachshund, works desk 3 at Brambleford
+// Bruno's Front Desk (/games/front-desk): Bruno, our dachshund, works desk 3 at Brambleford
 // Town Hall, where residents apply for a resident parking permit. The number display dings, a
 // customer slides papers across the desk, and the player checks them against Regi's rule memo:
 // find what contradicts (Check), ask a question in English, then stamp APPROVED or REJECTED.

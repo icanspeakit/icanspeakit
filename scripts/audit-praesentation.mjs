@@ -6,7 +6,7 @@
 //   node scripts/audit-praesentation.mjs b1-1 b1-2  other plan levels
 //
 // It builds every plan of those levels (every block, 1–6 Stunden) the way
-// /lehrkraefte/stundenplan does, collects every material link, and checks each one.
+// /teachers/timetable does, collects every material link, and checks each one.
 // Loads the site's modules through Vite, because they import JSON and use import.meta.glob.
 // Prints Markdown to stdout.
 import { readFileSync, readdirSync } from "node:fs";

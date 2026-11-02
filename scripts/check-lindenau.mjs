@@ -1,4 +1,4 @@
-// check:lindenau — the dialogues of /spiele/lindenau (src/lib/lindenau/quests.js) hold
+// check:lindenau — the dialogues of /games/brambleford (src/lib/lindenau/quests.js) hold
 // together: every turn has a German line and its English help, every `choose` has exactly
 // one right reply and a why for each wrong one, every `build`/`say` is a sentence the tiles can
 // actually make (alts too), distractor tiles are not part of the sentence, and every icon

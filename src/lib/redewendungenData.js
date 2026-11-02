@@ -1,4 +1,4 @@
-// Redewendungen & Sprichwörter (/wissen/redewendungen): the entries from
+// Redewendungen & Sprichwörter (/knowledge/idioms): the entries from
 // src/data/redewendungen.json with their theme attached, in page order. Build side only (it
 // imports the whole JSON); the browser gets what it needs as data attributes.
 //
@@ -48,7 +48,7 @@ export function prevNext(e) {
   return { prev: list[(i - 1 + list.length) % list.length], next: list[(i + 1) % list.length] };
 }
 
-export const hrefOf = (e) => `/wissen/redewendungen/${e.id}`;
+export const hrefOf = (e) => `/knowledge/idioms/${e.id}`;
 export const emojiSrc = (code) => `/img/openmoji/${code}.svg`;
 
 /** The key word to gap in „Complete“: the longest word that carries the picture, leaving

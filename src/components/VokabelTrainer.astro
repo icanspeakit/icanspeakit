@@ -2,8 +2,8 @@
 // The flashcard trainer's shell, shared by every deck that mounts it.
 //
 // Lifted out of src/pages/wortschatz.astro when the nav's Niveaus menu gained
-// per-level word lists: /wortschatz (the curated Redemittel deck) and
-// /wortschatz/a1 (the lexicon's A1 words) are the same tool over different
+// per-level word lists: /vocabulary (the curated Redemittel deck) and
+// /vocabulary/a1 (the lexicon's A1 words) are the same tool over different
 // cards, and a second copy of this markup would have drifted from the first inside a
 // week. The page decides which cards to hand over; everything below is identical.
 //
@@ -61,10 +61,10 @@ interface Props {
    * a level added tomorrow with no translations yet drops back to `en` on its own.
    */
   langs?: string[];
-  /** The deck's printable sheet (/wortschatz/drucken/<set>), offered in the Wortliste tab. */
+  /** The deck's printable sheet (/vocabulary/print/<set>), offered in the Wortliste tab. */
   printHref?: string;
   /**
-   * Cards come at runtime, not from the build (a teacher's private set, /lehrkraefte/karten/lernen):
+   * Cards come at runtime, not from the build (a teacher's private set, /teachers/cards/learn):
    * the page fills #fc-data / #fc-langs and sets `window.__vtCardsReady` + fires `vt:cards`.
    */
   runtime?: boolean;
@@ -111,7 +111,7 @@ const ALL_LANGUAGES = [
     deName: l.de,
     deInto: `${l.de}e`,
     ...(l.dir === "rtl" ? { rtl: true } : {}),
-    // Glosses not in fc-data: wortschatz-app.js loads /wortschatz/glossen/<code>.json on first use.
+    // Glosses not in fc-data: wortschatz-app.js loads /vocabulary/glosses/<code>.json on first use.
     ...(l.surfaces.cards?.fetch ? { fetch: true } : {}),
   })),
   // Not a translation: a synonym or a short explanation in simple German (lexicon.js deHint).

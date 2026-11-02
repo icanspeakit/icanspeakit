@@ -1,6 +1,6 @@
-// „Als Aufgabe stellen“ on /lehrkraefte/stundenplan (SCHUELER-STUNDE Tier 3): one Stunde of the
+// „Als Aufgabe stellen“ on /teachers/timetable (SCHUELER-STUNDE Tier 3): one Stunde of the
 // plan, with the plan's exact key (its count and length of Stunden), as homework for a class.
-// The class walks it alone on /stunde; it is done when a student finishes the Stunde
+// The class walks it alone on /lesson; it is done when a student finishes the Stunde
 // (lernseite.js logs one attempt with the ref, aufgabenStatus.js counts it).
 //
 // A small modal <dialog>: class, due date, „Aufgabe stellen“. Browser only; the button that
@@ -57,7 +57,7 @@ export async function openStundeAufgabe({ key, name }) {
   if (!klassen.length) {
     dlg.innerHTML = `<div class="sa-body"><h2 id="sa-title">Set as homework</h2>
       <p>For this you need a class. Learners join with a code.</p>
-      <div class="sa-row"><button type="button" class="lp-btn lp-btn--outline" data-sa-close>Close</button><a class="lp-btn lp-btn--primary" href="/lehrkraefte/klassen">Create a class</a></div></div>`;
+      <div class="sa-row"><button type="button" class="lp-btn lp-btn--outline" data-sa-close>Close</button><a class="lp-btn lp-btn--primary" href="/teachers/classes">Create a class</a></div></div>`;
     dlg.querySelector("[data-sa-close]").addEventListener("click", () => dlg.close());
     return;
   }
@@ -85,7 +85,7 @@ export async function openStundeAufgabe({ key, name }) {
       const kname = klassen.find((k) => k.id === klasseId)?.name ?? "";
       dlg.innerHTML = `<div class="sa-body"><h2 id="sa-title">Homework set</h2>
         <p>${esc(kname)} will see “${esc(name)}” under “Exercises” and in their account.</p>
-        <div class="sa-row"><button type="button" class="lp-btn lp-btn--outline" data-sa-close>Close</button><a class="lp-btn lp-btn--primary" href="/lehrkraefte/klassen/klasse?id=${encodeURIComponent(klasseId)}">Go to the class</a></div></div>`;
+        <div class="sa-row"><button type="button" class="lp-btn lp-btn--outline" data-sa-close>Close</button><a class="lp-btn lp-btn--primary" href="/teachers/classes/class?id=${encodeURIComponent(klasseId)}">Go to the class</a></div></div>`;
       dlg.querySelector("[data-sa-close]").addEventListener("click", () => dlg.close());
     } catch (x) {
       go.disabled = false;

@@ -1,5 +1,5 @@
 // Everything in the Nachschlagewerk as one flat list of entries, for the search box on
-// /nachschlagewerk and the "Nachschlagewerk" hits in the nav search (searchIndex.js).
+// /reference and the "Nachschlagewerk" hits in the nav search (searchIndex.js).
 //
 // An entry is [label, sub, href, kind, keys]: what the row says, a short preview, where it
 // goes, which page it belongs to (KINDS), and extra words it is found by ("ging" for gehen),
@@ -10,6 +10,7 @@
 // grammatik/[ref].astro), a word class or a Typische-Fehler pair on its card (#id).
 import { verbs, verbHref } from "./verbtabellen.js";
 import { nouns } from "./lexicon.js";
+import { refPath } from "./routes.js";
 import { fehlerPairs } from "./typischeFehler.js";
 import wortarten from "../data/wortarten.json";
 import starkSchwach from "../data/nachschlagen/starke-schwache-verben.json";
@@ -47,15 +48,15 @@ export function nachschlagenEntries({ nouns: withNouns = true } = {}) {
       for (const it of s.items) {
         if (typeof it === "string") continue;
         const label = plain(it[0]);
-        out.push([label, it[1] ?? "", `/grammatik/${ref}?q=${encodeURIComponent(label)}`, kind, ""]);
+        out.push([label, it[1] ?? "", `${refPath(ref)}?q=${encodeURIComponent(label)}`, kind, ""]);
       }
     }
   }
   for (const c of wortarten.classes) {
-    out.push([c.name, c.also ?? "", `/grammatik/wortarten#${c.id}`, "wortart", c.also ?? ""]);
+    out.push([c.name, c.also ?? "", `/grammar/parts-of-speech#${c.id}`, "wortart", c.also ?? ""]);
   }
   for (const p of fehlerPairs) {
-    out.push([`${p.a.w} or ${p.b.w}`, strip(p.why ?? ""), `/grammatik/typische-fehler#${p.id}`, "fehler", ""]);
+    out.push([`${p.a.w} or ${p.b.w}`, strip(p.why ?? ""), `/grammar/common-mistakes#${p.id}`, "fehler", ""]);
   }
   if (withNouns) {
     const seen = new Set();
@@ -64,7 +65,7 @@ export function nachschlagenEntries({ nouns: withNouns = true } = {}) {
       seen.add(n.lemma);
       const head = n.gender ? `${n.gender} ${n.lemma}` : `die ${n.lemma}`;
       out.push([head, n.plural ? `Plural: die ${n.plural}` : (n.gender ? "kein Plural" : "nur Plural"),
-        `/grammatik/deklination?wort=${encodeURIComponent(n.lemma)}`, "nomen", n.plural ?? ""]);
+        `/grammar/deklination?wort=${encodeURIComponent(n.lemma)}`, "nomen", n.plural ?? ""]);
     }
   }
   return out;

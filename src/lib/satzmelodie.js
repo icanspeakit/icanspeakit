@@ -293,7 +293,7 @@ export function melodyChart(ref, you) {
   </svg>`;
 }
 
-// ---- /satzmelodie: the same analysis for its own lines ----------------------------------
+// ---- /intonation: the same analysis for its own lines ----------------------------------
 
 /** Reference contour of any recording, by URL, computed once per visit. */
 const urlCache = new Map();

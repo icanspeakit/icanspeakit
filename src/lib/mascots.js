@@ -14,12 +14,12 @@
 //       Hamsti, Regi and Quaki got theirs so the Landeskunde comics can show a mood).
 // view: front | three (a ¾ turn of the face)
 // extra: schleife | fliege — an accessory for a "sie" and an "er" version of the same
-//       mascot (the Frau | Mann dictionary on /kultur/insider). Every mascot has both;
+//       mascot (the Frau | Mann dictionary on /culture/insider). Every mascot has both;
 //       Regi wears a bow tie anyway, so her "sie" turns it pink and adds the head bow.
-//       klemmbrett — Bruno only: the clipboard he holds in the teacher area (/lehrkraefte),
+//       klemmbrett — Bruno only: the clipboard he holds in the teacher area (/teachers),
 //       BRUNO-LEHRKRAEFTE-STICKER-TIERED-PROMPT.md. Nowhere else.
 //       pfeife | stoppuhr | megafon | pokal | ballon | zeigestock | bleistift | lupe |
-//       mikrofon | karten — one prop per „So funktioniert's" film (/entdecken/filme), so no
+//       mikrofon | karten — one prop per „So funktioniert's" film (/explore/films), so no
 //       two films show the same figure. Any mascot can hold one (the whistle is Bruno's).
 //       Each moving part has a class (mx-…); MascotGuide.astro animates them.
 //       blaster — Hamsti only: no „Aa“ card and no front paws; Hör-Safari draws the paws on

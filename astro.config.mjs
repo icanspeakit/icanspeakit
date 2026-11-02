@@ -1,24 +1,61 @@
 // @ts-check
-import { readdirSync } from 'node:fs';
+import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import postcssRTLCSS from 'postcss-rtlcss';
-import { legacyRedirects } from './src/lib/routes.js';
+import { legacyRedirects, ROUTE_RENAMES, germanPath, topicSlug, refSlug } from './src/lib/routes.js';
 import sitemap from './src/integrations/sitemap.mjs';
 import baseLanguage from './src/integrations/base-language.mjs';
 import entryPages from './src/integrations/entry-pages.mjs';
 import llmsTxt from './src/integrations/llms-txt.mjs';
 
-/** /grammatik/<thema> → /<thema>, for topics with no page of their own under /grammatik. */
+const r301 = (destination) => ({ status: 301, destination });
+
+/* Grammar topics: the old top-level /<German key> and /grammatik/<key>, plus the guessed
+ * /grammar/<slug>, all land on /<English slug>. Keys are the workspaces' `slug ?? id`. */
 function grammarTopicRedirects() {
-  const slugs = (dir) => readdirSync(new URL(dir, import.meta.url)).filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5));
+  const dir = new URL('./src/data/grammatik/', import.meta.url);
+  const keys = readdirSync(dir).filter((f) => f.endsWith('.json'))
+    .map((f) => JSON.parse(readFileSync(new URL(f, dir), 'utf8')))
+    .map((w) => w.slug ?? w.id);
+  // Pages and reference tables under /grammar win over a guessed topic address.
   const taken = new Set([
-    ...slugs('./src/data/nachschlagen/'),
-    ...readdirSync(new URL('./src/pages/grammatik/', import.meta.url)).map((f) => f.replace(/\.astro$/, '')),
+    ...readdirSync(new URL('./src/data/nachschlagen/', import.meta.url)).flatMap((f) => [f.replace(/\.json$/, ''), refSlug(f.replace(/\.json$/, ''))]),
+    ...readdirSync(new URL('./src/pages/grammar/', import.meta.url)).map((f) => f.replace(/\.astro$/, '')),
   ]);
-  return Object.fromEntries(
-    slugs('./src/data/grammatik/').filter((s) => !taken.has(s)).map((s) => [`/grammatik/${s}`, { status: 301, destination: `/${s}` }]),
-  );
+  const out = {};
+  for (const key of keys) {
+    const to = `/${topicSlug(key)}`;
+    if (key !== topicSlug(key)) out[`/${key}`] = r301(to);
+    if (!taken.has(key)) out[`/grammatik/${key}`] = r301(to);
+    if (!taken.has(topicSlug(key))) out[`/grammar/${topicSlug(key)}`] = r301(to);
+  }
+  return out;
+}
+
+/* German → English routes (content-plan §6, src/lib/routes.js): every page under a renamed
+ * path, with its [params], redirects from the old address; plus every pair of the table
+ * itself (old hubs and subpaths without a page file of their own). JSON endpoints are left
+ * out: only the site's own scripts fetch them, and those use the new paths. */
+function englishRedirects() {
+  const pagesDir = fileURLToPath(new URL('./src/pages/', import.meta.url));
+  const routes = [];
+  const walk = (dir, base) => {
+    for (const f of readdirSync(dir)) {
+      const p = `${dir}/${f}`;
+      if (statSync(p).isDirectory()) walk(p, `${base}/${f}`);
+      else if (f.endsWith('.astro')) routes.push(`${base}/${f.replace(/\.astro$/, '')}`.replace(/\/index$/, '') || '/');
+    }
+  };
+  walk(pagesDir.replace(/[\\/]$/, ''), '');
+  const out = {};
+  for (const [from, to] of ROUTE_RENAMES) out[from] = r301(to);
+  for (const route of routes) {
+    const old = germanPath(route);
+    if (old !== route) out[old] = r301(route);
+  }
+  return out;
 }
 
 /* The live domain: canonical URLs, og:url, /sitemap.xml. Set SITE_URL when the real domain
@@ -55,23 +92,25 @@ export default defineConfig({
   // names. They are now one page at /fortschritt; this keeps old links, bookmarks and
   // anything already shared working instead of 404ing.
   redirects: {
-    '/dashboard': '/fortschritt',
+    '/dashboard': '/progress',
     // /v2 tested practising inside the dashboard (the focus layout). Retired with the
     // inline exercises — see FORTSCHRITT-KARTE-PROMPT.md.
-    '/v2': '/fortschritt',
+    '/v2': '/progress',
     // The easy-mode prototype became „Einfach lernen" (EINFACH-LERNEN-TIERED-PROMPT.md,
     // Tier 0). A real 301 keeps the #/… screen: browsers carry the fragment across it.
-    '/leicht': { status: 301, destination: '/einfach' },
-    // The films of how it all works were a dock-only page first; now they sit under Entdecken.
-    '/intern/filme': { status: 301, destination: '/entdecken/filme' },
+    '/leicht': { status: 301, destination: '/step-by-step' },
+    // The films of how it all works were a dock-only page first; now they sit under Explore.
+    '/intern/filme': { status: 301, destination: '/explore/films' },
+    // The German routes of the fork → the English ones (src/lib/routes.js, ROUTE_RENAMES).
+    ...englishRedirects(),
     // The flat URLs (/uebungen/grammatik/artikel → /artikel, /pruefungen/telc → /telc …):
     // every old address keeps working as a 301. The table lives in src/lib/routes.js.
     // /aussprache used to redirect to the scored check; it is the Aussprache page itself now,
     // and the check is at /aussprache-check.
     ...legacyRedirects(),
-    // A grammar topic lives at /<thema>, but /grammatik/<thema> is the address people
-    // guess. Every topic that isn't also a page under /grammatik (the Nachschlagewerk
-    // tables, Wortarten, Verben) redirects instead of 404ing.
+    // A grammar topic lives at /<slug>, but /grammar/<slug> is the address people guess;
+    // the German keys (/praesens, /grammatik/praesens) were the addresses until 2026-11-02.
+    // Every one that isn't also a page under /grammar redirects instead of 404ing.
     ...grammarTopicRedirects(),
     ...ACCOUNT_REDIRECTS,
   },

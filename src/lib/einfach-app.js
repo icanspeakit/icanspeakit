@@ -1,4 +1,4 @@
-/* Einfach lernen (/einfach) — the brain: which unit comes next, what the learner can do,
+/* Einfach lernen (/step-by-step) — the brain: which unit comes next, what the learner can do,
  * and the little state that is only this mode's.
  *
  * Started as a UX study (one thing at a time, no totals, progress as something the

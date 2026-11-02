@@ -153,20 +153,20 @@ async function speak(text, { slow = false } = {}) {
 }
 
 // A sentence may bring its own files (`src`, and `srcSlow` for a slow take, as on
-// /zungenbrecher); otherwise its reference recording lives in /audio/aussprache-check/.
+// /tongue-twisters); otherwise its reference recording lives in /audio/aussprache-check/.
 async function playSentence(s, { slow = false } = {}) {
   stopAudio();
   if (s.audio) {
     const a = new Audio((slow && s.srcSlow) || s.src || `/audio/aussprache-check/${s.id}.mp3`);
     currentAudio = a;
-    // For a page that draws along (the melody playhead on /zungenbrecher).
+    // For a page that draws along (the melody playhead on /tongue-twisters).
     window.dispatchEvent(new CustomEvent("da:ac-play", { detail: { audio: a, sentence: s, slow } }));
     try { await a.play(); return; } catch { /* file missing or blocked: speak it instead */ }
   }
   await speak(s.text, { slow });
 }
 
-/** Plays another take of sentence `s` (the dialect take on /zungenbrecher) through the same
+/** Plays another take of sentence `s` (the dialect take on /tongue-twisters) through the same
  *  single player, so it stops whatever plays and the next take stops it. No spoken fallback:
  *  the promise rejects when the file cannot play. `take` names it in the da:ac-play event. */
 export function playTake(s, url, take) {
@@ -183,7 +183,7 @@ export function playTake(s, url, take) {
 // the model has been heard once (and plays it by itself when the learner moves on).
 // `onResult(overall, sentence)` after each scored take. `onChange(levelIndex, index)` runs
 // whenever another sentence is shown; the returned
-// `select(levelIndex, index)` opens one from outside (the list on /zungenbrecher).
+// `select(levelIndex, index)` opens one from outside (the list on /tongue-twisters).
 export function mountAusspracheCheck(root, data) {
   const POS = data.posKey || POS_KEY;
   const BEST = data.bestKey || BEST_KEY;

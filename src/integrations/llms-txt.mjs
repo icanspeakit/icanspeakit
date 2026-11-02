@@ -17,12 +17,12 @@ import { htmlFiles, toPathname, NOINDEX, REFRESH } from './sitemap.mjs';
 
 /** Headings and the pages under them. `/x/*` = every built page below /x as well. */
 const SECTIONS = [
-  ['Einstieg', ['/einstufungstest', '/einfach', '/uebungen', '/fortschritt']],
-  ['Grammatik und Wortschatz', ['/grammatik', '/wortschatz', '/konjugation', '/aussprache']],
-  ['Fertigkeiten', ['/fertigkeiten', '/sprechen', '/hoeren', '/lesen', '/schreiben']],
-  ['Prüfungen', ['/pruefungen', '/goethe', '/goethe/*', '/telc', '/telc/*', '/dtz', '/dtz/*', '/testdaf', '/leben-in-deutschland']],
-  ['Alltag, Beruf und Landeskunde', ['/berufe', '/fuehrerschein', '/kultur', '/wissen', '/wissen/wortgeschichte']],
-  ['Für Lehrkräfte', ['/lehrkraefte']],
+  ['Einstieg', ['/placement-test', '/step-by-step', '/exercises', '/progress']],
+  ['Grammatik und Wortschatz', ['/grammar', '/vocabulary', '/present-continuous', '/pronunciation']],
+  ['Fertigkeiten', ['/skills', '/speaking', '/listening', '/reading', '/writing']],
+  ['Prüfungen', ['/exams', '/cambridge', '/cambridge/*', '/trinity', '/trinity/*', '/trinity/ise-1', '/trinity/ise-1/*', '/ielts', '/life-in-the-uk']],
+  ['Alltag, Beruf und Landeskunde', ['/english-for-work', '/fuehrerschein', '/culture', '/knowledge', '/knowledge/word-stories']],
+  ['Für Lehrkräfte', ['/teachers']],
   // The entry pages with their own URL per language (./entry-pages.mjs): the home of each.
   ['In anderen Sprachen', ['/es', '/pt-br', '/vi', '/hi', '/id', '/tl']],
 ];

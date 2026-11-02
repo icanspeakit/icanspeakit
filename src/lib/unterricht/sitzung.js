@@ -48,7 +48,7 @@ export async function sitzungSpeichern(id, row) {
 
 /**
  * The teacher's sessions for one plan (all its Stunden), newest first, each with its
- * class's name: the progress lines on /lehrkraefte/stundenplan.
+ * class's name: the progress lines on /teachers/timetable.
  */
 export async function planFortschritt(k) {
   const { data, error } = await sb().from(TABLE).select(`${COLS}, klassen(name, archiviert)`)

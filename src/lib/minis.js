@@ -1,4 +1,4 @@
-// The Mini-Crew: small sidekick animals for /zungenbrecher (fish, goat, snail …). They are
+// The Mini-Crew: small sidekick animals for /tongue-twisters (fish, goat, snail …). They are
 // deliberately NOT mascots: a round sticker, a thin outline and no moods, so they never
 // compete with Bruno, Regi, Hamsti and Quaki (src/lib/mascots.js). Each one only says the
 // sound its animal makes — English onomatopoeia is a small lesson of its own.

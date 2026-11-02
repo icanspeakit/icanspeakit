@@ -1,6 +1,6 @@
 ---
 // „Als Live-Quiz für die Klasse" — the way from a chapter page to the builder
-// (/lehrkraefte/quiz/erstellen), with that chapter already chosen (?kapitel=).
+// (/teachers/quiz/create), with that chapter already chosen (?kapitel=).
 //
 // Teachers only, and learners must not pay for it: the link ships `hidden`, and the
 // script below unhides it only when the account says teacher (user_metadata.teacher,
@@ -11,7 +11,7 @@
 //
 // Rendered only for a chapter the builder actually offers (chapterList(): drafts and
 // topics without askable items have no chapter JSON), and never in the Android app,
-// whose build drops /lehrkraefte (scripts/build-app.mjs).
+// whose build drops /teachers (scripts/build-app.mjs).
 import { hasChapter } from "../lib/liveQuiz/chapters.js";
 
 interface Props {
@@ -24,7 +24,7 @@ interface Props {
 const { chapter, bar = false } = Astro.props;
 const web = import.meta.env.PUBLIC_TARGET !== "app";
 const show = web && hasChapter(chapter);
-const href = `/lehrkraefte/quiz/erstellen?kapitel=${encodeURIComponent(chapter)}`;
+const href = `/teachers/quiz/create?kapitel=${encodeURIComponent(chapter)}`;
 ---
 {/* A <div>, not a <p>: the grammar hero hides its paragraphs on phones (practice CSS). */}
 {show && (

@@ -1,6 +1,6 @@
 /* Dummy progress, for looking at the filled-in state of a page.
  *
- * Every number on /dashboard, /fortschritt and the resume cards is derived from real
+ * Every number on /dashboard, /progress and the resume cards is derived from real
  * recorded activity (see the note at the top of progress.js), which is the right rule and
  * also means a fresh browser shows 0 % everywhere. That is the honest empty state, but it
  * is not the state most of the layout was designed for — a ring at 0 %, five bars at zero
@@ -14,6 +14,8 @@
  * already rendering ({ id: { tasks } }), so every bar that fills is a bar that exists, and a
  * renamed topic shows up as a topic that stays empty rather than as a phantom row.
  */
+
+import { topicPath } from "./routes.js";
 
 const STORE_KEY = "da_progress_v1";
 const NAME_KEY = "da_display_name";
@@ -112,9 +114,9 @@ export function seedProgress(items = {}, { streak = 6, days = 24, seed = 7 } = {
     drills: { dativ: { said: 12, sure: 9 }, "artikel-trainer": { said: 20, sure: 14 } },
     // What the "Weitermachen" card is built from. Real routes, so the card links somewhere.
     recents: [
-      { path: "/dativ", title: "Dativ", n: 3, at: today },
-      { path: "/wortschatz/a1-01", title: "Personal details & introductions", n: 2, at: daysAgoStr(1) },
-      { path: "/artikel", title: "Artikel-Trainer", n: 5, at: daysAgoStr(2) },
+      { path: "/two-objects", title: "Dativ", n: 3, at: today },
+      { path: "/vocabulary/a1-01", title: "Personal details & introductions", n: 2, at: daysAgoStr(1) },
+      { path: "/articles", title: "Artikel-Trainer", n: 5, at: daysAgoStr(2) },
     ],
   };
 
@@ -189,9 +191,9 @@ export function fillProgress(items = {}, { accuracy = 0.8, streak = 12, days = 3
     topics,
     drills: { dativ: { said: 40, sure: 36 }, "artikel-trainer": { said: 60, sure: 54 } },
     recents: [
-      { path: "/dativ", title: "Dativ", n: 9, at: today },
-      { path: "/wortschatz/a1-01", title: "Personal details & introductions", n: 7, at: today },
-      { path: "/artikel", title: "Artikel-Trainer", n: 12, at: daysAgoStr(1) },
+      { path: "/two-objects", title: "Dativ", n: 9, at: today },
+      { path: "/vocabulary/a1-01", title: "Personal details & introductions", n: 7, at: today },
+      { path: "/articles", title: "Artikel-Trainer", n: 12, at: daysAgoStr(1) },
     ],
   };
 
@@ -210,7 +212,7 @@ export function clearSeed() {
 }
 
 /* ---- Meine Fehler ----------------------------------------------------------------------
-   A plausible list for /meine-fehler (fehler.js reads it): real topics with their real
+   A plausible list for /my-mistakes (fehler.js reads it): real topics with their real
    names, levels and hrefs, as grammarWorkspace.js and dtzTrainer.js would record them —
    some repeated, a few already fixed, spread over the last two weeks. */
 const FEHLER_KEY = "da_fehler_v1";
@@ -244,7 +246,7 @@ export function seedFehler() {
     given,
     level,
     topic,
-    href: `/${slug}#uebung-1`,
+    href: `${topicPath(slug)}#uebung-1`,
     times,
     at: now - i * day - (i % 3) * 3600000,
     fixed: i % 4 === 3,

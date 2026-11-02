@@ -1,4 +1,4 @@
-// The verb tables behind /grammatik/verben (the "mini grammar") and the search lens's
+// The verb tables behind /grammar/verbs (the "mini grammar") and the search lens's
 // verb-table hits. Data: src/data/verbtabellen.json.
 //
 // A regular verb is stored as `regular: true` and its forms are worked out here. Every form
@@ -77,4 +77,4 @@ function build(v) {
 export const groups = data.groups;
 export const verbs = data.verbs.map(build);
 
-export const verbHref = (v) => `/grammatik/verben#${v.id}`;
+export const verbHref = (v) => `/grammar/verbs#${v.id}`;

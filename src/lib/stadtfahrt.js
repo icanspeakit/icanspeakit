@@ -1,4 +1,4 @@
-// Stadtfahrt (/spiele/stadtfahrt): a top-down town the learner drives through with the arrow
+// Stadtfahrt (/games/stadtfahrt): a top-down town the learner drives through with the arrow
 // keys (or the four buttons on a phone). One crossing at a time carries a „?" sign; driving
 // into it stops the car and asks a question from the own Führerschein bank
 // (/fuehrerschein/fragen.json, type mc1, no scene pictures). ROUNDS questions per drive.

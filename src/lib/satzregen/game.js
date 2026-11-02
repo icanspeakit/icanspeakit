@@ -1,4 +1,4 @@
-// Regis Satzregen (/spiele/satzregen): the page side. Builds the markup, reads keys, taps and
+// Regis Satzregen (/games/sentence-rain): the page side. Builds the markup, reads keys, taps and
 // swipes, runs the fixed-step loop of engine.js and draws its state into the DOM.
 //
 // DOM, not canvas (docs/satzregen-tier0-v1.md): the pieces are text. The board is a stack of

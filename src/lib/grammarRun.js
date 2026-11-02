@@ -1,4 +1,4 @@
-/* The guided run (/grammatik/lauf).
+/* The guided run (/grammar/path).
  *
  * The grammar hub is a wall of 27 cards across four levels. That is the right shape for
  * someone who knows what they are looking for, and the wrong shape for everyone else:
@@ -128,7 +128,7 @@ export function mountGrammarRun(root, topics) {
       onAnswer: (ok) => {
         // The URL slug, as on the topic page and on /dashboard. topic.id is the raw id,
         // and for Verben mit Präpositionen ("praepositionen") it collides with the
-        // separate /praepositionen trainer.
+        // separate /prepositions trainer.
         recordAttempt({ skill: "grammatik", correct: ok, topic: topicKeyOf(topic) });
         // "Weiter" appears once there is something to move on from, rather than sitting
         // there from the start inviting you to skip the exercise you just opened.

@@ -1,0 +1,361 @@
+---
+// /start — draft: tidied-up homepage + slim menu (EXPERIMENTE.md).
+// Only a mock: its own menu, no shared components, noindex. English text only.
+import Layout from "../layouts/Layout.astro";
+
+const menu = [
+  {
+    id: "ueben", label: "Practise", href: "/exercises",
+    cols: [
+      { title: "Language", links: [
+        ["/grammar", "Grammar", "All topics from A1 to C1"],
+        ["/vocabulary", "Vocabulary", "Words by topic and level"],
+        ["/articles", "a, an, the", "Article trainer"],
+      ]},
+      { title: "Skills", links: [
+        ["/listening", "Listening", ""],
+        ["/speaking/", "Speaking & pronunciation", ""],
+        ["/reading", "Reading & writing", ""],
+      ]},
+    ],
+    extra: ["/games/brambleford", "🎮 Prefer to play? Go to the games"],
+    all: ["/exercises", "All exercises"],
+  },
+  {
+    id: "pruefungen", label: "Exams", href: "/exams",
+    cols: [
+      { title: "Language exams", links: [
+        ["/cambridge", "Cambridge English", "A2 Key to C2 Proficiency"],
+        ["/trinity", "Trinity ISE", ""],
+        ["/trinity/ise-1", "Trinity ISE I", "Practice set"],
+        ["/ielts", "IELTS", ""],
+      ]},
+      { title: "For life in the UK", links: [
+        ["/life-in-the-uk", "Life in the UK test", "For settlement and citizenship"],
+        ["/fuehrerschein", "Driving", "Theory test"],
+      ]},
+    ],
+    all: ["/exams", "All exams"],
+  },
+  {
+    id: "leben", label: "Life in the UK", href: "/knowledge",
+    cols: [
+      { title: "Country & culture", links: [
+        ["/culture", "Culture & everyday life", "What people really mean"],
+        ["/politik", "Politics in the UK", ""],
+        ["/knowledge/accents", "Accents", "The map"],
+      ]},
+      { title: "Look things up", links: [
+        ["/reference", "Reference", "Verb tables, word classes"],
+        ["/knowledge/slang", "Informal English", ""],
+      ]},
+    ],
+    all: ["/knowledge", "Everything about country & culture"],
+  },
+];
+
+const levels = ["A1", "A2", "B1", "B2", "C1"];
+
+const paths = [
+  { icon: "/email/hamsti.png", title: "Practise English", text: "Grammar, words, listening and speaking. Short exercises, instant feedback.",
+    links: [["/grammar", "Grammar"], ["/vocabulary", "Vocabulary"], ["/articles", "a, an, the"]], href: "/exercises", cta: "Go to the exercises" },
+  { icon: "/email/regi.png", title: "Pass your exam", text: "Real exam formats with timing, scores and an explanation for every answer.",
+    links: [["/cambridge", "Cambridge"], ["/trinity", "Trinity ISE"], ["/trinity/ise-1", "ISE I"]], href: "/exams", cta: "Go to the exams" },
+  { icon: "/email/quaki.png", title: "Live in the UK", text: "The Life in the UK test, driving, offices and everyday life. What you really need.",
+    links: [["/life-in-the-uk", "Life in the UK test"], ["/fuehrerschein", "Driving"], ["/culture", "Culture"]], href: "/knowledge", cta: "Find out more" },
+];
+---
+<Layout title="Homepage – draft" noindex>
+  <div class="sn" lang="en">
+    <p class="sn-draft">Draft · for viewing only · <a href="/">current homepage</a></p>
+
+    <!-- MENÜ: 3 Bereiche + Lehrkräfte, Suche, ein Haupt-Knopf -->
+    <header class="sn-nav">
+      <div class="sn-nav-in">
+        <a href="/start" class="sn-logo"><img src="/assets/logo.png" alt="EnglishAcademy" /></a>
+
+        <nav class="sn-menu" aria-label="Main menu">
+          {menu.map((m) => (
+            <div class="sn-item" data-item>
+              <button class="sn-top" aria-expanded="false" data-top>{m.label} <span aria-hidden="true">▾</span></button>
+              <div class="sn-panel" hidden data-panel>
+                <div class="sn-cols">
+                  {m.cols.map((c) => (
+                    <div>
+                      <p class="sn-col-title">{c.title}</p>
+                      <ul>
+                        {c.links.map(([href, t, s]) => (
+                          <li><a href={href}><strong>{t}</strong>{s && <span>{s}</span>}</a></li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+                <div class="sn-panel-foot">
+                  {m.extra && <a href={m.extra[0]} class="sn-extra">{m.extra[1]}</a>}
+                  <a href={m.all[0]} class="sn-all">{m.all[1]} →</a>
+                </div>
+              </div>
+            </div>
+          ))}
+          <a href="/teachers" class="sn-top sn-top--link">For teachers</a>
+        </nav>
+
+        <div class="sn-right">
+          <button class="sn-icon" aria-label="Search" title="Search">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          </button>
+          <a href="/anmelden" class="sn-login">Log in</a>
+          <a href="/placement-test" class="sn-btn sn-btn--sm">Test your level</a>
+          <button class="sn-burger" aria-label="Menu" aria-expanded="false" data-burger>
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Phone: the same 3 areas as an accordion -->
+      <div class="sn-drawer" hidden data-drawer>
+        {menu.map((m) => (
+          <details>
+            <summary>{m.label}</summary>
+            <ul>
+              {m.cols.flatMap((c) => c.links).map(([href, t]) => <li><a href={href}>{t}</a></li>)}
+              <li><a href={m.all[0]} class="sn-all">{m.all[1]} →</a></li>
+            </ul>
+          </details>
+        ))}
+        <a href="/teachers" class="sn-drawer-link">For teachers</a>
+        <a href="/placement-test" class="sn-btn">Test your level</a>
+      </div>
+    </header>
+
+    <main>
+      <!-- 1 · HERO: eine Frage statt Text -->
+      <section class="sn-hero">
+        <div class="sn-wrap sn-hero-in">
+          <div>
+            <h1>Learn English.<br /><span>Step by step.</span></h1>
+            <p class="sn-lead">Free exercises from A1 to C1. No account.</p>
+            <p class="sn-q">Where are you?</p>
+            <div class="sn-levels">
+              {levels.map((l) => <a href={`/grammar?niveau=${l.toLowerCase()}`} class="sn-level">{l}</a>)}
+              <a href="/placement-test" class="sn-level sn-level--test">Not sure → take the test (5 min)</a>
+            </div>
+          </div>
+          <img class="sn-hero-img" src="/email/bruno-happy.png" alt="" width="260" height="260" />
+        </div>
+      </section>
+
+      <!-- 2 · THREE PATHS instead of many tiles -->
+      <section class="sn-sec">
+        <div class="sn-wrap">
+          <h2>What are you planning?</h2>
+          <div class="sn-paths">
+            {paths.map((p) => (
+              <article class="sn-path">
+                <img src={p.icon} alt="" width="56" height="56" />
+                <h3>{p.title}</h3>
+                <p>{p.text}</p>
+                <ul class="sn-chips">
+                  {p.links.map(([href, t]) => <li><a href={href}>{t}</a></li>)}
+                </ul>
+                <a href={p.href} class="sn-path-cta">{p.cta} →</a>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- 3 · TRUST: one line -->
+      <section class="sn-trust">
+        <div class="sn-wrap sn-trust-in">
+          <p><strong>10 years</strong> of teaching</p>
+          <p><strong>A1–C1</strong> all levels</p>
+          <p><strong>Free</strong> no account</p>
+          <p><strong>11 languages</strong> for help</p>
+        </div>
+      </section>
+
+      <!-- 4 · TEACHERS: a section of their own, one band -->
+      <section class="sn-sec">
+        <div class="sn-wrap sn-teach">
+          <img src="/email/bruno-thinking.png" alt="" width="120" height="120" />
+          <div>
+            <h2>Do you teach English?</h2>
+            <p>Lesson-plan generator, classes, live quiz and pair exercises. All in one place.</p>
+          </div>
+          <a href="/teachers" class="sn-btn sn-btn--ghost">Go to the teachers’ area</a>
+        </div>
+      </section>
+
+      <!-- 5 · FINISH: premium in a line, one button -->
+      <section class="sn-final">
+        <div class="sn-wrap">
+          <h2>Ready? Find your level in 5 minutes.</h2>
+          <p>After that we only show you what suits you. <a href="/preise">See Premium</a></p>
+          <a href="/placement-test" class="sn-btn sn-btn--lg">Start the placement test</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="sn-foot">
+      <div class="sn-wrap sn-foot-in">
+        <p>Here for you!</p>
+        <nav>
+          <a href="/mascots">Bruno & the crew</a>
+          <a href="/merch">Merch</a>
+          <a href="/legal-notice">Legal notice</a>
+          <a href="/privacy">Privacy</a>
+        </nav>
+      </div>
+    </footer>
+  </div>
+</Layout>
+
+<script>
+  const items = [...document.querySelectorAll<HTMLElement>("[data-item]")];
+  const close = (except?: HTMLElement) => items.forEach((it) => {
+    if (it === except) return;
+    it.querySelector("[data-panel]")?.setAttribute("hidden", "");
+    it.querySelector("[data-top]")?.setAttribute("aria-expanded", "false");
+  });
+  const open = (it: HTMLElement) => {
+    close(it);
+    it.querySelector("[data-panel]")?.removeAttribute("hidden");
+    it.querySelector("[data-top]")?.setAttribute("aria-expanded", "true");
+  };
+  for (const it of items) {
+    let t: number | undefined;
+    it.addEventListener("mouseenter", () => { clearTimeout(t); open(it); });
+    it.addEventListener("mouseleave", () => { t = window.setTimeout(() => close(), 180); });
+    it.querySelector("[data-top]")?.addEventListener("click", () => {
+      // With a mouse, hover already opened it: a click must not close it again.
+      const isOpen = it.querySelector("[data-top]")?.getAttribute("aria-expanded") === "true";
+      if (isOpen && !matchMedia("(hover: hover)").matches) close(); else open(it);
+    });
+  }
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+  document.addEventListener("click", (e) => { if (!(e.target as Element).closest("[data-item]")) close(); });
+
+  const burger = document.querySelector<HTMLElement>("[data-burger]");
+  const drawer = document.querySelector<HTMLElement>("[data-drawer]");
+  burger?.addEventListener("click", () => {
+    const on = drawer?.hasAttribute("hidden");
+    on ? drawer?.removeAttribute("hidden") : drawer?.setAttribute("hidden", "");
+    burger.setAttribute("aria-expanded", String(!!on));
+  });
+</script>
+
+<style>
+  .sn { background: var(--page-bg); color: var(--ink); font-family: var(--font-body); min-height: 100vh; }
+  .sn a { color: inherit; }
+  .sn-wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  .sn-draft { margin: 0; padding: 6px 16px; text-align: center; font-size: 13px; background: var(--warning-soft); color: var(--ink); border-bottom: 1px solid var(--warning-border); }
+
+  /* Menü */
+  .sn-nav { position: sticky; top: 0; z-index: 50; background: var(--page-bg); border-bottom: 1px solid var(--border); }
+  .sn-nav-in { max-width: 1120px; margin: 0 auto; padding: 0 20px; height: 64px; display: flex; align-items: center; gap: 28px; }
+  .sn-logo img { height: 34px; display: block; }
+  .sn-menu { display: flex; align-items: center; gap: 4px; flex: 1; }
+  .sn-item { position: relative; }
+  .sn-top { font: 600 15px var(--font-label); background: none; border: 0; color: var(--ink); padding: 10px 12px; border-radius: var(--radius-sm); cursor: pointer; text-decoration: none; }
+  .sn-top span { font-size: 11px; color: var(--muted); }
+  .sn-top:hover, .sn-top[aria-expanded="true"] { background: var(--surface); }
+  .sn-panel { position: absolute; top: calc(100% + 8px); left: -8px; width: 520px; background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-raised); padding: 20px 22px 14px; }
+  .sn-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .sn-col-title { margin: 0 0 8px; font: 700 12px var(--font-label); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .sn-panel ul { list-style: none; margin: 0; padding: 0; }
+  .sn-panel li a { display: block; padding: 7px 8px; margin: 0 -8px; border-radius: var(--radius-sm); text-decoration: none; }
+  .sn-panel li a:hover { background: var(--surface); }
+  .sn-panel li strong { display: block; font: 600 15px var(--font-label); }
+  .sn-panel li span { display: block; font-size: 13px; color: var(--muted); }
+  .sn-panel-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); font: 600 14px var(--font-label); }
+  .sn-extra { color: var(--muted) !important; text-decoration: none; }
+  .sn-all { color: var(--brand-blue) !important; text-decoration: none; margin-left: auto; }
+  .sn-right { display: flex; align-items: center; gap: 10px; }
+  .sn-icon, .sn-burger { background: none; border: 0; color: var(--ink); padding: 8px; border-radius: var(--radius-sm); cursor: pointer; display: grid; place-items: center; }
+  .sn-icon:hover { background: var(--surface); }
+  .sn-login { font: 600 15px var(--font-label); text-decoration: none; padding: 8px 10px; }
+  .sn-burger { display: none; }
+
+  .sn-btn { display: inline-block; background: var(--accent); color: #fff !important; font: 700 16px var(--font-label); padding: 13px 22px; border-radius: var(--radius-pill); text-decoration: none; box-shadow: 0 6px 16px rgba(249,115,22,.28); text-align: center; }
+  .sn-btn:hover { background: var(--accent-dark); }
+  .sn-btn--sm { font-size: 14px; padding: 9px 16px; box-shadow: none; }
+  .sn-btn--lg { font-size: 18px; padding: 16px 30px; }
+  .sn-btn--ghost { background: transparent; color: var(--brand-blue) !important; border: 2px solid var(--brand-blue); box-shadow: none; }
+  .sn-btn--ghost:hover { background: var(--blue-50, #f0fdfa); }
+
+  .sn-drawer { border-top: 1px solid var(--border); padding: 8px 20px 20px; display: grid; gap: 4px; }
+  .sn-drawer[hidden] { display: none; }
+  .sn-drawer summary { font: 700 17px var(--font-label); padding: 14px 0; cursor: pointer; border-bottom: 1px solid var(--border); }
+  .sn-drawer ul { list-style: none; margin: 0; padding: 6px 0 10px 12px; }
+  .sn-drawer li a { display: block; padding: 9px 0; text-decoration: none; }
+  .sn-drawer-link { font: 700 17px var(--font-label); padding: 14px 0 18px; text-decoration: none; }
+
+  /* Hero */
+  .sn-hero { background: var(--gradient-brand-soft); padding: 72px 0 64px; }
+  .sn-hero-in { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 40px; }
+  .sn-hero h1 { font: 800 clamp(40px, 6vw, 68px)/1.02 var(--font-display); margin: 0 0 18px; letter-spacing: -.01em; }
+  .sn-hero h1 span { color: var(--brand-blue); }
+  .sn-lead { font-size: 19px; color: var(--muted); max-width: 520px; margin: 0 0 32px; }
+  .sn-q { font: 700 15px var(--font-label); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 12px; }
+  .sn-levels { display: flex; flex-wrap: wrap; gap: 10px; }
+  .sn-level { font: 700 18px var(--font-label); text-decoration: none; background: var(--surface-card); border: 2px solid var(--border-strong); border-radius: var(--radius); min-width: 64px; padding: 14px 16px; text-align: center; transition: all var(--duration-fast) var(--ease-standard); }
+  .sn-level:hover { border-color: var(--brand-blue); color: var(--brand-blue); transform: translateY(-2px); }
+  .sn-level--test { background: var(--accent); border-color: var(--accent); color: #fff !important; font-size: 16px; }
+  .sn-level--test:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+  .sn-hero-img { width: 260px; height: auto; }
+
+  /* Abschnitte */
+  .sn-sec { padding: 72px 0; }
+  .sn-sec h2, .sn-final h2 { font: 800 clamp(28px, 3.6vw, 40px)/1.1 var(--font-display); margin: 0 0 28px; }
+  .sn-paths { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .sn-path { text-align: left; background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px; display: flex; flex-direction: column; box-shadow: var(--shadow-sm); transition: box-shadow var(--duration-fast); }
+  .sn-path:hover { box-shadow: var(--shadow-hover); }
+  .sn-path img { width: 56px; height: 56px; object-fit: contain; }
+  .sn-path h3 { font: 800 24px var(--font-display); margin: 14px 0 8px; }
+  .sn-path p { color: var(--muted); margin: 0 0 18px; flex: 1; }
+  .sn-chips { list-style: none; padding: 0; margin: 0 0 20px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .sn-chips a { display: inline-block; font: 600 14px var(--font-label); padding: 6px 12px; border-radius: var(--radius-pill); background: var(--surface); text-decoration: none; }
+  .sn-chips a:hover { background: var(--blue-100, #ccfbf1); }
+  .sn-path-cta { font: 700 16px var(--font-label); color: var(--brand-blue) !important; text-decoration: none; }
+
+  .sn-trust { background: var(--inverse-surface); color: #fff; padding: 28px 0; }
+  .sn-trust-in { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; text-align: center; }
+  .sn-trust p { margin: 0; color: rgba(255,255,255,.75); font-size: 15px; }
+  .sn-trust strong { display: block; color: #fff; font: 800 26px var(--font-display); }
+
+  .sn-teach { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 28px; background: var(--surface); border-radius: var(--radius-lg); padding: 28px 32px; }
+  .sn-teach h2 { margin: 0 0 6px; font-size: 28px; }
+  .sn-teach p { margin: 0; color: var(--muted); }
+  .sn-teach img { width: 110px; height: auto; }
+
+  .sn-final { text-align: center; padding: 80px 0; background: var(--gradient-accent-soft); }
+  .sn-final h2 { margin-bottom: 10px; }
+  .sn-final p { color: var(--muted); margin: 0 0 28px; }
+  .sn-final p a { color: var(--brand-blue); font-weight: 600; }
+
+  .sn-foot { border-top: 1px solid var(--border); padding: 28px 0; font-size: 14px; color: var(--muted); }
+  .sn-foot-in { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .sn-foot p { margin: 0; font: 800 18px var(--font-display); color: var(--ink); }
+  .sn-foot nav { display: flex; flex-wrap: wrap; gap: 18px; }
+  .sn-foot nav a { text-decoration: none; }
+
+  @media (max-width: 960px) {
+    .sn-menu, .sn-login { display: none; }
+    .sn-burger { display: grid; }
+    .sn-nav-in { justify-content: space-between; }
+    .sn-hero { padding: 40px 0; }
+    .sn-hero-in { grid-template-columns: 1fr; }
+    .sn-hero-img { display: none; }
+    .sn-paths { grid-template-columns: 1fr; }
+    .sn-trust-in { grid-template-columns: repeat(2, 1fr); }
+    .sn-teach { grid-template-columns: 1fr; text-align: left; padding: 24px; }
+    .sn-teach img { display: none; }
+    .sn-sec { padding: 48px 0; }
+  }
+  @media (max-width: 420px) {
+    .sn-btn--sm { display: none; }
+    .sn-wrap, .sn-nav-in { padding: 0 16px; }
+  }
+</style>

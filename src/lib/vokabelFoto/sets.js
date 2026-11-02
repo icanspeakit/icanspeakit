@@ -1,5 +1,5 @@
 // „Vokabeln vom Foto“: a teacher's saved card sets (table vokabel_sets, own rows only via
-// RLS, supabase/migrations/*_vokabel_sets.sql). Browser only (/lehrkraefte/karten…).
+// RLS, supabase/migrations/*_vokabel_sets.sql). Browser only (/teachers/karten…).
 //
 // Saved word: { lemma, pos?, article?, plural?, translation?, lexId?, checked, reflexive?, separable? }
 // lexId = the word is in our lexicon (card, audio and translations come from there).

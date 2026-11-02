@@ -1,4 +1,4 @@
-// The Manners Simulator (/spiele/knigge): the scenes of one day in the UK, in five areas.
+// The Manners Simulator (/games/manners): the scenes of one day in the UK, in five areas.
 //
 // A scene = place + backdrop + people + turns. A turn: someone says something (`npc`, with
 // its plain-English help `en`) or a `situation` sets the scene, then the learner picks one of
@@ -141,7 +141,7 @@ const unterwegs = [
         ],
       },
     ],
-    more: "/kultur/pfand",
+    more: "/culture/pfand",
   },
   {
     id: "sbahn", place: "On the train", backdrop: "sbahn",
@@ -190,7 +190,7 @@ const unterwegs = [
         ],
       },
     ],
-    more: "/kultur/insider/naehe-abstand",
+    more: "/culture/insider/naehe-abstand",
   },
   {
     id: "aufzug", place: "In the lift", backdrop: "aufzug",
@@ -244,7 +244,7 @@ const unterwegs = [
         ],
       },
     ],
-    more: "/kultur/insider/hallo-sagen",
+    more: "/culture/insider/hallo-sagen",
   },
   {
     id: "weg", place: "In the street", backdrop: "strasse",
@@ -280,7 +280,7 @@ const unterwegs = [
         ],
       },
     ],
-    more: "/kultur/insider/hoefliche-notluegen",
+    more: "/culture/insider/hoefliche-notluegen",
   },
 ];
 
@@ -322,7 +322,7 @@ const arbeit = [
         who: "lena", wheel: 2, du: true, situation: "You're still in the kitchen with your tea. What do you talk to Lena about?",
       },
     ],
-    more: "/kultur/insider/leute-kennenlernen",
+    more: "/culture/insider/leute-kennenlernen",
   },
   {
     id: "erster-tag", place: "First day at work", backdrop: "buero",
@@ -357,7 +357,7 @@ const arbeit = [
         ],
       },
     ],
-    more: "/kultur/insider/puenktlichkeit",
+    more: "/culture/insider/puenktlichkeit",
   },
   {
     id: "meeting", place: "In the meeting", backdrop: "buero",
@@ -391,7 +391,7 @@ const arbeit = [
         ],
       },
     ],
-    more: "/kultur/insider/direktheit",
+    more: "/culture/insider/direktheit",
   },
   {
     id: "feierabend", place: "After work", backdrop: "kneipe",
@@ -445,7 +445,7 @@ const arbeit = [
         who: "becker", wheel: 1, situation: "Graham sips his pint. Now it's your turn to pick a topic.",
       },
     ],
-    more: "/kultur/insider/zusammen-oder-getrennt",
+    more: "/culture/insider/zusammen-oder-getrennt",
   },
 ];
 
@@ -488,7 +488,7 @@ const zuhause = [
         who: "schulz", wheel: 1, situation: "Jean stays by the post boxes. She seems to have time for a bit of small talk.",
       },
     ],
-    more: "/kultur/insider/hallo-sagen",
+    more: "/culture/insider/hallo-sagen",
   },
   {
     id: "paket", place: "At your front door", backdrop: "wohnungstuer",
@@ -559,7 +559,7 @@ const zuhause = [
         ],
       },
     ],
-    more: "/kultur/insider/hoefliche-notluegen",
+    more: "/culture/insider/hoefliche-notluegen",
   },
   {
     id: "einladung", place: "Invited for dinner", backdrop: "esszimmer",
@@ -606,7 +606,7 @@ const zuhause = [
         ],
       },
     ],
-    more: "/kultur/insider/hoefliche-notluegen",
+    more: "/culture/insider/hoefliche-notluegen",
   },
 ];
 
@@ -644,7 +644,7 @@ const date = [
         ],
       },
     ],
-    more: "/kultur/insider/erstes-date",
+    more: "/culture/insider/erstes-date",
   },
   {
     id: "date-smalltalk", place: "In the café", backdrop: "cafe",
@@ -695,7 +695,7 @@ const date = [
         ],
       },
     ],
-    more: "/kultur/insider/erstes-date",
+    more: "/culture/insider/erstes-date",
   },
   {
     id: "date-rechnung", place: "The bill", backdrop: "cafe",
@@ -732,7 +732,7 @@ const date = [
         ],
       },
     ],
-    more: "/kultur/trinkgeld",
+    more: "/culture/trinkgeld",
   },
   {
     id: "date-tschuess", place: "Saying goodbye", backdrop: "abend",
@@ -766,7 +766,7 @@ const date = [
         ],
       },
     ],
-    more: "/kultur/insider/erstes-date",
+    more: "/culture/insider/erstes-date",
   },
 ];
 
@@ -801,7 +801,7 @@ const schule = [
         ],
       },
     ],
-    more: "/kultur/insider/puenktlichkeit",
+    more: "/culture/insider/puenktlichkeit",
   },
   {
     id: "du-oder-sie", place: "First day of the course", backdrop: "klasse",
@@ -840,7 +840,7 @@ const schule = [
         who: "novak", wheel: 1, du: true, situation: "Break time. Martin is standing next to you at the coffee machine.",
       },
     ],
-    more: "/kultur/duzen-siezen",
+    more: "/culture/duzen-siezen",
   },
   {
     id: "elterngespraech", place: "Parents' evening", backdrop: "klasse",
@@ -873,7 +873,7 @@ const schule = [
         ],
       },
     ],
-    more: "/kultur/schulsystem",
+    more: "/culture/schulsystem",
   },
   {
     id: "gruppenarbeit", place: "Group work", backdrop: "klasse",
@@ -906,7 +906,7 @@ const schule = [
         ],
       },
     ],
-    more: "/kultur/insider/direktheit",
+    more: "/culture/insider/direktheit",
   },
 ];
 

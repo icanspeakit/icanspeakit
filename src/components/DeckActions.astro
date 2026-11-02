@@ -1,12 +1,12 @@
 ---
 // Two ways on from a Lernset page (or a Berufe group), under its heading:
-//   „Drucken / PDF“        the set's printable sheet (/wortschatz/drucken/<id>): word list
+//   „Drucken / PDF“        the set's printable sheet (/vocabulary/print/<id>): word list
 //                          in the learner's card language, German explanations, example
 //                          sentences, „Wusstest du?“ and a small test;
 //   „Live-Quiz: Synonyme“  the live quiz with this set chosen in the Deutsch → Deutsch mode
 //                          (synonyms and German explanations of these words, questions.js).
 //                          Offered where the set has enough German hints, and never in the
-//                          Android app, whose build drops /lehrkraefte.
+//                          Android app, whose build drops /teachers.
 import { unitGermanSize } from "../lib/liveQuiz/questions.js";
 
 interface Props {
@@ -22,10 +22,10 @@ interface Props {
    *  heading scrolls away once the learner is down at the card, this one does not. */
   compact?: boolean;
 }
-const { setId, print = `/wortschatz/drucken/${setId}`, name, level, compact = false } = Astro.props;
+const { setId, print = `/vocabulary/print/${setId}`, name, level, compact = false } = Astro.props;
 const quiz = import.meta.env.PUBLIC_TARGET !== "app" && unitGermanSize(setId) >= 4;
 const extra = name ? `&name=${encodeURIComponent(name)}&level=${encodeURIComponent(level ?? "A1")}` : "";
-const quizHref = `/lehrkraefte/quiz?set=${encodeURIComponent(`unit:${setId}`)}&mode=synonym${extra}`;
+const quizHref = `/teachers/quiz?set=${encodeURIComponent(`unit:${setId}`)}&mode=synonym${extra}`;
 ---
 <div class:list={["da-actions", compact && "da-actions--compact"]}>
   <a class="da-btn" href={print} data-print-link

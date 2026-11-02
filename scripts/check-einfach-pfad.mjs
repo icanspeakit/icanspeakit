@@ -5,7 +5,7 @@
 //                                               touches a ref whose checksum is wrong —
 //                                               that means the source changed, and a
 //                                               person has to look at it.
-// The same checks run when /einfach is built (src/pages/einfach.astro), so a broken path
+// The same checks run when /step-by-step is built (src/pages/einfach.astro), so a broken path
 // cannot ship even if nobody runs this.
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";

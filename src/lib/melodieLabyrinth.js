@@ -1,4 +1,4 @@
-// Melodie-Labyrinth (/satzmelodie#labyrinth): the melody as height you can see.
+// Melodie-Labyrinth (/intonation#labyrinth): the melody as height you can see.
 // Quaki hops along the words while the sentence plays. At the end the corridor splits into
 // three exits by height: up for the question (↗), down for the statement (↘), the deep
 // slide for the exclamation (↘!). The learner picks one, Quaki takes it. Then the stones

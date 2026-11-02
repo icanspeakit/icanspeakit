@@ -1,0 +1,156 @@
+---
+// /culture — the Landeskunde hub.
+//
+// Was one page rendering one topic, with the topic's own shape (a broadcaster table)
+// hardcoded into the markup. It is now a hub over src/data/kultur.json: cards here,
+// one route per topic, and a quiz that can run over one topic or all of them.
+//
+// Two kinds of topic sit side by side and each says which it is. "unterricht" came out
+// of a real EnglishAcademy lesson; "sachwissen" is publicly checkable fact about rules,
+// institutions and amounts, written by us. Nothing here claims anything about what
+// German people are like — only about what the rules say and where practice varies.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import Icon from "../../components/Icon.astro";
+import kultur from "../../data/kultur.json";
+import { kulturLevels } from "../../lib/catalog.js";
+import "../../styles/practice.css";
+import "../../styles/kultur.css";
+import "../../styles/kultur-insider.css";
+import insider from "../../data/kultur-insider.json";
+import fehler from "../../data/fehler-nach-sprache.json";
+import bilder from "../../data/kultur-bilder.json";
+import { iconFile } from "../../lib/wortBild.js";
+import SectionMascot from "../../components/mascots/SectionMascot.astro";
+import "../../styles/kultur-hub.css";
+
+// A picture per topic (src/data/kultur-bilder.json, OpenMoji): the Icon glyphs said little
+// — Pfand was a target, Trinkgeld a speaker — and a picture tells a learner who cannot read
+// the title yet what the card is about. A topic without one keeps its Icon.
+const bild = (emoji) => (emoji ? `/img/openmoji/${iconFile(emoji)}.svg` : null);
+
+const { topics } = kultur;
+const quizCount = topics.reduce((n, t) => n + t.quiz.length, 0);
+
+// Grouped by level, not by subject. The eyebrows ("Alltag & Wohnen", "Behörden &
+// Gesundheit") sorted the catalogue but answered a question nobody arrives with: a learner
+// knows their Niveau, not whether Pfand counts as a housing topic or a shopping one. The
+// eyebrow still heads each topic's own page — it just no longer decides the order here.
+//
+// The levels come from the catalogue's Landeskunde list, which runs A1–C2. The site-wide
+// `levels` export stops at B2 because that is as far as the trainers reach, and using it
+// here would silently swallow every C1 and C2 topic.
+const groups = kulturLevels.map((lv) => ({
+  ...lv,
+  items: topics.filter((t) => t.level === lv.level),
+}));
+---
+<Layout
+  title="UK culture and everyday life – EnglishAcademy"
+  description="How everyday life in the UK works: queuing, recycling, the NHS, bank holidays, renting a flat, schools, clubs and volunteering, with a quiz for each topic."
+>
+  <SiteNav active="landeskunde" />
+  <main class="practice-main practice-main--wide">
+    {/* No hero photo: the egg-market banner was taken out on request (2026-10-01). */}
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="kultur.hero.eyebrow">Landeskunde</p>
+      <h1 data-i18n="tool.kultur.title">Kulturwissen</h1>
+      <!-- A new key, not the old kultur.hero.subtitle: that one still says "aus echten
+           Unterrichtsgesprächen", which was true when this was one topic and is not true
+           of the fourteen written from public sources. A key with no translation yet
+           falls back to the German below, which is the behaviour we want until the five
+           locale files carry it. -->
+      <SectionMascot name="bruno" say="This is how the UK works." sayKey="kultur.mascot.hero" align="center" class="ku-hero-mascot" />
+      {/* The lead sentence and the quiz used to sit here, above the topics. They are still
+          on the page, lower down: the first screen is for choosing a topic, and a banner
+          and two feature cards between the title and the first level pushed the topics
+          themselves below the fold. */}
+    </div>
+
+    {groups.map((g) => (
+      <section class="ku-group" id={`niveau-${g.slug}`}>
+        <h2 class="ku-group-title">
+          <span class="ku-badge">{g.level}</span>
+          <span data-i18n={g.blurbKey}>{g.blurb}</span>
+        </h2>
+        <div class="ku-grid">
+          {g.items.map((t) => (
+            <a class="ku-card" href={`/culture/${t.id}`}>
+              {bild(bilder.topics[t.id])
+                ? <span class="ku-card-ic ku-card-pic"><img src={bild(bilder.topics[t.id])} alt="" width="40" height="40" loading="lazy" /></span>
+                : <span class="ku-card-ic"><Icon name={t.icon} size={20} /></span>}
+              <span class="ku-card-txt">
+                <b>{t.title}</b>
+                {/* Title stays German — "Pfand" is the term being learnt. The sentence
+                    under it is what tells a non-German speaker whether to open the card. */}
+                <i data-i18n={`kultur.${t.id}.cardIntro`}>{t.intro.split(". ")[0]}.</i>
+              </span>
+              <!-- No level badge: the section heading above the grid already says it. -->
+              <span class="ku-card-meta">
+                <span class="ku-card-q" data-i18n="grammatik.card.questions" data-i18n-vars={JSON.stringify({ n: t.quiz.length })}>{t.quiz.length} Fragen</span>
+              </span>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    {/* Below the topics: the mixed quiz and the two sections beside the topic list —
+        mistakes by first language, and "Deutschland von innen", which, unlike the topics
+        above, does talk about people, with a source under every number. */}
+    <section class="ku-more">
+      <div class="ku-more-head">
+        <SectionMascot name="quaki" expr="thinking" say="What do you know already?" sayKey="kultur.mascot.more" class="ku-more-mascot" />
+        <p class="ku-more-lead" data-i18n="kultur.hero.lead">
+          Wie Deutschland im Alltag funktioniert — Regeln, Ämter, Beträge und Abläufe, mit Quiz zu jedem Thema.
+        </p>
+      </div>
+
+      <a class="ku-quiz-cta" href="/culture/quiz">
+        <img class="ku-quiz-pic" src={bild(bilder.extras.quiz)} alt="" width="44" height="44" loading="lazy" />
+        <span class="ku-quiz-cta-txt">
+          <b data-i18n="kultur.quiz.all">Quiz über alle Themen</b>
+          <i data-i18n="kultur.quiz.blurb" data-i18n-vars={JSON.stringify({ n: quizCount, t: topics.length })}>{quizCount} Fragen aus {topics.length} Themen, gemischt. Du kannst auch ein einzelnes Thema wählen.</i>
+        </span>
+        <span class="ku-quiz-cta-go" aria-hidden="true">→</span>
+      </a>
+
+      <div class="ku-extra">
+        <a class="ku-card" href="/culture/mistakes">
+          <span class="ku-card-ic ku-card-pic"><img src={bild(bilder.extras.fehler)} alt="" width="40" height="40" loading="lazy" /></span>
+          <span class="ku-card-txt">
+            <b data-i18n="kultur.extra.fehler">Common mistakes by first language</b>
+            <i data-i18n="kultur.extra.fehlerSub">Which mistakes come from which first language, and how do you get rid of them?</i>
+          </span>
+          <span class="ku-card-meta"><span class="ku-card-q" data-i18n="kultur.extra.languages" data-i18n-vars={JSON.stringify({ n: fehler.languages.length })}>{fehler.languages.length} languages</span></span>
+        </a>
+        <a class="ku-card" href="/culture/insider">
+          <span class="ku-card-ic ku-card-pic"><img src={bild(bilder.extras.insider)} alt="" width="40" height="40" loading="lazy" /></span>
+          <span class="ku-card-txt">
+            <b data-i18n="kultur.extra.insider">The UK from the inside</b>
+            <i data-i18n="kultur.extra.insiderSub">Small talk, politeness, humour and how people really live – with figures and sources.</i>
+          </span>
+          <span class="ku-card-meta"><span class="ku-card-q" data-i18n="kultur.extra.topics" data-i18n-vars={JSON.stringify({ n: insider.topics.length })}>{insider.topics.length} topics</span></span>
+        </a>
+      </div>
+    </section>
+
+    <section class="ku-sourcing">
+      <h2 data-i18n="kultur.h2.sources">Woher die Themen kommen</h2>
+      <p data-i18n-html="kultur.sourcingNote" set:html={kultur.sourcingNote.replace(/\n/g, "<br>")} />
+    </section>
+  </main>
+
+  <script>
+    // The pictures pop in, a level at a time, as it scrolls into view — a small beat that
+    // says "these are the topics" without a word. Reduced motion: shown at once (CSS).
+    const groups = document.querySelectorAll(".ku-group");
+    if ("IntersectionObserver" in window) {
+      document.documentElement.classList.add("ku-anim");
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
+      }, { rootMargin: "0px 0px -10% 0px" });
+      groups.forEach((g) => io.observe(g));
+    }
+  </script>
+</Layout>

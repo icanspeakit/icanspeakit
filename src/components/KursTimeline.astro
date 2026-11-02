@@ -1,5 +1,5 @@
 ---
-// The level row of /kursinhalte: A1.1 → C1 as one line, each step a link to its level
+// The level row of /syllabus: A1.1 → C1 as one line, each step a link to its level
 // page. `current` marks the step with "Du bist hier" and fills the line up to it; without
 // it (the overview) the line is empty and every step is a plain way in.
 // Data: src/data/kursinhalte.json.
@@ -19,7 +19,7 @@ const edge = idx === 0 ? "start" : idx === n - 1 ? "end" : "mid";
   <ol class="kt-track" data-active={idx >= 0 ? "" : undefined}>
     {levels.map((l, i) => (
       <li class:list={["kt-step", { "is-done": idx >= 0 && i < idx, "is-active": i === idx }]}>
-        <a href={`/kursinhalte/${l.id}`} aria-current={i === idx ? "page" : undefined}>
+        <a href={`/syllabus/${l.id}`} aria-current={i === idx ? "page" : undefined}>
           <span class="kt-dot" aria-hidden="true"></span>
           <span class="kt-label">{l.label}</span>
           {i === idx && <span class="sr-only"> (you are here)</span>}

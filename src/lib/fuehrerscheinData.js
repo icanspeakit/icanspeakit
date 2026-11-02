@@ -1,6 +1,6 @@
 // The Führerschein section's content, joined: lessons (regeln.json), the own question bank
 // (fragen.json), the steps (ablauf.json) and the Lernset (wortschatz.json). Pages, the
-// catalog, the /fortschritt registry and scripts/check-fuehrerschein.mjs all read through
+// catalog, the /progress registry and scripts/check-fuehrerschein.mjs all read through
 // here, so a count on the hub is the count of what exists.
 import regeln from "../data/fuehrerschein/regeln.json" with { type: "json" };
 import fragen from "../data/fuehrerschein/fragen.json" with { type: "json" };

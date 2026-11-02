@@ -2,7 +2,7 @@
 // nouns before the present simple, the present simple before questions, the past simple
 // before the present perfect, the passive before have something done.
 // The Grammatik books print their chapters in this order (scripts/generate-grammatik-pdf.mjs),
-// and /wissen names a book's first chapter from it, so the two agree on "Chapter 1".
+// and /knowledge names a book's first chapter from it, so the two agree on "Chapter 1".
 // It is src/data/grammatik-lehrplan.json flattened (ids, not slugs: verben-praepositionen is
 // `id: "praepositionen"`); keep the two in step when the syllabus changes.
 export const GRAMMATIK_ORDER = [

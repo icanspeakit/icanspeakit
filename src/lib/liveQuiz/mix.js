@@ -1,9 +1,9 @@
-// Wortschatz + Grammatik in one round (/lehrkraefte/quiz): the teacher picks a Lernset on
+// Wortschatz + Grammatik in one round (/teachers/quiz): the teacher picks a Lernset on
 // the left and a grammar chapter on the right, and half the questions come from each,
 // taking turns. Used by the projector (host.js) and by „Solo spielen" (player.js).
 //
 // The grammar questions are the chapter's ready-made items, the same file the quiz
-// builder loads (/lehrkraefte/quiz-kapitel/g-<key>.json, see chapters.js): German on both
+// builder loads (/teachers/quiz-chapters/g-<key>.json, see chapters.js): German on both
 // sides, so they are asked as mode "custom" whatever the vocabulary mode is.
 
 function shuffle(list) {
@@ -23,7 +23,7 @@ export async function grammarQuestions(pick, n) {
   const slugs = String(pick).split(",").filter((s) => /^g-[a-z0-9-]+$/.test(s));
   if (!slugs.length || n < 1) return [];
   const files = await Promise.all(slugs.map(async (slug) => {
-    const res = await fetch(`/lehrkraefte/quiz-kapitel/${slug}.json`);
+    const res = await fetch(`/teachers/quiz-chapters/${slug}.json`);
     if (!res.ok) throw new Error(`quiz-kapitel/${slug} → ${res.status}`);
     return res.json();
   }));

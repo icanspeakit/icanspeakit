@@ -1,6 +1,6 @@
 // The learner's first language for pronunciation help — one setting shared by the
-// Aussprache-Check and /kultur/fehler. Pick it on one page and the other follows: the tab on
-// /kultur/fehler and the picker on the Check both read and write it here.
+// Aussprache-Check and /culture/mistakes. Pick it on one page and the other follows: the tab on
+// /culture/mistakes and the picker on the Check both read and write it here.
 //
 // Not the UI language (src/lib/i18n.js): that is the language the site talks in (de, en,
 // ar, tr, uk). This is the language someone grew up with — "vietnamesisch", "arabisch" … —

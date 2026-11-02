@@ -1,5 +1,5 @@
 // The colour of each lesson phase, in one place: the plan's timeline bar and swatches
-// (/lehrkraefte/stundenplan), the session's clock sectors and the session bar.
+// (/teachers/timetable), the session's clock sectors and the session bar.
 // `bg` is the light fill the plan has always used (dark text on top); `ink` is the same hue
 // dark enough for text and outlines on white.
 export const PHASE_COLORS = {

@@ -1,7 +1,7 @@
 ---
 // „Free PDF: English Grammar Start“ — the free starter book
 // (scripts/generate-grammatik-start-pdf.mjs), pointed to from the Grammatik hub and the
-// homepage's Grammatik card. Opens its sheet on /wissen (the card's id is the hash).
+// homepage's Grammatik card. Opens its sheet on /knowledge (the card's id is the hash).
 //
 // Regi stands outside the data-i18n elements: the i18n pass replaces textContent and
 // would wipe the SVG (MASKOTTCHEN-PLATZIERUNG-PROMPT.md). data-mascot-part lets
@@ -15,7 +15,7 @@ interface Props {
 const { compact = false } = Astro.props;
 const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: compact ? 34 : 46, label: "" });
 ---
-<a class:list={["gs-teaser", compact && "gs-teaser--compact"]} href="/wissen#grammatik-start">
+<a class:list={["gs-teaser", compact && "gs-teaser--compact"]} href="/knowledge#grammatik-start">
   <span class="gs-teaser-fig" data-mascot-part aria-hidden="true"><Fragment set:html={regi} /></span>
   <span class="gs-teaser-txt">
     <b data-i18n="gs.teaser.title">Free PDF: English Grammar Start</b>

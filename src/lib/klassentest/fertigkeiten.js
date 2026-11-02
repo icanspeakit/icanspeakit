@@ -1,5 +1,5 @@
 // Klassentest, ausführliche Einstufung: the reading, listening and writing material a test
-// can take, built at build time and served as /lehrkraefte/tests/fertigkeiten.json.
+// can take, built at build time and served as /teachers/tests/fertigkeiten.json.
 //
 // All of it is the site's own: the Lesen texts (src/lib/fertigkeiten.js resolves the ones
 // borrowed from the DTZ file), the Hörtexte with their recorded clips (src/data/hoeren.json,

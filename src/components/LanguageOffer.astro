@@ -21,7 +21,7 @@
 // reader who cannot read the current page language.
 import { LANGUAGES } from "../lib/i18n.js";
 // The follow-up after a pick: someone who needed the offer to read the page is very often
-// someone for whom "Step by step" (/einfach, the beginner path) is the right first door.
+// someone for whom "Step by step" (/step-by-step, the beginner path) is the right first door.
 // Written per language here for the same reason as the row itself; the product name stays
 // English, as it is on the page the button opens.
 const EINFACH_OFFER = {
@@ -74,7 +74,7 @@ const other = "Other · Andere …";
 
 <div class="lang-einfach" role="region" aria-live="polite" data-einfach-offer-row data-copy={JSON.stringify(EINFACH_OFFER)}>
   <span class="lang-einfach-txt" data-einfach-offer-text></span>
-  <a class="lang-einfach-go" href="/einfach" data-einfach-offer-go>Step by step</a>
+  <a class="lang-einfach-go" href="/step-by-step" data-einfach-offer-go>Step by step</a>
   <button type="button" class="lang-offer-x" data-einfach-offer-dismiss>
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
   </button>
@@ -166,15 +166,15 @@ const other = "Other · Andere …";
 
   const html = document.documentElement;
   const hide = () => html.removeAttribute("data-lang-offer");
-  // After a pick in a language other than English, point once at "Step by step" (/einfach).
-  // Never on /einfach itself, never for someone already using it, never twice. Never where a
+  // After a pick in a language other than English, point once at "Step by step" (/step-by-step).
+  // Never on /step-by-step itself, never for someone already using it, never twice. Never where a
   // class is waiting either (live quiz, class poll, joining a class): a player picked Español
-  // on /spiel, read „Empezar“ as starting the quiz and left the game for /einfach (replay
+  // on /game, read „Empezar“ as starting the quiz and left the game for /step-by-step (replay
   // 2026-10-22). There the pick just sets the language, with no follow-up.
   const row = document.querySelector<HTMLElement>("[data-einfach-offer-row]");
   const doneOffer = () => { try { localStorage.setItem("da_einfach_offer", "done"); } catch {} html.removeAttribute("data-einfach-offer"); };
   function offerEinfach(code: string) {
-    if (!row || /^\/(einfach|spiel|umfrage|beitreten)(\/|$)/.test(location.pathname)) return;
+    if (!row || /^\/(step-by-step|game|survey|join)(\/|$)/.test(location.pathname)) return;
     const copy = JSON.parse(row.dataset.copy || "{}")[code];
     if (!copy) return;
     try {

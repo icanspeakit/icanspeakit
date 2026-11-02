@@ -1,5 +1,5 @@
 ---
-// The calm way into „Einfach lernen" (/einfach) from the full site: one line, no card
+// The calm way into „Einfach lernen" (/step-by-step) from the full site: one line, no card
 // grid, no badge — it sits under the page's own actions and does not compete with them.
 // EINFACH-LERNEN-TIERED-PROMPT.md, Tier 4. On return it remembers the mode: someone whose
 // last visit was in easy mode (localStorage "da-last-mode", written by einfach-view.js)
@@ -8,7 +8,7 @@ import { mascotSvg } from "../lib/mascots.js";
 
 interface Props {
   /** "line": one slim text line under a hero's buttons (the homepage fold has no room
-      for a card: its artwork overlaps anything taller). "row": a list row (/uebungen).
+      for a card: its artwork overlaps anything taller). "row": a list row (/exercises).
       "tile": a full-width tile at the head of the level picker (LevelFold) — the answer
       for the learner who is not on the A1–B2 scale yet at all. */
   variant?: "line" | "row" | "tile";
@@ -18,7 +18,7 @@ const { variant = "line" } = Astro.props;
 // off (.mascot is hidden) the old paw takes his place, so the line never loses its icon.
 const bruno = mascotSvg({ name: "bruno", expr: "happy", view: "front", size: variant === "tile" ? 52 : variant === "row" ? 36 : 26, label: "" });
 ---
-<a class:list={["ee", `ee--${variant}`]} href="/einfach" data-einfach-entry>
+<a class:list={["ee", `ee--${variant}`]} href="/step-by-step" data-einfach-entry>
   <span class="ee-ic ee-ic--bruno" aria-hidden="true" set:html={bruno} />
   <span class="ee-ic ee-ic--paw" aria-hidden="true">🐾</span>
   <span class="ee-txt">

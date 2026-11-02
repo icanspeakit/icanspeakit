@@ -1,5 +1,5 @@
 // Which grammar topics a Stufe holds, and in what order — the one list both the map on
-// /fortschritt (LearnShell's left column) and the course bar on a topic page read.
+// /progress (LearnShell's left column) and the course bar on a topic page read.
 //
 // It used to live inside LearnShell.astro only. The topic page's "Thema 2 von 9" and its
 // ‹ › have to walk exactly the list the learner just picked the topic from, so the list
@@ -24,7 +24,7 @@ export const KURS_LEVELS = ["A1", "A2", "B1", "B2", "C1"];
 /**
  * The topics of one level, in course order.
  * Each entry: `{ id, kind: "workspace" | "quiz", data }`, where `id` is the URL slug —
- * the same key /fortschritt's `?thema=` and the progress store use.
+ * the same key /progress's `?thema=` and the progress store use.
  */
 export function kursTopicsAt(level) {
   const ws = workspaces

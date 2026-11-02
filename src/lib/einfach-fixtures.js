@@ -1,8 +1,8 @@
-/* /einfach — the prototype's three hand-written sittings, kept as test fixtures.
+/* /step-by-step — the prototype's three hand-written sittings, kept as test fixtures.
  *
  * Einfach lernen now plays the curated path (src/data/einfach-pfad.json, resolved by
  * src/lib/einfach-content.js). These three stay because they exercise every task type with
- * known answers and need no data build: open /einfach?fixtures to play them instead of the
+ * known answers and need no data build: open /step-by-step?fixtures to play them instead of the
  * path. Not shown to learners otherwise.
  */
 

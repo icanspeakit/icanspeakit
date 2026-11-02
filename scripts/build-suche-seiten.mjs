@@ -22,12 +22,12 @@ const OUT = "src/data/suche-seiten.json";
 
 const SKIP = [
   /^\/(es|hi|id|tl|vi|pt-br)(\/|$)/,
-  /^\/wortschatz\/drucken\//,
-  /^\/lehrkraefte\/arbeitsblaetter\//,
-  /\/drucken$/,
-  /^\/wissen\/zitate\/(?!$)/,
-  /^\/wissen\/wortgeschichte\/(pruefen|umstellen)$/,
-  /^\/(impressum|datenschutz|widerruf|nutzungsbedingungen|konto-loeschen)$/,
+  /^\/vocabulary\/print\//,
+  /^\/teachers\/worksheets\//,
+  /\/(drucken|print)$/,
+  /^\/knowledge\/quotes\/(?!$)/,
+  /^\/knowledge\/word-stories\/(review|weekly)$/,
+  /^\/(legal-notice|privacy|widerruf|terms|konto-loeschen)$/,
 ];
 
 const decode = (s) => s

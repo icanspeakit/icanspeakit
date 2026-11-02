@@ -1,0 +1,98 @@
+---
+// /games/stadtfahrt — a small driving game: the learner steers a car through a town with the
+// arrow keys (four buttons on a phone), and at each crossing with a „?" answers a question
+// from the own Führerschein bank. Logic: src/lib/stadtfahrt.js. The questions are fetched
+// from /fuehrerschein/fragen.json, the file Üben and the Simulation share.
+// Own questions — not the amtliche Fragenkatalog.
+// A prototype since 2026-10-21: noindex and not in the menu (EXPERIMENTE.md).
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import SectionMascot from "../../components/mascots/SectionMascot.astro";
+import FsHinweis from "../../components/fuehrerschein/FsHinweis.astro";
+import "../../styles/practice.css";
+import "../../styles/kultur.css";
+import "../../styles/fuehrerschein.css";
+import "../../styles/stadtfahrt.css";
+
+const n = 8;
+---
+<Layout
+  title="Brunos Stadtfahrt: Fahrspiel mit Führerschein-Fragen – EnglishAcademy"
+  description="Ein kleines Fahrspiel im Browser: Fahr mit den Pfeiltasten durch die Stadt und beantworte an den Kreuzungen Fragen zur Führerschein-Theorie. Auch am Handy."
+  noindex
+>
+  <SiteNav active="ueben" />
+  <main class="practice-main fs-page sf-page">
+    <section id="sf-intro">
+      <div class="practice-hero fs-hero">
+        <p class="eyebrow" data-i18n="sf.eyebrow">Spiel</p>
+        <h1 data-i18n="sf.title">Brunos Stadtfahrt</h1>
+        <p data-i18n="sf.lead">Fahr selbst durch die Stadt. An jeder Kreuzung mit Fragezeichen hältst du an und beantwortest eine Frage zur Führerschein-Theorie.</p>
+        <div class="fs-badges"><span class="fs-badge fs-badge--key" data-i18n="sf.label">Übungsspiel mit eigenen Fragen – nicht die amtlichen Prüfungsfragen</span></div>
+      </div>
+      <section class="fs-box">
+        <h2 data-i18n="sf.howTitle">So spielst du</h2>
+        <ul class="fs-facts">
+          <li><b>▲ ▼</b><span data-i18n="sf.howGas">Gas geben und bremsen. Am Handy: die Knöpfe rechts unten.</span></li>
+          <li><b>◀ ▶</b><span data-i18n="sf.howSteer">Lenken. Am Handy: die Knöpfe links unten.</span></li>
+          <li><b>{n} ?</b><span data-i18n="sf.howGoal" data-i18n-vars={JSON.stringify({ n })}>{n} Kreuzungen mit Fragezeichen – der gelbe Pfeil zeigt dir den Weg.</span></li>
+          <li><b>+10</b><span data-i18n="sf.howPoints">Punkte für jede richtige Antwort, bis zu 5 extra, wenn du schnell dort bist. Beim Lesen läuft keine Zeit.</span></li>
+        </ul>
+        <SectionMascot name="quaki" say="Anschnallen – los geht's!" class="ku-hero-mascot" />
+        <p class="sf-error" id="sf-error" hidden data-i18n="sf.loadError">Die Fragen konnten nicht geladen werden. Bitte lade die Seite neu.</p>
+        <div class="fq-done-btns">
+          <button type="button" class="quiz-btn quiz-btn--primary" id="sf-start" data-i18n="sf.start">Losfahren</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="sf-game" id="sf-game" hidden>
+      <div class="sf-hud">
+        <span data-round></span>
+        <span data-dist class="sf-dist"></span>
+        <b data-score></b>
+        <button type="button" class="sf-icon-btn" data-pause aria-label="Pause (P)" title="Pause (P)" data-i18n-attr="aria-label:sf.pauseKey;title:sf.pauseKey">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"/></svg>
+        </button>
+      </div>
+      <div class="sf-stage">
+        <canvas class="sf-canvas" data-canvas tabindex="-1" role="img" aria-label="Spielfeld: eine Stadt von oben, du fährst das rote Auto" data-i18n-attr="aria-label:sf.canvas"></canvas>
+        <div class="sf-pad sf-pad--steer">
+          <button type="button" class="sf-key" data-pad="left" aria-label="Links" data-i18n-attr="aria-label:sf.left">◀</button>
+          <button type="button" class="sf-key" data-pad="right" aria-label="Rechts" data-i18n-attr="aria-label:sf.rightKey">▶</button>
+        </div>
+        <div class="sf-pad sf-pad--gas">
+          <button type="button" class="sf-key" data-pad="down" aria-label="Bremse" data-i18n-attr="aria-label:sf.brake">▼</button>
+          <button type="button" class="sf-key sf-key--gas" data-pad="up" aria-label="Gas" data-i18n-attr="aria-label:sf.gas">▲</button>
+        </div>
+        <div class="sf-panel" data-panel hidden aria-live="polite"></div>
+      </div>
+    </section>
+    <FsHinweis />
+  </main>
+
+  <script>
+    import { mountStadtfahrt } from "../../lib/stadtfahrt.js";
+
+    const intro = document.getElementById("sf-intro")!;
+    const game = document.getElementById("sf-game")!;
+    const startBtn = document.getElementById("sf-start") as HTMLButtonElement;
+    const error = document.getElementById("sf-error")!;
+    const spiel = mountStadtfahrt(game, { fetchUrl: "/fuehrerschein/fragen.json" });
+    spiel.load().catch(() => {});
+    startBtn.addEventListener("click", async () => {
+      startBtn.disabled = true; // loading — "läuft gerade"
+      try {
+        await spiel.load();
+      } catch {
+        error.hidden = false;
+        startBtn.disabled = false;
+        return;
+      }
+      intro.hidden = true;
+      game.hidden = false;
+      game.scrollIntoView({ block: "start" });
+      spiel.start();
+    });
+  </script>
+</Layout>

@@ -1,0 +1,383 @@
+---
+// Arbeitsmappe: any number of worksheets — Lernsets and grammar topics, mixed — in one
+// print job, so a teacher gets one PDF for a lesson instead of one per sheet.
+//
+// Nothing is built twice: the page fetches the static worksheet pages
+// (/teachers/worksheets/vocabulary/<unit>, …/grammatik/<topic>) and lays their
+// sheets one after another, then all the answer keys. Print, online checking and the
+// meaning language are the single sheets' own (src/lib/arbeitsblatt/client.js).
+//
+// The choice lives in the address — ?w=a1-04,a1-05&g=perfekt&p=pa-a1-hofladen — so the Live-Quiz can open
+// it with its current Lernset and grammar chapter, and a teacher can bookmark a Mappe.
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import AbCards from "../../../components/arbeitsblatt/AbCards.astro";
+import "../../../styles/arbeitsblatt.css";
+import "../../../styles/teacher-switch.css";
+import "../../../styles/drucken.css";
+import "../../../styles/partner-sheet.css";
+import { worksheetUnits, SHEET_LANGS, LANG_NAMES } from "../../../lib/arbeitsblatt/wortschatz.js";
+import { sheetTopics, grammarTopics, topicSlug } from "../../../lib/arbeitsblatt/grammatik.js";
+import { printableSets } from "../../../lib/arbeitsblatt/printable.js";
+import { allSheets } from "../../../lib/partneruebungen/index.js";
+import { FORMAT_NAMES } from "../../../lib/partneruebungen/schema.js";
+
+const LEVELS = ["A1", "A2", "B1", "B2"];
+const units = worksheetUnits();
+const listed = new Set(grammarTopics.map(topicSlug));
+const topics = sheetTopics.filter((t) => LEVELS.includes(t.level));
+// The simple English definitions first and chosen; „In German" ("de") offers the German
+// translation instead. A word without one shows English there instead of a blank
+// (wortschatz.js); the learners' word lists drop their meaning column, as on their own page.
+const MEANING_LANGS = [...SHEET_LANGS, "de"];
+const langName = (l: string) => (l === "de" ? "In German" : LANG_NAMES[l]);
+const meaningCss = MEANING_LANGS.map((l) => `#ab-root[data-lang="${l}"] .ab-m[lang="${l}"]`).join(",") + "{display:inline}" +
+  '#ab-root[data-lang="de"] .pr-col-m{display:none}';
+// Sets the Live-Quiz can pick that are not Lernsets: printed from their own print page, shown
+// only as a chosen chip (the lists below offer Lernsets and grammar topics).
+const unitIds = new Set(units.map((u) => u.id));
+const extra = printableSets().filter((p) => p.kind === "w" && !unitIds.has(p.id));
+// Partner and group sheets: the checked ones are offered; a draft only shows once the address
+// chose it (for review), like a draft grammar topic.
+const partner = allSheets().filter((s) => LEVELS.includes(s.niveau));
+---
+<Layout
+  title="Build a worksheet pack – EnglishAcademy"
+  description="Several worksheets, vocabulary and grammar mixed, in one PDF: choose, then print or save as a PDF, with answers."
+  noindex
+>
+  <SiteNav active="lehrkraefte" />
+
+  <style is:inline set:html={meaningCss}></style>
+  <main class="ab abm" id="ab-root" data-mode="print" data-lang={MEANING_LANGS[0]} data-key="on" data-level="A1">
+    {/* Spans both columns: the library's navigation, above the picker and the preview. */}
+    <AbCards current="mappe" />
+    {/* Arrived by the Mappe card: the picker opens (arbeitsblatt.css, html.abm-arrive). Inline
+        and before the picker, so the class is there for its first paint. */}
+    <script is:inline>
+      try { if (sessionStorage.getItem("abm.arrive")) { sessionStorage.removeItem("abm.arrive"); document.documentElement.classList.add("abm-arrive"); setTimeout(() => document.documentElement.classList.remove("abm-arrive"), 1000); } } catch {}
+    </script>
+    <aside class="abm-pick" data-abm-pick>
+      <a class="ab-back" href="/teachers/worksheets" data-i18n="ab.back">Alle Arbeitsblätter</a>
+      <h1 class="abi-title" data-i18n="ab.mappe.title">Arbeitsmappe</h1>
+      <p class="abi-lead" data-i18n="ab.mappe.lead">Lernsets und Grammatikthemen wählen – so viele du willst. Alle Blätter kommen in ein PDF, die Lösungen am Ende.</p>
+
+      <ol class="abm-chosen" data-abm-chosen aria-label="Ausgewählt" data-i18n-attr="aria-label:ab.mappe.chosen"></ol>
+
+      {/* On a phone the lists fold away once something is chosen, so the sheets are near. */}
+      <details class="abm-add" data-abm-add open>
+      <summary data-i18n="ab.mappe.add">+ Blätter hinzufügen</summary>
+      <div class="abi-controls">
+        <div class="abi-levels t-sw t-sw--fill" role="group" aria-label="Niveau" data-i18n-attr="aria-label:ab.index.level">
+          {LEVELS.map((l, i) => <button type="button" data-abi-level={l} aria-pressed={i === 0 ? "true" : "false"}>{l}</button>)}
+        </div>
+        <input class="abi-search" type="search" placeholder="Suchen …" data-abi-search aria-label="Arbeitsblätter durchsuchen" data-i18n-attr="placeholder:ab.index.search;aria-label:ab.index.searchLabel" />
+      </div>
+
+      <div class="abm-lists">
+        <section class="abi-sec">
+          <h2 class="abi-h" data-i18n="ab.index.grammar">Grammatik</h2>
+          <ul class="abi-list abm-list">
+            {topics.map((t) => (
+              <li data-abi-row data-level={t.level} data-q={t.name.toLowerCase()} hidden={!listed.has(topicSlug(t))} data-draft={listed.has(topicSlug(t)) ? undefined : ""}>
+                <label>
+                  <input type="checkbox" data-abm-item={`g:${topicSlug(t)}`} data-name={t.name} data-lvl={t.level} data-path={`/teachers/worksheets/grammar/${topicSlug(t)}`} />
+                  <span class="abi-badge">{t.level}</span>
+                  <span class="abi-name">{t.name}</span>
+                </label>
+              </li>
+            ))}
+          </ul>
+        </section>
+        <section class="abi-sec">
+          <h2 class="abi-h" data-i18n="ab.index.vocab">Wortschatz nach Lernset</h2>
+          <ul class="abi-list abm-list">
+            {units.map((u) => (
+              <li data-abi-row data-level={u.level} data-q={`${u.title ?? u.id} ${u.id}`.toLowerCase()}>
+                <label>
+                  <input type="checkbox" data-abm-item={`w:${u.id}`} data-name={u.title ?? u.id} data-lvl={u.level} data-path={`/teachers/worksheets/vocabulary/${u.id}`} />
+                  <span class="abi-badge">{u.level}</span>
+                  <span class="abi-name">{u.title ?? u.id}</span>
+                  <span class="abi-meta">{u.words} <span data-i18n="ab.index.words">Wörter</span></span>
+                </label>
+              </li>
+            ))}
+          </ul>
+        </section>
+        <section class="abi-sec">
+          <h2 class="abi-h" data-i18n="ab.partner.section">Partner- & Gruppenübungen</h2>
+          <ul class="abi-list abm-list">
+            {partner.map((s) => (
+              <li data-abi-row data-level={s.niveau} data-q={`${s.titel} ${s.thema} ${FORMAT_NAMES[s.format]}`.toLowerCase()} hidden={!s.quelle.geprueft} data-draft={s.quelle.geprueft ? undefined : ""}>
+                <label>
+                  <input type="checkbox" data-abm-item={`p:${s.id}`} data-name={s.titel} data-lvl={s.niveau} data-path={`/teachers/worksheets/partner/${s.id}`} />
+                  <span class="abi-badge">{s.niveau}</span>
+                  <span class="abi-name">{s.titel}</span>
+                  <span class="abi-meta">{s.modus === "gruppe" ? `Gruppe (${s.personen})` : "Paar"}</span>
+                </label>
+              </li>
+            ))}
+          </ul>
+        </section>
+        {/* Not offered, only choosable from the address (the Live-Quiz): frequency rounds and
+            Berufe groups, so a chosen one has a name and a chip like the rest. */}
+        <ul hidden>
+          {extra.map((p) => <li><input type="checkbox" data-abm-item={`w:${p.id}`} data-name={p.name} data-lvl={p.level} data-path={p.path} /></li>)}
+        </ul>
+      </div>
+      </details>
+    </aside>
+
+    {/* Opened from the Live-Quiz (?von=quiz): the choice was made there, so no picker —
+        just what was chosen, and the sheets ready to print. */}
+    <header class="abm-quizhead" data-abm-quizhead hidden>
+      {/* The quiz stays open in its own tab; this goes back to it with the same choice
+          (?set / ?grammar, host.js), for a tab that has lost its way there. */}
+      <a class="ab-back" href="/teachers/quiz" data-abm-back data-i18n="ab.mappe.backQuiz">← Zurück zum Live-Quiz</a>
+      <p class="abi-eyebrow" data-i18n="ab.mappe.fromQuiz">Aus dem Live-Quiz</p>
+      <h1 class="abi-title" data-i18n="ab.mappe.title">Arbeitsmappe</h1>
+      {/* Many sheets (a whole level's chapters) fold to one line, so the print bar and the
+          sheets stay in view; a few are shown as they are (abm-fold--flat). */}
+      <details class="abm-fold" data-abm-fold>
+        <summary class="abm-fold-sum">
+          <span class="abi-badge" data-abm-fold-lvl></span>
+          <span data-abm-fold-n data-i18n="ab.mappe.foldSum">Arbeitsblätter</span>
+          <span class="abm-fold-chev" aria-hidden="true">▾</span>
+        </summary>
+        <ol class="abm-chosen abm-chosen--fixed" data-abm-fixed></ol>
+      </details>
+    </header>
+
+    <div class="abm-main">
+      <div class="ab-bar">
+        <div class="ab-seg t-sw t-sw--fill" role="group" aria-label="Ansicht" data-i18n-attr="aria-label:ab.view">
+          <button type="button" data-ab-mode="print" aria-pressed="true"><span class="t-sw-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg></span><span class="t-sw-txt"><b data-i18n="ab.mode.print">Zum Drucken</b><small data-i18n="ab.mode.printSub">Papier oder PDF</small></span></button>
+          <button type="button" data-ab-mode="online" aria-pressed="false"><span class="t-sw-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="m9 12 2 2 4-4"/></svg></span><span class="t-sw-txt"><b data-i18n="ab.mode.online">Online ausfüllen</b><small data-i18n="ab.mode.onlineSub">am Gerät prüfen</small></span></button>
+        </div>
+        <div class="ab-langs t-sw" role="group" aria-label="Bedeutungen auf" data-i18n-attr="aria-label:ab.lang.label" data-abm-langs hidden>
+          <span class="ab-langs-label" data-i18n="ab.lang.label">Bedeutungen auf</span>
+          {MEANING_LANGS.map((l) => (
+            <button type="button" data-ab-lang={l} aria-pressed={l === MEANING_LANGS[0] ? "true" : "false"} lang={l} data-i18n={l === "de" ? "ab.lang.de" : undefined}>{langName(l)}</button>
+          ))}
+        </div>
+        <div class="ab-actions ab-only-print">
+          <label class="ab-check"><input type="checkbox" data-ab-withkey checked /> <span data-i18n="ab.withKey">Lösungsblatt mitdrucken</span></label>
+          <button type="button" class="ab-btn ab-btn--primary" data-ab-print data-i18n="ab.print" disabled>Drucken / als PDF speichern</button>
+        </div>
+        <div class="ab-actions ab-only-online">
+          <button type="button" class="ab-btn ab-btn--primary" data-ab-check data-i18n="ab.check">Prüfen</button>
+          <button type="button" class="ab-btn" data-ab-reset data-i18n="ab.reset">Leeren</button>
+          <span class="ab-score" data-ab-score data-tpl="{n} von {total} richtig" data-i18n-attr="data-tpl:ab.score" aria-live="polite"></span>
+        </div>
+      </div>
+
+      <p class="abm-empty" data-abm-empty data-i18n="ab.mappe.empty">Noch kein Blatt gewählt. Links (am Handy oben) Lernsets und Grammatikthemen ankreuzen.</p>
+      <p class="abm-empty" data-abm-loading hidden data-i18n="ab.mappe.loading">Blätter werden geladen …</p>
+      <p class="abm-empty abm-error" data-abm-error hidden role="alert" data-i18n="ab.mappe.error">Ein Blatt konnte nicht geladen werden. Bitte die Seite neu laden.</p>
+      <div class="abm-sheets" data-abm-sheets></div>
+      <div class="abm-keys" data-abm-keys></div>
+    </div>
+  </main>
+
+  <script>
+    import { mountWorksheet } from "../../../lib/arbeitsblatt/client.js";
+    import { intent } from "../../../lib/intent.js";
+    import { t, onUiText } from "../../../lib/uiText.js";
+
+    const root = document.getElementById("ab-root")!;
+    const $ = <T extends Element = HTMLElement>(s: string) => root.querySelector<T>(s)!;
+    const boxes = [...root.querySelectorAll<HTMLInputElement>("[data-abm-item]")];
+    const byId = new Map(boxes.map((b) => [b.dataset.abmItem!, b]));
+    const sheetsEl = $("[data-abm-sheets]");
+    const keysEl = $("[data-abm-keys]");
+    const printBtn = $<HTMLButtonElement>("[data-ab-print]");
+
+    // The chosen sheets, in the order they were picked: "w:a1-04", "g:perfekt".
+    const url = new URL(location.href);
+    const fromUrl = (k: string, p: string) => (url.searchParams.get(k) ?? "").split(",").filter(Boolean).map((v) => `${p}:${v}`);
+    let chosen = [...fromUrl("w", "w"), ...fromUrl("g", "g"), ...fromUrl("p", "p")].filter((id) => byId.has(id));
+    chosen = [...new Set(chosen)];
+
+    // ---- Picker: level chips and search over the rows, as on the worksheet index. ----
+    const rows = [...root.querySelectorAll<HTMLElement>("[data-abi-row]")];
+    const chips = [...root.querySelectorAll<HTMLButtonElement>("[data-abi-level]")];
+    const search = $<HTMLInputElement>("[data-abi-search]");
+    const first = chosen[0] && byId.get(chosen[0])?.dataset.lvl;
+    let level = url.searchParams.get("level")?.toUpperCase() || first || "A1";
+    if (!chips.some((c) => c.dataset.abiLevel === level)) level = "A1";
+    const filter = () => {
+      const q = search.value.trim().toLowerCase();
+      rows.forEach((r) => {
+        // Draft topics are not offered, only shown once something (the Live-Quiz) chose them.
+        const box = r.querySelector<HTMLInputElement>("[data-abm-item]")!;
+        const draft = r.hasAttribute("data-draft") && !box.checked;
+        r.hidden = draft || (q ? !r.dataset.q!.includes(q) : r.dataset.level !== level);
+      });
+      chips.forEach((c) => c.setAttribute("aria-pressed", String(!q && c.dataset.abiLevel === level)));
+      root.querySelectorAll<HTMLElement>(".abm-lists .abi-sec").forEach((s) => (s.hidden = !s.querySelector("[data-abi-row]:not([hidden])")));
+    };
+    chips.forEach((c) => c.addEventListener("click", () => { level = c.dataset.abiLevel!; search.value = ""; filter(); }));
+    search.addEventListener("input", filter);
+
+    // ---- The chosen list: a chip per sheet, ✕ takes it out. ----
+    const chosenEl = $("[data-abm-chosen]");
+    function drawChosen() {
+      chosenEl.replaceChildren(...chosen.map((id) => {
+        const b = byId.get(id)!;
+        const li = document.createElement("li");
+        const kind = document.createElement("span");
+        kind.className = "abi-badge";
+        kind.textContent = b.dataset.lvl!;
+        const name = document.createElement("span");
+        name.className = "abm-chip-name";
+        name.textContent = b.dataset.name!;
+        const x = document.createElement("button");
+        x.type = "button";
+        x.textContent = "✕";
+        x.setAttribute("aria-label", `${b.dataset.name} entfernen`);
+        x.addEventListener("click", () => toggle(id, false));
+        li.append(kind, name, x);
+        return li;
+      }));
+      chosenEl.hidden = !chosen.length;
+    }
+
+    // ---- The sheets: fetched once per page, then laid out in the chosen order. ----
+    // A Lernset or topic has one sheet; a learners' print page (frequency round, Berufe
+    // group) has two — the word list and the little test — and both come along.
+    const cache = new Map<string, Promise<{ sheets: Element[]; key: Element | null }>>();
+    const pathOf = (id: string) => byId.get(id)!.dataset.path!;
+    function load(id: string) {
+      if (!cache.has(id)) {
+        const p = fetch(pathOf(id)).then(async (res) => {
+          if (!res.ok) throw new Error(`${pathOf(id)} → ${res.status}`);
+          const doc = new DOMParser().parseFromString(await res.text(), "text/html");
+          const sheets = [...doc.querySelectorAll("#ab-root > article.ab-sheet:not(.ab-key)")];
+          if (!sheets.length) throw new Error(`${pathOf(id)}: kein Blatt`);
+          // One h1 per page — the Mappe's own; a sheet's title becomes a heading below it.
+          sheets.forEach((s) => s.querySelectorAll("h1").forEach((h) => {
+            const h2 = doc.createElement("h2");
+            h2.className = h.className;
+            h2.innerHTML = h.innerHTML;
+            h.replaceWith(h2);
+          }));
+          const key = doc.querySelector("#ab-root > article.ab-key");
+          return { sheets: sheets.map((s) => document.importNode(s, true)), key: key && document.importNode(key, true) };
+        });
+        p.catch(() => cache.delete(id));
+        cache.set(id, p);
+      }
+      return cache.get(id)!;
+    }
+
+    let drawn = 0;
+    async function render() {
+      const run = ++drawn;
+      $("[data-abm-empty]").hidden = chosen.length > 0;
+      $("[data-abm-error]").hidden = true;
+      $("[data-abm-langs]").hidden = !chosen.some((id) => id.startsWith("w:"));
+      $("[data-abm-loading]").hidden = !chosen.length;
+      printBtn.disabled = true;
+      try {
+        const parts = await Promise.all(chosen.map(load));
+        if (run !== drawn) return;
+        sheetsEl.replaceChildren(...parts.flatMap((p) => p.sheets));
+        keysEl.replaceChildren(...parts.map((p) => p.key).filter((k): k is Element => !!k));
+        printBtn.disabled = !parts.length;
+      } catch (e) {
+        if (run !== drawn) return;
+        console.error(e);
+        $("[data-abm-error]").hidden = false;
+      } finally {
+        if (run === drawn) $("[data-abm-loading]").hidden = true;
+      }
+    }
+
+    function save() {
+      const u = new URL(location.href);
+      const of = (p: string) => chosen.filter((id) => id.startsWith(p)).map((id) => id.slice(2)).join(",");
+      for (const [k, v] of [["w", of("w:")], ["g", of("g:")], ["p", of("p:")]]) v ? u.searchParams.set(k, v) : u.searchParams.delete(k);
+      u.searchParams.delete("level");
+      history.replaceState(null, "", u);
+    }
+
+    function toggle(id: string, on: boolean) {
+      chosen = chosen.filter((x) => x !== id);
+      if (on) chosen.push(id);
+      const b = byId.get(id);
+      if (b) b.checked = on;
+      save();
+      drawChosen();
+      filter();
+      render();
+    }
+    boxes.forEach((b) => b.addEventListener("change", () => toggle(b.dataset.abmItem!, b.checked)));
+
+    chosen.forEach((id) => (byId.get(id)!.checked = true));
+
+    // From the Live-Quiz: the chapters were chosen there. The picker gives way to a plain
+    // list of what is printed; the quiz stays open in its own tab.
+    if (url.searchParams.get("von") === "quiz") {
+      root.classList.add("abm--quiz");
+      $("[data-abm-pick]").hidden = true;
+      $("[data-abm-quizhead]").hidden = false;
+      $("[data-abm-fixed]").replaceChildren(...chosen.map((id) => {
+        const b = byId.get(id)!;
+        const li = document.createElement("li");
+        li.innerHTML = `<span class="abi-badge"></span><span class="abm-chip-name"></span>`;
+        li.children[0].textContent = b.dataset.lvl!;
+        li.children[1].textContent = b.dataset.name!;
+        return li;
+      }));
+      const fold = $<HTMLDetailsElement>("[data-abm-fold]");
+      const flat = chosen.length <= 3;
+      fold.classList.toggle("abm-fold--flat", flat);
+      fold.open = flat;
+      const levels = [...new Set(chosen.map((id) => byId.get(id)!.dataset.lvl!))];
+      $("[data-abm-fold-lvl]").textContent = levels.join(" · ");
+      const n = $("[data-abm-fold-n]");
+      n.dataset.i18nVars = JSON.stringify({ n: chosen.length });
+      const paintN = () => (n.textContent = t("ab.mappe.foldSum", "{n} Arbeitsblätter in der Mappe", { n: chosen.length }));
+      paintN();
+      onUiText(paintN);
+      // Back to the quiz with this choice: a Lernset and a chapter together come back as a
+      // mix (?mix), a chapter alone as „Nur Grammatik", as the quiz had them.
+      const back = new URLSearchParams();
+      const w = chosen.find((id) => id.startsWith("w:"));
+      const g = chosen.find((id) => id.startsWith("g:"));
+      // A whole level ("w:a1") is the quiz's level:A1. Several chapters (a Zufallsmix) do
+      // not fit one ?grammar, so the quiz comes back with the level alone.
+      if (w) back.set("set", /^w:[abc]\d$/.test(w) ? `level:${w.slice(2).toUpperCase()}` : `unit:${w.slice(2)}`);
+      if (g && chosen.filter((id) => id.startsWith("g:")).length === 1) back.set("grammar", `g-${g.slice(2)}`);
+      if (w && g) back.set("mix", "1");
+      const backQuery = back.toString();
+      const backUrl = "/teachers/quiz" + (backQuery ? "?" + backQuery : "");
+      $<HTMLAnchorElement>("[data-abm-back]").href = backUrl;
+      // The browser's back button too: this tab opened fresh, with nothing behind it, so
+      // the quiz is put there once (the entry becomes the quiz, the Mappe is pushed on top).
+      // Going back only changes the address, so the quiz is then loaded for real.
+      if (history.length === 1 || !history.state?.abmQuiz) {
+        const here = location.href;
+        history.replaceState({ abmBack: true }, "", backUrl);
+        history.pushState({ abmQuiz: true }, "", here);
+      }
+      addEventListener("popstate", () => {
+        if (location.pathname.startsWith("/teachers/quiz")) location.replace(location.href);
+      });
+      $("[data-abm-empty]").dataset.i18n = "ab.mappe.emptyQuiz";
+      $("[data-abm-empty]").textContent = "Choose a word set or a grammar chapter in the live quiz – the worksheet then appears here.";
+    }
+
+    const add = $<HTMLDetailsElement>("[data-abm-add]");
+    const wide = matchMedia("(min-width: 1024px)");
+    const syncAdd = () => { if (wide.matches) add.open = true; };
+    add.open = wide.matches || !chosen.length;
+    wide.addEventListener("change", syncAdd);
+    add.addEventListener("toggle", syncAdd);
+    printBtn.addEventListener("click", () => intent("teacher_tool_use", { tool: "worksheet_mappe" }));
+    mountWorksheet(root);
+    drawChosen();
+    filter();
+    render();
+  </script>
+</Layout>

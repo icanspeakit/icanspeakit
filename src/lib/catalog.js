@@ -1,6 +1,6 @@
 /* The one catalogue behind every "what can I practise here?" surface.
  *
- * /uebungen and / used to carry their own copy of the same thirteen entries, which is how
+ * /exercises and / used to carry their own copy of the same thirteen entries, which is how
  * the homepage ended up advertising "31 Nomen" for a trainer that had read 864 out of the
  * lexicon for a week. Counts are derived here, once, from the same data the tools load.
  *
@@ -12,6 +12,7 @@ import { REDEWENDUNGEN_LIVE } from "./redewendungenLive.js";
 import { counts, asArtikelRows } from "./lexicon.js";
 import { taskCountOf } from "./grammarTasks.js";
 import { isReviewed } from "./topicStatus.js";
+import { topicPath } from "./routes.js";
 import { lernsets } from "./lernsets.js";
 import { published as publishedWords } from "./wortgeschichte.js";
 import artikel from "../data/artikel.json";
@@ -43,7 +44,7 @@ import praepTrainer from "../data/praepositionen-trainer.json";
 // shadows the quiz entry with the same id.
 const workspaceModules = import.meta.glob("../data/grammatik/*.json", { eager: true });
 // Deutsch für den Beruf (FACHVOKABULAR-TIERED-PROMPT.md, Tier 3): the word count over every
-// profession deck, refs included — the number the /berufe hub shows.
+// profession deck, refs included — the number the /english-for-work hub shows.
 const berufeDecks = Object.values(import.meta.glob("../data/berufe/*.json", { eager: true, import: "default" }));
 const berufeWordCount = berufeDecks.reduce((n, d) => n + (d.groups ?? []).reduce((m, g) => m + (g.words ?? []).length, 0), 0);
 const workspaces = Object.values(workspaceModules).map((m) => m.default ?? m).filter(isReviewed);
@@ -65,7 +66,7 @@ export const prepositionVerbCount = verbenPraepositionen.concept.reference.boxes
 
 // Präpositionen were spread across the catalogue: Wechselpräpositionen sat unlisted
 // behind the Grammatik tile, "Verben mit Präpositionen" had a tile of its own, and a
-// learner asking "wo sind die Präpositionen?" found neither from /uebungen. They get one
+// learner asking "wo sind die Präpositionen?" found neither from /exercises. They get one
 // area instead — see src/pages/praepositionen.astro — and this is the list it
 // and the tile above it both read.
 const PRAEPOSITION_IDS = ["wechselpraepositionen", "praepositionen"];
@@ -77,7 +78,7 @@ export const praepositionTopics = PRAEPOSITION_IDS
     name: w.name,
     level: w.level,
     subtitle: w.subtitle,
-    href: `/${w.slug ?? w.id}`,
+    href: topicPath(w.slug ?? w.id),
     exercises: w.exercises.length,
     tasks: taskCountOf(w),
   }));
@@ -105,16 +106,16 @@ const parts = (n) => Math.max(1, Math.ceil(n / PART_SIZE));
 export const lexiconCounts = counts();
 
 export const tools = [
-  { id: "artikel", group: "grammatik", href: "/artikel", icon: "target",
+  { id: "artikel", group: "grammatik", href: "/articles", icon: "target",
     titleKey: "tool.artikel.title", title: "der/die/das-Trainer", shortKey: "group.short.artikel", short: "Artikel",
     descKey: "tool.artikel.desc", desc: "Artikel gezielt üben, mit sofortigem Feedback.",
     countKey: "tool.artikel.round", countVars: { n: ARTIKEL_ROUND }, count: `${ARTIKEL_ROUND} Nomen pro Übung` },
-  { id: "grammatik", group: "grammatik", href: "/grammatik", icon: "book",
+  { id: "grammatik", group: "grammatik", href: "/grammar", icon: "book",
     titleKey: "tool.grammatik.title", title: "Grammatik", shortKey: "tool.grammatik.title", short: "Grammatik",
     // Inside the Grammatik column of the menu, "Grammatik" was the row under a heading of
     // the same word pointing at the same URL — two controls, one destination, one nested
     // in the other. There the row's job is to say what it is beside its two siblings:
-    // they each drill one thing, this is the whole set. Standalone (the /uebungen card
+    // they each drill one thing, this is the whole set. Standalone (the /exercises card
     // grid mixes subjects, the exam pages list it among five tools) it stays "Grammatik",
     // because "Alle Themen" with no Grammatik above it names nothing.
     menuTitleKey: "tool.grammatik.allTopics", menuTitle: "Alle Themen",
@@ -122,45 +123,45 @@ export const tools = [
     countKey: "tool.grammatik.count", countVars: { n: grammarTopicCount, q: grammarTaskCount }, count: `${grammarTopicCount} Themen · ${grammarTaskCount} Aufgaben` },
   // The tile opens the Präpositionen trainer (A1–B2 topics plus the Wechselpräpositionen);
   // the two full grammar topics are linked from inside it. Counts are the trainer's.
-  { id: "praep", group: "grammatik", href: "/praepositionen", icon: "link",
+  { id: "praep", group: "grammatik", href: "/prepositions", icon: "link",
     titleKey: "tool.praepositionen.title", title: "Präpositionen", shortKey: "group.short.praep", short: "Präpositionen",
     descKey: "tool.praepositionen.desc", desc: "Von mit, für und am bis aufgrund und darauf — A1 bis B2, mit den Wechselpräpositionen.",
     countKey: "tool.praepositionen.count", countVars: { n: praepTrainer.packs.length, q: praepTrainerTasks },
     count: `${praepTrainer.packs.length} Themen · ${praepTrainerTasks} Aufgaben` },
-  { id: "wortschatz", group: "woerter", href: "/wortschatz", icon: "folder",
+  { id: "wortschatz", group: "woerter", href: "/vocabulary", icon: "folder",
     titleKey: "tool.wortschatz.title", title: "Wortschatz & Redemittel", shortKey: "group.short.wortschatz", short: "Wortschatz",
     descKey: "tool.wortschatz.desc", desc: "Karteikarten zum Umdrehen und Wiederholen.",
     countKey: "tool.wortschatz.count", countVars: { n: wortschatz.length }, count: `${wortschatz.length} Karten` },
-  { id: "aussprache", group: "woerter", href: "/aussprache", icon: "volume",
+  { id: "aussprache", group: "woerter", href: "/pronunciation", icon: "volume",
     titleKey: "tool.aussprache.title", title: "Aussprache-Training", shortKey: "group.short.aussprache", short: "Aussprache",
     descKey: "tool.aussprache.desc", desc: "Wörter anhören und im Langsam-Modus üben.",
     countKey: "tool.aussprache.count", countVars: { n: wortschatz.length + artikel.length }, count: `${wortschatz.length + artikel.length} Wörter` },
-  { id: "berufe", group: "woerter", href: "/berufe", icon: "target",
+  { id: "berufe", group: "woerter", href: "/english-for-work", icon: "target",
     titleKey: "tool.berufe.title", title: "Deutsch für den Beruf", shortKey: "group.short.berufe", short: "Beruf",
     descKey: "tool.berufe.desc", desc: "Fachwortschatz für die Arbeit: Gastronomie, Hotel, Lager, Bau, Pflege und mehr.",
     countKey: "tool.berufe.count", countVars: { n: berufeWordCount }, count: `${berufeWordCount} Wörter`,
     keywords: "beruf berufe arbeit job arbeitsplatz fachwortschatz fachsprache fachvokabular deutsch für den beruf work jobs vocabulary gastronomie restaurant küche koch kellner service hotel rezeption housekeeping zimmermädchen lager logistik stapler kommissionieren fahrer lkw paket zusteller kurier bau baustelle handwerk maler maurer elektro elektriker sanitär heizung einzelhandel verkauf kasse supermarkt büro verwaltung kita erzieher kindergarten pflege altenpflege krankenhaus" },
-  { id: "hoeren", group: "fertigkeiten", href: "/hoeren", icon: "volume",
+  { id: "hoeren", group: "fertigkeiten", href: "/listening", icon: "volume",
     titleKey: "tool.hoeren.title", title: "Hörverstehen", shortKey: "group.short.hoeren", short: "Hören",
     descKey: "tool.hoeren.desc", desc: "Durchsagen, Telefonate und Gespräche — mit Transkript und Tempo-Regler.",
     countKey: "tool.hoeren.count", countVars: { n: hoeren.texts.length, q: hoerenQuestionCount },
     count: `${hoeren.texts.length} Hörtexte · ${hoerenQuestionCount} Fragen` },
-  { id: "sprechen", group: "fertigkeiten", href: "/sprechen/", icon: "mic",
+  { id: "sprechen", group: "fertigkeiten", href: "/speaking/", icon: "mic",
     titleKey: "tool.sprechen.title", title: "Sprechen", shortKey: "group.short.sprechen", short: "Sprechen",
     descKey: "tool.sprechen.desc", desc: "Vorstellen, Bild beschreiben, Kurzvortrag — mit Timer.",
     countKey: "tool.sprechen.count", countVars: { n: sprechenIndex.tasks.length },
     count: `${sprechenIndex.tasks.length} Aufgaben` },
-  { id: "lesen", group: "fertigkeiten", href: "/lesen", icon: "book-open",
+  { id: "lesen", group: "fertigkeiten", href: "/reading", icon: "book-open",
     titleKey: "tool.lesen.title", title: "Leseverstehen", shortKey: "group.short.lesen", short: "Lesen",
     descKey: "tool.lesen.desc", desc: "Schilder, Anzeigen, E-Mails und Artikel — A1 bis B2.",
     countKey: "tool.lesen.count", countVars: { n: lesenIndex.texts.length },
     count: `${lesenIndex.texts.length} Lesetexte` },
-  { id: "schreiben", group: "fertigkeiten", href: "/schreiben", icon: "pencil",
+  { id: "schreiben", group: "fertigkeiten", href: "/writing", icon: "pencil",
     titleKey: "skill.schreiben", title: "Schreiben", shortKey: "skill.schreiben", short: "Schreiben",
     descKey: "tool.schreiben.desc", desc: "Formulare, Nachrichten und Briefe — mit Modelltext.",
     countKey: "tool.sprechen.count", countVars: { n: schreibenIndex.tasks.length },
     count: `${schreibenIndex.tasks.length} Aufgaben` },
-  { id: "kultur", group: "kultur", href: "/kultur", icon: "map-pin",
+  { id: "kultur", group: "kultur", href: "/culture", icon: "map-pin",
     titleKey: "tool.kultur.title", title: "Kulturwissen", shortKey: "group.short.kultur", short: "Kultur",
     descKey: "tool.kultur.desc", desc: "Wie Deutschland im Alltag funktioniert — mit Quiz.",
     countKey: "tool.kultur.count", countVars: { n: kulturTopicCount, q: kulturQuizCount },
@@ -176,7 +177,7 @@ export const tools = [
  * A landing page is not an inventory. Ten tiles is a wall a visitor reads as "a lot of
  * things" rather than as an offer, and five of the ten were one tile's worth of idea
  * split five ways: Aussprache and Hören are both "listen to German", and Sprechen, Lesen
- * and Schreiben are the three halves of the same exam that /fertigkeiten already
+ * and Schreiben are the three halves of the same exam that /skills already
  * presents together. Nobody arrives wanting "Schreiben" specifically; they arrive wanting
  * to know whether the four Fertigkeiten are covered.
  *
@@ -193,7 +194,7 @@ export const landingTools = (() => {
   const t = Object.fromEntries(tools.map((x) => [x.id, x]));
   const merged = {
     hoerenAussprache: {
-      id: "hoeren-aussprache", group: "fertigkeiten", href: "/fertigkeiten#hoeren", icon: "volume",
+      id: "hoeren-aussprache", group: "fertigkeiten", href: "/skills#hoeren", icon: "volume",
       titleKey: "tool.hoerenAussprache.title", title: "Hören & Aussprache",
       shortKey: "group.short.hoeren", short: "Hören",
       descKey: "tool.hoerenAussprache.desc",
@@ -203,7 +204,7 @@ export const landingTools = (() => {
       count: sumCount(`${hoeren.texts.length} Hörtexte`, `${wortschatz.length + artikel.length} Wörter`),
     },
     fertigkeiten: {
-      id: "fertigkeiten", group: "fertigkeiten", href: "/fertigkeiten#sprechen", icon: "mic",
+      id: "fertigkeiten", group: "fertigkeiten", href: "/skills#sprechen", icon: "mic",
       titleKey: "tool.fertigkeiten.title", title: "Sprechen, Lesen & Schreiben",
       shortKey: "group.short.sprechen", short: "Fertigkeiten",
       descKey: "tool.fertigkeiten.desc",
@@ -223,7 +224,7 @@ export const landingTools = (() => {
     // The eighth tile: the placement test had no way in from the hub, and "welches Niveau
     // bin ich?" is the question in front of every other tile here.
     einstufung: {
-      id: "einstufung", group: "grammatik", href: "/einstufungstest", icon: "bars",
+      id: "einstufung", group: "grammatik", href: "/placement-test", icon: "bars",
       titleKey: "tool.einstufung.title", title: "Einstufungstest",
       shortKey: "tool.einstufung.title", short: "Einstufung",
       descKey: "tool.einstufung.desc", desc: "Where do you stand? A few questions per level, A1 to C1.",
@@ -244,11 +245,11 @@ export const landingTools = (() => {
 })();
 
 export const exams = [
-  { id: "telc", group: "pruefungen", href: "/telc", icon: "document", title: "telc", short: "telc", count: "A1–C2" },
-  { id: "goethe", group: "pruefungen", href: "/goethe", icon: "landmark", title: "Goethe-Zertifikat", short: "Goethe", count: "A1–C2" },
-  { id: "testdaf", group: "pruefungen", href: "/testdaf", icon: "graduation-cap", title: "TestDaF", short: "TestDaF", count: "≈ B2–C1" },
-  { id: "dtz", group: "pruefungen", href: "/dtz", icon: "book-open", title: "DTZ", short: "DTZ", count: "A2 / B1" },
-  { id: "lid", group: "pruefungen", href: "/leben-in-deutschland", icon: "map-pin", titleKey: "exam.lid.name", title: "Leben in Deutschland (Einbürgerungstest)", short: "Leben in DE",
+  { id: "telc", group: "pruefungen", href: "/trinity", icon: "document", title: "telc", short: "telc", count: "A1–C2" },
+  { id: "goethe", group: "pruefungen", href: "/cambridge", icon: "landmark", title: "Goethe-Zertifikat", short: "Goethe", count: "A1–C2" },
+  { id: "testdaf", group: "pruefungen", href: "/ielts", icon: "graduation-cap", title: "TestDaF", short: "TestDaF", count: "≈ B2–C1" },
+  { id: "dtz", group: "pruefungen", href: "/trinity/ise-1", icon: "book-open", title: "DTZ", short: "DTZ", count: "A2 / B1" },
+  { id: "lid", group: "pruefungen", href: "/life-in-the-uk", icon: "map-pin", titleKey: "exam.lid.name", title: "Leben in Deutschland (Einbürgerungstest)", short: "Leben in DE",
     keywords: "einbürgerungstest einbürgerung einbuergerungstest staatsbürgerschaft citizenship naturalisation orientierungskurs",
     countKey: "group.count.bundeslaender", countVars: { n: lid.bundeslaender.length }, count: `${lid.bundeslaender.length} Bundesländer` },
   // Like LiD a knowledge test, not a language exam (FUEHRERSCHEIN-TIERED-PROMPT.md). The count
@@ -288,7 +289,7 @@ export function itemsOf(groupId) {
 //
 // Landeskunde rode along under Sprechen while it was a single topic — one tool does not
 // earn its own menu. With fifteen topics and a quiz over all of them it does, so it is
-// its own section now. It keeps its group in `groups` above, which is what /uebungen
+// its own section now. It keeps its group in `groups` above, which is what /exercises
 // and the picker read.
 
 
@@ -318,17 +319,17 @@ export const KULTUR_LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
 export const grammarTopics = [
   ...workspaces.map((w) => ({
     id: w.id, name: w.name, level: w.level,
-    href: `/${w.slug ?? w.id}`,
+    href: topicPath(w.slug ?? w.id),
   })),
   ...grammatik
     .filter((t) => !workspaceIds.has(t.id))
-    .map((t) => ({ id: t.id, name: t.name, level: t.level, href: `/${t.id}` })),
+    .map((t) => ({ id: t.id, name: t.name, level: t.level, href: topicPath(t.id) })),
 ];
 
 /* --- The Grammatik-Werkstatt ------------------------------------------------
  *
  * The 21 workspaces on their own, with enough on each to render a card: level, one line
- * of what it is, an icon and how many answers it asks for. /uebungen had no way to reach
+ * of what it is, an icon and how many answers it asks for. /exercises had no way to reach
  * a single one of them — the Grammatik tile led to a level index, and the tile's own
  * count did not include them — so the hub now lists them as their own Bereich.
  *
@@ -436,7 +437,7 @@ export const grammarWorkspaces = workspaces
     name: w.name,
     level: w.level,
     subtitle: w.subtitle,
-    href: `/${w.slug ?? w.id}`,
+    href: topicPath(w.slug ?? w.id),
     icon: GRAMMAR_ICON[w.id] ?? "📚",
     exercises: w.exercises.length,
     tasks: taskCountOf(w),
@@ -470,13 +471,13 @@ export const levels = NAV_LEVELS.map((level) => {
   if (genderedNouns) {
     vocab.push({ id: "artikel", icon: "target", title: "der/die/das-Trainer",
       titleKey: "tool.artikel.title",
-      href: `/artikel?niveau=${level}`, count: `${ARTIKEL_ROUND} Nomen pro Übung`,
+      href: `/articles?niveau=${level}`, count: `${ARTIKEL_ROUND} Nomen pro Übung`,
       countKey: "tool.artikel.round", countVars: { n: ARTIKEL_ROUND } });
   }
   if (words) {
     vocab.push({ id: "wortschatz", icon: "folder", title: `Wortliste ${level}`,
       titleKey: "nav.vocab.listLevel", titleVars: { level },
-      href: `/wortschatz/${slug}`, count: `${parts(words)} Runden · je ${PART_SIZE} Wörter`,
+      href: `/vocabulary/${slug}`, count: `${parts(words)} Runden · je ${PART_SIZE} Wörter`,
       countKey: "sets.rounds", countVars: { n: parts(words), size: PART_SIZE } });
   }
 
@@ -486,7 +487,7 @@ export const levels = NAV_LEVELS.map((level) => {
     slug,
     blurbKey: `level.${slug}.blurb`,
     blurb: LEVEL_BLURB[level],
-    href: `/grammatik#niveau-${slug}`,
+    href: `/grammar#niveau-${slug}`,
     grammar,
     vocab,
     words,
@@ -542,7 +543,7 @@ const grammarLevelView = (level) => {
       { id: "b", items: rows.slice(half) },
     ],
     more: {
-      href: `/grammatik#niveau-${head.slug}`,
+      href: `/grammar#niveau-${head.slug}`,
       labelKey: "nav.level.allTopics", labelVars: { n: rows.length }, label: `Alle ${rows.length} Themen`,
     },
   };
@@ -565,13 +566,13 @@ const vocabLevelView = (level) => {
   // words are coming rather than handing back another level's deck.
   const lists = [];
   if (words) {
-    lists.push({ ...levelRow(`Wortliste ${level}`, `/wortschatz/${head.slug}`,
+    lists.push({ ...levelRow(`Wortliste ${level}`, `/vocabulary/${head.slug}`,
       `${parts(words)} Runden · je ${PART_SIZE} Wörter`),
       titleKey: "nav.vocab.listLevel", titleVars: { level },
       countKey: "sets.rounds", countVars: { n: parts(words), size: PART_SIZE } });
   }
   if (nouns) {
-    lists.push({ ...levelRow(`der/die/das · ${level}`, `/artikel?niveau=${level}`,
+    lists.push({ ...levelRow(`der/die/das · ${level}`, `/articles?niveau=${level}`,
       `${ARTIKEL_ROUND} Nomen pro Übung`),
       countKey: "tool.artikel.round", countVars: { n: ARTIKEL_ROUND } });
   }
@@ -591,11 +592,11 @@ const vocabLevelView = (level) => {
       {
         id: "sets", name: "Lernsets", nameKey: "nav.vocab.sets", icon: "layers",
         items: sets.slice(0, VOCAB_SETS_PREVIEW)
-          .map((s) => ({ ...levelRow(s.title, `/wortschatz/${s.id}`, `${s.words} Wörter`),
+          .map((s) => ({ ...levelRow(s.title, `/vocabulary/${s.id}`, `${s.words} Wörter`),
             titleKey: `ws.set.${s.id}`, countKey: "tool.aussprache.count", countVars: { n: s.words } })),
         more: sets.length > VOCAB_SETS_PREVIEW
           ? {
-              href: `/wortschatz/${head.slug}`,
+              href: `/vocabulary/${head.slug}`,
               labelKey: "nav.vocab.allSets", labelVars: { n: sets.length }, label: `Alle ${sets.length} Lernsets`,
             }
           : null,
@@ -611,7 +612,7 @@ const vocabLevelView = (level) => {
    spans every topic, then the topics in the hub's own order. No i18n keys — topic
    titles live in kultur.json and are not translated yet, so they render as written. */
 const kulturQuizItem = {
-  id: "kultur-quiz", href: "/kultur/quiz", icon: "target",
+  id: "kultur-quiz", href: "/culture/quiz", icon: "target",
   title: "Quiz über alle Themen", titleKey: "nav.kultur.quizAll", count: `${kulturQuizCount} Fragen`,
   countKey: "grammatik.card.questions", countVars: { n: kulturQuizCount },
 };
@@ -620,14 +621,14 @@ const kulturQuizItem = {
    files and their own shape, so they sit beside the quiz rather than in a level group. */
 const fehlerCount = fehlerNachSprache.languages.length;
 const kulturFehlerItem = {
-  id: "kultur-fehler", href: "/kultur/fehler", icon: "pencil",
+  id: "kultur-fehler", href: "/culture/mistakes", icon: "pencil",
   title: "Typische Fehler nach Muttersprache", titleKey: "nav.kultur.fehler",
   count: `${fehlerCount} Sprachen`,
   countKey: "nav.kultur.fehlerCount", countVars: { n: fehlerCount },
 };
 const insiderCount = kulturInsider.topics.length;
 const kulturInsiderItem = {
-  id: "kultur-insider", href: "/kultur/insider", icon: "landmark",
+  id: "kultur-insider", href: "/culture/insider", icon: "landmark",
   title: "Deutschland von innen", titleKey: "nav.kultur.insider",
   count: `${insiderCount} Themen`,
   countKey: "nav.kultur.insiderCount", countVars: { n: insiderCount },
@@ -636,7 +637,7 @@ const kulturInsiderItem = {
    The same facts serve both: a learner reading about Germany meets the exam, and one
    preparing for the exam is reading Landeskunde anyway. */
 const kulturLidFaktenItem = {
-  id: "kultur-lid-fakten", href: "/leben-in-deutschland/fakten", icon: "graduation-cap",
+  id: "kultur-lid-fakten", href: "/life-in-the-uk/facts", icon: "graduation-cap",
   title: "Fakten über Deutschland", titleKey: "nav.kultur.lidFakten",
   count: "Einbürgerungstest (LiD)", countKey: "nav.kultur.lidFaktenHint",
 };
@@ -647,7 +648,7 @@ const kulturFeatures = [kulturQuizItem, kulturFehlerItem, kulturInsiderItem];
    list below has no heading over it, so there it stays. */
 const kulturItem = (t, { level = true } = {}) => ({
   id: `kultur-${t.id}`,
-  href: `/kultur/${t.id}`,
+  href: `/culture/${t.id}`,
   icon: t.icon,
   title: t.title,
   count: level ? `${t.level} · ${t.quiz.length} Fragen` : `${t.quiz.length} Fragen`,
@@ -752,11 +753,11 @@ const indexLevels = (items, row) =>
 const SKILLS = [
   {
     id: "hoeren", name: "Hören", nameKey: "nav.skill.hoeren", icon: "volume",
-    href: "/hoeren",
+    href: "/listening",
     // The count line names the task type rather than the topic, because that is what a DTZ
     // or telc Hörteil actually varies between items. The three skills below follow it.
     byLevel: indexLevels(hoeren.texts, (t) =>
-      levelRow(t.title, `/hoeren/${t.id}`,
+      levelRow(t.title, `/listening/${t.id}`,
         `${hoeren.types[t.type]} · ${t.questions.length} Fragen`,
         { typeKey: `type.hoeren.${t.type}`, typeText: hoeren.types[t.type],
           countKey: "grammatik.card.questions", countVars: { n: t.questions.length },
@@ -764,9 +765,9 @@ const SKILLS = [
   },
   {
     id: "lesen", name: "Lesen", nameKey: "nav.skill.lesen", icon: "book-open",
-    href: "/lesen",
+    href: "/reading",
     byLevel: indexLevels(lesenIndex.texts, (t) =>
-      levelRow(t.title, `/lesen/${t.id}`,
+      levelRow(t.title, `/reading/${t.id}`,
         `${lesenIndex.types[t.type]} · ca. ${t.minutes} Min.`,
         { typeKey: `type.lesen.${t.type}`, typeText: lesenIndex.types[t.type],
           countKey: "meta.min", countVars: { m: t.minutes },
@@ -774,9 +775,9 @@ const SKILLS = [
   },
   {
     id: "schreiben", name: "Schreiben", nameKey: "nav.skill.schreiben", icon: "pencil",
-    href: "/schreiben",
+    href: "/writing",
     byLevel: indexLevels(schreibenIndex.tasks, (t) =>
-      levelRow(t.title, `/schreiben/${t.id}`,
+      levelRow(t.title, `/writing/${t.id}`,
         `${schreibenIndex.types[t.type]} · ca. ${t.minutes} Min.`,
         { typeKey: `type.schreiben.${t.type}`, typeText: schreibenIndex.types[t.type],
           countKey: "meta.min", countVars: { m: t.minutes },
@@ -784,9 +785,9 @@ const SKILLS = [
   },
   {
     id: "sprechen", name: "Sprechen", nameKey: "nav.skill.sprechen", icon: "mic",
-    href: "/sprechen/",
+    href: "/speaking/",
     byLevel: indexLevels(sprechenIndex.tasks, (t) =>
-      levelRow(t.title, `/sprechen/${t.id}`,
+      levelRow(t.title, `/speaking/${t.id}`,
         `${sprechenIndex.types[t.type]} · ${t.seconds} Sek.`,
         { typeKey: `type.sprechen.${t.type}`, typeText: sprechenIndex.types[t.type],
           countKey: "meta.sek", countVars: { s: t.seconds },
@@ -823,31 +824,31 @@ export const skills = SKILLS.map((skill) => ({
 // Grammatik" was the same URL three times in one menu (the menu button, the row, and
 // "Übersicht"), which reads as a bug even when it works.
 
-const grammatikTrainer = notSelf("/grammatik", itemsOf("grammatik"));
+const grammatikTrainer = notSelf("/grammar", itemsOf("grammatik"));
 
-/** The Bruno Kart game (/spiele/artikel-sprint): listed under Spiele in both menus.
+/** The Bruno Kart game (/games/countable-sprint): listed under Spiele in both menus.
  *  Not in `tools`, which feeds the landing grid and the counts. */
-const sprintItem = { id: "artikel-sprint", href: "/spiele/artikel-sprint", icon: "sparkle",
+const sprintItem = { id: "artikel-sprint", href: "/games/countable-sprint", icon: "sparkle",
   titleKey: "sprint.name", title: "Bruno Kart",
   hintKey: "nav.hint.game", hint: "Spiel, auch mit Freunden",
   countKey: "nav.hint.game", count: "Spiel, auch mit Freunden" };
-const wortschatzItems = notSelf("/wortschatz", itemsOf("woerter"));
+const wortschatzItems = notSelf("/vocabulary", itemsOf("woerter"));
 
-/** Spiele: the real games, gathered in one place in both menus. There is no /spiele hub
+/** Spiele: the real games, gathered in one place in both menus. There is no /games hub
  *  page, so the section has no href — the desktop head is a label and the drawer pane has
  *  no "Alle …" row. */
-// Stadtfahrt (/spiele/stadtfahrt) is a prototype for now: the page stays, the menu does not
+// Stadtfahrt (/games/stadtfahrt) is a prototype for now: the page stays, the menu does not
 // list it (EXPERIMENTE.md).
 const spieleItems = [
-  { id: "lindenau", href: "/spiele/lindenau", icon: "landmark",
+  { id: "lindenau", href: "/games/brambleford", icon: "landmark",
     titleKey: "nav.spiele.lindenau", title: "The Legend of Brambleford",
     hintKey: "nav.spiele.lindenauHint", hint: "Role-play in town, A1",
     countKey: "nav.spiele.lindenauHint", count: "Role-play in town, A1" },
-  { id: "hoer-safari", href: "/spiele/hoer-safari", icon: "volume",
+  { id: "hoer-safari", href: "/games/listening-safari", icon: "volume",
     titleKey: "nav.spiele.hoerSafari", title: "Hamstis Wachtelhuhn",
     hintKey: "nav.spiele.hoerSafariHint", hint: "Wort hören, Vogel treffen, A1–B1",
     countKey: "nav.spiele.hoerSafariHint", count: "Wort hören, Vogel treffen, A1–B1" },
-  { id: "vorfahrt", href: "/spiele/vorfahrt", icon: "car",
+  { id: "vorfahrt", href: "/games/vorfahrt", icon: "car",
     titleKey: "nav.spiele.vorfahrt", title: "Quaki kreuzt",
     hintKey: "nav.spiele.vorfahrtHint", hint: "Fahren oder warten an Kreuzungen",
     countKey: "nav.spiele.vorfahrtHint", count: "Fahren oder warten an Kreuzungen" },
@@ -855,7 +856,7 @@ const spieleItems = [
 ];
 
 export const navSections = [
-  { id: "grammatik", icon: "book", href: "/grammatik",
+  { id: "grammatik", icon: "book", href: "/grammar",
     nameKey: "nav.subject.grammatik", name: "Grammatik",
     blurbKey: "group.grammatik.blurb", blurb: "Artikel, Fälle, Zeiten",
     // Spans the levels rather than sitting inside one: the trainer draws its nouns from
@@ -865,7 +866,7 @@ export const navSections = [
     badge: GRAMMAR_LEVELS.length,
     items: [...grammatikTrainer, ...grammarTopics.map((t) => levelRow(t.name, t.href))] },
 
-  { id: "wortschatz", icon: "folder", href: "/wortschatz",
+  { id: "wortschatz", icon: "folder", href: "/vocabulary",
     nameKey: "nav.subject.wortschatz", name: "Wortschatz",
     blurbKey: "group.woerter.blurb", blurb: "Vokabeln hören und behalten",
     // Not level-scoped — it reads every deck at once — so it sits above the tiles too.
@@ -878,10 +879,10 @@ export const navSections = [
   // Was "Sprechen", which was simply not true of the second entry in it: "Lesen & Schreiben"
   // is a reading and writing trainer. "Fertigkeiten" is the word the Lehrwerke and the
   // Integrationskurse use for exactly this set of four.
-  // The subject's own page, not /sprechen: clicking "Fertigkeiten" used to land
+  // The subject's own page, not /speaking: clicking "Fertigkeiten" used to land
   // the learner inside the Bildbeschreibung trainer — one of the four skills — with the
   // other three only reachable by reopening the menu.
-  { id: "fertigkeiten", icon: "mic", href: "/fertigkeiten",
+  { id: "fertigkeiten", icon: "mic", href: "/skills",
     nameKey: "nav.subject.fertigkeiten", name: "Fertigkeiten",
     blurbKey: "nav.subject.fertigkeiten.blurb", blurb: "Hören, Lesen, Schreiben, Sprechen",
     skills,
@@ -889,15 +890,15 @@ export const navSections = [
     // the four rather than as peers. The desktop menu carries the same two rows —
     // see the Fertigkeiten column of `navUebenMenu`.
     extras: [
-      { href: "/aussprache", icon: "volume", titleKey: "nav.skill.aussprache", title: "Aussprache" },
-      { href: "/aussprache-check", icon: "mic", titleKey: "nav.skill.ausspracheCheck", title: "Aussprache-Check" },
-      { href: "/zungenbrecher", icon: "mic", titleKey: "nav.skill.zungenbrecher", title: "Zungenbrecher" },
-      { href: "/satzmelodie", icon: "volume", titleKey: "nav.skill.satzmelodie", title: "Satzmelodie" },
+      { href: "/pronunciation", icon: "volume", titleKey: "nav.skill.aussprache", title: "Aussprache" },
+      { href: "/pronunciation-check", icon: "mic", titleKey: "nav.skill.ausspracheCheck", title: "Aussprache-Check" },
+      { href: "/tongue-twisters", icon: "mic", titleKey: "nav.skill.zungenbrecher", title: "Zungenbrecher" },
+      { href: "/intonation", icon: "volume", titleKey: "nav.skill.satzmelodie", title: "Satzmelodie" },
     ],
     badge: skills.length,
-    items: notSelf("/fertigkeiten", itemsOf("fertigkeiten")) },
+    items: notSelf("/skills", itemsOf("fertigkeiten")) },
 
-  { id: "landeskunde", icon: "map-pin", href: "/kultur",
+  { id: "landeskunde", icon: "map-pin", href: "/culture",
     nameKey: "group.kultur.name", name: "Landeskunde",
     blurbKey: "group.kultur.blurb", blurb: "Alltag und Kultur in Deutschland",
     // The two pages that are not kultur.json topics sit above the groups. The quiz is not
@@ -915,11 +916,11 @@ export const navSections = [
     badge: spieleItems.length,
     items: spieleItems },
 
-  { id: "pruefungen", icon: "graduation-cap", href: "/pruefungen",
+  { id: "pruefungen", icon: "graduation-cap", href: "/exams",
     nameKey: "nav.exams", name: "Prüfungen",
     blurbKey: "group.pruefungen.blurb", blurb: "telc, Goethe, TestDaF, DTZ",
     // The Führerschein simulation has no row of its own: it is one of the hub's actions.
-    items: notSelf("/pruefungen", itemsOf("pruefungen")) },
+    items: notSelf("/exams", itemsOf("pruefungen")) },
 ];
 
 // ---------------------------------------------------------------------------
@@ -953,20 +954,20 @@ const skillColumnItems = skills.map((s) => ({
 
 export const navUeben = {
   id: "ueben",
-  href: "/uebungen",
+  href: "/exercises",
   nameKey: "nav.subject.ueben",
   name: "Üben",
   columns: [
-    { id: "grammatik", icon: "book", href: "/grammatik",
+    { id: "grammatik", icon: "book", href: "/grammar",
       nameKey: "nav.subject.grammatik", name: "Grammatik",
       items: itemsOf("grammatik") },
-    { id: "wortschatz", icon: "folder", href: "/wortschatz",
+    { id: "wortschatz", icon: "folder", href: "/vocabulary",
       nameKey: "nav.subject.wortschatz", name: "Wortschatz",
       items: itemsOf("woerter") },
-    { id: "fertigkeiten", icon: "mic", href: "/fertigkeiten",
+    { id: "fertigkeiten", icon: "mic", href: "/skills",
       nameKey: "nav.subject.fertigkeiten", name: "Fertigkeiten",
       items: skillColumnItems },
-    { id: "landeskunde", icon: "map-pin", href: "/kultur",
+    { id: "landeskunde", icon: "map-pin", href: "/culture",
       nameKey: "group.kultur.name", name: "Landeskunde",
       items: [...itemsOf("kultur"), ...kulturFeatures] },
   ],
@@ -977,7 +978,7 @@ export const navUeben = {
   levels: levels.map((lv) => ({
     level: lv.level,
     slug: lv.slug,
-    href: `/grammatik#niveau-${lv.slug}`,
+    href: `/grammar#niveau-${lv.slug}`,
     blurbKey: lv.blurbKey,
     blurb: lv.blurb,
   })),
@@ -999,10 +1000,10 @@ export const navUeben = {
 
 /** The short drills under Grammatik. A new one (Konjugation, Plural) is one more row. */
 export const quickTrainers = [
-  { id: "artikel", href: "/artikel",
+  { id: "artikel", href: "/articles",
     titleKey: "tool.artikel.title", title: "der/die/das-Trainer",
     hintKey: "nav.hint.fiveMin", hint: "ca. 5 Min" },
-  { id: "praepositionen", href: "/praepositionen",
+  { id: "praepositionen", href: "/prepositions",
     titleKey: "tool.praepositionen.title", title: "Präpositionen",
     hintKey: "nav.hint.fiveMin", hint: "ca. 5 Min" },
 ];
@@ -1019,40 +1020,40 @@ export const navUebenMenu = {
       name: LEVEL_NAMES[lv.level],
     })),
     // The placement test exists (src/pages/einstufungstest.astro), so the link is real.
-    placement: { href: "/einstufungstest", titleKey: "nav.ueben.placement", title: "Mein Niveau testen" },
-    // A Stunde alone, step by step (src/pages/stunde.astro): bare /stunde goes on to the next one.
-    stunde: { href: "/stunde", titleKey: "nav.ueben.stunde", title: "Meine Stunde",
+    placement: { href: "/placement-test", titleKey: "nav.ueben.placement", title: "Mein Niveau testen" },
+    // A Stunde alone, step by step (src/pages/stunde.astro): bare /lesson goes on to the next one.
+    stunde: { href: "/lesson", titleKey: "nav.ueben.stunde", title: "Meine Stunde",
       hintKey: "nav.ueben.stundeHint", hint: "Schritt für Schritt, in deinem Tempo" },
   },
   columns: [
-    { id: "grammatik", icon: "book", href: "/grammatik",
+    { id: "grammatik", icon: "book", href: "/grammar",
       nameKey: "nav.subject.grammatik", name: "Grammatik",
-      primary: { href: "/grammatik",
+      primary: { href: "/grammar",
         titleKey: "nav.grammatik.all", title: "Alle Grammatik-Themen",
         hintKey: "nav.grammatik.allHint", hint: "nach Niveau sortiert" },
       // The Nachschlagewerk (verb tables, cases, word classes) as one row: it is grammar
       // you look up, and as a strip under the Wissen panel it made that panel too tall.
       items: [...quickTrainers,
-        { href: "/nachschlagewerk", titleKey: "nav.wissen.nachschlagen", title: "Nachschlagewerk",
+        { href: "/reference", titleKey: "nav.wissen.nachschlagen", title: "Nachschlagewerk",
           hintKey: "nav.wissen.nachschlagenAllHint", hint: "Verben und Wortarten auf einen Blick" }] },
     // The same shape as Grammatik: the deck hub first, then one Wortliste per level the
     // lexicon has reached — what "Wortschatz" means to someone who knows their level, and
     // what the column had nothing of when it was a single row.
-    { id: "wortschatz", icon: "folder", href: "/wortschatz",
+    { id: "wortschatz", icon: "folder", href: "/vocabulary",
       nameKey: "nav.subject.wortschatz", name: "Wortschatz",
-      primary: { href: "/wortschatz",
+      primary: { href: "/vocabulary",
         titleKey: "nav.wortschatz.all", title: "Wortschatz & Redemittel",
         hintKey: "nav.wortschatz.allHint", hint: "Karteikarten zum Wiederholen" },
       items: [
         ...NAV_LEVELS.filter((level) => lexiconCounts[level]?.words).map((level) => ({
-          href: `/wortschatz/${level.toLowerCase()}`,
+          href: `/vocabulary/${level.toLowerCase()}`,
           titleKey: "nav.vocab.listLevel", titleVars: { level }, title: `Wortliste ${level}`,
         })),
-        // Not a level: the profession decks (/berufe), A2–B1, for learners who work.
-        { href: "/berufe", titleKey: "tool.berufe.title", title: "Deutsch für den Beruf",
+        // Not a level: the profession decks (/english-for-work), A2–B1, for learners who work.
+        { href: "/english-for-work", titleKey: "tool.berufe.title", title: "Deutsch für den Beruf",
           hintKey: "nav.wortschatz.berufeHint", hint: "Wörter für deine Arbeit" },
       ] },
-    { id: "fertigkeiten", icon: "mic", href: "/fertigkeiten",
+    { id: "fertigkeiten", icon: "mic", href: "/skills",
       nameKey: "nav.subject.fertigkeiten", name: "Fertigkeiten",
       items: [
         // Sprechen names its main exercise, so it doesn't read like the pronunciation
@@ -1061,10 +1062,10 @@ export const navUebenMenu = {
           ? { href: sk.href, titleKey: "nav.skill.sprechenMenu", title: "Sprechen (Bildbeschreibung)" }
           : { href: sk.href, titleKey: sk.nameKey, title: sk.name }),
         // Pronunciation is speaking practice, not vocabulary: it hangs under Sprechen.
-        { href: "/aussprache", titleKey: "nav.skill.aussprache", title: "Aussprache", nested: true },
-        { href: "/aussprache-check", titleKey: "nav.skill.ausspracheCheck", title: "Aussprache-Check", nested: true },
-        { href: "/zungenbrecher", titleKey: "nav.skill.zungenbrecher", title: "Zungenbrecher", nested: true },
-        { href: "/satzmelodie", titleKey: "nav.skill.satzmelodie", title: "Satzmelodie", nested: true },
+        { href: "/pronunciation", titleKey: "nav.skill.aussprache", title: "Aussprache", nested: true },
+        { href: "/pronunciation-check", titleKey: "nav.skill.ausspracheCheck", title: "Aussprache-Check", nested: true },
+        { href: "/tongue-twisters", titleKey: "nav.skill.zungenbrecher", title: "Zungenbrecher", nested: true },
+        { href: "/intonation", titleKey: "nav.skill.satzmelodie", title: "Satzmelodie", nested: true },
       ] },
     { id: "spiele", icon: "sparkle",
       nameKey: "nav.subject.spiele", name: "Spiele",
@@ -1079,10 +1080,10 @@ export const navUebenMenu = {
 // phone drawer already filed it under Wissen. Three columns, the same three the drawer
 // shows: Landeskunde (the two pages that are not kultur.json topics), Kulturwissen (the
 // topics by level, with the quiz over all of them at the foot) and Bücher (the PDF library).
-// /wissen/sprachen and its sections — the desktop Wissen panel and the phone drawer both
+// /knowledge/languages and its sections — the desktop Wissen panel and the phone drawer both
 // read this, so the two list the same rows.
 export const navSprachen = {
-  href: "/wissen/sprachen",
+  href: "/knowledge/languages",
   sections: [
     { id: "karte", titleKey: "sprachen.map.title", title: "Where English is spoken" },
     { id: "familie", titleKey: "sprachen.tree.title", title: "The language family" },
@@ -1096,49 +1097,49 @@ export const navSprachen = {
 // href. null until a first word is really published (approved and its day has come), so
 // the menus never point at an empty page; the drawer (NavDrawer.astro) reads it too.
 export const navWortgeschichte = publishedWords().length
-  ? { href: "/wissen/wortgeschichte", titleKey: "nav.wissen.wortgeschichte", title: "Wortgeschichte: Wort des Tages",
+  ? { href: "/knowledge/word-stories", titleKey: "nav.wissen.wortgeschichte", title: "Wortgeschichte: Wort des Tages",
       hintKey: "nav.wissen.wortgeschichteHint", hint: "Woher unsere Wörter kommen" }
   : null;
 
-// „So lernst du mit uns" (/wissen/lernen): how learning works, told by the mascots. One
+// „So lernst du mit uns" (/knowledge/learning): how learning works, told by the mascots. One
 // page, listed under Bücher in the Wissen panel (the learning material and how to learn
 // with it) and as its own row in the phone drawer (NavDrawer.astro).
-export const navLernen = { href: "/wissen/lernen", titleKey: "nav.wissen.lernen", title: "So lernst du mit uns",
+export const navLernen = { href: "/knowledge/learning", titleKey: "nav.wissen.lernen", title: "So lernst du mit uns",
   hintKey: "nav.wissen.lernenHint", hint: "Warum Fehler beim Lernen helfen" };
 
-// „Wortfallen" (/wissen/wortfallen): Küche, Kuchen, Koch — words that sound alike and get
+// „Wortfallen" (/knowledge/false-friends): Küche, Kuchen, Koch — words that sound alike and get
 // mixed up, with a quiz. A row in the Sprachen column and in the phone drawer.
-export const navWortfallen = { href: "/wissen/wortfallen", titleKey: "nav.wissen.wortfallen", title: "Wortfallen: Küche, Kuchen, Koch",
+export const navWortfallen = { href: "/knowledge/false-friends", titleKey: "nav.wissen.wortfallen", title: "Wortfallen: Küche, Kuchen, Koch",
   hintKey: "nav.wissen.wortfallenHint", hint: "Wörter, die man leicht verwechselt" };
 
-// „Bildkarten" (/wissen/bildwoerterbuch): the 100 most important words as picture cards, all
+// „Bildkarten" (/knowledge/picture-dictionary): the 100 most important words as picture cards, all
 // at once or one after another. Our own drawings; the top ten are prints on /merch. In the
 // Sprachen column beside Wortfallen. No i18n keys yet: the menu shows the German title.
-export const navBildwoerterbuch = { href: "/wissen/bildwoerterbuch", titleKey: "nav.wissen.bildwoerterbuch", title: "Bildkarten: die 100 wichtigsten Wörter",
+export const navBildwoerterbuch = { href: "/knowledge/picture-dictionary", titleKey: "nav.wissen.bildwoerterbuch", title: "Bildkarten: die 100 wichtigsten Wörter",
   hintKey: "nav.wissen.bildwoerterbuchHint", hint: "Ein Bild, ein Wort" };
 
-// „Zitat des Tages“ (/wissen/zitate): one famous sentence a day, with its words and the life
+// „Zitat des Tages“ (/knowledge/quotes): one famous sentence a day, with its words and the life
 // of the person who said it. In the Sprachen column and in the phone drawer. No i18n keys
 // yet: the menu shows the German title.
-export const navZitate = { href: "/wissen/zitate", titleKey: "nav.wissen.zitate", title: "Zitat des Tages",
+export const navZitate = { href: "/knowledge/quotes", titleKey: "nav.wissen.zitate", title: "Zitat des Tages",
   hintKey: "nav.wissen.zitateHint", hint: "Ein Satz, drei Wörter, ein Leben" };
 
-// /wissen/dialekte: the accent map of the UK and Ireland. In the Sprachen column, under the
+// /knowledge/accents: the accent map of the UK and Ireland. In the Sprachen column, under the
 // sections of "English around the world", whose map it zooms into.
-export const navDialekte = { href: "/wissen/dialekte", titleKey: "nav.wissen.dialekte", title: "Accents: the map",
+export const navDialekte = { href: "/knowledge/accents", titleKey: "nav.wissen.dialekte", title: "Accents: the map",
   hintKey: "nav.wissen.dialekteHint", hint: "From Scouse to Cockney" };
 
-// /wissen/umgangssprache: haste, krass, Scheiße — how German is spoken, with the standard
+// /knowledge/slang: haste, krass, Scheiße — how German is spoken, with the standard
 // word beside it and where it is fine. In the Sprachen column under Dialekte and in the
 // phone drawer. No i18n keys yet: the menu shows the German title.
-export const navUmgangssprache = { href: "/wissen/umgangssprache", titleKey: "nav.wissen.umgangssprache", title: "Umgangssprache & Slang",
+export const navUmgangssprache = { href: "/knowledge/slang", titleKey: "nav.wissen.umgangssprache", title: "Umgangssprache & Slang",
   hintKey: "nav.wissen.umgangsspracheHint", hint: "Haste, krass, Mist – und was man nie sagt" };
 
-// /wissen/redewendungen: Redewendungen & Sprichwörter, each with its picture, meaning and
+// /knowledge/idioms: Redewendungen & Sprichwörter, each with its picture, meaning and
 // origin. In the Sprachen column under Umgangssprache and in the phone drawer, once released
 // (src/lib/redewendungenLive.js); null until then, like navWortgeschichte.
 export const navRedewendungen = REDEWENDUNGEN_LIVE
-  ? { href: "/wissen/redewendungen", titleKey: "nav.wissen.redewendungen", title: "Redewendungen & Sprichwörter",
+  ? { href: "/knowledge/idioms", titleKey: "nav.wissen.redewendungen", title: "Redewendungen & Sprichwörter",
       hintKey: "nav.wissen.redewendungenHint", hint: "Nur Bahnhof verstehen? Hier steht's" }
   : null;
 
@@ -1151,31 +1152,31 @@ export const navMerch = { href: "/merch", titleKey: "nav.merch", title: "Merch: 
 // all works, merch – as picture cards in their own menu (desktop) and group (phone drawer),
 // so they are not buried a column deep in Wissen. Each card carries its crew member
 // (mascotSvg in NavMenubar, with an optional prop `extra`). „Entdecken“ itself opens
-// /entdecken, the same four cards as a page. Zitat des Tages made room for the films; it
+// /explore, the same four cards as a page. Zitat des Tages made room for the films; it
 // stays in Wissen › Sprachen and in the drawer. Only the films card has i18n keys so far; the
 // other three show in German.
 export const navEntdecken = {
-  href: "/entdecken", nameKey: "nav.entdecken", name: "Entdecken",
+  href: "/explore", nameKey: "nav.entdecken", name: "Entdecken",
   items: [
-    { href: "/maskottchen", titleKey: "nav.entdecken.crew", title: "Bruno & die Crew",
+    { href: "/mascots", titleKey: "nav.entdecken.crew", title: "Bruno & die Crew",
       hintKey: "nav.entdecken.crewHint", hint: "Unsere Maskottchen: wer sie sind und wo sie helfen", mascot: "bruno", expr: "happy", icon: "🐶" },
-    { href: "/entdecken/filme", titleKey: "nav.entdecken.filme", title: "So funktioniert’s: Filmchen",
+    { href: "/explore/films", titleKey: "nav.entdecken.filme", title: "So funktioniert’s: Filmchen",
       hintKey: "nav.entdecken.filmeHint", hint: "Zehn Funktionen, je 15 Sekunden", mascot: "quaki", expr: "happy", extra: "zeigestock", icon: "🎬" },
     { ...navMerch, mascot: "hamsti", expr: "celebrate", icon: "👕", shop: true },
   ],
 };
 
 export const navWissenMenu = {
-  href: "/wissen",
+  href: "/knowledge",
   columns: [
     // Each row carries its count, so the column stands as tall as the two beside it
     // instead of two bare lines over empty space. The quiz sits here too: it quizzes
     // Landeskunde, and it keeps the Kulturwissen column down to its levels.
-    { id: "landeskunde", icon: "map-pin", href: "/wissen/land-und-kultur",
+    { id: "landeskunde", icon: "map-pin", href: "/knowledge/country-and-culture",
       nameKey: "group.kultur.name", name: "Landeskunde",
       // The column's head page as a green box, like the other columns' „Alle …“ boxes:
       // the lobby that shows every area and every topic of the section.
-      primary: { href: "/wissen/land-und-kultur", titleKey: "nav.kultur.landUndKultur", title: "Land und Kultur",
+      primary: { href: "/knowledge/country-and-culture", titleKey: "nav.kultur.landUndKultur", title: "Land und Kultur",
         hintKey: "nav.kultur.landUndKulturHint", hint: "Alle Themen auf einen Blick" },
       items: [
         ...[kulturInsiderItem, kulturFehlerItem, kulturLidFaktenItem, { ...kulturQuizItem, titleKey: "nav.kultur.quiz", title: "Landeskunde-Quiz" }]
@@ -1185,30 +1186,30 @@ export const navWissenMenu = {
           hintKey: "nav.kultur.politikHint", hint: "Parteien, Parlamente, Test: Wo stehe ich?" },
         // One „Deutschland von innen" topic by name: it is the Wissen entry to the
         // Führerschein section (FUEHRERSCHEIN-TIERED-PROMPT.md, Tier 7).
-        { href: "/kultur/insider/deutschland-und-das-auto", titleKey: "nav.kultur.auto", title: "Deutschland und das Auto",
+        { href: "/culture/insider/deutschland-und-das-auto", titleKey: "nav.kultur.auto", title: "Deutschland und das Auto",
           hintKey: "nav.kultur.autoHint", hint: "Auto, Tempolimit, Führerschein" },
       ] },
     // The levels as one-line rows (badge + blurb), the way "Wo anfangen?" lists them in
     // the Üben panel: six two-line rows made this column twice the height of the others.
-    { id: "kulturwissen", icon: "book", href: "/kultur",
+    { id: "kulturwissen", icon: "book", href: "/culture",
       nameKey: "tool.kultur.title", name: "Kulturwissen",
-      primary: { href: "/kultur",
+      primary: { href: "/culture",
         titleKey: "nav.kultur.allTopics", title: "Alle Themen",
         hintKey: "tool.kultur.count", hintVars: { n: kulturTopicCount }, hint: `${kulturTopicCount} Themen` },
       items: kulturLevelGroups.map((g) => ({
-        href: `/kultur#niveau-${g.slug}`, level: g.level, titleKey: g.blurbKey, title: g.blurb,
+        href: `/culture#niveau-${g.slug}`, level: g.level, titleKey: g.blurbKey, title: g.blurb,
       })) },
-    { id: "buecher", icon: "document", href: "/wissen",
+    { id: "buecher", icon: "document", href: "/knowledge",
       nameKey: "nav.wissen.books", name: "Bücher",
-      primary: { href: "/wissen",
+      primary: { href: "/knowledge",
         titleKey: "nav.wissen.booksAll", title: "Alle Bücher",
         hintKey: "nav.subject.wissen.blurb", hint: "Bücher und Listen als PDF" },
       items: [
-        ...downloads.categories.map((c) => ({ href: `/wissen#${c.id}`, titleKey: `wissen.cat.${c.id}.name`, title: c.name })),
-        { href: "/wissen#offiziell", titleKey: "wissen.official.title", title: "Offizielle Materialien" },
+        ...downloads.categories.map((c) => ({ href: `/knowledge#${c.id}`, titleKey: `wissen.cat.${c.id}.name`, title: c.name })),
+        { href: "/knowledge#offiziell", titleKey: "wissen.official.title", title: "Offizielle Materialien" },
         { href: navLernen.href, titleKey: navLernen.titleKey, title: navLernen.title },
       ] },
-    // "English around the world" (/wissen/sprachen): one page. Only its map section gets a row;
+    // "English around the world" (/knowledge/languages): one page. Only its map section gets a row;
     // the other three sections sit behind the green box, so the column stays at six rows
     // (the panel ran past the foot of a laptop screen, 2026-10-23). Merch left this column
     // then too: it is in the footer and the phone drawer.
@@ -1229,27 +1230,27 @@ export const navWissenMenu = {
       ] },
     // The grammar pages you look things up in rather than practise: shared with the phone
     // drawer (navNachschlagen), so both list the same pages.
-    // The label and the green box lead to /nachschlagewerk, the overview of these pages,
-    // the way „Alle Themen" leads to /kultur.
-    { id: "nachschlagen", icon: "book-open", href: "/nachschlagewerk",
+    // The label and the green box lead to /reference, the overview of these pages,
+    // the way „Alle Themen" leads to /culture.
+    { id: "nachschlagen", icon: "book-open", href: "/reference",
       nameKey: "nav.wissen.nachschlagen", name: "Nachschlagewerk",
-      primary: { href: "/nachschlagewerk",
+      primary: { href: "/reference",
         titleKey: "nav.wissen.nachschlagenAll", title: "Alles nachschlagen",
         hintKey: "nav.wissen.nachschlagenAllHint", hint: "Verben und Wortarten auf einen Blick" },
       items: [
-        { href: "/grammatik/verben", titleKey: "nav.wissen.verben", title: "Verbtabellen",
+        { href: "/grammar/verbs", titleKey: "nav.wissen.verben", title: "Verbtabellen",
           hintKey: "nav.wissen.verbenHint", hint: "Präsens, Präteritum, Perfekt mit Regeln" },
-        { href: "/grammatik/starke-schwache-verben", titleKey: "nav.wissen.stark", title: "Starke und schwache Verben",
+        { href: "/grammar/irregular-verbs", titleKey: "nav.wissen.stark", title: "Starke und schwache Verben",
           hintKey: "nav.wissen.starkHint", hint: "Vokalreihen, Präteritum, Partizip" },
-        { href: "/grammatik/trennbare-verben", titleKey: "nav.wissen.trennbar", title: "Trennbare und untrennbare Verben",
+        { href: "/grammar/phrasal-verbs-list", titleKey: "nav.wissen.trennbar", title: "Trennbare und untrennbare Verben",
           hintKey: "nav.wissen.trennbarHint", hint: "anrufen, verstehen, übersetzen" },
-        { href: "/grammatik/verben-mit-praepositionen", titleKey: "nav.wissen.verbPraep", title: "Verben mit Präpositionen",
+        { href: "/grammar/verbs-with-prepositions", titleKey: "nav.wissen.verbPraep", title: "Verben mit Präpositionen",
           hintKey: "nav.wissen.verbPraepHint", hint: "warten auf, sich freuen über" },
-        { href: "/grammatik/deklination", titleKey: "nav.wissen.deklination", title: "Nomen in allen Fällen",
+        { href: "/grammar/deklination", titleKey: "nav.wissen.deklination", title: "Nomen in allen Fällen",
           hintKey: "nav.wissen.deklinationHint", hint: "der, den, dem, des Kuchen(s)" },
-        { href: "/grammatik/wortarten", titleKey: "nav.wissen.wortarten", title: "Wortarten",
+        { href: "/grammar/parts-of-speech", titleKey: "nav.wissen.wortarten", title: "Wortarten",
           hintKey: "nav.wissen.wortartenHint", hint: "Nomen, Verb, Adjektiv und Co." },
-        { href: "/grammatik/typische-fehler", titleKey: "nav.wissen.typischeFehler", title: "Typische Fehler",
+        { href: "/grammar/common-mistakes", titleKey: "nav.wissen.typischeFehler", title: "Typische Fehler",
           hintKey: "nav.wissen.typischeFehlerHint", hint: "man oder Mann, das oder dass" },
       ] },
   ],
@@ -1264,12 +1265,12 @@ export const navNachschlagen = navWissenMenu.columns.find((c) => c.id === "nachs
 // phone drawer (NavDrawer) so the two never list different things. "Mitspielen" is the
 // student side of the live quiz: a teacher projecting the menu can point the class at it.
 export const navLehrkraefte = {
-  href: "/lehrkraefte",
+  href: "/teachers",
   name: "Für Lehrkräfte",
   nameKey: "nav.subject.lehrkraefte",
   // The section page itself, heading the panel the way "Alle Themen" and "Alle Bücher"
   // head the Wissen columns.
-  primary: { href: "/lehrkraefte", titleKey: "nav.lk.all", title: "Alle Materialien",
+  primary: { href: "/teachers", titleKey: "nav.lk.all", title: "Alle Materialien",
     hintKey: "nav.lk.allHint", hint: "Quiz, Arbeitsblätter, Spiele" },
   // The desktop panel shows the items in these three columns, side by side (one list of
   // eleven was taller than the screen); the phone drawer lists them in the same order.
@@ -1279,18 +1280,18 @@ export const navLehrkraefte = {
     { id: "kurs", name: "Kurs & Klassen", nameKey: "nav.lk.g.kurs" },
   ],
   items: [
-    { group: "unterricht", href: "/lehrkraefte/quiz", icon: "sparkle", title: "Live-Quiz", titleKey: "lk.quiz.title", hint: "Ganze Gruppe, per QR-Code", hintKey: "nav.lk.quizHint" },
-    { group: "unterricht", href: "/lehrkraefte/umfragen", icon: "bars", title: "Umfrage", titleKey: "nav.lk.uf", hint: "Anonym fragen, was die Klasse lernen will", hintKey: "nav.lk.ufHint" },
-    { group: "unterricht", href: "/spiel", icon: "user", title: "Mitspielen (für Lernende)", titleKey: "lk.quiz.join", hint: "Mit PIN einem Quiz beitreten", hintKey: "nav.lk.joinHint" },
-    { group: "material", href: "/lehrkraefte/arbeitsblaetter", icon: "document", title: "Arbeitsblätter", titleKey: "lk.ab.title", hint: "Drucken oder online ausfüllen", hintKey: "nav.lk.abHint" },
-    { group: "material", href: "/lehrkraefte/spiele", icon: "grid", title: "Spiele zum Ausdrucken", titleKey: "lk.sp.title", hint: "Bingo, Domino, Wörter erklären", hintKey: "nav.lk.spHint" },
-    { group: "material", href: "/lehrkraefte/karten/foto", icon: "camera", title: "Vokabeln vom Foto", titleKey: "nav.lk.foto", hint: "Wortliste fotografieren → Karteikarten", hintKey: "nav.lk.fotoHint" },
-    { group: "material", href: "/lehrkraefte/karten", icon: "layers", title: "Meine Kartensets", titleKey: "nav.lk.sets", hint: "Üben, drucken, teilen, als Aufgabe", hintKey: "nav.lk.setsHint" },
-    { group: "kurs", href: "/lehrkraefte/klassen", icon: "user", title: "Klassen", titleKey: "nav.lk.kl", hint: "Sehen, wer übt, Aufgaben stellen", hintKey: "nav.lk.klHint" },
-    { group: "kurs", href: "/lehrkraefte/tests", icon: "target", title: "Einstufungstest", titleKey: "nav.lk.kt", hint: "Niveau jeder Person per QR-Code, auch Thementests", hintKey: "nav.lk.ktHint" },
+    { group: "unterricht", href: "/teachers/quiz", icon: "sparkle", title: "Live-Quiz", titleKey: "lk.quiz.title", hint: "Ganze Gruppe, per QR-Code", hintKey: "nav.lk.quizHint" },
+    { group: "unterricht", href: "/teachers/surveys", icon: "bars", title: "Umfrage", titleKey: "nav.lk.uf", hint: "Anonym fragen, was die Klasse lernen will", hintKey: "nav.lk.ufHint" },
+    { group: "unterricht", href: "/game", icon: "user", title: "Mitspielen (für Lernende)", titleKey: "lk.quiz.join", hint: "Mit PIN einem Quiz beitreten", hintKey: "nav.lk.joinHint" },
+    { group: "material", href: "/teachers/worksheets", icon: "document", title: "Arbeitsblätter", titleKey: "lk.ab.title", hint: "Drucken oder online ausfüllen", hintKey: "nav.lk.abHint" },
+    { group: "material", href: "/teachers/games", icon: "grid", title: "Spiele zum Ausdrucken", titleKey: "lk.sp.title", hint: "Bingo, Domino, Wörter erklären", hintKey: "nav.lk.spHint" },
+    { group: "material", href: "/teachers/cards/photo", icon: "camera", title: "Vokabeln vom Foto", titleKey: "nav.lk.foto", hint: "Wortliste fotografieren → Karteikarten", hintKey: "nav.lk.fotoHint" },
+    { group: "material", href: "/teachers/cards", icon: "layers", title: "Meine Kartensets", titleKey: "nav.lk.sets", hint: "Üben, drucken, teilen, als Aufgabe", hintKey: "nav.lk.setsHint" },
+    { group: "kurs", href: "/teachers/classes", icon: "user", title: "Klassen", titleKey: "nav.lk.kl", hint: "Sehen, wer übt, Aufgaben stellen", hintKey: "nav.lk.klHint" },
+    { group: "kurs", href: "/teachers/tests", icon: "target", title: "Einstufungstest", titleKey: "nav.lk.kt", hint: "Niveau jeder Person per QR-Code, auch Thementests", hintKey: "nav.lk.ktHint" },
     // A lesson plan for one block of the course plan (src/pages/lehrkraefte/stundenplan.astro).
-    { group: "kurs", href: "/lehrkraefte/stundenplan", icon: "pencil", title: "Stundenplan-Generator", titleKey: "nav.lk.stundenplan", hint: "Unterricht für einen Themenblock planen", hintKey: "nav.lk.stundenplanHint" },
+    { group: "kurs", href: "/teachers/timetable", icon: "pencil", title: "Stundenplan-Generator", titleKey: "nav.lk.stundenplan", hint: "Unterricht für einen Themenblock planen", hintKey: "nav.lk.stundenplanHint" },
     // What each course level teaches, A1.1 → C1 (src/pages/kursinhalte.astro).
-    { group: "kurs", href: "/kursinhalte", icon: "book-open", title: "Kursinhalte A1–C1", titleKey: "nav.lk.kursinhalte", hint: "Was du in welchem Kurs lernst", hintKey: "nav.lk.kursinhalteHint" },
+    { group: "kurs", href: "/syllabus", icon: "book-open", title: "Kursinhalte A1–C1", titleKey: "nav.lk.kursinhalte", hint: "Was du in welchem Kurs lernst", hintKey: "nav.lk.kursinhalteHint" },
   ],
 };

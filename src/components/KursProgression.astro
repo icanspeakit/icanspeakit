@@ -77,7 +77,7 @@ const url = `englishacademy.com/kursinhalte/${level.id}`;
                 <p class="kp-label">Vocabulary</p>
                 <p class="kp-words">{b.wortschatz.join(" · ")}</p>
               </div>
-              <a class="kp-plan" href={`/lehrkraefte/stundenplan?niveau=${level.id}&block=${n + 1}`}>For teachers: lesson plan for this block</a>
+              <a class="kp-plan" href={`/teachers/timetable?niveau=${level.id}&block=${n + 1}`}>For teachers: lesson plan for this block</a>
               {b.pruefung?.length && (
                 <div class="kp-part">
                   <p class="kp-label">Exam</p>
@@ -109,7 +109,7 @@ const url = `englishacademy.com/kursinhalte/${level.id}`;
       {below ? (
         <>
           <p>Better start with <b>{below.label}</b>. There you learn what you still need for {level.label}.</p>
-          <a class="lp-btn lp-btn--outline" href={`/kursinhalte/${below.id}`}>Go to {below.label}: {below.titel}</a>
+          <a class="lp-btn lp-btn--outline" href={`/syllabus/${below.id}`}>Go to {below.label}: {below.titel}</a>
         </>
       ) : (
         <>

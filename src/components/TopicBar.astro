@@ -4,7 +4,7 @@
 //
 // It exists because the two ways into a topic did not look like the same product. Opening
 // "Artikel: der, die, das" inside /dashboard put it under the course strip with a live
-// "0 / 42 Aufgaben" ring; opening the very same topic at /artikel gave a
+// "0 / 42 Aufgaben" ring; opening the very same topic at /articles gave a
 // bare page with no site nav and nothing to say whether any of it was being recorded. It was
 // — /dashboard just never saw it, because the page logged answers to the "grammatik" skill
 // bucket without naming the topic. That bug is fixed at the call site; this bar is the part
@@ -42,7 +42,7 @@ const Title = heading ? "h1" : "span";
 <div class:list={["tb", "tb--fresh", Astro.slots.has("end") && "tb--merged"]} data-topic-bar data-topic={topic} data-tasks={tasks}>
   <div class="tb-inner">
     <div class="tb-where">
-      {showKind && <a href="/grammatik">{kind}</a>}
+      {showKind && <a href="/grammar">{kind}</a>}
       {level && <span class="tb-level">{level}</span>}
       <span class="tb-sep" aria-hidden="true">·</span>
       <Title class="tb-title">{title}</Title>
@@ -58,7 +58,7 @@ const Title = heading ? "h1" : "span";
     <!-- Says where progress lives, not just that it exists. "Gespeichert" alone would imply
          an account; there is none, and a learner who clears their browser should know that
          before they lose six weeks of it. -->
-    <a class="tb-saved" href="/fortschritt" data-topic-saved title="Fortschritt wird auf diesem Gerät gespeichert" data-i18n-attr="title:topic.savedLocally">
+    <a class="tb-saved" href="/progress" data-topic-saved title="Fortschritt wird auf diesem Gerät gespeichert" data-i18n-attr="title:topic.savedLocally">
       <svg viewBox="0 0 24 24" aria-hidden="true" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"></polyline></svg>
       <span data-topic-saved-text data-i18n="topic.savedLocally">Fortschritt wird auf diesem Gerät gespeichert</span>
     </a>

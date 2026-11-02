@@ -1,0 +1,255 @@
+---
+// /my-mistakes — every wrong answer from the grammar exercises, the DTZ sets and the
+// Übungssätze, grouped by topic (PREMIUM-FEATURES Tier 2). Prerendered shell, filled in
+// the browser from localStorage["da_fehler_v1"] (src/lib/fehler.js): the list lives on the
+// device only.
+//
+// "Als Arbeitsblatt drucken": the open mistakes as a worksheet with answer key, in the same
+// paper layout as /teachers/worksheets (styles/arbeitsblatt.css,
+// lib/arbeitsblatt/client.js), grouped by topic. Each grammar topic gets a short rule box —
+// its subtitle, example and the hints of the exercises that went wrong (/fehler-regeln.json);
+// the list shows the same rule under "Regel kurz". Free: the last 20, on screen and on paper.
+// Premium: all of them.
+//
+// SOFT LOCK, deliberately client-side: it costs nothing per use and only touches the
+// learner's own data — bypassing it in the dev tools gives nobody anything they did not
+// already have. Never put paid content behind a lock like this one.
+import Layout from "../layouts/Layout.astro";
+import SiteNav from "../components/SiteNav.astro";
+import PremiumLock from "../components/PremiumLock.astro";
+import premiumFeatures from "../data/premium-features.json";
+import "../styles/practice.css";
+import "../styles/arbeitsblatt.css";
+
+const freeLimit = premiumFeatures.find((f) => f.id === "fehler")!.free.limit;
+---
+<Layout title="My mistakes – EnglishAcademy" description="Your mistakes from every exercise in one place – and as a worksheet to go over them again." noindex>
+  <SiteNav active="profil" />
+  <main class="practice-main mf" data-free-limit={freeLimit}>
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="fehler.eyebrow">Wiederholen</p>
+      <h1 data-i18n="fehler.title">Meine Fehler</h1>
+      <p data-i18n="fehler.lead">Jede falsche Antwort aus den Grammatikübungen, den DTZ-Sätzen und den Übungssätzen landet hier. Beantwortest du eine Aufgabe später richtig, wird sie als erledigt markiert.</p>
+      <p class="mf-privacy" data-i18n="fehler.privacy">Die Liste bleibt auf diesem Gerät. Wir speichern sie nicht.</p>
+    </div>
+
+    <div class="mf-empty" data-mf-empty hidden>
+      <p data-i18n="fehler.empty">Noch keine Fehler gespeichert. Sobald du in einer Übung etwas falsch beantwortest, steht es hier – mit deiner Antwort und der richtigen.</p>
+      <a class="lp-btn lp-btn--primary" href="/exercises" data-i18n="fehler.emptyCta">Zu den Übungen</a>
+    </div>
+
+    <div class="mf-tools" data-mf-tools hidden>
+      <div class="mf-filters">
+        <label><span data-i18n="fehler.filter.topic">Thema</span> <select data-mf-topic><option value="" data-i18n="fehler.filter.all">Alle</option></select></label>
+        <label><span data-i18n="fehler.filter.level">Niveau</span> <select data-mf-level><option value="" data-i18n="fehler.filter.all">Alle</option></select></label>
+        <label><span data-i18n="fehler.filter.since">Seit</span> <input type="date" data-mf-since /></label>
+      </div>
+      <div class="mf-printrow">
+        <button type="button" class="lp-btn lp-btn--primary mf-print" data-mf-sheet data-i18n="fehler.sheet">Als Arbeitsblatt drucken</button>
+        <small data-i18n="fehler.sheetHint">Deine offenen Fehler zum Üben auf Papier – mit einer kurzen Regel zu jedem Thema und dem Lösungsblatt.</small>
+      </div>
+      <PremiumLock feature="fehler" variant="inline" />
+    </div>
+
+    <p class="mf-count" data-mf-count></p>
+    <div class="mf-list" data-mf-list></div>
+    <div class="mf-more" data-mf-more hidden>
+      <p class="mf-count" data-mf-rest></p>
+      <PremiumLock feature="fehler" variant="preview-end" />
+    </div>
+
+    <!-- The worksheet: built from the open mistakes on demand, then the shared worksheet
+         controls (print / online / check) take over. -->
+    <section class="ab" id="ab-root" data-mode="print" data-key="on" hidden>
+      <div class="ab-bar">
+        <button type="button" class="ab-back" data-mf-close data-i18n="fehler.back">Zurück zur Liste</button>
+        <div class="ab-seg" role="group" aria-label="View" data-i18n-attr="aria-label:ab.view">
+          <button type="button" data-ab-mode="print" aria-pressed="true" data-i18n="ab.mode.print">Zum Drucken</button>
+          <button type="button" data-ab-mode="online" aria-pressed="false" data-i18n="ab.mode.online">Online ausfüllen</button>
+        </div>
+        <div class="ab-actions ab-only-print">
+          <label class="ab-check"><input type="checkbox" data-ab-withkey checked /> <span data-i18n="ab.withKey">Lösungsblatt mitdrucken</span></label>
+          <button type="button" class="ab-btn ab-btn--primary" data-ab-print data-i18n="ab.print">Drucken / als PDF speichern</button>
+        </div>
+        <div class="ab-actions ab-only-online">
+          <button type="button" class="ab-btn ab-btn--primary" data-ab-check data-i18n="ab.check">Prüfen</button>
+          <button type="button" class="ab-btn" data-ab-reset data-i18n="ab.reset">Leeren</button>
+          <span class="ab-score" data-ab-score data-tpl="{n} von {total} richtig" data-i18n-attr="data-tpl:ab.score" aria-live="polite"></span>
+        </div>
+      </div>
+      <div data-mf-sheets></div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .mf { max-width: 860px; }
+  .mf-privacy { font-size: var(--text-sm); color: var(--muted); }
+  .mf-empty { display: grid; gap: 14px; justify-items: start; padding: 20px; border: 1px dashed var(--border-strong); border-radius: var(--radius-lg); }
+  .mf-empty p { margin: 0; color: var(--muted); }
+  .mf-tools { display: grid; gap: 12px; margin-bottom: 16px; }
+  .mf-filters { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: var(--text-sm); }
+  .mf-filters label { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); }
+  .mf-filters select, .mf-filters input { font: inherit; padding: 6px 8px; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--surface-card); color: var(--ink); }
+  .mf-printrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+  .mf-printrow small { flex: 1 1 260px; color: var(--muted); font-size: var(--text-sm); }
+  .mf-list :global(.mf-rule) { margin: 0 0 10px; border: 1px solid color-mix(in srgb, var(--brand-blue) 25%, var(--border)); border-radius: 12px; background: color-mix(in srgb, var(--brand-blue) 5%, var(--surface-card)); }
+  .mf-list :global(.mf-rule summary) { cursor: pointer; padding: 10px 14px; font-weight: var(--fw-semibold); color: var(--brand-blue); font-size: var(--text-sm); }
+  .mf-list :global(.mf-rule-body) { padding: 0 14px 12px; display: grid; gap: 6px; font-size: var(--text-sm); color: var(--ink); }
+  .mf-list :global(.mf-rule-body p) { margin: 0; }
+  .mf-list :global(.mf-rule-body ul) { margin: 0; padding-left: 18px; }
+  .mf-list :global(.mf-rule-ex) { font-style: italic; }
+  .mf-count { color: var(--muted); font-size: var(--text-sm); margin: 0 0 8px; }
+  .mf-list { display: grid; gap: 18px; }
+  /* The list is rendered with innerHTML, so these rules must be global to reach it. */
+  .mf-list :global(.mf-group h2) { font-size: var(--text-lg); margin: 0 0 8px; }
+  .mf-list :global(.mf-group h2 a) { color: inherit; }
+  .mf-list :global(.mf-group h2 small) { color: var(--muted); font-weight: var(--fw-medium); font-size: var(--text-sm); margin-left: 6px; }
+  .mf-list :global(.mf-item) { border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; background: var(--surface-card); display: grid; gap: 4px; }
+  .mf-list :global(.mf-item + .mf-item) { margin-top: 8px; }
+  .mf-list :global(.mf-item.is-fixed) { opacity: .6; }
+  .mf-list :global(.mf-prompt) { margin: 0; font-weight: var(--fw-semibold); color: var(--ink); overflow-wrap: anywhere; }
+  .mf-list :global(.mf-ans) { margin: 0; font-size: var(--text-sm); overflow-wrap: anywhere; }
+  .mf-list :global(.mf-ans .mf-given) { color: var(--danger); text-decoration: line-through; }
+  .mf-list :global(.mf-ans .mf-right) { color: var(--success); font-weight: var(--fw-semibold); }
+  .mf-list :global(.mf-meta) { font-size: var(--text-xs); color: var(--muted); }
+  .mf-more { margin-top: 18px; display: grid; gap: 10px; }
+  .mf [hidden] { display: none !important; }
+</style>
+
+<script>
+  import { readFehler } from "../lib/fehler.js";
+  import { can } from "../lib/access.js";
+  import { wouldLock } from "../lib/intent.js";
+  import { mountWorksheet } from "../lib/arbeitsblatt/client.js";
+
+  const main = document.querySelector<HTMLElement>(".mf")!;
+  const $ = <T extends HTMLElement>(s: string) => main.querySelector<T>(s)!;
+  const esc = (s: string) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+  const FREE = Number(main.dataset.freeLimit) || 20;
+  const full = can("fehler");
+  const date = (ms: number) => new Date(ms).toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric" });
+
+  const all = readFehler();
+
+  // Grammar mistakes carry their topic and exercise in the itemId (`<topic>/<exercise>/<item>`,
+  // grammarWorkspace.js); the short rule comes from /fehler-regeln.json, fetched only if needed.
+  type Rule = { name: string; subtitle: string; example: string; hints: string[] };
+  let rules: Record<string, Rule> = {};
+  const where = (e: any) => {
+    if (e.source !== "grammatik") return null;
+    const [topic, ex] = String(e.itemId).split("/");
+    return { topic, ex: Number(ex) };
+  };
+  /** The rule box for a group's mistakes: subtitle, example, the hints of the exercises hit. */
+  function ruleHtml(items: any[], exClass: string) {
+    const at = items.map(where).filter(Boolean) as { topic: string; ex: number }[];
+    const r = at.length ? rules[at[0].topic] : null;
+    if (!r) return "";
+    const hints = [...new Set(at.map((w) => r.hints[w.ex]).filter(Boolean))];
+    return `${r.subtitle ? `<p>${esc(r.subtitle)}</p>` : ""}${r.example ? `<p class="${exClass}">${r.example}</p>` : ""}${hints.length ? `<ul>${hints.map((h) => `<li>${esc(h)}</li>`).join("")}</ul>` : ""}`;
+  }
+  const filters = { topic: $<HTMLSelectElement>("[data-mf-topic]"), level: $<HTMLSelectElement>("[data-mf-level]"), since: $<HTMLInputElement>("[data-mf-since]") };
+  for (const [sel, key] of [[filters.topic, "topic"], [filters.level, "level"]] as const) {
+    for (const v of [...new Set(all.map((e) => e[key]).filter(Boolean))].sort()) sel.insertAdjacentHTML("beforeend", `<option>${esc(v)}</option>`);
+  }
+
+  function filtered() {
+    const since = filters.since.value ? new Date(filters.since.value).getTime() : 0;
+    return all.filter((e) => (!filters.topic.value || e.topic === filters.topic.value) && (!filters.level.value || e.level === filters.level.value) && e.at >= since);
+  }
+
+  function render() {
+    $("[data-mf-empty]").hidden = all.length > 0;
+    $("[data-mf-tools]").hidden = all.length === 0;
+    const list = filtered();
+    const shown = full ? list : list.slice(0, FREE);
+    const open = list.filter((e) => !e.fixed).length;
+    $("[data-mf-count]").textContent = all.length ? `${list.length} ${list.length === 1 ? "mistake" : "mistakes"}, ${open} still open` : "";
+    const groups = new Map<string, any[]>();
+    for (const e of shown) {
+      const k = e.topic || "No topic";
+      if (!groups.has(k)) groups.set(k, []);
+      groups.get(k)!.push(e);
+    }
+    $("[data-mf-list]").innerHTML = [...groups].map(([topic, items]) => `
+      <section class="mf-group">
+        <h2>${items[0].href ? `<a href="${esc(items[0].href)}">${esc(topic)}</a>` : esc(topic)}<small>${esc(items[0].level || "")}</small></h2>
+        ${(() => { const body = ruleHtml(items, "mf-rule-ex"); return body ? `<details class="mf-rule"><summary>Quick rule</summary><div class="mf-rule-body">${body}</div></details>` : ""; })()}
+        ${items.map((e) => `
+          <article class="mf-item${e.fixed ? " is-fixed" : ""}">
+            <p class="mf-prompt">${esc(e.prompt)}</p>
+            <p class="mf-ans">${e.given ? `<span class="mf-given">${esc(e.given)}</span> → ` : ""}<span class="mf-right">${esc(e.expected)}</span></p>
+            <span class="mf-meta">${date(e.at)}${e.times > 1 ? ` · wrong ${e.times}×` : ""}${e.fixed ? " · now correct" : ""}</span>
+          </article>`).join("")}
+      </section>`).join("");
+    const rest = list.length - shown.length;
+    $("[data-mf-more]").hidden = rest <= 0;
+    $("[data-mf-rest]").textContent = rest > 0 ? `… and ${rest} more` : "";
+  }
+  Object.values(filters).forEach((f) => f.addEventListener("change", render));
+  render();
+  const rulesReady = all.some((e) => e.source === "grammatik")
+    ? fetch("/fehler-regeln.json").then((r) => (r.ok ? r.json() : {})).then((j) => { rules = j; render(); }).catch(() => {})
+    : Promise.resolve();
+  // traffic-baseline: would_lock — more mistakes than the free view shows.
+  wouldLock("fehler", all.length > FREE);
+
+  // The worksheet: open mistakes of the current filter, one gap line each; the key behind.
+  const sheetRoot = document.getElementById("ab-root")!;
+  let mounted = false;
+  function buildSheet() {
+    // Free prints what the list shows (the last 20); Premium all open ones, up to 60.
+    const items = (full ? filtered() : filtered().slice(0, FREE)).filter((e) => !e.fixed).slice(0, 60);
+    const groups = new Map<string, any[]>();
+    for (const e of items) {
+      const k = e.topic || "No topic";
+      if (!groups.has(k)) groups.set(k, []);
+      groups.get(k)!.push(e);
+    }
+    let n = 0;
+    const line = (e: any, i: number) => {
+      const parts = String(e.prompt).split(/_{2,}|…(?=\s|$)/);
+      const w = `--w:${Math.min(40, Math.max(6, String(e.expected).length + 2))}ch`;
+      const input = `<input class="ab-in" style="${w}" data-a='${esc(JSON.stringify([e.expected]))}' data-kind="text" aria-label="Gap ${i + 1}" autocomplete="off" autocapitalize="off" />`;
+      return `<li>${parts.length > 1 ? `${esc(parts[0])}${input}${esc(parts.slice(1).join("___"))}` : `${esc(e.prompt)}<br />${input}`}</li>`;
+    };
+    const today = date(Date.now());
+    main.querySelector("[data-mf-sheets]")!.innerHTML = `
+      <article class="ab-sheet" lang="en">
+        <header class="ab-head">
+          <p class="ab-eyebrow">EnglishAcademy · My worksheet · ${today}</p>
+          <h1 class="ab-title">My mistakes</h1>
+          <p class="ab-namerow"><span>Name: <i></i></span><span>Date: <i></i></span></p>
+        </header>
+        <p class="ab-hint">Read the rule first. Then fill in the correct answer.</p>
+        ${[...groups].map(([topic, list], gi) => {
+          const rule = ruleHtml(list, "ab-rule-ex");
+          const start = n + 1;
+          const lines = list.map((e) => line(e, n++)).join("");
+          return `<section class="ab-sec">
+          <h2 class="ab-h"><b>${"ABCDEFGHIJKLMNOPQRSTUVWXYZ"[gi] ?? gi + 1}</b> ${esc(topic)}</h2>
+          ${rule ? `<aside class="ab-rule"><p class="ab-rule-title">The rule in brief</p>${rule}</aside>` : ""}
+          <ol class="ab-lines" start="${start}">${lines}</ol>
+        </section>`;
+        }).join("")}
+        <footer class="ab-foot">EnglishAcademy · englishacademy.com/meine-fehler</footer>
+      </article>
+      <article class="ab-sheet ab-key" lang="en" aria-label="Answers">
+        <header class="ab-head"><p class="ab-eyebrow">EnglishAcademy · Answers</p><h2 class="ab-title ab-title--key">My mistakes</h2></header>
+        <section class="ab-sec"><ol class="ab-keylist">${[...groups.values()].flat().map((e) => `<li>${esc(e.prompt)} → <b>${esc(e.expected)}</b></li>`).join("")}</ol></section>
+      </article>`;
+    sheetRoot.hidden = false;
+    for (const el of main.querySelectorAll<HTMLElement>("[data-mf-tools], [data-mf-list], [data-mf-count], [data-mf-more]")) el.dataset.mfWasHidden = String(el.hidden), (el.hidden = true);
+    if (!mounted) mountWorksheet(sheetRoot), (mounted = true);
+    sheetRoot.scrollIntoView({ block: "start" });
+  }
+  // Free prints its last 20, Premium all (buildSheet); the rules may still be on their way.
+  $("[data-mf-sheet]").addEventListener("click", () => rulesReady.then(buildSheet));
+  main.querySelector("[data-mf-close]")!.addEventListener("click", () => {
+    sheetRoot.hidden = true;
+    render();
+    for (const el of main.querySelectorAll<HTMLElement>("[data-mf-tools], [data-mf-list], [data-mf-count]")) el.hidden = false;
+    $("[data-mf-tools]").hidden = all.length === 0;
+  });
+</script>

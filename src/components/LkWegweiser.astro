@@ -1,5 +1,5 @@
 ---
-// „Was hast du vor?“ — the guided way into /lehrkraefte, the teachers' counterpart to the
+// „Was hast du vor?“ — the guided way into /teachers, the teachers' counterpart to the
 // learners' „Wo anfangen?“. Instead of eight cards side by side, a teacher picks a goal and
 // answers one or two questions (Niveau, Themenblock); the last step lays out what to use,
 // in the order of the lesson, with every link already set to that level and block:
@@ -11,8 +11,8 @@
 //   kennenlernen  Material                    (a new class, level unknown)
 //   vertretung    Niveau → Material           (no preparation, ready to play)
 //
-// The blocks are those of /kursinhalte (src/data/kursinhalte.json), the grammar resolved the
-// way /lehrkraefte/stundenplan resolves it, so the wizard only links sheets and quiz
+// The blocks are those of /syllabus (src/data/kursinhalte.json), the grammar resolved the
+// way /teachers/timetable resolves it, so the wizard only links sheets and quiz
 // chapters that exist. The choice is kept in the address (?ziel=stunde&niveau=a1-1&block=2)
 // and on this device, so the next visit opens where the teacher left off.
 // English only (lang="en"), written into the script, no i18n keys — like the course plan
@@ -36,7 +36,7 @@ const levels = data.niveaus.map((l) => {
     titel: l.titel,
     cefr,
     games: GAME_LEVELS.includes(cefr),
-    words: lexiconCounts[cefr]?.words ? `/wortschatz/${cefr.toLowerCase()}` : null,
+    words: lexiconCounts[cefr]?.words ? `/vocabulary/${cefr.toLowerCase()}` : null,
     blocks: l.bloecke.map((b) => {
       const keys = [...new Set(b.grammatik.flatMap((g) => grammarKeys(g, cefr, grammarByKey)))];
       return {
@@ -245,19 +245,19 @@ const goals = [
         <div class="lw-pick">${levels.map((l) => `
           <button type="button" data-niveau="${l.id}"${l.id === st.niveau ? ' class="is-on"' : ""}><b>${esc(l.label)}</b><span>${esc(l.titel)}</span></button>`).join("")}
         </div>
-        <p class="lw-aside">Not sure? <a href="/lehrkraefte/tests">Let the class take the placement test</a> on their phones via QR code.</p>`;
+        <p class="lw-aside">Not sure? <a href="/teachers/tests">Let the class take the placement test</a> on their phones via QR code.</p>`;
     }
 
     function askBlock() {
       const l = level()!;
       body.innerHTML = `
-        <p class="lw-q">Which topic block is next? <small>(${esc(l.label)} · from the <a href="/kursinhalte/${l.id}">syllabus</a>)</small></p>
+        <p class="lw-q">Which topic block is next? <small>(${esc(l.label)} · from the <a href="/syllabus/${l.id}">syllabus</a>)</small></p>
         <div class="lw-pick">${l.blocks.map((b, i) => `
           <button type="button" data-block="${i + 1}"${i + 1 === st.block ? ' class="is-on"' : ""}><b>${i + 1}</b><span>${esc(b.thema)}${b.grammar.length ? `<small>${esc(b.grammar.map((g) => g.name).join(" · "))}</small>` : ""}</span></button>`).join("")}
         </div>`;
     }
 
-    const planHref = (l: Level, b: number, n: number) => `/lehrkraefte/stundenplan?niveau=${l.id}&block=${b}&stunden=${n}&min=90`;
+    const planHref = (l: Level, b: number, n: number) => `/teachers/timetable?niveau=${l.id}&block=${b}&stunden=${n}&min=90`;
 
     function material() {
       const l = level();
@@ -272,44 +272,44 @@ const goals = [
         const sheets = b.grammar.filter((g) => g.sheet);
         if (sheets.length) out.push(item("Print worksheets",
           `${sheets.length === 1 ? "The worksheet" : `All ${sheets.length} worksheets`} for this block's grammar in one PDF, with answers: ${sheets.map((g) => `<a href="${esc(g.href)}">${esc(g.name)}</a>`).join(", ")}.`,
-          [link(`/lehrkraefte/arbeitsblaetter/mappe?g=${sheets.map((g) => g.key).join(",")}`, "Open workbook", true)]));
+          [link(`/teachers/worksheets/folder?g=${sheets.map((g) => g.key).join(",")}`, "Open workbook", true)]));
         else out.push(item("Worksheets", "There is no grammar worksheet for this block yet. Vocabulary sheets are listed by study set.",
-          [link("/lehrkraefte/arbeitsblaetter", "Open worksheets")]));
+          [link("/teachers/worksheets", "Open worksheets")]));
         const quiz = b.grammar.filter((g) => g.quiz);
         out.push(item("Consolidate on the projector", "Live quiz: you show the QR code, everyone plays on their phone.",
-          quiz.length ? quiz.map((g, i) => link(`/lehrkraefte/quiz?grammar=g-${g.key}`, `Quiz: ${g.name}`, i === 0, true))
-            : [link("/lehrkraefte/quiz", "Open live quiz", true, true)]));
+          quiz.length ? quiz.map((g, i) => link(`/teachers/quiz?grammar=g-${g.key}`, `Quiz: ${g.name}`, i === 0, true))
+            : [link("/teachers/quiz", "Open live quiz", true, true)]));
         if (l.games) out.push(item("Finish with a game", `A printable game with the ${l.cefr} vocabulary, shuffled anew each time.`,
-          [link(`/lehrkraefte/spiele/bingo?level=${l.cefr}`, "Bingo", true), link(`/lehrkraefte/spiele/domino?level=${l.cefr}`, "Domino"), link(`/lehrkraefte/spiele/erklaeren?level=${l.cefr}`, "Explain the word")]));
+          [link(`/teachers/games/bingo?level=${l.cefr}`, "Bingo", true), link(`/teachers/games/domino?level=${l.cefr}`, "Domino"), link(`/teachers/games/explain?level=${l.cefr}`, "Explain the word")]));
         if (st.block! < l.blocks.length) next = `<button type="button" data-block-next>On to block ${st.block! + 1} →</button>`;
       } else if (st.ziel === "kurs" && l) {
         sum = `<b>New course ${esc(l.label)}</b> · ${esc(l.titel)}`;
         out.push(item("Check the level", "The class takes the placement test on their phones, with names and no account. You see who stands where and which topics are not secure yet. Needs a free account.",
-          [link("/lehrkraefte/tests", "Create a test", true)]));
+          [link("/teachers/tests", "Create a test", true)]));
         out.push(item("Ask what they want", "Anonymously via QR code: which grammar, more speaking or writing, what pace.",
-          [link("/lehrkraefte/umfragen", "Start a survey", true)]));
+          [link("/teachers/surveys", "Start a survey", true)]));
         out.push(item("See the whole course", `The ${l.blocks.length} topic blocks of ${esc(l.label)} with learning goals, grammar and vocabulary.`,
-          [link(`/kursinhalte/${l.id}`, "Open syllabus", true), link(planHref(l, 1, 3), "Lesson plan for block 1")]));
+          [link(`/syllabus/${l.id}`, "Open syllabus", true), link(planHref(l, 1, 3), "Lesson plan for block 1")]));
         out.push(item("Set up a class", "Share the code: you see who practises between lessons. Needs a free account.",
-          [link("/lehrkraefte/klassen", "Set up a class", true)]));
+          [link("/teachers/classes", "Set up a class", true)]));
         next = `<button type="button" data-goal-switch="stunde">Prepare the first lesson →</button>`;
       } else if (st.ziel === "kennenlernen") {
         sum = "<b>New class, level not clear yet</b>";
         out.push(item("Start relaxed", "A vocabulary live quiz on the projector: everyone plays on their phone, no sign-up.",
-          [link("/lehrkraefte/quiz", "Open live quiz", true, true)]));
+          [link("/teachers/quiz", "Open live quiz", true, true)]));
         out.push(item("Find out the level", "Placement test via QR code: each person's level from A1 to B2 and the most common mistakes. Needs a free account.",
-          [link("/lehrkraefte/tests", "Create a test", true)]));
+          [link("/teachers/tests", "Create a test", true)]));
         out.push(item("Ask what they want", "Anonymously: what does the class want to learn, and at what pace?",
-          [link("/lehrkraefte/umfragen", "Start a survey", true)]));
+          [link("/teachers/surveys", "Start a survey", true)]));
         next = `<button type="button" data-goal-switch="kurs">Next: plan the course →</button>`;
       } else if (st.ziel === "vertretung" && l) {
         sum = `<b>Cover lesson ${esc(l.label)}</b> · no preparation, no account`;
         out.push(item("Live quiz on the projector", `In the quiz, choose “Random mix” and ${l.cefr}: words and grammar of the level, shuffled anew each round.`,
-          [link("/lehrkraefte/quiz", "Open live quiz", true, true)]));
+          [link("/teachers/quiz", "Open live quiz", true, true)]));
         if (l.games) out.push(item("Printable games", `With the ${l.cefr} vocabulary. All you need is a printer.`,
-          [link(`/lehrkraefte/spiele/erklaeren?level=${l.cefr}`, "Explain the word", true), link(`/lehrkraefte/spiele/bingo?level=${l.cefr}`, "Bingo"), link(`/lehrkraefte/spiele/domino?level=${l.cefr}`, "Domino")]));
+          [link(`/teachers/games/explain?level=${l.cefr}`, "Explain the word", true), link(`/teachers/games/bingo?level=${l.cefr}`, "Bingo"), link(`/teachers/games/domino?level=${l.cefr}`, "Domino")]));
         out.push(item("Worksheet for quiet work", "For every grammar topic and study set, with an answer sheet. Or let them fill it in online.",
-          [link("/lehrkraefte/arbeitsblaetter", "Open worksheets", true), ...(l.words ? [link(l.words, `Word list ${l.cefr}`)] : [])]));
+          [link("/teachers/worksheets", "Open worksheets", true), ...(l.words ? [link(l.words, `Word list ${l.cefr}`)] : [])]));
       }
       body.innerHTML = `
         <p class="lw-sum">${sum}</p>

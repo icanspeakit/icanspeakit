@@ -14,6 +14,7 @@
 // Rows are arrays, not objects, for words: ~2700 of them, and the keys would be most of
 // the file. The overlay knows the column order (see WORD_COLUMNS).
 import { grammarCatalog } from "./grammarCatalog.js";
+import { refPath } from "./routes.js";
 import { tools, exams } from "./catalog.js";
 import { all, LEVELS } from "./lexicon.js";
 import { lernsets, lernsetCards } from "./lernsets.js";
@@ -165,13 +166,13 @@ export function buildSearchIndex() {
       c: "grammatik",
     })),
     // akkusativ has its own page outside the catalog's [id] route.
-    { t: "Akkusativ", s: "", k: KEYWORDS.akkusativ, l: "A1", h: "/akkusativ", c: "grammatik" },
+    { t: "Akkusativ", s: "", k: KEYWORDS.akkusativ, l: "A1", h: "/object-pronouns", c: "grammatik" },
     ...praepTrainer.packs.map((p) => ({
       t: p.title ?? p.name,
       s: "Prepositions",
       k: "präpositionen prepositions",
       l: p.id.slice(0, 2).toUpperCase(),
-      h: "/praepositionen",
+      h: "/prepositions",
       c: "praep",
     })),
     ...kultur.topics.map((k) => ({
@@ -179,7 +180,7 @@ export function buildSearchIndex() {
       s: "Kultur",
       k: kulturHay(k, "kultur landeskunde culture"),
       l: k.level ?? "",
-      h: `/kultur/${k.id}`,
+      h: `/culture/${k.id}`,
       c: "kultur",
     })),
     // „Deutschland von innen": matched on the same kind of keywords, so „Frau" or „Dating"
@@ -189,7 +190,7 @@ export function buildSearchIndex() {
       s: "The UK from the inside",
       k: kulturHay(k, "culture uk from the inside insider"),
       l: k.level ?? "",
-      h: `/kultur/insider/${k.id}`,
+      h: `/culture/insider/${k.id}`,
       c: "kultur",
     })),
   ];
@@ -200,7 +201,7 @@ export function buildSearchIndex() {
     k: [e.short, e.id, e.keywords].filter(Boolean).join(" "),
     h: e.href,
   }));
-  // Typische Fehler (/grammatik/typische-fehler) is a Nachschlagewerk page, not a catalog
+  // Typische Fehler (/grammar/common-mistakes) is a Nachschlagewerk page, not a catalog
   // topic: found by its pairs („man Mann", „seit seid") as well as by its name. Its
   // Tandembogen comes along for teachers who look for a pair sheet on it.
   const fehlerWords = [...new Set(fehlerPairs.flatMap((p) => [p.a.w, p.b.w]).map((w) => w.replace(/^(der|die|das) /, "")))].join(" ").toLowerCase();
@@ -208,70 +209,70 @@ export function buildSearchIndex() {
     t: "Typische Fehler",
     s: "Wörter, die man verwechselt: man oder Mann, das oder dass, seid oder seit",
     k: `typische fehler häufige fehler verwechseln verwechselt falsch richtig common mistakes confusing words ${fehlerWords}`,
-    h: "/grammatik/typische-fehler",
+    h: "/grammar/common-mistakes",
   });
   pages.push({
     t: "Typische Fehler: Tandembogen",
     s: "Partnerübung zum Ausdrucken: fragen, antworten, mit Lösungsblatt",
     k: "typische fehler tandembogen tandem partnerübung partnerarbeit arbeitsblatt lehrkräfte unterricht ausdrucken worksheet pair work",
-    h: "/lehrkraefte/arbeitsblaetter/tandem/typische-fehler",
+    h: "/teachers/worksheets/tandem/typische-fehler",
   });
-  // Prüfungsfallen (/pruefungen/fallen): a page under the exam hub, not an exam of its own.
+  // Prüfungsfallen (/exams/traps): a page under the exam hub, not an exam of its own.
   pages.push({
     t: "Prüfungsfallen: DTZ und telc B1",
     s: "Stellen mit Haken in der Prüfung – kurz erklärt, mit Beispiel und Aufgabe",
     k: "prüfungsfallen pruefungsfallen fallen falle prüfung dtz telc b1 tipps fehler prüfungstipps hören lesen sprachbausteine schreiben sprechen exam traps exam tips",
-    h: "/pruefungen/fallen",
+    h: "/exams/traps",
   });
-  // Über mich (/ueber-mich): who teaches behind the site.
+  // Über mich (/about): who teaches behind the site.
   pages.push({
     t: "Über mich: Edgar Kretschmann",
     s: "Deutschlehrer seit 2015 – China, Korea, Philippinen, Deutschland",
     k: "über mich ueber mich edgar kretschmann lehrer lehrkraft gründer team wer about me teacher founder",
-    h: "/ueber-mich",
+    h: "/about",
   });
   // The placement test is a hub tile (catalog.js), not one of the tools, so it needs its own row.
   pages.push({
     t: "Einstufungstest",
     s: "Wo stehst du? Höchstens acht Fragen, A1 bis B2",
     k: "einstufungstest einstufung einstufen test niveau niveautest sprachniveau level welches niveau habe ich mein niveau testen wo stehe ich deutschtest a1 a2 b1 b2 placement test level test what is my level",
-    h: "/einstufungstest",
+    h: "/placement-test",
   });
   pages.push({
     t: "Stundenplan-Generator für Lehrkräfte",
     s: "Unterricht für einen Themenblock planen: Phasen, Zeiten, Aktivitäten, passende Übungen",
     k: "stundenplan unterrichtsplanung unterrichtsentwurf lehrplan verlaufsplan stunde planen lehrkräfte lehrer unterricht generator lesson plan teacher",
-    h: "/lehrkraefte/stundenplan",
+    h: "/teachers/timetable",
   });
   pages.push({
     t: "Kursinhalte A1–C1",
     s: "Was lernst du in welchem Kurs? Themen, Lernziele und Grammatik pro Niveau",
     k: "kursinhalte kurs deutschkurs kursplan lehrplan curriculum themen lernziele progression niveau a1 a2 b1 b2 c1 a1.1 a1.2 b2.1 was lerne ich course content syllabus",
-    h: "/kursinhalte",
+    h: "/syllabus",
   });
   pages.push({
     t: "Einstufungstest für die Klasse",
     s: "Für Lehrkräfte: per QR-Code, mit dem Niveau jeder Person",
     k: "einstufungstest klasse klassentest thementest test erstellen lehrkräfte lehrer lehrerin unterricht kurs einstufung niveau einstufen grammatiktest prüfen ergebnisse schüler placement test teacher class test quiz results",
-    h: "/lehrkraefte/tests",
+    h: "/teachers/tests",
   });
   pages.push({
     t: "Land und Kultur",
     s: "Alle Landeskunde-Themen auf einen Blick",
     k: "landeskunde land kultur deutschland alle themen leben in deutschland culture germany life",
-    h: "/wissen/land-und-kultur",
+    h: "/knowledge/country-and-culture",
   });
   pages.push({
     t: "Deutschland von innen",
     s: "Wie Menschen in Deutschland leben, lieben und wählen",
     k: "landeskunde deutschland von innen insider liebe beziehung dating frau mann politik alltag",
-    h: "/kultur/insider",
+    h: "/culture/insider",
   });
   pages.push({
     t: "English around the world",
     s: "World map, language family, how close is your language?",
     k: "english around the world where is english spoken official language countries world map english-speaking countries commonwealth language family tree indo-european germanic related languages cognates german english word decoder sound shift singlish pidgin creole sprachen weltkarte",
-    h: "/wissen/sprachen",
+    h: "/knowledge/languages",
   });
   // The rest of the Nachschlagewerk: the overview, the three verb lists (found by their
   // verbs too: "warten auf" finds Verben mit Präpositionen) and the Wortarten.
@@ -279,7 +280,7 @@ export function buildSearchIndex() {
     t: "Nachschlagewerk",
     s: "Verbtabellen, Nomen in allen Fällen, Wortarten und mehr zum Nachschlagen",
     k: "nachschlagewerk nachschlagen nachschauen tabellen grammatik übersicht reference look up tables",
-    h: "/nachschlagewerk",
+    h: "/reference",
   });
   for (const [ref, d, k] of [
     ["starke-schwache-verben", starkSchwach, "starke verben schwache verben unregelmäßige verben strong verbs weak verbs irregular verbs vokalwechsel ablaut präteritum partizip stammformen"],
@@ -287,33 +288,33 @@ export function buildSearchIndex() {
     ["verben-mit-praepositionen", verbPraep, "verben mit präpositionen verbs with prepositions präpositionalobjekt rektion"],
   ]) {
     const items = d.sections.flatMap((x) => x.items.filter((it) => typeof it !== "string").map((it) => it[0].replace(/[[\]|]/g, "")));
-    pages.push({ t: d.title, s: d.description ?? "", k: `${k} ${items.join(" ")}`.toLowerCase(), h: `/grammatik/${ref}` });
+    pages.push({ t: d.title, s: d.description ?? "", k: `${k} ${items.join(" ")}`.toLowerCase(), h: refPath(ref) });
   }
   pages.push({
     t: "Wortarten",
     s: "Nomen, Verb, Adjektiv und Co.: was sie sind, woran du sie erkennst",
     k: "wortarten wortart word classes parts of speech nomen substantiv verb adjektiv adverb pronomen präposition konjunktion artikel zahlwort",
-    h: "/grammatik/wortarten",
+    h: "/grammar/parts-of-speech",
   });
   pages.push({
     t: "Nomen in allen Fällen",
     s: "Deklinationstabellen: Nominativ, Akkusativ, Dativ, Genitiv – Singular und Plural",
     k: "deklination deklinieren nomen substantiv fälle fall kasus nominativ akkusativ dativ genitiv singular plural der den dem des ein einen einem eines declension noun cases case table",
-    h: "/grammatik/deklination",
+    h: "/grammar/deklination",
   });
   pages.push({
     t: "Accents: the map",
     s: "Accents of English in the UK and Ireland",
     k: "accents accent map dialects dialect british accents regional accents uk ireland scouse geordie brummie cockney mancunian yorkshire west country estuary multicultural london english glaswegian scottish english welsh english irish english ulster bath trap foot strut bus rhotic hello hiya ey up alright bread roll barm cob bap dialekte",
-    h: "/wissen/dialekte",
+    h: "/knowledge/accents",
   });
-  // Every Redemittel set (/wortschatz/redemittel/<id>), found by its name and its phrases.
+  // Every Redemittel set (/vocabulary/phrases/<id>), found by its name and its phrases.
   for (const set of redemittel.sets) {
     pages.push({
       t: `Redemittel: ${set.name}`,
       s: `${set.phrases.length} Sätze mit Audio, z. B. „${set.phrases[0]?.de ?? ""}“`,
       k: `redemittel sätze phrases ${set.id} ${set.name} ${set.phrases.map((p) => `${p.de} ${p.en ?? ""}`).join(" ")}`.toLowerCase(),
-      h: `/wortschatz/redemittel/${set.id}`,
+      h: `/vocabulary/phrases/${set.id}`,
     });
   }
   // Redewendungen & Sprichwörter: the hub and every phrase, found by its words, its meaning
@@ -323,7 +324,7 @@ export function buildSearchIndex() {
       t: "Redewendungen & Sprichwörter",
       s: "Was sie bedeuten, wann man sie sagt und woher sie kommen",
       k: "redewendung redewendungen sprichwort sprichwörter idiom idioms proverb proverbs redensart redensarten",
-      h: "/wissen/redewendungen",
+      h: "/knowledge/idioms",
     });
     for (const e of rwEintraege) {
       pages.push({ t: e.de, s: e.bedeutung, k: `${e.de} ${e.bedeutung} ${e.en} redewendung`.toLowerCase(), h: rwHref(e) });
@@ -333,7 +334,7 @@ export function buildSearchIndex() {
     t: "Umgangssprache, Slang und Schimpfwörter",
     s: "Wie man wirklich spricht – mit Hochdeutsch daneben und was man nie sagt",
     k: "umgangssprache slang jugendsprache jugendwort schimpfwörter schimpfwort fluchen vulgär beleidigung kurzformen haste biste nö gucken kriegen kohle bock krass digga alter chillen geil cringe lost zwo fuffzig mist scheiße colloquial swear words curse insults youth slang",
-    h: "/wissen/umgangssprache",
+    h: "/knowledge/slang",
   });
 
   // A word links to its Lernset when that set has a page, else to the level's full list,
@@ -349,11 +350,11 @@ export function buildSearchIndex() {
       w.plural ?? "",
       w.en,
       w.level,
-      `${builtSets.has(w.unit) ? `/wortschatz/${w.unit}` : `/wortschatz/${w.level.toLowerCase()}`}?wort=${encodeURIComponent(w.id)}`,
+      `${builtSets.has(w.unit) ? `/vocabulary/${w.unit}` : `/vocabulary/${w.level.toLowerCase()}`}?wort=${encodeURIComponent(w.id)}`,
       w.pos ?? "",
     ]);
 
-  // Verb tables (/grammatik/verben): [infinitive, preview, href, every form]. Every form
+  // Verb tables (/grammar/verbs): [infinitive, preview, href, every form]. Every form
   // so that "hat", "ging" or "gegangen" also find their verb.
   const verbs = verbTables.map((v) => [
     v.inf,
@@ -370,7 +371,7 @@ export function buildSearchIndex() {
     .map((s) => [
       s.title,
       s.level ?? "",
-      `/wortschatz/${s.id}`,
+      `/vocabulary/${s.id}`,
       [s.moduleTitle ?? "", ...(s.topics ?? []), lernsetKeywords(s.id)].join(" ").replace(/&/g, " ").replace(/\s+/g, " ").trim(),
       [...new Set(lernsetCardsWords(s.id))].join("|"),
     ]);
@@ -389,7 +390,7 @@ export function buildSearchIndex() {
   const have = new Set(pages.map((p) => p.h));
   for (const p of seitenSuche) if (!have.has(p.h)) pages.push(p);
   // Zitat des Tages: found by every author, not by its 366 single quotes.
-  const zitatHub = pages.find((p) => p.h === "/wissen/zitate");
+  const zitatHub = pages.find((p) => p.h === "/knowledge/quotes");
   if (zitatHub) zitatHub.k = `${zitatHub.k ?? ""} zitat zitate ${Object.values(zitate.authors).map((a) => a.name).join(" ")}`.toLowerCase();
   return { topics, pages, words, verbs, sets, refs };
 }

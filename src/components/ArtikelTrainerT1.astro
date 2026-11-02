@@ -311,7 +311,7 @@ const freqChart = {
         onAnswer: (ok, id, info) => {
           // "Sicher" counts first tries only; a second tap among three options is half a guess.
           record(id, ok && info?.firstTry !== false);
-          // `topic` too, so the topic bar above and /fortschritt count the answer for Artikel.
+          // `topic` too, so the topic bar above and /progress count the answer for Artikel.
           recordAttempt({ skill: "grammatik", correct: ok, id, trackVocab: true, topic: "artikel" });
           dispatchEvent(new CustomEvent("da:progress", { detail: { topic: "artikel", correct: ok } }));
           refresh();

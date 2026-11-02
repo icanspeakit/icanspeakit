@@ -8,7 +8,7 @@
 //
 //   FEHLER   doppelt-richtig — a pill that is not the answer, but the answer check
 //            (src/lib/answerMatch.js, the same code the page runs) counts it as right.
-//            On /possessivartikel „ihr“ and „Ihr“ were both marked right for both rows.
+//            On /possessives „ihr“ and „Ihr“ were both marked right for both rows.
 //            doppelte-pille — two pills on one item the check cannot tell apart
 //            („Als“ and „als“): one of them is always a second right answer.
 //

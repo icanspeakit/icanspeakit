@@ -39,8 +39,8 @@ interface Props {
       the page itself shows; see the structured-data block below. */
   schema?: Record<string, unknown> | Record<string, unknown>[];
   /** The pages above this one in the breadcrumb trail, when the route alone does not name
-      them (a dynamic parent such as /berufe/pflege, or a top-level grammar topic that belongs
-      under /grammatik). Start and the page itself are added. */
+      them (a dynamic parent such as /english-for-work/pflege, or a top-level grammar topic that belongs
+      under /grammar). Start and the page itself are added. */
   breadcrumb?: Crumb[];
   /** No analytics on this page at all: no consent banner, so PostHog,
       GA and the Meta Pixel never load. For pages that promise it (/politik: the quiz says
@@ -106,7 +106,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     {canonical && !noindex && <link rel="canonical" href={canonical} />}
     <!-- Rights reservation for text and data mining (§ 44b UrhG, TDMRep). Same reservation as
-         robots.txt, public/.well-known/tdmrep.json and /nutzungsbedingungen. -->
+         robots.txt, public/.well-known/tdmrep.json and /terms. -->
     <meta name="tdm-reservation" content="1" />
     <!-- No "Translate this page?" prompt from Chrome or Edge.
 
@@ -125,7 +125,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
          example sentences and exercises stay German. -->
     <meta name="google" content="notranslate" />
     <!-- translate="no" on <html> (above) is the standard attribute for the same thing. Chrome
-         on iOS ignores the meta tag but honours the attribute; it translated /berufe and
+         on iOS ignores the meta tag but honours the attribute; it translated /english-for-work and
          /anmelden anyway, and the translated text nodes crashed the React sign-in island
          (Sentry DEUTSCHACADEMY-WEB-A, NotFoundError on insertBefore; WEB-B is the same
          translation loading its CSS from www.gstatic.com). -->
@@ -327,7 +327,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
   <body>
     <LanguageOffer />
     <slot />
-    {/* A lesson is running (/lehrkraefte/unterricht): its bar and clock come along to every
+    {/* A lesson is running (/teachers/lesson): its bar and clock come along to every
         page opened from it. Only the localStorage copy is read here; the module loads only
         when one exists (src/lib/unterricht/leiste.js). */}
     {(
@@ -335,10 +335,10 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         let running = false;
         let lernt = false;
         try { running = !!localStorage.getItem("da:unterricht"); lernt = !!localStorage.getItem("da:lernstunde"); } catch {}
-        if (running && !location.pathname.startsWith("/lehrkraefte/unterricht")) {
+        if (running && !location.pathname.startsWith("/teachers/lesson")) {
           import("../lib/unterricht/leiste.js").then((m) => m.boot()).catch(() => {});
-        } else if (!running && lernt && location.pathname !== "/stunde") {
-          // A learner's Stunde (/stunde): the same bar in its learner mode. A teacher session
+        } else if (!running && lernt && location.pathname !== "/lesson") {
+          // A learner's Stunde (/lesson): the same bar in its learner mode. A teacher session
           // on the same device wins (the learner's stays stored).
           import("../lib/unterricht/leiste.js").then((m) => m.bootLern()).catch(() => {});
         }
@@ -354,15 +354,15 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     <script>import "../lib/notReady.js";</script>
     {/* The live quiz goes on the projector: every link to it (nav, Lehrkräfte hub, a page's
         „Live-Quiz“ button) opens a new tab, so the page the teacher came from stays open.
-        Inside the quiz pages themselves (builder, /spiel) links keep the same tab. */}
+        Inside the quiz pages themselves (builder, /game) links keep the same tab. */}
     {(
       <script is:inline>
         document.addEventListener("click", (e) => {
           const a = e.target instanceof Element && e.target.closest("a[href]");
           if (!a || a.target) return;
           const u = new URL(a.href, location.href);
-          if (u.origin !== location.origin || u.pathname.replace(/\/$/, "") !== "/lehrkraefte/quiz") return;
-          if (location.pathname.startsWith("/lehrkraefte/quiz") || location.pathname.startsWith("/spiel")) return;
+          if (u.origin !== location.origin || u.pathname.replace(/\/$/, "") !== "/teachers/quiz") return;
+          if (location.pathname.startsWith("/teachers/quiz") || location.pathname.startsWith("/game")) return;
           a.target = "_blank";
           a.rel = "noopener";
         }, true);
@@ -389,8 +389,8 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         window.addEventListener(type, (e) => { tips().then((m) => m.handle(e as CustomEvent)); });
       }
       try {
-        if (localStorage.getItem("da-tips-v1") == null || location.pathname.startsWith("/fortschritt")) {
-          tips().then((m) => { m.noteVisit(); if (location.pathname.startsWith("/fortschritt")) m.markProgressSeen(); });
+        if (localStorage.getItem("da-tips-v1") == null || location.pathname.startsWith("/progress")) {
+          tips().then((m) => { m.noteVisit(); if (location.pathname.startsWith("/progress")) m.markProgressSeen(); });
         }
       } catch {}
     </script>

@@ -2,7 +2,7 @@
 // (SPRACHEN-NESTED-TIERED-PROMPT.md, Tier 2).
 //
 // A translated line ships with one span per language — UiText.astro, the help blocks
-// (textHelp.js, data-gx-lang), the conjugation tables, the contents lines on /wissen — and
+// (textHelp.js, data-gx-lang), the conjugation tables, the contents lines on /knowledge — and
 // CSS picks the one whose lang matches <html lang>. CSS cannot compare two attributes, so
 // that used to be a hand-written selector per language in five stylesheets, and a new
 // language meant editing all five. Now the rules for the CURRENT language only are written
@@ -25,7 +25,7 @@ export function langRules(c) {
     g + ".ct-grprow .gx-tr-l" + l + "{display:inline}" +
     // A block whose German already turns into this language through i18n says it once.
     r + g + ".gx-tr--i18n{display:none}" +
-    // The contents lines on /wissen (wissen.css).
+    // The contents lines on /knowledge (wissen.css).
     r + ".wi-toc-tr" + l + "{display:block}"
   );
 }

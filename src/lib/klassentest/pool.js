@@ -1,5 +1,5 @@
 // Klassentest: the questions a teacher's test can draw from, built once at build time and
-// served as /lehrkraefte/tests/fragen.json (the teacher's page fetches it when it opens).
+// served as /teachers/tests/fragen.json (the teacher's page fetches it when it opens).
 //
 // Every question is a single gap from a reviewed grammar workspace (src/data/grammatik/*.json):
 // the `fill` items and the `table` rows, free exercises only. The options come from where
@@ -15,6 +15,7 @@
 // { id, name, level, href, fragen: [...] }.
 import { accepts, distinctOptions } from "../answerMatch.js";
 import { isReviewed } from "../topicStatus.js";
+import { topicPath } from "../routes.js";
 
 const workspaceMods = import.meta.glob("../../data/grammatik/*.json", { eager: true });
 const workspaces = Object.values(workspaceMods).map((m) => m.default ?? m).filter(isReviewed);
@@ -109,7 +110,7 @@ function questionsOf(w) {
 export function klassentestPool() {
   const ORDER = ["A1", "A2", "B1", "B2", "C1", "C2"];
   return workspaces
-    .map((w) => ({ id: w.id, name: w.name, level: w.level, href: `/${w.slug ?? w.id}`, fragen: questionsOf(w) }))
+    .map((w) => ({ id: w.id, name: w.name, level: w.level, href: topicPath(w.slug ?? w.id), fragen: questionsOf(w) }))
     .filter((tp) => tp.fragen.length >= 3)
     .sort((a, b) => ORDER.indexOf(a.level) - ORDER.indexOf(b.level) || a.name.localeCompare(b.name, "de"));
 }

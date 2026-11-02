@@ -129,7 +129,7 @@ for (const [dir, file] of files) {
   });
 }
 
-// The light index the /fortschritt registry imports in the browser (ids only, no content).
+// The light index the /progress registry imports in the browser (ids only, no content).
 const indexPath = path.join(ROOT, "src/data/pruefungen/saetze-index.json");
 const indexJson = JSON.stringify(index.sort((a, b) => a.id.localeCompare(b.id)), null, 2) + "\n";
 if (!existsSync(indexPath) || readFileSync(indexPath, "utf8") !== indexJson) {

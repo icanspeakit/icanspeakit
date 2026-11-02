@@ -44,7 +44,7 @@ const { active, wissenVariant = "lean" } = Astro.props;
 // other display choices (theme, language). Desktop only — below 1080px .lp-nav-utils
 // moves into the drawer, which carries its own row at the top.
 const einfachBruno = mascotSvg({ name: "bruno", expr: "happy", view: "front", size: 22, label: "" });
-const onEinfach = Astro.url.pathname.replace(/\/+$/, "") === "/einfach";
+const onEinfach = Astro.url.pathname.replace(/\/+$/, "") === "/step-by-step";
 // The Android app (PUBLIC_TARGET=app, Tier 3) carries three parts of the site, so the full
 // menu, the search, the next-step button and the account menu stay out of it: nothing renders
 // here. Layout.astro gives the app its own slim bar (AppBar.astro, Tier U1) and its tab bar
@@ -93,7 +93,7 @@ const APP_BUILD = import.meta.env.PUBLIC_TARGET === "app";
             dashboard mark and matches the one the mobile drawer toggle already uses. */}
         <a
           class="lp-nav-einfach"
-          href="/einfach"
+          href="/step-by-step"
           aria-current={onEinfach ? "page" : undefined}
           title="Einfach lernen — ein Schritt pro Bildschirm"
           data-i18n-attr="title:nav.einfach.title"
@@ -106,8 +106,8 @@ const APP_BUILD = import.meta.env.PUBLIC_TARGET === "app";
 
         <a
           class="lp-nav-icon lp-nav-progress"
-          href="/fortschritt"
-          aria-current={Astro.url.pathname.replace(/\/+$/, "") === "/fortschritt" ? "page" : undefined}
+          href="/progress"
+          aria-current={Astro.url.pathname.replace(/\/+$/, "") === "/progress" ? "page" : undefined}
           aria-label="Mein Fortschritt"
           data-i18n-attr="aria-label:nav.account.progress;title:nav.account.progress"
           title="Mein Fortschritt"

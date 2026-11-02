@@ -8,7 +8,7 @@
 // the button exists only where the API does. Where it sits and whether it is folded are
 // kept in localStorage; on a phone it starts folded.
 //
-// For a learner (mode "lernend", /stunde) it is a soft guide, not a clock to beat: the
+// For a learner (mode "lernend", /lesson) it is a soft guide, not a clock to beat: the
 // sector of the step, „ca. 10 Min.“ for it and the time spent on it so far (so the learner
 // sees it running), no red, no overrun, no total countdown, no
 // pop-out. On a phone it starts hidden (the bar shows the time as text). Its own prefs key.

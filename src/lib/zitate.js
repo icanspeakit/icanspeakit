@@ -1,4 +1,4 @@
-// Zitat des Tages (/wissen/zitate): which quote belongs to which date, and the week's best
+// Zitat des Tages (/knowledge/quotes): which quote belongs to which date, and the week's best
 // for the Monday mail. Pure, so the page (browser, local date), the mail (server, Berlin
 // date) and the build agree on the same quote for the same day.
 //

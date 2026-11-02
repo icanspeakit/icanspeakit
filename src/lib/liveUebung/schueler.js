@@ -7,6 +7,7 @@
 // has been answered here yet; otherwise the bar offers the way over.
 import { createBrowserSupabase } from "../supabase/browser.js";
 import { setWaiting } from "../notReady.js";
+import { topicPath } from "../routes.js";
 import { channelName, cleanName, makeId, PIN_RE, pickOf, summarize, totalOf, wrongOf } from "./protocol.js";
 import "../../styles/live-uebung.css";
 
@@ -123,7 +124,7 @@ export function joinLiveUebung(data, topic, pin) {
   function follow(hostTopic, title) {
     if (!hostTopic || hostTopic === topic) { away = null; return; }
     // Nothing done here yet: just go. Otherwise the bar offers it.
-    if (!Object.keys(answers).length) { location.assign(`/${hostTopic}?live=${pin}`); return; }
+    if (!Object.keys(answers).length) { location.assign(`${topicPath(hostTopic)}?live=${pin}`); return; }
     away = { topic: hostTopic, title: title || hostTopic };
   }
 

@@ -1,7 +1,7 @@
 // Build-time view of the two first-language files, in the small shape both pages hand to
 // the browser: which languages exist, which drills each one gets, and which typical mistake
 // (fehler-nach-sprache.json) a drill answers for that language. The Aussprache-Check and
-// /kultur/fehler embed the same object, so a link built on one page resolves on the other.
+// /culture/mistakes embed the same object, so a link built on one page resolves on the other.
 import fehler from "../data/fehler-nach-sprache.json";
 import drillData from "../data/aussprache-muttersprache.json";
 

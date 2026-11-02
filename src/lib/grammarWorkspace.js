@@ -15,6 +15,7 @@ import { waitAttrs } from "./notReady.js";
 import { mascotHop } from "./mascotCelebrate.js";
 import { recordResult } from "./fehler.js";
 import { hintItem } from "./versuche.js";
+import { topicPath } from "./routes.js";
 import { seededShuffle } from "./seededShuffle.js";
 import { markedHtml, unmark } from "./markedText.js";
 import { meldenLink, flagElement, flagItems } from "./meldung.js";
@@ -1084,7 +1085,7 @@ export function mountGrammarWorkspace(pageRoot, data, { onAnswer, meldungRef } =
       if (rich) {
         recordResult({
           source: "grammatik", itemId: `${topic}/${exIndex}/${detail.itemId}`, prompt: detail.prompt, expected: detail.expected,
-          given: detail.given, level: data.level, topic: data.name ?? topic, href: `/${topic}#uebung-${exIndex + 1}`,
+          given: detail.given, level: data.level, topic: data.name ?? topic, href: `${topicPath(topic)}#uebung-${exIndex + 1}`,
         }, ok);
       }
     };

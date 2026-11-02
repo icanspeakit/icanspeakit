@@ -164,8 +164,8 @@ for (const l of regeln.lessons) used.add(`fs.lesson.${l.id}.card`);
 for (const g of regeln.groups) used.add(`fs.group.${g.id}`);
 for (const k of used) if (!(k in de)) bad("i18n", `Schlüssel „${k}“ fehlt in public/i18n/de.json`);
 
-// --- Ids for /fortschritt -------------------------------------------------------------------
-// The registry (src/lib/exam/registry.js) is bundled into the /fortschritt page script, so it
+// --- Ids for /progress -------------------------------------------------------------------
+// The registry (src/lib/exam/registry.js) is bundled into the /progress page script, so it
 // reads this small index instead of the whole bank. Written only when it changed.
 const index = {
   _note: "Erzeugt von scripts/check-fuehrerschein.mjs — nicht von Hand ändern.",

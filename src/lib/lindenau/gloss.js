@@ -1,4 +1,4 @@
-// The 💡 Help line under an English line in "The Legend of Brambleford" (/spiele/lindenau), in
+// The 💡 Help line under an English line in "The Legend of Brambleford" (/games/brambleford), in
 // the learner's own language. The header's language menu is the only control
 // (src/lib/textHelp.js): UI en / ar / uk / tr → that language; other UI languages → English,
 // like the word lists. The plain-English help sits next to the English line in quests.js /

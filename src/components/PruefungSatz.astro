@@ -11,6 +11,7 @@ import SiteNav from "./SiteNav.astro";
 import ExamApp from "./ExamApp.astro";
 import { EXAM_NAMES, examLabel, idsOfPart, isScored } from "../lib/exam/saetze.js";
 import { examMinutes } from "../lib/exam/minutes.js";
+import { examPath } from "../lib/routes.js";
 import formate from "../data/pruefungen/formate-a2-c1.research.json";
 import LevelGrammar from "./LevelGrammar.astro";
 import PremiumLock from "./PremiumLock.astro";
@@ -25,7 +26,7 @@ const { set } = Astro.props;
 // /inhalt/ once can(feature) allows it. Nothing of the set's content is in this HTML.
 const paid = set.paid === true;
 const examName = EXAM_NAMES[set.exam] ?? set.exam;
-const overview = `/${set.exam}`;
+const overview = examPath(set.exam);
 // "Cambridge B1 Preliminary", "Trinity ISE I": the name learners search for.
 const examLevel = examLabel(set);
 

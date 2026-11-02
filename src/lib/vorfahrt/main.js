@@ -1,4 +1,4 @@
-// Vorfahrt-Flitzer: wires the page (/spiele/vorfahrt) to the game. Screens, HUD, the two
+// Vorfahrt-Flitzer: wires the page (/games/vorfahrt) to the game. Screens, HUD, the two
 // driving buttons, keys and swipes, the „Warum?“ card (German explanation, the learner's UI
 // language underneath), the result with the list of misses, the Tagesfahrt and the progress
 // hooks (recordAttempt per decision, the mascots on a new best). Sounds come from Artikel-

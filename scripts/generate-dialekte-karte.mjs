@@ -1,4 +1,4 @@
-// Map geometry for /wissen/dialekte (accents of English in the UK and Ireland) — run once,
+// Map geometry for /knowledge/accents (accents of English in the UK and Ireland) — run once,
 // output committed.
 //
 // Builds the UK (England, Scotland, Wales, Northern Ireland) and Ireland from Natural Earth

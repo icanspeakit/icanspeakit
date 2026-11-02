@@ -1,4 +1,4 @@
-// "Dein Weg" — the left pane of /fortschritt, as a record rather than a menu.
+// "Dein Weg" — the left pane of /progress, as a record rather than a menu.
 //
 // It used to list the five course modules, which was the Stufenübersicht again, two
 // centimetres to the left of the Stufenübersicht. A learner opening this pane is not

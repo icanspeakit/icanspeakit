@@ -1,4 +1,4 @@
-// "Correct my text" on a writing task (/schreiben/[id]).
+// "Correct my text" on a writing task (/writing/[id]).
 //
 // Two checkers, one result:
 //   1. LanguageTool (api.languagetool.org, the free public API, British English) — spelling,

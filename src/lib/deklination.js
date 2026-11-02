@@ -1,5 +1,5 @@
 // Every noun of the lexicon in all four cases, singular and plural — the tables behind
-// /grammatik/deklination ("der Kuchen, den Kuchen, dem Kuchen, des Kuchens").
+// /grammar/deklination ("der Kuchen, den Kuchen, dem Kuchen, des Kuchens").
 //
 // The lexicon stores only article and plural, so the case forms are worked out here. The
 // rules, and why each exception list exists:
@@ -107,7 +107,7 @@ export function tableHtml(d) {
   const head = d.gender ? `${d.gender} ${d.lemma}` : `die ${d.plural ?? d.lemma}`;
   const sub = d.gender ? (d.plural ? `Plural: die ${d.plural}` : "kein Plural") : "nur im Plural";
   return `<div class="dk-card" lang="de">
-  <div class="dk-card-head"><h2>${esc(head)}</h2><span>${esc(sub)}</span>${d.weak ? `<a class="dk-weak" href="/n-deklination">n-Deklination</a>` : ""}</div>
+  <div class="dk-card-head"><h2>${esc(head)}</h2><span>${esc(sub)}</span>${d.weak ? `<a class="dk-weak" href="/used-to">n-Deklination</a>` : ""}</div>
   <table class="dk-table">
     <thead><tr><th scope="col">Fall</th>${d.gender ? `<th scope="col">Singular</th>` : ""}${d.plural ? `<th scope="col">Plural</th>` : ""}</tr></thead>
     <tbody>${d.rows.map((r) => `<tr><th scope="row">${r.name}<small>${r.q}</small></th>${d.gender ? `<td>${cell(r.sg)}</td>` : ""}${d.plural ? `<td>${cell(r.pl)}</td>` : ""}</tr>`).join("")}</tbody>

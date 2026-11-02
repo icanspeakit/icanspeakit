@@ -1,4 +1,4 @@
-// File names for the Ausspracheübungen nach Muttersprache (/kultur/fehler): one mp3 per
+// File names for the Ausspracheübungen nach Muttersprache (/culture/mistakes): one mp3 per
 // word or sentence, shared between the drills that use it. Plain ESM with no imports, so
 // scripts/generate-muttersprache-audio.mjs and the page compute the same name.
 export const DRILL_AUDIO_DIR = "/audio/muttersprache";

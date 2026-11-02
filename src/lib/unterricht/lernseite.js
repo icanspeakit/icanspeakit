@@ -1,13 +1,13 @@
-// /stunde: a Stunde of the Stundenplan for a learner alone, step by step, on any device.
-//   /stunde?niveau=a1-1&block=1[&stunden=3&stunde=1&min=90]
-// The same Stunde the teacher's /lehrkraefte/unterricht teaches (build() from the five plan
+// /lesson: a Stunde of the Stundenplan for a learner alone, step by step, on any device.
+//   /lesson?niveau=a1-1&block=1[&stunden=3&stunde=1&min=90]
+// The same Stunde the teacher's /teachers/lesson teaches (build() from the five plan
 // keys; a self-learner gets 3 Stunden × 90 min per block). One step = one phase. Its
 // material is the site's own pages, opened in this tab; the bar (leiste.js, learner mode)
 // comes along and leads back here. A step finishes by itself when its exercises are done
 // (lernen.js goalOf), or with „Fertig“; every step can be skipped.
 //
 // Saved on this device (lernstunde.js); for a signed-in learner also on the server (Tier 2,
-// lernServer.js): opening /stunde merges the server's copy in first, so another device's
+// lernServer.js): opening /lesson merges the server's copy in first, so another device's
 // progress is there. No account needed. ?klasse=<id> (an Aufgabe, Tier 3) ties the Stunde to
 // that class: the teacher sees it, and finishing it marks the Aufgabe done.
 import { cefrOf, lessonFor } from "../stundenplan.js";
@@ -39,8 +39,8 @@ export async function mountLernstunde(root, data) {
   const show = (name) => views.forEach((v) => (v.hidden = v.dataset.view !== name));
 
   const q = new URLSearchParams(location.search);
-  // Bare /stunde (the menu's „Meine Stunde“): on to the Stunde that is next, chosen as on
-  // /fortschritt's card (naechsteStunde) – begun, else the one after, else the level's first.
+  // Bare /lesson (the menu's „Meine Stunde“): on to the Stunde that is next, chosen as on
+  // /progress's card (naechsteStunde) – begun, else the one after, else the level's first.
   if (!q.has("niveau")) {
     let snaps = deviceSnapshots();
     if (hasAuthCookie()) {
@@ -137,7 +137,7 @@ export async function mountLernstunde(root, data) {
   if (done) {
     msg.textContent = "You have finished this lesson.";
     go.textContent = nextHref ? "Go to the next lesson" : "Go to your progress";
-    go.addEventListener("click", () => location.assign(nextHref ?? "/fortschritt"));
+    go.addEventListener("click", () => location.assign(nextHref ?? "/progress"));
     fresh.hidden = false;
     fresh.textContent = "Do it again";
   } else if (saved) {
@@ -257,7 +257,7 @@ export async function mountLernstunde(root, data) {
       const goalsList = lesson.goals.length ? lesson.goals : [block.thema];
       body = `<ul class="ut-goals">${goalsList.map((g) => `<li>${esc(g)}</li>`).join("")}</ul>
         ${typed(ph, 6, "Your sentences")}
-        <div class="ls-links"><a class="ls-link" href="/aussprache-check">Rather speak? Go to the pronunciation check<small>Say your sentences and hear how they sound</small></a></div>`;
+        <div class="ls-links"><a class="ls-link" href="/pronunciation-check">Rather speak? Go to the pronunciation check<small>Say your sentences and hear how they sound</small></a></div>`;
     } else if (ph.id === "pruefung") {
       body = `<div class="ls-links">${(ph.links ?? []).map((l) => `<a class="ls-link ls-link--main" href="${esc(l.href)}">${esc(l.name)}<small>Through to the result</small></a>`).join("")}</div>`;
     } else if (ph.id === "abschluss") {
@@ -365,7 +365,7 @@ export async function mountLernstunde(root, data) {
     }).join("");
     const next = $("[data-done-next]");
     if (nextHref) next.href = nextHref;
-    else { next.href = "/fortschritt"; next.textContent = "Go to your progress"; }
+    else { next.href = "/progress"; next.textContent = "Go to your progress"; }
   }
 
   /* ----------------------------------------------------------- helpers ---- */

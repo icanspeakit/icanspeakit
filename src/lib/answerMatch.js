@@ -23,7 +23,7 @@ export function accepts(answer, value) {
 }
 /* Case is otherwise forgiven ("Wäre" at a sentence start, "wäre" in the pill), but for the
  * Sie-forms it is the meaning: "ihr" (her / you all) and "Ihr" (your, polite) are two
- * pills on /possessivartikel, and either one used to be marked right for both rows. */
+ * pills on /possessives, and either one used to be marked right for both rows. */
 const POLITE = /^(sie|ihr|ihre|ihrem|ihren|ihrer|ihres|ihnen)$/i;
 function politeClash(a, value) {
   const x = String(a).trim();

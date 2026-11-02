@@ -1,7 +1,7 @@
 // Bruno sucht den Hochstapler, Klasse mode: the wire protocol, the one place projector
 // (host.js) and phones (player.js) agree on. Pattern and transport as the live quiz
 // (src/lib/liveQuiz/protocol.js): Supabase Realtime broadcast + presence on the public key, no
-// table; the host tab is the game. The room registry (/api/live-quiz/raum, /beitreten) is
+// table; the host tab is the game. The room registry (/api/live-quiz/raum, /join) is
 // shared with the quiz, so PINs are unique across both.
 //
 // Channel `hochstapler:<PIN>`. Presence: host { role: "host" }; player

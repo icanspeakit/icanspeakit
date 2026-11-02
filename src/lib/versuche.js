@@ -20,7 +20,7 @@
 //   next page load in that tab.
 // - A row: uebung_ref, skill, richtig/gesamt (both empty for practice without a score),
 //   start and end time, duration, and the Hinweis counts from ./hinweise.js.
-// - Einfach (/einfach, refs "e:") is never logged: the join page promises that
+// - Einfach (/step-by-step, refs "e:") is never logged: the join page promises that
 //   (KlassenConsent.astro).
 //
 // TRUST: these rows are "selbst gemeldet" (quelle = 'client'). They are scored in this
@@ -31,6 +31,7 @@
 // accepted. Each row carries a client_id and the insert ignores duplicates, so a retry after
 // an uncertain send can't count a set twice.
 import { answerTimed, startHinweise, takeHinweise } from "./hinweise.js";
+import { germanPath } from "./routes.js";
 
 const QUEUE_KEY = "da_versuche_queue";
 const OPEN_KEY = "da_versuche_offen";
@@ -69,7 +70,8 @@ const clean = (ref) => {
  * hold several exercises call setRef() when the learner switches. null = not logged.
  */
 export function pageRef(path = location.pathname) {
-  const s = path.replace(/\/+$/, "").split("/").filter(Boolean);
+  // Refs stayed German when the URLs became English (src/lib/routes.js): map back first.
+  const s = germanPath(path.replace(/\/+$/, "")).split("/").filter(Boolean);
   const [a, b, c] = s;
   switch (a) {
     case undefined: case "einfach": return null;
@@ -95,7 +97,7 @@ export function pageRef(path = location.pathname) {
     case "dtz": return b ? `x:dtz/${b === "uebungssatz" ? "uebungssatz-1" : b}` : null;
     case "grammatik": return b === "quiz" ? "g:quiz" : b === "lauf" ? "g:lauf" : null;
   }
-  // Root-level grammar topics (/perfekt, /akkusativ, /praepositionen, …).
+  // Root-level grammar topics (/past-simple, /object-pronouns, /prepositions, …).
   const key = document.getElementById("vp-page")?.dataset.topicKey;
   return s.length === 1 ? `g:${key || a}` : null;
 }

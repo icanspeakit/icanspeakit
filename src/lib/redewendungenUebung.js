@@ -1,4 +1,4 @@
-// Practice for /wissen/redewendungen (Tier 4 of REDEWENDUNGEN-TIERED-PROMPT.md), on the shared
+// Practice for /knowledge/idioms (Tier 4 of REDEWENDUNGEN-TIERED-PROMPT.md), on the shared
 // choice quiz (src/lib/quiz.js). Three kinds of question, built in the browser from the small
 // item list the page embeds (itemsOf in redewendungenItems.js):
 //

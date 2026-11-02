@@ -4,7 +4,7 @@
 // That is right for the five languages that were there first, and wrong for twelve more: an
 // A1 deck would carry seventeen glosses per word for a learner who reads one. So a language
 // whose cards entry in the registry says `fetch: true` stays out of the page, and its
-// glosses are one static file, /wortschatz/glossen/<code>.json (src/pages/wortschatz/glossen/),
+// glosses are one static file, /vocabulary/glosses/<code>.json (src/pages/wortschatz/glossen/),
 // `{ "<word id>": "<gloss>" }`, which the trainer loads the first time the language is
 // chosen (wortschatz-app.js, ensureGlosses).
 //

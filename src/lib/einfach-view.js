@@ -1,4 +1,4 @@
-/* /einfach — the screens.
+/* /step-by-step — the screens.
  *
  * One <div> is handed in and every screen is rendered into it, so there is exactly one
  * thing on the phone at a time and no scroll position to lose between steps. Routing is

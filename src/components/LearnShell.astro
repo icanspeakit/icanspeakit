@@ -37,6 +37,7 @@
 // straight back into the same numbers. `minutes` are rough estimates, always
 // shown with "ca.". Not linked from the public nav; noindex.
 import Icon from "./Icon.astro";
+import { topicPath } from "../lib/routes.js";
 
 // The workspace styles the inline rule card and the five exercise widgets need.
 // Both files are fully class-scoped (.vp-*, .quiz-*) — no bare element selectors —
@@ -140,7 +141,7 @@ const grammarItem = (t: (typeof grammatik)[number], level: string): Item => ({
   id: t.id,
   label: t.name,
   icon: "book",
-  href: `/${t.id}`,
+  href: topicPath(t.id),
   level,
   levelSource: "data",
   eyebrow: `Grammatik · ${level}`,
@@ -182,7 +183,7 @@ const workspaceItem = (w: any): Item => {
     id,
     label: w.name,
     icon: "book-open",
-    href: `/${id}`,
+    href: topicPath(id),
     level: w.level,
     levelSource: "data",
     eyebrow: `Grammatik · ${w.level}`,
@@ -367,16 +368,16 @@ const sections: Section[] = [
     focus: [`Grammatik von A1 bis B2 — ${portions.length} Portionen, ${allGrammarTasks} Aufgaben`, "Redemittel für den Alltag", "Ein kompletter DTZ-Übungssatz"],
     focusVars: [{ n: portions.length, t: allGrammarTasks }],
     items: [
-      { id: "start", label: "Start", labelKey: "fortschritt.item.start.label", icon: "sparkle", href: "/uebungen", level: "A1–B1", levelSource: "—", eyebrow: "Übersicht", eyebrowKey: "fortschritt.meta.overview", lead: "Dein Einstieg: wo du stehst, was als Nächstes ansteht und wie viel bis zur Prüfung fehlt.", leadKey: "fortschritt.item.start.lead", meta: "Übersicht", metaKey: "fortschritt.meta.overview", practice: "picker" },
+      { id: "start", label: "Start", labelKey: "fortschritt.item.start.label", icon: "sparkle", href: "/exercises", level: "A1–B1", levelSource: "—", eyebrow: "Übersicht", eyebrowKey: "fortschritt.meta.overview", lead: "Dein Einstieg: wo du stehst, was als Nächstes ansteht und wie viel bis zur Prüfung fehlt.", leadKey: "fortschritt.item.start.lead", meta: "Übersicht", metaKey: "fortschritt.meta.overview", practice: "picker" },
       // Not the whole grammar catalogue any more: the portion the learner is on.
       // The row, its bar and its count all speak about that one sitting, and
       // repaint() moves them to the next as soon as this one is finished. The
       // full figure still stands in the section's blurb, where it is context
       // rather than a target.
       { id: "grammatik-basis", label: firstPortion.label, icon: "book", href: firstPortion.href, level: firstPortion.level, levelSource: "data", eyebrow: `Modul 1 · Portion 1 von ${portions.length}`, lead: `Portion 1 von ${portions.length} aus ${allGrammarItems.length} Grammatikthemen von A1 bis B2 — Regelkarte und Übungen, ${firstPortion.tasks} Aufgaben in einem Durchgang.`, tasks: firstPortion.tasks, done: 0, minutes: firstPortion.minutes, practice: "picker" },
-      { id: "wortschatz-kurs", label: "Wortschatz-Karten", labelKey: "fortschritt.item.wortschatz-kurs.label", icon: "folder", href: "/wortschatz", level: "A1–B1", levelSource: "abgeleitet", eyebrow: "Modul 2", eyebrowKey: "fortschritt.eyebrow.module", eyebrowVars: { n: 2 }, lead: "Redemittel für Amt, Wohnungssuche und Alltag — als Karteikarten zum Umdrehen.", leadKey: "fortschritt.item.wortschatz-kurs.lead", tasks: wortschatz.length, done: 0, minutes: 15, practice: "cards" },
-      { id: "probelauf", label: "Prüfungssimulation", labelKey: "fortschritt.item.probelauf.label", icon: "document", href: "/dtz/uebungssatz", level: "A2/B1", levelSource: "abgeleitet", eyebrow: "Modul 3", eyebrowKey: "fortschritt.eyebrow.module", eyebrowVars: { n: 3 }, lead: "Ein kompletter DTZ-Übungssatz im echten Format: neun Prüfungsteile, 45 bewertete Aufgaben.", leadKey: "fortschritt.item.probelauf.lead", tasks: 45, done: 0, minutes: 54, practice: "dtz" },
-      { id: "ergebnis", label: "Ergebnis", labelKey: "fortschritt.item.ergebnis.label", icon: "graduation-cap", href: "/dtz", level: "A2/B1", levelSource: "—", eyebrow: "Abschluss", eyebrowKey: "fortschritt.eyebrow.final", lead: "Deine Auswertung nach Stufe — live aus dem, was du auf dieser Seite geübt hast.", leadKey: "fortschritt.item.ergebnis.lead", meta: "Am Ende", metaKey: "fortschritt.meta.atEnd", practice: "result" },
+      { id: "wortschatz-kurs", label: "Wortschatz-Karten", labelKey: "fortschritt.item.wortschatz-kurs.label", icon: "folder", href: "/vocabulary", level: "A1–B1", levelSource: "abgeleitet", eyebrow: "Modul 2", eyebrowKey: "fortschritt.eyebrow.module", eyebrowVars: { n: 2 }, lead: "Redemittel für Amt, Wohnungssuche und Alltag — als Karteikarten zum Umdrehen.", leadKey: "fortschritt.item.wortschatz-kurs.lead", tasks: wortschatz.length, done: 0, minutes: 15, practice: "cards" },
+      { id: "probelauf", label: "Prüfungssimulation", labelKey: "fortschritt.item.probelauf.label", icon: "document", href: "/trinity/ise-1/practice-set", level: "A2/B1", levelSource: "abgeleitet", eyebrow: "Modul 3", eyebrowKey: "fortschritt.eyebrow.module", eyebrowVars: { n: 3 }, lead: "Ein kompletter DTZ-Übungssatz im echten Format: neun Prüfungsteile, 45 bewertete Aufgaben.", leadKey: "fortschritt.item.probelauf.lead", tasks: 45, done: 0, minutes: 54, practice: "dtz" },
+      { id: "ergebnis", label: "Ergebnis", labelKey: "fortschritt.item.ergebnis.label", icon: "graduation-cap", href: "/trinity/ise-1", level: "A2/B1", levelSource: "—", eyebrow: "Abschluss", eyebrowKey: "fortschritt.eyebrow.final", lead: "Deine Auswertung nach Stufe — live aus dem, was du auf dieser Seite geübt hast.", leadKey: "fortschritt.item.ergebnis.lead", meta: "Am Ende", metaKey: "fortschritt.meta.atEnd", practice: "result" },
     ],
   },
   {
@@ -389,7 +390,7 @@ const sections: Section[] = [
     focus: ["Artikel: der, die, das", "Akkusativ nach Verben", "Grundwortschatz"],
     items: [
       ...grammarAt("A1"),
-      { id: "artikel-trainer", label: "der/die/das-Trainer", labelKey: "tool.artikel.title", icon: "target", href: "/artikel", level: "A1", levelSource: "abgeleitet", eyebrow: "Übung · A1", eyebrowKey: "fortschritt.eyebrow.exercise", eyebrowVars: { level: "A1" }, lead: `Artikel gezielt trainieren — ${ARTIKEL_NOUNS} Nomen aus dem Lexikon, Fokus- oder Testmodus, mit sofortigem Feedback nach jeder Antwort.`, leadKey: "fortschritt.item.artikel-trainer.lead", leadVars: { n: ARTIKEL_NOUNS }, tasks: ARTIKEL_SESSION, done: doneOf("artikel-trainer"), minutes: 8, practice: "trainer" },
+      { id: "artikel-trainer", label: "der/die/das-Trainer", labelKey: "tool.artikel.title", icon: "target", href: "/articles", level: "A1", levelSource: "abgeleitet", eyebrow: "Übung · A1", eyebrowKey: "fortschritt.eyebrow.exercise", eyebrowVars: { level: "A1" }, lead: `Artikel gezielt trainieren — ${ARTIKEL_NOUNS} Nomen aus dem Lexikon, Fokus- oder Testmodus, mit sofortigem Feedback nach jeder Antwort.`, leadKey: "fortschritt.item.artikel-trainer.lead", leadVars: { n: ARTIKEL_NOUNS }, tasks: ARTIKEL_SESSION, done: doneOf("artikel-trainer"), minutes: 8, practice: "trainer" },
     ],
   },
   {
@@ -440,8 +441,8 @@ const sections: Section[] = [
     blurb: "Übungen, deren Inhalt echt über mehrere Stufen läuft — die Karteikarten reichen von „Wie geht's dir?“ bis „Ich bin der Meinung, dass …“.",
     focus: ["Redemittel A1 bis B1", "Aussprache im Langsam-Modus"],
     items: [
-      { id: "wortschatz", label: "Wortschatz & Redemittel", labelKey: "tool.wortschatz.title", icon: "folder", href: "/wortschatz", level: "A1–B1", levelSource: "abgeleitet", eyebrow: "Übung · A1–B1", eyebrowKey: "fortschritt.eyebrow.exercise", eyebrowVars: { level: "A1–B1" }, lead: `${wortschatz.length} Karteikarten, von „Wie geht's dir?“ (A1) bis „Ich bin der Meinung, dass …“ (B1).`, leadKey: "fortschritt.item.wortschatz.lead", leadVars: { n: wortschatz.length }, tasks: wortschatz.length, done: 0, minutes: 15, practice: "cards" },
-      { id: "aussprache", label: "Aussprache-Training", labelKey: "tool.aussprache.title", icon: "volume", href: "/aussprache", level: "A1–B1", levelSource: "abgeleitet", eyebrow: "Übung · A1–B1", eyebrowKey: "fortschritt.eyebrow.exercise", eyebrowVars: { level: "A1–B1" }, lead: `Alle ${ausspracheWordCount} Wörter aus Wortschatz und Artikel-Trainer anhören und im Langsam-Modus nachsprechen.`, leadKey: "fortschritt.item.aussprache.lead", leadVars: { n: ausspracheWordCount }, tasks: ausspracheWordCount, done: 0, minutes: 12, practice: "audio" },
+      { id: "wortschatz", label: "Wortschatz & Redemittel", labelKey: "tool.wortschatz.title", icon: "folder", href: "/vocabulary", level: "A1–B1", levelSource: "abgeleitet", eyebrow: "Übung · A1–B1", eyebrowKey: "fortschritt.eyebrow.exercise", eyebrowVars: { level: "A1–B1" }, lead: `${wortschatz.length} Karteikarten, von „Wie geht's dir?“ (A1) bis „Ich bin der Meinung, dass …“ (B1).`, leadKey: "fortschritt.item.wortschatz.lead", leadVars: { n: wortschatz.length }, tasks: wortschatz.length, done: 0, minutes: 15, practice: "cards" },
+      { id: "aussprache", label: "Aussprache-Training", labelKey: "tool.aussprache.title", icon: "volume", href: "/pronunciation", level: "A1–B1", levelSource: "abgeleitet", eyebrow: "Übung · A1–B1", eyebrowKey: "fortschritt.eyebrow.exercise", eyebrowVars: { level: "A1–B1" }, lead: `Alle ${ausspracheWordCount} Wörter aus Wortschatz und Artikel-Trainer anhören und im Langsam-Modus nachsprechen.`, leadKey: "fortschritt.item.aussprache.lead", leadVars: { n: ausspracheWordCount }, tasks: ausspracheWordCount, done: 0, minutes: 12, practice: "audio" },
     ],
   },
   {
@@ -455,11 +456,11 @@ const sections: Section[] = [
     blurb: "Prüfungen sind keine Stufe, sondern ein Ziel — deshalb eine eigene Gruppe, sortiert nach Einstiegsniveau statt nach Fortschritt. Dazu die DTZ-Prüfungsteile zum Üben.",
     focus: ["Format und Dauer", "Was zum Bestehen reicht", "DTZ üben: Lesen, Bildbeschreibung, Landeskunde"],
     items: [
-      { id: "dtz", label: "DTZ", labelKey: "fortschritt.item.dtz.label", icon: "document", href: "/dtz", level: "A2/B1", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Deutsch-Test für Zuwanderer: Hören, Lesen, Schreiben, Sprechen — 45 bewertete Aufgaben plus Schreibteil.", leadKey: "fortschritt.item.dtz.lead", tasks: 45, done: 0, minutes: 54, practice: "dtz" },
-      { id: "lid", label: "Leben in Deutschland (Einbürgerungstest)", labelKey: "exam.lid.name", icon: "map-pin", href: "/leben-in-deutschland", level: "kein GER", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: `33 Fragen aus dem offiziellen Katalog, dazu die Landesfragen aller ${lid.bundeslaender.length} Bundesländer — Wissenstest, keine Sprachprüfung.`, leadKey: "fortschritt.item.lid.lead", leadVars: { n: lid.bundeslaender.length }, tasks: lid.questions.length, done: 0, minutes: 20, practice: "choice" },
-      { id: "telc", label: "telc", labelKey: "fortschritt.item.telc.label", icon: "document", href: "/telc", level: "A1–C2", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Sprachbausteine — der Prüfungsteil, den es so nur bei telc gibt: Grammatik im laufenden Text.", leadKey: "fortschritt.item.telc.lead", tasks: 20, done: 0, minutes: 20, practice: "bausteine" },
-      { id: "goethe", label: "Goethe-Zertifikat", labelKey: "fortschritt.item.goethe.label", icon: "landmark", href: "/goethe", level: "A1–C2", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Die Goethe-Zertifikate decken A1 bis C2 ab — hier alle Themen, nach Stufe sortiert.", leadKey: "fortschritt.item.goethe.lead", meta: "A1–C2", practice: "picker" },
-      { id: "testdaf", label: "TestDaF", labelKey: "fortschritt.item.testdaf.label", icon: "graduation-cap", href: "/testdaf", level: "B2–C1", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "TestDaF setzt B2–C1 voraus — hier die Themen dieser Stufen.", leadKey: "fortschritt.item.testdaf.lead", meta: "B2–C1", practice: "picker" },
+      { id: "dtz", label: "DTZ", labelKey: "fortschritt.item.dtz.label", icon: "document", href: "/trinity/ise-1", level: "A2/B1", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Deutsch-Test für Zuwanderer: Hören, Lesen, Schreiben, Sprechen — 45 bewertete Aufgaben plus Schreibteil.", leadKey: "fortschritt.item.dtz.lead", tasks: 45, done: 0, minutes: 54, practice: "dtz" },
+      { id: "lid", label: "Leben in Deutschland (Einbürgerungstest)", labelKey: "exam.lid.name", icon: "map-pin", href: "/life-in-the-uk", level: "kein GER", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: `33 Fragen aus dem offiziellen Katalog, dazu die Landesfragen aller ${lid.bundeslaender.length} Bundesländer — Wissenstest, keine Sprachprüfung.`, leadKey: "fortschritt.item.lid.lead", leadVars: { n: lid.bundeslaender.length }, tasks: lid.questions.length, done: 0, minutes: 20, practice: "choice" },
+      { id: "telc", label: "telc", labelKey: "fortschritt.item.telc.label", icon: "document", href: "/trinity", level: "A1–C2", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Sprachbausteine — der Prüfungsteil, den es so nur bei telc gibt: Grammatik im laufenden Text.", leadKey: "fortschritt.item.telc.lead", tasks: 20, done: 0, minutes: 20, practice: "bausteine" },
+      { id: "goethe", label: "Goethe-Zertifikat", labelKey: "fortschritt.item.goethe.label", icon: "landmark", href: "/cambridge", level: "A1–C2", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Die Goethe-Zertifikate decken A1 bis C2 ab — hier alle Themen, nach Stufe sortiert.", leadKey: "fortschritt.item.goethe.lead", meta: "A1–C2", practice: "picker" },
+      { id: "testdaf", label: "TestDaF", labelKey: "fortschritt.item.testdaf.label", icon: "graduation-cap", href: "/ielts", level: "B2–C1", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "TestDaF setzt B2–C1 voraus — hier die Themen dieser Stufen.", leadKey: "fortschritt.item.testdaf.lead", meta: "B2–C1", practice: "picker" },
 
       /* DTZ skill practice, moved here out of Stufe B1. These are exam formats —
          Bildbeschreibung with real examiner questions, the Leseverstehen simulation,
@@ -467,9 +468,9 @@ const sections: Section[] = [
          DTZ level, which made the biggest group three entries bigger still and put
          exam rehearsal in the middle of a grammar syllabus. This group is explicitly
          "ein Ziel, keine Stufe", which is exactly what they are. */
-      { id: "sprechen", label: "Sprechen: Bildbeschreibung", labelKey: "fortschritt.item.sprechen.label", icon: "mic", href: "/sprechen", level: "A2/B1", levelSource: "abgeleitet", eyebrow: "Übung · B1", eyebrowKey: "fortschritt.eyebrow.exercise", eyebrowVars: { level: "B1" }, lead: "Bildbeschreibung mit echten DTZ-Prüferfragen und 90-Sekunden-Timer — dieselbe Aufgabenform wie im Prüfungsteil Sprechen.", leadKey: "fortschritt.item.sprechen.lead", tasks: sprechen.length, done: 0, minutes: 15, practice: "speak" },
-      { id: "lesen", label: "Lesen & Schreiben", labelKey: "fortschritt.item.lesen.label", icon: "pencil", href: "/lesen-schreiben", level: "A2/B1", levelSource: "abgeleitet", eyebrow: "Übung · B1", eyebrowKey: "fortschritt.eyebrow.exercise", eyebrowVars: { level: "B1" }, lead: `DTZ-Leseverstehen-Simulation mit ${readingQuestionCount} Aufgaben in vier Teilen, dazu Schreibaufgaben.`, leadKey: "fortschritt.item.lesen.lead", leadVars: { n: readingQuestionCount }, tasks: readingQuestionCount, done: 0, minutes: 25, practice: "choice" },
-      { id: "kultur", label: "Kulturwissen", labelKey: "tool.kultur.title", icon: "map-pin", href: "/kultur", level: "B1", levelSource: "abgeleitet", eyebrow: "Übung · B1", eyebrowKey: "fortschritt.eyebrow.exercise", eyebrowVars: { level: "B1" }, lead: "Diskussionsthemen aus echten Unterrichtsgesprächen — mit Pro- und Kontra-Argumenten zum Nachsprechen.", leadKey: "fortschritt.item.kultur.lead", tasks: kultur.topics.length, done: 0, minutes: 10, practice: "read" },
+      { id: "sprechen", label: "Sprechen: Bildbeschreibung", labelKey: "fortschritt.item.sprechen.label", icon: "mic", href: "/speaking", level: "A2/B1", levelSource: "abgeleitet", eyebrow: "Übung · B1", eyebrowKey: "fortschritt.eyebrow.exercise", eyebrowVars: { level: "B1" }, lead: "Bildbeschreibung mit echten DTZ-Prüferfragen und 90-Sekunden-Timer — dieselbe Aufgabenform wie im Prüfungsteil Sprechen.", leadKey: "fortschritt.item.sprechen.lead", tasks: sprechen.length, done: 0, minutes: 15, practice: "speak" },
+      { id: "lesen", label: "Lesen & Schreiben", labelKey: "fortschritt.item.lesen.label", icon: "pencil", href: "/reading-writing", level: "A2/B1", levelSource: "abgeleitet", eyebrow: "Übung · B1", eyebrowKey: "fortschritt.eyebrow.exercise", eyebrowVars: { level: "B1" }, lead: `DTZ-Leseverstehen-Simulation mit ${readingQuestionCount} Aufgaben in vier Teilen, dazu Schreibaufgaben.`, leadKey: "fortschritt.item.lesen.lead", leadVars: { n: readingQuestionCount }, tasks: readingQuestionCount, done: 0, minutes: 25, practice: "choice" },
+      { id: "kultur", label: "Kulturwissen", labelKey: "tool.kultur.title", icon: "map-pin", href: "/culture", level: "B1", levelSource: "abgeleitet", eyebrow: "Übung · B1", eyebrowKey: "fortschritt.eyebrow.exercise", eyebrowVars: { level: "B1" }, lead: "Diskussionsthemen aus echten Unterrichtsgesprächen — mit Pro- und Kontra-Argumenten zum Nachsprechen.", leadKey: "fortschritt.item.kultur.lead", tasks: kultur.topics.length, done: 0, minutes: 10, practice: "read" },
     ],
   },
 ];
@@ -535,7 +536,7 @@ const clientData = {
     section: sectionOf[i.id].id, sectionLabel: sectionOf[i.id].label,
   }]))),
   sections: Object.fromEntries(sections.map((s) => [s.id, { label: s.label, labelKey: secKey(s, "label"), badge: s.badge, items: s.items.map((i) => i.id) }])),
-  // Which coarse skill bucket each kind of exercise reports into, so /uebungen's
+  // Which coarse skill bucket each kind of exercise reports into, so /exercises's
   // existing per-skill stats keep working alongside the per-topic numbers.
   skillOf: Object.fromEntries(sections.flatMap((s) => s.items.map((i) => [i.id,
     i.practice === "cards" ? "wortschatz"
@@ -569,7 +570,7 @@ const defaultVariant = variants[0];
   <div class:list={["nv", study && "nv--study"]}>
     {study && (
       <div class="nv-banner">
-        🧪 <strong>Navigations-Studie</strong> — dieselbe Seite wie <a href="/fortschritt">/fortschritt</a>, hier mit allen drei Navigationsvarianten zum Vergleichen.
+        🧪 <strong>Navigations-Studie</strong> — dieselbe Seite wie <a href="/progress">/progress</a>, hier mit allen drei Navigationsvarianten zum Vergleichen.
       </div>
     )}
 
@@ -1721,7 +1722,7 @@ const defaultVariant = variants[0];
     let applying = false;
 
     function urlFor(section: string, item: string | null) {
-      /* Seeded from the current query, not empty: on /fortschritt this component shares
+      /* Seeded from the current query, not empty: on /progress this component shares
          the address bar with the view tabs (?ansicht=) and the exam dashboard's
          selection (?pruefung=). Rebuilding from scratch dropped both the first time
          anyone clicked a level, which silently threw you back to the practice tab. */
@@ -1875,7 +1876,7 @@ const defaultVariant = variants[0];
           intro.play();
         };
         if (!calm && matchMedia("(min-width: 1001px)").matches && (forced || !seen)) {
-          /* Only once it is actually on screen. On /fortschritt this shell sits in a tab
+          /* Only once it is actually on screen. On /progress this shell sits in a tab
              panel that starts `hidden` when the URL asks for the Prüfungen view — which
              is what every "back to the overview" link from a sitting now does. Playing
              there would run the tour where nobody can see it AND spend the once-per-

@@ -1,4 +1,4 @@
-// The clock of a lesson session (/lehrkraefte/unterricht): pure functions, no DOM, no
+// The clock of a lesson session (/teachers/lesson): pure functions, no DOM, no
 // Supabase, every one takes `now` (ms) so the tests can drive time by hand.
 //
 // Time comes from timestamps, never from counting ticks. A state is

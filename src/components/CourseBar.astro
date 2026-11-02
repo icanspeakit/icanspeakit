@@ -2,7 +2,7 @@
 // The course around a topic page: which Stufe it belongs to, where it sits in it, the
 // topics either side, and the page's one shareable address.
 //
-// /fortschritt is the map and the topic page is the one place to learn (see
+// /progress is the map and the topic page is the one place to learn (see
 // FORTSCHRITT-KARTE-PROMPT.md). Opened from the map, the page needs a way back that lands
 // on the same topic — `?stufe=a1&thema=<id>` selects it there — and a way on that does
 // not go through the map at all: ‹ › walk the level in exactly the order of the map's
@@ -12,9 +12,10 @@
 // an empty slot where the missing arrow would be, so the bar does not shift between them.
 import ShareButton from "./ShareButton.astro";
 import { kursPosition } from "../lib/kursOrder.js";
+import { topicPath } from "../lib/routes.js";
 
 interface Props {
-  /** The topic's URL slug — the key /fortschritt and the progress store use. */
+  /** The topic's URL slug — the key /progress and the progress store use. */
   topic: string;
   /** For the share sheet. */
   title?: string;
@@ -24,15 +25,15 @@ interface Props {
 const { topic, title, inline = false } = Astro.props;
 const pos = kursPosition(topic);
 const stufe = pos?.level.toLowerCase();
-const url = `/${topic}`;
-const topicHref = (id: string) => `/${id}`;
+const url = topicPath(topic);
+const topicHref = (id: string) => topicPath(id);
 ---
 {pos && (
   <nav class:list={["kb", inline && "kb--inline"]} aria-label="Dein Kurs" data-i18n-attr="aria-label:kb.course">
     <div class="kb-inner">
       {/* Inline (in the topic bar) the link is its Stufe badge alone — the words cost the
           bar its room. The name stays for screen readers and as the tooltip. */}
-      <a class="kb-back" href={`/fortschritt?stufe=${stufe}&thema=${topic}`} aria-label={inline ? `Dein Kurs, Stufe ${pos.level}` : undefined} title={inline ? "Dein Kurs" : undefined} data-i18n-attr={inline ? `aria-label:kb.courseLevel.${pos.level};title:kb.course` : undefined}>
+      <a class="kb-back" href={`/progress?stufe=${stufe}&thema=${topic}`} aria-label={inline ? `Dein Kurs, Stufe ${pos.level}` : undefined} title={inline ? "Dein Kurs" : undefined} data-i18n-attr={inline ? `aria-label:kb.courseLevel.${pos.level};title:kb.course` : undefined}>
         {!inline && <span aria-hidden="true">←</span>}
         {!inline && <><span class="kb-long" data-i18n="kb.course">Dein Kurs</span><span class="kb-short" data-i18n="kb.courseShort">Kurs</span></>}
         <span class="kb-level">{pos.level}</span>

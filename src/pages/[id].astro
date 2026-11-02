@@ -62,6 +62,7 @@ import wortartenRef from "../data/wortarten.json";
 import "../styles/wortarten.css";
 import { endingHtml, stripMarks } from "../lib/endingMarks.js";
 import { deckOf } from "../lib/praesentation.js";
+import { topicSlug, topicKeyFromSlug, topicPath } from "../lib/routes.js";
 
 // Two kinds of topic live on this route:
 //
@@ -78,13 +79,14 @@ export function getStaticPaths() {
   const covered = new Set(all.map((w) => w.id));
 
   const paths = [
-    ...all.map((w) => ({ params: { id: w.slug ?? w.id }, props: { workspace: w } })),
+    // The URL is the English slug (src/lib/routes.js, TOPIC_SLUGS); the page works with the key.
+    ...all.map((w) => ({ params: { id: topicSlug(w.slug ?? w.id) }, props: { workspace: w } })),
     ...grammatik
       .filter((t) => t.id !== "akkusativ" && !covered.has(t.id))
-      .map((t) => ({ params: { id: t.id }, props: { topic: t } })),
+      .map((t) => ({ params: { id: topicSlug(t.id) }, props: { topic: t } })),
   ];
 
-  // Grammar topics live at the top level (/artikel — see src/lib/routes.js), next to every
+  // Grammar topics live at the top level (/articles — see src/lib/routes.js), next to every
   // other top-level page. A static page wins silently over this route in Astro, so a topic
   // named like an existing page (or section) would simply never render. Fail the build.
   const taken = new Set(
@@ -97,7 +99,8 @@ export function getStaticPaths() {
 }
 
 const { workspace, topic, noindex = false } = Astro.props;
-const slug = Astro.params.id;
+// The topic's key (German id / slug: progress, lehrplan, verwandt, worksheets key on it).
+const slug = topicKeyFromSlug(Astro.params.id);
 const data = workspace ?? topic;
 // A draft (src/lib/topicStatus.js) is rendered so it can be reviewed, but kept out of search
 // engines and marked as unchecked on the page itself.
@@ -115,7 +118,7 @@ const introHtml = introMarked
   && introMarked.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\{([^{}]+)\}/g, '<u class="vp-art">$1</u>');
 const concept = workspace?.concept;
 // `lookup` in a topic's JSON: its reference page, linked from the Kurz-erklärt box. With
-// `chips: "wortarten"` each class is its own chip (→ /grammatik/wortarten#noun), the same
+// `chips: "wortarten"` each class is its own chip (→ /grammar/parts-of-speech#noun), the same
 // chips that page opens with, so practice and lookup point at each other class by class.
 const lookup = workspace?.lookup;
 const lookupChips = lookup?.chips === "wortarten" ? wortartenRef.classes.map((c) => ({ id: c.id, name: c.name })) : [];
@@ -191,7 +194,7 @@ const schema = {
   "@type": "LearningResource",
   name,
   ...(description ? { description } : {}),
-  url: Astro.site ? new URL(`/${slug}`, Astro.site).href : undefined,
+  url: Astro.site ? new URL(topicPath(slug), Astro.site).href : undefined,
   learningResourceType: "Grammar exercise",
   ...(level ? { educationalLevel: level } : {}),
   teaches: name,
@@ -212,7 +215,7 @@ const BEATS = [
 // projector deck, from this JSON only. Loaded only when asked for.
 const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
 ---
-<Layout title={fitTitle(level ? `${name} – exercises ${level}` : null, `${name} – exercises`, name, name.replace(/:.*$/, ""))} description={description} schema={schema} breadcrumb={[{ name: "Grammar", path: "/grammatik" }]} noindex={noindex || draft}>
+<Layout title={fitTitle(level ? `${name} – exercises ${level}` : null, `${name} – exercises`, name, name.replace(/:.*$/, ""))} description={description} schema={schema} breadcrumb={[{ name: "Grammar", path: "/grammar" }]} noindex={noindex || draft}>
   {/* ?mode=present: the page stays hidden until the deck covers it (praesentationDeck.js
       loads after the first paint, and a glimpse of the exercises flashed before it).
       Inline and before the content, so it holds from the first frame; the deck lifts it,
@@ -910,7 +913,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
     // Live üben (src/lib/liveUebung/): in teaching mode (?ut=1, or a lesson running) the
     // „Live üben“ button shows; ?live=PIN is a phone that scanned the teacher's code.
     if (!ownTrainer && Array.isArray(data.exercises) && !data.exercises.some((ex) => ex.paid)) {
-      const slug = location.pathname.replace(/^\/+|\/+$/g, "");
+      const slug = document.getElementById("vp-page")?.dataset.topicKey || location.pathname.replace(/^\/+|\/+$/g, "");
       const q = new URLSearchParams(location.search);
       let lesson = false;
       try { lesson = !!localStorage.getItem("da:unterricht"); } catch (e) {}

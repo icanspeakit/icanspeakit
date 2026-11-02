@@ -1,4 +1,4 @@
-// The Manners Simulator (/spiele/knigge): one day of manners and small talk, as a life sim.
+// The Manners Simulator (/games/manners): one day of manners and small talk, as a life sim.
 // The learner picks a mascot and lives through scenes (./scenes.js). In each turn someone
 // talks, the learner picks a reply; the reply moves that person's Sympathie (0–100, starts at
 // 50) and the overall Ruf (moved by delta / 2). A floating label (“+12 😊 Asked back”) rises

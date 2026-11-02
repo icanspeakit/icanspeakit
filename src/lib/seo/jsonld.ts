@@ -29,7 +29,7 @@ export function organizationLd(site: string) {
     logo: { "@type": "ImageObject", url: `${site}/icon-512.png`, width: 512, height: 512 },
     description:
       "EnglishAcademy is a free website for practising English and preparing for Cambridge English, IELTS, Trinity ISE and the Life in the UK test.",
-    // Already public on /impressum. The operator's name and address stay there: they are a
+    // Already public on /legal-notice. The operator's name and address stay there: they are a
     // private person's, not an organisation's.
     email: LEGAL.contactEmail,
     ...(SAME_AS.length ? { sameAs: SAME_AS } : {}),
@@ -69,38 +69,38 @@ export function breadcrumbLd(site: string, items: Crumb[]) {
 }
 
 // Pages with a URL of their own that a nested route sits under, named like the pages
-// themselves (short). A step that is not a page (/sprechen/set, /fuehrerschein/regeln) is left
-// out of the trail rather than pointing at a 404; a dynamic one (/berufe/pflege) is named by
+// themselves (short). A step that is not a page (/speaking/set, /fuehrerschein/regeln) is left
+// out of the trail rather than pointing at a 404; a dynamic one (/english-for-work/pflege) is named by
 // the page through Layout's `breadcrumb` prop.
 export const SECTION_PAGES: Record<string, string> = {
-  "/grammatik": "Grammar",
-  "/wortschatz": "Vocabulary & phrases",
-  "/pruefungen": "Exams",
-  "/goethe": "Cambridge English",
-  "/telc": "Trinity ISE",
-  "/dtz": "Trinity ISE I",
-  "/testdaf": "IELTS Academic",
+  "/grammar": "Grammar",
+  "/vocabulary": "Vocabulary & phrases",
+  "/exams": "Exams",
+  "/cambridge": "Cambridge English",
+  "/trinity": "Trinity ISE",
+  "/trinity/ise-1": "Trinity ISE I",
+  "/ielts": "IELTS Academic",
   "/fuehrerschein": "Driving licence",
   "/fuehrerschein/wortschatz": "Driving school vocabulary",
-  "/berufe": "English for work",
-  "/leben-in-deutschland": "Life in the UK",
-  "/wissen": "Knowledge base",
-  "/wissen/wortgeschichte": "Word stories",
-  "/kultur": "Culture",
-  "/kultur/insider": "The UK from the inside",
-  "/lehrkraefte": "For teachers",
+  "/english-for-work": "English for work",
+  "/life-in-the-uk": "Life in the UK",
+  "/knowledge": "Knowledge base",
+  "/knowledge/word-stories": "Word stories",
+  "/culture": "Culture",
+  "/culture/insider": "The UK from the inside",
+  "/teachers": "For teachers",
   "/politik": "Politics in Germany, Austria and Switzerland",
-  "/lehrkraefte/arbeitsblaetter": "Worksheets",
-  "/lehrkraefte/spiele": "Printable games",
-  "/lehrkraefte/klassen": "Classes",
-  "/lehrkraefte/umfragen": "Surveys",
-  "/lehrkraefte/tests": "Placement test for the class",
-  "/lehrkraefte/quiz": "Live quiz",
-  "/sprechen": "Speaking",
-  "/hoeren": "Listening",
-  "/lesen": "Reading",
-  "/schreiben": "Writing",
-  "/satzmelodie": "Intonation",
+  "/teachers/worksheets": "Worksheets",
+  "/teachers/games": "Printable games",
+  "/teachers/classes": "Classes",
+  "/teachers/surveys": "Surveys",
+  "/teachers/tests": "Placement test for the class",
+  "/teachers/quiz": "Live quiz",
+  "/speaking": "Speaking",
+  "/listening": "Listening",
+  "/reading": "Reading",
+  "/writing": "Writing",
+  "/intonation": "Intonation",
   "/live-fragestunde": "Live Q&A",
 };
 

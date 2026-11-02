@@ -1,4 +1,4 @@
-// "The Legend of Brambleford" (/spiele/lindenau; internal id: lindenau): who stands where and
+// "The Legend of Brambleford" (/games/brambleford; internal id: lindenau): who stands where and
 // what they say. One quest per person, A1, everyday situations in a British market town.
 // The English is the content (npc / de); `en` is the simpler plain-English "Help" line.
 // (The key `de` is historical: it holds the English line the learner reads and builds.)

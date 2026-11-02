@@ -1,9 +1,9 @@
 ---
 // The worksheet library's three parts, as cards with the crew — the same row on each of
 // them, so it is their navigation:
-//   Einzelarbeit      /lehrkraefte/arbeitsblaetter          a sheet per Lernset and grammar topic
-//   Partner & Gruppe  /lehrkraefte/arbeitsblaetter/partner  partner/group sheets + Tandembögen
-//   Arbeitsmappe      /lehrkraefte/arbeitsblaetter/mappe    several sheets in one PDF
+//   Einzelarbeit      /teachers/worksheets          a sheet per Lernset and grammar topic
+//   Partner & Gruppe  /teachers/worksheets/partner  partner/group sheets + Tandembögen
+//   Arbeitsmappe      /teachers/worksheets/folder    several sheets in one PDF
 // The card of the page you are on is marked (aria-current) and stands out. A phone shows a
 // compact row of three with the short names. Styles: .abi-cards in arbeitsblatt.css.
 // Mascot hides with the mascots-off setting; the cards still read without it.
@@ -18,17 +18,17 @@ interface Props {
 const { current } = Astro.props;
 const cards = [
   {
-    id: "einzel", mascot: "regi" as const, href: "/lehrkraefte/arbeitsblaetter",
+    id: "einzel", mascot: "regi" as const, href: "/teachers/worksheets",
     title: "Einzelarbeit", titleKey: "ab.cards.einzel", short: "Einzeln", shortKey: "ab.cards.einzelShort",
     text: "Ein Blatt zu jedem Lernset und Grammatik-Thema", textKey: "ab.cards.einzelText",
   },
   {
-    id: "partner", mascot: "quaki" as const, href: "/lehrkraefte/arbeitsblaetter/partner",
+    id: "partner", mascot: "quaki" as const, href: "/teachers/worksheets/partner",
     title: "Partner & Gruppe", titleKey: "ab.cards.partner", short: "Partner", shortKey: "ab.cards.partnerShort",
     text: "Karten für A und B und Tandembögen zur Grammatik", textKey: "ab.cards.partnerText",
   },
   {
-    id: "mappe", mascot: "hamsti" as const, href: "/lehrkraefte/arbeitsblaetter/mappe",
+    id: "mappe", mascot: "hamsti" as const, href: "/teachers/worksheets/folder",
     title: "Arbeitsmappe", titleKey: "ab.cards.mappe", short: "Mappe", shortKey: "ab.cards.mappeShort",
     text: "Mehrere Blätter in einem PDF", textKey: "ab.cards.mappeText",
   },

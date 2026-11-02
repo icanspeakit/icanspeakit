@@ -1,4 +1,4 @@
-// What the class sees in the Einstieg step of /lehrkraefte/unterricht, for a teacher who
+// What the class sees in the Einstieg step of /teachers/lesson, for a teacher who
 // brings nothing: the plan's Ablauf text is an instruction for the teacher, so it goes into
 // the notes, and the screen shows material made from data the site already has.
 //

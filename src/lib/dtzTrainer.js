@@ -420,7 +420,7 @@ export function mountDtzTrainer(root, data, { onAnswer } = {}) {
   const hoerenIds = ids.filter((i) => i <= 20);
   const lesenIds = ids.filter((i) => i > 20);
   let current = 0; // index into data.parts; data.parts.length === the Schreiben tab
-  // A link may open one part: /dtz/uebungssatz#l5, #schreiben (the cards on /pruefungen/fallen).
+  // A link may open one part: /trinity/ise-1/practice-set#l5, #schreiben (the cards on /exams/traps).
   const hash = location.hash.slice(1);
   if (hash === "schreiben") current = data.parts.length;
   else if (data.parts.some((p) => p.key === hash)) current = data.parts.findIndex((p) => p.key === hash);
@@ -551,7 +551,7 @@ export function mountDtzTrainer(root, data, { onAnswer } = {}) {
         persist();
         if (onAnswer) onAnswer(state.answers[qid].correct);
         const info = itemInfo(data, qid, given);
-        if (info) recordResult({ source: `dtz-${data.id}`, itemId: qid, ...info, level: "B1", topic: (data.label ?? "B1 skills mock").trim(), href: "/dtz/uebungssatz" }, state.answers[qid].correct);
+        if (info) recordResult({ source: `dtz-${data.id}`, itemId: qid, ...info, level: "B1", topic: (data.label ?? "B1 skills mock").trim(), href: "/trinity/ise-1/practice-set" }, state.answers[qid].correct);
         renderBody();
         renderNav();
         renderSummary();
@@ -597,7 +597,7 @@ export function mountDtzTrainer(root, data, { onAnswer } = {}) {
           <table class="format-table"><thead><tr><th>${escapeHtml(t("dtz.th.part"))}</th><th>${escapeHtml(t("dtz.th.correct"))}</th></tr></thead><tbody>${rows}</tbody></table>
         </div>
         ${upsell(data)}
-        ${score < total ? `<p class="dtz-note"><a href="/meine-fehler">${escapeHtml(tOr("fehler.saved", `${total - score} Fehler gespeichert → Meine Fehler`, { n: total - score }))}</a></p>` : ""}
+        ${score < total ? `<p class="dtz-note"><a href="/my-mistakes">${escapeHtml(tOr("fehler.saved", `${total - score} Fehler gespeichert → Meine Fehler`, { n: total - score }))}</a></p>` : ""}
         <div class="dtz-actions">
           <button type="button" class="vp-link-btn" data-dtz-reset>${escapeHtml(t("dtz.restart"))}</button>
         </div>`;

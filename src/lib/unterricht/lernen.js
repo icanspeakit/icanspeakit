@@ -1,4 +1,4 @@
-// The learner's Stunde (/stunde): the same Stunde as the teacher's (build() from the five
+// The learner's Stunde (/lesson): the same Stunde as the teacher's (build() from the five
 // plan keys), walked alone, step by step, across as many days as it takes. Pure parts here
 // (tests/unterricht/lernen.test.mjs); the page is lernseite.js, the bar leiste.js in its
 // learner mode, the wiring lernstunde.js.
@@ -10,20 +10,20 @@
 //   texte:  { [step]: string }                         what the learner typed in the step
 //   goals:  { [step]: goal }                           what finishes the step (goalOf)
 // Goals travel with the session, so the bar on a topic page can tell a step is finished
-// without the plan data that only /stunde has.
+// without the plan data that only /lesson has.
 import { newer } from "./timer.js";
 
 export const LERN_KEY = "da:lernstunde";
-/** Other Stunden started on this device, by plan key, to come back to (Tier 4: /fortschritt). */
+/** Other Stunden started on this device, by plan key, to come back to (Tier 4: /progress). */
 export const ARCHIV_KEY = "da:lernstunden";
 /** A self-learner has no teacher's plan: a block is 3 Stunden of 90 minutes. */
 export const DEFAULT = { stunden: 3, minuten: 90 };
 
 export const keyText = (k) => `${k.niveau}/${k.block}/${k.stunden}/${k.stunde}/${k.minuten}`;
 export const stundeHref = (k, extra = "") =>
-  `/stunde?niveau=${k.niveau}&block=${k.block}&stunden=${k.stunden}&stunde=${k.stunde}&min=${k.minuten}${extra}`;
+  `/lesson?niveau=${k.niveau}&block=${k.block}&stunden=${k.stunden}&stunde=${k.stunde}&min=${k.minuten}${extra}`;
 
-/** The plan key from /stunde's URL; `stunden` and `min` default (DEFAULT). Null if unusable. */
+/** The plan key from /lesson's URL; `stunden` and `min` default (DEFAULT). Null if unusable. */
 export function lernKeyFromParams(q) {
   const k = {
     niveau: q.get("niveau") ?? "",
@@ -119,8 +119,8 @@ export const setText = (extra, i, text) => ({ ...extra, texte: { ...extra.texte,
 
 /**
  * An event from a page while step i runs → the new extra (the same object if nothing
- * changed). ev: { type: "answer", topic: "/dativ", key: "0/3", ok } | { type: "karten" }
- *            | { type: "deck", topic: "/dativ" } | { type: "set" }
+ * changed). ev: { type: "answer", topic: "/two-objects", key: "0/3", ok } | { type: "karten" }
+ *            | { type: "deck", topic: "/two-objects" } | { type: "set" }
  * Only events that count for the step's goal are kept; the step turns „fertig“ once the
  * goal is reached, and never back.
  */
@@ -316,7 +316,7 @@ export function stundenStand(rows, members, key) {
   return { steps, people };
 }
 
-/* ------------------------------------------------- Tier 4: /fortschritt card ---- */
+/* ------------------------------------------------- Tier 4: /progress card ---- */
 
 /** The learner's placement ("A1" … "C1", da-einstufung / da_level) → the first part of that level. */
 export const startNiveau = (cefr) => {
@@ -326,7 +326,7 @@ export const startNiveau = (cefr) => {
 };
 
 /**
- * The one Stunde the /fortschritt card points at:
+ * The one Stunde the /progress card points at:
  *   { kind: "weiter", key, step }   a Stunde begun and not finished (the most recent one)
  *   { kind: "naechste", key }       the one after the most recently finished
  *   { kind: "start", key }          none yet: Stunde 1 of block 1 of the learner's level

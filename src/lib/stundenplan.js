@@ -1,4 +1,4 @@
-// The Stundenplan generator (/lehrkraefte/stundenplan): one block of the course plan
+// The Stundenplan generator (/teachers/timetable): one block of the course plan
 // (src/data/kursinhalte.json) → N lessons of M minutes, each split into timed phases with
 // an activity and links to what the site has for it. No AI and no randomness: the same
 // block, number of lessons and length always give the same plan, so a link to it can be
@@ -139,10 +139,10 @@ export function videoSearch(name, level) {
 /** An exam line of the plan → the page with that exam's practice sets. */
 export function examHref(text) {
   // The exam pages keep their old slots until the routes run (docs/content-plan.md §2):
-  // Trinity ISE = /telc, Cambridge English = /goethe, IELTS = /testdaf.
-  if (/Trinity/.test(text)) return "/telc";
-  if (/Cambridge/.test(text)) return "/goethe";
-  if (/IELTS/.test(text)) return "/testdaf";
+  // Trinity ISE = /trinity, Cambridge English = /cambridge, IELTS = /ielts.
+  if (/Trinity/.test(text)) return "/trinity";
+  if (/Cambridge/.test(text)) return "/cambridge";
+  if (/IELTS/.test(text)) return "/ielts";
   return null;
 }
 
@@ -232,8 +232,8 @@ export function build({ level, block, n, minutes, links }) {
   const gPer = spread(grammarIdx, teach);
   const kPer = spread(block.kannZiele, teach);
   const seen = new Set();
-  const quiz = { name: "Start a live quiz", href: "/lehrkraefte/quiz" };
-  const test = { name: "Topic test by QR code", href: "/lehrkraefte/tests" };
+  const quiz = { name: "Start a live quiz", href: "/teachers/quiz" };
+  const test = { name: "Topic test by QR code", href: "/teachers/tests" };
 
   const lessons = [];
   for (let i = 0; i < n; i++) {

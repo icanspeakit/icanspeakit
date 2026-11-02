@@ -1,4 +1,4 @@
-// /lehrkraefte/umfragen/ergebnis — one poll's QR code and results. The answers are read
+// /teachers/surveys/result — one poll's QR code and results. The answers are read
 // again every few seconds while the tab is visible, so the bars grow as the class votes.
 //
 // Counts only. A choice question shows each option's votes as a share of the people who
@@ -173,8 +173,8 @@ export async function mountErgebnis(root) {
         <h3>${esc(t("uf.t.next.skill", "Mehr üben"))}</h3>
         <ol class="uf-next-list">${skill.map((x) => `<li><strong>${esc(label(x.o))}</strong> <small>${votes(x)}</small></li>`).join("")}</ol>
         <span class="uf-next-acts">
-          <a href="/sprechen">${esc(t("uf.t.next.speak", "Sprechen-Übungen"))}</a>
-          <a href="/lehrkraefte/arbeitsblaetter/partner">${esc(t("uf.t.next.partner", "Partnerübungen"))}</a>
+          <a href="/speaking">${esc(t("uf.t.next.speak", "Sprechen-Übungen"))}</a>
+          <a href="/teachers/worksheets/partner">${esc(t("uf.t.next.partner", "Partnerübungen"))}</a>
         </span>
       </article>`);
     }

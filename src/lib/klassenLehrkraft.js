@@ -1,4 +1,4 @@
-// /lehrkraefte/klassen — the teacher's list of classes (KLASSEN-TIERED-PROMPT.md, Tier 1).
+// /teachers/classes — the teacher's list of classes (KLASSEN-TIERED-PROMPT.md, Tier 1).
 // Data goes through src/lib/klassen.js; this file only draws and wires the buttons.
 //
 // The whole list is redrawn after every change. Which classes have their QR code or member
@@ -79,7 +79,7 @@ export async function mountKlassen(root) {
         <li class="lq-card kl-class kl-class--archived" data-id="${k.id}">
           ${head}
           <div class="kl-row">
-            <a class="lq-btn lq-btn--ghost" href="/lehrkraefte/klassen/klasse?id=${k.id}">${esc(t("kl.t.open", "Übersicht"))}</a>
+            <a class="lq-btn lq-btn--ghost" href="/teachers/classes/class?id=${k.id}">${esc(t("kl.t.open", "Übersicht"))}</a>
             <button type="button" class="lq-btn lq-btn--ghost" data-act="unarchive">${esc(t("kl.t.unarchive", "Zurückholen"))}</button>
             <button type="button" class="lq-btn lq-btn--quiet" data-act="delete">${esc(t("kl.t.delete", "Klasse löschen"))}</button>
           </div>
@@ -102,7 +102,7 @@ export async function mountKlassen(root) {
           <button type="button" class="lq-btn lq-btn--ghost" data-act="copy">${esc(t("kl.t.copy", "Link kopieren"))}</button>
         </div>
         <div class="kl-row">
-          <a class="lq-btn lq-btn--primary" href="/lehrkraefte/klassen/klasse?id=${k.id}">${esc(t("kl.t.open", "Übersicht"))}</a>
+          <a class="lq-btn lq-btn--primary" href="/teachers/classes/class?id=${k.id}">${esc(t("kl.t.open", "Übersicht"))}</a>
           <button type="button" class="lq-btn lq-btn--ghost" data-act="members" aria-expanded="${!!members}">${esc(t("kl.t.members", "Mitglieder"))}</button>
           <button type="button" class="lq-btn lq-btn--quiet" data-act="renew">${esc(t("kl.t.renew", "Code erneuern"))}</button>
           <button type="button" class="lq-btn lq-btn--quiet" data-act="archive">${esc(t("kl.t.archive", "Archivieren"))}</button>

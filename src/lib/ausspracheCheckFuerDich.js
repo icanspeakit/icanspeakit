@@ -2,12 +2,12 @@
 // (src/lib/ausspracheCheck.js):
 //
 //   picker      „Deine Muttersprache" — the shared setting (src/lib/muttersprache.js); the
-//               tab on /kultur/fehler follows it, and it follows that tab
+//               tab on /culture/mistakes follows it, and it follows that tab
 //   Für dich    the drills for that language (<AusspracheFuerDich lang="*">); ?drill=<id>
 //               opens one and scrolls to it
 //   native tip  in the result card, the findings for that language replace the generic tip,
 //               with „Jetzt üben →" (opens the drill below) and „Warum passiert das? →"
-//               (/kultur/fehler?lang=<id>#<mistake>)
+//               (/culture/mistakes?lang=<id>#<mistake>)
 //   live        a short text read in one go, each sentence scored and coloured as its result
 //               arrives, at most 60 s, one session at a time
 import { pronunciationProvider as provider, PronunciationError } from "./pronunciation/index.ts";
@@ -45,7 +45,7 @@ export function mountCheckFuerDich(root, { info, levels }) {
     if (more) {
       more.hidden = !lang;
       if (lang) {
-        more.href = `/kultur/fehler?lang=${encodeURIComponent(lang)}#${encodeURIComponent(lang)}`;
+        more.href = `/culture/mistakes?lang=${encodeURIComponent(lang)}#${encodeURIComponent(lang)}`;
         more.textContent = t("ac.moreFehler", "Weitere typische Fehler für {lang}-Sprecher", { lang: langName(info, lang) });
       }
     }

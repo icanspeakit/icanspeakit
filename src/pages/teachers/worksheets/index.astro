@@ -1,0 +1,83 @@
+---
+// The worksheet library for teachers — Einzelarbeit: every Lernset and every grammar topic as
+// a sheet to print or to fill in online. Partner and group work has its own page
+// (…/partner), the Arbeitsmappe too; the AbCards row links the three.
+// Pick a level, then a sheet; the search narrows both lists.
+//
+// Phone first: two stacked lists of rows, the level as one row of chips. Filtering is a
+// few lines of script over rows that are all in the HTML — no request, and a page that
+// still lists everything without JavaScript.
+import TeacherNudge from "../../../components/TeacherNudge.astro";
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import AbCards from "../../../components/arbeitsblatt/AbCards.astro";
+import "../../../styles/arbeitsblatt.css";
+import "../../../styles/teacher-switch.css";
+import { worksheetUnits } from "../../../lib/arbeitsblatt/wortschatz.js";
+import { grammarTopics, topicSlug } from "../../../lib/arbeitsblatt/grammatik.js";
+
+const LEVELS = ["A1", "A2", "B1", "B2"];
+const units = worksheetUnits();
+const topics = grammarTopics.filter((t) => LEVELS.includes(t.level));
+---
+<Layout
+  title="Worksheets for your English class – EnglishAcademy"
+  description="Free English worksheets A1–B2: vocabulary for every word set and grammar for every topic, to print or fill in online, with answers."
+>
+  <SiteNav active="lehrkraefte" />
+
+  <main class="abi" id="abi-root" data-level="A1">
+    <header class="abi-head">
+      <p class="abi-eyebrow" data-i18n="ab.index.eyebrow">Für Lehrkräfte</p>
+      <h1 class="abi-title" data-i18n="ab.index.title">Arbeitsblätter</h1>
+      <p class="abi-lead" data-i18n="ab.index.lead">Für Gruppenstunden: ausdrucken oder am Bildschirm ausfüllen lassen. Jedes Blatt hat ein Lösungsblatt und darf frei kopiert werden.</p>
+    </header>
+    <TeacherNudge />
+
+    <AbCards current="einzel" />
+
+    <div class="abi-controls">
+      <div class="abi-levels t-sw t-sw--fill" role="group" aria-label="Niveau" data-i18n-attr="aria-label:ab.index.level">
+        {LEVELS.map((l, i) => <button type="button" data-abi-level={l} aria-pressed={i === 0 ? "true" : "false"}>{l}</button>)}
+      </div>
+      <input class="abi-search" type="search" placeholder="Suchen …" data-abi-search aria-label="Arbeitsblätter durchsuchen" data-i18n-attr="placeholder:ab.index.search;aria-label:ab.index.searchLabel" />
+    </div>
+
+
+    <section class="abi-sec">
+      <h2 class="abi-h"><span data-i18n="ab.index.grammar">Grammatik</span> <small data-abi-count="g"></small></h2>
+      <ul class="abi-list">
+        {topics.map((t) => (
+          <li data-abi-row data-level={t.level} data-q={t.name.toLowerCase()}>
+            <a href={`/teachers/worksheets/grammar/${topicSlug(t)}`}>
+              <span class="abi-badge">{t.level}</span>
+              <span class="abi-name">{t.name}</span>
+              <span class="abi-meta">{t.exercises.length} <span data-i18n="ab.index.parts">Teile</span></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="abi-sec">
+      <h2 class="abi-h"><span data-i18n="ab.index.vocab">Wortschatz nach Lernset</span> <small data-abi-count="w"></small></h2>
+      <ul class="abi-list">
+        {units.map((u) => (
+          <li data-abi-row data-level={u.level} data-q={`${u.title ?? u.id} ${u.id}`.toLowerCase()}>
+            <a href={`/teachers/worksheets/vocabulary/${u.id}`}>
+              <span class="abi-badge">{u.level}</span>
+              <span class="abi-name">{u.title ?? u.id}</span>
+              <span class="abi-meta">{u.words} <span data-i18n="ab.index.words">Wörter</span></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+    <p class="abi-empty" data-abi-empty hidden data-i18n="ab.index.empty">Nichts gefunden. Anderes Niveau oder anderer Suchbegriff?</p>
+  </main>
+
+  <script>
+    import { mountIndexFilter } from "../../../lib/arbeitsblatt/indexFilter.js";
+    mountIndexFilter(document.getElementById("abi-root"));
+  </script>
+</Layout>

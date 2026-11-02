@@ -11,7 +11,7 @@
 <script>
   const KEY = "da:abOrigin";
   const a = document.querySelector<HTMLAnchorElement>("[data-ab-origin]");
-  const isSheet = (u: URL) => u.pathname.startsWith("/lehrkraefte/arbeitsblaetter/");
+  const isSheet = (u: URL) => u.pathname.startsWith("/teachers/worksheets/");
   let origin: { url: string; name?: string } | null = null;
   try {
     const ref = document.referrer ? new URL(document.referrer) : null;

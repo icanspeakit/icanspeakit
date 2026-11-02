@@ -409,7 +409,7 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
       ? t("pw.done.savedAccount", "Gespeichert. Deinen Fortschritt und deine Fehler findest du jederzeit wieder.")
       : t("pw.done.savedLocal", "Dein Fortschritt und deine Fehler sind nur in diesem Browser gespeichert. Melde dich an, dann gehen sie nicht verloren.");
     const link = signedIn
-      ? `<a class="akk-done-save-link" href="/fortschritt">${t("pw.done.toProgress", "Zum Fortschritt")}</a>`
+      ? `<a class="akk-done-save-link" href="/progress">${t("pw.done.toProgress", "Zum Fortschritt")}</a>`
       : `<a class="akk-done-save-link" href="/anmelden?next=${next}">${t("pw.done.signIn", "Anmelden und speichern")}</a>`;
     return `
       <div class="akk-done-save${signedIn ? "" : " akk-done-save--local"}">

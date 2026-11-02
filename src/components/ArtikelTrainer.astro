@@ -6,9 +6,9 @@
 // topic and rule; sessions are built from the learner's own per-noun history
 // (src/lib/artikelVerlauf.js), not from numbered rounds.
 //
-// It lives on /artikel as that topic's Üben view — the lesson (Sehen,
+// It lives on /articles as that topic's Üben view — the lesson (Sehen,
 // Hören, Sprechen) stays around it, and this is what "Schreiben" hands over to. It used
-// to be a page of its own at /uebungen/artikel-trainer, which now redirects here; the two
+// to be a page of its own at /exercises/artikel-trainer, which now redirects here; the two
 // had drifted into different exercises for the same topic.
 //
 // Renders the page's .vp-workspace and the rule pivot, so the host must be a
@@ -466,14 +466,14 @@ const freqChart = {
           if (!ok) roundStats.wrong++;
           // "Sicher" counts first tries only; a second tap among three options is half a guess.
           record(id, ok && info?.firstTry !== false);
-          // `topic` too, so the topic bar above and /fortschritt count the answer for Artikel.
+          // `topic` too, so the topic bar above and /progress count the answer for Artikel.
           recordAttempt({ skill: "grammatik", correct: ok, id, trackVocab: true, topic: "artikel" });
           dispatchEvent(new CustomEvent("da:progress", { detail: { topic: "artikel", correct: ok } }));
           refresh();
         },
       });
       practice.setMode(mode);
-      // Dev only: /artikel?demo=fertig opens on the done screen of a made-up round.
+      // Dev only: /articles?demo=fertig opens on the done screen of a made-up round.
       if (import.meta.env.DEV && !demoShown && new URLSearchParams(location.search).get("demo") === "fertig") {
         demoShown = true;
         practice.demoFinish();

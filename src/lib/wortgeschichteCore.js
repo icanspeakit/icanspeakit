@@ -75,7 +75,7 @@ const rowByLemma = (lemma) => lexicon().find((r) => r.lemma === lemma) ?? null;
 
 /** URL slug: the lexicon id (Arbeit → arbeit, Straße → strasse). */
 export const slugOf = (entry) => lexiconRow(entry)?.id ?? slugify(entry.lemma);
-export const hrefOf = (entry) => `/wissen/wortgeschichte/${slugOf(entry)}`;
+export const hrefOf = (entry) => `/knowledge/word-stories/${slugOf(entry)}`;
 
 /** "die Arbeit" / "arbeiten" */
 export function headword(entry) {
@@ -257,7 +257,7 @@ export function validate(items) {
     else days.set(e.publishOn, file);
     if (e.lemma) {
       const slug = slugOf(e);
-      if (slugs.has(slug)) at(`same URL /wissen/wortgeschichte/${slug} as ${slugs.get(slug)}`);
+      if (slugs.has(slug)) at(`same URL /knowledge/word-stories/${slug} as ${slugs.get(slug)}`);
       slugs.set(slug, file);
     }
     if (!e.root?.form || !e.root?.lang) at("root needs form and lang");

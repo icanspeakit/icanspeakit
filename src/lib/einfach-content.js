@@ -1,4 +1,4 @@
-/* Einfach lernen (/einfach) — turns the curated path (src/data/einfach-pfad.json) into the
+/* Einfach lernen (/step-by-step) — turns the curated path (src/data/einfach-pfad.json) into the
  * task objects the view renders.
  *
  * The path never copies German text. A task names a source item by ref and this file

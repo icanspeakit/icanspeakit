@@ -1,5 +1,5 @@
-// The Nachschlagewerk pages as worksheet topics: the verb tables (/grammatik/verben) and the
-// lists of /grammatik/<ref> (src/data/nachschlagen/*.json) put into the shape of a grammar
+// The Nachschlagewerk pages as worksheet topics: the verb tables (/grammar/verbs) and the
+// lists of /grammar/<ref> (src/data/nachschlagen/*.json) put into the shape of a grammar
 // topic, so the worksheet (…/arbeitsblaetter/grammatik/<slug>) and the Tandembogen
 // (…/arbeitsblaetter/tandem/<slug>) are built for them exactly as for a topic.
 //
@@ -11,6 +11,7 @@
 // keys (liveQuiz/chapters.js), and never a grammar topic's slug (there is a topic
 // trennbare-verben too).
 import { shuffle } from "./seed.js";
+import { refPath } from "../routes.js";
 import { groups as verbGroupList, verbs as verbList } from "../verbtabellen.js";
 import { fehlerGroups, optionsOf, answerOf } from "../typischeFehler.js";
 
@@ -47,7 +48,7 @@ function roundRobin(lists, n, skip = 0) {
 /** "Der Zug fährt um acht Uhr ab." → ["Der", "Zug", …, "ab", "."] */
 const tokens = (s) => String(s).match(/[\p{L}\p{N}’'-]+|[.,!?]/gu) ?? [];
 
-/* ---- /grammatik/verben ---------------------------------------------------------------- */
+/* ---- /grammar/verbs ---------------------------------------------------------------- */
 function verbTopic() {
   const pools = verbGroupList.map((g) => verbList.filter((v) => v.group === g.id));
   // A verb with a note has a past that is another verb (would like: "For the past, use
@@ -61,7 +62,7 @@ function verbTopic() {
     name: "Verb tables: the most important verbs",
     level: "A1",
     subtitle: "Present simple, past simple and present perfect of the most important verbs",
-    reference: "/grammatik/verben",
+    reference: "/grammar/verbs",
     concept: {
       qa: [g.regelmaessig?.regel?.[0], g.unregelmaessig?.regel?.[0], g.regelmaessig?.regel?.[2], g.hilfsverb?.regel?.[1]]
         .filter(Boolean).map((r) => ({ html: ruleHtml(r) })),
@@ -95,7 +96,7 @@ function verbTopic() {
   };
 }
 
-/* ---- /grammatik/starke-schwache-verben ------------------------------------------------- */
+/* ---- /grammar/irregular-verbs ------------------------------------------------- */
 function starkTopic(file, data) {
   const sec = (id) => data.sections.find((s) => s.id === id)?.regel ?? [];
   // forms: "goes · went · gone" (he/she/it · past simple · past participle)
@@ -120,7 +121,7 @@ function starkTopic(file, data) {
   };
 }
 
-/* ---- /grammatik/trennbare-verben ------------------------------------------------------- */
+/* ---- /grammar/phrasal-verbs-list ------------------------------------------------------- */
 function trennbarTopic(file, data) {
   const sec = (id) => rowsOf(data.sections.find((s) => s.id === id) ?? {});
   const trennbar = sec("trennbar");
@@ -150,7 +151,7 @@ function trennbarTopic(file, data) {
   };
 }
 
-/* ---- /grammatik/verben-mit-praepositionen ---------------------------------------------- */
+/* ---- /grammar/verbs-with-prepositions ---------------------------------------------- */
 function praepTopic(file, data) {
   // The example with its preposition blanked; rows whose preposition is merged (zur, vom,
   // worum) or missing in the example are left out — their gap would be ambiguous.
@@ -206,14 +207,14 @@ function listTopic(file) {
     level: b.level,
     // A list's lead says what the list holds, not a rule: the sheet's rule box is the rules.
     subtitle: subtitle ?? "",
-    reference: `/grammatik/${file}`,
+    reference: refPath(file),
     concept: { qa },
     exercises: exercises.map((ex) => ({ ...ex, ...(ex.rows ? { rows: ex.rows.filter((r) => r.term && r.answer) } : {}) }))
       .filter((ex) => (ex.rows ?? ex.items ?? ex.sentences ?? []).length >= 4),
   };
 }
 
-/* ---- /grammatik/typische-fehler -------------------------------------------------------
+/* ---- /grammar/common-mistakes -------------------------------------------------------
    One exercise per group of the page: each pair's gap sentence, its two words as the
    choices. The rule box: the difference of the first pairs. */
 function fehlerTopic() {
@@ -223,7 +224,7 @@ function fehlerTopic() {
     name: "Common mistakes: words people mix up",
     level: "A1",
     subtitle: "its or it's, then or than, your or you're",
-    reference: "/grammatik/typische-fehler",
+    reference: "/grammar/common-mistakes",
     concept: { qa: fehlerGroups.map((g) => g.pairs[0]).map((p) => ({ html: ruleHtml(`*${p.a.w}* ≠ *${p.b.w}*: ${p.why}`) })) },
     exercises: fehlerGroups.map((g) => ({
       type: "table",

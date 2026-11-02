@@ -1,0 +1,114 @@
+---
+// /teachers/surveys/result?id=… — one poll: the QR code for the projector and the
+// results as they come in (refreshed every few seconds while the tab is visible). Answers
+// are only ever shown as counts; free texts without names, in an order that says nothing
+// about who answered when. Under the bars: what to do with it — the most wanted grammar
+// topics with their worksheet and live quiz.
+//
+// The grammar topics' links are settled here at build time (catalog, worksheets, quiz
+// chapters) and travel to the script as JSON. Static; the poll is read in the browser
+// (RLS: the owner only).
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import { grammarTopics } from "../../../lib/catalog.js";
+import { sheetTopics, topicSlug } from "../../../lib/arbeitsblatt/grammatik.js";
+import { hasChapter } from "../../../lib/liveQuiz/chapters.js";
+import "../../../styles/live-quiz.css";
+import "../../../styles/quiz-builder.css";
+import "../../../styles/klassen.css";
+import "../../../styles/umfrage.css";
+
+const links = Object.fromEntries(
+  grammarTopics.map((tp) => {
+    const sheet = sheetTopics.find((s) => s.id === tp.id);
+    return [tp.id, {
+      page: tp.href,
+      sheet: sheet ? `/teachers/worksheets/grammar/${topicSlug(sheet)}` : null,
+      quiz: hasChapter(`g-${tp.id}`) ? `/teachers/quiz?grammar=g-${tp.id}` : null,
+    }];
+  }),
+);
+---
+<Layout
+  title="Poll – results – EnglishAcademy"
+  description="The results of your class poll, live, with a QR code for the projector."
+  noindex
+>
+  <SiteNav active="lehrkraefte" />
+
+  <main class="lq kl uf uf-res" id="uf-res" data-links={JSON.stringify(links)}>
+    <a class="qb-back" href="/teachers/surveys" data-i18n="uf.t.backList">Alle Umfragen</a>
+
+    <section class="lq-card" data-gate="loading">
+      <p data-i18n="kl.loading">Einen Moment …</p>
+    </section>
+    <section class="lq-card kl-stack" data-gate="signin" hidden>
+      <h2 data-i18n="uf.t.signin.title">Melde dich an, um eine Umfrage zu starten</h2>
+      <a class="lq-btn lq-btn--primary" data-signin-link href="/anmelden?next=/teachers/surveys" data-i18n="kl.t.signin.button">Anmelden oder registrieren</a>
+    </section>
+    <section class="lq-card kl-stack" data-gate="missing" hidden>
+      <h2 data-i18n="uf.t.missing.title">Diese Umfrage gibt es nicht</h2>
+      <p data-i18n="uf.t.missing.text">Vielleicht wurde sie gelöscht, oder sie gehört zu einem anderen Konto.</p>
+      <a class="lq-btn lq-btn--primary" href="/teachers/surveys" data-i18n="uf.t.backList">Alle Umfragen</a>
+    </section>
+
+    <div class="kl-stack" data-gate="ok" hidden>
+      <header class="uf-res-head">
+        <p class="lq-eyebrow" data-i18n="uf.t.eyebrow">Für Lehrkräfte · Umfragen</p>
+        <h1 class="lq-title" data-title></h1>
+        <p class="uf-res-meta">
+          <span class="kl-badge" data-level hidden></span>
+          <span class="uf-state" data-state></span>
+          <strong class="uf-total" data-total aria-live="polite"></strong>
+        </p>
+      </header>
+
+      <section class="lq-card uf-share" data-share>
+        <div class="uf-share-qr" data-qr role="img" aria-label="QR-Code zur Umfrage" data-i18n-attr="aria-label:uf.t.qrAlt"></div>
+        <div class="uf-share-text">
+          <p class="uf-share-step" data-i18n="uf.t.share.step">Handy-Kamera auf den QR-Code richten, oder öffnen:</p>
+          <p class="uf-share-url" data-host></p>
+          <p class="uf-share-step" data-i18n="uf.t.share.code">und diesen Code eingeben:</p>
+          <p class="uf-share-code" data-code></p>
+          <p class="uf-share-anon" data-i18n="uf.t.share.anon">Anonym · ohne Namen · ohne Konto</p>
+          <div class="kl-row">
+            <button type="button" class="lq-btn lq-btn--ghost" data-copy data-i18n="kl.t.copy">Link kopieren</button>
+            <button type="button" class="lq-btn lq-btn--ghost" data-big data-i18n="uf.t.big">Groß für den Beamer</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="kl-row uf-tools">
+        <button type="button" class="lq-btn lq-btn--ghost" data-share-toggle></button>
+        <button type="button" class="lq-btn lq-btn--ghost" data-toggle></button>
+        <button type="button" class="lq-btn lq-btn--quiet" data-csv data-i18n="uf.t.csv">Als Tabelle (CSV)</button>
+        <button type="button" class="lq-btn lq-btn--quiet" data-print data-i18n="uf.t.print">Drucken</button>
+      </div>
+      <p class="kl-status" data-status role="status" aria-live="polite"></p>
+
+      <section class="uf-next" data-next hidden aria-labelledby="uf-next-h">
+        <h2 id="uf-next-h" data-i18n="uf.t.next.title">Was die Klasse sich wünscht</h2>
+        <div class="uf-next-grid" data-next-list></div>
+      </section>
+
+      <div class="uf-results" data-results></div>
+      <p class="kl-muted" data-empty hidden data-i18n="uf.t.empty">Noch keine Antworten. Sobald jemand abschickt, erscheinen die Ergebnisse hier, ohne Neuladen.</p>
+    </div>
+    <div class="uf-beamer" data-beamer hidden>
+      <button type="button" class="uf-beamer-close" data-beamer-close aria-label="Schließen" data-i18n-attr="aria-label:uf.t.beamerClose">✕</button>
+      <div class="uf-beamer-qr" data-beamer-qr></div>
+      <div class="uf-beamer-text">
+        <p class="uf-beamer-title" data-beamer-title></p>
+        <p class="uf-beamer-url" data-beamer-host></p>
+        <p class="uf-beamer-code" data-beamer-code></p>
+        <p class="uf-beamer-count" data-beamer-count aria-live="polite"></p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    import { mountErgebnis } from "../../../lib/umfrage/ergebnis.js";
+    const root = document.getElementById("uf-res");
+    if (root) mountErgebnis(root);
+  </script>
+</Layout>

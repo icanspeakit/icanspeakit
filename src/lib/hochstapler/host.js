@@ -1,4 +1,4 @@
-// Bruno sucht den Hochstapler, Klasse mode: the projector (/lehrkraefte/spiele/hochstapler).
+// Bruno sucht den Hochstapler, Klasse mode: the projector (/teachers/games/hochstapler).
 // Messages: room.js. Secrets: crypto.js. Rules: game.js.
 //
 // Screens: setup → lobby (PIN + QR + who is in) → game (clues → discuss → vote → reveal →
@@ -66,7 +66,7 @@ export function mountHost(root) {
 
   async function loadLevel(level) {
     if (words[level]) return words[level];
-    const res = await fetch(`/spiele/hochstapler/woerter-${level.toLowerCase()}.json`);
+    const res = await fetch(`/games/impostor/woerter-${level.toLowerCase()}.json`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     words[level] = (await res.json()).themes;
     return words[level];

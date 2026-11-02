@@ -1,6 +1,6 @@
 // Checks the links between the typical mistakes (src/data/fehler-nach-sprache.json) and the
 // pronunciation drills (src/data/aussprache-muttersprache.json). They point at each other —
-// an error's `drill`, a drill's `fehler`, a language's drill list — and /kultur/fehler and
+// an error's `drill`, a drill's `fehler`, a language's drill list — and /culture/mistakes and
 // the Aussprache-Check build their "Jetzt üben" / "Warum passiert das?" links from them, so
 // a typo here is a dead link there.
 //   pnpm check:aussprache

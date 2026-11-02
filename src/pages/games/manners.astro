@@ -1,0 +1,96 @@
+---
+// /games/manners — The Manners Simulator (was: Der Knigge-Simulator): manners and small talk in the UK as a little life
+// sim (A2–B1). Pick a mascot, live through a day of scenes, and every reply moves the
+// Sympathie of the person you talk to and your Ruf. Logic: src/lib/knigge/game.js, scenes:
+// src/lib/knigge/scenes.js. A prototype (EXPERIMENTE.md): noindex, not in the „Spiele“ menu.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import { mascotSvg, MASCOT_LABELS } from "../../lib/mascots.js";
+import { PLAYERS } from "../../lib/knigge/scenes.js";
+import "../../styles/practice.css";
+import "../../styles/fuehrerschein.css";
+import "../../styles/stadtfahrt.css";
+import "../../styles/knigge.css";
+---
+<Layout
+  title="The Manners Simulator: etiquette and small talk in the UK – EnglishAcademy"
+  description="A small life game about manners and small talk in the UK (A2–B1): the café, the train, the office, the neighbours, a date. Every answer makes people like you more – or less."
+  noindex
+>
+  <SiteNav active="ueben" />
+  <main class="practice-main fs-page kn-page">
+    <section id="kn-intro">
+      <div class="practice-hero fs-hero">
+        <p class="eyebrow" data-i18n="kn.eyebrow">Game · A2–B1</p>
+        <h1 data-i18n="kn.title">The Manners Simulator</h1>
+        <p data-i18n="kn.lead">Manners & small talk in the UK: live through a whole day – out and about, at work, with the neighbours, on a date and in your English class. Every answer makes people like you more. Or not.</p>
+      </div>
+      <section class="fs-box">
+        <h2 data-i18n="kn.howTitle">How to play</h2>
+        <ul class="fs-facts">
+          <li><b>💬</b><span data-i18n="kn.howTalk">Someone talks to you. Pick one of 3–4 replies (or press key 1–4).</span></li>
+          <li><b>❤️</b><span data-i18n="kn.howSymp">Every reply changes how much the person likes you – and your reputation. There is more than one right answer.</span></li>
+          <li><b>🤔</b><span data-i18n="kn.howWhy">After every choice you see why. Even for good answers.</span></li>
+          <li><b>🔊 💡</b><span data-i18n="kn.howHelp">Every sentence has a listen button and help.</span></li>
+        </ul>
+        <h2 data-i18n="kn.pickTitle">Who are you today?</h2>
+        <div class="kn-picker" role="group" aria-label="Choose a character" data-i18n-attr="aria-label:kn.pickLabel">
+          {PLAYERS.map((name) => (
+            <button type="button" class="kn-pick" data-player={name} aria-pressed="false">
+              <Fragment set:html={mascotSvg({ name, size: 72, label: "" })} />
+              <span>{MASCOT_LABELS[name] ?? name}</span>
+            </button>
+          ))}
+        </div>
+        <div class="fq-done-btns">
+          <button type="button" class="quiz-btn quiz-btn--primary" id="kn-start" data-i18n="kn.start">Let's go</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="kn-game" id="kn-game" hidden>
+      <div class="kn-top">
+      <div class="kn-hud">
+        <span class="kn-ruf" data-ruf role="img" aria-label="Reputation: 50 out of 100">
+          <span class="kn-ruf-k" data-i18n="kn.ruf">Reputation</span>
+          <span class="kn-bar-track kn-ruf-track"><i data-ruf-bar style="width:50%"></i></span>
+          <b data-ruf-n>50</b>
+        </span>
+        <button type="button" class="sf-icon-btn" data-sound aria-pressed="true" aria-label="Voices on/off" data-i18n-attr="aria-label:kn.sound">🔊</button>
+      </div>
+      <div class="kn-stage" data-stage></div>
+      </div>
+      <div class="kn-sheet" data-sheet aria-live="polite"></div>
+      <p class="kn-sr" data-live aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script>
+    import { mountKnigge, setPlayer, storedPlayer } from "../../lib/knigge/game.js";
+
+    const intro = document.getElementById("kn-intro")!;
+    const game = document.getElementById("kn-game")!;
+    const startBtn = document.getElementById("kn-start")!;
+    const picks = [...document.querySelectorAll<HTMLButtonElement>("[data-player]")];
+    const spiel = mountKnigge(game);
+
+    let chosen = storedPlayer();
+    const paint = () => picks.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.player === chosen)));
+    paint();
+    for (const b of picks) b.addEventListener("click", () => { chosen = b.dataset.player!; setPlayer(chosen); paint(); });
+
+    game.addEventListener("kn:exit", () => {
+      game.hidden = true;
+      intro.hidden = false;
+      startBtn.focus({ preventScroll: true });
+      intro.scrollIntoView({ block: "start" });
+    });
+    startBtn.addEventListener("click", () => {
+      setPlayer(chosen);
+      intro.hidden = true;
+      game.hidden = false;
+      game.scrollIntoView({ block: "start" });
+      spiel.start();
+    });
+  </script>
+</Layout>

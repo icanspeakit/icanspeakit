@@ -223,7 +223,7 @@ import "../styles/site-search.css";
     if (noun && (noun.gender || noun.plural)) {
       const d = decline({ lemma: noun.lemma, gender: noun.gender || null, plural: noun.plural || (noun.gender ? null : noun.lemma) });
       const forms = d.rows.map((c) => (c.sg ? `${c.sg.def} ${c.sg.form}` : `${c.pl.def} ${c.pl.form}`)).join(" · ");
-      refRows.unshift(row(`/grammatik/deklination?wort=${encodeURIComponent(noun.lemma)}`,
+      refRows.unshift(row(`/grammar/deklination?wort=${encodeURIComponent(noun.lemma)}`,
         `<span class="ss-title" lang="de">${esc(noun.lemma)}: alle Fälle</span><span class="ss-sub" lang="de">${esc(forms)}</span>`, ""));
     }
     if (refRows.length)

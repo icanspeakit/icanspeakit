@@ -1,4 +1,4 @@
-// Map geometry for /wissen/sprachen — run once, output committed.
+// Map geometry for /knowledge/languages — run once, output committed.
 //
 // Projects Natural Earth country outlines (world-atlas) into two SVG views and writes
 // src/data/sprachen-karte.json: { europe, world } each with a viewBox size, one path per

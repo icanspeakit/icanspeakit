@@ -17,7 +17,7 @@
 // Questions arrive prepared by the page (src/lib/fuehrerscheinQuiz.js): every {{fakt:…}}
 // filled, sign pictures resolved, a scene as two HTML strings (the bare picture, and the full
 // animated figure for after the answer). Answers are kept under "da-exam-v1:fuehrerschein"
-// (src/lib/exam/state.js), the shape /fortschritt reads for every exam.
+// (src/lib/exam/state.js), the shape /progress reads for every exam.
 import { t, i18nAttrs } from "./uiText.js";
 import { loadExamState, saveExamState } from "./exam/state.js";
 import { recordAttempt } from "./progress.js";

@@ -11,7 +11,7 @@
  *   store "exam" → "da-exam-v1:<key>", { answers: { id: {given, correct} } }
  *                  (src/lib/exam/state.js — A1 practice test, IELTS, Life in the UK)
  *   store "dtz"  → "da-dtz-v1:<key>",  same answers plus a schreiben object
- *                  (src/lib/dtzTrainer.js — the B1 skills mock in the /dtz slot)
+ *                  (src/lib/dtzTrainer.js — the B1 skills mock in the /trinity/ise-1 slot)
  * The ids (start-deutsch-1, testdaf, leben-in-deutschland, dtz) are storage keys from the
  * German course and stay; only the texts are English (docs/content-plan.md §2).
  *
@@ -28,6 +28,7 @@ import { qidsOfPart } from "../dtzTrainer.js";
 // Ids only, written by scripts/check-pruefungen.mjs: the full sets stay out of this bundle.
 import saetzeIndex from "../../data/pruefungen/saetze-index.json";
 import { examLabel } from "./names.js";
+import { examPath } from "../routes.js";
 
 const idsOf = (part) => part.items.map((i) => i.id);
 
@@ -42,8 +43,8 @@ export const examRegistry = [
     title: "A1 English practice test",
     subtitle: "Listening · Reading · Writing",
     level: "A1",
-    href: "/start-deutsch-1",
-    overview: "/telc",
+    href: "/a1-test",
+    overview: "/trinity",
     store: { kind: "exam", key: "start-deutsch-1" },
     // No official exam behind this test (content-plan §2): 60 % is our own convention.
     passNote: "Our own guide: 60 % of the Listening and Reading points. This is not an official exam.",
@@ -63,8 +64,8 @@ export const examRegistry = [
     title: "IELTS Academic",
     subtitle: "Reading · Writing",
     level: "Band 5–7",
-    href: "/testdaf/uebungssatz",
-    overview: "/testdaf",
+    href: "/ielts/practice-set",
+    overview: "/ielts",
     store: { kind: "exam", key: "testdaf" },
     // Deliberately no pass percentage: IELTS gives a band score per skill and every
     // institution sets its own requirement, so a line here would be invented.
@@ -82,8 +83,8 @@ export const examRegistry = [
     title: "Life in the UK",
     subtitle: "Practice test",
     level: "Knowledge test",
-    href: "/leben-in-deutschland/test",
-    overview: "/leben-in-deutschland",
+    href: "/life-in-the-uk/test",
+    overview: "/life-in-the-uk",
     store: { kind: "exam", key: "leben-in-deutschland" },
     passNote: `Real test: pass with ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions.`,
     passPct: Math.round((lid.meta.passScore / lid.meta.totalQuestions) * 100),
@@ -100,8 +101,8 @@ export const examRegistry = [
     title: "B1 skills mock",
     subtitle: dtz1.label,
     level: "B1",
-    href: "/dtz/uebungssatz",
-    overview: "/dtz",
+    href: "/trinity/ise-1/practice-set",
+    overview: "/trinity/ise-1",
     store: { kind: "dtz", key: dtz1.id },
     // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not Trinity's.
     passNote: "Our own guide: listening and reading count together; 33 of 45 points is a solid B1 result.",
@@ -140,8 +141,8 @@ export const examRegistry = [
     title: examLabel(set),
     subtitle: set.title,
     level: set.level,
-    href: `/${set.exam}/${set.slug}`,
-    overview: `/${set.exam}`,
+    href: `${examPath(set.exam)}/${set.slug}`,
+    overview: examPath(set.exam),
     store: { kind: "exam", key: set.id },
     passNote: set.scoring?.note ?? "",
     passPct: set.scoring?.passPct ?? 60,

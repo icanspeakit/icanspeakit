@@ -1,4 +1,4 @@
-// Die Legende von Lindenau (/spiele/lindenau): a small top-down town. The learner plays Regi
+// Die Legende von Lindenau (/games/brambleford): a small top-down town. The learner plays Regi
 // (as Super-Blubb, drawHero in ./action.js), walks around (arrow keys / WASD, or tap where to
 // go on a phone) and talks to the people: Bruno, Hamsti, Quaki, a doctor and a neighbour. Three of them have
 // an A1 errand – Bäckerei, Bahnhof, Arztpraxis – played as a dialogue: pick the right reply or
@@ -1029,7 +1029,7 @@ export function mountLindenau(root) {
         ${canReview ? `<button type="button" class="quiz-btn quiz-btn--primary" data-review>${esc(t("ld.review", "Review"))}</button>` : ""}
         ${nextArea && !canReview ? `<button type="button" class="quiz-btn quiz-btn--primary" data-next-area>${esc(t("ld.nextArea", "Next: {a}", { a: nextArea.title }))}</button>` : ""}
         <button type="button" class="quiz-btn${canReview || nextArea ? "" : " quiz-btn--primary"}" data-again>${esc(t("ld.again", "Play again"))}</button>
-        <a class="quiz-btn" href="/spiele/artikel-sprint">${esc(t("ld.more", "Another game"))}</a>
+        <a class="quiz-btn" href="/games/countable-sprint">${esc(t("ld.more", "Another game"))}</a>
       </div></div>`);
     panel.querySelector("[data-again]").addEventListener("click", () => start(area.id));
     panel.querySelector(".sf-result").append(spielMeldenRow("lindenau", roundInfo));

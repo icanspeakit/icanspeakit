@@ -12,7 +12,7 @@
 // Layout.astro whenever the local copy (speichern.js, "da:unterricht") exists. It draws from
 // that copy at once and only then asks the server whether the session moved on elsewhere.
 //
-// The learner's Stunde (/stunde, mode "lernend") uses the same bar: Stunde · step n/N ·
+// The learner's Stunde (/lesson, mode "lernend") uses the same bar: Stunde · step n/N ·
 // phase · ← → · Uhr · „Später weiter“. No Pause, no Beenden, no group; the time is „ca. 10
 // Min.“, a finished step shows ✓ and lights up →. bootLern() starts it from "da:lernstunde".
 import "./leiste.css";
@@ -54,7 +54,7 @@ const STALE_MS = 12 * 60 * 60 * 1000;
  * @param opts { home: true on the session page itself (no "Zurück zum Schritt"),
  *               onEnd(): after "Beenden",
  *               mode: "lehrkraft" | "lernend",
- *               onLater(): the learner's „Später weiter“ (default: back to /stunde) }
+ *               onLater(): the learner's „Später weiter“ (default: back to /lesson) }
  */
 export function mountLeiste(ctl, { home = false, onEnd, mode = "lehrkraft", onLater } = {}) {
   const lern = mode === "lernend";
@@ -208,7 +208,7 @@ export function mountLeiste(ctl, { home = false, onEnd, mode = "lehrkraft", onLa
     $("[data-l-play]")?.addEventListener("click", () => ctl.toggle());
     $("[data-l-uhr]").addEventListener("click", () => { uhr.toggle(); render(ctl.state); });
     $("[data-l-end]")?.addEventListener("click", ask);
-    // „Später weiter“: the clock stops and stays stopped until /stunde is opened again.
+    // „Später weiter“: the clock stops and stays stopped until /lesson is opened again.
     $("[data-l-later]")?.addEventListener("click", () => {
       ctl.patch((x) => ({ ...x, parked: true }));
       ctl.pause();
@@ -337,7 +337,7 @@ export async function boot() {
 }
 
 /**
- * From Layout.astro on every page except /stunde, when a learner's Stunde is stored and no
+ * From Layout.astro on every page except /lesson, when a learner's Stunde is stored and no
  * teacher session is (the teacher's bar wins on a shared device). Not after „Später weiter“,
  * not for a finished Stunde, not after half a day without a look at it.
  */

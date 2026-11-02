@@ -1,6 +1,6 @@
 // Display names of the exams behind the generic practice sets. The slot ids stay goethe/telc
 // (routes and storage keys); the exams they hold are Cambridge English and Trinity ISE
-// (docs/content-plan.md §2). Kept apart from saetze.js so the /fortschritt registry can use
+// (docs/content-plan.md §2). Kept apart from saetze.js so the /progress registry can use
 // the names without bundling the sets.
 export const EXAM_NAMES = { goethe: "Cambridge English", telc: "Trinity ISE" };
 

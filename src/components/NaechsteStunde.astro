@@ -1,15 +1,15 @@
 ---
-// „Nächste Stunde“ on /fortschritt (SCHUELER-STUNDE Tier 4): ONE card, not a list – the Stunde
-// a learner should do next, walked alone on /stunde. „Weiter mit Stunde 2: Dativ, Schritt 3“
+// „Nächste Stunde“ on /progress (SCHUELER-STUNDE Tier 4): ONE card, not a list – the Stunde
+// a learner should do next, walked alone on /lesson. „Weiter mit Stunde 2: Dativ, Schritt 3“
 // for a Stunde begun, else the one after the last finished, else the first Stunde of the
 // learner's level (da-einstufung / da_level). Pure choice: lernen.js naechsteStunde (tested).
 //
 // Signed out it reads this device (da:lernstunde + da:lernstunden). Signed in it first merges
-// the device into the account once (lernServer.js syncAll, as on /stunde), then reads both –
+// the device into the account once (lernServer.js syncAll, as on /lesson), then reads both –
 // the most recent Stunde decides. The Supabase client loads only when a session cookie exists.
 //
 // Hidden until it knows what to show. The × hides it for this one suggestion (da:ns-weg); it
-// comes back when the next Stunde changes. German only, like /stunde. Nothing on the map, the
+// comes back when the next Stunde changes. German only, like /lesson. Nothing on the map, the
 // rings, the level bar or the course strip changes.
 import { planLevels } from "../lib/stundenplanLinks.js";
 import { lessonFor } from "../lib/stundenplan.js";
@@ -33,7 +33,7 @@ for (const level of levels) {
   <p class="ns-eyebrow" data-ns-eyebrow>Your lesson</p>
   <h2 class="ns-title" id="ns-title" data-ns-title></h2>
   <p class="ns-where" data-ns-where></p>
-  <a class="ns-go" data-ns-go href="/stunde">Let's go</a>
+  <a class="ns-go" data-ns-go href="/lesson">Let's go</a>
   <button type="button" class="ns-x" data-ns-x aria-label="Ausblenden" title="Ausblenden">
     <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" /></svg>
   </button>
@@ -45,7 +45,7 @@ for (const level of levels) {
      map below stay where they were; stacked on a phone. */
   .ns {
     display: flex; align-items: center; gap: 4px 12px; flex-wrap: wrap;
-    /* The column of /fortschritt's tabs and LearnShell (.nv-shell): 1280px, 24px gutter. */
+    /* The column of /progress's tabs and LearnShell (.nv-shell): 1280px, 24px gutter. */
     width: min(1232px, calc(100% - 48px)); box-sizing: border-box; margin: 8px auto 10px; padding: 8px 8px 8px 16px;
     border: 1px solid color-mix(in srgb, var(--brand-blue) 35%, var(--border)); border-radius: 999px;
     background: var(--surface-card);

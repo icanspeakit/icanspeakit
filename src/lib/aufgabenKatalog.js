@@ -1,7 +1,7 @@
 // What a teacher can assign as an Aufgabe (KLASSEN-TIERED-PROMPT.md, Tier 4), with the name
 // and the page a student opens for it. Build time only; served as /klassen-katalog.json,
 // so the teacher's picker and the students' "Aufgaben" card fetch it when they need it,
-// instead of every visitor of /uebungen carrying it in the HTML.
+// instead of every visitor of /exercises carrying it in the HTML.
 //
 // Only exercises that write an uebung_versuche row with a score or a "geübt" mark can be
 // assigned, because "done" is computed from those rows: grammar topics, Lernsets, and the
@@ -9,6 +9,7 @@
 // engine grades nothing there. The teacher's own live quizzes (q:) come with Tier 6, when
 // a game in class writes rows.
 import { grammarCatalog } from "./grammarCatalog.js";
+import { topicPath } from "./routes.js";
 import { chapterList } from "./liveQuiz/chapters.js";
 import { saetze, hrefOf, isScored } from "./exam/saetze.js";
 import { planLevels } from "./stundenplanLinks.js";
@@ -25,12 +26,12 @@ export function aufgabenKatalog() {
   // (Akkusativ) and so are not in the catalog.
   const grammar = new Map(grammarCatalog.map((t) => [t.key, { name: t.name, level: t.level }]));
   for (const c of chapters) if (c.kind === "grammatik" && c.assign !== false && !grammar.has(c.slug.slice(2))) grammar.set(c.slug.slice(2), { name: c.name, level: c.level });
-  for (const [key, t] of grammar) out.push({ ref: `g:${key}`, name: t.name, group: `Grammatik ${t.level ?? ""}`.trim(), level: t.level, href: `/${key}` });
+  for (const [key, t] of grammar) out.push({ ref: `g:${key}`, name: t.name, group: `Grammatik ${t.level ?? ""}`.trim(), level: t.level, href: topicPath(key) });
 
   for (const c of chapters) {
     if (c.kind !== "wortschatz") continue;
     const id = c.slug.slice(2);
-    out.push({ ref: `w:${id}`, name: c.name, group: `Wortschatz ${c.level}`, level: c.level, href: `/wortschatz/${id}` });
+    out.push({ ref: `w:${id}`, name: c.name, group: `Wortschatz ${c.level}`, level: c.level, href: `/vocabulary/${id}` });
   }
 
   for (const set of saetze) {
@@ -53,9 +54,9 @@ export function aufgabenKatalog() {
     }
   }
 
-  // Stunden of the Stundenplan, walked alone on /stunde (SCHUELER-STUNDE Tier 3): a block as a
+  // Stunden of the Stundenplan, walked alone on /lesson (SCHUELER-STUNDE Tier 3): a block as a
   // self-learner gets it, 3 Stunden × 90 min. A teacher's own plan (another count or length)
-  // is assigned from /lehrkraefte/stundenplan with its exact key. Done = the Stunde finished
+  // is assigned from /teachers/timetable with its exact key. Done = the Stunde finished
   // (lernseite.js logs one attempt with this ref).
   const levels = planLevels();
   for (const level of levels) {
