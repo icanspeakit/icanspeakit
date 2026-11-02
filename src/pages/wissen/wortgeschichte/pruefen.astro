@@ -74,7 +74,7 @@ const lang = (c: string) => LANG_NAMES[c] ?? c;
 
                   <p class="rv-root">
                     <span class={`rv-c rv-c--${e.root.certainty}`}>{e.root.certainty}</span>
-                    <b>{e.root.form}</b> <span class="rv-m">{e.root.lang}{e.root.meaning && <> ‚{e.root.meaning}‘</>}</span>
+                    <b>{e.root.form}</b> <span class="rv-m">{e.root.lang}{e.root.meaning && <> ‘{e.root.meaning}’</>}</span>
                     {e.root.via && <span class="rv-m"> · via {e.root.via.lang} <b>{e.root.via.form}</b></span>}
                   </p>
                   {e.root.note && <p class="rv-note">{e.root.note}</p>}

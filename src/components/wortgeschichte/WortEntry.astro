@@ -12,7 +12,7 @@ import Icon from "../Icon.astro";
 import LeichtToggle from "../LeichtToggle.astro";
 import WortTree from "./WortTree.astro";
 import {
-  formsOf, audioOf, glossesOf, synonymsOf, familyOf, headword, formatDe, LANG_NAMES, RTL, KINDS, STATUS,
+  formsOf, audioOf, glossesOf, synonymsOf, familyOf, headword, formatDe, LANG_NAMES, RTL, KINDS, STATUS, entryLang, quoteIn,
 } from "../../lib/wortgeschichteCore.js";
 
 interface Props {
@@ -27,7 +27,9 @@ const { entry: e, mode = "archive", preview = false, today } = Astro.props;
 
 const head = headword(e);
 const [art, ...rest] = head.split(" ");
-const hasArt = /^(der|die|das)$/.test(art) && rest.length > 0;
+const hasArt = /^(der|die|das|a|an|some)$/.test(art) && rest.length > 0;
+const L = entryLang(e);
+const q = quoteIn(L);
 const forms = formsOf(e);
 const audio = audioOf(e);
 const gloss = glossesOf(e);
@@ -77,7 +79,7 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
       <time datetime={e.publishOn}>{formatDe(e.publishOn)}</time>
     </p>
     <div class="wg-head">
-      <h1 class="wg-word" lang="de">
+      <h1 class="wg-word" lang={L}>
         {hasArt ? <><span class="wg-art">{art}</span>{rest.join(" ")}</> : head}
       </h1>
       {audio && (
@@ -96,7 +98,7 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
     {part.wort && (
       <li class="wg-part" id="wort">
         <h2><span class="wg-num">{part.wort.n}</span><span data-i18n={part.wort.key}>{part.wort.de}</span></h2>
-        <ul class="wg-forms" lang="de">
+        <ul class="wg-forms" lang={L}>
           {forms.map((f) => <li>{f.parts.map((p) => <span class="wg-form">{p}</span>)}</li>)}
         </ul>
       </li>
@@ -104,11 +106,11 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
 
     <li class="wg-part" id="wurzel">
       <h2><span class="wg-num">{part.wurzel.n}</span><span data-i18n={part.wurzel.key}>{part.wurzel.de}</span></h2>
-      <div class="wg-root" lang="de">
+      <div class="wg-root" lang={L}>
         <div class="wg-node">
           <small>{e.root.lang}</small>
           <b>{e.root.form}</b>
-          {e.root.meaning && <i>‚{e.root.meaning}‘</i>}
+          {e.root.meaning && <i>{q(e.root.meaning)}</i>}
           <span class={`wg-cert wg-cert--${e.root.certainty}`} data-i18n={certKey(e.root.certainty)}>{CERT_DE[e.root.certainty]}</span>
         </div>
         {e.root.via && <>
@@ -116,31 +118,31 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
           <div class="wg-node">
             <small>{e.root.via.lang}</small>
             <b>{e.root.via.form}</b>
-            {e.root.via.meaning && <i>‚{e.root.via.meaning}‘</i>}
+            {e.root.via.meaning && <i>{q(e.root.via.meaning)}</i>}
           </div>
         </>}
       </div>
-      {e.root.note && <p class="wg-note" lang="de">{e.root.note}</p>}
+      {e.root.note && <p class="wg-note" lang={L}>{e.root.note}</p>}
     </li>
 
     <li class="wg-part" id="geschichte">
       <h2><span class="wg-num">{part.geschichte.n}</span><span data-i18n={part.geschichte.key}>{part.geschichte.de}</span></h2>
-      <ol class="wg-time" lang="de">
-        <li><span class="wg-when">{e.root.lang}</span><b>{e.root.form}</b>{e.root.meaning && <span class="wg-mean"> ‚{e.root.meaning}‘</span>}</li>
-        {e.root.via && <li><span class="wg-when">{e.root.via.lang}</span><b>{e.root.via.form}</b>{e.root.via.meaning && <span class="wg-mean"> ‚{e.root.via.meaning}‘</span>}</li>}
+      <ol class="wg-time" lang={L}>
+        <li><span class="wg-when">{e.root.lang}</span><b>{e.root.form}</b>{e.root.meaning && <span class="wg-mean"> {q(e.root.meaning)}</span>}</li>
+        {e.root.via && <li><span class="wg-when">{e.root.via.lang}</span><b>{e.root.via.form}</b>{e.root.via.meaning && <span class="wg-mean"> {q(e.root.via.meaning)}</span>}</li>}
         {(e.stages ?? []).map((s: any) => (
-          <li><span class="wg-when">{s.lang}{s.when ? ` · ${s.when}` : ""}</span><b>{s.form}</b>{s.meaning && <span class="wg-mean"> ‚{s.meaning}‘</span>}</li>
+          <li><span class="wg-when">{s.lang}{s.when ? ` · ${s.when}` : ""}</span><b>{s.form}</b>{s.meaning && <span class="wg-mean"> {q(s.meaning)}</span>}</li>
         ))}
       </ol>
       {e.historyEinfach && <div class="wg-ls"><LeichtToggle /></div>}
-      <p class="wg-story" lang="de" data-ls={e.history} data-ls-leicht={e.historyEinfach || undefined}>{e.history}</p>
+      <p class="wg-story" lang={L} data-ls={e.history} data-ls-leicht={e.historyEinfach || undefined}>{e.history}</p>
     </li>
 
     {part.synonyme && (
       <li class="wg-part" id="synonyme">
         <h2><span class="wg-num">{part.synonyme.n}</span><span data-i18n={part.synonyme.key}>{part.synonyme.de}</span></h2>
         {/* A small tree: the headword as trunk, one branch per synonym (wortTreeDraw.js). */}
-        <div class="wg-syn" lang="de" data-wg-syn>
+        <div class="wg-syn" lang={L} data-wg-syn>
           <svg class="wg-tree-lines" aria-hidden="true" focusable="false"></svg>
           <ul class="wg-syn-leaves">
             {synonyms.map((s) => <li class="wg-syn-leaf"><b>{s.word}</b>{s.note && <small>{s.note}</small>}</li>)}
@@ -155,7 +157,7 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
         <h2><span class="wg-num">{part.verwandte.n}</span><span data-i18n={part.verwandte.key}>{part.verwandte.de}</span></h2>
         {family.length > 0 && <>
           <p class="wg-sub" data-i18n="wg.family">Die Wortfamilie</p>
-          <ul class="wg-chips" lang="de">
+          <ul class="wg-chips" lang={L}>
             {family.map((f) => <li>{f.word}<small>{f.level}</small></li>)}
           </ul>
         </>}
@@ -164,11 +166,11 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
           <ul class="wg-cog">
             {cognates.map((c: any) => (
               <li>
-                <span class="wg-cog-lang" lang="de">{langName(c.lang)}</span>
-                <span class="wg-cog-form" lang={c.lang} dir={dir(c.lang)}>{c.form}{c.translit && <span lang="de"> ({c.translit})</span>}</span>
+                <span class="wg-cog-lang" lang={L}>{langName(c.lang)}</span>
+                <span class="wg-cog-form" lang={c.lang} dir={dir(c.lang)}>{c.form}{c.translit && <span lang={L}> ({c.translit})</span>}</span>
                 {c.kind && <span class={`wg-kind wg-kind--${c.kind}`} data-i18n={`wg.kind.${c.kind}`}>{KIND_DE[c.kind]}</span>}
                 {c.certainty && <span class={`wg-cert wg-cert--${c.certainty}`} data-i18n={certKey(c.certainty)}>{CERT_DE[c.certainty]}</span>}
-                {c.note && <span class="wg-cog-note" lang="de">{c.note}</span>}
+                {c.note && <span class="wg-cog-note" lang={L}>{c.note}</span>}
               </li>
             ))}
           </ul>
@@ -179,20 +181,20 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
     {part.spuren && (
       <li class="wg-part" id="spuren">
         <h2><span class="wg-num">{part.spuren.n}</span><span data-i18n={part.spuren.key}>{part.spuren.de}</span></h2>
-        {e.tree && <WortTree tree={e.tree} />}
+        {e.tree && <WortTree tree={e.tree} lang={L} />}
         <div class="wg-else-list" data-wg-else-list>
           {elsewhere.map((b: any) => (
             <section class="wg-else" data-audience={[b.lang, ...(b.audience ?? [])].join(" ")}>
               <h3>
-                <span lang="de">{langName(b.lang)}:</span>
+                <span lang={L}>{langName(b.lang)}:</span>
                 <span class="wg-else-word" lang={b.lang} dir={dir(b.lang)}>{b.word}</span>
-                {b.translit && <span class="wg-else-tr" lang="de">{b.translit}</span>}
+                {b.translit && <span class="wg-else-tr" lang={L}>{b.translit}</span>}
                 <span class={`wg-kind wg-kind--${b.kind}`} data-i18n={`wg.kind.${b.kind}`}>{KIND_DE[b.kind]}</span>
                 {b.certainty && <span class={`wg-cert wg-cert--${b.certainty}`} data-i18n={certKey(b.certainty)}>{CERT_DE[b.certainty]}</span>}
                 <span class="wg-yours" data-i18n="wg.yours">Deine Sprache</span>
               </h3>
-              {b.chain?.length > 0 && <ol class="wg-chain" lang="de">{b.chain.map((c: string) => <li>{c}</li>)}</ol>}
-              <p lang="de">{b.text}</p>
+              {b.chain?.length > 0 && <ol class="wg-chain" lang={L}>{b.chain.map((c: string) => <li>{c}</li>)}</ol>}
+              <p lang={L}>{b.text}</p>
             </section>
           ))}
         </div>
@@ -209,7 +211,7 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
 
   <footer class="wg-sources">
     <h2 data-i18n="wg.sources">Quellen</h2>
-    <ul lang="de">
+    <ul lang={L}>
       {e.sources.map((s: any) => (
         <li>{s.url ? <a href={s.url} rel="noopener" target="_blank">{s.work}, s.v. {s.entry}</a> : <>{s.work}, s.v. {s.entry}</>}</li>
       ))}
