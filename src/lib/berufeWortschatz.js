@@ -21,8 +21,8 @@ export const DECKS = Object.fromEntries(
 
 export { LANGS, entryCount };
 
-/** What the voice says: nouns with their article, everything else as written. */
-const spoken = (w) => (w.pos === "noun" && w.gender ? `${w.gender} ${w.lemma}` : w.pluralOnly ? `die ${w.lemma}` : w.lemma);
+/** What the voice says: nouns with their article (a / an / some), everything else as written. */
+const spoken = (w) => (w.pos === "noun" && w.gender ? `${w.gender} ${w.lemma}` : w.pluralOnly ? `some ${w.lemma}` : w.lemma);
 const audioFile = (id) => path.join(process.cwd(), "public", "audio", "berufe", `${id}.mp3`);
 
 /** A word the deck defines itself → card. Same shape as fuehrerscheinWortschatz.toCard. */
@@ -37,7 +37,7 @@ function ownCard(w) {
     example: w.example,
     ...(w.separable ? { separable: true } : {}),
   };
-  if (w.pos === "noun") Object.assign(card, { gender: w.gender ?? (w.pluralOnly ? "die" : null), plural: w.plural ?? null, pluralOnly: !!w.pluralOnly });
+  if (w.pos === "noun") Object.assign(card, { gender: w.gender ?? (w.pluralOnly ? "some" : null), plural: w.plural ?? null, pluralOnly: !!w.pluralOnly });
   if (existsSync(audioFile(w.id))) Object.assign(card, { audioSrc: `/audio/berufe/${w.id}.mp3`, spoken: spoken(w) });
   return card;
 }
@@ -83,13 +83,13 @@ export const rowsOf = (slug, groupId = null) =>
  *  that page carries the pflegeplace.com box (see the Pflege rule in the prompt). */
 export const hasPage = (slug) => entryCount(DECKS[slug] ?? {}) > 0 || slug === "pflege";
 
-/** A few of the deck's own example sentences for the profession page ("So klingt es bei der
- *  Arbeit"): real sentences from the cards, not text written for the page. One per group
+/** A few of the deck's own example sentences for the profession page ("What it sounds like at
+ *  work", with the simple English definition as `meaning`): real sentences from the cards, not text written for the page. One per group
  *  first, so the sample spreads across the deck. */
 export function samplesOf(slug, n = 3) {
   const per = groupsOf(slug).map((g) => g.words.filter((w) => !w.ref && w.example));
   const out = [];
   for (let i = 0; out.length < n && per.some((ws) => ws[i]); i++)
-    for (const ws of per) if (ws[i] && out.length < n) out.push({ lemma: ws[i].lemma, gender: ws[i].gender ?? null, example: ws[i].example, deHint: ws[i].deHint });
+    for (const ws of per) if (ws[i] && out.length < n) out.push({ lemma: ws[i].lemma, gender: ws[i].gender ?? null, example: ws[i].example, deHint: ws[i].deHint, meaning: ws[i].translations?.en ?? null });
   return out;
 }

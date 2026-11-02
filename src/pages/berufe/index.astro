@@ -55,11 +55,11 @@ const total = cards.reduce((s, c) => s + c.n, 0);
               <span class="bv-pcard-body">
                 <span class="bv-pcard-head">
                   <img class="bv-pcard-ic" src={emojiSrc(c.emoji)} alt="" width="28" height="28" loading="lazy" />
-                  <b lang="de">{c.deck?.title ?? c.slug}</b>
+                  <b lang="en">{c.deck?.title ?? c.slug}</b>
                 </span>
-                <i lang="de">{c.deck?.introEasy}</i>
-                {c.deck?.jobs?.length > 0 && <span class="bv-pcard-jobs" lang="de">{c.deck.jobs.slice(0, 3).join(" · ")}</span>}
-                {c.slug === "pflege" && <span class="bv-card-ext" data-i18n="berufe.card.pflege">Mehr für die Pflege: pflegeplace.com</span>}
+                <i lang="en">{c.deck?.introEasy}</i>
+                {c.deck?.jobs?.length > 0 && <span class="bv-pcard-jobs" lang="en">{c.deck.jobs.slice(0, 3).join(" · ")}</span>}
+                {c.deck?.external && <span class="bv-card-ext" data-i18n="berufe.card.pflege">Mehr für die Pflege: pflegeplace.com</span>}
                 {c.n > 0
                   ? <span class="bv-card-meta" data-i18n="sets.wordCount" data-i18n-vars={v({ n: c.n })}>{c.n} Wörter</span>
                   : <span class="bv-card-meta" data-i18n="berufe.card.soon">Kommt bald</span>}

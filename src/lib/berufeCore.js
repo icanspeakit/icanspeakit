@@ -27,11 +27,13 @@ export const BERUFE = [
 export const SLUGS = BERUFE.map((b) => b.slug);
 
 /** Translation languages of a deck (registry surface "berufe"); LANGS adds "de", the German
- *  hint tab („Auf Deutsch"), which is not a translation. */
+ *  tab: an own word's deHint holds its German translation (docs/content-plan.md §5.12). */
 export const TRANSLATIONS = langsFor("berufe");
 export const LANGS = ["de", ...TRANSLATIONS];
 export const POS = ["noun", "verb", "adj", "adverb", "phrase"];
-export const GENDERS = ["der", "die", "das"];
+/** English decks: the indefinite article, "some" for uncountable and plural-only nouns
+ *  (docs/content-plan.md §1.4). */
+export const GENDERS = ["a", "an", "some"];
 
 /** `bv-gastronomie-schneidebrett` */
 export const idFor = (slug, lemma) => `bv-${slug}-${slugify(lemma)}`;
@@ -99,10 +101,9 @@ export function validate(files, known) {
         if (lemmas.has(key)) at(`${where}: „${w.lemma}" is already defined (${lemmas.get(key)}) — use { "ref": "<id>" }`);
         else lemmas.set(key, `${file} ${w.id}`);
         if (!POS.includes(w.pos)) at(`${where}: pos must be one of ${POS.join(", ")}`);
-        if (w.pos === "noun" && !w.pluralOnly && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender der/die/das`);
+        if (w.pos === "noun" && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender a/an/some`);
         if (w.pos === "noun" && w.plural === undefined && !w.pluralOnly) at(`${where}: a noun needs "plural" (null when there is none)`);
-        if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [er-Form, Präteritum, Partizip II]`);
-        if (w.pos === "verb" && !["haben", "sein"].includes(w.aux)) at(`${where}: a verb needs aux haben/sein`);
+        if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [3rd person, past simple, past participle]`);
         if (!w.example) at(`${where}: no example sentence`);
         if (!w.deHint) at(`${where}: no deHint`);
         for (const l of TRANSLATIONS) if (!w.translations?.[l]) at(`${where}: no ${l} translation`);
