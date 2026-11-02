@@ -46,7 +46,7 @@
     "sprechen:bilder": "node scripts/list-sprechen-bilder.mjs",
     "hubs:build": "node scripts/generate-hub-bilder.mjs",
     "lexicon:ranks": "node scripts/attach-ranks.mjs",
-    "prebuild": "node scripts/clean-prerender.mjs && node scripts/build-paid-manifest.mjs",
+    "prebuild": "node scripts/clean-prerender.mjs && node scripts/check-content.mjs && node scripts/build-paid-manifest.mjs",
     "check:wortgeschichte": "node scripts/validate-wortgeschichte.mjs",
     "check:inhalte": "node scripts/check-inhalte.mjs",
     "check:erklaerungen": "node scripts/check-erklaerungen.mjs",
@@ -58,7 +58,7 @@
     "check:site": "node scripts/error-sweep.mjs",
     "seo:audit": "node scripts/seo-audit.mjs",
     "seo:jsonld": "node scripts/check-jsonld.mjs",
-    "check:content": "node scripts/check-einfach-pfad.mjs && node scripts/check-pruefungen.mjs && node scripts/check-berufe.mjs && node scripts/validate-wortgeschichte.mjs && node scripts/check-premium.mjs && node scripts/check-pruefungsplan.mjs && node scripts/check-lindenau.mjs && node scripts/check-redewendungen.mjs"
+    "check:content": "node scripts/check-content.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",
