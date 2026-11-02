@@ -14,9 +14,6 @@ import SiteNav from "../../components/SiteNav.astro";
 import SectionMascot from "../../components/mascots/SectionMascot.astro";
 import dl from "../../data/dialekte.json";
 import karte from "../../data/dialekte-karte.json";
-import bier from "../../data/bier.json";
-import bierKarte from "../../data/bier-karte.json";
-import { projectDach } from "../../lib/dachMap.js";
 import de from "../../../public/i18n/en.json";
 import "../../styles/practice.css";
 import "../../styles/uebungen-vorschau.css";
@@ -45,11 +42,6 @@ const modeCss = dl.words
 const lines = (s: string) => s.split("\n");
 // The Celtic-language dots: their examples are not English.
 const LANG_OF: Record<string, string> = { welsh: "cy", gaelic: "gd", irish: "ga", cornish: "kw", manx: "gv" };
-// Bierkarte: same outlines, dots placed with the dialect map's projection.
-const kindColor = Object.fromEntries(bier.kinds.map((k) => [k.id, k.color]));
-const bierAt = Object.fromEntries(bier.places.map((p) => [p.id, projectDach(p.at as [number, number])]));
-const BK = bierKarte as { regions: Record<string, string>; labels: Record<string, [number, number]>; placeRegion: Record<string, string> };
-const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map((r) => [r, g.id])));
 ---
 <Layout
   title="Accents of English in the British Isles – EnglishAcademy"
@@ -282,157 +274,6 @@ const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map(
         <p class="sp-sec-lead dl-learn" data-i18n="dialekte.learn.text">{t("dialekte.learn.text")}</p>
       </section>
 
-      <!-- ── Bierkarte ─────────────────────────────────────────────────────── -->
-      {/* Own .bk-* hooks and its own script below, so it never reacts to the dialect map.
-          Hidden on EnglishAcademy: the beer map is German content (bier.json, bier-karte.json,
-          dialekte.bier.* keys) with no English counterpart yet. */}
-      {false && (
-      <section class="sp-sec bk" id="bier">
-        <div class="sp-sec-head">
-          <div>
-            <h2 data-i18n="dialekte.bier.title">{t("dialekte.bier.title")}</h2>
-            <p data-i18n="dialekte.bier.lead">{t("dialekte.bier.lead")}</p>
-          </div>
-        </div>
-        <div class="bk-tools">
-          <div class="sp-seg bk-seg" role="group" aria-label={t("dialekte.bier.view")} data-i18n-attr="aria-label:dialekte.bier.view">
-            <button type="button" data-kind="" aria-pressed="true" data-i18n="dialekte.bier.all">{t("dialekte.bier.all")}</button>
-            {bier.kinds.map((k) => (
-              <button type="button" data-kind={k.id} aria-pressed="false" style={`--k:${k.color}`} data-i18n={`dialekte.bier.kind.${k.id}`}>{t(`dialekte.bier.kind.${k.id}`)}</button>
-            ))}
-          </div>
-        </div>
-
-        <div class="sp-map-wrap dl-map-wrap bk-map-wrap">
-          <div class="sp-map dl-map">
-            <svg class="bk-svg" viewBox={`0 0 ${K.w} ${K.h}`} role="group" aria-label={t("dialekte.bier.title")} data-i18n-attr="aria-label:dialekte.bier.title">
-              <rect class="sp-sea" width={K.w} height={K.h} />
-              <path class="dl-land" d={K.land + K.swiss} />
-              {bier.regions.map((r) => (
-                <path class="bk-r" d={BK.regions[r.id]} style={`--c:${r.color}`} data-bier={r.id} tabindex="0" role="button" aria-label={r.name}><title>{r.name}</title></path>
-              ))}
-              <path class="dl-states" d={K.states} aria-hidden="true" />
-              <path class="dl-borders" d={K.borders + K.coast} aria-hidden="true" />
-              <g class="dl-labels bk-labels" aria-hidden="true">
-                {bier.regions.map((r) => {
-                  const [x, y] = BK.labels[r.id];
-                  const ls = lines(r.short);
-                  return (
-                    <text x={x} y={y - (ls.length - 1) * 5.5} text-anchor="middle">
-                      {ls.map((l, i) => <tspan x={x} dy={i ? 11 : 0}>{l}</tspan>)}
-                    </text>
-                  );
-                })}
-              </g>
-              <g class="bk-dots">
-                {bier.places.map((p) => {
-                  const [x, y] = bierAt[p.id];
-                  const left = x > K.w - 130;
-                  const top = (p as { label?: string }).label === "top";
-                  return (
-                    <g class="bk-m" data-bier={p.id} data-kind={p.kind} style={`--k:${kindColor[p.kind]}`} tabindex="0" role="button" aria-label={`${p.name}: ${p.beers.join(", ")}`}>
-                      <title>{p.name} · {p.beers.join(", ")}</title>
-                      <circle class="bk-m-hit" cx={x} cy={y} r="14" />
-                      <circle class="bk-m-dot" cx={x} cy={y} r="6.5" />
-                      <text class="bk-m-name" x={top ? x - 6 : left ? x - 10 : x + 10} y={top ? y - 11 : y + 3.5} text-anchor={left ? "end" : "start"}>{p.name}</text>
-                    </g>
-                  );
-                })}
-              </g>
-            </svg>
-          </div>
-
-          <aside class="sp-info dl-info bk-info" aria-live="polite">
-            <p class="sp-info-empty bk-empty" data-i18n="dialekte.bier.empty">{t("dialekte.bier.empty")}</p>
-            {bier.regions.map((r) => {
-              const here = bier.places.filter((p) => BK.placeRegion[p.id] === r.id);
-              return (
-                <article class="sp-card dl-card bk-card" data-bier-card={r.id} hidden style={`--c:${r.color}`}>
-                  <p class="sp-badge dl-badge" data-i18n={`dialekte.bier.g.${bierGroupOf[r.id]}`}>{t(`dialekte.bier.g.${bierGroupOf[r.id]}`)}</p>
-                  <h3>{r.name}</h3>
-                  <ul class="bk-beers">{r.beers.map((b, i) => <li lang="de" style={`--i:${i}`}>{b}</li>)}</ul>
-                  <p data-i18n={`dialekte.bier.r.${r.id}`}>{t(`dialekte.bier.r.${r.id}`)}</p>
-                  {here.length > 0 && (
-                    <div class="sp-where">
-                      <p class="sp-where-title" data-i18n="dialekte.bier.card.places">{t("dialekte.bier.card.places")}</p>
-                      <div class="sp-chips bk-here">
-                        {here.map((p) => (
-                          <button type="button" class="sp-chip bk-chip bk-chip--m" data-bier={p.id} aria-pressed="false" style={`--c:${kindColor[p.kind]}`}>{p.name}<span lang="de"> · {p.beers[0]}</span></button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </article>
-              );
-            })}
-            {bier.places.map((p) => (
-              <article class="sp-card dl-card bk-card" data-bier-card={p.id} hidden style={`--c:${kindColor[p.kind]}`}>
-                <p class="sp-badge dl-badge" data-i18n={`dialekte.bier.kind.${p.kind}`}>{t(`dialekte.bier.kind.${p.kind}`)}</p>
-                <h3>{p.name}</h3>
-                <ul class="bk-beers">
-                  {p.beers.map((b, i) => <li lang="de" style={`--i:${i}`}>{b}</li>)}
-                  {p.disputed && <li class="bk-disputed" data-i18n="dialekte.bier.disputed">{t("dialekte.bier.disputed")}</li>}
-                </ul>
-                <p data-i18n={`dialekte.bier.p.${p.id}`}>{t(`dialekte.bier.p.${p.id}`)}</p>
-              </article>
-            ))}
-          </aside>
-        </div>
-
-        <div class="sp-legend dl-legend">
-          {bier.groups.map((g) => (
-            <div class="sp-legend-row">
-              <div class="dl-legend-key"><p class="sp-legend-key" data-i18n={`dialekte.bier.g.${g.id}`}>{t(`dialekte.bier.g.${g.id}`)}</p></div>
-              <div class="sp-chips">
-                {g.regions.map((id) => {
-                  const r = bier.regions.find((x) => x.id === id)!;
-                  return <button type="button" class="sp-chip bk-chip bk-chip--r" data-bier={id} aria-pressed="false" style={`--c:${r.color}`}>{r.name}</button>;
-                })}
-              </div>
-            </div>
-          ))}
-          {bier.kinds.map((k) => (
-            <div class="sp-legend-row">
-              <div class="dl-legend-key">
-                <p class="sp-legend-key" data-i18n={`dialekte.bier.kind.${k.id}`}>{t(`dialekte.bier.kind.${k.id}`)}</p>
-                <p class="dl-legend-text" data-i18n={`dialekte.bier.kind.${k.id}.text`}>{t(`dialekte.bier.kind.${k.id}.text`)}</p>
-              </div>
-              <div class="sp-chips">
-                {bier.places.filter((p) => p.kind === k.id).map((p) => (
-                  <button type="button" class="sp-chip bk-chip bk-chip--m" data-bier={p.id} aria-pressed="false" style={`--c:${k.color}`}>{p.name}<span lang="de"> · {p.beers[0]}</span></button>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <h3 class="bk-order-title" data-i18n="dialekte.bier.order.title">{t("dialekte.bier.order.title")}</h3>
-        <p class="sp-sec-lead" data-i18n="dialekte.bier.order.lead">{t("dialekte.bier.order.lead")}</p>
-        <div class="dl-table-wrap">
-          <table class="sp-words bk-words">
-            <thead>
-              <tr>
-                <th scope="col" data-i18n="dialekte.bier.order.colWord">{t("dialekte.bier.order.colWord")}</th>
-                <th scope="col" data-i18n="dialekte.bier.order.colWhere">{t("dialekte.bier.order.colWhere")}</th>
-                <th scope="col" data-i18n="dialekte.bier.order.colMeaning">{t("dialekte.bier.order.colMeaning")}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bier.words.map(([id, w, where]) => (
-                <tr>
-                  <th scope="row" lang="de" class="sp-word">{w}</th>
-                  <td lang="de" class="bk-where">{where}</td>
-                  <td data-i18n={`dialekte.bier.w.${id}`}>{t(`dialekte.bier.w.${id}`)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p class="sp-fine" data-i18n="dialekte.bier.note">{t("dialekte.bier.note")}</p>
-        <p class="sp-fine" data-i18n="dialekte.bier.src">{t("dialekte.bier.src")}</p>
-      </section>
-      )}
-
       <section class="fe-note sp-sources">
         <div>
           <h2 data-i18n="dialekte.src.title">{t("dialekte.src.title")}</h2>
@@ -445,8 +286,8 @@ const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map(
   <noscript>
     <style>
       /* No JS: nothing can be selected, so every card is shown as a list beside the map. */
-      .dl-card[data-card][hidden], .bk-card[hidden] { display: block !important; }
-      .sp-info-empty, .dl-tools, .bk-tools { display: none; }
+      .dl-card[data-card][hidden] { display: block !important; }
+      .sp-info-empty, .dl-tools { display: none; }
     </style>
   </noscript>
 
@@ -513,70 +354,5 @@ const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map(
     // ?d=koeln opens a region or dot directly (shareable).
     const fromUrl = new URLSearchParams(location.search).get("d");
     if (fromUrl && cards.some((c) => c.dataset.card === fromUrl)) select(fromUrl);
-  </script>
-
-  <script>
-    // Bierkarte: a region, dot or chip opens its card; the switch fades the dots of other kinds.
-    import { enhanceSwitch } from "../../lib/segSwitch.js";
-    const root = document.getElementById("bier");
-    if (root) initBier(root);
-    function initBier(root: HTMLElement) {
-    const svg = root.querySelector<SVGSVGElement>(".bk-svg")!;
-    const cards = Array.from(root.querySelectorAll<HTMLElement>("[data-bier-card]"));
-    const empty = root.querySelector<HTMLElement>(".bk-empty")!;
-    const seg = root.querySelector<HTMLElement>(".bk-seg")!;
-    const kindBtns = Array.from(seg.querySelectorAll<HTMLButtonElement>("[data-kind]"));
-    let current: string | null = null;
-    const narrow = () => matchMedia("(max-width: 860px)").matches;
-
-    function render() {
-      for (const el of Array.from(root.querySelectorAll<Element>("[data-bier]"))) {
-        const on = el.getAttribute("data-bier") === current;
-        el.classList.toggle("is-on", on);
-        if (el.tagName === "BUTTON") el.setAttribute("aria-pressed", String(on));
-      }
-      svg.classList.toggle("has-sel", current !== null);
-      for (const c of cards) c.hidden = c.dataset.bierCard !== current;
-      empty.hidden = current !== null;
-    }
-
-    function select(id: string | null, fromMap = false) {
-      current = current === id && fromMap ? null : id;
-      render();
-      const card = cards.find((c) => !c.hidden);
-      if (card) {
-        card.classList.remove("is-in"); void card.offsetWidth; card.classList.add("is-in");
-        if (fromMap && narrow()) card.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }
-    }
-
-    function setKind(k: string) {
-      if (k) svg.dataset.kind = k; else delete svg.dataset.kind;
-      for (const b of kindBtns) b.setAttribute("aria-pressed", String(b.dataset.kind === k));
-      // The open card would belong to a faded dot: close it.
-      const sel = current ? root.querySelector(`.bk-m[data-bier="${current}"]`) : null;
-      if (k && sel && sel.getAttribute("data-kind") !== k) select(null);
-    }
-
-    for (const b of kindBtns) b.addEventListener("click", () => setKind(b.dataset.kind!));
-    enhanceSwitch(seg);
-    for (const el of Array.from(svg.querySelectorAll<SVGElement>("[data-bier]"))) {
-      el.addEventListener("click", () => select(el.getAttribute("data-bier"), true));
-      el.addEventListener("keydown", (e) => {
-        const k = (e as KeyboardEvent).key;
-        if (k === "Enter" || k === " ") { e.preventDefault(); select(el.getAttribute("data-bier"), true); }
-      });
-    }
-    for (const b of Array.from(root.querySelectorAll<HTMLElement>(".bk-chip"))) {
-      b.addEventListener("click", () => {
-        setKind("");
-        select(b.dataset.bier!);
-        if (narrow()) root.querySelector(".bk-map-wrap")?.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    }
-    // ?bier=bamberg opens a place directly (shareable).
-    const fromUrl = new URLSearchParams(location.search).get("bier");
-    if (fromUrl && cards.some((c) => c.dataset.bierCard === fromUrl)) select(fromUrl);
-    }
   </script>
 </Layout>

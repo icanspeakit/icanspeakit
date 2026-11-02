@@ -21,7 +21,7 @@
 //   node scripts/generate-dialekte-karte.mjs /tmp/geo
 // (the argument is the folder holding node_modules and subunits10.geojson).
 //
-// The German version (D-A-CH dialects, used by scripts/generate-bier-karte.mjs) is in git:
+// The German version (D-A-CH dialects, once also the base of the dropped beer map) is in git:
 //   git show e3dffc9:scripts/generate-dialekte-karte.mjs
 import fs from "fs";
 import { createRequire } from "module";
