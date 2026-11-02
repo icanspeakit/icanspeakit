@@ -87,7 +87,6 @@ export const SECTION_PAGES: Record<string, string> = {
   "/culture": "Culture",
   "/culture/insider": "The UK from the inside",
   "/teachers": "For teachers",
-  "/politik": "Politics in Germany, Austria and Switzerland",
   "/teachers/worksheets": "Worksheets",
   "/teachers/games": "Printable games",
   "/teachers/classes": "Classes",

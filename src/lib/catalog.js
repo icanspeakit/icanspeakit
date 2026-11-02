@@ -1169,10 +1169,7 @@ export const navWissenMenu = {
         ...[kulturInsiderItem, kulturFehlerItem, kulturLidFaktenItem, { ...kulturQuizItem, titleKey: "nav.kultur.quiz", title: "Landeskunde-Quiz" }]
           .map((it) => ({ href: it.href, titleKey: it.titleKey, title: it.title,
             hintKey: it.countKey, hintVars: it.countVars, hint: it.count })),
-        { href: "/politik", titleKey: "nav.kultur.politik", title: "Politik in D, A, CH",
-          hintKey: "nav.kultur.politikHint", hint: "Parteien, Parlamente, Test: Wo stehe ich?" },
-        // One „Deutschland von innen" topic by name: it is the Wissen entry to the
-        // Führerschein section (FUEHRERSCHEIN-TIERED-PROMPT.md, Tier 7).
+        // One insider topic by name: everyday driving in the UK.
         { href: "/culture/insider/cars-and-driving", titleKey: "nav.kultur.auto", title: "Deutschland und das Auto",
           hintKey: "nav.kultur.autoHint", hint: "Auto, Tempolimit, Führerschein" },
       ] },

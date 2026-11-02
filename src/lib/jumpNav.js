@@ -1,6 +1,6 @@
 // Motion for the site's jump rows: a row of links to sections of the same page
 // (/knowledge/slang "Kurzformen · Alltagswörter …", the tables of contents on
-// /politik, /explore/films, /grammar/verbs …). Loaded on every page by Layout.astro.
+// /explore/films, /grammar/verbs …). Loaded on every page by Layout.astro.
 //
 // It finds them itself: every <nav> in <main> whose links all point to an element on this
 // page (#id, at least two), and anything marked [data-jumpnav]. [data-jumpnav="off"] opts out.
