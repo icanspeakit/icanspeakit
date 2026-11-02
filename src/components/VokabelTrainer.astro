@@ -105,7 +105,7 @@ const cards = rawCards.map((c: any) => {
 // a deck can carry (lexicon, Berufe, Fahrschule), in registry order. "ins Englische" →
 // deInto is the German name + "e".
 const ALL_LANGUAGES = [
-  ...LANGUAGE_REGISTRY.filter((l) => l.code !== "de" && (l.surfaces.cards || l.surfaces.berufe || l.surfaces.fuehrerschein)).map((l) => ({
+  ...LANGUAGE_REGISTRY.filter((l) => l.code !== "de" && (l.surfaces.cards || l.surfaces.berufe)).map((l) => ({
     code: l.code,
     label: l.native,
     deName: l.de,

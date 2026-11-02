@@ -105,6 +105,24 @@ const ACCOUNT_REDIRECTS = Object.fromEntries(
     .map((from) => [from, { status: 302, destination: '/account' }]),
 );
 
+/* Modules of the German fork that the English course dropped (docs/content-plan.md §4, removed
+ * by the `cleanup` run): every old address lands on the nearest hub instead of a 404. */
+const DROPPED = {
+  '/exams': [
+    '/fuehrerschein',
+    ...['ablauf', 'fahrspiel', 'simulation', 'ueben', 'umschreiben', 'wortschatz'].map((p) => `/fuehrerschein/${p}`),
+    ...['vorfahrt', 'verkehrszeichen', 'ampel-polizei', 'geschwindigkeit', 'abstand-ueberholen', 'fussgaenger-rad-bus',
+      'autobahn', 'halten-parken', 'alkohol-drogen-handy', 'unfall-erste-hilfe', 'licht-wetter-reifen', 'probezeit-punkte',
+      'technik-umwelt'].map((id) => `/fuehrerschein/regeln/${id}`),
+    ...['auto', 'strasse', 'anweisungen', 'pruefung'].map((g) => `/fuehrerschein/wortschatz/${g}`),
+  ],
+  // No /games hub page exists; the games are listed under the exercises.
+  '/exercises': ['/games/stadtfahrt', '/games/vorfahrt', '/spiele/stadtfahrt', '/spiele/vorfahrt'],
+};
+const DROPPED_REDIRECTS = Object.fromEntries(
+  Object.entries(DROPPED).flatMap(([to, froms]) => froms.map((from) => [from, r301(to)])),
+);
+
 const SITE_URL = process.env.SITE_URL ?? 'https://englishacademy.com';
 
 export default defineConfig({
@@ -149,6 +167,7 @@ export default defineConfig({
     // Every one that isn't also a page under /grammar redirects instead of 404ing.
     ...grammarTopicRedirects(),
     ...ACCOUNT_REDIRECTS,
+    ...DROPPED_REDIRECTS,
   },
   server: {
     // Listen on every interface, not just 127.0.0.1, so the dev server is reachable

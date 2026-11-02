@@ -82,10 +82,6 @@ export function pageRef(path = location.pathname) {
       return t ? `vs:${t}` : null;
     }
     case "berufe": return b && c ? `w:berufe-${b}-${c}` : null;
-    case "fuehrerschein":
-      if (b === "wortschatz") return c ? `w:fuehrerschein-${c}` : "w:fuehrerschein";
-      if (b === "regeln") return c ? `f:${c}` : null;
-      return b ? `f:${b}` : null;
     case "hoeren": return b ? `h:${b}` : null;
     case "lesen": return b ? `l:${b}` : null;
     case "lesen-schreiben": return "l:ls";

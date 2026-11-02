@@ -5,7 +5,6 @@
 // the same id VokabelTrainer gets as its deck.
 import { BERUFE, refKind } from "./berufeCore.js";
 import { byId as lexiconById, ENGLISH_LEVELS } from "./lexicon.js";
-import fuehrerschein from "../data/fuehrerschein/wortschatz.json" with { type: "json" };
 
 const modules = import.meta.glob("../data/berufe/*.json", { eager: true, import: "default" });
 
@@ -26,7 +25,6 @@ const decks = Object.fromEntries(
 const own = new Map(
   Object.values(decks).flatMap((d) => d.groups.flatMap((g) => g.words.filter((w) => !w.ref).map((w) => [w.id, w])))
 );
-const fs = new Map(fuehrerschein.groups.flatMap((g) => g.words.map((w) => [w.id, w])));
 
 const ownRow = (w) => ({
   id: w.id,
@@ -45,10 +43,7 @@ const ownRow = (w) => ({
 export function rowOf(w) {
   if (!w.ref) return ownRow(w);
   const kind = refKind(w.ref);
-  const row =
-    kind === "berufe" ? ownRow(own.get(w.ref))
-    : kind === "fuehrerschein" ? ownRow(fs.get(w.ref))
-    : { ...lexiconById(w.ref) };
+  const row = kind === "berufe" ? ownRow(own.get(w.ref)) : { ...lexiconById(w.ref) };
   if (w.deHint) { row.deHint = w.deHint; delete row.deFill; }
   if (w.example) row.example = w.example;
   return row;

@@ -9,7 +9,6 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import { BERUFE, LANGS, entryCount, refKind } from "./berufeCore.js";
 import { byId as lexiconById, toVokabelCards } from "./lexicon.js";
-import { toCard as fsCard, GROUPS as FS_GROUPS } from "./fuehrerscheinWortschatz.js";
 import { rowOf, liveDeck } from "./berufeRows.js";
 
 const modules = import.meta.glob("../data/berufe/*.json", { eager: true, import: "default" });
@@ -25,7 +24,7 @@ export { LANGS, entryCount };
 const spoken = (w) => (w.pos === "noun" && w.gender ? `${w.gender} ${w.lemma}` : w.pluralOnly ? `some ${w.lemma}` : w.lemma);
 const audioFile = (id) => path.join(process.cwd(), "public", "audio", "berufe", `${id}.mp3`);
 
-/** A word the deck defines itself → card. Same shape as fuehrerscheinWortschatz.toCard. */
+/** A word the deck defines itself → card. */
 function ownCard(w) {
   const translations = { ...w.translations };
   if (w.deHint) translations.de = w.deHint;
@@ -45,7 +44,6 @@ function ownCard(w) {
 const allOwn = new Map(
   Object.values(DECKS).flatMap((d) => d.groups.flatMap((g) => g.words.filter((w) => !w.ref).map((w) => [w.id, w])))
 );
-const fsWords = new Map(FS_GROUPS.flatMap((g) => g.words.map((w) => [w.id, w])));
 
 /** Any entry → card. A ref is shown as its source shows it; the check guarantees it resolves.
  *  A ref may carry its own `deHint` and `example` for this job (the lexicon's „Hier kocht man.“
@@ -58,7 +56,6 @@ export function toCard(w) {
 function refCard(ref) {
   const kind = refKind(ref);
   if (kind === "berufe") return ownCard(allOwn.get(ref));
-  if (kind === "fuehrerschein") return fsCard(fsWords.get(ref));
   const row = lexiconById(ref);
   // A lexicon row without an English gloss has no card (toVokabelCards skips it); fall back to
   // the bare word so the deck never silently loses an entry.

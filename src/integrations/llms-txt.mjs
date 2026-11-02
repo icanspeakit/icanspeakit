@@ -21,7 +21,7 @@ const SECTIONS = [
   ['Grammatik und Wortschatz', ['/grammar', '/vocabulary', '/present-continuous', '/pronunciation']],
   ['Fertigkeiten', ['/skills', '/speaking', '/listening', '/reading', '/writing']],
   ['Prüfungen', ['/exams', '/cambridge', '/cambridge/*', '/trinity', '/trinity/*', '/trinity/ise-1', '/trinity/ise-1/*', '/ielts', '/life-in-the-uk']],
-  ['Alltag, Beruf und Landeskunde', ['/english-for-work', '/fuehrerschein', '/culture', '/knowledge', '/knowledge/word-stories']],
+  ['Alltag, Beruf und Landeskunde', ['/english-for-work', '/culture', '/knowledge', '/knowledge/word-stories']],
   ['Für Lehrkräfte', ['/teachers']],
   // The entry pages with their own URL per language (./entry-pages.mjs): the home of each.
   ['In anderen Sprachen', ['/es', '/pt-br', '/vi', '/hi', '/id', '/tl']],

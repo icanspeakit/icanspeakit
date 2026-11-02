@@ -22,8 +22,6 @@ import sd1 from "../../data/pruefungen/start-deutsch-1/uebungssatz-1.json";
 import tdaf from "../../data/pruefungen/testdaf/uebungssatz-1.json";
 import lid from "../../data/leben-in-deutschland.json";
 import dtz1 from "../../data/pruefungen/dtz/uebungssatz-1.json";
-// Ids only, written by scripts/check-fuehrerschein.mjs, for the same reason as saetze-index.
-import fsIndex from "../../data/fuehrerschein/fragen-index.json";
 import { qidsOfPart } from "../dtzTrainer.js";
 // Ids only, written by scripts/check-pruefungen.mjs: the full sets stay out of this bundle.
 import saetzeIndex from "../../data/pruefungen/saetze-index.json";
@@ -119,21 +117,6 @@ export const examRegistry = [
       // rather than an id being present. `doneFrom` tells the client that.
       { key: "schreiben", label: "Writing", ids: [], scored: false, doneFrom: "dtz-schreiben" },
     ],
-  },
-  // Führerschein: the own question bank, one module per lesson. Üben and the
-  // Übungssimulation both write their answers here (src/lib/fahrQuiz.js). No pass percentage:
-  // the real test counts Fehlerpunkte, not a share of right answers.
-  {
-    id: "fuehrerschein",
-    title: "Führerschein",
-    subtitle: "Theorie Klasse B · eigene Fragen",
-    level: "Wissenstest",
-    href: "/fuehrerschein/ueben",
-    overview: "/fuehrerschein",
-    store: { kind: "exam", key: "fuehrerschein" },
-    passNote: `Prüfung: bestanden mit höchstens ${fsIndex.maxFehlerpunkte} Fehlerpunkten, nie mit zwei falschen 5-Punkte-Fragen. Die Simulation prüft genau das.`,
-    passPct: null,
-    modules: fsIndex.modules,
   },
   // The Übungssätze on the generic engine (src/data/pruefungen/saetze/): one entry per file.
   ...saetzeIndex.map((set) => ({

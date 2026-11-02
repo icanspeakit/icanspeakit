@@ -22,7 +22,6 @@ for (const level of ["a1", "a2", "b1", "b2", "c1", "c2"]) {
   try { data = read(`src/content/lexicon/${level}.json`); } catch { continue; }
   for (const unit of data.units ?? []) for (const w of unit.words ?? []) lexicon.set(w.id ?? slugify(w.lemma), w.lemma);
 }
-const fuehrerschein = new Map(read("src/data/fuehrerschein/wortschatz.json").groups.flatMap((g) => g.words.map((w) => [w.id, w.lemma])));
 
 const DIR = "src/data/berufe";
 const files = [];
@@ -31,7 +30,7 @@ for (const file of readdirSync(path.join(ROOT, DIR)).filter((f) => f.endsWith(".
   catch (err) { files.push({ file, deck: null }); console.error(`  ERROR ${file}: invalid JSON — ${err.message}`); process.exitCode = 1; }
 }
 
-const { errors, warnings } = validate(files, { lexicon, fuehrerschein });
+const { errors, warnings } = validate(files, { lexicon });
 for (const w of warnings) console.warn(`  warn  ${w}`);
 for (const e of errors) console.error(`  ERROR ${e}`);
 

@@ -34,7 +34,6 @@ import fehlerNachSprache from "../data/fehler-nach-sprache.json";
 import kulturInsider from "../data/kultur-insider.json";
 import downloads from "../data/downloads.json";
 import lid from "../data/leben-in-deutschland.json";
-import fsFragen from "../data/fuehrerschein/fragen.json";
 import verbenPraepositionen from "../data/grammatik/verben-praepositionen.json";
 import praepTrainer from "../data/praepositionen-trainer.json";
 
@@ -252,12 +251,6 @@ export const exams = [
   { id: "lid", group: "pruefungen", href: "/life-in-the-uk", icon: "map-pin", titleKey: "exam.lid.name", title: "Leben in Deutschland (Einbürgerungstest)", short: "Leben in DE",
     keywords: "einbürgerungstest einbürgerung einbuergerungstest staatsbürgerschaft citizenship naturalisation orientierungskurs",
     countKey: "group.count.bundeslaender", countVars: { n: lid.bundeslaender.length }, count: `${lid.bundeslaender.length} Bundesländer` },
-  // Like LiD a knowledge test, not a language exam (FUEHRERSCHEIN-TIERED-PROMPT.md). The count
-  // is the own question bank, read from the data.
-  { id: "fuehrerschein", group: "pruefungen", href: "/fuehrerschein", icon: "car", titleKey: "exam.fs.name", title: "Führerschein (Klasse B)", short: "Führerschein",
-    desc: "Kein Sprachtest — Wissenstest: Verkehrsregeln, Theorie üben, Ablauf und Umschreiben", badgeKey: "fs.badge.knowledge", badge: "Kein Sprachtest — Wissenstest",
-    keywords: "führerschein fuehrerschein fahrschule fahrerlaubnis theorieprüfung theorie prüfung klasse b auto fahren verkehrsregeln vorfahrt umschreiben driving licence license driving test",
-    countKey: "grammatik.card.questions", countVars: { n: fsFragen.questions.length }, count: `${fsFragen.questions.length} Fragen` },
 ];
 
 export const groups = [
@@ -837,8 +830,6 @@ const wortschatzItems = notSelf("/vocabulary", itemsOf("woerter"));
 /** Spiele: the real games, gathered in one place in both menus. There is no /games hub
  *  page, so the section has no href — the desktop head is a label and the drawer pane has
  *  no "Alle …" row. */
-// Stadtfahrt (/games/stadtfahrt) is a prototype for now: the page stays, the menu does not
-// list it (EXPERIMENTE.md).
 const spieleItems = [
   { id: "lindenau", href: "/games/brambleford", icon: "landmark",
     titleKey: "nav.spiele.lindenau", title: "The Legend of Brambleford",
@@ -848,10 +839,6 @@ const spieleItems = [
     titleKey: "nav.spiele.hoerSafari", title: "Hamstis Wachtelhuhn",
     hintKey: "nav.spiele.hoerSafariHint", hint: "Wort hören, Vogel treffen, A1–B1",
     countKey: "nav.spiele.hoerSafariHint", count: "Wort hören, Vogel treffen, A1–B1" },
-  { id: "vorfahrt", href: "/games/vorfahrt", icon: "car",
-    titleKey: "nav.spiele.vorfahrt", title: "Quaki kreuzt",
-    hintKey: "nav.spiele.vorfahrtHint", hint: "Fahren oder warten an Kreuzungen",
-    countKey: "nav.spiele.vorfahrtHint", count: "Fahren oder warten an Kreuzungen" },
   sprintItem,
 ];
 

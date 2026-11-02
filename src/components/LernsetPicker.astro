@@ -27,7 +27,6 @@ import { LEVELS, LEVEL_NAMES, byUnit, spokenForm } from "../lib/lexicon.js";
 import { unitIcon, duplicateIconsIn } from "../lib/unitIcon.js";
 import { BERUFE } from "../lib/berufeCore.js";
 import { DECKS as BERUF_DECKS, groupsOf as berufGroups } from "../lib/berufeWortschatz.js";
-import { GROUPS as FS_GROUPS } from "../lib/fuehrerscheinWortschatz.js";
 import { SETS as RM_SETS } from "../lib/redemittelWortschatz.js";
 import curated from "../data/wortschatz.json";
 import "../styles/nav.css";
@@ -136,18 +135,13 @@ const isBerufe = !select && !!currentBeruf;
 // Every trainer page carries the Berufe pane (open on a Beruf page), and so does the live
 // quiz (select mode), whose rows choose instead of link.
 const showBerufe = true;
-// The Fahrschul-Wortschatz (deck fuehrerschein / fuehrerschein-<gruppe>) the same way: its
-// word groups in the panel, not as a chip row above the trainer.
-const isFs = !select && current.startsWith("fuehrerschein");
-const fsTotal = FS_GROUPS.reduce((n, g) => n + g.words.length, 0);
-const FS_ICON = { auto: "🚗", strasse: "🛣️", anweisungen: "🧑‍🏫", pruefung: "📋" };
 // Redemittel (deck redemittel / redemittel-<set>) the same way: on its pages the rail icon
 // is a tab and the pane lists the curated Alltag deck and the speech-act sets
 // (src/data/redemittel.json), instead of an A1 list that has nothing to do with the page.
 const isRm = !select && !rmOnLevel && (current === "redemittel" || current.startsWith("redemittel-"));
 // A teacher's own card set (/teachers/cards/learn?set=…): its rail entry is open there.
 const isOwn = current === "vokabel-set";
-const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn && level === openLevel;
+const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level === openLevel;
 ---
 <div class:list={["nvb ls-nvb snav", select && "ls-nvb--select"]} data-nvb data-current={current} data-select={select ? "" : undefined}>
   <!-- The fold tab, on the panel's right edge, where a Karteiordner carries its own: the
@@ -235,22 +229,9 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
       <Icon name="volume" size={20} />
       <span class="nvb-tip" data-i18n="sets.redemittel.tip">Redemittel · Alltag, 4 Sprachen</span>
     </button>
-    {/* The Fahrschul-Wortschatz (src/data/fuehrerschein/) and the Berufe decks: tabs with
-        their own panes on every trainer page, so switching to them is a list, not a page.
+    {/* The Berufe decks: a tab with
+        its own pane on every trainer page, so switching to them is a list, not a page.
         A pick then swaps the trainer in place (src/lib/deckSwap.js). */}
-    <button
-      type="button"
-      role="tab"
-      class:list={["nvb-railbtn", isFs && "active"]}
-      data-rail="fuehrerschein"
-      aria-selected={isFs ? "true" : "false"}
-      aria-controls="ls-pane-fuehrerschein"
-      aria-label="Fahrschul-Wortschatz"
-      data-i18n-attr="aria-label:fs.ws.title"
-    >
-      <Icon name="car" size={20} />
-      <span class="nvb-tip" data-i18n="sets.fuehrerschein.tip">Führerschein · Fahrschul-Wortschatz</span>
-    </button>
     <button
       type="button"
       role="tab"
@@ -542,30 +523,6 @@ const levelActive = (level) => !isFreq && !isBerufe && !isFs && !isRm && !isOwn 
           </a>
         );
       })}
-    </div>
-    )}
-
-    {!select && (
-    <div class="nvb-section" id="ls-pane-fuehrerschein" data-pane="fuehrerschein" hidden={!isFs}>
-      <div class="nvb-panelhead">
-        <h3><span data-i18n="fs.ws.title">Fahrschul-Wortschatz</span></h3>
-      </div>
-      <a class:list={["nvb-item", "ls-item--whole", current === "fuehrerschein" && "active"]} href="/fuehrerschein/wortschatz" aria-current={current === "fuehrerschein" ? "page" : undefined}>
-        <span class="nv-icon" aria-hidden="true">🚦</span>
-        <span class="ls-name" data-i18n="fs.ws.all">Alle</span>
-        <span class="nv-count">{fsTotal}</span>
-      </a>
-      {FS_GROUPS.map((g) => {
-        const on = current === `fuehrerschein-${g.id}`;
-        return (
-          <a class:list={["nvb-item", on && "active"]} href={`/fuehrerschein/wortschatz/${g.id}`} aria-current={on ? "page" : undefined}>
-            <span class="nv-icon" aria-hidden="true">{FS_ICON[g.id] ?? "🚗"}</span>
-            <span class="ls-name" data-i18n={`fs.ws.group.${g.id}`}>{g.title}</span>
-            <span class="nv-count">{g.words.length}</span>
-          </a>
-        );
-      })}
-      <a class="ls-prog-more" href="/fuehrerschein" data-i18n="fs.ws.back">← Zum Führerschein-Bereich</a>
     </div>
     )}
 

@@ -37,14 +37,8 @@ for (const level of LEVELS) {
   }
 }
 
-// The decks outside the lexicon. They key on their own ids (fs-…, bv-<beruf>-…), so they are
+// The decks outside the lexicon. They key on their own ids (bv-<beruf>-…), so they are
 // indexed by slugify(lemma), which is what a lexicon id would be.
-const fsDeck = path.join(ROOT, "src/data/fuehrerschein/wortschatz.json");
-if (existsSync(fsDeck)) {
-  for (const g of JSON.parse(readFileSync(fsDeck, "utf8")).groups ?? []) {
-    for (const w of g.words ?? []) banked.set(slugify(w.lemma), `Fahrschul-Wortschatz → ref "${w.id}"`);
-  }
-}
 const BERUFE_DIR = path.join(ROOT, "src/data/berufe");
 const berufeFiles = existsSync(BERUFE_DIR) ? readdirSync(BERUFE_DIR).filter((f) => f.endsWith(".json")) : [];
 

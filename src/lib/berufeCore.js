@@ -38,8 +38,8 @@ export const GENDERS = ["a", "an", "some"];
 /** `bv-gastronomie-schneidebrett` */
 export const idFor = (slug, lemma) => `bv-${slug}-${slugify(lemma)}`;
 
-/** Where a ref points: the lexicon, the Fahrschul-Wortschatz or a profession deck. */
-export const refKind = (ref) => (ref.startsWith("bv-") ? "berufe" : ref.startsWith("fs-") ? "fuehrerschein" : "lexicon");
+/** Where a ref points: the lexicon or a profession deck. */
+export const refKind = (ref) => (ref.startsWith("bv-") ? "berufe" : "lexicon");
 
 /** Every word a deck defines itself (not the refs), with its group. */
 export const ownWords = (deck) =>
@@ -50,7 +50,7 @@ export const entryCount = (deck) => (deck.groups ?? []).reduce((n, g) => n + (g.
 
 /**
  * Every rule of the data format, in one place. `files` is [{ file, deck }]. `known` holds the
- * ids that exist outside the berufe files: { lexicon: Map<id, lemma>, fuehrerschein: Map<id, lemma> }.
+ * ids that exist outside the berufe files: { lexicon: Map<id, lemma> }.
  * Returns { errors, warnings }, never throws.
  */
 export function validate(files, known) {
@@ -60,7 +60,6 @@ export function validate(files, known) {
   const lemmas = new Map(); // slugify(lemma) → "file id" — one definition across every source
 
   for (const [id, lemma] of known.lexicon) lemmas.set(slugify(lemma), `lexicon ${id}`);
-  for (const [id, lemma] of known.fuehrerschein) if (!lemmas.has(slugify(lemma))) lemmas.set(slugify(lemma), `fuehrerschein ${id}`);
 
   // Pass 1: own words, so a ref to a word defined later in another file still resolves.
   for (const { file, deck } of files) {
@@ -94,7 +93,7 @@ export function validate(files, known) {
         if (!w.lemma) { at(`${where}: no lemma`); continue; }
         const want = idFor(slug, w.lemma);
         if (w.id !== want) at(`${where}: id must be "${want}" (bv-<beruf>-<slugify(lemma)>)`);
-        if (known.lexicon.has(w.id) || known.fuehrerschein.has(w.id)) at(`${where}: id ${w.id} already exists outside the berufe files`);
+        if (known.lexicon.has(w.id)) at(`${where}: id ${w.id} already exists outside the berufe files`);
         if (berufeIds.has(w.id)) at(`${where}: id ${w.id} also in ${berufeIds.get(w.id)}`);
         berufeIds.set(w.id, file);
         const key = slugify(w.lemma);
@@ -122,7 +121,7 @@ export function validate(files, known) {
         seen.add(key);
         if (!w.ref) continue;
         const kind = refKind(w.ref);
-        const ok = kind === "berufe" ? berufeIds.has(w.ref) : kind === "fuehrerschein" ? known.fuehrerschein.has(w.ref) : known.lexicon.has(w.ref);
+        const ok = kind === "berufe" ? berufeIds.has(w.ref) : known.lexicon.has(w.ref);
         if (!ok) errors.push(`${file}: ${g.id}: ref „${w.ref}" does not resolve (${kind})`);
       }
     }

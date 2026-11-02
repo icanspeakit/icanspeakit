@@ -1,5 +1,5 @@
 // Switching word sets without a page load. Every flashcard deck keeps its own URL
-// (/vocabulary/a1-04, /english-for-work/restaurants/kitchen-and-equipment, /fuehrerschein/wortschatz/auto …)
+// (/vocabulary/a1-04, /english-for-work/restaurants/kitchen-and-equipment …)
 // so Google, shared links and Back still work, but picking another set in the side list
 // no longer reloads the page: the target page is fetched, and only what belongs to the
 // deck is replaced — the hero (title, print, live quiz, group chips), the trainer column
@@ -15,7 +15,7 @@ import { retranslate } from "./i18n.js";
 import { CARD_LANG_EVENT, storedCardLang } from "./cardLangGloss.js";
 
 // The trainer routes. A link elsewhere is left alone without a fetch.
-const TRAINER = /^\/(vocabulary(\/(?!print\/|glosses\/)[^/]+(\/[^/]+)?)?|english-for-work\/[^/]+\/[^/]+|fuehrerschein\/wortschatz(\/[^/]+)?)\/?$/;
+const TRAINER = /^\/(vocabulary(\/(?!print\/|glosses\/)[^/]+(\/[^/]+)?)?|english-for-work\/[^/]+\/[^/]+)\/?$/;
 // Head tags that describe the page, replaced with the new page's.
 const HEAD = ['meta[name="description"]', 'link[rel="canonical"]', 'meta[property^="og:"]', 'meta[name^="twitter:"]', 'script[type="application/ld+json"]', 'link[rel="alternate"][hreflang]'];
 
