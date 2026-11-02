@@ -120,6 +120,11 @@ const DROPPED = {
   '/exercises': ['/games/stadtfahrt', '/games/vorfahrt', '/spiele/stadtfahrt', '/spiele/vorfahrt'],
   '/culture': ['/politik', '/steueroasen'],
   '/grammar': ['/grammar/deklination', '/grammatik/deklination'],
+  // The German word stories that had a public page when they were removed (content-plan §5.11).
+  // When an English story takes one of these slugs (restaurant, note …), delete it here.
+  '/knowledge/word-stories': ['aergern', 'apfel', 'apotheke', 'arbeit', 'billig', 'blau', 'braun', 'brief', 'flasche',
+    'glueck', 'heissen', 'herbst', 'jacke', 'kalender', 'kohle', 'konzert', 'lesen', 'malen', 'monat', 'nase', 'note',
+    'panne', 'pfand', 'pinsel', 'reis', 'restaurant', 'sekunde', 'uhr', 'wasser'].map((s) => `/knowledge/word-stories/${s}`),
 };
 const DROPPED_REDIRECTS = Object.fromEntries(
   Object.entries(DROPPED).flatMap(([to, froms]) => froms.map((from) => [from, r301(to)])),
