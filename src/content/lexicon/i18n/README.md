@@ -4,8 +4,8 @@
 > `some` is English (`ENGLISH_LEVELS` in `src/lib/lexicon.js`; A1–C2 since `vocab-c1-c2` on 2026-11-02, i.e. every level that has words). For those words:
 > `de.json` holds a plain **German translation** (nouns with their article: „der Vorname“), not
 > a German explanation, and `check-erklaerungen.mjs` skips them. `de-fill.json` and
-> `de-syn.json` only serve German words (gap answers of German hints, German synonyms) and
-> have no entries for English levels; they go when the last German level is migrated. The
+> `de-syn.json` only served German words (gap answers of German hints, German synonyms); they
+> were removed by the `cleanup` run (2026-11-02), when no German level was left. The
 > other language files lost every entry keyed by an old German A1–B2 id and have none for the
 > English words yet (since `vocab-b2` they are empty `{}` files): only `en` is registered (`src/lib/languages.js`), and a deck shows a
 > language tab only when every card has it, so nothing is missing on screen. New glosses for a

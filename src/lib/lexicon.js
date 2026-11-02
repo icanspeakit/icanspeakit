@@ -29,13 +29,9 @@ import tr from "../content/lexicon/i18n/tr.json" with { type: "json" };
 // word, not `de`, and outside TRANSLATION_LANGS: it is not a translation, and nothing that
 // reads translations should pick it up by accident. Why a sidecar: i18n/README.md.
 import deHint from "../content/lexicon/i18n/de.json" with { type: "json" };
-// The word that fills a hint's gap ("Es ist kalt. … dir bitte die Jacke an!" → "Zieh"), so
-// the German side can show the sentence solved: the bare lemma alone does not answer it.
-import deFill from "../content/lexicon/i18n/de-fill.json" with { type: "json" };
-// Real everyday synonyms ("Abfall" → ["der Müll"]): the card's „oder auch: …“ line and the
-// live quiz's Synonyme mode for one Lernset (src/lib/liveQuiz/questions.js). An array, not a
-// string, and outside TRANSLATION_LANGS like deHint.
-import deSyn from "../content/lexicon/i18n/de-syn.json" with { type: "json" };
+// de-fill.json (gap answers of German hints) and de-syn.json (German synonyms) were dropped
+// by the `cleanup` run: every level is English now, so neither had entries. A word can still
+// carry `syn` inline; the code that shows it stays.
 
 export const LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
@@ -49,7 +45,7 @@ export const LEVEL_NAMES = { A1: "Einstieg", A2: "Aufbau", B1: "Ausbau", B2: "Ve
 export const TRANSLATION_LANGS = langsFor("cards");
 
 const FILES = { A1: a1, A2: a2, B1: b1, B2: b2, C1: c1, C2: c2 };
-const SIDECARS = { ar, uk, ru, tr, deHint, deFill, syn: deSyn };
+const SIDECARS = { ar, uk, ru, tr, deHint };
 
 function flatten(file) {
   const out = [];
@@ -226,7 +222,7 @@ const toCard = (e) => {
     // The verb's forms („tanzt, tanzte, getanzt“): the example sentence under an unflipped
     // card blanks the word out, and „getanzt“ is only found through them (exampleGap.js).
     ...(e.pos === "verb" && e.forms?.length ? { forms: e.forms } : {}),
-    // „oder auch: der Müll“ under the word (de-syn.json), and a second article where both
+    // „oder auch: der Müll“ under the word (a `syn` list), and a second article where both
     // are in use („das Pfand, auch: der Pfand“ — `genderAlt` in the lexicon).
     ...(e.syn?.length ? { syn: e.syn } : {}),
     ...(e.genderAlt ? { genderAlt: e.genderAlt } : {}),
