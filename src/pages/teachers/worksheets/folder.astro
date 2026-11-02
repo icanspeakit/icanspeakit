@@ -18,6 +18,7 @@ import "../../../styles/drucken.css";
 import "../../../styles/partner-sheet.css";
 import { worksheetUnits, SHEET_LANGS, LANG_NAMES } from "../../../lib/arbeitsblatt/wortschatz.js";
 import { sheetTopics, grammarTopics, topicSlug } from "../../../lib/arbeitsblatt/grammatik.js";
+import { sheetPath } from "../../../lib/routes.js";
 import { printableSets } from "../../../lib/arbeitsblatt/printable.js";
 import { allSheets } from "../../../lib/partneruebungen/index.js";
 import { FORMAT_NAMES } from "../../../lib/partneruebungen/schema.js";
@@ -81,7 +82,7 @@ const partner = allSheets().filter((s) => LEVELS.includes(s.niveau));
             {topics.map((t) => (
               <li data-abi-row data-level={t.level} data-q={t.name.toLowerCase()} hidden={!listed.has(topicSlug(t))} data-draft={listed.has(topicSlug(t)) ? undefined : ""}>
                 <label>
-                  <input type="checkbox" data-abm-item={`g:${topicSlug(t)}`} data-name={t.name} data-lvl={t.level} data-path={`/teachers/worksheets/grammar/${topicSlug(t)}`} />
+                  <input type="checkbox" data-abm-item={`g:${topicSlug(t)}`} data-name={t.name} data-lvl={t.level} data-path={sheetPath(topicSlug(t))} />
                   <span class="abi-badge">{t.level}</span>
                   <span class="abi-name">{t.name}</span>
                 </label>

@@ -17,7 +17,7 @@ const { group } = Astro.props as any;
 const deck = DECKS[beruf];
 const cards = cardsOf(beruf, group.id);
 const deckId = `berufe-${beruf}-${group.id}`;
-const printHref = `/english-for-work/${beruf}/${group.id}/drucken`;
+const printHref = `/english-for-work/${beruf}/${group.id}/print`;
 ---
 <Layout
   title={fitTitle(`${group.title} – ${deck.title}`, group.title)}

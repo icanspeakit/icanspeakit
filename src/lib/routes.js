@@ -262,6 +262,22 @@ export const refSlug = (file) => REF_SLUGS[file] ?? file;
 /** The page of a reference table. */
 export const refPath = (file) => `/grammar/${refSlug(file)}`;
 
+// Teachers' worksheets and tandem sheets per topic: keyed like the topic (plus the
+// reference sheets nachschlagen-<file>, verbtabellen, typische-fehler); the URL is English.
+const SHEET_SLUGS = { verbtabellen: "verb-tables", "typische-fehler": "common-mistakes" };
+/** A worksheet's URL slug from its key. */
+export const sheetSlug = (key) =>
+  String(key).startsWith("nachschlagen-") ? `reference-${refSlug(String(key).slice("nachschlagen-".length))}`
+    : SHEET_SLUGS[key] ?? topicSlug(key);
+/** The worksheet page of a topic key. */
+export const sheetPath = (key) => `/teachers/worksheets/grammar/${sheetSlug(key)}`;
+/** The tandem (pair work) sheet of a topic key. */
+export const tandemPath = (key) => `/teachers/worksheets/tandem/${sheetSlug(key)}`;
+/** Every worksheet key whose URL changed (for the redirects). */
+export const sheetKeys = () => [
+  ...Object.keys(TOPIC_SLUGS), ...Object.keys(SHEET_SLUGS), ...Object.keys(REF_SLUGS).map((f) => `nachschlagen-${f}`),
+].filter((k) => sheetSlug(k) !== k);
+
 // The exam families: registry ids (localStorage keys, set.exam) stayed; their pages moved.
 export const EXAM_PATHS = {
   goethe: "/cambridge", telc: "/trinity", dtz: "/trinity/ise-1", testdaf: "/ielts",

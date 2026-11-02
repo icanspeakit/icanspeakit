@@ -11,6 +11,7 @@ import Layout from "../../../layouts/Layout.astro";
 import SiteNav from "../../../components/SiteNav.astro";
 import { grammarTopics } from "../../../lib/catalog.js";
 import { sheetTopics, topicSlug } from "../../../lib/arbeitsblatt/grammatik.js";
+import { sheetPath } from "../../../lib/routes.js";
 import { hasChapter } from "../../../lib/liveQuiz/chapters.js";
 import "../../../styles/live-quiz.css";
 import "../../../styles/quiz-builder.css";
@@ -23,7 +24,7 @@ const links = Object.fromEntries(
     const sheet = sheetTopics.find((s) => s.id === tp.id);
     return [tp.id, {
       page: tp.href,
-      sheet: sheet ? `/teachers/worksheets/grammar/${topicSlug(sheet)}` : null,
+      sheet: sheet ? sheetPath(topicSlug(sheet)) : null,
       quiz: hasChapter(`g-${tp.id}`) ? `/teachers/quiz?grammar=g-${tp.id}` : null,
     }];
   }),

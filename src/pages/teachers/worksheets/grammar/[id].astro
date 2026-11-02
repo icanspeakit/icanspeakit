@@ -13,6 +13,7 @@ import SiteNav from "../../../../components/SiteNav.astro";
 import "../../../../styles/arbeitsblatt.css";
 import "../../../../styles/teacher-switch.css";
 import { sheetTopics, grammarSheet, topicSlug } from "../../../../lib/arbeitsblatt/grammatik.js";
+import { sheetSlug, sheetPath } from "../../../../lib/routes.js";
 import { tandemFor } from "../../../../lib/partneruebungen/tandem.js";
 import AbTopicSwitch from "../../../../components/arbeitsblatt/AbTopicSwitch.astro";
 import AbOrigin from "../../../../components/arbeitsblatt/AbOrigin.astro";
@@ -22,14 +23,14 @@ import { kuecheSvg } from "../../../../lib/arbeitsblatt/kuecheSzene.js";
 import { mascotSvg } from "../../../../lib/mascots.js";
 
 export function getStaticPaths() {
-  return sheetTopics.map((t) => ({ params: { id: topicSlug(t) }, props: { topic: t } }));
+  return sheetTopics.map((t) => ({ params: { id: sheetSlug(topicSlug(t)) }, props: { topic: t } }));
 }
 
 const { topic } = Astro.props;
 const sheet = grammarSheet(topic);
 // The same topic as pair work (Tandembogen), when its items make one.
 const tandem = tandemFor(topicSlug(topic));
-const path = `/teachers/worksheets/grammar/${topicSlug(topic)}`;
+const path = sheetPath(topicSlug(topic));
 const w = (answers: string[]) => `--w:${Math.min(40, Math.max(4, ...answers.map((a) => a.length)) + 2)}ch`;
 const json = (a: string[]) => JSON.stringify(a);
 const LETTER = "ABCDEFGHIJKLMNOP";

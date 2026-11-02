@@ -17,7 +17,7 @@
 import { hasChapter } from "../lib/liveQuiz/chapters.js";
 import { sheetTopics, topicSlug } from "../lib/arbeitsblatt/grammatik.js";
 import { tandemFor } from "../lib/partneruebungen/tandem.js";
-import { topicPath } from "../lib/routes.js";
+import { topicPath, sheetPath, tandemPath } from "../lib/routes.js";
 
 interface Props {
   /** The topic's URL slug: the worksheet's path. */
@@ -47,7 +47,7 @@ const tandem = web && !!tandemFor(slug);
       </a>
     )}
     {print && (
-      <a class="ga-btn" href={`/teachers/worksheets/grammar/${slug}`}>
+      <a class="ga-btn" href={sheetPath(slug)}>
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
         <span data-i18n="pr.open">Drucken / PDF</span>
       </a>
@@ -65,7 +65,7 @@ const tandem = web && !!tandemFor(slug);
       </button>
     )}
     {tandem && (
-      <a class="ga-btn" href={`/teachers/worksheets/tandem/${slug}`} target="_blank" rel="noopener">
+      <a class="ga-btn" href={tandemPath(slug)} target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"/><path d="M18.5 14.3A6.5 6.5 0 0 1 21.5 20"/></svg>
         <span data-i18n="ga.partnerSheet">Partnerblatt</span>
       </a>

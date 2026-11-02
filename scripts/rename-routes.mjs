@@ -90,11 +90,20 @@ if (!DRY) {
 // ── 2. Path literals ─────────────────────────────────────────────────────────────────────
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const BEFORE = `(?<=["'\`(\\s=,>\\[])`;
-const AFTER = `(?=[/"'\`?#)\\s,<\\].:;]|$)`;
+// A backslash ends a path too: href=\"/praesens\" inside a JSON string of HTML.
+const AFTER = `(?=[/"'\`?#)\\s,<\\].:;\\\\]|$)`;
 const sectionRe = new RegExp(BEFORE + "(" + BY_OLD.map(([f]) => esc(f)).join("|") + ")" + AFTER, "gm");
 const sectionTo = Object.fromEntries(ROUTE_RENAMES);
+// Half-renamed paths from the first run (the parent matched, the longer rule did not):
+// /life-in-the-uk/fakten → /life-in-the-uk/facts.
+const halfTo = {};
+for (const [from, to] of ROUTE_RENAMES) {
+  const parent = BY_OLD.find(([f]) => f !== from && from.startsWith(f + "/"));
+  if (parent) halfTo[parent[1] + from.slice(parent[0].length)] = to;
+}
+const halfRe = new RegExp(BEFORE + "(" + Object.keys(halfTo).sort((a, b) => b.length - a.length).map(esc).join("|") + ")" + AFTER, "gm");
 const topicKeys = Object.keys(TOPIC_SLUGS).filter((k) => TOPIC_SLUGS[k] !== k && !sectionTo[`/${k}`]).sort((a, b) => b.length - a.length);
-const topicRe = new RegExp(BEFORE + "/(" + topicKeys.map(esc).join("|") + `)(?=["'\`?#)\\s,<\\]]|$)`, "gm");
+const topicRe = new RegExp(BEFORE + "/(" + topicKeys.map(esc).join("|") + `)(?=["'\`?#)\\s,<\\]\\\\]|$)`, "gm");
 
 const SKIP = new Set(["src/lib/routes.js", "scripts/rename-routes.mjs"].map((p) => path.join(ROOT, p)));
 const TEXT = /\.(astro|js|mjs|cjs|ts|tsx|jsx|json|md|css|html|txt)$/;
@@ -111,6 +120,7 @@ for (const f of files) {
   let n = 0;
   const out = t
     .replace(sectionRe, (m) => { n++; return sectionTo[m]; })
+    .replace(halfRe, (m) => { n++; return halfTo[m]; })
     .replace(topicRe, (m, key) => { n++; return `/${TOPIC_SLUGS[key]}`; });
   if (n) {
     total += n; changed++;

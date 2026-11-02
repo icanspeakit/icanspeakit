@@ -215,7 +215,7 @@ export function buildSearchIndex() {
     t: "Typische Fehler: Tandembogen",
     s: "Partnerübung zum Ausdrucken: fragen, antworten, mit Lösungsblatt",
     k: "typische fehler tandembogen tandem partnerübung partnerarbeit arbeitsblatt lehrkräfte unterricht ausdrucken worksheet pair work",
-    h: "/teachers/worksheets/tandem/typische-fehler",
+    h: "/teachers/worksheets/tandem/common-mistakes",
   });
   // Prüfungsfallen (/exams/traps): a page under the exam hub, not an exam of its own.
   pages.push({

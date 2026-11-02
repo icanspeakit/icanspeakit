@@ -605,9 +605,9 @@ export function mountHost(root) {
     }
     onPresence();
 
-    const url = `${location.origin}/spiel?pin=${pin}`;
+    const url = `${location.origin}/game?pin=${pin}`;
     root.querySelectorAll("[data-pin]").forEach((el) => (el.textContent = `${pin.slice(0, 3)} ${pin.slice(3)}`));
-    root.querySelectorAll("[data-join-url]").forEach((el) => (el.textContent = `${location.host}/spiel`));
+    root.querySelectorAll("[data-join-url]").forEach((el) => (el.textContent = `${location.host}/game`));
     $("[data-qr]").innerHTML = await QRCode.toString(url, { type: "svg", margin: 1, errorCorrectionLevel: "M" });
     renderLobby();
   }

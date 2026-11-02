@@ -7,13 +7,14 @@ import SiteNav from "../../../../components/SiteNav.astro";
 import "../../../../styles/arbeitsblatt.css";
 import "../../../../styles/partner-sheet.css";
 import { tandemSheets } from "../../../../lib/partneruebungen/tandem.js";
+import { sheetSlug } from "../../../../lib/routes.js";
 import AbTopicSwitch from "../../../../components/arbeitsblatt/AbTopicSwitch.astro";
 import AbOrigin from "../../../../components/arbeitsblatt/AbOrigin.astro";
 import PartnerMelden from "../../../../components/arbeitsblatt/PartnerMelden.astro";
 import { renderBody, renderKey } from "../../../../lib/partneruebungen/render.js";
 
 export function getStaticPaths() {
-  return tandemSheets().map((t) => ({ params: { id: t.slug }, props: { t } }));
+  return tandemSheets().map((t) => ({ params: { id: sheetSlug(t.slug) }, props: { t } }));
 }
 
 const { t } = Astro.props;

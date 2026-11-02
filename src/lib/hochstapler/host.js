@@ -180,9 +180,9 @@ export function mountHost(root) {
       if (!taken || registered || resumed) break;
       await supabase.removeChannel(ch);
     }
-    const url = `${location.origin}/spiel/hochstapler?pin=${pin}`;
+    const url = `${location.origin}/game/hochstapler?pin=${pin}`;
     $$("[data-pin]").forEach((el) => (el.textContent = `${pin.slice(0, 3)} ${pin.slice(3)}`));
-    $$("[data-join-url]").forEach((el) => (el.textContent = `${location.host}/spiel/hochstapler`));
+    $$("[data-join-url]").forEach((el) => (el.textContent = `${location.host}/game/hochstapler`));
     $$("[data-qr]").forEach(async (el) => (el.innerHTML = await QRCode.toString(url, { type: "svg", margin: 1, errorCorrectionLevel: "M" })));
     $("[data-join-link]")?.setAttribute("href", url);
     clearInterval(beatTimer);

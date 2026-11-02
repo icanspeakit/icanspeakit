@@ -15,6 +15,7 @@ import "../../../styles/arbeitsblatt.css";
 import "../../../styles/teacher-switch.css";
 import { worksheetUnits } from "../../../lib/arbeitsblatt/wortschatz.js";
 import { grammarTopics, topicSlug } from "../../../lib/arbeitsblatt/grammatik.js";
+import { sheetPath } from "../../../lib/routes.js";
 
 const LEVELS = ["A1", "A2", "B1", "B2"];
 const units = worksheetUnits();
@@ -49,7 +50,7 @@ const topics = grammarTopics.filter((t) => LEVELS.includes(t.level));
       <ul class="abi-list">
         {topics.map((t) => (
           <li data-abi-row data-level={t.level} data-q={t.name.toLowerCase()}>
-            <a href={`/teachers/worksheets/grammar/${topicSlug(t)}`}>
+            <a href={sheetPath(topicSlug(t))}>
               <span class="abi-badge">{t.level}</span>
               <span class="abi-name">{t.name}</span>
               <span class="abi-meta">{t.exercises.length} <span data-i18n="ab.index.parts">Teile</span></span>

@@ -87,7 +87,7 @@ export async function unshare(set) {
   set.share_token = null;
 }
 
-export const shareUrl = (token) => `${location.origin}/kartenset?t=${token}`;
+export const shareUrl = (token) => `${location.origin}/card-set?t=${token}`;
 
 /** A shared set, for students (no account): { name, level, words } or null. */
 export async function getSharedSet(token) {

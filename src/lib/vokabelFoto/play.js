@@ -211,7 +211,7 @@ export async function loadPlayableSet({ shared = false } = {}) {
   const edit = document.querySelector("[data-vs-edit]");
   if (edit) edit.href = `/teachers/cards/photo?set=${id}`;
   const print = document.querySelector("[data-vs-print]");
-  if (print) print.href = `/teachers/cards/drucken?set=${id}`;
+  if (print) print.href = `/teachers/cards/print?set=${id}`;
   // Straight into the live quiz with this set as the words (host.js, value kartenset:<id>).
   const quiz = document.querySelector("[data-vs-quiz]");
   if (quiz) { quiz.href = `/teachers/quiz?set=kartenset:${id}`; quiz.hidden = shared; }

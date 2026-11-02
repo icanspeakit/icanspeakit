@@ -12,6 +12,7 @@
 // Ids are the Live-Quiz's: a set's id after "unit:", a chapter's key after "g-".
 import { worksheetUnits, worksheetLevels } from "./wortschatz.js";
 import { sheetTopics, topicSlug } from "./grammatik.js";
+import { sheetPath } from "../routes.js";
 import { cohorts } from "../lernsets.js";
 import { BERUFE } from "../berufeCore.js";
 import { DECKS as BERUF_DECKS, groupsOf as berufGroups } from "../berufeWortschatz.js";
@@ -29,9 +30,9 @@ export function printableSets() {
       id: `berufe-${b.slug}-${g.id}`,
       name: `${g.title} (${BERUF_DECKS[b.slug]?.title.split(":")[0] ?? b.slug})`,
       level: "Beruf",
-      path: `/english-for-work/${b.slug}/${g.id}/drucken`,
+      path: `/english-for-work/${b.slug}/${g.id}/print`,
     }))),
-    ...sheetTopics.map((t) => ({ kind: "g", id: topicSlug(t), name: t.name, level: t.level, path: `/teachers/worksheets/grammar/${topicSlug(t)}` })),
+    ...sheetTopics.map((t) => ({ kind: "g", id: topicSlug(t), name: t.name, level: t.level, path: sheetPath(topicSlug(t)) })),
     ...publicSheets().map((s) => ({ kind: "p", id: s.id, name: s.titel, level: s.niveau, path: `/teachers/worksheets/partner/${s.id}` })),
   ];
   return all;

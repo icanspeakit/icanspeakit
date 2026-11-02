@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import postcssRTLCSS from 'postcss-rtlcss';
-import { legacyRedirects, ROUTE_RENAMES, germanPath, topicSlug, refSlug } from './src/lib/routes.js';
+import { legacyRedirects, ROUTE_RENAMES, germanPath, topicSlug, refSlug, sheetKeys, sheetPath, tandemPath } from './src/lib/routes.js';
 import sitemap from './src/integrations/sitemap.mjs';
 import baseLanguage from './src/integrations/base-language.mjs';
 import entryPages from './src/integrations/entry-pages.mjs';
@@ -55,6 +55,17 @@ function englishRedirects() {
     const old = germanPath(route);
     if (old !== route) out[old] = r301(route);
   }
+  // Worksheets and tandem sheets by their old (key) address, in the German and the English
+  // folder. A key without a sheet lands on a 404 there, as its old address did.
+  for (const key of sheetKeys()) {
+    out[`/lehrkraefte/arbeitsblaetter/grammatik/${key}`] = r301(sheetPath(key));
+    out[`/teachers/worksheets/grammar/${key}`] = r301(sheetPath(key));
+    out[`/lehrkraefte/arbeitsblaetter/tandem/${key}`] = r301(tandemPath(key));
+    out[`/teachers/worksheets/tandem/${key}`] = r301(tandemPath(key));
+  }
+  // The print page of a work deck: …/drucken → …/print, under the old and the new folder.
+  out['/berufe/[beruf]/[gruppe]/drucken'] = r301('/english-for-work/[beruf]/[gruppe]/print');
+  out['/english-for-work/[beruf]/[gruppe]/drucken'] = r301('/english-for-work/[beruf]/[gruppe]/print');
   return out;
 }
 
@@ -65,7 +76,7 @@ function englishRedirects() {
 const ACCOUNT_REDIRECTS = Object.fromEntries(
   ['/anmelden', '/konto', '/konto-loeschen', '/passwort-neu', '/preise', '/kuendigen', '/widerrufen', '/widerruf',
    '/mein-zugang', '/einladung', '/merch', '/live-fragestunde', '/newsletter-bestaetigt', '/kaufen/start', '/kaufen/danke',
-   '/lehrkraefte/karten/drucken']
+   '/lehrkraefte/karten/drucken', '/teachers/cards/print']
     .map((from) => [from, { status: 302, destination: '/account' }]),
 );
 

@@ -68,7 +68,7 @@ export async function mountErgebnis(root) {
   const qrSvg = await QRCode.toString(link, { type: "svg", margin: 1, errorCorrectionLevel: "M" });
   $("[data-qr]").innerHTML = qrSvg;
   $("[data-beamer-qr]").innerHTML = qrSvg;
-  const shortHost = `${location.host}/umfrage`;
+  const shortHost = `${location.host}/survey`;
   $("[data-host]").textContent = shortHost;
   $("[data-beamer-host]").textContent = shortHost;
   $("[data-code]").textContent = u.code;
