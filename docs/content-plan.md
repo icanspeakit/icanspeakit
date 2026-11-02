@@ -252,6 +252,12 @@ question tags, *have got*, *can* for ability at A1, quantifiers at B2.
 | German case/declension | `kasus-haeufigkeit.json`, `/grammatik/deklination`, `KasusChart.astro` | No English equivalent. |
 | German-only lexicon helpers | `lexicon/i18n/de-fill.json`, `de-syn.json` **if** `vocab-a1` finds they only serve German morphology | **Decided by `vocab-a1` (2026-10-30):** both only serve German words (gap answers of German hints, German synonyms). Their A1 entries are gone; the files stay while A2–B2 are German and are removed by the vocab item that migrates the last German level (or `cleanup`). |
 
+**Done by `cleanup` (2026-11-02):** every row above is removed (commits `db88ba4` Führerschein +
+stadtfahrt/vorfahrt, `39c80ac` politics, `e10d4a7` tax havens, `79f0d17` beer map, `c69bf28`
+declension, `98a924f` de-fill/de-syn), plus the 342 German word stories of §5.11 (`137a0d4`).
+Old URLs 301 to their hub (`DROPPED` in `astro.config.mjs`). The content validators gate the
+build again (`scripts/check-content.mjs` in prebuild, `7add3d2`). Report: `automation/reports/cleanup.md`.
+
 `cleanup` must follow CLAUDE.md: archive entries in `EXPERIMENTE.md` for any experiment page,
 and record the removing commit in its report. Redirect dropped URLs to the nearest hub
 (`/fuehrerschein` → `/exams`, `/politik` and `/steueroasen` → `/culture`).
