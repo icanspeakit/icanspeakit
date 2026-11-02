@@ -1,1079 +1,1031 @@
 {
-  "_comment": "Content for /wissen/dialekte. Names, places and dialect examples (dialect → Hochdeutsch) are not translated; the descriptions are in public/i18n/*.json under dialekte.r.* and dialekte.m.*. Geometry: scripts/generate-dialekte-karte.mjs → dialekte-karte.json.",
+  "_comment": "Content for /wissen/dialekte: accents of English in the UK and Ireland. Names, places and examples ([local form, plain English]) are not translated; the descriptions are in public/i18n/en.json under dialekte.r.* (areas), dialekte.m.* (dots) and dialekte.group.*. Markers with lang: true are Celtic languages, not accents. words: `de` holds the standard English word the map asks about. lines: `benrath` is the FOOT–STRUT line (bus /ʊ/ north of it), `speyer` the BATH–TRAP line (bath with a short a north of it); the key names are kept from the German page. shift: one row per word, columns in the order of groups. Coordinates for Shetland are real; the generator moves Shetland into an inset box. Geometry: scripts/generate-dialekte-karte.mjs → dialekte-karte.json.",
   "groups": [
     {
-      "id": "nieder",
+      "id": "north",
       "regions": [
-        "nordniedersaechsisch",
-        "westfaelisch",
-        "ostfaelisch",
-        "mecklenburgisch",
-        "brandenburgisch",
-        "niederrheinisch"
+        "northeast",
+        "cumbria",
+        "yorkshire",
+        "northwest"
       ]
     },
     {
-      "id": "mittel",
+      "id": "midlands",
       "regions": [
-        "ripuarisch",
-        "moselfraenkisch",
-        "pfaelzisch",
-        "hessisch",
-        "thueringisch",
-        "obersaechsisch"
+        "westmidlands",
+        "eastmidlands"
       ]
     },
     {
-      "id": "ober",
+      "id": "south",
       "regions": [
-        "ostfraenkisch",
-        "suedfraenkisch",
-        "schwaebisch",
-        "niederalemannisch",
-        "hochalemannisch",
-        "hoechstalemannisch",
-        "nordbairisch",
-        "mittelbairisch",
-        "suedbairisch"
+        "eastanglia",
+        "southeast",
+        "southwest"
+      ]
+    },
+    {
+      "id": "scotland",
+      "regions": [
+        "lowlands",
+        "northeastscotland",
+        "highlands",
+        "northernisles"
+      ]
+    },
+    {
+      "id": "wales",
+      "regions": [
+        "northmidwales",
+        "southwales"
+      ]
+    },
+    {
+      "id": "ireland",
+      "regions": [
+        "ulster",
+        "southirish"
       ]
     }
   ],
   "regions": [
     {
-      "id": "nordniedersaechsisch",
-      "name": "Nordniedersächsisch",
-      "alias": "Platt",
-      "short": "Nordnieder-\nsächsisch",
+      "id": "northeast",
+      "name": "North East England",
+      "alias": "Geordie, Mackem, Pitmatic",
+      "short": "North\nEast",
       "color": "#7fb3e0",
       "label": [
-        9.2,
-        53.25
+        -1.85,
+        55.1
       ],
       "places": [
-        "Hamburg",
-        "Bremen",
-        "Kiel",
-        "Oldenburg",
-        "Ostfriesland",
-        "Lüneburger Heide"
+        "Newcastle",
+        "Sunderland",
+        "Durham",
+        "Northumberland",
+        "Middlesbrough"
       ],
       "say": [
         [
-          "Moin!",
-          "Hallo! (zu jeder Tageszeit)"
+          "Howay, man!",
+          "Come on!"
         ],
         [
-          "Wat is dat?",
-          "Was ist das?"
+          "Whey aye!",
+          "Yes, of course!"
         ],
         [
-          "Ik snack Platt.",
-          "Ich spreche Plattdeutsch."
+          "bairn",
+          "child"
+        ],
+        [
+          "canny",
+          "nice, good"
         ]
       ]
     },
     {
-      "id": "westfaelisch",
-      "name": "Westfälisch",
-      "alias": "Westfälisches Platt",
-      "short": "Westfälisch",
+      "id": "cumbria",
+      "name": "Cumbria",
+      "alias": "Cumbrian",
+      "short": "Cumbria",
       "color": "#9fd6cf",
       "label": [
-        7.9,
-        51.85
+        -2.95,
+        54.5
       ],
       "places": [
-        "Münster",
-        "Bielefeld",
-        "Paderborn",
-        "Osnabrück",
-        "Dortmund",
-        "Sauerland"
+        "Carlisle",
+        "Kendal",
+        "Workington",
+        "the Lake District"
       ],
       "say": [
         [
-          "S-chinken",
-          "Schinken (s und ch getrennt)"
+          "laal",
+          "little"
         ],
         [
-          "Pättken",
-          "kleiner Weg, Pfad"
+          "marra",
+          "friend, mate"
         ],
         [
-          "Pölter",
-          "Schlafanzug"
+          "yan, tyan, tethera",
+          "one, two, three (an old way of counting sheep)"
         ]
       ]
     },
     {
-      "id": "ostfaelisch",
-      "name": "Ostfälisch",
-      "alias": "Ostfälisches Platt",
-      "short": "Ostfälisch",
+      "id": "yorkshire",
+      "name": "Yorkshire",
+      "alias": "Tyke",
+      "short": "Yorkshire",
       "color": "#a9b9ef",
       "label": [
-        10.35,
-        52.2
+        -1.3,
+        54
       ],
       "places": [
-        "Hannover",
-        "Braunschweig",
-        "Hildesheim",
-        "Göttingen",
-        "Wolfsburg",
-        "Magdeburg"
+        "Leeds",
+        "Sheffield",
+        "Bradford",
+        "York",
+        "Hull",
+        "the Dales"
       ],
       "say": [
         [
-          "mik, dik",
-          "mich, dich"
+          "Ey up!",
+          "Hello!"
         ],
         [
-          "Wat is los?",
-          "Was ist los?"
+          "Now then!",
+          "Hello! (a greeting)"
+        ],
+        [
+          "nowt / owt",
+          "nothing / anything"
+        ],
+        [
+          "ginnel, snicket",
+          "a narrow path between houses"
         ]
       ]
     },
     {
-      "id": "mecklenburgisch",
-      "name": "Mecklenburgisch-Vorpommersch",
-      "alias": "Mecklenburger Platt",
-      "short": "Mecklenburgisch-\nVorpommersch",
+      "id": "northwest",
+      "name": "Lancashire and Greater Manchester",
+      "alias": "Lanky, Mancunian",
+      "short": "North\nWest",
       "color": "#93d2ec",
       "label": [
-        12.6,
+        -2.45,
         53.8
       ],
       "places": [
-        "Rostock",
-        "Schwerin",
-        "Stralsund",
-        "Greifswald",
-        "Rügen"
+        "Manchester",
+        "Preston",
+        "Bolton",
+        "Wigan",
+        "Blackpool",
+        "Lancaster"
       ],
       "say": [
         [
-          "Dat geiht.",
-          "Das geht."
+          "Hiya!",
+          "Hello!"
         ],
         [
-          "Kumm her!",
-          "Komm her!"
+          "our kid",
+          "my brother or sister"
+        ],
+        [
+          "barm cake",
+          "bread roll"
+        ],
+        [
+          "mither",
+          "to bother, to annoy"
         ]
       ]
     },
     {
-      "id": "brandenburgisch",
-      "name": "Brandenburgisch",
-      "alias": "Märkisch",
-      "short": "Brandenburgisch",
-      "color": "#bccbe8",
+      "id": "westmidlands",
+      "name": "West Midlands",
+      "alias": "Brummie, Black Country, Potteries",
+      "short": "West\nMidlands",
+      "color": "#6fc2b4",
       "label": [
-        13.1,
+        -2.7,
         52.75
       ],
       "places": [
-        "Potsdam",
-        "Brandenburg an der Havel",
-        "Uckermark",
-        "Prignitz",
-        "Altmark"
+        "Birmingham",
+        "Wolverhampton",
+        "Dudley",
+        "Coventry",
+        "Stoke-on-Trent",
+        "Shropshire"
       ],
       "say": [
         [
-          "ick, wat, det",
-          "ich, was, das"
+          "bostin’",
+          "great (Black Country)"
         ],
         [
-          "jut",
-          "gut"
+          "yow am",
+          "you are (Black Country)"
+        ],
+        [
+          "duck",
+          "love, dear (Stoke)"
         ]
       ]
     },
     {
-      "id": "niederrheinisch",
-      "name": "Niederrheinisch",
-      "alias": "Niederfränkisch",
-      "short": "Nieder-\nrheinisch",
-      "color": "#6fc2b4",
-      "label": [
-        6.45,
-        51.5
-      ],
-      "places": [
-        "Kleve",
-        "Krefeld",
-        "Duisburg",
-        "Düsseldorf",
-        "Mönchengladbach"
-      ],
-      "say": [
-        [
-          "ek / ik",
-          "ich"
-        ],
-        [
-          "maake",
-          "machen"
-        ]
-      ]
-    },
-    {
-      "id": "ripuarisch",
-      "name": "Ripuarisch",
-      "alias": "Kölsch, Öcher Platt",
-      "short": "Ripuarisch",
+      "id": "eastmidlands",
+      "name": "East Midlands",
+      "alias": "Nottingham, Derby, Leicester",
+      "short": "East\nMidlands",
       "color": "#b8da8c",
       "label": [
-        6.85,
-        50.78
+        -0.95,
+        52.95
       ],
       "places": [
-        "Köln",
-        "Bonn",
-        "Aachen",
-        "Leverkusen",
-        "Eupen (Belgien)"
+        "Nottingham",
+        "Derby",
+        "Leicester",
+        "Lincoln",
+        "Northampton"
       ],
       "say": [
         [
-          "Wie jeiht et?",
-          "Wie geht es?"
+          "Ey up, me duck!",
+          "Hello, love!"
         ],
         [
-          "jot",
-          "gut"
+          "mardy",
+          "moody, grumpy"
         ],
         [
-          "Et kütt, wie et kütt.",
-          "Es kommt, wie es kommt."
+          "cob",
+          "bread roll"
+        ],
+        [
+          "jitty",
+          "a narrow path between houses"
         ]
       ]
     },
     {
-      "id": "moselfraenkisch",
-      "name": "Moselfränkisch",
-      "alias": "mit Luxemburgisch",
-      "short": "Mosel-\nfränkisch",
-      "color": "#dbe69c",
-      "label": [
-        6.95,
-        50.0
-      ],
-      "places": [
-        "Trier",
-        "Koblenz",
-        "Luxemburg",
-        "Saarlouis",
-        "Siegen",
-        "Thionville (Frankreich)"
-      ],
-      "say": [
-        [
-          "dat, wat",
-          "das, was"
-        ],
-        [
-          "Moien!",
-          "Hallo! (Luxemburgisch)"
-        ]
-      ]
-    },
-    {
-      "id": "pfaelzisch",
-      "name": "Rheinfränkisch: Pfälzisch & Saarländisch",
-      "alias": "Pfälzisch, Saarländisch, Kurpfälzisch",
-      "short": "Pfälzisch",
-      "color": "#9fd192",
-      "label": [
-        7.75,
-        49.4
-      ],
-      "places": [
-        "Kaiserslautern",
-        "Mainz",
-        "Ludwigshafen",
-        "Mannheim",
-        "Heidelberg",
-        "Saarbrücken",
-        "Forbach (Frankreich)"
-      ],
-      "say": [
-        [
-          "Grumbeere",
-          "Kartoffeln"
-        ],
-        [
-          "Woi",
-          "Wein"
-        ],
-        [
-          "Alla hopp!",
-          "Na dann, los!"
-        ]
-      ]
-    },
-    {
-      "id": "hessisch",
-      "name": "Hessisch",
-      "alias": "Rheinfränkisch-Hessisch",
-      "short": "Hessisch",
+      "id": "eastanglia",
+      "name": "East Anglia",
+      "alias": "Norfolk, Suffolk",
+      "short": "East\nAnglia",
       "color": "#e8de8c",
       "label": [
-        9.0,
-        50.65
+        0.95,
+        52.5
       ],
       "places": [
-        "Frankfurt",
-        "Wiesbaden",
-        "Darmstadt",
-        "Gießen",
-        "Kassel",
-        "Fulda"
+        "Norwich",
+        "Ipswich",
+        "Great Yarmouth",
+        "Cambridge"
       ],
       "say": [
         [
-          "Ei gude, wie?",
-          "Hallo, wie geht's?"
+          "bor",
+          "friend, neighbour (Norfolk)"
         ],
         [
-          "isch",
-          "ich"
+          "on the huh",
+          "not straight, crooked"
         ],
         [
-          "babbele",
-          "reden, plaudern"
+          "dodman",
+          "snail (Norfolk)"
         ]
       ]
     },
     {
-      "id": "thueringisch",
-      "name": "Thüringisch",
-      "alias": "Thüringisch-Obersächsisch",
-      "short": "Thüringisch",
-      "color": "#acd6a3",
+      "id": "southeast",
+      "name": "London and the South East",
+      "alias": "Estuary English, Home Counties",
+      "short": "South\nEast",
+      "color": "#f3ba82",
       "label": [
-        11.0,
+        -0.55,
         51.05
       ],
       "places": [
-        "Erfurt",
-        "Weimar",
-        "Jena",
-        "Gotha",
-        "Eisenach",
-        "Halle (Saale)"
+        "London",
+        "Kent",
+        "Essex",
+        "Sussex",
+        "Surrey",
+        "Oxford"
       ],
       "say": [
         [
-          "nu",
-          "ja"
+          "Alright?",
+          "Hello! How are you?"
         ],
         [
-          "Gloß",
-          "Kloß"
+          "innit",
+          "isn’t it? (a tag at the end of a sentence)"
+        ],
+        [
+          "mate",
+          "friend"
         ]
       ]
     },
     {
-      "id": "obersaechsisch",
-      "name": "Obersächsisch",
-      "alias": "Sächsisch",
-      "short": "Obersächsisch",
-      "color": "#d6e9a2",
-      "label": [
-        13.3,
-        51.2
-      ],
-      "places": [
-        "Dresden",
-        "Leipzig",
-        "Chemnitz",
-        "Zwickau",
-        "Erzgebirge",
-        "Lausitz"
-      ],
-      "say": [
-        [
-          "Nu!",
-          "Ja!"
-        ],
-        [
-          "Ei verbibbsch!",
-          "Ei verflixt! (Staunen)"
-        ],
-        [
-          "Gaffee",
-          "Kaffee"
-        ]
-      ]
-    },
-    {
-      "id": "ostfraenkisch",
-      "name": "Ostfränkisch",
-      "alias": "Fränkisch",
-      "short": "Ostfränkisch",
-      "color": "#f3ba82",
-      "label": [
-        10.6,
-        49.85
-      ],
-      "places": [
-        "Nürnberg",
-        "Würzburg",
-        "Bamberg",
-        "Bayreuth",
-        "Coburg",
-        "Suhl",
-        "Plauen"
-      ],
-      "say": [
-        [
-          "Bassd scho.",
-          "Passt schon. (alles gut)"
-        ],
-        [
-          "Weggla",
-          "Brötchen"
-        ],
-        [
-          "a weng",
-          "ein wenig"
-        ]
-      ]
-    },
-    {
-      "id": "suedfraenkisch",
-      "name": "Südfränkisch",
-      "alias": "Badisch-Fränkisch",
-      "short": "Südfränkisch",
+      "id": "southwest",
+      "name": "West Country",
+      "alias": "Bristolian, Devon, Cornwall",
+      "short": "West\nCountry",
       "color": "#f7d39a",
       "label": [
-        8.85,
-        49.15
+        -3.6,
+        50.85
       ],
       "places": [
-        "Karlsruhe",
-        "Heilbronn",
-        "Bruchsal",
-        "Pforzheim",
-        "Wissembourg (Frankreich)"
+        "Bristol",
+        "Plymouth",
+        "Exeter",
+        "Somerset",
+        "Gloucester",
+        "Cornwall"
       ],
       "say": [
         [
-          "Ade!",
-          "Tschüss!"
+          "Alright, my lover?",
+          "Hello! (friendly, to anyone)"
         ],
         [
-          "gell?",
-          "nicht wahr?"
+          "Where’s it to?",
+          "Where is it?"
+        ],
+        [
+          "gert lush",
+          "really lovely (Bristol)"
+        ],
+        [
+          "proper job",
+          "well done, great (Cornwall)"
         ]
       ]
     },
     {
-      "id": "schwaebisch",
-      "name": "Schwäbisch",
-      "alias": "Schwäbisch",
-      "short": "Schwäbisch",
-      "color": "#f1a9a2",
-      "label": [
-        9.65,
-        48.45
-      ],
-      "places": [
-        "Stuttgart",
-        "Tübingen",
-        "Reutlingen",
-        "Ulm",
-        "Augsburg"
-      ],
-      "say": [
-        [
-          "Häusle",
-          "Häuschen"
-        ],
-        [
-          "schaffe",
-          "arbeiten"
-        ],
-        [
-          "Des isch",
-          "Das ist"
-        ]
-      ]
-    },
-    {
-      "id": "niederalemannisch",
-      "name": "Niederalemannisch",
-      "alias": "Badisch, Elsässisch",
-      "short": "Nieder-\nalemannisch",
-      "color": "#ebbad6",
-      "label": [
-        7.95,
-        48.2
-      ],
-      "places": [
-        "Freiburg",
-        "Straßburg (Frankreich)",
-        "Colmar",
-        "Basel",
-        "Konstanz",
-        "Lindau"
-      ],
-      "say": [
-        [
-          "Kind",
-          "Kind (mit k, nicht ch)"
-        ],
-        [
-          "Bobbele",
-          "kleines Kind"
-        ],
-        [
-          "Ade!",
-          "Tschüss!"
-        ]
-      ]
-    },
-    {
-      "id": "hochalemannisch",
-      "name": "Hochalemannisch",
-      "alias": "Schweizerdeutsch",
-      "short": "Hoch-\nalemannisch",
-      "color": "#dc9fc8",
-      "label": [
-        8.45,
-        47.2
-      ],
-      "places": [
-        "Zürich",
-        "Bern",
-        "Luzern",
-        "St. Gallen",
-        "Vaduz (Liechtenstein)",
-        "Vorarlberg",
-        "Südschwarzwald"
-      ],
-      "say": [
-        [
-          "Grüezi!",
-          "Guten Tag!"
-        ],
-        [
-          "Chuchichäschtli",
-          "Küchenschränkchen"
-        ],
-        [
-          "Merci vilmal",
-          "Vielen Dank"
-        ]
-      ]
-    },
-    {
-      "id": "hoechstalemannisch",
-      "name": "Höchstalemannisch",
-      "alias": "Walliserdeutsch",
-      "short": "Höchst-\nalemannisch",
+      "id": "lowlands",
+      "name": "Central and Southern Scotland",
+      "alias": "Scottish English, Lowland Scots",
+      "short": "Lowlands",
       "color": "#c690bb",
       "label": [
-        7.9,
-        46.38
+        -3.25,
+        55.3
       ],
       "places": [
-        "Oberwallis",
-        "Brig",
-        "Visp",
-        "Zermatt",
-        "Berner Oberland"
-      ],
-      "say": []
-    },
-    {
-      "id": "nordbairisch",
-      "name": "Nordbairisch",
-      "alias": "Oberpfälzisch",
-      "short": "Nordbairisch",
-      "color": "#f7cdae",
-      "label": [
-        12.15,
-        49.5
-      ],
-      "places": [
-        "Amberg",
-        "Weiden",
-        "Oberpfalz",
-        "Fichtelgebirge",
-        "Eichstätt"
+        "Glasgow",
+        "Edinburgh",
+        "Dundee",
+        "Stirling",
+        "Ayr",
+        "the Borders"
       ],
       "say": [
         [
-          "Bou",
-          "Bub, Junge"
+          "wee",
+          "small"
         ],
         [
-          "Kou",
-          "Kuh"
+          "aye",
+          "yes"
         ],
         [
-          "Brejf",
-          "Brief"
+          "ken",
+          "know"
+        ],
+        [
+          "It’s a dreich day.",
+          "The weather is grey and wet."
         ]
       ]
     },
     {
-      "id": "mittelbairisch",
-      "name": "Mittelbairisch",
-      "alias": "Bairisch, Österreichisch",
-      "short": "Mittelbairisch",
+      "id": "northeastscotland",
+      "name": "North East Scotland",
+      "alias": "Doric",
+      "short": "Doric",
+      "color": "#dc9fc8",
+      "label": [
+        -2.75,
+        57.3
+      ],
+      "places": [
+        "Aberdeen",
+        "Peterhead",
+        "Fraserburgh",
+        "Elgin"
+      ],
+      "say": [
+        [
+          "Fit like?",
+          "How are you?"
+        ],
+        [
+          "Nae bad.",
+          "Not bad."
+        ],
+        [
+          "loon / quine",
+          "boy / girl"
+        ]
+      ]
+    },
+    {
+      "id": "highlands",
+      "name": "Highlands and Islands",
+      "alias": "Highland English",
+      "short": "Highlands",
+      "color": "#ebbad6",
+      "label": [
+        -4.85,
+        57.2
+      ],
+      "places": [
+        "Inverness",
+        "Fort William",
+        "Skye",
+        "the Outer Hebrides"
+      ],
+      "say": [
+        [
+          "ceilidh",
+          "an evening of music and dancing (from Gaelic)"
+        ],
+        [
+          "Slàinte!",
+          "Cheers! (Gaelic)"
+        ]
+      ]
+    },
+    {
+      "id": "northernisles",
+      "name": "Orkney and Shetland",
+      "alias": "Insular Scots",
+      "short": "Orkney and\nShetland",
+      "color": "#c4b5fd",
+      "label": [
+        -3.05,
+        59.05
+      ],
+      "places": [
+        "Kirkwall",
+        "Lerwick",
+        "Stromness"
+      ],
+      "say": [
+        [
+          "peerie",
+          "small"
+        ],
+        [
+          "du",
+          "you (Shetland, to a friend)"
+        ]
+      ]
+    },
+    {
+      "id": "northmidwales",
+      "name": "North and Mid Wales",
+      "alias": "Welsh English",
+      "short": "North and\nMid Wales",
+      "color": "#f1a9a2",
+      "label": [
+        -3.55,
+        52.4
+      ],
+      "places": [
+        "Bangor",
+        "Caernarfon",
+        "Wrexham",
+        "Aberystwyth",
+        "Anglesey"
+      ],
+      "say": [
+        [
+          "There’s lovely!",
+          "How lovely!"
+        ],
+        [
+          "…, isn’t it?",
+          "a tag for any sentence: “You’re coming, isn’t it?”"
+        ],
+        [
+          "Diolch!",
+          "Thanks! (Welsh)"
+        ]
+      ]
+    },
+    {
+      "id": "southwales",
+      "name": "South Wales",
+      "alias": "Wenglish, Cardiff English",
+      "short": "South\nWales",
       "color": "#eea672",
       "label": [
-        13.6,
-        48.15
+        -3.45,
+        51.72
       ],
       "places": [
-        "München",
-        "Passau",
-        "Salzburg",
-        "Linz",
-        "Wien",
-        "St. Pölten"
+        "Cardiff",
+        "Swansea",
+        "Newport",
+        "the Valleys"
       ],
       "say": [
         [
-          "Servus!",
-          "Hallo! / Tschüss!"
+          "cwtch",
+          "a cuddle"
         ],
         [
-          "Semmel",
-          "Brötchen"
+          "tidy",
+          "good, great"
         ],
         [
-          "vui",
-          "viel"
+          "lush",
+          "lovely"
+        ],
+        [
+          "I’ll do it now in a minute.",
+          "I’ll do it soon."
         ]
       ]
     },
     {
-      "id": "suedbairisch",
-      "name": "Südbairisch",
-      "alias": "Tirolerisch, Kärntnerisch",
-      "short": "Südbairisch",
-      "color": "#e9c78f",
+      "id": "ulster",
+      "name": "Ulster",
+      "alias": "Ulster English, Ulster Scots",
+      "short": "Ulster",
+      "color": "#5eead4",
       "label": [
-        13.0,
-        46.85
+        -6.95,
+        54.65
       ],
       "places": [
-        "Innsbruck",
-        "Bozen (Italien)",
-        "Meran",
-        "Klagenfurt",
-        "Graz",
-        "Lienz"
+        "Belfast",
+        "Derry",
+        "Armagh",
+        "Antrim",
+        "Donegal"
       ],
       "say": [
         [
-          "Griaß di!",
-          "Hallo! (Grüß dich)"
+          "aye",
+          "yes"
         ],
         [
-          "Kchind",
-          "Kind"
+          "wee",
+          "small; used with almost anything"
+        ],
+        [
+          "yous",
+          "you (more than one person)"
+        ],
+        [
+          "a dander",
+          "a walk, a stroll"
+        ]
+      ]
+    },
+    {
+      "id": "southirish",
+      "name": "Southern Irish English",
+      "alias": "Hiberno-English",
+      "short": "Ireland",
+      "color": "#9fd192",
+      "label": [
+        -8.15,
+        52.85
+      ],
+      "places": [
+        "Cork",
+        "Galway",
+        "Limerick",
+        "Waterford",
+        "Kerry"
+      ],
+      "say": [
+        [
+          "What’s the craic?",
+          "What’s new? How are things?"
+        ],
+        [
+          "grand",
+          "fine, OK"
+        ],
+        [
+          "I’m after eating.",
+          "I have just eaten."
+        ],
+        [
+          "Sure look.",
+          "Oh well, that’s how it is."
         ]
       ]
     }
   ],
   "markers": [
     {
-      "id": "koeln",
-      "name": "Kölsch",
-      "where": "Köln",
+      "id": "liverpool",
+      "name": "Scouse",
+      "where": "Liverpool",
       "at": [
-        6.96,
-        50.94
+        -2.98,
+        53.41
       ],
       "say": [
         [
-          "Tschö!",
-          "Tschüss!"
+          "Alright, la?",
+          "Hello, mate!"
         ],
         [
-          "Et hätt noch immer jot jejange.",
-          "Es ist noch immer gut gegangen."
+          "boss",
+          "great"
+        ],
+        [
+          "sound",
+          "fine, good"
+        ],
+        [
+          "scran",
+          "food"
         ]
       ]
     },
     {
-      "id": "ruhr",
-      "name": "Ruhrdeutsch",
-      "where": "Ruhrgebiet",
+      "id": "birmingham",
+      "name": "Brummie",
+      "where": "Birmingham",
       "at": [
-        7.12,
-        51.48
+        -1.9,
+        52.48
       ],
       "say": [
         [
-          "Mach ma hinne!",
-          "Beeil dich!"
+          "Tara-a-bit!",
+          "Bye, see you later!"
         ],
         [
-          "Ich geh ma bei Oma.",
-          "Ich gehe mal zu Oma."
+          "bab",
+          "love, dear (to a friend or a customer)"
+        ],
+        [
+          "babby",
+          "baby"
         ]
       ]
     },
     {
-      "id": "hamburg",
-      "name": "Hamburgisch",
-      "where": "Hamburg",
+      "id": "london",
+      "name": "Cockney and MLE",
+      "where": "London",
       "at": [
-        9.99,
-        53.55
+        -0.12,
+        51.51
       ],
       "say": [
         [
-          "über'n s-pitzen S-tein s-tolpern",
-          "über den spitzen Stein stolpern"
+          "apples and pears",
+          "stairs (rhyming slang)"
         ],
         [
-          "Moin moin!",
-          "Hallo!"
+          "Have a butcher’s.",
+          "Have a look. (butcher’s hook = look)"
+        ],
+        [
+          "bare",
+          "a lot, very (MLE)"
+        ],
+        [
+          "peng",
+          "great, good-looking (MLE)"
         ]
       ]
     },
     {
-      "id": "berlin",
-      "name": "Berlinerisch",
-      "where": "Berlin",
+      "id": "glasgow",
+      "name": "Glaswegian",
+      "where": "Glasgow",
       "at": [
-        13.4,
-        52.52
+        -4.25,
+        55.86
       ],
       "say": [
         [
-          "Icke",
-          "ich"
+          "How’s it gaun?",
+          "How’s it going?"
         ],
         [
-          "Wat denn?",
-          "Was denn?"
+          "Gonnae no dae that.",
+          "Please don’t do that."
         ],
         [
-          "Schrippe",
-          "Brötchen"
+          "wean",
+          "child"
         ]
       ]
     },
     {
-      "id": "frankfurt",
-      "name": "Frankfurterisch",
-      "where": "Frankfurt am Main",
+      "id": "belfast",
+      "name": "Belfast English",
+      "where": "Belfast",
       "at": [
-        8.68,
-        50.11
-      ],
-      "say": [
-        [
-          "Ei Gude!",
-          "Hallo!"
-        ],
-        [
-          "Bembel",
-          "Krug für Apfelwein"
-        ]
-      ]
-    },
-    {
-      "id": "wien",
-      "name": "Wienerisch",
-      "where": "Wien",
-      "at": [
-        16.37,
-        48.21
-      ],
-      "say": [
-        [
-          "Oida!",
-          "Alter! (Ausruf)"
-        ],
-        [
-          "leiwand",
-          "toll, super"
-        ],
-        [
-          "Heuriger",
-          "Weinlokal, junger Wein"
-        ]
-      ]
-    },
-    {
-      "id": "zuerich",
-      "name": "Züritüütsch",
-      "where": "Zürich",
-      "at": [
-        8.54,
-        47.37
-      ],
-      "say": [
-        [
-          "Grüezi mitenand!",
-          "Guten Tag zusammen!"
-        ],
-        [
-          "Velo",
-          "Fahrrad"
-        ],
-        [
-          "Znüni",
-          "Pause am Vormittag"
-        ]
-      ]
-    },
-    {
-      "id": "bern",
-      "name": "Bärndütsch",
-      "where": "Bern",
-      "at": [
-        7.45,
-        46.95
-      ],
-      "say": [
-        [
-          "Grüessech!",
-          "Guten Tag! (höflich)"
-        ],
-        [
-          "Merci viu mau!",
-          "Vielen Dank!"
-        ]
-      ]
-    },
-    {
-      "id": "basel",
-      "name": "Baseldytsch",
-      "where": "Basel",
-      "at": [
-        7.59,
-        47.56
-      ],
-      "say": [
-        [
-          "Kinder",
-          "Kinder (mit k)"
-        ],
-        [
-          "Drämmli",
-          "Straßenbahn"
-        ]
-      ]
-    },
-    {
-      "id": "luxemburg",
-      "name": "Lëtzebuergesch",
-      "where": "Luxemburg",
-      "at": [
-        6.13,
-        49.61
-      ],
-      "say": [
-        [
-          "Moien!",
-          "Hallo!"
-        ],
-        [
-          "Wéi geet et?",
-          "Wie geht es?"
-        ],
-        [
-          "Äddi!",
-          "Tschüss!"
-        ]
-      ]
-    },
-    {
-      "id": "elsass",
-      "name": "Elsässisch",
-      "where": "Elsass (Frankreich)",
-      "at": [
-        7.75,
-        48.58
-      ],
-      "say": [
-        [
-          "Hopla!",
-          "Hoppla! / Los geht's!"
-        ],
-        [
-          "Mir sin Elsässer.",
-          "Wir sind Elsässer."
-        ]
-      ]
-    },
-    {
-      "id": "friesisch",
-      "name": "Friesisch",
-      "where": "Nordfriesland, Saterland",
-      "at": [
-        8.85,
+        -5.93,
         54.6
       ],
-      "lang": true,
-      "say": []
+      "say": [
+        [
+          "What about ye?",
+          "How are you? Hello!"
+        ],
+        [
+          "wee",
+          "small: “a wee cup of tea”"
+        ],
+        [
+          "catch yourself on",
+          "don’t be silly"
+        ]
+      ]
     },
     {
-      "id": "sorbisch",
-      "name": "Sorbisch",
-      "where": "Lausitz",
+      "id": "dublin",
+      "name": "Dublin English",
+      "where": "Dublin",
       "at": [
-        14.42,
-        51.18
+        -6.26,
+        53.35
+      ],
+      "say": [
+        [
+          "Howya?",
+          "Hello, how are you?"
+        ],
+        [
+          "deadly",
+          "great"
+        ],
+        [
+          "gas",
+          "funny"
+        ],
+        [
+          "gaff",
+          "house, home"
+        ]
+      ]
+    },
+    {
+      "id": "welsh",
+      "name": "Welsh",
+      "where": "Cymraeg · mainly in the north and west of Wales",
+      "at": [
+        -4.1,
+        52.98
       ],
       "lang": true,
       "say": [
         [
-          "Dobry dźeń!",
-          "Guten Tag! (Obersorbisch)"
+          "Bore da!",
+          "Good morning!"
+        ],
+        [
+          "Diolch!",
+          "Thank you!"
+        ]
+      ]
+    },
+    {
+      "id": "gaelic",
+      "name": "Scottish Gaelic",
+      "where": "Gàidhlig · Outer Hebrides, Skye",
+      "at": [
+        -6.85,
+        57.95
+      ],
+      "lang": true,
+      "say": [
+        [
+          "Halò!",
+          "Hello!"
+        ],
+        [
+          "Tapadh leat!",
+          "Thank you!"
+        ]
+      ]
+    },
+    {
+      "id": "irish",
+      "name": "Irish",
+      "where": "Gaeilge · Gaeltacht areas in the west",
+      "at": [
+        -9.55,
+        53.38
+      ],
+      "lang": true,
+      "say": [
+        [
+          "Dia duit!",
+          "Hello!"
+        ],
+        [
+          "Go raibh maith agat!",
+          "Thank you!"
+        ]
+      ]
+    },
+    {
+      "id": "cornish",
+      "name": "Cornish",
+      "where": "Kernewek · Cornwall",
+      "at": [
+        -5.15,
+        50.3
+      ],
+      "lang": true,
+      "say": [
+        [
+          "Dydh da!",
+          "Good day!"
+        ],
+        [
+          "Meur ras!",
+          "Thank you!"
+        ]
+      ]
+    },
+    {
+      "id": "manx",
+      "name": "Manx",
+      "where": "Gaelg · Isle of Man",
+      "at": [
+        -4.55,
+        54.23
+      ],
+      "lang": true,
+      "say": [
+        [
+          "Moghrey mie!",
+          "Good morning!"
+        ],
+        [
+          "Gura mie ayd!",
+          "Thank you!"
         ]
       ]
     }
   ],
   "others": [
     {
-      "id": "fr",
-      "name": "Français",
+      "id": "northsea",
+      "name": "North Sea",
       "at": [
-        6.75,
-        46.62
+        1.2,
+        55.3
       ]
     },
     {
-      "id": "it",
-      "name": "Italiano",
+      "id": "irishsea",
+      "name": "Irish Sea",
       "at": [
-        8.85,
-        46.3
+        -5.35,
+        53.65
       ]
     },
     {
-      "id": "rm",
-      "name": "Rumantsch",
+      "id": "atlantic",
+      "name": "Atlantic Ocean",
       "at": [
-        9.95,
-        46.62
+        -9.3,
+        56.2
+      ]
+    },
+    {
+      "id": "channel",
+      "name": "English Channel",
+      "at": [
+        -2.3,
+        50.25
       ]
     }
   ],
   "words": [
     {
-      "id": "broetchen",
-      "de": "Brötchen",
+      "id": "roll",
+      "de": "bread roll",
       "variants": [
         {
-          "w": "Brötchen",
+          "w": "roll",
           "regions": [
-            "westfaelisch",
-            "ostfaelisch",
-            "mecklenburgisch",
-            "niederrheinisch",
-            "ripuarisch",
-            "moselfraenkisch",
-            "thueringisch",
-            "obersaechsisch"
+            "eastanglia",
+            "southeast",
+            "southwest",
+            "southwales",
+            "northmidwales",
+            "lowlands",
+            "northeastscotland",
+            "highlands",
+            "northernisles",
+            "southirish"
           ]
         },
         {
-          "w": "Rundstück",
+          "w": "bap",
           "regions": [
-            "nordniedersaechsisch"
+            "ulster"
           ]
         },
         {
-          "w": "Schrippe",
+          "w": "barm, barm cake",
           "regions": [
-            "brandenburgisch"
+            "northwest"
           ]
         },
         {
-          "w": "Weck, Weckle",
+          "w": "cob",
           "regions": [
-            "pfaelzisch",
-            "hessisch",
-            "suedfraenkisch",
-            "schwaebisch",
-            "niederalemannisch"
+            "eastmidlands"
           ]
         },
         {
-          "w": "Weggla",
+          "w": "batch, cob",
           "regions": [
-            "ostfraenkisch"
+            "westmidlands"
           ]
         },
         {
-          "w": "Semmel",
+          "w": "bread cake, teacake",
           "regions": [
-            "nordbairisch",
-            "mittelbairisch",
-            "suedbairisch"
+            "yorkshire"
           ]
         },
         {
-          "w": "Brötli, Weggli",
+          "w": "bun, stottie",
           "regions": [
-            "hochalemannisch",
-            "hoechstalemannisch"
+            "northeast",
+            "cumbria"
           ]
         }
       ]
     },
     {
-      "id": "tschuess",
-      "de": "Tschüss",
+      "id": "hello",
+      "de": "hello",
       "variants": [
         {
-          "w": "Tschüss",
+          "w": "Alright?",
           "regions": [
-            "nordniedersaechsisch",
-            "westfaelisch",
-            "ostfaelisch",
-            "mecklenburgisch",
-            "brandenburgisch",
-            "hessisch",
-            "thueringisch",
-            "obersaechsisch"
+            "southeast",
+            "southwest",
+            "eastanglia",
+            "westmidlands"
           ]
         },
         {
-          "w": "Tschö",
+          "w": "Ey up",
           "regions": [
-            "niederrheinisch",
-            "ripuarisch"
+            "yorkshire",
+            "eastmidlands"
           ]
         },
         {
-          "w": "Ade, Äddi",
+          "w": "Hiya",
           "regions": [
-            "moselfraenkisch",
-            "pfaelzisch",
-            "suedfraenkisch",
-            "schwaebisch",
-            "niederalemannisch"
+            "northwest",
+            "southwales",
+            "northmidwales"
           ]
         },
         {
-          "w": "Servus, Pfiat di",
+          "w": "Alreet?",
           "regions": [
-            "ostfraenkisch",
-            "nordbairisch",
-            "mittelbairisch",
-            "suedbairisch"
+            "northeast",
+            "cumbria"
           ]
         },
         {
-          "w": "Uf Widerluege, Tschau",
+          "w": "How’s it going?",
           "regions": [
-            "hochalemannisch",
-            "hoechstalemannisch"
+            "lowlands",
+            "highlands",
+            "northernisles"
+          ]
+        },
+        {
+          "w": "Fit like?",
+          "regions": [
+            "northeastscotland"
+          ]
+        },
+        {
+          "w": "What about ye?",
+          "regions": [
+            "ulster"
+          ]
+        },
+        {
+          "w": "What’s the craic?",
+          "regions": [
+            "southirish"
           ]
         }
       ]
@@ -1082,233 +1034,113 @@
   "lines": {
     "benrath": [
       [
-        5.6,
-        50.75
+        -3.15,
+        52.02
       ],
       [
-        5.95,
-        50.75
+        -2.5,
+        52.06
       ],
       [
-        6.45,
-        51.05
+        -1.9,
+        52.12
       ],
       [
-        6.88,
-        51.16
-      ],
-      [
-        7.05,
-        51.15
-      ],
-      [
-        7.55,
-        51.12
-      ],
-      [
-        8.0,
-        51.07
-      ],
-      [
-        8.2,
-        51.05
-      ],
-      [
-        8.35,
-        51.08
-      ],
-      [
-        8.9,
-        51.2
-      ],
-      [
-        9.55,
-        51.35
-      ],
-      [
-        9.8,
-        51.41
-      ],
-      [
-        10.4,
-        51.55
-      ],
-      [
-        11.3,
-        51.75
-      ],
-      [
-        11.9,
-        51.83
-      ],
-      [
-        12.1,
-        51.85
-      ],
-      [
-        12.9,
-        51.9
-      ],
-      [
-        13.9,
-        51.95
-      ],
-      [
-        14.6,
+        -1.35,
         52.3
       ],
       [
-        14.8,
-        52.3
+        -0.9,
+        52.47
+      ],
+      [
+        -0.45,
+        52.62
+      ],
+      [
+        0.05,
+        52.82
+      ],
+      [
+        0.4,
+        52.98
       ]
     ],
     "speyer": [
       [
-        6.2,
-        48.62
+        -3.15,
+        51.86
       ],
       [
-        7.1,
-        48.7
+        -2.35,
+        51.9
       ],
       [
-        7.35,
-        48.85
+        -1.75,
+        52
       ],
       [
-        7.7,
-        48.95
+        -1.25,
+        52.18
       ],
       [
-        7.9,
-        49.0
+        -0.75,
+        52.38
       ],
       [
-        8.2,
-        49.0
+        -0.25,
+        52.62
       ],
       [
-        8.4,
-        49.2
-      ],
-      [
-        8.55,
-        49.3
-      ],
-      [
-        8.65,
-        49.25
-      ],
-      [
-        8.95,
-        49.3
-      ],
-      [
-        9.1,
-        49.4
-      ],
-      [
-        9.2,
-        49.55
-      ],
-      [
-        9.25,
-        49.8
-      ],
-      [
-        9.3,
-        50.05
-      ],
-      [
-        9.4,
-        50.2
-      ],
-      [
-        9.6,
-        50.3
-      ],
-      [
-        9.9,
-        50.45
-      ],
-      [
-        10.1,
-        50.55
-      ],
-      [
-        10.4,
-        50.65
-      ],
-      [
-        10.8,
-        50.62
-      ],
-      [
-        11.1,
-        50.55
-      ],
-      [
-        11.5,
-        50.5
-      ],
-      [
-        11.9,
-        50.55
-      ],
-      [
-        12.2,
-        50.55
-      ],
-      [
-        12.5,
-        50.4
+        0.3,
+        52.95
       ]
     ],
     "benrathAt": [
-      10.2,
-      51.5
+      -2.85,
+      52.04
     ],
     "speyerAt": [
-      10.9,
-      50.6
+      -0.3,
+      52.62
     ]
   },
   "shift": [
     [
-      "make",
-      "maken",
-      "machen",
-      "machen"
+      "bath",
+      "short a /baθ/",
+      "short a /baθ/",
+      "long ah /bɑːθ/",
+      "short a /baθ/",
+      "a, often long /baːθ/",
+      "long a /baːθ/"
     ],
     [
-      "water",
-      "Water",
-      "Wasser",
-      "Wasser"
+      "bus",
+      "like push /bʊs/",
+      "like push /bʊs/",
+      "/bʌs/",
+      "/bʌs/",
+      "/bəs/",
+      "/bʌs/"
     ],
     [
-      "I",
-      "ik",
-      "ich",
-      "ich"
+      "car (the r)",
+      "no r (yes in parts of Lancashire)",
+      "no r",
+      "no r (yes in the West Country)",
+      "r",
+      "mostly no r",
+      "r"
     ],
     [
-      "that",
-      "dat",
-      "dat / das",
-      "das"
-    ],
-    [
-      "apple",
-      "Appel",
-      "Appel",
-      "Apfel"
-    ],
-    [
-      "pound",
-      "Pund",
-      "Pund",
-      "Pfund"
+      "face",
+      "often one vowel /feːs/",
+      "/feɪs/, in Birmingham /fʌɪs/",
+      "/feɪs/",
+      "one vowel /fes/",
+      "often one vowel /feːs/",
+      "one vowel /feːs/"
     ]
   ],
   "variantColors": [
@@ -1318,6 +1150,7 @@
     "#fcd34d",
     "#c4b5fd",
     "#f9a8d4",
-    "#5eead4"
+    "#5eead4",
+    "#fdba74"
   ]
 }

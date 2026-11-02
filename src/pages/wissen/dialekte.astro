@@ -1,12 +1,12 @@
 ---
-// /wissen/dialekte — the dialect map of the German-speaking area: the big dialect areas of
-// DE, AT, CH and the German-speaking edges (Luxemburg, Elsass, Lothringen, Ostbelgien,
-// Südtirol), city dialects and neighbouring languages as dots, the Benrath and Speyer lines,
-// and a word mode that recolours the map by what people say for „Brötchen" or „Tschüss".
+// /wissen/dialekte — the accent map of the UK and Ireland: accent areas in six groups (North,
+// Midlands, South, Scotland, Wales, Ireland), city accents and the Celtic languages as dots,
+// the FOOT–STRUT and TRAP–BATH lines (data keys benrath/speyer), and a word mode that
+// recolours the map by what people say for "bread roll" or "hello".
 //
-// Built like /wissen/sprachen: all prose is in public/i18n/*.json under dialekte.*, read from
-// de.json here for the server-rendered HTML. Names, places and the dialect examples are in
-// src/data/dialekte.json (not translated: they are German). The outlines are pre-projected
+// Built like /wissen/sprachen: all prose is in public/i18n/en.json under dialekte.*, read
+// here for the server-rendered HTML. Names, places and the examples are in
+// src/data/dialekte.json (not translated). The outlines are pre-projected
 // into dialekte-karte.json by scripts/generate-dialekte-karte.mjs, so the page ships plain
 // <path>s and no map library. Every card is in the HTML; the script only picks which one shows.
 import Layout from "../../layouts/Layout.astro";
@@ -43,6 +43,8 @@ const modeCss = dl.words
   .map((w) => `.dl-svg[data-mode="${w.id}"] .dl-r{fill:var(--v-${w.id})}.dl-svg[data-mode="${w.id}"] .dl-labels[data-labels="${w.id}"]{display:inline}`)
   .join("");
 const lines = (s: string) => s.split("\n");
+// The Celtic-language dots: their examples are not English.
+const LANG_OF: Record<string, string> = { welsh: "cy", gaelic: "gd", irish: "ga", cornish: "kw", manx: "gv" };
 // Bierkarte: same outlines, dots placed with the dialect map's projection.
 const kindColor = Object.fromEntries(bier.kinds.map((k) => [k.id, k.color]));
 const bierAt = Object.fromEntries(bier.places.map((p) => [p.id, projectDach(p.at as [number, number])]));
@@ -51,7 +53,7 @@ const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map(
 ---
 <Layout
   title="Accents of English in the British Isles – EnglishAcademy"
-  description="Accents and dialects of English in the British Isles: Scouse, Geordie, Glaswegian, Welsh and Irish English and more — with examples and how people say hello and goodbye."
+  description="Accents and dialects of English in the UK and Ireland: Scouse, Geordie, Glaswegian, Welsh and Irish English and more — with examples, how people say hello and what they call a bread roll."
 >
   <style set:html={modeCss}></style>
   <div class="uv">
@@ -76,7 +78,6 @@ const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map(
         <a href="#karte" data-i18n="dialekte.map.title">{t("dialekte.map.title")}</a>
         <a href="#linien" data-i18n="dialekte.lines.title">{t("dialekte.lines.title")}</a>
         <a href="#lernen" data-i18n="dialekte.learn.title">{t("dialekte.learn.title")}</a>
-        <a href="#bier" data-i18n="dialekte.bier.title">{t("dialekte.bier.title")}</a>
       </nav>
 
       <!-- ── Karte ─────────────────────────────────────────────────────────── -->
@@ -120,10 +121,10 @@ const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map(
                 <path class="dl-line dl-line--speyer" d={K.speyer} />
               </g>
               <g class="dl-lines dl-line-labels" aria-hidden="true">
-                <text x={K.benrathAt[0]} y={K.benrathAt[1] - 8} text-anchor="middle">maken ↑</text>
-                <text x={K.benrathAt[0]} y={K.benrathAt[1] + 16} text-anchor="middle">machen ↓</text>
-                <text class="dl-line-label--speyer" x={K.speyerAt[0]} y={K.speyerAt[1] - 8} text-anchor="middle">Appel ↑</text>
-                <text class="dl-line-label--speyer" x={K.speyerAt[0]} y={K.speyerAt[1] + 16} text-anchor="middle">Apfel ↓</text>
+                <text x={K.benrathAt[0]} y={K.benrathAt[1] - 8} text-anchor="middle">bus /ʊ/ ↑</text>
+                <text x={K.benrathAt[0]} y={K.benrathAt[1] + 16} text-anchor="middle">bus /ʌ/ ↓</text>
+                <text class="dl-line-label--speyer" x={K.speyerAt[0]} y={K.speyerAt[1] - 8} text-anchor="middle">bath /a/ ↑</text>
+                <text class="dl-line-label--speyer" x={K.speyerAt[0]} y={K.speyerAt[1] + 16} text-anchor="middle">bath /ɑː/ ↓</text>
               </g>
               {/* Labels: one set per view, CSS shows the one that matches data-mode. */}
               <g class="dl-labels" data-labels="dialects" aria-hidden="true">
@@ -176,7 +177,7 @@ const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map(
                 {r.say.length > 0 && (
                   <div class="dl-say">
                     <p class="sp-where-title" data-i18n="dialekte.card.say">{t("dialekte.card.say")}</p>
-                    <ul>{r.say.map(([d, h], i) => <li style={`--i:${i}`}><b lang="de">{d}</b><span lang="de">{h}</span></li>)}</ul>
+                    <ul>{r.say.map(([d, h], i) => <li style={`--i:${i}`}><b lang="en">{d}</b><span>{h}</span></li>)}</ul>
                   </div>
                 )}
                 <div class="sp-where">
@@ -193,7 +194,7 @@ const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map(
                 {m.say.length > 0 && (
                   <div class="dl-say">
                     <p class="sp-where-title" data-i18n="dialekte.card.say">{t("dialekte.card.say")}</p>
-                    <ul>{m.say.map(([d, h], i) => <li style={`--i:${i}`}><b lang="de">{d}</b><span lang="de">{h}</span></li>)}</ul>
+                    <ul>{m.say.map(([d, h], i) => <li style={`--i:${i}`}><b lang={m.lang ? LANG_OF[m.id] : "en"}>{d}</b><span>{h}</span></li>)}</ul>
                   </div>
                 )}
               </article>
@@ -203,7 +204,7 @@ const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map(
                 <h3 data-i18n="dialekte.map.wordLead" data-i18n-vars={vars({ w: w.de })}>{t("dialekte.map.wordLead").replace("{w}", w.de)}</h3>
                 <ul class="dl-variants">
                   {w.variants.map((v, i) => (
-                    <li><span class="dl-swatch" style={`background:${dl.variantColors[i % dl.variantColors.length]}`}></span><b lang="de">{v.w}</b></li>
+                    <li><span class="dl-swatch" style={`background:${dl.variantColors[i % dl.variantColors.length]}`}></span><b lang="en">{v.w}</b></li>
                   ))}
                 </ul>
                 <p class="sp-fine" data-i18n="dialekte.map.wordNote">{t("dialekte.map.wordNote")}</p>
@@ -213,7 +214,7 @@ const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map(
         </div>
 
         {/* The legend is also the list: every area and dot is a button, so nobody has to
-            hit Südfränkisch with a thumb — and it is the keyboard way in. */}
+            hit Cumbria with a thumb — and it is the keyboard way in. */}
         <div class="sp-legend dl-legend">
           {dl.groups.map((g) => (
             <div class="sp-legend-row">
@@ -266,7 +267,7 @@ const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map(
               {dl.shift.map(([en, ...cols]) => (
                 <tr>
                   <th scope="row" lang="en">{en}</th>
-                  {cols.map((c) => <td lang="de" class="sp-word">{c}</td>)}
+                  {cols.map((c) => <td class="sp-word">{c}</td>)}
                 </tr>
               ))}
             </tbody>
@@ -282,7 +283,10 @@ const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map(
       </section>
 
       <!-- ── Bierkarte ─────────────────────────────────────────────────────── -->
-      {/* Own .bk-* hooks and its own script below, so it never reacts to the dialect map. */}
+      {/* Own .bk-* hooks and its own script below, so it never reacts to the dialect map.
+          Hidden on EnglishAcademy: the beer map is German content (bier.json, bier-karte.json,
+          dialekte.bier.* keys) with no English counterpart yet. */}
+      {false && (
       <section class="sp-sec bk" id="bier">
         <div class="sp-sec-head">
           <div>
@@ -427,6 +431,7 @@ const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map(
         <p class="sp-fine" data-i18n="dialekte.bier.note">{t("dialekte.bier.note")}</p>
         <p class="sp-fine" data-i18n="dialekte.bier.src">{t("dialekte.bier.src")}</p>
       </section>
+      )}
 
       <section class="fe-note sp-sources">
         <div>
@@ -513,7 +518,9 @@ const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map(
   <script>
     // Bierkarte: a region, dot or chip opens its card; the switch fades the dots of other kinds.
     import { enhanceSwitch } from "../../lib/segSwitch.js";
-    const root = document.getElementById("bier")!;
+    const root = document.getElementById("bier");
+    if (root) initBier(root);
+    function initBier(root: HTMLElement) {
     const svg = root.querySelector<SVGSVGElement>(".bk-svg")!;
     const cards = Array.from(root.querySelectorAll<HTMLElement>("[data-bier-card]"));
     const empty = root.querySelector<HTMLElement>(".bk-empty")!;
@@ -570,5 +577,6 @@ const bierGroupOf = Object.fromEntries(bier.groups.flatMap((g) => g.regions.map(
     // ?bier=bamberg opens a place directly (shareable).
     const fromUrl = new URLSearchParams(location.search).get("bier");
     if (fromUrl && cards.some((c) => c.dataset.bierCard === fromUrl)) select(fromUrl);
+    }
   </script>
 </Layout>

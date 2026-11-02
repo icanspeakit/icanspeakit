@@ -11,6 +11,11 @@
 //
 // Same setup as the dialect map:
 //   NODE_PATH=/tmp/geo/node_modules ADM1=/tmp/geo/adm1.geojson node scripts/generate-bier-karte.mjs
+//
+// EnglishAcademy: the beer map is hidden on /wissen/dialekte (it is German content), and
+// scripts/generate-dialekte-karte.mjs now draws the UK and Ireland. To re-run this script,
+// first restore the German generator next to it:
+//   git show e3dffc9:scripts/generate-dialekte-karte.mjs > scripts/generate-dialekte-karte.mjs
 import fs from "fs";
 import { pc, state, union, MASK, CHE_DE, LIE, LUX, AUT, lorraine, ostbelgien, parts, stream, mp, P } from "./generate-dialekte-karte.mjs";
 
