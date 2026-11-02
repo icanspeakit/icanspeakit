@@ -1,7 +1,7 @@
 # Übersetzungen — ar / uk / ru / tr
 
 > **English levels (since 2026-10-30, `vocab-a1`).** A level whose nouns carry `a` / `an` /
-> `some` is English (`ENGLISH_LEVELS` in `src/lib/lexicon.js`; A1–B2, i.e. every level that has words). For those words:
+> `some` is English (`ENGLISH_LEVELS` in `src/lib/lexicon.js`; A1–C2 since `vocab-c1-c2` on 2026-11-02, i.e. every level that has words). For those words:
 > `de.json` holds a plain **German translation** (nouns with their article: „der Vorname“), not
 > a German explanation, and `check-erklaerungen.mjs` skips them. `de-fill.json` and
 > `de-syn.json` only serve German words (gap answers of German hints, German synonyms) and
