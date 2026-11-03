@@ -1,3 +1,7 @@
+# icanspeak Spanish is served at https://icanspeak.it/spanish/. Crawlers only read
+# /robots.txt at the domain root, which belongs to the umbrella site (icanspeak.it): this file
+# ends up at /spanish/robots.txt and is the template for the /spanish lines to merge there.
+#
 # Crawl the learner site; skip the design prototypes.
 #
 # Everything listed below is a route under src/pages/ that builds to a public URL but is
@@ -6,11 +10,11 @@
 # src/layouts/Layout.astro. The old layout studies were deleted on 2026-10-01.
 
 User-agent: *
-Disallow: /design-system
-Disallow: /newfont
+Disallow: /spanish/design-system
+Disallow: /spanish/newfont
 # Paid practice data (scripts/build-paid-manifest.mjs): fetched by the pages after the lock
 # check, never meant for search results. Also sent with X-Robots-Tag: noindex (vercel.json).
-Disallow: /inhalt/
+Disallow: /spanish/inhalt/
 # Content Signals (contentsignals.org): search and answers that link here yes, model
 # training no — the same policy as the AI-crawler block below.
 Content-Signal: search=yes, ai-input=yes, ai-train=no
@@ -42,4 +46,4 @@ User-agent: ImagesiftBot
 User-agent: Timpibot
 Disallow: /
 
-Sitemap: https://englishacademy.com/sitemap.xml
+Sitemap: https://icanspeak.it/spanish/sitemap.xml

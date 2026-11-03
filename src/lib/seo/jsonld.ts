@@ -7,12 +7,9 @@
 // every nested page. SEO-BRAND-TIERED-PROMPT.md, Tier 1.
 import { LEGAL } from "../legal.js";
 
-/** Official profiles that belong to EnglishAcademy (Tier 0, Edgar). Only accounts we control:
-    the YouTube channel "English Academy" and the Instagram deutschakademie_berlin are NOT ours.
-    Empty → no sameAs at all. */
-export const SAME_AS: string[] = [
-  "https://www.instagram.com/englishacademy_com/",
-];
+/** Official profiles that belong to icanspeak Spanish. Only accounts we control; the English
+    course's Instagram is not this site's. Empty → no sameAs at all. */
+export const SAME_AS: string[] = [];
 
 export const orgId = (site: string) => `${site}/#organization`;
 export const websiteId = (site: string) => `${site}/#website`;
@@ -21,14 +18,14 @@ export function organizationLd(site: string) {
   return {
     "@type": "Organization",
     "@id": orgId(site),
-    name: "EnglishAcademy",
-    alternateName: ["English Academy", "englishacademy.com"],
+    name: "icanspeak Spanish",
+    alternateName: ["icanspeak", "icanspeak.it/spanish"],
     url: `${site}/`,
     // Square, ≥ 112 px: what Google needs for the logo next to the result. The wide wordmark
     // (/assets/logo.png, 618 × 176) does not qualify.
     logo: { "@type": "ImageObject", url: `${site}/icon-512.png`, width: 512, height: 512 },
     description:
-      "EnglishAcademy is a free website for practising English and preparing for Cambridge English, IELTS, Trinity ISE and the Life in the UK test.",
+      "icanspeak Spanish is a free website for learning the Spanish of Spain, from A1 to C1, and preparing for the DELE, the SIELE and the CCSE.",
     // Already public on /legal-notice. The operator's name and address stay there: they are a
     // private person's, not an organisation's.
     email: LEGAL.contactEmail,
@@ -42,10 +39,10 @@ export function websiteLd(site: string) {
   return {
     "@type": "WebSite",
     "@id": websiteId(site),
-    name: "EnglishAcademy",
-    alternateName: "English Academy",
+    name: "icanspeak Spanish",
+    alternateName: "icanspeak",
     url: `${site}/`,
-    inLanguage: "en-GB",
+    inLanguage: "en",
     publisher: { "@id": orgId(site) },
   };
 }

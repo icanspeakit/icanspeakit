@@ -2,7 +2,7 @@
 /* Renders every built page in the base language (src/lib/languages.js: BASE = "en").
  *
  * The components carry their visible text twice: as server text (often still the German
- * wording inherited from englishacademy) and as a data-i18n key into public/i18n/en.json.
+ * wording inherited from the English course) and as a data-i18n key into public/i18n/en.json.
  * In the browser src/lib/i18n.js paints the dictionary over the server text; this step does
  * the same at build time, with the same translateHtml() the entry pages use, so the HTML that
  * search engines, link previews and no-JS visitors get is English too, and nothing flashes.
@@ -13,6 +13,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { translateHtml } from './entry-pages.mjs';
 import { BASE } from '../lib/languages.js';
+import { rebaseHtml } from '../lib/paths.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -30,7 +31,9 @@ export async function renderBaseLanguage(root, logger = console) {
   let n = 0;
   for await (const file of htmlFiles(root)) {
     const html = await readFile(file, 'utf8');
-    const out = translateHtml(html, dict).replace(/<html\b([^>]*?)\slang="[^"]*"/i, `<html$1 lang="${BASE}"`);
+    // rebaseHtml: the dictionary strings may carry links (<a href="/…">); they move under the
+    // base path here, like the rest of the page did in src/middleware.js.
+    const out = rebaseHtml(translateHtml(html, dict)).replace(/<html\b([^>]*?)\slang="[^"]*"/i, `<html$1 lang="${BASE}"`);
     if (out !== html) { await writeFile(file, out); n++; }
   }
   logger.info?.(`base-language: ${n} pages rendered in "${BASE}"`);

@@ -14,31 +14,36 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { htmlFiles, toPathname, NOINDEX, REFRESH } from './sitemap.mjs';
+import { absoluteUrl } from '../lib/paths.js';
 
 /** Headings and the pages under them. `/x/*` = every built page below /x as well. */
+// Site paths (without /spanish); the URLs are built with absoluteUrl() (src/lib/paths.js).
+// The Spanish-course slugs (docs/content-plan.md §8) are listed already: they appear once the
+// `routes` run builds them. The English-course slugs next to them go when `routes` renames them.
 const SECTIONS = [
-  ['Einstieg', ['/placement-test', '/step-by-step', '/exercises', '/progress']],
-  ['Grammatik und Wortschatz', ['/grammar', '/vocabulary', '/present-continuous', '/pronunciation']],
-  ['Fertigkeiten', ['/skills', '/speaking', '/listening', '/reading', '/writing']],
-  ['Prüfungen', ['/exams', '/cambridge', '/cambridge/*', '/trinity', '/trinity/*', '/trinity/ise-1', '/trinity/ise-1/*', '/ielts', '/life-in-the-uk']],
-  ['Alltag, Beruf und Landeskunde', ['/english-for-work', '/culture', '/knowledge', '/knowledge/word-stories']],
-  ['Für Lehrkräfte', ['/teachers']],
+  ['Start here', ['/placement-test', '/step-by-step', '/exercises', '/progress']],
+  ['Grammar and vocabulary', ['/grammar', '/grammar/conjugation', '/vocabulary', '/pronunciation']],
+  ['Skills', ['/skills', '/speaking', '/listening', '/reading', '/writing']],
+  ['Exams', ['/exams', '/dele', '/dele/*', '/siele', '/siele/*', '/exams/dele-or-siele', '/ccse', '/nationality', '/nationality/*',
+    '/cambridge', '/cambridge/*', '/trinity', '/trinity/*', '/ielts', '/life-in-the-uk']],
+  ['Life and work in Spain', ['/spanish-for-work', '/business-spanish', '/dgt-vocabulary', '/english-for-work', '/culture', '/knowledge', '/knowledge/word-stories']],
+  ['For teachers', ['/teachers']],
   // The entry pages with their own URL per language (./entry-pages.mjs): the home of each.
-  ['In anderen Sprachen', ['/es', '/pt-br', '/vi', '/hi', '/id', '/tl']],
+  ['In other languages', ['/de', '/fr', '/pt', '/it']],
 ];
 
 const ENTITIES = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'", '&#x27;': "'" };
 const decode = (s) => s.replace(/&(amp|lt|gt|quot|#39|#x27);/g, (m) => ENTITIES[m] ?? m).trim();
 const TITLE = /<title>([^<]*)<\/title>/i;
 const DESC = /<meta\s[^>]*name=["']description["'][^>]*content=["']([^"']*)["']/i;
-const SUFFIX = /\s+[–|-]\s+(EnglishAcademy|English Academy)$/;
+const SUFFIX = /\s+[–|-]\s+(icanspeak Spanish|icanspeak)$/;
 
 /** @returns {import('astro').AstroIntegration} */
 export default function llmsTxt() {
   /** @type {URL | undefined} */
   let site;
   return {
-    name: 'englishacademy-llms-txt',
+    name: 'icanspeak-llms-txt',
     hooks: {
       'astro:config:done': ({ config }) => {
         site = config.site ? new URL(config.site) : undefined;
@@ -62,10 +67,10 @@ export default function llmsTxt() {
         const line = (p) => {
           const page = pages.get(p);
           if (!page) return null;
-          const url = new URL(p, site).href;
+          const url = absoluteUrl(p);
           return `- [${page.title}](${url})${page.description ? `: ${page.description}` : ''}`;
         };
-        let out = `# EnglishAcademy\n\n> ${home.description}\n`;
+        let out = `# icanspeak Spanish\n\n> ${home.description}\n`;
         for (const [heading, list] of SECTIONS) {
           const paths = list.flatMap((p) =>
             p.endsWith('/*')

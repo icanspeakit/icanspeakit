@@ -1,6 +1,7 @@
 import { languagesFor, htmlLang, BASE } from "./languages.js";
 import { loadScriptFont } from "./scriptFonts.js";
 import { applyLangCss } from "./langCss.js";
+import { withBase, rebaseHtml } from "./paths.js";
 
 /** The interface languages, from the registry (src/lib/languages.js), in menu order. */
 // `htmlLang` is what <html lang> says: the code, or its hreflang where the registry has one
@@ -27,7 +28,7 @@ export function getLang() {
 async function loadDict(code) {
   if (dictCache[code]) return dictCache[code];
   try {
-    const res = await fetch(`/i18n/${code}.json`);
+    const res = await fetch(withBase(`/i18n/${code}.json`));
     dictCache[code] = await res.json();
   } catch {
     dictCache[code] = {};
@@ -80,7 +81,8 @@ function applyToDom(dict) {
   document.querySelectorAll("[data-i18n-html]").forEach((el) => {
     const key = el.getAttribute("data-i18n-html");
     const vars = varsOf(el, globals);
-    if (dict[key] != null) el.innerHTML = translate(dict, key, vars);
+    // rebaseHtml: a link in the string (href="/grammar") goes under the base path (paths.js).
+    if (dict[key] != null) el.innerHTML = rebaseHtml(translate(dict, key, vars));
   });
   document.querySelectorAll("[data-i18n-attr]").forEach((el) => {
     el.getAttribute("data-i18n-attr").split(";").forEach((pair) => {

@@ -12,6 +12,7 @@ import { languageOf, BASE } from "../lib/languages.js";
 import { fontFaceCss } from "../lib/scriptFonts.js";
 import { langRules } from "../lib/langCss.js";
 import { organizationLd, websiteLd, breadcrumbLd, trailFor, orgId, type Crumb } from "../lib/seo/jsonld";
+import { withBase, stripBase, absoluteUrl, SITE_ORIGIN, BASE_PATH } from "../lib/paths.js";
 
 // The interface languages' text directions for the first-paint script in <head>, written
 // out of the registry (src/lib/languages.js) as a JS object literal — so the codes stay in
@@ -48,8 +49,8 @@ interface Props {
 }
 
 const {
-  title = "EnglishAcademy – practise English for free: Cambridge, IELTS, Trinity",
-  description = "Learn English with real classroom material: free practice for Cambridge English, IELTS, Trinity ISE and the Life in the UK test.",
+  title = "icanspeak Spanish – learn the Spanish of Spain for free: DELE, SIELE, CCSE",
+  description = "Learn Spanish as it is spoken in Spain, from A1 to C1: free grammar, vocabulary and practice for the DELE, the SIELE and the CCSE.",
   noindex = false,
   schema,
   breadcrumb,
@@ -68,23 +69,26 @@ const {
 // shares its own 1200×630 card instead of the default. Matched on the route, so no page has
 // to pass anything; read from the manifest rather than the disk, which the on-demand routes
 // on Vercel do not have.
-const route = Astro.url.pathname.replace(/\/+$/, "") || "/";
+// The site path without the base (/spanish/grammar → /grammar, src/lib/paths.js): routes,
+// hub photos and breadcrumbs are keyed on it; every URL written out gets the base back.
+const route = stripBase(Astro.url.pathname).replace(/\/+$/, "") || "/";
 const hubOg = Object.values(hubBilder as Record<string, { path: string; og: string; alt: string }>)
   .find((h) => h.path === route);
 const OG_IMAGE = hubOg?.og ?? "/assets/og-default.png";
-const OG_ALT = hubOg?.alt ?? "EnglishAcademy – learn English for free";
-const abs = (path) => (Astro.site ? new URL(path, Astro.site).href : path);
+const OG_ALT = hubOg?.alt ?? "icanspeak Spanish – learn Spanish for free";
+const abs = (path) => (Astro.site ? absoluteUrl(path) : withBase(path));
 // One address per page for search engines: no trailing slash (the form every internal link
 // uses and the one in /sitemap.xml), no query string — ?voll, ?lang=…, tracking parameters all
 // collapse onto the clean URL. Not emitted on noindex pages: a draft has nothing to point at.
-const canonical = Astro.site && route !== "/404" ? new URL(route, Astro.site).href : null;
+// The home page is https://icanspeak.it/spanish/ (with the slash: it is a folder of the domain).
+const canonical = Astro.site && route !== "/404" ? absoluteUrl(route) : null;
 
 // Structured data (schema.org JSON-LD), built in src/lib/seo/jsonld.ts: Organization and
 // WebSite on the homepage, a breadcrumb trail on nested pages (named like the section pages'
 // own titles; a page may name its parents with the `breadcrumb` prop), and whatever the page
 // adds with `schema` (grammar topics, exam sets), which points at the organisation by @id.
-const SITE_URL = Astro.site ? Astro.site.href.replace(/\/$/, "") : "";
-const pageName = title.replace(/\s+[–|-]\s+(EnglishAcademy|English Academy)$/, "");
+const SITE_URL = Astro.site ? SITE_ORIGIN + BASE_PATH : "";
+const pageName = title.replace(/\s+[–|-]\s+(icanspeak Spanish|icanspeak)$/, "");
 const trail = trailFor(route, pageName, breadcrumb);
 const pageSchema = [schema ?? []].flat().map((o) => ({ provider: { "@id": orgId(SITE_URL) }, inLanguage: BASE, ...o }));
 const graph = SITE_URL && !noindex
@@ -284,11 +288,11 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
          icon changes.
          `rel="shortcut icon"` was dropped: it is a non-standard legacy alias for
          `rel="icon"` and adds a second, competing declaration for the same file. -->
-    <link rel="icon" href="/favicon.ico?v=2" sizes="32x32" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
-    <link rel="manifest" href="/site.webmanifest?v=2" />
+    <link rel="icon" href={withBase("/favicon.ico?v=2")} sizes="32x32" />
+    <link rel="icon" type="image/png" sizes="32x32" href={withBase("/favicon-32x32.png?v=2")} />
+    <link rel="icon" type="image/png" sizes="16x16" href={withBase("/favicon-16x16.png?v=2")} />
+    <link rel="apple-touch-icon" sizes="180x180" href={withBase("/apple-touch-icon.png?v=2")} />
+    <link rel="manifest" href={withBase("/site.webmanifest?v=3")} />
     <!-- Brand teal (--brand-blue in global.css). Was #4d9be1, a blue left over from an
          earlier palette, so the browser chrome did not match the site. -->
     <meta name="theme-color" content="#0d9488" />
@@ -301,11 +305,11 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     <!-- All four families are self-hosted from /public/fonts; nothing is
          fetched from fonts.googleapis.com. Preload the three that paint
          above the fold (Bungee Shade is accent-only, so it can wait). -->
-    <link rel="preload" href="/fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/big-shoulders-display-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/albert-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={withBase("/fonts/sora-latin.woff2")} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={withBase("/fonts/big-shoulders-display-latin.woff2")} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={withBase("/fonts/albert-sans-latin.woff2")} as="font" type="font/woff2" crossorigin />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="EnglishAcademy" />
+    <meta property="og:site_name" content="icanspeak Spanish" />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -331,12 +335,13 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         when one exists (src/lib/unterricht/leiste.js). */}
     {(
       <script>
+        import { currentPath } from "../lib/paths.js";
         let running = false;
         let lernt = false;
         try { running = !!localStorage.getItem("da:unterricht"); lernt = !!localStorage.getItem("da:lernstunde"); } catch {}
-        if (running && !location.pathname.startsWith("/teachers/lesson")) {
+        if (running && !currentPath().startsWith("/teachers/lesson")) {
           import("../lib/unterricht/leiste.js").then((m) => m.boot()).catch(() => {});
-        } else if (!running && lernt && location.pathname !== "/lesson") {
+        } else if (!running && lernt && currentPath() !== "/lesson") {
           // A learner's Stunde (/lesson): the same bar in its learner mode. A teacher session
           // on the same device wins (the learner's stays stored).
           import("../lib/unterricht/leiste.js").then((m) => m.bootLern()).catch(() => {});
@@ -355,13 +360,24 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         „Live-Quiz“ button) opens a new tab, so the page the teacher came from stays open.
         Inside the quiz pages themselves (builder, /game) links keep the same tab. */}
     {(
-      <script is:inline>
+      <script is:inline define:vars={{ BASE_PATH }}>
+        // Paths compared without the base (/spanish, src/lib/paths.js).
+        const strip = (p) => (p === BASE_PATH || p.startsWith(BASE_PATH + "/") ? p.slice(BASE_PATH.length) || "/" : p);
         document.addEventListener("click", (e) => {
           const a = e.target instanceof Element && e.target.closest("a[href]");
-          if (!a || a.target) return;
+          if (!a) return;
+          const raw = a.getAttribute("href") || "";
+          // Safety net for links written by scripts at run time: a root-absolute href outside
+          // the base would leave the site (the domain root is another site). The build checks
+          // the HTML (pnpm check:base); this catches what a script adds later.
+          if (raw.startsWith("/") && !raw.startsWith("//") && raw !== BASE_PATH && !raw.startsWith(BASE_PATH + "/") && !raw.startsWith(BASE_PATH + "?") && !raw.startsWith(BASE_PATH + "#")) {
+            a.setAttribute("href", BASE_PATH + raw);
+          }
+          if (a.target) return;
           const u = new URL(a.href, location.href);
-          if (u.origin !== location.origin || u.pathname.replace(/\/$/, "") !== "/teachers/quiz") return;
-          if (location.pathname.startsWith("/teachers/quiz") || location.pathname.startsWith("/game")) return;
+          if (u.origin !== location.origin || strip(u.pathname).replace(/\/$/, "") !== "/teachers/quiz") return;
+          const here = strip(location.pathname);
+          if (here.startsWith("/teachers/quiz") || here.startsWith("/game")) return;
           a.target = "_blank";
           a.rel = "noopener";
         }, true);
@@ -369,6 +385,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     )}
     <script>
       import { initI18n } from "../lib/i18n.js";
+      import { currentPath } from "../lib/paths.js";
       import "../styles/mascot-celebrate.css";
       import "../styles/touchpoints.css";
       initI18n();
@@ -388,8 +405,9 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         window.addEventListener(type, (e) => { tips().then((m) => m.handle(e as CustomEvent)); });
       }
       try {
-        if (localStorage.getItem("da-tips-v1") == null || location.pathname.startsWith("/progress")) {
-          tips().then((m) => { m.noteVisit(); if (location.pathname.startsWith("/progress")) m.markProgressSeen(); });
+        const onProgress = currentPath().startsWith("/progress");
+        if (localStorage.getItem("da-tips-v1") == null || onProgress) {
+          tips().then((m) => { m.noteVisit(); if (onProgress) m.markProgressSeen(); });
         }
       } catch {}
     </script>
