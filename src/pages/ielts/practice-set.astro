@@ -42,6 +42,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
   <script type="application/json" id="tdaf-data" set:html={JSON.stringify(satz)}></script>
   <script type="module">
     import { mountExamApp } from "../../lib/examApp.js";
+    import { withBase } from "../../lib/paths.js";
     import { choiceCard, el, sectionHeader, escapeHtml, practiceToggle } from "../../lib/exam/renderHelpers.js";
     import { countAnswered, countCorrect, percent } from "../../lib/exam/scoring.js";
     import { recordAttempt } from "../../lib/progress.js";
@@ -401,7 +402,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
 
           const actions = el("div", "exam-actions");
           const back = el("a", "quiz-btn", escapeHtml(T("tdf.toPage", "To the IELTS page")));
-          back.href = "/ielts";
+          back.href = withBase("/ielts");
           actions.appendChild(back);
           main.appendChild(actions);
         },

@@ -384,6 +384,7 @@ const bridgeLangs = fehler.languages
     import { mountPronunciation, readHeard } from "../lib/pronunciation.js";
     import { mountSideNavFold } from "../lib/sideNavFold.js";
     import { t } from "../lib/uiText.js";
+    import { withBase } from "../lib/paths.js";
     import { recordSession } from "../lib/progress.js";
     import { getLang, loadDict, onLangChange, retranslate } from "../lib/i18n.js";
     import { getMuttersprache, setMuttersprache, onMutterspracheChange } from "../lib/muttersprache.js";
@@ -598,7 +599,7 @@ const bridgeLangs = fehler.languages
         if (on) name = b.dataset.bridgeName;
       });
       const forEl = bridge.querySelector("[data-bridge-all-for]");
-      bridge.querySelector("[data-bridge-all]").href = name ? `/culture/mistakes?lang=${id}` : "/culture/mistakes";
+      bridge.querySelector("[data-bridge-all]").href = withBase(name ? `/culture/mistakes?lang=${id}` : "/culture/mistakes");
       bridge.querySelector("[data-bridge-all-any]").hidden = !!name;
       forEl.hidden = !name;
       if (name) {
@@ -714,7 +715,7 @@ const bridgeLangs = fehler.languages
       aside.addEventListener("click", (e) => {
         const b = e.target.closest("[data-regel-play]");
         if (!b) return;
-        voice.src = b.dataset.regelPlay;
+        voice.src = withBase(b.dataset.regelPlay);
         voice.play().catch(() => {});
       });
 

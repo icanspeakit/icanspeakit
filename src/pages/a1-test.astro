@@ -54,6 +54,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
   <script type="application/json" id="sd1-data" set:html={JSON.stringify(data)}></script>
   <script type="module">
     import { mountExamApp } from "../lib/examApp.js";
+    import { withBase } from "../lib/paths.js";
     import { choiceCard, el, sectionHeader, escapeHtml, practiceToggle } from "../lib/exam/renderHelpers.js";
     import { countAnswered, countCorrect, percent } from "../lib/exam/scoring.js";
     import { recordAttempt } from "../lib/progress.js";
@@ -124,7 +125,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
       const player = el("audio", "hoer-audio");
       player.controls = true;
       player.preload = "none";
-      player.src = src;
+      player.src = withBase(src);
       return player;
     }
 
@@ -420,9 +421,9 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
 
           const actions = el("div", "exam-actions");
           const telc = el("a", "quiz-btn", escapeHtml(T("sd1.toTelc", "Zur telc-Übersicht")));
-          telc.href = "/trinity";
+          telc.href = withBase("/trinity");
           const goethe = el("a", "quiz-btn", escapeHtml(T("sd1.toGoethe", "Zur Goethe-Übersicht")));
-          goethe.href = "/cambridge";
+          goethe.href = withBase("/cambridge");
           actions.appendChild(telc);
           actions.appendChild(goethe);
           main.appendChild(actions);

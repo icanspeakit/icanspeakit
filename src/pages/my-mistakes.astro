@@ -119,6 +119,7 @@ const freeLimit = premiumFeatures.find((f) => f.id === "fehler")!.free.limit;
 
 <script>
   import { readFehler } from "../lib/fehler.js";
+  import { withBase } from "../lib/paths.js";
   import { can } from "../lib/access.js";
   import { wouldLock } from "../lib/intent.js";
   import { mountWorksheet } from "../lib/arbeitsblatt/client.js";
@@ -174,7 +175,7 @@ const freeLimit = premiumFeatures.find((f) => f.id === "fehler")!.free.limit;
     }
     $("[data-mf-list]").innerHTML = [...groups].map(([topic, items]) => `
       <section class="mf-group">
-        <h2>${items[0].href ? `<a href="${esc(items[0].href)}">${esc(topic)}</a>` : esc(topic)}<small>${esc(items[0].level || "")}</small></h2>
+        <h2>${items[0].href ? `<a href="${esc(withBase(items[0].href))}">${esc(topic)}</a>` : esc(topic)}<small>${esc(items[0].level || "")}</small></h2>
         ${(() => { const body = ruleHtml(items, "mf-rule-ex"); return body ? `<details class="mf-rule"><summary>Quick rule</summary><div class="mf-rule-body">${body}</div></details>` : ""; })()}
         ${items.map((e) => `
           <article class="mf-item${e.fixed ? " is-fixed" : ""}">
@@ -190,7 +191,7 @@ const freeLimit = premiumFeatures.find((f) => f.id === "fehler")!.free.limit;
   Object.values(filters).forEach((f) => f.addEventListener("change", render));
   render();
   const rulesReady = all.some((e) => e.source === "grammatik")
-    ? fetch("/fehler-regeln.json").then((r) => (r.ok ? r.json() : {})).then((j) => { rules = j; render(); }).catch(() => {})
+    ? fetch(withBase("/fehler-regeln.json")).then((r) => (r.ok ? r.json() : {})).then((j) => { rules = j; render(); }).catch(() => {})
     : Promise.resolve();
   // traffic-baseline: would_lock — more mistakes than the free view shows.
   wouldLock("fehler", all.length > FREE);

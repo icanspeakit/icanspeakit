@@ -125,6 +125,7 @@ const PER_LEVEL = 2;
 <script>
   import { getLang, loadDict, onLangChange, translate } from "../lib/i18n.js";
   import { intent } from "../lib/intent.js";
+  import { withBase } from "../lib/paths.js";
   import { flagElement, meldenLink } from "../lib/meldung.js";
   import { fingerprint } from "../lib/meldungRef.js";
 
@@ -264,8 +265,8 @@ const PER_LEVEL = 2;
     result.querySelector<HTMLElement>("[data-es-result-level]")!.textContent = level;
     setT(result.querySelector<HTMLElement>("[data-es-result-lead]")!, `placement.lead.${level}`, LEAD[level] ?? "");
     const slug = level.toLowerCase();
-    result.querySelector<HTMLAnchorElement>("[data-es-go-grammar]")!.href = `/grammar#niveau-${slug}`;
-    result.querySelector<HTMLAnchorElement>("[data-es-go-vocab]")!.href = `/vocabulary/${slug}`;
+    result.querySelector<HTMLAnchorElement>("[data-es-go-grammar]")!.href = withBase(`/grammar#niveau-${slug}`);
+    result.querySelector<HTMLAnchorElement>("[data-es-go-vocab]")!.href = withBase(`/vocabulary/${slug}`);
     result.querySelector<HTMLElement>("[data-es-einfach]")!.hidden = level !== LEVELS[0];
 
     // The neighbours, named rather than implied: a test this short can land one step off,

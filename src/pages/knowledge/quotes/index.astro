@@ -72,6 +72,7 @@ const ids = quotes.map((q: any) => q.id);
 
 <script>
   import { getLang } from "../../../lib/i18n.js";
+  import { withBase } from "../../../lib/paths.js";
   import { t, i18nAttrs, onUiText } from "../../../lib/uiText.js";
   import { localYmd, addDays, indexFor } from "../../../lib/zitate.js";
   import { fillTr, initCards } from "../../../lib/zitateClient.js";
@@ -86,7 +87,7 @@ const ids = quotes.map((q: any) => q.id);
 
   const idFor = (off: number) => ids[indexFor(addDays(today, off), ids.length)];
   const card = (id: string) => {
-    if (!cache.has(id)) cache.set(id, fetch(`/knowledge/quotes/card/${id}`).then((r) => (r.ok ? r.text() : Promise.reject(r.status))));
+    if (!cache.has(id)) cache.set(id, fetch(withBase(`/knowledge/quotes/card/${id}`)).then((r) => (r.ok ? r.text() : Promise.reject(r.status))));
     return cache.get(id)!;
   };
 
@@ -109,7 +110,7 @@ const ids = quotes.map((q: any) => q.id);
       slot.innerHTML = html;
       initCards(slot);
     } catch {
-      slot.innerHTML = `<p class="zt-loading"><span${i18nAttrs("kaufen.start.failed.title")}>${t("kaufen.start.failed.title", "That didn’t work.")}</span> <a href="/knowledge/quotes/${id}"${i18nAttrs("zitate.day.toQuote")}>${t("zitate.day.toQuote", "Go to the quote")}</a></p>`;
+      slot.innerHTML = `<p class="zt-loading"><span${i18nAttrs("kaufen.start.failed.title")}>${t("kaufen.start.failed.title", "That didn’t work.")}</span> <a href="${withBase(`/knowledge/quotes/${id}`)}"${i18nAttrs("zitate.day.toQuote")}>${t("zitate.day.toQuote", "Go to the quote")}</a></p>`;
     }
     // The next day in the background, so › is instant.
     card(idFor(off + 1)).catch(() => {});

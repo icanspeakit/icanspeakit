@@ -179,6 +179,7 @@ const lang = (c: string) => LANG_NAMES[c] ?? c;
 </style>
 
 <script>
+  import { withBase } from "../../../lib/paths.js";
   const rows = [...document.querySelectorAll<HTMLElement>(".rv-row")];
   const doneEl = document.querySelector("[data-rv-done]");
   const untilEl = document.querySelector("[data-rv-until]");
@@ -230,7 +231,7 @@ const lang = (c: string) => LANG_NAMES[c] ?? c;
       const approve = !r.classList.contains("is-ok");
       btn.disabled = true;
       try { sessionStorage.setItem("rv-scroll", String(scrollY)); } catch {}
-      const res = await fetch("/api/wortgeschichte/freigeben", {
+      const res = await fetch(withBase("/api/wortgeschichte/freigeben"), {
         method: "POST", headers: { "content-type": "application/json" },
         body: JSON.stringify({ slug: r.dataset.slug, approve }),
       }).catch(() => null);
@@ -245,7 +246,7 @@ const lang = (c: string) => LANG_NAMES[c] ?? c;
 
   let audio: HTMLAudioElement | null = null;
   for (const b of document.querySelectorAll<HTMLButtonElement>("[data-audio]")) {
-    b.addEventListener("click", () => { audio?.pause(); audio = new Audio(b.dataset.audio!); audio.play().catch(() => {}); });
+    b.addEventListener("click", () => { audio?.pause(); audio = new Audio(withBase(b.dataset.audio!)); audio.play().catch(() => {}); });
   }
   stats();
   apply();

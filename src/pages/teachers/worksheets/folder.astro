@@ -184,6 +184,7 @@ const partner = allSheets().filter((s) => LEVELS.includes(s.niveau));
     import { mountWorksheet } from "../../../lib/arbeitsblatt/client.js";
     import { intent } from "../../../lib/intent.js";
     import { t, onUiText } from "../../../lib/uiText.js";
+    import { withBase, currentPath } from "../../../lib/paths.js";
 
     const root = document.getElementById("ab-root")!;
     const $ = <T extends Element = HTMLElement>(s: string) => root.querySelector<T>(s)!;
@@ -247,7 +248,7 @@ const partner = allSheets().filter((s) => LEVELS.includes(s.niveau));
     // A Lernset or topic has one sheet; a learners' print page (frequency round, Berufe
     // group) has two — the word list and the little test — and both come along.
     const cache = new Map<string, Promise<{ sheets: Element[]; key: Element | null }>>();
-    const pathOf = (id: string) => byId.get(id)!.dataset.path!;
+    const pathOf = (id: string) => withBase(byId.get(id)!.dataset.path!);
     function load(id: string) {
       if (!cache.has(id)) {
         const p = fetch(pathOf(id)).then(async (res) => {
@@ -352,7 +353,7 @@ const partner = allSheets().filter((s) => LEVELS.includes(s.niveau));
       if (g && chosen.filter((id) => id.startsWith("g:")).length === 1) back.set("grammar", `g-${g.slice(2)}`);
       if (w && g) back.set("mix", "1");
       const backQuery = back.toString();
-      const backUrl = "/teachers/quiz" + (backQuery ? "?" + backQuery : "");
+      const backUrl = withBase("/teachers/quiz" + (backQuery ? "?" + backQuery : ""));
       $<HTMLAnchorElement>("[data-abm-back]").href = backUrl;
       // The browser's back button too: this tab opened fresh, with nothing behind it, so
       // the quiz is put there once (the entry becomes the quiz, the Mappe is pushed on top).
@@ -363,7 +364,7 @@ const partner = allSheets().filter((s) => LEVELS.includes(s.niveau));
         history.pushState({ abmQuiz: true }, "", here);
       }
       addEventListener("popstate", () => {
-        if (location.pathname.startsWith("/teachers/quiz")) location.replace(location.href);
+        if (currentPath().startsWith("/teachers/quiz")) location.replace(location.href);
       });
       $("[data-abm-empty]").dataset.i18n = "ab.mappe.emptyQuiz";
       $("[data-abm-empty]").textContent = "Choose a word set or a grammar chapter in the live quiz – the worksheet then appears here.";

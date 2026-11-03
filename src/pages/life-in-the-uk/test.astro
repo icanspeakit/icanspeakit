@@ -65,6 +65,7 @@ const { questions, meta, bundeslaender } = lid;
   <script type="application/json" id="lid-data" set:html={JSON.stringify({ questions, meta, bundeslaender })}></script>
   <script type="module">
     import { mountExamApp } from "../../lib/examApp.js";
+    import { withBase } from "../../lib/paths.js";
     import { choiceCard, el, sectionHeader, escapeHtml } from "../../lib/exam/renderHelpers.js";
     import { seededShuffle } from "../../lib/seededShuffle.js";
     import { countAnswered, countCorrect, percent } from "../../lib/exam/scoring.js";
@@ -230,7 +231,7 @@ const { questions, meta, bundeslaender } = lid;
 
           const actions = el("div", "exam-actions");
           const facts = el("a", "quiz-btn", t("lid.toFacts"));
-          facts.href = "/life-in-the-uk/facts";
+          facts.href = withBase("/life-in-the-uk/facts");
           actions.appendChild(facts);
           main.appendChild(actions);
         },

@@ -119,6 +119,7 @@ const exams = [
   import { buildPlan, planToIcs } from "../lib/pruefungsplan.js";
   import { can } from "../lib/access.js";
   import { freeLimit, wouldLock } from "../lib/intent.js";
+  import { withBase } from "../lib/paths.js";
 
   const exams = JSON.parse(document.getElementById("pp-data")!.textContent!);
   const form = document.querySelector<HTMLFormElement>("[data-pp-form]")!;
@@ -161,9 +162,9 @@ const exams = [
     const done = (store.done ??= {});
     const item = (i: any) => {
       if (i.kind === "sitting" && i.paid && !unlockSets) {
-        return `<li>${i.fallback ? `<a href="${esc(i.fallback.href)}">${esc(exam.label)}: ${esc(i.fallback.label)}</a> (once more)` : esc(i.label)} <span class="pp-lock">🔒 ${esc(i.label)} is in the pack</span></li>`;
+        return `<li>${i.fallback ? `<a href="${esc(withBase(i.fallback.href))}">${esc(exam.label)}: ${esc(i.fallback.label)}</a> (once more)` : esc(i.label)} <span class="pp-lock">🔒 ${esc(i.label)} is in the pack</span></li>`;
       }
-      return `<li><a href="${esc(i.href)}">${esc(i.label)}</a></li>`;
+      return `<li><a href="${esc(withBase(i.href))}">${esc(i.label)}</a></li>`;
     };
     const dayHtml = (d: any) => `
       <div class="pp-day${done[d.date] ? " is-done" : ""}">

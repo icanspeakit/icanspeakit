@@ -87,13 +87,14 @@ const pool = topics.flatMap((t) =>
   <script type="module">
     import { mountQuiz } from "../../lib/quiz.js";
     import { recordAttempt } from "../../lib/progress.js";
+    import { rebaseHtml } from "../../lib/paths.js";
 
     import { getLang, loadDict, onLangChange } from "../../lib/i18n.js";
 
     const pool = JSON.parse(document.getElementById("ku-pool").textContent);
     const rawExplain = pool.map((q) => q.explain);
     // Rewritten in place, so a quiz already mounted picks the words up at its next question.
-    const setMore = (word) => pool.forEach((q, i) => { q.explain = rawExplain[i].replace("{{MORE}}", word); });
+    const setMore = (word) => pool.forEach((q, i) => { q.explain = rebaseHtml(rawExplain[i].replace("{{MORE}}", word)); });
     setMore("Mehr zu");
     const useDict = (d) => { if (d && d["kultur.quiz.more"]) setMore(d["kultur.quiz.more"]); };
     loadDict(getLang()).then(useDict).catch(() => {});

@@ -276,6 +276,7 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
     import { track } from "../../lib/track.js";
     import { enhanceSwitch } from "../../lib/segSwitch.js";
     import { t, onUiText } from "../../lib/uiText.js";
+    import { withBase } from "../../lib/paths.js";
 
     const page = document.querySelector<HTMLElement>(".bk-page")!;
     const grid = page.querySelector<HTMLElement>("[data-grid]")!;
@@ -315,7 +316,7 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
       card.classList.remove("is-playing");
       void card.offsetWidth;
       card.classList.add("is-playing");
-      if (src && !muted) { player.src = src; player.play().catch(() => {}); }
+      if (src && !muted) { player.src = withBase(src); player.play().catch(() => {}); }
     }
 
     // Einzeln: copy the chosen grid card into the big one.

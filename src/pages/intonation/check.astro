@@ -6,6 +6,7 @@
 // corrections go into src/data/satzmelodie.json and the lines are re-voiced with --force.
 import { existsSync } from "node:fs";
 import path from "node:path";
+import { BASE_PATH } from "../../lib/paths.js";
 import data, { familyLines, stressText, ruleText, audioKey } from "../../lib/satzmelodieData.js";
 
 const DEV = Boolean(import.meta.env.DEV);
@@ -145,7 +146,7 @@ const missing = all.filter((l) => !l.rec).length;
     </>
   ))}
 </main>
-<script is:inline>
+<script is:inline define:vars={{ BASE_PATH }}>
   const KEY = "sm-pruef-v1";
   let state = {};
   try { state = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch {}
@@ -161,7 +162,7 @@ const missing = all.filter((l) => !l.rec).length;
     if (!r?.dataset.src) { playing = null; return next(); }
     playing = r; r.querySelector(".play").classList.add("on");
     r.scrollIntoView({ block: "center", behavior: "smooth" });
-    audio.src = r.dataset.src; audio.play().catch(() => {});
+    audio.src = r.dataset.src.startsWith("/") && !r.dataset.src.startsWith(BASE_PATH + "/") ? BASE_PATH + r.dataset.src : r.dataset.src; audio.play().catch(() => {});
   }
   function next() { if (queue.length) setTimeout(() => play(queue.shift()), 600); }
   audio.addEventListener("ended", () => { playing?.querySelector(".play").classList.remove("on"); playing = null; next(); });

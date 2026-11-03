@@ -329,6 +329,7 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
 
   <script>
     import { track } from "../lib/track.js";
+    import { withBase } from "../lib/paths.js";
 
     // The download sheet. Every card is a button; the sheet it opens is already in
     // the page, one body per file, and only the matching one is shown.
@@ -388,7 +389,7 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
       const apply = () => {
         const o = sel.selectedOptions[0];
         if (!o) return;
-        if (dl) dl.href = o.dataset.href!;
+        if (dl) dl.href = withBase(o.dataset.href!);
         for (const x of Array.from(body.querySelectorAll<HTMLElement>("[data-land-extra]"))) x.hidden = x.dataset.landExtra !== sel.value;
       };
       try {

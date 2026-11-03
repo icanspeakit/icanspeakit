@@ -106,6 +106,7 @@ const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: 96, l
 </Layout>
 
 <script>
+  import { withBase } from "../lib/paths.js";
   // Kinds of row and their label; the same names as the cards below.
   const KIND: Record<string, string> = {
     verb: "Verb table", nomen: "Noun forms", stark: "Irregular and regular verbs",
@@ -122,7 +123,7 @@ const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: 96, l
   let rows: Row[] | null = null;
   let loading: Promise<void> | null = null;
 
-  const load = () => (loading ??= fetch("/suche.json").then((r) => r.json()).then((ix) => {
+  const load = () => (loading ??= fetch(withBase("/suche.json")).then((r) => r.json()).then((ix) => {
     const out: Row[] = [];
     for (const [inf, preview, href, forms] of ix.verbs ?? [])
       out.push({ label: inf, sub: preview, href, kind: "verb", n: norm(inf),
@@ -150,7 +151,7 @@ const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: 96, l
     const tokens = t.split(" ");
     const hits = rows.map((r) => [score(r, t, tokens), r] as const).filter(([s]) => s > 0)
       .sort((a, b) => b[0] - a[0]).slice(0, 12);
-    list.innerHTML = hits.map(([, r]) => `<li><a href="${esc(r.href)}">
+    list.innerHTML = hits.map(([, r]) => `<li><a href="${esc(withBase(r.href))}">
       <span class="nsw-r-main"><b lang="de">${esc(r.label)}</b>${r.sub ? `<small lang="de">${esc(r.sub)}</small>` : ""}</span>
       <span class="nsw-r-kind">${esc(KIND[r.kind] ?? "")}</span></a></li>`).join("");
     none.hidden = hits.length > 0;

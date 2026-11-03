@@ -201,6 +201,7 @@ const LOOK = [
     import { mountAusspracheCheck, playTake } from "../lib/ausspracheCheck.js";
     import { decodeToMono, pitchContour } from "../lib/satzmelodie.js";
     import { mascotSvg } from "../lib/mascots.js";
+    import { withBase } from "../lib/paths.js";
     import { miniSvg, MINI_SOUND } from "../lib/minis.js";
     import { apiFetch } from "../lib/api.js";
     import { track } from "../lib/track.js";
@@ -299,7 +300,7 @@ const LOOK = [
       const contours = new Map<string, Promise<Melody | null>>();
       function contour(url: string) {
         if (!contours.has(url)) contours.set(url, (async () => {
-          const res = await fetch(url);
+          const res = await fetch(withBase(url));
           if (!res.ok) return null;
           const { samples, sampleRate } = await decodeToMono(await res.arrayBuffer());
           const total = samples.length / sampleRate;
