@@ -932,6 +932,33 @@ are handled by the `ui-*` items where they are rendered.
   the official links on `/knowledge` (`downloads.json`, `wissen.link.*`) still point to Cambridge,
   IELTS, Trinity and GOV.UK. **Edgar:** `/about` describes your German teaching and says nothing
   about teaching Spanish; `home3.pricing.live` shows a date in the past (Fri 30 Oct).
+- **Page text decisions, m–z** (`ui-pages-m-z`, 2026-11-03): `/trinity` is "SIELE by level" and
+  `/trinity/ise-1` "DELE A2 for Spanish nationality", hrefs on the old slots until `routes`. The
+  mock's "Solid B1 / Close to B1" bands now read "Well prepared / Getting close (our guide)"; the
+  33 and 20 point figures stay ours. The `/trinity/ise-1/practice-set` facts table describes our
+  mock only (its source is `cervantes.org/es/examenes/dele`). **For `nationality-path`:** check the
+  `dtz.*` and `dtzSet.*` wording against the real DELE A2. `/trinity/ise-1/mock-test` calls the
+  `lesen.json` tasks "level B1, a step above DELE A2", and `reading-writing` must keep them B1 or
+  change that line. **For `exams-siele`:** `telc.format.source` and `telc-formate.json` still name
+  Trinity, and `dtz.pt.*` part names are untouched. **For `grammar-a2`:** `/object-pronouns` now
+  shows the Spanish rule and table (me, te, lo, la, nos, os, los, las, personal *a*, a one-line
+  *le* note), while `akkusativ.json` is still English until that item runs. **For
+  `grammar-structure`:** `praep.pack.*`, the `/reference` search index and `verben.group.trennbar.name`
+  still say English prepositions and phrasal verbs; the `/reference` question for
+  `/grammar/phrasal-verbs-list` already asks about reflexive verbs. **For `teachers`:** worksheet
+  part B and domino label say el / la, but `src/lib/arbeitsblatt/wortschatz.js` still keeps only
+  a/an/some nouns. **For `vocab-a1`:** `ab.lang.de` still says "In German", which fits if `hasDe`
+  ends up meaning a German gloss. **For `pronunciation`:** the tongue-twister dialect take now says
+  "¡Hola!"; `aussprache.bridge.lead` gives English and German examples. **For `speaking`,
+  `reading-writing`, `vocab-*`:** the `sprechen.*`, `schreiben.*`, `lesen.*` task keys and `ws.set.*`
+  are data translations and stay until those items run. **Merch:** links are gone from `/mascots`,
+  `/tongue-twisters`, `/teachers`, `/start` because `/merch` lands on `/account`; the home footer and
+  `/knowledge/picture-dictionary` still link there (`cleanup` or Edgar). `/mascots` no longer points
+  to a mascot switch, because no page offers one until accounts exist. **Due dates:** the class hint
+  says Madrid time; `aufgabenStatus.js` still computes in Europe/Berlin, the same offset as mainland
+  Spain. **`pnpm check:i18n-luecken`** still exits 1 overall (baseline not updated); no m–z file is
+  over except the parser noise in `speaking/[id]`. `validate-i18n.mjs` crashes because it opens
+  `public/i18n/de.json`, which doesn't exist until `ui-lang-de`.
 - **Variety schema decisions** (`variety-schema`, 2026-11-03): `src/lib/variety.js` adds, next
   to the §1.5 names, `textFor(item, text)` (es419 `form` in LatAm mode), `skippedFor(item)`,
   `showsVosotros()` and `varietyProblems(obj)` (the shape rules, shared by every validator).
