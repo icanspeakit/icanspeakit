@@ -244,12 +244,13 @@ export const landingTools = (() => {
 })();
 
 export const exams = [
-  { id: "telc", group: "pruefungen", href: "/trinity", icon: "document", title: "telc", short: "telc", count: "A1–C2" },
-  { id: "goethe", group: "pruefungen", href: "/cambridge", icon: "landmark", title: "Goethe-Zertifikat", short: "Goethe", count: "A1–C2" },
-  { id: "testdaf", group: "pruefungen", href: "/ielts", icon: "graduation-cap", title: "TestDaF", short: "TestDaF", count: "≈ B2–C1" },
-  { id: "dtz", group: "pruefungen", href: "/trinity/ise-1", icon: "book-open", title: "DTZ", short: "DTZ", count: "A2 / B1" },
-  { id: "lid", group: "pruefungen", href: "/life-in-the-uk", icon: "map-pin", titleKey: "exam.lid.name", title: "Leben in Deutschland (Einbürgerungstest)", short: "Leben in DE",
-    keywords: "einbürgerungstest einbürgerung einbuergerungstest staatsbürgerschaft citizenship naturalisation orientierungskurs",
+  // Exam names per docs/content-plan.md §2 (ids are the old slots; hrefs renamed by `routes`).
+  { id: "telc", group: "pruefungen", href: "/trinity", icon: "document", title: "SIELE by level", short: "SIELE levels", count: "A2–C1" },
+  { id: "goethe", group: "pruefungen", href: "/cambridge", icon: "landmark", title: "DELE", short: "DELE", count: "A1–C2" },
+  { id: "testdaf", group: "pruefungen", href: "/ielts", icon: "graduation-cap", title: "SIELE", short: "SIELE", count: "A1–C1" },
+  { id: "dtz", group: "pruefungen", href: "/trinity/ise-1", icon: "book-open", title: "DELE A2 for nationality", short: "DELE A2", count: "A2" },
+  { id: "lid", group: "pruefungen", href: "/life-in-the-uk", icon: "map-pin", titleKey: "exam.lid.name", title: "CCSE nationality test", short: "CCSE",
+    keywords: "ccse nacionalidad nationality citizenship naturalisation constitución constitution spain",
     countKey: "group.count.bundeslaender", countVars: { n: lid.bundeslaender.length }, count: `${lid.bundeslaender.length} Bundesländer` },
 ];
 
@@ -258,7 +259,7 @@ export const groups = [
   { id: "woerter", icon: "folder", nameKey: "group.woerter.name", name: "Wörter & Aussprache", blurbKey: "group.woerter.blurb", blurb: "Vokabeln hören und behalten" },
   { id: "fertigkeiten", icon: "mic", nameKey: "group.fertigkeiten.name", name: "Sprechen, Lesen & Schreiben", blurbKey: "group.fertigkeiten.blurb", blurb: "Prüfungsteile am Stück üben" },
   { id: "kultur", icon: "map-pin", nameKey: "group.kultur.name", name: "Landeskunde", blurbKey: "group.kultur.blurb", blurb: "Alltag und Kultur in Deutschland" },
-  { id: "pruefungen", icon: "graduation-cap", nameKey: "nav.exams", name: "Prüfungen", blurbKey: "group.pruefungen.blurb", blurb: "telc, Goethe, TestDaF, DTZ" },
+  { id: "pruefungen", icon: "graduation-cap", nameKey: "nav.exams", name: "Prüfungen", blurbKey: "group.pruefungen.blurb", blurb: "DELE, SIELE and the CCSE" },
 ];
 
 export const entries = [...tools, ...exams];

@@ -10,23 +10,24 @@
 //
 // Two levels, not seven equal pills: the way up ("← Alle Prüfungen") is a quiet link above,
 // and the exams are one underlined tab row — the current one in ink with a brand underline,
-// the rest muted. Leben in Deutschland stands apart behind a divider: it is the
-// Einbürgerungstest, not a language exam with a level.
+// the rest muted. The CCSE stands apart behind a divider: it is the nationality
+// knowledge test, not a language exam with a level. Names follow docs/content-plan.md §2;
+// the hrefs are the old slots until the `routes` item renames them.
 import "../styles/exam-rail.css";
 import { stripBase } from "../lib/paths.js";
 
 const exams = [
-  { name: "Start Deutsch 1", href: "/a1-test", level: "A1" },
-  { name: "DTZ", href: "/trinity/ise-1", level: "A2/B1" },
-  { name: "telc", href: "/trinity", level: "A1–C2" },
-  { name: "Goethe-Zertifikat", href: "/cambridge", level: "A1–C2" },
-  { name: "TestDaF", href: "/ielts", level: "B2–C1" },
+  { name: "DELE A1", href: "/a1-test", level: "A1" },
+  { name: "DELE", href: "/cambridge", level: "A1–C2" },
+  { name: "DELE A2 for nationality", href: "/trinity/ise-1", level: "A2" },
+  { name: "SIELE", href: "/ielts", level: "A1–C1" },
+  { name: "SIELE by level", href: "/trinity", level: "A2–C1" },
 ];
-const lid = { name: "Leben in Deutschland", href: "/life-in-the-uk" };
+const lid = { name: "CCSE", href: "/life-in-the-uk" };
 const here = stripBase(Astro.url.pathname).replace(/\/+$/, "");
 ---
-<nav class="ex-rail" aria-label="Prüfungen" data-i18n-attr="aria-label:nav.exams">
-  <a class="ex-rail-up" href="/exams"><span data-i18n="nav.panel.allExams">Alle Prüfungen ansehen</span></a>
+<nav class="ex-rail" aria-label="Exams" data-i18n-attr="aria-label:nav.exams">
+  <a class="ex-rail-up" href="/exams"><span data-i18n="nav.panel.allExams">See all exams</span></a>
   <div class="ex-rail-tabs">
     {exams.map((e) => (
       <a class="ex-rail-item" href={e.href} aria-current={here === e.href ? "page" : undefined}>

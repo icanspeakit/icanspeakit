@@ -7,8 +7,8 @@ import Wordmark from "../Wordmark.astro";
 // to *not* repeat DashboardMock next door, which already covers Dashboard,
 // Grammatik, Wortschatz, Sprechen and Prüfungen: here the sidebar leads to
 // Grammatik plus the three areas that mock never shows — Aussprache (real audio
-// files), Bildbeschreibung (the DTZ picture task) and Kulturwissen (the
-// Einbürgerungstest question format). Everything is driven by the same data the
+// files), Bildbeschreibung (the exam picture task) and Kulturwissen (the
+// CCSE question format). Everything is driven by the same data the
 // real pages use, so nothing here can promise something the site does not have.
 import grammatik from "../../data/grammatik.json";
 import { isReviewed } from "../../lib/topicStatus.js";
@@ -43,29 +43,29 @@ const bildQuestions = sprechen.reduce((n, b) => n + b.beschreibung.length + b.pe
 // --- Grammatik: one question per level band, each lifted from the topic it
 // names so the demo round is a real sample. `answer` indexes `choices`.
 //
-// Deliberately disjoint from DashboardMock's quiz next door, which covers the
-// present perfect, a/an and the past simple — both mocks are visible at once on the
-// homepage, so an overlapping first question made the pair look like one screenshot
-// twice. This round leads with prepositions instead.
+// Deliberately disjoint from DashboardMock's quiz next door, which covers ser/estar,
+// el/la and the indefinido — both mocks are visible at once on the homepage, so an
+// overlapping first question made the pair look like one screenshot twice. This round
+// leads with por/para instead. Castilian Spanish (docs/content-plan.md §1.1).
 const ROUND = [
-  { topic: "Verbs + prepositions", level: "B1", pre: "I'm waiting ", post: " the bus.", hint: "wait + fixed preposition", choices: ["for", "on", "to"], answer: 0 },
-  { topic: "a / an / some", level: "A1", pre: "I need ", post: " umbrella.", hint: "Listen to the first sound of the next word.", choices: ["an", "a", "some"], answer: 0 },
-  { topic: "Prepositions of time", level: "A1", pre: "My birthday is ", post: " May.", hint: "Months take one preposition.", choices: ["in", "on", "at"], answer: 0 },
-  { topic: "Modal verbs", level: "A2", pre: "You ", post: " touch the paintings in the museum.", hint: "A ban — it is not allowed.", choices: ["can", "mustn't", "don't have to"], answer: 1 },
-  { topic: "Paired conjunctions", level: "B2", pre: "She speaks not only French ", post: " Spanish.", hint: "The second half of “not only …”", choices: ["and also", "or", "but also"], answer: 2 },
-  { topic: "used to", level: "B1", pre: "When I was a child, I ", post: " play football every day.", hint: "a past habit", choices: ["use to", "used to", "was used to"], answer: 1 },
+  { topic: "Por or para", level: "B1", pre: "Este regalo es ", post: " ti.", hint: "Who receives something: use para.", choices: ["por", "para", "a"], answer: 1 },
+  { topic: "Gustar", level: "A1", pre: "A mí ", post: " las películas de miedo.", hint: "gustar agrees with what is liked — here a plural.", choices: ["me gusta", "me gustan", "gusto"], answer: 1 },
+  { topic: "Hay or está", level: "A1", pre: "", post: " una farmacia en esta calle.", hint: "Something exists, with un/una: use hay.", choices: ["Hay", "Está", "Es"], answer: 0 },
+  { topic: "Object pronouns", level: "A2", pre: "¿El libro? Ya ", post: " he leído.", hint: "Direct object, a masculine thing.", choices: ["le", "la", "lo"], answer: 2 },
+  { topic: "Present subjunctive", level: "B1", pre: "Quiero que ", post: " a mi fiesta.", hint: "A wish for someone else: que + subjunctive.", choices: ["vienes", "vengas", "venir"], answer: 1 },
+  { topic: "Imperfect subjunctive", level: "B2", pre: "Si ", post: " más tiempo, viajaría más.", hint: "An unreal condition with si.", choices: ["tengo", "tendría", "tuviera"], answer: 2 },
 ];
 
 // --- Aussprache: five entries, as an explicit list rather than a slice of the data
-// files. The English recordings do not exist yet (they come with a TTS provider,
+// files. The Spanish recordings do not exist yet (they come with an es-ES TTS voice,
 // BACKEND.speech); until then the play button fails softly, as it does for every
 // missing file.
 const PRON = [
-  { text: "In my opinion, …", audio: "/audio/aussprache/in-my-opinion.mp3", note: "Giving an opinion — stress the middle of “o-PIN-ion”." },
-  { text: "I see what you mean.", audio: "/audio/aussprache/i-see-what-you-mean.mp3", note: "Agreeing politely — the stress falls on “mean”." },
-  { text: "Thank you", audio: "/audio/aussprache/thank-you.mp3", note: "th: put your tongue between your teeth — not “s”, not “t”." },
-  { text: "vegetables", audio: "/audio/aussprache/vegetables.mp3", note: "Three syllables, not four: VEJ-tuh-bulz." },
-  { text: "comfortable", audio: "/audio/aussprache/comfortable.mp3", note: "Usually three syllables: KUMF-tuh-bul." },
+  { text: "En mi opinión, …", audio: "/audio/aussprache/en-mi-opinion.mp3", note: "The stress falls on the last syllable, o-pi-NIÓN — the written accent shows it." },
+  { text: "pero / perro", audio: "/audio/aussprache/pero-perro.mp3", note: "One r between vowels is a single quick tap; rr is a rolled trill. They are different words." },
+  { text: "Gracias", audio: "/audio/aussprache/gracias.mp3", note: "In Spain, c before i sounds like “th” in “think”: GRA-thias." },
+  { text: "la cerveza", audio: "/audio/aussprache/la-cerveza.mp3", note: "c before e and z both sound like “th”; the v is a soft b: ther-BE-tha." },
+  { text: "¿Qué tal?", audio: "/audio/aussprache/que-tal.mp3", note: "qu sounds like k — the u is silent." },
 ];
 
 // --- Kulturwissen: four questions in the Einbürgerungstest format.
@@ -316,7 +316,7 @@ const firstC = CULTURE[0];
         const q = ROUND[index];
         position.textContent = t("home.mock.position", "Question {i} of {n}", { i: index + 1, n: ROUND.length });
         kicker.textContent = `${q.topic} · ${q.level}`;
-        // The hint explains the rule, so it follows the UI language; the sentence stays English.
+        // The hint explains the rule, so it follows the UI language; the sentence stays Spanish.
         hint.textContent = t(`home.mock.hint.${index}`, q.hint);
 
         // The blank fills in with the word once it is right — the small payoff
@@ -493,7 +493,7 @@ const firstC = CULTURE[0];
 
       function render() {
         const q = CULTURE[index];
-        position.textContent = t("home.mock.position", "Frage {i} von {n}", { i: index + 1, n: CULTURE.length });
+        position.textContent = t("home.mock.position", "Question {i} of {n}", { i: index + 1, n: CULTURE.length });
         scoreSlot.textContent = `${score} / ${CULTURE.length}`;
         prompt.textContent = q.prompt;
 
@@ -512,8 +512,8 @@ const firstC = CULTURE[0];
           .join("");
 
         if (picked === null) feedback.textContent = "";
-        else if (picked === q.answer) feedback.textContent = t("home.mock.correct", "Richtig!");
-        else feedback.textContent = t("home.mock.wasCorrect", "Richtig wäre gewesen:");
+        else if (picked === q.answer) feedback.textContent = t("home.mock.correct", "Correct!");
+        else feedback.textContent = t("home.mock.wasCorrect", "Not quite.");
         feedback.className = `lp-quiz-feedback${picked === null ? "" : picked === q.answer ? " is-correct" : " is-wrong"}`;
 
         [...dots.children].forEach((dot, i) => {

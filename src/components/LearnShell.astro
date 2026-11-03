@@ -377,8 +377,8 @@ const sections: Section[] = [
       // rather than a target.
       { id: "grammatik-basis", label: firstPortion.label, icon: "book", href: firstPortion.href, level: firstPortion.level, levelSource: "data", eyebrow: `Modul 1 · Portion 1 von ${portions.length}`, lead: `Portion 1 von ${portions.length} aus ${allGrammarItems.length} Grammatikthemen von A1 bis B2 — Regelkarte und Übungen, ${firstPortion.tasks} Aufgaben in einem Durchgang.`, tasks: firstPortion.tasks, done: 0, minutes: firstPortion.minutes, practice: "picker" },
       { id: "wortschatz-kurs", label: "Wortschatz-Karten", labelKey: "fortschritt.item.wortschatz-kurs.label", icon: "folder", href: "/vocabulary", level: "A1–B1", levelSource: "abgeleitet", eyebrow: "Modul 2", eyebrowKey: "fortschritt.eyebrow.module", eyebrowVars: { n: 2 }, lead: "Redemittel für Amt, Wohnungssuche und Alltag — als Karteikarten zum Umdrehen.", leadKey: "fortschritt.item.wortschatz-kurs.lead", tasks: wortschatz.length, done: 0, minutes: 15, practice: "cards" },
-      { id: "probelauf", label: "Prüfungssimulation", labelKey: "fortschritt.item.probelauf.label", icon: "document", href: "/trinity/ise-1/practice-set", level: "A2/B1", levelSource: "abgeleitet", eyebrow: "Modul 3", eyebrowKey: "fortschritt.eyebrow.module", eyebrowVars: { n: 3 }, lead: "Ein kompletter DTZ-Übungssatz im echten Format: neun Prüfungsteile, 45 bewertete Aufgaben.", leadKey: "fortschritt.item.probelauf.lead", tasks: 45, done: 0, minutes: 54, practice: "dtz" },
-      { id: "ergebnis", label: "Ergebnis", labelKey: "fortschritt.item.ergebnis.label", icon: "graduation-cap", href: "/trinity/ise-1", level: "A2/B1", levelSource: "—", eyebrow: "Abschluss", eyebrowKey: "fortschritt.eyebrow.final", lead: "Deine Auswertung nach Stufe — live aus dem, was du auf dieser Seite geübt hast.", leadKey: "fortschritt.item.ergebnis.lead", meta: "Am Ende", metaKey: "fortschritt.meta.atEnd", practice: "result" },
+      { id: "probelauf", label: "Prüfungssimulation", labelKey: "fortschritt.item.probelauf.label", icon: "document", href: "/trinity/ise-1/practice-set", level: "A2", levelSource: "abgeleitet", eyebrow: "Modul 3", eyebrowKey: "fortschritt.eyebrow.module", eyebrowVars: { n: 3 }, lead: "Ein kompletter DTZ-Übungssatz im echten Format: neun Prüfungsteile, 45 bewertete Aufgaben.", leadKey: "fortschritt.item.probelauf.lead", tasks: 45, done: 0, minutes: 54, practice: "dtz" },
+      { id: "ergebnis", label: "Ergebnis", labelKey: "fortschritt.item.ergebnis.label", icon: "graduation-cap", href: "/trinity/ise-1", level: "A2", levelSource: "—", eyebrow: "Abschluss", eyebrowKey: "fortschritt.eyebrow.final", lead: "Deine Auswertung nach Stufe — live aus dem, was du auf dieser Seite geübt hast.", leadKey: "fortschritt.item.ergebnis.lead", meta: "Am Ende", metaKey: "fortschritt.meta.atEnd", practice: "result" },
     ],
   },
   {
@@ -457,11 +457,11 @@ const sections: Section[] = [
     blurb: "Prüfungen sind keine Stufe, sondern ein Ziel — deshalb eine eigene Gruppe, sortiert nach Einstiegsniveau statt nach Fortschritt. Dazu die DTZ-Prüfungsteile zum Üben.",
     focus: ["Format und Dauer", "Was zum Bestehen reicht", "DTZ üben: Lesen, Bildbeschreibung, Landeskunde"],
     items: [
-      { id: "dtz", label: "DTZ", labelKey: "fortschritt.item.dtz.label", icon: "document", href: "/trinity/ise-1", level: "A2/B1", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Deutsch-Test für Zuwanderer: Hören, Lesen, Schreiben, Sprechen — 45 bewertete Aufgaben plus Schreibteil.", leadKey: "fortschritt.item.dtz.lead", tasks: 45, done: 0, minutes: 54, practice: "dtz" },
-      { id: "lid", label: "Leben in Deutschland (Einbürgerungstest)", labelKey: "exam.lid.name", icon: "map-pin", href: "/life-in-the-uk", level: "kein GER", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: `33 Fragen aus dem offiziellen Katalog, dazu die Landesfragen aller ${lid.bundeslaender.length} Bundesländer — Wissenstest, keine Sprachprüfung.`, leadKey: "fortschritt.item.lid.lead", leadVars: { n: lid.bundeslaender.length }, tasks: lid.questions.length, done: 0, minutes: 20, practice: "choice" },
-      { id: "telc", label: "telc", labelKey: "fortschritt.item.telc.label", icon: "document", href: "/trinity", level: "A1–C2", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Sprachbausteine — der Prüfungsteil, den es so nur bei telc gibt: Grammatik im laufenden Text.", leadKey: "fortschritt.item.telc.lead", tasks: 20, done: 0, minutes: 20, practice: "bausteine" },
-      { id: "goethe", label: "Goethe-Zertifikat", labelKey: "fortschritt.item.goethe.label", icon: "landmark", href: "/cambridge", level: "A1–C2", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Die Goethe-Zertifikate decken A1 bis C2 ab — hier alle Themen, nach Stufe sortiert.", leadKey: "fortschritt.item.goethe.lead", meta: "A1–C2", practice: "picker" },
-      { id: "testdaf", label: "TestDaF", labelKey: "fortschritt.item.testdaf.label", icon: "graduation-cap", href: "/ielts", level: "B2–C1", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "TestDaF setzt B2–C1 voraus — hier die Themen dieser Stufen.", leadKey: "fortschritt.item.testdaf.lead", meta: "B2–C1", practice: "picker" },
+      { id: "dtz", label: "DELE A2 for nationality", labelKey: "fortschritt.item.dtz.label", icon: "document", href: "/trinity/ise-1", level: "A2", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Deutsch-Test für Zuwanderer: Hören, Lesen, Schreiben, Sprechen — 45 bewertete Aufgaben plus Schreibteil.", leadKey: "fortschritt.item.dtz.lead", tasks: 45, done: 0, minutes: 54, practice: "dtz" },
+      { id: "lid", label: "CCSE nationality test", labelKey: "exam.lid.name", icon: "map-pin", href: "/life-in-the-uk", level: "no CEFR level", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: `33 Fragen aus dem offiziellen Katalog, dazu die Landesfragen aller ${lid.bundeslaender.length} Bundesländer — Wissenstest, keine Sprachprüfung.`, leadKey: "fortschritt.item.lid.lead", leadVars: { n: lid.bundeslaender.length }, tasks: lid.questions.length, done: 0, minutes: 20, practice: "choice" },
+      { id: "telc", label: "Language use", labelKey: "fortschritt.item.telc.label", icon: "document", href: "/trinity", level: "B2–C1", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Sprachbausteine — der Prüfungsteil, den es so nur bei telc gibt: Grammatik im laufenden Text.", leadKey: "fortschritt.item.telc.lead", tasks: 20, done: 0, minutes: 20, practice: "bausteine" },
+      { id: "goethe", label: "DELE", labelKey: "fortschritt.item.goethe.label", icon: "landmark", href: "/cambridge", level: "A1–C2", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "Die Goethe-Zertifikate decken A1 bis C2 ab — hier alle Themen, nach Stufe sortiert.", leadKey: "fortschritt.item.goethe.lead", meta: "A1–C2", practice: "picker" },
+      { id: "testdaf", label: "SIELE", labelKey: "fortschritt.item.testdaf.label", icon: "graduation-cap", href: "/ielts", level: "A1–C1", levelSource: "data", eyebrow: "Prüfung", eyebrowKey: "exam.badge", lead: "TestDaF setzt B2–C1 voraus — hier die Themen dieser Stufen.", leadKey: "fortschritt.item.testdaf.lead", meta: "A1–C1", practice: "picker" },
 
       /* DTZ skill practice, moved here out of Stufe B1. These are exam formats —
          Bildbeschreibung with real examiner questions, the Leseverstehen simulation,
@@ -870,8 +870,8 @@ const defaultVariant = variants[0];
                   <p class="nv-detail-level">
                     <span class="nv-levelchip nv-levelchip--lg" data-i18n={section.badge === "Ziel" ? "fortschritt.kind.ziel" : section.badge === "Kurs" ? "fortschritt.kind.kurs" : undefined}>{section.badge}</span>
                     {st.tasks && st.minutes
-                      ? <span class="nv-detail-levelsrc" data-i18n="fortschritt.sec.meta" data-i18n-vars={vars({ n: section.items.length, t: st.tasks, m: st.minutes })}>{section.items.length} Einträge · {st.tasks} Aufgaben · ca. {st.minutes} Min.</span>
-                      : <span class="nv-detail-levelsrc" data-i18n={st.tasks ? "fortschritt.sec.metaTasks" : st.minutes ? undefined : "fortschritt.sec.metaEntries"} data-i18n-vars={vars({ n: section.items.length, t: st.tasks })}>{section.items.length} Einträge{st.tasks ? ` · ${st.tasks} Aufgaben` : ""}{st.minutes ? ` · ca. ${st.minutes} Min.` : ""}</span>}
+                      ? <span class="nv-detail-levelsrc" data-i18n="fortschritt.sec.meta" data-i18n-vars={vars({ n: section.items.length, t: st.tasks, m: st.minutes })}>{section.items.length} entries · {st.tasks} tasks · approx. {st.minutes} min</span>
+                      : <span class="nv-detail-levelsrc" data-i18n={st.tasks ? "fortschritt.sec.metaTasks" : st.minutes ? undefined : "fortschritt.sec.metaEntries"} data-i18n-vars={vars({ n: section.items.length, t: st.tasks })}>{section.items.length} entries{st.tasks ? ` · ${st.tasks} tasks` : ""}{st.minutes ? ` · approx. ${st.minutes} min` : ""}</span>}
                   </p>
                   <p data-i18n={secKey(section, "blurb")} data-i18n-vars={vars(section.blurbVars)}>{section.blurb}</p>
                   <ul class="nv-focus">{section.focus.map((f, k) => <li data-i18n={secKey(section, `focus.${k}`)} data-i18n-vars={vars(section.focusVars?.[k])}>{f}</li>)}</ul>
@@ -920,11 +920,11 @@ const defaultVariant = variants[0];
                     <span>
                       <span class="nv-modname" data-i18n={item.id === "grammatik-basis" ? undefined : item.labelKey}>{item.label}</span><br />
                       {rowMeta(item) && item.id !== "grammatik-basis"
-                        ? <span class="nv-modmeta" data-i18n={rowMeta(item)!.key} data-i18n-vars={vars(rowMeta(item)!.vars)}>{item.level} · {item.tasks} Aufgaben · ca. {item.minutes} Min.</span>
+                        ? <span class="nv-modmeta" data-i18n={rowMeta(item)!.key} data-i18n-vars={vars(rowMeta(item)!.vars)}>{item.level} · {item.tasks} tasks · approx. {item.minutes} min</span>
                         : <span class="nv-modmeta" data-i18n={item.tasks && !item.minutes && item.id !== "grammatik-basis" ? "fortschritt.row.metaTasks" : undefined} data-i18n-vars={vars({ level: item.level, n: item.tasks })}>
                             {item.level}
-                            {item.tasks ? ` · ${item.tasks} Aufgaben` : ""}
-                            {item.minutes ? ` · ca. ${item.minutes} Min.` : ""}
+                            {item.tasks ? ` · ${item.tasks} tasks` : ""}
+                            {item.minutes ? ` · approx. ${item.minutes} min` : ""}
                           </span>}
                     </span>
                     {itemPct(item) === null
@@ -1614,7 +1614,7 @@ const defaultVariant = variants[0];
       const set = (sel: string, text: string) => { const el = $(sel); if (el) el.textContent = text; };
       set("[data-detail-eyebrow]", it.eyebrowKey ? t(it.eyebrowKey, it.eyebrow, it.eyebrowVars) : it.eyebrow);
       set("[data-detail-title]", itemLabel(id));
-      set("[data-detail-level]", it.level === "kein GER" ? t("fortschritt.level.noCefr", "kein GER") : it.level);
+      set("[data-detail-level]", it.level === "no CEFR level" ? t("fortschritt.level.noCefr", "no CEFR level") : it.level);
       set("[data-detail-levelsrc]", levelSourceText(it.levelSource));
       set("[data-detail-lead]", it.leadKey ? t(it.leadKey, it.lead, it.leadVars) : it.lead);
       paintStart(id);

@@ -22,57 +22,58 @@ const tabs = [
 // The choice matching `answer` is the one the quiz accepts; the rest are wrong.
 const quiz = [
   {
-    kicker: "Present perfect",
-    before: "I ",
-    after: " in Leeds since 2019.",
-    hint: "(live)",
-    choices: ["have lived", "lived", "am living"],
-    answer: "have lived",
-    note: "since + a starting point: use the present perfect.",
+    kicker: "Ser or estar",
+    before: "Mi hermana ",
+    after: " enfermera.",
+    hint: "(ser / estar)",
+    choices: ["es", "está", "hay"],
+    answer: "es",
+    note: "A job says who someone is: use ser. Mi hermana es enfermera.",
     noteKey: "home.mock.note.akk",
   },
   {
-    kicker: "a / an",
-    before: "My sister is ",
-    after: " engineer.",
-    hint: "(a or an?)",
-    choices: ["an", "a", "the"],
-    answer: "an",
-    note: "an before a vowel sound: an engineer, an hour.",
+    kicker: "el / la",
+    before: "¿Dónde está ",
+    after: " parada del autobús?",
+    hint: "(el or la?)",
+    choices: ["la", "el", "los"],
+    answer: "la",
+    note: "parada is feminine: la parada. Watch the exceptions: el día, el problema, la mano.",
     noteKey: "home.mock.note.dat",
   },
   {
-    kicker: "Past simple",
-    before: "Yesterday I ",
-    after: " to work by bus.",
-    hint: "(go)",
-    choices: ["went", "goed", "have gone"],
-    answer: "went",
-    note: "go is irregular: go – went – gone. With yesterday, use the past simple.",
+    kicker: "Pretérito indefinido",
+    before: "Ayer ",
+    after: " al médico.",
+    hint: "(ir, yo)",
+    choices: ["fui", "fue", "he ido"],
+    answer: "fui",
+    note: "ir is irregular: fui, fuiste, fue … With ayer, Spain uses the indefinido.",
     noteKey: "home.mock.note.perf",
   },
 ];
 
 // Field names kept from the German mock (de = the word on the card, en = its meaning).
+// Castilian Spanish, the words a newcomer in Spain needs first (docs/content-plan.md §1.1).
 const vocab = [
-  { de: "application", en: "a letter or form you send to ask for a job", ex: "I sent my application this morning." },
-  { de: "appointment", en: "a fixed time to see someone, e.g. a doctor", ex: "I've got a doctor's appointment at ten." },
-  { de: "deposit", en: "money you pay at the start, e.g. when you rent a flat", ex: "We paid a deposit of one month's rent." },
-  { de: "hand in your notice", en: "tell your employer you are leaving your job", ex: "She handed in her notice on Friday." },
-  { de: "register", en: "put your name on an official list", ex: "You need to register with a doctor." },
-  { de: "reliable", en: "you can trust them to do what they say", ex: "He's a very reliable colleague." },
+  { de: "la solicitud", en: "a form or letter you send to ask for something, e.g. a job or a permit", ex: "Envié la solicitud esta mañana." },
+  { de: "la cita previa", en: "an appointment you book in advance, e.g. at an office or the doctor", ex: "Tengo cita previa a las diez." },
+  { de: "la fianza", en: "money you pay at the start when you rent a flat", ex: "Pagamos una fianza de un mes." },
+  { de: "empadronarse", en: "register your address at the town hall", ex: "Me empadroné en Valencia en marzo." },
+  { de: "el centro de salud", en: "your local public health centre", ex: "El centro de salud abre a las ocho." },
+  { de: "puntual", en: "on time, never late", ex: "Mi compañera es muy puntual." },
 ];
 
 const speaking = [
-  { title: "Making an appointment", key: "home.mock.speak.amt", level: "B1", line: "Hello, I'd like to make an appointment, please." },
-  { title: "Introducing yourself", key: "home.mock.speak.intro", level: "A2", line: "My name's Ana and I'm from Brazil." },
-  { title: "At the doctor's", key: "home.mock.speak.arzt", level: "A2", line: "I've had a sore throat for three days." },
+  { title: "Making an appointment", key: "home.mock.speak.amt", level: "A2", line: "Buenos días, quería pedir cita, por favor." },
+  { title: "Introducing yourself", key: "home.mock.speak.intro", level: "A1", line: "Me llamo Ana y soy de Brasil." },
+  { title: "At the doctor's", key: "home.mock.speak.arzt", level: "A2", line: "Me duele la garganta desde hace tres días." },
 ];
 
 const exams = [
-  { name: "B1 Preliminary", sub: "Cambridge English · B1", subKey: "home.mock.exam.dtzSub", premium: false },
-  { name: "IELTS Academic", sub: "Study & work abroad", subKey: "home.mock.exam.telcSub", premium: false },
-  { name: "B2 First", sub: "Prep set", subKey: "home.mock.exam.goetheSub", premium: true },
+  { name: "DELE B1", sub: "Instituto Cervantes · B1", subKey: "home.mock.exam.dtzSub", premium: false },
+  { name: "SIELE Global", sub: "One test, every level", subKey: "home.mock.exam.telcSub", premium: false },
+  { name: "DELE B2", sub: "Prep set", subKey: "home.mock.exam.goetheSub", premium: true },
 ];
 
 const weekdays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
@@ -257,7 +258,7 @@ const weekdays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
           ))}
         </div>
         <div class="dm-block">
-          <div class="dm-block-head"><strong data-i18n="fs.partsAria">Prüfungsteile</strong><span translate="no">B1 Preliminary</span></div>
+          <div class="dm-block-head"><strong data-i18n="fs.partsAria">Prüfungsteile</strong><span translate="no">DELE B1</span></div>
           <ul class="dm-list">
             <li><span class="dm-list-name" data-i18n="skill.hoeren">Hören</span><span class="dm-list-meta" data-i18n="home.mock.part.hoeren">3 Teile · 25 Min</span></li>
             <li><span class="dm-list-name" data-i18n="skill.lesen">Lesen</span><span class="dm-list-meta" data-i18n="home.mock.part.lesen">5 Teile · 45 Min</span></li>
