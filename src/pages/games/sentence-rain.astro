@@ -1,0 +1,35 @@
+---
+// /games/sentence-rain — Regi's Sentence Rain: a word-order puzzle. Chunks of an English sentence
+// ("on Mondays", "play", "I") rain down one at a time; the learner steers each into a slot
+// of the sentence line. A correct sentence clears, a wrong one turns to stone and the stack
+// grows. Modes in the data: statements and wh-questions, yes/no questions, auxiliaries and
+// modals, indirect questions (only the first is offered in the game so far).
+// Logic: src/lib/satzregen/ (check.js = what counts as correct, engine.js = the game,
+// game.js = the page). Sentences: src/data/satzregen/saetze.json, built from quelle.txt by
+// scripts/build-satzregen.mjs. Plan: SATZREGEN-TIERED-PROMPT.md, notes docs/satzregen-tier*-v1.md.
+// A prototype since 2026-10-28 (EXPERIMENTE.md): noindex, not in the menu.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import saetze from "../../data/satzregen/saetze.json";
+import "../../styles/satzregen.css";
+
+// Only what the game needs; `src` stays in the data file.
+const data = saetze.map(({ src, lv, ...s }) => s);
+---
+<Layout
+  title="Regi's Sentence Rain: word order as a game – EnglishAcademy"
+  description="Words rain from the sky – put them in the right order. A puzzle game for English word order: subject–verb–object, questions, place before time, linking words."
+  noindex
+>
+  <SiteNav active="ueben" />
+  <main class="sr-page">
+    <div class="sr" id="satzregen" data-phase="start"></div>
+  </main>
+  <script type="application/json" id="sr-data" set:html={JSON.stringify(data)}></script>
+  <script>
+    import { mountSatzregen } from "../../lib/satzregen/game.js";
+    const root = document.getElementById("satzregen");
+    const data = JSON.parse(document.getElementById("sr-data")?.textContent || "[]");
+    if (root) mountSatzregen(root, data);
+  </script>
+</Layout>

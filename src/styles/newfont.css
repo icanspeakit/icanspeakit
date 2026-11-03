@@ -1,0 +1,192 @@
+/* /newfont — internal test bed for the mascot voice (docs/newfont.md). The
+   switch sets <html data-font>, and the only thing that differs between the two
+   states is --font-voice. Everything below is state-independent on purpose:
+   no per-state letter-spacing or weight tweaks, so the toggle isolates the face. */
+
+html[data-font="aktuell"] { --font-voice: var(--font-display); }
+/* html[data-font="neu"]: nothing to override — :root already says Fredoka. */
+
+/* Control bar ------------------------------------------------------------------
+   Layout comes from font.css (.ft-bar, .ft-switch). The site nav is sticky too,
+   so it parks under the bar instead of sliding beneath it; --nf-bar-h is
+   measured by the page script. Same in both states. */
+
+.nf-bar { z-index: 46; background: var(--surface-card); }
+.nf-bar .ft-bar-inner { max-width: 1240px; padding-top: var(--space-3); padding-bottom: var(--space-3); }
+.nf-bar ~ .lp .lp-nav { top: var(--nf-bar-h, 0px); }
+
+.nf-switch-label[data-switch-side="aktuell"] { font-family: var(--font-display); font-size: var(--text-base); letter-spacing: .02em; }
+.nf-switch-label[data-switch-side="neu"] { font-family: "Fredoka", var(--font-display), sans-serif; font-size: var(--text-base); }
+html[data-font="aktuell"] .nf-switch-label[data-switch-side="aktuell"],
+html[data-font="neu"] .nf-switch-label[data-switch-side="neu"] { color: var(--brand-blue-dark); }
+
+/* Shared mascot pieces ---------------------------------------------------------- */
+
+.nf-mascot { flex-shrink: 0; max-width: 100%; height: auto; }
+
+/* Speech bubble: real text, so it translates and scales. Tail points down at
+   the mascot below it; --side variant points left at a mascot beside it. */
+.nf-bubble {
+  position: relative;
+  display: inline-block;
+  margin: 0 0 var(--space-4);
+  padding: var(--space-2) var(--space-4);
+  background: var(--surface-card);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-voice);
+  font-weight: var(--fw-semibold);
+  font-size: var(--text-lg);
+  line-height: 1.25;
+  text-align: center;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.nf-bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%; bottom: -9px;
+  width: 14px; height: 14px;
+  background: inherit;
+  border: solid var(--ink);
+  border-width: 0 2px 2px 0;
+  transform: translateX(-50%) rotate(45deg);
+}
+.nf-bubble--side { margin: 0; text-align: left; }
+.nf-bubble--side::after {
+  left: -9px; top: 50%; bottom: auto;
+  border-width: 0 0 2px 2px;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+/* 1 · Deine Lern-Bande ------------------------------------------------------------ */
+
+.nf-crew {
+  list-style: none; margin: var(--space-10) 0 0; padding: 0;
+  display: flex; justify-content: center; align-items: flex-end;
+  gap: clamp(16px, 4vw, 48px);
+}
+.nf-crew-item {
+  display: flex; flex-direction: column; align-items: center;
+  flex: 0 1 180px; min-width: 0;
+}
+.nf-crew-item--lead { order: 0; }
+.nf-crew-item--lead .nf-bubble { font-size: var(--text-xl); }
+.nf-tag {
+  margin: var(--space-3) 0 0;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: var(--space-2) var(--space-4);
+  background: var(--blue-100);
+  border-radius: var(--radius-pill);
+}
+.nf-tag-name {
+  font-family: var(--font-voice); font-weight: var(--fw-bold);
+  font-size: var(--text-lg); line-height: 1.1; color: var(--ink);
+}
+.nf-tag-skill {
+  font-family: var(--font-label); font-weight: var(--fw-semibold);
+  font-size: var(--text-xs); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--brand-blue-dark);
+}
+
+/* 2 · Lesson feedback ------------------------------------------------------------- */
+
+.nf-feedback {
+  margin-top: var(--space-10);
+  display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: var(--space-6); align-items: start;
+}
+.nf-quiz {
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: grid; gap: var(--space-5);
+  min-width: 0;
+}
+.nf-quiz-label {
+  margin: 0;
+  font-family: var(--font-label); font-size: var(--text-xs); font-weight: var(--fw-semibold);
+  letter-spacing: .08em; text-transform: uppercase; color: var(--brand-blue-dark);
+}
+.nf-quiz-q { margin: 0; font-size: var(--text-lg); color: var(--ink); }
+.nf-quiz-q strong { font-family: var(--font-display); font-size: var(--text-2xl); letter-spacing: .01em; }
+.nf-chips { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+.nf-chip {
+  padding: var(--space-2) var(--space-6);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body); font-weight: var(--fw-semibold);
+  color: var(--ink); background: var(--surface-card);
+}
+.nf-chip--correct { border-color: var(--success-border); background: var(--success-soft); color: var(--success); }
+.nf-hint { display: flex; align-items: center; gap: var(--space-5); min-width: 0; }
+
+.nf-result {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius);
+  border: 1px solid; min-width: 0;
+}
+.nf-result > div { min-width: 0; }
+.nf-result--ok { background: var(--success-soft); border-color: var(--success-border); }
+.nf-result--err { background: var(--danger-soft); border-color: var(--danger-border); }
+.nf-result-word {
+  margin: 0;
+  font-family: var(--font-voice); font-weight: var(--fw-bold);
+  font-size: var(--text-2xl); line-height: 1.1;
+}
+.nf-result--ok .nf-result-word { color: var(--success); }
+.nf-result--err .nf-result-word { color: var(--danger); }
+.nf-result-body { margin: var(--space-1) 0 0; font-family: var(--font-body); font-size: var(--text-sm); color: var(--ink); }
+
+/* 3 · Wort des Tages -------------------------------------------------------------- */
+
+.nf-wotd {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-8); flex-wrap: wrap;
+  padding: clamp(20px, 4vw, 40px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.nf-wotd-text { min-width: 0; }
+.nf-wotd-word {
+  margin: var(--space-2) 0 0;
+  font-family: var(--font-display); font-weight: var(--fw-extrabold);
+  font-size: clamp(2rem, 6vw, 3.25rem); line-height: 1.05;
+  color: var(--ink); text-align: left;
+}
+.nf-wotd-trans { margin: var(--space-2) 0 0; font-size: var(--text-lg); color: var(--muted); font-style: italic; }
+.nf-wotd-crew { display: flex; flex-direction: column; align-items: center; }
+.nf-wotd-pair { display: flex; gap: var(--space-2); }
+
+/* Responsive ------------------------------------------------------------------------ */
+
+@media (max-width: 860px) {
+  .nf-feedback { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .nf-bar .ft-bar-inner { flex-direction: row; align-items: center; gap: var(--space-2) var(--space-4); }
+  .nf-bar .ft-bar-text { flex: 1 1 200px; min-width: 0; }
+  .nf-bar .ft-bar-title { font-size: var(--text-lg); }
+  .nf-bar .ft-bar-sub { font-size: var(--text-xs); }
+}
+
+@media (max-width: 480px) {
+  /* 2×2, Bruno first so the coach stays on top. */
+  .nf-crew { flex-wrap: wrap; align-items: flex-end; gap: var(--space-6) var(--space-3); }
+  .nf-crew-item { flex: 0 0 calc(50% - var(--space-3) / 2); }
+  .nf-crew-item--lead { order: -1; }
+  .nf-crew .nf-mascot { width: 72px; height: 72px; }
+  .nf-crew-item--lead .nf-mascot { width: 88px; height: 88px; }
+  /* Two sticky bars eat a phone screen; the switch labels already say it. */
+  .nf-bar .ft-bar-sub { display: none; }
+  .nf-bubble, .nf-crew-item--lead .nf-bubble { font-size: var(--text-base); padding: 6px var(--space-3); }
+  .nf-quiz { padding: var(--space-4); }
+  .nf-mascot--sm { width: 56px; height: 56px; }
+  .nf-wotd-pair .nf-mascot { width: 72px; height: 72px; }
+  .nf-wotd-crew { width: 100%; }
+}

@@ -1,0 +1,11 @@
+---
+// Every goethe Übungssatz in src/data/pruefungen/saetze/ (generic engine, see PruefungSatz.astro).
+import PruefungSatz from "../../components/PruefungSatz.astro";
+import { saetzeOf } from "../../lib/exam/saetze.js";
+
+export function getStaticPaths() {
+  return saetzeOf("goethe").map((set) => ({ params: { slug: set.slug }, props: { set } }));
+}
+const { set } = Astro.props;
+---
+<PruefungSatz set={set} />

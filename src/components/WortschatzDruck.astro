@@ -1,0 +1,270 @@
+---
+// The printable sheet of one word set — a Lernset (/vocabulary/print/<set>) or a Berufe
+// group (/english-for-work/<beruf>/<gruppe>/drucken). Three parts on paper:
+//
+//   1  Wortliste      every word with its article and plural, the meaning in the language the
+//                     learner picked (or none: „Nur Deutsch“), the German explanation
+//                     (deHint, a gap solved) and the example sentence;
+//                     „Wusstest du?“ — facts on the topic, where the set has some
+//   2  Kleiner Test   the teachers' worksheet parts (src/lib/arbeitsblatt/wortschatz.js):
+//                     Wort ↔ Bedeutung, der/die/das, Lückensätze — fillable on screen too
+//   3  Lösungen       on its own page, optional
+//
+// The paper reuses the teachers' worksheet look and behaviour (arbeitsblatt.css, client.js):
+// one meaning language shown at a time (?lang=), print → A4.
+import SiteNav from "./SiteNav.astro";
+import "../styles/arbeitsblatt.css";
+import "../styles/drucken.css";
+import { LANG_NAMES } from "../lib/arbeitsblatt/wortschatz.js";
+import { solvedHint } from "../lib/audioSlug.js";
+import { isRtl } from "../lib/languages.js";
+import { mascotSvg } from "../lib/mascots.js";
+
+interface Props {
+  title: string;
+  /** The tag in the eyebrows: a level ("A1") or a deck ("Hotel"). */
+  level: string;
+  /** Rows in the lexicon's shape (lemma, gender, plural, example, deHint, meanings flat). */
+  words: any[];
+  /** wortschatzSheet() for these words. */
+  sheet: any;
+  /** Meaning languages the words carry. */
+  langs: string[];
+  facts?: string[];
+  /** The cards page this sheet belongs to. */
+  setPath: string;
+  /** The address printed in the footer; default setPath. A private set prints "" (no link to hand out). */
+  footPath?: string;
+  /** The SiteNav section to mark. */
+  active?: string;
+}
+const { title, level, words, sheet, langs, facts = [], setPath, footPath = setPath, active = "wortschatz" } = Astro.props;
+// "de" = Nur Deutsch: no meaning column, the German explanation carries the word.
+const LANGS = [...langs, "de"];
+const langLabel = (l: string) => (l === "de" ? "Nur Deutsch" : LANG_NAMES[l]);
+const meaningCss =
+  langs.map((l) => `#ab-root[data-lang="${l}"] .ab-m[lang="${l}"]`).join(",") + "{display:inline}" +
+  `#ab-root[data-lang="de"] .ab-m[lang="de"]{display:inline}#ab-root[data-lang="de"] .pr-col-m{display:none}`;
+
+const deOf = (w: any) => (w.deHint ? (w.deFill && w.deHint.includes("…") ? solvedHint(w.deHint, w.deFill) ?? w.deHint : w.deHint) : "");
+const byLemma = new Map(words.map((w: any) => [w.lemma, w]));
+const hasDe = words.some((w: any) => w.deHint);
+const w = (answers: string[]) => `--w:${Math.max(4, ...answers.map((a) => a.length)) + 2}ch`;
+const json = (a: string[]) => JSON.stringify(a);
+// Part A in „Nur Deutsch“: the German explanation stands in for the meaning. A gap hint
+// would need its answer, so the word's synonym is used there, or the solved sentence.
+const deMeaning = (lemma: string) => {
+  const e: any = byLemma.get(lemma);
+  if (!e) return "";
+  if (e.deHint && !e.deHint.includes("…")) return e.deHint;
+  return e.syn?.[0] ?? deOf(e);
+};
+const bruno = mascotSvg({ name: "bruno", size: 64, label: "" });
+const hamsti = mascotSvg({ name: "hamsti", size: 56, label: "" });
+const regi = mascotSvg({ name: "regi", size: 52, label: "" });
+let gap = 0;
+---
+<SiteNav active={active} />
+
+<style is:inline set:html={meaningCss}></style>
+<main class="ab pr" id="ab-root" data-mode="print" data-lang="en" data-key="on">
+  <div class="ab-bar">
+    <a class="ab-back" href={setPath} data-i18n="pr.back">← Zurück zu den Karteikarten</a>
+    <div class="ab-langs" role="group" aria-label="Übersetzung auf" data-i18n-attr="aria-label:pr.lang">
+      <span class="ab-langs-label" data-i18n="pr.lang">Übersetzung</span>
+      {LANGS.filter((l) => l !== "de" || hasDe).map((l) => (
+        <button type="button" data-ab-lang={l} aria-pressed={l === "en" ? "true" : "false"} lang={l}>{langLabel(l)}</button>
+      ))}
+    </div>
+    <div class="ab-seg" role="group" aria-label="Test" data-i18n-attr="aria-label:pr.test">
+      <button type="button" data-ab-mode="print" aria-pressed="true" data-i18n="ab.mode.print">Zum Drucken</button>
+      <button type="button" data-ab-mode="online" aria-pressed="false" data-i18n="pr.mode.online">Test online machen</button>
+    </div>
+    <div class="ab-actions ab-only-print">
+      <label class="ab-check"><input type="checkbox" data-ab-withkey checked /> <span data-i18n="ab.withKey">Lösungsblatt mitdrucken</span></label>
+      <button type="button" class="ab-btn ab-btn--primary" data-ab-print data-i18n="ab.print">Drucken / als PDF speichern</button>
+    </div>
+    <div class="ab-actions ab-only-online">
+      <button type="button" class="ab-btn ab-btn--primary" data-ab-check data-i18n="ab.check">Prüfen</button>
+      <button type="button" class="ab-btn" data-ab-reset data-i18n="ab.reset">Leeren</button>
+      <span class="ab-score" data-ab-score data-tpl="{n} von {total} richtig" data-i18n-attr="data-tpl:ab.score" aria-live="polite"></span>
+    </div>
+  </div>
+
+  <!-- 1 · Wortliste -->
+  <article class="ab-sheet pr-sheet" lang="en">
+    <header class="ab-head pr-head">
+      <div>
+        <p class="ab-eyebrow">EnglishAcademy · Vocabulary · {level}</p>
+        <h1 class="ab-title">{title}</h1>
+        <p class="pr-sub">{words.length} words · a / an, meaning, explanation and example sentence</p>
+      </div>
+      <span class="pr-mascot" aria-hidden="true" set:html={hamsti}></span>
+    </header>
+
+    <table class="pr-table">
+      <thead>
+        <tr>
+          <th>Word</th>
+          <th class="pr-col-m">Meaning</th>
+          {hasDe && <th>Explanation</th>}
+          <th>Example sentence</th>
+        </tr>
+      </thead>
+      <tbody>
+        {words.map((e: any) => (
+          <tr>
+            <td class="pr-word">
+              {e.pos === "noun" && (e.gender || e.pluralOnly) && <b class={`pr-art pr-art--${e.pluralOnly ? "pl" : e.gender}`}>{e.gender ?? "some"} </b>}
+              <b>{e.lemma}</b>
+              {e.genderAlt && <span class="pr-muted"> (also: {e.genderAlt})</span>}
+              {e.pos === "noun" && e.plural && !e.pluralOnly && <span class="pr-pl">pl. {e.plural}</span>}
+              {e.syn?.length > 0 && <span class="pr-syn">also: {e.syn.join(", ")}</span>}
+            </td>
+            <td class="pr-col-m">
+              {langs.map((l) => <span class="ab-m" lang={l} dir={isRtl(l) ? "rtl" : "ltr"}>{e[l] ?? ""}</span>)}
+            </td>
+            {hasDe && <td class="pr-de">{deOf(e)}</td>}
+            <td class="pr-ex">{e.example ?? ""}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    {facts.length > 0 && (
+      <aside class="pr-facts">
+        <span class="pr-facts-fig" aria-hidden="true" set:html={bruno}></span>
+        <div>
+          <h2 class="pr-facts-h">Did you know?</h2>
+          <ul>{facts.map((f) => <li>{f}</li>)}</ul>
+        </div>
+      </aside>
+    )}
+
+    <footer class="ab-foot">EnglishAcademy · englishacademy.com{footPath} · flashcards with audio online</footer>
+  </article>
+
+  <!-- 2 · Kleiner Test -->
+  <article class="ab-sheet pr-sheet pr-test" lang="en">
+    <header class="ab-head pr-head">
+      <div>
+        <p class="ab-eyebrow">EnglishAcademy · Short test · {level}</p>
+        <h2 class="ab-title">{title}</h2>
+        <p class="ab-namerow"><span>Name: <i></i></span><span>Date: <i></i></span></p>
+      </div>
+      <span class="pr-mascot" aria-hidden="true" set:html={regi}></span>
+    </header>
+
+    {sheet.match.left.length > 0 && (
+      <section class="ab-sec">
+        <h3 class="ab-h"><b>A</b> Word and meaning</h3>
+        <p class="ab-instr">Which meaning fits? Write the letter in the box.</p>
+        <div class="ab-match">
+          <ol class="ab-match-left">
+            {sheet.match.left.map((item, i) => (
+              <li>
+                <input class="ab-in ab-in--letter" data-a={json([sheet.match.answers[i]])} data-kind="letter" maxlength="1" aria-label={`Letter for ${item.de}`} autocomplete="off" />
+                <span>{item.de}</span>
+              </li>
+            ))}
+          </ol>
+          <ul class="ab-match-right">
+            {sheet.match.right.map((r) => {
+              const lemma = sheet.match.left[sheet.match.answers.indexOf(r.letter)]?.de ?? "";
+              return (
+                <li>
+                  <b>{r.letter})</b>
+                  {langs.map((l) => <span class="ab-m" lang={l} dir={isRtl(l) ? "rtl" : "ltr"}>{r.meanings[l]}</span>)}
+                  <span class="ab-m" lang="de">{deMeaning(lemma)}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    {sheet.nouns.length > 0 && (
+      <section class="ab-sec">
+        <h3 class="ab-h"><b>B</b> a, an or some?</h3>
+        <p class="ab-instr">Write a, an or some.</p>
+        <ul class="ab-articles">
+          {sheet.nouns.map((n) => (
+            <li>
+              <input class="ab-in" style="--w:5ch" data-a={json(byLemma.get(n.lemma)?.genderAlt ? [n.gender, byLemma.get(n.lemma).genderAlt] : [n.gender])} data-kind="text" aria-label={`a, an or some: ${n.lemma}`} autocomplete="off" autocapitalize="off" />
+              <span>{n.lemma}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {sheet.sentences.length > 0 && (
+      <section class="ab-sec">
+        <h3 class="ab-h"><b>C</b> Gap sentences</h3>
+        <p class="ab-instr">Which word is missing? The words in the box help.</p>
+        <p class="ab-box">{sheet.box.map((b) => <span>{b}</span>)}</p>
+        <ol class="ab-lines">
+          {sheet.sentences.map((s) => (
+            <li>
+              {s.before}<input class="ab-in" style={w([s.answer])} data-a={json([s.answer])} data-kind="text" aria-label={`Gap ${++gap}`} autocomplete="off" autocapitalize="off" />{s.after}
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+
+    <footer class="ab-foot">EnglishAcademy · englishacademy.com{footPath}</footer>
+  </article>
+
+  <!-- 3 · Lösungen -->
+  <article class="ab-sheet ab-key" lang="en" aria-label="Answers">
+    <header class="ab-head">
+      <p class="ab-eyebrow">EnglishAcademy · Answers · {level}</p>
+      <h2 class="ab-title ab-title--key">{title}</h2>
+    </header>
+    {sheet.match.left.length > 0 && (
+      <section class="ab-sec">
+        <h3 class="ab-h"><b>A</b> Word and meaning</h3>
+        <ol class="ab-keylist ab-keylist--cols">
+          {sheet.match.left.map((item, i) => <li>{item.de} – <b>{sheet.match.answers[i]}</b></li>)}
+        </ol>
+      </section>
+    )}
+    {sheet.nouns.length > 0 && (
+      <section class="ab-sec">
+        <h3 class="ab-h"><b>B</b> a, an or some?</h3>
+        <ol class="ab-keylist ab-keylist--cols">
+          {sheet.nouns.map((n) => <li><b>{n.gender}</b> {n.lemma}{byLemma.get(n.lemma)?.genderAlt && <span class="ab-muted"> (also: {byLemma.get(n.lemma).genderAlt})</span>}{n.plural && <span class="ab-muted">, pl. {n.plural}</span>}</li>)}
+        </ol>
+      </section>
+    )}
+    {sheet.sentences.length > 0 && (
+      <section class="ab-sec">
+        <h3 class="ab-h"><b>C</b> Gap sentences</h3>
+        <ol class="ab-keylist">
+          {sheet.sentences.map((s) => <li>{s.before}<b>{s.answer}</b>{s.after}</li>)}
+        </ol>
+      </section>
+    )}
+    <footer class="ab-foot">EnglishAcademy · englishacademy.com{footPath}</footer>
+  </article>
+</main>
+
+<script>
+  import { mountWorksheet } from "../lib/arbeitsblatt/client.js";
+  import { CARD_LANG_KEY } from "../lib/cardLangGloss.js";
+  const root = document.getElementById("ab-root");
+  // No ?lang= (opened from somewhere else than the set page): the card language this
+  // browser learns with, when the sheet has it.
+  const u = new URL(location.href);
+  if (root && !u.searchParams.get("lang")) {
+    let stored = null;
+    try { stored = localStorage.getItem(CARD_LANG_KEY); } catch {}
+    if (stored && root.querySelector(`[data-ab-lang="${CSS.escape(stored)}"]`)) {
+      u.searchParams.set("lang", stored);
+      history.replaceState(null, "", u);
+    }
+  }
+  if (root) mountWorksheet(root);
+</script>

@@ -1,0 +1,106 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ExamShell from "../../components/ExamShell.astro";
+import SatzListe from "../../components/SatzListe.astro";
+import ExamPractice from "../../components/ExamPractice.astro";
+import ExamFormat from "../../components/ExamFormat.astro";
+import telcFormate from "../../data/pruefungen/telc-formate.json";
+
+// Format data is read off the telc Übungstests themselves (see the `source` field on
+// each entry) — every time, point value and task count below is from that source, not
+// estimated. The exam items themselves are © telc gGmbH and are deliberately not
+// reproduced here; only the structure of the exam is.
+const formate = telcFormate.formate;
+---
+<Layout
+  title="Trinity ISE: practice tests and exam format – EnglishAcademy"
+  description="Practise for Trinity ISE (Integrated Skills in English): free practice tests in exam format, with listening, a timer and answers. Plus the exam format and a Use of English trainer."
+>
+  <ExamShell
+    bild="telc"
+    header="Trinity ISE"
+    title="Trinity ISE"
+    lead="Trinity College London’s Integrated Skills in English: ISE Foundation (A2), ISE I (B1) and ISE II (B2), with reading, writing, speaking and listening tested together."
+    leadKey="telc.lead"
+    badges={["A2–B2"]}
+    practiceHeading="Practise for Trinity ISE"
+    practiceHeadingKey="telc.practiceHeading"
+  >
+    <Fragment slot="info">
+      <section class="exam-section">
+        <h2 data-i18n="telc.who.title">Who is Trinity ISE for?</h2>
+        <div class="exam-meta-row">
+          <span class="exam-meta-badge" data-i18n="telc.who.badge.level">Levels A2–B2</span>
+          <span class="exam-meta-badge" data-i18n="telc.who.badge.modular">Integrated skills</span>
+        </div>
+        <p data-i18n="telc.who.text">
+          There is one Trinity ISE exam for each level: ISE Foundation (A2), ISE I (B1) and ISE II (B2).
+          Each has two modules, Reading &amp; Writing and Speaking &amp; Listening. People take ISE for study,
+          work and, in some cases, UK visa applications. Check the current rules for your purpose before
+          you book.
+        </p>
+      </section>
+
+      <section class="exam-section">
+        <h2 data-i18n="exam.skills.title">Skills tested</h2>
+        <div class="skill-grid">
+          <div class="skill-card"><div class="skill-card-icon">📖</div><h4 data-i18n="skill.lesen">Lesen</h4><p data-i18n="skill.lesen.desc">Leseverstehen</p></div>
+          <div class="skill-card"><div class="skill-card-icon">🎧</div><h4 data-i18n="skill.hoeren">Hören</h4><p data-i18n="skill.hoeren.desc">Hörverstehen</p></div>
+          <div class="skill-card"><div class="skill-card-icon">✍️</div><h4 data-i18n="skill.schreiben">Schreiben</h4><p data-i18n="skill.schreiben.desc">Schriftlicher Ausdruck</p></div>
+          <div class="skill-card"><div class="skill-card-icon">🗣️</div><h4 data-i18n="skill.sprechen">Sprechen</h4><p data-i18n="skill.sprechen.pairDesc">Mündliche Prüfung, meist paarweise</p></div>
+        </div>
+        <p class="format-note" data-i18n="telc.sprachbausteine.note">
+          ISE tests the skills together: for example, you read a text and then write about it.
+          Grammar and vocabulary are not a separate paper; they count in how well you read, write,
+          speak and listen.
+        </p>
+      </section>
+
+      {formate.map((f) => <ExamFormat format={f} />)}
+
+      <section class="exam-section">
+        <h2 data-i18n="telc.moreLevels.title">Other levels</h2>
+        <p class="format-note" data-i18n="telc.moreLevels.text">
+          Times, task counts and marking differ between the ISE levels. For Foundation, I or II, check
+          the official Trinity specification for your level. We enter here only what we can document,
+          rather than estimating figures.
+        </p>
+      </section>
+    </Fragment>
+
+    <SatzListe exam="telc" />
+
+    <div class="mock-cta">
+      <h2 data-i18n="telc.sb.title">Practise Use of English</h2>
+      <p data-i18n="telc.sb.text">
+        Gap-fill practice in the style of the Cambridge B2 First Reading &amp; Use of English paper:
+        part 1 from a word box, part 2 by multiple choice inside a text, with everyday texts and
+        instant marking.
+      </p>
+      <a class="quiz-btn quiz-btn--primary" href="/cambridge/use-of-english" data-i18n="telc.sb.cta">To the Use of English trainer</a>
+    </div>
+
+    <div class="mock-cta">
+      <h2 data-i18n="fallen.title">Exam traps at B1</h2>
+      <p data-i18n="fallen.entry.blurb">Spots with a catch – briefly explained, with an example and a task to try.</p>
+      <a class="quiz-btn quiz-btn--primary" href="/exams/traps" data-i18n="fallen.entry.cta">See the traps</a>
+    </div>
+
+    <div class="mock-cta">
+      <h2 data-i18n="telc.a1.title">A1: an unbranded practice test</h2>
+      <p data-i18n="telc.a1.text">
+        Our A1 practice test is not tied to one provider: listening, reading and writing in exam
+        style. It is marked against a 60 % pass line, which is our own convention, not an official mark.
+      </p>
+      <a class="quiz-btn quiz-btn--primary" href="/a1-test" data-i18n="exam.startSet">Start the practice set</a>
+    </div>
+
+    <ExamPractice
+      heading="Train the basics"
+      headingKey="exam.practice.heading"
+      intro="These tools help at every level and for every exam. They test general articles, grammar and vocabulary, not Trinity-specific task types."
+      introKey="telc.practice.intro"
+      tools={["artikel", "grammatik", "wortschatz"]}
+    />
+  </ExamShell>
+</Layout>

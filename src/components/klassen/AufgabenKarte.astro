@@ -1,0 +1,106 @@
+---
+// The student's "Aufgaben" card (KLASSEN-TIERED-PROMPT.md, Tier 4): what their teacher
+// assigned, split into open, overdue and done. On /exercises and /konto.
+//
+// It stays hidden, and costs nothing, unless there is something to show:
+// - no session cookie → the script stops before loading anything
+// - signed in but in no class → one request (the membership list), then nothing
+// - in a class without tasks → hidden
+//
+// "Done" is computed (src/lib/aufgabenStatus.js) from the student's own attempts plus the
+// ones still waiting in this browser's queue, so a set finished a moment ago counts at once.
+interface Props {
+  /** "uebungen" (top of the hub) or "konto" (a card among the account settings). */
+  wo?: "uebungen" | "konto";
+}
+const { wo = "uebungen" } = Astro.props;
+---
+<section class:list={["ak", `ak--${wo}`]} data-aufgaben hidden aria-labelledby={`ak-title-${wo}`}>
+  <h2 id={`ak-title-${wo}`} class="ak-title" data-i18n="kl.a.card.title">Aufgaben von deiner Lehrkraft</h2>
+  <ul class="ak-list" data-ak-open></ul>
+  <details class="ak-done" data-ak-done-box hidden>
+    <summary data-ak-done-summary></summary>
+    <ul class="ak-list" data-ak-done></ul>
+  </details>
+</section>
+
+<style>
+  .ak { display: grid; gap: 10px; margin: 0 0 var(--space-5, 20px); padding: 16px; border: 1px solid color-mix(in srgb, var(--brand-blue) 40%, var(--border)); border-radius: var(--radius-lg, 14px); background: var(--surface-card); }
+  .ak[hidden] { display: none; }
+  .ak-title { margin: 0; font-size: var(--text-lg, 1.125rem); color: var(--ink); }
+  .ak-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .ak-done > summary { cursor: pointer; color: var(--muted); font-size: var(--text-sm, .875rem); }
+  .ak-done[open] > summary { margin-bottom: 8px; }
+  :global(.ak-item) { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; align-items: center; padding: 10px 12px; border-radius: 10px; background: var(--surface); }
+  :global(.ak-item b) { color: var(--ink); overflow-wrap: anywhere; }
+  :global(.ak-item small) { color: var(--muted); font-size: 12px; }
+  :global(.ak-item .ak-go) { grid-row: span 2; display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: var(--radius-pill, 999px); background: var(--gradient-brand, var(--brand-blue)); color: #fff; font-weight: 600; font-size: var(--text-sm, .875rem); text-decoration: none; }
+  :global(.ak-item--late small.ak-due) { color: var(--ink); font-weight: 600; }
+  :global(.ak-item--done) { background: transparent; border: 1px solid var(--border); }
+  :global(.ak-item--done .ak-go) { background: none; color: var(--brand-blue); border: 1px solid var(--border-strong); }
+</style>
+
+<script>
+  import { loadText, t } from "../../lib/liveQuiz/text.js";
+  import { aufgabenStatus, berlinDatum } from "../../lib/aufgabenStatus.js";
+  import { keyFromRef, stundeHref } from "../../lib/unterricht/lernen.js";
+
+  const esc = (s: unknown) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+  const signedIn = import.meta.env.PUBLIC_TARGET === "app" || /(?:^|;\s*)sb-[^=]+-auth-token/.test(document.cookie);
+
+  for (const box of document.querySelectorAll<HTMLElement>("[data-aufgaben]")) {
+    if (signedIn) mount(box).catch(() => {});
+  }
+
+  async function mount(box: HTMLElement) {
+    const { meineAufgaben } = await import("../../lib/klassen.js");
+    const data = await meineAufgaben();
+    if (!data?.tasks.length) return;
+    let queued: any[] = [];
+    try { queued = JSON.parse(localStorage.getItem("da_versuche_queue") ?? "[]"); } catch {}
+    const rows = [...data.rows, ...queued];
+    const katalog: any[] = await fetch("/klassen-katalog.json").then((r) => r.json()).catch(() => []);
+    const byRef = new Map(katalog.map((e) => [e.ref, e]));
+    await loadText(() => render());
+    render();
+
+    function item(task: any, st: { status: string; am: string | null }) {
+      // A teacher's card set is not in the catalogue: its ref is its share link's token.
+      // A Stunde (st:…) opens /lesson for this class, so the teacher sees how far it got; one
+      // from the teacher's own plan (not in the catalogue) is rebuilt from its ref.
+      const stKey = task.uebung_ref.startsWith("st:") ? keyFromRef(task.uebung_ref) : null;
+      const e = stKey ? { href: stundeHref(stKey, `&klasse=${task.klasse_id}`) }
+        : byRef.get(task.uebung_ref) ?? (task.uebung_ref.startsWith("vs:") ? { href: `/card-set?t=${task.uebung_ref.slice(3)}` } : null);
+      const due = berlinDatum(task.faellig_at);
+      const dueText =
+        st.status === "ueberfaellig" ? t("kl.a.overdueSince", "überfällig, war fällig am {date}", { date: due })
+        : st.status === "offen" ? t("kl.a.dueBy", "bis {date}", { date: due })
+        : st.status === "verspaetet" ? t("kl.a.doneLate", "erledigt am {date}, nach dem Termin", { date: berlinDatum(st.am!) })
+        : t("kl.a.doneOn", "erledigt am {date}", { date: berlinDatum(st.am!) });
+      const min = task.min_richtig_prozent ? ` · ${t("kl.a.min", "mind. {n} % richtig", { n: task.min_richtig_prozent })}` : "";
+      const cls = st.status === "ueberfaellig" ? "ak-item--late" : st.status === "offen" ? "" : "ak-item--done";
+      const go = st.status === "offen" || st.status === "ueberfaellig" ? t("kl.a.go", "Los") : t("kl.a.again", "Nochmal");
+      return `<li class="ak-item ${cls}">
+        <b>${esc(task.titel)}</b>
+        ${e?.href ? `<a class="ak-go" href="${esc(e.href)}">${esc(go)}</a>` : "<span></span>"}
+        <small><span class="ak-due">${esc(dueText)}</span>${esc(min)} · ${esc(task.klasse?.name ?? "")}</small>
+      </li>`;
+    }
+
+    function render() {
+      const now = Date.now();
+      const all = data!.tasks.map((task: any) => ({ task, st: aufgabenStatus(task, rows, now) }));
+      // Overdue first: they are the ones the teacher will ask about.
+      const open = all.filter((x) => x.st.status === "ueberfaellig").concat(all.filter((x) => x.st.status === "offen"));
+      const done = all.filter((x) => x.st.status === "erledigt" || x.st.status === "verspaetet").reverse();
+      box.querySelector("[data-ak-open]")!.innerHTML = open.length
+        ? open.map((x) => item(x.task, x.st)).join("")
+        : `<li class="ak-item"><small>${esc(t("kl.a.allDone", "Alles erledigt. Gut gemacht!"))}</small></li>`;
+      const doneBox = box.querySelector<HTMLDetailsElement>("[data-ak-done-box]")!;
+      doneBox.hidden = !done.length;
+      box.querySelector("[data-ak-done-summary]")!.textContent = t("kl.a.doneCount", "Erledigt ({n})", { n: done.length });
+      box.querySelector("[data-ak-done]")!.innerHTML = done.map((x) => item(x.task, x.st)).join("");
+      box.hidden = false;
+    }
+  }
+</script>

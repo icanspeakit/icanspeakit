@@ -1,0 +1,197 @@
+{
+  "_note": [
+    "Writing A1–B2, one entry per task, same shape as src/data/fertigkeiten/lesen.json.",
+    "",
+    "Writing cannot be auto-graded, so every task ends in a model text rather than a right",
+    "answer. That is not a cop-out: exam writing tasks are marked against criteria, not an",
+    "answer key, and a learner who compares their own text to a model sees more than a score",
+    "would tell them. The `check` list is what the examiner looks for; it is shown AFTER the",
+    "learner has written, never before.",
+    "",
+    "`kind` decides which editor the page renders:",
+    "  form    a source text plus fields to transfer",
+    "  prompt  a situation plus points to cover (messages, emails, letters)",
+    "  errors  a text with mistakes to find",
+    "",
+    "The three B1 entries are the B1 simulation from src/data/lesen.json, pulled in at build",
+    "time via `from` so there is exactly one copy of that text on the site. Form `answer`",
+    "values use straight apostrophes and plain hyphens, because learners type them."
+  ],
+  "types": {
+    "formular": "Form",
+    "nachricht": "Short message",
+    "email": "Email",
+    "brief": "Letter",
+    "fehlerjagd": "Error hunt"
+  },
+  "tasks": [
+    {
+      "id": "a1-formular-anmeldung",
+      "level": "A1",
+      "type": "formular",
+      "kind": "form",
+      "title": "Joining the leisure centre",
+      "blurb": "Ten fields, one short text – the most common writing task in everyday life.",
+      "minutes": 6,
+      "source": "Hello! My name is Amina Yusuf. I was born on 4 March 1996 in Hargeisa. Now I live at 12 Garden Street, Westbridge, WB3 7QT. My mobile number is 07700 900 482 and my email is amina.yusuf@example.com. I would like to go swimming two times a week, in the evening. I am a beginner.",
+      "fields": [
+        { "label": "Surname", "answer": "Yusuf" },
+        { "label": "First name", "answer": "Amina" },
+        { "label": "Date of birth (DD/MM/YYYY)", "answer": "04/03/1996" },
+        { "label": "Place of birth", "answer": "Hargeisa" },
+        { "label": "House number and street", "answer": "12 Garden Street" },
+        { "label": "Town", "answer": "Westbridge" },
+        { "label": "Postcode", "answer": "WB3 7QT" },
+        { "label": "Mobile", "answer": "07700 900 482" },
+        { "label": "Email", "answer": "amina.yusuf@example.com" },
+        { "label": "Activity", "answer": "swimming" }
+      ],
+      "check": [
+        "Surname and first name are not swapped. Your surname is your family name.",
+        "The date is in British order, day/month/year: 04/03/1996. 03/04/1996 would be 3 April.",
+        "Town and postcode go in separate fields, even if they are together in the text."
+      ]
+    },
+    {
+      "id": "a1-nachricht-absage",
+      "level": "A1",
+      "type": "nachricht",
+      "kind": "prompt",
+      "title": "You can't come",
+      "blurb": "Saying no in three sentences: the reason, sorry, a new idea.",
+      "minutes": 8,
+      "situation": "Your friend Mira has invited you to her birthday party on Saturday. You can't go, because you have to work. Write her a short message (30–40 words).",
+      "points": [
+        "Say that you can't come.",
+        "Give the reason.",
+        "Say happy birthday.",
+        "Suggest another day to meet."
+      ],
+      "phrases": [
+        "Sorry, I can't come.",
+        "I have to work on Saturday.",
+        "Happy birthday!",
+        "Can we meet on Sunday?"
+      ],
+      "model": "Hi Mira,\n\nThanks for the invitation! I'm really sorry, but I can't come on Saturday. I have to work.\n\nHappy birthday! Can we meet on Sunday? I can buy you a coffee.\n\nLove,\nSam",
+      "check": [
+        "All four points are there – in an exam, a missing point costs more than a small grammar mistake.",
+        "There is a greeting and a sign-off (Hi Mira / Love, Sam).",
+        "The sentences are short. At A1, “I have to work.” is better than a long sentence with a mistake."
+      ]
+    },
+    {
+      "id": "a2-email-nachbarn",
+      "level": "A2",
+      "type": "email",
+      "kind": "prompt",
+      "title": "An email to your neighbour",
+      "blurb": "Asking for help politely – with “Could you …?” instead of “You must …”.",
+      "minutes": 10,
+      "situation": "You are going on holiday for two weeks. Your neighbour, Mrs Clarke, has offered to help while you are away. Write her an email (50–60 words). You don't know Mrs Clarke very well, so be polite.",
+      "points": [
+        "Say when you will be away.",
+        "Ask her to water your plants.",
+        "Ask her to take in your post.",
+        "Say where the key is and thank her."
+      ],
+      "phrases": [
+        "I'll be away from … to …",
+        "Could you possibly …?",
+        "Would you mind …ing …?",
+        "Thank you so much for your help."
+      ],
+      "model": "Dear Mrs Clarke,\n\nI'll be away from 3 to 17 July. Could you possibly water my plants while I'm away? Twice a week is enough.\n\nWould you mind taking in my post too? Otherwise it piles up behind the door.\n\nI'll bring the key round on Tuesday evening. Thank you so much!\n\nKind regards,\nNoor Haddad",
+      "check": [
+        "The requests are questions (“Could you …?”, “Would you mind …ing?”), not orders (“Water my plants.”, “You must …”).",
+        "After “Would you mind” comes the -ing form: “Would you mind taking in my post?”, not “Would you mind to take …”.",
+        "Greeting and sign-off match: Dear Mrs Clarke → Kind regards. “Love” is too familiar for a neighbour you hardly know."
+      ]
+    },
+    {
+      "id": "a2-formular-arztpraxis",
+      "level": "A2",
+      "type": "formular",
+      "kind": "form",
+      "title": "Booking a GP appointment",
+      "blurb": "One phone call, one form – and two details that are not said in so many words.",
+      "minutes": 7,
+      "source": "“Oakfield Medical Centre, good morning.” – “Good morning. My name's Piotr Kowalczyk. I'd like to make an appointment, please.” – “Of course. Have you seen one of our doctors before?” – “No, I only registered with you last week. I moved to Westbridge last month.” – “And your date of birth, please?” – “The twentieth of November, nineteen eighty-eight.” – “What's the best number to call you on?” – “My mobile: oh seven seven oh oh, nine oh oh, three one five.” – “And what's the problem?” – “I've had bad back pain for ten days.” – “Dr Patel can see you on Thursday the 14th at half past three.” – “That's fine, thank you.”",
+      "fields": [
+        { "label": "Name (surname, first name)", "answer": "Kowalczyk, Piotr" },
+        { "label": "Date of birth (DD/MM/YYYY)", "answer": "20/11/1988" },
+        { "label": "Contact number", "answer": "07700 900 315" },
+        { "label": "First appointment at this practice? (yes/no)", "answer": "yes" },
+        { "label": "Reason for appointment", "answer": "back pain (10 days)" },
+        { "label": "Doctor", "answer": "Dr Patel" },
+        { "label": "Appointment date", "answer": "Thursday 14th" },
+        { "label": "Appointment time", "answer": "3.30 pm" }
+      ],
+      "check": [
+        "Numbers are spoken, not written: “the twentieth of November, nineteen eighty-eight” → 20/11/1988, and “oh” in a phone number is the number 0.",
+        "“First appointment?” is never asked in those words – you have to work it out from “No, I only registered with you last week.”",
+        "“That's fine” means the appointment is confirmed, so fill in the doctor, the date and the time. “Half past three” in the afternoon is 3.30 pm (or 15:30)."
+      ]
+    },
+    {
+      "id": "b1-formular-vhs",
+      "level": "B1",
+      "type": "formular",
+      "kind": "form",
+      "title": "B1 task 5: completing a form",
+      "blurb": "One confirmation email, eight fields.",
+      "minutes": 8,
+      "from": "dtz-formTask"
+    },
+    {
+      "id": "b1-brief-david",
+      "level": "B1",
+      "type": "brief",
+      "kind": "prompt",
+      "title": "B1 writing: reply to David",
+      "blurb": "Five points, one informal email to a friend.",
+      "minutes": 25,
+      "from": "dtz-writingPrompt"
+    },
+    {
+      "id": "b1-fehlerjagd",
+      "level": "B1",
+      "type": "fehlerjagd",
+      "kind": "errors",
+      "title": "Error hunt in a model letter",
+      "blurb": "Find the mistakes in someone else's text first – then you start seeing them in your own.",
+      "minutes": 10,
+      "from": "dtz-errorHunt"
+    },
+    {
+      "id": "b2-beschwerde-reiseveranstalter",
+      "level": "B2",
+      "type": "brief",
+      "kind": "prompt",
+      "title": "A complaint to a holiday company",
+      "blurb": "Staying calm and factual while still making a clear demand – the hardest tone at B2.",
+      "minutes": 30,
+      "situation": "You booked a one-week package holiday. When you got there, a lot of things were different from the brochure: the hotel was not on the beach but 3 km away, the pool was closed for repairs, and the excursions you had paid for did not take place. Write a letter of complaint to the holiday company (180–200 words).",
+      "points": [
+        "Give your booking reference, the dates and the destination.",
+        "Describe the problems clearly and factually.",
+        "Explain why they mattered to you.",
+        "Say exactly what you want and give a deadline."
+      ],
+      "phrases": [
+        "I am writing with regard to my booking (reference …).",
+        "Your brochure clearly stated that …",
+        "In fact, however, …",
+        "I would therefore ask you to … by …",
+        "If I do not hear from you by …, I will have no choice but to …"
+      ],
+      "model": "Dear Sir or Madam,\n\nI am writing with regard to my booking (reference 884-2210) for a holiday in Antalya from 12 to 19 September. I regret to say that there were several serious problems.\n\nYour brochure clearly described the hotel as “right on the beach”. In fact, however, it was about three kilometres away, and the only way to get there was a shuttle bus that cost extra. The pool, which was also advertised, was closed for repairs during our entire stay, and we were not told about this in advance. In addition, both excursions included in the price were cancelled without any alternative being offered.\n\nSince I chose this holiday precisely because of the beach location and the facilities, it was far less relaxing than I had expected. These were not minor issues but the main features of the holiday I paid for.\n\nI would therefore ask you to offer me an appropriate partial refund by 15 October. If I do not hear from you by then, I will have no choice but to take the matter further.\n\nYours faithfully,\nClara Menéndez",
+      "check": [
+        "No angry words: “I regret to say that there were several serious problems” instead of “this was a disgrace”. At B2 the tone is part of the mark – firm, but never rude.",
+        "Each problem is set against a promise (“Your brochure clearly stated … In fact, however, …”). A complaint without that comparison is only an opinion.",
+        "There is a clear demand AND a deadline. Without a date, a letter of complaint is not complete.",
+        "B2 linking words: since, in addition, however, therefore. Dear Sir or Madam → Yours faithfully (with a name: Dear Ms Jones → Yours sincerely)."
+      ]
+    }
+  ]
+}

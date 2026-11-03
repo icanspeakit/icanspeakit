@@ -1,0 +1,114 @@
+---
+// /teachers/lesson — a Stunde from the plan, taught step by step on the projector
+// with a group: step screens, the session bar and the lesson clock. Progress is saved per
+// group in public.unterrichtssitzungen. All logic in src/lib/unterricht/ (seite.js).
+//
+// Static like the rest of the section; sign-in and the teacher switch are settled in the
+// browser, with the same gates as Klassentests. Started from "Unterricht starten" on
+// /teachers/timetable. Not in the Android app (build-app.mjs drops /teachers).
+// English only (lang="en"), like the plan; no keys. The step screens are built by
+// src/lib/unterricht/ (still German until the `teachers` item).
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import SectionMascot from "../../components/mascots/SectionMascot.astro";
+import { unterrichtDaten } from "../../lib/unterricht/seitenDaten.js";
+import "../../styles/live-quiz.css";
+import "../../styles/quiz-builder.css";
+import "../../styles/klassen.css";
+import "../../styles/unterricht.css";
+
+// Plan data, Einstieg photos and material, Wortfelder: shared with the learner's /lesson.
+const { levels, bilder, themen, wortfelder } = unterrichtDaten();
+---
+<Layout
+  title="Lesson – For teachers – EnglishAcademy"
+  description="Teach a lesson from the lesson plan step by step on the projector: stages, materials, timer and progress for each group."
+  noindex
+>
+  <SiteNav active="lehrkraefte" />
+  <main class="lq kl ut" id="ut-root" lang="en">
+    <section class="lq-card" data-gate="loading">
+      <p>One moment …</p>
+    </section>
+    <section class="lq-card kl-stack" data-gate="signin" hidden>
+      <h2>Sign in to start a lesson</h2>
+      <p>Each group's progress belongs to your account, so next week you know where you got to. The account is free.</p>
+      <a class="lq-btn lq-btn--primary" data-signin-link href="/anmelden?next=/teachers/timetable">Sign in or register</a>
+    </section>
+    <section class="lq-card kl-stack" data-gate="teacher" hidden>
+      <h2>Do you teach English?</h2>
+      <p>Then turn on the teacher tools: lessons with a timer, class tests, polls, classes and your own live quizzes. You can turn them off again at any time under Settings in your account.</p>
+      <button type="button" class="lq-btn lq-btn--primary" data-teacher-on>Yes, I teach</button>
+      <p class="lq-error" data-teacher-error role="alert"></p>
+    </section>
+
+    <div data-gate="ok" hidden>
+      <section class="ut-start" data-view="start" hidden>
+        <a class="qb-back" data-start-plan href="/teachers/timetable">Back to the lesson plan</a>
+        <p class="ut-eyebrow" data-start-meta></p>
+        <h1 class="ut-title" data-start-title>Start the lesson</h1>
+        <div class="ut-timeline" data-start-bar aria-hidden="true"></div>
+
+        <div class="lq-card kl-stack">
+          <h2>Which group?</h2>
+          <div class="ut-groups" data-groups role="radiogroup" aria-label="Group"></div>
+          {/* One button for both ways in: a group chosen above, or a new name typed here –
+              the group is created and the lesson starts in the same press (Enter too). */}
+          <form class="ut-new" data-new novalidate>
+            <label>New group <input type="text" data-new-name maxlength="80" placeholder="e.g. A1 Monday" autocomplete="off" /></label>
+            <button type="submit" class="lp-btn lp-btn--primary" data-go>Start the lesson</button>
+          </form>
+          <p class="kl-status" data-start-status role="status" aria-live="polite"></p>
+          <div class="ut-open" data-open hidden>
+            <p data-open-text></p>
+            <div class="ut-row ut-row--end">
+              <button type="button" class="lp-btn lp-btn--outline" data-restart>Start again</button>
+              <button type="button" class="lp-btn lp-btn--primary" data-resume>Continue</button>
+            </div>
+          </div>
+          <p class="ut-muted">The timer starts with “Start the lesson”. If you close the tab or the computer goes to sleep, it stops; “Next” carries on from there.</p>
+        </div>
+      </section>
+
+      <section class="ut-stage" data-view="stage" data-stage hidden>
+        <div class="ut-stage-top">
+          <p class="ut-eyebrow" data-stage-meta></p>
+          <button type="button" class="ut-icon-btn" data-fullscreen title="Full screen" aria-label="Full screen on or off">⛶</button>
+        </div>
+        <div class="ut-timeline ut-timeline--nav" data-stage-bar></div>
+        <article class="ut-card" data-stage-card aria-live="polite"></article>
+        <p class="ut-keys">Keyboard and presenter: → next step, ← back, P pause.</p>
+
+        <div class="ut-qr" data-qr hidden role="dialog" aria-modal="true" aria-label="Link and QR code for learners">
+          <button type="button" class="ut-qr-close" data-qr-close aria-label="Close">✕</button>
+          <div class="ut-qr-list" data-qr-list></div>
+        </div>
+      </section>
+
+      <section class="lq-card kl-stack ut-done" data-view="done" hidden>
+        <SectionMascot name="bruno" expr="celebrate" extra="klemmbrett" say="Well done!" />
+        <h1 class="ut-title">Lesson finished</h1>
+        <p>Time taken: <b data-done-time></b></p>
+        <table class="ut-done-table">
+          <thead><tr><th scope="col">Stage</th><th scope="col">Planned</th><th scope="col">Taken</th></tr></thead>
+          <tbody data-done-rows></tbody>
+        </table>
+        <div class="ut-row"><a class="lp-btn lp-btn--primary" data-done-plan href="/teachers/timetable">To the lesson plan</a></div>
+      </section>
+
+      <section class="lq-card kl-stack" data-view="missing" hidden>
+        <h2>This lesson doesn't exist (any more)</h2>
+        <p>The link doesn't match any lesson in your account. Start the lesson again from the lesson plan.</p>
+        <a class="lp-btn lp-btn--primary" href="/teachers/timetable">To the lesson plan</a>
+      </section>
+    </div>
+  </main>
+  <script type="application/json" id="ut-data" set:html={JSON.stringify({ levels, bilder, themen, wortfelder })}></script>
+
+  <script>
+    import { mountUnterricht } from "../../lib/unterricht/seite.js";
+    const root = document.getElementById("ut-root");
+    const data = JSON.parse(document.getElementById("ut-data")!.textContent!);
+    if (root) mountUnterricht(root, data);
+  </script>
+</Layout>

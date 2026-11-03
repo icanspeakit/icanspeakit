@@ -1,0 +1,27 @@
+---
+// The EnglishAcademy mascot crew as inline SVG. The drawings live in
+// src/lib/mascots.js, shared with the milestone overlay and the PDF generator.
+//
+//   <Mascot name="bruno" expr="celebrate" size={96} />
+//
+// name: bruno (Dackel, coach) · regi (Igel, Grammatik) · hamsti (Hamster,
+//       Wortschatz) · quaki (Frosch, Sprechen)
+// expr: bruno only — happy | thinking | celebrate | oops | sleepy
+// view: front | three (a ¾ turn of the face)
+//
+// Every mascot carries the `mascot` class, so the "Maskottchen ausblenden"
+// setting (html[data-mascots="off"], see global.css) hides them all at once.
+import { mascotSvg } from "../../lib/mascots.js";
+
+interface Props {
+  /** An accessory (src/lib/mascots.js): "klemmbrett" = Bruno in the teacher area. */
+  extra?: "schleife" | "fliege" | "klemmbrett";
+  name: "bruno" | "regi" | "hamsti" | "quaki";
+  expr?: "happy" | "thinking" | "celebrate" | "oops" | "sleepy";
+  view?: "front" | "three";
+  size?: number;
+  class?: string;
+}
+const { name, expr = "happy", view = "front", size = 200, extra, class: cls } = Astro.props;
+---
+<Fragment set:html={mascotSvg({ name, expr, view, size, extra, className: cls })} />

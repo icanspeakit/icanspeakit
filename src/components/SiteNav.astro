@@ -1,0 +1,183 @@
+---
+// The site nav: the logo, the desktop menu bar, the right-hand cluster and the burger
+// that opens the mobile drawer.
+//
+//   [Logo]  Üben ▾  Prüfungen ▾  Wissen        [Kostenlos üben]  ⌕  [Avatar]  DE ▾
+//
+// Three text items, not eight. The bar used to carry Grammatik, Wortschatz,
+// Fertigkeiten, Landeskunde, Prüfungen, Niveaus, Wissen and Profil — eight items, six of
+// them dropdowns, mixing content subjects with a cross-cutting filter and account links,
+// and wide enough to run into the logo wordmark. The four subjects are one decision, so
+// they are one menu; the level filter is a chip row inside it; Profil and the theme
+// toggle moved into the avatar. See NavMenubar.astro for the full reasoning.
+//
+// The two menus themselves live next door, because the practice pages need the same ones
+// in a different bar (see PracticeHeader.astro):
+//   NavMenubar.astro  the desktop panels, >1080px
+//   NavDrawer.astro   the full-height mobile panel, ≤1080px
+// This file is only the row they hang in.
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+import { mascotSvg } from "../lib/mascots.js";
+import Icon from "./Icon.astro";
+import NavDrawer from "./NavDrawer.astro";
+import NavMenubar from "./NavMenubar.astro";
+import SiteSearch from "./SiteSearch.astro";
+import NextStepCta from "./NextStepCta.astro";
+import AuthStatus from "./AccountSlot.astro";
+import "../styles/site-nav.css";
+import "../styles/auth.css";
+
+interface Props {
+  /**
+   * Marks the current section so its nav item reads as active. The four subject values
+   * all light "Üben", which is the item they now live under.
+   */
+  active?: "ueben" | "grammatik" | "wortschatz" | "fertigkeiten" | "landeskunde" | "pruefungen" | "wissen" | "lehrkraefte" | "entdecken" | "profil";
+  /** Layout of the Wissen panel, for the /nav1–/nav6 comparison pages. See NavMenubar.astro. */
+  wissenVariant?: "lean" | "current" | "old" | "oldplus" | "oldbooks" | "oldchips" | "tabs";
+}
+// "lean" is the site's Wissen menu since 2026-10-23 ("oldplus", /nav4, from 2026-10-08);
+// the others stay for /nav1–/nav6.
+const { active, wissenVariant = "lean" } = Astro.props;
+// „Einfach lernen" as a mode switch, not a menu item: Bruno and one word, next to the
+// other display choices (theme, language). Desktop only — below 1080px .lp-nav-utils
+// moves into the drawer, which carries its own row at the top.
+const einfachBruno = mascotSvg({ name: "bruno", expr: "happy", view: "front", size: 22, label: "" });
+const onEinfach = Astro.url.pathname.replace(/\/+$/, "") === "/step-by-step";
+// The Android app (PUBLIC_TARGET=app, Tier 3) carries three parts of the site, so the full
+// menu, the search, the next-step button and the account menu stay out of it: nothing renders
+// here. Layout.astro gives the app its own slim bar (AppBar.astro, Tier U1) and its tab bar
+// (AppTabBar.astro), so the website's components and their CSS order stay as they were.
+const APP = import.meta.env.PUBLIC_TARGET === "app";
+const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
+const APP_BUILD = import.meta.env.PUBLIC_TARGET === "app";
+---
+{APP ? null : (<>
+<nav class="lp-nav" data-nav>
+  <div class="lp-nav-row">
+    <div class="lp-nav-left">
+      <a href="/" class="lp-nav-logo"><img src="/assets/logo.png" alt="EnglishAcademy" /></a>
+
+      <NavMenubar active={active} wissenVariant={wissenVariant} />
+    </div>
+
+    <div class="lp-nav-right">
+      {/* One next step from what this browser knows — see NextStepCta.astro. */}
+      <NextStepCta variant="header" />
+
+      {/* Opens the search overlay (SiteSearch.astro): words, grammar topics, trainers.
+          Outside .lp-nav-utils because the lens stays in the row on a phone, where the
+          utilities move into the drawer. */}
+      <button
+        class="lp-nav-icon lp-nav-search"
+        type="button"
+        aria-label="Suchen"
+        data-i18n-attr="aria-label:nav.search"
+        data-nav-search
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+        </svg>
+      </button>
+
+      <div class="lp-nav-utils">
+        {/* No Live-Quiz button here (removed 2026-10-28): it repeated the page's own quiz
+            button and „Für Lehrkräfte → Live-Quiz“, and its label pushed „Entdecken“ under
+            the CTA. Phones keep the drawer's row (NavDrawer.astro). */}
+        {/* One click, not two. This used to be the only link inside the avatar menu,
+            which meant the most-visited personal page on the site was hidden behind a
+            monogram that gives no hint of holding it. It is a destination, so it is a
+            link in the cluster like any other. The grid glyph is the conventional
+            dashboard mark and matches the one the mobile drawer toggle already uses. */}
+        <a
+          class="lp-nav-einfach"
+          href="/step-by-step"
+          aria-current={onEinfach ? "page" : undefined}
+          title="Einfach lernen — ein Schritt pro Bildschirm"
+          data-i18n-attr="title:nav.einfach.title"
+          data-einfach-entry
+        >
+          <span class="lp-nav-einfach-bruno" aria-hidden="true" set:html={einfachBruno} />
+          <span class="lp-nav-einfach-paw" aria-hidden="true">🐾</span>
+          <span class="lp-nav-einfach-txt" data-i18n="nav.einfach">Einfach</span>
+        </a>
+
+        <a
+          class="lp-nav-icon lp-nav-progress"
+          href="/progress"
+          aria-current={Astro.url.pathname.replace(/\/+$/, "") === "/progress" ? "page" : undefined}
+          aria-label="Mein Fortschritt"
+          data-i18n-attr="aria-label:nav.account.progress;title:nav.account.progress"
+          title="Mein Fortschritt"
+        >
+          <Icon name="grid" size={17} />
+        </a>
+
+        <span class="lp-nav-theme"><ThemeToggle /></span>
+
+        {/* The account control. A "DA" monogram sat here once, was removed because it
+            fronted an account system that did not exist, and is back now that one does —
+            with the difference that it holds a real identity rather than a theme toggle.
+            The toggle keeps its own slot above: it is a display preference, and burying it
+            under an avatar meant you had to open the avatar to find out what it held.
+
+            client:idle, not client:load. This is chrome on ~670 pages, and none of them is
+            waiting on it to be readable; the pre-paint script in Layout.astro has already
+            reserved the right shape from the cookie, so there is nothing to race. */}
+        {/* No Premium link here: a bare "Premium" beside Anmelden read like a plan you
+            already had. Prices live in the account menu, the drawer, the footer row in
+            Layout.astro and on every lock card. */}
+        <AuthStatus />
+        <LanguageSwitcher />
+      </div>
+
+      <button
+        class="lp-nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="lp-drawer"
+        aria-label="Menü öffnen"
+        data-drawer-open
+        data-i18n-attr="aria-label:nav.menuOpen"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<NavDrawer wissenVariant={wissenVariant} />
+{!APP_BUILD && <script>import "../lib/liveQuizNav.js";</script>}
+
+{PAYWALL && !APP_BUILD && (
+  <script>
+    // "Premium" in the drawer: /mein-zugang for a Premium learner (what they
+    // have and where to start), /preise for everyone else. <html data-plan> is set before
+    // first paint (Layout.astro) and again whenever the purchase hint changes.
+    const setPremiumLinks = () => {
+      const href = document.documentElement.dataset.plan === "premium" ? "/mein-zugang" : "/preise";
+      document.querySelectorAll<HTMLAnchorElement>("a[data-premium-link]").forEach((a) => (a.href = href));
+    };
+    setPremiumLinks();
+    addEventListener("da:zugang", setPremiumLinks);
+  </script>
+)}
+<SiteSearch />
+</>)}
+
+<noscript>
+  <style>
+    /* Both menus are click-driven, so with JS off they are dead weight — the plain
+       links in .lp-nav-fallback take over at every width. The avatar and search are
+       script-driven too. */
+    .lp-menubar, .lp-nav-toggle, .lp-drawer, .lp-acct, .lp-nav-theme, .lp-nav-search { display: none !important; }
+    .lp-nav-fallback { display: flex; align-items: center; gap: 20px; font-size: 14px; font-weight: 500; flex-wrap: wrap; }
+    .lp-nav-fallback a { color: var(--ink); text-decoration: none; }
+  </style>
+</noscript>

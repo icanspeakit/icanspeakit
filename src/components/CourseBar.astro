@@ -1,0 +1,129 @@
+---
+// The course around a topic page: which Stufe it belongs to, where it sits in it, the
+// topics either side, and the page's one shareable address.
+//
+// /progress is the map and the topic page is the one place to learn (see
+// FORTSCHRITT-KARTE-PROMPT.md). Opened from the map, the page needs a way back that lands
+// on the same topic — `?stufe=a1&thema=<id>` selects it there — and a way on that does
+// not go through the map at all: ‹ › walk the level in exactly the order of the map's
+// left list, because both read src/lib/kursOrder.js.
+//
+// Renders nothing for a topic that is in no level's list. The first and last topic keep
+// an empty slot where the missing arrow would be, so the bar does not shift between them.
+import ShareButton from "./ShareButton.astro";
+import { kursPosition } from "../lib/kursOrder.js";
+import { topicPath } from "../lib/routes.js";
+
+interface Props {
+  /** The topic's URL slug — the key /progress and the progress store use. */
+  topic: string;
+  /** For the share sheet. */
+  title?: string;
+  /** Rendered inside TopicBar's row (slot="end") instead of as a bar of its own. */
+  inline?: boolean;
+}
+const { topic, title, inline = false } = Astro.props;
+const pos = kursPosition(topic);
+const stufe = pos?.level.toLowerCase();
+const url = topicPath(topic);
+const topicHref = (id: string) => topicPath(id);
+---
+{pos && (
+  <nav class:list={["kb", inline && "kb--inline"]} aria-label="Dein Kurs" data-i18n-attr="aria-label:kb.course">
+    <div class="kb-inner">
+      {/* Inline (in the topic bar) the link is its Stufe badge alone — the words cost the
+          bar its room. The name stays for screen readers and as the tooltip. */}
+      <a class="kb-back" href={`/progress?stufe=${stufe}&thema=${topic}`} aria-label={inline ? `Dein Kurs, Stufe ${pos.level}` : undefined} title={inline ? "Dein Kurs" : undefined} data-i18n-attr={inline ? `aria-label:kb.courseLevel.${pos.level};title:kb.course` : undefined}>
+        {!inline && <span aria-hidden="true">←</span>}
+        {!inline && <><span class="kb-long" data-i18n="kb.course">Dein Kurs</span><span class="kb-short" data-i18n="kb.courseShort">Kurs</span></>}
+        <span class="kb-level">{pos.level}</span>
+      </a>
+
+      <span class="kb-pos">
+        <span class="kb-long" data-i18n="kb.pos" data-i18n-vars={JSON.stringify({ n: pos.index, total: pos.total })}>Thema {pos.index} von {pos.total}</span><span class="kb-short">{pos.index}/{pos.total}</span>
+      </span>
+
+      <span class="kb-steps">
+        {pos.prev
+          ? <a class="kb-step" href={topicHref(pos.prev.id)} rel="prev" aria-label={`Vorheriges Thema: ${pos.prev.name}`} data-i18n-attr="aria-label:kb.prev" title={pos.prev.name}>‹</a>
+          : <span class="kb-step kb-step--none" aria-hidden="true">‹</span>}
+        {pos.next
+          ? <a class="kb-step" href={topicHref(pos.next.id)} rel="next" aria-label={`Nächstes Thema: ${pos.next.name}`} data-i18n-attr="aria-label:kb.next" title={pos.next.name}>›</a>
+          : <span class="kb-step kb-step--none" aria-hidden="true">›</span>}
+      </span>
+
+      <ShareButton url={url} title={title} size="sm" />
+    </div>
+  </nav>
+)}
+
+<style>
+  .kb {
+    background: var(--surface-card);
+    border-bottom: 1px solid var(--border);
+  }
+  /* Same column as TopicBar above it, so the two read as one header. */
+  .kb-inner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 6px 24px;
+    font-size: .88rem;
+    white-space: nowrap;
+  }
+  .kb-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+    color: var(--brand-blue-dark);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .kb-back:hover { text-decoration: underline; }
+  .kb-level {
+    padding: 1px 7px;
+    border-radius: var(--radius-pill);
+    background: var(--brand-blue-soft, rgba(20, 184, 166, .12));
+    font-size: .78rem;
+  }
+  .kb-pos { color: var(--muted); margin-left: auto; }
+  .kb-steps { display: inline-flex; gap: 4px; }
+  .kb-step {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    color: var(--ink);
+    font-size: 1.25rem;
+    line-height: 1;
+    text-decoration: none;
+  }
+  a.kb-step:hover { border-color: var(--brand-blue); color: var(--brand-blue-dark); }
+  .kb-step--none { visibility: hidden; }
+
+  /* Inside TopicBar: no bar of its own, just the controls at the row's end. */
+  .kb--inline { background: none; border: 0; }
+  .kb--inline .kb-inner { max-width: none; margin: 0; padding: 0; gap: 10px; }
+  .kb--inline .kb-pos { margin-left: 4px; }
+  .kb--inline .kb-step { width: 32px; height: 32px; }
+  /* Sharing a row with the topic, the long labels go first on a narrower desktop. */
+  @media (max-width: 1100px) {
+    .kb--inline .kb-long { display: none; }
+    .kb--inline .kb-short { display: inline; }
+  }
+
+  .kb-short { display: none; }
+  /* One line at 390px: the words shorten before anything is allowed to wrap. */
+  @media (max-width: 560px) {
+    .kb-inner { gap: 8px; padding: 4px 16px; }
+    .kb--inline .kb-inner { padding: 0; }
+    .kb-long { display: none; }
+    .kb-short { display: inline; }
+  }
+</style>

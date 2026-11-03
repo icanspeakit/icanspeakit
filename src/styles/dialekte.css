@@ -1,0 +1,166 @@
+/* /knowledge/accents — the dialect map. Built on sprachen.css (.sp-sec, .sp-map-wrap, .sp-card,
+ * .sp-chip, .sp-legend …); everything specific to this page is .dl-*. Region colours come
+ * from src/data/dialekte.json as --c on each path, card and chip. */
+
+.dl {
+  --dl-land: #e4e8ee;
+  --dl-line: #ffffff;
+  --dl-border: #4a5566;
+  --dl-state: rgba(26, 34, 48, .22);
+  --dl-ink: #1a2230;
+  --dl-halo: rgba(255, 255, 255, .85);
+  --dl-benrath: #1a2230;
+  --dl-speyer: #b42318;
+  --dl-none: #e4e8ee;
+  --dl-dim: 1;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .dl {
+    --dl-land: #2a3440; --dl-line: #131a22; --dl-border: #9aa6b8; --dl-state: rgba(19, 26, 34, .45);
+    --dl-benrath: #f7f9fc; --dl-speyer: #f97066; --dl-none: #2a3440; --dl-dim: .82;
+  }
+}
+:root[data-theme="dark"] .dl {
+  --dl-land: #2a3440; --dl-line: #131a22; --dl-border: #9aa6b8; --dl-state: rgba(19, 26, 34, .45);
+  --dl-benrath: #f7f9fc; --dl-speyer: #f97066; --dl-none: #2a3440; --dl-dim: .82;
+}
+
+.dl-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 640px; }
+
+/* ------------------------------------------------------------ tools -- */
+
+.dl-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 18px; margin: -4px 0 14px; }
+.dl-toggle { display: inline-flex; align-items: center; gap: 8px; font-size: .88rem; color: var(--muted); cursor: pointer; }
+.dl-toggle input { width: 16px; height: 16px; accent-color: var(--brand-blue); }
+
+/* -------------------------------------------------------------- map -- */
+
+.dl-map-wrap { grid-template-columns: minmax(0, 1fr) 320px; }
+.dl-map { position: relative; }
+.dl-info { position: sticky; top: 84px; }
+.dl-land { fill: var(--dl-land); stroke: var(--dl-line); stroke-width: .6; }
+.dl-other { fill: url(#dl-hatch); stroke: var(--dl-line); stroke-width: .6; }
+.dl-hatch-bg { fill: var(--dl-land); }
+.dl-hatch-line { stroke: var(--dl-state); stroke-width: 1.4; }
+
+.dl-r {
+  fill: var(--c); filter: brightness(var(--dl-dim));
+  stroke: var(--dl-line); stroke-width: .9; stroke-linejoin: round;
+  cursor: pointer; outline: none; transition: fill .35s ease, opacity .2s ease, filter .15s ease;
+}
+.dl-r:hover, .dl-r:focus-visible { filter: brightness(calc(var(--dl-dim) * 1.06)) saturate(1.25); }
+.dl-svg.has-sel .dl-r:not(.is-on) { opacity: .45; }
+.dl-r.is-on { stroke: var(--dl-ink); stroke-width: 2; paint-order: stroke; }
+:root[data-theme="dark"] .dl-r.is-on { stroke: #f7f9fc; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .dl-r.is-on { stroke: #f7f9fc; } }
+
+.dl-states { fill: none; stroke: var(--dl-state); stroke-width: .5; pointer-events: none; }
+.dl-borders { fill: none; stroke: var(--dl-border); stroke-width: 1; stroke-linejoin: round; pointer-events: none; }
+
+.dl-lines { pointer-events: none; transition: opacity .25s ease; }
+.dl-svg.no-lines .dl-lines { opacity: 0; }
+.dl-line { fill: none; stroke-width: 2; stroke-dasharray: 6 4; stroke-linecap: round; }
+.dl-line--benrath { stroke: var(--dl-benrath); }
+.dl-line--speyer { stroke: var(--dl-speyer); }
+.dl-line-labels text {
+  font-family: var(--font-label); font-size: 11px; font-weight: 700; fill: var(--dl-benrath);
+  paint-order: stroke; stroke: var(--dl-halo); stroke-width: 3px; stroke-linejoin: round;
+}
+.dl-line-labels .dl-line-label--speyer { fill: var(--dl-speyer); }
+.dl-svg[data-mode]:not([data-mode="dialects"]) .dl-lines { opacity: 0; }
+
+/* Region labels: always dark on the pastel fills, with a light halo — the fills stay light
+   in dark mode too, so dark text reads in both themes. */
+.dl-labels { pointer-events: none; }
+.dl-labels text {
+  font-family: var(--font-body); font-size: 10.5px; font-weight: 600; fill: #1a2230;
+  paint-order: stroke; stroke: rgba(255, 255, 255, .7); stroke-width: 2.5px; stroke-linejoin: round;
+}
+.dl-labels--word text { font-size: 13px; font-weight: 700; }
+.dl-labels[data-labels]:not([data-labels="dialects"]) { display: none; }
+.dl-svg[data-mode]:not([data-mode="dialects"]) .dl-labels[data-labels="dialects"] { display: none; }
+/* …and the word sets are switched on by the per-word rules the page writes (modeCss). */
+
+.dl-others text { font-family: var(--font-body); font-size: 10px; font-style: italic; fill: var(--muted); pointer-events: none; }
+
+.dl-m { cursor: pointer; outline: none; }
+.dl-m-hit { fill: transparent; }
+.dl-m-dot { fill: var(--dl-ink); stroke: #fff; stroke-width: 1.8; transition: r .15s ease; }
+.dl-m--lang .dl-m-dot { fill: #fff; stroke: var(--dl-ink); stroke-width: 2; }
+.dl-m-name {
+  font-family: var(--font-body); font-size: 9.5px; font-weight: 600; fill: var(--dl-ink);
+  paint-order: stroke; stroke: rgba(255, 255, 255, .85); stroke-width: 2.5px; stroke-linejoin: round; pointer-events: none;
+}
+.dl-m:hover .dl-m-dot, .dl-m:focus-visible .dl-m-dot, .dl-m.is-on .dl-m-dot { r: 6.5; }
+.dl-m.is-on .dl-m-dot { fill: var(--brand-blue); }
+.dl-svg[data-mode]:not([data-mode="dialects"]) .dl-markers { display: none; }
+
+/* ------------------------------------------------------------ cards -- */
+
+.dl-badge { --sp-c: var(--c); }
+.dl-badge--city { --sp-c: #1a2230; }
+.dl-badge--city::before, .dl-badge--lang::before { border-radius: 50%; }
+.dl-badge--lang { --sp-c: #fff; }
+.dl-badge--lang::before { box-shadow: inset 0 0 0 2px #1a2230; }
+.dl-card h3 { margin-bottom: 2px; }
+.dl-alias { margin: 0 0 10px !important; color: var(--muted) !important; font-size: .86rem !important; }
+.dl-card--m h3 { margin-bottom: 8px; }
+.dl-say { margin-top: 14px; }
+.dl-say ul { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 6px; }
+.dl-say li {
+  display: grid; gap: 1px; padding: 8px 12px; border-radius: 10px;
+  background: var(--surface-card); border: 1px solid var(--border);
+  border-inline-start: 4px solid var(--c, var(--brand-blue));
+}
+.dl-say b { font-weight: var(--fw-semibold); color: var(--ink); font-size: 1rem; }
+.dl-say span { font-size: .84rem; color: var(--muted); }
+.dl-card.is-in .dl-say li { animation: sp-chip-in .4s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(150ms + var(--i, 0) * 80ms); }
+.dl-card .sp-where { margin-top: 14px; }
+
+.dl-variants { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 8px; }
+.dl-variants li { display: flex; align-items: center; gap: 10px; font-size: .98rem; color: var(--ink); }
+.dl-card--word .sp-fine { margin-top: 14px; }
+.dl-swatch { flex: none; width: 16px; height: 16px; border-radius: 5px; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .08); }
+
+/* ----------------------------------------------------------- legend -- */
+
+.dl-legend-key { display: grid; gap: 2px; }
+.dl-legend-text { margin: 0; font-size: .8rem; color: var(--muted); line-height: 1.45; }
+.dl-chip { display: inline-flex; align-items: center; gap: 7px; }
+.dl-chip::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--c); flex: none; }
+.dl-chip--m::before { border-radius: 50%; background: #1a2230; }
+.dl-chip--lang::before { background: #fff; box-shadow: inset 0 0 0 2px #1a2230; }
+
+/* ------------------------------------------------------------ lines -- */
+
+.dl-line-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 18px; }
+.dl-line-card { padding: 16px 18px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); }
+.dl-line-card h3 { display: flex; align-items: center; gap: 10px; margin: 0 0 6px; font-family: var(--font-body); font-weight: var(--fw-semibold); font-size: 1.05rem; color: var(--ink); }
+.dl-line-card h3::before { content: ""; width: 22px; border-top: 3px dashed var(--dl-benrath); flex: none; }
+.dl-line-card--speyer h3::before { border-color: var(--dl-speyer); }
+.dl-line-card p { margin: 0; font-size: .92rem; line-height: 1.6; color: var(--ink); }
+.dl-table-wrap { overflow-x: auto; }
+.dl-shift tbody th { width: auto; color: var(--muted); font-weight: var(--fw-regular); font-style: italic; }
+.dl-learn { margin-bottom: 0; }
+
+/* ------------------------------------------------------- responsive -- */
+
+@media (max-width: 1100px) { .dl-map-wrap { grid-template-columns: minmax(0, 1fr) 280px; } }
+@media (max-width: 860px) {
+  .dl-map-wrap { grid-template-columns: minmax(0, 1fr); }
+  .dl-info { position: static; }
+  .dl-line-cards { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  /* On a phone the map is ~360px wide: the small names would be 5px, so only the dots stay. */
+  .dl-labels text { font-size: 15px; }
+  .dl-labels--word text { font-size: 17px; }
+  .dl-m-name, .dl-others { display: none; }
+  .dl-tools { flex-direction: column; align-items: stretch; }
+  .dl-tools .sp-seg { overflow-x: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dl-r, .dl-lines { transition: none; }
+  .dl-card.is-in .dl-say li { animation: none; }
+}
+

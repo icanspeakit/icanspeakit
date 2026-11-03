@@ -1,0 +1,299 @@
+/* Hamstis Nussnacht (/games/nut-night). The canvas fills the stage; HUD, touch controls and
+   cards sit over it. Phone first: at 390px the stage takes the screen below the site nav.
+   Article colours are the site's tokens (--info der, --danger die, --success das). */
+
+.nn-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: var(--space-2) var(--space-3) var(--space-12);
+}
+
+.nn {
+  --nn-night: #0b1d22;
+  --nn-ink: #f4f1e8;
+  --nn-card: rgba(12, 26, 34, 0.92);
+  --nn-line: rgba(255, 255, 255, 0.14);
+  --nn-der: color-mix(in srgb, var(--info, #2563eb) 62%, #fff);
+  --nn-die: color-mix(in srgb, var(--danger, #c1462f) 62%, #fff);
+  --nn-das: color-mix(in srgb, var(--success, #047857) 62%, #fff);
+  scroll-margin-top: 64px;
+}
+
+.nn-stage {
+  position: relative;
+  height: min(calc(100svh - 96px), 760px);
+  min-height: 420px;
+  border-radius: var(--radius, 14px);
+  overflow: hidden;
+  background: var(--nn-night);
+  color: var(--nn-ink);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+.nn-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+/* ---- HUD ---------------------------------------------------------------------------------- */
+.nn-hud {
+  position: absolute;
+  top: 8px; left: 8px; right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+  font-family: var(--font-label);
+  font-size: 0.9rem;
+}
+.nn-hud[hidden] { display: none; }
+.nn-hud-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(6, 14, 22, 0.62);
+  border: 1px solid var(--nn-line);
+  white-space: nowrap;
+}
+.nn-hud-item b { font-family: var(--font-voice); font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+.nn-time { margin-right: auto; }
+.nn-time b { font-size: 1.35rem; }
+.nn-k { opacity: 0.75; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.nn-xp { display: inline-block; width: 64px; height: 7px; border-radius: 4px; background: rgba(255,255,255,0.15); overflow: hidden; }
+.nn-xp span { display: block; height: 100%; background: #f2a900; transition: width 0.15s; }
+.nn-icon {
+  pointer-events: auto;
+  display: inline-grid;
+  place-items: center;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--nn-line);
+  background: rgba(6, 14, 22, 0.62);
+  color: var(--nn-ink);
+  cursor: pointer;
+}
+
+/* ---- touch / click controls ------------------------------------------------------------------ */
+.nn-touch {
+  position: absolute;
+  right: 10px; bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+.nn-touch[hidden] { display: none; }
+.nn-arts { display: flex; gap: 8px; }
+.nn-art {
+  position: relative;
+  min-width: 64px; min-height: 56px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  border: 2px solid rgba(255,255,255,0.25);
+  background: rgba(6, 14, 22, 0.7);
+  color: var(--nn-ink);
+  font-family: var(--font-voice);
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: none;
+}
+.nn-art--der { color: var(--nn-der); }
+.nn-art--die { color: var(--nn-die); }
+.nn-art--das { color: var(--nn-das); }
+.nn-art[aria-pressed="true"] { color: #10161f; border-color: #fff; transform: translateY(-2px); }
+.nn-art--der[aria-pressed="true"] { background: var(--nn-der); }
+.nn-art--die[aria-pressed="true"] { background: var(--nn-die); }
+.nn-art--das[aria-pressed="true"] { background: var(--nn-das); }
+.nn-key {
+  position: absolute;
+  top: 3px; left: 6px;
+  font-family: var(--font-label);
+  font-size: 0.62rem;
+  font-weight: 700;
+  opacity: 0.7;
+}
+.nn-skill {
+  position: relative;
+  overflow: hidden;
+  min-width: 120px; min-height: 44px;
+  border-radius: 14px;
+  border: 2px solid rgba(255,255,255,0.25);
+  background: rgba(6, 14, 22, 0.7);
+  color: var(--nn-ink);
+  font-family: var(--font-voice);
+  font-size: 1.05rem;
+  cursor: pointer;
+  touch-action: none;
+}
+.nn-skill-fill { position: absolute; left: 0; top: 0; bottom: 0; background: rgba(242, 169, 0, 0.35); }
+.nn-skill-label { position: relative; }
+.nn-skill .nn-key { position: static; margin-left: 4px; }
+.nn-skill.is-ready { border-color: #f2a900; box-shadow: 0 0 0 3px rgba(242,169,0,0.35); }
+
+/* phones: bigger article buttons in the thumb zone */
+@media (pointer: coarse) {
+  .nn-art { min-width: 76px; min-height: 72px; font-size: 1.5rem; }
+  .nn-skill { min-width: 140px; min-height: 52px; }
+  .nn-key { display: none; }
+}
+@media (max-width: 420px) {
+  .nn-art { min-width: 68px; }
+  .nn-hud { gap: 6px; }
+  .nn-hud-item { padding: 3px 8px; }
+  .nn-xp { width: 44px; }
+}
+
+.nn-stick {
+  position: absolute;
+  left: 0; top: 0;
+  width: 0; height: 0;
+  pointer-events: none;
+}
+.nn-stick[hidden] { display: none; }
+.nn-stick::before {
+  content: "";
+  position: absolute;
+  left: -56px; top: -56px;
+  width: 112px; height: 112px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.08);
+}
+.nn-knob {
+  position: absolute;
+  left: -24px; top: -24px;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.55);
+  border: 2px solid rgba(255,255,255,0.8);
+}
+
+.nn-toast {
+  position: absolute;
+  left: 50%; top: 58px;
+  transform: translateX(-50%);
+  max-width: min(92%, 520px);
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: rgba(6, 14, 22, 0.85);
+  border: 1px solid #f2a900;
+  font-family: var(--font-label);
+  font-size: 0.95rem;
+  text-align: center;
+  pointer-events: none;
+}
+.nn-toast[hidden] { display: none; }
+.nn-fps {
+  position: absolute;
+  left: 8px; bottom: 8px;
+  margin: 0;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(0,0,0,0.6);
+  font: 12px/1.4 ui-monospace, monospace;
+}
+.nn-fps[hidden] { display: none; }
+
+/* ---- cards -------------------------------------------------------------------------------------- */
+.nn-card {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92%, 560px);
+  max-height: calc(100% - 24px);
+  overflow-y: auto;
+  padding: var(--space-5) var(--space-5) var(--space-4);
+  border-radius: 18px;
+  background: var(--nn-card);
+  border: 1px solid var(--nn-line);
+  box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+  text-align: center;
+}
+.nn-card[hidden] { display: none; }
+.nn-card h1, .nn-card h2 { margin: 0 0 var(--space-2); font-family: var(--font-voice); color: #fff; }
+.nn-card h1 { font-size: clamp(1.8rem, 6vw, 2.5rem); }
+.nn-eyebrow { margin: 0 0 4px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.7; }
+.nn-lead { margin: 0 0 var(--space-3); line-height: 1.5; }
+.nn-muted { opacity: 0.75; margin: 0 0 var(--space-3); }
+.nn-label { margin: var(--space-2) 0 6px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.75; }
+.nn-a { font-family: var(--font-voice); font-weight: 700; }
+.nn-a--der { color: var(--nn-der); }
+.nn-a--die { color: var(--nn-die); }
+.nn-a--das { color: var(--nn-das); }
+.nn-seg { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.nn-seg-btn {
+  min-width: 92px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 2px solid var(--nn-line);
+  background: rgba(255,255,255,0.05);
+  color: var(--nn-ink);
+  font-family: var(--font-voice);
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+.nn-seg-btn small { display: block; font-family: var(--font-label); font-size: 0.72rem; opacity: 0.75; }
+.nn-seg-btn[aria-pressed="true"] { border-color: #f2a900; background: rgba(242,169,0,0.16); }
+.nn-go {
+  display: block;
+  width: 100%;
+  margin: var(--space-4) 0 var(--space-2);
+  padding: 14px;
+  border: 0;
+  border-radius: 14px;
+  background: #f2a900;
+  color: #1a1206;
+  font-family: var(--font-voice);
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.nn-quiet {
+  display: block;
+  width: 100%;
+  margin: 6px 0 0;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid var(--nn-line);
+  background: transparent;
+  color: var(--nn-ink);
+  font: inherit;
+  cursor: pointer;
+}
+.nn-how { margin-top: var(--space-2); text-align: left; font-size: 0.92rem; }
+.nn-how summary { cursor: pointer; text-align: center; opacity: 0.85; }
+.nn-how ul { margin: var(--space-2) 0 0; padding-left: 1.2em; line-height: 1.5; }
+
+.nn-up-list { display: grid; gap: 10px; }
+.nn-up-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 2px solid var(--nn-line);
+  background: rgba(255,255,255,0.06);
+  color: var(--nn-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.nn-up-btn:hover, .nn-up-btn:focus-visible { border-color: #f2a900; background: rgba(242,169,0,0.12); }
+.nn-up-key { position: absolute; top: 4px; right: 8px; font-size: 0.7rem; opacity: 0.6; }
+.nn-up-icon { font-size: 1.9rem; }
+.nn-up-body b { font-family: var(--font-voice); font-size: 1.1rem; }
+.nn-up-body small { margin-left: 4px; color: #f2a900; }
+.nn-up-text { display: block; font-size: 0.9rem; opacity: 0.85; margin-top: 2px; }
+
+.nn-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: var(--space-3) 0; }
+.nn-stats div { padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.06); }
+.nn-stats dt { font-size: 0.78rem; opacity: 0.75; }
+.nn-stats dd { margin: 0; font-family: var(--font-voice); font-size: 1.5rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nn-xp span { transition: none; }
+  .nn-art[aria-pressed="true"] { transform: none; }
+}

@@ -1,0 +1,127 @@
+---
+// Vokabeln vom Foto: a teacher photographs the vocab list of their course book, checks the
+// words in a table and saves them as a card set (VOKABEL-FOTO-TIERED-PROMPT.md, Tier 2).
+//   /teachers/cards/photo           new set
+//   /teachers/cards/photo?set=<id>  edit a saved set, or add a photo's words to it
+//
+// Static and noindex like the quiz builder; who is signed in, and whether they teach, is
+// settled in the browser (src/lib/vokabelFoto/page.js). The photo goes to
+// /api/wortschatz/foto and is not stored; only the checked list is saved (table vokabel_sets).
+// English only (lang="en"), like the other teacher tools without keys.
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import "../../../styles/live-quiz.css";
+import "../../../styles/quiz-builder.css";
+import "../../../styles/vokabel-foto.css";
+
+const LEVELS = ["A1", "A2", "B1", "B2", "C1"];
+---
+<Layout
+  title="Words from a photo – EnglishAcademy"
+  description="Take a photo of the word list in your coursebook and get the words back as flashcards."
+  noindex
+>
+  <SiteNav active="lehrkraefte" />
+
+  <main class="lq qb vf" id="vf-root" lang="en">
+    <a class="qb-back" href="/teachers/cards">My card sets</a>
+    <header class="lq-head">
+      <p class="lq-eyebrow">For teachers · Words from a photo</p>
+      <h1 class="lq-title" data-page-title>Photograph or upload a word list</h1>
+      <p class="lq-lead">Take a photo of the word list in your coursebook, or upload it as a PDF or Word file. You get the words back as cards, with a/an, plural and, where we have them, pronunciation and a picture. You check the list before you save it.</p>
+    </header>
+
+    <section class="lq-card qb-gate" data-gate="loading">
+      <p>One moment …</p>
+    </section>
+    <section class="lq-card qb-gate" data-gate="signin" hidden>
+      <h2>Please sign in</h2>
+      <p>Your card sets are kept in your account, so you can find them on any device. The account is free.</p>
+      <a class="lq-btn lq-btn--primary" data-signin-link href="/anmelden?next=/teachers/cards/photo">Sign in or register</a>
+    </section>
+    <section class="lq-card qb-gate" data-gate="teacher" hidden>
+      <h2>Do you teach English?</h2>
+      <p>Then turn on the teacher tools. You can turn them off again at any time under Settings in your account.</p>
+      <button type="button" class="lq-btn lq-btn--primary" data-teacher-on>Yes, I teach</button>
+      <p class="lq-error" data-teacher-error role="alert"></p>
+    </section>
+
+    <div class="vf-body" data-gate="ok" hidden>
+      {/* 1 · Photo */}
+      <section class="lq-card vf-step" aria-labelledby="vf-photo-title">
+        <h2 id="vf-photo-title" class="qb-h2" data-photo-title>1 · Photo</h2>
+        <label class="vf-drop" data-drop>
+          {/* No `capture`: on a phone it would open the camera straight away and hide PDFs and documents. */}
+          <input type="file" accept="image/jpeg,image/png,image/webp,image/heic,application/pdf,.pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.docx,text/plain,.txt" multiple data-file />
+          <span class="vf-drop-icon" aria-hidden="true">📷</span>
+          <b>Choose a photo, PDF or Word file</b>
+          <small>Photo: straight from above, with the whole word list in the picture, up to 4 at a time. PDF and Word (.docx) work too, also with several pages.</small>
+        </label>
+        <p class="vf-paste-row">
+          <button type="button" class="lq-btn lq-btn--ghost" data-paste hidden>📋 Paste a picture from the clipboard</button>
+          <small>A copied photo or screenshot: just paste it with Ctrl+V (Mac: Cmd+V).</small>
+        </p>
+        <ul class="vf-thumbs" data-thumbs hidden></ul>
+        <div class="qb-row" data-read-row hidden>
+          <button type="button" class="lq-btn lq-btn--quiet" data-clear>Remove photos</button>
+          <button type="button" class="lq-btn lq-btn--primary" data-read>Read the words</button>
+        </div>
+        <p class="vf-progress" data-progress role="status" aria-live="polite" hidden>
+          <span class="vf-spinner" aria-hidden="true"></span> <span data-progress-text>Reading the photo …</span>
+        </p>
+        <p class="lq-error" data-read-error role="alert"></p>
+        <p class="vf-note">Photos and scanned pages are sent to a text-recognition service only so the words can be read; your browser reads the text in PDF and Word files itself. None of it is stored, only your word list.</p>
+      </section>
+
+      {/* 2 · Check */}
+      <section class="lq-card vf-step" data-review hidden aria-labelledby="vf-review-title">
+        <div class="qb-bank-head">
+          <h2 id="vf-review-title" class="qb-h2">2 · Check <span class="qb-count" data-count></span></h2>
+          <div class="qb-bank-tools">
+            <button type="button" class="qb-link" data-merge hidden>Merge duplicates</button>
+          </div>
+        </div>
+        <p class="vf-legend">
+          <span class="vf-badge vf-badge--lex">from our vocabulary</span> The card, pronunciation and translations come from us.
+          <span class="vf-badge vf-badge--ok">your own word</span> Have a quick look and correct anything wrong right in the field.
+        </p>
+        <div class="vf-tr">
+          <p class="vf-tr-head"><b>Your class's languages</b> <small>Tap as many as you need. Each language is translated straight away.</small></p>
+          <div class="vf-langs" data-tr-langs role="group" aria-label="Languages of the class"></div>
+          <button type="button" class="lq-btn lq-btn--ghost" data-tr-fill>Add missing translations</button>
+          <small class="vf-tr-status" data-tr-status role="status" aria-live="polite"></small>
+        </div>
+        <ol class="vf-list" data-list></ol>
+        <button type="button" class="lq-btn lq-btn--ghost vf-add" data-add>+ Add a word</button>
+      </section>
+
+      {/* 3 · Save */}
+      <section class="lq-card vf-step" data-save-card hidden aria-labelledby="vf-save-title">
+        <h2 id="vf-save-title" class="qb-h2">3 · Save</h2>
+        <div class="vf-save-fields">
+          <label class="lq-field">
+            <span>Name of the set</span>
+            <input type="text" maxlength="80" data-name placeholder="e.g. Mon/Wed class · week 3" />
+          </label>
+          <label class="lq-field">
+            <span>Level (optional)</span>
+            <select data-level>
+              <option value="">–</option>
+              {LEVELS.map((l) => <option value={l}>{l}</option>)}
+            </select>
+          </label>
+        </div>
+        <div class="qb-save">
+          <p class="qb-status" data-status role="status" aria-live="polite"></p>
+          <button type="button" class="lq-btn lq-btn--primary" data-save>Save the set</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    import { mountFotoPage } from "../../../lib/vokabelFoto/page.js";
+    const root = document.getElementById("vf-root");
+    if (root) mountFotoPage(root);
+  </script>
+</Layout>

@@ -1,0 +1,23 @@
+---
+// /account — where every account, sign-in, purchase and merch link lands while englishacademy
+// has no backend (src/lib/backend.js). The old routes redirect here (astro.config.mjs,
+// ACCOUNT_REDIRECTS), so links across the inherited pages keep working without each one
+// being rewritten. Replace this page with the real sign-in once BACKEND.auth is on.
+import Layout from "../layouts/Layout.astro";
+import SiteNav from "../components/SiteNav.astro";
+import "../styles/practice.css";
+import "../styles/legal.css";
+---
+<Layout title="Your account – English Academy" description="Accounts are coming soon. Your progress is saved on this device." noindex>
+  <SiteNav />
+  <main class="legal-main" lang="en">
+    <div class="legal-head">
+      <h1>Accounts are coming soon</h1>
+    </div>
+    <div class="legal-body">
+      <p>English Academy works without an account. Everything you practise, including your progress, your mistakes and your flashcard reviews, is saved in this browser on this device.</p>
+      <p>Sign-in, syncing across devices, teacher classes and live sessions will arrive with accounts. Until then those parts of the site run in local mode.</p>
+      <p><a href="/progress">See your progress</a> · <a href="/">Back to the start page</a></p>
+    </div>
+  </main>
+</Layout>

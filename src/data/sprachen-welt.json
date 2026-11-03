@@ -1,0 +1,1305 @@
+{
+  "_comment": "Structure for /knowledge/languages (English around the world). All prose lives in public/i18n/en.json under sprachen.*; this file holds what is not translated: ids, ISO codes, coordinates, the words compared. Status keys keep their old names: amtssprache = English is the main language, region = English is an official language but most people grow up with another, minderheit = not official but widely spoken as a second language, gemeinschaft = small English-speaking territories. compare: the learner's first language next to English (compareWords). decoder: German sound → English sound (from → to), pairs [German, English]. `benrath` is empty (no line on the English map). Map geometry is generated from it by scripts/generate-sprachen-karte.mjs into sprachen-karte.json.",
+  "countries": [
+    {
+      "id": "GBR",
+      "iso": "826",
+      "status": "amtssprache",
+      "name": "United Kingdom"
+    },
+    {
+      "id": "IRL",
+      "iso": "372",
+      "status": "amtssprache",
+      "name": "Ireland"
+    },
+    {
+      "id": "USA",
+      "iso": "840",
+      "status": "amtssprache",
+      "name": "United States",
+      "speakers": {
+        "n": 244000000,
+        "of": "minority"
+      }
+    },
+    {
+      "id": "CAN",
+      "iso": "124",
+      "status": "amtssprache",
+      "name": "Canada"
+    },
+    {
+      "id": "AUS",
+      "iso": "036",
+      "status": "amtssprache",
+      "name": "Australia",
+      "speakers": {
+        "n": 18300000,
+        "of": "minority"
+      }
+    },
+    {
+      "id": "NZL",
+      "iso": "554",
+      "status": "amtssprache",
+      "name": "New Zealand"
+    },
+    {
+      "id": "IND",
+      "iso": "356",
+      "status": "region",
+      "name": "India",
+      "speakers": {
+        "n": 129000000,
+        "of": "speak"
+      }
+    },
+    {
+      "id": "PAK",
+      "iso": "586",
+      "status": "region",
+      "name": "Pakistan"
+    },
+    {
+      "id": "PHL",
+      "iso": "608",
+      "status": "region",
+      "name": "Philippines"
+    },
+    {
+      "id": "SGP",
+      "iso": "702",
+      "status": "region",
+      "name": "Singapore"
+    },
+    {
+      "id": "HKG",
+      "iso": "344",
+      "status": "region",
+      "name": "Hong Kong"
+    },
+    {
+      "id": "MLT",
+      "iso": "470",
+      "status": "region",
+      "name": "Malta"
+    },
+    {
+      "id": "NGA",
+      "iso": "566",
+      "status": "region",
+      "name": "Nigeria"
+    },
+    {
+      "id": "GHA",
+      "iso": "288",
+      "status": "region",
+      "name": "Ghana"
+    },
+    {
+      "id": "SLE",
+      "iso": "694",
+      "status": "region",
+      "name": "Sierra Leone"
+    },
+    {
+      "id": "LBR",
+      "iso": "430",
+      "status": "region",
+      "name": "Liberia"
+    },
+    {
+      "id": "CMR",
+      "iso": "120",
+      "status": "region",
+      "name": "Cameroon",
+      "regions": [
+        {
+          "id": "anglophone",
+          "name": "Northwest and Southwest",
+          "km": 70,
+          "points": [
+            [
+              10.15,
+              5.96
+            ],
+            [
+              9.3,
+              4.6
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "KEN",
+      "iso": "404",
+      "status": "region",
+      "name": "Kenya"
+    },
+    {
+      "id": "UGA",
+      "iso": "800",
+      "status": "region",
+      "name": "Uganda"
+    },
+    {
+      "id": "TZA",
+      "iso": "834",
+      "status": "region",
+      "name": "Tanzania"
+    },
+    {
+      "id": "RWA",
+      "iso": "646",
+      "status": "region",
+      "name": "Rwanda"
+    },
+    {
+      "id": "ZMB",
+      "iso": "894",
+      "status": "region",
+      "name": "Zambia"
+    },
+    {
+      "id": "ZWE",
+      "iso": "716",
+      "status": "region",
+      "name": "Zimbabwe"
+    },
+    {
+      "id": "BWA",
+      "iso": "072",
+      "status": "region",
+      "name": "Botswana"
+    },
+    {
+      "id": "NAM",
+      "iso": "516",
+      "status": "region",
+      "name": "Namibia"
+    },
+    {
+      "id": "ZAF",
+      "iso": "710",
+      "status": "region",
+      "name": "South Africa"
+    },
+    {
+      "id": "PNG",
+      "iso": "598",
+      "status": "region",
+      "name": "Papua New Guinea"
+    },
+    {
+      "id": "FJI",
+      "iso": "242",
+      "status": "region",
+      "name": "Fiji"
+    },
+    {
+      "id": "JAM",
+      "iso": "388",
+      "status": "region",
+      "name": "Jamaica"
+    },
+    {
+      "id": "TTO",
+      "iso": "780",
+      "status": "region",
+      "name": "Trinidad and Tobago"
+    },
+    {
+      "id": "BHS",
+      "iso": "044",
+      "status": "region",
+      "name": "Bahamas"
+    },
+    {
+      "id": "BRB",
+      "iso": "052",
+      "status": "region",
+      "name": "Barbados"
+    },
+    {
+      "id": "GUY",
+      "iso": "328",
+      "status": "region",
+      "name": "Guyana"
+    },
+    {
+      "id": "BLZ",
+      "iso": "084",
+      "status": "region",
+      "name": "Belize"
+    },
+    {
+      "id": "NLD",
+      "iso": "528",
+      "status": "minderheit",
+      "name": "Netherlands"
+    },
+    {
+      "id": "DNK",
+      "iso": "208",
+      "status": "minderheit",
+      "name": "Denmark"
+    },
+    {
+      "id": "SWE",
+      "iso": "752",
+      "status": "minderheit",
+      "name": "Sweden"
+    },
+    {
+      "id": "MYS",
+      "iso": "458",
+      "status": "minderheit",
+      "name": "Malaysia"
+    }
+  ],
+  "markers": [
+    {
+      "id": "malta",
+      "ref": "MLT",
+      "kind": "region",
+      "name": "Malta",
+      "views": [
+        "europe",
+        "world"
+      ],
+      "points": [
+        [
+          14.45,
+          35.9
+        ]
+      ]
+    },
+    {
+      "id": "singapore",
+      "ref": "SGP",
+      "kind": "region",
+      "name": "Singapore",
+      "views": [
+        "world"
+      ],
+      "points": [
+        [
+          103.82,
+          1.35
+        ]
+      ]
+    },
+    {
+      "id": "hongkong",
+      "ref": "HKG",
+      "kind": "region",
+      "name": "Hong Kong",
+      "views": [
+        "world"
+      ],
+      "points": [
+        [
+          114.17,
+          22.32
+        ]
+      ]
+    },
+    {
+      "id": "barbados",
+      "ref": "BRB",
+      "kind": "region",
+      "name": "Barbados",
+      "views": [
+        "world"
+      ],
+      "points": [
+        [
+          -59.55,
+          13.15
+        ]
+      ]
+    },
+    {
+      "id": "trinidad",
+      "ref": "TTO",
+      "kind": "region",
+      "name": "Trinidad and Tobago",
+      "views": [
+        "world"
+      ],
+      "points": [
+        [
+          -61.25,
+          10.45
+        ]
+      ]
+    },
+    {
+      "id": "gibraltar",
+      "kind": "gemeinschaft",
+      "name": "Gibraltar",
+      "views": [
+        "europe",
+        "world"
+      ],
+      "points": [
+        [
+          -5.35,
+          36.14
+        ]
+      ]
+    },
+    {
+      "id": "bermuda",
+      "kind": "gemeinschaft",
+      "name": "Bermuda",
+      "views": [
+        "world"
+      ],
+      "points": [
+        [
+          -64.75,
+          32.3
+        ]
+      ]
+    },
+    {
+      "id": "falklands",
+      "kind": "gemeinschaft",
+      "name": "Falkland Islands",
+      "views": [
+        "world"
+      ],
+      "points": [
+        [
+          -59,
+          -51.75
+        ]
+      ]
+    }
+  ],
+  "benrath": [],
+  "tree": {
+    "id": "ie",
+    "children": [
+      {
+        "id": "germ",
+        "children": [
+          {
+            "id": "west",
+            "langs": [
+              "English",
+              "German",
+              "Dutch",
+              "Frisian",
+              "Scots",
+              "Afrikaans",
+              "Yiddish",
+              "Luxembourgish"
+            ]
+          },
+          {
+            "id": "nord",
+            "langs": [
+              "Swedish",
+              "Danish",
+              "Norwegian",
+              "Icelandic"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "rom",
+        "langs": [
+          "French",
+          "Italian",
+          "Spanish",
+          "Portuguese",
+          "Romanian"
+        ]
+      },
+      {
+        "id": "slaw",
+        "langs": [
+          "Russian",
+          "Ukrainian",
+          "Polish",
+          "Czech",
+          "Croatian",
+          "Bulgarian"
+        ]
+      },
+      {
+        "id": "iran",
+        "langs": [
+          "Persian",
+          "Kurdish",
+          "Pashto",
+          "Hindi",
+          "Urdu",
+          "Bengali"
+        ]
+      },
+      {
+        "id": "weitere",
+        "langs": [
+          "Greek",
+          "Albanian",
+          "Armenian",
+          "Lithuanian",
+          "Irish",
+          "Welsh"
+        ]
+      }
+    ]
+  },
+  "otherFamilies": [
+    {
+      "id": "afro",
+      "langs": [
+        "Arabic",
+        "Hebrew",
+        "Tigrinya",
+        "Somali"
+      ]
+    },
+    {
+      "id": "turk",
+      "langs": [
+        "Turkish",
+        "Azerbaijani",
+        "Kazakh",
+        "Uzbek"
+      ]
+    },
+    {
+      "id": "sino",
+      "langs": [
+        "Chinese",
+        "Tibetan",
+        "Burmese"
+      ]
+    },
+    {
+      "id": "austro",
+      "langs": [
+        "Vietnamese",
+        "Khmer"
+      ]
+    },
+    {
+      "id": "austron",
+      "langs": [
+        "Tagalog",
+        "Indonesian",
+        "Malay"
+      ]
+    },
+    {
+      "id": "ural",
+      "langs": [
+        "Hungarian",
+        "Finnish",
+        "Estonian"
+      ]
+    }
+  ],
+  "compareWords": [
+    "mother",
+    "brother",
+    "night",
+    "three",
+    "new",
+    "name",
+    "house",
+    "water"
+  ],
+  "compare": [
+    {
+      "id": "deutsch",
+      "tree": "German",
+      "level": "sehr-nah",
+      "words": [
+        [
+          "Mutter",
+          null,
+          1
+        ],
+        [
+          "Bruder",
+          null,
+          1
+        ],
+        [
+          "Nacht",
+          null,
+          1
+        ],
+        [
+          "drei",
+          null,
+          1
+        ],
+        [
+          "neu",
+          null,
+          1
+        ],
+        [
+          "Name",
+          null,
+          1
+        ],
+        [
+          "Haus",
+          null,
+          1
+        ],
+        [
+          "Wasser",
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "persisch",
+      "tree": "Persian",
+      "level": "entfernt",
+      "rtl": true,
+      "words": [
+        [
+          "مادر",
+          "mādar",
+          1
+        ],
+        [
+          "برادر",
+          "barādar",
+          1
+        ],
+        [
+          "شب",
+          "šab",
+          0
+        ],
+        [
+          "سه",
+          "se",
+          1
+        ],
+        [
+          "نو",
+          "now",
+          1
+        ],
+        [
+          "نام",
+          "nām",
+          1
+        ],
+        [
+          "خانه",
+          "xāne",
+          0
+        ],
+        [
+          "آب",
+          "āb",
+          0
+        ]
+      ]
+    },
+    {
+      "id": "russisch",
+      "tree": "Russian",
+      "level": "entfernt",
+      "words": [
+        [
+          "мать",
+          "mat'",
+          1
+        ],
+        [
+          "брат",
+          "brat",
+          1
+        ],
+        [
+          "ночь",
+          "noč'",
+          1
+        ],
+        [
+          "три",
+          "tri",
+          1
+        ],
+        [
+          "новый",
+          "novyj",
+          1
+        ],
+        [
+          "имя",
+          "imja",
+          1
+        ],
+        [
+          "дом",
+          "dom",
+          0
+        ],
+        [
+          "вода",
+          "voda",
+          1
+        ]
+      ]
+    },
+    {
+      "id": "ukrainisch",
+      "tree": "Ukrainian",
+      "level": "entfernt",
+      "words": [
+        [
+          "мати",
+          "maty",
+          1
+        ],
+        [
+          "брат",
+          "brat",
+          1
+        ],
+        [
+          "ніч",
+          "nič",
+          1
+        ],
+        [
+          "три",
+          "try",
+          1
+        ],
+        [
+          "новий",
+          "novyj",
+          1
+        ],
+        [
+          "ім'я",
+          "im'ja",
+          1
+        ],
+        [
+          "дім",
+          "dim",
+          0
+        ],
+        [
+          "вода",
+          "voda",
+          1
+        ]
+      ]
+    },
+    {
+      "id": "polnisch",
+      "tree": "Polish",
+      "level": "entfernt",
+      "words": [
+        [
+          "matka",
+          null,
+          1
+        ],
+        [
+          "brat",
+          null,
+          1
+        ],
+        [
+          "noc",
+          null,
+          1
+        ],
+        [
+          "trzy",
+          null,
+          1
+        ],
+        [
+          "nowy",
+          null,
+          1
+        ],
+        [
+          "imię",
+          null,
+          1
+        ],
+        [
+          "dom",
+          null,
+          0
+        ],
+        [
+          "woda",
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "franzoesisch",
+      "tree": "French",
+      "level": "entfernt",
+      "words": [
+        [
+          "mère",
+          null,
+          1
+        ],
+        [
+          "frère",
+          null,
+          1
+        ],
+        [
+          "nuit",
+          null,
+          1
+        ],
+        [
+          "trois",
+          null,
+          1
+        ],
+        [
+          "nouveau",
+          null,
+          1
+        ],
+        [
+          "nom",
+          null,
+          1
+        ],
+        [
+          "maison",
+          null,
+          0
+        ],
+        [
+          "eau",
+          null,
+          0
+        ]
+      ]
+    },
+    {
+      "id": "italienisch",
+      "tree": "Italian",
+      "level": "entfernt",
+      "words": [
+        [
+          "madre",
+          null,
+          1
+        ],
+        [
+          "fratello",
+          null,
+          1
+        ],
+        [
+          "notte",
+          null,
+          1
+        ],
+        [
+          "tre",
+          null,
+          1
+        ],
+        [
+          "nuovo",
+          null,
+          1
+        ],
+        [
+          "nome",
+          null,
+          1
+        ],
+        [
+          "casa",
+          null,
+          0
+        ],
+        [
+          "acqua",
+          null,
+          0
+        ]
+      ]
+    },
+    {
+      "id": "spanisch",
+      "tree": "Spanish",
+      "level": "entfernt",
+      "words": [
+        [
+          "madre",
+          null,
+          1
+        ],
+        [
+          "hermano",
+          null,
+          0
+        ],
+        [
+          "noche",
+          null,
+          1
+        ],
+        [
+          "tres",
+          null,
+          1
+        ],
+        [
+          "nuevo",
+          null,
+          1
+        ],
+        [
+          "nombre",
+          null,
+          1
+        ],
+        [
+          "casa",
+          null,
+          0
+        ],
+        [
+          "agua",
+          null,
+          0
+        ]
+      ]
+    },
+    {
+      "id": "arabisch",
+      "tree": "Arabic",
+      "level": "fremd",
+      "rtl": true,
+      "words": [
+        [
+          "أُمّ",
+          "umm",
+          0
+        ],
+        [
+          "أَخ",
+          "aḫ",
+          0
+        ],
+        [
+          "لَيْل",
+          "layl",
+          0
+        ],
+        [
+          "ثَلَاثَة",
+          "ṯalāṯa",
+          0
+        ],
+        [
+          "جَدِيد",
+          "jadīd",
+          0
+        ],
+        [
+          "اِسْم",
+          "ism",
+          0
+        ],
+        [
+          "بَيْت",
+          "bayt",
+          0
+        ],
+        [
+          "مَاء",
+          "māʾ",
+          0
+        ]
+      ]
+    },
+    {
+      "id": "tuerkisch",
+      "tree": "Turkish",
+      "level": "fremd",
+      "words": [
+        [
+          "anne",
+          null,
+          0
+        ],
+        [
+          "erkek kardeş",
+          null,
+          0
+        ],
+        [
+          "gece",
+          null,
+          0
+        ],
+        [
+          "üç",
+          null,
+          0
+        ],
+        [
+          "yeni",
+          null,
+          0
+        ],
+        [
+          "ad",
+          null,
+          0
+        ],
+        [
+          "ev",
+          null,
+          0
+        ],
+        [
+          "su",
+          null,
+          0
+        ]
+      ]
+    },
+    {
+      "id": "chinesisch",
+      "tree": "Chinese",
+      "level": "fremd",
+      "words": [
+        [
+          "母亲",
+          "mǔqīn",
+          0
+        ],
+        [
+          "兄弟",
+          "xiōngdì",
+          0
+        ],
+        [
+          "夜",
+          "yè",
+          0
+        ],
+        [
+          "三",
+          "sān",
+          0
+        ],
+        [
+          "新",
+          "xīn",
+          0
+        ],
+        [
+          "名字",
+          "míngzi",
+          0
+        ],
+        [
+          "房子",
+          "fángzi",
+          0
+        ],
+        [
+          "水",
+          "shuǐ",
+          0
+        ]
+      ]
+    },
+    {
+      "id": "vietnamesisch",
+      "tree": "Vietnamese",
+      "level": "fremd",
+      "words": [
+        [
+          "mẹ",
+          null,
+          0
+        ],
+        [
+          "anh trai",
+          null,
+          0
+        ],
+        [
+          "đêm",
+          null,
+          0
+        ],
+        [
+          "ba",
+          null,
+          0
+        ],
+        [
+          "mới",
+          null,
+          0
+        ],
+        [
+          "tên",
+          null,
+          0
+        ],
+        [
+          "nhà",
+          null,
+          0
+        ],
+        [
+          "nước",
+          null,
+          0
+        ]
+      ]
+    },
+    {
+      "id": "tagalog",
+      "tree": "Tagalog",
+      "level": "fremd",
+      "words": [
+        [
+          "ina",
+          null,
+          0
+        ],
+        [
+          "kapatid na lalaki",
+          null,
+          0
+        ],
+        [
+          "gabi",
+          null,
+          0
+        ],
+        [
+          "tatlo",
+          null,
+          0
+        ],
+        [
+          "bago",
+          null,
+          0
+        ],
+        [
+          "pangalan",
+          null,
+          0
+        ],
+        [
+          "bahay",
+          null,
+          0
+        ],
+        [
+          "tubig",
+          null,
+          0
+        ]
+      ]
+    }
+  ],
+  "decoder": [
+    {
+      "id": "t",
+      "from": "z · ss · ß",
+      "to": "t",
+      "pairs": [
+        [
+          "zehn",
+          "ten"
+        ],
+        [
+          "zwei",
+          "two"
+        ],
+        [
+          "Wasser",
+          "water"
+        ],
+        [
+          "essen",
+          "eat"
+        ],
+        [
+          "Fuß",
+          "foot"
+        ]
+      ]
+    },
+    {
+      "id": "p",
+      "from": "pf · f",
+      "to": "p",
+      "pairs": [
+        [
+          "Apfel",
+          "apple"
+        ],
+        [
+          "Pfeffer",
+          "pepper"
+        ],
+        [
+          "Schiff",
+          "ship"
+        ],
+        [
+          "schlafen",
+          "sleep"
+        ]
+      ]
+    },
+    {
+      "id": "k",
+      "from": "ch",
+      "to": "k",
+      "pairs": [
+        [
+          "machen",
+          "make"
+        ],
+        [
+          "Buch",
+          "book"
+        ],
+        [
+          "Woche",
+          "week"
+        ],
+        [
+          "kochen",
+          "cook"
+        ]
+      ]
+    },
+    {
+      "id": "d",
+      "from": "t",
+      "to": "d",
+      "pairs": [
+        [
+          "Tag",
+          "day"
+        ],
+        [
+          "trinken",
+          "drink"
+        ],
+        [
+          "Tochter",
+          "daughter"
+        ],
+        [
+          "Bett",
+          "bed"
+        ]
+      ]
+    },
+    {
+      "id": "th",
+      "from": "d",
+      "to": "th",
+      "pairs": [
+        [
+          "drei",
+          "three"
+        ],
+        [
+          "Ding",
+          "thing"
+        ],
+        [
+          "denken",
+          "think"
+        ],
+        [
+          "Bruder",
+          "brother"
+        ]
+      ]
+    },
+    {
+      "id": "v",
+      "from": "b",
+      "to": "v",
+      "pairs": [
+        [
+          "haben",
+          "have"
+        ],
+        [
+          "geben",
+          "give"
+        ],
+        [
+          "leben",
+          "live"
+        ],
+        [
+          "sieben",
+          "seven"
+        ]
+      ]
+    }
+  ],
+  "decoderQuiz": [
+    [
+      "Salz",
+      "salt"
+    ],
+    [
+      "Herz",
+      "heart"
+    ],
+    [
+      "Pfeife",
+      "pipe"
+    ],
+    [
+      "offen",
+      "open"
+    ],
+    [
+      "tief",
+      "deep"
+    ],
+    [
+      "danken",
+      "thank"
+    ]
+  ]
+}

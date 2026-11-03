@@ -1,0 +1,52 @@
+---
+// A teacher's saved card set (Vokabeln vom Foto) in the Wortschatz trainer:
+// /teachers/cards/learn?set=<id>. Same cards, tabs, languages, flip, Lernen and Wortliste
+// as /vocabulary/<deck>; the set is read in the browser (own rows only) and its cards built
+// there (src/lib/vokabelFoto/play.js). Static shell, noindex, nothing of the set in the build.
+import Layout from "../../../layouts/Layout.astro";
+import VokabelTrainer from "../../../components/VokabelTrainer.astro";
+import { LANGUAGE_REGISTRY } from "../../../lib/languages.js";
+---
+<Layout title="Card set – EnglishAcademy" description="Your card set as flashcards." noindex>
+  <VokabelTrainer
+    cards={[]}
+    runtime
+    heading="Card set"
+    sub="Loading …"
+    deck="vokabel-set"
+    // Every language a card can carry: the set decides which become tabs (play.js languagesFor),
+    // and „+ Sprache“ offers the rest.
+    langs={LANGUAGE_REGISTRY.map((l) => l.code)}
+  >
+    <p slot="hero" class="vs-hero-links" lang="en">
+      <a href="/teachers/cards">← My card sets</a>
+      <a data-vs-edit href="/teachers/cards">Edit the set</a>
+      <a data-vs-print href="/teachers/cards">Print</a>
+      <a data-vs-quiz href="/teachers/quiz" class="vs-hero-quiz">Start a live quiz</a>
+    </p>
+  </VokabelTrainer>
+  <p class="vs-msg" data-vs-msg hidden></p>
+</Layout>
+
+<style is:global>
+  .vs-hero-links { display: flex; gap: 16px; flex-wrap: wrap; margin: 4px 0 0; font-size: var(--text-sm, .875rem); }
+  .vs-hero-links a { color: var(--brand-blue); }
+  .vs-hero-quiz { font-weight: var(--fw-semibold, 600); }
+  /* The page's address needs a login and shows only the owner's set: nothing to share yet (Tier 3). */
+  body:has([data-runtime]) .vt-share { display: none; }
+  /* „+ Sprache“ beside the language tabs (play.js mountAddLanguage): a native select under a
+     quiet pill, so the phone's own picker opens. */
+  .vs-addlang { position: relative; display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border: 1px dashed var(--border); border-radius: 999px; font-size: var(--text-xs, .75rem); color: var(--muted); cursor: pointer; white-space: nowrap; }
+  .vs-addlang:hover, .vs-addlang:focus-within { color: var(--brand-blue); border-color: var(--brand-blue); }
+  .vs-addlang-plus { font-weight: 600; }
+  .vs-addlang select { position: absolute; inset: 0; opacity: 0; cursor: pointer; font-size: 16px; }
+  .vs-addlang.is-busy { border-style: solid; color: var(--brand-blue); }
+  /* Right after the tabs; the direction switch and counter stay at the right edge. */
+  .vs-addlang { margin-right: auto; margin-left: -4px; }
+  .vs-msg { max-width: 560px; margin: 24px auto; padding: 16px; border: 1px solid var(--border); border-radius: 12px; }
+</style>
+
+<script>
+  import { loadPlayableSet } from "../../../lib/vokabelFoto/play.js";
+  loadPlayableSet();
+</script>

@@ -1,0 +1,64 @@
+---
+// The hero photo of a hub (Prüfungen, Kultur, Lesen …), from src/data/hub-bilder.json.
+//
+// Renders nothing until scripts/generate-hub-bilder.mjs has put the hub in the manifest,
+// so dropping <HubBild id="…" /> into a page changes nothing until a photo exists — the
+// page keeps the text-only hero it has always had.
+//
+// Reads the manifest, never the file system: see the header of generate-hub-bilder.mjs.
+// The Pexels link under the photo is what Pexels' API guidelines ask for, and it comes from
+// the photo's provenance record, so it appears exactly when a Pexels photo is shown.
+import hubs from "../data/hub-bilder.manifest.json";
+import szenen from "../data/wortschatz-szenen.manifest.json";
+import "../styles/hub-bild.css";
+
+interface Props {
+  /** The slot id in hub-bilder.json, e.g. "pruefungen". */
+  id: string;
+  /** "banner" = full width over a centred hero; "inset" = inside a narrow column (ExamShell);
+      "card" = on top of a card further down the page, loaded lazily. */
+  variant?: "banner" | "inset" | "deck" | "card";
+  /** Which photo set: the hubs, or the Lernset scenes (src/data/wortschatz-szenen.json). */
+  set?: "hubs" | "szenen";
+}
+const { id, variant = "banner", set = "hubs" } = Astro.props;
+const SETS = { hubs: { manifest: hubs, dir: "/assets/hubs/opt" }, szenen: { manifest: szenen, dir: "/assets/szenen/opt" } };
+const { manifest, dir } = SETS[set];
+const bild = (manifest as Record<string, any>)[id];
+
+const srcset = (fmt: string) =>
+  bild.widths.map((w: number) => `${dir}/${id}-${w}.${fmt} ${w}w`).join(", ");
+const sizes = variant === "inset" || variant === "card" ? "(min-width: 960px) 420px, 100vw" : variant === "deck" ? "(min-width: 1240px) 900px, 100vw" : "(min-width: 1240px) 1160px, 100vw";
+
+const LIBRARIES: Record<string, { label: string; href: string }> = {
+  pexels: { label: "Pexels", href: "https://www.pexels.com" },
+  pixabay: { label: "Pixabay", href: "https://pixabay.com" },
+};
+const lib = bild?.source ? LIBRARIES[bild.source] : null;
+---
+{bild && (
+  <figure class={`hub-bild hub-bild--${variant}`}>
+    <picture>
+      <source type="image/avif" srcset={srcset("avif")} sizes={sizes} />
+      <source type="image/webp" srcset={srcset("webp")} sizes={sizes} />
+      <img
+        src={`${dir}/${id}-1200.webp`}
+        alt={bild.alt}
+        width={bild.width}
+        height={bild.height}
+        fetchpriority={variant === "deck" || variant === "card" ? "auto" : "high"}
+        loading={variant === "card" ? "lazy" : undefined}
+        decoding="async"
+        style={`object-position: ${bild.focusX ?? 50}% ${bild.objectY ?? 15}%`}
+      />
+    </picture>
+    {lib && (
+      <figcaption class="hub-bild-credit">
+        <span data-i18n="hubBild.credit">Foto:</span>{" "}
+        <a href={bild.pageURL ?? lib.href} rel="noopener" target="_blank">
+          {bild.photographer ? `${bild.photographer} / ${lib.label}` : lib.label}
+        </a>
+      </figcaption>
+    )}
+  </figure>
+)}

@@ -1,0 +1,59 @@
+{
+  "_comment": "Packs for the a / an / some trainer (/articles) — see src/lib/artikelPacks.js. `topics` groups the lexicon's own unit topics (src/content/lexicon/*.json; the topic ids stayed German) into everyday packs; a noun belongs to the pack of its FIRST topic, so every tagged noun is in exactly one. `rules` are article patterns; a noun joins a rule pack only if it matches the pattern AND its real article is the pack's article — the ones that match and break it are the exceptions (a university, a European, an hour). English rules match by first letter (`prefixes`, `countableOnly`) or by the article itself (`uncountable`); the letter is only a hint, the sound decides.",
+  "minPack": 8,
+  "_levels": "A topic pack's `levels` renames it per level: one lexicon topic holds different nouns at each level (A1 wohnen = kitchen, bathroom; A2 = deposit, landlord), so no pack name repeats across A1–B2. `name`/`icon` are the fallback.",
+  "topics": [
+    { "id": "wohnen", "name": "Home & house", "icon": "🏠", "topics": ["wohnen"],
+      "levels": { "A2": { "name": "Renting & moving", "icon": "🔑" }, "B1": { "name": "Tenants & landlords", "icon": "🏢" }, "B2": { "name": "Property & housing", "icon": "🏡" } } },
+    { "id": "essen", "name": "Food & drink", "icon": "🍞", "topics": ["essen"],
+      "levels": { "A2": { "name": "Cooking & ingredients", "icon": "🧅" }, "B1": { "name": "Food & nutrition", "icon": "🥗" }, "B2": { "name": "Diet & where food comes from", "icon": "🌾" } } },
+    { "id": "menschen", "name": "Family & people", "icon": "👪", "topics": ["person", "familie", "gefuehle", "psychologie"],
+      "levels": { "A2": { "name": "Feelings & character", "icon": "💬" }, "B1": { "name": "Mind & mood", "icon": "🧠" }, "B2": { "name": "Psychology & personality", "icon": "🪞" } } },
+    { "id": "koerper", "name": "Body & health", "icon": "🩺", "topics": ["koerper", "gesundheit"],
+      "levels": { "A2": { "name": "Illness & the doctor's", "icon": "🩹" }, "B1": { "name": "Prevention & treatment", "icon": "💊" }, "B2": { "name": "The health system", "icon": "🏥" } } },
+    { "id": "kleidung", "name": "Clothes", "icon": "👕", "topics": ["kleidung"],
+      "levels": { "B1": { "name": "Fashion & fabrics", "icon": "🧵" }, "B2": { "name": "Fashion industry", "icon": "🪡" } } },
+    { "id": "stadt", "name": "Town & transport", "icon": "🚌", "topics": ["stadt", "verkehr"],
+      "levels": { "A2": { "name": "Buses & trains", "icon": "🚆" }, "B1": { "name": "On the road", "icon": "🚦" }, "B2": { "name": "Town planning", "icon": "🏗️" } } },
+    { "id": "arbeit", "name": "Work & school", "icon": "💼", "topics": ["arbeit", "bildung", "sprache", "wissenschaft", "wirtschaft"],
+      "levels": { "A2": { "name": "Applying & jobs", "icon": "📄" }, "B1": { "name": "Workplace & rights", "icon": "🏭" }, "B2": { "name": "Business & management", "icon": "📈" } } },
+    { "id": "freizeit", "name": "Free time & travel", "icon": "🧳", "topics": ["freizeit", "reisen", "kultur"],
+      "levels": { "A2": { "name": "Holidays & places to stay", "icon": "🏨" }, "B1": { "name": "Culture & clubs", "icon": "🎟️" }, "B2": { "name": "Arts & heritage", "icon": "🖼️" } } },
+    { "id": "zeit", "name": "Time, weather & nature", "icon": "🌦️", "topics": ["zeit", "wetter", "natur", "umwelt"],
+      "levels": { "A2": { "name": "Environment & climate", "icon": "🌍" }, "B1": { "name": "Sustainability & energy", "icon": "♻️" }, "B2": { "name": "Climate & energy", "icon": "🌱" } } },
+    { "id": "einkaufen", "name": "Shopping & money", "icon": "🛒", "topics": ["einkaufen", "geld"],
+      "levels": { "A2": { "name": "Banks & accounts", "icon": "💳" }, "B1": { "name": "Tax & finance", "icon": "🧾" }, "B2": { "name": "Markets & pensions", "icon": "💷" } } },
+    { "id": "aemter", "name": "Offices & society", "icon": "🏛️", "topics": ["aemter", "gesellschaft", "politik", "recht", "migration"],
+      "levels": { "A1": { "name": "Offices & forms", "icon": "📋" }, "A2": { "name": "Post & letters", "icon": "✉️" }, "B1": { "name": "Authorities & visas", "icon": "🛂" }, "B2": { "name": "Law & politics", "icon": "⚖️" } } },
+    { "id": "medien", "name": "Media & technology", "icon": "📱", "topics": ["medien", "kommunikation", "technik"],
+      "levels": { "A2": { "name": "Phone & email", "icon": "📞" }, "B1": { "name": "News & media", "icon": "📰" }, "B2": { "name": "Digital life & data", "icon": "💻" } } }
+  ],
+  "rules": [
+    {
+      "id": "some-uncountable",
+      "article": "some",
+      "name": "some: you can't count it",
+      "rule": "Uncountable nouns (water, money, advice, information, furniture) and plural-only nouns (trousers, clothes) never take a or an: some water, some advice.",
+      "ruleLeicht": "You can't count it? Then you say “some”: some water, some bread.",
+      "uncountable": true
+    },
+    {
+      "id": "an-vowel",
+      "article": "an",
+      "name": "an + vowel sound",
+      "rule": "Before a vowel sound you say an: an apple, an egg, an idea, an office, an umbrella. The sound counts, not the letter: a university, a European, a one-way ticket.",
+      "ruleLeicht": "The word starts with the sound a, e, i, o or u? Then you say “an”: an apple.",
+      "prefixes": ["a", "e", "i", "o", "u"],
+      "countableOnly": true
+    },
+    {
+      "id": "a-consonant",
+      "article": "a",
+      "name": "a + consonant sound",
+      "rule": "Before a consonant sound you say a: a book, a car, a house. The sound counts, not the letter: an hour, an honest answer (the h is silent).",
+      "ruleLeicht": "The word starts with another sound, like b, c, d, h or s? Then you say “a”: a book.",
+      "prefixes": ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"],
+      "countableOnly": true
+    }
+  ]
+}

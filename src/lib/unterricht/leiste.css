@@ -1,0 +1,82 @@
+/* The session bar (leiste.js): slim, at the bottom of every page while a lesson runs. */
+.ut-leiste {
+  position: fixed; inset-inline: 0; bottom: 0; z-index: 950;
+  display: flex; align-items: center; gap: 8px; min-height: 56px; padding: 6px 12px calc(6px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border-strong); background: var(--surface-card); color: var(--ink);
+  box-shadow: 0 -6px 20px rgba(15, 20, 28, .08); font-family: var(--font-body);
+}
+/* The room the bar takes at the foot of the page (also what present mode leaves free). */
+body.ut-mit-leiste { --ut-space: 64px; padding-bottom: var(--ut-space); }
+.ut-leiste-bruno { flex: none; width: 34px; height: 34px; }
+.ut-leiste-bruno.is-cheer svg { animation: ut-bruno-hop .5s ease-in-out 4; transform-origin: 50% 90%; }
+@keyframes ut-bruno-hop { 50% { transform: translateY(-5px) rotate(-6deg); } }
+.ut-leiste-who { display: grid; min-width: 0; line-height: 1.2; }
+.ut-leiste-who b { font-size: var(--text-sm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ut-leiste-who span { font-size: var(--text-xs); color: var(--muted); white-space: nowrap; }
+.ut-leiste-phase {
+  display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: var(--radius-pill);
+  font-size: var(--text-sm); font-weight: var(--fw-bold, 700); white-space: nowrap; color: #1f2937;
+}
+.ut-leiste-phase small { font-weight: var(--fw-semibold, 600); opacity: .75; font-variant-numeric: tabular-nums; }
+.ut-leiste-phase--over small { color: #b91c1c; opacity: 1; }
+.ut-leiste-spacer { flex: 1; }
+.ut-leiste-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 44px; min-height: 44px; padding: 0 12px;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-pill); background: var(--surface-card); color: var(--brand-blue-dark);
+  font: inherit; font-size: var(--text-sm); font-weight: var(--fw-bold, 700); text-decoration: none; cursor: pointer; white-space: nowrap;
+}
+.ut-leiste-btn:hover { border-color: var(--brand-blue); }
+.ut-leiste-arrow { width: 48px; padding: 0; color: var(--ink); }
+.ut-leiste-btn--main { background: var(--gradient-brand, var(--brand-blue)); border-color: transparent; color: #fff; }
+.ut-leiste-btn--end { color: #b91c1c; }
+.ut-leiste-btn[aria-pressed="true"] { background: var(--blue-50); border-color: var(--blue-200); }
+.ut-leiste-ask { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ut-leiste-ask p { margin: 0; font-weight: var(--fw-semibold, 600); }
+.ut-leiste-warn { font-size: var(--text-xs); color: #b45309; }
+.ut-leiste-warn[hidden] { display: none; }
+.ut-leiste-fold { width: 44px; padding: 0; color: var(--muted); }
+.ut-leiste-fold svg { transition: transform .2s ease; }
+
+/* Wide screens: a card over the page's text column (leiste.js sets --ut-l/--ut-w from <main>). */
+@media (min-width: 761px) {
+  .ut-leiste {
+    inset-inline: auto; left: var(--ut-l, 16px); width: var(--ut-w, calc(100% - 32px)); bottom: 12px;
+    padding: 6px 8px 6px 14px; border: 1px solid var(--border-strong); border-radius: 18px;
+    box-shadow: 0 8px 28px rgba(15, 20, 28, .14);
+  }
+  body.ut-mit-leiste { --ut-space: 80px; }
+  .ut-leiste--eng .ut-leiste-lbl { display: none; }
+}
+
+/* Folded (away from the session page): a pill with the phase and the time, centred on the column. */
+.ut-leiste.ut-leiste--zu {
+  inset-inline: auto; left: calc(var(--ut-l, 0px) + var(--ut-w, 100vw) / 2); width: auto; bottom: 10px;
+  transform: translateX(-50%); min-height: 0; gap: 4px; padding: 4px; flex-wrap: nowrap;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-pill);
+  box-shadow: 0 6px 20px rgba(15, 20, 28, .14);
+}
+.ut-leiste--zu > :not(.ut-leiste-phase, .ut-leiste-fold, .ut-leiste-extra) { display: none; }
+.ut-leiste-extra { display: contents; }
+.ut-leiste--zu .ut-leiste-phase { cursor: pointer; padding-block: 8px; }
+.ut-leiste--zu .ut-leiste-fold { border-color: transparent; }
+.ut-leiste--zu .ut-leiste-fold svg { transform: rotate(180deg); }
+body.ut-mit-leiste.ut-leiste-zu { --ut-space: 64px; }
+
+@media (max-width: 760px) {
+  .ut-leiste { flex-wrap: wrap; gap: 6px; padding-inline: 8px; }
+  .ut-leiste-who span, .ut-leiste-lbl { display: none; }
+  .ut-leiste-spacer { display: none; }
+  .ut-leiste-btn { padding: 0 10px; }
+  body.ut-mit-leiste { --ut-space: 112px; }
+  body.ut-mit-leiste.ut-leiste-zu { --ut-space: 64px; }
+}
+@media print { .ut-leiste { display: none !important; } body.ut-mit-leiste { padding-bottom: 0; } }
+
+/* Learner mode (/lesson): a finished step says so, and → is the way on. */
+.ut-leiste-phase--done small { color: #15803d; opacity: 1; font-weight: 700; }
+.ut-leiste-arrow--go { background: var(--brand-teal, #0d9488); border-color: transparent; color: #fff; }
+.ut-leiste-arrow--go:hover { filter: brightness(1.05); }
+@media (prefers-reduced-motion: no-preference) {
+  .ut-leiste-arrow--go { animation: ut-go 1.6s ease-in-out 2; }
+  @keyframes ut-go { 50% { transform: translateX(3px); } }
+}

@@ -1,0 +1,643 @@
+---
+// Zungenbrecher: the twister is spoken first (slowly, then at pace), then the learner says
+// it into the microphone and gets a score per word. The same engine and Azure assessment as
+// /pronunciation-check (src/lib/ausspracheCheck.js), with `listenFirst`: "Aufnehmen" stays locked
+// until the model has been heard, and moving on plays the slow take by itself.
+// Twisters: src/data/zungenbrecher.json. Audio: scripts/generate-zungenbrecher-audio.mjs.
+// Scoring shares the Aussprache-Check's daily allowance (/api/speech-token).
+// A twister with a voiced `dialect` gets a third take, "Bruno auf Bairisch": only for
+// listening, the learner is always scored against the standard `text`.
+import Layout from "../layouts/Layout.astro";
+import SiteNav from "../components/SiteNav.astro";
+import "../styles/practice.css";
+import "../styles/aussprache-check.css";
+import data from "../data/zungenbrecher.json";
+import PremiumLock from "../components/PremiumLock.astro";
+import premiumFeatures from "../data/premium-features.json";
+import Mascot from "../components/mascots/Mascot.astro";
+import SectionMascot from "../components/mascots/SectionMascot.astro";
+import { mascotSvg } from "../lib/mascots.js";
+
+const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
+const freeSessions = premiumFeatures.find((f) => f.id === "aussprache")!.free.limit;
+
+// Same file name as the audio script: <id>-<slug(dialect.name)>.mp3.
+const slug = (s: string) => s.toLowerCase().replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const levels = data.levels.map((l) => ({
+  ...l,
+  sentences: l.sentences.map(({ dialect, ...s }: any) => ({
+    ...s,
+    src: `/audio/zungenbrecher/${s.id}.mp3`,
+    srcSlow: `/audio/zungenbrecher/${s.id}-langsam.mp3`,
+    // Only once the file exists (scripts/generate-zungenbrecher-audio.mjs stamps dialect.audio).
+    ...(dialect?.audio && {
+      srcDialect: `/audio/zungenbrecher/${s.id}-${slug(dialect.name)}.mp3`,
+      dialect: { name: dialect.name, text: dialect.text, speaker: dialect.speaker },
+    }),
+  })),
+}));
+const total = levels.reduce((n, l) => n + l.sentences.length, 0);
+
+// Per level: its colour, how many "tongue knots" it gets, and who of the crew introduces it.
+const LOOK = [
+  { color: "var(--success)", soft: "var(--success-soft)", knots: 1, mascot: "hamsti", say: "Just a warm-up!" },
+  { color: "var(--warning)", soft: "var(--warning-soft)", knots: 2, mascot: "regi", say: "Now it gets tricky." },
+  { color: "var(--danger)", soft: "var(--danger-soft)", knots: 3, mascot: "bruno", expr: "thinking", say: "Pros only!" },
+] as const;
+---
+<Layout
+  title="Tongue twisters – practise English pronunciation – EnglishAcademy"
+  description="English tongue twisters to repeat: listen first, slowly and then fast, then speak into the microphone and get points for every word."
+>
+  <SiteNav active="fertigkeiten" />
+
+  <main class="ac" id="zb-root">
+    <header class="zb-hero">
+      <div class="zb-hero-text">
+        <p class="ac-eyebrow" data-i18n="ac.eyebrow">Sprechen · Aussprache</p>
+        <h1 class="ac-title" data-i18n="nav.skill.zungenbrecher">Zungenbrecher</h1>
+        <p class="ac-lead" data-i18n="zungenbrecher.lead" data-i18n-vars={JSON.stringify({ total })}>{total} Zungenbrecher, von leicht bis schwer. Erst hörst du zu, dann bist du dran.</p>
+      </div>
+      <div class="zb-hero-crew" data-mascot-part aria-hidden="true">
+        <span class="zb-bubble" lang="en">Warm up your tongue!</span>
+        <Mascot name="quaki" view="three" size={92} class="zb-quaki" />
+      </div>
+      <ol class="zb-steps">
+        <li><span class="zb-step-n">1</span><span data-i18n="zungenbrecher.step.slow">Langsam hören</span></li>
+        <li><span class="zb-step-n">2</span><span data-i18n="zungenbrecher.step.fast">Schnell hören</span></li>
+        <li><span class="zb-step-n">3</span><span data-i18n="kultur.fehler.record">Nachsprechen</span></li>
+      </ol>
+    </header>
+
+    <p class="ac-usage" data-ac-usage data-free={freeSessions} hidden></p>
+
+    <!-- Every twister in one list. Tapping one opens the practice card right under it;
+         Zurück/Weiter in the card move it along the list. -->
+    {levels.map((l, li) => (
+      <section class="zb-group" aria-labelledby={`zb-g-${li}`} style={`--lvl:${LOOK[li].color};--lvl-soft:${LOOK[li].soft}`}>
+        <div class="zb-group-head">
+          <h2 class="zb-group-title" id={`zb-g-${li}`}>
+            {l.level}
+            <span class="zb-knots" data-knots={LOOK[li].knots} aria-label={`Difficulty ${LOOK[li].knots} of 3`}>
+              {[1, 2, 3].map((k) => <i class:list={{ on: k <= LOOK[li].knots }} />)}
+            </span>
+          </h2>
+          <span class="zb-done" data-done={li} data-i18n="zungenbrecher.done" data-i18n-vars={JSON.stringify({ n: 0, total: l.sentences.length })}>0 / {l.sentences.length} practised</span>
+        </div>
+        <SectionMascot name={LOOK[li].mascot} expr={(LOOK[li] as any).expr ?? "happy"} say={LOOK[li].say} size={40} class="zb-group-mascot" />
+        <ol class="zb-list">
+          {l.sentences.map((s, si) => (
+            <li class="zb-item" data-item={`${li}-${si}`}>
+              <button type="button" class="zb-row" data-pick={`${li}-${si}`}>
+                <span class="zb-n">{si + 1}</span>
+                <span class="zb-text" lang="en">{s.text}</span>
+                <span class="zb-best" data-row-best={s.id}>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+
+    <div hidden data-card-home>
+    <section class="ac-card" aria-labelledby="zb-label" data-card>
+      <!-- When the twister is about one of the crew's animals, that mascot pops up here. -->
+      <div class="zb-pop" data-zb-pop data-mascot-part aria-hidden="true" hidden>
+        <span class="zb-pop-say" data-zb-pop-say></span>
+        <span class="zb-pop-fig" data-zb-pop-fig></span>
+      </div>
+      <div class="ac-meta">
+        <span id="zb-label" data-pos lang="en">Tongue twister 1</span>
+        <span class="ac-best" data-best></span>
+      </div>
+      <div class="ac-focus" data-focus aria-label="Sounds in this tongue twister" data-i18n-attr="aria-label:zungenbrecher.focus.aria"></div>
+
+      <p class="ac-sentence" data-sentence lang="en" aria-live="polite"></p>
+      <p class="zb-hint" data-hint hidden></p>
+      <p class="zb-dialect" data-zb-dialect-line hidden>In <span data-zb-dialect-name>Bavarian</span>: <i data-zb-dialect-text lang="bar"></i></p>
+
+      <!-- The model's melody: pitch over time, drawn from the recording. A playhead runs
+           along it while the model speaks. -->
+      <figure class="zb-mel" data-zb-mel>
+        <figcaption>
+          <span class="zb-mel-title" data-i18n="zungenbrecher.mel.title">Melodie</span>
+          <span class="zb-mel-take" data-zb-take data-i18n="zungenbrecher.take.slow">langsam</span>
+        </figcaption>
+        <svg viewBox="0 0 320 64" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <clipPath id="zb-mel-clip"><rect x="0" y="0" width="0" height="64" data-zb-clip /></clipPath>
+          </defs>
+          <g class="zb-bars" data-zb-bars></g>
+          <g class="zb-bars zb-bars--on" data-zb-bars-on clip-path="url(#zb-mel-clip)"></g>
+          <g data-zb-mel-lines></g>
+          <line x1="0" x2="0" y1="2" y2="62" class="zb-mel-head" data-zb-head />
+        </svg>
+      </figure>
+
+      <div class="ac-actions">
+        <button type="button" class="ac-btn ac-btn--ghost" data-listen="slow">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" /><path d="M16.5 8.5a5 5 0 0 1 0 7" /></svg>
+          <span data-i18n="konto.tempo.langsam">Slow</span>
+        </button>
+        <button type="button" class="ac-btn ac-btn--ghost" data-listen="fast">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" /><path d="M16.5 8.5a5 5 0 0 1 0 7" /><path d="M19 6a9 9 0 0 1 0 12" /></svg>
+          <span data-i18n="konto.tempo.schnell">Fast</span>
+        </button>
+        <button type="button" class="ac-btn ac-btn--ghost zb-dialect-btn" data-zb-dialect hidden>
+          <span class="zb-dialect-head" set:html={mascotSvg({ name: "bruno", expr: "happy", view: "three", size: 22, label: "" })} />
+          <span data-i18n="zungenbrecher.dialect.btn">Bruno in Bavarian</span>
+        </button>
+        <button type="button" class="ac-btn ac-btn--rec" data-record data-state="idle" disabled>
+          <span class="ac-rec-dot" aria-hidden="true"></span>
+          <span data-record-label>Record</span>
+        </button>
+      </div>
+
+      <p class="ac-status" data-status role="status"></p>
+      <p class="ac-login" data-login hidden>
+        <a class="ac-btn ac-btn--primary" href="/anmelden?next=/tongue-twisters" data-i18n="auth.nav.signIn">Sign in</a>
+        <span data-i18n="ac.login.note" data-i18n-vars={JSON.stringify({ n: freeSessions })}>Mit Konto {freeSessions}× täglich kostenlos. Anhören geht auch ohne Konto.</span>
+      </p>
+      <div class="ac-limit" data-ac-limit hidden>
+        {PAYWALL
+          ? <PremiumLock feature="aussprache" variant="limit-reached" />
+          : <p class="ac-limit-note" data-i18n="ac.limit.note" data-i18n-vars={JSON.stringify({ n: freeSessions })}>Deine {freeSessions} Sitzungen für heute sind aufgebraucht. Morgen geht es weiter, und Anhören geht immer.</p>}
+      </div>
+
+      <div class="ac-results" data-results hidden>
+        <div class="ac-overall" data-zb-overall>
+          <div class="ac-ring" data-overall-ring style="--p:0">
+            <b data-overall>0</b><small data-i18n="ac.ring.of">von 100</small>
+          </div>
+          <div class="ac-legend" aria-hidden="true">
+            <span><i class="ac-dot ac-dot--good"></i><span data-i18n="ac.legend.good">ab 80</span></span>
+            <span><i class="ac-dot ac-dot--ok"></i>60–79</span>
+            <span><i class="ac-dot ac-dot--bad"></i><span data-i18n="ac.legend.bad">unter 60</span></span>
+            <span data-i18n-html="ac.legend.skipped"><s>Wort</s> ausgelassen</span>
+          </div>
+        </div>
+        <div class="ac-scores" data-scores></div>
+        <div class="ac-melody" data-melody hidden></div>
+        <div class="ac-detail" data-detail hidden></div>
+        <div class="ac-tip" data-tip></div>
+      </div>
+
+      <nav class="ac-nav" aria-label="Tongue twisters" data-i18n-attr="aria-label:nav.skill.zungenbrecher">
+        <button type="button" class="ac-btn ac-btn--quiet" data-prev aria-keyshortcuts="ArrowLeft" title="Back (←)" data-i18n-attr="title:ac.prev.title" data-i18n="aussprache.prev">← Back</button>
+        <button type="button" class="ac-btn ac-btn--quiet" data-next aria-keyshortcuts="ArrowRight" title="Next (→)" data-i18n-attr="title:ac.next.title" data-i18n="aussprache.next">Next</button>
+      </nav>
+    </section>
+    </div>
+
+    <p class="zb-more" data-i18n-html="zungenbrecher.more">Lieber normale Sätze? Zum <a href="/pronunciation-check">Aussprache-Check</a>.<br />Deinen Lieblings-Zungenbrecher auf dem Shirt? Zum <a href="/merch">Merch</a>.</p>
+
+    <p class="ac-privacy" data-i18n-html="zungenbrecher.privacy">Deine Aufnahme wird zur Auswertung an Microsoft Azure geschickt und dort nicht gespeichert. Mehr in der <a href="/privacy">Datenschutzerklärung</a>.</p>
+  </main>
+
+  <script type="application/json" id="zb-data" set:html={JSON.stringify({ levels })}></script>
+  <script>
+    import { mountAusspracheCheck, playTake } from "../lib/ausspracheCheck.js";
+    import { decodeToMono, pitchContour } from "../lib/satzmelodie.js";
+    import { mascotSvg } from "../lib/mascots.js";
+    import { miniSvg, MINI_SOUND } from "../lib/minis.js";
+    import { apiFetch } from "../lib/api.js";
+    import { track } from "../lib/track.js";
+    import { t, onUiText } from "../lib/uiText.js";
+    // Script-written text keeps its key and numbers on the element, so a later language
+    // switch (i18n.js) repaints it in place instead of putting the server text back.
+    function setT(el: HTMLElement | null, key: string, de: string, vars?: Record<string, unknown>) {
+      if (!el) return;
+      el.dataset.i18n = key;
+      if (vars) el.dataset.i18nVars = JSON.stringify(vars);
+      else delete el.dataset.i18nVars;
+      el.textContent = t(key, de, vars);
+    }
+    const root = document.getElementById("zb-root");
+    const data = JSON.parse(document.getElementById("zb-data")!.textContent || "{}");
+    if (root) {
+      const card = root.querySelector<HTMLElement>("[data-card]")!;
+      let first = true;
+      let at = [0, 0]; // the twister on the card
+      // The card lives in the list item of the twister it shows; the row itself hides.
+      function place(li: number, si: number) {
+        const item = root!.querySelector<HTMLElement>(`[data-item="${li}-${si}"]`);
+        if (!item) return;
+        root!.querySelectorAll(".zb-item.is-open").forEach((el) => el.classList.remove("is-open"));
+        item.classList.add("is-open");
+        item.append(card);
+        showBest();
+        let fast = false;
+        try { fast = JSON.parse(localStorage.getItem("zb.pos.speed") || '"slow"') === "fast"; } catch {}
+        at = [li, si];
+        const s = data.levels[li].sentences[si];
+        showPop(s);
+        dialectBtn.hidden = !s.srcDialect;
+        dialectLine.hidden = true;
+        dialectBtn.setAttribute("aria-pressed", "false");
+        setT(takeLabel, fast ? "zungenbrecher.take.fast" : "zungenbrecher.take.slow", fast ? "fast" : "slow");
+        mel.dataset.take = fast ? "fast" : "slow";
+        drawMelody(fast ? s.src : s.srcSlow);
+        if (!first) card.scrollIntoView({ block: "nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+        first = false;
+      }
+      // The crew animal of this twister (Frösche → Quaki …) pops up on the card's corner
+      // and hops whenever the model speaks.
+      const pop = root.querySelector<HTMLElement>("[data-zb-pop]")!;
+      const SAY: Record<string, string> = {
+        quaki: "Quack! Those are my friends!",
+        hamsti: "A hundred? I can do more!",
+        regi: "Prickle! That’s me!",
+        bruno: "Woof! I never doze!",
+      };
+      // Any other animal gets a Mini-Crew sticker instead (src/lib/minis.js): smaller, and
+      // it only says its animal sound. The dialect take brings its speaker with "Servus!".
+      function showPop(s: any, dialect = false) {
+        if (dialect) s = { mascot: s.dialect.speaker, say: "Servus!" };
+        const name = s.mascot || s.mini;
+        pop.hidden = !name;
+        pop.classList.remove("is-in", "is-hop");
+        if (!name) return;
+        pop.dataset.name = name;
+        pop.classList.toggle("zb-pop--mini", !s.mascot);
+        pop.querySelector("[data-zb-pop-fig]")!.innerHTML = s.mascot
+          ? mascotSvg({ name: s.mascot, expr: "celebrate", view: "three", size: 64, label: "" })
+          : miniSvg(s.mini, { size: 38 });
+        pop.querySelector("[data-zb-pop-say]")!.textContent = s.say ?? (s.mascot ? SAY[s.mascot] ?? "" : MINI_SOUND[s.mini] ?? "");
+        void pop.offsetWidth; // restart the pop-in
+        pop.classList.add("is-in");
+      }
+
+      // Best score per twister on its row, and "3 / 8 geübt" per level.
+      function showBest() {
+        let best: Record<string, number> = {};
+        try { best = JSON.parse(localStorage.getItem("zb.best") || "{}") || {}; } catch {}
+        root!.querySelectorAll<HTMLElement>("[data-row-best]").forEach((b) => {
+          const v = best[b.dataset.rowBest!];
+          if (v == null) return;
+          b.textContent = String(v);
+          b.dataset.band = v >= 80 ? "good" : v >= 60 ? "ok" : "bad";
+        });
+        data.levels.forEach((l: any, li: number) => {
+          const el = root!.querySelector(`[data-done="${li}"]`);
+          if (el) setT(el as HTMLElement, "zungenbrecher.done", "{n} / {total} practised", { n: l.sentences.filter((s: any) => best[s.id] != null).length, total: l.sentences.length });
+        });
+      }
+
+      // ---- Melody: pitch segments of the take, x = time in the file, so the playhead
+      // (currentTime / duration) sits on the syllable you hear.
+      const mel = root.querySelector<HTMLElement>("[data-zb-mel]")!;
+      const melLines = mel.querySelector<SVGGElement>("[data-zb-mel-lines]")!;
+      const head = mel.querySelector<SVGLineElement>("[data-zb-head]")!;
+      const barsBase = mel.querySelector<SVGGElement>("[data-zb-bars]")!;
+      const barsOn = mel.querySelector<SVGGElement>("[data-zb-bars-on]")!;
+      const clip = mel.querySelector<SVGRectElement>("[data-zb-clip]")!;
+      const takeLabel = mel.querySelector<HTMLElement>("[data-zb-take]")!;
+      type Melody = { segs: { t: number; hz: number }[][]; bars: number[] };
+      const BARS = 64;
+      const contours = new Map<string, Promise<Melody | null>>();
+      function contour(url: string) {
+        if (!contours.has(url)) contours.set(url, (async () => {
+          const res = await fetch(url);
+          if (!res.ok) return null;
+          const { samples, sampleRate } = await decodeToMono(await res.arrayBuffer());
+          const total = samples.length / sampleRate;
+          const pts = pitchContour(samples, sampleRate) as { t: number; hz: number }[];
+          if (pts.length < 8) return null;
+          const sorted = pts.map((p) => p.hz).sort((a, b) => a - b);
+          const med = sorted[sorted.length >> 1];
+          // Break the line where the voice pauses: one segment per voiced stretch.
+          const segs: { t: number; hz: number }[][] = [];
+          let cur: { t: number; hz: number }[] = [];
+          let last = -1;
+          for (const p of pts) {
+            if (cur.length && p.t - last > 0.2) { if (cur.length > 1) segs.push(cur); cur = []; }
+            cur.push({ t: p.t / total, hz: 12 * Math.log2(p.hz / med) });
+            last = p.t;
+          }
+          if (cur.length > 1) segs.push(cur);
+          // Loudness per slice: the rhythm of the syllables, drawn as bars under the line.
+          const step = Math.floor(samples.length / BARS);
+          const bars: number[] = [];
+          for (let b = 0; b < BARS; b++) {
+            let e = 0;
+            for (let k = b * step; k < (b + 1) * step; k += 4) e += samples[k] * samples[k];
+            bars.push(Math.sqrt(e / (step / 4)));
+          }
+          const peak = Math.max(...bars) || 1;
+          return { segs, bars: bars.map((v) => Math.pow(v / peak, 0.6)) };
+        })().catch(() => null));
+        return contours.get(url)!;
+      }
+      // Keyed by the take's file, so the dialect take draws its own contour.
+      let drawn = "";
+      async function drawMelody(url: string) {
+        if (drawn === url) return;
+        drawn = url;
+        head.style.opacity = "0";
+        const m = await contour(url);
+        if (drawn !== url) return;
+        mel.hidden = !m;
+        if (!m) return;
+        const { segs } = m;
+        const w = 320 / BARS;
+        const bars = m.bars.map((v, i) => {
+          const h = Math.max(2, v * 50);
+          return `<rect x="${(i * w + w * 0.2).toFixed(1)}" y="${(60 - h).toFixed(1)}" width="${(w * 0.6).toFixed(1)}" height="${h.toFixed(1)}" rx="1.5" />`;
+        }).join("");
+        barsBase.innerHTML = bars;
+        barsOn.innerHTML = bars;
+        clip.setAttribute("width", "0");
+        const y = (st: number) => 30 - Math.max(-8, Math.min(8, st)) * 3.4;
+        melLines.innerHTML = segs.map((seg) => {
+          const d = seg.map((p, i) => `${i ? "L" : "M"}${(p.t * 320).toFixed(1)} ${y(p.hz).toFixed(1)}`).join(" ");
+          return `<path d="${d}" class="zb-mel-line" />`;
+        }).join("");
+        melLines.animate?.([{ opacity: 0 }, { opacity: 1 }], { duration: 300 });
+      }
+      let raf = 0;
+      addEventListener("da:ac-play", ((e: CustomEvent) => {
+        const { audio, sentence, slow, take } = e.detail;
+        const dialect = take === "dialect";
+        // Leaving the dialect take puts the twister's own pop (or none) back.
+        if (dialect !== !dialectLine.hidden) showPop(sentence, dialect);
+        dialectLine.hidden = !dialect;
+        dialectBtn.setAttribute("aria-pressed", String(dialect));
+        if (dialect) { delete takeLabel.dataset.i18n; takeLabel.textContent = sentence.dialect.name.toLowerCase(); }
+        else setT(takeLabel, slow ? "zungenbrecher.take.slow" : "zungenbrecher.take.fast", slow ? "slow" : "fast");
+        if (!pop.hidden) { pop.classList.remove("is-hop"); void pop.offsetWidth; pop.classList.add("is-hop"); }
+        mel.dataset.take = dialect ? "dialect" : slow ? "slow" : "fast";
+        drawMelody(dialect ? sentence.srcDialect : slow ? sentence.srcSlow : sentence.src);
+        cancelAnimationFrame(raf);
+        const tick = () => {
+          const f = audio.duration ? audio.currentTime / audio.duration : 0;
+          head.setAttribute("x1", String(f * 320));
+          head.setAttribute("x2", String(f * 320));
+          clip.setAttribute("width", String(f * 320));
+          head.style.opacity = audio.paused && f === 0 ? "0" : "1";
+          if (!audio.ended && !(audio.paused && audio.currentTime > 0)) raf = requestAnimationFrame(tick);
+          else { head.style.opacity = "0"; if (audio.ended) clip.setAttribute("width", "320"); }
+        };
+        raf = requestAnimationFrame(tick);
+      }) as EventListener);
+
+      // Quaki hops in next to the score: cheers from 80 up, "oops" under 60.
+      async function onResult(overall: number) {
+        setTimeout(showBest); // the engine saves the new best right after this call
+        if (overall >= 60 && overall < 80) return;
+        const { mascotHop } = await import("../lib/mascotCelebrate.js");
+        mascotHop(root!.querySelector("[data-zb-overall]"), overall >= 80, "quaki");
+      }
+
+      // The dialect take: only for listening, so it neither unlocks nor changes the scoring.
+      const dialectBtn = root.querySelector<HTMLButtonElement>("[data-zb-dialect]")!;
+      const dialectLine = root.querySelector<HTMLElement>("[data-zb-dialect-line]")!;
+      dialectBtn.addEventListener("click", () => {
+        const s = data.levels[at[0]].sentences[at[1]];
+        if (!s.srcDialect) return;
+        dialectLine.querySelector("[data-zb-dialect-name]")!.textContent = s.dialect.name;
+        dialectLine.querySelector("[data-zb-dialect-text]")!.textContent = s.dialect.text;
+        playTake(s, s.srcDialect, "dialect").catch(() => {});
+      });
+
+      const check = mountAusspracheCheck(root, { ...data, posKey: "zb.pos", bestKey: "zb.best", unit: "Tongue twister", listenFirst: true, onChange: place, onResult });
+      // "Schwierigkeit 2 von 3": an aria-label with a number, which data-i18n-attr can't fill.
+      onUiText(() => {
+        root!.querySelectorAll<HTMLElement>("[data-knots]").forEach((el) => el.setAttribute("aria-label", t("zungenbrecher.difficulty", "Difficulty {n} of 3", { n: el.dataset.knots })));
+        root!.querySelectorAll<HTMLElement>("[data-i18n]").forEach((el) => {
+          if (el.matches("[data-done], [data-zb-take]")) el.textContent = t(el.dataset.i18n!, el.textContent || "", JSON.parse(el.dataset.i18nVars || "{}"));
+        });
+      });
+      root.addEventListener("click", (e) => {
+        const b = (e.target as HTMLElement).closest<HTMLElement>("[data-pick]");
+        if (!b) return;
+        const [li, si] = b.dataset.pick!.split("-").map(Number);
+        check.select(li, si);
+      });
+    }
+
+    // Same allowance line as /pronunciation-check.
+    const usage = document.querySelector<HTMLElement>("[data-ac-usage]");
+    function setUsage(key: string, de: string, vars: Record<string, number>) {
+      if (!usage) return;
+      setT(usage, key, de, vars);
+      usage.hidden = false;
+    }
+    // The dictionary may arrive after the first paint.
+    onUiText(() => {
+      if (usage?.dataset.i18n) usage.textContent = t(usage.dataset.i18n, usage.textContent || "", JSON.parse(usage.dataset.i18nVars || "{}"));
+    });
+    async function showUsage() {
+      if (!usage || document.documentElement.dataset.plan === "premium") return;
+      if (document.documentElement.dataset.auth !== "in") {
+        setUsage("ac.usage.offer", "Free {n}× a day with an account", { n: Number(usage.dataset.free) });
+        return;
+      }
+      const res = await apiFetch("/api/konto/nutzung", { credentials: "same-origin" }).catch(() => null);
+      if (!res?.ok) return;
+      const a = (await res.json()).aussprache;
+      if (!a || a.limit == null) return;
+      setUsage("ac.usage.left", "{left} of {limit} sessions left today", { left: Math.max(0, a.limit - a.used), limit: a.limit });
+    }
+    showUsage();
+    addEventListener("da:aussprache-session", () => {
+      track("zungenbrecher_session_started", {});
+      showUsage();
+    });
+  </script>
+</Layout>
+
+<style>
+  /* ---- hero: Quaki (the crew's speaking coach) with a bubble, and the three steps */
+  .zb-hero {
+    position: relative;
+    display: grid; grid-template-columns: 1fr auto; gap: var(--space-3) var(--space-4); align-items: end;
+    margin: var(--space-4) 0 var(--space-2);
+    padding: var(--space-5) var(--space-5) var(--space-4);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(120% 90% at 100% 0%, var(--success-soft), transparent 60%),
+      linear-gradient(160deg, var(--blue-50), var(--surface-card));
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .zb-hero .ac-title { margin: 2px 0 6px; }
+  .zb-hero .ac-lead { margin: 0; }
+  .zb-hero-crew { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .zb-quaki { display: block; animation: zb-bob 2.8s ease-in-out infinite; transform-origin: 50% 100%; }
+  .zb-bubble {
+    position: relative;
+    font-family: var(--font-voice); font-weight: 500; font-size: .9rem; line-height: 1.2;
+    background: var(--surface-card); color: var(--ink);
+    border: 1px solid var(--border); border-radius: 14px; padding: 6px 10px;
+    box-shadow: var(--shadow-sm); text-align: center; max-width: 9.5em;
+  }
+  .zb-bubble::after {
+    content: ""; position: absolute; left: 50%; bottom: -6px; width: 10px; height: 10px;
+    background: inherit; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    transform: translateX(-50%) rotate(45deg);
+  }
+  .zb-steps {
+    grid-column: 1 / -1;
+    display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0;
+  }
+  .zb-steps li {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px 4px 4px; border-radius: var(--radius-pill);
+    background: var(--surface-card); border: 1px solid var(--border);
+    font-size: var(--text-xs); font-weight: var(--fw-semibold); color: var(--ink);
+  }
+  .zb-step-n {
+    display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%;
+    background: var(--brand-blue); color: #fff; font-size: 11px;
+  }
+  @keyframes zb-bob { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-4px) rotate(-3deg); } }
+
+  /* ---- card extras */
+  /* ---- the crew animal of a twister, peeking over the card's top-right corner */
+  .zb-item > .ac-card { position: relative; }
+  .zb-pop {
+    position: absolute; right: 12px; top: -46px; z-index: 2;
+    display: flex; align-items: flex-end; gap: 4px; pointer-events: none;
+  }
+  .zb-pop-fig { display: block; width: 64px; height: 64px; }
+  .zb-pop-fig :global(svg) { display: block; width: 100%; height: 100%; }
+  .zb-pop-say {
+    position: relative; margin-bottom: 30px;
+    font-family: var(--font-voice); font-weight: 500; font-size: .85rem; line-height: 1.2;
+    background: var(--surface-card); color: var(--ink);
+    border: 1px solid var(--border); border-radius: 12px; padding: 5px 9px;
+    box-shadow: var(--shadow-sm); max-width: 11em;
+  }
+  .zb-pop-say::after {
+    content: ""; position: absolute; right: -6px; bottom: 8px; width: 10px; height: 10px;
+    background: inherit; border-right: 1px solid var(--border); border-top: 1px solid var(--border);
+    transform: rotate(45deg);
+  }
+  /* A mini is a round sticker, so it reads as a badge and not as a fifth mascot. */
+  .zb-pop--mini { top: -30px; }
+  .zb-pop--mini .zb-pop-fig {
+    display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
+    background: var(--surface-card); border: 3px solid var(--lvl, var(--brand-blue));
+    box-shadow: var(--shadow-sm);
+  }
+  .zb-pop--mini .zb-pop-fig :global(svg) { width: 38px; height: 38px; }
+  .zb-pop--mini .zb-pop-say { margin-bottom: 18px; font-size: .8rem; }
+  .zb-pop.is-in .zb-pop-fig { animation: zb-pop-in .55s cubic-bezier(.3,1.6,.5,1) both; transform-origin: 50% 100%; }
+  .zb-pop.is-in .zb-pop-say { animation: zb-say-in .35s .35s ease-out both; }
+  .zb-pop.is-hop .zb-pop-fig { animation: zb-hop .5s ease-out 2; transform-origin: 50% 100%; }
+  @keyframes zb-pop-in { from { transform: translateY(40px) scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
+  @keyframes zb-say-in { from { transform: translateX(8px) scale(.8); opacity: 0; } to { transform: none; opacity: 1; } }
+  @keyframes zb-hop { 0%, 100% { transform: none; } 40% { transform: translateY(-12px) rotate(-6deg); } 70% { transform: translateY(0) scaleY(.9); } }
+  @media (prefers-reduced-motion: reduce) {
+    .zb-pop.is-in .zb-pop-fig, .zb-pop.is-in .zb-pop-say, .zb-pop.is-hop .zb-pop-fig { animation: none; }
+  }
+
+  /* The chosen speed stays marked. */
+  .ac-actions [data-listen][aria-pressed="true"] {
+    border-color: var(--lvl, var(--brand-blue)); background: var(--lvl-soft, var(--blue-50));
+    box-shadow: inset 0 0 0 1px var(--lvl, var(--brand-blue));
+  }
+  .zb-hint { margin: calc(-1 * var(--space-2)) 0 var(--space-3); color: var(--muted); font-size: var(--text-sm); line-height: 1.45; }
+  /* The dialect take: same row as the other takes, but Bruno's head marks it as the fun one. */
+  .ac-actions .zb-dialect-btn { grid-column: 1 / -1; border-style: dashed; }
+  .zb-dialect-btn[hidden] { display: none; }
+  .zb-dialect-head { display: inline-block; width: 22px; height: 22px; flex: none; }
+  .ac-actions .zb-dialect-btn[aria-pressed="true"] {
+    border-style: solid; border-color: var(--lvl, var(--brand-blue)); background: var(--lvl-soft, var(--blue-50));
+  }
+  /* While the dialect plays, the remembered speed stays saved but unmarked. */
+  .ac-actions:has(.zb-dialect-btn[aria-pressed="true"]) [data-listen][aria-pressed="true"] {
+    border-color: var(--border); background: transparent; box-shadow: none;
+  }
+  .zb-dialect { margin: calc(-1 * var(--space-2)) 0 var(--space-3); color: var(--ink); font-size: var(--text-sm); line-height: 1.45; }
+  .zb-dialect i { font-family: var(--font-voice); }
+  .zb-mel[data-take="dialect"] { color: var(--lvl, var(--brand-blue)); }
+  .zb-more { margin: var(--space-5) 0 0; text-align: center; color: var(--muted); font-size: var(--text-sm); }
+  /* Two listen buttons side by side, the record button full width under them. */
+  .ac-actions { grid-template-columns: 1fr 1fr; }
+  .ac-actions [data-record] { grid-column: 1 / -1; }
+
+  .zb-mel {
+    margin: 0 0 var(--space-4); padding: 10px 12px 8px;
+    border-radius: var(--radius); background: var(--surface);
+    color: var(--brand-blue);
+  }
+  .zb-mel[data-take="fast"] { color: var(--lvl, var(--brand-blue)); }
+  .zb-mel figcaption { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+  .zb-mel-title { font-size: var(--text-xs); font-weight: var(--fw-semibold); color: var(--ink); letter-spacing: .02em; }
+  .zb-mel-take { font-family: var(--font-voice); font-size: var(--text-xs); color: var(--muted); }
+  .zb-mel svg { display: block; width: 100%; height: 64px; overflow: visible; }
+  .zb-mel :global(.zb-mel-line) {
+    fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+  .zb-bars { fill: var(--border-strong); opacity: .55; }
+  .zb-bars--on { fill: currentColor; opacity: .35; }
+  .zb-mel-head { stroke: var(--ink); stroke-width: 2; vector-effect: non-scaling-stroke; opacity: 0; transition: opacity .2s; }
+
+  /* ---- levels */
+  .zb-group { margin-top: var(--space-6); }
+  .zb-group-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: var(--space-2); }
+  .zb-group-title {
+    display: flex; align-items: center; gap: 10px;
+    margin: 0; font-size: var(--text-xl); color: var(--ink);
+  }
+  .zb-knots { display: inline-flex; gap: 4px; }
+  .zb-knots i { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+  .zb-knots i.on { background: var(--lvl); }
+  .zb-done { font-size: var(--text-xs); color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .zb-group :global(.zb-group-mascot) { margin-bottom: var(--space-3); }
+
+  .zb-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .zb-row {
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px;
+    width: 100%; min-height: 56px; padding: 10px 12px 10px 10px;
+    background: var(--surface-card); color: var(--ink);
+    border: 1px solid var(--border); border-left: 4px solid var(--lvl);
+    border-radius: var(--radius);
+    font: inherit; text-align: left; cursor: pointer;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+  }
+  .zb-row:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+  .zb-row:active { transform: translateY(0); }
+  .zb-row:focus-visible { outline: 2px solid var(--brand-blue-dark); outline-offset: 2px; }
+  .zb-n {
+    display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+    background: var(--lvl-soft); color: var(--ink);
+    font-size: var(--text-xs); font-weight: var(--fw-semibold); font-variant-numeric: tabular-nums;
+  }
+  .zb-text { line-height: 1.4; }
+  .zb-best {
+    display: grid; place-items: center; min-width: 32px; height: 32px; padding: 0 6px; border-radius: var(--radius-pill);
+    background: var(--surface); color: var(--muted);
+    font-size: var(--text-xs); font-weight: var(--fw-semibold); font-variant-numeric: tabular-nums;
+  }
+  .zb-best svg { width: 14px; height: 14px; fill: currentColor; }
+  .zb-best[data-band="good"] { background: var(--success-soft); color: var(--success); }
+  .zb-best[data-band="ok"] { background: var(--warning-soft); color: var(--ink); }
+  .zb-best[data-band="bad"] { background: var(--danger-soft); color: var(--danger); }
+
+  .zb-item.is-open > .zb-row { display: none; }
+  .zb-item > .ac-card {
+    margin: 0; scroll-margin: 88px 0 16px;
+    border-top: 4px solid var(--lvl);
+  }
+  /* Room for the mascot peeking over the edge, and the best score moves out of its way. */
+  .zb-item:has(.zb-pop:not([hidden])) { margin-top: 44px; }
+  .zb-item:has(.zb-pop--mini:not([hidden])) { margin-top: 28px; }
+  .zb-item > .ac-card:has(.zb-pop:not([hidden])) { scroll-margin-top: 140px; }
+  .ac-card:has(.zb-pop:not([hidden])) .ac-meta { padding-right: 72px; }
+  .ac-card:has(.zb-pop--mini:not([hidden])) .ac-meta { padding-right: 60px; }
+
+  @media (max-width: 480px) {
+    .zb-hero { padding: var(--space-4); }
+    .zb-quaki { width: 72px; height: 72px; }
+    .zb-bubble { font-size: .8rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .zb-quaki { animation: none; }
+    .zb-row { transition: none; }
+  }
+</style>

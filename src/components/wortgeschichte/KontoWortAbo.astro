@@ -1,0 +1,98 @@
+---
+// /konto → Einstellungen → E-Mail: the Wortgeschichte mail, Aus / Wöchentlich / Täglich
+// (WORTGESCHICHTE-TIERED-PROMPT.md, Tier 2: „Signed-in users: the same choice as a switch on
+// /konto“). Talks to /api/wortgeschichte/konto. Starts disabled until the state is known,
+// like the newsletter switch beside it. „Täglich“ stays disabled until the daily buffer
+// exists (the API says so in `daily`).
+//
+// Shown only once the feature is switched on (PUBLIC_WORT_ABO=an), and always in dev.
+const show = import.meta.env.PUBLIC_WORT_ABO === "an" || import.meta.env.DEV;
+const OPTS = [
+  { v: "aus", key: "konto.wort.off", de: "Aus" },
+  { v: "woechentlich", key: "konto.wort.weekly", de: "Wöchentlich" },
+  { v: "taeglich", key: "konto.wort.daily", de: "Täglich" },
+];
+---
+{show && (
+  <div class="kt-card kt-setting kt-wort" data-kt-wort>
+    <div class="kt-setting-text">
+      <p class="kt-setting-title" id="kt-wort-label" data-i18n="konto.wort.title">Wort des Tages per E-Mail</p>
+      <p class="kt-setting-desc" data-i18n="konto.wort.desc">Die Geschichte eines deutschen Wortes, einmal pro Woche oder jeden Morgen. Abmelden jederzeit, hier oder in jeder E-Mail.</p>
+    </div>
+    <div class="kt-wort-freq" role="group" aria-labelledby="kt-wort-label">
+      {OPTS.map((o) => (
+        <button type="button" data-v={o.v} aria-pressed={o.v === "aus" ? "true" : "false"} disabled data-i18n={o.key}>{o.de}</button>
+      ))}
+    </div>
+    <p class="kt-status" role="status" aria-live="polite" data-kt-wort-status></p>
+    <span hidden data-kt-wort-msg="ausstehend" data-i18n="konto.wort.msg.ausstehend">Fast geschafft: Bitte klicke auf den Link in der E-Mail, die wir dir gerade geschickt haben.</span>
+    <span hidden data-kt-wort-msg="aus" data-i18n="konto.wort.msg.aus">Du bekommst kein Wort per E-Mail.</span>
+    <span hidden data-kt-wort-msg="woechentlich" data-i18n="konto.wort.msg.woechentlich">Du bekommst jeden Sonntag die Wörter der Woche.</span>
+    <span hidden data-kt-wort-msg="taeglich" data-i18n="konto.wort.msg.taeglich">Du bekommst jeden Morgen das Wort des Tages.</span>
+    <span hidden data-kt-wort-msg="error" data-i18n="konto.wort.msg.error">Das hat gerade nicht geklappt. Bitte versuche es später noch einmal.</span>
+  </div>
+)}
+
+<style>
+  .kt-wort-freq {
+    grid-column: 1 / -1; position: relative;
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 3px;
+    border-radius: var(--radius-pill, 999px); background: var(--surface); border: 1px solid var(--border);
+  }
+  .kt-wort-freq button {
+    position: relative; font: inherit; font-size: var(--text-sm, .88rem); min-height: 40px; padding: 6px 8px;
+    border: 0; border-radius: var(--radius-pill, 999px); background: transparent; color: var(--muted); cursor: pointer;
+  }
+  .kt-wort-freq button[aria-pressed="true"] { background: var(--surface-card); color: var(--ink); box-shadow: var(--shadow-sm); font-weight: var(--fw-semibold); }
+  .kt-wort-freq button:disabled { cursor: not-allowed; opacity: .55; }
+  .kt-wort-freq button:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 1px; }
+</style>
+
+<script>
+  const card = document.querySelector<HTMLElement>("[data-kt-wort]");
+  if (card) {
+    const buttons = [...card.querySelectorAll<HTMLButtonElement>(".kt-wort-freq button")];
+    const status = card.querySelector<HTMLElement>("[data-kt-wort-status]")!;
+    const msg = (k: string) => card.querySelector<HTMLElement>(`[data-kt-wort-msg="${k}"]`)?.textContent?.trim() ?? "";
+    let daily = false;
+    const render = (d: { state: string | null; frequency?: string; daily?: boolean }) => {
+      if (typeof d.daily === "boolean") daily = d.daily;
+      if (!d.state) { status.textContent = msg("error"); }
+      else {
+        // "ausstehend": the chosen rhythm is shown on; only the click in the mail is missing.
+        const on = d.state === "ausstehend" ? d.frequency ?? "woechentlich" : d.state;
+        for (const b of buttons) b.setAttribute("aria-pressed", String(b.dataset.v === on));
+        status.textContent = msg(d.state);
+      }
+      for (const b of buttons) b.disabled = b.dataset.v === "taeglich" && !daily;
+    };
+    fetch("/api/wortgeschichte/konto")
+      .then((r) => (r.ok ? r.json() : { state: null }))
+      .then(render)
+      .catch(() => render({ state: null }));
+    for (const b of buttons) {
+      b.addEventListener("click", async () => {
+        if (b.getAttribute("aria-pressed") === "true") return;
+        for (const x of buttons) x.disabled = true;
+        status.textContent = "";
+        try {
+          const r = await fetch("/api/wortgeschichte/konto", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ frequency: b.dataset.v }),
+          });
+          if (r.status === 429) {
+            // Mail limit (src/lib/wortRateLimit.js): still off, the server says why.
+            const d = await r.json().catch(() => ({}));
+            render({ state: "aus" });
+            if (d.message) status.textContent = d.message;
+            return;
+          }
+          render(r.ok ? await r.json() : { state: null });
+        } catch {
+          render({ state: null });
+        }
+      });
+    }
+  }
+</script>

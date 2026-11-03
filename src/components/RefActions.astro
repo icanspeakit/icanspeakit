@@ -1,0 +1,89 @@
+---
+// The Nachschlagewerk pages' row (Verbtabellen, the /grammar/<ref> lists, Wortarten):
+//   „Drucken / PDF“  this page on paper: the browser's print, with the page's own print
+//                    sheet (verbtabellen.css, nachschlagen.css, wortarten.css). Folded
+//                    rules are printed open; the page keeps the learner's choice.
+//   „Arbeitsblatt“   the page's worksheet (/teachers/worksheets/grammar/<sheet>):
+//                    rows of the list as exercises, with an answer key; built like a
+//                    grammar topic's (arbeitsblatt/nachschlagen.js).
+//   „Partnerblatt“   the same rows as a Tandembogen (/teachers/worksheets/tandem/
+//                    <sheet>), for everyone, as on a grammar topic (GrammarActions).
+//   „Teilen“         ShareButton, as on every exercise.
+//   „Live-Quiz“      /teachers/quiz?grammar=<chapter>: the list as four-button
+//                    questions („Nur Grammatik“, liveQuiz/chapters.js). Not in the
+//                    Android app, whose build drops /teachers.
+import ShareButton from "./ShareButton.astro";
+import { hasChapter } from "../lib/liveQuiz/chapters.js";
+import { sheetTopics, topicSlug } from "../lib/arbeitsblatt/grammatik.js";
+import { tandemFor } from "../lib/partneruebungen/tandem.js";
+import { sheetPath, tandemPath } from "../lib/routes.js";
+
+interface Props {
+  /** The live-quiz chapter, g-<key>. */
+  chapter?: string;
+  /** Share title; the page title by default. */
+  title?: string;
+  /** The worksheet's slug (verbtabellen, nachschlagen-<file>). */
+  sheet?: string;
+}
+const { chapter, title, sheet } = Astro.props;
+const web = import.meta.env.PUBLIC_TARGET !== "app";
+const quiz = !!chapter && web && hasChapter(chapter);
+const worksheet = !!sheet && web && sheetTopics.some((t) => topicSlug(t) === sheet);
+const tandem = !!sheet && web && !!tandemFor(sheet);
+---
+<div class="ra-actions">
+  <button type="button" class="ra-btn" data-ref-print>
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    <span data-i18n="pr.open">Drucken / PDF</span>
+  </button>
+  {worksheet && (
+    <a class="ra-btn" href={sheetPath(sheet)}>
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>
+      <span data-i18n="ab.switch.singleSub">Arbeitsblatt</span>
+    </a>
+  )}
+  <ShareButton label size="sm" title={title} />
+  {quiz && (
+    <a class="ra-btn" href={`/teachers/quiz?grammar=${encodeURIComponent(chapter!)}`} target="_blank" rel="noopener">
+      <span aria-hidden="true">🎯</span>
+      <span data-i18n="pr.quizGrammar">Live-Quiz</span>
+    </a>
+  )}
+  {tandem && (
+    <a class="ra-btn" href={tandemPath(sheet)} target="_blank" rel="noopener">
+      <span aria-hidden="true">👥</span>
+      <span data-i18n="ga.partnerSheet">Partnerblatt</span>
+    </a>
+  )}
+</div>
+
+<script>
+  for (const btn of document.querySelectorAll<HTMLButtonElement>("[data-ref-print]")) {
+    btn.addEventListener("click", () => {
+      const folded = [...document.querySelectorAll<HTMLElement>(".vb-regel-body[hidden]")];
+      folded.forEach((b) => (b.hidden = false));
+      addEventListener("afterprint", () => folded.forEach((b) => (b.hidden = true)), { once: true });
+      print();
+    });
+  }
+</script>
+
+<style>
+  .ra-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px; }
+  .ra-btn {
+    display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 12px;
+    border: 1px solid var(--border-strong, #ccc); border-radius: 999px; background: var(--surface-card, #fff);
+    color: var(--ink); font: inherit; font-size: .8125rem; font-weight: 600; text-decoration: none; cursor: pointer;
+  }
+  .ra-btn:hover { border-color: var(--brand-blue); color: var(--brand-blue-dark); }
+  .ra-btn:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+  /* ShareButton is a bare round icon elsewhere; in this row it wears the same pill. */
+  .ra-actions :global(.share-btn) {
+    --share-size: 34px;
+    border: 1px solid var(--border-strong, #ccc); background: var(--surface-card, #fff);
+    color: var(--ink); font-size: .8125rem; font-weight: 600;
+  }
+  .ra-actions :global(.share-btn:hover) { border-color: var(--brand-blue); color: var(--brand-blue-dark); }
+  @media print { .ra-actions { display: none !important; } }
+</style>

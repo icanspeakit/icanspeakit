@@ -1,0 +1,1111 @@
+{
+  "_hinweis": "Content for /syllabus (src/pages/kursinhalte.astro, src/pages/kursinhalte/[level].astro, src/components/KursProgression.astro) and the lesson-plan generator (src/lib/stundenplan.js, which links each grammar line to a topic page by the English patterns in GRAMMAR_RULES). Everything here is our own, written from the CEFR can-do descriptors. Never copy from coursebooks: no unit titles, no tables of contents, no texts. `lehrwerke` would name coursebook series only (\"goes with\"), without a level after the name; the lists are empty for the English course until Edgar decides whether to name any (scripts/check-lehrwerk-leak.mjs fails the build on series + level). To add a level: insert an object in `niveaus` (order = order on the page and in the timeline); the id becomes the URL (/syllabus/<id>). `pruefung` only from B1 (Cambridge English, Trinity ISE, IELTS; see docs/content-plan.md §2). `selbstcheck`: exactly 5 sentences describing what a learner can do BEFORE this level.",
+  "probestunde": {
+    "href": "",
+    "_hinweis": "Empty = an email to the contact address in src/lib/legal.js (there is no booking page yet). Once there is one, put its path here, e.g. \"/probestunde\". {niveau} is replaced by the level."
+  },
+  "lehrwerke": {
+    "grundstufe": [],
+    "oberstufe": []
+  },
+  "niveaus": [
+    {
+      "id": "a1-1",
+      "label": "A1.1",
+      "titel": "First steps",
+      "ziel": "You talk about yourself, your family and your day – in simple sentences.",
+      "dauer": "about 8 weeks",
+      "lehrwerke": "grundstufe",
+      "bloecke": [
+        {
+          "thema": "Hello! Who are you?",
+          "kannZiele": [
+            "You can introduce yourself: name, country, languages.",
+            "You can ask other people their name and where they are from.",
+            "You can spell your name."
+          ],
+          "grammatik": [
+            "Subject pronouns (I, you, he, she …)",
+            "be: am, is, are",
+            "Wh- questions: what, where, who",
+            "Word order: subject + verb + object"
+          ],
+          "wortschatz": ["Greetings", "Countries", "Languages", "The alphabet"]
+        },
+        {
+          "thema": "Numbers & contact details",
+          "kannZiele": [
+            "You can say your phone number, address and age.",
+            "You can fill in a simple form."
+          ],
+          "grammatik": [
+            "Numbers up to 1,000",
+            "Yes/no questions with be (Are you …? Is it …?)",
+            "a / an"
+          ],
+          "wortschatz": ["Numbers", "Address", "Email", "Forms"]
+        },
+        {
+          "thema": "Family & friends",
+          "kannZiele": [
+            "You can introduce your family.",
+            "You can say who belongs to you and how old they are."
+          ],
+          "grammatik": [
+            "Possessive adjectives: my, your, his, her",
+            "Possessive 's (Amira's brother)",
+            "Plural nouns (sisters, children)"
+          ],
+          "wortschatz": ["Family", "Married, single …", "Describing people"]
+        },
+        {
+          "thema": "Home",
+          "kannZiele": [
+            "You can describe your flat and your furniture.",
+            "You can say what you like and what you don't like."
+          ],
+          "grammatik": [
+            "Articles: a, an, the",
+            "There is / there are",
+            "Adjectives after be (The kitchen is small.)",
+            "Prepositions of place: in, on, under, next to"
+          ],
+          "wortschatz": ["Rooms", "Furniture", "Colours", "big / small / light"]
+        },
+        {
+          "thema": "Food & shopping",
+          "kannZiele": [
+            "You can ask for products and prices in a shop.",
+            "You can say what you like eating and drinking.",
+            "You can write a shopping list."
+          ],
+          "grammatik": [
+            "Countable and uncountable nouns: some, any",
+            "Polite requests: I'd like …",
+            "this, that, these, those",
+            "How much / how many"
+          ],
+          "wortschatz": ["Food", "Drinks", "Containers (a bottle of, a packet of)", "Prices"]
+        },
+        {
+          "thema": "My day",
+          "kannZiele": [
+            "You can describe your daily routine with times.",
+            "You can say how often you do something."
+          ],
+          "grammatik": [
+            "Present simple: I work, she works",
+            "Adverbs of frequency: always, usually, never",
+            "Prepositions of time: at, on, in",
+            "Telling the time"
+          ],
+          "wortschatz": ["Daily routine", "Times of the day", "Days of the week"]
+        },
+        {
+          "thema": "Free time & hobbies",
+          "kannZiele": [
+            "You can talk about your hobbies.",
+            "You can say what you can and can't do.",
+            "You can ask others what they do in their free time."
+          ],
+          "grammatik": [
+            "Present simple: questions and negatives (Do you …? I don't …)",
+            "like / love / hate + -ing",
+            "can for ability (I can swim.)",
+            "and, but, or, so"
+          ],
+          "wortschatz": ["Hobbies", "Sport", "Music", "Weekend"]
+        }
+      ],
+      "selbstcheck": [
+        "I can read and write the letters of the Latin alphabet.",
+        "I know a few words in English (hello, thank you, yes, no).",
+        "I can say my name in English.",
+        "I know the numbers from 1 to 10 in English.",
+        "I have some time each week to practise at home."
+      ],
+      "selbstcheckNiedrig": "No problem: A1.1 is the beginning, you don't need to know anything yet. In the trial lesson we look together at the best way for you to start."
+    },
+    {
+      "id": "a1-2",
+      "label": "A1.2",
+      "titel": "Everyday English",
+      "ziel": "You get by in everyday life: in town, at the doctor's, in shops – and you say what you did.",
+      "dauer": "about 8 weeks",
+      "lehrwerke": "grundstufe",
+      "bloecke": [
+        {
+          "thema": "Getting around town",
+          "kannZiele": [
+            "You can ask the way and understand simple directions.",
+            "You can buy a ticket for the bus or the train."
+          ],
+          "grammatik": [
+            "Imperatives: Turn left. Don't cross here.",
+            "Prepositions of place: next to, opposite, between",
+            "Wh- questions: How do I get to …?"
+          ],
+          "wortschatz": ["Places in town", "Directions", "Transport", "Tickets"]
+        },
+        {
+          "thema": "Health & the body",
+          "kannZiele": [
+            "You can say what hurts at the doctor's.",
+            "You can understand simple advice and instructions."
+          ],
+          "grammatik": [
+            "must and have to",
+            "should for advice",
+            "Object pronouns: me, him, her, us, them"
+          ],
+          "wortschatz": ["The body", "Illnesses", "At the doctor's", "The chemist's"]
+        },
+        {
+          "thema": "What did you do?",
+          "kannZiele": [
+            "You can say what you did at the weekend.",
+            "You can ask others about their last holiday."
+          ],
+          "grammatik": [
+            "Past of be: was, were",
+            "Past simple: regular verbs (worked, played)",
+            "Past simple: irregular verbs (went, saw, had)"
+          ],
+          "wortschatz": ["Weekend activities", "Time words: yesterday, last week, ago"]
+        },
+        {
+          "thema": "Work & jobs",
+          "kannZiele": [
+            "You can say what job you do and where you work.",
+            "You can say what you are doing at the moment."
+          ],
+          "grammatik": [
+            "Present continuous (I'm working at the moment.)",
+            "Present simple or present continuous",
+            "a / an with jobs (She's a nurse.)"
+          ],
+          "wortschatz": ["Jobs", "Workplaces", "Working hours"]
+        },
+        {
+          "thema": "Clothes & shopping",
+          "kannZiele": [
+            "You can ask for clothes in a shop: size, colour, price.",
+            "You can compare two things and say which you prefer."
+          ],
+          "grammatik": [
+            "Comparatives: bigger, more expensive",
+            "Superlatives: the biggest, the best",
+            "Object pronouns: it, them (Can I try it on?)",
+            "this / that / these / those"
+          ],
+          "wortschatz": ["Clothes", "Colours", "Sizes", "In the shop"]
+        },
+        {
+          "thema": "Celebrations & dates",
+          "kannZiele": [
+            "You can say and understand dates.",
+            "You can invite someone and accept or say no politely."
+          ],
+          "grammatik": [
+            "Ordinal numbers and dates (the third of May)",
+            "Prepositions of time: in, on, at",
+            "be going to for plans"
+          ],
+          "wortschatz": ["Months", "Celebrations", "Invitations"]
+        },
+        {
+          "thema": "Services & offices",
+          "kannZiele": [
+            "You can ask for information at a counter.",
+            "You can make a simple request politely."
+          ],
+          "grammatik": [
+            "Polite requests: Could you …? Would you mind …?",
+            "Short answers: Yes, I do. No, I can't."
+          ],
+          "wortschatz": ["Bank", "Post office", "Appointments", "Opening times"]
+        }
+      ],
+      "selbstcheck": [
+        "I can introduce myself and ask others their name and where they are from.",
+        "I can understand numbers, prices and the time.",
+        "I can talk about my family.",
+        "I can ask for things in a shop.",
+        "I can describe my day with times."
+      ]
+    },
+    {
+      "id": "a2-1",
+      "label": "A2.1",
+      "titel": "Telling more",
+      "ziel": "You talk about the past, give reasons for your opinion and get by well when you travel.",
+      "dauer": "about 8 weeks",
+      "lehrwerke": "grundstufe",
+      "bloecke": [
+        {
+          "thema": "Childhood & memories",
+          "kannZiele": [
+            "You can talk about your childhood.",
+            "You can say what you could and couldn't do as a child."
+          ],
+          "grammatik": [
+            "Past simple: questions and negatives (Did you …? I didn't …)",
+            "used to for past habits",
+            "could / couldn't for past ability"
+          ],
+          "wortschatz": ["School", "Childhood games", "Family memories"]
+        },
+        {
+          "thema": "Home & neighbours",
+          "kannZiele": [
+            "You can describe where things are in your home.",
+            "You can talk to a neighbour about a small problem."
+          ],
+          "grammatik": [
+            "Prepositions of place and movement (into, out of, through)",
+            "some, any, no, somebody, nothing",
+            "Reflexive pronouns: myself, yourself"
+          ],
+          "wortschatz": ["Furniture", "Housework", "Neighbours"]
+        },
+        {
+          "thema": "Work & training",
+          "kannZiele": [
+            "You can give reasons: why you do a job, why you want to learn something.",
+            "You can talk about your duties at work."
+          ],
+          "grammatik": [
+            "because, so and that-clauses",
+            "Phrasal verbs: the basics (fill in, look for)",
+            "have to / don't have to"
+          ],
+          "wortschatz": ["Work", "Training", "Duties"]
+        },
+        {
+          "thema": "Free time & interests",
+          "kannZiele": [
+            "You can talk about your interests and ask about other people's.",
+            "You can make plans for the weekend with a friend."
+          ],
+          "grammatik": [
+            "Verbs + prepositions (listen to, wait for)",
+            "Prepositions at the end (What are you interested in?)",
+            "-ing or to after verbs (enjoy cooking, want to learn)"
+          ],
+          "wortschatz": ["Interests", "Clubs", "Plans"]
+        },
+        {
+          "thema": "Healthy living",
+          "kannZiele": [
+            "You can compare different ways of living.",
+            "You can give simple tips about health."
+          ],
+          "grammatik": [
+            "Comparatives and superlatives",
+            "as … as / not as … as",
+            "Adverbs of manner: quickly, well",
+            "Zero and first conditional (If you …, you'll …)"
+          ],
+          "wortschatz": ["Food and health", "Sport", "Sleep"]
+        },
+        {
+          "thema": "Media & communication",
+          "kannZiele": [
+            "You can say what you have already done and what you have never done.",
+            "You can ask for information politely."
+          ],
+          "grammatik": [
+            "Present perfect: ever, never, just, already",
+            "Indirect questions: Can you tell me where …?",
+            "much, many, a lot of, a few, a little"
+          ],
+          "wortschatz": ["Phone and internet", "Messages", "Apps"]
+        },
+        {
+          "thema": "Travel & holidays",
+          "kannZiele": [
+            "You can book a room and ask about a trip.",
+            "You can talk about your holiday plans."
+          ],
+          "grammatik": [
+            "Future: going to and will",
+            "Present continuous for arrangements",
+            "Two objects: give me the key / give it to me"
+          ],
+          "wortschatz": ["Travel", "Hotel", "Weather"]
+        }
+      ],
+      "selbstcheck": [
+        "I can say what I did at the weekend.",
+        "I can ask the way and understand the answer.",
+        "I can tell a doctor what hurts.",
+        "I can make or cancel an appointment.",
+        "I can say in a shop what I like and what fits me."
+      ]
+    },
+    {
+      "id": "a2-2",
+      "label": "A2.2",
+      "titel": "Confident in everyday life",
+      "ziel": "You describe people and things in more detail, give advice and deal with offices and work.",
+      "dauer": "about 8 weeks",
+      "lehrwerke": "grundstufe",
+      "bloecke": [
+        {
+          "thema": "Celebrations & traditions",
+          "kannZiele": [
+            "You can describe a celebration in your country.",
+            "You can say what happened before and after something."
+          ],
+          "grammatik": [
+            "when or if",
+            "Time clauses: when, before, after",
+            "Past simple of common irregular verbs"
+          ],
+          "wortschatz": ["Festivals", "Traditions", "Presents"]
+        },
+        {
+          "thema": "People & relationships",
+          "kannZiele": [
+            "You can describe people: what they look like and what they are like.",
+            "You can say who is who: the woman who lives next door."
+          ],
+          "grammatik": [
+            "Defining relative clauses: who, which, that",
+            "Order of adjectives (a lovely old house)",
+            "Reflexive pronouns and each other"
+          ],
+          "wortschatz": ["Appearance", "Character", "Relationships"]
+        },
+        {
+          "thema": "Advice & help",
+          "kannZiele": [
+            "You can give advice and react to advice.",
+            "You can say what you would do in someone else's place."
+          ],
+          "grammatik": [
+            "should and shouldn't",
+            "Second conditional: If I were you, I'd …",
+            "Polite requests: Could you …?"
+          ],
+          "wortschatz": ["Problems", "Advice", "Help"]
+        },
+        {
+          "thema": "Money & online shopping",
+          "kannZiele": [
+            "You can order something online and complain about a problem.",
+            "You can talk about prices and payment."
+          ],
+          "grammatik": [
+            "Two objects (Send me the link.)",
+            "the or no article (I like music / the music here)",
+            "Countable and uncountable nouns"
+          ],
+          "wortschatz": ["Money", "Online shopping", "Delivery"]
+        },
+        {
+          "thema": "Nature & the environment",
+          "kannZiele": [
+            "You can talk about the weather and nature.",
+            "You can say what people do to protect the environment."
+          ],
+          "grammatik": [
+            "The passive: present simple (Plastic is recycled.)",
+            "will for predictions",
+            "-ed and -ing adjectives (bored / boring)"
+          ],
+          "wortschatz": ["Weather", "Nature", "Recycling"]
+        },
+        {
+          "thema": "Applying for a job",
+          "kannZiele": [
+            "You can talk about your experience and how long you have done something.",
+            "You can write a short CV."
+          ],
+          "grammatik": [
+            "Present perfect: for and since",
+            "Present perfect or past simple",
+            "Contrast: although, but, however"
+          ],
+          "wortschatz": ["CV", "Job adverts", "Skills"]
+        },
+        {
+          "thema": "Offices & services",
+          "kannZiele": [
+            "You can ask questions politely at an office.",
+            "You can say what you have had repaired or done."
+          ],
+          "grammatik": [
+            "Indirect questions: Could you tell me if …?",
+            "have something done (I had my bike repaired.)",
+            "make, let, help + infinitive"
+          ],
+          "wortschatz": ["Forms", "Repairs", "Services"]
+        }
+      ],
+      "selbstcheck": [
+        "I can talk about my childhood.",
+        "I can give reasons with because and so.",
+        "I can ask politely: Could you …? I'd like …",
+        "I can compare things: bigger than, the best.",
+        "I can talk about my hobbies (I'm interested in …)."
+      ]
+    },
+    {
+      "id": "b1-1",
+      "label": "B1.1",
+      "titel": "Speaking independently",
+      "ziel": "You talk about experiences, plans and opinions – also about topics that are less familiar.",
+      "dauer": "about 10 weeks",
+      "lehrwerke": "grundstufe",
+      "bloecke": [
+        {
+          "thema": "Life stories",
+          "kannZiele": [
+            "You can tell a story from your life in the right order.",
+            "You can understand someone else's story in detail."
+          ],
+          "grammatik": [
+            "Narrative tenses: past continuous and past perfect",
+            "Time clauses: after, before, while, as soon as",
+            "used to and would"
+          ],
+          "wortschatz": ["Life events", "Feelings", "Time linkers"],
+          "pruefung": [
+            "Cambridge B1 Preliminary, Reading: texts about people's experiences",
+            "Trinity ISE I, Reading & Writing: long reading"
+          ]
+        },
+        {
+          "thema": "Work & careers",
+          "kannZiele": [
+            "You can describe your job and your plans for the future.",
+            "You can write a short email to a company."
+          ],
+          "grammatik": [
+            "Defining relative clauses with prepositions (the company I work for)",
+            "-ing or to-infinitive after verbs",
+            "Purpose: to, in order to, so that"
+          ],
+          "wortschatz": ["Careers", "Companies", "Tasks"],
+          "pruefung": [
+            "Cambridge B1 Preliminary, Writing Part 1: an email (about 100 words)",
+            "Trinity ISE I, Speaking: the topic task"
+          ]
+        },
+        {
+          "thema": "Media in daily life",
+          "kannZiele": [
+            "You can give your opinion about media and the internet.",
+            "You can talk about something you have been doing for a while."
+          ],
+          "grammatik": [
+            "Contrast: although, even though, despite, however",
+            "Present perfect continuous (I've been reading …)"
+          ],
+          "wortschatz": ["News", "Social media", "Opinions"],
+          "pruefung": [
+            "Cambridge B1 Preliminary, Writing Part 2: an article or a story (about 100 words)"
+          ]
+        },
+        {
+          "thema": "Health & wellbeing",
+          "kannZiele": [
+            "You can describe what happens at the doctor's or in hospital.",
+            "You can understand health information and announcements."
+          ],
+          "grammatik": [
+            "The passive: present and past simple",
+            "Gerunds as subjects (Swimming is good for you.)"
+          ],
+          "wortschatz": ["Health", "Hospital", "Healthy habits"],
+          "pruefung": [
+            "Cambridge B1 Preliminary, Listening: announcements and short talks",
+            "Trinity ISE I, Speaking & Listening: independent listening"
+          ]
+        },
+        {
+          "thema": "Home & living together",
+          "kannZiele": [
+            "You can say what you would change about where you live.",
+            "You can make suggestions and agree on rules with others."
+          ],
+          "grammatik": [
+            "Second conditional: If I had …, I would …",
+            "wish + past simple (I wish I had a garden.)",
+            "Suggestions: We could …, Why don't we …?"
+          ],
+          "wortschatz": ["Housing", "House rules", "Neighbourhood"],
+          "pruefung": [
+            "Trinity ISE I, Reading & Writing: reading into writing",
+            "Cambridge B1 Preliminary, Writing Part 1: an email"
+          ]
+        },
+        {
+          "thema": "Travel & transport",
+          "kannZiele": [
+            "You can plan a trip with others.",
+            "You can deal with problems on a journey."
+          ],
+          "grammatik": [
+            "Future forms: will, going to, present continuous",
+            "for, since, during, until, by"
+          ],
+          "wortschatz": ["Transport", "Delays", "Bookings"],
+          "pruefung": [
+            "Cambridge B1 Preliminary, Speaking Part 3: planning something together",
+            "Trinity ISE I, Speaking: the conversation task"
+          ]
+        },
+        {
+          "thema": "Friends & family",
+          "kannZiele": [
+            "You can talk about friendship and family life.",
+            "You can describe a problem and ask for advice."
+          ],
+          "grammatik": [
+            "Verbs + prepositions (depend on, look after)",
+            "make or do",
+            "'s or of (my sister's car, the end of the film)"
+          ],
+          "wortschatz": ["Friendship", "Family life", "Arguments"],
+          "pruefung": [
+            "Cambridge B1 Preliminary, Speaking Part 4: a discussion"
+          ]
+        }
+      ],
+      "selbstcheck": [
+        "I can talk about past events with the past simple and the present perfect.",
+        "I can give advice: You should … If I were you, I'd …",
+        "I can describe people and things with relative clauses (the man who …).",
+        "I can write a simple email to a company.",
+        "I can say when something happened with when, before and after."
+      ]
+    },
+    {
+      "id": "b1-2",
+      "label": "B1.2",
+      "titel": "Ready for the B1 exam",
+      "ziel": "You discuss, describe processes and write clear texts – and you are ready for a B1 exam.",
+      "dauer": "about 10 weeks",
+      "lehrwerke": "grundstufe",
+      "bloecke": [
+        {
+          "thema": "Environment & sustainability",
+          "kannZiele": [
+            "You can describe how something is made or done.",
+            "You can report what other people said."
+          ],
+          "grammatik": [
+            "The passive with modals (It must be repaired.)",
+            "Zero and first conditional",
+            "Reported speech: statements (She said that …)"
+          ],
+          "wortschatz": ["Environment", "Energy", "Waste"],
+          "pruefung": [
+            "Cambridge B1 Preliminary, Speaking Part 2: describing a photo",
+            "Trinity ISE I, Speaking: the topic task"
+          ]
+        },
+        {
+          "thema": "Learning & training",
+          "kannZiele": [
+            "You can talk about your learning and what you would do differently.",
+            "You can compare two options."
+          ],
+          "grammatik": [
+            "Third conditional (introduction): If I had studied …",
+            "Paired conjunctions: both … and, either … or, neither … nor"
+          ],
+          "wortschatz": ["Courses", "Exams", "Skills"],
+          "pruefung": [
+            "Cambridge B1 Preliminary, Reading: longer texts",
+            "Trinity ISE I, Reading & Writing: multi-text reading"
+          ]
+        },
+        {
+          "thema": "Society & community",
+          "kannZiele": [
+            "You can report questions and requests.",
+            "You can talk about your town and how people live together."
+          ],
+          "grammatik": [
+            "Reported speech: questions (He asked if …)",
+            "Relative clauses: whose, where"
+          ],
+          "wortschatz": ["Community", "Volunteering", "Local services"],
+          "pruefung": [
+            "Cambridge B1 Preliminary, Listening: interviews and discussions"
+          ]
+        },
+        {
+          "thema": "Shopping & advertising",
+          "kannZiele": [
+            "You can understand adverts and compare offers.",
+            "You can describe how things make you feel."
+          ],
+          "grammatik": [
+            "Comparatives: the more …, the better",
+            "-ed and -ing adjectives",
+            "Noun suffixes: -tion, -ment, -ness"
+          ],
+          "wortschatz": ["Advertising", "Consumers", "Shops"],
+          "pruefung": [
+            "Cambridge B1 Preliminary, Reading: matching people to texts"
+          ]
+        },
+        {
+          "thema": "The changing world of work",
+          "kannZiele": [
+            "You can talk about changes at work and guess what will happen.",
+            "You can write a clear formal email."
+          ],
+          "grammatik": [
+            "Time clauses: as soon as, until, by the time",
+            "Modals of deduction: must, might, can't"
+          ],
+          "wortschatz": ["Technology at work", "Working from home", "Contracts"],
+          "pruefung": [
+            "Cambridge B1 Preliminary, Writing Part 1: an email",
+            "Trinity ISE I, Reading & Writing: extended writing"
+          ]
+        },
+        {
+          "thema": "Culture & free time",
+          "kannZiele": [
+            "You can recommend a film, a book or an event.",
+            "You can talk about services you use."
+          ],
+          "grammatik": [
+            "Gerunds after prepositions (interested in learning)",
+            "have something done",
+            "Confusing verbs: say / tell, borrow / lend"
+          ],
+          "wortschatz": ["Films and books", "Events", "Reviews"],
+          "pruefung": [
+            "Cambridge B1 Preliminary, Reading: opinions on a topic"
+          ]
+        },
+        {
+          "thema": "B1 exam training",
+          "kannZiele": [
+            "You know every part of the exam and how long you have for it.",
+            "You can check your own texts for typical mistakes."
+          ],
+          "grammatik": [
+            "Review: linkers and time clauses",
+            "Review: the passive and conditionals"
+          ],
+          "wortschatz": ["Exam instructions", "Useful phrases for speaking"],
+          "pruefung": [
+            "Cambridge B1 Preliminary: all papers",
+            "Trinity ISE I: both modules"
+          ]
+        }
+      ],
+      "selbstcheck": [
+        "I can tell a story in the right order (after, before, while).",
+        "I can give my opinion and support it with although and however.",
+        "I can describe simple processes in the passive.",
+        "I can write a complaint or a formal email.",
+        "I can plan a meeting or a trip with other people."
+      ]
+    },
+    {
+      "id": "b2-1",
+      "label": "B2.1",
+      "titel": "Complex topics",
+      "ziel": "You understand longer texts, argue convincingly and write in a formal style – at work and in study.",
+      "dauer": "about 10 weeks",
+      "lehrwerke": "oberstufe",
+      "bloecke": [
+        {
+          "thema": "Work & careers",
+          "kannZiele": [
+            "You can write a formal letter or email about a job.",
+            "You can compare jobs and working conditions."
+          ],
+          "grammatik": [
+            "Nominalisation: decide – decision",
+            "Formal linkers: whereas, while, given that"
+          ],
+          "wortschatz": ["Applications", "Working conditions", "Career paths"],
+          "pruefung": [
+            "Cambridge B2 First, Writing Part 2: a formal email or letter",
+            "Trinity ISE II, Reading & Writing: extended writing"
+          ]
+        },
+        {
+          "thema": "Media & society",
+          "kannZiele": [
+            "You can understand opinion pieces and comments.",
+            "You can report what is said or believed without giving your own view."
+          ],
+          "grammatik": [
+            "It is said that … (distancing, introduction)",
+            "The passive: all tenses"
+          ],
+          "wortschatz": ["Journalism", "Public opinion", "Fake news"],
+          "pruefung": [
+            "Cambridge B2 First, Reading: opinion texts",
+            "IELTS Academic, Reading"
+          ]
+        },
+        {
+          "thema": "Cities & housing",
+          "kannZiele": [
+            "You can give a short talk about a topic.",
+            "You can add extra information about people and places."
+          ],
+          "grammatik": [
+            "Non-defining relative clauses (My flat, which is small, …)",
+            "Participle clauses (introduction): people living in cities"
+          ],
+          "wortschatz": ["City life", "Rent", "Transport"],
+          "pruefung": [
+            "Cambridge B2 First, Speaking Part 2: comparing photos",
+            "Trinity ISE II, Speaking: the topic task"
+          ]
+        },
+        {
+          "thema": "Health & mind",
+          "kannZiele": [
+            "You can understand an interview about health.",
+            "You can describe causes and results."
+          ],
+          "grammatik": [
+            "so … that, such … that, too, enough",
+            "Collocations: make a decision, take a risk"
+          ],
+          "wortschatz": ["Stress", "Mental health", "Lifestyle"],
+          "pruefung": [
+            "Cambridge B2 First, Listening: interviews",
+            "IELTS, Listening"
+          ]
+        },
+        {
+          "thema": "Education & learning",
+          "kannZiele": [
+            "You can talk about regrets and different choices in the past.",
+            "You can write an essay with arguments for and against."
+          ],
+          "grammatik": [
+            "Third conditional and wish (I wish I had …)",
+            "Modal perfects: should have, could have"
+          ],
+          "wortschatz": ["School systems", "University", "Lifelong learning"],
+          "pruefung": [
+            "Cambridge B2 First, Writing Part 1: an essay (140–190 words)"
+          ]
+        },
+        {
+          "thema": "Business & consumers",
+          "kannZiele": [
+            "You can understand factual texts about business.",
+            "You can describe a chart."
+          ],
+          "grammatik": [
+            "Formal prepositions: due to, owing to, in view of",
+            "Adjectives + prepositions (dependent on, satisfied with)"
+          ],
+          "wortschatz": ["Economy", "Consumers", "Trends"],
+          "pruefung": [
+            "Cambridge B2 First, Reading and Use of English: Parts 1–4",
+            "IELTS Academic, Writing Task 1: describing a chart"
+          ]
+        },
+        {
+          "thema": "Communication & conflict",
+          "kannZiele": [
+            "You can take part in a discussion and keep it going.",
+            "You can disagree politely and find a compromise."
+          ],
+          "grammatik": [
+            "Discourse markers: actually, anyway, well",
+            "Focus adverbs: only, even, just"
+          ],
+          "wortschatz": ["Conflict", "Negotiation", "Feelings"],
+          "pruefung": [
+            "Cambridge B2 First, Speaking Part 3: the collaborative task",
+            "Trinity ISE II, Speaking: the collaborative task"
+          ]
+        }
+      ],
+      "selbstcheck": [
+        "I have finished B1 or feel confident at B1.",
+        "I can describe processes in the passive, also with modal verbs.",
+        "I can use paired conjunctions (both … and, neither … nor).",
+        "I can give a talk on a topic for 3–4 minutes.",
+        "I understand the main points of the news on the radio."
+      ]
+    },
+    {
+      "id": "b2-2",
+      "label": "B2.2",
+      "titel": "Arguing convincingly",
+      "ziel": "You write and speak precisely, also about abstract topics – and you are ready for a B2 exam.",
+      "dauer": "about 10 weeks",
+      "lehrwerke": "oberstufe",
+      "bloecke": [
+        {
+          "thema": "The future & the environment",
+          "kannZiele": [
+            "You can talk about what will have happened by a certain time.",
+            "You can make careful guesses about the future."
+          ],
+          "grammatik": [
+            "Future continuous and future perfect (By 2050 we will have …)",
+            "Modals of deduction: might, could, must, can't"
+          ],
+          "wortschatz": ["Climate", "Technology", "Predictions"],
+          "pruefung": [
+            "Cambridge B2 First, Speaking Part 4: discussion",
+            "Trinity ISE II, Speaking: the conversation task"
+          ]
+        },
+        {
+          "thema": "Science & technology",
+          "kannZiele": [
+            "You can understand factual texts about science.",
+            "You can explain how something works."
+          ],
+          "grammatik": [
+            "The passive with modals and it is said that",
+            "Nominalisation in formal writing"
+          ],
+          "wortschatz": ["Research", "Inventions", "The internet"],
+          "pruefung": [
+            "Cambridge B2 First, Reading: factual texts",
+            "IELTS Academic, Reading"
+          ]
+        },
+        {
+          "thema": "Politics & taking part",
+          "kannZiele": [
+            "You can understand a talk about a public issue.",
+            "You can report what people said, with the right reporting verb."
+          ],
+          "grammatik": [
+            "Reported speech: reporting verbs (deny, suggest, admit)",
+            "Negative words: nobody, nothing, never"
+          ],
+          "wortschatz": ["Elections", "Campaigns", "Rights"],
+          "pruefung": [
+            "Cambridge B2 First, Listening: a talk"
+          ]
+        },
+        {
+          "thema": "Culture & identity",
+          "kannZiele": [
+            "You can give a presentation about your culture.",
+            "You can write longer sentences in a natural way."
+          ],
+          "grammatik": [
+            "Participle clauses",
+            "-ever words: whatever, wherever"
+          ],
+          "wortschatz": ["Identity", "Traditions", "Migration"],
+          "pruefung": [
+            "Trinity ISE II, Speaking: the topic task"
+          ]
+        },
+        {
+          "thema": "Working internationally",
+          "kannZiele": [
+            "You can write a report or a review.",
+            "You can talk about different work cultures."
+          ],
+          "grammatik": [
+            "Unreal past: as if, it's time, would rather",
+            "Collocations with make, do, take"
+          ],
+          "wortschatz": ["International teams", "Meetings", "Business travel"],
+          "pruefung": [
+            "Cambridge B2 First, Writing Part 2: a report or a review",
+            "IELTS, Writing Task 2: an essay (at least 250 words)"
+          ]
+        },
+        {
+          "thema": "Rights & everyday life",
+          "kannZiele": [
+            "You can understand rules and regulations.",
+            "You can explain a contrast clearly."
+          ],
+          "grammatik": [
+            "Contrast: although, even though, despite, in spite of",
+            "Paired conjunctions: not only … but also"
+          ],
+          "wortschatz": ["Contracts", "Consumer rights", "Rules"],
+          "pruefung": [
+            "Cambridge B2 First, Reading and Use of English: key word transformations"
+          ]
+        },
+        {
+          "thema": "B2 exam training",
+          "kannZiele": [
+            "You know every part of the exam and how long you have for it.",
+            "You can plan and check a text under time pressure."
+          ],
+          "grammatik": [
+            "Review: the passive and nominalisation",
+            "Review: linkers and reported speech"
+          ],
+          "wortschatz": ["Exam instructions", "Useful phrases for discussions"],
+          "pruefung": [
+            "Cambridge B2 First: all papers",
+            "Trinity ISE II: both modules"
+          ]
+        }
+      ],
+      "selbstcheck": [
+        "I can write formal emails without help.",
+        "I understand participle clauses (people living in cities).",
+        "I can turn verbs into nouns (decide – decision).",
+        "I can disagree in a discussion and suggest a compromise.",
+        "I understand newspaper articles on familiar topics."
+      ]
+    },
+    {
+      "id": "c1",
+      "label": "C1",
+      "titel": "English for study and work",
+      "ziel": "You understand demanding texts, speak spontaneously and fluently, and write well-structured texts.",
+      "dauer": "about 14 weeks",
+      "lehrwerke": "oberstufe",
+      "bloecke": [
+        {
+          "thema": "Science & research",
+          "kannZiele": [
+            "You can understand academic texts and summarise them.",
+            "You can report claims with the right distance."
+          ],
+          "grammatik": [
+            "Distancing: is said to, is believed to have",
+            "Nominalisation in academic texts"
+          ],
+          "wortschatz": ["Research", "Data", "Academic phrases"],
+          "pruefung": [
+            "Cambridge C1 Advanced, Reading and Use of English",
+            "IELTS Academic, Reading"
+          ]
+        },
+        {
+          "thema": "Work & business",
+          "kannZiele": [
+            "You can write a report or a proposal.",
+            "You can use formal phrases at work."
+          ],
+          "grammatik": [
+            "Participle clauses (Having finished the report, …)",
+            "Formal collocations: take into account, come into force"
+          ],
+          "wortschatz": ["Management", "Finance", "Projects"],
+          "pruefung": [
+            "Cambridge C1 Advanced, Writing Part 2: a report or a proposal"
+          ]
+        },
+        {
+          "thema": "Society & values",
+          "kannZiele": [
+            "You can argue about abstract topics and answer counter-arguments.",
+            "You can write a well-structured essay."
+          ],
+          "grammatik": [
+            "Linkers for arguments: on the one hand … on the other, whereas, nevertheless",
+            "Inversion: Not only …, Never have I …"
+          ],
+          "wortschatz": ["Values", "Equality", "Ethics"],
+          "pruefung": [
+            "Cambridge C1 Advanced, Writing Part 1: an essay (220–260 words)",
+            "IELTS, Writing Task 2"
+          ]
+        },
+        {
+          "thema": "Media & the public",
+          "kannZiele": [
+            "You can understand lectures and broadcasts on most topics.",
+            "You can emphasise what matters in what you say."
+          ],
+          "grammatik": [
+            "Reporting and distancing in texts (according to, allegedly)",
+            "Cleft sentences: What I need is …, It was … who …"
+          ],
+          "wortschatz": ["Media", "Public debate", "Persuasion"],
+          "pruefung": [
+            "Cambridge C1 Advanced, Listening",
+            "Trinity ISE III, Speaking & Listening: independent listening"
+          ]
+        },
+        {
+          "thema": "Language & communication",
+          "kannZiele": [
+            "You can work out the meaning of new words from their parts.",
+            "You can take part in a discussion naturally and smoothly."
+          ],
+          "grammatik": [
+            "Verb prefixes: over-, under-, out-, re-, mis-",
+            "Discourse markers and fixed phrases"
+          ],
+          "wortschatz": ["Word formation", "Idioms", "Register"],
+          "pruefung": [
+            "Cambridge C1 Advanced, Speaking Part 3: the collaborative task"
+          ]
+        },
+        {
+          "thema": "Environment & globalisation",
+          "kannZiele": [
+            "You can give a structured talk on a complex topic.",
+            "You can switch between a formal and a more spoken style."
+          ],
+          "grammatik": [
+            "Nominalisation ↔ verbal style",
+            "Formal prepositions: regardless of, in view of, with regard to"
+          ],
+          "wortschatz": ["Global trade", "Climate policy", "Resources"],
+          "pruefung": [
+            "Cambridge C1 Advanced, Speaking Part 2: the long turn",
+            "Trinity ISE III, Speaking: the topic task"
+          ]
+        },
+        {
+          "thema": "Art & culture",
+          "kannZiele": [
+            "You can write a review of a book, a film or an exhibition.",
+            "You can speculate about the past."
+          ],
+          "grammatik": [
+            "Modal perfects: must have, might have, needn't have",
+            "Cohesion: reference, substitution, ellipsis"
+          ],
+          "wortschatz": ["Art", "Literature", "Criticism"],
+          "pruefung": [
+            "Cambridge C1 Advanced, Writing Part 2: a review"
+          ]
+        },
+        {
+          "thema": "C1 exam training",
+          "kannZiele": [
+            "You know every part of the exam and how long you have for it.",
+            "You can plan, write and check long texts under time pressure."
+          ],
+          "grammatik": [
+            "Review: formal style and sentence structure",
+            "Review: distancing and linkers"
+          ],
+          "wortschatz": ["Exam instructions", "Phrases for presentations"],
+          "pruefung": [
+            "Cambridge C1 Advanced: all papers",
+            "Trinity ISE III: both modules"
+          ]
+        }
+      ],
+      "selbstcheck": [
+        "I have finished B2 or feel confident at B2.",
+        "I can report what other people said in reported speech.",
+        "I can argue about abstract topics and give counter-arguments.",
+        "I understand factual texts and talks on most topics.",
+        "I can switch between a formal and an informal style."
+      ]
+    }
+  ]
+}

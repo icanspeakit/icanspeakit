@@ -1,0 +1,113 @@
+/* Klassentest (/teachers/tests, /teachers/tests/result, /test). Built on the
+   Umfragen kit (umfrage.css: share card, beamer, chips, phone options) and the Klassen
+   heatmap (klassen.css .kld-*); only what those do not have is here. */
+
+/* ── Teacher: the drawn questions before the test is made ─────────────────────────────── */
+.kt-preview { border: 1px solid var(--border); border-radius: var(--radius-lg, 14px); padding: 12px 14px; background: var(--surface); }
+.kt-preview > summary { cursor: pointer; font-weight: var(--fw-semibold, 600); color: var(--ink); }
+.kt-preview[open] > summary { margin-bottom: 8px; }
+.kt-pv { margin: 10px 0 12px; padding-inline-start: 1.6em; display: grid; gap: 10px; }
+.kt-pv li { display: grid; gap: 2px; }
+.kt-pv-topic { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.kt-pv-q { color: var(--ink); }
+.kt-pv-a { font-size: var(--text-sm, .875rem); color: var(--success, #1a7f37); }
+.kt-pv-a small { color: var(--muted); }
+.kt-pv-h { font-size: 12px; color: var(--muted); font-style: italic; }
+.kt-pv-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; }
+.kt-pv .qb-link { font-size: 13px; min-height: 32px; }
+.kt-ed { gap: 8px !important; padding: 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-card); }
+.kt-ed textarea, .kt-ed input { width: 100%; box-sizing: border-box; }
+.kt-ed-right span { color: var(--success, #1a7f37); }
+.kt-ed-wrong span { color: var(--danger, #c62828); }
+
+/* ── Teacher: results ─────────────────────────────────────────────────────────────────── */
+.kt-h { margin: 8px 0 4px; font-size: 1.15rem; color: var(--ink); }
+.kt-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.kt-tile { display: grid; gap: 2px; padding: 14px; text-align: center; }
+.kt-tile strong { font-family: var(--font-display); font-size: clamp(1.4rem, 6vw, 2rem); line-height: 1.1; color: var(--brand-blue-dark, var(--ink)); font-variant-numeric: tabular-nums; }
+.kt-tile span { font-size: 12px; color: var(--muted); }
+.kt-table td small { color: inherit; opacity: .7; }
+.kt-tile--wide { grid-column: span 2; }
+.kt-levels { font-size: clamp(1.05rem, 4.5vw, 1.35rem); color: var(--ink); font-variant-numeric: tabular-nums; }
+.kt-levels b { font-family: var(--font-display); color: var(--brand-blue-dark, var(--ink)); }
+.kt-rule { grid-column: 1 / -1; margin: 0; font-size: 12px; }
+.kt-level-cell strong { font-family: var(--font-display); font-size: 1.05rem; }
+.kt-art .uf-block { cursor: pointer; }
+.kt-row-open > * { background: var(--blue-50, var(--surface)) !important; }
+
+.kt-detail { margin-top: 12px; display: grid; gap: 12px; }
+.kt-detail-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; }
+.kt-detail-head h3 { margin: 0; }
+.kt-detail-head small { font-weight: 400; color: var(--muted); }
+.kt-detail .lq-btn--quiet { justify-self: start; }
+
+.kt-qlist { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.kt-q { display: grid; gap: 6px; padding: 14px; }
+.kt-q-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.kt-q-text { color: var(--ink); line-height: 1.4; }
+.kt-q-pct { flex: none; padding: 2px 8px; border-radius: 6px; font-variant-numeric: tabular-nums; font-size: var(--text-sm, .875rem); font-weight: 600; }
+.kt-q-meta { margin: 0; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: var(--text-sm, .875rem); color: var(--muted); }
+.kt-q-topic { color: var(--muted); font-size: 12px; }
+
+/* One student's answers (teacher detail and the phone's own result). */
+.kt-qlist--student li {
+  display: grid; grid-template-columns: 1.6em 1fr; gap: 2px 8px; align-items: baseline;
+  padding: 8px 10px; border-radius: 10px; background: var(--surface);
+}
+.kt-qlist--student .kt-q-ans, .kt-qlist--student .kt-q-topic { grid-column: 2; font-size: var(--text-sm, .875rem); }
+.kt-qlist--student s { color: var(--danger, #c62828); }
+.kt-mark { font-weight: 700; text-align: center; }
+.kt-qlist--student .is-right .kt-mark { color: var(--success, #1a7f37); }
+.kt-qlist--student .is-wrong .kt-mark { color: var(--danger, #c62828); }
+
+/* ── Phone ────────────────────────────────────────────────────────────────────────────── */
+.kt-task { font-size: var(--text-sm, .875rem); color: var(--muted); }
+.kt-sentence { font-size: 1.45rem; }
+.kt-hint { font-size: var(--text-sm, .875rem); color: var(--muted); font-style: italic; }
+.kt-name-note { font-size: var(--text-sm, .875rem); }
+.kt-dots { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+.kt-dot {
+  width: 44px; height: 44px; border-radius: 50%; font: inherit; font-variant-numeric: tabular-nums;
+  border: 2px solid var(--border-strong, var(--border)); background: var(--surface-card); color: var(--ink); cursor: pointer;
+}
+.kt-dot.is-done { border-color: var(--brand-blue); background: var(--brand-blue); color: #fff; }
+.kt-dot:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+.kt-done { text-align: center; justify-items: center; }
+.kt-done .kt-qlist { width: 100%; text-align: start; }
+.kt-score { margin: 0; font-family: var(--font-display); font-size: clamp(2.6rem, 14vw, 3.6rem); font-weight: 700; line-height: 1; color: var(--brand-blue-dark, var(--ink)); font-variant-numeric: tabular-nums; }
+.kt-level { margin: 0; font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--ink); }
+/* Ausführliche Einstufung on the phone: the text or clip above its questions, the writing task. */
+.kt-media { display: grid; gap: 8px; }
+.kt-text { border: 1px solid var(--border); border-radius: var(--radius-lg, 14px); background: var(--surface-card); padding: 10px 14px; }
+.kt-text > summary { cursor: pointer; font-weight: 600; color: var(--ink); }
+.kt-text > div { max-height: 45vh; overflow-y: auto; margin-top: 8px; font-size: .95rem; line-height: 1.55; color: var(--ink); }
+.kt-text p { margin: 0 0 .7em; }
+.kt-audio { border: 1px solid var(--border); border-radius: var(--radius-lg, 14px); background: var(--surface-card); padding: 10px 14px; }
+.kt-audio p { margin: 0 0 8px; font-size: var(--text-sm, .875rem); color: var(--muted); }
+.kt-audio audio { width: 100%; }
+.kt-write-task { font-size: .95rem; line-height: 1.5; color: var(--ink); }
+.kt-write-task ul { margin: 6px 0 0; padding-inline-start: 1.2em; }
+.kt-source { margin: 8px 0; padding: 8px 12px; border-inline-start: 3px solid var(--border-strong, var(--border)); background: var(--surface); font-size: .9rem; }
+.kt-source p { margin: 0 0 .5em; }
+.kt-write { width: 100%; box-sizing: border-box; font: inherit; }
+.kt-words { margin: 0; font-size: 12px; }
+.kt-parts { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; width: 100%; max-width: 320px; }
+.kt-parts li { display: flex; justify-content: space-between; gap: 12px; padding: 6px 10px; border-radius: 8px; background: var(--surface); }
+.kt-qlist--student .is-text .kt-mark { color: var(--muted); }
+.kt-restart { font-size: 12px; color: var(--muted); }
+
+/* The teacher reads a written text and rates it. */
+.kt-write-rate { grid-template-columns: 1.6em 1fr !important; }
+.kt-rate-body { grid-column: 2; display: grid; gap: 10px; }
+.kt-written { white-space: pre-wrap; padding: 10px 12px; border-radius: 8px; background: var(--surface-card); border: 1px solid var(--border); line-height: 1.5; color: var(--ink); }
+.kt-rate-points { margin: 0; padding: 0; border: 0; display: grid; gap: 6px; }
+.kt-rate-points legend { font-weight: 600; font-size: var(--text-sm, .875rem); margin-bottom: 4px; }
+.kt-rate-points label { display: flex; gap: 8px; align-items: flex-start; font-size: var(--text-sm, .875rem); }
+.kt-model > summary { cursor: pointer; font-size: var(--text-sm, .875rem); color: var(--brand-blue); }
+.kt-model ul { margin: 8px 0; padding-inline-start: 1.2em; font-size: var(--text-sm, .875rem); }
+.kt-profile { margin: 0 0 4px; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: var(--text-sm, .875rem); color: var(--muted); }
+.kt-profile strong { color: var(--ink); }
+
+@media print {
+  .kt-res .uf-share, .kt-res .uf-tools, .kt-res [data-detail-delete] { display: none !important; }
+}

@@ -1,0 +1,38 @@
+---
+// An empty list in the teacher area ("Noch keine Klasse"): Bruno, one easy line and, in the
+// slot "action", the button that fixes it. BRUNO-LEHRKRAEFTE-STICKER-TIERED-PROMPT.md, Tier 2.
+//
+//   <MascotEmpty data-empty hidden text="Noch keine Klasse." textKey="kl.t.empty">
+//     <button slot="action" …>Klasse anlegen</button>
+//   </MascotEmpty>
+//
+// Other attributes (data-empty, hidden) land on the wrapper, so the page script that shows
+// and hides the empty line keeps working unchanged. Only the figure carries data-mascot-part:
+// with "Maskottchen: aus" the line and the button stay.
+import { mascotSvg } from "../../lib/mascots.js";
+
+interface Props {
+  text: string;
+  textKey?: string;
+  name?: "bruno" | "regi" | "hamsti" | "quaki";
+  [attr: string]: unknown;
+}
+const { text, textKey, name = "bruno", class: cls, ...rest } = Astro.props;
+// Teacher area only, so Bruno holds his clipboard.
+const svg = mascotSvg({ name, expr: "thinking", view: "three", size: 56, label: "", className: "me-fig", extra: name === "bruno" ? "klemmbrett" : undefined });
+---
+<div class:list={["mascot-empty", cls]} {...rest}>
+  <span class="me-fig-wrap" data-mascot-part aria-hidden="true"><Fragment set:html={svg} /></span>
+  <div class="me-body">
+    <p class="me-text" data-i18n={textKey}>{text}</p>
+    <slot name="action" />
+  </div>
+</div>
+
+<style is:global>
+  .mascot-empty { display: flex; align-items: center; gap: 14px; padding: 14px 4px; }
+  .mascot-empty[hidden] { display: none; }
+  .mascot-empty .me-fig-wrap { flex: none; }
+  .mascot-empty .me-body { display: grid; gap: 8px; justify-items: start; min-width: 0; }
+  .mascot-empty .me-text { margin: 0; color: var(--muted); }
+</style>
