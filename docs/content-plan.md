@@ -951,7 +951,7 @@ are handled by the `ui-*` items where they are rendered.
   ends up meaning a German gloss. **For `pronunciation`:** the tongue-twister dialect take now says
   "¡Hola!"; `aussprache.bridge.lead` gives English and German examples. **For `speaking`,
   `reading-writing`, `vocab-*`:** the `sprechen.*`, `schreiben.*`, `lesen.*` task keys and `ws.set.*`
-  are data translations and stay until those items run. **Merch:** links are gone from `/mascots`,
+  are data translations and stay until those items run. **For the exam items:** `src/lib/exam/names.js` and `registry.js` (theirs per §11) still name Cambridge, Trinity, IELTS and Life in the UK, which shows on `/trinity/[slug]`, in the `/progress` no-script list and in `/exam-plan`. **Nav:** the drawer item `nav.merch` also still lands on `/account`. **Merch:** links are gone from `/mascots`,
   `/tongue-twisters`, `/teachers`, `/start` because `/merch` lands on `/account`; the home footer and
   `/knowledge/picture-dictionary` still link there (`cleanup` or Edgar). `/mascots` no longer points
   to a mascot switch, because no page offers one until accounts exist. **Due dates:** the class hint
