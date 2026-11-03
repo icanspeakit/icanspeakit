@@ -1,6 +1,6 @@
 ---
 import ExamDisclaimer from "../../../components/ExamDisclaimer.astro";
-// DTZ Lesen mock test: the four "DTZ-Simulation, Aufgabe N" reading tasks from
+// Reading mock test (dtz slot, DELE A2 for nationality): the four numbered reading tasks from
 // src/data/lesen.json, run as one continuous self-scored test with a combined
 // results summary — see docs/exams-hub-tier3-v1.md for sourcing.
 // Deliberately excludes the "digitales-buero" entry in lesen.json (a separate practice
@@ -18,19 +18,19 @@ const tasks = taskIds.map((id) => lesen.groups.find((g) => g.id === id));
 const totalQuestions = tasks.reduce((sum, t) => sum + t.questions.length, 0);
 ---
 <Layout
-  title="Trinity ISE I reading – mock test with four tasks – icanspeak Spanish"
-  description="Free ISE I reading mock test: four tasks, and at the end you see your total score."
+  title="Reading mock test for DELE A2 – four tasks – icanspeak Spanish"
+  description="Free reading mock test for DELE A2 preparation: four tasks at level B1, and at the end you see your total score."
 >
   <SiteNav active="pruefungen" />
   <main class="practice-main">
     <div class="practice-hero">
-      <p class="eyebrow"><span data-i18n="dtzMock.exam">Trinity ISE I</span> · <span data-i18n="skill.lesen">Reading</span> · <span data-i18n="dtzMock.mock">Mock test</span></p>
+      <p class="eyebrow"><span data-i18n="dtzMock.exam">DELE A2</span> · <span data-i18n="skill.lesen">Reading</span> · <span data-i18n="dtzMock.mock">Mock test</span></p>
       <h1 data-i18n="dtzMock.title">Lesen-Simulation, Aufgabe 1–4</h1>
       <p data-i18n-html="dtzMock.hero" data-i18n-vars={JSON.stringify({ n: tasks.length, q: totalQuestions })}>
-        {tasks.length} Aufgaben, {totalQuestions} Fragen, Thema „Online-Unterricht und Integration“ (Niveau B1) —
-        aus echtem DTZ-Unterrichtsmaterial. Am Ende gibt es ein Gesamtergebnis.
-        Formular-, Schreib- und Sprechaufgaben sind hier nicht enthalten — die übst du separat unter
-        <a href="/reading-writing">Lesen &amp; Schreiben</a> und <a href="/speaking/set/a2-out-and-about">Sprechen</a>.
+        {tasks.length} tasks, {totalQuestions} questions at level B1, a step above DELE A2, written for this
+        site. At the end you get an overall result. Form, writing and speaking tasks are not included here –
+        practise them separately under <a href="/reading-writing">Reading &amp; Writing</a> and
+        <a href="/speaking/set/a2-out-and-about">Speaking</a>.
       </p>
     </div>
     <ExamDisclaimer />
@@ -47,7 +47,7 @@ const totalQuestions = tasks.reduce((sum, t) => sum + t.questions.length, 0);
     import { withBase } from "../../../lib/paths.js";
 
     // Chrome only (progress line, buttons, the summary table). The reading texts and
-    // questions stay German. A task already on screen keeps its language until the next
+    // questions come from the data. A task already on screen keeps its language until the next
     // one is painted — rebuilding it would throw away the answers given so far.
     await readyExamI18n();
 

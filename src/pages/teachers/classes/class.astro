@@ -26,12 +26,12 @@ const names: Record<string, string> = {
   ...Object.fromEntries(hoeren.texts.map((x: any) => [`h:${x.id}`, x.title])),
   ...Object.fromEntries(lesen.texts.map((x: any) => [`l:${x.id}`, x.title])),
   ...Object.fromEntries(saetze.map((s) => [`x:${s.exam}/${s.id}`, `${examLabel(s)} · ${s.title}`])),
-  "x:telc/sprachbausteine": "Use of English B2",
-  "x:dtz/uebungssatz-1": "B1 skills mock",
-  "x:dtz/mock-test": "B1 reading mock",
-  "x:start-deutsch-1": "A1 practice test",
-  "x:testdaf": "IELTS Academic",
-  "x:leben-in-deutschland": "Life in the UK",
+  "x:telc/sprachbausteine": "Uso de la lengua B2",
+  "x:dtz/uebungssatz-1": "DELE A2 mock",
+  "x:dtz/mock-test": "Reading mock test",
+  "x:start-deutsch-1": "DELE A1 practice test",
+  "x:testdaf": "SIELE",
+  "x:leben-in-deutschland": "CCSE",
   "sp:b1b2": "Speaking B1/B2",
 };
 ---
@@ -116,7 +116,7 @@ const names: Record<string, string> = {
             <label class="lq-field">
               <span data-i18n="kl.a.form.due">Fällig am</span>
               <input type="date" required data-task-due />
-              <small data-i18n="kl.a.form.dueHint">bis 23:59 Uhr deutscher Zeit</small>
+              <small data-i18n="kl.a.form.dueHint">until 23:59 Madrid time</small>
             </label>
             <label class="lq-field">
               <span data-i18n="kl.a.form.min">Mindestens richtig (optional)</span>

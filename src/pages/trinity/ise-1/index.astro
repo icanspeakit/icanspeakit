@@ -4,42 +4,43 @@ import ExamShell from "../../../components/ExamShell.astro";
 import ExamPractice from "../../../components/ExamPractice.astro";
 ---
 <Layout
-  title="Trinity ISE I: format, mock test and practice – icanspeak Spanish"
-  description="Trinity ISE I (B1): the level, the parts of the exam and free practice: a complete practice set and a reading mock test."
+  title="DELE A2 for nationality: mock test and practice – icanspeak Spanish"
+  description="DELE A2 on the path to Spanish nationality: what it is, how it is marked and free practice with our own mock and a reading test. General orientation, not legal advice."
 >
   <ExamShell
     bild="dtz"
-    header="Trinity ISE I"
-    title="Trinity ISE I (B1)"
+    header="DELE A2 for nationality"
+    title="DELE A2 for Spanish nationality"
     titleKey="dtz.title"
-    lead="Die Abschlussprüfung eines staatlich geförderten Integrationskurses — Ergebnis auf Niveau A2 oder B1."
+    lead="Most people who apply for Spanish nationality by residence must show Spanish at A2 or higher and pass the CCSE. Here you can read about DELE A2 and practise with our own mock."
     leadKey="dtz.lead"
-    badges={["A2 / B1"]}
-    practiceHeading="Für den DTZ üben"
+    badges={["A2"]}
+    practiceHeading="Practise for DELE A2"
     practiceHeadingKey="dtz.practiceHeading"
   >
     <Fragment slot="info">
       <section class="exam-section">
-        <h2 data-i18n="dtz.who.title">Für wen ist der DTZ?</h2>
+        <h2 data-i18n="dtz.who.title">Who is this for?</h2>
         <div class="exam-meta-row">
-          <span class="exam-meta-badge" data-i18n="dtz.who.badge.result">Ergebnis: A2 oder B1</span>
-          <span class="exam-meta-badge" data-i18n="dtz.who.badge.course">Ende des Integrationskurses</span>
+          <span class="exam-meta-badge" data-i18n="dtz.who.badge.result">Level A2</span>
+          <span class="exam-meta-badge" data-i18n="dtz.who.badge.course">For the nationality path</span>
         </div>
         <p data-i18n="dtz.who.text">
-          Der DTZ steht am Ende eines Integrationskurses und ist für viele Zuwanderer in Deutschland
-          relevant — unter anderem für den Nachweis von Deutschkenntnissen bei einem unbefristeten
-          Aufenthaltstitel. Je nach erreichter Punktzahl wird entweder das Sprachniveau A2 oder B1
-          bescheinigt.
+          DELE A2 is the Instituto Cervantes diploma at level A2. Most applicants for nationality by
+          residence need it, or a higher DELE, together with the CCSE. Some people are exempt from one
+          or both: nationals of Spanish-speaking countries, for example, usually don't need the DELE.
+          The rules can change, so check the official sources before you book. This is general
+          orientation, not legal advice.
         </p>
       </section>
 
       <section class="exam-section">
-        <h2 data-i18n="exam.skills.title">Geprüfte Fertigkeiten</h2>
+        <h2 data-i18n="exam.skills.title">Skills tested</h2>
         <div class="skill-grid">
           <div class="skill-card"><div class="skill-card-icon">📖</div><h4 data-i18n="skill.lesen">Lesen</h4><p data-i18n="skill.lesen.desc">Leseverstehen</p></div>
           <div class="skill-card"><div class="skill-card-icon">🎧</div><h4 data-i18n="skill.hoeren">Hören</h4><p data-i18n="skill.hoeren.desc">Hörverstehen</p></div>
-          <div class="skill-card"><div class="skill-card-icon">✍️</div><h4 data-i18n="skill.schreiben">Schreiben</h4><p data-i18n="dtz.skill.schreiben.desc">Zwei Schreibaufgaben</p></div>
-          <div class="skill-card"><div class="skill-card-icon">🗣️</div><h4 data-i18n="skill.sprechen">Sprechen</h4><p data-i18n="skill.sprechen.pairDesc">Mündliche Prüfung, meist paarweise</p></div>
+          <div class="skill-card"><div class="skill-card-icon">✍️</div><h4 data-i18n="skill.schreiben">Schreiben</h4><p data-i18n="dtz.skill.schreiben.desc">Written tasks</p></div>
+          <div class="skill-card"><div class="skill-card-icon">🗣️</div><h4 data-i18n="skill.sprechen">Sprechen</h4><p data-i18n="skill.sprechen.oralDesc">Spoken expression</p></div>
         </div>
       </section>
 
@@ -59,30 +60,29 @@ import ExamPractice from "../../../components/ExamPractice.astro";
           </table>
         </div>
         <p class="format-note" data-i18n-html="dtz.format.note">
-          Die Aufgabentypen oben stammen aus dem eigenen DTZ-Unterrichtsmaterial, das auch unsere
-          interaktive <a href="/reading-writing">Lesen &amp; Schreiben</a>- und
-          <a href="/speaking/set/a2-out-and-about">Sprechen</a>-Übung speist. Laut BAMF dauert die schriftliche
-          Prüfung 100 Minuten (Hören 25, Lesen 45, Schreiben 30), die mündliche rund 15 Minuten zu zweit.
-          Den ganzen Aufbau zeigt unser <a href="/trinity/ise-1/practice-set">DTZ-Modelltest</a>.
+          The task types above are those of our own mock, which shares its material with our interactive
+          <a href="/reading-writing">reading &amp; writing</a> and
+          <a href="/speaking/set/a2-out-and-about">speaking</a> exercises. The real DELE A2 has its own
+          parts and timings: check the current information from the Instituto Cervantes. Our
+          <a href="/trinity/ise-1/practice-set">practice set</a> puts the listening, reading and writing
+          tasks into one sitting.
         </p>
 
-        <h3 data-i18n="dtz.scoring.title">Wie der DTZ bewertet wird</h3>
+        <h3 data-i18n="dtz.scoring.title">How DELE A2 is marked</h3>
         <p data-i18n-html="dtz.scoring.text">
-          Es gibt keine einzelne „Bestehensgrenze“ in Prozent. Hören und Lesen werden <strong>zusammen</strong>
-          ausgewertet: 20 Höraufgaben und 25 Leseaufgaben ergeben 45 Punkte. Ab <strong>33 Punkten</strong>
-          wird das Niveau B1 bescheinigt, ab <strong>20 Punkten</strong> A2. Schreiben und Sprechen werden
-          getrennt davon bewertet — auch dort wird jeweils A2 oder B1 ausgewiesen. Deshalb kann im Zeugnis
-          z. B. „Hören/Lesen B1, Schreiben A2“ stehen.
+          The final result of a DELE is pass or fail (<em>apto</em> or <em>no apto</em>). The parts are
+          scored in groups, and the Instituto Cervantes publishes the current rule. In our mock the point
+          bands are <strong>our own guide</strong>, not a DELE score.
         </p>
       </section>
     </Fragment>
 
     <div class="mock-cta mock-cta--lead">
-      <h2 data-i18n="dtz.set.title">Kompletter Übungssatz im Prüfungsformat</h2>
+      <h2 data-i18n="dtz.set.title">Our DELE A2 mock: listening, reading and writing</h2>
       <p data-i18n="dtz.set.text">
-        Neun Prüfungsteile, 45 bewertete Aufgaben — Hören Teil 1–4 und Lesen Teil 1–5, dazu die
-        Schreibaufgabe. Am Ende steht die Auswertung nach den offiziellen Punktegrenzen, aufgeschlüsselt
-        nach Prüfungsteil. Der Fortschritt bleibt im Browser gespeichert.
+        Nine parts, 45 scored tasks: listening parts 1–4 and reading parts 1–5, plus a writing task.
+        At the end you see your result by part, with our own point bands as a guide. Progress stays
+        saved in the browser.
       </p>
       <a class="quiz-btn quiz-btn--primary" href="/trinity/ise-1/practice-set" data-i18n="exam.startSet">Übungssatz starten</a>
       <a class="plan-link" href="/exam-plan" data-i18n="plan.link">Dein Plan bis zur Prüfung →</a>
@@ -90,20 +90,20 @@ import ExamPractice from "../../../components/ExamPractice.astro";
 
     <div class="mock-cta">
       <h2 data-i18n="dtz.mock.title">Kürzer: Mock-Test Lesen (Aufgabe 1–4)</h2>
-      <p data-i18n="dtz.mock.text">Alle vier Lese-Aufgaben der DTZ-Simulation als ein zusammenhängender Test mit Gesamtergebnis am Ende — aus echtem DTZ-Unterrichtsmaterial.</p>
+      <p data-i18n="dtz.mock.text">All four reading tasks as one continuous test at level B1, a step above DELE A2, with an overall result at the end.</p>
       <a class="quiz-btn quiz-btn--primary" href="/trinity/ise-1/mock-test" data-i18n="dtz.mock.start">Mock-Test starten</a>
     </div>
 
     <div class="mock-cta">
-      <h2 data-i18n="fallen.title">Prüfungsfallen: DTZ und telc B1</h2>
-      <p data-i18n="fallen.entry.blurb">Stellen mit Haken – kurz erklärt, mit Beispiel und einer Aufgabe zum Ausprobieren.</p>
+      <h2 data-i18n="fallen.title">Exam traps</h2>
+      <p data-i18n="fallen.entry.blurb">Spots with a catch – briefly explained, with an example and a task to try.</p>
       <a class="quiz-btn quiz-btn--primary" href="/exams/traps" data-i18n="fallen.entry.cta">Fallen ansehen</a>
     </div>
 
     <ExamPractice
       heading="Grundlagen trainieren"
       headingKey="exam.practice.heading"
-      intro="Alle fünf Übungstools stammen aus echtem DTZ-Unterrichtsmaterial — die reichhaltigsten Übungen der ganzen Seite."
+      intro="These practice tools train the skills that DELE A2 tests."
       introKey="dtz.practice.intro"
       tools={["artikel", "grammatik", "wortschatz", "sprechen", "lesen"]}
     />

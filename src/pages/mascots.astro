@@ -8,13 +8,14 @@
 // (/teachers: Stundenplan, Unterricht, Live-Quiz) — the only one without a subject, so he
 // guides the teacher the way he guides the learner. Regi = Grammatik, Hamsti = Wortschatz,
 // Quaki = Sprechen; they stay out of the teacher shell unless a tool is about their skill.
-// Bruno's job and about text are keyed (mk.bruno.*); the rest of the page is plain English.
+// All page text is keyed (mk.*).
 //
-// Linked from the home page footer ("Mehr"). The texts are easy German on purpose (A2):
+// Linked from the home page footer ("Mehr"). The texts are easy on purpose (A2):
 // the learners who meet the mascots first are beginners.
 //
 // "Maskottchen anzeigen: aus" (html[data-mascots="off"]) hides mascots everywhere else.
-// Here they ARE the content, so this page shows them anyway and says where the switch is.
+// Here they ARE the content, so this page shows them anyway. There is no settings page for
+// the switch until accounts exist, so the page doesn't point to one.
 import Layout from "../layouts/Layout.astro";
 import SiteNav from "../components/SiteNav.astro";
 import { mascotSvg, MASCOT_LABELS } from "../lib/mascots.js";
@@ -22,55 +23,58 @@ import "../styles/practice.css";
 
 type Name = "bruno" | "regi" | "hamsti" | "quaki";
 const EXPRS = [
-  ["happy", "happy"],
-  ["thinking", "thinking"],
-  ["celebrate", "cheering"],
-  ["oops", "oops"],
-  ["sleepy", "sleepy"],
+  ["happy", "happy", "mk.mood.happy"],
+  ["thinking", "thinking", "mk.mood.thinking"],
+  ["celebrate", "cheering", "mk.mood.celebrate"],
+  ["oops", "oops", "mk.mood.oops"],
+  ["sleepy", "sleepy", "mk.mood.sleepy"],
 ] as const;
 
 type Place = { href: string; label: string; key?: string };
-const crew: { name: Name; tier: string; job: string; jobKey?: string; color: string; about: string; aboutKey?: string; say: string; places: Place[] }[] = [
+const crew: { name: Name; tier: string; job: string; jobKey?: string; color: string; about: string; aboutKey?: string; say: string; sayKey: string; places: Place[] }[] = [
   {
     name: "bruno", tier: "Dachshund", job: "Your coach – for teachers too", jobKey: "mk.bruno.job", color: "#f97316",
-    about: "Bruno is always there. He shows you where to start, is happy about every step forward and explains how the UK works: queues, bank holidays, the NHS. And if you teach, he helps you too: with the lesson plan, in class and with the quiz.",
+    about: "Bruno is always there. He shows you where to start, is happy about every step forward and explains how Spain works: the padrón, opening hours, the centro de salud. And if you teach, he helps you too: with the lesson plan, in class and with the quiz.",
     aboutKey: "mk.bruno.about",
-    say: "Great to have you here!",
+    say: "Great to have you here!", sayKey: "mk.bruno.say",
     places: [
-      { href: "/culture", label: "UK culture" },
-      { href: "/placement-test", label: "Placement test" },
-      { href: "/progress", label: "Your progress" },
+      { href: "/culture", label: "Culture in Spain", key: "mk.bruno.place.culture" },
+      { href: "/placement-test", label: "Placement test", key: "mk.place.placement" },
+      { href: "/progress", label: "Your progress", key: "mk.place.progress" },
       { href: "/teachers", label: "For teachers", key: "nav.subject.lehrkraefte" },
     ],
   },
   {
-    name: "regi", tier: "Hedgehog", job: "Grammar", color: "#0d9488",
+    name: "regi", tier: "Hedgehog", job: "Grammar", jobKey: "mk.regi.job", color: "#0d9488",
     about: "Regi likes order: rules, tables, word endings. He only gets prickly when an article is wrong — and then he patiently explains why.",
-    say: "Rule by rule.",
+    aboutKey: "mk.regi.about",
+    say: "Rule by rule.", sayKey: "mk.regi.say",
     places: [
-      { href: "/grammar", label: "Grammar" },
-      { href: "/articles", label: "a, an, the" },
-      { href: "/grammar/parts-of-speech", label: "Word classes" },
+      { href: "/grammar", label: "Grammar", key: "mk.place.grammar" },
+      { href: "/articles", label: "el, la", key: "mk.place.articles" },
+      { href: "/grammar/parts-of-speech", label: "Word classes", key: "mk.place.partsOfSpeech" },
     ],
   },
   {
-    name: "hamsti", tier: "Hamster", job: "Vocabulary", color: "#f2a900",
+    name: "hamsti", tier: "Hamster", job: "Vocabulary", jobKey: "mk.hamsti.job", color: "#f2a900",
     about: "Hamsti collects words the way other hamsters collect nuts. A few new ones in the cheeks every day — and after a few weeks the stash is big.",
-    say: "What are you practising today?",
+    aboutKey: "mk.hamsti.about",
+    say: "What are you practising today?", sayKey: "mk.hamsti.say",
     places: [
-      { href: "/vocabulary", label: "Vocabulary" },
-      { href: "/listening", label: "Listening" },
-      { href: "/exercises", label: "Exercises" },
+      { href: "/vocabulary", label: "Vocabulary", key: "mk.place.vocabulary" },
+      { href: "/listening", label: "Listening", key: "mk.place.listening" },
+      { href: "/exercises", label: "Exercises", key: "mk.place.exercises" },
     ],
   },
   {
-    name: "quaki", tier: "Frog", job: "Speaking", color: "#2563eb",
-    about: "Quaki loves to croak — in English, of course. He helps you with speaking and pronunciation. Mistakes? No problem. The main thing is that you speak.",
-    say: "Just start talking!",
+    name: "quaki", tier: "Frog", job: "Speaking", jobKey: "mk.quaki.job", color: "#2563eb",
+    about: "Quaki loves to croak — in Spanish, of course. He helps you with speaking and pronunciation. Mistakes? No problem. The main thing is that you speak.",
+    aboutKey: "mk.quaki.about",
+    say: "Just start talking!", sayKey: "mk.quaki.say",
     places: [
-      { href: "/speaking", label: "Speaking" },
-      { href: "/pronunciation", label: "Pronunciation" },
-      { href: "/pronunciation-check", label: "Pronunciation check" },
+      { href: "/speaking", label: "Speaking", key: "mk.place.speaking" },
+      { href: "/pronunciation", label: "Pronunciation", key: "mk.place.pronunciation" },
+      { href: "/pronunciation-check", label: "Pronunciation check", key: "mk.place.pronunciationCheck" },
     ],
   },
 ];
@@ -85,9 +89,9 @@ const small = (name: Name, expr: string) => mascotSvg({ name, expr, view: "front
   <SiteNav />
   <main class="practice-main practice-main--wide mk-page">
     <header class="practice-hero mk-hero">
-      <p class="eyebrow">Meet the crew</p>
-      <h1>The mascots</h1>
-      <p class="mk-lead">Four friends are with you while you learn English. Each one knows one thing especially well.</p>
+      <p class="eyebrow" data-i18n="mk.eyebrow">Meet the crew</p>
+      <h1 data-i18n="mk.title">The mascots</h1>
+      <p class="mk-lead" data-i18n="mk.lead">Four friends are with you while you learn Spanish. Each one knows one thing especially well.</p>
       <div class="mk-crew" aria-hidden="true">
         {crew.map((m, i) => (
           <a href={`#${m.name}`} class="mk-crew-fig" style={`--d:${i * 90}ms`} tabindex="-1">
@@ -102,24 +106,24 @@ const small = (name: Name, expr: string) => mascotSvg({ name, expr, view: "front
         <article class="mk-card" id={m.name} style={`--mk:${m.color}`} data-mk={m.name}>
           <div class="mk-stage">
             <div class="mk-big" data-mk-big><Fragment set:html={big(m.name)} /></div>
-            <p class="mk-say">“{m.say}”</p>
+            <p class="mk-say">“<span data-i18n={m.sayKey}>{m.say}</span>”</p>
           </div>
           <div class="mk-body">
             <p class="mk-job" data-i18n={m.jobKey}>{m.job}</p>
             <h2>{MASCOT_LABELS[m.name]}</h2>
             <p class="mk-about" data-i18n={m.aboutKey}>{m.about}</p>
 
-            <h3>Their moods – tap one</h3>
+            <h3 data-i18n="mk.moods">Their moods – tap one</h3>
             <div class="mk-moods" role="group" aria-label={`Moods of ${MASCOT_LABELS[m.name]}`}>
-              {EXPRS.map(([expr, label]) => (
+              {EXPRS.map(([expr, label, key]) => (
                 <button type="button" class:list={["mk-mood", expr === "happy" && "is-on"]} data-expr={expr} aria-pressed={expr === "happy" ? "true" : "false"}>
                   <Fragment set:html={small(m.name, expr)} />
-                  <span>{label}</span>
+                  <span data-i18n={key}>{label}</span>
                 </button>
               ))}
             </div>
 
-            <h3>Where you meet them</h3>
+            <h3 data-i18n="mk.where">Where you meet them</h3>
             <div class="mk-places">
               {m.places.map((p) => <a href={p.href} data-i18n={p.key}>{p.label}</a>)}
             </div>
@@ -128,11 +132,7 @@ const small = (name: Name, expr: string) => mascotSvg({ name, expr, view: "front
       ))}
     </div>
 
-    <p class="mk-note">
-      Tip: on many pages you can tap the mascot at the top — then it explains the page to you.
-      Prefer no mascots? You can hide them under <a href="/konto">Account → Settings</a>.
-    </p>
-    <p class="mk-note">The crew on a T-shirt, mug or cap? Have a look at the <a href="/merch">merch</a> page and mark what you’d like.</p>
+    <p class="mk-note" data-i18n="mk.tip">Tip: on many pages you can tap the mascot at the top — then it explains the page to you.</p>
   </main>
 
   <script>

@@ -72,7 +72,7 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
               <dt data-i18n="lq.host.grammar">Grammatik</dt>
               <dd data-i18n="lq.help.grammar">Optional ein Grammatik-Kapitel dazu: dann kommt die Hälfte der Fragen von dort, abwechselnd mit den Wörtern.</dd>
               <dt data-i18n="lq.host.mode">Fragen</dt>
-              <dd data-i18n="lq.help.mode">Bei Synonymen spielen alle dieselbe deutsche Frage. Mit Übersetzung sieht jedes Handy seine eigene Sprache.</dd>
+              <dd data-i18n="lq.help.mode">With synonyms everyone plays the same Spanish question. With translation each phone shows its own language.</dd>
               <dt data-i18n="lq.host.count">Anzahl</dt>
               <dd data-i18n="lq.help.count">So viele Fragen hat eine Runde. 10 Fragen mit 20 Sekunden dauern etwa 5 Minuten.</dd>
               <dt data-i18n="lq.host.seconds">Sekunden pro Frage</dt>
@@ -155,13 +155,13 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
 
         <fieldset class="lq-field lq-choice" data-vocab-only data-words-only>
           <legend data-i18n="lq.host.mode">Fragen</legend>
-          {/* Synonyms first and chosen: all German, so the whole class plays the same
+          {/* Synonyms first and chosen: all Spanish, so the whole class plays the same
               question whatever their first language. "Übersetzung", not "Bedeutung": the
               other two show each phone the word in its player's own language, and say so
               right on the option: the language is picked on the phone, not here. */}
-          <label><input type="radio" name="mode" value="synonym" checked /> <span data-i18n="lq.mode.synonymLabel">Synonyme (Deutsch → Deutsch)</span></label>
-          <label class="lq-choice-2l"><input type="radio" name="mode" value="de-meaning" /> <span><span data-i18n="lq.mode.deMeaningLabel">Deutsch → Übersetzung</span><small class="lq-choice-note" data-i18n="lq.mode.langNote">Sprache wählt jede Person am Handy</small></span></label>
-          <label class="lq-choice-2l"><input type="radio" name="mode" value="meaning-de" /> <span><span data-i18n="lq.mode.meaningDeLabel">Übersetzung → Deutsch</span><small class="lq-choice-note" data-i18n="lq.mode.langNote">Sprache wählt jede Person am Handy</small></span></label>
+          <label><input type="radio" name="mode" value="synonym" checked /> <span data-i18n="lq.mode.synonymLabel">Synonyms (Spanish → Spanish)</span></label>
+          <label class="lq-choice-2l"><input type="radio" name="mode" value="de-meaning" /> <span><span data-i18n="lq.mode.deMeaningLabel">Spanish → translation</span><small class="lq-choice-note" data-i18n="lq.mode.langNote">Sprache wählt jede Person am Handy</small></span></label>
+          <label class="lq-choice-2l"><input type="radio" name="mode" value="meaning-de" /> <span><span data-i18n="lq.mode.meaningDeLabel">Translation → Spanish</span><small class="lq-choice-note" data-i18n="lq.mode.langNote">Sprache wählt jede Person am Handy</small></span></label>
         </fieldset>
 
         <fieldset class="lq-field lq-choice" data-vocab-only>

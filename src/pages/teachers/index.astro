@@ -107,7 +107,7 @@ const sections = [
 ---
 <Layout
   title="For teachers – icanspeak Spanish"
-  description="A live quiz with a QR code, vocabulary and grammar worksheets to print or use online, and games for the English class. Free, no account needed."
+  description="A live quiz with a QR code, vocabulary and grammar worksheets to print or use online, and games for the Spanish class. Free, no account needed."
 >
   <SiteNav active="lehrkraefte" />
 
@@ -138,8 +138,6 @@ const sections = [
       ))}
     </div>
 
-    <p class="lk-merch"><a href="/merch#klassensatz" data-i18n="lk.merch">Mugs or T-shirts with tongue twisters for your class? Ask for a class set →</a></p>
-    <p class="lk-merch lk-merch--next"><a href="/merch?kind=crew" data-i18n="lk.sticker">Sticker für deine Klasse →</a></p>
 
     <p class="lk-note" data-i18n="lk.note">Alles hier ist von icanspeak Spanish geschrieben. Du darfst es im Unterricht frei verwenden, ausdrucken und weitergeben.</p>
   </main>
@@ -147,7 +145,7 @@ const sections = [
   <style>
     .lk { max-width: 1040px; margin: 0 auto; padding: var(--space-5) 16px var(--space-12); }
     .lk-head { margin-bottom: var(--space-5); }
-    /* One Bruno per screen: while „Unterrichtest du Deutsch?“ (TeacherNudge, with its own
+    /* One Bruno per screen: while “Do you teach Spanish?” (TeacherNudge, with its own
        Bruno) is showing, the hero leaves him out. */
     .lk:has([data-teacher-nudge]:not([hidden])) :global(.lk-bruno) { display: none; }
     .lk-eyebrow {
@@ -188,9 +186,6 @@ const sections = [
     .lk-btn--primary:hover { background: var(--gradient-brand); filter: brightness(1.05); }
     .lk-btn:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
     .lk-note { margin: var(--space-6) 4px 0; font-size: 12px; color: var(--muted); }
-    .lk-merch { margin: var(--space-5) 4px 0; font-size: var(--text-sm); }
-    .lk-merch--next { margin-top: 4px; }
-    .lk-merch a { color: var(--brand-blue-dark); font-weight: var(--fw-semibold); }
 
     @media (min-width: 720px) {
       .lk { padding-top: var(--space-8); }

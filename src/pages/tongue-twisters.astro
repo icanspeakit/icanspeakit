@@ -46,8 +46,8 @@ const LOOK = [
 ] as const;
 ---
 <Layout
-  title="Tongue twisters – practise English pronunciation – icanspeak Spanish"
-  description="English tongue twisters to repeat: listen first, slowly and then fast, then speak into the microphone and get points for every word."
+  title="Tongue twisters – practise Spanish pronunciation – icanspeak Spanish"
+  description="Spanish tongue twisters to repeat: listen first, slowly and then fast, then speak into the microphone and get points for every word."
 >
   <SiteNav active="fertigkeiten" />
 
@@ -253,9 +253,9 @@ const LOOK = [
         bruno: "Woof! I never doze!",
       };
       // Any other animal gets a Mini-Crew sticker instead (src/lib/minis.js): smaller, and
-      // it only says its animal sound. The dialect take brings its speaker with "Servus!".
+      // it only says its animal sound. The dialect take brings its speaker with "¡Hola!".
       function showPop(s: any, dialect = false) {
-        if (dialect) s = { mascot: s.dialect.speaker, say: "Servus!" };
+        if (dialect) s = { mascot: s.dialect.speaker, say: "¡Hola!" };
         const name = s.mascot || s.mini;
         pop.hidden = !name;
         pop.classList.remove("is-in", "is-hop");

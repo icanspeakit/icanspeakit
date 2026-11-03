@@ -11,7 +11,7 @@ const menu = [
       { title: "Language", links: [
         ["/grammar", "Grammar", "All topics from A1 to C1"],
         ["/vocabulary", "Vocabulary", "Words by topic and level"],
-        ["/articles", "a, an, the", "Article trainer"],
+        ["/articles", "el, la", "Article trainer"],
       ]},
       { title: "Skills", links: [
         ["/listening", "Listening", ""],
@@ -26,19 +26,19 @@ const menu = [
     id: "pruefungen", label: "Exams", href: "/exams",
     cols: [
       { title: "Language exams", links: [
-        ["/cambridge", "Cambridge English", "A2 Key to C2 Proficiency"],
-        ["/trinity", "Trinity ISE", ""],
-        ["/trinity/ise-1", "Trinity ISE I", "Practice set"],
-        ["/ielts", "IELTS", ""],
+        ["/cambridge", "DELE", "A2 to C1 practice, C2 format"],
+        ["/trinity", "SIELE by level", ""],
+        ["/ielts", "SIELE", ""],
       ]},
-      { title: "For life in the UK", links: [
-        ["/life-in-the-uk", "Life in the UK test", "For settlement and citizenship"],
+      { title: "For life in Spain", links: [
+        ["/trinity/ise-1", "DELE A2 for nationality", "Practice set"],
+        ["/life-in-the-uk", "CCSE", "For nationality"],
       ]},
     ],
     all: ["/exams", "All exams"],
   },
   {
-    id: "leben", label: "Life in the UK", href: "/knowledge",
+    id: "leben", label: "Life in Spain", href: "/knowledge",
     cols: [
       { title: "Country & culture", links: [
         ["/culture", "Culture & everyday life", "What people really mean"],
@@ -46,7 +46,7 @@ const menu = [
       ]},
       { title: "Look things up", links: [
         ["/reference", "Reference", "Verb tables, word classes"],
-        ["/knowledge/slang", "Informal English", ""],
+        ["/knowledge/slang", "Informal Spanish", ""],
       ]},
     ],
     all: ["/knowledge", "Everything about country & culture"],
@@ -56,12 +56,12 @@ const menu = [
 const levels = ["A1", "A2", "B1", "B2", "C1"];
 
 const paths = [
-  { icon: "/email/hamsti.png", title: "Practise English", text: "Grammar, words, listening and speaking. Short exercises, instant feedback.",
-    links: [["/grammar", "Grammar"], ["/vocabulary", "Vocabulary"], ["/articles", "a, an, the"]], href: "/exercises", cta: "Go to the exercises" },
+  { icon: "/email/hamsti.png", title: "Practise Spanish", text: "Grammar, words, listening and speaking. Short exercises, instant feedback.",
+    links: [["/grammar", "Grammar"], ["/vocabulary", "Vocabulary"], ["/articles", "el, la"]], href: "/exercises", cta: "Go to the exercises" },
   { icon: "/email/regi.png", title: "Pass your exam", text: "Real exam formats with timing, scores and an explanation for every answer.",
-    links: [["/cambridge", "Cambridge"], ["/trinity", "Trinity ISE"], ["/trinity/ise-1", "ISE I"]], href: "/exams", cta: "Go to the exams" },
-  { icon: "/email/quaki.png", title: "Live in the UK", text: "The Life in the UK test, English for work and everyday life. What you really need.",
-    links: [["/life-in-the-uk", "Life in the UK test"], ["/english-for-work", "Work"], ["/culture", "Culture"]], href: "/knowledge", cta: "Find out more" },
+    links: [["/cambridge", "DELE"], ["/ielts", "SIELE"], ["/trinity/ise-1", "DELE A2"]], href: "/exams", cta: "Go to the exams" },
+  { icon: "/email/quaki.png", title: "Live in Spain", text: "The CCSE, Spanish for work and everyday life. What you really need.",
+    links: [["/life-in-the-uk", "CCSE"], ["/english-for-work", "Work"], ["/culture", "Culture"]], href: "/knowledge", cta: "Find out more" },
 ];
 ---
 <Layout title="Homepage – draft" noindex>
@@ -133,7 +133,7 @@ const paths = [
       <section class="sn-hero">
         <div class="sn-wrap sn-hero-in">
           <div>
-            <h1>Learn English.<br /><span>Step by step.</span></h1>
+            <h1>Learn Spanish.<br /><span>Step by step.</span></h1>
             <p class="sn-lead">Free exercises from A1 to C1. No account.</p>
             <p class="sn-q">Where are you?</p>
             <div class="sn-levels">
@@ -180,7 +180,7 @@ const paths = [
         <div class="sn-wrap sn-teach">
           <img src="/email/bruno-thinking.png" alt="" width="120" height="120" />
           <div>
-            <h2>Do you teach English?</h2>
+            <h2>Do you teach Spanish?</h2>
             <p>Lesson-plan generator, classes, live quiz and pair exercises. All in one place.</p>
           </div>
           <a href="/teachers" class="sn-btn sn-btn--ghost">Go to the teachers’ area</a>
@@ -202,7 +202,6 @@ const paths = [
         <p>Here for you!</p>
         <nav>
           <a href="/mascots">Bruno & the crew</a>
-          <a href="/merch">Merch</a>
           <a href="/legal-notice">Legal notice</a>
           <a href="/privacy">Privacy</a>
         </nav>

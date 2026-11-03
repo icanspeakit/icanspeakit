@@ -16,15 +16,15 @@ export function getStaticPaths() {
 
 const level = data.niveaus.find((l) => l.id === Astro.params.level)!;
 const exam = level.bloecke.some((b) => "pruefung" in b);
-const description = `English course ${level.label} (${level.titel}): ${level.bloecke.length} topics with learning goals, grammar and vocabulary${exam ? ", matched to Cambridge English and Trinity ISE" : ""}. Length: ${level.dauer}. With a self-test.`;
+const description = `Spanish course ${level.label} (${level.titel}): ${level.bloecke.length} topics with learning goals, grammar and vocabulary${exam ? ", matched to DELE and SIELE" : ""}. Length: ${level.dauer}. With a self-test.`;
 ---
 <Layout
-  title={`English course ${level.label} – topics and learning goals | icanspeak Spanish`}
+  title={`Spanish course ${level.label} – topics and learning goals | icanspeak Spanish`}
   description={description}
   breadcrumb={[{ name: "Syllabus", path: "/syllabus" }]}
   schema={{
     "@type": "Course",
-    name: `English course ${level.label}: ${level.titel}`,
+    name: `Spanish course ${level.label}: ${level.titel}`,
     description: level.ziel,
     educationalLevel: level.label,
     teaches: level.bloecke.map((b) => b.thema),
@@ -34,7 +34,7 @@ const description = `English course ${level.label} (${level.titel}): ${level.blo
   <main class="practice-main ki" lang="en">
     <header class="ki-hero">
       <p class="ki-eyebrow"><a href="/syllabus">Syllabus</a> · Level {level.label}</p>
-      <h1>English course {level.label}: {level.titel}</h1>
+      <h1>Spanish course {level.label}: {level.titel}</h1>
       <p class="ki-lead">{level.ziel}</p>
     </header>
     <div data-kp-hide-print>

@@ -1,6 +1,6 @@
 ---
 import ExamDisclaimer from "../../../components/ExamDisclaimer.astro";
-// Full DTZ practice sitting: nine parts, 45 scored items, plus the writing task.
+// Full mock for DELE A2 (dtz slot, content-plan §2): nine parts, 45 scored items, plus the writing task.
 // Free Übungssätze are JSON files in src/data/pruefungen/dtz/ (inlined here). The DTZ-Paket
 // sets 2–4 live in src/paid/pruefungen/dtz/: this page only knows their names, from
 // src/data/pruefungen/paid-manifest.json, and loads one from /inhalt/ when the learner
@@ -48,46 +48,44 @@ const saetze = Object.values(modules)
 const first = saetze[0];
 ---
 <Layout
-  title="Trinity ISE I mock test – complete practice set – icanspeak Spanish"
-  description="A complete ISE I practice set in exam format: reading, listening and writing tasks, with your score at the end."
+  title="DELE A2 mock test – complete practice set – icanspeak Spanish"
+  description="Our own complete mock for DELE A2, on the path to Spanish nationality: reading, listening and writing tasks, with your score at the end."
 >
   <SiteNav active="pruefungen" />
 
   <main class="practice-main practice-main--wide practice-main--trainer dtz-trainer" id="dtz-root">
-    <a href="/trinity/ise-1" class="vp-back-link" data-i18n="exam.backToDtz">Zurück zur DTZ-Übersicht</a>
+    <a href="/trinity/ise-1" class="vp-back-link" data-i18n="exam.backToDtz">Back to the DELE A2 overview</a>
 
     <div class="practice-hero">
-      <p class="eyebrow" data-i18n="dtzSet.eyebrow">Prüfung simulieren</p>
-      <h1><span class="hero-exam">ISE I level</span> <span data-dtz-title data-i18n={first.meta.title === "DTZ-Übungssatz 1" ? "exam.h1.set1" : undefined}>{first.meta.title.replace(/^DTZ-/, "")}</span></h1>
+      <p class="eyebrow" data-i18n="dtzSet.eyebrow">Simulate the exam</p>
+      <h1><span class="hero-exam" data-i18n="dtzSet.heroExam">DELE A2 mock</span> <span data-dtz-title data-i18n={first.meta.title === "DTZ-Übungssatz 1" ? "exam.h1.set1" : undefined}>{first.meta.title.replace(/^DTZ-/, "")}</span></h1>
       <p data-i18n="dtzSet.hero">
-        Neun Prüfungsteile, 45 bewertete Aufgaben — wie in der echten Prüfung. Die Auswertung nutzt
-        die offiziellen DTZ-Punktegrenzen: ab 33 Punkten B1, ab 20 Punkten A2.
+        Nine parts, 45 scored tasks in our own mock for DELE A2. The result uses our own point bands
+        as a guide: well prepared from 33 points, getting close from 20 points.
       </p>
     </div>
     <ExamDisclaimer />
 
-    {/* Official format, BAMF + telc (read 2026-10-04). The DTZ handbook gives ca. 10 minutes
-        Sprechen per person, the BAMF page "rund 15 Minuten", telc 16 per pair: we say ca. 15. */}
+    {/* The structure of OUR mock, not of the real DELE A2 (its format: "to verify", nationality-path).
+        The source link only points to the official exam page; `checked` is the day it was read. */}
     <ExamFacts
-      title="So ist der DTZ aufgebaut"
+      title="How this mock is structured"
       titleKey="dtzSet.facts.title"
-      head={[{ text: "Prüfungsteil", key: "ps.format.th.module" }, { text: "Aufgaben", key: "dtzSet.facts.th.tasks" }, { text: "Zeit", key: "ps.format.th.time" }]}
+      head={[{ text: "Part", key: "ps.format.th.module" }, { text: "Tasks", key: "dtzSet.facts.th.tasks" }, { text: "Suggested time", key: "dtzSet.facts.th.time" }]}
       rows={[
-        [{ text: "Hören", key: "skill.hoeren" }, { text: "4 Teile, 20 Aufgaben", key: "dtzSet.facts.hoeren" }, "25 Min."],
-        [{ text: "Lesen", key: "skill.lesen" }, { text: "5 Teile, 25 Aufgaben", key: "dtzSet.facts.lesen" }, "45 Min."],
-        [{ text: "Schreiben", key: "skill.schreiben" }, { text: "1 kurzer Brief", key: "dtzSet.facts.schreiben" }, "30 Min."],
-        [{ text: "Sprechen", key: "skill.sprechen" }, { text: "3 Teile, zu zweit", key: "dtzSet.facts.sprechen" }, { text: "ca. 15 Min.", key: "dtzSet.facts.sprechenTime" }],
+        [{ text: "Listening", key: "skill.hoeren" }, { text: "4 parts, 20 tasks", key: "dtzSet.facts.hoeren" }, "25 min"],
+        [{ text: "Reading", key: "skill.lesen" }, { text: "5 parts, 25 tasks", key: "dtzSet.facts.lesen" }, "45 min"],
+        [{ text: "Writing", key: "skill.schreiben" }, { text: "1 email or letter", key: "dtzSet.facts.schreiben" }, "30 min"],
+        [{ text: "Speaking", key: "skill.sprechen" }, { text: "not included (needs a partner)", key: "dtzSet.facts.sprechen" }, { text: "—", key: "dtzSet.facts.sprechenTime" }],
       ]}
       notes={[
-        { key: "dtzSet.facts.scoring", html: "<strong>Bewertung:</strong> Hören und Lesen zählen zusammen 45 Punkte. Ab 20 Punkten steht A2 im Zeugnis, ab 33 Punkten B1. Schreiben und Sprechen bewerten die Prüfenden nach Kriterien als A2 oder B1. Für das Gesamtergebnis zählt ein Niveau, wenn es im Sprechen erreicht ist und in mindestens einem der beiden anderen Teile." },
-        { key: "dtzSet.facts.certificate", html: "Der DTZ ist die Abschlussprüfung des Integrationskurses. Mit B1 im DTZ und bestandenem Test „Leben in Deutschland“ gibt es das „Zertifikat Integrationskurs“." },
+        { key: "dtzSet.facts.scoring", html: "<strong>Scoring:</strong> listening and reading count together for 45 points. Our guide: well prepared from 33 points, getting close from 20 points. You check the writing task yourself with the model answer and the checklist. The real DELE A2 has its own marking rule and ends in <em>apto</em> or <em>no apto</em>." },
+        { key: "dtzSet.facts.certificate", html: "This mock is practice only. To take the real DELE A2, register at an Instituto Cervantes exam centre, and check the current rules for your nationality application first. This is general orientation, not legal advice." },
       ]}
       sources={[
-        { label: "BAMF: Abschlussprüfung", url: "https://www.bamf.de/DE/Themen/Integration/ZugewanderteTeilnehmende/Integrationskurse/Abschlusspruefung/abschlusspruefung-node.html" },
-        { label: "§ 17 IntV", url: "https://www.gesetze-im-internet.de/intv/__17.html" },
-        { label: "telc: Übungstests DTZ", url: "https://shop.telc.net/de_DE/integration/ubungstests.html" },
+        { label: "Instituto Cervantes: DELE", url: "https://www.cervantes.org/es/examenes/dele" },
       ]}
-      checked="04.10.2026"
+      checked="03.11.2026"
     />
 
     {saetze.length + paidSets.length > 1 && (

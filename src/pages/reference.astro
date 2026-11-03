@@ -17,19 +17,19 @@ import { mascotSvg } from "../lib/mascots.js";
 import "../styles/practice.css";
 
 // The question each page answers, as a learner would ask it.
-const QUESTION: Record<string, { text: string }> = {
-  "/grammar/verbs": { text: "“I have went” or “I have gone”?" },
-  "/grammar/irregular-verbs": { text: "“he swimmed” or “he swam”?" },
-  "/grammar/phrasal-verbs-list": { text: "“Turn off it” or “Turn it off”?" },
-  "/grammar/verbs-with-prepositions": { text: "“wait for” or “wait to”?" },
-  "/grammar/parts-of-speech": { text: "Is “fast” an adjective or an adverb?" },
-  "/grammar/common-mistakes": { text: "“their” or “there”?" },
+const QUESTION: Record<string, { text: string; key: string }> = {
+  "/grammar/verbs": { text: "“He hablo” or “he hablado”?", key: "nsw.q.verbs" },
+  "/grammar/irregular-verbs": { text: "“Yo sabo” or “yo sé”?", key: "nsw.q.irregular" },
+  "/grammar/phrasal-verbs-list": { text: "“Levanto a las siete” or “me levanto a las siete”?", key: "nsw.q.reflexive" },
+  "/grammar/verbs-with-prepositions": { text: "“Pensar en” or “pensar a”?", key: "nsw.q.prepositions" },
+  "/grammar/parts-of-speech": { text: "Is “bien” an adjective or an adverb?", key: "nsw.q.parts" },
+  "/grammar/common-mistakes": { text: "“Por” or “para”?", key: "nsw.q.mistakes" },
 };
 const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: 96, label: "", className: "nsw-regi-fig" });
 ---
 <Layout
   title="Reference: verb tables, verbs and parts of speech – icanspeak Spanish"
-  description="English grammar to look up: verb tables with the present, past simple and past participle, irregular verbs, phrasal verbs, verbs with prepositions and parts of speech."
+  description="Spanish grammar to look up: verb tables with the present, indefinido and participle, irregular verbs, reflexive verbs, verbs with prepositions and parts of speech."
   breadcrumb={[{ name: "Knowledge", path: "/knowledge" }]}
 >
   <SiteNav active="wissen" />
@@ -47,7 +47,7 @@ const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: 96, l
     <form class="nsw-search" role="search" id="nsw-form">
       <label for="nsw-q" class="nsw-search-label" data-i18n="nsw.search.label">Was suchst du?</label>
       <input id="nsw-q" type="search" autocomplete="off" autocapitalize="off" spellcheck="false"
-        placeholder="e.g. went, cake, wait for, their" data-i18n-attr="placeholder:nsw.search.placeholder" aria-controls="nsw-results" />
+        placeholder="e.g. fui, casa, pensar en, por" data-i18n-attr="placeholder:nsw.search.placeholder" aria-controls="nsw-results" />
       <ul class="nsw-results" id="nsw-results" aria-live="polite"></ul>
       <p class="nsw-none" id="nsw-none" hidden data-i18n="nsw.search.none">Nichts gefunden. Versuch es mit der Grundform: gehen statt ging, Kuchen statt Kuchens.</p>
     </form>
@@ -72,7 +72,7 @@ const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: 96, l
             <span class="nsw-txt">
               <b data-i18n={item.titleKey}>{item.title}</b>
               <i data-i18n={item.hintKey}>{item.hint}</i>
-              {QUESTION[item.href] && <span class="nsw-q">{QUESTION[item.href].text}</span>}
+              {QUESTION[item.href] && <span class="nsw-q" data-i18n={QUESTION[item.href].key}>{QUESTION[item.href].text}</span>}
             </span>
             <span class="nsw-chev" aria-hidden="true"><Icon name="chevron-right" size={18} /></span>
           </a>
@@ -110,7 +110,7 @@ const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: 96, l
   // Kinds of row and their label; the same names as the cards below.
   const KIND: Record<string, string> = {
     verb: "Verb table", nomen: "Noun forms", stark: "Irregular and regular verbs",
-    trennbar: "Phrasal verbs", praep: "Verbs with prepositions", wortart: "Parts of speech", fehler: "Common mistakes",
+    trennbar: "Reflexive verbs", praep: "Verbs with prepositions", wortart: "Parts of speech", fehler: "Common mistakes",
   };
   type Row = { label: string; sub: string; href: string; kind: string; n: string; keys: Set<string> };
   const norm = (s: string) => String(s).toLowerCase().replace(/ß/g, "ss").normalize("NFD").replace(/[̀-ͯ]/g, "")

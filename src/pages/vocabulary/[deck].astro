@@ -135,12 +135,12 @@ const sub = subParts.map((p) => p.text).join(" · ");
 
 const title =
   set ? fitTitle(`${set.title} (${set.level}) – vocabulary`, `Vocabulary ${set.level}: ${set.title}`, `${set.title} (${set.level})`)
-  : freq ? `The most common English words ${freq.from}-${freq.to} – icanspeak Spanish`
+  : freq ? `The most common Spanish words ${freq.from}-${freq.to} – icanspeak Spanish`
   : teil ? `${teil.level} vocabulary part ${teil.index}: words ${teil.from}-${teil.to} – icanspeak Spanish`
   : `Word list ${level} – icanspeak Spanish`;
 const description =
   set ? `Word set ${set.id}: ${set.words} words on “${set.title}” as flashcards — flip, learn, test.`
-  : freq ? `Words ${freq.from} to ${freq.to} of the English frequency list as flashcards — verbs, nouns and function words mixed, sorted by how often they are used.`
+  : freq ? `Words ${freq.from} to ${freq.to} of the Spanish frequency list as flashcards — verbs, nouns and function words mixed, sorted by how often they are used.`
   : teil ? `Words ${teil.from} to ${teil.to} of level ${teil.level} as flashcards — one portion of ${teil.words} words, one sitting.`
   : `The ${cards.length} words of level ${level} as flashcards: flip, learn, test.`;
 ---

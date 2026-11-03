@@ -28,7 +28,7 @@ const facts: string[] = (wusstest as Record<string, any>)[unitId] ?? [];
 ---
 <Layout
   title={fitTitle(`${title} (${level}) – word list & test to print`, `${title} (${level}) to print`, `${title} – print`)}
-  description={`Word set “${title}” (${level}) as a PDF: every word with a/an, a translation, a simple explanation and an example sentence, plus “Did you know?” and a short test with answers.`}
+  description={`Word set “${title}” (${level}) as a PDF: every word with el / la, a translation, a simple explanation and an example sentence, plus “Did you know?” and a short test with answers.`}
 >
   <WortschatzDruck title={title} level={level} words={words} sheet={sheet} langs={SHEET_LANGS} facts={facts} setPath={`/vocabulary/${unitId}`} />
 </Layout>

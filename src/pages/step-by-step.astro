@@ -58,22 +58,22 @@ const APP = import.meta.env.PUBLIC_TARGET === "app";
 const unitsJson = JSON.stringify(units).replaceAll("<", String.fromCharCode(92) + "u003c");
 if (errors.length) throw new Error(`einfach-pfad.json:\n  ${errors.join("\n  ")}`);
 ---
-<!-- Indexed since the placement pass (EINFACH-PLATZIERUNG): "English for beginners, step
+<!-- Indexed since the placement pass (EINFACH-PLATZIERUNG): "Spanish for beginners, step
      by step" is what the learners this page is for actually type, so the page stands on its
      own in search instead of hiding behind noindex. -->
 <Layout
-  title="English for beginners – step by step – icanspeak Spanish"
-  description="English for beginners in short two-minute rounds: one step per screen, with audio and Bruno to keep you company. Free, no account needed."
+  title="Spanish for beginners – step by step – icanspeak Spanish"
+  description="Spanish for beginners in short two-minute rounds: one step per screen, with audio and Bruno to keep you company. Free, no account needed."
 >
   <script type="application/json" id="el-units" set:html={unitsJson} />
   <script type="application/json" id="el-placement" set:html={placementJson} />
   <!-- The app paints one step per screen and has no title of its own; the page's h1 is
        for screen readers and search, so it stays out of sight. -->
-  <h1 class="el-h1">English for beginners – step by step</h1>
+  <h1 class="el-h1">Spanish for beginners – step by step</h1>
   <div id="el-app" class="el-app">
     <noscript>
       <div style="padding:24px;max-width:40rem">
-        <h2>English for beginners – step by step</h2>
+        <h2>Spanish for beginners – step by step</h2>
         <p>Short two-minute rounds: fill a gap, build a sentence, learn one small thing at a time. One step per screen, for complete beginners. Free, no account needed.</p>
         <p>These exercises need JavaScript. Without JavaScript, you can find all topics on the <a href="/?voll">full site</a>.</p>
       </div>

@@ -37,11 +37,16 @@ const json = (a: string[]) => JSON.stringify(a);
 const sheetLangs = sheet.hasDe ? [...SHEET_LANGS, "de"] : SHEET_LANGS;
 const firstLang = sheetLangs[0];
 const langName = (l: string) => (l === "de" ? "In German" : LANG_NAMES[l]);
+// Part B asks for the article the nouns carry, as in WortschatzDruck: el/la once the
+// lexicon level is Spanish, a/an/some until then.
+const spanishArticles = sheet.nouns.some((n: any) => ["el", "la", "el/la"].includes(n.gender));
+const artQuestion = spanishArticles ? "el or la?" : "a, an or some?";
+const artInstr = spanishArticles ? "Write el or la." : "Write a, an or some.";
 let gap = 0;
 ---
 <Layout
   title={fitTitle(`Vocabulary worksheet: ${title} (${level})`, `Worksheet: ${title} (${level})`, `Worksheet: ${title.replace(/\s*[:—].*$/, "")} (${level})`, `Worksheet: ${title.replace(/\s*[:—].*$/, "")}`)}
-  description={`Worksheet for the word set “${title}” (${level}): match words and meanings, add a, an or some, complete the sentences. To print or fill in online, with answers.`}
+  description={`Worksheet for the word set “${title}” (${level}): match words and meanings, add el or la, complete the sentences. To print or fill in online, with answers.`}
 >
   <SiteNav active="lehrkraefte" />
 
@@ -104,12 +109,12 @@ let gap = 0;
 
       {sheet.nouns.length > 0 && (
         <section class="ab-sec">
-          <h2 class="ab-h"><b>B</b> a, an or some?</h2>
-          <p class="ab-instr">Write a, an or some.</p>
+          <h2 class="ab-h"><b>B</b> {artQuestion}</h2>
+          <p class="ab-instr">{artInstr}</p>
           <ul class="ab-articles">
             {sheet.nouns.map((n) => (
               <li>
-                <input class="ab-in" style="--w:5ch" data-a={json([n.gender])} data-kind="text" aria-label={`a, an or some: ${n.lemma}`} autocomplete="off" autocapitalize="off" />
+                <input class="ab-in" style="--w:5ch" data-a={json([n.gender])} data-kind="text" aria-label={`${artQuestion} ${n.lemma}`} autocomplete="off" autocapitalize="off" />
                 <span>{n.lemma}</span>
               </li>
             ))}
@@ -158,7 +163,7 @@ let gap = 0;
       )}
       {sheet.nouns.length > 0 && (
         <section class="ab-sec">
-          <h3 class="ab-h"><b>B</b> a, an or some?</h3>
+          <h3 class="ab-h"><b>B</b> {artQuestion}</h3>
           <ol class="ab-keylist ab-keylist--cols">
             {sheet.nouns.map((n) => <li><b>{n.gender}</b> {n.lemma}{n.plural && <span class="ab-muted">, pl. {n.plural}</span>}</li>)}
           </ol>

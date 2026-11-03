@@ -6,38 +6,38 @@ import ExamPractice from "../../components/ExamPractice.astro";
 import ExamFormat from "../../components/ExamFormat.astro";
 import telcFormate from "../../data/pruefungen/telc-formate.json";
 
-// Format data is read off the telc Übungstests themselves (see the `source` field on
-// each entry) — every time, point value and task count below is from that source, not
-// estimated. The exam items themselves are © telc gGmbH and are deliberately not
+// SIELE by level (content-plan §2: the telc slot). Format data comes from telc-formate.json
+// and its `source` field, rewritten by `exams-siele`. Official exam items are never
 // reproduced here; only the structure of the exam is.
 const formate = telcFormate.formate;
 ---
 <Layout
-  title="Trinity ISE: practice tests and exam format – icanspeak Spanish"
-  description="Practise for Trinity ISE (Integrated Skills in English): free practice tests in exam format, with listening, a timer and answers. Plus the exam format and a Use of English trainer."
+  title="SIELE by level: practice and exam format – icanspeak Spanish"
+  description="Practise for SIELE by level, A2 to B2: free practice in exam format, with listening, a timer and answers. Plus the exam format and an uso de la lengua trainer."
 >
   <ExamShell
     bild="telc"
-    header="Trinity ISE"
-    title="Trinity ISE"
-    lead="Trinity College London’s Integrated Skills in English: ISE Foundation (A2), ISE I (B1) and ISE II (B2), with reading, writing, speaking and listening tested together."
+    header="SIELE by level"
+    title="SIELE by level"
+    titleKey="telc.title"
+    lead="Practice for SIELE by level: tasks at the A2, B1 and B2 bands, module by module. SIELE tests reading, listening, writing and speaking on a computer, with a score and a CEFR level for each module."
     leadKey="telc.lead"
     badges={["A2–B2"]}
-    practiceHeading="Practise for Trinity ISE"
+    practiceHeading="Practise for SIELE by level"
     practiceHeadingKey="telc.practiceHeading"
   >
     <Fragment slot="info">
       <section class="exam-section">
-        <h2 data-i18n="telc.who.title">Who is Trinity ISE for?</h2>
+        <h2 data-i18n="telc.who.title">Who is SIELE for?</h2>
         <div class="exam-meta-row">
-          <span class="exam-meta-badge" data-i18n="telc.who.badge.level">Levels A2–B2</span>
-          <span class="exam-meta-badge" data-i18n="telc.who.badge.modular">Integrated skills</span>
+          <span class="exam-meta-badge" data-i18n="telc.who.badge.level">Bands A2–B2</span>
+          <span class="exam-meta-badge" data-i18n="telc.who.badge.modular">A score per module</span>
         </div>
         <p data-i18n="telc.who.text">
-          There is one Trinity ISE exam for each level: ISE Foundation (A2), ISE I (B1) and ISE II (B2).
-          Each has two modules, Reading &amp; Writing and Speaking &amp; Listening. People take ISE for study,
-          work and, in some cases, UK visa applications. Check the current rules for your purpose before
-          you book.
+          SIELE is one exam for all levels rather than one exam per level. There is no pass or fail:
+          each module gives you a score and a CEFR level. People take it for study and work, and whether
+          it is accepted depends on the institution, so check before you book. For Spanish nationality
+          the usual route is DELE A2 plus the CCSE.
         </p>
       </section>
 
@@ -47,12 +47,11 @@ const formate = telcFormate.formate;
           <div class="skill-card"><div class="skill-card-icon">📖</div><h4 data-i18n="skill.lesen">Lesen</h4><p data-i18n="skill.lesen.desc">Leseverstehen</p></div>
           <div class="skill-card"><div class="skill-card-icon">🎧</div><h4 data-i18n="skill.hoeren">Hören</h4><p data-i18n="skill.hoeren.desc">Hörverstehen</p></div>
           <div class="skill-card"><div class="skill-card-icon">✍️</div><h4 data-i18n="skill.schreiben">Schreiben</h4><p data-i18n="skill.schreiben.desc">Schriftlicher Ausdruck</p></div>
-          <div class="skill-card"><div class="skill-card-icon">🗣️</div><h4 data-i18n="skill.sprechen">Sprechen</h4><p data-i18n="skill.sprechen.pairDesc">Mündliche Prüfung, meist paarweise</p></div>
+          <div class="skill-card"><div class="skill-card-icon">🗣️</div><h4 data-i18n="skill.sprechen">Sprechen</h4><p data-i18n="skill.sprechen.oralDesc">Spoken expression</p></div>
         </div>
         <p class="format-note" data-i18n="telc.sprachbausteine.note">
-          ISE tests the skills together: for example, you read a text and then write about it.
-          Grammar and vocabulary are not a separate paper; they count in how well you read, write,
-          speak and listen.
+          SIELE has four modules and no separate grammar paper: grammar and vocabulary count in how
+          well you read, write, speak and listen.
         </p>
       </section>
 
@@ -61,9 +60,9 @@ const formate = telcFormate.formate;
       <section class="exam-section">
         <h2 data-i18n="telc.moreLevels.title">Other levels</h2>
         <p class="format-note" data-i18n="telc.moreLevels.text">
-          Times, task counts and marking differ between the ISE levels. For Foundation, I or II, check
-          the official Trinity specification for your level. We enter here only what we can document,
-          rather than estimating figures.
+          Times and task counts can differ between modules and bands. Check the official SIELE
+          information for what you plan to take. We enter here only what we can document, rather than
+          estimating figures.
         </p>
       </section>
     </Fragment>
@@ -71,26 +70,25 @@ const formate = telcFormate.formate;
     <SatzListe exam="telc" />
 
     <div class="mock-cta">
-      <h2 data-i18n="telc.sb.title">Practise Use of English</h2>
+      <h2 data-i18n="telc.sb.title">Practise uso de la lengua</h2>
       <p data-i18n="telc.sb.text">
-        Gap-fill practice in the style of the Cambridge B2 First Reading &amp; Use of English paper:
-        part 1 from a word box, part 2 by multiple choice inside a text, with everyday texts and
-        instant marking.
+        Gap-fill practice with grammar and vocabulary in context: part 1 from a word box, part 2 by
+        multiple choice inside a text, with everyday texts and instant marking.
       </p>
-      <a class="quiz-btn quiz-btn--primary" href="/cambridge/use-of-english" data-i18n="telc.sb.cta">To the Use of English trainer</a>
+      <a class="quiz-btn quiz-btn--primary" href="/cambridge/use-of-english" data-i18n="telc.sb.cta">To the uso de la lengua trainer</a>
     </div>
 
     <div class="mock-cta">
-      <h2 data-i18n="fallen.title">Exam traps at B1</h2>
+      <h2 data-i18n="fallen.title">Exam traps</h2>
       <p data-i18n="fallen.entry.blurb">Spots with a catch – briefly explained, with an example and a task to try.</p>
       <a class="quiz-btn quiz-btn--primary" href="/exams/traps" data-i18n="fallen.entry.cta">See the traps</a>
     </div>
 
     <div class="mock-cta">
-      <h2 data-i18n="telc.a1.title">A1: an unbranded practice test</h2>
+      <h2 data-i18n="telc.a1.title">A1: our DELE A1 practice test</h2>
       <p data-i18n="telc.a1.text">
-        Our A1 practice test is not tied to one provider: listening, reading and writing in exam
-        style. It is marked against a 60 % pass line, which is our own convention, not an official mark.
+        Our own A1 practice test: listening, reading and writing in exam style. It is marked against
+        a 60 % pass line, which is our own convention, not an official mark.
       </p>
       <a class="quiz-btn quiz-btn--primary" href="/a1-test" data-i18n="exam.startSet">Start the practice set</a>
     </div>
@@ -98,7 +96,7 @@ const formate = telcFormate.formate;
     <ExamPractice
       heading="Train the basics"
       headingKey="exam.practice.heading"
-      intro="These tools help at every level and for every exam. They test general articles, grammar and vocabulary, not Trinity-specific task types."
+      intro="These tools help at every level and for every exam. They train articles, grammar and vocabulary in general, not SIELE-specific task types."
       introKey="telc.practice.intro"
       tools={["artikel", "grammatik", "wortschatz"]}
     />
