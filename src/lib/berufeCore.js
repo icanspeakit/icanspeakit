@@ -10,6 +10,7 @@
 // Ids are learners' progress keys, so they are derived once and never renamed.
 import { slugify } from "./audioSlug.js";
 import { langsFor } from "./languages.js";
+import { varietyProblems } from "./variety.js";
 
 /** The ten professions of v1, in hub order. `emoji` is the OpenMoji on the hub card. */
 export const BERUFE = [
@@ -31,9 +32,9 @@ export const SLUGS = BERUFE.map((b) => b.slug);
 export const TRANSLATIONS = langsFor("berufe");
 export const LANGS = ["de", ...TRANSLATIONS];
 export const POS = ["noun", "verb", "adj", "adverb", "phrase"];
-/** English decks: the indefinite article, "some" for uncountable and plural-only nouns
- *  (docs/content-plan.md §1.4). */
-export const GENDERS = ["a", "an", "some"];
+/** English decks: the indefinite article, "some" for uncountable and plural-only nouns;
+ *  Spanish decks: el/la, el/la for common-gender person nouns (docs/content-plan.md §1.4). */
+export const GENDERS = ["a", "an", "some", "el", "la", "el/la"];
 
 /** `bv-gastronomie-schneidebrett` */
 export const idFor = (slug, lemma) => `bv-${slug}-${slugify(lemma)}`;
@@ -100,7 +101,11 @@ export function validate(files, known) {
         if (lemmas.has(key)) at(`${where}: „${w.lemma}" is already defined (${lemmas.get(key)}) — use { "ref": "<id>" }`);
         else lemmas.set(key, `${file} ${w.id}`);
         if (!POS.includes(w.pos)) at(`${where}: pos must be one of ${POS.join(", ")}`);
-        if (w.pos === "noun" && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender a/an/some`);
+        if (w.pos === "noun" && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender ${GENDERS.join("/")}`);
+        if (w.genus != null && !(w.genus === "f" && w.pos === "noun" && w.gender === "el")) at(`${where}: genus "f" only on nouns with gender "el" (el agua)`);
+        if (w.fem != null && !(w.pos === "adj" && typeof w.fem === "string" && w.fem.trim())) at(`${where}: fem must be the feminine form of an adjective`);
+        // variety / es419 (§1.5). A ref inherits both from the word it points to (rule above).
+        for (const p of varietyProblems(w, { noun: w.pos === "noun" })) at(`${where}: ${p}`);
         if (w.pos === "noun" && w.plural === undefined && !w.pluralOnly) at(`${where}: a noun needs "plural" (null when there is none)`);
         if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [3rd person, past simple, past participle]`);
         if (!w.example) at(`${where}: no example sentence`);

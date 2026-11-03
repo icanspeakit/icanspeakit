@@ -6,15 +6,18 @@ import { readdirSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { slugify } from "../src/lib/audioSlug.js";
+import { varietyProblems } from "../src/lib/variety.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 
 const LEVELS = ["a1", "a2", "b1", "b2", "c1", "c2"];
 const POS = ["noun", "verb", "adj", "adv", "prep", "conj", "pron", "num", "phrase"];
-// der/die/das for the German levels still in the files; a/an/some for the English ones
-// (docs/content-plan.md §1.4: the indefinite article, "some" = uncountable or plural-only).
-const GENDERS = ["der", "die", "das", "a", "an", "some"];
+// der/die/das for the German levels still in the files; a/an/some for the English ones;
+// el/la (el/la for common-gender person nouns) for the Spanish ones (docs/content-plan.md §1.4).
+const GENDERS = ["der", "die", "das", "a", "an", "some", "el", "la", "el/la"];
+// genus (§1.4): only "f", only where the article hides the gender (el agua, el aula).
+const GENUS = ["f"];
 const CASES = ["akk", "dat", "gen", "akk/dat"];
 const AUX = ["haben", "sein"];
 
@@ -101,6 +104,16 @@ for (const level of LEVELS) {
           err(where, `separable verb but present form "${w.forms[0]}" has no split prefix`);
         }
       }
+      if (w.genus != null) {
+        if (!GENUS.includes(w.genus)) err(where, `bad genus "${w.genus}" — only "f" (el agua, el aula)`);
+        else if (w.pos !== "noun" || w.gender !== "el") err(where, `genus "f" only on nouns with gender "el" (stressed a-/ha-)`);
+      }
+      if (w.fem != null) {
+        if (w.pos !== "adj") err(where, "fem (feminine form) only on adjectives");
+        else if (typeof w.fem !== "string" || !w.fem.trim()) err(where, "empty fem — omit the field instead");
+      }
+      // variety / es419 (§1.5); scripts/check-variety.mjs checks coverage.
+      for (const p of varietyProblems(w, { noun: w.pos === "noun" })) err(where, p);
       if (w.case && !CASES.includes(w.case)) err(where, `bad case "${w.case}"`);
       if (w.en == null) err(where, "missing English gloss");
       if (w.example != null && !w.example.trim()) err(where, "empty example");
