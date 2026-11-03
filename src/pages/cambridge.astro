@@ -11,13 +11,13 @@ import { external } from "../lib/downloads.js";
 const modellsaetze = external.filter((e) => e.id.startsWith("goethe-"));
 ---
 <Layout
-  title="Cambridge English exams A2–B2: format and practice – icanspeak Spanish"
-  description="Cambridge English A2 Key, B1 Preliminary and B2 First: who they are for, how each exam works, and free practice for every level."
+  title="DELE exams A1–C2: format and practice – icanspeak Spanish"
+  description="The DELE diplomas of the Instituto Cervantes, from A1 to C2: who they are for, how each exam works, and free practice."
 >
   <ExamShell
     bild="goethe"
-    header="Cambridge English"
-    title="Cambridge English"
+    header="DELE"
+    title="DELE"
     lead="Die eigenen Prüfungen des Goethe-Instituts — weltweit anerkannt für Visa, Studium und Arbeitgeber."
     leadKey="goethe.lead"
     badges={["A1–C2"]}
@@ -28,7 +28,7 @@ const modellsaetze = external.filter((e) => e.id.startsWith("goethe-"));
       <section class="exam-section">
         <h2 data-i18n="goethe.who.title">Für wen ist das Goethe-Zertifikat?</h2>
         <div class="exam-meta-row">
-          <span class="exam-meta-badge" data-i18n="telc.who.badge.level">Niveau A1–C2</span>
+          <span class="exam-meta-badge" data-i18n="goethe.who.badge.level">Levels A1–C2</span>
           <span class="exam-meta-badge" data-i18n="goethe.who.badge.perLevel">Ein Zertifikat pro Niveau</span>
         </div>
         <p data-i18n="goethe.who.text">
@@ -45,7 +45,7 @@ const modellsaetze = external.filter((e) => e.id.startsWith("goethe-"));
           <div class="skill-card"><div class="skill-card-icon">📖</div><h4 data-i18n="skill.lesen">Lesen</h4><p data-i18n="skill.lesen.desc">Leseverstehen</p></div>
           <div class="skill-card"><div class="skill-card-icon">🎧</div><h4 data-i18n="skill.hoeren">Hören</h4><p data-i18n="skill.hoeren.desc">Hörverstehen</p></div>
           <div class="skill-card"><div class="skill-card-icon">✍️</div><h4 data-i18n="skill.schreiben">Schreiben</h4><p data-i18n="skill.schreiben.desc">Schriftlicher Ausdruck</p></div>
-          <div class="skill-card"><div class="skill-card-icon">🗣️</div><h4 data-i18n="skill.sprechen">Sprechen</h4><p data-i18n="skill.sprechen.pairDesc">Mündliche Prüfung, meist paarweise</p></div>
+          <div class="skill-card"><div class="skill-card-icon">🗣️</div><h4 data-i18n="skill.sprechen">Sprechen</h4><p data-i18n="skill.sprechen.oralDesc">Spoken expression</p></div>
         </div>
       </section>
 
@@ -78,8 +78,8 @@ const modellsaetze = external.filter((e) => e.id.startsWith("goethe-"));
     <SatzListe exam="goethe" />
 
     <div class="mock-cta">
-      <p class="joint-exam" aria-label="Gemeinsame Prüfung von Goethe-Institut und telc" data-i18n-attr="aria-label:exam.joint.label">
-        <span>Goethe-Institut</span><b aria-hidden="true">×</b><span>telc</span>
+      <p class="joint-exam" aria-label="Our own A1 test, not an official exam" data-i18n-attr="aria-label:exam.joint.label">
+        <span>DELE A1</span><b aria-hidden="true">·</b><span data-i18n="exam.joint.own">our own practice test</span>
       </p>
       <h2 data-i18n="goethe.a1.title">A1: eine Prüfung von Goethe und telc</h2>
       <p data-i18n="goethe.a1.text">
@@ -88,7 +88,7 @@ const modellsaetze = external.filter((e) => e.id.startsWith("goethe-"));
         Unser Übungssatz passt also für beide. Die telc-Seite zeigt Punkte und Notenskala.
       </p>
       <a class="quiz-btn quiz-btn--primary" href="/a1-test" data-i18n="exam.startSet">Übungssatz starten</a>
-      <a class="quiz-btn" href="/trinity" data-i18n="goethe.a1.telcLink">Zur telc-Seite</a>
+      <a class="quiz-btn" href="/ielts" data-i18n="goethe.a1.telcLink">To the SIELE page</a>
     </div>
 
     <ExamPractice

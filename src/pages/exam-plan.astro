@@ -19,7 +19,7 @@ import { saetze, hrefOf } from "../lib/exam/saetze.js";
 
 // The exam names shown in this page's menu (the set data still carries the old German
 // names; the route ids goethe/telc stay until the routes are renamed).
-const EXAM_NAMES: Record<string, string> = { goethe: "Cambridge English", telc: "Trinity ISE" };
+const EXAM_NAMES: Record<string, string> = { goethe: "DELE", telc: "SIELE" };
 import paidManifest from "../data/pruefungen/paid-manifest.json";
 import dtz1 from "../data/pruefungen/dtz/uebungssatz-1.json";
 import { grammarAt } from "../lib/grammarCatalog.js";
@@ -32,13 +32,13 @@ const words = Object.fromEntries(
 );
 const exams = [
   {
-    key: "dtz", label: "Trinity ISE I mock test", level: "B1", feature: "pruefungssaetze",
+    key: "dtz", label: "DELE A2 mock test (nationality)", level: "A2", feature: "pruefungssaetze",
     sets: [
       { label: dtz1.label ?? "Practice set 1", href: "/trinity/ise-1/practice-set" },
       ...paidManifest.dtz.map((s) => ({ label: s.label, href: `/trinity/ise-1/practice-set?satz=${s.id}`, paid: true })),
     ],
   },
-  { key: "start-deutsch-1", label: "A1 English practice test", level: "A1", sets: [{ label: "Practice set 1", href: "/a1-test" }] },
+  { key: "start-deutsch-1", label: "DELE A1 practice test", level: "A1", sets: [{ label: "Practice set 1", href: "/a1-test" }] },
   ...["goethe", "telc"].flatMap((exam) =>
     [...new Set(saetze.filter((s) => s.exam === exam).map((s) => s.level))].map((level) => ({
       key: `${exam}-${level.toLowerCase()}`,
@@ -50,7 +50,7 @@ const exams = [
   ),
 ].map((e) => ({ ...e, grammar, lernsets: words }));
 ---
-<Layout title="Exam plan – icanspeak Spanish" description="Your study plan up to exam day: a few tasks every day and a full practice set every week – for Cambridge English and Trinity ISE.">
+<Layout title="Exam plan – icanspeak Spanish" description="Your study plan up to exam day: a few tasks every day and a full practice set every week – for the DELE and the SIELE.">
   <SiteNav active="pruefungen" />
   <main class="practice-main pp">
     <div class="practice-hero">
@@ -127,7 +127,7 @@ const exams = [
   const store = (() => { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch { return {}; } })();
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch {} };
   const esc = (s: string) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
-  const todayYmd = () => new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/London" });
+  const todayYmd = () => new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Madrid" });
   const nice = (d: string) => new Date(`${d}T12:00:00Z`).toLocaleDateString("en-GB",{ weekday: "short", day: "numeric", month: "numeric" });
 
   // Prefill: the last plan, else the Einstufungstest result for the level.

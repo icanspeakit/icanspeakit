@@ -63,15 +63,15 @@ const downloads: { href: string; label: string; key?: string; vars?: Record<stri
   ...editions("lid-fakten", "Fakten", "lid.fk.dl.factsEd"),
   { href: "/downloads/leben-in-deutschland-fakten-einfach.pdf", label: "Fakten in einfachem Deutsch (PDF)", key: "lid.fk.dl.easy" },
   ...editions("lid-fakten-einfach", "Einfach", "lid.fk.dl.easyEd"),
-  { href: "/downloads/leben-in-deutschland-bayern-a2.pdf", label: "Bayern A2" },
-  { href: "/downloads/leben-in-deutschland-bayern-b1.pdf", label: "Bayern B1" },
-  { href: "/downloads/leben-in-deutschland-bayern-b1-grafiken.pdf", label: "Bayern B1, mit Grafiken", key: "lid.fk.dl.b1charts" },
+  { href: "/downloads/leben-in-deutschland-bayern-a2.pdf", label: "A2 edition" },
+  { href: "/downloads/leben-in-deutschland-bayern-b1.pdf", label: "B1 edition" },
+  { href: "/downloads/leben-in-deutschland-bayern-b1-grafiken.pdf", label: "B1 edition, with charts", key: "lid.fk.dl.b1charts" },
 ];
 const dlVars = (d: { vars?: Record<string, string> }) => (d.vars ? JSON.stringify(d.vars) : undefined);
 ---
 <Layout
-  title="Life in the UK test: facts to learn – icanspeak Spanish"
-  description="The key facts for the Life in the UK test: democracy, elections, rights, history, everyday life and the four nations of the UK."
+  title="CCSE: facts to learn – icanspeak Spanish"
+  description="Key facts for the CCSE: the constitution, institutions, rights, history, culture, everyday life and the comunidades autónomas of Spain. General orientation, not legal advice."
 >
   <div class="fk-page" id="fk-page" data-lang="standard" data-gx="off">
   <SiteNav active="pruefungen" />

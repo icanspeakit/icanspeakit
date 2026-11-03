@@ -24,8 +24,8 @@ const bold = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
 const level = (_f: (typeof fallen)[number]) => "B1";
 ---
 <Layout
-  title="Exam traps at B1 – icanspeak Spanish"
-  description="Parts of B1 exams that look easy but have a catch: a short explanation, a ✗/✓ example, a task to try and a link to the practice set."
+  title="Exam traps: DELE, SIELE, CCSE – icanspeak Spanish"
+  description="Parts of the Spanish exams that look easy but have a catch: a short explanation, a ✗/✓ example, a task to try and a link to the practice set."
   breadcrumb={[{ name: "Exams", path: "/exams" }]}
 >
   <SiteNav active="pruefungen" />
@@ -35,8 +35,8 @@ const level = (_f: (typeof fallen)[number]) => "B1";
 
     <div class="vp-hero">
       <div class="vp-hero-badges">
-        <span class="badge badge-brand" lang="en">ISE I mock test</span>
-        <span class="badge badge-info" lang="en">ISE I practice tests</span>
+        <span class="badge badge-brand" data-i18n="fallen.badge.dtz">DELE A2 mock test</span>
+        <span class="badge badge-info" data-i18n="fallen.badge.telc">SIELE practice sets</span>
       </div>
       <h1 data-i18n="fallen.title">Prüfungsfallen: DTZ und telc B1</h1>
       <p data-i18n="fallen.lead">Diese Stellen in der Prüfung sehen leicht aus, haben aber einen Haken. Zu jeder Falle gibt es eine kurze Erklärung, ein Beispiel, eine Aufgabe zum Ausprobieren und den Weg in den Übungssatz.</p>
@@ -45,8 +45,8 @@ const level = (_f: (typeof fallen)[number]) => "B1";
 
     <div class="fl-chips" role="group" aria-label="Filter by exam" data-i18n-attr="aria-label:fallen.filter.label" data-fl-chips>
       <button type="button" class="fl-chip" data-fl-filter="" aria-pressed="true"><span data-i18n="fallen.filter.all">Alle</span> <span class="fl-chip-n">{fallen.length}</span></button>
-      <button type="button" class="fl-chip" data-fl-filter="dtz" aria-pressed="false" lang="en">B1 skills mock <span class="fl-chip-n">{count("dtz")}</span></button>
-      <button type="button" class="fl-chip" data-fl-filter="telc" aria-pressed="false" lang="en">ISE I practice set <span class="fl-chip-n">{count("telc")}</span></button>
+      <button type="button" class="fl-chip" data-fl-filter="dtz" aria-pressed="false"><span data-i18n="fallen.chip.dtz">DELE A2 mock</span> <span class="fl-chip-n">{count("dtz")}</span></button>
+      <button type="button" class="fl-chip" data-fl-filter="telc" aria-pressed="false"><span data-i18n="fallen.chip.telc">SIELE practice set</span> <span class="fl-chip-n">{count("telc")}</span></button>
     </div>
 
     <span hidden data-fl-msg="ok" data-i18n="fallen.ok">Richtig!</span>

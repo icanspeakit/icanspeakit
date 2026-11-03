@@ -19,8 +19,8 @@ import lid from "../../data/leben-in-deutschland.json";
 const { questions, meta, bundeslaender } = lid;
 ---
 <Layout
-  title="Life in the UK practice test – online – icanspeak Spanish"
-  description="A Life in the UK practice test: questions about the whole UK, scored against the pass mark of the real test (18 out of 24)."
+  title="CCSE practice test – online – icanspeak Spanish"
+  description="A CCSE practice test: our own questions about Spain, scored against the pass mark of the real test. Not the official question bank."
 >
   <SiteNav active="pruefungen" />
   <main class="practice-main practice-main--wide practice-main--trainer">
@@ -38,28 +38,28 @@ const { questions, meta, bundeslaender } = lid;
     </div>
     <ExamDisclaimer />
 
-    {/* Official rules: gov.uk "Life in the UK test", read 2026-10-30. The real test has no
-        nation-specific part; our nation questions are an extra (meta.realTestNote). */}
+    {/* The figures come from meta in leben-in-deutschland.json (`ccse` item, "to verify"). The
+        real test has no part on one comunidad; those questions are an extra (meta.realTestNote). */}
     <ExamFacts
       title="How the test works"
       titleKey="lid.facts.title"
       rows={[
-        [{ text: "Questions", key: "lid.facts.questions" }, { text: `${meta.totalQuestions}, about the whole UK`, key: "lid.facts.questionsVal" }],
-        [{ text: "Answers", key: "lid.facts.answers" }, { text: "multiple choice, on a computer", key: "lid.facts.answersVal" }],
+        [{ text: "Questions", key: "lid.facts.questions" }, `${meta.totalQuestions}`],
+        [{ text: "Answers", key: "lid.facts.answers" }, { text: "multiple choice", key: "lid.facts.answersVal" }],
         [{ text: "Time", key: "ps.format.th.time" }, `${meta.minutes} min`],
-        [{ text: "Pass", key: "sd1.facts.pass" }, { text: `${meta.passScore} of ${meta.totalQuestions} correct (75 %)`, key: "lid.facts.passVal" }],
-        [{ text: "Based on", key: "lid.facts.catalog" }, { text: "the official handbook “Life in the United Kingdom: A Guide for New Residents”", key: "lid.facts.catalogVal" }],
+        [{ text: "Pass", key: "sd1.facts.pass" }, `${meta.passScore} / ${meta.totalQuestions}`],
+        [{ text: "Based on", key: "lid.facts.catalog" }, { text: "the public materials of the Instituto Cervantes; we do not copy them", key: "lid.facts.catalogVal" }],
       ]}
       notes={[
-        { key: "lid.facts.note", html: "Our questions are our own, written from public sources; they are not the official questions. The real test has no part about one nation: our questions on England, Scotland, Wales and Northern Ireland are extra practice." },
+        { key: "lid.facts.note", html: "Our questions are our own, written from public sources; they are not the official questions. The real test has no part about one comunidad autónoma: our questions on them are extra practice. General orientation, not legal advice." },
       ]}
       sources={[
-        { label: "GOV.UK: Life in the UK test", url: "https://www.gov.uk/life-in-the-uk-test" },
+        { label: "Instituto Cervantes: CCSE", url: "https://cervantes.org/es/examenes/ccse" },
       ]}
-      checked="30.10.2026"
+      checked="03.11.2026"
     />
 
-    <ExamApp brand="Life in the UK" sub="Practice test" subKey="lid.test.eyebrow" unit="questions" />
+    <ExamApp brand="CCSE" sub="Practice test" subKey="lid.test.eyebrow" unit="questions" />
   </main>
 
   <script type="application/json" id="lid-data" set:html={JSON.stringify({ questions, meta, bundeslaender })}></script>

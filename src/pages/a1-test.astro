@@ -26,8 +26,8 @@ const hoerIds = ["teil1", "teil2", "teil3"].flatMap((k) => satz.hoeren[k].items.
 const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
 ---
 <Layout
-  title="A1 English practice test – icanspeak Spanish"
-  description="A complete A1 English practice test: listening, reading and writing in exam format, with your score at the end."
+  title="DELE A1 practice test – icanspeak Spanish"
+  description="A complete practice test in the style of the DELE A1: listening, reading and writing, with your score at the end. Not an official exam."
 >
   <SiteNav active="pruefungen" />
   <main class="practice-main practice-main--wide practice-main--trainer">
@@ -35,7 +35,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
 
     <div class="practice-hero">
       <p class="eyebrow" data-i18n="sd1.eyebrow">A1 · Practice test</p>
-      <h1><span class="hero-exam" data-i18n="sd1.h1.exam">A1 English</span> <span data-i18n="sd1.h1.rest">practice test</span></h1>
+      <h1><span class="hero-exam" data-i18n="sd1.h1.exam">DELE A1</span> <span data-i18n="sd1.h1.rest">practice test</span></h1>
       <p data-i18n="sd1.hero.text">
         A complete A1 practice test in exam style: listening, reading and writing, with your score
         at the end. The details are in the “Start” part.
@@ -47,7 +47,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
         was taken out: it described the German exams. The `exams` run adds the facts of the
         English A1 practice test back (see git history of this file for the old block). */}
 
-    <ExamApp brand="A1 English" sub="Practice test" subKey="sd1.sub" unit="tasks" />
+    <ExamApp brand="DELE A1" sub="Practice test" subKey="sd1.sub" unit="tasks" />
     <LevelGrammar levels={["A1"]} />
   </main>
 
@@ -420,9 +420,9 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
           main.appendChild(el("p", "format-note", escapeHtml(T("sd1.passNote", data.passNote))));
 
           const actions = el("div", "exam-actions");
-          const telc = el("a", "quiz-btn", escapeHtml(T("sd1.toTelc", "Zur telc-Übersicht")));
-          telc.href = withBase("/trinity");
-          const goethe = el("a", "quiz-btn", escapeHtml(T("sd1.toGoethe", "Zur Goethe-Übersicht")));
+          const telc = el("a", "quiz-btn", escapeHtml(T("sd1.toTelc", "To the SIELE overview")));
+          telc.href = withBase("/ielts");
+          const goethe = el("a", "quiz-btn", escapeHtml(T("sd1.toGoethe", "To the DELE overview")));
           goethe.href = withBase("/cambridge");
           actions.appendChild(telc);
           actions.appendChild(goethe);
