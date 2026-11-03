@@ -5,15 +5,15 @@
 .fe2 {
   --fe-schrift: #7c3aed;
   --fe-aussprache: var(--brand-blue);
-  --fe-grammatik: #ea580c;
+  --fe-grammatik: #86601f;
   --fe-wortschatz: #2563eb;
   --fe-bad: #b42318;
   --fe-good: #067647;
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .fe2 { --fe-schrift: #a78bfa; --fe-grammatik: #fb923c; --fe-wortschatz: #60a5fa; --fe-bad: #f97066; --fe-good: #47cd89; }
+  :root:not([data-theme="light"]) .fe2 { --fe-schrift: #a78bfa; --fe-grammatik: #c99645; --fe-wortschatz: #60a5fa; --fe-bad: #f97066; --fe-good: #47cd89; }
 }
-:root[data-theme="dark"] .fe2 { --fe-schrift: #a78bfa; --fe-grammatik: #fb923c; --fe-wortschatz: #60a5fa; --fe-bad: #f97066; --fe-good: #47cd89; }
+:root[data-theme="dark"] .fe2 { --fe-schrift: #a78bfa; --fe-grammatik: #c99645; --fe-wortschatz: #60a5fa; --fe-bad: #f97066; --fe-good: #47cd89; }
 
 /* ------------------------------------------------------------ hero -- */
 
@@ -31,9 +31,9 @@
   width: 44px; height: 44px; border-radius: 14px;
   background: var(--gradient-brand); color: #fff;
   font-weight: 700; font-size: 1.05rem; line-height: 1;
-  box-shadow: 0 6px 14px rgba(13, 148, 136, .18);
+  box-shadow: 0 6px 14px rgba(43,65,98, .18);
 }
-.fe-mark--all { background: linear-gradient(135deg, #fdba74, var(--accent, #f97316)); box-shadow: 0 6px 14px rgba(249, 115, 22, .18); }
+.fe-mark--all { background: linear-gradient(135deg, #e0bd7a, var(--accent, #946620)); box-shadow: 0 6px 14px rgba(148,102,32, .18); }
 
 .fe-picks { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; margin-bottom: var(--space-10, 40px); }
 /* Wide: 7 + 6 tiles, stacked like the exam cards on /exercises, so the longest name fits. */
@@ -115,7 +115,7 @@
 .fe-card h2 { font-family: var(--font-body); font-weight: var(--fw-regular); font-size: 1.35rem; margin: 0 0 6px; }
 .fe-card > p { color: var(--muted); margin: 0 0 18px; }
 .fe-note { margin-top: 20px; padding: 16px 18px; border-radius: var(--radius); background: var(--gradient-accent-soft); display: flex; gap: 12px; }
-.fe-note h2 { margin: 0 0 4px; font-size: .74rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-dark, #c2410c); }
+.fe-note h2 { margin: 0 0 4px; font-size: .74rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-dark, #7d571a); }
 .fe-note p { margin: 0; font-size: .9rem; line-height: 1.6; color: var(--ink); }
 
 /* ------------------------------------------------------------ phone -- */

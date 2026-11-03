@@ -13,7 +13,7 @@
   padding: 13px 26px;
   border-radius: var(--radius-pill);
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
   white-space: nowrap;
   border: none;
@@ -22,19 +22,19 @@
   font-family: var(--font-body);
 }
 .lp-btn--primary {
-  background: var(--gradient-brand);
+  background: var(--brand-blue);
   color: #fff;
-  box-shadow: var(--shadow-cta);
-  transition: transform .2s ease;
+  box-shadow: var(--shadow-sm);
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
 }
-.lp-btn--primary:hover { transform: translateY(-1px); }
+.lp-btn--primary:hover { background: var(--blue-800); color: #fff; box-shadow: var(--shadow-md); transform: translateY(-1px); }
 .lp-btn--outline {
   background: var(--surface-card);
   /* 1px less padding than the base so the border does not make it taller
      than the primary sitting next to it. */
   padding: 12px 25px;
-  border: 1px solid var(--border-strong);
-  color: var(--brand-blue-dark);
-  transition: border-color .2s ease;
+  border: 1px solid var(--border);
+  color: var(--ink);
+  transition: border-color .15s ease, color .15s ease;
 }
-.lp-btn--outline:hover { border-color: var(--brand-blue); }
+.lp-btn--outline:hover { border-color: var(--brand-blue); color: var(--brand-blue); }

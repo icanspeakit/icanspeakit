@@ -2,19 +2,19 @@
    Phone (desk narrower than 720px): the papers become a fanned stack with tabs (.ba--stack). */
 
 .ba-page { max-width: 1240px; margin: 0 auto; padding: 12px 16px 48px; }
-.ba { --ink: #1a2230; --wall: #f3ead9; --desk: #c9a27a; --desk-d: #a77f58; --paper: #fffdf7; --memo: #fff3b0;
+.ba { --ink: #24201b; --wall: #f3ead9; --desk: #c9a27a; --desk-d: #a77f58; --paper: #fffdf7; --memo: #fff3b0;
   --ok: #15803d; --no: #dc2626; --sel: #2563eb; color: var(--ink); position: relative; }
 
 /* ---- cards (start, end) ---- */
 .ba-card { background: #fff; border: 3px solid var(--ink); border-radius: 22px; padding: 22px 20px; max-width: 760px; margin: 12px auto; box-shadow: 0 6px 0 var(--ink); }
 .ba-card h1, .ba-card h2 { font-family: var(--font-voice, "Fredoka", sans-serif); margin: 0 0 8px; }
 .ba-card h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); }
-.ba-eyebrow { margin: 0 0 4px; font-size: .85rem; font-weight: 700; color: #0f766e; text-transform: uppercase; letter-spacing: .04em; }
+.ba-eyebrow { margin: 0 0 4px; font-size: .85rem; font-weight: 700; color: #1a2940; text-transform: uppercase; letter-spacing: .04em; }
 .ba-lead { font-size: 1.05rem; line-height: 1.5; margin: 0 0 16px; }
 .ba-go { display: block; width: 100%; max-width: 360px; margin: 16px auto 4px; padding: 14px 18px; font: 700 1.15rem var(--font-voice, "Fredoka", sans-serif);
-  background: #0d9488; color: #fff; border: 3px solid var(--ink); border-radius: 16px; box-shadow: 0 4px 0 var(--ink); cursor: pointer; }
+  background: #2b4162; color: #fff; border: 3px solid var(--ink); border-radius: 16px; box-shadow: 0 4px 0 var(--ink); cursor: pointer; }
 .ba-go:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
-.ba-quiet { background: none; border: 0; color: #0f766e; font-weight: 700; text-decoration: underline; cursor: pointer; padding: 8px; }
+.ba-quiet { background: none; border: 0; color: #1a2940; font-weight: 700; text-decoration: underline; cursor: pointer; padding: 8px; }
 .ba-big { font: 700 3rem var(--font-voice, "Fredoka", sans-serif); margin: 8px 0; }
 .ba-big small { font-size: 1rem; }
 
@@ -57,9 +57,9 @@
 .ba-side { display: flex; flex-direction: column; gap: 10px; }
 .ba-tabs { display: none; }
 
-.ba-doc { position: absolute; width: 290px; background: var(--paper); border: 2.5px solid var(--ink); border-radius: 10px; box-shadow: 0 4px 0 rgba(26,34,48,.35); cursor: grab; transition: box-shadow .15s; }
-.ba-doc.is-drag { cursor: grabbing; box-shadow: 0 12px 20px rgba(26,34,48,.35); }
-.ba-doc.is-target { outline: 4px dashed #0d9488; outline-offset: 3px; }
+.ba-doc { position: absolute; width: 290px; background: var(--paper); border: 2.5px solid var(--ink); border-radius: 10px; box-shadow: 0 4px 0 rgba(36,32,27,.35); cursor: grab; transition: box-shadow .15s; }
+.ba-doc.is-drag { cursor: grabbing; box-shadow: 0 12px 20px rgba(36,32,27,.35); }
+.ba-doc.is-target { outline: 4px dashed #2b4162; outline-offset: 3px; }
 .ba-doc--memo { width: 228px; background: var(--memo); cursor: default; transform: rotate(-1deg); }
 .ba-doc--wgb { background: #f0fdf4; }
 .ba-doc--pass { background: #eef2ff; width: 270px; }
@@ -129,8 +129,8 @@ kbd { font: 600 .7rem ui-monospace, monospace; border: 1.5px solid currentColor;
 .ba-ask { border: 2px solid var(--ink); background: #fff; border-radius: 999px; padding: 2px 10px; font-weight: 700; font-size: .8rem; cursor: pointer; }
 .ba-fragen { background: #fff; border: 3px solid var(--ink); border-radius: 14px; padding: 10px; display: flex; flex-direction: column; gap: 6px; z-index: 70; box-shadow: 0 6px 18px rgba(0,0,0,.2); }
 .ba-fragen-h { margin: 0; font-weight: 800; }
-.ba-frage { text-align: left; border: 2px solid var(--ink); background: #f0fdfa; border-radius: 10px; padding: 8px 10px; font: inherit; font-size: .92rem; cursor: pointer; }
-.ba-frage:hover { background: #ccfbf1; }
+.ba-frage { text-align: left; border: 2px solid var(--ink); background: #f2f5f9; border-radius: 10px; padding: 8px 10px; font: inherit; font-size: .92rem; cursor: pointer; }
+.ba-frage:hover { background: #e5eaf1; }
 
 .ba-stempel-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: auto; }
 .ba-stempel { font: 800 .95rem var(--font-voice, "Fredoka", sans-serif); letter-spacing: .02em; padding: 18px 6px; border: 3px solid var(--ink); border-radius: 14px 14px 22px 22px; color: #fff; cursor: grab; box-shadow: 0 5px 0 var(--ink); touch-action: none; }

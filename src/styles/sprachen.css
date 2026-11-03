@@ -2,24 +2,24 @@
  * (kultur-fehler.css: .fe-hero, .fe-pick, .fe-mark, .fe-note), everything else scoped to .sp. */
 
 .sp {
-  --sp-official: #0d9488;
-  --sp-region: #5eead4;
-  --sp-minority: #fdba74;
-  --sp-community: #ea580c;
+  --sp-official: #2b4162;
+  --sp-region: #8fa3c0;
+  --sp-minority: #e0bd7a;
+  --sp-community: #86601f;
   --sp-land: #e4e8ee;
   --sp-land-line: #ffffff;
   --sp-sea: #f3f7fa;
-  --sp-select: #1a2230;
+  --sp-select: #24201b;
   --sp-same: #067647;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .sp {
-    --sp-official: #14b8a6; --sp-region: #1f7a72; --sp-minority: #9a5a24; --sp-community: #fb923c;
+    --sp-official: #3a5680; --sp-region: #1f7a72; --sp-minority: #9a5a24; --sp-community: #c99645;
     --sp-land: #2a3440; --sp-land-line: #131a22; --sp-sea: #10161d; --sp-select: #f7f9fc; --sp-same: #47cd89;
   }
 }
 :root[data-theme="dark"] .sp {
-  --sp-official: #14b8a6; --sp-region: #1f7a72; --sp-minority: #9a5a24; --sp-community: #fb923c;
+  --sp-official: #3a5680; --sp-region: #1f7a72; --sp-minority: #9a5a24; --sp-community: #c99645;
   --sp-land: #2a3440; --sp-land-line: #131a22; --sp-sea: #10161d; --sp-select: #f7f9fc; --sp-same: #47cd89;
 }
 
@@ -181,7 +181,7 @@
   background: var(--surface-card); border: 1px solid var(--border); color: var(--ink);
 }
 .sp-lang--de { background: var(--ink); color: var(--page-bg); border-color: var(--ink); font-weight: var(--fw-semibold); }
-.sp-lang.is-you { background: var(--accent, #f97316); color: #fff; border-color: transparent; font-weight: var(--fw-semibold); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent, #f97316) 25%, transparent); }
+.sp-lang.is-you { background: var(--accent, #946620); color: #fff; border-color: transparent; font-weight: var(--fw-semibold); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent, #946620) 25%, transparent); }
 .sp-lang--de.is-you { background: var(--ink); }
 
 .sp-others { margin-top: 28px; padding-top: 22px; border-top: 1px dashed var(--border-strong); }
@@ -239,7 +239,7 @@
 .sp-dec-card { padding: 16px 18px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); }
 .sp-dec-rule { display: flex; align-items: baseline; gap: 10px; margin: 0 0 10px; font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; color: var(--ink); line-height: 1; }
 .sp-dec-rule span:last-child { color: var(--brand-blue-dark); }
-.sp-dec-arrow { color: var(--accent, #f97316); font-size: 1.2rem; }
+.sp-dec-arrow { color: var(--accent, #946620); font-size: 1.2rem; }
 .sp-dec-card ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
 .sp-dec-card li { display: grid; grid-template-columns: 6.5em auto 1fr; gap: 10px; font-size: .92rem; color: var(--muted); }
 .sp-dec-card li b { color: var(--ink); font-weight: var(--fw-semibold); }
@@ -252,7 +252,7 @@
 }
 .sp-quiz summary { list-style: none; cursor: pointer; font-size: 1rem; color: var(--ink); }
 .sp-quiz summary::-webkit-details-marker { display: none; }
-.sp-quiz-q { color: var(--accent, #f97316); font-weight: 700; }
+.sp-quiz-q { color: var(--accent, #946620); font-weight: 700; }
 .sp-quiz-show { display: block; margin-top: 6px; font-size: .72rem; color: var(--brand-blue-dark); text-transform: uppercase; letter-spacing: .06em; font-weight: 700; font-family: var(--font-label); }
 .sp-quiz details[open] { border-style: solid; border-color: var(--sp-same); background: color-mix(in srgb, var(--sp-same) 7%, var(--surface-card)); }
 .sp-quiz details[open] .sp-quiz-show, .sp-quiz details[open] .sp-quiz-q { display: none; }

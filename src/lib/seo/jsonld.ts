@@ -21,9 +21,11 @@ export function organizationLd(site: string) {
     name: "icanspeak Spanish",
     alternateName: ["icanspeak", "icanspeak.it/spanish"],
     url: `${site}/`,
-    // Square, ≥ 112 px: what Google needs for the logo next to the result. The wide wordmark
-    // (/assets/logo.png, 618 × 176) does not qualify.
-    logo: { "@type": "ImageObject", url: `${site}/icon-512.png`, width: 512, height: 512 },
+    // Square, ≥ 112 px: what Google needs for the logo next to the result. The course mark
+    // from the icanspeak.it kit (docs/brand/BRAND.md); the wide wordmark does not qualify.
+    logo: { "@type": "ImageObject", url: `${site}/logos/icanspeak-spanish-mark-1024.png`, width: 1024, height: 1024 },
+    // Part of the icanspeak.it family (the domain root is the umbrella site).
+    parentOrganization: { "@type": "Organization", name: "icanspeak.it", url: "https://icanspeak.it/" },
     description:
       "icanspeak Spanish is a free website for learning the Spanish of Spain, from A1 to C1, and preparing for the DELE, the SIELE and the CCSE.",
     // Already public on /legal-notice. The operator's name and address stay there: they are a

@@ -1,84 +1,116 @@
+/* icanspeak.it palette (docs/brand/BRAND.md). The token names are the fork's (brand-blue,
+   blue-50…900, accent) so no component had to change: "blue" is now the icanspeak navy
+   #2b4162 and "accent" the amber. Two deliberate departures from the brand sheet, both for
+   WCAG AA (4.5:1 for text):
+   - --accent is #946620, a deeper amber than the brand's #b3812e (3.2:1 on the paper
+     background). It is used as text in eyebrows and as a fill behind white labels, and
+     passes both ways. The brand amber itself is --brand-amber, for dots, underlines and
+     other marks that carry no text.
+   - --muted is #6b6152 rather than #7a6f60, which drops to 4.1:1 on --surface. */
 :root {
-  --brand-blue-light: #5eead4;
-  --brand-cyan:       #f97316;
-  --brand-blue:       #0d9488;
-  --brand-blue-dark:  #0f766e;
-  --accent:           #f97316;
-  --accent-dark:      #c2410c;
+  --brand-amber:      #b3812e;
+  --brand-blue-light: #8fa3c0;
+  --brand-cyan:       #946620;
+  --brand-blue:       #2b4162;
+  --brand-blue-dark:  #1a2940;
+  /* Fill behind white labels; differs from --brand-blue only in the dark theme. */
+  --brand-fill:       #2b4162;
+  --accent:           #946620;
+  --accent-dark:      #7d571a;
+  --accent-soft:      #f0e2bf;
 
   /* The plural article's colour, used where a noun's gender is shown by hue (see the note
-     on .vt-art in vokabeltrainer.css). Its own token rather than --accent-dark, which is
-     #c2410c — a burnt orange one step from --danger's #c1462f, so the plural "die" and the
-     feminine "die" were effectively the same colour.
+     on .vt-art in vokabeltrainer.css). Its own token rather than --accent-dark, which was
+     a burnt orange one step from --danger's red, so the plural and the feminine article
+     were effectively the same colour (--accent-dark is a dark amber now, still too close).
      Hue is what separates these two: the feminine red is at 9°, this is at 48°. Yellow, as
      asked for. Note that it is 1.53:1 on white — well under the 4.5:1 normal text wants —
      so the plural line pairs it with the weight bump in vokabeltrainer.css rather than
      standing on colour alone. */
   --gender-plural:    #facc15;
 
-  --blue-50:  #f0fdfa;
-  --blue-100: #ccfbf1;
-  --blue-200: #99f6e4;
-  --blue-300: #5eead4;
-  --blue-400: #2dd4bf;
-  --blue-500: #14b8a6;
-  --blue-600: #0d9488;
-  --blue-700: #0f766e;
-  --blue-800: #115e59;
-  --blue-900: #134e4a;
+  /* Navy scale around --color-primary #2b4162 (600) and --color-primary-dark #1a2940 (800);
+     100 is the brand's --color-primary-soft. */
+  --blue-50:  #f2f5f9;
+  --blue-100: #e5eaf1;
+  --blue-200: #cbd5e3;
+  --blue-300: #a3b3ca;
+  --blue-400: #7389ab;
+  --blue-500: #4a6288;
+  --blue-600: #2b4162;
+  --blue-700: #22344f;
+  --blue-800: #1a2940;
+  --blue-900: #121d2e;
 
-  --ink:        #1a2230;
-  --ink-deep:   #0f141c;
-  --muted:      #4b5768;
-  --muted-soft: #94a0b0;
-  --border:     #e7e9ee;
-  --border-strong: #cbd2db;
-  --surface:    #f7f8fa;
+  --ink:        #24201b;
+  --ink-deep:   #15120e;
+  /* Body copy in the brand is --color-text #3c352c; here --ink carries headings and body
+     alike, so it stays the darker ink. */
+  --text:       #3c352c;
+  --muted:      #6b6152;
+  /* Used as text in many places (counters, hints, notes), so it has to pass AA on
+     --surface too; barely lighter than --muted for that reason. */
+  --muted-soft: #73685a;
+  --border:     #e3d6bd;
+  --border-strong: #cdbd9e;
+  --surface:    #f2ead9;
   /* Page ground and card ground. Split out from the literal #fff they used to be
-     so dark mode has somewhere to hook in — see the [data-theme="dark"] block below. */
-  --page-bg:      #ffffff;
+     so dark mode has somewhere to hook in — see the [data-theme="dark"] block below.
+     The page is the brand's warm paper; cards stay white on it. */
+  --page-bg:      #fbf7ef;
   --surface-card: #ffffff;
+  /* The two faint glows on the paper (amber top left, navy top right), see body below. */
+  --page-glow-a: rgba(179,129,46,.10);
+  --page-glow-b: rgba(43,65,98,.07);
   /* Deliberately-inverted bands (footers, the dashboard callout) — dark in light
-     mode, and *deeper* rather than lighter in dark mode, so they stay a band. */
-  --inverse-surface: #1a2230;
+     mode, and *deeper* rather than lighter in dark mode, so they stay a band.
+     The brand footer navy. */
+  --inverse-surface: #1a2940;
   /* The level rail beside a panel is not a band; at full inverse-surface it was the
-     loudest thing on the page. A softer slate keeps white labels readable (~10:1). */
-  --rail-surface: #334155;
+     loudest thing on the page. The primary navy keeps white labels readable (10:1). */
+  --rail-surface: #2b4162;
 
-  --gradient-brand: linear-gradient(135deg, #2dd4bf, var(--brand-blue));
-  --gradient-brand-soft: linear-gradient(135deg, var(--blue-100), #f0fdfa 50%, var(--blue-200));
-  --gradient-accent-soft: linear-gradient(135deg, #ffedd5, #fff7ed 50%, #fed7aa);
-  --gradient-hero-scrim: linear-gradient(120deg, rgba(26,34,48,.82), rgba(13,148,136,.55));
+  --gradient-brand: linear-gradient(135deg, #3a5680, var(--brand-blue));
+  --gradient-brand-soft: linear-gradient(135deg, var(--blue-100), #f2f5f9 50%, var(--blue-200));
+  --gradient-accent-soft: linear-gradient(135deg, #f0e2bf, #faf3e3 50%, #ecd7a6);
+  --gradient-hero-scrim: linear-gradient(120deg, rgba(36,32,27,.82), rgba(43,65,98,.55));
 
   /* Semantic status colors — formalized from colors already organically in use
      across practice.css/akkusativ.css/fakten-layouts.css. New/refactored UI
-     should reference these instead of one-off hex values. */
-  --success:      #047857;
-  --success-soft: #ecfdf5;
-  --success-border: #6ee7b7;
-  --danger:       #c1462f;
-  --danger-soft:  #fdeeea;
-  --danger-border: #f3c8bd;
-  --warning:      #f2a900;
-  --warning-soft: #fff7e0;
-  --warning-border: #f6dd99;
-  --info:         #2563eb;
-  --info-soft:    #eff6ff;
-  --info-border:  #bfdbfe;
+     should reference these instead of one-off hex values.
+     Harmonised with the warm palette (a moss green, a brick red, an ochre, a slate
+     blue) but still clearly green/red/yellow/blue; every one is ≥ 4.9:1 as text on
+     its own -soft ground, on the paper and on white. --warning was #f2a900 (2:1 as text). */
+  --success:      #2e6b47;
+  --success-soft: #eaf3ec;
+  --success-border: #a9cdb3;
+  --danger:       #b23b26;
+  --danger-soft:  #fbece6;
+  --danger-border: #edc2b6;
+  --warning:      #8f5f12;
+  --warning-soft: #fbf1db;
+  --warning-border: #e8cf94;
+  --info:         #2f5f9e;
+  --info-soft:    #edf2f8;
+  --info-border:  #bccde3;
 
-  /* "DA Script": the Noto face for Arabic, Ethiopic, Devanagari … script, declared only
+  /* icanspeak.it type (docs/brand/BRAND.md): Fraunces for headings, Inter for body and UI,
+     both self-hosted in public/fonts/icanspeak/fonts.css (linked in Layout.astro).
+     No other web font is requested.
+     "DA Script": the Noto face for Arabic, Ethiopic, Devanagari … script, declared only
      once a language in that script is chosen (src/lib/scriptFonts.js). Until then the
      name matches nothing and costs nothing. */
-  --font-body: "DA Chevron", "Sora", "DA Script", "Segoe UI", Arial, sans-serif;
-  --font-display: "DA Chevron", "Big Shoulders Display", "DA Script", "Segoe UI", Arial, sans-serif;
-  --font-accent: "Bungee Shade", var(--font-display), cursive;
-  /* Eyebrows, labels and counters. Swappable: /font compares the two
-     candidates by overriding this token on the page root. */
-  --font-label: "Albert Sans", "DA Script", "Segoe UI", Arial, sans-serif;
+  --font-body: "Inter", "DA Script", system-ui, "Segoe UI", Arial, sans-serif;
+  --font-display: "Fraunces", "DA Script", Georgia, "Times New Roman", serif;
+  /* Was a decorative shaded face (Bungee Shade); the brand has none, so accents are
+     Fraunces italic where they are set in --font-accent. */
+  --font-accent: var(--font-display);
+  /* Eyebrows, labels and counters: Inter, like the brand's eyebrows. */
+  --font-label: var(--font-body);
   /* Mascot voice: speech bubbles, mascot hints, feedback words, name tags.
      Only for text a mascot says — never headlines, body or buttons.
-     See docs/newfont.md; /newfont compares it against today's fonts. */
-  --font-voice: "Fredoka", var(--font-display), sans-serif;
+     Was Fredoka; in the brand the mascots speak in the heading serif. */
+  --font-voice: var(--font-display);
 
   /* Type scale */
   --text-xs:   .75rem;
@@ -91,9 +123,9 @@
   --text-4xl:  clamp(1.8rem, 4vw, 2.25rem);
   --text-5xl:  clamp(1.8rem, 4vw, 2.8rem);
 
-  /* Sora is self-hosted as a variable face at 300-800, so 300 is real weight, not
-     a synthesised one. Reserved for header and back links, which are marked as
-     links by colour and need no weight at all. */
+  /* Inter ships 400-700 (fonts.css), Fraunces 400-600: 300 renders as 400 and 800 as the
+     heaviest face there is. Light is reserved for header and back links, which are marked
+     as links by colour and need no weight at all. */
   --fw-light:     300;
   --fw-regular:   400;
   --fw-medium:    500;
@@ -124,10 +156,12 @@
   --radius-lg: 20px;
   --radius-pill: 999px;
 
-  --shadow-sm: 0 2px 8px rgba(28,43,63,.06);
-  --shadow-hover: 0 12px 28px rgba(28,43,63,.10);
-  --shadow-cta: 0 8px 20px rgba(59,169,217,.35);
-  --shadow-raised: 0 18px 44px rgba(28,43,63,.14);
+  /* Brand shadows: --shadow-sm and --shadow-md (here --shadow-hover) as in BRAND.md. */
+  --shadow-sm: 0 1px 2px rgba(36,32,27,.08);
+  --shadow-md: 0 10px 28px rgba(36,32,27,.10);
+  --shadow-hover: var(--shadow-md);
+  --shadow-cta: 0 8px 20px rgba(43,65,98,.22);
+  --shadow-raised: 0 18px 44px rgba(36,32,27,.14);
 
   /* Motion */
   --ease-standard: cubic-bezier(.4, 0, .2, 1);
@@ -148,56 +182,10 @@
   --breakpoint-lg: 1024px;
 }
 
-/* → and ← as thin chevrons, sitewide: a two-glyph font first in the stacks above, limited to
-   those two characters, so everything else falls through to Sora (scripts/build-chevron-font.py). */
-@font-face {
-  font-family: "DA Chevron";
-  font-display: swap;
-  src: url("/fonts/da-chevron.woff2") format("woff2");
-  unicode-range: U+2190, U+2192;
-}
-
-@font-face {
-  font-family: "Albert Sans";
-  font-style: normal;
-  font-weight: 300 800;
-  font-display: swap;
-  src: url("/fonts/albert-sans-latin.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Big Shoulders Display";
-  font-style: normal;
-  font-weight: 500 800;
-  font-display: swap;
-  src: url("/fonts/big-shoulders-display-latin.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Bungee Shade";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/bungee-shade-latin.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Sora";
-  font-style: normal;
-  font-weight: 300 800;
-  font-display: swap;
-  src: url("/fonts/sora-latin.woff2") format("woff2");
-}
-
-/* Mascot voice (--font-voice). Deliberately not preloaded in Layout.astro: the
-   browser only fetches it on pages that actually render mascot text. */
-@font-face {
-  font-family: "Fredoka";
-  font-style: normal;
-  font-weight: 300 700;
-  font-display: swap;
-  src: url("/fonts/fredoka-latin.woff2") format("woff2");
-}
+/* The @font-face rules for Fraunces, Inter (and Literata, logo only) live in
+   public/fonts/icanspeak/fonts.css, linked in Layout.astro. The fork's faces (Sora,
+   Big Shoulders Display, Albert Sans, Bungee Shade, Fredoka, the "DA Chevron" arrow font)
+   are no longer declared, so they are never requested. */
 
 /* "Maskottchen anzeigen: aus" (src/lib/mascotPrefs.js). Every <Mascot> carries .mascot;
    anything that only makes sense next to a mascot (its speech bubble, a mascot-only
@@ -287,55 +275,68 @@ html[data-paywall="on"]:not([data-plan="premium"]):not([data-plan="pack"]) [data
    and toggled by src/lib/theme.js.
 --------------------------------------------------------------------------- */
 :root[data-theme="dark"] {
-  --page-bg:      #0f141b;
-  --surface-card: #182029;
-  --surface:      #131a22;
+  /* A warm night version of the paper: brown-black grounds, cream ink, a lighter navy
+     and a lighter amber as foreground accents. */
+  --page-bg:      #16130f;
+  --surface-card: #211d18;
+  --surface:      #1b1814;
+  --page-glow-a: rgba(179,129,46,.07);
+  --page-glow-b: rgba(143,163,192,.05);
 
-  --ink:        #e9edf3;
-  --ink-deep:   #f7f9fc;
-  --muted:      #a6b1c0;
-  --muted-soft: #717f91;
-  --border:        #2a3440;
-  --border-strong: #3d4958;
-  --inverse-surface: #070b10;
-  --rail-surface: #0b1118;
+  --ink:        #f1ebe0;
+  --ink-deep:   #fbf7ef;
+  --text:       #e4dccd;
+  --muted:      #bcb2a2;
+  --muted-soft: #a39886;
+  --border:        #3a332a;
+  --border-strong: #4f463a;
+  --inverse-surface: #0d0b08;
+  --rail-surface: #0f0d0a;
 
-  --brand-blue:       #14b8a6;
-  --brand-blue-dark:  #5eead4;
-  --brand-blue-light: #99f6e4;
-  --accent:      #fb923c;
-  --accent-dark: #fdba74;
+  /* --brand-blue is text (~130 uses) and a fill behind white labels (~150) at once, and on
+     a dark ground no navy passes 4.5:1 both ways. #7593bd: 5.3:1 as text, 3.15:1 under a
+     white label (bold UI labels; the fork's dark teal was 2.5:1). The primary buttons get a
+     deeper fill, --brand-fill (5.7:1), in the fixups below. --brand-blue-dark is the
+     foreground navy, light on dark. */
+  --brand-amber:      #c99645;
+  --brand-blue:       #7593bd;
+  --brand-fill:       #4a6890;
+  --brand-blue-dark:  #a9bcd6;
+  --brand-blue-light: #cbd5e3;
+  --accent:      #d4a65a;
+  --accent-dark: #e6c486;
+  --accent-soft: #3a2d17;
   /* On a dark card yellow needs no help — #fde047 is 13:1 here, against --danger's
      #f87171. Brighter than the light-mode value, and the weight bump is harmless. */
   --gender-plural: #fde047;
 
-  --blue-50:  #102a2c;
-  --blue-100: #133a3a;
-  --blue-200: #1f5a58;
+  --blue-50:  #1c2433;
+  --blue-100: #212c3d;
+  --blue-200: #31415a;
 
-  --success:      #34d399;
-  --success-soft: #0e2a20;
-  --success-border: #1f5c46;
-  --danger:       #f87171;
-  --danger-soft:  #2d1815;
-  --danger-border: #6d2f28;
-  --warning:      #fbbf24;
-  --warning-soft: #2b2110;
-  --warning-border: #6b5220;
-  --info:         #60a5fa;
-  --info-soft:    #101d2f;
-  --info-border:  #24456f;
+  --success:      #7cc49a;
+  --success-soft: #16261c;
+  --success-border: #2f5a3f;
+  --danger:       #ee8f7c;
+  --danger-soft:  #2d1915;
+  --danger-border: #6d3428;
+  --warning:      #e3b45f;
+  --warning-soft: #2b2212;
+  --warning-border: #6b5424;
+  --info:         #8fb3e3;
+  --info-soft:    #151e2c;
+  --info-border:  #2d4567;
 
-  /* The brand gradient itself stays put — it is the logo teal and reads well on
-     dark — but the pale tint gradients have to be rebuilt from scratch. */
-  --gradient-brand-soft:  linear-gradient(135deg, #133a3a, #0f2a2c 50%, #17494a);
-  --gradient-accent-soft: linear-gradient(135deg, #2e1d11, #251810 50%, #3d2615);
-  --gradient-hero-scrim:  linear-gradient(120deg, rgba(6,10,15,.88), rgba(13,148,136,.45));
+  --gradient-brand:       linear-gradient(135deg, #4f6d96, #4a6890);
+  --gradient-brand-soft:  linear-gradient(135deg, #212c3d, #24201b 50%, #2a3850);
+  --gradient-accent-soft: linear-gradient(135deg, #2e2414, #251d10 50%, #3d2f18);
+  --gradient-hero-scrim:  linear-gradient(120deg, rgba(10,8,6,.88), rgba(43,65,98,.50));
 
-  /* Shadows need real black on a dark ground; the light-mode navy tints vanish. */
+  /* Shadows need real black on a dark ground; the light-mode tints vanish. */
   --shadow-sm:     0 2px 8px rgba(0,0,0,.40);
-  --shadow-hover:  0 12px 28px rgba(0,0,0,.50);
-  --shadow-cta:    0 8px 20px rgba(20,184,166,.30);
+  --shadow-md:     0 12px 28px rgba(0,0,0,.50);
+  --shadow-hover:  var(--shadow-md);
+  --shadow-cta:    0 8px 20px rgba(0,0,0,.40);
   --shadow-raised: 0 18px 44px rgba(0,0,0,.55);
 
   color-scheme: dark;
@@ -345,35 +346,66 @@ html[data-paywall="on"]:not([data-plan="premium"]):not([data-plan="pack"]) [data
    remaps above would otherwise invert. */
 :root[data-theme="dark"] .akk-rail-seg--done,
 :root[data-theme="dark"] .vt-primary-btn:hover { background: var(--brand-blue); }
+/* The primary buttons carry white labels on --brand-blue; in dark they take the deeper
+   --brand-fill so the label keeps AA contrast. */
+:root[data-theme="dark"] :is(.btn-primary, .lp-btn--primary, .btn-cta, .tab-btn.active) { background: var(--brand-fill); }
+:root[data-theme="dark"] :is(.btn-primary, .lp-btn--primary, .btn-cta):hover { background: #3d587d; }
 
 /* Photos are all shot bright on white; take the glare off without washing out the
    detail. Scoped to .jpg because every photo is one and the only .png is the logo,
    which is already a blue-on-transparent mark and just needs lifting a little. */
 :root[data-theme="dark"] img[src$=".jpg"] { filter: brightness(.86) contrast(1.03); }
-:root[data-theme="dark"] img[src$="logo.png"] { filter: brightness(1.15) saturate(1.1); }
+
+/* The course wordmark (src/components/Wordmark.astro) comes as a light and a dark SVG pair;
+   the logo SVGs are never recoloured (BRAND.md), so the theme picks one. A .wordmark--on-dark
+   pair sits on a band that is dark in both themes (the footer) and always shows the dark one. */
+.wordmark-img--dark { display: none !important; }
+:root[data-theme="dark"] .wordmark:not(.wordmark--on-dark) .wordmark-img--light,
+.wordmark--on-dark .wordmark-img--light { display: none !important; }
+:root[data-theme="dark"] .wordmark:not(.wordmark--on-dark) .wordmark-img--dark,
+.wordmark--on-dark .wordmark-img--dark { display: block !important; }
 
 * { box-sizing: border-box; }
 body {
   margin: 0;
   font-family: var(--font-body);
-  background: var(--page-bg);
+  /* Warm paper with two faint glows at the top (BRAND.md). */
+  background:
+    radial-gradient(900px 520px at 0% 0%, var(--page-glow-a), transparent 65%) no-repeat,
+    radial-gradient(820px 520px at 100% 0%, var(--page-glow-b), transparent 65%) no-repeat,
+    var(--page-bg);
   color: var(--ink);
   line-height: 1.6;
   transition: background-color var(--duration-base) var(--ease-standard);
 }
+/* Headings in Fraunces (500 for h1/h2, 600 for h3/h4), as on icanspeak.it. Components that
+   set their own family or weight keep it; this is the default they start from (:where()
+   keeps it at zero specificity, so any class rule wins). No colour here: a heading on a
+   dark band inherits the band's white. */
+:where(h1, h2, h3, h4) {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+:where(h1, h2) { font-weight: 500; }
+:where(h3, h4) { font-weight: 600; }
+:where(a:not([class])) { color: var(--brand-blue); }
+:where(a:not([class])):hover { color: var(--brand-blue-dark); }
 img { max-width: 100%; display: block; }
 .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
 .section { padding: 64px 0; }
+/* Brand eyebrow: Inter 700, small caps-spaced, amber-dark. */
 .eyebrow {
   font-family: var(--font-label);
-  color: var(--brand-blue-dark);
+  color: var(--accent-dark);
   text-transform: uppercase;
   letter-spacing: .08em;
+  font-size: .78rem;
   font-weight: 700;
   text-align: center;
   margin: 0 0 8px;
 }
-h3 { text-align: center; font-weight: var(--fw-regular); }
+h3 { text-align: center; }
 
 /* Header */
 .site-header { background: var(--surface-card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
@@ -384,16 +416,17 @@ h3 { text-align: center; font-weight: var(--fw-regular); }
 .main-nav a:hover { color: var(--brand-blue); }
 .btn-cta {
   margin-left: 24px;
-  background: var(--gradient-brand);
+  background: var(--brand-blue);
   color: #fff;
   padding: 10px 22px;
   border-radius: 999px;
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
   white-space: nowrap;
-  transition: box-shadow .2s ease, transform .2s ease;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .15s ease, transform .15s ease, background .15s ease;
 }
-.btn-cta:hover { box-shadow: 0 8px 20px rgba(59,169,217,.35); transform: translateY(-1px); }
+.btn-cta:hover { background: var(--blue-800); color: #fff; box-shadow: var(--shadow-md); transform: translateY(-1px); }
 
 .nav-toggle {
   display: none;
@@ -423,7 +456,7 @@ h3 { text-align: center; font-weight: var(--fw-regular); }
 .hero::before {
   content: "";
   position: absolute; inset: 0;
-  background: linear-gradient(120deg, rgba(28,43,63,.82), rgba(59,169,217,.55));
+  background: var(--gradient-hero-scrim);
 }
 .hero-content {
   position: relative;
@@ -481,7 +514,7 @@ h3 { text-align: center; font-weight: var(--fw-regular); }
   border-radius: var(--radius);
   transition: box-shadow .2s ease, transform .2s ease;
 }
-.why-card:hover { box-shadow: 0 12px 28px rgba(28,43,63,.1); transform: translateY(-2px); }
+.why-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
 .why-card img { height: 140px; object-fit: cover; width: 100%; }
 .why-card-icon {
   height: 140px;
@@ -608,12 +641,12 @@ blockquote cite { font-weight: 600; color: var(--brand-blue-dark); font-style: n
 }
 
 /* Footer */
-.site-footer { background: var(--inverse-surface); color: #cfd8e6; padding: 48px 0 16px; }
+.site-footer { background: var(--inverse-surface); color: #cdd6e2; padding: 48px 0 16px; }
 .footer-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
-.footer-logo { height: 40px; filter: brightness(0) invert(1); margin-bottom: 12px; }
+.footer-logo { height: 28px; width: auto; margin-bottom: 12px; }
 .footer-grid p:first-of-type { font-family: var(--font-display); }
 .footer-grid h4 { color: #fff; margin: 0 0 8px; font-weight: var(--fw-regular); }
-.copyright { text-align: center; color: #7c8aa0; font-size: .85rem; margin: 32px 0 0; }
+.copyright { text-align: center; color: #8b95a8; font-size: .85rem; margin: 32px 0 0; }
 
 @media (max-width: 1024px) {
   .why-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -686,7 +719,7 @@ blockquote cite { font-weight: 600; color: var(--brand-blue-dark); font-style: n
    meant, also in a condensed display font and on a projector. */
 .q-mark {
   text-decoration-line: underline;
-  text-decoration-color: var(--accent);
+  text-decoration-color: var(--brand-amber);
   text-decoration-thickness: max(3px, 0.09em);
   text-underline-offset: 0.16em;
   text-decoration-skip-ink: none;

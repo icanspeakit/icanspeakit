@@ -141,7 +141,7 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
   </main>
 
   <style>
-    .bk-page { --der: #2f6fd6; --die: #c2415a; --das: #2e9a62; --paper: #fffdf8; --card-ink: #1a2230; }
+    .bk-page { --der: #2f6fd6; --die: #c2415a; --das: #2e9a62; --paper: #fffdf8; --card-ink: #24201b; }
     .bk-crew { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 16px 0 0; }
     .bk-say { margin: 0 !important; font-family: var(--font-voice); font-weight: 600; color: var(--ink) !important; background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 6px 12px; }
 
@@ -169,14 +169,14 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
     .bk-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
     .bk-grid li[hidden] { display: none; }
     .bk-card {
-      --frame: #5eead4;
+      --frame: #8fa3c0;
       width: 100%; aspect-ratio: 4 / 5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
       padding: 10px; cursor: pointer; font: inherit; color: var(--card-ink);
       background: var(--paper); border: 3px solid var(--card-ink); border-radius: 18px;
       box-shadow: inset 0 0 0 5px var(--paper), inset 0 0 0 8px var(--frame), 0 3px 0 var(--card-ink);
       transition: transform var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard);
     }
-    .bk-card--nomen { --frame: #5eead4; } .bk-card--verben { --frame: #fdba74; }
+    .bk-card--nomen { --frame: #8fa3c0; } .bk-card--verben { --frame: #e0bd7a; }
     .bk-card--adjektive { --frame: #c4b5fd; } .bk-card--kleine { --frame: #93c5fd; }
     .bk-card:hover { transform: translateY(-3px) rotate(-1deg); }
     .bk-card:active { transform: translateY(1px); box-shadow: inset 0 0 0 5px var(--paper), inset 0 0 0 8px var(--frame), 0 1px 0 var(--card-ink); }
@@ -246,7 +246,7 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
       @page { size: A4 portrait; margin: 8mm; }
       :global(body.bk-printing > *:not(.bk-sheets)) { display: none !important; }
       :global(body.bk-printing) { background: #fff !important; }
-      :global(.bk-sheets) { display: block; color: #1a2230; font-family: var(--font-voice, "Fredoka", sans-serif); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      :global(.bk-sheets) { display: block; color: #24201b; font-family: var(--font-voice, "Fredoka", sans-serif); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       :global(.bk-sheet) {
         width: 194mm; height: 281mm; box-sizing: border-box; display: grid; break-after: page; overflow: hidden;
         grid-template-columns: repeat(var(--cols), 1fr); grid-template-rows: repeat(var(--rows), 1fr);
@@ -262,9 +262,9 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
       :global(.bk-cell .bk-art) { font-size: .72em; }
       :global(.bk-cell .bk-art--der) { color: #2f6fd6; } :global(.bk-cell .bk-art--die) { color: #c2415a; } :global(.bk-cell .bk-art--das) { color: #2e9a62; }
       /* Zum Ausmalen: every fill white, the outline stays — except small solid ink (eyes). */
-      :global(.bk-sheets.is-outline svg [fill]:not([fill="none"]):not([fill="#1a2230"])) { fill: #fff !important; }
+      :global(.bk-sheets.is-outline svg [fill]:not([fill="none"]):not([fill="#24201b"])) { fill: #fff !important; }
       :global(.bk-sheets.is-outline svg [stroke="#fff"]) { stroke: none !important; }
-      :global(.bk-sheets.is-outline .bk-art) { color: #1a2230 !important; }
+      :global(.bk-sheets.is-outline .bk-art) { color: #24201b !important; }
     }
 
     @media (prefers-reduced-motion: reduce) {

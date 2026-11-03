@@ -45,9 +45,9 @@
 /* Driven by the site-wide <html data-theme>, not a page-local switch. */
 :root[data-theme="dark"] .vt-shell {
   --vt-bg: #141b26;
-  --vt-surface: #0f141c;
+  --vt-surface: #15120e;
   --vt-ink: #f4f6f8;
-  --vt-muted: #94a0b0;
+  --vt-muted: #73685a;
   --vt-border: #232c3a;
   --vt-border-strong: #384357;
   --vt-correct-bg: #0d3d3a;
@@ -359,8 +359,8 @@
    a soft ring spreads out and fades, the face warms for a moment. */
 .vt-flip-inner.is-lit .vt-face { animation: vt-card-lit .7s ease-out; }
 @keyframes vt-card-lit {
-  0% { border-color: var(--brand-blue, #14b8a6); box-shadow: 0 0 0 0 color-mix(in srgb, var(--brand-blue, #14b8a6) 45%, transparent); background: color-mix(in srgb, var(--brand-blue, #14b8a6) 10%, var(--vt-bg)); }
-  60% { border-color: var(--brand-blue, #14b8a6); box-shadow: 0 0 0 10px color-mix(in srgb, var(--brand-blue, #14b8a6) 0%, transparent); }
+  0% { border-color: var(--brand-blue, #3a5680); box-shadow: 0 0 0 0 color-mix(in srgb, var(--brand-blue, #3a5680) 45%, transparent); background: color-mix(in srgb, var(--brand-blue, #3a5680) 10%, var(--vt-bg)); }
+  60% { border-color: var(--brand-blue, #3a5680); box-shadow: 0 0 0 10px color-mix(in srgb, var(--brand-blue, #3a5680) 0%, transparent); }
   100% { box-shadow: 0 0 0 10px transparent; background: var(--vt-bg); }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -432,7 +432,7 @@
 /* The word class, filled and coloured by class so it reads at a glance: a learner who
    sees "help" on the front needs to know at once whether to answer a noun or a verb. */
 .vt-info-pos {
-  --pos: var(--brand-blue-dark, #0f766e);
+  --pos: var(--brand-blue-dark, #1a2940);
   font-family: var(--font-label); font-size: .8125rem; font-weight: 700; letter-spacing: .06em;
   text-transform: uppercase; color: var(--pos);
   background: color-mix(in srgb, var(--pos) 12%, transparent);
@@ -441,12 +441,12 @@
 }
 /* It links to its class on /grammar/parts-of-speech. */
 a.vt-info-pos:hover { background: color-mix(in srgb, var(--pos) 22%, transparent); }
-.vt-info-pos--verb { --pos: #c2410c; }
+.vt-info-pos--verb { --pos: #7d571a; }
 .vt-info-pos--adj, .vt-info-pos--adv { --pos: #7c3aed; }
 .vt-info-pos--prep, .vt-info-pos--conj, .vt-info-pos--pron { --pos: #2563eb; }
 .vt-info-pos--num, .vt-info-pos--phrase { --pos: #b45309; }
-:root[data-theme="dark"] .vt-info-pos { --pos: #5eead4; }
-:root[data-theme="dark"] .vt-info-pos--verb { --pos: #fdba74; }
+:root[data-theme="dark"] .vt-info-pos { --pos: #8fa3c0; }
+:root[data-theme="dark"] .vt-info-pos--verb { --pos: #e0bd7a; }
 :root[data-theme="dark"] .vt-info-pos--adj, :root[data-theme="dark"] .vt-info-pos--adv { --pos: #c4b5fd; }
 :root[data-theme="dark"] .vt-info-pos--prep, :root[data-theme="dark"] .vt-info-pos--conj, :root[data-theme="dark"] .vt-info-pos--pron { --pos: #93c5fd; }
 :root[data-theme="dark"] .vt-info-pos--num, :root[data-theme="dark"] .vt-info-pos--phrase { --pos: #fcd34d; }
@@ -738,7 +738,7 @@ a.vt-info-pos:hover { background: color-mix(in srgb, var(--pos) 22%, transparent
   color: var(--vt-muted);
 }
 /* Four hues, one per gender, plural included — der blue, die red, das green, plural
- * orange. Not --brand-blue for der: that token is teal (#0d9488), which sits right next
+ * orange. Not --brand-blue for der: that token is teal (#2b4162), which sits right next
  * to the green das would take, and two of the four genders reading as the same colour is
  * worse than no colour at all. --info is the only true blue in the palette.
  *
@@ -751,7 +751,7 @@ a.vt-info-pos:hover { background: color-mix(in srgb, var(--pos) 22%, transparent
  * its "die" is a plural article that happens to look like the feminine. Same for the
  * plural line under a singular noun ("die Tische" below "der Tisch").
  *
- * --gender-plural, not --accent-dark: that token is #c2410c and --danger is #c1462f, so
+ * --gender-plural, not --accent-dark: that token is #7d571a and --danger is #c1462f, so
  * the two "die"s were one indistinguishable red. See the token's note in global.css. */
 .vt-art--plural {
   color: var(--gender-plural);
@@ -842,7 +842,7 @@ html[data-mascots="off"] .vt-wa { grid-template-columns: 1fr; }
 .vt-answer:has(.vt-plural + .vt-syn) + .vt-solved { margin-top: 52px; }
 .vt-solved mark {
   font-style: normal; font-weight: 600; color: var(--vt-ink);
-  background: color-mix(in srgb, var(--brand-blue, #14b8a6) 18%, transparent);
+  background: color-mix(in srgb, var(--brand-blue, #3a5680) 18%, transparent);
   border-radius: 4px; padding: 0 3px;
 }
 

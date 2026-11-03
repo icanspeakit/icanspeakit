@@ -3,8 +3,8 @@
    every var() therefore carries its light-mode fallback. */
 .ut-uhr {
   position: fixed; z-index: 940; width: 220px; touch-action: none;
-  border: 1px solid var(--border-strong, #cbd2db); border-radius: 20px;
-  background: var(--surface-card, #fff); color: var(--ink, #1a2230);
+  border: 1px solid var(--border-strong, #cdbd9e); border-radius: 20px;
+  background: var(--surface-card, #fff); color: var(--ink, #24201b);
   box-shadow: 0 10px 30px rgba(15, 20, 28, .18);
   font-family: var(--font-body, "Sora", "Segoe UI", Arial, sans-serif);
   user-select: none;
@@ -12,20 +12,20 @@
 .ut-uhr[hidden] { display: none; }
 .ut-uhr-head { display: flex; align-items: center; gap: 4px; padding: 6px 6px 0 12px; cursor: grab; }
 .ut-uhr-head:active { cursor: grabbing; }
-.ut-uhr-title { flex: 1; font-size: .75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted, #4b5768); }
+.ut-uhr-title { flex: 1; font-size: .75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted, #6b6152); }
 .ut-uhr-btn {
   display: grid; place-items: center; width: 32px; height: 32px; padding: 0; border: 0; border-radius: 999px;
-  background: transparent; color: var(--muted, #4b5768); font: inherit; font-size: 1rem; cursor: pointer;
+  background: transparent; color: var(--muted, #6b6152); font: inherit; font-size: 1rem; cursor: pointer;
 }
-.ut-uhr-btn:hover { background: var(--surface, #f7f8fa); color: var(--ink, #1a2230); }
+.ut-uhr-btn:hover { background: var(--surface, #f6f0e3); color: var(--ink, #24201b); }
 .ut-uhr-face { display: block; width: 100%; height: auto; padding: 4px 14px 0; box-sizing: border-box; }
 .ut-uhr-text { padding: 2px 12px 12px; text-align: center; }
 .ut-uhr-phase { margin: 0; font-size: .875rem; font-weight: 700; }
 .ut-uhr-left { margin: 2px 0 0; font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.1; }
-.ut-uhr-left small { display: block; font-size: .75rem; font-weight: 600; color: var(--muted, #4b5768); }
+.ut-uhr-left small { display: block; font-size: .75rem; font-weight: 600; color: var(--muted, #6b6152); }
 .ut-uhr-left .ut-uhr-since { margin-top: 2px; font-variant-numeric: tabular-nums; opacity: .8; }
 .ut-uhr--over .ut-uhr-left { color: #dc2626; }
-.ut-uhr-paused { margin: 4px 0 0; font-size: .75rem; font-weight: 700; color: var(--muted, #4b5768); }
+.ut-uhr-paused { margin: 4px 0 0; font-size: .75rem; font-weight: 700; color: var(--muted, #6b6152); }
 
 /* Minimised: a pill with the time left, tap to open. */
 .ut-uhr--min { width: auto; border-radius: 999px; }
@@ -47,8 +47,8 @@
 .ut-uhr--pip .ut-uhr-face { height: 100%; max-height: calc(100vh - 110px); width: auto; margin: 0 auto; }
 .ut-uhr--pip [data-uhr-drag-hint], .ut-uhr--pip [data-uhr-min], .ut-uhr--pip [data-uhr-close] { display: none; }
 .ut-uhr-placeholder {
-  position: fixed; z-index: 940; padding: 8px 14px; border-radius: 999px; border: 1px dashed var(--border-strong, #cbd2db);
-  background: var(--surface-card, #fff); color: var(--muted, #4b5768); font-size: .8125rem; font-weight: 600; cursor: pointer;
+  position: fixed; z-index: 940; padding: 8px 14px; border-radius: 999px; border: 1px dashed var(--border-strong, #cdbd9e);
+  background: var(--surface-card, #fff); color: var(--muted, #6b6152); font-size: .8125rem; font-weight: 600; cursor: pointer;
 }
 
 :root[data-theme="dark"] .ut-uhr { box-shadow: 0 10px 30px rgba(0, 0, 0, .5); }

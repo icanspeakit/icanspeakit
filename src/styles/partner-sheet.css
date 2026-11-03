@@ -7,11 +7,11 @@
    colours are fixed (not theme tokens): it is paper, and stays paper in dark mode. */
 
 .pu-sheet {
-  --pu-teal: #0f766e;
+  --pu-teal: #1a2940;
   --pu-teal-soft: #ecf8f6;
   --pu-teal-line: #99d5cc;
-  --pu-ink: #1a2230;
-  --pu-muted: #4b5768;
+  --pu-ink: #24201b;
+  --pu-muted: #6b6152;
   --pu-key: #b00020;
   --pu-key-bg: #ffe1e1;
   --pu-verb: #1d4e75;
@@ -138,7 +138,7 @@
 .pu-fields li::before { content: counter(f) ". "; font-weight: 800; color: var(--pu-teal); }
 .pu-rules { margin: 1mm 0 0; padding-left: 5mm; font-size: 13.5px; }
 .pu-rules li { margin: 1mm 0; }
-.pu-vorgabe { padding: 2mm 3mm; border-left: 3px solid var(--pu-teal); background: #f7f8fa; font-size: 13.5px; }
+.pu-vorgabe { padding: 2mm 3mm; border-left: 3px solid var(--pu-teal); background: #f6f0e3; font-size: 13.5px; }
 
 .pu-wk { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 1mm; }
 .pu-wk div { padding: 3mm 1mm; border: 1px dashed #777; text-align: center; }
@@ -150,7 +150,7 @@
 /* A Tandembogen (tandem.js, spec.tandem): A in teal with Bruno, B in orange with Regi, the
    round as a four-picture strip, Redemittel as speech bubbles, one row per task — the row
    says what to do: "Sie lesen vor" (solution printed, check) or "Sie antworten" (a line). */
-.pu-sheet--tandem { --pu-a: #0f766e; --pu-a-soft: #e6f6f4; --pu-b: #c2410c; --pu-b-soft: #fff1e7; }
+.pu-sheet--tandem { --pu-a: #1a2940; --pu-a-soft: #e6f6f4; --pu-b: #7d571a; --pu-b-soft: #fff1e7; }
 .pu-sheet--tandem .pu-card--A { --pu-role: var(--pu-a); --pu-role-soft: var(--pu-a-soft); }
 .pu-sheet--tandem .pu-card--B { --pu-role: var(--pu-b); --pu-role-soft: var(--pu-b-soft); }
 .pu-sheet--tandem .pu-card-h { display: flex; align-items: center; gap: 2mm; background: var(--pu-role, var(--pu-teal)); }
@@ -183,7 +183,7 @@
 .pu-page--kueche .pu-td { margin-top: 0; }
 
 /* The worked example above row 1: dashed and quiet, the line already written. */
-.pu-td-row--bsp { border-style: dashed; border-color: #9aa3ae; background: #f7f8fa; }
+.pu-td-row--bsp { border-style: dashed; border-color: #9aa3ae; background: #f6f0e3; }
 .pu-td-n--bsp { width: auto; min-width: 6.5mm; padding: 0 1mm; border-radius: 999px; border-style: dashed; font-size: 10px; color: var(--pu-muted); }
 .pu-td-line--filled { height: auto; padding: 0 0 .5mm; border-bottom-style: dashed; font-family: var(--font-voice, inherit); font-size: 14px; color: var(--pu-ink); }
 .pu-td-wl { flex: 1; align-self: stretch; border-bottom: 1.5px solid #888; }
@@ -332,7 +332,7 @@
    photographed (tandem/[id].astro). Portrait, large enough to read in a chat when zoomed. */
 .pu-shot {
   position: fixed; left: -10000px; top: 0; width: 720px; padding: 28px 30px 20px;
-  background: #fff; color: #1a2230; font-size: 16px;
+  background: #fff; color: #24201b; font-size: 16px;
 }
 .pu-shot .pu-title { margin: 6px 0 14px; }
 .pu-shot .pu-card { padding: 0; border: 0; margin-bottom: 12px; }
