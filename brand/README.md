@@ -1,5 +1,11 @@
 # Brand masters
 
+> **icanspeak Spanish (2026-11-03):** the masters below are the "da für Dich" lockup inherited
+> from deutschacademy and are **not** this site's brand. Until a designed icanspeak logo exists,
+> `public/assets/logo.png` and `public/assets/og-default.png` are a plain text wordmark written
+> by `node scripts/build-wordmark.mjs`. Don't run `build-brand-assets.py` on these masters: it
+> would bring the old lockup back. Put the real logo master here when it exists.
+
 The logo as it comes out of Illustrator. **Sources, not assets** — nothing here is served.
 
 | file | what |
