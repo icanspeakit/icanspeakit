@@ -7,35 +7,39 @@ import Layout from "../layouts/Layout.astro";
 import "../styles/design-system.css";
 
 const brandColors = [
-  { name: "--brand-blue", hex: "#0d9488" },
-  { name: "--brand-blue-dark", hex: "#0f766e" },
-  { name: "--brand-blue-light", hex: "#5eead4" },
-  { name: "--accent", hex: "#f97316" },
-  { name: "--accent-dark", hex: "#c2410c" },
+  { name: "--brand-blue", hex: "#2b4162" },
+  { name: "--brand-blue-dark", hex: "#1a2940" },
+  { name: "--brand-blue-light", hex: "#8fa3c0" },
+  { name: "--brand-amber", hex: "#b3812e" },
+  { name: "--accent", hex: "#946620" },
+  { name: "--accent-dark", hex: "#7d571a" },
+  { name: "--accent-soft", hex: "#f0e2bf" },
 ];
 
 const blueScale = [
-  ["--blue-50", "#f0fdfa"], ["--blue-100", "#ccfbf1"], ["--blue-200", "#99f6e4"],
-  ["--blue-300", "#5eead4"], ["--blue-400", "#2dd4bf"], ["--blue-500", "#14b8a6"],
-  ["--blue-600", "#0d9488"], ["--blue-700", "#0f766e"], ["--blue-800", "#115e59"],
-  ["--blue-900", "#134e4a"],
+  ["--blue-50", "#f2f5f9"], ["--blue-100", "#e5eaf1"], ["--blue-200", "#cbd5e3"],
+  ["--blue-300", "#a3b3ca"], ["--blue-400", "#7389ab"], ["--blue-500", "#4a6288"],
+  ["--blue-600", "#2b4162"], ["--blue-700", "#22344f"], ["--blue-800", "#1a2940"],
+  ["--blue-900", "#121d2e"],
 ].map(([name, hex]) => ({ name, hex }));
 
 const neutrals = [
-  { name: "--ink", hex: "#1a2230" },
-  { name: "--ink-deep", hex: "#0f141c" },
-  { name: "--muted", hex: "#4b5768" },
-  { name: "--muted-soft", hex: "#94a0b0" },
-  { name: "--border", hex: "#e7e9ee" },
-  { name: "--border-strong", hex: "#cbd2db" },
-  { name: "--surface", hex: "#f7f8fa" },
+  { name: "--ink", hex: "#24201b" },
+  { name: "--ink-deep", hex: "#15120e" },
+  { name: "--text", hex: "#3c352c" },
+  { name: "--muted", hex: "#6b6152" },
+  { name: "--muted-soft", hex: "#73685a" },
+  { name: "--border", hex: "#e3d6bd" },
+  { name: "--border-strong", hex: "#cdbd9e" },
+  { name: "--surface", hex: "#f2ead9" },
+  { name: "--page-bg", hex: "#fbf7ef" },
 ];
 
 const semantic = [
-  { name: "--success", hex: "#047857" },
-  { name: "--warning", hex: "#f2a900" },
-  { name: "--danger", hex: "#c1462f" },
-  { name: "--info", hex: "#2563eb" },
+  { name: "--success", hex: "#2e6b47" },
+  { name: "--warning", hex: "#8f5f12" },
+  { name: "--danger", hex: "#b23b26" },
+  { name: "--info", hex: "#2f5f9e" },
 ];
 
 const typeScale = [
@@ -93,7 +97,7 @@ const shadows = ["--shadow-sm", "--shadow-hover", "--shadow-raised", "--shadow-c
     <section id="colors" class="ds-section">
       <div class="container">
         <h2>Colors</h2>
-        <p class="ds-section-desc">Brand teal is the primary identity color; orange is the sparing accent. Semantic colors are formalized from shades already in organic use across the exercise pages — prefer them over new one-off hex values.</p>
+        <p class="ds-section-desc">The icanspeak.it navy is the primary color, amber the sparing accent, on a warm paper ground (docs/brand/BRAND.md). Semantic colors are formalized from shades already in organic use across the exercise pages — prefer them over new one-off hex values.</p>
 
         <h3 style="text-align:left; font-size: var(--text-base); margin: 0 0 12px;">Brand</h3>
         <div class="ds-swatch-grid" style="margin-bottom: var(--space-8);">
@@ -152,7 +156,7 @@ const shadows = ["--shadow-sm", "--shadow-hover", "--shadow-raised", "--shadow-c
     <section id="typography" class="ds-section">
       <div class="container">
         <h2>Typography</h2>
-        <p class="ds-section-desc">Sora is used for body and UI text; Big Shoulders Display for headings; Bungee Shade sparingly for accent highlights; Albert Sans for eyebrows, labels, and counters.</p>
+        <p class="ds-section-desc">Fraunces for headings (500 for h1/h2, 600 for h3/h4); Inter for body, UI, eyebrows, labels and counters. Both self-hosted from public/fonts/icanspeak.</p>
 
         <div class="ds-font-pair-demo">
           <p class="ds-type-sample" style="font-family: var(--font-display); font-size: var(--text-4xl); font-weight: 700; margin: 0;">Deutsch lernen.</p>
