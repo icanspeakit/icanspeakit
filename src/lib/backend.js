@@ -1,7 +1,7 @@
 // The one seam between the site and any backend (auth, database, payments, e-mail, analytics,
 // error monitoring, speech services).
 //
-// englishacademy ships with NO integrations: every page is static, progress lives in the
+// icanspeak Spanish ships with NO integrations: every page is static, progress lives in the
 // learner's browser (localStorage), and nothing leaves the device. The modules that used to
 // talk to a service (src/lib/supabase/browser.js, analytics.js, monitoring.js, api.js) are
 // kept as offline stand-ins with the same exports, so every feature still compiles and
@@ -20,4 +20,4 @@ export const BACKEND = {
 };
 
 /** Thrown/returned by every stand-in so callers can tell "offline by design" from a bug. */
-export const OFFLINE = { message: "englishacademy: no backend configured (see src/lib/backend.js)", code: "offline" };
+export const OFFLINE = { message: "icanspeak Spanish: no backend configured (see src/lib/backend.js)", code: "offline" };

@@ -17,7 +17,7 @@ const cards = wortschatz.map((c, i) => (EXPLAINED.has(i) ? { ...c, noteKey: `ws.
 // The German hint tab, then every card language of the registry that all of these cards carry.
 const langs = ["de", ...TRANSLATION_LANGS].filter((l) => cards.every((c) => c.translations?.[l]));
 ---
-<Layout title="English vocabulary with flashcards – EnglishAcademy" description="English vocabulary with flashcards: word sets by level, the most common words and useful phrases for everyday life — with a/an, example sentences and audio.">
+<Layout title="English vocabulary with flashcards – icanspeak Spanish" description="English vocabulary with flashcards: word sets by level, the most common words and useful phrases for everyday life — with a/an, example sentences and audio.">
   <VokabelTrainer
     cards={cards}
     heading="Everyday Phrases & Vocabulary"

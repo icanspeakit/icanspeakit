@@ -432,7 +432,7 @@ export async function mountKlassenDashboard(root, names) {
   /* ------------------------------------------------------- top level ---- */
   function renderHeader() {
     $("[data-kld-title]").textContent = klasse.name;
-    document.title = `${klasse.name} – EnglishAcademy`;
+    document.title = `${klasse.name} – icanspeak Spanish`;
     $("[data-kld-meta]").textContent = [klasse.niveau, t("kl.t.count", "{n} / {max} Personen", { n: members.length, max: 60 }), `${t("kl.t.code", "Code")} ${klasse.code}`, klasse.archiviert ? t("kl.d.archived", "archiviert") : ""].filter(Boolean).join(" · ");
   }
 

@@ -73,7 +73,7 @@ function ogOverlay(title) {
   </linearGradient></defs>
   <rect width="1200" height="630" fill="url(#g)"/>
   <g fill="#fff" font-family="Sora, 'Albert Sans', 'Segoe UI', Arial, sans-serif">${text}
-    <text x="72" y="566" font-size="28" opacity=".85">englishacademy.com</text>
+    <text x="72" y="566" font-size="28" opacity=".85">icanspeak.it/spanish</text>
   </g></svg>`);
 }
 

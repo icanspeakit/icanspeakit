@@ -17,7 +17,7 @@ const arg = (name, dflt) => {
   return i > 0 ? process.argv[i + 1] : dflt;
 };
 const BASE = arg("base", "http://localhost:4391");
-const SITEMAP = arg("sitemap", "https://englishacademy.com/sitemap.xml");
+const SITEMAP = arg("sitemap", "https://icanspeak.it/spanish/sitemap.xml");
 const OUT = "src/data/suche-seiten.json";
 
 const SKIP = [
@@ -58,7 +58,7 @@ async function worker() {
       if (!res.ok) { failed.push(`${p} ${res.status}`); continue; }
       const html = await res.text();
       if (/<meta name="robots" content="noindex/i.test(html)) continue;
-      const title = text(/<title>([\s\S]*?)<\/title>/i.exec(html)?.[1] ?? "").replace(/\s+[–|-]\s+EnglishAcademy$/, "");
+      const title = text(/<title>([\s\S]*?)<\/title>/i.exec(html)?.[1] ?? "").replace(/\s+[–|-]\s+icanspeak Spanish$/, "");
       const desc = decode(/<meta name="description" content="([^"]*)"/i.exec(html)?.[1] ?? "");
       const main = /<main[\s\S]*?<\/main>/i.exec(html)?.[0] ?? html;
       const heads = [...main.matchAll(/<h[1-3][^>]*>([\s\S]*?)<\/h[1-3]>/gi)].map((m) => text(m[1])).filter(Boolean);

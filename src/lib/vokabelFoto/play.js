@@ -207,7 +207,7 @@ export async function loadPlayableSet({ shared = false } = {}) {
   if (h1) { h1.textContent = set.name; h1.removeAttribute("data-i18n"); }
   const sub = document.querySelector(".vt-hero-sub");
   if (sub) sub.textContent = [set.level, `${cards.length} Wörter`, shared ? null : `${lexCount} aus unserem Wortschatz`].filter(Boolean).join(" · ");
-  document.title = `${set.name} – EnglishAcademy`;
+  document.title = `${set.name} – icanspeak Spanish`;
   const edit = document.querySelector("[data-vs-edit]");
   if (edit) edit.href = `/teachers/cards/photo?set=${id}`;
   const print = document.querySelector("[data-vs-print]");

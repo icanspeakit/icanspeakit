@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 const API = "https://de.wiktionary.org/w/api.php";
-const UA = "englishacademy-lexicon/0.1 (https://englishacademy.com; build script)";
+const UA = "icanspeak-spanish-lexicon/0.1 (https://icanspeak.it/spanish; build script)";
 const BATCH = 50; // API maximum for titles=A|B|C — 8k lemmas becomes ~160 calls
 const PAUSE_MS = 400;
 

@@ -1,4 +1,4 @@
-// Offline audio packs existed only in the Android app (Capacitor), which englishacademy
+// Offline audio packs existed only in the Android app (Capacitor), which icanspeak Spanish
 // does not ship. Same exports, nothing downloaded: audio always plays from the site.
 export function initPacks() { return Promise.resolve(); }
 /** @param {string} _path @returns {string|null} */

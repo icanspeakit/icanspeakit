@@ -21,7 +21,7 @@ const { t } = Astro.props;
 const { spec } = t;
 ---
 <Layout
-  title={`${t.name}: tandem sheet ${t.level} – pair work – EnglishAcademy`}
+  title={`${t.name}: tandem sheet ${t.level} – pair work – icanspeak Spanish`}
   description={`Tandem sheet “${t.name}” (${t.level}): pair work to print. Take turns to ask, answer and check each other, with answers.`}
   noindex={!t.reviewed}
 >
@@ -102,7 +102,7 @@ const { spec } = t;
         root.querySelectorAll(`.pu-page--cards .pu-card--${who}`).forEach((c) => wrap.append(c.cloneNode(true)));
         const foot = document.createElement("p");
         foot.className = "pu-shot-foot";
-        foot.textContent = "englishacademy.com · Pair work";
+        foot.textContent = "icanspeak.it/spanish · Pair work";
         wrap.append(foot);
         document.body.append(wrap);
         try {

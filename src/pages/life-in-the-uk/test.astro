@@ -19,7 +19,7 @@ import lid from "../../data/leben-in-deutschland.json";
 const { questions, meta, bundeslaender } = lid;
 ---
 <Layout
-  title="Life in the UK practice test – online – EnglishAcademy"
+  title="Life in the UK practice test – online – icanspeak Spanish"
   description="A Life in the UK practice test: questions about the whole UK, scored against the pass mark of the real test (18 out of 24)."
 >
   <SiteNav active="pruefungen" />
@@ -150,8 +150,8 @@ const { questions, meta, bundeslaender } = lid;
           const l = land();
           main.appendChild(
             el("p", "format-note", l.sourced
-              ? escapeHtml(T("lid.test.sourced", "{land}: {n} Fragen aus echtem EnglishAcademy-Unterrichtsmaterial.", { land: l.name, n: l.stateQuestions.length }))
-              : escapeHtml(T("lid.test.public", "{land}: {n} Fragen aus allgemein bekannten, öffentlichen Fakten — keine EnglishAcademy-Quelle.", { land: l.name, n: l.stateQuestions.length })))
+              ? escapeHtml(T("lid.test.sourced", "{land}: {n} Fragen aus echtem icanspeak Spanish-Unterrichtsmaterial.", { land: l.name, n: l.stateQuestions.length }))
+              : escapeHtml(T("lid.test.public", "{land}: {n} Fragen aus allgemein bekannten, öffentlichen Fakten — keine icanspeak Spanish-Quelle.", { land: l.name, n: l.stateQuestions.length })))
           );
 
           const go = el("button", "quiz-btn quiz-btn--primary", t("exam.startTest"));

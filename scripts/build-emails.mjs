@@ -1,11 +1,11 @@
-// Builds the EnglishAcademy e-mails from emails/content.mjs + emails/layout.mjs.
+// Builds the icanspeak Spanish e-mails from emails/content.mjs + emails/layout.mjs.
 //
 //   node scripts/build-emails.mjs
 //
 // Writes:
 //   emails/dist/<id>.html   — Brevo-ready. Paste into Brevo's HTML editor, or upload with
 //                             scripts/brevo-upload-templates.mjs. Brevo tags left intact,
-//                             images point at https://englishacademy.com/email/.
+//                             images point at https://icanspeak.it/spanish/email/.
 //   emails/preview.html     — every mail × every sample contact, Brevo tags rendered,
 //                             images inlined, for review in any browser. Not for sending.
 //
@@ -17,7 +17,7 @@ import { layout } from "../emails/layout.mjs";
 import { all, samples } from "../emails/content.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const LIVE = "https://englishacademy.com";
+const LIVE = "https://icanspeak.it/spanish";
 
 // ---- 1. link check -----------------------------------------------------------------
 const pagesDir = path.join(ROOT, "src/pages");
@@ -109,7 +109,7 @@ for (const m of all) {
 }
 
 const preview = `<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>EnglishAcademy E-Mails — Vorschau</title>
+<title>icanspeak Spanish E-Mails — Vorschau</title>
 <style>
 :root{--bg:#eef1f5;--ink:#1a2230;--muted:#5b6472;--card:#fff;--teal:#0f766e;--line:#dfe3ea}
 @media (prefers-color-scheme:dark){:root{--bg:#0f141c;--ink:#e9edf3;--muted:#9aa4b2;--card:#182029;--teal:#5eead4;--line:#2b3642}}
@@ -125,7 +125,7 @@ header{padding:28px 20px 8px;max-width:1200px;margin:auto}h1{margin:0 0 6px;font
 iframe{width:390px;height:1080px;border:1px solid var(--line);border-radius:16px;background:#fff}
 @media (max-width:440px){.v,iframe{width:calc(100vw - 34px)}}
 </style></head><body>
-<header><h1>EnglishAcademy · E-Mails</h1>
+<header><h1>icanspeak Spanish · E-Mails</h1>
 <p>Vorschau aller Mails in Handybreite (390px). Die Onboarding-Serie startet, wenn jemand den Newsletter bestätigt. Mails mit Varianten zeigen jede Variante nebeneinander (seitlich scrollen). Links sind echt; „Abmelden“ ist hier nur ein Platzhalter.</p></header>
 ${frames
   .map(

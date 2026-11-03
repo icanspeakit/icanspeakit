@@ -12,7 +12,7 @@
 // By default the sweep is a returning visitor: the language offer and the one-time tours
 // ("da-…-seen") count as done, or they would cover every page. Dev-only controls (the demo
 // dock) are left out.
-//   BASE=https://englishacademy.com node scripts/ux-sweep.mjs
+//   BASE=https://icanspeak.it/spanish node scripts/ux-sweep.mjs
 //
 // Pages: the sitemap at BASE (SITEMAP=<url|file> to take it from elsewhere); `astro dev` has
 // none, so then the site is crawled from "/" by its links. Default BASE is the dev server.
@@ -62,7 +62,7 @@ const NO_FAIL = flag("--no-fail");
 const FIRST_VISIT = flag("--first-visit");
 const CRAWL_MAX = 600;
 
-const UA_MARK = "EnglishAcademy-UxSweep/1.0";
+const UA_MARK = "icanspeak-spanish-UxSweep/1.0";
 const BLOCK = [
   /^https?:\/\/[^/]*posthog\.com\//,
   /^https?:\/\/[^/]+\/rel(\/|$)/,

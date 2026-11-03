@@ -23,7 +23,7 @@ import path from "node:path";
 import { nouns } from "../src/lib/lexicon.js";
 
 const API = "https://de.wiktionary.org/w/index.php";
-const UA = "englishacademy-lexicon/0.1 (https://englishacademy.com; build script)";
+const UA = "icanspeak-spanish-lexicon/0.1 (https://icanspeak.it/spanish; build script)";
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CACHE_DIR = path.join(ROOT, "node_modules", ".cache", "wiktionary");
 const OUT = path.join(ROOT, "public", "data", "artikel-herkunft.json");

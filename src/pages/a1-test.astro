@@ -7,7 +7,7 @@ import ExamDisclaimer from "../components/ExamDisclaimer.astro";
 // so /trinity and /cambridge both point here rather than each getting a
 // near-identical copy.
 //
-// Everything a learner answers here was written by EnglishAcademy. The real Goethe and
+// Everything a learner answers here was written by icanspeak Spanish. The real Goethe and
 // telc items are copyrighted and are not reproduced; only the published *structure* —
 // how many tasks of which type, in which order — comes from the official Übungssätze,
 // via src/data/pruefungen/{goethe,telc}-formate.json. Same precedent as the DTZ
@@ -26,7 +26,7 @@ const hoerIds = ["teil1", "teil2", "teil3"].flatMap((k) => satz.hoeren[k].items.
 const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
 ---
 <Layout
-  title="A1 English practice test – EnglishAcademy"
+  title="A1 English practice test – icanspeak Spanish"
   description="A complete A1 English practice test: listening, reading and writing in exam format, with your score at the end."
 >
   <SiteNav active="pruefungen" />

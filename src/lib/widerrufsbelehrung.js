@@ -15,8 +15,8 @@
 // TODO(legal): the lawyer confirms the filled-in model (docs/legal-drafts/offene-rechtsfragen.md).
 import { LEGAL } from "./legal.js";
 
-const SITE = "https://englishacademy.com";
-const ADDRESS = `${LEGAL.operatorName}, EnglishAcademy, ${LEGAL.operatorStreet}, ${LEGAL.operatorPostcode} ${LEGAL.operatorCity}`;
+const SITE = "https://icanspeak.it/spanish";
+const ADDRESS = `${LEGAL.operatorName}, icanspeak Spanish, ${LEGAL.operatorStreet}, ${LEGAL.operatorPostcode} ${LEGAL.operatorCity}`;
 
 /** @type {{ heading: string, paragraphs: string[] }[]} plain text, no HTML */
 export const BELEHRUNG = [

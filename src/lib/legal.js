@@ -9,7 +9,7 @@
 // it was left untouched deliberately rather than copied here on a guess.
 
 export const LEGAL = {
-  // Who operates englishacademy.com — the "Verantwortlicher" under Art. 4(7) DSGVO.
+  // Who operates icanspeak.it/spanish — the "Verantwortlicher" under Art. 4(7) DSGVO.
   operatorName: "Edgar Kretschmann",
   operatorStreet: "Ansbacher Straße 48",
   operatorPostcode: "10777",
@@ -27,7 +27,7 @@ export const LEGAL = {
   // Teaching material is not that, so this is null unless a blog/news section appears.
   responsibleForContent: null,
 
-  // TODO(englishacademy): placeholder address on the placeholder domain (SITE_URL in
+  // TODO(icanspeak Spanish): placeholder address on the placeholder domain (SITE_URL in
   // astro.config.mjs). Set the real one before going live.
   contactEmail: "hello@englishacademy.com",
 

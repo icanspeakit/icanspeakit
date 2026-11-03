@@ -30,8 +30,8 @@ const show = import.meta.env.PUBLIC_ZITAT_ABO === "an" || import.meta.env.DEV;
       <h3 class="zt-sent-h" tabindex="-1" data-i18n="zitate.abo.sentH">Fast geschafft: Schau jetzt in dein Postfach</h3>
       <p class="zt-sent-to" data-zt-sent-to></p>
       <div class="zt-sent-mail" lang="en">
-        <span class="zt-sent-from">EnglishAcademy</span>
-        <span class="zt-sent-subj">Please confirm: Quote of the week from EnglishAcademy</span>
+        <span class="zt-sent-from">icanspeak Spanish</span>
+        <span class="zt-sent-subj">Please confirm: Quote of the week from icanspeak Spanish</span>
       </div>
       <div class="zt-sent-warn" data-i18n-html="zitate.abo.warn">
         <b>Keine E-Mail da?</b> Schau unter <b>„Werbung“</b> (Gmail: „Promotions“) und im <b>Spam</b>. Dort landet sie oft.
@@ -114,7 +114,7 @@ const show = import.meta.env.PUBLIC_ZITAT_ABO === "an" || import.meta.env.DEV;
   // Webmail by domain. Gmail gets a search across all folders (in:anywhere also covers Spam),
   // so the confirmation mail shows up even when it sits under „Werbung“.
   const WEBMAIL: [RegExp, string][] = [
-    [/^(gmail|googlemail)\.com$/, "https://mail.google.com/mail/u/0/#search/in%3Aanywhere+EnglishAcademy+confirm"],
+    [/^(gmail|googlemail)\.com$/, "https://mail.google.com/mail/u/0/#search/in%3Aanywhere+icanspeak Spanish+confirm"],
     [/^(outlook|hotmail|live|msn)\.[a-z.]+$/, "https://outlook.live.com/mail/"],
     [/^gmx\.[a-z.]+$/, "https://www.gmx.net/"],
     [/^web\.de$/, "https://web.de/"],

@@ -37,7 +37,7 @@ const MARGIN = 56;
 const MODES = {
   standard: {
     fileName: "leben-in-deutschland-fakten.pdf",
-    eyebrow: "DEUTSCHACADEMY · PRÜFUNGSVORBEREITUNG",
+    eyebrow: "ICANSPEAK SPANISH · PRÜFUNGSVORBEREITUNG",
     title: "Leben in Deutschland (Einbürgerungstest): Fakten",
     subtitle: "Bundesweite Fakten aus echtem Unterrichtsmaterial, gegliedert nach Themen, plus die Grunddaten zu allen 16 Bundesländern.",
     sourceNote: meta.sourceNote,
@@ -48,7 +48,7 @@ const MODES = {
   },
   easy: {
     fileName: "leben-in-deutschland-fakten-einfach.pdf",
-    eyebrow: "DEUTSCHACADEMY · EINFACHE SPRACHE (A1–A2)",
+    eyebrow: "ICANSPEAK SPANISH · EINFACHE SPRACHE (A1–A2)",
     title: "Leben in Deutschland (Einbürgerungstest): Fakten — in einfachem Deutsch",
     subtitle: "Diese Fakten sind in einfacher Sprache geschrieben. Sie helfen dir, wichtige Wörter und Themen zu verstehen — auf dem Niveau A1 bis A2.",
     sourceNote: meta.sourceNoteEasy,
@@ -310,7 +310,7 @@ function buildPdf(mode) {
     executiveTitle: l.executiveTitle,
   }));
   drawTable(stateColumns, stateRows, { fontSize: 8.5 });
-  paragraph("* Grunddaten aus echtem EnglishAcademy-Unterrichtsmaterial (Bayern). Alle anderen Bundesländer: allgemein bekannte, öffentliche Fakten, keine EnglishAcademy-Quelle.", { size: 8 });
+  paragraph("* Grunddaten aus echtem icanspeak Spanish-Unterrichtsmaterial (Bayern). Alle anderen Bundesländer: allgemein bekannte, öffentliche Fakten, keine icanspeak Spanish-Quelle.", { size: 8 });
 
   // --- Bayern deep dive (the only state with extra sourced facts) — back to portrait ---
   const bayern = bundeslaender.find((l) => l.id === "bayern");
@@ -318,7 +318,7 @@ function buildPdf(mode) {
   if (bayernFacts?.length) {
     doc.addPage();
     h2("Vertiefung: Bayern");
-    paragraph("Aus echtem EnglishAcademy-Unterrichtsmaterial.", { size: 9 });
+    paragraph("Aus echtem icanspeak Spanish-Unterrichtsmaterial.", { size: 9 });
     doc.moveDown(0.2);
     for (const f of bayernFacts) fact(f);
   }
@@ -334,7 +334,7 @@ function buildPdf(mode) {
     const bottomMargin = doc.page.margins.bottom;
     doc.page.margins.bottom = 0;
     doc.fillColor(MUTED).font("Helvetica").fontSize(8).text(
-      `englishacademy.com/leben-in-deutschland/fakten · © EnglishAcademy · Seite ${i + 1} von ${range.count}`,
+      `icanspeak.it/spanish/leben-in-deutschland/fakten · © icanspeak Spanish · Seite ${i + 1} von ${range.count}`,
       MARGIN,
       doc.page.height - 36,
       { align: "center", width: doc.page.width - MARGIN * 2 }
@@ -412,7 +412,7 @@ async function buildEdition(mode, lang) {
   const outPath = path.join(outDir, fileName);
   const pdf = createDoc({
     outPath,
-    runningHead: `DEUTSCHACADEMY · LEBEN IN DEUTSCHLAND · FAKTEN${easy ? " · EINFACH" : ""} · DEUTSCH–${ed.name.toUpperCase()}`,
+    runningHead: `ICANSPEAK SPANISH · LEBEN IN DEUTSCHLAND · FAKTEN${easy ? " · EINFACH" : ""} · DEUTSCH–${ed.name.toUpperCase()}`,
     unicode: true,
     script: languageOf(lang)?.script,
   });
@@ -428,9 +428,9 @@ async function buildEdition(mode, lang) {
       `Jeder Fakt auf Deutsch, darunter auf ${ed.name} — der Test selbst ist auf Deutsch`,
       ...(help.reviewed ? [] : [`Die Übersetzung ins ${ed.into ?? `${ed.name}e`} ist ein maschineller Entwurf, noch nicht von einer Lehrkraft geprüft`]),
       `${topics.length} Themen, ${glossary.length} Begriffe im Glossar, alle 16 Bundesländer`,
-      "Der Übungstest dazu steht kostenlos auf englishacademy.com/leben-in-deutschland",
+      "Der Übungstest dazu steht kostenlos auf icanspeak.it/spanish/leben-in-deutschland",
     ],
-    footer: "Von EnglishAcademy geschrieben. Dieses PDF darfst du frei herunterladen, ausdrucken und im Unterricht weitergeben.",
+    footer: "Von icanspeak Spanish geschrieben. Dieses PDF darfst du frei herunterladen, ausdrucken und im Unterricht weitergeben.",
   });
 
   pdf.doc.addPage();
@@ -477,7 +477,7 @@ async function buildEdition(mode, lang) {
     ]),
     { fontSize: 8 }
   );
-  pdf.paragraph("* Grunddaten aus echtem EnglishAcademy-Unterrichtsmaterial (Bayern). Alle anderen Bundesländer: allgemein bekannte, öffentliche Fakten.", { size: 8, color: MUTED });
+  pdf.paragraph("* Grunddaten aus echtem icanspeak Spanish-Unterrichtsmaterial (Bayern). Alle anderen Bundesländer: allgemein bekannte, öffentliche Fakten.", { size: 8, color: MUTED });
 
   const bayern = bundeslaender.find((l) => l.id === "bayern");
   const bayernFacts = bayern?.[mode.sourceFactsKey];

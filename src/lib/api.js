@@ -1,4 +1,4 @@
-// Calls to the site's own server routes. englishacademy has none yet (fully static, see
+// Calls to the site's own server routes. icanspeak Spanish has none yet (fully static, see
 // src/lib/backend.js), so every call answers 503 with the OFFLINE error instead of hitting
 // a 404. Callers already treat a non-OK response as "not available".
 import { OFFLINE } from "./backend.js";

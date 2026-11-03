@@ -40,20 +40,20 @@ for (const land of bundeslaender) await build(land);
 async function build(land) {
   const fileName = `leben-in-deutschland-land-${land.id}.pdf`;
   const outPath = path.join(outDir, fileName);
-  const pdf = createDoc({ outPath, runningHead: `DEUTSCHACADEMY · LEBEN IN DEUTSCHLAND · ${land.name.toUpperCase()}` });
+  const pdf = createDoc({ outPath, runningHead: `ICANSPEAK SPANISH · LEBEN IN DEUTSCHLAND · ${land.name.toUpperCase()}` });
   const { doc, F, S } = pdf;
 
   pdf.cover({
-    eyebrow: "DEUTSCHACADEMY · EINBÜRGERUNGSTEST",
+    eyebrow: "ICANSPEAK SPANISH · EINBÜRGERUNGSTEST",
     title: `Leben in Deutschland: ${land.name}`,
     subtitle: `Übungsbogen für ${land.name}: Kurzprofil, Landesfragen und die bundesweiten Fragen, mit Lösungen.`,
     meta: [
       `${land.stateQuestions.length} Fragen zu ${land.name}, ${questions.length} bundesweite Fragen`,
       `Der echte Test: ${meta.totalQuestions} Fragen (${meta.stateQuestions} davon zum Bundesland), ${meta.minutes} Minuten, bestanden ab ${meta.passScore} richtigen Antworten`,
       "Lösungen am Ende — erst selbst ankreuzen, dann vergleichen",
-      "Der Übungstest dazu steht kostenlos auf englishacademy.com/leben-in-deutschland/test",
+      "Der Übungstest dazu steht kostenlos auf icanspeak.it/spanish/leben-in-deutschland/test",
     ],
-    footer: "Von EnglishAcademy geschrieben. Dieses PDF darfst du frei herunterladen, ausdrucken und im Unterricht weitergeben.",
+    footer: "Von icanspeak Spanish geschrieben. Dieses PDF darfst du frei herunterladen, ausdrucken und im Unterricht weitergeben.",
   });
 
   doc.addPage();
@@ -69,7 +69,7 @@ async function build(land) {
   for (const f of land.sourceFacts ?? []) pdf.bullet(f);
   pdf.paragraph(
     land.sourced
-      ? "Aus echtem EnglishAcademy-Unterrichtsmaterial."
+      ? "Aus echtem icanspeak Spanish-Unterrichtsmaterial."
       : "Allgemein bekannte, öffentliche Fakten. Amtsinhaber und Wahltermine ändern sich — dafür gilt die offizielle Seite des Landes.",
     { size: 8.5, color: MUTED }
   );

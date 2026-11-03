@@ -15,7 +15,7 @@ const cards = cardsOf(set.id);
 // A set with a level (redemittel.json) is listed under that level, so its header says so.
 const kind = set.level ? { text: set.level } : { text: "Useful phrases", key: "sets.redemittel" };
 ---
-<Layout title={fitTitle(`${kind.text}: ${set.name} – EnglishAcademy`, `${kind.text}: ${set.name}`)} description={`Useful phrases “${set.name}”: ${cards.length} sentences for everyday life as flashcards — with audio and translation.`}>
+<Layout title={fitTitle(`${kind.text}: ${set.name} – icanspeak Spanish`, `${kind.text}: ${set.name}`)} description={`Useful phrases “${set.name}”: ${cards.length} sentences for everyday life as flashcards — with audio and translation.`}>
   <VokabelTrainer
     cards={cards}
     heading={`${set.name}`}

@@ -58,7 +58,7 @@ export function browserName() {
   const brands = hints?.brands ?? [];
   const os = detectOs(ua, hints?.platform);
   // Inside the Android app the "browser" is our own WebView; call it what the learner sees.
-  const browser = isNativeApp() ? "EnglishAcademy-App" : detectBrowser(ua, brands);
+  const browser = isNativeApp() ? "icanspeak-spanish-App" : detectBrowser(ua, brands);
   return { browser, os, label: os ? `${browser} · ${os}` : browser };
 }
 

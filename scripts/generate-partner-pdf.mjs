@@ -14,7 +14,7 @@
 // rules (isLater, ownTogetherPage), so the PDF and the web page tell the same story. A card
 // column that does not fit its page continues on the next one, with its header again.
 //
-// Everything on these sheets is written by EnglishAcademy. Nothing is scanned, copied or
+// Everything on these sheets is written by icanspeak Spanish. Nothing is scanned, copied or
 // excerpted from a Lehrwerk; the catalogue in data/partneruebungen/ only chose the topics.
 import { readdirSync, readFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
@@ -559,21 +559,21 @@ function drawSheet(ctx, spec, { first }) {
 /* ------------------------------------------------------------------ run -- */
 async function build(specs, file, { bundle = null } = {}) {
   const outPath = path.join(OUT, file);
-  const ctx = createDoc({ outPath, runningHead: bundle ? `DEUTSCHACADEMY · PARTNERÜBUNGEN ${bundle}` : `DEUTSCHACADEMY · ${specs[0].titel}`, unicode: true });
+  const ctx = createDoc({ outPath, runningHead: bundle ? `ICANSPEAK SPANISH · PARTNERÜBUNGEN ${bundle}` : `ICANSPEAK SPANISH · ${specs[0].titel}`, unicode: true });
   // The running head at this file's tighter margin, not the books' 56 pt.
   ctx.doc.removeAllListeners("pageAdded");
   ctx.doc.on("pageAdded", () => {
-    ctx.doc.fillColor(MUTED).font(ctx.F.regular).fontSize(7.5).text(ctx.S(bundle ? `EnglishAcademy · Partner- und Gruppenübungen ${bundle}` : `EnglishAcademy · ${specs[0].titel}`), L, 18, { width: W, lineBreak: false });
+    ctx.doc.fillColor(MUTED).font(ctx.F.regular).fontSize(7.5).text(ctx.S(bundle ? `icanspeak Spanish · Partner- und Gruppenübungen ${bundle}` : `icanspeak Spanish · ${specs[0].titel}`), L, 18, { width: W, lineBreak: false });
     ctx.doc.moveTo(L, 30).lineTo(R, 30).strokeColor(BORDER).lineWidth(0.6).stroke();
   });
   for (const s of specs) await preloadIcons(s);
   if (bundle) {
     ctx.cover({
-      eyebrow: `DEUTSCHACADEMY · ARBEITSBLÄTTER ${bundle}`,
+      eyebrow: `ICANSPEAK SPANISH · ARBEITSBLÄTTER ${bundle}`,
       title: `Partner- und Gruppenübungen ${bundle}`,
       subtitle: "Sprechen statt nur schreiben: Informationslücken, Rollenspiele, Spiele – mit Karten zum Ausschneiden, Tipps und Lösungen.",
       meta: specs.map((s) => `${s.titel} – ${FORMAT_NAMES[s.format]}, ${s.modus === "gruppe" ? `Gruppe (${s.personen})` : "Paar"}`),
-      footer: "Alle Blätter sind eigene Texte von EnglishAcademy. Kostenlos für den eigenen Unterricht.",
+      footer: "Alle Blätter sind eigene Texte von icanspeak Spanish. Kostenlos für den eigenen Unterricht.",
     });
   }
   specs.forEach((s, i) => drawSheet(ctx, s, { first: !bundle && i === 0 }));
