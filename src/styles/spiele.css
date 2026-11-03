@@ -145,16 +145,16 @@
 .sp-sheet-body { flex: 1; min-height: 0; }
 /* The URL is printed in full, never truncated: it carries the seed, and a truncated seed
    cannot reproduce the sheet. */
-.sp-sheet-foot { display: grid; gap: .8mm; padding-top: 2.5mm; border-top: .3mm solid #d7dce4; font-size: 7.5pt; color: #6b778a; }
+.sp-sheet-foot { display: grid; gap: .8mm; padding-top: 2.5mm; border-top: .3mm solid #d7dce4; font-size: 7.5pt; color: #6b6152; }
 .sp-sheet-foot > span:first-child { white-space: nowrap; }
 .sp-sheet-url { font-size: 6.5pt; word-break: break-all; }
 .sp-sheet-h { margin: 0 0 2mm; font-size: 16pt; color: #0e5c52; }
-.sp-sheet-sub { margin: 0 0 4mm; font-size: 9pt; color: #6b778a; }
+.sp-sheet-sub { margin: 0 0 4mm; font-size: 9pt; color: #6b6152; }
 
 /* Bingo: two cards per sheet. */
 .sp-bingo-pair { display: grid; grid-template-rows: 1fr 1fr; gap: 8mm; height: 100%; }
 .sp-bingo-card { display: flex; flex-direction: column; gap: 2mm; padding: 4mm; border: .4mm dashed #9aa5b5; border-radius: 3mm; }
-.sp-bingo-head { display: flex; align-items: baseline; gap: 4mm; font-size: 8.5pt; color: #6b778a; }
+.sp-bingo-head { display: flex; align-items: baseline; gap: 4mm; font-size: 8.5pt; color: #6b6152; }
 .sp-bingo-head b { font-size: 16pt; letter-spacing: 2mm; color: #0e7c6b; }
 .sp-bingo-head span:nth-child(2) { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sp-bingo-grid { flex: 1; display: grid; border: .4mm solid #1c2b3f; }
@@ -170,13 +170,13 @@
 }
 .sp-bingo-grid--4 .sp-bingo-cell { font-size: 11.5pt; }
 .sp-bingo-free { background: #e6f7f3; color: #0e7c6b; font-weight: 800; letter-spacing: .5mm; }
-.sp-bingo-name { font-size: 8.5pt; color: #6b778a; }
+.sp-bingo-name { font-size: 8.5pt; color: #6b6152; }
 
 .sp-caller { width: 100%; border-collapse: collapse; font-size: 9.5pt; }
-.sp-caller th { text-align: left; padding: 1.2mm 2mm; border-bottom: .4mm solid #1c2b3f; font-size: 8.5pt; color: #6b778a; }
+.sp-caller th { text-align: left; padding: 1.2mm 2mm; border-bottom: .4mm solid #1c2b3f; font-size: 8.5pt; color: #6b6152; }
 .sp-caller td { padding: 1.1mm 2mm; border-bottom: .2mm solid #e3e7ee; }
 .sp-caller td[dir="rtl"] { text-align: right; }
-.sp-tick { width: 6mm; color: #9aa5b5; }
+.sp-tick { width: 6mm; color: #73685a; }
 
 /* Domino: 2 × 8 tiles, dashed = cut. */
 .sp-dom-grid { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 29mm; gap: 3mm; }
@@ -185,17 +185,17 @@
 .sp-dom-mid { width: .5mm; margin: 3mm 0; background: #1c2b3f; }
 .sp-dom-solution { margin: 0; padding-left: 8mm; columns: 2; column-gap: 10mm; font-size: 10pt; line-height: 1.8; }
 .sp-dom-solution .sp-dom-half { display: inline; padding: 0; font-size: inherit; font-weight: 600; }
-.sp-dom-sep { color: #9aa5b5; }
+.sp-dom-sep { color: #73685a; }
 
 /* Wörter erklären: 2 × 4 cards. */
 .sp-card-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4, 1fr); gap: 3mm; height: 100%; }
 .sp-card { display: flex; flex-direction: column; gap: 2mm; padding: 4mm 5mm; border: .4mm dashed #9aa5b5; border-radius: 3mm; }
-.sp-card-meta { display: flex; justify-content: space-between; gap: 3mm; font-size: 7.5pt; color: #6b778a; }
+.sp-card-meta { display: flex; justify-content: space-between; gap: 3mm; font-size: 7.5pt; color: #6b6152; }
 .sp-card-meta span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sp-card-word { flex: 1; display: grid; place-items: center; text-align: center; font-size: 18pt; font-weight: 800; color: #0e5c52; line-height: 1.15; overflow-wrap: anywhere; }
 .sp-card-forbid { display: grid; gap: .6mm; padding-top: 2mm; border-top: .3mm solid #e3e7ee; font-size: 9.5pt; }
 .sp-card-forbid-h { font-size: 7.5pt; font-weight: 700; letter-spacing: .3mm; text-transform: uppercase; color: #b42318; }
-.sp-card-rule { padding-top: 2mm; border-top: .3mm solid #e3e7ee; font-size: 8.5pt; color: #6b778a; text-align: center; }
+.sp-card-rule { padding-top: 2mm; border-top: .3mm solid #e3e7ee; font-size: 8.5pt; color: #6b6152; text-align: center; }
 
 /* ---- Print ------------------------------------------------------------------------ */
 @page { size: A4; margin: 0; }
