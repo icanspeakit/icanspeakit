@@ -6,6 +6,7 @@
 // seed on every phone at once and swaps the scores live.
 
 import { createGame, POWERS, DIFFICULTIES } from "./game.js";
+import { withBase } from "../paths.js";
 import { createRenderer } from "./renderer.js";
 import { bindInput } from "./input.js";
 import { createDeck, MODES, LEVELS } from "./questions.js";
@@ -110,7 +111,7 @@ export function mountArtikelSprint(root, data) {
   const pools = new Map();
   async function wordsForRoom(lvl) {
     if (!roomWords.has(lvl)) {
-      roomWords.set(lvl, fetch(`/games/countable-sprint/woerter-${lvl.toLowerCase()}.json`)
+      roomWords.set(lvl, fetch(withBase(`/games/countable-sprint/woerter-${lvl.toLowerCase()}.json`))
         .then((r) => (r.ok ? r.json() : { nouns: [] }))
         .catch(() => ({ nouns: [] }))
         .then((lex) => {

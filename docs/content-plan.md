@@ -863,3 +863,23 @@ are handled by the `ui-*` items where they are rendered.
   queue.
 - **Arabic UI**: later, not in this queue (RTL ready).
 - Gaps (§3): *voseo* note, *leísmo/laísmo* topic, impersonal *haber*.
+- **Base path, how it is enforced** (`base-path-and-brand`, 2026-11-03): `src/lib/paths.js` is
+  the helper. Browser code builds URLs with `withBase()`/`currentPath()`; server-rendered HTML
+  keeps its root-absolute links in templates and data and is rebased centrally by
+  `rebaseHtml()` (`src/middleware.js` in dev and while prerendering, again in
+  `src/integrations/base-language.mjs` on `dist/`), checked by `pnpm check:base`. A click
+  handler in `Layout.astro` rebases a stray root-absolute `<a href>` added by a script at run
+  time. New data keeps writing site paths (`/grammar`), never `/spanish/…`.
+- **Hub share cards** (`public/og/*.jpg`, `src/data/hub-bilder.json`): still German titles and
+  the deutschacademy brand; switched off in `Layout.astro` (`HUB_CARDS = false`), every page
+  shares `og-default.png`. The `ui-*` item that rewrites the hub titles reruns
+  `pnpm hubs:build --force` and sets `HUB_CARDS = true`.
+- **Logo**: `public/assets/logo.png`, `og-default.png` and the icons are a plain text wordmark
+  ("icanspeak Spanish", "iS") from `scripts/build-wordmark.mjs`; Edgar: replace with a designed
+  logo when one exists.
+- **Contact e-mail** `hello@englishacademy.com` (`src/lib/legal.js`, two strings in `en.json`):
+  a legal fact, left unchanged; Edgar: set the real icanspeak address.
+- **robots.txt and deploy**: crawlers only read `https://icanspeak.it/robots.txt` (umbrella
+  site); `public/robots.txt` here is the template for the `/spanish` lines. `public/_headers`
+  is a Cloudflare/Netlify file Vercel ignores; `deploy-readme` decides (vercel.json headers,
+  and whether the Vercel project also rewrites `/spanish/*` → `/*` so its own domain works).

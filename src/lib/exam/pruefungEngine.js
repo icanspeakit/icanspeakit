@@ -27,6 +27,7 @@ import { recordResult } from "../fehler.js";
 import { idsOfPart, isScored, partsOf } from "./saetze.js";
 import { flagElement, meldenLink } from "../meldung.js";
 import { fingerprint } from "../meldungRef.js";
+import { withBase } from "../paths.js";
 import { examPath } from "../routes.js";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
@@ -619,7 +620,7 @@ function renderResult(main, set, ctx) {
   if (anyScored) box.appendChild(el("p", "format-note", escapeHtml(tx("ps.result.rule", "Richtwert: ab {p} % der Punkte gilt ein Teil als bestanden.", { p: pass }))));
   if (set.scoring?.note) box.appendChild(el("p", "format-note", escapeHtml(set.scoring.note)));
   const wrong = Object.values(ctx.state.answers ?? {}).filter((a) => a && a.correct === false).length;
-  if (wrong) box.appendChild(el("p", "format-note", `<a href="/my-mistakes">${escapeHtml(tx("fehler.saved", "{n} Fehler gespeichert → Meine Fehler", { n: wrong }))}</a>`));
+  if (wrong) box.appendChild(el("p", "format-note", `<a href="${withBase("/my-mistakes")}">${escapeHtml(tx("fehler.saved", "{n} Fehler gespeichert → Meine Fehler", { n: wrong }))}</a>`));
   main.appendChild(box);
 }
 

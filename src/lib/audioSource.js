@@ -25,7 +25,7 @@ let bundled = null;
 export async function loadAudioManifest() {
   if (!APP) return;
   try {
-    const res = await fetch("/audio-manifest.json");
+    const res = await fetch(withBase("/audio-manifest.json"));
     if (res.ok) bundled = new Set(await res.json());
   } catch {}
   await initPacks();
