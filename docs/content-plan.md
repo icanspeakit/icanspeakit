@@ -895,6 +895,23 @@ are handled by the `ui-*` items where they are rendered.
   site); `public/robots.txt` here is the template for the `/spanish` lines. `public/_headers`
   is a Cloudflare/Netlify file Vercel ignores; `deploy-readme` decides (vercel.json headers,
   and whether the Vercel project also rewrites `/spanish/*` → `/*` so its own domain works).
+- **UI chrome decisions** (`ui-components`, 2026-11-03): component and nav chrome already
+  names the Spanish exams by slot (goethe = DELE, testdaf = SIELE, telc = "SIELE by level",
+  dtz = "DELE A2 for nationality", Life in the UK = "CCSE nationality test", `/a1-test` = DELE
+  A1) and describes target modules ("el / la trainer", "Spanish for work"); each content item
+  makes its line true. Hrefs stay on the old slots until `routes`, which should also point the
+  `/progress` "Language use" row (LearnShell id `telc`) at `/dele/language-use`. The vocabulary
+  trainer's `de` side is labelled "Spanish" (`vt.*`); `vocab-a1` revisits that if the `de` tab
+  becomes a German translation. `HubBild` reads alt texts from `hub-bilder.json` (the manifest
+  can't be regenerated without the original photos, which are not in the repo, so share cards
+  stay off). `WortschatzDruck` part B follows the nouns' articles, but
+  `src/lib/arbeitsblatt/wortschatz.js` still keeps only `a/an/some` nouns: `vocab-a1`/`teachers`
+  must accept `el/la` there. `lid.fk.level.easy` is shared by quotes and CCSE facts, so
+  `culture` gives ZitatCard its own key. Unused components with old text (`Footer`, `Hero`,
+  `WhatYouDo`, `WhyUs`, `Testimonials`, `Classes`, `Team`, `Stats`, `ArtikelTrainerT1`,
+  `ArtikelPanelT1`, `NavVergleich` per EXPERIMENTE.md) go in `cleanup`. **Edgar:** in which
+  language are the legal texts binding (`legal.note.binding`, `widerruf.binding` still say
+  German)?
 - **Variety schema decisions** (`variety-schema`, 2026-11-03): `src/lib/variety.js` adds, next
   to the §1.5 names, `textFor(item, text)` (es419 `form` in LatAm mode), `skippedFor(item)`,
   `showsVosotros()` and `varietyProblems(obj)` (the shape rules, shared by every validator).
