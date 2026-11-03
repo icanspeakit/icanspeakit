@@ -13,6 +13,7 @@
 // src/lib/appShell.js routes every audio source a page sets through audioUrl(), so no page
 // has to know.
 import { downloadedUrl, initPacks } from "./audioPacks.js";
+import { withBase } from "./paths.js";
 
 const APP = import.meta.env.PUBLIC_TARGET === "app";
 const SITE = "https://icanspeak.it/spanish";
@@ -36,7 +37,8 @@ export async function loadAudioManifest() {
  * @param {string} path
  */
 export function audioUrl(path) {
-  if (!APP || typeof path !== "string" || !path.startsWith("/audio/")) return path;
+  if (!APP) return withBase(path);
+  if (typeof path !== "string" || !path.startsWith("/audio/")) return path;
   const clean = path.split(/[?#]/)[0];
   // Before the manifest has loaded, assume the file is in the app: most are.
   if (!bundled || bundled.has(clean)) return path;

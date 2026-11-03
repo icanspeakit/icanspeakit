@@ -11,6 +11,7 @@
 import QRCode from "qrcode";
 import { currentUser } from "../liveQuiz/custom.js";
 import { loadText, t } from "../liveQuiz/text.js";
+import { withBase, currentPath } from "../paths.js";
 import { bewertungSpeichern, ergebnisLoeschen, ergebnisse, test, testLink, testOffen } from "./daten.js";
 import { ORDER, SCHWELLE, einstufen, profil, stufenOf, teileOf } from "./niveau.js";
 
@@ -66,7 +67,7 @@ export async function mountErgebnis(root) {
   let sortBy = "name";
   await loadText(() => { if (k) render(); });
 
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(location.pathname + location.search)}`;
+  $("[data-signin-link]").href = withBase(`/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`);
   if (!(await currentUser())) return gate("signin");
   try {
     k = await test(params.get("id"));
@@ -100,7 +101,7 @@ export async function mountErgebnis(root) {
   // Model text and examiner checklist for the writing task: teacher-only, from the pool.
   let fk = { schreiben: [] };
   if (PARTS.includes("schreiben")) {
-    try { fk = await (await fetch("/teachers/tests/fertigkeiten.json")).json(); } catch (err) { console.error(err); }
+    try { fk = await (await fetch(withBase("/teachers/tests/fertigkeiten.json"))).json(); } catch (err) { console.error(err); }
   }
   const entwurf = new Map(); // student key → unsaved rating, so a refresh does not wipe it
 
@@ -108,7 +109,7 @@ export async function mountErgebnis(root) {
   const qrSvg = await QRCode.toString(link, { type: "svg", margin: 1, errorCorrectionLevel: "M" });
   $("[data-qr]").innerHTML = qrSvg;
   $("[data-beamer-qr]").innerHTML = qrSvg;
-  const shortHost = `${location.host}/test`;
+  const shortHost = `${location.host}${withBase("/test")}`;
   $("[data-host]").textContent = shortHost;
   $("[data-beamer-host]").textContent = shortHost;
   $("[data-code]").textContent = k.code;
@@ -188,9 +189,9 @@ export async function mountErgebnis(root) {
           <ol class="uf-next-list">${weak.map((tp) => {
             const l = links[tp.id] ?? {};
             const acts = [
-              l.page && `<a href="${esc(l.page)}">${esc(t("uf.t.next.page", "Thema"))}</a>`,
-              l.sheet && `<a href="${esc(l.sheet)}">${esc(t("uf.t.next.sheet", "Arbeitsblatt"))}</a>`,
-              l.quiz && `<a href="${esc(l.quiz)}">${esc(t("uf.t.next.quiz", "Live-Quiz"))}</a>`,
+              l.page && `<a href="${esc(withBase(l.page))}">${esc(t("uf.t.next.page", "Thema"))}</a>`,
+              l.sheet && `<a href="${esc(withBase(l.sheet))}">${esc(t("uf.t.next.sheet", "Arbeitsblatt"))}</a>`,
+              l.quiz && `<a href="${esc(withBase(l.quiz))}">${esc(t("uf.t.next.quiz", "Live-Quiz"))}</a>`,
             ].filter(Boolean);
             return `<li><strong>${esc(tp.name)}</strong> <small>${esc(t("kt.t.next.share", "{p} % richtig", { p: pct(tp.r, tp.g) }))}</small>${acts.length ? `<span class="uf-next-acts">${acts.join("")}</span>` : ""}</li>`;
           }).join("")}</ol>

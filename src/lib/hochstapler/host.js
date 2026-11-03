@@ -13,6 +13,7 @@ import { createBrowserSupabase } from "../supabase/browser.js";
 import { hostSigner, importHostKey, makeHostKey, playerChecker, playerSecret, answerMac } from "../liveQuiz/secure.js";
 import { avatarSrc, animalOf, randomAnimal } from "../liveQuiz/names.js";
 import { loadText } from "../liveQuiz/text.js";
+import { withBase } from "../paths.js";
 import { mountSoundToggles, music, preloadMusic, sfx, unlock } from "../liveQuiz/sound.js";
 import { confetti } from "../liveQuiz/confetti.js";
 import { reduced, wait } from "../liveQuiz/anim.js";
@@ -66,7 +67,7 @@ export function mountHost(root) {
 
   async function loadLevel(level) {
     if (words[level]) return words[level];
-    const res = await fetch(`/games/impostor/woerter-${level.toLowerCase()}.json`);
+    const res = await fetch(withBase(`/games/impostor/woerter-${level.toLowerCase()}.json`));
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     words[level] = (await res.json()).themes;
     return words[level];
@@ -141,7 +142,7 @@ export function mountHost(root) {
     } else if (!resumed) {
       try {
         const hk = await makeHostKey();
-        const res = await fetch("/api/live-quiz/raum", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ hostPub: hk.pub }) });
+        const res = await fetch(withBase("/api/live-quiz/raum"), { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ hostPub: hk.pub }) });
         if (res.ok) {
           registered = await res.json();
           room = { roomKey: registered.roomKey, jwk: hk.jwk };
@@ -180,9 +181,9 @@ export function mountHost(root) {
       if (!taken || registered || resumed) break;
       await supabase.removeChannel(ch);
     }
-    const url = `${location.origin}/game/hochstapler?pin=${pin}`;
+    const url = `${location.origin}${withBase("/game/hochstapler")}?pin=${pin}`;
     $$("[data-pin]").forEach((el) => (el.textContent = `${pin.slice(0, 3)} ${pin.slice(3)}`));
-    $$("[data-join-url]").forEach((el) => (el.textContent = `${location.host}/game/hochstapler`));
+    $$("[data-join-url]").forEach((el) => (el.textContent = `${location.host}${withBase("/game/hochstapler")}`));
     $$("[data-qr]").forEach(async (el) => (el.innerHTML = await QRCode.toString(url, { type: "svg", margin: 1, errorCorrectionLevel: "M" })));
     $("[data-join-link]")?.setAttribute("href", url);
     clearInterval(beatTimer);
@@ -636,7 +637,7 @@ export function mountHost(root) {
     } else if (phase === "rescue") {
       const imp = r.caught[0];
       html = `<h2 class="hst-h2">${esc(tx("rescueWho", { name: players.get(imp)?.name }))}</h2><p class="hst-turn-say">${esc(tx("rescueOnPhone"))}</p>
-        <div class="hst-grid hst-grid--words hst-grid--big">${r.rescue.map((w) => `<button type="button" class="hst-pick hst-pick--word" data-host-guess="${w.id}">${w.img ? `<img src="${w.img}" alt="" width="96" height="96" />` : ""}<span>${esc(w.de)}</span></button>`).join("")}</div>`;
+        <div class="hst-grid hst-grid--words hst-grid--big">${r.rescue.map((w) => `<button type="button" class="hst-pick hst-pick--word" data-host-guess="${w.id}">${w.img ? `<img src="${withBase(w.img)}" alt="" width="96" height="96" />` : ""}<span>${esc(w.de)}</span></button>`).join("")}</div>`;
       ctl = `<span class="hst-voted">${esc(tx("rescueHostHint"))}</span>`;
     } else if (phase === "result") {
       const { winner, points, guessedRight } = r.result;

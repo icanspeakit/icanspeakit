@@ -14,6 +14,7 @@ import { enhanceSwitch } from "./segSwitch.js";
 import { keyFromRef, stundeRef, stundenStand } from "./unterricht/lernen.js";
 import { keyOf } from "./unterricht/speichern.js";
 import { track } from "./track.js";
+import { withBase, currentPath } from "./paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const WINDOW_DAYS = 28;
@@ -27,7 +28,7 @@ export async function mountKlassenDashboard(root, names) {
   await loadText(() => { if (ready) renderAll(); });
 
   const id = new URLSearchParams(location.search).get("id");
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(location.pathname + location.search)}`;
+  $("[data-signin-link]").href = withBase(`/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`);
   const user = await currentUser();
   if (!user) return gate("signin");
 
@@ -190,7 +191,7 @@ export async function mountKlassenDashboard(root, names) {
 
   async function ensureKatalog() {
     if (katalog) return;
-    katalog = await fetch("/klassen-katalog.json").then((r) => r.json()).catch(() => []);
+    katalog = await fetch(withBase("/klassen-katalog.json")).then((r) => r.json()).catch(() => []);
     const sel = $("[data-task-ref]");
     const groups = new Map();
     for (const e of katalog) groups.set(e.group, [...(groups.get(e.group) ?? []), e]);

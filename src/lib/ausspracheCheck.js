@@ -10,6 +10,7 @@ import { pronunciationProvider as provider, PronunciationError } from "./pronunc
 import { referenceMelody, learnerMelody, compareMelody, melodyChart } from "./satzmelodie.js";
 import { wouldLock } from "./intent.js";
 import { setWaiting } from "./notReady.js";
+import { withBase } from "./paths.js";
 
 const LANG = "en-GB";
 const BEST_KEY = "ac.best";
@@ -157,7 +158,7 @@ async function speak(text, { slow = false } = {}) {
 async function playSentence(s, { slow = false } = {}) {
   stopAudio();
   if (s.audio) {
-    const a = new Audio((slow && s.srcSlow) || s.src || `/audio/aussprache-check/${s.id}.mp3`);
+    const a = new Audio(withBase((slow && s.srcSlow) || s.src || `/audio/aussprache-check/${s.id}.mp3`));
     currentAudio = a;
     // For a page that draws along (the melody playhead on /tongue-twisters).
     window.dispatchEvent(new CustomEvent("da:ac-play", { detail: { audio: a, sentence: s, slow } }));
@@ -171,7 +172,7 @@ async function playSentence(s, { slow = false } = {}) {
  *  the promise rejects when the file cannot play. `take` names it in the da:ac-play event. */
 export function playTake(s, url, take) {
   stopAudio();
-  const a = new Audio(url);
+  const a = new Audio(withBase(url));
   currentAudio = a;
   window.dispatchEvent(new CustomEvent("da:ac-play", { detail: { audio: a, sentence: s, slow: false, take } }));
   return a.play();

@@ -7,6 +7,7 @@
 //   „Warum passiert das? →" /culture/mistakes?lang=<id>#<error id>
 import { detectPatterns } from "./pronunciation/patterns.ts";
 import { getLang, loadDict, translate, onLangChange } from "./i18n.js";
+import { withBase } from "./paths.js";
 
 export const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
@@ -48,8 +49,8 @@ export function findingsFor({ words, assessment, inserted, lang, info, max = 2 }
 }
 
 export const langName = (info, lang) => info?.languages?.find((l) => l.id === lang)?.name ?? lang;
-export const practiceHref = (lang, drill) => `/pronunciation-check?lang=${encodeURIComponent(lang)}&drill=${encodeURIComponent(drill)}`;
-export const whyHref = (lang, errorId) => `/culture/mistakes?lang=${encodeURIComponent(lang)}#${encodeURIComponent(errorId)}`;
+export const practiceHref = (lang, drill) => withBase(`/pronunciation-check?lang=${encodeURIComponent(lang)}&drill=${encodeURIComponent(drill)}`);
+export const whyHref = (lang, errorId) => withBase(`/culture/mistakes?lang=${encodeURIComponent(lang)}#${encodeURIComponent(errorId)}`);
 
 /**
  * The findings as a list. `practice` false leaves out „Jetzt üben" (when the drill is the

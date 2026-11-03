@@ -16,6 +16,7 @@
 import { examRegistry, examById, lidLandIds, lidDefaultLandIds } from "./exam/registry.js";
 import { slide, replay } from "./fold.js";
 import { getLang, loadDict, translate, onLangChange } from "./i18n.js";
+import { withBase } from "./paths.js";
 
 /* The markup here is built by module-level helpers (railHtml, headHtml, tableHtml,
    cardsHtml), not by a closure inside the mount, so the dictionary has to live at module
@@ -181,7 +182,7 @@ function partHtml(exam, m, label, cls = "") {
   // An unscored part with two tasks (Start Deutsch 1's Formular + Nachricht) must not
   // read "fertig" when only one is marked — it still gets a fraction.
   const count = m.scored || m.total > 1 ? `${m.done}/${m.total}` : t(m.done ? "fs.done" : "fs.open");
-  return `<a class="fs-part${cls}" href="${esc(exam.href)}#${esc(m.key)}" aria-label="${esc(m.label)}">
+  return `<a class="fs-part${cls}" href="${esc(withBase(exam.href))}#${esc(m.key)}" aria-label="${esc(m.label)}">
     ${dot(m)}<span class="fs-part-label">${esc(label)}</span><span class="fs-part-n">${esc(count)}</span>
   </a>`;
 }
@@ -232,7 +233,7 @@ function railHtml(stats, activeId, ui) {
     </button>
     <div class="fs-rail-body" id="fs-rail-body"${ui.railOpen ? "" : " hidden"}>
       <nav class="fs-parts" aria-label="${esc(t("fs.partsAria"))}">${parts}</nav>
-      <a class="fs-rail-result" href="${esc(active.exam.href)}#ergebnis">
+      <a class="fs-rail-result" href="${esc(withBase(active.exam.href))}#ergebnis">
         <span class="fs-rail-flag">■</span><span>${esc(t("fs.result"))}</span>
       </a>
       <button type="button" class="fs-reset" data-reset-exam="${esc(active.exam.id)}">${esc(t("fs.reset"))}</button>
@@ -251,8 +252,8 @@ function headHtml(s) {
     </svg>`;
 
   const nextBtn = s.next
-    ? `<a class="fs-next" href="${esc(s.exam.href)}#${esc(s.next.key)}">${esc(t("fs.continueAt", { label: s.next.label, arrow: forward() }))}</a>`
-    : `<a class="fs-next" href="${esc(s.exam.href)}#ergebnis">${esc(t("fs.viewResult", { arrow: forward() }))}</a>`;
+    ? `<a class="fs-next" href="${esc(withBase(s.exam.href))}#${esc(s.next.key)}">${esc(t("fs.continueAt", { label: s.next.label, arrow: forward() }))}</a>`
+    : `<a class="fs-next" href="${esc(withBase(s.exam.href))}#ergebnis">${esc(t("fs.viewResult", { arrow: forward() }))}</a>`;
 
   return `
     <div class="fs-head">
@@ -289,7 +290,7 @@ function tableHtml(s) {
           <span><b>${esc(m.label)}</b><i>${esc(m.scored ? t("fs.tasks", { n: m.total }) : t("fs.handMarked"))}</i></span></td>
         <td class="fs-td-bar">${bar(m.done, m.total)}</td>
         <td class="fs-td-pts">${esc(label)}</td>
-        <td class="fs-td-go"><a href="${esc(s.exam.href)}#${esc(m.key)}">${esc(t(m.done ? "fs.continue" : "fs.start"))} ${forward()}</a></td>
+        <td class="fs-td-go"><a href="${esc(withBase(s.exam.href))}#${esc(m.key)}">${esc(t(m.done ? "fs.continue" : "fs.start"))} ${forward()}</a></td>
       </tr>`;
     })
     .join("");
@@ -310,7 +311,7 @@ function cardsHtml(s) {
   return `<div class="fs-cards">${s.modules
     .map((m) => {
       const state = m.done === 0 ? "" : m.done >= m.total ? " is-done" : " is-part";
-      return `<a class="fs-card${state}" href="${esc(s.exam.href)}#${esc(m.key)}">
+      return `<a class="fs-card${state}" href="${esc(withBase(s.exam.href))}#${esc(m.key)}">
         <p class="fs-card-label">${esc(m.label)}</p>
         <p class="fs-card-n">${
           m.scored ? `${m.correct} <small>/ ${m.total}</small>`

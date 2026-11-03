@@ -7,6 +7,7 @@
 // need no account. The phone's `geraet` token is shared with Umfragen: random, kept on the
 // phone, only there so a phone hands in a test once.
 import { createBrowserSupabase } from "../supabase/browser.js";
+import { withBase } from "../paths.js";
 import { geraet } from "../umfrage/daten.js";
 
 export { isCode, normCode } from "../umfrage/daten.js";
@@ -21,7 +22,7 @@ let client = null;
 const sb = () => (client ??= createBrowserSupabase());
 
 /** The link a student opens (or the QR code encodes). */
-export const testLink = (code, origin = location.origin) => `${origin}/test?c=${encodeURIComponent(code)}`;
+export const testLink = (code, origin = location.origin) => `${origin}${withBase("/test")}?c=${encodeURIComponent(code)}`;
 
 /* ------------------------------------------------------------------ teacher ---- */
 

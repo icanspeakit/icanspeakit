@@ -9,9 +9,10 @@ import { fetchBoard, submitRun, saveName, flushRuns, signedIn } from "./bestenli
 import { getPrefs, savePrefs } from "./storage.js";
 import { setWaiting } from "../notReady.js";
 import { t } from "../uiText.js";
+import { withBase } from "../paths.js";
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-const LOGIN = `/anmelden?next=${encodeURIComponent("/games/countable-sprint#bestenliste")}`;
+const LOGIN = withBase(`/anmelden?next=${encodeURIComponent("/games/countable-sprint#bestenliste")}`);
 
 export function mountBoard(el, { modeName, diffName }) {
   const noop = { show() {}, runOver() {}, render() {} };

@@ -17,6 +17,8 @@
 // file wins and the synthesiser is never touched, so the generator is purely additive and
 // nothing in this module changes when the mp3s land.
 
+import { withBase } from "./paths.js";
+
 /* ---------------------------------------------------------------- voice ---- */
 
 export function makeVoice() {
@@ -59,7 +61,7 @@ export function makeVoice() {
       const done = () => { if (!settled) { settled = true; resolve(); } };
 
       if (src) {
-        el.src = src;
+        el.src = withBase(src);
         el.playbackRate = rate;
         el.onended = done;
         el.onerror = done;

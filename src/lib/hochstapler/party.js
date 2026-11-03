@@ -16,6 +16,7 @@ import { mountSoundToggles, sfx, unlock } from "../liveQuiz/sound.js";
 import { confetti } from "../liveQuiz/confetti.js";
 import { reduced, wait } from "../liveQuiz/anim.js";
 import { setWaiting } from "../notReady.js";
+import { withBase } from "../paths.js";
 import {
   MAX_PLAYERS, MIN_PLAYERS, hash32, pickHochstapler, pickTheme, pickWord, redemittelFor, rescueOptions, seeded, settle, tally, turnOrder,
 } from "./game.js";
@@ -53,7 +54,7 @@ export function mountParty(root) {
 
   async function loadLevel(level) {
     if (words[level]) return words[level];
-    const res = await fetch(`/games/impostor/woerter-${level.toLowerCase()}.json`);
+    const res = await fetch(withBase(`/games/impostor/woerter-${level.toLowerCase()}.json`));
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     words[level] = (await res.json()).themes;
     return words[level];
@@ -195,7 +196,7 @@ export function mountParty(root) {
   function passTo(i) {
     const p = g.players[i];
     g.round.seen = i;
-    $("[data-pass-av]").src = avatarSrc(p.avatar) ?? "";
+    $("[data-pass-av]").src = withBase(avatarSrc(p.avatar) ?? "");
     $("[data-pass-to]").textContent = tx("passTo", { name: p.name });
     $("[data-pass-only]").textContent = tx("passOnly", { name: p.name });
     const go = $("[data-pass-go]");
@@ -247,7 +248,7 @@ export function mountParty(root) {
       const q = playerOf(id);
       return `<li class="${i < turn ? "is-done" : i === turn ? "is-now" : ""}" title="${esc(q.name)}">${avImg(q, "hst-av hst-av--s")}</li>`;
     }).join("");
-    $("[data-turn-av]").src = avatarSrc(p.avatar) ?? "";
+    $("[data-turn-av]").src = withBase(avatarSrc(p.avatar) ?? "");
     $("[data-turn-name]").textContent = tx("turnOf", { name: p.name });
     const last = turn === order.length - 1 && clueRound === g.rounds;
     $("[data-next-turn]").textContent = tx(last ? "toDiscuss" : "nextPlayer");
@@ -322,7 +323,7 @@ export function mountParty(root) {
   function votePass(i) {
     const p = g.players[i];
     g.round.voter = i;
-    $("[data-pass-av]").src = avatarSrc(p.avatar) ?? "";
+    $("[data-pass-av]").src = withBase(avatarSrc(p.avatar) ?? "");
     $("[data-pass-to]").textContent = tx("passTo", { name: p.name });
     $("[data-pass-only]").textContent = tx("passOnly", { name: p.name });
     const go = $("[data-pass-go]");
@@ -422,7 +423,7 @@ export function mountParty(root) {
     $("[data-rescue-who]").textContent = tx("rescueWho", { name: imp.name });
     $("[data-rescue-grid]").innerHTML = g.round.rescue
       .map((w) => `<button type="button" class="hst-pick hst-pick--word" data-guess="${w.id}">
-        ${w.img ? `<img src="${w.img}" alt="" width="72" height="72" />` : ""}<span>${esc(w.de)}</span></button>`)
+        ${w.img ? `<img src="${withBase(w.img)}" alt="" width="72" height="72" />` : ""}<span>${esc(w.de)}</span></button>`)
       .join("");
     show("rescue");
   }

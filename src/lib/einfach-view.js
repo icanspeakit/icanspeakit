@@ -47,6 +47,7 @@ import {
 import { mascotSvg } from "./mascots.js";
 import { onMascotsChange, setMascotsEnabled } from "./mascotPrefs.js";
 import { waitAttrs } from "./notReady.js";
+import { withBase } from "./paths.js";
 
 /* Everything Bruno says, in one place. Short (≤ 8 words), A1 English, warm, never
    blaming. `text` is what the bubble shows; an optional `help` (a translation into the
@@ -82,7 +83,7 @@ function play(src, text) {
   window.speechSynthesis?.cancel();
   clip = null;
   if (src) {
-    clip = new Audio(src);
+    clip = new Audio(withBase(src));
     return clip.play().catch(() => text && say(text));
   }
   return text ? say(text) : Promise.resolve();
@@ -117,7 +118,7 @@ const articleQuestion = (task) => {
   const o = articleOptions(task);
   return `${o.slice(0, -1).join(", ")} or ${o[o.length - 1]}?`;
 };
-const MASCOTS_OFF_NOTE = `<p class="el-note" role="status">The mascots are off. To turn them on again: <a href="/konto">Account → Settings</a>.</p>`;
+const MASCOTS_OFF_NOTE = `<p class="el-note" role="status">The mascots are off. To turn them on again: <a href="${withBase("/konto")}">Account → Settings</a>.</p>`;
 
 export function mountEinfach(root) {
   let state = loadState();
@@ -149,7 +150,7 @@ export function mountEinfach(root) {
           back
             ? `<button class="el-back" type="button" data-go="${back}" aria-label="Back">‹</button>`
             : home
-              ? `<a class="el-back el-back--home" href="/" data-to-site aria-label="To the full site" title="To the full site">⌂</a>`
+              ? `<a class="el-back el-back--home" href="${withBase("/")}" data-to-site aria-label="To the full site" title="To the full site">⌂</a>`
               : `<span class="el-back el-back--ghost" aria-hidden="true"></span>`
         }
         <span class="el-bar-title">${esc(title)}</span>
@@ -883,7 +884,7 @@ export function mountEinfach(root) {
         ${sitting.postcard ? postcard(sitting.postcard) : ""}
         ${
           sitting.grammar
-            ? `<a class="el-quiet el-quiet--link" href="/${esc(sitting.grammar)}" data-to-site>More about this in the course</a>`
+            ? `<a class="el-quiet el-quiet--link" href="${withBase("/" + esc(sitting.grammar))}" data-to-site>More about this in the course</a>`
             : ""
         }
         <button class="el-shelf-peek" type="button" data-go="kannst">

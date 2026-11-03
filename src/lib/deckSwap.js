@@ -13,6 +13,7 @@
 
 import { retranslate } from "./i18n.js";
 import { CARD_LANG_EVENT, storedCardLang } from "./cardLangGloss.js";
+import { withBase, stripBase, currentPath } from "./paths.js";
 
 // The trainer routes. A link elsewhere is left alone without a fetch.
 const TRAINER = /^\/(vocabulary(\/(?!print\/|glosses\/)[^/]+(\/[^/]+)?)?|english-for-work\/[^/]+\/[^/]+)\/?$/;
@@ -25,7 +26,7 @@ const MAX_CACHED = 24;
 function load(path) {
   if (!cache.has(path)) {
     if (cache.size >= MAX_CACHED) cache.delete(cache.keys().next().value);
-    const doc = fetch(path, { credentials: "same-origin" })
+    const doc = fetch(withBase(path), { credentials: "same-origin" })
       .then((r) => (r.ok ? r.text() : Promise.reject(new Error(`${r.status}`))))
       .then((html) => new DOMParser().parseFromString(html, "text/html"));
     doc.catch(() => cache.delete(path));
@@ -36,9 +37,10 @@ function load(path) {
 
 const pathOf = (a) => {
   if (!a || a.target || a.hasAttribute("download") || a.origin !== location.origin) return null;
-  return TRAINER.test(a.pathname) ? a.pathname.replace(/\/+$/, "") || "/" : null;
+  const p = stripBase(a.pathname);
+  return TRAINER.test(p) ? p.replace(/\/+$/, "") || "/" : null;
 };
-const here = () => location.pathname.replace(/\/+$/, "") || "/";
+const here = () => currentPath().replace(/\/+$/, "") || "/";
 
 export function initDeckSwap({ onSwap }) {
   const page = document.getElementById("vp-page");
@@ -51,7 +53,7 @@ export function initDeckSwap({ onSwap }) {
     if (!nvb) return;
     let row = null;
     nvb.querySelectorAll("a.nvb-item").forEach((a) => {
-      const on = (a.pathname.replace(/\/+$/, "") || "/") === path;
+      const on = (stripBase(a.pathname).replace(/\/+$/, "") || "/") === path;
       a.classList.toggle("active", on);
       if (on) { a.setAttribute("aria-current", "page"); row ??= a; } else a.removeAttribute("aria-current");
     });
@@ -123,12 +125,12 @@ export function initDeckSwap({ onSwap }) {
       const doc = await load(path);
       if (ticket !== busy) return; // a later click won
       if (!doc.getElementById("vp-page")?.classList.contains("vt-shell")) throw new Error("not a trainer");
-      if (push) history.pushState({ deck: path }, "", path);
+      if (push) history.pushState({ deck: path }, "", withBase(path));
       apply(doc, path);
       // On a phone the list is a sheet over the cards: picking from it closes it.
       if (page.dataset.rule !== "hidden" && !matchMedia("(min-width: 1001px)").matches) page.querySelector(".vp-sheet-x")?.click();
     } catch {
-      if (push) location.assign(path); else location.reload();
+      if (push) location.assign(withBase(path)); else location.reload();
     } finally {
       clearTimeout(slow);
       page.querySelector(".vp-col--ex")?.removeAttribute("aria-busy");

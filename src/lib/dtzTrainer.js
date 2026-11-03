@@ -16,6 +16,7 @@ import { flagItems, meldenLinkHtml, onMeldenClick } from "./meldung.js";
 import { fingerprint } from "./meldungRef.js";
 import { PAYWALL, APP, can } from "./access.js";
 import { intent } from "./intent.js";
+import { withBase } from "./paths.js";
 import paidManifest from "../data/pruefungen/paid-manifest.json";
 
 /* Module-level because the renderers here are module functions, not closures inside the
@@ -144,7 +145,7 @@ function partLabel(label) {
 
 /** The recording of a Hören text, where one was generated (dtz/uebungssatz.astro sets `audio`). */
 function audioTag(src) {
-  return src ? `<audio class="dtz-audio" controls preload="none" src="${escapeHtml(src)}"></audio>` : "";
+  return src ? `<audio class="dtz-audio" controls preload="none" src="${escapeHtml(withBase(src))}"></audio>` : "";
 }
 
 function transcriptBlock(text, label) {
@@ -597,7 +598,7 @@ export function mountDtzTrainer(root, data, { onAnswer } = {}) {
           <table class="format-table"><thead><tr><th>${escapeHtml(t("dtz.th.part"))}</th><th>${escapeHtml(t("dtz.th.correct"))}</th></tr></thead><tbody>${rows}</tbody></table>
         </div>
         ${upsell(data)}
-        ${score < total ? `<p class="dtz-note"><a href="/my-mistakes">${escapeHtml(tOr("fehler.saved", `${total - score} Fehler gespeichert → Meine Fehler`, { n: total - score }))}</a></p>` : ""}
+        ${score < total ? `<p class="dtz-note"><a href="${withBase("/my-mistakes")}">${escapeHtml(tOr("fehler.saved", `${total - score} Fehler gespeichert → Meine Fehler`, { n: total - score }))}</a></p>` : ""}
         <div class="dtz-actions">
           <button type="button" class="vp-link-btn" data-dtz-reset>${escapeHtml(t("dtz.restart"))}</button>
         </div>`;

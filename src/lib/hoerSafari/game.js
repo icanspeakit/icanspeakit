@@ -40,6 +40,7 @@ import { recordAttempt } from "../progress.js";
 import { celebrate } from "../mascotCelebrate.js";
 import { gameMuted, setGameMuted, reducedMotion, GAME_MUTE_EVENT } from "../spieleEinstellungen.js";
 import { spielMelden } from "../spielMelden.js";
+import { withBase } from "../paths.js";
 
 // ---- tuning (docs/hoer-safari-tier4-v1.md has the reasoning) ---------------------------------
 export const TUNING = {
@@ -301,7 +302,7 @@ export function mountHoerSafari(root, allWords) {
     let im = images.get(w.id);
     if (!im) {
       im = new Image();
-      im.src = w.i;
+      im.src = withBase(w.i);
       images.set(w.id, im);
     }
     return im;
@@ -376,7 +377,7 @@ export function mountHoerSafari(root, allWords) {
     const l = glossLang();
     if (INLINE.includes(l) || fetched[l]) return;
     try {
-      fetched[l] = await (await fetch(`/vocabulary/glosses/${l}.json`)).json();
+      fetched[l] = await (await fetch(withBase(`/vocabulary/glosses/${l}.json`))).json();
     } catch {
       fetched[l] = {};
     }
@@ -1529,7 +1530,7 @@ export function mountHoerSafari(root, allWords) {
     // what the word means, in the interface language, as a quiet second line
     const g = glossOf(w);
     const gloss = g ? `<em class="hs-gloss" lang="${g.lang}" dir="${isRtl(g.lang) ? "rtl" : "ltr"}">${esc(g.text)}</em>` : "";
-    b.innerHTML = `<img src="${w.i}" alt="" width="48" height="48"><span><small>${w.g}</small> ${w.w}${gloss}</span>`;
+    b.innerHTML = `<img src="${withBase(w.i)}" alt="" width="48" height="48"><span><small>${w.g}</small> ${w.w}${gloss}</span>`;
     b.addEventListener("click", () => say(w));
     return b;
   }

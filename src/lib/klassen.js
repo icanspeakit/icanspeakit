@@ -8,6 +8,7 @@
 // and the code is made by the database. So the functions here are conveniences; none of
 // them is a check.
 import { createBrowserSupabase } from "./supabase/browser.js";
+import { withBase } from "./paths.js";
 
 export const MAX_MITGLIEDER = 60;
 export const MAX_KLASSEN = 20;
@@ -33,7 +34,7 @@ export const normCode = (s) => String(s ?? "").toUpperCase().replace(/[^A-Z0-9]/
 export const isCode = (s) => CODE_RE.test(normCode(s));
 
 /** The link a student opens (or the QR code encodes). */
-export const joinLink = (code, origin = location.origin) => `${origin}/join?code=${encodeURIComponent(code)}`;
+export const joinLink = (code, origin = location.origin) => `${origin}${withBase("/join")}?code=${encodeURIComponent(code)}`;
 
 /* ------------------------------------------------------------------ teacher ---- */
 

@@ -14,6 +14,7 @@ import { pronunciationProvider as provider, PronunciationError } from "./pronunc
 import { checkMicrophone, MSG } from "./ausspracheCheck.js";
 import { findingsFor, findingsHtml, langName, esc, t, onDict } from "./aussprachePatterns.js";
 import { mountFuerDich, showDrillsFor, openDrill } from "./ausspracheFuerDich.js";
+import { withBase } from "./paths.js";
 import { mutterspracheFromUrl, setMuttersprache, onMutterspracheChange, syncMutterspracheFromAccount } from "./muttersprache.js";
 
 const LIVE_MS = 60_000;
@@ -45,7 +46,7 @@ export function mountCheckFuerDich(root, { info, levels }) {
     if (more) {
       more.hidden = !lang;
       if (lang) {
-        more.href = `/culture/mistakes?lang=${encodeURIComponent(lang)}#${encodeURIComponent(lang)}`;
+        more.href = withBase(`/culture/mistakes?lang=${encodeURIComponent(lang)}#${encodeURIComponent(lang)}`);
         more.textContent = t("ac.moreFehler", "Weitere typische Fehler für {lang}-Sprecher", { lang: langName(info, lang) });
       }
     }
