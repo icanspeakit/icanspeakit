@@ -1,16 +1,16 @@
 ---
 // One-line notice on every exam page: our sets are self-written practice material in the
 // style of the exam, not official material, and we are not affiliated with the providers.
-// Exam names are used only to say what the material prepares for (§ 23 MarkenG) — this line
+// Exam names are used only to say what the material prepares for (nominative use) — this line
 // makes sure nobody reads an affiliation into it. Text lives in public/i18n/<lang>.json.
 // `foot`: the hub variant — centred fine print at the end of the page, not between hero and cards.
 interface Props { foot?: boolean }
 const { foot = false } = Astro.props;
 ---
 <p class:list={["exam-disclaimer", { "exam-disclaimer--foot": foot }]} data-i18n="exam.disclaimer">
-  Eigenes Übungsmaterial von icanspeak Spanish nach dem Vorbild der Prüfung – kein offizielles
-  Prüfungsmaterial. Wir sind nicht mit dem Goethe-Institut, der telc gGmbH, der g.a.s.t.
-  (TestDaF-Institut) oder dem BAMF verbunden.
+  Practice material written by icanspeak Spanish in the style of the exam – not official exam
+  material. We are not affiliated with the Instituto Cervantes or with the other institutions
+  behind the DELE, the SIELE and the CCSE.
 </p>
 <style>
   .exam-disclaimer {
