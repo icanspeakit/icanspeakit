@@ -895,3 +895,19 @@ are handled by the `ui-*` items where they are rendered.
   site); `public/robots.txt` here is the template for the `/spanish` lines. `public/_headers`
   is a Cloudflare/Netlify file Vercel ignores; `deploy-readme` decides (vercel.json headers,
   and whether the Vercel project also rewrites `/spanish/*` → `/*` so its own domain works).
+- **Variety schema decisions** (`variety-schema`, 2026-11-03): `src/lib/variety.js` adds, next
+  to the §1.5 names, `textFor(item, text)` (es419 `form` in LatAm mode), `skippedFor(item)`,
+  `showsVosotros()` and `varietyProblems(obj)` (the shape rules, shared by every validator).
+  `pnpm check:variety` (in `check:content`) checks the shape of every `variety`/`es419` key in
+  any JSON under `src/data`, `src/content`, `src/paid`, and prints per-module coverage. Coverage
+  units: lexicon words, own deck entries (`berufe`, `dgt`, `business-spanish`), `wortschatz`
+  cards, `redemittel` phrases, each grammar topic file (top level), each `grammatik.json` quiz
+  topic, each `praepositionen-trainer` pack, `verbtabellen.json` (top level),
+  `conjugation-trainer` sets, `hoeren` texts, `aussprache-check`/`zungenbrecher` sentences,
+  `satzmelodie` families + stress + rules, `ausspracheregeln` rules. `akkusativ.json` items
+  inherit from their grammar topic (no own `variety`; `es419` allowed). A content item adds its
+  module id to `STRICT` in `scripts/check-variety.mjs` in the commit that converts the module.
+  `es419.gender` is rejected on non-nouns in lexicon/deck entries; `es419` on an `es-419` item is
+  an error. A deck `ref` carries neither key (it inherits from the referenced word).
+  `validate-lexicon.mjs` and `berufeCore.js` already accept `el`/`la`/`el/la`, `genus: "f"`
+  (only with `gender: "el"`) and `fem` (adjectives only).
