@@ -29,11 +29,11 @@ const url = topicPath(topic);
 const topicHref = (id: string) => topicPath(id);
 ---
 {pos && (
-  <nav class:list={["kb", inline && "kb--inline"]} aria-label="Dein Kurs" data-i18n-attr="aria-label:kb.course">
+  <nav class:list={["kb", inline && "kb--inline"]} aria-label="Your course" data-i18n-attr="aria-label:kb.course">
     <div class="kb-inner">
       {/* Inline (in the topic bar) the link is its Stufe badge alone — the words cost the
           bar its room. The name stays for screen readers and as the tooltip. */}
-      <a class="kb-back" href={`/progress?stufe=${stufe}&thema=${topic}`} aria-label={inline ? `Dein Kurs, Stufe ${pos.level}` : undefined} title={inline ? "Dein Kurs" : undefined} data-i18n-attr={inline ? `aria-label:kb.courseLevel.${pos.level};title:kb.course` : undefined}>
+      <a class="kb-back" href={`/progress?stufe=${stufe}&thema=${topic}`} aria-label={inline ? `Your course, level ${pos.level}` : undefined} title={inline ? "Your course" : undefined} data-i18n-attr={inline ? `aria-label:kb.courseLevel.${pos.level};title:kb.course` : undefined}>
         {!inline && <span aria-hidden="true">←</span>}
         {!inline && <><span class="kb-long" data-i18n="kb.course">Dein Kurs</span><span class="kb-short" data-i18n="kb.courseShort">Kurs</span></>}
         <span class="kb-level">{pos.level}</span>
