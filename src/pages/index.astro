@@ -1,4 +1,6 @@
 ---
+import Wordmark from "../components/Wordmark.astro";
+import PartOfIcanspeak from "../components/PartOfIcanspeak.astro";
 import Layout from "../layouts/Layout.astro";
 import EinfachEntry from "../components/EinfachEntry.astro";
 import SiteNav from "../components/SiteNav.astro";
@@ -28,7 +30,7 @@ const examCount = exams.length;
 // Paywall kill switch (src/lib/access.js): with it on, the footer carries § 312k's link.
 const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
 ---
-<Layout>
+<Layout umbrella={false}>
   <div class="lp">
     <SiteNav />
 
@@ -266,7 +268,7 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
       <div class="lp-wrap lp-footer-inner">
         <div class="lp-footer-grid">
           <div class="lp-footer-brand">
-            <img src="/assets/logo.png" alt="icanspeak Spanish" />
+            <Wordmark onDark />
             <strong data-i18n="home.footer.tagline">Da für Dich!</strong>
             <p data-i18n="home3.footer.blurb">Deutsch von A1 bis B2, aus echtem Unterrichtsmaterial.</p>
           </div>
@@ -318,6 +320,7 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
         </div>
         <div class="lp-footer-bottom">
           <div class="lp-footer-copyright" data-i18n="home3.footer.copyright">© 2018–2026 icanspeak Spanish</div>
+          <PartOfIcanspeak onDark />
           <LanguageSwitcher />
           <ThemeToggle />
         </div>

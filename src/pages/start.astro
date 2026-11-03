@@ -1,4 +1,5 @@
 ---
+import Wordmark from "../components/Wordmark.astro";
 // /start — draft: tidied-up homepage + slim menu (EXPERIMENTE.md).
 // Only a mock: its own menu, no shared components, noindex. English text only.
 import Layout from "../layouts/Layout.astro";
@@ -70,7 +71,7 @@ const paths = [
     <!-- MENÜ: 3 Bereiche + Lehrkräfte, Suche, ein Haupt-Knopf -->
     <header class="sn-nav">
       <div class="sn-nav-in">
-        <a href="/start" class="sn-logo"><img src="/assets/logo.png" alt="icanspeak Spanish" /></a>
+        <a href="/start" class="sn-logo"><Wordmark /></a>
 
         <nav class="sn-menu" aria-label="Main menu">
           {menu.map((m) => (
@@ -253,7 +254,7 @@ const paths = [
   /* Menü */
   .sn-nav { position: sticky; top: 0; z-index: 50; background: var(--page-bg); border-bottom: 1px solid var(--border); }
   .sn-nav-in { max-width: 1120px; margin: 0 auto; padding: 0 20px; height: 64px; display: flex; align-items: center; gap: 28px; }
-  .sn-logo img { height: 34px; display: block; }
+  .sn-logo img { height: 22px; display: block; }
   .sn-menu { display: flex; align-items: center; gap: 4px; flex: 1; }
   .sn-item { position: relative; }
   .sn-top { font: 600 15px var(--font-label); background: none; border: 0; color: var(--ink); padding: 10px 12px; border-radius: var(--radius-sm); cursor: pointer; text-decoration: none; }

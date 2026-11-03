@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import LanguageOffer from "../components/LanguageOffer.astro";
+import PartOfIcanspeak from "../components/PartOfIcanspeak.astro";
 // The paywall kill switch (src/lib/access.js). Only rendered when on, so with it off the
 // HTML is what it was before the paywall existed.
 const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
@@ -46,6 +47,9 @@ interface Props {
   /** No analytics on this page at all: no consent banner, so PostHog,
       GA and the Meta Pixel never load. For pages that promise it. */
   noTracking?: boolean;
+  /** The slim "part of icanspeak.it" row at the very bottom (PartOfIcanspeak.astro). Off for
+      a page whose own footer already carries it (the home page). */
+  umbrella?: boolean;
 }
 
 const {
@@ -55,6 +59,7 @@ const {
   schema,
   breadcrumb,
   noTracking = false,
+  umbrella = true,
 } = Astro.props;
 
 // Open Graph / Twitter. There were none, so every link anyone pasted into WhatsApp,
@@ -337,6 +342,11 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
   <body>
     <LanguageOffer />
     <slot />
+    {umbrella && (
+      <footer class="umbrella-row">
+        <PartOfIcanspeak />
+      </footer>
+    )}
     {/* A lesson is running (/teachers/lesson): its bar and clock come along to every
         page opened from it. Only the localStorage copy is read here; the module loads only
         when one exists (src/lib/unterricht/leiste.js). */}

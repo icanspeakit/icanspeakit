@@ -32,7 +32,8 @@
    nav outgrew its width the logo quietly collapsed to 0px wide — present in the DOM,
    invisible on screen — and the bar looked like it simply had no brand on it. */
 .lp-nav-logo { display: inline-flex; flex: none; }
-.lp-nav-left img { height: 44px; width: auto; flex: none; }
+/* The icanspeak wordmark is 5.8:1 (the fork's lockup was 3.5:1): 26px keeps it about as wide. */
+.lp-nav-left img { height: 26px; width: auto; flex: none; }
 .lp-nav-right { display: flex; align-items: center; gap: 20px; }
 .lp-nav-utils { display: flex; align-items: center; gap: 20px; }
 .lp-nav .lp-btn--primary { padding: 11px 22px; font-size: 14px; }
@@ -280,7 +281,7 @@
   padding: 12px 16px;
   border-bottom: 1px solid var(--border);
 }
-.lp-drawer-top img { height: 32px; }
+.lp-drawer-top img { height: 22px; }
 .lp-drawer-lang { margin-inline-start: auto; }
 .lp-drawer-x {
   display: inline-flex;

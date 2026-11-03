@@ -1,4 +1,5 @@
 ---
+import Wordmark from "../Wordmark.astro";
 // The learner-dashboard browser mockup from the homepage hero, lifted into a
 // component so the /front layout studies can reuse it verbatim. index.astro
 // still carries its own copy; switch it over once a layout is chosen.
@@ -84,7 +85,7 @@ const weekdays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 
   <div class="lp-browser-body">
     <div class="lp-sidebar">
-      <img src="/assets/logo.png" alt="" />
+      <Wordmark alt="" />
       {tabs.map((t, i) => (
         <button
           type="button"

@@ -1,4 +1,5 @@
 ---
+import Wordmark from "./Wordmark.astro";
 // The bar above every practice page — and, since it carries NavMenubar and NavDrawer, the
 // site nav as well. There is one bar here, not two: stacking SiteNav on top of a trainer
 // would cost a phone a second row of chrome before any German appears.
@@ -48,7 +49,7 @@ const { title, titleKey, active } = Astro.props;
       aria-label="Startseite"
       data-i18n-attr="aria-label:header.home"
     >
-      <img src="/assets/logo.png" alt="icanspeak Spanish" />
+      <Wordmark />
     </a>
 
     <NavMenubar active={active} />

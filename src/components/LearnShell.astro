@@ -1,4 +1,5 @@
 ---
+import Wordmark from "./Wordmark.astro";
 // /nav — navigation test bed. Takes the "list on the left" shell from the
 // Pflegeplace dashboard (sticky step list + grouped sections + content pane)
 // and tries three ways of doing it, swapped by the toggle in the top bar:
@@ -577,7 +578,7 @@ const defaultVariant = variants[0];
     {study && (
       <header class="nv-topbar">
         <a href="/" class="nv-brand">
-          <img src="/assets/logo.png" alt="icanspeak Spanish" />
+          <Wordmark />
           <span>icanspeak Spanish</span>
         </a>
         <div class="nv-toggle">

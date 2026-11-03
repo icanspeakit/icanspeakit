@@ -1,4 +1,5 @@
 ---
+import Wordmark from "../components/Wordmark.astro";
 // /oldux: the course view as it was on 23.09.2026 (commit 201c866), frozen for comparison.
 // Not maintained — see src/pages/oldux.astro.
 // /nav — navigation test bed. Takes the "list on the left" shell from the
@@ -622,7 +623,7 @@ const defaultVariant = variants[0];
     {study && (
       <header class="nv-topbar">
         <a href="/" class="nv-brand">
-          <img src="/assets/logo.png" alt="icanspeak Spanish" />
+          <Wordmark />
           <span>icanspeak Spanish</span>
         </a>
         <div class="nv-toggle">

@@ -214,6 +214,32 @@ html[data-paywall="on"]:not([data-plan="premium"]):not([data-plan="pack"]) [data
 .da-legal-row a { color: var(--muted); text-decoration: none; }
 .da-legal-row a:hover { color: var(--brand-blue-dark); text-decoration: underline; }
 
+/* "part of icanspeak.it" (src/components/PartOfIcanspeak.astro): the umbrella wordmark,
+   linking to the domain root. In the home footer (onDark) and, on every other page, in the
+   slim row Layout.astro puts at the very bottom. */
+.part-of {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-xs);
+  color: var(--muted);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+}
+.part-of-mark { height: 16px; width: auto; }
+.part-of:hover .part-of-text { color: var(--ink); text-decoration: underline; }
+.part-of:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 3px; }
+.part-of--on-dark { color: #aab5c6; }
+.part-of--on-dark:hover .part-of-text { color: #fff; }
+.part-of--on-dark:focus-visible { outline-color: #cdd6e2; }
+.umbrella-row {
+  display: flex;
+  justify-content: center;
+  padding: 18px 16px calc(18px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border);
+}
+@media print { .umbrella-row { display: none; } }
+
 /* SectionMascot (src/components/mascots/SectionMascot.astro): a small mascot marking a
    section or a moment, with an optional one-line bubble in the mascot voice. */
 .section-mascot {
@@ -359,6 +385,8 @@ html[data-paywall="on"]:not([data-plan="premium"]):not([data-plan="pack"]) [data
 /* The course wordmark (src/components/Wordmark.astro) comes as a light and a dark SVG pair;
    the logo SVGs are never recoloured (BRAND.md), so the theme picks one. A .wordmark--on-dark
    pair sits on a band that is dark in both themes (the footer) and always shows the dark one. */
+.wordmark { display: contents; }
+.wordmark img { width: auto; }
 .wordmark-img--dark { display: none !important; }
 :root[data-theme="dark"] .wordmark:not(.wordmark--on-dark) .wordmark-img--light,
 .wordmark--on-dark .wordmark-img--light { display: none !important; }
@@ -410,7 +438,7 @@ h3 { text-align: center; }
 /* Header */
 .site-header { background: var(--surface-card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
 .header-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 24px; gap: 24px; }
-.brand img { height: 44px; }
+.brand img { height: 26px; }
 .main-nav { display: flex; align-items: center; }
 .main-nav a { color: var(--ink); text-decoration: none; margin-left: 24px; font-weight: 500; }
 .main-nav a:hover { color: var(--brand-blue); }

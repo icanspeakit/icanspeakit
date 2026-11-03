@@ -1,4 +1,5 @@
 ---
+import Wordmark from "./Wordmark.astro";
 // The site nav: the logo, the desktop menu bar, the right-hand cluster and the burger
 // that opens the mobile drawer.
 //
@@ -58,7 +59,7 @@ const APP_BUILD = import.meta.env.PUBLIC_TARGET === "app";
 <nav class="lp-nav" data-nav>
   <div class="lp-nav-row">
     <div class="lp-nav-left">
-      <a href="/" class="lp-nav-logo"><img src="/assets/logo.png" alt="icanspeak Spanish" /></a>
+      <a href="/" class="lp-nav-logo"><Wordmark /></a>
 
       <NavMenubar active={active} wissenVariant={wissenVariant} />
     </div>

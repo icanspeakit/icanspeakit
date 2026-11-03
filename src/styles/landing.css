@@ -197,7 +197,7 @@
 .lp-browser-url { flex: 1; height: 22px; border-radius: 6px; background: var(--surface-card); border: 1px solid var(--border); margin-left: 10px; display: flex; align-items: center; padding: 0 10px; font-size: 10.5px; color: var(--muted-soft); }
 .lp-browser-body { display: grid; grid-template-columns: 186px 1fr; min-height: 370px; }
 .lp-sidebar { border-right: 1px solid var(--border); padding: 20px 14px; display: flex; flex-direction: column; gap: 6px; background: var(--surface); }
-.lp-sidebar img { height: 28px; width: auto; object-fit: contain; object-position: left; margin-bottom: 14px; }
+.lp-sidebar img { height: 18px; max-width: 100%; width: auto; object-fit: contain; object-position: left; margin-bottom: 14px; }
 .lp-sidebar-link { padding: 10px 12px; font-size: 12.5px; color: var(--muted); border-radius: 8px; }
 .lp-sidebar-link--active { background: var(--surface-card); border: 1px solid var(--border); font-weight: 700; color: var(--brand-blue-dark); }
 .lp-sidebar-upsell { margin-top: auto; padding: 12px; border-radius: 10px; background: var(--gradient-brand-soft); border: 1px solid var(--blue-200); }
@@ -360,23 +360,26 @@ button.lp-quiz-choice:disabled { cursor: default; }
 .lp-final-cta-login b { color: #fff; text-decoration: underline; }
 
 /* Footer */
-.lp-footer { background: var(--inverse-surface); color: #cfd8e6; }
+/* The brand footer: primary-dark navy, link grey #cdd6e2, notes #aab5c6, fine print #8b95a8
+   (4.9:1 and up on the navy). */
+.lp-footer { background: var(--inverse-surface); color: #cdd6e2; }
 .lp-footer-inner { padding-top: 64px; padding-bottom: 28px; }
 .lp-footer-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) repeat(5, minmax(0, 1fr)); gap: 32px; }
 .lp-footer-brand { display: flex; flex-direction: column; gap: 16px; }
-.lp-footer-brand img { height: 40px; width: auto; object-fit: contain; object-position: left; filter: brightness(0) invert(1); }
-.lp-footer-brand strong { font-family: var(--font-display); font-weight: 700; font-size: 17px; color: #fff; }
-.lp-footer-brand p { margin: 0; font-size: 13.5px; line-height: 1.6; color: #a9b6c8; max-width: 32ch; }
+/* The dark wordmark from the kit (Wordmark onDark); never filtered or recoloured. */
+.lp-footer-brand img { height: 26px; width: auto; object-fit: contain; object-position: left; }
+.lp-footer-brand strong { font-family: var(--font-display); font-weight: 600; font-size: 17px; color: #fff; }
+.lp-footer-brand p { margin: 0; font-size: 13.5px; line-height: 1.6; color: #aab5c6; max-width: 32ch; }
 .lp-footer-col { display: flex; flex-direction: column; gap: 12px; }
 .lp-footer-col h5 { margin: 0; font-size: 13px; font-weight: 700; color: #fff; }
 /* The columns hold links now, not four lines of filler text. */
 .lp-footer-col span,
-.lp-footer-col a { font-size: 13.5px; color: #a9b6c8; text-decoration: none; }
+.lp-footer-col a { font-size: 13.5px; color: #aab5c6; text-decoration: none; }
 .lp-footer-col a:hover { color: #fff; text-decoration: underline; }
 .lp-footer-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 44px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.12); flex-wrap: wrap; gap: 12px; }
-.lp-footer-copyright { font-size: 13px; color: #7c8aa0; }
-.lp-footer-lang { display: flex; align-items: center; gap: 8px; padding: 9px 15px; border: 1px solid rgba(255,255,255,.18); border-radius: var(--radius-pill); font-size: 13px; color: #cfd8e6; }
-.lp-footer-lang .caret { color: #7c8aa0; }
+.lp-footer-copyright { font-size: 13px; color: #8b95a8; }
+.lp-footer-lang { display: flex; align-items: center; gap: 8px; padding: 9px 15px; border: 1px solid rgba(255,255,255,.18); border-radius: var(--radius-pill); font-size: 13px; color: #cdd6e2; }
+.lp-footer-lang .caret { color: #8b95a8; }
 
 /* Responsive */
 @media (max-width: 1024px) {
