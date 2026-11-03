@@ -13,6 +13,7 @@ import { loadText, t } from "../liveQuiz/text.js";
 import { abstimmen, isCode, laden, meineAntwort, normCode } from "./daten.js";
 import { sichtbar } from "./katalog.js";
 import { verteilung } from "./zeit.js";
+import { withBase } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const MAX_TEXT = 500;
@@ -74,7 +75,7 @@ export async function mountAbstimmen(root) {
       return;
     }
     if (!poll.offen) return go("zu");
-    history.replaceState(null, "", `/survey?c=${code}`);
+    history.replaceState(null, "", `${withBase("/survey")}?c=${code}`);
     a = structuredClone(meineAntwort(code) ?? {});
     drawIntro();
     go("intro");

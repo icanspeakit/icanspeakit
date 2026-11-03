@@ -12,6 +12,7 @@
  */
 import { getResume } from "./progress.js";
 import { getLang, loadDict, translate, onLangChange } from "./i18n.js";
+import { withBase } from "./paths.js";
 
 const calm = matchMedia("(prefers-reduced-motion: reduce)");
 const EASE = "cubic-bezier(.22, 1, .36, 1)";
@@ -68,7 +69,7 @@ function resumeMarkup(r, t, { recents: withRecents = true } = {}) {
          <p class="pp-recents-label">${esc(t("picker.resume.recents"))}</p>
          <div class="pp-list">
            ${r.recents.map((x) => `
-             <a class="pp-row" href="${esc(x.path)}">
+             <a class="pp-row" href="${esc(withBase(x.path))}">
                <span class="pp-row-t">${esc(x.title)}</span>
                <span class="pp-count">${esc(relativeDate(x.at, t))}</span>
              </a>`).join("")}
@@ -77,7 +78,7 @@ function resumeMarkup(r, t, { recents: withRecents = true } = {}) {
     : "";
   const when = relativeDate(r.last.at, t).toLowerCase();
   return `
-    <a class="pp-resume" href="${esc(r.last.path)}">
+    <a class="pp-resume" href="${esc(withBase(r.last.path))}">
       <span class="pp-resume-eyebrow">${esc(t("picker.resume.eyebrow"))}</span>
       <span class="pp-resume-title">${esc(r.last.title)}</span>
       <span class="pp-bar"><i style="width:${pct}%"></i></span>

@@ -10,6 +10,7 @@
 // because those are reused by other practice pages with a different, simpler visual language.
 
 import { judgeSound } from "./uiSound.js";
+import { withBase, currentPath } from "./paths.js";
 import { getLang, loadDict, translate, onLangChange } from "./i18n.js";
 import { mascotSvg } from "./mascots.js";
 import { setWaiting, waitAttrs } from "./notReady.js";
@@ -133,7 +134,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
      restoring it. sessionStorage, keyed by the page: this tab only, gone when it closes,
      so a fresh visit tomorrow still starts clean. Checked against the deck size, so a deck
      that changed in a deploy is not resumed at the wrong card. */
-  const SAVE_KEY = `da-vt-session:${location.pathname.replace(/\/+$/, "")}`;
+  const SAVE_KEY = `da-vt-session:${currentPath().replace(/\/+$/, "")}`;
   const SAVED = ["mode", "lastMode", "idx", "lang", "dir", "results", "lastResult", "selected", "filter", "part", "done", "listQuery", "listSort", "listAll", "learnSeq", "learnPos", "learnFirst", "learnRetry", "cardBack", "retryFrom"];
   try {
     const saved = JSON.parse(sessionStorage.getItem(SAVE_KEY) || "null");
@@ -226,7 +227,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
   const glossLoads = {};
   function ensureGlosses(code) {
     if (!languages.find((l) => l.code === code)?.fetch) return Promise.resolve();
-    glossLoads[code] ??= fetch(`/vocabulary/glosses/${code}.json`)
+    glossLoads[code] ??= fetch(withBase(`/vocabulary/glosses/${code}.json`))
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
       .then((map) => {
         for (const c of cards) if (c.id && map[c.id]) (c.translations ??= {})[code] = map[c.id];
@@ -398,7 +399,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
      picture adds something (`imgAlways`: a Redemittel position diagram, „Im Vordergrund …“). */
   const cueImg = (card) =>
     card.img && (card.imgAlways || state.lang === "de" || state.lang === "all")
-      ? `<img class="vt-cue-img${/\/(bildposition|praeposition)\//.test(card.img) ? " vt-cue-img--pos" : ""}" src="${escapeHtml(card.img)}" alt="" width="88" height="88" loading="lazy">`
+      ? `<img class="vt-cue-img${/\/(bildposition|praeposition)\//.test(card.img) ? " vt-cue-img--pos" : ""}" src="${escapeHtml(withBase(card.img))}" alt="" width="88" height="88" loading="lazy">`
       : "";
 
   /** Every translation on one side, one per line, each in its own direction. No language
@@ -461,7 +462,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
   /** Whichever side was asked for, ready to drop into innerHTML. */
   function sideHtml(card, which, opts) {
     if (isDeSide(which)) return deHtml(card, opts) + (opts?.syn ? synHtml(card) : "");
-    if (card.imgOnly && card.img) return `<img class="vt-cue-img vt-cue-img--only" src="${escapeHtml(card.img)}" alt="" width="240" height="180">`;
+    if (card.imgOnly && card.img) return `<img class="vt-cue-img vt-cue-img--only" src="${escapeHtml(withBase(card.img))}" alt="" width="240" height="180">`;
     if (state.lang === "all") return cueImg(card) + allHtml(card);
     const raw = which === "front" ? front(card) : back(card);
     const speak = erklAudioHtml(card);
@@ -884,7 +885,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
     if (!player) player = new Audio();
     contentEl.querySelectorAll(".vt-audio.is-playing").forEach((b) => b.classList.remove("is-playing"));
     player.pause();
-    player.src = src;
+    player.src = withBase(src);
     if (btn) {
       btn.classList.add("is-playing");
       const done = () => btn.classList.remove("is-playing");
@@ -1243,7 +1244,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
      Regi's line says that one thing, linking to the topic instead of the class list. */
   const SEPARABLE = { label: "trennbares Verb", say: "Der Anfang steht im Satz am Ende.", href: "/phrasal-verbs", more: "Trennbare Verben" };
   // The chip and Regi's link lead to the same place: the class on /grammar/parts-of-speech.
-  const posHref = (card) => (card.pos === "verb" && card.separable ? SEPARABLE.href : `/grammar/parts-of-speech#${card.pos}`);
+  const posHref = (card) => withBase(card.pos === "verb" && card.separable ? SEPARABLE.href : `/grammar/parts-of-speech#${card.pos}`);
   function waHtml(card) {
     const sep = card.pos === "verb" && card.separable;
     const say = sep ? SEPARABLE.say : WA_SAY[card.pos];
@@ -1692,7 +1693,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
             </select>
           </label>
         </div>
-        ${printHref ? `<a class="vt-list-print" href="${escapeHtml(printHref + (state.lang && state.lang !== "all" ? `?lang=${encodeURIComponent(state.lang)}` : ""))}">
+        ${printHref ? `<a class="vt-list-print" href="${escapeHtml(withBase(printHref) + (state.lang && state.lang !== "all" ? `?lang=${encodeURIComponent(state.lang)}` : ""))}">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
             ${escapeHtml(t("pr.listPrint"))}</a>` : ""}
         <div class="vt-list-grid"></div>

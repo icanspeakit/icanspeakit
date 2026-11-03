@@ -223,12 +223,13 @@ const TRACKS = {
     board: "/audio/quiz/board.mp3",
   },
 };
+import { withBase } from "../paths.js";
 const buffers = {}; // url → Promise<AudioBuffer | null>
 
 function loadTrack(name) {
   const url = TRACKS[style]?.[name];
   if (!url) return Promise.resolve(null);
-  buffers[url] ??= fetch(url)
+  buffers[url] ??= fetch(withBase(url))
     .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(String(r.status)))))
     .then((data) => new Promise((resolve, reject) => ctx.decodeAudioData(data, resolve, reject)))
     .catch(() => null);

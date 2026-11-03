@@ -25,6 +25,7 @@ import { LERN_MATERIAL_WINDOW, LERN_WINDOW, toLesson, toTab } from "./zurueck.js
 import { about, progressOf, statusOf, stundeHref } from "./lernen.js";
 import { createRuleIntro } from "../ruleIntro.js";
 import { mascotSvg } from "../mascots.js";
+import { withBase } from "../paths.js";
 import "../../styles/rule-intro.css";
 
 // Arrow icons (stroke, currentColor) for ← →; the text glyphs were thin and read as greyed out.
@@ -72,7 +73,7 @@ export function mountLeiste(ctl, { home = false, onEnd, mode = "lehrkraft", onLa
   document.body.classList.add("ut-mit-leiste");
   const uhr = mountUhr(ctl, { mode, onToggle: () => render(ctl.state) });
   const stunde = ctl.key.stunde;
-  const backHref = lern ? stundeHref(ctl.key) : sessionHref(ctl.id);
+  const backHref = withBase(lern ? stundeHref(ctl.key) : sessionHref(ctl.id));
 
   bar.innerHTML = `
     <span class="ut-leiste-bruno" data-l-bruno data-mascot-part aria-hidden="true"></span>
@@ -213,7 +214,7 @@ export function mountLeiste(ctl, { home = false, onEnd, mode = "lehrkraft", onLa
       ctl.patch((x) => ({ ...x, parked: true }));
       ctl.pause();
       if (onLater) onLater();
-      else location.assign(stundeHref(ctl.key, "&spaeter=1"));
+      else location.assign(withBase(stundeHref(ctl.key, "&spaeter=1")));
     });
     $("[data-l-fold]")?.addEventListener("click", () => setFolded(!folded));
     // Folded, the phase pill is the bigger target for opening it again.

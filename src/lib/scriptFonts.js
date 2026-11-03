@@ -17,6 +17,7 @@
 // Plain ESM, no DOM at import time: Layout.astro reads FACES at build time for the
 // first-paint script, the client modules call loadScriptFont().
 import { languageOf } from "./languages.js";
+import { withBase } from "./paths.js";
 
 export const SCRIPT_FAMILY = "DA Script";
 
@@ -37,7 +38,7 @@ export function fontFaceCss(script) {
   const f = FACES[script];
   if (!f) return "";
   return `@font-face{font-family:"${SCRIPT_FAMILY}";font-style:normal;font-weight:100 900;font-display:swap;` +
-    `src:url("/fonts/scripts/${f.file}.woff2") format("woff2");unicode-range:${f.range}}`;
+    `src:url("${withBase(`/fonts/scripts/${f.file}.woff2`)}") format("woff2");unicode-range:${f.range}}`;
 }
 
 /** Declares the face for this language's script, once per page. Safe to call with any code,

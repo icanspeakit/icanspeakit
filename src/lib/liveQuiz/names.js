@@ -24,6 +24,8 @@ const ANIMALS = [
   ["Sheep", "🐑"], ["Chick", "🐥"],
 ];
 
+import { withBase } from "../paths.js";
+
 /** Animal → emoji, for the icon fetch script and for avatarSrc(). */
 export const ANIMAL_EMOJI = Object.fromEntries(ANIMALS);
 
@@ -60,5 +62,5 @@ export function avatarSrc(animal) {
   const emoji = ANIMAL_EMOJI[animal];
   if (!emoji) return null;
   const code = [...emoji].map((c) => c.codePointAt(0)).filter((cp) => cp !== 0xfe0f).map((cp) => cp.toString(16).toUpperCase()).join("-");
-  return `/img/openmoji/${code}.svg`;
+  return withBase(`/img/openmoji/${code}.svg`);
 }

@@ -19,6 +19,7 @@
 //   - already flagged items load flagged; the demo dock shows "⚑ N heute".
 // The server decides dev; this file only decides whether to show the dev UI.
 import { apiFetch } from "./api.js";
+import { withBase, currentPath } from "./paths.js";
 import { getLang } from "./i18n.js";
 import { isInternalDevice } from "./internal.js";
 import { t } from "./uiText.js";
@@ -85,7 +86,7 @@ function payload(target, grund, text) {
     grund,
     text: text || null,
     snapshot,
-    seite: location.pathname + (location.hash || ""),
+    seite: currentPath() + (location.hash || ""),
     ui_sprache: getLang(),
     posthog_session: posthog,
     client_id: clientId(),
@@ -327,7 +328,7 @@ function dockCounter(n) {
   if (!a) {
     a = document.createElement("a");
     a.className = "vp-dev-reset";
-    a.href = "/intern/meldungen";
+    a.href = withBase("/intern/meldungen");
     a.dataset.meldungCount = String(n);
     dock.prepend(a);
   }

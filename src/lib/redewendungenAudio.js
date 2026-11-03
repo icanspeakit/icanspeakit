@@ -2,6 +2,7 @@
 // recording exists, its path (data-src, scripts/generate-redewendungen-audio.mjs). Without a
 // file, or when it fails to play, the browser's German voice reads the text instead.
 import { audioUrl } from "./audioSource.js";
+import { withBase } from "./paths.js";
 
 let current = null;
 
@@ -23,7 +24,7 @@ export function initSay(root = document) {
       if ("speechSynthesis" in window) speechSynthesis.cancel();
       const { src, say } = btn.dataset;
       if (!src) return speak(say);
-      current = new Audio(audioUrl(src));
+      current = new Audio(withBase(audioUrl(src)));
       current.play().catch(() => speak(say));
     }),
   );

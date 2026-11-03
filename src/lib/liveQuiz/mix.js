@@ -5,6 +5,7 @@
 // The grammar questions are the chapter's ready-made items, the same file the quiz
 // builder loads (/teachers/quiz-chapters/g-<key>.json, see chapters.js): German on both
 // sides, so they are asked as mode "custom" whatever the vocabulary mode is.
+import { withBase } from "../paths.js";
 
 function shuffle(list) {
   const a = list.slice();
@@ -23,7 +24,7 @@ export async function grammarQuestions(pick, n) {
   const slugs = String(pick).split(",").filter((s) => /^g-[a-z0-9-]+$/.test(s));
   if (!slugs.length || n < 1) return [];
   const files = await Promise.all(slugs.map(async (slug) => {
-    const res = await fetch(`/teachers/quiz-chapters/${slug}.json`);
+    const res = await fetch(withBase(`/teachers/quiz-chapters/${slug}.json`));
     if (!res.ok) throw new Error(`quiz-kapitel/${slug} → ${res.status}`);
     return res.json();
   }));

@@ -21,6 +21,7 @@
 // native speaker on a real mic scored around 50, because a calmer voice with the right
 // melody looked as different as another sentence. See the calibration note at toScore.
 import { PitchDetector } from "pitchy";
+import { withBase } from "./paths.js";
 
 const HOP_S = 0.01;          // 10 ms between frames
 const WIN = 2048;            // ~43 ms at 48 kHz: long enough for a low male voice
@@ -265,7 +266,7 @@ export async function referenceMelody(sentence) {
   if (!sentence.audio) return null;
   if (!refCache.has(sentence.id)) {
     refCache.set(sentence.id, (async () => {
-      const res = await fetch(sentence.src || `/audio/aussprache-check/${sentence.id}.mp3`);
+      const res = await fetch(withBase(sentence.src || `/audio/aussprache-check/${sentence.id}.mp3`));
       if (!res.ok) return null;
       const { samples, sampleRate } = await decodeToMono(await res.arrayBuffer());
       return normalise(pitchContour(samples, sampleRate));
@@ -301,7 +302,7 @@ export function melodyFromUrl(url) {
   if (!url) return Promise.resolve(null);
   if (!urlCache.has(url)) {
     urlCache.set(url, (async () => {
-      const res = await fetch(url);
+      const res = await fetch(withBase(url));
       if (!res.ok) return null;
       const { samples, sampleRate } = await decodeToMono(await res.arrayBuffer());
       return normalise(pitchContour(samples, sampleRate));

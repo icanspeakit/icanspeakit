@@ -11,6 +11,7 @@
 import data from "../data/uebersetzungen/rechtliches.json";
 import { LEGAL } from "./legal.js";
 import { langsFor } from "./languages.js";
+import { withBase } from "./paths.js";
 
 export const LEGAL_LANGS = langsFor("legal");
 export const legalReviewed = data.reviewed === true;
@@ -26,7 +27,7 @@ function render(text) {
     .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, href) =>
       /^https?:/.test(href)
         ? `<a href="${href}" target="_blank" rel="noopener noreferrer">${label}</a>`
-        : `<a href="${href}">${label}</a>`
+        : `<a href="${withBase(href)}">${label}</a>`
     )
     // <bdi>: German/Latin inserts must not scramble the word order of an Arabic sentence.
     .replace(/\{email\}/g, `<bdi><a href="mailto:${email}">${email}</a></bdi>`)

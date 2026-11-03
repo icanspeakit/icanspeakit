@@ -9,6 +9,7 @@
 import { isDocument, readDocument } from "./dateien.js";
 import { lexiconCard, lexiconTranslations } from "./play.js";
 import { LANGUAGE_REGISTRY } from "../languages.js";
+import { withBase } from "../paths.js";
 import { currentUser, deleteSet, getSet, isTeacher, listSets, shareToken, shareUrl, unshare, MAX_WORDS, machineText, readPhotos, saveSet, setTeacher, shrinkPhoto, stripArticle, synonymWords, translateWords, wordKey } from "./sets.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
@@ -20,7 +21,7 @@ async function teacherGate(root) {
   const $ = (s) => root.querySelector(s);
   const gates = [...root.querySelectorAll("[data-gate]")];
   const gate = (name) => gates.forEach((g) => (g.hidden = g.dataset.gate !== name));
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(location.pathname + location.search)}`;
+  $("[data-signin-link]").href = `${withBase("/anmelden")}?next=${encodeURIComponent(location.pathname + location.search)}`;
   const user = await currentUser();
   if (!user) return gate("signin"), new Promise(() => {});
   if (!isTeacher(user)) {
@@ -458,7 +459,7 @@ export async function mountFotoPage(root) {
         await saveSet({ name: `${name.slice(0, 68)} (Teil ${part})`, level, words: words.slice(k, k + MAX_WORDS) });
       }
       dirty = false;
-      location.href = `/teachers/cards?gespeichert=${row.id}`;
+      location.href = `${withBase("/teachers/cards")}?gespeichert=${row.id}`;
     } catch (err) {
       console.error(err);
       btn.disabled = false;
@@ -503,18 +504,18 @@ export async function mountSetList(root) {
         const date = new Date(s.updated_at).toLocaleDateString("de-DE", { day: "numeric", month: "short" });
         return `
         <li class="vf-set${s.id === savedId ? " is-new" : ""}" data-id="${s.id}">
-          <a class="vf-set-main" href="/teachers/cards/learn?set=${s.id}">
+          <a class="vf-set-main" href="${withBase("/teachers/cards/learn")}?set=${s.id}">
             <b data-set-name>${esc(s.name)}</b>
             <small>${n} Wörter · ${lex} aus unserem Wortschatz${s.level ? ` · ${s.level}` : ""} · ${date}</small>
             <span class="vf-set-words">${(s.words ?? []).slice(0, 8).map((w) => esc([w.article, w.reflexive ? "sich" : null, w.lemma].filter(Boolean).join(" "))).join(" · ")}${n > 8 ? " …" : ""}</span>
           </a>
           <div class="vf-set-tools">
-            <a class="lq-btn lq-btn--primary vf-play" href="/teachers/cards/learn?set=${s.id}">Karteikarten</a>
-            <a class="lq-btn lq-btn--ghost vf-play" href="/teachers/quiz?set=kartenset:${s.id}">Live-Quiz</a>
+            <a class="lq-btn lq-btn--primary vf-play" href="${withBase("/teachers/cards/learn")}?set=${s.id}">Karteikarten</a>
+            <a class="lq-btn lq-btn--ghost vf-play" href="${withBase("/teachers/quiz")}?set=kartenset:${s.id}">Live-Quiz</a>
             <button type="button" class="lq-btn lq-btn--ghost vf-play" data-share aria-expanded="false">${s.share_token ? "Geteilt ✓" : "Mit der Klasse teilen"}</button>
-            <a class="qb-link" href="/teachers/cards/print?set=${s.id}">Drucken</a>
-            <a class="qb-link" href="/teachers/quiz/create?set=${s.id}">Quizfragen bearbeiten</a>
-            <a class="qb-link" href="/teachers/cards/photo?set=${s.id}">Bearbeiten · Foto hinzufügen</a>
+            <a class="qb-link" href="${withBase("/teachers/cards/print")}?set=${s.id}">Drucken</a>
+            <a class="qb-link" href="${withBase("/teachers/quiz/create")}?set=${s.id}">Quizfragen bearbeiten</a>
+            <a class="qb-link" href="${withBase("/teachers/cards/photo")}?set=${s.id}">Bearbeiten · Foto hinzufügen</a>
             <button type="button" class="qb-link" data-rename>Umbenennen</button>
             <button type="button" class="qb-link" data-dup>Duplizieren</button>
             <button type="button" class="qb-link vf-danger" data-del>Löschen</button>
@@ -597,7 +598,7 @@ export async function mountSetList(root) {
         <input type="text" readonly value="${esc(url)}" aria-label="Link zum Kartenset" />
         <div class="vf-share-tools">
           <button type="button" class="lq-btn lq-btn--ghost" data-copy="${esc(url)}">Link kopieren</button>
-          <a class="qb-link" href="/teachers/classes">Als Aufgabe in einer Klasse stellen</a>
+          <a class="qb-link" href="${withBase("/teachers/classes")}">Als Aufgabe in einer Klasse stellen</a>
           <button type="button" class="qb-link vf-danger" data-unshare>Nicht mehr teilen</button>
         </div>
       </div>`;

@@ -9,6 +9,7 @@
 // absolute times kept, so the ride follows audio.currentTime. A line without a recording
 // gets a drawn contour for its type instead.
 import { decodeToMono, pitchContour } from "./satzmelodie.js";
+import { withBase } from "./paths.js";
 
 const NS = "http://www.w3.org/2000/svg";
 const MID = 125, X0 = 34, XW = 236, XEND = 330;
@@ -40,7 +41,7 @@ function contourOf(url) {
   if (!url) return Promise.resolve(null);
   if (!cache.has(url)) {
     cache.set(url, (async () => {
-      const res = await fetch(url);
+      const res = await fetch(withBase(url));
       if (!res.ok) return null;
       const { samples, sampleRate } = await decodeToMono(await res.arrayBuffer());
       const raw = pitchContour(samples, sampleRate);

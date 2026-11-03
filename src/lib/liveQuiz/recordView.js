@@ -5,6 +5,7 @@
 //
 // Signed out: one line and a way to sign in; nothing is fetched.
 import { apiFetch } from "../api.js";
+import { withBase } from "../paths.js";
 import "../../styles/quiz-record.css";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
@@ -57,12 +58,12 @@ export async function mountQuizRecord(root) {
   if (!root || mounted) return;
   mounted = true;
   if (!signedIn()) {
-    root.innerHTML = `<p class="fq-empty">Sign in and every quiz round is saved here: points, correct answers and every question to look back at. <a href="/konto">Sign in →</a></p>`;
+    root.innerHTML = `<p class="fq-empty">Sign in and every quiz round is saved here: points, correct answers and every question to look back at. <a href="${withBase("/konto")}">Sign in →</a></p>`;
     return;
   }
   const res = await apiFetch("/api/quiz/ergebnisse", { credentials: "same-origin" }).catch(() => null);
   if (res?.status === 401) {
-    root.innerHTML = `<p class="fq-empty">Sign in and every quiz round is saved here. <a href="/konto">Sign in →</a></p>`;
+    root.innerHTML = `<p class="fq-empty">Sign in and every quiz round is saved here. <a href="${withBase("/konto")}">Sign in →</a></p>`;
     return;
   }
   if (!res?.ok) {
@@ -72,7 +73,7 @@ export async function mountQuizRecord(root) {
   }
   const { rows } = await res.json();
   if (!rows.length) {
-    root.innerHTML = `<p class="fq-empty">No quiz rounds yet. Play a round of the <a href="/teachers/quiz">live quiz</a>, on your own or with your class, and it will appear here.</p>`;
+    root.innerHTML = `<p class="fq-empty">No quiz rounds yet. Play a round of the <a href="${withBase("/teachers/quiz")}">live quiz</a>, on your own or with your class, and it will appear here.</p>`;
     return;
   }
   const right = rows.reduce((a, r) => a + r.richtig, 0);

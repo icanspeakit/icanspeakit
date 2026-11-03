@@ -25,12 +25,13 @@ import { mountKeep } from "./keep.js";
 import { intent } from "../intent.js";
 import { mascotSvg } from "../mascots.js";
 import { setMarked } from "../markedText.js";
+import { withBase } from "../paths.js";
 
 const SHAPES = ["▲", "◆", "●", "■"];
 /** Shows `src` in an <img>, or hides it. */
 function setImg(el, src) {
   el.hidden = !src;
-  if (src) el.src = src;
+  if (src) el.src = withBase(src);
   else el.removeAttribute("src");
 }
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
@@ -126,7 +127,7 @@ export function mountHost(root) {
     const next = encodeURIComponent(location.pathname + location.search);
     if (!user) {
       ownSel.innerHTML = "";
-      ownNote.innerHTML = t("lq.src.signin", "Eigene Quizze sind in deinem Konto gespeichert. <a href=\"{href}\">Anmelden</a>, um sie hier zu starten.", { href: `/anmelden?next=${next}` });
+      ownNote.innerHTML = t("lq.src.signin", "Eigene Quizze sind in deinem Konto gespeichert. <a href=\"{href}\">Anmelden</a>, um sie hier zu starten.", { href: `${withBase("/anmelden")}?next=${next}` });
       return;
     }
     try {
@@ -166,7 +167,7 @@ export function mountHost(root) {
       loadOwn();
       const q = ownQuiz();
       $("[data-own-edit]").hidden = !q;
-      if (q) $("[data-own-edit]").href = `/teachers/quiz/create?id=${q.id}`;
+      if (q) $("[data-own-edit]").href = `${withBase("/teachers/quiz/create")}?id=${q.id}`;
       // Only a quiz with Lernset words shows translations on this screen.
       $("[data-show-lang-field]").hidden = !(q && q.questions?.some((x) => x?.t === "word"));
       $("[data-set-hint]").hidden = true;
@@ -440,7 +441,7 @@ export function mountHost(root) {
       const vocabName = $("[data-vocab-name]")?.textContent.trim();
       const grammarName = $("[data-grammar-name]")?.textContent.trim();
       q.set("titel", (settings.grammarOnly ? grammarName : settings.grammar ? `${vocabName} + ${grammarName}` : vocabName) || "");
-      location.href = `/game?${q}`;
+      location.href = `${withBase("/game")}?${q}`;
       return;
     }
     const btns = form.querySelectorAll("[type=submit]");
@@ -562,7 +563,7 @@ export function mountHost(root) {
       room = { roomKey: resumed.roomKey, jwk: resumed.jwk };
     } else if (!resumed) try {
       const hk = await makeHostKey();
-      const res = await fetch("/api/live-quiz/raum", {
+      const res = await fetch(withBase("/api/live-quiz/raum"), {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ hostPub: hk.pub }),
@@ -605,9 +606,9 @@ export function mountHost(root) {
     }
     onPresence();
 
-    const url = `${location.origin}/game?pin=${pin}`;
+    const url = `${location.origin}${withBase("/game")}?pin=${pin}`;
     root.querySelectorAll("[data-pin]").forEach((el) => (el.textContent = `${pin.slice(0, 3)} ${pin.slice(3)}`));
-    root.querySelectorAll("[data-join-url]").forEach((el) => (el.textContent = `${location.host}/game`));
+    root.querySelectorAll("[data-join-url]").forEach((el) => (el.textContent = `${location.host}${withBase("/game")}`));
     $("[data-qr]").innerHTML = await QRCode.toString(url, { type: "svg", margin: 1, errorCorrectionLevel: "M" });
     renderLobby();
   }
@@ -1142,7 +1143,7 @@ export function mountHost(root) {
           <span class="lq-sum-n">${r.i + 1}</span>
           <div class="lq-sum-body">
             <p class="lq-sum-kind">${esc(kindOf(r.q))}</p>
-            ${r.q.img ? `<img class="lq-sum-img" src="${esc(r.q.img)}" alt="" loading="lazy" />` : ""}
+            ${r.q.img ? `<img class="lq-sum-img" src="${esc(withBase(r.q.img))}" alt="" loading="lazy" />` : ""}
             <p class="lq-sum-q" data-sum-q="${r.i}" dir="auto" lang="${optionLang(r.q.prompt)}"></p>
             <p class="lq-sum-a"><span class="lq-sum-chip lq-opt--${OPTION_STYLES[r.q.correct]}"><span aria-hidden="true">✓</span> <span dir="auto" lang="${optionLang(answer)}">${esc(optionText(answer))}</span></span></p>
             ${wrong ? `<p class="lq-sum-miss">${esc(t("lq.sum.miss", "Häufigste falsche Antwort:"))} <b dir="auto" lang="${optionLang(wrong)}">${esc(optionText(wrong))}</b> <span>(${r.missN}×)</span></p>` : ""}
@@ -1215,11 +1216,11 @@ export function mountHost(root) {
         pace: 0.3 + Math.random() * 0.5,
       });
     });
-    const src = `/game?pin=${pin}&name=${encodeURIComponent(t("lq.test.me", "Ich (Test)"))}&test=1`;
+    const src = `${withBase("/game")}?pin=${pin}&name=${encodeURIComponent(t("lq.test.me", "Ich (Test)"))}&test=1`;
     // replace(), not src =: a src change is a history entry, and Back would then step
     // the phone preview instead of returning to the setup.
     dock.querySelector("iframe").contentWindow.location.replace(src);
-    $("[data-test-open]").href = `/game?pin=${pin}`;
+    $("[data-test-open]").href = `${withBase("/game")}?pin=${pin}`;
     dock.hidden = false;
     fold(false);
     renderLobby();

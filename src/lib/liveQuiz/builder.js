@@ -6,6 +6,7 @@
 // the projector page with ?quiz=<id>.
 import { cleanQuestion, currentUser, deleteQuiz, getQuiz, isTeacher, listQuizzes, MAX_QUESTIONS, saveQuiz, setTeacher } from "./custom.js";
 import { loadText, t } from "./text.js";
+import { withBase } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
@@ -27,7 +28,7 @@ export async function mountBuilder(root) {
 
   /* -------------------------------------------------------------- who ---- */
   const next = encodeURIComponent(location.pathname + location.search);
-  $("[data-signin-link]").href = `/anmelden?next=${next}`;
+  $("[data-signin-link]").href = `${withBase("/anmelden")}?next=${next}`;
   let user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {
@@ -88,7 +89,7 @@ export async function mountBuilder(root) {
             <b>${esc(q.title)}</b>
             <small>${esc(t("qb.mine.count", "{n} Fragen", { n: q.questions?.length ?? 0 }))}${q.chapter ? ` · ${esc(chapterName(q.chapter))}` : ""}</small>
           </button>
-          <a class="qb-mine-play" href="/teachers/quiz?quiz=${q.id}" title="${esc(t("qb.mine.play", "Live starten"))}" aria-label="${esc(t("qb.mine.play", "Live starten"))}: ${esc(q.title)}">▶</a>
+          <a class="qb-mine-play" href="${withBase("/teachers/quiz")}?quiz=${q.id}" title="${esc(t("qb.mine.play", "Live starten"))}" aria-label="${esc(t("qb.mine.play", "Live starten"))}: ${esc(q.title)}">▶</a>
         </li>`)
       .join("");
   }
@@ -186,7 +187,7 @@ export async function mountBuilder(root) {
       list.innerHTML = `<p class="qb-empty">${esc(t("qb.loading", "Einen Moment …"))}</p>`;
       try {
         if (!bankCache.has(slug)) {
-          const res = await fetch(`/teachers/quiz-chapters/${slug}.json`);
+          const res = await fetch(withBase(`/teachers/quiz-chapters/${slug}.json`));
           if (!res.ok) throw new Error(String(res.status));
           bankCache.set(slug, await res.json());
         }
@@ -446,7 +447,7 @@ export async function mountBuilder(root) {
   $("[data-save]").addEventListener("click", save);
   const play = async () => {
     const saved = await save();
-    if (saved) location.href = `/teachers/quiz?quiz=${saved.id}`;
+    if (saved) location.href = `${withBase("/teachers/quiz")}?quiz=${saved.id}`;
   };
   $("[data-play]").addEventListener("click", play);
   $("[data-play-top]").addEventListener("click", play);

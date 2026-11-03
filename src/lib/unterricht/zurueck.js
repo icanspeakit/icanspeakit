@@ -6,6 +6,7 @@
 // names its window (LESSON_WINDOW, seite.js), and window.open("", name) finds that tab
 // without reloading it. No such tab any more (closed): the lesson opens in it instead.
 import { readLocal, sessionHref } from "./speichern.js";
+import { withBase } from "../paths.js";
 
 export const LESSON_WINDOW = "da-unterricht";
 /** The one tab the lesson's material opens in, so a second click does not stack tabs. */
@@ -21,6 +22,7 @@ export function toLesson() {
 
 /** Switches to the tab named `name`, or opens `href` in it when that tab is gone. */
 export function toTab(name, href) {
+  href = withBase(href);
   // This tab is the lesson's own (the page was opened in it): just go back there.
   if (window.name === name) { location.assign(href); return; }
   let w = null;

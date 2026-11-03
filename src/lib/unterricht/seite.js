@@ -21,6 +21,7 @@ import { createSteuerung } from "./steuerung.js";
 import { einstiegInhalt } from "./einstieg.js";
 import { mountLeiste } from "./leiste.js";
 import { LESSON_WINDOW, MATERIAL_WINDOW } from "./zurueck.js";
+import { withBase } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const SOC = { EA: "Solo work", PA: "Pair work", GA: "Group work", PL: "Whole class" };
@@ -40,7 +41,7 @@ export async function mountUnterricht(root, data) {
   const show = (name) => views.forEach((v) => (v.hidden = v.dataset.view !== name));
 
   /* -------------------------------------------------------------- who ---- */
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(location.pathname + location.search)}`;
+  $("[data-signin-link]").href = `${withBase("/anmelden")}?next=${encodeURIComponent(location.pathname + location.search)}`;
   const user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {
@@ -72,7 +73,7 @@ export async function mountUnterricht(root, data) {
     if (!found?.lesson) return show("missing");
     const { level, block, lesson } = found;
     show("start");
-    $("[data-start-plan]").href = planHref(key);
+    $("[data-start-plan]").href = withBase(planHref(key));
     $("[data-start-meta]").textContent = `${level.label} · Block ${key.block}: ${block.thema} · ${key.minuten} minutes`;
     $("[data-start-title]").textContent = `Lesson ${key.stunde}: ${lesson.final ? "Use and revise" : lesson.focus}`;
     $("[data-start-bar]").innerHTML = phaseBar(lesson.phases);
@@ -186,7 +187,7 @@ export async function mountUnterricht(root, data) {
           const row = await sitzungAnlegen(chosen, key, T.toRow(T.start(T.create(stepsOf(lesson), now), now)));
           id = row.id;
         }
-        location.assign(sessionHref(id));
+        location.assign(withBase(sessionHref(id)));
       } catch {
         status(ERR);
         btns.forEach((b) => (b.disabled = false));
@@ -289,7 +290,7 @@ export async function mountUnterricht(root, data) {
           // ?ut=1: opened from the lesson, so its side list starts folded (sideNavFold.js).
           const base = how === "present" && topic ? `${l.href}?mode=present&niveau=${encodeURIComponent(cefrOf(level.label))}` : l.href;
           // Üben: „Live üben“ starts with the page (?live-start=1), the QR code is up at once.
-          const href = `${base}${base.includes("?") ? "&" : "?"}ut=1${how === "ueben" && topic ? "&live-start=1" : ""}`;
+          const href = withBase(`${base}${base.includes("?") ? "&" : "?"}ut=1${how === "ueben" && topic ? "&live-start=1" : ""}`);
           const tag = topic && how === "present" ? " <small>Present</small>" : topic && how === "ueben" ? " <small>Practise live</small>" : "";
           // A new tab: the session stays where it is; the bar there runs the same lesson.
           // „Regel“ beside a deck: the whole rule card at once (?regel=1, praesentationDeck.js),
@@ -307,8 +308,8 @@ export async function mountUnterricht(root, data) {
       if (ph.id === "einstieg") {
         const e = einstiegInhalt({ phase: ph, lesson, prev, block, bild, themen: data.themen ?? {}, linksOf });
         const foto = e.bild ? `<figure class="ut-bild"><picture>
-            <source type="image/avif" srcset="${e.bild.src}-800.avif 800w, ${e.bild.src}-1600.avif 1600w" sizes="(min-width: 900px) 900px, 100vw" />
-            <img src="${e.bild.src}-1200.webp" alt="${esc(e.bild.alt)}" width="1600" height="600" decoding="async" /></picture>
+            <source type="image/avif" srcset="${withBase(e.bild.src)}-800.avif 800w, ${withBase(e.bild.src)}-1600.avif 1600w" sizes="(min-width: 900px) 900px, 100vw" />
+            <img src="${withBase(e.bild.src)}-1200.webp" alt="${esc(e.bild.alt)}" width="1600" height="600" decoding="async" /></picture>
             ${e.bild.credit ? `<figcaption>Photo: <a href="${esc(e.bild.credit.href)}" target="_blank" rel="noopener">${esc(e.bild.credit.label)}</a></figcaption>` : ""}</figure>` : "";
         const starters = e.redemittel?.length ? `<p class="ut-label">You can start like this</p><ul class="ut-starters">${e.redemittel.map((r) => `<li>${esc(r)}</li>`).join("")}</ul>` : "";
         let inhalt = "";
@@ -398,7 +399,7 @@ export async function mountUnterricht(root, data) {
     const qr = $("[data-qr]");
     async function openQr(links) {
       const items = await Promise.all(links.map(async (l) => {
-        const url = new URL(l.href, location.origin).href;
+        const url = new URL(withBase(l.href), location.origin).href;
         return `<figure class="ut-qr-item"><div class="ut-qr-svg">${await QRCode.toString(url, { type: "svg", margin: 1, errorCorrectionLevel: "M" })}</div>
           <figcaption><b>${esc(l.name)}</b><span>${esc(url.replace(/^https?:\/\//, ""))}</span></figcaption></figure>`;
       }));
@@ -435,7 +436,7 @@ export async function mountUnterricht(root, data) {
       const m = Math.round(T.elapsed(state, now, i) / 60000);
       return `<tr><td><i style="background:${phaseColor(st.id).bg}"></i>${esc(st.name)}</td><td>${st.minutes} min</td><td${m > st.minutes ? ' class="ut-over"' : ""}>${m} min</td></tr>`;
     }).join("");
-    $("[data-done-plan]").href = planHref(key);
+    $("[data-done-plan]").href = withBase(planHref(key));
   }
 }
 

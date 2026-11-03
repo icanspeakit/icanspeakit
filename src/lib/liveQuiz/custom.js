@@ -12,6 +12,7 @@
 //                                                                  on the projector so each
 //                                                                  phone sees its language
 import { createBrowserSupabase } from "../supabase/browser.js";
+import { withBase } from "../paths.js";
 
 export const MAX_QUESTIONS = 50;
 const TABLE = "lq_quizzes";
@@ -44,7 +45,7 @@ export const isTeacher = (user) => user?.user_metadata?.teacher === true;
  */
 export function syncTeacherFlag() {
   try {
-    fetch("/api/konto/brevo", {
+    fetch(withBase("/api/konto/brevo"), {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ action: "teacher" }),

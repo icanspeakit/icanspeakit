@@ -9,6 +9,7 @@
 import { getLang, loadDict, onLangChange, translate } from "../i18n.js";
 import { langsFor, languagesFor } from "../languages.js";
 import { intent } from "../intent.js";
+import { withBase } from "../paths.js";
 
 /* ----------------------------------------------------------------- random -- */
 
@@ -63,7 +64,7 @@ export function loadLevel(level) {
   if (!levelCache.has(key)) {
     levelCache.set(
       key,
-      fetch(`/teachers/games/woerter-${key}.json`)
+      fetch(withBase(`/teachers/games/woerter-${key}.json`))
         .then((r) => {
           if (!r.ok) throw new Error(String(r.status));
           return r.json();

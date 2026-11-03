@@ -5,6 +5,7 @@
 //
 // Ported ideas from ../icanspeakit: the seeded waveform and rate chips from
 // ListeningWorkbench.astro, the record-and-compare loop from ShadowRecorder.astro.
+import { withBase } from "./paths.js";
 
 const ARTICLES = new Set(["der", "die", "das"]);
 const BAR_COUNT = 48;
@@ -224,7 +225,7 @@ export function mountPronunciation(root, options = {}) {
     heardHere = true;
     stopExample();
     if (!item.audioSrc) return speak(item.text);
-    const src = new URL(item.audioSrc, location.href).href;
+    const src = new URL(withBase(item.audioSrc), location.href).href;
     if (audio.src !== src) audio.src = src;
     audio.playbackRate = rate;
     audio.currentTime = 0;
@@ -297,7 +298,7 @@ export function mountPronunciation(root, options = {}) {
     audio.pause();
     audio.currentTime = 0;
     setPlayIcon(false);
-    const src = new URL(s.audioSrc, location.href).href;
+    const src = new URL(withBase(s.audioSrc), location.href).href;
     if (example.src !== src) example.src = src;
     example.playbackRate = rate;
     example.currentTime = 0;

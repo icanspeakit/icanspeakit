@@ -18,6 +18,7 @@ import { mountMusicPickers, mountSoundToggles, music, sfx, unlock, victory } fro
 import { mascotSvg } from "../mascots.js";
 import { setMarked } from "../markedText.js";
 import { enhanceSwitch } from "../segSwitch.js";
+import { withBase, stripBase } from "../paths.js";
 
 const SHAPES = ["▲", "◆", "●", "■"];
 const HOST_WAIT_MS = 6000; // how long "is there a host?" gets before the PIN is called wrong
@@ -132,11 +133,11 @@ export function mountPlayer(root) {
     const back = $("[data-solo-back]");
     const keep = new URLSearchParams();
     for (const k of ["set", "mode", "level", "grammar"]) if (params.get(k)) keep.set(k, params.get(k));
-    back.href = `/teachers/quiz${keep.size ? `?${keep}` : ""}`;
+    back.href = `${withBase("/teachers/quiz")}${keep.size ? `?${keep}` : ""}`;
     back.addEventListener("click", (e) => {
       let from = null;
       try { from = new URL(document.referrer); } catch {}
-      if (from?.origin === location.origin && from.pathname.replace(/\/$/, "") === "/teachers/quiz" && history.length > 1) {
+      if (from?.origin === location.origin && stripBase(from.pathname).replace(/\/$/, "") === "/teachers/quiz" && history.length > 1) {
         e.preventDefault();
         history.back();
       }
@@ -206,7 +207,7 @@ export function mountPlayer(root) {
     for (let i = 0; i < 3; i++) {
       if (i) await wait(i * 1200);
       try {
-        const res = await fetch("/api/live-quiz/beitreten", {
+        const res = await fetch(withBase("/api/live-quiz/beitreten"), {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({ pin, ...(saved?.secret ? { id: saved.id, secret: saved.secret } : {}) }),
@@ -578,7 +579,7 @@ export function mountPlayer(root) {
 
   function setImg(el, src) {
     el.hidden = !src;
-    if (src) el.src = src;
+    if (src) el.src = withBase(src);
     else el.removeAttribute("src");
   }
 
@@ -785,10 +786,10 @@ export function mountPlayer(root) {
     recordRound(round).then((saved) => {
       if (!note) return;
       if (saved) {
-        note.innerHTML = `<a href="/progress?ansicht=quiz">${escapeHtml(t("lq.record.saved", "In „Mein Fortschritt“ gespeichert"))} →</a>`;
+        note.innerHTML = `<a href="${withBase("/progress")}?ansicht=quiz">${escapeHtml(t("lq.record.saved", "In „Mein Fortschritt“ gespeichert"))} →</a>`;
         note.hidden = false;
       } else if (solo && !/(?:^|;\s*)sb-[^=]+-auth-token/.test(document.cookie)) {
-        note.innerHTML = `<a href="/konto">${escapeHtml(t("lq.record.signIn", "Anmelden, dann wird jede Runde in deinem Fortschritt gespeichert"))} →</a>`;
+        note.innerHTML = `<a href="${withBase("/konto")}">${escapeHtml(t("lq.record.signIn", "Anmelden, dann wird jede Runde in deinem Fortschritt gespeichert"))} →</a>`;
         note.hidden = false;
       }
     });
@@ -830,7 +831,7 @@ export function mountPlayer(root) {
           <span class="lq-sum-n">${m.n}</span>
           <div class="lq-sum-body">
             <p class="lq-sum-kind">${escapeHtml(m.kind)}</p>
-            ${m.img ? `<img class="lq-sum-img" src="${escapeHtml(m.img)}" alt="" loading="lazy" />` : ""}
+            ${m.img ? `<img class="lq-sum-img" src="${escapeHtml(withBase(m.img))}" alt="" loading="lazy" />` : ""}
             <p class="lq-sum-q" data-mine-q="${k}"></p>
             <p class="lq-mine-row"><span>${escapeHtml(t("lq.recap.mine", "Deine Antwort"))}</span> ${yours}</p>
             ${fix}

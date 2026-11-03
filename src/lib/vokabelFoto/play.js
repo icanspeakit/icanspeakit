@@ -10,13 +10,14 @@
 // langsOf()); a word of the teacher's own shows its book translation or nothing there.
 import { getSet, getSharedSet, machineText, saveSet, stripArticle, translateWords } from "./sets.js";
 import { slugify } from "../audioSlug.js";
+import { withBase } from "../paths.js";
 // The trainer's card-language setting (CARD_LANG_KEY in src/lib/cardLangGloss.js).
 const CARD_LANG_KEY = "da-vt-lang";
 
 const BASE = "/teachers/cards/lexikon";
 const cache = new Map();
 const json = (url) => {
-  if (!cache.has(url)) cache.set(url, fetch(url).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`${url}: ${r.status}`)))));
+  if (!cache.has(url)) cache.set(url, fetch(withBase(url)).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`${url}: ${r.status}`)))));
   return cache.get(url);
 };
 
@@ -171,7 +172,7 @@ function fail(text) {
 export async function loadPlayableSet({ shared = false } = {}) {
   const params = new URLSearchParams(location.search);
   const id = shared ? params.get("t") : params.get("set");
-  if (!id) return fail(shared ? "Dieser Link ist unvollständig. Bitte fragen Sie Ihre Lehrkraft nach dem Link." : `Kein Set gewählt. <a href="/teachers/cards">Zu Ihren Kartensets</a>`);
+  if (!id) return fail(shared ? "Dieser Link ist unvollständig. Bitte fragen Sie Ihre Lehrkraft nach dem Link." : `Kein Set gewählt. <a href="${withBase("/teachers/cards")}">Zu Ihren Kartensets</a>`);
   let set;
   try {
     set = shared ? await getSharedSet(id) : await getSet(id);
@@ -182,11 +183,11 @@ export async function loadPlayableSet({ shared = false } = {}) {
   if (!set) {
     return fail(shared
       ? "Dieses Kartenset ist nicht (mehr) geteilt. Bitte fragen Sie Ihre Lehrkraft nach einem neuen Link."
-      : `Dieses Kartenset gibt es nicht, oder Sie sind nicht angemeldet. <a href="/anmelden?next=${encodeURIComponent(location.pathname + location.search)}">Anmelden</a> · <a href="/teachers/cards">Meine Kartensets</a>`);
+      : `Dieses Kartenset gibt es nicht, oder Sie sind nicht angemeldet. <a href="${withBase("/anmelden")}?next=${encodeURIComponent(location.pathname + location.search)}">Anmelden</a> · <a href="${withBase("/teachers/cards")}">Meine Kartensets</a>`);
   }
   // Own words' SRS key: the set's id for the teacher, the link's token for students.
   set = { ...set, id: shared ? `t-${id}` : set.id };
-  if (!set.words?.length) return fail(shared ? "Dieses Kartenset ist noch leer." : `Das Set „${set.name.replace(/</g, "&lt;")}“ hat noch keine Wörter. <a href="/teachers/cards/photo?set=${id}">Wörter hinzufügen</a>`);
+  if (!set.words?.length) return fail(shared ? "Dieses Kartenset ist noch leer." : `Das Set „${set.name.replace(/</g, "&lt;")}“ hat noch keine Wörter. <a href="${withBase("/teachers/cards/photo")}?set=${id}">Wörter hinzufügen</a>`);
 
   let cards;
   try {
@@ -209,12 +210,12 @@ export async function loadPlayableSet({ shared = false } = {}) {
   if (sub) sub.textContent = [set.level, `${cards.length} Wörter`, shared ? null : `${lexCount} aus unserem Wortschatz`].filter(Boolean).join(" · ");
   document.title = `${set.name} – icanspeak Spanish`;
   const edit = document.querySelector("[data-vs-edit]");
-  if (edit) edit.href = `/teachers/cards/photo?set=${id}`;
+  if (edit) edit.href = `${withBase("/teachers/cards/photo")}?set=${id}`;
   const print = document.querySelector("[data-vs-print]");
-  if (print) print.href = `/teachers/cards/print?set=${id}`;
+  if (print) print.href = `${withBase("/teachers/cards/print")}?set=${id}`;
   // Straight into the live quiz with this set as the words (host.js, value kartenset:<id>).
   const quiz = document.querySelector("[data-vs-quiz]");
-  if (quiz) { quiz.href = `/teachers/quiz?set=kartenset:${id}`; quiz.hidden = shared; }
+  if (quiz) { quiz.href = `${withBase("/teachers/quiz")}?set=kartenset:${id}`; quiz.hidden = shared; }
 
   window.__vtCardsReady = true;
   dispatchEvent(new Event("vt:cards"));

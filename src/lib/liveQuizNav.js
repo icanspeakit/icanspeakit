@@ -7,11 +7,13 @@
 // builder with that chapter, a Lernset's DeckActions to the quiz with the set chosen), otherwise
 // the quiz start. Always a new tab: the quiz goes on the projector, this page stays open.
 // Not on the quiz pages themselves.
+import { withBase, currentPath } from "./paths.js";
+
 const ON_QUIZ = /^\/(teachers\/quiz|game)(\/|$)/;
 
 function contextHref() {
-  const a = document.querySelector('[data-lq-link] a[href], a.da-btn[href^="/teachers/quiz"]');
-  return a?.getAttribute("href") || "/teachers/quiz";
+  const a = document.querySelector(`[data-lq-link] a[href], a.da-btn[href^="${withBase("/teachers/quiz")}"]`);
+  return a?.getAttribute("href") || withBase("/teachers/quiz");
 }
 
 function show(buttons) {
@@ -25,7 +27,7 @@ function show(buttons) {
 }
 
 const buttons = document.querySelectorAll("[data-lq-nav]");
-if (buttons.length && !ON_QUIZ.test(location.pathname) && /(^|;\s*)sb-[^=]*-auth-token[^=]*=/.test(document.cookie)) {
+if (buttons.length && !ON_QUIZ.test(currentPath()) && /(^|;\s*)sb-[^=]*-auth-token[^=]*=/.test(document.cookie)) {
   import("./liveQuiz/custom.js")
     .then(async ({ currentUser, isTeacher }) => {
       if (!isTeacher(await currentUser())) return;

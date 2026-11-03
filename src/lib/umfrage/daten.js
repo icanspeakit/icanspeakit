@@ -8,6 +8,7 @@
 // per phone per poll.
 import { createBrowserSupabase } from "../supabase/browser.js";
 import { ZEITEN } from "./zeit.js";
+import { withBase } from "../paths.js";
 
 const CODE_RE = /^[ABCDEFGHJKMNPQRSTUVWXYZ2-9]{6}$/;
 export const MAX_UMFRAGEN = 30;
@@ -20,7 +21,7 @@ export const normCode = (s) => String(s ?? "").toUpperCase().replace(/[^A-Z0-9]/
 export const isCode = (s) => CODE_RE.test(normCode(s));
 
 /** The link a student opens (or the QR code encodes). */
-export const umfrageLink = (code, origin = location.origin) => `${origin}/survey?c=${encodeURIComponent(code)}`;
+export const umfrageLink = (code, origin = location.origin) => `${origin}${withBase("/survey")}?c=${encodeURIComponent(code)}`;
 
 /* ------------------------------------------------------------------ teacher ---- */
 

@@ -8,6 +8,8 @@
 // Only where the dock is (our own devices): mountVorschau is called from the dock's script.
 //
 // The list is the one place to change the ten.
+import { withBase, currentPath } from "./paths.js";
+
 const KEY = "da-vorschau";
 
 export const STEPS = [
@@ -90,7 +92,7 @@ const write = (i) => { try { i == null ? sessionStorage.removeItem(KEY) : sessio
 
 function go(i) {
   write(i);
-  location.assign(STEPS[i].href);
+  location.assign(withBase(STEPS[i].href));
 }
 
 /** From the dock's „▶ Vorschau“: demo data in (seed), then step 1. */
@@ -127,10 +129,10 @@ export function mountVorschau() {
     </div>`;
   document.body.append(card);
   // a page reached by hand (not this step's): one tap back to the step's page
-  if (location.pathname.replace(/\/$/, "") !== s.href) {
+  if (currentPath().replace(/\/$/, "") !== s.href) {
     const back = document.createElement("a");
     back.className = "vs-here";
-    back.href = s.href;
+    back.href = withBase(s.href);
     back.textContent = "Go to this step's page";
     card.querySelector(".vs-tap").after(back);
   }

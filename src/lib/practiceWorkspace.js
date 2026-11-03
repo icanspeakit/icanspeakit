@@ -13,6 +13,7 @@ import { celebrateRound, mascotHop } from "./mascotCelebrate.js";
 import { mascotSvg } from "./mascots.js";
 import { flagItems, meldenLinkHtml, onMeldenClick } from "./meldung.js";
 import { itemFingerprint } from "./meldungRef.js";
+import { withBase } from "./paths.js";
 
 const KNOWN_DIFFICULTY_ORDER = ["leicht", "mittel", "schwer"];
 const WRONG_ATTEMPTS_BEFORE_REVEAL = 2;
@@ -113,7 +114,7 @@ function speak(question, { force = false } = {}) {
   if (!question.audioSrc || (!soundOn && !force)) return;
   if (!player) player = new Audio();
   player.pause();
-  player.src = question.audioSrc;
+  player.src = withBase(question.audioSrc);
   // Set after src: loading a new source resets the rate to the default.
   player.defaultPlaybackRate = player.playbackRate = slowOn ? SLOW_RATE : 1;
   player.preservesPitch = true;
@@ -409,8 +410,8 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
       ? t("pw.done.savedAccount", "Gespeichert. Deinen Fortschritt und deine Fehler findest du jederzeit wieder.")
       : t("pw.done.savedLocal", "Dein Fortschritt und deine Fehler sind nur in diesem Browser gespeichert. Melde dich an, dann gehen sie nicht verloren.");
     const link = signedIn
-      ? `<a class="akk-done-save-link" href="/progress">${t("pw.done.toProgress", "Zum Fortschritt")}</a>`
-      : `<a class="akk-done-save-link" href="/anmelden?next=${next}">${t("pw.done.signIn", "Anmelden und speichern")}</a>`;
+      ? `<a class="akk-done-save-link" href="${withBase("/progress")}">${t("pw.done.toProgress", "Zum Fortschritt")}</a>`
+      : `<a class="akk-done-save-link" href="${withBase("/anmelden")}?next=${next}">${t("pw.done.signIn", "Anmelden und speichern")}</a>`;
     return `
       <div class="akk-done-save${signedIn ? "" : " akk-done-save--local"}">
         <span class="akk-done-save-who" aria-hidden="true">${mascotSvg({ name: "regi", expr: "happy", size: 52, label: "" })}</span>

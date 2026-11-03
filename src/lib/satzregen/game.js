@@ -12,6 +12,7 @@ import { mascotSvg } from "../mascots.js";
 import { chunkLabel, sentenceText } from "./check.js";
 import * as E from "./engine.js";
 import { newSeed } from "../artikelSprint/rng.js";
+import { withBase } from "../paths.js";
 
 export const STR = {
   title: "Regi's Sentence Rain",
@@ -150,7 +151,7 @@ function playAudio(slug) {
   if (!slug) return;
   try {
     audioEl?.pause();
-    audioEl = new Audio(`/audio/saetze/${slug}.mp3`);
+    audioEl = new Audio(withBase(`/audio/saetze/${slug}.mp3`));
     audioEl.play().catch(() => {});
   } catch {}
 }

@@ -24,6 +24,7 @@ import { isId } from "./speichern.js";
 import { LERN_MATERIAL_WINDOW, LERN_WINDOW } from "./zurueck.js";
 import { endSet, logSession } from "../versuche.js";
 import { mascotSvg } from "../mascots.js";
+import { withBase } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const stepsOf = (lesson) => lesson.phases.map((p) => ({ id: p.id, name: p.name, minutes: p.minutes }));
@@ -53,7 +54,7 @@ export async function mountLernstunde(root, data) {
     try { cefr = localStorage.getItem("da-einstufung") || localStorage.getItem("da_level"); } catch {}
     const order = data.levels.map((l) => ({ niveau: l.id, blocks: l.blocks.length }));
     const next = naechsteStunde(snaps, order, cefr);
-    if (next) return location.replace(stundeHref(next.key));
+    if (next) return location.replace(withBase(stundeHref(next.key)));
   }
   const key = lernKeyFromParams(q);
   const found = key && lessonFor(data.levels, key);
@@ -137,7 +138,7 @@ export async function mountLernstunde(root, data) {
   if (done) {
     msg.textContent = "You have finished this lesson.";
     go.textContent = nextHref ? "Go to the next lesson" : "Go to your progress";
-    go.addEventListener("click", () => location.assign(nextHref ?? "/progress"));
+    go.addEventListener("click", () => location.assign(withBase(nextHref ?? "/progress")));
     fresh.hidden = false;
     fresh.textContent = "Do it again";
   } else if (saved) {
@@ -162,7 +163,7 @@ export async function mountLernstunde(root, data) {
       ? { ...from, gruppe: label, steps, ...(tie ? { klasse: tie } : {}), extra: { ...emptyExtra(goals), ...from.extra, goals, parked: false } }
       : { id: newId(), key, gruppe: label, steps, ...(tie ? { klasse: tie } : {}), row: T.toRow(T.start(T.create(steps, now), now)), extra: { ...emptyExtra(goals), parked: false } };
     makeCurrent(snap);
-    if (q.has("spaeter")) history.replaceState(null, "", stundeHref(key));
+    if (q.has("spaeter")) history.replaceState(null, "", withBase(stundeHref(key)));
     stage(snap);
   }
 
@@ -175,7 +176,7 @@ export async function mountLernstunde(root, data) {
     mountLeiste(ctl, {
       home: true,
       mode: "lernend",
-      onLater: () => location.assign(stundeHref(key, "&spaeter=1")),
+      onLater: () => location.assign(withBase(stundeHref(key, "&spaeter=1"))),
       onEnd: () => { stopListen(); ctl.destroy(); },
     });
     $("[data-stage-meta]").textContent = `${label}: ${block.thema} · Lesson ${key.stunde}`;
@@ -223,8 +224,8 @@ export async function mountLernstunde(root, data) {
     if (ph.id === "einstieg") {
       const e = einstiegInhalt({ phase: ph, lesson, prev, block, bild: data.bilder[key.niveau]?.[key.block - 1] ?? null, themen: data.themen ?? {}, linksOf });
       const foto = e.bild ? `<figure class="ut-bild"><picture>
-          <source type="image/avif" srcset="${e.bild.src}-800.avif 800w, ${e.bild.src}-1600.avif 1600w" sizes="(min-width: 900px) 900px, 100vw" />
-          <img src="${e.bild.src}-1200.webp" alt="${esc(e.bild.alt)}" width="1600" height="600" decoding="async" /></picture>
+          <source type="image/avif" srcset="${withBase(e.bild.src)}-800.avif 800w, ${withBase(e.bild.src)}-1600.avif 1600w" sizes="(min-width: 900px) 900px, 100vw" />
+          <img src="${withBase(e.bild.src)}-1200.webp" alt="${esc(e.bild.alt)}" width="1600" height="600" decoding="async" /></picture>
           ${e.bild.credit ? `<figcaption>Photo: <a href="${esc(e.bild.credit.href)}" target="_blank" rel="noopener">${esc(e.bild.credit.label)}</a></figcaption>` : ""}</figure>` : "";
       const starters = e.redemittel?.length ? `<p class="ut-label">You can start like this</p><ul class="ut-starters">${e.redemittel.map((r) => `<li>${esc(r)}</li>`).join("")}</ul>` : "";
       let inhalt = "";
@@ -243,23 +244,23 @@ export async function mountLernstunde(root, data) {
     } else if (ph.id === "wortschatz") {
       body = `<ul class="ut-words">${block.wortschatz.map((w, j) => `<li><button type="button" class="ut-word" data-feld="${j}" aria-expanded="false">${esc(w)}</button></li>`).join("")}</ul>
         <div class="ut-feld" data-feld-panel></div>
-        ${level.words ? `<div class="ls-links"><a class="ls-link ls-link--main" href="${esc(level.words.href)}" target="${LERN_MATERIAL_WINDOW}">Flashcards: ${esc(level.words.name)}<small>One round to the end</small></a></div>` : ""}`;
+        ${level.words ? `<div class="ls-links"><a class="ls-link ls-link--main" href="${esc(withBase(level.words.href))}" target="${LERN_MATERIAL_WINDOW}">Flashcards: ${esc(level.words.name)}<small>One round to the end</small></a></div>` : ""}`;
     } else if (ph.id === "grammatik") {
       body = `<div class="ls-links">${topicsOf(ph).map((h) => {
         const base = `${h}?mode=present&niveau=${encodeURIComponent(cefr)}&ls=1`;
         const seen = !!ctl.extra?.seen?.[i]?.[`d:${h}`];
-        return `<div class="ls-row${seen ? " ls-row--done" : ""}"><a class="ls-link ls-link--main" href="${esc(base)}">${esc(nameOf(h))}<small>${seen ? "✓ watched" : "Watch the presentation"}</small></a>
-          <a class="ls-link" href="${esc(base)}&regel=1">Rule</a></div>`;
+        return `<div class="ls-row${seen ? " ls-row--done" : ""}"><a class="ls-link ls-link--main" href="${esc(withBase(base))}">${esc(nameOf(h))}<small>${seen ? "✓ watched" : "Watch the presentation"}</small></a>
+          <a class="ls-link" href="${esc(withBase(base))}&regel=1">Rule</a></div>`;
       }).join("")}</div>`;
     } else if (ph.id === "uebung" || ph.id === "test") {
-      body = `<div class="ls-links">${topicsOf(ph).map((h) => `<div class="ls-row"><a class="ls-link ls-link--main" href="${esc(h)}#uebung-1">${esc(nameOf(h))}<small data-topic-progress="${esc(h)}"></small></a></div>`).join("")}</div>`;
+      body = `<div class="ls-links">${topicsOf(ph).map((h) => `<div class="ls-row"><a class="ls-link ls-link--main" href="${esc(withBase(h))}#uebung-1">${esc(nameOf(h))}<small data-topic-progress="${esc(h)}"></small></a></div>`).join("")}</div>`;
     } else if (ph.id === "anwendung") {
       const goalsList = lesson.goals.length ? lesson.goals : [block.thema];
       body = `<ul class="ut-goals">${goalsList.map((g) => `<li>${esc(g)}</li>`).join("")}</ul>
         ${typed(ph, 6, "Your sentences")}
-        <div class="ls-links"><a class="ls-link" href="/pronunciation-check">Rather speak? Go to the pronunciation check<small>Say your sentences and hear how they sound</small></a></div>`;
+        <div class="ls-links"><a class="ls-link" href="${withBase("/pronunciation-check")}">Rather speak? Go to the pronunciation check<small>Say your sentences and hear how they sound</small></a></div>`;
     } else if (ph.id === "pruefung") {
-      body = `<div class="ls-links">${(ph.links ?? []).map((l) => `<a class="ls-link ls-link--main" href="${esc(l.href)}">${esc(l.name)}<small>Through to the result</small></a>`).join("")}</div>`;
+      body = `<div class="ls-links">${(ph.links ?? []).map((l) => `<a class="ls-link ls-link--main" href="${esc(withBase(l.href))}">${esc(l.name)}<small>Through to the result</small></a>`).join("")}</div>`;
     } else if (ph.id === "abschluss") {
       if (lesson.final) {
         let ticks = [];
@@ -267,7 +268,7 @@ export async function mountLernstunde(root, data) {
         body = `<ul class="ls-kann">${block.kannZiele.map((z, j) => `<li><label><input type="checkbox" data-kann="${j}" ${ticks[j] ? "checked" : ""} /> ${esc(z)}</label></li>`).join("")}</ul>`;
       } else {
         const links = (ph.links ?? []).filter((l) => !l.ext);
-        body = links.length ? `<div class="ls-links">${links.map((l) => `<a class="ls-link" href="${esc(l.href)}">${esc(l.name)}</a>`).join("")}</div>` : "";
+        body = links.length ? `<div class="ls-links">${links.map((l) => `<a class="ls-link" href="${esc(withBase(l.href))}">${esc(l.name)}</a>`).join("")}</div>` : "";
       }
     }
     card.innerHTML = `${head}${bruno}${say}${body}<div class="ls-actions" data-actions></div>`;
@@ -364,8 +365,8 @@ export async function mountLernstunde(root, data) {
       return `<tr><td><i style="background:${phaseColor(p.id).bg}"></i>${esc(p.name)}</td><td class="ls-st ls-st--${s}">${s === "fertig" ? "✓ done" : s === "uebersprungen" ? "skipped" : "open"}${score}</td></tr>`;
     }).join("");
     const next = $("[data-done-next]");
-    if (nextHref) next.href = nextHref;
-    else { next.href = "/progress"; next.textContent = "Go to your progress"; }
+    if (nextHref) next.href = withBase(nextHref);
+    else { next.href = withBase("/progress"); next.textContent = "Go to your progress"; }
   }
 
   /* ----------------------------------------------------------- helpers ---- */

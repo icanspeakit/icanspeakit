@@ -4,6 +4,7 @@
 // when the clip is missing or cannot play; quiet if there is neither. `npc`: a person's line –
 // the game's onTalk(true/false) lets their head talk along.
 import { audioUrl } from "./audioSource.js";
+import { withBase } from "./paths.js";
 
 let deVoice; // the British English browser voice (name kept from the German original)
 if (typeof window !== "undefined" && window.speechSynthesis) {
@@ -37,7 +38,7 @@ export function createVoice(clipPath) {
     window.speechSynthesis?.cancel();
     onTalk(false);
     if (!clip) return speak(text, npc);
-    const a = new Audio(audioUrl(clipPath(clip)));
+    const a = new Audio(withBase(audioUrl(clipPath(clip))));
     current = a;
     let fell = false;
     const fallback = () => {

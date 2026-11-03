@@ -11,6 +11,7 @@
 import QRCode from "qrcode";
 import { createBrowserSupabase } from "../supabase/browser.js";
 import { auswertung, band, channelName, makePin, PIN_RE, pickOf, readWrong, rowOf, totalOf } from "./protocol.js";
+import { withBase } from "../paths.js";
 import "../../styles/live-uebung.css";
 
 const ROOM_KEY = "da-lu-raum";
@@ -100,7 +101,7 @@ export function createLiveUebung(data, topic) {
   async function room() {
     const pin = keptPin() ?? makePin();
     keepPin(pin);
-    const link = `${location.origin}/${topic}?live=${pin}`;
+    const link = `${location.origin}${withBase(`/${topic}`)}?live=${pin}`;
     const shown = link.replace(/^https?:\/\//, "");
 
     // Opened from the lesson (?ut=1): the way back is the first button, not a ↩ in the bar

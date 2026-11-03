@@ -9,6 +9,7 @@ import QRCode from "qrcode";
 import { currentUser } from "../liveQuiz/custom.js";
 import { loadText, t } from "../liveQuiz/text.js";
 import { antworten, umfrage, umfrageLink, umfrageOffen } from "./daten.js";
+import { withBase } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const REFRESH_MS = 5000;
@@ -51,7 +52,7 @@ export async function mountErgebnis(root) {
   let shareOpen = params.has("neu");
   await loadText(() => { if (u) render(); });
 
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(location.pathname + location.search)}`;
+  $("[data-signin-link]").href = `${withBase("/anmelden")}?next=${encodeURIComponent(location.pathname + location.search)}`;
   if (!(await currentUser())) return gate("signin");
   try {
     u = await umfrage(params.get("id"));
@@ -68,7 +69,7 @@ export async function mountErgebnis(root) {
   const qrSvg = await QRCode.toString(link, { type: "svg", margin: 1, errorCorrectionLevel: "M" });
   $("[data-qr]").innerHTML = qrSvg;
   $("[data-beamer-qr]").innerHTML = qrSvg;
-  const shortHost = `${location.host}/survey`;
+  const shortHost = `${location.host}${withBase("/survey")}`;
   $("[data-host]").textContent = shortHost;
   $("[data-beamer-host]").textContent = shortHost;
   $("[data-code]").textContent = u.code;
@@ -158,9 +159,9 @@ export async function mountErgebnis(root) {
         <ol class="uf-next-list">${g.map((x) => {
           const l = links[x.o.id] ?? {};
           const acts = [
-            l.page && `<a href="${esc(l.page)}">${esc(t("uf.t.next.page", "Thema"))}</a>`,
-            l.sheet && `<a href="${esc(l.sheet)}">${esc(t("uf.t.next.sheet", "Arbeitsblatt"))}</a>`,
-            l.quiz && `<a href="${esc(l.quiz)}">${esc(t("uf.t.next.quiz", "Live-Quiz"))}</a>`,
+            l.page && `<a href="${esc(withBase(l.page))}">${esc(t("uf.t.next.page", "Thema"))}</a>`,
+            l.sheet && `<a href="${esc(withBase(l.sheet))}">${esc(t("uf.t.next.sheet", "Arbeitsblatt"))}</a>`,
+            l.quiz && `<a href="${esc(withBase(l.quiz))}">${esc(t("uf.t.next.quiz", "Live-Quiz"))}</a>`,
           ].filter(Boolean);
           return `<li><strong>${esc(x.o.text)}</strong> <small>${votes(x)}</small>${acts.length ? `<span class="uf-next-acts">${acts.join("")}</span>` : ""}</li>`;
         }).join("")}</ol>
@@ -173,8 +174,8 @@ export async function mountErgebnis(root) {
         <h3>${esc(t("uf.t.next.skill", "Mehr üben"))}</h3>
         <ol class="uf-next-list">${skill.map((x) => `<li><strong>${esc(label(x.o))}</strong> <small>${votes(x)}</small></li>`).join("")}</ol>
         <span class="uf-next-acts">
-          <a href="/speaking">${esc(t("uf.t.next.speak", "Sprechen-Übungen"))}</a>
-          <a href="/teachers/worksheets/partner">${esc(t("uf.t.next.partner", "Partnerübungen"))}</a>
+          <a href="${withBase("/speaking")}">${esc(t("uf.t.next.speak", "Sprechen-Übungen"))}</a>
+          <a href="${withBase("/teachers/worksheets/partner")}">${esc(t("uf.t.next.partner", "Partnerübungen"))}</a>
         </span>
       </article>`);
     }

@@ -9,6 +9,7 @@ import { createBrowserSupabase } from "../supabase/browser.js";
 import { setWaiting } from "../notReady.js";
 import { topicPath } from "../routes.js";
 import { channelName, cleanName, makeId, PIN_RE, pickOf, summarize, totalOf, wrongOf } from "./protocol.js";
+import { withBase } from "../paths.js";
 import "../../styles/live-uebung.css";
 
 const NAME_KEY = "da-lu-name";
@@ -66,7 +67,7 @@ export function joinLiveUebung(data, topic, pin) {
       return;
     }
     const where = away
-      ? `<a class="lu-btn lu-btn--main" href="/${esc(away.topic)}?live=${pin}">Mitgehen: ${esc(away.title)}</a>`
+      ? `<a class="lu-btn lu-btn--main" href="${esc(withBase(`/${away.topic}`))}?live=${pin}">Mitgehen: ${esc(away.title)}</a>`
       : "";
     bar.innerHTML = `
       <span class="lu-live${state === "live" ? "" : " lu-live--wait"}" aria-hidden="true"></span>
@@ -124,7 +125,7 @@ export function joinLiveUebung(data, topic, pin) {
   function follow(hostTopic, title) {
     if (!hostTopic || hostTopic === topic) { away = null; return; }
     // Nothing done here yet: just go. Otherwise the bar offers it.
-    if (!Object.keys(answers).length) { location.assign(`${topicPath(hostTopic)}?live=${pin}`); return; }
+    if (!Object.keys(answers).length) { location.assign(`${withBase(topicPath(hostTopic))}?live=${pin}`); return; }
     away = { topic: hostTopic, title: title || hostTopic };
   }
 

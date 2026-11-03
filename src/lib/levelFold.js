@@ -17,6 +17,7 @@
  * entry topic, the old behaviour).
  */
 import { getProgress } from "./progress.js";
+import { withBase, stripBase } from "./paths.js";
 import { getLang, loadDict, translate, onLangChange } from "./i18n.js";
 
 const calm = matchMedia("(prefers-reduced-motion: reduce)");
@@ -38,7 +39,7 @@ function knownLearner(data) {
  * Every candidate is a link that is already on the page, so this can never point at a route
  * that does not exist. */
 function resumeHref(panel, fallback, data) {
-  const hrefs = [...panel.querySelectorAll(".lf-row")].map((a) => a.getAttribute("href"));
+  const hrefs = [...panel.querySelectorAll(".lf-row")].map((a) => stripBase(a.getAttribute("href")));
   const seen = (data.recents ?? []).map((r) => r.path.replace(/\/+$/, ""));
   const norm = (h) => h.replace(/\/+$/, "");
 
@@ -123,7 +124,7 @@ export function mountLevelFold(root) {
       if (!panel) return;
       e.preventDefault();
       if (known) {
-        location.href = resumeHref(panel, tile.getAttribute("href"), getProgress());
+        location.href = withBase(resumeHref(panel, stripBase(tile.getAttribute("href")), getProgress()));
         return;
       }
       open(tile);

@@ -9,6 +9,7 @@
 // only needs a mascot and help keys; a page with no keys for its path keeps a plain,
 // decorative mascot. "Maskottchen anzeigen: aus" removes the figure, and with it the help.
 import { getLang, loadDict, translate, onLangChange } from "./i18n.js";
+import { currentPath } from "./paths.js";
 import "../styles/mascot-help.css";
 
 /** Which help a path gets. The hubs only, not their subpages — except Wortschatz, where
@@ -29,7 +30,7 @@ const PAGES = [
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
 function init() {
-  const page = PAGES.find(([re]) => re.test(location.pathname))?.[1];
+  const page = PAGES.find(([re]) => re.test(currentPath()))?.[1];
   const mascots = [...document.querySelectorAll(".section-mascot")];
   if (!page || !mascots.length) return;
 

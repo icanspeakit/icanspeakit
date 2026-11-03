@@ -8,23 +8,24 @@
 // C is also what the server renders, so no JS, no storage and any failure here all land on
 // the same honest button. Reads only existing keys; writes nothing.
 import { getResume } from "./progress.js";
+import { withBase, stripBase, currentPath } from "./paths.js";
 
 const LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
 const PLACEMENT = "/placement-test";
 
-const norm = (p) => (String(p || "").split(/[?#]/)[0].replace(/\/+$/, "") || "/");
+const norm = (p) => (stripBase(String(p || "").split(/[?#]/)[0]).replace(/\/+$/, "") || "/");
 
 /** The state for a page at `path` that has no stored knowledge — also the server render. */
 export function fallbackStep(path) {
   // The button never links to the page it is on: on the test itself, point onward.
   if (norm(path) === PLACEMENT) {
-    return { state: "placement", labelKey: "nav.next.toExercises", label: "Zu den Übungen", href: "/exercises" };
+    return { state: "placement", labelKey: "nav.next.toExercises", label: "Zu den Übungen", href: withBase("/exercises") };
   }
   return {
     state: "placement",
     labelKey: "nav.next.placement", label: "Wo stehe ich?",
     subKey: "nav.next.placementSub", sub: "Einstufungstest",
-    href: PLACEMENT,
+    href: withBase(PLACEMENT),
   };
 }
 
@@ -42,7 +43,7 @@ function placementLevel() {
  * @returns {{ state: "resume"|"level"|"placement", labelKey: string, label: string,
  *   subKey?: string, sub?: string, vars?: object, href: string }}
  */
-export function getNextStep(path = typeof location !== "undefined" ? location.pathname : "/") {
+export function getNextStep(path = typeof location !== "undefined" ? currentPath() : "/") {
   const here = norm(path);
   try {
     const resume = getResume();
@@ -52,7 +53,7 @@ export function getNextStep(path = typeof location !== "undefined" ? location.pa
         return {
           state: "resume",
           labelKey: "nav.next.resume", label: "Weiter üben",
-          sub: next.title || "", href: next.path,
+          sub: next.title || "", href: withBase(next.path),
         };
       }
     }
@@ -64,7 +65,7 @@ export function getNextStep(path = typeof location !== "undefined" ? location.pa
   if (level) {
     const href = `/grammar#niveau-${level.toLowerCase()}`;
     if (norm(href) !== here) {
-      return { state: "level", labelKey: "nav.next.level", label: `Mit ${level} starten`, vars: { level }, href };
+      return { state: "level", labelKey: "nav.next.level", label: `Mit ${level} starten`, vars: { level }, href: withBase(href) };
     }
   }
 
