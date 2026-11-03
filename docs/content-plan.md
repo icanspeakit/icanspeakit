@@ -874,9 +874,21 @@ are handled by the `ui-*` items where they are rendered.
   the deutschacademy brand; switched off in `Layout.astro` (`HUB_CARDS = false`), every page
   shares `og-default.png`. The `ui-*` item that rewrites the hub titles reruns
   `pnpm hubs:build --force` and sets `HUB_CARDS = true`.
-- **Logo**: `public/assets/logo.png`, `og-default.png` and the icons are a plain text wordmark
-  ("icanspeak Spanish", "iS") from `scripts/build-wordmark.mjs`; Edgar: replace with a designed
-  logo when one exists.
+- **Logo** (done in `brand-theme`, 2026-11-03): the icanspeak.it kit in `public/logos/` is wired
+  (favicons, apple-touch-icon, manifest app icons, JSON-LD logo = `-mark-1024.png`, the
+  wordmark in every header and footer through `Wordmark.astro`). `public/assets/logo.png` and
+  `og-default.png` are rasterised from the kit by `scripts/build-wordmark.mjs`. The old
+  `iS` placeholders (`public/icon-*.png`, `favicon-16/32x32.png`) are no longer linked.
+- **Brand theme decisions** (`brand-theme`, 2026-11-03; details in `docs/brand/BRAND.md` and
+  the comments in `src/styles/global.css`): token names kept (`--brand-blue` is now the navy);
+  `--accent` is a deeper amber (#946620) than the brand's #b3812e and `--muted` a darker
+  #6b6152 than #7a6f60, both for AA; the brand amber is `--brand-amber` for marks without
+  text. Mascot voice and label fonts fall back to Fraunces/Inter (no Fredoka, Albert Sans,
+  Sora, Big Shoulders, Bungee Shade, arrow font). Every page except the home page (whose
+  footer has it) ends in a slim "part of icanspeak.it" row (`Layout` prop `umbrella`).
+  Open: `src/styles/font.css` and `newfont.css` (styles of the fork's font comparison pages,
+  which this repo no longer has) name faces that are no longer loaded; dead CSS. Canvas games
+  (lindenau, quaki-springt, nussnacht) still name Fredoka and fall back to system-ui.
 - **Contact e-mail** `hello@englishacademy.com` (`src/lib/legal.js`, two strings in `en.json`):
   a legal fact, left unchanged; Edgar: set the real icanspeak address.
 - **robots.txt and deploy**: crawlers only read `https://icanspeak.it/robots.txt` (umbrella
