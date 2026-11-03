@@ -21,3 +21,8 @@ bring it back.
   Führerschein data they need):
   `git checkout db88ba4~1 -- src/pages/games/stadtfahrt.astro src/pages/games/vorfahrt.astro src/lib/stadtfahrt.js src/lib/vorfahrt src/styles/vorfahrt.css src/data/fuehrerschein src/lib/fahrQuiz.js src/lib/fahrQuizData.js src/lib/fahrSzene.js src/lib/fuehrerscheinData.js`
   (or `git revert db88ba4` for the whole Führerschein module).
+  **icanspeak Spanish (2026-11-03):** these hashes are from the **icanspeak-english** history.
+  This repo starts at `9577286` (squashed snapshot of icanspeak English @ `39ac46f`), so the
+  commands above only work in icanspeak-english; to bring files here, export them from there
+  (`git -C <icanspeak-english> show db88ba4~1:<path> > <path>`). Spain's DGT module is a
+  vocabulary deck that needs none of them (docs/content-plan.md §4.4).
