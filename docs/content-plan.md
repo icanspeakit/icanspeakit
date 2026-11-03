@@ -912,6 +912,22 @@ are handled by the `ui-*` items where they are rendered.
   `ArtikelPanelT1`, `NavVergleich` per EXPERIMENTE.md) go in `cleanup`. **Edgar:** in which
   language are the legal texts binding (`legal.note.binding`, `widerruf.binding` still say
   German)?
+- **Page text decisions** (, 2026-11-03): pages a–l name the Spanish exams and describe the
+  target module while hrefs stay on the old slots until .  now
+  links back to  (DELE, per §2);  and the DELE page link on to  as
+  "the SIELE page". The exam plan's  entry has level A2 and uses Europe/Madrid. CCSE facts on
+   show  /  as bare figures (no fixed
+  percent), so they are still the UK's 24 / 18 until  sets . The source link is
+   ( now redirects to cervantes.org; items
+  linking there should check).  speaks with an es-ES voice. The pflegeplace.com boxes on
+  the work pages are gone (a German-only site) and their  keys removed;   can drop  from . **For :**   still has the German → English word decoder (, , jump link), the
+  maken/machen map labels and  as default comparison;  has the bus/bath
+  map labels. Replace or remove them (§5.14 doesn't mention them). **For :** the
+   values and the insider rule text are data and still UK. **For :**
+   task sources () still say ISE I. **For :** the official links on
+   (, ) still point to Cambridge, IELTS, Trinity, GOV.UK.
+  **Edgar:**  tells the truth about German teaching and says nothing about teaching Spanish;
+   shows a date in the past (Fri 30 Oct).
 - **Variety schema decisions** (`variety-schema`, 2026-11-03): `src/lib/variety.js` adds, next
   to the §1.5 names, `textFor(item, text)` (es419 `form` in LatAm mode), `skippedFor(item)`,
   `showsVosotros()` and `varietyProblems(obj)` (the shape rules, shared by every validator).

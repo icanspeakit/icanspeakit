@@ -9,7 +9,7 @@ import "../styles/pruefung-satz.css";
 interface Props { exam: "goethe" | "telc" }
 const { exam } = Astro.props;
 const rows = [
-  { level: "A1", href: "/a1-test", title: "A1 English practice test", meta: "Listening · Reading · Writing" },
+  { level: "A1", href: "/a1-test", title: "DELE A1 practice test", meta: "Listening · Reading · Writing" },
   ...saetzeOf(exam).map((s) => ({
     level: s.level,
     href: hrefOf(s),
