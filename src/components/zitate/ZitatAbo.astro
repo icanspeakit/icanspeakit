@@ -104,6 +104,7 @@ const show = import.meta.env.PUBLIC_ZITAT_ABO === "an" || import.meta.env.DEV;
   import { getLang } from "../../lib/i18n.js";
   import { t, onUiText } from "../../lib/uiText.js";
   import { track } from "../../lib/track.js";
+  import { withBase } from "../../lib/paths.js";
 
   const MSG = {
     invalid: () => t("wg.abo.invalid", "Bitte gib eine gültige E-Mail-Adresse ein."),
@@ -177,7 +178,7 @@ const show = import.meta.env.PUBLIC_ZITAT_ABO === "an" || import.meta.env.DEV;
     btn.textContent = t("auth.email.loading", "Wird gesendet …");
     status.textContent = "";
     try {
-      const r = await fetch("/api/zitate/abo", {
+      const r = await fetch(withBase("/api/zitate/abo"), {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ email, website: data.get("website"), lang: getLang() }),

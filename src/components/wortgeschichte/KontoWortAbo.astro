@@ -49,6 +49,7 @@ const OPTS = [
 </style>
 
 <script>
+  import { withBase } from "../../lib/paths.js";
   const card = document.querySelector<HTMLElement>("[data-kt-wort]");
   if (card) {
     const buttons = [...card.querySelectorAll<HTMLButtonElement>(".kt-wort-freq button")];
@@ -66,7 +67,7 @@ const OPTS = [
       }
       for (const b of buttons) b.disabled = b.dataset.v === "taeglich" && !daily;
     };
-    fetch("/api/wortgeschichte/konto")
+    fetch(withBase("/api/wortgeschichte/konto"))
       .then((r) => (r.ok ? r.json() : { state: null }))
       .then(render)
       .catch(() => render({ state: null }));
@@ -76,7 +77,7 @@ const OPTS = [
         for (const x of buttons) x.disabled = true;
         status.textContent = "";
         try {
-          const r = await fetch("/api/wortgeschichte/konto", {
+          const r = await fetch(withBase("/api/wortgeschichte/konto"), {
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify({ frequency: b.dataset.v }),

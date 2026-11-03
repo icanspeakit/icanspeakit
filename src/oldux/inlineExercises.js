@@ -13,6 +13,7 @@
 import { mountQuiz } from "../lib/quiz.js";
 import { mountGrammarWorkspace } from "../lib/grammarWorkspace.js";
 import { mountPracticeWorkspace } from "../lib/practiceWorkspace.js";
+import { withBase } from "../lib/paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -224,7 +225,7 @@ function mountSpeak(host, id) {
     left = 90;
     host.innerHTML = `
       <div class="nv-card-counter">${esc(s.title)} · ${i + 1} / ${items.length}</div>
-      <img class="nv-speakimg" src="${esc(s.image)}" alt="${esc(s.title)}" loading="lazy" />
+      <img class="nv-speakimg" src="${esc(withBase(s.image))}" alt="${esc(s.title)}" loading="lazy" />
       <div class="nv-speakcols">
         <div><h4>Bild beschreiben</h4><ul>${s.beschreibung.map((q) => `<li>${esc(q)}</li>`).join("")}</ul></div>
         <div><h4>Persönliche Fragen</h4><ul>${s.persoenlich.map((q) => `<li>${esc(q)}</li>`).join("")}</ul></div>

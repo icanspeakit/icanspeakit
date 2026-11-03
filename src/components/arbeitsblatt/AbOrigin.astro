@@ -9,9 +9,10 @@
 <a class="ab-back ab-origin" href="#" hidden data-ab-origin>← <span data-ab-origin-name>Back</span></a>
 
 <script>
+  import { stripBase } from "../../lib/paths.js";
   const KEY = "da:abOrigin";
   const a = document.querySelector<HTMLAnchorElement>("[data-ab-origin]");
-  const isSheet = (u: URL) => u.pathname.startsWith("/teachers/worksheets/");
+  const isSheet = (u: URL) => stripBase(u.pathname).startsWith("/teachers/worksheets/");
   let origin: { url: string; name?: string } | null = null;
   try {
     const ref = document.referrer ? new URL(document.referrer) : null;

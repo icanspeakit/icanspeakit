@@ -86,6 +86,7 @@ for (const level of levels) {
 
 <script>
   import { ARCHIV_KEY, LERN_KEY, keyText, naechsteStunde, stundeHref } from "../lib/unterricht/lernen.js";
+  import { withBase } from "../lib/paths.js";
 
   const WEG_KEY = "da:ns-weg";
   const box = document.querySelector<HTMLElement>("[data-ns]");
@@ -131,7 +132,7 @@ for (const level of levels) {
       $("[data-ns-where]").append(ort, Object.assign(document.createElement("span"), { className: "ns-tag", textContent: " · step by step, at your own pace" }));
       $("[data-ns-go]").textContent = "Let's go";
     }
-    $("[data-ns-go]").setAttribute("href", stundeHref(k));
+    $("[data-ns-go]").setAttribute("href", withBase(stundeHref(k)));
     box.hidden = false;
   }
   show();

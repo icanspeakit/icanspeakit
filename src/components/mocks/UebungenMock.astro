@@ -257,6 +257,7 @@ const firstC = CULTURE[0];
 
 <script>
   import { getLang, loadDict, onLangChange } from "../../lib/i18n.js";
+  import { withBase } from "../../lib/paths.js";
 
   const dataEl = document.querySelector("[data-mock-data]");
   // A page may place this component more than once (mobile3 shows it in the
@@ -398,9 +399,9 @@ const firstC = CULTURE[0];
         position.textContent = t("home.mock.phrasePosition", "Phrase {i} of {n}", { i: index + 1, n: PRON.length });
         text.textContent = item.text;
         note.textContent = t(`home.mock.pronNote.${index}`, item.note);
-        if (!audio.src.endsWith(item.audio)) {
+        if (!audio.src.endsWith(withBase(item.audio))) {
           stopAudio();
-          audio.src = item.audio;
+          audio.src = withBase(item.audio);
         }
       }
 
@@ -449,7 +450,7 @@ const firstC = CULTURE[0];
 
       function render() {
         const bild = BILD[index];
-        img.src = bild.image;
+        img.src = withBase(bild.image);
         img.alt = bild.title;
         list.innerHTML = bild[tab].map((q) => `<li>${q}</li>`).join("");
         for (const b of tabs) b.classList.toggle("is-active", b.dataset.bildTab === tab);

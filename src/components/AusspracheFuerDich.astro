@@ -11,6 +11,7 @@
 // Drills: src/data/aussprache-muttersprache.json. Audio: public/audio/muttersprache/.
 import drillData from "../data/aussprache-muttersprache.json";
 import "../styles/aussprache-fuer-dich.css";
+import { stripBase } from "../lib/paths.js";
 
 interface Props {
   /** A language id, or "*" for every drill (the page shows the chosen language's). */
@@ -67,7 +68,7 @@ const drills = ids.map((id) => ({ id, ...all[id] }));
           <button type="button" class="md-btn md-btn--primary" data-record-btn>● <span data-i18n="kultur.fehler.record">Nachsprechen</span></button>
           <p class="md-status" data-record-status aria-live="polite"></p>
           <div data-record-findings></div>
-          <p data-record-login hidden><a class="md-btn" href={`/anmelden?next=${encodeURIComponent(Astro.url.pathname)}`} data-i18n="af.login">Anmelden</a></p>
+          <p data-record-login hidden><a class="md-btn" href={`/anmelden?next=${encodeURIComponent(stripBase(Astro.url.pathname))}`} data-i18n="af.login">Anmelden</a></p>
         </div>
       </details>
     ))}

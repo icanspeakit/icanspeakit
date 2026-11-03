@@ -1031,6 +1031,7 @@ const defaultVariant = variants[0];
     import { mountWegPanel, paintWegPanel } from "../lib/wegPanel.js";
     import { createRuleIntro } from "../lib/ruleIntro.js";
     import { getLang, loadDict, onLangChange } from "../lib/i18n.js";
+    import { withBase, rebaseHtml } from "../lib/paths.js";
 
     /* Everything this script paints is text the server could not know yet (progress,
        the current portion), so it is translated here rather than by [data-i18n]. The
@@ -1311,7 +1312,7 @@ const defaultVariant = variants[0];
             ? t("fortschritt.now.oneLeft", "Nur noch 1 Aufgabe")
             : m ? t("fortschritt.now.left", "Noch {n} Aufgaben · ca. {m} Min.", { n, m }) : t("fortschritt.now.leftTasks", "Noch {n} Aufgaben", { n });
           const cta = d > 0 ? t("fortschritt.now.finish", "Abschließen") : t("fortschritt.now.start", "Starten");
-          return `<li><a class="nv-now-item" href="${nowEsc(it.href)}">
+          return `<li><a class="nv-now-item" href="${nowEsc(withBase(it.href))}">
             <span class="nv-now-name">${nowEsc(itemLabel(id))}</span>
             <span class="nv-now-meta">${nowEsc(meta)}</span>
             <span class="nv-now-track"><span style="width:${p}%"></span></span>
@@ -1634,9 +1635,9 @@ const defaultVariant = variants[0];
       const ruleCol = $<HTMLElement>("[data-road-rulecol]");
       const rules = $("[data-road-rules]");
       if (rules) rules.innerHTML = road.rules.map((r: any) =>
-        `<li>${r.tag ? `<span class="nv-road-tag">${esc(r.tag)}</span>` : ""}<div class="nv-road-rtext">${r.html}</div></li>`).join("");
+        `<li>${r.tag ? `<span class="nv-road-tag">${esc(r.tag)}</span>` : ""}<div class="nv-road-rtext">${rebaseHtml(r.html)}</div></li>`).join("");
       const ex = $("[data-road-example]");
-      if (ex) { ex.innerHTML = road.example || ""; (ex as HTMLElement).hidden = !road.example; }
+      if (ex) { ex.innerHTML = rebaseHtml(road.example || ""); (ex as HTMLElement).hidden = !road.example; }
       if (ruleCol) ruleCol.hidden = !road.rules.length && !road.example;
       box.classList.toggle("nv-road--single", !!ruleCol?.hidden);
 
@@ -1653,7 +1654,7 @@ const defaultVariant = variants[0];
         left -= got;
         const state = st.size && got >= st.size ? "done" : !nowSet ? ((nowSet = true), "now") : "todo";
         const count = state === "todo" || got === 0 ? `${st.size}` : state === "done" ? `${st.size}` : `${got}/${st.size}`;
-        return `<li><a class="nv-road-step" data-state="${state}" href="${esc(st.href)}">
+        return `<li><a class="nv-road-step" data-state="${state}" href="${esc(withBase(st.href))}">
           <span class="nv-road-dot" aria-hidden="true">${state === "done" ? "✓" : k + 1}</span>
           <span class="nv-road-stitle">${esc(st.title)}<small>${esc(t(`fortschritt.road.type.${st.type}`, TYPE_DE[st.type] ?? st.type))}</small></span>
           ${state === "now" ? `<span class="nv-road-now">${esc(t("fortschritt.road.now", "Jetzt"))}</span>` : ""}
@@ -1679,7 +1680,7 @@ const defaultVariant = variants[0];
       const it = ITEMS[id];
       const start = $<HTMLAnchorElement>("[data-detail-start]");
       if (!start) return;
-      start.href = it.href;
+      start.href = withBase(it.href);
       start.textContent = !it.tasks ? t("fortschritt.detail.open", "Öffnen") : (progress[id] ?? 0) > 0 ? t("fortschritt.detail.continue", "Weiter üben") : t("fortschritt.detail.start", "Übungen starten");
     }
 
@@ -1778,7 +1779,7 @@ const defaultVariant = variants[0];
       try { last = getResume()?.last ?? null; } catch {}
       card.hidden = !last;
       if (!last) return;
-      card.href = last.path;
+      card.href = withBase(last.path);
       card.querySelector("[data-weg-last-title]")!.textContent = last.title;
       const days = last.at ? Math.round((Date.parse(new Date().toISOString().slice(0, 10)) - Date.parse(last.at)) / 864e5) : NaN;
       card.querySelector("[data-weg-last-when]")!.textContent =

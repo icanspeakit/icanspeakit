@@ -13,6 +13,7 @@
 // the rest muted. Leben in Deutschland stands apart behind a divider: it is the
 // Einbürgerungstest, not a language exam with a level.
 import "../styles/exam-rail.css";
+import { stripBase } from "../lib/paths.js";
 
 const exams = [
   { name: "Start Deutsch 1", href: "/a1-test", level: "A1" },
@@ -22,7 +23,7 @@ const exams = [
   { name: "TestDaF", href: "/ielts", level: "B2–C1" },
 ];
 const lid = { name: "Leben in Deutschland", href: "/life-in-the-uk" };
-const here = Astro.url.pathname.replace(/\/+$/, "");
+const here = stripBase(Astro.url.pathname).replace(/\/+$/, "");
 ---
 <nav class="ex-rail" aria-label="Prüfungen" data-i18n-attr="aria-label:nav.exams">
   <a class="ex-rail-up" href="/exams"><span data-i18n="nav.panel.allExams">Alle Prüfungen ansehen</span></a>

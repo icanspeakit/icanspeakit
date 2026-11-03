@@ -30,6 +30,7 @@ import { nouns } from "../lib/lexicon.js";
 // Corpus counts for the ranked nouns, written by scripts/artikel-haeufigkeit.mjs.
 import haeufigkeit from "../data/artikel-haeufigkeit.json";
 import { uiTr } from "../lib/grammarUi.js";
+import { withBase } from "../lib/paths.js";
 
 // One session is SESSION_SIZE questions drawn from the chosen level — the pool is now
 // ~860 nouns (was 31 hand-listed ones), far too many for a single sitting.
@@ -111,7 +112,7 @@ const pool = lexNouns.map((n) => ({
   ...(n.pluralOnly ? { pluralOnly: true } : {}),
   // "der Tisch", spoken — only for nouns that have a file (see generate-wortschatz-audio
   // --nouns). Played once the answer is settled, never before: it says the article.
-  ...(n.audio ? { audioSrc: `/audio/wortschatz/${n.audio}.mp3` } : {}),
+  ...(n.audio ? { audioSrc: withBase(`/audio/wortschatz/${n.audio}.mp3`) } : {}),
 }));
 
 const AP_LEVELS = ["A1", "A2", "B1", "B2"];

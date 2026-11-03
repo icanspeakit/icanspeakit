@@ -55,7 +55,8 @@ import Mascot from "./mascots/Mascot.astro";
 </section>
 
 <script>
-  const NO = "da_lk_nudge"; // "nein": „Nein, danke" was tapped on this device
+  import { withBase, currentPath } from "../lib/paths.js";
+  const NO ="da_lk_nudge"; // "nein": „Nein, danke" was tapped on this device
   const SEEN = "da_lk_welcome"; // "1": the „neu für dich" face was closed
   const get = (k: string) => { try { return localStorage.getItem(k); } catch { return null; } };
   const put = (k: string, v: string) => { try { localStorage.setItem(k, v); } catch {} };
@@ -90,7 +91,7 @@ import Mascot from "./mascots/Mascot.astro";
     $("[data-tn-no]").addEventListener("click", () => { put(NO, "nein"); card.hidden = true; });
     if (!user || !mod) {
       const signup = $<HTMLAnchorElement>("[data-tn-signup]");
-      signup.href = `/anmelden?lehrkraft=1&next=${encodeURIComponent(location.pathname + location.search)}`;
+      signup.href = `${withBase("/anmelden")}?lehrkraft=1&next=${encodeURIComponent(currentPath() + location.search)}`;
       signup.hidden = false;
       $("[data-tn-out]").hidden = false;
     } else {

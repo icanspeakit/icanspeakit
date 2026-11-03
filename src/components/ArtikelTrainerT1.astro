@@ -11,6 +11,7 @@ import "../styles/verben-praepositionen.css";
 import "../styles/artikel-t1.css";
 import { buildArtikelPacks, PACK_CONFIG } from "../lib/artikelPacks.js";
 import { nouns } from "../lib/lexicon.js";
+import { withBase } from "../lib/paths.js";
 import haeufigkeit from "../data/artikel-haeufigkeit.json";
 
 // One session is SESSION_SIZE questions drawn from the chosen level — the pool is now
@@ -85,7 +86,7 @@ const pool = lexNouns.map((n) => ({
   change: `${n.gender} ${n.lemma}`,
   // "der Tisch", spoken — only for nouns that have a file (see generate-wortschatz-audio
   // --nouns). Played once the answer is settled, never before: it says the article.
-  ...(n.audio ? { audioSrc: `/audio/wortschatz/${n.audio}.mp3` } : {}),
+  ...(n.audio ? { audioSrc: withBase(`/audio/wortschatz/${n.audio}.mp3`) } : {}),
 }));
 
 const AP_LEVELS = ["A1", "A2", "B1", "B2"];

@@ -148,6 +148,7 @@ const pageDescription = paid
     import { readyExamI18n } from "../lib/exam/i18n.js";
     import { mountPruefung } from "../lib/exam/pruefungEngine.js";
     import { can } from "../lib/access.js";
+    import { withBase } from "../lib/paths.js";
 
     // Free set: inlined. Paid set: fetched from /inhalt/ only when the lock check passes —
     // the engine does not care where its data came from.
@@ -159,7 +160,7 @@ const pageDescription = paid
         import("../lib/analytics.js").then(({ track }) => track("paid_set_locked_seen", { set: id }));
         return null;
       }
-      const res = await fetch(`/inhalt/pruefungen/saetze/${id}.json`).catch(() => null);
+      const res = await fetch(withBase(`/inhalt/pruefungen/saetze/${id}.json`)).catch(() => null);
       return res?.ok ? res.json() : null;
     }
     const set = await loadSet();

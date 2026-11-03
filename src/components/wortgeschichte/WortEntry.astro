@@ -230,13 +230,14 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
   import { audioUrl } from "../../lib/audioSource.js";
   import { track } from "../../lib/track.js";
   import { drawTrees } from "../../lib/wortTreeDraw.js";
+  import { withBase, currentPath } from "../../lib/paths.js";
 
   for (const root of document.querySelectorAll<HTMLElement>("[data-wg-entry]")) {
     // Speaker: the lexicon's own recording of the headword.
     const play = root.querySelector<HTMLButtonElement>("[data-wg-play]");
     let audio: HTMLAudioElement | null = null;
     play?.addEventListener("click", () => {
-      audio ??= new Audio(audioUrl(play.dataset.wgPlay!));
+      audio ??= new Audio(withBase(audioUrl(play.dataset.wgPlay!)));
       audio.currentTime = 0;
       play.classList.add("is-playing");
       audio.onended = audio.onerror = () => play.classList.remove("is-playing");
@@ -277,6 +278,6 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
   // PostHog only records it with the visitor's consent — track() is a no-op otherwise.
   const utm = new URLSearchParams(location.search);
   if (utm.get("utm_campaign") === "wortgeschichte" && utm.get("utm_medium") === "email") {
-    track("wort_mail_click", { content: utm.get("utm_content") ?? "", page: location.pathname });
+    track("wort_mail_click", { content: utm.get("utm_content") ?? "", page: currentPath() });
   }
 </script>

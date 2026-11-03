@@ -594,6 +594,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
 {!select && <SideNavFold />}
 <script>
   import { getResume, getProgress } from "../lib/progress.js";
+  import { withBase, stripBase, currentPath } from "../lib/paths.js";
   import { slide, replay } from "../lib/fold.js";
   import { mountSideNavFold } from "../lib/sideNavFold.js";
   import { onLangChange, translate } from "../lib/i18n.js";
@@ -806,11 +807,11 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
   function progressHtml() {
     const resume = getResume();
     const data = getProgress();
-    const here = location.pathname.replace(/\/+$/, "");
+    const here = currentPath().replace(/\/+$/, "");
     const mine = (resume ? [resume.last, ...resume.recents] : []).filter(
-      (r) => r && r.path.startsWith("/vocabulary")
+      (r) => r && stripBase(r.path).startsWith("/vocabulary")
     );
-    const next = mine.find((r) => r.path !== here);
+    const next = mine.find((r) => stripBase(r.path) !== here);
     const words = (data.vocabMastered || []).filter((k) => k.startsWith("wortschatz:")).length;
     const skill = data.skills?.wortschatz ?? { attempts: 0, sessions: 0 };
     const week = resume?.week ?? { count: 0, goal: 0 };
@@ -821,7 +822,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
     }
 
     return `
-      ${next ? `<a class="ls-prog-next" href="${esc(next.path)}">
+      ${next ? `<a class="ls-prog-next" href="${esc(withBase(next.path))}">
         <span class="ls-prog-next-label">${esc(say("sets.prog.resume"))}</span>
         <b>${esc(next.title)}</b>
         <span class="ls-prog-next-go">${esc(say("sets.prog.open"))}</span>
@@ -841,12 +842,12 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
       ${mine.length ? `<p class="ls-group-head ls-prog-head">${esc(say("sets.prog.recent"))}</p>
       <div class="ls-grouplist">${mine
         .slice(0, 4)
-        .map((r) => `<a class="nvb-item${r.path === here ? " active" : ""}" href="${esc(r.path)}">
+        .map((r) => `<a class="nvb-item${stripBase(r.path) === here ? " active" : ""}" href="${esc(withBase(r.path))}">
           <span class="nv-icon ls-prog-dot"></span><span>${esc(r.title)}</span>
         </a>`)
         .join("")}</div>` : ""}
 
-      <a class="ls-prog-more" href="/progress">${esc(say("sets.prog.more"))}</a>`;
+      <a class="ls-prog-more" href="${withBase("/progress")}">${esc(say("sets.prog.more"))}</a>`;
   }
 
   const progEl = root.querySelector("[data-ls-prog]");
@@ -884,7 +885,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
   async function loadCounts() {
     if (!learnt().size) return;
     try {
-      setWords ??= await (await fetch("/lernset-woerter.json")).json();
+      setWords ??= await (await fetch(withBase("/lernset-woerter.json"))).json();
       paintCounts();
     } catch {}
   }
@@ -909,7 +910,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
       levelPane.querySelectorAll(".ls-item--teil").forEach((el, i) => mark(el, i === part));
       if (!lemma) return;
       try {
-        setWords ??= await (await fetch("/lernset-woerter.json")).json();
+        setWords ??= await (await fetch(withBase("/lernset-woerter.json"))).json();
       } catch { return; }
       const level = levelPane.dataset.level;
       const id = Object.entries(setWords).find(([, s]) => s.level === level && s.words.includes(lemma))?.[0];
@@ -945,13 +946,13 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
         ? sets.map((s) => {
             const n = s.words?.length ?? 0;
             const on = !select && s.id === here;
-            return `<a class="nvb-item${on ? " active" : ""}" href="/teachers/cards/learn?set=${esc(s.id)}"${on ? ' aria-current="page"' : ""}${select ? ` data-pick="kartenset:${esc(s.id)}" data-level="${esc(s.level || "A1")}" data-name="${esc(s.name)}"` : ""}>
+            return `<a class="nvb-item${on ? " active" : ""}" href="${withBase("/teachers/cards/learn")}?set=${esc(s.id)}"${on ? ' aria-current="page"' : ""}${select ? ` data-pick="kartenset:${esc(s.id)}" data-level="${esc(s.level || "A1")}" data-name="${esc(s.name)}"` : ""}>
               <span class="nv-icon" aria-hidden="true">🗂️</span>
               <span class="ls-name"><span>${esc(s.name)}</span>${s.level ? `<small class="ls-item-sub">${esc(s.level)}</small>` : ""}</span>
               <span class="nv-count">${n}</span>
             </a>`;
-          }).join("") + (select ? "" : `<p class="ls-plan"><a href="/teachers/cards">Manage all card sets</a></p>`)
-        : `<p class="ls-plan">No card sets of your own yet. With <a href="/teachers/cards/photo">Words from a photo</a> you can turn a page of a book into your own cards.</p>`;
+          }).join("") + (select ? "" : `<p class="ls-plan"><a href="${withBase("/teachers/cards")}">Manage all card sets</a></p>`)
+        : `<p class="ls-plan">No card sets of your own yet. With <a href="${withBase("/teachers/cards/photo")}">Words from a photo</a> you can turn a page of a book into your own cards.</p>`;
       ownBtn.hidden = false;
     })();
   }

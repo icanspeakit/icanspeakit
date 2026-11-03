@@ -55,6 +55,7 @@ import "../styles/site-search.css";
 </dialog>
 
 <script>
+  import { withBase } from "../lib/paths.js";
   const dialog = document.getElementById("site-search");
   const input = dialog.querySelector("[data-ss-input]");
   const results = dialog.querySelector("[data-ss-results]");
@@ -63,7 +64,7 @@ import "../styles/site-search.css";
   let index = null;
   let loading = null;
   const load = () =>
-    (loading ??= fetch("/suche.json")
+    (loading ??= fetch(withBase("/suche.json"))
       .then((r) => r.json())
       .then((data) => {
         index = prepare(data);
@@ -227,7 +228,7 @@ import "../styles/site-search.css";
 
   const section = (key, rows) => `<section class="ss-group"><h3 class="ss-head">${esc(str(key))}</h3>${rows.join("")}</section>`;
   const row = (href, main, side) =>
-    `<a class="ss-row" role="option" href="${esc(href)}"><span class="ss-main">${main}</span>${side}</a>`;
+    `<a class="ss-row" role="option" href="${esc(withBase(href))}"><span class="ss-main">${main}</span>${side}</a>`;
 
   // Arrow-key selection over the rendered links.
   let active = -1;

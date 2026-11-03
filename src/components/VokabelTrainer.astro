@@ -307,6 +307,7 @@ function notCovered() {
   import { initDeckSwap } from "../lib/deckSwap.js";
   import { nudgeStep } from "../lib/mascotNudge.js";
   import { mountZen } from "../lib/vtZen.js";
+  import { currentPath } from "../lib/paths.js";
 
   // Once per page, not per deck: Zen stays on across a deck swap.
   mountZen();
@@ -357,7 +358,7 @@ function notCovered() {
   const ids = deckCards.map(cardId);
   // The cards graded in this deck so far, for the mascot's "Noch 4" (mascotNudge.js).
   const answered = new Set();
-  const deckId = location.pathname;
+  const deckId = currentPath();
   const cards = nextDue(ids).map((i) => deckCards[i]);
   const dueEl = document.querySelector("[data-vt-due]");
   const showDue = () => {

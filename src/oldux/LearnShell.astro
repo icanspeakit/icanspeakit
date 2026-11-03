@@ -1154,6 +1154,7 @@ const defaultVariant = variants[0];
 
   <script>
     import { getTopicProgress, recordAttempt, resetProgress } from "../lib/progress.js";
+    import { withBase } from "../lib/paths.js";
     import { mountWegPanel, paintWegPanel } from "./wegPanel.js";
     import { createExerciseMounter, INLINE_TITLES, loaderFor } from "./inlineExercises.js";
     import { createRuleIntro } from "../lib/ruleIntro.js";
@@ -1585,7 +1586,7 @@ const defaultVariant = variants[0];
       set("[data-detail-levelsrc]", LEVEL_SOURCE_TEXT[it.levelSource] || "");
       set("[data-detail-lead]", it.lead);
       const href = $<HTMLAnchorElement>("[data-detail-href]");
-      if (href) href.href = it.href;
+      if (href) href.href = withBase(it.href);
 
       paintItemRing(id, true);
       paintFocusHead(id);

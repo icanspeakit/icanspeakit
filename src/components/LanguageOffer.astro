@@ -163,6 +163,7 @@ const other = "Other · Andere …";
   import { setLang, onLangChange } from "../lib/i18n.js";
   import { isRtl, languagesFor } from "../lib/languages.js";
   import { openLanguagePicker } from "../lib/languagePicker.js";
+  import { currentPath } from "../lib/paths.js";
 
   const html = document.documentElement;
   const hide = () => html.removeAttribute("data-lang-offer");
@@ -174,7 +175,7 @@ const other = "Other · Andere …";
   const row = document.querySelector<HTMLElement>("[data-einfach-offer-row]");
   const doneOffer = () => { try { localStorage.setItem("da_einfach_offer", "done"); } catch {} html.removeAttribute("data-einfach-offer"); };
   function offerEinfach(code: string) {
-    if (!row || /^\/(step-by-step|game|survey|join)(\/|$)/.test(location.pathname)) return;
+    if (!row || /^\/(step-by-step|game|survey|join)(\/|$)/.test(currentPath())) return;
     const copy = JSON.parse(row.dataset.copy || "{}")[code];
     if (!copy) return;
     try {

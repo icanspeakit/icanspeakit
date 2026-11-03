@@ -178,6 +178,7 @@ const goals = [
 </style>
 
 <script>
+  import { rebaseHtml } from "../lib/paths.js";
   type Grammar = { key: string; name: string; href: string; sheet: boolean; quiz: boolean };
   type Block = { thema: string; ziel: string; grammar: Grammar[] };
   type Level = { id: string; label: string; titel: string; cefr: string; games: boolean; words: string | null; blocks: Block[] };
@@ -240,21 +241,21 @@ const goals = [
     }
 
     function askLevel() {
-      body.innerHTML = `
+      body.innerHTML = rebaseHtml(`
         <p class="lw-q">What level is your class?</p>
         <div class="lw-pick">${levels.map((l) => `
           <button type="button" data-niveau="${l.id}"${l.id === st.niveau ? ' class="is-on"' : ""}><b>${esc(l.label)}</b><span>${esc(l.titel)}</span></button>`).join("")}
         </div>
-        <p class="lw-aside">Not sure? <a href="/teachers/tests">Let the class take the placement test</a> on their phones via QR code.</p>`;
+        <p class="lw-aside">Not sure? <a href="/teachers/tests">Let the class take the placement test</a> on their phones via QR code.</p>`);
     }
 
     function askBlock() {
       const l = level()!;
-      body.innerHTML = `
+      body.innerHTML = rebaseHtml(`
         <p class="lw-q">Which topic block is next? <small>(${esc(l.label)} · from the <a href="/syllabus/${l.id}">syllabus</a>)</small></p>
         <div class="lw-pick">${l.blocks.map((b, i) => `
           <button type="button" data-block="${i + 1}"${i + 1 === st.block ? ' class="is-on"' : ""}><b>${i + 1}</b><span>${esc(b.thema)}${b.grammar.length ? `<small>${esc(b.grammar.map((g) => g.name).join(" · "))}</small>` : ""}</span></button>`).join("")}
-        </div>`;
+        </div>`);
     }
 
     const planHref = (l: Level, b: number, n: number) => `/teachers/timetable?niveau=${l.id}&block=${b}&stunden=${n}&min=90`;
@@ -311,10 +312,10 @@ const goals = [
         out.push(item("Worksheet for quiet work", "For every grammar topic and study set, with an answer sheet. Or let them fill it in online.",
           [link("/teachers/worksheets", "Open worksheets", true), ...(l.words ? [link(l.words, `Word list ${l.cefr}`)] : [])]));
       }
-      body.innerHTML = `
+      body.innerHTML = rebaseHtml(`
         <p class="lw-sum">${sum}</p>
         <ol class="lw-res">${out.join("")}</ol>
-        ${next ? `<div class="lw-next">${next}</div>` : ""}`;
+        ${next ? `<div class="lw-next">${next}</div>` : ""}`);
     }
 
     function render(step?: string) {

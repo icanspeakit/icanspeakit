@@ -180,6 +180,7 @@ const openSection = grammarByKey(current)?.level?.toLowerCase() ?? "weg";
   // Numbers come from the same store the dashboard reads, so the two surfaces cannot
   // disagree about how far a topic got.
   import { getTopicProgress, getProgress, getResume } from "../lib/progress.js";
+  import { withBase, stripBase, currentPath } from "../lib/paths.js";
   import { t, onUiText } from "../lib/uiText.js";
   import { mountSideNavFold } from "../lib/sideNavFold.js";
 
@@ -250,10 +251,10 @@ const openSection = grammarByKey(current)?.level?.toLowerCase() ?? "weg";
       const next = resume?.last;
       const nextEl = box.querySelector<HTMLAnchorElement>("[data-tr-prog-next]");
       if (nextEl) {
-        const show = !!next && next.path !== location.pathname.replace(/\/+$/, "");
+        const show = !!next && stripBase(next.path) !== currentPath().replace(/\/+$/, "");
         nextEl.hidden = !show;
         if (show) {
-          nextEl.href = next.path;
+          nextEl.href = withBase(next.path);
           box.querySelector<HTMLElement>("[data-tr-prog-next-title]")!.textContent = next.title;
         }
       }

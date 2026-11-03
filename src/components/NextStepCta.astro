@@ -13,6 +13,7 @@
 //           like the drawer, and in state C a longer second line, "Einstufungstest ·
 //           2 Minuten" — the hero has the room to say what the test costs.
 import { fallbackStep } from "../lib/nextStep.js";
+import { stripBase } from "../lib/paths.js";
 
 interface Props {
   variant: "header" | "drawer" | "hero";
@@ -22,7 +23,7 @@ const { variant } = Astro.props;
 const HERO_SUB: Record<string, [string, string]> = {
   "nav.next.placementSub": ["nav.next.placementSubHero", "Einstufungstest · 2 Minuten"],
 };
-const base = fallbackStep(Astro.url.pathname);
+const base = fallbackStep(stripBase(Astro.url.pathname));
 const step = variant === "hero" && base.subKey && HERO_SUB[base.subKey]
   ? { ...base, subKey: HERO_SUB[base.subKey][0], sub: HERO_SUB[base.subKey][1] }
   : base;
@@ -47,9 +48,10 @@ const name = joinName(step.label, step.sub);
 <script>
   import { getNextStep, getPlacementLevel } from "../lib/nextStep.js";
   import { getLang, loadDict, onLangChange, translate } from "../lib/i18n.js";
+  import { withBase, currentPath } from "../lib/paths.js";
 
   const buttons = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-next-cta]"));
-  const step = getNextStep(location.pathname);
+  const step = getNextStep(currentPath());
   // Mirrors HERO_SUB in the frontmatter: the hero's longer state-C line.
   const HERO_SUB: Record<string, [string, string]> = {
     "nav.next.placementSub": ["nav.next.placementSubHero", "Einstufungstest · 2 Minuten"],
@@ -69,7 +71,7 @@ const name = joinName(step.label, step.sub);
       const sub = subKey ? t(subKey, hero ? hero[1] : step.sub) : step.sub || "";
       const name = sub ? `${label}${/[?!؟]$/.test(label) ? " " : ": "}${sub}` : label;
 
-      a.href = step.href;
+      a.href = withBase(step.href);
       a.dataset.state = step.state;
       a.setAttribute("aria-label", name);
       if (a.classList.contains("lp-next--header")) a.title = name;

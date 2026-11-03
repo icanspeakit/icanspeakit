@@ -44,6 +44,7 @@ const { wo = "uebungen" } = Astro.props;
   import { loadText, t } from "../../lib/liveQuiz/text.js";
   import { aufgabenStatus, berlinDatum } from "../../lib/aufgabenStatus.js";
   import { keyFromRef, stundeHref } from "../../lib/unterricht/lernen.js";
+  import { withBase } from "../../lib/paths.js";
 
   const esc = (s: unknown) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
   const signedIn = import.meta.env.PUBLIC_TARGET === "app" || /(?:^|;\s*)sb-[^=]+-auth-token/.test(document.cookie);
@@ -59,7 +60,7 @@ const { wo = "uebungen" } = Astro.props;
     let queued: any[] = [];
     try { queued = JSON.parse(localStorage.getItem("da_versuche_queue") ?? "[]"); } catch {}
     const rows = [...data.rows, ...queued];
-    const katalog: any[] = await fetch("/klassen-katalog.json").then((r) => r.json()).catch(() => []);
+    const katalog: any[] = await fetch(withBase("/klassen-katalog.json")).then((r) => r.json()).catch(() => []);
     const byRef = new Map(katalog.map((e) => [e.ref, e]));
     await loadText(() => render());
     render();
@@ -82,7 +83,7 @@ const { wo = "uebungen" } = Astro.props;
       const go = st.status === "offen" || st.status === "ueberfaellig" ? t("kl.a.go", "Los") : t("kl.a.again", "Nochmal");
       return `<li class="ak-item ${cls}">
         <b>${esc(task.titel)}</b>
-        ${e?.href ? `<a class="ak-go" href="${esc(e.href)}">${esc(go)}</a>` : "<span></span>"}
+        ${e?.href ? `<a class="ak-go" href="${esc(withBase(e.href))}">${esc(go)}</a>` : "<span></span>"}
         <small><span class="ak-due">${esc(dueText)}</span>${esc(min)} · ${esc(task.klasse?.name ?? "")}</small>
       </li>`;
     }
