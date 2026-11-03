@@ -39,9 +39,9 @@ interface Props {
   active?: string;
 }
 const { title, level, words, sheet, langs, facts = [], setPath, footPath = setPath, active = "wortschatz" } = Astro.props;
-// "de" = Nur Deutsch: no meaning column, the German explanation carries the word.
+// "de" = Spanish only: no meaning column, the target-language explanation (deHint) carries the word.
 const LANGS = [...langs, "de"];
-const langLabel = (l: string) => (l === "de" ? "Nur Deutsch" : LANG_NAMES[l]);
+const langLabel = (l: string) => (l === "de" ? "Spanish only" : LANG_NAMES[l]);
 const meaningCss =
   langs.map((l) => `#ab-root[data-lang="${l}"] .ab-m[lang="${l}"]`).join(",") + "{display:inline}" +
   `#ab-root[data-lang="de"] .ab-m[lang="de"]{display:inline}#ab-root[data-lang="de"] .pr-col-m{display:none}`;
@@ -63,6 +63,11 @@ const bruno = mascotSvg({ name: "bruno", size: 64, label: "" });
 const hamsti = mascotSvg({ name: "hamsti", size: 56, label: "" });
 const regi = mascotSvg({ name: "regi", size: 52, label: "" });
 let gap = 0;
+// Part B asks for the article the nouns carry: el/la once the lexicon level is Spanish
+// (docs/content-plan.md §1.4), a/an/some while it is still the English course's.
+const spanishArticles = words.some((w: any) => ["el", "la", "el/la"].includes(w.gender));
+const artQuestion = spanishArticles ? "el or la?" : "a, an or some?";
+const artInstr = spanishArticles ? "Write el or la." : "Write a, an or some.";
 ---
 <SiteNav active={active} />
 
@@ -97,7 +102,7 @@ let gap = 0;
       <div>
         <p class="ab-eyebrow">icanspeak Spanish · Vocabulary · {level}</p>
         <h1 class="ab-title">{title}</h1>
-        <p class="pr-sub">{words.length} words · a / an, meaning, explanation and example sentence</p>
+        <p class="pr-sub">{words.length} words · {spanishArticles ? "el / la" : "a / an"}, meaning, explanation and example sentence</p>
       </div>
       <span class="pr-mascot" aria-hidden="true" set:html={hamsti}></span>
     </header>
@@ -186,12 +191,12 @@ let gap = 0;
 
     {sheet.nouns.length > 0 && (
       <section class="ab-sec">
-        <h3 class="ab-h"><b>B</b> a, an or some?</h3>
-        <p class="ab-instr">Write a, an or some.</p>
+        <h3 class="ab-h"><b>B</b> {artQuestion}</h3>
+        <p class="ab-instr">{artInstr}</p>
         <ul class="ab-articles">
           {sheet.nouns.map((n) => (
             <li>
-              <input class="ab-in" style="--w:5ch" data-a={json(byLemma.get(n.lemma)?.genderAlt ? [n.gender, byLemma.get(n.lemma).genderAlt] : [n.gender])} data-kind="text" aria-label={`a, an or some: ${n.lemma}`} autocomplete="off" autocapitalize="off" />
+              <input class="ab-in" style="--w:5ch" data-a={json(byLemma.get(n.lemma)?.genderAlt ? [n.gender, byLemma.get(n.lemma).genderAlt] : [n.gender])} data-kind="text" aria-label={`${artQuestion} ${n.lemma}`} autocomplete="off" autocapitalize="off" />
               <span>{n.lemma}</span>
             </li>
           ))}
@@ -233,7 +238,7 @@ let gap = 0;
     )}
     {sheet.nouns.length > 0 && (
       <section class="ab-sec">
-        <h3 class="ab-h"><b>B</b> a, an or some?</h3>
+        <h3 class="ab-h"><b>B</b> {artQuestion}</h3>
         <ol class="ab-keylist ab-keylist--cols">
           {sheet.nouns.map((n) => <li><b>{n.gender}</b> {n.lemma}{byLemma.get(n.lemma)?.genderAlt && <span class="ab-muted"> (also: {byLemma.get(n.lemma).genderAlt})</span>}{n.plural && <span class="ab-muted">, pl. {n.plural}</span>}</li>)}
         </ol>
