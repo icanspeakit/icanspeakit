@@ -912,22 +912,26 @@ are handled by the `ui-*` items where they are rendered.
   `ArtikelPanelT1`, `NavVergleich` per EXPERIMENTE.md) go in `cleanup`. **Edgar:** in which
   language are the legal texts binding (`legal.note.binding`, `widerruf.binding` still say
   German)?
-- **Page text decisions** (, 2026-11-03): pages a–l name the Spanish exams and describe the
-  target module while hrefs stay on the old slots until .  now
-  links back to  (DELE, per §2);  and the DELE page link on to  as
-  "the SIELE page". The exam plan's  entry has level A2 and uses Europe/Madrid. CCSE facts on
-   show  /  as bare figures (no fixed
-  percent), so they are still the UK's 24 / 18 until  sets . The source link is
-   ( now redirects to cervantes.org; items
-  linking there should check).  speaks with an es-ES voice. The pflegeplace.com boxes on
-  the work pages are gone (a German-only site) and their  keys removed;   can drop  from . **For :**   still has the German → English word decoder (, , jump link), the
-  maken/machen map labels and  as default comparison;  has the bus/bath
-  map labels. Replace or remove them (§5.14 doesn't mention them). **For :** the
-   values and the insider rule text are data and still UK. **For :**
-   task sources () still say ISE I. **For :** the official links on
-   (, ) still point to Cambridge, IELTS, Trinity, GOV.UK.
-  **Edgar:**  tells the truth about German teaching and says nothing about teaching Spanish;
-   shows a date in the past (Fri 30 Oct).
+- **Page text decisions** (`ui-pages-a-l`, 2026-11-03): pages a–l name the Spanish exams and
+  describe the target module, while hrefs stay on the old slots until `routes`.
+  `/cambridge/use-of-english` now links back to `/cambridge` (DELE, per §2); `/a1-test` and the
+  DELE page link on to `/ielts` as "the SIELE page". The exam plan's `dtz` entry has level A2 and
+  the plan's day uses Europe/Madrid. The CCSE facts table on `/life-in-the-uk/test` shows
+  `meta.totalQuestions` / `meta.passScore` as bare figures (no fixed percent), so it still shows
+  the UK's 24 / 18 until `ccse` sets `meta`. Its source link is `cervantes.org/es/examenes/ccse`
+  (`examenes.cervantes.es` redirected to cervantes.org on 2026-11-03; items linking there should
+  check). `/intonation` speaks with an es-ES voice. The pflegeplace.com boxes on the work pages are
+  gone (a link carried over from the German course) and their `berufe.*` keys removed;
+  `spanish-for-work` can drop `external` from `berufe/pflege.json`.
+  **For `accents-languages`:** `/knowledge/languages` still has the German → English word decoder
+  (`#decoder`, `sprachen.dec.*`, jump link), the maken/machen map labels and `deutsch` as the default
+  comparison; `/knowledge/accents` has the bus/bath map labels. Replace or remove them (§5.14 doesn't
+  mention them). **For `culture`:** the `kultur.*.cardIntro` values and the insider rule text are
+  data and still about the UK. **For `exams-dele`:** `/exams/traps` task sources (`fallen.json`) still
+  say ISE I; `registry.js` still titles the A1 test "A1 English practice test". **For `teachers`:**
+  the official links on `/knowledge` (`downloads.json`, `wissen.link.*`) still point to Cambridge,
+  IELTS, Trinity and GOV.UK. **Edgar:** `/about` describes your German teaching and says nothing
+  about teaching Spanish; `home3.pricing.live` shows a date in the past (Fri 30 Oct).
 - **Variety schema decisions** (`variety-schema`, 2026-11-03): `src/lib/variety.js` adds, next
   to the §1.5 names, `textFor(item, text)` (es419 `form` in LatAm mode), `skippedFor(item)`,
   `showsVosotros()` and `varietyProblems(obj)` (the shape rules, shared by every validator).
