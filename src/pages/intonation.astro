@@ -261,10 +261,10 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
   const synth = "speechSynthesis" in window ? window.speechSynthesis : null;
   let enVoice: SpeechSynthesisVoice | null = null;
   const pickVoice = () => {
-    const all = synth?.getVoices().filter((x) => /^en/i.test(x.lang)) ?? [];
-    // British first (the site's variety), then any English voice.
-    const gb = all.filter((x) => /^en[-_]GB/i.test(x.lang));
-    const v = gb.length ? gb : all;
+    const all = synth?.getVoices().filter((x) => /^es/i.test(x.lang)) ?? [];
+    // Spain first (the site's variety), then any Spanish voice.
+    const es = all.filter((x) => /^es[-_]ES/i.test(x.lang));
+    const v = es.length ? es : all;
     enVoice = v.find((x) => /natural|online|neural|premium/i.test(x.name)) ?? v[0] ?? null;
   };
   if (synth) { pickVoice(); synth.onvoiceschanged = pickVoice; }
@@ -281,7 +281,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
     return new Promise((res) => {
       if (!synth) return res();
       const u = new SpeechSynthesisUtterance(text);
-      u.lang = "en-GB";
+      u.lang = "es-ES";
       if (enVoice) u.voice = enVoice;
       u.pitch = pitch; u.rate = rate;
       let done = false;

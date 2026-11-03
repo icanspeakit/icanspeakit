@@ -15,16 +15,16 @@ import "../../styles/stadtfahrt.css";
 import "../../styles/lindenau.css";
 ---
 <Layout
-  title="The Legend of Brambleford: an English role-playing game in the browser – icanspeak Spanish"
-  description="A small role-playing game for A1 English: walk around Brambleford, buy a sausage roll and a train ticket and book a doctor's appointment – by talking to the people in the town."
+  title="The Legend of Villabruno: a Spanish role-playing game in the browser – icanspeak Spanish"
+  description="A small role-playing game for A1 Spanish: walk around Villabruno, buy bread and a train ticket and make a doctor's appointment – by talking to the people in the town."
 >
   <SiteNav active="ueben" />
   <main class="practice-main fs-page sf-page ld-page">
     <section id="ld-intro">
       <div class="practice-hero fs-hero">
         <p class="eyebrow" data-i18n="ld.eyebrow">Game · A1</p>
-        <h1 data-i18n="ld.title">The Legend of Brambleford</h1>
-        <p data-i18n="ld.lead">You're new in Brambleford. Walk through town, talk to people and get your errands done – first in the morning, then in the afternoon.</p>
+        <h1 data-i18n="ld.title">The Legend of Villabruno</h1>
+        <p data-i18n="ld.lead">You're new in Villabruno. Walk through town, talk to people and get your errands done – first in the morning, then in the afternoon.</p>
       </div>
       <section class="fs-box">
         <h2 data-i18n="ld.howTitle">How to play</h2>
@@ -67,7 +67,7 @@ import "../../styles/lindenau.css";
         <button type="button" class="ld-sound ld-pausebtn" data-pause aria-label="Pause" data-i18n-attr="aria-label:ld.pause">⏸</button>
       </div>
       <div class="sf-stage ld-stage">
-        <canvas class="sf-canvas" data-canvas tabindex="-1" role="img" aria-label="Game map: the town of Brambleford from above" data-i18n-attr="aria-label:ld.canvas"></canvas>
+        <canvas class="sf-canvas" data-canvas tabindex="-1" role="img" aria-label="Game map: the town of Villabruno from above" data-i18n-attr="aria-label:ld.canvas"></canvas>
         <button type="button" class="ld-talk-btn" data-talk hidden>💬 <span data-talk-name data-i18n="ld.talk">Talk</span> <kbd data-i18n="ld.space">Enter</kbd></button>
         <span class="ld-clean" data-clean hidden></span>
         <div class="ld-town-pad" data-town-pad hidden>
@@ -101,7 +101,7 @@ import "../../styles/lindenau.css";
         const open = areaOpen(c.dataset.area!);
         c.querySelector<HTMLElement>("[data-lock]")?.toggleAttribute("hidden", open);
         c.classList.toggle("is-locked", !open);
-        setWaiting(c, open ? null : t("ld.areaLockedWhy", "Finish the morning in Brambleford first – then this part opens."));
+        setWaiting(c, open ? null : t("ld.areaLockedWhy", "Finish the morning in Villabruno first – then this part opens."));
         c.setAttribute("aria-pressed", String(c.dataset.area === chosen));
       }
     }

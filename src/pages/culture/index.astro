@@ -47,8 +47,8 @@ const groups = kulturLevels.map((lv) => ({
 }));
 ---
 <Layout
-  title="UK culture and everyday life – icanspeak Spanish"
-  description="How everyday life in the UK works: queuing, recycling, the NHS, bank holidays, renting a flat, schools, clubs and volunteering, with a quiz for each topic."
+  title="Culture and everyday life in Spain – icanspeak Spanish"
+  description="How everyday life in Spain works: the padrón, the centro de salud, recycling, public holidays, renting a flat, schools and work, with a quiz for each topic."
 >
   <SiteNav active="landeskunde" />
   <main class="practice-main practice-main--wide">
@@ -61,7 +61,7 @@ const groups = kulturLevels.map((lv) => ({
            of the fourteen written from public sources. A key with no translation yet
            falls back to the German below, which is the behaviour we want until the five
            locale files carry it. -->
-      <SectionMascot name="bruno" say="This is how the UK works." sayKey="kultur.mascot.hero" align="center" class="ku-hero-mascot" />
+      <SectionMascot name="bruno" say="This is how Spain works." sayKey="kultur.mascot.hero" align="center" class="ku-hero-mascot" />
       {/* The lead sentence and the quiz used to sit here, above the topics. They are still
           on the page, lower down: the first screen is for choosing a topic, and a banner
           and two feature cards between the title and the first level pushed the topics
@@ -128,7 +128,7 @@ const groups = kulturLevels.map((lv) => ({
         <a class="ku-card" href="/culture/insider">
           <span class="ku-card-ic ku-card-pic"><img src={bild(bilder.extras.insider)} alt="" width="40" height="40" loading="lazy" /></span>
           <span class="ku-card-txt">
-            <b data-i18n="kultur.extra.insider">The UK from the inside</b>
+            <b data-i18n="kultur.extra.insider">Spain from the inside</b>
             <i data-i18n="kultur.extra.insiderSub">Small talk, politeness, humour and how people really live – with figures and sources.</i>
           </span>
           <span class="ku-card-meta"><span class="ku-card-q" data-i18n="kultur.extra.topics" data-i18n-vars={JSON.stringify({ n: insider.topics.length })}>{insider.topics.length} topics</span></span>

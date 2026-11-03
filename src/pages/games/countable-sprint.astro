@@ -14,9 +14,9 @@ import { enrich, nounCount } from "../../lib/artikelSprint/lexWords.js";
 
 const words = enrich(rawWords);
 const modes = [
-  { id: "artikel", label: "Articles", key: "sprint.mode.artikel", sub: "a · an · some" },
-  { id: "plural", label: "Plural", key: "sprint.mode.plural", sub: "tables" },
-  { id: "verb", label: "Verbs", key: "sprint.mode.verb", sub: "I go" },
+  { id: "artikel", label: "Articles", key: "sprint.mode.artikel", sub: "el · la" },
+  { id: "plural", label: "Plural", key: "sprint.mode.plural", sub: "las mesas" },
+  { id: "verb", label: "Verbs", key: "sprint.mode.verb", sub: "yo voy" },
 ];
 const levels = ["A1", "A2", "B1"];
 // Schwierigkeit: speed and lives (src/lib/artikelSprint/game.js, DIFFICULTIES). Separate from the word level.
@@ -31,8 +31,8 @@ const counts = Object.fromEntries(levels.map((l) => [l, {
 }]));
 ---
 <Layout
-  title="Bruno Kart: a, an or some in a kart race – icanspeak Spanish"
-  description="A racing game for learning English: drive through the right gate – a, an or some, the plural or the verb form. A1 to B1, free in the browser, on your phone too."
+  title="Bruno Kart: el or la in a kart race – icanspeak Spanish"
+  description="A racing game for learning Spanish: drive through the right gate – el or la, the plural or the verb form. A1 to B1, free in the browser, on your phone too."
 >
   <SiteNav active="ueben" />
   <main class="asp-page">

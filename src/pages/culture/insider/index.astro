@@ -30,8 +30,8 @@ const groups = LEVELS
   .filter((g) => g.items.length);
 ---
 <Layout
-  title="The UK from the inside – Culture – icanspeak Spanish"
-  description="How people in the UK really live: small talk, politeness, humour, punctuality, friendship and more, with figures and sources."
+  title="Spain from the inside – Culture – icanspeak Spanish"
+  description="How people in Spain really live: greetings, meal times, tú and usted, neighbours, friendship and more, with figures and sources."
 >
   <SiteNav active="landeskunde" />
   <main class="practice-main practice-main--wide">
@@ -40,7 +40,7 @@ const groups = LEVELS
     <div class="practice-hero">
       <p class="eyebrow" data-i18n="kultur.hero.eyebrow">Landeskunde</p>
       <h1 data-i18n="kultur.insider.title">Deutschland von innen</h1>
-      <SectionMascot name="quaki" say="Figures, not clichés." align="center" class="ku-hero-mascot" />
+      <SectionMascot name="quaki" say="Figures, not clichés." sayKey="insider.say.hero" align="center" class="ku-hero-mascot" />
     </div>
 
     {groups.map((g) => (
@@ -72,9 +72,9 @@ const groups = LEVELS
 
     <section class="ku-more">
       <div class="ku-more-head">
-        <SectionMascot name="bruno" expr="thinking" say="What do you think?" class="ku-more-mascot" />
+        <SectionMascot name="bruno" expr="thinking" say="What do you think?" sayKey="insider.say.more" class="ku-more-mascot" />
         <p class="ku-more-lead" data-i18n="kultur.insider.lead">
-          What the textbook leaves out: how people in the UK really live, think and talk – with
+          What the textbook leaves out: how people in Spain really live, think and talk – with
           figures and sources instead of clichés.
         </p>
       </div>

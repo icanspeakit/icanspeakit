@@ -51,14 +51,14 @@ const cellHtml = (cell: string) => (mk && /^(du|Sie)$/.test(cell) ? marksToHtml(
 const pc = (key: string) => tx?.prosCons ? Object.fromEntries(Object.entries(tx.prosCons).map(([k, v]: [string, any]) => [k, v[key]])) : null;
 ---
 <Layout
-  title={fitTitle(`${topic.title} – UK culture`, topic.title, topic.title.replace(/:.*$/, ""))}
+  title={fitTitle(`${topic.title} – Culture in Spain`, topic.title, topic.title.replace(/:.*$/, ""))}
   description={topic.intro.slice(0, 160)}
 >
   <SiteNav active="landeskunde" />
   <main class="practice-main" id="ku-page" data-gx="off">
     <div class="ku-topbar">
       <a href="/culture" class="vp-back-link" data-i18n="kultur.back">Alle Themen</a>
-      <ShareButton title={`${topic.title} – UK culture`} label />
+      <ShareButton title={`${topic.title} – Culture in Spain`} label />
     </div>
 
     <article class="ku-topic">

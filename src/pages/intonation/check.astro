@@ -52,7 +52,7 @@ const missing = all.filter((l) => !l.rec).length;
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" />
-<title>Satzmelodie – Prüfliste</title>
+<title>Intonation – checklist</title>
 <style>
   :root { --bg:#f7f7f5; --card:#fff; --ink:#1d1d1f; --mute:#6b6b70; --line:#e3e3e0; --ok:#1f8a4c; --okbg:#e8f6ee; --warn:#a15c00; --acc:#3b5bdb; }
   @media (prefers-color-scheme: dark) { :root { --bg:#141416; --card:#1e1e21; --ink:#ececee; --mute:#9a9aa1; --line:#2e2e33; --ok:#4cc782; --okbg:#173325; --warn:#e3a14a; --acc:#8ea2ff; } }
@@ -96,7 +96,7 @@ const missing = all.filter((l) => !l.rec).length;
 {!DEV ? <main><p>Nur lokal (astro dev).</p></main> : (
 <>
 <header>
-  <h1>Satzmelodie – Prüfliste <span class="count">· {all.length} Zeilen{missing ? ` · ${missing} ohne Aufnahme` : " · alle mit Aufnahme"}</span></h1>
+  <h1>Intonation – checklist <span class="count">· {all.length} lines{missing ? ` · ${missing} without a recording` : " · all with a recording"}</span></h1>
   <div class="bar">
     <select id="show" aria-label="Filter">
       <option value="all">alle</option>
@@ -128,16 +128,16 @@ const missing = all.filter((l) => !l.rec).length;
                   </div>
                   <div class="meta">
                     <span class="pill">{l.label}</span>
-                    {l.q && <> · Frage: „{l.q}"</>}
-                    {l.rule && <> · Regel: {l.rule}</>}
-                    {!l.rec && <> <span class="pill miss">keine Aufnahme</span></>}
+                    {l.q && <> · Question: “{l.q}”</>}
+                    {l.rule && <> · Rule: {l.rule}</>}
+                    {!l.rec && <> <span class="pill miss">no recording</span></>}
                   </div>
                 </div>
               </div>
               <div class="act">
-                <label><input type="checkbox" class="okde" /> Deutsch OK</label>
-                <label><input type="checkbox" class="okau" disabled={!l.rec} /> Melodie OK</label>
-                <input type="text" class="note" placeholder="Korrektur / Notiz (optional)" />
+                <label><input type="checkbox" class="okde" /> Spanish OK</label>
+                <label><input type="checkbox" class="okau" disabled={!l.rec} /> Melody OK</label>
+                <input type="text" class="note" placeholder="Correction / note (optional)" />
               </div>
             </div>
           ))}

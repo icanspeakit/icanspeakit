@@ -26,15 +26,15 @@ const byAuthor = Object.entries(authors as Record<string, any>)
 const ids = quotes.map((q: any) => q.id);
 ---
 <Layout
-  title="Quote of the day – famous quotes in English with key words and a short biography – icanspeak Spanish"
-  description={`A famous quote in English every day, from writers, scientists and thinkers – with the key words, a simple explanation and the person's life. ${quotes.length} quotes from ${byAuthor.length} people, free.`}
+  title="Quote of the day – famous quotes in Spanish with key words and a short biography – icanspeak Spanish"
+  description={`A famous quote in Spanish every day, from writers, scientists and thinkers – with the key words, a simple explanation and the person's life. ${quotes.length} quotes from ${byAuthor.length} people, free.`}
 >
   <SiteNav active="wissen" />
   <main class="practice-main practice-main--wide zt-page">
     <header class="practice-hero zt-hero">
       <p class="eyebrow" data-i18n="zitate.eyebrow">Quotes</p>
       <h1 data-i18n="zitate.title">Quote of the day</h1>
-      <p class="zt-lead" data-i18n="zitate.lead">A famous sentence in English every day – with the words you need for it and the person behind it.</p>
+      <p class="zt-lead" data-i18n="zitate.lead">A famous sentence in Spanish every day – with the words you need for it and the person behind it.</p>
     </header>
 
     <section class="zt-day" aria-label="Quote of the day" data-i18n-attr="aria-label:zitate.title" data-day data-ids={JSON.stringify(ids)}>

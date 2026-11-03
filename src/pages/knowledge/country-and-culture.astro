@@ -24,18 +24,18 @@ const byLevel = <T extends { level: string }>(list: T[]) =>
 const quizCount = kultur.topics.reduce((n, t) => n + t.quiz.length, 0);
 
 const areas = [
-  { href: "/culture", pic: "🏛️", title: "UK culture", text: "How the UK works day to day: queueing, tipping, the NHS, bank holidays, school.", meta: `${kultur.topics.length} topics` },
-  { href: "/culture/insider", pic: bilder.extras.insider, title: "The UK from the inside", text: "Small talk, politeness, humour and how people really live, with figures and sources.", meta: `${insider.topics.length} topics` },
+  { href: "/culture", pic: "🏛️", title: "Culture in Spain", text: "How Spain works day to day: the padrón, the centro de salud, public holidays, renting, school.", meta: `${kultur.topics.length} topics` },
+  { href: "/culture/insider", pic: bilder.extras.insider, title: "Spain from the inside", text: "Greetings, meal times, tú and usted and how people really live, with figures and sources.", meta: `${insider.topics.length} topics` },
   { href: "/culture/mistakes", pic: bilder.extras.fehler, title: "Common mistakes by first language", text: "Which mistakes come from which first language, and how do you get rid of them?", meta: `${fehler.languages.length} languages` },
-  { href: "/life-in-the-uk/facts", pic: "🇬🇧", title: "Facts about the UK", text: "Government, history, the four nations: the knowledge for the Life in the UK test.", meta: "Life in the UK test" },
+  { href: "/life-in-the-uk/facts", pic: "🗺️", title: "Facts about Spain", text: "The constitution, institutions, history, the comunidades autónomas: the knowledge for the CCSE.", meta: "CCSE" },
   { href: "/culture/quiz", pic: bilder.extras.quiz, title: "Culture quiz", text: "Questions from all the culture topics, mixed or by topic.", meta: `${quizCount} questions` },
   { href: "/culture/insider/cars-and-driving", pic: "🚗", title: "Cars and driving", text: "Roads, speed limits and what to know about driving.", meta: "Cars & driving" },
 ];
 
 const lists = [
-  { id: "kulturwissen", title: "UK culture", href: "/culture",
+  { id: "kulturwissen", title: "Culture in Spain", href: "/culture",
     items: byLevel(kultur.topics).map((t) => ({ href: itemPath("/culture", t.id), title: t.title, level: t.level, pic: (bilder.topics as Record<string, string>)[t.id] })) },
-  { id: "von-innen", title: "The UK from the inside", href: "/culture/insider",
+  { id: "von-innen", title: "Spain from the inside", href: "/culture/insider",
     items: byLevel(insider.topics).map((t) => ({ href: itemPath("/culture/insider", t.id), title: t.title, level: t.level, pic: (bilder.insider as Record<string, string>)[t.id] })) },
   { id: "fehler", title: "Common mistakes by first language", href: "/culture/mistakes",
     items: fehler.languages.map((l) => ({ href: `/culture/mistakes?lang=${l.id}`, title: l.name, level: "", pic: undefined })) },
@@ -43,14 +43,14 @@ const lists = [
 ---
 <Layout
   title="Country and culture – all topics – icanspeak Spanish"
-  description="Every culture topic at a glance: UK culture, life in the UK from the inside, typical mistakes by first language, facts for the Life in the UK test and the culture quiz."
+  description="Every culture topic at a glance: culture in Spain, Spain from the inside, typical mistakes by first language, facts for the CCSE and the culture quiz."
 >
   <SiteNav active="landeskunde" />
   <main class="practice-main practice-main--wide">
     <div class="practice-hero">
       <p class="eyebrow" data-i18n="kultur.hero.eyebrow">Culture &amp; society</p>
-      <h1>Country and culture</h1>
-      <SectionMascot name="bruno" say="The UK at a glance." align="center" class="ku-hero-mascot" />
+      <h1 data-i18n="landkultur.title">Country and culture</h1>
+      <SectionMascot name="bruno" say="Spain at a glance." sayKey="landkultur.say" align="center" class="ku-hero-mascot" />
     </div>
 
     <section class="lk-block">

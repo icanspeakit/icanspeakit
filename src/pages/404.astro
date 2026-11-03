@@ -9,18 +9,18 @@ import { mascotSvg } from "../lib/mascots.js";
 
 const bruno = mascotSvg({ name: "bruno", expr: "oops", view: "front", size: 150, label: "" });
 ---
-<Layout title="Seite nicht gefunden – icanspeak Spanish" noindex>
+<Layout title="Page not found – icanspeak Spanish" noindex>
   <SiteNav />
   <main class="nf">
     <div class="nf-fig" data-mascot-part set:html={bruno} />
-    <p class="nf-say" data-mascot-part>Hoppla! Hier ist nichts.</p>
-    <h1 class="nf-title">Diese Seite gibt es nicht.</h1>
-    <p class="nf-lead">Vielleicht ist der Link alt, oder ein Buchstabe fehlt.</p>
-    <a class="btn-cta nf-home" href="/">Zur Startseite</a>
-    <nav class="nf-links" aria-label="Weiter lernen">
-      <a href="/grammar">Grammatik</a>
-      <a href="/vocabulary">Wortschatz</a>
-      <a href="/step-by-step">Einfach lernen</a>
+    <p class="nf-say" data-mascot-part data-i18n="nf.say">Oops! Nothing here.</p>
+    <h1 class="nf-title" data-i18n="nf.heading">This page doesn't exist.</h1>
+    <p class="nf-lead" data-i18n="nf.lead">Maybe the link is old, or a letter is missing.</p>
+    <a class="btn-cta nf-home" href="/" data-i18n="nf.home">To the home page</a>
+    <nav class="nf-links" aria-label="Keep learning" data-i18n-attr="aria-label:nf.more">
+      <a href="/grammar" data-i18n="nav.subject.grammatik">Grammar</a>
+      <a href="/vocabulary" data-i18n="nav.subject.wortschatz">Vocabulary</a>
+      <a href="/step-by-step">Step by step</a>
     </nav>
   </main>
 </Layout>

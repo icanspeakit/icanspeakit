@@ -80,12 +80,12 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
     };
   }
   if (f.category === "berufe") return { mascot: "hamsti", href: workPath(f.id.replace(/^berufe-/, "")), key: "wissen.next.berufe", label: "Learn the words for your job with flashcards", subKey: "wissen.next.cardsSubPlain", sub: "With audio, one set at a time." };
-  if (f.id.startsWith("lid")) return { mascot: "bruno", href: "/life-in-the-uk/test", key: "wissen.next.lid", label: "Practise the Life in the UK test online", ...PRACTICE_SUB };
+  if (f.id.startsWith("lid")) return { mascot: "bruno", href: "/life-in-the-uk/test", key: "wissen.next.lid", label: "Practise the CCSE online", ...PRACTICE_SUB };
   return { mascot: "bruno", ...PLACEMENT, subKey: "wissen.next.placementSub", sub: "2 minutes, then you know where to start." };
 }
 ---
 <Layout
-  title="English grammar & word lists as free PDFs – icanspeak Spanish"
+  title="Spanish grammar & word lists as free PDFs – icanspeak Spanish"
   description="Grammar books, word lists and exam material as PDFs — download them for free, print them and share them in class. No account needed."
 >
   <SiteNav active="wissen" />

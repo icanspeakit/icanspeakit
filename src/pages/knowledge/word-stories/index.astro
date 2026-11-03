@@ -25,14 +25,14 @@ const title = entry
 ---
 <Layout
   title={title}
-  description="An English word every day: where it comes from, how it has changed and which words in other languages it is related to – with sources."
+  description="A Spanish word every day: where it comes from, how it has changed and which words in other languages it is related to – with sources."
   noindex={!entry || PREVIEW}
 >
   <div class="uv">
     <SiteNav active="wissen" />
     <main class="uv-main">
       <div class="wg">
-        <a href="/knowledge/languages" class="vp-back-link" data-i18n="wg.back">English around the world</a>
+        <a href="/knowledge/languages" class="vp-back-link" data-i18n="wg.back">Spanish around the world</a>
         <SectionMascot name="regi" expr="happy" say="Every word has a story." align="center" class="hub-mascot uv-hub-mascot" />
         {entry ? (
           <WortEntry entry={entry} mode="today" preview={PREVIEW} today={day} />

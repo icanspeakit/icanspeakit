@@ -43,15 +43,15 @@ const PER_PAGE = 12; // the size checked by default
 const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) };
 ---
 <Layout
-  title="Picture cards: the 100 most important English words – icanspeak Spanish"
-  description="House, go, big, on: the 100 most important English words as picture cards. One picture, one word, to listen to. All at once or one after the other."
+  title="Picture cards: the 100 most important Spanish words – icanspeak Spanish"
+  description="Casa, ir, grande, en: the 100 most important Spanish words as picture cards. One picture, one word, to listen to. All at once or one after the other."
 >
   <SiteNav active="wissen" />
   <main class="practice-main practice-main--wide bk-page" data-view="alle">
     <header class="practice-hero bk-hero">
       <p class="eyebrow" data-i18n="bildwb.eyebrow">Bildkarten</p>
       <h1 data-i18n="bildwb.title">The 100 most important words</h1>
-      <p data-i18n="bildwb.lead" data-i18n-vars={JSON.stringify(groupN)}>One picture, one word. Tap a card and hear the word. The words you hear most often in English: {groupN.nomen} nouns, {groupN.verben} verbs, {groupN.adjektive} adjectives and {groupN.kleine} little words.</p>
+      <p data-i18n="bildwb.lead" data-i18n-vars={JSON.stringify(groupN)}>One picture, one word. Tap a card and hear the word. The words you hear most often in Spanish: {groupN.nomen} nouns, {groupN.verben} verbs, {groupN.adjektive} adjectives and {groupN.kleine} little words.</p>
       <div class="bk-crew" aria-hidden="true" data-mascot-part>
         <Fragment set:html={mascotSvg({ name: "hamsti", expr: "happy", view: "three", size: 60, label: "" })} />
         <p class="bk-say">„<span data-i18n="bildwb.say">Erst sagen, dann tippen!</span>“</p>

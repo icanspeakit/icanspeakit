@@ -39,7 +39,7 @@ export const STEPS = [
   },
   {
     href: "/exams",
-    title: "Exam practice: Cambridge, IELTS, Trinity",
+    title: "Exam practice: DELE, SIELE, CCSE",
     pitch: "Practice sets in the format of the real exams, with a timer and a score – the reason many people come.",
     tap: "Open an exam and show how it is built.",
   },

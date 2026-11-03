@@ -86,7 +86,7 @@ const levels = LEVEL_ORDER.filter((lvl) => topics.some((t) => t.level === lvl));
 // one real topic doesn't stretch into one giant card or look lopsided next to a fuller level.
 const ROW_WIDTH = 4;
 ---
-<Layout title="Practise English grammar: A1 to C1 – icanspeak Spanish" description="Practise English grammar topic by topic, by level: tenses, articles, modal verbs, conditionals, the passive and more, each with a rule, examples and exercises.">
+<Layout title="Practise Spanish grammar: A1 to C1 – icanspeak Spanish" description="Practise Spanish grammar topic by topic, by level: ser and estar, the past tenses, object pronouns, the subjunctive and more, each with a rule, examples and exercises.">
   <SiteNav active="grammatik" />
   <main class="practice-main">
     {/* A quiet title and Regi, then straight into the topics — the same first screen as
@@ -95,7 +95,7 @@ const ROW_WIDTH = 4;
     <div class="hub-hero">
       <p class="eyebrow" data-i18n="grammatik.hero.eyebrow">Grammatik üben</p>
       <h1 data-i18n="grammatik.hero.title">Themen nach Niveau</h1>
-      <SectionMascot name="regi" say="Regel für Regel." align="center" class="hub-mascot" />
+      <SectionMascot name="regi" say="Rule by rule." sayKey="grammatik.say.hero" align="center" class="hub-mascot" />
     </div>
 
     {levels.map((level) => (
@@ -166,7 +166,7 @@ const ROW_WIDTH = 4;
         is now the first thing on the page.) */}
     <section class="hub-more">
       <div class="hub-more-head">
-        <SectionMascot name="quaki" expr="thinking" say="Lieber geführt?" />
+        <SectionMascot name="quaki" expr="thinking" say="Rather be guided?" sayKey="grammatik.say.guided" />
         <p class="hub-more-lead" data-i18n="grammatik.hero.subtitle">Wähle ein Thema. Die meisten haben einen eigenen Übungsraum mit Erklärung und mehreren Aufgabentypen — die übrigen übst du im Lückentext-Quiz.</p>
       </div>
       {/* The free starter book, in the learner's language (/knowledge#grammatik-start). */}

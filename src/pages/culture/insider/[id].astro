@@ -48,14 +48,14 @@ const NUM = /(?:rund |über |fast |etwa |knapp )?\d+(?:[.,]\d+)*(?:\s| )?(?:%|P
 const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m}</b>`);
 ---
 <Layout
-  title={fitTitle(`${topic.title} – The UK from the inside`, topic.title)}
+  title={fitTitle(`${topic.title} – Spain from the inside`, topic.title)}
   description={topic.intro.slice(0, 160)}
 >
   <SiteNav active="landeskunde" />
   <main class="practice-main">
     <div class="ku-topbar">
       <a href="/culture/insider" class="vp-back-link" data-i18n="kultur.insider.back">Deutschland von innen</a>
-      <ShareButton title={`${topic.title} – The UK from the inside`} label />
+      <ShareButton title={`${topic.title} – Spain from the inside`} label />
     </div>
 
     <article class="ku-topic">
