@@ -1158,3 +1158,19 @@ are handled by the `ui-*` items where they are rendered.
   `/prepositions?niveau=B1`. **For `ui-lang-*`:** new keys are `conj.*`, `tool.konjugation.title`, `intro.conj*`, `grammatik.cj.*`; rule texts stay English like the
   rule boxes on the verb tables (`lang="en"`), and the hand-written `explain` lines aren't translated, as in `/prepositions`. **For `vocab-*`:** the drill's gloss is `en` from
   `verbtabellen.json`, not the lexicon. **For a LatAm mode:** `showsVosotros()` already drops the switch and the forms; `skip` items are filtered in `setQuestions`.
+- **Beginner path decisions** (`beginner-path`, 2026-11-04): `einfach-pfad.json` is Spanish A1–B1, 35 units, 224 tasks, in lehrplan
+  order except that *ser/estar* comes before the plural + adjective unit. All 28 old ids stay; seven new units have English ids (`a1-who-where`,
+  `a1-describe`, `a1-why`, `a2-routine`, `a2-today`, `a2-before`, `a2-objects`). Only `luecke` and `satz` for now, because the lexicon, phrases,
+  listening and pronunciation sources aren't Spanish yet. The path needed greetings and the padrón appointment and no A1 item had them, so
+  `personalpronomen` (exercises 6, 7) and `temporale-praepositionen` (7, 8) each got two appended exercises; append only, never insert, in
+  topics the path uses. Postcard facts are simple English (explanation language), all `source: "neu"`. `placementStart` now jumps to `a1-cafe` (5–6
+  right) and `a1-who-where` (3–4 right). `scripts/repoint-einfach-grammar.mjs` is deleted: from now on, when a topic changes and a ref breaks,
+  look at the item, fix the task by hand and re-sign with `node scripts/check-einfach-pfad.mjs --sign`. **For `beginner-path-ui`:** the resolver
+  doesn't read an item's `choices` or `why`, so the path writes `options` and `why` on the task. It also ignores a build item's `alt`, and an inner
+  comma in a build sentence ends up after the last word, so the path avoids those sentences. A table term with `___` shows the gap twice, also
+  avoided. A `· ` term must be `person · verb`; `verb · person` reads badly. `ARTICLE_PLACEHOLDERS` still lists *a / an*, so *el / la* rows show as
+  `mesa → ___`: switching it gives them the article screen, and `articleHint` and the `wort` plural (`two …`) need Spanish too. **For a LatAm
+  mode:** no path task uses a `skip` item; three use `es419.form` (`personalpronomen/0/5`, `aduso/0/1`, `konjunktiv2-hoeflich/1/2`), which the resolver must apply.
+  **For `vocab-a1`–`vocab-b1`, `speaking`, `listening`, `pronunciation`:** add `wort`/`artikel`, `redemittel` (greetings in `a1-vorstellen`, the
+  padrón in `a1-amt`), `hoeren` and `sprechen` tasks to the units, keeping 5–7 per unit. **For `routes`:** a unit's `grammar` is a slot id and
+  reaches the page through the slot's redirect (`/personalpronomen` → current slug), so those redirects must stay or `einfach-view.js` must link by slug.
