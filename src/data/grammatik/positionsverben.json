@@ -1,219 +1,108 @@
 {
   "id": "positionsverben",
-  "name": "Confusing verbs",
+  "name": "Verbs like gustar: encantar, interesar, doler, molestar, parecer",
   "level": "B1",
   "status": "geprueft",
-  "subtitle": "Some English verbs look alike or have a similar meaning, so they are easy to mix up: say or tell, lie or lay, rise or raise, borrow or lend. Each verb has its own meaning and its own pattern.",
-  "briefMarks": [
-    "say or tell",
-    "lie or lay",
-    "rise or raise",
-    "borrow or lend"
-  ],
-  "source": "icanspeak Spanish original English text (grammar-b1 run, 2026-10-29)",
+  "variety": "es-ES",
+  "es419": { "note": "These verbs work the same in Latin America, but apetecer is typical of Spain: there, ¿Quieres…? or ¿Se te antoja…? Os is Spain only: ustedes takes les." },
+  "subtitle": "These verbs work like gustar: the thing or activity is the subject, and the person takes me, te, le, nos, os, les. Me encanta este barrio. Me encantan los lunes. The verb agrees with the thing, not with the person.",
+  "briefMarks": ["encanta", "interesa", "duele", "molesta", "parece", "queda", "apetece", "falta"],
+  "source": "icanspeak Spanish original text (grammar-b1 run, 2026-11-04)",
   "concept": {
     "comic": {
-      "title": "Which verb? Say, borrow, lay",
+      "title": "¿Qué te {duele}?",
       "panels": [
         {
-          "caption": "say or tell",
-          "tag": "{tell} + a person · {say} + the words",
-          "left": {
-            "name": "regi",
-            "expr": "thinking",
-            "say": "What did the doctor say to you?"
-          },
-          "right": {
-            "name": "hamsti",
-            "expr": "happy",
-            "say": "She {told} me to rest. She {said} that I'm fine."
-          }
+          "caption": "One thing",
+          "tag": "{duele} + singular",
+          "left": { "name": "regi", "expr": "thinking", "say": "¿Qué te pasa, Quaki?" },
+          "right": { "name": "quaki", "expr": "oops", "say": "Me {duele} la cabeza." }
         },
         {
-          "caption": "borrow or lend",
-          "tag": "{borrow} = take for a short time · {lend} = give for a short time",
-          "left": {
-            "name": "bruno",
-            "expr": "thinking",
-            "say": "Can I {borrow} your pen?"
-          },
-          "right": {
-            "name": "quaki",
-            "expr": "happy",
-            "say": "Of course! I'll {lend} it to you."
-          }
+          "caption": "Two or more things",
+          "tag": "{duelen} + plural",
+          "left": { "name": "bruno", "expr": "sleepy", "say": "A mí me {duelen} los pies." },
+          "right": { "name": "regi", "expr": "thinking", "say": "¿Te {apetece} un café?" }
         },
         {
-          "caption": "lay or lie",
-          "tag": "{lay} + a thing · {lie} (no thing)",
-          "left": {
-            "name": "quaki",
-            "expr": "thinking",
-            "say": "Where is my phone?"
-          },
-          "right": {
-            "name": "hamsti",
-            "expr": "oops",
-            "say": "I {laid} it on the table. Now it's {lying} there!"
-          }
+          "caption": "A person with a",
+          "tag": "{a Hamsti le…}",
+          "left": { "name": "bruno", "expr": "happy", "say": "¿Y a Hamsti?" },
+          "right": { "name": "regi", "expr": "celebrate", "say": "A Hamsti le {encanta} el café." }
         }
       ]
     },
     "flow": [
-      {
-        "text": "subject"
-      },
-      {
-        "text": "tell · lend · raise · lay",
-        "variant": "verb"
-      },
-      {
-        "text": "someone / something (an object)",
-        "variant": "prep"
-      }
+      { "text": "(a mí) me · te · le · nos · os · les", "variant": "prep" },
+      { "text": "encanta · encantan", "variant": "verb" },
+      { "text": "the thing" }
     ],
     "qa": [
       {
-        "html": "<strong>say</strong> is followed by the words or by <em>that</em>: <em>She said hello. He said that he was tired.</em> <strong>tell</strong> needs a person: <em>She told me a story. He told us to wait.</em> You cannot say <em>say me</em> or <em>tell hello</em>. Fixed phrases: <em>tell the truth, tell a joke, tell the time</em> and <em>say sorry, say goodbye</em>.",
-        "tag": "say or tell"
+        "html": "The thing is the <strong>subject</strong>. One thing or an infinitive: singular. Several things: plural. <em>Me duele la cabeza. Me duelen las piernas. Me encanta cocinar.</em>",
+        "tag": "Agreement"
       },
       {
-        "html": "<strong>borrow</strong> means you take something and give it back later: <em>Can I borrow your pen?</em> <strong>lend</strong> means you give something for a short time: <em>Can you lend me your pen? Tom lent Amira his bike.</em> The person with the thing <em>lends</em>. The person who needs it <em>borrows</em>.",
-        "tag": "borrow or lend"
+        "html": "The person takes a pronoun: <strong>me, te, le, nos, os, les</strong>. With a name, add <strong>a</strong> and keep the pronoun: <em>A Ana le duele la espalda. A mis padres les interesa la política.</em>",
+        "tag": "The person"
       },
       {
-        "html": "<strong>rise</strong> means to go up by itself. It has no object: <em>The sun rises at six. Prices rose last year.</em> <strong>raise</strong> means to lift something or make it higher. It needs an object: <em>She raised her hand. The shop raised its prices.</em>",
-        "tag": "rise or raise"
+        "html": "<strong>encantar</strong> (love), <strong>interesar</strong> (be interested in), <strong>molestar</strong> (bother): <em>Me encanta este barrio. ¿Te interesa el curso? Nos molesta el ruido.</em>",
+        "tag": "encantar, interesar, molestar"
       },
       {
-        "html": "<strong>lie</strong> means to be flat or in a lying position. It has no object: <em>I lie on the sofa. The keys are lying on the table.</em> <strong>lay</strong> means to put something down. It needs an object: <em>Lay the book on the table. She laid the baby in the bed.</em> The forms are tricky: <em>lie – lay – lain</em> and <em>lay – laid – laid</em>. Note: <em>lay</em> is also the past of <em>lie</em>: <em>He lay on the sofa.</em>",
-        "tag": "lie or lay"
+        "html": "<strong>doler</strong> (o → ue, to hurt): <em>Me duele la cabeza.</em> Use the article, not a possessive: ✗ <em>Me duele mi cabeza</em>.",
+        "tag": "doler"
       },
       {
-        "html": "Typical mistakes: ✗ <em>She said me the news.</em> → ✓ <em>She told me the news.</em> · ✗ <em>Can you borrow me your pen?</em> → ✓ <em>Can you lend me your pen?</em> · ✗ <em>I'm going to lay on the sofa.</em> → ✓ <em>I'm going to lie on the sofa.</em>",
-        "tag": "Typical mistakes"
+        "html": "<strong>parecer</strong> (seem, think of): <em>¿Qué te parece? Me parece bien.</em> <strong>quedar</strong> with clothes (suit, fit): <em>Esta camisa me queda bien. Los pantalones me quedan grandes.</em>",
+        "tag": "parecer, quedar"
+      },
+      {
+        "html": "<strong>apetecer</strong> (feel like, very common in Spain): <em>¿Te apetece un café? No me apetece salir.</em> <strong>faltar</strong> and <strong>hacer falta</strong> (be missing, need): <em>Me falta un documento. Me hacen falta dos fotos.</em>",
+        "tag": "apetecer, faltar, hacer falta"
       }
     ],
-    "noteHtml": "There is a second verb <em>lie</em>: it means to say something that is not true. It is regular: <em>lie – lied – lied</em> (<em>He lied to me.</em>). It is a different verb, so don't mix it up with <em>lie – lay – lain</em>. <em>Lie</em> and <em>lay</em> are hard for native speakers too, so don't worry if you need time. In this topic we use mostly the present tense. Past forms are in the overview. For how past forms work, see <a href=\"/past-simple\">Past simple</a> and <a href=\"/present-perfect\">Present perfect or past simple</a>. For <em>say</em> and <em>tell</em> in reported speech, see <a href=\"/reported-speech\">Reported speech</a>. US: a pay <em>rise</em> in British English is a pay <em>raise</em> in American English.",
+    "noteHtml": "Common mistakes: ✗ <em>Yo gusto el café</em> → ✓ <em>Me gusta el café</em>. ✗ <em>Me duele las piernas</em> → ✓ <em>Me duelen las piernas</em>. ✗ <em>Ana le encanta</em> → ✓ <em>A Ana le encanta</em>. ✗ <em>A mí encanta</em> → ✓ <em>A mí me encanta</em>. <em>quedar</em> has other meanings too: <em>Quedamos a las ocho</em> = we'll meet at eight.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
       "tables": [
         {
-          "caption": "say or tell",
-          "note": "tell always has a person after it. say does not.",
-          "head": [
-            "Verb",
-            "What follows",
-            "Example"
-          ],
+          "caption": "The pattern",
+          "head": ["Optional", "Pronoun", "Verb", "Thing"],
           "rows": [
-            [
-              "{say}",
-              "words or that + clause",
-              "She said hello. He said that he was late."
-            ],
-            [
-              "{say} to",
-              "to + person",
-              "She said sorry to me."
-            ],
-            [
-              "{tell}",
-              "person + information",
-              "She told me the news."
-            ],
-            [
-              "{tell}",
-              "person + to + verb",
-              "He told us to wait."
-            ]
+            ["(a mí)", "me", "encanta", "este barrio"],
+            ["(a ti)", "te", "duelen", "los pies"],
+            ["(a él, a ella, a Ana, a usted)", "le", "interesa", "el curso"],
+            ["(a nosotros/as)", "nos", "molesta", "el ruido"],
+            ["(a vosotros/as)", "os", "parece", "bien"],
+            ["(a ellos, a ellas, a ustedes)", "les", "falta", "un documento"]
           ]
         },
         {
-          "caption": "borrow or lend: same situation, two verbs",
-          "note": "Look at who has the thing. That person lends.",
-          "head": [
-            "",
-            "borrow",
-            "lend"
-          ],
+          "caption": "What they mean",
+          "head": ["Verb", "Meaning", "Example"],
           "rows": [
-            [
-              "pen",
-              "Can I {borrow} your pen?",
-              "Can you {lend} me your pen?"
-            ],
-            [
-              "bike",
-              "Tom {borrowed} Amira's bike.",
-              "Amira {lent} Tom her bike."
-            ],
-            [
-              "money",
-              "I {borrowed} ten pounds from Mei.",
-              "Mei {lent} me ten pounds."
-            ]
+            ["encantar", "love", "Me encanta tu idea."],
+            ["interesar", "interest", "No me interesa el fútbol."],
+            ["doler", "hurt", "Me duele un brazo."],
+            ["molestar", "bother", "¿Te molesta la música?"],
+            ["parecer", "seem, think of", "Me parece caro."],
+            ["quedar", "suit, fit", "Te queda muy bien."],
+            ["apetecer", "feel like", "¿Te apetece salir?"],
+            ["faltar", "be missing", "Falta una firma."],
+            ["hacer falta", "be needed", "Me hace falta un bolígrafo."]
           ]
-        },
+        }
+      ],
+      "boxes": [
         {
-          "caption": "Verb forms",
-          "note": "Verbs with an object (yes) can have a passive form. Verbs with no object (no) cannot.",
-          "head": [
-            "Base form",
-            "Past simple",
-            "Past participle",
-            "Object?"
-          ],
-          "rows": [
-            [
-              "{rise}",
-              "rose",
-              "risen",
-              "no"
-            ],
-            [
-              "{raise}",
-              "raised",
-              "raised",
-              "yes"
-            ],
-            [
-              "{lie}",
-              "lay",
-              "lain",
-              "no"
-            ],
-            [
-              "{lay}",
-              "laid",
-              "laid",
-              "yes"
-            ],
-            [
-              "{borrow}",
-              "borrowed",
-              "borrowed",
-              "yes"
-            ],
-            [
-              "{lend}",
-              "lent",
-              "lent",
-              "yes"
-            ],
-            [
-              "{say}",
-              "said",
-              "said",
-              "yes"
-            ],
-            [
-              "{tell}",
-              "told",
-              "told",
-              "yes"
-            ]
+          "badge": "Hace falta",
+          "variant": "dat",
+          "items": [
+            "With a person: Me hace falta un documento.",
+            "With no person, it is a general need: Hace falta pedir cita."
           ]
         }
       ]
@@ -221,179 +110,43 @@
   },
   "aktiv": {
     "listen": [
-      {
-        "text": "She told me a story, and then she said goodnight.",
-        "note": "tell + a person (me). say + the words (goodnight).",
-        "audio": "/audio/grammatik/positionsverben/she-told-me-a-story-and-then-she-said-goodnight.mp3"
-      },
-      {
-        "text": "Could you lend me your umbrella?",
-        "note": "lend: you have the umbrella and give it for a short time.",
-        "audio": "/audio/grammatik/positionsverben/could-you-lend-me-your-umbrella.mp3"
-      },
-      {
-        "text": "I laid my keys on the table. Now they're lying there.",
-        "note": "laid + object (my keys). lying has no object.",
-        "audio": "/audio/grammatik/positionsverben/i-laid-my-keys-on-the-table-now-theyre-lying-there.mp3"
-      }
+      { "text": "Me encanta este barrio.", "note": "One thing: singular." },
+      { "text": "Me duelen las piernas.", "note": "Several things: plural." },
+      { "text": "A Ana le molesta el ruido.", "note": "a + person, and le as well." },
+      { "text": "¿Te apetece un café?", "note": "Very common in Spain." },
+      { "text": "Esta camisa me queda bien.", "note": "quedar for clothes." }
     ],
     "hoeren": {
-      "instruction": "Listen and choose the word you hear. You can listen twice.",
+      "instruction": "Listen and choose the sentence you heard. You can listen twice.",
       "items": [
-        {
-          "text": "He told me the news.",
-          "choices": [
-            "told",
-            "said",
-            "spoke"
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/positionsverben/he-told-me-the-news.mp3"
-        },
-        {
-          "text": "Can you lend me ten pounds?",
-          "choices": [
-            "lend",
-            "borrow",
-            "spend"
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/positionsverben/can-you-lend-me-ten-pounds.mp3"
-        },
-        {
-          "text": "The sun rises at six o'clock.",
-          "choices": [
-            "rises",
-            "raises",
-            "rose"
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/positionsverben/the-sun-rises-at-six-oclock.mp3"
-        },
-        {
-          "text": "Zofia raised her hand.",
-          "choices": [
-            "raised",
-            "rose",
-            "risen"
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/positionsverben/zofia-raised-her-hand.mp3"
-        },
-        {
-          "text": "The book is lying on the table.",
-          "choices": [
-            "lying",
-            "laying",
-            "lie"
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/positionsverben/the-book-is-lying-on-the-table.mp3"
-        },
-        {
-          "text": "Can I borrow your charger?",
-          "choices": [
-            "borrow",
-            "lend",
-            "lose"
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/positionsverben/can-i-borrow-your-charger.mp3"
-        }
+        { "text": "Me duelen los pies.", "choices": ["Me duele el pie.", "Me duelen los pies.", "Te duelen los pies."], "correct": 1 },
+        { "text": "¿Te apetece salir?", "choices": ["¿Te apetece salir?", "¿Te interesa salir?", "¿Le apetece salir?"], "correct": 0 },
+        { "text": "A mis padres les interesa el curso.", "choices": ["A mi padre le interesa el curso.", "A mis padres les molesta el curso.", "A mis padres les interesa el curso."], "correct": 2 },
+        { "text": "Me hace falta una firma.", "choices": ["Me falta una foto.", "Me hace falta una firma.", "Nos hace falta una firma."], "correct": 1 }
       ]
     },
     "sprechen": {
       "rounds": [
         {
-          "label": "1 · Ask to borrow",
-          "instruction": "You hear what you need. Ask politely: Can I borrow ...?",
-          "example": {
-            "prompt": "your pen",
-            "answer": "Can I borrow your pen?"
-          },
+          "label": "1 · It hurts",
+          "instruction": "You hear a part of the body. Say that it hurts. Watch singular and plural.",
+          "example": { "prompt": "la cabeza", "answer": "Me duele la cabeza." },
           "items": [
-            {
-              "prompt": "your bike",
-              "answer": "Can I borrow your bike?",
-              "audioPrompt": "/audio/grammatik/positionsverben/your-bike.mp3",
-              "audioAnswer": "/audio/grammatik/positionsverben/can-i-borrow-your-bike--a.mp3"
-            },
-            {
-              "prompt": "your charger",
-              "answer": "Can I borrow your charger?",
-              "audioPrompt": "/audio/grammatik/positionsverben/your-charger.mp3",
-              "audioAnswer": "/audio/grammatik/positionsverben/can-i-borrow-your-charger--a.mp3"
-            },
-            {
-              "prompt": "your umbrella",
-              "answer": "Can I borrow your umbrella?",
-              "audioPrompt": "/audio/grammatik/positionsverben/your-umbrella.mp3",
-              "audioAnswer": "/audio/grammatik/positionsverben/can-i-borrow-your-umbrella--a.mp3"
-            },
-            {
-              "prompt": "your dictionary",
-              "answer": "Can I borrow your dictionary?",
-              "audioPrompt": "/audio/grammatik/positionsverben/your-dictionary.mp3",
-              "audioAnswer": "/audio/grammatik/positionsverben/can-i-borrow-your-dictionary--a.mp3"
-            },
-            {
-              "prompt": "ten pounds",
-              "answer": "Can I borrow ten pounds?",
-              "audioPrompt": "/audio/grammatik/positionsverben/ten-pounds.mp3",
-              "audioAnswer": "/audio/grammatik/positionsverben/can-i-borrow-ten-pounds--a.mp3"
-            },
-            {
-              "prompt": "your laptop",
-              "answer": "Can I borrow your laptop?",
-              "audioPrompt": "/audio/grammatik/positionsverben/your-laptop.mp3",
-              "audioAnswer": "/audio/grammatik/positionsverben/can-i-borrow-your-laptop--a.mp3"
-            }
+            { "prompt": "las piernas", "answer": "Me duelen las piernas." },
+            { "prompt": "la espalda", "answer": "Me duele la espalda." },
+            { "prompt": "los pies", "answer": "Me duelen los pies." },
+            { "prompt": "un brazo", "answer": "Me duele un brazo." }
           ]
         },
         {
-          "label": "2 · say to → tell",
-          "instruction": "You hear a sentence with said to. Say the same with told and no to.",
-          "example": {
-            "prompt": "He said to me that he was tired.",
-            "answer": "He told me that he was tired."
-          },
+          "label": "2 · Do you feel like it?",
+          "instruction": "You hear something. Ask a friend if they feel like it.",
+          "example": { "prompt": "un café", "answer": "¿Te apetece un café?" },
           "items": [
-            {
-              "prompt": "She said to us that she was ill.",
-              "answer": "She told us that she was ill.",
-              "audioPrompt": "/audio/grammatik/positionsverben/she-said-to-us-that-she-was-ill.mp3",
-              "audioAnswer": "/audio/grammatik/positionsverben/she-told-us-that-she-was-ill--a.mp3"
-            },
-            {
-              "prompt": "Tom said to Mei that the shop was closed.",
-              "answer": "Tom told Mei that the shop was closed.",
-              "audioPrompt": "/audio/grammatik/positionsverben/tom-said-to-mei-that-the-shop-was-closed.mp3",
-              "audioAnswer": "/audio/grammatik/positionsverben/tom-told-mei-that-the-shop-was-closed--a.mp3"
-            },
-            {
-              "prompt": "I said to him that I was busy.",
-              "answer": "I told him that I was busy.",
-              "audioPrompt": "/audio/grammatik/positionsverben/i-said-to-him-that-i-was-busy.mp3",
-              "audioAnswer": "/audio/grammatik/positionsverben/i-told-him-that-i-was-busy--a.mp3"
-            },
-            {
-              "prompt": "Amira said to me that it was late.",
-              "answer": "Amira told me that it was late.",
-              "audioPrompt": "/audio/grammatik/positionsverben/amira-said-to-me-that-it-was-late.mp3",
-              "audioAnswer": "/audio/grammatik/positionsverben/amira-told-me-that-it-was-late--a.mp3"
-            },
-            {
-              "prompt": "Liam said to them that dinner was ready.",
-              "answer": "Liam told them that dinner was ready.",
-              "audioPrompt": "/audio/grammatik/positionsverben/liam-said-to-them-that-dinner-was-ready.mp3",
-              "audioAnswer": "/audio/grammatik/positionsverben/liam-told-them-that-dinner-was-ready--a.mp3"
-            },
-            {
-              "prompt": "Olga said to Diego that the train was late.",
-              "answer": "Olga told Diego that the train was late.",
-              "audioPrompt": "/audio/grammatik/positionsverben/olga-said-to-diego-that-the-train-was-late.mp3",
-              "audioAnswer": "/audio/grammatik/positionsverben/olga-told-diego-that-the-train-was-late--a.mp3"
-            }
+            { "prompt": "salir", "answer": "¿Te apetece salir?" },
+            { "prompt": "dar un paseo", "answer": "¿Te apetece dar un paseo?" },
+            { "prompt": "un té", "answer": "¿Te apetece un té?" },
+            { "prompt": "ir al cine", "answer": "¿Te apetece ir al cine?" }
           ]
         }
       ]
@@ -402,472 +155,94 @@
   "exercises": [
     {
       "type": "fill",
-      "title": "say or tell?",
-      "hint": "Is there a person right after the gap (tell)? Or do the words follow (say)?",
-      "instant": true,
-      "placeholder": "Verb",
-      "items": [
-        {
-          "prompt": "Amira ___ hello to everyone.",
-          "hint": "past simple",
-          "answer": "said",
-          "choices": [
-            "said",
-            "told"
-          ],
-          "why": "Hello is the word she speaks, and no person follows the verb: said."
-        },
-        {
-          "prompt": "Tom ___ me a funny joke.",
-          "hint": "past simple",
-          "answer": "told",
-          "choices": [
-            "told",
-            "said"
-          ],
-          "why": "A person (me) follows the verb: told."
-        },
-        {
-          "prompt": "What did she ___ to you?",
-          "hint": "base form after did",
-          "answer": "say",
-          "choices": [
-            "say",
-            "tell"
-          ],
-          "why": "The next word is to + person, not the person itself: say."
-        },
-        {
-          "prompt": "Can you ___ me the time, please?",
-          "hint": "base form after can",
-          "answer": "tell",
-          "choices": [
-            "tell",
-            "say"
-          ],
-          "why": "A person (me) follows the verb, and tell the time is a fixed phrase: tell."
-        },
-        {
-          "prompt": "He ___ that he was tired.",
-          "hint": "past simple",
-          "answer": "said",
-          "choices": [
-            "said",
-            "told"
-          ],
-          "why": "No person follows the verb: said that. With a person you need told him / told me."
-        },
-        {
-          "prompt": "She ___ us to wait outside.",
-          "hint": "past simple",
-          "answer": "told",
-          "choices": [
-            "told",
-            "said"
-          ],
-          "why": "A person (us) follows the verb: told us to."
-        },
-        {
-          "prompt": "Priya ___ sorry and left.",
-          "hint": "past simple",
-          "answer": "said",
-          "choices": [
-            "said",
-            "told"
-          ],
-          "why": "Say sorry is a fixed phrase: said."
-        }
-      ]
-    },
-    {
-      "type": "table",
-      "title": "Write the past form.",
-      "hint": "Some of these verbs are irregular. Learn them as a group.",
-      "columns": [
-        "Verb",
-        "Form"
-      ],
+      "title": "Singular or plural?",
+      "hint": "The verb agrees with the thing, not with the person.",
       "placeholder": "Form",
-      "rows": [
-        {
-          "term": "lend · past simple → she ___ him her bike",
-          "answer": "lent",
-          "choices": [
-            "lent",
-            "lended",
-            "lend"
-          ]
-        },
-        {
-          "term": "tell · past simple → he ___ me the news",
-          "answer": "told",
-          "choices": [
-            "told",
-            "telled",
-            "tolled"
-          ]
-        },
-        {
-          "term": "rise · past simple → the sun ___ at six",
-          "answer": "rose",
-          "choices": [
-            "rose",
-            "rised",
-            "raised"
-          ]
-        },
-        {
-          "term": "raise · past simple → she ___ her hand",
-          "answer": "raised",
-          "choices": [
-            "raised",
-            "rose",
-            "rised"
-          ]
-        },
-        {
-          "term": "rise · past participle → prices have ___",
-          "answer": "risen",
-          "choices": [
-            "risen",
-            "rose",
-            "raised"
-          ]
-        },
-        {
-          "term": "lay · past simple → she ___ the book down",
-          "answer": "laid",
-          "choices": [
-            "laid",
-            "lay",
-            "layed"
-          ]
-        },
-        {
-          "term": "lie · past simple → he ___ on the sofa",
-          "answer": "lay",
-          "choices": [
-            "lay",
-            "laid",
-            "layed"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "match",
-      "title": "Question and answer: which verb fits?",
-      "hint": "Tap a question first, then the answer that fits it.",
-      "pairs": [
-        {
-          "q": "Can I borrow your book?",
-          "a": "Sure. I'll lend it to you."
-        },
-        {
-          "q": "What did the teacher say?",
-          "a": "She told us to open our books."
-        },
-        {
-          "q": "Where is my phone?",
-          "a": "It's lying on the sofa."
-        },
-        {
-          "q": "Why is bread so expensive now?",
-          "a": "Prices rose last month."
-        },
-        {
-          "q": "Why is your hand up?",
-          "a": "I raised it to ask a question."
-        },
-        {
-          "q": "Where did you put the keys?",
-          "a": "I laid them on the table."
-        }
+      "items": [
+        { "prompt": "Me ___ este barrio.", "answer": "encanta", "choices": ["encanta", "encantan", "encanto"], "why": "este barrio: singular." },
+        { "prompt": "Me ___ los fines de semana.", "answer": "encantan", "choices": ["encanta", "encantan", "encanto"], "why": "los fines de semana: plural." },
+        { "prompt": "A Ana le ___ la cabeza.", "answer": "duele", "choices": ["duele", "duelen", "doler"], "why": "la cabeza: singular." },
+        { "prompt": "Me ___ las piernas.", "answer": "duelen", "choices": ["duele", "duelen", "doler"], "why": "las piernas: plural." },
+        { "prompt": "Nos ___ el ruido de la calle.", "answer": "molesta", "choices": ["molesta", "molestan", "molestamos"], "why": "el ruido: singular. Nos already says who." },
+        { "prompt": "¿Os ___ estos cursos?", "answer": "interesan", "choices": ["interesa", "interesan", "interesáis"], "why": "estos cursos: plural.", "es419": { "note": "In Latin America: ¿Les interesan estos cursos?", "skip": true } },
+        { "prompt": "¿Qué te ___ esta hora?", "answer": "parece", "choices": ["parece", "parecen", "pareces"], "why": "esta hora: singular." },
+        { "prompt": "Me ___ dos firmas en este formulario.", "answer": "faltan", "choices": ["falta", "faltan", "falto"], "why": "dos firmas: plural." },
+        { "prompt": "¿Te ___ un café?", "answer": "apetece", "choices": ["apetece", "apetecen", "apeteces"], "why": "un café: singular.", "es419": { "note": "In Latin America: ¿Quieres un café?" } },
+        { "prompt": "Esta camisa me ___ bien.", "answer": "queda", "choices": ["queda", "quedan", "quedo"], "why": "esta camisa: singular." }
       ]
     },
     {
       "type": "fill",
-      "title": "rise or raise? lie or lay?",
-      "hint": "Is there an object after the verb? Then use raise or lay. No object? Use rise or lie.",
-      "instant": true,
-      "placeholder": "Verb",
+      "title": "Which pronoun?",
+      "hint": "a + person, then me, te, le, nos, os, les.",
+      "placeholder": "Form",
       "items": [
-        {
-          "prompt": "The sun ___ in the east.",
-          "hint": "present simple, it",
-          "answer": "rises",
-          "choices": [
-            "rises",
-            "raises"
-          ],
-          "why": "The sun goes up by itself, with no object: rises."
-        },
-        {
-          "prompt": "Please ___ your hand if you know the answer.",
-          "hint": "base form",
-          "answer": "raise",
-          "choices": [
-            "raise",
-            "rise"
-          ],
-          "why": "There is an object (your hand): raise."
-        },
-        {
-          "prompt": "Prices ___ every year.",
-          "hint": "present simple, plural",
-          "answer": "rise",
-          "choices": [
-            "rise",
-            "raise"
-          ],
-          "why": "Prices go up by themselves, with no object: rise."
-        },
-        {
-          "prompt": "The shop wants to ___ its prices.",
-          "hint": "wants to + base form",
-          "answer": "raise",
-          "choices": [
-            "raise",
-            "rise"
-          ],
-          "why": "There is an object (its prices): raise."
-        },
-        {
-          "prompt": "Please ___ the baby gently on the bed.",
-          "hint": "base form",
-          "answer": "lay",
-          "choices": [
-            "lay",
-            "lie"
-          ],
-          "why": "There is an object (the baby): lay."
-        },
-        {
-          "prompt": "I'm tired. I want to ___ on the sofa.",
-          "hint": "want to + base form",
-          "answer": "lie",
-          "choices": [
-            "lie",
-            "lay"
-          ],
-          "why": "There is no object: lie."
-        },
-        {
-          "prompt": "The keys are ___ on the table.",
-          "hint": "present continuous",
-          "answer": "lying",
-          "choices": [
-            "lying",
-            "laying"
-          ],
-          "why": "The keys are in a flat position and there is no object: lying."
-        },
-        {
-          "prompt": "Zofia is ___ the table for dinner.",
-          "hint": "present continuous",
-          "answer": "laying",
-          "choices": [
-            "laying",
-            "lying"
-          ],
-          "why": "Lay the table is a fixed phrase, with an object (the table): laying."
-        }
+        { "prompt": "A mí ___ encanta Sevilla.", "answer": "me", "choices": ["me", "mi", "yo"], "why": "a mí goes with me." },
+        { "prompt": "A Omar ___ duele la espalda.", "answer": "le", "choices": ["le", "lo", "se"], "why": "One person: le." },
+        { "prompt": "A mis padres ___ interesa la política.", "answer": "les", "choices": ["le", "les", "los"], "why": "Several people: les." },
+        { "prompt": "A nosotros ___ molesta el ruido.", "answer": "nos", "choices": ["nos", "les", "os"], "why": "a nosotros goes with nos." },
+        { "prompt": "¿A ti ___ apetece salir?", "answer": "te", "choices": ["te", "ti", "se"], "why": "a ti goes with te.", "es419": { "note": "In Latin America: ¿Quieres salir?" } },
+        { "prompt": "A Fatima ___ parece bien la cita.", "answer": "le", "choices": ["le", "la", "se"], "why": "One person, in this pattern: le, even for a woman." },
+        { "prompt": "¿A vosotros ___ hace falta algo?", "answer": "os", "choices": ["os", "nos", "les"], "why": "a vosotros goes with os.", "es419": { "note": "In Latin America: ¿A ustedes les hace falta algo?", "skip": true } }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "Make the sentence.",
+      "hint": "Person · verb · thing. The verb agrees with the thing.",
+      "columns": ["Words", "Sentence"],
+      "placeholder": "Sentence",
+      "rows": [
+        { "term": "yo · encantar · este piso", "answer": "Me encanta este piso.", "choices": ["Me encanta este piso.", "Yo encanto este piso.", "Me encantan este piso."], "es419": { "note": "In Latin America: este departamento." } },
+        { "term": "tú · doler · los pies", "answer": "Te duelen los pies.", "choices": ["Te duele los pies.", "Te duelen los pies.", "Tú dueles los pies."] },
+        { "term": "Ana · molestar · el humo", "answer": "A Ana le molesta el humo.", "choices": ["A Ana le molesta el humo.", "Ana molesta el humo.", "A Ana le molestan el humo."] },
+        { "term": "nosotros · interesar · las noticias", "answer": "Nos interesan las noticias.", "choices": ["Nos interesa las noticias.", "Interesamos las noticias.", "Nos interesan las noticias."] },
+        { "term": "mis hijos · faltar · un libro", "answer": "A mis hijos les falta un libro.", "choices": ["A mis hijos les falta un libro.", "Mis hijos faltan un libro.", "A mis hijos les faltan un libro."] },
+        { "term": "yo · hacer falta · un documento", "answer": "Me hace falta un documento.", "choices": ["Hago falta un documento.", "Me hace falta un documento.", "Me hacen falta un documento."] }
+      ]
+    },
+    {
+      "type": "match",
+      "title": "What does it mean?",
+      "hint": "The English often has the person first.",
+      "pairs": [
+        { "q": "Me duele la cabeza.", "a": "I have a headache." },
+        { "q": "Me encanta este barrio.", "a": "I love this neighbourhood." },
+        { "q": "¿Te apetece salir?", "a": "Do you feel like going out?" },
+        { "q": "Me hace falta un bolígrafo.", "a": "I need a pen." },
+        { "q": "Me queda bien.", "a": "It suits me." },
+        { "q": "¿Qué te parece?", "a": "What do you think of it?" }
       ]
     },
     {
       "type": "story",
-      "title": "Gap text: Tom paints his room.",
-      "hint": "Write the verb in the present tense. Check for an object after the gap.",
+      "title": "Fill the gaps: Yuri has a bad day.",
+      "hint": "Which verb fits the sentence?",
+      "choices": ["encanta", "duele", "molesta", "apetece", "parece"],
       "segments": [
-        {
-          "text": "Tom wants to paint his room, but he has no ladder. He calls Amira and asks, \"Can I "
-        },
-        {
-          "blank": 0,
-          "answer": [
-            "borrow"
-          ]
-        },
-        {
-          "text": " your ladder?\" Amira "
-        },
-        {
-          "blank": 1,
-          "answer": [
-            "says"
-          ]
-        },
-        {
-          "text": " yes. \"I'll "
-        },
-        {
-          "blank": 2,
-          "answer": [
-            "lend"
-          ]
-        },
-        {
-          "text": " it to you,\" she adds. She "
-        },
-        {
-          "blank": 3,
-          "answer": [
-            "tells"
-          ]
-        },
-        {
-          "text": " him to be careful. On Saturday morning the sun "
-        },
-        {
-          "blank": 4,
-          "answer": [
-            "rises"
-          ]
-        },
-        {
-          "text": " over the town and the street is quiet. Tom "
-        },
-        {
-          "blank": 5,
-          "answer": [
-            "lays"
-          ]
-        },
-        {
-          "text": " old newspapers on the floor. Then he climbs the ladder and "
-        },
-        {
-          "blank": 6,
-          "answer": [
-            "raises"
-          ]
-        },
-        {
-          "text": " his arm to reach the top of the wall. In the afternoon he is tired, so he "
-        },
-        {
-          "blank": 7,
-          "answer": [
-            "lies"
-          ]
-        },
-        {
-          "text": " on the sofa and looks at his new wall."
-        }
+        { "text": "A Yuri le " },
+        { "blank": 0, "answer": "encanta" },
+        { "text": " su barrio porque es tranquilo. Pero hoy le " },
+        { "blank": 1, "answer": ["duele", "molesta"] },
+        { "text": " mucho la cabeza y hay obras en la calle. También le " },
+        { "blank": 2, "answer": "molesta" },
+        { "text": " el ruido. Su compañera le pregunta: “¿Te " },
+        { "blank": 3, "answer": "apetece" },
+        { "text": " tomar un café?”. Yuri contesta: “Me " },
+        { "blank": 4, "answer": "parece" },
+        { "text": " bien, pero en mi casa”." }
       ]
     },
     {
       "type": "build",
       "title": "Build the sentences.",
+      "hint": "First the pronoun, then the verb, then the thing.",
       "sentences": [
-        {
-          "id": "b1",
-          "hint": "borrow: a polite question",
-          "correct": [
-            "Can",
-            "I",
-            "borrow",
-            "your",
-            "pen",
-            "?"
-          ],
-          "shuffled": [
-            "pen",
-            "borrow",
-            "?",
-            "Can",
-            "your",
-            "I"
-          ]
-        },
-        {
-          "id": "b2",
-          "hint": "tell + person (past simple)",
-          "correct": [
-            "She",
-            "told",
-            "me",
-            "a",
-            "funny",
-            "story",
-            "."
-          ],
-          "shuffled": [
-            "story",
-            "me",
-            "She",
-            ".",
-            "funny",
-            "told",
-            "a"
-          ]
-        },
-        {
-          "id": "b3",
-          "hint": "rise: no object",
-          "correct": [
-            "The",
-            "sun",
-            "rises",
-            "at",
-            "six",
-            "."
-          ],
-          "shuffled": [
-            "six",
-            "rises",
-            ".",
-            "The",
-            "at",
-            "sun"
-          ]
-        },
-        {
-          "id": "b4",
-          "hint": "lay: with an object",
-          "correct": [
-            "Please",
-            "lay",
-            "the",
-            "book",
-            "on",
-            "the",
-            "table",
-            "."
-          ],
-          "shuffled": [
-            "book",
-            "the",
-            "Please",
-            ".",
-            "table",
-            "lay",
-            "on",
-            "the"
-          ]
-        },
-        {
-          "id": "b5",
-          "hint": "lend: a polite question",
-          "correct": [
-            "Could",
-            "you",
-            "lend",
-            "me",
-            "ten",
-            "pounds",
-            "?"
-          ],
-          "shuffled": [
-            "pounds",
-            "me",
-            "?",
-            "Could",
-            "ten",
-            "lend",
-            "you"
-          ]
-        }
+        { "id": "gu1", "hint": "I have a headache", "correct": ["Me", "duele", "la", "cabeza", "."], "shuffled": ["cabeza", ".", "duele", "Me", "la"] },
+        { "id": "gu2", "hint": "Omar loves football", "correct": ["A", "Omar", "le", "encanta", "el", "fútbol", "."], "shuffled": ["le", "fútbol", ".", "Omar", "A", "el", "encanta"], "alt": [["Le", "encanta", "el", "fútbol", "a", "Omar", "."]] },
+        { "id": "gu3", "hint": "Do you feel like a coffee?", "correct": ["¿Te", "apetece", "un", "café", "?"], "shuffled": ["café", "?", "apetece", "¿Te", "un"], "es419": { "note": "In Latin America: ¿Quieres un café?" } },
+        { "id": "gu4", "hint": "I need two photos", "correct": ["Me", "hacen", "falta", "dos", "fotos", "."], "shuffled": ["dos", ".", "falta", "fotos", "Me", "hacen"] },
+        { "id": "gu5", "hint": "This shirt suits me", "correct": ["Esta", "camisa", "me", "queda", "bien", "."], "shuffled": ["bien", "me", ".", "Esta", "queda", "camisa"] }
       ]
     }
   ]

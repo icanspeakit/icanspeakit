@@ -1,217 +1,100 @@
 {
   "id": "temporale-praepositionen-b1",
-  "name": "for, since, during, ago, until, by",
+  "name": "desde, desde hace, hace… que, hasta, durante, llevar",
   "level": "B1",
   "status": "geprueft",
-  "subtitle": "Use for with a length of time and since with a starting point: for two years, since 2024. Use ago after a time in the past, during with an event, until for 'up to' and by for 'no later than'.",
-  "briefMarks": [
-    "for two years",
-    "since 2024",
-    "ago",
-    "during",
-    "until",
-    "by"
-  ],
-  "source": "icanspeak Spanish original English text (grammar-b1 run, 2026-10-29)",
+  "variety": "es-ES",
+  "es419": { "note": "These structures work the same in Latin America. Piso is departamento there, and móvil is celular." },
+  "subtitle": "If something started in the past and is still going on, Spanish uses the present tense: Vivo aquí desde 2020 (a starting point). Vivo aquí desde hace tres años (a period). You can also say Hace tres años que vivo aquí, or Llevo tres años aquí.",
+  "briefMarks": ["desde", "desde hace", "hace", "llevo", "hasta", "durante"],
+  "source": "icanspeak Spanish original text (grammar-b1 run, 2026-11-04)",
   "concept": {
     "comic": {
-      "title": "How long, and since when?",
+      "title": "¿Cuánto tiempo {llevas} aquí?",
       "panels": [
         {
-          "caption": "for / since",
-          "tag": "{for} + how long · {since} + when it started",
-          "left": {
-            "name": "regi",
-            "expr": "thinking",
-            "say": "How long have you lived here?"
-          },
-          "right": {
-            "name": "bruno",
-            "expr": "happy",
-            "say": "{For} two years. {Since} 2024!"
-          }
+          "caption": "A starting point",
+          "tag": "{desde} + a moment",
+          "left": { "name": "quaki", "expr": "thinking", "say": "¿{Desde} cuándo vives en Valencia?" },
+          "right": { "name": "bruno", "expr": "happy", "say": "Vivo aquí {desde} 2022." }
         },
         {
-          "caption": "ago",
-          "tag": "time + {ago} → counted back from now",
-          "left": {
-            "name": "hamsti",
-            "expr": "thinking",
-            "say": "When did the film start?"
-          },
-          "right": {
-            "name": "quaki",
-            "expr": "oops",
-            "say": "Ten minutes {ago}! You missed the start."
-          }
+          "caption": "A period up to now",
+          "tag": "{desde hace} + a period",
+          "left": { "name": "regi", "expr": "thinking", "say": "¿Y este trabajo?" },
+          "right": { "name": "bruno", "expr": "happy", "say": "Trabajo aquí {desde hace} dos años." }
         },
         {
-          "caption": "until / by",
-          "tag": "{until} = up to that time · {by} = no later than",
-          "left": {
-            "name": "regi",
-            "expr": "thinking",
-            "say": "Can I pay later?"
-          },
-          "right": {
-            "name": "bruno",
-            "expr": "happy",
-            "say": "Yes, {by} Friday. We're open {until} six."
-          }
+          "caption": "The same idea with llevar",
+          "tag": "{llevar} + a period",
+          "left": { "name": "hamsti", "expr": "happy", "say": "Yo {llevo} un mes en España." },
+          "right": { "name": "quaki", "expr": "celebrate", "say": "¡Bienvenido!" }
         }
       ]
     },
     "flow": [
-      {
-        "text": "When? How long?"
-      },
-      {
-        "text": "for · since · during · ago",
-        "variant": "prep"
-      },
-      {
-        "text": "until · by",
-        "variant": "prep"
-      }
+      { "text": "vivo · trabajo · estudio", "variant": "verb" },
+      { "text": "desde 2020 · desde hace tres años", "variant": "prep" }
     ],
     "qa": [
       {
-        "tag": "for",
-        "html": "<strong>for</strong> + a length of time: <em>for two years, for ten minutes, for a long time</em>. <em>We waited for an hour. She has lived in Leeds for six months.</em> It answers <em>How long?</em>"
+        "html": "<strong>desde</strong> + a moment: the starting point. <em>Trabajo aquí desde marzo. Vivo en Bilbao desde 2021.</em> The question: <em>¿Desde cuándo…?</em>",
+        "tag": "desde"
       },
       {
-        "tag": "since",
-        "html": "<strong>since</strong> + a starting point: <em>since 2024, since Monday, since breakfast, since I was a child</em>. It answers <em>Since when?</em> Use the present perfect: <em>I've known Tom since 2019.</em> (= <em>for</em> seven years.)"
+        "html": "<strong>desde hace</strong> + a period: how long so far. <em>Trabajo aquí desde hace dos años. Estudio español desde hace seis meses.</em> Use the <strong>present</strong> tense when it is still going on. This is different from English <em>I have worked</em>.",
+        "tag": "desde hace"
       },
       {
-        "tag": "during",
-        "html": "<strong>during</strong> + a noun for an event or a period: <em>during the film, during the holiday, during the night</em>. It tells you <em>when</em> something happened, not how long. <em>I woke up twice during the night.</em> Before a verb, use <em>while</em>: <em>while we were watching the film</em>."
+        "html": "<strong>hace</strong> + a period + <strong>que</strong> + present: the same meaning, with the time first. <em>Hace dos años que trabajo aquí.</em> The question: <em>¿Cuánto tiempo hace que…?</em>",
+        "tag": "hace… que"
       },
       {
-        "tag": "ago",
-        "html": "<strong>ago</strong> comes after a time and counts back from now: <em>three days ago, a year ago, a long time ago</em>. Use the past simple: <em>I met Tom three years ago.</em> It goes at the end of the time phrase, never before it."
+        "html": "<strong>llevar</strong> + a period + place or situation: <em>Llevo dos años aquí. Mi hija lleva un mes en este colegio.</em> The question: <em>¿Cuánto tiempo llevas en España?</em> Llevar + a gerund comes in the topic on verbal periphrases.",
+        "tag": "llevar + time"
       },
       {
-        "tag": "until / by",
-        "html": "<strong>until</strong> means 'up to that time, and then it stops': <em>I'll wait until six. The shop is open until eight.</em> <strong>by</strong> means 'at or before that time', so it is a deadline: <em>Send it by Friday. I'll be home by six.</em>"
+        "html": "<strong>hace</strong> + a period with a past verb means <strong>ago</strong>: <em>Llegué a España hace tres años.</em> The action is finished. Compare: <em>Hace tres años que vivo aquí</em> (I still live here).",
+        "tag": "hace: ago"
       },
       {
-        "tag": "Typical mistakes",
-        "html": "Typical mistakes: ✗ <em>I live here since 2020.</em> → ✓ <em>I've lived here since 2020.</em> · ✗ <em>I've lived here since three years.</em> → ✓ <em>for three years</em> · ✗ <em>We waited during two hours.</em> → ✓ <em>for two hours</em> · ✗ <em>I met him before three years.</em> → ✓ <em>three years ago</em> · ✗ <em>Please finish until Friday.</em> → ✓ <em>by Friday</em>"
+        "html": "<strong>hasta</strong>: until. <em>La oficina está abierta hasta las dos.</em> <strong>durante</strong>: during, or for a period. <em>Durante la reunión tomé notas. Estuve en el hospital durante dos semanas.</em> With <em>desde</em>: <em>desde las diez hasta las ocho</em>.",
+        "tag": "hasta, durante"
       }
     ],
-    "noteHtml": "A quick test: a length (<em>two hours</em>) takes <em>for</em>. A starting point (<em>9 o'clock</em>) takes <em>since</em>. For the tenses, see <a href=\"/present-perfect\">present perfect or past simple</a> and <a href=\"/present-perfect-continuous\">present perfect continuous</a>: <em>I've been waiting for an hour.</em> The small words <em>at, on, in</em> are on the <a href=\"/prepositions-of-time\">Prepositions of time</a> page. <strong>During</strong> is followed by a noun. With a verb, use <em>while</em>, <em>before</em> or <em>after</em> and a clause: see <a href=\"/time-clauses\">Time clauses</a>.",
+    "noteHtml": "Common mistakes: ✗ <em>Vivo aquí desde tres años</em> → ✓ <em>Vivo aquí desde hace tres años</em>. ✗ <em>Estoy aquí por tres años</em> → ✓ <em>Llevo tres años aquí</em>. ✗ <em>Llegué hace tres años que</em> → ✓ <em>Llegué hace tres años</em>. For something still going on, the normal form is the present: <em>Vivo aquí desde 2020</em>, not <em>He vivido aquí desde 2020</em>.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
       "tables": [
         {
-          "caption": "Time words at a glance",
-          "head": [
-            "Word",
-            "Meaning",
-            "Usual tense",
-            "Example"
-          ],
+          "caption": "Still going on: four ways",
+          "head": ["Form", "Example"],
           "rows": [
-            [
-              "{for}",
-              "how long",
-              "any tense",
-              "for two years"
-            ],
-            [
-              "{since}",
-              "from a starting point until now",
-              "present perfect",
-              "since Monday"
-            ],
-            [
-              "{during}",
-              "at some time inside an event",
-              "any tense",
-              "during the film"
-            ],
-            [
-              "{ago}",
-              "back from now",
-              "past simple",
-              "three days ago"
-            ],
-            [
-              "{until}",
-              "up to that time, then it stops",
-              "any tense",
-              "until six o'clock"
-            ],
-            [
-              "{by}",
-              "no later than (a deadline)",
-              "any tense",
-              "by Friday"
-            ]
+            ["desde + moment", "Vivo aquí desde 2020."],
+            ["desde hace + period", "Vivo aquí desde hace seis años."],
+            ["hace + period + que", "Hace seis años que vivo aquí."],
+            ["llevar + period", "Llevo seis años aquí."]
           ]
         },
         {
-          "caption": "Easy to mix up",
-          "head": [
-            "Word",
-            "Example",
-            "Meaning"
-          ],
+          "caption": "Finished, or with limits",
+          "head": ["Form", "Meaning", "Example"],
           "rows": [
-            [
-              "{for} three years",
-              "I've lived here for three years.",
-              "the length"
-            ],
-            [
-              "{since} 2023",
-              "I've lived here since 2023.",
-              "the start, and it goes on"
-            ],
-            [
-              "{for} two hours",
-              "I slept for two hours.",
-              "how long it lasted"
-            ],
-            [
-              "{during} the night",
-              "I woke up during the night.",
-              "when it happened"
-            ],
-            [
-              "{until} Friday",
-              "I'll be here until Friday.",
-              "I stay up to Friday, then I leave"
-            ],
-            [
-              "{by} Friday",
-              "Send it by Friday.",
-              "Friday is the last day"
-            ]
+            ["hace + period + past verb", "ago", "Llegué hace seis años."],
+            ["hasta", "until", "Trabajo hasta las ocho."],
+            ["durante", "during, for", "Durante el verano no hay clases."],
+            ["desde… hasta", "from… until", "Abre desde las diez hasta las ocho."]
           ]
         }
       ],
       "boxes": [
         {
-          "badge": "Watch out",
-          "variant": "akk",
-          "items": [
-            "for + length (two hours) · since + start (9 o'clock)",
-            "ago goes after the time: two years ago, not ago two years",
-            "ago + past simple: I met him two years ago",
-            "during + noun · while + subject and verb"
-          ]
-        },
-        {
-          "badge": "Which tense?",
+          "badge": "Careful: same word, two meanings",
           "variant": "dat",
           "items": [
-            "I've lived here for two years. (still true now)",
-            "I lived there for two years. (finished)",
-            "I've lived here since 2024.",
-            "I moved here two years ago."
+            "Hace tres años que vivo aquí: I still live here.",
+            "Viví aquí hace tres años: I lived here three years ago, and I don't now."
           ]
         }
       ]
@@ -219,179 +102,43 @@
   },
   "aktiv": {
     "listen": [
-      {
-        "text": "I've lived here for three years.",
-        "note": "for + how long.",
-        "audio": "/audio/grammatik/temporale-praepositionen-b1/ive-lived-here-for-three-years.mp3"
-      },
-      {
-        "text": "I've lived here since 2022.",
-        "note": "since + the starting point.",
-        "audio": "/audio/grammatik/temporale-praepositionen-b1/ive-lived-here-since-2022.mp3"
-      },
-      {
-        "text": "I met Tom three years ago.",
-        "note": "ago comes after the time. Past simple.",
-        "audio": "/audio/grammatik/temporale-praepositionen-b1/i-met-tom-three-years-ago.mp3"
-      }
+      { "text": "Vivo aquí desde 2020.", "note": "desde + a moment." },
+      { "text": "Trabajo aquí desde hace dos años.", "note": "desde hace + a period, verb in the present." },
+      { "text": "Hace tres años que estudio español.", "note": "Same meaning, time first." },
+      { "text": "Llevo un mes en este trabajo.", "note": "llevar + a period." },
+      { "text": "Llegué a España hace un año.", "note": "Past verb: hace means ago." }
     ],
     "hoeren": {
-      "instruction": "Listen and choose the word you heard.",
+      "instruction": "Listen and choose the sentence you heard. You can listen twice.",
       "items": [
-        {
-          "text": "We've been friends since 2015.",
-          "choices": [
-            "for",
-            "since",
-            "ago"
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/temporale-praepositionen-b1/weve-been-friends-since-2015.mp3"
-        },
-        {
-          "text": "I waited for an hour.",
-          "choices": [
-            "for",
-            "since",
-            "until"
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/temporale-praepositionen-b1/i-waited-for-an-hour.mp3"
-        },
-        {
-          "text": "She left ten minutes ago.",
-          "choices": [
-            "ago",
-            "for",
-            "since"
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/temporale-praepositionen-b1/she-left-ten-minutes-ago.mp3"
-        },
-        {
-          "text": "Please call me by five o'clock.",
-          "choices": [
-            "by",
-            "until",
-            "during"
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/temporale-praepositionen-b1/please-call-me-by-five-oclock.mp3"
-        },
-        {
-          "text": "I'll stay here until Monday.",
-          "choices": [
-            "by",
-            "until",
-            "since"
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/temporale-praepositionen-b1/ill-stay-here-until-monday.mp3"
-        },
-        {
-          "text": "He fell asleep during the film.",
-          "choices": [
-            "during",
-            "for",
-            "since"
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/temporale-praepositionen-b1/he-fell-asleep-during-the-film.mp3"
-        }
+        { "text": "Vivo aquí desde hace dos años.", "choices": ["Vivo aquí desde 2022.", "Vivo aquí desde hace dos años.", "Viví aquí hace dos años."], "correct": 1 },
+        { "text": "Hace un año que trabajo aquí.", "choices": ["Hace un año que trabajo aquí.", "Trabajé aquí hace un año.", "Llevo un año aquí."], "correct": 0 },
+        { "text": "Llevamos tres meses en Bilbao.", "choices": ["Llegamos hace tres meses.", "Llevo tres meses en Bilbao.", "Llevamos tres meses en Bilbao."], "correct": 2 },
+        { "text": "La oficina está abierta hasta las dos.", "choices": ["La oficina está abierta desde las dos.", "La oficina está abierta hasta las dos.", "La oficina está cerrada hasta las dos."], "correct": 1 }
       ]
     },
     "sprechen": {
       "rounds": [
         {
-          "label": "1 · for or since",
-          "instruction": "You hear a time. Say it with for (a length) or since (a starting point).",
-          "example": {
-            "prompt": "two years",
-            "answer": "for two years"
-          },
+          "label": "1 · How long?",
+          "instruction": "You hear a period. Say that you have lived here for that long, using desde hace.",
+          "example": { "prompt": "dos años", "answer": "Vivo aquí desde hace dos años." },
           "items": [
-            {
-              "prompt": "Monday",
-              "answer": "since Monday",
-              "audioPrompt": "/audio/grammatik/temporale-praepositionen-b1/monday.mp3",
-              "audioAnswer": "/audio/grammatik/temporale-praepositionen-b1/since-monday--a.mp3"
-            },
-            {
-              "prompt": "ten minutes",
-              "answer": "for ten minutes",
-              "audioPrompt": "/audio/grammatik/temporale-praepositionen-b1/ten-minutes.mp3",
-              "audioAnswer": "/audio/grammatik/temporale-praepositionen-b1/for-ten-minutes--a.mp3"
-            },
-            {
-              "prompt": "2019",
-              "answer": "since 2019",
-              "audioPrompt": "/audio/grammatik/temporale-praepositionen-b1/2019.mp3",
-              "audioAnswer": "/audio/grammatik/temporale-praepositionen-b1/since-2019--a.mp3"
-            },
-            {
-              "prompt": "a long time",
-              "answer": "for a long time",
-              "audioPrompt": "/audio/grammatik/temporale-praepositionen-b1/a-long-time.mp3",
-              "audioAnswer": "/audio/grammatik/temporale-praepositionen-b1/for-a-long-time--a.mp3"
-            },
-            {
-              "prompt": "this morning",
-              "answer": "since this morning",
-              "audioPrompt": "/audio/grammatik/temporale-praepositionen-b1/this-morning.mp3",
-              "audioAnswer": "/audio/grammatik/temporale-praepositionen-b1/since-this-morning--a.mp3"
-            },
-            {
-              "prompt": "three weeks",
-              "answer": "for three weeks",
-              "audioPrompt": "/audio/grammatik/temporale-praepositionen-b1/three-weeks.mp3",
-              "audioAnswer": "/audio/grammatik/temporale-praepositionen-b1/for-three-weeks--a.mp3"
-            }
+            { "prompt": "tres meses", "answer": "Vivo aquí desde hace tres meses." },
+            { "prompt": "un año", "answer": "Vivo aquí desde hace un año." },
+            { "prompt": "seis años", "answer": "Vivo aquí desde hace seis años." },
+            { "prompt": "mucho tiempo", "answer": "Vivo aquí desde hace mucho tiempo." }
           ]
         },
         {
-          "label": "2 · until or by",
-          "instruction": "You hear 'stay' or 'deadline' and a time. For 'stay' say until, for 'deadline' say by.",
-          "example": {
-            "prompt": "stay, Friday",
-            "answer": "until Friday"
-          },
+          "label": "2 · With llevar",
+          "instruction": "You hear a period. Say how long you have been in Spain, using llevar.",
+          "example": { "prompt": "dos años", "answer": "Llevo dos años en España." },
           "items": [
-            {
-              "prompt": "deadline, Friday",
-              "answer": "by Friday",
-              "audioPrompt": "/audio/grammatik/temporale-praepositionen-b1/deadline-friday.mp3",
-              "audioAnswer": "/audio/grammatik/temporale-praepositionen-b1/by-friday--a.mp3"
-            },
-            {
-              "prompt": "stay, six o'clock",
-              "answer": "until six o'clock",
-              "audioPrompt": "/audio/grammatik/temporale-praepositionen-b1/stay-six-oclock.mp3",
-              "audioAnswer": "/audio/grammatik/temporale-praepositionen-b1/until-six-oclock--a.mp3"
-            },
-            {
-              "prompt": "deadline, noon",
-              "answer": "by noon",
-              "audioPrompt": "/audio/grammatik/temporale-praepositionen-b1/deadline-noon.mp3",
-              "audioAnswer": "/audio/grammatik/temporale-praepositionen-b1/by-noon--a.mp3"
-            },
-            {
-              "prompt": "stay, next week",
-              "answer": "until next week",
-              "audioPrompt": "/audio/grammatik/temporale-praepositionen-b1/stay-next-week.mp3",
-              "audioAnswer": "/audio/grammatik/temporale-praepositionen-b1/until-next-week--a.mp3"
-            },
-            {
-              "prompt": "deadline, the weekend",
-              "answer": "by the weekend",
-              "audioPrompt": "/audio/grammatik/temporale-praepositionen-b1/deadline-the-weekend.mp3",
-              "audioAnswer": "/audio/grammatik/temporale-praepositionen-b1/by-the-weekend--a.mp3"
-            },
-            {
-              "prompt": "stay, midnight",
-              "answer": "until midnight",
-              "audioPrompt": "/audio/grammatik/temporale-praepositionen-b1/stay-midnight.mp3",
-              "audioAnswer": "/audio/grammatik/temporale-praepositionen-b1/until-midnight--a.mp3"
-            }
+            { "prompt": "un mes", "answer": "Llevo un mes en España." },
+            { "prompt": "cinco años", "answer": "Llevo cinco años en España." },
+            { "prompt": "seis meses", "answer": "Llevo seis meses en España." },
+            { "prompt": "muchos años", "answer": "Llevo muchos años en España." }
           ]
         }
       ]
@@ -400,445 +147,107 @@
   "exercises": [
     {
       "type": "fill",
-      "title": "for, since, during, ago, until or by?",
-      "hint": "Is it a length, a starting point, an event, a deadline or 'up to'?",
-      "placeholder": "Preposition",
+      "title": "desde or desde hace?",
+      "hint": "A moment (2021, marzo): desde. A period (cinco años, un mes): desde hace.",
+      "instant": true,
+      "placeholder": "Word",
       "items": [
-        {
-          "prompt": "Kwame has lived in Bristol ___ 2019.",
-          "hint": "2019 is a starting point.",
-          "answer": "since",
-          "choices": [
-            "since",
-            "for",
-            "ago"
-          ],
-          "why": "2019 is the start, and he still lives there: since."
-        },
-        {
-          "prompt": "He has worked here ___ five years.",
-          "hint": "Five years is a length.",
-          "answer": "for",
-          "choices": [
-            "for",
-            "since",
-            "during"
-          ],
-          "why": "Five years is how long: for."
-        },
-        {
-          "prompt": "We met three years ___.",
-          "hint": "Counting back from now.",
-          "answer": "ago",
-          "choices": [
-            "ago",
-            "for",
-            "since"
-          ],
-          "why": "ago comes after the time and counts back from now."
-        },
-        {
-          "prompt": "I fell asleep ___ the film.",
-          "hint": "The film is an event.",
-          "answer": "during",
-          "choices": [
-            "during",
-            "for",
-            "since"
-          ],
-          "why": "The film is an event, and it tells you when: during."
-        },
-        {
-          "prompt": "Please wait here ___ the doctor is ready.",
-          "hint": "Wait up to that moment.",
-          "answer": "until",
-          "choices": [
-            "until",
-            "by",
-            "for"
-          ],
-          "why": "You wait up to that moment, then it stops: until."
-        },
-        {
-          "prompt": "The report must be on my desk ___ Friday.",
-          "hint": "Friday is the last day.",
-          "answer": "by",
-          "choices": [
-            "by",
-            "until",
-            "for"
-          ],
-          "why": "Friday is a deadline, no later than Friday: by."
-        },
-        {
-          "prompt": "It has been raining ___ this morning.",
-          "hint": "This morning is a starting point.",
-          "answer": "since",
-          "choices": [
-            "since",
-            "for",
-            "ago"
-          ],
-          "why": "This morning is the start, and it is still raining: since."
-        },
-        {
-          "prompt": "Zofia studied English ___ two years before she moved to London.",
-          "hint": "Two years is a length.",
-          "answer": "for",
-          "choices": [
-            "for",
-            "since",
-            "ago"
-          ],
-          "why": "Two years is how long: for."
-        }
+        { "prompt": "Vivo en Zaragoza ___ 2021.", "answer": "desde", "choices": ["desde", "desde hace"], "why": "2021 is a moment: desde." },
+        { "prompt": "Mi hermano vive en Zaragoza ___ cinco años.", "answer": "desde hace", "choices": ["desde", "desde hace"], "why": "Five years is a period: desde hace." },
+        { "prompt": "Trabajo en este hospital ___ marzo.", "answer": "desde", "choices": ["desde", "desde hace"], "why": "March is a moment: desde." },
+        { "prompt": "Estudio español ___ seis meses.", "answer": "desde hace", "choices": ["desde", "desde hace"], "why": "Six months is a period: desde hace." },
+        { "prompt": "No veo a mi hermana ___ el verano pasado.", "answer": "desde", "choices": ["desde", "desde hace"], "why": "Last summer is a moment: desde." },
+        { "prompt": "Tengo este móvil ___ dos años.", "answer": "desde hace", "choices": ["desde", "desde hace"], "why": "Two years is a period: desde hace.", "es419": { "note": "In Latin America: este celular." } },
+        { "prompt": "Estamos empadronados aquí ___ enero.", "answer": "desde", "choices": ["desde", "desde hace"], "why": "January is a moment: desde." },
+        { "prompt": "No hablo con el casero ___ una semana.", "answer": "desde hace", "choices": ["desde", "desde hace"], "why": "A week is a period: desde hace." }
+      ]
+    },
+    {
+      "type": "fill",
+      "title": "hace, llevar or desde?",
+      "hint": "hace + period + que + present. llevar + period. hace + period after a past verb: ago.",
+      "placeholder": "Form",
+      "items": [
+        { "prompt": "___ tres años que vivo en España.", "answer": "Hace", "choices": ["Hace", "Llevo", "Desde"], "why": "hace + period + que + present." },
+        { "prompt": "___ tres años en España.", "answer": "Llevo", "choices": ["Hace", "Llevo", "Desde"], "why": "There is no que and no other verb, so llevar is the verb here." },
+        { "prompt": "Mi hija ___ dos meses en este colegio.", "answer": "lleva", "choices": ["lleva", "hace", "desde"], "why": "llevar + period, in the él/ella form." },
+        { "prompt": "Llegué a Madrid ___ tres años.", "answer": "hace", "choices": ["hace", "desde", "desde hace"], "why": "A past verb: hace means ago." },
+        { "prompt": "Empezamos a trabajar aquí ___ un mes.", "answer": "hace", "choices": ["hace", "desde", "desde hace"], "why": "A past verb: hace means ago." },
+        { "prompt": "¿Cuánto tiempo ___ en este piso?", "answer": "llevas", "choices": ["llevas", "hace", "desde"], "why": "llevar + period + place.", "es419": { "note": "In Latin America: en este departamento." } },
+        { "prompt": "¿___ cuándo vives en Valencia?", "answer": "Desde", "choices": ["Desde", "Hace", "Durante"], "why": "The question for a starting point: ¿Desde cuándo?" },
+        { "prompt": "¿Cuánto tiempo ___ que estudias español?", "answer": "hace", "choices": ["hace", "llevas", "desde"], "why": "The question form of hace… que." }
+      ]
+    },
+    {
+      "type": "fill",
+      "title": "hasta, durante or desde?",
+      "hint": "hasta: the end point. durante: during, for a period. desde: the start.",
+      "placeholder": "Word",
+      "items": [
+        { "prompt": "La oficina abre a las nueve y está abierta ___ las dos.", "answer": "hasta", "choices": ["hasta", "durante", "desde"], "why": "Two o'clock is the end point." },
+        { "prompt": "___ la reunión, Luis tomó muchas notas.", "answer": "Durante", "choices": ["Durante", "Hasta", "Desde"], "why": "While the meeting went on: durante." },
+        { "prompt": "Estuve en el hospital ___ dos semanas.", "answer": "durante", "choices": ["durante", "hasta", "desde"], "why": "A finished period: durante." },
+        { "prompt": "Te espero ___ las seis. Luego me voy.", "answer": "hasta", "choices": ["hasta", "durante", "desde"], "why": "Six o'clock is the end point." },
+        { "prompt": "La tienda abre ___ las diez hasta las ocho.", "answer": "desde", "choices": ["desde", "durante", "hasta"], "why": "desde… hasta: from… until." },
+        { "prompt": "No pude dormir ___ toda la noche.", "answer": "durante", "choices": ["durante", "desde", "hasta"], "why": "The whole night is a period: durante." }
       ]
     },
     {
       "type": "table",
-      "title": "for or since?",
-      "hint": "A length of time takes for. A starting point takes since.",
-      "columns": [
-        "Time expression",
-        "for or since?"
-      ],
-      "placeholder": "for / since",
+      "title": "Same meaning, other words.",
+      "hint": "Keep the meaning: it is still going on. Use hace… que or llevar, as the pills show.",
+      "columns": ["Sentence", "Same meaning"],
+      "placeholder": "Sentence",
       "rows": [
-        {
-          "term": "three weeks",
-          "answer": "for",
-          "choices": [
-            "for",
-            "since"
-          ]
-        },
-        {
-          "term": "Monday",
-          "answer": "since",
-          "choices": [
-            "for",
-            "since"
-          ]
-        },
-        {
-          "term": "2018",
-          "answer": "since",
-          "choices": [
-            "for",
-            "since"
-          ]
-        },
-        {
-          "term": "a long time",
-          "answer": "for",
-          "choices": [
-            "for",
-            "since"
-          ]
-        },
-        {
-          "term": "last summer",
-          "answer": "since",
-          "choices": [
-            "for",
-            "since"
-          ]
-        },
-        {
-          "term": "ten minutes",
-          "answer": "for",
-          "choices": [
-            "for",
-            "since"
-          ]
-        },
-        {
-          "term": "breakfast",
-          "answer": "since",
-          "choices": [
-            "for",
-            "since"
-          ]
-        },
-        {
-          "term": "two hours",
-          "answer": "for",
-          "choices": [
-            "for",
-            "since"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "table",
-      "title": "until or by?",
-      "hint": "until: something goes on up to that time. by: something must be done at or before that time.",
-      "columns": [
-        "Sentence",
-        "until or by?"
-      ],
-      "placeholder": "until / by",
-      "rows": [
-        {
-          "term": "The shop is open ___ 8 pm.",
-          "answer": "until",
-          "choices": [
-            "until",
-            "by"
-          ]
-        },
-        {
-          "term": "Send me the form ___ Friday.",
-          "answer": "by",
-          "choices": [
-            "until",
-            "by"
-          ]
-        },
-        {
-          "term": "I'll wait here ___ you're ready.",
-          "answer": "until",
-          "choices": [
-            "until",
-            "by"
-          ]
-        },
-        {
-          "term": "I need the car back ___ six.",
-          "answer": "by",
-          "choices": [
-            "until",
-            "by"
-          ]
-        },
-        {
-          "term": "She stayed in Paris ___ June.",
-          "answer": "until",
-          "choices": [
-            "until",
-            "by"
-          ]
-        },
-        {
-          "term": "Please finish the homework ___ tomorrow.",
-          "answer": "by",
-          "choices": [
-            "until",
-            "by"
-          ]
-        }
+        { "term": "Vivo aquí desde hace dos años.", "answer": "Hace dos años que vivo aquí.", "choices": ["Hace dos años que vivo aquí.", "Viví aquí hace dos años.", "Desde dos años vivo aquí."] },
+        { "term": "Estudio español desde hace un año.", "answer": "Hace un año que estudio español.", "choices": ["Estudié español hace un año.", "Hace un año que estudio español.", "Desde un año estudio español."] },
+        { "term": "Conozco a Ana desde hace mucho tiempo.", "answer": "Hace mucho tiempo que conozco a Ana.", "choices": ["Conocí a Ana hace mucho tiempo.", "Desde mucho tiempo conozco a Ana.", "Hace mucho tiempo que conozco a Ana."] },
+        { "term": "Estamos en Bilbao desde hace tres meses.", "answer": "Llevamos tres meses en Bilbao.", "choices": ["Llevamos tres meses en Bilbao.", "Hacemos tres meses en Bilbao.", "Llevamos desde tres meses en Bilbao."] },
+        { "term": "Carmen está en paro desde hace un año.", "answer": "Carmen lleva un año en paro.", "choices": ["Carmen hace un año en paro.", "Carmen lleva un año en paro.", "Carmen lleva desde un año en paro."] },
+        { "term": "Estoy en este trabajo desde hace seis meses.", "answer": "Llevo seis meses en este trabajo.", "choices": ["Hago seis meses en este trabajo.", "Llevo desde seis meses en este trabajo.", "Llevo seis meses en este trabajo."] }
       ]
     },
     {
       "type": "match",
-      "title": "What does it mean? Clear up the mix-ups.",
-      "hint": "Click a phrase on the left, then its meaning on the right.",
+      "title": "What does it mean?",
+      "hint": "Is it still going on, or finished?",
       "pairs": [
-        {
-          "q": "three years ago",
-          "a": "counted back from now, and it is over"
-        },
-        {
-          "q": "for three years",
-          "a": "the length of time"
-        },
-        {
-          "q": "since 2021",
-          "a": "from the start in 2021 until now"
-        },
-        {
-          "q": "during the film",
-          "a": "at some point inside the event"
-        },
-        {
-          "q": "until Friday",
-          "a": "up to Friday, then it stops"
-        },
-        {
-          "q": "by Friday",
-          "a": "no later than Friday"
-        }
+        { "q": "Vivo aquí desde 2020.", "a": "I've lived here since 2020." },
+        { "q": "Vivo aquí desde hace seis años.", "a": "I've lived here for six years." },
+        { "q": "Viví aquí seis años.", "a": "I lived here for six years, and I don't now." },
+        { "q": "Llegué hace seis años.", "a": "I arrived six years ago." },
+        { "q": "Vivo aquí hasta junio.", "a": "I'm living here until June." }
       ]
     },
     {
       "type": "story",
-      "title": "Gap text: Diego is ill.",
-      "hint": "Fill in: ago, since, for, until, during or by.",
+      "title": "Fill the gaps: Omar's years in Spain.",
+      "hint": "hace, desde, llevo, durante or hasta?",
+      "choices": ["hace", "desde", "llevo", "durante", "hasta"],
       "segments": [
-        {
-          "text": "Diego came to Manchester two years "
-        },
-        {
-          "blank": 0,
-          "answer": [
-            "ago"
-          ]
-        },
-        {
-          "text": ". He has lived in the same flat "
-        },
-        {
-          "blank": 1,
-          "answer": [
-            "since"
-          ]
-        },
-        {
-          "text": " the day he arrived, and he has worked in a cafe "
-        },
-        {
-          "blank": 2,
-          "answer": [
-            "for"
-          ]
-        },
-        {
-          "text": " a year and a half. Last week he was ill. He stayed in bed "
-        },
-        {
-          "blank": 3,
-          "answer": [
-            "until"
-          ]
-        },
-        {
-          "text": " Thursday. He woke up three times "
-        },
-        {
-          "blank": 4,
-          "answer": [
-            "during"
-          ]
-        },
-        {
-          "text": " the night. His boss said: please come back "
-        },
-        {
-          "blank": 5,
-          "answer": [
-            "by"
-          ]
-        },
-        {
-          "text": " Monday at the latest."
-        }
+        { "text": "Omar llegó a España " },
+        { "blank": 0, "answer": "hace" },
+        { "text": " cuatro años. Vive en Almería " },
+        { "blank": 1, "answer": "desde" },
+        { "text": " 2023 y trabaja en un invernadero. “" },
+        { "blank": 2, "answer": "Llevo" },
+        { "text": " dos años en esta empresa”, dice. " },
+        { "blank": 3, "answer": "Durante" },
+        { "text": " las vacaciones visita a su familia. En septiembre vuelve al trabajo y muchos días se queda " },
+        { "blank": 4, "answer": "hasta" },
+        { "text": " las siete de la tarde." }
       ]
     },
     {
       "type": "build",
       "title": "Build the sentences.",
+      "hint": "Still going on: verb in the present.",
       "sentences": [
-        {
-          "id": "tb1",
-          "hint": "since + starting point · present perfect",
-          "correct": [
-            "She",
-            "has",
-            "lived",
-            "in",
-            "London",
-            "since",
-            "2020",
-            "."
-          ],
-          "shuffled": [
-            "London",
-            ".",
-            "has",
-            "since",
-            "She",
-            "2020",
-            "in",
-            "lived"
-          ]
-        },
-        {
-          "id": "tb2",
-          "hint": "for + length of time",
-          "correct": [
-            "We",
-            "waited",
-            "for",
-            "two",
-            "hours",
-            "."
-          ],
-          "shuffled": [
-            "hours",
-            "We",
-            ".",
-            "for",
-            "waited",
-            "two"
-          ]
-        },
-        {
-          "id": "tb3",
-          "hint": "ago comes after the time · past simple",
-          "correct": [
-            "I",
-            "met",
-            "Tom",
-            "three",
-            "years",
-            "ago",
-            "."
-          ],
-          "shuffled": [
-            "ago",
-            "Tom",
-            ".",
-            "I",
-            "years",
-            "three",
-            "met"
-          ]
-        },
-        {
-          "id": "tb4",
-          "hint": "by + deadline",
-          "correct": [
-            "Please",
-            "send",
-            "the",
-            "form",
-            "by",
-            "Friday",
-            "."
-          ],
-          "shuffled": [
-            "Friday",
-            "the",
-            ".",
-            "by",
-            "Please",
-            "form",
-            "send"
-          ]
-        },
-        {
-          "id": "tb5",
-          "hint": "until + the time you stop waiting",
-          "correct": [
-            "I'll",
-            "wait",
-            "here",
-            "until",
-            "six",
-            "o'clock",
-            "."
-          ],
-          "shuffled": [
-            "six",
-            "here",
-            ".",
-            "I'll",
-            "until",
-            "o'clock",
-            "wait"
-          ]
-        }
+        { "id": "dh1", "hint": "I've lived in Seville since 2022", "correct": ["Vivo", "en", "Sevilla", "desde", "2022", "."], "shuffled": ["desde", ".", "Sevilla", "Vivo", "2022", "en"], "alt": [["Desde", "2022", "vivo", "en", "Sevilla", "."]] },
+        { "id": "dh2", "hint": "I've worked here for two years (use desde hace)", "correct": ["Trabajo", "aquí", "desde", "hace", "dos", "años", "."], "shuffled": ["hace", "aquí", ".", "años", "Trabajo", "dos", "desde"], "alt": [["Desde", "hace", "dos", "años", "trabajo", "aquí", "."]] },
+        { "id": "dh3", "hint": "I've been studying Spanish for three years (start with Hace)", "correct": ["Hace", "tres", "años", "que", "estudio", "español", "."], "shuffled": ["que", "español", "tres", ".", "Hace", "estudio", "años"] },
+        { "id": "dh4", "hint": "I've been in this flat for six months (use llevar)", "correct": ["Llevo", "seis", "meses", "en", "este", "piso", "."], "shuffled": ["este", "meses", ".", "Llevo", "piso", "seis", "en"], "es419": { "note": "In Latin America: en este departamento." } },
+        { "id": "dh5", "hint": "We arrived in Spain a year ago", "correct": ["Llegamos", "a", "España", "hace", "un", "año", "."], "shuffled": ["un", "hace", ".", "Llegamos", "año", "a", "España"], "alt": [["Hace", "un", "año", "llegamos", "a", "España", "."]] }
       ]
     }
   ]
