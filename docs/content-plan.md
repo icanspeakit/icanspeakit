@@ -1048,3 +1048,25 @@ are handled by the `ui-*` items where they are rendered.
   (`zustandspassiv` 🔒, `passiv-b1` 🏗️). **For `routes`:** B1 topic text contains no internal links.
   **For `teachers`:** `arbeitsblatt/<slot>.json` for these slots are still English.
   **For `grammar-start-book`:** `grammatik-start/en.json` refers to `futur` and `konditionalsaetze`.
+- **B2 grammar decisions** (`grammar-b2`, 2026-11-04): the 13 B2 slots are Spanish and in
+  `grammatik-done`; the quiz topics `passiv` and `konjunktiv2` are Spanish too (all 7 quiz topics now
+  have `variety`). **-ra and -se:** pills show only *-ra*, `answer` arrays also accept *-se*, except in
+  the `modalsaetze` past table, which lists only some *hubiera/hubiese* mixes (tables are pills only, so
+  this doesn't reach a learner). A *hubiera* result is accepted and never a wrong pill. **Overlapping
+  items:** verbs of change, discourse markers and collocations are taught as tendencies; two right
+  answers go into the array rather than being tested against each other (`hacer/sacar una foto` and
+  `hacerse/volverse rico` are not tested). **Build sentences:** same comma-tile limit as B1 (no code
+  change), so hints state the clause order; `alt` covers word order inside a clause only. Story pills are
+  per gap, not single-use, so a story gap may accept several answers. **For `grammar-c1`:**
+  `negationswoerter` points to *deber de* at C1; `modalsaetze` only introduces *si hubiera* and gives one
+  mixed example, so `konjunktiv-1` carries the full forms; *de manera que* + subjunctive (purpose) has one
+  line in `konsekutivsaetze`. Use the same -ra/-se rule. **For `grammar-structure`:** `searchIndex.js`
+  keywords, `catalog.js` emojis and the `stundenplan.js` title patterns still fit the old B2 topics;
+  `wissen.file.grammatik-b2.desc` in `en.json` still describes the English PDF. **For `routes`:** B2
+  topic text contains no internal links; the slugs are still English (accidental *se* is at `/ever-words`,
+  probability at `/negative-words`). **For `teachers`:** `arbeitsblatt/<slot>.json` for `konjunktiv2`,
+  `passiv`, `relativsaetze-was-wo`, `zweiteilige-konnektoren`, `negationswoerter`, `irgend`,
+  `fokuspartikeln`, `modalpartikeln`, `adjektive-mit-praepositionen`, `nomen-verb-verbindungen` are
+  still English. **For `culture`:** `/grammar/quiz` on `passiv` still links to Culture with "More
+  sentences like these" (`quiz.crosslink.passiv`, `kultur.link.passiv`); check that this still holds
+  once the culture texts are Spanish.
