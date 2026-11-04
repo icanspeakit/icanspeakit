@@ -59,7 +59,8 @@ errors.push(...checkUnits(units));
 // No 404s: every clip a task plays has to be on disk.
 for (const u of units) {
   for (const t of u.tasks) {
-    if (t.audio && !existsSync(path.join(ROOT, "public", t.audio))) errors.push(`${u.id}: ${t.ref} plays ${t.audio}, which does not exist`);
+    // A word card has no play button (einfach-view.js), so only tasks that play need the file.
+    if (t.audio && t.type !== "wort" && !existsSync(path.join(ROOT, "public", t.audio))) errors.push(`${u.id}: ${t.ref} plays ${t.audio}, which does not exist`);
   }
 }
 
