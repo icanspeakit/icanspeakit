@@ -24,6 +24,7 @@ const STRICT = new Set([
   "einstufung",
   "grammatik",
   "grammatik-quiz",
+  "grammatik-start",
   "praepositionen",
   // "lexicon", "berufe", "wortschatz", "redemittel",
   // "verbtabellen", "conjugation-trainer", "hoeren", "aussprache-check",
@@ -53,6 +54,8 @@ const MODULES = [
   { id: "grammatik", files: [...jsonFiles("src/data/grammatik"), ...jsonFiles("src/paid/grammatik")],
     items: (d) => [{ item: d }] },
   { id: "grammatik-quiz", files: one("src/data/grammatik.json"), items: (d) => arr(d).map((item) => ({ item })) },
+  // The starter book carries `variety` at the top level; its translations hold no Spanish of their own.
+  { id: "grammatik-start", files: one("src/data/grammatik-start/en.json"), items: (d) => [{ item: d }] },
   { id: "praepositionen", files: one("src/data/praepositionen-trainer.json"),
     items: (d) => arr(d.packs).map((item) => ({ item })) },
   // The placement test's questions are grammar items; the file carries `variety` at the top level.
