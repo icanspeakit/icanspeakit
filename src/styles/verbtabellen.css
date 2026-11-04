@@ -145,6 +145,8 @@ mark.vb-x { padding: 0 4px; }
 .vb-all summary:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
 .vb-mood { margin: 4px 0 16px; }
 .vb-mood h4 { margin: 0; font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+/* Long compound forms (nos hubiéramos levantado / hubiésemos levantado) wrap on a phone. */
+.vb-mood .vb-table td { white-space: normal; vertical-align: top; }
 
 .vb-practice-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0 0; }
 .vb-practice {

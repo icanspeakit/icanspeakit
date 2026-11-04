@@ -1123,3 +1123,22 @@ are handled by the `ui-*` items where they are rendered.
   `node scripts/check-grammatik-start.mjs de`, generate the edition. `downloads.json` already lists `editions: ["de"]`; add the
   other languages when their file exists. **For `teachers` or `deploy-readme`:** the other books in `downloads.json`
   have no PDF in the repo, so they don't show on `/knowledge`; `check:downloads` reports them as missing.
+- **Conjugation data decisions** (`conjugation-data`, 2026-11-04): 69 verbs in `verbtabellen.json`, in the six groups of §4.1. The
+  generator is **`src/lib/verbtabellenCore.js`** (new, no Vite imports); `verbtabellen.js` adds the lexicon gloss and `visibleRows()`
+  (drops *vosotros* through `showsVosotros()`). `pnpm check:verbtabellen` (in `check:content`) checks shape, golden forms, accent rules
+  and agreement with `nachschlagen/starke-schwache-verben.json`, so a change to either file must keep both in step. `verbtabellen` is
+  strict in `check-variety.mjs`. **Additions to §4.1:** verbs carry their own `en` and `level` (the lexicon is still English, and
+  `lex` only adds help-language glosses once it has the lemma). A pronominal verb stores forms without the pronoun, takes the stored
+  tenses of its plain verb when that verb is in the file (*irse*, *ponerse*), and stores `imp` only when written in full (*irse*).
+  Beyond §4.1: *subj* is derived from a stored yo form, *subjImpf* from the indefinido, *cond* from a stored `fut`. **Highlighting** compares with the bare
+  pattern, so spelling changes (*busqué*, *leíste*) count as highlighted though the verbs are `regular: true`. `–` marks a form not in use: *haber*
+  and *soler* have no imperative, *soler* no future or conditional; such verbs have `defective: true` and aren't asked in the indefinido on the
+  worksheet or in the quiz. *soler* keeps its rare *solió* and compound forms, with a note. **Page:** presente, indefinido and perfecto stay visible;
+  every other tense sits in a closed `<details>` per card, and closed ones don't print. *Regular* now comes first in `groups`, and `oler` is
+  filed under stem-changing. **Search:** every simple form finds its verb (*haga*, *tuviera*); `SiteSearch` no longer matches on the
+  small words inside a longer form (*me, no, he*). **For `conjugation-trainer`:** import `buildAll`, `PERSONS`, `ROW_TENSES` from the core; each row
+  has `{ f, x, alt? }` per tense (`alt` = the *-se* form); filter `–` and use `v.defective`. **For `vocab-*`:** when the lexicon has the Spanish
+  verbs, `lex` starts to fill by itself; the table's `level` wins over the lexicon's, so keep the two in step. **For `routes`:** the page's practice
+  buttons use `topicPath()`; the *reflexive verbs* link still points at `/grammar/phrasal-verbs-list`. **For `ui-lang-*`:** new keys are
+  `verben.when.*`, `verben.mood.*`, `verben.allTenses`, `verben.ger`, `verben.p2`, `verben.group.stem-change.*`. The tandem sheet's phrases
+  (`arbeitsblatt/verbtabellen.json`) are Spanish on purpose.
