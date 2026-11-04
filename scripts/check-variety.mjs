@@ -23,8 +23,10 @@ const rel = (p) => path.relative(ROOT, p).replaceAll("\\", "/");
 const STRICT = new Set([
   "einstufung",
   "grammatik",
-  // "lexicon", "berufe", "wortschatz", "redemittel", "grammatik-quiz",
-  // "praepositionen", "verbtabellen", "conjugation-trainer", "hoeren", "aussprache-check",
+  "grammatik-quiz",
+  "praepositionen",
+  // "lexicon", "berufe", "wortschatz", "redemittel",
+  // "verbtabellen", "conjugation-trainer", "hoeren", "aussprache-check",
   // "zungenbrecher", "satzmelodie", "ausspracheregeln", "dgt", "business-spanish",
 ]);
 

@@ -3,7 +3,7 @@
 // and Regi's line under it links here (#<id>) — so a learner who does not know what an
 // adjective is gets one screen that says it, with examples.
 //
-// Content: src/data/wortarten.json (English, plus the `what` line in the help languages,
+// Content: src/data/wortarten.json (English explanations, Spanish examples, plus the `what` line in the help languages,
 // shown under it by GrammarHelpText like every grammar explanation). The class names and
 // the colours match the chips on the cards (vokabeltrainer.css .vt-info-pos--*).
 import Layout from "../../layouts/Layout.astro";
@@ -78,7 +78,7 @@ const classes = wortarten.classes.map((c: any) => ({
           <p class="wa-what">{c.what}</p>
           <GrammarHelpText text={field(c.tr)} />
           {c.ask && <p class="wa-ask"><span data-i18n="wa.ask">Question:</span> <b lang="en">{c.ask}</b></p>}
-          <ul class="wa-ex" lang="en">{c.examples.map((w) => <li>{w}</li>)}</ul>
+          <ul class="wa-ex" lang="es">{c.examples.map((w) => <li>{w}</li>)}</ul>
           <p class="wa-tip">{c.tip}</p>
           {/* Common mistake: the look-alike of this class (man ≠ der Mann), one line into its
               card on /grammar/common-mistakes. */}

@@ -1,16 +1,28 @@
 {
-  "_note": "The parts of speech to look up (/grammar/parts-of-speech) and Regi's line under the part-of-speech label of the flashcards (wortschatz-app.js). `practice` = the anchor of the exercise on /parts-of-speech where the class comes up. `fehler` = the word pair on /grammar/common-mistakes that belongs to the class; empty where no pair fits (numbers). `id` = the pos field in the lexicon; the article has no lexicon word of its own but belongs here. `examples` are set by hand (English, A1) so the page does not depend on the lexicon. `say` is the short form for the card (≤ 8 words), `what` the sentence on the page, `tr` its translation into the help languages (`en` = the same sentence; ar/uk/tr: machine-assisted draft, reviewed:false).",
+  "_note": "The parts of speech to look up (/grammar/parts-of-speech) and Regi's line under the part-of-speech label of the flashcards (wortschatz-app.js). `practice` = the anchor of the exercise on /parts-of-speech where the class comes up. `fehler` = the word pair on /grammar/common-mistakes that belongs to the class; empty until `idioms-mistakes` has Spanish pairs (the old ones were English). `id` = the pos field in the lexicon; the article has no lexicon word of its own but belongs here. `examples` are set by hand (Spanish, A1) so the page does not depend on the lexicon. `say` is the short form for the card (≤ 8 words), `what` the sentence on the page, `tr` its translation into the help languages (`en` = the same sentence; ar/uk/tr: machine-assisted draft, reviewed:false, removed where `what` changed for Spanish).",
   "reviewed": false,
   "classes": [
     {
-      "id": "noun", "name": "Noun", "also": "a naming word", "practice": "erkennen",
-      "fehler": "advice-advise",
+      "id": "noun",
+      "name": "Noun",
+      "also": "a naming word",
+      "practice": "erkennen",
+      "fehler": "",
       "say": "A noun is a name for something.",
       "what": "A noun is a name: for a person, an animal, a thing or an idea.",
       "ask": "Who? What?",
-      "tip": "Most nouns have a plural: book – books. Names of people and places start with a capital letter: Amira, London.",
-      "examples": ["book", "friend", "house", "water", "idea"],
-      "learn": { "href": "/nouns", "label": "What is a noun? Rule and exercises" },
+      "tip": "Every Spanish noun is masculine or feminine: el libro, la casa. Most nouns have a plural: libro – libros. Names of people and places start with a capital letter: Amina, Sevilla.",
+      "examples": [
+        "el libro",
+        "la casa",
+        "el amigo",
+        "el agua",
+        "la idea"
+      ],
+      "learn": {
+        "href": "/nouns",
+        "label": "Nouns and gender: rule and exercises"
+      },
       "tr": {
         "en": "A noun is a name: for a person, an animal, a thing or an idea.",
         "ar": "الاسم هو اسم: لشخص أو حيوان أو شيء أو فكرة.",
@@ -19,30 +31,54 @@
       }
     },
     {
-      "id": "art", "name": "Article", "also": "a, an, the", "practice": "erkennen",
-      "fehler": "information",
+      "id": "art",
+      "name": "Article",
+      "also": "el, la, un, una",
+      "practice": "erkennen",
+      "fehler": "",
       "say": "An article comes before a noun.",
-      "what": "An article comes before a noun: a or an for one thing of many, the for a thing we both know.",
-      "ask": "a or the?",
-      "tip": "Use a before a consonant sound and an before a vowel sound: a car, an apple, an hour, a university.",
-      "examples": ["a", "an", "the"],
-      "learn": { "href": "/articles", "label": "Articles: a, an, the – rule and exercises" },
+      "what": "An article comes before a noun and agrees with it: el, la, los, las for a thing we both know; un, una, unos, unas for one of many, or some.",
+      "ask": "el or la? un or una?",
+      "tip": "The article shows the gender and the number: el coche, la casa, los coches, las casas. a + el becomes al and de + el becomes del: voy al banco, vengo del banco.",
+      "examples": [
+        "el",
+        "la",
+        "los",
+        "las",
+        "un",
+        "una"
+      ],
+      "learn": {
+        "href": "/articles",
+        "label": "Articles: el, la, un, una – rule and exercises"
+      },
       "tr": {
-        "en": "An article comes before a noun: a or an for one thing of many, the for a thing we both know.",
-        "ar": "أداة التعريف أو التنكير تأتي قبل الاسم: a أو an لشيء واحد من بين أشياء كثيرة، وthe لشيء نعرفه كلانا.",
-        "uk": "Артикль стоїть перед іменником: a або an — для одного предмета з багатьох, the — для предмета, який ми обидва знаємо.",
-        "tr": "Artikel ismin önünde durur: a ya da an birçok şeyden biri için, the ikimizin de bildiği bir şey için kullanılır."
+        "en": "An article comes before a noun and agrees with it: el, la, los, las for a thing we both know; un, una, unos, unas for one of many, or some."
       }
     },
     {
-      "id": "verb", "name": "Verb", "also": "a doing word", "practice": "im-satz",
-      "fehler": "felt-fell",
+      "id": "verb",
+      "name": "Verb",
+      "also": "a doing word",
+      "practice": "im-satz",
+      "fehler": "",
       "say": "A verb says what someone does.",
-      "sub": { "name": "phrasal verb", "what": "A verb + a small word with its own meaning: get up, look after, find out.", "href": "/phrasal-verbs", "more": "Phrasal verbs" },
+      "sub": {
+        "name": "pronominal verb",
+        "what": "A verb that comes with a pronoun: me levanto, te acuerdas, se va.",
+        "href": "/reflexive-pronouns",
+        "more": "Reflexive verbs"
+      },
       "what": "A verb says what someone does or what happens.",
       "ask": "What does he do? What happens?",
-      "tip": "In the present simple, he/she/it adds -s: I work, she works. In a statement the verb comes right after the subject.",
-      "examples": ["be", "have", "go", "work", "like"],
+      "tip": "The ending shows the person, so the pronoun is often left out: hablo, hablas, habla. The infinitive ends in -ar, -er or -ir: hablar, comer, vivir.",
+      "examples": [
+        "ser",
+        "tener",
+        "ir",
+        "hablar",
+        "vivir"
+      ],
       "tr": {
         "en": "A verb says what someone does or what happens.",
         "ar": "الفعل يقول ماذا يفعل شخص ما أو ماذا يحدث.",
@@ -51,13 +87,22 @@
       }
     },
     {
-      "id": "adj", "name": "Adjective", "also": "a describing word", "practice": "im-satz",
-      "fehler": "lose-loose",
+      "id": "adj",
+      "name": "Adjective",
+      "also": "a describing word",
+      "practice": "im-satz",
+      "fehler": "",
       "say": "An adjective says what something is like.",
       "what": "An adjective says what someone or something is like.",
       "ask": "What is it like?",
-      "tip": "An adjective never changes: a big house, two big houses. It goes before the noun or after be: The house is big.",
-      "examples": ["big", "good", "new", "happy", "cold"],
+      "tip": "An adjective agrees with its noun and usually goes after it: una casa blanca, unos coches blancos. Some have one form for both genders: un piso grande, una casa grande.",
+      "examples": [
+        "grande",
+        "bueno",
+        "nuevo",
+        "feliz",
+        "frío"
+      ],
       "tr": {
         "en": "An adjective says what someone or something is like.",
         "ar": "الصفة تقول كيف يكون شخص ما أو شيء ما.",
@@ -66,13 +111,22 @@
       }
     },
     {
-      "id": "adv", "name": "Adverb", "also": "says when, where, how", "practice": "erkennen",
-      "fehler": "quiet-quite",
+      "id": "adv",
+      "name": "Adverb",
+      "also": "says when, where, how",
+      "practice": "erkennen",
+      "fehler": "",
       "say": "An adverb says when, where or how.",
       "what": "An adverb says when, where or how something happens.",
       "ask": "When? Where? How?",
-      "tip": "Many adverbs end in -ly: quickly, carefully. Others don't: today, here, often, well.",
-      "examples": ["today", "here", "often", "quickly", "well"],
+      "tip": "Adverbs don't change their form. Many end in -mente: rápidamente, normalmente. Others don't: hoy, aquí, siempre, bien.",
+      "examples": [
+        "hoy",
+        "aquí",
+        "siempre",
+        "rápidamente",
+        "bien"
+      ],
       "tr": {
         "en": "An adverb says when, where or how something happens.",
         "ar": "الظرف يقول متى أو أين أو كيف يحدث شيء ما.",
@@ -81,14 +135,26 @@
       }
     },
     {
-      "id": "pron", "name": "Pronoun", "also": "I, you, she, it …", "practice": "im-satz",
-      "fehler": "its-it-s",
+      "id": "pron",
+      "name": "Pronoun",
+      "also": "yo, tú, ella, lo …",
+      "practice": "im-satz",
+      "fehler": "",
       "say": "A pronoun stands for a noun.",
       "what": "A pronoun stands for a noun, so you don't have to repeat it.",
       "ask": "Who? What?",
-      "tip": "Tom is late. → He is late. I like Anna. → I like her.",
-      "examples": ["I", "you", "she", "it", "them"],
-      "learn": { "href": "/pronouns-and-be", "label": "Pronouns and be – rule and exercises" },
+      "tip": "Ana llega tarde. → Ella llega tarde, or just: Llega tarde. Veo a Ana. → La veo.",
+      "examples": [
+        "yo",
+        "tú",
+        "ella",
+        "lo",
+        "nos"
+      ],
+      "learn": {
+        "href": "/pronouns-and-be",
+        "label": "Subject pronouns: rule and exercises"
+      },
       "tr": {
         "en": "A pronoun stands for a noun, so you don't have to repeat it.",
         "ar": "الضمير يحلّ محلّ الاسم — فلا تحتاج إلى تكراره.",
@@ -97,13 +163,22 @@
       }
     },
     {
-      "id": "prep", "name": "Preposition", "also": "in, on, at, with …", "practice": "im-satz",
-      "fehler": "back-behind",
-      "say": "A preposition comes before a noun: in, on, at.",
+      "id": "prep",
+      "name": "Preposition",
+      "also": "a, en, de, con …",
+      "practice": "im-satz",
+      "fehler": "",
+      "say": "A preposition comes before a noun: a, en, de.",
       "what": "A preposition comes before a noun and shows place, time or direction.",
       "ask": "Where? When? Where to?",
-      "tip": "After a preposition, use a noun, a pronoun or -ing: with my friend, for you, before leaving.",
-      "examples": ["in", "on", "at", "with", "for"],
+      "tip": "After a preposition, use a noun, a pronoun or an infinitive: con mi amigo, para ti, antes de salir.",
+      "examples": [
+        "a",
+        "en",
+        "de",
+        "con",
+        "para"
+      ],
       "tr": {
         "en": "A preposition comes before a noun and shows place, time or direction.",
         "ar": "حرف الجر يأتي قبل الاسم ويُظهر المكان أو الزمان أو الاتجاه.",
@@ -112,13 +187,22 @@
       }
     },
     {
-      "id": "conj", "name": "Conjunction", "also": "a joining word", "practice": "zuordnen",
-      "fehler": "then-than",
+      "id": "conj",
+      "name": "Conjunction",
+      "also": "a joining word",
+      "practice": "zuordnen",
+      "fehler": "",
       "say": "A conjunction joins words and sentences.",
       "what": "A conjunction joins words or sentences.",
-      "ask": "and? but? because?",
-      "tip": "and, but, or and so join two sentences: I'm tired, so I'm going home. because gives a reason.",
-      "examples": ["and", "but", "or", "because", "when"],
+      "ask": "y? pero? porque?",
+      "tip": "y, o and pero join two sentences: Estoy cansado, pero voy. porque gives a reason. y becomes e before i-: padre e hijo. o becomes u before o-: siete u ocho.",
+      "examples": [
+        "y",
+        "pero",
+        "o",
+        "porque",
+        "cuando"
+      ],
       "tr": {
         "en": "A conjunction joins words or sentences.",
         "ar": "أداة الربط تربط الكلمات أو الجمل.",
@@ -127,13 +211,22 @@
       }
     },
     {
-      "id": "num", "name": "Number", "also": "numeral", "practice": "erkennen",
+      "id": "num",
+      "name": "Number",
+      "also": "numeral",
+      "practice": "erkennen",
       "fehler": "",
       "say": "A number says how many.",
       "what": "A number word says how much or how many, or in which position.",
       "ask": "How many? How much? Which one in order?",
-      "tip": "two children (how many?), the second day (which one in order?).",
-      "examples": ["one", "two", "ten", "first", "second"],
+      "tip": "dos niños (how many?), el segundo día (which one in order?). uno becomes un before a masculine noun: un libro, veintiún años.",
+      "examples": [
+        "uno",
+        "dos",
+        "diez",
+        "primero",
+        "segundo"
+      ],
       "tr": {
         "en": "A number word says how much or how many, or in which position.",
         "ar": "اسم العدد يقول كم — أو في أي ترتيب.",
@@ -142,13 +235,22 @@
       }
     },
     {
-      "id": "phrase", "name": "Phrase", "also": "not a part of speech, a fixed group of words", "practice": "erkennen",
-      "fehler": "i-agree",
+      "id": "phrase",
+      "name": "Phrase",
+      "also": "not a part of speech, a fixed group of words",
+      "practice": "erkennen",
+      "fehler": "",
       "say": "A phrase: several words, one meaning.",
       "what": "A phrase is several words that together have one fixed meaning.",
       "ask": "",
-      "tip": "Learn it as a whole. Translated word for word, it often doesn't work: How's it going?",
-      "examples": ["thank you", "of course", "see you later", "at home", "how are you?"],
+      "tip": "Learn it as a whole. Translated word for word, it often doesn't work: ¿Qué tal?",
+      "examples": [
+        "por favor",
+        "de nada",
+        "hasta luego",
+        "en casa",
+        "¿qué tal?"
+      ],
       "tr": {
         "en": "A phrase is several words that together have one fixed meaning.",
         "ar": "العبارة الثابتة هي عدة كلمات لها معًا معنى ثابت واحد.",

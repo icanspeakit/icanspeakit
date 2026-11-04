@@ -42,7 +42,7 @@ const total = packs.reduce((n, p) => n + p.questions.length, 0);
 
 // The full grammar topics these packs are a warm-up for, shown under the level they belong to.
 const MORE: Record<string, { href: string; label: string; key: string }[]> = {
-  A2: [{ href: "/prepositions-of-movement", label: "Prepositions of movement – in depth", key: "praep.more.wechsel" }],
+  A2: [{ href: "/prepositions-of-movement", label: "a or en: going and being – in depth", key: "praep.more.wechsel" }],
   B1: [{ href: "/verbs-prepositions", label: "Verbs + prepositions – in depth", key: "praep.more.verben" }],
   B2: [{ href: "/adjectives-prepositions", label: "Adjectives + prepositions – in depth", key: "praep.more.nvv" }],
 };
@@ -58,10 +58,10 @@ const overview = {
   caption: "Which preposition when?",
   head: ["Job", "Prepositions", "Example"],
   rows: [
-    ["Time", "at (clock times), on (days, dates), in (months, years)", "at 6, on Monday, in May"],
-    ["Place", "in (inside), on (a surface), at (a point)", "in the car, on the wall, at the door"],
-    ["Movement", "to, into, out of, through, across", "go to work, walk into the room"],
-    ["After verbs, adjectives, nouns", "fixed: learn them together", "wait for, good at, reason for"],
+    ["Time", "a (clock times), en (months, years), por (part of the day)", "a las seis, en mayo, por la mañana"],
+    ["Place", "en (in, on, at), de (origin, owner)", "en el coche, en la mesa, de Marruecos"],
+    ["Movement", "a, hacia, hasta, por, desde", "voy a Madrid, paso por el parque"],
+    ["After verbs, adjectives, nouns", "fixed: learn them together", "pensar en, harto de, ganas de"],
   ],
 };
 ---
@@ -141,7 +141,7 @@ const overview = {
                         <button type="button" class="nvb-item akp-pack pr-pack" data-pack={p.id} data-level={level}>
                           <span class="pr-pack-body">
                             <span class="akp-pack-name" data-i18n={`praep.pack.${p.id}`}>{p.name}</span>
-                            <span class="pr-pack-preps" lang="en">{p.preps}</span>
+                            <span class="pr-pack-preps" lang="es">{p.preps}</span>
                           </span>
                           <span class="akp-pack-state" data-pack-state>0/{p.questions.length}</span>
                         </button>
@@ -166,7 +166,7 @@ const overview = {
                       <button type="button" class="nvb-item akp-pack pr-pack" data-pack={p.id} data-level={p.level}>
                         <span class="pr-pack-body">
                           <span class="akp-pack-name" data-i18n={`praep.pack.${p.id}`}>{p.name}</span>
-                          <span class="pr-pack-preps" lang="en">{p.preps}</span>
+                          <span class="pr-pack-preps" lang="es">{p.preps}</span>
                         </span>
                         <span class="akp-pack-state" data-pack-state>0/{p.questions.length}</span>
                       </button>
@@ -174,7 +174,7 @@ const overview = {
                   </section>
                   <section class="ap-packs pr-more">
                     <h4 class="ap-phase-head"><span data-i18n="praep.more">Ausführlich üben</span></h4>
-                    <a class="nvb-item pr-more-link" href="/prepositions-of-movement" data-i18n="praep.more.wechselShort">Prepositions of movement – rule and exercises</a>
+                    <a class="nvb-item pr-more-link" href="/prepositions-of-movement" data-i18n="praep.more.wechselShort">a or en: going and being – rule and exercises</a>
                   </section>
                 </div>
               </div>

@@ -1,15 +1,16 @@
 {
-  "_note": "Prepositions trainer (/prepositions): topic packs per level, 12 gap sentences each. Pack ids are kept from the German trainer (they are slots: progress keys and i18n keys praep.pack.<id>); the English topic of each is its name. cat \"wechsel\" = also listed under \"Place and movement\" in the rail. Question: prompt with ___, options (exactly one correct), answer, explain, change (chip after the answer).",
+  "_note": "Prepositions trainer (/prepositions): topic packs per level, 12 gap sentences each. Pack ids are kept from the German trainer (they are slots: progress keys and i18n keys praep.pack.<id>); the Spanish topic of each is its name. cat \"wechsel\" = also listed under \"Place and movement\" in the rail. Question: prompt with ___, options (exactly one correct), answer, explain, change (chip after the answer). `variety` on the pack, `es419` on an item whose answer differs in Latin America.",
   "packs": [
     {
       "id": "a1-dativ",
       "level": "A1",
-      "name": "Time: at, on, in",
-      "preps": "at · on · in",
+      "variety": "es-ES",
+      "name": "Time: a, en, de, por",
+      "preps": "a · en · de · por",
       "rule": {
-        "text": "at for clock times and a few short phrases, on for days and dates, in for months, years, seasons and parts of the day. No preposition before this, next, last, every, today, tomorrow, yesterday: next Monday, last year.",
+        "text": "a with a clock time, en with months, years and seasons, por with parts of the day when there is no clock time, de with parts of the day after a clock time. Days take el and no preposition: el lunes, los lunes.",
         "table": {
-          "caption": "at, on, in for time",
+          "caption": "a, en, de, por for time",
           "head": [
             "Preposition",
             "Use",
@@ -17,19 +18,24 @@
           ],
           "rows": [
             [
-              "at",
-              "clock times; night; mealtimes",
-              "at 7 o'clock, at night, at lunchtime"
+              "a",
+              "clock times",
+              "a las ocho, a la una"
             ],
             [
-              "on",
-              "days and dates",
-              "on Monday, on 3 May, on my birthday"
+              "en",
+              "months, years, seasons, festivals",
+              "en julio, en 2024, en invierno, en Navidad"
             ],
             [
-              "in",
-              "months, years, seasons, parts of the day",
-              "in July, in 2024, in winter, in the morning"
+              "por",
+              "part of the day, no clock time",
+              "por la mañana, por la tarde, por la noche"
+            ],
+            [
+              "de",
+              "part of the day, after a clock time",
+              "a las ocho de la mañana"
             ]
           ]
         }
@@ -37,159 +43,166 @@
       "questions": [
         {
           "id": "a1-dativ-01",
-          "prompt": "The film starts ___ 8 o'clock.",
+          "prompt": "La película empieza ___ las ocho.",
           "options": [
-            "at",
-            "on",
-            "in"
+            "a",
+            "en",
+            "de"
           ],
-          "answer": "at",
-          "explain": "at + a clock time.",
-          "change": "at 8 o'clock"
+          "answer": "a",
+          "explain": "a + a clock time.",
+          "change": "a las ocho"
         },
         {
           "id": "a1-dativ-02",
-          "prompt": "I was born ___ 1998.",
+          "prompt": "Nací ___ 1998.",
           "options": [
-            "in",
-            "at",
-            "on"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "in",
-          "explain": "in + a year.",
-          "change": "in 1998"
+          "answer": "en",
+          "explain": "en + a year.",
+          "change": "en 1998"
         },
         {
           "id": "a1-dativ-03",
-          "prompt": "We have English ___ Mondays.",
+          "prompt": "Mi cumpleaños es ___ junio.",
           "options": [
-            "on",
-            "in",
-            "at"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "on",
-          "explain": "on + a day of the week.",
-          "change": "on Mondays"
+          "answer": "en",
+          "explain": "en + a month.",
+          "change": "en junio"
         },
         {
           "id": "a1-dativ-04",
-          "prompt": "My birthday is ___ June.",
+          "prompt": "Trabajo ___ la mañana.",
           "options": [
-            "in",
-            "on",
-            "at"
+            "por",
+            "de",
+            "con"
           ],
-          "answer": "in",
-          "explain": "in + a month.",
-          "change": "in June"
+          "answer": "por",
+          "explain": "por la mañana: a part of the day, no clock time.",
+          "change": "por la mañana",
+          "es419": {
+            "note": "In much of Latin America: en la mañana."
+          }
         },
         {
           "id": "a1-dativ-05",
-          "prompt": "I don't sleep well ___ night.",
+          "prompt": "Salgo a las seis ___ la tarde.",
           "options": [
-            "at",
-            "in",
-            "on"
+            "de",
+            "por",
+            "con"
           ],
-          "answer": "at",
-          "explain": "at night – but in the morning, in the evening.",
-          "change": "at night"
+          "answer": "de",
+          "explain": "After a clock time: de la mañana, de la tarde, de la noche.",
+          "change": "a las seis de la tarde"
         },
         {
           "id": "a1-dativ-06",
-          "prompt": "I always drink coffee ___ the morning.",
+          "prompt": "Aquí hace mucho frío ___ invierno.",
           "options": [
-            "in",
-            "at",
-            "on"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "in",
-          "explain": "in + the morning / the afternoon / the evening.",
-          "change": "in the morning"
+          "answer": "en",
+          "explain": "en + a season.",
+          "change": "en invierno"
         },
         {
           "id": "a1-dativ-07",
-          "prompt": "The shop is closed ___ Christmas Day.",
+          "prompt": "No duermo bien ___ la noche.",
           "options": [
-            "on",
-            "in",
-            "at"
+            "por",
+            "de",
+            "con"
           ],
-          "answer": "on",
-          "explain": "Christmas Day is one day: on + a day.",
-          "change": "on Christmas Day"
+          "answer": "por",
+          "explain": "por la noche: a part of the day, no clock time.",
+          "change": "por la noche",
+          "es419": {
+            "note": "In much of Latin America: en la noche."
+          }
         },
         {
           "id": "a1-dativ-08",
-          "prompt": "It's very cold here ___ winter.",
+          "prompt": "La reunión es ___ las diez y media.",
           "options": [
-            "in",
-            "on",
-            "at"
+            "a",
+            "en",
+            "de"
           ],
-          "answer": "in",
-          "explain": "in + a season.",
-          "change": "in winter"
+          "answer": "a",
+          "explain": "a + a clock time.",
+          "change": "a las diez y media"
         },
         {
           "id": "a1-dativ-09",
-          "prompt": "The meeting is ___ 14 March.",
+          "prompt": "¿Qué haces ___ Navidad?",
           "options": [
-            "on",
-            "in",
-            "at"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "on",
-          "explain": "on + a date.",
-          "change": "on 14 March"
+          "answer": "en",
+          "explain": "en + a festival or holiday period.",
+          "change": "en Navidad"
         },
         {
           "id": "a1-dativ-10",
-          "prompt": "I finish work ___ half past five.",
+          "prompt": "Abrimos ___ lunes a viernes.",
           "options": [
-            "at",
-            "on",
-            "in"
+            "de",
+            "en",
+            "por"
           ],
-          "answer": "at",
-          "explain": "at + a clock time.",
-          "change": "at half past five"
+          "answer": "de",
+          "explain": "de… a…: from one day to another.",
+          "change": "de lunes a viernes"
         },
         {
           "id": "a1-dativ-11",
-          "prompt": "We're leaving ___ Friday morning.",
+          "prompt": "La clase termina ___ la una.",
           "options": [
-            "on",
-            "in",
-            "at"
+            "a",
+            "en",
+            "de"
           ],
-          "answer": "on",
-          "explain": "A day + part of the day takes on: on Friday morning.",
-          "change": "on Friday morning"
+          "answer": "a",
+          "explain": "a + a clock time. With one o'clock: a la una.",
+          "change": "a la una"
         },
         {
           "id": "a1-dativ-12",
-          "prompt": "She called me ___ lunchtime.",
+          "prompt": "Mis padres vienen ___ agosto.",
           "options": [
-            "at",
-            "on",
-            "in"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "at",
-          "explain": "at + a mealtime: at lunchtime, at dinner.",
-          "change": "at lunchtime"
+          "answer": "en",
+          "explain": "en + a month.",
+          "change": "en agosto"
         }
       ]
     },
     {
       "id": "a1-akkusativ",
       "level": "A1",
-      "name": "Place: in, on, at",
-      "preps": "in · on · at",
+      "variety": "es-ES",
+      "name": "Place: en and de",
+      "preps": "en · de",
       "rule": {
-        "text": "in = inside a space: a room, a box, a town, a country. on = on a surface: a table, a wall, the floor, a page. at = at a point, or at a place where something happens: at the bus stop, at work, at a party.",
+        "text": "en is one word for English in, on and at: en casa, en la mesa, en la estación. de says where someone comes from and who something belongs to: soy de Marruecos, la casa de Luis.",
         "table": {
-          "caption": "in, on, at for place",
+          "caption": "en and de for place",
           "head": [
             "Preposition",
             "Use",
@@ -197,19 +210,29 @@
           ],
           "rows": [
             [
-              "in",
-              "inside: rooms, buildings, towns, countries",
-              "in the kitchen, in London"
+              "en",
+              "inside",
+              "en la nevera, en el coche"
             ],
             [
-              "on",
-              "on a surface; pages",
-              "on the table, on the wall, on page 5"
+              "en",
+              "on a surface",
+              "en la mesa, en la pared"
             ],
             [
-              "at",
-              "a point; a place for an activity",
-              "at the bus stop, at work, at a party"
+              "en",
+              "at a place",
+              "en la estación, en el trabajo"
+            ],
+            [
+              "de",
+              "origin",
+              "soy de Marruecos"
+            ],
+            [
+              "de",
+              "owner",
+              "la casa de Luis"
             ]
           ]
         }
@@ -217,184 +240,190 @@
       "questions": [
         {
           "id": "a1-akkusativ-01",
-          "prompt": "Your keys are ___ the table.",
+          "prompt": "Vivo ___ Sevilla.",
           "options": [
-            "on",
-            "in",
-            "at"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "on",
-          "explain": "on + a surface.",
-          "change": "on the table"
+          "answer": "en",
+          "explain": "en + a town or country where you are.",
+          "change": "en Sevilla"
         },
         {
           "id": "a1-akkusativ-02",
-          "prompt": "My parents live ___ Manchester.",
+          "prompt": "Las llaves están ___ la mesa.",
           "options": [
-            "in",
-            "at",
-            "on"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "in",
-          "explain": "in + a town or a country.",
-          "change": "in Manchester"
+          "answer": "en",
+          "explain": "en also means on: en la mesa.",
+          "change": "en la mesa"
         },
         {
           "id": "a1-akkusativ-03",
-          "prompt": "Wait for me ___ the bus stop.",
+          "prompt": "Te espero ___ la estación.",
           "options": [
-            "at",
-            "in",
-            "on"
+            "en",
+            "de",
+            "con"
           ],
-          "answer": "at",
-          "explain": "at + a point: at the bus stop, at the door.",
-          "change": "at the bus stop"
+          "answer": "en",
+          "explain": "en also means at: en la estación.",
+          "change": "en la estación"
         },
         {
           "id": "a1-akkusativ-04",
-          "prompt": "There's a picture ___ the wall.",
+          "prompt": "Hoy trabajo ___ casa.",
           "options": [
-            "on",
-            "in",
-            "at"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "on",
-          "explain": "A wall is a surface: on the wall.",
-          "change": "on the wall"
+          "answer": "en",
+          "explain": "en casa, with no article.",
+          "change": "en casa"
         },
         {
           "id": "a1-akkusativ-05",
-          "prompt": "The milk is ___ the fridge.",
+          "prompt": "Soy ___ Marruecos.",
           "options": [
-            "in",
-            "on",
-            "at"
+            "de",
+            "en",
+            "a"
           ],
-          "answer": "in",
-          "explain": "in = inside something.",
-          "change": "in the fridge"
+          "answer": "de",
+          "explain": "ser de: where you come from.",
+          "change": "de Marruecos"
         },
         {
           "id": "a1-akkusativ-06",
-          "prompt": "I'm ___ work until six.",
+          "prompt": "Ana es ___ Bogotá.",
           "options": [
-            "at",
-            "in",
-            "on"
+            "de",
+            "en",
+            "a"
           ],
-          "answer": "at",
-          "explain": "at work, at school, at home.",
-          "change": "at work"
+          "answer": "de",
+          "explain": "ser de: where you come from.",
+          "change": "de Bogotá"
         },
         {
           "id": "a1-akkusativ-07",
-          "prompt": "The answer is ___ page 12.",
+          "prompt": "Esta es la casa ___ Luis.",
           "options": [
-            "on",
-            "in",
-            "at"
+            "de",
+            "en",
+            "a"
           ],
-          "answer": "on",
-          "explain": "on + a page.",
-          "change": "on page 12"
+          "answer": "de",
+          "explain": "de shows the owner: there is no 's in Spanish.",
+          "change": "la casa de Luis"
         },
         {
           "id": "a1-akkusativ-08",
-          "prompt": "We met ___ a party.",
+          "prompt": "El niño está ___ el colegio.",
           "options": [
-            "at",
-            "in",
-            "on"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "at",
-          "explain": "at + an event: at a party, at a concert.",
-          "change": "at a party"
+          "answer": "en",
+          "explain": "estar en: where someone is.",
+          "change": "en el colegio"
         },
         {
           "id": "a1-akkusativ-09",
-          "prompt": "The children are playing ___ the garden.",
+          "prompt": "¿Hay una farmacia ___ esta calle?",
           "options": [
-            "in",
-            "on",
-            "at"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "in",
-          "explain": "A garden is an area with borders: in the garden.",
-          "change": "in the garden"
+          "answer": "en",
+          "explain": "en + a street where something is.",
+          "change": "en esta calle"
         },
         {
           "id": "a1-akkusativ-10",
-          "prompt": "Someone is ___ the door.",
+          "prompt": "Hay leche ___ la nevera.",
           "options": [
-            "at",
-            "on",
-            "in"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "at",
-          "explain": "at the door = just outside it.",
-          "change": "at the door"
+          "answer": "en",
+          "explain": "en = inside.",
+          "change": "en la nevera"
         },
         {
           "id": "a1-akkusativ-11",
-          "prompt": "Mei is cooking ___ the kitchen.",
+          "prompt": "Mi hermana vive ___ el centro.",
           "options": [
-            "in",
-            "at",
-            "on"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "in",
-          "explain": "in + a room.",
-          "change": "in the kitchen"
+          "answer": "en",
+          "explain": "vivir en: where you live.",
+          "change": "en el centro"
         },
         {
           "id": "a1-akkusativ-12",
-          "prompt": "There's a cat ___ the roof.",
+          "prompt": "¿___ dónde eres?",
           "options": [
-            "on",
-            "in",
-            "at"
+            "De",
+            "En",
+            "A"
           ],
-          "answer": "on",
-          "explain": "on top of a surface: on the roof.",
-          "change": "on the roof"
+          "answer": "De",
+          "explain": "¿De dónde eres? asks where you come from.",
+          "change": "¿De dónde?"
         }
       ]
     },
     {
       "id": "a1-zeit",
       "level": "A1",
-      "name": "Time: before, after, from … to, until",
-      "preps": "before · after · from … to · until",
+      "variety": "es-ES",
+      "name": "Time: antes de, después de, de… a, hasta",
+      "preps": "antes de · después de · de … a · hasta · desde",
       "rule": {
-        "text": "before = earlier than. after = later than. from … to (or from … until) gives the start and the end. until = all the time up to a point, then it stops.",
+        "text": "antes de and después de come before a noun or an infinitive: antes de comer, después de la clase. de… a gives a start and an end, hasta the end, desde the start.",
         "table": {
-          "caption": "before, after, from … to, until",
+          "caption": "Before, after, from, until",
           "head": [
             "Preposition",
-            "Use",
+            "Meaning",
             "Example"
           ],
           "rows": [
             [
+              "antes de",
               "before",
-              "earlier than",
-              "before dinner, before 9 o'clock"
+              "antes de salir, antes de las ocho"
             ],
             [
+              "después de",
               "after",
-              "later than",
-              "after work, after the lesson"
+              "después de comer, después de la reunión"
             ],
             [
+              "de… a",
               "from … to",
-              "the start and the end",
-              "from 9 to 5, from Monday to Friday"
+              "de lunes a viernes, de nueve a dos"
             ],
             [
+              "hasta",
               "until",
-              "up to a time, then it stops",
-              "I'm at work until 6."
+              "hasta el domingo, ¡hasta mañana!"
+            ],
+            [
+              "desde",
+              "since, from",
+              "desde 2022, desde las ocho"
             ]
           ]
         }
@@ -402,184 +431,185 @@
       "questions": [
         {
           "id": "a1-zeit-01",
-          "prompt": "The shop is open ___ 9 am to 6 pm.",
+          "prompt": "Desayuno y luego salgo: desayuno ___ salir.",
           "options": [
-            "from",
-            "until",
-            "after"
+            "antes de",
+            "después de",
+            "hasta"
           ],
-          "answer": "from",
-          "explain": "from … to: the start and the end.",
-          "change": "from 9 am to 6 pm"
+          "answer": "antes de",
+          "explain": "First breakfast, then out: antes de + infinitive.",
+          "change": "antes de salir"
         },
         {
           "id": "a1-zeit-02",
-          "prompt": "The shop is open from 9 am ___ 6 pm.",
+          "prompt": "Primero trabajo y luego como: como ___ trabajar.",
           "options": [
-            "to",
-            "at",
-            "on"
+            "después de",
+            "antes de",
+            "hasta"
           ],
-          "answer": "to",
-          "explain": "from … to (or from … until).",
-          "change": "from 9 am to 6 pm"
+          "answer": "después de",
+          "explain": "First work, then food: después de + infinitive.",
+          "change": "después de trabajar"
         },
         {
           "id": "a1-zeit-03",
-          "prompt": "I'm at work ___ 5 o'clock. Then I go home.",
+          "prompt": "Trabajo de lunes ___ viernes.",
           "options": [
-            "until",
-            "before",
-            "from"
+            "a",
+            "en",
+            "por"
           ],
-          "answer": "until",
-          "explain": "until = up to that time, then it stops.",
-          "change": "until 5 o'clock"
+          "answer": "a",
+          "explain": "de… a…: from one day to another.",
+          "change": "de lunes a viernes"
         },
         {
           "id": "a1-zeit-04",
-          "prompt": "Please arrive ten minutes ___ the start.",
+          "prompt": "El banco abre de nueve ___ dos.",
           "options": [
-            "before",
-            "after",
-            "until"
+            "a",
+            "en",
+            "por"
           ],
-          "answer": "before",
-          "explain": "before = earlier than.",
-          "change": "before the start"
+          "answer": "a",
+          "explain": "de… a…: from one time to another. No article with short times like this.",
+          "change": "de nueve a dos"
         },
         {
           "id": "a1-zeit-05",
-          "prompt": "___ work, I usually go to the gym.",
+          "prompt": "___ lunes a jueves tengo clase.",
           "options": [
-            "After",
-            "Until",
-            "From"
+            "De",
+            "En",
+            "Por"
           ],
-          "answer": "After",
-          "explain": "after = later than.",
-          "change": "After work"
+          "answer": "De",
+          "explain": "de… a…: from one day to another.",
+          "change": "de lunes a jueves"
         },
         {
           "id": "a1-zeit-06",
-          "prompt": "We waited ___ midnight, but she didn't come.",
+          "prompt": "Me quedo en Madrid ___ el domingo.",
           "options": [
-            "until",
-            "before",
-            "from"
+            "hasta",
+            "antes de",
+            "después de"
           ],
-          "answer": "until",
-          "explain": "until = all the time up to then.",
-          "change": "until midnight"
+          "answer": "hasta",
+          "explain": "hasta: until.",
+          "change": "hasta el domingo"
         },
         {
           "id": "a1-zeit-07",
-          "prompt": "I work ___ Monday to Friday.",
+          "prompt": "¡___ mañana!",
           "options": [
-            "from",
-            "after",
-            "until"
+            "Hasta",
+            "Desde",
+            "De"
           ],
-          "answer": "from",
-          "explain": "from Monday to Friday.",
-          "change": "from Monday to Friday"
+          "answer": "Hasta",
+          "explain": "¡Hasta mañana! is how you say “see you tomorrow”.",
+          "change": "¡Hasta mañana!"
         },
         {
           "id": "a1-zeit-08",
-          "prompt": "I'm on holiday from 1 August ___ 15 August.",
+          "prompt": "Termino a las ocho, así que no puedo salir ___ las ocho.",
           "options": [
-            "to",
-            "at",
-            "after"
+            "antes de",
+            "después de",
+            "de"
           ],
-          "answer": "to",
-          "explain": "from … to.",
-          "change": "from 1 August to 15 August"
+          "answer": "antes de",
+          "explain": "antes de + a time: not earlier than eight.",
+          "change": "antes de las ocho"
         },
         {
           "id": "a1-zeit-09",
-          "prompt": "Do your homework ___ dinner, then you can watch TV.",
+          "prompt": "Llámame ___ la reunión: antes no puedo.",
           "options": [
-            "before",
-            "after",
-            "from"
+            "después de",
+            "antes de",
+            "de"
           ],
-          "answer": "before",
-          "explain": "First homework, then TV: before dinner.",
-          "change": "before dinner"
+          "answer": "después de",
+          "explain": "después de + a noun: once the meeting is over.",
+          "change": "después de la reunión"
         },
         {
           "id": "a1-zeit-10",
-          "prompt": "It rained ___ morning to night.",
+          "prompt": "Compra el billete ___ subir al tren.",
           "options": [
-            "from",
-            "before",
-            "after"
+            "antes de",
+            "después de",
+            "hasta"
           ],
-          "answer": "from",
-          "explain": "from morning to night = all day.",
-          "change": "from morning to night"
+          "answer": "antes de",
+          "explain": "antes de + infinitive: you need the ticket first.",
+          "change": "antes de subir"
         },
         {
           "id": "a1-zeit-11",
-          "prompt": "Call me ___ the meeting and tell me how it went.",
+          "prompt": "Vivo aquí ___ 2022.",
           "options": [
-            "after",
-            "before",
-            "until"
+            "desde",
+            "hasta",
+            "antes de"
           ],
-          "answer": "after",
-          "explain": "You can only say how it went when it's over: after.",
-          "change": "after the meeting"
+          "answer": "desde",
+          "explain": "desde + a point in time: since. Spanish uses the present here.",
+          "change": "desde 2022"
         },
         {
           "id": "a1-zeit-12",
-          "prompt": "The café is open ___ late.",
+          "prompt": "La oficina abre otra vez en septiembre: está cerrada ___ septiembre.",
           "options": [
-            "until",
-            "from",
-            "before"
+            "hasta",
+            "desde",
+            "después de"
           ],
-          "answer": "until",
-          "explain": "open until late = it closes late.",
-          "change": "until late"
+          "answer": "hasta",
+          "explain": "hasta: it stays closed until then.",
+          "change": "hasta septiembre"
         }
       ]
     },
     {
       "id": "a1-wohin",
       "level": "A1",
-      "name": "Going places: to, at, in",
-      "preps": "to · at · in",
+      "variety": "es-ES",
+      "name": "Going places: a, de, al, del",
+      "preps": "a · al · de · del",
       "rule": {
-        "text": "go / come / drive / fly + to for movement to a place: go to work, fly to Rome. at or in for where you are: at work, at the station, in Paris. No preposition before home: go home, come home – but be at home.",
+        "text": "a says where you go, de where you come from. a + el becomes al, de + el becomes del. With la, los and las nothing joins: a la playa, de la oficina.",
         "table": {
-          "caption": "to, at, in",
+          "caption": "Going and coming",
           "head": [
-            "Preposition",
+            "Form",
             "Use",
             "Example"
           ],
           "rows": [
             [
-              "to",
-              "movement to a place",
-              "go to school, fly to Rome"
+              "a",
+              "where to",
+              "voy a Madrid, voy a la playa"
             ],
             [
-              "at",
-              "where you are: a point or a building",
-              "at school, at the station, at home"
+              "al = a + el",
+              "where to, with el",
+              "voy al banco"
             ],
             [
-              "in",
-              "where you are: a town, a country, a room",
-              "in Paris, in Spain, in bed"
+              "de",
+              "where from",
+              "vengo de Valencia, de la oficina"
             ],
             [
-              "–",
-              "no preposition before home, here, there",
-              "go home, come here"
+              "del = de + el",
+              "where from, with el",
+              "vengo del banco"
             ]
           ]
         }
@@ -587,195 +617,196 @@
       "questions": [
         {
           "id": "a1-wohin-01",
-          "prompt": "I go ___ work by bus.",
+          "prompt": "Voy ___ Madrid.",
           "options": [
-            "to",
-            "at",
-            "in"
+            "a",
+            "en",
+            "de"
           ],
-          "answer": "to",
-          "explain": "go + to + a place.",
-          "change": "go to work"
+          "answer": "a",
+          "explain": "ir a: where you go.",
+          "change": "a Madrid"
         },
         {
           "id": "a1-wohin-02",
-          "prompt": "She's ___ work today.",
+          "prompt": "Voy ___ trabajo en metro.",
           "options": [
-            "at",
-            "to",
-            "in"
+            "al",
+            "a",
+            "del"
           ],
-          "answer": "at",
-          "explain": "be at work = where you are.",
-          "change": "at work"
+          "answer": "al",
+          "explain": "a + el trabajo = al trabajo.",
+          "change": "al trabajo"
         },
         {
           "id": "a1-wohin-03",
-          "prompt": "We're flying ___ Rome tomorrow.",
+          "prompt": "Vengo ___ Valencia.",
           "options": [
-            "to",
-            "in",
-            "at"
+            "de",
+            "a",
+            "en"
           ],
-          "answer": "to",
-          "explain": "fly + to + a place.",
-          "change": "fly to Rome"
+          "answer": "de",
+          "explain": "venir de: where you come from.",
+          "change": "de Valencia"
         },
         {
           "id": "a1-wohin-04",
-          "prompt": "My brother lives ___ Spain.",
+          "prompt": "Salgo ___ trabajo a las seis.",
           "options": [
-            "in",
-            "to",
-            "at"
+            "del",
+            "de",
+            "al"
           ],
-          "answer": "in",
-          "explain": "in + a country.",
-          "change": "in Spain"
+          "answer": "del",
+          "explain": "de + el trabajo = del trabajo.",
+          "change": "del trabajo"
         },
         {
           "id": "a1-wohin-05",
-          "prompt": "The children go ___ school at eight.",
+          "prompt": "Mañana vamos ___ la playa.",
           "options": [
-            "to",
-            "at",
-            "in"
+            "a",
+            "al",
+            "en"
           ],
-          "answer": "to",
-          "explain": "go to school.",
-          "change": "go to school"
+          "answer": "a",
+          "explain": "With la nothing joins: a la playa.",
+          "change": "a la playa"
         },
         {
           "id": "a1-wohin-06",
-          "prompt": "Are you ___ home this evening?",
+          "prompt": "¿Vas ___ médico hoy?",
           "options": [
-            "at",
-            "to",
-            "in"
+            "al",
+            "a",
+            "del"
           ],
-          "answer": "at",
-          "explain": "be at home – but go home, with no preposition.",
-          "change": "at home"
+          "answer": "al",
+          "explain": "a + el médico = al médico.",
+          "change": "al médico"
         },
         {
           "id": "a1-wohin-07",
-          "prompt": "Welcome ___ Brighton!",
+          "prompt": "Vuelvo ___ banco y voy a casa.",
           "options": [
-            "to",
-            "in",
-            "at"
+            "del",
+            "de",
+            "a"
           ],
-          "answer": "to",
-          "explain": "Welcome to + a place.",
-          "change": "Welcome to Brighton"
+          "answer": "del",
+          "explain": "de + el banco = del banco.",
+          "change": "del banco"
         },
         {
           "id": "a1-wohin-08",
-          "prompt": "I'll meet you ___ the airport.",
+          "prompt": "Llego ___ aeropuerto a las tres.",
           "options": [
-            "at",
-            "to",
-            "in"
+            "al",
+            "a",
+            "del"
           ],
-          "answer": "at",
-          "explain": "Where you meet: at the airport.",
-          "change": "at the airport"
+          "answer": "al",
+          "explain": "llegar a: a + el aeropuerto = al aeropuerto.",
+          "change": "al aeropuerto"
         },
         {
           "id": "a1-wohin-09",
-          "prompt": "How do I get ___ the station?",
+          "prompt": "Este tren va ___ Bilbao.",
           "options": [
-            "to",
-            "at",
-            "in"
+            "a",
+            "de",
+            "en"
           ],
-          "answer": "to",
-          "explain": "get to = arrive at, reach.",
-          "change": "get to the station"
+          "answer": "a",
+          "explain": "ir a: where the train goes.",
+          "change": "a Bilbao"
         },
         {
           "id": "a1-wohin-10",
-          "prompt": "We arrived ___ London at six.",
+          "prompt": "¿___ dónde vas?",
           "options": [
-            "in",
-            "to",
-            "at"
+            "A",
+            "En",
+            "De"
           ],
-          "answer": "in",
-          "explain": "arrive in + a town or a country. Never arrive to.",
-          "change": "arrive in London"
+          "answer": "A",
+          "explain": "¿A dónde vas? asks where you are going. It can also be one word: ¿Adónde?",
+          "change": "¿A dónde?"
         },
         {
           "id": "a1-wohin-11",
-          "prompt": "We arrived ___ the hotel late.",
+          "prompt": "Vengo ___ la oficina de Extranjería.",
           "options": [
-            "at",
-            "to",
-            "in"
+            "de",
+            "del",
+            "a"
           ],
-          "answer": "at",
-          "explain": "arrive at + a building or a place.",
-          "change": "arrive at the hotel"
+          "answer": "de",
+          "explain": "With la nothing joins: de la oficina.",
+          "change": "de la oficina"
         },
         {
           "id": "a1-wohin-12",
-          "prompt": "Kwame went ___ the doctor's yesterday.",
+          "prompt": "Los niños van ___ colegio a pie.",
           "options": [
-            "to",
-            "at",
-            "in"
+            "al",
+            "a",
+            "del"
           ],
-          "answer": "to",
-          "explain": "go to the doctor's.",
-          "change": "went to the doctor's"
+          "answer": "al",
+          "explain": "a + el colegio = al colegio.",
+          "change": "al colegio"
         }
       ]
     },
     {
       "id": "a2-wo",
       "level": "A2",
+      "variety": "es-ES",
       "cat": "wechsel",
-      "name": "Where is it? next to, behind, between …",
-      "preps": "next to · behind · in front of · between · opposite · under · above",
+      "name": "Where is it? al lado de, detrás de, entre …",
+      "preps": "al lado de · detrás de · delante de · entre · enfrente de · debajo de · encima de · dentro de · fuera de",
       "rule": {
-        "text": "These say where something is. between = in the middle of two things. opposite = on the other side, facing it. in front of is on the same side: the car in front of the house.",
+        "text": "Most place words end in de: al lado de, debajo de. de + el becomes del: al lado del banco. entre has no de. Use estar for where things are: La farmacia está al lado del banco.",
         "table": {
-          "caption": "Where is it?",
+          "caption": "Saying where something is",
           "head": [
-            "Preposition",
-            "Use",
+            "Spanish",
+            "English",
             "Example"
           ],
           "rows": [
             [
+              "al lado de",
               "next to",
-              "at the side of",
-              "The bank is next to the café."
+              "al lado de la puerta"
             ],
             [
-              "behind",
-              "at the back of",
-              "The garden is behind the house."
+              "detrás de / delante de",
+              "behind / in front of",
+              "detrás de la casa"
             ],
             [
-              "in front of",
-              "at the front of, on the same side",
-              "The car is in front of the house."
-            ],
-            [
-              "between",
-              "in the middle of two things",
-              "The chemist's is between the bank and the café."
-            ],
-            [
+              "enfrente de",
               "opposite",
-              "on the other side, facing",
-              "The school is opposite the park."
+              "enfrente de la estación"
             ],
             [
-              "under / above",
-              "lower than / higher than",
-              "The cat is under the bed. The light is above the door."
+              "encima de / debajo de",
+              "on top of, above / under",
+              "debajo de la cama"
+            ],
+            [
+              "dentro de / fuera de",
+              "inside / outside",
+              "dentro de la caja"
+            ],
+            [
+              "entre",
+              "between",
+              "entre el banco y la farmacia"
             ]
           ]
         }
@@ -783,195 +814,186 @@
       "questions": [
         {
           "id": "a2-wo-01",
-          "prompt": "The chemist's is ___ the bank and the café.",
+          "prompt": "El gato duerme ___ la cama: no lo veo.",
           "options": [
-            "between",
-            "opposite",
-            "behind"
+            "debajo de",
+            "encima de",
+            "al lado de"
           ],
-          "answer": "between",
-          "explain": "between A and B = in the middle.",
-          "change": "between the bank and the café"
+          "answer": "debajo de",
+          "explain": "debajo de: under.",
+          "change": "debajo de la cama"
         },
         {
           "id": "a2-wo-02",
-          "prompt": "We have a small garden at the back. The garden is ___ the house.",
+          "prompt": "El libro está ___ la mesa, sobre los papeles.",
           "options": [
-            "behind",
-            "in front of",
-            "above"
+            "encima de",
+            "debajo de",
+            "fuera de"
           ],
-          "answer": "behind",
-          "explain": "at the back = behind.",
-          "change": "behind the house"
+          "answer": "encima de",
+          "explain": "encima de: on top of.",
+          "change": "encima de la mesa"
         },
         {
           "id": "a2-wo-03",
-          "prompt": "Park ___ the house, by the front door.",
+          "prompt": "No hay sitio en la calle: el coche está ___ la casa, en la parte de atrás.",
           "options": [
-            "in front of",
-            "behind",
-            "under"
+            "detrás de",
+            "delante de",
+            "encima de"
           ],
-          "answer": "in front of",
-          "explain": "by the front door = in front of.",
-          "change": "in front of the house"
+          "answer": "detrás de",
+          "explain": "detrás de: behind.",
+          "change": "detrás de la casa"
         },
         {
           "id": "a2-wo-04",
-          "prompt": "The school is on the other side of the road, ___ the park.",
+          "prompt": "Te espero ___ la puerta del cine, en la calle.",
           "options": [
-            "opposite",
-            "between",
-            "under"
+            "delante de",
+            "debajo de",
+            "dentro de"
           ],
-          "answer": "opposite",
-          "explain": "on the other side, facing it = opposite.",
-          "change": "opposite the park"
+          "answer": "delante de",
+          "explain": "delante de: in front of.",
+          "change": "delante de la puerta"
         },
         {
           "id": "a2-wo-05",
-          "prompt": "There's a lamp ___ the table, hanging from the ceiling.",
+          "prompt": "La panadería está ___ el banco y la farmacia.",
           "options": [
-            "above",
-            "under",
-            "next to"
+            "entre",
+            "encima de",
+            "debajo de"
           ],
-          "answer": "above",
-          "explain": "higher than = above.",
-          "change": "above the table"
+          "answer": "entre",
+          "explain": "entre + two things. It has no de.",
+          "change": "entre el banco y la farmacia"
         },
         {
           "id": "a2-wo-06",
-          "prompt": "The dog is lying ___ the table, out of the sun.",
+          "prompt": "Vivo ___ la estación: cruzas la calle y ya estás.",
           "options": [
-            "under",
-            "above",
-            "between"
+            "enfrente de",
+            "debajo de",
+            "dentro de"
           ],
-          "answer": "under",
-          "explain": "lower than, covered by = under.",
-          "change": "under the table"
+          "answer": "enfrente de",
+          "explain": "enfrente de: opposite, on the other side of the street.",
+          "change": "enfrente de la estación"
         },
         {
           "id": "a2-wo-07",
-          "prompt": "Come and sit ___ me on the sofa.",
+          "prompt": "En clase, Ana se sienta ___ mí: somos compañeras de mesa.",
           "options": [
-            "next to",
-            "opposite",
-            "above"
+            "al lado de",
+            "debajo de",
+            "encima de"
           ],
-          "answer": "next to",
-          "explain": "at my side = next to.",
-          "change": "next to me"
+          "answer": "al lado de",
+          "explain": "al lado de: next to.",
+          "change": "al lado de mí"
         },
         {
           "id": "a2-wo-08",
-          "prompt": "The car park is ___ the supermarket, at the back.",
+          "prompt": "La lámpara está ___ la mesa, colgada del techo.",
           "options": [
-            "behind",
-            "in front of",
-            "opposite"
+            "encima de",
+            "debajo de",
+            "dentro de"
           ],
-          "answer": "behind",
-          "explain": "at the back = behind.",
-          "change": "behind the supermarket"
+          "answer": "encima de",
+          "explain": "encima de also means above.",
+          "change": "encima de la mesa"
         },
         {
           "id": "a2-wo-09",
-          "prompt": "Write your name ___ the line, not under it.",
+          "prompt": "Mi coche está ___ dos furgonetas.",
           "options": [
-            "above",
-            "behind",
-            "between"
+            "entre",
+            "encima de",
+            "dentro de"
           ],
-          "answer": "above",
-          "explain": "higher than the line = above.",
-          "change": "above the line"
+          "answer": "entre",
+          "explain": "entre + two things.",
+          "change": "entre dos furgonetas"
         },
         {
           "id": "a2-wo-10",
-          "prompt": "Wait ___ the cinema, at the entrance.",
+          "prompt": "Las llaves están ___ la caja, y la caja está cerrada.",
           "options": [
-            "in front of",
-            "behind",
-            "under"
+            "dentro de",
+            "fuera de",
+            "encima de"
           ],
-          "answer": "in front of",
-          "explain": "at the entrance = in front of.",
-          "change": "in front of the cinema"
+          "answer": "dentro de",
+          "explain": "dentro de: inside.",
+          "change": "dentro de la caja"
         },
         {
           "id": "a2-wo-11",
-          "prompt": "The town hall is ___ the church and the library.",
+          "prompt": "Hace buen tiempo y los niños juegan ___ casa, en la calle.",
           "options": [
-            "between",
-            "opposite",
-            "above"
+            "fuera de",
+            "dentro de",
+            "debajo de"
           ],
-          "answer": "between",
-          "explain": "between + two things joined with and.",
-          "change": "between the church and the library"
+          "answer": "fuera de",
+          "explain": "fuera de: outside.",
+          "change": "fuera de casa"
         },
         {
           "id": "a2-wo-12",
-          "prompt": "Your shoes are on the floor ___ the bed.",
+          "prompt": "El ascensor está allí, ___ las escaleras, a la derecha.",
           "options": [
-            "under",
-            "above",
-            "opposite"
+            "al lado de",
+            "dentro de",
+            "encima de"
           ],
-          "answer": "under",
-          "explain": "on the floor, below the bed = under.",
-          "change": "under the bed"
+          "answer": "al lado de",
+          "explain": "al lado de: next to.",
+          "change": "al lado de las escaleras"
         }
       ]
     },
     {
       "id": "a2-wohin",
       "level": "A2",
+      "variety": "es-ES",
       "cat": "wechsel",
-      "name": "Movement: into, through, across …",
-      "preps": "into · out of · through · across · along · past · up · down",
+      "name": "Movement: hacia, hasta, por, desde",
+      "preps": "hacia · hasta · por · desde · a · de",
       "rule": {
-        "text": "These say where something moves. into = entering (go into the room); in = place (be in the room). through = in one side and out the other (a tunnel, a forest). across = from one side to the other of a flat area (a road, a river).",
+        "text": "por for the way through or past a place, hacia for the direction, hasta for the end point, desde for the starting point. entrar en, salir de, subir a, bajar de are fixed.",
         "table": {
           "caption": "Movement",
           "head": [
             "Preposition",
-            "Use",
+            "Meaning",
             "Example"
           ],
           "rows": [
             [
-              "into / out of",
-              "entering / leaving",
-              "She ran into the shop. He came out of the bank."
+              "por",
+              "through, past, along",
+              "paso por el parque"
             ],
             [
-              "through",
-              "in one side, out the other",
-              "The train goes through a tunnel."
+              "hacia",
+              "towards",
+              "vamos hacia el norte"
             ],
             [
-              "across",
-              "from one side to the other",
-              "Walk across the bridge."
+              "hasta",
+              "as far as",
+              "el autobús llega hasta la plaza"
             ],
             [
-              "along",
-              "following a line",
-              "We walked along the river."
-            ],
-            [
-              "past",
-              "going by something",
-              "Go past the church."
-            ],
-            [
-              "up / down",
-              "to a higher / lower place",
-              "Go up the stairs. Run down the hill."
+              "desde",
+              "from a starting point",
+              "desde mi casa hasta aquí"
             ]
           ]
         }
@@ -979,160 +1001,164 @@
       "questions": [
         {
           "id": "a2-wohin-01",
-          "prompt": "She jumped ___ the pool and swam to the other side.",
+          "prompt": "Para ir al centro, paso ___ el parque.",
           "options": [
-            "into",
-            "out of",
-            "through"
+            "por",
+            "hasta",
+            "desde"
           ],
-          "answer": "into",
-          "explain": "Entering the water: into.",
-          "change": "jumped into the pool"
+          "answer": "por",
+          "explain": "por: through a place on the way.",
+          "change": "por el parque"
         },
         {
           "id": "a2-wohin-02",
-          "prompt": "The train goes ___ a long tunnel.",
+          "prompt": "Este autobús llega ___ la plaza y ahí termina.",
           "options": [
-            "through",
-            "across",
-            "past"
+            "hasta",
+            "por",
+            "desde"
           ],
-          "answer": "through",
-          "explain": "In one end and out the other: through.",
-          "change": "through a tunnel"
+          "answer": "hasta",
+          "explain": "hasta: the end point.",
+          "change": "hasta la plaza"
         },
         {
           "id": "a2-wohin-03",
-          "prompt": "Be careful when you go ___ the road.",
+          "prompt": "He venido andando ___ mi casa hasta aquí.",
           "options": [
-            "across",
-            "through",
-            "into"
+            "desde",
+            "hacia",
+            "por"
           ],
-          "answer": "across",
-          "explain": "From one side of the road to the other: across.",
-          "change": "across the road"
+          "answer": "desde",
+          "explain": "desde… hasta…: from a start to an end.",
+          "change": "desde mi casa"
         },
         {
           "id": "a2-wohin-04",
-          "prompt": "We walked ___ the river for an hour.",
+          "prompt": "Vamos ___ el norte, pero aún no sabemos hasta dónde.",
           "options": [
-            "along",
-            "through",
-            "into"
+            "hacia",
+            "desde",
+            "de"
           ],
-          "answer": "along",
-          "explain": "Following the line of the river: along.",
-          "change": "along the river"
+          "answer": "hacia",
+          "explain": "hacia: the direction, not the end point.",
+          "change": "hacia el norte"
         },
         {
           "id": "a2-wohin-05",
-          "prompt": "Go ___ the church and turn left after it.",
+          "prompt": "El ladrón entró ___ la ventana.",
           "options": [
-            "past",
-            "through",
-            "into"
+            "por",
+            "hasta",
+            "desde"
           ],
-          "answer": "past",
-          "explain": "Going by it, not into it: past.",
-          "change": "go past the church"
+          "answer": "por",
+          "explain": "por: the way through.",
+          "change": "por la ventana"
         },
         {
           "id": "a2-wohin-06",
-          "prompt": "He took his phone ___ his pocket.",
+          "prompt": "Subo ___ quinto piso en ascensor.",
           "options": [
-            "out of",
-            "into",
-            "through"
+            "al",
+            "del",
+            "por"
           ],
-          "answer": "out of",
-          "explain": "Leaving the pocket: out of.",
-          "change": "out of his pocket"
+          "answer": "al",
+          "explain": "subir a: a + el quinto piso = al quinto piso.",
+          "change": "al quinto piso"
         },
         {
           "id": "a2-wohin-07",
-          "prompt": "Climb ___ the stairs to the top floor.",
+          "prompt": "Bajo ___ autobús en la próxima parada.",
           "options": [
-            "up",
-            "down",
-            "along"
+            "del",
+            "al",
+            "por"
           ],
-          "answer": "up",
-          "explain": "To a higher place: up.",
-          "change": "up the stairs"
+          "answer": "del",
+          "explain": "bajar de: de + el autobús = del autobús.",
+          "change": "del autobús"
         },
         {
           "id": "a2-wohin-08",
-          "prompt": "The ball rolled ___ the hill to the bottom.",
+          "prompt": "Entro ___ la oficina a las nueve.",
           "options": [
-            "down",
-            "up",
-            "across"
+            "en",
+            "de",
+            "hasta"
           ],
-          "answer": "down",
-          "explain": "To a lower place: down.",
-          "change": "down the hill"
+          "answer": "en",
+          "explain": "entrar en: in Spain, with en.",
+          "change": "en la oficina",
+          "es419": {
+            "note": "In Latin America: entrar a la oficina."
+          }
         },
         {
           "id": "a2-wohin-09",
-          "prompt": "Get ___ the car, quick! It's raining.",
+          "prompt": "Salgo ___ casa a las ocho.",
           "options": [
-            "into",
-            "out of",
-            "across"
+            "de",
+            "en",
+            "hasta"
           ],
-          "answer": "into",
-          "explain": "Get into the car to stay dry.",
-          "change": "get into the car"
+          "answer": "de",
+          "explain": "salir de: the place you leave.",
+          "change": "de casa"
         },
         {
           "id": "a2-wohin-10",
-          "prompt": "A bird flew ___ the open window into the room.",
+          "prompt": "Cruzamos el río ___ el puente.",
           "options": [
-            "through",
-            "along",
-            "past"
+            "por",
+            "hasta",
+            "hacia"
           ],
-          "answer": "through",
-          "explain": "In through the window: through.",
-          "change": "through the window"
+          "answer": "por",
+          "explain": "por: the way across.",
+          "change": "por el puente"
         },
         {
           "id": "a2-wohin-11",
-          "prompt": "The cat ran ___ the garden to the other side.",
+          "prompt": "De Madrid ___ Sevilla se tarda dos horas y media en AVE.",
           "options": [
-            "across",
-            "up",
-            "into"
+            "a",
+            "en",
+            "por"
           ],
-          "answer": "across",
-          "explain": "From one side to the other: across.",
-          "change": "across the garden"
+          "answer": "a",
+          "explain": "de… a…: from one place to another.",
+          "change": "de Madrid a Sevilla"
         },
         {
           "id": "a2-wohin-12",
-          "prompt": "The thief ran ___ the bank and jumped into a car.",
+          "prompt": "Mira ___ la derecha antes de cruzar.",
           "options": [
-            "out of",
-            "into",
-            "up"
+            "a",
+            "de",
+            "en"
           ],
-          "answer": "out of",
-          "explain": "Leaving the building: out of.",
-          "change": "out of the bank"
+          "answer": "a",
+          "explain": "mirar a + a direction.",
+          "change": "a la derecha"
         }
       ]
     },
     {
       "id": "a2-wechsel-mix",
       "level": "A2",
+      "variety": "es-ES",
       "cat": "wechsel",
-      "name": "Place or movement? in or into, at or to",
-      "preps": "in · into · on · onto · at · to",
+      "name": "Being or going? a or en",
+      "preps": "a · en",
       "rule": {
-        "text": "Place (where is it?): in, on, at. Movement (where does it go?): into, onto, to. In speech, in and on are also used for movement (Put it in the box), but into, onto and to are never used for place: I'm in the kitchen, not into the kitchen.",
+        "text": "en says where something is. a says where it goes. Verbs of movement take a: ir a, venir a, llegar a, mudarse a. Verbs of being take en: estar en, vivir en, trabajar en. entrar and poner are not what they seem: entrar en, poner en.",
         "table": {
-          "caption": "Place or movement?",
+          "caption": "a or en",
           "head": [
             "Preposition",
             "Use",
@@ -1140,19 +1166,19 @@
           ],
           "rows": [
             [
-              "in / into",
-              "inside / entering",
-              "I'm in the kitchen. Come into the kitchen."
+              "en",
+              "being in a place",
+              "Vivo en Madrid. Estoy en la oficina."
             ],
             [
-              "on / onto",
-              "on a surface / moving onto it",
-              "The cup is on the table. The cat jumped onto the table."
+              "a",
+              "going to a place",
+              "Voy a Madrid. Llego a casa."
             ],
             [
-              "at / to",
-              "at a place / going to it",
-              "We were at the cinema. We went to the cinema."
+              "en",
+              "entrar and poner",
+              "Entro en el banco. Pongo el vaso en la mesa."
             ]
           ]
         }
@@ -1160,184 +1186,177 @@
       "questions": [
         {
           "id": "a2-wechsel-mix-01",
-          "prompt": "I'm ___ the kitchen. Come and help me.",
+          "prompt": "Vivo ___ Madrid.",
           "options": [
-            "in",
-            "into",
-            "to"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "in",
-          "explain": "Place, no movement: in.",
-          "change": "in the kitchen"
+          "answer": "en",
+          "explain": "vivir: being in a place.",
+          "change": "en Madrid"
         },
         {
           "id": "a2-wechsel-mix-02",
-          "prompt": "She went ___ the bank to get some money.",
+          "prompt": "Voy ___ Madrid.",
           "options": [
-            "to",
-            "at",
-            "in"
+            "a",
+            "en"
           ],
-          "answer": "to",
-          "explain": "Movement to a place: go to.",
-          "change": "went to the bank"
+          "answer": "a",
+          "explain": "ir: going to a place.",
+          "change": "a Madrid"
         },
         {
           "id": "a2-wechsel-mix-03",
-          "prompt": "We were ___ the cinema last night.",
+          "prompt": "Estoy ___ la oficina.",
           "options": [
-            "at",
-            "to",
-            "into"
+            "en",
+            "a"
           ],
-          "answer": "at",
-          "explain": "Place, no movement: at.",
-          "change": "at the cinema"
+          "answer": "en",
+          "explain": "estar: being in a place.",
+          "change": "en la oficina"
         },
         {
           "id": "a2-wechsel-mix-04",
-          "prompt": "He fell ___ the river and got wet.",
+          "prompt": "Mañana voy ___ la oficina.",
           "options": [
-            "into",
-            "at",
-            "to"
+            "a",
+            "en"
           ],
-          "answer": "into",
-          "explain": "Movement, entering the water: into.",
-          "change": "fell into the river"
+          "answer": "a",
+          "explain": "ir: going to a place.",
+          "change": "a la oficina"
         },
         {
           "id": "a2-wechsel-mix-05",
-          "prompt": "The keys are ___ the box.",
+          "prompt": "Trabajo ___ un hotel.",
           "options": [
-            "in",
-            "into",
-            "to"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "in",
-          "explain": "Place: in.",
-          "change": "in the box"
+          "answer": "en",
+          "explain": "trabajar en: where you work.",
+          "change": "en un hotel"
         },
         {
           "id": "a2-wechsel-mix-06",
-          "prompt": "Let's go ___ the beach this afternoon.",
+          "prompt": "Llegamos ___ Barcelona a las tres.",
           "options": [
-            "to",
-            "at",
-            "on"
+            "a",
+            "en"
           ],
-          "answer": "to",
-          "explain": "Movement: go to.",
-          "change": "go to the beach"
+          "answer": "a",
+          "explain": "llegar a: in Spain with a, even though you end up there.",
+          "change": "a Barcelona"
         },
         {
           "id": "a2-wechsel-mix-07",
-          "prompt": "There were a lot of people ___ the concert.",
+          "prompt": "Los niños están ___ el parque.",
           "options": [
-            "at",
-            "to",
-            "into"
+            "en",
+            "a"
           ],
-          "answer": "at",
-          "explain": "At an event: at.",
-          "change": "at the concert"
+          "answer": "en",
+          "explain": "estar: being in a place.",
+          "change": "en el parque"
         },
         {
           "id": "a2-wechsel-mix-08",
-          "prompt": "The cat jumped ___ the table.",
+          "prompt": "¿Vamos ___ la playa?",
           "options": [
-            "onto",
-            "at",
-            "to"
+            "a",
+            "en"
           ],
-          "answer": "onto",
-          "explain": "Movement up onto a surface: onto.",
-          "change": "jumped onto the table"
+          "answer": "a",
+          "explain": "ir: going to a place.",
+          "change": "a la playa"
         },
         {
           "id": "a2-wechsel-mix-09",
-          "prompt": "Your book is ___ the shelf.",
+          "prompt": "Entro ___ el banco.",
           "options": [
-            "on",
-            "onto",
-            "to"
+            "en",
+            "de"
           ],
-          "answer": "on",
-          "explain": "Place on a surface: on.",
-          "change": "on the shelf"
+          "answer": "en",
+          "explain": "entrar en: in Spain, with en.",
+          "change": "en el banco",
+          "es419": {
+            "note": "In Latin America: entrar al banco."
+          }
         },
         {
           "id": "a2-wechsel-mix-10",
-          "prompt": "I'll drive you ___ the airport.",
+          "prompt": "Pongo las llaves ___ la mesa.",
           "options": [
-            "to",
-            "at",
-            "in"
+            "en",
+            "a"
           ],
-          "answer": "to",
-          "explain": "Movement: drive somebody to a place.",
-          "change": "drive you to the airport"
+          "answer": "en",
+          "explain": "poner en: where something ends up.",
+          "change": "en la mesa"
         },
         {
           "id": "a2-wechsel-mix-11",
-          "prompt": "Wait for me ___ the entrance.",
+          "prompt": "Nos vemos ___ la plaza.",
           "options": [
-            "at",
-            "to",
-            "into"
+            "en",
+            "a"
           ],
-          "answer": "at",
-          "explain": "Place, a point: at.",
-          "change": "at the entrance"
+          "answer": "en",
+          "explain": "Where you meet is a place you are in.",
+          "change": "en la plaza"
         },
         {
           "id": "a2-wechsel-mix-12",
-          "prompt": "The thief ran ___ the shop and out of the back door.",
+          "prompt": "Me mudo ___ Málaga en mayo.",
           "options": [
-            "into",
-            "at",
-            "on"
+            "a",
+            "de"
           ],
-          "answer": "into",
-          "explain": "Movement, entering: into.",
-          "change": "ran into the shop"
+          "answer": "a",
+          "explain": "mudarse a: moving to a new place.",
+          "change": "a Málaga"
         }
       ]
     },
     {
       "id": "a2-verschmelzung",
       "level": "A2",
-      "name": "Fixed phrases: by bus, on foot, at home",
-      "preps": "by · on · in · at",
+      "variety": "es-ES",
+      "name": "Fixed phrases: en tren, a pie, de pie",
+      "preps": "en · a · de · por · con",
       "rule": {
-        "text": "Transport: by + vehicle with no article (by bus, by car), but on foot. With a / the / my: on the bus, on the train, in my car, in a taxi. Fixed phrases: at home, at work, in bed, in hospital (UK), on holiday. Payment and messages: by card, by email.",
+        "text": "These go together, so learn them as a whole. Transport takes en, except on foot: en tren, en coche, but a pie. de pie means standing, a pie means walking.",
         "table": {
           "caption": "Fixed phrases",
           "head": [
             "Preposition",
-            "Use",
-            "Example"
+            "Phrases"
           ],
           "rows": [
             [
-              "by",
-              "how you travel or send (no article)",
-              "by bus, by plane, by email, by card"
+              "en",
+              "en tren, en coche, en autobús, en casa"
             ],
             [
-              "on",
-              "buses, trains, planes; on foot; on holiday",
-              "on the train, on foot, on holiday"
+              "a",
+              "a pie, a mano, a tiempo"
             ],
             [
-              "in",
-              "cars and taxis; in bed, in hospital",
-              "in a taxi, in bed"
+              "de",
+              "de pie, de vacaciones, de acuerdo"
             ],
             [
-              "at",
-              "home, work, school",
-              "at home, at work"
+              "por",
+              "por teléfono, por correo electrónico, por favor"
+            ],
+            [
+              "con",
+              "café con leche, con cuidado"
             ]
           ]
         }
@@ -1345,184 +1364,178 @@
       "questions": [
         {
           "id": "a2-verschmelzung-01",
-          "prompt": "I go to work ___ bus.",
+          "prompt": "Voy al trabajo ___ autobús.",
           "options": [
-            "by",
-            "on",
-            "in"
+            "en",
+            "de",
+            "por"
           ],
-          "answer": "by",
-          "explain": "by + transport with no article.",
-          "change": "by bus"
+          "answer": "en",
+          "explain": "Transport takes en.",
+          "change": "en autobús"
         },
         {
           "id": "a2-verschmelzung-02",
-          "prompt": "We didn't take the car. We went ___ foot.",
+          "prompt": "Vengo ___ pie.",
           "options": [
-            "on",
-            "by",
-            "in"
+            "a",
+            "en",
+            "de"
           ],
-          "answer": "on",
-          "explain": "on foot – the one exception to by.",
-          "change": "on foot"
+          "answer": "a",
+          "explain": "a pie: walking.",
+          "change": "a pie"
         },
         {
           "id": "a2-verschmelzung-03",
-          "prompt": "I read a book ___ the bus.",
+          "prompt": "Voy al pueblo ___ coche.",
           "options": [
-            "on",
-            "in",
-            "by"
+            "en",
+            "de",
+            "por"
           ],
-          "answer": "on",
-          "explain": "on the bus / on the train / on the plane.",
-          "change": "on the bus"
+          "answer": "en",
+          "explain": "Transport takes en.",
+          "change": "en coche",
+          "es419": {
+            "note": "In much of Latin America: en carro or en auto."
+          }
         },
         {
           "id": "a2-verschmelzung-04",
-          "prompt": "She came home ___ taxi.",
+          "prompt": "Hoy estoy ___ casa.",
           "options": [
-            "by",
-            "in",
-            "on"
+            "en",
+            "de",
+            "por"
           ],
-          "answer": "by",
-          "explain": "No article: by taxi. With an article: in a taxi.",
-          "change": "by taxi"
+          "answer": "en",
+          "explain": "en casa, with no article.",
+          "change": "en casa"
         },
         {
           "id": "a2-verschmelzung-05",
-          "prompt": "Get ___ my car, I'll drive you.",
+          "prompt": "Por suerte, llego ___ tiempo.",
           "options": [
-            "in",
-            "on",
-            "by"
+            "a",
+            "en",
+            "de"
           ],
-          "answer": "in",
-          "explain": "Cars and taxis: in.",
-          "change": "in my car"
+          "answer": "a",
+          "explain": "a tiempo: not late.",
+          "change": "a tiempo"
         },
         {
           "id": "a2-verschmelzung-06",
-          "prompt": "Sorry, Liam is still ___ bed.",
+          "prompt": "Escribo la carta ___ mano.",
           "options": [
-            "in",
-            "on",
-            "at"
+            "a",
+            "de",
+            "en"
           ],
-          "answer": "in",
-          "explain": "in bed – no article.",
-          "change": "in bed"
+          "answer": "a",
+          "explain": "a mano: by hand.",
+          "change": "a mano"
         },
         {
           "id": "a2-verschmelzung-07",
-          "prompt": "Is Priya ___ home?",
+          "prompt": "En agosto estamos ___ vacaciones.",
           "options": [
-            "at",
-            "in",
-            "on"
+            "de",
+            "a",
+            "por"
           ],
-          "answer": "at",
-          "explain": "at home.",
-          "change": "at home"
+          "answer": "de",
+          "explain": "de vacaciones: on holiday.",
+          "change": "de vacaciones"
         },
         {
           "id": "a2-verschmelzung-08",
-          "prompt": "My grandfather is ___ hospital after his operation.",
+          "prompt": "El autobús va lleno y voy ___ pie.",
           "options": [
-            "in",
-            "at",
-            "on"
+            "de",
+            "a",
+            "en"
           ],
-          "answer": "in",
-          "explain": "in hospital (UK, no article; US: in the hospital).",
-          "change": "in hospital"
+          "answer": "de",
+          "explain": "de pie: standing. a pie would mean walking.",
+          "change": "de pie"
         },
         {
           "id": "a2-verschmelzung-09",
-          "prompt": "We're going ___ holiday next week.",
+          "prompt": "Hablo con mi madre ___ teléfono.",
           "options": [
-            "on",
-            "in",
-            "at"
+            "por",
+            "en",
+            "de"
           ],
-          "answer": "on",
-          "explain": "on holiday.",
-          "change": "on holiday"
+          "answer": "por",
+          "explain": "por teléfono: by phone.",
+          "change": "por teléfono"
         },
         {
           "id": "a2-verschmelzung-10",
-          "prompt": "I'll send the documents ___ email.",
+          "prompt": "Estamos ___ acuerdo.",
           "options": [
-            "by",
-            "on",
-            "in"
+            "de",
+            "en",
+            "a"
           ],
-          "answer": "by",
-          "explain": "by email, by post.",
-          "change": "by email"
+          "answer": "de",
+          "explain": "de acuerdo: in agreement.",
+          "change": "de acuerdo"
         },
         {
           "id": "a2-verschmelzung-11",
-          "prompt": "Do you want to pay ___ card?",
+          "prompt": "Te lo envío ___ correo electrónico.",
           "options": [
-            "by",
-            "in",
-            "on"
+            "por",
+            "de",
+            "a"
           ],
-          "answer": "by",
-          "explain": "pay by card – but in cash.",
-          "change": "by card"
+          "answer": "por",
+          "explain": "por correo: by post or email.",
+          "change": "por correo electrónico"
         },
         {
           "id": "a2-verschmelzung-12",
-          "prompt": "Is there Wi-Fi ___ the train?",
+          "prompt": "Un café ___ leche, por favor.",
           "options": [
-            "on",
-            "in",
-            "by"
+            "con",
+            "a",
+            "por"
           ],
-          "answer": "on",
-          "explain": "on the train.",
-          "change": "on the train"
+          "answer": "con",
+          "explain": "café con leche.",
+          "change": "café con leche"
         }
       ]
     },
     {
       "id": "b1-verben-akk",
       "level": "B1",
-      "name": "Verbs + prepositions: about, at, for, to",
-      "preps": "about · at · for · to",
+      "variety": "es-ES",
+      "name": "Verbs + prepositions: a, en",
+      "preps": "a · en",
       "rule": {
-        "text": "Many verbs need a fixed preposition. Learn them as one unit: wait for, look at, listen to, talk about. After the preposition use a noun, a pronoun or -ing: I'm thinking about moving.",
+        "text": "Verbs of starting, learning and helping often take a. Verbs of thinking and trusting often take en. An infinitive follows the preposition directly: empiezo a trabajar, tardo en llegar.",
         "table": {
-          "caption": "Verbs + about, at, for, to",
+          "caption": "Verbs with a and en",
           "head": [
             "Preposition",
-            "Use",
+            "Verbs",
             "Example"
           ],
           "rows": [
             [
-              "about",
-              "talk, think, worry, complain about",
-              "Don't worry about it."
+              "a",
+              "empezar a, aprender a, ayudar a, invitar a, volver a, atreverse a",
+              "Empiezo a trabajar a las nueve."
             ],
             [
-              "at",
-              "look, laugh, smile at",
-              "Look at this."
-            ],
-            [
-              "for",
-              "wait, look, pay, ask, apply for",
-              "I'm waiting for Tom."
-            ],
-            [
-              "to",
-              "listen, talk, belong to; explain sth to sb",
-              "Listen to me."
+              "en",
+              "pensar en, confiar en, tardar en, insistir en, quedar en, fijarse en",
+              "Pienso en mi familia."
             ]
           ]
         }
@@ -1530,189 +1543,175 @@
       "questions": [
         {
           "id": "b1-verben-akk-01",
-          "prompt": "Who are you waiting ___?",
+          "prompt": "Empiezo ___ trabajar a las nueve.",
           "options": [
-            "for",
-            "to",
-            "at"
+            "a",
+            "en",
+            "de"
           ],
-          "answer": "for",
-          "explain": "wait for somebody.",
-          "change": "wait for"
+          "answer": "a",
+          "explain": "empezar a + infinitive.",
+          "change": "empezar a"
         },
         {
           "id": "b1-verben-akk-02",
-          "prompt": "Listen ___ me, please.",
+          "prompt": "Pienso mucho ___ mi familia.",
           "options": [
-            "to",
-            "at",
-            "for"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "to",
-          "explain": "listen to somebody / something.",
-          "change": "listen to me"
+          "answer": "en",
+          "explain": "pensar en: to have someone in your mind.",
+          "change": "pensar en"
         },
         {
           "id": "b1-verben-akk-03",
-          "prompt": "Look ___ this photo – it's me as a child!",
+          "prompt": "Mi hermana me ayuda ___ hacer los papeles.",
           "options": [
-            "at",
-            "for",
-            "to"
+            "a",
+            "en",
+            "de"
           ],
-          "answer": "at",
-          "explain": "look at = use your eyes.",
-          "change": "look at this photo"
+          "answer": "a",
+          "explain": "ayudar a + infinitive.",
+          "change": "ayudar a"
         },
         {
           "id": "b1-verben-akk-04",
-          "prompt": "I'm looking ___ my glasses. Have you seen them?",
+          "prompt": "El autobús tarda media hora ___ llegar.",
           "options": [
-            "for",
-            "at",
-            "to"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "for",
-          "explain": "look for = try to find.",
-          "change": "looking for my glasses"
+          "answer": "en",
+          "explain": "tardar en + infinitive.",
+          "change": "tardar en"
         },
         {
           "id": "b1-verben-akk-05",
-          "prompt": "We talked ___ the new project for an hour.",
+          "prompt": "Estoy aprendiendo ___ conducir.",
           "options": [
-            "about",
-            "at",
-            "for"
+            "a",
+            "en",
+            "de"
           ],
-          "answer": "about",
-          "explain": "talk about a topic.",
-          "change": "talked about the project"
+          "answer": "a",
+          "explain": "aprender a + infinitive.",
+          "change": "aprender a"
         },
         {
           "id": "b1-verben-akk-06",
-          "prompt": "Who paid ___ the drinks?",
+          "prompt": "Confía ___ mí: todo va a salir bien.",
           "options": [
-            "for",
-            "to",
-            "about"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "for",
-          "explain": "pay for something.",
-          "change": "paid for the drinks"
+          "answer": "en",
+          "explain": "confiar en: to trust.",
+          "change": "confiar en"
         },
         {
           "id": "b1-verben-akk-07",
-          "prompt": "This phone belongs ___ Zofia.",
+          "prompt": "Hemos quedado ___ que tú llamas.",
           "options": [
-            "to",
-            "for",
-            "at"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "to",
-          "explain": "belong to somebody.",
-          "change": "belongs to Zofia"
+          "answer": "en",
+          "explain": "quedar en: to agree on something.",
+          "change": "quedar en"
         },
         {
           "id": "b1-verben-akk-08",
-          "prompt": "Don't worry ___ the exam. You'll be fine.",
+          "prompt": "No me atrevo ___ decírselo.",
           "options": [
-            "about",
-            "for",
-            "at"
+            "a",
+            "en",
+            "de"
           ],
-          "answer": "about",
-          "explain": "worry about something.",
-          "change": "worry about the exam"
+          "answer": "a",
+          "explain": "atreverse a + infinitive.",
+          "change": "atreverse a"
         },
         {
           "id": "b1-verben-akk-09",
-          "prompt": "Everyone laughed ___ his joke.",
+          "prompt": "Insiste ___ pagar la cena.",
           "options": [
-            "at",
-            "for",
-            "to"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "at",
-          "explain": "laugh at something / somebody.",
-          "change": "laughed at his joke"
+          "answer": "en",
+          "explain": "insistir en: to insist on.",
+          "change": "insistir en"
         },
         {
           "id": "b1-verben-akk-10",
-          "prompt": "She applied ___ a job at the hospital.",
+          "prompt": "Ana me invitó ___ cenar.",
           "options": [
-            "for",
-            "to",
-            "at"
+            "a",
+            "en",
+            "de"
           ],
-          "answer": "for",
-          "explain": "apply for a job.",
-          "change": "applied for a job"
+          "answer": "a",
+          "explain": "invitar a + infinitive.",
+          "change": "invitar a"
         },
         {
           "id": "b1-verben-akk-11",
-          "prompt": "Can you explain the rule ___ me again?",
+          "prompt": "Fíjate ___ los números de la factura.",
           "options": [
-            "to",
-            "for",
-            "at"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "to",
-          "explain": "explain something to somebody (not explain me).",
-          "change": "explain the rule to me"
+          "answer": "en",
+          "explain": "fijarse en: to notice, to pay attention to.",
+          "change": "fijarse en"
         },
         {
           "id": "b1-verben-akk-12",
-          "prompt": "He complained ___ the cold food.",
+          "prompt": "Ayer volvió ___ llamar.",
           "options": [
-            "about",
-            "at",
-            "for"
+            "a",
+            "en",
+            "de"
           ],
-          "answer": "about",
-          "explain": "complain about something.",
-          "change": "complained about the food"
+          "answer": "a",
+          "explain": "volver a + infinitive: to do it again.",
+          "change": "volver a"
         }
       ]
     },
     {
       "id": "b1-verben-dat",
       "level": "B1",
-      "name": "Verbs + prepositions: on, of, in, from, with",
-      "preps": "on · of · in · from · with",
+      "variety": "es-ES",
+      "name": "Verbs + prepositions: de, con",
+      "preps": "de · con",
       "rule": {
-        "text": "More verbs with a fixed preposition. Some look strange from your own language, so learn the pair: depend on (not depend of), consist of, believe in, agree with.",
+        "text": "Many verbs of remembering, stopping and complaining take de. Verbs of meeting and being with someone often take con. Learn them as pairs: depender de, soñar con.",
         "table": {
-          "caption": "Verbs + on, of, in, from, with",
+          "caption": "Verbs with de and con",
           "head": [
             "Preposition",
-            "Use",
+            "Verbs",
             "Example"
           ],
           "rows": [
             [
-              "on",
-              "depend, rely, concentrate on; spend money on",
-              "It depends on the weather."
+              "de",
+              "depender de, acordarse de, olvidarse de, dejar de, tratar de, quejarse de, enterarse de",
+              "Depende de ti."
             ],
             [
-              "of",
-              "think of (opinion), consist of, dream of",
-              "What do you think of it?"
-            ],
-            [
-              "in",
-              "believe, succeed, take part in",
-              "Do you believe in luck?"
-            ],
-            [
-              "from",
-              "hear, borrow, recover from",
-              "I borrowed it from Amira."
-            ],
-            [
-              "with",
-              "agree, deal with; help somebody with",
-              "I agree with you."
+              "con",
+              "soñar con, casarse con, contar con, hablar con, quedar con",
+              "Sueño con vivir cerca del mar."
             ]
           ]
         }
@@ -1720,189 +1719,190 @@
       "questions": [
         {
           "id": "b1-verben-dat-01",
-          "prompt": "It depends ___ the price.",
+          "prompt": "Eso depende ___ ti.",
           "options": [
-            "on",
-            "of",
-            "from"
+            "de",
+            "con",
+            "en"
           ],
-          "answer": "on",
-          "explain": "depend on (not depend of).",
-          "change": "depends on"
+          "answer": "de",
+          "explain": "depender de: to depend on.",
+          "change": "depender de"
         },
         {
           "id": "b1-verben-dat-02",
-          "prompt": "I agree ___ you completely.",
+          "prompt": "Sueño ___ vivir cerca del mar.",
           "options": [
-            "with",
-            "on",
-            "of"
+            "con",
+            "de",
+            "en"
           ],
-          "answer": "with",
-          "explain": "agree with somebody.",
-          "change": "agree with you"
+          "answer": "con",
+          "explain": "soñar con: to dream of.",
+          "change": "soñar con"
         },
         {
           "id": "b1-verben-dat-03",
-          "prompt": "What do you think ___ my new jacket?",
+          "prompt": "Me acuerdo ___ mi primer día en Madrid.",
           "options": [
-            "of",
-            "on",
-            "in"
+            "de",
+            "con",
+            "en"
           ],
-          "answer": "of",
-          "explain": "think of = have an opinion about.",
-          "change": "think of my jacket"
+          "answer": "de",
+          "explain": "acordarse de: to remember.",
+          "change": "acordarse de"
         },
         {
           "id": "b1-verben-dat-04",
-          "prompt": "Do you believe ___ ghosts?",
+          "prompt": "He hablado ___ el jefe por teléfono.",
           "options": [
-            "in",
-            "on",
-            "of"
+            "con",
+            "en",
+            "a"
           ],
-          "answer": "in",
-          "explain": "believe in = think something exists.",
-          "change": "believe in ghosts"
+          "answer": "con",
+          "explain": "hablar con: to talk to someone.",
+          "change": "hablar con"
         },
         {
           "id": "b1-verben-dat-05",
-          "prompt": "Have you heard ___ Mei recently?",
+          "prompt": "Dejé ___ fumar hace dos años.",
           "options": [
-            "from",
-            "of",
-            "with"
+            "de",
+            "con",
+            "en"
           ],
-          "answer": "from",
-          "explain": "hear from somebody = get news from them.",
-          "change": "heard from Mei"
+          "answer": "de",
+          "explain": "dejar de + infinitive: to stop doing.",
+          "change": "dejar de"
         },
         {
           "id": "b1-verben-dat-06",
-          "prompt": "He suffers ___ back pain.",
+          "prompt": "Luis se casa ___ Marta en junio.",
           "options": [
-            "from",
-            "on",
-            "in"
+            "con",
+            "de",
+            "en"
           ],
-          "answer": "from",
-          "explain": "suffer from an illness or a problem.",
-          "change": "suffers from back pain"
+          "answer": "con",
+          "explain": "casarse con: to marry.",
+          "change": "casarse con"
         },
         {
           "id": "b1-verben-dat-07",
-          "prompt": "You can always rely ___ me.",
+          "prompt": "Trato ___ llegar pronto.",
           "options": [
-            "on",
-            "with",
-            "of"
+            "de",
+            "con",
+            "en"
           ],
-          "answer": "on",
-          "explain": "rely on somebody.",
-          "change": "rely on me"
+          "answer": "de",
+          "explain": "tratar de + infinitive: to try.",
+          "change": "tratar de"
         },
         {
           "id": "b1-verben-dat-08",
-          "prompt": "The course consists ___ ten lessons.",
+          "prompt": "Mi vecino se queja ___ todo.",
           "options": [
-            "of",
-            "in",
-            "on"
+            "de",
+            "con",
+            "en"
           ],
-          "answer": "of",
-          "explain": "consist of.",
-          "change": "consists of ten lessons"
+          "answer": "de",
+          "explain": "quejarse de: to complain about.",
+          "change": "quejarse de"
         },
         {
           "id": "b1-verben-dat-09",
-          "prompt": "Fifty people took part ___ the race.",
+          "prompt": "He quedado ___ Ana a las ocho.",
           "options": [
-            "in",
-            "on",
-            "of"
+            "con",
+            "de",
+            "a"
           ],
-          "answer": "in",
-          "explain": "take part in.",
-          "change": "took part in the race"
+          "answer": "con",
+          "explain": "quedar con: to arrange to meet someone.",
+          "change": "quedar con"
         },
         {
           "id": "b1-verben-dat-10",
-          "prompt": "Can you help me ___ my bags?",
+          "prompt": "Cuento ___ tu ayuda.",
           "options": [
-            "with",
-            "on",
-            "from"
+            "con",
+            "de",
+            "en"
           ],
-          "answer": "with",
-          "explain": "help somebody with something.",
-          "change": "help me with my bags"
+          "answer": "con",
+          "explain": "contar con: to rely on.",
+          "change": "contar con"
         },
         {
           "id": "b1-verben-dat-11",
-          "prompt": "I can't concentrate ___ my work with this noise.",
+          "prompt": "Siempre me olvido ___ las llaves.",
           "options": [
-            "on",
-            "in",
-            "with"
+            "de",
+            "con",
+            "en"
           ],
-          "answer": "on",
-          "explain": "concentrate on.",
-          "change": "concentrate on my work"
+          "answer": "de",
+          "explain": "olvidarse de: to forget.",
+          "change": "olvidarse de"
         },
         {
           "id": "b1-verben-dat-12",
-          "prompt": "Can I borrow a pen ___ you?",
+          "prompt": "Me enteré ___ la noticia por la radio.",
           "options": [
-            "from",
-            "of",
-            "with"
+            "de",
+            "con",
+            "en"
           ],
-          "answer": "from",
-          "explain": "borrow something from somebody.",
-          "change": "borrow a pen from you"
+          "answer": "de",
+          "explain": "enterarse de: to find out about.",
+          "change": "enterarse de"
         }
       ]
     },
     {
       "id": "b1-genitiv",
       "level": "B1",
-      "name": "Time: for, since, during, by, until",
-      "preps": "for · since · during · by · until",
+      "variety": "es-ES",
+      "name": "Time: desde, desde hace, hace, hasta, durante",
+      "preps": "desde · desde hace · hace · hasta · durante",
       "rule": {
-        "text": "for + a length of time (how long?), since + a point in time (from when?), usually with the present perfect. during + a noun (during the film), not a number of hours. by = not later than; until = all the time up to then.",
+        "text": "desde + a point in time; desde hace + a length of time, still going on, with the present. hace + a length of time for “ago”, with a past tense. durante + a length of time that has ended, or a period. hasta for the end.",
         "table": {
-          "caption": "for, since, during, by, until",
+          "caption": "How long and since when",
           "head": [
-            "Preposition",
+            "Form",
             "Use",
             "Example"
           ],
           "rows": [
             [
-              "for",
-              "a length of time",
-              "for two hours, for ten years"
+              "desde",
+              "a point in time, still true",
+              "Vivo aquí desde 2021."
             ],
             [
-              "since",
-              "a starting point",
-              "since 2019, since Monday"
+              "desde hace",
+              "a length of time, still true",
+              "Vivo aquí desde hace tres años."
             ],
             [
-              "during",
-              "in the time of an event",
-              "during the film, during the night"
+              "hace",
+              "ago",
+              "Llegué hace dos años."
             ],
             [
-              "by",
-              "not later than",
-              "Send it by Friday."
+              "durante",
+              "a period",
+              "Trabajé allí durante cinco años."
             ],
             [
-              "until",
-              "up to a time, then it stops",
-              "Wait until six."
+              "hasta",
+              "the end",
+              "Abierto hasta las ocho."
             ]
           ]
         }
@@ -1910,159 +1910,160 @@
       "questions": [
         {
           "id": "b1-genitiv-01",
-          "prompt": "I've lived here ___ 2015.",
+          "prompt": "Vivo en España ___ 2021.",
           "options": [
-            "since",
-            "for",
-            "during"
+            "desde",
+            "desde hace",
+            "durante"
           ],
-          "answer": "since",
-          "explain": "since + a point in time.",
-          "change": "since 2015"
+          "answer": "desde",
+          "explain": "desde + a point in time, with the present.",
+          "change": "desde 2021"
         },
         {
           "id": "b1-genitiv-02",
-          "prompt": "I've lived here ___ ten years.",
+          "prompt": "Vivo en España ___ tres años.",
           "options": [
-            "for",
-            "since",
-            "during"
+            "desde hace",
+            "desde",
+            "hasta"
           ],
-          "answer": "for",
-          "explain": "for + a length of time.",
-          "change": "for ten years"
+          "answer": "desde hace",
+          "explain": "desde hace + a length of time, still true now.",
+          "change": "desde hace tres años"
         },
         {
           "id": "b1-genitiv-03",
-          "prompt": "My phone rang ___ the meeting.",
+          "prompt": "Llegué a Madrid ___ dos años.",
           "options": [
-            "during",
-            "for",
-            "since"
+            "hace",
+            "desde",
+            "durante"
           ],
-          "answer": "during",
-          "explain": "during + an event.",
-          "change": "during the meeting"
+          "answer": "hace",
+          "explain": "hace + a length of time, with a past tense: ago.",
+          "change": "hace dos años"
         },
         {
           "id": "b1-genitiv-04",
-          "prompt": "Please send me the report ___ Friday at the latest.",
+          "prompt": "Trabajé en un restaurante ___ cinco años.",
           "options": [
-            "by",
-            "until",
-            "since"
+            "durante",
+            "desde hace",
+            "desde"
           ],
-          "answer": "by",
-          "explain": "by = not later than.",
-          "change": "by Friday"
+          "answer": "durante",
+          "explain": "durante + a period that has ended.",
+          "change": "durante cinco años"
         },
         {
           "id": "b1-genitiv-05",
-          "prompt": "The shop is open ___ 10 pm.",
+          "prompt": "La tienda está abierta ___ las ocho de la tarde.",
           "options": [
-            "until",
-            "by",
-            "during"
+            "hasta",
+            "durante",
+            "hace"
           ],
-          "answer": "until",
-          "explain": "until = up to then, then it closes.",
-          "change": "until 10 pm"
+          "answer": "hasta",
+          "explain": "hasta: the end point.",
+          "change": "hasta las ocho"
         },
         {
           "id": "b1-genitiv-06",
-          "prompt": "We waited ___ an hour, but the bus didn't come.",
+          "prompt": "Estudio español ___ enero.",
           "options": [
-            "for",
-            "during",
-            "since"
+            "desde",
+            "durante",
+            "hace"
           ],
-          "answer": "for",
-          "explain": "for + a length of time.",
-          "change": "for an hour"
+          "answer": "desde",
+          "explain": "desde + a point in time, with the present.",
+          "change": "desde enero"
         },
         {
           "id": "b1-genitiv-07",
-          "prompt": "She has been ill ___ last week.",
+          "prompt": "___ el verano trabajo en un hotel.",
           "options": [
-            "since",
-            "for",
-            "by"
+            "Durante",
+            "Desde hace",
+            "Hace"
           ],
-          "answer": "since",
-          "explain": "since + a starting point.",
-          "change": "since last week"
+          "answer": "Durante",
+          "explain": "durante + a period: the whole summer.",
+          "change": "durante el verano"
         },
         {
           "id": "b1-genitiv-08",
-          "prompt": "Nobody spoke ___ the film.",
+          "prompt": "___ mucho tiempo que no veo a Ana.",
           "options": [
-            "during",
-            "for",
-            "since"
+            "Hace",
+            "Desde",
+            "Durante"
           ],
-          "answer": "during",
-          "explain": "during + an event.",
-          "change": "during the film"
+          "answer": "Hace",
+          "explain": "hace… que: for a length of time up to now.",
+          "change": "hace mucho tiempo que"
         },
         {
           "id": "b1-genitiv-09",
-          "prompt": "I'll be back ___ six, so we can have dinner then.",
+          "prompt": "No sé nada de él ___ semanas.",
           "options": [
-            "by",
-            "until",
-            "for"
+            "desde hace",
+            "durante",
+            "hasta"
           ],
-          "answer": "by",
-          "explain": "by = at six or earlier.",
-          "change": "back by six"
+          "answer": "desde hace",
+          "explain": "desde hace + a length of time, still true now.",
+          "change": "desde hace semanas"
         },
         {
           "id": "b1-genitiv-10",
-          "prompt": "We stayed at the party ___ midnight.",
+          "prompt": "Me quedo ___ el viernes.",
           "options": [
-            "until",
-            "by",
-            "since"
+            "hasta",
+            "desde hace",
+            "hace"
           ],
-          "answer": "until",
-          "explain": "until = the whole time up to midnight.",
-          "change": "until midnight"
+          "answer": "hasta",
+          "explain": "hasta: the end point.",
+          "change": "hasta el viernes"
         },
         {
           "id": "b1-genitiv-11",
-          "prompt": "It rained ___ three days without stopping.",
+          "prompt": "Estuve en el hospital ___ una semana.",
           "options": [
-            "for",
-            "during",
-            "since"
+            "durante",
+            "desde hace",
+            "hace"
           ],
-          "answer": "for",
-          "explain": "for + a number of days.",
-          "change": "for three days"
+          "answer": "durante",
+          "explain": "durante + a period that has ended.",
+          "change": "durante una semana"
         },
         {
           "id": "b1-genitiv-12",
-          "prompt": "I haven't seen him ___ we left school.",
+          "prompt": "Se fue ___ un rato.",
           "options": [
-            "since",
-            "for",
-            "during"
+            "hace",
+            "desde",
+            "hasta"
           ],
-          "answer": "since",
-          "explain": "since + the moment something started.",
-          "change": "since we left school"
+          "answer": "hace",
+          "explain": "hace + a length of time, with a past tense: ago.",
+          "change": "hace un rato"
         }
       ]
     },
     {
       "id": "b1-adjektive",
       "level": "B1",
-      "name": "Adjectives + prepositions",
-      "preps": "at · of · in · about · with · for",
+      "variety": "es-ES",
+      "name": "por or para",
+      "preps": "por · para",
       "rule": {
-        "text": "Many adjectives have their own preposition: good at, afraid of, interested in. After the preposition use a noun, a pronoun or -ing: I'm good at cooking.",
+        "text": "para looks ahead: a purpose, a person who receives, a destination, a deadline. por looks at the cause or the way: a reason, an exchange, the way through, the means, the agent of a passive, a part of the day.",
         "table": {
-          "caption": "Adjectives + prepositions",
+          "caption": "por or para",
           "head": [
             "Preposition",
             "Use",
@@ -2070,34 +2071,34 @@
           ],
           "rows": [
             [
-              "at",
-              "good at, bad at",
-              "She's good at maths."
+              "para",
+              "purpose",
+              "Estudio para trabajar en un hospital."
             ],
             [
-              "of",
-              "afraid of, proud of, tired of, full of",
-              "I'm afraid of dogs."
+              "para",
+              "who it is for",
+              "Este regalo es para ti."
             ],
             [
-              "in",
-              "interested in",
-              "He's interested in history."
+              "para",
+              "destination, deadline",
+              "Salgo para Barcelona. Para el lunes."
             ],
             [
-              "about",
-              "worried about, excited about",
-              "I'm worried about the test."
+              "por",
+              "reason",
+              "Gracias por tu ayuda. Cerrado por vacaciones."
             ],
             [
-              "with",
-              "angry with (a person), pleased with",
-              "She's angry with me."
+              "por",
+              "exchange, means",
+              "Veinte euros por la camisa. Por teléfono."
             ],
             [
-              "for",
-              "famous for, responsible for, late for",
-              "Don't be late for work."
+              "por",
+              "way through, agent",
+              "Paso por tu casa. Reformado por el dueño."
             ]
           ]
         }
@@ -2105,194 +2106,188 @@
       "questions": [
         {
           "id": "b1-adjektive-01",
-          "prompt": "I'm not very good ___ cooking.",
+          "prompt": "Este regalo es ___ ti.",
           "options": [
-            "at",
-            "in",
-            "for"
+            "para",
+            "por"
           ],
-          "answer": "at",
-          "explain": "good at / bad at.",
-          "change": "good at cooking"
+          "answer": "para",
+          "explain": "para + the person who receives it.",
+          "change": "para ti"
         },
         {
           "id": "b1-adjektive-02",
-          "prompt": "My little brother is afraid ___ the dark.",
+          "prompt": "Gracias ___ tu ayuda.",
           "options": [
-            "of",
-            "from",
-            "about"
+            "por",
+            "para"
           ],
-          "answer": "of",
-          "explain": "afraid of (not from).",
-          "change": "afraid of the dark"
+          "answer": "por",
+          "explain": "por: the reason for your thanks.",
+          "change": "gracias por"
         },
         {
           "id": "b1-adjektive-03",
-          "prompt": "Are you interested ___ art?",
+          "prompt": "Salgo ___ Barcelona mañana.",
           "options": [
-            "in",
-            "on",
-            "for"
+            "para",
+            "por"
           ],
-          "answer": "in",
-          "explain": "interested in.",
-          "change": "interested in art"
+          "answer": "para",
+          "explain": "para: where you are heading.",
+          "change": "para Barcelona"
         },
         {
           "id": "b1-adjektive-04",
-          "prompt": "I'm really excited ___ the trip.",
+          "prompt": "Paso ___ tu casa a las cinco.",
           "options": [
-            "about",
-            "of",
-            "at"
+            "por",
+            "para"
           ],
-          "answer": "about",
-          "explain": "excited about.",
-          "change": "excited about the trip"
+          "answer": "por",
+          "explain": "pasar por: past or through a place.",
+          "change": "por tu casa"
         },
         {
           "id": "b1-adjektive-05",
-          "prompt": "Sorry, I'm late ___ the meeting.",
+          "prompt": "Estudio español ___ trabajar en un hospital.",
           "options": [
-            "for",
-            "of",
-            "at"
+            "para",
+            "por"
           ],
-          "answer": "for",
-          "explain": "late for.",
-          "change": "late for the meeting"
+          "answer": "para",
+          "explain": "para + infinitive: the purpose.",
+          "change": "para trabajar"
         },
         {
           "id": "b1-adjektive-06",
-          "prompt": "Liverpool is famous ___ its music.",
+          "prompt": "Cerramos ___ vacaciones.",
           "options": [
-            "for",
-            "of",
-            "about"
+            "por",
+            "para"
           ],
-          "answer": "for",
-          "explain": "famous for.",
-          "change": "famous for its music"
+          "answer": "por",
+          "explain": "por: the reason.",
+          "change": "por vacaciones"
         },
         {
           "id": "b1-adjektive-07",
-          "prompt": "We're very proud ___ our daughter.",
+          "prompt": "Pagué veinte euros ___ la camisa.",
           "options": [
-            "of",
-            "about",
-            "for"
+            "por",
+            "para"
           ],
-          "answer": "of",
-          "explain": "proud of.",
-          "change": "proud of our daughter"
+          "answer": "por",
+          "explain": "por: an exchange.",
+          "change": "por la camisa"
         },
         {
           "id": "b1-adjektive-08",
-          "prompt": "My mum was angry ___ me because I came home late.",
+          "prompt": "Necesito el informe ___ el lunes.",
           "options": [
-            "with",
-            "of",
-            "for"
+            "para",
+            "por"
           ],
-          "answer": "with",
-          "explain": "angry with a person.",
-          "change": "angry with me"
+          "answer": "para",
+          "explain": "para: a deadline.",
+          "change": "para el lunes"
         },
         {
           "id": "b1-adjektive-09",
-          "prompt": "I'm tired ___ waiting. Let's go.",
+          "prompt": "Te llamo ___ teléfono.",
           "options": [
-            "of",
-            "at",
-            "in"
+            "por",
+            "para"
           ],
-          "answer": "of",
-          "explain": "tired of = bored with.",
-          "change": "tired of waiting"
+          "answer": "por",
+          "explain": "por: the means.",
+          "change": "por teléfono"
         },
         {
           "id": "b1-adjektive-10",
-          "prompt": "The box was full ___ old photos.",
+          "prompt": "___ mí, este piso es demasiado caro.",
           "options": [
-            "of",
-            "in",
-            "at"
+            "Para",
+            "Por"
           ],
-          "answer": "of",
-          "explain": "full of.",
-          "change": "full of old photos"
+          "answer": "Para",
+          "explain": "para mí: in my opinion.",
+          "change": "para mí"
         },
         {
           "id": "b1-adjektive-11",
-          "prompt": "Who is responsible ___ this mess?",
+          "prompt": "El piso fue reformado ___ el dueño.",
           "options": [
-            "for",
-            "of",
-            "about"
+            "por",
+            "para"
           ],
-          "answer": "for",
-          "explain": "responsible for.",
-          "change": "responsible for this mess"
+          "answer": "por",
+          "explain": "por: who did it, in a passive.",
+          "change": "por el dueño"
         },
         {
           "id": "b1-adjektive-12",
-          "prompt": "Are you worried ___ your exam?",
+          "prompt": "Llegaron tarde ___ la huelga de trenes.",
           "options": [
-            "about",
-            "of",
-            "at"
+            "por",
+            "para"
           ],
-          "answer": "about",
-          "explain": "worried about.",
-          "change": "worried about your exam"
+          "answer": "por",
+          "explain": "por: the reason.",
+          "change": "por la huelga"
         }
       ]
     },
     {
       "id": "b2-genitiv",
       "level": "B2",
-      "name": "Formal prepositions: due to, despite, instead of …",
-      "preps": "according to · apart from · despite · due to · in spite of · instead of · owing to · thanks to",
+      "variety": "es-ES",
+      "name": "Formal prepositions: debido a, a pesar de, en lugar de …",
+      "preps": "a causa de · debido a · gracias a · a pesar de · en lugar de · además de · según · en cuanto a",
       "rule": {
-        "text": "These work like prepositions, so a noun or -ing follows: despite the rain, instead of waiting. Not a full clause: despite it rained ✗ → although it rained, or despite the fact that it rained.",
+        "text": "These are common in writing and in formal speech. a causa de and debido a give a neutral reason, gracias a a good one. a pesar de sets up a contrast. They come before a noun; a pesar de, en lugar de and además de also take an infinitive.",
         "table": {
           "caption": "Formal prepositions",
           "head": [
-            "Preposition",
-            "Use",
+            "Spanish",
+            "English",
             "Example"
           ],
           "rows": [
             [
-              "due to / owing to",
-              "because of (formal)",
-              "The train was late due to the snow."
+              "debido a, a causa de",
+              "because of, due to",
+              "debido a la lluvia"
             ],
             [
-              "despite / in spite of",
-              "although there is or was",
-              "Despite the rain, we went out."
-            ],
-            [
-              "instead of",
-              "in place of",
-              "Have tea instead of coffee."
-            ],
-            [
-              "apart from",
-              "except",
-              "Apart from Tom, everyone came."
-            ],
-            [
-              "according to",
-              "as reported by",
-              "According to the forecast, it will rain."
-            ],
-            [
+              "gracias a",
               "thanks to",
-              "because of (a good result)",
-              "Thanks to your help, we finished."
+              "gracias a tu ayuda"
+            ],
+            [
+              "a pesar de",
+              "despite",
+              "a pesar de la lluvia"
+            ],
+            [
+              "en lugar de",
+              "instead of",
+              "en lugar de ir en coche"
+            ],
+            [
+              "además de",
+              "as well as",
+              "además de inglés"
+            ],
+            [
+              "según",
+              "according to",
+              "según el periódico"
+            ],
+            [
+              "en cuanto a",
+              "as for",
+              "en cuanto a los precios"
             ]
           ]
         }
@@ -2300,194 +2295,190 @@
       "questions": [
         {
           "id": "b2-genitiv-01",
-          "prompt": "The flight was cancelled ___ bad weather.",
+          "prompt": "___ la lluvia, el partido se canceló.",
           "options": [
-            "due to",
-            "despite",
-            "instead of"
+            "Debido a",
+            "A pesar de",
+            "En lugar de"
           ],
-          "answer": "due to",
-          "explain": "due to = because of.",
-          "change": "due to bad weather"
+          "answer": "Debido a",
+          "explain": "debido a: the reason.",
+          "change": "debido a la lluvia"
         },
         {
           "id": "b2-genitiv-02",
-          "prompt": "___ the rain, the match went ahead.",
+          "prompt": "Salimos de paseo ___ la lluvia.",
           "options": [
-            "Despite",
-            "Due to",
-            "Thanks to"
+            "a pesar de",
+            "gracias a",
+            "debido a"
           ],
-          "answer": "Despite",
-          "explain": "despite = although there was.",
-          "change": "Despite the rain"
+          "answer": "a pesar de",
+          "explain": "a pesar de: it rained, but you still went.",
+          "change": "a pesar de la lluvia"
         },
         {
           "id": "b2-genitiv-03",
-          "prompt": "Can I have water ___ wine, please?",
+          "prompt": "___ tu ayuda, conseguí el trabajo.",
           "options": [
-            "instead of",
-            "apart from",
-            "despite"
+            "Gracias a",
+            "A pesar de",
+            "En lugar de"
           ],
-          "answer": "instead of",
-          "explain": "instead of = in place of.",
-          "change": "water instead of wine"
+          "answer": "Gracias a",
+          "explain": "gracias a: a reason with a good result.",
+          "change": "gracias a tu ayuda"
         },
         {
           "id": "b2-genitiv-04",
-          "prompt": "___ the weather forecast, it will snow tomorrow.",
+          "prompt": "___ ir en coche, fui andando.",
           "options": [
-            "According to",
-            "Owing to",
-            "Instead of"
+            "En lugar de",
+            "Debido a",
+            "Gracias a"
           ],
-          "answer": "According to",
-          "explain": "according to = as reported by.",
-          "change": "According to the forecast"
+          "answer": "En lugar de",
+          "explain": "en lugar de + infinitive: instead of.",
+          "change": "en lugar de ir"
         },
         {
           "id": "b2-genitiv-05",
-          "prompt": "___ your help, we finished on time.",
+          "prompt": "___ el periódico, hoy hay huelga.",
           "options": [
-            "Thanks to",
-            "Despite",
-            "Apart from"
+            "Según",
+            "A pesar de",
+            "En lugar de"
           ],
-          "answer": "Thanks to",
-          "explain": "thanks to = because of (a good result).",
-          "change": "Thanks to your help"
+          "answer": "Según",
+          "explain": "según: according to.",
+          "change": "según el periódico"
         },
         {
           "id": "b2-genitiv-06",
-          "prompt": "Everyone came to the party ___ Liam, who was ill.",
+          "prompt": "___ inglés, habla árabe y francés.",
           "options": [
-            "apart from",
-            "according to",
-            "due to"
+            "Además de",
+            "A causa de",
+            "Gracias a"
           ],
-          "answer": "apart from",
-          "explain": "apart from = except.",
-          "change": "apart from Liam"
+          "answer": "Además de",
+          "explain": "además de: as well as.",
+          "change": "además de inglés"
         },
         {
           "id": "b2-genitiv-07",
-          "prompt": "She went to work ___ feeling ill.",
+          "prompt": "El tren se retrasó ___ una avería.",
           "options": [
-            "in spite of",
-            "owing to",
-            "instead of"
+            "a causa de",
+            "en lugar de",
+            "además de"
           ],
-          "answer": "in spite of",
-          "explain": "in spite of + -ing.",
-          "change": "in spite of feeling ill"
+          "answer": "a causa de",
+          "explain": "a causa de: the reason.",
+          "change": "a causa de una avería"
         },
         {
           "id": "b2-genitiv-08",
-          "prompt": "The road is closed ___ an accident.",
+          "prompt": "___ los precios, no hay cambios este año.",
           "options": [
-            "owing to",
-            "despite",
-            "apart from"
+            "En cuanto a",
+            "A causa de",
+            "Gracias a"
           ],
-          "answer": "owing to",
-          "explain": "owing to = because of (formal).",
-          "change": "owing to an accident"
+          "answer": "En cuanto a",
+          "explain": "en cuanto a: as for, regarding.",
+          "change": "en cuanto a los precios"
         },
         {
           "id": "b2-genitiv-09",
-          "prompt": "He watched TV ___ doing his homework.",
+          "prompt": "___ sus esfuerzos, no aprobó el examen.",
           "options": [
-            "instead of",
-            "due to",
-            "according to"
+            "A pesar de",
+            "Gracias a",
+            "Además de"
           ],
-          "answer": "instead of",
-          "explain": "instead of + -ing.",
-          "change": "instead of doing his homework"
+          "answer": "A pesar de",
+          "explain": "a pesar de: the effort didn't bring the result.",
+          "change": "a pesar de sus esfuerzos"
         },
         {
           "id": "b2-genitiv-10",
-          "prompt": "___ a few small mistakes, your essay is excellent.",
+          "prompt": "Se quedó en casa ___ la huelga de transporte.",
           "options": [
-            "Apart from",
-            "Due to",
-            "Instead of"
+            "a causa de",
+            "además de",
+            "en lugar de"
           ],
-          "answer": "Apart from",
-          "explain": "apart from = except for.",
-          "change": "Apart from a few mistakes"
+          "answer": "a causa de",
+          "explain": "a causa de: the reason.",
+          "change": "a causa de la huelga"
         },
         {
           "id": "b2-genitiv-11",
-          "prompt": "We enjoyed the trip ___ the long delays.",
+          "prompt": "Este año, ___ el informe del ministerio, ha bajado el paro.",
           "options": [
-            "despite",
-            "owing to",
-            "thanks to"
+            "según",
+            "en lugar de",
+            "además de"
           ],
-          "answer": "despite",
-          "explain": "despite + a noun.",
-          "change": "despite the long delays"
+          "answer": "según",
+          "explain": "según: according to.",
+          "change": "según el informe"
         },
         {
           "id": "b2-genitiv-12",
-          "prompt": "___ the police, the driver was going too fast.",
+          "prompt": "Envíe el formulario por correo ___ entregarlo en persona.",
           "options": [
-            "According to",
-            "Thanks to",
-            "Despite"
+            "en lugar de",
+            "debido a",
+            "gracias a"
           ],
-          "answer": "According to",
-          "explain": "according to = this is what they say.",
-          "change": "According to the police"
+          "answer": "en lugar de",
+          "explain": "en lugar de + infinitive: instead of.",
+          "change": "en lugar de entregarlo"
         }
       ]
     },
     {
       "id": "b2-da-wo",
       "level": "B2",
-      "name": "Nouns + prepositions: reason for, rise in …",
-      "preps": "for · in · to · on · of · with",
+      "variety": "es-ES",
+      "name": "Adjectives and nouns + prepositions: harto de, ganas de …",
+      "preps": "de · a · con · en · por",
       "rule": {
-        "text": "Nouns have fixed prepositions too, and they are often different from the verb's: increase in prices (but prices increase), effect on, answer to, reason for. Learn the noun and its preposition together.",
+        "text": "After adjectives and nouns the preposition is fixed, as it is after verbs. An infinitive can follow directly: harto de esperar, ganas de verte, acostumbrada a madrugar.",
         "table": {
-          "caption": "Nouns + prepositions",
+          "caption": "Adjectives and nouns with prepositions",
           "head": [
             "Preposition",
-            "Use",
+            "Words",
             "Example"
           ],
           "rows": [
             [
-              "for",
-              "reason, demand, need for",
-              "the reason for the delay"
+              "de",
+              "harto de, capaz de, orgulloso de, responsable de, ganas de, razón de",
+              "Estoy harto de esperar."
             ],
             [
-              "in",
-              "increase, rise, fall, change in",
-              "a rise in prices"
+              "a",
+              "acostumbrado a, parecido a",
+              "Está acostumbrada a madrugar."
             ],
             [
-              "to",
-              "answer, solution, invitation to",
-              "the answer to the question"
+              "con",
+              "contento con, de acuerdo con",
+              "Estoy contenta con mi trabajo."
             ],
             [
-              "on",
-              "effect, impact, influence on",
-              "the effect on health"
+              "en",
+              "interesado en",
+              "Está interesada en el puesto."
             ],
             [
-              "of",
-              "advantage, cause, example of",
-              "the cause of the fire"
-            ],
-            [
-              "with",
-              "problem, relationship, contact with",
-              "a problem with the printer"
+              "por",
+              "preocupado por",
+              "Estoy preocupado por mi hijo."
             ]
           ]
         }
@@ -2495,147 +2486,147 @@
       "questions": [
         {
           "id": "b2-da-wo-01",
-          "prompt": "What's the reason ___ the delay?",
+          "prompt": "Estoy harto ___ esperar.",
           "options": [
-            "for",
-            "of",
-            "to"
+            "de",
+            "con",
+            "por"
           ],
-          "answer": "for",
-          "explain": "reason for.",
-          "change": "reason for the delay"
+          "answer": "de",
+          "explain": "harto de: fed up with.",
+          "change": "harto de"
         },
         {
           "id": "b2-da-wo-02",
-          "prompt": "There has been a sharp increase ___ prices.",
+          "prompt": "Estoy contenta ___ mi nuevo trabajo.",
           "options": [
-            "in",
-            "of",
-            "on"
+            "con",
+            "a",
+            "en"
           ],
-          "answer": "in",
-          "explain": "an increase in something.",
-          "change": "increase in prices"
+          "answer": "con",
+          "explain": "contento con: pleased with.",
+          "change": "contento con"
         },
         {
           "id": "b2-da-wo-03",
-          "prompt": "Nobody knows the answer ___ this question.",
+          "prompt": "Este chico es capaz ___ todo.",
           "options": [
-            "to",
-            "for",
-            "of"
+            "de",
+            "con",
+            "por"
           ],
-          "answer": "to",
-          "explain": "answer to.",
-          "change": "answer to this question"
+          "answer": "de",
+          "explain": "capaz de: capable of.",
+          "change": "capaz de"
         },
         {
           "id": "b2-da-wo-04",
-          "prompt": "Stress can have a big effect ___ your health.",
+          "prompt": "Está interesada ___ el puesto.",
           "options": [
-            "on",
-            "to",
-            "in"
+            "en",
+            "a",
+            "de"
           ],
-          "answer": "on",
-          "explain": "effect on.",
-          "change": "effect on your health"
+          "answer": "en",
+          "explain": "interesado en: interested in.",
+          "change": "interesado en"
         },
         {
           "id": "b2-da-wo-05",
-          "prompt": "One advantage ___ living in a city is the transport.",
+          "prompt": "Tengo ganas ___ verte.",
           "options": [
-            "of",
-            "for",
-            "in"
+            "de",
+            "a",
+            "con"
           ],
-          "answer": "of",
-          "explain": "advantage of.",
-          "change": "advantage of living in a city"
+          "answer": "de",
+          "explain": "tener ganas de + infinitive: to feel like, to look forward to.",
+          "change": "ganas de"
         },
         {
           "id": "b2-da-wo-06",
-          "prompt": "We have a problem ___ the heating.",
+          "prompt": "Estoy preocupado ___ mi hijo.",
           "options": [
-            "with",
-            "of",
-            "on"
+            "por",
+            "a",
+            "en"
           ],
-          "answer": "with",
-          "explain": "problem with.",
-          "change": "problem with the heating"
+          "answer": "por",
+          "explain": "preocupado por: worried about.",
+          "change": "preocupado por"
         },
         {
           "id": "b2-da-wo-07",
-          "prompt": "Thank you for the invitation ___ your wedding.",
+          "prompt": "Eres responsable ___ la caja.",
           "options": [
-            "to",
-            "for",
-            "on"
+            "de",
+            "a",
+            "en"
           ],
-          "answer": "to",
-          "explain": "invitation to.",
-          "change": "invitation to your wedding"
+          "answer": "de",
+          "explain": "responsable de: responsible for.",
+          "change": "responsable de"
         },
         {
           "id": "b2-da-wo-08",
-          "prompt": "There is a growing demand ___ electric cars.",
+          "prompt": "Está muy orgulloso ___ su hija.",
           "options": [
-            "for",
-            "of",
-            "on"
+            "de",
+            "a",
+            "en"
           ],
-          "answer": "for",
-          "explain": "demand for.",
-          "change": "demand for electric cars"
+          "answer": "de",
+          "explain": "orgulloso de: proud of.",
+          "change": "orgulloso de"
         },
         {
           "id": "b2-da-wo-09",
-          "prompt": "The police are still looking for the cause ___ the fire.",
+          "prompt": "¿Cuál es la razón ___ tu decisión?",
           "options": [
-            "of",
-            "for",
-            "to"
+            "de",
+            "con",
+            "a"
           ],
-          "answer": "of",
-          "explain": "cause of.",
-          "change": "cause of the fire"
+          "answer": "de",
+          "explain": "la razón de: the reason for.",
+          "change": "la razón de"
         },
         {
           "id": "b2-da-wo-10",
-          "prompt": "Is there a solution ___ the problem?",
+          "prompt": "Mi opinión es diferente ___ la tuya.",
           "options": [
-            "to",
-            "on",
-            "in"
+            "de",
+            "con",
+            "por"
           ],
-          "answer": "to",
-          "explain": "solution to.",
-          "change": "solution to the problem"
+          "answer": "de",
+          "explain": "diferente de: different from.",
+          "change": "diferente de"
         },
         {
           "id": "b2-da-wo-11",
-          "prompt": "The new law will have an impact ___ small businesses.",
+          "prompt": "Está acostumbrada ___ madrugar.",
           "options": [
-            "on",
-            "to",
-            "for"
+            "a",
+            "con",
+            "en"
           ],
-          "answer": "on",
-          "explain": "impact on.",
-          "change": "impact on small businesses"
+          "answer": "a",
+          "explain": "acostumbrado a + infinitive: used to.",
+          "change": "acostumbrado a"
         },
         {
           "id": "b2-da-wo-12",
-          "prompt": "My relationship ___ my sister is much better now.",
+          "prompt": "Estoy de acuerdo ___ ti.",
           "options": [
-            "with",
-            "on",
-            "in"
+            "con",
+            "a",
+            "por"
           ],
-          "answer": "with",
-          "explain": "relationship with somebody.",
-          "change": "relationship with my sister"
+          "answer": "con",
+          "explain": "de acuerdo con: in agreement with.",
+          "change": "de acuerdo con"
         }
       ]
     }
