@@ -1,6 +1,8 @@
 # icanspeak.it — Project Handoff
 *Last updated: August 31, 2026*
 
+> **New (Nov 2026):** icanspeak.it is now also the umbrella for the language courses at /english/ and /spanish/ (separate repos). See **handoff-courses.md**.
+
 ## What this project is
 
 icanspeak.it is a linguist-enthusiast site. The project description is "building a linguist enthusiast site" — that's the current direction, not the original one.
