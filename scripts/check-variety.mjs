@@ -57,7 +57,9 @@ const MODULES = [
       "adjektive-nach-sein", "possessivartikel", "welcher-dieser", "gern", "temporale-praepositionen",
       "aduso", "zahlen", "wortarten",
       // A2
-      "perfekt", "zusammengesetzte-verben", "n-deklination", "trennbare-verben", "komposita", "reflexive-verben", "dativ", "modalverben", "komparativ-superlativ", "lokale-praepositionen", "wechselpraepositionen", "indefinitpronomen", "satzstellung", "negation", "nebensaetze-weil-dass", "konjunktiv2-hoeflich", "positionsadverbien", "adjektivdeklination-a2", "artikel-oder-nicht", "ordinalzahlen"].map((s) => `src/data/grammatik/${s}.json`).filter((f) => existsSync(path.join(ROOT, f))),
+      "perfekt", "zusammengesetzte-verben", "n-deklination", "trennbare-verben", "komposita", "reflexive-verben", "dativ", "modalverben", "komparativ-superlativ", "lokale-praepositionen", "wechselpraepositionen", "indefinitpronomen", "satzstellung", "negation", "nebensaetze-weil-dass", "konjunktiv2-hoeflich", "positionsadverbien", "adjektivdeklination-a2", "artikel-oder-nicht", "ordinalzahlen",
+      // B1
+      "zustandspassiv", "praeteritum-plusquamperfekt", "passiv-b1", "futur", "funktionen-von-werden", "imperativ", "infinitiv-mit-zu", "verben-als-nomen", "infinitiv-ohne-zu", "finalsaetze", "temporale-nebensaetze", "konditionalsaetze", "als-oder-wenn", "temporale-praepositionen-b1", "relativpronomen", "indirekte-fragen", "lassen", "konnektoren-grund-gegengrund", "genitiv", "adjektivdeklination", "partizip-als-adjektiv", "verben-praepositionen", "da-wo-woerter", "nutzen-benutzen", "positionsverben", "wortbildung-nomen", "adjektive-als-nomen"].map((s) => `src/data/grammatik/${s}.json`).filter((f) => existsSync(path.join(ROOT, f))),
     items: (d) => [{ item: d }] },
   { id: "grammatik-quiz", files: one("src/data/grammatik.json"), items: (d) => arr(d).map((item) => ({ item })) },
   { id: "praepositionen", files: one("src/data/praepositionen-trainer.json"),
