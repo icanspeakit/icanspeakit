@@ -1,19 +1,19 @@
-// Writes src/data/haeufigste-woerter.json: the 30 most frequent English word forms and how
+// Writes src/data/haeufigste-woerter.json: the 30 most frequent Spanish word forms and how
 // much of all running text the top 10 / 100 / 1 000 cover. The grammar books open with this
-// as a chart: the most frequent words of English are almost all grammar words, which is the
+// as a chart: the most frequent words of Spanish are almost all grammar words, which is the
 // best argument there is for learning the grammar chapters first.
-//   node scripts/attach-ranks.mjs a1   # once: downloads node_modules/.cache/en_50k.txt
+//   node scripts/attach-ranks.mjs a1   # once: downloads node_modules/.cache/es_50k.txt
 //   node scripts/haeufigste-woerter.mjs
 //
-// Source: OpenSubtitles 2018 English (hermitdave/FrequencyWords, MIT), a lowercased WORDFORM
-// list of spoken film English. Written once and committed, because the list lives in
+// Source: OpenSubtitles 2018 Spanish (hermitdave/FrequencyWords; licence to verify), a lowercased
+// WORDFORM list of spoken film Spanish, Spain and Latin America mixed. Written once and committed, because the list lives in
 // node_modules/.cache, which a build does not have.
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
-const CACHE = path.join(ROOT, "node_modules", ".cache", "en_50k.txt");
+const CACHE = path.join(ROOT, "node_modules", ".cache", "es_50k.txt");
 const OUT = path.join(ROOT, "src", "data", "haeufigste-woerter.json");
 
 if (!existsSync(CACHE)) {
@@ -28,19 +28,18 @@ const share = (k) => Math.round((rows.slice(0, k).reduce((s, [, n]) => s + n, 0)
 // Which kind of grammar word each one is (the group names are the chart's keys). A word no
 // group covers (so, here, yes) gets no group and draws grey.
 const GROUP = {
-  i: "pronomen", you: "pronomen", it: "pronomen", me: "pronomen", we: "pronomen", he: "pronomen",
-  she: "pronomen", they: "pronomen", my: "pronomen", your: "pronomen", him: "pronomen", her: "pronomen",
-  this: "pronomen", that: "pronomen",
-  the: "artikel", a: "artikel", an: "artikel",
-  is: "verb", be: "verb", have: "verb", do: "verb", are: "verb", was: "verb", "'s": "verb", can: "verb", will: "verb", know: "verb", get: "verb", go: "verb",
-  not: "negation", no: "negation", "don't": "negation", "n't": "negation",
-  what: "frage", how: "frage", who: "frage", where: "frage", why: "frage",
-  to: "praeposition", of: "praeposition", in: "praeposition", for: "praeposition", on: "praeposition", with: "praeposition", at: "praeposition",
-  and: "konnektor", but: "konnektor", or: "konnektor", if: "konnektor",
+  yo: "pronomen", tú: "pronomen", tu: "pronomen", te: "pronomen", me: "pronomen", se: "pronomen", lo: "pronomen", le: "pronomen",
+  él: "pronomen", ella: "pronomen", mi: "pronomen", su: "pronomen", nos: "pronomen", eso: "pronomen", esto: "pronomen",
+  el: "artikel", la: "artikel", los: "artikel", las: "artikel", un: "artikel", una: "artikel", al: "artikel", del: "artikel",
+  es: "verb", está: "verb", estoy: "verb", soy: "verb", ha: "verb", he: "verb", hay: "verb", son: "verb", voy: "verb", tengo: "verb",
+  no: "negation", ni: "negation",
+  qué: "frage", cómo: "frage", quién: "frage", dónde: "frage", cuándo: "frage",
+  de: "praeposition", a: "praeposition", en: "praeposition", por: "praeposition", para: "praeposition", con: "praeposition", sin: "praeposition",
+  y: "konnektor", o: "konnektor", pero: "konnektor", que: "konnektor", si: "konnektor", porque: "konnektor",
 };
 
 const out = {
-  source: "OpenSubtitles 2018 (hermitdave/FrequencyWords, MIT): word forms, spoken English",
+  source: "OpenSubtitles 2018 (hermitdave/FrequencyWords; licence to verify): word forms, spoken Spanish",
   coverage: { 10: share(10), 100: share(100), 1000: share(1000) },
   top: rows.slice(0, 30).map(([word, count]) => ({ word, count, group: GROUP[word] ?? null })),
 };

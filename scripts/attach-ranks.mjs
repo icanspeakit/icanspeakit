@@ -5,10 +5,10 @@
 // `rank` drives level banding and within-unit ordering and is never hand-typed — run this
 // after adding words, then `node scripts/validate-lexicon.mjs`.
 //
-// Source: OpenSubtitles 2018 lists (hermitdave/FrequencyWords, MIT; data from the OPUS
-// OpenSubtitles corpus): the English list for levels already migrated to English (their nouns
-// carry a / an / some, docs/content-plan.md §1.4), the German list for the levels still in
-// German. It is a WORDFORM list, so a lemma only matches when its citation form happens to
+// Source: OpenSubtitles 2018 lists (hermitdave/FrequencyWords, licence to verify before attaching;
+// data from the OPUS OpenSubtitles corpus): the Spanish list for levels already migrated to Spanish
+// (their nouns carry el / la, docs/content-plan.md §1.4), the English list for the levels still in
+// English. It is a WORDFORM list, so a lemma only matches when its citation form happens to
 // appear — multi-word phrases ("get up", "bus stop") and rarer compounds stay null, which is
 // correct: a missing rank is honest, a guessed one is not.
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -46,9 +46,9 @@ async function frequencyList(lang) {
   return map;
 }
 
-/** English once the level's nouns use the English article values. */
+/** Spanish once the level's nouns use el / la. */
 const langOf = (data) =>
-  (data.units ?? []).some((u) => (u.words ?? []).some((w) => ["a", "an", "some"].includes(w.gender))) ? "en" : "de";
+  (data.units ?? []).some((u) => (u.words ?? []).some((w) => ["el", "la", "el/la"].includes(w.gender))) ? "es" : "en";
 
 for (const level of levels) {
   const file = path.join(ROOT, "src/content/lexicon", `${level}.json`);
