@@ -26,8 +26,9 @@ const STRICT = new Set([
   "grammatik-quiz",
   "grammatik-start",
   "praepositionen",
+  "verbtabellen",
   // "lexicon", "berufe", "wortschatz", "redemittel",
-  // "verbtabellen", "conjugation-trainer", "hoeren", "aussprache-check",
+  // "conjugation-trainer", "hoeren", "aussprache-check",
   // "zungenbrecher", "satzmelodie", "ausspracheregeln", "dgt", "business-spanish",
 ]);
 

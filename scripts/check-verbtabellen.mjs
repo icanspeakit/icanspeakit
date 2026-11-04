@@ -159,6 +159,8 @@ for (const v of verbs) {
     if (i === 2 && !NO_ACCENT_EL.has(form("praet"))) on("praet", (f) => /[óo]$/.test(f) && /ó$/.test(f), "indefinido él: -ó, or on the no-accent list");
     if (i === 2 && NO_ACCENT_EL.has(form("praet"))) on("praet", (f) => !/[áéíóú]/.test(f), "strong indefinido: no written accent");
     if (i === 0 && !["fui", "vi", "di", "reí"].includes(form("praet"))) on("praet", (f) => /(é|í|e)$/.test(f), "indefinido yo: -é, -í, or a strong stem in -e");
+    // A strong indefinido (tuve, hice) has no written accent anywhere: yo in plain -e gives it away.
+    if (i === 2 && /e$/.test(strip(v.rows[0].praet.f))) on("praet", (f) => !/[áéíóú]/.test(f), "strong indefinido: no written accent on él");
   });
 }
 

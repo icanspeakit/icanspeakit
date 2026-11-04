@@ -23,11 +23,13 @@ mark.vb-x { padding: 0 4px; }
 .vb-chip--modal { --grp: #7c3aed; }
 .vb-chip--unregelmaessig { --grp: #b45309; }
 .vb-chip--trennbar { --grp: #2563eb; }
+.vb-chip--stem-change { --grp: #0f766e; }
 :root[data-theme="dark"] .vb-chip { --grp: #8fa3c0; }
 :root[data-theme="dark"] .vb-chip--hilfsverb { --grp: #e0bd7a; }
 :root[data-theme="dark"] .vb-chip--modal { --grp: #c4b5fd; }
 :root[data-theme="dark"] .vb-chip--unregelmaessig { --grp: #fcd34d; }
 :root[data-theme="dark"] .vb-chip--trennbar { --grp: #93c5fd; }
+:root[data-theme="dark"] .vb-chip--stem-change { --grp: #5eead4; }
 
 .vb-jump { display: grid; gap: 12px; margin: 0 0 28px; }
 .vb-jump-label { display: block; width: fit-content; text-decoration: none; margin: 0 0 6px; font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
@@ -44,11 +46,13 @@ mark.vb-x { padding: 0 4px; }
 .vb-group--modal { --grp: #7c3aed; }
 .vb-group--unregelmaessig { --grp: #b45309; }
 .vb-group--trennbar { --grp: #2563eb; }
+.vb-group--stem-change { --grp: #0f766e; }
 :root[data-theme="dark"] .vb-group { --grp: #8fa3c0; }
 :root[data-theme="dark"] .vb-group--hilfsverb { --grp: #e0bd7a; }
 :root[data-theme="dark"] .vb-group--modal { --grp: #c4b5fd; }
 :root[data-theme="dark"] .vb-group--unregelmaessig { --grp: #fcd34d; }
 :root[data-theme="dark"] .vb-group--trennbar { --grp: #93c5fd; }
+:root[data-theme="dark"] .vb-group--stem-change { --grp: #5eead4; }
 .vb-group-head { display: flex; align-items: flex-start; gap: 12px; margin: 0 0 14px; }
 .vb-group-num {
   flex: none; display: grid; place-items: center; width: 34px; height: 34px; margin-top: 1px;
@@ -119,6 +123,7 @@ mark.vb-x { padding: 0 4px; }
 .vb-aux { margin-left: auto; font-size: .85rem; color: var(--muted); }
 .vb-aux b { color: var(--ink); }
 .vb-gloss { margin: 0 0 8px; }
+.vb-en { color: var(--muted); font-size: .95rem; }
 
 .vb-scroll { overflow-x: auto; margin: 8px 0 0; }
 .vb-table { width: 100%; border-collapse: collapse; font-size: .95rem; }
@@ -131,7 +136,15 @@ mark.vb-x { padding: 0 4px; }
 
 .vb-more { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 10px 0 0; font-size: .88rem; color: var(--muted); }
 .vb-more b { color: var(--ink); font-weight: 600; }
+.vb-more .vb-x { padding: 0 3px; }
 .vb-note { margin: 10px 0 0; padding: 8px 12px; border-left: 3px solid var(--border-strong); background: var(--surface); border-radius: 0 8px 8px 0; font-size: .9rem; line-height: 1.5; }
+
+/* Every other tense and mood, folded inside the card. */
+.vb-all { margin: 12px 0 0; border-top: 1px solid var(--border); }
+.vb-all summary { min-height: 44px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 700; font-size: .92rem; color: var(--ink); }
+.vb-all summary:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+.vb-mood { margin: 4px 0 16px; }
+.vb-mood h4 { margin: 0; font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 
 .vb-practice-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0 0; }
 .vb-practice {
@@ -150,8 +163,9 @@ mark.vb-x { padding: 0 4px; }
 
 /* ---- Print (the „Drucken / PDF" button, or a group's own print icon) ----------------------
    The tables only: no site chrome, no jump list, no buttons. Two cards side by side in a
-   smaller type, so the 52 verbs come to a handful of pages instead of one verb per page.
-   Rules print open (the script unfolds them for the print). */
+   smaller type, so the verbs come to a handful of pages instead of one verb per page.
+   Rules print open (the script unfolds them for the print). "All tenses" prints as it stands:
+   closed by default, open for the verbs a learner opened. */
 .vb-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 12px; }
 .vb-print {
   display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 12px;
@@ -173,7 +187,10 @@ mark.vb-x { padding: 0 4px; }
   body[data-vb-print-only="modal"] .vb-group--modal,
   body[data-vb-print-only="unregelmaessig"] .vb-group--unregelmaessig,
   body[data-vb-print-only="regelmaessig"] .vb-group--regelmaessig,
-  body[data-vb-print-only="trennbar"] .vb-group--trennbar { display: block; }
+  body[data-vb-print-only="trennbar"] .vb-group--trennbar,
+  body[data-vb-print-only="stem-change"] .vb-group--stem-change { display: block; }
+  .vb-all:not([open]) { display: none; }
+  .vb-all summary { min-height: 0; font-size: 8pt; }
   body { background: #fff; color: #000; font-size: 9.5pt; }
   .vb-head h1 { font-size: 18pt; margin: 0 0 4pt; }
   .vb-lead { font-size: 9.5pt; margin: 0; }

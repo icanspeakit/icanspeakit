@@ -9,7 +9,7 @@
 //            plausibly mix up, never random words.
 //   g:verbtabellen  the verb tables of /grammar/verbs: a form of each verb in the presente,
 //            indefinido and perfecto, the wrong options being the same verb's other forms
-//            and the form the regular pattern would wrongly give (teno, hacé, ha hacido).
+//            and the form the regular pattern would wrongly give (teno, hací, ha hacido).
 //   w:<id>   a Wortschatz Lernset — its words, asked German → translation by default.
 //            Stored as a reference ({ t: "word", id }) and turned into a question on the
 //            projector, where the lexicon is loaded anyway: that is what lets every

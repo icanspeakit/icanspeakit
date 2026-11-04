@@ -1,17 +1,18 @@
 {
   "about": "Spanish verb tables (docs/content-plan.md §4.1). Page /grammar/verbs, search hits and worksheets via src/lib/verbtabellen.js; the generator is src/lib/verbtabellenCore.js. A tense is a comma list of six forms: yo, tú, él/ella/usted, nosotros/as, vosotros/as, ellos/ellas/ustedes. `regular: true` stores no forms. Other verbs store only what can't be derived: praes (presente), praet (indefinido), imperf (imperfecto), fut (futuro), cond (condicional, else from fut), subj (presente de subjuntivo, else from the yo form), subjImpf (imperfecto de subjuntivo in -ra, else from the indefinido; -se is generated), imp (imperativo afirmativo, – for yo; the negative is no + subj), ger, p2. Compound tenses are haber + p2. A pronominal verb stores forms without the pronoun; the generator adds it, except in `imp`, which it stores in full if at all. A pronominal verb inherits the stored tenses of its plain verb when that verb is in this file. Group ids are kept from the German tables: hilfsverb = ser, estar, haber, ir; modal = verb + infinitive; unregelmaessig = irregular; regelmaessig = regular; trennbar = reflexive and pronominal. `en` and `level` are this table's own, until the Spanish lexicon has the verb. pnpm check:verbtabellen checks the forms.",
   "variety": "es-ES",
-  "es419": { "note": "Latin America uses ustedes, never vosotros: the ellos/ellas/ustedes form covers every 'you' plural. Voseo (Argentina, etc.) isn't covered here." },
+  "es419": { "note": "In everyday speech Latin America uses ustedes, not vosotros: the ellos/ellas/ustedes form. Voseo (Argentina, etc.) isn't covered here." },
   "groups": [
     { "id": "regelmaessig", "name": "Regular verbs", "what": "Take -ar, -er or -ir off the infinitive and add the endings. Most verbs work like this, and new verbs do too.",
       "regel": [
         "Three patterns: *hablar – hablo, hablas, habla*; *comer – como, comes, come*; *vivir – vivo, vives, vive*. -er and -ir differ only in *comemos / vivimos*, *coméis / vivís* and the vosotros imperative.",
         "The accent changes the word: *hablo* = I speak, *habló* = he or she spoke; *hable* = subjunctive or usted command, *hablé* = I spoke.",
-        "Spelling keeps the sound, so these forms are highlighted: *buscar – busqué*, *llegar – llegué*, *coger – cojo*. A vowel before the ending gives *leer – leyó, leyendo, leído*.",
+        "Spelling keeps the sound, so these forms are highlighted: *buscar – busqué*, *llegar – llegué*, *coger – cojo*. A vowel before the ending gives *leer – leyó, leyendo*, with an accent in *leíste, leído*.",
         "Polite *usted* and *ustedes* use the third-person form: *¿Usted habla inglés? ¿Ustedes viven aquí?*",
-        "*vosotros* is the informal plural 'you' in Spain: *¿Habláis inglés?* In Latin America everyone says *ustedes*: *¿Hablan inglés?*"
+        "*vosotros* is the informal plural 'you' in most of Spain: *¿Habláis inglés?* In Latin America people say *ustedes*: *¿Hablan inglés?*",
+        "The imperfect subjunctive has two forms that mean the same: *hablara / hablase*. The *-ra* form is the more common one in speech."
       ] },
-    { "id": "hilfsverb", "name": "ser, estar, haber, ir", "what": "The four verbs you need from day one. All four are irregular in almost every tense.",
+    { "id": "hilfsverb", "name": "ser, estar, haber, ir", "what": "The four verbs you need from day one. All four are irregular in the present, the indefinido and the subjunctive.",
       "meaning": [["ser", "who or what something is: identity, origin, job, time"], ["estar", "where something is, and how it is right now"], ["haber", "builds the compound tenses; hay = there is"], ["ir", "to go; ir a + infinitive = going to"]],
       "regel": [
         "*ser* for what something is: *Soy enfermera. Es de Marruecos. Son las tres.*",
@@ -24,7 +25,7 @@
       "regel": [
         "The change comes only where the stem is stressed: yo, tú, él and ellos. *pienso, piensas, piensa, piensan*, but *pensamos, pensáis*.",
         "The present subjunctive follows the same shape: *piense, pienses*, but *pensemos, penséis*. The tú imperative too: *piensa, vuelve, pide.*",
-        "-ir verbs have one more change: e → i, o → u in él and ellos of the indefinido, in the gerund, and in nosotros and vosotros of the subjunctive: *pidió, durmieron, sintiendo, durmamos.*",
+        "-ir verbs have one more change: e → i, o → u in él and ellos of the indefinido (and so in the whole imperfect subjunctive), in the gerund, and in nosotros and vosotros of the present subjunctive: *pidió, durmieron, sintiera, sintiendo, durmamos.*",
         "*-ar* and *-er* stem-changers are regular in the indefinido: *pensé, pensó; volví, volvió.*",
         "*jugar* is the only u → ue verb: *juego, juegas*. Spelling adds to the change: *jugué, empecé, sigo, elijo.*"
       ] },
@@ -32,14 +33,14 @@
       "regel": [
         "Irregular yo in the present: *tengo, hago, pongo, salgo, digo, traigo, conozco, conduzco.* The whole present subjunctive comes from it: *tengo → tenga, hago → haga.*",
         "A new stem in the indefinido, with no written accent: *tuve, hice, puse, dije, vine, traje*. Endings: *-e, -iste, -o, -imos, -isteis, -ieron* (*-eron* after j: *dijeron*).",
-        "A shortened stem in the future, and the conditional shares it: *tendré, tendría; haré, haría; diré, diría; saldré, saldría.*",
+        "A changed stem in the future, and the conditional shares it: *tendré, tendría; haré, haría; diré, diría; saldré, saldría.*",
         "Short tú imperatives: *ten, ven, pon, sal, haz, di*, plus *ve* (ir) and *sé* (ser). The negative is regular: *no tengas, no hagas.*",
         "Irregular participles to learn: *hecho, dicho, visto, puesto, escrito, abierto, roto, vuelto, muerto.*"
       ] },
     { "id": "modal", "name": "Verb + infinitive", "what": "They say what is possible, wanted, necessary or usual. A second verb follows, in the infinitive.",
       "meaning": [["poder", "can, may"], ["querer", "to want"], ["deber", "must, should"], ["saber", "to know how to"], ["soler", "to usually do something"], ["tener que", "to have to: see tener"]],
       "regel": [
-        "Verb + infinitive, no preposition: *Puedo venir mañana. Quiero alquilar un piso.*",
+        "Most take the infinitive directly, with no preposition: *Puedo venir mañana. Quiero alquilar un piso.*",
         "*no* goes first: *No puedo ir. No debes fumar aquí.*",
         "Pronouns go before the first verb or on the end of the infinitive: *Lo quiero ver = Quiero verlo.*",
         "*saber* for a skill, *poder* for what the situation allows: *Sé conducir, pero hoy no puedo.*",
@@ -50,7 +51,7 @@
         "The pronoun comes before a conjugated verb: *me levanto, te llamas, nos hemos sentado.* In compound tenses it comes before *haber*.",
         "It attaches to an affirmative imperative, and often an accent is needed: *levántate, siéntese.* In the negative it stays in front: *no te levantes.*",
         "With an infinitive or gerund it can go in either place: *Me voy a duchar = Voy a ducharme. Me estoy vistiendo = Estoy vistiéndome.*",
-        "Before *-os*, the vosotros imperative drops its d: *levantaos, sentaos, vestíos*. *irse* is the exception: *idos*.",
+        "Before *-os*, the vosotros imperative drops its d: *levantaos, sentaos, vestíos*. *irse* is the exception and keeps it: *idos*.",
         "The pronoun can change the meaning: *ir* = go, *irse* = leave; *poner* = put, *ponerse* = put on; *quedar* = meet, *quedarse* = stay."
       ] }
   ],
@@ -69,7 +70,7 @@
 
     { "inf": "ser", "en": "to be", "level": "A1", "group": "hilfsverb", "praes": "soy, eres, es, somos, sois, son", "praet": "fui, fuiste, fue, fuimos, fuisteis, fueron", "imperf": "era, eras, era, éramos, erais, eran", "subj": "sea, seas, sea, seamos, seáis, sean", "imp": "–, sé, sea, seamos, sed, sean", "p2": "sido", "note": "fui and fue have no written accent. sé is the tú imperative of ser and the yo form of saber." },
     { "inf": "estar", "en": "to be (place, state)", "level": "A1", "group": "hilfsverb", "praes": "estoy, estás, está, estamos, estáis, están", "praet": "estuve, estuviste, estuvo, estuvimos, estuvisteis, estuvieron", "subj": "esté, estés, esté, estemos, estéis, estén", "imp": "–, está, esté, estemos, estad, estén" },
-    { "inf": "haber", "en": "to have (auxiliary)", "level": "A1", "group": "hilfsverb", "praes": "he, has, ha, hemos, habéis, han", "praet": "hube, hubiste, hubo, hubimos, hubisteis, hubieron", "fut": "habré, habrás, habrá, habremos, habréis, habrán", "subj": "haya, hayas, haya, hayamos, hayáis, hayan", "imp": "–, –, –, –, –, –", "note": "'There is' has one form per tense, also for plurals: hay, había, hubo, habrá, ha habido. No imperative in use today.", "es419": { "note": "Latin America uses the indefinido for most recent events, where Spain uses he + participle: hoy comí, not hoy he comido." } },
+    { "inf": "haber", "en": "to have (auxiliary)", "level": "A1", "group": "hilfsverb", "praes": "he, has, ha, hemos, habéis, han", "praet": "hube, hubiste, hubo, hubimos, hubisteis, hubieron", "fut": "habré, habrás, habrá, habremos, habréis, habrán", "subj": "haya, hayas, haya, hayamos, hayáis, hayan", "imp": "–, –, –, –, –, –", "note": "'There is' has one form per tense, also for plurals: hay, había, hubo, habrá, ha habido. No imperative in use today.", "es419": { "note": "In much of Latin America (Mexico, for example) the indefinido is common where Spain uses he + participle: hoy comí." } },
     { "inf": "ir", "en": "to go", "level": "A1", "group": "hilfsverb", "praes": "voy, vas, va, vamos, vais, van", "praet": "fui, fuiste, fue, fuimos, fuisteis, fueron", "imperf": "iba, ibas, iba, íbamos, ibais, iban", "subj": "vaya, vayas, vaya, vayamos, vayáis, vayan", "imp": "–, ve, vaya, vamos, id, vayan", "ger": "yendo", "note": "ir a + infinitive is the everyday future: voy a llamar. 'Let's go' is ¡vamos!; the negative is no vayamos." },
 
     { "inf": "pensar", "en": "to think", "level": "A1", "group": "stem-change", "praes": "pienso, piensas, piensa, pensamos, pensáis, piensan", "subj": "piense, pienses, piense, pensemos, penséis, piensen", "note": "e → ie." },
@@ -108,7 +109,7 @@
     { "inf": "andar", "en": "to walk", "level": "A2", "group": "unregelmaessig", "praet": "anduve, anduviste, anduvo, anduvimos, anduvisteis, anduvieron", "note": "Regular except for the indefinido, and what comes from it: anduviera." },
     { "inf": "valer", "en": "to be worth, to cost", "level": "A2", "group": "unregelmaessig", "praes": "valgo, vales, vale, valemos, valéis, valen", "fut": "valdré, valdrás, valdrá, valdremos, valdréis, valdrán", "note": "¿Cuánto vale? = how much is it? In Spain, ¡vale! = OK." },
     { "inf": "reír", "en": "to laugh", "level": "B1", "group": "unregelmaessig", "praes": "río, ríes, ríe, reímos, reís, ríen", "praet": "reí, reíste, rio, reímos, reísteis, rieron", "subj": "ría, rías, ría, riamos, riais, rían", "ger": "riendo", "note": "rio and riais have no written accent (RAE 2010). Often reírse: me río." },
-    { "inf": "oler", "en": "to smell", "level": "B1", "group": "unregelmaessig", "praes": "huelo, hueles, huele, olemos, oléis, huelen", "subj": "huela, huelas, huela, olamos, oláis, huelan", "note": "Spanish words never start with ue, so the change writes hue-: huelo." },
+    { "inf": "oler", "en": "to smell", "level": "B1", "group": "stem-change", "praes": "huelo, hueles, huele, olemos, oléis, huelen", "subj": "huela, huelas, huela, olamos, oláis, huelan", "note": "Spanish words never start with ue, so the change writes hue-: huelo." },
     { "inf": "enviar", "en": "to send", "level": "A2", "group": "unregelmaessig", "praes": "envío, envías, envía, enviamos, enviáis, envían", "subj": "envíe, envíes, envíe, enviemos, enviéis, envíen", "note": "A written accent on the stressed i in the same places a stem-changer changes." },
     { "inf": "escribir", "en": "to write", "level": "A1", "group": "unregelmaessig", "p2": "escrito", "note": "Regular except for the participle: he escrito." },
     { "inf": "abrir", "en": "to open", "level": "A1", "group": "unregelmaessig", "p2": "abierto", "note": "Regular except for the participle: he abierto." },
@@ -118,7 +119,7 @@
     { "inf": "querer", "en": "to want, to love", "level": "A1", "group": "modal", "praes": "quiero, quieres, quiere, queremos, queréis, quieren", "praet": "quise, quisiste, quiso, quisimos, quisisteis, quisieron", "fut": "querré, querrás, querrá, querremos, querréis, querrán", "subj": "quiera, quieras, quiera, queramos, queráis, quieran", "note": "Polite wish: quería or quisiera. Quisiera pedir cita." },
     { "inf": "deber", "en": "must, should; to owe", "level": "A2", "group": "modal", "regular": true, "note": "deber + infinitive = must. deber de + infinitive = probably: debe de ser tarde. Debería = I should." },
     { "inf": "saber", "en": "to know, to know how to", "level": "A1", "group": "modal", "praes": "sé, sabes, sabe, sabemos, sabéis, saben", "praet": "supe, supiste, supo, supimos, supisteis, supieron", "fut": "sabré, sabrás, sabrá, sabremos, sabréis, sabrán", "subj": "sepa, sepas, sepa, sepamos, sepáis, sepan", "note": "sé has an accent, to tell it apart from the pronoun se. For facts and skills; for people and places, use conocer." },
-    { "inf": "soler", "en": "to usually do", "level": "B1", "group": "modal", "praes": "suelo, sueles, suele, solemos, soléis, suelen", "fut": "–, –, –, –, –, –", "subj": "suela, suelas, suela, solamos, soláis, suelan", "imp": "–, –, –, –, –, –", "note": "Not used in the future, conditional or imperative, and rarely in the indefinido. Mostly suelo and solía + infinitive." },
+    { "inf": "soler", "en": "to usually do", "level": "B1", "group": "modal", "praes": "suelo, sueles, suele, solemos, soléis, suelen", "fut": "–, –, –, –, –, –", "subj": "suela, suelas, suela, solamos, soláis, suelan", "imp": "–, –, –, –, –, –", "note": "Not used in the future, conditional or imperative, and rare in the indefinido and compound tenses. Mostly suelo and solía + infinitive." },
 
     { "inf": "levantarse", "en": "to get up", "level": "A1", "group": "trennbar", "regular": true, "note": "The model for regular pronominal verbs. levantar without se = to lift." },
     { "inf": "llamarse", "en": "to be called", "level": "A1", "group": "trennbar", "regular": true, "note": "¿Cómo te llamas? ¿Cómo se llama usted?" },

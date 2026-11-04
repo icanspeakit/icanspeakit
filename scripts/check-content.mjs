@@ -27,6 +27,7 @@ const CHECKS = [
   "check-redewendungen.mjs",
   "validate-lexicon.mjs",
   "check-variety.mjs",
+  "check-verbtabellen.mjs",
 ];
 
 for (const file of CHECKS) {

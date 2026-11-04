@@ -1,8 +1,8 @@
 ---
 // The most important verbs to look up — a "mini grammar" of verb tables. One card per
-// verb (#<id>, e.g. #have), each with the present simple, past simple and present perfect
-// for all six persons. The search lens links here when a learner looks up a verb or one of
-// its forms ("has", "went"), see src/lib/searchIndex.js.
+// verb (#<id>, e.g. #tener): presente, indefinido and perfecto for all six persons, and every
+// other tense and mood behind "All tenses". The search lens links here when a learner looks up
+// a verb or one of its forms ("tengo", "hizo"), see src/lib/searchIndex.js.
 //
 // Content: src/data/verbtabellen.json, built by src/lib/verbtabellen.js, which also marks
 // every form that breaks the regular pattern — those are highlighted.
@@ -14,7 +14,8 @@ import GrammarHelpText from "../../components/GrammarHelpText.astro";
 import LiveQuizLink from "../../components/LiveQuizLink.astro";
 import RefActions from "../../components/RefActions.astro";
 import { HELP_LANGS } from "../../lib/textHelp.js";
-import { groups, verbs } from "../../lib/verbtabellen.js";
+import { groups, verbs, visibleRows } from "../../lib/verbtabellen.js";
+import { topicPath } from "../../lib/routes.js";
 import "../../styles/practice.css";
 import "../../styles/verbtabellen.css";
 // The tour's scrim, cursor and Regi's coach card (ruleIntro.js).
@@ -30,15 +31,25 @@ const byGroup = groups.map((g) => ({ ...g, verbs: verbs.filter((v) => v.group ==
 // Interface keys per verb group (the group's name and one-line "what"); the rule boxes
 // stay English, they are the grammar being taught.
 const gKey = (id: string) => `verben.group.${id}`;
+// Tense names stay Spanish, as a learner meets them in class and in the grammar topics; the line
+// under each name says what it is for, in the interface language.
 const COLS = [
-  ["praes", "Present simple", "now, always"],
-  ["praet", "Past simple", "finished time"],
-  ["perf", "Present perfect", "past with a link to now"],
+  ["praes", "Presente", "now, habits"],
+  ["praet", "Indefinido", "finished past"],
+  ["perf", "Perfecto", "past linked to now"],
 ] as const;
+const MORE = [
+  { key: "indicativo", name: "Indicative", cols: [["imperf", "Imperfecto", "background, used to"], ["fut", "Futuro", "will"], ["cond", "Condicional", "would"]] },
+  { key: "subjuntivo", name: "Subjunctive", cols: [["subj", "Presente", "wishes, doubt, feelings"], ["subjImpf", "Imperfecto", "si…, quería que…"]] },
+  { key: "imperativo", name: "Imperative", cols: [["imp", "Afirmativo", "do it"], ["impNeg", "Negativo", "don't do it"]] },
+  { key: "compuestos", name: "Compound tenses", cols: [["plusc", "Pluscuamperfecto", "had done"], ["futPerf", "Futuro perfecto", "will have done"], ["condPerf", "Condicional perfecto", "would have done"]] },
+  { key: "compuestosSubj", name: "Compound subjunctive", cols: [["subjPerf", "Perfecto", "has done"], ["subjPlusc", "Pluscuamperfecto", "si hubiera…"]] },
+] as const;
+const cell = (c: any) => (c.alt ? `${c.f} / ${c.alt}` : c.f);
 ---
 <Layout
   title="Verb tables: the most important verbs – Grammar – icanspeak Spanish"
-  description="ser, estar, haber and the most important irregular verbs: present, past tenses and past participle at a glance."
+  description="Spanish verb tables: regular -ar, -er, -ir verbs, ser, estar, haber, ir and the common irregular verbs in every tense and mood, vosotros included."
 >
   <SiteNav active="grammatik" />
   <main class="practice-main vb-page" id="vb-page">
@@ -47,7 +58,7 @@ const COLS = [
       <p class="eyebrow" data-i18n="nav.wissen.nachschlagen">Reference</p>
       <h1 data-i18n="verben.title">The most important verbs</h1>
       <SectionMascot name="regi" say="You need these verbs every day." />
-      <p class="vb-lead" data-i18n-html="verben.lead" data-i18n-vars={JSON.stringify({ n: verbs.length })}>A mini grammar to look things up: {verbs.length} verbs, each in the present simple, past simple and present perfect. Whatever doesn't follow the pattern is <mark class="vb-x">highlighted</mark>: that's what you have to learn.</p>
+      <p class="vb-lead" data-i18n-html="verben.lead" data-i18n-vars={JSON.stringify({ n: verbs.length })}>A mini grammar to look things up: {verbs.length} verbs in every tense and mood, vosotros included. Whatever doesn't follow the pattern is <mark class="vb-x">highlighted</mark>: that's what you have to learn.</p>
       <p class="vb-more-refs"><span data-i18n="verben.moreRefs">More in the reference section:</span>
         <a href="/grammar/irregular-verbs" data-i18n="nav.wissen.stark">Regular and irregular verbs</a> ·
         <a href="/grammar/phrasal-verbs-list" data-i18n="nav.wissen.trennbar">Reflexive verbs</a> ·
@@ -68,7 +79,7 @@ const COLS = [
       {byGroup.map((g) => (
         <div class="vb-jump-group">
           <a class="vb-jump-label" href={`#gruppe-${g.id}`} data-i18n={`${gKey(g.id)}.name`}>{g.name}</a>
-          <div class="vb-jump-list" lang="en">
+          <div class="vb-jump-list" lang="es">
             {g.verbs.map((v) => <a class={`vb-chip vb-chip--${g.id}`} href={`#${v.id}`}>{v.inf}</a>)}
           </div>
         </div>
@@ -119,20 +130,21 @@ const COLS = [
           {g.verbs.map((v) => (
             <li class={`vb-card vb-card--${g.id}`} id={v.id}>
               <div class="vb-card-head">
-                <h3 lang="en">{v.inf}</h3>
+                <h3 lang="es">{v.inf}</h3>
+                {v.en && <span class="vb-en">{v.en}</span>}
                 {v.level && <span class="vb-level">{v.level}</span>}
               </div>
               <GrammarHelpText text={gloss(v)} class="vb-gloss" />
               <div class="vb-scroll">
-                <table class="vb-table" lang="en">
+                <table class="vb-table" lang="es">
                   <thead>
                     <tr>
                       <th scope="col"><span class="vb-sr" data-i18n="verben.person">Person</span></th>
-                      {COLS.map(([k, name, when]) => <th scope="col">{name}<span class="vb-when" data-i18n={`verben.when.${k}`}>{when}</span></th>)}
+                      {COLS.map(([k, name, when]) => <th scope="col">{name}<span class="vb-when" lang="en" data-i18n={`verben.when.${k}`}>{when}</span></th>)}
                     </tr>
                   </thead>
                   <tbody>
-                    {v.rows.map((r: any) => (
+                    {visibleRows(v).map((r: any) => (
                       <tr>
                         <th scope="row">{r.pron}</th>
                         {COLS.map(([k]) => <td class:list={[r[k].x && "vb-x"]}>{r[k].f}</td>)}
@@ -141,11 +153,38 @@ const COLS = [
                   </tbody>
                 </table>
               </div>
-              <p class="vb-more" lang="en">
-                <span>Future: <b>I {v.futur}</b></span>
-                <span>Past perfect: <b>I had {v.p2}</b></span>
+              <p class="vb-more">
+                <span><span data-i18n="verben.ger">Gerund</span>: <b lang="es" class:list={[v.gerX && "vb-x"]}>{v.ger}</b></span>
+                <span><span data-i18n="verben.p2">Participle</span>: <b lang="es" class:list={[v.p2X && "vb-x"]}>{v.p2}</b></span>
               </p>
               {v.note && <p class="vb-note" lang="en">{v.note}</p>}
+              {/* Everything else, folded: open it to read or to print this verb in full. */}
+              <details class="vb-all">
+                <summary data-i18n="verben.allTenses">All tenses and moods</summary>
+                {MORE.map((block) => (
+                  <section class="vb-mood">
+                    <h4 data-i18n={`verben.mood.${block.key}`}>{block.name}</h4>
+                    <div class="vb-scroll">
+                      <table class="vb-table" lang="es">
+                        <thead>
+                          <tr>
+                            <th scope="col"><span class="vb-sr" data-i18n="verben.person">Person</span></th>
+                            {block.cols.map(([k, name, when]) => <th scope="col">{name}<span class="vb-when" lang="en" data-i18n={`verben.when.${k}`}>{when}</span></th>)}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {visibleRows(v).map((r: any) => (
+                            <tr>
+                              <th scope="row">{r.pron}</th>
+                              {block.cols.map(([k]) => <td class:list={[r[k].x && "vb-x"]}>{cell(r[k])}</td>)}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </section>
+                ))}
+              </details>
             </li>
           ))}
         </ol>
@@ -153,8 +192,8 @@ const COLS = [
     ))}
 
     <p class="vb-practice-row">
-      <a class="vb-practice" href="/present-simple" data-i18n="verben.practice.konjugation">Rules and exercises: present simple</a>
-      <a class="vb-practice vb-practice--ghost" href="/modal-verbs" data-i18n="verben.practice.modal">Practise modal verbs</a>
+      <a class="vb-practice" href={topicPath("konjugation")} data-i18n="verben.practice.konjugation">Rules and exercises: irregular verbs in the present</a>
+      <a class="vb-practice vb-practice--ghost" href={topicPath("modalverben")} data-i18n="verben.practice.modal">Practise verb + infinitive: tener que, poder</a>
     </p>
   </main>
 </Layout>
