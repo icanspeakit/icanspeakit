@@ -5,7 +5,7 @@
 // English word with a/an; the key name is kept from the German game).
 // A1/A2 are hand-picked themes (src/data/hochstapler/themen.json): the theme is the
 // Hochstapler's only hint, and the lexicon's topic tags are too loose for that.
-import { byId, TRANSLATION_LANGS } from "../lexicon.js";
+import { byId, spokenForm, TRANSLATION_LANGS } from "../lexicon.js";
 import { wortBild } from "../wortBild.js";
 import themen from "../../data/hochstapler/themen.json" with { type: "json" };
 
@@ -15,8 +15,8 @@ export const LEVELS = ["A1", "A2"];
 export function gameWord(id) {
   const e = byId(id);
   if (!e || e.pos !== "noun") return null;
-  // "a fridge", "an egg"; uncountables bare ("football", not "some football"). The key stays `de`.
-  const de = (e.gender === "a" || e.gender === "an") && !e.pluralOnly ? `${e.gender} ${e.lemma}` : e.lemma;
+  // "la nevera", "el coche", "a fridge"; uncountables bare ("football", not "some football"). The key stays `de`.
+  const de = (["a", "an", "el", "la", "el/la"].includes(e.gender)) && !e.pluralOnly ? `${e.gender} ${e.lemma}` : e.pluralOnly && e.plural ? spokenForm(e) : e.lemma;
   const w = { id: e.id, de, img: wortBild(e.id) };
   for (const l of TRANSLATION_LANGS) if (e[l]) w[l] = e[l];
   return w;
