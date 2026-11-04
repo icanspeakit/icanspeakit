@@ -58,9 +58,14 @@
 }
 
 /* The typed card. */
-#cj-typed-root { padding: 24px 20px 28px; }
-.cj-typed-form { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 520px; margin: 0 auto; }
-.cj-typed-form .ak-write-input { flex: 1 1 14em; min-width: 0; min-height: 48px; padding: 8px 14px; width: auto; margin: 0; }
+/* The fit layout sets display on the workspace root, which would beat [hidden]; only one of the
+   two roots shows. The typed root takes the workspace root's place, on a phone too (order). */
+#vp-page[data-topic-key="conjugation"] #akk-exercise-root[hidden],
+#vp-page[data-topic-key="conjugation"] #cj-typed-root[hidden] { display: none; }
+#cj-typed-root { padding: 24px 20px 28px; flex: 1; display: flex; flex-direction: column; order: 2; }
+#cj-typed-root > .akk-anim-in { flex: 1; display: flex; flex-direction: column; }
+.cj-typed-form { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: 100%; max-width: 520px; margin: 0 auto; }
+.cj-typed-form .ak-write-input { flex: 1 1 10em; min-width: 0; min-height: 48px; padding: 8px 14px; width: auto; margin: 0; }
 .cj-typed-card .ak-write-verdict { color: var(--accent-dark, #7d571a); font-weight: 600; }
 .cj-typed-card .akk-feedback:empty { display: none; }
 

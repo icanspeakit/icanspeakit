@@ -546,6 +546,9 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>'
 
     // --- language: words built here follow a switch ------------------------------------------------
     onUiText(() => {
+      // Explanations are written when a round is built, so a round nobody has answered yet is
+      // built again in the new language; an answered one keeps going.
+      if (!lastStats.answered) startSession();
       renderStats();
       paintNow();
       paintBuild();
