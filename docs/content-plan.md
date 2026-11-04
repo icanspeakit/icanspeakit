@@ -1109,3 +1109,17 @@ are handled by the `ui-*` items where they are rendered.
   *ser/estar* basics, adjective agreement, *gustar*, numbers and *ir a*; A1 has a gap until they are set to `geprueft`.
   **For `ui-lang-*`:** `check:grammatik-ui` (not part of the build) fails against its old baseline because the topics
   were rewritten; translate the instructions, then run it with `--update`.
+- **Starter book decisions** (`grammar-start-book`, 2026-11-04): ten chapters in the old `k1`–`k10` slots: *ser/estar*,
+  regular present, questions and negatives, nouns/articles/adjectives/*hay*, irregular present, *gustar*/reflexive/object
+  pronouns, two-verb structures, *perfecto/indefinido*, *imperfecto*, B1 toolkit. *Por/para* and relative clauses stayed out
+  for space. Top-level `variety` and `es419`, item `es419` on *vosotros* gaps and *perfecto* contrasts; `grammatik-start` is
+  strict in `check-variety.mjs`. The printed book says *ustedes* and the LatAm *indefinido* in plain text, because a printed page
+  has no LatAm mode. **`status: "skeleton"` is new:** `--skeleton` now writes it, such a file gets no PDF edition and no chapter
+  titles on `/knowledge`, and the checker only names it. **The PDF is committed** (`public/downloads/grammatik-start.pdf`,
+  `manifest.json`), the first file in that folder, because `/knowledge` hides a book without its file and the build doesn't run
+  the generators. **For `routes`:** the chapter links are printed from `topicPath()`, so they show today's slugs (`/word-order`,
+  `/like-doing`, `/used-to`). After changing `TOPIC_SLUGS`, rerun `pnpm generate:grammatik-start-pdf` and commit the PDF.
+  **For `ui-lang-de`:** `grammatik-start/de.json` is a skeleton: translate it, set `status: "draft"`, run
+  `node scripts/check-grammatik-start.mjs de`, generate the edition. `downloads.json` already lists `editions: ["de"]`; add the
+  other languages when their file exists. **For `teachers` or `deploy-readme`:** the other books in `downloads.json`
+  have no PDF in the repo, so they don't show on `/knowledge`; `check:downloads` reports them as missing.
