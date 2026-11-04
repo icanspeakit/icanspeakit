@@ -3,7 +3,7 @@
  * Loaded by einfach-view.js only when the learner taps "Speak", so the speech SDK is
  * never downloaded and the microphone is never asked for before that tap. It reuses the
  * Aussprache-Check's own pieces (src/lib/ausspracheCheck.js): the microphone check, the
- * word alignment and the German messages, and the provider-neutral scoring in
+ * word alignment and the messages, and the provider-neutral scoring in
  * src/lib/pronunciation/. What it adds is the easy-mode reading of the result: every word
  * gets a friendly colour, and at most one tip — for the weakest word, if it needs one.
  */
@@ -20,7 +20,7 @@ const band = (s) => (s >= 80 ? "good" : s >= 60 ? "ok" : "bad");
 export async function assessSentence(task, { onListening } = {}) {
   const stream = await checkMicrophone();
   try {
-    const assessment = await provider.assess({ referenceText: task.text, language: "en-GB", onListening });
+    const assessment = await provider.assess({ referenceText: task.text, language: "es-ES", onListening });
     const words = alignWords(task.text, assessment);
     const weakest = words.filter((w) => w.word).sort((a, b) => a.score - b.score)[0];
     const tip = weakest && weakest.score < 80 ? { word: weakest.word, text: tipFor(weakest.word, task.focus).text } : null;

@@ -1,10 +1,10 @@
 /* Einfach lernen (/step-by-step) — turns the curated path (src/data/einfach-pfad.json) into the
  * task objects the view renders.
  *
- * The path never copies German text. A task names a source item by ref and this file
+ * The path never copies Spanish text. A task names a source item by ref and this file
  * looks it up in the site's own reviewed data:
  *
- *   lex:a1-15/Bahnhof            a word in src/content/lexicon/a1.json (unit id + lemma)
+ *   lex:a1-15/estación           a word in src/content/lexicon/a1.json (unit id + lemma)
  *   gram:w-fragen/4/0@1a2b3c     item 0 of exercise 4 in src/data/grammatik/w-fragen.json
  *   akk:akk-l4                   an item of src/data/akkusativ.json (it has stable ids)
  *   kultur:pfand#0@9f8e7d        fact 0 of a topic in kultur.json (kultur-insider: too)
@@ -33,19 +33,50 @@ export function checksum(text) {
 
 const PUNCT = /^[?!.,;:]+$/;
 
-/* English "article" tasks are a / an / some (content-plan §1.4): a lexicon noun's `gender`
-   holds which one. What decides is the first *sound* (an hour, a university) and whether
-   the noun can be counted — not a spelling rule, so the hint names the two questions to ask
-   instead of the answer. Short and A1, like everything Bruno says. */
+/* Spanish "article" tasks are el / la (content-plan §1.4): a lexicon noun's `gender` holds
+   which one, and `genus: "f"` marks el agua, whose plural is las aguas. The default hint points
+   at the ending, or at number when the options include a plural, without giving the answer.
+   Path tasks should still write their own. Short and simple, like everything Bruno says. */
 const ARTICLE_HINT = {
-  some: "Can you count it? Does it start with a vowel sound?",
-  an: "Say the word. Does it start with a vowel sound?",
+  ending: "Look at the last letter. -o is often el, -a is often la.",
+  other: "The ending doesn't help here. Take a guess, then learn it.",
+  number: "Is it one thing or more? Then look at the ending.",
 };
-const articleHint = (options) => (!options || options.includes("some") ? ARTICLE_HINT.some : ARTICLE_HINT.an);
+const articleHint = (noun, options) =>
+  options?.some((o) => /^(los|las|unos|unas)$/.test(o))
+    ? ARTICLE_HINT.number
+    : /[oa]$/.test(noun)
+      ? ARTICLE_HINT.ending
+      : ARTICLE_HINT.other;
+
+/** The plural as the learner says it: los libros, las casas, los/las estudiantes, las aguas. */
+const pluralWithArticle = (w) => {
+  if (!w.plural || !w.gender) return null;
+  const article = w.gender === "el/la" ? "los/las" : w.gender === "la" || w.genus === "f" ? "las" : "los";
+  return `${article} ${w.plural}`;
+};
 
 /* Table exercises whose placeholder lists articles become article tasks (same screen,
    same helper). Each entry is the placeholder as written in the grammar topic files. */
-const ARTICLE_PLACEHOLDERS = ["a / an", "a / an / some"];
+const ARTICLE_PLACEHOLDERS = ["el / la", "el / la / los / las", "un / una", "un / una / unos / unas"];
+
+/* A screen has three options at most, so an item's longer `choices` list needs "options" on the task. */
+const itemChoices = (item) => (item.choices?.length >= 2 && item.choices.length <= 3 ? item.choices : undefined);
+
+/** A build sentence → its word chips and closing mark. A word in brackets, "(please)", may be
+    left out (grammarWorkspace.js), so the path asks the short sentence. A comma inside the
+    sentence stays on the word before it; only the marks at the very end become `end`. */
+function buildTiles(correct) {
+  const tokens = correct.filter((w) => !/^\(.+\)$/.test(w));
+  let last = tokens.length;
+  while (last > 0 && PUNCT.test(tokens[last - 1])) last--;
+  const words = [];
+  for (const w of tokens.slice(0, last)) {
+    if (PUNCT.test(w) && words.length) words[words.length - 1] += w;
+    else words.push(w);
+  }
+  return { words, end: tokens.slice(last).join("") };
+}
 
 /** The source text a checksum is taken over, per kind of item. */
 function itemText(ex, item) {
@@ -147,7 +178,7 @@ export function lookup(ref, sources) {
 
 /**
  * One path task → the object the view renders. Fields written on the path task
- * (`hint`, `options`) win over what the source offers; everything German the learner
+ * (`hint`, `options`, `why`) win over what the source offers; the Spanish the learner
  * reads as the exercise itself comes from the source.
  */
 export function resolveTask(task, sources) {
@@ -162,22 +193,29 @@ export function resolveTask(task, sources) {
     if (task.type === "wort") {
       return {
         ...base,
-        // "an apple" with "two apples" under it; "some water" has no plural to show.
+        // "la casa" with "las casas" under it, "el lunes" with "los lunes". A verb has neither.
         front: w.gender ? `${w.gender} ${w.lemma}` : w.lemma,
-        plural: w.gender && w.gender !== "some" && w.plural && w.plural !== w.lemma ? `two ${w.plural}` : null,
+        plural: pluralWithArticle(w),
         back: w.en,
         hint: task.hint || w.example,
+        // The fallback hint is the lexicon's Spanish example; written hints are English.
+        ...(task.hint ? {} : { hintLang: "es" }),
         audio: w.audio ? `/audio/wortschatz/${w.audio}.mp3` : null,
       };
     }
-    if (!w.gender) throw new Error(`${task.ref}: artikel task on a word without gender`);
+    // el/la estudiante takes both, so there is nothing to ask.
+    if (w.gender !== "el" && w.gender !== "la") throw new Error(`${task.ref}: artikel task needs a noun with gender el or la`);
     return {
       ...base,
       noun: w.lemma,
       answer: w.gender,
       back: w.en,
-      hint: task.hint || articleHint(),
-      why: `We say: ${w.gender} ${w.lemma}.`,
+      hint: task.hint || articleHint(w.lemma),
+      why:
+        task.why ||
+        (w.genus === "f"
+          ? `We say: el ${w.lemma}. The word is feminine (las ${w.plural}), but it starts with a stressed a.`
+          : `We say: ${w.gender} ${w.lemma}.`),
     };
   }
 
@@ -195,8 +233,9 @@ export function resolveTask(task, sources) {
       if (!gap) throw new Error(`${task.ref}: prompt has no ___`);
       ({ before, after } = gap);
       answers = [].concat(src.item.answer);
+      options = itemChoices(src.item);
       hint = src.item.hint ? `Tip: ${src.item.hint}` : src.ex.hint;
-      why = src.ex.hint;
+      why = src.item.why || src.ex.hint;
     } else if (src.kind === "gram" && src.ex.type === "table") {
       const term = src.item.term;
       answers = String(src.item.answer).split(",").map((s) => s.trim());
@@ -205,8 +244,11 @@ export function resolveTask(task, sources) {
       if (isArticle) {
         before = "";
         after = term;
+      } else if (term.includes("___")) {
+        // The row brings its own gap: "¿___ hora es?" must not show a second one.
+        ({ before, after } = splitGap(term));
       } else if (term.includes(" · ")) {
-        // "she · live" → she ___ (live)
+        // "ella · vivir" → ella ___ (vivir). The person comes first, or it reads badly.
         const [who, verb] = term.split(" · ");
         before = who;
         after = `(${verb})`;
@@ -214,23 +256,26 @@ export function resolveTask(task, sources) {
         before = `${term} →`;
         after = "";
       }
-      const fromPlaceholder = placeholder.split(" / ").map((s) => s.trim()).filter(Boolean);
-      if (fromPlaceholder.length >= 2 && fromPlaceholder.length <= 3) options = fromPlaceholder;
+      // A placeholder with "…" is an open list ("me / te / le …"), not a set of options.
+      const fromPlaceholder = placeholder.includes("…") ? [] : placeholder.split(" / ").map((s) => s.trim()).filter(Boolean);
+      options = itemChoices(src.item) || (fromPlaceholder.length >= 2 && fromPlaceholder.length <= 3 ? fromPlaceholder : undefined);
       hint = src.ex.hint;
-      why = src.ex.hint;
+      why = src.item.why || src.ex.hint;
       if (isArticle) {
         // An article row is an artikel task, whatever the path calls it: same screen,
-        // same helper, labelled "a, an or some?" instead of "Sentence".
+        // same helper, labelled "el or la?" instead of "Sentence". It counts toward its
+        // own topic (nomen or artikel).
         const opts = task.options || options;
+        if (!opts) throw new Error(`${task.ref}: no options — add "options" to the path task`);
+        if (!opts.includes(answers[0])) throw new Error(`${task.ref}: none of the options ${JSON.stringify(opts)} is the right answer (${answers[0]})`);
         return {
           ...base,
-          topic: "artikel",
           type: "artikel",
           noun: term,
           answer: answers[0],
           options: opts,
           back: "",
-          hint: task.hint || articleHint(opts),
+          hint: task.hint || articleHint(term, opts),
           why: task.why || `We say: ${answers[0]} ${term}.`,
         };
       }
@@ -246,17 +291,17 @@ export function resolveTask(task, sources) {
 
   if (task.type === "satz") {
     if (src.kind !== "gram" || src.ex.type !== "build") throw new Error(`${task.ref}: a satz task needs a build item`);
-    // A word in brackets, "(please)", may be left out (grammarWorkspace.js): the path
-    // asks the short sentence.
-    const words = src.item.correct.filter((w) => !PUNCT.test(w) && !/^\(.+\)$/.test(w));
-    const end = src.item.correct.filter((w) => PUNCT.test(w)).join("");
+    const { words, end } = buildTiles(src.item.correct);
+    // A second right order counts too: Spanish word order is freer than one solution suggests.
+    const alts = (src.item.alt || []).map((a) => buildTiles(a).words);
     return {
       ...base,
       chips: words,
       answer: words,
+      ...(alts.length ? { alts } : {}),
       end,
       hint: task.hint || src.item.hint,
-      why: task.why || src.ex.title,
+      why: task.why || src.item.why || src.ex.title,
     };
   }
 

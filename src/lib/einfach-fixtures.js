@@ -1,124 +1,119 @@
 /* /step-by-step — the prototype's three hand-written sittings, kept as test fixtures.
  *
  * Einfach lernen now plays the curated path (src/data/einfach-pfad.json, resolved by
- * src/lib/einfach-content.js). These three stay because they exercise every task type with
- * known answers and need no data build: open /step-by-step?fixtures to play them instead of the
- * path. Not shown to learners otherwise.
+ * src/lib/einfach-content.js). These three stay because they exercise word, article, gap and
+ * build tasks with known answers and need no data build: open /step-by-step?fixtures to play
+ * them instead of the path. Not shown to learners otherwise.
  */
 
 /* ---------------------------------------------------------------- content
 
-   Three sittings. Each is five tasks and claims one or two Kann-Sätze — the
+   Three sittings. Each is five tasks and claims one or two can-do lines — the
    capability line the learner is shown at the end. The sitting is the unit the
-   whole prototype is built around: it is small enough to name ("5 Aufgaben ·
-   2 Minuten") and finishing one always buys something specific.
+   whole prototype is built around: it is small enough to name ("5 tasks ·
+   2 minutes") and finishing one always buys something specific.
 */
 
 export const FIXTURES = [
   {
     id: "weg",
     icon: "🧭",
-    title: "Nach dem Weg fragen",
+    title: "Ask the way",
     level: "A1",
     minutes: 2,
-    claims: ["Du fragst auf der Straße nach dem Weg.", "Du verstehst eine kurze Wegbeschreibung."],
-    postcard: { city: "Hamburg", fact: "Hamburg hat mehr Brücken als Venedig und Amsterdam zusammen." },
+    claims: ["You ask the way in the street.", "You understand short directions."],
+    postcard: { city: "Madrid", fact: "Madrid is the largest city in Spain." },
     tasks: [
-      { type: "wort", front: "die Haltestelle", back: "the (bus/tram) stop", hint: "Da wartest du auf den Bus." },
-      { type: "artikel", noun: "Bahnhof", answer: "der", back: "station", hint: "Wie der Zug.", hintEn: "Like der Zug (train)." },
+      { type: "wort", front: "la parada", plural: "las paradas", back: "the (bus) stop", hint: "You wait for the bus here." },
+      { type: "artikel", noun: "estación", answer: "la", back: "station", hint: "Look at the ending: -ción.", why: "Words in -ción take la: la estación." },
       {
         type: "luecke",
-        before: "Entschuldigung, wie komme ich",
-        after: "Bahnhof?",
-        options: ["zum", "zur", "zu"],
-        answer: "zum",
-        why: "der Bahnhof → zu dem → zum.",
-        hint: "Bahnhof ist maskulin: der Bahnhof.",
-        hintEn: "Bahnhof is masculine: der Bahnhof.",
+        before: "Perdone, ¿cómo llego",
+        after: "estación?",
+        options: ["a la", "al", "a el"],
+        answer: "a la",
+        why: "la estación → a la estación. Only a + el joins: al.",
+        hint: "Estación takes la.",
       },
-      { type: "wort", front: "geradeaus", back: "straight ahead", hint: "Nicht links, nicht rechts." },
+      { type: "wort", front: "todo recto", back: "straight ahead", hint: "Not left, not right." },
       {
         type: "satz",
-        chips: ["Gehen", "Sie", "hier", "geradeaus"],
-        answer: ["Gehen", "Sie", "hier", "geradeaus"],
-        why: "Im Imperativ steht das Verb vorn: Gehen Sie …",
-        hint: "Das Verb kommt zuerst.",
-        hintEn: "The verb comes first.",
+        chips: ["Siga", "todo", "recto"],
+        answer: ["Siga", "todo", "recto"],
+        end: ".",
+        why: "Siga is a polite instruction (usted), and it comes first.",
+        hint: "The verb comes first.",
       },
     ],
   },
   {
     id: "einkauf",
     icon: "🛒",
-    title: "Einkaufen gehen",
+    title: "Go shopping",
     level: "A1",
     minutes: 2,
-    claims: ["Du kaufst im Supermarkt ein und fragst nach dem Preis."],
-    postcard: { city: "München", fact: "Den Viktualienmarkt in München gibt es seit über 200 Jahren." },
+    claims: ["You buy things and ask the price."],
+    postcard: { city: "Valencia", fact: "Valencia is the home of paella." },
     tasks: [
-      { type: "wort", front: "die Kasse", back: "the checkout", hint: "Dort bezahlst du." },
-      { type: "artikel", noun: "Brot", answer: "das", back: "bread", hint: "Wie das Wasser.", hintEn: "Like das Wasser (water)." },
+      { type: "wort", front: "la caja", plural: "las cajas", back: "the checkout", hint: "You pay here." },
+      { type: "artikel", noun: "pan", answer: "el", back: "bread", hint: "The ending doesn't help here. Take a guess.", why: "We say: el pan." },
       {
         type: "luecke",
-        before: "Was kostet",
-        after: "Brot?",
-        options: ["das", "der", "die"],
-        answer: "das",
-        why: "das Brot — im Nominativ bleibt der Artikel gleich.",
-        hint: "Welcher Artikel gehört zu Brot?",
-        hintEn: "Which article goes with Brot?",
+        before: "¿Cuánto cuesta",
+        after: "pan?",
+        options: ["el", "la", "los"],
+        answer: "el",
+        why: "el pan: one thing, masculine.",
+        hint: "You just saw this word.",
       },
-      { type: "wort", front: "die Tüte", back: "the bag", hint: "An der Kasse: „Brauchen Sie eine?“" },
+      { type: "wort", front: "la bolsa", plural: "las bolsas", back: "the bag", hint: "At the checkout: «¿Quiere una?»" },
       {
         type: "satz",
-        chips: ["Ich", "hätte", "gern", "ein", "Brot"],
-        answer: ["Ich", "hätte", "gern", "ein", "Brot"],
-        why: "„Ich hätte gern …“ ist der höfliche Satz für jede Theke.",
-        hint: "Fang mit „Ich“ an.",
-        hintEn: "Start with „Ich“.",
+        chips: ["Quería", "una", "barra", "de", "pan"],
+        answer: ["Quería", "una", "barra", "de", "pan"],
+        end: ".",
+        why: "Quería … is the polite way to ask at any counter.",
+        hint: "Start with the verb: Quería.",
       },
     ],
   },
   {
     id: "termin",
     icon: "📅",
-    title: "Einen Termin machen",
+    title: "Make an appointment",
     level: "A2",
     minutes: 3,
-    claims: ["Du machst am Telefon einen Termin aus.", "Du nennst Datum und Uhrzeit."],
-    postcard: { city: "Berlin", fact: "In Berlin gibt es mehr als 170 Museen." },
+    claims: ["You make an appointment on the phone.", "You say the day and the time."],
+    postcard: { city: "Sevilla", fact: "The Giralda tower in Sevilla was once a minaret." },
     tasks: [
-      { type: "wort", front: "der Termin", back: "the appointment", hint: "Beim Arzt, beim Amt, beim Friseur." },
+      { type: "wort", front: "la cita", plural: "las citas", back: "the appointment", hint: "At the doctor's, at the town hall." },
       {
         type: "luecke",
-        before: "Ich hätte gern einen Termin",
-        after: "Dienstag.",
-        options: ["am", "im", "um"],
-        answer: "am",
-        why: "Wochentage bekommen am: am Dienstag, am Wochenende.",
-        hint: "Bei Tagen sagt man: … Montag.",
-        hintEn: "For days of the week: … Montag.",
+        before: "Quería una cita",
+        after: "martes.",
+        options: ["el", "en", "a"],
+        answer: "el",
+        why: "Days take el, with no preposition: el martes.",
+        hint: "You say this for days of the week.",
       },
-      { type: "artikel", noun: "Uhrzeit", answer: "die", back: "the time (of day)", hint: "Denk an die Endung: -zeit.", hintEn: "Think of the ending: -zeit." },
+      { type: "artikel", noun: "hora", answer: "la", back: "hour; time of an appointment", hint: "Look at the last letter.", why: "We say: la hora." },
       {
         type: "luecke",
-        before: "Passt es Ihnen",
-        after: "zehn Uhr?",
-        options: ["um", "am", "in"],
-        answer: "um",
-        why: "Uhrzeiten bekommen um: um zehn, um halb drei.",
-        hint: "Bei Uhrzeiten: … acht Uhr.",
-        hintEn: "For clock times: … acht Uhr.",
+        before: "¿Le va bien",
+        after: "las diez?",
+        options: ["a", "en", "de"],
+        answer: "a",
+        why: "Clock times take a: a las diez.",
+        hint: "You say this for clock times.",
       },
       {
         type: "satz",
-        chips: ["Kann", "ich", "den", "Termin", "verschieben"],
-        answer: ["Kann", "ich", "den", "Termin", "verschieben"],
-        why: "Modalverb vorn, Infinitiv ans Ende — die Klammer.",
-        hint: "Eine Frage: das Verb zuerst.",
-        hintEn: "A question: the verb first.",
+        chips: ["¿Puedo", "cambiar", "la", "cita"],
+        answer: ["¿Puedo", "cambiar", "la", "cita"],
+        end: "?",
+        why: "Puedo + infinitive: ¿Puedo cambiar …?",
+        hint: "Start with the verb: ¿Puedo …",
       },
     ],
   },
 ];
-

@@ -49,20 +49,22 @@ import { onMascotsChange, setMascotsEnabled } from "./mascotPrefs.js";
 import { waitAttrs } from "./notReady.js";
 import { withBase } from "./paths.js";
 
-/* Everything Bruno says, in one place. Short (≤ 8 words), A1 English, warm, never
-   blaming. `text` is what the bubble shows; an optional `help` (a translation into the
-   learner's language) is what a tap shows — none of the lines has one yet, so a tap does
-   nothing. No line mentions missed days. */
+/* Everything Bruno says, in one place. Short (≤ 8 words), warm, never blaming. No line
+   mentions missed days. His reactions are simple Spanish, so the learner hears the language
+   from the first round: `text` is what the bubble shows, `help` the English a tap shows, and
+   the verdict under the task always says right or wrong in English without him. The lines a
+   learner needs to understand (the first hello, a hint) are English. */
+const es = (text, help) => ({ text, help, lang: "es" });
 const BRUNO_LINES = {
-  right: [{ text: "Great!" }, { text: "Exactly!" }, { text: "Woof! That's right!" }],
-  wrong: [{ text: "Almost! Look again." }, { text: "No problem." }, { text: "We'll learn this together." }],
-  first: { text: "Hi, I'm Bruno. Have you got two minutes?" },
-  back: { text: "Nice to see you again!" },
-  hello: [{ text: "A walk? English first!" }, { text: "Let's go!" }, { text: "I was waiting for you!" }],
+  right: [es("¡Muy bien!", "Very good!"), es("¡Exacto!", "Exactly!"), es("¡Guau! ¡Correcto!", "Woof! That's right!")],
+  wrong: [es("¡Casi! Mira otra vez.", "Almost! Look again."), es("No pasa nada.", "No problem."), es("Lo aprendemos juntos.", "We'll learn this together.")],
+  first: { text: "¡Hola! I'm Bruno. Have you got two minutes?" },
+  back: es("¡Qué bien verte otra vez!", "Nice to see you again!"),
+  hello: [es("¿Un paseo? ¡Primero, español!", "A walk? Spanish first!"), es("¡Vamos!", "Let's go!"), es("¡Ya estás aquí!", "You're here!")],
   hintless: { text: "Look carefully. You can do it." },
-  known: { text: "You know this one!" },
-  skipped: { text: "No problem. Another time." },
-  spoke: [{ text: "Nicely said!" }, { text: "Well done!" }],
+  known: es("¡Esto ya lo sabes!", "You know this one!"),
+  skipped: es("No pasa nada. Otro día.", "No problem. Another day."),
+  spoke: [es("¡Bien dicho!", "Nicely said!"), es("¡Buen trabajo!", "Well done!")],
 };
 
 /** The skill mascot that steps in beside Bruno, by task type. Quaki waits for speaking tasks. */
@@ -92,7 +94,7 @@ function say(text) {
   const synth = window.speechSynthesis;
   if (!synth) return Promise.resolve();
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = "en-GB";
+  u.lang = "es-ES";
   u.rate = 0.9;
   synth.speak(u);
   return Promise.resolve();
@@ -100,9 +102,10 @@ function say(text) {
 
 const esc = (s) =>
   String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-/* "Yes" + ", a little." must not read "Yes , a little.": no space before punctuation. */
+/* "Sí" + ", un poco." must not read "Sí , un poco.", and "¿" + "vives?" must not read
+   "¿ ___ vives?": no space before punctuation, none after an opening mark. */
 const gapLine = (before, blank, after) =>
-  `${before ? esc(before) + " " : ""}${blank}${after ? (/^[.,;:!?]/.test(after) ? "" : " ") + esc(after) : ""}`;
+  `${before ? esc(before) + (/[¿¡]$/.test(before) ? "" : " ") : ""}${blank}${after ? (/^[.,;:!?]/.test(after) ? "" : " ") + esc(after) : ""}`;
 const splitGapView = (prompt) => {
   const i = prompt.indexOf("___");
   return i === -1 ? { before: prompt, after: "" } : { before: prompt.slice(0, i).trim(), after: prompt.slice(i + 3).trim() };
@@ -111,14 +114,18 @@ const shuffle = (a) => a.map((v) => [Math.random(), v]).sort((x, y) => x[0] - y[
 /* "1 task", "6 tasks": the only counts easy mode shows are small ones, so a plain -s does. */
 const count = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
 const minutes = (n) => count(n, "minute");
-/* English "articles" are a / an / some (content-plan §1.4); a grammar table row brings its own pair. */
-const articleOptions = (task) => task.options || ["a", "an", "some"];
-/* "a or an?", "a, an or some?" */
+/* A lexicon noun asks el or la (content-plan §1.4); a grammar table row brings its own set. */
+const articleOptions = (task) => task.options || ["el", "la"];
+/* Comparing a built sentence: the chips keep the source's capitals and commas, an alternative
+   order has its own ("Normalmente como" / "Como normalmente"). */
+const bareWord = (w) => w.toLowerCase().replace(/[,;:]/g, "");
+const sameOrder = (a, b) => a.length === b.length && a.every((w, i) => bareWord(w) === bareWord(b[i]));
+/* "el or la?", "la, los or las?" */
 const articleQuestion = (task) => {
   const o = articleOptions(task);
   return `${o.slice(0, -1).join(", ")} or ${o[o.length - 1]}?`;
 };
-const MASCOTS_OFF_NOTE = `<p class="el-note" role="status">The mascots are off. To turn them on again: <a href="${withBase("/konto")}">Account → Settings</a>.</p>`;
+const MASCOTS_OFF_NOTE = `<p class="el-note" role="status">The mascots are off. To turn them on again: <a href="${withBase("/account")}">Account → Settings</a>.</p>`;
 
 export function mountEinfach(root) {
   let state = loadState();
@@ -171,15 +178,15 @@ export function mountEinfach(root) {
         location.hash = "#/" + el.dataset.go;
       })
     );
-    // A bubble is English; if the line has help text, a tap shows it and a second tap goes back.
+    // If the line has help text (its English), a tap shows it and a second tap goes back.
     root.querySelectorAll("[data-bubble]").forEach((el) =>
       el.addEventListener("click", () => {
         if (!el.dataset.help) return;
         const toHelp = el.dataset.showing !== "help";
         el.dataset.showing = toHelp ? "help" : "text";
-        if (toHelp) el.removeAttribute("lang");
-        else el.lang = "en";
+        el.lang = toHelp ? "en" : el.dataset.lang;
         el.querySelector("span").textContent = toHelp ? el.dataset.help : el.dataset.text;
+        el.querySelector("small").textContent = toHelp ? "ES" : "EN";
       })
     );
   }
@@ -192,12 +199,16 @@ export function mountEinfach(root) {
     return mascotSvg({ name: "bruno", expr, size, label: "", className: "el-bruno-svg" + fade });
   }
 
-  /** A speech bubble: real text in the mascot voice, English first, help text on tap. */
+  /** A speech bubble: real text in the mascot voice; a line with help text shows the "EN" tag
+      that says a tap translates it. */
   function bubble(line, extra = "") {
     if (!line) return `<span class="el-bubble el-bubble--empty" data-mascot-part aria-hidden="true"></span>`;
+    const lang = line.lang || "en";
     const help = line.help ? ` data-help="${esc(line.help)}"` : "";
-    return `<button type="button" class="el-bubble ${extra}" data-mascot-part data-bubble data-text="${esc(line.text)}"${help} lang="en"
-      aria-live="polite"${line.help ? ` title="Tap: translation"` : ""}><span>${esc(line.text)}</span></button>`;
+    return `<button type="button" class="el-bubble ${extra}" data-mascot-part data-bubble data-text="${esc(line.text)}"${help} data-lang="${lang}" lang="${lang}"
+      aria-live="polite"${line.help ? ` title="Tap: translation"` : ""}><span>${esc(line.text)}</span>${
+        line.help ? `<small class="el-bubble-tag" aria-hidden="true" lang="en">EN</small>` : ""
+      }</button>`;
   }
 
   /** The runner's companion row: Bruno (a hint button), the skill helper, the bubble. */
@@ -356,11 +367,11 @@ export function mountEinfach(root) {
         ${walkPlain(items.length, check.i)}
         <div class="el-task" tabindex="-1">
           <p class="el-kind">What fits?</p>
-          <p class="el-sentence">${gapLine(gap.before, `<span class="el-blank">___</span>`, gap.after)}</p>
+          <p class="el-sentence" lang="es">${gapLine(gap.before, `<span class="el-blank">___</span>`, gap.after)}</p>
           <p class="el-gloss">Just guess. Nothing is wrong here.</p>
         </div>
       `,
-      action: `<div class="el-opts">${q.options
+      action: `<div class="el-opts" lang="es">${q.options
         .map((o) => `<button class="el-opt" type="button" data-pick="${esc(o)}">${esc(o)}</button>`)
         .join("")}</div>`,
     });
@@ -563,18 +574,18 @@ export function mountEinfach(root) {
     const open = run.flipped || run.answer !== null;
 
     if (task.type === "wort") {
-      const plural = task.plural ? `<span class="el-card-plural">${esc(task.plural)}</span>` : "";
+      const plural = task.plural ? `<span class="el-card-plural" lang="es">${esc(task.plural)}</span>` : "";
       return `
         ${kind(task, "Word")}
         <button class="el-card" type="button" data-flip>
           <span class="el-card-inner ${open && !run.flipAnim ? "is-flipped" : ""}">
             <span class="el-face" ${open ? `aria-hidden="true"` : ""}>
-              <b>${esc(task.front)}</b>${plural}
+              <b lang="es">${esc(task.front)}</b>${plural}
               <span class="el-card-tap">tap</span>
             </span>
             <span class="el-face el-face--back" ${open ? "" : `aria-hidden="true"`}>
-              <b>${esc(task.front)}</b>${plural}
-              <span class="el-card-back">${esc(task.back)}<i>${esc(task.hint || "")}</i></span>
+              <b lang="es">${esc(task.front)}</b>${plural}
+              <span class="el-card-back">${esc(task.back)}<i${task.hintLang ? ` lang="${task.hintLang}"` : ""}>${esc(task.hint || "")}</i></span>
             </span>
           </span>
         </button>
@@ -586,7 +597,7 @@ export function mountEinfach(root) {
     if (task.type === "artikel") {
       return `
         ${kind(task, articleQuestion(task))}
-        <p class="el-sentence"><span class="el-blank ${blankState}">${esc(run.answer || "___")}</span> ${esc(task.noun)}</p>
+        <p class="el-sentence" lang="es"><span class="el-blank ${blankState}">${esc(run.answer || "___")}</span> ${esc(task.noun)}</p>
         ${task.back ? `<p class="el-gloss">${esc(task.back)}</p>` : ""}
       `;
     }
@@ -594,7 +605,7 @@ export function mountEinfach(root) {
     if (task.type === "luecke") {
       return `
         ${kind(task, "Sentence")}
-        <p class="el-sentence">${gapLine(task.before, `<span class="el-blank ${blankState}">${esc(run.answer || "___")}</span>`, task.after)}</p>
+        <p class="el-sentence" lang="es">${gapLine(task.before, `<span class="el-blank ${blankState}">${esc(run.answer || "___")}</span>`, task.after)}</p>
       `;
     }
 
@@ -602,7 +613,7 @@ export function mountEinfach(root) {
       // Replay as often as wanted, no clock. The transcript comes after the answer.
       return `
         ${kind(task, "Listen")}
-        <p class="el-listen-title">${esc(task.title)}</p>
+        <p class="el-listen-title" lang="es">${esc(task.title)}</p>
         <button class="el-play" type="button" data-play>
           <span aria-hidden="true">▶</span> ${run.played ? "Listen again" : "Listen"}
         </button>
@@ -610,7 +621,7 @@ export function mountEinfach(root) {
         ${
           run.answer !== null
             ? `<details class="el-transcript" open><summary>What you heard</summary>${task.transcript
-                .map((l) => `<p>${esc(l)}</p>`)
+                .map((l) => `<p lang="es">${esc(l)}</p>`)
                 .join("")}</details>`
             : ""
         }
@@ -621,7 +632,7 @@ export function mountEinfach(root) {
       return `
         ${kind(task, "What do you say?")}
         <p class="el-situation">${esc(task.situation)}</p>
-        ${run.answer ? `<p class="el-sentence el-sentence--sm"><span class="el-blank ${blankState}">${esc(run.answer)}</span></p>` : ""}
+        ${run.answer ? `<p class="el-sentence el-sentence--sm" lang="es"><span class="el-blank ${blankState}">${esc(run.answer)}</span></p>` : ""}
       `;
     }
 
@@ -632,7 +643,7 @@ export function mountEinfach(root) {
         : esc(task.text);
       return `
         ${kind(task, "Speak")}
-        <p class="el-sentence el-sentence--speak">${words}</p>
+        <p class="el-sentence el-sentence--speak" lang="es">${words}</p>
         <button class="el-play" type="button" data-play>
           <span aria-hidden="true">▶</span> Listen
         </button>
@@ -653,11 +664,11 @@ export function mountEinfach(root) {
       <p class="el-kind">Build the sentence</p>
       <div class="el-line ${run.answer ? (run.answer === "ok" ? "is-right" : "is-wrong") : ""}">
         ${
-          run.built.map((w, n) => `<button class="el-word" type="button" data-un="${n}">${esc(w)}</button>`).join("") ||
+          run.built.map((w, n) => `<button class="el-word" type="button" lang="es" data-un="${n}">${esc(w)}</button>`).join("") ||
           `<span class="el-line-ph">tap the words</span>`
         }${task.end && run.built.length ? `<span class="el-line-end" aria-hidden="true">${esc(task.end)}</span>` : ""}
       </div>
-      <div class="el-pool">
+      <div class="el-pool" lang="es">
         ${rest.map((w) => `<button class="el-word el-word--pool" type="button" data-add="${esc(w)}">${esc(w)}</button>`).join("")}
       </div>
     `;
@@ -674,13 +685,13 @@ export function mountEinfach(root) {
     }
     if (task.type === "artikel" || task.type === "luecke") {
       const opts = task.type === "artikel" ? articleOptions(task) : run.opts;
-      return `<div class="el-opts">${opts
+      return `<div class="el-opts" lang="es">${opts
         .map((o) => `<button class="el-opt" type="button" data-pick="${esc(o)}">${esc(o)}</button>`)
         .join("")}</div>`;
     }
     if (task.type === "hoeren" || task.type === "redemittel") {
       // Whole phrases: one per row, so a long answer never wraps into its neighbour.
-      return `<div class="el-opts el-opts--stack">${run.opts
+      return `<div class="el-opts el-opts--stack" lang="es">${run.opts
         .map((o) => `<button class="el-opt" type="button" data-pick="${esc(o)}">${esc(o)}</button>`)
         .join("")}</div>`;
     }
@@ -706,7 +717,7 @@ export function mountEinfach(root) {
       if (run.answer === "skip") return `<p class="el-said is-right">No problem. We'll speak another time.</p>`;
       const tip = run.result?.tip;
       return `<p class="el-said is-right">${run.result?.good ? "Well said." : "Good try!"}${
-        tip ? `<i>A tip for “${esc(tip.word)}”: ${esc(tip.text)}</i>` : ""
+        tip ? `<i>A tip for “<span lang="es">${esc(tip.word)}</span>”: ${esc(tip.text)}</i>` : ""
       }</p>`;
     }
     const ok = isRight(task);
@@ -715,10 +726,10 @@ export function mountEinfach(root) {
       task.type === "wort"
         ? ok
           ? "Got it."
-          : `This one comes back — <b>${esc(task.front)}</b>: ${esc(task.back)}${/[.!?…]$/.test(task.back) ? "" : "."}`
+          : `This one comes back — <b lang="es">${esc(task.front)}</b>: ${esc(task.back)}${/[.!?…]$/.test(task.back) ? "" : "."}`
         : ok
           ? "Right."
-          : `Almost. The answer is <b>${esc(solution)}</b>${/[.!?…]$/.test(solution) ? "" : "."}`;
+          : `Almost. The answer is <b lang="es">${esc(solution)}</b>${/[.!?…]$/.test(solution) ? "" : "."}`;
     const why = task.why && !ok ? `<i>${esc(task.why)}</i>` : "";
     return `<p class="el-said ${ok ? "is-right" : "is-wrong"}">${line}${why}</p>`;
   }
@@ -752,7 +763,7 @@ export function mountEinfach(root) {
     // Tapping Bruno: a hint for this task. Free — it changes nothing in the score.
     on("[data-hint]", () => {
       if (run.answer !== null) return;
-      run.line = task.hint ? { text: task.hint, help: task.hintEn } : BRUNO_LINES.hintless;
+      run.line = task.hint ? { text: task.hint, help: task.hintEn, lang: task.hintLang } : BRUNO_LINES.hintless;
       again();
     });
     on("[data-flip]", () => {
@@ -780,9 +791,14 @@ export function mountEinfach(root) {
       again();
     });
     on("[data-check]", () => {
-      const ok = run.built.join(" ") === task.answer.join(" ");
+      // Any right order counts; the line then reads as that order, with its own capitals.
+      const order = [task.answer, ...(task.alts || [])].find((o) => sameOrder(o, run.built));
+      const ok = !!order;
       run.answer = ok ? "ok" : "no";
-      if (ok) run.right++;
+      if (ok) {
+        run.built = order.slice();
+        run.right++;
+      }
       answeredNow();
     });
     on("[data-next]", () => {
@@ -883,8 +899,8 @@ export function mountEinfach(root) {
         </div>
         ${sitting.postcard ? postcard(sitting.postcard) : ""}
         ${
-          sitting.grammar
-            ? `<a class="el-quiet el-quiet--link" href="${withBase("/" + esc(sitting.grammar))}" data-to-site>More about this in the course</a>`
+          sitting.grammarPath
+            ? `<a class="el-quiet el-quiet--link" href="${esc(withBase(sitting.grammarPath))}" data-to-site>More about this in the course</a>`
             : ""
         }
         <button class="el-shelf-peek" type="button" data-go="kannst">

@@ -2,7 +2,7 @@
 // /step-by-step — „Einfach lernen", the easy mode: the whole product in one route.
 //
 // The site knows a lot and says all of it: /grammar lists 28 topic cards under
-// five level headings, the Wortschatz trainer opens on a deck of 3.375 words with tabs,
+// five level headings, the vocabulary trainer opens on a deck of 3,375 words with tabs,
 // language switches and a picker around it, and the dashboard reports six skills at once.
 // On a 390px phone — which is who this is for — none of that fits, and a learner who
 // cannot see the end of a screen decides they cannot do the thing on it.
@@ -10,13 +10,13 @@
 // So this route rebuilds the same product under four rules and nothing else:
 //
 //   1. One decision per screen, three options at the very most.
-//   2. A sitting, not a pile. Nothing states a total — no 3.375, no 28, no 412.
+//   2. A sitting, not a pile. Nothing states a total — no 3,375, no 28, no 412.
 //   3. Progress is a sentence you can feel ("You can ask the way."), not a percentage.
 //   4. One primary action, in the thumb zone, always.
 //
 // Einfach lernen (EINFACH-LERNEN-TIERED-PROMPT.md): the units are the curated path in
 // src/data/einfach-pfad.json. They are resolved here, at build time, from the site's
-// reviewed data — lexicon, grammar exercises, Kultur facts — so the browser gets a few
+// reviewed data — lexicon, grammar exercises, culture facts — so the browser gets a few
 // kilobytes of ready tasks instead of the lexicon. A ref that no longer resolves fails the
 // build (same check as `pnpm check:einfach`). /step-by-step?fixtures plays the prototype's three
 // hand-written sittings instead (src/lib/einfach-fixtures.js), for testing the flow.
@@ -24,7 +24,11 @@ import Layout from "../layouts/Layout.astro";
 import "../styles/einfach.css";
 import { resolvePath, checkUnits } from "../lib/einfach-content.js";
 import pfad from "../data/einfach-pfad.json";
+import { withBase } from "../lib/paths.js";
+import { topicPath } from "../lib/routes.js";
 import lexA1 from "../content/lexicon/a1.json";
+import lexA2 from "../content/lexicon/a2.json";
+import lexB1 from "../content/lexicon/b1.json";
 import akkusativ from "../data/akkusativ.json";
 import kultur from "../data/kultur.json";
 import kulturInsider from "../data/kultur-insider.json";
@@ -40,7 +44,7 @@ const grammatik = Object.fromEntries(
   ]),
 );
 const { units, errors } = resolvePath(pfad, {
-  lexicon: { a1: lexA1 },
+  lexicon: { a1: lexA1, a2: lexA2, b1: lexB1 },
   grammatik,
   akkusativ,
   kultur,
@@ -55,7 +59,9 @@ errors.push(...checkUnits(units));
 const placementJson = JSON.stringify(einstufung.levels.A1).replaceAll("<", String.fromCharCode(92) + "u003c");
 // The Android app build adds its glue after the page has mounted (src/lib/appEinfach.js).
 const APP = import.meta.env.PUBLIC_TARGET === "app";
-const unitsJson = JSON.stringify(units).replaceAll("<", String.fromCharCode(92) + "u003c");
+// A unit's `grammar` is a topic key; the view links to its URL (routes.js is too big to ship for one link).
+const playable = units.map((u) => (u.grammar ? { ...u, grammarPath: topicPath(u.grammar) } : u));
+const unitsJson = JSON.stringify(playable).replaceAll("<", String.fromCharCode(92) + "u003c");
 if (errors.length) throw new Error(`einfach-pfad.json:\n  ${errors.join("\n  ")}`);
 ---
 <!-- Indexed since the placement pass (EINFACH-PLATZIERUNG): "Spanish for beginners, step
@@ -74,8 +80,8 @@ if (errors.length) throw new Error(`einfach-pfad.json:\n  ${errors.join("\n  ")}
     <noscript>
       <div style="padding:24px;max-width:40rem">
         <h2>Spanish for beginners – step by step</h2>
-        <p>Short two-minute rounds: fill a gap, build a sentence, learn one small thing at a time. One step per screen, for complete beginners. Free, no account needed.</p>
-        <p>These exercises need JavaScript. Without JavaScript, you can find all topics on the <a href="/?voll">full site</a>.</p>
+        <p>Short two-minute rounds in Castilian Spanish, the Spanish of Spain: fill a gap, build a sentence, learn one small thing at a time. One step per screen, for complete beginners. Free, no account needed.</p>
+        <p>These exercises need JavaScript. Without JavaScript, you can find all topics on the <a href={withBase("/?voll")}>full site</a>.</p>
       </div>
     </noscript>
   </div>

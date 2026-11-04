@@ -540,7 +540,7 @@ html:not([data-mascots="off"]) .el-walk-marker { display: none; }
 
 .el-two { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
 
-/* der/die/das and the gap options: three targets, one row, each one a full thumb wide. */
+/* el/la and the gap options: three targets, one row, each one a full thumb wide. */
 .el-opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
 .el-opt {
   min-height: 54px;
@@ -624,6 +624,20 @@ html:not([data-mascots="off"]) .el-walk-marker { display: none; }
 .el-bubble--empty { visibility: hidden; animation: none; }
 .el-bubble--big { font-size: var(--text-lg); }
 .el-bubble[data-showing="help"] { color: var(--brand-blue-dark); }
+/* Says a tap translates the line: a small tag, not a second button. */
+.el-bubble-tag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 4px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.4;
+  vertical-align: middle;
+}
 
 /* Heute: Bruno says hello above the offer. */
 .el-greet { display: flex; align-items: center; gap: var(--space-2); }
@@ -703,7 +717,7 @@ html[data-mascots="off"] .el-postcard { padding-right: 60px; }
 
    Hören, Sprechen, Redemittel, and the due items that ride along in a unit. */
 
-/* A long option ("unterschreiben") must break inside its own button, not push the row. */
+/* A long option ("desafortunadamente") must break inside its own button, not push the row. */
 .el-opt { padding: 0 6px; overflow-wrap: anywhere; line-height: 1.2; }
 /* Whole phrases (Hören, Redemittel): one per row, left-aligned like a sentence. */
 .el-opts--stack { grid-template-columns: 1fr; }
