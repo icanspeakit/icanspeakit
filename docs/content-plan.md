@@ -1070,3 +1070,17 @@ are handled by the `ui-*` items where they are rendered.
   still English. **For `culture`:** `/grammar/quiz` on `passiv` still links to Culture with "More
   sentences like these" (`quiz.crosslink.passiv`, `kultur.link.passiv`); check that this still holds
   once the culture texts are Spanish.
+- **C1 grammar decisions** (`grammar-c1`, 2026-11-04): the 11 C1 slots are Spanish; `grammatik` is
+  strict in `check-variety.mjs` and the `grammatik-done` list is gone. The paid split stays: items in
+  `src/paid/grammatik/`, titles, hints and counts in `src/data/grammatik/`. Paid files now carry a
+  top-level `variety`, and `--split-grammar` keeps it. After the split, edit the paid file directly and
+  keep `slots` right in the free file. `check-pillen` reads only `src/data/grammatik`, so it does not
+  see C1 unless `PILLEN_DIR` points at a merged copy; worth building in if C1 keeps changing. **Topics
+  still left out (§3 gaps):** *voseo*, *leísmo/laísmo*, impersonal *haber*. Same -ra/-se rule as B2.
+  **For `routes`:** C1 topic text contains no internal links; the slugs are still English (conditions
+  without *si* at `/inversion`, non-finite clauses at `/future-perfect`, sequence of tenses at
+  `/distancing`). **For `grammar-structure`:** `searchIndex.js` keywords, `catalog.js` emojis and
+  `stundenplan.js` patterns still fit the old C1 topics; `grammatik-verwandt.json` too. **For
+  `teachers`:** `arbeitsblatt/<slot>.json` for C1 slots, where they exist, are still English. **For
+  `exams-dele`:** these C1 topics are written as general C1 grammar; nothing here claims to match a DELE
+  task.
