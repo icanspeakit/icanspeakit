@@ -1,0 +1,156 @@
+---
+// „Unterrichtest du Deutsch?" — the way a teacher learns that the teacher switch exists.
+// Under the header of the teacher section's pages (/teachers, its indexes, the live quiz).
+// Without it the switch lives only in /konto → Einstellungen, where nobody looks for it.
+//
+// One card, three faces, picked in the browser (the pages are static):
+//   signed out            „Kostenlos freischalten" → /anmelden?lehrkraft=1, which opens
+//                         the sign-up with „Ich unterrichte Deutsch" ticked (SignInCard)
+//   signed in, no switch  „Ja, kostenlos freischalten" → setTeacher(true), then the third face
+//   teacher, first time   „Das ist jetzt neu für dich": what the switch unlocked, once
+// „Nein, danke" and „Verstanden" are remembered on this device (localStorage), so the card
+// asks once and never nags. Ships `hidden`; with storage blocked it just asks again.
+//
+// Not on the builder and the Klassen pages: those have their own gate with the same switch.
+import Mascot from "./mascots/Mascot.astro";
+---
+<section class="tn" data-teacher-nudge hidden aria-labelledby="tn-title">
+  <div class="tn-ask" data-tn-face="ask">
+    <Mascot name="bruno" expr="happy" size={64} extra="klemmbrett" class="tn-mascot" />
+    <div class="tn-body">
+      <h2 class="tn-title" id="tn-title" data-i18n="tn.title">Unterrichtest du Deutsch?</h2>
+      <p class="tn-lead" data-i18n="tn.lead">Schalte deine Lehrkraft-Werkzeuge kostenlos frei:</p>
+      <ul class="tn-list">
+        <li data-i18n="tn.item.quiz">eigene Live-Quizze erstellen und speichern</li>
+        <li data-i18n="tn.item.klassen">Klassen anlegen und sehen, wer übt</li>
+        <li data-i18n="tn.item.partner">bei jedem Grammatik-Thema: „Als Partnerübung“</li>
+      </ul>
+      <p class="tn-fine" data-tn-out hidden data-i18n="tn.signedOut">Dafür brauchst du nur ein kostenloses Konto.</p>
+      <div class="tn-actions">
+        <a class="tn-btn tn-btn--primary" data-tn-signup hidden href="/anmelden?lehrkraft=1" data-i18n="tn.signup">Kostenlos freischalten</a>
+        <button type="button" class="tn-btn tn-btn--primary" data-tn-on hidden data-i18n="tn.on">Ja, kostenlos freischalten</button>
+        <button type="button" class="tn-btn" data-tn-no data-i18n="tn.no">Nein, danke</button>
+      </div>
+      <p class="tn-error" data-tn-error role="alert" hidden data-i18n="tn.error">Das hat gerade nicht geklappt. Prüfe die Internetverbindung und versuch es noch einmal.</p>
+    </div>
+  </div>
+
+  <div class="tn-ask" data-tn-face="welcome" hidden>
+    <Mascot name="bruno" expr="celebrate" size={64} extra="klemmbrett" class="tn-mascot" />
+    <div class="tn-body">
+      <h2 class="tn-title" data-i18n="tn.new.title">Das ist jetzt neu für dich</h2>
+      <ul class="tn-list tn-list--links">
+        <li><a href="/teachers/quiz/create" data-i18n="tn.new.quiz">Eigenes Live-Quiz erstellen</a> <span data-i18n="tn.new.quizText">Fragen auswählen, eigene ergänzen, speichern.</span></li>
+        <li><a href="/teachers/tests" data-i18n="tn.new.test">Einstufungstest</a> <span data-i18n="tn.new.testText">Per QR-Code, du siehst das Niveau jeder Person.</span></li>
+        <li><a href="/teachers/surveys" data-i18n="tn.new.umfrage">Umfrage</a> <span data-i18n="tn.new.umfrageText">Anonym per QR-Code fragen, was die Klasse lernen will.</span></li>
+        <li><a href="/teachers/classes" data-i18n="tn.new.klassen">Klassen</a> <span data-i18n="tn.new.klassenText">Code weitergeben und sehen, wer übt.</span></li>
+        <li><a href="/teachers/worksheets/partner" data-i18n="tn.new.partner">Partnerübungen</a> <span data-i18n="tn.new.partnerText">Auf jeder Grammatik-Seite steht jetzt „Als Partnerübung“.</span></li>
+      </ul>
+      <p class="tn-fine" data-i18n="tn.new.off">Ausschalten kannst du das jederzeit im Konto unter Einstellungen.</p>
+      <div class="tn-actions">
+        <button type="button" class="tn-btn tn-btn--primary" data-tn-ok data-i18n="tn.new.ok">Verstanden</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const NO = "da_lk_nudge"; // "nein": „Nein, danke" was tapped on this device
+  const SEEN = "da_lk_welcome"; // "1": the „neu für dich" face was closed
+  const get = (k: string) => { try { return localStorage.getItem(k); } catch { return null; } };
+  const put = (k: string, v: string) => { try { localStorage.setItem(k, v); } catch {} };
+
+  async function init() {
+    const card = document.querySelector<HTMLElement>("[data-teacher-nudge]");
+    if (!card) return;
+    const $ = <T extends HTMLElement>(s: string) => card.querySelector<T>(s)!;
+    const face = (name: string) => {
+      card.querySelectorAll<HTMLElement>("[data-tn-face]").forEach((f) => (f.hidden = f.dataset.tnFace !== name));
+      card.hidden = false;
+    };
+    const welcome = () => {
+      if (get(SEEN) === "1") { card.hidden = true; return; }
+      face("welcome");
+      $("[data-tn-ok]").addEventListener("click", () => { put(SEEN, "1"); card.hidden = true; });
+    };
+
+    // Same cookie test as LiveQuizLink: no Supabase cookie, no Supabase download.
+    const cookie = /(^|;\s*)sb-[^=]*-auth-token[^=]*=/.test(document.cookie);
+    let user = null;
+    let mod: typeof import("../lib/liveQuiz/custom.js") | null = null;
+    if (cookie) {
+      try {
+        mod = await import("../lib/liveQuiz/custom.js");
+        user = await mod.currentUser();
+      } catch {}
+    }
+    if (mod && mod.isTeacher(user)) return welcome();
+    if (get(NO) === "nein") return;
+
+    $("[data-tn-no]").addEventListener("click", () => { put(NO, "nein"); card.hidden = true; });
+    if (!user || !mod) {
+      const signup = $<HTMLAnchorElement>("[data-tn-signup]");
+      signup.href = `/anmelden?lehrkraft=1&next=${encodeURIComponent(location.pathname + location.search)}`;
+      signup.hidden = false;
+      $("[data-tn-out]").hidden = false;
+    } else {
+      const on = $<HTMLButtonElement>("[data-tn-on]");
+      const setTeacher = mod.setTeacher;
+      on.hidden = false;
+      on.addEventListener("click", async () => {
+        on.disabled = true; // saving: the one case `disabled` is right for
+        $("[data-tn-error]").hidden = true;
+        try {
+          await setTeacher(true);
+          welcome();
+        } catch {
+          $("[data-tn-error]").hidden = false;
+        } finally {
+          on.disabled = false;
+        }
+      });
+    }
+    face("ask");
+  }
+  init();
+</script>
+
+<style>
+  .tn {
+    margin: 0 0 var(--space-6, 24px);
+    padding: 16px;
+    border: 1px solid var(--brand-blue, #0d9488);
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--brand-blue, #0d9488) 6%, var(--surface-card, #fff));
+    color: var(--ink);
+    text-align: left;
+  }
+  .tn[hidden], .tn [hidden] { display: none !important; }
+  .tn-ask { display: flex; gap: 14px; align-items: flex-start; }
+  .tn :global(.tn-mascot) { flex: none; width: 56px; height: auto; }
+  .tn-body { min-width: 0; flex: 1; }
+  .tn-title { margin: 0 0 4px; font-size: 1.125rem; line-height: 1.3; }
+  .tn-lead { margin: 0 0 6px; font-weight: 600; }
+  .tn-list { margin: 0 0 10px; padding-left: 1.2em; line-height: 1.5; font-size: .9375rem; }
+  .tn-list--links li { margin-bottom: 4px; }
+  .tn-list--links a { font-weight: 700; color: var(--brand-blue-dark, #0f766e); }
+  .tn-list--links span { color: var(--muted); }
+  .tn-fine { margin: 0 0 10px; font-size: .8125rem; color: var(--muted); }
+  .tn-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tn-btn {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 16px;
+    border: 1px solid var(--border-strong, #ccc); border-radius: 999px; background: var(--surface-card, #fff);
+    color: var(--ink); font: inherit; font-size: .875rem; font-weight: 600; text-decoration: none; cursor: pointer;
+  }
+  .tn-btn--primary { border-color: var(--brand-blue, #0d9488); background: var(--brand-blue, #0d9488); color: #fff; }
+  .tn-btn:focus-visible { outline: 2px solid var(--brand-blue, #0d9488); outline-offset: 2px; }
+  .tn-error { margin: 8px 0 0; font-size: .8125rem; color: var(--danger, #b91c1c); }
+  /* On a phone the mascot sits beside the title only; the list gets the full width. */
+  @media (max-width: 480px) {
+    .tn-ask { display: block; }
+    .tn :global(.tn-mascot) { float: left; width: 44px; margin: 0 10px 6px 0; }
+    .tn-list { clear: left; }
+    .tn-btn { flex: 1 1 auto; }
+  }
+  @media print { .tn { display: none !important; } }
+</style>

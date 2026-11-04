@@ -1,0 +1,230 @@
+---
+// The first-visit language suggestion: one row above the nav, shown ONCE, when the browser
+// asks for an interface language other than the page's. It names that one language in its
+// own script, so someone who cannot read a word of the page still recognises theirs, and
+// „Andere · Other …" opens the nav's language menu for everyone else. It stands in for the
+// browser's "Translate this page?" prompt, which Layout.astro switches off with
+// <meta name="google" content="notranslate">.
+//
+// KARTENSPRACHE-PICKER Tier 5: the row used to list six core languages plus „🌐 10 ›" on every
+// page until answered, a second language menu next to the nav's „DE" and the flashcards' own.
+// Now the nav button is the one place to change the interface language; this row only
+// suggests, once.
+//
+// Decided before the first paint by Layout.astro: no `da_lang` yet, no `da_lang_offer`, and
+// the first of navigator.languages that is an interface language differs from the page's.
+// The script there sets html[data-lang-offer="<code>"] and writes `da_lang_offer` = "shown",
+// so the next page never shows it again. A pick (here or in the nav) writes `da_lang`;
+// ✕ writes "dismissed". Keys in sync with Layout.astro.
+//
+// The copy is multilingual on purpose and not in public/i18n: the row exists for the
+// reader who cannot read the current page language.
+import { LANGUAGES } from "../lib/i18n.js";
+// The follow-up after a pick: someone who needed the offer to read the page is very often
+// someone for whom "Step by step" (/step-by-step, the beginner path) is the right first door.
+// Written per language here for the same reason as the row itself; the product name stays
+// English, as it is on the page the button opens.
+const EINFACH_OFFER = {
+  en: { text: "New to English? Start with “Step by step” — one small step at a time.", go: "Start", close: "Close" },
+  ar: { text: "جديد في تعلّم الإنجليزية؟ ابدأ بـ «Step by step» — خطوة صغيرة في كل مرة.", go: "ابدأ", close: "إغلاق" },
+  tr: { text: "İngilizceye yeni mi başlıyorsun? “Step by step” ile başla — her seferinde küçük bir adım.", go: "Başla", close: "Kapat" },
+  uk: { text: "Тільки починаєте вчити англійську? Почніть з «Step by step» — крок за кроком.", go: "Почати", close: "Закрити" },
+  es: { text: "¿Empiezas con el inglés? Empieza con «Step by step»: un paso pequeño cada vez.", go: "Empezar", close: "Cerrar" },
+  pt: { text: "Começando no inglês? Comece com “Step by step”: um passo pequeno de cada vez.", go: "Começar", close: "Fechar" },
+  vi: { text: "Mới bắt đầu học tiếng Anh? Hãy bắt đầu với “Step by step”: mỗi lần một bước nhỏ.", go: "Bắt đầu", close: "Đóng" },
+  hi: { text: "अंग्रेज़ी सीखना अभी शुरू कर रहे हैं? “Step by step” से शुरू करें: हर बार एक छोटा कदम।", go: "शुरू करें", close: "बंद करें" },
+  id: { text: "Baru mulai belajar bahasa Inggris? Mulai dengan “Step by step”: satu langkah kecil setiap kali.", go: "Mulai", close: "Tutup" },
+  tl: { text: "Bago ka pa lang sa English? Magsimula sa “Step by step”: isang maliit na hakbang bawat beses.", go: "Simulan", close: "Isara" },
+  de: { text: "Neu im Englischen? Fang mit „Step by step“ an – ein kleiner Schritt nach dem anderen.", go: "Los", close: "Schließen" },
+};
+// „Show this page in …?" per language, beside the language's name. German for German.
+const ASK = {
+  de: "Seite auf Deutsch zeigen?",
+  en: "Show this page in English?",
+  ar: "عرض الصفحة بالعربية؟",
+  tr: "Sayfa Türkçe gösterilsin mi?",
+  uk: "Показати сторінку українською?",
+  es: "¿Mostrar la página en español?",
+  pt: "Mostrar a página em português?",
+  vi: "Hiển thị trang bằng tiếng Việt?",
+  hi: "पेज हिन्दी में दिखाएँ?",
+  id: "Tampilkan halaman dalam bahasa Indonesia?",
+  tl: "Ipakita ang page sa Filipino?",
+};
+// Only the suggested language's row part shows: one CSS rule per language, so the right one
+// is there on the first paint without a script.
+const showRules = LANGUAGES.map((l) => `html[data-lang-offer="${l.code}"] [data-lang-offer-for="${l.code}"]{display:flex}`).join("");
+const close = "Close · Schließen · إغلاق · Kapat · Закрити";
+const other = "Other · Andere …";
+---
+<div class="lang-offer" role="region" aria-label="Language · Sprache" data-lang-offer-row>
+  <svg class="lang-offer-ic" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+  {LANGUAGES.map((l) => (
+    <div class="lang-offer-for" data-lang-offer-for={l.code} lang={l.htmlLang ?? l.code} dir={l.dir}>
+      <span class="lang-offer-ask">{ASK[l.code] ?? ""}</span>
+      <button type="button" class="lang-offer-opt" data-lang-offer-pick={l.code}>{l.label}</button>
+    </div>
+  ))}
+  <button type="button" class="lang-offer-other" data-lang-offer-other aria-haspopup="dialog">{other}</button>
+  <button type="button" class="lang-offer-x" data-lang-offer-dismiss aria-label={close} title={close}>
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+  </button>
+</div>
+<style is:global set:html={showRules}></style>
+
+<div class="lang-einfach" role="region" aria-live="polite" data-einfach-offer-row data-copy={JSON.stringify(EINFACH_OFFER)}>
+  <span class="lang-einfach-txt" data-einfach-offer-text></span>
+  <a class="lang-einfach-go" href="/step-by-step" data-einfach-offer-go>Step by step</a>
+  <button type="button" class="lang-offer-x" data-einfach-offer-dismiss>
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+  </button>
+</div>
+
+<style>
+  .lang-einfach {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    background: var(--blue-50, #e6f6f4);
+    border-bottom: 1px solid var(--border);
+    color: var(--ink);
+    font-size: 15px;
+  }
+  :global(html[data-einfach-offer]) .lang-einfach { display: flex; }
+  .lang-einfach-txt { flex: 1; min-width: 0; }
+  .lang-einfach-go {
+    flex: none;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: var(--brand-blue);
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .lang-einfach-go:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+  @media print { .lang-einfach { display: none !important; } }
+  .lang-offer {
+    display: none;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    padding: 8px 16px;
+    background: var(--blue-50, #e6f6f4);
+    border-bottom: 1px solid var(--border);
+    color: var(--ink);
+  }
+  :global(html[data-lang-offer]) .lang-offer { display: flex; }
+  .lang-offer-ic { flex: none; color: var(--brand-blue); }
+  /* Shown for the suggested language only, by the rules above. */
+  .lang-offer-for { display: none; align-items: center; flex-wrap: wrap; gap: 6px 10px; min-width: 0; }
+  .lang-offer-ask { font-size: 15px; }
+  .lang-offer-opt, .lang-offer-other {
+    min-height: 36px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+  }
+  .lang-offer-opt { border: 0; background: var(--brand-blue); color: #fff; }
+  .lang-offer-other { border: 1px solid var(--border-strong, var(--border)); background: var(--surface-card); color: var(--ink); font-weight: 600; }
+  .lang-offer-other:hover { border-color: var(--brand-blue); }
+  .lang-offer-opt:focus-visible, .lang-offer-other:focus-visible, .lang-offer-x:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+  .lang-offer-x {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin-inline-start: auto;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: none;
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .lang-offer-x:hover { background: var(--surface-card); color: var(--ink); }
+  @media (max-width: 480px) {
+    .lang-offer { padding: 8px 12px; }
+    .lang-offer-ask { font-size: 14px; }
+  }
+  @media print { .lang-offer { display: none !important; } }
+</style>
+
+<script>
+  import { setLang, onLangChange } from "../lib/i18n.js";
+  import { isRtl, languagesFor } from "../lib/languages.js";
+  import { openLanguagePicker } from "../lib/languagePicker.js";
+
+  const html = document.documentElement;
+  const hide = () => html.removeAttribute("data-lang-offer");
+  // After a pick in a language other than English, point once at "Step by step" (/step-by-step).
+  // Never on /step-by-step itself, never for someone already using it, never twice. Never where a
+  // class is waiting either (live quiz, class poll, joining a class): a player picked Español
+  // on /game, read „Empezar“ as starting the quiz and left the game for /step-by-step (replay
+  // 2026-10-22). There the pick just sets the language, with no follow-up.
+  const row = document.querySelector<HTMLElement>("[data-einfach-offer-row]");
+  const doneOffer = () => { try { localStorage.setItem("da_einfach_offer", "done"); } catch {} html.removeAttribute("data-einfach-offer"); };
+  function offerEinfach(code: string) {
+    if (!row || /^\/(step-by-step|game|survey|join)(\/|$)/.test(location.pathname)) return;
+    const copy = JSON.parse(row.dataset.copy || "{}")[code];
+    if (!copy) return;
+    try {
+      if (localStorage.getItem("da_einfach_offer") === "done") return;
+      if (localStorage.getItem("da-last-mode") === "einfach") return;
+    } catch { return; }
+    row.lang = code;
+    row.dir = isRtl(code) ? "rtl" : "ltr";
+    row.querySelector("[data-einfach-offer-text]")!.textContent = copy.text;
+    row.querySelector("[data-einfach-offer-go]")!.textContent = copy.go;
+    const x = row.querySelector<HTMLElement>("[data-einfach-offer-dismiss]")!;
+    x.setAttribute("aria-label", copy.close);
+    x.title = copy.close;
+    html.setAttribute("data-einfach-offer", "");
+  }
+  row?.querySelector("[data-einfach-offer-dismiss]")?.addEventListener("click", doneOffer);
+  row?.querySelector("[data-einfach-offer-go]")?.addEventListener("click", doneOffer);
+
+  const chosen = () => { try { return !!localStorage.getItem("da_lang"); } catch { return false; } };
+  const dismiss = () => { try { localStorage.setItem("da_lang_offer", "dismissed"); } catch {} hide(); };
+
+  document.querySelectorAll("[data-lang-offer-pick]").forEach((b) =>
+    b.addEventListener("click", () => {
+      const code = (b as HTMLElement).dataset.langOfferPick!;
+      setLang(code);
+      hide();
+      offerEinfach(code);
+    })
+  );
+  // „Andere …": the nav's own language menu, the one place to change the interface language.
+  // On a phone that button sits in the closed drawer, so the same menu opens from here.
+  const other = document.querySelector<HTMLElement>("[data-lang-offer-other]");
+  other?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dismiss();
+    const nav = [...document.querySelectorAll<HTMLElement>("[data-lang-btn]")].find((b) => b.offsetParent !== null);
+    if (nav) return nav.click();
+    openLanguagePicker({
+      anchor: other,
+      surface: "ui",
+      items: languagesFor("ui"),
+      current: html.lang.split("-")[0] || "en",
+      startAll: true,
+      onPick: (code: string) => {
+        setLang(code);
+        offerEinfach(code);
+      },
+    });
+  });
+  document.querySelector("[data-lang-offer-dismiss]")?.addEventListener("click", dismiss);
+  // A choice made in the nav switcher answers the offer too.
+  onLangChange(() => { if (chosen()) hide(); });
+</script>

@@ -1,0 +1,180 @@
+---
+// /teachers/tests — a teacher sets a short grammar test for their class: a level, the
+// topics, how many questions. Students take it on their phone through a QR code
+// (/test?c=CODE), with their name and without an account; the teacher sees each one's
+// result on /teachers/tests/result?id=….
+//
+// Static like the rest of the section; sign-in and the teacher switch are settled in the
+// browser, with the same gates as Umfragen. The questions come from the grammar exercises
+// (src/lib/klassentest/pool.js, served as ./fragen.json). Not in the Android app
+// (build-app.mjs drops /teachers).
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import "../../../styles/live-quiz.css";
+import "../../../styles/quiz-builder.css";
+import "../../../styles/klassen.css";
+import "../../../styles/umfrage.css";
+import "../../../styles/klassentest.css";
+---
+<Layout
+  title="Placement test for your class – For teachers – EnglishAcademy"
+  description="A placement test for your class: everyone takes it on their phone via a QR code and you see each person's level. Or a topic test on the grammar of one level."
+  noindex
+>
+  <SiteNav active="lehrkraefte" />
+
+  <main class="lq kl uf kt" id="kt-root">
+    <a class="qb-back" href="/teachers" data-i18n="kl.t.back">Für Lehrkräfte</a>
+    <header class="lq-head">
+      <p class="lq-eyebrow" data-i18n="kt.t.eyebrow">Für Lehrkräfte · Einstufungstest</p>
+      <h1 class="lq-title" data-i18n="kt.t.title">Einstufungstest für die Klasse</h1>
+      <p class="lq-lead" data-i18n="kt.t.lead">Die Klasse macht den Test mit dem Handy über einen QR-Code, mit Namen und ohne Konto. Du siehst das Niveau jeder Person, von A1 bis B2, und welche Themen noch nicht sitzen. Oder du prüfst als Thementest die Grammatik eines Niveaus. Die Fragen kommen aus unseren Grammatikübungen; du kannst jede bearbeiten.</p>
+    </header>
+
+    <section class="lq-card" data-gate="loading">
+      <p data-i18n="kl.loading">Einen Moment …</p>
+    </section>
+    <section class="lq-card kl-stack" data-gate="signin" hidden>
+      <h2 data-i18n="kt.t.signin.title">Melde dich an, um einen Test zu erstellen</h2>
+      <p data-i18n="kt.t.signin.text">Die Ergebnisse gehören zu deinem Konto, damit du sie auch nächste Woche noch siehst. Das Konto ist kostenlos. Deine Schülerinnen und Schüler brauchen keins.</p>
+      <a class="lq-btn lq-btn--primary" data-signin-link href="/anmelden?next=/teachers/tests" data-i18n="kl.t.signin.button">Anmelden oder registrieren</a>
+    </section>
+    <section class="lq-card kl-stack" data-gate="teacher" hidden>
+      <h2 data-i18n="qb.teacher.title">Unterrichtest du Deutsch?</h2>
+      <p data-i18n="kt.t.teacher.text">Dann schalte die Werkzeuge für Lehrkräfte frei: Klassentests, Umfragen, Klassen und eigene Live-Quizze. Du kannst das jederzeit in deinem Konto unter Einstellungen wieder ausschalten.</p>
+      <button type="button" class="lq-btn lq-btn--primary" data-teacher-on data-i18n="qb.teacher.button">Ja, ich unterrichte</button>
+      <p class="lq-error" data-teacher-error role="alert"></p>
+    </section>
+
+    <div class="kl-stack" data-gate="ok" hidden>
+      <p class="kl-status" data-status role="status" aria-live="polite"></p>
+      <ul class="kl-list" data-list></ul>
+
+      <form class="lq-card uf-new" data-new novalidate>
+        <h2 data-i18n="kt.t.new.title">Neuer Test</h2>
+        <fieldset class="lq-field uf-blocks kt-art">
+          <legend data-i18n="kt.t.new.art">Was für ein Test?</legend>
+          <label class="uf-block">
+            <input type="radio" name="art" value="einstufung" checked />
+            <span>
+              <strong data-i18n="kt.t.art.einstufung">Einstufungstest</strong>
+              <small data-i18n="kt.t.art.einstufungInfo">Wo steht jede Person? Fragen über mehrere Niveaus, von leicht nach schwer. Du siehst das Niveau jeder Person.</small>
+            </span>
+          </label>
+          <label class="uf-block">
+            <input type="radio" name="art" value="thema" />
+            <span>
+              <strong data-i18n="kt.t.art.thema">Thementest</strong>
+              <small data-i18n="kt.t.art.themaInfo">Sitzt die Grammatik eines Niveaus? Du wählst die Themen und siehst, welche noch nicht sitzen.</small>
+            </span>
+          </label>
+        </fieldset>
+        <div class="kl-new-fields">
+          <label class="lq-field" data-only="einstufung">
+            <span data-i18n="kt.t.new.von">Von</span>
+            <select data-new-von></select>
+          </label>
+          <label class="lq-field" data-only="einstufung">
+            <span data-i18n="kt.t.new.bis">Bis</span>
+            <select data-new-bis></select>
+          </label>
+          <label class="lq-field" data-only="einstufung">
+            <span data-i18n="kt.t.new.pro">Fragen pro Niveau</span>
+            <select data-new-pro></select>
+          </label>
+          <label class="lq-field" data-only="thema" hidden>
+            <span data-i18n="kl.t.new.level">Niveau</span>
+            <select data-new-level></select>
+          </label>
+          <label class="lq-field" data-only="thema" hidden>
+            <span data-i18n="kt.t.new.count">Wie viele Fragen?</span>
+            <select data-new-count></select>
+          </label>
+          <label class="lq-field">
+            <span data-i18n="kt.t.new.stufe">Schwierigkeit</span>
+            <select data-new-stufe></select>
+          </label>
+          <label class="lq-field">
+            <span data-i18n="uf.t.new.name">Titel</span>
+            <input type="text" maxlength="120" data-new-name />
+          </label>
+        </div>
+
+        <p class="kl-muted kt-stufe-info" data-stufe-info></p>
+
+        {/* Einstufungstest only: grammar alone, or the four parts. */}
+        <fieldset class="lq-field uf-blocks kt-umfang" data-only="einstufung">
+          <legend data-i18n="kt.t.new.umfang">Wie ausführlich?</legend>
+          <label class="uf-block">
+            <input type="radio" name="umfang" value="kurz" checked />
+            <span>
+              <strong data-i18n="kt.t.umfang.kurz">Kurz: nur Grammatik</strong>
+              <small data-i18n="kt.t.umfang.kurzInfo">Etwa 10 bis 15 Minuten. Gut für den ersten Kurstag.</small>
+            </span>
+          </label>
+          <label class="uf-block">
+            <input type="radio" name="umfang" value="lang" />
+            <span>
+              <strong data-i18n="kt.t.umfang.lang">Ausführlich: Grammatik, Lesen, Hören, Schreiben</strong>
+              <small data-i18n="kt.t.umfang.langInfo">Etwa eine Stunde für A1 bis B2, weniger bei weniger Niveaus. Ein Text zum Lesen und einer zum Hören pro Niveau, dazu eine Schreibaufgabe, die du bewertest. Für Hören brauchen alle Kopfhörer.</small>
+            </span>
+          </label>
+        </fieldset>
+        <div class="kt-teile" data-only="lang" hidden>
+          <fieldset class="lq-field">
+            <legend data-i18n="kt.t.new.teile">Teile</legend>
+            <div class="uf-chips">
+              <label class="uf-chip"><input type="checkbox" name="teil" value="grammatik" checked /><span data-i18n="kt.t.teil.grammatik">Grammatik</span></label>
+              <label class="uf-chip"><input type="checkbox" name="teil" value="lesen" checked /><span data-i18n="kt.t.teil.lesen">Lesen</span></label>
+              <label class="uf-chip"><input type="checkbox" name="teil" value="hoeren" checked /><span data-i18n="kt.t.teil.hoeren">Hören</span></label>
+              <label class="uf-chip"><input type="checkbox" name="teil" value="schreiben" checked /><span data-i18n="kt.t.teil.schreiben">Schreiben</span></label>
+            </div>
+          </fieldset>
+          <label class="lq-field" data-schreib-field>
+            <span data-i18n="kt.t.new.schreib">Schreibaufgabe</span>
+            <select data-new-schreib></select>
+          </label>
+        </div>
+        <p class="kl-muted" data-dauer></p>
+
+        <fieldset class="lq-field uf-topics" data-only="thema" hidden>
+          <legend data-i18n="kt.t.new.topics">Themen</legend>
+          <small data-topics-note></small>
+          <div class="uf-chips" data-topics-list></div>
+        </fieldset>
+
+        <details class="kt-preview">
+          <summary data-preview-count lang="en">See the questions</summary>
+          <p class="kl-muted" data-i18n="kt.t.preview.hint">So sieht der Test aus, mit der richtigen Antwort vorne. Du kannst jede Frage und ihre Antworten bearbeiten oder eigene dazuschreiben; die bleiben, wenn du neu mischst. Die Reihenfolge der Antworten mischt jedes Handy neu.</p>
+          <ol class="kt-pv" data-preview-list></ol>
+          <div class="kl-row">
+            <button type="button" class="lq-btn lq-btn--ghost" data-add data-i18n="kt.t.add">+ Eigene Frage</button>
+            <button type="button" class="lq-btn lq-btn--ghost" data-reshuffle data-i18n="kt.t.reshuffle">Neu mischen</button>
+          </div>
+        </details>
+        <p class="kl-muted" data-preview-short hidden></p>
+        <p class="kl-muted" data-preview-k hidden></p>
+
+        <p class="lq-error" data-new-error role="alert"></p>
+        <div class="kl-row">
+          <button type="submit" class="lq-btn lq-btn--primary" data-new-submit data-i18n="kt.t.new.button">Test erstellen und QR-Code zeigen</button>
+        </div>
+      </form>
+
+      <section class="lq-card uf-anon" aria-labelledby="kt-how-h">
+        <h2 id="kt-how-h" data-i18n="kt.t.how.title">So läuft der Test</h2>
+        <ul>
+          <li data-i18n="kt.t.how.1">Die Klasse scannt den QR-Code, gibt ihren Namen ein und beantwortet eine Frage nach der anderen. Fragen überspringen geht.</li>
+          <li data-i18n="kt.t.how.2">Jedes Handy kann einmal abgeben. Danach sieht man die eigene Punktzahl und welche Fragen falsch waren, aber nicht die Lösungen. Die besprichst du.</li>
+          <li data-i18n="kt.t.how.3">Gespeichert werden der Name, die Antworten und die Punkte. Kein Konto, keine E-Mail, keine IP-Adresse. Du kannst einzelne Ergebnisse oder den ganzen Test löschen.</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    import { mountTests } from "../../../lib/klassentest/lehrkraft.js";
+    const root = document.getElementById("kt-root");
+    if (root) mountTests(root);
+  </script>
+</Layout>

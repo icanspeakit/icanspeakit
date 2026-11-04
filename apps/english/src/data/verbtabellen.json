@@ -1,0 +1,93 @@
+{
+  "about": "Verb tables: the most important English verbs in the present simple, past simple and present perfect. Page /grammar/verbs, search hits via src/lib/verbtabellen.js. Forms in the order I, you, he/she/it, we, you (plural), they. A regular verb needs only `regular: true`; verbtabellen.js works out the rest (-s/-es/-ies, -ed/-d/-ied, doubled consonant, British -ll-). `p2` is the past participle; every perfect is have/has + p2. Group ids are kept from the German tables: hilfsverb = be/have/do, modal = modal verbs, unregelmaessig = irregular, regelmaessig = regular, trennbar = phrasal verbs (the particle comes after the verb: forms are written with it).",
+  "groups": [
+    { "id": "hilfsverb", "name": "be, have, do", "what": "The three verbs English uses to build questions, negatives and tenses – and they are irregular.",
+      "regel": [
+        "*be* + -ing = continuous: *I am working. She was sleeping.*",
+        "*have* + past participle = perfect: *I have finished. She had left.*",
+        "*do / does / did* makes questions and negatives in the present and past simple: *Do you like it? She doesn't work. Did you go?*",
+        "All three are also normal verbs: *I am tired. I have a car. I do my homework.*",
+        "In speech they are usually short: *I'm, she's, we've, don't, didn't.*"
+      ] },
+    { "id": "modal", "name": "Modal verbs", "what": "They say if something is possible, necessary or allowed – always with a second verb in the base form.",
+      "meaning": [["can", "ability, possibility, permission"], ["must", "strong obligation, often the speaker's own"], ["have to", "obligation from rules or other people"], ["should", "advice"], ["may / might", "possibility"], ["would like", "polite wish"]],
+      "regel": [
+        "Modal + base form, no *to*: *I can swim.* (not *I can to swim*)",
+        "No -s with he/she/it: *she can, he must.*",
+        "No do in questions and negatives: *Can you help? You mustn't smoke here.*",
+        "Most modals have no past or participle: use *could, had to, been able to*: *I had to work yesterday.*",
+        "*mustn't* = it is not allowed; *don't have to* = it is not necessary. *You mustn't come ≠ You don't have to come.*"
+      ] },
+    { "id": "unregelmaessig", "name": "Irregular verbs", "what": "The past simple and the past participle don't end in -ed. You have to learn them.",
+      "regel": [
+        "You can't see it from the base form, so learn the three forms together: *go – went – gone.*",
+        "The present simple is regular for almost all of them: *he goes, she sees, it takes.*",
+        "Past simple: one form for every person: *I went, they went.* Only *be* has two: *was / were.*",
+        "Present perfect: *have/has* + past participle: *I have seen, she has written.*",
+        "More irregular verbs, grouped by pattern: the list of regular and irregular verbs."
+      ] },
+    { "id": "regelmaessig", "name": "Regular verbs", "what": "Base form + -s for he/she/it, + -ed for the past. Almost all verbs work like this.",
+      "regel": [
+        "Present simple: he/she/it adds *-s*: *I work, she works.* After s, sh, ch, x, o: *-es*: *he watches, she goes.*",
+        "Past simple and past participle: *-ed*: *I worked, I have worked.*",
+        "Ending in -e: only *-d*: *liked, lived.* Consonant + y: *-ies, -ied*: *studies, studied.*",
+        "One short vowel + one consonant: double it: *stop – stopped.* British English: *travel – travelled* (US: *traveled*).",
+        "New verbs are always regular: *google – googled, text – texted.*"
+      ] },
+    { "id": "trennbar", "name": "Phrasal verbs", "what": "Verb + particle (up, out, back …). The verb changes; the particle stays the same: I got up at seven.",
+      "regel": [
+        "Only the verb changes: *get up – gets up – got up – has got up.*",
+        "The verb keeps its own forms, regular or irregular: *wake up – woke up – woken up.*",
+        "With a pronoun object, the pronoun goes in the middle: *Pick me up. Find it out.* (not *Pick up me*)",
+        "The meaning is often not the meaning of the two parts: *find out* = discover, *pick up* = collect.",
+        "More phrasal verbs, and where the object goes: the phrasal verbs list."
+      ] }
+  ],
+  "verbs": [
+    { "inf": "be", "group": "hilfsverb", "praes": "am, are, is, are, are, are", "praet": "was, were, was, were, were, were", "p2": "been" },
+    { "inf": "have", "group": "hilfsverb", "praes": "have, have, has, have, have, have", "praet": "had, had, had, had, had, had", "p2": "had", "note": "British English also says have got for owning: I've got a car. Have you got a pen?" },
+    { "inf": "do", "group": "hilfsverb", "praes": "do, do, does, do, do, do", "praet": "did, did, did, did, did, did", "p2": "done", "note": "does is said /dʌz/, not like goes." },
+    { "inf": "can", "group": "modal", "praes": "can, can, can, can, can, can", "praet": "could, could, could, could, could, could", "p2": "been able to", "note": "can has no participle: for the perfect use be able to. I haven't been able to sleep." },
+    { "inf": "must", "group": "modal", "praes": "must, must, must, must, must, must", "praet": "had to, had to, had to, had to, had to, had to", "p2": "had to", "note": "must has no past: use had to. I had to work late yesterday." },
+    { "inf": "have to", "group": "modal", "praes": "have to, have to, has to, have to, have to, have to", "praet": "had to, had to, had to, had to, had to, had to", "p2": "had to", "note": "Questions and negatives with do: Do you have to go? You don't have to pay." },
+    { "inf": "would like", "group": "modal", "praes": "would like, would like, would like, would like, would like, would like", "praet": "wanted, wanted, wanted, wanted, wanted, wanted", "p2": "wanted", "note": "For the past, use wanted: I wanted a coffee. Short form: I'd like." },
+    { "inf": "go", "group": "unregelmaessig", "praes": "go, go, goes, go, go, go", "praet": "went, went, went, went, went, went", "p2": "gone", "note": "She has gone to Spain (she is there now). She has been to Spain (and come back)." },
+    { "inf": "come", "group": "unregelmaessig", "praes": "come, come, comes, come, come, come", "praet": "came, came, came, came, came, came", "p2": "come" },
+    { "inf": "get", "group": "unregelmaessig", "praes": "get, get, gets, get, get, get", "praet": "got, got, got, got, got, got", "p2": "got", "note": "US English: have gotten." },
+    { "inf": "make", "group": "unregelmaessig", "praes": "make, make, makes, make, make, make", "praet": "made, made, made, made, made, made", "p2": "made" },
+    { "inf": "take", "group": "unregelmaessig", "praes": "take, take, takes, take, take, take", "praet": "took, took, took, took, took, took", "p2": "taken" },
+    { "inf": "give", "group": "unregelmaessig", "praes": "give, give, gives, give, give, give", "praet": "gave, gave, gave, gave, gave, gave", "p2": "given" },
+    { "inf": "see", "group": "unregelmaessig", "praes": "see, see, sees, see, see, see", "praet": "saw, saw, saw, saw, saw, saw", "p2": "seen" },
+    { "inf": "know", "group": "unregelmaessig", "praes": "know, know, knows, know, know, know", "praet": "knew, knew, knew, knew, knew, knew", "p2": "known" },
+    { "inf": "think", "group": "unregelmaessig", "praes": "think, think, thinks, think, think, think", "praet": "thought, thought, thought, thought, thought, thought", "p2": "thought" },
+    { "inf": "say", "group": "unregelmaessig", "praes": "say, say, says, say, say, say", "praet": "said, said, said, said, said, said", "p2": "said", "note": "says and said are said /sez/ and /sed/." },
+    { "inf": "eat", "group": "unregelmaessig", "praes": "eat, eat, eats, eat, eat, eat", "praet": "ate, ate, ate, ate, ate, ate", "p2": "eaten" },
+    { "inf": "drink", "group": "unregelmaessig", "praes": "drink, drink, drinks, drink, drink, drink", "praet": "drank, drank, drank, drank, drank, drank", "p2": "drunk" },
+    { "inf": "buy", "group": "unregelmaessig", "praes": "buy, buy, buys, buy, buy, buy", "praet": "bought, bought, bought, bought, bought, bought", "p2": "bought" },
+    { "inf": "write", "group": "unregelmaessig", "praes": "write, write, writes, write, write, write", "praet": "wrote, wrote, wrote, wrote, wrote, wrote", "p2": "written" },
+    { "inf": "read", "group": "unregelmaessig", "praes": "read, read, reads, read, read, read", "praet": "read, read, read, read, read, read", "p2": "read", "note": "Same spelling, different sound: present /riːd/, past and participle /red/." },
+    { "inf": "speak", "group": "unregelmaessig", "praes": "speak, speak, speaks, speak, speak, speak", "praet": "spoke, spoke, spoke, spoke, spoke, spoke", "p2": "spoken" },
+    { "inf": "find", "group": "unregelmaessig", "praes": "find, find, finds, find, find, find", "praet": "found, found, found, found, found, found", "p2": "found" },
+    { "inf": "leave", "group": "unregelmaessig", "praes": "leave, leave, leaves, leave, leave, leave", "praet": "left, left, left, left, left, left", "p2": "left" },
+    { "inf": "meet", "group": "unregelmaessig", "praes": "meet, meet, meets, meet, meet, meet", "praet": "met, met, met, met, met, met", "p2": "met" },
+    { "inf": "sleep", "group": "unregelmaessig", "praes": "sleep, sleep, sleeps, sleep, sleep, sleep", "praet": "slept, slept, slept, slept, slept, slept", "p2": "slept" },
+    { "inf": "run", "group": "unregelmaessig", "praes": "run, run, runs, run, run, run", "praet": "ran, ran, ran, ran, ran, ran", "p2": "run" },
+    { "inf": "put", "group": "unregelmaessig", "praes": "put, put, puts, put, put, put", "praet": "put, put, put, put, put, put", "p2": "put" },
+    { "inf": "work", "group": "regelmaessig", "regular": true },
+    { "inf": "play", "group": "regelmaessig", "regular": true },
+    { "inf": "live", "group": "regelmaessig", "regular": true },
+    { "inf": "like", "group": "regelmaessig", "regular": true },
+    { "inf": "want", "group": "regelmaessig", "regular": true },
+    { "inf": "watch", "group": "regelmaessig", "regular": true, "note": "After s, sh, ch, x: he/she/it adds -es: she watches, he finishes." },
+    { "inf": "study", "group": "regelmaessig", "regular": true, "note": "Consonant + y: y becomes i: studies, studied. But play – plays – played." },
+    { "inf": "try", "group": "regelmaessig", "regular": true },
+    { "inf": "stop", "group": "regelmaessig", "regular": true, "note": "One short vowel + one consonant: double it: stopped, stopping." },
+    { "inf": "travel", "group": "regelmaessig", "regular": true, "note": "British English doubles the l: travelled, travelling. US: traveled, traveling." },
+    { "inf": "get up", "group": "trennbar", "praes": "get up, get up, gets up, get up, get up, get up", "praet": "got up, got up, got up, got up, got up, got up", "p2": "got up" },
+    { "inf": "wake up", "group": "trennbar", "praes": "wake up, wake up, wakes up, wake up, wake up, wake up", "praet": "woke up, woke up, woke up, woke up, woke up, woke up", "p2": "woken up" },
+    { "inf": "go out", "group": "trennbar", "praes": "go out, go out, goes out, go out, go out, go out", "praet": "went out, went out, went out, went out, went out, went out", "p2": "gone out" },
+    { "inf": "come back", "group": "trennbar", "praes": "come back, come back, comes back, come back, come back, come back", "praet": "came back, came back, came back, came back, came back, came back", "p2": "come back" },
+    { "inf": "pick up", "group": "trennbar", "praes": "pick up, pick up, picks up, pick up, pick up, pick up", "praet": "picked up, picked up, picked up, picked up, picked up, picked up", "p2": "picked up" },
+    { "inf": "find out", "group": "trennbar", "praes": "find out, find out, finds out, find out, find out, find out", "praet": "found out, found out, found out, found out, found out, found out", "p2": "found out" }
+  ]
+}

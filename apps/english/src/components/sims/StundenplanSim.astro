@@ -1,0 +1,205 @@
+---
+// A little looping film of how the lesson planner works, for MascotGuide's "sim" slot on
+// /teachers/timetable. Three scenes, 4 s each, in step with the guide's three steps:
+//   1  laptop: the cursor picks Niveau, Block and Stunden, then taps the button
+//   2  laptop: the plan builds – the phase bar fills, the rows of the Ablauf slide in
+//   3  projector: the step on the wall, the lesson clock runs, "→" moves to the next phase
+//
+// Same make as UmfrageSim.astro: pure SVG + CSS, no words inside, one 12 s cycle, theme tokens
+// (the phase colours are the plan's own, src/lib/unterricht/phasen.js). Reduced motion: no
+// film, the plan scene stands still.
+import { phaseColor } from "../../lib/unterricht/phasen.js";
+
+const PHASES = [["einstieg", 10], ["wortschatz", 20], ["grammatik", 25], ["uebung", 25], ["anwendung", 20]] as const;
+// Scene 2's bar: x and width of each phase over 116 px.
+let x = 102;
+const segs = PHASES.map(([id, m]) => {
+  const w = (m / 100) * 116;
+  const s = { x, w, bg: phaseColor(id).bg, ink: phaseColor(id).ink };
+  x += w;
+  return s;
+});
+// Scene 3's clock ring: r 30, the same phases as dashes round it.
+const C = 2 * Math.PI * 30;
+let off = 0;
+const ring = PHASES.map(([id, m]) => {
+  const len = (m / 100) * C;
+  const r = { len, off, bg: phaseColor(id).bg, ink: phaseColor(id).ink };
+  off += len;
+  return r;
+});
+const rows = [[0, 64], [1, 80], [2, 70], [3, 56]] as const;
+---
+<div class="sim" aria-hidden="true">
+  <svg viewBox="0 0 320 180" role="presentation">
+    <rect class="desk" x="0" y="0" width="320" height="180" rx="14" />
+
+    <!-- 1 · wählen -->
+    <g class="sc sc1">
+      <rect class="bezel" x="86" y="16" width="148" height="100" rx="7" />
+      <rect class="screen" x="93" y="23" width="134" height="86" rx="3" />
+      <path class="base" d="M66 116h188l-10 14H76z" />
+      <rect class="bar-title" x="102" y="31" width="64" height="7" rx="3.5" />
+      {[[102, 34], [140, 40], [184, 34]].map(([sx, w], i) => (
+        <g>
+          <rect class="lbl" x={sx} y="46" width={w * 0.55} height="3.5" rx="1.75" />
+          <rect class="sel" x={sx} y="52" width={w} height="13" rx="3" />
+          <path class="chev" d={`M${sx + w - 9} 57l2.5 2.5 2.5-2.5`} />
+          <rect class="in val" style={`animation-delay:${1.0 + i * 0.7}s`} x={sx + 4} y="56.5" width={w - 18} height="4" rx="2" />
+        </g>
+      ))}
+      <rect class="btn" x="102" y="84" width="70" height="12" rx="6" />
+      <rect class="btn-flash" x="102" y="84" width="70" height="12" rx="6" />
+      <path class="cursor" d="M0 0v14l4-3.5 3 6.5 2.5-1.2-3-6.3H12z" />
+    </g>
+
+    <!-- 2 · der Plan entsteht -->
+    <g class="sc sc2">
+      <rect class="bezel" x="86" y="16" width="148" height="100" rx="7" />
+      <rect class="screen" x="93" y="23" width="134" height="86" rx="3" />
+      <path class="base" d="M66 116h188l-10 14H76z" />
+      {segs.map((s, i) => (
+        <rect class="growx" style={`animation-delay:${4.3 + i * 0.25}s;fill:${s.bg}`} x={s.x} y="30" width={s.w} height="9" />
+      ))}
+      {rows.map(([i, w]) => (
+        <g class="row" style={`animation-delay:${5.3 + i * 0.35}s`}>
+          <rect class="line" x="102" y={48 + i * 14} width="12" height="5" rx="2.5" />
+          <circle cx="123" cy={50.5 + i * 14} r="3" style={`fill:${segs[i].ink}`} />
+          <rect class="line line--soft" x="130" y={48 + i * 14} width={w} height="5" rx="2.5" />
+          <rect class="soz" x="206" y={47 + i * 14} width="14" height="7" rx="3.5" />
+        </g>
+      ))}
+    </g>
+
+    <!-- 3 · unterrichten -->
+    <g class="sc sc3">
+      <rect class="wall" x="18" y="14" width="186" height="112" rx="4" />
+      <path class="stand" d="M111 126v18M97 144h28" />
+      <g class="pill pill1">
+        <rect x="32" y="26" width="58" height="13" rx="6.5" style={`fill:${segs[2].bg}`} />
+        <rect x="40" y="30.5" width="40" height="4" rx="2" style={`fill:${segs[2].ink}`} />
+      </g>
+      <g class="in" style="animation-delay:10.7s">
+        <rect x="32" y="26" width="58" height="13" rx="6.5" style={`fill:${segs[3].bg}`} />
+        <rect x="40" y="30.5" width="40" height="4" rx="2" style={`fill:${segs[3].ink}`} />
+      </g>
+      <rect class="big" x="32" y="48" width="128" height="10" rx="5" />
+      <rect class="line line--soft" x="32" y="66" width="104" height="6" rx="3" />
+      <rect class="line line--soft" x="32" y="78" width="118" height="6" rx="3" />
+      <rect class="line line--soft" x="32" y="90" width="84" height="6" rx="3" />
+      <circle class="next" cx="186" cy="110" r="9" />
+      <path class="next-arrow" d="M182 110h8M187 106.5l3.5 3.5-3.5 3.5" />
+      <g transform="rotate(-90 262 74)">
+        {ring.map((r) => (
+          <circle class="seg" cx="262" cy="74" r="30" style={`stroke:${r.ink};stroke-dasharray:${r.len - 1.5} ${C};stroke-dashoffset:${-r.off}`} />
+        ))}
+      </g>
+      <circle class="face" cx="262" cy="74" r="22" />
+      <path class="hand" d="M262 74V52" />
+      <circle class="hub" cx="262" cy="74" r="2.6" />
+      <path class="cursor cursor--3" d="M0 0v14l4-3.5 3 6.5 2.5-1.2-3-6.3H12z" />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .sim { width: 100%; }
+  .sim svg { display: block; width: 100%; height: auto; }
+
+  .desk { fill: var(--blue-100); }
+  .bezel { fill: var(--rail-surface); }
+  .screen, .wall, .sel { fill: var(--surface-card); }
+  .base { fill: var(--border-strong); }
+  .bar-title { fill: var(--blue-200); }
+  .lbl, .line { fill: var(--border-strong); }
+  .line--soft { fill: var(--border); }
+  .sel { stroke: var(--border-strong); stroke-width: 1.2; }
+  .chev { fill: none; stroke: var(--muted); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+  .val { fill: var(--brand-blue); }
+  .btn { fill: var(--brand-blue); }
+  .btn-flash { fill: var(--ink); opacity: 0; }
+  .cursor { fill: var(--ink); stroke: var(--surface-card); stroke-width: 1; }
+  .soz { fill: none; stroke: var(--border-strong); stroke-width: 1; }
+  .wall { stroke: var(--border-strong); stroke-width: 1.5; }
+  .stand { fill: none; stroke: var(--border-strong); stroke-width: 3; stroke-linecap: round; }
+  .big { fill: var(--ink); }
+  .next { fill: var(--surface-card); stroke: var(--border-strong); stroke-width: 1.2; }
+  .next-arrow { fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .seg { fill: none; stroke-width: 7; opacity: .55; }
+  .face { fill: var(--surface-card); }
+  .hand { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; }
+  .hub { fill: var(--ink); }
+
+  /* everything timed: one 12 s cycle, started per part by animation-delay */
+  .sc, .in, .row, .growx, .cursor, .btn-flash, .pill1, .hand {
+    animation-duration: 12s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+    transform-box: fill-box;
+  }
+  .sc { opacity: 0; animation-name: sp-sim-scene; }
+  .sc2 { animation-delay: 4s; }
+  .sc3 { animation-delay: 8s; }
+  @keyframes sp-sim-scene { 0% { opacity: 0 } 2%, 31% { opacity: 1 } 33%, 100% { opacity: 0 } }
+
+  /* pops in, stays to the end of its scene */
+  .in { opacity: 0; transform-origin: center; animation-name: sp-sim-in; }
+  @keyframes sp-sim-in {
+    0% { opacity: 0; transform: scale(.4) }
+    3% { opacity: 1; transform: scale(1.15) }
+    5%, 31% { opacity: 1; transform: scale(1) }
+    33%, 100% { opacity: 0 }
+  }
+
+  /* scene 1: one select after the other, then the button */
+  .sc1 .cursor { animation-name: sp-sim-cursor1; }
+  @keyframes sp-sim-cursor1 {
+    0%, 4% { transform: translate(150px, 96px) }
+    8% { transform: translate(118px, 60px) }
+    9% { transform: translate(118px, 60px) scale(.8) }
+    10% { transform: translate(118px, 60px) }
+    14% { transform: translate(162px, 60px) }
+    15% { transform: translate(162px, 60px) scale(.8) }
+    16% { transform: translate(162px, 60px) }
+    20% { transform: translate(203px, 60px) }
+    21% { transform: translate(203px, 60px) scale(.8) }
+    22% { transform: translate(203px, 60px) }
+    26% { transform: translate(138px, 91px) }
+    27% { transform: translate(138px, 91px) scale(.8) }
+    28%, 100% { transform: translate(138px, 91px) }
+  }
+  .btn-flash { animation-name: sp-sim-flash; }
+  @keyframes sp-sim-flash { 0%, 26% { opacity: 0 } 27% { opacity: .35 } 30%, 100% { opacity: 0 } }
+
+  /* scene 2: the phase bar fills from the left, then the rows slide in */
+  .growx { transform-origin: left; transform: scaleX(0); animation-name: sp-sim-growx; }
+  @keyframes sp-sim-growx { 0% { transform: scaleX(0) } 4%, 30% { transform: scaleX(1) } 31%, 100% { transform: scaleX(0) } }
+  .row { opacity: 0; animation-name: sp-sim-row; }
+  @keyframes sp-sim-row {
+    0% { opacity: 0; transform: translateX(-14px) }
+    4%, 22% { opacity: 1; transform: none }
+    24%, 100% { opacity: 0 }
+  }
+
+  /* scene 3: the clock runs; "→" is pressed and the next phase takes the pill */
+  .hand { transform-box: view-box; transform-origin: 262px 74px; animation-name: sp-sim-hand; animation-delay: 8s; animation-timing-function: linear; }
+  @keyframes sp-sim-hand { 0% { transform: rotate(150deg) } 33% { transform: rotate(250deg) } 100% { transform: rotate(250deg) } }
+  .pill1 { animation-name: sp-sim-out; animation-delay: 8s; }
+  @keyframes sp-sim-out { 0%, 22% { opacity: 1 } 23%, 100% { opacity: 0 } }
+  .cursor--3 { animation-name: sp-sim-cursor3; animation-delay: 8s; }
+  @keyframes sp-sim-cursor3 {
+    0%, 10% { transform: translate(150px, 150px) }
+    20% { transform: translate(184px, 108px) }
+    22% { transform: translate(184px, 108px) scale(.8) }
+    24%, 100% { transform: translate(184px, 108px) }
+  }
+
+  /* MascotGuide's pause button */
+  :global(.mg-paused) .sim * { animation-play-state: paused !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sim * { animation: none !important; }
+    .sc2, .sc2 .row { opacity: 1; }
+    .sc2 .growx { transform: none; }
+  }
+</style>

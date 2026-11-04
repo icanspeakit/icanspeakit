@@ -1,0 +1,586 @@
+/* Artikel-Flitzer (/games/countable-sprint). Phone first: at 390px the stage takes the screen
+   below the nav, the HUD is one line above it and the menus sit over the running scene.
+   Colours are the site tokens; der/die/das use the same hues as the Wortschatz (.vt-art). */
+
+.asp-page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-4) var(--space-12);
+}
+
+.asp {
+  --asp-der: var(--info);
+  --asp-die: var(--danger);
+  --asp-das: var(--success);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  /* Below the sticky site nav when the run scrolls the game into view. */
+  scroll-margin-top: 76px;
+}
+
+/* ---- HUD ---------------------------------------------------------------------------- */
+.asp-hud {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 44px;
+  padding: var(--space-1) var(--space-2) var(--space-1) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-card);
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  color: var(--ink);
+}
+.asp-hud[hidden] { display: none; }
+.asp-hud-item { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.asp-hud-item b { font-family: var(--font-display); font-size: 1.25rem; font-variant-numeric: tabular-nums; }
+.asp-hud-k { color: var(--muted); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: .04em; }
+.asp-heart { color: var(--danger); font-size: 1.15rem; line-height: 1; }
+.asp-heart.is-lost { color: var(--border-strong); }
+.asp-coin {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: #facc15; box-shadow: inset 0 0 0 2px #ca8a04;
+}
+.asp-x2 {
+  padding: 1px 6px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: #fff;
+  font-weight: var(--fw-bold);
+  font-size: var(--text-xs);
+}
+.asp-x2[hidden] { display: none; }
+.asp-hud-tools { margin-left: auto; display: inline-flex; gap: 4px; }
+.asp-icon-btn {
+  display: grid; place-items: center;
+  width: 40px; height: 40px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+.asp-icon-btn:hover { border-color: var(--brand-blue); }
+[data-mute] .asp-sound-off { display: none; }
+[data-mute][aria-pressed="true"] .asp-sound-on { display: none; }
+[data-mute][aria-pressed="true"] .asp-sound-off { display: inline; }
+.asp-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.asp-short { display: none; }
+@media (max-width: 420px) {
+  .asp-hud { gap: var(--space-2); padding-left: var(--space-2); }
+  .asp-hud-k { letter-spacing: 0; }
+  .asp-long { display: none; }
+  .asp-short { display: inline; }
+}
+
+/* ---- Stage -------------------------------------------------------------------------- */
+.asp-stage {
+  position: relative;
+  height: clamp(440px, calc(100svh - 150px), 760px);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #cfeee9;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  box-shadow: var(--shadow-sm);
+}
+.asp-canvas { display: block; width: 100%; height: 100%; }
+
+/* ---- Question bar ------------------------------------------------------------------- */
+.asp-prompt {
+  position: absolute;
+  inset: var(--space-3) var(--space-3) auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--space-2) var(--space-3) var(--space-3);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, .92);
+  color: #1a2230;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, .12);
+  pointer-events: none;
+}
+.asp-prompt[hidden] { display: none; }
+.asp-tag {
+  font-family: var(--font-label);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #4b5768;
+}
+.asp-word {
+  pointer-events: auto;
+  border: 0;
+  background: none;
+  padding: 0 var(--space-2);
+  font-family: var(--font-display);
+  font-weight: var(--fw-extrabold);
+  font-size: clamp(2rem, 9vw, 3rem);
+  line-height: 1.05;
+  color: #1a2230;
+  cursor: help;
+  text-decoration: underline dotted rgba(26, 34, 48, .3);
+  text-underline-offset: 6px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.asp-en {
+  font-size: var(--text-sm);
+  color: #0f766e;
+  font-style: italic;
+}
+.asp-en[hidden] { display: none; }
+.asp-lanes {
+  /* The chips stand over the lanes, left to right, in every interface language. */
+  direction: ltr;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+  width: 100%;
+  margin-top: var(--space-2);
+}
+.asp-lane {
+  padding: 6px 4px;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  background: #0d9488;
+  color: #fff;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: clamp(.95rem, 4.4vw, 1.3rem);
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+  transition: transform .12s ease, box-shadow .12s ease, background-color .15s;
+}
+/* Five boxes on the race room's wide road: smaller chips so they fit a phone. */
+.asp-lanes.is-wide { gap: 4px; }
+.asp-lanes.is-wide .asp-lane { padding: 5px 2px; font-size: clamp(.72rem, 3.4vw, 1.1rem); }
+.asp-lane[data-art="a"] { background: #2563eb; }
+.asp-lane[data-art="an"] { background: #c1462f; }
+.asp-lane[data-art="some"] { background: #047857; }
+.asp-lane.is-here { border-color: #1a2230; transform: translateY(-2px); box-shadow: 0 4px 0 rgba(26, 34, 48, .25); }
+.asp-prompt:not(.is-live) .asp-lane { background: #94a3b8; }
+.asp-prompt:not(.is-live) .asp-lane.is-ok { background: #16a34a; }
+.asp-prompt:not(.is-live) .asp-lane.is-bad { background: #dc2626; }
+
+.asp-toast {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  max-width: calc(100% - 32px);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 6vw, 2rem);
+  line-height: 1.15;
+  text-align: center;
+  color: #fff;
+  pointer-events: none;
+  animation: asp-pop .25s ease-out;
+}
+.asp-toast[hidden] { display: none; }
+.asp-toast.is-ok { background: rgba(22, 163, 74, .94); }
+.asp-toast.is-bad { background: rgba(185, 28, 28, .94); font-size: clamp(1.2rem, 5vw, 1.7rem); }
+.asp-toast .asp-x2 { vertical-align: middle; }
+@keyframes asp-pop { from { transform: translate(-50%, -50%) scale(.8); opacity: 0; } }
+.asp-toast.is-power { background: rgba(109, 40, 217, .94); font-size: clamp(1.1rem, 4.8vw, 1.5rem); }
+
+/* ---- Run clock + power-ups (bottom left, clear of the rider in the middle lane) -------- */
+.asp-fx {
+  position: absolute;
+  left: var(--space-2);
+  bottom: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  pointer-events: none;
+  max-width: 34%;
+}
+.asp:not([data-phase="play"]):not([data-phase="pause"]) .asp-fx { display: none; }
+.asp-timer {
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(15, 23, 42, .72);
+  color: #fff;
+  font-family: var(--font-label);
+  line-height: 1.15;
+}
+.asp-timer b { font-family: var(--font-display); font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+.asp-timer small { display: block; font-size: 11px; opacity: .85; }
+.asp-timer small:empty { display: none; }
+.asp-timer.is-record { background: rgba(202, 138, 4, .92); }
+.asp-power {
+  position: relative;
+  overflow: hidden;
+  padding: 3px 8px 5px;
+  border-radius: var(--radius-sm);
+  background: var(--c);
+  color: #fff;
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+}
+.asp-power[hidden] { display: none; }
+.asp-power::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  height: 3px;
+  width: calc(var(--left, 1) * 100%);
+  background: rgba(255, 255, 255, .9);
+}
+
+/* ---- Screens (start, pause, game over) ---------------------------------------------- */
+.asp-screen {
+  position: absolute;
+  inset: 0;
+  /* The card centres itself with margin: auto; flex centring would cut off the top of a
+     card taller than the stage instead of letting it scroll. */
+  display: flex;
+  padding: var(--space-3);
+  overflow-y: auto;
+  background: rgba(15, 23, 42, .28);
+  touch-action: pan-y;
+}
+.asp-screen[hidden] { display: none; }
+.asp-card {
+  width: min(100%, 440px);
+  margin: auto;
+  padding: var(--space-5) var(--space-5) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--surface-card);
+  color: var(--ink);
+  box-shadow: var(--shadow-raised);
+  text-align: center;
+}
+.asp-card--small { width: min(100%, 300px); display: grid; gap: var(--space-2); }
+.asp-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--fw-extrabold);
+  font-size: clamp(2.2rem, 10vw, 3rem);
+  line-height: 1;
+  color: var(--brand-blue-dark);
+}
+.asp-lead { margin: var(--space-1) 0 var(--space-3); color: var(--muted); }
+.asp-label {
+  margin: var(--space-3) 0 var(--space-1);
+  font-family: var(--font-label);
+  font-size: var(--text-xs);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+}
+.asp-seg {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.asp-seg-btn {
+  display: grid;
+  gap: 1px;
+  min-height: 44px;
+  padding: 6px 4px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+}
+.asp-seg-btn small { font-weight: var(--fw-regular); font-size: var(--text-xs); color: var(--muted); }
+.asp-seg-btn[aria-pressed="true"] { background: var(--brand-blue); color: #fff; box-shadow: var(--shadow-sm); }
+.asp-seg-btn[aria-pressed="true"] small { color: rgba(255, 255, 255, .85); }
+.asp-mode-hint { margin: var(--space-1) 0 0; font-size: var(--text-sm); color: var(--muted); }
+
+.asp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: 48px;
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+}
+.asp-btn--go {
+  margin-top: var(--space-4);
+  border: 0;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: var(--fw-extrabold);
+  letter-spacing: .02em;
+  box-shadow: 0 6px 0 var(--accent-dark);
+}
+.asp-btn--go:hover { filter: brightness(1.05); }
+.asp-btn--go:active { transform: translateY(3px); box-shadow: 0 3px 0 var(--accent-dark); }
+.asp-card--small .asp-btn { margin-top: 0; }
+.asp-card--small .asp-btn--go { margin-top: var(--space-3); }
+.asp-btn--quiet { background: transparent; }
+.asp-best { margin: var(--space-3) 0 0; font-size: var(--text-sm); color: var(--muted); }
+
+.asp-how { margin-top: var(--space-3); text-align: left; font-size: var(--text-sm); }
+.asp-how summary { cursor: pointer; font-weight: var(--fw-semibold); color: var(--brand-blue-dark); text-align: center; }
+.asp-how ul { margin: var(--space-2) 0 0; padding-left: 1.1em; display: grid; gap: 4px; color: var(--muted); }
+.asp-how b { color: var(--ink); }
+kbd {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 0 4px;
+  border: 1px solid var(--border-strong);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--surface);
+  font: inherit;
+  font-size: .85em;
+  text-align: center;
+}
+
+.asp-score { margin: var(--space-2) 0 0; font-size: var(--text-lg); color: var(--muted); }
+.asp-score b { font-family: var(--font-display); font-size: 3rem; line-height: 1; color: var(--ink); }
+.asp-record {
+  display: inline-block;
+  margin: var(--space-1) 0 0;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--warning-soft);
+  border: 1px solid var(--warning-border);
+  font-weight: var(--fw-bold);
+}
+.asp-record[hidden] { display: none; }
+.asp-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(76px, 1fr));
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+}
+.asp-stats div { padding: 6px var(--space-1); border-radius: var(--radius-sm); background: var(--surface); }
+.asp-stats dt { font-size: var(--text-xs); color: var(--muted); }
+.asp-stats dd { margin: 0; font-family: var(--font-display); font-size: 1.3rem; font-weight: var(--fw-bold); }
+.asp-stat-sub { display: block; font-family: var(--font-body); font-size: var(--text-xs); font-weight: normal; color: var(--muted); }
+.asp-missed { margin-top: var(--space-4); text-align: left; }
+.asp-missed[hidden] { display: none; }
+.asp-missed h3 { margin: 0 0 var(--space-2); font-family: var(--font-display); font-size: 1.4rem; color: var(--danger); }
+.asp-missed ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; max-height: 180px; overflow-y: auto; }
+.asp-missed li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2px var(--space-3);
+  padding: 6px var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--danger-soft);
+  border: 1px solid var(--danger-border);
+}
+.asp-miss-de { font-weight: var(--fw-semibold); cursor: help; }
+.asp-miss-en { color: var(--muted); font-size: var(--text-sm); }
+.asp-missed li { align-items: center; }
+.asp-miss-de { flex: 1 1 auto; }
+.asp-miss-hear {
+  display: grid; place-items: center;
+  width: 36px; height: 36px; margin: -4px -6px -4px 0;
+  border: 0; border-radius: 50%;
+  background: transparent; color: var(--brand-blue);
+  cursor: pointer;
+}
+.asp-miss-hear:hover { background: rgba(0, 0, 0, .06); }
+.asp-clean { margin: var(--space-3) 0 0; color: var(--success); font-weight: var(--fw-semibold); }
+.asp-clean[hidden] { display: none; }
+
+/* ---- With friends: challenge links and race rooms ------------------------------------ */
+.asp-btn[hidden], .asp-input[hidden], .asp-share[hidden], [data-solo][hidden], [data-room-host][hidden] { display: none; }
+.asp-title--sm { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+.asp-input {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1rem; /* 16px: iOS zooms into smaller inputs */
+  text-align: center;
+}
+.asp-input:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 1px; }
+.asp-input--code { font-family: var(--font-display); font-size: 1.3rem; letter-spacing: .12em; font-variant-numeric: tabular-nums; }
+.asp-invite { display: grid; grid-template-columns: 1fr auto; gap: var(--space-2); }
+.asp-invite .asp-btn { width: auto; }
+.asp-qr { margin: var(--space-3) auto 0; display: grid; justify-items: center; gap: var(--space-1); }
+.asp-qr[hidden] { display: none; }
+.asp-qr-img { width: min(200px, 60vw); padding: 8px; background: #fff; border-radius: 12px; }
+.asp-qr-img svg { display: block; width: 100%; height: auto; }
+.asp-qr figcaption { font-size: var(--text-sm); color: var(--muted); }
+.asp-link { margin-top: var(--space-2); font-size: var(--text-sm); text-align: left; }
+.asp-or { margin: var(--space-4) 0 var(--space-1); font-size: var(--text-sm); color: var(--muted); }
+.asp-join { display: grid; grid-template-columns: 1fr auto; gap: var(--space-2); }
+.asp-join .asp-btn { margin-top: 0; width: auto; }
+.asp-room-msg { margin: var(--space-2) 0 0; min-height: 1.2em; font-size: var(--text-sm); color: var(--muted); }
+.asp-room-msg:empty { min-height: 0; margin: 0; }
+.asp-room-msg[hidden] { display: none; }
+.asp-room-cfg { margin: var(--space-3) 0 0; color: var(--muted); }
+.asp-room-cfg:empty { display: none; }
+.asp-pin {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 12vw, 3.2rem);
+  font-weight: var(--fw-extrabold);
+  line-height: 1.05;
+  letter-spacing: .06em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.asp-players { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; text-align: left; }
+.asp-players li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: 6px var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+.asp-players li.is-me { box-shadow: inset 0 0 0 2px var(--brand-blue); }
+.asp-players small { color: var(--muted); }
+.asp-board-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--fw-semibold); }
+.asp-tag-host {
+  padding: 1px 6px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: #fff;
+  font-size: var(--text-xs);
+  font-weight: var(--fw-semibold);
+}
+.asp-rank-st { margin-left: auto; font-size: var(--text-xs); color: var(--muted); white-space: nowrap; }
+.asp-players--rank li b { margin-left: auto; font-family: var(--font-display); font-size: 1.2rem; font-variant-numeric: tabular-nums; }
+.asp-players--rank .asp-rank-st + b { margin-left: var(--space-2); }
+.asp-board-n { flex: none; width: 1.6rem; font-family: var(--font-display); font-weight: var(--fw-bold); color: var(--muted); text-align: center; }
+.asp-players--rank.is-final li:first-child { background: var(--success-soft); }
+.asp-players--rank.is-final li:first-child .asp-board-n::before { content: "🏆"; }
+.asp-players--rank.is-final li:first-child .asp-board-n { font-size: 0; }
+.asp-players--rank.is-final li:first-child .asp-board-n::before { font-size: 1.1rem; }
+.asp-room-result { margin-top: var(--space-3); }
+.asp-room-result[hidden] { display: none; }
+.asp-room-result h3 { margin: 0 0 var(--space-2); font-family: var(--font-display); font-size: 1.4rem; color: var(--brand-blue-dark); }
+
+/* Live ranking over the scene, bottom right (the clock and power-ups are bottom left) */
+.asp-board {
+  position: absolute;
+  right: var(--space-2);
+  bottom: var(--space-2);
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  max-width: 44%;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  border-radius: var(--radius-sm);
+  background: rgba(15, 23, 42, .72);
+  color: #fff;
+  font-family: var(--font-label);
+  font-size: var(--text-xs);
+  pointer-events: none;
+}
+.asp-board[hidden] { display: none; }
+.asp-board li { display: flex; align-items: center; gap: 6px; padding: 2px 6px; border-radius: 4px; }
+.asp-board li b { margin-left: auto; padding-left: var(--space-2); font-family: var(--font-display); font-size: .95rem; font-variant-numeric: tabular-nums; }
+.asp-board .asp-board-n { width: auto; color: rgba(255, 255, 255, .7); }
+.asp-board li.is-me { background: rgba(255, 255, 255, .2); }
+.asp-board li.is-out { opacity: .55; }
+
+/* 3, 2, 1 */
+.asp-screen--count { align-items: center; justify-content: center; background: rgba(15, 23, 42, .18); pointer-events: none; }
+.asp-count {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 30vw, 9rem);
+  font-weight: var(--fw-extrabold);
+  line-height: 1;
+  color: #fff;
+  text-shadow: 0 6px 0 rgba(15, 23, 42, .35);
+}
+.asp-count.is-tick { animation: asp-count .9s ease-out; }
+@keyframes asp-count { from { transform: scale(1.6); opacity: 0; } 25% { transform: scale(1); opacity: 1; } }
+
+/* Challenge: the invitation on the start screen and the result after the run */
+.asp-duel { margin-top: var(--space-2); padding: var(--space-3); border-radius: var(--radius); background: var(--info-soft); border: 1px solid var(--info-border); }
+.asp-duel[hidden] { display: none; }
+.asp-duel-k { margin: 0; font-family: var(--font-label); font-size: var(--text-xs); font-weight: var(--fw-semibold); text-transform: uppercase; letter-spacing: .06em; color: var(--info); }
+.asp-duel-text { margin: var(--space-1) 0 0; font-family: var(--font-display); font-size: 1.5rem; line-height: 1.15; color: var(--ink); }
+.asp-duel-sub { margin: var(--space-1) 0 0; font-size: var(--text-sm); color: var(--muted); }
+.asp-duel-result { margin: var(--space-2) 0 0; padding: var(--space-2) var(--space-3); border-radius: var(--radius); background: var(--danger-soft); color: var(--danger); font-weight: var(--fw-semibold); }
+.asp-duel-result.is-win { background: var(--success-soft); color: var(--success); }
+.asp-duel-result[hidden] { display: none; }
+.asp-share { margin-top: var(--space-3); text-align: center; }
+.asp-share summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; justify-content: center; font-weight: var(--fw-semibold); color: var(--brand-blue-dark); }
+.asp-share-text { margin: 0 0 var(--space-1); font-size: var(--text-sm); color: var(--muted); }
+
+/* ---- Below the game ----------------------------------------------------------------- */
+.asp-about { max-width: 680px; margin: var(--space-8) auto 0; color: var(--muted); }
+.asp-about h2 { font-family: var(--font-display); color: var(--ink); }
+
+@media (max-height: 760px) {
+  .asp-card { padding: var(--space-4) var(--space-4) var(--space-3); }
+  .asp-score b { font-size: 2.4rem; }
+  .asp-btn--go { margin-top: var(--space-3); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .asp-toast { animation: none; }
+  .asp-count.is-tick { animation: none; }
+  .asp-lane { transition: none; }
+}
+
+/* Bestenliste: under the game, the board of the mode, level and difficulty picked on the
+   start screen (board.js). */
+.asp-lb { max-width: 680px; margin: var(--space-8) auto 0; scroll-margin-top: 80px; }
+.asp-lb-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-1) var(--space-3); margin-bottom: var(--space-3); }
+.asp-lb-head h2 { margin: 0; font-family: var(--font-display); color: var(--ink); }
+.asp-lb-board { margin: 0; font-weight: var(--fw-semibold); color: var(--muted); }
+.asp-lb .asp-seg { margin-bottom: var(--space-3); }
+.asp-lb-list:empty { display: none; }
+.asp-lb-list .asp-lb-gap { justify-content: center; background: none; color: var(--muted); padding: 0; min-height: 0; }
+.asp-lb[aria-busy="true"] .asp-lb-list { opacity: .55; transition: opacity .2s; }
+.asp-lb-empty { margin: 0; padding: var(--space-4); border: 1px dashed var(--border-strong); border-radius: var(--radius); text-align: center; color: var(--muted); }
+.asp-lb-empty[hidden] { display: none; }
+.asp-lb-me { margin-top: var(--space-4); padding: var(--space-4); border-radius: var(--radius); background: var(--surface-card); border: 1px solid var(--border); }
+.asp-lb-me p { margin: 0 0 var(--space-2); }
+.asp-lb-me p:last-child { margin-bottom: 0; }
+.asp-lb-me .asp-btn { display: inline-flex; width: auto; margin: 0; }
+.asp-lb-me .asp-join .asp-btn { width: auto; }
+.asp-lb-note { font-size: var(--text-sm); color: var(--muted); margin-top: var(--space-2) !important; }
+.asp-link-btn { border: 0; background: none; padding: 0 0 0 var(--space-2); color: var(--brand-blue); font: inherit; font-weight: var(--fw-semibold); text-decoration: underline; cursor: pointer; }
+.asp-lb-line { margin: var(--space-2) 0 0; padding: var(--space-2) var(--space-3); border-radius: var(--radius); background: var(--surface-muted, rgba(0,0,0,.04)); font-size: var(--text-sm); }
+.asp-lb-line[hidden] { display: none; }
+.asp-lb-line a { color: var(--brand-blue); font-weight: var(--fw-semibold); }

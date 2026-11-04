@@ -1,0 +1,64 @@
+---
+// One measure per day as thin bars (admin dashboard). Missing days count as 0, so a gap
+// reads as a quiet day, not as a shorter axis. One series, one hue: the title names it,
+// no legend. Each bar has a native tooltip (<title>) with the date and the value, and the
+// numbers are in a table under the chart for screen readers.
+interface Props {
+  titel: string;
+  werte: { tag: string; wert: number }[]; // tag = YYYY-MM-DD
+  tage?: number;
+  einheit?: string;
+  // false for counts that don't add up across days (distinct people per day): show the mean.
+  summierbar?: boolean;
+}
+const { titel, werte, tage = 30, einheit = "", summierbar = true } = Astro.props;
+const byDay = new Map(werte.map((w) => [w.tag.slice(0, 10), w.wert]));
+const heute = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Berlin" }));
+const reihe = Array.from({ length: tage }, (_, i) => {
+  const d = new Date(heute);
+  d.setDate(d.getDate() - (tage - 1 - i));
+  const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  return { key, label: d.toLocaleDateString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit" }), wert: byDay.get(key) ?? 0 };
+});
+const max = Math.max(1, ...reihe.map((r) => r.wert));
+const summe = reihe.reduce((a, r) => a + r.wert, 0);
+const W = 600, H = 120, PAD = 1, gap = 2;
+const bw = (W - gap * (tage - 1)) / tage;
+const y = (v: number) => H - PAD - ((H - PAD - 6) * v) / max;
+---
+<figure class="tb">
+  <figcaption><b>{titel}</b> <span>{summierbar ? `${summe}${einheit} in ${tage} Tagen` : `Ø ${(summe / tage).toLocaleString("de-DE", { maximumFractionDigits: 1 })} pro Tag`} · Spitze {max}</span></figcaption>
+  <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${titel}: ${summe} in ${tage} Tagen`} preserveAspectRatio="none">
+    <line x1="0" x2={W} y1={H - PAD} y2={H - PAD} class="tb-base" />
+    {reihe.map((r, i) => {
+      const top = y(r.wert);
+      const h = Math.max(0, H - PAD - top);
+      return (
+        <g class="tb-bar">
+          <rect class="tb-hit" x={i * (bw + gap)} y="0" width={bw + gap} height={H - PAD}><title>{r.label}: {r.wert}{einheit}</title></rect>
+          {h > 0 && <rect class="tb-fill" x={i * (bw + gap)} y={top} width={bw} height={h} rx="2"><title>{r.label}: {r.wert}{einheit}</title></rect>}
+        </g>
+      );
+    })}
+  </svg>
+  <div class="tb-axis"><span>{reihe[0].label}</span><span>heute</span></div>
+  <details class="tb-table"><summary>Als Tabelle</summary>
+    <table><tbody>{reihe.filter((r) => r.wert).reverse().map((r) => <tr><td>{r.label}</td><td>{r.wert}</td></tr>)}</tbody></table>
+  </details>
+</figure>
+
+<style>
+  .tb { margin: 0; }
+  .tb figcaption { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; margin-bottom: 6px; }
+  .tb figcaption span { color: var(--muted); font-size: 13px; }
+  .tb svg { display: block; width: 100%; height: 120px; }
+  .tb-base { stroke: var(--border); stroke-width: 1; }
+  .tb-hit { fill: transparent; }
+  .tb-fill { fill: var(--brand-blue, #0d9488); }
+  .tb-bar:hover .tb-fill { fill: var(--brand-blue-dark, #0f766e); }
+  .tb-bar:hover .tb-hit { fill: color-mix(in srgb, var(--ink) 6%, transparent); }
+  .tb-axis { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .tb-table summary { cursor: pointer; color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .tb-table table { font-size: 13px; border-collapse: collapse; }
+  .tb-table td { padding: 2px 12px 2px 0; }
+</style>

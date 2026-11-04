@@ -1,0 +1,106 @@
+---
+// A quiet "Passt dazu" row at the foot of a grammar topic: two or three related topics
+// (src/data/grammatik-verwandt.json), so a learner who has finished one has an obvious
+// next step that is not the nav. Deliberately plain — small text, no cards — it is a
+// signpost after the work, not more work.
+import { grammarTopics } from "../lib/catalog.js";
+import verwandt from "../data/grammatik-verwandt.json";
+import { topicPath } from "../lib/routes.js";
+
+interface Props { id: string }
+const { id } = Astro.props;
+const byId = new Map(grammarTopics.map((t) => [t.href.slice(1), t]));
+const related = ((verwandt.topics as Record<string, string[]>)[id] ?? [])
+  .map((r) => byId.get(r))
+  .filter((t): t is NonNullable<typeof t> => !!t && t.href !== topicPath(id));
+
+// The exam sets this topic's level prepares for (SEO-BRAND-TIERED-PROMPT.md Tier 4: grammar
+// links to the exam it helps with). The anchors are what learners type into a search.
+const EXAMS: Record<string, { href: string; label: string }[]> = {
+  A1: [{ href: "/a1-test", label: "A1 English practice test" }],
+  A2: [
+    { href: "/trinity/a2", label: "Trinity ISE Foundation practice test" },
+    { href: "/cambridge/a2", label: "Cambridge A2 Key practice test" },
+  ],
+  B1: [
+    { href: "/trinity/ise-1/practice-set", label: "Trinity ISE I full mock test" },
+    { href: "/trinity/b1", label: "Trinity ISE I practice test" },
+    { href: "/cambridge/b1", label: "Cambridge B1 Preliminary practice test" },
+  ],
+  B2: [
+    { href: "/trinity/b2", label: "Trinity ISE II practice test" },
+    { href: "/cambridge/b2", label: "Cambridge B2 First practice test" },
+    { href: "/ielts", label: "IELTS Academic practice" },
+  ],
+  C1: [
+    { href: "/trinity/c1", label: "Trinity ISE III practice test" },
+    { href: "/cambridge/c1", label: "Cambridge C1 Advanced practice test" },
+  ],
+};
+const level = String(byId.get(id)?.level ?? "").match(/[ABC][12]/)?.[0] ?? "";
+const exams = EXAMS[level] ?? [];
+---
+{exams.length > 0 && (
+  <div class="gr-rel gr-exam">
+    <p class="gr-rel-h" data-i18n="grammar.exam" data-i18n-vars={JSON.stringify({ level })}>Für die Prüfung auf {level}</p>
+    <ul>
+      {exams.map((e) => (
+        <li><a href={e.href}><span class="gr-rel-name">{e.label}</span><span class="gr-rel-arrow" aria-hidden="true">→</span></a></li>
+      ))}
+    </ul>
+  </div>
+)}
+{related.length > 0 && (
+  <nav class="gr-rel" aria-labelledby="gr-rel-h">
+    <p class="gr-rel-h" id="gr-rel-h" data-i18n="grammar.related">Passt dazu</p>
+    <ul>
+      {related.map((t) => (
+        <li>
+          <a href={t.href}>
+            <span class="gr-rel-lvl">{t.level}</span>
+            <span class="gr-rel-name">{t.name}</span>
+            <span class="gr-rel-arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<style>
+  .gr-rel {
+    max-width: 1220px;
+    margin: var(--space-8, 32px) auto 0;
+    padding: var(--space-5, 20px) 0 0;
+    border-top: 1px solid var(--border);
+  }
+  .gr-exam + .gr-rel { margin-top: var(--space-4, 16px); }
+  .gr-rel-h {
+    margin: 0 0 10px;
+    font-family: var(--font-label);
+    font-size: var(--text-xs, .75rem);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted-soft, var(--muted));
+  }
+  .gr-rel ul { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 0; padding: 0; list-style: none; }
+  .gr-rel a {
+    display: inline-flex; align-items: center; gap: 8px;
+    min-height: 40px;
+    color: var(--muted); text-decoration: none; font-size: .92rem;
+  }
+  .gr-rel-lvl {
+    padding: 1px 6px; border: 1px solid var(--border); border-radius: 6px;
+    font-family: var(--font-label); font-size: 11px; font-weight: 700; color: var(--muted-soft, var(--muted));
+  }
+  .gr-rel-arrow { opacity: 0; transform: translateX(-4px); transition: opacity .15s ease, transform .15s ease; }
+  .gr-rel a:hover { color: var(--brand-blue-dark, var(--ink)); }
+  .gr-rel a:hover .gr-rel-name { text-decoration: underline; text-underline-offset: 3px; }
+  .gr-rel a:hover .gr-rel-arrow, .gr-rel a:focus-visible .gr-rel-arrow { opacity: 1; transform: none; }
+  .gr-rel a:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; border-radius: 6px; }
+  :global([dir="rtl"]) .gr-rel-arrow { transform: scaleX(-1); }
+  @media (max-width: 600px) {
+    .gr-rel ul { flex-direction: column; gap: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { .gr-rel-arrow { transition: none; } }
+</style>

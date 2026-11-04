@@ -1,0 +1,81 @@
+/* Zen view of the flashcard trainer (src/lib/vtZen.js): the working surface — tabs, toolbar,
+   card — is lifted out of the page into a fixed layer over everything else, so nothing
+   around it has to be hidden one by one. Its own file so the trainer's main sheet is not
+   touched for a self-contained piece. */
+
+.vt-zen-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 36px; padding: 0 12px 0 10px; margin: 0 0 6px;
+  border: 0; border-radius: var(--radius-pill);
+  background: transparent; color: var(--vt-muted, var(--muted));
+  font: inherit; font-size: var(--text-sm); font-weight: 600;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background-color .15s, color .15s;
+}
+.vt-zen-btn:hover { background: var(--surface); color: var(--vt-ink, var(--ink)); }
+.vt-zen-btn:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+.vt-zen-btn:active { transform: scale(.94); }
+.vt-zen-btn svg {
+  width: 18px; height: 18px; flex: none;
+  fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+/* One button, two states: the label and icon for the way in, the others for the way out. */
+.vt-zen-btn [data-zen-off] { display: none; }
+.vt-zen .vt-zen-btn [data-zen-on] { display: none; }
+.vt-zen .vt-zen-btn [data-zen-off] { display: inline; }
+.vt-zen .vt-zen-btn svg[data-zen-off] { display: block; }
+/* A phone's tab row has room for the three tabs and two icons, not for two labels: the
+   label stays for screen readers only, as on the share button beside it. */
+@media (max-width: 639px) {
+  .vt-zen-btn { width: 40px; height: 40px; padding: 0; justify-content: center; margin-bottom: 4px; }
+  .vt-zen-btn span {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+}
+/* In Zen the share button (which pushes itself right with margin-left: auto) is gone, so
+   the Zen button takes over the push. */
+html.vt-zen .vt-zen-btn { margin-left: auto; }
+
+html.vt-zen { overflow: hidden; }
+/* The deck swap's slide-in transforms the column, and a transformed ancestor would pull
+   the fixed layer back into the page for the length of the animation. */
+html.vt-zen .vp-col--ex.vt-swap-in { animation: none; }
+html.vt-zen .vt-tool {
+  position: fixed; inset: 0; z-index: 45;   /* over the header (10), under modals (50) */
+  min-height: 0;
+  overflow-y: auto; overscroll-behavior: contain;
+  background: var(--vt-bg);
+  padding:
+    max(14px, env(safe-area-inset-top))
+    max(16px, env(safe-area-inset-right))
+    max(20px, env(safe-area-inset-bottom))
+    max(16px, env(safe-area-inset-left));
+}
+/* One readable column in the middle of the screen, however wide the screen is. */
+html.vt-zen .vt-tool > * { width: 100%; max-width: 920px; margin-inline: auto; }
+html.vt-zen .vt-tabrow { margin-bottom: 18px; }
+html.vt-zen .vt-toolbar { margin-bottom: 20px; }
+
+/* Out of the way: the page's own extras, and the nudges that would land on the card. */
+html.vt-zen .vt-share,
+html.vt-zen .vt-due,
+html.vt-zen .da-actions--compact,
+html.vt-zen .mn-nudge,
+html.vt-zen .demo-dock,
+html.vt-zen .vp-dev-reset { display: none !important; }
+
+/* The card gets the screen: taller, and the word in it larger. */
+html.vt-zen .vt-flip-inner { min-height: max(320px, 56vh); min-height: max(320px, 56dvh); }
+html.vt-zen .vt-prompt { font-size: clamp(1.9rem, 7vw, 3.5rem); }
+html.vt-zen .vt-answer { font-size: clamp(2rem, 7.5vw, 3.75rem); }
+html.vt-zen .vt-face .vt-prompt,
+html.vt-zen .vt-face .vt-answer { min-height: calc(clamp(2rem, 7.5vw, 3.75rem) * 1.2); }
+html.vt-zen .vt-learn-prompt { font-size: clamp(1.9rem, 7vw, 3.5rem); }
+html.vt-zen .vt-test-prompt { font-size: clamp(1.8rem, 6.5vw, 3.25rem); }
+
+@media (max-width: 640px) {
+  html.vt-zen .vt-tabrow { margin-bottom: 12px; }
+  html.vt-zen .vt-toolbar { margin-bottom: 14px; gap: 10px 14px; }
+  html.vt-zen .vt-flip-inner { min-height: max(300px, 52dvh); }
+}

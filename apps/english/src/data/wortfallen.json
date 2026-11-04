@@ -1,0 +1,294 @@
+{
+  "_about": "Word traps (/knowledge/false-friends): English words that learners mix up – look-alikes (kitchen/chicken, receipt/recipe) and false friends from other languages (become ≠ German bekommen, actual ≠ aktuell/actual, embarrassed ≠ Spanish embarazada) – each with the funny wrong sentence, the right one and a memory trick. *word* marks the word to highlight. quiz.a is the right option. Emoji are OpenMoji SVGs already in public/img/openmoji (scripts/fetch-openmoji.mjs). `audio` stays false until English recordings exist (scripts/generate-wortfallen-audio.mjs). British English, A1–B1; idioms-mistakes run (2026-10-30), not yet reviewed. The meanings, reactions and tips are also in public/i18n/en.json (wortfallen.<id>.*), which the build renders over the HTML: change both.",
+  "groups": [
+    {
+      "id": "kitchen",
+      "words": [
+        { "w": "kitchen", "emoji": "🍳", "meaning": "the room where you cook" },
+        { "w": "chicken", "emoji": "🐥", "meaning": "a farm bird; also its meat" }
+      ],
+      "who": "hamsti",
+      "oops": "I'm roasting a *kitchen* for dinner tonight.",
+      "react": "A whole kitchen? With the fridge and the sink? You must be really hungry!",
+      "right": "I'm roasting a *chicken* for dinner tonight.",
+      "tip": "One sentence for both: the chicken is in the kitchen. You can eat only one of them.",
+      "quiz": [
+        { "s": "We had roast ___ with potatoes.", "o": ["chicken", "kitchen"], "a": "chicken" },
+        { "s": "Our ___ is small, but the cooker is new.", "o": ["kitchen", "chicken"], "a": "kitchen" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "sheep",
+      "words": [
+        { "w": "ship", "emoji": "⛴️", "meaning": "a big boat (short i)" },
+        { "w": "sheep", "emoji": "🐑", "meaning": "a farm animal with wool (long ee)" }
+      ],
+      "who": "quaki",
+      "oops": "We went to France by *sheep*.",
+      "react": "On a sheep? That was a slow and very woolly trip!",
+      "right": "We went to France by *ship*.",
+      "tip": "ship: short i, quick like a wave. sheep: long ee – make it as long as the sheep's baaa.",
+      "quiz": [
+        { "s": "The ___ leaves Dover at nine o'clock.", "o": ["ship", "sheep"], "a": "ship" },
+        { "s": "The farmer has two hundred ___.", "o": ["sheep", "ships"], "a": "sheep" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "hungry",
+      "words": [
+        { "w": "hungry", "emoji": "😋", "meaning": "you want to eat" },
+        { "w": "angry", "emoji": "😠", "meaning": "you are very cross" }
+      ],
+      "who": "bruno",
+      "oops": "I haven't eaten all day – I'm so *angry*!",
+      "react": "Angry? With me? What have I done?",
+      "right": "I haven't eaten all day – I'm so *hungry*!",
+      "tip": "hungry starts with h, like hamburger. angry starts with a, like argh!",
+      "quiz": [
+        { "s": "Let's have lunch, I'm really ___.", "o": ["hungry", "angry"], "a": "hungry" },
+        { "s": "My boss was ___ because I was late again.", "o": ["angry", "hungry"], "a": "angry" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "walk",
+      "words": [
+        { "w": "walk", "emoji": "🚶", "meaning": "to go on foot" },
+        { "w": "work", "emoji": "💼", "meaning": "to do your job" }
+      ],
+      "who": "regi",
+      "oops": "Every morning I *work* to the station.",
+      "react": "You do your job on the way there? That's very busy!",
+      "right": "Every morning I *walk* to the station.",
+      "tip": "In walk the l is silent and the sound is long, like in door: /wɔːk/. work sounds like bird: /wɜːk/.",
+      "quiz": [
+        { "s": "It's a nice day – let's ___ to the park.", "o": ["walk", "work"], "a": "walk" },
+        { "s": "I ___ in a hospital as a nurse.", "o": ["work", "walk"], "a": "work" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "become",
+      "words": [
+        { "w": "get", "emoji": "📦", "meaning": "to receive something" },
+        { "w": "become", "emoji": "🌱", "meaning": "to change into something, to start to be" }
+      ],
+      "who": "bruno",
+      "oops": "Can I *become* a coffee, please?",
+      "react": "You want to turn into a coffee? Hot and black?",
+      "right": "Can I *get* a coffee, please?",
+      "tip": "False friend for German speakers: bekommen = get. become = werden: She became a doctor.",
+      "quiz": [
+        { "s": "I ___ a lot of emails every day.", "o": ["get", "become"], "a": "get" },
+        { "s": "She wants to ___ a doctor.", "o": ["become", "get"], "a": "become" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "gift",
+      "words": [
+        { "w": "gift", "emoji": "🎁", "meaning": "a present" },
+        { "w": "poison", "emoji": "☠️", "meaning": "it makes you ill or kills you" }
+      ],
+      "who": "regi",
+      "oops": "Careful, there's *gift* in that bottle!",
+      "react": "A present in a bottle? How lovely! Can I open it?",
+      "right": "Careful, there's *poison* in that bottle!",
+      "tip": "False friend for German speakers: Gift = poison. In English a gift is always a present.",
+      "quiz": [
+        { "s": "Thank you for the lovely birthday ___!", "o": ["gift", "poison"], "a": "gift" },
+        { "s": "Keep the rat ___ away from children.", "o": ["poison", "gift"], "a": "poison" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "actual",
+      "words": [
+        { "w": "current", "emoji": "📰", "meaning": "happening now, of today" },
+        { "w": "actual", "emoji": "🎯", "meaning": "real, true" }
+      ],
+      "who": "quaki",
+      "oops": "Our *actual* prices are on the website.",
+      "react": "And the other prices? Were they not real?",
+      "right": "Our *current* prices are on the website.",
+      "tip": "False friend: aktuell (German), actuel (French), attuale (Italian), actual (Spanish) = current. In English, actual means real: the actual price is the price you really pay.",
+      "quiz": [
+        { "s": "The ___ timetable is valid until December.", "o": ["current", "actual"], "a": "current" },
+        { "s": "The photos looked great, but the ___ hotel was awful.", "o": ["actual", "current"], "a": "actual" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "eventually",
+      "words": [
+        { "w": "maybe", "emoji": "🤔", "meaning": "perhaps, it is possible" },
+        { "w": "eventually", "emoji": "🏁", "meaning": "in the end, after a long time" }
+      ],
+      "who": "hamsti",
+      "oops": "I'll *eventually* come to the party – I'm not sure yet.",
+      "react": "So you'll definitely come – just very, very late?",
+      "right": "*Maybe* I'll come to the party – I'm not sure yet.",
+      "tip": "False friend: eventuell (German), éventuellement (French), eventualmente (Spanish, Italian) = maybe. eventually = in the end.",
+      "quiz": [
+        { "s": "We waited for an hour, but the bus ___ came.", "o": ["eventually", "maybe"], "a": "eventually" },
+        { "s": "___ it will rain later – take an umbrella.", "o": ["Maybe", "Eventually"], "a": "Maybe" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "sensible",
+      "words": [
+        { "w": "sensitive", "emoji": "😢", "meaning": "easily hurt or upset" },
+        { "w": "sensible", "emoji": "👟", "meaning": "practical, with good judgement" }
+      ],
+      "who": "regi",
+      "oops": "Don't shout at him – he's very *sensible*.",
+      "react": "Sensible? Then he'll understand why you're shouting!",
+      "right": "Don't shout at him – he's very *sensitive*.",
+      "tip": "False friend: sensibel (German), sensible (French, Spanish) = sensitive. In English, sensible means practical: sensible shoes for a long walk.",
+      "quiz": [
+        { "s": "Wear ___ shoes – we're walking ten miles.", "o": ["sensible", "sensitive"], "a": "sensible" },
+        { "s": "My skin is very ___ to the sun.", "o": ["sensitive", "sensible"], "a": "sensitive" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "embarrassed",
+      "words": [
+        { "w": "embarrassed", "emoji": "😬", "meaning": "you feel silly in front of other people" },
+        { "w": "pregnant", "emoji": "👶", "meaning": "a baby is growing inside you" }
+      ],
+      "who": "hamsti",
+      "oops": "I'm *embarrassed* – the baby is due in May!",
+      "react": "Embarrassed? But a baby is wonderful news!",
+      "right": "I'm *pregnant* – the baby is due in May!",
+      "tip": "False friend for Spanish speakers: embarazada = pregnant. embarrassed = you go red because you feel silly.",
+      "quiz": [
+        { "s": "I was so ___ when I fell over in the street.", "o": ["embarrassed", "pregnant"], "a": "embarrassed" },
+        { "s": "My sister is ___ with twins.", "o": ["pregnant", "embarrassed"], "a": "pregnant" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "library",
+      "words": [
+        { "w": "library", "emoji": "📚", "meaning": "you borrow books there, for free" },
+        { "w": "bookshop", "emoji": "📖", "meaning": "you buy books there" }
+      ],
+      "who": "bruno",
+      "oops": "I bought this novel at the *library*.",
+      "react": "You paid at the library? There you borrow books – for free!",
+      "right": "I bought this novel at the *bookshop*.",
+      "tip": "False friend: librería (Spanish), librairie (French), libreria (Italian) = bookshop. A library lends books.",
+      "quiz": [
+        { "s": "You can borrow films from the ___ too.", "o": ["library", "bookshop"], "a": "library" },
+        { "s": "The ___ in town sells second-hand books.", "o": ["bookshop", "library"], "a": "bookshop" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "chef",
+      "words": [
+        { "w": "boss", "emoji": "👔", "meaning": "the person you work for" },
+        { "w": "chef", "emoji": "🧑‍🍳", "meaning": "a cook in a restaurant" }
+      ],
+      "who": "quaki",
+      "oops": "My *chef* gave me Friday off.",
+      "react": "Your chef? I didn't know you worked in a restaurant!",
+      "right": "My *boss* gave me Friday off.",
+      "tip": "False friend: Chef (German), chef (French) = boss. In English, a chef cooks in a restaurant kitchen.",
+      "quiz": [
+        { "s": "The ___ in this restaurant is from Naples.", "o": ["chef", "boss"], "a": "chef" },
+        { "s": "I asked my ___ for a pay rise.", "o": ["boss", "chef"], "a": "boss" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "handy",
+      "words": [
+        { "w": "mobile", "emoji": "📱", "meaning": "a phone you carry with you" },
+        { "w": "handy", "emoji": "🔧", "meaning": "useful, easy to use" }
+      ],
+      "who": "regi",
+      "oops": "Can I borrow your *handy*? Mine's dead.",
+      "react": "Your handy what? Your handy umbrella?",
+      "right": "Can I borrow your *mobile*? Mine's dead.",
+      "tip": "False friend for German speakers: das Handy = mobile (UK) or cell phone (US). In English, handy is an adjective: useful.",
+      "quiz": [
+        { "s": "Call me on my ___ if you're late.", "o": ["mobile", "handy"], "a": "mobile" },
+        { "s": "This little torch is very ___ when you go camping.", "o": ["handy", "mobile"], "a": "handy" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "borrow",
+      "words": [
+        { "w": "borrow", "emoji": "🤝", "meaning": "to take something and give it back later" },
+        { "w": "lend", "emoji": "💵", "meaning": "to give something and get it back later" }
+      ],
+      "who": "hamsti",
+      "oops": "Can you *borrow* me ten pounds until Friday?",
+      "react": "Borrow you? From whom? You're not a library book!",
+      "right": "Can you *lend* me ten pounds until Friday?",
+      "tip": "You borrow FROM someone; someone lends TO you. The bank lends you money – you borrow money from the bank.",
+      "quiz": [
+        { "s": "Can I ___ your pen for a minute?", "o": ["borrow", "lend"], "a": "borrow" },
+        { "s": "Could you ___ me your car tomorrow?", "o": ["lend", "borrow"], "a": "lend" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "fun",
+      "words": [
+        { "w": "fun", "emoji": "🎉", "meaning": "you enjoy it" },
+        { "w": "funny", "emoji": "😂", "meaning": "it makes you laugh" }
+      ],
+      "who": "quaki",
+      "oops": "The party was really *funny* – we danced all night.",
+      "react": "Funny? Did somebody tell jokes all night?",
+      "right": "The party was really *fun* – we danced all night.",
+      "tip": "fun = you enjoy it. funny = it makes you laugh. A holiday is fun; a clown is funny.",
+      "quiz": [
+        { "s": "Skiing is great ___!", "o": ["fun", "funny"], "a": "fun" },
+        { "s": "He told a really ___ joke.", "o": ["funny", "fun"], "a": "funny" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "factory",
+      "words": [
+        { "w": "factory", "emoji": "🏭", "meaning": "a building where things are made" },
+        { "w": "fabric", "emoji": "🧶", "meaning": "material for clothes and curtains" }
+      ],
+      "who": "bruno",
+      "oops": "My dad works in a car *fabric*.",
+      "react": "A car made of fabric? Soft, but not very safe!",
+      "right": "My dad works in a car *factory*.",
+      "tip": "False friend: Fabrik (German), fábrica (Spanish), fabbrica (Italian) = factory. fabric = cloth, material.",
+      "quiz": [
+        { "s": "The ___ makes 500 bikes a day.", "o": ["factory", "fabric"], "a": "factory" },
+        { "s": "This shirt is made of a soft ___.", "o": ["fabric", "factory"], "a": "fabric" }
+      ],
+      "audio": false
+    },
+    {
+      "id": "receipt",
+      "words": [
+        { "w": "receipt", "emoji": "🧾", "meaning": "the paper you get when you pay" },
+        { "w": "recipe", "emoji": "📝", "meaning": "it tells you how to cook something" }
+      ],
+      "who": "regi",
+      "oops": "Could I have the *recipe*, please? I might take the shoes back.",
+      "react": "The recipe? Do you want to cook the shoes?",
+      "right": "Could I have the *receipt*, please? I might take the shoes back.",
+      "tip": "receipt: the p is silent (/rɪˈsiːt/), you get it at the till. recipe has three syllables (/ˈresəpi/) and lives in the kitchen.",
+      "quiz": [
+        { "s": "Keep the ___ in case you want to return it.", "o": ["receipt", "recipe"], "a": "receipt" },
+        { "s": "This cake ___ is from my grandmother.", "o": ["recipe", "receipt"], "a": "recipe" }
+      ],
+      "audio": false
+    }
+  ]
+}

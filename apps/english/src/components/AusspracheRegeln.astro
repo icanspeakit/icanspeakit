@@ -1,0 +1,84 @@
+---
+// The Ausspracheregeln: the right-hand column of /pronunciation, as the rule column is on every
+// grammar topic. It folds with the same pill („Regel einblenden / ausblenden“) and keeps
+// the same remembered choice (localStorage da-grammatik-rule), so a learner who puts the
+// rule away on one page finds it away on the other.
+//
+// Below 1001px it is a bottom sheet over the trainer, opened by the same pill.
+//
+// The rules are src/data/ausspracheregeln.json. „Für dieses Wort" lists those whose
+// `match` fits the word on the stage; the page script fills it (see aussprache.astro).
+// An example the lexicon has voiced plays its recording; the rest are plain text.
+import rules from "../data/ausspracheregeln.json";
+import { asAudioItems, units } from "../lib/lexicon.js";
+
+// Word → its recording, by the bare word ("a table" → "table", "der Tisch" → "tisch").
+const bare = (t: string) => t.replace(/^(der|die|das|a|an|the)\s+/i, "").trim().toLowerCase();
+const audio = new Map<string, string>();
+for (const u of units()) {
+  for (const it of asAudioItems({ unit: u.id })) {
+    if (it.audioSrc && !audio.has(bare(it.text))) audio.set(bare(it.text), it.audioSrc);
+  }
+}
+
+type Ex = { w: string; note?: string; mark?: string };
+// The stressed syllable, where an example names one, in bold.
+function parts(ex: Ex) {
+  if (!ex.mark) return [ex.w];
+  const i = ex.w.toLowerCase().indexOf(ex.mark.toLowerCase());
+  return i < 0 ? [ex.w] : [ex.w.slice(0, i), ex.w.slice(i, i + ex.mark.length), ex.w.slice(i + ex.mark.length)];
+}
+---
+<div class="pr-regel-scrim" data-regel-hide aria-hidden="true"></div>
+<aside class="pr-regel" id="pr-regel" aria-labelledby="pr-regel-h">
+  <div class="pr-regel-head">
+    <div class="pr-regel-head-text">
+      <p class="pr-regel-eyebrow" data-i18n="ak.rule">Regel</p>
+      <h2 class="pr-regel-title" id="pr-regel-h" data-i18n="pr.regel.title">Ausspracheregeln</h2>
+    </div>
+    <div class="pr-regel-acts">
+    {/* Full screen, as the grammar rule's ⤢ (ruleColumn.js mountExpand): a panel over
+        the page for reading, not a setting — every visit starts in the column. */}
+    <button type="button" class="pr-regel-x pr-regel-max" data-regel-max aria-pressed="false" aria-label="Vergrößern" title="Vergrößern" data-i18n-attr="aria-label:vp.rule.expand;title:vp.rule.expand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-max-icon><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+    </button>
+    <button type="button" class="pr-regel-x" data-regel-hide aria-label="Regel schließen" data-i18n-attr="aria-label:vp.rule.close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+    </button>
+    </div>
+  </div>
+
+  <div class="pr-regel-body">
+    {/* The rules that fit the word on the stage, as links down to them. */}
+    <div class="pr-regel-mine" data-regel-mine hidden>
+      <p class="pr-regel-mine-h">For “<span data-regel-word lang="en"></span>”</p>
+      <div class="pr-regel-mine-list" data-regel-mine-list></div>
+    </div>
+
+    {rules.rules.map((r) => (
+      <section class="pr-regel-rule" id={`regel-${r.id}`} data-rule={r.id} data-match={r.match} data-title={r.title}>
+        <h3 class="pr-regel-rule-h" lang="en">{r.title}</h3>
+        <p class="pr-regel-text" lang="en">{r.text}</p>
+        <ul class="pr-regel-ex">
+          {r.examples.map((ex: Ex) => {
+            const src = audio.get(bare(ex.w));
+            const word = parts(ex).map((p, i) => (i === 1 ? <b>{p}</b> : p));
+            return (
+              <li>
+                {src ? (
+                  <button type="button" class="pr-regel-word" data-regel-play={src} lang="en">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                    <span>{word}</span>
+                  </button>
+                ) : (
+                  <span class="pr-regel-word pr-regel-word--quiet" lang="en"><span>{word}</span></span>
+                )}
+                {ex.note && <span class="pr-regel-note" lang="en">{ex.note}</span>}
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    ))}
+  </div>
+</aside>

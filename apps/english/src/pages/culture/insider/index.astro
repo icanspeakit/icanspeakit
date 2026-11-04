@@ -1,0 +1,101 @@
+---
+// /culture/insider — "Deutschland von innen": how people in Germany live, love and vote.
+//
+// This deliberately goes further than /culture, whose sourcing note says nothing is
+// claimed about people. Here claims about people are allowed — but only with a number
+// behind them: every topic carries `sources` (label, link, Stand), rendered on its page,
+// and the wording stays at "viele / die Mehrheit", never "die Deutschen sind …".
+import Layout from "../../../layouts/Layout.astro";
+import { itemPath } from "../../../lib/routes.js";
+import SiteNav from "../../../components/SiteNav.astro";
+import Icon from "../../../components/Icon.astro";
+import insider from "../../../data/kultur-insider.json";
+import "../../../styles/practice.css";
+import "../../../styles/kultur.css";
+import "../../../styles/kultur-insider.css";
+import "../../../styles/kultur-hub.css";
+import SectionMascot from "../../../components/mascots/SectionMascot.astro";
+import bilder from "../../../data/kultur-bilder.json";
+import { emojiSrc } from "../../../lib/wortBild.js";
+import { LEVEL_NAMES } from "../../../lib/lexicon.js";
+
+const { topics, sourcingNote } = insider;
+const vars = (v: Record<string, unknown>) => JSON.stringify(v);
+
+// Laid out like the /culture hub: a quiet title with a mascot, the topics grouped by level
+// with a picture each, and the explanation below the list rather than above it.
+const LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
+const groups = LEVELS
+  .map((level) => ({ level, items: topics.filter((t) => t.level === level) }))
+  .filter((g) => g.items.length);
+---
+<Layout
+  title="The UK from the inside – Culture – EnglishAcademy"
+  description="How people in the UK really live: small talk, politeness, humour, punctuality, friendship and more, with figures and sources."
+>
+  <SiteNav active="landeskunde" />
+  <main class="practice-main practice-main--wide">
+    <a href="/culture" class="vp-back-link" data-i18n="kultur.back">Alle Themen</a>
+
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="kultur.hero.eyebrow">Landeskunde</p>
+      <h1 data-i18n="kultur.insider.title">Deutschland von innen</h1>
+      <SectionMascot name="quaki" say="Figures, not clichés." align="center" class="ku-hero-mascot" />
+    </div>
+
+    {groups.map((g) => (
+      <section class="ku-group" id={`niveau-${g.level.toLowerCase()}`}>
+        <h2 class="ku-group-title">
+          <span class="ku-badge">{g.level}</span>
+          <span data-i18n={`level.name.${g.level}`}>{LEVEL_NAMES[g.level as keyof typeof LEVEL_NAMES] ?? g.level}</span>
+        </h2>
+        <div class="ku-grid ku-grid--fill">
+          {g.items.map((t) => (
+            <a class="ku-card" href={itemPath("/culture/insider", t.id)}>
+              {(bilder as any).insider?.[t.id]
+                ? <span class="ku-card-ic ku-card-pic"><img src={emojiSrc((bilder as any).insider[t.id])} alt="" width="40" height="40" loading="lazy" /></span>
+                : <span class="ku-card-ic"><Icon name={t.icon} size={20} /></span>}
+              <span class="ku-card-txt">
+                <b>{t.title}</b>
+                <i>{t.intro.split(". ")[0]}.</i>
+              </span>
+              <span class="ku-card-meta">
+                {t.quiz
+                  ? <span class="ku-card-q" data-i18n="grammatik.card.questions" data-i18n-vars={vars({ n: t.quiz.length })}>{t.quiz.length} Fragen</span>
+                  : <span class="ku-card-q">{t.decoder.groups.reduce((n, g) => n + g.items.length, 0)} Sätze</span>}
+              </span>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <section class="ku-more">
+      <div class="ku-more-head">
+        <SectionMascot name="bruno" expr="thinking" say="What do you think?" class="ku-more-mascot" />
+        <p class="ku-more-lead" data-i18n="kultur.insider.lead">
+          What the textbook leaves out: how people in the UK really live, think and talk – with
+          figures and sources instead of clichés.
+        </p>
+      </div>
+    </section>
+
+    <section class="ku-sourcing">
+      <h2 data-i18n="kultur.insider.ruleTitle">Unsere Regel für diesen Bereich</h2>
+      <p set:html={sourcingNote.replace(/\n/g, "<br>")} />
+    </section>
+  </main>
+
+  <script>
+    // Same pop-in as the /culture hub (kultur-hub.css): a level's pictures appear as it
+    // scrolls into view.
+    const groups = document.querySelectorAll(".ku-group");
+    if ("IntersectionObserver" in window) {
+      document.documentElement.classList.add("ku-anim");
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
+      }, { rootMargin: "0px 0px -10% 0px" });
+      groups.forEach((g) => io.observe(g));
+    }
+  </script>
+</Layout>

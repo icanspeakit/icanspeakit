@@ -1,0 +1,237 @@
+---
+import Layout from "../layouts/Layout.astro";
+import LanguageSwitcher from "../components/LanguageSwitcher.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import CourseBar from "../components/CourseBar.astro";
+import LiveQuizLink from "../components/LiveQuizLink.astro";
+import GrammarActions from "../components/GrammarActions.astro";
+import GrammarRelated from "../components/GrammarRelated.astro";
+import "../styles/akkusativ.css";
+import akkusativQuestions from "../data/akkusativ.json";
+
+const total = akkusativQuestions.filter((q) => q.difficulty === "leicht").length;
+---
+<Layout title="Object pronouns – A1 exercises, rule and table – EnglishAcademy" description="Object pronouns made simple: I → me, he → him, she → her, we → us, they → them. Use them after a verb or a preposition. Rule, examples and exercises.">
+  <div class="akk akk--page">
+    <header class="akk-topbar">
+      <div class="akk-topbar-inner">
+        <span class="akk-wordmark">EnglishAcademy</span>
+        <nav class="akk-breadcrumb" aria-label="Breadcrumb">
+          <a href="/exercises" data-i18n="nav.exercises">Übungen</a><span class="akk-crumb-sep">›</span>
+          <a href="/grammar" data-i18n="nav.subject.grammatik">Grammatik</a><span class="akk-crumb-sep">›</span>
+          <span class="akk-crumb-current">Object pronouns</span>
+        </nav>
+        <div style="margin-left:auto; display:flex; align-items:center; gap:10px;">
+          <LanguageSwitcher />
+          <ThemeToggle />
+        </div>
+      </div>
+    </header>
+    <CourseBar topic="akkusativ" title="Object pronouns – EnglishAcademy" />
+
+    <main class="akk-main">
+      <div class="akk-card">
+        <div class="akk-card-header">
+          <div class="akk-title-group">
+            <span class="akk-tag">OBJ</span>
+            <h1 class="akk-title">Object pronouns</h1>
+          </div>
+          <div class="akk-difficulty" role="group" aria-label="Schwierigkeit" data-i18n-attr="aria-label:akk.diff.ariaLabel">
+            <button class="akk-diff-btn active" data-diff="leicht" type="button" data-i18n="akk.diff.leicht">Leicht</button>
+            <button class="akk-diff-btn" data-diff="mittel" type="button" data-i18n="akk.diff.mittel">Mittel</button>
+            <button class="akk-diff-btn" data-diff="schwer" type="button" data-i18n="akk.diff.schwer">Schwer</button>
+          </div>
+        </div>
+
+        <div class="akk-tabs" role="tablist">
+          <button class="akk-tab active" id="akk-tab-uebung" type="button" role="tab" aria-selected="true" data-i18n="akk.tab.uebung">Übung</button>
+          <button class="akk-tab" id="akk-tab-regel" type="button" role="tab" aria-selected="false" data-i18n="akk.tab.regel">Regel</button>
+        </div>
+
+        <div id="akk-uebung-view">
+          <div class="akk-mode-row">
+            <div class="akk-mode" role="group" aria-label="Übungsmodus" data-i18n-attr="aria-label:akk.mode.ariaLabel">
+              <button class="akk-mode-btn active" data-mode="fokus" type="button" data-i18n="akk.mode.fokus">Fokus-Modus</button>
+              <span class="akk-mode-sep">·</span>
+              <button class="akk-mode-btn" data-mode="test" type="button" data-i18n="akk.mode.test">Testmodus</button>
+            </div>
+          </div>
+          <div id="akk-exercise-root"></div>
+        </div>
+
+        <div id="akk-regel-view" hidden>
+          <p class="akk-regel-intro" data-i18n-html="akk.regel.intro">
+            The <strong>subject</strong> comes before the verb: <em>She likes Tom.</em> The <strong>object</strong> comes
+            after the verb or after a preposition (<em>for, with, to, at</em>): <em>Tom likes <strong>her</strong>. Tom sits with <strong>her</strong>.</em>
+            For a pronoun the object has its own form.
+          </p>
+          <table class="akk-decl-table">
+            <thead>
+              <tr>
+                <th data-i18n="akk.tbl.subject">Subject</th>
+                <th data-i18n="akk.tbl.object">Object</th>
+                <th data-i18n="akk.tbl.example">Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>I</td>
+                <td class="akk-decl-change">me</td>
+                <td>Can you help <strong>me</strong>?</td>
+              </tr>
+              <tr>
+                <td>you</td>
+                <td class="akk-decl-change">you</td>
+                <td>This is for <strong>you</strong>.</td>
+              </tr>
+              <tr>
+                <td>he</td>
+                <td class="akk-decl-change">him</td>
+                <td>I like <strong>him</strong>.</td>
+              </tr>
+              <tr>
+                <td>she</td>
+                <td class="akk-decl-change">her</td>
+                <td>I can see <strong>her</strong>.</td>
+              </tr>
+              <tr>
+                <td>it</td>
+                <td class="akk-decl-change">it</td>
+                <td>Do you want <strong>it</strong>?</td>
+              </tr>
+              <tr>
+                <td>we</td>
+                <td class="akk-decl-change">us</td>
+                <td>Call <strong>us</strong> later.</td>
+              </tr>
+              <tr>
+                <td>they</td>
+                <td class="akk-decl-change">them</td>
+                <td>I visit <strong>them</strong> on Sundays.</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="akk-regel-note" data-i18n-html="akk.regel.example">
+            Common mistake: <em>I like he.</em> → <em>I like <strong>him</strong>.</em> And after <em>It's</em> we say <em>It's <strong>me</strong></em>.
+          </p>
+          <button class="akk-btn akk-btn-primary" id="akk-back-to-uebung" type="button" data-i18n="akk.backToPractice">Zurück zur Übung</button>
+        </div>
+      </div>
+
+      {/* Teachers only (LiveQuizLink.astro): under the card, out of the learner's way. */}
+      <LiveQuizLink chapter="g-akkusativ" />
+      {/* Live quiz and Partnerblatt for everyone, as on every other grammar topic (GrammarActions). */}
+      <GrammarActions slug="akkusativ" topic="akkusativ" />
+
+      <footer class="akk-footer">
+        <div class="akk-session-ring">
+          <svg viewBox="0 0 56 56">
+            <circle class="akk-ring-track" cx="28" cy="28" r="24" />
+            <circle class="akk-ring-fill" id="akk-ring-fill" cx="28" cy="28" r="24" stroke-dasharray="150.8" stroke-dashoffset="150.8" />
+          </svg>
+          <span class="akk-ring-num" id="akk-ring-num">0%</span>
+        </div>
+        <div class="akk-session-text">
+          <span class="akk-session-label" data-i18n="akk.session.label">Diese Sitzung</span>
+          <p class="akk-session-stats" id="akk-session-stats" data-i18n="akk.session.stats" data-i18n-vars={JSON.stringify({ answered: 0, total, correct: 0, hints: 0 })}>0 of {total} answered · 0 correct · 0 hints</p>
+        </div>
+        <span class="akk-session-badge" data-i18n="akk.session.badge">lokal · ohne Konto</span>
+      </footer>
+      <GrammarRelated id="akkusativ" />
+    </main>
+  </div>
+
+  <script type="application/json" id="akk-data" set:html={JSON.stringify(akkusativQuestions)}></script>
+  <script type="module">
+    import { mountPracticeWorkspace } from "../lib/practiceWorkspace.js";
+    import { recordAttempt } from "../lib/progress.js";
+    import { getLang, loadDict, onLangChange } from "../lib/i18n.js";
+
+    let dict = {};
+    function tr(key, vars) {
+      const str = dict[key];
+      if (str == null) return key;
+      if (!vars) return str;
+      return str.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? String(vars[k]) : m));
+    }
+
+    const questions = JSON.parse(document.getElementById("akk-data").textContent);
+    const exerciseRoot = document.getElementById("akk-exercise-root");
+
+    const ringFill = document.getElementById("akk-ring-fill");
+    const ringNum = document.getElementById("akk-ring-num");
+    const statsText = document.getElementById("akk-session-stats");
+    const RING_CIRCUMFERENCE = 150.8;
+
+    let lastStats = { answered: 0, correct: 0, hints: 0, total: questions.length };
+    function renderStats() {
+      const { answered, correct, hints, total } = lastStats;
+      const pct = total ? Math.round((correct / total) * 100) : 0;
+      ringFill.style.strokeDashoffset = String(RING_CIRCUMFERENCE * (1 - pct / 100));
+      ringNum.textContent = `${pct}%`;
+      statsText.textContent = tr("akk.session.stats", { answered, total, correct, hints });
+    }
+    function onSessionUpdate(stats) {
+      lastStats = stats;
+      renderStats();
+    }
+
+    async function bootI18n() {
+      dict = await loadDict(getLang());
+      renderStats();
+    }
+    onLangChange((code, newDict) => {
+      dict = newDict;
+      renderStats();
+    });
+    bootI18n();
+
+    const practice = mountPracticeWorkspace(exerciseRoot, questions, {
+      meldung: (q) => `g:akkusativ/${q.id}`,
+      onSessionUpdate,
+      onAnswer: (ok) => recordAttempt({ skill: "grammatik", correct: ok }),
+    });
+
+    const tabUebung = document.getElementById("akk-tab-uebung");
+    const tabRegel = document.getElementById("akk-tab-regel");
+    const uebungView = document.getElementById("akk-uebung-view");
+    const regelView = document.getElementById("akk-regel-view");
+
+    function playEnter(el) {
+      el.classList.remove("akk-anim-in");
+      void el.offsetWidth;
+      el.classList.add("akk-anim-in");
+    }
+
+    function showView(view) {
+      const isUebung = view === "uebung";
+      uebungView.hidden = !isUebung;
+      regelView.hidden = isUebung;
+      tabUebung.classList.toggle("active", isUebung);
+      tabRegel.classList.toggle("active", !isUebung);
+      tabUebung.setAttribute("aria-selected", String(isUebung));
+      tabRegel.setAttribute("aria-selected", String(!isUebung));
+      playEnter(isUebung ? uebungView : regelView);
+    }
+
+    tabUebung.addEventListener("click", () => showView("uebung"));
+    tabRegel.addEventListener("click", () => showView("regel"));
+    document.getElementById("akk-back-to-uebung").addEventListener("click", () => showView("uebung"));
+
+    document.querySelectorAll(".akk-diff-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".akk-diff-btn").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        practice.setDifficulty(btn.dataset.diff);
+      });
+    });
+
+    document.querySelectorAll(".akk-mode-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".akk-mode-btn").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        practice.setMode(btn.dataset.mode);
+      });
+    });
+  </script>
+</Layout>

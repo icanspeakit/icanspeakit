@@ -1,0 +1,25 @@
+---
+const slides = [
+  { image: "/assets/letsdoit.jpg", caption: "Let’s do it together!" },
+  { image: "/assets/online-is-futur.jpg", caption: "Online Classes are the Future" },
+  { image: "/assets/methods.jpg", caption: "We know how to teach in the new way!" },
+];
+const [main, ...rest] = slides;
+---
+<section id="top" class="hero" style={`background-image:url('${main.image}')`}>
+  <div class="container hero-content">
+    <h1>Working In Germany Opens Up A Lot Of Opportunities!</h1>
+    <a href="#about" class="btn-cta">{main.caption}</a>
+  </div>
+</section>
+
+<div class="hero-strip">
+  <div class="container hero-strip-grid">
+    {rest.map((slide) => (
+      <div class="hero-strip-item">
+        <img src={slide.image} alt="" />
+        <p>{slide.caption}</p>
+      </div>
+    ))}
+  </div>
+</div>

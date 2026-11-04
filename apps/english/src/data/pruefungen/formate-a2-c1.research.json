@@ -1,0 +1,1445 @@
+{
+  "_note": "Research file (not read by pages): the structure of the exams our own practice sets follow, checked by scripts/check-pruefungen.mjs (same modules, same parts, same number of scored items per part). Ids are storage keys and stay: goethe-a2/b1/b2 = Cambridge English A2 Key / B1 Preliminary / B2 First, telc-a2/b1/b2 = Trinity ISE Foundation / ISE I / ISE II (content-plan §2). Only structure is described; no exam task or text is copied (© Cambridge University Press & Assessment, © Trinity College London). Field conventions: minutes = official paper time (modules timed together say so in minutesNote); items = scored items in OUR set (where the engine needs a different count than the real paper, the type says so, e.g. ISE 'five of eight true' is judged as eight true/false items); plays = how often the recording is heard; points = real raw marks where known. Facts checked against the official sites on 2026-10-30 (Trinity ISE I/II from the test-overview PDFs, ISE Foundation from the resources page; Cambridge from the exam-format pages and handbooks). Anything not confirmed is listed under unverified. The goethe-c1 and telc-c1 entries still describe the German exams: they belong to the paid C1 sets, which are not migrated yet (see automation/reports/exams.md).",
+  "sources": [
+    {
+      "id": "goethe-a2",
+      "title": "Cambridge English A2 Key — exam format and handbook for teachers (2020 format)",
+      "url": "https://www.cambridgeenglish.org/exams-and-tests/qualifications/key/exam-format/"
+    },
+    {
+      "id": "goethe-b1",
+      "title": "Cambridge English B1 Preliminary — exam format and handbook for teachers (2020 format)",
+      "url": "https://www.cambridgeenglish.org/exams-and-tests/qualifications/preliminary/exam-format/"
+    },
+    {
+      "id": "goethe-b2",
+      "title": "Cambridge English B2 First — exam format and handbook for teachers (2015 format)",
+      "url": "https://www.cambridgeenglish.org/exams-and-tests/qualifications/first/exam-format/"
+    },
+    {
+      "id": "telc-a2",
+      "title": "Trinity College London, ISE Foundation (A2) resources page (timings, task list)",
+      "url": "https://trinitycollege.com/qualifications/english-language/ISE/ISE-Foundation-A2-resources"
+    },
+    {
+      "id": "telc-b1",
+      "title": "Trinity College London, Test overview — ISE I (B1), Reading & Writing and Speaking & Listening (PDF)",
+      "url": "https://www.trinitycollege.com/resource?id=7516"
+    },
+    {
+      "id": "telc-b2",
+      "title": "Trinity College London, Online test overview — ISE II (B2), Reading & Writing and Speaking & Listening (PDF)",
+      "url": "https://www.trinitycollege.com/resource?id=8447"
+    },
+    {
+      "id": "goethe-c1",
+      "title": "Goethe-Zertifikat C1 (modular) – Modellsatz (Vs0.2, 2. Aufl. Februar 2024, Stand April 2026)",
+      "url": "https://www.goethe.de/pro/relaunch/prf/materialien/C1_modular/c1-modular_modellsatz.pdf"
+    },
+    {
+      "id": "goethe-c1-alt",
+      "title": "Goethe-Zertifikat C1 – alter Modellsatz (Vs13_241014; nur bis 31.12.2023) – nur zum Abgleich",
+      "url": "https://www.goethe.de/pro/relaunch/prf/materialien/C1/c1_modellsatz.pdf"
+    },
+    {
+      "id": "telc-c1",
+      "title": "telc Deutsch C1 – Übungstest 1, Format 2016 (1. Aufl. 2016), aus telc_deutsch_c1.zip",
+      "url": "https://www.telc.net/fileadmin/user_upload/mock_exams/Deutsch/telc_deutsch_c1.zip"
+    }
+  ],
+  "exams": [
+    {
+      "id": "goethe-a2",
+      "exam": "Cambridge English A2 Key",
+      "alt": "KET",
+      "provider": "cambridge",
+      "level": "A2",
+      "source": "Cambridge English A2 Key, Information for candidates (ENG/97453/V1/MAY26) — https://www.cambridgeenglish.org/images/557749-a2-key-information-for-candidates.pdf (checked 2026-10-30)",
+      "modules": [
+        {
+          "name": "Reading",
+          "minutes": 60,
+          "minutesNote": "60 minutes for Reading and Writing together (one paper, Parts 1–7)",
+          "points": 30,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Six short real-world texts (notices, signs, messages, emails): understand the main message",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "points": 6
+            },
+            {
+              "teil": 2,
+              "task": "Three short texts on the same topic: which text (A, B or C) says this?",
+              "type": "Multiple matching, A/B/C (texts can be used more than once)",
+              "items": 7,
+              "points": 7,
+              "text": "3 short texts, e.g. three people describe a hobby"
+            },
+            {
+              "teil": 3,
+              "task": "One longer text: detail, opinion and attitude",
+              "type": "Multiple choice, 3 options",
+              "items": 5,
+              "points": 5
+            },
+            {
+              "teil": 4,
+              "task": "Multiple-choice cloze: one short text with gaps, mostly vocabulary",
+              "type": "Gapped text, 3 options per gap",
+              "items": 6,
+              "points": 6
+            },
+            {
+              "teil": 5,
+              "task": "Open cloze: one or two short emails with gaps, mostly grammar words",
+              "type": "Write one word in each gap",
+              "items": 6,
+              "points": 6
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 60,
+          "minutesNote": "same 60 minutes as Reading (Parts 6–7 of the paper)",
+          "points": 30,
+          "parts": [
+            {
+              "teil": 6,
+              "task": "Guided writing: a short email or note covering three points",
+              "type": "Free writing, 25 words or more",
+              "items": 1,
+              "points": 15
+            },
+            {
+              "teil": 7,
+              "task": "Picture story: write the story shown in three pictures",
+              "type": "Free writing, 35 words or more",
+              "items": 1,
+              "points": 15
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 30,
+          "minutesNote": "about 30 minutes; on paper, 6 more minutes at the end to transfer answers",
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Five short recordings, one or two speakers: find the key information",
+              "type": "Multiple choice, 3 picture options (here: text options)",
+              "items": 5,
+              "plays": 2,
+              "points": 5
+            },
+            {
+              "teil": 2,
+              "task": "One person speaking: complete notes",
+              "type": "Gap fill: 1 or 2 words, a number, a date or a time per gap",
+              "items": 5,
+              "plays": 2,
+              "points": 5
+            },
+            {
+              "teil": 3,
+              "task": "One longer conversation: detail",
+              "type": "Multiple choice, 3 options",
+              "items": 5,
+              "plays": 2,
+              "points": 5
+            },
+            {
+              "teil": 4,
+              "task": "Five short dialogues or monologues: main idea, message, place, purpose",
+              "type": "Multiple choice, 3 options",
+              "items": 5,
+              "plays": 2,
+              "points": 5
+            },
+            {
+              "teil": 5,
+              "task": "One longer conversation: match five items to eight options",
+              "type": "Matching, options A–H (three are not used)",
+              "items": 5,
+              "plays": 2,
+              "points": 5
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 10,
+          "minutesNote": "about 8–10 minutes, pairs (or groups of three), two examiners",
+          "points": 45,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Interview: basic factual and personal questions from the examiner",
+              "type": "Examiner and each candidate, about 3–4 minutes",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "Collaborative discussion with picture prompts, then follow-up questions",
+              "type": "Two candidates together, 5–6 minutes",
+              "items": 1
+            }
+          ]
+        }
+      ],
+      "schreiben": {
+        "tasks": 2,
+        "wordCounts": [
+          "25 or more",
+          "35 or more"
+        ],
+        "criteria": [
+          "Content",
+          "Organisation",
+          "Language"
+        ],
+        "rules": "Part 6 must cover all three points of the task. The scores per criterion are on a 0–5 scale."
+      },
+      "sprechen": {
+        "format": "Paired test, two candidates, 8–10 minutes",
+        "preparation": "No preparation time",
+        "criteria": [
+          "Grammar and vocabulary",
+          "Pronunciation",
+          "Interactive communication",
+          "Global achievement"
+        ]
+      },
+      "total": null,
+      "totalNote": "Cambridge English Scale: 120–139 = A2 pass (Grade C 120–132, Grade B 133–139), 140–150 = Grade A (certificate at B1); 100–119 = A1 certificate. One overall score; Reading, Writing, Listening and Speaking each get their own scale score. You cannot fail a single paper.",
+      "pass": "Overall score of 120 or more on the Cambridge English Scale. Our practice sets use 60 % of the auto-marked points as their own guide, not a Cambridge pass mark.",
+      "modular": false,
+      "modularNote": "The exam is taken as a whole; the result shows a score for each skill.",
+      "unverified": [
+        "Writing and Speaking raw marks per part (shown here as a guide)"
+      ]
+    },
+    {
+      "id": "goethe-b1",
+      "exam": "Cambridge English B1 Preliminary",
+      "alt": "PET",
+      "provider": "cambridge",
+      "level": "B1",
+      "source": "Cambridge English B1 Preliminary, exam format page and Handbook for teachers (2020 format) — https://www.cambridgeenglish.org/exams-and-tests/qualifications/preliminary/exam-format/ (checked 2026-10-30)",
+      "modules": [
+        {
+          "name": "Reading",
+          "minutes": 45,
+          "points": 32,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Five short real-world texts: understand the main message",
+              "type": "Multiple choice, 3 options",
+              "items": 5,
+              "points": 5
+            },
+            {
+              "teil": 2,
+              "task": "Five people's needs: match each person to one of eight short texts",
+              "type": "Matching, texts A–H (three are not used)",
+              "items": 5,
+              "points": 5
+            },
+            {
+              "teil": 3,
+              "task": "One longer text: detail, opinion, attitude and the writer's purpose",
+              "type": "Multiple choice, 4 options",
+              "items": 5,
+              "points": 5
+            },
+            {
+              "teil": 4,
+              "task": "Gapped text: five sentences have been taken out of a text",
+              "type": "Choose from eight sentences A–H (three are not used)",
+              "items": 5,
+              "points": 5
+            },
+            {
+              "teil": 5,
+              "task": "Multiple-choice cloze: vocabulary in a short text",
+              "type": "Gapped text, 4 options per gap",
+              "items": 6,
+              "points": 6
+            },
+            {
+              "teil": 6,
+              "task": "Open cloze: grammar words in a short text",
+              "type": "Write one word in each gap",
+              "items": 6,
+              "points": 6
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 45,
+          "points": 40,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Email: answer an email using four notes",
+              "type": "Free writing, about 100 words (compulsory)",
+              "items": 1,
+              "points": 20
+            },
+            {
+              "teil": 2,
+              "task": "Article or story (choose one)",
+              "type": "Free writing, about 100 words",
+              "items": 1,
+              "points": 20
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 30,
+          "minutesNote": "about 30 minutes including 6 minutes to transfer answers",
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Seven short monologues or dialogues: key information",
+              "type": "Multiple choice, 3 picture options (here: text options)",
+              "items": 7,
+              "plays": 2,
+              "points": 7
+            },
+            {
+              "teil": 2,
+              "task": "Six short dialogues: attitude and opinion",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2,
+              "points": 6
+            },
+            {
+              "teil": 3,
+              "task": "One monologue (e.g. a radio announcement): complete notes",
+              "type": "Gap fill, a word, number or short phrase per gap",
+              "items": 6,
+              "plays": 2,
+              "points": 6
+            },
+            {
+              "teil": 4,
+              "task": "One longer interview: detail, attitude and opinion",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2,
+              "points": 6
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 14,
+          "minutesNote": "12–17 minutes per pair of candidates",
+          "points": 30,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Interview: personal questions",
+              "type": "Examiner and candidate, 2–3 minutes",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "Long turn: describe a photograph",
+              "type": "Each candidate alone, about 1 minute each",
+              "items": 1
+            },
+            {
+              "teil": 3,
+              "task": "Collaborative task: discuss options from a situation with picture prompts",
+              "type": "Two candidates together, 2–3 minutes",
+              "items": 1
+            },
+            {
+              "teil": 4,
+              "task": "Discussion on the topic of Part 3",
+              "type": "Two candidates and examiner, 3 minutes",
+              "items": 1
+            }
+          ]
+        }
+      ],
+      "schreiben": {
+        "tasks": 2,
+        "wordCounts": [
+          "about 100",
+          "about 100"
+        ],
+        "criteria": [
+          "Content",
+          "Communicative achievement",
+          "Organisation",
+          "Language"
+        ],
+        "rules": "Part 1 must answer all four notes. Each criterion is marked 0–5."
+      },
+      "sprechen": {
+        "format": "Paired test, two candidates, 12–17 minutes",
+        "preparation": "No preparation time",
+        "criteria": [
+          "Grammar and vocabulary",
+          "Discourse management",
+          "Pronunciation",
+          "Interactive communication",
+          "Global achievement"
+        ]
+      },
+      "total": null,
+      "totalNote": "Cambridge English Scale: 140–159 = B1 pass (Grade C 140–152, Grade B 153–159), 160–170 = Grade A (certificate at B2); 120–139 = A2 certificate. One overall score; each skill gets its own scale score.",
+      "pass": "Overall score of 140 or more on the Cambridge English Scale. Our practice sets use 60 % of the auto-marked points as their own guide, not a Cambridge pass mark.",
+      "modular": false,
+      "modularNote": "Taken as a whole; the result shows a score for each skill.",
+      "unverified": [
+        "Raw marks per Writing/Speaking part (shown as a guide)",
+        "Part details and scale ranges are from the 2020 handbook; the live exam-format page could not be fetched in this run"
+      ]
+    },
+    {
+      "id": "goethe-b2",
+      "exam": "Cambridge English B2 First",
+      "alt": "FCE",
+      "provider": "cambridge",
+      "level": "B2",
+      "source": "Cambridge English B2 First, exam format page and Handbook for teachers — https://www.cambridgeenglish.org/exams-and-tests/qualifications/first/exam-format/ (checked 2026-10-30)",
+      "modules": [
+        {
+          "name": "Reading and Use of English",
+          "minutes": 75,
+          "points": 52,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Multiple-choice cloze: vocabulary (collocations, fixed phrases, phrasal verbs)",
+              "type": "Gapped text, 4 options per gap",
+              "items": 8,
+              "points": 8
+            },
+            {
+              "teil": 2,
+              "task": "Open cloze: grammar words",
+              "type": "Write one word in each gap",
+              "items": 8,
+              "points": 8
+            },
+            {
+              "teil": 3,
+              "task": "Word formation: change the word in capitals to fit the gap",
+              "type": "Write the changed word",
+              "items": 8,
+              "points": 8
+            },
+            {
+              "teil": 4,
+              "task": "Key word transformation: same meaning with a given word, 2–5 words",
+              "type": "Write 2–5 words including the key word",
+              "items": 6,
+              "points": 12,
+              "note": "up to 2 marks per item in the real exam; 1 point here"
+            },
+            {
+              "teil": 5,
+              "task": "One long text: detail, opinion, attitude, purpose, implication",
+              "type": "Multiple choice, 4 options",
+              "items": 6,
+              "points": 12
+            },
+            {
+              "teil": 6,
+              "task": "Gapped text: six sentences have been taken out of a long text",
+              "type": "Choose from seven sentences A–G (one is not used)",
+              "items": 6,
+              "points": 12
+            },
+            {
+              "teil": 7,
+              "task": "Multiple matching: one text in sections or several short texts",
+              "type": "Matching, sections A–D/E (used more than once)",
+              "items": 10,
+              "points": 10
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 80,
+          "points": 40,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Essay: give your opinion on a statement, using two given notes and one idea of your own",
+              "type": "Free writing, 140–190 words (compulsory)",
+              "items": 1,
+              "points": 20
+            },
+            {
+              "teil": 2,
+              "task": "Choose one: article, email/letter, report or review",
+              "type": "Free writing, 140–190 words",
+              "items": 1,
+              "points": 20
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 40,
+          "minutesNote": "about 40 minutes",
+          "points": 30,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Eight short unrelated extracts: gist, detail, function, attitude",
+              "type": "Multiple choice, 3 options",
+              "items": 8,
+              "plays": 2,
+              "points": 8
+            },
+            {
+              "teil": 2,
+              "task": "One monologue: complete sentences",
+              "type": "Sentence completion, a word or short phrase per gap",
+              "items": 10,
+              "plays": 2,
+              "points": 10
+            },
+            {
+              "teil": 3,
+              "task": "Five short related monologues: match each speaker to an option",
+              "type": "Matching, options A–H (three are not used)",
+              "items": 5,
+              "plays": 2,
+              "points": 5
+            },
+            {
+              "teil": 4,
+              "task": "One interview or discussion: opinion, attitude, detail",
+              "type": "Multiple choice, 3 options",
+              "items": 7,
+              "plays": 2,
+              "points": 7
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 14,
+          "minutesNote": "14 minutes per pair of candidates",
+          "points": 20,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Interview: general and personal questions",
+              "type": "Examiner and candidates, 2 minutes",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "Long turn: compare two photographs and answer a question, then comment on the partner's photos",
+              "type": "Each candidate about 1 minute, plus a 30-second response",
+              "items": 1
+            },
+            {
+              "teil": 3,
+              "task": "Collaborative task: discuss a question with five written prompts, then decide",
+              "type": "Two candidates together, about 3 minutes",
+              "items": 1
+            },
+            {
+              "teil": 4,
+              "task": "Discussion on the topic of Part 3",
+              "type": "Two candidates and examiner, 4 minutes",
+              "items": 1
+            }
+          ]
+        }
+      ],
+      "schreiben": {
+        "tasks": 2,
+        "wordCounts": [
+          "140–190",
+          "140–190"
+        ],
+        "criteria": [
+          "Content",
+          "Communicative achievement",
+          "Organisation",
+          "Language"
+        ],
+        "rules": "Each criterion is marked 0–5."
+      },
+      "sprechen": {
+        "format": "Paired test, two candidates, 14 minutes",
+        "preparation": "No preparation time",
+        "criteria": [
+          "Grammar and vocabulary",
+          "Discourse management",
+          "Pronunciation",
+          "Interactive communication",
+          "Global achievement"
+        ]
+      },
+      "total": null,
+      "totalNote": "Cambridge English Scale: 160–179 = B2 pass (Grade C 160–172, Grade B 173–179), 180–190 = Grade A (certificate at C1); 140–159 = B1 certificate. One overall score; each skill and Use of English get their own scale score.",
+      "pass": "Overall score of 160 or more on the Cambridge English Scale. Our practice sets use 60 % of the auto-marked points as their own guide, not a Cambridge pass mark.",
+      "modular": false,
+      "modularNote": "Taken as a whole; the result shows a score for each skill and for Use of English.",
+      "unverified": [
+        "Part details and scale ranges are from the handbook; the live exam-format page could not be fetched in this run"
+      ]
+    },
+    {
+      "id": "goethe-c1",
+      "exam": "Goethe-Zertifikat C1",
+      "alt": "Goethe-Zertifikat C1 (modular, seit 2024)",
+      "provider": "goethe",
+      "level": "C1",
+      "source": "Goethe-Zertifikat C1 (modular) – Modellsatz, 2. Aufl. Feb. 2024, S. 5–6 (Vorwort, Überblick), Kandidatenblätter S. 7–28, Antwort-/Bewertungsbögen S. 30, 43, 46 — https://www.goethe.de/pro/relaunch/prf/materialien/C1_modular/c1-modular_modellsatz.pdf",
+      "modules": [
+        {
+          "name": "Lesen",
+          "minutes": 65,
+          "points": 100,
+          "scoring": "30 Items à 1 Punkt ('Punkte Lesen /30'), Umrechnung auf 100 (Umrechnung auf dem C1-Bogen nicht abgedruckt – Analogie zu B1/B2: UNVERIFIED)",
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Text mit Wörtern rekonstruieren",
+              "type": "Lückentext, Mehrfachauswahl a/b/c/d",
+              "items": 8,
+              "minutes": 10,
+              "text": "populärwissenschaftlicher/informativer Zeitschriftenartikel, ca. 350 Wörter",
+              "points": 8
+            },
+            {
+              "teil": 2,
+              "task": "Hauptaussagen und Einzelinformationen verstehen",
+              "type": "Mehrfachauswahl a/b/c",
+              "items": 7,
+              "minutes": 20,
+              "text": "Zeitschriften-/Internetartikel mit hohem Informationsgehalt, ca. 650 Wörter",
+              "points": 7
+            },
+            {
+              "teil": 3,
+              "task": "Text mit Sätzen rekonstruieren",
+              "type": "Lückentext mit Satzzuordnung (10 Sätze a–j, 1 Beispiel, 2 passen nicht)",
+              "items": 8,
+              "minutes": 20,
+              "text": "Kommentar/Reportage aus der Presse, ca. 550 Wörter",
+              "points": 8
+            },
+            {
+              "teil": 4,
+              "task": "Meinungen/Aussagen suchen und verorten: Wer äußert das?",
+              "type": "Zuordnung a/b/c (3 Beiträge) oder 0 (2 Aussagen passen nicht)",
+              "items": 7,
+              "minutes": 15,
+              "text": "3 Beiträge von Wissenschaftler/innen in einer Fachzeitschrift, zusammen ca. 450 Wörter",
+              "points": 7
+            }
+          ]
+        },
+        {
+          "name": "Hören",
+          "minutes": 40,
+          "points": 100,
+          "scoring": "30 Items à 1 Punkt, Umrechnung auf 100 (UNVERIFIED, s. Lesen); Übertragungszeit am Ende",
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Podcast/Rezension: Zu welchem Buch passt die Aussage?",
+              "type": "Zuordnung zu 3 Textabschnitten (a/b/c)",
+              "items": 6,
+              "text": "Podcast, 3 Buchvorstellungen, 60 Sek. Lesezeit",
+              "plays": 1,
+              "points": 6
+            },
+            {
+              "teil": 2,
+              "task": "Interview mit Expertin/Experten zu einem Fachthema",
+              "type": "Mehrfachauswahl a/b/c",
+              "items": 9,
+              "text": "Radiointerview, 60 Sek. Lesezeit",
+              "plays": 2,
+              "points": 9
+            },
+            {
+              "teil": 3,
+              "task": "Diskussion mit mehreren Personen zu einem aktuellen Thema – in 4 Abschnitten, je 2 Aufgaben",
+              "type": "Mehrfachauswahl a/b/c",
+              "items": 8,
+              "text": "(Radio-)Diskussion mit 3 Personen; vor jedem Abschnitt 30 Sek. Lesezeit",
+              "plays": 1,
+              "points": 8
+            },
+            {
+              "teil": 4,
+              "task": "Vortrag zu einem aktuellen Thema: Einzelinformationen verstehen",
+              "type": "Mehrfachauswahl a/b/c",
+              "items": 7,
+              "text": "Vortrag, 90 Sek. Lesezeit",
+              "plays": 2,
+              "points": 7
+            }
+          ]
+        },
+        {
+          "name": "Schreiben",
+          "minutes": 75,
+          "points": 100,
+          "scoring": "Teil 1: 60 (Erfüllung 14, Kohärenz 14, Wortschatz 16, Strukturen 16); Teil 2: 40 (je 10)",
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Diskussionsbeitrag in einem Online-Forum mit 4 Sprachfunktionen (erklären, argumentieren, Beispiel, Alternative erläutern)",
+              "type": "Freier Text (Produktion)",
+              "items": 1,
+              "minutes": 50,
+              "text": "Forumsbeitrag, ca. 230 Wörter",
+              "points": 60
+            },
+            {
+              "teil": 2,
+              "task": "(Halb-)formelle Mitteilung, z. B. Beschwerde an Vorgesetzte, mit 4 Sprachfunktionen",
+              "type": "Freier Text (Interaktion)",
+              "items": 1,
+              "minutes": 25,
+              "text": "E-Mail, ca. 120 Wörter",
+              "points": 40
+            }
+          ]
+        },
+        {
+          "name": "Sprechen",
+          "minutes": 20,
+          "points": 100,
+          "scoring": "Teil 1 Vortrag: 40 (Erfüllung 10, Kohärenz 10, Wortschatz 10, Strukturen 10) + Fragen/Antworten 12; Teil 2 Diskussion: 32 (Erfüllung 8, Interaktion 4, Wortschatz 10, Strukturen 10); Aussprache Teil 1+2: 16",
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Vortrag zu einem gewählten Thema (1 aus 2, mit kurzem Input und 4 Stichpunkten), danach Nachfragen beantworten",
+              "type": "Produktion/Interaktion",
+              "items": 1,
+              "text": "ca. 5 Min. Vortrag + ca. 2 Min. Fragen (ca. 7 Min. pro Person)",
+              "points": 52
+            },
+            {
+              "teil": 2,
+              "task": "Freie Diskussion zu einer kontroversen Frage mit kurzem Inputtext und 4 Stichpunkten; sich am Ende einigen/positionieren",
+              "type": "Interaktion (Paar)",
+              "items": 1,
+              "text": "Inputtext + 4 Stichpunkte; ca. 5 Min.",
+              "points": 32
+            }
+          ]
+        }
+      ],
+      "schreiben": {
+        "tasks": 2,
+        "wordCounts": [
+          "ca. 230",
+          "ca. 120"
+        ],
+        "criteria": [
+          "Aufgabenerfüllung",
+          "Kohärenz",
+          "Wortschatz",
+          "Strukturen"
+        ],
+        "rules": "Aufgabenerfüllung E (0) → Aufgabe insgesamt 0 Punkte."
+      },
+      "sprechen": {
+        "format": "Paarprüfung, ca. 20 Min. pro Paar (+ Vorbereitungszeit); Einzelprüfung möglich",
+        "preparation": "20 Minuten (Paar- und Einzelprüfung), allein, Notizen erlaubt",
+        "criteria": [
+          "Aufgabenerfüllung",
+          "Kohärenz/Flüssigkeit (Vortrag)",
+          "Fragen/Antworten (Vortrag)",
+          "Interaktion/Register (Diskussion)",
+          "Wortschatz",
+          "Strukturen",
+          "Aussprache"
+        ]
+      },
+      "total": 400,
+      "totalNote": "max. 100 Punkte pro Modul",
+      "pass": "pro Modul mind. 60 von 100 Punkten (60 %)",
+      "modular": true,
+      "oldFormatNote": "Altes C1 (bis 31.12.2023, c1_modellsatz.pdf): nicht modular; Lesen 70 Min. (3 Aufgaben), Hören 40 Min. (2), Schreiben 80 Min. (2), Sprechen 15 Min. Paar (2); 100 Punkte gesamt, 60 zum Bestehen, davon mind. 45 schriftlich und 15 mündlich. NICHT als Vorlage verwenden.",
+      "unverified": [
+        "Umrechnung 30 → 100 bei Lesen/Hören (auf dem C1-Antwortbogen steht nur '/30')",
+        "Textlängen sind Schätzungen",
+        "Überblickstabelle nennt Lesen Teil 4 'Zuordnung von fünf Aussagen', Aufgabenblatt/Antwortbogen zeigen 7 Items (24–30) mit a/b/c/0 – 7 übernommen"
+      ]
+    },
+    {
+      "id": "telc-a2",
+      "exam": "Trinity ISE Foundation",
+      "alt": "Integrated Skills in English, A2",
+      "provider": "trinity",
+      "level": "A2",
+      "source": "Trinity College London, ISE Foundation (A2) resources — https://trinitycollege.com/qualifications/english-language/ISE/ISE-Foundation-A2-resources (checked 2026-10-30); task types follow the ISE I/ISE II test overviews",
+      "choiceNote": "Reading & Writing 2 hours; Speaking & Listening about 13 minutes (the page also says 12 minutes plus admin time for the video-conference version).",
+      "modules": [
+        {
+          "name": "Reading",
+          "minutes": 120,
+          "minutesNote": "120 minutes for Reading and Writing together (Tasks 1–4)",
+          "points": 30,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Task 1, Long reading, questions 1–5: choose a title for each paragraph",
+              "type": "Title matching (six titles, five are used)",
+              "items": 5,
+              "points": 5
+            },
+            {
+              "teil": 2,
+              "task": "Task 1, Long reading, questions 6–10: which statements are true?",
+              "type": "Five of eight statements are true (here you judge all eight: true or false)",
+              "items": 8,
+              "points": 5
+            },
+            {
+              "teil": 3,
+              "task": "Task 1, Long reading, questions 11–15: complete sentences",
+              "type": "An exact word, number or phrase from the text (maximum three words)",
+              "items": 5,
+              "points": 5
+            },
+            {
+              "teil": 4,
+              "task": "Task 2, Multi-text reading, questions 16–20: which text is it?",
+              "type": "Multiple matching, three texts (a text can be used more than once)",
+              "items": 5,
+              "points": 5
+            },
+            {
+              "teil": 5,
+              "task": "Task 2, Multi-text reading, questions 21–25: which statements are true?",
+              "type": "Five of eight statements are true (here you judge all eight: true or false)",
+              "items": 8,
+              "points": 5
+            },
+            {
+              "teil": 6,
+              "task": "Task 2, Multi-text reading, questions 26–30: complete the notes",
+              "type": "An exact word, number or phrase from the texts (maximum three words)",
+              "items": 5,
+              "points": 5
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 120,
+          "minutesNote": "same 120 minutes as Reading",
+          "parts": [
+            {
+              "teil": 3,
+              "task": "Task 3, Reading into writing: answer a question using information from all three Task 2 texts",
+              "type": "Free writing, 70–100 words",
+              "items": 1,
+              "minutes": 40
+            },
+            {
+              "teil": 4,
+              "task": "Task 4, Extended writing: e.g. an email, article, review or essay",
+              "type": "Free writing, 70–100 words",
+              "items": 1,
+              "minutes": 40
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 6,
+          "minutesNote": "our estimate; the whole Speaking & Listening module is about 13 minutes",
+          "points": 13,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Independent listening, talk 1: listen twice, then answer six questions",
+              "type": "Short answers (spoken to the examiner in the exam; written here)",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 2,
+              "task": "Independent listening, talk 2: say what the talk is about, then give six pieces of information",
+              "type": "Gist + short answers (spoken in the exam; written here)",
+              "items": 7,
+              "plays": 2
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 6,
+          "minutesNote": "our estimate for the two speaking tasks",
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Topic discussion: talk with the examiner about a topic you prepared",
+              "type": "One-to-one with the examiner",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "Conversation: on one subject area the examiner chooses",
+              "type": "One-to-one with the examiner",
+              "items": 1
+            }
+          ]
+        }
+      ],
+      "schreiben": {
+        "tasks": 2,
+        "wordCounts": [
+          "70–100",
+          "70–100"
+        ],
+        "criteria": [
+          "Task fulfilment",
+          "Organisation and structure",
+          "Language control"
+        ],
+        "rules": "Task 3 also marks reading for writing (how well you use the texts). Use your own words; do not copy from the texts."
+      },
+      "total": null,
+      "totalNote": "Each of the four skills gets its own result: Distinction, Merit, Pass or Fail.",
+      "pass": "Trinity reports Pass, Merit or Distinction for each skill; there is no percentage pass mark. Our practice sets use 60 % of the auto-marked points as their own guide.",
+      "modular": true,
+      "modularNote": "Reading & Writing and Speaking & Listening are two modules and can be taken at different times.",
+      "sprechen": {
+        "format": "One-to-one with the examiner, about 13 minutes",
+        "preparation": "You prepare your topic before the exam",
+        "criteria": [
+          "Communicative effectiveness",
+          "Interactive listening",
+          "Language control",
+          "Delivery"
+        ]
+      },
+      "unverified": [
+        "Question types and counts per reading task are taken from the ISE I/ISE II overviews; the ISE Foundation overview was not checked",
+        "Speaking & Listening split per task",
+        "Listening task details at Foundation"
+      ]
+    },
+    {
+      "id": "telc-b1",
+      "exam": "Trinity ISE I",
+      "alt": "Integrated Skills in English, B1",
+      "provider": "trinity",
+      "level": "B1",
+      "source": "Trinity College London, Test overview — ISE I (B1) — https://www.trinitycollege.com/resource?id=7516 (checked 2026-10-30); timings confirmed on trinitycollege.com",
+      "modules": [
+        {
+          "name": "Reading",
+          "minutes": 120,
+          "minutesNote": "120 minutes for Reading and Writing together; 20 minutes each for Tasks 1 and 2",
+          "points": 30,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Task 1, Long reading, questions 1–5: choose a title for each paragraph",
+              "type": "Title matching (six titles, five are used)",
+              "items": 5,
+              "points": 5
+            },
+            {
+              "teil": 2,
+              "task": "Task 1, Long reading, questions 6–10: which statements are true?",
+              "type": "Five of eight statements are true (here you judge all eight: true or false)",
+              "items": 8,
+              "points": 5
+            },
+            {
+              "teil": 3,
+              "task": "Task 1, Long reading, questions 11–15: complete sentences",
+              "type": "An exact word, number or phrase from the text (maximum three words)",
+              "items": 5,
+              "points": 5
+            },
+            {
+              "teil": 4,
+              "task": "Task 2, Multi-text reading, questions 16–20: which text is it?",
+              "type": "Multiple matching, four texts (a text can be used more than once)",
+              "items": 5,
+              "points": 5
+            },
+            {
+              "teil": 5,
+              "task": "Task 2, Multi-text reading, questions 21–25: which statements are true?",
+              "type": "Five of eight statements are true (here you judge all eight: true or false)",
+              "items": 8,
+              "points": 5
+            },
+            {
+              "teil": 6,
+              "task": "Task 2, Multi-text reading, questions 26–30: complete the notes",
+              "type": "An exact word, number or phrase from the texts (maximum three words)",
+              "items": 5,
+              "points": 5
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 120,
+          "minutesNote": "same 120 minutes; 40 minutes each for Tasks 3 and 4",
+          "parts": [
+            {
+              "teil": 3,
+              "task": "Task 3, Reading into writing: answer a question using information from all four Task 2 texts",
+              "type": "Free writing, 100–130 words",
+              "items": 1,
+              "minutes": 40
+            },
+            {
+              "teil": 4,
+              "task": "Task 4, Extended writing: e.g. an email, article, review or essay",
+              "type": "Free writing, 100–130 words",
+              "items": 1,
+              "minutes": 40
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 10,
+          "minutesNote": "Task 3 of the Speaking & Listening module (about 18 minutes in total)",
+          "points": 17,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Independent listening, talk 1: listen twice, then answer six questions",
+              "type": "Short answers (spoken to the examiner in the exam; written here)",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 2,
+              "task": "Independent listening, talk 2: first say what it is about, then (second listening) give six pieces of information",
+              "type": "Gist + short answers (spoken in the exam; written here; the four follow-up questions are not included)",
+              "items": 7,
+              "plays": 2
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 6,
+          "minutesNote": "Topic 4 minutes + Conversation 2 minutes",
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Topic: talk with the examiner about a topic you prepared (topic form with four points)",
+              "type": "One-to-one with the examiner, up to 4 minutes",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "Conversation: one subject area chosen by the examiner (travel, money, fashion, rules and regulations, health and fitness, learning a foreign language)",
+              "type": "One-to-one with the examiner, up to 2 minutes",
+              "items": 1
+            }
+          ]
+        }
+      ],
+      "schreiben": {
+        "tasks": 2,
+        "wordCounts": [
+          "100–130",
+          "100–130"
+        ],
+        "criteria": [
+          "Task fulfilment",
+          "Organisation and structure",
+          "Language control"
+        ],
+        "rules": "Task 3 also marks reading for writing (how well you use the texts). Use your own words; do not copy from the texts."
+      },
+      "total": null,
+      "totalNote": "Each of the four skills gets its own result: Distinction, Merit, Pass or Fail.",
+      "pass": "Trinity reports Pass, Merit or Distinction for each skill; there is no percentage pass mark. Our practice sets use 60 % of the auto-marked points as their own guide.",
+      "modular": true,
+      "modularNote": "Reading & Writing and Speaking & Listening are two modules and can be taken at different times.",
+      "sprechen": {
+        "format": "One-to-one with the examiner, about 18 minutes including 2 minutes' admin time",
+        "preparation": "You prepare your topic and bring a topic form",
+        "criteria": [
+          "Communicative effectiveness",
+          "Interactive listening",
+          "Language control",
+          "Delivery"
+        ]
+      },
+      "unverified": []
+    },
+    {
+      "id": "telc-b2",
+      "exam": "Trinity ISE II",
+      "alt": "Integrated Skills in English, B2",
+      "provider": "trinity",
+      "level": "B2",
+      "source": "Trinity College London, Online test overview — ISE II (B2) — https://www.trinitycollege.com/resource?id=8447 (checked 2026-10-30); timings confirmed on trinitycollege.com",
+      "modules": [
+        {
+          "name": "Reading",
+          "minutes": 120,
+          "minutesNote": "120 minutes for Reading and Writing together; 20 minutes each for Tasks 1 and 2",
+          "points": 30,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Task 1, Long reading, questions 1–5: choose a title for each paragraph",
+              "type": "Title matching (six titles, five are used)",
+              "items": 5,
+              "points": 5
+            },
+            {
+              "teil": 2,
+              "task": "Task 1, Long reading, questions 6–10: which statements are true?",
+              "type": "Five of eight statements are true (here you judge all eight: true or false)",
+              "items": 8,
+              "points": 5
+            },
+            {
+              "teil": 3,
+              "task": "Task 1, Long reading, questions 11–15: complete sentences",
+              "type": "An exact word, number or phrase from the text (maximum three words)",
+              "items": 5,
+              "points": 5
+            },
+            {
+              "teil": 4,
+              "task": "Task 2, Multi-text reading, questions 16–20: which text is it?",
+              "type": "Multiple matching, four texts (a text can be used more than once)",
+              "items": 5,
+              "points": 5
+            },
+            {
+              "teil": 5,
+              "task": "Task 2, Multi-text reading, questions 21–25: which statements are true?",
+              "type": "Five of eight statements are true (here you judge all eight: true or false)",
+              "items": 8,
+              "points": 5
+            },
+            {
+              "teil": 6,
+              "task": "Task 2, Multi-text reading, questions 26–30: complete the notes",
+              "type": "An exact word, number or phrase from the texts (maximum three words)",
+              "items": 5,
+              "points": 5
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 120,
+          "minutesNote": "same 120 minutes; 40 minutes each for Tasks 3 and 4",
+          "parts": [
+            {
+              "teil": 3,
+              "task": "Task 3, Reading into writing: answer a question using information from all four Task 2 texts",
+              "type": "Free writing, 150–180 words",
+              "items": 1,
+              "minutes": 40
+            },
+            {
+              "teil": 4,
+              "task": "Task 4, Extended writing: e.g. an email, article, review or essay",
+              "type": "Free writing, 150–180 words",
+              "items": 1,
+              "minutes": 40
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 8,
+          "minutesNote": "Task 4 of the Speaking & Listening module (about 20 minutes in total)",
+          "points": 6,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Independent listening, first listening: what is the talk about?",
+              "type": "Gist (one or two sentences to the examiner in the exam; multiple choice here)",
+              "items": 1,
+              "plays": 1
+            },
+            {
+              "teil": 2,
+              "task": "Independent listening, second listening: report the opinions, ideas, advantages and disadvantages in the talk",
+              "type": "One minute of speaking in the exam; here five questions on what the speakers think",
+              "items": 5,
+              "plays": 1
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 10,
+          "minutesNote": "Topic 4 + Collaborative 4 + Conversation 2 minutes",
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Topic: discuss a topic you prepared (four or five points)",
+              "type": "One-to-one with the examiner, up to 4 minutes",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "Collaborative: the examiner reads a prompt; you ask questions and keep the conversation going",
+              "type": "One-to-one with the examiner, up to 4 minutes",
+              "items": 1
+            },
+            {
+              "teil": 3,
+              "task": "Conversation: one subject area chosen by the examiner (society and living standards, personal values and ideals, the world of work, national environmental concerns, public figures past and present)",
+              "type": "One-to-one with the examiner, up to 2 minutes",
+              "items": 1
+            }
+          ]
+        }
+      ],
+      "schreiben": {
+        "tasks": 2,
+        "wordCounts": [
+          "150–180",
+          "150–180"
+        ],
+        "criteria": [
+          "Task fulfilment",
+          "Organisation and structure",
+          "Language control"
+        ],
+        "rules": "Task 3 also marks reading for writing (how well you use the texts). Use your own words; do not copy from the texts."
+      },
+      "total": null,
+      "totalNote": "Each of the four skills gets its own result: Distinction, Merit, Pass or Fail.",
+      "pass": "Trinity reports Pass, Merit or Distinction for each skill; there is no percentage pass mark. Our practice sets use 60 % of the auto-marked points as their own guide.",
+      "modular": true,
+      "modularNote": "Reading & Writing and Speaking & Listening are two modules and can be taken at different times.",
+      "sprechen": {
+        "format": "One-to-one with the examiner, about 20 minutes including 2 minutes' admin time",
+        "preparation": "You prepare your topic and may bring notes or a mind map",
+        "criteria": [
+          "Communicative effectiveness",
+          "Interactive listening",
+          "Language control",
+          "Delivery"
+        ]
+      },
+      "unverified": []
+    },
+    {
+      "id": "telc-c1",
+      "exam": "telc Deutsch C1",
+      "provider": "telc",
+      "level": "C1",
+      "source": "telc Deutsch C1 – Übungstest 1, Format 2016, 'Testformat' S. 5, Aufgaben S. 6–27, Informationen S. 38–49 — https://www.telc.net/fileadmin/user_upload/mock_exams/Deutsch/telc_deutsch_c1.zip",
+      "modules": [
+        {
+          "name": "Leseverstehen",
+          "minutes": 90,
+          "minutesNote": "90 Min. für Leseverstehen UND Sprachbausteine zusammen; danach 20 Min. Pause",
+          "points": 48,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Textrekonstruktion: Welche Sätze gehören in die Lücken?",
+              "type": "Zuordnung Sätze → Lücken (8 Sätze a–h, 2 passen nicht)",
+              "items": 6,
+              "text": "1 Zeitschriftenartikel, ca. 500 Wörter",
+              "points": 12
+            },
+            {
+              "teil": 2,
+              "task": "Selektives Verstehen: In welchem Absatz steht die Antwort?",
+              "type": "Zuordnung Frage → Absatz a–e (Absätze mehrfach möglich)",
+              "items": 6,
+              "text": "1 Text mit 5 Absätzen (z. B. Erfahrungsberichte), ca. 800–900 Wörter",
+              "points": 12
+            },
+            {
+              "teil": 3,
+              "task": "Detailverstehen",
+              "type": "Richtig / Falsch / nicht im Text (+/–/x)",
+              "items": 11,
+              "text": "1 langer Sachtext/Essay, ca. 1.200 Wörter",
+              "points": 22
+            },
+            {
+              "teil": 4,
+              "task": "Globalverstehen (Makroaufgabe): Welche Überschrift trifft die Aussage des Textes (aus Teil 3) am besten?",
+              "type": "Mehrfachauswahl a/b/c",
+              "items": 1,
+              "text": "bezieht sich auf den Text von Teil 3",
+              "points": 2
+            }
+          ]
+        },
+        {
+          "name": "Sprachbausteine",
+          "minutes": 90,
+          "minutesNote": "gemeinsam mit Leseverstehen",
+          "points": 22,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Grammatik und Lexik: welches Wort passt in die Lücke?",
+              "type": "Lückentext, Mehrfachauswahl a/b/c/d",
+              "items": 22,
+              "text": "1 Sachtext/Bericht, ca. 400–450 Wörter",
+              "points": 22
+            }
+          ]
+        },
+        {
+          "name": "Hörverstehen",
+          "minutes": 40,
+          "minutesNote": "ca. 40 Min.; 5 Min. Übertragungszeit für Teil 3",
+          "points": 48,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Globalverstehen: Meinungen von 8 Personen zu einem Thema – welche Aussage passt zu welcher Person?",
+              "type": "Zuordnung (10 Aussagen a–j, 2 passen nicht)",
+              "items": 8,
+              "text": "8 kurze Meinungsäußerungen, 1 Min. Lesezeit",
+              "plays": 1,
+              "points": 8
+            },
+            {
+              "teil": 2,
+              "task": "Detailverstehen: Radiosendung",
+              "type": "Mehrfachauswahl a/b/c",
+              "items": 10,
+              "text": "1 Radiosendung/Interview, 3 Min. Lesezeit",
+              "plays": 1,
+              "points": 20
+            },
+            {
+              "teil": 3,
+              "task": "Informationstransfer: Vortrag hören und fehlende Informationen stichwortartig in Präsentationsfolien (Handzettel) eintragen",
+              "type": "Offene Kurzantwort (Notizen); 2 Punkte, bei fehlerhafter Realisierung ggf. 1",
+              "items": 10,
+              "text": "1 Vortrag mit Folien-Handout, 1 Min. Lesezeit",
+              "plays": 1,
+              "points": 20
+            }
+          ]
+        },
+        {
+          "name": "Schriftlicher Ausdruck",
+          "minutes": 70,
+          "points": 48,
+          "scoring": "4 Kriterien je 12/8/4/0 = 48",
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Argumentativer Text (Erörterung/Stellungnahme) zu 1 von 2 Themen (z. B. Leserbrief an Lokalzeitung, Beitrag für Schulzeitung); Vor- und Nachteile, eigene Position",
+              "type": "Freies Schreiben, Wahlaufgabe",
+              "items": 1,
+              "text": "Themenstellung + 2 Impulszitate; Text etwa 350 Wörter",
+              "points": 48
+            }
+          ]
+        },
+        {
+          "name": "Mündlicher Ausdruck",
+          "minutes": 16,
+          "minutesNote": "ca. 16 Min. Paarprüfung (Einzelprüfung kürzer, Dreierprüfung länger)",
+          "points": 48,
+          "scoring": "Aufgabengerechtheit: Teil 1A 6/4/2/0, Teil 1B 4/2/1/0, Teil 2 6/4/2/0 (= 16); Sprachliche Angemessenheit über alle Teile: Flüssigkeit, Repertoire, Grammatische Richtigkeit, Aussprache/Intonation je 8/5/2/0 (= 32)",
+          "parts": [
+            {
+              "teil": "1A",
+              "task": "Präsentation: Kurzreferat zu 1 von 2 Themen (Einleitung, gut gegliedert, Fazit)",
+              "type": "Monolog",
+              "items": 1,
+              "text": "ca. 3(–4) Min. pro Person",
+              "points": 6
+            },
+            {
+              "teil": "1B",
+              "task": "Zusammenfassung der Partner-Präsentation + mindestens eine Anschlussfrage; Fragen beantworten",
+              "type": "Interaktion",
+              "items": 1,
+              "text": "ca. 2(–3) Min. pro Person",
+              "points": 4
+            },
+            {
+              "teil": 2,
+              "task": "Diskussion zu einer These/Aussage: Verständnis, Zustimmung/Ablehnung, Gründe, Beispiele, auf Partner eingehen",
+              "type": "Interaktion (Paar)",
+              "items": 1,
+              "text": "Kurze These + 4 Leitpunkte; 6 Min.",
+              "points": 6
+            },
+            {
+              "teil": "alle",
+              "task": "Sprachliche Angemessenheit über die ganze Prüfung",
+              "type": "Globalbewertung",
+              "items": 0,
+              "text": "—",
+              "points": 32
+            }
+          ]
+        }
+      ],
+      "schreiben": {
+        "tasks": 1,
+        "wordCounts": [
+          "etwa 350"
+        ],
+        "choice": "Thema 1 oder 2",
+        "criteria": [
+          "Aufgabengerechtheit",
+          "Korrektheit",
+          "Repertoire",
+          "Kommunikative Gestaltung"
+        ],
+        "rules": "Thema verfehlt → D in allen vier Kriterien."
+      },
+      "sprechen": {
+        "format": "Paarprüfung ca. 16 Min. (Einzel- und Dreierprüfung möglich)",
+        "preparation": "20 Minuten (für die Präsentation); Stichwortnotizen erlaubt, kein ausformulierter Text",
+        "criteria": [
+          "Aufgabengerechtheit (je Teil)",
+          "Flüssigkeit",
+          "Repertoire",
+          "Grammatische Richtigkeit",
+          "Aussprache und Intonation"
+        ]
+      },
+      "total": 214,
+      "pass": "mind. 128 von 214 Punkten UND schriftlich mind. 60 % (99 von 166) UND mündlich mind. 60 % (29 von 48). Noten: 193–214 sehr gut, 172–192,5 gut, 151–171,5 befriedigend, 128–150,5 ausreichend.",
+      "modular": false,
+      "modularNote": "Nicht modular; nicht bestandener schriftlicher oder mündlicher Teil kann bis Ende des folgenden Kalenderjahres einzeln wiederholt werden.",
+      "unverified": [
+        "Gesamtdauer schriftlich: Das Heft sagt einmal 'Die Schriftliche Prüfung dauert 120 Minuten', die Testformat-Tabelle ergibt aber 90 + 40 + 70 = 200 Min. (+ 20 Min. Pause) – Tabellenwerte übernommen",
+        "Textlängen sind Schätzungen"
+      ]
+    }
+  ]
+}

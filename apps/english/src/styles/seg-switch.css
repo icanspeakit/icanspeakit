@@ -1,0 +1,33 @@
+/* The sliding marker of src/lib/segSwitch.js. It carries the active option's look (copied
+   from the page's own style); the options themselves go transparent above it. Positioned in
+   px from the container's left edge, so the RTL pass must not mirror it. */
+/*rtl:begin:ignore*/
+.seg-anim > .seg-pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  box-sizing: border-box;
+  pointer-events: none;
+  transition: transform 0.36s cubic-bezier(0.3, 1.25, 0.5, 1), width 0.36s cubic-bezier(0.3, 1.25, 0.5, 1),
+    height 0.36s cubic-bezier(0.3, 1.25, 0.5, 1), opacity 0.2s ease;
+}
+/*rtl:end:ignore*/
+.seg-anim > .seg-opt {
+  position: relative;
+  z-index: 1;
+  transition: color 0.25s ease;
+}
+/* Filled chips: the pill is the fill. */
+.seg-anim:not(.seg-line) > .seg-opt {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+/* Tab rows: the line is the underline. */
+.seg-line > .seg-opt {
+  border-bottom-color: transparent !important;
+  text-decoration: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .seg-anim > .seg-pill { transition: none; }
+}

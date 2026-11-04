@@ -1,0 +1,1276 @@
+{
+  "note": "Listening, A1–B2. Every script here is written for this site, in British English with UK settings, and will be voiced with generated TTS once a provider is wired (BACKEND.speech) – nothing is taken from a coursebook CD, which is why the task shapes follow the exams but the texts do not. Speakers map to a voice in `voices` below; a generator renders one clip per turn and joins them, so a dialogue really has two people in it. Places, firms and councils (Westbridge, Kingsford, Swiftline …) are made up; the UK rules mentioned (seven days of self-certification before a fit note, the six-month limit for the Financial Ombudsman Service) were checked as of 2026-10.",
+  "voices": {
+    "ansage": {
+      "label": "Announcement",
+      "id": "Xb7hH8MSUJpSbSDYk0k2",
+      "azure": "en-GB-SoniaNeural",
+      "note": "A calm, clear British female voice – what a station announcement in the UK sounds like. ElevenLabs id: Alice (British); check before the first render."
+    },
+    "frau": {
+      "label": "Speaker (f)",
+      "id": "pFZP5JQG7iQjIQuC4Bku",
+      "azure": "en-GB-LibbyNeural",
+      "note": "Warm British female voice for most female roles. ElevenLabs id: Lily (British); check before the first render."
+    },
+    "frau2": {
+      "label": "Second speaker (f)",
+      "id": "",
+      "azure": "en-GB-HollieNeural",
+      "note": "Younger and lighter British female voice, so a two-woman dialogue is still two people. No ElevenLabs voice chosen yet."
+    },
+    "mann": {
+      "label": "Speaker (m)",
+      "id": "onwK4e9ZLuTAKqWW03F9",
+      "azure": "en-GB-RyanNeural",
+      "note": "British male voice. ElevenLabs id: Daniel (British); check before the first render."
+    },
+    "mann2": {
+      "label": "Second speaker (m)",
+      "id": "JBFqnCBsd6RMkjVDRZzb",
+      "azure": "en-GB-ThomasNeural",
+      "note": "A deeper British male voice for the second male role. ElevenLabs id: George (British); check before the first render."
+    }
+  },
+  "types": {
+    "ansage": "Announcement",
+    "anrufbeantworter": "Voicemail",
+    "telefonat": "Phone call",
+    "gespraech": "Conversation",
+    "radio": "Radio",
+    "diskussion": "Discussion",
+    "vortrag": "Talk"
+  },
+  "texts": [
+    {
+      "id": "a1-ansage-bahnhof",
+      "level": "A1",
+      "type": "ansage",
+      "title": "Announcement at the station",
+      "blurb": "Platform, late, minutes – the words you really hear at a railway station.",
+      "seconds": 25,
+      "script": [
+        {
+          "speaker": "ansage",
+          "text": "Attention, please. This is an announcement for passengers on platform four. The twelve twenty train to Manchester is running about ten minutes late today."
+        },
+        {
+          "speaker": "ansage",
+          "text": "This train will now leave from platform seven, not platform four. I repeat: platform seven. We're sorry for the delay."
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "Where is the train going?",
+          "options": [
+            "To Manchester",
+            "To Leeds",
+            "To Liverpool"
+          ],
+          "answer": "To Manchester"
+        },
+        {
+          "prompt": "Which platform does the train leave from today?",
+          "options": [
+            "Platform seven",
+            "Platform four",
+            "Platform twelve"
+          ],
+          "answer": "Platform seven",
+          "explain": "“Platform seven, not platform four” – the new platform comes first, the old one comes after “not”."
+        },
+        {
+          "prompt": "How late is the train?",
+          "options": [
+            "About ten minutes",
+            "About twenty minutes",
+            "About four minutes"
+          ],
+          "answer": "About ten minutes",
+          "explain": "“Twelve twenty” is the time the train leaves, not the delay."
+        }
+      ]
+    },
+    {
+      "id": "a1-anruf-arzt",
+      "level": "A1",
+      "type": "anrufbeantworter",
+      "title": "Voicemail: your doctor's appointment",
+      "blurb": "The doctor's surgery cancels an appointment and offers a new one. Write down the day and the time.",
+      "seconds": 35,
+      "script": [
+        {
+          "speaker": "frau",
+          "text": "Hello, this is a message for Mrs Nowak. This is Sarah from Oakfield Medical Centre."
+        },
+        {
+          "speaker": "frau",
+          "text": "You have an appointment with Dr Patel on Wednesday at two o'clock. I'm sorry, but Dr Patel is ill on Wednesday."
+        },
+        {
+          "speaker": "frau",
+          "text": "Can you come on Friday at nine o'clock? Please call us back. Our number is zero one two one, four nine six, zero three two four. Thank you. Goodbye."
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "Who is calling?",
+          "options": [
+            "The doctor's surgery",
+            "The chemist's",
+            "The hospital"
+          ],
+          "answer": "The doctor's surgery"
+        },
+        {
+          "prompt": "Why is there a new appointment?",
+          "options": [
+            "The doctor is ill",
+            "The surgery is closed",
+            "Mrs Nowak is ill"
+          ],
+          "answer": "The doctor is ill"
+        },
+        {
+          "prompt": "When is the new appointment?",
+          "options": [
+            "Friday at nine o'clock",
+            "Wednesday at two o'clock",
+            "Friday at two o'clock"
+          ],
+          "answer": "Friday at nine o'clock",
+          "explain": "Wednesday at two o'clock was the old appointment. It is cancelled now."
+        },
+        {
+          "prompt": "What must Mrs Nowak do?",
+          "options": [
+            "Call the surgery back",
+            "Send an email",
+            "Just come on Friday"
+          ],
+          "answer": "Call the surgery back"
+        }
+      ]
+    },
+    {
+      "id": "a1-supermarkt",
+      "level": "A1",
+      "type": "gespraech",
+      "title": "In the supermarket: Where can I find …?",
+      "blurb": "Asking the way in a shop. Left, right, at the back – and what they haven't got today.",
+      "seconds": 35,
+      "script": [
+        {
+          "speaker": "mann",
+          "text": "Excuse me, where can I find the milk?"
+        },
+        {
+          "speaker": "frau",
+          "text": "The milk is at the back on the right, next to the cheese. Just go straight on to the end."
+        },
+        {
+          "speaker": "mann",
+          "text": "Thanks. And have you got fresh bread?"
+        },
+        {
+          "speaker": "frau",
+          "text": "Yes, the bread is here at the front on the left. But we haven't got any bread rolls today, sorry."
+        },
+        {
+          "speaker": "mann",
+          "text": "No problem. Thank you very much!"
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "Where is the milk?",
+          "options": [
+            "At the back on the right",
+            "At the front on the left",
+            "At the back on the left"
+          ],
+          "answer": "At the back on the right"
+        },
+        {
+          "prompt": "What haven't they got today?",
+          "options": [
+            "Bread rolls",
+            "Bread",
+            "Cheese"
+          ],
+          "answer": "Bread rolls",
+          "explain": "They have got bread. Only the bread rolls are gone."
+        },
+        {
+          "prompt": "Where is the bread?",
+          "options": [
+            "At the front on the left",
+            "At the back on the right",
+            "Next to the milk"
+          ],
+          "answer": "At the front on the left"
+        }
+      ]
+    },
+    {
+      "id": "a1-verabredung",
+      "level": "A1",
+      "type": "telefonat",
+      "title": "Phone call: When shall we meet?",
+      "blurb": "Two friends make a plan. A time, a place and a small change at the last minute.",
+      "seconds": 30,
+      "script": [
+        {
+          "speaker": "frau",
+          "text": "Hi Amira, it's Mei. Have you got a minute?"
+        },
+        {
+          "speaker": "frau2",
+          "text": "Hi Mei! Yes, of course. What's up?"
+        },
+        {
+          "speaker": "frau",
+          "text": "Shall we meet at the café tomorrow? At four o'clock?"
+        },
+        {
+          "speaker": "frau2",
+          "text": "Sorry, I can't at four. I work until five. Is six o'clock OK?"
+        },
+        {
+          "speaker": "frau",
+          "text": "Yes, that's fine. Six o'clock, then. But not at the café – come to my flat."
+        },
+        {
+          "speaker": "frau2",
+          "text": "Great. See you tomorrow!"
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "When do Mei and Amira meet?",
+          "options": [
+            "At six o'clock",
+            "At four o'clock",
+            "At five o'clock"
+          ],
+          "answer": "At six o'clock",
+          "explain": "Four o'clock was Mei's first idea, but Amira is still at work then."
+        },
+        {
+          "prompt": "Where do they meet?",
+          "options": [
+            "At Mei's flat",
+            "At the café",
+            "At Amira's flat"
+          ],
+          "answer": "At Mei's flat"
+        },
+        {
+          "prompt": "Why can't Amira meet earlier?",
+          "options": [
+            "She works until five",
+            "She is ill",
+            "She has an appointment"
+          ],
+          "answer": "She works until five"
+        }
+      ]
+    },
+    {
+      "id": "a2-amt-termin",
+      "level": "A2",
+      "type": "telefonat",
+      "title": "At the council: changing an appointment",
+      "blurb": "An appointment at the council doesn't work any more. What to say on the phone – and what to bring.",
+      "seconds": 60,
+      "script": [
+        {
+          "speaker": "mann",
+          "text": "Good morning, Westbridge Council, customer services. You're speaking to David. How can I help?"
+        },
+        {
+          "speaker": "frau",
+          "text": "Good morning. My name is Amina Khalil. I've got an appointment on Thursday about a parking permit, but I'm afraid I need to change it."
+        },
+        {
+          "speaker": "mann",
+          "text": "No problem. Have you got your reference number?"
+        },
+        {
+          "speaker": "frau",
+          "text": "Yes, just a moment … four eight nine two."
+        },
+        {
+          "speaker": "mann",
+          "text": "Thank you. Yes, I can see your appointment. The next free one is on the eighteenth of March at half past ten. Is that OK?"
+        },
+        {
+          "speaker": "frau",
+          "text": "Yes, that's fine. Do I need to bring anything?"
+        },
+        {
+          "speaker": "mann",
+          "text": "Please bring your passport or driving licence, the logbook for your car and proof of address – a council tax bill, for example. Without proof of address we can't deal with your application."
+        },
+        {
+          "speaker": "frau",
+          "text": "OK. Thank you very much!"
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "Why does Ms Khalil call?",
+          "options": [
+            "She wants to change her appointment",
+            "She wants to cancel her application",
+            "She forgot her appointment"
+          ],
+          "answer": "She wants to change her appointment"
+        },
+        {
+          "prompt": "When is the new appointment?",
+          "options": [
+            "18 March at 10.30",
+            "Thursday at 10.30",
+            "18 May at 10.30"
+          ],
+          "answer": "18 March at 10.30"
+        },
+        {
+          "prompt": "Which document does the man say is essential?",
+          "options": [
+            "Proof of address",
+            "A passport photo",
+            "A birth certificate"
+          ],
+          "answer": "Proof of address",
+          "explain": "“Without proof of address we can't deal with your application” – that is the one condition."
+        },
+        {
+          "prompt": "What does Ms Khalil give on the phone?",
+          "options": [
+            "Her reference number",
+            "Her phone number",
+            "Her address"
+          ],
+          "answer": "Her reference number"
+        }
+      ]
+    },
+    {
+      "id": "a2-wohnungsbesichtigung",
+      "level": "A2",
+      "type": "gespraech",
+      "title": "Viewing a flat",
+      "blurb": "Rent, bills, deposit – the numbers you have to understand in a short viewing.",
+      "seconds": 45,
+      "script": [
+        {
+          "speaker": "mann",
+          "text": "So, this is the living room, and the kitchen is through there. There are two bedrooms upstairs."
+        },
+        {
+          "speaker": "frau",
+          "text": "It's nice and bright. How much is the rent?"
+        },
+        {
+          "speaker": "mann",
+          "text": "It's nine hundred and fifty pounds a month. Water and the internet are included."
+        },
+        {
+          "speaker": "frau",
+          "text": "And electricity?"
+        },
+        {
+          "speaker": "mann",
+          "text": "No, you pay for electricity yourself, and the council tax too."
+        },
+        {
+          "speaker": "frau",
+          "text": "And how much is the deposit?"
+        },
+        {
+          "speaker": "mann",
+          "text": "One thousand pounds. You get it back when you move out, if everything is OK with the flat."
+        },
+        {
+          "speaker": "frau",
+          "text": "Good. And when is the flat free?"
+        },
+        {
+          "speaker": "mann",
+          "text": "From the first of June."
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "How much is the rent?",
+          "options": [
+            "£950 a month",
+            "£1,000 a month",
+            "£590 a month"
+          ],
+          "answer": "£950 a month",
+          "explain": "£1,000 is the deposit, not the rent."
+        },
+        {
+          "prompt": "What does the tenant pay for herself?",
+          "options": [
+            "Electricity and council tax",
+            "Water and the internet",
+            "Only the internet"
+          ],
+          "answer": "Electricity and council tax",
+          "explain": "“Water and the internet are included” – they are already in the rent."
+        },
+        {
+          "prompt": "How much is the deposit?",
+          "options": [
+            "£1,000",
+            "£950",
+            "£1,900"
+          ],
+          "answer": "£1,000"
+        },
+        {
+          "prompt": "When is the flat free?",
+          "options": [
+            "From 1 June",
+            "From 1 July",
+            "Now"
+          ],
+          "answer": "From 1 June"
+        }
+      ]
+    },
+    {
+      "id": "a2-radio-wetter-verkehr",
+      "level": "A2",
+      "type": "radio",
+      "title": "Radio: weather and traffic",
+      "blurb": "Two short reports, one after the other. Numbers, directions and a warning.",
+      "seconds": 40,
+      "script": [
+        {
+          "speaker": "frau",
+          "text": "And now the weather for the West Midlands. Rain this morning, but it will be drier this afternoon. Highs of eleven to fourteen degrees."
+        },
+        {
+          "speaker": "frau",
+          "text": "Tonight it will get colder, down to three degrees. Be careful: there may be ice on the roads early tomorrow morning."
+        },
+        {
+          "speaker": "mann",
+          "text": "Now the traffic. On the M6 northbound there's a five-mile queue between junction six and junction seven. A lorry has broken down in the middle lane."
+        },
+        {
+          "speaker": "mann",
+          "text": "Southbound, the road is clear. Please drive carefully."
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "What will the weather be like this afternoon?",
+          "options": [
+            "Drier",
+            "Rainy",
+            "Snowy"
+          ],
+          "answer": "Drier"
+        },
+        {
+          "prompt": "What is the warning about?",
+          "options": [
+            "Ice early tomorrow morning",
+            "Strong wind tonight",
+            "Very hot weather"
+          ],
+          "answer": "Ice early tomorrow morning",
+          "explain": "“There may be ice on the roads early tomorrow morning.”"
+        },
+        {
+          "prompt": "Where is the queue?",
+          "options": [
+            "On the M6 northbound",
+            "On the M6 southbound",
+            "In the city centre"
+          ],
+          "answer": "On the M6 northbound",
+          "explain": "The man says the southbound side is clear."
+        },
+        {
+          "prompt": "Why is there a queue?",
+          "options": [
+            "A lorry has broken down",
+            "There was an accident",
+            "There are roadworks"
+          ],
+          "answer": "A lorry has broken down"
+        }
+      ]
+    },
+    {
+      "id": "a2-paketdienst",
+      "level": "A2",
+      "type": "anrufbeantworter",
+      "title": "Voicemails: a parcel and the plumber",
+      "blurb": "Two messages on your phone. Who called, what should you do, and by when?",
+      "seconds": 45,
+      "script": [
+        {
+          "speaker": "mann",
+          "text": "Message one. Hello, this is Swiftline Deliveries. We came to your house at eleven o'clock today, but you weren't at home."
+        },
+        {
+          "speaker": "mann",
+          "text": "Your parcel is now at the parcel shop at twelve Station Road. You can collect it until Saturday. Please bring some photo ID."
+        },
+        {
+          "speaker": "frau2",
+          "text": "Message two. Hello Mr Ilić, this is Kate from Hartley Plumbing. It's about your boiler: our engineer can come on Tuesday between eight and twelve."
+        },
+        {
+          "speaker": "frau2",
+          "text": "If that time isn't good for you, please send us a text. If we don't hear from you, we'll come on Tuesday. Bye."
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "Where is the parcel now?",
+          "options": [
+            "At the parcel shop on Station Road",
+            "With a neighbour",
+            "It is coming again tomorrow"
+          ],
+          "answer": "At the parcel shop on Station Road"
+        },
+        {
+          "prompt": "What must you bring to collect the parcel?",
+          "options": [
+            "Photo ID",
+            "Some money",
+            "Your key"
+          ],
+          "answer": "Photo ID"
+        },
+        {
+          "prompt": "What should Mr Ilić do if Tuesday is OK?",
+          "options": [
+            "Nothing – the engineer will just come",
+            "Call the company to say yes",
+            "Send a text to say yes"
+          ],
+          "answer": "Nothing – the engineer will just come",
+          "explain": "He only needs to send a text if the time is NOT good for him."
+        },
+        {
+          "prompt": "When is the engineer coming?",
+          "options": [
+            "On Tuesday between eight and twelve",
+            "On Saturday between eight and twelve",
+            "On Tuesday at twelve"
+          ],
+          "answer": "On Tuesday between eight and twelve"
+        }
+      ]
+    },
+    {
+      "id": "b1-krankmeldung",
+      "level": "B1",
+      "type": "telefonat",
+      "title": "Calling in sick at work",
+      "blurb": "Calling in sick without over-apologising – and knowing when you need a note from the doctor.",
+      "seconds": 70,
+      "script": [
+        {
+          "speaker": "frau2",
+          "text": "HR, Helen Grant speaking. Good morning."
+        },
+        {
+          "speaker": "mann",
+          "text": "Good morning, Helen. It's Tarek Mansour from the warehouse. I'm afraid I need to call in sick today."
+        },
+        {
+          "speaker": "frau2",
+          "text": "Oh, I'm sorry to hear that. Do you know how long you'll be off?"
+        },
+        {
+          "speaker": "mann",
+          "text": "I've got a bad flu. I think I'll be off until Friday. If it doesn't get better, I'll go and see my GP."
+        },
+        {
+          "speaker": "frau2",
+          "text": "OK. For the first seven days you don't need a note from a doctor – when you're back, you just fill in a self-certification form. If you're off for more than seven days, we'll need a fit note from your GP."
+        },
+        {
+          "speaker": "mann",
+          "text": "Right. And is it OK if I just send an email next time?"
+        },
+        {
+          "speaker": "frau2",
+          "text": "Not really. Our policy is that you phone your manager or us on the first day, before your shift starts. But don't worry – you've called, so that's fine for today."
+        },
+        {
+          "speaker": "mann",
+          "text": "Good. And what about my shift on Thursday?"
+        },
+        {
+          "speaker": "frau2",
+          "text": "Leave that with me, I'll sort it out. Get well soon, Tarek."
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "How long does Tarek think he will be off?",
+          "options": [
+            "Until Friday",
+            "Until Thursday",
+            "For more than a week"
+          ],
+          "answer": "Until Friday"
+        },
+        {
+          "prompt": "When does the company need a fit note from a GP?",
+          "options": [
+            "If he is off for more than seven days",
+            "From the first day he is off",
+            "Only when he comes back to work"
+          ],
+          "answer": "If he is off for more than seven days",
+          "explain": "For the first seven days, a self-certification form is enough."
+        },
+        {
+          "prompt": "How should staff report that they are ill?",
+          "options": [
+            "By phone on the first day, before the shift",
+            "By email at any time on the first day",
+            "By text to a colleague after the shift"
+          ],
+          "answer": "By phone on the first day, before the shift"
+        },
+        {
+          "prompt": "Who will deal with the shift on Thursday?",
+          "options": [
+            "Helen",
+            "Tarek himself",
+            "A colleague from the warehouse"
+          ],
+          "answer": "Helen"
+        },
+        {
+          "prompt": "What will Tarek do if he doesn't get better?",
+          "options": [
+            "See his GP",
+            "Take unpaid leave",
+            "Go back to work anyway"
+          ],
+          "answer": "See his GP"
+        }
+      ]
+    },
+    {
+      "id": "b1-elterngespraech",
+      "level": "B1",
+      "type": "gespraech",
+      "title": "Parents' evening at school",
+      "blurb": "A teacher and a father talk about marks, homework and a recommendation.",
+      "seconds": 65,
+      "script": [
+        {
+          "speaker": "frau",
+          "text": "Thanks for coming, Mr Petrov. I wanted to talk to you about how Dimitri is getting on."
+        },
+        {
+          "speaker": "mann2",
+          "text": "Of course. At home he always says everything's fine."
+        },
+        {
+          "speaker": "frau",
+          "text": "In maths it really is going well – he's one of the best in the class. What's difficult at the moment is English, especially writing."
+        },
+        {
+          "speaker": "mann2",
+          "text": "But he speaks English well. Why is that?"
+        },
+        {
+          "speaker": "frau",
+          "text": "That's exactly the pattern: confident when he speaks, unsure when he writes. He hasn't got the fixed phrases you need in a written text yet. You don't just pick those up – you have to practise them."
+        },
+        {
+          "speaker": "mann2",
+          "text": "And what about homework? He sits at his desk for two hours every day."
+        },
+        {
+          "speaker": "frau",
+          "text": "Two hours is a lot. I'd say shorter, but regularly. And I'd recommend our writing club on Wednesdays after school. It's free, and the groups are small."
+        },
+        {
+          "speaker": "mann2",
+          "text": "We'll do that. Do I need to sign him up?"
+        },
+        {
+          "speaker": "frau",
+          "text": "I'll sign him up. You just need to sign a short form."
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "Which subject is Dimitri good at?",
+          "options": [
+            "Maths",
+            "English",
+            "Neither of them"
+          ],
+          "answer": "Maths"
+        },
+        {
+          "prompt": "What is the real problem?",
+          "options": [
+            "Writing",
+            "Speaking",
+            "His marks in every subject"
+          ],
+          "answer": "Writing",
+          "explain": "“Confident when he speaks, unsure when he writes” – the teacher calls it a pattern herself."
+        },
+        {
+          "prompt": "What does the teacher say about homework?",
+          "options": [
+            "Shorter, but regularly",
+            "More than two hours a day",
+            "No homework at all"
+          ],
+          "answer": "Shorter, but regularly"
+        },
+        {
+          "prompt": "How much does the writing club cost?",
+          "options": [
+            "Nothing",
+            "A small amount",
+            "The teacher doesn't say"
+          ],
+          "answer": "Nothing"
+        },
+        {
+          "prompt": "What does the father have to do?",
+          "options": [
+            "Sign a form",
+            "Sign Dimitri up himself",
+            "Talk to the head teacher"
+          ],
+          "answer": "Sign a form"
+        }
+      ]
+    },
+    {
+      "id": "b1-radio-muelltrennung",
+      "level": "B1",
+      "type": "radio",
+      "title": "Radio feature: recycling and bin day",
+      "blurb": "Which bin for what – and why plastic causes the most mistakes.",
+      "seconds": 75,
+      "script": [
+        {
+          "speaker": "frau",
+          "text": "Most of us recycle every week, but here in Westbridge about a quarter of what goes into the blue bin shouldn't be there. We asked the council's recycling team why."
+        },
+        {
+          "speaker": "mann",
+          "text": "The biggest mistake is plastic. Many people think every kind of plastic can go in the blue bin. But it's only packaging – bottles, pots, tubs and trays. A broken plastic toy isn't packaging, so it goes in the black bin with the general rubbish."
+        },
+        {
+          "speaker": "frau",
+          "text": "What about yoghurt pots? Do you have to wash them?"
+        },
+        {
+          "speaker": "mann",
+          "text": "No, a quick rinse is enough – there's no need to use lots of hot water. What's more important is that you never put your recycling in plastic bags. Our machines can't open the bags, so the whole bag ends up as rubbish."
+        },
+        {
+          "speaker": "frau",
+          "text": "And there's a change to bin day, too."
+        },
+        {
+          "speaker": "mann",
+          "text": "Yes. From the first of April, food waste will still be collected every week, but the black bin only every two weeks. And all bins need to be out by seven in the morning. The new calendar is on the council website."
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "Which plastic can go in the blue bin?",
+          "options": [
+            "Only packaging",
+            "Every kind of plastic",
+            "Only plastic bottles"
+          ],
+          "answer": "Only packaging",
+          "explain": "That is why a broken plastic toy goes in the black bin – it isn't packaging."
+        },
+        {
+          "prompt": "Do you have to wash yoghurt pots?",
+          "options": [
+            "No, a quick rinse is enough",
+            "Yes, with hot water",
+            "Yes, or they can't be recycled"
+          ],
+          "answer": "No, a quick rinse is enough"
+        },
+        {
+          "prompt": "Why shouldn't you put recycling in plastic bags?",
+          "options": [
+            "The machines can't open them",
+            "The bags are too heavy",
+            "The bags make the bin smell"
+          ],
+          "answer": "The machines can't open them"
+        },
+        {
+          "prompt": "How often will the black bin be collected from April?",
+          "options": [
+            "Every two weeks",
+            "Every week",
+            "Once a month"
+          ],
+          "answer": "Every two weeks",
+          "explain": "Every week is the food waste, not the black bin."
+        },
+        {
+          "prompt": "By what time must the bins be out?",
+          "options": [
+            "Seven in the morning",
+            "Eight in the morning",
+            "Nine in the morning"
+          ],
+          "answer": "Seven in the morning"
+        }
+      ]
+    },
+    {
+      "id": "b1-durchsage-ersatzverkehr",
+      "level": "B1",
+      "type": "ansage",
+      "title": "Announcement: disruption and replacement buses",
+      "blurb": "There are no trains on part of the line. If you need to get somewhere, listen carefully now.",
+      "seconds": 45,
+      "script": [
+        {
+          "speaker": "ansage",
+          "text": "Customer announcement. Due to a signalling problem, there is major disruption to services towards Kingsford this afternoon."
+        },
+        {
+          "speaker": "ansage",
+          "text": "There are currently no trains between Westbridge Central and Kingsford. Rail replacement buses are running instead. They leave from the bus stop outside the north entrance of the station every ten minutes."
+        },
+        {
+          "speaker": "ansage",
+          "text": "Passengers travelling to the airport, please take the train from platform two as far as Ashby Green and change there. Train tickets are valid on the replacement buses."
+        },
+        {
+          "speaker": "ansage",
+          "text": "We expect the problem to be fixed by about six o'clock this evening. Please allow at least thirty minutes of extra time for your journey. We apologise for the disruption."
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "Why are there no trains?",
+          "options": [
+            "Because of a signalling problem",
+            "Because of an accident",
+            "Because of a strike"
+          ],
+          "answer": "Because of a signalling problem"
+        },
+        {
+          "prompt": "Where do the replacement buses leave from?",
+          "options": [
+            "Outside the north entrance",
+            "Outside the south entrance",
+            "From Kingsford"
+          ],
+          "answer": "Outside the north entrance"
+        },
+        {
+          "prompt": "What should passengers for the airport do?",
+          "options": [
+            "Take a train to Ashby Green and change",
+            "Take a replacement bus to Kingsford",
+            "Wait until the problem is fixed"
+          ],
+          "answer": "Take a train to Ashby Green and change"
+        },
+        {
+          "prompt": "Do you need a new ticket for the bus?",
+          "options": [
+            "No, train tickets are valid",
+            "Yes, you buy one on the bus",
+            "Yes, from the ticket machine"
+          ],
+          "answer": "No, train tickets are valid"
+        },
+        {
+          "prompt": "How much extra time should you allow?",
+          "options": [
+            "At least thirty minutes",
+            "About ten minutes",
+            "Until six o'clock"
+          ],
+          "answer": "At least thirty minutes",
+          "explain": "Six o'clock is when the problem should be fixed, not the extra journey time."
+        }
+      ]
+    },
+    {
+      "id": "b2-diskussion-homeoffice",
+      "level": "B2",
+      "type": "diskussion",
+      "title": "Team meeting: working from home",
+      "blurb": "Three positions, one compromise. Follow the arguments – and notice who gives way on what.",
+      "seconds": 95,
+      "script": [
+        {
+          "speaker": "frau",
+          "text": "We need to agree a new working-from-home policy by the end of the month. At the moment every department does its own thing, and that keeps causing friction."
+        },
+        {
+          "speaker": "mann2",
+          "text": "To my mind, there's a lot to be said for leaving it as it is. The teams are very different – customer support has to be reachable, while the developers need peace and quiet. A single rule wouldn't do justice to either of them."
+        },
+        {
+          "speaker": "frau2",
+          "text": "I see your point, but it overlooks something. If each department decides, in practice it's the manager who decides. So it all depends on who your boss is – and that's exactly the unfairness people keep complaining about."
+        },
+        {
+          "speaker": "mann2",
+          "text": "That's a fair point. I was less concerned with the departments' freedom than with getting the work done."
+        },
+        {
+          "speaker": "frau",
+          "text": "Then let me suggest a framework rather than a fixed number. Everyone can work from home up to three days a week, but each team agrees on one shared office day. That way support is covered and the developers get their quiet days."
+        },
+        {
+          "speaker": "frau2",
+          "text": "I could live with that. The only thing that matters to me is that the office day is put in writing and not renegotiated every week."
+        },
+        {
+          "speaker": "mann2",
+          "text": "Agreed. I'd just add that we review it after six months to see whether it's working."
+        },
+        {
+          "speaker": "frau",
+          "text": "Good. So, to sum up: up to three days at home, one fixed office day per team, in writing, and a review in six months."
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "What is the problem with the current arrangement?",
+          "options": [
+            "Every department does its own thing",
+            "Nobody is allowed to work from home",
+            "Customer support can't be reached"
+          ],
+          "answer": "Every department does its own thing"
+        },
+        {
+          "prompt": "What counter-argument does the second woman make?",
+          "options": [
+            "In practice, the manager decides, not the team",
+            "Working from home is less productive",
+            "The developers don't need peace and quiet"
+          ],
+          "answer": "In practice, the manager decides, not the team",
+          "explain": "She doesn't deny that the teams are different; she shows what that leads to in practice."
+        },
+        {
+          "prompt": "How does the man react to her argument?",
+          "options": [
+            "He accepts it",
+            "He sticks to his position",
+            "He changes the subject"
+          ],
+          "answer": "He accepts it",
+          "explain": "“That's a fair point” – and then he explains what he really cared about."
+        },
+        {
+          "prompt": "What does the team agree on?",
+          "options": [
+            "Up to three days at home and one fixed office day per team",
+            "Three fixed office days a week for everyone",
+            "Each department keeps deciding for itself"
+          ],
+          "answer": "Up to three days at home and one fixed office day per team"
+        },
+        {
+          "prompt": "What does the man add at the end?",
+          "options": [
+            "A review after six months",
+            "A vote across the whole company",
+            "An exception for customer support"
+          ],
+          "answer": "A review after six months"
+        }
+      ]
+    },
+    {
+      "id": "b2-interview-anerkennung",
+      "level": "B2",
+      "type": "radio",
+      "title": "Interview: getting foreign qualifications recognised",
+      "blurb": "An adviser explains what “comparable” means – and the most common mistake people make in the process.",
+      "seconds": 85,
+      "script": [
+        {
+          "speaker": "frau",
+          "text": "Dr Hughes, many people who move to the UK have a qualification from their home country, and yet they end up working below their level. What's going wrong?"
+        },
+        {
+          "speaker": "mann",
+          "text": "Usually it isn't the qualification, it's the process. If you want to work in a regulated profession – nursing, medicine, teaching – you have to be registered with the professional body first. In most other jobs you can start straight away, and getting your qualification recognised is voluntary."
+        },
+        {
+          "speaker": "frau",
+          "text": "And what exactly is being checked?"
+        },
+        {
+          "speaker": "mann",
+          "text": "Whether your qualification is comparable, not whether it's identical. Nobody expects your course to have been the same as a British one. The question is whether there are major differences that actually matter for the job. Small differences in the syllabus are completely normal."
+        },
+        {
+          "speaker": "frau",
+          "text": "What's the most common mistake?"
+        },
+        {
+          "speaker": "mann",
+          "text": "Starting too late. You often need official translations and documents from your old university, and getting hold of those can take months. People who only start once they've arrived can easily lose half a year."
+        },
+        {
+          "speaker": "frau",
+          "text": "And if the result is only partial recognition?"
+        },
+        {
+          "speaker": "mann",
+          "text": "Then the decision tells you exactly which gaps you need to close – usually through extra training or a test. It isn't a rejection; it's more like a set of directions. Unfortunately, a lot of people read it as a no and give up."
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "In which jobs do you have to be registered first?",
+          "options": [
+            "In regulated professions, such as nursing",
+            "In every job, without exception",
+            "Only in skilled trades"
+          ],
+          "answer": "In regulated professions, such as nursing"
+        },
+        {
+          "prompt": "What does “comparable” mean here?",
+          "options": [
+            "Similar enough, but not identical",
+            "Exactly the same as a British course",
+            "Repeated at a British university"
+          ],
+          "answer": "Similar enough, but not identical",
+          "explain": "“Comparable, not identical” – only major differences that matter for the job count."
+        },
+        {
+          "prompt": "Why can starting late cost so much time?",
+          "options": [
+            "Getting documents and translations can take months",
+            "Professional bodies only accept applications once a year",
+            "You have to pass an English test first"
+          ],
+          "answer": "Getting documents and translations can take months"
+        },
+        {
+          "prompt": "What is the most common mistake, according to Dr Hughes?",
+          "options": [
+            "Starting too late",
+            "Applying to the wrong organisation",
+            "Not speaking enough English"
+          ],
+          "answer": "Starting too late"
+        },
+        {
+          "prompt": "How should you understand partial recognition?",
+          "options": [
+            "As directions, not a rejection",
+            "As a final rejection",
+            "As advice to change careers"
+          ],
+          "answer": "As directions, not a rejection"
+        }
+      ]
+    },
+    {
+      "id": "b2-beschwerde-versicherung",
+      "level": "B2",
+      "type": "telefonat",
+      "title": "Complaint to an insurance company",
+      "blurb": "A claim has been turned down. How to stay polite and still not back down.",
+      "seconds": 85,
+      "script": [
+        {
+          "speaker": "mann2",
+          "text": "Customer services, you're speaking to Mark. How can I help?"
+        },
+        {
+          "speaker": "frau2",
+          "text": "Hello. I'm calling about my water damage claim, reference four seven two one. I got a letter yesterday saying the claim has been turned down, and to be honest, I don't understand the reason."
+        },
+        {
+          "speaker": "mann2",
+          "text": "Let me have a look … It says here the damage was caused by a slow leak over several months, and gradual damage isn't covered by your policy."
+        },
+        {
+          "speaker": "frau2",
+          "text": "That's exactly the point. Your assessor never came to the flat. It wasn't a slow leak – a hose on the washing machine burst. That's what the plumber's report says, too, and I sent it to you on the twelfth."
+        },
+        {
+          "speaker": "mann2",
+          "text": "I'm afraid there's no record of the report on your file."
+        },
+        {
+          "speaker": "frau2",
+          "text": "Then I'd like you to reopen the claim, please. I'll send the report again today, and I'd like written confirmation that you've received it."
+        },
+        {
+          "speaker": "mann2",
+          "text": "I can promise you that. I'll put the claim back under review, and you'll get a confirmation by email."
+        },
+        {
+          "speaker": "frau2",
+          "text": "And if the claim is still turned down – what can I do then?"
+        },
+        {
+          "speaker": "mann2",
+          "text": "You can make a formal complaint, and if you're not happy with our final response, you have six months to take it to the Financial Ombudsman Service. But hopefully it won't come to that."
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "Why did the insurer turn down the claim?",
+          "options": [
+            "It said the damage came from a slow leak",
+            "It said the claim was made too late",
+            "It said the policy had been cancelled"
+          ],
+          "answer": "It said the damage came from a slow leak"
+        },
+        {
+          "prompt": "What really caused the damage, according to the customer?",
+          "options": [
+            "A burst hose on the washing machine",
+            "A broken pipe inside the wall",
+            "Rain coming in through the roof"
+          ],
+          "answer": "A burst hose on the washing machine"
+        },
+        {
+          "prompt": "What exactly does the customer ask for?",
+          "options": [
+            "To reopen the claim and confirm the report in writing",
+            "To be paid straight away, without another check",
+            "To send a different assessor to her flat"
+          ],
+          "answer": "To reopen the claim and confirm the report in writing",
+          "explain": "Two requests in one sentence – the second one protects her later."
+        },
+        {
+          "prompt": "How long does she have to go to the Financial Ombudsman?",
+          "options": [
+            "Six months after the final response",
+            "Two weeks after the first letter",
+            "Three months after the damage"
+          ],
+          "answer": "Six months after the final response"
+        },
+        {
+          "prompt": "Why wasn't the plumber's report taken into account?",
+          "options": [
+            "There is no record of it on her file",
+            "It was missing some pages",
+            "It arrived after the deadline"
+          ],
+          "answer": "There is no record of it on her file"
+        }
+      ]
+    },
+    {
+      "id": "b2-vortrag-ehrenamt",
+      "level": "B2",
+      "type": "vortrag",
+      "title": "Short talk: volunteering in the UK",
+      "blurb": "A trend, a problem and a proposal. Tell the main point from the examples.",
+      "seconds": 85,
+      "script": [
+        {
+          "speaker": "mann",
+          "text": "Millions of people in the UK give their time for free – in sports clubs, charity shops and food banks, or as school governors. Volunteering is still a big part of everyday life here, but it's changing."
+        },
+        {
+          "speaker": "mann",
+          "text": "What has changed above all is the form it takes. People used to join a club or a charity and stay for thirty years. Today many prefer to help with a particular project for a few months, and then move on to something else."
+        },
+        {
+          "speaker": "mann",
+          "text": "For organisations, that's a real difficulty. If you need a treasurer or a chair, you'll struggle to find anyone, because those are roles for years, not months. So people are no less willing to help – they're just less willing to commit."
+        },
+        {
+          "speaker": "mann",
+          "text": "There's a second point that is often overlooked: volunteering isn't evenly spread. People with higher incomes and more education volunteer noticeably more often. That has less to do with attitude than with time – if you have two jobs, you haven't got an evening left for a committee meeting."
+        },
+        {
+          "speaker": "mann",
+          "text": "So if we want more people to get involved, appealing to their sense of duty won't achieve much. What helps is lowering the barriers: short formats, clear tasks, and organisations that are happy to work with people who only stay for three months."
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "How has volunteering changed?",
+          "options": [
+            "Short projects instead of long-term roles",
+            "Far fewer people volunteer at all",
+            "Most volunteers are older people now"
+          ],
+          "answer": "Short projects instead of long-term roles"
+        },
+        {
+          "prompt": "Why is this a problem for organisations?",
+          "options": [
+            "Some roles have to be filled for years",
+            "They don't get enough new members",
+            "Short projects cost more money"
+          ],
+          "answer": "Some roles have to be filled for years"
+        },
+        {
+          "prompt": "According to the speaker, people today are …",
+          "options": [
+            "as willing to help, but less willing to commit",
+            "less willing to help than they used to be",
+            "only willing to help if they are paid"
+          ],
+          "answer": "as willing to help, but less willing to commit"
+        },
+        {
+          "prompt": "How does the speaker explain why volunteering isn't evenly spread?",
+          "options": [
+            "By how much free time people have",
+            "By people's attitudes",
+            "By where people live"
+          ],
+          "answer": "By how much free time people have",
+          "explain": "He says it directly: “less to do with attitude than with time”."
+        },
+        {
+          "prompt": "What is the conclusion of the talk?",
+          "options": [
+            "Lower the barriers instead of appealing to duty",
+            "Advertise clubs and charities more",
+            "Start paying volunteers"
+          ],
+          "answer": "Lower the barriers instead of appealing to duty"
+        }
+      ]
+    }
+  ]
+}

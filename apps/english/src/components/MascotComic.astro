@@ -1,0 +1,87 @@
+---
+// A short comic strip with the mascot crew, for a topic that is easier to see than to
+// read — „Du oder Sie?": Bruno and Regi go from Sie to du in three panels; on a grammar
+// page, „Wer ist am schnellsten?" races schnell → schneller → am schnellsten.
+//
+// Data (kultur.json → topic.comic, or src/data/grammatik/*.json → comics[]):
+// { title, panels: [{ caption, tag, left, right }] },
+// each side { name, expr?, say }. Left speaks first in every panel: that is the order the
+// strip is read in, still or animated. `say`, `title` and `tag` may mark the
+// taught words in braces ({du}, {Ihnen}); they become the same chips as in the text above
+// (src/lib/kulturMarks.js). `chip` gives them all one colour — a grammar strip marks the
+// taught forms, not one side of du/Sie. `fit` lays the panels out by the strip's own width
+// (a grammar page's exercise column is narrower than the screen), see mascot-comic.css.
+//
+// It plays once when it scrolls into view: the panels one after another, in each the two
+// bubbles in speaking order. "Nochmal" plays it again. Without JS, or with reduced motion,
+// the whole strip simply stands there. The German stays German — it is what is learnt.
+//
+// A mascot block: data-mascot-part, so "Maskottchen anzeigen: aus" removes it; the facts
+// above say the same in words.
+import { mascotSvg } from "../lib/mascots.js";
+import { marksToHtml } from "../lib/kulturMarks.js";
+import "../styles/mascot-comic.css";
+
+interface Side { name: "bruno" | "regi" | "hamsti" | "quaki"; expr?: "happy" | "thinking" | "celebrate" | "oops" | "sleepy"; say: string }
+interface Panel { caption: string; tag?: string; left: Side; right: Side }
+interface Props { comic: { title?: string; panels: Panel[] }; chip?: "form"; fit?: boolean }
+const { comic, chip, fit = false } = Astro.props;
+const marks = (s: string) => marksToHtml(s, chip ?? null);
+// Named after its own title, braces dropped — every strip used to say „Vom Sie zum du".
+const label = comic.title ? `Comic: ${comic.title.replace(/[{}]/g, "")}` : "Comic";
+
+const fig = (s: Side) => mascotSvg({ name: s.name, expr: s.expr ?? "happy", view: "three", size: 76, label: "", className: "ku-comic-fig" });
+---
+<figure class:list={["ku-comic", fit && "ku-comic--fit"]} data-comic data-mascot-part aria-label={label}>
+  <figcaption class="ku-comic-head">
+    {comic.title && <span class="ku-comic-title" set:html={marks(comic.title)} />}
+    <button type="button" class="ku-comic-replay" data-comic-replay data-i18n="kultur.comic.replay">Nochmal ansehen</button>
+  </figcaption>
+  <ol class="ku-comic-panels">
+    {comic.panels.map((p, i) => (
+      <li class="ku-comic-panel" style={`--p:${i}`}>
+        <p class="ku-comic-cap">{p.caption}</p>
+        <div class="ku-comic-stage">
+          {[["left", p.left, 0], ["right", p.right, 1]].map(([side, s, order]) => (
+            <div class={`ku-comic-who ku-comic-who--${side}`} style={`--b:${order}`}>
+              <p class="ku-comic-say" lang="de" set:html={marks((s as Side).say)} />
+              <span class="ku-comic-body" set:html={fig(s as Side)} />
+            </div>
+          ))}
+        </div>
+        {p.tag && <p class="ku-comic-tag" set:html={marks(p.tag)} />}
+      </li>
+    ))}
+  </ol>
+</figure>
+
+<script>
+  // Hidden until it is seen, then played — only where motion is welcome and the observer
+  // exists; everywhere else the strip is simply there.
+  const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  for (const el of document.querySelectorAll<HTMLElement>("[data-comic]")) {
+    const replay = el.querySelector<HTMLButtonElement>("[data-comic-replay]");
+    if (calm || !("IntersectionObserver" in window)) { if (replay) replay.hidden = true; continue; }
+    const play = () => {
+      el.classList.remove("is-playing");
+      void el.offsetWidth;
+      el.classList.add("is-playing");
+    };
+    el.classList.add("is-ready");
+    // Played when the reader has actually scrolled to it, not when its top edge peeks in
+    // under the strip above: most of it in view (60 %) — or, for a strip taller than the
+    // screen (stacked on a phone), half the screen filled by it. The bottom 15 % of the
+    // viewport does not count, so a strip just arriving at the fold waits for the scroll.
+    const io = new IntersectionObserver((entries) => {
+      const seen = entries.some((e) => e.isIntersecting && (
+        e.intersectionRatio >= 0.6 ||
+        (e.rootBounds && e.intersectionRect.height >= e.rootBounds.height * 0.5)
+      ));
+      if (!seen) return;
+      io.disconnect();
+      play();
+    }, { threshold: Array.from({ length: 21 }, (_, i) => i / 20), rootMargin: "0px 0px -15% 0px" });
+    io.observe(el);
+    replay?.addEventListener("click", play);
+  }
+</script>

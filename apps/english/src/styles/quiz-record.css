@@ -1,0 +1,46 @@
+/* The „Quiz“ tab on /progress (src/lib/liveQuiz/recordView.js). One card per round:
+   score with a bar, title and how it was played, points and date; opens into its questions. */
+.fq { max-width: 860px; }
+.fq-empty { margin: 8px 0; color: var(--muted); line-height: 1.6; }
+.fq-empty a { color: var(--brand-blue-dark); font-weight: var(--fw-semibold); }
+
+.fq-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0 0 16px; }
+.fq-stats div { display: grid; justify-items: center; padding: 12px 8px; border-radius: var(--radius-sm); background: var(--surface); }
+.fq-stats b { font-family: var(--font-display, inherit); font-size: 1.5rem; color: var(--ink); }
+.fq-stats span { font-size: .8rem; color: var(--muted); }
+
+.fq-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.fq-round { border: 1px solid var(--border); border-left: 4px solid var(--fq-c, var(--border)); border-radius: var(--radius-sm); background: var(--surface-card); }
+.fq-round.is-good { --fq-c: #1f8a70; }
+.fq-round.is-mid { --fq-c: #d9a21c; }
+.fq-round.is-hard { --fq-c: #c2410c; }
+.fq-round summary { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; padding: 12px 14px; cursor: pointer; list-style: none; }
+.fq-round summary::-webkit-details-marker { display: none; }
+.fq-score { display: grid; gap: 4px; min-width: 56px; }
+.fq-score b { font-size: 1.15rem; color: var(--fq-c); }
+.fq-bar { display: block; height: 5px; border-radius: 3px; background: var(--surface); overflow: hidden; }
+.fq-bar span { display: block; height: 100%; background: var(--fq-c); }
+.fq-main { display: grid; gap: 2px; min-width: 0; }
+.fq-title { font-weight: var(--fw-bold); color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fq-meta { font-size: .8rem; color: var(--muted); }
+.fq-side { display: grid; justify-items: end; gap: 2px; font-size: .8rem; color: var(--muted); text-align: right; }
+.fq-pts { font-weight: var(--fw-semibold); color: var(--ink); }
+
+.fq-qs { list-style: none; margin: 0; padding: 4px 14px 6px; border-top: 1px solid var(--border); }
+.fq-q { display: grid; grid-template-columns: 26px 1fr; gap: 10px; padding: 9px 0; }
+.fq-q + .fq-q { border-top: 1px solid var(--border); }
+.fq-q-n { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font-size: .75rem; font-weight: var(--fw-bold); color: #fff; background: #1f8a70; }
+.fq-q.is-bad .fq-q-n { background: #c2410c; }
+.fq-q-task { margin: 0 0 5px; font-weight: var(--fw-semibold); color: var(--ink); line-height: 1.4; }
+.fq-q-ans { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.fq-chip { padding: 2px 9px; border-radius: var(--radius-pill); font-size: .85rem; background: var(--surface); color: var(--muted); }
+.fq-chip.is-ok { background: color-mix(in srgb, #1f8a70 14%, transparent); color: #17694f; font-weight: var(--fw-semibold); }
+.fq-chip.is-bad { background: color-mix(in srgb, #c2410c 12%, transparent); color: #a3360a; text-decoration: line-through; }
+.fq-actions { margin: 0; padding: 4px 14px 12px; text-align: right; }
+.fq-del { border: 0; background: none; font: inherit; font-size: .8rem; color: var(--muted); text-decoration: underline; cursor: pointer; }
+.fq-del:hover { color: #a3360a; }
+
+@media (max-width: 560px) {
+  .fq-round summary { grid-template-columns: auto 1fr; }
+  .fq-side { grid-column: 1 / -1; grid-auto-flow: column; justify-content: space-between; text-align: left; }
+}

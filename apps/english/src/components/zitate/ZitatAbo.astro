@@ -1,0 +1,203 @@
+---
+// The Monday mail sign-up („Zitat der Woche“): posts to /api/zitate/abo, which asks Brevo for
+// a double opt-in. Shown once the Brevo list and template exist (PUBLIC_ZITAT_ABO=an at build
+// time); always in `astro dev`, so it can be reviewed. Styles: src/styles/zitate.css, plus the
+// "sent" panel below (Gmail files the confirmation mail under „Werbung“, so the panel says where
+// to look and offers a search link into the learner's webmail).
+const show = import.meta.env.PUBLIC_ZITAT_ABO === "an" || import.meta.env.DEV;
+---
+{show && (
+  <section class="zt-abo" aria-labelledby="zt-abo-h" data-zt-abo>
+    <h2 id="zt-abo-h" data-i18n="zitate.abo.title">Das Zitat der Woche per E-Mail</h2>
+    <p class="zt-abo-lead" data-i18n="zitate.abo.lead">Jeden Montag das beste Zitat der letzten Woche, mit drei Wörtern und der Person dahinter. Kostenlos, jederzeit abbestellbar.</p>
+    <form class="zt-abo-form" method="post" action="/api/zitate/abo" novalidate>
+      <label for="zt-abo-email" data-i18n="wg.abo.email">Deine E-Mail-Adresse</label>
+      <div class="zt-abo-row">
+        <input id="zt-abo-email" name="email" type="email" inputmode="email" autocomplete="email" required maxlength="254" />
+        <button type="submit" class="btn btn-primary" data-i18n="wg.abo.submit">Anmelden</button>
+      </div>
+      <div class="zt-hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
+      <p class="zt-abo-fine" data-i18n-html="zitate.abo.note">Du bekommst zuerst eine E-Mail mit einem Bestätigungslink. Erst nach dem Klick schicken wir dir Zitate. <a href="/privacy">Datenschutz</a></p>
+      <p class="zt-abo-status" role="status" aria-live="polite" data-zt-status></p>
+    </form>
+
+    <div class="zt-sent" hidden data-zt-sent>
+      <div class="zt-sent-art" aria-hidden="true">
+        <svg class="zt-sent-tray" viewBox="0 0 120 70"><path d="M8 34 L24 8 H96 L112 34 V62 H8 Z" /><path class="zt-sent-tray-in" d="M8 34 H40 Q44 46 60 46 Q76 46 80 34 H112" /></svg>
+        <svg class="zt-sent-env" viewBox="0 0 64 44"><rect x="2" y="2" width="60" height="40" rx="6" /><path d="M4 6 L32 26 L60 6" /></svg>
+        <span class="zt-sent-check">✓</span>
+      </div>
+      <h3 class="zt-sent-h" tabindex="-1" data-i18n="zitate.abo.sentH">Fast geschafft: Schau jetzt in dein Postfach</h3>
+      <p class="zt-sent-to" data-zt-sent-to></p>
+      <div class="zt-sent-mail" lang="en">
+        <span class="zt-sent-from">EnglishAcademy</span>
+        <span class="zt-sent-subj">Please confirm: Quote of the week from EnglishAcademy</span>
+      </div>
+      <div class="zt-sent-warn" data-i18n-html="zitate.abo.warn">
+        <b>Keine E-Mail da?</b> Schau unter <b>„Werbung“</b> (Gmail: „Promotions“) und im <b>Spam</b>. Dort landet sie oft.
+        Zieh sie danach in den Ordner <b>„Allgemein“</b> (Primary), dann kommen auch die Zitate am Montag richtig an.
+      </div>
+      <div class="zt-sent-actions">
+        <a class="btn btn-primary" hidden target="_blank" rel="noopener" data-zt-webmail data-i18n="zitate.abo.webmail">Postfach öffnen</a>
+        <button type="button" class="btn btn-secondary" data-zt-again data-i18n="zitate.abo.again">Andere Adresse eingeben</button>
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .zt-sent { display: grid; gap: 12px; justify-items: start; }
+  .zt-sent[hidden], .zt-abo-form[hidden] { display: none; }
+  .zt-sent-art { position: relative; width: 140px; height: 84px; justify-self: center; }
+  .zt-sent-tray { position: absolute; left: 10px; bottom: 0; width: 120px; height: 70px; }
+  .zt-sent-tray path { fill: var(--surface-card); stroke: var(--brand-blue); stroke-width: 3; stroke-linejoin: round; }
+  .zt-sent-tray .zt-sent-tray-in { fill: none; }
+  .zt-sent-env { position: absolute; left: 38px; top: 0; width: 64px; height: 44px; opacity: 0; }
+  .zt-sent-env rect { fill: var(--brand-blue); }
+  .zt-sent-env path { fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .zt-sent-check {
+    position: absolute; right: 4px; top: 6px; width: 30px; height: 30px; border-radius: 50%;
+    display: grid; place-items: center; font-weight: 700; color: #fff; background: var(--success);
+    box-shadow: 0 0 0 3px var(--surface-card);
+  }
+  .zt-sent-h { margin: 0; font-size: 1.15rem; outline: none; }
+  .zt-sent-to { margin: 0; line-height: 1.5; overflow-wrap: anywhere; }
+  .zt-sent-mail {
+    width: 100%; box-sizing: border-box; display: grid; gap: 2px; padding: 10px 14px; border-radius: 12px;
+    background: var(--surface-card); border: 1px solid var(--border); font-size: .9rem;
+  }
+  .zt-sent-from { font-weight: var(--fw-semibold); }
+  .zt-sent-subj { color: var(--muted); }
+  .zt-sent-warn {
+    width: 100%; box-sizing: border-box; padding: 12px 14px; border-radius: 12px; line-height: 1.5; font-size: .95rem;
+    background: color-mix(in srgb, #f59e0b 14%, var(--surface-card)); border: 1px solid color-mix(in srgb, #f59e0b 45%, var(--border));
+  }
+  .zt-sent-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .zt-sent-actions [hidden] { display: none; }
+
+  /* The envelope drops into the inbox, the tray bumps, the check pops; the warning nudges twice. */
+  .zt-sent.is-in .zt-sent-env { animation: zt-env-drop 1.1s cubic-bezier(.3,.7,.4,1) both; }
+  .zt-sent.is-in .zt-sent-tray { animation: zt-tray-bump .35s ease-out 1s both; }
+  .zt-sent.is-in .zt-sent-check { animation: zt-check-pop .45s cubic-bezier(.3,1.6,.5,1) 1.15s both; }
+  .zt-sent.is-in > :not(.zt-sent-art) { animation: zt-rise .4s ease-out both; }
+  .zt-sent.is-in > :nth-child(2) { animation-delay: .25s; }
+  .zt-sent.is-in > :nth-child(3) { animation-delay: .35s; }
+  .zt-sent.is-in > :nth-child(4) { animation-delay: .45s; }
+  .zt-sent.is-in > :nth-child(5) { animation: zt-rise .4s ease-out .55s both, zt-nudge .5s ease-in-out 1.6s 2; }
+  .zt-sent.is-in > :nth-child(6) { animation-delay: .65s; }
+  @keyframes zt-env-drop {
+    0%   { transform: translate(-70px, -30px) rotate(-18deg) scale(.8); opacity: 0; }
+    35%  { transform: translate(0, -4px) rotate(6deg) scale(1); opacity: 1; }
+    75%  { transform: translate(0, 26px) rotate(0) scale(.85); opacity: 1; }
+    100% { transform: translate(0, 34px) scale(.6); opacity: 0; }
+  }
+  @keyframes zt-tray-bump { 50% { transform: translateY(4px) scaleY(.94); } }
+  @keyframes zt-check-pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  @keyframes zt-rise { from { transform: translateY(8px); opacity: 0; } }
+  @keyframes zt-nudge { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+  @media (prefers-reduced-motion: reduce) {
+    .zt-sent.is-in .zt-sent-art *, .zt-sent.is-in > * { animation: none !important; }
+  }
+</style>
+
+<script>
+  import { getLang } from "../../lib/i18n.js";
+  import { t, onUiText } from "../../lib/uiText.js";
+  import { track } from "../../lib/track.js";
+
+  const MSG = {
+    invalid: () => t("wg.abo.invalid", "Bitte gib eine gültige E-Mail-Adresse ein."),
+    busy: () => t("wg.abo.busy", "Zu viele Versuche. Bitte warte ein paar Minuten."),
+    error: () => t("wg.abo.error", "Das hat gerade nicht geklappt. Bitte versuche es später noch einmal."),
+  };
+  const SENT_TO = "We have just sent an email to {email}. Click the link in it to finish signing up.";
+  // Webmail by domain. Gmail gets a search across all folders (in:anywhere also covers Spam),
+  // so the confirmation mail shows up even when it sits under „Werbung“.
+  const WEBMAIL: [RegExp, string][] = [
+    [/^(gmail|googlemail)\.com$/, "https://mail.google.com/mail/u/0/#search/in%3Aanywhere+EnglishAcademy+confirm"],
+    [/^(outlook|hotmail|live|msn)\.[a-z.]+$/, "https://outlook.live.com/mail/"],
+    [/^gmx\.[a-z.]+$/, "https://www.gmx.net/"],
+    [/^web\.de$/, "https://web.de/"],
+    [/^t-online\.de$/, "https://email.t-online.de/"],
+    [/^(yahoo|ymail)\.[a-z.]+$/, "https://mail.yahoo.com/"],
+    [/^(icloud|me|mac)\.com$/, "https://www.icloud.com/mail"],
+    [/^ukr\.net$/, "https://mail.ukr.net/"],
+  ];
+
+  const root = document.querySelector<HTMLElement>("[data-zt-abo]");
+  const abo = root?.querySelector<HTMLFormElement>("form");
+  const sent = root?.querySelector<HTMLElement>("[data-zt-sent]");
+
+  let sentEmail = "";
+  // „… an <b>address</b> geschickt …“: the address goes in as text, never as HTML.
+  function renderSentTo() {
+    const p = sent?.querySelector<HTMLElement>("[data-zt-sent-to]");
+    if (!p || !sentEmail) return;
+    const [before, after = ""] = t("zitate.abo.sentTo", SENT_TO).split("{email}");
+    const b = document.createElement("b");
+    b.textContent = sentEmail;
+    p.replaceChildren(before, b, after);
+  }
+  onUiText(renderSentTo);
+
+  function showSent(email: string) {
+    if (!root || !abo || !sent) return;
+    sentEmail = email;
+    renderSentTo();
+    const domain = email.split("@")[1]?.toLowerCase() || "";
+    const hit = WEBMAIL.find(([re]) => re.test(domain));
+    const link = sent.querySelector<HTMLAnchorElement>("[data-zt-webmail]")!;
+    link.hidden = !hit;
+    if (hit) link.href = hit[1];
+    abo.hidden = true;
+    sent.hidden = false;
+    sent.classList.remove("is-in");
+    void sent.offsetWidth; // restart the animation when someone signs up a second address
+    sent.classList.add("is-in");
+    sent.querySelector<HTMLElement>(".zt-sent-h")?.focus({ preventScroll: true });
+    root.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  sent?.querySelector("[data-zt-again]")?.addEventListener("click", () => {
+    sent.hidden = true;
+    abo!.hidden = false;
+    abo!.querySelector<HTMLInputElement>("input[type=email]")?.focus();
+  });
+  sent?.querySelector("[data-zt-webmail]")?.addEventListener("click", () => track("zitat_abo_webmail", {}));
+
+  abo?.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const status = abo.querySelector<HTMLElement>("[data-zt-status]")!;
+    const btn = abo.querySelector<HTMLButtonElement>("button[type=submit]")!;
+    const data = new FormData(abo);
+    const email = String(data.get("email") || "").trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { status.textContent = MSG.invalid(); return; }
+    btn.disabled = true;
+    const label = btn.textContent;
+    btn.textContent = t("auth.email.loading", "Wird gesendet …");
+    status.textContent = "";
+    try {
+      const r = await fetch("/api/zitate/abo", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email, website: data.get("website"), lang: getLang() }),
+      });
+      if (r.status === 202) {
+        abo.reset();
+        showSent(email);
+        track("zitat_abo_request", {});
+      } else if (r.status === 429) {
+        // The server's message is German (wortRateLimit.js); other languages get the general one.
+        const d = await r.json().catch(() => ({}));
+        status.textContent = (getLang() === "de" && d.message) || MSG.busy();
+      } else {
+        status.textContent = r.status === 400 ? MSG.invalid() : MSG.error();
+      }
+    } catch {
+      status.textContent = MSG.error();
+    } finally {
+      btn.disabled = false;
+      btn.textContent = label;
+    }
+  });
+</script>

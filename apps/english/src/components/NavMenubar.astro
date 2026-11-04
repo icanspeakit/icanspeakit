@@ -1,0 +1,583 @@
+---
+// The desktop menu bar, lifted out of SiteNav so the practice pages can wear it too.
+//
+// Three text items, not eight:
+//
+//   Üben ▾        one mega menu, five columns — Wo anfangen? (the levels), Grammatik,
+//                 Wortschatz, Fertigkeiten, Landeskunde. See `navUebenMenu` in catalog.js
+//   Prüfungen ▾   a grid of five; the exams are peers, not a tree, and a grid reads
+//                 the way the Üben columns next door do rather than as a tall list
+//   Wissen ▾      three columns — Landeskunde, Kulturwissen, Bücher (the PDF library).
+//                 Landeskunde moved here from Üben: it is knowledge, not a drill, and the
+//                 phone drawer files it the same way. See `navWissenMenu` in catalog.js
+//
+// The bar used to carry five subject menus plus Niveaus, Profil and Wissen. Three
+// problems with that, in order of how much they cost a learner:
+//
+//   1. Eight items mixing three kinds of thing — four content subjects, a cross-cutting
+//      filter, and two account links — so "where do I click" needed all eight held in
+//      mind at once.
+//   2. "Niveaus" was a second copy of the entire content tree, keyed by a filter. A CEFR
+//      level is not a destination; it is a lens on the four subjects. It is now a chip
+//      row inside Üben, and the listing pages filter by level themselves.
+//   3. The row was wide enough to run into the logo wordmark at 1280px.
+//
+// Profil moved to the avatar in SiteNav's right cluster, with the theme toggle under it.
+//
+// What the columns deliberately do NOT carry: the deep per-level tree the old panels
+// held (every grammar topic, every Lernset, every skill × level). Four columns cannot
+// hold several hundred links, and too many links in the menu was the problem. Every one
+// of those routes is one click further, from the hub its column links to — the page that
+// exists to list them. See the note on `navUeben` in src/lib/catalog.js.
+//
+// Hidden below 1080px, where NavDrawer takes over. Rendered on the server and merely
+// shown/hidden, so every link is in the HTML for crawlers and the nav still navigates
+// with JS off — the `.lp-nav-fallback` block at the bottom is what JS-off gets instead.
+import Icon from "./Icon.astro";
+import { navSections, navUeben, navUebenMenu, navWissenMenu, navLehrkraefte, navNachschlagen, navEntdecken } from "../lib/catalog.js";
+import { mascotSvg } from "../lib/mascots.js";
+import "../styles/site-nav.css";
+
+interface Props {
+  /** Marks the current section so its menu button reads as active. */
+  active?: string;
+  /**
+   * Layout of the Wissen panel, compared side by side on /nav1–/nav6. The site uses
+   * "lean" (since 2026-10-23; /nav4 "oldplus" before):
+   *   lean     "old": the four columns, the Nachschlagewerk a row in Üben → Grammatik
+   *   current  every column of navWissenMenu, Nachschlagewerk included
+   *   old      the four columns from before the Nachschlagewerk joined (2026-10-07)
+   *   oldplus  "old", with the Nachschlagewerk as one row across the foot of the four
+   *   oldbooks "old", with the Nachschlagewerk as a second group in the Bücher column
+   *   oldchips "old", with the Nachschlagewerk as one line of chips above the four
+   *   tabs     the sections as a rail on the left, one section's links on the right
+   */
+  wissenVariant?: "lean" | "current" | "old" | "oldplus" | "oldbooks" | "oldchips" | "tabs";
+}
+const { active, wissenVariant = "lean" } = Astro.props;
+const OLD_LIKE = ["lean", "old", "oldplus", "oldbooks", "oldchips"];
+const wissenCols = OLD_LIKE.includes(wissenVariant)
+  ? navWissenMenu.columns.filter((c) => c.id !== "nachschlagen")
+  : navWissenMenu.columns;
+
+const WISSEN_HREF = "/knowledge";
+// The teacher section: worksheets, printable games and the live quiz.
+const LEHRKRAEFTE_HREF = navLehrkraefte.href;
+
+/** `data-i18n-vars` wants a string or nothing — never the literal "undefined". */
+const vars = (v) => (v ? JSON.stringify(v) : undefined);
+
+// Üben reads as current for any of the four subjects it now contains, so a Grammatik
+// page still shows which top-level item it lives under.
+const UEBEN_ACTIVE = ["ueben", "grammatik", "wortschatz", "fertigkeiten"];
+// Landeskunde pages live under Wissen now.
+const WISSEN_ACTIVE = ["wissen", "landeskunde"];
+const pruefungen = navSections.find((s) => s.id === "pruefungen");
+---
+<!-- Desktop menu bar. Hidden below 1080px, where the drawer takes over. -->
+<div class="lp-menubar" data-menubar role="menubar" aria-label="Hauptnavigation" data-i18n-attr="aria-label:nav.mainNav">
+  <!-- ── Üben ─────────────────────────────────────────────────────────────── -->
+  <div class="lp-menu" data-menu="ueben">
+    <a
+      class:list={["lp-menu-btn", UEBEN_ACTIVE.includes(active ?? "") && "is-active"]}
+      href={navUeben.href}
+      role="menuitem"
+      aria-haspopup="true"
+      aria-expanded="false"
+      aria-controls="lp-panel-ueben"
+      data-menu-btn
+    >
+      <span data-i18n={navUeben.nameKey}>{navUeben.name}</span>
+      <svg class="lp-menu-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </a>
+
+    <div class="lp-panel lp-panel--mega lp-panel--mega5" id="lp-panel-ueben" data-menu-panel role="menu" aria-label="Üben" data-i18n-attr="aria-label:nav.practise" hidden>
+      <div class="lp-mega-cols">
+        {/* Where to start comes first: a beginner decides by level before by subject. */}
+        <div class="lp-mega-col lp-mega-col--start">
+          <p class="lp-mega-head lp-mega-head--label" data-i18n={navUebenMenu.start.nameKey}>{navUebenMenu.start.name}</p>
+          <a class="lp-mega-primary" href={navUebenMenu.start.stunde.href} role="menuitem">
+            <b data-i18n={navUebenMenu.start.stunde.titleKey}>{navUebenMenu.start.stunde.title}</b>
+            <i data-i18n={navUebenMenu.start.stunde.hintKey}>{navUebenMenu.start.stunde.hint}</i>
+          </a>
+          <hr class="lp-mega-rule" />
+          <ul>
+            {navUebenMenu.start.levels.map((lv) => (
+              <li>
+                <a href={lv.href} role="menuitem" class="lp-mega-level">
+                  <span class="lp-mega-level-code">{lv.level}</span>
+                  <b data-i18n={lv.nameKey}>{lv.name}</b>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <a class="lp-mega-more" href={navUebenMenu.start.placement.href} role="menuitem" data-i18n={navUebenMenu.start.placement.titleKey}>{navUebenMenu.start.placement.title}</a>
+        </div>
+
+        {navUebenMenu.columns.map((col) => (
+          <div class="lp-mega-col">
+            {/* The column head is a link, not a caption: "Grammatik" is a page, and a
+                heading you cannot click next to rows you can is a small lie. */}
+            {col.href ? (
+              <a class="lp-mega-head" href={col.href} role="menuitem">
+                <span class="lp-panel-head-ic"><Icon name={col.icon} size={16} /></span>
+                <span data-i18n={col.nameKey}>{col.name}</span>
+              </a>
+            ) : (
+              <p class="lp-mega-head lp-mega-head--label">
+                <span class="lp-panel-head-ic"><Icon name={col.icon} size={16} /></span>
+                <span data-i18n={col.nameKey}>{col.name}</span>
+              </p>
+            )}
+            {/* The hub, louder than the rows under it: it is where a beginner should go.
+                A rule, not a label, separates it from the short ways in. */}
+            {col.primary && (
+              <>
+                <a class="lp-mega-primary" href={col.primary.href} role="menuitem">
+                  <b data-i18n={col.primary.titleKey}>{col.primary.title}</b>
+                  <i data-i18n={col.primary.hintKey} data-i18n-vars={vars(col.primary.hintVars)}>{col.primary.hint}</i>
+                </a>
+                <hr class="lp-mega-rule" />
+              </>
+            )}
+            <ul>
+              {col.items.map((item) => (
+                <li class:list={[item.nested && "lp-mega-nested"]}>
+                  <a href={item.href} role="menuitem">
+                    {item.titleKey ? <b data-i18n={item.titleKey} data-i18n-vars={vars(item.titleVars)}>{item.title}</b> : <b><bdi>{item.title}</bdi></b>}
+                    {item.hint && <i data-i18n={item.hintKey}>{item.hint}</i>}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Prüfungen ────────────────────────────────────────────────────────── -->
+  <div class="lp-menu" data-menu="pruefungen">
+    <a
+      class:list={["lp-menu-btn", active === "pruefungen" && "is-active"]}
+      href={pruefungen.href}
+      role="menuitem"
+      aria-haspopup="true"
+      aria-expanded="false"
+      aria-controls="lp-panel-pruefungen"
+      data-menu-btn
+    >
+      <span data-i18n={pruefungen.nameKey}>{pruefungen.name}</span>
+      <svg class="lp-menu-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </a>
+    <div class="lp-panel lp-panel--exams" id="lp-panel-pruefungen" data-menu-panel role="menu" aria-label={pruefungen.name} data-i18n-attr={`aria-label:${pruefungen.nameKey}`} hidden>
+      {/* The section page first, as in every other panel. On touch, the first tap opens
+          this panel instead of following the trigger, so this is the way in. */}
+      <a class="lp-mega-primary" href={pruefungen.href} role="menuitem">
+        <b data-i18n="nav.panel.allExams">Alle Prüfungen ansehen</b>
+      </a>
+      <ul class="lp-panel-list">
+        {pruefungen.items.map((item) => (
+          <li>
+            <a href={item.href} role="menuitem">
+              <span class="lp-panel-ic"><Icon name={item.icon} size={18} /></span>
+              <span class="lp-panel-txt">
+                <b data-i18n={item.titleKey}>{item.title}</b>
+                <i data-i18n={item.countKey} data-i18n-vars={vars(item.countVars)}>{item.count}</i>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── Wissen ───────────────────────────────────────────────────────────── -->
+  <div class="lp-menu" data-menu="wissen">
+    <a
+      class:list={["lp-menu-btn", WISSEN_ACTIVE.includes(active ?? "") && "is-active"]}
+      href={WISSEN_HREF}
+      role="menuitem"
+      aria-haspopup="true"
+      aria-expanded="false"
+      aria-controls="lp-panel-wissen"
+      data-menu-btn
+    >
+      <span data-i18n="nav.subject.wissen">Wissen</span>
+      <svg class="lp-menu-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </a>
+    <div class:list={["lp-panel lp-panel--mega lp-panel--wissen", `lp-panel--wissen-${wissenVariant}`, wissenVariant !== "old" && OLD_LIKE.includes(wissenVariant) && "lp-panel--wissen-old"]} id="lp-panel-wissen" data-menu-panel role="menu" aria-label="Wissen" data-i18n-attr="aria-label:nav.subject.wissen" hidden>
+      {wissenVariant === "tabs" && (
+        <ul class="lp-wtabs-rail">
+          {wissenCols.map((col, i) => (
+            <li>
+              <a class:list={["lp-wtabs-tab", i === 0 && "is-active"]} href={col.href} role="menuitem" data-wtab={i}>
+                <span class="lp-panel-head-ic"><Icon name={col.icon} size={16} /></span>
+                <span data-i18n={col.nameKey}>{col.name}</span>
+                <svg class="lp-wtabs-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+      {wissenVariant === "oldchips" && (
+        <div class="lp-wchips">
+          <a class="lp-wchips-head" href={navNachschlagen.href} role="menuitem">
+            <span class="lp-panel-head-ic"><Icon name={navNachschlagen.icon} size={16} /></span>
+            <span data-i18n={navNachschlagen.nameKey}>{navNachschlagen.name}</span>
+          </a>
+          {navNachschlagen.items.map((item) => (
+            <a class="lp-wchip" href={item.href} role="menuitem" title={item.hint} data-i18n={item.titleKey}>{item.title}</a>
+          ))}
+        </div>
+      )}
+      <div class="lp-mega-cols">
+        {wissenCols.map((col, i) => (
+          <div class:list={["lp-mega-col", wissenVariant === "tabs" && i === 0 && "is-shown"]} data-wpane={i}>
+            <a class="lp-mega-head" href={col.href} role="menuitem">
+              <span class="lp-panel-head-ic"><Icon name={col.icon} size={16} /></span>
+              <span data-i18n={col.nameKey}>{col.name}</span>
+            </a>
+            {col.primary && (
+              <>
+                <a class="lp-mega-primary" href={col.primary.href} role="menuitem">
+                  <b data-i18n={col.primary.titleKey}>{col.primary.title}</b>
+                  <i data-i18n={col.primary.hintKey} data-i18n-vars={vars(col.primary.hintVars)}>{col.primary.hint}</i>
+                </a>
+                <hr class="lp-mega-rule" />
+              </>
+            )}
+            <ul>
+              {col.items.map((item) => (
+                <li>
+                  {item.level ? (
+                    <a href={item.href} role="menuitem" class="lp-mega-level">
+                      <span class="lp-mega-level-code">{item.level}</span>
+                      <b data-i18n={item.titleKey}>{item.title}</b>
+                    </a>
+                  ) : (
+                    <a href={item.href} role="menuitem">
+                      {item.titleKey ? <b data-i18n={item.titleKey}>{item.title}</b> : <b><bdi>{item.title}</bdi></b>}
+                      {item.hint && <i data-i18n={item.hintKey} data-i18n-vars={vars(item.hintVars)}>{item.hint}</i>}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+            {wissenVariant === "oldbooks" && col.id === "buecher" && (
+              <div class="lp-wsub">
+                <a class="lp-mega-head" href={navNachschlagen.href} role="menuitem">
+                  <span class="lp-panel-head-ic"><Icon name={navNachschlagen.icon} size={16} /></span>
+                  <span data-i18n={navNachschlagen.nameKey}>{navNachschlagen.name}</span>
+                </a>
+                <ul>
+                  {navNachschlagen.items.map((item) => (
+                    <li><a href={item.href} role="menuitem" title={item.hint}><b data-i18n={item.titleKey}>{item.title}</b></a></li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      {wissenVariant === "oldplus" && (
+        <div class="lp-wfoot">
+          {/* Label and green overview box, as at the head of the columns above. */}
+          <div class="lp-wfoot-lead">
+            <a class="lp-wfoot-head" href={navNachschlagen.href} role="menuitem">
+              <span class="lp-panel-head-ic"><Icon name={navNachschlagen.icon} size={16} /></span>
+              <span data-i18n={navNachschlagen.nameKey}>{navNachschlagen.name}</span>
+            </a>
+            <a class="lp-mega-primary lp-wfoot-primary" href={navNachschlagen.primary.href} role="menuitem">
+              <b data-i18n={navNachschlagen.primary.titleKey}>{navNachschlagen.primary.title}</b>
+              <i data-i18n={navNachschlagen.primary.hintKey}>{navNachschlagen.primary.hint}</i>
+            </a>
+          </div>
+          {navNachschlagen.items.map((item) => (
+            <a class="lp-wfoot-link" href={item.href} role="menuitem">
+              <b data-i18n={item.titleKey}>{item.title}</b>
+              <i data-i18n={item.hintKey}>{item.hint}</i>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+
+  <!-- ── Für Lehrkräfte ───────────────────────────────────────────────────── -->
+  <div class="lp-menu" data-menu="lehrkraefte">
+    <a
+      class:list={["lp-menu-btn", active === "lehrkraefte" && "is-active"]}
+      href={LEHRKRAEFTE_HREF}
+      role="menuitem"
+      aria-haspopup="true"
+      aria-expanded="false"
+      aria-controls="lp-panel-lehrkraefte"
+      data-menu-btn
+    >
+      <span data-i18n={navLehrkraefte.nameKey}>{navLehrkraefte.name}</span>
+      <svg class="lp-menu-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </a>
+    <div class="lp-panel lp-panel--lehrkraefte" id="lp-panel-lehrkraefte" data-menu-panel role="menu" aria-label={navLehrkraefte.name} data-i18n-attr={`aria-label:${navLehrkraefte.nameKey}`} hidden>
+      {/* On a touch screen the first tap opens this panel instead of following the
+          trigger, so the section page needs a way in from inside it — this is it. */}
+      <a class="lp-mega-primary" href={navLehrkraefte.primary.href} role="menuitem">
+        <b data-i18n={navLehrkraefte.primary.titleKey}>{navLehrkraefte.primary.title}</b>
+        <i data-i18n={navLehrkraefte.primary.hintKey}>{navLehrkraefte.primary.hint}</i>
+      </a>
+      <div class="lp-lk-cols">
+        {navLehrkraefte.groups.map((g) => (
+          <div class="lp-lk-col">
+            <p class="lp-panel-head" data-i18n={g.nameKey}>{g.name}</p>
+            <ul class="lp-panel-list">
+              {navLehrkraefte.items.filter((item) => item.group === g.id).map((item) => (
+                <li>
+                  <a href={item.href} role="menuitem">
+                    <span class="lp-panel-ic"><Icon name={item.icon} size={18} /></span>
+                    <span class="lp-panel-txt">
+                      <b data-i18n={item.titleKey}>{item.title}</b>
+                      <i data-i18n={item.hintKey}>{item.hint}</i>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Entdecken ────────────────────────────────────────────────────────── -->
+  <div class="lp-menu" data-menu="entdecken">
+    <a
+      class:list={["lp-menu-btn", active === "entdecken" && "is-active"]}
+      href={navEntdecken.href}
+      role="menuitem"
+      aria-haspopup="true"
+      aria-expanded="false"
+      aria-controls="lp-panel-entdecken"
+      data-menu-btn
+    >
+      <span data-i18n={navEntdecken.nameKey}>{navEntdecken.name}</span>
+      <svg class="lp-menu-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </a>
+    {/* The extras as picture cards, each with its crew member: a showcase, not a list. */}
+    <div class="lp-panel lp-panel--entdecken" id="lp-panel-entdecken" data-menu-panel role="menu" aria-label={navEntdecken.name} data-i18n-attr={`aria-label:${navEntdecken.nameKey}`} hidden>
+      <ul class="lp-ent-cards">
+        {navEntdecken.items.map((item) => (
+          <li>
+            <a class="lp-ent-card" href={item.href} role="menuitem">
+              <span class="lp-ent-fig" set:html={mascotSvg({ name: item.mascot, expr: item.expr, extra: item.extra, view: "three", size: 64, label: "" })} />
+              <b data-i18n={item.titleKey}>{item.title}</b>
+              <i data-i18n={item.hintKey}>{item.hint}</i>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- No JS: the panels cannot open, so every section gets a plain link and the menus get
+     out of the way entirely. The four Üben columns are named individually here, because
+     without a panel "Üben" alone would hide them. -->
+<noscript>
+  <div class="lp-nav-fallback">
+    {navUebenMenu.columns.map((c) => <a href={c.href} data-i18n={c.nameKey}>{c.name}</a>)}
+    <a href={pruefungen.href} data-i18n={pruefungen.nameKey}>{pruefungen.name}</a>
+    {navWissenMenu.columns.map((c) => <a href={c.href} data-i18n={c.nameKey}>{c.name}</a>)}
+    <a href={LEHRKRAEFTE_HREF} data-i18n="nav.subject.lehrkraefte">Für Lehrkräfte</a>
+    <a href={navEntdecken.href} data-i18n={navEntdecken.nameKey}>{navEntdecken.name}</a>
+  </div>
+</noscript>
+
+<script>
+  /* Desktop panels ------------------------------------------------------------ */
+  const menubar = document.querySelector<HTMLElement>("[data-menubar]");
+  const menus = Array.from(document.querySelectorAll<HTMLElement>("[data-menu]"));
+
+  function closeMenus(except?: HTMLElement) {
+    for (const m of menus) {
+      if (m === except) continue;
+      m.querySelector("[data-menu-btn]")?.setAttribute("aria-expanded", "false");
+      m.querySelector<HTMLElement>("[data-menu-panel]")?.setAttribute("hidden", "");
+      m.classList.remove("is-open");
+    }
+  }
+
+  // Each subject is a link to its own page first and a menu trigger second: with a
+  // mouse, hovering opens the panel and clicking still goes to the section page.
+  // Without hover, there is nothing to hover — so the first tap opens the panel
+  // instead of navigating, and the panel's own footer link is the way in.
+  const canHover = window.matchMedia("(hover: hover)").matches;
+
+  // Hover intent. Two timers, shared across the whole nav because only one menu can be
+  // under the pointer at a time:
+  //   - opening waits for the pointer to settle, so a mouse crossing the bar on its way
+  //     to the Kostenlos-üben button does not flash every panel it brushes;
+  //   - closing keeps a grace window, so straying a few pixels off the panel — over a
+  //     neighbouring trigger, or past the panel's edge — on the way to a link does not
+  //     drop the menu before you have decided.
+  // Re-entering anywhere in the nav cancels a pending close.
+  const OPEN_DELAY = 90;
+  const CLOSE_DELAY = 260;
+  let openTimer = 0;
+  let closeTimer = 0;
+  function cancelHoverTimers() {
+    window.clearTimeout(openTimer);
+    window.clearTimeout(closeTimer);
+  }
+
+  /** Every link inside a panel, in visual order — what the arrow keys walk. */
+  const itemsIn = (panel: HTMLElement) =>
+    Array.from(panel.querySelectorAll<HTMLAnchorElement>("a[href]")).filter(
+      (a) => a.offsetParent !== null,
+    );
+
+  // The triggers, for ArrowLeft/ArrowRight along the bar. The plain "Wissen" link is one
+  // of them: it has no panel, but it is a stop on the same row and skipping it would
+  // make the arrow keys disagree with what the eye sees.
+  const barItems = () =>
+    Array.from(
+      menubar?.querySelectorAll<HTMLAnchorElement>(":scope > [data-menu] > [data-menu-btn], :scope > a.lp-menu-btn") ?? [],
+    );
+
+  function focusBar(from: HTMLElement, delta: number) {
+    const items = barItems();
+    const i = items.indexOf(from as HTMLAnchorElement);
+    if (i === -1) return;
+    items[(i + delta + items.length) % items.length].focus();
+  }
+
+  for (const menu of menus) {
+    const btn = menu.querySelector<HTMLAnchorElement>("[data-menu-btn]");
+    const panel = menu.querySelector<HTMLElement>("[data-menu-panel]");
+    if (!btn || !panel) continue;
+
+    const open = () => {
+      closeMenus(menu);
+      panel.removeAttribute("hidden");
+      btn.setAttribute("aria-expanded", "true");
+      menu.classList.add("is-open");
+    };
+    // Escape hands focus back to the trigger, and the trigger's focus handler opens the
+    // panel — so without this the panel closes and reopens in the same tick and Escape
+    // looks broken. The flag says "this focus is the tail of a dismissal, not intent".
+    let dismissing = false;
+    const close = (refocus = false) => {
+      panel.setAttribute("hidden", "");
+      btn.setAttribute("aria-expanded", "false");
+      menu.classList.remove("is-open");
+      if (refocus) {
+        dismissing = true;
+        btn.focus();
+        dismissing = false;
+      }
+    };
+
+    btn.addEventListener("click", (e) => {
+      if (canHover) return; // let the link navigate
+      if (!menu.classList.contains("is-open")) {
+        e.preventDefault();
+        open();
+      }
+    });
+    // Keyboard users never fire pointerenter, so focus opens the panel for them —
+    // and without waiting, since a tab stop is intent enough.
+    btn.addEventListener("focus", () => {
+      if (!canHover || dismissing) return;
+      cancelHoverTimers();
+      open();
+    });
+
+    // Enter and Space open rather than follow the link, so a keyboard reaches the panel
+    // at all; the panel's own footer is how you get to the section page from there.
+    // ArrowDown does the same and steps inside, which is what a menubar is expected to
+    // do. Left/Right walk the bar either way.
+    btn.addEventListener("keydown", (e) => {
+      const k = e.key;
+      if (k === " " || k === "Enter" || k === "ArrowDown") {
+        e.preventDefault();
+        open();
+        itemsIn(panel)[0]?.focus();
+      } else if (k === "ArrowRight") {
+        e.preventDefault();
+        focusBar(btn, 1);
+      } else if (k === "ArrowLeft") {
+        e.preventDefault();
+        focusBar(btn, -1);
+      } else if (k === "Escape") {
+        close(true);
+      }
+    });
+
+    // Inside the panel: Up/Down walk the links, Home/End jump, Escape returns to the
+    // trigger, Tab is left alone so the panel is never a trap.
+    panel.addEventListener("keydown", (e) => {
+      const k = e.key;
+      if (k === "Escape") {
+        e.preventDefault();
+        close(true);
+        return;
+      }
+      if (k !== "ArrowDown" && k !== "ArrowUp" && k !== "Home" && k !== "End") return;
+      const items = itemsIn(panel);
+      if (!items.length) return;
+      e.preventDefault();
+      const i = items.indexOf(document.activeElement as HTMLAnchorElement);
+      const next =
+        k === "Home" ? 0
+        : k === "End" ? items.length - 1
+        : k === "ArrowDown" ? (i + 1) % items.length
+        : (i - 1 + items.length) % items.length;
+      items[next].focus();
+    });
+
+    menu.addEventListener("pointerenter", (e) => {
+      if (e.pointerType !== "mouse") return;
+      cancelHoverTimers();
+      if (menu.classList.contains("is-open")) return;
+      openTimer = window.setTimeout(open, OPEN_DELAY);
+    });
+    menu.addEventListener("pointerleave", (e) => {
+      if (e.pointerType !== "mouse") return;
+      window.clearTimeout(openTimer);
+      // Close every panel, not just this one: the pointer may have hopped through a
+      // sibling trigger, cancelling that panel's own pending close on the way past.
+      closeTimer = window.setTimeout(() => closeMenus(), CLOSE_DELAY);
+    });
+    menu.addEventListener("focusout", (e) => {
+      if (!menu.contains(e.relatedTarget as Node)) close();
+    });
+  }
+
+  // The plain bar links have no panel of their own but are still stops on the row.
+  for (const link of barItems()) {
+    if (link.hasAttribute("data-menu-btn")) continue;
+    link.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { e.preventDefault(); focusBar(link, 1); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); focusBar(link, -1); }
+    });
+  }
+
+  // The "tabs" Wissen panel (/nav3): pointing at or tabbing to a section in the rail shows
+  // its links on the right. Clicking the rail entry still opens the section page.
+  for (const tab of document.querySelectorAll<HTMLElement>("[data-wtab]")) {
+    const panel = tab.closest<HTMLElement>("[data-menu-panel]");
+    const show = () => {
+      panel?.querySelectorAll("[data-wtab]").forEach((t) => t.classList.toggle("is-active", t === tab));
+      panel?.querySelectorAll("[data-wpane]").forEach((p) =>
+        p.classList.toggle("is-shown", (p as HTMLElement).dataset.wpane === tab.dataset.wtab));
+    };
+    tab.addEventListener("pointerenter", show);
+    tab.addEventListener("focus", show);
+  }
+
+  document.addEventListener("click", (e) => {
+    if (!(e.target as HTMLElement).closest("[data-menu]")) {
+      cancelHoverTimers();
+      closeMenus();
+    }
+  });
+</script>

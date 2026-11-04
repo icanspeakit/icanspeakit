@@ -1,0 +1,36 @@
+---
+// A mascot as a section marker or at a moment on the full site — the small figure at the
+// top of a hub, Bruno on the 404 page and on the placement result. MASKOTTCHEN-PLATZIERUNG-PROMPT.md.
+//
+//   <SectionMascot name="regi" say="Regel für Regel." />
+//
+// Decorative on purpose (aria-hidden): the bubble repeats nothing the page needs, and a
+// screen reader announcing "Regi, der Igel" before every hub heading would be noise.
+// The wrapper carries data-mascot-part, so "Maskottchen anzeigen: aus" removes figure and
+// bubble together and the hero closes up as if it was never there.
+//
+// Keep it OUTSIDE any element with data-i18n: the i18n pass replaces textContent and would
+// wipe the SVG.
+import { mascotSvg } from "../../lib/mascots.js";
+
+interface Props {
+  name: "bruno" | "regi" | "hamsti" | "quaki";
+  expr?: "happy" | "thinking" | "celebrate" | "oops" | "sleepy";
+  view?: "front" | "three";
+  size?: number;
+  /** One short line in easy German (≤ 6 words). Optional. */
+  say?: string;
+  /** i18n key for `say`; the German stays as the fallback. */
+  sayKey?: string;
+  align?: "left" | "center";
+  /** An accessory (src/lib/mascots.js): "klemmbrett" = Bruno in the teacher area. */
+  extra?: "schleife" | "fliege" | "klemmbrett";
+  class?: string;
+}
+const { name, expr = "happy", view = "three", size = 52, say, sayKey, align = "left", extra, class: cls } = Astro.props;
+const svg = mascotSvg({ name, expr, view, size, extra, label: "", className: "section-mascot-fig" });
+---
+<div class:list={["section-mascot", `section-mascot--${align}`, cls]} data-mascot-part>
+  <Fragment set:html={svg} />
+  {say && <span class="section-mascot-say" data-i18n={sayKey}>{say}</span>}
+</div>

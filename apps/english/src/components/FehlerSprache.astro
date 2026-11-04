@@ -1,0 +1,69 @@
+---
+// One language on /culture/mistakes (and its side-nav test at /test123): what it makes easier,
+// its typical mistakes as cards, and — where there are drills for it — the pronunciation
+// panel with Quaki. Each part carries data-fe-part so a page can show them as tabs.
+import AusspracheFuerDich from "./AusspracheFuerDich.astro";
+import Mascot from "./mascots/Mascot.astro";
+import data from "../data/fehler-nach-sprache.json";
+import drillData from "../data/aussprache-muttersprache.json";
+import { langMark } from "../lib/langMark.js";
+
+type Mistake = { id?: string; drill?: string; area: string; wrong: string; right: string; why: string };
+type Lang = { id: string; name: string; native: string; rtl?: boolean; strengths: string[]; mistakes: Mistake[] };
+interface Props { lang: Lang; head?: boolean }
+
+const { lang: l, head = true } = Astro.props;
+const areas = data.areas as Record<string, string>;
+const hasDrills = ((drillData.languages as Record<string, string[]>)[l.id] ?? []).length > 0;
+---
+<section class="fe-lang" id={l.id} data-lang-section={l.id}>
+  {head && (
+    <header class="fe-lang-head">
+      <span class="fe-mark" aria-hidden="true">{langMark(l.id)}</span>
+      <div class="fe-lang-title">
+        <h2>{l.name}</h2>
+        <span class="fe-native" dir={l.rtl ? "rtl" : undefined}>{l.native}</span>
+      </div>
+      <span class="uv-pill" data-i18n="fe.mistakeCount" data-i18n-vars={JSON.stringify({ n: l.mistakes.length })}>{l.mistakes.length} typische Fehler</span>
+    </header>
+  )}
+
+  <div data-fe-part="fehler">
+    <div class="fe-strengths">
+      <span class="fe-strengths-ic" aria-hidden="true">✨</span>
+      <div>
+        <h3 data-i18n="kultur.fehler.strengths">Das fällt dir leichter</h3>
+        <ul>{l.strengths.map((s) => <li>{s}</li>)}</ul>
+      </div>
+    </div>
+
+    <ul class="fe-mistakes">
+      {l.mistakes.map((m) => (
+        <li class={`fe-mistake fe-mistake--${m.area}`} id={m.id}>
+          <span class={`fe-area fe-area--${m.area}`}>{areas[m.area]}</span>
+          <div class="fe-pair">
+            <p class="fe-wrong"><span class="fe-sign" aria-hidden="true">✗</span> <s>{m.wrong}</s></p>
+            <p class="fe-right"><span class="fe-sign" aria-hidden="true">✓</span> {m.right}</p>
+          </div>
+          <p class="fe-why">{m.why}</p>
+          {m.drill && (
+            <a class="fe-practice" href={`#drill-${l.id}-${m.drill}`} data-i18n="af.practice">Jetzt üben</a>
+          )}
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  {hasDrills && (
+    <div class="md" data-fe-part="aussprache">
+      <div class="md-top">
+        <Mascot name="quaki" size={64} class="md-mascot" />
+        <div>
+          <h3 class="md-head" data-i18n="kultur.fehler.drillsTitle">Aussprache üben — für dich</h3>
+          <p class="md-lead" data-i18n="kultur.fehler.drillsLead">Übungen für genau die Laute, die aus deiner Muttersprache schwer sind. Tippe auf ein Wort, um es zu hören.</p>
+        </div>
+      </div>
+      <AusspracheFuerDich lang={l.id} compact />
+    </div>
+  )}
+</section>

@@ -1,0 +1,94 @@
+---
+// The subscribe box (WORTGESCHICHTE-TIERED-PROMPT.md, Tier 2): e-mail + how often, posted to
+// /api/wortgeschichte/abo, which asks Brevo for a double opt-in.
+//
+// - „Wöchentlich“ is preselected; „Täglich“ is always visible as the second option, but
+//   disabled with a note until DAILY_BUFFER checked entries are scheduled (the content
+//   budget: daily needs a two-month buffer).
+// - A honeypot field (`website`), hidden from people and from screen readers.
+// - Shown only once the switch-on is done: PUBLIC_WORT_ABO=an at build time (after the
+//   Brevo lists, DOI template, WORT_LINK_SECRET and the Datenschutz text are live). In
+//   `astro dev` it is always shown, so it can be reviewed.
+import { dailyOpen } from "../../lib/wortgeschichte.js";
+
+const show = import.meta.env.PUBLIC_WORT_ABO === "an" || import.meta.env.DEV;
+const daily = dailyOpen();
+---
+{show && (
+  <section class="wg-abo" aria-labelledby="wg-abo-h" data-wg-abo>
+    <h2 id="wg-abo-h" data-i18n="wg.abo.title">Das Wort per E-Mail</h2>
+    <p class="wg-abo-lead" data-i18n="wg.abo.lead">Jeden Sonntag die Wörter der Woche mit ihren Geschichten. Kostenlos, jederzeit abbestellbar.</p>
+    <form class="wg-abo-form" method="post" action="/api/wortgeschichte/abo" novalidate>
+      <label class="wg-abo-label" for="wg-abo-email" data-i18n="wg.abo.email">Deine E-Mail-Adresse</label>
+      <input id="wg-abo-email" name="email" type="email" inputmode="email" autocomplete="email" required maxlength="254" class="wg-abo-input" />
+      <fieldset class="wg-abo-how">
+        <legend class="wg-abo-label" data-i18n="wg.abo.how">Wie oft?</legend>
+        <div class="wg-freq" role="radiogroup">
+          <label class="is-on"><input type="radio" name="frequency" value="woechentlich" checked /><span data-i18n="wg.abo.weekly">Wöchentlich, sonntags</span></label>
+          <label class:list={[{ "is-disabled": !daily }]}><input type="radio" name="frequency" value="taeglich" disabled={!daily} /><span data-i18n="wg.abo.daily">Täglich, morgens</span></label>
+        </div>
+        {!daily && <p class="wg-abo-fine" data-i18n="wg.abo.dailySoon">Täglich kommt, sobald genug Wörter geprüft sind.</p>}
+      </fieldset>
+      <div class="wg-hp" aria-hidden="true">
+        <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+      </div>
+      <button type="submit" class="wg-abo-btn" data-i18n="wg.abo.submit">Anmelden</button>
+      <p class="wg-abo-fine">
+        <span data-i18n="wg.abo.note">Du bekommst zuerst eine E-Mail mit einem Bestätigungslink. Erst nach dem Klick schicken wir dir Wörter.</span>{" "}
+        <a href="/privacy" data-i18n="wg.abo.privacy">Datenschutz</a>
+      </p>
+      <p class="wg-abo-status" role="status" aria-live="polite" data-wg-abo-status></p>
+    </form>
+    <span hidden data-wg-msg="sent" data-i18n="wg.abo.sent">Fast geschafft: Bitte schau in dein Postfach und klicke auf den Link in unserer E-Mail.</span>
+    <span hidden data-wg-msg="invalid" data-i18n="wg.abo.invalid">Bitte gib eine gültige E-Mail-Adresse ein.</span>
+    <span hidden data-wg-msg="busy" data-i18n="wg.abo.busy">Zu viele Versuche. Bitte warte ein paar Minuten.</span>
+    <span hidden data-wg-msg="error" data-i18n="wg.abo.error">Das hat gerade nicht geklappt. Bitte versuche es später noch einmal.</span>
+  </section>
+)}
+
+<script>
+  import { getLang } from "../../lib/i18n.js";
+  import { track } from "../../lib/track.js";
+
+  for (const box of document.querySelectorAll<HTMLElement>("[data-wg-abo]")) {
+    const form = box.querySelector("form")!;
+    const status = box.querySelector<HTMLElement>("[data-wg-abo-status]")!;
+    const msg = (k: string) => box.querySelector<HTMLElement>(`[data-wg-msg="${k}"]`)?.textContent?.trim() ?? "";
+    const btn = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
+    const labels = [...form.querySelectorAll<HTMLLabelElement>(".wg-freq label")];
+    // The marked option follows the radio (the segmented look; segSwitch slides the pill).
+    form.addEventListener("change", () => {
+      for (const l of labels) l.classList.toggle("is-on", !!l.querySelector<HTMLInputElement>("input")?.checked);
+    });
+    form.addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+      const data = new FormData(form);
+      const email = String(data.get("email") || "").trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { status.textContent = msg("invalid"); return; }
+      btn.disabled = true;
+      status.textContent = "";
+      try {
+        const r = await fetch("/api/wortgeschichte/abo", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ email, frequency: data.get("frequency"), website: data.get("website"), lang: getLang() }),
+        });
+        if (r.status === 202) {
+          status.textContent = msg("sent");
+          form.reset();
+          track("wort_abo_request", { frequency: String(data.get("frequency")) });
+        } else if (r.status === 429) {
+          // Mail limit (src/lib/wortRateLimit.js): per IP, per address or for the whole day.
+          const d = await r.json().catch(() => ({}));
+          status.textContent = d.limit && d.limit !== "ip" && d.message ? d.message : msg("busy");
+        } else {
+          status.textContent = msg(r.status === 400 ? "invalid" : "error");
+        }
+      } catch {
+        status.textContent = msg("error");
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  }
+</script>

@@ -1,0 +1,147 @@
+---
+// /teachers/classes/class?id=<uuid> — what one class practises (KLASSEN-TIERED-PROMPT.md,
+// Tier 3): Übersicht (one row per student), Themen (students × topics), and each student's
+// attempts. Static like /konto's neighbours in this section; the id comes from the query
+// string and everything is loaded in the browser (src/lib/klassenDashboard.js), with RLS
+// deciding what a teacher may read. Another teacher's id gives "nicht gefunden".
+//
+// Topic names for the grammar topics and Lernsets come from the same catalog the quiz
+// builder uses, written into the page once; other refs are named from their id.
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import { chapterList } from "../../../lib/liveQuiz/chapters.js";
+import hoeren from "../../../data/hoeren.json";
+import lesen from "../../../data/fertigkeiten/lesen.json";
+import { examLabel } from "../../../lib/exam/names.js";
+import "../../../styles/live-quiz.css";
+import "../../../styles/quiz-builder.css";
+import "../../../styles/klassen.css";
+import "../../../styles/teacher-switch.css";
+
+// ref → readable name, for the refs a teacher sees most (docs/klassen-tier0-v1.md §6).
+// Anything else is named from its id by klassenAuswertung.refLabel().
+const saetze = Object.values(import.meta.glob("../../../data/pruefungen/saetze/*.json", { eager: true, import: "default" })) as any[];
+const names: Record<string, string> = {
+  ...Object.fromEntries(chapterList().map((c) => [c.slug.replace("-", ":"), c.name])),
+  ...Object.fromEntries(hoeren.texts.map((x: any) => [`h:${x.id}`, x.title])),
+  ...Object.fromEntries(lesen.texts.map((x: any) => [`l:${x.id}`, x.title])),
+  ...Object.fromEntries(saetze.map((s) => [`x:${s.exam}/${s.id}`, `${examLabel(s)} · ${s.title}`])),
+  "x:telc/sprachbausteine": "Use of English B2",
+  "x:dtz/uebungssatz-1": "B1 skills mock",
+  "x:dtz/mock-test": "B1 reading mock",
+  "x:start-deutsch-1": "A1 practice test",
+  "x:testdaf": "IELTS Academic",
+  "x:leben-in-deutschland": "Life in the UK",
+  "sp:b1b2": "Speaking B1/B2",
+};
+---
+<Layout
+  title="Class – For teachers – EnglishAcademy"
+  description="Who in your class is practising, how much, and which topics they find hard."
+  noindex
+>
+  <SiteNav active="lehrkraefte" />
+
+  <main class="lq kl kld" id="kld-root">
+    <a class="qb-back" href="/teachers/classes" data-i18n="kl.d.back">Meine Klassen</a>
+    <header class="lq-head">
+      <p class="lq-eyebrow" data-i18n="kl.d.eyebrow">Klasse</p>
+      <h1 class="lq-title" data-kld-title>…</h1>
+      <p class="kl-muted" data-kld-meta></p>
+    </header>
+
+    <section class="lq-card" data-gate="loading">
+      <p data-i18n="kl.loading">Einen Moment …</p>
+    </section>
+    <section class="lq-card kl-stack" data-gate="signin" hidden>
+      <h2 data-i18n="kl.t.signin.title">Melde dich an, um Klassen anzulegen</h2>
+      <a class="lq-btn lq-btn--primary" data-signin-link href="/anmelden?next=/teachers/classes" data-i18n="kl.t.signin.button">Anmelden oder registrieren</a>
+    </section>
+    <section class="lq-card kl-stack" data-gate="notfound" hidden>
+      <h2 data-i18n="kl.d.notfound.title">Diese Klasse gibt es hier nicht</h2>
+      <p data-i18n="kl.d.notfound.text">Entweder wurde sie gelöscht, oder sie gehört zu einem anderen Konto. Du siehst nur deine eigenen Klassen.</p>
+      <a class="lq-btn lq-btn--ghost" href="/teachers/classes" data-i18n="kl.d.back">Meine Klassen</a>
+    </section>
+    <section class="lq-card kl-stack" data-gate="error" hidden>
+      <p data-i18n="kl.t.err.load">Deine Klassen konnten nicht geladen werden.</p>
+    </section>
+
+    <div class="kl-stack" data-gate="ok" hidden>
+      <details class="lq-card kld-explain">
+        <summary data-i18n="kl.d.explain.title">Woher die Zahlen kommen und wofür sie taugen</summary>
+        <div class="kld-explain-body">
+          <p data-i18n="kl.d.explain.p1">Jede Übung wird im Browser deiner Schülerinnen und Schüler bewertet, erst danach schickt der Browser das Ergebnis an uns; deshalb steht daneben „selbst gemeldet“. Wer mit Entwicklerwerkzeugen umgehen kann, kann diese Zahlen fälschen. Ob beim Üben jemand geholfen hat oder ein Wörterbuch offen lag, sieht niemand.</p>
+          <p data-i18n="kl.d.explain.p2">Du siehst hier, wer wie viel übt und bei welchen Themen es hakt. Für Noten reicht das nicht. Verlässlicher misst das Live-Quiz, das du im Unterricht selbst leitest.</p>
+          <p data-i18n="kl.d.explain.p3">Hinweise auf eingefügten Text, Tab-Wechsel und sehr schnelle Antworten werden nur gezählt und ändern kein Ergebnis. Sie können harmlos sein, zum Beispiel ein Wort aus den eigenen Notizen oder eine kurz beantwortete Nachricht.</p>
+          <p data-i18n="kl.d.explain.p4">Die Minuten zählen von der ersten bis zur letzten Antwort einer Übung; die Lesezeit davor ist nicht dabei.</p>
+        </div>
+      </details>
+
+      <div class="kld-bar">
+        <div class="kld-tabs t-sw" role="tablist" data-kld-tabs>
+          <button type="button" role="tab" class="is-on" aria-selected="true" data-tab="uebersicht" data-i18n="kl.d.tab.overview">Übersicht</button>
+          <button type="button" role="tab" aria-selected="false" data-tab="themen" data-i18n="kl.d.tab.topics">Themen</button>
+          <button type="button" role="tab" aria-selected="false" data-tab="aufgaben" data-i18n="kl.a.tab">Aufgaben</button>
+        </div>
+        <button type="button" class="lq-btn lq-btn--ghost kld-export" data-kld-export data-i18n="kl.d.export">CSV herunterladen</button>
+      </div>
+      <p class="kl-status" data-status role="status" aria-live="polite"></p>
+
+      <section data-panel="uebersicht" aria-labelledby="kld-h-overview">
+        <h2 class="kld-h" id="kld-h-overview" data-i18n="kl.d.overview.title">Die letzten 7 Tage</h2>
+        <div class="kld-scroll" data-kld-overview></div>
+      </section>
+
+      <section data-panel="themen" hidden aria-labelledby="kld-h-topics">
+        <h2 class="kld-h" id="kld-h-topics" data-i18n="kl.d.topics.title">Anteil richtig je Thema, letzte 4 Wochen</h2>
+        <div class="kld-legend" data-kld-legend></div>
+        <div class="kld-scroll" data-kld-topics></div>
+      </section>
+
+      <section data-panel="aufgaben" hidden aria-labelledby="kld-h-tasks" class="kl-stack">
+        <div class="lq-card kl-stack" data-kld-nachholen hidden></div>
+        <form class="lq-card kl-stack" data-kld-task-form novalidate>
+          <h2 class="kld-h" id="kld-h-tasks" data-i18n="kl.a.form.title">Aufgabe stellen</h2>
+          <label class="lq-field">
+            <span data-i18n="kl.a.form.ref">Übung</span>
+            <select data-task-ref required>
+              <option value="" data-i18n="kl.a.form.refNone">Übung wählen …</option>
+            </select>
+          </label>
+          <label class="lq-field">
+            <span data-i18n="kl.a.form.title2">Titel für die Klasse</span>
+            <input type="text" maxlength="120" data-task-title placeholder="Wird aus der Übung übernommen" data-i18n-attr="placeholder:kl.a.form.titlePh" />
+          </label>
+          <div class="kld-task-row">
+            <label class="lq-field">
+              <span data-i18n="kl.a.form.due">Fällig am</span>
+              <input type="date" required data-task-due />
+              <small data-i18n="kl.a.form.dueHint">bis 23:59 Uhr deutscher Zeit</small>
+            </label>
+            <label class="lq-field">
+              <span data-i18n="kl.a.form.min">Mindestens richtig (optional)</span>
+              <input type="number" min="1" max="100" step="1" inputmode="numeric" data-task-min placeholder="z. B. 60" data-i18n-attr="placeholder:kl.a.form.minPh" />
+              <small data-i18n="kl.a.form.minHint">in Prozent. Leer: jeder Versuch zählt.</small>
+            </label>
+          </div>
+          <p class="lq-error" data-task-error role="alert"></p>
+          <div class="kl-row"><button type="submit" class="lq-btn lq-btn--primary" data-task-submit data-i18n="kl.a.form.submit">Aufgabe stellen</button></div>
+        </form>
+        <ul class="kld-tasks" data-kld-tasks></ul>
+      </section>
+
+      <section data-panel="detail" hidden aria-labelledby="kld-h-detail">
+        <button type="button" class="qb-link kld-detail-back" data-kld-detail-back data-i18n="kl.d.detail.back">Zurück zur Übersicht</button>
+        <h2 class="kld-h" id="kld-h-detail" data-kld-detail-title></h2>
+        <ol class="kld-attempts" data-kld-detail></ol>
+      </section>
+    </div>
+  </main>
+
+  <script type="application/json" id="kld-names" set:html={JSON.stringify(names)} />
+  <script>
+    import { mountKlassenDashboard } from "../../../lib/klassenDashboard.js";
+    const root = document.getElementById("kld-root");
+    if (root) mountKlassenDashboard(root, JSON.parse(document.getElementById("kld-names")?.textContent || "{}"));
+  </script>
+</Layout>

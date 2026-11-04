@@ -1,0 +1,164 @@
+---
+// A little looping film of "Einfach lernen", for MascotGuide's "sim" slot: one step per screen,
+// a mascot leads. Three scenes, 4 s each, in step with the guide's three numbered steps:
+//   1  phone: one big card, a small mascot face and ONE big button, the cursor taps it
+//   2  phone: the next step slides in – a picture tile (a house) and three answers; the cursor
+//      taps one, it turns green with a tick
+//   3  phone: a path of dots fills one after another, a star pops at the end
+//
+// Same make as UmfrageSim.astro: pure SVG + CSS, no words inside (bars stand for text), one 12 s
+// cycle, theme tokens so dark mode works. Reduced motion: no film, the answer scene stands still.
+const dots = [[146, 142], [174, 122], [146, 102], [174, 82], [146, 62]] as const;
+const answers = [[78, 52], [102, 40], [126, 46]] as const; // y, bar width
+---
+<div class="sim" aria-hidden="true">
+  <svg viewBox="0 0 320 180" role="presentation">
+    <rect class="desk" x="0" y="0" width="320" height="180" rx="14" />
+    <rect class="bezel" x="114" y="6" width="92" height="168" rx="12" />
+    <rect class="screen" x="120" y="14" width="80" height="152" rx="6" />
+
+    <!-- 1 · ein Schritt, ein Knopf -->
+    <g class="sc sc1">
+      <rect class="card" x="127" y="22" width="66" height="136" rx="8" />
+      <circle class="face" cx="160" cy="50" r="15" />
+      <circle class="eye" cx="154.5" cy="48" r="2" />
+      <circle class="eye" cx="165.5" cy="48" r="2" />
+      <path class="smile" d="M154 55q6 5 12 0" />
+      <rect class="line" x="140" y="78" width="40" height="5" rx="2.5" />
+      <rect class="line line--soft" x="146" y="90" width="28" height="5" rx="2.5" />
+      <rect class="btn" x="136" y="122" width="48" height="26" rx="13" />
+      <rect class="btn-flash" x="136" y="122" width="48" height="26" rx="13" />
+      <path class="cursor" d="M0 0v14l4-3.5 3 6.5 2.5-1.2-3-6.3H12z" />
+    </g>
+
+    <!-- 2 · das Bild und drei Antworten -->
+    <g class="sc sc2">
+      <g class="slide" style="animation-delay:4s">
+        <rect class="card" x="127" y="22" width="66" height="136" rx="8" />
+        <rect class="tile" x="136" y="30" width="48" height="40" rx="6" />
+        <path class="roof" d="M150 52l10-10 10 10z" />
+        <rect class="house" x="153" y="52" width="14" height="11" />
+        <rect class="door" x="158" y="56" width="4" height="7" />
+        {answers.map(([y, w]) => (
+          <g>
+            <rect class="ans" x="136" y={y} width="48" height="18" rx="9" />
+            <rect class="line line--soft" x="146" y={y + 6.5} width={w - 14} height="5" rx="2.5" />
+          </g>
+        ))}
+        <rect class="good" x="136" y="102" width="48" height="18" rx="9" />
+        <g class="in" style="animation-delay:6.6s">
+          <circle class="ok" cx="173" cy="111" r="7" />
+          <path class="ok-tick" d="M169.5 111l2.5 2.5 4.5-5" />
+        </g>
+        <path class="cursor cursor--2" d="M0 0v14l4-3.5 3 6.5 2.5-1.2-3-6.3H12z" />
+      </g>
+    </g>
+
+    <!-- 3 · der Weg füllt sich -->
+    <g class="sc sc3">
+      <rect class="card" x="127" y="22" width="66" height="136" rx="8" />
+      <path class="trail" d="M146 142L174 122L146 102L174 82L146 62" />
+      {dots.map(([x, y], i) => (
+        <g>
+          <circle class="dot" cx={x} cy={y} r="8" />
+          <circle class="dot-on in" style={`animation-delay:${8.4 + i * 0.5}s`} cx={x} cy={y} r="8" />
+          <path class="in dot-tick" style={`animation-delay:${8.4 + i * 0.5}s`} d={`M${x - 3.5} ${y}l2.5 2.5 4.5-5`} />
+        </g>
+      ))}
+      <g class="in star" style="animation-delay:11s">
+        <path d="M160 26l3.2 6.6 7.2 1-5.2 5.1 1.2 7.2-6.4-3.4-6.4 3.4 1.2-7.2-5.2-5.1 7.2-1z" />
+      </g>
+      <circle class="spark" cx="140" cy="34" r="2" />
+      <circle class="spark" cx="181" cy="40" r="2" />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .sim { width: 100%; }
+  .sim svg { display: block; width: 100%; height: auto; }
+
+  .desk { fill: var(--blue-100); }
+  .bezel { fill: var(--rail-surface); }
+  .screen { fill: var(--surface-card); }
+  .card { fill: var(--blue-50); stroke: var(--border-strong); stroke-width: 1; }
+  .face { fill: var(--accent); }
+  .eye { fill: var(--ink); }
+  .smile { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; }
+  .line { fill: var(--border-strong); }
+  .line--soft { fill: var(--border); }
+  .btn { fill: var(--brand-blue); }
+  .btn-flash { fill: var(--ink); opacity: 0; }
+  .cursor { fill: var(--ink); stroke: var(--surface-card); stroke-width: 1; }
+  .tile { fill: var(--blue-200); }
+  .roof { fill: var(--accent); }
+  .house { fill: var(--surface-card); }
+  .door { fill: var(--brand-blue); }
+  .ans { fill: var(--surface-card); stroke: var(--border-strong); stroke-width: 1.2; }
+  .good { fill: var(--success-soft); stroke: var(--success); stroke-width: 1.4; opacity: 0; }
+  .ok { fill: var(--success); }
+  .ok-tick, .dot-tick { fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .trail { fill: none; stroke: var(--border-strong); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1 6; }
+  .dot { fill: var(--surface-card); stroke: var(--border-strong); stroke-width: 1.4; }
+  .dot-on { fill: var(--brand-blue); }
+  .star { fill: var(--accent); stroke: var(--accent-dark); stroke-width: 1; stroke-linejoin: round; }
+  .spark { fill: var(--accent); opacity: 0; }
+
+  /* everything timed: one 12 s cycle, started per part by animation-delay */
+  .sc, .in, .slide, .cursor, .btn-flash, .good, .spark {
+    animation-duration: 12s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+    transform-box: fill-box;
+  }
+  .sc { opacity: 0; animation-name: ein-sim-scene; }
+  .sc2 { animation-delay: 4s; }
+  .sc3 { animation-delay: 8s; }
+  @keyframes ein-sim-scene { 0% { opacity: 0 } 2%, 31% { opacity: 1 } 33%, 100% { opacity: 0 } }
+
+  /* pops in, stays to the end of its scene */
+  .in { opacity: 0; transform-origin: center; animation-name: ein-sim-in; }
+  @keyframes ein-sim-in {
+    0% { opacity: 0; transform: scale(.4) }
+    3% { opacity: 1; transform: scale(1.15) }
+    5%, 31% { opacity: 1; transform: scale(1) }
+    33%, 100% { opacity: 0 }
+  }
+
+  /* scene 1: glide to the one big button, press */
+  .sc1 .cursor { animation-name: ein-cursor1; }
+  @keyframes ein-cursor1 {
+    0%, 12% { transform: translate(190px, 100px) }
+    20% { transform: translate(162px, 136px) }
+    22% { transform: translate(162px, 136px) scale(.8) }
+    24%, 100% { transform: translate(162px, 136px) }
+  }
+  .btn-flash { animation-name: ein-flash; }
+  @keyframes ein-flash { 0%, 21% { opacity: 0 } 22% { opacity: .35 } 25%, 100% { opacity: 0 } }
+
+  /* scene 2: the step slides in from the right, a tap picks the middle answer */
+  .slide { animation-name: ein-slide; }
+  @keyframes ein-slide { 0% { transform: translateX(70px); opacity: 0 } 5%, 100% { transform: none; opacity: 1 } }
+  .cursor--2 { animation-name: ein-cursor2; animation-delay: 4s; }
+  @keyframes ein-cursor2 {
+    0%, 10% { transform: translate(196px, 150px) }
+    17% { transform: translate(166px, 110px) }
+    19% { transform: translate(166px, 110px) scale(.8) }
+    21%, 100% { transform: translate(166px, 110px) }
+  }
+  .good { animation-name: ein-good; animation-delay: 4s; }
+  @keyframes ein-good { 0%, 18% { opacity: 0 } 20%, 31% { opacity: 1 } 33%, 100% { opacity: 0 } }
+
+  /* scene 3: a little shine round the star */
+  .spark { animation-name: ein-spark; animation-delay: 8s; }
+  @keyframes ein-spark { 0%, 90% { opacity: 0; transform: scale(.3) } 93% { opacity: 1; transform: scale(1.4) } 98%, 100% { opacity: 0 } }
+
+  /* MascotGuide's pause button */
+  :global(.mg-paused) .sim * { animation-play-state: paused !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sim * { animation: none !important; }
+    .sc2, .sc2 .in, .sc2 .good { opacity: 1; }
+    .sc2 .cursor { transform: translate(166px, 110px); }
+  }
+</style>

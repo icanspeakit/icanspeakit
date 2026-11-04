@@ -1,0 +1,136 @@
+# Regi's Sentence Rain – the sentences, split into chunks by hand.
+# scripts/build-satzregen.mjs turns this into src/data/satzregen/saetze.json.
+#
+# One line = one sentence:   chunk / chunk / chunk .  = note shown under the solved line  {flags}
+#   Chunks are written as they stand inside the sentence ("I", "on Mondays", "your name").
+#   The first letter of slot 1 is capitalised in the display only.
+#   *  finite verb (or auxiliary/modal)      ^  subject
+#   ~  other verb part (main verb after do/can/have …)
+#   !  may not stand in slot 1
+#   End: " ." or " ?" after the last chunk.
+#   {alt 3 0 1 2}   another correct order, as chunk indices (several allowed)
+#   {rule …}        own rule line for "These sentences were tricky"
+# English has no verb-second "Vorfeld" rule, so the checker accepts only the canonical order
+# and the {alt …} orders (src/lib/satzregen/check.js). Typical alt: the time phrase moved to
+# the front ("On Mondays I play football."). Place before time is the canonical order.
+# The note after " = " names the pattern of the sentence (subject, verb, object, place, time …).
+# Modes keep their German ids: v2 = statements and wh-questions (A1), janein = yes/no
+# questions (A1), klammer = auxiliaries and modal verbs (A2), nebensatz = indirect questions (B1).
+# Source: all sentences written for the game by the games run (2026-10-30), British English.
+
+@v2 A1
+^I / *live / in Leeds . = subject + verb + place
+^I / *speak / three languages . = subject + verb + object
+^we / *have / a small flat . = subject + verb + object
+^my sister / *works / in a hospital . = subject + verb + place
+^Tom / *plays / football / on Saturdays . = subject + verb + object + time {alt 3 0 1 2}
+^I / *drink / coffee / every morning . = subject + verb + object + time {alt 3 0 1 2}
+^my parents / *visit / me / in the summer . = subject + verb + object + time {alt 3 0 1 2}
+^the shop / *opens / at nine . = subject + verb + time {alt 2 0 1}
+^she / *walks / to school . = subject + verb + place
+^we / *eat / dinner / at seven . = subject + verb + object + time {alt 3 0 1 2}
+^my brother / *is / a nurse . = subject + be + noun
+^the children / *are / in the garden . = subject + be + place
+^I / *meet / my friends / in a café / on Fridays . = subject + verb + object + place + time {alt 4 0 1 2 3}
+^Amira / *studies / English / at a college . = subject + verb + object + place
+^I / *get up / at seven . = subject + verb + time {alt 2 0 1}
+^Priya / *has / two brothers . = subject + verb + object
+^we / *watch / TV / in the evening . = subject + verb + object + time {alt 3 0 1 2}
+^my flat / *has / a big kitchen . = subject + verb + object
+^I / *don't / ~eat / meat . = subject + don't + verb + object
+^he / *doesn't / ~work / on Sundays . = subject + doesn't + verb + time {alt 3 0 1 2}
+^they / *live / near the station . = subject + verb + place
+^Kwame / *cooks / dinner / for his family . = subject + verb + object + for …
+^my friend / *teaches / maths / at a school . = subject + verb + object + place
+^I / *buy / bread / at the market / on Saturdays . = subject + verb + object + place + time {alt 4 0 1 2 3}
+where / *do / ^you / ~live ? = question word + do + subject + verb
+what / *do / ^you / ~do / at the weekend ? = question word + do + subject + verb + time
+when / *does / ^the shop / ~open ? = question word + does + subject + verb
+what / *is / ^your name ? = question word + be + subject
+where / *are / ^my keys ? = question word + be + subject
+how / *do / ^you / ~spell / your name ? = question word + do + subject + verb + object
+what time / *does / ^the film / ~start ? = question word + does + subject + verb
+who / *is / ^your teacher ? = question word + be + subject
+why / *are / ^you / late ? = question word + be + subject + adjective
+how much / *is / ^this jacket ? = question word + be + subject
+where / *does / ^your sister / ~work ? = question word + does + subject + verb
+how old / *are / ^your children ? = question word + be + subject
+what / *do / ^you / ~have / for breakfast ? = question word + do + subject + verb + for …
+how often / *do / ^you / ~go / to the gym ? = question word + do + subject + verb + place
+^which bus / *goes / to the station ? = question word is the subject: no do {rule The question word is the subject here, so there is no do: Which bus goes …?}
+
+@janein A1
+*do / ^you / ~speak / English ? = Do + subject + verb + object
+*are / ^you / married ? = be + subject + adjective
+*is / ^this seat / free ? = be + subject + adjective
+*does / ^your brother / ~live / in London ? = Does + subject + verb + place
+*have / ^you / ~got / a pen ? = have + subject + got + object
+*can / ^I / ~pay / by card ? = can + subject + verb + how
+*is / ^the bank / open / today ? = be + subject + adjective + time
+*do / ^you / ~like / coffee ? = Do + subject + verb + object
+*are / ^your parents / at home ? = be + subject + place
+*does / ^the bus / ~stop / here ? = Does + subject + verb + place
+*can / ^you / ~help / me ? = can + subject + verb + object
+*is / ^it / cold / outside ? = be + subject + adjective + place
+*do / ^they / ~work / on Sundays ? = Do + subject + verb + time
+*is / ^your flat / big ? = be + subject + adjective
+*does / ^Mei / ~play / the guitar ? = Does + subject + verb + object
+*are / ^we / late ? = be + subject + adjective
+*can / ^she / ~swim ? = can + subject + verb
+*do / ^you / ~have / any brothers or sisters ? = Do + subject + verb + object
+*is / ^there / a bank / near here ? = Is there + noun + place
+*are / ^there / any eggs / in the fridge ? = Are there + noun + place
+*do / ^I / ~need / a ticket ? = Do + subject + verb + object
+*does / ^this train / ~go / to Manchester ? = Does + subject + verb + place
+*can / ^we / ~sit / here ? = can + subject + verb + place
+*are / ^you / from Spain ? = be + subject + from …
+*do / ^you / ~want / a cup of tea ? = Do + subject + verb + object
+
+@klammer A2
+^I / *can't / ~come / to the party . = subject + modal + verb + place
+^she / *has / ~lost / her keys . = subject + has + past participle + object
+^we / *have / ~lived / here / for ten years . = subject + have + past participle + place + time {alt 4 0 1 2 3}
+^you / *must / ~wear / a seat belt . = subject + modal + verb + object
+^I / *am going to / ~visit / my aunt / next week . = subject + going to + verb + object + time {alt 4 0 1 2 3}
+^they / *are / ~watching / a film . = subject + be + -ing + object
+^he / *was / ~sleeping / at midnight . = subject + was + -ing + time {alt 3 0 1 2}
+^I / *haven't / ~finished / my homework / yet . = subject + haven't + past participle + object + yet
+^you / *should / ~see / a doctor . = subject + modal + verb + object
+^we / *will / ~call / you / tomorrow . = subject + will + verb + object + time {alt 4 0 1 2 3}
+^the film / *has already / ~started . = subject + has already + past participle
+^my phone / *was / ~stolen / last night . = subject + was + past participle + time {alt 3 0 1 2}
+^I / *would like / a glass of water . = subject + would like + object
+^you / *don't have to / ~bring / anything . = subject + don't have to + verb + object
+^Zofia / *has never / ~been / to Scotland . = subject + has never + past participle + place
+^we / *could / ~meet / at the station . = subject + modal + verb + place
+^I / *didn't / ~see / you / yesterday . = subject + didn't + verb + object + time {alt 4 0 1 2 3}
+^the shops / *are / ~closed / on Sundays . = subject + are + past participle + time {alt 3 0 1 2}
+^it / *is going to / ~rain / this afternoon . = subject + going to + verb + time {alt 3 0 1 2}
+^Mei / *may / ~be / late . = subject + modal + be + adjective
+^you / *mustn't / ~park / here . = subject + modal + verb + place
+^he / *has / ~been / ill / since Monday . = subject + has + been + adjective + time {alt 4 0 1 2 3}
+^I / *was / ~born / in 1995 . = subject + was born + time
+^we / *are / ~meeting / Tom / at six . = subject + be + -ing + object + time {alt 4 0 1 2 3}
+^the letter / *will / ~arrive / on Monday . = subject + will + verb + time {alt 3 0 1 2}
+
+@nebensatz B1
+can you tell me / where / ^the station / *is ? = polite question + question word + subject + verb
+I don't know / what / ^his name / *is . = main clause + question word + subject + verb
+do you know / when / ^the film / *starts ? = polite question + question word + subject + verb
+I wonder / if / ^it / *will rain . = main clause + if + subject + verb
+could you tell me / how much / ^this / *costs ? = polite question + how much + subject + verb
+I'm not sure / where / ^I / *left my keys . = main clause + question word + subject + verb
+do you know / who / ^that man / *is ? = polite question + who + subject + verb
+I can't remember / what time / ^the bus / *leaves . = main clause + question word + subject + verb
+she asked me / where / ^I / *lived . = reported question + question word + subject + verb
+can you tell me / why / ^the train / *is late ? = polite question + why + subject + verb
+I'd like to know / how / ^this machine / *works . = main clause + how + subject + verb
+do you know / whether / ^the bank / *is open ? = polite question + whether + subject + verb
+he wants to know / when / ^we / *are coming . = main clause + when + subject + verb
+I have no idea / what / ^she / *means . = main clause + what + subject + verb
+could you tell me / which platform / ^the train / *leaves from ? = polite question + which + subject + verb
+I don't understand / why / ^he / *is angry . = main clause + why + subject + verb
+tell me / what / ^you / *think . = main clause + what + subject + verb
+nobody knows / where / ^the cat / *has gone . = main clause + where + subject + verb
+I asked / if / ^the shop / *was open . = reported question + if + subject + verb
+do you remember / where / ^we / *parked the car ? = polite question + where + subject + verb

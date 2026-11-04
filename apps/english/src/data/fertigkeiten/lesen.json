@@ -1,0 +1,390 @@
+{
+  "_note": [
+    "Reading A1–B2, in the shape src/data/hoeren.json already proved: one entry per exercise,",
+    "each with its own level, so the skill can be offered level by level instead of as one B1",
+    "page. Every text is written for this site in British English; places and firms are made up",
+    "(Westbridge, Kingsford), so no real local rule is misquoted.",
+    "",
+    "`type` names the TEXT TYPE, not the topic, because that is what exam tasks actually vary",
+    "between items: a learner who can read a newspaper article may still be lost in front of",
+    "six small ads. The hub and the nav show it for the same reason.",
+    "",
+    "The five B1 entries below borrow the B1 simulation from src/data/lesen.json (`from`), so",
+    "each part is reachable on its own. That file and /reading-writing stay: doing the five",
+    "parts one after the other under time is a different exercise from practising one."
+  ],
+  "types": {
+    "schild": "Signs & notices",
+    "nachricht": "Message",
+    "anzeige": "Adverts",
+    "brief": "Letter & email",
+    "artikel": "Newspaper article",
+    "forum": "Forum",
+    "interview": "Interview"
+  },
+  "texts": [
+    {
+      "id": "a1-schilder-im-haus",
+      "level": "A1",
+      "type": "schild",
+      "title": "Notices in a block of flats",
+      "blurb": "Six notices in the hallway – what can you do where?",
+      "minutes": 4,
+      "text": "**Notice 1 – Front door**\nPlease always close the door. Thank you!\n\n**Notice 2 – Laundry room**\nWashing machines: Monday to Saturday, 7 am to 8 pm. No washing on Sundays.\n\n**Notice 3 – Bike store**\nPlease put bikes in the bike store only. There is no space in the hallway.\n\n**Notice 4 – Post boxes**\nThe post comes every day between 9 and 11 am.\n\n**Notice 5 – Bins (back yard)**\nGreen bin = plastic and cans. Blue bin = paper. Brown bin = food waste.\n\n**Notice 6 – Stairs**\nFriday, 2 pm: the caretaker is repairing the lights. Please do not disturb him.",
+      "questions": [
+        {
+          "prompt": "You want to wash your clothes on Sunday at 10 am. Can you?",
+          "options": [
+            "Yes, every day from 7 am to 8 pm",
+            "No, not on Sundays",
+            "Yes, but only until 11 am"
+          ],
+          "answer": "No, not on Sundays",
+          "explain": "“No washing on Sundays” – the times 7 am to 8 pm are only for Monday to Saturday."
+        },
+        {
+          "prompt": "Where should your bike go?",
+          "options": [
+            "In the hallway",
+            "In the bike store",
+            "In the back yard"
+          ],
+          "answer": "In the bike store"
+        },
+        {
+          "prompt": "Which bin is for old newspapers?",
+          "options": [
+            "The green one",
+            "The blue one",
+            "The brown one"
+          ],
+          "answer": "The blue one"
+        },
+        {
+          "prompt": "When does the post come?",
+          "options": [
+            "On Friday at 2 pm",
+            "Between 9 and 11 am",
+            "From 7 am to 8 pm"
+          ],
+          "answer": "Between 9 and 11 am",
+          "explain": "Friday at 2 pm is the caretaker, not the post. The number alone is not enough – you have to read which notice it is on."
+        }
+      ]
+    },
+    {
+      "id": "a1-nachricht-einladung",
+      "level": "A1",
+      "type": "nachricht",
+      "title": "An invitation by text message",
+      "blurb": "Who, when, where – and what should you bring?",
+      "minutes": 3,
+      "text": "**Mira, 18:42**\nHi Sam! It's my birthday on Saturday. I'm having a small party at my flat. Can you come?\n\n**Mira, 18:43**\nWe start at 7 pm. My address is Flat 3, 8 Linden Road. It's on the second floor. The doorbell doesn't work, so please call me and I'll come down.\n\n**Mira, 18:44**\nI've got lots of food and drink, so please don't bring anything – but maybe some music? You always have good music. 🙂",
+      "questions": [
+        {
+          "prompt": "Why is Mira having a party?",
+          "options": [
+            "She has a new flat",
+            "It's her birthday",
+            "She has a new job"
+          ],
+          "answer": "It's her birthday"
+        },
+        {
+          "prompt": "When does the party start?",
+          "options": [
+            "At 6.42 pm",
+            "At 7 pm",
+            "At 8 pm"
+          ],
+          "answer": "At 7 pm",
+          "explain": "18:42 is the time of the message, not the party. Text messages always show the time next to them – it is not part of the text."
+        },
+        {
+          "prompt": "What should Sam do when he arrives?",
+          "options": [
+            "Ring the doorbell",
+            "Phone Mira",
+            "Go up to the second floor"
+          ],
+          "answer": "Phone Mira",
+          "explain": "“The doorbell doesn't work, so please call me.”"
+        },
+        {
+          "prompt": "What should Sam bring?",
+          "options": [
+            "Food",
+            "Drinks",
+            "Music"
+          ],
+          "answer": "Music"
+        }
+      ]
+    },
+    {
+      "id": "a2-wohnungsanzeigen",
+      "level": "A2",
+      "type": "anzeige",
+      "title": "Reading adverts for flats",
+      "blurb": "Four adverts, four people looking – who matches which home?",
+      "minutes": 6,
+      "text": "**Advert A**\nOne-bedroom flat, third floor, no lift. £780 per month. Available now. No pets.\n\n**Advert B**\nRoom in a shared house with three students. £520 per month, bills included. Shared kitchen and bathroom. We're looking for someone who likes cooking.\n\n**Advert C**\nTwo-bedroom ground-floor flat with a small garden. £1,150 per month. Dogs and cats welcome. Available from 1 October.\n\n**Advert D**\nFurnished studio flat. £850 per month, internet included. Six months only.",
+      "questions": [
+        {
+          "prompt": "Mr Adeyemi is coming for a six-month work placement. He has no furniture.",
+          "options": [
+            "Advert A",
+            "Advert B",
+            "Advert C",
+            "Advert D"
+          ],
+          "answer": "Advert D",
+          "explain": "Two things must be right: furnished AND six months. Only D has both."
+        },
+        {
+          "prompt": "The Novak family have a dog and two children.",
+          "options": [
+            "Advert A",
+            "Advert B",
+            "Advert C",
+            "Advert D"
+          ],
+          "answer": "Advert C"
+        },
+        {
+          "prompt": "Lena is a student. She doesn't have much money, and she likes cooking for other people.",
+          "options": [
+            "Advert A",
+            "Advert B",
+            "Advert C",
+            "Advert D"
+          ],
+          "answer": "Advert B"
+        },
+        {
+          "prompt": "Mr Fisher is 71 and can't climb stairs.",
+          "options": [
+            "Advert A",
+            "Advert C",
+            "Advert D"
+          ],
+          "answer": "Advert C",
+          "explain": "“Ground-floor”: A is on the third floor with no lift, and D doesn't say which floor it is on, so C is the safe answer."
+        }
+      ]
+    },
+    {
+      "id": "a2-email-kurs-absage",
+      "level": "A2",
+      "type": "brief",
+      "title": "An email from the language school",
+      "blurb": "The class is cancelled. What does that mean for you?",
+      "minutes": 5,
+      "text": "Subject: Change to your A2 English class – please read\n\nDear students,\n\nUnfortunately, your teacher, Ms Berger, is ill. Because of this, there are no classes on Tuesday or Thursday this week.\n\nFrom next week, Mr Osei will teach your class. Lessons will be at the usual times, but in Room 2.14 instead of Room 1.03 – the big room on the first floor is too cold at the moment.\n\nWe will make up the two lessons on Saturday the 18th, from 10 am to 1 pm. If you can't come on that Saturday, please send us a short email by Friday. The test is still at the end of the month.\n\nBest wishes\nThe course office",
+      "questions": [
+        {
+          "prompt": "Why are the classes cancelled?",
+          "options": [
+            "The room is too cold",
+            "The teacher is ill",
+            "It's a Saturday"
+          ],
+          "answer": "The teacher is ill"
+        },
+        {
+          "prompt": "Which room is the class in from next week?",
+          "options": [
+            "Room 1.03",
+            "Room 2.14",
+            "The big room on the first floor"
+          ],
+          "answer": "Room 2.14",
+          "explain": "“in Room 2.14 instead of Room 1.03” – “instead of” always points to the old thing, not the new one."
+        },
+        {
+          "prompt": "What must you do if you are not free on the Saturday?",
+          "options": [
+            "Nothing",
+            "Send an email by Friday",
+            "Phone Mr Osei"
+          ],
+          "answer": "Send an email by Friday"
+        },
+        {
+          "prompt": "When is the test?",
+          "options": [
+            "On Saturday the 18th",
+            "At the end of the month",
+            "On Tuesday"
+          ],
+          "answer": "At the end of the month",
+          "explain": "“The test is still at the end of the month” – “still” means here: the date does not change."
+        }
+      ]
+    },
+    {
+      "id": "b1-digitales-buero",
+      "level": "B1",
+      "type": "brief",
+      "title": "Short text: the paperless office",
+      "blurb": "A notice from the management – three questions.",
+      "minutes": 5,
+      "from": "dtz-simulation"
+    },
+    {
+      "id": "b1-anzeigen",
+      "level": "B1",
+      "type": "anzeige",
+      "title": "B1 task 1: matching adverts",
+      "blurb": "Five people, six adverts – one is left over.",
+      "minutes": 8,
+      "from": "dtz-simulation"
+    },
+    {
+      "id": "b1-zeitungsartikel",
+      "level": "B1",
+      "type": "artikel",
+      "title": "B1 task 2: newspaper article",
+      "blurb": "One article, five statements – true or false?",
+      "minutes": 8,
+      "from": "dtz-simulation"
+    },
+    {
+      "id": "b1-forumsbeitraege",
+      "level": "B1",
+      "type": "forum",
+      "title": "B1 task 3: forum posts",
+      "blurb": "Four opinions – who says what?",
+      "minutes": 7,
+      "from": "dtz-simulation"
+    },
+    {
+      "id": "b1-interview",
+      "level": "B1",
+      "type": "interview",
+      "title": "B1 task 4: interview",
+      "blurb": "One interview, four questions – which answer fits?",
+      "minutes": 7,
+      "from": "dtz-simulation"
+    },
+    {
+      "id": "b2-artikel-homeoffice",
+      "level": "B2",
+      "type": "artikel",
+      "title": "Newspaper article: the working-from-home debate",
+      "blurb": "Two studies, two results – and what the article really says about them.",
+      "minutes": 9,
+      "text": "**More productive at home – or just lonelier?**\n\nSeveral years after the great upheaval in the world of work, the argument about working from home is far from settled. A university study published this spring found that people working from home complete, on average, around eight per cent more tasks than they do in the office. The researchers put this down mainly to the lack of interruptions: if nobody stops you for a chat every twenty minutes, you concentrate better.\n\nA second survey, carried out by an economic research institute, puts this picture into perspective. While it also finds a gain in productivity for clearly defined individual tasks, it concludes that creative teamwork suffers when colleagues are apart. New employees in particular, the authors say, take much longer to settle into their roles, because they miss out on the informal learning that happens when experienced colleagues are close by.\n\nEmployers are responding in different ways. Some large companies now want their staff back in the office four days a week; others set fixed office days for the whole team and leave the rest of the week up to the individual. The legal position in the UK is clear: there is no legal right to work from home. Employees can make a request for flexible working, which may include working from home, and employers must deal with it in a reasonable way – but they can turn it down for business reasons. What applies in practice is set out in the employment contract or in company policy.\n\nThe experts agree on only one point: “office or home?” is the wrong question. What matters, they say, is not the place but whether a task needs discussion or quiet.",
+      "questions": [
+        {
+          "prompt": "The university study explains the gain in productivity mainly by the fact that …",
+          "options": [
+            "… people work longer hours at home.",
+            "… there are fewer interruptions at home.",
+            "… the tasks done at home are easier."
+          ],
+          "answer": "… there are fewer interruptions at home.",
+          "explain": "“put this down mainly to the lack of interruptions” – the text says nothing about longer working hours."
+        },
+        {
+          "prompt": "What does the second survey say about new employees?",
+          "options": [
+            "They are more productive at home than experienced staff.",
+            "They need more time to settle into their roles.",
+            "Most of them are against working from home."
+          ],
+          "answer": "They need more time to settle into their roles."
+        },
+        {
+          "prompt": "How do the two studies relate to each other?",
+          "options": [
+            "The second one proves the first one completely wrong.",
+            "The second confirms one part but limits another.",
+            "Both studies come to exactly the same conclusion."
+          ],
+          "answer": "The second confirms one part but limits another.",
+          "explain": "“puts this picture into perspective” + “While it also finds …, it concludes that …” – that is a limitation, not a contradiction. At B2, “while … , …” and “puts into perspective” are typical signals for this."
+        },
+        {
+          "prompt": "What is the legal position in the UK?",
+          "options": [
+            "Every employee has a legal right to work from home.",
+            "Working from home is allowed four days a week.",
+            "You can ask for it, but there is no legal right to it."
+          ],
+          "answer": "You can ask for it, but there is no legal right to it."
+        },
+        {
+          "prompt": "What do the experts agree on, according to the article?",
+          "options": [
+            "That the office is the better solution in the long run.",
+            "That the type of task matters more than the place.",
+            "That fixed office days are the only sensible rule."
+          ],
+          "answer": "That the type of task matters more than the place."
+        }
+      ]
+    },
+    {
+      "id": "b2-kommentare-innenstadt",
+      "level": "B2",
+      "type": "forum",
+      "title": "Readers' comments: a car-free town centre",
+      "blurb": "Five comments, five positions – who argues how?",
+      "minutes": 8,
+      "text": "**Topic: Should Kingsford town centre become car-free?**\n\n**Comment A – Dario_87**\nI've cycled this route for twelve years and I've got used to the daily risk. But nobody should have to get used to it. Anyone with children will know what I mean.\n\n**Comment B – M. Kerr**\nNobody denies that fewer cars would be nicer. But as long as the trains are cancelled twice a week and the last bus leaves at half eight, it isn't a fair choice. It's the people with the least money who will pay for it.\n\n**Comment C – Irene W.**\nMy shop depends on customers who stop for a minute, pick something up and drive on. That has worked for thirty years. They're not taking away our cars – they're taking away our customers.\n\n**Comment D – bike_belle**\nGhent, Pontevedra, Groningen – it's the same story everywhere: shopkeepers protest in the first year, and a few years later nobody wants the cars back. We're arguing about something that other towns settled long ago.\n\n**Comment E – Henry R.**\nWhat bothers me is not the idea but the process. The decision had been made before the public consultation even started. You can argue about the result, but not about the way it was reached.",
+      "questions": [
+        {
+          "prompt": "Who agrees with the idea in principle but thinks the plan is unfair on poorer people?",
+          "options": [
+            "Comment A",
+            "Comment B",
+            "Comment C",
+            "Comment D",
+            "Comment E"
+          ],
+          "answer": "Comment B",
+          "explain": "“Nobody denies that …” is agreement; “But as long as …” brings in the objection. The objection is about public transport, not about the idea itself."
+        },
+        {
+          "prompt": "Who criticises not the plan itself but the way the decision was made?",
+          "options": [
+            "Comment A",
+            "Comment B",
+            "Comment D",
+            "Comment E"
+          ],
+          "answer": "Comment E"
+        },
+        {
+          "prompt": "Who uses the experience of other towns as an argument?",
+          "options": [
+            "Comment B",
+            "Comment C",
+            "Comment D",
+            "Comment E"
+          ],
+          "answer": "Comment D"
+        },
+        {
+          "prompt": "Who is worried about losing money personally?",
+          "options": [
+            "Comment A",
+            "Comment C",
+            "Comment D"
+          ],
+          "answer": "Comment C"
+        },
+        {
+          "prompt": "Whose position is based on their own feeling of safety?",
+          "options": [
+            "Comment A",
+            "Comment B",
+            "Comment E"
+          ],
+          "answer": "Comment A"
+        }
+      ]
+    }
+  ]
+}

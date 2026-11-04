@@ -1,0 +1,17 @@
+---
+// The lock card for gated features. englishacademy has no payments yet (src/lib/backend.js:
+// BACKEND.payments = false), so every feature is free and this renders nothing.
+//
+// The call sites stay in place (<PremiumLock feature="…" variant="…" />): they mark exactly
+// where an upsell may appear once payments exist. The registry of gateable features and
+// their free/paid limits is src/data/premium-features.json; the gating logic is
+// src/lib/access.js (PUBLIC_PAYWALL kill switch).
+interface Props {
+  /** Registry id from src/data/premium-features.json */
+  feature: string;
+  /** inline: beside a button · limit-reached: allowance used up · preview-end: after a free preview */
+  variant?: "inline" | "limit-reached" | "preview-end";
+  /** What the button would buy (a lookup key). */
+  plan?: string;
+}
+---

@@ -1,0 +1,42 @@
+---
+// Bild vs. Bedeutung for one Redewendung (/knowledge/idioms): two panels. Left, Quaki
+// takes the phrase literally and acts it out with its props (OpenMoji); right, Bruno or Regi
+// in the real situation, saying the first example sentence. The joke is the gap between
+// the two, and it is also the lesson.
+//
+// `side="bild"` draws only the left panel: the „Bild oder Bedeutung?“ exercise shows that
+// and asks for the phrase. A mascot block (data-mascot-part); the text panels below the
+// strip say the same in words.
+import { mascotSvg } from "../../lib/mascots.js";
+import { emojiSrc } from "../../lib/redewendungenData.js";
+
+interface Props { e: any; side?: "both" | "bild"; size?: number }
+const { e, side = "both", size = 76 } = Astro.props;
+// The partner on the right alternates by entry, so the strip is not always the same pair.
+const partner = [...e.id].reduce((n, ch) => n + ch.charCodeAt(0), 0) % 2 ? "regi" : "bruno";
+const quaki = mascotSvg({ name: "quaki", expr: "thinking", view: "three", size, label: "", className: "rw-fig" });
+const other = mascotSvg({ name: partner, expr: "happy", view: "three", size, label: "", className: "rw-fig" });
+const props: string[] = e.comic?.props ?? [];
+---
+<figure class:list={["rw-strip", side === "bild" && "rw-strip--bild"]} data-mascot-part aria-label={`Picture: ${e.comic?.quaki ?? e.bild}`}>
+  <div class="rw-panel rw-panel--bild">
+    <p class="rw-panel-cap" data-i18n="rw.strip.bild">Quaki versteht …</p>
+    <div class="rw-panel-stage">
+      <span class="rw-panel-body" set:html={quaki} />
+      <span class="rw-props" aria-hidden="true">
+        {props.map((code) => <img src={emojiSrc(code)} alt="" width="44" height="44" loading="lazy" />)}
+      </span>
+    </div>
+    <p class="rw-panel-line">{e.comic?.quaki ?? e.bild}</p>
+  </div>
+  {side === "both" && (
+    <div class="rw-panel rw-panel--bedeutung">
+      <p class="rw-panel-cap" data-i18n="rw.strip.bedeutung">Gemeint ist …</p>
+      <div class="rw-panel-stage">
+        <p class="rw-say">“{e.bsp[0]}”</p>
+        <span class="rw-panel-body" set:html={other} />
+      </div>
+      <p class="rw-panel-line">{e.bedeutung}</p>
+    </div>
+  )}
+</figure>

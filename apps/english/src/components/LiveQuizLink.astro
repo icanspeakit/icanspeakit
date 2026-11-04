@@ -1,0 +1,67 @@
+---
+// „Als Live-Quiz für die Klasse" — the way from a chapter page to the builder
+// (/teachers/quiz/create), with that chapter already chosen (?kapitel=).
+//
+// Teachers only, and learners must not pay for it: the link ships `hidden`, and the
+// script below unhides it only when the account says teacher (user_metadata.teacher,
+// see src/lib/liveQuiz/custom.js). That check needs the Supabase client, so it is
+// imported lazily and only when a Supabase auth cookie exists — a signed-out learner
+// downloads nothing extra. The cookie test is a hint; the session it finds decides (and RLS
+// decides what a teacher may save).
+//
+// Rendered only for a chapter the builder actually offers (chapterList(): drafts and
+// topics without askable items have no chapter JSON), and never in the Android app,
+// whose build drops /teachers (scripts/build-app.mjs).
+import { hasChapter } from "../lib/liveQuiz/chapters.js";
+
+interface Props {
+  /** The builder's chapter slug: g-<topic key> or w-<Lernset id>. */
+  chapter: string;
+  /** In a bar of controls (TopicBar) rather than under a heading: no margin, one line. */
+  bar?: boolean;
+}
+
+const { chapter, bar = false } = Astro.props;
+const web = import.meta.env.PUBLIC_TARGET !== "app";
+const show = web && hasChapter(chapter);
+const href = `/teachers/quiz/create?kapitel=${encodeURIComponent(chapter)}`;
+---
+{/* A <div>, not a <p>: the grammar hero hides its paragraphs on phones (practice CSS). */}
+{show && (
+  <div class:list={["lq-link", bar && "lq-link--bar"]} data-lq-link hidden>
+    <a href={href} target="_blank" rel="noopener" data-i18n="qb.fromChapter">Als Live-Quiz für die Klasse</a>
+  </div>
+)}
+
+<script>
+  // Nothing to do on a page without the link, or for a browser that is not signed in.
+  // Again after a deck is swapped in place (src/lib/deckSwap.js): its link is new markup.
+  function reveal() {
+    const links = document.querySelectorAll<HTMLElement>("[data-lq-link]");
+    // Same cookie test as Layout.astro (@supabase/ssr names it sb-<project-ref>-auth-token,
+    // chunked as .0/.1 when large). Existence only — never parsed, never trusted.
+    if (links.length && /(^|;\s*)sb-[^=]*-auth-token[^=]*=/.test(document.cookie)) {
+      import("../lib/liveQuiz/custom.js")
+        .then(async ({ currentUser, isTeacher }) => {
+          if (isTeacher(await currentUser())) links.forEach((l) => (l.hidden = false));
+        })
+        // A failed check just leaves the link hidden; the page must not care.
+        .catch(() => {});
+    }
+  }
+  reveal();
+  addEventListener("da:deck-swap", reveal);
+</script>
+
+<style>
+  /* The muted, underlined look of the grammar workspace's text buttons (.vp-link-btn),
+     restated here because the Wortschatz and Akkusativ pages do not load that sheet. */
+  .lq-link { margin-top: 10px; font-size: .8125rem; line-height: 1.4; }
+  .lq-link a { color: var(--muted); text-decoration: underline; }
+  .lq-link a:hover { color: var(--ink); }
+  .lq-link--bar { margin-top: 0; white-space: nowrap; }
+  /* The topic bar is already full on a phone, and a class is set up at a desk anyway. */
+  @media (max-width: 640px) {
+    .lq-link--bar { display: none; }
+  }
+</style>

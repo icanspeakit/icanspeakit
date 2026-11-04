@@ -1,0 +1,121 @@
+/* The Artikel trainer, fitted to the screen — the layout tested as "C · Mix" on /t2.
+ * ---------------------------------------------------------------------------
+ * Above the work there is now only the topic bar, which also carries Üben/Aktiv
+ * (ModeSwitch compact). The rail + panel and the exercise card below it are both exactly
+ * one screen tall, so they start and end on the same lines, and the question sits in the
+ * middle of its card at a size that reads from across the room: the word is the task,
+ * not a line of body copy under a toolbar.
+ *
+ * Everything else — the frequency chart, the session footer — stays, one scroll down.
+ * Desktop only: below 1001px the column is a bottom sheet and the page scrolls as before,
+ * apart from the question, which centres and grows on a phone too.
+ */
+
+.vp-page--fit {
+  /* Viewport minus the sticky site nav, the topic bar, and this page's top and bottom
+     gutters. Measured, not guessed: the nav is 69px, the bar with the switch in it 53px. */
+  --fit-nav: 69px;
+  --fit-h: calc(100svh - var(--fit-nav) - 53px - 16px - 24px);
+}
+
+@media (min-width: 1001px) {
+  .vp-page--fit { padding-top: 16px; }
+  /* The sheet head is the phone's way to close the Stufen sheet; beside the work it has no job. */
+  .vp-page--fit .vp-sheet-head { display: none; }
+  .vp-page--fit .vp-rule-card > .vp-sheet-body { display: contents; }
+
+  .vp-page--fit .vp-col--rule {
+    top: calc(var(--fit-nav) + 16px);
+    height: var(--fit-h);
+    max-height: var(--fit-h);
+    overflow: hidden;
+  }
+  .vp-page--fit .vp-rule-card,
+  .vp-page--fit .vp-rule-card .nvb { height: 100%; margin-bottom: 0; }
+
+  /* The card fills the screen; the exercise takes whatever the toolbar leaves. */
+  .vp-page--fit .vp-col--ex > .vp-card {
+    min-height: var(--fit-h);
+    display: flex;
+    flex-direction: column;
+  }
+}
+/* No toolbar row above the card any more: the column is always there on a desktop and only
+   its list folds, by the tab on its edge (sidenav.css), so "Stufen ausblenden" is gone. */
+.vp-page--fit .vp-col--ex .vp-ex-toolbar { display: none; }
+
+/* ---- The question, centred and large ------------------------------------------------ */
+.vp-page--fit #akk-exercise-root { flex: 1; display: flex; flex-direction: column; }
+.vp-page--fit #akk-exercise-root > .akk-anim-in { flex: 1; display: flex; flex-direction: column; }
+.vp-page--fit .akk-focus-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-6) 0;
+}
+.vp-page--fit .akk-focus-sentence {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 14px;
+  margin: 0 0 var(--space-6);
+  font-size: clamp(2.2rem, 4.2vw, 3.75rem);
+  font-weight: var(--fw-medium, 500);
+  line-height: 1.15;
+}
+.vp-page--fit .akk-focus-sentence .akk-blank { min-width: 1.8em; border-bottom-width: 4px; }
+.vp-page--fit .akk-focus-sentence .akk-hear-group { margin-left: 0; font-size: 1rem; }
+.vp-page--fit .akk-pills { justify-content: center; gap: 12px; }
+.vp-page--fit .akk-pill {
+  min-width: 132px;
+  min-height: 72px;
+  padding: 12px 28px;
+  font-size: 1.5rem;
+}
+.vp-page--fit .akk-focus-instruction { margin-top: var(--space-6); font-size: 1rem; }
+.vp-page--fit .akk-feedback { width: 100%; max-width: 620px; text-align: center; }
+.vp-page--fit .akk-why { text-align: left; }
+.vp-page--fit .akk-feedback-row { justify-content: center; }
+.vp-page--fit .akk-focus-done-actions { justify-content: center; }
+
+@media (max-width: 720px) {
+  .vp-page--fit .akk-focus-sentence { font-size: clamp(1.9rem, 9vw, 2.6rem); }
+  .vp-page--fit .akk-pills { width: 100%; flex-wrap: nowrap; gap: 8px; }
+  .vp-page--fit .akk-pill { flex: 1; min-width: 0; min-height: 64px; padding: 10px 8px; font-size: 1.35rem; }
+}
+
+/* ---- Phone: the word first ------------------------------------------------------------ */
+/* On a phone the card with the word and der/die/das is the whole point of the screen, and
+   it was starting 560px down: the level button, then the Fokus · Aussprache · Sprache ·
+   Regel row wrapped into three lines, then a centred card with padding above the word.
+   Now the word comes straight after the "Stufe A1 · …" line, and the settings row moves
+   under the card, one slim line of smaller controls. Order only — the DOM (and so the
+   tab order on a desktop) is unchanged. Also serves the Präpositionen trainer. */
+@media (max-width: 720px) {
+  .vp-page--fit .vp-rule-peek {
+    display: inline-flex; width: auto; margin: 0 0 10px; padding: 6px 14px;
+  }
+  .vp-page--fit .vp-col--ex > .vp-card { display: flex; flex-direction: column; min-height: 0; padding-top: 12px; }
+  .vp-page--fit .vp-col--ex > .vp-card > [data-ak-now],
+  .vp-page--fit .vp-col--ex > .vp-card > [data-now] { order: 1; margin: 0 0 2px; }
+  .vp-page--fit .vp-col--ex > .vp-card > #akk-exercise-root { order: 2; }
+  .vp-page--fit .vp-col--ex > .vp-card > .akk-mode-row {
+    order: 3;
+    justify-content: center;
+    gap: 6px 12px;
+    margin-top: 6px;
+    padding: 12px 0 0;
+    border-bottom: 0;
+    border-top: 1px solid var(--akk-line, var(--border));
+    font-size: .8125rem;
+  }
+  .vp-page--fit .akk-mode-row .ls-switch { transform: scale(.88); transform-origin: center; margin: -2px -6px; }
+  .vp-page--fit .akk-mode-row .akk-regel-btn { min-height: 32px; padding: 4px 14px; font-size: .8125rem; }
+  .vp-page--fit .akk-focus-card { justify-content: flex-start; padding: 14px 0 8px; }
+  .vp-page--fit .akk-focus-sentence { margin-bottom: 18px; }
+  .vp-page--fit .akk-focus-instruction { margin-top: 12px; font-size: .9rem; }
+}
