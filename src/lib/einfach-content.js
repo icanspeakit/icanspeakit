@@ -193,9 +193,10 @@ export function resolveTask(task, sources) {
     if (task.type === "wort") {
       return {
         ...base,
-        // "la casa" with "las casas" under it, "el lunes" with "los lunes". A verb has neither.
-        front: w.gender ? `${w.gender} ${w.lemma}` : w.lemma,
-        plural: pluralWithArticle(w),
+        // "la casa" with "las casas" under it, "el lunes" with "los lunes". A verb has neither,
+        // and "las gafas" is a plural already, so it has no second line.
+        front: w.pluralOnly ? pluralWithArticle(w) : w.gender ? `${w.gender} ${w.lemma}` : w.lemma,
+        plural: w.pluralOnly ? null : pluralWithArticle(w),
         back: w.en,
         hint: task.hint || w.example,
         // The fallback hint is the lexicon's Spanish example; written hints are English.
@@ -203,8 +204,8 @@ export function resolveTask(task, sources) {
         audio: w.audio ? `/audio/wortschatz/${w.audio}.mp3` : null,
       };
     }
-    // el/la estudiante takes both, so there is nothing to ask.
-    if (w.gender !== "el" && w.gender !== "la") throw new Error(`${task.ref}: artikel task needs a noun with gender el or la`);
+    // el/la estudiante takes both and las gafas has no singular, so there is nothing to ask.
+    if ((w.gender !== "el" && w.gender !== "la") || w.pluralOnly) throw new Error(`${task.ref}: artikel task needs a singular noun with gender el or la`);
     return {
       ...base,
       noun: w.lemma,

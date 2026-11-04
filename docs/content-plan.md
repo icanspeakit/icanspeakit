@@ -1174,3 +1174,11 @@ are handled by the `ui-*` items where they are rendered.
   **For `vocab-a1`–`vocab-b1`, `speaking`, `listening`, `pronunciation`:** add `wort`/`artikel`, `redemittel` (greetings in `a1-vorstellen`, the
   padrón in `a1-amt`), `hoeren` and `sprechen` tasks to the units, keeping 5–7 per unit. **For `routes`:** a unit's `grammar` is a slot id and
   reaches the page through the slot's redirect (`/personalpronomen` → current slug), so those redirects must stay or `einfach-view.js` must link by slug.
+- **Beginner path screens decisions** (`beginner-path-ui`, 2026-11-04): Bruno's reactions are simple Spanish with the English on tap (an `EN` tag marks them); the first hello, hints and
+  verdicts stay English, because a beginner must understand them. Article rows (`el / la`, `el / la / los / las`, `un / una`, `un / una / unos / unas`) now show the article screen and count
+  toward their own topic. The resolver reads an item's `choices` and `why`, accepts `alt` build orders (case and commas ignored; 100 items have one) and keeps inner commas on their word.
+  `wort` cards show `los/las` + plural, also for invariable nouns (*los lunes*); `pluralOnly` shows only *las gafas*; an `artikel` task rejects `el/la` and plural-only nouns. The page resolves
+  the a1, a2 and b1 lexicons. The link at the end of a unit now uses `topicPath()`, so **`routes`** no longer has to keep slot redirects for this page. `?fixtures` is Spanish.
+  **For `ui-lang-*`:** every string in `einfach-view.js` is hard-coded English outside `en.json`, as it was in the English course, so `/step-by-step` won't translate until those strings move
+  to i18n keys. Bruno's `help` is English too. **For `vocab-a1`:** an `artikel` or `wort` task needs the Spanish `gender`; keep `plural` without its article. **For a LatAm mode:** still to do in the
+  resolver and the quick check: `es419.form` and `skip`.

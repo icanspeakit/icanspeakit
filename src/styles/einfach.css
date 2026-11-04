@@ -540,8 +540,8 @@ html:not([data-mascots="off"]) .el-walk-marker { display: none; }
 
 .el-two { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
 
-/* el/la and the gap options: three targets, one row, each one a full thumb wide. */
-.el-opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
+/* el/la and the gap options: two or three targets, one row, each one a full thumb wide. */
+.el-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(30%, 1fr)); gap: var(--space-2); }
 .el-opt {
   min-height: 54px;
   border: 1px solid var(--border-strong);
