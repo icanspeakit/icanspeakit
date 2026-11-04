@@ -93,7 +93,7 @@ const count = data.sections.reduce((n: number, s: any) => n + s.items.filter((it
           {data.stress && <span class="nr-legend"><span class="nr-stress">bold</span> = stressed<span class="nr-legend-gap">·</span></span>}
           {data.cols}
         </p>
-        <ul class="nr-list" lang="en">
+        <ul class="nr-list" lang="es">
           {s.items.map((it: any) => isHead(it) ? (
             <li class="nr-head" data-nr-head>{it.replace(/^#\s*/, "")}</li>
           ) : (
@@ -126,7 +126,7 @@ const count = data.sections.reduce((n: number, s: any) => n + s.items.filter((it
 
   // Filter: every list at once, by any part of the row (verb, forms, sentence). A section
   // with no hit hides; a Vokalreihe heading hides with its last verb.
-  const norm = (s: string) => s.toLocaleLowerCase("de").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/ß/g, "ss");
+  const norm = (s: string) => s.toLocaleLowerCase("es").normalize("NFD").replace(/[̀-ͯ]/g, "");
   const q = document.getElementById("nr-q") as HTMLInputElement | null;
   const sections = [...document.querySelectorAll<HTMLElement>("[data-nr-section]")];
   const empty = document.getElementById("nr-empty");
@@ -152,7 +152,7 @@ const count = data.sections.reduce((n: number, s: any) => n + s.items.filter((it
     // While searching, the Regeln step aside; the matches are what is being looked for.
     document.getElementById("nr-page")?.classList.toggle("is-searching", !!term);
   });
-  // ?q=warten%20auf (from the search on /reference and the nav search): open filtered.
+  // ?q=pensar%20en (from the search on /reference and the nav search): open filtered.
   const asked = new URLSearchParams(location.search).get("q");
   if (q && asked) {
     q.value = asked;

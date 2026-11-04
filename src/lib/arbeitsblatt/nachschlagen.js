@@ -99,7 +99,7 @@ function verbTopic() {
 /* ---- /grammar/irregular-verbs ------------------------------------------------- */
 function starkTopic(file, data) {
   const sec = (id) => data.sections.find((s) => s.id === id)?.regel ?? [];
-  // forms: "goes · went · gone" (he/she/it · past simple · past participle)
+  // forms: "tengo · tuvo · tenido" (yo presente · él indefinido · participio)
   const pools = data.sections.map((sec) => rowsOf(sec).filter((r) => String(r.forms).split(" · ").length === 3));
   const form = (r, k) => String(r.forms).split(" · ")[k].trim();
   return {
@@ -107,27 +107,27 @@ function starkTopic(file, data) {
     exercises: [
       {
         type: "table",
-        title: "Past simple: regular or irregular? Write the form.",
-        columns: ["Verb", "Past simple"],
+        title: "Indefinido: regular or irregular? Write the él/ella form.",
+        columns: ["Verb", "él/ella (indefinido)"],
         rows: roundRobin(pools, ROWS).map((r) => ({ term: bareVerb(r.verb), answer: form(r, 1) })),
       },
       {
         type: "table",
-        title: "Past participle: write the form.",
-        columns: ["Verb", "Past participle"],
+        title: "Participle: write the form.",
+        columns: ["Verb", "Participle"],
         rows: roundRobin(pools, ROWS, ROWS).map((r) => ({ term: bareVerb(r.verb), answer: form(r, 2) })),
       },
     ],
   };
 }
 
-/* ---- /grammar/phrasal-verbs-list ------------------------------------------------------- */
+/* ---- /grammar/phrasal-verbs-list (reflexive and pronominal verbs) ------------------------------------------------------- */
 function trennbarTopic(file, data) {
   const sec = (id) => rowsOf(data.sections.find((s) => s.id === id) ?? {});
   const trennbar = sec("trennbar");
   const untrennbar = sec("untrennbar");
-  // forms: "took off · taken off"; the past participle is the last part.
-  const perf = (r) => String(r.forms).split(" · ").pop().trim();
+  // forms: "me levanto · se levantó · levantado"; the yo form comes first.
+  const yo = (r) => String(r.forms).split(" · ")[0].trim();
   const built = trennbar.filter((r) => r.example && tokens(r.example).length <= 9).slice(0, 8);
   const regel = (id) => data.sections.find((s) => s.id === id)?.regel ?? [];
   return {
@@ -135,7 +135,7 @@ function trennbarTopic(file, data) {
     exercises: [
       {
         type: "build",
-        title: "Build the sentence. Where does the particle go?",
+        title: "Build the sentence. Where does the pronoun go?",
         sentences: built.map((r) => {
           const correct = tokens(r.example);
           return { id: `tv-${r.i}`, hint: bareVerb(r.verb), correct, shuffled: shuffle(correct, `${file}:${r.i}`) };
@@ -143,9 +143,9 @@ function trennbarTopic(file, data) {
       },
       {
         type: "table",
-        title: "Past participle: write the phrasal verb.",
-        columns: ["Phrasal verb", "Past participle"],
-        rows: roundRobin([trennbar.filter((r) => !built.includes(r)), untrennbar], ROWS).map((r) => ({ term: bareVerb(r.verb), answer: perf(r) })),
+        title: "Present: write the yo form with its pronoun.",
+        columns: ["Verb", "yo (present)"],
+        rows: roundRobin([trennbar.filter((r) => !built.includes(r)), untrennbar], ROWS).map((r) => ({ term: bareVerb(r.verb), answer: yo(r) })),
       },
     ],
   };
@@ -153,8 +153,8 @@ function trennbarTopic(file, data) {
 
 /* ---- /grammar/verbs-with-prepositions ---------------------------------------------- */
 function praepTopic(file, data) {
-  // The example with its preposition blanked; rows whose preposition is merged (zur, vom,
-  // worum) or missing in the example are left out — their gap would be ambiguous.
+  // The example with its preposition blanked; rows whose preposition is merged (al, del) or
+  // missing in the example are left out — their gap would be ambiguous.
   const gapped = data.sections.map((sec) => rowsOf(sec).map((r) => {
     const re = new RegExp(`(^|[^\\p{L}])${sec.name}(?![\\p{L}])`, "iu");
     if (!r.example || !re.test(r.example)) return null;
@@ -162,27 +162,14 @@ function praepTopic(file, data) {
     return { ...r, prep: sec.name, verb, prompt: r.example.replace(re, "$1___") };
   }).filter(Boolean));
   const fill = roundRobin(gapped, 12);
-  // The cases that have to be learnt: an, auf, in, über, vor take both.
-  const both = data.sections.filter((s) => ["an", "auf", "in", "über", "vor"].includes(s.name))
-    .map((sec) => rowsOf(sec).filter((r) => /Akkusativ|Dativ/.test(String(r.forms))));
   return {
     exercises: [
       {
         type: "fill",
         title: "Which preposition is right?",
         hint: "Learn the verb and its preposition together.",
-        choices: [...new Set(fill.map((r) => r.prep))].sort((a, b) => a.localeCompare(b, "de")),
+        choices: [...new Set(fill.map((r) => r.prep))].sort((a, b) => a.localeCompare(b, "es")),
         items: fill.map((r) => ({ prompt: r.prompt, hint: r.verb, answer: r.prep })),
-      },
-      {
-        type: "table",
-        title: "Akkusativ oder Dativ?",
-        hint: "Bei an, auf, in, über und vor muss man den Kasus mitlernen.",
-        columns: ["Verb + Präposition", "Kasus"],
-        rows: roundRobin(both, ROWS).map((r) => {
-          const kasus = /Akkusativ/.test(String(r.forms)) ? "Akkusativ" : "Dativ";
-          return { term: String(r.verb), answer: [kasus, kasus.slice(0, 3) + ".", kasus.slice(0, 3)] };
-        }),
       },
     ],
   };

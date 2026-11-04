@@ -17,13 +17,13 @@ import trennbar from "../data/nachschlagen/trennbare-verben.json";
 import verbPraep from "../data/nachschlagen/verben-mit-praepositionen.json";
 
 export const KINDS = {
-  verb: "Verbtabelle",
-  nomen: "Nomen in allen Fällen",
+  verb: "Verb table",
+  nomen: "Nouns",
   stark: "Regular and irregular verbs",
-  trennbar: "Phrasal verbs",
+  trennbar: "Reflexive and pronominal verbs",
   praep: "Verbs with prepositions",
-  wortart: "Wortarten",
-  fehler: "Typische Fehler",
+  wortart: "Parts of speech",
+  fehler: "Common mistakes",
 };
 
 const LISTS = [
