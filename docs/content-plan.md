@@ -1008,3 +1008,23 @@ are handled by the `ui-*` items where they are rendered.
   files that exist for these 19 slots are still the English sheets. **For `conjugation-trainer`:** reuse `accentOnly` and the key
   row (`.ak-accent-keys`). **Other pages:** `lang="de"` remains on some UI code in `[id].astro`
   (`vp-brief`, euler panels); the `ak.write.*` keys and German fallbacks are untouched.
+- **A2 grammar decisions** (`grammar-a2`, 2026-11-04): the 21 A2 slots are Spanish; `perfekt`,
+  `zusammengesetzte-verben` and `n-deklination` are level A2 (the last two were B1). `check-variety`'s
+  strict list is now `grammatik-done` (A1 + A2); `grammar-b1` onward add their slots to it. The
+  `zimmer` room exercise moved from `wechselpraepositionen` to `lokale-praepositionen` (place words
+  are that topic now); its tray labels are English in `src/lib/zimmerUebung.js` ("the bed") and the
+  verb in its sentences is given, not a pill, because *pongo* and *cuelgo* both fit most things.
+  `akkusativ.json` keeps its ids; `le` is never a wrong pill for a male person (leísmo is accepted
+  in Spain). `grammatik.json` quiz topics `akkusativ`, `dativ`, `trennbare-verben` have `variety`;
+  the other four stay English until their items run. **For `grammar-structure`:**
+  `grammatik-lehrplan.json` and `GRAMMATIK_ORDER` still list `zusammengesetzte-verben` and
+  `n-deklination` under B1, so the *indefinido* comes long after the *perfecto*; `searchIndex.js`
+  still has German and English keywords for these slots. **For `beginner-path`:** 56 more tasks were
+  repointed (`perfekt`, `n-deklination`, `trennbare-verben`, `dativ`, `modalverben`,
+  `lokale-praepositionen`, `negation`, `konjunktiv2-hoeflich`) and the `a1-kleidung` claims and hints
+  rewritten for *lo, la*, while its title is still "Say what you like". **For `routes`:** A2 topic
+  text links today's slugs (`/past-simple`, `/present-perfect`, `/some-any`, `/negatives`,
+  `/prepositions-of-movement`, `/prepositions-of-place`, `/pronouns-and-be`). **For `teachers`:**
+  `arbeitsblatt/<slot>.json` for these slots are still English; `zimmerSzene.js` and `kuecheSzene.js`
+  still belong to the `wechselpraepositionen` sheet. **For `grammar-b1`:** *perfecto vs indefinido*
+  (`zustandspassiv`) can build on the short contrast exercise already in `zusammengesetzte-verben`.
