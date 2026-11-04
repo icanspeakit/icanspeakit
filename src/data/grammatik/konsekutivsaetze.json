@@ -4,7 +4,7 @@
   "level": "B2",
   "status": "entwurf",
   "variety": "es-ES",
-  "es419": { "note": "The same rules apply in Latin America. Coger is tomar there, piso is departamento, and ustedes replaces vosotros." },
+  "es419": { "note": "The same rules apply in Latin America. Avoid coger there (vulgar in many countries): tomar. Piso is departamento; ustedes replaces vosotros." },
   "subtitle": "aunque takes the indicative for a fact you state and the subjunctive when something is unknown or doesn't matter to you: Aunque tenía fiebre, fui a trabajar. Aunque llueva, saldré. A consequence: tan cansado que…, tanto trabajo que…, de modo que…",
   "briefMarks": ["aunque", "indicative", "subjunctive", "tan", "tanto", "de modo que"],
   "source": "icanspeak Spanish original text (grammar-b2 run, 2026-11-04)",
@@ -37,7 +37,7 @@
         "tag": "tanto"
       },
       {
-        "html": "<strong>de modo que, de manera que, así que</strong> give the result, with the indicative: <em>No tenía el NIE, de modo que no pude abrir la cuenta. Perdí el autobús, así que tuve que coger un taxi.</em>",
+        "html": "<strong>de modo que, de manera que, así que</strong> give the result, with the indicative: <em>No tenía el NIE, de modo que no pude abrir la cuenta. Perdí el autobús, así que tuve que coger un taxi.</em> With the subjunctive, <em>de modo que</em> and <em>de manera que</em> mean purpose (<em>Habla despacio de manera que te entienda</em>).",
         "tag": "Result"
       }
     ],
@@ -52,8 +52,8 @@
           "rows": [
             ["aunque + indicative", "a fact you state", "Aunque tenía fiebre, fui a trabajar."],
             ["aunque + subjunctive", "unknown, or it doesn't matter", "Aunque llueva, iremos."],
-            ["por mucho que + subjunctive", "open: however much", "Por mucho que insistas, no te darán cita."],
-            ["por más que + indicative", "a known fact", "Por más que llamo, nadie contesta."]
+            ["por mucho que, por más que + subjunctive", "open: however much", "Por mucho que insistas, no te darán cita."],
+            ["por mucho que, por más que + indicative", "a known fact", "Por más que llamo, nadie contesta."]
           ]
         },
         {
@@ -73,7 +73,7 @@
           "badge": "Careful: after aunque",
           "variant": "dat",
           "items": [
-            "Not the future: ✗ aunque lloverá.",
+            "A future you don't know: the subjunctive, aunque llueva. Not aunque lloverá.",
             "Unknown: aunque llueva.",
             "Past fact: aunque llovía."
           ]
@@ -137,7 +137,7 @@
         { "prompt": "No sé cuánto cuesta, pero aunque ___ mucho, lo necesito.", "hint": "costar", "answer": "cueste", "choices": ["cuesta", "costará", "cueste"], "why": "You don't know the price: subjunctive." },
         { "prompt": "Cuando llegué a España, encontré trabajo aunque ___ poco español.", "hint": "yo, hablar", "answer": "hablaba", "choices": ["hablaba", "hable", "hablaría"], "why": "A fact in the past: indicative." },
         { "prompt": "—Este piso es muy caro. —Ya, pero aunque ___ caro, lo voy a alquilar.", "hint": "ser", "answer": ["sea", "es"], "choices": ["será", "sea", "esté"], "why": "You know, but it doesn't matter to you: sea is the natural form.", "es419": { "note": "In Latin America: este departamento." } },
-        { "prompt": "Por mucho que ___ mañana, no te van a dar cita.", "hint": "tú, insistir", "answer": "insistas", "choices": ["insistes", "insistirás", "insistas"], "why": "Something open: subjunctive, never the future." },
+        { "prompt": "Por mucho que ___ mañana, no te van a dar cita.", "hint": "tú, insistir", "answer": "insistas", "choices": ["insistes", "insistirás", "insistas"], "why": "Something open: subjunctive, not the future." },
         { "prompt": "Llevo toda la mañana llamando. Por más que ___, nadie contesta.", "hint": "yo, llamar", "answer": ["llamo", "llame"], "choices": ["llamo", "llamaré", "llamara"], "why": "A fact that keeps happening: llamo." }
       ]
     },
@@ -165,7 +165,7 @@
       "items": [
         { "prompt": "No tenía el NIE, de modo que no ___ abrir la cuenta.", "hint": "yo, poder", "answer": ["pude", "podía"], "choices": ["pudiera", "pude", "pueda"], "why": "A result, a fact: indicative." },
         { "prompt": "Perdí el autobús, así que ___ que coger un taxi.", "hint": "yo, tener", "answer": "tuve", "choices": ["tuve", "tenga", "tuviera"], "why": "A result, a fact: indicative.", "es419": { "note": "In Latin America: tomar un taxi." } },
-        { "prompt": "El banco cerraba a las dos, de manera que ___ por la mañana.", "hint": "nosotros, ir", "answer": "fuimos", "choices": ["fuéramos", "vayamos", "fuimos"], "why": "A result, a fact: indicative." },
+        { "prompt": "El banco cerraba a las dos, de manera que ___ por la mañana.", "hint": "nosotros, ir", "answer": ["fuimos", "íbamos"], "choices": ["fuéramos", "vayamos", "fuimos"], "why": "A result, a fact: indicative." },
         { "prompt": "No había nadie en casa, así que ___ otro día.", "hint": "yo, volver", "answer": "volví", "choices": ["volví", "vuelva", "volviera"], "why": "A result, a fact: indicative." }
       ]
     },
@@ -178,7 +178,7 @@
         { "q": "Aunque no me llamen,", "a": "iré a la entrevista." },
         { "q": "Por mucho que corras,", "a": "no llegarás a tiempo." },
         { "q": "Estaba tan cansada que", "a": "me dormí en el metro." },
-        { "q": "Había tanto ruido que", "a": "no oí el teléfono." },
+        { "q": "Había tanto ruido que", "a": "tuvimos que hablar a gritos." },
         { "q": "No encontré aparcamiento, así que", "a": "dejé el coche lejos." }
       ]
     },

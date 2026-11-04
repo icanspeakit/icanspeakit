@@ -36,7 +36,7 @@
         "tag": "Questions"
       },
       {
-        "html": "<strong>Other words change too:</strong> people (<em>mi → su</em>), time (<em>hoy → ese día, mañana → al día siguiente, ayer → el día anterior</em>), place (<em>aquí → allí, venir → ir</em>). If it is still true, or you report with <em>dice</em> or <em>me ha dicho</em>, the tense may stay: <em>Dijo que vive en Madrid. Me ha dicho que viene.</em>",
+        "html": "<strong>Other words change too:</strong> people (<em>mi → su</em>), time (<em>hoy → ese día, mañana → al día siguiente, ayer → el día anterior</em>), place (<em>aquí → allí, venir → ir</em>, if you are no longer in that place; if you are, they stay). If it is still true, or you report with <em>dice</em> or <em>me ha dicho</em>, the tense may stay: <em>Dijo que vive en Madrid. Me ha dicho que viene.</em>",
         "tag": "Other changes"
       }
     ],
@@ -116,12 +116,12 @@
         },
         {
           "label": "2 · Report an order",
-          "instruction": "You hear an order to you. Report it: Me dijo que…",
+          "instruction": "You hear an order to you. Report it later, from another place: Me dijo que… Change the time and place words too.",
           "example": { "prompt": "Ven pronto.", "answer": "Me dijo que fuera pronto." },
           "items": [
             { "prompt": "Espera aquí.", "answer": "Me dijo que esperara allí." },
             { "prompt": "Llama mañana.", "answer": "Me dijo que llamara al día siguiente." },
-            { "prompt": "Firma aquí.", "answer": "Me dijo que firmara allí." },
+            { "prompt": "Firma hoy.", "answer": "Me dijo que firmara ese día." },
             { "prompt": "No corras.", "answer": "Me dijo que no corriera." }
           ]
         }
@@ -140,7 +140,7 @@
         { "prompt": "“Vendré mañana.” → Dijo que ___ al día siguiente.", "hint": "venir", "answer": ["vendría", "iría"], "choices": ["vino", "vendría", "viniera"], "why": "Future → conditional. viniera would be an order." },
         { "prompt": "“Voy a cambiar de piso.” → Me contó que ___ a cambiar de piso.", "hint": "ella, ir a", "answer": "iba", "choices": ["fue", "vaya", "iba"], "why": "voy a → iba a.", "es419": { "note": "In Latin America: cambiar de departamento." } },
         { "prompt": "“Trabajaba en un bar.” → Dijo que ___ en un bar.", "hint": "trabajar", "answer": "trabajaba", "choices": ["trabajaba", "trabajaría", "trabaje"], "why": "The imperfect stays." },
-        { "prompt": "“Te ayudaría, pero no puedo.” → Me dijo que me ___, pero que no podía.", "hint": "ayudar", "answer": "ayudaría", "choices": ["ayudara", "ayudaría", "ayudará"], "why": "The conditional stays. ayudara would be an order: help him." },
+        { "prompt": "“Te ayudaría, pero no puedo.” → Me dijo que me ___, pero que no podía.", "hint": "ayudar", "answer": "ayudaría", "choices": ["ayudara", "ayudaría", "ayudará"], "why": "The conditional stays. ayudara would turn the offer into an order." },
         { "prompt": "“Firmé ayer.” → Dijo que ___ el día anterior.", "hint": "firmar", "answer": ["había firmado", "firmó"], "choices": ["firmaba", "firmaría", "había firmado"], "why": "Indefinido → pluperfect; in speech firmó also stays." }
       ]
     },
@@ -213,7 +213,7 @@
         { "id": "rs1", "hint": "She said she lived in Vigo", "correct": ["Dijo", "que", "vivía", "en", "Vigo", "."], "shuffled": ["vivía", "Vigo", "que", ".", "Dijo", "en"] },
         { "id": "rs2", "hint": "He told me to call him", "correct": ["Me", "dijo", "que", "lo", "llamara", "."], "shuffled": ["lo", "que", ".", "llamara", "Me", "dijo"] },
         { "id": "rs3", "hint": "They asked me if I had the form", "correct": ["Me", "preguntaron", "si", "tenía", "el", "impreso", "."], "shuffled": ["tenía", "el", "Me", ".", "si", "impreso", "preguntaron"] },
-        { "id": "rs4", "hint": "The doctor told me to rest", "correct": ["El", "médico", "me", "dijo", "que", "descansara", "."], "shuffled": ["que", "médico", ".", "dijo", "El", "descansara", "me"] },
+        { "id": "rs4", "hint": "The doctor told me to rest", "correct": ["El", "médico", "me", "dijo", "que", "descansara", "."], "shuffled": ["que", "médico", ".", "dijo", "El", "descansara", "me"], "alt": [["Me", "dijo", "el", "médico", "que", "descansara", "."]] },
         { "id": "rs5", "hint": "He said he would come the next day", "correct": ["Dijo", "que", "vendría", "al", "día", "siguiente", "."], "shuffled": ["día", "vendría", "Dijo", ".", "siguiente", "que", "al"] }
       ]
     }

@@ -40,7 +40,7 @@
         "tag": "ser or estar"
       }
     ],
-    "noteHtml": "Common mistakes: ✗ <em>Se necesita camareros</em> → ✓ <em>Se necesitan camareros</em> (you will see <em>Se vende pisos</em> on signs, but in careful Spanish the verb agrees). ✗ <em>El piso se vendió por el banco</em> → ✓ <em>El banco vendió el piso</em> (no <em>por</em> + agent with <em>se</em>). ✗ <em>El español es hablado aquí</em> → ✓ <em>Aquí se habla español</em>. ✗ <em>La puerta fue cerrada</em> when you mean a state → ✓ <em>La puerta está cerrada</em>.",
+    "noteHtml": "Common mistakes: ✗ <em>Se necesita camareros</em> → ✓ <em>Se necesitan camareros</em> (you will see <em>Se vende pisos</em> on signs, but in careful Spanish the verb agrees). ✗ <em>El piso se vendió por el banco</em> → ✓ <em>El banco vendió el piso</em> (no <em>por</em> + agent with <em>se</em>). Correct but stiff: <em>El español es hablado aquí</em> → natural: <em>Aquí se habla español</em>. ✗ <em>La puerta fue cerrada</em> when you mean a state → ✓ <em>La puerta está cerrada</em>.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
@@ -169,7 +169,7 @@
       "items": [
         { "prompt": "La farmacia ___ cerrada los domingos.", "answer": "está", "choices": ["está", "es", "fue"], "why": "A state: it's closed." },
         { "prompt": "El puente ___ construido por una empresa francesa en 1890.", "answer": "fue", "choices": ["estuvo", "fue", "está"], "why": "An action with por, at a date: ser." },
-        { "prompt": "¿Por qué ___ abierta la ventana? Hace frío.", "answer": "está", "choices": ["es", "fue", "está"], "why": "The state now: estar." },
+        { "prompt": "Hace frío: la ventana ___ abierta.", "answer": "está", "choices": ["es", "fue", "está"], "why": "The state now: estar." },
         { "prompt": "Los dos acusados ___ detenidos ayer por la policía.", "answer": "fueron", "choices": ["fueron", "estuvieron", "están"], "why": "An action with por: ser." },
         { "prompt": "Ya ___ todo preparado. Podemos empezar.", "answer": "está", "choices": ["fue", "está", "es"], "why": "The result now: estar." }
       ]
@@ -184,7 +184,7 @@
         { "term": "El español es hablado aquí.", "answer": "Aquí se habla español.", "choices": ["Aquí se habla español.", "Aquí se hablan español.", "Aquí es hablando español."] },
         { "term": "Las facturas son pagadas el lunes.", "answer": "Las facturas se pagan el lunes.", "choices": ["Las facturas se paga el lunes.", "Las facturas se pagan el lunes.", "Las facturas son pagando el lunes."] },
         { "term": "La estación ha sido cerrada.", "answer": "Se ha cerrado la estación.", "choices": ["Se han cerrado la estación.", "Se ha cerrada la estación.", "Se ha cerrado la estación."] },
-        { "term": "El piso fue vendido por el banco.", "answer": "El banco vendió el piso.", "choices": ["El banco vendió el piso.", "El piso se vendió por el banco.", "Se vendió por el banco el piso."], "es419": { "note": "In Latin America: el departamento (or apartamento).", "form": "El departamento fue vendido por el banco." } }
+        { "term": "La ventana fue rota por un niño.", "answer": "Un niño rompió la ventana.", "choices": ["Un niño rompió la ventana.", "La ventana se rompió por un niño.", "Se rompió por un niño la ventana."] }
       ]
     },
     {
@@ -223,7 +223,7 @@
       "title": "Build the sentences.",
       "hint": "se comes straight before the verb.",
       "sentences": [
-        { "id": "pv1", "hint": "Flat for rent in the centre", "correct": ["Se", "alquila", "piso", "en", "el", "centro", "."], "shuffled": ["centro", "piso", "Se", ".", "en", "alquila", "el"], "es419": { "note": "In Latin America: Se renta departamento en el centro.", "skip": true } },
+        { "id": "pv1", "hint": "Flat for rent in the centre", "correct": ["Se", "alquila", "piso", "en", "el", "centro", "."], "shuffled": ["centro", "piso", "Se", ".", "en", "alquila", "el"], "alt": [["En", "el", "centro", "se", "alquila", "piso", "."]], "es419": { "note": "In Latin America: Se renta departamento en el centro.", "skip": true } },
         { "id": "pv2", "hint": "Waiters needed", "correct": ["Se", "necesitan", "camareros", "."], "shuffled": ["camareros", ".", "Se", "necesitan"], "es419": { "note": "In many countries: meseros for camareros." } },
         { "id": "pv3", "hint": "People live well in this neighbourhood (start with En)", "correct": ["En", "este", "barrio", "se", "vive", "bien", "."], "shuffled": ["vive", "barrio", "En", ".", "bien", "este", "se"] },
         { "id": "pv4", "hint": "Smoking is forbidden", "correct": ["Se", "prohíbe", "fumar", "."], "shuffled": ["fumar", "Se", ".", "prohíbe"] },

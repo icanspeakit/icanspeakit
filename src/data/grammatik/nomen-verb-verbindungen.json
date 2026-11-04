@@ -27,7 +27,7 @@
         "tag": "dar"
       },
       {
-        "html": "<strong>poner</strong>: <em>poner una queja, poner una denuncia</em>; in writing also <em>presentar una queja</em>. <strong>pedir</strong>: <em>pedir cita, pedir perdón</em>.",
+        "html": "<strong>poner</strong>: <em>poner una queja, poner una denuncia</em>; in writing also <em>presentar una queja</em>. <strong>pedir</strong>: <em>pedir cita, pedir perdón</em>. In Spain people also say <em>coger cita</em>.",
         "tag": "poner, pedir"
       },
       {
@@ -138,9 +138,9 @@
         { "q": "tomar", "a": "una decisión" },
         { "q": "hacer", "a": "cola" },
         { "q": "dar", "a": "las gracias" },
-        { "q": "pedir", "a": "cita" },
-        { "q": "poner", "a": "una denuncia" },
-        { "q": "echar", "a": "una mano" },
+        { "q": "pedir", "a": "perdón" },
+        { "q": "poner", "a": "una queja" },
+        { "q": "echar", "a": "de menos" },
         { "q": "tener", "a": "en cuenta" }
       ]
     },
@@ -152,12 +152,12 @@
       "items": [
         { "prompt": "Tenemos que ___ una decisión antes del lunes.", "answer": "tomar", "choices": ["hacer", "tomar", "poner"], "why": "tomar una decisión. English says make, but Spanish doesn't." },
         { "prompt": "Mi jefa me ha ___ una pregunta difícil.", "answer": "hecho", "choices": ["hecho", "preguntado", "dado"], "why": "hacer una pregunta, never preguntar una pregunta." },
-        { "prompt": "He ___ cita para el médico por internet.", "answer": "pedido", "choices": ["puesto", "hecho", "pedido"] },
-        { "prompt": "Me han robado la cartera y voy a ___ una denuncia.", "answer": "poner", "choices": ["poner", "dar", "tomar"] },
+        { "prompt": "He ___ cita para el médico por internet.", "answer": ["pedido", "cogido", "sacado"], "choices": ["puesto", "hecho", "pedido"], "es419": { "note": "In Latin America: sacar turno or agendar una cita, depending on the country." } },
+        { "prompt": "Me han robado la cartera y voy a ___ una denuncia.", "answer": ["poner", "hacer", "presentar"], "choices": ["poner", "dar", "tomar"] },
         { "prompt": "La empresa tiene que ___ de alta al nuevo empleado en la Seguridad Social.", "answer": "dar", "choices": ["poner", "dar", "hacer"] },
         { "prompt": "Tengo gripe y el médico me ha ___ la baja.", "answer": "dado", "choices": ["puesto", "hecho", "dado"], "es419": { "note": "In Latin America: me ha dado una licencia médica." } },
         { "prompt": "En Correos siempre hay que ___ cola.", "answer": "hacer", "choices": ["hacer", "tomar", "poner"], "es419": { "note": "In Latin America: hacer fila." } },
-        { "prompt": "Hay que ___ en cuenta que el alquiler incluye los gastos.", "answer": "tener", "choices": ["dar", "tener", "hacer"] }
+        { "prompt": "Hay que ___ en cuenta que el alquiler incluye los gastos.", "answer": ["tener", "tomar"], "choices": ["dar", "tener", "hacer"], "es419": { "note": "In Latin America, tomar en cuenta is also common." } }
       ]
     },
     {
@@ -187,7 +187,7 @@
         { "term": "to make a complaint", "answer": ["poner una queja", "presentar una queja"], "choices": ["poner una queja", "dar una queja", "tomar una queja"] },
         { "term": "to ask a question", "answer": "hacer una pregunta", "choices": ["preguntar una pregunta", "pedir una pregunta", "hacer una pregunta"] },
         { "term": "to take a walk", "answer": "dar un paseo", "choices": ["dar un paseo", "tomar un paseo", "poner un paseo"] },
-        { "term": "to pay attention", "answer": "prestar atención", "choices": ["pagar atención", "prestar atención", "hacer atención"], "es419": { "note": "In Latin America, poner atención is also common." } },
+        { "term": "to pay attention", "answer": ["prestar atención", "poner atención"], "choices": ["pagar atención", "prestar atención", "hacer atención"], "es419": { "note": "In Latin America, poner atención is also common." } },
         { "term": "to realise", "answer": "darse cuenta", "choices": ["realizar", "hacerse cuenta", "darse cuenta"] },
         { "term": "to miss someone", "answer": "echar de menos a alguien", "choices": ["echar de menos a alguien", "perder a alguien", "dar de menos a alguien"], "es419": { "note": "In Latin America: extrañar a alguien." } }
       ]
@@ -198,7 +198,7 @@
       "hint": "Tap the situation, then the sentence that fits.",
       "pairs": [
         { "q": "Hace un año que no veo a mi madre.", "a": "La echo mucho de menos." },
-        { "q": "El casero no arregla la caldera y la empresa no contesta.", "a": "Voy a poner una queja." },
+        { "q": "El casero no arregla la caldera y no contesta a mis mensajes.", "a": "Voy a poner una queja." },
         { "q": "Me han robado el móvil en el metro.", "a": "Tengo que poner una denuncia." },
         { "q": "Tengo fiebre y necesito ver al médico.", "a": "Voy a pedir cita." },
         { "q": "Me mudo el sábado y no puedo con todo.", "a": "¿Me echas una mano?" },

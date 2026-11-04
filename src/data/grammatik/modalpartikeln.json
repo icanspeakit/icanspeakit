@@ -118,7 +118,7 @@
           "items": [
             { "prompt": "¿Por qué no vienes? · tener que trabajar", "answer": "Es que tengo que trabajar." },
             { "prompt": "¿No comes nada? · no tener hambre", "answer": "Es que no tengo hambre." },
-            { "prompt": "¿Por qué no contestas? · estar en el médico", "answer": "Es que estoy en el médico." },
+            { "prompt": "¿Por qué no contestas? · estar en una reunión", "answer": "Es que estoy en una reunión." },
             { "prompt": "¿No me ayudas? · no poder", "answer": "Es que no puedo." }
           ]
         },
@@ -130,7 +130,7 @@
             { "prompt": "Cobro la mitad. · 600 euros", "answer": "Cobro la mitad, o sea, 600 euros." },
             { "prompt": "Tengo cita pasado mañana. · el jueves", "answer": "Tengo cita pasado mañana, o sea, el jueves." },
             { "prompt": "Estamos a cinco minutos. · muy cerca", "answer": "Estamos a cinco minutos, o sea, muy cerca." },
-            { "prompt": "Llega el día 1 de enero. · en Año Nuevo", "answer": "Llega el día 1 de enero, o sea, en Año Nuevo." }
+            { "prompt": "Llega el día 1 de enero. · el primer día del año", "answer": "Llega el día 1 de enero, o sea, el primer día del año." }
           ]
         }
       ]
@@ -144,9 +144,9 @@
       "placeholder": "Word",
       "items": [
         { "prompt": "—¿Por qué no viniste ayer? —___ tenía fiebre.", "answer": "Es que", "choices": ["Vale", "Es que", "Venga"], "why": "An excuse: es que. Vale agrees and venga closes or encourages." },
-        { "prompt": "—¿Quedamos a las ocho? —___, a las ocho en el bar.", "answer": "Vale", "choices": ["Vale", "O sea", "Es que"], "why": "The answer agrees: vale.", "es419": { "note": "Vale is typical of Spain. In Latin America: Okey or Está bien." } },
-        { "prompt": "El contrato es temporal, ___, que en seis meses se acaba.", "answer": "o sea", "choices": ["venga", "vale", "o sea"], "why": "The second part says the first in another way: o sea." },
-        { "prompt": "—¿Te gusta el piso? —___… no está mal, pero es un poco oscuro.", "answer": "Bueno", "choices": ["Venga", "Bueno", "O sea"], "why": "Hesitating, partly agreeing: bueno.", "es419": { "note": "In Latin America: departamento for piso." } },
+        { "prompt": "—¿Quedamos a las ocho? —___, a las ocho en el bar.", "answer": ["Vale", "Venga"], "choices": ["Vale", "O sea", "Es que"], "why": "The answer agrees: vale.", "es419": { "note": "Vale is typical of Spain. In Latin America: Okey or Está bien." } },
+        { "prompt": "El contrato es temporal, ___, que en seis meses se acaba.", "answer": ["o sea", "vamos"], "choices": ["venga", "vale", "o sea"], "why": "The second part says the first in another way: o sea." },
+        { "prompt": "—¿Te gusta el piso? —___… no está mal, pero es un poco oscuro.", "answer": ["Bueno", "Pues"], "choices": ["Venga", "Bueno", "O sea"], "why": "Hesitating, partly agreeing: bueno.", "es419": { "note": "In Latin America: departamento for piso." } },
         { "prompt": "—¿Ya tienes el NIE? —___ no, todavía no.", "answer": "Pues", "choices": ["Pues", "Venga", "Vale"], "why": "pues starts an answer, here not the one the other person hoped for." },
         { "prompt": "___, que llegamos tarde. ¡Date prisa!", "answer": ["Venga", "Vamos"], "choices": ["Bueno", "O sea", "Venga"], "why": "Pushing someone to hurry: venga or vamos.", "es419": { "note": "In Latin America: ¡Apúrate! for ¡Date prisa!, and vamos rather than venga." } },
         { "prompt": "No me llama, no me escribe, no contesta… ___, que no le interesa nada el puesto.", "answer": ["vamos", "o sea"], "choices": ["vamos", "vale", "venga"], "why": "You sum up what you think: vamos, que…" }
@@ -159,10 +159,10 @@
       "placeholder": "Word",
       "items": [
         { "prompt": "—¿Te molesta si abro la ventana? —___, claro que no.", "answer": "Hombre", "choices": ["Es que", "O sea", "Hombre"], "why": "hombre softens the answer, and is said to women too." },
-        { "prompt": "___, ¿sabes a qué hora abre el centro de salud?", "answer": "Oye", "choices": ["Oye", "Vale", "Es que"], "why": "You get someone's attention before a question." },
+        { "prompt": "___, ¿sabes a qué hora abre el centro de salud?", "answer": ["Oye", "Mira"], "choices": ["Oye", "Vale", "Es que"], "why": "You get someone's attention before a question." },
         { "prompt": "___, ¿dónde he puesto las llaves?", "answer": "A ver", "choices": ["Vale", "A ver", "Hombre"], "why": "You are thinking aloud and checking: a ver." },
-        { "prompt": "—No sé qué decirle al casero. —___, yo le diría la verdad.", "answer": ["Mira", "Pues"], "choices": ["Mira", "Vale", "Es que"], "why": "mira introduces your opinion or advice." },
-        { "prompt": "—¿Puedes venir a las siete? —___… a las siete no puedo, pero a las ocho sí.", "answer": ["Bueno", "Pues"], "choices": ["Venga", "Vale", "Bueno"], "why": "You hesitate and then correct the plan. Venga and vale would say yes." }
+        { "prompt": "—No sé qué decirle al casero. —___, yo le diría la verdad.", "answer": ["Mira", "Pues", "Hombre", "Bueno"], "choices": ["Mira", "Vale", "Es que"], "why": "mira introduces your opinion or advice." },
+        { "prompt": "—¿Puedes venir a las siete? —___… a las siete no puedo, pero a las ocho sí.", "answer": ["Bueno", "Pues", "Es que"], "choices": ["Venga", "Vale", "Bueno"], "why": "You hesitate and then correct the plan. Venga and vale would say yes." }
       ]
     },
     {
@@ -176,7 +176,7 @@
         { "term": "Trabaja lunes y martes, o sea, dos días.", "answer": "says it another way", "choices": ["says it another way", "encourages", "hesitates"] },
         { "term": "Bueno, no sé, quizá sí.", "answer": "hesitates", "choices": ["gives an excuse", "closes", "hesitates"] },
         { "term": "—Te llamo mañana. —Vale, hasta mañana.", "answer": "agrees", "choices": ["agrees", "hesitates", "says it another way"], "es419": { "note": "Vale is typical of Spain. In Latin America: Okey or Está bien." } },
-        { "term": "Venga, te dejo, que tengo prisa.", "answer": "closes", "choices": ["hesitates", "closes", "gives an excuse"] },
+        { "term": "Venga, te dejo, que tengo prisa.", "answer": "closes", "choices": ["hesitates", "closes", "gives an excuse"], "es419": { "note": "Venga as a goodbye is typical of Spain. In Latin America: Bueno or Dale." } },
         { "term": "Es caro, lento y feo. Vamos, un desastre.", "answer": "sums up", "choices": ["agrees", "gives an excuse", "sums up"] }
       ]
     },
@@ -188,7 +188,7 @@
         { "q": "o sea", "a": "es decir" },
         { "q": "vale", "a": "de acuerdo" },
         { "q": "es que", "a": "el motivo es que" },
-        { "q": "vamos", "a": "en resumen" },
+        { "q": "vamos, que…", "a": "en resumen" },
         { "q": "venga, hasta luego", "a": "un cordial saludo" }
       ]
     },
@@ -201,7 +201,7 @@
         { "text": "—Hola, Yusuf. ¿Qué tal el piso nuevo?\n—" },
         { "blank": 0, "answer": "Pues" },
         { "text": " muy bien, pero esta semana casi no he dormido.\n—¿Y eso?\n—" },
-        { "blank": 1, "answer": "Es que" },
+        { "blank": 1, "answer": ["Es que", "Pues"] },
         { "text": " los vecinos de arriba hacen mucho ruido por la noche.\n—¿Todas las noches?\n—Sí, de lunes a domingo, " },
         { "blank": 2, "answer": "o sea" },
         { "text": ", siempre.\n—Habla con el presidente de la comunidad. ¿Te doy su número?\n—" },
@@ -220,7 +220,7 @@
         { "id": "dmk2", "hint": "Hesitate: well, I don't know if I can go", "correct": ["Bueno", ",", "no", "sé", "si", "puedo", "ir", "."], "shuffled": ["sé", "Bueno", "ir", ".", "si", ",", "puedo", "no"] },
         { "id": "dmk3", "hint": "Conclude: so you don't have an appointment", "correct": ["O", "sea", "que", "no", "tienes", "cita", "."], "shuffled": ["cita", "que", "O", ".", "tienes", "sea", "no"] },
         { "id": "dmk4", "hint": "React: well, I think you're right", "correct": ["Pues", "yo", "creo", "que", "tienes", "razón", "."], "shuffled": ["razón", "creo", "Pues", ".", "que", "yo", "tienes"] },
-        { "id": "dmk5", "hint": "Close: OK then, I'll call you later", "correct": ["Venga", ",", "te", "llamo", "luego", "."], "shuffled": ["llamo", "Venga", ".", "luego", ",", "te"], "alt": [["Venga", ",", "luego", "te", "llamo", "."]] }
+        { "id": "dmk5", "hint": "Close: OK then, I'll call you later", "correct": ["Venga", ",", "te", "llamo", "luego", "."], "shuffled": ["llamo", "Venga", ".", "luego", ",", "te"], "alt": [["Venga", ",", "luego", "te", "llamo", "."]], "es419": { "note": "Venga as a goodbye is typical of Spain. In Latin America: Bueno or Dale." } }
       ]
     }
   ]

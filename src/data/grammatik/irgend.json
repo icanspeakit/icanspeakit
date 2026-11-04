@@ -112,7 +112,7 @@
         },
         {
           "label": "2 · Who did it happen to?",
-          "instruction": "You hear a person. Say: se rompió el vaso, with the right pronoun.",
+          "instruction": "You hear a person. Say: se rompió el vaso, with the right pronoun. A name or a noun goes first, with a.",
           "example": { "prompt": "a mí", "answer": "Se me rompió el vaso." },
           "items": [
             { "prompt": "a ti", "answer": "Se te rompió el vaso." },
@@ -175,7 +175,7 @@
         { "term": "You drop a glass by accident.", "answer": "Se me ha caído el vaso.", "choices": ["He caído el vaso.", "Se me ha caído el vaso.", "Me he caído el vaso."] },
         { "term": "You throw away your old keys on purpose.", "answer": "Tiré las llaves viejas.", "choices": ["Se me tiró las llaves viejas.", "Se me tiraron las llaves viejas.", "Tiré las llaves viejas."] },
         { "term": "You didn't remember your friend's birthday.", "answer": "Se me olvidó tu cumpleaños.", "choices": ["Se me olvidó tu cumpleaños.", "Me se olvidó tu cumpleaños.", "Se me olvidé tu cumpleaños."] },
-        { "term": "An idea has just come to you.", "answer": "Se me ocurre una idea.", "choices": ["Me ocurro una idea.", "Se me ocurre una idea.", "Se ocurro una idea."] },
+        { "term": "An idea occurs to you right now.", "answer": "Se me ocurre una idea.", "choices": ["Me ocurro una idea.", "Se me ocurre una idea.", "Se ocurro una idea."] },
         { "term": "You accidentally gave away a secret.", "answer": "Se me escapó el secreto.", "choices": ["Se me escapó el secreto.", "Me escapé el secreto.", "Se escapé el secreto."] }
       ]
     },
@@ -217,8 +217,8 @@
       "sentences": [
         { "id": "ac1", "hint": "I forgot the keys", "correct": ["Se", "me", "olvidaron", "las", "llaves", "."], "shuffled": ["olvidaron", "llaves", "Se", ".", "las", "me"], "alt": [["Las", "llaves", "se", "me", "olvidaron", "."]] },
         { "id": "ac2", "hint": "Juan's phone broke (start with A Juan)", "correct": ["A", "Juan", "se", "le", "rompió", "el", "móvil", "."], "shuffled": ["rompió", "Juan", "el", "A", ".", "móvil", "se", "le"], "es419": { "note": "In Latin America: el celular.", "form": "A Juan se le rompió el celular." } },
-        { "id": "ac3", "hint": "We've run out of coffee (today)", "correct": ["Se", "nos", "ha", "acabado", "el", "café", "."], "shuffled": ["acabado", "nos", "Se", ".", "café", "el", "ha"], "es419": { "note": "In Latin America: Se nos acabó el café.", "skip": true } },
-        { "id": "ac4", "hint": "You (tú) dropped your wallet", "correct": ["Se", "te", "cayó", "la", "cartera", "."], "shuffled": ["cartera", "Se", ".", "cayó", "te", "la"], "es419": { "note": "In some countries: la billetera." } }
+        { "id": "ac3", "hint": "We've run out of coffee (today)", "correct": ["Se", "nos", "ha", "acabado", "el", "café", "."], "shuffled": ["acabado", "nos", "Se", ".", "café", "el", "ha"], "alt": [["El", "café", "se", "nos", "ha", "acabado", "."]], "es419": { "note": "In Latin America: Se nos acabó el café.", "skip": true } },
+        { "id": "ac4", "hint": "You (tú) dropped your wallet", "correct": ["Se", "te", "cayó", "la", "cartera", "."], "shuffled": ["cartera", "Se", ".", "cayó", "te", "la"], "alt": [["La", "cartera", "se", "te", "cayó", "."]], "es419": { "note": "In some countries: la billetera." } }
       ]
     }
   ]
