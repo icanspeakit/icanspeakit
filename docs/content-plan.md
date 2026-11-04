@@ -1084,3 +1084,26 @@ are handled by the `ui-*` items where they are rendered.
   `teachers`:** `arbeitsblatt/<slot>.json` for C1 slots, where they exist, are still English. **For
   `exams-dele`:** these C1 topics are written as general C1 grammar; nothing here claims to match a DELE
   task.
+- **Grammar structure decisions** (`grammar-structure`, 2026-11-04): the syllabus order is in
+  `grammatik-lehrplan.json` and `GRAMMATIK_ORDER` (reason in the file's `note`); `wortarten` and
+  `wortbildung-nomen` stay extra practice outside the run. `akkusativ` moved to A2. Reference rows are
+  *yo presente · él indefinido · participio*; every yo form in `trennbare-verben.json` starts with `me`, which
+  the live quiz relies on. `verben-mit-praepositionen.json`: the quiz blanks the section's preposition and offers
+  the other sections, so a verb with two right prepositions must be listed under both (*hablar con/de,
+  preocuparse de/por, enfadarse con/por*). Trainer packs got new topics in old slots: `b1-adjektive` = *por/para*,
+  `b2-da-wo` = adjectives and nouns + prepositions; pack `level` is the level of the topic, so some B1 packs
+  hold verbs first met at A2. `kursinhalte.json` exam lines name only exam + skill, with no tasks, timings or word
+  counts, and start at A2.2. The lesson plan's fixed DW and Easy German video links became YouTube searches
+  (`stundenplanLinks.js`). The new lines in `GRAMMAR_RULES` depend on the plan's wording, so reword both together.
+  **For `routes`:** the `practice` links in `nachschlagen/*.json`, `wortarten.json` `learn`/`sub` hrefs, `MORE` in
+  `prepositions.astro` and `examHref` in `stundenplan.js` (DELE → `/cambridge`, SIELE → `/trinity`) use today's slugs.
+  `trennbare-verben` moves to `/grammar/reflexive-verbs-list` in `REF_SLUGS` and `ROUTE_RENAMES`, which also changes the
+  worksheet URL `reference-phrasal-verbs-list`. **For `idioms-mistakes`:** `wortarten.json` `fehler` is empty on every class
+  because the pairs were English; fill it with Spanish pair ids. **For `conjugation-data`:** `verben.group.trennbar.*` in
+  `en.json` already says reflexive and pronominal; `verbTopic` in `arbeitsblatt/nachschlagen.js` and `verbGroups` in
+  `liveQuiz/chapters.js` still have English prompts (*present simple*, *has*) and `regularPraes`. **For `vocab-*`:**
+  `program.json` unit and module titles are lightly adapted only; `lernsetKeywords.js` still has English keywords
+  (*phrasal verbs*). **For `teachers`:** the printed grammar PDFs (`generate:grammatik-pdf`) were not regenerated, so
+  they may lag behind the `wissen.file.grammatik-*.desc` lines, which already describe Spanish; `stundenplan.js` activity
+  texts were not reviewed here. **For Edgar:** 15 core topics are `entwurf` and so are left out of `/grammar/path`, among them
+  *ser/estar* basics, adjective agreement, *gustar*, numbers and *ir a*; A1 has a gap until they are set to `geprueft`.
