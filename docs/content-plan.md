@@ -1028,3 +1028,23 @@ are handled by the `ui-*` items where they are rendered.
   `arbeitsblatt/<slot>.json` for these slots are still English; `zimmerSzene.js` and `kuecheSzene.js`
   still belong to the `wechselpraepositionen` sheet. **For `grammar-b1`:** *perfecto vs indefinido*
   (`zustandspassiv`) can build on the short contrast exercise already in `zusammengesetzte-verben`.
+- **B1 grammar decisions** (`grammar-b1`, 2026-11-04): the 27 B1 slots are Spanish; `imperativ` moved
+  from A1 to B1, so A1 path units that repoint to it now ask a B1 structure until `beginner-path`
+  rewrites them. `verben-praepositionen.json` keeps `id: "praepositionen"`, `slug` and `subtitleKey`;
+  its intro is `vp.hero.subtitle`, and the quiz topic `praepositionen` follows it. All 27 slots are in
+  `grammatik-done`; the quiz topics `passiv` and `konjunktiv2` stay English until `grammar-b2`.
+  **`es419` scope:** Spanish institutions and procedures (*padrón, empadronarse, NIE, Extranjería,
+  tarjeta sanitaria, AVE*) get no language note: they name things in Spain, and a LatAm mode would
+  need other content, not another word. Stories and `sprechen` items carry no item-level `es419`
+  (as in A1/A2), except the `zustandspassiv` story, which is skipped as a whole. **Build sentences:**
+  `swapClauses` in `grammarWorkspace.js` only knows German conjunctions and a build uses every tile, so
+  a Spanish sentence with a comma tile can't be accepted without it (*Llámame cuando llegues*); the
+  hints ask for the clause order instead. For `grammar-b2`: `alt` is compared without case; extending
+  `SUBORD`/`PRON` and an optional comma would be a small code fix if clause swaps should count.
+  **For `grammar-b2`:** B1 mentions as "coming at B2": *si tuviera*, *no creo que venga*, *aunque* +
+  subjunctive, relative clauses with subjunctive, tense shifts in reported speech. **For
+  `grammar-structure`:** `imperativ` is still under A1 in `grammatik-lehrplan.json` and
+  `GRAMMATIK_ORDER`; `searchIndex.js` keywords and the `catalog.js` emojis still fit the old topics
+  (`zustandspassiv` 🔒, `passiv-b1` 🏗️). **For `routes`:** B1 topic text contains no internal links.
+  **For `teachers`:** `arbeitsblatt/<slot>.json` for these slots are still English.
+  **For `grammar-start-book`:** `grammatik-start/en.json` refers to `futur` and `konditionalsaetze`.
