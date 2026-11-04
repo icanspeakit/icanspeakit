@@ -204,6 +204,31 @@
         { "blank": 3, "answer": "Usted" },
         { "text": " es la profesora? —Sí, soy yo." }
       ]
+    },
+    {
+      "type": "fill",
+      "title": "Say hello and say your name.",
+      "hint": "buenos días, but buenas tardes and buenas noches. me llamo = my name is.",
+      "placeholder": "Word",
+      "items": [
+        { "prompt": "Buenos ___. Me llamo Amina.", "answer": "días", "choices": ["días", "tardes", "noches"] },
+        { "prompt": "___ tardes, señora Ruiz.", "answer": "Buenas", "choices": ["Buenos", "Buenas"] },
+        { "prompt": "Me ___ Oksana. Soy de Ucrania.", "answer": "llamo", "choices": ["llamo", "llamas", "llama"] },
+        { "prompt": "¿Cómo te ___?", "answer": "llamas", "choices": ["llamo", "llamas", "llama"] },
+        { "prompt": "¿Cómo ___ llama usted?", "answer": "se", "choices": ["me", "te", "se"] },
+        { "prompt": "—Soy Javier. —Mucho ___.", "answer": "gusto", "choices": ["gusto", "gracias", "bien"] },
+        { "prompt": "—¿Qué ___? —Muy bien, gracias.", "answer": "tal", "choices": ["tal", "bien", "hora"] }
+      ]
+    },
+    {
+      "type": "build",
+      "title": "Build the first sentences.",
+      "hint": "me, te and se come before llamo, llamas and llama.",
+      "sentences": [
+        { "id": "pp5", "hint": "Say your name: Amina", "correct": ["Me", "llamo", "Amina", "."], "shuffled": ["Amina", ".", "llamo", "Me"] },
+        { "id": "pp6", "hint": "Ask politely: what is your name?", "correct": ["¿Cómo", "se", "llama", "usted", "?"], "shuffled": ["llama", "?", "usted", "¿Cómo", "se"] },
+        { "id": "pp7", "hint": "Ask a friend: where are you from?", "correct": ["¿De", "dónde", "eres", "?"], "shuffled": ["eres", "dónde", "?", "¿De"] }
+      ]
     }
   ]
 }
