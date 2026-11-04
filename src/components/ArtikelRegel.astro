@@ -20,7 +20,7 @@ const gxTopic = (grammarHelp.entries as Record<string, any>).artikel ?? null;
 const rule = (artikelTopic as any).concept ?? {};
 const gxLevel = "A1";
 // The table the "!" belongs to — see the note at the tables below.
-const ENDINGS_CAPTION = "Endungen, die das Genus verraten";
+const ENDINGS_CAPTION = "Endings that tell you the gender";
 ---
 <div class="ap-drawer-scrim" data-regel-close aria-hidden="true"></div>
 <aside class="ap-drawer" id="ap-regel" aria-labelledby="ap-regel-h" aria-hidden="true" inert>
@@ -33,9 +33,9 @@ const ENDINGS_CAPTION = "Endungen, die das Genus verraten";
   <div class="ap-drawer-body ap-regel">
     {gxTrainer && <GrammarHelp level={gxLevel} reviewed={gxTrainer.reviewed} />}
     <p class="akk-regel-intro">
-      Der Artikel eines deutschen Nomens ist meist nicht am Genus der Sache erkennbar – aber manche
-      Wortendungen geben einen zuverlässigen Hinweis. Die folgenden Muster helfen beim Raten, wenn
-      das Wort noch unbekannt ist.
+      Every Spanish noun is masculine or feminine, and the article shows which. The ending of the
+      noun is often a reliable clue. These patterns help when you meet a new word, but they have
+      exceptions, so learn each noun with its article.
     </p>
     <GrammarHelpText text={gxTrainer?.intro} />
     {/* The rule in full — the same tables, sentences and boxes a grammar topic's Regel

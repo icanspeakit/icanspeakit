@@ -12,7 +12,7 @@
 // editing one JSON file.
 //
 // AUDIO — until scripts/generate-grammatik-audio.mjs has run for a topic, every line is
-// spoken by the browser's German SpeechSynthesis voice. Quality varies by OS and the
+// spoken by the browser's Spanish (es-ES) SpeechSynthesis voice. Quality varies by OS and the
 // voice can be absent entirely. Every item may carry an `audio` path; when it does the
 // file wins and the synthesiser is never touched, so the generator is purely additive and
 // nothing in this module changes when the mp3s land.
@@ -28,12 +28,12 @@ export function makeVoice() {
   function pickVoice() {
     if (!synth) return;
     const voices = synth.getVoices();
-    // A real de-DE voice first; some platforms only ship de-AT/de-CH, still better than
-    // an English voice reading "hoher" as "hoe-her".
+    // A real es-ES voice first (the course's standard); some platforms only ship another
+    // Spanish, still better than an English voice reading "hoy" as "hoy-ee".
     preferred =
-      voices.find((v) => v.lang === "de-DE" && /google|natural|premium|siri/i.test(v.name)) ||
-      voices.find((v) => v.lang === "de-DE") ||
-      voices.find((v) => v.lang && v.lang.startsWith("de")) ||
+      voices.find((v) => v.lang === "es-ES" && /google|natural|premium|siri/i.test(v.name)) ||
+      voices.find((v) => v.lang === "es-ES") ||
+      voices.find((v) => v.lang && v.lang.startsWith("es")) ||
       null;
   }
   pickVoice();
@@ -72,7 +72,7 @@ export function makeVoice() {
       if (!synth) return done();
 
       const u = new SpeechSynthesisUtterance(text);
-      u.lang = "de-DE";
+      u.lang = "es-ES";
       u.rate = rate * 0.95;
       if (preferred) u.voice = preferred;
       u.onend = done;
@@ -99,6 +99,7 @@ const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
 import { t, i18nAttrs, uitHtml, onUiText } from "./uiText.js";
 import { waitAttrs } from "./notReady.js";
+import { accentOnly } from "./answerMatch.js";
 
 const esc = (s) =>
   String(s).replace(/[&<>"']/g, (c) => ({
@@ -463,8 +464,11 @@ export function mountSprechen(root, data, { voice, onRate } = {}) {
  * app throwing the learner out of the mode they had chosen.
  *
  * Checking is forgiving about what is not grammar — case, punctuation, extra spaces — and
- * says so when that was the only difference. Umlauts count: "fahrt" is not "fährt".
+ * says so when that was the only difference. Accents count: "esta" is not "está", and the
+ * verdict says when an accent was the only thing wrong (content-plan §1.2).
  */
+const ACCENT_KEYS = ["á", "é", "í", "ó", "ú", "ü", "ñ", "¿", "¡"];
+
 export function mountSchreiben(root, data, { voice, onAnswer } = {}) {
   if (!root || !data?.rounds?.length) return { stop() {} };
   const rounds = data.rounds;
@@ -476,7 +480,7 @@ export function mountSchreiben(root, data, { voice, onAnswer } = {}) {
 
   const round = () => rounds[r];
   const item = () => round().items[i];
-  const loose = (s) => s.toLowerCase().replace(/[.,!?;:„“"«»()]/g, "").replace(/\s+/g, " ").trim();
+  const loose = (s) => s.toLowerCase().replace(/[.,!?¿¡;:„“"«»()]/g, "").replace(/\s+/g, " ").trim();
   const strict = (s) => s.replace(/\s+/g, " ").trim();
 
   function render() {
@@ -505,15 +509,16 @@ export function mountSchreiben(root, data, { voice, onAnswer } = {}) {
           <div class="ak-arrow" aria-hidden="true">↓</div>
           <form class="ak-write-form" data-form autocomplete="off">
             <input class="ak-write-input ${state === "right" || state === "near" ? "is-right" : state === "wrong" ? "is-wrong" : ""}"
-              data-input type="text" lang="de" spellcheck="false" autocapitalize="off" autocorrect="off"
+              data-input type="text" lang="es" spellcheck="false" autocapitalize="off" autocorrect="off"
               value="${esc(typed)}" ${answered ? "readonly" : ""}
               placeholder="${esc(t("ak.write.placeholder", "Schreib die Lösung …"))}"
               aria-label="${esc(t("ak.write.placeholder", "Schreib die Lösung …"))}">
           </form>
+          ${answered ? "" : `<div class="ak-accent-keys" role="group" aria-label="${esc(t("ak.write.keys", "Spanish letters"))}">${ACCENT_KEYS.map((k) => `<button type="button" class="ak-accent-key" data-key="${k}">${k}</button>`).join("")}</div>`}
           <p class="ak-write-verdict" aria-live="polite">${
             state === "right" ? `✓ ${esc(t("ak.write.right", "Richtig!"))}` :
             state === "near" ? `✓ ${esc(t("ak.write.near", "Richtig — achte auf Groß- und Kleinschreibung und Satzzeichen:"))} <strong>${esc(item().answer)}</strong>` :
-            state === "wrong" ? `${esc(t("ak.write.wrong", "Richtig wäre:"))} <strong>${esc(item().answer)}</strong> <button type="button" class="ak-write-say" data-say="answer" aria-label="${listen}" title="${listen}">🔊</button>` : ""
+            state === "wrong" ? `${accentOnly(loose(item().answer), loose(typed)) ? `${esc(t("vp.checkAccent", "Check the accent."))} ` : ""}${esc(t("ak.write.wrong", "Richtig wäre:"))} <strong>${esc(item().answer)}</strong> <button type="button" class="ak-write-say" data-say="answer" aria-label="${listen}" title="${listen}">🔊</button>` : ""
           }</p>
         </div>
 
@@ -528,6 +533,13 @@ export function mountSchreiben(root, data, { voice, onAnswer } = {}) {
 
     const input = root.querySelector("[data-input]");
     input.addEventListener("input", (e) => { typed = e.target.value; });
+    // Letters a keyboard may not have: they go in at the caret, and the field keeps the focus.
+    root.querySelectorAll("[data-key]").forEach((b) => b.addEventListener("click", () => {
+      const at = input.selectionStart ?? input.value.length;
+      input.setRangeText(b.dataset.key, at, input.selectionEnd ?? at, "end");
+      typed = input.value;
+      input.focus({ preventScroll: true });
+    }));
     root.querySelector("[data-form]").addEventListener("submit", (e) => { e.preventDefault(); if (answered) next(); else check(); });
     root.querySelector("[data-check]")?.addEventListener("click", check);
     root.querySelector("[data-next]")?.addEventListener("click", next);

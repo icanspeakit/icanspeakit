@@ -659,6 +659,14 @@
 .ak-write-input:focus { outline: none; border-color: var(--brand-blue); box-shadow: 0 0 0 3px var(--blue-100); }
 .ak-write-input.is-right { border-color: var(--success); }
 .ak-write-input.is-wrong { border-color: var(--accent-dark, #7d571a); }
+.ak-accent-keys { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: var(--space-2, 8px) auto 0; max-width: 520px; }
+.ak-accent-key {
+  min-width: 40px; min-height: 40px; padding: 4px 8px;
+  border: 1.5px solid var(--border-strong); border-radius: var(--radius);
+  background: var(--surface-card); color: var(--ink);
+  font: 500 1.05rem/1 var(--font-body); cursor: pointer;
+}
+.ak-accent-key:hover { border-color: var(--brand-blue); }
 .ak-write-verdict { min-height: 1.6em; margin: var(--space-3) 0 0; text-align: center; font-size: var(--text-sm); color: var(--ink); }
 .ak-write-say {
   border: none; background: none; cursor: pointer; font-size: 1rem; padding: 2px 4px;

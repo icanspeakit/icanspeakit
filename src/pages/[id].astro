@@ -165,7 +165,7 @@ const exampleHtml = (s: string) => String(s)
   .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
   .replace(/{([^{}]+)}/g, "<strong>$1</strong>");
 const premiumPractice = isPaidLevel(level) && workspace?.exercises?.some((ex) => ex.paid);
-// No mp3s for this topic yet, so the browser's own German voice reads every line. Say so
+// No mp3s for this topic yet, so the browser's own Spanish voice reads every line. Say so
 // rather than let a learner conclude the site sounds like that on purpose. The check is
 // the data, not a flag, so the notice disappears by itself the moment the generator runs.
 const synthetic = aktiv ? !aktiv.hoeren?.items?.some((i) => i.audio) : false;

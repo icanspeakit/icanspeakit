@@ -19,7 +19,7 @@ import { topicPath } from "./routes.js";
 import { seededShuffle } from "./seededShuffle.js";
 import { markedHtml, unmark } from "./markedText.js";
 import { meldenLink, flagElement, flagItems } from "./meldung.js";
-import { accepts, distinctOptions } from "./answerMatch.js";
+import { accepts, accentOnly, distinctOptions } from "./answerMatch.js";
 import { exerciseFingerprint, fingerprint, grammarItems } from "./meldungRef.js";
 import { mountZimmer } from "./zimmerUebung.js";
 import { eulerIconSvg } from "./eulerArt.js";
@@ -138,6 +138,7 @@ const LABEL = {
   get retry() { return `<span data-i18n="vp.retry">${escapeHtml(t("vp.retry", "Nochmal"))}</span>`; },
   get correct() { return escapeHtml(t("quiz.correct", "✓ Richtig!")); },
   wrongIs: (a) => escapeHtml(t("vp.wrongIs", "✗ Richtig wäre: „{a}“", { a })),
+  get checkAccent() { return escapeHtml(t("vp.checkAccent", "Check the accent.")); },
   get allPairs() { return escapeHtml(t("vp.allPairs", "✓ Alle Paare gefunden!")); },
   get allCorrect() { return escapeHtml(t("vp.allCorrect", "✓ Alles richtig!")); },
   fillScore: (n, total) => escapeHtml(t("vp.fill.score", "{n} von {total} richtig", { n, total })),
@@ -190,7 +191,7 @@ function mountFill(root, ex, notify) {
         const checked = !!state.checked[idx];
         const ok = checked && isRight(item, val);
         const feedback = checked
-          ? `<span class="vp-feedback ${ok ? "is-correct" : "is-wrong"}">${ok ? LABEL.correct : LABEL.wrongIs(modelAnswer(item.answer))}</span>
+          ? `<span class="vp-feedback ${ok ? "is-correct" : "is-wrong"}">${ok ? LABEL.correct : `${LABEL.wrongIs(modelAnswer(item.answer))}${accentOnly(rightOf(item), val) ? ` ${LABEL.checkAccent}` : ""}`}</span>
              ${ok ? "" : `<button type="button" class="vp-link-btn" data-reset="${idx}">${LABEL.retry}</button>`}`
           : "";
         const opts = itemOptions[idx] ?? options;
@@ -203,8 +204,8 @@ function mountFill(root, ex, notify) {
             <p class="vp-fill-prompt">${escapeHtml(item.prompt)}</p>
             ${item.hint ? `<p class="vp-fill-hint">${escapeHtml(item.hint)}${irregularHtml(item)}</p>` : ""}
             <div class="vp-fill-row">${control}${feedback}</div>
-            ${others.length ? `<p class="vp-fill-why" lang="de"><b>${escapeHtml(t("vp.fillAlso", "Auch richtig:"))}</b> ${others.map((a) => `„${escapeHtml(a)}“`).join(", ")}</p>` : ""}
-            ${checked && !ok && item.why ? `<p class="vp-fill-why" lang="de"><b>${escapeHtml(t("vp.fillWhy", "Warum?"))}</b> ${escapeHtml(item.why)}</p>` : ""}
+            ${others.length ? `<p class="vp-fill-why" lang="es"><b>${escapeHtml(t("vp.fillAlso", "Auch richtig:"))}</b> ${others.map((a) => `„${escapeHtml(a)}“`).join(", ")}</p>` : ""}
+            ${checked && !ok && item.why ? `<p class="vp-fill-why"><b>${escapeHtml(t("vp.fillWhy", "Warum?"))}</b> ${escapeHtml(item.why)}</p>` : ""}
           </div>`;
       })
       .join("");
@@ -395,7 +396,7 @@ function fixTableHtml(wrong) {
         <thead><tr>${th("vp.fix.task", "Aufgabe")}${th("vp.fix.given", "Ihre Antwort")}${th("vp.fix.right", "Richtig")}</tr></thead>
         <tbody>${wrong.map(({ row, given }) => `<tr>
           <td>${markedHtml(row.term)}</td>
-          <td class="vp-fix-given">${given ? `<s>${escapeHtml(given)}</s>` : "–"}</td>
+          <td class="vp-fix-given">${given ? `<s>${escapeHtml(given)}</s>${accentOnly(row.answer, given) ? ` ${LABEL.checkAccent}` : ""}` : "–"}</td>
           <td class="vp-fix-right">${escapeHtml(modelAnswer(row.answer))}</td>
         </tr>`).join("")}</tbody>
       </table>`;
@@ -612,7 +613,7 @@ function mountStory(root, ex, notify) {
         <button type="button" class="vp-link-btn" data-story-reset>${LABEL.reset}</button>
         ${state.checked ? `<span class="vp-feedback ${allCorrect ? "is-correct" : "is-wrong"}">${allCorrect ? LABEL.allCorrect : LABEL.someWrong}</span>` : ""}
       </div>
-      ${missed.length ? `<p class="vp-fill-hint">${missed.map((s) => `${s.blank + 1}. <strong>${escapeHtml(modelAnswer(s.answer))}</strong>`).join(" · ")}</p>` : ""}`;
+      ${missed.length ? `<p class="vp-fill-hint">${missed.map((s) => `${s.blank + 1}. <strong>${escapeHtml(modelAnswer(s.answer))}</strong>${accentOnly(s.answer, state.values[s.blank]) ? ` (${LABEL.checkAccent})` : ""}`).join(" · ")}</p>` : ""}`;
 
     root.querySelectorAll("[data-slot]").forEach((b) => {
       b.addEventListener("click", () => {

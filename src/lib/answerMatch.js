@@ -31,6 +31,20 @@ function politeClash(a, value) {
   return x !== y && POLITE.test(x);
 }
 
+/**
+ * In Spanish an accent changes the word (tu/tú, el/él, hablo/habló, esta/está), so `accepts`
+ * never folds accents away (content-plan §1.2). This says whether a wrong answer differs from
+ * a right one ONLY in its accents, so the page can add "check the accent" to the verdict.
+ * ñ is a letter of its own, not an accent: año/ano stays a plain wrong answer.
+ */
+const ACCENT_MARKS = /[\u0301\u0308]/g; // acute, diaeresis (the tilde of ñ, U+0303, stays)
+const withoutAccents = (s) => String(s || "").trim().toLowerCase().normalize("NFD").replace(ACCENT_MARKS, "").normalize("NFC");
+export function accentOnly(answer, value) {
+  if (!String(value || "").trim() || accepts(answer, value)) return false;
+  const list = Array.isArray(answer) ? answer : [answer];
+  return list.some((a) => withoutAccents(a) === withoutAccents(value));
+}
+
 /** One pill per word: „Als“ (a sentence start) and „als“ are the same answer to the check,
  *  so showing both only offers two right pills. Keeps the lower-case form when both occur.
  *  The Sie-forms stay apart (ihr ≠ Ihr), as in `accepts`. */
