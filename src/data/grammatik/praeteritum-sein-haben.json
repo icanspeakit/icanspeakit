@@ -1,129 +1,98 @@
 {
   "id": "praeteritum-sein-haben",
-  "name": "Past of be: was and were",
+  "name": "Stem-changing verbs: quiero, puedo, pido, juego",
   "level": "A1",
   "status": "entwurf",
-  "subtitle": "Use was and were to talk about the past: I was at home. They were in Leeds. Was goes with I, he, she and it. Were goes with you, we and they. Time words such as yesterday, last week and two years ago help.",
-  "briefMarks": ["was", "were", "yesterday", "last week", "two years ago"],
-  "source": "icanspeak Spanish original English text (grammar-a1 run, 2026-10-29)",
+  "variety": "es-ES",
+  "subtitle": "Some verbs change a vowel in the stem when it is stressed: querer → quiero, poder → puedo, pedir → pido, jugar → juego. The endings stay regular, and nosotros and vosotros do not change.",
+  "briefMarks": ["e → ie", "o → ue", "e → i", "u → ue"],
+  "source": "icanspeak Spanish original text (grammar-a1 run, 2026-11-04)",
   "concept": {
     "comic": {
-      "title": "Where were you yesterday?",
+      "title": "At the bakery",
       "panels": [
         {
-          "caption": "was and were",
-          "tag": "I {was} · you {were} · we {were}",
-          "left": {
-            "name": "hamsti",
-            "expr": "thinking",
-            "say": "Where were you yesterday?"
-          },
-          "right": {
-            "name": "bruno",
-            "expr": "happy",
-            "say": "I {was} at the doctor's."
-          }
+          "caption": "e → ie",
+          "tag": "{quiero} · {quieres} · queremos",
+          "left": { "name": "hamsti", "expr": "thinking", "say": "¿Qué {quieres}?" },
+          "right": { "name": "bruno", "expr": "happy", "say": "{Quiero} un café." }
         },
         {
-          "caption": "negative",
-          "tag": "{wasn't} · {weren't}",
-          "left": {
-            "name": "regi",
-            "expr": "thinking",
-            "say": "Were you at the party?"
-          },
-          "right": {
-            "name": "quaki",
-            "expr": "oops",
-            "say": "No, I {wasn't}. I was ill."
-          }
+          "caption": "o → ue",
+          "tag": "{puedo} · {puedes} · podemos",
+          "left": { "name": "regi", "expr": "thinking", "say": "¿{Puedo} pagar con tarjeta?" },
+          "right": { "name": "quaki", "expr": "happy", "say": "Sí, claro." }
         },
         {
-          "caption": "time words",
-          "tag": "{yesterday} · {last week} · {two years ago}",
-          "left": {
-            "name": "quaki",
-            "expr": "thinking",
-            "say": "Was Tom in London last week?"
-          },
-          "right": {
-            "name": "hamsti",
-            "expr": "happy",
-            "say": "Yes, he {was}. We {were} there on Monday."
-          }
+          "caption": "e → i",
+          "tag": "{pido} · {pides} · pedimos",
+          "left": { "name": "quaki", "expr": "thinking", "say": "¿Qué {pides} tú?" },
+          "right": { "name": "hamsti", "expr": "happy", "say": "{Pido} una tostada." }
         }
       ]
     },
     "flow": [
-      {
-        "text": "yesterday / last week / two years ago"
-      },
-      {
-        "text": "I, he, she, it + was · you, we, they + were",
-        "variant": "verb"
-      },
-      {
-        "text": "rest of the sentence",
-        "variant": "prep"
-      }
+      { "text": "stem vowel changes", "variant": "prep" },
+      { "text": "regular ending", "variant": "verb" },
+      { "text": "not with nosotros, vosotros" }
     ],
     "qa": [
       {
-        "html": "<strong>Was</strong> and <strong>were</strong> are the past of <em>am / is / are</em>. Use them for the past: <em>Yesterday I was tired. We were in Cardiff last week.</em> Time words help: <em>yesterday, last week, in 2019, two years ago</em>.",
-        "tag": "Past of be"
+        "html": "<strong>e → ie</strong>: <em>querer → quiero, empezar → empiezo, cerrar → cierro, pensar → pienso, preferir → prefiero, entender → entiendo</em>.",
+        "tag": "e → ie"
       },
       {
-        "html": "<strong>was</strong> for <em>I, he, she, it</em>: <em>I was at home. She was ill. It was cold.</em> <strong>were</strong> for <em>you, we, they</em>: <em>You were late. We were happy. They were in York.</em> There are only two forms.",
-        "tag": "was or were"
+        "html": "<strong>o → ue</strong>: <em>poder → puedo, volver → vuelvo, dormir → duermo, costar → cuesta, encontrar → encuentro, recordar → recuerdo</em>.",
+        "tag": "o → ue"
       },
       {
-        "html": "<strong>Negative:</strong> <em>was not = wasn't, were not = weren't</em>: <em>He wasn't at work. We weren't at the party.</em> <strong>Question:</strong> put <em>was / were</em> first: <em>Was she ill? Were you at home?</em> <strong>Short answers:</strong> <em>Yes, I was. No, we weren't.</em>",
-        "tag": "No and questions"
+        "html": "<strong>e → i</strong>, only some <em>-ir</em> verbs: <em>pedir → pido, repetir → repito, seguir → sigo, servir → sirvo</em>.",
+        "tag": "e → i"
       },
       {
-        "html": "<strong>ago</strong> comes after the time: <em>two years ago, a week ago</em>. The time word can start the sentence or end it: <em>Two years ago I was in Belfast. I was in Belfast two years ago.</em> Never say ✗ <em>before two years</em>.",
-        "tag": "Time words"
+        "html": "<strong>u → ue</strong>: only <em>jugar</em>: <em>juego, juegas, juega, jugamos, jugáis, juegan</em>.",
+        "tag": "jugar"
       },
       {
-        "html": "Bonus: <em>have</em> becomes <strong>had</strong> for every person: <em>I had a cold. She had a car. We had no time.</em> After <em>didn't</em> or <em>did</em> use <em>have</em>, not <em>had</em>: <em>I didn't have time.</em>",
-        "tag": "Bonus: had"
+        "html": "<strong>nosotros</strong> and <strong>vosotros</strong> keep the normal stem, because the stress is on the ending: <em>queremos, podéis, pedimos, jugamos</em>.",
+        "tag": "nosotros, vosotros"
       }
     ],
-    "noteHtml": "Common mistakes: ✗ <em>I were at home.</em> → ✓ <em>I was at home.</em> · ✗ <em>Was you at the party?</em> → ✓ <em>Were you at the party?</em> · ✗ <em>I didn't was there.</em> → ✓ <em>I wasn't there.</em> Be is the only verb that has two past forms. For other verbs, see <a href=\"/past-simple\">the past simple</a>. For the present, see <a href=\"/pronouns-and-be\">subject pronouns and be</a>.",
+    "noteHtml": "Common mistakes: ✗ <em>Yo quero</em> → ✓ <em>Yo quiero</em>. ✗ <em>Podo pagar</em> → ✓ <em>Puedo pagar</em>. ✗ <em>Puedemos</em> → ✓ <em>Podemos</em>. ✗ <em>Yo jugo</em> → ✓ <em>Yo juego</em>. A dictionary does not always show the change, so learn the yo form with the verb. See also <a href=\"/present-continuous\">Key irregular verbs</a>.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
       "tables": [
         {
-          "caption": "be: now and in the past",
-          "note": "Only I and he / she / it have was. All other people have were.",
-          "head": [
-            "Subject",
-            "now",
-            "past",
-            "negative past"
-          ],
+          "caption": "The four patterns",
+          "head": ["", "querer (e → ie)", "poder (o → ue)", "pedir (e → i)", "jugar (u → ue)"],
           "rows": [
-            ["I", "am", "{was}", "{wasn't}"],
-            ["you", "are", "{were}", "{weren't}"],
-            ["he / she / it", "is", "{was}", "{wasn't}"],
-            ["we", "are", "{were}", "{weren't}"],
-            ["they", "are", "{were}", "{weren't}"]
+            ["yo", "quiero", "puedo", "pido", "juego"],
+            ["tú", "quieres", "puedes", "pides", "juegas"],
+            ["él, ella, usted", "quiere", "puede", "pide", "juega"],
+            ["nosotros/as", "queremos", "podemos", "pedimos", "jugamos"],
+            ["vosotros/as", "queréis", "podéis", "pedís", "jugáis"],
+            ["ellos, ellas, ustedes", "quieren", "pueden", "piden", "juegan"]
           ]
         },
         {
-          "caption": "Time words for the past",
-          "note": "The time word can come at the start or at the end of the sentence.",
-          "head": [
-            "Time word",
-            "Example"
-          ],
+          "caption": "Useful verbs",
+          "head": ["Pattern", "Verbs"],
           "rows": [
-            ["yesterday", "Yesterday I {was} at work."],
-            ["last week", "Last week we {were} in Cardiff."],
-            ["two years ago", "Two years ago she {was} a student."],
-            ["in 2019", "In 2019 they {were} in Belfast."],
-            ["on Monday", "On Monday Tom {was} ill."]
+            ["e → ie", "querer, empezar, cerrar, pensar, entender, preferir"],
+            ["o → ue", "poder, volver, dormir, costar, encontrar, recordar"],
+            ["e → i", "pedir, repetir, seguir, servir"],
+            ["u → ue", "jugar"]
+          ]
+        }
+      ],
+      "boxes": [
+        {
+          "badge": "Careful: two changes",
+          "variant": "dat",
+          "items": [
+            "tener and venir also have -go in the yo form: tengo, vengo.",
+            "seguir: yo sigo, tú sigues."
           ]
         }
       ]
@@ -131,184 +100,32 @@
   },
   "aktiv": {
     "listen": [
-      {
-        "text": "I was at the doctor's yesterday.",
-        "note": "was: use it with I.",
-        "audio": "/audio/grammatik/praeteritum-sein-haben/i-was-at-the-doctors-yesterday.mp3"
-      },
-      {
-        "text": "You were a teacher two years ago.",
-        "note": "were: use it with you, even for one person.",
-        "audio": "/audio/grammatik/praeteritum-sein-haben/you-were-a-teacher-two-years-ago.mp3"
-      },
-      {
-        "text": "We weren't at home last night.",
-        "note": "weren't = were not.",
-        "audio": "/audio/grammatik/praeteritum-sein-haben/we-werent-at-home-last-night.mp3"
-      },
-      {
-        "text": "Was it cold in York last week?",
-        "note": "In a question, was comes first.",
-        "audio": "/audio/grammatik/praeteritum-sein-haben/was-it-cold-in-york-last-week.mp3"
-      }
+      { "text": "Quiero una cita para el lunes.", "note": "querer: e → ie." },
+      { "text": "¿Puedo pagar con tarjeta?", "note": "poder: o → ue." },
+      { "text": "Podemos volver mañana.", "note": "nosotros: no change in the stem." },
+      { "text": "Los niños juegan en el parque.", "note": "jugar: u → ue." }
     ],
     "hoeren": {
-      "instruction": "Listen and choose the word you hear. You can listen twice.",
+      "instruction": "Listen and choose the sentence you heard. You can listen twice.",
       "items": [
-        {
-          "text": "Yesterday I was at the cinema.",
-          "choices": [
-            "was",
-            "were",
-            "wasn't"
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/praeteritum-sein-haben/yesterday-i-was-at-the-cinema.mp3"
-        },
-        {
-          "text": "Where were you yesterday?",
-          "choices": [
-            "was",
-            "were",
-            "are"
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/praeteritum-sein-haben/where-were-you-yesterday.mp3"
-        },
-        {
-          "text": "We were tired last night.",
-          "choices": [
-            "was",
-            "weren't",
-            "were"
-          ],
-          "correct": 2,
-          "audio": "/audio/grammatik/praeteritum-sein-haben/we-were-tired-last-night.mp3"
-        },
-        {
-          "text": "She wasn't at home.",
-          "choices": [
-            "wasn't",
-            "was",
-            "weren't"
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/praeteritum-sein-haben/she-wasnt-at-home.mp3"
-        },
-        {
-          "text": "They weren't in London last week.",
-          "choices": [
-            "wasn't",
-            "were",
-            "weren't"
-          ],
-          "correct": 2,
-          "audio": "/audio/grammatik/praeteritum-sein-haben/they-werent-in-london-last-week.mp3"
-        },
-        {
-          "text": "Was it cold yesterday?",
-          "choices": [
-            "Were",
-            "Was",
-            "Is"
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/praeteritum-sein-haben/was-it-cold-yesterday.mp3"
-        }
+        { "text": "Quiero un café.", "choices": ["Quiero un café.", "Queremos un café.", "Quieren un café."], "correct": 0 },
+        { "text": "La tienda cierra a las nueve.", "choices": ["Las tiendas cierran a las nueve.", "La tienda cierra a las nueve.", "Cierro la tienda a las nueve."], "correct": 1 },
+        { "text": "No podemos venir hoy.", "choices": ["No puedo venir hoy.", "No pueden venir hoy.", "No podemos venir hoy."], "correct": 2 },
+        { "text": "¿Cuánto cuesta el piso?", "choices": ["¿Cuánto cuesta el piso?", "¿Cuánto cuestan los pisos?", "¿Cuándo cuesta el piso?"], "correct": 0 }
       ]
     },
     "sprechen": {
       "rounds": [
         {
-          "label": "1 · Now → past",
-          "instruction": "You hear a sentence about now. Say the same sentence about the past.",
-          "example": {
-            "prompt": "I am at home.",
-            "answer": "I was at home."
-          },
+          "label": "1 · One person",
+          "instruction": "You hear a sentence with nosotros. Say it with yo. The vowel changes.",
+          "example": { "prompt": "Queremos agua.", "answer": "Quiero agua." },
           "items": [
-            {
-              "prompt": "You are late.",
-              "answer": "You were late.",
-              "audioPrompt": "/audio/grammatik/praeteritum-sein-haben/you-are-late.mp3",
-              "audioAnswer": "/audio/grammatik/praeteritum-sein-haben/you-were-late--a.mp3"
-            },
-            {
-              "prompt": "She is ill.",
-              "answer": "She was ill.",
-              "audioPrompt": "/audio/grammatik/praeteritum-sein-haben/she-is-ill.mp3",
-              "audioAnswer": "/audio/grammatik/praeteritum-sein-haben/she-was-ill--a.mp3"
-            },
-            {
-              "prompt": "We are in Leeds.",
-              "answer": "We were in Leeds.",
-              "audioPrompt": "/audio/grammatik/praeteritum-sein-haben/we-are-in-leeds.mp3",
-              "audioAnswer": "/audio/grammatik/praeteritum-sein-haben/we-were-in-leeds--a.mp3"
-            },
-            {
-              "prompt": "They are happy.",
-              "answer": "They were happy.",
-              "audioPrompt": "/audio/grammatik/praeteritum-sein-haben/they-are-happy.mp3",
-              "audioAnswer": "/audio/grammatik/praeteritum-sein-haben/they-were-happy--a.mp3"
-            },
-            {
-              "prompt": "It is cold.",
-              "answer": "It was cold.",
-              "audioPrompt": "/audio/grammatik/praeteritum-sein-haben/it-is-cold.mp3",
-              "audioAnswer": "/audio/grammatik/praeteritum-sein-haben/it-was-cold--a.mp3"
-            },
-            {
-              "prompt": "He is a student.",
-              "answer": "He was a student.",
-              "audioPrompt": "/audio/grammatik/praeteritum-sein-haben/he-is-a-student.mp3",
-              "audioAnswer": "/audio/grammatik/praeteritum-sein-haben/he-was-a-student--a.mp3"
-            }
-          ]
-        },
-        {
-          "label": "2 · Question and answer",
-          "instruction": "You hear a question and a hint. Answer with a whole sentence.",
-          "example": {
-            "prompt": "Where were you yesterday? – at the cinema",
-            "answer": "I was at the cinema."
-          },
-          "items": [
-            {
-              "prompt": "Where were you on Saturday? – at the dentist's",
-              "answer": "I was at the dentist's.",
-              "audioPrompt": "/audio/grammatik/praeteritum-sein-haben/where-were-you-on-saturday-at-the-dentists.mp3",
-              "audioAnswer": "/audio/grammatik/praeteritum-sein-haben/i-was-at-the-dentists--a.mp3"
-            },
-            {
-              "prompt": "Where were Ana and Sam last night? – at the cinema",
-              "answer": "They were at the cinema.",
-              "audioPrompt": "/audio/grammatik/praeteritum-sein-haben/where-were-ana-and-sam-last-night-at-the-cinema.mp3",
-              "audioAnswer": "/audio/grammatik/praeteritum-sein-haben/they-were-at-the-cinema--a.mp3"
-            },
-            {
-              "prompt": "Was it a good film? – no",
-              "answer": "No, it wasn't.",
-              "audioPrompt": "/audio/grammatik/praeteritum-sein-haben/was-it-a-good-film-no.mp3",
-              "audioAnswer": "/audio/grammatik/praeteritum-sein-haben/no-it-wasnt--a.mp3"
-            },
-            {
-              "prompt": "Were you tired? – yes",
-              "answer": "Yes, I was.",
-              "audioPrompt": "/audio/grammatik/praeteritum-sein-haben/were-you-tired-yes.mp3",
-              "audioAnswer": "/audio/grammatik/praeteritum-sein-haben/yes-i-was--a.mp3"
-            },
-            {
-              "prompt": "Where was Tom yesterday? – in York",
-              "answer": "He was in York.",
-              "audioPrompt": "/audio/grammatik/praeteritum-sein-haben/where-was-tom-yesterday-in-york.mp3",
-              "audioAnswer": "/audio/grammatik/praeteritum-sein-haben/he-was-in-york--a.mp3"
-            },
-            {
-              "prompt": "Were you and Ben at the party? – no",
-              "answer": "No, we weren't.",
-              "audioPrompt": "/audio/grammatik/praeteritum-sein-haben/were-you-and-ben-at-the-party-no.mp3",
-              "audioAnswer": "/audio/grammatik/praeteritum-sein-haben/no-we-werent--a.mp3"
-            }
+            { "prompt": "Podemos venir.", "answer": "Puedo venir." },
+            { "prompt": "Pedimos un café.", "answer": "Pido un café." },
+            { "prompt": "Volvemos a las seis.", "answer": "Vuelvo a las seis." },
+            { "prompt": "Jugamos al fútbol.", "answer": "Juego al fútbol." },
+            { "prompt": "Empezamos a las nueve.", "answer": "Empiezo a las nueve." }
           ]
         }
       ]
@@ -317,251 +134,90 @@
   "exercises": [
     {
       "type": "fill",
-      "title": "Complete with was or were.",
-      "hint": "I, he, she, it → was. You, we, they → were.",
-      "placeholder": "was, were",
+      "title": "Does the vowel change?",
+      "hint": "The stem changes for yo, tú, él and ellos. It does not change for nosotros and vosotros.",
+      "placeholder": "Form",
       "items": [
-        {
-          "prompt": "Yesterday I ___ at home.",
-          "hint": "I",
-          "answer": "was"
-        },
-        {
-          "prompt": "Where ___ you on Sunday?",
-          "hint": "you",
-          "answer": "were"
-        },
-        {
-          "prompt": "We ___ in Bristol last year.",
-          "hint": "we",
-          "answer": "were"
-        },
-        {
-          "prompt": "My parents ___ teachers two years ago.",
-          "hint": "they",
-          "answer": "were"
-        },
-        {
-          "prompt": "He ___ at the gym last night.",
-          "hint": "he",
-          "answer": "was"
-        },
-        {
-          "prompt": "It ___ very cold on Monday.",
-          "hint": "it",
-          "answer": "was"
-        }
-      ]
-    },
-    {
-      "type": "fill",
-      "title": "Say no: complete the negative.",
-      "hint": "wasn't goes with I, he, she, it. weren't goes with you, we, they.",
-      "placeholder": "wasn't, weren't",
-      "items": [
-        {
-          "prompt": "Tom ___ at school yesterday. He was ill.",
-          "answer": ["wasn't", "was not"]
-        },
-        {
-          "prompt": "We ___ at the party. We stayed at home.",
-          "answer": ["weren't", "were not"]
-        },
-        {
-          "prompt": "I ___ hungry. I ate lunch an hour ago.",
-          "answer": ["wasn't", "was not"]
-        },
-        {
-          "prompt": "The shops ___ open on Sunday.",
-          "answer": ["weren't", "were not"]
-        },
-        {
-          "prompt": "You ___ in the office on Monday, Ana.",
-          "answer": ["weren't", "were not"]
-        },
-        {
-          "prompt": "It ___ a good film. It was boring.",
-          "answer": ["wasn't", "was not"]
-        }
-      ]
-    },
-    {
-      "type": "match",
-      "title": "Which past form fits?",
-      "hint": "Click the present form first, then the matching past form.",
-      "pairs": [
-        {
-          "q": "I am",
-          "a": "I was"
-        },
-        {
-          "q": "you are",
-          "a": "you were"
-        },
-        {
-          "q": "he is",
-          "a": "he was"
-        },
-        {
-          "q": "we are",
-          "a": "we were"
-        },
-        {
-          "q": "it is",
-          "a": "it was"
-        },
-        {
-          "q": "they are",
-          "a": "they were"
-        }
+        { "prompt": "Yo ___ un vaso de agua.", "hint": "querer", "answer": "quiero", "choices": ["quero", "quiero", "queremos"] },
+        { "prompt": "Nosotros ___ un vaso de agua.", "hint": "querer", "answer": "queremos", "choices": ["queremos", "quieremos", "quieren"] },
+        { "prompt": "¿___ abrir la ventana?", "hint": "poder, tú", "answer": "Puedes", "choices": ["Podes", "Puedes", "Puedo"] },
+        { "prompt": "Mis padres no ___ venir hoy.", "hint": "poder", "answer": "pueden", "choices": ["poden", "pueden", "podemos"] },
+        { "prompt": "Nosotros ___ a las seis.", "hint": "volver", "answer": "volvemos", "choices": ["volvemos", "vuelvemos", "vuelven"] },
+        { "prompt": "Mi hijo ___ al fútbol.", "hint": "jugar", "answer": "juega", "choices": ["juga", "juega", "jugamos"] }
       ]
     },
     {
       "type": "table",
-      "title": "Make a question: was or were?",
-      "hint": "Put was or were first. Look at the subject.",
-      "columns": [
-        "Statement → question",
-        "Word"
-      ],
-      "placeholder": "Was, Were",
+      "title": "Which pattern?",
+      "hint": "Choose the yo form. e → ie, o → ue, e → i.",
+      "columns": ["Verb", "yo"],
+      "placeholder": "yo",
       "rows": [
-        {
-          "term": "She was at home. → ___ she at home?",
-          "answer": "Was"
-        },
-        {
-          "term": "They were late. → ___ they late?",
-          "answer": "Were"
-        },
-        {
-          "term": "You were ill. → ___ you ill?",
-          "answer": "Were"
-        },
-        {
-          "term": "It was cold. → ___ it cold?",
-          "answer": "Was"
-        },
-        {
-          "term": "I was wrong. → ___ I wrong?",
-          "answer": "Was"
-        },
-        {
-          "term": "We were in York. → ___ we in York?",
-          "answer": "Were"
-        }
+        { "term": "empezar", "answer": "empiezo", "choices": ["empezo", "empiezo", "empizo"] },
+        { "term": "dormir", "answer": "duermo", "choices": ["dormo", "duermo", "durmo"] },
+        { "term": "pedir", "answer": "pido", "choices": ["pedio", "piedo", "pido"] },
+        { "term": "cerrar", "answer": "cierro", "choices": ["cerro", "cierro", "cirro"] },
+        { "term": "volver", "answer": "vuelvo", "choices": ["volvo", "vuelvo", "vuelo"] },
+        { "term": "repetir", "answer": "repito", "choices": ["repeto", "repieto", "repito"] },
+        { "term": "entender", "answer": "entiendo", "choices": ["entendo", "entiendo", "entindo"] },
+        { "term": "jugar", "answer": "juego", "choices": ["jugo", "juego", "jogo"] }
+      ]
+    },
+    {
+      "type": "fill",
+      "title": "Daily life.",
+      "hint": "Who does it? Choose the form that fits.",
+      "placeholder": "Form",
+      "items": [
+        { "prompt": "La farmacia ___ a las dos.", "hint": "cerrar", "answer": "cierra", "choices": ["cerra", "cierra", "cerramos"] },
+        { "prompt": "El curso ___ en octubre.", "hint": "empezar", "answer": "empieza", "choices": ["empieza", "empeza", "empezamos"] },
+        { "prompt": "¿Cuánto ___ el billete?", "hint": "costar", "answer": "cuesta", "choices": ["costa", "cuesta", "cuestan"] },
+        { "prompt": "Perdón, no ___. ¿Puede repetir?", "hint": "entender, yo", "answer": "entiendo", "choices": ["entendo", "entiendo", "entiende"] },
+        { "prompt": "En el bar siempre ___ un café con leche.", "hint": "pedir, yo", "answer": "pido", "choices": ["pedimos", "pido", "pide"] },
+        { "prompt": "Los niños ___ ocho horas.", "hint": "dormir", "answer": "duermen", "choices": ["dormen", "duermen", "dormimos"] }
+      ]
+    },
+    {
+      "type": "match",
+      "title": "Infinitive and yo form.",
+      "hint": "Learn them together.",
+      "pairs": [
+        { "q": "querer", "a": "quiero" },
+        { "q": "poder", "a": "puedo" },
+        { "q": "pedir", "a": "pido" },
+        { "q": "jugar", "a": "juego" },
+        { "q": "pensar", "a": "pienso" },
+        { "q": "recordar", "a": "recuerdo" }
       ]
     },
     {
       "type": "story",
-      "title": "Fill the gaps: A day in Leeds.",
-      "hint": "Choose was, were, wasn't or weren't. Read the whole sentence.",
+      "title": "Fill the gaps: A busy morning.",
+      "hint": "The verb is in brackets. Does the stem change?",
+      "choices": ["empieza", "empeza", "duerme", "dorme", "quieren", "queren", "juegan", "jugan", "vuelven", "volven"],
       "segments": [
-        {
-          "text": "Last Saturday I "
-        },
-        {
-          "blank": 0,
-          "answer": "was"
-        },
-        {
-          "text": " in Leeds with Ana and Kwame. We "
-        },
-        {
-          "blank": 1,
-          "answer": "were"
-        },
-        {
-          "text": " there all day. The weather "
-        },
-        {
-          "blank": 2,
-          "answer": "was"
-        },
-        {
-          "text": " lovely. The shops "
-        },
-        {
-          "blank": 3,
-          "answer": "were"
-        },
-        {
-          "text": " busy. Ana "
-        },
-        {
-          "blank": 4,
-          "answer": "was"
-        },
-        {
-          "text": " tired, but she "
-        },
-        {
-          "blank": 5,
-          "answer": "was"
-        },
-        {
-          "text": " happy. Kwame "
-        },
-        {
-          "blank": 6,
-          "answer": "wasn't"
-        },
-        {
-          "text": " with us because he "
-        },
-        {
-          "blank": 7,
-          "answer": "was"
-        },
-        {
-          "text": " at work. The cafe "
-        },
-        {
-          "blank": 8,
-          "answer": "wasn't"
-        },
-        {
-          "text": " cheap. It was expensive, but the cake "
-        },
-        {
-          "blank": 9,
-          "answer": "was"
-        },
-        {
-          "text": " great."
-        }
+        { "text": "Carmen " },
+        { "blank": 0, "answer": "empieza" },
+        { "text": " (empezar) a trabajar a las ocho. Su marido " },
+        { "blank": 1, "answer": "duerme" },
+        { "text": " (dormir) un poco más. Sus hijos " },
+        { "blank": 2, "answer": "quieren" },
+        { "text": " (querer) ir al parque. Por la tarde ellos " },
+        { "blank": 3, "answer": "juegan" },
+        { "text": " (jugar) con los vecinos. Carmen y su marido " },
+        { "blank": 4, "answer": "vuelven" },
+        { "text": " (volver) a casa a las seis." }
       ]
     },
     {
       "type": "build",
       "title": "Build the sentences.",
+      "hint": "poder and querer are often followed by an infinitive.",
       "sentences": [
-        {
-          "id": "p1",
-          "hint": "A question with Where",
-          "correct": ["Where", "were", "you", "yesterday", "?"],
-          "shuffled": ["yesterday", "Where", "?", "you", "were"]
-        },
-        {
-          "id": "p2",
-          "hint": "A yes/no question with she",
-          "correct": ["Was", "she", "at", "home", "last", "night", "?"],
-          "shuffled": ["night", "she", "?", "at", "Was", "last", "home"]
-        },
-        {
-          "id": "p3",
-          "hint": "A negative with they",
-          "correct": ["They", "weren't", "in", "London", "last", "week", "."],
-          "shuffled": ["week", "in", ".", "London", "They", "last", "weren't"],
-          "alt": [["Last", "week", "they", "weren't", "in", "London", "."]]
-        },
-        {
-          "id": "p4",
-          "hint": "Start with I. Put the time at the end.",
-          "correct": ["I", "was", "in", "Belfast", "two", "years", "ago", "."],
-          "shuffled": ["Belfast", "ago", "in", "I", ".", "two", "was", "years"],
-          "alt": [["Two", "years", "ago", "I", "was", "in", "Belfast", "."]]
-        }
+        { "id": "sc1", "hint": "Ask: can I pay by card?", "correct": ["¿Puedo", "pagar", "con", "tarjeta", "?"], "shuffled": ["tarjeta", "pagar", "?", "con", "¿Puedo"] },
+        { "id": "sc2", "hint": "I want an appointment", "correct": ["Quiero", "una", "cita", "."], "shuffled": ["cita", ".", "una", "Quiero"] },
+        { "id": "sc3", "hint": "We can come back tomorrow", "correct": ["Podemos", "volver", "mañana", "."], "shuffled": ["mañana", "Podemos", ".", "volver"] },
+        { "id": "sc4", "hint": "The course starts on Monday", "correct": ["El", "curso", "empieza", "el", "lunes", "."], "shuffled": ["el", "lunes", "curso", ".", "El", "empieza"] }
       ]
     }
   ]

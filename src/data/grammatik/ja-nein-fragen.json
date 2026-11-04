@@ -1,116 +1,77 @@
 {
   "id": "ja-nein-fragen",
-  "name": "Yes/no questions and short answers",
+  "name": "Yes/no questions and negation with no",
   "level": "A1",
-  "subtitle": "A yes/no question starts with a helper verb: Do, Does, Is, Are or Can. Answer with a short answer: Yes, I do. No, she isn't. Don't repeat the main verb.",
-  "briefMarks": ["Do, Does, Is, Are or Can","Yes, I do.","No, she isn't."],
-  "source": "icanspeak Spanish original English text (grammar-a1 run, 2026-10-29)",
+  "variety": "es-ES",
+  "subtitle": "A yes/no question can use the same words as a statement. Only ¿…? in writing and your voice going up show that it is a question. Put no before the verb to say “not”.",
+  "briefMarks": ["¿…?", "sí", "no"],
+  "source": "icanspeak Spanish original text (grammar-a1 run, 2026-11-04)",
   "concept": {
     "flow": [
-      {
-        "text": "Do / Does / Is / Are / Can",
-        "variant": "verb"
-      },
-      {
-        "text": "subject",
-        "variant": "prep"
-      },
-      {
-        "text": "main verb + rest?"
-      }
+      { "text": "¿", "variant": "prep" },
+      { "text": "(person)" },
+      { "text": "verb", "variant": "verb" },
+      { "text": "rest ?" }
     ],
-    "exampleHtml": "Statement: She <span class=\"vp-prep\">works</span> here. → Question: <span class=\"vp-verb\">Does</span> she work here?",
+    "exampleHtml": "Ana trabaja hoy. → ¿Ana <span class=\"vp-verb\">trabaja</span> hoy? · Tienes coche. → ¿<span class=\"vp-verb\">Tienes</span> coche? · Hablo inglés. → <span class=\"vp-prep\">No</span> <span class=\"vp-verb\">hablo</span> inglés.",
     "qa": [
       {
-        "html": "With most verbs, start with <strong>Do</strong> (I, you, we, they) or <strong>Does</strong> (he, she, it) + subject + the <strong>base verb</strong>.<br><em>Do you like tea? Does she work here?</em><br>✗ <em>Does she works?</em> → ✓ <em>Does she work?</em>",
-        "tag": "Do / Does"
+        "html": "Spanish has no word like <em>do</em> or <em>does</em>. A statement becomes a question with your voice: <em>Vives aquí. → ¿Vives aquí?</em>",
+        "tag": "No extra word"
       },
       {
-        "html": "With <strong>be</strong> and <strong>can</strong>, there is no do. Put the verb first.<br><em>He is a teacher. → Is he a teacher?</em><br><em>They are late. → Are they late?</em><br><em>You can swim. → Can you swim?</em><br>✗ <em>Do you can swim?</em> → ✓ <em>Can you swim?</em>",
-        "tag": "be, can"
+        "html": "A named person can come before or after the verb: <em>¿Ana trabaja hoy?</em> or <em>¿Trabaja Ana hoy?</em> Both are correct.",
+        "tag": "Word order"
       },
       {
-        "html": "A short answer uses <strong>Yes</strong> or <strong>No</strong> + subject + the <strong>same helper verb</strong>. Do not repeat the main verb.<br><em>Do you like tea? — Yes, I do. / No, I don't.</em><br><em>Is he tired? — Yes, he is. / No, he isn't.</em><br>✗ <em>Yes, I like.</em> → ✓ <em>Yes, I do.</em>",
+        "html": "Written Spanish opens every question with <strong>¿</strong> and closes it with <strong>?</strong>: <em>¿Tienes tiempo?</em> The same goes for <strong>¡…!</strong>: <em>¡Hola!</em>",
+        "tag": "¿ and ¡"
+      },
+      {
+        "html": "Put <strong>no</strong> right before the verb: <em>No trabajo los lunes. Mi hijo no come carne.</em> Not after it: <em>Trabajo no.</em>",
+        "tag": "no + verb"
+      },
+      {
+        "html": "A short answer often needs two <em>no</em>: <em>¿Tienes hijos? – <strong>No, no</strong> tengo.</em> The first answers the question, and the second makes the verb negative. Also: <em>Sí, tengo dos.</em>",
         "tag": "Short answers"
       },
       {
-        "html": "A negative question asks about something you may not expect: <em>Don't you like tea?</em> In English, the answer follows the <strong>fact</strong>, not the question.<br><em>Don't you like tea? — Yes, I do.</em> (I like tea.)<br><em>Don't you like tea? — No, I don't.</em> (I don't like tea.)",
-        "tag": "Negative questions"
+        "html": "Add <strong>¿verdad?</strong> or <strong>¿no?</strong> to check something: <em>Vives aquí, ¿verdad?</em> <em>Es médica, ¿no?</em>",
+        "tag": "¿verdad?"
       }
     ],
-    "noteHtml": "<strong>Yes</strong> always goes with a positive fact and <strong>No</strong> with a negative one: <em>Yes, I do</em> means I like it; <em>No, I don't</em> means I don't. You can also add a little more: <em>Yes, I do. I love it.</em> Next: <a href=\"/wh-questions\">Wh- questions</a>.",
+    "noteHtml": "Common mistakes: ✗ <em>Vives aquí?</em> without the opening mark → ✓ <em>¿Vives aquí?</em> ✗ <em>Hablo no inglés</em> → ✓ <em>No hablo inglés</em>. ✗ <em>si</em> for “yes” → ✓ <em>sí</em> (<em>si</em> means “if”). With question words: <a href=\"/wh-questions\">Question words</a>.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
       "tables": [
         {
-          "caption": "Statement and yes/no question",
-          "head": [
-            "Verb",
-            "Statement",
-            "Question"
-          ],
+          "caption": "Statement, question, negative",
+          "head": ["Statement", "Question", "Negative"],
           "rows": [
-            [
-              "do",
-              "You like tea.",
-              "Do you like tea?"
-            ],
-            [
-              "does",
-              "She works here.",
-              "Does she work here?"
-            ],
-            [
-              "be",
-              "He is a teacher.",
-              "Is he a teacher?"
-            ],
-            [
-              "be (plural)",
-              "They are late.",
-              "Are they late?"
-            ],
-            [
-              "can",
-              "You can swim.",
-              "Can you swim?"
-            ]
+            ["Vives aquí.", "¿Vives aquí?", "No vives aquí."],
+            ["Tiene coche.", "¿Tiene coche?", "No tiene coche."],
+            ["Son de Perú.", "¿Son de Perú?", "No son de Perú."],
+            ["Hay leche.", "¿Hay leche?", "No hay leche."]
           ]
         },
         {
-          "caption": "The short answer uses the same helper verb",
-          "head": [
-            "Question",
-            "Yes",
-            "No"
-          ],
+          "caption": "Short answers",
+          "head": ["Question", "Yes", "No"],
           "rows": [
-            [
-              "Do you like tea?",
-              "Yes, I do.",
-              "No, I don't."
-            ],
-            [
-              "Does she work here?",
-              "Yes, she does.",
-              "No, she doesn't."
-            ],
-            [
-              "Is he a teacher?",
-              "Yes, he is.",
-              "No, he isn't."
-            ],
-            [
-              "Are they late?",
-              "Yes, they are.",
-              "No, they aren't."
-            ],
-            [
-              "Can you swim?",
-              "Yes, I can.",
-              "No, I can't."
-            ]
+            ["¿Hablas español?", "Sí, hablo español.", "No, no hablo español."],
+            ["¿Tienes hijos?", "Sí, tengo dos.", "No, no tengo."],
+            ["¿Eres de aquí?", "Sí, soy de aquí.", "No, no soy de aquí."]
+          ]
+        }
+      ],
+      "boxes": [
+        {
+          "badge": "Careful: sí and si",
+          "variant": "dat",
+          "items": [
+            "sí with an accent = yes.",
+            "si without an accent = if."
           ]
         }
       ]
@@ -118,179 +79,42 @@
   },
   "aktiv": {
     "listen": [
-      {
-        "text": "She works in a shop.",
-        "note": "Statement: the verb has -s.",
-        "audio": "/audio/grammatik/ja-nein-fragen/she-works-in-a-shop.mp3"
-      },
-      {
-        "text": "Does she work in a shop?",
-        "note": "Question: Does comes first, and work has no -s.",
-        "audio": "/audio/grammatik/ja-nein-fragen/does-she-work-in-a-shop.mp3"
-      },
-      {
-        "text": "Don't you like tea? — Yes, I do.",
-        "note": "Yes means: I do like it.",
-        "audio": "/audio/grammatik/ja-nein-fragen/dont-you-like-tea-yes-i-do.mp3"
-      }
+      { "text": "¿Tienes hijos?", "note": "Your voice goes up at the end." },
+      { "text": "Tienes hijos.", "note": "A statement: your voice goes down." },
+      { "text": "No, no tengo hijos.", "note": "The first no answers, the second is for the verb." },
+      { "text": "Vives aquí, ¿verdad?", "note": "¿verdad? checks what you think." }
     ],
     "hoeren": {
-      "instruction": "Listen to the question and choose the correct answer.",
+      "instruction": "Listen and choose the sentence you heard. You can listen twice.",
       "items": [
-        {
-          "text": "Do you like pizza?",
-          "choices": [
-            "Yes, I do.",
-            "Yes, I like.",
-            "Yes, I am."
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/ja-nein-fragen/do-you-like-pizza.mp3"
-        },
-        {
-          "text": "Does Amira live in Bristol?",
-          "choices": [
-            "No, she don't.",
-            "No, she doesn't.",
-            "No, she isn't."
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/ja-nein-fragen/does-amira-live-in-bristol.mp3"
-        },
-        {
-          "text": "Is your brother at home?",
-          "choices": [
-            "Yes, he does.",
-            "Yes, he is.",
-            "Yes, he has."
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/ja-nein-fragen/is-your-brother-at-home.mp3"
-        },
-        {
-          "text": "Are they from Glasgow?",
-          "choices": [
-            "No, they aren't.",
-            "No, they don't.",
-            "No, they haven't."
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/ja-nein-fragen/are-they-from-glasgow.mp3"
-        },
-        {
-          "text": "Can you cook?",
-          "choices": [
-            "Yes, I do.",
-            "Yes, I am.",
-            "Yes, I can."
-          ],
-          "correct": 2,
-          "audio": "/audio/grammatik/ja-nein-fragen/can-you-cook.mp3"
-        },
-        {
-          "text": "Don't you like coffee?",
-          "choices": [
-            "Yes, I do.",
-            "No, I do.",
-            "Yes, I don't."
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/ja-nein-fragen/dont-you-like-coffee.mp3"
-        }
+        { "text": "¿Hablas inglés?", "choices": ["¿Hablas inglés?", "Hablas inglés.", "No hablas inglés."], "correct": 0 },
+        { "text": "No trabajo los lunes.", "choices": ["Trabajo los lunes.", "No trabajo los lunes.", "¿Trabajas los lunes?"], "correct": 1 },
+        { "text": "No, no tenemos coche.", "choices": ["Sí, tenemos coche.", "No tenemos casa.", "No, no tenemos coche."], "correct": 2 },
+        { "text": "Es médica, ¿no?", "choices": ["Es médica, ¿no?", "No es médica.", "¿Es médica?"], "correct": 0 }
       ]
     },
     "sprechen": {
       "rounds": [
         {
-          "label": "1 · Statement → question",
-          "instruction": "You hear a statement. Make a yes/no question: put the helper verb first.",
-          "example": {
-            "prompt": "She works here.",
-            "answer": "Does she work here?"
-          },
+          "label": "1 · Make it a question",
+          "instruction": "You hear a statement. Say it as a question. Your voice goes up.",
+          "example": { "prompt": "Vives aquí.", "answer": "¿Vives aquí?" },
           "items": [
-            {
-              "prompt": "You like coffee.",
-              "answer": "Do you like coffee?",
-              "audioPrompt": "/audio/grammatik/ja-nein-fragen/you-like-coffee.mp3",
-              "audioAnswer": "/audio/grammatik/ja-nein-fragen/do-you-like-coffee--a.mp3"
-            },
-            {
-              "prompt": "Tom plays tennis.",
-              "answer": "Does Tom play tennis?",
-              "audioPrompt": "/audio/grammatik/ja-nein-fragen/tom-plays-tennis.mp3",
-              "audioAnswer": "/audio/grammatik/ja-nein-fragen/does-tom-play-tennis--a.mp3"
-            },
-            {
-              "prompt": "They live in Leeds.",
-              "answer": "Do they live in Leeds?",
-              "audioPrompt": "/audio/grammatik/ja-nein-fragen/they-live-in-leeds.mp3",
-              "audioAnswer": "/audio/grammatik/ja-nein-fragen/do-they-live-in-leeds--a.mp3"
-            },
-            {
-              "prompt": "Mei is at home.",
-              "answer": "Is Mei at home?",
-              "audioPrompt": "/audio/grammatik/ja-nein-fragen/mei-is-at-home.mp3",
-              "audioAnswer": "/audio/grammatik/ja-nein-fragen/is-mei-at-home--a.mp3"
-            },
-            {
-              "prompt": "He can swim.",
-              "answer": "Can he swim?",
-              "audioPrompt": "/audio/grammatik/ja-nein-fragen/he-can-swim.mp3",
-              "audioAnswer": "/audio/grammatik/ja-nein-fragen/can-he-swim--a.mp3"
-            },
-            {
-              "prompt": "Your parents speak French.",
-              "answer": "Do your parents speak French?",
-              "audioPrompt": "/audio/grammatik/ja-nein-fragen/your-parents-speak-french.mp3",
-              "audioAnswer": "/audio/grammatik/ja-nein-fragen/do-your-parents-speak-french--a.mp3"
-            }
+            { "prompt": "Tienes tiempo.", "answer": "¿Tienes tiempo?" },
+            { "prompt": "Hablas árabe.", "answer": "¿Hablas árabe?" },
+            { "prompt": "Trabajas hoy.", "answer": "¿Trabajas hoy?" },
+            { "prompt": "Eres de aquí.", "answer": "¿Eres de aquí?" }
           ]
         },
         {
-          "label": "2 · Short answers",
-          "instruction": "You hear a question. Say the short answer: Yes, then the subject and the helper verb.",
-          "example": {
-            "prompt": "Does she work here?",
-            "answer": "Yes, she does."
-          },
+          "label": "2 · Answer no",
+          "instruction": "You hear a question. Answer no, with the full sentence.",
+          "example": { "prompt": "¿Hablas inglés?", "answer": "No, no hablo inglés." },
           "items": [
-            {
-              "prompt": "Do you like tea?",
-              "answer": "Yes, I do.",
-              "audioPrompt": "/audio/grammatik/ja-nein-fragen/do-you-like-tea.mp3",
-              "audioAnswer": "/audio/grammatik/ja-nein-fragen/yes-i-do--a.mp3"
-            },
-            {
-              "prompt": "Does Sam live here?",
-              "answer": "Yes, he does.",
-              "audioPrompt": "/audio/grammatik/ja-nein-fragen/does-sam-live-here.mp3",
-              "audioAnswer": "/audio/grammatik/ja-nein-fragen/yes-he-does--a.mp3"
-            },
-            {
-              "prompt": "Is Ana a teacher?",
-              "answer": "Yes, she is.",
-              "audioPrompt": "/audio/grammatik/ja-nein-fragen/is-ana-a-teacher.mp3",
-              "audioAnswer": "/audio/grammatik/ja-nein-fragen/yes-she-is--a.mp3"
-            },
-            {
-              "prompt": "Are you tired?",
-              "answer": "Yes, I am.",
-              "audioPrompt": "/audio/grammatik/ja-nein-fragen/are-you-tired.mp3",
-              "audioAnswer": "/audio/grammatik/ja-nein-fragen/yes-i-am--a.mp3"
-            },
-            {
-              "prompt": "Can Omar swim?",
-              "answer": "Yes, he can.",
-              "audioPrompt": "/audio/grammatik/ja-nein-fragen/can-omar-swim.mp3",
-              "audioAnswer": "/audio/grammatik/ja-nein-fragen/yes-he-can--a.mp3"
-            },
-            {
-              "prompt": "Do your parents work?",
-              "answer": "Yes, they do.",
-              "audioPrompt": "/audio/grammatik/ja-nein-fragen/do-your-parents-work.mp3",
-              "audioAnswer": "/audio/grammatik/ja-nein-fragen/yes-they-do--a.mp3"
-            }
+            { "prompt": "¿Tienes coche?", "answer": "No, no tengo coche." },
+            { "prompt": "¿Vives en Madrid?", "answer": "No, no vivo en Madrid." },
+            { "prompt": "¿Eres médico?", "answer": "No, no soy médico." },
+            { "prompt": "¿Trabajas hoy?", "answer": "No, no trabajo hoy." }
           ]
         }
       ]
@@ -299,229 +123,54 @@
   "exercises": [
     {
       "type": "fill",
-      "title": "Short answers: finish them.",
-      "hint": "Use the same helper verb as in the question: Do → do, Is → is, Can → can. For No, add n't: don't, isn't.",
-      "hintHtml": "<span class=\"vp-hint-row\"><b class=\"vp-brief-form\">Same verb</b><span>Repeat the helper from the question: Do → do, Is → is, Can → can.</span></span><span class=\"vp-hint-row\"><b class=\"vp-brief-form\">Yes</b><span>Yes, I do. Yes, she is.</span></span><span class=\"vp-hint-row\"><b class=\"vp-brief-form\">No</b><span>Add n't: No, I don't. No, she isn't.</span></span>",
-      "instant": true,
-      "placeholder": "short answer",
+      "title": "Answer the question.",
+      "hint": "Does the answer agree with the question? Then sí. If not, no, no.",
+      "placeholder": "Answer",
       "items": [
-        {
-          "prompt": "Do you like tea? — Yes, I ___.",
-          "answer": [
-            "do"
-          ],
-          "why": "The question starts with Do, so the answer uses do."
-        },
-        {
-          "prompt": "Does Mei live in York? — No, she ___.",
-          "answer": [
-            "doesn't"
-          ],
-          "why": "Does → doesn't. No = add n't."
-        },
-        {
-          "prompt": "Is Tom a doctor? — Yes, he ___.",
-          "answer": [
-            "is"
-          ],
-          "why": "The question starts with Is, so the answer uses is."
-        },
-        {
-          "prompt": "Are they at home? — No, they ___.",
-          "answer": [
-            "aren't"
-          ],
-          "why": "Are → aren't."
-        },
-        {
-          "prompt": "Can Ana swim? — Yes, she ___.",
-          "answer": [
-            "can"
-          ],
-          "why": "Can → can."
-        },
-        {
-          "prompt": "Do Sam and Ben play football? — No, they ___.",
-          "answer": [
-            "don't"
-          ],
-          "why": "Do → don't, because Sam and Ben = they."
-        },
-        {
-          "prompt": "Is it cold today? — No, it ___.",
-          "answer": [
-            "isn't"
-          ],
-          "why": "Is → isn't."
-        },
-        {
-          "prompt": "Does Kwame have a car? — Yes, he ___.",
-          "answer": [
-            "does"
-          ],
-          "why": "Does → does. Don't repeat the main verb: not Yes, he has."
-        }
+        { "prompt": "¿Tienes hijos? – ___, tengo dos.", "answer": "Sí", "choices": ["Sí", "No"] },
+        { "prompt": "¿Hablas alemán? – ___, no hablo alemán.", "answer": "No", "choices": ["Sí", "No"] },
+        { "prompt": "¿Es usted la señora Ruiz? – Sí, ___ yo.", "answer": "soy", "choices": ["soy", "es"] },
+        { "prompt": "¿Trabajas los sábados? – No, ___ trabajo los sábados.", "answer": "no", "choices": ["no", "sí"] },
+        { "prompt": "¿Vivís aquí? – Sí, ___ aquí.", "answer": "vivimos", "choices": ["vivís", "vivimos"], "es419": { "note": "In Latin America the question is: ¿Viven aquí?" } },
+        { "prompt": "¿Tiene cita? – Sí, ___ cita a las diez.", "answer": "tengo", "choices": ["tengo", "tiene"] }
       ]
     },
     {
       "type": "build",
-      "title": "Turn the statement into a question.",
+      "title": "Build the questions and answers.",
+      "hint": "no goes right before the verb. Questions keep the order of the statement.",
       "sentences": [
-        {
-          "id": "jn1",
-          "hint": "\"She works in a bank.\" → question",
-          "correct": [
-            "Does",
-            "she",
-            "work",
-            "in",
-            "a",
-            "bank",
-            "?"
-          ],
-          "shuffled": [
-            "a",
-            "work",
-            "?",
-            "Does",
-            "bank",
-            "she",
-            "in"
-          ]
-        },
-        {
-          "id": "jn2",
-          "hint": "\"They live in Cardiff.\" → question",
-          "correct": [
-            "Do",
-            "they",
-            "live",
-            "in",
-            "Cardiff",
-            "?"
-          ],
-          "shuffled": [
-            "in",
-            "Cardiff",
-            "?",
-            "they",
-            "Do",
-            "live"
-          ]
-        },
-        {
-          "id": "jn3",
-          "hint": "\"Your brother is a teacher.\" → question",
-          "correct": [
-            "Is",
-            "your",
-            "brother",
-            "a",
-            "teacher",
-            "?"
-          ],
-          "shuffled": [
-            "teacher",
-            "Is",
-            "a",
-            "?",
-            "brother",
-            "your"
-          ]
-        },
-        {
-          "id": "jn4",
-          "hint": "Ask politely for help: can + you.",
-          "correct": [
-            "Can",
-            "you",
-            "help",
-            "me",
-            "please",
-            "?"
-          ],
-          "shuffled": [
-            "me",
-            "Can",
-            "help",
-            "please",
-            "?",
-            "you"
-          ],
-          "alt": [
-            [
-              "Can",
-              "you",
-              "please",
-              "help",
-              "me",
-              "?"
-            ]
-          ]
-        }
+        { "id": "yn1", "hint": "Ask: do you have time?", "correct": ["¿Tienes", "tiempo", "?"], "shuffled": ["tiempo", "?", "¿Tienes"] },
+        { "id": "yn2", "hint": "I don't work on Mondays", "correct": ["No", "trabajo", "los", "lunes", "."], "shuffled": ["lunes", "trabajo", ".", "los", "No"] },
+        { "id": "yn3", "hint": "Answer no: I don't have a car", "correct": ["No", ",", "no", "tengo", "coche", "."], "shuffled": ["coche", "no", ".", "No", "tengo", ","], "es419": { "note": "In much of Latin America: carro or auto.", "form": "No, no tengo carro." } },
+        { "id": "yn4", "hint": "You live here, right?", "correct": ["Vives", "aquí", ",", "¿verdad", "?"], "shuffled": ["¿verdad", "aquí", "?", "Vives", ","] }
       ]
     },
     {
       "type": "match",
-      "title": "Which question fits which answer?",
-      "hint": "The answer shows the helper verb of the question.",
+      "title": "Question and answer.",
+      "hint": "Which answer fits the question?",
       "pairs": [
-        {
-          "q": "Do you speak French?",
-          "a": "No, I don't. I speak Spanish."
-        },
-        {
-          "q": "Are you from London?",
-          "a": "No, I'm not. I'm from Leeds."
-        },
-        {
-          "q": "Is he a teacher?",
-          "a": "Yes, he is. He works at a school."
-        },
-        {
-          "q": "Do they live here?",
-          "a": "Yes, they do. They live next door."
-        },
-        {
-          "q": "Does she have any children?",
-          "a": "No, she doesn't. She has a cat."
-        }
+        { "q": "¿Tienes tiempo?", "a": "No, hoy no tengo tiempo." },
+        { "q": "¿Es usted el médico?", "a": "Sí, soy yo." },
+        { "q": "¿Hay leche?", "a": "No, no hay." },
+        { "q": "¿Vas al trabajo?", "a": "Sí, voy ahora." },
+        { "q": "¿Hablas árabe?", "a": "Sí, y también francés." }
       ]
     },
     {
       "type": "table",
-      "title": "Which word starts the question?",
-      "hint": "Do, Does, Is or Are? Look at the verb and the subject.",
-      "columns": [
-        "Statement",
-        "First word of the question"
-      ],
-      "placeholder": "Do / Does / Is / Are",
+      "title": "Which one is right?",
+      "hint": "Check the marks ¿…? and the position of no.",
+      "columns": ["Meaning", "Spanish"],
+      "placeholder": "Spanish",
       "rows": [
-        {
-          "term": "You like pizza.",
-          "answer": "Do"
-        },
-        {
-          "term": "She likes pizza.",
-          "answer": "Does"
-        },
-        {
-          "term": "He is tired.",
-          "answer": "Is"
-        },
-        {
-          "term": "They are late.",
-          "answer": "Are"
-        },
-        {
-          "term": "We have time.",
-          "answer": "Do"
-        },
-        {
-          "term": "It rains a lot.",
-          "answer": "Does"
-        }
+        { "term": "I don't speak English.", "answer": "No hablo inglés.", "choices": ["No hablo inglés.", "Hablo no inglés."] },
+        { "term": "Do you live here?", "answer": "¿Vives aquí?", "choices": ["¿Vives aquí?", "¿Haces vivir aquí?"] },
+        { "term": "She isn't at home.", "answer": "No está en casa.", "choices": ["Está no en casa.", "No está en casa."] },
+        { "term": "Yes, I have two.", "answer": "Sí, tengo dos.", "choices": ["Si, tengo dos.", "Sí, tengo dos."] },
+        { "term": "We don't eat meat.", "answer": "No comemos carne.", "choices": ["No comemos carne.", "Comemos no carne."] },
+        { "term": "No, I don't know.", "answer": "No, no sé.", "choices": ["No sé no.", "No, no sé."] }
       ]
     }
   ]
