@@ -1142,3 +1142,19 @@ are handled by the `ui-*` items where they are rendered.
   buttons use `topicPath()`; the *reflexive verbs* link still points at `/grammar/phrasal-verbs-list`. **For `ui-lang-*`:** new keys are
   `verben.when.*`, `verben.mood.*`, `verben.allTenses`, `verben.ger`, `verben.p2`, `verben.group.stem-change.*`. The tandem sheet's phrases
   (`arbeitsblatt/verbtabellen.json`) are Spanish on purpose.
+- **Conjugation trainer decisions** (`conjugation-trainer`, 2026-11-04): page `/grammar/conjugation`, topic key `conjugation`, history
+  `da-conj-verlauf-v1`. **Additions to §4.2:** `conjugation-trainer.json` is `{ variety, es419, drills: { tenses, groups, notDrilled, limits, presets },
+  topicLinks, sets }`; a set also has `lead`, `rule: { text, table? }` and optional `more`. Besides the planned sets there are three typed `form` sets for
+  irregulars (`irregular-yo-a1`, `indefinido-irregular-a2`, `futuro-condicional-b1`) and `imperativo-b1`. The plan's five verb groups became seven drill
+  groups (regular split into *-ar, -er, -ir*; `stem`, `yo`, `irregular`, `reflexive`), an explicit list per verb, not the `group` of `verbtabellen.json`, which
+  mixes them. *enviar, construir, reír* count as stem-changing (the stem changes under stress); *escribir, abrir, romper* as regular with an irregular
+  participle. **Left out of drills:** *gustar* whole (*yo gusto* teaches the wrong habit); `limits` drops correct forms nobody needs (imperative of *poder, querer,
+  deber, saber, morir, caber, valer, oler, llamarse*; *haber* and *soler* to their real tenses). New file `src/lib/conjugationTyped.js`: `mountPracticeWorkspace`
+  has no typed answers, so a small typed card sits beside it with the same classes and hooks; the shared engine stays unchanged. Drills start typed on a wide screen and on
+  pills at ≤720 px; the learner's choice is remembered. A typed *-se* form counts as right; a reflexive form without its pronoun gets its own hint. Deep links:
+  `?drill=<preset>`, `?set=<id>`, `?niveau=<level>`. `pnpm check:conjugation` (in `check:content`) checks the sets and generates **every** drilled question.
+  `conjugation-trainer` is strict in `check-variety.mjs`. **For `routes`:** `src/pages/[id].astro` links 18 verb topics through `topicLinks` (keyed by topic id, so slugs may
+  move); `grammar/verbs#gruppe-unregelmaessig` in a set's `more` follows the verb page's anchor; `/prepositions` links `?set=por-para-b1`, the set links back
+  `/prepositions?niveau=B1`. **For `ui-lang-*`:** new keys are `conj.*`, `tool.konjugation.title`, `intro.conj*`, `grammatik.cj.*`; rule texts stay English like the
+  rule boxes on the verb tables (`lang="en"`), and the hand-written `explain` lines aren't translated, as in `/prepositions`. **For `vocab-*`:** the drill's gloss is `en` from
+  `verbtabellen.json`, not the lexicon. **For a LatAm mode:** `showsVosotros()` already drops the switch and the forms; `skip` items are filtered in `setQuestions`.
