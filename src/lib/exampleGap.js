@@ -10,8 +10,14 @@
 // letters („Gruß“ → „Grüßen“, „arm“ → „ärmer“). A separable verb's prefix („zieht an“) is
 // not blanked: it would blank every „an“; its stem is found without it („sehe … fern“).
 
-const clean = (x) => String(x).toLowerCase().replace(/[^a-zäöüß]/g, "")
+const ACCENTS = { á: "a", é: "e", í: "i", ó: "o", ú: "u" };
+const clean = (x) => String(x).toLowerCase().replace(/[^a-záéíóúñäöüß]/g, "")
+  .replace(/[áéíóú]/g, (c) => ACCENTS[c])
   .replace(/ä/g, "a").replace(/ö/g, "o").replace(/ü/g, "u").replace(/ß/g, "ss");
+
+// Spanish: the object pronoun in a form (me llamo, se llamó) is not the word.
+const PRONOUN = new Set(["me", "te", "se", "nos", "os"]);
+const SPANISH_VERB = /(ar|er|ir)(se)?$/;
 
 // The few words whose forms share nothing with the lemma.
 const IRREGULAR = {
@@ -19,6 +25,9 @@ const IRREGULAR = {
   haben: ["habe", "hast", "hat", "habt", "hatte", "hattest", "hatten", "hattet", "gehabt", "hab"],
   werden: ["werde", "wirst", "wird", "werdet", "wurde", "wurdest", "wurden", "geworden"],
   zu: ["zum", "zur"],
+  ser: ["soy", "eres", "es", "somos", "sois", "son", "era", "eras", "eramos", "eran", "fui", "fue", "fuimos", "fueron"],
+  estar: ["estoy", "estas", "esta", "estamos", "estais", "estan"],
+  ir: ["voy", "vas", "va", "vamos", "vais", "van", "fui", "fue", "fuimos", "fueron"],
 };
 
 const STEM_ENDINGS = /(est|et|st|te|t|en|e|n)$/;
@@ -33,7 +42,7 @@ function matcher(card) {
     .filter((w) => w.length >= 2 && w.length < lemma.length - 2 && lemma.startsWith(w)));
   const prefix = [...prefixes].sort((a, b) => b.length - a.length)[0] ?? "";
   const base = prefix ? lemma.slice(prefix.length) : lemma;
-  const forms = (card.forms ?? []).flatMap(words).filter((w) => !prefixes.has(w));
+  const forms = (card.forms ?? []).flatMap(words).filter((w) => !prefixes.has(w) && !PRONOUN.has(w));
   const nouns = card.pos === "noun" || /^\d|tausend|hundert/.test(lemma)
     ? [card.front, card.plural].filter(Boolean).map(clean).filter((w) => w.length >= 4)
     : [];
@@ -53,6 +62,12 @@ function matcher(card) {
     const m = w.match(/^(.*)e([lr])n$/);
     if (m) stems.add(m[1] + m[2]);
   }
+  // Spanish: hablar and hablo give habl-, so hablas and hablamos are found too; alto gives alt-.
+  if (card.pos === "verb" && SPANISH_VERB.test(lemma) && card.forms?.length) {
+    stems.add(lemma.replace(SPANISH_VERB, ""));
+    if (forms[0]) stems.add(forms[0].replace(/[aeo]$/, ""));
+  }
+  if (card.pos === "adj" && /[oe]$/.test(lemma)) stems.add(lemma.slice(0, -1));
   const room = (s) => (s.length >= 4 ? 3 : s.length === 3 ? 2 : s.length === 2 ? 1 : -1);
   return (tok) => {
     const c = clean(tok);

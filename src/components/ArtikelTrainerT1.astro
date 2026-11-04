@@ -60,7 +60,9 @@ function explainArtikelLeicht(word, gender) {
 // "haus" survives every future addition to the pool.
 // A1–B2: the lexicon carries gendered nouns at every one of them (386 / 478 / 762 /
 // 951), and the old two-level filter put three quarters of them out of reach.
-const lexNouns = nouns({ level: ["A1", "A2", "B1", "B2"], has: "gender" });
+// Until `games` makes this trainer el / la: only the levels still English, so no card asks for
+// "el" among a / an / some.
+const lexNouns = nouns({ level: ["A1", "A2", "B1", "B2"], has: "gender" }).filter((n) => !["el", "la", "el/la"].includes(n.gender));
 
 // "Nach Häufigkeit": the nouns that have a corpus count, most frequent first. `freqPos` is
 // the place in that order (1 = most frequent), which is what a round slices on.

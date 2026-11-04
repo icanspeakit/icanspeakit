@@ -1,17 +1,18 @@
-# Übersetzungen — ar / uk / ru / tr
+# Translations of the lexicon
 
-> **English levels (since 2026-10-30, `vocab-a1`).** A level whose nouns carry `a` / `an` /
-> `some` is English (`ENGLISH_LEVELS` in `src/lib/lexicon.js`; A1–C2 since `vocab-c1-c2` on 2026-11-02, i.e. every level that has words). For those words:
-> `de.json` holds a plain **German translation** (nouns with their article: „der Vorname“), not
-> a German explanation, and `check-erklaerungen.mjs` skips them. `de-fill.json` and
-> `de-syn.json` only served German words (gap answers of German hints, German synonyms); they
-> were removed by the `cleanup` run (2026-11-02), when no German level was left. The
-> other language files lost every entry keyed by an old German A1–B2 id and have none for the
-> English words yet (since `vocab-b2` they are empty `{}` files): only `en` is registered (`src/lib/languages.js`), and a deck shows a
-> language tab only when every card has it, so nothing is missing on screen. New glosses for a
-> language are written English → that language when the language is added.
+> **Spanish levels (since 2026-11-04, `vocab-a1`).** A level whose nouns carry `el` / `la` is
+> Spanish (`SPANISH_LEVELS` in `src/lib/lexicon.js`; A1 so far). For those words every sidecar is
+> **Spanish → that language**, written with the Spanish word in front of the writer, never from
+> the English gloss: `de.json` (nouns with their article, „das Haus“), `fr.json`, `pt.json`
+> (European Portuguese: *comboio, autocarro, telemóvel*, because the course's Portuguese readers
+> live in Europe) and `it.json`. Status: machine draft, no native speaker has reviewed them.
+> `scripts/lexicon-import.mjs` writes them. `de` is joined as `deHint` and shown as the German
+> tab; `fr`, `pt`, `it` appear once their `ui-lang-*` item registers the language for `cards`
+> with `fetch: true` (`src/lib/glossen.js` reads the file by name). A level still English keeps
+> its German glosses keyed by English ids, until its `vocab-*` item runs. `es.json` is empty and
+> `cleanup` deletes it; the other language files stay empty until someone can write them reliably.
 >
-> The rest of this file describes the German-course setup; since `vocab-b2` no level uses it any more.
+> The rest of this file describes the German-course setup; no level uses it any more.
 
 One file per language, `{ "<word id>": "<translation>" }`, keyed by the `id` of a word in
 `src/content/lexicon/<level>.json`. `en` is **not** here: it ships inline with the word,

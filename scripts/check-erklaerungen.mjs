@@ -18,13 +18,13 @@
 // as they are: for those only the solution is required. Deterministic, no network; exits 1 on
 // any finding.
 import fs from "node:fs";
-import { all, ENGLISH_LEVELS } from "../src/lib/lexicon.js";
+import { all, ENGLISH_LEVELS, SPANISH_LEVELS } from "../src/lib/lexicon.js";
 
 const argv = process.argv.slice(2);
 const opt = (name) => argv.flatMap((a, i) => (a === name ? [argv[i + 1]] : []));
 // Levels already migrated to English carry a plain German translation in de.json, not a German
 // explanation of a German word, so these rules do not apply to them.
-const LEVELS = (opt("--level").length ? opt("--level").map((l) => l.toUpperCase()) : ["A1", "A2", "B1", "B2"]).filter((l) => !ENGLISH_LEVELS.has(l));
+const LEVELS = (opt("--level").length ? opt("--level").map((l) => l.toUpperCase()) : ["A1", "A2", "B1", "B2"]).filter((l) => !ENGLISH_LEVELS.has(l) && !SPANISH_LEVELS.has(l));
 const FILE = opt("--file")[0] ?? null;
 const QUIET = argv.includes("--quiet");
 

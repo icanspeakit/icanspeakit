@@ -16,6 +16,7 @@ import SiteNav from "./SiteNav.astro";
 import "../styles/arbeitsblatt.css";
 import "../styles/drucken.css";
 import { LANG_NAMES } from "../lib/arbeitsblatt/wortschatz.js";
+import { pluralArticle } from "../lib/lexicon.js";
 import { solvedHint } from "../lib/audioSlug.js";
 import { isRtl } from "../lib/languages.js";
 import { mascotSvg } from "../lib/mascots.js";
@@ -120,7 +121,7 @@ const artInstr = spanishArticles ? "Write el or la." : "Write a, an or some.";
         {words.map((e: any) => (
           <tr>
             <td class="pr-word">
-              {e.pos === "noun" && (e.gender || e.pluralOnly) && <b class={`pr-art pr-art--${e.pluralOnly ? "pl" : e.gender}`}>{e.gender ?? "some"} </b>}
+              {e.pos === "noun" && (e.gender || e.pluralOnly) && <b class={`pr-art pr-art--${e.pluralOnly ? "pl" : e.gender}`}>{e.pluralOnly && ["el", "la"].includes(e.gender) ? pluralArticle(e) : e.gender ?? "some"} </b>}
               <b>{e.lemma}</b>
               {e.genderAlt && <span class="pr-muted"> (also: {e.genderAlt})</span>}
               {e.pos === "noun" && e.plural && !e.pluralOnly && <span class="pr-pl">pl. {e.plural}</span>}

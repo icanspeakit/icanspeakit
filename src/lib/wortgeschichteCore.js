@@ -17,7 +17,7 @@
 //             emit entries whose day has come; a daily deploy hook publishes the next one.
 // In `astro dev`, or with WORTGESCHICHTE_VORSCHAU=1 at build time, both gates are lifted
 // so entries can be reviewed on their real page (noindex, with a draft banner).
-import { all as lexicon, spokenForm, TRANSLATION_LANGS, ENGLISH_LEVELS } from "./lexicon.js";
+import { all as lexicon, spokenForm, pluralArticle, TRANSLATION_LANGS, ENGLISH_LEVELS, SPANISH_LEVELS } from "./lexicon.js";
 import { slugify } from "./audioSlug.js";
 import synonyme from "../data/synonyme.json" with { type: "json" };
 
@@ -94,7 +94,15 @@ export function formsOf(entry) {
     if (!row) continue;
     const parts = [];
     const english = ENGLISH_LEVELS.has(row.level);
-    if (row.pos === "noun" && english) {
+    const spanish = SPANISH_LEVELS.has(row.level);
+    if (row.pos === "noun" && spanish) {
+      // la casa · las casas / las gafas (content-plan §1.4: gender = el/la, plural without article)
+      parts.push(spokenForm(row));
+      if (row.plural && !row.pluralOnly) parts.push(`${pluralArticle(row)} ${row.plural}`);
+    } else if (row.pos === "verb" && spanish && Array.isArray(row.forms) && row.forms.length === 3) {
+      // infinitive · yo present · él indefinido · participle
+      parts.push(row.lemma, ...row.forms);
+    } else if (row.pos === "noun" && english) {
       // a house · houses / some bread · no plural (content-plan §1.4: gender = a/an/some)
       parts.push(row.gender ? `${row.gender} ${row.lemma}` : row.lemma);
       if (row.plural && row.plural !== row.lemma) parts.push(row.plural);
@@ -120,11 +128,11 @@ export function formsOf(entry) {
   return lines;
 }
 
-/** The language an entry is written in: "en" for the English stories (lemma in an English
- *  lexicon level), "de" for the German ones still waiting for `cleanup`. */
+/** The language an entry is written in: "es" for a lemma in a Spanish lexicon level, else "en":
+ *  an English story still waiting for `word-stories`, whose lemma may have left the lexicon. */
 export function entryLang(entry) {
   const row = lexiconRow(entry);
-  return row && ENGLISH_LEVELS.has(row.level) ? "en" : "de";
+  return row && SPANISH_LEVELS.has(row.level) ? "es" : "en";
 }
 
 /** A meaning in single quotes as the entry's language writes them: ‘…’ / ‚…‘. */
@@ -143,7 +151,7 @@ export function glossesOf(entry) {
   return Object.fromEntries(TRANSLATION_LANGS.filter((l) => row[l]).map((l) => [l, row[l]]));
 }
 
-const bare = (w) => String(w).replace(/^(der|die|das|a|an|some)\s+/i, "");
+const bare = (w) => String(w).replace(/^(der|die|das|a|an|some|el|la|los|las)\s+/i, "");
 
 /**
  * Synonyms: the entry's own list first (it may carry a note: „umgangssprachlich"), then
@@ -243,7 +251,8 @@ export function validate(items) {
     const warn = (msg) => warnings.push(`${file}: ${msg}`);
     if (!e || typeof e !== "object") { at("not a JSON object"); continue; }
     if (!e.lemma) at("no lemma");
-    else if (!lexiconRow(e)) at(`lemma „${e.lemma}" is not in the lexicon`);
+    // A warning until `word-stories` replaces the English stories: each vocab-* item takes lemmas away.
+    else if (!lexiconRow(e)) warn(`lemma „${e.lemma}" is not in the lexicon`);
     if (!Array.isArray(e.sources) || e.sources.length === 0) at("no sources — every entry needs at least one");
     else for (const s of e.sources) if (!s?.work || !s?.entry) at("a source needs `work` and `entry`");
     if (!e.checkedBy) at("no checkedBy");
@@ -265,8 +274,8 @@ export function validate(items) {
     const n = wordCount(e.history);
     if (!e.history) at("no history");
     else if (n < 80 || n > 140) at(`history has ${n} words — the rule is 80–140`);
-    for (const lemma of e.relatives?.family ?? []) if (!rowByLemma(lemma)) at(`family word „${lemma}" is not in the lexicon`);
-    for (const lemma of e.formsAlso ?? []) if (!rowByLemma(lemma)) at(`formsAlso „${lemma}" is not in the lexicon`);
+    for (const lemma of e.relatives?.family ?? []) if (!rowByLemma(lemma)) warn(`family word „${lemma}" is not in the lexicon`);
+    for (const lemma of e.formsAlso ?? []) if (!rowByLemma(lemma)) warn(`formsAlso „${lemma}" is not in the lexicon`);
     for (const c of e.relatives?.cognates ?? []) {
       if (!c.lang || !c.form) at("a cognate needs lang and form");
       if (c.kind && !KINDS.includes(c.kind)) at(`cognate ${c.form}: kind must be one of ${KINDS.join(", ")}`);

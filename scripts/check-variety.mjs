@@ -28,7 +28,9 @@ const STRICT = new Set([
   "praepositionen",
   "verbtabellen",
   "conjugation-trainer",
-  // "lexicon", "berufe", "wortschatz", "redemittel",
+  "lexicon-a1",
+  "wortschatz",
+  // "lexicon", "berufe", "redemittel",
   // "hoeren", "aussprache-check",
   // "zungenbrecher", "satzmelodie", "ausspracheregeln", "dgt", "business-spanish",
 ]);
@@ -44,7 +46,10 @@ const one = (file) => (existsSync(path.join(ROOT, file)) ? [file] : []);
 // them (a grammar topic's exercises, a pack's questions) inherit; read them with varietyOf().
 const deckWords = (d) => arr(d.groups).flatMap((g) => arr(g.words).filter((w) => !w.ref).map((item) => ({ item })));
 const MODULES = [
-  { id: "lexicon", files: jsonFiles("src/content/lexicon"),
+  // One level at a time: each vocab-* item moves its file from "lexicon" to this strict list.
+  { id: "lexicon-a1", files: one("src/content/lexicon/a1.json"),
+    items: (d) => arr(d.units).flatMap((u) => arr(u.words).map((item) => ({ item }))) },
+  { id: "lexicon", files: jsonFiles("src/content/lexicon").filter((f) => !f.endsWith("/a1.json")),
     items: (d) => arr(d.units).flatMap((u) => arr(u.words).map((item) => ({ item }))) },
   { id: "berufe", files: jsonFiles("src/data/berufe"), items: deckWords },
   { id: "dgt", files: jsonFiles("src/data/dgt"), items: deckWords },

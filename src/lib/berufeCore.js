@@ -127,7 +127,9 @@ export function validate(files, known) {
         if (!w.ref) continue;
         const kind = refKind(w.ref);
         const ok = kind === "berufe" ? berufeIds.has(w.ref) : known.lexicon.has(w.ref);
-        if (!ok) errors.push(`${file}: ${g.id}: ref „${w.ref}" does not resolve (${kind})`);
+        // A lexicon ref that is gone is a warning until `spanish-for-work` rewrites the decks: every
+        // vocab-* item removes English ids they point at, and liveDeck() drops those words.
+        if (!ok) (kind === "lexicon" ? warnings : errors).push(`${file}: ${g.id}: ref „${w.ref}" does not resolve (${kind})`);
       }
     }
   }

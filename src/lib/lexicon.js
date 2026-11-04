@@ -24,10 +24,9 @@ import ar from "../content/lexicon/i18n/ar.json" with { type: "json" };
 import ru from "../content/lexicon/i18n/ru.json" with { type: "json" };
 import uk from "../content/lexicon/i18n/uk.json" with { type: "json" };
 import tr from "../content/lexicon/i18n/tr.json" with { type: "json" };
-// German hints: a synonym, an opposite or a tiny explanation in simple German, for learning
-// a word without leaving German (the trainer's "Auf Deutsch" tab). Kept as `deHint` on the
-// word, not `de`, and outside TRANSLATION_LANGS: it is not a translation, and nothing that
-// reads translations should pick it up by accident. Why a sidecar: i18n/README.md.
+// German glosses: a plain German translation of the word (the trainer's German tab). Kept as
+// `deHint` on the word, not `de`, and outside TRANSLATION_LANGS, because `de` on a card is its
+// own tab. Why a sidecar: i18n/README.md.
 import deHint from "../content/lexicon/i18n/de.json" with { type: "json" };
 // de-fill.json (gap answers of German hints) and de-syn.json (German synonyms) were dropped
 // by the `cleanup` run: every level is English now, so neither had entries. A word can still
@@ -134,6 +133,11 @@ export const ENGLISH_LEVELS = new Set(
   LEVELS.filter((level) => ENTRIES.some((e) => e.level === level && ["a", "an", "some"].includes(e.gender)))
 );
 
+/** The levels already migrated to Spanish (docs/content-plan.md §1.4): their nouns carry el / la. */
+export const SPANISH_LEVELS = new Set(
+  LEVELS.filter((level) => ENTRIES.some((e) => e.level === level && ["el", "la", "el/la"].includes(e.gender)))
+);
+
 export const all = () => ENTRIES;
 export const nouns = (opts = {}) => select({ ...opts, pos: "noun" });
 export const verbs = (opts = {}) => select({ ...opts, pos: "verb" });
@@ -199,7 +203,15 @@ export const CARD_LANGS = [...TRANSLATION_LANGS, "de"];
 /** What the voice says for a word: nouns carry their article, everything else is bare.
  *  One place, because the generator and the page have to agree on the text or the slug
  *  the page asks for is not the slug the file was written under. */
-export const spokenForm = (e) => (e.pos === "noun" && e.gender ? `${e.gender} ${e.lemma}` : e.lemma);
+export const spokenForm = (e) => {
+  if (e.pos !== "noun" || !e.gender) return e.lemma;
+  if (e.pluralOnly && ["el", "la"].includes(e.gender)) return `${pluralArticle(e)} ${e.plural ?? e.lemma}`;
+  // el/la estudiante: the voice says one article, the masculine, as a dictionary lists it.
+  return `${e.gender === "el/la" ? "el" : e.gender} ${e.lemma}`;
+};
+
+/** los or las for a Spanish noun: from the article, except that el agua is feminine (las aguas). */
+export const pluralArticle = (e) => (e.genus === "f" || e.gender === "la" ? "las" : "los");
 
 /** Shape of src/data/wortschatz.json: `{ front, note, translations }`. */
 const toCard = (e) => {
@@ -240,7 +252,8 @@ const toCard = (e) => {
     // plural article, which is what a dictionary prints: "die Eltern".
     ...(e.pos === "noun"
       ? {
-          gender: e.gender ?? (e.pluralOnly ? "die" : null),
+          // los padres, las gafas: a plural-only noun shows its plural article, not el / la.
+          gender: e.pluralOnly && ["el", "la"].includes(e.gender) ? pluralArticle(e) : e.gender ?? (e.pluralOnly ? "die" : null),
           plural: e.plural ?? null,
           pluralOnly: !!e.pluralOnly,
         }

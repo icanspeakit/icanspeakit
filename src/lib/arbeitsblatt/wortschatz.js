@@ -4,7 +4,7 @@
 //
 // Three parts, each with its own answer key:
 //   A  Word and meaning — up to 10 words against their meanings, shuffled by a seed.
-//   B  a, an or some? — up to 10 nouns with the article left out.
+//   B  el or la? — up to 10 nouns with the article left out (a, an, some in a level still English).
 //   C  Gap sentences — the lexicon's example sentences with the word blanked (up to 6).
 //
 // Meanings: `en` is the word's simple English definition, `de` its German translation
@@ -26,7 +26,7 @@ const SENTENCE_MAX = 6;
  *  the gap is the word being matched, so it is the clue, not a giveaway. */
 export const deMeaningOf = (w) => w.deHint || w.syn?.[0] || null;
 
-const clean = (s) => String(s).toLowerCase().replace(/[^a-zäöüß]/g, "");
+const clean = (s) => String(s).toLowerCase().replace(/[^a-záéíóúüñäöß]/g, "");
 
 /** The token of the example sentence that is this word (or one of its forms), if any. */
 function findToken(word) {
@@ -40,7 +40,7 @@ function findToken(word) {
   const i = tokens.findIndex((t) => targets.has(clean(t)));
   if (i < 0) return null;
   // Keep punctuation outside the gap: "Tisch." → gap "Tisch" + ".".
-  const m = tokens[i].match(/^([„"(]*)(.*?)([.,!?;:“")]*)$/);
+  const m = tokens[i].match(/^([¿¡«„"(]*)(.*?)([.,!?;:»“")]*)$/);
   return { before: tokens.slice(0, i).join("") + m[1], answer: m[2], after: m[3] + tokens.slice(i + 1).join("") };
 }
 
@@ -67,10 +67,11 @@ export function wortschatzSheet(unitId, { words = select({ unit: unitId }), lang
     answers: picked.map((_, i) => LETTERS[order.indexOf(i)]),
   };
 
-  // B — nouns with a known article: a, an, or some for uncountables (lexicon `gender`,
-  // content-plan §1.4). Plural-only nouns (some trousers) stay out: no a/an choice to make.
+  // B — nouns with a known article: el or la (lexicon `gender`, content-plan §1.4), or a, an,
+  // some in a level still English. el/la estudiante and plural-only nouns (las gafas) stay out:
+  // there is no choice to make.
   const nouns = words
-    .filter((w) => w.pos === "noun" && ["a", "an", "some"].includes(w.gender) && !w.pluralOnly)
+    .filter((w) => w.pos === "noun" && ["el", "la", "a", "an", "some"].includes(w.gender) && !w.pluralOnly)
     .slice(0, NOUN_MAX)
     .map((w) => ({ lemma: w.lemma, gender: w.gender, plural: w.plural ?? null }));
 

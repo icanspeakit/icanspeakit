@@ -443,7 +443,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
     if (!card.gender) return word;
     const art = `<span class="vt-art vt-art--${escapeHtml(artClass(card))}">${escapeHtml(card.gender)}</span> `;
     const pl = plural && card.plural && !card.pluralOnly
-      ? `<span class="vt-plural"><span class="vt-art vt-art--plural">die</span> ${escapeHtml(card.plural)}</span>`
+      ? `<span class="vt-plural"><span class="vt-art vt-art--plural">${card.gender === "la" ? "las" : card.gender === "el" || card.gender === "el/la" ? "los" : "die"}</span> ${escapeHtml(card.plural)}</span>`
       : "";
     // Both articles in use („das Pfand“, colloquially „der Pfand“): the second one small.
     const alt = card.genderAlt
