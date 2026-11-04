@@ -1,207 +1,82 @@
 {
   "id": "positionsadverbien",
-  "name": "Adverbs of frequency",
+  "name": "How often: siempre, a menudo, a veces; soler + infinitive",
   "level": "A2",
   "status": "geprueft",
-  "subtitle": "Words like always and never say how often something happens: I always walk to work. She is never late. Put them before the main verb, but after be. Ask How often …? to find out more.",
-  "briefMarks": [
-    "always",
-    "never",
-    "before the main verb",
-    "after be"
-  ],
-  "source": "icanspeak Spanish original English text (grammar-a2 run, 2026-10-29)",
+  "variety": "es-ES",
+  "es419": { "note": "These words are used across Latin America too, without soléis: ustedes suelen." },
+  "subtitle": "Say how often with siempre, a menudo, a veces, casi nunca and nunca. Use soler + infinitive for what you usually do: Suelo comer a las dos. Solemos ir andando.",
+  "briefMarks": ["siempre", "a menudo", "a veces", "casi nunca", "nunca", "soler"],
+  "source": "icanspeak Spanish original text (grammar-a2 run, 2026-11-04)",
   "concept": {
-    "comic": {
-      "title": "{How often}?",
-      "panels": [
-        {
-          "caption": "How often?",
-          "tag": "{How often} …?",
-          "left": {
-            "name": "quaki",
-            "expr": "thinking",
-            "say": "{How often} do you go to the gym?"
-          },
-          "right": {
-            "name": "bruno",
-            "expr": "happy",
-            "say": "I {usually} go on Mondays."
-          }
-        },
-        {
-          "caption": "After be",
-          "tag": "be + {often} / {never}",
-          "left": {
-            "name": "regi",
-            "expr": "thinking",
-            "say": "You're {often} late, Hamsti."
-          },
-          "right": {
-            "name": "hamsti",
-            "expr": "oops",
-            "say": "No! I'm {never} late!"
-          }
-        },
-        {
-          "caption": "Before the verb",
-          "tag": "{always} · {rarely} · {twice a week}",
-          "left": {
-            "name": "hamsti",
-            "expr": "happy",
-            "say": "I {always} eat breakfast at seven."
-          },
-          "right": {
-            "name": "bruno",
-            "expr": "celebrate",
-            "say": "I {rarely} eat breakfast. Only {twice a week}!"
-          }
-        }
-      ]
-    },
     "flow": [
-      {
-        "text": "subject"
-      },
-      {
-        "text": "always / never …",
-        "variant": "verb"
-      },
-      {
-        "text": "main verb",
-        "variant": "prep"
-      }
+      { "text": "siempre · a menudo · a veces · casi nunca · nunca", "variant": "prep" },
+      { "text": "verb", "variant": "verb" },
+      { "text": "the rest" }
     ],
+    "exampleHtml": "<span class=\"vp-prep\">Siempre</span> <span class=\"vp-verb\">desayuno</span> en casa. · <span class=\"vp-prep\">A veces</span> <span class=\"vp-verb\">trabajo</span> los sábados. · <span class=\"vp-prep\">Nunca</span> <span class=\"vp-verb\">bebo</span> café. · <span class=\"vp-prep\">Suelo</span> <span class=\"vp-verb\">comer</span> a las dos.",
     "qa": [
       {
-        "html": "Adverbs of frequency answer the question <strong>How often?</strong> From 100 % to 0 %: <em>always, usually, often, sometimes, rarely / hardly ever, never</em>. <em>I <strong>always</strong> have tea. She <strong>rarely</strong> cooks. They <strong>never</strong> eat meat.</em>",
-        "tag": "How often?"
+        "html": "From most to least: <strong>siempre</strong> (always), <strong>casi siempre</strong>, <strong>normalmente</strong>, <strong>a menudo</strong> (often), <strong>a veces</strong> (sometimes), <strong>casi nunca</strong> (hardly ever), <strong>nunca</strong> (never).",
+        "tag": "The scale"
       },
       {
-        "html": "With most verbs, the adverb goes <strong>before the main verb</strong>: <em>I <strong>always</strong> walk to school. She <strong>usually</strong> reads on the bus. We <strong>often</strong> eat out.</em>",
-        "tag": "Before the main verb"
+        "html": "Their <strong>position is flexible</strong>: usually first or right after the verb. <em>A veces trabajo los sábados. Trabajo a veces los sábados.</em>",
+        "tag": "Position"
       },
       {
-        "html": "With the verb <strong>be</strong>, the adverb goes <strong>after be</strong>: <em>He is <strong>always</strong> happy. They are <strong>never</strong> late. I'm <strong>usually</strong> at home on Sundays.</em>",
-        "tag": "After be"
+        "html": "<strong>nunca</strong> and <strong>casi nunca</strong> before the verb take no <em>no</em>: <em>Nunca voy.</em> After the verb they need <em>no</em>: <em>No voy nunca.</em>",
+        "tag": "nunca"
       },
       {
-        "html": "With <strong>can</strong>, the adverb goes after <em>can</em>: <em>I can <strong>never</strong> find my keys.</em> With <strong>don't</strong>, use <em>often</em>, <em>usually</em> or <em>always</em> after <em>don't</em>: <em>I don't <strong>often</strong> go out.</em> <em>Never</em>, <em>rarely</em> and <em>hardly ever</em> are already negative, so do not add <em>don't</em>: <em>I <strong>never</strong> go out.</em>",
-        "tag": "can and don't"
+        "html": "<strong>soler</strong> + infinitive (o → ue): to usually do. <em>Suelo levantarme a las siete. ¿Sueles cocinar? Los domingos solemos comer en casa.</em> Very common in everyday speech.",
+        "tag": "soler"
       },
       {
-        "html": "<strong>Sometimes</strong> can go in three places: <em>I sometimes take the bus. Sometimes I take the bus. I take the bus sometimes.</em> <em>Usually</em> and <em>often</em> can also start a sentence: <em>Usually I walk.</em> <em>Always</em> and <em>never</em> stay in the middle.",
-        "tag": "Sometimes can move"
-      },
-      {
-        "html": "Ask with <strong>How often …?</strong> Answer with a time expression at the <strong>end</strong>: <em>How often do you go swimming? – I go swimming <strong>twice a week</strong>.</em> More examples: <em>every day, once a month, three times a year</em>.",
-        "tag": "How often? / every day"
-      },
-      {
-        "html": "✗ <em>I go always to school.</em> → ✓ <em>I always go to school.</em> · ✗ <em>She always is happy.</em> → ✓ <em>She is always happy.</em> · ✗ <em>I don't never eat meat.</em> → ✓ <em>I never eat meat.</em> · ✗ <em>I twice a week go swimming.</em> → ✓ <em>I go swimming twice a week.</em>",
-        "tag": "Typical mistakes"
+        "html": "Exact amounts: <em>todos los días, todas las semanas, cada dos días, una vez a la semana, dos veces al mes</em>. <em>Voy al médico una vez al año.</em>",
+        "tag": "Exact amounts"
       }
     ],
-    "noteHtml": "Adverbs of frequency are very common with the <a href=\"/present-simple\">present simple</a>: <em>I always have a shower in the morning.</em> For questions with <em>How often</em> and other question words, see <a href=\"/wh-questions\">Question words</a>.",
+    "noteHtml": "Common mistakes: ✗ <em>Suelo a comer</em> → ✓ <em>Suelo comer</em>. ✗ <em>Solo como a las dos</em> for “I usually eat at two” → ✓ <em>Suelo comer a las dos</em> (<em>solo</em> means “only”). ✗ <em>Nunca no voy</em> → ✓ <em>Nunca voy</em>. ✗ <em>una vez en la semana</em> → ✓ <em>una vez a la semana</em>.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
       "tables": [
         {
-          "caption": "How often?",
-          "head": [
-            "Adverb",
-            "How often?",
-            "Example"
-          ],
+          "caption": "soler + infinitive",
+          "head": ["Who", "soler", "Example"],
           "rows": [
-            [
-              "{always}",
-              "100 %",
-              "I always have breakfast."
-            ],
-            [
-              "{usually}",
-              "about 90 %",
-              "I usually walk to work."
-            ],
-            [
-              "{often}",
-              "about 70 %",
-              "We often eat out."
-            ],
-            [
-              "{sometimes}",
-              "about 40 %",
-              "She sometimes plays tennis."
-            ],
-            [
-              "{rarely} / {hardly ever}",
-              "about 10 %",
-              "He rarely cooks."
-            ],
-            [
-              "{never}",
-              "0 %",
-              "They never eat meat."
-            ]
+            ["yo", "suelo", "Suelo comer a las dos."],
+            ["tú", "sueles", "¿Sueles cocinar?"],
+            ["él, ella, usted", "suele", "Ana suele llegar pronto."],
+            ["nosotros/as", "solemos", "Solemos ir andando."],
+            ["vosotros/as", "soléis", "¿Soléis salir los sábados?"],
+            ["ellos, ellas, ustedes", "suelen", "Suelen cenar tarde."]
           ]
         },
         {
-          "caption": "Where does it go?",
-          "head": [
-            "Sentence",
-            "Position",
-            "Example"
-          ],
+          "caption": "How often",
+          "head": ["Spanish", "English"],
           "rows": [
-            [
-              "with be",
-              "after be",
-              "He is {always} happy."
-            ],
-            [
-              "with one main verb",
-              "before the verb",
-              "She {usually} walks."
-            ],
-            [
-              "with can",
-              "after can",
-              "I can {never} find my keys."
-            ],
-            [
-              "with don't",
-              "after don't",
-              "I don't {often} go out."
-            ],
-            [
-              "time expression",
-              "at the end",
-              "I swim {twice a week}."
-            ]
+            ["siempre", "always"],
+            ["normalmente", "usually"],
+            ["a menudo", "often"],
+            ["a veces", "sometimes"],
+            ["casi nunca", "hardly ever"],
+            ["nunca", "never"],
+            ["una vez a la semana", "once a week"],
+            ["dos veces al mes", "twice a month"]
           ]
         }
       ],
       "boxes": [
         {
-          "badge": "Sometimes can move",
-          "variant": "akk",
-          "items": [
-            "I sometimes take the bus.",
-            "Sometimes I take the bus.",
-            "I take the bus sometimes.",
-            "Usually and often can start a sentence, too."
-          ]
-        },
-        {
-          "badge": "How often …?",
+          "badge": "a or al?",
           "variant": "dat",
           "items": [
-            "How often do you go swimming?",
-            "Every day. · Twice a week.",
-            "Once a month. · Three times a year.",
-            "I go swimming twice a week."
+            "una vez a la semana",
+            "dos veces al mes",
+            "tres veces al día, una vez al año"
           ]
         }
       ]
@@ -209,184 +84,43 @@
   },
   "aktiv": {
     "listen": [
-      {
-        "text": "I always have breakfast at home.",
-        "note": "Before the main verb.",
-        "audio": "/audio/grammatik/positionsadverbien/i-always-have-breakfast-at-home.mp3"
-      },
-      {
-        "text": "She is never late.",
-        "note": "After be: is + never.",
-        "audio": "/audio/grammatik/positionsadverbien/she-is-never-late.mp3"
-      },
-      {
-        "text": "I can never find my keys.",
-        "note": "After can.",
-        "audio": "/audio/grammatik/positionsadverbien/i-can-never-find-my-keys.mp3"
-      },
-      {
-        "text": "I go swimming twice a week.",
-        "note": "A time expression like twice a week goes at the end.",
-        "audio": "/audio/grammatik/positionsadverbien/i-go-swimming-twice-a-week.mp3"
-      }
+      { "text": "Siempre desayuno en casa.", "note": "siempre: always." },
+      { "text": "A veces trabajo los sábados.", "note": "a veces: sometimes." },
+      { "text": "Casi nunca voy al cine.", "note": "No no before the verb." },
+      { "text": "Suelo comer a las dos.", "note": "soler: suelo + infinitive." },
+      { "text": "Voy al médico una vez al año.", "note": "una vez al año." }
     ],
     "hoeren": {
       "instruction": "Listen and choose the sentence you heard. You can listen twice.",
       "items": [
-        {
-          "text": "I usually walk to work.",
-          "choices": [
-            "I usually walk to work.",
-            "I always walk to work.",
-            "I rarely walk to work."
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/positionsadverbien/i-usually-walk-to-work.mp3"
-        },
-        {
-          "text": "He is never at home on Sundays.",
-          "choices": [
-            "He is always at home on Sundays.",
-            "He is never at home on Sundays.",
-            "He is sometimes at home on Sundays."
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/positionsadverbien/he-is-never-at-home-on-sundays.mp3"
-        },
-        {
-          "text": "We often eat out.",
-          "choices": [
-            "We never eat out.",
-            "We sometimes eat out.",
-            "We often eat out."
-          ],
-          "correct": 2,
-          "audio": "/audio/grammatik/positionsadverbien/we-often-eat-out.mp3"
-        },
-        {
-          "text": "She rarely drinks coffee.",
-          "choices": [
-            "She often drinks coffee.",
-            "She rarely drinks coffee.",
-            "She always drinks coffee."
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/positionsadverbien/she-rarely-drinks-coffee.mp3"
-        },
-        {
-          "text": "I go swimming twice a week.",
-          "choices": [
-            "I go swimming twice a week.",
-            "I go swimming every day.",
-            "I go swimming once a week."
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/positionsadverbien/i-go-swimming-twice-a-week.mp3"
-        },
-        {
-          "text": "They are sometimes late.",
-          "choices": [
-            "They are always late.",
-            "They are never late.",
-            "They are sometimes late."
-          ],
-          "correct": 2,
-          "audio": "/audio/grammatik/positionsadverbien/they-are-sometimes-late.mp3"
-        }
+        { "text": "A menudo llego tarde.", "choices": ["A menudo llego tarde.", "A veces llego tarde.", "Nunca llego tarde."], "correct": 0 },
+        { "text": "Casi nunca cocino.", "choices": ["Casi siempre cocino.", "Casi nunca cocino.", "Nunca cocino."], "correct": 1 },
+        { "text": "¿Sueles trabajar los domingos?", "choices": ["¿Suele trabajar los domingos?", "¿Soléis trabajar los domingos?", "¿Sueles trabajar los domingos?"], "correct": 2 },
+        { "text": "Solemos cenar a las nueve.", "choices": ["Solemos cenar a las nueve.", "Suelen cenar a las nueve.", "Suelo cenar a las nueve."], "correct": 0 }
       ]
     },
     "sprechen": {
       "rounds": [
         {
-          "label": "1 · Add the adverb",
-          "instruction": "You hear a sentence and an adverb. Say the sentence with the adverb in the right place.",
-          "example": {
-            "prompt": "I walk to school. (always)",
-            "answer": "I always walk to school."
-          },
+          "label": "1 · Usually",
+          "instruction": "You hear a habit. Say it with soler.",
+          "example": { "prompt": "Como a las dos.", "answer": "Suelo comer a las dos." },
           "items": [
-            {
-              "prompt": "She is happy. (always)",
-              "answer": "She is always happy.",
-              "audioPrompt": "/audio/grammatik/positionsadverbien/she-is-happy-always.mp3",
-              "audioAnswer": "/audio/grammatik/positionsadverbien/she-is-always-happy--a.mp3"
-            },
-            {
-              "prompt": "We eat out. (often)",
-              "answer": "We often eat out.",
-              "audioPrompt": "/audio/grammatik/positionsadverbien/we-eat-out-often.mp3",
-              "audioAnswer": "/audio/grammatik/positionsadverbien/we-often-eat-out--a.mp3"
-            },
-            {
-              "prompt": "He is late. (never)",
-              "answer": "He is never late.",
-              "audioPrompt": "/audio/grammatik/positionsadverbien/he-is-late-never.mp3",
-              "audioAnswer": "/audio/grammatik/positionsadverbien/he-is-never-late--a.mp3"
-            },
-            {
-              "prompt": "I drink tea in the evening. (sometimes)",
-              "answer": "I sometimes drink tea in the evening.",
-              "audioPrompt": "/audio/grammatik/positionsadverbien/i-drink-tea-in-the-evening-sometimes.mp3",
-              "audioAnswer": "/audio/grammatik/positionsadverbien/i-sometimes-drink-tea-in-the-evening--a.mp3"
-            },
-            {
-              "prompt": "They play tennis. (rarely)",
-              "answer": "They rarely play tennis.",
-              "audioPrompt": "/audio/grammatik/positionsadverbien/they-play-tennis-rarely.mp3",
-              "audioAnswer": "/audio/grammatik/positionsadverbien/they-rarely-play-tennis--a.mp3"
-            },
-            {
-              "prompt": "Mei can find her keys. (never)",
-              "answer": "Mei can never find her keys.",
-              "audioPrompt": "/audio/grammatik/positionsadverbien/mei-can-find-her-keys-never.mp3",
-              "audioAnswer": "/audio/grammatik/positionsadverbien/mei-can-never-find-her-keys--a.mp3"
-            }
+            { "prompt": "Me levanto a las siete.", "answer": "Suelo levantarme a las siete." },
+            { "prompt": "Trabajo los sábados.", "answer": "Suelo trabajar los sábados." },
+            { "prompt": "Voy en metro.", "answer": "Suelo ir en metro." },
+            { "prompt": "Ceno tarde.", "answer": "Suelo cenar tarde." }
           ]
         },
         {
-          "label": "2 · Answer with How often",
-          "instruction": "You hear a question and a time expression. Answer the question with it.",
-          "example": {
-            "prompt": "How often do you swim? (twice a week)",
-            "answer": "I swim twice a week."
-          },
+          "label": "2 · Never",
+          "instruction": "You hear a sentence with nunca at the end. Put nunca first.",
+          "example": { "prompt": "No voy nunca.", "answer": "Nunca voy." },
           "items": [
-            {
-              "prompt": "How often do you study English? (every day)",
-              "answer": "I study English every day.",
-              "audioPrompt": "/audio/grammatik/positionsadverbien/how-often-do-you-study-english-every-day.mp3",
-              "audioAnswer": "/audio/grammatik/positionsadverbien/i-study-english-every-day--a.mp3"
-            },
-            {
-              "prompt": "How often does Amira call her mother? (once a week)",
-              "answer": "She calls her mother once a week.",
-              "audioPrompt": "/audio/grammatik/positionsadverbien/how-often-does-amira-call-her-mother-once-a-week.mp3",
-              "audioAnswer": "/audio/grammatik/positionsadverbien/she-calls-her-mother-once-a-week--a.mp3"
-            },
-            {
-              "prompt": "How often do you go to the cinema? (once a month)",
-              "answer": "I go to the cinema once a month.",
-              "audioPrompt": "/audio/grammatik/positionsadverbien/how-often-do-you-go-to-the-cinema-once-a-month.mp3",
-              "audioAnswer": "/audio/grammatik/positionsadverbien/i-go-to-the-cinema-once-a-month--a.mp3"
-            },
-            {
-              "prompt": "How often does Tom play football? (three times a week)",
-              "answer": "He plays football three times a week.",
-              "audioPrompt": "/audio/grammatik/positionsadverbien/how-often-does-tom-play-football-three-times-a-week.mp3",
-              "audioAnswer": "/audio/grammatik/positionsadverbien/he-plays-football-three-times-a-week--a.mp3"
-            },
-            {
-              "prompt": "How often do you see your friends? (every weekend)",
-              "answer": "I see my friends every weekend.",
-              "audioPrompt": "/audio/grammatik/positionsadverbien/how-often-do-you-see-your-friends-every-weekend.mp3",
-              "audioAnswer": "/audio/grammatik/positionsadverbien/i-see-my-friends-every-weekend--a.mp3"
-            },
-            {
-              "prompt": "How often do the buses run? (every ten minutes)",
-              "answer": "The buses run every ten minutes.",
-              "audioPrompt": "/audio/grammatik/positionsadverbien/how-often-do-the-buses-run-every-ten-minutes.mp3",
-              "audioAnswer": "/audio/grammatik/positionsadverbien/the-buses-run-every-ten-minutes--a.mp3"
-            }
+            { "prompt": "No trabajo nunca los domingos.", "answer": "Nunca trabajo los domingos." },
+            { "prompt": "No bebo nunca café.", "answer": "Nunca bebo café." },
+            { "prompt": "No llego nunca tarde.", "answer": "Nunca llego tarde." },
+            { "prompt": "No como nunca fuera.", "answer": "Nunca como fuera." }
           ]
         }
       ]
@@ -394,563 +128,98 @@
   },
   "exercises": [
     {
+      "type": "table",
+      "title": "How often is it?",
+      "hint": "Choose the Spanish for each English word.",
+      "columns": ["English", "Spanish"],
+      "placeholder": "Spanish",
+      "rows": [
+        { "term": "always", "answer": "siempre", "choices": ["siempre", "a veces", "nunca"] },
+        { "term": "often", "answer": "a menudo", "choices": ["casi nunca", "a menudo", "nunca"] },
+        { "term": "sometimes", "answer": "a veces", "choices": ["siempre", "casi nunca", "a veces"] },
+        { "term": "hardly ever", "answer": "casi nunca", "choices": ["casi nunca", "a menudo", "siempre"] },
+        { "term": "never", "answer": "nunca", "choices": ["a menudo", "nunca", "a veces"] }
+      ]
+    },
+    {
       "type": "fill",
-      "title": "How often? Choose the adverb.",
-      "hint": "Read how often it happens, then choose the adverb.",
-      "placeholder": "Adverb",
+      "title": "Which form of soler?",
+      "hint": "suelo, sueles, suele, solemos, soléis, suelen. Then the infinitive.",
+      "placeholder": "soler",
       "items": [
-        {
-          "prompt": "Tom eats breakfast every single morning. He ___ eats breakfast.",
-          "answer": [
-            "always"
-          ],
-          "choices": [
-            "always",
-            "sometimes",
-            "never"
-          ],
-          "why": "Every single morning is 100 %: always."
-        },
-        {
-          "prompt": "Mei has never been late for school. She is ___ late.",
-          "answer": [
-            "never"
-          ],
-          "choices": [
-            "never",
-            "often",
-            "always"
-          ],
-          "why": "Not once is 0 %: never. It goes after is."
-        },
-        {
-          "prompt": "Kwame goes running one or two days a month. He ___ goes running.",
-          "answer": [
-            "rarely",
-            "hardly ever"
-          ],
-          "choices": [
-            "rarely",
-            "usually",
-            "always"
-          ],
-          "why": "One or two days a month is not often: rarely."
-        },
-        {
-          "prompt": "We have pizza about every second Friday. We ___ have pizza.",
-          "answer": [
-            "sometimes"
-          ],
-          "choices": [
-            "sometimes",
-            "never",
-            "always"
-          ],
-          "why": "About half of the Fridays: sometimes."
-        },
-        {
-          "prompt": "Amira goes to work by bus on most days. She ___ goes by bus.",
-          "answer": [
-            "usually"
-          ],
-          "choices": [
-            "usually",
-            "never",
-            "rarely"
-          ],
-          "why": "Most days is almost always: usually."
-        },
-        {
-          "prompt": "I don't drink coffee at all. I ___ drink coffee.",
-          "answer": [
-            "never"
-          ],
-          "choices": [
-            "never",
-            "sometimes",
-            "often"
-          ],
-          "why": "Not at all is 0 %: never."
-        },
-        {
-          "prompt": "They go to the cinema about once a week. They ___ go to the cinema.",
-          "answer": [
-            "often"
-          ],
-          "choices": [
-            "often",
-            "rarely",
-            "never"
-          ],
-          "why": "Once a week is quite a lot: often."
-        },
-        {
-          "prompt": "Zofia is on time every day. She is ___ on time.",
-          "answer": [
-            "always"
-          ],
-          "choices": [
-            "always",
-            "never",
-            "sometimes"
-          ],
-          "why": "Every day is 100 %: always. It goes after is."
-        }
-      ],
-      "instant": true
+        { "prompt": "Yo ___ comer a las dos.", "answer": "suelo", "choices": ["suelo", "solo", "suele"] },
+        { "prompt": "¿Tú ___ trabajar los sábados?", "answer": "sueles", "choices": ["soles", "sueles", "suelen"] },
+        { "prompt": "Mi hijo ___ acostarse tarde.", "answer": "suele", "choices": ["suele", "sole", "suelo"] },
+        { "prompt": "Nosotros ___ ir andando al trabajo.", "answer": "solemos", "choices": ["suelemos", "solemos", "suelen"] },
+        { "prompt": "¿Vosotros ___ cenar en casa?", "answer": "soléis", "choices": ["soléis", "suelen", "solemos"], "es419": { "note": "In Latin America: ¿Ustedes suelen cenar en casa?", "skip": true } },
+        { "prompt": "Mis padres ___ llamar los domingos.", "answer": "suelen", "choices": ["suele", "solen", "suelen"] }
+      ]
+    },
+    {
+      "type": "fill",
+      "title": "With no or without?",
+      "hint": "nunca before the verb: no no. After the verb: you need no.",
+      "placeholder": "Form",
+      "items": [
+        { "prompt": "Nunca ___ al gimnasio.", "answer": "voy", "choices": ["voy", "no voy"] },
+        { "prompt": "___ voy nunca al gimnasio.", "answer": "No", "choices": ["No", "Siempre"] },
+        { "prompt": "Casi nunca ___ en casa.", "answer": "como", "choices": ["como", "no como"] },
+        { "prompt": "Mi marido ___ cocina casi nunca.", "answer": "no", "choices": ["no", "siempre"] }
+      ]
+    },
+    {
+      "type": "fill",
+      "title": "How many times?",
+      "hint": "a la semana, al mes, al día, al año.",
+      "placeholder": "Form",
+      "items": [
+        { "prompt": "Voy a clase dos veces ___ semana.", "answer": "a la", "choices": ["a la", "al", "en"] },
+        { "prompt": "Pago el alquiler una vez ___ mes.", "answer": "al", "choices": ["a la", "al", "en el"] },
+        { "prompt": "Tomo la pastilla tres veces ___ día.", "answer": "al", "choices": ["a la", "al", "de"] },
+        { "prompt": "Veo a mi familia una vez ___ año.", "answer": "al", "choices": ["a la", "al", "en"] }
+      ]
     },
     {
       "type": "match",
-      "title": "Which adverb fits?",
-      "hint": "Click a description on the left, then the adverb on the right.",
+      "title": "How often is that?",
+      "hint": "Match the sentence with the meaning.",
       "pairs": [
-        {
-          "q": "every time",
-          "a": "always"
-        },
-        {
-          "q": "almost every time",
-          "a": "usually"
-        },
-        {
-          "q": "a lot of times",
-          "a": "often"
-        },
-        {
-          "q": "a few times",
-          "a": "sometimes"
-        },
-        {
-          "q": "almost never",
-          "a": "hardly ever"
-        },
-        {
-          "q": "not once",
-          "a": "never"
-        }
-      ]
-    },
-    {
-      "type": "table",
-      "title": "Where does the adverb go?",
-      "hint": "After be, before other main verbs.",
-      "columns": [
-        "Statement + adverb",
-        "Sentence with the adverb"
-      ],
-      "placeholder": "Sentence",
-      "rows": [
-        {
-          "term": "She is happy. (always)",
-          "answer": "She is always happy.",
-          "choices": [
-            "She is always happy.",
-            "She always is happy.",
-            "She is happy always."
-          ]
-        },
-        {
-          "term": "I eat meat. (never)",
-          "answer": "I never eat meat.",
-          "choices": [
-            "I never eat meat.",
-            "I eat never meat.",
-            "I eat meat never."
-          ]
-        },
-        {
-          "term": "We are at home on Sundays. (never)",
-          "answer": "We are never at home on Sundays.",
-          "choices": [
-            "We are never at home on Sundays.",
-            "We never are at home on Sundays.",
-            "We are at home never on Sundays."
-          ]
-        },
-        {
-          "term": "My sister plays tennis on Saturdays. (always)",
-          "answer": "My sister always plays tennis on Saturdays.",
-          "choices": [
-            "My sister always plays tennis on Saturdays.",
-            "My sister plays always tennis on Saturdays.",
-            "My sister plays tennis always on Saturdays."
-          ]
-        },
-        {
-          "term": "Amira has lunch at one. (usually)",
-          "answer": [
-            "Amira usually has lunch at one.",
-            "Usually Amira has lunch at one."
-          ],
-          "choices": [
-            "Amira usually has lunch at one.",
-            "Amira has usually lunch at one.",
-            "Amira has lunch usually at one."
-          ]
-        },
-        {
-          "term": "Liam is tired on Mondays. (often)",
-          "answer": "Liam is often tired on Mondays.",
-          "choices": [
-            "Liam is often tired on Mondays.",
-            "Liam often is tired on Mondays.",
-            "Liam is tired often on Mondays."
-          ]
-        }
-      ]
-    },
-    {
-      "type": "fill",
-      "title": "Choose the correct order.",
-      "hint": "Before the main verb, but after be, can and don't.",
-      "placeholder": "Words",
-      "items": [
-        {
-          "prompt": "My sister ___ to school by bus.",
-          "answer": [
-            "usually goes"
-          ],
-          "choices": [
-            "usually goes",
-            "goes usually",
-            "usually go"
-          ],
-          "why": "The adverb goes before the main verb, and goes needs -s."
-        },
-        {
-          "prompt": "We ___ at home on Sundays.",
-          "answer": [
-            "are never"
-          ],
-          "choices": [
-            "are never",
-            "never are",
-            "never be"
-          ],
-          "why": "With be, the adverb goes after be: are never."
-        },
-        {
-          "prompt": "Liam ___ his keys.",
-          "answer": [
-            "can never find"
-          ],
-          "choices": [
-            "can never find",
-            "can find never",
-            "never find can"
-          ],
-          "why": "With can, the adverb goes after can: can never find."
-        },
-        {
-          "prompt": "I ___ go to the cinema.",
-          "answer": [
-            "don't often"
-          ],
-          "choices": [
-            "don't often",
-            "don't never",
-            "never don't"
-          ],
-          "why": "After don't we use often. Never already means not, so we do not use it with don't."
-        },
-        {
-          "prompt": "Amira ___ her mother on Sundays.",
-          "answer": [
-            "often calls"
-          ],
-          "choices": [
-            "often calls",
-            "calls often",
-            "often call"
-          ],
-          "why": "The adverb goes before the main verb, and calls needs -s."
-        }
-      ]
-    },
-    {
-      "type": "fill",
-      "title": "How often? Complete the time expression.",
-      "hint": "every day · once · twice · three times a week · How often …?",
-      "placeholder": "Word",
-      "items": [
-        {
-          "prompt": "I brush my teeth ___ day.",
-          "answer": [
-            "every"
-          ],
-          "choices": [
-            "every",
-            "all",
-            "any"
-          ],
-          "why": "Every day = each day, 7 days a week."
-        },
-        {
-          "prompt": "I see my grandparents ___ a month. (1 time)",
-          "answer": [
-            "once"
-          ],
-          "choices": [
-            "once",
-            "one",
-            "first"
-          ],
-          "why": "One time is once."
-        },
-        {
-          "prompt": "She goes to the gym ___ a week. (2 times)",
-          "answer": [
-            "twice"
-          ],
-          "choices": [
-            "twice",
-            "two",
-            "second"
-          ],
-          "why": "Two times is twice."
-        },
-        {
-          "prompt": "We have English class ___ a week. (3 times)",
-          "answer": [
-            "three times"
-          ],
-          "choices": [
-            "three times",
-            "three time",
-            "third times"
-          ],
-          "why": "From three on we say number + times: three times."
-        },
-        {
-          "prompt": "How ___ do you cook? – Every day.",
-          "answer": [
-            "often"
-          ],
-          "choices": [
-            "often",
-            "much",
-            "long"
-          ],
-          "why": "We ask about frequency with How often?"
-        }
+        { "q": "Lo hago todos los días.", "a": "siempre" },
+        { "q": "Lo hago cuatro días a la semana.", "a": "a menudo" },
+        { "q": "Lo hago dos veces al mes.", "a": "a veces" },
+        { "q": "Lo hago una vez al año.", "a": "casi nunca" },
+        { "q": "No lo hago.", "a": "nunca" }
       ]
     },
     {
       "type": "story",
-      "title": "Gap text: Amira's week.",
-      "hint": "Choose the adverb that fits what happens: always · usually · never · sometimes · hardly ever.",
+      "title": "Fill the gaps: Nadia's week.",
+      "hint": "Choose the word that fits each gap.",
+      "choices": ["Siempre", "suele", "a veces", "nunca", "veces"],
       "segments": [
-        {
-          "text": "Amira has a very regular week. She gets up at six o'clock every single day, so she is "
-        },
-        {
-          "blank": 0,
-          "answer": [
-            "always"
-          ]
-        },
-        {
-          "text": " up before her children. For breakfast she has toast on most days, so she "
-        },
-        {
-          "blank": 1,
-          "answer": [
-            "usually"
-          ]
-        },
-        {
-          "text": " has toast. She does not eat meat at all. She "
-        },
-        {
-          "blank": 2,
-          "answer": [
-            "never"
-          ]
-        },
-        {
-          "text": " eats meat. On Sundays she makes pancakes, but only about every second Sunday. She "
-        },
-        {
-          "blank": 3,
-          "answer": [
-            "sometimes"
-          ]
-        },
-        {
-          "text": " makes pancakes. She does not like driving. She drives only once or twice a year, so she "
-        },
-        {
-          "blank": 4,
-          "answer": [
-            "hardly ever",
-            "rarely"
-          ]
-        },
-        {
-          "text": " drives."
-        }
+        { "text": "Nadia trabaja en un supermercado de lunes a viernes, así que " },
+        { "blank": 0, "answer": "nunca" },
+        { "text": " trabaja los domingos. " },
+        { "blank": 1, "answer": "Siempre" },
+        { "text": " se levanta a la misma hora, a las seis y media. Por la mañana " },
+        { "blank": 2, "answer": "suele" },
+        { "text": " ir en autobús, pero " },
+        { "blank": 3, "answer": "a veces" },
+        { "text": " va andando si hace buen tiempo. Va a clase de español dos " },
+        { "blank": 4, "answer": "veces" },
+        { "text": " a la semana." }
       ]
     },
     {
       "type": "build",
       "title": "Build the sentences.",
+      "hint": "The how-often word is usually first.",
       "sentences": [
-        {
-          "id": "p1",
-          "hint": "before the main verb · usually",
-          "correct": [
-            "I",
-            "usually",
-            "walk",
-            "to",
-            "work",
-            "."
-          ],
-          "shuffled": [
-            "walk",
-            "to",
-            ".",
-            "I",
-            "work",
-            "usually"
-          ]
-        },
-        {
-          "id": "p2",
-          "hint": "after be · never",
-          "correct": [
-            "She",
-            "is",
-            "never",
-            "late",
-            "for",
-            "class",
-            "."
-          ],
-          "shuffled": [
-            "late",
-            "class",
-            "She",
-            "never",
-            ".",
-            "for",
-            "is"
-          ]
-        },
-        {
-          "id": "p3",
-          "hint": "after can · always",
-          "correct": [
-            "You",
-            "can",
-            "always",
-            "call",
-            "me",
-            "."
-          ],
-          "shuffled": [
-            "call",
-            ".",
-            "always",
-            "You",
-            "me",
-            "can"
-          ]
-        },
-        {
-          "id": "p4",
-          "hint": "sometimes: two places",
-          "correct": [
-            "Zofia",
-            "sometimes",
-            "takes",
-            "the",
-            "bus",
-            "."
-          ],
-          "shuffled": [
-            "bus",
-            "takes",
-            ".",
-            "Zofia",
-            "the",
-            "sometimes"
-          ],
-          "alt": [
-            [
-              "Zofia",
-              "takes",
-              "the",
-              "bus",
-              "sometimes",
-              "."
-            ]
-          ]
-        },
-        {
-          "id": "p5",
-          "hint": "ask: how often?",
-          "correct": [
-            "How",
-            "often",
-            "do",
-            "you",
-            "go",
-            "swimming",
-            "?"
-          ],
-          "shuffled": [
-            "swimming",
-            "do",
-            "?",
-            "How",
-            "go",
-            "you",
-            "often"
-          ]
-        },
-        {
-          "id": "p6",
-          "hint": "time expression at the end",
-          "correct": [
-            "We",
-            "go",
-            "swimming",
-            "twice",
-            "a",
-            "week",
-            "."
-          ],
-          "shuffled": [
-            "week",
-            "swimming",
-            "a",
-            ".",
-            "We",
-            "twice",
-            "go"
-          ]
-        },
-        {
-          "id": "p7",
-          "hint": "don't · often",
-          "correct": [
-            "I",
-            "don't",
-            "often",
-            "eat",
-            "out",
-            "."
-          ],
-          "shuffled": [
-            "out",
-            "eat",
-            "I",
-            ".",
-            "often",
-            "don't"
-          ]
-        }
+        { "id": "ha1", "hint": "I always have breakfast at home", "correct": ["Siempre", "desayuno", "en", "casa", "."], "shuffled": [".","casa","desayuno","Siempre","en"], "alt": [["Desayuno","siempre","en","casa","."]] },
+        { "id": "ha2", "hint": "I usually eat at two (soler)", "correct": ["Suelo", "comer", "a", "las", "dos", "."], "shuffled": ["comer","a",".","Suelo","las","dos"] },
+        { "id": "ha3", "hint": "We hardly ever go out", "correct": ["Casi", "nunca", "salimos", "."], "shuffled": ["nunca",".","salimos","Casi"] },
+        { "id": "ha4", "hint": "She goes to class once a week", "correct": ["Va", "a", "clase", "una", "vez", "a", "la", "semana", "."], "shuffled": ["a","a","clase","la",".","vez","semana","Va","una"] },
+        { "id": "ha5", "hint": "Sometimes I work on Saturdays", "correct": ["A", "veces", "trabajo", "los", "sábados", "."], "shuffled": [".","los","veces","A","trabajo","sábados"], "alt": [["Los","sábados","a","veces","trabajo","."]] }
       ]
     }
   ]

@@ -1,371 +1,85 @@
 {
   "id": "artikel-oder-nicht",
-  "name": "The or no article? I like music / the music in this film",
+  "name": "Article or no article?",
   "level": "A2",
   "status": "geprueft",
-  "subtitle": "I like music. The music in this film is great. Use the for a specific thing that we both know, and no article for things in general: music, cats, coffee. A few fixed phrases have no article too: go to work, at home, by bus.",
-  "briefHtml": "<p>\"I like music. The music in this film is great.\" Why is there no article in the first sentence?</p><ul class=\"vp-brief-rules\"><li><b class=\"vp-brief-form vp-brief-form--none\">—</b><span>No article: things in general (plural and uncountable nouns).</span></li><li><b class=\"vp-brief-form vp-brief-form--ein\">a/an</b><span>New, one of many (singular countable nouns).</span></li><li><b class=\"vp-brief-form vp-brief-form--der\">the</b><span>Specific: we both know which one.</span></li></ul>",
-  "briefMarks": [
-    "the",
-    "no article",
-    "in general",
-    "specific"
-  ],
-  "source": "icanspeak Spanish original English text (grammar-a2 run, 2026-10-29)",
+  "variety": "es-ES",
+  "es419": { "note": "These rules hold in Latin America too. Words differ (coche: carro, auto; móvil: celular), not the article pattern." },
+  "subtitle": "Spanish uses el, la, los, las for things in general with gustar: Me gusta el café. With tener, comprar and beber, the plain noun is normal: Tengo coche. Bebo agua. No article for jobs and languages: Es médica. Hablo español.",
+  "briefHtml": "<p>Why “Me gusta el café” but “Bebo café”? Why “Es médica” with no article?</p><ul class=\"vp-brief-rules\"><li><b class=\"vp-brief-form vp-brief-form--none\">—</b><span>No article: jobs, languages, tener or beber + a general thing.</span></li><li><b class=\"vp-brief-form vp-brief-form--ein\">un, una</b><span>One of many, or a new thing: hay una farmacia.</span></li><li><b class=\"vp-brief-form vp-brief-form--der\">el, la</b><span>The one we both know, things in general with gustar, days of the week.</span></li></ul>",
+  "briefMarks": ["el", "la", "los", "las", "un", "una"],
+  "source": "icanspeak Spanish original text (grammar-a2 run, 2026-11-04)",
   "concept": {
     "flow": [
-      {
-        "text": "specific → the",
-        "variant": "verb"
-      },
-      {
-        "text": "one, new → a/an",
-        "variant": "akk"
-      },
-      {
-        "text": "in general → –",
-        "variant": "prep"
-      }
+      { "text": "gustar, encantar + el, la, los, las", "variant": "prep" },
+      { "text": "tener, beber, comprar + noun", "variant": "verb" },
+      { "text": "ser + job · hablar + language" }
     ],
-    "scenes": [
-      {
-        "form": "—",
-        "variant": "none",
-        "label": "in general",
-        "sayHtml": "I love <strong>coffee</strong>.",
-        "why": "Coffee in general, any coffee. Uncountable and general: no article."
-      },
-      {
-        "form": "a/an",
-        "variant": "ein",
-        "label": "one, new",
-        "sayHtml": "Can I have <strong>a coffee</strong>, please?",
-        "why": "One cup, a singular countable thing: a."
-      },
-      {
-        "form": "the",
-        "variant": "der",
-        "label": "specific",
-        "sayHtml": "<strong>The coffee</strong> in this café is great.",
-        "why": "We both know which coffee: the one in this café. Use the."
-      }
-    ],
-    "exampleHtml": "I love <span class=\"vp-prep\">coffee</span>. Can I have <span class=\"vp-verb\">a coffee</span>, please? <span class=\"vp-verb\">The coffee</span> in this café is great.",
+    "exampleHtml": "Me gusta <span class=\"vp-prep\">el</span> café. · Bebo <span class=\"vp-verb\">café</span>. · Tengo <span class=\"vp-verb\">coche</span>. · Es <span class=\"vp-verb\">médica</span>. · Hablo <span class=\"vp-verb\">español</span>. · <span class=\"vp-prep\">El</span> lunes voy al médico.",
     "qa": [
       {
-        "tag": "the, a/an or nothing?",
-        "html": "<strong>the</strong>: specific, we both know which one.<br><em>the sun, the music in this film</em><br><strong>a / an</strong>: one, singular and countable.<br><em>a cat, an apple</em><br><strong>no article</strong>: in general, with plural and uncountable nouns.<br><em>Cats are clever. I like music.</em>"
+        "html": "<strong>With gustar</strong> and verbs like it, the noun takes an article, even in general: <em>Me gusta el café. No me gustan los perros.</em> General subjects too: <em>El tabaco es malo. Los niños necesitan dormir.</em>",
+        "tag": "gustar"
       },
       {
-        "tag": "In general: no article",
-        "html": "Plural nouns and uncountable nouns in general have <strong>no article</strong>.<br><em>I like music. Cats are clever. Coffee is expensive. Life is hard.</em><br>Not ✗ <em>The cats are clever.</em> (if you mean all cats)"
+        "html": "<strong>With an ordinary verb</strong>, an amount of something or a general thing has no article: <em>Bebo café. Compro pan. Necesito ayuda. No tengo tiempo.</em>",
+        "tag": "Bebo café"
       },
       {
-        "tag": "Specific: the",
-        "html": "Use <strong>the</strong> when both people know which one: it is mentioned before, or it is clear from the situation.<br><em>The music in this film is great.</em><br><em>Please close the door.</em><br><em>I've got a cat. The cat is black.</em>"
+        "html": "<strong>tener, buscar, llevar</strong> + the things people normally have one of, no article: <em>Tengo coche. Busco piso. No tengo móvil.</em> Add <em>un</em> when you describe it: <em>Tengo un coche viejo.</em>",
+        "tag": "Tengo coche"
       },
       {
-        "tag": "Only one: the",
-        "html": "Use <strong>the</strong> for things where there is only one for everybody.<br><em>the sun, the moon, the sea, the sky, the world</em><br>Also places in town: <em>the cinema, the bank, the station, the shops</em>"
+        "html": "<strong>Jobs after ser</strong>: no article. <em>Soy enfermera. Es médico.</em> With an adjective, add <em>un, una</em>: <em>Es una enfermera muy buena.</em> Also nationality and religion: <em>Es francés.</em>",
+        "tag": "Jobs"
       },
       {
-        "tag": "Fixed phrases without the",
-        "html": "Learn these as a whole. They have <strong>no article</strong>.<br><em>go to work, go to school, go home, be at home, in bed</em><br><em>by bus, by car, by train, on foot</em><br><em>have breakfast, have lunch, have dinner</em><br><em>on Monday, in July, at night</em>"
+        "html": "<strong>Languages</strong> after <em>hablar, estudiar, saber</em>: usually no article. <em>Hablo español.</em> As a subject, with an article: <em>El español es fácil.</em>",
+        "tag": "Languages"
       },
       {
-        "tag": "Sports, languages, countries",
-        "html": "Sports, languages, subjects and most countries and cities: <strong>no article</strong>.<br><em>I play football. She speaks Spanish. He lives in France.</em><br>A few countries have <strong>the</strong>:<br><em>the UK, the USA, the Netherlands</em>"
-      },
-      {
-        "tag": "Typical mistakes",
-        "html": "✗ <em>The life is hard.</em> → ✓ <em>Life is hard.</em> · ✗ <em>I go to the work by the bus.</em> → ✓ <em>I go to work by bus.</em> · ✗ <em>She lives in UK.</em> → ✓ <em>She lives in the UK.</em>"
+        "html": "<strong>Always with an article:</strong> days (<em>el lunes</em>), times (<em>a las tres</em>), and titles when you talk about someone (<em>La señora López no está</em>). No article when you speak <em>to</em> them: <em>Buenos días, señora López.</em> And <em>hay</em> never takes <em>el, la</em>: <em>Hay una farmacia.</em>",
+        "tag": "Always el, la"
       }
     ],
-    "noteHtml": "<strong>Musical instruments</strong> take <em>the</em>: <em>She plays the piano. He plays the guitar.</em> Sports do not: <em>I play tennis.</em> <strong>School, hospital, university</strong> have no article when we think of the activity: <em>She is at school. He is in hospital.</em> With <em>the</em> we mean the building: <em>I'm going to the school for a meeting.</em> The forms <em>a, an, the</em> are explained at <a href=\"/articles\">Articles</a>. Plural and uncountable nouns are in <a href=\"/plurals\">Plural nouns</a> and <a href=\"/much-many\">Countable and uncountable nouns</a>.",
+    "noteHtml": "Common mistakes: ✗ <em>Me gusta café</em> → ✓ <em>Me gusta el café</em>. ✗ <em>Soy un médico</em> → ✓ <em>Soy médico</em>. ✗ <em>Hablo el español</em> → ✓ <em>Hablo español</em>. ✗ <em>Hay la farmacia</em> → ✓ <em>Hay una farmacia</em>. ✗ <em>Voy en lunes</em> → ✓ <em>Voy el lunes</em>.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
       "tables": [
         {
-          "caption": "Three choices",
-          "head": [
-            "Choice",
-            "When?",
-            "Example"
-          ],
+          "caption": "With an article",
+          "head": ["Case", "Example"],
           "rows": [
-            [
-              "the",
-              "specific, we both know which one; only one exists",
-              "The music in this film is great. The sun is hot."
-            ],
-            [
-              "a / an",
-              "one, singular and countable",
-              "I've got a cat. She is an engineer."
-            ],
-            [
-              "no article",
-              "in general: plural and uncountable nouns",
-              "I like music. Cats are clever."
-            ]
+            ["gustar, encantar", "Me gusta el fútbol."],
+            ["general subject", "El café es caro."],
+            ["known thing", "¿Dónde está la llave?"],
+            ["days", "El martes tengo cita."],
+            ["times", "Empiezo a las ocho."],
+            ["talking about someone", "El doctor Ruiz no está."]
           ]
         },
         {
-          "caption": "No article: the main cases",
-          "head": [
-            "Group",
-            "Examples",
-            "Careful"
-          ],
+          "caption": "Without an article",
+          "head": ["Case", "Example"],
           "rows": [
-            [
-              "Fixed place phrases",
-              "go to work, go to school, go home, be at home, in bed",
-              "the building: I'm going to the school for a meeting."
-            ],
-            [
-              "Transport with by",
-              "by bus, by car, by train, on foot",
-              "I take the bus. (with take: the)"
-            ],
-            [
-              "Meals",
-              "have breakfast, have lunch, have dinner",
-              "a big breakfast, the breakfast at this hotel"
-            ],
-            [
-              "Days, months, times",
-              "on Monday, in July, at night, at Christmas",
-              "in the morning, in the evening"
-            ],
-            [
-              "Sports and games",
-              "play football, play tennis, play chess",
-              "instruments: play the piano, play the guitar"
-            ],
-            [
-              "Languages and subjects",
-              "speak Spanish, study History, I like Maths",
-              "the Spanish class (a specific class)"
-            ],
-            [
-              "Countries and cities",
-              "France, Brazil, Poland, London",
-              "the UK, the USA, the Netherlands"
-            ],
-            [
-              "Only one: the",
-              "the sun, the moon, the sea, the sky, the cinema",
-              "all people know which one"
-            ]
+            ["general thing, after a verb", "Bebo agua."],
+            ["what people normally have", "Tengo coche. Busco piso."],
+            ["job after ser", "Soy camarera."],
+            ["language after hablar", "Hablo árabe."],
+            ["talking to someone", "Hola, doctor Ruiz."],
+            ["with otro", "Quiero otro café."]
           ]
         }
       ],
       "boxes": [
         {
-          "badge": "How to choose",
-          "variant": "dat",
-          "items": [
-            "1. One specific thing, and we both know which? → the",
-            "2. One of many, singular and countable? → a / an",
-            "3. Things in general, plural or uncountable? → no article",
-            "4. A fixed phrase (go to work, at home, by bus)? → learn it as a whole"
-          ]
-        },
-        {
-          "badge": "music, a song, the song",
+          "badge": "un, una",
           "variant": "akk",
           "items": [
-            "I like music. → music in general",
-            "I'm listening to a song. → one song, new",
-            "The song is great. → this song, we both know it",
-            "Same with: coffee · a coffee (one cup) · the coffee (this one)"
-          ]
-        }
-      ]
-    }
-  },
-  "aktiv": {
-    "listen": [
-      {
-        "text": "I like music.",
-        "note": "Music in general: no article.",
-        "audio": "/audio/grammatik/artikel-oder-nicht/i-like-music.mp3"
-      },
-      {
-        "text": "The music in this film is great.",
-        "note": "The music in one specific film: the.",
-        "audio": "/audio/grammatik/artikel-oder-nicht/the-music-in-this-film-is-great.mp3"
-      },
-      {
-        "text": "I go to work by bus.",
-        "note": "Fixed phrases: no the before work and bus.",
-        "audio": "/audio/grammatik/artikel-oder-nicht/i-go-to-work-by-bus.mp3"
-      },
-      {
-        "text": "My brother lives in the UK.",
-        "note": "A few countries need the: the UK, the USA.",
-        "audio": "/audio/grammatik/artikel-oder-nicht/my-brother-lives-in-the-uk.mp3"
-      }
-    ],
-    "hoeren": {
-      "instruction": "Listen and choose what you heard. Listen for the article: the, a/an or nothing?",
-      "items": [
-        {
-          "text": "I drink coffee every morning.",
-          "choices": [
-            "drink coffee",
-            "drink a coffee",
-            "drink the coffee"
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/artikel-oder-nicht/i-drink-coffee-every-morning.mp3"
-        },
-        {
-          "text": "Can I have a coffee, please?",
-          "choices": [
-            "have coffee",
-            "have a coffee",
-            "have the coffee"
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/artikel-oder-nicht/can-i-have-a-coffee-please.mp3"
-        },
-        {
-          "text": "The coffee is cold.",
-          "choices": [
-            "Coffee is",
-            "A coffee is",
-            "The coffee is"
-          ],
-          "correct": 2,
-          "audio": "/audio/grammatik/artikel-oder-nicht/the-coffee-is-cold.mp3"
-        },
-        {
-          "text": "My mother is a teacher.",
-          "choices": [
-            "is teacher",
-            "is a teacher",
-            "is the teacher"
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/artikel-oder-nicht/my-mother-is-a-teacher.mp3"
-        },
-        {
-          "text": "We have breakfast at eight.",
-          "choices": [
-            "have breakfast",
-            "have a breakfast",
-            "have the breakfast"
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/artikel-oder-nicht/we-have-breakfast-at-eight.mp3"
-        },
-        {
-          "text": "She lives in the UK.",
-          "choices": [
-            "in UK",
-            "in the UK",
-            "in a UK"
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/artikel-oder-nicht/she-lives-in-the-uk.mp3"
-        }
-      ]
-    },
-    "sprechen": {
-      "rounds": [
-        {
-          "label": "1 · One → in general",
-          "instruction": "You hear a sentence with a / an. Say it about all of them: use the plural and no article.",
-          "example": {
-            "prompt": "A cat is clever.",
-            "answer": "Cats are clever."
-          },
-          "items": [
-            {
-              "prompt": "A dog is friendly.",
-              "answer": "Dogs are friendly.",
-              "audioPrompt": "/audio/grammatik/artikel-oder-nicht/a-dog-is-friendly.mp3",
-              "audioAnswer": "/audio/grammatik/artikel-oder-nicht/dogs-are-friendly--a.mp3"
-            },
-            {
-              "prompt": "An apple is healthy.",
-              "answer": "Apples are healthy.",
-              "audioPrompt": "/audio/grammatik/artikel-oder-nicht/an-apple-is-healthy.mp3",
-              "audioAnswer": "/audio/grammatik/artikel-oder-nicht/apples-are-healthy--a.mp3"
-            },
-            {
-              "prompt": "A bus is slow in the city.",
-              "answer": "Buses are slow in the city.",
-              "audioPrompt": "/audio/grammatik/artikel-oder-nicht/a-bus-is-slow-in-the-city.mp3",
-              "audioAnswer": "/audio/grammatik/artikel-oder-nicht/buses-are-slow-in-the-city--a.mp3"
-            },
-            {
-              "prompt": "A teacher works hard.",
-              "answer": "Teachers work hard.",
-              "audioPrompt": "/audio/grammatik/artikel-oder-nicht/a-teacher-works-hard.mp3",
-              "audioAnswer": "/audio/grammatik/artikel-oder-nicht/teachers-work-hard--a.mp3"
-            },
-            {
-              "prompt": "A flower is beautiful.",
-              "answer": "Flowers are beautiful.",
-              "audioPrompt": "/audio/grammatik/artikel-oder-nicht/a-flower-is-beautiful.mp3",
-              "audioAnswer": "/audio/grammatik/artikel-oder-nicht/flowers-are-beautiful--a.mp3"
-            },
-            {
-              "prompt": "A car is expensive.",
-              "answer": "Cars are expensive.",
-              "audioPrompt": "/audio/grammatik/artikel-oder-nicht/a-car-is-expensive.mp3",
-              "audioAnswer": "/audio/grammatik/artikel-oder-nicht/cars-are-expensive--a.mp3"
-            }
-          ]
-        },
-        {
-          "label": "2 · takes the ... → by ...",
-          "instruction": "You hear how somebody travels. Say it again with go to ... by ... and no the.",
-          "example": {
-            "prompt": "Tom takes the bus to work.",
-            "answer": "Tom goes to work by bus."
-          },
-          "items": [
-            {
-              "prompt": "Amira takes the train to work.",
-              "answer": "Amira goes to work by train.",
-              "audioPrompt": "/audio/grammatik/artikel-oder-nicht/amira-takes-the-train-to-work.mp3",
-              "audioAnswer": "/audio/grammatik/artikel-oder-nicht/amira-goes-to-work-by-train--a.mp3"
-            },
-            {
-              "prompt": "Liam takes the bus to school.",
-              "answer": "Liam goes to school by bus.",
-              "audioPrompt": "/audio/grammatik/artikel-oder-nicht/liam-takes-the-bus-to-school.mp3",
-              "audioAnswer": "/audio/grammatik/artikel-oder-nicht/liam-goes-to-school-by-bus--a.mp3"
-            },
-            {
-              "prompt": "Zofia takes the bike to school.",
-              "answer": "Zofia goes to school by bike.",
-              "audioPrompt": "/audio/grammatik/artikel-oder-nicht/zofia-takes-the-bike-to-school.mp3",
-              "audioAnswer": "/audio/grammatik/artikel-oder-nicht/zofia-goes-to-school-by-bike--a.mp3"
-            },
-            {
-              "prompt": "Kwame takes the tram to work.",
-              "answer": "Kwame goes to work by tram.",
-              "audioPrompt": "/audio/grammatik/artikel-oder-nicht/kwame-takes-the-tram-to-work.mp3",
-              "audioAnswer": "/audio/grammatik/artikel-oder-nicht/kwame-goes-to-work-by-tram--a.mp3"
-            },
-            {
-              "prompt": "Priya takes the taxi to work.",
-              "answer": "Priya goes to work by taxi.",
-              "audioPrompt": "/audio/grammatik/artikel-oder-nicht/priya-takes-the-taxi-to-work.mp3",
-              "audioAnswer": "/audio/grammatik/artikel-oder-nicht/priya-goes-to-work-by-taxi--a.mp3"
-            },
-            {
-              "prompt": "Mei takes the car to school.",
-              "answer": "Mei goes to school by car.",
-              "audioPrompt": "/audio/grammatik/artikel-oder-nicht/mei-takes-the-car-to-school.mp3",
-              "audioAnswer": "/audio/grammatik/artikel-oder-nicht/mei-goes-to-school-by-car--a.mp3"
-            }
+            "Hay una farmacia aquí.",
+            "Tengo un coche viejo.",
+            "Es una médica excelente."
           ]
         }
       ]
@@ -373,651 +87,157 @@
   },
   "comics": [
     {
-      "title": "Bruno and {the music}",
+      "title": "Bruno y {la música}",
       "panels": [
         {
           "caption": "In the morning",
-          "tag": "{no article}",
-          "left": {
-            "name": "regi",
-            "expr": "thinking",
-            "say": "What do you like, Bruno?"
-          },
-          "right": {
-            "name": "bruno",
-            "expr": "happy",
-            "say": "I like {music}!"
-          }
+          "tag": "{la} + gustar",
+          "left": { "name": "regi", "expr": "thinking", "say": "¿Qué te gusta, Bruno?" },
+          "right": { "name": "bruno", "expr": "happy", "say": "¡Me gusta {la música}!" }
         },
         {
-          "caption": "At the cinema",
-          "tag": "{a/an}",
-          "left": {
-            "name": "bruno",
-            "expr": "celebrate",
-            "say": "Look! I've got {a ticket} for the new film."
-          },
-          "right": {
-            "name": "hamsti",
-            "expr": "happy",
-            "say": "Wow, let's go!"
-          }
+          "caption": "At the door",
+          "tag": "{una} = one",
+          "left": { "name": "bruno", "expr": "celebrate", "say": "¡Mira! Tengo {una entrada} para el concierto." },
+          "right": { "name": "hamsti", "expr": "happy", "say": "¡Qué bien! ¿Es el sábado?" }
         },
         {
-          "caption": "After the film",
-          "tag": "{the}",
-          "left": {
-            "name": "regi",
-            "expr": "thinking",
-            "say": "Did you like the film?"
-          },
-          "right": {
-            "name": "bruno",
-            "expr": "happy",
-            "say": "Yes! {The music} in this film is great!"
-          }
+          "caption": "At the concert",
+          "tag": "no article: a job",
+          "left": { "name": "regi", "expr": "happy", "say": "¿Quién es esa mujer? ¿Es {cantante}?" },
+          "right": { "name": "bruno", "expr": "happy", "say": "No, es {profesora}. Canta los sábados." }
         }
       ]
     }
   ],
+  "aktiv": {
+    "listen": [
+      { "text": "Me gusta el café.", "note": "gustar: with an article." },
+      { "text": "Bebo café por la mañana.", "note": "After a normal verb: no article." },
+      { "text": "Tengo coche.", "note": "A normal thing to have." },
+      { "text": "Mi hermana es enfermera.", "note": "A job: no article." },
+      { "text": "El lunes tengo cita.", "note": "Days: with el." }
+    ],
+    "hoeren": {
+      "instruction": "Listen and choose the sentence you heard. You can listen twice.",
+      "items": [
+        { "text": "Es médico.", "choices": ["Es médico.", "Es un médico.", "Es el médico."], "correct": 0 },
+        { "text": "Hay una farmacia aquí.", "choices": ["La farmacia está aquí.", "Hay una farmacia aquí.", "Hay farmacias aquí."], "correct": 1 },
+        { "text": "Me gustan los perros.", "choices": ["Tengo perros.", "Me gusta el perro.", "Me gustan los perros."], "correct": 2 },
+        { "text": "Busco piso.", "choices": ["Busco piso.", "Busco un piso.", "Busco el piso."], "correct": 0 }
+      ]
+    },
+    "sprechen": {
+      "rounds": [
+        {
+          "label": "1 · Job and language",
+          "instruction": "You hear a job or a language. Say the sentence. No article.",
+          "example": { "prompt": "enfermera", "answer": "Soy enfermera." },
+          "items": [
+            { "prompt": "camarero", "answer": "Soy camarero." },
+            { "prompt": "profesora", "answer": "Soy profesora." },
+            { "prompt": "árabe", "answer": "Hablo árabe." },
+            { "prompt": "francés", "answer": "Hablo francés." }
+          ]
+        },
+        {
+          "label": "2 · I like it",
+          "instruction": "You hear a sentence with a verb. Say that you like it, with the article.",
+          "example": { "prompt": "Bebo café.", "answer": "Me gusta el café." },
+          "items": [
+            { "prompt": "Bebo té.", "answer": "Me gusta el té." },
+            { "prompt": "Como pescado.", "answer": "Me gusta el pescado." },
+            { "prompt": "Compro fruta.", "answer": "Me gusta la fruta." },
+            { "prompt": "Como naranjas.", "answer": "Me gustan las naranjas." }
+          ]
+        }
+      ]
+    }
+  },
   "exercises": [
     {
       "type": "fill",
-      "title": "the, a/an or no article? Choose.",
-      "hint": "Specific, we both know which? → the. One, singular? → a/an. In general, a fixed phrase or a country? → no article (—).",
-      "hintHtml": "<span class=\"vp-hint-row\"><b class=\"vp-brief-form vp-brief-form--der\">the</b><span>Specific: we both know which one.</span></span><span class=\"vp-hint-row\"><b class=\"vp-brief-form vp-brief-form--ein\">a/an</b><span>One, singular and countable.</span></span><span class=\"vp-hint-row\"><b class=\"vp-brief-form vp-brief-form--none\">—</b><span>In general, a fixed phrase, a name.</span></span>",
-      "instant": true,
-      "placeholder": "Article",
+      "title": "With an article or without?",
+      "hint": "gustar: article. Job after ser: no article. General thing after a verb: no article.",
+      "placeholder": "Form",
       "items": [
-        {
-          "prompt": "Most people like ___ chocolate.",
-          "answer": [
-            "—",
-            "-"
-          ],
-          "choices": [
-            "the",
-            "a/an",
-            "—"
-          ],
-          "why": "Chocolate in general (\"most people\"): no article."
-        },
-        {
-          "prompt": "I've got ___ dog and two cats.",
-          "answer": [
-            "a/an"
-          ],
-          "choices": [
-            "the",
-            "a/an",
-            "—"
-          ],
-          "why": "One dog, a singular countable noun: a."
-        },
-        {
-          "prompt": "___ music in this film is great.",
-          "answer": [
-            "the"
-          ],
-          "choices": [
-            "the",
-            "a/an",
-            "—"
-          ],
-          "why": "The music in one specific film: the."
-        },
-        {
-          "prompt": "I think ___ cats are clever animals.",
-          "hint": "all cats, cats in general",
-          "answer": [
-            "—",
-            "-"
-          ],
-          "choices": [
-            "the",
-            "a/an",
-            "—"
-          ],
-          "why": "Cats in general, plural: no article."
-        },
-        {
-          "prompt": "Please close ___ door. It's cold in here.",
-          "answer": [
-            "the"
-          ],
-          "choices": [
-            "the",
-            "a/an",
-            "—"
-          ],
-          "why": "We both know which door: the."
-        },
-        {
-          "prompt": "Look at ___ sun! It's very bright.",
-          "answer": [
-            "the"
-          ],
-          "choices": [
-            "the",
-            "a/an",
-            "—"
-          ],
-          "why": "There is only one sun: the."
-        },
-        {
-          "prompt": "I go to ___ work by bus.",
-          "answer": [
-            "—",
-            "-"
-          ],
-          "choices": [
-            "the",
-            "a/an",
-            "—"
-          ],
-          "why": "A fixed phrase: go to work, with no article."
-        },
-        {
-          "prompt": "My sister is ___ engineer. She likes her job.",
-          "answer": [
-            "a/an"
-          ],
-          "choices": [
-            "the",
-            "a/an",
-            "—"
-          ],
-          "why": "A job is a singular countable noun: an (engineer starts with a vowel sound)."
-        },
-        {
-          "prompt": "My cousin lives in ___ UK.",
-          "answer": [
-            "the"
-          ],
-          "choices": [
-            "the",
-            "a/an",
-            "—"
-          ],
-          "why": "A few countries need the: the UK, the USA, the Netherlands."
-        },
-        {
-          "prompt": "We have ___ breakfast at eight.",
-          "answer": [
-            "—",
-            "-"
-          ],
-          "choices": [
-            "the",
-            "a/an",
-            "—"
-          ],
-          "why": "Meals: have breakfast, with no article."
-        }
+        { "prompt": "Me gusta ___.", "hint": "coffee", "answer": "el café", "choices": ["café", "el café", "un café"] },
+        { "prompt": "Cada mañana bebo ___.", "hint": "coffee", "answer": "café", "choices": ["café", "el café"] },
+        { "prompt": "Mi hermano es ___.", "hint": "a waiter", "answer": "camarero", "choices": ["camarero", "un camarero", "el camarero"] },
+        { "prompt": "En casa hablamos ___.", "hint": "Arabic", "answer": "árabe", "choices": ["árabe", "el árabe", "un árabe"] },
+        { "prompt": "No tengo ___ hoy.", "hint": "time", "answer": "tiempo", "choices": ["tiempo", "el tiempo", "un tiempo"] },
+        { "prompt": "Mi vecina es ___ muy buena.", "hint": "a nurse", "answer": "una enfermera", "choices": ["enfermera", "una enfermera", "la enfermera"] }
       ]
     },
     {
       "type": "match",
-      "title": "Why is there no article, or why the? Match.",
-      "hint": "Every sentence has a different reason. Read all the reasons first.",
+      "title": "Which rule fits?",
+      "hint": "Match each sentence with the reason.",
       "pairs": [
-        {
-          "q": "I like music.",
-          "a": "uncountable noun, in general"
-        },
-        {
-          "q": "Cats are clever.",
-          "a": "plural noun, in general"
-        },
-        {
-          "q": "The music in this film is great.",
-          "a": "a specific thing"
-        },
-        {
-          "q": "The sun is hot today.",
-          "a": "there is only one"
-        },
-        {
-          "q": "I go to work by bus.",
-          "a": "fixed phrase"
-        },
-        {
-          "q": "She speaks Spanish.",
-          "a": "a language"
-        },
-        {
-          "q": "We play football on Sundays.",
-          "a": "a sport"
-        },
-        {
-          "q": "He lives in France.",
-          "a": "a country without the"
-        }
+        { "q": "Me gusta el té.", "a": "gustar: article" },
+        { "q": "Soy cocinero.", "a": "a job: no article" },
+        { "q": "Hablo francés.", "a": "a language: no article" },
+        { "q": "El viernes trabajo.", "a": "a day: article" },
+        { "q": "Hola, señora Ruiz.", "a": "speaking to someone: no article" }
       ]
     },
     {
       "type": "table",
-      "title": "Fixed phrases: which words complete them?",
-      "hint": "Read the whole sentence. Learn the phrase as a whole.",
-      "columns": [
-        "Sentence",
-        "Phrase"
-      ],
-      "placeholder": "phrase",
+      "title": "Which article?",
+      "hint": "el, la, un, una, or no article (—)?",
+      "columns": ["Sentence", "Article"],
+      "placeholder": "Article",
+      "choices": ["el", "la", "una", "—"],
       "rows": [
-        {
-          "term": "How do you travel? I go to work … .",
-          "answer": "by bus",
-          "choices": [
-            "by bus",
-            "by the bus",
-            "on bus"
-          ]
-        },
-        {
-          "term": "Zofia is ill, so she is … .",
-          "answer": "in bed",
-          "choices": [
-            "in bed",
-            "on bed",
-            "at bed"
-          ]
-        },
-        {
-          "term": "It's eight o'clock in the evening. Let's have … .",
-          "answer": "dinner",
-          "choices": [
-            "dinner",
-            "a dinner",
-            "the dinner"
-          ]
-        },
-        {
-          "term": "The shops are closed now. I'm going … .",
-          "answer": "home",
-          "choices": [
-            "home",
-            "to home",
-            "to the home"
-          ]
-        },
-        {
-          "term": "My son is seven. He goes … every day.",
-          "answer": "to school",
-          "choices": [
-            "to school",
-            "to the school",
-            "at school"
-          ]
-        },
-        {
-          "term": "We have a test … .",
-          "answer": "on Monday",
-          "choices": [
-            "on Monday",
-            "in Monday",
-            "at Monday"
-          ]
-        }
+        { "term": "___ lunes tengo cita con el médico.", "answer": "el" },
+        { "term": "Perdón, ¿hay ___ farmacia por aquí?", "answer": "una" },
+        { "term": "Soy ___ enfermera.", "answer": "—" },
+        { "term": "¿Dónde está ___ llave? No la encuentro.", "answer": "la" },
+        { "term": "Necesito ___ ayuda.", "answer": "—" },
+        { "term": "___ doctor Ruiz no está hoy.", "answer": "el" }
       ]
     },
     {
       "type": "story",
-      "title": "Fill the gaps: a free Saturday.",
-      "hint": "the = we both know which one. a/an = one, new. — = in general, a fixed phrase or a name.",
-      "choices": [
-        "—",
-        "the",
-        "a",
-        "an"
-      ],
+      "title": "Fill the gaps: Sara's new life.",
+      "hint": "Choose the article, or — for no article.",
+      "choices": ["el", "la", "los", "una", "—"],
       "segments": [
-        {
-          "text": "Zofia and her brother Piotr have a free Saturday. They do not go to "
-        },
-        {
-          "blank": 0,
-          "answer": [
-            "—",
-            "-"
-          ]
-        },
-        {
-          "text": " work today. They have "
-        },
-        {
-          "blank": 1,
-          "answer": [
-            "—",
-            "-"
-          ]
-        },
-        {
-          "text": " breakfast at nine. Zofia likes "
-        },
-        {
-          "blank": 2,
-          "answer": [
-            "—",
-            "-"
-          ]
-        },
-        {
-          "text": " coffee, but Piotr only drinks "
-        },
-        {
-          "blank": 3,
-          "answer": [
-            "—",
-            "-"
-          ]
-        },
-        {
-          "text": " tea. After breakfast they see "
-        },
-        {
-          "blank": 4,
-          "answer": [
-            "a"
-          ]
-        },
-        {
-          "text": " poster for a new film. "
-        },
-        {
-          "blank": 5,
-          "answer": [
-            "The"
-          ]
-        },
-        {
-          "text": " poster says the film is about "
-        },
-        {
-          "blank": 6,
-          "answer": [
-            "a"
-          ]
-        },
-        {
-          "text": " young musician from "
-        },
-        {
-          "blank": 7,
-          "answer": [
-            "—",
-            "-"
-          ]
-        },
-        {
-          "text": " Poland. They go to the cinema by "
-        },
-        {
-          "blank": 8,
-          "answer": [
-            "—",
-            "-"
-          ]
-        },
-        {
-          "text": " bus. In the park Piotr eats "
-        },
-        {
-          "blank": 9,
-          "answer": [
-            "an"
-          ]
-        },
-        {
-          "text": " apple. In the evening "
-        },
-        {
-          "blank": 10,
-          "answer": [
-            "the"
-          ]
-        },
-        {
-          "text": " sun is red, and they go home."
-        }
+        { "text": "Sara es " },
+        { "blank": 0, "answer": "—" },
+        { "text": " camarera y trabaja en " },
+        { "blank": 1, "answer": "una" },
+        { "text": " cafetería. Le gusta " },
+        { "blank": 2, "answer": "la" },
+        { "text": " gente de su barrio. " },
+        { "blank": 3, "answer": "El" },
+        { "text": " sábado va al mercado, porque le gustan " },
+        { "blank": 4, "answer": "los" },
+        { "text": " tomates de allí. No tiene coche, así que siempre va andando." }
       ]
     },
     {
       "type": "build",
-      "title": "Build the sentences. Careful: some nouns need no article.",
+      "title": "Build the sentences.",
+      "hint": "Decide: article or not?",
       "sentences": [
-        {
-          "id": "aon1",
-          "hint": "I · like · music and films (in general)",
-          "correct": [
-            "I",
-            "like",
-            "music",
-            "and",
-            "films",
-            "."
-          ],
-          "shuffled": [
-            "films",
-            ".",
-            "and",
-            "I",
-            "music",
-            "like"
-          ]
-        },
-        {
-          "id": "aon2",
-          "hint": "my sister · a doctor · in London",
-          "correct": [
-            "My",
-            "sister",
-            "is",
-            "a",
-            "doctor",
-            "in",
-            "London",
-            "."
-          ],
-          "shuffled": [
-            "London",
-            "is",
-            ".",
-            "doctor",
-            "My",
-            "in",
-            "a",
-            "sister"
-          ]
-        },
-        {
-          "id": "aon3",
-          "hint": "we · have breakfast · at eight",
-          "correct": [
-            "We",
-            "have",
-            "breakfast",
-            "at",
-            "eight",
-            "."
-          ],
-          "shuffled": [
-            "eight",
-            "breakfast",
-            ".",
-            "We",
-            "at",
-            "have"
-          ]
-        },
-        {
-          "id": "aon4",
-          "hint": "the music · in this film · great",
-          "correct": [
-            "The",
-            "music",
-            "in",
-            "this",
-            "film",
-            "is",
-            "great",
-            "."
-          ],
-          "shuffled": [
-            "film",
-            "is",
-            ".",
-            "The",
-            "great",
-            "in",
-            "music",
-            "this"
-          ]
-        },
-        {
-          "id": "aon5",
-          "hint": "he · go to work · by bus",
-          "correct": [
-            "He",
-            "goes",
-            "to",
-            "work",
-            "by",
-            "bus",
-            "."
-          ],
-          "shuffled": [
-            "bus",
-            "by",
-            ".",
-            "He",
-            "work",
-            "goes",
-            "to"
-          ]
-        },
-        {
-          "id": "aon6",
-          "hint": "Mei · play the piano · every day",
-          "correct": [
-            "Mei",
-            "plays",
-            "the",
-            "piano",
-            "every",
-            "day",
-            "."
-          ],
-          "shuffled": [
-            "day",
-            "piano",
-            ".",
-            "Mei",
-            "every",
-            "plays",
-            "the"
-          ]
-        }
+        { "id": "ar1", "hint": "I like coffee", "correct": ["Me", "gusta", "el", "café", "."], "shuffled": ["gusta","el","café","Me","."] },
+        { "id": "ar2", "hint": "My sister is a nurse", "correct": ["Mi", "hermana", "es", "enfermera", "."], "shuffled": ["es","enfermera","hermana","Mi","."] },
+        { "id": "ar3", "hint": "We speak Spanish at home", "correct": ["En", "casa", "hablamos", "español", "."], "shuffled": ["hablamos","español",".","En","casa"], "alt": [["Hablamos","español","en","casa","."]] },
+        { "id": "ar4", "hint": "On Monday I have an appointment", "correct": ["El", "lunes", "tengo", "cita", "."], "shuffled": [".","tengo","cita","El","lunes"], "alt": [["Tengo","cita","el","lunes","."]] },
+        { "id": "ar5", "hint": "Is there a pharmacy here?", "correct": ["¿Hay", "una", "farmacia", "aquí", "?"], "shuffled": ["una","?","aquí","¿Hay","farmacia"] }
       ]
     },
     {
       "type": "fill",
-      "title": "Countries and places: the or no the?",
-      "hint": "Most countries and cities have no article. A few countries (the UK, the USA, the Netherlands) take the. Some places in town take the (the cinema).",
-      "placeholder": "the / —",
+      "title": "Talking to someone or about someone?",
+      "hint": "Speaking to them: no article. Talking about them: el, la.",
+      "placeholder": "Form",
       "items": [
-        {
-          "prompt": "My cousin lives in ___ Spain.",
-          "answer": [
-            "—",
-            "-"
-          ],
-          "choices": [
-            "the",
-            "—"
-          ],
-          "why": "Most countries have no article: in Spain."
-        },
-        {
-          "prompt": "Amira is from ___ UK.",
-          "answer": [
-            "the"
-          ],
-          "choices": [
-            "the",
-            "—"
-          ],
-          "why": "The UK needs the."
-        },
-        {
-          "prompt": "We are flying to ___ USA next week.",
-          "answer": [
-            "the"
-          ],
-          "choices": [
-            "the",
-            "—"
-          ],
-          "why": "The USA needs the."
-        },
-        {
-          "prompt": "I would like to visit ___ Brazil.",
-          "answer": [
-            "—",
-            "-"
-          ],
-          "choices": [
-            "the",
-            "—"
-          ],
-          "why": "Brazil has no article."
-        },
-        {
-          "prompt": "Have you been to ___ Netherlands?",
-          "answer": [
-            "the"
-          ],
-          "choices": [
-            "the",
-            "—"
-          ],
-          "why": "The Netherlands needs the."
-        },
-        {
-          "prompt": "She was born in ___ London.",
-          "answer": [
-            "—",
-            "-"
-          ],
-          "choices": [
-            "the",
-            "—"
-          ],
-          "why": "Cities have no article: in London."
-        },
-        {
-          "prompt": "Let's go to ___ cinema tonight.",
-          "answer": [
-            "the"
-          ],
-          "choices": [
-            "the",
-            "—"
-          ],
-          "why": "We say the cinema, like the bank and the station."
-        },
-        {
-          "prompt": "Zofia works in ___ Poland.",
-          "answer": [
-            "—",
-            "-"
-          ],
-          "choices": [
-            "the",
-            "—"
-          ],
-          "why": "Poland has no article."
-        }
+        { "prompt": "Buenos días, ___ López. ¿Cómo está?", "answer": "señora", "choices": ["señora", "la señora"] },
+        { "prompt": "___ López no está hoy en la oficina.", "answer": "La señora", "choices": ["Señora", "La señora"] },
+        { "prompt": "Perdone, ___ Ruiz, ¿tiene un momento?", "answer": "doctor", "choices": ["doctor", "el doctor"] },
+        { "prompt": "Tengo cita con ___ Ruiz a las diez.", "answer": "el doctor", "choices": ["doctor", "el doctor"] }
       ]
     }
   ]
