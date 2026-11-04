@@ -1107,3 +1107,5 @@ are handled by the `ui-*` items where they are rendered.
   they may lag behind the `wissen.file.grammatik-*.desc` lines, which already describe Spanish; `stundenplan.js` activity
   texts were not reviewed here. **For Edgar:** 15 core topics are `entwurf` and so are left out of `/grammar/path`, among them
   *ser/estar* basics, adjective agreement, *gustar*, numbers and *ir a*; A1 has a gap until they are set to `geprueft`.
+  **For `ui-lang-*`:** `check:grammatik-ui` (not part of the build) fails against its old baseline because the topics
+  were rewritten; translate the instructions, then run it with `--update`.
