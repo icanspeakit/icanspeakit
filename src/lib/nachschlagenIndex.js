@@ -40,8 +40,7 @@ const strip = (s) => s.replace(/<[^>]+>/g, "");
 export function nachschlagenEntries(_opts = {}) {
   const out = [];
   for (const v of verbs) {
-    const forms = [...new Set(v.rows.flatMap((r) => [r.praes.f, r.praet.f, r.perf.f]).concat(v.p2))];
-    out.push([v.inf, `${v.rows[2].praes.f} · ${v.rows[2].praet.f} · ${v.rows[2].perf.f}`, verbHref(v), "verb", forms.join("|")]);
+    out.push([v.inf, `${v.rows[2].praes.f} · ${v.rows[2].praet.f} · ${v.rows[2].perf.f}`, verbHref(v), "verb", v.forms.join("|")]);
   }
   for (const [kind, ref, data] of LISTS) {
     for (const s of data.sections) {

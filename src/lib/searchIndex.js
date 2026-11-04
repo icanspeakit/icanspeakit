@@ -349,12 +349,12 @@ export function buildSearchIndex() {
     ]);
 
   // Verb tables (/grammar/verbs): [infinitive, preview, href, every form]. Every form
-  // so that "hat", "ging" or "gegangen" also find their verb.
+  // so that "tengo", "hizo" or "haga" also find their verb.
   const verbs = verbTables.map((v) => [
     v.inf,
     `${v.rows.slice(0, 3).map((r) => r.praes.f).join(", ")} … · ${v.rows[2].praet.f} · ${v.rows[2].perf.f}`,
     verbHref(v),
-    [...new Set(v.rows.flatMap((r) => [r.praes.f, r.praet.f, r.perf.f]).concat(v.p2))].join("|"),
+    v.forms.join("|"),
   ]);
 
   // Vokabelsets: [title, level, href, theme words, its words]. Its words (lemma and

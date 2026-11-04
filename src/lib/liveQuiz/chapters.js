@@ -7,9 +7,9 @@
 //            multiple choice. The wrong options are other answers of the same exercise
 //            (werde / wirst / wird / werden), so they are always forms a learner could
 //            plausibly mix up, never random words.
-//   g:verbtabellen  the verb tables of /grammar/verbs: a form of each verb in Präsens,
-//            Präteritum and Perfekt, the wrong options being the same verb's other forms
-//            and the form the regular pattern would wrongly give (du fahrst, ich gehte).
+//   g:verbtabellen  the verb tables of /grammar/verbs: a form of each verb in the presente,
+//            indefinido and perfecto, the wrong options being the same verb's other forms
+//            and the form the regular pattern would wrongly give (teno, hacé, ha hacido).
 //   w:<id>   a Wortschatz Lernset — its words, asked German → translation by default.
 //            Stored as a reference ({ t: "word", id }) and turned into a question on the
 //            projector, where the lexicon is loaded anyway: that is what lets every
@@ -113,20 +113,17 @@ function verbGroups() {
   return verbGroupList.map((g) => {
     const items = [];
     for (const v of verbList.filter((x) => x.group === g.id)) {
-      // A phrasal verb's regular pattern is its verb's, with the particle after it.
-      const [base, ...rest] = v.inf.split(" ");
-      const particle = v.group === "trennbar" ? rest.join(" ") : "";
-      const verb = particle ? base : v.inf;
-      const sep = (f) => (particle ? `${f} ${particle}` : f);
       const praes = v.rows.map((r) => r.praes.f);
       const praet = v.rows.map((r) => r.praet.f);
-      // The person whose form breaks the pattern (I am, he has), else he/she/it.
+      // The person whose form breaks the pattern (tengo, tienes), else él/ella.
       const pi = v.rows.findIndex((r) => r.praes.x);
       const p = pi === -1 ? 2 : pi;
-      items.push(q(`${PERSONS[p]} ___ (${v.inf}) · present simple`, praes[p], [sep(regularPraes(verb)[p]), ...praes], g.name, `g:${VERB_KEY}#${v.id}-praes`));
-      items.push(q(`I ___ (${v.inf}) · past simple`, praet[0], [sep(regularPraet(verb)[0]), v.p2, ...praet], g.name, `g:${VERB_KEY}#${v.id}-praet`));
-      const regP2 = sep(regularP2(verb));
-      items.push(q(`he ___ (${v.inf}) · present perfect`, `has ${v.p2}`, [`have ${v.p2}`, `has ${regP2}`, `has ${praet[2]}`, `has ${v.inf}`], g.name, `g:${VERB_KEY}#${v.id}-perf`));
+      items.push(q(`${PERSONS[p]} ___ (${v.inf}) · presente`, praes[p], [regularPraes(v.inf)[p], ...praes], g.name, `g:${VERB_KEY}#${v.id}-praes`));
+      // A verb with gaps in its table (haber, soler) hardly uses the indefinido: not asked.
+      if (!v.defective) items.push(q(`yo ___ (${v.inf}) · indefinido`, praet[0], [regularPraet(v.inf)[0], ...praet], g.name, `g:${VERB_KEY}#${v.id}-praet`));
+      const perf = v.rows[2].perf.f;
+      const withPart = (part) => perf.replace(v.p2, part);
+      items.push(q(`él/ella ___ (${v.inf}) · pretérito perfecto`, perf, [v.rows[5].perf.f, withPart(regularP2(v.inf)), withPart(v.plain), v.rows[0].perf.f], g.name, `g:${VERB_KEY}#${v.id}-perf`));
     }
     return { title: g.name, items: items.filter(Boolean) };
   }).filter((g) => g.items.length);

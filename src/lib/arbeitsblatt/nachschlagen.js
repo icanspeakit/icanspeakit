@@ -51,9 +51,9 @@ const tokens = (s) => String(s).match(/[\p{L}\p{N}’'-]+|[.,!?]/gu) ?? [];
 /* ---- /grammar/verbs ---------------------------------------------------------------- */
 function verbTopic() {
   const pools = verbGroupList.map((g) => verbList.filter((v) => v.group === g.id));
-  // A verb with a note has a past that is another verb (would like: "For the past, use
-  // wanted") or a spelling trap, so it is asked in the present simple only.
-  const past = pools.map((l) => l.filter((v) => !v.note));
+  // A verb with gaps in its table (haber, soler) hardly uses the indefinido, so it is asked in
+  // the present only.
+  const past = pools.map((l) => l.filter((v) => !v.defective));
   const pick = (skip, lists = past) => roundRobin(lists, ROWS, skip);
   const g = Object.fromEntries(verbGroupList.map((x) => [x.id, x]));
   return {
@@ -61,19 +61,19 @@ function verbTopic() {
     slug: "verbtabellen",
     name: "Verb tables: the most important verbs",
     level: "A1",
-    subtitle: "Present simple, past simple and present perfect of the most important verbs",
+    subtitle: "Presente, indefinido and pretérito perfecto of the most important verbs",
     reference: "/grammar/verbs",
     concept: {
-      qa: [g.regelmaessig?.regel?.[0], g.unregelmaessig?.regel?.[0], g.regelmaessig?.regel?.[2], g.hilfsverb?.regel?.[1]]
+      qa: [g.regelmaessig?.regel?.[0], g.unregelmaessig?.regel?.[0], g["stem-change"]?.regel?.[0], g.hilfsverb?.regel?.[2]]
         .filter(Boolean).map((r) => ({ html: ruleHtml(r) })),
     },
     exercises: [
       {
         type: "table",
-        title: "Present simple: write the verb form.",
-        hint: "Careful with he/she/it: -s, -es or -ies.",
-        columns: ["Person + verb", "Present simple"],
-        // The person whose form breaks the pattern (I am, he has), else he/she/it.
+        title: "Presente: write the verb form.",
+        hint: "Careful with the yo form and with stem changes: tengo, pienso, pensamos.",
+        columns: ["Person + verb", "Presente"],
+        // The person whose form breaks the pattern (tengo, tienes), else él/ella.
         rows: pick(0, pools).map((v) => {
           const x = v.rows.findIndex((r) => r.praes.x);
           const p = x === -1 ? 2 : x;
@@ -82,14 +82,14 @@ function verbTopic() {
       },
       {
         type: "table",
-        title: "Past simple: write the form.",
-        columns: ["Verb", "Past simple"],
+        title: "Indefinido: write the yo form.",
+        columns: ["Verb", "yo (indefinido)"],
         rows: pick(ROWS).map((v) => ({ term: v.inf, answer: v.rows[0].praet.f })),
       },
       {
         type: "table",
-        title: "Present perfect: has + past participle.",
-        columns: ["Verb", "he/she/it (present perfect)"],
+        title: "Pretérito perfecto: haber + participle.",
+        columns: ["Verb", "él/ella (pretérito perfecto)"],
         rows: pick(2 * ROWS).map((v) => ({ term: v.inf, answer: v.rows[2].perf.f })),
       },
     ],

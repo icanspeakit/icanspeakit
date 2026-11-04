@@ -101,11 +101,13 @@ import "../styles/site-search.css";
         themes: new Set(norm(`${t} ${k}`).split(" ")),
         words: w.split("|").map(norm),
       })),
-      // A form matches whole ("hat", "bin gewesen") or by its verb word ("gegangen").
+      // A form matches whole ("he comido", "me levanto") or by its verb word ("comido", "levanto").
+      // The little words of a longer form don't count, or "me" would find every reflexive verb;
+      // haber and saber still answer to "ha" and "se", which they list as whole forms.
       verbs: verbs.map(([inf, preview, href, forms]) => ({
         inf, preview, href,
         n: norm(inf),
-        forms: new Set(forms.split("|").flatMap((f) => [norm(f), ...norm(f).split(" ")])),
+        forms: new Set(forms.split("|").flatMap((f) => [norm(f), ...norm(f).split(" ").filter((w) => !/^(no|me|te|se|nos|os|he|has|ha|hemos|habeis|han)$/.test(w))])),
       })),
       // Nachschlagewerk rows (verb lists, word classes, Typische Fehler), each opening on itself.
       refs: refs.map(([label, sub, href, kind]) => ({ label, sub, href, kind, n: norm(label) })),
