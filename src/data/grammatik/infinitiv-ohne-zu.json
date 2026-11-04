@@ -1,153 +1,90 @@
 {
   "id": "infinitiv-ohne-zu",
-  "name": "Make, let and help",
+  "name": "Infinitive or subjunctive: quiero ir, quiero que vayas",
   "level": "B1",
   "status": "geprueft",
-  "subtitle": "After make, let and help, use the base verb without to: My boss makes us work late. My parents let me stay out. She helped me carry the bags. Use to only in the passive: We were made to wait.",
-  "briefMarks": [
-    "make",
-    "let",
-    "help",
-    "without to"
-  ],
-  "source": "icanspeak Spanish original English text (grammar-b1 run, 2026-10-29)",
+  "variety": "es-ES",
+  "es419": { "note": "The rule is the same in Latin America. Quiero que vayáis is Spain only: there people say quiero que vayan." },
+  "subtitle": "Ask who does the second action. The same person: use the infinitive (Quiero ir). A different person: use que + subjunctive (Quiero que vayas). Don't say Quiero que yo vaya.",
+  "briefMarks": ["quiero ir", "quiero que vayas", "que", "infinitive", "subjunctive"],
+  "source": "icanspeak Spanish original text (grammar-b1 run, 2026-11-04)",
   "concept": {
     "comic": {
-      "title": "make, let, help",
+      "title": "¿Quién {sale}?",
       "panels": [
         {
-          "caption": "make",
-          "tag": "{make} + someone + base verb",
-          "left": {
-            "name": "regi",
-            "expr": "thinking",
-            "say": "Why are you so tired?"
-          },
-          "right": {
-            "name": "bruno",
-            "expr": "sleepy",
-            "say": "My boss {makes} us {work} late."
-          }
+          "caption": "Same person",
+          "tag": "{quiero} + infinitive",
+          "left": { "name": "regi", "expr": "thinking", "say": "¿Qué quieres hacer esta noche?" },
+          "right": { "name": "quaki", "expr": "happy", "say": "{Quiero} {salir}." }
         },
         {
-          "caption": "let",
-          "tag": "{let} + someone + base verb",
-          "left": {
-            "name": "hamsti",
-            "expr": "happy",
-            "say": "Can you come to the party?"
-          },
-          "right": {
-            "name": "quaki",
-            "expr": "celebrate",
-            "say": "Yes! My parents {let} me {stay} out until midnight!"
-          }
+          "caption": "Different people",
+          "tag": "{quiero que} + subjunctive",
+          "left": { "name": "bruno", "expr": "thinking", "say": "¿Y yo? ¿Me quedo en casa?" },
+          "right": { "name": "quaki", "expr": "celebrate", "say": "¡No! {Quiero que} {salgas} conmigo." }
         },
         {
-          "caption": "help",
-          "tag": "{help} + someone + base verb",
-          "left": {
-            "name": "bruno",
-            "expr": "oops",
-            "say": "These boxes are so heavy!"
-          },
-          "right": {
-            "name": "regi",
-            "expr": "happy",
-            "say": "I'll {help} you {carry} them."
-          }
+          "caption": "In general or for one person",
+          "tag": "{es importante} + infinitive, {es importante que} + subjunctive",
+          "left": { "name": "hamsti", "expr": "thinking", "say": "{Es importante} {pedir} cita." },
+          "right": { "name": "regi", "expr": "happy", "say": "Y {es importante que} {lleves} el pasaporte." }
         }
       ]
     },
     "flow": [
-      {
-        "text": "subject"
-      },
-      {
-        "text": "make / let / help",
-        "variant": "verb"
-      },
-      {
-        "text": "someone"
-      },
-      {
-        "text": "base verb",
-        "variant": "prep"
-      },
-      {
-        "text": "no to"
-      }
+      { "text": "same person: quiero" },
+      { "text": "ir", "variant": "verb" },
+      { "text": "different person: quiero que", "variant": "prep" },
+      { "text": "vayas", "variant": "verb" }
     ],
-    "exampleHtml": "My boss <span class=\"vp-verb\">makes</span> us <span class=\"vp-prep\">work</span> late. · My parents <span class=\"vp-verb\">let</span> me <span class=\"vp-prep\">stay</span> out. · She <span class=\"vp-verb\">helped</span> me <span class=\"vp-prep\">carry</span> the bags.",
+    "exampleHtml": "Quiero <span class=\"vp-verb\">ir</span> al médico. · <span class=\"vp-prep\">Quiero que</span> <span class=\"vp-verb\">vayas</span> al médico. · Necesito <span class=\"vp-verb\">descansar</span>. · <span class=\"vp-prep\">Necesito que</span> me <span class=\"vp-verb\">ayudes</span>.",
     "qa": [
       {
-        "html": "<strong>make + someone + base verb</strong> means the person has no choice, or something causes a feeling or a reaction. <em>My boss makes us work late. The film made me cry. Don't make me laugh!</em>",
-        "tag": "make"
+        "html": "<strong>One person does both things:</strong> use the infinitive. <em>(Yo) quiero (yo) trabajar → Quiero trabajar.</em> <em>Ana quiere estudiar.</em>",
+        "tag": "Same person"
       },
       {
-        "html": "<strong>let + someone + base verb</strong> means to allow it. <em>My parents let me stay out late. Our teacher doesn't let us use phones. Let me help you.</em>",
-        "tag": "let"
+        "html": "<strong>Two different people:</strong> use <em>que</em> + subjunctive. <em>Quiero que trabajes</em> = I want you to work. <em>Ana quiere que estudiemos</em> = Ana wants us to study.",
+        "tag": "Different people"
       },
       {
-        "html": "<strong>help + someone + base verb</strong> means to give a hand. <em>to</em> is optional: <em>She helped me carry the bags. She helped me to carry the bags.</em> Both are fine. The short form is more common.",
-        "tag": "help"
+        "html": "The same pattern works with feelings: <em>Me gusta cocinar</em> (I cook) and <em>Me gusta que cocines</em> (you cook). <em>Me alegra verte</em> and <em>Me alegra que vengas</em>.",
+        "tag": "Feelings"
       },
       {
-        "html": "Typical mistakes: ✗ <em>My boss makes us to work late.</em> → ✓ <em>My boss makes us work late.</em> · ✗ <em>My parents let me to stay out.</em> → ✓ <em>My parents let me stay out.</em> · ✗ <em>My mum made me tidying my room.</em> → ✓ <em>My mum made me tidy my room.</em>",
-        "tag": "Typical mistakes"
+        "html": "<strong>es importante, es necesario, es mejor</strong>: use the infinitive for people in general, and <em>que</em> + subjunctive for a particular person. <em>Es importante pedir cita. Es importante que pidas cita.</em>",
+        "tag": "General or personal"
+      },
+      {
+        "html": "With the same person, <em>que</em> is wrong in Spanish, even if you can say <em>I want that</em> in your language. <em>Quiero que vaya</em> means someone else goes: he, she or usted.",
+        "tag": "Careful"
       }
     ],
-    "noteHtml": "<strong>Be careful with the passive.</strong> <em>make</em> keeps its <em>to</em> in the passive: <em>They made us wait. → We were made to wait.</em> <em>let</em> has no passive in everyday English. Use <em>be allowed to</em> instead: <em>My parents let me go out. → I was allowed to go out.</em> Remember that <em>Let's</em> is short for <em>let us</em>: <em>Let's go!</em> Other verbs with someone need <em>to</em>: <em>want, tell, ask</em> (<em>She told me to wait</em>). See <a href=\"/verb-ing-or-to\">-ing or to</a>. The verbs <em>see</em> and <em>hear</em> also work without <em>to</em>: <em>I heard him sing.</em> For <em>have something done</em>, see <a href=\"/have-something-done\">Have / get something done</a>. After <em>can, must</em> and <em>should</em>, the base verb is also used: <a href=\"/modal-verbs\">Modal verbs</a>.",
+    "noteHtml": "Common mistakes: ✗ <em>Quiero que yo vaya</em> → ✓ <em>Quiero ir</em>. ✗ <em>Quiero tú vas</em> → ✓ <em>Quiero que vayas</em>. ✗ <em>Quiero ir tú</em> → ✓ <em>Quiero que vayas</em>. ✗ <em>Necesito que descanso</em> → ✓ <em>Necesito descansar</em>.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
       "tables": [
         {
-          "caption": "make, let and help + base verb",
-          "note": "The base verb comes after the person. There is no to.",
-          "head": [
-            "Verb",
-            "Pattern",
-            "Example"
-          ],
+          "caption": "Same person or different person",
+          "head": ["Phrase", "Same person: infinitive", "Different person: que + subjunctive"],
           "rows": [
-            [
-              "make",
-              "make + someone + base verb",
-              "My boss {makes} us {work} late."
-            ],
-            [
-              "let",
-              "let + someone + base verb",
-              "My parents {let} me {stay} out."
-            ],
-            [
-              "help",
-              "help + someone + (to) base verb",
-              "She {helped} me (to) {carry} the bags."
-            ]
+            ["querer", "Quiero salir.", "Quiero que salgas."],
+            ["necesitar", "Necesito descansar.", "Necesito que descanses."],
+            ["preferir", "Prefiero ir el lunes.", "Prefiero que vayas el lunes."],
+            ["esperar", "Espero llegar a tiempo.", "Espero que llegues a tiempo."],
+            ["gustar", "Me gusta leer.", "Me gusta que leas."],
+            ["alegrar", "Me alegra verte.", "Me alegra que estés aquí."]
           ]
         },
         {
-          "caption": "Active and passive",
-          "note": "In the passive, use to after made. Use be allowed to instead of let.",
-          "head": [
-            "Active",
-            "Passive"
-          ],
+          "caption": "People in general or one person",
+          "head": ["Phrase", "In general: infinitive", "One person: que + subjunctive"],
           "rows": [
-            [
-              "They made us wait.",
-              "We were made {to} wait."
-            ],
-            [
-              "They let us leave early.",
-              "We were allowed {to} leave early."
-            ],
-            [
-              "Our teacher lets us use phones.",
-              "We are allowed {to} use phones."
-            ]
+            ["es importante", "Es importante pedir cita.", "Es importante que pidas cita."],
+            ["es necesario", "Es necesario firmar aquí.", "Es necesario que firme aquí."],
+            ["es mejor", "Es mejor ir temprano.", "Es mejor que vayas temprano."]
           ]
         }
       ]
@@ -155,172 +92,43 @@
   },
   "aktiv": {
     "listen": [
-      {
-        "text": "My boss makes us work late.",
-        "note": "make + someone + base verb: work, not to work.",
-        "audio": "/audio/grammatik/infinitiv-ohne-zu/my-boss-makes-us-work-late.mp3"
-      },
-      {
-        "text": "My parents let me stay out late.",
-        "note": "let + someone + base verb: they allow it.",
-        "audio": "/audio/grammatik/infinitiv-ohne-zu/my-parents-let-me-stay-out-late.mp3"
-      },
-      {
-        "text": "Can you help me carry this bag?",
-        "note": "help + someone + base verb. You can also say help me to carry.",
-        "audio": "/audio/grammatik/infinitiv-ohne-zu/can-you-help-me-carry-this-bag.mp3"
-      },
-      {
-        "text": "We were made to wait outside.",
-        "note": "In the passive, made keeps to: were made to wait.",
-        "audio": "/audio/grammatik/infinitiv-ohne-zu/we-were-made-to-wait-outside.mp3"
-      }
+      { "text": "Quiero ir al médico.", "note": "I go: infinitive." },
+      { "text": "Quiero que vayas al médico.", "note": "You go: que + subjunctive." },
+      { "text": "Necesito descansar.", "note": "I rest: infinitive." },
+      { "text": "Necesito que me ayudes.", "note": "You help: que + subjunctive." },
+      { "text": "Es importante pedir cita.", "note": "For anyone: infinitive." }
     ],
     "hoeren": {
-      "instruction": "Listen and choose the form you hear. You can listen twice.",
+      "instruction": "Listen and choose the sentence you heard. You can listen twice.",
       "items": [
-        {
-          "text": "The sad film made me cry.",
-          "choices": [
-            "cry",
-            "to cry",
-            "crying"
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/infinitiv-ohne-zu/the-sad-film-made-me-cry.mp3"
-        },
-        {
-          "text": "We were made to stay inside.",
-          "choices": [
-            "stay",
-            "to stay",
-            "staying"
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/infinitiv-ohne-zu/we-were-made-to-stay-inside.mp3"
-        },
-        {
-          "text": "Our teacher lets us wear jeans.",
-          "choices": [
-            "to wear",
-            "wearing",
-            "wear"
-          ],
-          "correct": 2,
-          "audio": "/audio/grammatik/infinitiv-ohne-zu/our-teacher-lets-us-wear-jeans.mp3"
-        },
-        {
-          "text": "He helped me carry the bags.",
-          "choices": [
-            "carry",
-            "to carry",
-            "carrying"
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/infinitiv-ohne-zu/he-helped-me-carry-the-bags.mp3"
-        },
-        {
-          "text": "Her dad made her tidy her room.",
-          "choices": [
-            "tidying",
-            "to tidy",
-            "tidy"
-          ],
-          "correct": 2,
-          "audio": "/audio/grammatik/infinitiv-ohne-zu/her-dad-made-her-tidy-her-room.mp3"
-        },
-        {
-          "text": "They were allowed to leave early.",
-          "choices": [
-            "leave",
-            "to leave",
-            "leaving"
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/infinitiv-ohne-zu/they-were-allowed-to-leave-early.mp3"
-        }
+        { "text": "Quiero que vayas.", "choices": ["Quiero ir.", "Quiero que vayas.", "Quiero que vaya."], "correct": 1 },
+        { "text": "Prefiero salir temprano.", "choices": ["Prefiero salir temprano.", "Prefiero que salgas temprano.", "Prefiero que salga temprano."], "correct": 0 },
+        { "text": "Es mejor que lo hagas hoy.", "choices": ["Es mejor hacerlo hoy.", "Quiero hacerlo hoy.", "Es mejor que lo hagas hoy."], "correct": 2 },
+        { "text": "Me gusta que cocines.", "choices": ["Me gusta cocinar.", "Me gusta que cocines.", "Me gusta que cocine."], "correct": 1 }
       ]
     },
     "sprechen": {
       "rounds": [
         {
-          "label": "1 · make someone do",
-          "instruction": "You hear a sentence and the start of a new one. Say the new sentence. Use the base verb after the person.",
-          "example": {
-            "prompt": "I work late. – My boss makes",
-            "answer": "My boss makes me work late."
-          },
+          "label": "1 · Not me, you",
+          "instruction": "You hear what someone wants to do. Say you want the other person to do it.",
+          "example": { "prompt": "Quiero ir.", "answer": "Quiero que vayas." },
           "items": [
-            {
-              "prompt": "We wait outside. – The guard makes",
-              "answer": "The guard makes us wait outside.",
-              "audioPrompt": "/audio/grammatik/infinitiv-ohne-zu/we-wait-outside-the-guard-makes.mp3",
-              "audioAnswer": "/audio/grammatik/infinitiv-ohne-zu/the-guard-makes-us-wait-outside--a.mp3"
-            },
-            {
-              "prompt": "I laugh. – That film makes",
-              "answer": "That film makes me laugh.",
-              "audioPrompt": "/audio/grammatik/infinitiv-ohne-zu/i-laugh-that-film-makes.mp3",
-              "audioAnswer": "/audio/grammatik/infinitiv-ohne-zu/that-film-makes-me-laugh--a.mp3"
-            },
-            {
-              "prompt": "She tidies her room. – Her dad makes",
-              "answer": "Her dad makes her tidy her room.",
-              "audioPrompt": "/audio/grammatik/infinitiv-ohne-zu/she-tidies-her-room-her-dad-makes.mp3",
-              "audioAnswer": "/audio/grammatik/infinitiv-ohne-zu/her-dad-makes-her-tidy-her-room--a.mp3"
-            },
-            {
-              "prompt": "They repeat the exercise. – The teacher makes",
-              "answer": "The teacher makes them repeat the exercise.",
-              "audioPrompt": "/audio/grammatik/infinitiv-ohne-zu/they-repeat-the-exercise-the-teacher-makes.mp3",
-              "audioAnswer": "/audio/grammatik/infinitiv-ohne-zu/the-teacher-makes-them-repeat-the-exercise--a.mp3"
-            },
-            {
-              "prompt": "I cry. – Sad music makes",
-              "answer": "Sad music makes me cry.",
-              "audioPrompt": "/audio/grammatik/infinitiv-ohne-zu/i-cry-sad-music-makes.mp3",
-              "audioAnswer": "/audio/grammatik/infinitiv-ohne-zu/sad-music-makes-me-cry--a.mp3"
-            }
+            { "prompt": "Quiero llamar.", "answer": "Quiero que llames." },
+            { "prompt": "Quiero venir.", "answer": "Quiero que vengas." },
+            { "prompt": "Quiero hablar con él.", "answer": "Quiero que hables con él." },
+            { "prompt": "Quiero hacerlo.", "answer": "Quiero que lo hagas." }
           ]
         },
         {
-          "label": "2 · let someone do",
-          "instruction": "You hear a sentence and the start of a new one. Say the new sentence. Use the base verb after the person.",
-          "example": {
-            "prompt": "I stay up late. – My parents let",
-            "answer": "My parents let me stay up late."
-          },
+          "label": "2 · You, not in general",
+          "instruction": "You hear a general rule. Say it to one friend, with tú.",
+          "example": { "prompt": "Es importante pedir cita.", "answer": "Es importante que pidas cita." },
           "items": [
-            {
-              "prompt": "I borrow the car. – My dad lets",
-              "answer": "My dad lets me borrow the car.",
-              "audioPrompt": "/audio/grammatik/infinitiv-ohne-zu/i-borrow-the-car-my-dad-lets.mp3",
-              "audioAnswer": "/audio/grammatik/infinitiv-ohne-zu/my-dad-lets-me-borrow-the-car--a.mp3"
-            },
-            {
-              "prompt": "We use the garden. – Our landlord lets",
-              "answer": "Our landlord lets us use the garden.",
-              "audioPrompt": "/audio/grammatik/infinitiv-ohne-zu/we-use-the-garden-our-landlord-lets.mp3",
-              "audioAnswer": "/audio/grammatik/infinitiv-ohne-zu/our-landlord-lets-us-use-the-garden--a.mp3"
-            },
-            {
-              "prompt": "She chooses the film. – Her friends let",
-              "answer": "Her friends let her choose the film.",
-              "audioPrompt": "/audio/grammatik/infinitiv-ohne-zu/she-chooses-the-film-her-friends-let.mp3",
-              "audioAnswer": "/audio/grammatik/infinitiv-ohne-zu/her-friends-let-her-choose-the-film--a.mp3"
-            },
-            {
-              "prompt": "He has a dog. – His flatmates let",
-              "answer": "His flatmates let him have a dog.",
-              "audioPrompt": "/audio/grammatik/infinitiv-ohne-zu/he-has-a-dog-his-flatmates-let.mp3",
-              "audioAnswer": "/audio/grammatik/infinitiv-ohne-zu/his-flatmates-let-him-have-a-dog--a.mp3"
-            },
-            {
-              "prompt": "They wear jeans to work. – The manager lets",
-              "answer": "The manager lets them wear jeans to work.",
-              "audioPrompt": "/audio/grammatik/infinitiv-ohne-zu/they-wear-jeans-to-work-the-manager-lets.mp3",
-              "audioAnswer": "/audio/grammatik/infinitiv-ohne-zu/the-manager-lets-them-wear-jeans-to-work--a.mp3"
-            }
+            { "prompt": "Es importante descansar.", "answer": "Es importante que descanses." },
+            { "prompt": "Es mejor ir temprano.", "answer": "Es mejor que vayas temprano." },
+            { "prompt": "Es necesario firmar aquí.", "answer": "Es necesario que firmes aquí." },
+            { "prompt": "Es mejor llamar antes.", "answer": "Es mejor que llames antes." }
           ]
         }
       ]
@@ -329,368 +137,100 @@
   "exercises": [
     {
       "type": "fill",
-      "title": "to or no to?",
-      "hint": "Choose the right form. The verb is in brackets. After make, let and help, use the base verb. In the passive, made needs to.",
-      "placeholder": "Form…",
+      "title": "One person or two?",
+      "hint": "Read the note: who does the second action?",
+      "placeholder": "Form",
       "items": [
-        {
-          "prompt": "My boss makes us ___ late on Fridays. (work)",
-          "hint": "make",
-          "answer": "work",
-          "choices": [
-            "work",
-            "to work"
-          ],
-          "why": "make + someone + base verb. No to."
-        },
-        {
-          "prompt": "Her parents let her ___ out until midnight. (stay)",
-          "hint": "let",
-          "answer": "stay",
-          "choices": [
-            "stay",
-            "to stay"
-          ],
-          "why": "let + someone + base verb. No to."
-        },
-        {
-          "prompt": "Can you help me ___ these boxes? (carry)",
-          "hint": "help",
-          "answer": [
-            "carry",
-            "to carry"
-          ],
-          "choices": [
-            "carry",
-            "to carry"
-          ],
-          "why": "After help + someone, to is optional. Both are right."
-        },
-        {
-          "prompt": "The film made everyone ___. (cry)",
-          "hint": "make",
-          "answer": "cry",
-          "choices": [
-            "cry",
-            "to cry"
-          ],
-          "why": "make + someone + base verb. No to."
-        },
-        {
-          "prompt": "The children were made ___ their coats. (wear)",
-          "hint": "passive of make",
-          "answer": "to wear",
-          "choices": [
-            "wear",
-            "to wear"
-          ],
-          "why": "In the passive, make keeps to: were made to wear."
-        },
-        {
-          "prompt": "Our teacher doesn't let us ___ phones in class. (use)",
-          "hint": "let",
-          "answer": "use",
-          "choices": [
-            "use",
-            "to use"
-          ],
-          "why": "let + someone + base verb. No to, even after doesn't."
-        },
-        {
-          "prompt": "Mei helped her brother ___ his homework. (do)",
-          "hint": "help",
-          "answer": [
-            "do",
-            "to do"
-          ],
-          "choices": [
-            "do",
-            "to do"
-          ],
-          "why": "After help + someone, to is optional. Both are right."
-        }
+        { "prompt": "Quiero ___ al médico mañana.", "hint": "I go", "answer": "ir", "choices": ["ir", "que vaya", "que vayas"], "why": "You want it and you do it: one person, so infinitive." },
+        { "prompt": "Quiero ___ a la farmacia ahora.", "hint": "you (tú) go", "answer": "que vayas", "choices": ["ir", "que vas", "que vayas"], "why": "I want it, you do it: two people." },
+        { "prompt": "Mi hija quiere ___ al fútbol.", "hint": "she plays", "answer": "jugar", "choices": ["jugar", "que juegue", "que juega"] },
+        { "prompt": "Mi hija quiere ___ con ella.", "hint": "I play", "answer": "que juegue", "choices": ["jugar", "que juegue", "que juego"], "why": "yo and ella share one form: que juegue." },
+        { "prompt": "Necesito ___ el contrato esta noche.", "hint": "I read", "answer": "leer", "choices": ["leer", "que leo", "que leas"] },
+        { "prompt": "Necesito ___ este papel antes del lunes.", "hint": "you (usted) sign", "answer": "que firme", "choices": ["firmar", "que firma", "que firme"] }
+      ]
+    },
+    {
+      "type": "fill",
+      "title": "Feelings: me or someone else?",
+      "hint": "Same person: infinitive. Different person: que + subjunctive.",
+      "placeholder": "Form",
+      "items": [
+        { "prompt": "Me gusta ___ los domingos.", "hint": "I cook", "answer": "cocinar", "choices": ["cocinar", "que cocine", "que cocines"] },
+        { "prompt": "Me gusta ___ tú los sábados.", "hint": "you cook", "answer": "que cocines", "choices": ["cocinar", "que cocinas", "que cocines"] },
+        { "prompt": "Me alegra ___ otra vez.", "hint": "I see you", "answer": "verte", "choices": ["verte", "que veas", "que ves"] },
+        { "prompt": "Me molesta ___ tan tarde a la oficina.", "hint": "they arrive", "answer": "que lleguen", "choices": ["llegar", "que llegan", "que lleguen"] },
+        { "prompt": "Prefiero ___ en casa esta noche.", "hint": "I stay", "answer": "quedarme", "choices": ["quedarme", "que me quede", "que te quedes"] }
+      ]
+    },
+    {
+      "type": "fill",
+      "title": "In general, or one person?",
+      "hint": "Anyone: infinitive. A named person: que + subjunctive.",
+      "placeholder": "Form",
+      "items": [
+        { "prompt": "Para el padrón es necesario ___ un documento de identidad.", "hint": "anyone", "answer": "llevar", "choices": ["llevar", "que lleva", "que lleve"], "why": "A general rule, nobody in particular." },
+        { "prompt": "Omar, es importante que ___ el contrato.", "hint": "tú", "answer": "lleves", "choices": ["llevar", "llevas", "lleves"], "why": "You are speaking to one person." },
+        { "prompt": "Antes de una entrevista, es mejor ___ temprano.", "hint": "anyone", "answer": "llegar", "choices": ["llegar", "que llega", "que llegue"] },
+        { "prompt": "Fatima, es mejor que ___ temprano mañana.", "hint": "tú", "answer": "llegues", "choices": ["llegar", "llegas", "llegues"] },
+        { "prompt": "En esta oficina es importante ___ puntual.", "hint": "anyone", "answer": "ser", "choices": ["ser", "que es", "que sea"] },
+        { "prompt": "Señor Ruiz, es necesario que ___ aquí.", "hint": "usted", "answer": "firme", "choices": ["firmar", "firma", "firme"] }
       ]
     },
     {
       "type": "table",
-      "title": "Do we use to?",
-      "hint": "Think about the verb. After this verb and a person, do we use to?",
-      "columns": [
-        "Verb + someone",
-        "Then use"
-      ],
-      "placeholder": "to / no to…",
+      "title": "From I to you.",
+      "hint": "Change the infinitive to que + subjunctive, tú form.",
+      "columns": ["I do it", "You do it"],
+      "placeholder": "Form",
       "rows": [
-        {
-          "term": "make someone",
-          "answer": "no to",
-          "choices": [
-            "no to",
-            "to",
-            "no to or to"
-          ]
-        },
-        {
-          "term": "let someone",
-          "answer": "no to",
-          "choices": [
-            "no to",
-            "to",
-            "no to or to"
-          ]
-        },
-        {
-          "term": "help someone",
-          "answer": "no to or to",
-          "choices": [
-            "no to",
-            "to",
-            "no to or to"
-          ]
-        },
-        {
-          "term": "tell someone",
-          "answer": "to",
-          "choices": [
-            "no to",
-            "to",
-            "no to or to"
-          ]
-        },
-        {
-          "term": "be made",
-          "answer": "to",
-          "choices": [
-            "no to",
-            "to",
-            "no to or to"
-          ]
-        },
-        {
-          "term": "be allowed",
-          "answer": "to",
-          "choices": [
-            "no to",
-            "to",
-            "no to or to"
-          ]
-        },
-        {
-          "term": "want someone",
-          "answer": "to",
-          "choices": [
-            "no to",
-            "to",
-            "no to or to"
-          ]
-        }
+        { "term": "Quiero salir.", "answer": "Quiero que salgas.", "choices": ["Quiero que salgas.", "Quiero que sales.", "Quiero salgas."] },
+        { "term": "Necesito descansar.", "answer": "Necesito que descanses.", "choices": ["Necesito que descansas.", "Necesito que descanses.", "Necesito descanses."] },
+        { "term": "Prefiero venir el lunes.", "answer": "Prefiero que vengas el lunes.", "choices": ["Prefiero que vienes el lunes.", "Prefiero vengas el lunes.", "Prefiero que vengas el lunes."] },
+        { "term": "Espero llegar a tiempo.", "answer": "Espero que llegues a tiempo.", "choices": ["Espero que llegues a tiempo.", "Espero que llegas a tiempo.", "Espero llegues a tiempo."] },
+        { "term": "Quiero hacerlo yo.", "answer": "Quiero que lo hagas tú.", "choices": ["Quiero que lo haces tú.", "Quiero que lo hagas tú.", "Quiero lo hagas tú."] }
       ]
     },
     {
       "type": "match",
-      "title": "Which ending fits?",
-      "hint": "Tap a sentence start first, then the ending that fits.",
+      "title": "Who does it?",
+      "hint": "que tells you another person does it.",
       "pairs": [
-        {
-          "q": "The sad film made",
-          "a": "me <u>cry</u>."
-        },
-        {
-          "q": "My parents let",
-          "a": "me <u>stay</u> out late."
-        },
-        {
-          "q": "Can you help",
-          "a": "me <u>carry</u> this bag?"
-        },
-        {
-          "q": "I was made",
-          "a": "<u>to</u> wait outside."
-        },
-        {
-          "q": "Our manager doesn't let",
-          "a": "us <u>use</u> social media at work."
-        },
-        {
-          "q": "The long walk made",
-          "a": "my feet <u>hurt</u>."
-        }
+        { "q": "Quiero ir.", "a": "I want to go." },
+        { "q": "Quiero que vayas.", "a": "I want you to go." },
+        { "q": "Quiere ir.", "a": "He wants to go." },
+        { "q": "Quiere que vaya.", "a": "He wants me to go." },
+        { "q": "Quiere que vayamos.", "a": "He wants us to go." }
       ]
     },
     {
       "type": "story",
-      "title": "Gap text: Liam and Mei share a flat.",
-      "hint": "Choose the verb. Look at the words before the gap: is it make, let, help or a passive?",
+      "title": "Fill the gaps: at the school gate.",
+      "hint": "Who does the action: the same person, or another?",
+      "choices": ["ayudar", "ayudes", "ir", "vayas", "hablar"],
       "segments": [
-        {
-          "text": "Liam shares a flat with Mei. Mei is very tidy, so she makes Liam "
-        },
-        {
-          "blank": 0,
-          "answer": [
-            "clean"
-          ]
-        },
-        {
-          "text": " the kitchen every Sunday. He doesn't mind. Mei is kind, and she lets him "
-        },
-        {
-          "blank": 1,
-          "answer": [
-            "invite"
-          ]
-        },
-        {
-          "text": " his friends for dinner. Last week his bike had a flat tyre, and Mei helped him "
-        },
-        {
-          "blank": 2,
-          "answer": [
-            "change",
-            "to change"
-          ]
-        },
-        {
-          "text": " it. At school, Liam was made "
-        },
-        {
-          "blank": 3,
-          "answer": [
-            "to wear"
-          ]
-        },
-        {
-          "text": " a uniform, and he hated it. Now he can wear what he likes. Last night they watched a comedy together. It made them both "
-        },
-        {
-          "blank": 4,
-          "answer": [
-            "laugh"
-          ]
-        },
-        {
-          "text": " a lot."
-        }
+        { "text": "Mañana tengo una reunión en el colegio de mi hijo, pero no sé qué hacer. Quiero " },
+        { "blank": 0, "answer": "ir" },
+        { "text": " a la reunión, pero tengo que trabajar. Por eso le digo a mi hermana: “Necesito que " },
+        { "blank": 1, "answer": "vayas" },
+        { "text": " tú al colegio, por favor”. Ella contesta: “Claro, me gusta " },
+        { "blank": 2, "answer": "ayudar" },
+        { "text": " a la familia. ¿Con qué profesora tengo que " },
+        { "blank": 3, "answer": "hablar" },
+        { "text": "?”. “Con la tutora”, le digo, “y gracias. Me alegra mucho que me " },
+        { "blank": 4, "answer": "ayudes" },
+        { "text": "”." }
       ]
     },
     {
       "type": "build",
       "title": "Build the sentences.",
+      "hint": "Look at the English: one person or two?",
       "sentences": [
-        {
-          "id": "i1",
-          "hint": "make + someone + base verb",
-          "correct": [
-            "My",
-            "boss",
-            "makes",
-            "us",
-            "work",
-            "late",
-            "."
-          ],
-          "shuffled": [
-            "late",
-            "us",
-            "My",
-            ".",
-            "work",
-            "makes",
-            "boss"
-          ]
-        },
-        {
-          "id": "i2",
-          "hint": "let + someone + base verb. A negative with doesn't.",
-          "correct": [
-            "She",
-            "doesn't",
-            "let",
-            "her",
-            "children",
-            "watch",
-            "TV",
-            "."
-          ],
-          "shuffled": [
-            "TV",
-            "let",
-            "She",
-            ".",
-            "children",
-            "her",
-            "doesn't",
-            "watch"
-          ]
-        },
-        {
-          "id": "i3",
-          "hint": "A question with help.",
-          "correct": [
-            "Can",
-            "you",
-            "help",
-            "me",
-            "carry",
-            "these",
-            "bags",
-            "?"
-          ],
-          "shuffled": [
-            "bags",
-            "me",
-            "?",
-            "Can",
-            "carry",
-            "these",
-            "help",
-            "you"
-          ]
-        },
-        {
-          "id": "i4",
-          "hint": "make + someone + base verb",
-          "correct": [
-            "The",
-            "funny",
-            "film",
-            "made",
-            "us",
-            "laugh",
-            "."
-          ],
-          "shuffled": [
-            "laugh",
-            "film",
-            "The",
-            ".",
-            "us",
-            "funny",
-            "made"
-          ]
-        },
-        {
-          "id": "i5",
-          "hint": "The passive: was made + to + base verb",
-          "correct": [
-            "I",
-            "was",
-            "made",
-            "to",
-            "wait",
-            "outside",
-            "."
-          ],
-          "shuffled": [
-            "outside",
-            "to",
-            "I",
-            ".",
-            "wait",
-            "made",
-            "was"
-          ]
-        }
+        { "id": "io1", "hint": "I want to go out tonight", "correct": ["Quiero", "salir", "esta", "noche", "."], "shuffled": ["noche", "salir", ".", "Quiero", "esta"], "alt": [["esta", "noche", "Quiero", "salir", "."]] },
+        { "id": "io2", "hint": "I want you to go out with me", "correct": ["Quiero", "que", "salgas", "conmigo", "."], "shuffled": ["salgas", ".", "conmigo", "que", "Quiero"] },
+        { "id": "io3", "hint": "I need to rest", "correct": ["Necesito", "descansar", "."], "shuffled": [".", "descansar", "Necesito"] },
+        { "id": "io4", "hint": "You need an appointment (general rule)", "correct": ["Es", "importante", "pedir", "cita", "."], "shuffled": ["pedir", ".", "cita", "Es", "importante"] },
+        { "id": "io5", "hint": "It's better that you call first (tú)", "correct": ["Es", "mejor", "que", "llames", "antes", "."], "shuffled": ["antes", "que", ".", "llames", "Es", "mejor"] }
       ]
     }
   ]
