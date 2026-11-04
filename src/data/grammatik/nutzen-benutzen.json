@@ -136,7 +136,7 @@
         { "prompt": "La comida ___ lista. ¡A la mesa!", "answer": "está", "choices": ["es", "está"], "why": "Ready: estar." },
         { "prompt": "Esta película ___ muy aburrida. Yo me voy.", "answer": "es", "choices": ["es", "está"], "why": "Boring: ser." },
         { "prompt": "Los niños ___ aburridos porque llueve.", "answer": "están", "choices": ["son", "están"], "why": "Bored: estar." },
-        { "prompt": "No ha ido al trabajo porque ___ malo.", "answer": "está", "choices": ["es", "está"], "why": "Ill: estar.", "es419": { "note": "In Latin America: está enfermo." } },
+        { "prompt": "No ha ido al trabajo porque ___ malo.", "answer": "está", "choices": ["es", "está"], "why": "Ill: estar.", "es419": { "note": "In Latin America, está enfermo is more neutral." } },
         { "prompt": "La leche ___ mala. Huele fatal.", "answer": "está", "choices": ["es", "está"], "why": "Gone off: estar." },
         { "prompt": "Este gazpacho ___ muy rico. ¿Quién lo ha hecho?", "answer": "está", "choices": ["es", "está"], "why": "Tasty: estar." },
         { "prompt": "Su padre ___ muy rico: tiene tres empresas.", "answer": "es", "choices": ["es", "está"], "why": "Wealthy: ser." }
@@ -163,12 +163,12 @@
       "columns": ["Sentence", "Meaning"],
       "placeholder": "Meaning",
       "rows": [
-        { "term": "Es seguro.", "answer": "safe", "choices": ["safe", "sure"] },
-        { "term": "Estoy seguro.", "answer": "sure", "choices": ["safe", "sure"] },
+        { "term": "El barrio es seguro.", "answer": "safe", "choices": ["safe", "sure"] },
+        { "term": "Estoy seguro de eso.", "answer": "sure", "choices": ["safe", "sure"] },
         { "term": "La manzana es verde.", "answer": "green in colour", "choices": ["green in colour", "not ripe"] },
         { "term": "La manzana está verde.", "answer": "not ripe", "choices": ["green in colour", "not ripe"] },
-        { "term": "Es rico.", "answer": "wealthy", "choices": ["wealthy", "tasty"] },
-        { "term": "Está rico.", "answer": "tasty", "choices": ["wealthy", "tasty"] }
+        { "term": "Pablo es rico.", "answer": "wealthy", "choices": ["wealthy", "tasty"] },
+        { "term": "El gazpacho está rico.", "answer": "tasty", "choices": ["wealthy", "tasty"] }
       ]
     },
     {
@@ -210,7 +210,7 @@
       "sentences": [
         { "id": "se1", "hint": "The meeting is at ten o'clock", "correct": ["La", "reunión", "es", "a", "las", "diez", "."], "shuffled": ["a", "reunión", ".", "las", "La", "diez", "es"] },
         { "id": "se2", "hint": "Are you (tú) ready?", "correct": ["¿Estás", "listo", "?"], "shuffled": ["?", "listo", "¿Estás"] },
-        { "id": "se3", "hint": "I'm bored at home", "correct": ["Estoy", "aburrido", "en", "casa", "."], "shuffled": ["casa", ".", "Estoy", "en", "aburrido"] },
+        {"id":"se3","hint":"I'm bored at home","correct":["Estoy","aburrido","en","casa","."],"shuffled":["casa",".","Estoy","en","aburrido"],"alt":[["En","casa","estoy","aburrido","."]]},
         { "id": "se4", "hint": "This neighbourhood is very safe", "correct": ["Este", "barrio", "es", "muy", "seguro", "."], "shuffled": ["muy", ".", "es", "Este", "seguro", "barrio"] },
         { "id": "se5", "hint": "This soup tastes very good", "correct": ["Esta", "sopa", "está", "muy", "rica", "."], "shuffled": ["rica", "está", ".", "Esta", "muy", "sopa"] }
       ]

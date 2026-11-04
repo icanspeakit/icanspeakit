@@ -37,7 +37,7 @@
         "tag": "lo + adjective"
       },
       {
-        "html": "The adjective <strong>never changes</strong>: always the masculine singular form, even with a feminine or plural idea. <em>Lo bonito de esta casa es la cocina.</em> Never ✗ <em>lo bonita</em>.",
+        "html": "In this use, the adjective <strong>doesn't change</strong>: always the masculine singular form, even with a feminine or plural idea. <em>Lo bonito de esta casa es la cocina.</em> Never ✗ <em>lo bonita</em>. One later exception: in <em>lo … que</em> = how …, it agrees: <em>No sabes lo guapa que está.</em>",
         "tag": "No agreement"
       },
       {
@@ -207,11 +207,11 @@
       "choices": ["lo bueno", "lo malo", "lo mejor", "lo importante", "lo que"],
       "segments": [
         { "text": "Fatima acaba de cambiar de piso. " },
-        { "blank": 0, "answer": ["Lo bueno", "Lo mejor"] },
+        { "blank": 0, "answer": ["Lo bueno", "Lo mejor", "Lo importante"] },
         { "text": " es que está cerca de su trabajo. " },
         { "blank": 1, "answer": "Lo malo" },
         { "text": " es que no tiene ascensor. Pero " },
-        { "blank": 2, "answer": ["lo mejor", "lo bueno"] },
+        { "blank": 2, "answer": ["lo mejor", "lo bueno", "lo importante"] },
         { "text": " es la vecina de al lado, que la ayuda mucho. " },
         { "blank": 3, "answer": ["Lo importante", "Lo mejor"] },
         { "text": " ahora es empadronarse. Fatima no sabe " },
@@ -224,10 +224,10 @@
       "title": "Build the sentences.",
       "hint": "lo goes right before the adjective.",
       "sentences": [
-        { "id": "lo1", "hint": "The important thing is to have an appointment", "correct": ["Lo", "importante", "es", "tener", "cita", "."], "shuffled": ["cita", "es", ".", "Lo", "tener", "importante"] },
-        { "id": "lo2", "hint": "The good thing about this neighbourhood is the park", "correct": ["Lo", "bueno", "de", "este", "barrio", "es", "el", "parque", "."], "shuffled": ["barrio", "el", ".", "de", "Lo", "parque", "este", "es", "bueno"] },
+        {"id":"lo1","hint":"The important thing is to have an appointment","correct":["Lo","importante","es","tener","cita","."],"shuffled":["cita","es",".","Lo","tener","importante"],"alt":[["Tener","cita","es","lo","importante","."]]},
+        {"id":"lo2","hint":"The good thing about this neighbourhood is the park","correct":["Lo","bueno","de","este","barrio","es","el","parque","."],"shuffled":["barrio","el",".","de","Lo","parque","este","es","bueno"],"alt":[["El","parque","es","lo","bueno","de","este","barrio","."]]},
         { "id": "lo3", "hint": "What I need is time", "correct": ["Lo", "que", "necesito", "es", "tiempo", "."], "shuffled": ["es", "tiempo", ".", "que", "Lo", "necesito"] },
-        { "id": "lo4", "hint": "The worst thing is the wait", "correct": ["Lo", "peor", "es", "la", "espera", "."], "shuffled": ["espera", "la", ".", "Lo", "es", "peor"] },
+        {"id":"lo4","hint":"The worst thing is the wait","correct":["Lo","peor","es","la","espera","."],"shuffled":["espera","la",".","Lo","es","peor"],"alt":[["La","espera","es","lo","peor","."]]},
         { "id": "lo5", "hint": "I don't know what she wants", "correct": ["No", "sé", "lo", "que", "quiere", "."], "shuffled": ["que", "quiere", ".", "No", "lo", "sé"] }
       ]
     }

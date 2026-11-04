@@ -89,7 +89,7 @@
             "buscar → busque, no busques",
             "pagar → pague, no pagues",
             "empezar → empiece, no empieces",
-            "coger → coja, no cojas"
+            "coger → coja, no cojas (Spain; in much of Latin America coger is vulgar: use tomar)"
           ]
         }
       ]
@@ -219,10 +219,10 @@
       "type": "story",
       "title": "Fill the gaps: a note for the babysitter.",
       "hint": "A friendly note to one person, so use tú.",
-      "choices": ["Dales", "Ponles", "No salgas", "No olvides", "llámame"],
+      "choices": ["dales", "ponles", "no salgas", "no olvides", "llámame"],
       "segments": [
         { "text": "Hola, Carmen. Hay comida en la nevera para los niños. " },
-        { "blank": 0, "answer": "Dales" },
+        { "blank": 0, "answer": ["Dales", "Ponles"] },
         { "text": " de cenar a las ocho. " },
         { "blank": 1, "answer": "Ponles" },
         { "text": " el pijama antes de las nueve. " },
@@ -239,11 +239,11 @@
       "title": "Build the commands.",
       "hint": "Is it affirmative or negative? That decides where the pronoun goes.",
       "sentences": [
-        { "id": "im1", "hint": "Tell me (tú) now", "correct": ["Dímelo", "ahora", "."], "shuffled": [".", "ahora", "Dímelo"] },
+        {"id":"im1","hint":"Tell me (tú) now","correct":["Dímelo","ahora","."],"shuffled":[".","ahora","Dímelo"],"alt":[["Ahora","dímelo","."]]},
         { "id": "im2", "hint": "Don't tell me (tú)", "correct": ["No", "me", "lo", "digas", "."], "shuffled": ["lo", ".", "digas", "No", "me"] },
-        { "id": "im3", "hint": "Sit down (usted), please", "correct": ["Siéntese", ",", "por", "favor", "."], "shuffled": ["favor", "por", ".", "Siéntese", ","] },
+        {"id":"im3","hint":"Sit down (usted), please","correct":["Siéntese",",","por","favor","."],"shuffled":["favor","por",".","Siéntese",","],"alt":[["Por","favor",",","siéntese","."]]},
         { "id": "im4", "hint": "Don't arrive late (vosotros)", "correct": ["No", "lleguéis", "tarde", "."], "shuffled": ["tarde", ".", "lleguéis", "No"], "es419": { "note": "In Latin America: No lleguen tarde.", "skip": true } },
-        { "id": "im5", "hint": "Sign here (usted), please", "correct": ["Firme", "aquí", ",", "por", "favor", "."], "shuffled": ["por", ".", "aquí", "favor", "Firme", ","] }
+        {"id":"im5","hint":"Sign here (usted), please","correct":["Firme","aquí",",","por","favor","."],"shuffled":["por",".","aquí","favor","Firme",","],"alt":[["Por","favor",",","firme","aquí","."]]}
       ]
     }
   ]
