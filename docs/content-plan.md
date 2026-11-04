@@ -985,3 +985,26 @@ are handled by the `ui-*` items where they are rendered.
   LatAm mode must apply `form` and `skip` in both. **For `beginner-path`:** the comment on
   `placementStart` in `src/lib/einfach-app.js` still names the English units the score skips, and
   its thresholds should be rechecked against the Spanish A1 set.
+- **A1 grammar decisions** (`grammar-a1`, 2026-11-04): the 19 slots are Spanish; `konjugation`
+  moved to level A1 while `imperativ` stays A1 until `grammar-b1`, so `/grammar` shows both until
+  then. Answer check: `accentOnly()` in `answerMatch.js` drives "Check the accent." in fill, table,
+  story and the typed Schreiben panel, which also has the á é í ó ú ü ñ ¿ ¡ key row. `ñ` does not
+  count as an accent (*año/ano* is a plain wrong answer). `accepts` ignores case, so an exercise
+  about capital letters must ask "capital or small?", never offer *lunes/Lunes* as pills.
+  `aktivMode.js` now speaks es-ES. **For `grammar-a2`–`grammar-c1`:** when a topic that
+  `einfach-pfad.json` references changes, the `gram:` refs break the build; run
+  `node scripts/repoint-einfach-grammar.mjs <topics>` and commit the path with the topic. Add your
+  slots to the `grammatik-a1` file list in `check-variety.mjs` (rename it when you do); `grammar-c1`
+  makes `grammatik` strict. Update `grammatik.<slot>.intro` in `en.json` with each subtitle, or the
+  old German-course text overwrites it at render time. **For `beginner-path`:** the repointed tasks
+  are valid but only fit their unit's grammar theme: units are still English and the path's own
+  hints on them are gone. Rewrite them and delete the script. **For `routes`:** links inside the
+  topic text use today's slugs (`/word-order`, `/present-continuous`, `/was-were`, `/like-doing`,
+  `/this-that`, `/prepositions-of-time` …), so they must move to the §3 slugs with the routes.
+  **For `games`:** `ArtikelRegel.astro`'s intro text and `ENDINGS_CAPTION` are now English and
+  match `artikel.json`; the trainer itself is still a/an/some. **For `grammar-structure`:**
+  `grammatik-lehrplan.json` still has `konjugation` under A2, and `wortarten.json` chips are in
+  English but list the old classes. **For `teachers`:** `arbeitsblatt/<slot>.json` for these 19
+  slots are still the English sheets. **For `conjugation-trainer`:** reuse `accentOnly` and the key
+  row (`.ak-accent-keys`). **Other pages:** `lang="de"` remains on some UI code in `[id].astro`
+  (`vp-brief`, euler panels); the `ak.write.*` keys and German fallbacks are untouched.
