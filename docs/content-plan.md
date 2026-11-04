@@ -150,6 +150,7 @@ The English course left several German fields hollow or gave them English meanin
 | `wortschatz.json` phrase cards, `redemittel.json` phrases | every card / phrase | the card / phrase |
 | `grammatik/<slot>.json`, `paid/grammatik/*` | the topic file (top-level key); exercises inherit | the topic (general note, e.g. *ustedes* instead of *vosotros*) **and** any exercise item whose answer differs (`form`) or is Spain-only (`skip`) |
 | `grammatik.json` quick quizzes, `akkusativ.json`, `praepositionen-trainer.json` packs | inherit from the topic/pack; pack-level `variety` | item |
+| `einstufung.json` | top-level key | item with Spain-only wording (`form`) or *vosotros* only (`skip`) |
 | `verbtabellen.json` | top-level key | verb (usage notes, e.g. *coger*); the *vosotros* row is handled by the helper (hidden in LatAm mode, *ustedes* row shows the 3rd plural) |
 | `conjugation-trainer.json` | every set | set or item |
 | Audio items: `hoeren.json` scripts, `aussprache-check.json`, `zungenbrecher.json`, `satzmelodie.json` items, `ausspracheregeln.json` rules | every item | item (e.g. seseo note on a *c/z* rule) |
@@ -975,3 +976,12 @@ are handled by the `ui-*` items where they are rendered.
   an error. A deck `ref` carries neither key (it inherits from the referenced word).
   `validate-lexicon.mjs` and `berufeCore.js` already accept `el`/`la`/`el/la`, `genus: "f"`
   (only with `gender: "el"`) and `fem` (adjectives only).
+- **Placement test decisions** (`placement-test`, 2026-11-04): §1.5 did not list `einstufung.json`;
+  it now has a top-level `variety` and item-level `es419`, and is strict in `check-variety.mjs`.
+  Each level has the plan's features plus one more to reach six: A1 *estar* next to *ser*, A2
+  comparatives, B1 *cuando* + subjunctive, B2 unreal *si* in the past, C1 *ni que*. The perfecto
+  item tests the participle (*escrito*), not *he ido / fui* for today, so it holds in both
+  varieties. Neither `/placement-test` nor the `/step-by-step` quick check reads `es419` yet: a
+  LatAm mode must apply `form` and `skip` in both. **For `beginner-path`:** the comment on
+  `placementStart` in `src/lib/einfach-app.js` still names the English units the score skips, and
+  its thresholds should be rechecked against the Spanish A1 set.

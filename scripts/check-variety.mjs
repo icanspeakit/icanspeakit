@@ -21,6 +21,7 @@ const rel = (p) => path.relative(ROOT, p).replaceAll("\\", "/");
 // Modules whose content item has run: missing `variety` is an error there. Add the module id
 // in the same commit that converts the module.
 const STRICT = new Set([
+  "einstufung",
   // "lexicon", "berufe", "wortschatz", "redemittel", "grammatik", "grammatik-quiz",
   // "praepositionen", "verbtabellen", "conjugation-trainer", "hoeren", "aussprache-check",
   // "zungenbrecher", "satzmelodie", "ausspracheregeln", "dgt", "business-spanish",
@@ -51,6 +52,8 @@ const MODULES = [
   { id: "grammatik-quiz", files: one("src/data/grammatik.json"), items: (d) => arr(d).map((item) => ({ item })) },
   { id: "praepositionen", files: one("src/data/praepositionen-trainer.json"),
     items: (d) => arr(d.packs).map((item) => ({ item })) },
+  // The placement test's questions are grammar items; the file carries `variety` at the top level.
+  { id: "einstufung", files: one("src/data/einstufung.json"), items: (d) => [{ item: d }] },
   { id: "verbtabellen", files: one("src/data/verbtabellen.json"), items: (d) => [{ item: d }] },
   { id: "conjugation-trainer", files: one("src/data/conjugation-trainer.json"),
     items: (d) => arr(d.sets ?? d).map((item) => ({ item })) },
