@@ -99,7 +99,7 @@ function parseLine(line, unitId) {
     en,
     example,
     rank: null,
-    ipa: opt.ipa ?? ipaOf(lemma),
+    ipa: opt.ipa ?? ipaOf(lemma.replace(/…/g, "")),
     ipaSource: "authored",
     audio: id,
     variety: "es-ES",

@@ -29,6 +29,7 @@ const STRICT = new Set([
   "verbtabellen",
   "conjugation-trainer",
   "lexicon-a1",
+  "lexicon-a2",
   "wortschatz",
   // "lexicon", "berufe", "redemittel",
   // "hoeren", "aussprache-check",
@@ -49,7 +50,9 @@ const MODULES = [
   // One level at a time: each vocab-* item moves its file from "lexicon" to this strict list.
   { id: "lexicon-a1", files: one("src/content/lexicon/a1.json"),
     items: (d) => arr(d.units).flatMap((u) => arr(u.words).map((item) => ({ item }))) },
-  { id: "lexicon", files: jsonFiles("src/content/lexicon").filter((f) => !f.endsWith("/a1.json")),
+  { id: "lexicon-a2", files: one("src/content/lexicon/a2.json"),
+    items: (d) => arr(d.units).flatMap((u) => arr(u.words).map((item) => ({ item }))) },
+  { id: "lexicon", files: jsonFiles("src/content/lexicon").filter((f) => !/\/a[12]\.json$/.test(f)),
     items: (d) => arr(d.units).flatMap((u) => arr(u.words).map((item) => ({ item }))) },
   { id: "berufe", files: jsonFiles("src/data/berufe"), items: deckWords },
   { id: "dgt", files: jsonFiles("src/data/dgt"), items: deckWords },
