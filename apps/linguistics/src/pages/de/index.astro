@@ -1,8 +1,9 @@
 ---
+import { u } from '../../lib/url';
 import Layout from '../../layouts/Layout.astro';
 ---
 
-<Layout title="icanspeak.it — Wortursprünge für Neugierige" altHref="/">
+<Layout title="icanspeak.it — Wortursprünge für Neugierige" altHref={u("/")}>
   <section class="hero">
     <div class="container hero__inner">
       <p class="eyebrow">Für Wortliebhaber</p>
@@ -13,8 +14,8 @@ import Layout from '../../layouts/Layout.astro';
         hinweg verändert haben, und warum sich zwei Sprachen manchmal in den seltsamsten Dingen einig sind.
       </p>
       <div class="hero__actions">
-        <a href="/de/words/" class="button button--primary">Wortkarten entdecken</a>
-        <a href="/blog/" class="button button--ghost">Blog lesen (Englisch)</a>
+        <a href={u("/de/words/")} class="button button--primary">Wortkarten entdecken</a>
+        <a href={u("/blog/")} class="button button--ghost">Blog lesen (Englisch)</a>
       </div>
     </div>
   </section>
@@ -26,7 +27,7 @@ import Layout from '../../layouts/Layout.astro';
         <h2>Weil Sprache die am längsten laufende Geschichte ist, die wir kennen</h2>
       </div>
       <div class="why__grid">
-        <a class="card why-card" href="/blog/salary-a-tiny-history-lesson/">
+        <a class="card why-card" href={u("/blog/salary-a-tiny-history-lesson/")}>
           <h3>Jedes Wort ist eine kleine Geschichtsstunde</h3>
           <p class="text-muted">
             "Gehalt" kommt vom lateinischen "salarium", dem Salzgeld römischer Soldaten. Wer das Wort
@@ -34,7 +35,7 @@ import Layout from '../../layouts/Layout.astro';
           </p>
           <span class="why-card__more">Ganzen Artikel lesen (Englisch) →</span>
         </a>
-        <a class="card why-card" href="/blog/how-languages-borrow-from-each-other/">
+        <a class="card why-card" href={u("/blog/how-languages-borrow-from-each-other/")}>
           <h3>Sprachen leihen sich heimlich voneinander</h3>
           <p class="text-muted">
             Allein das Englische hat Wörter aus über 350 Sprachen übernommen. "Ketchup" reiste von einer
@@ -43,7 +44,7 @@ import Layout from '../../layouts/Layout.astro';
           </p>
           <span class="why-card__more">Ganzen Artikel lesen (Englisch) →</span>
         </a>
-        <a class="card why-card" href="/blog/how-word-meanings-drift/">
+        <a class="card why-card" href={u("/blog/how-word-meanings-drift/")}>
           <h3>Bedeutungen wandern – manchmal absichtlich</h3>
           <p class="text-muted">
             "Nett" bedeutete im Lateinischen ursprünglich "töricht". Gib einem Wort drei Jahrhunderte und
@@ -63,7 +64,7 @@ import Layout from '../../layouts/Layout.astro';
         Die Wortkarten-Wand hat kompakte Ursprungsgeschichten, durch die man in einer Kaffeepause blättern
         kann – falsche Freunde, Lehnwörter und absichtlich erfundene Wörter.
       </p>
-      <a href="/de/words/" class="button button--primary">Wortkarten öffnen</a>
+      <a href={u("/de/words/")} class="button button--primary">Wortkarten öffnen</a>
     </div>
   </section>
 </Layout>

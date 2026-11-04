@@ -1,4 +1,5 @@
 ---
+import { u } from '../../lib/url';
 import Layout from '../../layouts/Layout.astro';
 import { RHETORIC_AGENT_ID, pitchPrompts } from '../../data/exercises/rhetoric';
 ---
@@ -6,7 +7,7 @@ import { RHETORIC_AGENT_ID, pitchPrompts } from '../../data/exercises/rhetoric';
 <Layout
   title="Rhetoric & delivery — icanspeak.it"
   description="Practice a short persuasive pitch against an AI listener that asks real follow-up questions."
-  altHref="/de/exercises/rhetoric/"
+  altHref={u("/de/exercises/rhetoric/")}
 >
   <section class="container">
     <div class="section-head">

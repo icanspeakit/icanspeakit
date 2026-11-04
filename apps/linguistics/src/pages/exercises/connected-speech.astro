@@ -1,4 +1,5 @@
 ---
+import { u } from '../../lib/url';
 import Layout from '../../layouts/Layout.astro';
 import PhonologyExercise from '../../components/exercises/PhonologyExercise.astro';
 ---
@@ -6,7 +7,7 @@ import PhonologyExercise from '../../components/exercises/PhonologyExercise.astr
 <Layout
   title="Connected speech — icanspeak.it"
   description="Hear how natural English links, drops, and blends sounds between words, and train your ear to catch it."
-  altHref="/de/exercises/connected-speech/"
+  altHref={u("/de/exercises/connected-speech/")}
 >
   <section class="container">
     <div class="section-head">

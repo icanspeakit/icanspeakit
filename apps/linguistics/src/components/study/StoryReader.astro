@@ -1,4 +1,5 @@
 ---
+import { u } from '../../lib/url';
 // Story Stream: reads a chapter's text (with {{cloze}} and [[glossary]]
 // tokens — see ../data/study/story.ts), renders real fill-in-the-blank
 // exercises and a tap-for-meaning glossary panel styled after the site's
@@ -14,7 +15,7 @@ interface Props {
 const { chapter } = Astro.props;
 const segments = parseStoryText(chapter.text);
 const bank = wordBank(segments, chapter.id);
-const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+const ttsUrl = (text: string) => u(`/api/tts?text=${encodeURIComponent(text)}`);
 
 const locale = (Astro.currentLocale ?? 'en') as 'en' | 'de';
 
@@ -113,6 +114,7 @@ for (const [key, entry] of Object.entries(glossary)) {
 </div>
 
 <script>
+  import { u } from '../../lib/url';
   // A static top-level import here (unlike a dynamic import() inside a
   // define:vars script) is resolved by Astro/Vite against this file's own
   // location, not the page's URL — define:vars scripts are inlined
@@ -120,7 +122,7 @@ for (const [key, entry] of Object.entries(glossary)) {
   // page loads it and breaks on any page not at the site root.
   import { addCustomCard } from '../../lib/deck-store';
 
-  const ttsUrlBase = '/api/tts?text=';
+  const ttsUrlBase = u('/api/tts?text=');
 
   const dict = {
     en: {

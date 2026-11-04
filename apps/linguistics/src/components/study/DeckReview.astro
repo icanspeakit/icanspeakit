@@ -60,11 +60,12 @@ const t = copy[locale];
 </div>
 
 <script>
+  import { u } from '../../lib/url';
   // See StoryReader.astro's script for why this is a static import + a
   // JSON data-attribute, rather than define:vars + a relative import().
   import { getDueCards, reviewCard, getDeckStats, getWeekGrid } from '../../lib/deck-store';
 
-  const ttsUrlBase = '/api/tts?text=';
+  const ttsUrlBase = u('/api/tts?text=');
 
   const dict = {
     en: {

@@ -1,0 +1,17 @@
+{
+  // icanspeak.it/ — the language picker. Assets only, no Worker code.
+  // It takes every path on icanspeak.it that no more specific route claims; the course and
+  // linguistics Workers have their own routes (icanspeak.it/english/*, /linguistics/* …),
+  // and Cloudflare always picks the most specific matching route.
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "icanspeak-hub",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  },
+  "routes": [
+    { "pattern": "icanspeak.it/*", "zone_name": "icanspeak.it" }
+  ]
+  // www.icanspeak.it: a Cloudflare redirect rule to the apex (see DEPLOY.md), not a route here.
+}

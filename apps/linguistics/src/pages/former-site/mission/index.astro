@@ -1,4 +1,5 @@
 ---
+import { u } from '../../../lib/url';
 import FormerSiteLayout from '../../../layouts/FormerSiteLayout.astro';
 
 const cases = [
@@ -39,7 +40,7 @@ const cases = [
         </p>
       </div>
       <img
-        src="/former-site-assets/uploads/2021/11/Infographik-2.jpg"
+        src={u("/former-site-assets/uploads/2021/11/Infographik-2.jpg")}
         alt="Infografik zur Effizienz im Online-Unterricht"
         class="feature-row__image"
         width="768"
@@ -80,7 +81,7 @@ const cases = [
         arbeiten können? Die Einführung von LMS (Lernplattformen) hilft massiv weiter und entlastet Personal
         und Schüler. Die Fachkräfte können viel besser Deutsch sprechen und sind leichter integrierbar.
       </p>
-      <a href="/former-site/kontakt/" class="button button--accent">Unverbindliches Informationsgespräch</a>
+      <a href={u("/former-site/kontakt/")} class="button button--accent">Unverbindliches Informationsgespräch</a>
     </div>
   </section>
 
@@ -88,7 +89,7 @@ const cases = [
     <div class="container rethink">
       <h3>Sie müssen das Rad nicht neu erfinden!</h3>
       <p>Bedienen Sie sich der Tools, die es schon gibt.</p>
-      <a href="/former-site/angebot/" class="button button--outline">Zum Angebot</a>
+      <a href={u("/former-site/angebot/")} class="button button--outline">Zum Angebot</a>
     </div>
   </section>
 </FormerSiteLayout>

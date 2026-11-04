@@ -1,4 +1,5 @@
 ---
+import { u } from '../../lib/url';
 import Layout from '../../layouts/Layout.astro';
 import VoiceExercise from '../../components/exercises/VoiceExercise.astro';
 ---
@@ -6,7 +7,7 @@ import VoiceExercise from '../../components/exercises/VoiceExercise.astro';
 <Layout
   title="Voice — icanspeak.it"
   description="A guided breath-support routine and a self-assessment checklist for pitch range and resonance."
-  altHref="/de/exercises/voice/"
+  altHref={u("/de/exercises/voice/")}
 >
   <section class="container">
     <div class="section-head">

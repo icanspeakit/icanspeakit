@@ -1,8 +1,9 @@
 ---
+import { u } from '../../lib/url';
 import PracticeLanguageToggle from './PracticeLanguageToggle.astro';
 import { breathingRoutineText, selfAssessmentChecklist } from '../../data/exercises/voice';
 
-const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+const ttsUrl = (text: string) => u(`/api/tts?text=${encodeURIComponent(text)}`);
 
 const copy = {
   en: {

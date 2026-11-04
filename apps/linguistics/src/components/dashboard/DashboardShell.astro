@@ -1,4 +1,5 @@
 ---
+import { u } from '../../lib/url';
 import { getFormats, getTodaysSet } from '../../data/exercises/dashboard';
 import { statusBadge, statusCta, hrefFor, type Locale } from '../../data/exercises/topics';
 import ArticulationExercise from '../exercises/ArticulationExercise.astro';
@@ -51,13 +52,13 @@ const radarLabelPositions = [
 ] as const;
 
 function pathFor(loc: Locale, slug: string, lens: 'practice' | 'progress' | 'overview') {
-  const base = loc === 'de' ? '/de/dashboard' : '/dashboard';
+  const base = loc === 'de' ? u('/de/dashboard') : u('/dashboard');
   if (lens === 'overview') return `${base}/`;
   return `${base}/${slug}/${lens === 'progress' ? 'progress/' : ''}`;
 }
 
 const otherLocale: Locale = locale === 'de' ? 'en' : 'de';
-const homeHref = locale === 'de' ? '/de/' : '/';
+const homeHref = locale === 'de' ? u('/de/') : u('/');
 const langSwitchHref = pathFor(otherLocale, currentSlug, activeLens);
 
 const copy = {
@@ -573,6 +574,7 @@ const t = copy[locale];
 </div>
 
 <script>
+  import { u } from '../../lib/url';
   import * as RealStore from '../../lib/progress-store';
   import * as PreviewStore from '../../lib/progress-store-preview';
 
@@ -923,7 +925,7 @@ const t = copy[locale];
   let activeLens: Lens = document.querySelector('.dash-lens__btn[data-lens-btn="progress"][data-active="true"]') ? 'progress' : 'practice';
 
   function urlPathFor(slug: string, lens: 'practice' | 'progress' | 'overview') {
-    const base = locale === 'de' ? '/de/dashboard' : '/dashboard';
+    const base = locale === 'de' ? u('/de/dashboard') : u('/dashboard');
     if (lens === 'overview') return `${base}/`;
     return `${base}/${slug}/${lens === 'progress' ? 'progress/' : ''}`;
   }
@@ -1009,7 +1011,7 @@ const t = copy[locale];
   }
 
   function slugAndLensFromPath(pathname: string): { slug: string | null; lens: 'practice' | 'progress' | 'overview' } {
-    const base = locale === 'de' ? '/de/dashboard' : '/dashboard';
+    const base = locale === 'de' ? u('/de/dashboard') : u('/dashboard');
     const rel = pathname.startsWith(base) ? pathname.slice(base.length) : pathname;
     const cleaned = rel.replace(/^\/+|\/+$/g, '');
     if (!cleaned) return { slug: null, lens: 'overview' };

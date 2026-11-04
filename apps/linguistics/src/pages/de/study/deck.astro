@@ -1,4 +1,5 @@
 ---
+import { u } from '../../../lib/url';
 import Layout from '../../../layouts/Layout.astro';
 import DeckReview from '../../../components/study/DeckReview.astro';
 ---
@@ -6,7 +7,7 @@ import DeckReview from '../../../components/study/DeckReview.astro';
 <Layout
   title="Daily Deck — icanspeak.it"
   description="Eine echte Spaced-Repetition-Wiederholung, gefüttert von Wörtern und Phrasen, die du im restlichen Study-Bereich speicherst."
-  altHref="/study/deck/"
+  altHref={u("/study/deck/")}
 >
   <section class="container">
     <div class="section-head">

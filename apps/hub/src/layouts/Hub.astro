@@ -1,0 +1,52 @@
+---
+import '../styles/hub.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/fonts/icanspeak/fonts.css" />
+    <meta name="theme-color" content="#fbf7ef" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1b1814" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="icanspeak.it" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/logos/icanspeakit-mark-1024.png', Astro.site).href} />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/" aria-label="icanspeak.it home">
+          <img class="logo-light" src="/logos/icanspeakit-wordmark.svg" alt="icanspeak.it" width="160" height="34" />
+          <img class="logo-dark" src="/logos/icanspeakit-wordmark-dark.svg" alt="" width="160" height="34" />
+        </a>
+        <a class="header-link" href="/linguistics/">Linguistics</a>
+      </div>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>icanspeak.it · ad-free language courses and word stories</span>
+        <span><a href="/english/legal-notice">Legal notice</a> · <a href="/english/privacy">Privacy</a></span>
+      </div>
+    </footer>
+  </body>
+</html>

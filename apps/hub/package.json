@@ -1,0 +1,23 @@
+{
+  "name": "@icanspeak/hub",
+  "type": "module",
+  "private": true,
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev --port 4320",
+    "build": "astro build",
+    "preview": "wrangler dev",
+    "deploy": "astro build && wrangler deploy",
+    "astro": "astro",
+    "check:base": "node ../../scripts/check-base.mjs dist / /english /spanish /french /portuguese /italian /linguistics"
+  },
+  "dependencies": {
+    "astro": "^7.4.2"
+  },
+  "devDependencies": {
+    "wrangler": "^4.157.0"
+  }
+}

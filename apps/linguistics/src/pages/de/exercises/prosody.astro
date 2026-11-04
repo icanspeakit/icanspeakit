@@ -1,4 +1,5 @@
 ---
+import { u } from '../../../lib/url';
 import Layout from '../../../layouts/Layout.astro';
 import ProsodyExercise from '../../../components/exercises/ProsodyExercise.astro';
 ---
@@ -6,7 +7,7 @@ import ProsodyExercise from '../../../components/exercises/ProsodyExercise.astro
 <Layout
   title="Prosodie — icanspeak.it"
   description="Wort- und Satzbetonung: markiere das Muster und hör, wie es die Wortart oder die Bedeutung eines Satzes verändert."
-  altHref="/exercises/prosody/"
+  altHref={u("/exercises/prosody/")}
 >
   <div class="prosody-page container">
     <section class="prosody-hero">

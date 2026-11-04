@@ -1,3 +1,4 @@
+import { u } from './url';
 // Real pause-placement scoring for the Pace & pausing exercise.
 //
 // Originally this tried to derive target pause timestamps from ElevenLabs'
@@ -75,7 +76,7 @@ function detectPauseFractions(buffer: AudioBuffer): number[] {
 /** Fetches the model's synthesized clip for `ttsText` and returns its real detected pause positions (fractions of duration). Null on any fetch/decode failure. */
 export async function getTargetPauses(ttsText: string): Promise<number[] | null> {
   try {
-    const res = await fetch(`/api/tts-timestamps?text=${encodeURIComponent(ttsText)}`);
+    const res = await fetch(u(`/api/tts-timestamps?text=${encodeURIComponent(ttsText)}`));
     if (!res.ok) return null;
     const data: TtsTimestampsResponse = await res.json();
     const ctx = getAudioCtx();

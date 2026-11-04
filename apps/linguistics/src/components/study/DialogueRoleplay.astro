@@ -1,10 +1,11 @@
 ---
+import { u } from '../../lib/url';
 // Dialogue Lab: a real branching conversation (no AI backend — see
 // ../data/study/dialogue.ts for why this is a decision tree, not open
 // chat). Partner lines are synthesized once per node via /api/tts.
 import { nodes, scenario } from '../../data/study/dialogue';
 
-const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+const ttsUrl = (text: string) => u(`/api/tts?text=${encodeURIComponent(text)}`);
 const audioByNode: Record<string, string> = {};
 for (const [id, node] of Object.entries(nodes)) {
   if (node.partnerLine) audioByNode[id] = ttsUrl(node.partnerLine);

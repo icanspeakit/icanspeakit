@@ -58,7 +58,10 @@
     "check:site": "node scripts/error-sweep.mjs",
     "seo:audit": "node scripts/seo-audit.mjs",
     "seo:jsonld": "node scripts/check-jsonld.mjs",
-    "check:content": "node scripts/check-content.mjs"
+    "check:content": "node scripts/check-content.mjs",
+    "cf:prepare": "node ../../scripts/nest-dist.mjs dist /english",
+    "cf:preview": "pnpm cf:prepare && wrangler dev",
+    "deploy": "pnpm build && pnpm cf:prepare && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",
@@ -77,6 +80,7 @@
     "pdfkit": "^0.20.2",
     "postcss": "^8.5.28",
     "postcss-rtlcss": "^6.0.0",
-    "sharp": "^0.35.4"
+    "sharp": "^0.35.4",
+    "wrangler": "^4.157.0"
   }
 }

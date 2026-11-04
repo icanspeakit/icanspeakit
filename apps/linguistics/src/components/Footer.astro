@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 const locale = Astro.currentLocale ?? 'en';
 const year = new Date().getFullYear();
 
@@ -7,11 +8,11 @@ const copy = {
     blurb: 'A language hub for people who stop mid-sentence to wonder where a word came from — and want to sound clearer saying it.',
     explore: 'Explore',
     nav: [
-      { href: '/blog/', label: 'Blog' },
-      { href: '/words/', label: 'Word Cards' },
-      { href: '/study/', label: 'Study' },
-      { href: '/exercises/', label: 'Exercises' },
-      { href: '/about/', label: 'About' },
+      { href: u('/blog/'), label: 'Blog' },
+      { href: u('/words/'), label: 'Word Cards' },
+      { href: u('/study/'), label: 'Study' },
+      { href: u('/exercises/'), label: 'Exercises' },
+      { href: u('/about/'), label: 'About' },
     ],
     former: 'Looking for the original icanspeak.it language-training site?',
     formerLink: 'It still lives here →',
@@ -21,10 +22,10 @@ const copy = {
     blurb: 'Ein Sprach-Hub für alle, die mitten im Satz innehalten und sich fragen, woher ein Wort eigentlich kommt — und die es klarer aussprechen wollen.',
     explore: 'Entdecken',
     nav: [
-      { href: '/de/words/', label: 'Wortkarten' },
-      { href: '/de/study/', label: 'Study' },
-      { href: '/de/exercises/', label: 'Übungen' },
-      { href: '/de/about/', label: 'Über uns' },
+      { href: u('/de/words/'), label: 'Wortkarten' },
+      { href: u('/de/study/'), label: 'Study' },
+      { href: u('/de/exercises/'), label: 'Übungen' },
+      { href: u('/de/about/'), label: 'Über uns' },
     ],
     former: 'Auf der Suche nach der ursprünglichen icanspeak.it Sprachtraining-Seite?',
     formerLink: 'Sie lebt hier weiter →',
@@ -38,7 +39,7 @@ const t = copy[locale as 'en' | 'de'] ?? copy.en;
 <footer class="site-footer">
   <div class="container footer-main">
     <div class="footer-col footer-col--brand">
-      <a href={locale === 'de' ? '/de/' : '/'} class="brand">
+      <a href={locale === 'de' ? u('/de/') : u('/')} class="brand">
         icanspeak<span class="brand__it">ı<span class="brand__dot"></span>t</span>
       </a>
       <p class="text-muted">{t.blurb}</p>
@@ -53,7 +54,7 @@ const t = copy[locale as 'en' | 'de'] ?? copy.en;
 
     <div class="footer-col footer-col--former">
       <p class="text-muted">{t.former}</p>
-      <a href="/former-site/" class="former-link">{t.formerLink}</a>
+      <a href={u("/former-site/")} class="former-link">{t.formerLink}</a>
     </div>
   </div>
 

@@ -1,4 +1,5 @@
 ---
+import { u } from '../../../lib/url';
 import Layout from '../../../layouts/Layout.astro';
 import ArticulationExercise from '../../../components/exercises/ArticulationExercise.astro';
 ---
@@ -6,7 +7,7 @@ import ArticulationExercise from '../../../components/exercises/ArticulationExer
 <Layout
   title="Minimalpaare — icanspeak.it"
   description="Unterscheidungsübungen und Shadowing für genau die Lautkontraste, an denen nicht-englische Muttersprachler scheitern."
-  altHref="/exercises/minimal-pairs/"
+  altHref={u("/exercises/minimal-pairs/")}
 >
   <section class="container">
     <div class="section-head">

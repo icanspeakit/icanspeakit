@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import ExerciseGrid from '../components/ExerciseGrid.astro';
@@ -12,7 +13,7 @@ const posts = (await getCollection('blog'))
 const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' });
 ---
 
-<Layout title="icanspeak.it — Word origins & speaking practice" altHref="/de/">
+<Layout title="icanspeak.it — Word origins & speaking practice" altHref={u("/de/")}>
   <section class="hero">
     <div class="container hero__inner">
       <p class="eyebrow">A language hub for the curious</p>
@@ -27,8 +28,8 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
         for how to actually say them.
       </p>
       <div class="hero__actions">
-        <a href="/exercises/" class="button button--primary">Start practicing</a>
-        <a href="/blog/" class="button button--ghost">Read the blog</a>
+        <a href={u("/exercises/")} class="button button--primary">Start practicing</a>
+        <a href={u("/blog/")} class="button button--ghost">Read the blog</a>
       </div>
     </div>
   </section>
@@ -41,7 +42,7 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
         One dashboard for every format: practice the drills, check real accuracy and session history, or
         see all seven at a glance. Try it live below, or open it full-screen.
       </p>
-      <a href="/dashboard/" class="button button--primary">Open full-screen →</a>
+      <a href={u("/dashboard/")} class="button button--primary">Open full-screen →</a>
     </div>
     <div class="container">
       <DashboardShell activeLens="progress" />
@@ -68,7 +69,7 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
         <h2>Because language is the longest-running story we've ever told</h2>
       </div>
       <div class="why__grid">
-        <a class="card why-card" href="/blog/salary-a-tiny-history-lesson/">
+        <a class="card why-card" href={u("/blog/salary-a-tiny-history-lesson/")}>
           <h3>Every word is a tiny history lesson</h3>
           <p class="text-muted">
             "Salary" comes from the Latin for salt, once part of a Roman soldier's pay. Say the word and
@@ -76,7 +77,7 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
           </p>
           <span class="why-card__more">Read the full story →</span>
         </a>
-        <a class="card why-card" href="/blog/how-languages-borrow-from-each-other/">
+        <a class="card why-card" href={u("/blog/how-languages-borrow-from-each-other/")}>
           <h3>Languages secretly borrow from each other</h3>
           <p class="text-muted">
             English alone has pulled words from more than 350 languages. "Ketchup" traveled from a Hokkien
@@ -84,7 +85,7 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
           </p>
           <span class="why-card__more">Read the full story →</span>
         </a>
-        <a class="card why-card" href="/blog/how-word-meanings-drift/">
+        <a class="card why-card" href={u("/blog/how-word-meanings-drift/")}>
           <h3>Meanings drift — sometimes on purpose</h3>
           <p class="text-muted">
             "Nice" once meant "foolish" in Latin. Give a word three centuries and enough gossip, and it can
@@ -105,7 +106,7 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
         </div>
         <div class="latest__grid">
           {posts.map((post) => (
-            <a class="post-card" href={`/blog/${post.id}/`}>
+            <a class="post-card" href={u(`/blog/${post.id}/`)}>
               {post.data.word && <span class="tag">{post.data.word}</span>}
               <h3>{post.data.title}</h3>
               <p class="text-muted">{post.data.description}</p>
@@ -125,7 +126,7 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
         The word-card wall has bite-sized origin stories you can flip through in a coffee break —
         false friends, loanwords, and words invented on purpose.
       </p>
-      <a href="/words/" class="button button--primary">Open the word cards</a>
+      <a href={u("/words/")} class="button button--primary">Open the word cards</a>
     </div>
   </section>
 </Layout>

@@ -1,10 +1,11 @@
 ---
+import { u } from '../../lib/url';
 import ShadowRecorder from '../ShadowRecorder.astro';
 import PracticeLanguageToggle from './PracticeLanguageToggle.astro';
 import { referencePhrase, volumeLevels, readingPassage } from '../../data/exercises/volume';
 import { referencePhraseDe, readingPassageDe } from '../../data/exercises/volume.de';
 
-const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+const ttsUrl = (text: string) => u(`/api/tts?text=${encodeURIComponent(text)}`);
 
 const practiceVariants = [
   { lang: 'en' as const, referencePhrase, readingPassage },

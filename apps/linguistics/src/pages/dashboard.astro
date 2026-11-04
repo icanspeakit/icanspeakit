@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import Layout from '../layouts/Layout.astro';
 import DashboardShell from '../components/dashboard/DashboardShell.astro';
 ---
@@ -6,7 +7,7 @@ import DashboardShell from '../components/dashboard/DashboardShell.astro';
 <Layout
   title="Dashboard — icanspeak.it"
   description="All six formats at a glance, plus the same Practice and Progress views as each format's own page."
-  altHref="/de/dashboard/"
+  altHref={u("/de/dashboard/")}
   hideHeader
 >
   <DashboardShell activeLens="overview" fullscreen />

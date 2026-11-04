@@ -1,4 +1,5 @@
 ---
+import { u } from '../../../lib/url';
 import Layout from '../../../layouts/Layout.astro';
 
 const words = [
@@ -7,14 +8,14 @@ const words = [
     lang: 'Englisch, 1754',
     teaser: 'Erfunden für einen glücklichen Zufall — beim Schreiben über einen glücklichen Zufall.',
     body: "Von Horace Walpole in einem privaten Brief erfunden, nach 'Serendip', dem alten persischen Namen für Sri Lanka, über ein Märchen von drei Prinzen, die ständig auf Dinge stießen, die sie gar nicht suchten.",
-    link: '/blog/serendipity/',
+    link: u('/blog/serendipity/'),
   },
   {
     term: 'Robot',
     lang: 'Tschechisch, 1920',
     teaser: 'Bevor es Maschine bedeutete, bedeutete es Zwangsarbeit.',
     body: "Vom tschechischen 'robota' (Frondienst der Leibeigenen). Erfunden vom Maler Josef Čapek für das Theaterstück R.U.R. seines Bruders Karel — die Roboter darin werden gezüchtet, nicht gebaut, und rebellieren am Ende.",
-    link: '/blog/robot-forced-labor/',
+    link: u('/blog/robot-forced-labor/'),
   },
   {
     term: 'Nostalgie',
@@ -55,7 +56,7 @@ const words = [
 ];
 ---
 
-<Layout title="Wortkarten — icanspeak.it" description="Etymologie in kleinen Häppchen: kompakte, belegte Ursprungsgeschichten für Wörter, die wir täglich benutzen." altHref="/words/">
+<Layout title="Wortkarten — icanspeak.it" description="Etymologie in kleinen Häppchen: kompakte, belegte Ursprungsgeschichten für Wörter, die wir täglich benutzen." altHref={u("/words/")}>
   <section class="words-hero">
     <div class="container">
       <p class="eyebrow">Wortkarten</p>

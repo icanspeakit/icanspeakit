@@ -1,3 +1,5 @@
+import { getSecret } from 'astro:env/server';
+
 const API_BASE = 'https://api.elevenlabs.io/v1';
 
 // Alice — "Clear, Engaging Educator" (British, female). A good default for
@@ -20,7 +22,7 @@ export async function synthesizeSpeech({
   stability = 0.5,
   similarityBoost = 0.75,
 }: SynthesizeSpeechOptions): Promise<ArrayBuffer> {
-  const apiKey = import.meta.env.ELEVENLABS_API_KEY;
+  const apiKey = getSecret('ELEVENLABS_API_KEY');
   if (!apiKey) {
     throw new Error('ELEVENLABS_API_KEY is not set');
   }
@@ -112,7 +114,7 @@ export async function synthesizeSpeechWithTimestamps({
   stability = 0.5,
   similarityBoost = 0.75,
 }: SynthesizeSpeechOptions): Promise<SpeechWithTimestamps> {
-  const apiKey = import.meta.env.ELEVENLABS_API_KEY;
+  const apiKey = getSecret('ELEVENLABS_API_KEY');
   if (!apiKey) {
     throw new Error('ELEVENLABS_API_KEY is not set');
   }

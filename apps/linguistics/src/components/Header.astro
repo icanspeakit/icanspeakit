@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 interface Props {
   altHref?: string;
 }
@@ -17,19 +18,19 @@ const copy = {
 
 const t = copy[locale as 'en' | 'de'] ?? copy.en;
 const otherLocale = locale === 'de' ? 'en' : 'de';
-const otherHref = altHref ?? (locale === 'de' ? '/' : '/de/');
+const otherHref = altHref ?? (locale === 'de' ? u('/') : u('/de/'));
 ---
 
 <header class="site-header">
   <div class="site-header__inner container">
-    <a href={locale === 'de' ? '/de/' : '/'} class="home-link" aria-label="Home">
+    <a href={locale === 'de' ? u('/de/') : u('/')} class="home-link" aria-label="Home">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M3 11.5 12 4l9 7.5" />
         <path d="M5.5 10v9a1 1 0 0 0 1 1H9a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h2.5a1 1 0 0 0 1-1v-9" />
       </svg>
     </a>
 
-    <a href={locale === 'de' ? '/de/' : '/'} class="brand">
+    <a href={locale === 'de' ? u('/de/') : u('/')} class="brand">
       <span class="brand__word">
         icanspeak<span class="brand__it">ı<span class="brand__dot"></span>t</span>
       </span>

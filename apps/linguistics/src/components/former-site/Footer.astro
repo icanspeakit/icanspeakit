@@ -1,4 +1,5 @@
 ---
+import { u } from '../../lib/url';
 const year = new Date().getFullYear();
 ---
 
@@ -7,14 +8,14 @@ const year = new Date().getFullYear();
     <div class="container footer-cta__inner">
       <p class="eyebrow">Schreiben Sie uns</p>
       <h2>Schreiben Sie uns eine Email oder rufen Sie an!</h2>
-      <a href="/former-site/kontakt/" class="button button--accent">Email / Telefon</a>
+      <a href={u("/former-site/kontakt/")} class="button button--accent">Email / Telefon</a>
     </div>
   </div>
 
   <div class="container footer-main">
     <div class="footer-col footer-col--brand">
-      <a href="/former-site/" class="brand">
-        <img src="/former-site-assets/uploads/2021/11/logo.svg" alt="icanspeak.it" width="36" height="36" />
+      <a href={u("/former-site/")} class="brand">
+        <img src={u("/former-site-assets/uploads/2021/11/logo.svg")} alt="icanspeak.it" width="36" height="36" />
         <span>icanspeak.it</span>
       </a>
       <p class="text-muted">
@@ -26,17 +27,17 @@ const year = new Date().getFullYear();
     <div class="footer-col">
       <h4>Angebot</h4>
       <ul>
-        <li><a href="/former-site/angebot/#Berufssprache">Berufssprache</a></li>
-        <li><a href="/former-site/angebot/#Lernplattformen">Lernplattformen</a></li>
-        <li><a href="/former-site/angebot/#Pipeline">Pipeline A1/B2</a></li>
-        <li><a href="/former-site/angebot/#TeacherTraining">TeacherTraining</a></li>
+        <li><a href={u("/former-site/angebot/#Berufssprache")}>Berufssprache</a></li>
+        <li><a href={u("/former-site/angebot/#Lernplattformen")}>Lernplattformen</a></li>
+        <li><a href={u("/former-site/angebot/#Pipeline")}>Pipeline A1/B2</a></li>
+        <li><a href={u("/former-site/angebot/#TeacherTraining")}>TeacherTraining</a></li>
       </ul>
     </div>
 
     <div class="footer-col">
       <h4>Weiteres</h4>
       <ul>
-        <li><a href="/former-site/impressum/">Impressum / Datenschutz</a></li>
+        <li><a href={u("/former-site/impressum/")}>Impressum / Datenschutz</a></li>
       </ul>
     </div>
 

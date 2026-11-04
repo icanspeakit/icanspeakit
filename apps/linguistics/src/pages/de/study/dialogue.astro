@@ -1,4 +1,5 @@
 ---
+import { u } from '../../../lib/url';
 import Layout from '../../../layouts/Layout.astro';
 import DialogueRoleplay from '../../../components/study/DialogueRoleplay.astro';
 ---
@@ -6,7 +7,7 @@ import DialogueRoleplay from '../../../components/study/DialogueRoleplay.astro';
 <Layout
   title="Dialogue Lab — icanspeak.it"
   description="Spiel eine echte Verhandlung am Arbeitsplatz durch — ein verzweigtes Gespräch mit echtem Feedback zu jeder Wahl."
-  altHref="/study/dialogue/"
+  altHref={u("/study/dialogue/")}
 >
   <section class="container">
     <div class="section-head">

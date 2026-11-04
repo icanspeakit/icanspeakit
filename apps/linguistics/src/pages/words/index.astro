@@ -1,4 +1,5 @@
 ---
+import { u } from '../../lib/url';
 import Layout from '../../layouts/Layout.astro';
 
 const words = [
@@ -7,14 +8,14 @@ const words = [
     lang: 'English, 1754',
     teaser: 'Coined for a lucky accident — while writing about a lucky accident.',
     body: "Invented by Horace Walpole in a private letter, from 'Serendip,' the old Persian name for Sri Lanka, via a fairy tale about three princes who kept stumbling onto things they weren't looking for.",
-    link: '/blog/serendipity/',
+    link: u('/blog/serendipity/'),
   },
   {
     term: 'Robot',
     lang: 'Czech, 1920',
     teaser: 'Before it meant machine, it meant forced labor.',
     body: "From Czech 'robota' (compulsory serf labor). Coined by painter Josef Čapek for his brother Karel's play R.U.R. — the robots in it are grown, not built, and they rebel.",
-    link: '/blog/robot-forced-labor/',
+    link: u('/blog/robot-forced-labor/'),
   },
   {
     term: 'Nostalgia',
@@ -55,7 +56,7 @@ const words = [
 ];
 ---
 
-<Layout title="Word Cards — icanspeak.it" description="Bite-sized etymology: flip through short, sourced origin stories for words you use every day." altHref="/de/words/">
+<Layout title="Word Cards — icanspeak.it" description="Bite-sized etymology: flip through short, sourced origin stories for words you use every day." altHref={u("/de/words/")}>
   <section class="words-hero">
     <div class="container">
       <p class="eyebrow">Word cards</p>

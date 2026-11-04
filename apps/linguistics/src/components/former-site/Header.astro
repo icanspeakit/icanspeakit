@@ -1,23 +1,24 @@
 ---
+import { u } from '../../lib/url';
 const { pathname } = Astro.url;
 
 const navItems = [
-  { href: '/former-site/', label: 'Start' },
-  { href: '/former-site/angebot/', label: 'Angebot' },
-  { href: '/former-site/mission/', label: 'Mission' },
-  { href: '/former-site/blog/', label: 'Blog' },
+  { href: u('/former-site/'), label: 'Start' },
+  { href: u('/former-site/angebot/'), label: 'Angebot' },
+  { href: u('/former-site/mission/'), label: 'Mission' },
+  { href: u('/former-site/blog/'), label: 'Blog' },
 ];
 
 function isActive(href: string) {
-  if (href === '/') return pathname === '/';
+  if (href === u('/')) return pathname === u('/');
   return pathname.startsWith(href);
 }
 ---
 
 <header class="site-header">
   <div class="site-header__inner container">
-    <a href="/former-site/" class="brand">
-      <img class="brand__logo" src="/former-site-assets/uploads/2021/11/logo.svg" alt="icanspeak.it" width="40" height="40" />
+    <a href={u("/former-site/")} class="brand">
+      <img class="brand__logo" src={u("/former-site-assets/uploads/2021/11/logo.svg")} alt="icanspeak.it" width="40" height="40" />
       <span class="brand__text">
         <span class="brand__name">icanspeak.it</span>
         <span class="brand__tagline">Deutsch für Fachkräfte</span>
@@ -39,7 +40,7 @@ function isActive(href: string) {
           </li>
         ))}
       </ul>
-      <a href="/former-site/kontakt/" class="button button--accent nav-cta" aria-current={isActive('/kontakt/') ? 'page' : undefined}>Kontakt</a>
+      <a href={u("/former-site/kontakt/")} class="button button--accent nav-cta" aria-current={isActive('/kontakt/') ? 'page' : undefined}>Kontakt</a>
     </nav>
   </div>
 </header>

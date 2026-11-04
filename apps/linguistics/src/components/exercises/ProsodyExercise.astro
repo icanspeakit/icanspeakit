@@ -1,4 +1,5 @@
 ---
+import { u } from '../../lib/url';
 // The interactive Prosody exercise body — word stress list + sentence
 // stress list with real pitch traces. Self-contained (own theme tokens,
 // fonts, script, styles) so it renders correctly both on the standalone
@@ -8,8 +9,8 @@ import PracticeLanguageToggle from './PracticeLanguageToggle.astro';
 import { stressShiftWords, stressSentences, sentenceWithEmphasis } from '../../data/exercises/prosody';
 import { stressShiftWordsDe, stressSentencesDe } from '../../data/exercises/prosody.de';
 
-const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
-const ttsTimestampsUrl = (text: string) => `/api/tts-timestamps?text=${encodeURIComponent(text)}`;
+const ttsUrl = (text: string) => u(`/api/tts?text=${encodeURIComponent(text)}`);
+const ttsTimestampsUrl = (text: string) => u(`/api/tts-timestamps?text=${encodeURIComponent(text)}`);
 
 const copy = {
   en: {

@@ -1,6 +1,14 @@
 # icanspeak.it courses: handoff
 *Last updated: November 4, 2026*
 
+> **Superseded architecture (Nov 4, 2026, evening):** icanspeakit is now a **monorepo on
+> Cloudflare**, on the branch `monorepo` (not merged yet). `icanspeak.it/` is a language picker
+> (`apps/hub`), the English course is `apps/english` (merged with its history; the
+> icanspeak-english repo is the archive), and the old icanspeak.it site is `apps/linguistics` at
+> `/linguistics/`, a section of the course platform. Spanish joins as `apps/spanish` when its
+> queue is done. No Vercel, no rewrites: one Cloudflare Worker per app on a path route. See
+> README.md and DEPLOY.md. The Vercel and separate-repo notes below are history.
+
 ## What this is
 
 Since November 3, 2026, icanspeak.it is also the **umbrella for language courses**. Two full

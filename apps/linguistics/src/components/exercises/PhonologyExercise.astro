@@ -1,10 +1,11 @@
 ---
+import { u } from '../../lib/url';
 import ListeningWorkbench from '../ListeningWorkbench.astro';
 import PracticeLanguageToggle from './PracticeLanguageToggle.astro';
 import { connectedSpeechSentences } from '../../data/exercises/connected-speech';
 import { connectedSpeechSentencesDe } from '../../data/exercises/connected-speech.de';
 
-const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+const ttsUrl = (text: string) => u(`/api/tts?text=${encodeURIComponent(text)}`);
 
 const practiceVariants = [
   { lang: 'en' as const, progressSlug: 'phonology', sentences: connectedSpeechSentences },

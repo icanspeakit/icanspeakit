@@ -1,0 +1,68 @@
+---
+import Hub from '../layouts/Hub.astro';
+import { COURSES } from '../data/courses';
+---
+<Hub
+  title="icanspeak.it — learn a language, properly"
+  description="Ad-free language courses from A1 to C1 — English first, Spanish, French, Portuguese and Italian on the way — plus word stories and speech training for the curious."
+>
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Language courses</span>
+      <h1>Which language do you <em>want to speak?</em></h1>
+      <p>
+        Full courses from your first words to C1: grammar, vocabulary, real-life situations and exam
+        preparation. No ads, no tricks.
+      </p>
+    </div>
+  </section>
+
+  <section class="courses" aria-labelledby="courses-title">
+    <div class="wrap">
+      <h2 class="section-title" id="courses-title">Choose a course</h2>
+      <ul class="grid">
+        {COURSES.map((c) => (
+          <li>
+            {c.live ? (
+              <a class="course" href={`/${c.slug}/`} lang={c.slug === 'english' ? 'en' : undefined}>
+                <span class="tag tag--live">Open</span>
+                <span class="course__code">{c.code}</span>
+                <span class="course__name">{c.name}</span>
+                <span class="course__meta">{c.meta}</span>
+                <span class="course__go">Start learning {c.english} →</span>
+              </a>
+            ) : (
+              <div class="course course--soon" aria-label={`${c.english} course, coming soon`}>
+                <span class="tag">Coming soon</span>
+                <span class="course__code">{c.code}</span>
+                <span class="course__name">{c.name}</span>
+                <span class="course__meta">{c.meta}</span>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="linguistics" aria-labelledby="ling-title">
+    <div class="wrap">
+      <div class="band">
+        <div>
+          <span class="eyebrow">For the curious</span>
+          <h2 id="ling-title">Linguistics: where words come from and how speech works</h2>
+          <p>
+            Word origin stories, word cards and speech exercises for articulation, prosody, voice and
+            pace: the mechanics behind sounding like yourself in another language.
+          </p>
+        </div>
+        <ul>
+          <li><a href="/linguistics/blog/">Word stories <span>Magazine</span></a></li>
+          <li><a href="/linguistics/words/">Word cards <span>Bite-sized</span></a></li>
+          <li><a href="/linguistics/exercises/">Speech exercises <span>Practice</span></a></li>
+          <li><a href="/linguistics/">All of linguistics <span>→</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</Hub>

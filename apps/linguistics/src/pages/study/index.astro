@@ -1,4 +1,5 @@
 ---
+import { u } from '../../lib/url';
 import Layout from '../../layouts/Layout.astro';
 import ExerciseGrid from '../../components/ExerciseGrid.astro';
 import { studyFormats } from '../../data/study/formats';
@@ -7,7 +8,7 @@ import { studyFormats } from '../../data/study/formats';
 <Layout
   title="Study — icanspeak.it"
   description="Five real, working formats for reading, vocabulary, dialogue, listening, and writing practice."
-  altHref="/de/study/"
+  altHref={u("/de/study/")}
 >
   <section class="container">
     <div class="section-head">

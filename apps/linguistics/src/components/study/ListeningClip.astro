@@ -1,4 +1,5 @@
 ---
+import { u } from '../../lib/url';
 // Listening Board: one real ElevenLabs clip. Progressive transcript reveal,
 // dictation, and the word-order challenge all key off the same real
 // with-timestamps alignment used for the Prosody pitch contour — nothing
@@ -8,7 +9,7 @@
 // playback position.
 import { clip } from '../../data/study/listening';
 
-const ttsTimestampsUrl = `/api/tts-timestamps?text=${encodeURIComponent(clip.script)}`;
+const ttsTimestampsUrl = u(`/api/tts-timestamps?text=${encodeURIComponent(clip.script)}`);
 
 function seededBars(seed: string, count: number) {
   let h = 2166136261;

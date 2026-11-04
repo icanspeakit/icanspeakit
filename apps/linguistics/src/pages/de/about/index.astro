@@ -1,8 +1,9 @@
 ---
+import { u } from '../../../lib/url';
 import Layout from '../../../layouts/Layout.astro';
 ---
 
-<Layout title="Über uns — icanspeak.it" description="Warum es icanspeak.it gibt: eine kleine, unabhängige Seite über Etymologie, für alle, die gerne von ihrer eigenen Sprache überrascht werden." altHref="/about/">
+<Layout title="Über uns — icanspeak.it" description="Warum es icanspeak.it gibt: eine kleine, unabhängige Seite über Etymologie, für alle, die gerne von ihrer eigenen Sprache überrascht werden." altHref={u("/about/")}>
   <section class="about-hero">
     <div class="container container--narrow">
       <p class="eyebrow">Über diese Seite</p>
@@ -23,7 +24,7 @@ import Layout from '../../../layouts/Layout.astro';
         erfunden wurde, wie es zwischen Sprachen gewandert ist, warum zwei nicht verwandte Sprachen
         manchmal auf dieselbe Idee kommen, und warum "falsche Freunde" selbst fließend Sprechende
         stolpern lassen. Neben dem Blog sind die
-        <a href="/de/words/">Wortkarten</a> ein leichteres Format – eine Wand kompakter Ursprungsgeschichten
+        <a href={u("/de/words/")}>Wortkarten</a> ein leichteres Format – eine Wand kompakter Ursprungsgeschichten
         zum Durchblättern.
       </p>
 
@@ -49,7 +50,7 @@ import Layout from '../../../layouts/Layout.astro';
         icanspeak.it begann als Sprachtraining-Beratung für Fachkräfte in Deutschland. Diese Seite ist
         weiterhin online – wir wollten diese Arbeit nicht verschwinden lassen, nur weil die Domain eine
         neue Richtung eingeschlagen hat – und ist erhalten unter
-        <a href="/former-site/">icanspeak.it/former-site</a>.
+        <a href={u("/former-site/")}>icanspeak.it/former-site</a>.
       </p>
     </div>
   </section>

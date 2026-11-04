@@ -1,4 +1,5 @@
 ---
+import { u } from '../../../lib/url';
 import Layout from '../../../layouts/Layout.astro';
 import PaceExercise from '../../../components/exercises/PaceExercise.astro';
 ---
@@ -6,7 +7,7 @@ import PaceExercise from '../../../components/exercises/PaceExercise.astro';
 <Layout
   title="Tempo &amp; Pausen — icanspeak.it"
   description="Modellaudio mit exakter Pausensetzung, dazu Shadowing bei verschiedenen Wiedergabegeschwindigkeiten für ein natürliches Sprechtempo."
-  altHref="/exercises/pacing/"
+  altHref={u("/exercises/pacing/")}
 >
   <section class="container">
     <div class="section-head">

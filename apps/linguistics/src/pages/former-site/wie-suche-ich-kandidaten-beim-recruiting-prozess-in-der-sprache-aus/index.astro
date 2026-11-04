@@ -1,4 +1,5 @@
 ---
+import { u } from '../../../lib/url';
 import FormerSiteLayout from '../../../layouts/FormerSiteLayout.astro';
 
 const title = 'Wie suche ich Kandidaten beim Recruiting Prozess in der Sprache aus?';
@@ -8,7 +9,7 @@ const title = 'Wie suche ich Kandidaten beim Recruiting Prozess in der Sprache a
   <article class="section post">
     <div class="container post__inner">
       <p class="post__meta">
-        <a href="/former-site/blog/">Blog</a> &middot; Von Edgar Kretschmann
+        <a href={u("/former-site/blog/")}>Blog</a> &middot; Von Edgar Kretschmann
       </p>
       <h1>{title}</h1>
 

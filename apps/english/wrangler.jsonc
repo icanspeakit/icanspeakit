@@ -1,0 +1,18 @@
+{
+  // icanspeak English — https://icanspeak.it/english/*
+  // Assets only (no Worker code): the static build, copied under english/ by
+  // `pnpm cf:prepare` (scripts/nest-dist.mjs), because the route keeps the /english prefix.
+  // Needs `base: '/english'` in astro.config.mjs (the overclaude `base-path` item) before the
+  // first deploy.
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "icanspeak-english",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./cf-dist",
+    "not_found_handling": "404-page"
+  },
+  "routes": [
+    { "pattern": "icanspeak.it/english", "zone_name": "icanspeak.it" },
+    { "pattern": "icanspeak.it/english/*", "zone_name": "icanspeak.it" }
+  ]
+}

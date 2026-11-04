@@ -1,3 +1,4 @@
+import { u } from '../../lib/url';
 export type TopicStatus = 'live' | 'worksheet' | 'read' | 'soon';
 export type Locale = 'en' | 'de';
 
@@ -25,7 +26,7 @@ export interface Topic {
 }
 
 export function hrefFor(href: string, locale: Locale) {
-  return locale === 'de' ? `/de${href}` : href;
+  return locale === 'de' ? u(`/de${href}`) : href;
 }
 
 const statusCopy: Record<TopicStatus, { badge: LocalizedText; cta: LocalizedText }> = {
@@ -79,7 +80,7 @@ export const topics: Topic[] = [
         },
       },
     ],
-    href: '/dashboard/articulation/',
+    href: u('/dashboard/articulation/'),
   },
   {
     slug: 'phonology',
@@ -107,7 +108,7 @@ export const topics: Topic[] = [
         },
       },
     ],
-    href: '/dashboard/phonology/',
+    href: u('/dashboard/phonology/'),
   },
   {
     slug: 'prosody',
@@ -135,7 +136,7 @@ export const topics: Topic[] = [
         },
       },
     ],
-    href: '/dashboard/prosody/',
+    href: u('/dashboard/prosody/'),
   },
   {
     slug: 'voice',
@@ -163,7 +164,7 @@ export const topics: Topic[] = [
         },
       },
     ],
-    href: '/dashboard/voice/',
+    href: u('/dashboard/voice/'),
   },
   {
     slug: 'volume',
@@ -191,7 +192,7 @@ export const topics: Topic[] = [
         },
       },
     ],
-    href: '/dashboard/volume/',
+    href: u('/dashboard/volume/'),
   },
   {
     slug: 'pace',
@@ -219,7 +220,7 @@ export const topics: Topic[] = [
         },
       },
     ],
-    href: '/dashboard/pace/',
+    href: u('/dashboard/pace/'),
   },
   {
     slug: 'fluency',
@@ -240,7 +241,7 @@ export const topics: Topic[] = [
         },
       },
     ],
-    href: '/blog/stuttering-cluttering-not-an-accent/',
+    href: u('/blog/stuttering-cluttering-not-an-accent/'),
   },
   {
     slug: 'rhetoric',
@@ -268,7 +269,7 @@ export const topics: Topic[] = [
         },
       },
     ],
-    href: '/exercises/rhetoric/',
+    href: u('/exercises/rhetoric/'),
     featured: true,
   },
 ];

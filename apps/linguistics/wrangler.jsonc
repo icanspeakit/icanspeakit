@@ -1,0 +1,15 @@
+{
+  // icanspeak linguistics — https://icanspeak.it/linguistics/*
+  // Astro's Cloudflare adapter fills in "main" (its server entrypoint) and the ASSETS binding
+  // for the prerendered pages; only the two TTS API routes run as Worker code.
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "icanspeak-linguistics",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "routes": [
+    { "pattern": "icanspeak.it/linguistics", "zone_name": "icanspeak.it" },
+    { "pattern": "icanspeak.it/linguistics/*", "zone_name": "icanspeak.it" }
+  ],
+  "observability": { "enabled": true }
+  // Secret: wrangler secret put ELEVENLABS_API_KEY
+}

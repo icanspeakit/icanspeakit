@@ -1,4 +1,5 @@
 ---
+import { u } from '../../../lib/url';
 import Layout from '../../../layouts/Layout.astro';
 import StoryReader from '../../../components/study/StoryReader.astro';
 import { chapters } from '../../../data/study/story';
@@ -12,7 +13,7 @@ const titleDe: Record<string, string> = {
 <Layout
   title="Story Stream — icanspeak.it"
   description="Eine kurze Fortsetzungsgeschichte mit echten Lückentext-Grammatikprüfungen und einem Tipp-für-Bedeutung-Glossar."
-  altHref="/study/story/"
+  altHref={u("/study/story/")}
 >
   <section class="container">
     <div class="section-head">

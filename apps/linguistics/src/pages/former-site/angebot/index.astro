@@ -1,19 +1,20 @@
 ---
+import { u } from '../../../lib/url';
 import FormerSiteLayout from '../../../layouts/FormerSiteLayout.astro';
 
 const tools = [
   {
-    image: '/former-site-assets/uploads/2021/11/Zoom-1.jpg',
+    image: u('/former-site-assets/uploads/2021/11/Zoom-1.jpg'),
     title: 'Zoom Tutorials',
     text: 'In den Zoom Tutorials wird Ihren Lehrern genau gezeigt, wie man am effizientesten Online-Klassen unterrichtet. Viele Mitarbeiter sind sich nicht der Möglichkeiten modernster Software zum Unterrichten bewusst.',
   },
   {
-    image: '/former-site-assets/uploads/2021/11/clickup-lower-res.png',
+    image: u('/former-site-assets/uploads/2021/11/clickup-lower-res.png'),
     title: 'Übersichtliche Curriculumsordnung',
     text: 'Anhand eines cloud-basierten Managementtools lassen sich alle Fortschritte in den Kursen bzw. Zeitpläne überschaulich darstellen und warten.',
   },
   {
-    image: '/former-site-assets/uploads/2021/11/blink-progress-small.png',
+    image: u('/former-site-assets/uploads/2021/11/blink-progress-small.png'),
     title: 'Leistungsmanagement',
     text: 'Anhand eines übersichtlichen Interface lässt sich feststellen, in welchem Tempo und mit welcher Qualität die Aufgaben der Kursteilnehmer erfüllt werden.',
   },
@@ -53,7 +54,7 @@ const tools = [
   <section class="section feature-row">
     <div class="container feature-row__inner">
       <img
-        src="/former-site-assets/uploads/2021/11/weeklyReport-768x432.jpg"
+        src={u("/former-site-assets/uploads/2021/11/weeklyReport-768x432.jpg")}
         alt=""
         class="feature-row__image"
         width="768"
@@ -78,7 +79,7 @@ const tools = [
         </p>
       </div>
       <img
-        src="/former-site-assets/uploads/2021/11/Untitled-3-1-768x410.jpg"
+        src={u("/former-site-assets/uploads/2021/11/Untitled-3-1-768x410.jpg")}
         alt=""
         class="feature-row__image"
         width="768"
@@ -88,7 +89,7 @@ const tools = [
 
     <div class="container feature-row__inner mt-lg">
       <img
-        src="/former-site-assets/uploads/2021/11/Attendance-1-768x415.jpg"
+        src={u("/former-site-assets/uploads/2021/11/Attendance-1-768x415.jpg")}
         alt=""
         class="feature-row__image"
         width="768"
@@ -116,7 +117,7 @@ const tools = [
         </p>
       </div>
       <img
-        src="/former-site-assets/uploads/2021/11/Meeting-768x614.jpg"
+        src={u("/former-site-assets/uploads/2021/11/Meeting-768x614.jpg")}
         alt=""
         class="feature-row__image"
         width="768"
@@ -128,7 +129,7 @@ const tools = [
   <section class="section section--soft feature-row" id="Lernplattformen">
     <div class="container feature-row__inner">
       <img
-        src="/former-site-assets/uploads/2021/11/bookBlink-768x400.jpg"
+        src={u("/former-site-assets/uploads/2021/11/bookBlink-768x400.jpg")}
         alt=""
         class="feature-row__image"
         width="768"
@@ -156,7 +157,7 @@ const tools = [
         </p>
       </div>
       <img
-        src="/former-site-assets/uploads/2021/11/wortschatz.jpg"
+        src={u("/former-site-assets/uploads/2021/11/wortschatz.jpg")}
         alt=""
         class="feature-row__image"
         width="640"
@@ -179,7 +180,7 @@ const tools = [
             um entscheidende – aber versteckte – Aspekte in der Wertschöpfungskette zu erkennen.
           </p>
           <img
-            src="/former-site-assets/uploads/2021/11/Blue-and-White-Clean-and-Simple-Comparison-Infographic-Anfang-700x1024.jpg"
+            src={u("/former-site-assets/uploads/2021/11/Blue-and-White-Clean-and-Simple-Comparison-Infographic-Anfang-700x1024.jpg")}
             alt="Infografik: Kulturvergleich, Ausgangslage"
             class="culture__figure"
             width="700"
@@ -193,7 +194,7 @@ const tools = [
             werden, und nicht andersherum.
           </p>
           <img
-            src="/former-site-assets/uploads/2021/11/Blue-and-White-Clean-and-Simple-Comparison-Infographic-Fazit-1.jpg"
+            src={u("/former-site-assets/uploads/2021/11/Blue-and-White-Clean-and-Simple-Comparison-Infographic-Fazit-1.jpg")}
             alt="Infografik: Kulturvergleich, Fazit"
             class="culture__figure"
             width="700"
@@ -202,7 +203,7 @@ const tools = [
         </div>
       </div>
       <div class="culture__cta">
-        <a href="/former-site/kontakt/" class="button button--primary">Kontakt</a>
+        <a href={u("/former-site/kontakt/")} class="button button--primary">Kontakt</a>
       </div>
     </div>
   </section>

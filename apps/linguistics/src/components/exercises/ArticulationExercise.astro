@@ -1,11 +1,12 @@
 ---
+import { u } from '../../lib/url';
 import ShadowRecorder from '../ShadowRecorder.astro';
 import PracticeLanguageToggle from './PracticeLanguageToggle.astro';
 import { minimalPairs } from '../../data/exercises/minimal-pairs';
 import { minimalPairsDe } from '../../data/exercises/minimal-pairs.de';
 import type { MinimalPair } from '../../data/exercises/minimal-pairs';
 
-const ttsUrl = (text: string) => `/api/tts?text=${encodeURIComponent(text)}`;
+const ttsUrl = (text: string) => u(`/api/tts?text=${encodeURIComponent(text)}`);
 
 // Both practice-language variants render into the static page; a client
 // script (practice-lang.ts) shows only one at a time. See

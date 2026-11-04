@@ -1,4 +1,5 @@
 ---
+import { u } from '../../lib/url';
 import Layout from '../../layouts/Layout.astro';
 import StoryReader from '../../components/study/StoryReader.astro';
 import { chapters } from '../../data/study/story';
@@ -7,7 +8,7 @@ import { chapters } from '../../data/study/story';
 <Layout
   title="Story Stream — icanspeak.it"
   description="A short serialized story with real fill-in-the-blank grammar checks and a tap-for-meaning glossary."
-  altHref="/de/study/story/"
+  altHref={u("/de/study/story/")}
 >
   <section class="container">
     <div class="section-head">

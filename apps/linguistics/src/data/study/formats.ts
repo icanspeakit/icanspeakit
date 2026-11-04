@@ -1,3 +1,4 @@
+import { u } from '../../lib/url';
 import type { Topic } from '../exercises/topics';
 
 // Reuses the same Topic shape (and ExerciseGrid component) as /exercises/ —
@@ -31,7 +32,7 @@ export const studyFormats: Topic[] = [
         },
       },
     ],
-    href: '/study/story/',
+    href: u('/study/story/'),
   },
   {
     slug: 'dialogue',
@@ -59,7 +60,7 @@ export const studyFormats: Topic[] = [
         },
       },
     ],
-    href: '/study/dialogue/',
+    href: u('/study/dialogue/'),
   },
   {
     slug: 'deck',
@@ -87,7 +88,7 @@ export const studyFormats: Topic[] = [
         },
       },
     ],
-    href: '/study/deck/',
+    href: u('/study/deck/'),
   },
   {
     slug: 'listening',
@@ -115,7 +116,7 @@ export const studyFormats: Topic[] = [
         },
       },
     ],
-    href: '/study/listening/',
+    href: u('/study/listening/'),
   },
   {
     slug: 'writing',
@@ -143,6 +144,6 @@ export const studyFormats: Topic[] = [
         },
       },
     ],
-    href: '/study/writing/',
+    href: u('/study/writing/'),
   },
 ];
