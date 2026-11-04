@@ -1,5 +1,5 @@
 {
-  "_comment": "Learn step by step (/step-by-step): the curated beginner path. Tasks reference reviewed items by ref, they never copy text — see src/lib/einfach-content.js for the ref formats and docs/easy-mode-tier1-v1.md for how to add a unit. Check with: pnpm check:einfach. Grammar order follows grammatik-lehrplan.json (English A1 order: be, articles, plurals, possessives, present simple, questions, object pronouns, imperatives, prepositions of time, was/were). English version (beginner-path run, 2026-10-29): A1, A2 and B1 are playable, units in the lehrplan order of their grammar topic; they use only sources that are already English (grammar topics and akkusativ.json); word, article (der/die/das), phrase, listening and speaking tasks come back when the vocab, speaking, listening and pronunciation items have made their sources English. Postcards with source \"neu\" are facts written for this path and still need Edgar's check.",
+  "_comment": "Learn step by step (/step-by-step): the curated beginner path. Tasks reference reviewed items by ref, they never copy text — see src/lib/einfach-content.js for the ref formats and docs/easy-mode-tier1-v1.md for how to add a unit. Check with: pnpm check:einfach. Spanish version (beginner-path run, 2026-11-04): A1, A2 and B1 are playable, units in the order of grammatik-lehrplan.json, except that ser/estar comes before plurals here because the plural unit also needs adjective agreement. Old ids are kept where a unit fits them; new units have English ids. Only luecke and satz tasks for now, because the other sources (lexicon, redemittel, hoeren, aussprache) are not Spanish yet. Hints and whys are English; the Spanish comes from the source item. No task points at an item with es419.skip, so a LatAm mode loses no task; three items have an es419.form the resolver must apply then (personalpronomen/0/5, aduso/0/1, konjunktiv2-hoeflich/1/2). Postcards are written here (source: neu) until Edgar has checked them.",
   "levels": [
     {
       "level": "A1",
@@ -10,16 +10,16 @@
           "title": "Introduce yourself",
           "minutes": 2,
           "grammar": "personalpronomen",
-          "claims": ["You say who you are and where you are from.", "You use I am, you are, she is."],
-          "postcard": { "city": "London", "fact": "Big Ben is not the tower. It is the big bell inside the tower.", "source": "neu" },
+          "claims": ["You say hello and say your name.", "You use yo, tú, usted and vosotros."],
+          "postcard": { "city": "Madrid", "fact": "The Kilómetro Cero is in Madrid, at Puerta del Sol. Spain's main roads count their distance from here.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:personalpronomen/0/0@73d1af", "options": ["él","ella","ellas"] },
-            { "type": "luecke", "ref": "gram:personalpronomen/0/1@463a1c", "options": ["él","ella","ellos"] },
-            { "type": "luecke", "ref": "gram:personalpronomen/0/2@fa905f", "options": ["nosotros","vosotros","ellos"] },
-            { "type": "satz", "ref": "gram:personalpronomen/4/0@5cb32e" },
-            { "type": "luecke", "ref": "gram:personalpronomen/0/3@8b4cc1", "options": ["ellos","ellas","nosotros"] },
-            { "type": "luecke", "ref": "gram:personalpronomen/0/4@3191dd", "options": ["ellos","ellas","vosotras"] },
-            { "type": "satz", "ref": "gram:personalpronomen/4/1@e45c3a" }
+            { "type": "luecke", "ref": "gram:personalpronomen/6/0@7c82c2", "options": ["días","tardes","noches"], "hint": "Buenos ends in -os. Which word goes with it?", "why": "We say buenos días, but buenas tardes and buenas noches." },
+            { "type": "luecke", "ref": "gram:personalpronomen/6/2@50caa2", "options": ["llamo","llamas","llama"], "hint": "Oksana is talking about herself.", "why": "Me llamo Oksana = my name is Oksana." },
+            { "type": "satz", "ref": "gram:personalpronomen/7/0@8a48a8", "why": "Me llamo + your name. Me comes first." },
+            { "type": "luecke", "ref": "gram:personalpronomen/1/0@be28cc", "options": ["Yo","Él","Tú"], "hint": "Look at the end of the verb: -o.", "why": "The ending -o belongs to yo: vivo." },
+            { "type": "luecke", "ref": "gram:personalpronomen/2/1@9f1069", "options": ["tú","usted"], "hint": "You ask an older neighbour you do not know.", "why": "Someone you do not know: usted. ¿Cómo se llama usted?" },
+            { "type": "luecke", "ref": "gram:personalpronomen/0/5@d51aed", "options": ["ellos","vosotros","nosotros"], "hint": "You are talking to two people here in Spain.", "why": "In Spain, tú + another person = vosotros." },
+            { "type": "satz", "ref": "gram:personalpronomen/7/2@cf5d0c", "why": "¿De dónde eres? The question starts with De." }
           ]
         },
         {
@@ -28,16 +28,50 @@
           "title": "Show someone your home",
           "minutes": 2,
           "grammar": "artikel",
-          "claims": ["You talk about the things in your home.", "You choose a, an or the."],
-          "postcard": { "city": "Edinburgh", "fact": "Edinburgh Castle stands on the rock of an old volcano.", "source": "neu" },
+          "claims": ["You talk about the things in your home.", "You choose el, la, un or una."],
+          "postcard": { "city": "Barcelona", "fact": "Work on the Sagrada Família began in 1882. Many people have worked on it since then.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:artikel/0/0@7fa4de", "options": ["el","la","los","las"] },
-            { "type": "luecke", "ref": "gram:artikel/0/1@e4dbab", "options": ["el","la","los","las"] },
-            { "type": "luecke", "ref": "gram:artikel/0/2@0687d8", "options": ["el","la","los","las"] },
-            { "type": "luecke", "ref": "gram:artikel/0/3@7fd6a3", "options": ["el","la","los","las"] },
-            { "type": "luecke", "ref": "gram:artikel/0/4@f38523", "options": ["el","la","los","las"] },
-            { "type": "luecke", "ref": "gram:artikel/0/5@63d1a6", "options": ["el","la","los","las"] },
-            { "type": "luecke", "ref": "gram:artikel/0/6@4bb9a4", "options": ["el","la","los","las"] }
+            { "type": "luecke", "ref": "gram:nomen/0/3@229a8c", "options": ["el","la"], "hint": "Look at the last letter of mesa.", "why": "Most words in -a are feminine: la mesa." },
+            { "type": "luecke", "ref": "gram:nomen/0/6@7fa4de", "options": ["el","la"], "hint": "Look at the last letter of piso.", "why": "Most words in -o are masculine: el piso." },
+            { "type": "luecke", "ref": "gram:artikel/0/1@e4dbab", "options": ["la","los","las"], "hint": "One key is la llave. Here you have more.", "why": "La llave, las llaves. The -s means more than one." },
+            { "type": "luecke", "ref": "gram:artikel/1/1@14ca4f", "options": ["un","una","unos"], "hint": "Silla ends in -a. It is one chair.", "why": "La silla, so: una silla." },
+            { "type": "luecke", "ref": "gram:artikel/2/1@dc51db", "options": ["un","el"], "hint": "You talk about this flat for the first time.", "why": "Something new: un, una. Vivo en un piso pequeño." },
+            { "type": "luecke", "ref": "gram:artikel/2/3@859036", "options": ["un","el"], "hint": "You both know the home has one.", "why": "Something you both know: el, la. ¿Dónde está el baño?" }
+          ]
+        },
+        {
+          "id": "a1-who-where",
+          "icon": "📍",
+          "title": "Say who and where you are",
+          "minutes": 2,
+          "grammar": "verb-position-2",
+          "claims": ["You say who you are with ser.", "You say where you are with estar."],
+          "postcard": { "city": "Toledo", "fact": "People call Toledo the city of three cultures. Christians, Muslims and Jews lived here for centuries.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:verb-position-2/2/0@313c7b", "options": ["soy","estoy"], "hint": "You say where you come from.", "why": "Where you come from: ser. Soy de Ucrania." },
+            { "type": "luecke", "ref": "gram:verb-position-2/2/4@1f688a", "options": ["es","está"], "hint": "The sentence says where it is.", "why": "Where something is: estar. La farmacia está en la calle Mayor." },
+            { "type": "luecke", "ref": "gram:verb-position-2/2/2@4efe51", "options": ["es","está"], "hint": "Profesora is her job.", "why": "A job: ser. Mi hermana es profesora." },
+            { "type": "satz", "ref": "gram:verb-position-2/4/0@207e81", "why": "A job: ser, with no un or una. Soy enfermera." },
+            { "type": "luecke", "ref": "gram:verb-position-2/3/0@1a623f", "options": ["soy","estoy"], "hint": "How do you feel in the evening?", "why": "How you feel now: estar. Estoy cansada." },
+            { "type": "luecke", "ref": "gram:verb-position-2/2/5@da9004", "options": ["Son","Están"], "hint": "The question asks about the time.", "why": "The time: ser. Son las ocho." },
+            { "type": "satz", "ref": "gram:verb-position-2/4/1@3bf92e", "why": "Where something is: estar. ¿Dónde está + the thing?" }
+          ]
+        },
+        {
+          "id": "a1-describe",
+          "icon": "✨",
+          "title": "Describe your flat",
+          "minutes": 2,
+          "grammar": "adjektive-nach-sein",
+          "claims": ["You say what things are like.", "You match words: los pisos caros."],
+          "postcard": { "city": "Cuenca", "fact": "In Cuenca, old houses hang over the edge of a deep gorge. People call them the casas colgadas.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:plural/0/1@e12108", "options": ["ciudads","ciudades","ciudadas"], "hint": "Ciudad ends in a consonant.", "why": "After a consonant, add -es: ciudades." },
+            { "type": "luecke", "ref": "gram:plural/2/1@80d73a", "options": ["caro","caros","caras"], "hint": "El piso, los pisos: masculine, more than one.", "why": "The adjective matches the noun: los pisos son caros." },
+            { "type": "luecke", "ref": "gram:adjektive-nach-sein/0/0@706995", "options": ["pequeño","pequeña","pequeños"], "hint": "La casa: feminine, one.", "why": "Mi casa is feminine, so: pequeña." },
+            { "type": "luecke", "ref": "gram:adjektive-nach-sein/1/0@8f9e2d", "options": ["grande","granda"], "hint": "Look at the end of the adjective: -e.", "why": "Adjectives in -e do not change for la: una casa grande." },
+            { "type": "luecke", "ref": "gram:adjektive-nach-sein/2/3@de8573", "options": ["la blanca casa","la casa blanca"], "hint": "What comes first, the thing or its colour?", "why": "The adjective usually comes after the noun: la casa blanca." },
+            { "type": "satz", "ref": "gram:adjektive-nach-sein/5/0@be296f", "why": "The noun comes first, then the adjective: un piso nuevo." }
           ]
         },
         {
@@ -45,70 +79,17 @@
           "icon": "🛒",
           "title": "Go shopping",
           "minutes": 2,
-          "grammar": "plural",
-          "claims": ["You say how many things you want.", "You make plurals: one apple, two apples."],
-          "postcard": { "city": "Cardiff", "fact": "Cardiff is the capital of Wales. Many signs there are in Welsh and English.", "source": "neu" },
+          "grammar": "zahlen",
+          "claims": ["You understand numbers and prices.", "You say how much something costs."],
+          "postcard": { "city": "Valencia", "fact": "Valencia is the home of paella. The rice grows close to the city, around La Albufera lake.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:plural/0/0@a54fe3", "options": ["libros","libroes","libres"] },
-            { "type": "luecke", "ref": "gram:plural/0/1@e12108", "options": ["ciudads","ciudades","ciudadas"] },
-            { "type": "luecke", "ref": "gram:plural/0/2@0c4135", "options": ["lápizes","lápices","lápizs"] },
-            { "type": "luecke", "ref": "gram:plural/0/3@22a46a", "options": ["calles","callees","calle"] },
-            { "type": "luecke", "ref": "gram:plural/0/4@c2fb50", "options": ["mes","mess","meses"] },
-            { "type": "luecke", "ref": "gram:plural/0/5@2deb6c", "options": ["luzes","luces","luzs"] },
-            { "type": "luecke", "ref": "gram:plural/0/6@c1a50a", "options": ["hospitals","hospitales","hospitalos"] }
-          ]
-        },
-        {
-          "id": "a1-familie",
-          "icon": "👨‍👩‍👧",
-          "title": "Talk about your family",
-          "minutes": 2,
-          "grammar": "possessivartikel",
-          "claims": ["You talk about your family.", "You say my, his, her and Tom's."],
-          "postcard": { "city": "Belfast", "fact": "The Titanic was built in Belfast.", "source": "neu" },
-          "tasks": [
-            { "type": "luecke", "ref": "gram:possessivartikel/0/0@116955", "options": ["mi","mis","tus"] },
-            { "type": "luecke", "ref": "gram:possessivartikel/0/1@e4fce2", "options": ["tu","tus","tú"] },
-            { "type": "luecke", "ref": "gram:possessivartikel/0/2@68a444", "options": ["su","sus","ellas"] },
-            { "type": "luecke", "ref": "gram:possessivartikel/0/3@0074c7", "options": ["nuestro","nuestra","nuestros"] },
-            { "type": "luecke", "ref": "gram:possessivartikel/0/4@a48cd4", "options": ["nuestro","nuestra","nuestras"] },
-            { "type": "luecke", "ref": "gram:possessivartikel/0/6@b45565", "options": ["su","sus","suyo"] }
-          ]
-        },
-        {
-          "id": "a1-tag",
-          "icon": "⏰",
-          "title": "Talk about your day",
-          "minutes": 2,
-          "grammar": "praesens",
-          "claims": ["You say what you do every day.", "You add -s after he, she and it."],
-          "postcard": { "city": "Bath", "fact": "In Bath, warm water comes up from under the ground. The Romans built baths there.", "source": "neu" },
-          "tasks": [
-            { "type": "luecke", "ref": "gram:praesens/0/0@5535cc", "options": ["trabajo","trabaja","trabajas"] },
-            { "type": "luecke", "ref": "gram:praesens/0/1@80c01a", "options": ["hablo","hablas","hables"] },
-            { "type": "luecke", "ref": "gram:praesens/0/2@90b7d5", "options": ["vivo","vive","viva"] },
-            { "type": "luecke", "ref": "gram:praesens/0/3@70bdfb", "options": ["comimos","comemos","comamos"] },
-            { "type": "luecke", "ref": "gram:praesens/0/4@c584d7", "options": ["vivemos","vivamos","vivimos"] },
-            { "type": "luecke", "ref": "gram:praesens/0/6@80cfc3", "options": ["lean","leen","leemos"] },
-            { "type": "luecke", "ref": "gram:praesens/0/7@062d64", "options": ["pagas","paga","pago"] }
-          ]
-        },
-        {
-          "id": "a1-cafe",
-          "icon": "☕",
-          "title": "In a café",
-          "minutes": 2,
-          "grammar": "ja-nein-fragen",
-          "claims": ["You ask yes/no questions: Do you…? Is it…?", "You give short answers: Yes, I do."],
-          "postcard": { "city": "York", "fact": "In York you can walk on the old city walls.", "source": "neu" },
-          "tasks": [
-            { "type": "luecke", "ref": "gram:ja-nein-fragen/0/0@52e16c", "options": ["Sí","No"] },
-            { "type": "luecke", "ref": "gram:ja-nein-fragen/0/1@a17daa", "options": ["Sí","No"] },
-            { "type": "luecke", "ref": "gram:ja-nein-fragen/0/2@0b21f5", "options": ["soy","es"] },
-            { "type": "satz", "ref": "gram:ja-nein-fragen/1/0@91bb2e" },
-            { "type": "luecke", "ref": "gram:ja-nein-fragen/0/3@1ce13a", "options": ["no","sí"] },
-            { "type": "satz", "ref": "gram:ja-nein-fragen/1/1@5e1316" },
-            { "type": "luecke", "ref": "gram:ja-nein-fragen/0/4@05f74f", "options": ["vivís","vivimos"] }
+            { "type": "luecke", "ref": "gram:zahlen/1/0@0394cf", "options": ["5","15","50"], "hint": "It is more than ten and less than twenty.", "why": "Quince = 15. Cinco = 5. Cincuenta = 50." },
+            { "type": "luecke", "ref": "gram:zahlen/1/3@fde197", "options": ["7","60","70"], "hint": "Siete is 7. Setenta sounds like siete.", "why": "Setenta = 70, from siete. Sesenta = 60, from seis." },
+            { "type": "luecke", "ref": "gram:zahlen/0/1@6393b4", "options": ["veinte y dos","veintidos","veintidós"], "hint": "It is one word. Look at the accent.", "why": "From 16 to 29, numbers are one word: veintidós." },
+            { "type": "luecke", "ref": "gram:zahlen/7/0@4b77f4", "options": ["dos euros con cincuenta","doscientos cincuenta euros"], "hint": "In Spain, the comma comes before the cents.", "why": "2,50 € is two euros and fifty cents." },
+            { "type": "luecke", "ref": "gram:zahlen/7/2@701bcc", "options": ["doce euros","mil doscientos euros"], "hint": "In Spain, a point marks the thousands.", "why": "1.200 € is one thousand two hundred euros." },
+            { "type": "luecke", "ref": "gram:zahlen/3/3@ab0d43", "options": ["cincocientos","quinientos","quinientas"], "hint": "500 has its own word. Euros are masculine.", "why": "500 is irregular: quinientos euros, quinientas personas." },
+            { "type": "satz", "ref": "gram:zahlen/5/1@eedd1f", "why": "Cuesta + the number + euros." }
           ]
         },
         {
@@ -117,105 +98,171 @@
           "title": "Get to know someone",
           "minutes": 2,
           "grammar": "w-fragen",
-          "claims": ["You ask: Who? Where? When? How old?", "You ask people where they live."],
-          "postcard": { "city": "Liverpool", "fact": "The Beatles came from Liverpool.", "source": "neu" },
+          "claims": ["You ask and answer yes/no questions.", "You ask: ¿Dónde? ¿Cuándo? ¿Quién? ¿Cuántos?"],
+          "postcard": { "city": "Salamanca", "fact": "The University of Salamanca began in 1218. It is the oldest university in Spain.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:w-fragen/0/0@1b208a", "options": ["Dónde","Cuándo","Quién"] },
-            { "type": "luecke", "ref": "gram:w-fragen/0/1@16b22f", "options": ["Dónde","Cuándo","Qué"] },
-            { "type": "satz", "ref": "gram:w-fragen/4/0@278d3e" },
-            { "type": "luecke", "ref": "gram:w-fragen/0/2@2a6dc3", "options": ["Qué","Quién","Cómo"] },
-            { "type": "luecke", "ref": "gram:w-fragen/0/3@dcebe0", "options": ["Qué","Quién","Dónde"] },
-            { "type": "luecke", "ref": "gram:w-fragen/0/4@65b59e", "options": ["Qué","Cómo","Quién"] },
-            { "type": "satz", "ref": "gram:w-fragen/4/1@4a95c4" }
+            { "type": "luecke", "ref": "gram:ja-nein-fragen/0/0@52e16c", "options": ["Sí","No"], "hint": "The person says: I have two.", "why": "Tengo dos means yes. Write sí with an accent." },
+            { "type": "luecke", "ref": "gram:ja-nein-fragen/0/3@1ce13a", "options": ["no","sí"], "hint": "How do you make the verb negative?", "why": "To say no: no + verb. No, no trabajo los sábados." },
+            { "type": "satz", "ref": "gram:ja-nein-fragen/1/1@5e1316", "why": "No comes right before the verb: no trabajo." },
+            { "type": "luecke", "ref": "gram:w-fragen/0/0@1b208a", "options": ["Dónde","Cuándo","Quién"], "hint": "The answer is a place.", "why": "A place: ¿Dónde? And the question word has an accent." },
+            { "type": "luecke", "ref": "gram:w-fragen/0/4@65b59e", "options": ["Qué","Cómo","Quién"], "hint": "English says “What's your name?”. Spanish is different.", "why": "Spanish says “how do you call yourself?”: ¿Cómo te llamas?" },
+            { "type": "luecke", "ref": "gram:w-fragen/5/0@a0ec3a", "options": ["Cuánto","Cuántos","Cuántas"], "hint": "Los hijos: masculine, more than one.", "why": "Cuánto matches the noun: ¿Cuántos hijos?" },
+            { "type": "satz", "ref": "gram:w-fragen/4/2@db581e", "why": "De dónde + verb + usted." }
           ]
         },
         {
-          "id": "a1-kleidung",
-          "icon": "👍",
-          "title": "Say what you like",
+          "id": "a1-tag",
+          "icon": "☀️",
+          "title": "Talk about your day",
           "minutes": 2,
-          "grammar": "akkusativ",
-          "claims": ["You replace a person or thing: Lo veo.", "You use me, lo, la, los."],
-          "postcard": { "city": "Oxford", "fact": "Oxford has the oldest university in the English-speaking world.", "source": "neu" },
+          "grammar": "praesens",
+          "claims": ["You say what you do every day.", "You use -ar, -er and -ir verbs."],
+          "postcard": { "city": "Sevilla", "fact": "The streets of Seville are full of orange trees. The oranges look sweet, but they are very bitter.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "akk:akk-l3", "hint": "El móvil: masculine, one thing." },
-            { "type": "luecke", "ref": "akk:akk-l1", "hint": "Tomás is one man." },
-            { "type": "luecke", "ref": "akk:akk-l4", "hint": "Mis padres: more than one person." },
-            { "type": "luecke", "ref": "akk:akk-l5", "hint": "Help who? The object form of yo." },
-            { "type": "luecke", "ref": "akk:akk-m4", "hint": "Los niños: more than one." },
-            { "type": "luecke", "ref": "akk:akk-s5", "hint": "El libro: masculine, one thing." }
-          ]
-        },
-        {
-          "id": "a1-weg",
-          "icon": "🧭",
-          "title": "Ask the way",
-          "minutes": 2,
-          "grammar": "imperativ",
-          "claims": ["You understand directions: Turn left at the bank.", "You tell people what to do and not do."],
-          "postcard": { "city": "Cambridge", "fact": "In Cambridge, lots of people go to work by bike.", "source": "neu" },
-          "tasks": [
-            { "type": "luecke", "ref": "gram:imperativ/0/0@f4c84d", "options": ["di","dice","dime"] },
-            { "type": "luecke", "ref": "gram:imperativ/0/1@af94b2", "options": ["hace","haz","has"] },
-            { "type": "luecke", "ref": "gram:imperativ/0/2@499bfd", "options": ["ve","va","ven"] },
-            { "type": "satz", "ref": "gram:imperativ/6/0@1fc1d2" },
-            { "type": "luecke", "ref": "gram:imperativ/0/3@84807f", "options": ["pone","pongo","pon"] },
-            { "type": "luecke", "ref": "gram:imperativ/0/4@9401b4", "options": ["sal","sale","salga"] },
-            { "type": "satz", "ref": "gram:imperativ/6/1@36d6d6" }
-          ]
-        },
-        {
-          "id": "a1-arzt",
-          "icon": "📞",
-          "title": "Make an appointment",
-          "minutes": 2,
-          "grammar": "temporale-praepositionen",
-          "claims": ["You make an appointment on the phone.", "You say: on Monday, at ten, in May."],
-          "postcard": { "city": "Dover", "fact": "On a clear day, you can see France from Dover.", "source": "neu" },
-          "tasks": [
-            { "type": "luecke", "ref": "gram:temporale-praepositionen/0/0@e48bca", "options": ["Es la una.","Son las una.","Son la una."] },
-            { "type": "luecke", "ref": "gram:temporale-praepositionen/0/1@c22cdd", "options": ["Es las cuatro.","Son las cuatro.","Son cuatro."] },
-            { "type": "luecke", "ref": "gram:temporale-praepositionen/0/2@e70350", "options": ["Son las dos y media.","Son las tres y media.","Son las dos menos media."] },
-            { "type": "luecke", "ref": "gram:temporale-praepositionen/0/3@0da722", "options": ["Son las seis menos cuarto.","Son las seis y cuarto.","Son las cinco y cuarto."] },
-            { "type": "luecke", "ref": "gram:temporale-praepositionen/0/4@0fff9e", "options": ["Son las ocho menos cuarto.","Son las nueve menos cuarto.","Son las nueve y cuarto."] },
-            { "type": "satz", "ref": "gram:temporale-praepositionen/6/0@cd0906" },
-            { "type": "luecke", "ref": "gram:temporale-praepositionen/0/5@9cde9e", "options": ["Es la una y veinte.","Son las una y veinte.","Es la dos menos veinte."] }
+            { "type": "luecke", "ref": "gram:praesens/0/0@5535cc", "options": ["trabajo","trabaja","trabajas"], "hint": "The ending for yo is the same in most verbs.", "why": "With yo, the ending is -o: trabajo." },
+            { "type": "luecke", "ref": "gram:praesens/0/4@c584d7", "options": ["vivemos","vivamos","vivimos"], "hint": "Vivir is an -ir verb.", "why": "-ir verbs with nosotros: -imos. Vivimos." },
+            { "type": "luecke", "ref": "gram:praesens/1/0@29bf45", "options": ["trabajo","trabaja","trabajan"], "hint": "Mi marido = él. The verb is trabajar.", "why": "With él and ella, -ar verbs end in -a: trabaja." },
+            { "type": "luecke", "ref": "gram:praesens/1/2@1bf420", "options": ["comemos","come","comen"], "hint": "The verb is comer. Who eats? Nosotros.", "why": "-er verbs with nosotros: -emos. Comemos a las dos." },
+            { "type": "luecke", "ref": "gram:praesens/1/4@cd1ebd", "options": ["bebo","bebe","bebes"], "hint": "The verb is beber. Look at the word yo.", "why": "With yo, the ending is -o: bebo." },
+            { "type": "satz", "ref": "gram:praesens/4/3@0e5e55", "why": "Mis hijos = ellos, so the verb ends in -an." }
           ]
         },
         {
           "id": "a1-koerper",
           "icon": "🩺",
-          "title": "At the doctor's",
+          "title": "At the health centre",
           "minutes": 2,
-          "grammar": "imperativ",
-          "claims": ["You understand instructions: Write your name here.", "You say: Be careful. Don't be late."],
-          "postcard": { "city": "Stratford-upon-Avon", "fact": "William Shakespeare was born in Stratford-upon-Avon in 1564.", "source": "neu" },
+          "grammar": "konjugation",
+          "claims": ["You say: tengo, voy and estoy.", "You say your age with tener."],
+          "postcard": { "city": "Zaragoza", "fact": "The river Ebro runs through Zaragoza. The big Basilica del Pilar stands on its bank.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:imperativ/0/5@3d2d44", "options": ["eres","sé","sea"] },
-            { "type": "luecke", "ref": "gram:imperativ/0/6@f94a17", "options": ["tiene","tienes","ten"] },
-            { "type": "luecke", "ref": "gram:imperativ/0/7@1df69d", "options": ["ven","viene","ve"] },
-            { "type": "luecke", "ref": "gram:imperativ/1/0@99270d", "options": ["apaga","apague"] },
-            { "type": "luecke", "ref": "gram:imperativ/1/1@172a3b", "options": ["firma","firme"] },
-            { "type": "luecke", "ref": "gram:imperativ/1/2@60e36b", "options": ["espera","espere"] },
-            { "type": "luecke", "ref": "gram:imperativ/1/3@9c3e94", "options": ["abre","abra"] }
+            { "type": "luecke", "ref": "gram:konjugation/3/3@bfed58", "options": ["voy","va","vas"], "hint": "Ir is irregular. Estoy shows the person: yo.", "why": "Ir with yo: voy." },
+            { "type": "luecke", "ref": "gram:konjugation/3/0@e35038", "options": ["es","tiene","está"], "hint": "English says “is twelve”. Spanish uses another verb.", "why": "Age uses tener: mi hija tiene doce años." },
+            { "type": "luecke", "ref": "gram:konjugation/1/0@3f2a42", "options": ["teno","tengo","tiene"], "hint": "The yo form has a -g-.", "why": "Tener with yo: tengo." },
+            { "type": "luecke", "ref": "gram:konjugation/3/7@ca804d", "options": ["sed","sueño","años"], "hint": "You ask for water. Why?", "why": "Tengo sed = I am thirsty. Spanish uses tener here too." },
+            { "type": "luecke", "ref": "gram:konjugation/3/5@e114a4", "options": ["somos","estamos","vamos"], "hint": "The sentence says where you are now.", "why": "Where you are: estar. Estamos en el centro de salud." },
+            { "type": "satz", "ref": "gram:konjugation/5/1@22b64f", "why": "Ir with nosotros: vamos. And a + el = al." }
+          ]
+        },
+        {
+          "id": "a1-cafe",
+          "icon": "☕",
+          "title": "In a café",
+          "minutes": 2,
+          "grammar": "praeteritum-sein-haben",
+          "claims": ["You order: quiero, pido.", "You ask: ¿Puedo pagar con tarjeta?"],
+          "postcard": { "city": "Oviedo", "fact": "In Asturias, people pour cider from high above the glass. They call this escanciar.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:praeteritum-sein-haben/0/0@c4dd91", "options": ["quero","quiero","queremos"], "hint": "The verb is querer. The e changes with yo.", "why": "Querer: e → ie with yo. Quiero." },
+            { "type": "luecke", "ref": "gram:praeteritum-sein-haben/0/1@33eb4d", "options": ["queremos","quieremos","quieren"], "hint": "Does the vowel change with nosotros?", "why": "With nosotros the stem does not change: queremos." },
+            { "type": "luecke", "ref": "gram:praeteritum-sein-haben/2/4@52e9ab", "options": ["pedimos","pido","pide"], "hint": "The verb is pedir, and you are talking about yourself.", "why": "Pedir: e → i with yo. Pido." },
+            { "type": "luecke", "ref": "gram:praeteritum-sein-haben/2/3@ab99a2", "options": ["entendo","entiendo","entiende"], "hint": "The verb is entender, and you are talking about yourself.", "why": "Entender: e → ie with yo. No entiendo." },
+            { "type": "luecke", "ref": "gram:praeteritum-sein-haben/0/2@fc4086", "options": ["Podes","Puedes","Puedo"], "hint": "The verb is poder, and you ask a friend.", "why": "Poder: o → ue with tú. ¿Puedes?" },
+            { "type": "satz", "ref": "gram:praeteritum-sein-haben/5/0@6c8e95", "why": "Puedo + the infinitive: pagar does not change." }
+          ]
+        },
+        {
+          "id": "a1-weg",
+          "icon": "🗺️",
+          "title": "Find your way",
+          "minutes": 2,
+          "grammar": "berufe-mit-in",
+          "claims": ["You ask: ¿Dónde está…? ¿Hay…?", "You choose hay, está or están."],
+          "postcard": { "city": "Santiago de Compostela", "fact": "The Camino de Santiago ends here. People walk for days or weeks to reach the cathedral.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:berufe-mit-in/2/0@f71595", "options": ["¿Hay una farmacia por aquí?","¿Dónde hay la farmacia?"], "hint": "You do not know if there is one.", "why": "You do not know if it exists: ¿Hay…? And hay takes una, not la." },
+            { "type": "luecke", "ref": "gram:berufe-mit-in/2/1@2649bf", "options": ["¿Dónde está el ayuntamiento?","¿Hay el ayuntamiento?"], "hint": "You know there is one. You need the place.", "why": "You know it exists: ¿Dónde está…?" },
+            { "type": "luecke", "ref": "gram:berufe-mit-in/0/0@9a291b", "options": ["hay","está","están"], "hint": "Look at the word un.", "why": "Hay + un, una, a number or no article." },
+            { "type": "luecke", "ref": "gram:berufe-mit-in/0/1@2fc2c5", "options": ["hay","está","están"], "hint": "We know the park. The sentence says where it is.", "why": "El, la, mi + thing: está. El parque está cerca." },
+            { "type": "luecke", "ref": "gram:berufe-mit-in/1/4@ba3edf", "options": ["un","el"], "hint": "Look at the word hay.", "why": "After hay: un, una. ¿Hay un cajero por aquí?" },
+            { "type": "satz", "ref": "gram:berufe-mit-in/7/1@de088a", "why": "A known thing + está + the place." }
+          ]
+        },
+        {
+          "id": "a1-familie",
+          "icon": "👪",
+          "title": "Talk about your family",
+          "minutes": 2,
+          "grammar": "possessivartikel",
+          "claims": ["You talk about your family.", "You say mi, tu, su and nuestro."],
+          "postcard": { "city": "Granada", "fact": "The name of Granada's Alhambra comes from Arabic. It means “the red one”.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:possessivartikel/1/0@42a9bd", "options": ["Mi","Mis","Tu"], "hint": "Yo, and one sister.", "why": "One thing, and it is yours: mi. Mi hermana." },
+            { "type": "luecke", "ref": "gram:possessivartikel/1/3@062da4", "options": ["su","sus"], "hint": "Look at padres: one or more than one?", "why": "Su + one thing, sus + more. Sus padres." },
+            { "type": "luecke", "ref": "gram:possessivartikel/1/2@adad7e", "options": ["su","sus","nuestro"], "hint": "Whose wife? Pablo's. How many?", "why": "Pablo y su mujer: one wife, so su." },
+            { "type": "luecke", "ref": "gram:possessivartikel/1/4@66489b", "options": ["nuestro","nuestra","nuestras"], "hint": "La hija: feminine, one.", "why": "Nuestro matches the noun, not the people: nuestra hija." },
+            { "type": "luecke", "ref": "gram:possessivartikel/2/0@e208bb", "options": ["de","a","su"], "hint": "English says “Javier's car”. Spanish has no 's.", "why": "Thing + de + owner: el coche de Javier." },
+            { "type": "satz", "ref": "gram:possessivartikel/5/0@a9fb95", "why": "Mis + more than one: mis padres." }
+          ]
+        },
+        {
+          "id": "a1-kleidung",
+          "icon": "👕",
+          "title": "Say what you like",
+          "minutes": 2,
+          "grammar": "gern",
+          "claims": ["You say what you like.", "You point at things: este, esta, estos."],
+          "postcard": { "city": "Bilbao", "fact": "The Guggenheim Museum in Bilbao opened in 1997. Its curved walls shine with titanium.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:gern/0/0@9f6870", "options": ["gusta","gustan"], "hint": "El café is one thing.", "why": "One thing or a verb: gusta." },
+            { "type": "luecke", "ref": "gram:gern/0/1@45eacb", "options": ["gusta","gustan"], "hint": "Los perros: how many?", "why": "More than one thing: gustan." },
+            { "type": "luecke", "ref": "gram:gern/1/2@2f0447", "options": ["la","te","le"], "hint": "Carmen is one person, not you.", "why": "For one other person, the word is le: a Carmen le gusta." },
+            { "type": "luecke", "ref": "gram:gern/4/1@630df2", "options": ["también","tampoco"], "hint": "The first sentence has no. You agree.", "why": "After a sentence with no, agree with tampoco." },
+            { "type": "luecke", "ref": "gram:welcher-dieser/0/2@94d5d5", "options": ["Estas","Estos","Este"], "hint": "Los zapatos: masculine, more than one.", "why": "Este, esta, estos, estas match the noun: estos zapatos." },
+            { "type": "luecke", "ref": "gram:welcher-dieser/0/3@5cda0c", "options": ["estos","estas","esta"], "hint": "We say la foto, with la.", "why": "Foto ends in -o, but it is feminine: estas fotos." },
+            { "type": "satz", "ref": "gram:gern/2/1@7a39d8", "why": "No + me + gusta + a verb in the infinitive." }
+          ]
+        },
+        {
+          "id": "a1-arzt",
+          "icon": "📅",
+          "title": "Make an appointment",
+          "minutes": 2,
+          "grammar": "temporale-praepositionen",
+          "claims": ["You say the time: son las diez.", "You say when: el lunes, a las diez."],
+          "postcard": { "city": "Segovia", "fact": "The Roman aqueduct of Segovia is about 2,000 years old. Its stones stand without any mortar.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:temporale-praepositionen/0/3@0da722", "options": ["Son las seis menos cuarto.","Son las seis y cuarto.","Son las cinco y cuarto."], "hint": "It is 15 minutes after the hour.", "why": "Up to half past: y. 6:15 = las seis y cuarto." },
+            { "type": "luecke", "ref": "gram:temporale-praepositionen/1/0@025f6d", "options": ["Es la","Son las","A las"], "hint": "The question is: what time is it?", "why": "What time is it? Son las + the hour (la una: es la)." },
+            { "type": "luecke", "ref": "gram:temporale-praepositionen/1/1@b7187e", "options": ["Son las","A las","En las"], "hint": "The question is: at what time?", "why": "At what time? A las + the hour." },
+            { "type": "luecke", "ref": "gram:temporale-praepositionen/2/0@9b7dad", "options": ["el","los","en"], "hint": "One Friday: this Friday.", "why": "One day: el viernes. There is no word for “on”." },
+            { "type": "luecke", "ref": "gram:temporale-praepositionen/2/1@429d60", "options": ["El","Los","En"], "hint": "Every Sunday, not just one.", "why": "Every week: los domingos." },
+            { "type": "satz", "ref": "gram:temporale-praepositionen/6/1@867e39", "why": "The day takes el: el martes." }
           ]
         },
         {
           "id": "a1-amt",
-          "icon": "📅",
-          "title": "Say where you were",
+          "icon": "🏛️",
+          "title": "Book the padrón",
           "minutes": 2,
-          "grammar": "praeteritum-sein-haben",
-          "claims": ["You say where you were: I was at home.", "You ask: Where were you? Was she there?"],
-          "postcard": { "city": "Glasgow", "fact": "Glasgow is the biggest city in Scotland.", "source": "neu" },
+          "grammar": "temporale-praepositionen",
+          "claims": ["You ask for an appointment for the padrón.", "You say where you live."],
+          "postcard": { "city": "Melilla", "fact": "Melilla is a Spanish city in North Africa. It lies on the coast, next to Morocco.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:praeteritum-sein-haben/0/0@c4dd91", "options": ["quero","quiero","queremos"] },
-            { "type": "luecke", "ref": "gram:praeteritum-sein-haben/0/1@33eb4d", "options": ["queremos","quieremos","quieren"] },
-            { "type": "satz", "ref": "gram:praeteritum-sein-haben/5/0@6c8e95" },
-            { "type": "luecke", "ref": "gram:praeteritum-sein-haben/0/2@fc4086", "options": ["Podes","Puedes","Puedo"] },
-            { "type": "luecke", "ref": "gram:praeteritum-sein-haben/0/3@c5041a", "options": ["poden","pueden","podemos"] },
-            { "type": "satz", "ref": "gram:praeteritum-sein-haben/5/1@099f22" },
-            { "type": "luecke", "ref": "gram:praeteritum-sein-haben/0/4@1ab95f", "options": ["volvemos","vuelvemos","vuelven"] }
+            { "type": "luecke", "ref": "gram:temporale-praepositionen/7/0@0e97cd", "options": ["una cita","un cita","una citas"], "hint": "We say la cita. You ask for one.", "why": "La cita, so: una cita." },
+            { "type": "luecke", "ref": "gram:temporale-praepositionen/7/1@7415eb", "options": ["Cuándo","Dónde","Cómo"], "hint": "The answer is a day.", "why": "A day or a time: ¿Cuándo?" },
+            { "type": "luecke", "ref": "gram:temporale-praepositionen/7/3@ebfc05", "options": ["a las","son las","en las"], "hint": "It says at what time.", "why": "At what time: a las. La cita es a las nueve y media." },
+            { "type": "luecke", "ref": "gram:temporale-praepositionen/7/4@cde83e", "options": ["en","a","de"], "hint": "It says the place where you live.", "why": "Vivir + en: vivo en la calle Mayor." },
+            { "type": "luecke", "ref": "gram:temporale-praepositionen/7/5@9d176f", "options": ["de","en","a"], "hint": "A contract for renting: Spanish joins the two words.", "why": "Thing + de + thing: el contrato de alquiler." },
+            { "type": "satz", "ref": "gram:temporale-praepositionen/8/0@720210", "why": "Una cita para…: an appointment for something." },
+            { "type": "satz", "ref": "gram:temporale-praepositionen/8/2@5e6a1b", "why": "A known place: ¿Dónde está + the place?" }
+          ]
+        },
+        {
+          "id": "a1-why",
+          "icon": "💬",
+          "title": "Say why",
+          "minutes": 2,
+          "grammar": "aduso",
+          "claims": ["You join ideas with y, o and pero.", "You give a reason with porque."],
+          "postcard": { "city": "San Sebastián", "fact": "San Sebastián has two names. In Basque, the city is called Donostia.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:aduso/0/0@57d670", "options": ["y","o","porque"], "hint": "The person has both children.", "why": "To add something: y." },
+            { "type": "luecke", "ref": "gram:aduso/0/1@843eac", "options": ["y","o","pero"], "hint": "You must choose one drink.", "why": "To choose: o. ¿Agua o zumo?" },
+            { "type": "luecke", "ref": "gram:aduso/0/2@b7c2fe", "options": ["o","pero","porque"], "hint": "Small is bad. Cheap is good.", "why": "Two ideas that contrast: pero." },
+            { "type": "luecke", "ref": "gram:aduso/0/3@efb85f", "options": ["o","pero","porque"], "hint": "The second part is the reason.", "why": "A reason: porque, one word and no accent." },
+            { "type": "luecke", "ref": "gram:w-fragen/0/5@9cf1f1", "options": ["Por qué","Porque","Cuándo"], "hint": "The answer gives a reason. Now ask for it.", "why": "The question is por qué. The answer is porque." },
+            { "type": "satz", "ref": "gram:aduso/1/1@57429f", "why": "The reason comes after porque." }
           ]
         }
       ]
@@ -224,75 +271,160 @@
       "level": "A2",
       "units": [
         {
+          "id": "a2-routine",
+          "icon": "🌅",
+          "title": "Talk about your morning",
+          "minutes": 2,
+          "grammar": "reflexive-verben",
+          "claims": ["You talk about your daily routine.", "You say: me levanto, te acuestas, se ducha."],
+          "postcard": { "city": "Tenerife", "fact": "Mount Teide on Tenerife is the highest mountain in Spain, at 3,715 metres.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:reflexive-verben/0/0@f5daf6", "options": ["me","te","se"], "hint": "Look at the word yo.", "why": "Levantarse with yo: me levanto." },
+            { "type": "luecke", "ref": "gram:reflexive-verben/0/1@21b47c", "options": ["me","te","se"], "hint": "Acuestas: who is it? The -as ending tells you.", "why": "The ending -as belongs to tú: te acuestas." },
+            { "type": "luecke", "ref": "gram:reflexive-verben/0/3@0565ec", "options": ["nos","os","se"], "hint": "Mi hermana y yo: who is that together?", "why": "Mi hermana y yo = nosotros: nos duchamos." },
+            { "type": "luecke", "ref": "gram:reflexive-verben/3/3@57af69", "options": ["visto","me visto"], "hint": "Who gets dressed here? The children, not me.", "why": "The action goes to another person, so there is no me." },
+            { "type": "luecke", "ref": "gram:reflexive-verben/2/0@b9cf12", "options": ["levantarme","levantarse","me levantar"], "hint": "Yo must get up. The pronoun goes on the end.", "why": "After tengo que, the pronoun joins the infinitive: levantarme." },
+            { "type": "satz", "ref": "gram:reflexive-verben/6/0@68f00b", "why": "The pronoun goes before the verb: me levanto." }
+          ]
+        },
+        {
+          "id": "a2-planen",
+          "icon": "🗓️",
+          "title": "Plan your week",
+          "minutes": 2,
+          "grammar": "trennbare-verben",
+          "claims": ["You say what you are going to do.", "You use ir a: voy a llamar."],
+          "postcard": { "city": "Las Palmas de Gran Canaria", "fact": "The Canary Islands are one hour behind mainland Spain. The radio says: “una hora menos en Canarias”.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:trennbare-verben/0/0@6ba180", "options": ["voy","va","van"], "hint": "Look at the word yo.", "why": "Ir with yo: voy. Voy a llamar." },
+            { "type": "luecke", "ref": "gram:trennbare-verben/0/1@85b3e3", "options": ["voy","vas","va"], "hint": "Look at the word tú.", "why": "Ir with tú: vas. ¿Qué vas a hacer?" },
+            { "type": "luecke", "ref": "gram:trennbare-verben/1/0@43801f", "options": ["voy a ir","voy ir","voy a voy"], "hint": "You need three parts: ir, a, and an infinitive.", "why": "Ir + a + infinitive: voy a ir." },
+            { "type": "luecke", "ref": "gram:trennbare-verben/1/3@120c36", "options": ["voy a cambiar","voy a cambio","voy cambiar"], "hint": "After a, the verb does not change.", "why": "After a comes the infinitive: voy a cambiar." },
+            { "type": "luecke", "ref": "gram:trennbare-verben/2/2@207124", "options": ["va a salir","va a sale","van a salir"], "hint": "Sale is one person. Keep that person.", "why": "Sale → va a salir. The second verb is the infinitive." },
+            { "type": "satz", "ref": "gram:trennbare-verben/5/0@79ef76", "why": "Don't forget the a: voy a llamar." }
+          ]
+        },
+        {
           "id": "a2-arbeit",
           "icon": "💼",
-          "title": "Talk about your work",
+          "title": "Say what you are doing",
           "minutes": 2,
-          "grammar": "konjugation",
-          "claims": ["You say what you are doing now.", "You choose: I work or I am working."],
-          "postcard": { "city": "Manchester", "fact": "In 1948, one of the first computers ran its first program in Manchester.", "source": "neu" },
+          "grammar": "komposita",
+          "claims": ["You say what you are doing now.", "You choose: every day or right now."],
+          "postcard": { "city": "Palma", "fact": "Palma is the capital of Mallorca. Many people on the island speak Catalan as well as Spanish.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:konjugation/0/0@1c2186", "options": ["soy","es","estoy"] },
-            { "type": "luecke", "ref": "gram:konjugation/0/1@283755", "options": ["estas","estás","eres"] },
-            { "type": "luecke", "ref": "gram:konjugation/0/2@e6a4a4", "options": ["voy","va","vas"] },
-            { "type": "luecke", "ref": "gram:konjugation/0/3@472815", "options": ["somos","estamos","son"] },
-            { "type": "luecke", "ref": "gram:konjugation/0/5@4182e8", "options": ["estan","están","son"] },
-            { "type": "luecke", "ref": "gram:konjugation/0/6@2bf743", "options": ["eres","es","está"] },
-            { "type": "luecke", "ref": "gram:konjugation/0/7@937547", "options": ["vo","voy","vas"] }
+            { "type": "luecke", "ref": "gram:komposita/1/0@2d216f", "options": ["estoy","está","soy"], "hint": "Look at the word yo. It is happening now.", "why": "Happening now: estar + gerund. Estoy cocinando." },
+            { "type": "luecke", "ref": "gram:komposita/1/2@61f2f9", "options": ["es","estás","está"], "hint": "Omar = él. It is happening now.", "why": "Estar with él: está hablando." },
+            { "type": "luecke", "ref": "gram:komposita/0/0@1ea64c", "options": ["hablando","habliendo","hablado"], "hint": "Hablar is an -ar verb.", "why": "-ar verbs: -ando. Hablando." },
+            { "type": "luecke", "ref": "gram:komposita/0/1@c48016", "options": ["comando","comiendo","comido"], "hint": "Comer is an -er verb.", "why": "-er and -ir verbs: -iendo. Comiendo." },
+            { "type": "luecke", "ref": "gram:komposita/2/1@904cf4", "options": ["estoy haciendo","soy haciendo","voy haciendo"], "hint": "Ahora mismo means right now.", "why": "Right now: estar + gerund, never ser." },
+            { "type": "luecke", "ref": "gram:komposita/2/2@88fc26", "options": ["me levanto","estoy levantándome","levantándome"], "hint": "Todos los días: is it happening now?", "why": "Every day: use the present, not the gerund." },
+            { "type": "satz", "ref": "gram:komposita/5/4@5f67f6", "why": "Estar + gerund stay together: está esperando." }
+          ]
+        },
+        {
+          "id": "a2-today",
+          "icon": "✅",
+          "title": "Say what you did today",
+          "minutes": 2,
+          "grammar": "perfekt",
+          "claims": ["You say what you have done today.", "You use ya and todavía no."],
+          "postcard": { "city": "Málaga", "fact": "The painter Pablo Picasso was born in Málaga in 1881.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:perfekt/0/0@232f79", "options": ["he","ha","han"], "hint": "Look at the word yo.", "why": "Haber with yo: he. He ido." },
+            { "type": "luecke", "ref": "gram:perfekt/0/2@b501e8", "options": ["has","ha","han"], "hint": "Ana is one person, not you.", "why": "Haber with él or ella: ha. Ha llegado." },
+            { "type": "luecke", "ref": "gram:perfekt/2/0@23f98c", "options": ["hacido","hecho","hacho"], "hint": "Hacer has an irregular participle.", "why": "Hacer → hecho. It does not follow -ido." },
+            { "type": "luecke", "ref": "gram:perfekt/2/1@b42889", "options": ["vido","veído","visto"], "hint": "Ver has an irregular participle.", "why": "Ver → visto." },
+            { "type": "luecke", "ref": "gram:perfekt/3/0@a5d507", "options": ["ya","todavía"], "hint": "The person has paid. Is it done?", "why": "Already done: ya lo he pagado." },
+            { "type": "luecke", "ref": "gram:perfekt/3/1@4d4fec", "options": ["ya","todavía"], "hint": "The postman has not come. Maybe he comes later.", "why": "Not yet: todavía no." },
+            { "type": "satz", "ref": "gram:perfekt/6/0@adc764", "why": "Todavía no + he + participle." }
           ]
         },
         {
           "id": "a2-wochenende",
-          "icon": "🎉",
-          "title": "Talk about your weekend",
+          "icon": "🏖️",
+          "title": "Talk about last weekend",
           "minutes": 2,
-          "grammar": "perfekt",
-          "claims": ["You say what you did at the weekend.", "You use went, saw, bought and didn't."],
-          "postcard": { "city": "Brighton", "fact": "Brighton has a long pier that goes out into the sea.", "source": "neu" },
+          "grammar": "zusammengesetzte-verben",
+          "claims": ["You say what you did at the weekend.", "You use ayer, anoche and the indefinido."],
+          "postcard": { "city": "Buñol", "fact": "Every August, people in Buñol throw tomatoes at each other. The festival is called La Tomatina.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:perfekt/0/0@232f79", "options": ["he","ha","han"] },
-            { "type": "luecke", "ref": "gram:perfekt/0/1@c280f9", "options": ["he","has","ha"] },
-            { "type": "luecke", "ref": "gram:perfekt/0/2@b501e8", "options": ["has","ha","han"] },
-            { "type": "satz", "ref": "gram:perfekt/6/0@adc764" },
-            { "type": "luecke", "ref": "gram:perfekt/0/3@4545fe", "options": ["he","hemos","han"] },
-            { "type": "luecke", "ref": "gram:perfekt/0/5@096dc7", "options": ["ha","hemos","han"] },
-            { "type": "satz", "ref": "gram:perfekt/6/1@9112bc" }
+            { "type": "luecke", "ref": "gram:zusammengesetzte-verben/2/0@e10548", "options": ["hablo","habló"], "hint": "Ayer means yesterday. Look at the accents.", "why": "Ayer is the past: habló. Hablo means I speak." },
+            { "type": "luecke", "ref": "gram:zusammengesetzte-verben/2/1@75d577", "options": ["trabajo","trabajó"], "hint": "Todos los días, and the person is yo.", "why": "Every day, yo: trabajo. Trabajó is the past." },
+            { "type": "luecke", "ref": "gram:zusammengesetzte-verben/2/4@036766", "options": ["llego","llegó"], "hint": "Anoche means last night.", "why": "Anoche is the past, and él: llegó." },
+            { "type": "luecke", "ref": "gram:zusammengesetzte-verben/3/1@35a521", "options": ["he ido","fui"], "hint": "Yesterday is finished.", "why": "Yesterday: indefinido. Ayer fui al banco." },
+            { "type": "luecke", "ref": "gram:zusammengesetzte-verben/3/3@84a070", "options": ["he llegado","llegué"], "hint": "2022 is a closed time.", "why": "A closed time: indefinido. En 2022 llegué." },
+            { "type": "satz", "ref": "gram:zusammengesetzte-verben/6/2@b75622", "why": "Hacer is irregular: hiciste. ¿Qué hiciste?" }
           ]
         },
         {
-          "id": "a2-absagen",
-          "icon": "🙅",
-          "title": "Say no",
+          "id": "a2-before",
+          "icon": "🕰️",
+          "title": "Say how life was",
           "minutes": 2,
-          "grammar": "negation",
-          "claims": ["You say what you don't do.", "You use don't, doesn't, didn't and no."],
-          "postcard": { "city": "Llanberis", "fact": "From Llanberis, a train goes up Yr Wyddfa (Snowdon), the highest mountain in Wales.", "source": "neu" },
+          "grammar": "n-deklination",
+          "claims": ["You say how life used to be.", "You use antes: vivía, era, iba."],
+          "postcard": { "city": "Mérida", "fact": "Mérida has a Roman theatre about 2,000 years old. There are still plays here every summer.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:negation/0/0@082ef2", "options": ["nada","nadie","nunca"] },
-            { "type": "luecke", "ref": "gram:negation/0/1@38deee", "options": ["nunca","nada","nadie"] },
-            { "type": "luecke", "ref": "gram:negation/0/2@1f28f2", "options": ["nadie","nunca","ninguno"] },
-            { "type": "luecke", "ref": "gram:negation/0/3@f5243a", "options": ["ningún","ninguno","nunca"] },
-            { "type": "luecke", "ref": "gram:negation/0/4@ec083c", "options": ["nada","nadie","ninguna"] },
-            { "type": "satz", "ref": "gram:negation/5/0@c92cb8" },
-            { "type": "luecke", "ref": "gram:negation/0/5@8b87b6", "options": ["ningún","ninguna","nada"] }
+            { "type": "luecke", "ref": "gram:n-deklination/1/0@bd8981", "options": ["vivía","vivo","viví"], "hint": "Antes: how things were, for a long time.", "why": "How things used to be: imperfecto. Antes vivía." },
+            { "type": "luecke", "ref": "gram:n-deklination/1/2@b70346", "options": ["era","es","estaba"], "hint": "What was she like, as a person?", "why": "What someone was like: ser. Mi abuela era simpática." },
+            { "type": "luecke", "ref": "gram:n-deklination/1/5@33e8fb", "options": ["hay","había","habían"], "hint": "Hay in the past has one form only.", "why": "Hay in the imperfecto is always había, even with tiendas." },
+            { "type": "luecke", "ref": "gram:n-deklination/2/0@a00fc1", "options": ["trabajo","trabajaba","trabajé"], "hint": "Antes … ahora: then and now.", "why": "Antes: trabajaba. Ahora: trabajo." },
+            { "type": "luecke", "ref": "gram:n-deklination/2/2@d37259", "options": ["voy","iba","fui"], "hint": "Ayer, at nine o'clock: one finished event.", "why": "One finished event: indefinido. Ayer fui." },
+            { "type": "satz", "ref": "gram:n-deklination/5/0@104080", "why": "Antes usually goes first. Vivir with yo: vivía." },
+            { "type": "satz", "ref": "gram:n-deklination/5/3@621b80", "why": "Hay in the past: había." }
+          ]
+        },
+        {
+          "id": "a2-objects",
+          "icon": "🔁",
+          "title": "Don't repeat the word",
+          "minutes": 2,
+          "grammar": "akkusativ",
+          "claims": ["You replace a person or thing: lo veo.", "You use me, lo, la, los, las."],
+          "postcard": { "city": "Córdoba", "fact": "The great mosque of Córdoba has a cathedral inside it. People call the building the Mezquita.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "akk:akk-l1", "hint": "Tomás is one man." },
+            { "type": "luecke", "ref": "akk:akk-l2", "hint": "Amina is one woman." },
+            { "type": "luecke", "ref": "akk:akk-l4", "hint": "Mis padres: more than one person." },
+            { "type": "luecke", "ref": "akk:akk-m1", "hint": "Ana is a person. Spanish adds a small word." },
+            { "type": "luecke", "ref": "akk:akk-m3", "hint": "Llaves are things, not people. Do you need a?" },
+            { "type": "luecke", "ref": "akk:akk-s3", "hint": "Where does the pronoun go? Think: lo estoy…" }
+          ]
+        },
+        {
+          "id": "a2-geschenke",
+          "icon": "🎁",
+          "title": "Give things to people",
+          "minutes": 2,
+          "grammar": "dativ",
+          "claims": ["You say who gets something: le doy.", "You use me, te, le, nos, les."],
+          "postcard": { "city": "Pamplona", "fact": "The San Fermín festival in Pamplona starts on 6 July every year.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:dativ/0/0@718979", "options": ["me","te","le"], "hint": "Who gets the prescription? A mí.", "why": "A mí goes with me: me da una receta." },
+            { "type": "luecke", "ref": "gram:dativ/0/2@84d2d7", "options": ["la","le","les"], "hint": "Ana gets the email. One person.", "why": "The person who gets something: le, for a woman too." },
+            { "type": "luecke", "ref": "gram:dativ/0/5@701e93", "options": ["los","le","les"], "hint": "Your parents get the money. More than one.", "why": "More than one person who gets something: les." },
+            { "type": "luecke", "ref": "gram:dativ/1/1@9f4d4c", "options": ["Le","Se"], "hint": "Is there a lo or a la after the gap?", "why": "No lo or la here, so: le doy las llaves." },
+            { "type": "luecke", "ref": "gram:dativ/1/0@2033a4", "options": ["Le","Se"], "hint": "Look at the next word: la.", "why": "Le changes to se before lo, la, los, las: se la doy." },
+            { "type": "luecke", "ref": "gram:dativ/2/2@a87dac", "options": ["Le lo doy.","Lo le doy.","Se lo doy."], "hint": "Two pronouns. Can le stand before lo?", "why": "Le + lo is not possible. Le becomes se: se lo doy." },
+            { "type": "satz", "ref": "gram:dativ/5/4@020796", "why": "The pronoun goes before the verb: nos explican." }
           ]
         },
         {
           "id": "a2-erlaubnis",
-          "icon": "🙋",
-          "title": "Ask for permission",
+          "icon": "📋",
+          "title": "Say what you have to do",
           "minutes": 2,
           "grammar": "modalverben",
-          "claims": ["You ask: Can I…? Do I have to…?", "You say must, mustn't and don't have to."],
-          "postcard": { "city": "Inverness", "fact": "Loch Ness, near Inverness, holds more water than all the lakes in England and Wales together.", "source": "neu" },
+          "claims": ["You say tengo que, hay que and puedo.", "You choose saber or poder."],
+          "postcard": { "city": "Logroño", "fact": "Logroño is the capital of La Rioja, a region famous for its wine.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:modalverben/0/0@0b37e8", "options": ["tengo que","hay que"] },
-            { "type": "luecke", "ref": "gram:modalverben/0/1@8ba38a", "options": ["tengo que","hay que"] },
-            { "type": "luecke", "ref": "gram:modalverben/0/2@0fc672", "options": ["tiene que","hay que"] },
-            { "type": "satz", "ref": "gram:modalverben/5/0@d64e33" },
-            { "type": "luecke", "ref": "gram:modalverben/0/3@7105bb", "options": ["tienes","hay que"] },
-            { "type": "luecke", "ref": "gram:modalverben/0/4@7fe5b8", "options": ["tenemos que","hay que"] },
-            { "type": "satz", "ref": "gram:modalverben/5/1@b2bab7" }
+            { "type": "luecke", "ref": "gram:modalverben/0/0@0b37e8", "options": ["tengo que","hay que"], "hint": "It is about me, this Saturday.", "why": "One person must: tener que. Tengo que trabajar." },
+            { "type": "luecke", "ref": "gram:modalverben/0/1@8ba38a", "options": ["tienes","hay que"], "hint": "This is a rule for everyone.", "why": "Anyone must: hay que + infinitive." },
+            { "type": "luecke", "ref": "gram:modalverben/0/4@7fe5b8", "options": ["tenemos que","hay que"], "hint": "Mi marido y yo: two people you can name.", "why": "These two people must: tenemos que." },
+            { "type": "luecke", "ref": "gram:modalverben/1/0@fe880a", "options": ["sé","puedo"], "hint": "Nunca he aprendido: never learned.", "why": "A skill you have learned: saber. No sé nadar." },
+            { "type": "luecke", "ref": "gram:modalverben/1/1@83b7d8", "options": ["sé","puedo"], "hint": "You can swim, but your arm hurts today.", "why": "Possible right now: poder. Hoy no puedo." },
+            { "type": "satz", "ref": "gram:modalverben/5/1@b2bab7", "why": "Hay que + infinitive: a rule for everyone." }
           ]
         },
         {
@@ -301,16 +433,33 @@
           "title": "Ask politely",
           "minutes": 2,
           "grammar": "konjunktiv2-hoeflich",
-          "claims": ["You ask politely: Could you…? Would you mind…?", "You say I'd like instead of I want."],
-          "postcard": { "city": "Newcastle", "fact": "People from Newcastle are often called Geordies.", "source": "neu" },
+          "claims": ["You ask politely: ¿Puede…? ¿Me pone…?", "You say quería and me gustaría."],
+          "postcard": { "city": "Jerez de la Frontera", "fact": "The English word sherry comes from the name of this city, Jerez.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/0/0@24eff4", "options": ["Puedes","Puede"] },
-            { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/0/1@bb76bc", "options": ["Puedes","Puede"] },
-            { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/0/2@bbffff", "options": ["pones","pone"] },
-            { "type": "satz", "ref": "gram:konjunktiv2-hoeflich/5/0@4cd007" },
-            { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/0/3@89c711", "options": ["importas","importa"] },
-            { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/0/4@e826be", "options": ["Te","Le"] },
-            { "type": "satz", "ref": "gram:konjunktiv2-hoeflich/5/1@e67ce3" }
+            { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/0/0@24eff4", "options": ["Puedes","Puede"], "hint": "You don't know the doctor well.", "why": "Someone you don't know well: usted. ¿Puede repetir?" },
+            { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/1/0@2edb9f", "options": ["Quería","Quiere","Me gusta"], "hint": "A polite way to say what you want.", "why": "In a bank or shop, quería is a polite “I'd like”." },
+            { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/1/1@6f73db", "options": ["gusta","gusto","gustaría"], "hint": "You would like to see the flat.", "why": "Me gustaría + infinitive = I would like to." },
+            { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/1/2@5e7284", "options": ["pongo","pone","ponga"], "hint": "You ask the waiter, using usted.", "why": "In Spain you order with ¿Me pone…? It is normal, not rude." },
+            { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/2/0@16b7dc", "options": ["No, claro que no","Sí, claro"], "hint": "¿Te importa…? means “do you mind?”.", "why": "“Do you mind?” “No, I don't.” So you say no." },
+            { "type": "satz", "ref": "gram:konjunktiv2-hoeflich/5/1@e67ce3", "why": "Quería + infinitive: a polite way to ask." }
+          ]
+        },
+        {
+          "id": "a2-absagen",
+          "icon": "🙅",
+          "title": "Say no",
+          "minutes": 2,
+          "grammar": "negation",
+          "claims": ["You say: nada, nadie, nunca.", "You use tampoco and ningún."],
+          "postcard": { "city": "Burgos", "fact": "The Spanish hero El Cid is buried in the cathedral of Burgos.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:negation/0/0@082ef2", "options": ["nada","nadie","nunca"], "hint": "It is about things in the fridge.", "why": "No things: nada." },
+            { "type": "luecke", "ref": "gram:negation/0/1@38deee", "options": ["nunca","nada","nadie"], "hint": "It is about people in the office.", "why": "No people: nadie." },
+            { "type": "luecke", "ref": "gram:negation/0/2@1f28f2", "options": ["nadie","nunca","ninguno"], "hint": "It is about how often you go.", "why": "No time: nunca." },
+            { "type": "luecke", "ref": "gram:negation/0/3@f5243a", "options": ["ningún","ninguno","nunca"], "hint": "Before a masculine noun, this word gets shorter.", "why": "Before a masculine noun: ningún problema." },
+            { "type": "luecke", "ref": "gram:negation/1/0@724315", "options": ["viene","no viene"], "hint": "Nadie comes before the verb.", "why": "Negative word before the verb: no second no." },
+            { "type": "luecke", "ref": "gram:negation/2/2@630a9e", "options": ["también","tampoco"], "hint": "The first person says no. You agree.", "why": "After a negative sentence, agree with tampoco." },
+            { "type": "satz", "ref": "gram:negation/5/0@c92cb8", "why": "No + verb + a nadie. Use a before a person." }
           ]
         },
         {
@@ -319,52 +468,15 @@
           "title": "Say where things are",
           "minutes": 2,
           "grammar": "lokale-praepositionen",
-          "claims": ["You say where things are in a room.", "You use in, on, at, next to, between."],
-          "postcard": { "city": "Penzance", "fact": "Land's End, near Penzance, is the far west of mainland England.", "source": "neu" },
+          "claims": ["You say where things are.", "You use encima de, debajo de, al lado de."],
+          "postcard": { "city": "Almería", "fact": "Many Western films were made in the Tabernas desert, near Almería.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:lokale-praepositionen/0/0@66fe50", "options": ["debajo de","encima de","detrás de"] },
-            { "type": "luecke", "ref": "gram:lokale-praepositionen/0/1@160b30", "options": ["delante de","detrás de","al lado de"] },
-            { "type": "luecke", "ref": "gram:lokale-praepositionen/0/2@29393e", "options": ["enfrente de","lejos de","al lado de"] },
-            { "type": "satz", "ref": "gram:lokale-praepositionen/6/0@afb2aa" },
-            { "type": "luecke", "ref": "gram:lokale-praepositionen/0/3@efcb2e", "options": ["enfrente de","dentro de","encima de"] },
-            { "type": "luecke", "ref": "gram:lokale-praepositionen/0/4@ea0941", "options": ["en","entre","fuera de"] },
-            { "type": "luecke", "ref": "gram:lokale-praepositionen/0/5@0d77aa", "options": ["cerca de","lejos de","delante de"] }
-          ]
-        },
-        {
-          "id": "a2-geschenke",
-          "icon": "🎁",
-          "title": "Buy presents",
-          "minutes": 2,
-          "grammar": "dativ",
-          "claims": ["You say who you give something to.", "You use to and for: buy it for her."],
-          "postcard": { "city": "Bristol", "fact": "The Clifton Suspension Bridge in Bristol opened in 1864.", "source": "neu" },
-          "tasks": [
-            { "type": "luecke", "ref": "gram:dativ/0/0@718979", "options": ["me","te","le"] },
-            { "type": "luecke", "ref": "gram:dativ/0/1@2b57b8", "options": ["me","te","le"] },
-            { "type": "luecke", "ref": "gram:dativ/0/2@84d2d7", "options": ["la","le","les"] },
-            { "type": "satz", "ref": "gram:dativ/5/0@333fb9" },
-            { "type": "luecke", "ref": "gram:dativ/0/3@306448", "options": ["nos","os","les"] },
-            { "type": "satz", "ref": "gram:dativ/5/1@7976f8" },
-            { "type": "luecke", "ref": "gram:dativ/0/5@701e93", "options": ["los","le","les"] }
-          ]
-        },
-        {
-          "id": "a2-planen",
-          "icon": "📝",
-          "title": "Plan your day",
-          "minutes": 2,
-          "grammar": "trennbare-verben",
-          "claims": ["You use phrasal verbs: get up, turn off.", "You put it in the middle: turn it off."],
-          "postcard": { "city": "Salisbury", "fact": "Stonehenge, near Salisbury, is about 5,000 years old.", "source": "neu" },
-          "tasks": [
-            { "type": "luecke", "ref": "gram:trennbare-verben/0/0@6ba180", "options": ["voy","va","van"] },
-            { "type": "satz", "ref": "gram:trennbare-verben/5/0@79ef76" },
-            { "type": "luecke", "ref": "gram:trennbare-verben/0/1@85b3e3", "options": ["voy","vas","va"] },
-            { "type": "luecke", "ref": "gram:trennbare-verben/0/2@6068bf", "options": ["vas","va","van"] },
-            { "type": "luecke", "ref": "gram:trennbare-verben/0/3@9d4208", "options": ["vamos","vais","van"] },
-            { "type": "satz", "ref": "gram:trennbare-verben/5/1@ff6dbe" },
-            { "type": "luecke", "ref": "gram:trennbare-verben/0/5@41fa61", "options": ["va","vamos","van"] }
+            { "type": "luecke", "ref": "gram:lokale-praepositionen/0/0@66fe50", "options": ["debajo de","encima de","detrás de"], "hint": "It is the opposite of “on top of”.", "why": "Under: debajo de. On top of: encima de." },
+            { "type": "luecke", "ref": "gram:lokale-praepositionen/0/2@29393e", "options": ["enfrente de","lejos de","al lado de"], "hint": "The word lado means side.", "why": "Next to: al lado de." },
+            { "type": "luecke", "ref": "gram:lokale-praepositionen/1/0@117493", "options": ["del","de la","de los"], "hint": "We say el banco.", "why": "De + el = del." },
+            { "type": "luecke", "ref": "gram:lokale-praepositionen/1/3@6b757c", "options": ["del","de la","de los"], "hint": "We say la cama.", "why": "De la does not join: debajo de la cama." },
+            { "type": "luecke", "ref": "gram:lokale-praepositionen/2/2@128466", "options": ["entre","entre de","al lado"], "hint": "One thing on each side. There is no de.", "why": "Between: entre, with no de. Entre el banco y el bar." },
+            { "type": "satz", "ref": "gram:lokale-praepositionen/6/0@afb2aa", "why": "The thing, then están, then the place." }
           ]
         }
       ]
@@ -376,144 +488,139 @@
           "id": "b1-geschichte",
           "icon": "📖",
           "title": "Tell a story",
-          "minutes": 2,
+          "minutes": 3,
           "grammar": "praeteritum-plusquamperfekt",
-          "claims": ["You tell a story in the right order.", "You use was doing and had done."],
-          "postcard": { "city": "Canterbury", "fact": "In The Canterbury Tales, Geoffrey Chaucer wrote about people travelling to Canterbury.", "source": "neu" },
+          "claims": ["You tell a story in the past.", "You choose indefinido or imperfecto."],
+          "postcard": { "city": "Ronda", "fact": "Ronda stands on both sides of a deep gorge. A tall old bridge joins the two parts.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:praeteritum-plusquamperfekt/0/0@20f30d", "options": ["era","fui"] },
-            { "type": "luecke", "ref": "gram:praeteritum-plusquamperfekt/0/1@8ae1b2", "options": ["sonaba","sonó"] },
-            { "type": "satz", "ref": "gram:praeteritum-plusquamperfekt/5/0@9d9ad6" },
-            { "type": "luecke", "ref": "gram:praeteritum-plusquamperfekt/0/2@f07dac", "options": ["íbamos","fuimos"] },
-            { "type": "luecke", "ref": "gram:praeteritum-plusquamperfekt/0/3@9bed3f", "options": ["se iba","se fue"] },
-            { "type": "luecke", "ref": "gram:praeteritum-plusquamperfekt/0/4@c859df", "options": ["Eran","Fueron"] },
-            { "type": "satz", "ref": "gram:praeteritum-plusquamperfekt/5/1@a5ac01" }
+            { "type": "luecke", "ref": "gram:praeteritum-plusquamperfekt/0/0@20f30d", "options": ["era","fui"], "hint": "A long time in your life, not one event.", "why": "Age and background: imperfecto. Cuando era pequeña." },
+            { "type": "luecke", "ref": "gram:praeteritum-plusquamperfekt/0/1@8ae1b2", "options": ["sonaba","sonó"], "hint": "De repente: suddenly, one moment.", "why": "A sudden event: indefinido. Sonó." },
+            { "type": "luecke", "ref": "gram:praeteritum-plusquamperfekt/0/5@6529b2", "options": ["cocinó","cocinaba"], "hint": "One action was in progress. Another one came.", "why": "In progress: cocinaba. The event that came: llamó." },
+            { "type": "luecke", "ref": "gram:praeteritum-plusquamperfekt/1/1@3ff68e", "options": ["mudaba","he mudado","mudé"], "hint": "Moving to Spain happened once. It is finished.", "why": "One finished event in the past: me mudé." },
+            { "type": "luecke", "ref": "gram:praeteritum-plusquamperfekt/1/2@d7a665", "options": ["estaba","estuvo","era"], "hint": "How did Ana feel at that moment?", "why": "A state, as background: estaba. Cansada goes with estar." },
+            { "type": "luecke", "ref": "gram:praeteritum-plusquamperfekt/1/3@8ac3d3", "options": ["sonaba","ha sonado","sonó"], "hint": "Yo dormía is the scene. What happened then?", "why": "The scene: dormía. The event: sonó." },
+            { "type": "satz", "ref": "gram:praeteritum-plusquamperfekt/5/0@9d9ad6", "why": "The imperfecto sets the scene. The indefinido brings the event." }
           ]
         },
         {
           "id": "b1-frueher",
-          "icon": "🧸",
-          "title": "Talk about when you were young",
-          "minutes": 2,
-          "grammar": "n-deklination",
-          "claims": ["You say what you used to do as a child.", "You ask: Did you use to…?"],
-          "postcard": { "city": "Swansea", "fact": "The poet Dylan Thomas was born in Swansea.", "source": "neu" },
+          "icon": "⏪",
+          "title": "Say what had happened",
+          "minutes": 3,
+          "grammar": "passiv-b1",
+          "claims": ["You say what happened before something else.", "You use había + participle: había salido."],
+          "postcard": { "city": "Cádiz", "fact": "In 1812, a famous Spanish constitution was signed in Cádiz. People call it La Pepa.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:n-deklination/0/0@d41e86", "options": ["trabajaba","trabajía","trabajé"] },
-            { "type": "luecke", "ref": "gram:n-deklination/0/1@2096f9", "options": ["vivabas","vivías","viviste"] },
-            { "type": "luecke", "ref": "gram:n-deklination/0/2@56c209", "options": ["comaba","comí","comía"] },
-            { "type": "luecke", "ref": "gram:n-deklination/0/3@d03226", "options": ["hablábamos","hablíamos","hablamos"] },
-            { "type": "luecke", "ref": "gram:n-deklination/0/4@9ac42f", "options": ["tenaban","tenían","tuvieron"] },
-            { "type": "luecke", "ref": "gram:n-deklination/0/5@ba399e", "options": ["fui","soy","era"] },
-            { "type": "luecke", "ref": "gram:n-deklination/0/6@c6222e", "options": ["íbamos","fuimos","irámos"] }
+            { "type": "luecke", "ref": "gram:passiv-b1/1/0@f6c403", "options": ["había empezado","empezó"], "hint": "Look at the word ya. What came first?", "why": "It started before you arrived: había empezado." },
+            { "type": "luecke", "ref": "gram:passiv-b1/1/1@d4d151", "options": ["dejaba","había dejado"], "hint": "When did you leave the keys? Before or after?", "why": "First you left the keys, then you could not get in." },
+            { "type": "luecke", "ref": "gram:passiv-b1/1/3@b19d7e", "options": ["aprobaba","había aprobado"], "hint": "First the exam, then the happy Omar.", "why": "The exam came first: había aprobado." },
+            { "type": "luecke", "ref": "gram:passiv-b1/3/0@168f32", "options": ["había estada","había estado","habías estado"], "hint": "Yo is the person. Does the participle change?", "why": "With haber, the participle always ends in -o: había estado." },
+            { "type": "luecke", "ref": "gram:passiv-b1/3/5@e764b3", "options": ["había escribido","había escrita","había escrito"], "hint": "Escribir has an irregular participle.", "why": "Escribir → escrito: había escrito." },
+            { "type": "satz", "ref": "gram:passiv-b1/5/1@75f514", "why": "Había + participle stay together." }
           ]
         },
         {
           "id": "b1-plaene",
-          "icon": "🗓️",
-          "title": "Talk about plans",
-          "minutes": 2,
+          "icon": "🔮",
+          "title": "Talk about the future",
+          "minutes": 3,
           "grammar": "futur",
-          "claims": ["You say what you are going to do.", "You choose will, going to or -ing."],
-          "postcard": { "city": "Durham", "fact": "Durham Cathedral is more than 900 years old.", "source": "neu" },
+          "claims": ["You say what will happen: lloverá, tendremos.", "You make promises: te llamaré."],
+          "postcard": { "city": "A Coruña", "fact": "The Tower of Hercules in A Coruña is a Roman lighthouse. It still works today.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:futur/0/0@ea2227", "options": ["hablaré","hablé","hablare"] },
-            { "type": "luecke", "ref": "gram:futur/0/1@b279cc", "options": ["teneré","tendré","tengaré"] },
-            { "type": "luecke", "ref": "gram:futur/0/2@eb4afb", "options": ["hará","hacerá","hizo"] },
-            { "type": "luecke", "ref": "gram:futur/0/3@a69d56", "options": ["poderemos","puedremos","podremos"] },
-            { "type": "luecke", "ref": "gram:futur/0/4@0e5dcc", "options": ["vivirán","vivieron","viviran"] },
-            { "type": "satz", "ref": "gram:futur/5/0@35728b" },
-            { "type": "luecke", "ref": "gram:futur/0/5@510715", "options": ["salirás","saldrás","saldras"] }
+            { "type": "luecke", "ref": "gram:futur/1/0@0835b8", "options": ["lloverá","llovía","llovió"], "hint": "Mañana is tomorrow.", "why": "Tomorrow: futuro. Infinitive + -á: lloverá." },
+            { "type": "luecke", "ref": "gram:futur/1/1@aeeec6", "options": ["llamé","llamaré","llamará"], "hint": "A promise from yo, for tonight.", "why": "Yo in the futuro: -é after the infinitive. Llamaré." },
+            { "type": "luecke", "ref": "gram:futur/1/2@4ca681", "options": ["venirá","vendrá","vino"], "hint": "Venir has a short stem in the future.", "why": "Venir → vendr-: vendrá." },
+            { "type": "luecke", "ref": "gram:futur/1/3@928e7c", "options": ["tendremos","teneremos","tuvimos"], "hint": "Tener has a short stem in the future.", "why": "Tener → tendr-: tendremos." },
+            { "type": "luecke", "ref": "gram:futur/3/1@454c8a", "options": ["será","habrá","estará"], "hint": "There will be a meeting. What is hay in the future?", "why": "Hay in the futuro: habrá." },
+            { "type": "satz", "ref": "gram:futur/5/2@a5150b", "why": "Volveré dentro de una hora: dentro de = in, from now." }
+          ]
+        },
+        {
+          "id": "b1-wohnung",
+          "icon": "🔑",
+          "title": "Sort out your flat",
+          "minutes": 3,
+          "grammar": "funktionen-von-werden",
+          "claims": ["You ask politely: me gustaría, ¿podría…?", "You give advice: yo que tú, deberías."],
+          "postcard": { "city": "Santillana del Mar", "fact": "The Altamira Cave, near Santillana del Mar, has paintings more than 14,000 years old.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:funktionen-von-werden/1/0@6b528b", "options": ["gustaba","gustaría"], "hint": "It is a polite wish now, not the past.", "why": "A polite wish about now: me gustaría." },
+            { "type": "luecke", "ref": "gram:funktionen-von-werden/1/3@2b9aaf", "options": ["gustaría","gustarían"], "hint": "What you would like is one action: visitar.", "why": "Before an infinitive, gustaría stays singular, even with nos." },
+            { "type": "luecke", "ref": "gram:funktionen-von-werden/1/1@3a1841", "options": ["podría","podrás"], "hint": "You speak politely to usted.", "why": "A polite request with usted: ¿podría…?" },
+            { "type": "luecke", "ref": "gram:funktionen-von-werden/2/1@67b4e5", "options": ["escribí","escribiría","escribiré"], "hint": "Yo que tú: if I were you.", "why": "Yo que tú + conditional: le escribiría." },
+            { "type": "luecke", "ref": "gram:funktionen-von-werden/2/3@78729a", "options": ["firmé","firmaría","firmaba"], "hint": "Yo en tu lugar: advice for now.", "why": "Yo en tu lugar + conditional: no firmaría." },
+            { "type": "satz", "ref": "gram:funktionen-von-werden/5/0@d4b242", "why": "Me gustaría + infinitive: a polite wish." }
           ]
         },
         {
           "id": "b1-kollegen",
-          "icon": "💬",
-          "title": "Chat with colleagues",
-          "minutes": 2,
-          "grammar": "infinitiv-mit-zu",
-          "claims": ["You say what you enjoy, want and hope.", "You choose -ing or to + verb."],
-          "postcard": { "city": "Aberdeen", "fact": "Aberdeen is called the Granite City. Many buildings there are made of grey granite.", "source": "neu" },
+          "icon": "🧑‍🔧",
+          "title": "Tell people what to do",
+          "minutes": 3,
+          "grammar": "imperativ",
+          "claims": ["You tell someone what to do: firme aquí.", "You tell people what not to do."],
+          "postcard": { "city": "Teruel", "fact": "Teruel is famous for its Mudéjar towers, built in a style with Islamic and Christian roots.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:infinitiv-mit-zu/0/0@e845c1", "options": ["trabajas","trabajes","trabaje"] },
-            { "type": "luecke", "ref": "gram:infinitiv-mit-zu/0/1@d3b540", "options": ["come","coma","comas"] },
-            { "type": "luecke", "ref": "gram:infinitiv-mit-zu/0/2@cdb15e", "options": ["viven","vivan","viva"] },
-            { "type": "satz", "ref": "gram:infinitiv-mit-zu/5/0@0279f4" },
-            { "type": "luecke", "ref": "gram:infinitiv-mit-zu/0/3@216b82", "options": ["ayudamos","ayudemos","ayuden"] },
-            { "type": "luecke", "ref": "gram:infinitiv-mit-zu/0/4@aeebd6", "options": ["escribo","escriba","escribe"] },
-            { "type": "satz", "ref": "gram:infinitiv-mit-zu/5/1@c28a0a" }
+            { "type": "luecke", "ref": "gram:imperativ/1/0@99270d", "options": ["apaga","apague"], "hint": "You speak to your mother, using tú.", "why": "Tú, -ar verb: apaga." },
+            { "type": "luecke", "ref": "gram:imperativ/1/1@172a3b", "options": ["firma","firme"], "hint": "You speak to Señora, using usted.", "why": "Usted, -ar verb: the ending changes to -e. Firme." },
+            { "type": "luecke", "ref": "gram:imperativ/1/4@f446fc", "options": ["trae","traiga"], "hint": "A formal message, using usted. Think of traigo.", "why": "From traigo, usted: traiga." },
+            { "type": "luecke", "ref": "gram:imperativ/2/0@68e247", "options": ["llegas","llegues","llega"], "hint": "A negative command with tú.", "why": "No + subjunctive: no llegues." },
+            { "type": "luecke", "ref": "gram:imperativ/2/3@b7e2b4", "options": ["fuma","fume","fumes"], "hint": "A negative command with usted.", "why": "No + subjunctive, usted: no fume." },
+            { "type": "luecke", "ref": "gram:imperativ/4/0@60a1fd", "options": ["llámame","me llama","llamame"], "hint": "A positive command with tú. Where does me go?", "why": "Positive command: the pronoun joins the end, with an accent." },
+            { "type": "satz", "ref": "gram:imperativ/6/1@36d6d6", "why": "Negative command: the pronouns go before the verb." }
+          ]
+        },
+        {
+          "id": "b1-beschweren",
+          "icon": "😤",
+          "title": "Talk about a problem",
+          "minutes": 3,
+          "grammar": "verben-als-nomen",
+          "claims": ["You say what you want others to do.", "You say how you feel: me molesta que."],
+          "postcard": { "city": "Tarragona", "fact": "Tarragona has a Roman amphitheatre right beside the sea.", "source": "neu" },
+          "tasks": [
+            { "type": "luecke", "ref": "gram:verben-als-nomen/0/0@8a7390", "options": ["ayudas","ayudes","ayudar"], "hint": "After quiero que you need the subjunctive.", "why": "Quiero que + subjunctive: me ayudes." },
+            { "type": "luecke", "ref": "gram:verben-als-nomen/0/2@0e8b88", "options": ["firma","firme","firmar"], "hint": "After necesito que you need the subjunctive.", "why": "Necesito que + subjunctive: -ar verbs change to -e. Firme." },
+            { "type": "luecke", "ref": "gram:verben-als-nomen/1/1@8272c3", "options": ["pone","ponga","poner"], "hint": "A feeling comes first: me molesta que.", "why": "After a feeling, use the subjunctive: ponga." },
+            { "type": "luecke", "ref": "gram:verben-als-nomen/1/3@3b5472", "options": ["puedes","puedas","poder"], "hint": "A feeling comes first: siento que.", "why": "Siento que + subjunctive: no puedas." },
+            { "type": "luecke", "ref": "gram:verben-als-nomen/2/0@39d242", "options": ["está","esté"], "hint": "Creo que: you think it is true.", "why": "Creo que + indicative: está." },
+            { "type": "luecke", "ref": "gram:verben-als-nomen/2/1@bf1736", "options": ["está","esté"], "hint": "Espero que: it is a hope, not a fact.", "why": "Espero que + subjunctive: esté." },
+            { "type": "satz", "ref": "gram:verben-als-nomen/5/4@6bddfc", "why": "Me molesta que + subjunctive: llegues." }
           ]
         },
         {
           "id": "b1-beschreiben",
           "icon": "🔎",
-          "title": "Describe people and things",
-          "minutes": 2,
+          "title": "Describe people and places",
+          "minutes": 3,
           "grammar": "relativpronomen",
-          "claims": ["You describe people and things more exactly.", "You use who, which, whose and where."],
-          "postcard": { "city": "Carlisle", "fact": "Hadrian's Wall, near Carlisle, was built by the Romans more than 1,900 years ago.", "source": "neu" },
+          "claims": ["You describe people and things more exactly.", "You use que, donde and lo que."],
+          "postcard": { "city": "Ávila", "fact": "Ávila is still surrounded by its medieval walls. You can walk along part of them.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:relativpronomen/0/0@ccf665", "options": ["que","donde","lo que"] },
-            { "type": "luecke", "ref": "gram:relativpronomen/0/1@44283c", "options": ["que","donde","lo que"] },
-            { "type": "luecke", "ref": "gram:relativpronomen/0/2@52fd8d", "options": ["que","donde","lo que"] },
-            { "type": "luecke", "ref": "gram:relativpronomen/0/3@9d7dfe", "options": ["que","donde","lo que"] },
-            { "type": "luecke", "ref": "gram:relativpronomen/0/4@5de9a2", "options": ["Que","Donde","Lo que"] },
-            { "type": "satz", "ref": "gram:relativpronomen/5/0@c5fc32" },
-            { "type": "satz", "ref": "gram:relativpronomen/5/1@a92382" }
+            { "type": "luecke", "ref": "gram:relativpronomen/0/0@ccf665", "options": ["que","donde","lo que"], "hint": "It is about a person: la chica.", "why": "People and things: que." },
+            { "type": "luecke", "ref": "gram:relativpronomen/0/1@44283c", "options": ["que","donde","lo que"], "hint": "Something happened in this place.", "why": "Something happens in the place: donde." },
+            { "type": "luecke", "ref": "gram:relativpronomen/0/2@52fd8d", "options": ["que","donde","lo que"], "hint": "There is no noun before the gap.", "why": "No noun: lo que = what, the thing that." },
+            { "type": "luecke", "ref": "gram:relativpronomen/1/1@4b3ef4", "options": ["que","donde"], "hint": "The office itself does the action: está, cierra.", "why": "The place is the subject: que." },
+            { "type": "luecke", "ref": "gram:relativpronomen/2/3@b5c94a", "options": ["El barrio donde vivo es tranquilo.","El barrio que vivo es tranquilo.","El barrio vivo es tranquilo."], "hint": "You live in that place.", "why": "Something happens in the place: donde vivo." },
+            { "type": "satz", "ref": "gram:relativpronomen/5/4@b2c2f0", "why": "No noun: lo que. Lo que necesito es…" }
           ]
         },
         {
           "id": "b1-nachfragen",
           "icon": "❓",
           "title": "Ask for information",
-          "minutes": 2,
+          "minutes": 3,
           "grammar": "indirekte-fragen",
-          "claims": ["You ask politely: Could you tell me where…?", "You use statement order after the question word."],
-          "postcard": { "city": "Windsor", "fact": "Windsor Castle is the oldest and largest castle in the world that people still live in.", "source": "neu" },
+          "claims": ["You ask: ¿Puede decirme…? ¿Sabes cuándo…?", "You report what people say and ask."],
+          "postcard": { "city": "Alcalá de Henares", "fact": "Miguel de Cervantes, who wrote Don Quixote, was born in Alcalá de Henares.", "source": "neu" },
           "tasks": [
-            { "type": "luecke", "ref": "gram:indirekte-fragen/0/0@5f3f32", "options": ["que","si","qué"] },
-            { "type": "luecke", "ref": "gram:indirekte-fragen/0/1@8a4abc", "options": ["que","si","sí"] },
-            { "type": "luecke", "ref": "gram:indirekte-fragen/0/2@5ca929", "options": ["donde","dónde","si"] },
-            { "type": "luecke", "ref": "gram:indirekte-fragen/0/3@b0ebf9", "options": ["cuando","cuándo","que"] },
-            { "type": "satz", "ref": "gram:indirekte-fragen/5/0@c6e4a6" },
-            { "type": "luecke", "ref": "gram:indirekte-fragen/0/4@963ab8", "options": ["que","qué","si"] },
-            { "type": "satz", "ref": "gram:indirekte-fragen/5/1@3e4f57" }
-          ]
-        },
-        {
-          "id": "b1-beschweren",
-          "icon": "🗣️",
-          "title": "Talk about a problem",
-          "minutes": 2,
-          "grammar": "verben-praepositionen",
-          "claims": ["You use verbs with the right preposition.", "You say: wait for, depend on, worry about."],
-          "postcard": { "city": "Keswick", "fact": "Keswick is in the Lake District. Scafell Pike, the highest mountain in England, is not far away.", "source": "neu" },
-          "tasks": [
-            { "type": "luecke", "ref": "gram:verben-praepositionen/0/0@a6e7c2", "options": ["en","con","de","a"] },
-            { "type": "luecke", "ref": "gram:verben-praepositionen/0/1@74e232", "options": ["en","con","de","a"] },
-            { "type": "luecke", "ref": "gram:verben-praepositionen/0/2@55e514", "options": ["en","con","de","a"] },
-            { "type": "luecke", "ref": "gram:verben-praepositionen/0/3@8925f1", "options": ["en","con","de","a"] },
-            { "type": "satz", "ref": "gram:verben-praepositionen/5/0@e48f4c" },
-            { "type": "luecke", "ref": "gram:verben-praepositionen/0/4@5ac1c9", "options": ["en","con","de","a"] },
-            { "type": "satz", "ref": "gram:verben-praepositionen/5/1@a11b62" }
-          ]
-        },
-        {
-          "id": "b1-wohnung",
-          "icon": "🏡",
-          "title": "Describe a flat",
-          "minutes": 2,
-          "grammar": "adjektivdeklination",
-          "claims": ["You describe a flat with several adjectives.", "You put adjectives in the right order."],
-          "postcard": { "city": "Bushmills", "fact": "Near Bushmills, the Giant's Causeway has about 40,000 stone columns.", "source": "neu" },
-          "tasks": [
-            { "type": "luecke", "ref": "gram:adjektivdeklination/0/0@6e0fad", "options": ["buen","bueno","buena"] },
-            { "type": "luecke", "ref": "gram:adjektivdeklination/0/1@96c875", "options": ["buen","bueno","buena"] },
-            { "type": "luecke", "ref": "gram:adjektivdeklination/0/2@a2b455", "options": ["primer","primero","primera"] },
-            { "type": "satz", "ref": "gram:adjektivdeklination/5/0@3557fb" },
-            { "type": "luecke", "ref": "gram:adjektivdeklination/0/3@718aeb", "options": ["mal","malo","mala"] },
-            { "type": "luecke", "ref": "gram:adjektivdeklination/0/4@a88c9f", "options": ["algún","alguno","alguna"] },
-            { "type": "satz", "ref": "gram:adjektivdeklination/5/1@ee4190" }
+            { "type": "luecke", "ref": "gram:indirekte-fragen/0/1@8a4abc", "options": ["que","si","sí"], "hint": "The direct question is yes/no: ¿Tiene la tarjeta?", "why": "A yes/no question: si, with no accent." },
+            { "type": "luecke", "ref": "gram:indirekte-fragen/0/2@5ca929", "options": ["donde","dónde","si"], "hint": "You mean: where? It is still a question word.", "why": "An indirect question keeps the accent: dónde." },
+            { "type": "luecke", "ref": "gram:indirekte-fragen/0/4@963ab8", "options": ["que","qué","si"], "hint": "You mean: which documents?", "why": "A question word keeps the accent: qué documentos." },
+            { "type": "luecke", "ref": "gram:indirekte-fragen/0/5@3eb56c", "options": ["si","sí","qué"], "hint": "The direct question is: ¿Necesito cita previa?", "why": "A yes/no question: si, with no accent." },
+            { "type": "luecke", "ref": "gram:indirekte-fragen/2/2@9d69f8", "options": ["Ana me pregunta si dónde trabajas.","Ana me pregunta donde trabajas.","Ana me pregunta dónde trabajo."], "hint": "Ana asked you. So now the verb is about you.", "why": "Dónde keeps its accent. Trabajas becomes trabajo, because it is you." },
+            { "type": "satz", "ref": "gram:indirekte-fragen/5/4@4f8fb3", "why": "¿Puede decirme…? + the question word + the verb." }
           ]
         }
       ]

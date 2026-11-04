@@ -162,11 +162,12 @@ export function setPlacement(items) {
 }
 export const placementItems = () => PLACEMENT;
 
-/** Right answers → where to start. The quick check only asks A1, so the ceiling is mid-A1:
- *  5–6 right skips be, articles, plurals, possessives and the present simple; 3–4 skips the
- *  first three. */
+/** Right answers → where to start. The quick check only asks A1 (ser, estar, hay, el/la, the
+ *  regular present, gustar), so the ceiling is mid-A1: 5–6 right skips greetings and pronouns,
+ *  articles, ser/estar, adjectives, numbers, questions, the present and the key irregulars,
+ *  and starts at the stem-changing verbs; 3–4 skips only pronouns and articles. */
 export function placementStart(right) {
-  const at = right >= 5 ? "a1-cafe" : right >= 3 ? "a1-familie" : UNITS[0]?.id;
+  const at = right >= 5 ? "a1-cafe" : right >= 3 ? "a1-who-where" : UNITS[0]?.id;
   return unitById(at) ? at : UNITS[0]?.id;
 }
 
