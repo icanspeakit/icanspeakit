@@ -1003,8 +1003,8 @@ are handled by the `ui-*` items where they are rendered.
   `/this-that`, `/prepositions-of-time` …), so they must move to the §3 slugs with the routes.
   **For `games`:** `ArtikelRegel.astro`'s intro text and `ENDINGS_CAPTION` are now English and
   match `artikel.json`; the trainer itself is still a/an/some. **For `grammar-structure`:**
-  `grammatik-lehrplan.json` still has `konjugation` under A2, and `wortarten.json` chips are in
-  English but list the old classes. **For `teachers`:** `arbeitsblatt/<slot>.json` for these 19
-  slots are still the English sheets. **For `conjugation-trainer`:** reuse `accentOnly` and the key
+  `grammatik-lehrplan.json` still has `konjugation` under A2, and `wortarten.json` (the chips on
+  this topic's page) is still the English reference. **For `teachers`:** `arbeitsblatt/<slot>.json`
+  files that exist for these 19 slots are still the English sheets. **For `conjugation-trainer`:** reuse `accentOnly` and the key
   row (`.ak-accent-keys`). **Other pages:** `lang="de"` remains on some UI code in `[id].astro`
   (`vp-brief`, euler panels); the `ak.write.*` keys and German fallbacks are untouched.
