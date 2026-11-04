@@ -22,8 +22,8 @@ const rel = (p) => path.relative(ROOT, p).replaceAll("\\", "/");
 // in the same commit that converts the module.
 const STRICT = new Set([
   "einstufung",
-  "grammatik-done",
-  // "lexicon", "berufe", "wortschatz", "redemittel", "grammatik", "grammatik-quiz",
+  "grammatik",
+  // "lexicon", "berufe", "wortschatz", "redemittel", "grammatik-quiz",
   // "praepositionen", "verbtabellen", "conjugation-trainer", "hoeren", "aussprache-check",
   // "zungenbrecher", "satzmelodie", "ausspracheregeln", "dgt", "business-spanish",
 ]);
@@ -49,19 +49,6 @@ const MODULES = [
     items: (d) => arr(d.sets).flatMap((s) => arr(s.phrases).map((item) => ({ item }))) },
   // A grammar topic carries `variety` at the top level; its exercises inherit.
   { id: "grammatik", files: [...jsonFiles("src/data/grammatik"), ...jsonFiles("src/paid/grammatik")],
-    items: (d) => [{ item: d }] },
-  // The slots whose level item has run. A grammar item adds its slots here until every slot is
-  // converted; then "grammatik" goes strict and this entry goes (grammar-c1).
-  { id: "grammatik-done", files: ["nomen", "artikel", "personalpronomen", "praesens", "konjugation",
-      "praeteritum-sein-haben", "verb-position-2", "berufe-mit-in", "w-fragen", "ja-nein-fragen", "plural",
-      "adjektive-nach-sein", "possessivartikel", "welcher-dieser", "gern", "temporale-praepositionen",
-      "aduso", "zahlen", "wortarten",
-      // A2
-      "perfekt", "zusammengesetzte-verben", "n-deklination", "trennbare-verben", "komposita", "reflexive-verben", "dativ", "modalverben", "komparativ-superlativ", "lokale-praepositionen", "wechselpraepositionen", "indefinitpronomen", "satzstellung", "negation", "nebensaetze-weil-dass", "konjunktiv2-hoeflich", "positionsadverbien", "adjektivdeklination-a2", "artikel-oder-nicht", "ordinalzahlen",
-      // B1
-      "zustandspassiv", "praeteritum-plusquamperfekt", "passiv-b1", "futur", "funktionen-von-werden", "imperativ", "infinitiv-mit-zu", "verben-als-nomen", "infinitiv-ohne-zu", "finalsaetze", "temporale-nebensaetze", "konditionalsaetze", "als-oder-wenn", "temporale-praepositionen-b1", "relativpronomen", "indirekte-fragen", "lassen", "konnektoren-grund-gegengrund", "genitiv", "adjektivdeklination", "partizip-als-adjektiv", "verben-praepositionen", "da-wo-woerter", "nutzen-benutzen", "positionsverben", "wortbildung-nomen", "adjektive-als-nomen",
-      // B2
-      "konjunktiv2", "modalsaetze", "passiv", "relativsaetze-was-wo", "zumal-wohingegen", "zweiteilige-konnektoren", "konsekutivsaetze", "negationswoerter", "irgend", "fokuspartikeln", "modalpartikeln", "adjektive-mit-praepositionen", "nomen-verb-verbindungen"].map((s) => `src/data/grammatik/${s}.json`).filter((f) => existsSync(path.join(ROOT, f))),
     items: (d) => [{ item: d }] },
   { id: "grammatik-quiz", files: one("src/data/grammatik.json"), items: (d) => arr(d).map((item) => ({ item })) },
   { id: "praepositionen", files: one("src/data/praepositionen-trainer.json"),

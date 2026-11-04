@@ -57,7 +57,7 @@ for (const file of jsonIn(GRAMMAR)) {
     continue;
   }
   const paidPart = topic.exercises.map((ex) => Object.fromEntries(Object.entries(ex).filter(([k]) => !SKELETON.includes(k))));
-  write(path.join(PAID, "grammatik", `${topic.id}.json`), { id: topic.id, level: topic.level, exercises: paidPart });
+  write(path.join(PAID, "grammatik", `${topic.id}.json`), { id: topic.id, level: topic.level, ...(topic.variety ? { variety: topic.variety } : {}), exercises: paidPart });
   topic.exercises = topic.exercises.map((ex) => ({
     ...Object.fromEntries(Object.entries(ex).filter(([k]) => SKELETON.includes(k))),
     slots: slotsOf(ex),

@@ -1,528 +1,450 @@
 {
   "id": "textkohaerenz",
   "level": "C1",
+  "variety": "es-ES",
   "exercises": [
     {
+      "placeholder": "Word",
+      "items": [
+        {
+          "prompt": "Le enviamos un requerimiento en marzo. ___ requerimiento no ha sido atendido.",
+          "answer": [
+            "Dicho",
+            "Este",
+            "Ese",
+            "El citado",
+            "El mencionado"
+          ],
+          "choices": [
+            "Dicho",
+            "Dicha",
+            "Ello"
+          ],
+          "why": "It agrees with the noun requerimiento: masculine."
+        },
+        {
+          "prompt": "La empresa ha cambiado de sede. ___ nueva sede está en Zaragoza.",
+          "answer": [
+            "Dicha",
+            "Esta",
+            "Esa"
+          ],
+          "choices": [
+            "Dicho",
+            "Dicha",
+            "La dicha"
+          ],
+          "why": "sede is feminine, and dicho takes no article."
+        },
+        {
+          "prompt": "No se presentó el certificado; por ___, se denegó la ayuda.",
+          "answer": [
+            "ello",
+            "eso",
+            "esto"
+          ],
+          "choices": [
+            "él",
+            "ella",
+            "ello"
+          ],
+          "why": "A whole idea after a preposition: ello."
+        },
+        {
+          "prompt": "Quiere renovar el permiso. Para ___, debe pedir cita previa.",
+          "answer": [
+            "ello",
+            "eso"
+          ],
+          "choices": [
+            "ello",
+            "él",
+            "lo"
+          ],
+          "why": "Para ello = to do that."
+        },
+        {
+          "prompt": "Ana habló con Marta, pero ___ no le hizo caso.",
+          "answer": [
+            "esta",
+            "ella"
+          ],
+          "choices": [
+            "esto",
+            "esta",
+            "este"
+          ],
+          "why": "esta points to the nearer woman: Marta."
+        },
+        {
+          "prompt": "Nadie me avisó del cambio. ___ me pareció una falta de respeto.",
+          "answer": [
+            "Esto",
+            "Eso"
+          ],
+          "choices": [
+            "Esto",
+            "Este",
+            "Esta"
+          ],
+          "why": "A whole idea: the neuter esto."
+        },
+        {
+          "prompt": "Vi al inspector y hablé un rato con ___.",
+          "answer": [
+            "él"
+          ],
+          "choices": [
+            "ello",
+            "él",
+            "lo"
+          ],
+          "why": "A person: él. Ello never refers to a person."
+        }
+      ]
+    },
+    {
+      "placeholder": "Word",
+      "items": [
+        {
+          "prompt": "—¿Son tus hermanos muy altos? —Sí, ___ son.",
+          "answer": "lo",
+          "choices": [
+            "los",
+            "lo",
+            "las"
+          ],
+          "why": "A quality with ser: neuter lo."
+        },
+        {
+          "prompt": "—¿Estáis listas? —Sí, ___ estamos.",
+          "answer": "lo",
+          "choices": [
+            "las",
+            "los",
+            "lo"
+          ],
+          "why": "A quality with estar: neuter lo.",
+          "es419": {
+            "note": "In Latin America: ¿Están listas? —Sí, lo estamos."
+          }
+        },
+        {
+          "prompt": "—¿Tienes las llaves? —Sí, ___ tengo aquí.",
+          "answer": "las",
+          "choices": [
+            "lo",
+            "las",
+            "los"
+          ],
+          "why": "A thing as direct object: it agrees with las llaves."
+        },
+        {
+          "prompt": "—¿Sabes que cierran el bar? —Sí, ya ___ sé.",
+          "answer": "lo",
+          "choices": [
+            "lo",
+            "la",
+            "le"
+          ],
+          "why": "A whole idea: neuter lo."
+        },
+        {
+          "prompt": "Dicen que es muy buena abogada, y de verdad ___ es.",
+          "answer": "lo",
+          "choices": [
+            "la",
+            "lo",
+            "le"
+          ],
+          "why": "A quality with ser: neuter lo."
+        },
+        {
+          "prompt": "—¿Has visto los resultados? —No, no ___ he visto.",
+          "answer": "los",
+          "choices": [
+            "lo",
+            "las",
+            "los"
+          ],
+          "why": "A thing as direct object: it agrees with los resultados."
+        }
+      ]
+    },
+    {
       "columns": [
-        "Sentence",
-        "It refers to"
+        "Repetitive",
+        "Better"
       ],
-      "placeholder": "refers to",
+      "placeholder": "Sentence",
       "rows": [
         {
-          "term": "The council closed the pool. THIS decision upset families.",
-          "answer": "the closing of the pool",
+          "term": "Mi contrato es indefinido y el contrato de Ana es temporal.",
+          "answer": [
+            "Mi contrato es indefinido y el de Ana, temporal.",
+            "Mi contrato es indefinido y el de Ana es temporal."
+          ],
           "choices": [
-            "the closing of the pool",
-            "the council",
-            "the families"
+            "Mi contrato es indefinido y el de Ana, temporal.",
+            "Mi contrato es indefinido y lo de Ana, temporal.",
+            "Mi contrato es indefinido y la de Ana, temporal."
           ]
         },
         {
-          "term": "Tom and Amira applied for the job. THE LATTER was successful.",
-          "answer": "Amira",
+          "term": "Yo vivo en Vigo y mi hermano vive en Lugo.",
+          "answer": [
+            "Yo vivo en Vigo y mi hermano, en Lugo."
+          ],
           "choices": [
-            "Amira",
-            "Tom",
-            "both of them"
+            "Yo vivo en Vigo y mi hermano vive, en Lugo.",
+            "Yo vivo en Vigo y mi hermano, en Lugo.",
+            "Yo vivo en Vigo y mi hermano, Lugo."
           ]
         },
         {
-          "term": "I lost my umbrella, so I bought a new ONE.",
-          "answer": "an umbrella",
+          "term": "La oficina que te dije es la oficina de la calle Mayor.",
+          "answer": [
+            "La oficina que te dije es la de la calle Mayor."
+          ],
           "choices": [
-            "an umbrella",
-            "my bag",
-            "the shop"
+            "La oficina que te dije es lo de la calle Mayor.",
+            "La oficina que te dije es ella de la calle Mayor.",
+            "La oficina que te dije es la de la calle Mayor."
           ]
         },
         {
-          "term": "\"Will it rain?\" \"I think SO.\"",
-          "answer": "that it will rain",
+          "term": "Ana llamó. Ana dijo que Ana venía.",
+          "answer": [
+            "Ana llamó. Dijo que venía."
+          ],
           "choices": [
-            "that it will rain",
-            "that it will not rain",
-            "that it rained"
+            "Ana llamó. Dijo que venía.",
+            "Ana llamó. Dijo que ello venía.",
+            "Ana llamó. Lo dijo que venía."
           ]
         },
         {
-          "term": "She asked everyone to leave, and they DID SO.",
-          "answer": "left",
+          "term": "Entré en el edificio y salí del mismo.",
+          "answer": [
+            "Entré en el edificio y salí de él."
+          ],
           "choices": [
-            "left",
-            "stayed",
-            "asked"
+            "Entré en el edificio y salí de ello.",
+            "Entré en el edificio y salí de él.",
+            "Entré en el edificio y salí de lo."
           ]
-        },
-        {
-          "term": "Prices rose sharply. THESE changes worried families.",
-          "answer": "the rise in prices",
-          "choices": [
-            "the rise in prices",
-            "the worry",
-            "the families"
-          ]
-        },
-        {
-          "term": "I can't drive, but my brother CAN.",
-          "answer": "drive",
-          "choices": [
-            "drive",
-            "swim",
-            "cook"
-          ]
-        },
-        {
-          "term": "\"Is the museum open?\" \"I hope NOT.\"",
-          "answer": "that the museum is not open",
-          "choices": [
-            "that the museum is not open",
-            "that the museum is open",
-            "that the museum opened"
-          ]
-        }
-      ]
-    },
-    {
-      "instant": true,
-      "placeholder": "word",
-      "items": [
-        {
-          "prompt": "The council closed the pool. ___ decision upset many families.",
-          "answer": [
-            "This",
-            "That"
-          ],
-          "choices": [
-            "This",
-            "Those",
-            "These"
-          ],
-          "why": "decision is singular, so this or that."
-        },
-        {
-          "prompt": "Prices rose and wages fell. ___ changes worried families.",
-          "answer": [
-            "These",
-            "Those"
-          ],
-          "choices": [
-            "These",
-            "This",
-            "It"
-          ],
-          "why": "changes is plural, so these."
-        },
-        {
-          "prompt": "Tom and Amira both applied for the post. The ___ was successful, but the former was not.",
-          "answer": [
-            "latter"
-          ],
-          "choices": [
-            "latter",
-            "last",
-            "later"
-          ],
-          "why": "The latter is the second of two people named; the former is the first."
-        },
-        {
-          "prompt": "I don't like this phone. I prefer the black ___.",
-          "answer": [
-            "one"
-          ],
-          "choices": [
-            "one",
-            "ones",
-            "it"
-          ],
-          "why": "one replaces a singular countable noun (phone)."
-        },
-        {
-          "prompt": "These shoes are too small. Have you got any bigger ___?",
-          "answer": [
-            "ones"
-          ],
-          "choices": [
-            "ones",
-            "one",
-            "them"
-          ],
-          "why": "ones replaces a plural noun (shoes)."
-        },
-        {
-          "prompt": "Will the match be cancelled? I'm afraid ___.",
-          "answer": [
-            "so"
-          ],
-          "choices": [
-            "so",
-            "it",
-            "that"
-          ],
-          "why": "so replaces the whole clause after afraid."
-        },
-        {
-          "prompt": "We are having a picnic tomorrow. Will it rain? I hope ___.",
-          "answer": [
-            "not"
-          ],
-          "choices": [
-            "not",
-            "no",
-            "so"
-          ],
-          "why": "You do not want rain, so I hope not."
-        },
-        {
-          "prompt": "Staff may leave early, but few choose to do ___.",
-          "answer": [
-            "so"
-          ],
-          "choices": [
-            "so",
-            "not",
-            "one"
-          ],
-          "why": "do so replaces the verb phrase leave early."
-        }
-      ]
-    },
-    {
-      "instant": true,
-      "placeholder": "linking adverb",
-      "items": [
-        {
-          "prompt": "The flat is in a great location. ___, the rent is very high.",
-          "answer": [
-            "However",
-            "Nevertheless"
-          ],
-          "choices": [
-            "However",
-            "Therefore",
-            "Moreover",
-            "For example"
-          ],
-          "why": "Good location against high rent: contrast."
-        },
-        {
-          "prompt": "The trains were cancelled. ___, we took a taxi.",
-          "answer": [
-            "As a result",
-            "Therefore",
-            "Consequently"
-          ],
-          "choices": [
-            "As a result",
-            "In contrast",
-            "For example",
-            "Moreover"
-          ],
-          "why": "The taxi is a result of the cancellation."
-        },
-        {
-          "prompt": "The hotel is clean and quiet. ___, it is close to the beach.",
-          "answer": [
-            "Moreover",
-            "Furthermore",
-            "In addition"
-          ],
-          "choices": [
-            "Moreover",
-            "Nevertheless",
-            "Therefore",
-            "In contrast"
-          ],
-          "why": "Another good point is added."
-        },
-        {
-          "prompt": "Amira prefers the city. ___, her husband loves the countryside.",
-          "answer": [
-            "In contrast",
-            "By contrast",
-            "On the other hand"
-          ],
-          "choices": [
-            "In contrast",
-            "As a result",
-            "Moreover",
-            "Firstly"
-          ],
-          "why": "Two different people with opposite tastes: contrast."
-        },
-        {
-          "prompt": "___, we compared prices. Next, we read the reviews.",
-          "answer": [
-            "First",
-            "Firstly",
-            "First of all",
-            "To begin with"
-          ],
-          "choices": [
-            "First",
-            "Finally",
-            "However",
-            "Therefore"
-          ],
-          "why": "Next follows, so this is the first step."
-        },
-        {
-          "prompt": "The test was difficult. ___, nearly everyone passed.",
-          "answer": [
-            "Nevertheless",
-            "Nonetheless",
-            "However"
-          ],
-          "choices": [
-            "Nevertheless",
-            "Therefore",
-            "Moreover",
-            "Meanwhile"
-          ],
-          "why": "Difficult test, yet everyone passed: contrast."
-        },
-        {
-          "prompt": "Public transport is cheaper than driving. ___, a monthly ticket costs less than petrol.",
-          "answer": [
-            "For example",
-            "For instance"
-          ],
-          "choices": [
-            "For example",
-            "Nevertheless",
-            "In contrast",
-            "Finally"
-          ],
-          "why": "The second sentence gives an example of the first."
         }
       ]
     },
     {
       "pairs": [
         {
-          "q": "The bank raised its fees for students.",
-          "a": "This decision caused protests."
+          "q": "ese papel",
+          "a": "dicho documento"
         },
         {
-          "q": "Tom and Mei both applied for the scholarship.",
-          "a": "The former was successful; the latter was not."
+          "q": "por eso",
+          "a": "por ello"
         },
         {
-          "q": "The museum is closed on Mondays.",
-          "a": "Visitors should bear this in mind."
+          "q": "también",
+          "a": "asimismo"
         },
         {
-          "q": "Liam has lost his keys again.",
-          "a": "This is the third time this month."
+          "q": "o sea",
+          "a": "es decir"
         },
         {
-          "q": "The report says that crime is falling.",
-          "a": "Not everyone believes it."
+          "q": "así que",
+          "a": "por tanto"
         },
         {
-          "q": "Our local cinema has closed.",
-          "a": "Many residents say they will miss it."
+          "q": "para eso",
+          "a": "para ello"
         }
       ]
     },
     {
+      "choices": [
+        "Dicha",
+        "ello",
+        "lo",
+        "la de",
+        "asimismo",
+        "Esto"
+      ],
       "segments": [
         {
-          "text": "Report: Cycling to work\n\nLast year the city introduced a cycle-hire scheme. "
+          "text": "Estimada vecina: Hemos recibido su solicitud de ayuda. "
         },
         {
           "blank": 0,
-          "answer": [
-            "This",
-            "That",
-            "The"
-          ]
+          "answer": "Dicha"
         },
         {
-          "text": " scheme was meant to reduce traffic in the centre. The first bikes were heavy, so the council bought lighter "
+          "text": " solicitud está incompleta, pues falta la firma de su marido, aunque consta "
         },
         {
           "blank": 1,
-          "answer": [
-            "ones"
-          ]
+          "answer": "la de"
         },
         {
-          "text": ". Many residents tried the bikes in summer. "
+          "text": " usted. "
         },
         {
           "blank": 2,
           "answer": [
-            "However",
-            "In contrast"
+            "Esto"
           ]
         },
         {
-          "text": ", very few used them in winter. Some experts expect the numbers to recover in spring, but the council does not think "
+          "text": " impide continuar con el trámite. Por "
         },
         {
           "blank": 3,
-          "answer": [
-            "so"
-          ]
+          "answer": "ello"
         },
         {
-          "text": ". The bikes also broke down often, and repairs took weeks. "
+          "text": ", le rogamos que pase por nuestra oficina. Le recordamos, "
         },
         {
           "blank": 4,
-          "answer": [
-            "As a result",
-            "Therefore",
-            "Consequently"
-          ]
+          "answer": "asimismo"
         },
         {
-          "text": ", many users gave up. Will the scheme fail? The council hopes "
+          "text": ", que debe ser residente en el municipio; si ya "
         },
         {
           "blank": 5,
-          "answer": [
-            "not"
-          ]
+          "answer": "lo"
         },
         {
-          "text": ".\n\nTwo regular users were interviewed. Mei works in an office, and Liam works from home. "
-        },
-        {
-          "blank": 6,
-          "answer": [
-            "The former"
-          ]
-        },
-        {
-          "text": " cycles to work every day, but "
-        },
-        {
-          "blank": 7,
-          "answer": [
-            "the latter"
-          ]
-        },
-        {
-          "text": " only uses a bike at weekends."
+          "text": " es, no necesita traer el padrón."
         }
       ]
     },
     {
       "sentences": [
         {
-          "id": "b1",
-          "hint": "linking adverb first, then a comma",
+          "id": "co1",
+          "hint": "There were complaints; for that reason, we changed the schedule",
           "correct": [
-            "However,",
-            "most",
-            "students",
-            "passed",
-            "the",
-            "test",
+            "Hubo",
+            "quejas",
+            ";",
+            "por",
+            "ello",
+            ",",
+            "cambiamos",
+            "el",
+            "horario",
             "."
           ],
           "shuffled": [
-            "students",
-            "the",
-            "However,",
-            "test",
-            "passed",
-            "most",
-            "."
+            ";",
+            "ello",
+            "Hubo",
+            ".",
+            "horario",
+            ",",
+            "cambiamos",
+            "el",
+            "quejas",
+            "por"
           ]
         },
         {
-          "id": "b2",
-          "hint": "ellipsis: the repeated verb is left out",
+          "id": "co2",
+          "hint": "My flat and Ana's",
           "correct": [
-            "Tom",
-            "can",
-            "swim,",
-            "but",
-            "I",
-            "can't",
-            "."
+            "Mi",
+            "piso",
+            "y",
+            "el",
+            "de",
+            "Ana"
           ],
           "shuffled": [
-            "can't",
-            "swim,",
-            "I",
-            "Tom",
-            "but",
-            ".",
-            "can"
+            "Ana",
+            "Mi",
+            "el",
+            "y",
+            "piso",
+            "de"
           ]
         },
         {
-          "id": "b3",
-          "hint": "this + summary noun points back",
+          "id": "co3",
+          "hint": "She works in Madrid and he, in Seville",
           "correct": [
-            "This",
-            "decision",
-            "upset",
-            "many",
-            "drivers",
+            "Ella",
+            "trabaja",
+            "en",
+            "Madrid",
+            "y",
+            "él",
+            ",",
+            "en",
+            "Sevilla",
             "."
           ],
           "shuffled": [
-            "drivers",
-            "upset",
-            "This",
+            "Ella",
+            "y",
             ".",
-            "many",
-            "decision"
+            "en",
+            "en",
+            "Sevilla",
+            "trabaja",
+            "él",
+            ",",
+            "Madrid"
           ]
         },
         {
-          "id": "b4",
-          "hint": "so replaces the clause; the auxiliary stays after but",
+          "id": "co4",
+          "hint": "Are they doctors? Yes, they are",
           "correct": [
-            "I",
-            "think",
-            "so,",
-            "but",
-            "Tom",
-            "doesn't",
+            "¿Son",
+            "médicos",
+            "?",
+            "Sí",
+            ",",
+            "lo",
+            "son",
             "."
           ],
           "shuffled": [
-            "Tom",
-            "so,",
-            "doesn't",
-            "I",
+            "médicos",
+            ",",
+            "Sí",
             ".",
-            "but",
-            "think"
+            "¿Son",
+            "?",
+            "lo",
+            "son"
           ]
         },
         {
-          "id": "b5",
-          "hint": "the former = the first person named",
+          "id": "co5",
+          "hint": "The said amount will be paid in May",
           "correct": [
-            "Amira",
-            "and",
-            "Zofia",
-            "applied;",
-            "the",
-            "former",
-            "got",
-            "the",
-            "job",
+            "Dicha",
+            "cantidad",
+            "se",
+            "pagará",
+            "en",
+            "mayo",
             "."
           ],
           "shuffled": [
-            "job",
-            "former",
-            "Zofia",
-            "the",
-            "applied;",
-            "got",
-            "Amira",
+            "pagará",
+            "en",
+            "cantidad",
+            "se",
             ".",
-            "the",
-            "and"
+            "Dicha",
+            "mayo"
           ]
         }
       ]
