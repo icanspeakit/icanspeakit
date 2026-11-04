@@ -1,139 +1,96 @@
 {
   "id": "welcher-dieser",
-  "name": "This, that, these, those",
+  "name": "Demonstratives: este, ese, aquel; esto, eso",
   "level": "A1",
   "status": "geprueft",
-  "subtitle": "This is near, that is far. Use this and that for one thing, these and those for more than one. Which asks you to choose: Which coat do you want? – This one.",
-  "briefMarks": ["This","that","these","those","Which"],
-  "source": "icanspeak Spanish original English text (grammar-a1 run, 2026-10-29)",
+  "variety": "es-ES",
+  "subtitle": "This one, that one, that one over there: este is near you, ese is near the other person, aquel is far from you both. They match the noun: esta casa, esos libros. Esto and eso name something unknown.",
+  "briefMarks": ["este", "ese", "aquel", "esto", "eso"],
+  "source": "icanspeak Spanish original text (grammar-a1 run, 2026-11-04)",
   "concept": {
     "comic": {
-      "title": "In the shop",
+      "title": "At the market",
       "panels": [
         {
-          "caption": "Near",
-          "tag": "{this} (one) and {these} (more than one) are near you",
-          "left": {
-            "name": "hamsti",
-            "expr": "thinking",
-            "say": "Do you like {this} hat?"
-          },
-          "right": {
-            "name": "bruno",
-            "expr": "happy",
-            "say": "Yes! And {these} gloves too."
-          }
+          "caption": "Near me",
+          "tag": "{este} · {esta} · {estos} · {estas}",
+          "left": { "name": "hamsti", "expr": "thinking", "say": "¿Cuánto cuesta {este} melón?" },
+          "right": { "name": "bruno", "expr": "happy", "say": "Dos euros." }
         },
         {
-          "caption": "Far",
-          "tag": "{that} (one) and {those} (more than one) are far from you",
-          "left": {
-            "name": "quaki",
-            "expr": "thinking",
-            "say": "What about {that} coat over there?"
-          },
-          "right": {
-            "name": "regi",
-            "expr": "celebrate",
-            "say": "{Those} shoes are nicer!"
-          }
+          "caption": "Near you",
+          "tag": "{ese} · {esa} · {esos} · {esas}",
+          "left": { "name": "quaki", "expr": "thinking", "say": "¿Y {esas} manzanas?" },
+          "right": { "name": "regi", "expr": "happy", "say": "Tres euros el kilo." }
         },
         {
-          "caption": "Choose",
-          "tag": "{Which} asks you to choose",
-          "left": {
-            "name": "bruno",
-            "expr": "thinking",
-            "say": "{Which} one do you want?"
-          },
-          "right": {
-            "name": "hamsti",
-            "expr": "happy",
-            "say": "{This} one, please!"
-          }
+          "caption": "Far from us both",
+          "tag": "{aquel} · {aquella} · {aquellos} · {aquellas}",
+          "left": { "name": "bruno", "expr": "thinking", "say": "¿Qué es {aquello}?" },
+          "right": { "name": "hamsti", "expr": "happy", "say": "Es {aquella} tienda nueva." }
         }
       ]
     },
     "flow": [
-      {
-        "text": "near: this / these",
-        "variant": "verb"
-      },
-      {
-        "text": "far: that / those",
-        "variant": "prep"
-      },
-      {
-        "text": "noun, or on its own"
-      }
+      { "text": "este, ese, aquel…", "variant": "prep" },
+      { "text": "noun", "variant": "verb" },
+      { "text": "aquí · ahí · allí" }
     ],
     "qa": [
       {
-        "html": "<strong>this</strong> and <strong>these</strong> are for things <em>near</em> you. <strong>that</strong> and <strong>those</strong> are for things <em>far</em> from you. <em>This jumper is soft. That bus is mine.</em>",
+        "html": "<strong>este</strong> = near me (<em>aquí</em>). <strong>ese</strong> = near you, or not far (<em>ahí</em>). <strong>aquel</strong> = far from us both (<em>allí</em>).",
         "tag": "Near or far"
       },
       {
-        "html": "One thing: <strong>this / that</strong>. More than one: <strong>these / those</strong>. <em>This coat – these coats. That child – those children.</em> The noun changes too: <em>these coat</em> is wrong.",
-        "tag": "One or more"
+        "html": "They match the noun: <em>este piso, esta casa, estos pisos, estas casas</em>. Careful with the masculine: <em>este</em>, <em>ese</em>, but <em>aquel</em> (no <em>-o</em>).",
+        "tag": "Four forms"
       },
       {
-        "html": "You can use them with a noun or <strong>on their own</strong>: <em>This is my sister. Those shoes are nice. Those are my keys.</em> On the phone we say <em>this</em> for ourselves and <em>that</em> for the other person: <em>Hello, this is Mei. Is that Ben?</em>",
-        "tag": "On their own"
+        "html": "They can stand alone: <em>¿Quieres esta camisa o esa?</em> The RAE does not ask for an accent here. Write <em>este, esa</em>.",
+        "tag": "Without a noun"
       },
       {
-        "html": "<strong>which</strong> asks you to choose from a group you can see or know: <em>Which coat do you want, the red one or the blue one?</em> <strong>what</strong> asks about anything: <em>What colour is your coat?</em> Answer with <em>this one</em> or <em>that one</em>: <em>This one, please.</em>",
-        "tag": "Which?"
+        "html": "<strong>esto, eso, aquello</strong> are for something you do not name or do not know yet. They do not change and never go before a noun: <em>¿Qué es esto? No entiendo eso.</em>",
+        "tag": "esto, eso"
       },
       {
-        "html": "✗ <em>This shoes are new.</em> → ✓ <em>These shoes are new.</em> · ✗ <em>Those is my bag.</em> → ✓ <em>That is my bag.</em> · ✗ <em>This are my keys.</em> → ✓ <em>These are my keys.</em> · ✗ <em>What coat do you want, the red or the blue?</em> → ✓ <em>Which coat do you want?</em>",
-        "tag": "Common mistakes"
+        "html": "To say which one, ask with <strong>¿cuál?</strong> (plural <em>¿cuáles?</em>): <em>¿Cuál quieres? – Este.</em> <strong>esta</strong> (this) has no accent, but <strong>está</strong> (is) does: <em>Esta casa está aquí.</em>",
+        "tag": "¿cuál?"
       }
     ],
-    "noteHtml": "<em>This, that, these, those</em> replace an article, so you cannot say <em>the this bag</em>. Revise <a href=\"/articles\">Articles</a> and <a href=\"/plurals\">Plural nouns</a>. More question words (what, where, who) are at <a href=\"/wh-questions\">Wh- questions</a>.",
+    "noteHtml": "Common mistakes: ✗ <em>esto libro</em> → ✓ <em>este libro</em>. ✗ <em>este casa</em> → ✓ <em>esta casa</em>. ✗ <em>aquello coche</em> → ✓ <em>aquel coche</em>. ✗ <em>esta aquí</em> for “is here” → ✓ <em>está aquí</em>.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
       "tables": [
         {
-          "caption": "this, that, these, those",
-          "note": "Near = close to you. Far = away from you.",
-          "head": [
-            "",
-            "Near",
-            "Far"
-          ],
+          "caption": "All the forms",
+          "head": ["", "masc. sing.", "fem. sing.", "masc. pl.", "fem. pl.", "no noun"],
           "rows": [
-            ["One", "this", "that"],
-            ["More than one", "these", "those"],
-            ["Example (one)", "This bag is new.", "That bag is old."],
-            ["Example (more)", "These bags are new.", "Those bags are old."]
+            ["near me (aquí)", "este", "esta", "estos", "estas", "esto"],
+            ["near you (ahí)", "ese", "esa", "esos", "esas", "eso"],
+            ["far (allí)", "aquel", "aquella", "aquellos", "aquellas", "aquello"]
           ]
         },
         {
-          "caption": "With a noun or on its own",
-          "head": [
-            "",
-            "With a noun",
-            "On its own"
-          ],
+          "caption": "Examples",
+          "head": ["Spanish", "Meaning"],
           "rows": [
-            ["this", "This coat is warm.", "This is warm."],
-            ["that", "That bus is mine.", "That is mine."],
-            ["these", "These shoes are new.", "These are new."],
-            ["those", "Those books are old.", "Those are old."]
+            ["este bolso", "this bag"],
+            ["esas llaves", "those keys (near you)"],
+            ["aquella casa", "that house over there"],
+            ["¿Qué es esto?", "What is this?"],
+            ["Eso es verdad.", "That is true."]
           ]
-        },
+        }
+      ],
+      "boxes": [
         {
-          "caption": "which or what?",
-          "head": [
-            "",
-            "which",
-            "what"
-          ],
-          "rows": [
-            ["Asks about", "a choice from a group", "anything"],
-            ["Example", "Which coat do you want?", "What colour is your coat?"],
-            ["Answer", "The red one. / This one.", "Blue."]
+          "badge": "Careful: esta or está",
+          "variant": "dat",
+          "items": [
+            "esta casa = this house.",
+            "La casa está aquí. = The house is here."
           ]
         }
       ]
@@ -141,179 +98,32 @@
   },
   "aktiv": {
     "listen": [
-      {
-        "text": "Which coat do you want?",
-        "note": "Which = choose from a group.",
-        "audio": "/audio/grammatik/welcher-dieser/which-coat-do-you-want.mp3"
-      },
-      {
-        "text": "Hello, this is Mei.",
-        "note": "On the phone, this is you.",
-        "audio": "/audio/grammatik/welcher-dieser/hello-this-is-mei.mp3"
-      },
-      {
-        "text": "Those shoes are very nice.",
-        "note": "More than one, far away: those.",
-        "audio": "/audio/grammatik/welcher-dieser/those-shoes-are-very-nice.mp3"
-      }
+      { "text": "Quiero este, por favor.", "note": "Near me: este." },
+      { "text": "¿Cuánto cuestan esas manzanas?", "note": "Near you, plural: esas." },
+      { "text": "Aquel edificio es el hospital.", "note": "Far: aquel." },
+      { "text": "¿Qué es esto?", "note": "Something you do not know: esto." }
     ],
     "hoeren": {
-      "instruction": "Listen and choose the word you heard. You can listen twice.",
+      "instruction": "Listen and choose the sentence you heard. You can listen twice.",
       "items": [
-        {
-          "text": "These shoes are new.",
-          "choices": [
-            "this",
-            "these",
-            "those"
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/welcher-dieser/these-shoes-are-new.mp3"
-        },
-        {
-          "text": "Those birds are loud.",
-          "choices": [
-            "these",
-            "those",
-            "that"
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/welcher-dieser/those-birds-are-loud.mp3"
-        },
-        {
-          "text": "Which bag is yours?",
-          "choices": [
-            "which",
-            "what",
-            "where"
-          ],
-          "correct": 0,
-          "audio": "/audio/grammatik/welcher-dieser/which-bag-is-yours.mp3"
-        },
-        {
-          "text": "Is that your bus?",
-          "choices": [
-            "this",
-            "that",
-            "those"
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/welcher-dieser/is-that-your-bus.mp3"
-        },
-        {
-          "text": "This is my phone.",
-          "choices": [
-            "these",
-            "this",
-            "that"
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/welcher-dieser/this-is-my-phone.mp3"
-        },
-        {
-          "text": "Look at those clouds.",
-          "choices": [
-            "these",
-            "those",
-            "that"
-          ],
-          "correct": 1,
-          "audio": "/audio/grammatik/welcher-dieser/look-at-those-clouds.mp3"
-        }
+        { "text": "Esta casa es grande.", "choices": ["Esta casa es grande.", "Esa casa es grande.", "Estas casas son grandes."], "correct": 0 },
+        { "text": "¿Qué es eso?", "choices": ["¿Qué es esto?", "¿Qué es eso?", "¿Quién es ese?"], "correct": 1 },
+        { "text": "Aquellos niños son mis hijos.", "choices": ["Estos niños son mis hijos.", "Esos niños son mis hijos.", "Aquellos niños son mis hijos."], "correct": 2 },
+        { "text": "¿Cuál quieres, este o ese?", "choices": ["¿Cuál quieres, este o ese?", "¿Cuál quieres, esta o esa?", "¿Quieres este o aquel?"], "correct": 0 }
       ]
     },
     "sprechen": {
       "rounds": [
         {
-          "label": "1 · One → more than one",
-          "instruction": "You hear a sentence about one thing. Say it about more than one.",
-          "example": {
-            "prompt": "This coat is warm.",
-            "answer": "These coats are warm."
-          },
+          "label": "1 · Point at it",
+          "instruction": "You hear a noun with el or la. Say it with este or esta.",
+          "example": { "prompt": "el libro", "answer": "este libro" },
           "items": [
-            {
-              "prompt": "That bus is late.",
-              "answer": "Those buses are late.",
-              "audioPrompt": "/audio/grammatik/welcher-dieser/that-bus-is-late.mp3",
-              "audioAnswer": "/audio/grammatik/welcher-dieser/those-buses-are-late--a.mp3"
-            },
-            {
-              "prompt": "This shoe is wet.",
-              "answer": "These shoes are wet.",
-              "audioPrompt": "/audio/grammatik/welcher-dieser/this-shoe-is-wet.mp3",
-              "audioAnswer": "/audio/grammatik/welcher-dieser/these-shoes-are-wet--a.mp3"
-            },
-            {
-              "prompt": "That child is happy.",
-              "answer": "Those children are happy.",
-              "audioPrompt": "/audio/grammatik/welcher-dieser/that-child-is-happy.mp3",
-              "audioAnswer": "/audio/grammatik/welcher-dieser/those-children-are-happy--a.mp3"
-            },
-            {
-              "prompt": "This man is tall.",
-              "answer": "These men are tall.",
-              "audioPrompt": "/audio/grammatik/welcher-dieser/this-man-is-tall.mp3",
-              "audioAnswer": "/audio/grammatik/welcher-dieser/these-men-are-tall--a.mp3"
-            },
-            {
-              "prompt": "That bag is heavy.",
-              "answer": "Those bags are heavy.",
-              "audioPrompt": "/audio/grammatik/welcher-dieser/that-bag-is-heavy.mp3",
-              "audioAnswer": "/audio/grammatik/welcher-dieser/those-bags-are-heavy--a.mp3"
-            },
-            {
-              "prompt": "This watch is expensive.",
-              "answer": "These watches are expensive.",
-              "audioPrompt": "/audio/grammatik/welcher-dieser/this-watch-is-expensive.mp3",
-              "audioAnswer": "/audio/grammatik/welcher-dieser/these-watches-are-expensive--a.mp3"
-            }
-          ]
-        },
-        {
-          "label": "2 · Near → far",
-          "instruction": "You hear a sentence about something near. Say it about something far.",
-          "example": {
-            "prompt": "This is my bag.",
-            "answer": "That is my bag."
-          },
-          "items": [
-            {
-              "prompt": "This is my coat.",
-              "answer": "That is my coat.",
-              "audioPrompt": "/audio/grammatik/welcher-dieser/this-is-my-coat.mp3",
-              "audioAnswer": "/audio/grammatik/welcher-dieser/that-is-my-coat--a.mp3"
-            },
-            {
-              "prompt": "These are my keys.",
-              "answer": "Those are my keys.",
-              "audioPrompt": "/audio/grammatik/welcher-dieser/these-are-my-keys.mp3",
-              "audioAnswer": "/audio/grammatik/welcher-dieser/those-are-my-keys--a.mp3"
-            },
-            {
-              "prompt": "This is my bus.",
-              "answer": "That is my bus.",
-              "audioPrompt": "/audio/grammatik/welcher-dieser/this-is-my-bus.mp3",
-              "audioAnswer": "/audio/grammatik/welcher-dieser/that-is-my-bus--a.mp3"
-            },
-            {
-              "prompt": "These are my shoes.",
-              "answer": "Those are my shoes.",
-              "audioPrompt": "/audio/grammatik/welcher-dieser/these-are-my-shoes.mp3",
-              "audioAnswer": "/audio/grammatik/welcher-dieser/those-are-my-shoes--a.mp3"
-            },
-            {
-              "prompt": "This is my house.",
-              "answer": "That is my house.",
-              "audioPrompt": "/audio/grammatik/welcher-dieser/this-is-my-house.mp3",
-              "audioAnswer": "/audio/grammatik/welcher-dieser/that-is-my-house--a.mp3"
-            },
-            {
-              "prompt": "These are my friends.",
-              "answer": "Those are my friends.",
-              "audioPrompt": "/audio/grammatik/welcher-dieser/these-are-my-friends.mp3",
-              "audioAnswer": "/audio/grammatik/welcher-dieser/those-are-my-friends--a.mp3"
-            }
+            { "prompt": "la silla", "answer": "esta silla" },
+            { "prompt": "los zapatos", "answer": "estos zapatos" },
+            { "prompt": "las llaves", "answer": "estas llaves" },
+            { "prompt": "el bolso", "answer": "este bolso" },
+            { "prompt": "la camisa", "answer": "esta camisa" }
           ]
         }
       ]
@@ -322,309 +132,98 @@
   "exercises": [
     {
       "type": "fill",
-      "title": "this or that?",
-      "hint": "Near you: this. Far from you: that.",
-      "placeholder": "this / that",
+      "title": "este, esta, estos or estas?",
+      "hint": "Match the noun: masculine or feminine, one or more.",
+      "placeholder": "Form",
       "items": [
-        {
-          "prompt": "___ jumper here in my hand is soft.",
-          "hint": "near",
-          "answer": "This"
-        },
-        {
-          "prompt": "Look at ___ bus over there.",
-          "hint": "far",
-          "answer": "that"
-        },
-        {
-          "prompt": "I like ___ jacket on my chair.",
-          "hint": "near",
-          "answer": "this"
-        },
-        {
-          "prompt": "Who is ___ man by the door over there?",
-          "hint": "far",
-          "answer": "that"
-        },
-        {
-          "prompt": "Hello, ___ is Mei.",
-          "hint": "you are speaking on the phone",
-          "answer": "this"
-        },
-        {
-          "prompt": "Hello, is ___ Priya?",
-          "hint": "you ask on the phone",
-          "answer": "that"
-        }
+        { "prompt": "___ piso es muy caro.", "answer": "Este", "choices": ["Este", "Esta", "Esto"] },
+        { "prompt": "¿Quién es ___ mujer?", "answer": "esta", "choices": ["este", "esta", "estas"] },
+        { "prompt": "___ zapatos son nuevos.", "answer": "Estos", "choices": ["Estas", "Estos", "Este"] },
+        { "prompt": "Me gustan ___ fotos.", "answer": "estas", "choices": ["estos", "estas", "esta"] },
+        { "prompt": "___ semana trabajo mucho.", "answer": "Esta", "choices": ["Este", "Esta", "Está"] },
+        { "prompt": "___ problema es difícil.", "answer": "Este", "choices": ["Este", "Esta", "Esto"] }
       ]
     },
     {
       "type": "fill",
-      "title": "these or those?",
-      "hint": "Near you: these. Far from you: those.",
-      "placeholder": "these / those",
+      "title": "Near or far?",
+      "hint": "aquí: este. ahí: ese. allí: aquel.",
+      "placeholder": "Form",
       "items": [
-        {
-          "prompt": "___ are my keys, here in my hand.",
-          "hint": "near",
-          "answer": "These"
-        },
-        {
-          "prompt": "Look at ___ birds in the tree over there.",
-          "hint": "far",
-          "answer": "those"
-        },
-        {
-          "prompt": "___ apples here are red.",
-          "hint": "near",
-          "answer": "These"
-        },
-        {
-          "prompt": "Are ___ your children over there in the park?",
-          "hint": "far",
-          "answer": "those"
-        },
-        {
-          "prompt": "I love ___ trousers that I am wearing.",
-          "hint": "near",
-          "answer": "these"
-        },
-        {
-          "prompt": "How much are ___ shoes in the window across the street?",
-          "hint": "far",
-          "answer": "those"
-        }
+        { "prompt": "___ libro de aquí es de Ana.", "answer": "Este", "choices": ["Este", "Ese", "Aquel"] },
+        { "prompt": "¿De quién es ___ bolso que tienes ahí?", "answer": "ese", "choices": ["este", "ese", "aquel"] },
+        { "prompt": "___ casa de allí es muy vieja.", "answer": "Aquella", "choices": ["Esta", "Esa", "Aquella"] },
+        { "prompt": "¿Cuánto cuestan ___ manzanas de ahí?", "answer": "esas", "choices": ["estas", "esas", "aquellas"] },
+        { "prompt": "Mira ___ edificios de allí.", "answer": "aquellos", "choices": ["estos", "esos", "aquellos"] }
       ]
     },
     {
       "type": "table",
-      "title": "One thing → more than one",
-      "hint": "this → these, that → those. The noun changes too.",
-      "columns": [
-        "One",
-        "More than one"
-      ],
-      "placeholder": "these coats ...",
+      "title": "este or esto? ese or eso?",
+      "hint": "Before a noun: este, esta, ese, esa. With no noun, for something unknown: esto, eso.",
+      "columns": ["Sentence", "Word"],
+      "placeholder": "Word",
       "rows": [
-        { "term": "this coat", "answer": "these coats" },
-        { "term": "that bus", "answer": "those buses" },
-        { "term": "this child", "answer": "these children" },
-        { "term": "that man", "answer": "those men" },
-        { "term": "this shoe", "answer": "these shoes" },
-        { "term": "that knife", "answer": "those knives" }
+        { "term": "¿Qué es ___?", "answer": "esto", "choices": ["este", "esto"] },
+        { "term": "___ coche es de Iker.", "answer": "Ese", "choices": ["Ese", "Eso"], "es419": { "note": "In much of Latin America: carro or auto." } },
+        { "term": "No entiendo ___.", "answer": "eso", "choices": ["ese", "eso"] },
+        { "term": "¿Te gusta ___ pantalón?", "answer": "este", "choices": ["este", "esto"] },
+        { "term": "___ es muy importante.", "answer": "Esto", "choices": ["Este", "Esto"] }
       ]
     },
     {
       "type": "match",
-      "title": "What are you pointing at?",
-      "hint": "Near or far? One or more?",
+      "title": "Singular and plural.",
+      "hint": "The demonstrative changes with the noun.",
       "pairs": [
-        {
-          "q": "You hold a ticket in your hand.",
-          "a": "<u>This</u> is my ticket."
-        },
-        {
-          "q": "You point to a shop across the road.",
-          "a": "<u>That</u> is my favourite shop."
-        },
-        {
-          "q": "You point to books next to you.",
-          "a": "<u>These</u> are my books."
-        },
-        {
-          "q": "You point to cars far away.",
-          "a": "<u>Those</u> are my neighbour's cars."
-        }
+        { "q": "este libro", "a": "estos libros" },
+        { "q": "esa silla", "a": "esas sillas" },
+        { "q": "aquel edificio", "a": "aquellos edificios" },
+        { "q": "esta mesa", "a": "estas mesas" },
+        { "q": "ese vaso", "a": "esos vasos" },
+        { "q": "aquella casa", "a": "aquellas casas" }
       ]
     },
     {
       "type": "fill",
-      "title": "which or what?",
-      "hint": "A choice from a group: which. An open question: what.",
-      "placeholder": "which / what",
+      "title": "esta or está?",
+      "hint": "esta + noun means this. está is the verb estar.",
+      "placeholder": "esta / está",
       "items": [
-        {
-          "prompt": "___ coat do you want, the red one or the blue one?",
-          "answer": "Which",
-          "choices": [
-            "Which",
-            "What"
-          ],
-          "why": "Two coats to choose from, so: Which."
-        },
-        {
-          "prompt": "___ colour is your bag?",
-          "answer": "What",
-          "choices": [
-            "Which",
-            "What"
-          ],
-          "why": "No group to choose from. An open question, so: What."
-        },
-        {
-          "prompt": "___ bus goes to the station, the 5 or the 7?",
-          "answer": "Which",
-          "choices": [
-            "Which",
-            "What"
-          ],
-          "why": "The 5 or the 7: a choice, so: Which."
-        },
-        {
-          "prompt": "___ time is the film?",
-          "answer": "What",
-          "choices": [
-            "Which",
-            "What"
-          ],
-          "why": "We ask about the time, not a choice between two things: What."
-        },
-        {
-          "prompt": "___ shirt is yours, this one or that one?",
-          "answer": "Which",
-          "choices": [
-            "Which",
-            "What"
-          ],
-          "why": "This one or that one: a choice, so: Which."
-        }
-      ],
-      "instant": true
+        { "prompt": "___ casa es grande.", "answer": "Esta", "choices": ["Esta", "Está"] },
+        { "prompt": "El médico no ___ aquí.", "answer": "está", "choices": ["esta", "está"] },
+        { "prompt": "Vivo en ___ calle.", "answer": "esta", "choices": ["esta", "está"] },
+        { "prompt": "¿Dónde ___ la llave?", "answer": "está", "choices": ["esta", "está"] },
+        { "prompt": "___ tarde no trabajo.", "answer": "Esta", "choices": ["Esta", "Está"] }
+      ]
     },
     {
       "type": "story",
-      "title": "Fill the gaps: In the shop.",
-      "hint": "Questions with which. Near: this, these. Far: that, those.",
+      "title": "Fill the gaps: In the clothes shop.",
+      "hint": "Near me, near you or far? Match the noun.",
+      "choices": ["este", "esta", "esas", "ese", "aquella", "esto"],
       "segments": [
-        {
-          "text": "“Hello, I need a jacket.” – “Of course! "
-        },
-        {
-          "blank": 0,
-          "answer": "Which"
-        },
-        {
-          "text": " jacket do you like, the blue one or the green one?” – “"
-        },
-        {
-          "blank": 1,
-          "answer": "This"
-        },
-        {
-          "text": " one here, the blue one. And I need a scarf.” – “"
-        },
-        {
-          "blank": 2,
-          "answer": "Which"
-        },
-        {
-          "text": " scarf do you want, the red one or the grey one?” – “I will take "
-        },
-        {
-          "blank": 3,
-          "answer": "that"
-        },
-        {
-          "text": " one over there, the grey one. Oh, "
-        },
-        {
-          "blank": 4,
-          "answer": "these"
-        },
-        {
-          "text": " gloves here are nice too. And how much are "
-        },
-        {
-          "blank": 5,
-          "answer": "those"
-        },
-        {
-          "text": " boots over there by the door?”"
-        }
+        { "text": "—Buenos días. ¿Cuánto cuesta " },
+        { "blank": 0, "answer": "esta" },
+        { "text": " camisa que tengo aquí? —Veinte euros. —¿Y " },
+        { "blank": 1, "answer": "esas" },
+        { "text": " camisetas que tiene usted ahí? —Diez euros. —¿Y " },
+        { "blank": 2, "answer": "aquella" },
+        { "text": " chaqueta de allí? —Cuarenta euros. —Bien, me llevo " },
+        { "blank": 3, "answer": "esta" },
+        { "text": " camisa. ¿Y qué es " },
+        { "blank": 4, "answer": "esto" },
+        { "text": "? —Un regalo de la tienda." }
       ]
     },
     {
       "type": "build",
       "title": "Build the sentences.",
+      "hint": "The demonstrative comes before the noun.",
       "sentences": [
-        {
-          "id": "w1",
-          "hint": "Question with which",
-          "correct": [
-            "Which",
-            "coat",
-            "do",
-            "you",
-            "want",
-            "?"
-          ],
-          "shuffled": [
-            "you",
-            "coat",
-            "?",
-            "Which",
-            "want",
-            "do"
-          ]
-        },
-        {
-          "id": "w2",
-          "hint": "More than one, far away",
-          "correct": [
-            "Those",
-            "shoes",
-            "are",
-            "very",
-            "nice",
-            "."
-          ],
-          "shuffled": [
-            "nice",
-            "are",
-            ".",
-            "Those",
-            "very",
-            "shoes"
-          ]
-        },
-        {
-          "id": "w3",
-          "hint": "Question, far away",
-          "correct": [
-            "Who",
-            "is",
-            "that",
-            "man",
-            "?"
-          ],
-          "shuffled": [
-            "man",
-            "?",
-            "Who",
-            "that",
-            "is"
-          ]
-        },
-        {
-          "id": "w4",
-          "hint": "More than one, near",
-          "correct": [
-            "I",
-            "like",
-            "these",
-            "red",
-            "shoes",
-            "."
-          ],
-          "shuffled": [
-            "shoes",
-            "I",
-            ".",
-            "red",
-            "like",
-            "these"
-          ]
-        }
+        { "id": "de1", "hint": "This flat is expensive", "correct": ["Este", "piso", "es", "caro", "."], "shuffled": ["caro", "piso", ".", "Este", "es"] },
+        { "id": "de2", "hint": "Ask: what is that?", "correct": ["¿Qué", "es", "eso", "?"], "shuffled": ["eso", "?", "es", "¿Qué"] },
+        { "id": "de3", "hint": "These shoes are new", "correct": ["Estos", "zapatos", "son", "nuevos", "."], "shuffled": ["nuevos", ".", "zapatos", "Estos", "son"] }
       ]
     }
   ]

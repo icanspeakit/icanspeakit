@@ -22,6 +22,7 @@ const rel = (p) => path.relative(ROOT, p).replaceAll("\\", "/");
 // in the same commit that converts the module.
 const STRICT = new Set([
   "einstufung",
+  "grammatik-a1",
   // "lexicon", "berufe", "wortschatz", "redemittel", "grammatik", "grammatik-quiz",
   // "praepositionen", "verbtabellen", "conjugation-trainer", "hoeren", "aussprache-check",
   // "zungenbrecher", "satzmelodie", "ausspracheregeln", "dgt", "business-spanish",
@@ -48,6 +49,13 @@ const MODULES = [
     items: (d) => arr(d.sets).flatMap((s) => arr(s.phrases).map((item) => ({ item }))) },
   // A grammar topic carries `variety` at the top level; its exercises inherit.
   { id: "grammatik", files: [...jsonFiles("src/data/grammatik"), ...jsonFiles("src/paid/grammatik")],
+    items: (d) => [{ item: d }] },
+  // The slots whose level item has run. A grammar item adds its slots here until every slot is
+  // converted; then "grammatik" goes strict and this entry goes (grammar-c1).
+  { id: "grammatik-a1", files: ["nomen", "artikel", "personalpronomen", "praesens", "konjugation",
+      "praeteritum-sein-haben", "verb-position-2", "berufe-mit-in", "w-fragen", "ja-nein-fragen", "plural",
+      "adjektive-nach-sein", "possessivartikel", "welcher-dieser", "gern", "temporale-praepositionen",
+      "aduso", "zahlen", "wortarten"].map((s) => `src/data/grammatik/${s}.json`).filter((f) => existsSync(path.join(ROOT, f))),
     items: (d) => [{ item: d }] },
   { id: "grammatik-quiz", files: one("src/data/grammatik.json"), items: (d) => arr(d).map((item) => ({ item })) },
   { id: "praepositionen", files: one("src/data/praepositionen-trainer.json"),
