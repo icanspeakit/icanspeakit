@@ -1,5 +1,5 @@
-// Builds „English Grammar Start A1–B1 – The 10 most important chapters“, the free starter
-// grammar book, in English and in every help language with a translation file:
+// Builds „Spanish Grammar Start A1–B1 – The 10 most important chapters“, the free starter
+// grammar book, with English explanations and in every help language with a translation file:
 //
 //   pnpm generate:grammatik-start-pdf          all editions
 //   node scripts/generate-grammatik-start-pdf.mjs en de   some
@@ -8,15 +8,19 @@
 //
 // The content is src/data/grammatik-start/en.json; each translation (<code>.json) carries only
 // the explaining blocks — the book rule: rules, explanations and Merke boxes in the learner's
-// language, examples, tables, exercises and solutions English, because English is the subject.
-// Check them with scripts/check-grammatik-start.mjs.
+// language, examples, tables, exercises and solutions Spanish, because Spanish is the subject.
+// Check them with scripts/check-grammatik-start.mjs. A translation with status "skeleton" is
+// not written yet and gets no edition.
+//
+// The chapter links and the back page are printed URLs, built from src/lib/routes.js: rerun
+// this script whenever a slug in there changes.
 //
 // The look is the Grammatik books' (scripts/lib/pdf-brand.mjs) with more of the crew
 // (scripts/lib/pdf-art.mjs), each one with a job: the whole crew on the cover and the back
 // page, Bruno on the contents, Regi on the book's rule and at every Merke, Hamsti at the
 // exercises, Bruno at a typical mistake and dozing over the answer key, Quaki pointing to the
-// matching exercises online. Every chapter has a three-panel comic before its exercises,
-// in English (the crew makes the chapter's typical mistake and puts it right), and a page
+// matching exercises online. Every chapter has a three-panel comic before its exercises
+// (the crew makes the chapter's typical mistake in Spanish and puts it right), and a page
 // with none of them gets a small one beside the page number. Never more than three on a
 // page (the comic counts as three), never on top of text.
 //
@@ -30,6 +34,7 @@ import QRCode from "qrcode";
 import { createDoc, INK, MUTED, TEAL, TEAL_DARK, TEAL_SOFT, BORDER, SURFACE, MARGIN } from "./lib/pdf-brand.mjs";
 import { loadArt, single } from "./lib/pdf-art.mjs";
 import { languageOf, LANGUAGE_REGISTRY } from "../src/lib/languages.js";
+import { topicPath } from "../src/lib/routes.js";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataDir = path.join(root, "src", "data", "grammatik-start");
@@ -41,16 +46,20 @@ const FREDOKA_FILE = path.join(root, "scripts", "fonts", "Fredoka-SemiBold.ttf")
 const fontkit = createRequire(createRequire(import.meta.url).resolve("pdfkit"))("fontkit");
 const FREDOKA = fontkit.openSync(FREDOKA_FILE);
 
-// The editions: English, then every registry language with a translation file in
+// The editions: English, then every registry language with a written translation file in
 // src/data/grammatik-start/ (registry order, so a new language needs only its file).
 const BASE = "en";
-export const EDITIONS = [BASE, ...LANGUAGE_REGISTRY.map((l) => l.code).filter((c) => c !== BASE && existsSync(path.join(root, "src", "data", "grammatik-start", `${c}.json`)))];
+const isWritten = (c) => {
+  const file = path.join(dataDir, `${c}.json`);
+  return existsSync(file) && JSON.parse(readFileSync(file, "utf8")).status !== "skeleton";
+};
+export const EDITIONS = [BASE, ...LANGUAGE_REGISTRY.map((l) => l.code).filter((c) => c !== BASE && isWritten(c))];
 const RTL = new Set(["ar", "fa", "ps"]);
 const RED = "#c0392b";
 const GREEN = "#1f8a4c";
 
 const base = JSON.parse(readFileSync(path.join(dataDir, `${BASE}.json`), "utf8"));
-// Bidi control marks a translator may have set: the RTL drawing places English runs itself,
+// Bidi control marks a translator may have set: the RTL drawing places Latin runs itself,
 // and the fonts have no glyph for them.
 const load = (code) => JSON.parse(readFileSync(path.join(dataDir, `${code}.json`), "utf8").replace(/[‎‏‪-‮⁦-⁩]/g, ""));
 const date = new Date().toISOString().slice(0, 10).split("-").reverse().join(".");
@@ -84,7 +93,7 @@ async function build(lang) {
   let footerDraw = null;
   const pdf = createDoc({
     outPath: path.join(outDir, file),
-    runningHead: `ENGLISH GRAMMAR START A1–B1 · ${SITE.toUpperCase()}`,
+    runningHead: `SPANISH GRAMMAR START A1–B1 · ${SITE.toUpperCase()}`,
     unicode: true,
     script: languageOf(lang)?.script,
     footer: (i, n) => footerDraw(i, n),
@@ -307,7 +316,7 @@ async function build(lang) {
     doc.image(pdf.pic(LOGO), MARGIN, 36, { width: 150 });
     doc.fillColor(INK).font(F.bold).fontSize(13).text("icanspeak Spanish", MARGIN + 164, 46, { lineBreak: false });
     doc.fillColor(TEAL_DARK).font("Fredoka").fontSize(11).text("Here for you!", MARGIN + 164, 63, { lineBreak: false });
-    doc.fillColor(TEAL_DARK).font(F.bold).fontSize(9).text("LEARN ENGLISH · A1 – B1", MARGIN, 104, { characterSpacing: 1.2 });
+    doc.fillColor(TEAL_DARK).font(F.bold).fontSize(9).text("LEARN SPANISH · A1 – B1", MARGIN, 104, { characterSpacing: 1.2 });
     // As large as fits on one line: a break inside „A1–B1“ reads badly.
     let titleSize = 34;
     while (titleSize > 24 && doc.font(F.bold).fontSize(titleSize).widthOfString(baseUi.bookTitle) > W) titleSize -= 1;
@@ -386,10 +395,10 @@ async function build(lang) {
     doc.x = MARGIN;
     exerciseLabel.done = false;
 
-    for (const b of c.blocks) {
+    c.blocks.forEach((b, i) => {
       if (b.type === "exercise" && !exerciseLabel.done && c.comic) comic(c.comic);
-      block(b);
-    }
+      block(b, c.blocks[i + 1]);
+    });
 
     // Where to practise this online.
     if (c.topic) {
@@ -397,7 +406,7 @@ async function build(lang) {
       doc.y += 10;
       const ly = doc.y;
       doc.moveTo(MARGIN, ly).lineTo(RIGHT, ly).strokeColor(BORDER).lineWidth(0.75).stroke();
-      const url = `${SITE}/${c.topic}`;
+      const url = `${SITE}${topicPath(c.topic)}`;
       const qx = rtl ? RIGHT - 32 : MARGIN;
       if (mascotSlot()) doc.image(pdf.pic(pics.quaki), qx, ly + 6, { width: 32 });
       const label = `${ui.practice}:`;
@@ -415,7 +424,7 @@ async function build(lang) {
     }
   }
 
-  function block(b) {
+  function block(b, next) {
     const r = rtl && !!tr;
     switch (b.type) {
       case "intro":
@@ -426,7 +435,8 @@ async function build(lang) {
         para(T(b.id, "text", b.text), { rtl: r });
         break;
       case "h":
-        heading(T(b.id, "text", b.text), { r });
+        // A heading stays with what it announces: a table needs room for its first rows.
+        heading(T(b.id, "text", b.text), { r, keep: next?.type === "table" ? 120 : 40 });
         break;
       case "rule":
         if (b.title) {
@@ -472,7 +482,7 @@ async function build(lang) {
     }
   }
 
-  /* A comic strip: three panels, a crew member and a speech bubble in each, in English. A
+  /* A comic strip: three panels, a crew member and a speech bubble in each. A
      panel with the mistake („oops“) gets a red bubble, so the wrong sentence reads as wrong. */
   function comic(panels) {
     const gap = 10;
@@ -519,8 +529,11 @@ async function build(lang) {
       const lh = measure(label, W - 200, { size: 15, bold: true, rtl: r });
       draw(label, r ? MARGIN + 200 : MARGIN, y + 6, W - 200, { size: 15, bold: !r, rtl: r, color: INK });
       const hx = r ? MARGIN : RIGHT - 44;
-      if (mascotSlot()) doc.image(pdf.pic(pics.hamsti), hx, y - 4, { width: 44 });
-      bubble(ui.exerciseBubble, r ? MARGIN + 50 : RIGHT - 50, y + 4, 150, { tail: r ? "left" : "right", size: 10.5 });
+      // No Hamsti on this page (the page is full of crew): no bubble pointing at nobody either.
+      if (mascotSlot()) {
+        doc.image(pdf.pic(pics.hamsti), hx, y - 4, { width: 44 });
+        bubble(ui.exerciseBubble, r ? MARGIN + 50 : RIGHT - 50, y + 4, 150, { tail: r ? "left" : "right", size: 10.5 });
+      }
       doc.y = y + Math.max(lh + 10, 42);
       doc.moveTo(MARGIN, doc.y).lineTo(RIGHT, doc.y).strokeColor(TEAL).lineWidth(1).stroke();
       doc.y += 8;
@@ -533,7 +546,7 @@ async function build(lang) {
       const y = doc.y;
       const n = `${i + 1}.`;
       doc.fillColor(TEAL_DARK).font(F.bold).fontSize(10.25).text(n, MARGIN + 4, y, { width: 18 });
-      const q = S(it.q.replace(/s*→s*/g, " ").trim());
+      const q = S(it.q.replace(/\s*→\s*/g, " ").trim());
       doc.font(F.regular).fontSize(10.25);
       const qw = Math.min(doc.widthOfString(q), W - 26);
       const qh = doc.heightOfString(q, { width: W - 26, lineGap: 2 });
@@ -600,10 +613,10 @@ async function build(lang) {
     y += draw(ui.backLead, MARGIN, y, W, { size: 11, rtl: r, color: MUTED }) + 12;
 
     const links = [
-      [ui.back1, `${SITE}/grammatik`],
-      [ui.back2, `${SITE}/wortschatz`],
-      [ui.back3, `${SITE}/einstufungstest`],
-      [ui.back4, `${SITE}/pruefungen`],
+      [ui.back1, `${SITE}/grammar`],
+      [ui.back2, `${SITE}/vocabulary`],
+      [ui.back3, `${SITE}/placement-test`],
+      [ui.back4, `${SITE}/exams`],
     ];
     const qrW = 118;
     const listW = W - qrW - 24;

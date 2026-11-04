@@ -117,7 +117,8 @@ const chapterTr = (id) => pick((l) => lidTr.topics?.[id]?.title?.[l]);
 // Grammatik-Start's chapter titles in the help languages, from the book's own translations.
 const startTr = Object.fromEntries(TR_LANGS.map((l) => {
   try {
-    return [l, JSON.parse(readFileSync(path.join(process.cwd(), "src", "data", "grammatik-start", `${l}.json`), "utf8"))];
+    const book = JSON.parse(readFileSync(path.join(process.cwd(), "src", "data", "grammatik-start", `${l}.json`), "utf8"));
+    return [l, book.status === "skeleton" ? null : book]; // a skeleton still holds the English titles
   } catch {
     return [l, null];
   }

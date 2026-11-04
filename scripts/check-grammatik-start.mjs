@@ -1,18 +1,21 @@
-// Checks the translations of „English Grammar Start A1–B1“ (src/data/grammatik-start/<code>.json)
-// against the English original (en.json): every explaining block is there, nothing is empty,
-// and nothing is still English.
+// Checks the translations of „Spanish Grammar Start A1–B1“ (src/data/grammatik-start/<code>.json)
+// against the English-language original (en.json): every explaining block is there, nothing is
+// empty, and nothing is still English.
 //
 //   node scripts/check-grammatik-start.mjs            every translation file
 //   node scripts/check-grammatik-start.mjs de         some
 //   node scripts/check-grammatik-start.mjs --skeleton ro   writes ro.json with the English
 //                                                          text in every slot, to translate
 //
+// A skeleton has status "skeleton": no PDF edition and no chapter titles on /knowledge, and this
+// check only names it. Whoever translates it sets the status to "draft"; the check then applies.
+//
 // What gets translated (the book rule): the explaining blocks — intro, why, h, rule, merke,
 // mistake — plus chapter titles, mascot bubbles, the UI strings, table headings that
-// describe (not the English forms: be, work, can, will + verb …), the columns a table
+// describe (not the Spanish forms: ser, hablar, yo, si + present …), the columns a table
 // lists in `explain`, and the titles of example lists and tables. Examples, word lists,
-// table contents, exercises and solutions stay English: English is the subject.
-// Words in *stars* are English examples inside an explanation and stay English.
+// table contents, exercises and solutions stay Spanish: Spanish is the subject.
+// Words in *stars* are Spanish examples inside an explanation and stay Spanish.
 import { readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -26,10 +29,11 @@ const base = JSON.parse(readFileSync(path.join(dir, `${BASE}.json`), "utf8"));
 // (docs/content-plan.md §1.4): fewer editions beat wrong ones.
 export const LANGS = readdirSync(dir).filter((f) => f.endsWith(".json")).map((f) => f.slice(0, -5)).filter((c) => c !== BASE).sort();
 
-// Table headings that are English forms the book teaches: kept.
+// Table headings that are Spanish forms the book teaches: kept.
 export const KEEP_HEAD = new Set([
-  "be", "work", "live", "go", "can", "should", "have to", "verb-ing",
-  "if + present simple", "will + verb", "if + past simple", "would + verb",
+  "ser", "estar", "hablar", "comer", "vivir", "tener", "ir", "hacer", "venir",
+  "yo", "tú", "él / ella", "ellos / ellas", "nosotros", "levantarse", "ducharse", "ir a", "haber",
+  "estar + gerund", "perfecto", "indefinido", "imperfecto", "hay", "está / están", "si + present", "ver",
 ]);
 
 /** The slots a translation has to fill, from the English: id → { field: English }. */
@@ -62,6 +66,7 @@ function check(code) {
   const file = path.join(dir, `${code}.json`);
   if (!existsSync(file)) return [`${code}.json missing`];
   const tr = JSON.parse(readFileSync(file, "utf8"));
+  if (tr.status === "skeleton") return null;
   const want = units();
   const errs = [];
   const text = (where, got, eng) => {
@@ -106,14 +111,15 @@ const args = process.argv.slice(2);
 if (args[0] === "--skeleton") {
   const code = args[1];
   const u = units();
-  const out = { lang: code, status: "draft", ...u };
+  const out = { lang: code, status: "skeleton", ...u };
   writeFileSync(path.join(dir, `${code}.json`), JSON.stringify(out, null, 2) + "\n");
   console.log(`src/data/grammatik-start/${code}.json written (English placeholders)`);
 } else if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
   let bad = 0;
   for (const code of args.length ? args : LANGS) {
     const errs = check(code);
-    if (errs.length) { bad++; console.log(`✗ ${code}: ${errs.length} problems`); errs.slice(0, 40).forEach((e) => console.log(`   ${e}`)); }
+    if (errs === null) console.log(`· ${code}: skeleton, not translated yet`);
+    else if (errs.length) { bad++; console.log(`✗ ${code}: ${errs.length} problems`); errs.slice(0, 40).forEach((e) => console.log(`   ${e}`)); }
     else console.log(`✓ ${code}`);
   }
   process.exit(bad ? 1 : 0);
