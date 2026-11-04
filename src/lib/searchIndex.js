@@ -27,6 +27,7 @@ import seitenSuche from "../data/suche-seiten.json";
 import zitate from "../data/zitate.json";
 import { LIVE as RW_LIVE, eintraege as rwEintraege, hrefOf as rwHref } from "./redewendungenData.js";
 import praepTrainer from "../data/praepositionen-trainer.json";
+import conjugationTrainer from "../data/conjugation-trainer.json";
 import { verbs as verbTables, verbHref } from "./verbtabellen.js";
 import { fehlerPairs } from "./typischeFehler.js";
 import { nachschlagenEntries } from "./nachschlagenIndex.js";
@@ -167,6 +168,15 @@ export function buildSearchIndex() {
     })),
     // akkusativ has its own page outside the catalog's [id] route.
     { t: "Akkusativ", s: "", k: KEYWORDS.akkusativ, l: "A1", h: "/object-pronouns", c: "grammatik" },
+    { t: "Conjugation trainer", s: "Grammar", k: "conjugation verbs tenses drill trainer conjugar verbos irregular subjunctive imperative", l: "", h: "/grammar/conjugation", c: "grammatik" },
+    ...conjugationTrainer.sets.map((s) => ({
+      t: s.title,
+      s: "Conjugation trainer",
+      k: `conjugation ${s.id.replace(/-/g, " ")}`,
+      l: s.level,
+      h: `/grammar/conjugation?set=${s.id}`,
+      c: "grammatik",
+    })),
     ...praepTrainer.packs.map((p) => ({
       t: p.title ?? p.name,
       s: "Prepositions",

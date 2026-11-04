@@ -1,0 +1,586 @@
+---
+// /grammar/conjugation — the conjugation trainer (docs/content-plan.md §4.2).
+//
+// The frame of /prepositions: a dark rail of levels, a panel of topics per level, the work in the
+// middle and the rule in a drawer. Each level lists verb drills (forms generated from
+// verbtabellen.json by src/lib/conjugationTrainer.js) and sentence sets (hand-written, in
+// src/data/conjugation-trainer.json: ser/estar, por/para, indefinido/imperfecto, subjunctive,
+// irregular forms). "Build your own" drills any tenses and verb groups.
+//
+// Pills run on mountPracticeWorkspace; typed answers on src/lib/conjugationTyped.js. History is
+// createVerlauf() under its own key. Deep links: ?drill=<preset id>, ?set=<set id>.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import TopicBar from "../../components/TopicBar.astro";
+import Icon from "../../components/Icon.astro";
+import RefTable from "../../components/RefTable.astro";
+import SideNavFold from "../../components/SideNavFold.astro";
+import data from "../../data/conjugation-trainer.json";
+import { LEVEL_NAMES } from "../../lib/lexicon.js";
+import "../../styles/practice.css";
+import "../../styles/akkusativ.css";
+import "../../styles/aktiv.css";
+import "../../styles/verben-praepositionen.css";
+import "../../styles/rule-intro.css";
+import "../../styles/artikel-fit.css";
+import "../../styles/artikel-t2.css";
+import "../../styles/nav.css";
+import "../../styles/lernset-picker.css";
+import "../../styles/artikel-panel.css";
+import "../../styles/sidenav.css";
+import "../../styles/conjugation.css";
+
+const LEVELS = ["A1", "A2", "B1", "B2"] as const;
+const { tenses, groups, presets } = data.drills as { tenses: any[]; groups: any[]; presets: any[] };
+const sets = data.sets as any[];
+const total = sets.reduce((n, s) => n + s.items.length, 0);
+const MOODS = [
+  { key: "indicativo", name: "Indicative" },
+  { key: "subjuntivo", name: "Subjunctive" },
+  { key: "imperativo", name: "Imperative" },
+  { key: "compuestos", name: "Compound tenses" },
+  { key: "compuestosSubj", name: "Compound subjunctive" },
+];
+const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+// Rule texts mark Spanish examples with *…*, as the verb tables do.
+const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>');
+---
+<Layout
+  title="Spanish verb conjugation trainer: tenses, ser and estar, por and para – icanspeak Spanish"
+  description="Practise Spanish verb forms by tense, mood and verb group: regular and irregular verbs, the subjunctive and the imperative, vosotros included. With ser/estar and por/para sets."
+>
+  <SiteNav active="grammatik" />
+  <TopicBar topic="conjugation" kind="Grammar" title="Conjugation trainer" level="A1–B2" tasks={total} showKind={false} scoped heading />
+
+  <main class="vp-page vp-page--split vp-page--sheet akk vp-page--rule-left vp-page--fit" id="vp-page" data-rule="hidden" data-anim="off" data-topic-key="conjugation">
+    <div class="vp-workspace">
+      <aside class="vp-col vp-col--rule" id="vp-rule">
+        <div class="vp-card vp-rule-card" id="vp-rule-card">
+          <div class="vp-sheet-head">
+            <div class="vp-card-label" data-i18n="ap.levels">Levels</div>
+            <button type="button" class="vp-sheet-fold" data-sheet-close aria-label="Collapse levels" data-i18n-attr="aria-label:praep.levels.collapse" aria-controls="vp-rule-card">
+              <span data-i18n="vp.rule.collapseShort">Collapse</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <button type="button" class="vp-sheet-x" data-sheet-close aria-label="Close levels" data-i18n-attr="aria-label:praep.levels.close" aria-controls="vp-rule-card">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+            </button>
+          </div>
+          <div class="vp-sheet-body vp-sheet-body--flush">
+            <div class="nvb ls-nvb ap-nvb snav" data-nvb>
+              <button type="button" class="ls-foldtab" data-nvb-collapse aria-label="Collapse list" data-i18n-attr="aria-label:ap.list.collapse" aria-controls="ap-pane">
+                <span class="ls-foldtab-txt" data-i18n="ap.levels">Levels</span>
+                <svg class="ls-foldtab-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+              </button>
+
+              <div class="nvb-rail" role="tablist" aria-label="Choose a level" data-i18n-attr="aria-label:ap.chooseLevel">
+                <button type="button" role="tab" class="nvb-railbtn" data-rail="fortschritt" aria-selected="false" aria-controls="ap-pane-fortschritt" aria-label="Your progress" data-i18n-attr="aria-label:sets.prog.title">
+                  <Icon name="target" size={20} />
+                  <span class="nvb-tip" data-i18n="sets.prog.title">Your progress</span>
+                </button>
+                {LEVELS.map((level, i) => (
+                  <button type="button" role="tab" class:list={["nvb-railbtn", i === 0 && "active"]} data-rail={level} aria-selected={i === 0 ? "true" : "false"} aria-controls={`ap-pane-${level}`} aria-label={`Level ${level}`}>
+                    <span class="nvb-railbadge">{level}</span>
+                    <span class="nvb-tip"><span data-i18n="ap.levelName" data-i18n-vars={JSON.stringify({ level })}>Level {level}</span> · <span data-i18n={`level.name.${level}`}>{LEVEL_NAMES[level]}</span></span>
+                  </button>
+                ))}
+                <span class="ls-raildiv" aria-hidden="true"></span>
+                <button type="button" role="tab" class="nvb-railbtn" data-rail="build" aria-selected="false" aria-controls="ap-pane-build" aria-label="Build your own drill" data-i18n-attr="aria-label:conj.build.title">
+                  <Icon name="pencil" size={20} />
+                  <span class="nvb-tip" data-i18n="conj.build.title">Build your own drill</span>
+                </button>
+                <button type="button" role="tab" class="nvb-railbtn" data-rail="regel" aria-selected="false" aria-controls="ap-regel" aria-label="Rule" data-i18n-attr="aria-label:ak.rule">
+                  <Icon name="book" size={20} />
+                  <span class="nvb-tip" data-i18n="conj.rule.tip">Rule · how this form is made</span>
+                </button>
+              </div>
+
+              <div class="nvb-panel" id="ap-pane">
+                <div class="nvb-section ap-sets" id="ap-pane-fortschritt" data-pane="fortschritt" hidden>
+                  <div class="nvb-panelhead"><h3 data-i18n="sets.prog.title">Your progress</h3></div>
+                  <div data-snav-overview></div>
+                  <a class="snav-more" href="/progress" data-i18n="sets.prog.more">See everything in Progress</a>
+                </div>
+
+                {LEVELS.map((level, i) => (
+                  <div class="nvb-section ap-sets" id={`ap-pane-${level}`} data-pane={level} hidden={i !== 0}>
+                    <div class="nvb-panelhead">
+                      <h3><span data-i18n="ap.levelName" data-i18n-vars={JSON.stringify({ level })}>Level {level}</span><span class="snav-head-name"> · <span data-i18n={`level.name.${level}`}>{LEVEL_NAMES[level]}</span></span></h3>
+                    </div>
+                    <section class="ap-packs">
+                      <h4 class="ap-phase-head"><span data-i18n="conj.drills">Verb drills</span></h4>
+                      {presets.filter((p) => p.level === level).map((p) => (
+                        <button type="button" class="nvb-item akp-pack cj-pack" data-item={`drill:${p.id}`}>
+                          <span class="cj-pack-body">
+                            <span class="akp-pack-name" data-i18n={`conj.drill.${p.id}`}>{p.name}</span>
+                            <span class="cj-pack-sample" lang="es">{p.sample}</span>
+                          </span>
+                          <span class="akp-pack-state" data-pack-state></span>
+                        </button>
+                      ))}
+                    </section>
+                    {sets.some((s) => s.level === level) && (
+                      <section class="ap-packs">
+                        <h4 class="ap-phase-head"><span data-i18n="conj.sets">In sentences</span></h4>
+                        {sets.filter((s) => s.level === level).map((s) => (
+                          <button type="button" class="nvb-item akp-pack cj-pack" data-item={`set:${s.id}`}>
+                            <span class="cj-pack-body">
+                              <span class="akp-pack-name" data-i18n={`conj.set.${s.id}`}>{s.title}</span>
+                              <span class="cj-pack-sample" data-i18n={`conj.setLead.${s.id}`}>{s.lead}</span>
+                            </span>
+                            <span class="akp-pack-state" data-pack-state>0/{s.items.length}</span>
+                          </button>
+                        ))}
+                      </section>
+                    )}
+                  </div>
+                ))}
+
+                <div class="nvb-section ap-sets" id="ap-pane-build" data-pane="build" hidden>
+                  <div class="nvb-panelhead"><h3 data-i18n="conj.build.title">Build your own drill</h3></div>
+                  <p class="ls-lead" data-i18n="conj.build.lead">Pick any tenses and verb groups, then start.</p>
+                  {MOODS.map((m) => (
+                    <section class="cj-chooser">
+                      <h4 class="ap-phase-head"><span data-i18n={`verben.mood.${m.key}`}>{m.name}</span></h4>
+                      <div class="cj-chips">
+                        {tenses.filter((t) => t.mood === m.key).map((t) => (
+                          <button type="button" class="cj-chip" aria-pressed="false" data-tense={t.key} lang="es">{t.name}</button>
+                        ))}
+                      </div>
+                    </section>
+                  ))}
+                  <section class="cj-chooser">
+                    <h4 class="ap-phase-head"><span data-i18n="conj.build.groups">Verb groups</span></h4>
+                    <div class="cj-chips">
+                      {groups.map((g) => (
+                        <button type="button" class="cj-chip" aria-pressed="false" data-group={g.id} title={g.sample}><span data-i18n={`conj.group.${g.id}`}>{g.name}</span></button>
+                      ))}
+                    </div>
+                  </section>
+                  <div class="cj-build-go">
+                    <span class="cj-build-count" id="cj-build-count" aria-live="polite"></span>
+                    <button type="button" class="akk-btn akk-btn-primary" id="cj-build-start" data-i18n="conj.build.start">Start</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <SideNavFold />
+          </div>
+        </div>
+
+        <button type="button" class="vp-rule-peek" id="vp-rule-peek" data-show="Choose a level" data-hide="Hide levels" data-i18n-attr="data-show:ap.chooseLevel;data-hide:ap.levels.hide" data-i18n="ap.chooseLevel" aria-controls="vp-rule-card">Choose a level</button>
+      </aside>
+
+      <div class="vp-sheet-scrim" data-sheet-close aria-hidden="true"></div>
+
+      <section class="vp-col vp-col--ex">
+        <div class="vp-card">
+          <div class="akk-mode-row cj-mode-row">
+            <div class="akk-mode" id="cj-modes" role="group" aria-label="Practice mode" data-i18n-attr="aria-label:akk.mode.ariaLabel">
+              <button class="akk-mode-btn" data-mode="type" type="button" data-i18n="conj.mode.type">Type</button>
+              <span class="akk-mode-sep" data-sep="type">·</span>
+              <button class="akk-mode-btn" data-mode="fokus" type="button" data-i18n="conj.mode.choose">Choose</button>
+              <span class="akk-mode-sep">·</span>
+              <button class="akk-mode-btn" data-mode="test" type="button" data-i18n="akk.mode.test">Test mode</button>
+            </div>
+            <label class="cj-vos" id="cj-vos-wrap"><input type="checkbox" id="cj-vos" checked /> <span data-i18n="conj.withVosotros">with vosotros</span></label>
+            <button type="button" class="akk-regel-btn" data-regel-open data-i18n="ak.rule">Rule</button>
+          </div>
+          <p class="ak-now" data-now aria-live="polite"></p>
+          <div id="akk-exercise-root" hidden></div>
+          <div id="cj-typed-root" hidden></div>
+        </div>
+
+        <footer class="akk-footer">
+          <div class="akk-session-ring">
+            <svg viewBox="0 0 56 56">
+              <circle class="akk-ring-track" cx="28" cy="28" r="24" />
+              <circle class="akk-ring-fill" id="akk-ring-fill" cx="28" cy="28" r="24" stroke-dasharray="150.8" stroke-dashoffset="150.8" />
+            </svg>
+            <span class="akk-ring-num" id="akk-ring-num">0%</span>
+          </div>
+          <div class="akk-session-text">
+            <span class="akk-session-label" data-i18n="akk.session.label">This session</span>
+            <p class="akk-session-stats" id="akk-session-stats" data-i18n="akk.session.stats" data-i18n-vars={JSON.stringify({ answered: 0, total: 0, correct: 0, hints: 0 })}>0 of 0 answered · 0 correct · 0 hints</p>
+          </div>
+          <span class="akk-session-badge" data-i18n="akk.session.badge">local · no account</span>
+        </footer>
+      </section>
+    </div>
+
+    {/* The rule: a drawer on the right. All rules are rendered; the script shows the ones for what
+        is running. Rule texts stay English, like the rule boxes on the verb tables. */}
+    <div class="ap-drawer-scrim" data-regel-close aria-hidden="true"></div>
+    <aside class="ap-drawer" id="ap-regel" aria-labelledby="ap-regel-h" aria-hidden="true" inert>
+      <div class="ap-drawer-head">
+        <h2 id="ap-regel-h" data-i18n="ak.rule">Rule</h2>
+        <button type="button" class="ap-drawer-x" data-regel-close aria-label="Close rule" data-i18n-attr="aria-label:vp.rule.close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="ap-drawer-body ap-regel">
+        {tenses.map((t) => (
+          <section class="cj-rule" data-rule-tense={t.key} hidden>
+            <p class="cj-rule-kicker" lang="es">{t.name}</p>
+            <p class="cj-rule-text" lang="en" set:html={rule(t.rule.text)} />
+            {t.rule.table && <RefTable table={t.rule.table} />}
+          </section>
+        ))}
+        {sets.map((s) => (
+          <section class="cj-rule" data-rule-set={s.id} hidden>
+            <p class="cj-rule-kicker">{s.level} · <span data-i18n={`conj.set.${s.id}`}>{s.title}</span></p>
+            <p class="cj-rule-text" lang="en" set:html={rule(s.rule.text)} />
+            {s.rule.table && <RefTable table={s.rule.table} />}
+            {s.more && <p class="cj-rule-more"><a href={s.more.href} data-i18n={s.more.key}>{s.more.label}</a></p>}
+          </section>
+        ))}
+        <p class="cj-rule-more"><a href="/grammar/verbs" data-i18n="conj.rule.allTables">See every verb in full: the verb tables</a></p>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    import raw from "../../data/verbtabellen.json";
+    import trainerData from "../../data/conjugation-trainer.json";
+    import { createTrainer, LEVELS } from "../../lib/conjugationTrainer.js";
+    import { mountTypedDrill } from "../../lib/conjugationTyped.js";
+    import { mountPracticeWorkspace } from "../../lib/practiceWorkspace.js";
+    import { mountRuleColumn } from "../../lib/ruleColumn.js";
+    import { mountSwipeClose } from "../../lib/swipeClose.js";
+    import { mountSideNavFold } from "../../lib/sideNavFold.js";
+    import { recordAttempt } from "../../lib/progress.js";
+    import { createVerlauf } from "../../lib/artikelVerlauf.js";
+    import { setWaiting } from "../../lib/notReady.js";
+    import { showsVosotros } from "../../lib/variety.js";
+    import { t as uiT, onUiText } from "../../lib/uiText.js";
+
+    const SESSION_SIZE = 20;
+    const BUILD_KEY = "da-conj-build-v1";
+    const MODE_KEY = "da-conj-mode-v1";
+    const VOS_KEY = "da-conj-vosotros-v1";
+    const load = (k: string, fb: any) => { try { return JSON.parse(localStorage.getItem(k) ?? "null") ?? fb; } catch { return fb; } };
+    const save = (k: string, v: any) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+
+    const trainer = createTrainer(raw, trainerData, { tr: uiT });
+    const verlauf = createVerlauf("da-conj-verlauf-v1");
+    const page = document.getElementById("vp-page")!;
+    const wsRoot = document.getElementById("akk-exercise-root")!;
+    const typedRoot = document.getElementById("cj-typed-root")!;
+    const nowLine = document.querySelector<HTMLElement>("[data-now]")!;
+    const modes = document.getElementById("cj-modes")!;
+    const vosWrap = document.getElementById("cj-vos-wrap")!;
+    const vosBox = document.getElementById("cj-vos") as HTMLInputElement;
+
+    // What is running: a preset drill, a hand-written set, or the learner's own drill.
+    type Current = { kind: "drill" | "set" | "build"; id: string | null };
+    const compact = matchMedia("(max-width: 720px)");
+    let mode: string = load(MODE_KEY, compact.matches ? "fokus" : "type");
+    let vosotros: boolean = load(VOS_KEY, true) && showsVosotros();
+    let build = load(BUILD_KEY, { tenses: ["praes"], groups: ["reg-ar", "reg-er", "reg-ir"] });
+    let current: Current = { kind: "drill", id: trainer.presets[0].id };
+    let questions: any[] = [];
+    let practice: any = null;
+    let typed: any = null;
+    vosBox.checked = vosotros;
+    if (!showsVosotros()) vosWrap.hidden = true;
+
+    // --- the session stats, shared by both engines --------------------------------------------
+    const ringFill = document.getElementById("akk-ring-fill")!;
+    const ringNum = document.getElementById("akk-ring-num")!;
+    const statsText = document.getElementById("akk-session-stats")!;
+    let lastStats = { answered: 0, correct: 0, hints: 0, total: 0 };
+    function renderStats() {
+      const { answered, correct, hints, total } = lastStats;
+      const pct = total ? Math.round((correct / total) * 100) : 0;
+      ringFill.style.strokeDashoffset = String(150.8 * (1 - pct / 100));
+      ringNum.textContent = `${pct}%`;
+      statsText.dataset.i18nVars = JSON.stringify({ answered, total, correct, hints });
+      statsText.textContent = uiT("akk.session.stats", "{answered} of {total} answered · {correct} correct · {hints} hints", { answered, total, correct, hints });
+    }
+
+    // --- what the current choice asks -----------------------------------------------------------
+    const setOf = () => (current.kind === "set" ? trainer.setById.get(current.id!) : null);
+    const presetOf = () => (current.kind === "drill" ? trainer.presetById.get(current.id!) : null);
+    const idsOfSet = (s: any) => s.items.map((it: any) => it.id);
+    const buildPool = () => trainer.poolFor({ tenses: build.tenses, groups: build.groups, vosotros });
+    function poolOfCurrent() {
+      if (current.kind === "drill") return trainer.poolForPreset(current.id, vosotros);
+      if (current.kind === "build") return buildPool();
+      return [];
+    }
+    const tensesOfCurrent = (): string[] => presetOf()?.tenses ?? (current.kind === "build" ? build.tenses : []);
+
+    function makeQuestions() {
+      const set = setOf();
+      if (set) return trainer.setQuestions(set.id);
+      return verlauf.buildSession(poolOfCurrent(), SESSION_SIZE).map((stub: any) => trainer.question(stub));
+    }
+
+    // A form set can only be typed; a choice set has no typing; a drill does all three.
+    const modesAllowed = () => {
+      const set = setOf();
+      if (set?.kind === "form") return ["type"];
+      if (set) return ["fokus", "test"];
+      return ["type", "fokus", "test"];
+    };
+    const modeNow = () => {
+      const allowed = modesAllowed();
+      if (allowed.includes(mode)) return mode;
+      return allowed[0];
+    };
+
+    // --- mounting ---------------------------------------------------------------------------
+    const hooks = {
+      meldung: (q: any) => `g:conjugation/${q.id}`,
+      onSessionUpdate: (s: any) => { lastStats = s; renderStats(); },
+      onAnswer: (ok: boolean, id: string, info: any) => {
+        verlauf.record(id, ok && info?.firstTry !== false);
+        recordAttempt({ skill: "grammatik", correct: ok, id, topic: "conjugation" });
+        dispatchEvent(new CustomEvent("da:progress", { detail: { topic: "conjugation", correct: ok } }));
+        refresh();
+      },
+    };
+
+    function mount() {
+      const m = modeNow();
+      const isTyped = m === "type";
+      // A timer from the last pill answer must not fire into a round that has moved on.
+      clearTimeout((wsRoot as any)._practiceTimer);
+      typed?.stop();
+      typed = null;
+      practice = null;
+      wsRoot.innerHTML = "";
+      wsRoot.hidden = isTyped;
+      typedRoot.hidden = !isTyped;
+      lastStats = { answered: 0, correct: 0, hints: 0, total: questions.length };
+      if (isTyped) {
+        typed = mountTypedDrill(typedRoot, questions, { ...hooks, onMore: startSession });
+      } else {
+        wsRoot.dataset.instruction = uiT("conj.instruction", "Choose the right form.");
+        practice = mountPracticeWorkspace(wsRoot, questions, hooks);
+        practice.setMode(m);
+      }
+      paintModes();
+      renderStats();
+    }
+
+    function paintModes() {
+      const allowed = modesAllowed();
+      const m = modeNow();
+      modes.querySelectorAll<HTMLElement>("[data-mode]").forEach((b) => {
+        b.hidden = !allowed.includes(b.dataset.mode!);
+        b.classList.toggle("active", b.dataset.mode === m);
+      });
+      modes.querySelectorAll<HTMLElement>(".akk-mode-sep").forEach((s) => {
+        s.hidden = s.dataset.sep === "type" ? !allowed.includes("type") : !allowed.includes("test");
+      });
+      // One way to answer leaves nothing to choose between.
+      modes.hidden = allowed.length < 2;
+      vosWrap.hidden = current.kind === "set" || !showsVosotros();
+    }
+
+    function nowText() {
+      const set = setOf();
+      if (set) return `${uiT("ap.levelName", "Level {level}", { level: set.level })} · ${uiT(`conj.set.${set.id}`, set.title)}`;
+      const preset = presetOf();
+      if (preset) return `${uiT("ap.levelName", "Level {level}", { level: preset.level })} · ${uiT(`conj.drill.${preset.id}`, preset.name)}`;
+      return uiT("conj.build.title", "Build your own drill");
+    }
+    const paintNow = () => { nowLine.textContent = nowText(); };
+
+    function startSession() {
+      questions = makeQuestions();
+      mount();
+      paintNow();
+      paintRule();
+      refresh();
+    }
+
+    // --- counts on the rows, and the topic bar's count ------------------------------------------
+    function refresh() {
+      document.querySelectorAll<HTMLElement>("[data-item]").forEach((btn) => {
+        const [kind, id] = btn.dataset.item!.split(":");
+        const ids = kind === "set" ? idsOfSet(trainer.setById.get(id)) : trainer.poolForPreset(id, vosotros).map((s: any) => s.id);
+        const s = verlauf.stats(ids);
+        btn.querySelector("[data-pack-state]")!.textContent = `${s.sicher}/${s.total}`;
+        btn.classList.toggle("active", current.kind === kind && current.id === id);
+      });
+      const set = setOf();
+      const ids = set ? idsOfSet(set) : poolOfCurrent().map((s: any) => s.id);
+      const s = verlauf.stats(ids);
+      dispatchEvent(new CustomEvent("da:topic-scope", { detail: { done: s.sicher, total: s.total } }));
+      if (!document.getElementById("ap-pane-fortschritt")?.hidden) paintOverview();
+    }
+
+    // "Your progress": the sentence sets by level, each row opening its level, and the drilled
+    // forms as one number (a bar over 5,000 forms would never seem to move).
+    function paintOverview() {
+      const box = document.querySelector<HTMLElement>(".ap-nvb [data-snav-overview]");
+      if (!box) return;
+      const rows = LEVELS.map((lv: string) => ({ lv, s: verlauf.stats(trainer.sets.filter((x: any) => x.level === lv).flatMap(idsOfSet)) }));
+      const forms = verlauf.stats(trainer.poolFor({ vosotros: true }).map((x: any) => x.id));
+      if (!rows.some((r) => r.s.gesehen) && !forms.gesehen) {
+        box.innerHTML = `<p class="snav-empty"></p>`;
+        box.firstElementChild!.textContent = uiT("conj.prog.empty", "Nothing practised yet. Once you answer, this shows what you know securely at each level.");
+        return;
+      }
+      box.innerHTML = `${rows.map(({ lv, s }) => `
+        <button type="button" class="snav-lvl" data-snav-lvl="${lv}">
+          <span class="snav-lvl-name">${lv}</span>
+          <span class="snav-prog-bar"><span style="width:${s.total ? Math.round((s.sicher / s.total) * 100) : 0}%"></span></span>
+          <span class="snav-lvl-n">${s.sicher}/${s.total}</span>
+        </button>`).join("")}<p class="cj-forms-line"></p>`;
+      box.querySelector(".cj-forms-line")!.textContent = uiT("conj.prog.forms", "Verb forms secure in drills: {n}", { n: forms.sicher });
+      box.querySelectorAll<HTMLElement>("[data-snav-lvl]").forEach((b) => b.addEventListener("click", () => showPane(b.dataset.snavLvl!)));
+    }
+
+    // --- the rail -------------------------------------------------------------------------------
+    const railBtns = [...document.querySelectorAll<HTMLElement>(".ap-nvb [data-rail]")];
+    const panes = [...document.querySelectorAll<HTMLElement>(".ap-nvb [data-pane]")];
+    function showPane(key: string) {
+      panes.forEach((p) => { p.hidden = p.dataset.pane !== key; });
+      railBtns.forEach((b) => {
+        const on = b.dataset.rail === key;
+        b.classList.toggle("active", on);
+        b.setAttribute("aria-selected", String(on));
+      });
+    }
+    const sheetCompact = matchMedia("(max-width: 1000px)");
+    let ruleCol: any = null;
+    const toExercise = () => { if (sheetCompact.matches) ruleCol?.apply(true, false); };
+
+    railBtns.forEach((b) => b.addEventListener("click", () => {
+      const key = b.dataset.rail!;
+      if (key === "regel") return openRegel();
+      // A rail entry asks for its list, so a folded list opens; the open one folds it.
+      if (fold?.press(b)) return;
+      showPane(key);
+      if (key === "fortschritt") paintOverview();
+    }));
+    document.querySelectorAll<HTMLElement>("[data-item]").forEach((b) => b.addEventListener("click", () => {
+      const [kind, id] = b.dataset.item!.split(":");
+      current = { kind: kind as Current["kind"], id };
+      startSession();
+      toExercise();
+    }));
+
+    // --- build your own --------------------------------------------------------------------------
+    const buildStart = document.getElementById("cj-build-start") as HTMLButtonElement;
+    const buildCount = document.getElementById("cj-build-count")!;
+    function paintBuild() {
+      document.querySelectorAll<HTMLElement>("[data-tense]").forEach((c) => c.setAttribute("aria-pressed", String(build.tenses.includes(c.dataset.tense))));
+      document.querySelectorAll<HTMLElement>("[data-group]").forEach((c) => c.setAttribute("aria-pressed", String(build.groups.includes(c.dataset.group))));
+      const n = build.tenses.length && build.groups.length ? buildPool().length : 0;
+      buildCount.textContent = uiT("conj.build.count", "{n} forms", { n });
+      const why = !build.tenses.length
+        ? uiT("conj.build.needTense", "Choose at least one tense first.")
+        : !build.groups.length
+          ? uiT("conj.build.needGroup", "Choose at least one verb group first.")
+          : !n
+            ? uiT("conj.build.empty", "These verbs don't have this tense in the drills. Choose another group.")
+            : null;
+      setWaiting(buildStart, why, why ? ".cj-chips" : undefined);
+    }
+    const toggle = (list: string[], v: string) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
+    document.querySelectorAll<HTMLElement>("[data-tense]").forEach((c) => c.addEventListener("click", () => {
+      build = { ...build, tenses: toggle(build.tenses, c.dataset.tense!) };
+      save(BUILD_KEY, build);
+      paintBuild();
+    }));
+    document.querySelectorAll<HTMLElement>("[data-group]").forEach((c) => c.addEventListener("click", () => {
+      build = { ...build, groups: toggle(build.groups, c.dataset.group!) };
+      save(BUILD_KEY, build);
+      paintBuild();
+    }));
+    buildStart.addEventListener("click", () => {
+      current = { kind: "build", id: null };
+      startSession();
+      toExercise();
+    });
+
+    // --- modes and the vosotros switch ----------------------------------------------------------
+    modes.querySelectorAll<HTMLElement>("[data-mode]").forEach((btn) => btn.addEventListener("click", () => {
+      const was = modeNow();
+      mode = btn.dataset.mode!;
+      save(MODE_KEY, mode);
+      // Between pills and pills the workspace keeps the round; typing starts the same questions over.
+      if (practice && was !== "type" && mode !== "type") {
+        practice.setMode(mode);
+        paintModes();
+      } else mount();
+    }));
+    vosBox.addEventListener("change", () => {
+      vosotros = vosBox.checked;
+      save(VOS_KEY, vosotros);
+      paintBuild();
+      if (current.kind !== "set") startSession();
+    });
+
+    // --- the rule drawer ------------------------------------------------------------------------
+    const regel = document.getElementById("ap-regel")!;
+    function paintRule() {
+      const wanted = tensesOfCurrent();
+      const set = setOf();
+      regel.querySelectorAll<HTMLElement>("[data-rule-tense]").forEach((s) => { s.hidden = !wanted.includes(s.dataset.ruleTense!); });
+      regel.querySelectorAll<HTMLElement>("[data-rule-set]").forEach((s) => { s.hidden = s.dataset.ruleSet !== set?.id; });
+    }
+    const regelBtn = document.querySelector<HTMLElement>("[data-regel-open]");
+    function openRegel() {
+      document.body.classList.add("ap-regel-open");
+      regel.removeAttribute("inert");
+      regel.setAttribute("aria-hidden", "false");
+      regel.querySelector<HTMLElement>("[data-regel-close]")?.focus({ preventScroll: true });
+    }
+    function closeRegel() {
+      document.body.classList.remove("ap-regel-open");
+      regel.setAttribute("inert", "");
+      regel.setAttribute("aria-hidden", "true");
+      regelBtn?.focus({ preventScroll: true });
+    }
+    regelBtn?.addEventListener("click", openRegel);
+    document.querySelectorAll("[data-regel-close]").forEach((b) => b.addEventListener("click", closeRegel));
+    mountSwipeClose(regel, { isOpen: () => document.body.classList.contains("ap-regel-open"), onClose: closeRegel });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("ap-regel-open")) closeRegel(); });
+
+    const fold = mountSideNavFold(document.querySelector<HTMLElement>(".ap-nvb"), { page });
+
+    // --- language: words built here follow a switch ------------------------------------------------
+    onUiText(() => {
+      renderStats();
+      paintNow();
+      paintBuild();
+      railBtns.forEach((b) => {
+        if (LEVELS.includes(b.dataset.rail!)) b.setAttribute("aria-label", uiT("ap.levelName", "Level {level}", { level: b.dataset.rail }));
+      });
+    });
+
+    // --- start: ?set=… and ?drill=… open that topic, ?niveau=… that level --------------------------
+    const params = new URLSearchParams(location.search);
+    const wantSet = params.get("set");
+    const wantDrill = params.get("drill");
+    const wantLevel = (params.get("niveau") || "").toUpperCase();
+    if (wantSet && trainer.setById.has(wantSet)) current = { kind: "set", id: wantSet };
+    else if (wantDrill && trainer.presetById.has(wantDrill)) current = { kind: "drill", id: wantDrill };
+    else if (LEVELS.includes(wantLevel)) current = { kind: "drill", id: trainer.presets.find((p: any) => p.level === wantLevel).id };
+    showPane((setOf() ?? presetOf()).level);
+    paintBuild();
+    startSession();
+
+    const regelBeat = {
+      get title() { return uiT("intro.regel.title", "The rule, when you need it"); },
+      get text() { return uiT("intro.regel.text", "“Rule” opens the rule on the right — your exercise stays where it is."); },
+      target: () => regelBtn,
+      point: () => regelBtn,
+    };
+    ruleCol = mountRuleColumn(page, {
+      // Always there on a desktop (only its list folds); a closed sheet on a phone.
+      defaultHidden: ({ wide }: { wide: boolean }) => !wide,
+      seenKey: "da-conj-rule-peek",
+      sheet: true,
+      coach: [["intro.conj.title", "intro.conj.text"]],
+      coachCompact: [["intro.conjCompact.title", "intro.conjCompact.text"]],
+      beats: [regelBeat],
+      beatsCompact: [regelBeat],
+    });
+  </script>
+</Layout>

@@ -1,0 +1,71 @@
+/* /grammar/conjugation: what the /prepositions frame doesn't already give. */
+
+/* A topic row: its name, a line of samples under it, the count at the end. */
+.ap-nvb .akp-pack.cj-pack { grid-template-columns: minmax(0, 1fr) 7ch; grid-template-areas: "name state"; }
+.cj-pack-body { grid-area: name; display: flex; flex-direction: column; gap: 2px; min-width: 0; text-align: left; }
+.cj-pack-body .akp-pack-name { white-space: normal; line-height: 1.3; }
+.cj-pack-sample { font-size: .75rem; line-height: 1.35; color: var(--muted); white-space: normal; }
+
+/* Build your own: chips that switch on and off. */
+.cj-chooser { margin-top: var(--space-3, 12px); }
+.cj-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.cj-chip {
+  min-height: 36px; padding: 4px 12px;
+  border: 1.5px solid var(--border-strong); border-radius: 999px;
+  background: var(--surface-card); color: var(--ink);
+  font: 500 .85rem/1.2 var(--font-body); cursor: pointer;
+}
+.cj-chip:hover { border-color: var(--brand-blue); }
+.cj-chip[aria-pressed="true"] { background: var(--brand-blue); border-color: var(--brand-blue); color: #fff; }
+.cj-build-go { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: var(--space-4, 16px) 0 var(--space-2, 8px); }
+.cj-build-count { font-size: .85rem; color: var(--muted); }
+.cj-forms-line { margin: var(--space-3, 12px) 0 0; font-size: .85rem; color: var(--muted); }
+
+/* The mode row holds one more thing here: the vosotros switch. */
+.cj-mode-row { flex-wrap: wrap; gap: 8px 16px; }
+.cj-vos { display: inline-flex; align-items: center; gap: 6px; font-size: .85rem; color: var(--muted); cursor: pointer; }
+.cj-vos[hidden] { display: none; }
+.cj-vos input { width: 16px; height: 16px; accent-color: var(--brand-blue); }
+.akk-mode[hidden], .akk-mode-btn[hidden], .akk-mode-sep[hidden] { display: none; }
+
+/* The question. The fit layout makes the sentence a flex row sized for one noun; here it holds
+   a verb cue and a line, or a whole sentence, so it stays a block and takes a smaller size. */
+#vp-page[data-topic-key="conjugation"] .akk-focus-sentence,
+#vp-page[data-topic-key="conjugation"] .akk-test-sentence {
+  display: block;
+  text-align: center;
+  font-size: clamp(1.35rem, 3vw, 2.1rem);
+  line-height: 1.35;
+}
+#vp-page[data-topic-key="conjugation"] .akk-test-sentence { text-align: left; font-size: 1.2rem; }
+#vp-page[data-topic-key="conjugation"] .akk-focus-sentence .akk-blank { min-width: 3em; }
+.cj-cue {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 2px 10px;
+  margin-bottom: .35em;
+  font-size: 1rem; line-height: 1.4; font-weight: 400; color: var(--muted);
+}
+.cj-cue b { font-size: 1.25rem; font-weight: 700; color: var(--ink); }
+.cj-cue-tense { font-weight: 600; color: var(--brand-blue-dark); }
+.cj-line { display: block; }
+.cj-filled { font-weight: 700; color: var(--brand-blue-dark); }
+.akk-test-sentence .cj-cue { justify-content: flex-start; }
+
+/* Pills hold whole forms (nos habíamos levantado): they size to the form and wrap on a phone. */
+#vp-page[data-topic-key="conjugation"] .akk-pills { justify-content: center; flex-wrap: wrap !important; }
+#vp-page[data-topic-key="conjugation"] .akk-pill { width: auto !important; min-width: 5.5em; max-width: 100%; flex: 0 1 auto !important; padding-inline: 18px !important; white-space: normal; }
+@media (max-width: 720px) {
+  #vp-page[data-topic-key="conjugation"] .akk-pill { font-size: 1.1rem !important; min-height: 52px !important; min-width: calc(50% - 8px); }
+}
+
+/* The typed card. */
+#cj-typed-root { padding: 24px 20px 28px; }
+.cj-typed-form { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 520px; margin: 0 auto; }
+.cj-typed-form .ak-write-input { flex: 1 1 14em; min-width: 0; min-height: 48px; padding: 8px 14px; width: auto; margin: 0; }
+.cj-typed-card .ak-write-verdict { color: var(--accent-dark, #7d571a); font-weight: 600; }
+.cj-typed-card .akk-feedback:empty { display: none; }
+
+/* The rule drawer. */
+.cj-rule + .cj-rule { margin-top: 22px; }
+.cj-rule-kicker { margin: 0 0 6px; font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--brand-blue-dark); }
+.cj-rule-text { margin: 0 0 8px; line-height: 1.55; color: var(--ink); }
+.cj-rule-more { margin: 12px 0 0; font-size: .9rem; }

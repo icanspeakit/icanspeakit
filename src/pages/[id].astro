@@ -17,6 +17,7 @@ import { taskCountOf, topicKeyOf } from "../lib/grammarTasks.js";
 import "../styles/practice.css";
 import "../styles/landing.css";
 import "../styles/verben-praepositionen.css";
+import conjugationTrainer from "../data/conjugation-trainer.json";
 import "../styles/rule-intro.css";
 import "../styles/aktiv.css";
 import grammatik from "../data/grammatik.json";
@@ -123,6 +124,9 @@ const concept = workspace?.concept;
 // chips that page opens with, so practice and lookup point at each other class by class.
 const lookup = workspace?.lookup;
 const lookupChips = lookup?.chips === "wortarten" ? wortartenRef.classes.map((c) => ({ id: c.id, name: c.name })) : [];
+// A verb topic links the drill or set that practises its forms (conjugation-trainer.json, topicLinks).
+const drillLink = workspace?.id ? conjugationTrainer.topicLinks[workspace.id] : null;
+const drillHref = drillLink ? `/grammar/conjugation?${drillLink.replace(":", "=")}` : null;
 const reference = concept?.reference;
 // The rule in the learner's language (src/data/uebersetzungen/grammatik.json). A topic with
 // no entry renders exactly as before: no switch, no empty blocks.
@@ -735,6 +739,11 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
           <p class="vp-example vp-brief-example" set:html={concept.exampleHtml} />
         )}
         {concept && <button type="button" class="vp-brief-more" data-brief-more data-i18n="vp.brief.more">Ganze Regel ansehen</button>}
+        {drillHref && (
+          <div class="vp-brief-lookup">
+            <a class="vp-brief-lookup-link" href={drillHref} data-i18n="conj.topicLink">Practise these forms in the conjugation trainer</a>
+          </div>
+        )}
         {lookup && (
           <div class="vp-brief-lookup">
             <a class="vp-brief-lookup-link" href={lookup.href} lang="de">{lookup.label}</a>

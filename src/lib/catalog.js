@@ -994,6 +994,9 @@ export const quickTrainers = [
   { id: "praepositionen", href: "/prepositions",
     titleKey: "tool.praepositionen.title", title: "Präpositionen",
     hintKey: "nav.hint.fiveMin", hint: "ca. 5 Min" },
+  { id: "konjugation", href: "/grammar/conjugation",
+    titleKey: "tool.konjugation.title", title: "Conjugation trainer",
+    hintKey: "nav.hint.fiveMin", hint: "ca. 5 Min" },
 ];
 
 const LEVEL_NAMES = { A1: "Einsteiger", A2: "Grundlagen", B1: "Mittelstufe", B2: "Fortgeschritten" };

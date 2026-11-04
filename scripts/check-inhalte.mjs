@@ -260,6 +260,8 @@ function checkIdSet(datei, prefix, qs, ctx) {
 }
 checkIdSet("src/data/akkusativ.json", "g:akkusativ", read("akkusativ.json"), { area: "grammatik" });
 for (const p of read("praepositionen-trainer.json").packs) checkIdSet("src/data/praepositionen-trainer.json", "g:praepositionen", p.questions ?? [], { area: "grammatik", level: p.level });
+// Typed sets have no options to check; scripts/check-conjugation-trainer.mjs covers them.
+for (const s of read("conjugation-trainer.json").sets) if (s.kind === "choice") checkIdSet("src/data/conjugation-trainer.json", "g:conjugation", s.items, { area: "grammatik", level: s.level });
 
 // Exam sets: indices and labels.
 const examFiles = [path.join(DATA, "pruefungen", "saetze"), path.join(PAID, "pruefungen", "saetze")]

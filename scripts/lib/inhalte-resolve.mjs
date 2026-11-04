@@ -52,6 +52,16 @@ export function resolveRef(raw) {
           }
           return null;
         }
+        // The conjugation trainer: hand-written set items by id; a drill's forms (d.<verb>.<tense>.<person>)
+        // come from the verb tables and carry no text of their own.
+        if (p[0] === "conjugation" && p[1]) {
+          if (p[1].startsWith("d.")) return { datei: "src/data/verbtabellen.json", text: p[1], loesung: "", fingerprint: null };
+          for (const set of read("conjugation-trainer.json").sets) {
+            const q = set.items.find((x) => cleanRef(`g:conjugation/${x.id}`) === ref);
+            if (q) return quizItem("conjugation-trainer.json", q);
+          }
+          return null;
+        }
         if (p[0] === "artikel") return { datei: "src/content/lexicon/*.json", text: p[1], loesung: "", fingerprint: null };
         const file = `grammatik/${p[0]}.json`;
         if (!exists(file)) return null;

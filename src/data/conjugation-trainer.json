@@ -1,0 +1,2801 @@
+{
+  "_note": "The conjugation trainer (/grammar/conjugation, docs/content-plan.md §4.2). Verb forms come from verbtabellen.json through src/lib/conjugationTrainer.js; `drills` says what can be drilled, `sets` are hand-written sentences. Checked by scripts/check-conjugation-trainer.mjs.",
+  "variety": "es-ES",
+  "es419": {
+    "note": "Latin America uses ustedes, not vosotros. In a LatAm mode the vosotros forms drop out of the drills."
+  },
+  "drills": {
+    "tenses": [
+      {
+        "key": "praes",
+        "mood": "indicativo",
+        "name": "Presente",
+        "level": "A1",
+        "tip": "now and habits",
+        "rule": {
+          "text": "Take off *-ar, -er, -ir* and add the endings. Stress falls on the stem except in *nosotros* and *vosotros*, which is why stem changes (*pienso, pensamos*) skip those two.",
+          "table": {
+            "caption": "Presente",
+            "head": [
+              "",
+              "hablar",
+              "comer",
+              "vivir"
+            ],
+            "rows": [
+              [
+                "yo",
+                "hablo",
+                "como",
+                "vivo"
+              ],
+              [
+                "tú",
+                "hablas",
+                "comes",
+                "vives"
+              ],
+              [
+                "él/ella/usted",
+                "habla",
+                "come",
+                "vive"
+              ],
+              [
+                "nosotros/as",
+                "hablamos",
+                "comemos",
+                "vivimos"
+              ],
+              [
+                "vosotros/as",
+                "habláis",
+                "coméis",
+                "vivís"
+              ],
+              [
+                "ellos/ellas/ustedes",
+                "hablan",
+                "comen",
+                "viven"
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "key": "praet",
+        "mood": "indicativo",
+        "name": "Indefinido",
+        "level": "A2",
+        "tip": "the finished past",
+        "rule": {
+          "text": "Regular forms stress the ending, so *yo* and *él* carry an accent: *hablé, habló* (*hablo* is the present). Strong stems have no accent: *tuve, hizo, dijo*. *-er* and *-ir* share their endings. *-ir* stem-changers change only in *él* and *ellos*: *pidió, durmieron*.",
+          "table": {
+            "caption": "Indefinido",
+            "head": [
+              "",
+              "hablar",
+              "comer",
+              "vivir"
+            ],
+            "rows": [
+              [
+                "yo",
+                "hablé",
+                "comí",
+                "viví"
+              ],
+              [
+                "tú",
+                "hablaste",
+                "comiste",
+                "viviste"
+              ],
+              [
+                "él/ella/usted",
+                "habló",
+                "comió",
+                "vivió"
+              ],
+              [
+                "nosotros/as",
+                "hablamos",
+                "comimos",
+                "vivimos"
+              ],
+              [
+                "vosotros/as",
+                "hablasteis",
+                "comisteis",
+                "vivisteis"
+              ],
+              [
+                "ellos/ellas/ustedes",
+                "hablaron",
+                "comieron",
+                "vivieron"
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "key": "perf",
+        "mood": "compuestos",
+        "name": "Perfecto",
+        "level": "A2",
+        "tip": "the past linked to now",
+        "es419": {
+          "note": "Much of Latin America prefers the indefinido for the recent past: hoy comí, not hoy he comido."
+        },
+        "rule": {
+          "text": "The present of *haber* (*he, has, ha, hemos, habéis, han*) + participle. Regular participles: *-ado, -ido*. Learn the irregular ones: *abierto, dicho, escrito, hecho, muerto, puesto, roto, visto, vuelto*. Nothing comes between *haber* and the participle, and pronouns go before: *me he levantado*."
+        }
+      },
+      {
+        "key": "imperf",
+        "mood": "indicativo",
+        "name": "Imperfecto",
+        "level": "A2",
+        "tip": "background and past habits",
+        "rule": {
+          "text": "*-ar*: *-aba, -abas, -aba, -ábamos, -abais, -aban*. *-er* and *-ir*: *-ía, -ías, -ía, -íamos, -íais, -ían*. Only three verbs are irregular: *ser* (*era*), *ir* (*iba*), *ver* (*veía*). *yo* and *él* have the same form."
+        }
+      },
+      {
+        "key": "fut",
+        "mood": "indicativo",
+        "name": "Futuro",
+        "level": "B1",
+        "tip": "what will happen",
+        "rule": {
+          "text": "The whole infinitive + *-é, -ás, -á, -emos, -éis, -án*. Twelve common verbs have a short stem: *cabr-, dir-, habr-, har-, podr-, pondr-, querr-, sabr-, saldr-, tendr-, valdr-, vendr-*."
+        }
+      },
+      {
+        "key": "cond",
+        "mood": "indicativo",
+        "name": "Condicional",
+        "level": "B1",
+        "tip": "would: wishes, advice, polite requests",
+        "rule": {
+          "text": "The same stem as the future + *-ía, -ías, -ía, -íamos, -íais, -ían*: *hablaría, tendría*. *yo* and *él* have the same form."
+        }
+      },
+      {
+        "key": "subj",
+        "mood": "subjuntivo",
+        "name": "Presente de subjuntivo",
+        "level": "B1",
+        "tip": "wishes, doubt, feelings, the future after cuando",
+        "rule": {
+          "text": "Start from the *yo* form of the present, drop *-o*, and swap the vowel: *-ar* takes *-e* (*hable*), *-er* and *-ir* take *-a* (*coma, tenga*). Six verbs have their own stem: *sea, esté, vaya, haya, sepa, dé*. Spelling keeps the sound: *busque, llegue, empiece, coja*."
+        }
+      },
+      {
+        "key": "subjImpf",
+        "mood": "subjuntivo",
+        "name": "Imperfecto de subjuntivo",
+        "level": "B2",
+        "tip": "after a past wish, or an unreal si",
+        "rule": {
+          "text": "Start from the *ellos* form of the indefinido, drop *-ron*, add *-ra, -ras, -ra, -ramos, -rais, -ran*: *tuvieron → tuviera*. The *nosotros* form takes an accent: *tuviéramos*. The *-se* forms mean the same (*tuviese*); both are accepted when you type."
+        }
+      },
+      {
+        "key": "imp",
+        "mood": "imperativo",
+        "name": "Imperativo afirmativo",
+        "level": "A2",
+        "tip": "telling someone to do something",
+        "rule": {
+          "text": "*tú* = the *él* form of the present: *habla, come*. Eight short forms: *di, haz, pon, sal, sé, ten, ve, ven*. *vosotros*: infinitive with *-d*: *hablad*. *usted, ustedes, nosotros*: the subjunctive: *hable, hablen, hablemos*. Pronouns go on the end: *levántate, levantaos*."
+        }
+      },
+      {
+        "key": "impNeg",
+        "mood": "imperativo",
+        "name": "Imperativo negativo",
+        "level": "B1",
+        "tip": "no + subjunctive",
+        "rule": {
+          "text": "Always *no* + the subjunctive, in every person: *no hables, no hable, no habléis*. Pronouns go before the verb: *no te levantes*."
+        }
+      },
+      {
+        "key": "plusc",
+        "mood": "compuestos",
+        "name": "Pluscuamperfecto",
+        "level": "B1",
+        "tip": "what had already happened",
+        "rule": {
+          "text": "*había, habías, había, habíamos, habíais, habían* + participle: *ya había comido*."
+        }
+      },
+      {
+        "key": "futPerf",
+        "mood": "compuestos",
+        "name": "Futuro perfecto",
+        "level": "B2",
+        "tip": "what will have happened by then",
+        "rule": {
+          "text": "*habré, habrás, habrá, habremos, habréis, habrán* + participle: *para el lunes habré terminado*."
+        }
+      },
+      {
+        "key": "condPerf",
+        "mood": "compuestos",
+        "name": "Condicional perfecto",
+        "level": "B2",
+        "tip": "what would have happened",
+        "rule": {
+          "text": "*habría, habrías, habría, habríamos, habríais, habrían* + participle: *te habría avisado*."
+        }
+      },
+      {
+        "key": "subjPerf",
+        "mood": "compuestosSubj",
+        "name": "Perfecto de subjuntivo",
+        "level": "B2",
+        "tip": "a recent past after espero que, me alegro de que",
+        "rule": {
+          "text": "*haya, hayas, haya, hayamos, hayáis, hayan* + participle: *me alegro de que hayas venido*."
+        }
+      },
+      {
+        "key": "subjPlusc",
+        "mood": "compuestosSubj",
+        "name": "Pluscuamperfecto de subjuntivo",
+        "level": "B2",
+        "tip": "an unreal past after si",
+        "rule": {
+          "text": "*hubiera, hubieras, hubiera, hubiéramos, hubierais, hubieran* + participle: *si lo hubiera sabido*. The *-se* forms mean the same (*hubiese sabido*); both are accepted when you type."
+        }
+      }
+    ],
+    "groups": [
+      {
+        "id": "reg-ar",
+        "name": "Regular -ar",
+        "sample": "hablar, trabajar, buscar",
+        "verbs": [
+          "hablar",
+          "trabajar",
+          "buscar",
+          "llegar",
+          "pagar"
+        ]
+      },
+      {
+        "id": "reg-er",
+        "name": "Regular -er",
+        "sample": "comer, aprender, leer",
+        "verbs": [
+          "comer",
+          "aprender",
+          "deber",
+          "leer",
+          "coger",
+          "romper"
+        ]
+      },
+      {
+        "id": "reg-ir",
+        "name": "Regular -ir",
+        "sample": "vivir, escribir, abrir",
+        "verbs": [
+          "vivir",
+          "escribir",
+          "abrir"
+        ]
+      },
+      {
+        "id": "stem",
+        "name": "Stem-changing",
+        "sample": "pensar, volver, pedir",
+        "verbs": [
+          "pensar",
+          "cerrar",
+          "empezar",
+          "entender",
+          "preferir",
+          "sentir",
+          "contar",
+          "encontrar",
+          "volver",
+          "dormir",
+          "morir",
+          "pedir",
+          "repetir",
+          "servir",
+          "seguir",
+          "elegir",
+          "jugar",
+          "oler",
+          "soler",
+          "enviar",
+          "construir",
+          "reír"
+        ]
+      },
+      {
+        "id": "yo",
+        "name": "Irregular yo",
+        "sample": "hacer, poner, salir",
+        "verbs": [
+          "hacer",
+          "poner",
+          "salir",
+          "traer",
+          "caer",
+          "conocer",
+          "conducir",
+          "valer",
+          "ver",
+          "caber"
+        ]
+      },
+      {
+        "id": "irregular",
+        "name": "Very irregular",
+        "sample": "ser, ir, tener, decir",
+        "verbs": [
+          "ser",
+          "estar",
+          "haber",
+          "ir",
+          "tener",
+          "venir",
+          "decir",
+          "oír",
+          "dar",
+          "saber",
+          "poder",
+          "querer",
+          "andar"
+        ]
+      },
+      {
+        "id": "reflexive",
+        "name": "Reflexive",
+        "sample": "levantarse, irse",
+        "verbs": [
+          "levantarse",
+          "llamarse",
+          "ducharse",
+          "quedarse",
+          "sentarse",
+          "acostarse",
+          "vestirse",
+          "ponerse",
+          "irse"
+        ]
+      }
+    ],
+    "notDrilled": {
+      "gustar": "Used in the third person with an indirect object (me gusta); yo gusto would teach the wrong habit."
+    },
+    "limits": {
+      "haber": {
+        "only": [
+          "praes",
+          "imperf",
+          "fut",
+          "cond",
+          "subj",
+          "subjImpf"
+        ]
+      },
+      "soler": {
+        "only": [
+          "praes",
+          "imperf"
+        ]
+      },
+      "poder": {
+        "skip": [
+          "imp",
+          "impNeg"
+        ]
+      },
+      "querer": {
+        "skip": [
+          "imp",
+          "impNeg"
+        ]
+      },
+      "deber": {
+        "skip": [
+          "imp",
+          "impNeg"
+        ]
+      },
+      "saber": {
+        "skip": [
+          "imp",
+          "impNeg"
+        ]
+      },
+      "morir": {
+        "skip": [
+          "imp",
+          "impNeg"
+        ]
+      },
+      "caber": {
+        "skip": [
+          "imp",
+          "impNeg"
+        ]
+      },
+      "valer": {
+        "skip": [
+          "imp",
+          "impNeg"
+        ]
+      },
+      "oler": {
+        "skip": [
+          "imp",
+          "impNeg"
+        ]
+      },
+      "llamarse": {
+        "skip": [
+          "imp",
+          "impNeg"
+        ]
+      }
+    },
+    "presets": [
+      {
+        "id": "presente-regular",
+        "level": "A1",
+        "name": "Presente: regular verbs",
+        "sample": "hablo, comes, vivimos",
+        "tenses": [
+          "praes"
+        ],
+        "groups": [
+          "reg-ar",
+          "reg-er",
+          "reg-ir"
+        ]
+      },
+      {
+        "id": "presente-esenciales",
+        "level": "A1",
+        "name": "Presente: the verbs you need first",
+        "sample": "soy, estoy, voy, tengo",
+        "tenses": [
+          "praes"
+        ],
+        "verbs": [
+          "ser",
+          "estar",
+          "ir",
+          "tener",
+          "hacer",
+          "poder",
+          "querer",
+          "saber",
+          "venir",
+          "decir"
+        ]
+      },
+      {
+        "id": "presente-stem",
+        "level": "A1",
+        "name": "Presente: stem-changing verbs",
+        "sample": "pienso, vuelvo, pido",
+        "tenses": [
+          "praes"
+        ],
+        "groups": [
+          "stem"
+        ]
+      },
+      {
+        "id": "presente-yo",
+        "level": "A1",
+        "name": "Presente: irregular yo",
+        "sample": "hago, pongo, conozco",
+        "tenses": [
+          "praes"
+        ],
+        "groups": [
+          "yo"
+        ]
+      },
+      {
+        "id": "presente-reflexive",
+        "level": "A2",
+        "name": "Presente: reflexive verbs",
+        "sample": "me levanto, te duchas",
+        "tenses": [
+          "praes"
+        ],
+        "groups": [
+          "reflexive"
+        ]
+      },
+      {
+        "id": "indefinido-regular",
+        "level": "A2",
+        "name": "Indefinido: regular verbs",
+        "sample": "hablé, comiste, busqué",
+        "tenses": [
+          "praet"
+        ],
+        "groups": [
+          "reg-ar",
+          "reg-er",
+          "reg-ir"
+        ]
+      },
+      {
+        "id": "indefinido-irregular",
+        "level": "A2",
+        "name": "Indefinido: irregular verbs",
+        "sample": "tuve, hice, fui, dije",
+        "tenses": [
+          "praet"
+        ],
+        "groups": [
+          "yo",
+          "irregular"
+        ]
+      },
+      {
+        "id": "perfecto",
+        "level": "A2",
+        "name": "Perfecto: he comido, he hecho",
+        "sample": "he hablado, has visto",
+        "tenses": [
+          "perf"
+        ],
+        "groups": [
+          "reg-ar",
+          "reg-er",
+          "reg-ir",
+          "yo",
+          "irregular"
+        ]
+      },
+      {
+        "id": "imperfecto",
+        "level": "A2",
+        "name": "Imperfecto",
+        "sample": "hablaba, comías, era, iba",
+        "tenses": [
+          "imperf"
+        ]
+      },
+      {
+        "id": "imperativo-afirmativo",
+        "level": "A2",
+        "name": "Imperative: do it",
+        "sample": "habla, ven, siéntese",
+        "tenses": [
+          "imp"
+        ]
+      },
+      {
+        "id": "indefinido-stem",
+        "level": "B1",
+        "name": "Indefinido: stem-changing verbs",
+        "sample": "pidió, durmieron, empecé",
+        "tenses": [
+          "praet"
+        ],
+        "groups": [
+          "stem"
+        ]
+      },
+      {
+        "id": "futuro",
+        "level": "B1",
+        "name": "Futuro",
+        "sample": "hablaré, tendrás, habrá",
+        "tenses": [
+          "fut"
+        ]
+      },
+      {
+        "id": "condicional",
+        "level": "B1",
+        "name": "Condicional",
+        "sample": "hablaría, podrías, diría",
+        "tenses": [
+          "cond"
+        ]
+      },
+      {
+        "id": "imperativo-negativo",
+        "level": "B1",
+        "name": "Imperative: don't do it",
+        "sample": "no hables, no vengas",
+        "tenses": [
+          "impNeg"
+        ]
+      },
+      {
+        "id": "subjuntivo-presente",
+        "level": "B1",
+        "name": "Present subjunctive",
+        "sample": "hable, tenga, vaya",
+        "tenses": [
+          "subj"
+        ]
+      },
+      {
+        "id": "pluscuamperfecto",
+        "level": "B1",
+        "name": "Pluscuamperfecto",
+        "sample": "había comido, habías visto",
+        "tenses": [
+          "plusc"
+        ]
+      },
+      {
+        "id": "subjuntivo-imperfecto",
+        "level": "B2",
+        "name": "Imperfect subjunctive",
+        "sample": "hablara, tuviera, fuese",
+        "tenses": [
+          "subjImpf"
+        ]
+      },
+      {
+        "id": "futuro-condicional-perfecto",
+        "level": "B2",
+        "name": "Would have, will have",
+        "sample": "habré ido, habría dicho",
+        "tenses": [
+          "futPerf",
+          "condPerf"
+        ]
+      },
+      {
+        "id": "subjuntivo-compuesto",
+        "level": "B2",
+        "name": "Compound subjunctive",
+        "sample": "haya visto, hubiera dicho",
+        "tenses": [
+          "subjPerf",
+          "subjPlusc"
+        ]
+      }
+    ]
+  },
+  "topicLinks": {
+    "praesens": "drill:presente-regular",
+    "konjugation": "drill:presente-esenciales",
+    "praeteritum-sein-haben": "drill:presente-stem",
+    "reflexive-verben": "drill:presente-reflexive",
+    "perfekt": "drill:perfecto",
+    "zusammengesetzte-verben": "drill:indefinido-regular",
+    "n-deklination": "drill:imperfecto",
+    "futur": "drill:futuro",
+    "funktionen-von-werden": "drill:condicional",
+    "imperativ": "drill:imperativo-afirmativo",
+    "infinitiv-mit-zu": "drill:subjuntivo-presente",
+    "konjunktiv2": "drill:subjuntivo-imperfecto",
+    "passiv-b1": "drill:pluscuamperfecto",
+    "verb-position-2": "set:ser-estar-a1",
+    "nutzen-benutzen": "set:ser-estar-b1",
+    "praeteritum-plusquamperfekt": "set:indefinido-imperfecto-b1",
+    "verben-als-nomen": "set:subjuntivo-indicativo-b1",
+    "zweiteilige-konnektoren": "set:subjuntivo-indicativo-b2"
+  },
+  "sets": [
+    {
+      "id": "ser-estar-a1",
+      "level": "A1",
+      "title": "ser or estar: the basics",
+      "kind": "choice",
+      "variety": "es-ES",
+      "lead": "Who or what something is, or where and how it is right now.",
+      "rule": {
+        "text": "*ser* says what something is: identity, job, origin, character, time and date. *estar* says where something is and how it is at the moment.",
+        "table": {
+          "caption": "ser or estar",
+          "head": [
+            "Verb",
+            "Use",
+            "Example"
+          ],
+          "rows": [
+            [
+              "ser",
+              "who or what: identity, job, origin",
+              "Soy enfermera. Es de Perú."
+            ],
+            [
+              "ser",
+              "what someone or something is like",
+              "Mis vecinos son simpáticos."
+            ],
+            [
+              "ser",
+              "time, day, date, total price",
+              "Son las tres. Hoy es lunes. Son veinte euros."
+            ],
+            [
+              "estar",
+              "where someone or something is",
+              "El banco está en la plaza."
+            ],
+            [
+              "estar",
+              "how someone or something is now",
+              "Estoy cansada. El café está frío."
+            ],
+            [
+              "estar",
+              "estar + gerund: happening now",
+              "Estoy trabajando."
+            ]
+          ]
+        }
+      },
+      "more": {
+        "href": "/grammar/verbs#ser",
+        "key": "conj.more.tables",
+        "label": "ser, estar and the other verb tables"
+      },
+      "items": [
+        {
+          "id": "ser-estar-a1-01",
+          "prompt": "Yo ___ de Marruecos.",
+          "options": [
+            "soy",
+            "estoy"
+          ],
+          "answer": "soy",
+          "explain": "Origin: ser de + place."
+        },
+        {
+          "id": "ser-estar-a1-02",
+          "prompt": "Mi hermana ___ enfermera.",
+          "options": [
+            "es",
+            "está"
+          ],
+          "answer": "es",
+          "explain": "A job says who she is: ser, with no article."
+        },
+        {
+          "id": "ser-estar-a1-03",
+          "prompt": "Ahora mismo mi marido ___ en el trabajo.",
+          "options": [
+            "está",
+            "es"
+          ],
+          "answer": "está",
+          "explain": "Where a person is: estar."
+        },
+        {
+          "id": "ser-estar-a1-04",
+          "prompt": "Hoy ___ muy cansada.",
+          "options": [
+            "estoy",
+            "soy"
+          ],
+          "answer": "estoy",
+          "explain": "How you feel today is a state: estar."
+        },
+        {
+          "id": "ser-estar-a1-05",
+          "prompt": "Madrid ___ la capital de España.",
+          "options": [
+            "es",
+            "está"
+          ],
+          "answer": "es",
+          "explain": "Identity, one thing equals another: ser."
+        },
+        {
+          "id": "ser-estar-a1-06",
+          "prompt": "¿Dónde ___ el centro de salud?",
+          "options": [
+            "está",
+            "es"
+          ],
+          "answer": "está",
+          "explain": "Where a building is: estar."
+        },
+        {
+          "id": "ser-estar-a1-07",
+          "prompt": "Esta tarde ___ en casa, ven cuando quieras.",
+          "options": [
+            "estamos",
+            "somos"
+          ],
+          "answer": "estamos",
+          "explain": "Where we are: estar."
+        },
+        {
+          "id": "ser-estar-a1-08",
+          "prompt": "El café ___ frío, voy a calentarlo.",
+          "options": [
+            "está",
+            "es"
+          ],
+          "answer": "está",
+          "explain": "How it is now, not what coffee is like: estar."
+        },
+        {
+          "id": "ser-estar-a1-09",
+          "prompt": "¿De dónde ___, Amina?",
+          "options": [
+            "eres",
+            "estás"
+          ],
+          "answer": "eres",
+          "explain": "Asking about origin: ser de."
+        },
+        {
+          "id": "ser-estar-a1-10",
+          "prompt": "Hoy ___ lunes.",
+          "options": [
+            "es",
+            "está"
+          ],
+          "answer": "es",
+          "explain": "Days of the week: ser."
+        },
+        {
+          "id": "ser-estar-a1-11",
+          "prompt": "Ya ___ las tres y media.",
+          "options": [
+            "son",
+            "están"
+          ],
+          "answer": "son",
+          "explain": "Clock time: ser. Plural because of las tres."
+        },
+        {
+          "id": "ser-estar-a1-12",
+          "prompt": "Mis vecinos ___ muy simpáticos: siempre nos ayudan.",
+          "options": [
+            "son",
+            "están"
+          ],
+          "answer": "son",
+          "explain": "What people are like: ser. The word siempre points to character."
+        },
+        {
+          "id": "ser-estar-a1-13",
+          "prompt": "Los domingos la farmacia ___ cerrada.",
+          "options": [
+            "está",
+            "es"
+          ],
+          "answer": "está",
+          "explain": "cerrada is the state it is in: estar + participle."
+        },
+        {
+          "id": "ser-estar-a1-14",
+          "prompt": "Buenos días, señora García. ¿Cómo ___ usted?",
+          "options": [
+            "está",
+            "es"
+          ],
+          "answer": "está",
+          "explain": "How someone is doing: ¿Cómo está? ¿Cómo es? asks what someone is like."
+        },
+        {
+          "id": "ser-estar-a1-15",
+          "prompt": "Este piso ___ muy pequeño, solo tiene una habitación.",
+          "options": [
+            "es",
+            "está"
+          ],
+          "answer": "es",
+          "explain": "A description of the flat itself: ser.",
+          "es419": {
+            "note": "Latin America: departamento or apartamento for piso."
+          }
+        },
+        {
+          "id": "ser-estar-a1-16",
+          "prompt": "Vosotros ___ de Colombia, ¿verdad?",
+          "options": [
+            "sois",
+            "estáis"
+          ],
+          "answer": "sois",
+          "explain": "Origin: ser de. Vosotros form: sois.",
+          "es419": {
+            "note": "Latin America uses ustedes here: ustedes son.",
+            "skip": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "ser-estar-a2",
+      "level": "A2",
+      "title": "ser or estar: materials, prices, states",
+      "kind": "choice",
+      "variety": "es-ES",
+      "lead": "Results and states with estar; material, owner and description with ser.",
+      "rule": {
+        "text": "*ser de*: material and owner (*es de madera, es de mi hermano*). *estar* + participle: the state something is in (*está cerrado*). *estar* + gerund: what is happening now (*estoy trabajando*). With prices, *¿Cuánto es?* asks for a total; *¿A cuánto está?* asks for a price that changes.",
+        "table": {
+          "caption": "ser or estar",
+          "head": [
+            "Verb",
+            "Use",
+            "Example"
+          ],
+          "rows": [
+            [
+              "ser",
+              "who or what: identity, job, origin",
+              "Soy enfermera. Es de Perú."
+            ],
+            [
+              "ser",
+              "what someone or something is like",
+              "Mis vecinos son simpáticos."
+            ],
+            [
+              "ser",
+              "time, day, date, total price",
+              "Son las tres. Hoy es lunes. Son veinte euros."
+            ],
+            [
+              "estar",
+              "where someone or something is",
+              "El banco está en la plaza."
+            ],
+            [
+              "estar",
+              "how someone or something is now",
+              "Estoy cansada. El café está frío."
+            ],
+            [
+              "estar",
+              "estar + gerund: happening now",
+              "Estoy trabajando."
+            ]
+          ]
+        }
+      },
+      "more": {
+        "href": "/grammar/verbs#estar",
+        "key": "conj.more.tables",
+        "label": "ser, estar and the other verb tables"
+      },
+      "items": [
+        {
+          "id": "ser-estar-a2-01",
+          "prompt": "El banco ___ cerrado hoy porque es festivo.",
+          "options": [
+            "está",
+            "es"
+          ],
+          "answer": "está",
+          "explain": "cerrado is a result, the state the bank is in: estar + participle."
+        },
+        {
+          "id": "ser-estar-a2-02",
+          "prompt": "Esta mesa ___ de madera.",
+          "options": [
+            "es",
+            "está"
+          ],
+          "answer": "es",
+          "explain": "Material: ser de."
+        },
+        {
+          "id": "ser-estar-a2-03",
+          "prompt": "Este abrigo ___ de mi hermano.",
+          "options": [
+            "es",
+            "está"
+          ],
+          "answer": "es",
+          "explain": "Owner: ser de."
+        },
+        {
+          "id": "ser-estar-a2-04",
+          "prompt": "Perdona, ahora no puedo hablar: ___ trabajando.",
+          "options": [
+            "estoy",
+            "soy"
+          ],
+          "answer": "estoy",
+          "explain": "An action in progress: estar + gerund."
+        },
+        {
+          "id": "ser-estar-a2-05",
+          "prompt": "Mi madre ___ enferma desde el lunes.",
+          "options": [
+            "está",
+            "es"
+          ],
+          "answer": "está",
+          "explain": "Illness is a state: estar."
+        },
+        {
+          "id": "ser-estar-a2-06",
+          "prompt": "El doctor Ruiz ___ una persona muy amable.",
+          "options": [
+            "es",
+            "está"
+          ],
+          "answer": "es",
+          "explain": "Before a noun (una persona) always ser, never estar."
+        },
+        {
+          "id": "ser-estar-a2-07",
+          "prompt": "Las ventanas ___ abiertas porque hace calor.",
+          "options": [
+            "están",
+            "son"
+          ],
+          "answer": "están",
+          "explain": "abiertas is the state they are in: estar + participle."
+        },
+        {
+          "id": "ser-estar-a2-08",
+          "prompt": "¿A cuánto ___ los tomates hoy?",
+          "options": [
+            "están",
+            "son"
+          ],
+          "answer": "están",
+          "explain": "A price that changes from day to day: ¿A cuánto está? or ¿A cuánto están?"
+        },
+        {
+          "id": "ser-estar-a2-09",
+          "prompt": "En total ___ veinte euros, señora.",
+          "options": [
+            "son",
+            "están"
+          ],
+          "answer": "son",
+          "explain": "The total to pay: ser."
+        },
+        {
+          "id": "ser-estar-a2-10",
+          "prompt": "Mi hijo ___ alto y moreno, como su padre.",
+          "options": [
+            "es",
+            "está"
+          ],
+          "answer": "es",
+          "explain": "What someone looks like: ser."
+        },
+        {
+          "id": "ser-estar-a2-11",
+          "prompt": "¡Qué guapa ___ hoy con ese vestido!",
+          "options": [
+            "estás",
+            "eres"
+          ],
+          "answer": "estás",
+          "explain": "How she looks today, not in general: estar."
+        },
+        {
+          "id": "ser-estar-a2-12",
+          "prompt": "Mañana ___ 15 de marzo.",
+          "options": [
+            "es",
+            "está"
+          ],
+          "answer": "es",
+          "explain": "The date: ser. You will also hear estamos a 15 de marzo."
+        },
+        {
+          "id": "ser-estar-a2-13",
+          "prompt": "Ya ___ en casa: acabo de llegar.",
+          "options": [
+            "estoy",
+            "soy"
+          ],
+          "answer": "estoy",
+          "explain": "Where you are: estar."
+        },
+        {
+          "id": "ser-estar-a2-14",
+          "prompt": "Todos ___ contentos con el nuevo horario.",
+          "options": [
+            "estamos",
+            "somos"
+          ],
+          "answer": "estamos",
+          "explain": "A feeling about something specific: estar contento con."
+        },
+        {
+          "id": "ser-estar-a2-15",
+          "prompt": "Este ejercicio ___ muy fácil, lo hago en dos minutos.",
+          "options": [
+            "es",
+            "está"
+          ],
+          "answer": "es",
+          "explain": "What the exercise is like: ser."
+        },
+        {
+          "id": "ser-estar-a2-16",
+          "prompt": "La comida ___ muy rica, ¿quién la ha hecho?",
+          "options": [
+            "está",
+            "es"
+          ],
+          "answer": "está",
+          "explain": "How food tastes when you eat it: estar rico."
+        }
+      ]
+    },
+    {
+      "id": "ser-estar-b1",
+      "level": "B1",
+      "title": "ser or estar: when the meaning changes",
+      "kind": "choice",
+      "variety": "es-ES",
+      "lead": "listo, aburrido, malo, seguro, rico: the verb changes what the word means. Events, and the passive.",
+      "rule": {
+        "text": "Some adjectives change meaning. Events take *ser* for their place and time (*la reunión es en la sala 3*), though people and things take *estar*. *ser* + participle is the passive, the action (*fue escrito*); *estar* + participle is the result (*está firmado*). *estar de* + job: a temporary job.",
+        "table": {
+          "caption": "Same word, two meanings",
+          "head": [
+            "Word",
+            "with ser",
+            "with estar"
+          ],
+          "rows": [
+            [
+              "listo",
+              "clever",
+              "ready"
+            ],
+            [
+              "aburrido",
+              "boring",
+              "bored"
+            ],
+            [
+              "malo",
+              "bad",
+              "ill (Spain)"
+            ],
+            [
+              "seguro",
+              "safe",
+              "sure, certain"
+            ],
+            [
+              "rico",
+              "rich",
+              "tasty"
+            ]
+          ]
+        }
+      },
+      "more": {
+        "href": "/grammar/verbs#ser",
+        "key": "conj.more.tables",
+        "label": "ser, estar and the other verb tables"
+      },
+      "items": [
+        {
+          "id": "ser-estar-b1-01",
+          "prompt": "La reunión ___ en la sala 3.",
+          "options": [
+            "es",
+            "está"
+          ],
+          "answer": "es",
+          "explain": "An event: its place takes ser."
+        },
+        {
+          "id": "ser-estar-b1-02",
+          "prompt": "Mi jefa ___ en la sala 3.",
+          "options": [
+            "está",
+            "es"
+          ],
+          "answer": "está",
+          "explain": "A person, not an event: estar for where she is."
+        },
+        {
+          "id": "ser-estar-b1-03",
+          "prompt": "Marta ___ muy lista: lo aprende todo rapidísimo.",
+          "options": [
+            "es",
+            "está"
+          ],
+          "answer": "es",
+          "explain": "ser listo = to be clever."
+        },
+        {
+          "id": "ser-estar-b1-04",
+          "prompt": "¿___ lista? Nos vamos ya.",
+          "options": [
+            "Estás",
+            "Eres"
+          ],
+          "answer": "Estás",
+          "explain": "estar listo = to be ready."
+        },
+        {
+          "id": "ser-estar-b1-05",
+          "prompt": "Esta película ___ muy aburrida.",
+          "options": [
+            "es",
+            "está"
+          ],
+          "answer": "es",
+          "explain": "ser aburrido = to be boring."
+        },
+        {
+          "id": "ser-estar-b1-06",
+          "prompt": "Los niños ___ aburridos porque llueve y no pueden salir.",
+          "options": [
+            "están",
+            "son"
+          ],
+          "answer": "están",
+          "explain": "estar aburrido = to be bored."
+        },
+        {
+          "id": "ser-estar-b1-07",
+          "prompt": "Hoy no voy a trabajar porque ___ malo.",
+          "options": [
+            "estoy",
+            "soy"
+          ],
+          "answer": "estoy",
+          "explain": "estar malo = to be ill, as said in Spain. Soy malo = I'm bad.",
+          "es419": {
+            "note": "Latin America says estar enfermo more often than estar malo for being ill."
+          }
+        },
+        {
+          "id": "ser-estar-b1-08",
+          "prompt": "Fumar ___ malo para la salud.",
+          "options": [
+            "es",
+            "está"
+          ],
+          "answer": "es",
+          "explain": "ser malo = to be bad for something."
+        },
+        {
+          "id": "ser-estar-b1-09",
+          "prompt": "Este barrio ___ seguro: se puede pasear de noche.",
+          "options": [
+            "es",
+            "está"
+          ],
+          "answer": "es",
+          "explain": "ser seguro = to be safe."
+        },
+        {
+          "id": "ser-estar-b1-10",
+          "prompt": "No ___ seguro de la fecha: tengo que mirarlo.",
+          "options": [
+            "estoy",
+            "soy"
+          ],
+          "answer": "estoy",
+          "explain": "estar seguro de = to be sure about."
+        },
+        {
+          "id": "ser-estar-b1-11",
+          "prompt": "El Quijote ___ escrito por Cervantes.",
+          "options": [
+            "fue",
+            "estaba"
+          ],
+          "answer": "fue",
+          "explain": "The passive, an action with its agent (por Cervantes): ser + participle."
+        },
+        {
+          "id": "ser-estar-b1-12",
+          "prompt": "Cuando llegué, la puerta ya ___ abierta.",
+          "options": [
+            "estaba",
+            "era"
+          ],
+          "answer": "estaba",
+          "explain": "The state of the door at that moment: estar + participle."
+        },
+        {
+          "id": "ser-estar-b1-13",
+          "prompt": "Mi cuñado ___ de camarero en Málaga este verano.",
+          "options": [
+            "está",
+            "es"
+          ],
+          "answer": "está",
+          "explain": "estar de + job: temporary work, whatever his usual job is."
+        },
+        {
+          "id": "ser-estar-b1-14",
+          "prompt": "La boda ___ en septiembre.",
+          "options": [
+            "es",
+            "está"
+          ],
+          "answer": "es",
+          "explain": "An event: its time takes ser."
+        },
+        {
+          "id": "ser-estar-b1-15",
+          "prompt": "Ese señor ___ muy rico: tiene tres empresas.",
+          "options": [
+            "es",
+            "está"
+          ],
+          "answer": "es",
+          "explain": "ser rico = to have a lot of money."
+        },
+        {
+          "id": "ser-estar-b1-16",
+          "prompt": "Esta paella ___ riquísima.",
+          "options": [
+            "está",
+            "es"
+          ],
+          "answer": "está",
+          "explain": "estar rico = to taste good."
+        },
+        {
+          "id": "ser-estar-b1-17",
+          "prompt": "El contrato ya ___ firmado; no hace falta hacer nada más.",
+          "options": [
+            "está",
+            "es"
+          ],
+          "answer": "está",
+          "explain": "The result of the action, the state of the contract now: estar + participle."
+        }
+      ]
+    },
+    {
+      "id": "por-para-b1",
+      "level": "B1",
+      "title": "por or para in real situations",
+      "kind": "choice",
+      "variety": "es-ES",
+      "lead": "para looks ahead to a goal; por looks back at a cause, or at the way something happens.",
+      "rule": {
+        "text": "*para* points forward: purpose, who receives it, destination, deadline, an opinion (*para mí*), a comparison (*para ser extranjero*). *por* gives the cause or the way: reason, exchange, means, the way through, the agent of a passive, part of the day, frequency, on behalf of.",
+        "table": {
+          "caption": "por or para",
+          "head": [
+            "Word",
+            "Use",
+            "Example"
+          ],
+          "rows": [
+            [
+              "para",
+              "purpose",
+              "Estudio para aprobar."
+            ],
+            [
+              "para",
+              "who or what it is for",
+              "Es para el dolor de cabeza."
+            ],
+            [
+              "para",
+              "deadline, destination",
+              "Para el lunes. El tren para Bilbao."
+            ],
+            [
+              "por",
+              "reason",
+              "Cerrado por obras."
+            ],
+            [
+              "por",
+              "exchange, means",
+              "Veinte euros por eso. Por correo."
+            ],
+            [
+              "por",
+              "the way through, agent",
+              "Pasa por Córdoba. Firmado por la directora."
+            ],
+            [
+              "por",
+              "in place of, frequency",
+              "Voy yo por ti. Dos veces por semana."
+            ]
+          ]
+        }
+      },
+      "more": {
+        "href": "/prepositions?niveau=B1",
+        "key": "conj.more.porPara",
+        "label": "More por and para in the prepositions trainer"
+      },
+      "items": [
+        {
+          "id": "por-para-b1-01",
+          "prompt": "Necesito el certificado ___ el lunes.",
+          "options": [
+            "para",
+            "por"
+          ],
+          "answer": "para",
+          "explain": "A deadline: para."
+        },
+        {
+          "id": "por-para-b1-02",
+          "prompt": "Trabajo ___ una empresa de limpieza.",
+          "options": [
+            "para",
+            "por"
+          ],
+          "answer": "para",
+          "explain": "Your employer, the one who gets your work: para."
+        },
+        {
+          "id": "por-para-b1-03",
+          "prompt": "Estudio español ___ conseguir la nacionalidad.",
+          "options": [
+            "para",
+            "por"
+          ],
+          "answer": "para",
+          "explain": "Purpose: para + infinitive."
+        },
+        {
+          "id": "por-para-b1-04",
+          "prompt": "Te llamo ___ la tarde.",
+          "options": [
+            "por",
+            "para"
+          ],
+          "answer": "por",
+          "explain": "Part of the day without a clock time: por la tarde."
+        },
+        {
+          "id": "por-para-b1-05",
+          "prompt": "Cerrado ___ obras.",
+          "options": [
+            "por",
+            "para"
+          ],
+          "answer": "por",
+          "explain": "Reason: closed because of building work."
+        },
+        {
+          "id": "por-para-b1-06",
+          "prompt": "He pagado cuarenta euros ___ estos zapatos.",
+          "options": [
+            "por",
+            "para"
+          ],
+          "answer": "por",
+          "explain": "Exchange: money for a thing."
+        },
+        {
+          "id": "por-para-b1-07",
+          "prompt": "___ mí, el horario es lo más importante.",
+          "options": [
+            "Para",
+            "Por"
+          ],
+          "answer": "Para",
+          "explain": "An opinion: para mí = in my view."
+        },
+        {
+          "id": "por-para-b1-08",
+          "prompt": "Mándame el documento ___ correo electrónico.",
+          "options": [
+            "por",
+            "para"
+          ],
+          "answer": "por",
+          "explain": "Means: by email."
+        },
+        {
+          "id": "por-para-b1-09",
+          "prompt": "El tren a Sevilla pasa ___ Córdoba.",
+          "options": [
+            "por",
+            "para"
+          ],
+          "answer": "por",
+          "explain": "The way through: por."
+        },
+        {
+          "id": "por-para-b1-10",
+          "prompt": "Esta carta es ___ el casero.",
+          "options": [
+            "para",
+            "por"
+          ],
+          "answer": "para",
+          "explain": "Who receives it: para.",
+          "es419": {
+            "note": "casero = landlord in Spain. Latin America often says dueño."
+          }
+        },
+        {
+          "id": "por-para-b1-11",
+          "prompt": "___ ser extranjero, hablas muy bien.",
+          "options": [
+            "Para",
+            "Por"
+          ],
+          "answer": "Para",
+          "explain": "Comparison with what is expected: para ser…"
+        },
+        {
+          "id": "por-para-b1-12",
+          "prompt": "Gracias ___ venir.",
+          "options": [
+            "por",
+            "para"
+          ],
+          "answer": "por",
+          "explain": "Reason for thanks: gracias por."
+        },
+        {
+          "id": "por-para-b1-13",
+          "prompt": "El tren ___ Bilbao sale de la vía 4.",
+          "options": [
+            "para",
+            "por"
+          ],
+          "answer": "para",
+          "explain": "Destination: para."
+        },
+        {
+          "id": "por-para-b1-14",
+          "prompt": "El contrato fue firmado ___ la directora.",
+          "options": [
+            "por",
+            "para"
+          ],
+          "answer": "por",
+          "explain": "Agent of a passive: por."
+        },
+        {
+          "id": "por-para-b1-15",
+          "prompt": "Hoy no puedes ir tú; voy yo ___ ti.",
+          "options": [
+            "por",
+            "para"
+          ],
+          "answer": "por",
+          "explain": "In your place: por ti."
+        },
+        {
+          "id": "por-para-b1-16",
+          "prompt": "Voy al gimnasio dos veces ___ semana.",
+          "options": [
+            "por",
+            "para"
+          ],
+          "answer": "por",
+          "explain": "Frequency: por semana. You will also hear a la semana."
+        },
+        {
+          "id": "por-para-b1-17",
+          "prompt": "Esta pastilla es ___ el dolor de cabeza.",
+          "options": [
+            "para",
+            "por"
+          ],
+          "answer": "para",
+          "explain": "What it is meant for: para."
+        },
+        {
+          "id": "por-para-b1-18",
+          "prompt": "Llegué tarde ___ el tráfico.",
+          "options": [
+            "por",
+            "para"
+          ],
+          "answer": "por",
+          "explain": "Cause: por."
+        }
+      ]
+    },
+    {
+      "id": "indefinido-imperfecto-b1",
+      "level": "B1",
+      "title": "indefinido or imperfecto in context",
+      "kind": "choice",
+      "variety": "es-ES",
+      "lead": "The indefinido moves the story on; the imperfecto paints the background.",
+      "rule": {
+        "text": "*Indefinido*: a finished event, one thing after another, or a period with a clear end (*viví allí tres años*). *Imperfecto*: background, description, time of day, age, habits in the past, and what was going on when something happened.",
+        "table": {
+          "caption": "indefinido or imperfecto",
+          "head": [
+            "Tense",
+            "Use",
+            "Example"
+          ],
+          "rows": [
+            [
+              "indefinido",
+              "finished event",
+              "Ayer fui al médico."
+            ],
+            [
+              "indefinido",
+              "a period with an end",
+              "Viví en Madrid tres años."
+            ],
+            [
+              "imperfecto",
+              "habit in the past",
+              "De niña iba al colegio andando."
+            ],
+            [
+              "imperfecto",
+              "background, description",
+              "Eran las nueve. Hacía frío."
+            ],
+            [
+              "both",
+              "ongoing + interruption",
+              "Mientras cocinaba, sonó el teléfono."
+            ]
+          ]
+        }
+      },
+      "more": {
+        "href": "/grammar/verbs#hablar",
+        "key": "conj.more.tables",
+        "label": "All forms in the verb tables"
+      },
+      "items": [
+        {
+          "id": "indefinido-imperfecto-b1-01",
+          "prompt": "Ayer ___ al médico por la mañana.",
+          "options": [
+            "fui",
+            "iba"
+          ],
+          "answer": "fui",
+          "explain": "A finished event on a given day: indefinido."
+        },
+        {
+          "id": "indefinido-imperfecto-b1-02",
+          "prompt": "Cuando era pequeño, ___ al colegio andando todos los días.",
+          "options": [
+            "iba",
+            "fui"
+          ],
+          "answer": "iba",
+          "explain": "A habit in the past (todos los días): imperfecto."
+        },
+        {
+          "id": "indefinido-imperfecto-b1-03",
+          "prompt": "___ las nueve cuando llegó la policía.",
+          "options": [
+            "Eran",
+            "Fueron"
+          ],
+          "answer": "Eran",
+          "explain": "Clock time in a story is background: imperfecto."
+        },
+        {
+          "id": "indefinido-imperfecto-b1-04",
+          "prompt": "Mientras yo ___ la cena, sonó el teléfono.",
+          "options": [
+            "preparaba",
+            "preparé"
+          ],
+          "answer": "preparaba",
+          "explain": "What was going on when something happened: imperfecto."
+        },
+        {
+          "id": "indefinido-imperfecto-b1-05",
+          "prompt": "Mientras preparaba la cena, ___ el teléfono.",
+          "options": [
+            "sonó",
+            "sonaba"
+          ],
+          "answer": "sonó",
+          "explain": "The event that interrupts: indefinido."
+        },
+        {
+          "id": "indefinido-imperfecto-b1-06",
+          "prompt": "En 2019 ___ a España con mi familia.",
+          "options": [
+            "vine",
+            "venía"
+          ],
+          "answer": "vine",
+          "explain": "A single finished event, with a date: indefinido."
+        },
+        {
+          "id": "indefinido-imperfecto-b1-07",
+          "prompt": "De niña ___ en un pueblo de Ecuador.",
+          "options": [
+            "vivía",
+            "viví"
+          ],
+          "answer": "vivía",
+          "explain": "Your life at that age, as a description: imperfecto."
+        },
+        {
+          "id": "indefinido-imperfecto-b1-08",
+          "prompt": "___ en Madrid tres años y luego me mudé a Bilbao.",
+          "options": [
+            "Viví",
+            "Vivía"
+          ],
+          "answer": "Viví",
+          "explain": "A period with a clear length and end: indefinido."
+        },
+        {
+          "id": "indefinido-imperfecto-b1-09",
+          "prompt": "Hacía mucho frío y ___ mucha gente en la cola.",
+          "options": [
+            "había",
+            "hubo"
+          ],
+          "answer": "había",
+          "explain": "Describing the scene: imperfecto."
+        },
+        {
+          "id": "indefinido-imperfecto-b1-10",
+          "prompt": "El martes pasado ___ un accidente en la M-30.",
+          "options": [
+            "hubo",
+            "había"
+          ],
+          "answer": "hubo",
+          "explain": "Something that happened once: indefinido."
+        },
+        {
+          "id": "indefinido-imperfecto-b1-11",
+          "prompt": "No ___ nada de español cuando llegué a España.",
+          "options": [
+            "sabía",
+            "supe"
+          ],
+          "answer": "sabía",
+          "explain": "Your state at that moment: imperfecto. Supe would mean \"I found out\"."
+        },
+        {
+          "id": "indefinido-imperfecto-b1-12",
+          "prompt": "Antes ___ en una fábrica, pero ahora trabajo en un hospital.",
+          "options": [
+            "trabajaba",
+            "trabajé"
+          ],
+          "answer": "trabajaba",
+          "explain": "antes + how things used to be: imperfecto."
+        },
+        {
+          "id": "indefinido-imperfecto-b1-13",
+          "prompt": "Ayer me ___ temprano, a las seis.",
+          "options": [
+            "levanté",
+            "levantaba"
+          ],
+          "answer": "levanté",
+          "explain": "One finished event yesterday: indefinido."
+        },
+        {
+          "id": "indefinido-imperfecto-b1-14",
+          "prompt": "Todos los veranos ___ a la playa con mis tíos.",
+          "options": [
+            "íbamos",
+            "fuimos"
+          ],
+          "answer": "íbamos",
+          "explain": "A repeated habit: imperfecto."
+        },
+        {
+          "id": "indefinido-imperfecto-b1-15",
+          "prompt": "Cuando la vi, ___ una camisa blanca.",
+          "options": [
+            "llevaba",
+            "llevó"
+          ],
+          "answer": "llevaba",
+          "explain": "Describing what she looked like: imperfecto."
+        },
+        {
+          "id": "indefinido-imperfecto-b1-16",
+          "prompt": "Anoche no ___ bien y hoy estoy cansado.",
+          "options": [
+            "dormí",
+            "dormía"
+          ],
+          "answer": "dormí",
+          "explain": "One finished night: indefinido."
+        }
+      ]
+    },
+    {
+      "id": "subjuntivo-indicativo-b1",
+      "level": "B1",
+      "title": "subjunctive or indicative: the common triggers",
+      "kind": "choice",
+      "variety": "es-ES",
+      "lead": "Wishes, doubts, feelings and the future after cuando call for the subjunctive. Facts stay in the indicative.",
+      "rule": {
+        "text": "*Subjunctive*: after wishes and requests (*quiero que, necesito que, ojalá*), feelings (*me alegro de que*), value judgments (*es importante que*), doubt (*no creo que*), purpose (*para que*) and *cuando* about the future. *Indicative*: what you know, believe or report (*sé que, creo que, dice que*) and *cuando* for habits.",
+        "table": {
+          "caption": "Which mood?",
+          "head": [
+            "After",
+            "Mood",
+            "Example"
+          ],
+          "rows": [
+            [
+              "quiero que, espero que",
+              "subjunctive",
+              "Quiero que seas puntual."
+            ],
+            [
+              "no creo que",
+              "subjunctive",
+              "No creo que esté abierto."
+            ],
+            [
+              "creo que, sé que",
+              "indicative",
+              "Creo que está abierto."
+            ],
+            [
+              "cuando (future)",
+              "subjunctive",
+              "Cuando llegue, te llamo."
+            ],
+            [
+              "cuando (habit)",
+              "indicative",
+              "Cuando llego, me ducho."
+            ]
+          ]
+        }
+      },
+      "more": {
+        "href": "/grammar/verbs#tener",
+        "key": "conj.more.tables",
+        "label": "All forms in the verb tables"
+      },
+      "items": [
+        {
+          "id": "subjuntivo-indicativo-b1-01",
+          "prompt": "Quiero que ___ puntual.",
+          "options": [
+            "seas",
+            "eres"
+          ],
+          "answer": "seas",
+          "explain": "A wish about someone else: quiero que + subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b1-02",
+          "prompt": "Creo que el banco ___ abierto hasta las dos.",
+          "options": [
+            "está",
+            "esté"
+          ],
+          "answer": "está",
+          "explain": "What you believe: creo que + indicative."
+        },
+        {
+          "id": "subjuntivo-indicativo-b1-03",
+          "prompt": "No creo que el banco ___ abierto a esta hora.",
+          "options": [
+            "esté",
+            "está"
+          ],
+          "answer": "esté",
+          "explain": "Doubt: no creo que + subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b1-04",
+          "prompt": "Espero que te ___ mejor pronto.",
+          "options": [
+            "encuentres",
+            "encuentras"
+          ],
+          "answer": "encuentres",
+          "explain": "A hope: espero que + subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b1-05",
+          "prompt": "Cuando ___ a casa, te llamo.",
+          "options": [
+            "llegue",
+            "llego"
+          ],
+          "answer": "llegue",
+          "explain": "cuando about something still to come: subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b1-06",
+          "prompt": "Cuando ___ a casa, siempre me ducho.",
+          "options": [
+            "llego",
+            "llegue"
+          ],
+          "answer": "llego",
+          "explain": "cuando for a habit: indicative."
+        },
+        {
+          "id": "subjuntivo-indicativo-b1-07",
+          "prompt": "Es importante que ___ tu tarjeta sanitaria.",
+          "options": [
+            "traigas",
+            "traes"
+          ],
+          "answer": "traigas",
+          "explain": "A value judgment: es importante que + subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b1-08",
+          "prompt": "Es verdad que el alquiler ___ muy caro.",
+          "options": [
+            "es",
+            "sea"
+          ],
+          "answer": "es",
+          "explain": "Stating a fact: es verdad que + indicative."
+        },
+        {
+          "id": "subjuntivo-indicativo-b1-09",
+          "prompt": "Me alegro de que ___ encontrado trabajo.",
+          "options": [
+            "hayas",
+            "has"
+          ],
+          "answer": "hayas",
+          "explain": "A feeling about a recent event: me alegro de que + perfect subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b1-10",
+          "prompt": "Sé que ___ razón.",
+          "options": [
+            "tienes",
+            "tengas"
+          ],
+          "answer": "tienes",
+          "explain": "What you know: sé que + indicative."
+        },
+        {
+          "id": "subjuntivo-indicativo-b1-11",
+          "prompt": "Necesito que me ___ una copia del contrato.",
+          "options": [
+            "des",
+            "das"
+          ],
+          "answer": "des",
+          "explain": "A request: necesito que + subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b1-12",
+          "prompt": "Ojalá ___ buen tiempo mañana.",
+          "options": [
+            "haga",
+            "hace"
+          ],
+          "answer": "haga",
+          "explain": "A wish: ojalá + subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b1-13",
+          "prompt": "Te llamo para que me ___ la dirección.",
+          "options": [
+            "digas",
+            "dices"
+          ],
+          "answer": "digas",
+          "explain": "Purpose with a new subject: para que + subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b1-14",
+          "prompt": "Dice que ___ cansada.",
+          "options": [
+            "está",
+            "esté"
+          ],
+          "answer": "está",
+          "explain": "Reporting what someone says: dice que + indicative."
+        },
+        {
+          "id": "subjuntivo-indicativo-b1-15",
+          "prompt": "No me gusta que mi hijo ___ tan tarde.",
+          "options": [
+            "vuelva",
+            "vuelve"
+          ],
+          "answer": "vuelva",
+          "explain": "A feeling about something: no me gusta que + subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b1-16",
+          "prompt": "Es probable que ___ mañana.",
+          "options": [
+            "llueva",
+            "llueve"
+          ],
+          "answer": "llueva",
+          "explain": "Probability: es probable que + subjunctive."
+        }
+      ]
+    },
+    {
+      "id": "subjuntivo-indicativo-b2",
+      "level": "B2",
+      "title": "subjunctive or indicative: the harder cases",
+      "kind": "choice",
+      "variety": "es-ES",
+      "lead": "Relative clauses, aunque, si, and how the mood follows the tense of the main verb.",
+      "rule": {
+        "text": "A relative clause takes the subjunctive when the thing is unknown or doesn't exist (*busco un piso que esté…, no conozco a nadie que hable…*). *aunque* + indicative gives a known fact; + subjunctive, something uncertain. *si* + present stays in the indicative: never *si tenga*. *si* + imperfect subjunctive: unreal now; *si hubiera* + participle: unreal in the past. After a past main verb the subjunctive moves into the past (*me pidió que rellenara*).",
+        "table": {
+          "caption": "Same structure, two moods",
+          "head": [
+            "Structure",
+            "Indicative",
+            "Subjunctive"
+          ],
+          "rows": [
+            [
+              "que (relative)",
+              "Vivo en un piso que está cerca.",
+              "Busco un piso que esté cerca."
+            ],
+            [
+              "aunque",
+              "Aunque tengo el NIE… (fact)",
+              "Aunque llueva… (not known)"
+            ],
+            [
+              "cuando",
+              "Cuando llegué… (past)",
+              "Cuando tenga los papeles… (future)"
+            ],
+            [
+              "si",
+              "Si tengo tiempo, te ayudo.",
+              "Si tuviera tiempo, te ayudaría."
+            ]
+          ]
+        }
+      },
+      "more": {
+        "href": "/grammar/verbs#tener",
+        "key": "conj.more.tables",
+        "label": "All forms in the verb tables"
+      },
+      "items": [
+        {
+          "id": "subjuntivo-indicativo-b2-01",
+          "prompt": "Busco un piso que ___ cerca del metro.",
+          "options": [
+            "esté",
+            "está"
+          ],
+          "answer": "esté",
+          "explain": "You don't know this flat yet: relative clause + subjunctive.",
+          "es419": {
+            "note": "Latin America: departamento or apartamento for piso."
+          }
+        },
+        {
+          "id": "subjuntivo-indicativo-b2-02",
+          "prompt": "Vivo en un piso que ___ cerca del metro.",
+          "options": [
+            "está",
+            "esté"
+          ],
+          "answer": "está",
+          "explain": "A real flat you know: relative clause + indicative.",
+          "es419": {
+            "note": "Latin America: departamento or apartamento for piso."
+          }
+        },
+        {
+          "id": "subjuntivo-indicativo-b2-03",
+          "prompt": "Aunque ___ mañana, iremos a la playa.",
+          "options": [
+            "llueva",
+            "llueve"
+          ],
+          "answer": "llueva",
+          "explain": "Not known yet: aunque + subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b2-04",
+          "prompt": "Aunque ___ el NIE desde hace un año, todavía no he podido abrir la cuenta.",
+          "options": [
+            "tengo",
+            "tenga"
+          ],
+          "answer": "tengo",
+          "explain": "A known fact: aunque + indicative."
+        },
+        {
+          "id": "subjuntivo-indicativo-b2-05",
+          "prompt": "Si ___ más tiempo, estudiaría más.",
+          "options": [
+            "tuviera",
+            "tengo"
+          ],
+          "answer": "tuviera",
+          "explain": "Unreal now, with the conditional in the main clause: si + imperfect subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b2-06",
+          "prompt": "Si ___ tiempo mañana, te ayudo.",
+          "options": [
+            "tengo",
+            "tenga"
+          ],
+          "answer": "tengo",
+          "explain": "A real condition: si + present indicative, never present subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b2-07",
+          "prompt": "Me pidió que ___ el formulario.",
+          "options": [
+            "rellenara",
+            "rellené"
+          ],
+          "answer": "rellenara",
+          "explain": "A request in the past: pidió que + imperfect subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b2-08",
+          "prompt": "Cuando ___ a España, no hablaba español.",
+          "options": [
+            "llegué",
+            "llegara"
+          ],
+          "answer": "llegué",
+          "explain": "cuando about the past: indicative."
+        },
+        {
+          "id": "subjuntivo-indicativo-b2-09",
+          "prompt": "Cuando ___ los papeles, buscaré trabajo.",
+          "options": [
+            "tenga",
+            "tendré"
+          ],
+          "answer": "tenga",
+          "explain": "cuando about the future: subjunctive, never the future tense."
+        },
+        {
+          "id": "subjuntivo-indicativo-b2-10",
+          "prompt": "No conozco a nadie que ___ ruso.",
+          "options": [
+            "hable",
+            "habla"
+          ],
+          "answer": "hable",
+          "explain": "No such person: relative clause + subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b2-11",
+          "prompt": "Conozco a alguien que ___ ruso.",
+          "options": [
+            "habla",
+            "hable"
+          ],
+          "answer": "habla",
+          "explain": "A real person: relative clause + indicative."
+        },
+        {
+          "id": "subjuntivo-indicativo-b2-12",
+          "prompt": "Quería que mis hijos ___ español desde pequeños.",
+          "options": [
+            "aprendieran",
+            "aprendían"
+          ],
+          "answer": "aprendieran",
+          "explain": "A wish in the past: quería que + imperfect subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b2-13",
+          "prompt": "Si lo ___ sabido, te habría avisado.",
+          "options": [
+            "hubiera",
+            "había"
+          ],
+          "answer": "hubiera",
+          "explain": "Unreal in the past: si + pluperfect subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b2-14",
+          "prompt": "Es posible que el tren ya ___ salido.",
+          "options": [
+            "haya",
+            "ha"
+          ],
+          "answer": "haya",
+          "explain": "Possibility about the recent past: es posible que + perfect subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b2-15",
+          "prompt": "Antes de que te ___, llámame.",
+          "options": [
+            "vayas",
+            "vas"
+          ],
+          "answer": "vayas",
+          "explain": "antes de que always takes the subjunctive."
+        },
+        {
+          "id": "subjuntivo-indicativo-b2-16",
+          "prompt": "Por mucho que ___, no va a cambiar de opinión.",
+          "options": [
+            "insistas",
+            "insistes"
+          ],
+          "answer": "insistas",
+          "explain": "por mucho que about what may happen: subjunctive."
+        }
+      ]
+    },
+    {
+      "id": "irregular-yo-a1",
+      "level": "A1",
+      "title": "Irregular yo forms in sentences",
+      "kind": "form",
+      "variety": "es-ES",
+      "lead": "The verbs you say about yourself every day. Type the form.",
+      "rule": {
+        "text": "Many everyday verbs are irregular only in the *yo* form, or start with it: *hago, pongo, salgo, traigo, conozco, doy, veo, sé*. Others change more: *soy, voy, tengo, vengo, digo, oigo*.",
+        "table": {
+          "caption": "yo in the present",
+          "head": [
+            "Ending",
+            "Verbs"
+          ],
+          "rows": [
+            [
+              "-go",
+              "hago, pongo, salgo, traigo, tengo, vengo, digo, oigo"
+            ],
+            [
+              "-zco",
+              "conozco, conduzco"
+            ],
+            [
+              "-oy",
+              "soy, estoy, voy, doy"
+            ],
+            [
+              "other",
+              "sé, veo, quepo"
+            ]
+          ]
+        }
+      },
+      "more": {
+        "href": "/grammar/verbs#gruppe-unregelmaessig",
+        "key": "conj.more.irregular",
+        "label": "Irregular verbs in the verb tables"
+      },
+      "items": [
+        {
+          "id": "irregular-yo-a1-01",
+          "prompt": "Todos los sábados ___ (hacer, yo) la compra en el mercado.",
+          "answer": "hago",
+          "explain": "hacer: hago, with -go."
+        },
+        {
+          "id": "irregular-yo-a1-02",
+          "prompt": "Por la mañana ___ (salir, yo) de casa a las siete.",
+          "answer": "salgo",
+          "explain": "salir: salgo, with -go."
+        },
+        {
+          "id": "irregular-yo-a1-03",
+          "prompt": "No ___ (saber, yo) dónde está la oficina.",
+          "answer": "sé",
+          "explain": "saber: sé, with an accent. Without one, se is a pronoun."
+        },
+        {
+          "id": "irregular-yo-a1-04",
+          "prompt": "Todavía no ___ (conocer, yo) bien este barrio.",
+          "answer": "conozco",
+          "explain": "conocer: conozco, with -zc-."
+        },
+        {
+          "id": "irregular-yo-a1-05",
+          "prompt": "Siempre ___ (poner, yo) las llaves en la mesa.",
+          "answer": "pongo",
+          "explain": "poner: pongo, with -go."
+        },
+        {
+          "id": "irregular-yo-a1-06",
+          "prompt": "¿Te ___ (traer, yo) un café?",
+          "answer": "traigo",
+          "explain": "traer: traigo, with -igo."
+        },
+        {
+          "id": "irregular-yo-a1-07",
+          "prompt": "Hoy ___ (tener, yo) cita con el médico a las diez.",
+          "answer": "tengo",
+          "explain": "tener: tengo, with -go."
+        },
+        {
+          "id": "irregular-yo-a1-08",
+          "prompt": "Siempre ___ (decir, yo) lo que pienso.",
+          "answer": "digo",
+          "explain": "decir: digo, with -go and e→i."
+        },
+        {
+          "id": "irregular-yo-a1-09",
+          "prompt": "Yo ___ (venir) de Perú, ¿y tú?",
+          "answer": "vengo",
+          "explain": "venir: vengo, with -go."
+        },
+        {
+          "id": "irregular-yo-a1-10",
+          "prompt": "Perdón, no te ___ (oír, yo) bien.",
+          "answer": "oigo",
+          "explain": "oír: oigo, with -igo."
+        },
+        {
+          "id": "irregular-yo-a1-11",
+          "prompt": "Desde aquí no ___ (ver, yo) nada.",
+          "answer": "veo",
+          "explain": "ver: veo, keeping the e."
+        },
+        {
+          "id": "irregular-yo-a1-12",
+          "prompt": "Ahora te ___ (dar, yo) mi número de teléfono.",
+          "answer": "doy",
+          "explain": "dar: doy, with -oy like soy, estoy, voy."
+        },
+        {
+          "id": "irregular-yo-a1-13",
+          "prompt": "En el trabajo ___ (conducir, yo) una furgoneta.",
+          "answer": "conduzco",
+          "explain": "conducir: conduzco, with -zc-.",
+          "es419": {
+            "note": "Latin America: manejar for driving, so manejo.",
+            "form": "manejo"
+          }
+        },
+        {
+          "id": "irregular-yo-a1-14",
+          "prompt": "Mañana ___ (ir, yo) al ayuntamiento.",
+          "answer": "voy",
+          "explain": "ir: voy, with -oy."
+        }
+      ]
+    },
+    {
+      "id": "indefinido-irregular-a2",
+      "level": "A2",
+      "title": "Irregular indefinido in sentences",
+      "kind": "form",
+      "variety": "es-ES",
+      "lead": "The strong past forms: tuve, hice, dije. No written accent on them.",
+      "rule": {
+        "text": "Strong forms have their own stem and share the endings *-e, -iste, -o, -imos, -isteis, -ieron*, with no written accent: *tuve, tuvo*. After *j* the ending is *-eron*: *dijeron, trajeron*. *ser* and *ir* share one set: *fui, fuiste, fue, fuimos, fuisteis, fueron*. *-ir* stem-changers change only in the third person: *pidió, durmieron*.",
+        "table": {
+          "caption": "Strong stems",
+          "head": [
+            "Verb",
+            "Stem",
+            "Example"
+          ],
+          "rows": [
+            [
+              "tener, estar, andar",
+              "tuv-, estuv-, anduv-",
+              "tuve, estuvo"
+            ],
+            [
+              "poder, poner, saber",
+              "pud-, pus-, sup-",
+              "pude, puso"
+            ],
+            [
+              "hacer, querer, venir",
+              "hic-, quis-, vin-",
+              "hice, hizo, vino"
+            ],
+            [
+              "decir, traer, conducir",
+              "dij-, traj-, conduj-",
+              "dije, dijeron"
+            ]
+          ]
+        }
+      },
+      "more": {
+        "href": "/grammar/verbs#gruppe-unregelmaessig",
+        "key": "conj.more.irregular",
+        "label": "Irregular verbs in the verb tables"
+      },
+      "items": [
+        {
+          "id": "indefinido-irregular-a2-01",
+          "prompt": "Ayer ___ (tener, yo) una cita en la oficina de extranjería.",
+          "answer": "tuve",
+          "explain": "tener: stem tuv-, no accent."
+        },
+        {
+          "id": "indefinido-irregular-a2-02",
+          "prompt": "La semana pasada ___ (hacer, nosotros) la mudanza.",
+          "answer": "hicimos",
+          "explain": "hacer: stem hic-."
+        },
+        {
+          "id": "indefinido-irregular-a2-03",
+          "prompt": "El año pasado ___ (ir, yo) a Marruecos a ver a mi familia.",
+          "answer": "fui",
+          "explain": "ir: fui, the same form as ser."
+        },
+        {
+          "id": "indefinido-irregular-a2-04",
+          "prompt": "¿Qué te ___ (decir, él) el médico?",
+          "answer": "dijo",
+          "explain": "decir: stem dij-, no accent."
+        },
+        {
+          "id": "indefinido-irregular-a2-05",
+          "prompt": "¿Dónde ___ (poner, tú) las llaves?",
+          "answer": "pusiste",
+          "explain": "poner: stem pus-."
+        },
+        {
+          "id": "indefinido-irregular-a2-06",
+          "prompt": "Mis padres ___ (venir) a España en 2015.",
+          "answer": "vinieron",
+          "explain": "venir: stem vin-."
+        },
+        {
+          "id": "indefinido-irregular-a2-07",
+          "prompt": "Anoche no ___ (poder, yo) dormir por el ruido.",
+          "answer": "pude",
+          "explain": "poder: stem pud-, no accent."
+        },
+        {
+          "id": "indefinido-irregular-a2-08",
+          "prompt": "El sábado ___ (estar, nosotros) en casa de unos amigos.",
+          "answer": "estuvimos",
+          "explain": "estar: stem estuv-."
+        },
+        {
+          "id": "indefinido-irregular-a2-09",
+          "prompt": "El niño no ___ (querer, él) comer nada.",
+          "answer": "quiso",
+          "explain": "querer: stem quis-. In the negative: refused to."
+        },
+        {
+          "id": "indefinido-irregular-a2-10",
+          "prompt": "¿Cuándo ___ (saber, tú) la noticia?",
+          "answer": "supiste",
+          "explain": "saber: stem sup-. In the indefinido: found out."
+        },
+        {
+          "id": "indefinido-irregular-a2-11",
+          "prompt": "El domingo ___ (dar, nosotros) un paseo por el río.",
+          "answer": "dimos",
+          "explain": "dar takes -er/-ir endings: di, diste, dio, dimos."
+        },
+        {
+          "id": "indefinido-irregular-a2-12",
+          "prompt": "¿Quién ___ (traer, él) el pan?",
+          "answer": "trajo",
+          "explain": "traer: stem traj-, no accent."
+        },
+        {
+          "id": "indefinido-irregular-a2-13",
+          "prompt": "La reunión ___ (ser) muy larga.",
+          "answer": "fue",
+          "explain": "ser: fue, the same form as ir."
+        },
+        {
+          "id": "indefinido-irregular-a2-14",
+          "prompt": "Ayer no ___ (ver, yo) a Luis en la obra.",
+          "answer": "vi",
+          "explain": "ver: vi, with no accent on one syllable."
+        },
+        {
+          "id": "indefinido-irregular-a2-15",
+          "prompt": "Mi madre ___ (pedir) cita para el jueves.",
+          "answer": "pidió",
+          "explain": "pedir: e→i in the third person."
+        },
+        {
+          "id": "indefinido-irregular-a2-16",
+          "prompt": "El bebé ___ (dormir) toda la noche.",
+          "answer": "durmió",
+          "explain": "dormir: o→u in the third person."
+        }
+      ]
+    },
+    {
+      "id": "futuro-condicional-b1",
+      "level": "B1",
+      "title": "Future and conditional: irregular stems",
+      "kind": "form",
+      "variety": "es-ES",
+      "lead": "tendré, haré, diría: twelve stems, two sets of endings.",
+      "rule": {
+        "text": "The future and the conditional add their endings to the infinitive (*hablaré, hablaría*). Twelve common verbs use a short stem instead, the same in both tenses.",
+        "table": {
+          "caption": "Irregular stems",
+          "head": [
+            "Type",
+            "Stems"
+          ],
+          "rows": [
+            [
+              "loses e",
+              "cabr-, habr-, podr-, querr-, sabr-"
+            ],
+            [
+              "d in place of e or i",
+              "pondr-, saldr-, tendr-, valdr-, vendr-"
+            ],
+            [
+              "short",
+              "dir-, har-"
+            ],
+            [
+              "future endings",
+              "-é, -ás, -á, -emos, -éis, -án"
+            ],
+            [
+              "conditional endings",
+              "-ía, -ías, -ía, -íamos, -íais, -ían"
+            ]
+          ]
+        }
+      },
+      "more": {
+        "href": "/grammar/verbs#gruppe-unregelmaessig",
+        "key": "conj.more.irregular",
+        "label": "Irregular verbs in the verb tables"
+      },
+      "items": [
+        {
+          "id": "futuro-condicional-b1-01",
+          "prompt": "El lunes ___ (tener, yo) los resultados.",
+          "answer": "tendré",
+          "explain": "tener: stem tendr-, future -é."
+        },
+        {
+          "id": "futuro-condicional-b1-02",
+          "prompt": "¿Qué ___ (hacer, tú) este verano?",
+          "answer": "harás",
+          "explain": "hacer: stem har-, future -ás."
+        },
+        {
+          "id": "futuro-condicional-b1-03",
+          "prompt": "Mañana no ___ (poder, nosotros) ir a la reunión.",
+          "answer": "podremos",
+          "explain": "poder: stem podr-, future -emos."
+        },
+        {
+          "id": "futuro-condicional-b1-04",
+          "prompt": "Te lo ___ (decir, yo) mañana.",
+          "answer": "diré",
+          "explain": "decir: stem dir-, future -é."
+        },
+        {
+          "id": "futuro-condicional-b1-05",
+          "prompt": "Los técnicos ___ (venir) el martes por la mañana.",
+          "answer": "vendrán",
+          "explain": "venir: stem vendr-, future -án."
+        },
+        {
+          "id": "futuro-condicional-b1-06",
+          "prompt": "¿Cuánto ___ (valer) este piso dentro de diez años?",
+          "answer": "valdrá",
+          "explain": "valer: stem valdr-, future -á.",
+          "es419": {
+            "note": "Latin America: departamento or apartamento for piso."
+          }
+        },
+        {
+          "id": "futuro-condicional-b1-07",
+          "prompt": "Seguro que ___ (haber) mucha gente en la oficina.",
+          "answer": "habrá",
+          "explain": "haber: stem habr-. There is one form: habrá = there will be."
+        },
+        {
+          "id": "futuro-condicional-b1-08",
+          "prompt": "No sé si todo ___ (caber) en la maleta.",
+          "answer": "cabrá",
+          "explain": "caber: stem cabr-, future -á."
+        },
+        {
+          "id": "futuro-condicional-b1-09",
+          "prompt": "Lo ___ (poner, yo) aquí, para no olvidarlo.",
+          "answer": "pondré",
+          "explain": "poner: stem pondr-, future -é."
+        },
+        {
+          "id": "futuro-condicional-b1-10",
+          "prompt": "Me ___ (gustar) trabajar en un hospital.",
+          "answer": "gustaría",
+          "explain": "Conditional for a polite wish: gustar + -ía."
+        },
+        {
+          "id": "futuro-condicional-b1-11",
+          "prompt": "Yo en tu lugar ___ (hablar) con el casero.",
+          "answer": "hablaría",
+          "explain": "Advice: conditional. Regular, on the infinitive.",
+          "es419": {
+            "note": "casero = landlord in Spain. Latin America often says dueño."
+          }
+        },
+        {
+          "id": "futuro-condicional-b1-12",
+          "prompt": "¿___ (poder, usted) ayudarme con este formulario?",
+          "answer": "Podría",
+          "explain": "A polite request: stem podr-, conditional -ía."
+        },
+        {
+          "id": "futuro-condicional-b1-13",
+          "prompt": "Sin tu ayuda no ___ (saber, yo) qué hacer.",
+          "answer": "sabría",
+          "explain": "saber: stem sabr-, conditional -ía."
+        },
+        {
+          "id": "futuro-condicional-b1-14",
+          "prompt": "Yo ___ (salir) antes, por si hay tráfico.",
+          "answer": "saldría",
+          "explain": "Advice: salir, stem saldr-, conditional -ía."
+        }
+      ]
+    },
+    {
+      "id": "imperativo-b1",
+      "level": "B1",
+      "title": "Imperative in real life",
+      "kind": "form",
+      "variety": "es-ES",
+      "lead": "What the doctor, the boss or a friend tells you to do. Type the form.",
+      "rule": {
+        "text": "*tú*: the él form of the present (*habla, come*), with eight short forms: *di, haz, pon, sal, sé, ten, ve, ven*. *usted, ustedes*: the subjunctive (*tome, tomen*). Negative: always *no* + subjunctive (*no hables, no tome*). Pronouns go on the end of an affirmative form and before a negative one: *siéntate, no te sientes*.",
+        "table": {
+          "caption": "Commands",
+          "head": [
+            "Person",
+            "Do it",
+            "Don't"
+          ],
+          "rows": [
+            [
+              "tú",
+              "habla, come, ven",
+              "no hables, no comas, no vengas"
+            ],
+            [
+              "usted",
+              "hable, coma, venga",
+              "no hable, no coma, no venga"
+            ],
+            [
+              "vosotros",
+              "hablad, comed, venid",
+              "no habléis, no comáis, no vengáis"
+            ],
+            [
+              "ustedes",
+              "hablen, coman, vengan",
+              "no hablen, no coman, no vengan"
+            ]
+          ]
+        }
+      },
+      "more": {
+        "href": "/grammar/verbs#gruppe-unregelmaessig",
+        "key": "conj.more.irregular",
+        "label": "Irregular verbs in the verb tables"
+      },
+      "items": [
+        {
+          "id": "imperativo-b1-01",
+          "prompt": "___ (tomar, usted) una pastilla cada ocho horas.",
+          "answer": "Tome",
+          "explain": "usted: the subjunctive, -ar → -e."
+        },
+        {
+          "id": "imperativo-b1-02",
+          "prompt": "No ___ (fumar, usted) durante el tratamiento.",
+          "answer": "fume",
+          "explain": "Negative with usted: no + subjunctive."
+        },
+        {
+          "id": "imperativo-b1-03",
+          "prompt": "___ (venir, tú) aquí un momento, por favor.",
+          "answer": "Ven",
+          "explain": "venir: the short tú form ven."
+        },
+        {
+          "id": "imperativo-b1-04",
+          "prompt": "___ (hacer, tú) una copia del contrato, por favor.",
+          "answer": "Haz",
+          "explain": "hacer: the short tú form haz."
+        },
+        {
+          "id": "imperativo-b1-05",
+          "prompt": "No ___ (hablar, tú) tan alto, el niño está durmiendo.",
+          "answer": "hables",
+          "explain": "Negative with tú: no + subjunctive, so hables, not hablas."
+        },
+        {
+          "id": "imperativo-b1-06",
+          "prompt": "___ (rellenar, usted) este impreso, por favor.",
+          "answer": "Rellene",
+          "explain": "usted: the subjunctive, -ar → -e."
+        },
+        {
+          "id": "imperativo-b1-07",
+          "prompt": "___ (sentarse, usted), por favor. Ahora viene la doctora.",
+          "answer": "Siéntese",
+          "explain": "sentarse: siente + se, with a written accent."
+        },
+        {
+          "id": "imperativo-b1-08",
+          "prompt": "No te ___ (preocuparse), todo saldrá bien.",
+          "answer": "preocupes",
+          "explain": "Negative: pronoun before the verb, then the subjunctive."
+        },
+        {
+          "id": "imperativo-b1-09",
+          "prompt": "___ (levantarse, tú) ya, que son las ocho.",
+          "answer": "Levántate",
+          "explain": "Affirmative tú: the pronoun goes on the end, and the form needs an accent."
+        },
+        {
+          "id": "imperativo-b1-10",
+          "prompt": "___ (poner, tú) la mesa, ya vienen los invitados.",
+          "answer": "Pon",
+          "explain": "poner: the short tú form pon."
+        },
+        {
+          "id": "imperativo-b1-11",
+          "prompt": "___ (decir + me, tú) la verdad.",
+          "answer": "Dime",
+          "explain": "decir: the short tú form di + me."
+        },
+        {
+          "id": "imperativo-b1-12",
+          "prompt": "No ___ (salir, vosotros) sin abrigo, hace mucho frío.",
+          "answer": "salgáis",
+          "explain": "Negative with vosotros: no + subjunctive.",
+          "es419": {
+            "note": "Latin America uses ustedes here: no salgan.",
+            "skip": true
+          }
+        },
+        {
+          "id": "imperativo-b1-13",
+          "prompt": "___ (abrir, vosotros) el libro por la página diez.",
+          "answer": "Abrid",
+          "explain": "Affirmative vosotros: the infinitive with -d in place of -r.",
+          "es419": {
+            "note": "Latin America uses ustedes here: abran.",
+            "skip": true
+          }
+        },
+        {
+          "id": "imperativo-b1-14",
+          "prompt": "___ (llamar, ustedes) antes de venir, por favor.",
+          "answer": "Llamen",
+          "explain": "ustedes: the subjunctive, -ar → -en."
+        }
+      ]
+    }
+  ]
+}

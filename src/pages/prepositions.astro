@@ -43,7 +43,10 @@ const total = packs.reduce((n, p) => n + p.questions.length, 0);
 // The full grammar topics these packs are a warm-up for, shown under the level they belong to.
 const MORE: Record<string, { href: string; label: string; key: string }[]> = {
   A2: [{ href: "/prepositions-of-movement", label: "a or en: going and being – in depth", key: "praep.more.wechsel" }],
-  B1: [{ href: "/verbs-prepositions", label: "Verbs + prepositions – in depth", key: "praep.more.verben" }],
+  B1: [
+    { href: "/verbs-prepositions", label: "Verbs + prepositions – in depth", key: "praep.more.verben" },
+    { href: "/grammar/conjugation?set=por-para-b1", label: "por or para in real situations", key: "conj.set.por-para-b1" },
+  ],
   B2: [{ href: "/adjectives-prepositions", label: "Adjectives + prepositions – in depth", key: "praep.more.nvv" }],
 };
 

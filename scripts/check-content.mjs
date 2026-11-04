@@ -28,6 +28,7 @@ const CHECKS = [
   "validate-lexicon.mjs",
   "check-variety.mjs",
   "check-verbtabellen.mjs",
+  "check-conjugation-trainer.mjs",
 ];
 
 for (const file of CHECKS) {
