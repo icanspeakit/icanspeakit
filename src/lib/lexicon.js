@@ -256,6 +256,8 @@ const toCard = (e) => {
           gender: e.pluralOnly && ["el", "la"].includes(e.gender) ? pluralArticle(e) : e.gender ?? (e.pluralOnly ? "die" : null),
           plural: e.plural ?? null,
           pluralOnly: !!e.pluralOnly,
+          // las aguas, not los aguas: the card's article alone can't tell (el agua is feminine).
+          ...(["el", "la", "el/la"].includes(e.gender) ? { pluralArt: pluralArticle(e) } : {}),
         }
       : {}),
     // Only the words that actually have a file. A deck is partly voiced for as long as
