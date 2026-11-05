@@ -73,7 +73,8 @@ function englishRedirects() {
     for (const id of Object.keys(ids)) {
       const to = itemPath(section, id);
       out[germanPath(to)] = r301(to);
-      out[`${section}/${id}`] = r301(to);
+      // A slug equal to its id would redirect the page to itself and replace the content.
+      if (`${section}/${id}` !== to) out[`${section}/${id}`] = r301(to);
     }
   }
   // English for work: sectors and their word groups (with the print page), from src/data/berufe.
