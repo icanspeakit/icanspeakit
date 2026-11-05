@@ -1,7 +1,7 @@
 # Translations of the lexicon
 
 > **Spanish levels (since 2026-11-04, `vocab-a1`).** A level whose nouns carry `el` / `la` is
-> Spanish (`SPANISH_LEVELS` in `src/lib/lexicon.js`; A1, A2 and B1 so far). For those words every sidecar is
+> Spanish (`SPANISH_LEVELS` in `src/lib/lexicon.js`; A1, A2, B1 and B2 so far). For those words every sidecar is
 > **Spanish → that language**, written with the Spanish word in front of the writer, never from
 > the English gloss: `de.json` (nouns with their article, „das Haus“), `fr.json`, `pt.json`
 > (European Portuguese: *comboio, autocarro, telemóvel*, because the course's Portuguese readers
