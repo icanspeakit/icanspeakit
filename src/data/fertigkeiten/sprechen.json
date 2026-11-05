@@ -8,9 +8,14 @@
     "you finish. Tasks that are not pictures (introducing yourself, the talk, the discussion,",
     "planning together) stay outside the sets: they are one-offs, not a series.",
     "",
+    "Language: `title`, `blurb` and `check` are English at every level. `prompt`, `bullets`",
+    "are English at A1–A2 and Spanish from B1, as in listening and reading. `phrases` and",
+    "`model` are Spanish at every level: they are what is being practised.",
+    "",
     "No exam name in a title. A picture description is a thing you practise whether or not",
     "you ever sit an exam. Where the exam relevance is real it lives in `exam`, one quiet line",
-    "at the foot of the task page (src/pages/sprechen/[id].astro keys it by its text).",
+    "at the foot of the task page (src/pages/speaking/[id].astro keys it by its text). These",
+    "tasks are our own, in the style of DELE and SIELE, never copied from an exam paper.",
     "",
     "Every model answer describes the photo that is on disk (public/assets/sprechen/), not",
     "an imagined one. `imageNeeded` describes that photo too: it is what the page shows if the",
@@ -75,21 +80,21 @@
         "Free time"
       ],
       "phrases": [
-        "My name is … / I'm …",
-        "I'm … years old.",
-        "I'm from … and now I live in …",
-        "I speak … and a little English.",
-        "I'm a … / I work as a …",
-        "I've got … children. / I'm single.",
-        "In my free time I …"
+        "Me llamo … / Soy …",
+        "Tengo … años.",
+        "Soy de … y ahora vivo en …",
+        "Hablo … y un poco de español.",
+        "Soy … / Trabajo en …",
+        "Tengo … hijos. / Estoy soltero. / Estoy soltera.",
+        "En mi tiempo libre …"
       ],
-      "model": "Hello, my name is Amir Sadat. I'm 29 years old and I'm from Herat. That's in Afghanistan. Now I live in Leeds. I speak Dari, Pashto and a little English. I'm an electrician. I'm married and I've got a daughter. In my free time I play football.",
+      "model": "Hola, me llamo Youssef Amrani. Tengo 29 años y soy de Tetuán, en Marruecos. Ahora vivo en Zaragoza. Hablo árabe, francés y un poco de español. Soy electricista. Estoy casado y tengo una hija. En mi tiempo libre juego al fútbol.",
       "check": [
         "All eight points come up.",
-        "Full sentences, not a list: “I'm 29 years old.”, not just “29”. A job needs a or an: “I'm an electrician.”",
+        "Full sentences, not a list: “Tengo 29 años.”, not just “29”. Age goes with tener, and a job takes no article: “Soy electricista.”",
         "End with your free time: the examiner often asks the next question about it."
       ],
-      "exam": "The usual first part of a speaking test: introducing yourself.",
+      "exam": "In the style of a beginners' speaking exam, which often starts with introducing yourself. Not an official exam task.",
       "image": "/assets/sprechen/a1-sich-vorstellen.jpg"
     },
     {
@@ -111,16 +116,16 @@
         "Do you often travel by train? Where do you go?"
       ],
       "phrases": [
-        "I can see a woman / a man.",
-        "She's at the station.",
-        "She's got a suitcase.",
-        "She's walking to the train.",
-        "I think she's going on holiday."
+        "Veo a una mujer. / Veo a un hombre.",
+        "Está en la estación.",
+        "Tiene una maleta.",
+        "Camina hacia el tren.",
+        "Creo que va de vacaciones."
       ],
-      "model": "In the picture I can see a woman at a train station. She's got a suitcase and a big bag, and she's holding a cup of coffee. She's walking to the train. The train is white and blue. I think she's going on holiday. I sometimes travel by train too, for example to Manchester.",
+      "model": "En la foto veo a una mujer en una estación de tren. Tiene una maleta y un bolso grande, y lleva un café en la mano. Camina hacia el tren. El tren es blanco y azul. Creo que va de vacaciones. Yo también viajo en tren a veces, por ejemplo a Madrid.",
       "check": [
-        "“I can see …” is the easiest way to start, and it is always right.",
-        "“I think …” and “maybe …” let you guess without being sure.",
+        "“En la foto veo …” is the easiest way to start. People take a: veo a una mujer. Things don't: veo un tren.",
+        "“Creo que …” and “a lo mejor …” let you guess without being sure.",
         "The last sentence is about you: that is what the examiner asks next."
       ],
       "image": "/assets/sprechen/a1-bild-bahnhof.jpg"
@@ -144,16 +149,16 @@
         "Who cooks in your home? What do you like cooking?"
       ],
       "phrases": [
-        "There are two people in the picture.",
-        "They're in the kitchen.",
-        "The man is cooking.",
-        "The girl is sitting next to him.",
-        "At home I usually cook …"
+        "En la foto hay dos personas.",
+        "Están en la cocina.",
+        "El hombre está cocinando.",
+        "La niña está sentada a su lado.",
+        "En casa normalmente cocino …"
       ],
-      "model": "There are two people in the picture: a man and a little girl. They're in the kitchen. The man is cooking and the girl is sitting next to him. She's watching him. Maybe he's her dad. At home I usually cook. I like cooking rice with vegetables.",
+      "model": "En la foto hay dos personas: un hombre y una niña pequeña. Están en la cocina. El hombre está cocinando y la niña está sentada a su lado. Ella lo mira. A lo mejor es su padre. En casa normalmente cocino yo. Me gusta hacer arroz con verduras.",
       "check": [
-        "First count (“two people”), then say the place, then the action. This order always works.",
-        "For what is happening now, use is + -ing: is cooking, is sitting, is watching.",
+        "First count (“dos personas”), then say the place, then the action. This order always works.",
+        "For what is happening now, use estar + -ando or -iendo: está cocinando, está comiendo.",
         "The end is about you."
       ],
       "image": "/assets/sprechen/a1-bild-kueche.jpg"
@@ -177,17 +182,17 @@
         "Where do you go shopping? How often?"
       ],
       "phrases": [
-        "They're at the checkout.",
-        "They're buying fruit and vegetables.",
-        "The cashier is on the left.",
-        "I pay by card / in cash.",
-        "I go shopping once a week."
+        "Están en la caja.",
+        "Compran fruta y verdura.",
+        "El cajero está a la izquierda.",
+        "Pago con tarjeta. / Pago en efectivo.",
+        "Hago la compra una vez a la semana."
       ],
-      "model": "I can see a supermarket. A young woman and a young man are at the checkout. They're buying some fruit. I can see a pineapple. The man is putting the shopping in a paper bag. The cashier is on the left. I go to the supermarket once a week, usually on Saturday. I always pay by card.",
+      "model": "Veo un supermercado. Una mujer joven y un hombre joven están en la caja. Compran fruta. Veo una piña. El hombre pone la compra en una bolsa de papel y la mujer paga con el móvil. El cajero está a la izquierda. Yo hago la compra una vez a la semana, normalmente los sábados. Siempre pago con tarjeta.",
       "check": [
-        "Food words in the plural: apples, bananas, vegetables. But some fruit, some bread: no plural.",
-        "“at the checkout”, “by card”, “in cash”: learn the little word with the phrase.",
-        "A time phrase at the end (“on Saturday”, “once a week”) sounds practised straight away."
+        "Fruta and verdura are usually singular in Spanish: compro fruta. But manzanas and plátanos are plural.",
+        "“en la caja”, “con tarjeta”, “en efectivo”: learn the little word with the phrase.",
+        "A time phrase at the end (“los sábados”, “una vez a la semana”) sounds practised straight away."
       ],
       "image": "/assets/sprechen/a1-bild-supermarkt.jpg"
     },
@@ -197,7 +202,7 @@
       "set": "a1-zuhause",
       "type": "bild",
       "title": "In the park",
-      "blurb": "A child, an adult, the weather, and your first chance to use “because”.",
+      "blurb": "A child, an adult, the weather, and your first chance to use “porque”.",
       "seconds": 60,
       "imageNeeded": "A playground in a park: a boy and a woman sit together on a big round swing and smile. Lots of trees, a sunny day.",
       "imageQuery": "playground swing children parents bench",
@@ -210,17 +215,17 @@
         "Do you like going to the park? What do you do there?"
       ],
       "phrases": [
-        "I can see a boy and a woman.",
-        "They're in the park.",
-        "They're sitting on a swing.",
-        "The weather is nice.",
-        "I like going to the park because …"
+        "Veo a un niño y a una mujer.",
+        "Están en el parque.",
+        "Están sentados en un columpio.",
+        "Hace buen tiempo.",
+        "Me gusta ir al parque porque …"
       ],
-      "model": "In the picture I can see a boy and a woman. They're in a park, at a playground. They're sitting on a big swing and they're smiling. Maybe she's his mum. There are lots of trees and the weather is nice. I like going to the park because it's quiet there.",
+      "model": "En la foto veo a un niño y a una mujer. Están en un parque, en una zona de juegos. Están sentados en un columpio grande y sonríen. A lo mejor es su madre. Hay muchos árboles y hace buen tiempo. Me gusta ir al parque porque es tranquilo.",
       "check": [
         "Two people, two sentences: first the boy, then the woman.",
-        "One sentence about the weather: the examiner almost always asks.",
-        "“because” joins your reason to your sentence: I like the park because it's quiet."
+        "One sentence about the weather, with hacer: hace buen tiempo, hace sol, hace calor.",
+        "“porque” joins your reason to your sentence: me gusta el parque porque es tranquilo."
       ],
       "image": "/assets/sprechen/a1-bild-spielplatz.jpg"
     },
@@ -234,20 +239,20 @@
       "seconds": 90,
       "from": "sprechen-dtz",
       "index": 0,
-      "exam": "A task type from picture-based speaking tests.",
+      "exam": "A photo task in the style of speaking exams such as DELE and SIELE. Not an official exam task.",
       "phrases": [
-        "In the picture you can see …",
-        "I think they work at …",
-        "She's wearing …",
-        "I haven't got a garden, but …",
-        "In my country …"
+        "En la foto se ve …",
+        "Creo que trabajan en …",
+        "Ella lleva …",
+        "No tengo jardín, pero …",
+        "En mi país …"
       ],
       "check": [
         "First describe, then guess: who the two people could be and where they are.",
-        "Answer the follow-up questions in full sentences, not just yes or no.",
-        "One reason with “because”: at A2 one is enough, but it must be there."
+        "Answer the follow-up questions in full sentences, not just sí or no.",
+        "One reason with “porque”: at A2 one is enough, but it must be there."
       ],
-      "model": "In the picture I can see two people between lots of small green trees. Maybe it's a garden centre. The woman is wearing gloves and she's holding a spray bottle. The man is wearing blue work clothes and he's holding garden scissors. They're both laughing, so I think they enjoy their work. I think they work there, because the man has got a name badge. I haven't got a garden, but I grow tomatoes and herbs on my balcony."
+      "model": "En la foto veo a dos personas entre muchos árboles pequeños y verdes. A lo mejor es una tienda de plantas. La mujer lleva guantes y tiene un pulverizador en la mano. El hombre lleva ropa de trabajo azul y unas tijeras de jardín. Los dos se ríen, así que creo que les gusta su trabajo. Creo que trabajan allí, porque el hombre lleva una tarjeta con su nombre. No tengo jardín, pero tengo tomates y hierbas en el balcón."
     },
     {
       "id": "a2-bild-bus",
@@ -259,20 +264,20 @@
       "seconds": 90,
       "from": "sprechen-dtz",
       "index": 1,
-      "exam": "A task type from picture-based speaking tests.",
+      "exam": "A photo task in the style of speaking exams such as DELE and SIELE. Not an official exam task.",
       "phrases": [
-        "At the front there's …, behind him …",
-        "The people look tired.",
-        "Maybe they're going home.",
-        "I usually go to work by …",
-        "On the bus I like listening to …"
+        "Delante hay …, detrás de él …",
+        "Parecen cansados.",
+        "A lo mejor vuelven a casa.",
+        "Normalmente voy al trabajo en …",
+        "En el autobús me gusta escuchar …"
       ],
       "check": [
         "Don't just say who is sitting where: say what the mood is and how you can tell.",
         "In the follow-up questions, talk about your own day: how long, how often, how.",
-        "Use time phrases: in the morning, every day, about twenty minutes."
+        "Use time phrases: por la mañana, todos los días, unos veinte minutos."
       ],
-      "model": "In the picture you can see a bus with lots of passengers. At the front there's an older man in a blue hat. Behind him there are young and older people. Nobody is talking. Most of them are just looking in front of them. They look tired. Maybe they're going home after work. I go to work by bus every day too. It takes about twenty minutes. On the bus I usually listen to music or read the news."
+      "model": "En la foto se ve un autobús con muchos pasajeros. Delante hay un señor mayor con un gorro azul. Detrás de él hay gente joven y mayor. Nadie habla. La mayoría mira hacia delante. Parecen cansados. A lo mejor vuelven a casa después del trabajo. Yo también voy al trabajo en autobús todos los días. Tardo unos veinte minutos. En el autobús normalmente escucho música o leo las noticias."
     },
     {
       "id": "a2-bild-nachbarschaftsfest",
@@ -294,16 +299,16 @@
         "Do people do this in your country too?"
       ],
       "phrases": [
-        "In the foreground there's …, in the background …",
-        "The people seem to know each other well.",
-        "I think it's a family party, because …",
-        "In my street / my building …",
-        "In my country it's different: …"
+        "En primer plano hay …, al fondo …",
+        "Parece que se conocen bien.",
+        "Creo que es una fiesta familiar, porque …",
+        "En mi calle … / En mi edificio …",
+        "En mi país es diferente: …"
       ],
-      "model": "In the picture I can see a long table in a garden. There's a lot of food on it, and some glasses and drinks. About six people are sitting at the table. In the middle there's an older woman in a red cardigan. She's laughing. Next to her there are some young people. I think it's a family party, because there are old and young people together. Maybe it's the grandmother's birthday. I think a meal like this is great, because everyone has time to talk. In my country we often eat together outside in summer, but usually with the family, not with the neighbours.",
+      "model": "En primer plano hay una mesa larga con mucha comida, vasos y una jarra de bebida. Al fondo hay árboles y plantas, así que creo que están en un jardín. Unas cinco personas están sentadas a la mesa. En el centro hay una señora mayor con una chaqueta roja. Se está riendo. A su lado hay una chica joven con gafas. Creo que es una fiesta familiar, porque hay personas mayores y jóvenes juntas. A lo mejor es el cumpleaños de la abuela. Creo que una comida así es genial, porque todo el mundo tiene tiempo para hablar. En mi país también comemos a menudo al aire libre en verano, pero normalmente con la familia, no con los vecinos.",
       "check": [
-        "Say what is in the foreground and in the background: that is the step from A1 to A2.",
-        "A guess with a reason: “I think it's …, because …”",
+        "Say what is en primer plano and al fondo: that is the step from A1 to A2.",
+        "A guess with a reason: “Creo que es …, porque …”",
         "End with a comparison with your own life or country. At A2 the examiner almost always asks."
       ],
       "image": "/assets/sprechen/a2-bild-nachbarschaftsfest.jpg"
@@ -323,21 +328,21 @@
         "Where are the people?",
         "What do they look like? What are they doing?",
         "How does the woman feel, do you think?",
-        "How long do you usually wait for a doctor's appointment?",
+        "How long do you usually wait for an appointment at the health centre (centro de salud)?",
         "What do you do when you are ill? Do you go to a doctor or a pharmacy first?"
       ],
       "phrases": [
-        "The woman is sitting in the waiting room.",
-        "On the left there's a doctor. He's / She's holding …",
-        "She looks a bit worried.",
-        "Maybe the doctor has got her test results.",
-        "I usually wait about … for an appointment."
+        "La mujer está sentada en la sala de espera.",
+        "A la izquierda hay un médico. Tiene …",
+        "Parece un poco preocupada.",
+        "A lo mejor el médico tiene sus resultados.",
+        "Normalmente espero unos … para una cita."
       ],
-      "model": "The picture shows a waiting room at a doctor's. A young woman is sitting on a grey chair. She's wearing a dark suit. On the left there's a doctor in a white coat. We can only see the doctor's arm and a yellow folder. The woman is looking up at the doctor. She looks a bit worried. Maybe the doctor has got her test results. When I'm ill, I usually phone my doctor first. I often wait two or three weeks for an appointment. I think that's quite long.",
+      "model": "La foto muestra una sala de espera. Una mujer joven está sentada en una silla gris. Lleva un traje oscuro. A la izquierda hay un médico con bata blanca, pero solo vemos su brazo y una carpeta amarilla. La mujer mira al médico. Parece un poco preocupada. A lo mejor el médico tiene sus resultados. Cuando estoy enfermo, normalmente pido cita en el centro de salud. A veces espero una semana. Creo que es bastante tiempo.",
       "check": [
-        "Say how someone feels and why: “She looks worried. Maybe …” Pictures with people almost always get this question.",
-        "Say what you can and can't see: “We can only see the doctor's arm.”",
-        "A real detail from your own life (“two or three weeks”) is worth more than a general sentence."
+        "Say how someone feels and why: “Parece preocupada. A lo mejor …” Pictures with people almost always get this question.",
+        "Say what you can and can't see: “Solo vemos su brazo.”",
+        "A real detail from your own life (“a veces espero una semana”) is worth more than a general sentence."
       ],
       "image": "/assets/sprechen/a2-bild-wartezimmer.jpg"
     },
@@ -351,20 +356,20 @@
       "seconds": 90,
       "from": "sprechen-dtz",
       "index": 2,
-      "exam": "A task type from picture-based speaking tests.",
+      "exam": "A photo task in the style of speaking exams such as DELE and SIELE. Not an official exam task.",
       "phrases": [
-        "It looks as if …",
-        "I'd guess that they …, because …",
-        "It's probably …",
-        "I think it's important that …",
-        "When I was younger, I used to …"
+        "Parece que …",
+        "Diría que …, porque …",
+        "Seguramente …",
+        "Creo que es importante que …",
+        "Cuando era más joven, …"
       ],
       "check": [
         "Interpret, don't just describe: who are the two people, and what have they just done?",
-        "An opinion with a reason: at B1, “I think it's … because …” works well.",
-        "For “Have you ever …?” tell a short story in the past, with one example."
+        "An opinion with a reason: at B1, “Me parece … porque …” works well.",
+        "For “¿Alguna vez has …?” tell a short story in the past, with one example."
       ],
-      "model": "In the picture a young man and an older woman are walking through a park together. They're both wearing sports clothes and they've got towels round their necks. He's holding a water bottle. It looks as if they've just done some exercise together. He's got his arm round her shoulders and she's laughing. I'd guess they're mother and son, because they seem so close. It's probably summer, because the trees are green. I think it's really nice when young and older people do things together, because both of them get something out of it. When I was younger, I used to help my grandmother with her shopping every week."
+      "model": "En la foto, un chico joven y una señora mayor caminan juntos por un parque. Los dos llevan ropa de deporte y una toalla al cuello, y él tiene una botella de agua en la mano. Parece que acaban de hacer ejercicio juntos. Él le pasa el brazo por los hombros y ella se ríe. Diría que son madre e hijo, porque se les ve muy unidos. Seguramente es verano, porque los árboles están verdes. Me parece muy bonito que jóvenes y mayores hagan cosas juntos, porque los dos salen ganando. Cuando era más joven, ayudaba a mi abuela con la compra todas las semanas."
     },
     {
       "id": "b1-bild-bewerbungsgespraech",
@@ -376,28 +381,28 @@
       "seconds": 120,
       "imageNeeded": "A bright office with a big window: a young woman and a man in a suit sit opposite each other at a table, with a laptop and papers. A plant between them.",
       "imageQuery": "job interview office desk candidate",
-      "prompt": "Describe the picture and then talk about the topic.",
+      "prompt": "Describe la foto y después habla del tema.",
       "bullets": [
-        "Who is sitting where, and who could be who?",
-        "What is the atmosphere like?",
-        "How do you prepare for a job interview?",
-        "Which questions are almost always asked?",
-        "Have you ever had a job interview in English?",
-        "What is different about applying for a job in your country?"
+        "¿Quién está sentado dónde y quién podría ser cada persona?",
+        "¿Cómo es el ambiente?",
+        "¿Cómo te preparas para una entrevista de trabajo?",
+        "¿Qué preguntas se hacen casi siempre?",
+        "¿Has tenido alguna vez una entrevista de trabajo en español?",
+        "¿Qué es diferente cuando buscas trabajo en tu país?"
       ],
       "phrases": [
-        "On the left there's …, opposite her …",
-        "You can tell from … that he's the interviewer.",
-        "I'd guess that …",
-        "In my opinion, the most important thing is …",
-        "When I applied for my first job, …"
+        "A la izquierda hay …, enfrente de ella …",
+        "Se nota por … que él es el entrevistador.",
+        "Diría que …",
+        "En mi opinión, lo más importante es …",
+        "Cuando busqué mi primer trabajo, …"
       ],
-      "model": "The picture shows an office with a big window. On the left there's a young woman, and opposite her there's a man in a dark suit with glasses. There's a laptop and some papers on the table. I'd guess it's a job interview. The man is probably the interviewer, because the laptop and the papers are in front of him. The woman is smiling, but she might be a bit nervous. To prepare for an interview, you should find out about the company, think about answers to the usual questions and get your documents ready. They almost always ask about your strengths and why you want this job. When I applied for my first job in English, I was very nervous because I was afraid of making mistakes. Now I know that most employers care more about whether you can do the job.",
+      "model": "La foto muestra una oficina con una ventana grande. A la izquierda hay una mujer joven y, enfrente de ella, un hombre con gafas y traje oscuro. En la mesa hay un portátil y unos papeles. Diría que es una entrevista de trabajo. Seguramente el hombre es el entrevistador, porque tiene el portátil y los papeles delante. La mujer sonríe, pero puede que esté un poco nerviosa. En mi opinión, lo más importante para preparar una entrevista es informarse sobre la empresa, pensar en las preguntas habituales y tener los documentos a mano. Casi siempre te preguntan por tus puntos fuertes y por qué quieres ese trabajo. Cuando hice mi primera entrevista en español, estaba muy nervioso porque tenía miedo de equivocarme. Ahora sé que a la mayoría de las empresas les importa más que sepas hacer el trabajo.",
       "check": [
-        "Use place words to organise what you say: on the left, on the right, opposite, in the background.",
-        "Show that a guess is a guess (“I'd guess that …”, “might be”) and give a reason.",
-        "The part in the past (“When I applied …, I was …”) is expected at B1, not optional.",
-        "One sentence with “In my opinion”: giving your opinion is the real B1 part."
+        "Use place words to organise what you say: a la izquierda, a la derecha, enfrente de, al fondo.",
+        "Show that a guess is a guess (“Diría que …”, “puede que esté …”) and give a reason.",
+        "The part in the past is expected at B1: the indefinido for the event (“hice”), the imperfecto for how you felt (“estaba”).",
+        "One sentence with “En mi opinión”: giving your opinion is the real B1 part."
       ],
       "image": "/assets/sprechen/b1-bild-bewerbungsgespraech.jpg"
     },
@@ -407,30 +412,30 @@
       "set": "b1-arbeit",
       "type": "bild",
       "title": "In the workshop",
-      "blurb": "Apprenticeships, skilled trades, and why fewer young people choose them.",
+      "blurb": "Vocational training, skilled trades, and why so few young people choose them.",
       "seconds": 120,
       "imageNeeded": "A workshop: an older worker with grey hair works at a metal bench, a young man stands next to him and watches. Work clothes, a real workshop.",
       "imageQuery": "workshop apprentice mechanic teaching",
-      "prompt": "Describe the picture and then talk about the topic.",
+      "prompt": "Describe la foto y después habla del tema.",
       "bullets": [
-        "What kind of place is this?",
-        "What are the two people doing?",
-        "What is an apprenticeship?",
-        "Why do fewer young people want to learn a trade today?",
-        "What job did you learn? How did you learn it?"
+        "¿Qué tipo de lugar es?",
+        "¿Qué hacen las dos personas?",
+        "¿Qué es la Formación Profesional (FP)?",
+        "¿Por qué crees que a muchos jóvenes no les atraen los oficios?",
+        "¿Qué oficio o profesión aprendiste? ¿Cómo lo aprendiste?"
       ],
       "phrases": [
-        "It seems to be a workshop.",
-        "The older man is showing the young man how to …",
-        "An apprentice works for a company and also studies.",
-        "One reason could be that …",
-        "I trained as a …"
+        "Parece ser un taller.",
+        "El mayor le enseña al chico cómo …",
+        "En la FP estudias y también haces prácticas en una empresa.",
+        "Una razón podría ser que …",
+        "Yo aprendí el oficio de …"
       ],
-      "model": "The picture seems to show a workshop. There are two people at a metal bench: an older man with grey hair and a young man in a black T-shirt. The older man is working with his hands, and the young man is watching carefully. I suppose the older man is teaching him, because the young man is standing very close and following every move. Maybe he's an apprentice. An apprentice works for a company and earns money, and at the same time they study, for example at a college. But today fewer young people choose this way. One reason could be that many of them prefer to go to university, because they hope to earn more later. I trained as an electrician myself, and I think in a trade you can see very quickly what you have done.",
+      "model": "La foto parece mostrar un taller. Hay dos personas junto a un banco de metal: un hombre mayor con el pelo gris y un chico con camiseta negra. El hombre mayor trabaja con las manos y el chico mira con mucha atención. Supongo que el mayor le está enseñando, porque el chico está muy cerca y sigue cada movimiento. A lo mejor está haciendo prácticas. En España, muchos jóvenes estudian Formación Profesional: van a un centro de estudios y también hacen prácticas en una empresa. Pero en muchos oficios cuesta encontrar personal. Una razón podría ser que muchos jóvenes prefieren ir a la universidad, porque esperan ganar más en el futuro. Yo aprendí el oficio de electricista, y creo que en un oficio se ve muy pronto lo que has hecho.",
       "check": [
-        "“I suppose …, because …” joins a guess and a reason in one sentence.",
-        "Explain a word (apprenticeship, trade) instead of just saying it.",
-        "The “why” question gets a real answer with “because” or “One reason could be that …”."
+        "“Supongo que …, porque …” joins a guess and a reason in one sentence.",
+        "Explain a word (FP, oficio) instead of just saying it.",
+        "The “¿por qué?” question gets a real answer with “porque” or “Una razón podría ser que …”."
       ],
       "image": "/assets/sprechen/b1-bild-werkstatt.jpg"
     },
@@ -444,26 +449,26 @@
       "seconds": 120,
       "imageNeeded": "A front desk in an office: a member of staff with a tablet talks to a visitor across the counter. Light, plain room.",
       "imageQuery": "office reception desk paperwork appointment",
-      "prompt": "Describe the picture and then talk about the topic.",
+      "prompt": "Describe la foto y después habla del tema.",
       "bullets": [
-        "Where are the people, and how can you tell?",
-        "What are they doing?",
-        "For what kind of things do people go to an office like this, for example at the council?",
-        "What is difficult about official forms and offices when English isn't your first language?",
-        "Think of a time you had to sort something out at an office. What happened?"
+        "¿Dónde están estas personas y cómo lo sabes?",
+        "¿Qué están haciendo?",
+        "¿Para qué tipo de trámites va la gente a una oficina así, por ejemplo al ayuntamiento?",
+        "¿Qué es lo más difícil de los formularios y las oficinas cuando el español no es tu primera lengua?",
+        "Piensa en una vez que tuviste que resolver un trámite en una oficina. ¿Qué pasó?"
       ],
       "phrases": [
-        "You can tell from … that she works there.",
-        "The visitor seems to be asking about …",
-        "You usually need an appointment for …",
-        "The most difficult thing is that …",
-        "When I first came here, …"
+        "Se nota que trabaja aquí, porque …",
+        "Parece que la visitante pregunta por …",
+        "Para eso normalmente hace falta cita previa.",
+        "Lo más difícil es que …",
+        "Cuando llegué aquí, …"
       ],
-      "model": "In the picture two women are talking at a front desk. You can tell that the woman on the left works there, because she's standing behind the counter and holding a tablet. The other woman is a visitor. She's smiling, so I think the conversation is going well. Maybe she's asking about an appointment or a form. People go to offices like this for lots of things, for example at the council for a parking permit or a question about council tax. The most difficult thing is often the language on the forms, because there are lots of words you never hear in everyday life. When I first came here, I filled in a form wrongly and had to do it again three times. Now I just ask at the desk when I don't understand something.",
+      "model": "En la foto, dos mujeres hablan en un mostrador de atención al público. Se nota que la mujer de la izquierda trabaja allí, porque está detrás del mostrador y tiene una tableta. La otra mujer es una visitante. Sonríe, así que creo que la conversación va bien. A lo mejor pregunta por una cita o un formulario. La gente va a oficinas así por muchas cosas, por ejemplo al ayuntamiento para empadronarse o para pedir un certificado. Lo más difícil suele ser el lenguaje de los formularios, porque tienen muchas palabras que nunca oyes en la vida diaria. Cuando llegué aquí, rellené mal un formulario y tuve que repetirlo tres veces. Ahora, cuando no entiendo algo, pregunto directamente en el mostrador.",
       "check": [
-        "Show how you know something: “You can tell that …, because …”",
+        "Show how you know something: “Se nota que …, porque …”",
         "Give a real example from your own life instead of a general complaint.",
-        "“Now I …” shows how things have changed: examiners like to hear that at B1."
+        "“Ahora …” shows how things have changed: examiners like to hear that at B1."
       ],
       "image": "/assets/sprechen/b1-bild-buergeramt.jpg"
     },
@@ -476,7 +481,7 @@
       "seconds": 180,
       "from": "sprechen-telc",
       "index": 0,
-      "exam": "A task type from speaking tests at B1 and B2."
+      "exam": "A long turn in the style of DELE and SIELE speaking tasks at B1 and B2. Not an official exam task."
     },
     {
       "id": "b2-diskussion-ehrenamt-schule",
@@ -488,7 +493,7 @@
       "from": "sprechen-telc",
       "index": 0,
       "stage": "diskussion",
-      "exam": "A task type from speaking tests at B2."
+      "exam": "A discussion in the style of DELE and SIELE speaking tasks at B2. Not an official exam task."
     },
     {
       "id": "b2-planen-abschiedsfeier",
@@ -497,30 +502,30 @@
       "title": "Planning together: a leaving party at work",
       "blurb": "Suggest, disagree, agree: the task where you react rather than present.",
       "seconds": 240,
-      "prompt": "A colleague is retiring after eleven years. With another person, plan the leaving party. Talk about all the points, make suggestions, react to the other person's suggestions and agree on a plan at the end.",
+      "prompt": "Una compañera se jubila después de once años en la empresa. Con otra persona, organizad su fiesta de despedida. Hablad de todos los puntos, haced propuestas, reaccionad a las de la otra persona y, al final, poneos de acuerdo en un plan.",
       "bullets": [
-        "When and where should the party be?",
-        "Who should you invite: just your team or the whole company?",
-        "Food and drink: make it yourselves or order it?",
-        "A present: what, and who collects the money?",
-        "Who will make the speech?"
+        "¿Cuándo y dónde será la fiesta?",
+        "¿A quién invitáis: solo a vuestro equipo o a toda la empresa?",
+        "La comida y la bebida: ¿la preparáis vosotros o la encargáis?",
+        "El regalo: ¿qué le regaláis y quién recoge el dinero?",
+        "¿Quién dirá unas palabras?"
       ],
       "phrases": [
-        "I'd suggest that we …",
-        "How about …? / What if we …?",
-        "I see what you mean, but …",
-        "I'm not sure about that, because …",
-        "Can we agree that …?",
-        "Right, so we've agreed: …"
+        "Yo propondría …",
+        "¿Qué tal si …? / ¿Y si …?",
+        "Entiendo lo que dices, pero …",
+        "No lo tengo tan claro, porque …",
+        "¿Quedamos en que …?",
+        "Entonces, quedamos así: …"
       ],
-      "model": "— I'd suggest that we have the party on the last Friday of the month, straight after work. Then nobody has to come in specially.\n— I see what you mean, but on Fridays half the team have already left for the weekend. How about Thursday?\n— Fine, Thursday's better. And where? The canteen, or would you rather go to a restaurant?\n— I'd go for the canteen. It doesn't cost anything and we can decorate it ourselves. But I'd order the food, otherwise one person ends up alone in the kitchen again.\n— Right, so we've agreed: Thursday, the canteen, and we'll order the food. That leaves the present.\n— She loves plants. What if I collect the money from the team and you buy the present?\n— Deal. And I think Mr Demir should make the speech. He's worked with her the longest.",
+      "model": "— Yo propondría hacer la fiesta el último viernes del mes, justo después del trabajo. Así nadie tiene que venir expresamente.\n— Entiendo lo que dices, pero los viernes a mediodía la mitad del equipo ya se ha ido. ¿Qué tal el jueves?\n— Vale, mejor el jueves. ¿Y dónde? ¿En el comedor de la empresa o prefieres ir a un restaurante?\n— Yo elegiría el comedor. No cuesta nada y podemos decorarlo nosotros. Eso sí, encargaría la comida; si no, acaba una persona sola en la cocina otra vez.\n— Perfecto. Entonces, quedamos así: el jueves, en el comedor, y encargamos la comida. Nos falta el regalo.\n— Le encantan las plantas. ¿Y si yo recojo el dinero del equipo y tú compras el regalo?\n— Hecho. Y creo que las palabras debería decirlas Mario. Es quien lleva más años trabajando con ella.",
       "check": [
         "You react to the other person instead of working through your own list.",
         "Disagree politely at least once: that is what the task tests.",
         "At the end you clearly agree on every point.",
-        "Polite forms with would and could: I'd suggest, I'd go for, could we …?"
+        "Polite forms with the conditional: propondría, elegiría, ¿podríamos …?"
       ],
-      "exam": "A task type from paired speaking tests at B1 and B2."
+      "exam": "A conversation in the style of DELE and SIELE role plays, here with a partner. Not an official exam task."
     },
     {
       "id": "b2-bild-wochenmarkt",
@@ -532,28 +537,28 @@
       "seconds": 150,
       "imageNeeded": "A market stall full of lettuce and green vegetables under a green awning; an older customer in a pink shirt, a stallholder reaching across. Morning light.",
       "imageQuery": "farmers market vegetable stall customer",
-      "prompt": "Describe the picture briefly and then give your opinion.",
+      "prompt": "Describe brevemente la foto y después da tu opinión.",
       "bullets": [
-        "What can you see in the picture?",
-        "What impression does the scene give?",
-        "What are the advantages of shopping at a market rather than a supermarket?",
-        "What are the arguments against it?",
-        "Is buying local food a question of principle or of money?",
-        "How do you do your own shopping, and why?"
+        "¿Qué ves en la foto?",
+        "¿Qué impresión da la escena?",
+        "¿Qué ventajas tiene comprar en un mercado en lugar de en un supermercado?",
+        "¿Qué argumentos hay en contra?",
+        "¿Comprar producto local es una cuestión de principios o de dinero?",
+        "¿Cómo haces tú la compra y por qué?"
       ],
       "phrases": [
-        "In the foreground there's …, and behind it …",
-        "The scene gives the impression that …",
-        "One clear advantage of … is that …",
-        "On the other hand, …",
-        "We shouldn't forget that …",
-        "In the end, it depends on whether …"
+        "En primer plano hay …, y detrás …",
+        "La escena da la impresión de que …",
+        "Una ventaja clara de … es que …",
+        "Por otro lado, …",
+        "No hay que olvidar que …",
+        "Al final, depende de si …"
       ],
-      "model": "In the foreground there's a market stall piled high with lettuce and other green vegetables, and behind it an older man in a pink shirt is looking at what's on offer. The stallholder is reaching across to him, so they seem to be in the middle of a conversation. The scene gives the impression that shopping here is slower and more personal: you don't just buy things, you talk to the people who sell them. One clear advantage of a market is that the food hasn't travelled as far, and you can find out where it comes from. On the other hand, markets are often only open when most people are at work: if you finish at six, the stalls have already gone. We also shouldn't forget that prices are usually higher. So buying local isn't only a question of principle, it's also a question of income and working hours. I do most of my shopping at the supermarket and go to the market on Saturdays if I can. To be honest, that's out of convenience, not principle.",
+      "model": "En primer plano hay un puesto de mercado lleno de lechugas y otras verduras, y detrás un señor mayor con un polo rosa espera su turno. A la izquierda, el vendedor atiende a otro cliente y le da el cambio. La escena da la impresión de que comprar aquí es más lento y más personal: no solo compras, también hablas con quien te vende. Una ventaja clara del mercado es que la comida no ha viajado tanto y puedes preguntar de dónde viene. Por otro lado, muchos mercados solo abren cuando la mayoría de la gente está trabajando: si sales a las seis de la tarde, los puestos ya han cerrado. Tampoco hay que olvidar que los precios suelen ser más altos. Así que comprar producto local no es solo una cuestión de principios, también lo es de ingresos y de horarios. Yo hago casi toda la compra en el supermercado y voy al mercado los sábados si puedo. Para ser sincero, lo hago por comodidad, no por principios.",
       "check": [
         "The description is short. At B2 it is the way in, not the task.",
-        "Both sides are there, with the linking words for them: one clear advantage, on the other hand, we shouldn't forget.",
-        "Saying “not only …, it's also …” shows you have really thought the question through.",
+        "Both sides are there, with the linking words for them: una ventaja clara, por otro lado, no hay que olvidar.",
+        "Saying “no es solo …, también …” shows you have really thought the question through.",
         "The personal ending is honest rather than perfect: that is harder to say and sounds more mature."
       ],
       "image": "/assets/sprechen/b2-bild-wochenmarkt.jpg"
@@ -568,28 +573,28 @@
       "seconds": 150,
       "imageNeeded": "A meeting room or small hall: a woman with a microphone speaks at the front; behind her a big screen shows a person joining by video. People in the foreground are watching.",
       "imageQuery": "hybrid meeting room video conference screen",
-      "prompt": "Describe the picture briefly and then give your opinion.",
+      "prompt": "Describe brevemente la foto y después da tu opinión.",
       "bullets": [
-        "What kind of situation does the picture show?",
-        "Who is in the room, and who is joining online?",
-        "What are the advantages of hybrid working?",
-        "What are the disadvantages for the people who join online?",
-        "Should companies tell staff which days to be in the office?",
-        "How would you most like to work?"
+        "¿Qué tipo de situación muestra la foto?",
+        "¿Quién está en la sala y quién participa en línea?",
+        "¿Qué ventajas tiene el trabajo híbrido?",
+        "¿Qué desventajas tiene para quienes se conectan a distancia?",
+        "¿Deberían las empresas decidir qué días va la plantilla a la oficina?",
+        "¿Cómo te gustaría trabajar a ti?"
       ],
       "phrases": [
-        "The picture obviously shows …",
-        "What strikes me is that …",
-        "A clear advantage is that …",
-        "The problem, in my view, is that …",
-        "Some people might argue that …",
-        "Personally, I'd …"
+        "Evidentemente, la foto muestra …",
+        "Lo que me llama la atención es que …",
+        "Una ventaja clara es que …",
+        "El problema, a mi modo de ver, es que …",
+        "Algunos dirán que …",
+        "Personalmente, preferiría …"
       ],
-      "model": "The picture obviously shows a meeting or a talk where some people are in the room and at least one person is joining by video. At the front a woman is speaking into a microphone, and behind her the person on the big screen is listening. In the foreground we can see the backs of two people in the audience. What strikes me is that everyone is looking at the woman with the microphone, not at the screen. A clear advantage of hybrid working is that people save time travelling and can fit work around their family more easily. The problem, in my view, is that the people who join online are at a disadvantage: they miss the chat before and after the meeting, and if they want to say something, they have to wait for a gap. Some people might argue that a good chair can solve this, but in practice that rarely happens by itself. So I think fixed office days for the whole team make more sense than a rule for every single person. Personally, I'd like to work two days in the office and three at home.",
+      "model": "Evidentemente, la foto muestra una reunión o una charla en la que algunas personas están en la sala y al menos una participa por videollamada. Delante, una mujer habla por un micrófono y, detrás de ella, la persona de la pantalla grande escucha. En primer plano se ven de espaldas dos personas del público. Lo que me llama la atención es que todos miran a la mujer del micrófono, no a la pantalla. Una ventaja clara del trabajo híbrido es que ahorras tiempo de desplazamiento y puedes conciliar mejor con la familia. El problema, a mi modo de ver, es que quienes se conectan a distancia salen perdiendo: se pierden la charla de antes y de después y, si quieren intervenir, tienen que esperar a que haya un hueco. Algunos dirán que con una buena moderación se resuelve, pero en la práctica eso rara vez ocurre por sí solo. Por eso creo que tiene más sentido fijar días de oficina para todo el equipo que una regla para cada persona. Personalmente, preferiría trabajar dos días en la oficina y tres en casa.",
       "check": [
-        "Something you notice in the picture supports your argument (“What strikes me is that …”), not just general knowledge.",
-        "The objection to your own view is there (“Some people might argue …”) and you answer it.",
-        "The difference between “fixed office days for the team” and “a rule for every person” is a fine distinction. That is exactly what separates B2 from B1."
+        "Something you notice in the picture supports your argument (“Lo que me llama la atención es que …”), not just general knowledge.",
+        "The objection to your own view is there (“Algunos dirán que …”) and you answer it.",
+        "The difference between “días de oficina para todo el equipo” and “una regla para cada persona” is a fine distinction. That is exactly what separates B2 from B1."
       ],
       "image": "/assets/sprechen/b2-bild-videokonferenz.jpg"
     },
@@ -603,26 +608,26 @@
       "seconds": 150,
       "imageNeeded": "A building site in a town: a yellow digger in front of new blocks of flats, a white van, piles of sand. Daylight.",
       "imageQuery": "excavator digging city street buildings",
-      "prompt": "Describe the picture briefly and then give your opinion.",
+      "prompt": "Describe brevemente la foto y después da tu opinión.",
       "bullets": [
-        "What can you see in the picture?",
-        "What does a building site like this mean for the people who live nearby and for local shops?",
-        "Why do towns build so many new flats?",
-        "How should a town involve the people who are affected?",
-        "Is there a similar project where you live? What do people say about it?"
+        "¿Qué ves en la foto?",
+        "¿Qué significa una obra así para los vecinos y para las tiendas del barrio?",
+        "¿Por qué se construyen tantos pisos nuevos en las ciudades?",
+        "¿Cómo debería un ayuntamiento hacer participar a las personas afectadas?",
+        "¿Hay un proyecto parecido donde vives? ¿Qué dice la gente?"
       ],
       "phrases": [
-        "In the centre of the picture there's …",
-        "What you notice first is …",
-        "For people who live nearby, this means …",
-        "On the other hand, you could argue that …",
-        "The real question is not whether …, but how …",
-        "In my town, they're currently …"
+        "En el centro de la foto hay …",
+        "Lo primero que se nota es …",
+        "Para quienes viven cerca, esto significa …",
+        "Por otro lado, se podría argumentar que …",
+        "La verdadera cuestión no es si …, sino cómo …",
+        "En mi ciudad están …"
       ],
-      "model": "In the centre of the picture there's a big yellow digger on a building site, and behind it there are some new blocks of flats with balconies. On the left there's a white van, and the ground is covered in sand and stones. What you notice first is how close the site is to the flats: people are clearly already living there. For people who live nearby, a site like this means months of noise, dust and lorries. For local shops it can mean fewer customers, because the street is harder to get to. On the other hand, you could argue that towns have no choice: there aren't enough homes, and you can't build new ones without building sites. In my view, the real question is not whether a town should build, but how: whether the people nearby are told early, whether the work is done at reasonable times, and whether the timetable is kept. In my town, they're currently building flats on an old car park, and that's exactly what people argue about. Nobody is against new homes; they're against the noise starting at seven in the morning.",
+      "model": "En el centro de la foto hay una gran excavadora amarilla en una obra y, detrás, unos bloques de pisos nuevos con balcones. A la izquierda hay una furgoneta blanca y el suelo está lleno de arena y piedras. Lo primero que se nota es lo cerca que está la obra de los pisos: está claro que ya vive gente allí. Para quienes viven cerca, una obra así significa meses de ruido, polvo y camiones. Para las tiendas del barrio puede significar menos clientes, porque cuesta más llegar a la calle. Por otro lado, se podría argumentar que las ciudades no tienen elección: faltan viviendas, y no se pueden construir sin obras. A mi juicio, la verdadera cuestión no es si hay que construir, sino cómo: si se informa con tiempo a los vecinos, si se trabaja en horarios razonables y si se cumplen los plazos. En mi ciudad están construyendo pisos en un antiguo aparcamiento, y de eso discute la gente. Nadie está en contra de las viviendas nuevas; lo que molesta es que el ruido empiece a las siete de la mañana.",
       "check": [
         "A detail from the picture (the flats right next to the site) becomes part of the argument, not just a description.",
-        "“The real question is not whether …, but how …” moves the discussion on: a strong B2 phrase.",
+        "“La verdadera cuestión no es si …, sino cómo …” moves the discussion on: a strong B2 phrase.",
         "The opinion ends with conditions, not a simple yes or no. That is more balanced and easier to defend."
       ],
       "image": "/assets/sprechen/b2-bild-baustelle-innenstadt.jpg"
@@ -637,27 +642,27 @@
       "seconds": 150,
       "imageNeeded": "A recycling centre: a big sign saying “Recycling only”, piles of flattened cardboard boxes and blue recycling bins.",
       "imageQuery": "recycling yard large waste containers",
-      "prompt": "Describe the picture briefly and then give your opinion.",
+      "prompt": "Describe brevemente la foto y después da tu opinión.",
       "bullets": [
-        "What can you see in the picture?",
-        "How does recycling work where you live?",
-        "Why don't some people sort their rubbish?",
-        "Does recycling at home really help, or does the problem need to be solved somewhere else?",
-        "How do people deal with rubbish in your country?"
+        "¿Qué ves en la foto?",
+        "¿Cómo funciona el reciclaje donde vives?",
+        "¿Por qué hay gente que no separa la basura?",
+        "¿Reciclar en casa ayuda de verdad, o el problema hay que resolverlo en otro sitio?",
+        "¿Cómo se trata la basura en tu país?"
       ],
       "phrases": [
-        "The picture shows …",
-        "Where I live, the system works like this: …",
-        "A common argument against this is that …",
-        "That may be true, but …",
-        "What would really make a difference is …",
-        "Compared with this, in … people …"
+        "La foto muestra …",
+        "Donde yo vivo, el sistema funciona así: …",
+        "Un argumento habitual en contra es que …",
+        "Puede que sea cierto, pero …",
+        "Lo que de verdad marcaría la diferencia es …",
+        "En comparación, en … la gente …"
       ],
-      "model": "The picture shows a recycling centre. There's a big sign that says “Recycling only”, and under it there's a huge pile of cardboard boxes and some blue recycling bins. Where I live, the system works like this: you sort your rubbish at home into different bins, for example paper and card, cans and plastic bottles, food waste, and everything else. The council collects them from outside your house, and anything that doesn't fit in the bins, like old furniture, goes to a recycling centre like this one. A common argument against this is that it isn't worth the effort, because a lot of it gets burnt or sent abroad anyway. That may be true for some plastics, but glass and metal can be recycled again and again, and paper several times. What would really make a difference, though, is producing less packaging in the first place. Recycling limits the damage; it doesn't solve the problem. Compared with this, in my country people hardly sort their rubbish at all, but they also throw away much less, because things get repaired.",
+      "model": "La foto muestra un punto limpio. Hay un cartel grande en inglés que dice «Recycling only», es decir, solo reciclaje, y debajo una enorme montaña de cajas de cartón y unos cubos azules. Donde yo vivo, el sistema funciona así: separas la basura en casa y la llevas a los contenedores de la calle, por ejemplo el azul para el papel y el cartón, el amarillo para los envases y el verde para el vidrio. Lo que no cabe en un contenedor o no se puede tirar allí, como las pilas o el aceite usado, se lleva a un punto limpio como este. Un argumento habitual en contra es que no merece la pena, porque mucho acaba quemado o enviado al extranjero. Puede que sea cierto para algunos plásticos, pero el vidrio y el metal se pueden reciclar una y otra vez, y el papel varias veces. Lo que de verdad marcaría la diferencia, sin embargo, es producir menos envases desde el principio. Reciclar limita el daño; no resuelve el problema. En comparación, en mi país casi nadie separa la basura, pero también se tira mucho menos, porque las cosas se arreglan.",
       "check": [
         "A system is explained, not just judged.",
         "The counter-argument and your answer to it are both there.",
-        "“Recycling limits the damage; it doesn't solve the problem”: a short, sharp sentence at the end stays with the listener.",
+        "“Reciclar limita el daño; no resuelve el problema”: a short, sharp sentence at the end stays with the listener.",
         "The comparison with your own country doesn't judge; it describes a difference."
       ],
       "image": "/assets/sprechen/b2-bild-wertstoffhof.jpg"

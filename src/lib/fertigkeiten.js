@@ -84,9 +84,13 @@ const ERROR_CHECK = [
 ];
 
 const cardPoint = (pt) => {
-  const x = pt.replace(/^and /, "");
+  const x = pt.replace(/^y /, "");
   return x[0].toUpperCase() + x.slice(1);
 };
+
+// The rule of the listening and reading items: instructions are English at A1–A2 and Spanish
+// from B1, where the question itself is part of the practice.
+const SPANISH_LEVELS = new Set(["B1", "B2"]);
 
 function resolveSprechen(entry) {
   switch (entry.from) {
@@ -99,7 +103,9 @@ function resolveSprechen(entry) {
       return {
         ...entry,
         image: pic.image,
-        prompt: "Describe the picture. After that, the examiner asks you about your own experience.",
+        prompt: SPANISH_LEVELS.has(entry.level)
+          ? "Describe la foto. Después, el examinador te hace preguntas sobre tu propia experiencia."
+          : "Describe the picture. After that, the examiner asks you about your own experience.",
         bullets: pic.beschreibung,
         followUps: pic.persoenlich,
       };
@@ -112,11 +118,11 @@ function resolveSprechen(entry) {
         image: p.image,
         prompt: diskussion
           ? p.diskussion
-          : `First talk about the photo for one minute. Then take one minute to make notes and talk for up to two minutes. Topic card: ${p.kurzvortrag.topic.replace(/ You should say:$/, "")}`,
+          : `Primero habla de la foto durante un minuto. Después tómate un minuto para preparar unas notas y habla hasta dos minutos. El tema: ${p.kurzvortrag.topic.replace(/ Explica:$/, "")}`,
         bullets: diskussion
-          ? ["Say clearly what you think.", "Give two reasons, each with an example.", "Answer the other person's objection.", "Sum up your position at the end."]
-          // The card's points read on from "You should say:"; as bullets of their own they
-          // start with a capital and drop the "and" before the last one.
+          ? ["Di con claridad lo que piensas.", "Da dos razones, cada una con un ejemplo.", "Responde a la objeción de la otra persona.", "Al final, resume tu postura."]
+          // The card's points read on from "Explica:"; as bullets of their own they
+          // start with a capital and drop the "y" before the last one.
           : [...p.beschreibung, ...p.kurzvortrag.points.map(cardPoint)],
         href: "/speaking-b1-b2",
         hrefLabel: "in the long-turn trainer",

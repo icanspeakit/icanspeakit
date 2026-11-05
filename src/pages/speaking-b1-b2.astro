@@ -52,13 +52,13 @@ import data from "../data/sprechen-b1b2.json";
 
     function stageBody(p, s) {
       if (s.key === "beschreibung") {
-        return `<ul>${p.beschreibung.map((q) => `<li>${q}</li>`).join("")}</ul>`;
+        return `<ul lang="es">${p.beschreibung.map((q) => `<li>${q}</li>`).join("")}</ul>`;
       }
       if (s.key === "kurzvortrag") {
-        return `<p class="prompt-topic"><strong>${t("sprechenB1B2.topic", "Topic:")}</strong> ${p.kurzvortrag.topic}</p>
-                <ul>${p.kurzvortrag.points.map((q) => `<li>${q}</li>`).join("")}</ul>`;
+        return `<p class="prompt-topic"><strong>${t("sprechenB1B2.topic", "Topic:")}</strong> <span lang="es">${p.kurzvortrag.topic}</span></p>
+                <ul lang="es">${p.kurzvortrag.points.map((q) => `<li>${q}</li>`).join("")}</ul>`;
       }
-      return `<p class="prompt-topic">${p.diskussion}</p>`;
+      return `<p class="prompt-topic" lang="es">${p.diskussion}</p>`;
     }
 
     function render() {

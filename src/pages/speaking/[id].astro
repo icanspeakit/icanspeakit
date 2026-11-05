@@ -14,7 +14,8 @@ import { fitTitle } from "../../lib/seo/title.js";
 // The task and its talking points can also come in the learner's language
 // (src/data/uebersetzungen/sprechen.json, empty while English is the only help language):
 // not understanding the instruction is no reason to fail a speaking task. The useful
-// phrases and the model answer stay English — they are what is being practised.
+// phrases and the model answer stay Spanish — they are what is being practised. The task
+// and its points are English at A1–A2 and Spanish from B1 (see src/lib/fertigkeiten.js).
 import Layout from "../../layouts/Layout.astro";
 import { itemPath, itemSlug } from "../../lib/routes.js";
 import SiteNav from "../../components/SiteNav.astro";
@@ -50,12 +51,14 @@ const back = set
 // The exam line under a task is one of a handful of fixed sentences — keyed by its text, so
 // a sentence with no key yet simply stays as written in the data.
 const EXAM_KEYS: Record<string, string> = {
-  "The usual first part of a speaking test: introducing yourself.": "sprechen.exam.vorstellen",
-  "A task type from picture-based speaking tests.": "sprechen.exam.dtz",
-  "A task type from speaking tests at B1 and B2.": "sprechen.exam.telcB1B2",
-  "A task type from speaking tests at B2.": "sprechen.exam.telcB2",
-  "A task type from paired speaking tests at B1 and B2.": "sprechen.exam.telcPair",
+  "In the style of a beginners' speaking exam, which often starts with introducing yourself. Not an official exam task.": "sprechen.exam.vorstellen",
+  "A photo task in the style of speaking exams such as DELE and SIELE. Not an official exam task.": "sprechen.exam.dtz",
+  "A long turn in the style of DELE and SIELE speaking tasks at B1 and B2. Not an official exam task.": "sprechen.exam.telcB1B2",
+  "A discussion in the style of DELE and SIELE speaking tasks at B2. Not an official exam task.": "sprechen.exam.telcB2",
+  "A conversation in the style of DELE and SIELE role plays, here with a partner. Not an official exam task.": "sprechen.exam.telcPair",
 };
+// Instructions: English at A1–A2, Spanish from B1. Marked so a screen reader uses the right voice.
+const taskLang = ["B1", "B2"].includes(task.level) ? "es" : undefined;
 const ALSO_KEYS: Record<string, string> = {
   "/speaking-b1-b2": "sprechen.alsoIn.telc",
 };
@@ -106,7 +109,7 @@ const ALSO_KEYS: Record<string, string> = {
       <section class="sk-block">
         <h2 data-i18n="skills.h2.task">Aufgabe</h2>
         {tx && <GrammarHelp level={task.level} root="sk-page" reviewed={tx.reviewed} />}
-        <p>{task.prompt}</p>
+        <p lang={taskLang}>{task.prompt}</p>
         <GrammarHelpText text={field(tx?.prompt)} />
       </section>
 
@@ -123,7 +126,7 @@ const ALSO_KEYS: Record<string, string> = {
 
       <section class="sk-block">
         <h2 data-i18n="sprechen.h2.points">Darüber sollst du sprechen</h2>
-        <ul class="sk-points">{task.bullets.map((b) => <li>{b}</li>)}</ul>
+        <ul class="sk-points" lang={taskLang}>{task.bullets.map((b) => <li>{b}</li>)}</ul>
         <GrammarHelpText text={list(tx?.bullets)} />
       </section>
 
@@ -137,7 +140,7 @@ const ALSO_KEYS: Record<string, string> = {
           </p>
           <button class="sk-btn" type="button" id="sk-followups-show" data-i18n="sprechen.followUps.show">Nachfragen zeigen und Timer neu starten</button>
           <div id="sk-followups" hidden>
-            <ul class="sk-points">{task.followUps.map((q) => <li>{q}</li>)}</ul>
+            <ul class="sk-points" lang={taskLang}>{task.followUps.map((q) => <li>{q}</li>)}</ul>
             <GrammarHelpText text={list(tx?.followUps)} />
           </div>
         </section>
@@ -146,14 +149,14 @@ const ALSO_KEYS: Record<string, string> = {
       {task.phrases?.length > 0 && (
         <section class="sk-block">
           <h2 data-i18n="skills.h2.phrases">Redemittel</h2>
-          <div class="sk-phrases">{task.phrases.map((p) => <span class="sk-phrase">{p}</span>)}</div>
+          <div class="sk-phrases" lang="es">{task.phrases.map((p) => <span class="sk-phrase">{p}</span>)}</div>
         </section>
       )}
 
       {task.model && (
         <details class="sk-reveal">
           <summary data-i18n="sprechen.model">Modellantwort — erst öffnen, wenn du gesprochen hast</summary>
-          <div class="sk-reveal-body"><div class="sk-model">{task.model}</div></div>
+          <div class="sk-reveal-body"><div class="sk-model" lang="es">{task.model}</div></div>
         </details>
       )}
 
