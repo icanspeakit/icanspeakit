@@ -50,7 +50,7 @@ function resolveSchreiben(entry) {
       const p = dtz.writingPrompt;
       return { ...entry, situation: p.context, source: p.email, points: p.points,
                // `tips` is one "· "-separated string in lesen.json, not a list.
-               phrases: (p.tips ?? "").split(" · ").filter(Boolean), model: "", check: BRIEF_CHECK };
+               phrases: (p.tips ?? "").split(" · ").filter(Boolean), model: p.model ?? "", check: BRIEF_CHECK };
     }
     case "dtz-errorHunt": {
       // No answer key, deliberately — see the `context` in lesen.json. The page shows
@@ -69,16 +69,17 @@ function resolveSchreiben(entry) {
 // folder brings its own, which is always the better text.
 const FORM_CHECK = [
   "Every field is filled in. An empty field counts as a mistake, even if the information is in the text.",
-  "Copy names, numbers and dates exactly as they are in the text; a date in British order is day, then month (12 August, 12/08).",
+  "Copy names, numbers and dates exactly as they are in the text, with their accents; in Spain the day comes before the month (12 de septiembre, 12/09).",
   "Nothing made up: if something is not in the text, leave the field empty or put a dash.",
 ];
 const BRIEF_CHECK = [
   "Every point in the task is covered. A missing point costs more than three grammar mistakes.",
-  "Greeting and sign-off suit each other and the person (Hi David … Best wishes / See you soon).",
-  "The sentences are linked (so, because, but, also, although), not just one after the other.",
+  "Greeting and sign-off suit each other and the person (¡Hola, Javier! … Un abrazo).",
+  "The sentences are linked (así que, porque, pero, además, aunque), not just one after the other.",
 ];
 const ERROR_CHECK = [
   "Read first, then compare: discuss the text only once you have marked every mistake you can find.",
+  "The text has about 20 mistakes. Look at: ser or estar, gender, “desde” or “desde hace”, irregular participles, the subjunctive after “me gustaría que”, accents, “¿…?”, capital letters in dates, the punctuation after the greeting, and two closing lines translated word for word from English.",
   "Write down the mistakes you make yourself, too. That is the point of the task.",
 ];
 
@@ -184,6 +185,7 @@ export const SCHREIBEN_ICON = {
   nachricht: "link",
   email: "link",
   brief: "pencil",
+  opinion: "pencil",
   fehlerjagd: "target",
 };
 

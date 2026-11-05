@@ -36,6 +36,8 @@ const { task, prev, next } = Astro.props;
 const { types } = schreiben;
 const help = (uebersetzungen.entries as Record<string, any>)[task.id] ?? null;
 const parts = (task.source ?? "").split(/\*\*(.+?)\*\*/g);
+// Task wording is English at A1–A2 and Spanish at B1–B2 (see the note in schreiben.json).
+const taskLang = task.level === "B1" || task.level === "B2" ? "es" : undefined;
 ---
 <Layout
   title={fitTitle(`${task.title} – Writing ${task.level}`, task.title)}
@@ -60,7 +62,7 @@ const parts = (task.source ?? "").split(/\*\*(.+?)\*\*/g);
       {task.situation && (
         <section class="sk-block">
           <h2 data-i18n="skills.h2.task">Aufgabe</h2>
-          <p>{task.situation}</p>
+          <p lang={taskLang}>{task.situation}</p>
         </section>
       )}
 
@@ -69,7 +71,7 @@ const parts = (task.source ?? "").split(/\*\*(.+?)\*\*/g);
           {task.kind === "errors"
             ? <h2 data-i18n="schreiben.h2.errorText">Modelltext mit Fehlern</h2>
             : <h2 data-i18n="schreiben.h2.source">Vorlage</h2>}
-          <div class="sk-text">{parts.map((p, i) => (i % 2 ? <b>{p}</b> : p))}</div>
+          <div class="sk-text" lang="es">{parts.map((p, i) => (i % 2 ? <b>{p}</b> : p))}</div>
         </section>
       )}
 
@@ -84,11 +86,11 @@ const parts = (task.source ?? "").split(/\*\*(.+?)\*\*/g);
           <div class="sk-fields" id="sk-form">
             {task.fields.map((f, i) => (
               <div class="sk-field">
-                <label for={`sk-f${i}`}>{f.label}</label>
+                <label for={`sk-f${i}`} lang="es">{f.label}</label>
                 {/* The check lands in the box itself: green when it matches, the correction
                     right under it when it does not. See the #sk-solve handler below. */}
                 <div class="sk-field-in">
-                  <input id={`sk-f${i}`} type="text" autocomplete="off" data-expect={f.answer} aria-describedby={`sk-f${i}-fb`} />
+                  <input id={`sk-f${i}`} type="text" lang="es" autocomplete="off" data-expect={f.answer} aria-describedby={`sk-f${i}-fb`} />
                   <p class="sk-field-answer" id={`sk-f${i}-fb`} data-answer hidden></p>
                 </div>
               </div>
@@ -102,9 +104,9 @@ const parts = (task.source ?? "").split(/\*\*(.+?)\*\*/g);
         <>
           <section class="sk-block">
             <h2 data-i18n="schreiben.h2.points">Das muss vorkommen</h2>
-            <ul class="sk-points">{task.points.map((p) => <li>{p}</li>)}</ul>
+            <ul class="sk-points" lang={taskLang}>{task.points.map((p) => <li>{p}</li>)}</ul>
             {task.phrases?.length > 0 && (
-              <div class="sk-phrases">{task.phrases.map((p) => <span class="sk-phrase">{p}</span>)}</div>
+              <div class="sk-phrases">{task.phrases.map((p) => <span class="sk-phrase" lang={task.from ? undefined : "es"}>{p}</span>)}</div>
             )}
           </section>
 
@@ -113,6 +115,7 @@ const parts = (task.source ?? "").split(/\*\*(.+?)\*\*/g);
             <textarea
               class="sk-write"
               id="sk-write"
+              lang="es"
               placeholder="Schreib hier…"
               aria-label="Dein Text"
               data-i18n-attr="placeholder:schreiben.placeholder;aria-label:schreiben.h2.yourText"
@@ -131,7 +134,7 @@ const parts = (task.source ?? "").split(/\*\*(.+?)\*\*/g);
         <section class="sk-block">
           <h2 data-i18n="schreiben.h2.correction">Deine Korrektur</h2>
           <p class="sk-blurb" data-i18n="schreiben.correction.hint">Schreib den Text richtig ab — oder notiere nur die Stellen, die dir auffallen.</p>
-          <textarea class="sk-write" id="sk-write" aria-label="Deine Korrektur" data-i18n-attr="aria-label:schreiben.h2.correction"></textarea>
+          <textarea class="sk-write" id="sk-write" lang="es" aria-label="Deine Korrektur" data-i18n-attr="aria-label:schreiben.h2.correction"></textarea>
           <div class="sk-write-bar">
             <span id="sk-count" data-i18n="skills.words.many" data-i18n-vars='{"n":0}'>0 Wörter</span>
             <span data-i18n="schreiben.privacyShort">Der Text bleibt in diesem Browser.</span>
@@ -143,7 +146,7 @@ const parts = (task.source ?? "").split(/\*\*(.+?)\*\*/g);
       {task.model && (
         <details class="sk-reveal">
           <summary data-i18n="schreiben.model">Modelltext — erst öffnen, wenn du geschrieben hast</summary>
-          <div class="sk-reveal-body"><div class="sk-model">{task.model}</div></div>
+          <div class="sk-reveal-body"><div class="sk-model" lang="es">{task.model}</div></div>
         </details>
       )}
 

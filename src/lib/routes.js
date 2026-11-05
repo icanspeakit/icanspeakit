@@ -295,14 +295,17 @@ export const ITEM_SLUGS = {
   "/reading": {
     "a1-schilder-im-haus": "a1-notices-in-flats", "a1-nachricht-einladung": "a1-text-invitation",
     "a2-wohnungsanzeigen": "a2-flat-adverts", "a2-email-kurs-absage": "a2-language-school-email",
-    "b1-digitales-buero": "b1-paperless-office", "b1-anzeigen": "b1-matching-adverts",
-    "b1-zeitungsartikel": "b1-newspaper-article", "b1-forumsbeitraege": "b1-forum-posts",
-    "b2-artikel-homeoffice": "b2-working-from-home-article", "b2-kommentare-innenstadt": "b2-car-free-town-centre",
+    "a1-phone-messages": "a1-phone-messages", "a2-padron-notice": "a2-padron-notice",
+    "b1-digitales-buero": "b1-paperless-office", "b1-anzeigen": "b1-matching-notices",
+    "b1-zeitungsartikel": "b1-local-news-article", "b1-forumsbeitraege": "b1-forum-posts",
+    "b2-artikel-homeoffice": "b2-teleworking-article", "b2-kommentare-innenstadt": "b2-car-free-town-centre",
   },
   "/writing": {
-    "a1-formular-anmeldung": "a1-leisure-centre-form", "a1-nachricht-absage": "a1-cant-come",
-    "a2-email-nachbarn": "a2-email-to-neighbour", "a2-formular-arztpraxis": "a2-gp-appointment-form",
-    "b1-formular-vhs": "b1-completing-a-form", "b1-brief-david": "b1-reply-to-david",
+    "a1-formular-anmeldung": "a1-sports-centre-form", "a1-nachricht-absage": "a1-cant-come",
+    "a2-email-nachbarn": "a2-email-to-neighbour", "a2-formular-arztpraxis": "a2-health-centre-form",
+    "a2-email-school": "a2-email-to-school", "a2-padron-form": "a2-padron-form",
+    "b1-email-landlord": "b1-email-to-landlady", "b1-email-employer": "b1-time-off-email", "b2-opinion-text": "b2-opinion-text",
+    "b1-formular-vhs": "b1-completing-a-form", "b1-brief-david": "b1-reply-to-javier",
     "b1-fehlerjagd": "b1-error-hunt", "b2-beschwerde-reiseveranstalter": "b2-holiday-complaint",
   },
   "/speaking": {

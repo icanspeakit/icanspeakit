@@ -10,18 +10,24 @@
     "",
     "`kind` decides which editor the page renders:",
     "  form    a source text plus fields to transfer",
-    "  prompt  a situation plus points to cover (messages, emails, letters)",
+    "  prompt  a situation plus points to cover (messages, emails, letters, opinion texts)",
     "  errors  a text with mistakes to find",
     "",
-    "The three B1 entries are the B1 simulation from src/data/lesen.json, pulled in at build",
-    "time via `from` so there is exactly one copy of that text on the site. Form `answer`",
-    "values use straight apostrophes and plain hyphens, because learners type them."
+    "Language: `situation` and `points` are English at A1–A2 and Spanish at B1–B2, like the",
+    "reading questions. Form labels, `phrases`, `source` and `model` are Spanish at every level",
+    "(a form in Spain is in Spanish). `title`, `blurb` and `check` are English. A `situation` gives",
+    "its length as “(30–40 words)” or “(80–100 palabras)”: src/lib/schreibKorrektur.js reads it.",
+    "",
+    "The three B1 entries with `from` are the B1 simulation from src/data/lesen.json, pulled in at",
+    "build time so there is exactly one copy of that text on the site. Form `answer` values keep",
+    "their accents, because the check marks a missing one as a near miss."
   ],
   "types": {
     "formular": "Form",
     "nachricht": "Short message",
     "email": "Email",
     "brief": "Letter",
+    "opinion": "Opinion text",
     "fehlerjagd": "Error hunt"
   },
   "tasks": [
@@ -30,26 +36,27 @@
       "level": "A1",
       "type": "formular",
       "kind": "form",
-      "title": "Joining the leisure centre",
-      "blurb": "Ten fields, one short text – the most common writing task in everyday life.",
+      "title": "Joining the sports centre",
+      "blurb": "Ten fields, one short text – and two surnames, as on many forms in Spain.",
       "minutes": 6,
-      "source": "Hello! My name is Amina Yusuf. I was born on 4 March 1996 in Hargeisa. Now I live at 12 Garden Street, Westbridge, WB3 7QT. My mobile number is 07700 900 482 and my email is amina.yusuf@example.com. I would like to go swimming two times a week, in the evening. I am a beginner.",
+      "source": "¡Hola! Me llamo Valentina Ríos Mejía. Mi fecha de nacimiento es el 4 de marzo de 1996. Vivo en la calle del Olmo, número 12, en Valdelora. El código postal es 46999. Mi móvil es el 600 000 012 y mi correo es valentina.rios@example.com. Quiero ir a natación dos veces por semana, por la tarde. Soy principiante.",
       "fields": [
-        { "label": "Surname", "answer": "Yusuf" },
-        { "label": "First name", "answer": "Amina" },
-        { "label": "Date of birth (DD/MM/YYYY)", "answer": "04/03/1996" },
-        { "label": "Place of birth", "answer": "Hargeisa" },
-        { "label": "House number and street", "answer": "12 Garden Street" },
-        { "label": "Town", "answer": "Westbridge" },
-        { "label": "Postcode", "answer": "WB3 7QT" },
-        { "label": "Mobile", "answer": "07700 900 482" },
-        { "label": "Email", "answer": "amina.yusuf@example.com" },
-        { "label": "Activity", "answer": "swimming" }
+        { "label": "Nombre", "answer": "Valentina" },
+        { "label": "Primer apellido", "answer": "Ríos" },
+        { "label": "Segundo apellido", "answer": "Mejía" },
+        { "label": "Fecha de nacimiento (DD/MM/AAAA)", "answer": "04/03/1996" },
+        { "label": "Domicilio (calle y número)", "answer": "calle del Olmo, 12" },
+        { "label": "Código postal", "answer": "46999" },
+        { "label": "Municipio", "answer": "Valdelora" },
+        { "label": "Teléfono móvil", "answer": "600 000 012" },
+        { "label": "Correo electrónico", "answer": "valentina.rios@example.com" },
+        { "label": "Actividad", "answer": "natación" }
       ],
       "check": [
-        "Surname and first name are not swapped. Your surname is your family name.",
-        "The date is in British order, day/month/year: 04/03/1996. 03/04/1996 would be 3 April.",
-        "Town and postcode go in separate fields, even if they are together in the text."
+        "“Nombre” is your first name; “apellidos” are your surnames. Many Spanish forms ask for two (“primer” and “segundo apellido”). If you only have one, leave the second empty.",
+        "The date is day/month/year: 04/03/1996. 03/04/1996 would be 3 April.",
+        "“Código postal” and “municipio” go in separate fields, even if they are together in the text.",
+        "Accents count: “natación”, “Ríos”, “Mejía”."
       ]
     },
     {
@@ -60,7 +67,7 @@
       "title": "You can't come",
       "blurb": "Saying no in three sentences: the reason, sorry, a new idea.",
       "minutes": 8,
-      "situation": "Your friend Mira has invited you to her birthday party on Saturday. You can't go, because you have to work. Write her a short message (30–40 words).",
+      "situation": "Your friend Lucía has invited you to her birthday party on Saturday. You can't go, because you have to work. Write her a short WhatsApp message in Spanish (30–40 words).",
       "points": [
         "Say that you can't come.",
         "Give the reason.",
@@ -68,16 +75,17 @@
         "Suggest another day to meet."
       ],
       "phrases": [
-        "Sorry, I can't come.",
-        "I have to work on Saturday.",
-        "Happy birthday!",
-        "Can we meet on Sunday?"
+        "Lo siento, no puedo ir.",
+        "El sábado tengo que trabajar.",
+        "¡Feliz cumpleaños!",
+        "¿Quedamos el domingo?"
       ],
-      "model": "Hi Mira,\n\nThanks for the invitation! I'm really sorry, but I can't come on Saturday. I have to work.\n\nHappy birthday! Can we meet on Sunday? I can buy you a coffee.\n\nLove,\nSam",
+      "model": "¡Hola, Lucía!\n\nGracias por la invitación. Lo siento mucho, pero el sábado no puedo ir porque tengo que trabajar.\n\n¡Feliz cumpleaños! ¿Quedamos el domingo y te invito a un café?\n\nUn abrazo,\nKevin",
       "check": [
-        "All four points are there – in an exam, a missing point costs more than a small grammar mistake.",
-        "There is a greeting and a sign-off (Hi Mira / Love, Sam).",
-        "The sentences are short. At A1, “I have to work.” is better than a long sentence with a mistake."
+        "All four points are there: in an exam, a missing point costs more than a small grammar mistake.",
+        "There is a greeting and a sign-off (¡Hola, Lucía! / Un abrazo).",
+        "Questions and exclamations open and close: ¿…? and ¡…!",
+        "The sentences are short. At A1, “Tengo que trabajar.” is better than a long sentence with a mistake."
       ]
     },
     {
@@ -86,26 +94,55 @@
       "type": "email",
       "kind": "prompt",
       "title": "An email to your neighbour",
-      "blurb": "Asking for help politely – with “Could you …?” instead of “You must …”.",
+      "blurb": "Asking for help politely – with “¿Podría…?” instead of “Tiene que…”.",
       "minutes": 10,
-      "situation": "You are going on holiday for two weeks. Your neighbour, Mrs Clarke, has offered to help while you are away. Write her an email (50–60 words). You don't know Mrs Clarke very well, so be polite.",
+      "situation": "You are going on holiday for two weeks. Your neighbour, señora Ortega, has offered to help while you are away. Write her an email in Spanish (50–60 words). You don't know her very well, so use “usted”.",
       "points": [
         "Say when you will be away.",
         "Ask her to water your plants.",
-        "Ask her to take in your post.",
-        "Say where the key is and thank her."
+        "Ask her to collect your letters.",
+        "Say when you will bring the key, and thank her."
       ],
       "phrases": [
-        "I'll be away from … to …",
-        "Could you possibly …?",
-        "Would you mind …ing …?",
-        "Thank you so much for your help."
+        "Estaré fuera del … al …",
+        "¿Podría …?",
+        "¿Le importaría …?",
+        "Muchas gracias por su ayuda."
       ],
-      "model": "Dear Mrs Clarke,\n\nI'll be away from 3 to 17 July. Could you possibly water my plants while I'm away? Twice a week is enough.\n\nWould you mind taking in my post too? Otherwise it piles up behind the door.\n\nI'll bring the key round on Tuesday evening. Thank you so much!\n\nKind regards,\nNoor Haddad",
+      "model": "Buenos días, señora Ortega:\n\nEstaré fuera del 3 al 17 de julio. ¿Podría regar mis plantas? Con dos veces por semana es suficiente.\n\n¿Le importaría también recoger mis cartas? Si no, el buzón se llena.\n\nEl martes por la tarde le llevo la llave. ¡Muchas gracias por su ayuda!\n\nUn saludo,\nNoor Haddad",
       "check": [
-        "The requests are questions (“Could you …?”, “Would you mind …ing?”), not orders (“Water my plants.”, “You must …”).",
-        "After “Would you mind” comes the -ing form: “Would you mind taking in my post?”, not “Would you mind to take …”.",
-        "Greeting and sign-off match: Dear Mrs Clarke → Kind regards. “Love” is too familiar for a neighbour you hardly know."
+        "The requests are questions (“¿Podría…?”, “¿Le importaría…?”), not orders (“Riegue mis plantas”, “Tiene que…”).",
+        "After “¿Le importaría…?” comes the infinitive: “¿Le importaría recoger mis cartas?”.",
+        "“Usted” all the way through: “le llevo”, “su ayuda”, “podría”. One “tú” in the middle would stand out.",
+        "Greeting and sign-off match: “Buenos días, señora Ortega:” → “Un saludo”. “Un beso” is too familiar for a neighbour you hardly know."
+      ]
+    },
+    {
+      "id": "a2-email-school",
+      "level": "A2",
+      "type": "email",
+      "kind": "prompt",
+      "title": "An email to your child's school",
+      "blurb": "Your child is ill: say so clearly, and ask about the homework.",
+      "minutes": 8,
+      "situation": "Your son Adam (class 3.º A) is ill and can't go to school today or tomorrow. Write an email in Spanish to his class teacher, señora Lorca (35–45 words).",
+      "points": [
+        "Say who you are and who your child is.",
+        "Say why he can't go, and for how long.",
+        "Ask about the homework.",
+        "Thank her."
+      ],
+      "phrases": [
+        "Soy el padre / la madre de …",
+        "Mi hijo está enfermo. / Tiene fiebre.",
+        "Hoy no puede ir a clase.",
+        "¿Podría decirme qué deberes tiene?"
+      ],
+      "model": "Buenos días, señora Lorca:\n\nSoy Amina Yusuf, la madre de Adam, de 3.º A. Mi hijo tiene fiebre y hoy no puede ir a clase. Mañana tampoco. ¿Podría decirme qué deberes tiene?\n\nMuchas gracias.\n\nUn saludo,\nAmina Yusuf",
+      "check": [
+        "“Está enfermo” with “estar”, because being ill is a state: “es enfermo” is a typical mistake.",
+        "The teacher can tell at once which child and which class it is about.",
+        "A polite question: “¿Podría decirme…?”. Some schools use “tú” with parents; “usted” is the safe choice in a first message."
       ]
     },
     {
@@ -113,24 +150,52 @@
       "level": "A2",
       "type": "formular",
       "kind": "form",
-      "title": "Booking a GP appointment",
+      "title": "Booking at the health centre",
       "blurb": "One phone call, one form – and two details that are not said in so many words.",
       "minutes": 7,
-      "source": "“Oakfield Medical Centre, good morning.” – “Good morning. My name's Piotr Kowalczyk. I'd like to make an appointment, please.” – “Of course. Have you seen one of our doctors before?” – “No, I only registered with you last week. I moved to Westbridge last month.” – “And your date of birth, please?” – “The twentieth of November, nineteen eighty-eight.” – “What's the best number to call you on?” – “My mobile: oh seven seven oh oh, nine oh oh, three one five.” – “And what's the problem?” – “I've had bad back pain for ten days.” – “Dr Patel can see you on Thursday the 14th at half past three.” – “That's fine, thank you.”",
+      "source": "— Centro de salud Las Acacias, buenos días.\n— Buenos días. Me llamo Piotr Kowalczyk. Quería pedir cita con el médico, por favor.\n— Claro. ¿Ha venido antes a este centro?\n— No, me cambié de barrio el mes pasado y todavía no conozco a ningún médico aquí.\n— ¿Su fecha de nacimiento?\n— El veinte de noviembre de mil novecientos ochenta y ocho.\n— ¿Un teléfono de contacto?\n— Mi móvil: seiscientos, cero cero cero, trescientos quince.\n— ¿Qué le pasa?\n— Me duele mucho la espalda desde hace diez días.\n— La doctora Pardo puede verle el jueves 14, a las tres y media de la tarde.\n— Perfecto, muchas gracias.",
       "fields": [
-        { "label": "Name (surname, first name)", "answer": "Kowalczyk, Piotr" },
-        { "label": "Date of birth (DD/MM/YYYY)", "answer": "20/11/1988" },
-        { "label": "Contact number", "answer": "07700 900 315" },
-        { "label": "First appointment at this practice? (yes/no)", "answer": "yes" },
-        { "label": "Reason for appointment", "answer": "back pain (10 days)" },
-        { "label": "Doctor", "answer": "Dr Patel" },
-        { "label": "Appointment date", "answer": "Thursday 14th" },
-        { "label": "Appointment time", "answer": "3.30 pm" }
+        { "label": "Apellido y nombre", "answer": "Kowalczyk, Piotr" },
+        { "label": "Fecha de nacimiento (DD/MM/AAAA)", "answer": "20/11/1988" },
+        { "label": "Teléfono de contacto", "answer": "600 000 315" },
+        { "label": "¿Primera cita en este centro? (sí/no)", "answer": "sí" },
+        { "label": "Motivo de la cita", "answer": "dolor de espalda (10 días)" },
+        { "label": "Médica", "answer": "doctora Pardo" },
+        { "label": "Fecha de la cita", "answer": "jueves 14" },
+        { "label": "Hora de la cita (HH:MM)", "answer": "15:30" }
       ],
       "check": [
-        "Numbers are spoken, not written: “the twentieth of November, nineteen eighty-eight” → 20/11/1988, and “oh” in a phone number is the number 0.",
-        "“First appointment?” is never asked in those words – you have to work it out from “No, I only registered with you last week.”",
-        "“That's fine” means the appointment is confirmed, so fill in the doctor, the date and the time. “Half past three” in the afternoon is 3.30 pm (or 15:30)."
+        "Numbers are spoken, not written: “el veinte de noviembre de mil novecientos ochenta y ocho” → 20/11/1988. Spaniards often say a mobile number in groups: “seiscientos, cero cero cero, trescientos quince”.",
+        "Careful with “¿Primera cita?”. He answers “No” to a different question (“¿Ha venido antes?”), so here the right answer is “sí”.",
+        "“Perfecto” means the appointment is confirmed, so fill in the doctor, the date and the time. “Las tres y media de la tarde” is 15:30."
+      ]
+    },
+    {
+      "id": "a2-padron-form",
+      "level": "A2",
+      "type": "formular",
+      "kind": "form",
+      "title": "The padrón form (practice)",
+      "blurb": "A practice version of a form you will really meet. Every town hall has its own, so check yours.",
+      "minutes": 7,
+      "source": "Hola, soy Youssef Amrani Haddad. Nací en Tánger, en Marruecos, el 9 de enero de 1990. Mi NIE es X0000000T. Desde el 1 de septiembre vivo en la calle de las Eras, 5, 1.º B, en Valdelora. Antes vivía en Murcia. Vivo con mi mujer y con nuestro hijo pequeño: somos tres personas en casa.",
+      "fields": [
+        { "label": "Primer apellido", "answer": "Amrani" },
+        { "label": "Segundo apellido", "answer": "Haddad" },
+        { "label": "Nombre", "answer": "Youssef" },
+        { "label": "Fecha de nacimiento (DD/MM/AAAA)", "answer": "09/01/1990" },
+        { "label": "Lugar de nacimiento", "answer": "Tánger" },
+        { "label": "País de nacimiento", "answer": "Marruecos" },
+        { "label": "Documento de identidad (NIE)", "answer": "X0000000T" },
+        { "label": "Domicilio", "answer": "calle de las Eras, 5, 1.º B" },
+        { "label": "Municipio anterior", "answer": "Murcia" },
+        { "label": "Personas en la vivienda (número)", "answer": "3" }
+      ],
+      "check": [
+        "A Spanish address runs street, number, floor, door: “calle de las Eras, 5, 1.º B”.",
+        "“Municipio anterior” asks where you lived before: Murcia, not Valdelora and not Tánger.",
+        "Copy your document number exactly, letter by letter. The number here is a made-up example.",
+        "This is language practice, not official guidance: the real form and the papers to bring vary, so ask at your own “ayuntamiento”."
       ]
     },
     {
@@ -148,10 +213,69 @@
       "level": "B1",
       "type": "brief",
       "kind": "prompt",
-      "title": "B1 writing: reply to David",
+      "title": "B1 writing: reply to Javier",
       "blurb": "Five points, one informal email to a friend.",
       "minutes": 25,
       "from": "dtz-writingPrompt"
+    },
+    {
+      "id": "b1-email-landlord",
+      "level": "B1",
+      "type": "email",
+      "kind": "prompt",
+      "title": "An email to your landlady",
+      "blurb": "The boiler has broken: describe the problem, ask for a date, stay polite.",
+      "minutes": 20,
+      "situation": "La caldera de tu piso se ha estropeado y hace tres días que no tienes agua caliente. Escribe un correo a tu casera, la señora Ibáñez (80–100 palabras).",
+      "points": [
+        "Explica qué ha pasado y desde cuándo.",
+        "Di por qué es un problema serio para ti o para tu familia.",
+        "Pídele que venga un técnico y di cuándo estás en casa.",
+        "Pregúntale si llama ella al técnico o si lo llamas tú."
+      ],
+      "phrases": [
+        "Le escribo porque …",
+        "Desde el lunes no tenemos …",
+        "¿Podría enviar a un técnico lo antes posible?",
+        "Estamos en casa todas las tardes, a partir de las 17:00.",
+        "Quedo a la espera de su respuesta."
+      ],
+      "model": "Estimada señora Ibáñez:\n\nLe escribo porque la caldera del piso se estropeó el lunes y, desde entonces, no tenemos agua caliente ni calefacción. Es un problema serio, sobre todo para mis hijos, que son pequeños.\n\n¿Podría enviar a un técnico lo antes posible? Estamos en casa todas las tardes, a partir de las 17:00, y el sábado por la mañana. ¿Llama usted al técnico o prefiere que lo llame yo?\n\nQuedo a la espera de su respuesta. Muchas gracias.\n\nUn saludo,\nIonuț Popa",
+      "check": [
+        "All four points are there, and the landlady can act on them: what is broken, since when, when someone can come.",
+        "The tenses tell the story: “se estropeó el lunes” (one event) and “no tenemos” after “desde entonces” (still true now).",
+        "“Usted” throughout, and a colon after the greeting: “Estimada señora Ibáñez:”. Spanish letters don't use a comma there.",
+        "“Prefiere que lo llame yo”: “preferir que” takes the subjunctive."
+      ]
+    },
+    {
+      "id": "b1-email-employer",
+      "level": "B1",
+      "type": "email",
+      "kind": "prompt",
+      "title": "Asking your employer for time off",
+      "blurb": "An appointment you can't move, a shift to swap: asking for something at work.",
+      "minutes": 20,
+      "situation": "El jueves por la mañana tienes una cita en una oficina de la Administración y no puedes cambiarla. Escribe un correo a tu jefa, Carmen Soler, para pedirle permiso (70–90 palabras).",
+      "points": [
+        "Explica por qué necesitas esa mañana y a qué hora es la cita.",
+        "Propón una solución concreta para el trabajo que no vas a hacer.",
+        "Pídele que te conteste antes de una fecha.",
+        "Dale las gracias."
+      ],
+      "phrases": [
+        "Te escribo para pedirte un favor.",
+        "El jueves a las 10:00 tengo una cita y no puedo cambiarla.",
+        "Si te parece bien, puedo …",
+        "¿Me puedes decir algo antes del martes?"
+      ],
+      "model": "Hola, Carmen:\n\nTe escribo para pedirte un favor. El jueves a las 10:00 tengo una cita en una oficina de la Administración y no puedo cambiarla, porque era la única fecha disponible. Por eso, no podré trabajar esa mañana.\n\nSi te parece bien, puedo cambiar el turno con Jordi, que ya me ha dicho que no le importa, o recuperar las horas el sábado.\n\n¿Me puedes decir algo antes del martes? Muchas gracias.\n\nUn saludo,\nAmina",
+      "check": [
+        "A solution comes with the request: the boss reads “puedo cambiar el turno con Jordi” and only has to say yes.",
+        "“Tú” with your boss is normal in many Spanish workplaces. If yours uses “usted”, keep to it: “Le escribo para pedirle…”.",
+        "The tone is a request, not an announcement: “Si te parece bien” softens it.",
+        "Time off for official appointments depends on your contract and your “convenio”; this task practises the email, not your rights."
+      ]
     },
     {
       "id": "b1-fehlerjagd",
@@ -171,26 +295,56 @@
       "title": "A complaint to a holiday company",
       "blurb": "Staying calm and factual while still making a clear demand – the hardest tone at B2.",
       "minutes": 30,
-      "situation": "You booked a one-week package holiday. When you got there, a lot of things were different from the brochure: the hotel was not on the beach but 3 km away, the pool was closed for repairs, and the excursions you had paid for did not take place. Write a letter of complaint to the holiday company (180–200 words).",
+      "situation": "Reservaste un viaje combinado de una semana. Al llegar, muchas cosas no coincidían con el folleto: el hotel no estaba en la playa, sino a 3 km; la piscina estaba cerrada por obras y las excursiones que habías pagado no se hicieron. Escribe una carta de reclamación a la agencia de viajes (180–200 palabras).",
       "points": [
-        "Give your booking reference, the dates and the destination.",
-        "Describe the problems clearly and factually.",
-        "Explain why they mattered to you.",
-        "Say exactly what you want and give a deadline."
+        "Indica tu número de reserva, las fechas y el destino.",
+        "Describe los problemas de forma clara y objetiva.",
+        "Explica por qué eran importantes para ti.",
+        "Di exactamente qué pides y pon un plazo."
       ],
       "phrases": [
-        "I am writing with regard to my booking (reference …).",
-        "Your brochure clearly stated that …",
-        "In fact, however, …",
-        "I would therefore ask you to … by …",
-        "If I do not hear from you by …, I will have no choice but to …"
+        "Me dirijo a ustedes en relación con mi reserva (n.º …).",
+        "En su folleto se indicaba claramente que …",
+        "Sin embargo, en realidad …",
+        "Por ello, les ruego que … antes del …",
+        "De no recibir respuesta antes del …, me veré obligado/a a …"
       ],
-      "model": "Dear Sir or Madam,\n\nI am writing with regard to my booking (reference 884-2210) for a holiday in Antalya from 12 to 19 September. I regret to say that there were several serious problems.\n\nYour brochure clearly described the hotel as “right on the beach”. In fact, however, it was about three kilometres away, and the only way to get there was a shuttle bus that cost extra. The pool, which was also advertised, was closed for repairs during our entire stay, and we were not told about this in advance. In addition, both excursions included in the price were cancelled without any alternative being offered.\n\nSince I chose this holiday precisely because of the beach location and the facilities, it was far less relaxing than I had expected. These were not minor issues but the main features of the holiday I paid for.\n\nI would therefore ask you to offer me an appropriate partial refund by 15 October. If I do not hear from you by then, I will have no choice but to take the matter further.\n\nYours faithfully,\nClara Menéndez",
+      "model": "Estimados señores:\n\nMe dirijo a ustedes en relación con mi reserva (n.º 884-2210) de un viaje combinado a Tenerife del 12 al 19 de septiembre. Lamento comunicarles que surgieron varios problemas graves.\n\nEn su folleto se describía el hotel como «en primera línea de playa». Sin embargo, en realidad se encontraba a unos tres kilómetros, y la única forma de llegar era un autobús lanzadera de pago. La piscina, que también se anunciaba, estuvo cerrada por obras durante toda nuestra estancia, sin que nos avisaran con antelación. Además, las dos excursiones incluidas en el precio se cancelaron sin que se nos ofreciera ninguna alternativa.\n\nDado que elegí este viaje precisamente por la playa y las instalaciones, las vacaciones fueron mucho menos agradables de lo que esperaba. No se trató de detalles sin importancia, sino de las características principales del viaje que pagué.\n\nPor ello, les ruego que me ofrezcan una devolución parcial adecuada antes del 15 de octubre. De no recibir respuesta antes de esa fecha, me veré obligada a presentar una reclamación ante los organismos de consumo competentes.\n\nAtentamente,\nClara Menéndez",
       "check": [
-        "No angry words: “I regret to say that there were several serious problems” instead of “this was a disgrace”. At B2 the tone is part of the mark – firm, but never rude.",
-        "Each problem is set against a promise (“Your brochure clearly stated … In fact, however, …”). A complaint without that comparison is only an opinion.",
+        "No angry words: “Lamento comunicarles que surgieron varios problemas graves” instead of “es una vergüenza”. At B2 the tone is part of the mark: firm, but never rude.",
+        "Each problem is set against a promise (“En su folleto se describía… Sin embargo, en realidad…”). A complaint without that comparison is only an opinion.",
         "There is a clear demand AND a deadline. Without a date, a letter of complaint is not complete.",
-        "B2 linking words: since, in addition, however, therefore. Dear Sir or Madam → Yours faithfully (with a name: Dear Ms Jones → Yours sincerely)."
+        "B2 linking words and forms: “dado que”, “además”, “sin embargo”, “por ello”, “sin que” + subjunctive. “Estimados señores:” with a colon, then “Atentamente”."
+      ]
+    },
+    {
+      "id": "b2-opinion-text",
+      "level": "B2",
+      "type": "opinion",
+      "kind": "prompt",
+      "title": "An opinion text: a car-free town centre",
+      "blurb": "Take a position, give reasons, answer the other side – and end on a clear conclusion.",
+      "minutes": 30,
+      "situation": "La revista de tu barrio pide opiniones sobre esta pregunta: ¿debería ser peatonal el centro de tu ciudad? Escribe un texto de opinión (150–180 palabras).",
+      "points": [
+        "Presenta el tema y di claramente cuál es tu postura.",
+        "Da dos argumentos, cada uno con un ejemplo.",
+        "Responde a un argumento contrario.",
+        "Termina con una conclusión clara."
+      ],
+      "phrases": [
+        "En mi opinión, …",
+        "Por un lado, … Por otro lado, …",
+        "Es cierto que …; sin embargo, …",
+        "No se trata de …, sino de …",
+        "En definitiva, …"
+      ],
+      "model": "¿Un centro sin coches?\n\nCada vez más ciudades limitan el tráfico en el centro, y creo que la nuestra debería hacer lo mismo. En mi opinión, un centro peatonal mejoraría la vida diaria de casi todos los vecinos.\n\nPor un lado, sería más seguro y más sano. Mis hijos van andando al colegio y cruzan cada día dos calles con mucho tráfico; sin coches, podrían ir solos antes. Por otro lado, ganaría el comercio de proximidad: quien pasea sin prisa entra en más tiendas que quien busca aparcamiento.\n\nEs cierto que algunas personas dependen del coche y que muchos comerciantes temen perder clientes. Sin embargo, eso no es motivo para renunciar a la idea, sino para hacerla bien: más autobuses, aparcamientos en las afueras y permisos para vecinos y repartidores.\n\nEn definitiva, no se trata de estar en contra de los coches, sino de decidir para qué queremos usar nuestras calles. Yo prefiero que sirvan para vivir en ellas.",
+      "check": [
+        "The position is clear in the first paragraph, and the last paragraph comes back to it.",
+        "Each argument has an example of its own. “Sería más seguro” alone is a claim; the two streets on the way to school make it real.",
+        "The other side gets a fair sentence before the answer: “Es cierto que…; sin embargo…”.",
+        "B2 forms: the conditional for what would happen (“mejoraría”, “ganaría”), “no se trata de…, sino de…”, “prefiero que” + subjunctive."
       ]
     }
   ]

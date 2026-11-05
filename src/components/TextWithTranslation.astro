@@ -51,7 +51,7 @@ const lines: Record<string, string[]> | null = paragraphs
   <div class="sk-text tt-text">
     {german.map(({ l, start }, i) => (
       <div class:list={["tt-row", start && i > 0 && "tt-row--para"]}>
-        <p class="tt-de">{rich(l).map((s, j) => (j % 2 ? <b>{s}</b> : s))}</p>
+        <p class="tt-de" lang="es">{rich(l).map((s, j) => (j % 2 ? <b>{s}</b> : s))}</p>
         {paragraphs && <p class="tt-tr" data-i={i}></p>}
       </div>
     ))}
