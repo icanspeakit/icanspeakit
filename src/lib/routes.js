@@ -283,13 +283,13 @@ export const sheetKeys = () => [
 // the key in the data, in progress and in class-task refs (h:<id>, l:<id>, k:<id> …).
 export const ITEM_SLUGS = {
   "/listening": {
-    "a1-ansage-bahnhof": "a1-station-announcement", "a1-anruf-arzt": "a1-doctors-voicemail",
+    "a1-ansage-bahnhof": "a1-station-announcement", "a1-anruf-arzt": "a1-health-centre-voicemail",
     "a1-supermarkt": "a1-supermarket", "a1-verabredung": "a1-arranging-to-meet",
-    "a2-amt-termin": "a2-council-appointment", "a2-wohnungsbesichtigung": "a2-flat-viewing",
+    "a2-amt-termin": "a2-town-hall-appointment", "a2-wohnungsbesichtigung": "a2-flat-viewing",
     "a2-radio-wetter-verkehr": "a2-radio-weather-traffic", "a2-paketdienst": "a2-parcel-voicemails",
-    "b1-krankmeldung": "b1-calling-in-sick", "b1-elterngespraech": "b1-parents-evening",
+    "b1-krankmeldung": "b1-calling-in-sick", "b1-elterngespraech": "b1-tutor-meeting",
     "b1-radio-muelltrennung": "b1-radio-recycling", "b1-durchsage-ersatzverkehr": "b1-replacement-buses",
-    "b2-diskussion-homeoffice": "b2-working-from-home-meeting", "b2-interview-anerkennung": "b2-qualifications-interview",
+    "b2-diskussion-homeoffice": "b2-working-from-home-meeting", "b2-interview-anerkennung": "b2-degree-recognition-interview",
     "b2-beschwerde-versicherung": "b2-insurance-complaint", "b2-vortrag-ehrenamt": "b2-volunteering-talk",
   },
   "/reading": {

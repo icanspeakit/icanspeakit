@@ -35,8 +35,9 @@ const STRICT = new Set([
   "lexicon-c1",
   "lexicon-c2",
   "wortschatz",
+  "hoeren",
   // "berufe", "redemittel",
-  // "hoeren", "aussprache-check",
+  // "aussprache-check",
   // "zungenbrecher", "satzmelodie", "ausspracheregeln", "dgt", "business-spanish",
 ]);
 
