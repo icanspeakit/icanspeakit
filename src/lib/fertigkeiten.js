@@ -118,7 +118,7 @@ function resolveSprechen(entry) {
         image: p.image,
         prompt: diskussion
           ? p.diskussion
-          : `Primero habla de la foto durante un minuto. Después tómate un minuto para preparar unas notas y habla hasta dos minutos. El tema: ${p.kurzvortrag.topic.replace(/ Explica:$/, "")}`,
+          : `Primero habla de la foto durante un minuto. Después tómate un minuto para preparar unas notas y habla hasta dos minutos. ${p.kurzvortrag.topic.replace(/ Explica:$/, "")}`,
         bullets: diskussion
           ? ["Di con claridad lo que piensas.", "Da dos razones, cada una con un ejemplo.", "Responde a la objeción de la otra persona.", "Al final, resume tu postura."]
           // The card's points read on from "Explica:"; as bullets of their own they

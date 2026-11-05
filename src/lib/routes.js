@@ -311,7 +311,7 @@ export const ITEM_SLUGS = {
     "a1-sich-vorstellen": "a1-introducing-yourself", "a1-bild-bahnhof": "a1-picture-station",
     "a1-bild-kueche": "a1-picture-kitchen", "a1-bild-supermarkt": "a1-picture-supermarket",
     "a1-bild-spielplatz": "a1-picture-park", "a2-bild-gartenarbeit": "a2-picture-outdoor-work",
-    "a2-bild-bus": "a2-picture-bus", "a2-bild-nachbarschaftsfest": "a2-picture-garden-meal",
+    "a2-bild-bus": "a2-picture-tram", "a2-bild-nachbarschaftsfest": "a2-picture-garden-meal",
     "a2-bild-wartezimmer": "a2-picture-doctors", "b1-bild-rolltreppe": "b1-picture-park",
     "b1-bild-bewerbungsgespraech": "b1-picture-job-interview", "b1-bild-werkstatt": "b1-picture-workshop",
     "b1-bild-buergeramt": "b1-picture-front-desk", "b2-vortrag-ehrenamt": "b2-talk-volunteering",
