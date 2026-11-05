@@ -92,7 +92,7 @@ const tx = (hoerenHelp.entries as Record<string, any>)[text.id] ?? null;
             <>
               <p class="ho-turn">
                 <b data-i18n={voices[turn.speaker] ? `hoeren.voice.${turn.speaker}` : undefined}>{voices[turn.speaker]?.label ?? turn.speaker}</b>
-                <span>{turn.text}</span>
+                <span lang="es">{turn.text}</span>
               </p>
               <GrammarHelpText text={item(tx?.script, i)} />
             </>
