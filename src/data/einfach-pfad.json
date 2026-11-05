@@ -1,5 +1,5 @@
 {
-  "_comment": "Learn step by step (/step-by-step): the curated beginner path. Tasks reference reviewed items by ref, they never copy text — see src/lib/einfach-content.js for the ref formats and docs/easy-mode-tier1-v1.md for how to add a unit. Check with: pnpm check:einfach. Spanish version (beginner-path run, 2026-11-04): A1, A2 and B1 are playable, units in the order of grammatik-lehrplan.json, except that ser/estar comes before plurals here because the plural unit also needs adjective agreement. Old ids are kept where a unit fits them; new units have English ids. Only luecke and satz tasks for now, because the other sources (lexicon, redemittel, hoeren, aussprache) are not Spanish yet. Hints and whys are English; the Spanish comes from the source item. No task points at an item with es419.skip, so a LatAm mode loses no task; three items have an es419.form the resolver must apply then (personalpronomen/0/5, aduso/0/1, konjunktiv2-hoeflich/1/2). Postcards are written here (source: neu) until Edgar has checked them.",
+  "_comment": "Learn step by step (/step-by-step): the curated beginner path. Tasks reference reviewed items by ref, they never copy text — see src/lib/einfach-content.js for the ref formats and docs/easy-mode-tier1-v1.md for how to add a unit. Check with: pnpm check:einfach. Spanish version (beginner-path run, 2026-11-04): A1, A2 and B1 are playable, units in the order of grammatik-lehrplan.json, except that ser/estar comes before plurals here because the plural unit also needs adjective agreement. Old ids are kept where a unit fits them; new units have English ids. Mostly luecke and satz tasks; hoeren and aussprache tasks wait for their audio; a1-vorstellen and a1-amt each have a redemittel task. Hints and whys are English; the Spanish comes from the source item. No task points at an item with es419.skip, so a LatAm mode loses no task; four items have an es419.form the resolver must apply then (personalpronomen/0/5, aduso/0/1, konjunktiv2-hoeflich/1/2, redemittel begruessen#1). Postcards are written here (source: neu) until Edgar has checked them.",
   "levels": [
     {
       "level": "A1",
@@ -19,7 +19,7 @@
             { "type": "luecke", "ref": "gram:personalpronomen/1/0@be28cc", "options": ["Yo","Él","Tú"], "hint": "Look at the end of the verb: -o.", "why": "The ending -o belongs to yo: vivo." },
             { "type": "luecke", "ref": "gram:personalpronomen/2/1@9f1069", "options": ["tú","usted"], "hint": "You ask an older neighbour you do not know.", "why": "Someone you do not know: usted. ¿Cómo se llama usted?" },
             { "type": "luecke", "ref": "gram:personalpronomen/0/5@d51aed", "options": ["ellos","vosotros","nosotros"], "hint": "You are talking to two people here in Spain.", "why": "In Spain, tú + another person = vosotros." },
-            { "type": "satz", "ref": "gram:personalpronomen/7/2@cf5d0c", "why": "¿De dónde eres? The question starts with De." }
+            { "type": "redemittel", "ref": "redemittel:begruessen#1@b836d4", "distractors": ["redemittel:gratulieren#6@7e8dac","redemittel:zweifeln#7@15c22a"], "situation": "You meet a new neighbour for the first time. You have just said your names.", "hint": "You are pleased to meet this person." }
           ]
         },
         {
@@ -251,7 +251,7 @@
             { "type": "luecke", "ref": "gram:temporale-praepositionen/7/1@7415eb", "options": ["Cuándo","Dónde","Cómo"], "hint": "The answer is a day.", "why": "A day or a time: ¿Cuándo?" },
             { "type": "luecke", "ref": "gram:temporale-praepositionen/7/3@ebfc05", "options": ["a las","son las","en las"], "hint": "It says at what time.", "why": "At what time: a las. La cita es a las nueve y media." },
             { "type": "luecke", "ref": "gram:temporale-praepositionen/7/4@cde83e", "options": ["en","a","de"], "hint": "It says the place where you live.", "why": "Vivir + en: vivo en la calle Mayor." },
-            { "type": "luecke", "ref": "gram:temporale-praepositionen/7/5@9d176f", "options": ["de","en","a"], "hint": "A contract for renting: Spanish joins the two words.", "why": "Thing + de + thing: el contrato de alquiler." },
+            { "type": "redemittel", "ref": "redemittel:nachfragen#1@519eae", "distractors": ["redemittel:gratulieren#5@de9ba3","redemittel:widersprechen#7@082330"], "situation": "At the town hall, the clerk tells you the date of your padrón appointment, but you did not catch it.", "hint": "You want to hear it again, politely." },
             { "type": "satz", "ref": "gram:temporale-praepositionen/8/0@720210", "why": "Una cita para…: an appointment for something." },
             { "type": "satz", "ref": "gram:temporale-praepositionen/8/2@5e6a1b", "why": "A known place: ¿Dónde está + the place?" }
           ]

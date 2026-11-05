@@ -57,17 +57,18 @@ const unitSets = units()
 const PHRASES = "saetze";
 // Redemittel by speech act — Zustimmen, Widersprechen, Zweifel, Trösten … — one set each,
 // listed under "Sätze & Redemittel". A phrase not voiced yet has no audioSrc: the player
-// reads it with the browser's German voice and says so, until the recording exists.
+// reads it with the browser's Spanish voice and says so, until the recording exists.
 const rmSets = redemittel.sets.map((s) => ({
   key: `rm-${s.id}`,
   name: s.name,
   icon: s.icon,
   items: s.phrases.map((p): Item => {
-    const { de, ...tr } = p as Record<string, string>;
+    // Only the translations: bild, variety and es419 describe the phrase.
+    const { de, bild: _bild, variety: _variety, es419: _es419, ...tr } = p as Record<string, any>;
     const src = `/audio/redemittel/${satzSlug(de)}.mp3`;
     return onDisk(src)
       ? { text: de, audioSrc: src, note: "", translations: tr }
-      : { text: de, audioSrc: "", note: "Noch ohne Aufnahme — dein Browser liest vor.", translations: tr };
+      : { text: de, audioSrc: "", note: "No recording yet: your browser reads it aloud.", translations: tr };
   }),
 }));
 const sets: Record<string, Item[]> = {

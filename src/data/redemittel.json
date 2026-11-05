@@ -1,5 +1,5 @@
 {
-  "_comment": "Useful phrases (Redemittel) by speech act — agreeing, disagreeing, doubting, comforting … Each set is a flashcard deck (/vocabulary/phrases/<id>) and a row under the phrases on /pronunciation. The key `de` holds the English phrase that is practised (the key name is kept, see docs/content-plan.md §1.4); `en` is a short plain-English paraphrase or usage note; ar/uk/ru/tr are draft translations of the phrase. Phrase order matters: the beginner path refers to phrases as redemittel:<set>#<index>. Audio: scripts/generate-satz-audio.mjs → public/audio/redemittel/<slug>.mp3 (none yet for the English phrases). Translations are drafts (reviewed: false).",
+  "_comment": "Useful phrases (Redemittel) by speech act: agreeing, disagreeing, doubting, comforting … Each set is a flashcard deck (/vocabulary/phrases/<id>) and a row under the phrases on /pronunciation. The key `de` holds the Spanish phrase that is practised (the key name is history, see docs/content-plan.md §1.4); `en` is the English meaning, with a short usage note where it helps. Every phrase has `variety`, and `es419` where Latin American usage differs. Phrase order matters: the beginner path refers to phrases as redemittel:<set>#<index>. Translations live in src/data/redemittel-i18n/<lang>.json, keyed by the Spanish phrase: machine drafts until a native speaker has read them (reviewed: false). Audio: scripts/generate-satz-audio.mjs → public/audio/redemittel/<slug>.mp3 (none yet for the Spanish phrases).",
   "reviewed": false,
   "sets": [
     {
@@ -7,14 +7,14 @@
       "name": "Agreeing",
       "icon": "👍",
       "phrases": [
-        { "de": "You're right.", "en": "What you said is true.", "ar": "معك حق في ذلك.", "uk": "Тут ти маєш рацію.", "ru": "Тут ты прав.", "tr": "Bu konuda haklısın." },
-        { "de": "I couldn't agree more.", "en": "I agree completely.", "ar": "أرى الأمر بالطريقة نفسها تمامًا.", "uk": "Я бачу це так само.", "ru": "Я вижу это точно так же.", "tr": "Ben de aynen öyle düşünüyorum." },
-        { "de": "Exactly!", "en": "Yes, that's just it.", "ar": "بالضبط!", "uk": "Точно!", "ru": "Точно!", "tr": "Aynen!" },
-        { "de": "I agree with you.", "en": "I think the same as you.", "ar": "أوافقك على ذلك.", "uk": "Тут я з тобою згоден.", "ru": "Здесь я с тобой согласен.", "tr": "Bu konuda sana katılıyorum." },
-        { "de": "I think so too.", "en": "That's my opinion as well.", "ar": "وأنا أيضًا أرى ذلك.", "uk": "Я теж так вважаю.", "ru": "Я тоже так считаю.", "tr": "Ben de öyle düşünüyorum." },
-        { "de": "That's exactly what I think.", "en": "We have the same opinion.", "ar": "هذا رأيي تمامًا.", "uk": "Цілком згоден.", "ru": "Полностью согласен.", "tr": "Tamamen benim fikrim." },
-        { "de": "That's a good idea.", "en": "I like your suggestion.", "ar": "هذه فكرة جيدة.", "uk": "Це гарна ідея.", "ru": "Это хорошая идея.", "tr": "Bu iyi bir fikir." },
-        { "de": "Agreed.", "en": "OK, let's do it that way.", "ar": "موافق.", "uk": "Домовилися.", "ru": "Договорились.", "tr": "Anlaştık." }
+        { "de": "Tienes razón.", "en": "You're right. (To someone you call usted: Tiene razón.)", "variety": "es-ES" },
+        { "de": "Estoy totalmente de acuerdo.", "en": "I completely agree.", "variety": "es-ES" },
+        { "de": "¡Exacto!", "en": "Exactly!", "variety": "es-ES" },
+        { "de": "Estoy de acuerdo contigo.", "en": "I agree with you.", "variety": "es-ES" },
+        { "de": "Yo también lo creo.", "en": "I think so too.", "variety": "es-ES" },
+        { "de": "Eso es justo lo que pienso.", "en": "That's exactly what I think.", "variety": "es-ES" },
+        { "de": "Me parece buena idea.", "en": "That sounds like a good idea.", "variety": "es-ES" },
+        { "de": "Vale, de acuerdo.", "en": "OK, agreed. Vale is the everyday “OK” in Spain.", "variety": "es-ES", "es419": { "note": "Vale is typical of Spain. In Latin America: Bueno, de acuerdo, or regional forms such as Dale.", "form": "Bueno, de acuerdo." }}
       ]
     },
     {
@@ -22,14 +22,14 @@
       "name": "Disagreeing",
       "icon": "✋",
       "phrases": [
-        { "de": "I see it differently.", "en": "My opinion is not the same as yours.", "ar": "أرى الأمر بشكل مختلف.", "uk": "Я бачу це інакше.", "ru": "Я вижу это иначе.", "tr": "Ben farklı görüyorum." },
-        { "de": "I don't agree.", "en": "I have a different opinion.", "ar": "لديّ رأي مختلف في ذلك.", "uk": "Тут я іншої думки.", "ru": "Здесь я другого мнения.", "tr": "Bu konuda farklı düşünüyorum." },
-        { "de": "That's not quite right.", "en": "Part of what you said is wrong.", "ar": "هذا ليس صحيحًا تمامًا.", "uk": "Це не зовсім так.", "ru": "Это не совсем так.", "tr": "Bu tam olarak doğru değil." },
-        { "de": "I'm afraid I disagree.", "en": "A polite way to say: I don't agree.", "ar": "عليّ أن أخالفك في هذا.", "uk": "Тут я мушу тобі заперечити.", "ru": "Тут я вынужден с тобой не согласиться.", "tr": "Burada sana itiraz etmem gerek." },
-        { "de": "I don't think that's true.", "en": "I believe that is wrong.", "ar": "لا أظن أن هذا صحيح.", "uk": "Не думаю, що це правда.", "ru": "Не думаю, что это правда.", "tr": "Bunun doğru olduğunu sanmıyorum." },
-        { "de": "I don't think so.", "en": "No, that's not my opinion.", "ar": "لا أرى ذلك.", "uk": "Я так не вважаю.", "ru": "Я так не считаю.", "tr": "Ben öyle düşünmüyorum." },
-        { "de": "Yes, but …", "en": "I agree a little, but I want to add something.", "ar": "نعم، لكن …", "uk": "Так, але …", "ru": "Да, но …", "tr": "Evet, ama …" },
-        { "de": "No way!", "en": "Absolutely not. (informal)", "ar": "مستحيل.", "uk": "У жодному разі.", "ru": "Ни в коем случае.", "tr": "Kesinlikle hayır." }
+        { "de": "Yo lo veo de otra manera.", "en": "I see it differently.", "variety": "es-ES" },
+        { "de": "No estoy de acuerdo.", "en": "I don't agree.", "variety": "es-ES" },
+        { "de": "Eso no es del todo así.", "en": "That's not quite right.", "variety": "es-ES" },
+        { "de": "Lo siento, pero no estoy de acuerdo.", "en": "I'm sorry, but I disagree. A polite way to say no.", "variety": "es-ES" },
+        { "de": "No creo que sea verdad.", "en": "I don't think that's true. (After no creo que comes the subjunctive: sea.)", "variety": "es-ES" },
+        { "de": "Yo creo que no.", "en": "I don't think so.", "variety": "es-ES" },
+        { "de": "Sí, pero …", "en": "Yes, but … You agree a little, then add your point.", "variety": "es-ES" },
+        { "de": "¡Ni hablar!", "en": "No way! (informal)", "variety": "es-ES" }
       ]
     },
     {
@@ -37,14 +37,14 @@
       "name": "Expressing doubt",
       "icon": "🤔",
       "phrases": [
-        { "de": "I'm not so sure about that.", "en": "I think that may be wrong.", "ar": "لست متأكدًا من ذلك.", "uk": "Я в цьому не дуже впевнений.", "ru": "Я в этом не уверен.", "tr": "Bundan pek emin değilim." },
-        { "de": "Do you really think so?", "en": "Is that really your opinion?", "ar": "هل تظن ذلك حقًا؟", "uk": "Ти справді так думаєш?", "ru": "Ты правда так думаешь?", "tr": "Gerçekten öyle mi düşünüyorsun?" },
-        { "de": "I'm not really sure.", "en": "I can't decide what I think.", "ar": "لا أعرف تمامًا.", "uk": "Навіть не знаю.", "ru": "Даже не знаю.", "tr": "Pek bilemiyorum." },
-        { "de": "Is that really true?", "en": "I find it hard to believe that.", "ar": "هل هذا صحيح فعلًا؟", "uk": "Чи це справді так?", "ru": "Это действительно так?", "tr": "Gerçekten öyle mi?" },
-        { "de": "I find that hard to believe.", "en": "I don't think that can be true.", "ar": "بالكاد أستطيع تخيّل ذلك.", "uk": "Ледве можу собі це уявити.", "ru": "С трудом могу себе это представить.", "tr": "Bunu pek hayal edemiyorum." },
-        { "de": "Hmm, I have my doubts.", "en": "I'm not sure it's right.", "ar": "همم، لديّ شكوك في ذلك.", "uk": "Хм, у мене є сумніви.", "ru": "Хм, у меня есть сомнения.", "tr": "Hmm, bu konuda şüphelerim var." },
-        { "de": "Are you sure?", "en": "Do you know that for certain?", "ar": "هل أنت متأكد؟", "uk": "Ти впевнений?", "ru": "Ты уверен?", "tr": "Emin misin?" },
-        { "de": "I doubt it.", "en": "I don't think so.", "ar": "لا أظن ذلك على الأرجح.", "uk": "Скоріше за все, ні.", "ru": "Скорее всего, нет.", "tr": "Pek sanmıyorum." }
+        { "de": "No lo tengo tan claro.", "en": "I'm not so sure about that.", "variety": "es-ES" },
+        { "de": "¿De verdad lo crees?", "en": "Do you really think so?", "variety": "es-ES" },
+        { "de": "No sé, no estoy seguro.", "en": "I don't know, I'm not sure. (A woman says: segura.)", "variety": "es-ES" },
+        { "de": "¿Seguro que es así?", "en": "Is that really so?", "variety": "es-ES" },
+        { "de": "Me cuesta creerlo.", "en": "I find that hard to believe.", "variety": "es-ES" },
+        { "de": "Mmm, tengo mis dudas.", "en": "Hmm, I have my doubts.", "variety": "es-ES" },
+        { "de": "¿Estás seguro?", "en": "Are you sure? (To a woman: ¿Estás segura?)", "variety": "es-ES" },
+        { "de": "Lo dudo.", "en": "I doubt it.", "variety": "es-ES" }
       ]
     },
     {
@@ -52,14 +52,14 @@
       "name": "Comforting",
       "icon": "🤗",
       "phrases": [
-        { "de": "I'm so sorry.", "en": "I feel bad that this happened to you.", "ar": "أنا آسف لذلك.", "uk": "Мені дуже шкода.", "ru": "Мне очень жаль.", "tr": "Buna üzüldüm." },
-        { "de": "Cheer up!", "en": "Try to feel happier.", "ar": "ارفع رأسك!", "uk": "Не вішай носа!", "ru": "Не вешай нос!", "tr": "Başını dik tut!" },
-        { "de": "It'll be all right.", "en": "Things will get better.", "ar": "ستتحسن الأمور.", "uk": "Усе налагодиться.", "ru": "Всё наладится.", "tr": "Her şey düzelecek." },
-        { "de": "Don't worry.", "en": "There's no need to feel worried.", "ar": "لا تقلق.", "uk": "Не хвилюйся.", "ru": "Не волнуйся.", "tr": "Endişelenme." },
-        { "de": "I'm here for you.", "en": "You can come to me for help.", "ar": "أنا هنا من أجلك.", "uk": "Я поруч.", "ru": "Я рядом.", "tr": "Senin yanındayım." },
-        { "de": "It's not that bad.", "en": "It's not as serious as you think.", "ar": "الأمر ليس بهذا السوء.", "uk": "Це не так страшно.", "ru": "Это не так страшно.", "tr": "O kadar da kötü değil." },
-        { "de": "You can do it!", "en": "I believe in you.", "ar": "ستنجح في ذلك!", "uk": "Ти впораєшся!", "ru": "Ты справишься!", "tr": "Başarabilirsin!" },
-        { "de": "Is there anything I can do?", "en": "Can I help you in some way?", "ar": "هل يمكنني مساعدتك بشكل ما؟", "uk": "Чи можу я тобі чимось допомогти?", "ru": "Могу я тебе чем-то помочь?", "tr": "Sana bir şekilde yardım edebilir miyim?" }
+        { "de": "Lo siento mucho.", "en": "I'm so sorry.", "variety": "es-ES" },
+        { "de": "¡Ánimo!", "en": "Cheer up! Keep going!", "variety": "es-ES" },
+        { "de": "Todo va a salir bien.", "en": "It'll be all right.", "variety": "es-ES" },
+        { "de": "No te preocupes.", "en": "Don't worry.", "variety": "es-ES" },
+        { "de": "Aquí me tienes para lo que necesites.", "en": "I'm here for whatever you need.", "variety": "es-ES" },
+        { "de": "No es para tanto.", "en": "It's not that bad. Careful: with a real problem it can sound dismissive.", "variety": "es-ES" },
+        { "de": "¡Tú puedes!", "en": "You can do it!", "variety": "es-ES" },
+        { "de": "¿Puedo hacer algo por ti?", "en": "Is there anything I can do for you?", "variety": "es-ES" }
       ]
     },
     {
@@ -67,14 +67,14 @@
       "name": "Giving your opinion",
       "icon": "💭",
       "phrases": [
-        { "de": "My view is that …", "en": "What I think is …", "ar": "رأيي أن …", "uk": "Я вважаю, що …", "ru": "Я считаю, что …", "tr": "Bence …" },
-        { "de": "I think that …", "en": "The easiest way to give your opinion.", "ar": "أجد أن …", "uk": "Я думаю, що …", "ru": "Я нахожу, что …", "tr": "Bence şöyle: …" },
-        { "de": "In my opinion, …", "en": "This is what I think: …", "ar": "في رأيي …", "uk": "На мою думку …", "ru": "По моему мнению …", "tr": "Bana göre …" },
-        { "de": "I believe …", "en": "I'm fairly sure that …", "ar": "أعتقد أن …", "uk": "Я гадаю, …", "ru": "Я думаю, …", "tr": "Sanırım …" },
-        { "de": "What matters to me is that …", "en": "The most important thing for me is …", "ar": "المهم بالنسبة لي أن …", "uk": "Для мене важливо, щоб …", "ru": "Для меня важно, чтобы …", "tr": "Benim için önemli olan …" },
-        { "de": "To be honest, …", "en": "I'll tell you what I really think: …", "ar": "بصراحة …", "uk": "Чесно кажучи …", "ru": "Честно говоря …", "tr": "Açıkçası …" },
-        { "de": "I think that's right.", "en": "I agree that is correct.", "ar": "أظن أن هذا صحيح.", "uk": "Думаю, це правильно.", "ru": "Думаю, это правильно.", "tr": "Bence bu doğru." },
-        { "de": "What do you think?", "en": "Ask for the other person's opinion.", "ar": "ما رأيك في ذلك؟", "uk": "А що ти про це думаєш?", "ru": "А ты что об этом думаешь?", "tr": "Sen bu konuda ne düşünüyorsun?" }
+        { "de": "Mi opinión es que …", "en": "My view is that …", "variety": "es-ES" },
+        { "de": "Creo que …", "en": "I think that … The easiest way to give your opinion.", "variety": "es-ES" },
+        { "de": "En mi opinión, …", "en": "In my opinion, …", "variety": "es-ES" },
+        { "de": "Me parece que …", "en": "It seems to me that …", "variety": "es-ES" },
+        { "de": "Para mí lo importante es que …", "en": "What matters to me is that … (Often followed by the subjunctive.)", "variety": "es-ES" },
+        { "de": "Para ser sincero, …", "en": "To be honest, … (A woman says: sincera.)", "variety": "es-ES" },
+        { "de": "Me parece bien.", "en": "That seems fine to me.", "variety": "es-ES" },
+        { "de": "¿Tú qué opinas?", "en": "What do you think? (To someone you call usted: ¿Usted qué opina?)", "variety": "es-ES" }
       ]
     },
     {
@@ -82,14 +82,14 @@
       "name": "Checking you understand",
       "icon": "❓",
       "phrases": [
-        { "de": "Sorry?", "en": "Please say that again. (I didn't hear you.)", "ar": "عفوًا؟", "uk": "Перепрошую?", "ru": "Простите?", "tr": "Efendim?" },
-        { "de": "Could you say that again, please?", "en": "Please repeat that.", "ar": "هل يمكنك تكرار ذلك من فضلك؟", "uk": "Чи не могли б ви це повторити?", "ru": "Не могли бы вы повторить?", "tr": "Lütfen tekrar eder misiniz?" },
-        { "de": "Could you speak more slowly, please?", "en": "Please don't speak so fast.", "ar": "هل يمكنك التحدث ببطء أكثر من فضلك؟", "uk": "Говоріть, будь ласка, повільніше.", "ru": "Говорите, пожалуйста, медленнее.", "tr": "Lütfen daha yavaş konuşabilir misiniz?" },
-        { "de": "What does that mean?", "en": "I don't know this word.", "ar": "ماذا يعني هذا؟", "uk": "Що це означає?", "ru": "Что это значит?", "tr": "Bu ne anlama geliyor?" },
-        { "de": "Sorry, I didn't understand that.", "en": "That wasn't clear to me.", "ar": "لم أفهم ذلك.", "uk": "Я цього не зрозумів.", "ru": "Я этого не понял.", "tr": "Bunu anlamadım." },
-        { "de": "How do you spell that?", "en": "What are the letters?", "ar": "كيف يُكتب هذا؟", "uk": "Як це пишеться?", "ru": "Как это пишется?", "tr": "Bu nasıl yazılıyor?" },
-        { "de": "Do you mean …?", "en": "Check that you have understood.", "ar": "هل تقصد …؟", "uk": "Ви маєте на увазі …?", "ru": "Вы имеете в виду …?", "tr": "… mı demek istiyorsunuz?" },
-        { "de": "Could you give me an example?", "en": "Please show me what you mean.", "ar": "هل يمكنك أن تعطيني مثالًا؟", "uk": "Можете навести приклад?", "ru": "Можете привести пример?", "tr": "Bana bir örnek verebilir misiniz?" }
+        { "de": "¿Perdón?", "en": "Sorry? You didn't hear what someone said.", "variety": "es-ES" },
+        { "de": "¿Puede repetir, por favor?", "en": "Could you say that again, please? (With tú: ¿Puedes repetir?)", "variety": "es-ES" },
+        { "de": "¿Puede hablar más despacio, por favor?", "en": "Could you speak more slowly, please?", "variety": "es-ES" },
+        { "de": "¿Qué significa eso?", "en": "What does that mean?", "variety": "es-ES" },
+        { "de": "Perdone, no lo he entendido.", "en": "Sorry, I didn't understand that.", "variety": "es-ES", "es419": { "note": "Most of Latin America uses the simple past for something just finished: no lo entendí.", "form": "Perdone, no lo entendí." } },
+        { "de": "¿Cómo se escribe?", "en": "How do you spell that?", "variety": "es-ES" },
+        { "de": "¿Quiere decir que …?", "en": "Do you mean that …? You check that you have understood.", "variety": "es-ES" },
+        { "de": "¿Puede darme un ejemplo?", "en": "Could you give me an example?", "variety": "es-ES" }
       ]
     },
     {
@@ -97,14 +97,14 @@
       "name": "Asking for help",
       "icon": "🙏",
       "phrases": [
-        { "de": "Could you help me, please?", "en": "A polite way to ask for help.", "ar": "هل يمكنك مساعدتي من فضلك؟", "uk": "Чи не могли б ви мені допомогти?", "ru": "Не могли бы вы мне помочь?", "tr": "Bana yardım edebilir misiniz lütfen?" },
-        { "de": "Have you got a minute?", "en": "Do you have a little time for me?", "ar": "هل لديك لحظة؟", "uk": "У вас є хвилинка?", "ru": "У вас есть минутка?", "tr": "Bir dakikanız var mı?" },
-        { "de": "Could you pass me the …, please?", "en": "Please give me the …", "ar": "هل يمكنك أن تعطيني … من فضلك؟", "uk": "Чи не могли б ви дати мені …?", "ru": "Не могли бы вы дать мне …?", "tr": "Bana … verir misiniz lütfen?" },
-        { "de": "Could I ask you a favour?", "en": "I'd like you to do something for me.", "ar": "لديّ طلب.", "uk": "У мене до вас прохання.", "ru": "У меня к вам просьба.", "tr": "Bir ricam var." },
-        { "de": "Sorry to bother you.", "en": "Say this before you interrupt someone.", "ar": "هل يمكنني المقاطعة للحظة؟", "uk": "Можна вас ненадовго відволікти?", "ru": "Можно вас ненадолго отвлечь?", "tr": "Kısaca rahatsız edebilir miyim?" },
-        { "de": "Could you show me?", "en": "Please show me how to do it.", "ar": "هل يمكنك أن تريني ذلك؟", "uk": "Можеш мені це показати?", "ru": "Можешь мне это показать?", "tr": "Bunu bana gösterebilir misin?" },
-        { "de": "I need some help.", "en": "I can't do this alone.", "ar": "أحتاج إلى مساعدة.", "uk": "Мені потрібна допомога.", "ru": "Мне нужна помощь.", "tr": "Yardıma ihtiyacım var." },
-        { "de": "Would that be possible?", "en": "Can you do that?", "ar": "هل هذا ممكن؟", "uk": "Це можливо?", "ru": "Это возможно?", "tr": "Bu mümkün olur mu?" }
+        { "de": "¿Me puede ayudar, por favor?", "en": "Could you help me, please? A polite way to ask.", "variety": "es-ES" },
+        { "de": "¿Tiene un momento?", "en": "Have you got a minute? (With tú: ¿Tienes un momento?)", "variety": "es-ES" },
+        { "de": "¿Me pasas la sal, por favor?", "en": "Could you pass me the salt, please?", "variety": "es-ES" },
+        { "de": "¿Le puedo pedir un favor?", "en": "Could I ask you a favour? (With tú: ¿Te puedo pedir un favor?)", "variety": "es-ES" },
+        { "de": "Perdone que le moleste.", "en": "Sorry to bother you. Say this before you interrupt someone.", "variety": "es-ES" },
+        { "de": "¿Me lo puede enseñar?", "en": "Could you show me?", "variety": "es-ES", "es419": { "note": "In Latin America mostrar is the more usual word for “show”; enseñar tends to mean “teach”.", "form": "¿Me lo puede mostrar?" }},
+        { "de": "Necesito ayuda.", "en": "I need some help.", "variety": "es-ES" },
+        { "de": "¿Sería posible?", "en": "Would that be possible?", "variety": "es-ES" }
       ]
     },
     {
@@ -112,14 +112,14 @@
       "name": "Apologising",
       "icon": "😔",
       "phrases": [
-        { "de": "Sorry!", "en": "For a small mistake, or when you bump into someone.", "ar": "عذرًا!", "uk": "Вибачте!", "ru": "Извините!", "tr": "Özür dilerim! / Affedersiniz!" },
-        { "de": "I'm really sorry.", "en": "I feel bad about what I did.", "ar": "أنا آسف.", "uk": "Мені шкода.", "ru": "Мне жаль.", "tr": "Özür dilerim." },
-        { "de": "I didn't mean it like that.", "en": "You understood my words in the wrong way.", "ar": "لم أقصد ذلك.", "uk": "Я не це мав на увазі.", "ru": "Я не это имел в виду.", "tr": "Öyle demek istemedim." },
-        { "de": "Sorry I'm late.", "en": "I'm sorry I didn't come on time.", "ar": "أعتذر عن التأخير.", "uk": "Вибачте за запізнення.", "ru": "Извините за опоздание.", "tr": "Geciktiğim için özür dilerim." },
-        { "de": "That was my fault.", "en": "I made the mistake.", "ar": "كان هذا خطئي.", "uk": "Це була моя помилка.", "ru": "Это была моя ошибка.", "tr": "Benim hatamdı." },
-        { "de": "No problem.", "en": "An answer to an apology: it's OK.", "ar": "لا مشكلة.", "uk": "Без проблем.", "ru": "Без проблем.", "tr": "Sorun değil." },
-        { "de": "Don't worry about it.", "en": "An answer to an apology: forget it.", "ar": "لا بأس.", "uk": "Нічого страшного.", "ru": "Ничего страшного.", "tr": "Önemli değil." },
-        { "de": "It could happen to anyone.", "en": "An answer to an apology: everyone makes mistakes.", "ar": "هذا يمكن أن يحدث لأي شخص.", "uk": "З кожним буває.", "ru": "С каждым бывает.", "tr": "Herkesin başına gelebilir." }
+        { "de": "¡Perdón!", "en": "Sorry! For a small mistake, or when you bump into someone.", "variety": "es-ES" },
+        { "de": "Lo siento de verdad.", "en": "I'm really sorry.", "variety": "es-ES" },
+        { "de": "No quería decir eso.", "en": "I didn't mean it like that.", "variety": "es-ES" },
+        { "de": "Perdona por llegar tarde.", "en": "Sorry I'm late. (With usted: Perdone.)", "variety": "es-ES" },
+        { "de": "Ha sido culpa mía.", "en": "That was my fault.", "variety": "es-ES", "es419": { "note": "Most of Latin America uses the simple past for something just finished: Fue culpa mía.", "form": "Fue culpa mía." }},
+        { "de": "No pasa nada.", "en": "No problem. An answer to an apology: it's OK.", "variety": "es-ES" },
+        { "de": "No tiene importancia.", "en": "It doesn't matter. An answer to an apology: forget it.", "variety": "es-ES" },
+        { "de": "Le puede pasar a cualquiera.", "en": "It could happen to anyone. An answer to an apology.", "variety": "es-ES" }
       ]
     },
     {
@@ -127,14 +127,14 @@
       "name": "Thanking",
       "icon": "💐",
       "phrases": [
-        { "de": "Thank you very much!", "en": "A big thank you.", "ar": "شكرًا جزيلًا!", "uk": "Щиро дякую!", "ru": "Большое спасибо!", "tr": "Çok teşekkürler!" },
-        { "de": "Thanks, that's very kind of you.", "en": "You were very nice to do that.", "ar": "شكرًا، هذا لطف كبير.", "uk": "Дякую, це дуже мило.", "ru": "Спасибо, это очень мило.", "tr": "Teşekkürler, çok naziksiniz." },
-        { "de": "Thank you so much for your help.", "en": "I'm very grateful that you helped.", "ar": "شكرًا جزيلًا على مساعدتك.", "uk": "Щиро дякую за вашу допомогу.", "ru": "Сердечное спасибо за вашу помощь.", "tr": "Yardımınız için çok teşekkür ederim." },
-        { "de": "That's really nice of you.", "en": "You are being very kind.", "ar": "هذا لطف منك.", "uk": "Як мило з твого боку.", "ru": "Как мило с твоей стороны.", "tr": "Çok tatlısın." },
-        { "de": "You're welcome!", "en": "An answer to thank you.", "ar": "على الرحب والسعة!", "uk": "Будь ласка!", "ru": "Пожалуйста!", "tr": "Rica ederim!" },
-        { "de": "My pleasure.", "en": "An answer to thank you: I was happy to help.", "ar": "بكل سرور.", "uk": "Нема за що.", "ru": "Не за что.", "tr": "Ne demek, memnuniyetle." },
-        { "de": "Don't mention it.", "en": "An answer to thank you: it was nothing.", "ar": "لا شكر على واجب.", "uk": "Не варто подяки.", "ru": "Не стоит благодарности.", "tr": "Teşekküre gerek yok." },
-        { "de": "I really appreciate it.", "en": "I'm very thankful for this.", "ar": "أقدّر ذلك كثيرًا.", "uk": "Я дуже це ціную.", "ru": "Я очень это ценю.", "tr": "Bunu gerçekten takdir ediyorum." }
+        { "de": "¡Muchas gracias!", "en": "Thank you very much!", "variety": "es-ES" },
+        { "de": "Gracias, eres muy amable.", "en": "Thanks, that's very kind of you.", "variety": "es-ES" },
+        { "de": "Muchísimas gracias por tu ayuda.", "en": "Thank you so much for your help.", "variety": "es-ES" },
+        { "de": "¡Qué detalle!", "en": "How thoughtful of you! For a small gift or a kind gesture.", "variety": "es-ES" },
+        { "de": "¡De nada!", "en": "You're welcome! An answer to thank you.", "variety": "es-ES" },
+        { "de": "Ha sido un placer.", "en": "It was my pleasure. An answer to thank you.", "variety": "es-ES", "es419": { "note": "Most of Latin America uses the simple past here: Fue un placer.", "form": "Fue un placer." }},
+        { "de": "No hay de qué.", "en": "Don't mention it. An answer to thank you.", "variety": "es-ES" },
+        { "de": "Te lo agradezco mucho.", "en": "I really appreciate it.", "variety": "es-ES" }
       ]
     },
     {
@@ -142,14 +142,14 @@
       "name": "Making suggestions",
       "icon": "💡",
       "phrases": [
-        { "de": "How about …?", "en": "Shall we …?", "ar": "ما رأيك في …؟", "uk": "Як щодо …?", "ru": "Как насчёт …?", "tr": "… nasıl olur?" },
-        { "de": "Shall we go out for a meal?", "en": "Let's eat at a restaurant together.", "ar": "هل نذهب لتناول الطعام معًا؟", "uk": "Підемо разом поїмо?", "ru": "Пойдём вместе поедим?", "tr": "Birlikte yemeğe gidelim mi?" },
-        { "de": "I suggest we …", "en": "My idea is that we …", "ar": "أقترح أن …", "uk": "Пропоную, щоб ми …", "ru": "Предлагаю, чтобы мы …", "tr": "… yapmamızı öneriyorum." },
-        { "de": "Do you fancy going to the cinema?", "en": "Would you like to see a film?", "ar": "هل ترغب في الذهاب إلى السينما؟", "uk": "Хочеш сходити в кіно?", "ru": "Хочешь сходить в кино?", "tr": "Sinemaya gitmek ister misin?" },
-        { "de": "Good idea, let's do that!", "en": "Yes to a suggestion.", "ar": "فكرة جيدة، لنفعل ذلك!", "uk": "Гарна ідея, так і зробимо!", "ru": "Хорошая идея, давай так и сделаем!", "tr": "İyi fikir, hadi yapalım!" },
-        { "de": "Sorry, I can't make it then.", "en": "No to a suggestion: I'm busy at that time.", "ar": "للأسف لا أستطيع في ذلك الوقت.", "uk": "На жаль, тоді я не можу.", "ru": "К сожалению, я тогда не могу.", "tr": "Maalesef o zaman gelemem." },
-        { "de": "Maybe another time.", "en": "Not now, but perhaps later.", "ar": "ربما في وقت آخر.", "uk": "Може, іншим разом.", "ru": "Может, в другой раз.", "tr": "Belki başka bir zaman." },
-        { "de": "Is Saturday good for you?", "en": "Are you free on Saturday?", "ar": "هل يناسبك السبت؟", "uk": "Тобі підходить субота?", "ru": "Тебе подходит суббота?", "tr": "Cumartesi sana uyar mı?" }
+        { "de": "¿Qué tal si …?", "en": "How about …? (¿Qué tal si vamos en metro?)", "variety": "es-ES" },
+        { "de": "¿Salimos a comer?", "en": "Shall we go out for a meal?", "variety": "es-ES" },
+        { "de": "Propongo que …", "en": "I suggest that we … (Followed by the subjunctive: Propongo que vayamos.)", "variety": "es-ES" },
+        { "de": "¿Te apetece ir al cine?", "en": "Do you fancy going to the cinema?", "variety": "es-ES", "es419": { "note": "Te apetece is typical of Spain. In Latin America: ¿Quieres ir al cine? or ¿Tienes ganas de ir al cine?", "form": "¿Quieres ir al cine?" }},
+        { "de": "¡Buena idea, vamos!", "en": "Good idea, let's do that! A yes to a suggestion.", "variety": "es-ES" },
+        { "de": "Lo siento, ese día no puedo.", "en": "Sorry, I can't make it that day. A no to a suggestion.", "variety": "es-ES" },
+        { "de": "Quizás otro día.", "en": "Maybe another time.", "variety": "es-ES" },
+        { "de": "¿Te viene bien el sábado?", "en": "Is Saturday good for you?", "variety": "es-ES", "es419": { "note": "Te viene bien is typical of Spain. Many Latin American speakers say ¿Te queda bien el sábado?", "form": "¿Te queda bien el sábado?" }}
       ]
     },
     {
@@ -157,14 +157,14 @@
       "name": "Congratulating and wishing",
       "icon": "🎉",
       "phrases": [
-        { "de": "Congratulations!", "en": "Well done! I'm happy about your news.", "ar": "تهانينا!", "uk": "Вітаю!", "ru": "Поздравляю!", "tr": "Tebrikler!" },
-        { "de": "Happy birthday!", "en": "Said on someone's birthday.", "ar": "عيد ميلاد سعيد!", "uk": "З днем народження!", "ru": "С днём рождения!", "tr": "Doğum günün kutlu olsun!" },
-        { "de": "Good luck!", "en": "I hope it goes well.", "ar": "حظًا سعيدًا!", "uk": "Удачі!", "ru": "Удачи!", "tr": "Bol şans!" },
-        { "de": "Good luck with your exam!", "en": "I hope your exam goes well.", "ar": "بالتوفيق في الامتحان!", "uk": "Успіхів на іспиті!", "ru": "Успехов на экзамене!", "tr": "Sınavda başarılar!" },
-        { "de": "Get well soon!", "en": "To someone who is ill.", "ar": "أتمنى لك الشفاء العاجل!", "uk": "Одужуй!", "ru": "Выздоравливай!", "tr": "Geçmiş olsun!" },
-        { "de": "Have a nice weekend!", "en": "Said on Friday.", "ar": "عطلة نهاية أسبوع سعيدة!", "uk": "Гарних вихідних!", "ru": "Хороших выходных!", "tr": "İyi hafta sonları!" },
-        { "de": "Merry Christmas!", "en": "Said at Christmas.", "ar": "عيد ميلاد مجيد!", "uk": "Веселого Різдва!", "ru": "Счастливого Рождества!", "tr": "Mutlu Noeller!" },
-        { "de": "I'm so happy for you!", "en": "Your good news makes me happy too.", "ar": "أنا سعيد من أجلك!", "uk": "Я радий за тебе!", "ru": "Я рад за тебя!", "tr": "Senin adına sevindim!" }
+        { "de": "¡Enhorabuena!", "en": "Congratulations! For an exam, a new job, a baby.", "variety": "es-ES", "es419": { "note": "Latin America more often says ¡Felicidades! or ¡Felicitaciones!", "form": "¡Felicitaciones!" }},
+        { "de": "¡Feliz cumpleaños!", "en": "Happy birthday!", "variety": "es-ES" },
+        { "de": "¡Buena suerte!", "en": "Good luck!", "variety": "es-ES" },
+        { "de": "¡Suerte con el examen!", "en": "Good luck with your exam!", "variety": "es-ES" },
+        { "de": "¡Que te mejores!", "en": "Get well soon! To someone who is ill.", "variety": "es-ES" },
+        { "de": "¡Buen fin de semana!", "en": "Have a nice weekend! Said on Friday.", "variety": "es-ES" },
+        { "de": "¡Feliz Navidad!", "en": "Merry Christmas!", "variety": "es-ES" },
+        { "de": "¡Me alegro mucho por ti!", "en": "I'm so happy for you!", "variety": "es-ES" }
       ]
     },
     {
@@ -172,14 +172,14 @@
       "name": "Greeting and saying goodbye",
       "icon": "👋",
       "phrases": [
-        { "de": "Good morning!", "en": "A greeting before about 12 o'clock.", "ar": "صباح الخير!", "uk": "Доброго ранку!", "ru": "Доброе утро!", "tr": "Günaydın!" },
-        { "de": "Nice to meet you.", "en": "Said when you meet someone for the first time.", "ar": "سعيد بالتعرف إليك.", "uk": "Приємно познайомитися.", "ru": "Приятно познакомиться.", "tr": "Tanıştığımıza memnun oldum." },
-        { "de": "How are you?", "en": "Answer: Fine, thanks. And you?", "ar": "كيف حالك؟ (رسمي)", "uk": "Як ваші справи?", "ru": "Как у вас дела?", "tr": "Nasılsınız?" },
-        { "de": "Long time no see!", "en": "I haven't seen you for a long time. (informal)", "ar": "لم أرك منذ زمن طويل!", "uk": "Давно не бачилися!", "ru": "Давно не виделись!", "tr": "Görüşmeyeli uzun zaman oldu!" },
-        { "de": "See you tomorrow!", "en": "Goodbye until tomorrow.", "ar": "إلى الغد!", "uk": "До завтра!", "ru": "До завтра!", "tr": "Yarın görüşürüz!" },
-        { "de": "Goodbye!", "en": "Said when you leave.", "ar": "إلى اللقاء!", "uk": "До побачення!", "ru": "До свидания!", "tr": "Hoşça kalın!" },
-        { "de": "Take care!", "en": "A friendly goodbye.", "ar": "اعتنِ بنفسك!", "uk": "Бувай!", "ru": "Всего хорошего!", "tr": "Kendine iyi bak!" },
-        { "de": "Have a good day!", "en": "A friendly goodbye in the morning or afternoon.", "ar": "أتمنى لك يومًا سعيدًا!", "uk": "Гарного дня!", "ru": "Хорошего дня!", "tr": "İyi günler!" }
+        { "de": "¡Buenos días!", "en": "Good morning! Used until lunchtime, which in Spain is often around two o'clock.", "variety": "es-ES" },
+        { "de": "Encantado de conocerte.", "en": "Nice to meet you. (A woman says: Encantada.)", "variety": "es-ES", "es419": { "note": "Mucho gusto is the more usual phrase in much of Latin America.", "form": "Mucho gusto." }},
+        { "de": "¿Qué tal?", "en": "How are you? Answer: Bien, gracias. ¿Y tú?", "variety": "es-ES" },
+        { "de": "¡Cuánto tiempo!", "en": "Long time no see! (informal)", "variety": "es-ES" },
+        { "de": "¡Hasta mañana!", "en": "See you tomorrow!", "variety": "es-ES" },
+        { "de": "¡Adiós!", "en": "Goodbye!", "variety": "es-ES" },
+        { "de": "¡Cuídate!", "en": "Take care! A friendly goodbye.", "variety": "es-ES" },
+        { "de": "¡Que tengas un buen día!", "en": "Have a good day!", "variety": "es-ES" }
       ]
     },
     {
@@ -187,18 +187,18 @@
       "name": "Describing pictures",
       "icon": "🖼️",
       "phrases": [
-        { "de": "In the picture I can see …", "bild": "🖼️", "en": "The easiest way to start.", "ar": "في الصورة أرى …", "uk": "На картинці я бачу …", "ru": "На картинке я вижу …", "tr": "Resimde … görüyorum." },
-        { "de": "The picture shows a family having a meal.", "bild": "👪", "en": "Say what the picture is about.", "ar": "تُظهر الصورة عائلة تتناول الطعام.", "uk": "На картинці родина за їжею.", "ru": "На картинке семья за едой.", "tr": "Resim yemek yiyen bir aileyi gösteriyor." },
-        { "de": "In the foreground you can see …", "bild": "/img/bildposition/vordergrund.svg", "en": "The front part of the picture.", "ar": "في المقدمة نرى …", "uk": "На передньому плані видно …", "ru": "На переднем плане видно …", "tr": "Ön planda … görülüyor." },
-        { "de": "In the background there's a park.", "bild": "/img/bildposition/hintergrund.svg", "en": "The back part of the picture.", "ar": "في الخلفية حديقة.", "uk": "На задньому плані парк.", "ru": "На заднем плане парк.", "tr": "Arka planda bir park var." },
-        { "de": "In the middle there's a table.", "bild": "/img/bildposition/mitte.svg", "en": "The centre of the picture.", "ar": "في الوسط طاولة.", "uk": "У центрі стоїть стіл.", "ru": "В центре стоит стол.", "tr": "Ortada bir masa duruyor." },
-        { "de": "On the left there's a young woman sitting down.", "bild": "/img/bildposition/links.svg", "en": "The left side of the picture.", "ar": "على اليسار تجلس امرأة شابة.", "uk": "Ліворуч сидить молода жінка.", "ru": "Слева сидит молодая женщина.", "tr": "Solda genç bir kadın oturuyor." },
-        { "de": "In the top right-hand corner there's a window.", "bild": "/img/bildposition/rechts-oben.svg", "en": "The corner at the top on the right.", "ar": "في الأعلى على اليمين نرى نافذة.", "uk": "Праворуч угорі видно вікно.", "ru": "Справа вверху видно окно.", "tr": "Sağ üstte bir pencere görülüyor." },
-        { "de": "The people are probably on holiday.", "bild": "🏖️", "en": "A guess about the situation.", "ar": "الناس على الأرجح في عطلة.", "uk": "Люди, мабуть, у відпустці.", "ru": "Люди, наверное, в отпуске.", "tr": "İnsanlar muhtemelen tatilde." },
-        { "de": "I think it's a birthday party.", "bild": "🎂", "en": "A guess about the situation.", "ar": "أعتقد أن هذه حفلة عيد ميلاد.", "uk": "Думаю, це день народження.", "ru": "Думаю, это день рождения.", "tr": "Sanırım bu bir doğum günü partisi." },
-        { "de": "It looks as if everyone is happy.", "bild": "😄", "en": "Say how the people seem to feel.", "ar": "يبدو أن الجميع سعداء.", "uk": "Схоже, що всі веселі.", "ru": "Похоже, что все весёлые.", "tr": "Herkes mutlu gibi görünüyor." },
-        { "de": "The atmosphere is relaxed.", "bild": "😌", "en": "Say what the mood is like.", "ar": "الأجواء هادئة ومريحة.", "uk": "Атмосфера спокійна.", "ru": "Атмосфера спокойная.", "tr": "Ortam rahat." },
-        { "de": "The picture reminds me of my childhood.", "bild": "🧒", "en": "Connect the picture with your own life.", "ar": "تذكّرني الصورة بطفولتي.", "uk": "Картинка нагадує мені про дитинство.", "ru": "Картинка напоминает мне о детстве.", "tr": "Resim bana çocukluğumu hatırlatıyor." }
+        { "de": "En la foto veo …", "bild": "🖼️", "en": "In the picture I can see … The easiest way to start.", "variety": "es-ES" },
+        { "de": "La foto muestra a una familia comiendo.", "bild": "👪", "en": "The picture shows a family having a meal. You say what it is about.", "variety": "es-ES" },
+        { "de": "En primer plano se ve …", "bild": "/img/bildposition/vordergrund.svg", "en": "In the foreground you can see …", "variety": "es-ES" },
+        { "de": "Al fondo hay un parque.", "bild": "/img/bildposition/hintergrund.svg", "en": "In the background there's a park.", "variety": "es-ES" },
+        { "de": "En el centro hay una mesa.", "bild": "/img/bildposition/mitte.svg", "en": "In the middle there's a table.", "variety": "es-ES" },
+        { "de": "A la izquierda hay una mujer joven sentada.", "bild": "/img/bildposition/links.svg", "en": "On the left there's a young woman sitting down.", "variety": "es-ES" },
+        { "de": "En la esquina superior derecha hay una ventana.", "bild": "/img/bildposition/rechts-oben.svg", "en": "In the top right-hand corner there's a window.", "variety": "es-ES" },
+        { "de": "Seguramente la gente está de vacaciones.", "bild": "🏖️", "en": "The people are probably on holiday. A guess about the situation.", "variety": "es-ES" },
+        { "de": "Creo que es una fiesta de cumpleaños.", "bild": "🎂", "en": "I think it's a birthday party. A guess about the situation.", "variety": "es-ES" },
+        { "de": "Parece que todos están contentos.", "bild": "😄", "en": "It looks as if everyone is happy.", "variety": "es-ES" },
+        { "de": "El ambiente es relajado.", "bild": "😌", "en": "The atmosphere is relaxed.", "variety": "es-ES" },
+        { "de": "La foto me recuerda a mi infancia.", "bild": "🧒", "en": "The picture reminds me of my childhood. You connect it with your own life.", "variety": "es-ES" }
       ]
     },
     {
@@ -208,15 +208,15 @@
       "icon": "⚽",
       "bildRaten": true,
       "phrases": [
-        { "de": "The ball is in the box.", "bild": "/img/praeposition/in.svg", "en": "in", "ar": "الكرة في الصندوق.", "uk": "М'яч у коробці.", "ru": "Мяч в коробке.", "tr": "Top kutunun içinde." },
-        { "de": "The ball is on the box.", "bild": "/img/praeposition/auf.svg", "en": "on", "ar": "الكرة على الصندوق.", "uk": "М'яч лежить на коробці.", "ru": "Мяч лежит на коробке.", "tr": "Top kutunun üstünde." },
-        { "de": "The ball is under the table.", "bild": "/img/praeposition/unter.svg", "en": "under", "ar": "الكرة تحت الطاولة.", "uk": "М'яч лежить під столом.", "ru": "Мяч лежит под столом.", "tr": "Top masanın altında." },
-        { "de": "The lamp is above the table.", "bild": "/img/praeposition/ueber.svg", "en": "above", "ar": "المصباح معلّق فوق الطاولة.", "uk": "Лампа висить над столом.", "ru": "Лампа висит над столом.", "tr": "Lamba masanın üstünde asılı." },
-        { "de": "The ball is next to the box.", "bild": "/img/praeposition/neben.svg", "en": "next to", "ar": "الكرة بجانب الصندوق.", "uk": "М'яч лежить біля коробки.", "ru": "Мяч лежит рядом с коробкой.", "tr": "Top kutunun yanında." },
-        { "de": "The ball is in front of the box.", "bild": "/img/praeposition/vor.svg", "en": "in front of", "ar": "الكرة أمام الصندوق.", "uk": "М'яч лежить перед коробкою.", "ru": "Мяч лежит перед коробкой.", "tr": "Top kutunun önünde." },
-        { "de": "The ball is behind the box.", "bild": "/img/praeposition/hinter.svg", "en": "behind", "ar": "الكرة خلف الصندوق.", "uk": "М'яч лежить за коробкою.", "ru": "Мяч лежит за коробкой.", "tr": "Top kutunun arkasında." },
-        { "de": "The ball is between the boxes.", "bild": "/img/praeposition/zwischen.svg", "en": "between", "ar": "الكرة بين الصندوقين.", "uk": "М'яч лежить між коробками.", "ru": "Мяч лежит между коробками.", "tr": "Top kutuların arasında." },
-        { "de": "The picture is on the wall.", "bild": "/img/praeposition/an.svg", "en": "on", "ar": "الصورة معلّقة على الحائط.", "uk": "Картина висить на стіні.", "ru": "Картина висит на стене.", "tr": "Resim duvarda asılı." }
+        { "de": "La pelota está dentro de la caja.", "bild": "/img/praeposition/in.svg", "en": "The ball is in the box.", "variety": "es-ES" },
+        { "de": "La pelota está encima de la caja.", "bild": "/img/praeposition/auf.svg", "en": "The ball is on the box.", "variety": "es-ES" },
+        { "de": "La pelota está debajo de la mesa.", "bild": "/img/praeposition/unter.svg", "en": "The ball is under the table.", "variety": "es-ES" },
+        { "de": "La lámpara cuelga sobre la mesa.", "bild": "/img/praeposition/ueber.svg", "en": "The lamp is hanging above the table. (Sobre can mean “on” or “above”.)", "variety": "es-ES" },
+        { "de": "La pelota está al lado de la caja.", "bild": "/img/praeposition/neben.svg", "en": "The ball is next to the box.", "variety": "es-ES" },
+        { "de": "La pelota está delante de la caja.", "bild": "/img/praeposition/vor.svg", "en": "The ball is in front of the box.", "variety": "es-ES" },
+        { "de": "La pelota está detrás de la caja.", "bild": "/img/praeposition/hinter.svg", "en": "The ball is behind the box.", "variety": "es-ES" },
+        { "de": "La pelota está entre las cajas.", "bild": "/img/praeposition/zwischen.svg", "en": "The ball is between the boxes.", "variety": "es-ES" },
+        { "de": "El cuadro está en la pared.", "bild": "/img/praeposition/an.svg", "en": "The picture is on the wall. (En covers “in”, “on” and “at”.)", "variety": "es-ES" }
       ]
     }
   ]

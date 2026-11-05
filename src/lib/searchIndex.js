@@ -315,9 +315,9 @@ export function buildSearchIndex() {
   // Every Redemittel set (/vocabulary/phrases/<id>), found by its name and its phrases.
   for (const set of redemittel.sets) {
     pages.push({
-      t: `Redemittel: ${set.name}`,
-      s: `${set.phrases.length} Sätze mit Audio, z. B. „${set.phrases[0]?.de ?? ""}“`,
-      k: `redemittel sätze phrases ${set.id} ${set.name} ${set.phrases.map((p) => `${p.de} ${p.en ?? ""}`).join(" ")}`.toLowerCase(),
+      t: `Useful phrases: ${set.name}`,
+      s: `${set.phrases.length} phrases, e.g. “${set.phrases[0]?.de ?? ""}”`,
+      k: `useful phrases frases ${set.id} ${set.name} ${set.phrases.map((p) => `${p.de} ${p.en ?? ""}`).join(" ")}`.toLowerCase(),
       h: itemPath("/vocabulary/phrases", set.id),
     });
   }
