@@ -4,18 +4,14 @@
 // the quiz host can load it in the browser. A deck's unit id is `berufe-<beruf>-<gruppe>`,
 // the same id VokabelTrainer gets as its deck.
 import { BERUFE, refKind } from "./berufeCore.js";
-import { byId as lexiconById, ENGLISH_LEVELS, SPANISH_LEVELS } from "./lexicon.js";
+import { byId as lexiconById } from "./lexicon.js";
 
 const modules = import.meta.glob("../data/berufe/*.json", { eager: true, import: "default" });
 
 /** The decks point at lexicon ids. A ref into a word that is gone drops out rather than leaving
- *  a hole in the deck: while the vocab items run, a deck's English A1 refs do that, until
- *  `spanish-for-work` points them at Spanish ids. */
-const resolves = (w) => {
-  if (!w.ref || refKind(w.ref) !== "lexicon") return true;
-  const row = lexiconById(w.ref);
-  return !!row && (SPANISH_LEVELS.has(row.level) || ENGLISH_LEVELS.has(row.level));
-};
+ *  a hole in the deck: a deck's old English refs do that, until `spanish-for-work` points them
+ *  at Spanish ids. */
+const resolves = (w) => !w.ref || refKind(w.ref) !== "lexicon" || !!lexiconById(w.ref);
 export const liveDeck = (deck) => ({ ...deck, groups: (deck.groups ?? []).map((g) => ({ ...g, words: (g.words ?? []).filter(resolves) })) });
 
 const decks = Object.fromEntries(

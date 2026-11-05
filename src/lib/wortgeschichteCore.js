@@ -17,7 +17,7 @@
 //             emit entries whose day has come; a daily deploy hook publishes the next one.
 // In `astro dev`, or with WORTGESCHICHTE_VORSCHAU=1 at build time, both gates are lifted
 // so entries can be reviewed on their real page (noindex, with a draft banner).
-import { all as lexicon, spokenForm, pluralArticle, TRANSLATION_LANGS, ENGLISH_LEVELS, SPANISH_LEVELS } from "./lexicon.js";
+import { all as lexicon, spokenForm, pluralArticle, TRANSLATION_LANGS, SPANISH_LEVELS } from "./lexicon.js";
 import { slugify } from "./audioSlug.js";
 import synonyme from "../data/synonyme.json" with { type: "json" };
 
@@ -93,7 +93,6 @@ export function formsOf(entry) {
     const row = lemma === entry.lemma ? lexiconRow(entry) : rowByLemma(lemma);
     if (!row) continue;
     const parts = [];
-    const english = ENGLISH_LEVELS.has(row.level);
     const spanish = SPANISH_LEVELS.has(row.level);
     if (row.pos === "noun" && spanish) {
       // la casa · las casas / las gafas (content-plan §1.4: gender = el/la, plural without article)
@@ -101,14 +100,6 @@ export function formsOf(entry) {
       if (row.plural && !row.pluralOnly) parts.push(`${pluralArticle(row)} ${row.plural}`);
     } else if (row.pos === "verb" && spanish && Array.isArray(row.forms) && row.forms.length === 3) {
       // infinitive · yo present · él indefinido · participle
-      parts.push(row.lemma, ...row.forms);
-    } else if (row.pos === "noun" && english) {
-      // a house · houses / some bread · no plural (content-plan §1.4: gender = a/an/some)
-      parts.push(row.gender ? `${row.gender} ${row.lemma}` : row.lemma);
-      if (row.plural && row.plural !== row.lemma) parts.push(row.plural);
-      else if (!row.pluralOnly) parts.push("no plural");
-    } else if (row.pos === "verb" && english && Array.isArray(row.forms) && row.forms.length === 3) {
-      // base · 3rd person -s · past simple · past participle
       parts.push(row.lemma, ...row.forms);
     } else if (row.pos === "noun") {
       const g = row.gender ?? (row.pluralOnly ? "die" : null);

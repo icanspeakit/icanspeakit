@@ -13,9 +13,8 @@ const ROOT = path.join(__dirname, "..");
 
 const LEVELS = ["a1", "a2", "b1", "b2", "c1", "c2"];
 const POS = ["noun", "verb", "adj", "adv", "prep", "conj", "pron", "num", "phrase"];
-// der/die/das for the German levels still in the files; a/an/some for the English ones;
-// el/la (el/la for common-gender person nouns) for the Spanish ones (docs/content-plan.md §1.4).
-const GENDERS = ["der", "die", "das", "a", "an", "some", "el", "la", "el/la"];
+// el / la, and el/la for common-gender person nouns (docs/content-plan.md §1.4).
+const GENDERS = ["el", "la", "el/la"];
 // genus (§1.4): only "f", only where the article hides the gender (el agua, el aula).
 const GENUS = ["f"];
 const CASES = ["akk", "dat", "gen", "akk/dat"];

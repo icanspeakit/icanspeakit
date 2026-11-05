@@ -1,15 +1,14 @@
 # Translations of the lexicon
 
 > **Spanish levels (since 2026-11-04, `vocab-a1`).** A level whose nouns carry `el` / `la` is
-> Spanish (`SPANISH_LEVELS` in `src/lib/lexicon.js`; A1, A2, B1 and B2 so far). For those words every sidecar is
+> Spanish (`SPANISH_LEVELS` in `src/lib/lexicon.js`; all six since `vocab-c1-c2`). For those words every sidecar is
 > **Spanish → that language**, written with the Spanish word in front of the writer, never from
 > the English gloss: `de.json` (nouns with their article, „das Haus“), `fr.json`, `pt.json`
 > (European Portuguese: *comboio, autocarro, telemóvel*, because the course's Portuguese readers
 > live in Europe) and `it.json`. Status: machine draft, no native speaker has reviewed them.
 > `scripts/lexicon-import.mjs` writes them. `de` is joined as `deHint` and shown as the German
 > tab; `fr`, `pt`, `it` appear once their `ui-lang-*` item registers the language for `cards`
-> with `fetch: true` (`src/lib/glossen.js` reads the file by name). A level still English keeps
-> its German glosses keyed by English ids, until its `vocab-*` item runs. `es.json` is empty and
+> with `fetch: true` (`src/lib/glossen.js` reads the file by name). `es.json` is empty and
 > `cleanup` deletes it; the other language files stay empty until someone can write them reliably.
 >
 > The rest of this file describes the German-course setup; no level uses it any more.
