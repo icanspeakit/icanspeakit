@@ -16,7 +16,7 @@ export const COURSES: Course[] = [
     name: 'English',
     english: 'English',
     meta: 'A1 to C1 · grammar, vocabulary, exams, speaking',
-    live: true,
+    live: false, // flip once apps/english is deployed at /english (overclaude base-path item)
   },
   {
     slug: 'spanish',
