@@ -16,6 +16,7 @@ export const BACKEND = {
   analytics: false, // product analytics (was PostHog + GA4)
   monitoring: false, // error reporting (was Sentry)
   speech: false, // pronunciation scoring + TTS + OCR (was Azure)
+  languageTool: false, // "Correct my text" on /writing also asks api.languagetool.org (schreibKorrektur.js)
   realtime: false, // live quiz / classes rooms (was Supabase Realtime)
 };
 
