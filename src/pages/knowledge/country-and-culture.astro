@@ -11,6 +11,7 @@ import kultur from "../../data/kultur.json";
 import insider from "../../data/kultur-insider.json";
 import fehler from "../../data/fehler-nach-sprache.json";
 import bilder from "../../data/kultur-bilder.json";
+import filme from "../../data/kultur-filme.json";
 import { iconFile } from "../../lib/wortBild.js";
 import "../../styles/practice.css";
 import "../../styles/kultur.css";
@@ -30,6 +31,7 @@ const areas = [
   { href: "/life-in-the-uk/facts", pic: "🗺️", title: "Facts about Spain", text: "The constitution, institutions, history, the comunidades autónomas: the knowledge for the CCSE.", meta: "CCSE" },
   { href: "/culture/quiz", pic: bilder.extras.quiz, title: "Culture quiz", text: "Questions from all the culture topics, mixed or by topic.", meta: `${quizCount} questions` },
   { href: "/culture/insider/cars-and-driving", pic: "🚗", title: "Cars and driving", text: "Roads, speed limits and what to know about driving.", meta: "Cars & driving" },
+  { href: "/culture/films-and-series", pic: bilder.extras.filme, title: "Films and series in Spanish", text: "What to watch from Spain and Latin America, with a level for each.", meta: `${filme.groups.reduce((n, g) => n + g.items.length, 0)} titles` },
 ];
 
 const lists = [
