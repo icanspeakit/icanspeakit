@@ -78,6 +78,8 @@
 .sp-map { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); background: var(--sp-sea); }
 .sp-svg { display: block; width: 100%; height: auto; }
 .sp-svg[hidden] { display: none; }
+/* The Americas are tall: keep the whole map on one screen. */
+.sp-svg[data-map="americas"] { max-height: 80vh; }
 .sp-sea { fill: var(--sp-sea); }
 .sp-land { fill: var(--sp-land); stroke: var(--sp-land-line); stroke-width: .6; }
 

@@ -1,6 +1,6 @@
 ---
-// /knowledge/languages — "English around the world": where English is spoken, the family it
-// belongs to, how close the learner's first language is, and the German → English sound
+// /knowledge/languages — "Spanish around the world": where Spanish is spoken, the family it
+// belongs to, how close the learner's first language is, and the English → Spanish word
 // patterns (the word decoder).
 //
 // All prose is in public/i18n/en.json under sprachen.*, read here for the server-rendered
@@ -41,20 +41,20 @@ const fmtDe = (n: number) =>
 const STATUS: Status[] = ["amtssprache", "region", "minderheit", "gemeinschaft"];
 
 // One "place" per thing the map can select: a country, or a marker that is not a country
-// of its own (the Malta or Singapore dot selects that country).
+// of its own (the Andorra or Puerto Rico dot selects that country).
 const places = [
   ...welt.countries.map((c) => ({
     id: c.id, name: c.name, status: c.status as Status, textKey: `sprachen.c.${c.id}`,
     sub: welt.markers.find((m) => m.ref === c.id && m.name !== c.name)?.name,
-    views: (["europe", "world"] as const).filter((v) => (karte as any)[v].countries[c.id]),
+    views: (["world", "americas"] as const).filter((v) => (karte as any)[v].countries[c.id]),
     speakers: (c as any).speakers as Speakers | undefined,
     regions: ((c as any).regions ?? []).map((g: { name: string }) => g.name) as string[],
-    // Whole country: where English is the main language, not one region of it.
+    // Whole country: where Spanish is the main language, not one region of it.
     whole: c.status === "amtssprache",
   })),
   ...welt.markers.filter((m) => !m.ref).map((m) => ({
     id: m.id, name: m.name, status: m.kind as Status, textKey: `sprachen.m.${m.id}`, sub: undefined,
-    views: m.views as ("europe" | "world")[],
+    views: m.views as ("world" | "americas")[],
     speakers: (m as any).speakers as Speakers | undefined,
     regions: [] as string[],
     whole: false,
@@ -64,8 +64,8 @@ const placeOf = (markerId: string) => welt.markers.find((m) => m.id === markerId
 const nameOf = Object.fromEntries(places.map((p) => [p.id, p.name]));
 
 const VIEWS = [
-  { id: "europe", label: "sprachen.map.europe" },
   { id: "world", label: "sprachen.map.world" },
+  { id: "americas", label: "sprachen.map.americas" },
 ] as const;
 
 // The comparison: the first languages of /culture/mistakes, in that order, with the
@@ -74,12 +74,11 @@ const native = Object.fromEntries(fehler.languages.map((l) => [l.id, l]));
 const compare = fehler.languages
   .map((l) => welt.compare.find((c) => c.id === l.id))
   .filter(Boolean) as typeof welt.compare;
-const RTL_LANG: Record<string, string> = { arabisch: "ar", persisch: "fa" };
+const RTL_LANG: Record<string, string> = { arabisch: "ar" };
 
 const treeLangs = (langs: string[]) => langs;
 const youKey = (name: string) => compare.find((c) => c.tree === name)?.id;
 const vars = (v: Record<string, unknown>) => JSON.stringify(v);
-const E = karte.europe;
 ---
 <Layout
   title="Spanish in the world: a language map – icanspeak Spanish"
@@ -97,13 +96,13 @@ const E = karte.europe;
         <p data-i18n="sprachen.lead">{t("sprachen.lead")}</p>
       </header>
 
-      {/* Ethnologue (via Wikipedia, "English language"): ≈ 380 m first-language and ≈ 1.1 bn
-          second-language speakers, the most speakers of any language in total; 57 sovereign
-          states with English as an official language (Wikipedia list, as of 2026). */}
+      {/* Instituto Cervantes, 2025, as reported in the press: about 635 m potential speakers, about
+          520 m with native command. 20 states with Spanish as an official or main language; Puerto
+          Rico is counted apart, as a US territory. */}
       <ul class="sp-stats">
-        <li><b>≈ 380 <span data-i18n="sprachen.stat.mio">{t("sprachen.stat.mio")}</span></b><span data-i18n="sprachen.stat.native">{t("sprachen.stat.native")}</span></li>
-        <li><b>+ 1.1 <span data-i18n="sprachen.stat.bn">{t("sprachen.stat.bn")}</span></b><span data-i18n="sprachen.stat.second">{t("sprachen.stat.second")}</span></li>
-        <li><b>57</b><span data-i18n="sprachen.stat.official">{t("sprachen.stat.official")}</span></li>
+        <li><b>≈ 520 <span data-i18n="sprachen.stat.mio">{t("sprachen.stat.mio")}</span></b><span data-i18n="sprachen.stat.native">{t("sprachen.stat.native")}</span></li>
+        <li><b>+ ≈ 115 <span data-i18n="sprachen.stat.mio">{t("sprachen.stat.mio")}</span></b><span data-i18n="sprachen.stat.second">{t("sprachen.stat.second")}</span></li>
+        <li><b>20</b><span data-i18n="sprachen.stat.official">{t("sprachen.stat.official")}</span></li>
         <li><b data-i18n="sprachen.stat.euN">{t("sprachen.stat.euN")}</b><span data-i18n="sprachen.stat.eu">{t("sprachen.stat.eu")}</span></li>
       </ul>
 
@@ -140,14 +139,7 @@ const E = karte.europe;
                     <path class={`sp-c sp-c--${c.status}`} d={k.countries[c.id]} data-place={c.id}
                       tabindex="0" role="button" aria-label={c.name}><title>{c.name}</title></path>
                   ))}
-                  {k.benrath && (
-                    <g class="sp-benrath" aria-hidden="true">
-                      <path d={k.benrath} />
-                      <text x={k.benrathAt[0]} y={k.benrathAt[1] - 9} text-anchor="middle">maken ↑</text>
-                      <text x={k.benrathAt[0]} y={k.benrathAt[1] + 19} text-anchor="middle">machen ↓</text>
-                    </g>
-                  )}
-                  {/* The English-speaking areas of a country, shown when it is selected.
+                  {/* The Spanish-speaking areas of a country, shown when it is selected.
                       Discs, not borders: a soft mark of where, not a claim of where not. */}
                   {Object.entries(k.regions ?? {}).map(([cid, groups]: [string, any]) => (
                     <g class="sp-rg" data-regions={cid} aria-hidden="true">
@@ -215,7 +207,7 @@ const E = karte.europe;
         </div>
 
         {/* The legend is also the list: every place is a button, so the map can be used
-            without hunting for a 6-pixel Malta — and it is the keyboard way in. */}
+            without hunting for a 6-pixel Andorra — and it is the keyboard way in. */}
         <div class="sp-legend">
           {STATUS.map((s) => (
             <div class="sp-legend-row">
@@ -239,7 +231,7 @@ const E = karte.europe;
           <p class="sp-tree-root" data-i18n="sprachen.tree.ie">{t("sprachen.tree.ie")}</p>
           <ul class="sp-branches">
             {welt.tree.children.map((b: any) => (
-              <li class:list={["sp-branch", b.id === "germ" && "sp-branch--home"]}>
+              <li class:list={["sp-branch", b.id === "rom" && "sp-branch--home"]}>
                 <p class="sp-branch-name" data-i18n={`sprachen.tree.${b.id}`}>{t(`sprachen.tree.${b.id}`)}</p>
                 {b.children ? (
                   <div class="sp-sub">
@@ -248,7 +240,7 @@ const E = karte.europe;
                         <p class="sp-sub-name" data-i18n={`sprachen.tree.${s.id}`}>{t(`sprachen.tree.${s.id}`)}</p>
                         <ul class="sp-langs">
                           {treeLangs(s.langs).map((l: string) => (
-                            <li class:list={["sp-lang", l === "English" && "sp-lang--de"]} data-tree-lang={youKey(l)}>{l}</li>
+                            <li class:list={["sp-lang", l === "Spanish" && "sp-lang--de"]} data-tree-lang={youKey(l)}>{l}</li>
                           ))}
                         </ul>
                       </div>
@@ -288,7 +280,7 @@ const E = karte.europe;
 
         <div class="fe-picks sp-picks" role="group" aria-label={t("sprachen.cmp.choose")} data-i18n-attr="aria-label:sprachen.cmp.choose">
           {compare.map((c, i) => (
-            <button class:list={["fe-pick", c.id === "deutsch" && "is-on"]} type="button" data-cmp={c.id} aria-pressed={c.id === "deutsch" ? "true" : "false"}>
+            <button class:list={["fe-pick", c.id === "englisch" && "is-on"]} type="button" data-cmp={c.id} aria-pressed={c.id === "englisch" ? "true" : "false"}>
               <span class="fe-mark" aria-hidden="true">{langMark(c.id)}</span>
               <span class="fe-pick-txt"><b>{native[c.id].name}</b><i dir={c.rtl ? "rtl" : undefined}>{native[c.id].native}</i></span>
             </button>
@@ -298,7 +290,7 @@ const E = karte.europe;
         {compare.map((c, i) => {
           const n = c.words.filter((w) => w[2]).length;
           return (
-            <article class={`sp-cmp sp-cmp--${c.level}`} data-cmp-panel={c.id} hidden={c.id !== "deutsch"}>
+            <article class={`sp-cmp sp-cmp--${c.level}`} data-cmp-panel={c.id} hidden={c.id !== "englisch"}>
               <header class="sp-cmp-head">
                 <span class="fe-mark" aria-hidden="true">{langMark(c.id)}</span>
                 <div>
@@ -323,7 +315,7 @@ const E = karte.europe;
                 <tbody>
                   {c.words.map((w, j) => (
                     <tr class:list={[w[2] && "is-same"]}>
-                      <th scope="row" lang="en">{welt.compareWords[j]}</th>
+                      <th scope="row" lang="es">{welt.compareWords[j]}</th>
                       <td>
                         <span lang={RTL_LANG[c.id]} dir={c.rtl ? "rtl" : undefined} class="sp-word">{w[0]}</span>
                         {w[1] && <span class="sp-translit">{w[1]}</span>}
@@ -352,14 +344,14 @@ const E = karte.europe;
       <section class="sp-sec" id="decoder">
         <h2 data-i18n="sprachen.dec.title">{t("sprachen.dec.title")}</h2>
         <p class="sp-sec-lead" data-i18n="sprachen.dec.lead">{t("sprachen.dec.lead")}</p>
-        {/* The way in. The cards below are rules with no sentence around them — "z · ss · ß → t"
-            means nothing until someone has watched one word go through it. So first one word
-            does: Wasser turns into water in front of you, and three steps say how to use a card. */}
+        {/* The way in. The cards below are rules with no sentence around them: "-tion → -ción" means
+            nothing until someone has watched one word go through it. So first one word does:
+            nation turns into nación in front of you, and three steps say how to use a card. */}
         <div class="sp-dec-intro">
           <div class="sp-dec-demo" aria-hidden="true">
-            <span class="sp-dec-demo-en" lang="de">Wa<mark>ss</mark>er</span>
+            <span class="sp-dec-demo-en" lang="en">na<mark>tion</mark></span>
             <span class="sp-dec-demo-arrow">→</span>
-            <span class="sp-dec-demo-de" lang="en">wa<mark>t</mark>er</span>
+            <span class="sp-dec-demo-de" lang="es">na<mark>ción</mark></span>
           </div>
           <div class="sp-dec-how">
             <p class="sp-dec-how-title" data-i18n="sprachen.dec.howTitle">{t("sprachen.dec.howTitle")}</p>
@@ -373,9 +365,9 @@ const E = karte.europe;
         <ul class="sp-dec">
           {welt.decoder.map((d) => (
             <li class="sp-dec-card">
-              <p class="sp-dec-rule"><span lang="de">{d.from}</span><span class="sp-dec-arrow" aria-hidden="true">→</span><span lang="en">{d.to}</span></p>
+              <p class="sp-dec-rule"><span lang="en">{d.from}</span><span class="sp-dec-arrow" aria-hidden="true">→</span><span lang="es">{d.to}</span></p>
               <ul>
-                {d.pairs.map(([deWord, en]) => <li><span lang="de">{deWord}</span><span aria-hidden="true">→</span><b lang="en">{en}</b></li>)}
+                {d.pairs.map(([en, es]) => <li><span lang="en">{en}</span><span aria-hidden="true">→</span><b lang="es">{es}</b></li>)}
               </ul>
             </li>
           ))}
@@ -384,11 +376,11 @@ const E = karte.europe;
 
         <h3 class="sp-quiz-title" data-i18n="sprachen.dec.quiz">{t("sprachen.dec.quiz")}</h3>
         <ul class="sp-quiz">
-          {welt.decoderQuiz.map(([deWord, en]) => (
+          {welt.decoderQuiz.map(([en, es]) => (
             <li>
               <details>
-                <summary><span lang="de">{deWord}</span> → <span class="sp-quiz-q">?</span><span class="sp-quiz-show" data-i18n="sprachen.dec.show">{t("sprachen.dec.show")}</span></summary>
-                <b lang="en">{en}</b>
+                <summary><span lang="en">{en}</span> → <span class="sp-quiz-q">?</span><span class="sp-quiz-show" data-i18n="sprachen.dec.show">{t("sprachen.dec.show")}</span></summary>
+                <b lang="es">{es}</b>
               </details>
             </li>
           ))}
@@ -427,7 +419,7 @@ const E = karte.europe;
       // toggleAttribute, not .hidden: an <svg> is not an HTMLElement and has no such property.
       for (const s of svgs) s.toggleAttribute("hidden", s.dataset.map !== id);
       for (const b of viewBtns) b.setAttribute("aria-pressed", String(b.dataset.view === id));
-      document.querySelector<HTMLElement>("[data-benrath-note]")!.hidden = id !== "europe" || current !== null;
+      document.querySelector<HTMLElement>("[data-benrath-note]")!.hidden = id !== "world" || current !== null;
     }
 
     function select(place: string, fromMap = false) {
@@ -444,7 +436,7 @@ const E = karte.europe;
       card?.classList.remove("is-in");
       if (card) { void card.offsetWidth; card.classList.add("is-in"); }
       card?.querySelectorAll<HTMLElement>("[data-count]").forEach((el) => countUp(el));
-      // A place that is only on the other view (Canada, Bermuda) switches to it.
+      // A place that is only on the other view (Spain, Equatorial Guinea) switches to it.
       const visible = svgs.find((s) => !s.hasAttribute("hidden"));
       if (current && visible && !visible.querySelector(`[data-place="${current}"]`)) {
         const other = svgs.find((s) => s.querySelector(`[data-place="${current}"]`));
@@ -524,11 +516,11 @@ const E = karte.europe;
     }
     for (const p of picks) p.addEventListener("click", () => choose(p.dataset.cmp!));
     const fromUrl = new URLSearchParams(location.search).get("lang");
-    // No first language set: guess from the language the site is read in. Reading it in
-    // English says nothing; then German, English's closest big sibling, opens.
-    const BY_UI: Record<string, string> = { de: "deutsch", ar: "arabisch", tr: "tuerkisch", uk: "ukrainisch" };
+    // No first language set: guess from the language the site is read in. English is the base
+    // language and opens when nothing else is known.
+    const BY_UI: Record<string, string> = { en: "englisch", de: "deutsch", fr: "franzoesisch", pt: "portugiesisch", it: "italienisch", ro: "rumaenisch", ar: "arabisch", ru: "russisch", uk: "ukrainisch", zh: "chinesisch" };
     const has = (id: string | null) => !!id && panels.some((p) => p.dataset.cmpPanel === id);
-    const start = [fromUrl, getMuttersprache(), BY_UI[getLang()], "deutsch"].find(has);
+    const start = [fromUrl, getMuttersprache(), BY_UI[getLang()], "englisch"].find(has);
     if (start) choose(start);
   </script>
 </Layout>

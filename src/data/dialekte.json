@@ -1,1156 +1,407 @@
 {
-  "_comment": "Content for /knowledge/accents: accents of English in the UK and Ireland. Names, places and examples ([local form, plain English]) are not translated; the descriptions are in public/i18n/en.json under dialekte.r.* (areas), dialekte.m.* (dots) and dialekte.group.*. Markers with lang: true are Celtic languages, not accents. words: `de` holds the standard English word the map asks about. lines: `benrath` is the FOOT–STRUT line (bus /ʊ/ north of it), `speyer` the BATH–TRAP line (bath with a short a north of it); the key names are kept from the German page. shift: one row per word, columns in the order of groups. Coordinates for Shetland are real; the generator moves Shetland into an inset box. Geometry: scripts/generate-dialekte-karte.mjs → dialekte-karte.json.",
+  "_comment": "Content for /knowledge/accents: varieties of Spanish in Spain, Spain's own languages, and the varieties of Latin America as notes. Names, places and examples ([local form, plain English]) are not translated; the descriptions are in public/i18n/en.json under dialekte.r.* (areas), dialekte.m.* (dots), dialekte.w.* (world notes) and dialekte.group.*. Markers with lang: true are languages, not accents. words: `de` holds what the map asks about. lines: `benrath` is the line of weak final s (los niños with a clear s north of it), `speyer` the line of seseo and ceceo (cinco with /θ/ north and east of it); the key names are kept from the German page. shift: one row per word, columns in the order of groups. Coordinates for the Canary Islands are real; the generator moves them into an inset box. Geometry: scripts/generate-dialekte-karte.mjs → dialekte-karte.json.",
   "groups": [
-    {
-      "id": "north",
-      "regions": [
-        "northeast",
-        "cumbria",
-        "yorkshire",
-        "northwest"
-      ]
-    },
-    {
-      "id": "midlands",
-      "regions": [
-        "westmidlands",
-        "eastmidlands"
-      ]
-    },
-    {
-      "id": "south",
-      "regions": [
-        "eastanglia",
-        "southeast",
-        "southwest"
-      ]
-    },
-    {
-      "id": "scotland",
-      "regions": [
-        "lowlands",
-        "northeastscotland",
-        "highlands",
-        "northernisles"
-      ]
-    },
-    {
-      "id": "wales",
-      "regions": [
-        "northmidwales",
-        "southwales"
-      ]
-    },
-    {
-      "id": "ireland",
-      "regions": [
-        "ulster",
-        "southirish"
-      ]
-    }
+    { "id": "norte", "regions": ["centro", "asturias", "aragon"] },
+    { "id": "transicion", "regions": ["mancha", "extremadura", "murcia"] },
+    { "id": "andalucia", "regions": ["andaluciaoc", "andaluciaor"] },
+    { "id": "canarias", "regions": ["canarias"] },
+    { "id": "bilingue", "regions": ["catalunya", "valencia", "galicia", "euskadi"] }
   ],
   "regions": [
     {
-      "id": "northeast",
-      "name": "North East England",
-      "alias": "Geordie, Mackem, Pitmatic",
-      "short": "North\nEast",
-      "color": "#7fb3e0",
-      "label": [
-        -1.85,
-        55.1
-      ],
-      "places": [
-        "Newcastle",
-        "Sunderland",
-        "Durham",
-        "Northumberland",
-        "Middlesbrough"
-      ],
-      "say": [
-        [
-          "Howay, man!",
-          "Come on!"
-        ],
-        [
-          "Whey aye!",
-          "Yes, of course!"
-        ],
-        [
-          "bairn",
-          "child"
-        ],
-        [
-          "canny",
-          "nice, good"
-        ]
-      ]
-    },
-    {
-      "id": "cumbria",
-      "name": "Cumbria",
-      "alias": "Cumbrian",
-      "short": "Cumbria",
-      "color": "#9fd6cf",
-      "label": [
-        -2.95,
-        54.5
-      ],
-      "places": [
-        "Carlisle",
-        "Kendal",
-        "Workington",
-        "the Lake District"
-      ],
-      "say": [
-        [
-          "laal",
-          "little"
-        ],
-        [
-          "marra",
-          "friend, mate"
-        ],
-        [
-          "yan, tyan, tethera",
-          "one, two, three (an old way of counting sheep)"
-        ]
-      ]
-    },
-    {
-      "id": "yorkshire",
-      "name": "Yorkshire",
-      "alias": "Tyke",
-      "short": "Yorkshire",
+      "id": "centro",
+      "name": "Castile and Madrid",
+      "alias": "castellano del centro y del norte",
+      "short": "Castile\nand Madrid",
       "color": "#a9b9ef",
-      "label": [
-        -1.3,
-        54
-      ],
-      "places": [
-        "Leeds",
-        "Sheffield",
-        "Bradford",
-        "York",
-        "Hull",
-        "the Dales"
-      ],
+      "label": [-4.1, 41.65],
+      "places": ["Madrid", "Valladolid", "Burgos", "Salamanca", "Segovia", "Logroño"],
       "say": [
-        [
-          "Ey up!",
-          "Hello!"
-        ],
-        [
-          "Now then!",
-          "Hello! (a greeting)"
-        ],
-        [
-          "nowt / owt",
-          "nothing / anything"
-        ],
-        [
-          "ginnel, snicket",
-          "a narrow path between houses"
-        ]
+        ["Le vi ayer.", "I saw him yesterday. (leísmo: le for lo)"],
+        ["Madriz", "Madrid: a final d can sound like z here"],
+        ["cansao", "cansado: casual speech drops the d"]
       ]
     },
     {
-      "id": "northwest",
-      "name": "Lancashire and Greater Manchester",
-      "alias": "Lanky, Mancunian",
-      "short": "North\nWest",
+      "id": "asturias",
+      "name": "Asturias and Cantabria",
+      "alias": "Spanish with an Asturian or Cantabrian colour",
+      "short": "Asturias,\nCantabria",
       "color": "#93d2ec",
-      "label": [
-        -2.45,
-        53.8
-      ],
-      "places": [
-        "Manchester",
-        "Preston",
-        "Bolton",
-        "Wigan",
-        "Blackpool",
-        "Lancaster"
-      ],
+      "label": [-5.05, 43.33],
+      "places": ["Oviedo", "Gijón", "Avilés", "Santander", "Torrelavega"],
       "say": [
-        [
-          "Hiya!",
-          "Hello!"
-        ],
-        [
-          "our kid",
-          "my brother or sister"
-        ],
-        [
-          "barm cake",
-          "bread roll"
-        ],
-        [
-          "mither",
-          "to bother, to annoy"
-        ]
+        ["pequeñín, pequeñina", "small (-ín in Asturias)"],
+        ["pequeñuco, pequeñuca", "small (-uco in Cantabria)"],
+        ["Me presta.", "I like it. (Asturias)"],
+        ["guaje", "kid (Asturias)"]
       ]
     },
     {
-      "id": "westmidlands",
-      "name": "West Midlands",
-      "alias": "Brummie, Black Country, Potteries",
-      "short": "West\nMidlands",
-      "color": "#6fc2b4",
-      "label": [
-        -2.7,
-        52.75
-      ],
-      "places": [
-        "Birmingham",
-        "Wolverhampton",
-        "Dudley",
-        "Coventry",
-        "Stoke-on-Trent",
-        "Shropshire"
-      ],
+      "id": "aragon",
+      "name": "Aragon",
+      "alias": "Spanish as spoken in Aragon",
+      "short": "Aragon",
+      "color": "#7fb3e0",
+      "label": [-0.75, 41.45],
+      "places": ["Zaragoza", "Huesca", "Teruel"],
       "say": [
-        [
-          "bostin’",
-          "great (Black Country)"
-        ],
-        [
-          "yow am",
-          "you are (Black Country)"
-        ],
-        [
-          "duck",
-          "love, dear (Stoke)"
-        ]
+        ["pequeñico, pequeñica", "small"],
+        ["¡Maño! ¡Maña!", "a friendly way to call someone; also a nickname for people from Aragon"],
+        ["zagal, zagala", "boy, girl"]
       ]
     },
     {
-      "id": "eastmidlands",
-      "name": "East Midlands",
-      "alias": "Nottingham, Derby, Leicester",
-      "short": "East\nMidlands",
-      "color": "#b8da8c",
-      "label": [
-        -0.95,
-        52.95
-      ],
-      "places": [
-        "Nottingham",
-        "Derby",
-        "Leicester",
-        "Lincoln",
-        "Northampton"
-      ],
-      "say": [
-        [
-          "Ey up, me duck!",
-          "Hello, love!"
-        ],
-        [
-          "mardy",
-          "moody, grumpy"
-        ],
-        [
-          "cob",
-          "bread roll"
-        ],
-        [
-          "jitty",
-          "a narrow path between houses"
-        ]
-      ]
-    },
-    {
-      "id": "eastanglia",
-      "name": "East Anglia",
-      "alias": "Norfolk, Suffolk",
-      "short": "East\nAnglia",
+      "id": "mancha",
+      "name": "Castilla-La Mancha",
+      "alias": "castellano manchego",
+      "short": "Castilla-\nLa Mancha",
       "color": "#e8de8c",
-      "label": [
-        0.95,
-        52.5
-      ],
-      "places": [
-        "Norwich",
-        "Ipswich",
-        "Great Yarmouth",
-        "Cambridge"
-      ],
+      "label": [-3.05, 39.35],
+      "places": ["Toledo", "Ciudad Real", "Albacete", "Cuenca", "Guadalajara"],
       "say": [
-        [
-          "bor",
-          "friend, neighbour (Norfolk)"
-        ],
-        [
-          "on the huh",
-          "not straight, crooked"
-        ],
-        [
-          "dodman",
-          "snail (Norfolk)"
-        ]
+        ["¡Ea!", "right then, there you go: a very common filler"],
+        ["loh niñoh", "los niños: in the south of the region the final s weakens"],
+        ["zagal, zagala", "boy, girl (Albacete)"]
       ]
     },
     {
-      "id": "southeast",
-      "name": "London and the South East",
-      "alias": "Estuary English, Home Counties",
-      "short": "South\nEast",
-      "color": "#f3ba82",
-      "label": [
-        -0.55,
-        51.05
-      ],
-      "places": [
-        "London",
-        "Kent",
-        "Essex",
-        "Sussex",
-        "Surrey",
-        "Oxford"
-      ],
+      "id": "extremadura",
+      "name": "Extremadura",
+      "alias": "Spanish as spoken in Extremadura",
+      "short": "Extremadura",
+      "color": "#b8da8c",
+      "label": [-6.05, 39.2],
+      "places": ["Cáceres", "Badajoz", "Mérida", "Plasencia"],
       "say": [
-        [
-          "Alright?",
-          "Hello! How are you?"
-        ],
-        [
-          "innit",
-          "isn’t it? (a tag at the end of a sentence)"
-        ],
-        [
-          "mate",
-          "friend"
-        ]
+        ["chiquino, chiquinino", "small, tiny"],
+        ["loh niñoh", "los niños: the final s becomes a breath"],
+        ["hamón", "jamón: the j is soft, like an English h"]
       ]
     },
     {
-      "id": "southwest",
-      "name": "West Country",
-      "alias": "Bristolian, Devon, Cornwall",
-      "short": "West\nCountry",
-      "color": "#f7d39a",
-      "label": [
-        -3.6,
-        50.85
-      ],
-      "places": [
-        "Bristol",
-        "Plymouth",
-        "Exeter",
-        "Somerset",
-        "Gloucester",
-        "Cornwall"
-      ],
+      "id": "murcia",
+      "name": "Region of Murcia",
+      "alias": "murciano",
+      "short": "Murcia",
+      "color": "#fdba74",
+      "label": [-1.45, 38.02],
+      "places": ["Murcia", "Cartagena", "Lorca", "Yecla"],
       "say": [
-        [
-          "Alright, my lover?",
-          "Hello! (friendly, to anyone)"
-        ],
-        [
-          "Where’s it to?",
-          "Where is it?"
-        ],
-        [
-          "gert lush",
-          "really lovely (Bristol)"
-        ],
-        [
-          "proper job",
-          "well done, great (Cornwall)"
-        ]
+        ["¡Acho!", "hey, mate (from muchacho)"],
+        ["un momentico", "just a moment"],
+        ["¡Pijo!", "wow, damn (a strong word, for friends only)"],
+        ["zagal, zagala", "boy, girl"]
       ]
     },
     {
-      "id": "lowlands",
-      "name": "Central and Southern Scotland",
-      "alias": "Scottish English, Lowland Scots",
-      "short": "Lowlands",
-      "color": "#c690bb",
-      "label": [
-        -3.25,
-        55.3
-      ],
-      "places": [
-        "Glasgow",
-        "Edinburgh",
-        "Dundee",
-        "Stirling",
-        "Ayr",
-        "the Borders"
-      ],
+      "id": "andaluciaoc",
+      "name": "Western Andalusia",
+      "alias": "andaluz occidental",
+      "short": "Western\nAndalusia",
+      "color": "#fca5a5",
+      "label": [-5.6, 37.35],
+      "places": ["Seville", "Cádiz", "Huelva", "Córdoba", "Málaga"],
       "say": [
-        [
-          "wee",
-          "small"
-        ],
-        [
-          "aye",
-          "yes"
-        ],
-        [
-          "ken",
-          "know"
-        ],
-        [
-          "It’s a dreich day.",
-          "The weather is grey and wet."
-        ]
+        ["¡Quillo!", "mate! (from chiquillo)"],
+        ["ustedes vais", "vosotros vais: ustedes for vosotros in popular speech"],
+        ["cansá", "cansada: the end of the word falls away"]
       ]
     },
     {
-      "id": "northeastscotland",
-      "name": "North East Scotland",
-      "alias": "Doric",
-      "short": "Doric",
-      "color": "#dc9fc8",
-      "label": [
-        -2.75,
-        57.3
-      ],
-      "places": [
-        "Aberdeen",
-        "Peterhead",
-        "Fraserburgh",
-        "Elgin"
-      ],
+      "id": "andaluciaor",
+      "name": "Eastern Andalusia",
+      "alias": "andaluz oriental",
+      "short": "Eastern\nAndalusia",
+      "color": "#f9a8d4",
+      "label": [-3.05, 37.5],
+      "places": ["Granada", "Almería", "Jaén", "Motril"],
       "say": [
-        [
-          "Fit like?",
-          "How are you?"
-        ],
-        [
-          "Nae bad.",
-          "Not bad."
-        ],
-        [
-          "loon / quine",
-          "boy / girl"
-        ]
+        ["lah casah", "las casas: the s fades, and more open vowels show the plural"],
+        ["Graná", "Granada"],
+        ["¡Cucha!", "listen! (from escucha)"],
+        ["la malafollá", "Granada's famous curt manner, said with a wink"]
       ]
     },
     {
-      "id": "highlands",
-      "name": "Highlands and Islands",
-      "alias": "Highland English",
-      "short": "Highlands",
-      "color": "#ebbad6",
-      "label": [
-        -4.85,
-        57.2
-      ],
-      "places": [
-        "Inverness",
-        "Fort William",
-        "Skye",
-        "the Outer Hebrides"
-      ],
+      "id": "canarias",
+      "name": "Canary Islands",
+      "alias": "canario",
+      "short": "Canary Islands",
+      "color": "#fcd34d",
+      "label": [-15.9, 29.3],
+      "places": ["Las Palmas", "Santa Cruz de Tenerife", "La Laguna", "Lanzarote", "Fuerteventura", "La Palma"],
       "say": [
-        [
-          "ceilidh",
-          "an evening of music and dancing (from Gaelic)"
-        ],
-        [
-          "Slàinte!",
-          "Cheers! (Gaelic)"
-        ]
+        ["la guagua", "the bus"],
+        ["las papas", "the potatoes"],
+        ["¡Chacho!", "hey! wow! (from muchacho)"],
+        ["ustedes", "you, to a group: friends too, no vosotros"]
       ]
     },
     {
-      "id": "northernisles",
-      "name": "Orkney and Shetland",
-      "alias": "Insular Scots",
-      "short": "Orkney and\nShetland",
+      "id": "catalunya",
+      "name": "Catalonia and the Balearic Islands",
+      "alias": "Spanish beside Catalan",
+      "short": "Catalonia",
       "color": "#c4b5fd",
-      "label": [
-        -3.05,
-        59.05
-      ],
-      "places": [
-        "Kirkwall",
-        "Lerwick",
-        "Stromness"
-      ],
+      "label": [1.55, 41.45],
+      "places": ["Barcelona", "Girona", "Lleida", "Tarragona", "Palma", "Ibiza"],
       "say": [
-        [
-          "peerie",
-          "small"
-        ],
-        [
-          "du",
-          "you (Shetland, to a friend)"
-        ]
+        ["nen, nena", "kid; also friendly: ¿Qué dices, nen?"],
+        ["plegar", "to finish work: Plego a las seis."],
+        ["Madrit", "Madrid: a final d sounds like t"]
       ]
     },
     {
-      "id": "northmidwales",
-      "name": "North and Mid Wales",
-      "alias": "Welsh English",
-      "short": "North and\nMid Wales",
-      "color": "#f1a9a2",
-      "label": [
-        -3.55,
-        52.4
-      ],
-      "places": [
-        "Bangor",
-        "Caernarfon",
-        "Wrexham",
-        "Aberystwyth",
-        "Anglesey"
-      ],
+      "id": "valencia",
+      "name": "Valencian Community",
+      "alias": "Spanish beside Valencian",
+      "short": "Valencia",
+      "color": "#6fc2b4",
+      "label": [-0.62, 39.45],
+      "places": ["Valencia", "Alicante", "Castellón", "Elche"],
       "say": [
-        [
-          "There’s lovely!",
-          "How lovely!"
-        ],
-        [
-          "…, isn’t it?",
-          "a tag for any sentence: “You’re coming, isn’t it?”"
-        ],
-        [
-          "Diolch!",
-          "Thanks! (Welsh)"
-        ]
+        ["¡Xe!", "hey! wow!"],
+        ["xiquet, xiqueta", "kid"],
+        ["el esmorzaret", "the mid-morning sandwich break"]
       ]
     },
     {
-      "id": "southwales",
-      "name": "South Wales",
-      "alias": "Wenglish, Cardiff English",
-      "short": "South\nWales",
-      "color": "#eea672",
-      "label": [
-        -3.45,
-        51.72
-      ],
-      "places": [
-        "Cardiff",
-        "Swansea",
-        "Newport",
-        "the Valleys"
-      ],
+      "id": "galicia",
+      "name": "Galicia",
+      "alias": "Spanish beside Galician",
+      "short": "Galicia",
+      "color": "#9fd6cf",
+      "label": [-7.9, 42.75],
+      "places": ["A Coruña", "Vigo", "Santiago de Compostela", "Ourense", "Lugo"],
       "say": [
-        [
-          "cwtch",
-          "a cuddle"
-        ],
-        [
-          "tidy",
-          "good, great"
-        ],
-        [
-          "lush",
-          "lovely"
-        ],
-        [
-          "I’ll do it now in a minute.",
-          "I’ll do it soon."
-        ]
+        ["un momentiño", "just a moment"],
+        ["neno, nena", "kid; also friendly"],
+        ["Malo será.", "It can't be that bad."],
+        ["Hoy comí pronto.", "Hoy he comido pronto: simple past where Castile uses the perfect"]
       ]
     },
     {
-      "id": "ulster",
-      "name": "Ulster",
-      "alias": "Ulster English, Ulster Scots",
-      "short": "Ulster",
+      "id": "euskadi",
+      "name": "Basque Country and Navarre",
+      "alias": "Spanish beside Basque",
+      "short": "Basque\nCountry,\nNavarre",
       "color": "#5eead4",
-      "label": [
-        -6.95,
-        54.65
-      ],
-      "places": [
-        "Belfast",
-        "Derry",
-        "Armagh",
-        "Antrim",
-        "Donegal"
-      ],
+      "label": [-2.05, 42.75],
+      "places": ["Bilbao", "San Sebastián", "Vitoria-Gasteiz", "Pamplona", "Tudela"],
       "say": [
-        [
-          "aye",
-          "yes"
-        ],
-        [
-          "wee",
-          "small; used with almost anything"
-        ],
-        [
-          "yous",
-          "you (more than one person)"
-        ],
-        [
-          "a dander",
-          "a walk, a stroll"
-        ]
-      ]
-    },
-    {
-      "id": "southirish",
-      "name": "Southern Irish English",
-      "alias": "Hiberno-English",
-      "short": "Ireland",
-      "color": "#9fd192",
-      "label": [
-        -8.15,
-        52.85
-      ],
-      "places": [
-        "Cork",
-        "Galway",
-        "Limerick",
-        "Waterford",
-        "Kerry"
-      ],
-      "say": [
-        [
-          "What’s the craic?",
-          "What’s new? How are things?"
-        ],
-        [
-          "grand",
-          "fine, OK"
-        ],
-        [
-          "I’m after eating.",
-          "I have just eaten."
-        ],
-        [
-          "Sure look.",
-          "Oh well, that’s how it is."
-        ]
+        ["el sirimiri", "fine drizzle"],
+        ["aita, ama", "dad, mum"],
+        ["agur", "bye"],
+        ["Si tendría tiempo…", "Si tuviera tiempo: conditional for subjunctive. Hear it, don't copy it."]
       ]
     }
   ],
   "markers": [
     {
-      "id": "liverpool",
-      "name": "Scouse",
-      "where": "Liverpool",
-      "at": [
-        -2.98,
-        53.41
-      ],
+      "id": "madrid",
+      "name": "Madrid speech",
+      "where": "Madrid",
+      "at": [-3.7, 40.42],
       "say": [
-        [
-          "Alright, la?",
-          "Hello, mate!"
-        ],
-        [
-          "boss",
-          "great"
-        ],
-        [
-          "sound",
-          "fine, good"
-        ],
-        [
-          "scran",
-          "food"
-        ]
+        ["chulapo, chulapa", "a traditional Madrid character, in costume at the summer fiestas"],
+        ["mogollón", "loads, a lot"],
+        ["La dije que sí.", "I told her yes. (laísmo: heard often, but not standard)"]
       ]
     },
     {
-      "id": "birmingham",
-      "name": "Brummie",
-      "where": "Birmingham",
-      "at": [
-        -1.9,
-        52.48
-      ],
+      "id": "sevilla",
+      "name": "Seville speech",
+      "where": "Seville",
+      "at": [-5.98, 37.39],
       "say": [
-        [
-          "Tara-a-bit!",
-          "Bye, see you later!"
-        ],
-        [
-          "bab",
-          "love, dear (to a friend or a customer)"
-        ],
-        [
-          "babby",
-          "baby"
-        ]
+        ["mi arma", "my dear (mi alma, my soul)"],
+        ["¡Ozú!", "wow! (from Jesús)"],
+        ["¡Illo!", "mate! (short for chiquillo)"]
       ]
     },
     {
-      "id": "london",
-      "name": "Cockney and MLE",
-      "where": "London",
-      "at": [
-        -0.12,
-        51.51
-      ],
+      "id": "cadiz",
+      "name": "Cádiz speech",
+      "where": "Cádiz",
+      "at": [-6.29, 36.53],
       "say": [
-        [
-          "apples and pears",
-          "stairs (rhyming slang)"
-        ],
-        [
-          "Have a butcher’s.",
-          "Have a look. (butcher’s hook = look)"
-        ],
-        [
-          "bare",
-          "a lot, very (MLE)"
-        ],
-        [
-          "peng",
-          "great, good-looking (MLE)"
-        ]
+        ["Cai", "Cádiz, as locals say it"],
+        ["pisha", "mate (casual; friends only)"],
+        ["la chirigota", "a comic song group at carnival"]
       ]
     },
     {
-      "id": "glasgow",
-      "name": "Glaswegian",
-      "where": "Glasgow",
-      "at": [
-        -4.25,
-        55.86
-      ],
-      "say": [
-        [
-          "How’s it gaun?",
-          "How’s it going?"
-        ],
-        [
-          "Gonnae no dae that.",
-          "Please don’t do that."
-        ],
-        [
-          "wean",
-          "child"
-        ]
-      ]
+      "id": "ceuta",
+      "name": "Ceuta and Melilla",
+      "where": "Spanish cities in North Africa; Melilla lies east of this map",
+      "at": [-5.32, 35.89],
+      "say": []
     },
     {
-      "id": "belfast",
-      "name": "Belfast English",
-      "where": "Belfast",
-      "at": [
-        -5.93,
-        54.6
-      ],
-      "say": [
-        [
-          "What about ye?",
-          "How are you? Hello!"
-        ],
-        [
-          "wee",
-          "small: “a wee cup of tea”"
-        ],
-        [
-          "catch yourself on",
-          "don’t be silly"
-        ]
-      ]
-    },
-    {
-      "id": "dublin",
-      "name": "Dublin English",
-      "where": "Dublin",
-      "at": [
-        -6.26,
-        53.35
-      ],
-      "say": [
-        [
-          "Howya?",
-          "Hello, how are you?"
-        ],
-        [
-          "deadly",
-          "great"
-        ],
-        [
-          "gas",
-          "funny"
-        ],
-        [
-          "gaff",
-          "house, home"
-        ]
-      ]
-    },
-    {
-      "id": "welsh",
-      "name": "Welsh",
-      "where": "Cymraeg · mainly in the north and west of Wales",
-      "at": [
-        -4.1,
-        52.98
-      ],
+      "id": "catala",
+      "name": "Catalan / Valencian",
+      "where": "català, valencià · Catalonia, the Balearic Islands, the Valencian Community",
+      "at": [1.9, 41.95],
       "lang": true,
       "say": [
-        [
-          "Bore da!",
-          "Good morning!"
-        ],
-        [
-          "Diolch!",
-          "Thank you!"
-        ]
+        ["Bon dia!", "Good morning!"],
+        ["Gràcies!", "Thank you!"]
       ]
     },
     {
-      "id": "gaelic",
-      "name": "Scottish Gaelic",
-      "where": "Gàidhlig · Outer Hebrides, Skye",
-      "at": [
-        -6.85,
-        57.95
-      ],
+      "id": "gallego",
+      "name": "Galician",
+      "where": "galego · Galicia",
+      "at": [-8.3, 42.3],
       "lang": true,
       "say": [
-        [
-          "Halò!",
-          "Hello!"
-        ],
-        [
-          "Tapadh leat!",
-          "Thank you!"
-        ]
+        ["Bos días!", "Good morning!"],
+        ["Grazas!", "Thank you!"]
       ]
     },
     {
-      "id": "irish",
-      "name": "Irish",
-      "where": "Gaeilge · Gaeltacht areas in the west",
-      "at": [
-        -9.55,
-        53.38
-      ],
+      "id": "euskera",
+      "name": "Basque",
+      "where": "euskara · the Basque Country and the north of Navarre",
+      "at": [-2.45, 43.15],
       "lang": true,
       "say": [
-        [
-          "Dia duit!",
-          "Hello!"
-        ],
-        [
-          "Go raibh maith agat!",
-          "Thank you!"
-        ]
+        ["Egun on!", "Good morning!"],
+        ["Eskerrik asko!", "Thank you!"]
       ]
     },
     {
-      "id": "cornish",
-      "name": "Cornish",
-      "where": "Kernewek · Cornwall",
-      "at": [
-        -5.15,
-        50.3
-      ],
+      "id": "aranes",
+      "name": "Aranese",
+      "where": "aranés (Occitan) · Val d'Aran, Catalonia",
+      "at": [0.8, 42.72],
       "lang": true,
       "say": [
-        [
-          "Dydh da!",
-          "Good day!"
-        ],
-        [
-          "Meur ras!",
-          "Thank you!"
-        ]
+        ["Bon dia!", "Good morning!"],
+        ["Mercés!", "Thank you!"]
       ]
     },
     {
-      "id": "manx",
-      "name": "Manx",
-      "where": "Gaelg · Isle of Man",
-      "at": [
-        -4.55,
-        54.23
-      ],
+      "id": "asturiano",
+      "name": "Asturian",
+      "where": "asturianu · Asturias",
+      "at": [-6.1, 43.1],
       "lang": true,
       "say": [
-        [
-          "Moghrey mie!",
-          "Good morning!"
-        ],
-        [
-          "Gura mie ayd!",
-          "Thank you!"
-        ]
+        ["Bonos díes!", "Good morning!"],
+        ["Gracies!", "Thank you!"]
+      ]
+    },
+    {
+      "id": "aragones",
+      "name": "Aragonese",
+      "where": "aragonés · valleys of the Pyrenees in Aragon",
+      "at": [-0.2, 42.55],
+      "lang": true,
+      "say": [
+        ["Buen día!", "Good morning!"],
+        ["Grazias!", "Thank you!"]
       ]
     }
   ],
   "others": [
-    {
-      "id": "northsea",
-      "name": "North Sea",
-      "at": [
-        1.2,
-        55.3
-      ]
-    },
-    {
-      "id": "irishsea",
-      "name": "Irish Sea",
-      "at": [
-        -5.35,
-        53.65
-      ]
-    },
-    {
-      "id": "atlantic",
-      "name": "Atlantic Ocean",
-      "at": [
-        -9.3,
-        56.2
-      ]
-    },
-    {
-      "id": "channel",
-      "name": "English Channel",
-      "at": [
-        -2.3,
-        50.25
-      ]
-    }
+    { "id": "atlantic", "name": "Atlantic Ocean", "at": [-10.9, 41.2] },
+    { "id": "biscay", "name": "Bay of Biscay", "at": [-4.5, 44.25] },
+    { "id": "med", "name": "Mediterranean Sea", "at": [2.1, 37.7] },
+    { "id": "portugal", "name": "Portugal", "at": [-8.05, 39.95] },
+    { "id": "france", "name": "France", "at": [1.5, 43.75] },
+    { "id": "morocco", "name": "Morocco", "at": [-4.2, 35.72] }
   ],
   "words": [
     {
-      "id": "roll",
-      "de": "bread roll",
+      "id": "mate",
+      "de": "hey, mate",
       "variants": [
-        {
-          "w": "roll",
-          "regions": [
-            "eastanglia",
-            "southeast",
-            "southwest",
-            "southwales",
-            "northmidwales",
-            "lowlands",
-            "northeastscotland",
-            "highlands",
-            "northernisles",
-            "southirish"
-          ]
-        },
-        {
-          "w": "bap",
-          "regions": [
-            "ulster"
-          ]
-        },
-        {
-          "w": "barm, barm cake",
-          "regions": [
-            "northwest"
-          ]
-        },
-        {
-          "w": "cob",
-          "regions": [
-            "eastmidlands"
-          ]
-        },
-        {
-          "w": "batch, cob",
-          "regions": [
-            "westmidlands"
-          ]
-        },
-        {
-          "w": "bread cake, teacake",
-          "regions": [
-            "yorkshire"
-          ]
-        },
-        {
-          "w": "bun, stottie",
-          "regions": [
-            "northeast",
-            "cumbria"
-          ]
-        }
+        { "w": "¡Tío! ¡Tía!", "regions": ["centro", "asturias", "mancha", "extremadura", "euskadi"] },
+        { "w": "¡Quillo!", "regions": ["andaluciaoc", "andaluciaor"] },
+        { "w": "¡Acho!", "regions": ["murcia"] },
+        { "w": "¡Chacho!", "regions": ["canarias"] },
+        { "w": "¡Maño!", "regions": ["aragon"] },
+        { "w": "¡Nen!", "regions": ["catalunya"] },
+        { "w": "¡Xe!", "regions": ["valencia"] },
+        { "w": "¡Neno!", "regions": ["galicia"] }
       ]
     },
     {
-      "id": "hello",
-      "de": "hello",
+      "id": "momento",
+      "de": "just a moment",
       "variants": [
-        {
-          "w": "Alright?",
-          "regions": [
-            "southeast",
-            "southwest",
-            "eastanglia",
-            "westmidlands"
-          ]
-        },
-        {
-          "w": "Ey up",
-          "regions": [
-            "yorkshire",
-            "eastmidlands"
-          ]
-        },
-        {
-          "w": "Hiya",
-          "regions": [
-            "northwest",
-            "southwales",
-            "northmidwales"
-          ]
-        },
-        {
-          "w": "Alreet?",
-          "regions": [
-            "northeast",
-            "cumbria"
-          ]
-        },
-        {
-          "w": "How’s it going?",
-          "regions": [
-            "lowlands",
-            "highlands",
-            "northernisles"
-          ]
-        },
-        {
-          "w": "Fit like?",
-          "regions": [
-            "northeastscotland"
-          ]
-        },
-        {
-          "w": "What about ye?",
-          "regions": [
-            "ulster"
-          ]
-        },
-        {
-          "w": "What’s the craic?",
-          "regions": [
-            "southirish"
-          ]
-        }
+        { "w": "momentito", "regions": ["centro", "canarias", "catalunya", "valencia", "euskadi"] },
+        { "w": "momentillo", "regions": ["andaluciaoc", "andaluciaor", "mancha"] },
+        { "w": "momentico", "regions": ["murcia", "aragon"] },
+        { "w": "momentín, momentuco", "regions": ["asturias"] },
+        { "w": "momentiño", "regions": ["galicia"] },
+        { "w": "momentino", "regions": ["extremadura"] }
       ]
     }
   ],
   "lines": {
-    "benrath": [
-      [
-        -3.15,
-        52.02
-      ],
-      [
-        -2.5,
-        52.06
-      ],
-      [
-        -1.9,
-        52.12
-      ],
-      [
-        -1.35,
-        52.3
-      ],
-      [
-        -0.9,
-        52.47
-      ],
-      [
-        -0.45,
-        52.62
-      ],
-      [
-        0.05,
-        52.82
-      ],
-      [
-        0.4,
-        52.98
-      ]
-    ],
-    "speyer": [
-      [
-        -3.15,
-        51.86
-      ],
-      [
-        -2.35,
-        51.9
-      ],
-      [
-        -1.75,
-        52
-      ],
-      [
-        -1.25,
-        52.18
-      ],
-      [
-        -0.75,
-        52.38
-      ],
-      [
-        -0.25,
-        52.62
-      ],
-      [
-        0.3,
-        52.95
-      ]
-    ],
-    "benrathAt": [
-      -2.85,
-      52.04
-    ],
-    "speyerAt": [
-      -0.3,
-      52.62
-    ]
+    "benrath": [[-7.1, 40.55], [-6.3, 40.5], [-5.4, 40.3], [-4.4, 40.05], [-3.5, 39.85], [-2.5, 39.6], [-1.7, 39.2], [-1, 38.75], [-0.4, 38.55]],
+    "speyer": [[-7.4, 37.95], [-6.3, 37.85], [-5.2, 37.75], [-4.3, 37.45], [-3.7, 37.2], [-3.2, 36.95], [-2.6, 36.7]],
+    "benrathAt": [-6.55, 40.5],
+    "speyerAt": [-6.75, 37.9]
   },
   "shift": [
-    [
-      "bath",
-      "short a /baθ/",
-      "short a /baθ/",
-      "long ah /bɑːθ/",
-      "short a /baθ/",
-      "a, often long /baːθ/",
-      "long a /baːθ/"
-    ],
-    [
-      "bus",
-      "like push /bʊs/",
-      "like push /bʊs/",
-      "/bʌs/",
-      "/bʌs/",
-      "/bəs/",
-      "/bʌs/"
-    ],
-    [
-      "car (the r)",
-      "no r (yes in parts of Lancashire)",
-      "no r",
-      "no r (yes in the West Country)",
-      "r",
-      "mostly no r",
-      "r"
-    ],
-    [
-      "face",
-      "often one vowel /feːs/",
-      "/feɪs/, in Birmingham /fʌɪs/",
-      "/feɪs/",
-      "one vowel /fes/",
-      "often one vowel /feːs/",
-      "one vowel /feːs/"
-    ]
+    ["cinco", "/θ/, as in think", "/θ/", "/s/ or /θ/, by place", "/s/", "/θ/; /s/ from some Catalan and Galician speakers"],
+    ["los niños", "clear s", "weak: loh niñoh", "weak or gone: loh niñoh, lo niño", "weak: loh niñoh", "clear s"],
+    ["jamón", "strong /x/", "softer, near /h/ in the south", "soft /h/", "soft /h/", "/x/"],
+    ["Madrid", "Madriz or Madrí", "Madrí", "Madrí", "Madrí", "Madrit in Catalonia and Valencia"],
+    ["calle", "like y (yeísmo)", "like y", "like y", "like y", "like y; some older speakers keep /ʎ/"],
+    ["vosotros", "vosotros", "vosotros", "vosotros; ustedes in much of the west", "ustedes", "vosotros"]
   ],
-  "variantColors": [
-    "#93c5fd",
-    "#fca5a5",
-    "#6ee7b7",
-    "#fcd34d",
-    "#c4b5fd",
-    "#f9a8d4",
-    "#5eead4",
-    "#fdba74"
-  ]
+  "world": [
+    {
+      "id": "mexicano",
+      "name": "Mexico and Central America",
+      "say": [
+        ["ahorita", "in a moment, or sometime later"],
+        ["¿Mande?", "Sorry? Pardon? (Mexico)"],
+        ["el carro", "el coche, the car"]
+      ]
+    },
+    {
+      "id": "caribe",
+      "name": "The Caribbean",
+      "say": [
+        ["la guagua", "the bus (as in the Canary Islands)"],
+        ["chévere", "great"],
+        ["¿Qué tú quieres?", "¿Qué quieres? The subject stays before the verb."]
+      ]
+    },
+    {
+      "id": "andino",
+      "name": "The Andes",
+      "say": [
+        ["la chompa", "el jersey, the sweater"],
+        ["el choclo", "el maíz, corn on the cob"],
+        ["Pasa no más.", "Please, come in."]
+      ]
+    },
+    {
+      "id": "rioplatense",
+      "name": "The River Plate",
+      "say": [
+        ["vos tenés", "tú tienes, you have (voseo)"],
+        ["che", "hey, mate"],
+        ["sho", "yo: ll and y sound like sh"],
+        ["dale", "OK, sure"]
+      ]
+    },
+    {
+      "id": "chileno",
+      "name": "Chile",
+      "say": [
+        ["¿Cachai?", "Get it? (¿Entiendes?)"],
+        ["sí, po", "yes, of course (pues → po)"],
+        ["la polera", "la camiseta, the T-shirt"]
+      ]
+    }
+  ],
+  "variantColors": ["#93c5fd", "#fca5a5", "#6ee7b7", "#fcd34d", "#c4b5fd", "#f9a8d4", "#5eead4", "#fdba74"]
 }

@@ -1,182 +1,152 @@
-// Map geometry for /knowledge/accents (accents of English in the UK and Ireland) — run once,
-// output committed.
+// Map geometry for /knowledge/accents (varieties of Spanish in Spain) — run once, output committed.
 //
-// Builds the UK (England, Scotland, Wales, Northern Ireland) and Ireland from Natural Earth
-// map subunits, cuts them into accent areas with the hand-drawn outlines below, and writes
-// src/data/dialekte-karte.json: pre-projected <path d> per accent area, neighbours (Isle of
-// Man, France, Norway …) as grey land, the borders between the nations, the UK–Ireland
-// border, the coast, the FOOT–STRUT (`benrath`) and TRAP–BATH (`speyer`) lines, and the
-// label/marker positions from src/data/dialekte.json.
+//   node scripts/generate-dialekte-karte.mjs
 //
-// Shetland lies far north of the rest; to keep the map from getting very tall it is moved
-// into a box in the North Sea (SHETLAND_SHIFT), like an inset on a printed map.
+// No packages and no network: the coast comes from the Natural Earth outlines committed in the
+// old Europe view (see karte-geo.mjs). It writes src/data/dialekte-karte.json: land around Spain,
+// Spain's outline as `mask`, one <path d> per accent area, the Canary Islands in an inset box,
+// the two sound lines and the label and marker positions from src/data/dialekte.json.
 //
-// The outlines are deliberately rough: each is drawn generously past the coasts, clipped to
-// the land and to what earlier entries already took, so only the inner borders matter. The
-// last entry of each nation is the catch-all for the rest of it.
+// The areas are hand-drawn on purpose. Each one follows the borders of its autonomous communities
+// only roughly and runs generously past the coast and the frontier; the page clips them to `mask`
+// with an SVG clipPath, so only the inner borders matter. Neighbouring areas share the vertices
+// below, so they fit without gaps. The Natural Earth Canary Islands are not in the old file
+// (its Europe view stops at 35.6° N and the 1:110 m world view has no such small islands), so
+// CANARIES is drawn by hand too, from their real coordinates.
 //
-// The geo packages are not dependencies of the site. To re-run:
-//   mkdir /tmp/geo && cd /tmp/geo && npm i world-atlas@2 d3-geo@3 topojson-client@3 topojson-server@3 polygon-clipping@0.15
-//   curl -o /tmp/geo/subunits10.geojson https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_0_map_subunits.geojson
-//   node scripts/generate-dialekte-karte.mjs /tmp/geo
-// (the argument is the folder holding node_modules and subunits10.geojson).
+// If Natural Earth subunits can be installed one day (world-atlas, or the admin-1 file for the
+// real province borders), replace SHAPES and CANARIES; dialekte.json need not change.
 //
-// The German version (D-A-CH dialects, once also the base of the dropped beer map) is in git:
-//   git show e3dffc9:scripts/generate-dialekte-karte.mjs
-import fs from "fs";
-import { createRequire } from "module";
-import path from "path";
-const GEO = path.resolve(process.argv[2] || "/tmp/geo");
-const require = createRequire(GEO + "/");
-const { geoPath, geoAzimuthalEqualArea } = require("d3-geo");
-const { feature, mesh } = require("topojson-client");
-const { topology } = require("topojson-server");
-const pc = require("polygon-clipping");
+// The English version (UK and Ireland, with polygon clipping): git show edf6596:scripts/generate-dialekte-karte.mjs
+import fs from "node:fs";
+import { loadSource, parseRings, contains, europeProjection, smooth, ringPath, linePath, r1 } from "./karte-geo.mjs";
 
 const data = JSON.parse(fs.readFileSync("src/data/dialekte.json", "utf8"));
-const sub = JSON.parse(fs.readFileSync(path.join(GEO, "subunits10.geojson"), "utf8"));
-const world = JSON.parse(fs.readFileSync(require.resolve("world-atlas/countries-50m.json"), "utf8"));
+const source = loadSource().europe;
+const base = europeProjection(source.w, source.h);
 
-// ── helpers ───────────────────────────────────────────────────────────
-const asMulti = (g) => (g.type === "Polygon" ? [g.coordinates] : g.coordinates);
-const union = (...gs) => gs.filter((g) => g && g.length).reduce((a, b) => pc.union(a, b));
-const poly = (pts) => [[[...pts, pts[0]]]];
+// ── rings ─────────────────────────────────────────────────────────────
+const allRings = [...parseRings(source.land), ...Object.values(source.countries).flatMap(parseRings)];
+const SPAIN_SEEDS = [[-3.7, 40.4], [3, 39.6], [4.1, 40], [1.4, 39], [1.45, 38.7]];
+const spain = allRings.filter((r) => SPAIN_SEEDS.some((s) => contains(r, base(s))));
+if (spain.length !== SPAIN_SEEDS.length) throw new Error(`Spain: ${spain.length} rings, expected ${SPAIN_SEEDS.length}`);
+const others = allRings.filter((r) => !spain.includes(r));
 
-// Shetland: every polygon north of 59.45° moves by this (lon, lat) offset.
-const SHETLAND_SHIFT = [2.45, -1.75];
-const SHETLAND_BOX = [[0.35, 57.65], [2.2, 59.2]];
-const shiftShetland = (mpoly) => mpoly.map((p) =>
-  p[0].some(([, y]) => y > 59.45) ? p.map((r) => r.map(([x, y]) => [x + SHETLAND_SHIFT[0], y + SHETLAND_SHIFT[1]])) : p);
-const shiftPt = ([x, y]) => (y > 59.45 ? [x + SHETLAND_SHIFT[0], y + SHETLAND_SHIFT[1]] : [x, y]);
+// ── the Canary Islands, moved into a box in the Atlantic ──────────────
+const CANARIES = [
+  [[-18.16, 27.76], [-17.98, 27.82], [-17.88, 27.8], [-17.98, 27.64], [-18.12, 27.7]],
+  [[-17.97, 28.85], [-17.78, 28.84], [-17.72, 28.7], [-17.77, 28.55], [-17.84, 28.46], [-17.93, 28.62]],
+  [[-17.34, 28.14], [-17.2, 28.2], [-17.1, 28.1], [-17.2, 28.02], [-17.32, 28.06]],
+  [[-16.92, 28.36], [-16.6, 28.4], [-16.32, 28.57], [-16.13, 28.57], [-16.38, 28.35], [-16.52, 28.05], [-16.7, 28.01], [-16.84, 28.22]],
+  [[-15.7, 28.16], [-15.4, 28.18], [-15.36, 27.95], [-15.58, 27.74], [-15.8, 27.83], [-15.83, 28]],
+  [[-14.01, 28.72], [-13.85, 28.75], [-13.83, 28.42], [-14.02, 28.2], [-14.33, 28.05], [-14.5, 28.09], [-14.22, 28.22], [-14, 28.42]],
+  [[-13.86, 28.87], [-13.55, 28.95], [-13.42, 29.15], [-13.5, 29.24], [-13.73, 29.1]],
+];
+// Same scale as the mainland, so the islands are not drawn larger than they are.
+const pxPerDeg = base([-5, 40])[1] - base([-5, 41])[1];
+const INSET_AT = [30, 548]; // source pixels of lon -18.3, lat 29.5
+const insetPx = ([lon, lat]) => [
+  INSET_AT[0] + (lon + 18.3) * Math.cos((28.5 * Math.PI) / 180) * pxPerDeg,
+  INSET_AT[1] + (29.5 - lat) * pxPerDeg,
+];
+const INSET_BOX = [[-18.45, 29.65], [-13.2, 29.65], [-13.2, 27.5], [-18.45, 27.5], [-18.45, 29.65]];
 
-const NATIONS = { ENG: "England", SCT: "Scotland", WLS: "Wales", NIR: "Northern Ireland", IRL: "Ireland" };
-const nationFeatures = Object.keys(NATIONS).map((su) => {
-  const f = sub.features.find((x) => x.properties.SU_A3 === su);
-  if (!f) throw new Error("missing subunit " + su);
-  // Rockall (13.7° W) would widen the frame by a third: left out.
-  const polys = asMulti(f.geometry).filter((p) => !p[0].every(([x]) => x < -11));
-  return { type: "Feature", properties: { su }, geometry: { type: "MultiPolygon", coordinates: shiftShetland(polys) } };
-});
-const N = Object.fromEntries(nationFeatures.map((f) => [f.properties.su, f.geometry.coordinates]));
-const MASK = union(...Object.values(N));
-
-// ── accent outlines (lon, lat) ────────────────────────────────────────
-// Each shape is intersected with one nation (or two, for Ulster), so the outlines only
-// need to be right inside it.
-const SHAPES = {
-  // Scotland
-  northernisles: [N.SCT, poly([[-4, 58.68], [3, 58.68], [3, 61], [-4, 61]])],
-  northeastscotland: [N.SCT, poly([[-3.6, 58.68], [-3.35, 57.75], [-3.3, 57.5], [-3.15, 57.1], [-2.9, 56.95], [-2.4, 56.85], [-2.0, 56.75], [0, 56.7], [0, 58.68]])],
-  highlands: [N.SCT, poly([[-8, 58.68], [-3.6, 58.68], [-3.35, 57.75], [-3.3, 57.5], [-3.15, 57.1], [-2.9, 56.95], [-3.5, 56.75], [-4.2, 56.55], [-4.75, 56.25], [-5.2, 56.0], [-5.6, 55.7], [-8, 55.7]])],
-  lowlands: [N.SCT, poly([[-8, 54.5], [0, 54.5], [0, 61], [-8, 61]])],
-  // North of England
-  northeast: [N.ENG, poly([[-2.55, 56], [-2.65, 55.2], [-2.35, 54.95], [-2.2, 54.75], [-2.1, 54.55], [-1.75, 54.45], [-1.45, 54.42], [-1.0, 54.45], [-0.75, 54.55], [0, 54.6], [0, 56]])],
-  cumbria: [N.ENG, poly([[-4, 55.3], [-2.65, 55.2], [-2.35, 54.95], [-2.2, 54.75], [-2.1, 54.55], [-2.3, 54.35], [-2.55, 54.2], [-2.85, 54.15], [-3.2, 54.05], [-4, 54.05]])],
-  northwest: [N.ENG, poly([[-4, 54.05], [-3.2, 54.05], [-2.85, 54.15], [-2.55, 54.2], [-2.3, 54.0], [-2.05, 53.8], [-2.0, 53.55], [-2.05, 53.35], [-2.3, 53.3], [-2.75, 53.3], [-3.1, 53.25], [-4, 53.25]])],
-  yorkshire: [N.ENG, poly([[-2.55, 54.2], [-2.3, 54.35], [-2.1, 54.55], [-1.75, 54.45], [-1.45, 54.42], [-1.0, 54.45], [-0.75, 54.55], [0.5, 54.6], [0.5, 53.6], [-0.5, 53.55], [-0.9, 53.45], [-1.3, 53.35], [-1.65, 53.3], [-2.0, 53.55], [-2.05, 53.8], [-2.3, 54.0]])],
-  // Midlands
-  eastmidlands: [N.ENG, poly([[-2.0, 53.55], [-1.65, 53.3], [-1.3, 53.35], [-0.9, 53.45], [-0.5, 53.55], [0.5, 53.6], [0.4, 52.95], [0.1, 52.8], [-0.45, 52.6], [-0.75, 52.3], [-1.05, 52.1], [-1.3, 52.3], [-1.6, 52.55], [-1.75, 52.85], [-1.85, 53.1]])],
-  westmidlands: [N.ENG, poly([[-3.3, 53.3], [-2.75, 53.3], [-2.3, 53.3], [-2.05, 53.35], [-2.0, 53.55], [-1.85, 53.1], [-1.75, 52.85], [-1.6, 52.55], [-1.3, 52.3], [-1.05, 52.1], [-1.6, 51.95], [-2.1, 51.95], [-2.6, 51.9], [-3.3, 51.85]])],
-  // South of England
-  eastanglia: [N.ENG, poly([[0.4, 52.95], [0.1, 52.8], [-0.45, 52.6], [-0.3, 52.3], [0.1, 52.05], [0.6, 51.95], [1.3, 51.85], [2.5, 51.85], [2.5, 53.2]])],
-  southwest: [N.ENG, poly([[-6.5, 51.9], [-2.6, 51.9], [-2.1, 51.95], [-1.95, 51.7], [-2.0, 51.3], [-1.95, 51.0], [-1.95, 50.6], [-1.9, 49.8], [-6.5, 49.8]])],
-  southeast: [N.ENG, poly([[-3, 49.8], [3, 49.8], [3, 56], [-3, 56]])],
-  // Wales
-  southwales: [N.WLS, poly([[-6, 51.3], [-2.5, 51.3], [-2.6, 51.98], [-3.1, 51.98], [-3.6, 51.95], [-4.1, 51.9], [-4.55, 52.0], [-6, 52.1]])],
-  northmidwales: [N.WLS, poly([[-6, 51.3], [-2, 51.3], [-2, 54], [-6, 54]])],
-  // Ireland: Ulster = Northern Ireland plus Donegal, Monaghan and Cavan (roughly).
-  ulster: [union(N.NIR, N.IRL), poly([[-9, 55.6], [-5, 55.6], [-5, 54.0], [-6.6, 53.9], [-7.3, 53.8], [-7.9, 53.95], [-8.2, 54.4], [-8.7, 54.45], [-9, 54.6]])],
-  southirish: [N.IRL, poly([[-11, 51], [-5, 51], [-5, 56], [-11, 56]])],
-};
-const ORDER = Object.keys(SHAPES);
-for (const r of data.regions) if (!SHAPES[r.id]) throw new Error("no shape for " + r.id);
-const parts = {};
-let taken = [];
-for (const id of ORDER) {
-  const [within, shape] = SHAPES[id];
-  let g = pc.intersection(within, shape);
-  if (taken.length) g = pc.difference(g, taken);
-  parts[id] = g;
-  taken = taken.length ? pc.union(taken, g) : g;
-}
-const rest = pc.difference(MASK, taken);
-const ringArea = (r) => Math.abs(r.reduce((s, [x, y], i) => { const [x2, y2] = r[(i + 1) % r.length]; return s + x * y2 - x2 * y; }, 0) / 2);
-console.log("leftover deg²", rest.reduce((s, p) => s + ringArea(p[0]), 0).toFixed(5), "pieces", rest.length);
-// Anything the outlines missed (small islands): give each piece to the nearest area.
-for (const p of rest) {
-  let best = null, bestD = Infinity;
-  for (const id of ORDER) for (const q of parts[id]) for (const [x, y] of q[0]) for (const [px, py] of p[0]) {
-    const d = (x - px) ** 2 + (y - py) ** 2;
-    if (d < bestD) { bestD = d; best = id; }
-  }
-  console.log("  piece at", p[0][0].map((n) => n.toFixed(2)).join(","), ringArea(p[0]).toFixed(5), "→", best);
-  if (best) parts[best] = pc.union(parts[best], [p]);
-}
-
-// ── projection and output ─────────────────────────────────────────────
+// ── frame ─────────────────────────────────────────────────────────────
+// The bottom edge is the old view's own (600), where Morocco is cut off anyway.
+const frame = { x0: INSET_AT[0] - 10, x1: 402, y0: 372, y1: source.h };
 const WIDTH = 760;
-const rewind = (c) => c.map((p) => p.map((r) => [...r].reverse()));
-const mp = (c) => ({ type: "MultiPolygon", coordinates: rewind(c) });
-const maskFeature = mp(MASK);
-const proj = geoAzimuthalEqualArea().rotate([4, -54.5]);
-proj.fitWidth(WIDTH - 24, maskFeature);
-const raw = geoPath(proj).bounds(maskFeature);
-const HEIGHT = Math.ceil(raw[1][1] - raw[0][1] + 24);
-proj.fitExtent([[12, 12], [WIDTH - 12, HEIGHT - 12]], maskFeature);
-proj.clipExtent([[0, 0], [WIDTH, HEIGHT]]);
+const scale = WIDTH / (frame.x1 - frame.x0);
+const HEIGHT = Math.ceil((frame.y1 - frame.y0) * scale);
+const toOut = ([x, y]) => [(x - frame.x0) * scale, (y - frame.y0) * scale];
+// Latitudes south of 31° are the islands.
+const P = (ll) => toOut(ll[1] < 31 ? insetPx(ll) : base(ll));
+const Pr = (ll) => P(ll).map(r1);
 
-// Path strings: one decimal, collinear-ish points dropped (Douglas–Peucker, EPS px).
-const EPS = 0.45;
-function dp(pts, eps) {
-  if (pts.length < 3) return pts;
-  const keep = new Uint8Array(pts.length); keep[0] = keep[pts.length - 1] = 1;
-  const st = [[0, pts.length - 1]];
-  while (st.length) {
-    const [a, b] = st.pop(); let md = 0, mi = -1;
-    const [ax, ay] = pts[a], [bx, by] = pts[b]; const dx = bx - ax, dy = by - ay, L = Math.hypot(dx, dy);
-    for (let i = a + 1; i < b; i++) { const d = L ? Math.abs(dy * pts[i][0] - dx * pts[i][1] + bx * ay - by * ax) / L : Math.hypot(pts[i][0] - ax, pts[i][1] - ay); if (d > md) { md = d; mi = i; } }
-    if (md > eps) { keep[mi] = 1; st.push([a, mi], [mi, b]); }
-  }
-  return pts.filter((_, i) => keep[i]);
-}
-const stream = (geo) => {
-  let d = "";
-  const ctx = { pts: [], moveTo(x, y) { this.flush(); this.pts = [[x, y]]; }, lineTo(x, y) { this.pts.push([x, y]); },
-    closePath() { this.flush(true); }, flush(close) { if (this.pts.length > 1) { const s = dp(this.pts, EPS); if (s.length > 2 || !close) d += "M" + s.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join("L").replace(/\.0(?=[,LM]|$)/g, "") + (close ? "Z" : ""); } this.pts = []; }, arc() {} };
-  geoPath(proj, ctx)(geo); ctx.flush(false);
-  return d;
+const inFrame = (ring) => ring.some(([x, y]) => x >= frame.x0 && x <= frame.x1 && y >= frame.y0 && y <= frame.y1);
+const soft = (ring) => smooth(smooth(ring));
+const landPath = others.filter(inFrame).map((r) => ringPath(soft(r).map(toOut))).join("");
+const spainPaths = spain.map((r) => ringPath(soft(r).map(toOut))).join("");
+const canaryPaths = CANARIES.map((r) => ringPath(soft(r).map(P))).join("");
+
+// ── the areas (lon, lat): shared borders first ────────────────────────
+const COAST_N = 44.6; // north of every north coast
+const SOUTH = 35; // south of every south coast
+const galiciaEast = [[-7.05, 43.55], [-6.9, 43.1], [-6.85, 42.6], [-6.85, 42.1], [-6.75, 41.7]];
+const asturiasSouth = [[-6.9, 43.1], [-6.2, 43], [-5.5, 43.05], [-4.85, 43.15], [-4.5, 43], [-4.2, 42.85], [-3.9, 42.8], [-3.75, 43], [-3.4, 43.15]];
+const basqueWest = [[-3.4, 43.15], [-3.3, 43.1], [-3.25, 42.9], [-3, 42.6], [-2.85, 42.55], [-2.45, 42.5], [-2, 42.35], [-1.9, 41.95]];
+const navarreEast = [[-1.9, 41.95], [-1.4, 41.95], [-1.1, 42.15], [-1, 42.45], [-1.05, 42.7], [-0.8, 42.95], [-0.75, 43.6]];
+const aragonWest = [[-1.9, 41.95], [-2.05, 41.5], [-2, 41.15]];
+const aragonSouth = [[-2, 41.15], [-1.8, 40.7], [-1.7, 40.35], [-1.35, 40.1], [-1.1, 40], [-0.85, 40.05], [-0.55, 40.25], [-0.2, 40.35], [-0.2, 40.75], [0.15, 40.8]];
+const catalanWest = [[0.15, 40.8], [0.25, 41], [0.2, 41.3], [0.3, 41.6], [0.4, 42], [0.7, 42.4], [0.7, 42.85], [0.7, 43.6]];
+const catalanSouth = [[0.15, 40.8], [0.4, 40.6], [0.52, 40.52], [1, 40.52]];
+const manchaNorth = [[-2, 41.15], [-3.05, 41.2], [-3.05, 40.95], [-3.2, 40.6], [-3.05, 40.25], [-3.4, 40.05], [-3.75, 40.2], [-4.2, 40.2], [-4.55, 40.2], [-5, 40.15], [-5.35, 40.1]];
+const extremaduraNorth = [[-5.35, 40.1], [-5.75, 40.25], [-6.1, 40.35], [-6.8, 40.25], [-7.6, 40.25]];
+const extremaduraEast = [[-5.35, 40.1], [-5.35, 39.9], [-5.2, 39.45], [-5.05, 39.3], [-5.1, 38.85], [-4.9, 38.65]];
+const extremaduraSouth = [[-4.9, 38.65], [-5.5, 38.4], [-5.85, 38.15], [-6.4, 38], [-7, 38.1], [-7.6, 38.1]];
+const manchaSouth = [[-4.9, 38.65], [-4.25, 38.4], [-4, 38.4], [-3.3, 38.4], [-2.75, 38.35], [-2.35, 38.02]];
+const manchaEast = [[-1.35, 40.1], [-1.15, 39.95], [-1.25, 39.6], [-1.4, 39.35], [-1.2, 39], [-1.03, 38.85], [-1, 38.65]];
+const murciaNorth = [[-2.35, 38.02], [-2, 38.35], [-1.65, 38.45], [-1.4, 38.6], [-1, 38.65]];
+const murciaEast = [[-1, 38.65], [-1, 38.3], [-1.05, 38], [-0.75, 37.85], [-0.2, 37.85]];
+const murciaWest = [[-2.35, 38.02], [-2.15, 37.6], [-1.95, 37.4], [-1.65, 37.35], [-1.6, SOUTH]];
+const andaluciaSplit = [[-4.25, 38.4], [-4.25, 37.9], [-4, 37.4], [-4.25, 37.2], [-4.15, 37.05], [-3.95, 36.75], [-3.8, SOUTH]];
+const rev = (a) => [...a].reverse();
+
+const SHAPES = {
+  galicia: [[-10.5, COAST_N], [-7.05, COAST_N], ...galiciaEast, [-10.5, 41.7]],
+  asturias: [[-7.05, COAST_N], [-3.15, COAST_N], [-3.15, 43.35], ...rev(asturiasSouth), [-7.05, 43.55]],
+  euskadi: [[-3.15, COAST_N], [-0.75, COAST_N], ...rev(navarreEast), ...rev(basqueWest), [-3.15, 43.35]],
+  aragon: [...navarreEast, ...rev(catalanWest), ...rev(aragonSouth), ...rev(aragonWest)],
+  catalunya: [...catalanWest, [5, 43.6], [5, 37.5], [1, 37.5], [1, 40.52], ...rev(catalanSouth)],
+  centro: [
+    ...galiciaEast.slice(1), [-7.6, 41.7], ...rev(extremaduraNorth),
+    ...rev(manchaNorth).slice(1), ...rev(aragonWest).slice(1), ...rev(basqueWest).slice(1), ...rev(asturiasSouth).slice(1),
+  ],
+  mancha: [...manchaNorth, ...extremaduraEast.slice(1), ...manchaSouth.slice(1), ...murciaNorth.slice(1), ...rev(manchaEast).slice(1), ...rev(aragonSouth.slice(1, 3))],
+  extremadura: [...extremaduraNorth, [-7.6, 38.1], ...rev(extremaduraSouth).slice(1), ...rev(extremaduraEast).slice(1)],
+  valencia: [...catalanSouth, [1, 37.85], ...rev(murciaEast), ...rev(manchaEast).slice(1), ...aragonSouth.slice(4)],
+  murcia: [...murciaNorth, ...murciaEast.slice(1), [-0.2, SOUTH], [-1.6, SOUTH], ...rev(murciaWest).slice(1)],
+  andaluciaoc: [...extremaduraSouth, [-7.6, SOUTH], [-3.8, SOUTH], ...rev(andaluciaSplit).slice(1, -1), [-4.25, 38.4]],
+  andaluciaor: [[-4.25, 38.4], [-4, 38.4], [-3.3, 38.4], [-2.75, 38.35], ...murciaWest, ...rev(andaluciaSplit).slice(0, -1)],
 };
-const P = (lonlat) => proj(shiftPt(lonlat)).map((n) => Math.round(n * 10) / 10);
-
-// Neighbours: every other country in the frame (the UK and Ireland are drawn from the
-// subunits instead).
-const countries50 = feature(world, world.objects.countries).features;
-const land = countries50.filter((f) => !["826", "372"].includes(f.id)).map((f) => stream(f)).join("");
-// Inner lines from one topology, so every shared border is drawn once.
-const topo = topology({ n: { type: "FeatureCollection", features: nationFeatures } }, 1e5);
-const isUK = (f) => f.properties.su !== "IRL";
-const nationBorders = mesh(topo, topo.objects.n, (a, b) => a !== b && isUK(a) && isUK(b));
-const ukIrl = mesh(topo, topo.objects.n, (a, b) => a !== b && isUK(a) !== isUK(b));
-const coast = mesh(topo, topo.objects.n, (a, b) => a === b);
-const [[bx0, by0], [bx1, by1]] = SHETLAND_BOX;
-const box = { type: "LineString", coordinates: [[bx0, by0], [bx1, by0], [bx1, by1], [bx0, by1], [bx0, by0]] };
+for (const r of data.regions) if (r.id !== "canarias" && !SHAPES[r.id]) throw new Error("no shape for " + r.id);
+const dialects = Object.fromEntries(data.regions.map((r) => [
+  r.id,
+  r.id === "canarias" ? canaryPaths : ringPath(SHAPES[r.id].map(P)),
+]));
 
 const out = {
-  _comment: "Generated by scripts/generate-dialekte-karte.mjs from Natural Earth (public domain). Do not edit by hand. Shetland is drawn in an inset box. `swiss` is empty (no other language area is hatched on this map); `benrath` is the FOOT–STRUT line, `speyer` the TRAP–BATH line.",
-  w: WIDTH, h: HEIGHT,
-  land, mask: stream(maskFeature), swiss: "",
-  states: stream(nationBorders) + stream(box),
-  borders: stream(ukIrl),
-  coast: stream(coast),
-  dialects: Object.fromEntries(data.regions.map((r) => [r.id, stream(mp(parts[r.id]))])),
-  labels: Object.fromEntries(data.regions.map((r) => [r.id, P(r.label)])),
-  markers: Object.fromEntries(data.markers.map((m) => [m.id, P(m.at)])),
-  others: Object.fromEntries(data.others.map((o) => [o.id, P(o.at)])),
-  benrath: stream({ type: "LineString", coordinates: data.lines.benrath }),
-  speyer: stream({ type: "LineString", coordinates: data.lines.speyer }),
-  benrathAt: P(data.lines.benrathAt), speyerAt: P(data.lines.speyerAt),
+  _comment: "Generated by scripts/generate-dialekte-karte.mjs from the Natural Earth outlines (public domain) of the old Europe view; inner borders and the Canary Islands are hand-drawn and rough. Do not edit by hand. The Canary Islands are drawn in an inset box. `swiss` is empty (no other language area is hatched on this map); `benrath` is the line of weak final s, `speyer` the line of seseo and ceceo.",
+  w: WIDTH,
+  h: HEIGHT,
+  land: landPath,
+  mask: spainPaths + canaryPaths,
+  swiss: "",
+  states: linePath(INSET_BOX.map(P)),
+  borders: "",
+  coast: spainPaths + canaryPaths,
+  dialects,
+  labels: Object.fromEntries(data.regions.map((r) => [r.id, Pr(r.label)])),
+  markers: Object.fromEntries(data.markers.map((m) => [m.id, Pr(m.at)])),
+  others: Object.fromEntries(data.others.map((o) => [o.id, Pr(o.at)])),
+  benrath: linePath(data.lines.benrath.map(P)),
+  speyer: linePath(data.lines.speyer.map(P)),
+  benrathAt: Pr(data.lines.benrathAt),
+  speyerAt: Pr(data.lines.speyerAt),
 };
 fs.writeFileSync("src/data/dialekte-karte.json", JSON.stringify(out));
-console.log("size", (Buffer.byteLength(JSON.stringify(out)) / 1024).toFixed(0) + " KB", WIDTH + "x" + HEIGHT);
+console.log("size", (Buffer.byteLength(JSON.stringify(out)) / 1024).toFixed(0) + " KB", WIDTH + "x" + HEIGHT, "land rings", others.filter(inFrame).length);
 for (const [k, v] of Object.entries(out.dialects)) if (!v) console.log("EMPTY", k);
-for (const [k, v] of Object.entries(out)) if (typeof v === "string" && k !== "_comment" && k !== "swiss" && !v) console.log("EMPTY", k);
+
+// Self-check: every point of Spain's mainland and islands falls in exactly one area.
+const inside = (ring, [x, y]) => contains(ring, [x, y]);
+let bad = 0, n = 0;
+const rings = Object.fromEntries(Object.entries(SHAPES).map(([id, sh]) => [id, sh.map(P)]));
+for (let x = 0; x < WIDTH; x += 4) for (let y = 0; y < HEIGHT; y += 4) {
+  const src = [x / scale + frame.x0, y / scale + frame.y0];
+  if (!spain.some((r) => contains(r, src))) continue;
+  n++;
+  const hits = Object.keys(rings).filter((id) => inside(rings[id], [x, y]));
+  if (hits.length !== 1) { bad++; if (bad < 12) console.log("partition", x, y, hits.join(",") || "none"); }
+}
+console.log("partition check:", n, "points,", bad, "bad");
+if (bad > n * 0.002) throw new Error("areas do not partition Spain");

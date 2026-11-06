@@ -1,8 +1,9 @@
 ---
-// /knowledge/accents — the accent map of the UK and Ireland: accent areas in six groups (North,
-// Midlands, South, Scotland, Wales, Ireland), city accents and the Celtic languages as dots,
-// the FOOT–STRUT and TRAP–BATH lines (data keys benrath/speyer), and a word mode that
-// recolours the map by what people say for "bread roll" or "hello".
+// /knowledge/accents — the accent map of Spain: areas in five groups (north and centre, transition
+// zone, Andalusia, Canary Islands, regions with a second language), city accents and Spain's other
+// languages as dots, the lines of weak final s and of seseo (data keys benrath/speyer), a word mode
+// that recolours the map by what people say for "hey, mate" or "just a moment", and the varieties
+// of Latin America as notes under it.
 //
 // Built like /knowledge/languages: all prose is in public/i18n/en.json under dialekte.*, read
 // here for the server-rendered HTML. Names, places and the examples are in
@@ -40,8 +41,8 @@ const modeCss = dl.words
   .map((w) => `.dl-svg[data-mode="${w.id}"] .dl-r{fill:var(--v-${w.id})}.dl-svg[data-mode="${w.id}"] .dl-labels[data-labels="${w.id}"]{display:inline}`)
   .join("");
 const lines = (s: string) => s.split("\n");
-// The Celtic-language dots: their examples are not English.
-const LANG_OF: Record<string, string> = { welsh: "cy", gaelic: "gd", irish: "ga", cornish: "kw", manx: "gv" };
+// The language dots: their examples are not Spanish.
+const LANG_OF: Record<string, string> = { catala: "ca", gallego: "gl", euskera: "eu", aranes: "oc", asturiano: "ast", aragones: "an" };
 ---
 <Layout
   title="Accents of Spanish in Spain – icanspeak Spanish"
@@ -69,6 +70,7 @@ const LANG_OF: Record<string, string> = { welsh: "cy", gaelic: "gd", irish: "ga"
       <nav class="sp-jump" aria-label={t("dialekte.jump")} data-i18n-attr="aria-label:dialekte.jump">
         <a href="#karte" data-i18n="dialekte.map.title">{t("dialekte.map.title")}</a>
         <a href="#linien" data-i18n="dialekte.lines.title">{t("dialekte.lines.title")}</a>
+        <a href="#mundo" data-i18n="dialekte.world.title">{t("dialekte.world.title")}</a>
         <a href="#lernen" data-i18n="dialekte.learn.title">{t("dialekte.learn.title")}</a>
       </nav>
 
@@ -95,17 +97,16 @@ const LANG_OF: Record<string, string> = { welsh: "cy", gaelic: "gd", irish: "ga"
             <svg class="dl-svg" data-mode="dialects" viewBox={`0 0 ${K.w} ${K.h}`} role="group" aria-label={t("dialekte.map.title")} data-i18n-attr="aria-label:dialekte.map.title">
               <defs>
                 <clipPath id="dl-clip"><path d={K.mask} /></clipPath>
-                <pattern id="dl-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                  <rect width="6" height="6" class="dl-hatch-bg" /><line x1="0" y1="0" x2="0" y2="6" class="dl-hatch-line" />
-                </pattern>
               </defs>
               <rect class="sp-sea" width={K.w} height={K.h} />
               <path class="dl-land" d={K.land} />
-              <path class="dl-other" d={K.swiss}><title>{t("dialekte.map.other")}</title></path>
-              {dl.regions.map((r) => (
-                <path class="dl-r" d={K.dialects[r.id]} style={regionStyle(r)} data-place={r.id} data-group={groupOf[r.id]}
-                  tabindex="0" role="button" aria-label={r.name}><title>{r.name}</title></path>
-              ))}
+              {/* The areas run past the coast and the frontier; the clip cuts them to Spain. */}
+              <g clip-path="url(#dl-clip)">
+                {dl.regions.map((r) => (
+                  <path class="dl-r" d={K.dialects[r.id]} style={regionStyle(r)} data-place={r.id} data-group={groupOf[r.id]}
+                    tabindex="0" role="button" aria-label={r.name}><title>{r.name}</title></path>
+                ))}
+              </g>
               <path class="dl-states" d={K.states} aria-hidden="true" />
               <path class="dl-borders" d={K.borders + K.coast} aria-hidden="true" />
               <g class="dl-lines" clip-path="url(#dl-clip)" aria-hidden="true">
@@ -113,10 +114,10 @@ const LANG_OF: Record<string, string> = { welsh: "cy", gaelic: "gd", irish: "ga"
                 <path class="dl-line dl-line--speyer" d={K.speyer} />
               </g>
               <g class="dl-lines dl-line-labels" aria-hidden="true">
-                <text x={K.benrathAt[0]} y={K.benrathAt[1] - 8} text-anchor="middle">bus /ʊ/ ↑</text>
-                <text x={K.benrathAt[0]} y={K.benrathAt[1] + 16} text-anchor="middle">bus /ʌ/ ↓</text>
-                <text class="dl-line-label--speyer" x={K.speyerAt[0]} y={K.speyerAt[1] - 8} text-anchor="middle">bath /a/ ↑</text>
-                <text class="dl-line-label--speyer" x={K.speyerAt[0]} y={K.speyerAt[1] + 16} text-anchor="middle">bath /ɑː/ ↓</text>
+                <text x={K.benrathAt[0]} y={K.benrathAt[1] - 8} text-anchor="middle">clear s ↑</text>
+                <text x={K.benrathAt[0]} y={K.benrathAt[1] + 16} text-anchor="middle">weak s ↓</text>
+                <text class="dl-line-label--speyer" x={K.speyerAt[0]} y={K.speyerAt[1] - 8} text-anchor="middle">cinco /θ/ ↑</text>
+                <text class="dl-line-label--speyer" x={K.speyerAt[0]} y={K.speyerAt[1] + 16} text-anchor="middle">/s/ or ceceo ↓</text>
               </g>
               {/* Labels: one set per view, CSS shows the one that matches data-mode. */}
               <g class="dl-labels" data-labels="dialects" aria-hidden="true">
@@ -169,7 +170,7 @@ const LANG_OF: Record<string, string> = { welsh: "cy", gaelic: "gd", irish: "ga"
                 {r.say.length > 0 && (
                   <div class="dl-say">
                     <p class="sp-where-title" data-i18n="dialekte.card.say">{t("dialekte.card.say")}</p>
-                    <ul>{r.say.map(([d, h], i) => <li style={`--i:${i}`}><b lang="en">{d}</b><span>{h}</span></li>)}</ul>
+                    <ul>{r.say.map(([d, h], i) => <li style={`--i:${i}`}><b lang="es">{d}</b><span>{h}</span></li>)}</ul>
                   </div>
                 )}
                 <div class="sp-where">
@@ -186,7 +187,7 @@ const LANG_OF: Record<string, string> = { welsh: "cy", gaelic: "gd", irish: "ga"
                 {m.say.length > 0 && (
                   <div class="dl-say">
                     <p class="sp-where-title" data-i18n="dialekte.card.say">{t("dialekte.card.say")}</p>
-                    <ul>{m.say.map(([d, h], i) => <li style={`--i:${i}`}><b lang={m.lang ? LANG_OF[m.id] : "en"}>{d}</b><span>{h}</span></li>)}</ul>
+                    <ul>{m.say.map(([d, h], i) => <li style={`--i:${i}`}><b lang={m.lang ? LANG_OF[m.id] : "es"}>{d}</b><span>{h}</span></li>)}</ul>
                   </div>
                 )}
               </article>
@@ -196,7 +197,7 @@ const LANG_OF: Record<string, string> = { welsh: "cy", gaelic: "gd", irish: "ga"
                 <h3 data-i18n="dialekte.map.wordLead" data-i18n-vars={vars({ w: w.de })}>{t("dialekte.map.wordLead").replace("{w}", w.de)}</h3>
                 <ul class="dl-variants">
                   {w.variants.map((v, i) => (
-                    <li><span class="dl-swatch" style={`background:${dl.variantColors[i % dl.variantColors.length]}`}></span><b lang="en">{v.w}</b></li>
+                    <li><span class="dl-swatch" style={`background:${dl.variantColors[i % dl.variantColors.length]}`}></span><b lang="es">{v.w}</b></li>
                   ))}
                 </ul>
                 <p class="sp-fine" data-i18n="dialekte.map.wordNote">{t("dialekte.map.wordNote")}</p>
@@ -206,7 +207,7 @@ const LANG_OF: Record<string, string> = { welsh: "cy", gaelic: "gd", irish: "ga"
         </div>
 
         {/* The legend is also the list: every area and dot is a button, so nobody has to
-            hit Cumbria with a thumb — and it is the keyboard way in. */}
+            hit Aragonese with a thumb — and it is the keyboard way in. */}
         <div class="sp-legend dl-legend">
           {dl.groups.map((g) => (
             <div class="sp-legend-row">
@@ -217,7 +218,7 @@ const LANG_OF: Record<string, string> = { welsh: "cy", gaelic: "gd", irish: "ga"
               <div class="sp-chips">
                 {g.regions.map((id) => {
                   const r = dl.regions.find((x) => x.id === id)!;
-                  return <button type="button" class="sp-chip dl-chip" data-place={id} aria-pressed="false" style={`--c:${r.color}`}>{r.name.replace("Rheinfränkisch: ", "")}</button>;
+                  return <button type="button" class="sp-chip dl-chip" data-place={id} aria-pressed="false" style={`--c:${r.color}`}>{r.name}</button>;
                 })}
               </div>
             </div>
@@ -258,7 +259,7 @@ const LANG_OF: Record<string, string> = { welsh: "cy", gaelic: "gd", irish: "ga"
             <tbody>
               {dl.shift.map(([en, ...cols]) => (
                 <tr>
-                  <th scope="row" lang="en">{en}</th>
+                  <th scope="row" lang="es">{en}</th>
                   {cols.map((c) => <td class="sp-word">{c}</td>)}
                 </tr>
               ))}
@@ -266,6 +267,24 @@ const LANG_OF: Record<string, string> = { welsh: "cy", gaelic: "gd", irish: "ga"
           </table>
         </div>
         <p class="sp-fine" data-i18n="dialekte.lines.note">{t("dialekte.lines.note")}</p>
+      </section>
+
+      <!-- ── Latin America ─────────────────────────────────────────────────── -->
+      <section class="sp-sec" id="mundo">
+        <h2 data-i18n="dialekte.world.title">{t("dialekte.world.title")}</h2>
+        <p class="sp-sec-lead" data-i18n="dialekte.world.lead">{t("dialekte.world.lead")}</p>
+        <div class="dl-line-cards dl-world-cards">
+          {dl.world.map((w) => (
+            <article class="dl-line-card dl-world-card">
+              <h3>{w.name}</h3>
+              <p data-i18n={`dialekte.w.${w.id}`}>{t(`dialekte.w.${w.id}`)}</p>
+              <div class="dl-say">
+                <p class="sp-where-title" data-i18n="dialekte.card.say">{t("dialekte.card.say")}</p>
+                <ul>{w.say.map(([d, h], i) => <li style={`--i:${i}`}><b lang="es">{d}</b><span>{h}</span></li>)}</ul>
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
 
       <!-- ── Lernen ────────────────────────────────────────────────────────── -->
@@ -351,7 +370,7 @@ const LANG_OF: Record<string, string> = { welsh: "cy", gaelic: "gd", irish: "ga"
         }
       });
     }
-    // ?d=koeln opens a region or dot directly (shareable).
+    // ?d=canarias opens a region or dot directly (shareable).
     const fromUrl = new URLSearchParams(location.search).get("d");
     if (fromUrl && cards.some((c) => c.dataset.card === fromUrl)) select(fromUrl);
   </script>

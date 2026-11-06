@@ -300,9 +300,9 @@ export function buildSearchIndex() {
     h: "/culture/insider",
   });
   pages.push({
-    t: "English around the world",
+    t: "Spanish around the world",
     s: "World map, language family, how close is your language?",
-    k: "english around the world where is english spoken official language countries world map english-speaking countries commonwealth language family tree indo-european germanic related languages cognates german english word decoder sound shift singlish pidgin creole sprachen weltkarte",
+    k: "spanish around the world where is spanish spoken official language countries world map spanish-speaking countries latin america hispanic world language family tree romance indo-european related languages cognates english spanish word decoder false friends puerto rico equatorial guinea united states ladino sprachen weltkarte",
     h: "/knowledge/languages",
   });
   // The rest of the Nachschlagewerk: the overview, the three verb lists (found by their
@@ -329,8 +329,8 @@ export function buildSearchIndex() {
   });
   pages.push({
     t: "Accents: the map",
-    s: "Accents of English in the UK and Ireland",
-    k: "accents accent map dialects dialect british accents regional accents uk ireland scouse geordie brummie cockney mancunian yorkshire west country estuary multicultural london english glaswegian scottish english welsh english irish english ulster bath trap foot strut bus rhotic hello hiya ey up alright bread roll barm cob bap dialekte",
+    s: "Accents of Spanish in Spain, and Spain's other languages",
+    k: "accents accent map dialects dialect spanish accents regional accents spain andaluz andalusian canario canarian murciano extremeño castellano castilian madrid seville cadiz seseo ceceo distincion yeismo leismo laismo voseo ustedes vosotros guagua catalan valencian galician basque euskera aranese asturian aragonese co-official languages mexican caribbean andean rioplatense chilean latin america dialekte",
     h: "/knowledge/accents",
   });
   // Every Redemittel set (/vocabulary/phrases/<id>), found by its name and its phrases.

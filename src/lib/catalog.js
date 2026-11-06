@@ -1079,10 +1079,10 @@ export const navUebenMenu = {
 export const navSprachen = {
   href: "/knowledge/languages",
   sections: [
-    { id: "karte", titleKey: "sprachen.map.title", title: "Where English is spoken" },
+    { id: "karte", titleKey: "sprachen.map.title", title: "Where Spanish is spoken" },
     { id: "familie", titleKey: "sprachen.tree.title", title: "The language family" },
     { id: "vergleich", titleKey: "sprachen.cmp.title", title: "How close is your language?" },
-    { id: "decoder", titleKey: "sprachen.dec.title", title: "German → English: the word decoder" },
+    { id: "decoder", titleKey: "sprachen.dec.title", title: "English → Spanish: the word decoder" },
   ],
 };
 
@@ -1118,10 +1118,10 @@ export const navBildwoerterbuch = { href: "/knowledge/picture-dictionary", title
 export const navZitate = { href: "/knowledge/quotes", titleKey: "nav.wissen.zitate", title: "Zitat des Tages",
   hintKey: "nav.wissen.zitateHint", hint: "Ein Satz, drei Wörter, ein Leben" };
 
-// /knowledge/accents: the accent map of the UK and Ireland. In the Sprachen column, under the
-// sections of "English around the world", whose map it zooms into.
+// /knowledge/accents: the accent map of Spain. In the Sprachen column, under the sections of
+// "Spanish around the world", whose map it zooms into.
 export const navDialekte = { href: "/knowledge/accents", titleKey: "nav.wissen.dialekte", title: "Accents: the map",
-  hintKey: "nav.wissen.dialekteHint", hint: "From Scouse to Cockney" };
+  hintKey: "nav.wissen.dialekteHint", hint: "From Andalusian to Canarian" };
 
 // /knowledge/slang: tío, mola, joder — how Spanish is spoken in Spain, with the standard
 // word beside it and where it is fine. In the Sprachen column under Dialekte and in the
@@ -1200,14 +1200,14 @@ export const navWissenMenu = {
         { href: "/knowledge#offiziell", titleKey: "wissen.official.title", title: "Offizielle Materialien" },
         { href: navLernen.href, titleKey: navLernen.titleKey, title: navLernen.title },
       ] },
-    // "English around the world" (/knowledge/languages): one page. Only its map section gets a row;
+    // "Spanish around the world" (/knowledge/languages): one page. Only its map section gets a row;
     // the other three sections sit behind the green box, so the column stays at six rows
     // (the panel ran past the foot of a laptop screen, 2026-10-23). Merch left this column
     // then too: it is in the footer and the phone drawer.
     { id: "sprachen", icon: "globe", href: navSprachen.href,
       nameKey: "nav.wissen.sprachen", name: "Languages",
       primary: { href: navSprachen.href,
-        titleKey: "nav.wissen.sprachenAll", title: "English around the world",
+        titleKey: "nav.wissen.sprachenAll", title: "Spanish around the world",
         hintKey: "nav.wissen.sprachenHint", hint: "Map, language family, comparison" },
       items: [
         ...navSprachen.sections.filter((s) => s.id === "karte").map((s) => ({ href: `${navSprachen.href}#${s.id}`, titleKey: s.titleKey, title: s.title })),

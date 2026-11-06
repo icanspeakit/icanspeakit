@@ -1,49 +1,57 @@
 // Map geometry for /knowledge/languages — run once, output committed.
 //
-// Projects Natural Earth country outlines (world-atlas) into two SVG views and writes
-// src/data/sprachen-karte.json: { europe, world } each with a viewBox size, one path per
-// country named in sprachen-welt.json, one merged path for every other country (the
-// grey "land"), the markers projected to x/y, the English-speaking regions per country
-// (x, y, radius), and — Europe only, when `benrath` has points — a line (the English map
-// has none).
+//   node scripts/generate-sprachen-karte.mjs
+//
+// No packages and no network: the outlines come from the Natural Earth world view committed before
+// the Spanish conversion (see karte-geo.mjs). Each ring goes to the country whose `seeds` point
+// (sprachen-welt.json) lies in it; everything else is the grey land. Writes
+// src/data/sprachen-karte.json: { world, americas }, each with a viewBox size, one path per
+// country drawn in that view, the merged land, the markers projected to x/y and the
+// Spanish-speaking regions per country (x, y, radius). `americas` is the same outline enlarged,
+// so it is coarse (1:110 m) but keeps Central America and the Caribbean selectable.
 // Pre-projected so the page ships plain <path d> and needs no map library at runtime.
 //
-// The three geo packages are not dependencies of the site. To re-run:
-//   mkdir /tmp/geo && cd /tmp/geo && npm i world-atlas@2 d3-geo@3 topojson-client@3
-//   NODE_PATH=/tmp/geo/node_modules node scripts/generate-sprachen-karte.mjs
-// or pass the folder that holds node_modules: node scripts/generate-sprachen-karte.mjs /tmp/geo
-import fs from "fs";
-import path from "path";
-import { createRequire } from "module";
-const require = createRequire(process.argv[2] ? path.resolve(process.argv[2]) + "/" : import.meta.url);
-const { geoPath, geoAzimuthalEqualArea, geoEqualEarth } = require("d3-geo");
-const { feature } = require("topojson-client");
+// The English version, built with d3-geo and world-atlas: git show edf6596:scripts/generate-sprachen-karte.mjs
+import fs from "node:fs";
+import { loadSource, parseRings, contains, distance, worldProjection, smooth, ringPath, r1 } from "./karte-geo.mjs";
 
 const data = JSON.parse(fs.readFileSync("src/data/sprachen-welt.json", "utf8"));
-const atlas = (res) => JSON.parse(fs.readFileSync(require.resolve(`world-atlas/countries-${res}.json`), "utf8"));
-const byIso = new Map(data.countries.map((c) => [c.iso, c.id]));
-const r1 = (n) => Math.round(n * 10) / 10;
+const source = loadSource().world;
+const P = worldProjection(source.w, source.h);
 
-function view({ res, projection, w, h, name }) {
-  const topo = atlas(res);
-  const fc = feature(topo, topo.objects.countries);
-  const path = geoPath(projection).digits(0);
-  const countries = {};
-  let land = "";
-  for (const f of fc.features) {
-    if (f.id === "010") continue; // Antarctica: a white band across the bottom of the world view
-    const d = path(f);
-    if (!d) continue;
-    const id = byIso.get(f.id);
-    if (id) countries[id] = d;
-    else land += d;
+const rings = [...parseRings(source.land), ...Object.values(source.countries).flatMap(parseRings)];
+
+// ── which ring belongs to which country ───────────────────────────────
+const owner = new Map();
+const owned = {};
+for (const c of data.countries) {
+  owned[c.id] = [];
+  for (const seed of c.seeds) {
+    const px = P(seed);
+    // Small countries are a few whole pixels: fall back to the nearest ring within 3 px.
+    let ring = rings.find((r) => contains(r, px));
+    if (!ring) {
+      const near = rings.map((r) => [distance(r, px), r]).sort((a, b) => a[0] - b[0])[0];
+      if (near[0] <= 3) ring = near[1];
+    }
+    if (!ring) { console.log("NO RING", c.id, seed); continue; }
+    if (owner.has(ring)) { console.log("CLASH", c.id, "with", owner.get(ring), seed); continue; }
+    owner.set(ring, c.id);
+    owned[c.id].push(ring);
   }
+}
+const landRings = rings.filter((r) => !owner.has(r));
+
+function view({ name, w, h, map, keep, shape }) {
+  const countries = {};
+  for (const c of data.countries) {
+    const rs = owned[c.id].filter(keep);
+    if (rs.length) countries[c.id] = rs.map((r) => ringPath(shape(r).map(map))).join("");
+  }
+  const land = landRings.filter(keep).map((r) => ringPath(shape(r).map(map))).join("");
   const markers = data.markers
     .filter((m) => m.views.includes(name))
-    .map((m) => ({ id: m.id, pts: m.points.map((p) => projection(p).map(r1)) }));
-  // The English-speaking areas inside a country, drawn when it is selected: a soft disc
-  // per town or area (`km` is its rough radius), its name at the first one. Only for
-  // countries drawn in this view.
+    .map((m) => ({ id: m.id, pts: m.points.map((p) => map(P(p)).map(r1)) }));
   const regions = {};
   for (const c of data.countries) {
     if (!c.regions || !countries[c.id]) continue;
@@ -51,41 +59,42 @@ function view({ res, projection, w, h, name }) {
       id: g.id,
       name: g.name,
       pts: g.points.map((p) => {
-        const [x, y] = projection(p);
-        const [, y2] = projection([p[0], p[1] + g.km / 111]);
+        const [x, y] = map(P(p));
+        const [, y2] = map(P([p[0], p[1] + g.km / 111]));
         return [r1(x), r1(y), r1(Math.abs(y - y2))];
       }),
     }));
   }
-  const out = { w, h, countries, land, markers, regions };
-  if (name === "europe" && data.benrath.length > 1) {
-    out.benrath = path({ type: "LineString", coordinates: data.benrath });
-    // Where the line's label sits: at its middle point.
-    out.benrathAt = projection(data.benrath[Math.floor(data.benrath.length / 2)]).map(r1);
-  }
-  return out;
+  return { w, h, countries, land, markers, regions };
 }
 
-const EW = 800, EH = 600;
-// Centred west of the North Sea; the frame runs from the west coast of Ireland to the
-// Baltic and from southern Sweden down to Malta and Gibraltar.
-const europeProj = geoAzimuthalEqualArea().rotate([-4, -48]).clipExtent([[0, 0], [EW, EH]]);
-europeProj.fitExtent([[0, 0], [EW, EH]], {
-  type: "MultiPoint",
-  coordinates: [[-11, 51], [21, 51], [-9, 60.5], [17, 61], [14.5, 35.5], [-6, 35.8]],
-});
-
-const WW = 1000, WH = 487;
-const worldProj = geoEqualEarth().fitExtent([[4, 4], [WW - 4, WH - 4]], { type: "Sphere" });
+// The Americas: from the Canadian border to Cape Horn, in the world view's own pixels.
+const corners = [[-125, 49], [-66, 49], [-118, 32], [-81, -56], [-34, -8], [-68, -56]].map(P);
+const pad = 8;
+const box = {
+  x0: Math.min(...corners.map((p) => p[0])) - pad,
+  x1: Math.max(...corners.map((p) => p[0])) + pad,
+  y0: Math.min(...corners.map((p) => p[1])) - pad,
+  y1: Math.max(...corners.map((p) => p[1])) + pad,
+};
+const AW = 640;
+const k = AW / (box.x1 - box.x0);
+const AH = Math.ceil((box.y1 - box.y0) * k);
+const inBox = (r) => r.some(([x, y]) => x >= box.x0 && x <= box.x1 && y >= box.y0 && y <= box.y1);
 
 const out = {
-  _comment: "Generated by scripts/generate-sprachen-karte.mjs from world-atlas (Natural Earth, public domain). Do not edit by hand.",
-  europe: view({ res: "50m", projection: europeProj, w: EW, h: EH, name: "europe" }),
-  world: view({ res: "110m", projection: worldProj, w: WW, h: WH, name: "world" }),
+  _comment: "Generated by scripts/generate-sprachen-karte.mjs from the Natural Earth outlines (public domain) of the old world view. Do not edit by hand.",
+  world: view({ name: "world", w: source.w, h: source.h, map: (p) => p, keep: () => true, shape: (r) => r }),
+  americas: view({
+    name: "americas", w: AW, h: AH,
+    map: ([x, y]) => [(x - box.x0) * k, (y - box.y0) * k],
+    keep: inBox,
+    shape: (r) => smooth(r),
+  }),
 };
-// The world view's outline, drawn as the sea.
-out.world.sphere = geoPath(worldProj).digits(0)({ type: "Sphere" });
+out.world.sphere = source.sphere;
 fs.writeFileSync("src/data/sprachen-karte.json", JSON.stringify(out));
 const kb = (s) => (Buffer.byteLength(JSON.stringify(s)) / 1024).toFixed(0) + " KB";
-console.log("europe", kb(out.europe), Object.keys(out.europe.countries).join(","));
 console.log("world", kb(out.world), Object.keys(out.world.countries).join(","));
+console.log("americas", kb(out.americas), AW + "x" + AH, Object.keys(out.americas.countries).join(","));
+for (const c of data.countries) console.log(c.id, owned[c.id].map((r) => r.length).join("+") || "(marker only)");
