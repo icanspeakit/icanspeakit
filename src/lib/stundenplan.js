@@ -269,7 +269,7 @@ export function build({ level, block, n, minutes, links }) {
               ["einstieg.bildimpuls", `Photo prompt: show a photo on the topic ${quote(thema)}. Learners describe in pairs what they see.`],
             ], thema.length),
       wortschatz: i === 0
-        ? ["wortschatz.einfuehren", `Introduce the new words: ${block.wortschatz.join(", ")}. Explain with pictures or gestures; write a/an/some and the plural on the board.`]
+        ? ["wortschatz.einfuehren", `Introduce the new words: ${block.wortschatz.join(", ")}. Explain with pictures or gestures; write el or la and the plural on the board.`]
         : v([
             ["wortschatz.erklaeren", `Review the words (${block.wortschatz.join(", ")}): explain words in pairs – one person explains without saying the word.`],
             ["wortschatz.kette", `Word chain: in turn, each person says a sentence with a word from ${block.wortschatz.slice(0, 3).join(", ")} …; anyone who gets stuck is helped by the group.`],

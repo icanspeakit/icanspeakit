@@ -47,12 +47,12 @@ export function unterrichtDaten() {
   }));
 
   const lexikon = new Map(lexA1.units.flatMap((u) => u.words).map((w) => [w.lemma, w]));
-  const wortfelder = Object.fromEntries(Object.entries(wortfelderRoh).filter(([k]) => !k.startsWith("_")).map(([feld, f]) => [feld, {
+  const wortfelder = Object.fromEntries(Object.entries(wortfelderRoh).filter(([, f]) => f?.woerter).map(([feld, f]) => [feld, {
     aufgabe: f.aufgabe,
     woerter: f.woerter.map((t) => {
-      // "a menu": a noun written with its article. The article is split off only when the rest
-      // is an A1 word, so phrases like "a bottle of water" or "a week ago" stay whole.
-      const [, artikel, wort] = /^(a|an|some) (\S.*)$/.exec(t) ?? [, null, t];
+      // "la carta": a noun written with its article. The article is split off only when the rest
+      // is an A1 word, so phrases like "una botella de agua" or "la semana pasada" stay whole.
+      const [, artikel, wort] = /^(el|la|los|las) (\S.*)$/.exec(t) ?? [, null, t];
       const w = lexikon.get(t) ?? lexikon.get(wort);
       return w
         ? { text: w.lemma, artikel: w.gender ?? artikel, plural: w.plural ?? null, beispiel: w.example ?? null }

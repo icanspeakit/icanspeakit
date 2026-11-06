@@ -387,7 +387,7 @@ export async function mountUnterricht(root, data) {
           ${w.beispiel ? `<span class="ut-w-bsp">${esc(w.beispiel)}</span>` : ""}</li>`;
       panel.innerHTML = `<div class="ut-feld-in">
         <p class="ut-label">Task · ${esc(name)}</p>
-        <p class="ut-aufgabe">${esc(f?.aufgabe ?? `Collect words for “${name}”: with a/an/some and the plural, in pairs, then on the board.`)}</p>
+        <p class="ut-aufgabe">${esc(f?.aufgabe ?? `Collect words for “${name}”: with el or la and the plural, in pairs, then on the board.`)}</p>
         ${f?.woerter?.length ? `<ul class="ut-feld-woerter">${f.woerter.map(wort).join("")}</ul>` : ""}</div>`;
       panel.hidden = false;
       // Next frame, so a closed panel grows open instead of appearing.
