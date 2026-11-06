@@ -1,17 +1,15 @@
-// The 💡 Help line under an English line in "The Legend of Brambleford" (/games/brambleford), in
-// the learner's own language. The header's language menu is the only control
-// (src/lib/textHelp.js): UI en / ar / uk / tr → that language; other UI languages → English,
-// like the word lists. The plain-English help sits next to the English line in quests.js /
-// action.js (`en:`); ar / uk / tr come from the sidecar src/data/uebersetzungen/lindenau.json,
-// keyed by the English line. A language with no entry (the other help languages, or a line
-// added later) falls back to the plain-English help.
+// The 💡 Help line under a Spanish line in "The Legend of Villabruno", in the learner's own
+// language. The header's language menu is the only control (src/lib/textHelp.js). The English
+// meaning sits next to the Spanish line in quests.js / action.js (`en:`); other languages come
+// from the sidecar src/data/uebersetzungen/lindenau.json, keyed by the Spanish line. A language
+// with no entry falls back to the English.
 import sidecar from "../../data/uebersetzungen/lindenau.json";
 import { onLangChange } from "../i18n.js";
 import { HELP_LANGS, helpLang } from "../textHelp.js";
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-/** { text, lang, dir } for one English line; `en` is its plain-English help from the source. */
+/** { text, lang, dir } for one Spanish line; `en` is its English meaning from the source. */
 export function glossOf(de, en, code = helpLang()) {
   const lang = code ?? "en";
   const own = lang === "en" ? en : sidecar.lines[de]?.[lang];

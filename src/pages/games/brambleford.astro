@@ -1,10 +1,11 @@
 ---
-// /games/brambleford — "The Legend of Brambleford", a small town RPG: walk through Brambleford
-// and run A1 errands by talking to the mascots – pick the right reply or tap a sentence
-// together. Two parts of town: the morning (bakery, station, GP surgery) and, once that is
+// /games/brambleford (`routes` renames it /games/villabruno) — "The Legend of Villabruno", a small
+// town RPG: walk through Villabruno, an invented Spanish town, and run A1 errands by talking to
+// the mascots – pick the right reply or tap a sentence
+// together. Two parts of town: the morning (bakery, station, health centre) and, once that is
 // done, the afternoon (see AREAS in quests.js). Logic: src/lib/lindenau/game.js, content: src/lib/lindenau/quests.js.
 // Since 2026-10-22 in the „Spiele“ menu, indexable, in every UI language (ld.* keys) and in
-// the Android app; the dialogue itself is the English being learnt (EXPERIMENTE.md).
+// the Android app; the dialogue itself is the Spanish being learnt (EXPERIMENTE.md).
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
 import SectionMascot from "../../components/mascots/SectionMascot.astro";
@@ -43,8 +44,8 @@ import "../../styles/lindenau.css";
         <div class="ld-areas" role="group" aria-label="Choose a part of town" data-i18n-attr="aria-label:ld.areasLabel">
           {AREAS.map((a, k) => (
             <button type="button" class="ld-area" data-area={a.id} aria-pressed={k === 0 ? "true" : "false"}>
-              <span class="ld-area-title" lang="en">{a.title}</span>
-              <span class="ld-area-quests" lang="en">
+              <span class="ld-area-title" lang="es">{a.title}</span>
+              <span class="ld-area-quests" lang="es">
                 {a.quests.map((q) => <img src={`/img/openmoji/${q.item.icon}.svg`} alt="" width="22" height="22" />)}
                 {a.quests.map((q) => q.role).join(" · ")}
               </span>

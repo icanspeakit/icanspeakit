@@ -1,4 +1,4 @@
-// Die Legende von Lindenau (/games/brambleford): a small top-down town. The learner plays Regi
+// The Legend of Villabruno (/games/brambleford until `routes`): a small top-down town. The learner plays Regi
 // (as Super-Blubb, drawHero in ./action.js), walks around (arrow keys / WASD, or tap where to
 // go on a phone) and talks to the people: Bruno, Hamsti, Quaki, a doctor and a neighbour. Three of them have
 // an A1 errand – Bäckerei, Bahnhof, Arztpraxis – played as a dialogue: pick the right reply or
@@ -208,16 +208,16 @@ function wordsOf(quests) {
   const out = [];
   for (const q of quests) {
     if (!out.includes(q.item.label)) out.push(q.item.label);
-    // English nouns are not capitalised, so a quest lists its useful words itself (`words`).
+    // Spanish nouns are not capitalised, so a quest lists its useful words itself (`words`, with el / la).
     for (const w of q.words ?? []) if (!out.includes(w)) out.push(w);
     for (const turn of q.turns) {
       const task = turn.task;
       if (!task) continue;
       const toks = (task.type === "choose" ? task.options.find((o) => o.ok).de : task.words.join(" ")).split(/\s+/);
       toks.forEach((w, k) => {
-        const c = w.replace(/[.,!?;:“”"()–]/g, "");
+        const c = w.replace(/[.,!?¿¡;:“”"()–]/g, "");
         if (k === 0 || /[.!?]$/.test(toks[k - 1])) return;
-        if (/^[A-Z][a-z]+$/.test(c) && !["Please"].includes(c) && !out.includes(c)) out.push(c);
+        if (/^[A-ZÁÉÍÓÚÑ][a-záéíóúñü]+$/.test(c) && !out.includes(c)) out.push(c);
       });
     }
   }
@@ -570,7 +570,7 @@ export function mountLindenau(root) {
     paintCoins();
     hudItems.innerHTML = QUESTS.map((q) => {
       const ok = done.has(q.id);
-      return `<li class="ld-item${ok ? " is-done" : ""}" title="${esc(q.item.label)}"><img src="${withBase(`/img/openmoji/${q.item.icon}.svg`)}" alt="" width="26" height="26" /><span lang="en">${esc(q.item.label)}</span><b aria-hidden="true">${ok ? "✓" : ""}</b><span class="sr-only">${esc(ok ? t("ld.itemDone", "done") : t("ld.itemOpen", "to do"))}</span></li>`;
+      return `<li class="ld-item${ok ? " is-done" : ""}" title="${esc(q.item.label)}"><img src="${withBase(`/img/openmoji/${q.item.icon}.svg`)}" alt="" width="26" height="26" /><span lang="es">${esc(q.item.label)}</span><b aria-hidden="true">${ok ? "✓" : ""}</b><span class="sr-only">${esc(ok ? t("ld.itemDone", "done") : t("ld.itemOpen", "to do"))}</span></li>`;
     }).join("");
   }
 
@@ -653,7 +653,7 @@ export function mountLindenau(root) {
           m.state = "gone"; sfx("pop");
           for (let i = 0; i < 12; i++) { const a = Math.random() * 6.3, sp = 40 + Math.random() * 90; tParts.push({ x: m.x, y: m.y - m.r - m.lift, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 0.7, hue: 180 + Math.random() * 80 }); }
           const left = mud.filter((x) => x.state !== "gone").length;
-          tTexts.push({ x: m.x, y: m.y - 40 - m.lift, text: left ? t("ld.actClean", "Clean!") : t("ld.townClean", "Brambleford is clean!"), life: left ? 1 : 2 });
+          tTexts.push({ x: m.x, y: m.y - 40 - m.lift, text: left ? t("ld.actClean", "Clean!") : t("ld.townClean", "Villabruno is clean!"), life: left ? 1 : 2 });
           if (!left) { sfx("coin"); track("lindenau_town_clean", { area: area.id }); }
           paintClean();
         }
@@ -709,11 +709,11 @@ export function mountLindenau(root) {
     const svg = n.moji
       ? `<img src="${withBase(`/img/openmoji/${n.moji}.svg`)}" alt="" width="60" height="60" />`
       : mascotSvg({ name: n.mascot, expr: "happy", view: "front", size: 60, label: "" });
-    return `<div class="ld-who">${svg}<div><b>${esc(n.name)}</b><span>${esc(n.role)}</span></div></div>`;
+    return `<div class="ld-who">${svg}<div><b>${esc(n.name)}</b><span lang="es">${esc(n.role)}</span></div></div>`;
   }
 
   function lineHtml(line) {
-    return `<p class="ld-line" lang="en">${esc(line.npc)}</p>
+    return `<p class="ld-line" lang="es">${esc(line.npc)}</p>
       <div class="ld-tools">
         <button type="button" class="ld-tool" data-say>🔊 <span>${esc(t("ld.listen", "Listen"))}</span></button>
         ${line.en ? `<button type="button" class="ld-tool" data-gloss-btn aria-expanded="false">💡 <span>${esc(t("ld.help", "Help"))}</span></button>` : ""}
@@ -821,7 +821,7 @@ export function mountLindenau(root) {
     const fb = panel.querySelector("[data-fb]");
     const opts = shuffle(turn.task.options);
     const solution = turn.task.options.find((o) => o.ok).de;
-    box.innerHTML = `<p class="ld-you">${esc(t("ld.youSay", "You say:"))}</p><div class="ld-opts">${opts.map((o, k) => `<button type="button" class="sf-opt" data-opt="${k}" lang="en"><span class="sf-opt-n">${k + 1}</span>${esc(o.de)}</button>`).join("")}</div>`;
+    box.innerHTML = `<p class="ld-you">${esc(t("ld.youSay", "You say:"))}</p><div class="ld-opts">${opts.map((o, k) => `<button type="button" class="sf-opt" data-opt="${k}" lang="es"><span class="sf-opt-n">${k + 1}</span>${esc(o.de)}</button>`).join("")}</div>`;
     let first = true, finished = false;
     box.querySelector("[data-opt]")?.focus({ preventScroll: true });
     box.querySelectorAll("[data-opt]").forEach((btn) => btn.addEventListener("click", () => {
@@ -866,9 +866,9 @@ export function mountLindenau(root) {
 
     function render() {
       answerEl.innerHTML = placed.length
-        ? placed.map((p) => `<button type="button" class="ld-tile is-placed" data-k="${p.k}" lang="en">${esc(p.w)}</button>`).join("")
+        ? placed.map((p) => `<button type="button" class="ld-tile is-placed" data-k="${p.k}" lang="es">${esc(p.w)}</button>`).join("")
         : `<span class="ld-answer-ph">${esc(t("ld.answerPh", "Tap the words below …"))}</span>`;
-      bankEl.innerHTML = tiles.filter((x) => !placed.includes(x)).map((x) => `<button type="button" class="ld-tile" data-k="${x.k}" lang="en">${esc(x.w)}</button>`).join("");
+      bankEl.innerHTML = tiles.filter((x) => !placed.includes(x)).map((x) => `<button type="button" class="ld-tile" data-k="${x.k}" lang="es">${esc(x.w)}</button>`).join("");
       const open = words.length - placed.length;
       setWaiting(check, open > 0 ? (open === 1 ? t("ld.needOne", "1 word still missing.") : t("ld.needN", "{n} words still missing.", { n: open })) : null, open > 0 ? "[data-bank] .ld-tile" : null);
     }
@@ -901,7 +901,7 @@ export function mountLindenau(root) {
       answerEl.classList.remove("is-shake"); void answerEl.offsetWidth; answerEl.classList.add("is-shake");
       if (tries >= 2) {
         finished = true;
-        fb.innerHTML = `<p class="sf-q-verdict is-no">${esc(t("ld.solution", "Here's how:"))}</p><p class="ld-solution" lang="en">${esc(solution)}</p><p class="quiz-explain" lang="en">${esc(why || "")}</p>`;
+        fb.innerHTML = `<p class="sf-q-verdict is-no">${esc(t("ld.solution", "Here's how:"))}</p><p class="ld-solution" lang="es">${esc(solution)}</p><p class="quiz-explain" lang="en">${esc(why || "")}</p>`;
         bankEl.hidden = true;
         say(turn.replyClip, solution);
         continueBtn(next);
@@ -937,7 +937,7 @@ export function mountLindenau(root) {
     const btns = panel.querySelector("[data-btns]");
     const solution = turn.task.words.join(" ");
     box.innerHTML = `<p class="ld-you">${esc(t("ld.sayIt", "You say – say the sentence out loud:"))}</p>
-      <p class="ld-say-line" lang="en">${esc(solution)}</p>
+      <p class="ld-say-line" lang="es">${esc(solution)}</p>
       <div class="ld-tools"><button type="button" class="ld-tool" data-say-model>🔊 <span>${esc(t("ld.listenModel", "How it sounds"))}</span></button></div>
       <p class="ld-say-status" data-say-status aria-live="polite"></p>`;
     btns.innerHTML = `<button type="button" class="quiz-btn quiz-btn--primary" data-rec>🎤 ${esc(t("ld.speak", "Speak"))}</button>
@@ -970,7 +970,7 @@ export function mountLindenau(root) {
           stream?.getTracks().forEach((tr) => tr.stop()); // only the permission; the provider records itself
           const a = await pronunciationProvider.assess({
             referenceText: solution,
-            language: "en-GB",
+            language: "es-ES",
             onListening: () => { status.textContent = t("ld.listening", "I'm listening … say the sentence now."); },
           });
           const ok = a.overall >= SAY_PASS && (a.completeness == null || a.completeness >= SAY_PASS);
@@ -1024,8 +1024,8 @@ export function mountLindenau(root) {
       <p class="sf-score">${esc(t("ld.score", "{r} of {n} answers right first time", { r: firstTry, n: TASK_COUNT }))}</p>
       <p class="ld-coin-line">${esc(coinNote([]))}</p>
       ${missed.length ? `<p class="sf-missed-h">${esc(t("ld.missed", "Practise these sentences again"))}</p>
-        <ul class="sf-missed">${dedupe(missed).map((m) => `<li><p class="ld-missed-where">${esc(m.quest.role)}</p><p class="sf-missed-a" lang="en"><b>${esc(m.solution)}</b></p>${m.why ? `<p lang="en">${esc(m.why)}</p>` : ""}</li>`).join("")}</ul>`
-        : `<p class="sf-best">${esc(t("ld.perfect", "All right first time – Brambleford is proud of you!"))}</p>`}
+        <ul class="sf-missed">${dedupe(missed).map((m) => `<li><p class="ld-missed-where" lang="es">${esc(m.quest.role)}</p><p class="sf-missed-a" lang="es"><b>${esc(m.solution)}</b></p>${m.why ? `<p lang="en">${esc(m.why)}</p>` : ""}</li>`).join("")}</ul>`
+        : `<p class="sf-best">${esc(t("ld.perfect", "All right first time – Villabruno is proud of you!"))}</p>`}
       <div class="sf-q-btns">
         ${canReview ? `<button type="button" class="quiz-btn quiz-btn--primary" data-review>${esc(t("ld.review", "Review"))}</button>` : ""}
         ${nextArea && !canReview ? `<button type="button" class="quiz-btn quiz-btn--primary" data-next-area>${esc(t("ld.nextArea", "Next: {a}", { a: nextArea.title }))}</button>` : ""}
@@ -1046,7 +1046,7 @@ export function mountLindenau(root) {
       runReview(due, 0, finish);
     });
     panel.scrollTop = 0;
-    if (firstTry === TASK_COUNT) celebrate({ title: t("ld.perfectShort", "All correct!"), body: t("ld.perfect", "All right first time – Brambleford is proud of you!"), lead: "bruno", crew: ["regi", ...QUESTS.map((q) => q.mascot).filter((m) => MASCOT_NAMES.includes(m))] });
+    if (firstTry === TASK_COUNT) celebrate({ title: t("ld.perfectShort", "All correct!"), body: t("ld.perfect", "All right first time – Villabruno is proud of you!"), lead: "bruno", crew: ["regi", ...QUESTS.map((q) => q.mascot).filter((m) => MASCOT_NAMES.includes(m))] });
   }
   function dedupe(list) {
     const seen = new Set();
