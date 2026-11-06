@@ -8,8 +8,8 @@
 // and markHtml() refuses a copy that no longer matches its text once the braces are gone —
 // an edit to one without the other fails the build instead of showing the old sentence.
 
-/** Which chip a marked word gets. du and its forms one colour, Sie and its forms the other. */
-const KIND = { du: "du", dir: "du", dich: "du", dein: "du", sie: "sie", ihnen: "sie", ihr: "sie" };
+/** Which chip a marked word gets: tú and its forms one colour, usted and its forms the other. The class names keep their old du/sie. */
+const KIND = { "tú": "du", te: "du", ti: "du", vosotros: "du", usted: "sie", ustedes: "sie", le: "sie" };
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 

@@ -1,14 +1,11 @@
 ---
-// /culture — the Landeskunde hub.
+// /culture — the culture hub, over src/data/kultur.json: cards here, one route per topic,
+// and a quiz that can run over one topic or all of them. Spain first, then the wider
+// Hispanic world.
 //
-// Was one page rendering one topic, with the topic's own shape (a broadcaster table)
-// hardcoded into the markup. It is now a hub over src/data/kultur.json: cards here,
-// one route per topic, and a quiz that can run over one topic or all of them.
-//
-// Two kinds of topic sit side by side and each says which it is. "unterricht" came out
-// of a real icanspeak Spanish lesson; "sachwissen" is publicly checkable fact about rules,
-// institutions and amounts, written by us. Nothing here claims anything about what
-// German people are like — only about what the rules say and where practice varies.
+// Every topic is "sachwissen": publicly checkable fact about rules, institutions and
+// amounts, written by us. Nothing here claims anything about what people in Spain are
+// like — only what the rules say and where practice varies.
 import Layout from "../../layouts/Layout.astro";
 import { itemPath } from "../../lib/routes.js";
 import SiteNav from "../../components/SiteNav.astro";
@@ -132,6 +129,13 @@ const groups = kulturLevels.map((lv) => ({
             <i data-i18n="kultur.extra.insiderSub">Small talk, politeness, humour and how people really live – with figures and sources.</i>
           </span>
           <span class="ku-card-meta"><span class="ku-card-q" data-i18n="kultur.extra.topics" data-i18n-vars={JSON.stringify({ n: insider.topics.length })}>{insider.topics.length} topics</span></span>
+        </a>
+        <a class="ku-card" href="/culture/films-and-series">
+          <span class="ku-card-ic ku-card-pic"><img src={bild(bilder.extras.filme)} alt="" width="40" height="40" loading="lazy" /></span>
+          <span class="ku-card-txt">
+            <b data-i18n="kultur.filme.title">Films and series in Spanish</b>
+            <i data-i18n="kultur.extra.filmeSub">What to watch from Spain and Latin America, with a level for each.</i>
+          </span>
         </a>
       </div>
     </section>

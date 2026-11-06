@@ -188,7 +188,7 @@ export function buildSearchIndex() {
     ...kultur.topics.map((k) => ({
       t: k.title,
       s: "Kultur",
-      k: kulturHay(k, "kultur landeskunde culture"),
+      k: kulturHay(k, "culture cultura spain españa"),
       l: k.level ?? "",
       h: itemPath("/culture", k.id),
       c: "kultur",
@@ -197,8 +197,8 @@ export function buildSearchIndex() {
     // finds the topics about them, not only a title that happens to contain the word.
     ...kulturInsider.topics.map((k) => ({
       t: k.title,
-      s: "The UK from the inside",
-      k: kulturHay(k, "culture uk from the inside insider"),
+      s: "Spain from the inside",
+      k: kulturHay(k, "culture spain from the inside insider cultura españa"),
       l: k.level ?? "",
       h: itemPath("/culture/insider", k.id),
       c: "kultur",
@@ -288,15 +288,15 @@ export function buildSearchIndex() {
     h: "/teachers/tests",
   });
   pages.push({
-    t: "Land und Kultur",
-    s: "Alle Landeskunde-Themen auf einen Blick",
-    k: "landeskunde land kultur deutschland alle themen leben in deutschland culture germany life",
+    t: "Country and culture",
+    s: "Every culture topic at a glance",
+    k: "culture country spain all topics life in spain hispanic world cultura españa",
     h: "/knowledge/country-and-culture",
   });
   pages.push({
-    t: "Deutschland von innen",
-    s: "Wie Menschen in Deutschland leben, lieben und wählen",
-    k: "landeskunde deutschland von innen insider liebe beziehung dating frau mann politik alltag",
+    t: "Spain from the inside",
+    s: "How people in Spain live, meet and talk",
+    k: "culture spain from the inside insider dating manners everyday life sobremesa",
     h: "/culture/insider",
   });
   pages.push({

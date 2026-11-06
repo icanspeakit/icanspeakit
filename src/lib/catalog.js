@@ -1176,7 +1176,7 @@ export const navWissenMenu = {
         ...[kulturInsiderItem, kulturFehlerItem, kulturLidFaktenItem, { ...kulturQuizItem, titleKey: "nav.kultur.quiz", title: "Landeskunde-Quiz" }]
           .map((it) => ({ href: it.href, titleKey: it.titleKey, title: it.title,
             hintKey: it.countKey, hintVars: it.countVars, hint: it.count })),
-        // One insider topic by name: everyday driving in the UK.
+        // One insider topic by name: everyday driving in Spain.
         { href: "/culture/insider/cars-and-driving", titleKey: "nav.kultur.auto", title: "Deutschland und das Auto",
           hintKey: "nav.kultur.autoHint", hint: "Auto, Tempolimit, Führerschein" },
       ] },

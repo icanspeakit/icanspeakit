@@ -44,10 +44,10 @@ const tx = (kulturHelp.entries as Record<string, any>)[topic.id] ?? null;
 // eyebrow (a category name) and the link labels under a topic. Slugged from the German so
 // a new topic needs no key list here — a label with no key yet just stays German.
 const slug = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-// The taught words as chips („Du sagst {du} zu Freunden"), where the topic has a marked twin
+// The taught words as chips (“Use {tú} with friends”), where the topic has a marked twin
 // of its texts (src/lib/kulturMarks.js); every other topic renders its plain text.
 const mk = topic.marked ?? null;
-const cellHtml = (cell: string) => (mk && /^(du|Sie)$/.test(cell) ? marksToHtml(`{${cell}}`) : markHtml(cell, null));
+const cellHtml = (cell: string) => (mk && /^(tú|usted)$/.test(cell) ? marksToHtml(`{${cell}}`) : markHtml(cell, null));
 const pc = (key: string) => tx?.prosCons ? Object.fromEntries(Object.entries(tx.prosCons).map(([k, v]: [string, any]) => [k, v[key]])) : null;
 ---
 <Layout

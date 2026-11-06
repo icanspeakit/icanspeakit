@@ -141,7 +141,7 @@ const unterwegs = [
         ],
       },
     ],
-    more: "/culture/queuing",
+    more: "/culture/insider/queues-and-personal-space",
   },
   {
     id: "sbahn", place: "On the train", backdrop: "sbahn",
@@ -190,7 +190,7 @@ const unterwegs = [
         ],
       },
     ],
-    more: "/culture/insider/personal-space",
+    more: "/culture/insider/queues-and-personal-space",
   },
   {
     id: "aufzug", place: "In the lift", backdrop: "aufzug",
@@ -280,7 +280,7 @@ const unterwegs = [
         ],
       },
     ],
-    more: "/culture/insider/sorry-please-thank-you",
+    more: "/culture/insider/please-and-thank-you",
   },
 ];
 
@@ -322,7 +322,7 @@ const arbeit = [
         who: "lena", wheel: 2, du: true, situation: "You're still in the kitchen with your tea. What do you talk to Lena about?",
       },
     ],
-    more: "/culture/insider/small-talk",
+    more: "/culture/insider/small-talk-and-sobremesa",
   },
   {
     id: "erster-tag", place: "First day at work", backdrop: "buero",
@@ -357,7 +357,7 @@ const arbeit = [
         ],
       },
     ],
-    more: "/culture/insider/being-on-time",
+    more: "/culture/insider/time-and-timing",
   },
   {
     id: "meeting", place: "In the meeting", backdrop: "buero",
@@ -391,7 +391,7 @@ const arbeit = [
         ],
       },
     ],
-    more: "/culture/insider/understatement",
+    more: "/culture/insider/directness",
   },
   {
     id: "feierabend", place: "After work", backdrop: "kneipe",
@@ -559,7 +559,7 @@ const zuhause = [
         ],
       },
     ],
-    more: "/culture/insider/sorry-please-thank-you",
+    more: "/culture/insider/please-and-thank-you",
   },
   {
     id: "einladung", place: "Invited for dinner", backdrop: "esszimmer",
@@ -606,7 +606,7 @@ const zuhause = [
         ],
       },
     ],
-    more: "/culture/insider/sorry-please-thank-you",
+    more: "/culture/insider/please-and-thank-you",
   },
 ];
 
@@ -732,7 +732,7 @@ const date = [
         ],
       },
     ],
-    more: "/culture/tipping",
+    more: "/culture/bars-and-paying",
   },
   {
     id: "date-tschuess", place: "Saying goodbye", backdrop: "abend",
@@ -801,7 +801,7 @@ const schule = [
         ],
       },
     ],
-    more: "/culture/insider/being-on-time",
+    more: "/culture/insider/time-and-timing",
   },
   {
     id: "du-oder-sie", place: "First day of the course", backdrop: "klasse",
@@ -840,7 +840,7 @@ const schule = [
         who: "novak", wheel: 1, du: true, situation: "Break time. Martin is standing next to you at the coffee machine.",
       },
     ],
-    more: "/culture/names-and-titles",
+    more: "/culture/tu-or-usted",
   },
   {
     id: "elterngespraech", place: "Parents' evening", backdrop: "klasse",
@@ -906,7 +906,7 @@ const schule = [
         ],
       },
     ],
-    more: "/culture/insider/understatement",
+    more: "/culture/insider/directness",
   },
 ];
 
