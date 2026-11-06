@@ -177,15 +177,15 @@ export function mountKnigge(root) {
           ${mascotSvg({ name: S.casting[who.id], size: 40, label: "" })}
           <div><b>${esc(who.name)}</b><span>${esc(who.role)}</span></div>
         </div>
-        <p class="kn-line" lang="en">“${esc(tu.npc)}”</p>
+        <p class="kn-line" lang="es">“${esc(tu.npc)}”</p>
         <div class="kn-tools">
           <button type="button" class="kn-tool" data-hear>🔊 ${esc(t("kn.hear", "Listen"))}</button>
           ${tu.en ? `<button type="button" class="kn-tool" data-help aria-expanded="false">💡 ${esc(t("kn.help", "Help"))}</button>` : ""}
         </div>
-        ${tu.en ? `<p class="kn-gloss" lang="en" data-gloss hidden>${esc(tu.en)}</p>` : ""}` : ""}
+        ${tu.en ? `<p class="kn-gloss" lang="en" data-gloss hidden>${esc(tu.en)}</p>` : ""}` : `<div class="kn-tools"><button type="button" class="kn-tool" data-help aria-expanded="false">💡 ${esc(t("kn.help", "Help"))}</button></div>`}
       <p class="kn-you">${esc(t("kn.youSay", "What do you do?"))}</p>
       <div class="kn-opts">${tu.options.map((o, k) => `
-        <button type="button" class="kn-opt" data-opt="${k}" lang="en"><span class="kn-opt-n">${k + 1}</span><span>${esc(o.de)}${o.en ? `<small class="kn-opt-en" lang="en" data-gloss hidden>${esc(o.en)}</small>` : ""}</span></button>`).join("")}
+        <button type="button" class="kn-opt" data-opt="${k}" lang="es"><span class="kn-opt-n">${k + 1}</span><span>${esc(o.de)}${o.en ? `<small class="kn-opt-en" lang="en" data-gloss hidden>${esc(o.en)}</small>` : ""}</span></button>`).join("")}
       </div>
       <div class="kn-after" data-after></div>
       <div class="kn-btns"><button type="button" class="quiz-btn quiz-btn--primary" data-go>${esc(t("kn.next", "Next"))}</button></div>`;
@@ -229,7 +229,7 @@ export function mountKnigge(root) {
     sheet.querySelector("[data-after]").innerHTML = `
       <div class="kn-react">
         ${mascotSvg({ name: S.casting[target], size: 36, label: "" })}
-        <p lang="en"><b>${esc(by.name)}:</b> ${esc(o.react)}</p>
+        <p lang="es"><b>${esc(by.name)}:</b> ${esc(o.react)}${o.reactEn ? `<small class="kn-opt-en" lang="en">${esc(o.reactEn)}</small>` : ""}</p>
       </div>
       <p class="kn-why"><b>${esc(t("kn.why", "Why?"))}</b> <span lang="en">${esc(o.why)}</span></p>
       ${more ? `<a class="kn-more" href="${esc(withBase(more))}" target="_blank" rel="noopener">${esc(t("kn.more", "Find out more"))} ↗</a>` : ""}`;
@@ -239,7 +239,8 @@ export function mountKnigge(root) {
     feedback(o);
     paintBars();
     paintRuf();
-    if (soundOn && !/^\(.*\)$/.test(o.react)) voice.say(null, o.react, true);
+    const spoken = o.react.replace(/\([^)]*\)/g, "").trim(); // stage directions are English
+    if (soundOn && spoken) voice.say(null, spoken, true);
   }
 
   // --- the Smalltalk-Rad: pick a topic; the person's hidden taste decides ----------------------
@@ -303,8 +304,9 @@ export function mountKnigge(root) {
     });
     // What you said, above the answer.
     const said = tp.say[tu.du ? "du" : "sie"];
-    sheet.querySelector(".kn-wheel").insertAdjacentHTML("afterend", `<p class="kn-said" lang="en"><b>${esc(t("kn.you", "You"))}:</b> “${esc(said)}”</p>`);
-    apply({ de: said, delta: TOPIC_DELTA[kind], tag: t(tagKey, tagDe), react: tp.re[kind] ?? tp.re.ok ?? tp.re.taboo, why }, `knigge-${scene().id}-${S.turnIdx}-${id}`, id);
+    const saidEn = tp.sayEn?.[tu.du ? "du" : "sie"];
+    sheet.querySelector(".kn-wheel").insertAdjacentHTML("afterend", `<p class="kn-said" lang="es"><b>${esc(t("kn.you", "You"))}:</b> “${esc(said)}”</p>${saidEn ? `<p class="kn-gloss" lang="en">${esc(saidEn)}</p>` : ""}`);
+    apply({ de: said, delta: TOPIC_DELTA[kind], tag: t(tagKey, tagDe), react: tp.re[kind] ?? tp.re.ok ?? tp.re.taboo, reactEn: tp.reEn?.[kind] ?? tp.reEn?.ok ?? tp.reEn?.taboo, why }, `knigge-${scene().id}-${S.turnIdx}-${id}`, id);
   }
 
   function next() {
@@ -351,8 +353,8 @@ export function mountKnigge(root) {
         <li>${mascotSvg({ name: mascot, size: 34, label: "" })}<span><b>${esc(p.name)}</b> <small>${esc(p.role)}</small></span>
           <span class="kn-bar-track"><i style="width:${symp(p.id)}%" class="${symp(p.id) < 40 ? "is-low" : symp(p.id) > 70 ? "is-high" : ""}"></i></span></li>`).join("")}
       </ul>
-      ${best ? `<div class="kn-moment is-best"><b>${esc(t("kn.best", "Best moment"))}</b><p lang="en">“${esc(best.de)}” <span class="kn-tag">${esc(best.tag)}</span></p><p class="kn-why" lang="en">${esc(best.why)}</p></div>` : ""}
-      ${worst && worst.delta < 0 ? `<div class="kn-moment is-worst"><b>${esc(t("kn.worst", "Biggest blunder"))}</b><p lang="en">“${esc(worst.de)}” <span class="kn-tag">${esc(worst.tag)}</span></p><p class="kn-why" lang="en">${esc(worst.why)}</p></div>` : ""}
+      ${best ? `<div class="kn-moment is-best"><b>${esc(t("kn.best", "Best moment"))}</b><p lang="es">“${esc(best.de)}” <span class="kn-tag" lang="en">${esc(best.tag)}</span></p><p class="kn-why" lang="en">${esc(best.why)}</p></div>` : ""}
+      ${worst && worst.delta < 0 ? `<div class="kn-moment is-worst"><b>${esc(t("kn.worst", "Biggest blunder"))}</b><p lang="es">“${esc(worst.de)}” <span class="kn-tag" lang="en">${esc(worst.tag)}</span></p><p class="kn-why" lang="en">${esc(worst.why)}</p></div>` : ""}
       <div class="kn-btns">
         ${nextArea ? `<button type="button" class="quiz-btn quiz-btn--primary" data-next-area>${esc(t("kn.nextArea", "Next: {area}", { area: nextArea.title }))}</button>` : ""}
         <button type="button" class="quiz-btn${nextArea ? "" : " quiz-btn--primary"}" data-areas>${esc(nextArea ? t("kn.areas", "Areas") : t("kn.dayDone", "Day done – areas"))}</button>

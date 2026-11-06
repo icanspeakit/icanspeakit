@@ -23,6 +23,7 @@ const CHECKS = [
   "check-premium.mjs",
   "check-pruefungsplan.mjs",
   "check-lindenau.mjs",
+  "check-knigge.mjs",
   "check-redewendungen.mjs",
   "validate-lexicon.mjs",
   "check-variety.mjs",
