@@ -38,14 +38,14 @@ const lidFederalIds = lid.questions.map((_, i) => "bund-" + (i + 1));
 export const examRegistry = [
   {
     id: "start-deutsch-1",
-    title: "A1 English practice test",
-    subtitle: "Listening · Reading · Writing",
+    title: "DELE A1 practice test",
+    subtitle: "Listening · Reading · Writing · Speaking",
     level: "A1",
     href: "/a1-test",
-    overview: "/trinity",
+    overview: "/cambridge",
     store: { kind: "exam", key: "start-deutsch-1" },
-    // No official exam behind this test (content-plan §2): 60 % is our own convention.
-    passNote: "Our own guide: 60 % of the Listening and Reading points. This is not an official exam.",
+    // In the style of the DELE A1 (content-plan §2), shorter than the real exam: 60 % is our own convention.
+    passNote: "Our own guide: 60 % of the Listening and Reading points. The real DELE A1 has its own scoring rules.",
     passPct: 60,
     modules: [
       { key: "hoeren1", label: "Listening · Part 1", ids: idsOf(sd1.hoeren.teil1) },
@@ -55,6 +55,7 @@ export const examRegistry = [
       { key: "lesen2", label: "Reading · Part 2", ids: idsOf(sd1.lesen.teil2) },
       { key: "lesen3", label: "Reading · Part 3", ids: idsOf(sd1.lesen.teil3) },
       { key: "schreiben", label: "Writing", ids: ["s-formular", "s-nachricht"], scored: false },
+      { key: "sprechen", label: "Speaking", ids: sd1.sprechen.tasks.map((t) => t.id), scored: false },
     ],
   },
   {

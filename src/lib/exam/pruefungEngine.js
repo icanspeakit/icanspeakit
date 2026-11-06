@@ -15,7 +15,7 @@
  * A scored part may carry `texts[]` (reading) or `clips[]` (Hören, speaker turns). An item
  * with `text`/`clip` is shown under that text or clip; the rest follow the material.
  *
- * The exam CONTENT stays German (it is the exam being sat); the chrome goes through tx().
+ * The exam CONTENT stays Spanish (it is the exam being sat, lang="es"); the chrome goes through tx().
  */
 import { mountExamApp } from "../examApp.js";
 import { choiceCard, practiceToggle, sectionHeader, el, escapeHtml } from "./renderHelpers.js";
@@ -31,6 +31,7 @@ import { withBase } from "../paths.js";
 import { examPath } from "../routes.js";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
+const CONTENT_LANG = "es";
 const TF_LABELS = { richtig: "Richtig", falsch: "Falsch", ja: "Ja", nein: "Nein", "nicht im text": "Steht nicht im Text" };
 // The letter on each answer button; "nicht im Text" is the exams' own "x".
 const TF_KEYS = { richtig: "r", falsch: "f", ja: "j", nein: "n", "nicht im text": "x" };
@@ -123,6 +124,7 @@ function countdown(label, minutes) {
 
 function textBlock(t) {
   const box = el("article", "lese-text ps-text" + (t.kind ? " ps-text--" + t.kind : ""));
+  box.lang = CONTENT_LANG;
   if (t.label) box.appendChild(el("p", "lese-text-label", escapeHtml(t.label)));
   if (t.title) box.appendChild(el("h3", "lese-text-title", escapeHtml(t.title)));
   const body = el("div", "lese-text-body");
@@ -162,6 +164,7 @@ function clipBlock(set, clip, itemIds, ctx) {
   const script = el("details", "ps-transcript");
   script.appendChild(el("summary", "", escapeHtml(tx("exam.readTranscript", "Transkript lesen"))));
   const lines = el("div", "hoer-transcript");
+  lines.lang = CONTENT_LANG;
   for (const turn of clip.script) {
     const who = clip.names?.[turn.s] ?? set.speakers?.[turn.s]?.name;
     lines.appendChild(el("p", "", (who ? "<b>" + escapeHtml(who) + ":</b> " : "") + escapeHtml(turn.t)));
@@ -193,7 +196,7 @@ function fehlerInfo(part, item, given) {
     return Array.isArray(v) ? v[0] : String(v);
   };
   const expected = type === "write-in" ? item.accept?.[0] : label(item.correct);
-  return { prompt: item.statement ?? item.question ?? item.prompt ?? `Lücke ${item.id}`, expected, given: label(given) };
+  return { prompt: item.statement ?? item.question ?? item.prompt ?? tx("ps.gap", "Gap {n}", { n: String(item.id).split("-").pop() }), expected, given: label(given) };
 }
 
 /* Does every pool letter fit only once? Explicit `once`, else: no letter is the answer
@@ -220,12 +223,12 @@ function itemCard(part, item, n, ctx, onDone, deferred) {
   if (type === "tf") {
     const labels = item.labels ?? part.labels ?? ["richtig", "falsch"];
     const options = labels.map((k) => ({ key: TF_KEYS[k], label: tx("ps.tf." + TF_KEYS[k], TF_LABELS[k]) }));
-    return choiceCard({ qLabel, questionText: item.statement, options, correctKey: TF_KEYS[item.correct], existing, layout: labels.length === 2 ? "grid" : "list", onAnswer: record, meldung });
+    return choiceCard({ qLabel, questionText: item.statement, options, correctKey: TF_KEYS[item.correct], existing, layout: labels.length === 2 ? "grid" : "list", onAnswer: record, meldung, contentLang: CONTENT_LANG });
   }
   if (type === "write-in") return writeInCard(item, qLabel, existing, record, meldung);
   if (type === "mc" || type === "gap-mc") {
     const options = item.options.map((o, i) => ({ key: LETTERS[i], label: o }));
-    return choiceCard({ qLabel: type === "gap-mc" ? tx("ps.gap", "Lücke {n}", { n }) : qLabel, questionText: item.question, options, correctKey: LETTERS[item.correct], existing, onAnswer: record, meldung });
+    return choiceCard({ qLabel: type === "gap-mc" ? tx("ps.gap", "Lücke {n}", { n }) : qLabel, questionText: item.question, options, correctKey: LETTERS[item.correct], existing, onAnswer: record, meldung, why: item.why, contentLang: CONTENT_LANG });
   }
   if (type === "match" || type === "gap-bank") {
     const pool = part.type === "match" ? part.pool : part.bank;
@@ -244,6 +247,7 @@ function itemCard(part, item, n, ctx, onDone, deferred) {
       onAnswer: record,
       meldung,
       why: item.why,
+      contentLang: CONTENT_LANG,
       ...deferred,
     });
   }
@@ -254,7 +258,7 @@ function itemCard(part, item, n, ctx, onDone, deferred) {
 function writeInCard(item, qLabel, existing, record, meldung) {
   const card = el("div", "qcard ps-writein");
   card.appendChild(el("div", "qhead", '<span class="qnum">' + escapeHtml(qLabel) + "</span>"));
-  if (item.prompt) card.appendChild(el("p", "qtext", escapeHtml(item.prompt)));
+  if (item.prompt) { const q = el("p", "qtext", escapeHtml(item.prompt)); q.lang = CONTENT_LANG; card.appendChild(q); }
   const row = el("div", "ps-writein-row");
   const input = el("input", "form-input");
   input.type = "text";
@@ -304,6 +308,7 @@ function writeInCard(item, qLabel, existing, record, meldung) {
    number, or the chosen word once answered. */
 function gapText(part, ctx, numberOf) {
   const box = el("article", "lese-text ps-gaptext");
+  box.lang = CONTENT_LANG;
   if (part.textTitle) box.appendChild(el("h3", "lese-text-title", escapeHtml(part.textTitle)));
   const body = el("div", "lese-text-body");
   let para = el("p");
@@ -326,6 +331,7 @@ function gapText(part, ctx, numberOf) {
 function poolBlock(part) {
   const short = Object.values(part.pool).every((v) => typeof v === "string");
   const grid = el("div", "ps-pool" + (part.poolKind === "people" ? " ps-pool--people" : "") + (short ? " ps-pool--short" : ""));
+  grid.lang = CONTENT_LANG;
   for (const [k, v] of Object.entries(part.pool)) {
     if (typeof v === "string") { grid.appendChild(el("div", "ps-pool-card ps-pool-card--short", `<b>${k}</b> ${escapeHtml(v)}`)); continue; }
     const card = el("div", "ps-pool-card");
@@ -466,6 +472,7 @@ function modelAndChecklist(task) {
     const d = el("details", "ps-fold");
     d.appendChild(el("summary", "", escapeHtml(tx("ps.model", "Musterlösung — erst öffnen, wenn du fertig bist"))));
     const m = el("div", "model-answer");
+    m.lang = CONTENT_LANG;
     for (const p of String(task.model).split("\n")) m.appendChild(el("p", "", escapeHtml(p)));
     d.appendChild(m);
     wrap.appendChild(d);
@@ -483,12 +490,13 @@ function modelAndChecklist(task) {
 
 function taskHead(card, task, n) {
   card.appendChild(el("div", "qhead", '<span class="qnum">' + escapeHtml(task.title || tx("ps.task", "Aufgabe {n}", { n })) + "</span>"));
-  if (task.situation) card.appendChild(el("p", "qtext", escapeHtml(task.situation)));
-  if (task.prompt) card.appendChild(el("p", "qtext ps-prompt", escapeHtml(task.prompt)));
+  const add = (node) => { node.lang = CONTENT_LANG; card.appendChild(node); };
+  if (task.situation) for (const line of String(task.situation).split("\n")) add(el("p", "qtext", escapeHtml(line)));
+  if (task.prompt) add(el("p", "qtext ps-prompt", escapeHtml(task.prompt)));
   if (task.points?.length) {
     const ul = el("ul", "task-points");
     for (const p of task.points) ul.appendChild(el("li", "", escapeHtml(p)));
-    card.appendChild(ul);
+    add(ul);
   }
 }
 
@@ -535,6 +543,7 @@ function renderSprechen(main, set, module, part, ctx) {
     if (task.mode) card.appendChild(el("p", "qcontext", escapeHtml(task.mode === "paar" ? tx("ps.speak.pair", "Im Test mit einer Partnerin oder einem Partner. Übe allein: sprich beide Rollen oder lies die Antworten der anderen Person unten.") : tx("ps.speak.solo", "Im Test sprichst du allein vor den Prüfern."))));
     if (task.card) {
       const c = el("div", "ps-card");
+      c.lang = CONTENT_LANG;
       if (task.card.title) c.appendChild(el("p", "ps-card-title", escapeHtml(task.card.title)));
       const ul = el("ul");
       for (const b of task.card.lines ?? []) ul.appendChild(el("li", "", escapeHtml(b)));
@@ -543,6 +552,7 @@ function renderSprechen(main, set, module, part, ctx) {
     }
     if (task.slides?.length) {
       const grid = el("div", "ps-slides");
+      grid.lang = CONTENT_LANG;
       task.slides.forEach((s, k) => {
         const slide = el("div", "ps-slide");
         slide.appendChild(el("span", "ps-slide-n", String(k + 1)));
@@ -564,6 +574,7 @@ function renderSprechen(main, set, module, part, ctx) {
       const d = el("details", "ps-fold");
       d.appendChild(el("summary", "", escapeHtml(tx("ps.redemittel", "Redemittel"))));
       const wrap = el("div", "ps-phrases");
+      wrap.lang = CONTENT_LANG;
       for (const r of task.redemittel) wrap.appendChild(el("span", "ps-phrase", escapeHtml(r)));
       d.appendChild(wrap);
       card.appendChild(d);

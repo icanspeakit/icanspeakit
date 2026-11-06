@@ -28,14 +28,19 @@ const CROSS = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColo
    with it the card gets the quiet link under the feedback and, in dev mode, a ⚑.
    `deferred`: a tap only picks (and can be changed); the caller checks later through
    card.check(). `why` explains the solution under the feedback. */
-export function choiceCard({ qLabel, questionText, context, options, correctKey, existing, layout = "list", onAnswer, meldung, deferred = false, picked = null, onPick, why }) {
+export function choiceCard({ qLabel, questionText, context, options, correctKey, existing, layout = "list", onAnswer, meldung, deferred = false, picked = null, onPick, why, contentLang }) {
   const card = el("div", "qcard");
   card.appendChild(el("div", "qhead", '<span class="qnum">' + escapeHtml(qLabel) + "</span>"));
   if (context) card.appendChild(el("p", "qcontext", escapeHtml(context)));
-  if (questionText) card.appendChild(el("p", "qtext", escapeHtml(questionText)));
+  if (questionText) {
+    const q = el("p", "qtext", escapeHtml(questionText));
+    // `contentLang`: the exam text is Spanish whatever the UI language (screen readers, hyphenation).
+    if (contentLang) q.lang = contentLang;
+    card.appendChild(q);
+  }
 
   const optWrap = el("div", "options" + (layout === "grid" ? " grid" : layout === "wrap" ? " wrap" : layout === "pool" ? " pool" : ""));
-  if (layout === "pool") optWrap.lang = "de"; // German hyphenation in the narrow tiles, whatever the UI language
+  if (contentLang) optWrap.lang = contentLang;
   const fb = el("div", "feedback");
   fb.hidden = true;
   const whyEl = why ? el("p", "fb-why", escapeHtml(why)) : null;
