@@ -14,7 +14,8 @@ import ccse from "../data/leben-in-deutschland.json";
 
 const tx = (key: string) => (en as Record<string, string>)[key];
 
-const residence = ["10", "5", "2", "1"];
+const residence = ["10", "5", "2"];
+const oneYear = ["a", "b", "c", "d", "e", "f"];
 const tests = ["most", "list", "has", "cert", "minor", "eso", "disp"];
 const dispensa = ["1", "2", "3", "4", "5"];
 const shortVersion = ["1", "2", "3", "4"];
@@ -71,19 +72,17 @@ const fill = (s: string, vars: Record<string, number>) => s.replace(/\{(\w+)\}/g
 
     <section class="exam-section">
       <h2 data-i18n="nat.res.title">{tx("nat.res.title")}</h2>
-      <div class="format-table-wrap">
-        <table class="format-table">
-          <thead><tr><th data-i18n="nat.res.th.time">{tx("nat.res.th.time")}</th><th data-i18n="nat.res.th.who">{tx("nat.res.th.who")}</th></tr></thead>
-          <tbody>
-            {residence.map((n) => (
-              <tr>
-                <th scope="row" data-i18n={`nat.res.${n}.time`}>{tx(`nat.res.${n}.time`)}</th>
-                <td data-i18n={`nat.res.${n}.who`}>{tx(`nat.res.${n}.who`)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {/* Headed paragraphs, not a table: the 1-year list is too long for a narrow column on a phone. */}
+      {residence.map((n) => (
+        <>
+          <h3 data-i18n={`nat.res.${n}.time`}>{tx(`nat.res.${n}.time`)}</h3>
+          <p data-i18n={`nat.res.${n}.who`}>{tx(`nat.res.${n}.who`)}</p>
+        </>
+      ))}
+      <h3 data-i18n="nat.res.1.time">{tx("nat.res.1.time")}</h3>
+      <ul class="task-points">
+        {oneYear.map((k) => <li data-i18n={`nat.res.1.${k}`}>{tx(`nat.res.1.${k}`)}</li>)}
+      </ul>
       <p class="format-note" data-i18n="nat.res.note">{tx("nat.res.note")}</p>
     </section>
 
