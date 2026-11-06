@@ -44,7 +44,7 @@ const LANGS = ["en", "tr", "uk", "ar"];
 const pic = emojiSrc((bilder as any).insider?.[topic.id] ?? (original && (bilder as any).insider?.[original.id]));
 const quaki = mascotSvg({ name: "quaki", expr: "thinking", view: "three", size: 48, label: "", className: "in-ask-fig" });
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-const NUM = /(?:rund |über |fast |etwa |knapp )?\d+(?:[.,]\d+)*(?:\s| )?(?:%|Prozent|Euro|€|Cent|Millionen|Mio\.|Milliarden|Mrd\.|km\/h|Stunden|Jahre|Minuten)/g;
+const NUM = /(?:about |around |over |almost |nearly )?\d+(?:[.,]\d+)*(?:\s|\u00a0)?(?:%|euros?|€|cents?|million|billion|km\/h|g\/l|hours|years|weeks|days|minutes)/g;
 const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m}</b>`);
 ---
 <Layout
@@ -244,14 +244,14 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
           <ul class="in-vocab">
             {topic.vocab.map((v: { word: string; grammar: string | null; meaning: Record<string, string>; example: string }) => (
               <li>
-                <p class="in-vocab-word" lang="en"><b>{v.word}</b>{v.grammar && <span>{v.grammar}</span>}</p>
+                <p class="in-vocab-word" lang="es"><b>{v.word}</b>{v.grammar && <span>{v.grammar}</span>}</p>
                 <p class="in-vocab-meaning uit">
                   <span class="uit-de" lang="de">{v.meaning.de}</span>
                   {LANGS.filter((l) => v.meaning[l]).map((l) => (
                     <span class="uit-l" lang={l} dir={isRtl(l) ? "rtl" : "ltr"}>{v.meaning[l]}</span>
                   ))}
                 </p>
-                <p class="in-vocab-ex" lang="en">{v.example}</p>
+                <p class="in-vocab-ex" lang="es">{v.example}</p>
               </li>
             ))}
           </ul>
