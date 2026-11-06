@@ -14,6 +14,8 @@ import { withBase } from "./paths.js";
 const NS = "http://www.w3.org/2000/svg";
 const MID = 125, X0 = 34, XW = 236, XEND = 330;
 const MARK = { aussage: ".", echo: "?", ausruf: "!" };
+const OPEN = { aussage: "", echo: "¿", ausruf: "¡" };
+const said = (c) => OPEN[c.t] + c.base + MARK[c.t];
 const WHY = {
   aussage: "Statement: the voice goes down at the end ↘ – the way down.",
   echo: "Echo question: the voice goes up a lot at the end ↗ – the way up. You're surprised or checking.",
@@ -202,7 +204,7 @@ export function initLabyrinth({ panel, quiz, audio, play, stop, runId }) {
       }
       if (!audio.paused || !audio.currentTime) requestAnimationFrame(follow);
     };
-    const playing = play({ text: cur.base + MARK[cur.t], src: cur.src, type: cur.t });
+    const playing = play({ text: said(cur), src: cur.src, type: cur.t });
     if (cur.src) requestAnimationFrame(follow);
     else {
       // browser voice: no clock to follow, so an even pace
@@ -213,7 +215,7 @@ export function initLabyrinth({ panel, quiz, audio, play, stop, runId }) {
     heard = true;
     await hopTo(262, MID, 300);
     face("thinking");
-    say.textContent = "Wohin geht die Stimme? Nach oben ↗ oder nach unten ↘?";
+    say.textContent = "Where does the voice go? Up ↗ or down ↘?";
   }
 
   async function answer(type) {
@@ -229,7 +231,7 @@ export function initLabyrinth({ panel, quiz, audio, play, stop, runId }) {
       if (b.dataset.exit === cur.t) b.classList.add("is-right");
       else if (b.dataset.exit === type) b.classList.add("is-wrong");
     });
-    panel.querySelector(".lab-sent").textContent = cur.base + MARK[cur.t];
+    panel.querySelector(".lab-sent").textContent = said(cur);
     face("happy");
     place(262, MID);
     if (ok) {
@@ -237,14 +239,14 @@ export function initLabyrinth({ panel, quiz, audio, play, stop, runId }) {
       exits[type].classList.add("is-right");
       svg.querySelector(`[data-door="${type}"]`).classList.add("is-right");
       face("celebrate");
-      say.textContent = "Richtig! Das ist der Ausgang.";
+      say.textContent = "Correct! That's the way out.";
     } else {
       // up the wrong corridor, bump into the closed door, back to the fork
       await walk(exits[type], 520, 0.8);
       exits[type].classList.add("is-wrong");
       svg.querySelector(`[data-door="${type}"]`).classList.add("is-wrong");
       face("oops");
-      say.textContent = "Zu! Der Ausgang ist woanders.";
+      say.textContent = "Closed! The way out is somewhere else.";
       await new Promise((r) => setTimeout(r, 650));
       await hopTo(262, MID, 300);
       await walk(exits[cur.t], 700);
@@ -290,7 +292,7 @@ export function initLabyrinth({ panel, quiz, audio, play, stop, runId }) {
     face("happy");
     const xOf = (t) => X0 + ((XEND - X0) * (t - c.t0)) / (c.t1 - c.t0 || 1);
     place(X0, yOf(c.pts[0].st));
-    say.textContent = "Hoch und runter – wie die Stimme!";
+    say.textContent = "Up and down, just like the voice!";
     if (cur.src) {
       const f = () => {
         if (id !== runId() || a !== anim) return;
@@ -298,15 +300,15 @@ export function initLabyrinth({ panel, quiz, audio, play, stop, runId }) {
         place(xOf(t), yOf(stAt(c, t)));
         if (!audio.paused) requestAnimationFrame(f);
       };
-      const p = play({ text: cur.base + MARK[cur.t], src: cur.src, type: cur.t });
+      const p = play({ text: said(cur), src: cur.src, type: cur.t });
       requestAnimationFrame(f);
       await p;
     } else {
-      const p = play({ text: cur.base + MARK[cur.t], src: "", type: cur.t });
+      const p = play({ text: said(cur), src: "", type: cur.t });
       await tween(1800, (k) => { const t = c.t0 + (c.t1 - c.t0) * k; place(xOf(t), yOf(stAt(c, t))); });
       await p;
     }
-    if (a === anim) { face("celebrate"); say.textContent = cur.t === "echo" ? "Am Ende nach oben ↗!" : "Am Ende nach unten ↘!"; }
+    if (a === anim) { face("celebrate"); say.textContent = cur.t === "echo" ? "Up at the end ↗!" : "Down at the end ↘!"; }
   }
 
   playBtn.addEventListener("click", listen);

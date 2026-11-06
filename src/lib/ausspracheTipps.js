@@ -1,124 +1,113 @@
-// Short English tips for the Aussprache-Check: one rule per sound that learners of English
-// most often get wrong. No API — the tip is picked from the spelling of the word the
-// learner scored worst on, which is enough most of the time: th is written th, "walked"
-// ends in -ed. English spelling is not regular, so the tests are deliberately narrow:
-// better no tip for a word than a tip about a sound the word does not have.
+// Short tips for the Aussprache-Check: one rule per Spanish sound that learners most often get
+// wrong. No API: the tip is picked from the spelling of the word the learner scored worst on.
+// Spanish spelling is regular, so the tests are reliable: z and ce/ci are /θ/, rr is the trill.
 //
-// Each sound has a `test` on the lower-cased word and a `tip` written for A1–B1 readers:
-// short main clauses, the mouth position first, one example they already know.
-// British English (the site's default variety, docs/content-plan.md §1.1).
+// Each sound has a `test` on the lower-cased word and a `tip` written in English for A1–B1
+// readers: short main clauses, the mouth position first, one example they already know.
+// Castilian Spanish (the site's standard, docs/content-plan.md §1.1), with distinción.
 
 /** @typedef {{ id: string, label: string, test: (w: string) => boolean, tip: (w: string, shown: string) => string }} Sound */
 
-// -ed after these sounds is /t/ (helped, watched, laughed); after t or d it is /ɪd/.
-const ED_T = /(p|k|ck|ss|sh|ch|x|f|gh|c)ed$/;
-const ED_ID = /(t|d)ed$/;
-// Words that end in -ed but are not past forms.
-const NOT_ED = new Set(["hundred", "naked", "wicked", "sacred", "need", "speed", "seed", "feed", "bed", "red", "shed", "fed", "led", "wed"]);
-const isEd = (w) => /[^e]ed$/.test(w) && w.length > 4 && !NOT_ED.has(w);
-// A short a /æ/ in one closed syllable (cat, black, hand). Not the British long a /ɑː/ of
-// class, fast, bath, after, can't, dance, half, calm.
-const SHORT_A = (w) => /^[^aeiou]*a[bcdfgklmnpstvxz]{1,2}$/.test(w) && !/a(ss|st|sk|sp|th|ft|nt|nce|lf|lm|ll|lk|lt)$/.test(w) && !/^(w|wh|qu|sw|squ)a/.test(w);
+const V = "aeiouáéíóúü";
+const STRONG_R = /rr|^r|[nls]r/;
 
 /** @type {Sound[]} */
 export const SOUNDS = [
   {
-    id: "th",
-    label: "th",
-    test: (w) => w.includes("th") && !/^(thomas|thames|thailand|thai)$/.test(w),
+    id: "enye",
+    label: "ñ",
+    test: (w) => w.includes("ñ"),
+    tip: () => "ñ is one sound, like ny in “canyon”. Press the middle of your tongue against the roof of your mouth. Like “año”, “mañana”.",
+  },
+  {
+    id: "ce-zi",
+    label: "c · z",
+    test: (w) => /z|c[eiéí]/.test(w),
+    tip: (w, shown) => `In “${shown}”, z or c before e, i is /θ/ in Spain, like th in “think”: tongue tip between your teeth, only air. Not ts, not ch. (Southern Spain and Latin America say s here, and that is fine too.)`,
+  },
+  {
+    id: "j-g",
+    label: "j · g",
+    test: (w) => /j|g[eiéí]/.test(w),
+    tip: (w, shown) => `In “${shown}”, j or g before e, i is a rasp at the back of your mouth, like ch in Scottish “loch”. Not the j in “jam”. Like “trabajo”, “gente”.`,
+  },
+  {
+    id: "r",
+    label: "r · rr",
+    test: (w) => w.includes("r"),
     tip: (w, shown) =>
-      /^(the|this|that|these|those|they|them|their|there|then|than|though|with)$/.test(w) || /[aeiou]th(er|e)/.test(w)
-        ? `th in “${shown}” is /ð/: the tip of your tongue between your teeth, and use your voice. Not d, not z. Like “this”, “mother”.`
-        : `th in “${shown}” is /θ/: the tip of your tongue between your teeth, and push out only air. Not s, t or f. Like “think”, “three”.`,
+      STRONG_R.test(w)
+        ? `“${shown}” has a strong r: several quick taps of the tongue tip behind your top teeth. Not in the throat. Like “perro”, “rojo”.`
+        : `The r in “${shown}” is one quick tap of the tongue tip behind your top teeth. Don't curl your tongue back. Like “pero”, “caro”.`,
   },
   {
-    id: "w-v",
-    label: "w · v",
-    test: (w) => /^w[aeiouy]|^wh[aeiy]|v/.test(w),
-    tip: (w) =>
-      w.includes("v")
-        ? "v: put your top teeth on your bottom lip and use your voice. Not b, not w. Like “very”, “seven”, “live”."
-        : "w: make your lips small and round, as for “oo”, then open them. Your teeth don't touch your lips. Like “we”, “water”, “what”.",
+    id: "ll-y",
+    label: "ll · y",
+    test: (w) => new RegExp(`ll|y[${V}]`).test(w),
+    tip: () => "In most of Spain, ll and y are the same sound: y in “yes”, a little stronger. It is never an l. Like “calle”, “yo”.",
   },
   {
-    id: "i-ee",
-    label: "i · ee",
-    test: (w) => /ee|ea/.test(w) || (/i([^aeiouyr][^aeiouy]|[^aeiouyr]$)/.test(w) && !/i(gh|nd|ld|mb|gn)/.test(w)),
-    tip: (w) =>
-      /ee|ea/.test(w)
-        ? "ee and ea are usually a long /iː/: spread your lips, as in a smile, and hold the sound. Like “sheep”, “tea”, “meet”."
-        : "This i is short and relaxed /ɪ/: don't spread your lips and don't hold it. ship is not sheep, live is not leave.",
+    id: "ch",
+    label: "ch",
+    test: (w) => w.includes("ch"),
+    tip: () => "ch is one sound, as in “church”: first the tongue touches the roof of your mouth, then lets go. Not sh, not k. Like “ocho”, “noche”.",
   },
   {
-    id: "ae",
-    label: "a",
-    test: SHORT_A,
-    tip: () => "a in a short word like “cat” is /æ/: open your mouth wide and keep your tongue low and forward. bad is not bed, cap is not cup.",
-  },
-  {
-    id: "ed",
-    label: "-ed",
-    test: isEd,
+    id: "qu-gu",
+    label: "qu · gu",
+    test: (w) => /qu|gu[eiéí]|gü/.test(w),
     tip: (w, shown) =>
-      ED_ID.test(w)
-        ? `After t or d, -ed is a new syllable /ɪd/: “${shown}” has one syllable more than its verb. Like “wanted”, “needed”.`
-        : ED_T.test(w)
-          ? `-ed in “${shown}” is a short /t/, not a new syllable: “walked” = /wɔːkt/, “watched” = /wɒtʃt/.`
-          : `-ed in “${shown}” is a short /d/, not a new syllable: “played” = /pleɪd/, “lived” = /lɪvd/.`,
-  },
-  {
-    id: "s-cluster",
-    label: "sp · st · sk",
-    test: (w) => /^s(p|t|k|m|n|l|w|c(?![eiy]))/.test(w),
-    tip: (w, shown) => `“${shown}” starts with two consonants. Start with the s straight away, with no vowel before it: “${shown}”, not “e${shown.toLowerCase()}”.`,
+      w.includes("gü")
+        ? `In “${shown}” you say the u: the two dots tell you to. Like “pingüino”, “vergüenza”.`
+        : `In “${shown}” the u is silent: que sounds like “ke”, gue like “ge” with the g of “go”.`,
   },
   {
     id: "h",
     label: "h",
-    test: (w) => /^h/.test(w) && !/^(hour|hours|honest|honour|heir)/.test(w),
-    tip: () => "h is only a soft breath, like breathing on a cold window. Don't leave it out (hear is not ear), and don't scratch in your throat.",
+    test: (w) => /(^|[^c])h/.test(w),
+    tip: (w, shown) => `The h in “${shown}” is silent. Don't breathe out first: start straight on the next vowel. hola sounds just like ola.`,
   },
   {
-    id: "r",
-    label: "r",
-    test: (w) => /r$|r[^aeiouyr]|[aeiou]re$/.test(w) || /^r|[^aeiou]r[aeiouy]/.test(w),
-    tip: (w, shown) =>
-      /r$|r[^aeiouyr]|[aeiou]re$/.test(w)
-        ? `In British English the r in “${shown}” is silent: it comes after a vowel. Make the vowel a little longer instead, as in “car” /kɑː/, “bird” /bɜːd/.`
-        : "English r: curl the tip of your tongue back a little. It doesn't touch the top of your mouth, so don't roll it and don't make it in your throat. Like “red”, “very”.",
+    id: "b-v",
+    label: "b · v",
+    test: (w) => /[bv]/.test(w),
+    tip: (w) =>
+      new RegExp(`[${V}][bv][${V}]`).test(w)
+        ? "b and v are the same sound. Between vowels it is soft: your lips almost touch, and your teeth stay away from your lip. Like “abuela”, “nuevo”."
+        : "b and v are the same sound: close both lips. Your top teeth never touch your lip. Like “vino”, “bien”.",
   },
   {
-    id: "ng",
-    label: "ng",
-    test: (w) => /ng$/.test(w),
-    tip: (w, shown) => `ng at the end of “${shown}” is one sound /ŋ/, made at the back of your mouth. Don't add a g or k after it: “sing”, “morning”.`,
+    id: "d",
+    label: "d",
+    test: (w) => /[^nl]d/.test(w),
+    tip: (w, shown) => `The d in “${shown}” is soft, like th in “this”: the tongue only just touches your teeth, and the air keeps flowing. Like “nada”, “Madrid”.`,
   },
   {
-    id: "end",
-    label: "last sound",
-    test: (w) => /[bdgvz]e?$/.test(w) || /[ptkfsx]$/.test(w),
-    tip: (w, shown) =>
-      /[bdgvz]e?$/.test(w)
-        ? `Keep the voice in the last sound of “${shown}”: b, d, g, v, z stay soft at the end. bad is not bat, bag is not back.`
-        : `Say the last sound of “${shown}” clearly. English needs it: it can change the word (cat, cap, can) or show the tense or the plural.`,
+    id: "acento",
+    label: "stress",
+    test: (w) => /[áéíóú]/.test(w),
+    tip: (w, shown) => `The written accent shows the strong syllable of “${shown}”. Keep the stress there, because moving it can change the word: hablo (I speak), habló (she spoke).`,
+  },
+  {
+    id: "vocal",
+    label: "vowels",
+    test: (w) => new RegExp(`[${V}][^${V}]+[${V}]`).test(w),
+    tip: (w, shown) => `Keep every vowel of “${shown}” short and clear, stressed or not. Spanish vowels don't glide and don't get weak.`,
   },
 ];
 
-// Without a focus, the narrow tests go first: "walked" is about -ed before it is about w.
-const ORDER = ["th", "ed", "s-cluster", "ng", "ae", "w-v", "i-ee", "h", "r", "end"];
-SOUNDS.sort((a, b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
-
-const GENERIC ="Listen to the word again and repeat it slowly, one syllable at a time. Then say the whole sentence at normal speed.";
+const GENERIC = "Listen to the word again and repeat it slowly, one syllable at a time. Then say the whole sentence at normal speed.";
 
 /**
  * The tip for one word. Sounds the sentence was chosen to practise come first, so a
- * learner on the th sentence hears about th even if the word also has an r.
+ * learner on the r sentence hears about r even if the word also has a b. Without a focus the
+ * order of SOUNDS decides: the narrowest and most-often-wrong sounds come first.
  * @param {string} word as shown in the sentence (punctuation is ignored)
  * @param {string[]} [focus] the sentence's focus sound ids
  * @returns {{ sound: string | null, label: string | null, text: string }}
  */
 export function tipFor(word, focus = []) {
-  const shown = word.replace(/[^A-Za-z'-]/g, "");
+  const shown = word.replace(/[^\p{L}'-]/gu, "");
   const w = shown.toLowerCase();
   const ordered = [
     ...SOUNDS.filter((s) => focus.includes(s.id)),

@@ -37,9 +37,11 @@ const STRICT = new Set([
   "wortschatz",
   "hoeren",
   "redemittel",
-  // "berufe",
-  // "aussprache-check",
-  // "zungenbrecher", "satzmelodie", "ausspracheregeln", "dgt", "business-spanish",
+  "aussprache-check",
+  "zungenbrecher",
+  "satzmelodie",
+  "ausspracheregeln",
+  // "berufe", "dgt", "business-spanish",
 ]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);

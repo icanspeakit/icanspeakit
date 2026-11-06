@@ -12,7 +12,7 @@ import "../styles/satzmelodie.css";
 import "../styles/rule-intro.css";
 import { existsSync } from "node:fs";
 import path from "node:path";
-import data, { familyLines, stressText, ruleText, audioKey } from "../lib/satzmelodieData.js";
+import data, { familyLines, stressText, ruleText, audioKey, baseAs } from "../lib/satzmelodieData.js";
 
 const onDisk = (src: string) => existsSync(path.join(process.cwd(), "public", src));
 const srcOf = (kind: string, text: string) => {
@@ -36,8 +36,7 @@ const rules = data.rules.map((r) => ({ ...r, ex: ruleText(r), src: srcOf(`rule-$
 const quiz = data.families.map((f) => ({
   base: f.base,
   src: Object.fromEntries(["aussage", "echo", "ausruf"].map((t) => {
-    const text = `${f.base}${{ aussage: ".", echo: "?", ausruf: "!" }[t]}`;
-    return [t, srcOf(t, text)];
+    return [t, srcOf(t, baseAs(f.base, t))];
   })),
 }));
 const voiced = [...families.flatMap((f) => f.lines), ...stress, ...rules].filter((l) => l.src).length;
@@ -121,7 +120,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
               <div class="sm-row" data-line data-type={l.type} data-text={l.text} data-src={l.src}>
                 <button type="button" class="sm-play" aria-label={`Listen to ${l.text}`}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" /></svg></button>
                 <svg class={`sm-curve sm-curve--${chip(l.curve)}`} viewBox="0 0 70 26" aria-hidden="true"><path d={CURVE[l.curve]} /></svg>
-                <span class="sm-sent" lang="en">{l.text.slice(0, -1)}<b>{l.text.slice(-1)}</b></span>
+                <span class="sm-sent" lang="es">{l.text.slice(0, -1)}<b>{l.text.slice(-1)}</b></span>
                 <span class={`sm-chip sm-chip--${chip(l.curve)}`}>{l.mark} <span data-i18n={`satzmelodie.type.${l.type}`}>{l.label}</span></span>
                 <button type="button" class="sm-mic" data-mic aria-label={`Repeat “${l.text}” and check the melody`} title="Repeat and check" data-i18n-attr="title:satzmelodie.mic.title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z" /></svg></button>
               </div>
@@ -136,7 +135,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
       <div class="sm-task"><span class="sm-num">2</span><div><h2 data-i18n="satzmelodie.task2.title">Hören Sie. Aussage, Frage oder Ausruf?</h2><p data-i18n="satzmelodie.task2.text">Die Wörter sind immer gleich. Nur die Melodie ist anders. Ergänzen Sie das Satzzeichen.</p></div></div>
       <div class="sm-box sm-center">
         <button type="button" class="sm-play sm-play--big" id="sm-q-play" aria-label="Listen to the sentence" data-i18n-attr="aria-label:af.listen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" /></svg></button>
-        <p class="sm-q-sent" id="sm-q-sent" lang="en"></p>
+        <p class="sm-q-sent" id="sm-q-sent" lang="es"></p>
         <div class="sm-answers" id="sm-q-answers">
           <button type="button" class="sm-btn" data-a="aussage">. <span data-i18n="satzmelodie.type.aussage">Aussage</span> ↘</button>
           <button type="button" class="sm-btn" data-a="echo">? <span data-i18n="qb.own.prompt">Frage</span> ↗</button>
@@ -151,8 +150,8 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
     <section id="sm-p-akzent" role="tabpanel" aria-labelledby="sm-tab-akzent" hidden>
       <div class="sm-task"><span class="sm-num">3</span><div><h2 data-i18n="satzmelodie.task3.title">Welches Wort ist betont? Klicken Sie.</h2><p data-i18n="satzmelodie.task3.text">Die Antwort ist immer derselbe Satz. Die Frage bestimmt, welches Wort den Akzent bekommt.</p></div></div>
       <div class="sm-box sm-center">
-        <p class="sm-st-q" id="sm-st-q" lang="en"></p>
-        <div class="sm-words" id="sm-st-words" lang="en"></div>
+        <p class="sm-st-q" id="sm-st-q" lang="es"></p>
+        <div class="sm-words" id="sm-st-words" lang="es"></div>
         <p class="sm-fb" id="sm-st-fb" aria-live="polite"></p>
         <div class="sm-fam-actions sm-center-row">
           <button type="button" class="sm-btn" id="sm-st-hear" data-i18n="satzmelodie.hearAnswer">Antwort anhören</button>
@@ -165,7 +164,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
     <section id="sm-p-labyrinth" role="tabpanel" aria-labelledby="sm-tab-labyrinth" hidden>
       <div class="sm-task"><span class="sm-num">4</span><div><h2 data-i18n="satzmelodie.task4.title">Melodie-Labyrinth: Welcher Ausgang?</h2><p data-i18n="satzmelodie.task4.text">Quaki hüpft mit der Stimme durch den Satz. Am Ende teilt sich der Weg: Geht die Stimme nach oben, nach unten oder ganz steil nach unten? Danach sehen Sie die echte Melodie – und Quaki fährt sie mit.</p></div></div>
       <div class="sm-box lab-box">
-        <p class="lab-sent" aria-live="polite" lang="en"></p>
+        <p class="lab-sent" aria-live="polite" lang="es"></p>
         <div class="lab-stage">
           <svg class="lab-svg" viewBox="0 0 360 250" role="img" aria-label="Maze: at the end of the sentence the path splits into three exits – top: question, bottom: statement, very bottom: exclamation." data-i18n-attr="aria-label:satzmelodie.lab.aria">
             <g class="lab-maze">
@@ -234,10 +233,10 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
             <span class={`sm-chip sm-chip--${chip(r.curve)}`} data-i18n={`satzmelodie.type.${r.id}`}>{r.name}</span>
           </div>
           <p class="sm-rule-text" data-i18n={`satzmelodie.rule.${r.id}`}>{r.text}</p>
-          <p class="sm-rule-ex" lang="en">{r.ex}</p>
+          <p class="sm-rule-ex" lang="es">{r.ex}</p>
         </section>
       ))}
-      <p class="sm-tip" data-i18n="satzmelodie.teacherTip">For teachers: a pair activity with three cards (. ? !). A says “You're coming tomorrow” with one melody, B holds up the matching card.</p>
+      <p class="sm-tip" data-i18n="satzmelodie.teacherTip">For teachers: a pair activity with three cards (. ? !). A says “Ana viene mañana” with one melody, B holds up the matching card.</p>
     </div>
   </aside>
   </div>
@@ -466,7 +465,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
   // ---- 2: quiz ----
   const qSent = document.getElementById("sm-q-sent")!, qFb = document.getElementById("sm-q-fb")!;
   const qBtns = [...document.querySelectorAll<HTMLButtonElement>("#sm-q-answers [data-a]")];
-  const MARK: Record<string, string> = { aussage: ".", echo: "?", ausruf: "!" };
+  const MARK: Record<string, [string, string]> = { aussage: ["", "."], echo: ["¿", "?"], ausruf: ["¡", "!"] };
   const WHY: Record<string, () => string> = {
     aussage: () => t("satzmelodie.why.aussage", "Aussage: Die Stimme geht am Ende nach unten ↘."),
     echo: () => t("satzmelodie.why.echo", "Nachfrage: Die Stimme geht am Ende deutlich nach oben ↗. Man ist überrascht oder prüft, ob man richtig gehört hat. Keine normale Frage — die hat das Verb auf Position 1."),
@@ -479,11 +478,13 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
     const t = ["aussage", "echo", "ausruf"][Math.floor(Math.random() * 3)];
     cur = { base: D.quiz[i].base, t, src: D.quiz[i].src[t] };
     answered = false;
-    qSent.innerHTML = ""; qSent.append(cur.base, Object.assign(document.createElement("span"), { className: "sm-gap", textContent: " " }));
+    qSent.innerHTML = "";
+    // Spanish marks both ends: the opening mark is only filled in with the answer, or it would give it away.
+    qSent.append(Object.assign(document.createElement("span"), { className: "sm-gap-open" }), cur.base, Object.assign(document.createElement("span"), { className: "sm-gap", textContent: " " }));
     qFb.textContent = ""; qFb.className = "sm-fb";
     qBtns.forEach((b) => (b.className = "sm-btn"));
   }
-  const playQ = () => { if (!cur) return; stop(); play({ text: cur.base + MARK[cur.t], src: cur.src, type: cur.t }); };
+  const playQ = () => { if (!cur) return; stop(); play({ text: MARK[cur.t][0] + cur.base + MARK[cur.t][1], src: cur.src, type: cur.t }); };
   document.getElementById("sm-q-play")!.addEventListener("click", playQ);
   document.getElementById("sm-q-next")!.addEventListener("click", () => { newQ(); playQ(); });
   qBtns.forEach((b) => b.addEventListener("click", () => {
@@ -495,7 +496,8 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
     ok ? right++ : wrong++;
     document.getElementById("sm-q-right")!.textContent = String(right);
     document.getElementById("sm-q-wrong")!.textContent = String(wrong);
-    qSent.querySelector(".sm-gap")!.textContent = MARK[cur.t];
+    qSent.querySelector(".sm-gap-open")!.textContent = MARK[cur.t][0];
+    qSent.querySelector(".sm-gap")!.textContent = MARK[cur.t][1];
     qFb.textContent = `${ok ? t("lq.res.ok", "Richtig!") : t("satzmelodie.wrong", "Leider nicht.")} ${WHY[cur.t]()}`;
     qFb.className = `sm-fb ${ok ? "is-ok" : "is-bad"}`;
   }));

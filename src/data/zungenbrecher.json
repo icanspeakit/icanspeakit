@@ -1,86 +1,63 @@
 {
-  "_note": "English tongue twisters for /tongue-twisters, all traditional (folk rhymes, public domain). Each one is first read out (slowly, then at speed), then the learner repeats it and gets points per word – the same scoring as /pronunciation-check. focus: sound ids from src/lib/ausspracheTipps.js. hint: what the twister means, in simple English. Ids are the old slot ids (content-plan §1.3); the German set had 25, this one has 22 (quality over quantity). `audio` is set to true by scripts/generate-zungenbrecher-audio.mjs once public/audio/zungenbrecher/<id>-langsam.mp3 and <id>.mp3 exist; until then the browser voice reads them. mascot (optional): an animal of the crew is in the twister, so it pops up on the card (bruno, regi, hamsti, quaki). mini (optional): another animal in the twister, so a small Mini-Crew sticker (src/lib/minis.js) sits on the card. dialect (optional): the same twister in a dialect, voiced as <id>-<slug(dialect.name)>.mp3, only for listening and never scored; none in the English set yet.",
+  "_note": "Spanish tongue twisters (trabalenguas) for /tongue-twisters, all traditional folk rhymes passed on orally, in the form usual in Spain. Each one is first read out (slowly, then at speed), then the learner repeats it and gets points per word, the same scoring as /pronunciation-check. focus: sound ids from src/lib/ausspracheTipps.js. hint: what the twister means, in simple English. Ids are the old slot ids (content-plan §1.3); this set has 21 (quality over quantity). `audio` is set to true once public/audio/zungenbrecher/<id>-langsam.mp3 and <id>.mp3 exist; until then the browser voice (es-ES) reads them. mini (optional): an animal in the twister, so a small Mini-Crew sticker (src/lib/minis.js) sits on the card. mascot (optional): the same with an animal of the crew. dialect (optional): the same twister in a regional accent, voiced as <id>-<slug(dialect.name)>.mp3, only for listening and never scored; none in this set.",
   "levels": [
     {
       "level": "Easy",
       "sentences": [
         {
           "id": "fischers-fritz",
-          "text": "Fresh fried fish, fish fresh fried, fried fish fresh, fish fried fresh.",
-          "focus": [
-            "r",
-            "end"
-          ],
-          "hint": "Fish that is fresh and fried, said in four different orders.",
-          "audio": false,
-          "mini": "fisch"
+          "variety": "es-ES",
+          "text": "Mi mamá me mima, mi mamá me ama.",
+          "focus": ["vocal", "acento"],
+          "hint": "My mum spoils me, my mum loves me. A classic first line from Spanish reading books.",
+          "audio": false
         },
         {
           "id": "blaukraut",
-          "text": "Red lorry, yellow lorry.",
-          "focus": [
-            "r"
-          ],
-          "hint": "A lorry is a big vehicle that carries goods (US: truck). One is red, one is yellow.",
+          "variety": "es-ES",
+          "text": "Tres tristes tigres tragaban trigo en un trigal.",
+          "focus": ["r"],
+          "hint": "Three sad tigers were swallowing wheat in a wheat field. This is the most famous Spanish tongue twister.",
           "audio": false
         },
         {
           "id": "katze-treppe",
-          "text": "Toy boat, toy boat, toy boat.",
-          "focus": [
-            "end"
-          ],
-          "hint": "A toy boat is a small boat that children play with. Say it fast!",
+          "variety": "es-ES",
+          "text": "Pablito clavó un clavito. ¿Qué clavito clavó Pablito?",
+          "focus": ["b-v", "qu-gu", "acento"],
+          "hint": "Little Pablo hammered in a little nail. Which little nail did he hammer in?",
           "audio": false
         },
         {
           "id": "esel-nesseln",
-          "text": "Fred fed Ted bread, and Ted fed Fred bread.",
-          "focus": [
-            "end",
-            "r"
-          ],
-          "hint": "Fred gives Ted some bread, and then Ted gives Fred some bread.",
+          "variety": "es-ES",
+          "text": "Como poco coco como, poco coco compro.",
+          "focus": ["vocal"],
+          "hint": "As I eat little coconut, I buy little coconut. como = as, and also I eat.",
           "audio": false
         },
         {
           "id": "hundert-hemden",
-          "text": "A big black bug bit a big black bear.",
-          "focus": [
-            "ae",
-            "end"
-          ],
-          "hint": "A bug is a small insect. It bit (past of bite) a big black bear.",
+          "variety": "es-ES",
+          "text": "El hipopótamo Hipo está con hipo. ¿Quién le quita el hipo al hipopótamo Hipo?",
+          "focus": ["h", "qu-gu", "acento"],
+          "hint": "Hipo the hippo has hiccups (el hipo). Who can stop the hippo's hiccups? The h is always silent.",
           "audio": false
         },
         {
           "id": "kinder-kaffee",
-          "text": "I scream, you scream, we all scream for ice cream.",
-          "focus": [
-            "s-cluster",
-            "i-ee"
-          ],
-          "hint": "To scream means to shout very loudly. “I scream” and “ice cream” sound almost the same.",
-          "audio": false
-        },
-        {
-          "id": "freche-froesche",
-          "text": "Red leather, yellow leather.",
-          "focus": [
-            "r",
-            "th"
-          ],
-          "hint": "Leather is the skin of an animal. We use it for shoes and bags.",
+          "variety": "es-ES",
+          "text": "Compré pocas copas, pocas copas compré; como compré pocas copas, pocas copas pagué.",
+          "focus": ["acento", "qu-gu"],
+          "hint": "I bought few glasses; as I bought few glasses, I paid for few glasses. Keep the stress on the end of compré and pagué.",
           "audio": false
         },
         {
           "id": "acht-ameisen",
-          "text": "Which witch is which?",
-          "focus": [
-            "w-v",
-            "i-ee"
-          ],
-          "hint": "which (the question word) and witch (a woman with magic powers in old stories) sound the same.",
+          "variety": "es-ES",
+          "text": "Pancha plancha con cuatro planchas. ¿Con cuántas planchas plancha Pancha?",
+          "focus": ["ch", "acento"],
+          "hint": "Pancha irons with four irons. With how many irons does Pancha iron? planchar = to iron.",
           "audio": false
         }
       ]
@@ -90,83 +67,69 @@
       "sentences": [
         {
           "id": "zehn-ziegen",
-          "text": "She sells seashells by the seashore.",
-          "focus": [
-            "i-ee",
-            "end"
-          ],
-          "hint": "A woman sells shells from the sea, on the beach.",
+          "variety": "es-ES",
+          "text": "Cuando cuentes cuentos, cuenta cuántos cuentos cuentas.",
+          "focus": ["acento", "vocal"],
+          "hint": "When you tell stories, count how many stories you tell. contar means both to tell and to count.",
           "audio": false
         },
         {
           "id": "buersten-borsten",
-          "text": "Peter Piper picked a peck of pickled peppers.",
-          "focus": [
-            "ed",
-            "end"
-          ],
-          "hint": "A peck is an old measure, about 9 litres. Pickled peppers are kept in vinegar.",
+          "variety": "es-ES",
+          "text": "Poquito a poquito, Paquito empaca poquitas copitas en pocos paquetes.",
+          "focus": ["qu-gu", "vocal"],
+          "hint": "Little by little, Paquito packs a few little glasses in a few parcels. No puff of air after p, t or k.",
           "audio": false
         },
         {
           "id": "fliegen-fliegen",
-          "text": "How much wood would a woodchuck chuck if a woodchuck could chuck wood?",
-          "focus": [
-            "w-v",
-            "end"
-          ],
-          "hint": "A woodchuck is an animal from North America. To chuck means to throw.",
+          "variety": "es-ES",
+          "text": "El perro de San Roque no tiene rabo, porque Ramón Ramírez se lo ha robado.",
+          "focus": ["r", "b-v", "qu-gu"],
+          "hint": "San Roque's dog has no tail, because Ramón Ramírez has stolen it. Every r at the start of a word is a trill.",
           "audio": false
         },
         {
           "id": "dachdecker",
-          "text": "Round the rugged rock the ragged rascal ran.",
-          "focus": [
-            "r",
-            "ae"
-          ],
-          "hint": "A rascal is a naughty person. The rock is rugged (rough), and the rascal is ragged (in old, torn clothes).",
+          "variety": "es-ES",
+          "es419": { "note": "With seseo: the z of azúcar sounds like s." },
+          "text": "Rápido ruedan los carros cargados de azúcar del ferrocarril.",
+          "focus": ["r", "ce-zi", "d"],
+          "hint": "The railway's carts, loaded with sugar, roll by quickly. el ferrocarril = the railway.",
           "audio": false
         },
         {
           "id": "student-stiefel",
-          "text": "Six slippery snails slid slowly seaward.",
-          "focus": [
-            "s-cluster",
-            "i-ee"
-          ],
-          "hint": "Snails are small, slow animals with a shell. Seaward means towards the sea.",
-          "audio": false,
-          "mini": "schnecke"
+          "variety": "es-ES",
+          "es419": { "note": "With seseo: the c of cigarro sounds like s." },
+          "text": "Erre con erre, cigarro; erre con erre, barril.",
+          "focus": ["r", "ce-zi"],
+          "hint": "R with r: cigarro (cigar). R with r: barril (barrel). Both words are written with rr, and erre is the name of the letter.",
+          "audio": false
         },
         {
           "id": "fichtendickicht",
-          "text": "Six thick thistle sticks.",
-          "focus": [
-            "th",
-            "s-cluster"
-          ],
-          "hint": "A thistle is a wild plant with sharp points.",
+          "variety": "es-ES",
+          "es419": { "note": "With seseo: the z of zanja sounds like s." },
+          "text": "Juan junta juncos junto a la zanja.",
+          "focus": ["j-g", "ce-zi"],
+          "hint": "Juan gathers reeds next to the ditch. Five times the rasping j of Spain.",
           "audio": false
         },
         {
           "id": "grabengraeber",
-          "text": "A proper copper coffee pot.",
-          "focus": [
-            "r",
-            "end"
-          ],
-          "hint": "A coffee pot made of real copper, a reddish-brown metal.",
+          "variety": "es-ES",
+          "text": "Ñoño Yáñez come ñame por las mañanas con el niño.",
+          "focus": ["enye", "acento"],
+          "hint": "Ñoño Yáñez eats yam (el ñame, a root vegetable) in the mornings with the child.",
           "audio": false
         },
         {
           "id": "zwetschgenzweige",
-          "text": "Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn't fuzzy, was he?",
-          "focus": [
-            "w-v",
-            "h"
-          ],
-          "hint": "Fuzzy means covered in soft hair. A bear with no hair isn't fuzzy at all.",
+          "variety": "es-ES",
+          "text": "Lado, ledo, lido, lodo, ludo; decirlo al revés lo dudo. Ludo, lodo, lido, ledo, lado; ¡qué trabajo me ha costado!",
+          "focus": ["vocal", "d"],
+          "hint": "All five vowels, forwards and backwards. I doubt I can say it backwards… what hard work it was! Don't look for a meaning in the first words.",
           "audio": false
         }
       ]
@@ -176,62 +139,52 @@
       "sentences": [
         {
           "id": "wiener-waschweiber",
-          "text": "Whether the weather is warm, whether the weather is hot, we have to put up with the weather, whether we like it or not.",
-          "focus": [
-            "w-v",
-            "th"
-          ],
-          "hint": "whether (= if) and weather (sun, rain, wind) sound the same. To put up with something means to accept it, even if you don't like it.",
+          "variety": "es-ES",
+          "text": "Parra tenía una perra y Guerra tenía una parra. La perra de Parra rompió la parra de Guerra.",
+          "focus": ["r", "qu-gu", "acento"],
+          "hint": "Parra had a dog and Guerra had a grapevine. Parra's dog broke Guerra's vine. Parra and Guerra are surnames; la parra is also the word for a grapevine.",
           "audio": false
         },
         {
           "id": "postkutscher",
-          "text": "Betty Botter bought some butter, but she said the butter's bitter. If I put it in my batter, it will make my batter bitter.",
-          "focus": [
-            "end",
-            "ae"
-          ],
-          "hint": "Batter is a mix of flour, eggs and milk for cakes or pancakes. Bitter is a strong, unpleasant taste.",
+          "variety": "es-ES",
+          "text": "El cielo está enladrillado. ¿Quién lo desenladrillará? El desenladrillador que lo desenladrille, buen desenladrillador será.",
+          "focus": ["ll-y", "d", "r"],
+          "hint": "The sky is covered with bricks. Who will take the bricks off? Whoever does will be a good un-bricker. el ladrillo = the brick.",
           "audio": false
         },
         {
           "id": "schnecken",
-          "text": "The sixth sick sheikh's sixth sheep's sick.",
-          "focus": [
-            "th",
-            "i-ee"
-          ],
-          "hint": "A sheikh is a leader in some Arab countries. The sixth sheikh who is ill has a sixth sheep, and it is ill too.",
+          "variety": "es-ES",
+          "text": "Si tu gusto gustara del gusto que gusta mi gusto, mi gusto gustaría del gusto que gusta tu gusto.",
+          "focus": ["vocal", "acento"],
+          "hint": "If your taste liked the taste my taste likes, my taste would like the taste your taste likes. An old form of gustar, with de.",
           "audio": false
         },
         {
           "id": "klapperschlangen",
-          "text": "Irish wristwatch, Swiss wristwatch.",
-          "focus": [
-            "s-cluster",
-            "r"
-          ],
-          "hint": "A wristwatch is a watch you wear on your wrist. One is from Ireland, one is from Switzerland.",
+          "variety": "es-ES",
+          "text": "Cómo quieres que te quiera si el que quiero que me quiera no me quiere como quiero que me quiera.",
+          "focus": ["qu-gu", "r"],
+          "hint": "How can you want me to love you, if the one I want to love me doesn't love me the way I want? querer = to want, and to love.",
           "audio": false
         },
         {
           "id": "wachsmasken",
-          "text": "Unique New York, unique New York, you know you need unique New York.",
-          "focus": [
-            "r",
-            "i-ee"
-          ],
-          "hint": "Unique means special, the only one of its kind. New York is a big city in the USA.",
+          "variety": "es-ES",
+          "es419": { "note": "With seseo every c here sounds like s, which makes this twister a different exercise." },
+          "text": "Si cien sierras asierran cien cipreses, seiscientas sierras asierran seiscientos cipreses.",
+          "focus": ["ce-zi", "r"],
+          "hint": "If a hundred saws saw a hundred cypress trees, six hundred saws saw six hundred cypresses. In Spain, s and c are two sounds here: keep them apart.",
           "audio": false
         },
         {
           "id": "nichts-weiss",
-          "text": "I saw Susie sitting in a shoeshine shop. Where she sits, she shines, and where she shines, she sits.",
-          "focus": [
-            "i-ee",
-            "w-v"
-          ],
-          "hint": "In a shoeshine shop, someone cleans and polishes your shoes until they shine.",
+          "variety": "es-ES",
+          "es419": { "note": "With seseo: the c of Chucena and the z of choza sound like s." },
+          "text": "María Chucena su choza techaba, y un techador que por allí pasaba le dijo: María Chucena, ¿techas tu choza o techas la ajena? No techo mi choza ni techo la ajena, que techo la choza de María Chucena.",
+          "focus": ["ch", "ce-zi", "j-g"],
+          "hint": "María Chucena was roofing her hut. A roofer passing by asked: are you roofing your hut or someone else's? Not mine and not someone else's: I'm roofing the hut of María Chucena.",
           "audio": false
         }
       ]

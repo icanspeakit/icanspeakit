@@ -41,16 +41,16 @@ const drills = ids.map((id) => ({ id, ...all[id] }));
           <ul class="md-pairs">
             {d.pairs.map(([a, b]) => (
               <li>
-                <button type="button" class="md-say" data-say={a}>{a}</button>
+                <button type="button" class="md-say" data-say={a} lang="es">{a}</button>
                 <span class="md-vs" aria-hidden="true">↔</span>
-                <button type="button" class="md-say md-say--other" data-say={b}>{b}</button>
+                <button type="button" class="md-say md-say--other" data-say={b} lang="es">{b}</button>
               </li>
             ))}
           </ul>
         )}
         {d.words && (
           <div class="md-words">
-            {d.words.map((w) => <button type="button" class="md-say" data-say={w}>{w}</button>)}
+            {d.words.map((w) => <button type="button" class="md-say" data-say={w} lang="es">{w}</button>)}
           </div>
         )}
         {d.pairs && d.pairs.length > 1 && (
@@ -62,7 +62,7 @@ const drills = ids.map((id) => ({ id, ...all[id] }));
         <div class="md-rec" data-record={d.sentence} data-record-drill={d.id}>
           <p class="md-sentence">
             <button type="button" class="md-say md-say--icon" data-say={d.sentence} aria-label="Satz anhören" data-i18n-attr="aria-label:af.listen">▶</button>
-            <span lang="en">{d.sentence}</span>
+            <span lang="es">{d.sentence}</span>
           </p>
           <p class="md-words-scored" data-record-words hidden></p>
           <button type="button" class="md-btn md-btn--primary" data-record-btn>● <span data-i18n="kultur.fehler.record">Nachsprechen</span></button>

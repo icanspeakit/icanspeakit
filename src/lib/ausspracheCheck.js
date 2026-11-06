@@ -12,13 +12,13 @@ import { wouldLock } from "./intent.js";
 import { setWaiting } from "./notReady.js";
 import { withBase } from "./paths.js";
 
-const LANG = "en-GB";
+const LANG = "es-ES";
 const BEST_KEY = "ac.best";
 const POS_KEY = "ac.pos";
 
 // Every message the learner can see, in one place, keyed by PronunciationErrorCode where
-// one applies. English only for now: this page is speaking practice, and the words around
-// it stay simple.
+// one applies. In English, the language of all explanations: the words around the speaking
+// practice stay simple.
 export const MSG = {
   ready: "Tap “Record” and read the sentence aloud.",
   preparing: "Getting the microphone ready …",
@@ -61,7 +61,7 @@ const ERROR_LABEL = {
 };
 
 const band = (s) => (s >= 80 ? "good" : s >= 60 ? "ok" : "bad");
-const norm = (w) => w.toLowerCase().replace(/[^a-zäöüß0-9]/g, "");
+const norm = (w) => w.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
 function readJSON(key, fallback) {
@@ -111,7 +111,7 @@ export function alignWords(sentence, assessment) {
     const error = w ? w.error : "omission";
     return {
       display,
-      word: display.replace(/[.,!?;:„“"]/g, ""),
+      word: display.replace(/[.,!?;:¿¡„“"«»…]/g, ""),
       score: error === "omission" ? 0 : w.score,
       error,
       phonemes: w?.phonemes ?? [],
@@ -135,8 +135,8 @@ function browserSpeak(text, rate = 0.9) {
     u.lang = LANG;
     u.rate = rate;
     const voices = synth.getVoices();
-    const en = voices.find((v) => v.lang?.replace("_", "-") === "en-GB") ?? voices.find((v) => v.lang?.startsWith("en"));
-    if (en) u.voice = en;
+    const es = voices.find((v) => v.lang?.replace("_", "-") === "es-ES") ?? voices.find((v) => v.lang?.startsWith("es"));
+    if (es) u.voice = es;
     u.onend = resolve;
     u.onerror = reject;
     synth.speak(u);
@@ -144,7 +144,7 @@ function browserSpeak(text, rate = 0.9) {
 }
 
 // The provider's voice when it can speak without asking for credentials (so listening
-// never forces a sign-in), the browser's own English voice otherwise.
+// never forces a sign-in), the browser's own Spanish voice otherwise.
 async function speak(text, { slow = false } = {}) {
   stopAudio();
   if (provider.canSpeak()) {

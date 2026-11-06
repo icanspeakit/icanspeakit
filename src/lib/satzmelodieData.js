@@ -1,21 +1,25 @@
 // Satzmelodie (/intonation): the lines that get a recording, and where each file lives.
 // (Not to be confused with satzmelodie.js, the pitch analysis behind /pronunciation-check.)
 // One list for scripts/generate-satzmelodie-audio.mjs and the page, so both find the same
-// file. Text + kind go into the name: "Du kommst morgen." and "Du kommst morgen?" are
+// file. Text + kind go into the name: "Ana viene mañana." and "¿Ana viene mañana?" are
 // different recordings of the same words.
 import data from "../data/satzmelodie.json" with { type: "json" };
 import { satzSlug } from "./audioSlug.js";
 
 export const AUDIO_DIR = "/audio/satzmelodie";
 
-/** The statement base said as a type: "Du kommst morgen" + echo → "Du kommst morgen?". */
+/** The marks of a line type. Spanish opens questions and exclamations too: ¿…? ¡…! */
+export const MARKS = { aussage: ["", "."], echo: ["¿", "?"], ausruf: ["¡", "!"] };
+/** The statement base said as a type: "Ana viene mañana" + echo → "¿Ana viene mañana?". */
+export const baseAs = (base, type) => `${MARKS[type][0]}${base}${MARKS[type][1]}`;
+
 export function familyLines(f) {
   return [
-    { type: "aussage", text: `${f.base}.` },
+    { type: "aussage", text: baseAs(f.base, "aussage") },
     { type: "jn", text: f.jn },
     { type: "w", text: f.w },
-    { type: "echo", text: `${f.base}?` },
-    { type: "ausruf", text: `${f.base}!` },
+    { type: "echo", text: baseAs(f.base, "echo") },
+    { type: "ausruf", text: baseAs(f.base, "ausruf") },
   ];
 }
 

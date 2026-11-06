@@ -6,7 +6,7 @@
 import { audioUrl } from "./audioSource.js";
 import { withBase } from "./paths.js";
 
-let deVoice; // the British English browser voice (name kept from the German original)
+let deVoice; // the Spanish (Spain) browser voice (name kept from the German original)
 if (typeof window !== "undefined" && window.speechSynthesis) {
   window.speechSynthesis.addEventListener?.("voiceschanged", () => { deVoice = undefined; });
 }
@@ -19,10 +19,10 @@ export function createVoice(clipPath) {
   function speak(text, npc = false) {
     const s = window.speechSynthesis;
     if (!s) return;
-    if (deVoice === undefined) deVoice = s.getVoices().find((v) => v.lang?.toLowerCase().startsWith("en-gb")) || s.getVoices().find((v) => v.lang?.toLowerCase().startsWith("en")) || null;
+    if (deVoice === undefined) deVoice = s.getVoices().find((v) => v.lang?.toLowerCase().replace("_", "-").startsWith("es-es")) || s.getVoices().find((v) => v.lang?.toLowerCase().startsWith("es")) || null;
     s.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = "en-GB";
+    u.lang = "es-ES";
     if (deVoice) u.voice = deVoice;
     u.rate = 0.9;
     if (npc) {

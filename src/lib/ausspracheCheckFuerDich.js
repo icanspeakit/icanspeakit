@@ -20,7 +20,7 @@ import { mutterspracheFromUrl, setMuttersprache, onMutterspracheChange, syncMutt
 const LIVE_MS = 60_000;
 const LIVE_SENTENCES = 3;
 const band = (s) => (s >= 80 ? "good" : s >= 60 ? "ok" : "bad");
-const norm = (w) => w.toLowerCase().replace(/[^a-zäöüß0-9]/g, "");
+const norm = (w) => w.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
 
 /**
  * Wire the first-language layer. Returns `nativeTip` for mountAusspracheCheck's data.
@@ -233,7 +233,7 @@ function mountLive(root, { info, levels, lang, catchPractice }) {
       stream?.getTracks().forEach((tr) => tr.stop());
       session = await provider.assessLive({
         referenceText: sentences.map((s) => s.text).join(" "),
-        language: "en-GB",
+        language: "es-ES",
         maxMs: LIVE_MS,
         onListening: () => {
           startBtn.disabled = false;

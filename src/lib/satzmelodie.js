@@ -12,7 +12,7 @@
 //      calm native speaker who moves 3 semitones is not marked down against a lively TTS
 //      voice that moves 8. Size only counts where it stops being melody: a voice that
 //      barely moves at all (monotone).
-//   5. The ending is checked on its own, by sentence type: a statement or W-question must not
+//   5. The ending is checked on its own, by sentence type: a statement or question-word question must not
 //      end rising, a yes/no question must. That is the part a listener actually hears.
 //   6. Mean aligned distance → 0–100, capped by 4. and 5.; the biggest mismatch becomes a
 //      tip in plain German.
@@ -28,16 +28,17 @@ const WIN = 2048;            // ~43 ms at 48 kHz: long enough for a low male voi
 const MIN_HZ = 60;
 const MAX_HZ = 500;
 const MIN_CLARITY = 0.85;
-// English wh-words, with the contracted forms: the first word is read without its
-// apostrophe ("What's" → "Whats").
-const W_WORDS = /^(what|whats|when|whens|where|wheres|who|whos|whom|whose|which|why|whys|how|hows)$/i;
+// Spanish question words carry a written accent, which tells them from que, como, cuando.
+const W_WORDS = /^(qué|quién|quiénes|cuál|cuáles|cómo|cuándo|dónde|adónde|cuánto|cuánta|cuántos|cuántas)$/i;
+// A question word often comes after a preposition: ¿De dónde eres? ¿A qué hora? ¿Por qué?
+const W_PREPOSITIONS = /^(a|de|desde|en|con|para|por|hasta|sobre|sin|hacia)$/i;
 
 /** "ja-nein" (voice goes up), "w-frage" and "aussage" (voice goes down). */
 export function melodyType(text) {
   const t = text.trim();
   if (!t.endsWith("?")) return "aussage";
-  const first = t.split(/\s+/)[0].replace(/[^\p{L}]/gu, "");
-  return W_WORDS.test(first) ? "w-frage" : "ja-nein";
+  const [first, second] = t.split(/\s+/).map((w) => w.replace(/[^\p{L}]/gu, ""));
+  return W_WORDS.test(first) || (W_PREPOSITIONS.test(first) && W_WORDS.test(second ?? "")) ? "w-frage" : "ja-nein";
 }
 
 // Loudness gates, relative to the take's own loudest frame, so they behave the same on a
