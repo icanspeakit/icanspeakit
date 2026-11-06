@@ -1,5 +1,5 @@
 // Hör-Safari (/games/listening-safari): a listening game in the spirit of the classic shooting
-// galleries. A voice says a noun with a / an / some ("a fork"); birds — our own "Pieper",
+// galleries. A voice says a noun with el or la ("la cuchara"); birds — our own "Pieper",
 // not anybody's chicken — fly over a wide landscape carrying picture or word cards, and the
 // player hits the matching one with the Gummi-Blaster, a toy that fires harmless rubber
 // pellets. A hit bird goes "Bonk!", sees stars and flies off; nothing falls.
@@ -20,7 +20,7 @@
 // - Records on this device (records.js) and a weekly / all-time board (board.js).
 //
 // Words: nouns from the lexicon with a picture (wort-bilder.json → OpenMoji), passed in by the
-// page. The browser's British English voice says them (see say()). Plan and decisions:
+// page (woerter.js). The browser's Spanish voice says them (see say()). Plan and decisions:
 // HOER-SAFARI-TIERED-PROMPT.md, docs/hoer-safari-tier*-v1.md.
 
 import { makeSfx } from "./sound.js";
@@ -152,6 +152,7 @@ export function mountHoerSafari(root, allWords) {
     again: $("[data-again]"),
     back: $("[data-back]"),
     best: $("[data-best]"),
+    noVoice: $("[data-novoice]"),
     result: $("[data-result]"),
     album: $("[data-album]"),
     practice: $("[data-practice]"),
@@ -307,21 +308,25 @@ export function mountHoerSafari(root, allWords) {
     }
     return im;
   }
-  // The voice: the browser's British English voice says the word with its article ("a fork",
-  // "an egg", "some bread"), as in Bruno Kart. The lexicon's clips (/audio/wortschatz/<audio>.mp3,
-  // w.a) say the bare noun, and no English clips are recorded yet, so the game does not play
-  // them; recorded "a fork" clips would go here. A browser without speech shows the word at once
-  // (nextTarget), so the round can still be played by reading.
+  // The voice: no Spanish clips are recorded yet, so the browser's voice says the word with its
+  // article ("la cuchara"), as in Bruno Kart: one from Spain first, else any Spanish one. Recorded
+  // clips (/audio/wortschatz/<audio>.mp3, w.a) would go here, and they would have to say the
+  // article too. An English voice reading Spanish would teach the wrong sounds, so a browser
+  // with no Spanish voice stays silent and shows the word at once (nextTarget): the round can
+  // still be played by reading, and the start card says why. An empty voice list proves nothing,
+  // since it may still be loading, and some Android browsers never list their voices but speak
+  // anyway: there it tries, and a voice that fails counts as none.
   const synth = typeof speechSynthesis !== "undefined" ? speechSynthesis : null;
-  let enVoice = null;
+  let esVoice = null;
+  let voiceFailed = false;
+  const canSpeak = () => !!synth && !voiceFailed && (!!esVoice || !(synth.getVoices?.().length));
   const pickVoice = () => {
     const vs = synth?.getVoices?.() ?? [];
-    enVoice = vs.find((v) => /^en[-_]GB/i.test(v.lang)) ?? vs.find((v) => /^en[-_]/i.test(v.lang)) ?? null;
+    esVoice = vs.find((v) => /^es[-_]ES/i.test(v.lang)) ?? vs.find((v) => /^es([-_]|$)/i.test(v.lang)) ?? null;
+    ui.noVoice.hidden = canSpeak();
   };
-  if (synth) {
-    pickVoice();
-    synth.addEventListener?.("voiceschanged", pickVoice);
-  }
+  if (synth) synth.addEventListener?.("voiceschanged", pickVoice);
+  pickVoice();
   const spoken = (w) => (typeof w === "string" ? w : label(w));
   function hush() {
     try { synth?.cancel(); } catch { /* nothing to stop */ }
@@ -346,14 +351,22 @@ export function mountHoerSafari(root, allWords) {
     setTimeout(finish, delay + 3000); // no voice, or it never ends: go on anyway
     setTimeout(() => {
       if (tok !== voiceTok) return;
-      if (!synth) return finish();
+      if (!canSpeak()) return finish();
       try {
         const u = new SpeechSynthesisUtterance(spoken(w));
-        u.lang = "en-GB";
+        u.lang = "es-ES";
         u.rate = 0.9;
-        if (enVoice) u.voice = enVoice;
+        if (esVoice) u.voice = esVoice;
         u.onend = finish;
-        u.onerror = finish;
+        u.onerror = (e) => {
+          // hush() cancels on purpose; anything else means this browser cannot say Spanish
+          if (e?.error !== "canceled" && e?.error !== "interrupted") {
+            voiceFailed = true;
+            ui.noVoice.hidden = false;
+            if (phase === "play" && S?.target) showWord("hint", S.target);
+          }
+          finish();
+        };
         synth.speak(u);
       } catch {
         finish(); /* no voice: the written hint still comes after a few seconds */
@@ -362,11 +375,11 @@ export function mountHoerSafari(root, allWords) {
   }
 
   // ---- what a word means, in the interface language ---------------------------------------
-  // The page inlines en/ar/uk/tr (w.m); the other interface languages come from the trainer's
-  // gloss files, loaded once. German, or a word with no entry, falls back to English.
-  const INLINE = ["en", "ar", "uk", "tr"];
+  // The page inlines English (w.m); the other interface languages come from the trainer's gloss
+  // files, loaded once. A word with no entry falls back to English.
+  const INLINE = ["en"];
   const fetched = {};
-  const glossLang = () => { const l = getLang(); return l === "de" ? "en" : l; };
+  const glossLang = getLang;
   function glossOf(w) {
     const l = glossLang();
     const text = INLINE.includes(l) ? w.m?.[l] : fetched[l]?.[w.id];
@@ -659,7 +672,7 @@ export function mountHoerSafari(root, allWords) {
     say(w);
     ui.hint.dataset.state = "listen";
     ui.hintText.textContent = t("hs.listen", "Listen …");
-    if (!synth) showWord("hint", w);
+    if (!canSpeak()) showWord("hint", w);
   }
 
   // ---- the blaster -------------------------------------------------------------------
@@ -998,9 +1011,9 @@ export function mountHoerSafari(root, allWords) {
     if (Math.random() < 0.5) {
       return {
         word: w,
-        prompt: t("hs.q.article", "a or an?"),
+        prompt: t("hs.q.article", "el or la?"),
         big: `___ ${w.w}`,
-        options: ["a", "an"].map((g) => ({ text: g, ok: g === w.g, popped: false, shake: 0 })),
+        options: ["el", "la"].map((g) => ({ text: g, ok: g === w.g, popped: false, shake: 0 })),
         wrong: false,
       };
     }

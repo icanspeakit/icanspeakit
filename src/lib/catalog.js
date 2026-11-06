@@ -837,9 +837,9 @@ const spieleItems = [
     hintKey: "nav.spiele.lindenauHint", hint: "Role-play in town, A1",
     countKey: "nav.spiele.lindenauHint", count: "Role-play in town, A1" },
   { id: "hoer-safari", href: "/games/listening-safari", icon: "volume",
-    titleKey: "nav.spiele.hoerSafari", title: "Hamstis Wachtelhuhn",
-    hintKey: "nav.spiele.hoerSafariHint", hint: "Wort hören, Vogel treffen, A1–B1",
-    countKey: "nav.spiele.hoerSafariHint", count: "Wort hören, Vogel treffen, A1–B1" },
+    titleKey: "nav.spiele.hoerSafari", title: "Hamsti’s Bird Safari",
+    hintKey: "nav.spiele.hoerSafariHint", hint: "Hear the word, hit the bird, A1–B1",
+    countKey: "nav.spiele.hoerSafariHint", count: "Hear the word, hit the bird, A1–B1" },
   sprintItem,
 ];
 
@@ -900,7 +900,7 @@ export const navSections = [
 
   { id: "spiele", icon: "sparkle",
     nameKey: "nav.subject.spiele", name: "Spiele",
-    blurbKey: "nav.subject.spiele.blurb", blurb: "Brambleford, Hamstis Wachtelhuhn, Quaki kreuzt, Bruno Kart",
+    blurbKey: "nav.subject.spiele.blurb", blurb: "A town role-play, Quaki, Bruno Kart and more",
     badge: spieleItems.length,
     items: spieleItems },
 

@@ -4,27 +4,15 @@
 // landscape carrying picture cards, and the learner hits the matching one with the
 // Gummi-Blaster, a toy that fires harmless rubber pellets on a ballistic curve. 90 s and 3
 // hearts, diving birds, extras, a multiple-choice quiz to reload, records and a ranking.
-// (English course: the voice says a / an + noun.) Logic: src/lib/hoerSafari/. Plan: HOER-SAFARI-TIERED-PROMPT.md.
+// (The voice says el / la + noun.) Logic: src/lib/hoerSafari/. Plan: HOER-SAFARI-TIERED-PROMPT.md.
 // A prototype from 2026-10-26, in the menu "Spiele" and indexed since 2026-10-27 (EXPERIMENTE.md).
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
-import { nouns } from "../../lib/lexicon.js";
-import { wortBild } from "../../lib/wortBild.js";
+import { safariWords } from "../../lib/hoerSafari/woerter.js";
 import "../../styles/hoer-safari.css";
 
-// Only a / an nouns with a picture: the game is about hearing a or an in front of the noun, so
-// uncountables (some bread) stay out. The voice is the browser's British English one (game.js
-// say()); `a` keeps the lexicon's clip slug for when English recordings exist. Short keys: the
-// list is inlined.
-// m = what the word means, for the end screen's word help (en/ar/uk/tr; the other interface
-// languages are fetched from /vocabulary/glosses/ by the game).
-const words = nouns()
-  .filter((n) => (n.gender === "a" || n.gender === "an") && wortBild(n.id))
-  .map((n) => ({
-    id: n.id, w: n.lemma, g: n.gender, a: n.audio, i: wortBild(n.id), lv: n.level,
-    m: Object.fromEntries(["en", "ar", "uk", "tr"].filter((l) => n[l]).map((l) => [l, n[l]])),
-  }));
-const count = (lv: string[]) => words.filter((w) => lv.includes(w.lv)).length;
+const words = safariWords();
+const count =(lv: string[]) => words.filter((w) => lv.includes(w.lv)).length;
 const levels = [
   { id: "A1", n: count(["A1"]) },
   { id: "A2", n: count(["A2"]) },
@@ -105,6 +93,7 @@ const levels = [
 
           <button type="button" class="hs-go" data-play data-i18n="hs.go">Los geht's</button>
           <p class="hs-best" data-best></p>
+          <p class="hs-muted" data-novoice hidden data-i18n="hs.noVoice">Your browser has no Spanish voice, so each word is written at the top as soon as it is called. To hear it, add a Spanish voice in your device's settings.</p>
           </div>
 
           <details class="hs-how">
@@ -172,6 +161,7 @@ const levels = [
     <section class="hs-about">
       <h2 data-i18n="hs.about.title">Worum geht's?</h2>
       <p data-i18n-html="hs.about.p">Hamsti’s Bird Safari practises <b>listening and vocabulary</b> at the same time: you hear each noun with its el or la and have to recognise it quickly. Reloading brings el / la and picture questions. All words come from our <a href="/vocabulary">vocabulary</a> – you can also practise them there at your own pace.</p>
+      <p class="hs-muted" data-i18n="hs.about.voice">The voice comes from your browser, from Spain where such a voice is installed, so how it sounds depends on your device. We have no recordings for this game yet.</p>
       <p class="hs-muted" data-i18n="hs.about.credit">Bilder: OpenMoji (CC BY-SA 4.0).</p>
     </section>
   </main>
