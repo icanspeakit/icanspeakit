@@ -1,16 +1,17 @@
-// Bruno’s Front Desk: the counter and the desk, all DOM (decision 1: crisp text, tappable
+// Bruno at the desk: the counter and the desk, all DOM (decision 1: crisp text, tappable
 // words, screen readers). The window at the top shows the number display, the customer and the
-// queue; the desk below holds Regi's memo (with the calendar), the papers, the Notizzettel and
-// the two stamps.
+// queue; the desk below holds Regi's memo (with the calendar), the papers, the notes and
+// the two stamps. Spanish on the papers and in the customers' mouths, with the English in a
+// `.ba-en` line that the EN button shows or hides.
 //
 // - Desktop: papers are cards you drag around and lay over each other; the memo stays pinned.
 // - Phone (narrow desk): the memo and the papers are one fanned stack with tabs above it; tap a
 //   tab or swipe the stack to bring a paper to the front.
-// - Prüfen (🔍 button, P, or hold Shift): tap a field, then a field on another paper or the memo.
-//   A real contradiction gets red frames and a line and goes on the Notizzettel; agreeing fields
+// - Check (🔍 button, P, or hold Shift): tap a field, then a field on another paper or the memo.
+//   A real contradiction gets red frames and a line and goes on the notes; agreeing fields
 //   say "That matches.", unrelated ones "You can’t compare those." — never a penalty.
-// - Notizzettel: each noted mistake has one question round (three questions, one fits).
-// - Stamps: tap or drag onto the form. REJECTED needs a noted mistake as the reason.
+// - Notes: each noted mistake has one question round (three questions, one fits).
+// - Stamps: tap or drag onto the form. DEVUELTO needs a noted mistake as the reason.
 //
 // The game flow (who comes next, points, warnings) lives in spiel.js; this module reports
 // what the player did through the callbacks passed to makeTisch().
@@ -23,7 +24,8 @@ import { setWaiting } from "../notReady.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const bold = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
-const FORMULARE = ["New permit", "Change of address", "Cancel permit"];
+// A Spanish line with its English meaning underneath.
+const zwei = (line, fmt = esc) => `<span lang="es">${fmt(line.de)}</span>${line.en ? `<small class="ba-en" lang="en">${esc(line.en).replace(/\*\*/g, "")}</small>` : ""}`;
 export const WAPPEN = `<svg viewBox="0 0 40 40" width="26" height="26" aria-hidden="true" class="ba-wappen"><path d="M6 4 H34 V20 Q34 32 20 37 Q6 32 6 20 Z" fill="#0d9488" stroke="#1a2230" stroke-width="2.5"/><path d="M20 10 Q29 15 26 25 Q23 30 20 31 Q17 30 14 25 Q11 15 20 10 Z" fill="#a7f3d0" stroke="#1a2230" stroke-width="2"/><path d="M20 13 V32" stroke="#1a2230" stroke-width="2"/></svg>`;
 
 export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst, onWort, onHilfe }) {
@@ -63,7 +65,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
 
   function wertHtml(d, key, v) {
     if (key === "formular") {
-      return `<span class="ba-boxes">${FORMULARE.map((f) => `<span class="ba-box${f === v ? " is-x" : ""}">${f === v ? "☒" : "☐"} ${f}</span>`).join("")}</span>`;
+      return `<span class="ba-boxes">${(DOK_ARTEN[d.art].opciones ?? []).map((f) => `<span class="ba-box${f === v ? " is-x" : ""}">${f === v ? "☒" : "☐"} ${f}</span>`).join("")}</span>`;
     }
     if (key === "unterschrift") {
       return v ? `<span class="ba-sig ba-sig--${esc(d.tinte || "schwarz")}">${esc(v)}</span>` : `<span class="ba-sig-leer">&nbsp;</span>`;
@@ -78,10 +80,10 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
       .filter(([k]) => d.felder[k] !== undefined)
       .map(([k, label]) => feldHtml(`${d.id}.${k}`, label, wertHtml(d, k, d.felder[k])))
       .join("");
-    const isId = d.art === "ausweis" || d.art === "pass";
-    const foto = isId && !d.fax ? `<div class="ba-foto">${kundeSvg(fall.person.look, "neutral", { size: 64, foto: true, hund: fall.hund })}</div>` : "";
-    const titel = d.art === "antrag" ? "Antrag" : art.titel;
-    const kopf = `<button type="button" class="ba-f ba-kopf" data-f="${d.id}.kopf">${d.fax ? `<span class="ba-fax-kopf">FAX · 07:52 · Page 1/1</span>` : ""}${WAPPEN}<span class="ba-kopf-t"><small>Brambleford Town Council</small><b data-wort="${esc(titel)}">${esc(titel)}</b></span></button>`;
+    const mitBild = d.art === "ausweis" || d.art === "pass" || d.art === "foto";
+    const foto = mitBild && !d.fax ? `<div class="ba-foto${d.felder.fondo === "azul" ? " ba-foto--azul" : d.felder.fondo ? " ba-foto--blanco" : ""}">${kundeSvg(fall.person.look, "neutral", { size: 64, foto: true, hund: fall.hund })}</div>` : "";
+    const titel = art.titel;
+    const kopf = `<button type="button" class="ba-f ba-kopf" data-f="${d.id}.kopf">${d.fax ? `<span class="ba-fax-kopf">FAX · 07:52 · Página 1/1</span>` : ""}${WAPPEN}<span class="ba-kopf-t"><small>${esc(art.kopf)}</small><b data-wort="${esc(titel)}">${esc(titel)}</b></span></button>`;
     return `<article class="ba-doc ba-doc--${d.art}${d.fax ? " ba-doc--fax" : ""}" data-doc="${d.id}" tabindex="-1" aria-label="${esc(art.titel)}">
       ${kopf}<div class="ba-doc-body">${foto}<div class="ba-fields">${fields}</div></div><div class="ba-stamp-slot" data-stamp-slot></div></article>`;
   }
@@ -91,12 +93,12 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
       const r = REGELN[id];
       const neu = r.tag === opts.tag && opts.tag > 0;
       const mark = r.art === "echt" ? `<span class="ba-mark ba-mark--echt">${esc(ui.echt)}</span>` : `<span class="ba-mark ba-mark--lind">${esc(ui.lindenau)}</span>`;
-      return `<button type="button" class="ba-f ba-regel${neu ? " is-neu" : ""}" data-f="memo.${id}">${mark}<span class="ba-regel-t" lang="en">${bold(r.memo.de)}</span></button>`;
+      return `<button type="button" class="ba-f ba-regel${neu ? " is-neu" : ""}" data-f="memo.${id}">${mark}<span class="ba-regel-t">${zwei(r.memo, bold)}</span></button>`;
     }).join("");
     const heute = `${wochentag(fall.heute)}, ${deDatum(fall.heute)}`;
     return `<article class="ba-doc ba-doc--memo" data-doc="memo" tabindex="-1" aria-label="${esc(ui.memoTitel)}">
       <div class="ba-memo-kopf"><span class="ba-pin" aria-hidden="true"></span><b>${esc(ui.memoTitel)}</b><small>${esc(ui.memoVon)}</small></div>
-      ${feldHtml("kalender.heute", "Today", esc(heute), " ba-kalender")}
+      ${feldHtml("kalender.heute", "Hoy", esc(heute), " ba-kalender")}
       <div class="ba-regeln">${lines}</div>
     </article>`;
   }
@@ -165,9 +167,8 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     bubble.hidden = !line;
     if (!line) return;
     bubble.innerHTML = anliegen
-      ? `<button type="button" class="ba-f ba-anliegen" data-f="kunde.anliegen"><span lang="en">${esc(line.de)}</span></button>`
-      : `<span lang="en">${esc(line.de)}</span>`;
-    bubble.dataset.en = line.en ?? "";
+      ? `<button type="button" class="ba-f ba-anliegen" data-f="kunde.anliegen"><span class="ba-zwei">${zwei(line)}</span></button>`
+      : zwei(line);
     bubble.classList.remove("is-pop");
     void bubble.offsetWidth;
     bubble.classList.add("is-pop");
@@ -207,7 +208,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
       }).join("");
   }
 
-  // ---- Prüfen ---------------------------------------------------------------------------
+  // ---- Check ----------------------------------------------------------------------------
   function setPruefen(on) {
     pruefen = on;
     paintPruefen();
@@ -230,8 +231,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     if (locked) return;
     if (!pruefOn()) {
       const wort = el.querySelector("[data-wort]")?.dataset.wort;
-      if (onWort && wort) onWort(wort, el);
-      else sagToast(ui.erstPruefen);
+      if (!(wort && onWort?.(wort, el))) sagToast(ui.erstPruefen);
       pruefBtn.classList.remove("is-nudge"); void pruefBtn.offsetWidth; pruefBtn.classList.add("is-nudge");
       return;
     }
@@ -245,7 +245,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
       r.fehler.gezeigt = [a, b];
       markBad(r.fehler);
       ton.fund();
-      sagToast(fehlerInfo(r.fehler).notiz.de, "bad");
+      sagToast(`${fehlerInfo(r.fehler).notiz.de} (${fehlerInfo(r.fehler).notiz.en})`, "bad");
       paintNotiz();
       onNotiz?.(r.fehler);
     } else if (r.art === "schon") {
@@ -262,7 +262,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     }
   }
 
-  // ---- Notizzettel + questions -----------------------------------------------------------
+  // ---- Notes + questions -----------------------------------------------------------------
   function paintNotiz() {
     if (!fall) { notizList.innerHTML = ""; return; }
     const noted = fall.fehler.filter((f) => f.status === "notiert" || (f.status === "geloest" && f.gezeigt));
@@ -272,7 +272,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
           const info = fehlerInfo(f);
           const done = f.status === "geloest";
           const ask = !done && !f.gefragt ? `<button type="button" class="ba-ask" data-ask="${f.code}">${esc(ui.fragen)}</button>` : "";
-          return `<li class="${done ? "is-done" : ""}"><span lang="en">${esc(info.notiz.de)}</span>${done ? `<small>${esc(ui.geklaert)}</small>` : ask}</li>`;
+          return `<li class="${done ? "is-done" : ""}"><span class="ba-zwei">${zwei(info.notiz)}</span>${done ? `<small>${esc(ui.geklaert)}</small>` : ask}</li>`;
         }).join("")
       : `<li class="ba-notiz-leer">${esc(ui.notizLeer)}</li>`;
     paintStempel();
@@ -288,7 +288,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     const info = fehlerInfo(f);
     fragenBox.hidden = false;
     fragenBox.innerHTML = `<p class="ba-fragen-h">${esc(ui.wasFragen)}</p>
-      ${info.fragen.map((q, i) => `<button type="button" class="ba-frage" data-frage="${i}" lang="en">${esc(q.de)}</button>`).join("")}
+      ${info.fragen.map((q, i) => `<button type="button" class="ba-frage" data-frage="${i}">${zwei(q)}</button>`).join("")}
       <button type="button" class="ba-quiet" data-frage-zu>${esc(ui.abbrechen)}</button>`;
     fragenBox.dataset.code = f.code;
     fragenBox.querySelector("[data-frage]")?.focus({ preventScroll: true });
@@ -296,7 +296,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
   function schliesseFragen() { fragenBox.hidden = true; fragenBox.innerHTML = ""; }
 
   // ---- stamps ---------------------------------------------------------------------------
-  const formular = () => area.querySelector('[data-doc="meldeschein"], [data-doc="antrag"]') ?? area.querySelector(".ba-doc:not(.ba-doc--memo)");
+  const formular = () => area.querySelector('[data-doc="meldeschein"], [data-doc="solicitud"], [data-doc="antrag"]') ?? area.querySelector(".ba-doc:not(.ba-doc--memo)");
 
   function stempeln(entscheid) {
     if (locked) return;
@@ -311,7 +311,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     fragenBox.hidden = false;
     fragenBox.dataset.code = "";
     fragenBox.innerHTML = `<p class="ba-fragen-h">${esc(ui.grundWaehlen)}</p>
-      ${noted.map((f) => `<button type="button" class="ba-frage" data-grund="${f.code}" lang="en">${esc(fehlerInfo(f).notiz.de)}</button>`).join("")}
+      ${noted.map((f) => `<button type="button" class="ba-frage" data-grund="${f.code}">${zwei(fehlerInfo(f).notiz)}</button>`).join("")}
       <button type="button" class="ba-quiet" data-frage-zu>${esc(ui.abbrechen)}</button>`;
     fragenBox.querySelector("[data-grund]")?.focus({ preventScroll: true });
   }
@@ -324,7 +324,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     if (isStack() && form) { front = form.dataset.doc; layout(); }
     const slot = form?.querySelector("[data-stamp-slot]");
     if (slot) {
-      slot.innerHTML = `<span class="ba-stamp-mark ba-stamp-mark--${entscheid}">${entscheid === "genehmigt" ? ui.genehmigt : ui.abgelehnt}${grund ? `<small lang="en">${esc(fehlerInfo(grund).notiz.de)}</small>` : ""}</span>`;
+      slot.innerHTML = `<span class="ba-stamp-mark ba-stamp-mark--${entscheid}">${entscheid === "genehmigt" ? ui.genehmigt : ui.abgelehnt}${grund ? `<small lang="es">${esc(fehlerInfo(grund).notiz.de)}</small>` : ""}</span>`;
     }
     ton.stempel();
     root.classList.add("is-thunk");
@@ -457,7 +457,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     if (t.closest("[data-hilfe]")) { onHilfe?.(); return; }
   });
 
-  // keyboard: P = check, A / R = stamps (Approve, Reject), Shift held = Prüfen while held, Esc = drop selection
+  // keyboard: P = check, C / D = stamps (COMPLETO, DEVUELTO), Shift held = Check while held, Esc = drop selection
   function onKey(e) {
     if (root.closest("[hidden]") || root.querySelector(".ba-amt")?.hidden) return;
     if (e.key === "Shift") { if (!shiftHeld) { shiftHeld = true; paintPruefen(); } return; }
@@ -465,8 +465,8 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     const k = e.key.toLowerCase();
     if (k === "p") { e.preventDefault(); setPruefen(!pruefen); }
-    else if (k === "a") { e.preventDefault(); stempeln("genehmigt"); }
-    else if (k === "r") { e.preventDefault(); stempeln("abgelehnt"); }
+    else if (k === "c") { e.preventDefault(); stempeln("genehmigt"); }
+    else if (k === "d") { e.preventDefault(); stempeln("abgelehnt"); }
     else if (e.key === "Escape") { if (!fragenBox.hidden) schliesseFragen(); else select(null); }
     else if (isStack() && (e.key === "ArrowRight" || e.key === "ArrowLeft") && !e.target.closest?.(".ba-fragen")) { blaettern(e.key === "ArrowRight" ? 1 : -1); }
   }
@@ -519,7 +519,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     },
     entsperren() { locked = false; paintStempel(); },
     sperren() { locked = true; },
-    /** Lernmodus: light up the fields of the first open mistake. */
+    /** Learning mode: light up the fields of the first open mistake. */
     hinweis(fids) { for (const fid of fids) fieldEl(fid)?.classList.add("is-hint"); },
     setPruefen,
     get fall() { return fall; },

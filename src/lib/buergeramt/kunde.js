@@ -1,4 +1,4 @@
-// Bruno’s Front Desk: the customers, drawn like the mascot crew (src/lib/mascots.js): a 200×200
+// Bruno at the desk: the customers, drawn like the mascot crew (src/lib/mascots.js): a 200×200
 // grid, a thick round #1a2230 outline, flat colours, rosy cheeks, dot eyes. Only head and
 // shoulders show above the counter. A look is a handful of small numbers, so the generator
 // can pick one from its seed and the ID photo can redraw the same person:

@@ -1,16 +1,17 @@
 ---
-// /games/front-desk — Bruno’s Front Desk: Bruno works desk 3 at Brambleford Town Hall (resident parking permits). A
-// customer slides papers across the desk; the player finds what contradicts (Check), asks a
-// question in English and stamps APPROVED or REJECTED. Papers are DOM, not canvas.
-// Logic: src/lib/buergeramt/. Plan: BUERGERAMT-TIERED-PROMPT.md.
+// /games/front-desk (`routes` renames it to /games/extranjeria) — Bruno at the desk: Bruno works
+// window 3 in the invented town of Villabruno, first at the padrón, then at the foreigners' office.
+// A customer slides papers across the desk; the player finds what contradicts (Check), asks a
+// question in Spanish and stamps COMPLETO or DEVUELTO. Papers are DOM, not canvas.
+// Logic: src/lib/buergeramt/.
 // A prototype since 2026-10-28: noindex, not in the menu (EXPERIMENTE.md).
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
 import "../../styles/buergeramt.css";
 ---
 <Layout
-  title="Bruno's Front Desk – icanspeak Spanish"
-  description="A game at the front desk in the town of Villabruno: check the paperwork, find mistakes, ask questions in Spanish and stamp."
+  title="Bruno at the desk: padrón and Extranjería – icanspeak Spanish"
+  description="A game at the window in the invented town of Villabruno: check padrón, NIE and TIE paperwork, find mistakes, ask questions in Spanish and stamp. General orientation, not legal advice."
   noindex
 >
   <SiteNav active="ueben" />
@@ -18,29 +19,30 @@ import "../../styles/buergeramt.css";
     <div class="ba" id="buergeramt" data-phase="start">
       <section class="ba-card ba-start" data-start>
         <p class="ba-eyebrow" data-ui="eyebrow" lang="en">Game · Prototype</p>
-        <h1 data-ui="titel" lang="en">Bruno’s Front Desk</h1>
+        <h1 data-ui="titel" lang="en">Bruno at the desk: padrón and Extranjería</h1>
         <p class="ba-lead" data-ui="lead"></p>
         <div data-start-body></div>
-        <button type="button" class="ba-go" data-los data-ui="los" lang="en">Start your shift</button>
+        <button type="button" class="ba-go" data-los data-ui="los" lang="en">Start day 1</button>
         <noscript><p lang="en">This game needs JavaScript.</p></noscript>
       </section>
 
       <div class="ba-amt is-leer" data-amt hidden>
         <div class="ba-hud">
-          <span class="ba-hud-i ba-uhr" data-uhr-wrap><span aria-hidden="true">🕗</span> <b data-uhr>08:00</b></span>
+          <span class="ba-hud-i" lang="es"><b data-tag>Día 1</b></span>
           <span class="ba-hud-i"><span data-ui="wartende">Waiting</span> <b data-wartende>0</b></span>
           <span class="ba-hud-i"><span data-ui="punkte">Points</span> <b data-punkte>0</b></span>
           <span class="ba-hud-i ba-verw" data-verw role="img"></span>
           <span class="ba-hud-sp"></span>
+          <button type="button" class="ba-icon ba-icon--en" data-en-btn data-ui-title="enTitel" aria-pressed="true">EN</button>
           <button type="button" class="ba-icon" data-pause hidden aria-label="Pause">⏸</button>
           <button type="button" class="ba-icon" data-mute data-ui-title="ton" aria-pressed="false">🔊</button>
         </div>
 
         <div class="ba-fenster">
           <div class="ba-anzeige" aria-live="polite">
-            <small data-ui="nummer">Number</small>
+            <small data-ui="nummer" lang="es">Turno</small>
             <b data-nummer>–</b>
-            <small data-ui="schalter" lang="en">Desk 3</small>
+            <small data-ui="schalter" lang="es">Ventanilla 3</small>
           </div>
           <div class="ba-kunde-wrap">
             <div class="ba-kunde" data-kunde></div>
@@ -60,8 +62,8 @@ import "../../styles/buergeramt.css";
             </div>
             <div class="ba-fragen" data-fragen hidden role="dialog"></div>
             <div class="ba-stempel-row">
-              <button type="button" class="ba-stempel ba-stempel--ok" data-stempel="genehmigt"><span data-ui="genehmigt">APPROVED</span> <kbd>A</kbd></button>
-              <button type="button" class="ba-stempel ba-stempel--no" data-stempel="abgelehnt"><span data-ui="abgelehnt">REJECTED</span> <kbd>R</kbd></button>
+              <button type="button" class="ba-stempel ba-stempel--ok" data-stempel="genehmigt"><span data-ui="genehmigt" lang="es">COMPLETO</span> <kbd>C</kbd></button>
+              <button type="button" class="ba-stempel ba-stempel--no" data-stempel="abgelehnt"><span data-ui="abgelehnt" lang="es">DEVUELTO</span> <kbd>D</kbd></button>
             </div>
           </aside>
           <div class="ba-rosa" data-rosa hidden role="alert"></div>
