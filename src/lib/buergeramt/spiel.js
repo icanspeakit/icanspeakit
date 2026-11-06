@@ -88,7 +88,7 @@ const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<
 function verdadHtml(ids) {
   return ids.filter((id) => REGELN[id].wirklich).map((id) => {
     const r = REGELN[id];
-    return `<li><p lang="es">${esc(r.wirklich.de)}</p><p class="ba-en" lang="en">${esc(r.wirklich.en)}</p>
+    return `<li><p lang="es">${esc(r.wirklich.de)}</p><p class="ba-verdad-en" lang="en">${esc(r.wirklich.en)}</p>
       <small>${UI.fuente}: <a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.quelle)}</a></small></li>`;
   }).join("");
 }
@@ -201,7 +201,7 @@ export function mountBuergeramt(root) {
     tisch.sage(null);
     tisch.nummer(fall.nr);
     ton.ding();
-    tisch.zeigeKunde("neutral");
+    tisch.zeigeKunde("neutral", fall);
     tisch.kundeKommt();
     paintHud();
     setTimeout(() => {

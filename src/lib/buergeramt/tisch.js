@@ -116,6 +116,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
       cards.forEach((c, i) => {
         const off = (i - fi + order.length) % order.length;
         c.style.left = ""; c.style.top = "";
+        delete c.dataset.placed; // back on a wide desk, it has to be laid out again
         c.style.setProperty("--off", off);
         c.classList.toggle("is-front", off === 0);
         c.style.zIndex = String(50 - off);
@@ -134,8 +135,8 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
         if (c.dataset.doc === "memo") { c.style.left = "0px"; c.style.top = "0px"; c.style.zIndex = "5"; continue; }
         if (!c.dataset.placed) {
           const cw = c.offsetWidth || 280;
-          const x0 = Math.min(W - cw, 250 + k * 150);
-          c.style.left = `${Math.max(240, x0)}px`;
+          const x0 = Math.min(W - cw, 322 + k * 110);
+          c.style.left = `${Math.max(312, x0)}px`;
           c.style.top = `${Math.min(Math.max(0, H - 260), 8 + k * 26)}px`;
           c.style.zIndex = String(++z);
           c.dataset.placed = "1";
@@ -143,6 +144,8 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
         k++;
       }
     }
+    // Papers are positioned absolutely, so the desk has to grow to hold the tallest one.
+    area.style.minHeight = cards.length ? `${Math.max(...cards.map((c) => c.offsetTop + c.offsetHeight)) + (stack ? 50 : 14)}px` : "";
     drawLines();
   }
 
@@ -159,8 +162,9 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
   }
 
   // ---- the customer window --------------------------------------------------------------
-  function zeigeKunde(ausdruck = "neutral") {
-    kundeEl.innerHTML = kundeSvg(fall.person.look, ausdruck, { size: 200, hund: fall.hund, className: "ba-kunde-svg" });
+  // `wer`: the customer walks up before their papers (and so `fall`) are on the desk.
+  function zeigeKunde(ausdruck = "neutral", wer = fall) {
+    kundeEl.innerHTML = kundeSvg(wer.person.look, ausdruck, { size: 200, hund: wer.hund, className: "ba-kunde-svg" });
   }
 
   function sage(line, { anliegen = false } = {}) {
