@@ -19,7 +19,7 @@ const mods = import.meta.glob("../../data/grammatik/*.json", { eager: true });
     of their own (nachschlagen.js). */
 export const sheetTopics = [...Object.values(mods).map((m) => m.default ?? m), ...refTopics]
   .filter((t) => (t.exercises ?? []).some((ex) => !ex.paid))
-  .sort((a, b) => a.level.localeCompare(b.level) || a.name.localeCompare(b.name, "de"));
+  .sort((a, b) => a.level.localeCompare(b.level) || a.name.localeCompare(b.name, "es"));
 /** The ones the worksheet index offers: reviewed only (topicStatus.js). */
 export const grammarTopics = sheetTopics.filter(isReviewed);
 
@@ -32,7 +32,7 @@ function splitGap(prompt) {
 }
 
 /** "Ich habe den Film gesehen ." → "Ich habe den Film gesehen." */
-export const joinWords = (words) => words.join(" ").replace(/\s+([.,!?;:])/g, "$1");
+export const joinWords = (words) => words.join(" ").replace(/\s+([.,!?;:])/g, "$1").replace(/([¿¡])\s+/g, "$1");
 
 function section(ex, i, topicId) {
   const base = { type: ex.type, title: ex.title ?? "", hint: ex.hint ?? "", n: i + 1 };

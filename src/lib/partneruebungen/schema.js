@@ -43,7 +43,7 @@ const isStrList = (v, min = 1) => Array.isArray(v) && v.length >= min && v.every
 /** Table headers and cells may be empty strings (a blank corner cell). */
 const isCells = (v, min = 1) => Array.isArray(v) && v.length >= min && v.every((c) => typeof c === "string");
 /** Words of a sentence without punctuation, for comparing tile orders. */
-const words = (s) => String(s).toLowerCase().replace(/[.,!?;:„“"…]/g, " ").split(/\s+/).filter(Boolean);
+const words = (s) => String(s).toLowerCase().replace(/[.,!?¿¡;:„“"«»…]/g, " ").split(/\s+/).filter(Boolean);
 
 /** The order a tile row is printed in: seeded by sheet id + item letter, never the solution's. */
 export function tileOrder(id, letter, tiles, loesung) {

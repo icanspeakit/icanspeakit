@@ -75,7 +75,7 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
       </div>
     </div>
 
-    <article class="ab-sheet" lang="en">
+    <article class="ab-sheet" lang="es">
       <header class="ab-head">
         <p class="ab-eyebrow">icanspeak Spanish · Grammar worksheet · {levelLabel}</p>
         <h1 class="ab-title">{topic.name}</h1>
@@ -96,7 +96,7 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
             <ul class="ab-wowo-lage">
               {extra.regel.lage.map((l: any) => (
                 <li>
-                  <svg viewBox="0 0 28 28" aria-hidden="true">{l.form === "upright" || l.form === "vertikal" ? <rect x="9" y="3" width="10" height="22" rx="2" /> : <rect x="2" y="13" width="24" height="10" rx="2" />}</svg>
+                  
                   <span><b>{l.verben}</b> <em>{l.form}</em><br />{l.text}</span>
                 </li>
               ))}
@@ -265,7 +265,7 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
       <footer class="ab-foot">icanspeak Spanish · icanspeak.it/spanish{path} · free to copy for use in class</footer>
     </article>
 
-    <article class="ab-sheet ab-key" lang="en" aria-label="Answers">
+    <article class="ab-sheet ab-key" lang="es" aria-label="Answers">
       <header class="ab-head">
         <p class="ab-eyebrow">icanspeak Spanish · Answers · {levelLabel}</p>
         <h2 class="ab-title ab-title--key">{topic.name}</h2>

@@ -46,7 +46,7 @@ function roundRobin(lists, n, skip = 0) {
 }
 
 /** "Der Zug fährt um acht Uhr ab." → ["Der", "Zug", …, "ab", "."] */
-const tokens = (s) => String(s).match(/[\p{L}\p{N}’'-]+|[.,!?]/gu) ?? [];
+const tokens = (s) => String(s).match(/[\p{L}\p{N}’'-]+|[.,!?¿¡]/gu) ?? [];
 
 /* ---- /grammar/verbs ---------------------------------------------------------------- */
 function verbTopic() {
