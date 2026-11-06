@@ -1,5 +1,5 @@
 {
-  "_note": "Research file (not read by pages, except points and source link on the practice-set page): the structure of the exams our own practice sets follow, checked by scripts/check-pruefungen.mjs (same modules, same parts, same number of scored items per part). Ids are storage keys and stay: goethe-a1…c2 = DELE A1…C2 (goethe-a1 and goethe-c2 have no set in this file's sense: A1 lives in the start-deutsch-1 slot, C2 has no practice set), telc-* and testdaf = SIELE slots (exams-siele rewrites them; until then they still describe Trinity or the German exam). Only structure is described; no exam task or text is copied. Field conventions: minutes = paper time; items = scored items in OUR set, modelled on the best public information we found; plays = how often the recording is heard; points = marks where known. Every DELE fact here is 'to verify': see `unverified` in each entry and reports/exams-dele.md.",
+  "_note": "Research file (not read by pages, except points and source link on the practice-set page): the structure of the exams our own practice sets follow, checked by scripts/check-pruefungen.mjs (same modules, same parts, same number of scored items per part). Ids are storage keys and stay: goethe-a1…c2 = DELE A1…C2 (goethe-a1 and goethe-c2 have no set in this file's sense: A1 lives in the start-deutsch-1 slot, C2 has no practice set), telc-a2…c1 = the SIELE tasks at each band: together those four sets hold every task of one SIELE Global (the real exam is one multilevel sitting, not band papers). The testdaf slot has its own shape and is described in testdaf-formate.json. Only structure is described; no exam task or text is copied. Field conventions: minutes = paper time; items = scored items in OUR set, modelled on the best public information we found; plays = how often the recording is heard; points = marks where known. Every DELE fact here is 'to verify': see `unverified` in each entry and reports/exams-dele.md. SIELE entries were checked against the official exam guide and siele.org on 2026-11-06, see reports/exams-siele.md.",
   "sources": [
     {
       "id": "goethe-a1",
@@ -33,23 +33,23 @@
     },
     {
       "id": "telc-a2",
-      "title": "Trinity College London, ISE Foundation (A2) resources page (timings, task list)",
-      "url": "https://trinitycollege.com/qualifications/english-language/ISE/ISE-Foundation-A2-resources"
+      "title": "SIELE, exam types and tests",
+      "url": "https://siele.org/examenes"
     },
     {
       "id": "telc-b1",
-      "title": "Trinity College London, Test overview — ISE I (B1), Reading & Writing and Speaking & Listening (PDF)",
-      "url": "https://www.trinitycollege.com/resource?id=7516"
+      "title": "SIELE, exam types and tests",
+      "url": "https://siele.org/examenes"
     },
     {
       "id": "telc-b2",
-      "title": "Trinity College London, Online test overview — ISE II (B2), Reading & Writing and Speaking & Listening (PDF)",
-      "url": "https://www.trinitycollege.com/resource?id=8447"
+      "title": "SIELE, exam types and tests",
+      "url": "https://siele.org/examenes"
     },
     {
       "id": "telc-c1",
-      "title": "telc Deutsch C1 – Übungstest 1, Format 2016 (1. Aufl. 2016), aus telc_deutsch_c1.zip",
-      "url": "https://www.telc.net/fileadmin/user_upload/mock_exams/Deutsch/telc_deutsch_c1.zip"
+      "title": "SIELE, exam types and tests",
+      "url": "https://siele.org/examenes"
     }
   ],
   "exams": [
@@ -802,656 +802,306 @@
     },
     {
       "id": "telc-a2",
-      "exam": "Trinity ISE Foundation",
-      "alt": "Integrated Skills in English, A2",
-      "provider": "trinity",
+      "exam": "SIELE: the A1 and A2 tasks",
+      "provider": "siele",
       "level": "A2",
-      "source": "Trinity College London, ISE Foundation (A2) resources — https://trinitycollege.com/qualifications/english-language/ISE/ISE-Foundation-A2-resources (checked 2026-10-30); task types follow the ISE I/ISE II test overviews",
-      "choiceNote": "Reading & Writing 2 hours; Speaking & Listening about 13 minutes (the page also says 12 minutes plus admin time for the video-conference version).",
+      "checked": "2026-11-06",
+      "source": "SIELE exam pages (siele.org/examenes, siele.org/reconocimiento-internacional) and the SIELE exam guide, Guía para la realización del examen SIELE, copy on seul.cervantes.es, checked 2026-11-06",
       "modules": [
         {
           "name": "Reading",
-          "minutes": 120,
-          "minutesNote": "120 minutes for Reading and Writing together (Tasks 1–4)",
-          "points": 30,
+          "minutes": 20,
           "parts": [
             {
               "teil": 1,
-              "task": "Task 1, Long reading, questions 1–5: choose a title for each paragraph",
-              "type": "Title matching (six titles, five are used)",
-              "items": 5,
-              "points": 5
+              "task": "Reading task 1 (A1): five short texts, 40–80 words each",
+              "type": "Multiple choice, 3 options, one question per text",
+              "items": 5
             },
             {
               "teil": 2,
-              "task": "Task 1, Long reading, questions 6–10: which statements are true?",
-              "type": "Five of eight statements are true (here you judge all eight: true or false)",
-              "items": 8,
-              "points": 5
-            },
-            {
-              "teil": 3,
-              "task": "Task 1, Long reading, questions 11–15: complete sentences",
-              "type": "An exact word, number or phrase from the text (maximum three words)",
-              "items": 5,
-              "points": 5
-            },
-            {
-              "teil": 4,
-              "task": "Task 2, Multi-text reading, questions 16–20: which text is it?",
-              "type": "Multiple matching, three texts (a text can be used more than once)",
-              "items": 5,
-              "points": 5
-            },
-            {
-              "teil": 5,
-              "task": "Task 2, Multi-text reading, questions 21–25: which statements are true?",
-              "type": "Five of eight statements are true (here you judge all eight: true or false)",
-              "items": 8,
-              "points": 5
-            },
-            {
-              "teil": 6,
-              "task": "Task 2, Multi-text reading, questions 26–30: complete the notes",
-              "type": "An exact word, number or phrase from the texts (maximum three words)",
-              "items": 5,
-              "points": 5
-            }
-          ]
-        },
-        {
-          "name": "Writing",
-          "minutes": 120,
-          "minutesNote": "same 120 minutes as Reading",
-          "parts": [
-            {
-              "teil": 3,
-              "task": "Task 3, Reading into writing: answer a question using information from all three Task 2 texts",
-              "type": "Free writing, 70–100 words",
-              "items": 1,
-              "minutes": 40
-            },
-            {
-              "teil": 4,
-              "task": "Task 4, Extended writing: e.g. an email, article, review or essay",
-              "type": "Free writing, 70–100 words",
-              "items": 1,
-              "minutes": 40
+              "task": "Reading task 2 (A2): one text, 250–300 words",
+              "type": "Multiple choice, 3 options",
+              "items": 5
             }
           ]
         },
         {
           "name": "Listening",
-          "minutes": 6,
-          "minutesNote": "our estimate; the whole Speaking & Listening module is about 13 minutes",
-          "points": 13,
+          "minutes": 15,
           "parts": [
             {
               "teil": 1,
-              "task": "Independent listening, talk 1: listen twice, then answer six questions",
-              "type": "Short answers (spoken to the examiner in the exam; written here)",
-              "items": 6,
+              "task": "Listening task 1 (A1): a conversation, 150–170 words",
+              "type": "Complete sentences from a shared bank of 15 options",
+              "items": 5,
               "plays": 2
             },
             {
               "teil": 2,
-              "task": "Independent listening, talk 2: say what the talk is about, then give six pieces of information",
-              "type": "Gist + short answers (spoken in the exam; written here)",
-              "items": 7,
+              "task": "Listening task 2 (A2): information, 250–300 words",
+              "type": "Multiple choice, 3 options",
+              "items": 5,
               "plays": 2
             }
           ]
         },
         {
-          "name": "Speaking",
-          "minutes": 6,
-          "minutesNote": "our estimate for the two speaking tasks",
+          "name": "Writing",
+          "minutes": 20,
           "parts": [
             {
               "teil": 1,
-              "task": "Topic discussion: talk with the examiner about a topic you prepared",
-              "type": "One-to-one with the examiner",
+              "task": "Writing task 1 (A1–B1): reply to a letter, email, forum or blog message",
+              "type": "Free writing, 100–150 words recommended",
+              "items": 1
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 5,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Speaking task 1 (A1–A2): four personal questions",
+              "type": "Recorded answers",
               "items": 1
             },
             {
               "teil": 2,
-              "task": "Conversation: on one subject area the examiner chooses",
-              "type": "One-to-one with the examiner",
+              "task": "Speaking task 2 (A2): describe one of two photos",
+              "type": "Recorded monologue, after preparation",
               "items": 1
             }
           ]
         }
       ],
-      "schreiben": {
-        "tasks": 2,
-        "wordCounts": [
-          "70–100",
-          "70–100"
-        ],
-        "criteria": [
-          "Task fulfilment",
-          "Organisation and structure",
-          "Language control"
-        ],
-        "rules": "Task 3 also marks reading for writing (how well you use the texts). Use your own words; do not copy from the texts."
-      },
       "total": null,
-      "totalNote": "Each of the four skills gets its own result: Distinction, Merit, Pass or Fail.",
-      "pass": "Trinity reports Pass, Merit or Distinction for each skill; there is no percentage pass mark. Our practice sets use 60 % of the auto-marked points as their own guide.",
+      "totalNote": "In the real test each of the four tests counts up to 250 points, 1000 in SIELE Global. This set has no points of its own.",
+      "pass": "No pass mark. Each test gets a score from 0 to 250, matched to a CEFR level; a score below the A1 band reaches no level.",
       "modular": true,
-      "modularNote": "Reading & Writing and Speaking & Listening are two modules and can be taken at different times.",
-      "sprechen": {
-        "format": "One-to-one with the examiner, about 13 minutes",
-        "preparation": "You prepare your topic before the exam",
-        "criteria": [
-          "Communicative effectiveness",
-          "Interactive listening",
-          "Language control",
-          "Delivery"
-        ]
-      },
+      "modularNote": "SIELE Global is all four tests; S1 to S5 are combinations of them.",
       "unverified": [
-        "Question types and counts per reading task are taken from the ISE I/ISE II overviews; the ISE Foundation overview was not checked",
-        "Speaking & Listening split per task",
-        "Listening task details at Foundation"
+        "The guide copy has no date we could read; a copy elsewhere is labelled April 2021. Tasks, question counts, times and score bands agree with siele.org/examenes as read on 6 November 2026 where that page gives them, but they may have changed. To verify.",
+        "Minutes per module and the split into bands are ours, not the exam's: the real SIELE is one sitting per test and doesn't have band papers."
       ]
     },
     {
       "id": "telc-b1",
-      "exam": "Trinity ISE I",
-      "alt": "Integrated Skills in English, B1",
-      "provider": "trinity",
+      "exam": "SIELE: the B1 tasks",
+      "provider": "siele",
       "level": "B1",
-      "source": "Trinity College London, Test overview — ISE I (B1) — https://www.trinitycollege.com/resource?id=7516 (checked 2026-10-30); timings confirmed on trinitycollege.com",
+      "checked": "2026-11-06",
+      "source": "SIELE exam pages (siele.org/examenes, siele.org/reconocimiento-internacional) and the SIELE exam guide, Guía para la realización del examen SIELE, copy on seul.cervantes.es, checked 2026-11-06",
       "modules": [
         {
           "name": "Reading",
-          "minutes": 120,
-          "minutesNote": "120 minutes for Reading and Writing together; 20 minutes each for Tasks 1 and 2",
-          "points": 30,
+          "minutes": 15,
           "parts": [
             {
               "teil": 1,
-              "task": "Task 1, Long reading, questions 1–5: choose a title for each paragraph",
-              "type": "Title matching (six titles, five are used)",
-              "items": 5,
-              "points": 5
-            },
-            {
-              "teil": 2,
-              "task": "Task 1, Long reading, questions 6–10: which statements are true?",
-              "type": "Five of eight statements are true (here you judge all eight: true or false)",
-              "items": 8,
-              "points": 5
-            },
-            {
-              "teil": 3,
-              "task": "Task 1, Long reading, questions 11–15: complete sentences",
-              "type": "An exact word, number or phrase from the text (maximum three words)",
-              "items": 5,
-              "points": 5
-            },
-            {
-              "teil": 4,
-              "task": "Task 2, Multi-text reading, questions 16–20: which text is it?",
-              "type": "Multiple matching, four texts (a text can be used more than once)",
-              "items": 5,
-              "points": 5
-            },
-            {
-              "teil": 5,
-              "task": "Task 2, Multi-text reading, questions 21–25: which statements are true?",
-              "type": "Five of eight statements are true (here you judge all eight: true or false)",
-              "items": 8,
-              "points": 5
-            },
-            {
-              "teil": 6,
-              "task": "Task 2, Multi-text reading, questions 26–30: complete the notes",
-              "type": "An exact word, number or phrase from the texts (maximum three words)",
-              "items": 5,
-              "points": 5
-            }
-          ]
-        },
-        {
-          "name": "Writing",
-          "minutes": 120,
-          "minutesNote": "same 120 minutes; 40 minutes each for Tasks 3 and 4",
-          "parts": [
-            {
-              "teil": 3,
-              "task": "Task 3, Reading into writing: answer a question using information from all four Task 2 texts",
-              "type": "Free writing, 100–130 words",
-              "items": 1,
-              "minutes": 40
-            },
-            {
-              "teil": 4,
-              "task": "Task 4, Extended writing: e.g. an email, article, review or essay",
-              "type": "Free writing, 100–130 words",
-              "items": 1,
-              "minutes": 40
+              "task": "Reading task 3 (B1): three texts, 100–120 words each",
+              "type": "Match eight statements to the texts",
+              "items": 8
             }
           ]
         },
         {
           "name": "Listening",
-          "minutes": 10,
-          "minutesNote": "Task 3 of the Speaking & Listening module (about 18 minutes in total)",
-          "points": 17,
+          "minutes": 15,
           "parts": [
             {
               "teil": 1,
-              "task": "Independent listening, talk 1: listen twice, then answer six questions",
-              "type": "Short answers (spoken to the examiner in the exam; written here)",
-              "items": 6,
-              "plays": 2
-            },
-            {
-              "teil": 2,
-              "task": "Independent listening, talk 2: first say what it is about, then (second listening) give six pieces of information",
-              "type": "Gist + short answers (spoken in the exam; written here; the four follow-up questions are not included)",
-              "items": 7,
+              "task": "Listening task 3 (B1): eight short recordings, 50–70 words each",
+              "type": "Match to statements, 11 options",
+              "items": 8,
               "plays": 2
             }
           ]
         },
         {
-          "name": "Speaking",
-          "minutes": 6,
-          "minutesNote": "Topic 4 minutes + Conversation 2 minutes",
+          "name": "Writing",
+          "minutes": 25,
           "parts": [
             {
               "teil": 1,
-              "task": "Topic: talk with the examiner about a topic you prepared (topic form with four points)",
-              "type": "One-to-one with the examiner, up to 4 minutes",
+              "task": "Writing task 1 (A1–B1): reply to a letter, email, forum or blog message",
+              "type": "Free writing, 100–150 words recommended",
               "items": 1
-            },
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 5,
+          "parts": [
             {
-              "teil": 2,
-              "task": "Conversation: one subject area chosen by the examiner (travel, money, fashion, rules and regulations, health and fitness, learning a foreign language)",
-              "type": "One-to-one with the examiner, up to 2 minutes",
-              "items": 1
+              "teil": 1,
+              "task": "Speaking task 3 (B1): two simulated situations, one personal and one public, each chosen from two",
+              "type": "Recorded answers",
+              "items": 2
             }
           ]
         }
       ],
-      "schreiben": {
-        "tasks": 2,
-        "wordCounts": [
-          "100–130",
-          "100–130"
-        ],
-        "criteria": [
-          "Task fulfilment",
-          "Organisation and structure",
-          "Language control"
-        ],
-        "rules": "Task 3 also marks reading for writing (how well you use the texts). Use your own words; do not copy from the texts."
-      },
       "total": null,
-      "totalNote": "Each of the four skills gets its own result: Distinction, Merit, Pass or Fail.",
-      "pass": "Trinity reports Pass, Merit or Distinction for each skill; there is no percentage pass mark. Our practice sets use 60 % of the auto-marked points as their own guide.",
+      "totalNote": "In the real test each of the four tests counts up to 250 points, 1000 in SIELE Global. This set has no points of its own.",
+      "pass": "No pass mark. Each test gets a score from 0 to 250, matched to a CEFR level; a score below the A1 band reaches no level.",
       "modular": true,
-      "modularNote": "Reading & Writing and Speaking & Listening are two modules and can be taken at different times.",
-      "sprechen": {
-        "format": "One-to-one with the examiner, about 18 minutes including 2 minutes' admin time",
-        "preparation": "You prepare your topic and bring a topic form",
-        "criteria": [
-          "Communicative effectiveness",
-          "Interactive listening",
-          "Language control",
-          "Delivery"
-        ]
-      },
-      "unverified": []
+      "modularNote": "SIELE Global is all four tests; S1 to S5 are combinations of them.",
+      "unverified": [
+        "The guide copy has no date we could read; a copy elsewhere is labelled April 2021. Tasks, question counts, times and score bands agree with siele.org/examenes as read on 6 November 2026 where that page gives them, but they may have changed. To verify.",
+        "Minutes per module and the split into bands are ours, not the exam's: the real SIELE is one sitting per test and doesn't have band papers."
+      ]
     },
     {
       "id": "telc-b2",
-      "exam": "Trinity ISE II",
-      "alt": "Integrated Skills in English, B2",
-      "provider": "trinity",
+      "exam": "SIELE: the B2 tasks",
+      "provider": "siele",
       "level": "B2",
-      "source": "Trinity College London, Online test overview — ISE II (B2) — https://www.trinitycollege.com/resource?id=8447 (checked 2026-10-30); timings confirmed on trinitycollege.com",
+      "checked": "2026-11-06",
+      "source": "SIELE exam pages (siele.org/examenes, siele.org/reconocimiento-internacional) and the SIELE exam guide, Guía para la realización del examen SIELE, copy on seul.cervantes.es, checked 2026-11-06",
       "modules": [
         {
           "name": "Reading",
-          "minutes": 120,
-          "minutesNote": "120 minutes for Reading and Writing together; 20 minutes each for Tasks 1 and 2",
-          "points": 30,
+          "minutes": 20,
           "parts": [
             {
               "teil": 1,
-              "task": "Task 1, Long reading, questions 1–5: choose a title for each paragraph",
-              "type": "Title matching (six titles, five are used)",
-              "items": 5,
-              "points": 5
+              "task": "Reading task 4 (B2): first text, 230–280 words, four gaps",
+              "type": "Five fragments for four gaps",
+              "items": 4
             },
             {
               "teil": 2,
-              "task": "Task 1, Long reading, questions 6–10: which statements are true?",
-              "type": "Five of eight statements are true (here you judge all eight: true or false)",
-              "items": 8,
-              "points": 5
-            },
-            {
-              "teil": 3,
-              "task": "Task 1, Long reading, questions 11–15: complete sentences",
-              "type": "An exact word, number or phrase from the text (maximum three words)",
-              "items": 5,
-              "points": 5
-            },
-            {
-              "teil": 4,
-              "task": "Task 2, Multi-text reading, questions 16–20: which text is it?",
-              "type": "Multiple matching, four texts (a text can be used more than once)",
-              "items": 5,
-              "points": 5
-            },
-            {
-              "teil": 5,
-              "task": "Task 2, Multi-text reading, questions 21–25: which statements are true?",
-              "type": "Five of eight statements are true (here you judge all eight: true or false)",
-              "items": 8,
-              "points": 5
-            },
-            {
-              "teil": 6,
-              "task": "Task 2, Multi-text reading, questions 26–30: complete the notes",
-              "type": "An exact word, number or phrase from the texts (maximum three words)",
-              "items": 5,
-              "points": 5
-            }
-          ]
-        },
-        {
-          "name": "Writing",
-          "minutes": 120,
-          "minutesNote": "same 120 minutes; 40 minutes each for Tasks 3 and 4",
-          "parts": [
-            {
-              "teil": 3,
-              "task": "Task 3, Reading into writing: answer a question using information from all four Task 2 texts",
-              "type": "Free writing, 150–180 words",
-              "items": 1,
-              "minutes": 40
-            },
-            {
-              "teil": 4,
-              "task": "Task 4, Extended writing: e.g. an email, article, review or essay",
-              "type": "Free writing, 150–180 words",
-              "items": 1,
-              "minutes": 40
+              "task": "Reading task 4 (B2): second text, 230–280 words, four gaps",
+              "type": "Five fragments for four gaps",
+              "items": 4
             }
           ]
         },
         {
           "name": "Listening",
-          "minutes": 8,
-          "minutesNote": "Task 4 of the Speaking & Listening module (about 20 minutes in total)",
-          "points": 6,
+          "minutes": 15,
           "parts": [
             {
               "teil": 1,
-              "task": "Independent listening, first listening: what is the talk about?",
-              "type": "Gist (one or two sentences to the examiner in the exam; multiple choice here)",
-              "items": 1,
-              "plays": 1
-            },
+              "task": "Listening task 4 (B2): an interview, 550–600 words",
+              "type": "Multiple choice, 3 options",
+              "items": 8,
+              "plays": 2
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 30,
+          "parts": [
             {
-              "teil": 2,
-              "task": "Independent listening, second listening: report the opinions, ideas, advantages and disadvantages in the talk",
-              "type": "One minute of speaking in the exam; here five questions on what the speakers think",
-              "items": 5,
-              "plays": 1
+              "teil": 1,
+              "task": "Writing task 2 (B2–C1): opinion article or letter to a newspaper, from one of two headlines",
+              "type": "Free writing, 250–300 words recommended",
+              "items": 1
             }
           ]
         },
         {
           "name": "Speaking",
-          "minutes": 10,
-          "minutesNote": "Topic 4 + Collaborative 4 + Conversation 2 minutes",
+          "minutes": 5,
           "parts": [
             {
               "teil": 1,
-              "task": "Topic: discuss a topic you prepared (four or five points)",
-              "type": "One-to-one with the examiner, up to 4 minutes",
-              "items": 1
-            },
-            {
-              "teil": 2,
-              "task": "Collaborative: the examiner reads a prompt; you ask questions and keep the conversation going",
-              "type": "One-to-one with the examiner, up to 4 minutes",
-              "items": 1
-            },
-            {
-              "teil": 3,
-              "task": "Conversation: one subject area chosen by the examiner (society and living standards, personal values and ideals, the world of work, national environmental concerns, public figures past and present)",
-              "type": "One-to-one with the examiner, up to 2 minutes",
+              "task": "Speaking task 4 (B2): choose one of two topics, read a short text, answer three questions",
+              "type": "Recorded answers",
               "items": 1
             }
           ]
         }
       ],
-      "schreiben": {
-        "tasks": 2,
-        "wordCounts": [
-          "150–180",
-          "150–180"
-        ],
-        "criteria": [
-          "Task fulfilment",
-          "Organisation and structure",
-          "Language control"
-        ],
-        "rules": "Task 3 also marks reading for writing (how well you use the texts). Use your own words; do not copy from the texts."
-      },
       "total": null,
-      "totalNote": "Each of the four skills gets its own result: Distinction, Merit, Pass or Fail.",
-      "pass": "Trinity reports Pass, Merit or Distinction for each skill; there is no percentage pass mark. Our practice sets use 60 % of the auto-marked points as their own guide.",
+      "totalNote": "In the real test each of the four tests counts up to 250 points, 1000 in SIELE Global. This set has no points of its own.",
+      "pass": "No pass mark. Each test gets a score from 0 to 250, matched to a CEFR level; a score below the A1 band reaches no level.",
       "modular": true,
-      "modularNote": "Reading & Writing and Speaking & Listening are two modules and can be taken at different times.",
-      "sprechen": {
-        "format": "One-to-one with the examiner, about 20 minutes including 2 minutes' admin time",
-        "preparation": "You prepare your topic and may bring notes or a mind map",
-        "criteria": [
-          "Communicative effectiveness",
-          "Interactive listening",
-          "Language control",
-          "Delivery"
-        ]
-      },
-      "unverified": []
+      "modularNote": "SIELE Global is all four tests; S1 to S5 are combinations of them.",
+      "unverified": [
+        "The guide copy has no date we could read; a copy elsewhere is labelled April 2021. Tasks, question counts, times and score bands agree with siele.org/examenes as read on 6 November 2026 where that page gives them, but they may have changed. To verify.",
+        "Minutes per module and the split into bands are ours, not the exam's: the real SIELE is one sitting per test and doesn't have band papers."
+      ]
     },
     {
       "id": "telc-c1",
-      "exam": "telc Deutsch C1",
-      "provider": "telc",
+      "exam": "SIELE: the C1 tasks",
+      "provider": "siele",
       "level": "C1",
-      "source": "telc Deutsch C1 – Übungstest 1, Format 2016, 'Testformat' S. 5, Aufgaben S. 6–27, Informationen S. 38–49 — https://www.telc.net/fileadmin/user_upload/mock_exams/Deutsch/telc_deutsch_c1.zip",
+      "checked": "2026-11-06",
+      "source": "SIELE exam pages (siele.org/examenes, siele.org/reconocimiento-internacional) and the SIELE exam guide, Guía para la realización del examen SIELE, copy on seul.cervantes.es, checked 2026-11-06",
       "modules": [
         {
-          "name": "Leseverstehen",
-          "minutes": 90,
-          "minutesNote": "90 Min. für Leseverstehen UND Sprachbausteine zusammen; danach 20 Min. Pause",
-          "points": 48,
+          "name": "Reading",
+          "minutes": 20,
           "parts": [
             {
               "teil": 1,
-              "task": "Textrekonstruktion: Welche Sätze gehören in die Lücken?",
-              "type": "Zuordnung Sätze → Lücken (8 Sätze a–h, 2 passen nicht)",
+              "task": "Reading task 5 (C1): a text with 12 gaps, 375–425 words in the real test",
+              "type": "Multiple choice, 3 options: grammar, vocabulary, cohesion",
+              "items": 12
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 20,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Listening task 5 (C1): a monologue in six fragments, 450–500 words",
+              "type": "One idea per fragment, 3 options",
               "items": 6,
-              "text": "1 Zeitschriftenartikel, ca. 500 Wörter",
-              "points": 12
+              "plays": 2
             },
             {
               "teil": 2,
-              "task": "Selektives Verstehen: In welchem Absatz steht die Antwort?",
-              "type": "Zuordnung Frage → Absatz a–e (Absätze mehrfach möglich)",
+              "task": "Listening task 6 (C1): a lecture, 450–500 words",
+              "type": "Six ideas out of 12 options",
               "items": 6,
-              "text": "1 Text mit 5 Absätzen (z. B. Erfahrungsberichte), ca. 800–900 Wörter",
-              "points": 12
-            },
-            {
-              "teil": 3,
-              "task": "Detailverstehen",
-              "type": "Richtig / Falsch / nicht im Text (+/–/x)",
-              "items": 11,
-              "text": "1 langer Sachtext/Essay, ca. 1.200 Wörter",
-              "points": 22
-            },
-            {
-              "teil": 4,
-              "task": "Globalverstehen (Makroaufgabe): Welche Überschrift trifft die Aussage des Textes (aus Teil 3) am besten?",
-              "type": "Mehrfachauswahl a/b/c",
-              "items": 1,
-              "text": "bezieht sich auf den Text von Teil 3",
-              "points": 2
+              "plays": 2
             }
           ]
         },
         {
-          "name": "Sprachbausteine",
-          "minutes": 90,
-          "minutesNote": "gemeinsam mit Leseverstehen",
-          "points": 22,
+          "name": "Writing",
+          "minutes": 30,
           "parts": [
             {
               "teil": 1,
-              "task": "Grammatik und Lexik: welches Wort passt in die Lücke?",
-              "type": "Lückentext, Mehrfachauswahl a/b/c/d",
-              "items": 22,
-              "text": "1 Sachtext/Bericht, ca. 400–450 Wörter",
-              "points": 22
+              "task": "Writing task 2 (B2–C1): opinion article or letter to a newspaper, from one of two headlines",
+              "type": "Free writing, 250–300 words recommended",
+              "items": 1
             }
           ]
         },
         {
-          "name": "Hörverstehen",
-          "minutes": 40,
-          "minutesNote": "ca. 40 Min.; 5 Min. Übertragungszeit für Teil 3",
-          "points": 48,
+          "name": "Speaking",
+          "minutes": 5,
           "parts": [
             {
               "teil": 1,
-              "task": "Globalverstehen: Meinungen von 8 Personen zu einem Thema – welche Aussage passt zu welcher Person?",
-              "type": "Zuordnung (10 Aussagen a–j, 2 passen nicht)",
-              "items": 8,
-              "text": "8 kurze Meinungsäußerungen, 1 Min. Lesezeit",
-              "plays": 1,
-              "points": 8
-            },
-            {
-              "teil": 2,
-              "task": "Detailverstehen: Radiosendung",
-              "type": "Mehrfachauswahl a/b/c",
-              "items": 10,
-              "text": "1 Radiosendung/Interview, 3 Min. Lesezeit",
-              "plays": 1,
-              "points": 20
-            },
-            {
-              "teil": 3,
-              "task": "Informationstransfer: Vortrag hören und fehlende Informationen stichwortartig in Präsentationsfolien (Handzettel) eintragen",
-              "type": "Offene Kurzantwort (Notizen); 2 Punkte, bei fehlerhafter Realisierung ggf. 1",
-              "items": 10,
-              "text": "1 Vortrag mit Folien-Handout, 1 Min. Lesezeit",
-              "plays": 1,
-              "points": 20
-            }
-          ]
-        },
-        {
-          "name": "Schriftlicher Ausdruck",
-          "minutes": 70,
-          "points": 48,
-          "scoring": "4 Kriterien je 12/8/4/0 = 48",
-          "parts": [
-            {
-              "teil": 1,
-              "task": "Argumentativer Text (Erörterung/Stellungnahme) zu 1 von 2 Themen (z. B. Leserbrief an Lokalzeitung, Beitrag für Schulzeitung); Vor- und Nachteile, eigene Position",
-              "type": "Freies Schreiben, Wahlaufgabe",
-              "items": 1,
-              "text": "Themenstellung + 2 Impulszitate; Text etwa 350 Wörter",
-              "points": 48
-            }
-          ]
-        },
-        {
-          "name": "Mündlicher Ausdruck",
-          "minutes": 16,
-          "minutesNote": "ca. 16 Min. Paarprüfung (Einzelprüfung kürzer, Dreierprüfung länger)",
-          "points": 48,
-          "scoring": "Aufgabengerechtheit: Teil 1A 6/4/2/0, Teil 1B 4/2/1/0, Teil 2 6/4/2/0 (= 16); Sprachliche Angemessenheit über alle Teile: Flüssigkeit, Repertoire, Grammatische Richtigkeit, Aussprache/Intonation je 8/5/2/0 (= 32)",
-          "parts": [
-            {
-              "teil": "1A",
-              "task": "Präsentation: Kurzreferat zu 1 von 2 Themen (Einleitung, gut gegliedert, Fazit)",
-              "type": "Monolog",
-              "items": 1,
-              "text": "ca. 3(–4) Min. pro Person",
-              "points": 6
-            },
-            {
-              "teil": "1B",
-              "task": "Zusammenfassung der Partner-Präsentation + mindestens eine Anschlussfrage; Fragen beantworten",
-              "type": "Interaktion",
-              "items": 1,
-              "text": "ca. 2(–3) Min. pro Person",
-              "points": 4
-            },
-            {
-              "teil": 2,
-              "task": "Diskussion zu einer These/Aussage: Verständnis, Zustimmung/Ablehnung, Gründe, Beispiele, auf Partner eingehen",
-              "type": "Interaktion (Paar)",
-              "items": 1,
-              "text": "Kurze These + 4 Leitpunkte; 6 Min.",
-              "points": 6
-            },
-            {
-              "teil": "alle",
-              "task": "Sprachliche Angemessenheit über die ganze Prüfung",
-              "type": "Globalbewertung",
-              "items": 0,
-              "text": "—",
-              "points": 32
+              "task": "Speaking task 5 (C1): a monologue for or against one of two statements, on the topic of task 4",
+              "type": "Recorded monologue",
+              "items": 1
             }
           ]
         }
       ],
-      "schreiben": {
-        "tasks": 1,
-        "wordCounts": [
-          "etwa 350"
-        ],
-        "choice": "Thema 1 oder 2",
-        "criteria": [
-          "Aufgabengerechtheit",
-          "Korrektheit",
-          "Repertoire",
-          "Kommunikative Gestaltung"
-        ],
-        "rules": "Thema verfehlt → D in allen vier Kriterien."
-      },
-      "sprechen": {
-        "format": "Paarprüfung ca. 16 Min. (Einzel- und Dreierprüfung möglich)",
-        "preparation": "20 Minuten (für die Präsentation); Stichwortnotizen erlaubt, kein ausformulierter Text",
-        "criteria": [
-          "Aufgabengerechtheit (je Teil)",
-          "Flüssigkeit",
-          "Repertoire",
-          "Grammatische Richtigkeit",
-          "Aussprache und Intonation"
-        ]
-      },
-      "total": 214,
-      "pass": "mind. 128 von 214 Punkten UND schriftlich mind. 60 % (99 von 166) UND mündlich mind. 60 % (29 von 48). Noten: 193–214 sehr gut, 172–192,5 gut, 151–171,5 befriedigend, 128–150,5 ausreichend.",
-      "modular": false,
-      "modularNote": "Nicht modular; nicht bestandener schriftlicher oder mündlicher Teil kann bis Ende des folgenden Kalenderjahres einzeln wiederholt werden.",
+      "total": null,
+      "totalNote": "In the real test each of the four tests counts up to 250 points, 1000 in SIELE Global. This set has no points of its own.",
+      "pass": "No pass mark. Each test gets a score from 0 to 250, matched to a CEFR level; a score below the A1 band reaches no level.",
+      "modular": true,
+      "modularNote": "SIELE Global is all four tests; S1 to S5 are combinations of them.",
       "unverified": [
-        "Gesamtdauer schriftlich: Das Heft sagt einmal 'Die Schriftliche Prüfung dauert 120 Minuten', die Testformat-Tabelle ergibt aber 90 + 40 + 70 = 200 Min. (+ 20 Min. Pause) – Tabellenwerte übernommen",
-        "Textlängen sind Schätzungen"
+        "The guide copy has no date we could read; a copy elsewhere is labelled April 2021. Tasks, question counts, times and score bands agree with siele.org/examenes as read on 6 November 2026 where that page gives them, but they may have changed. To verify.",
+        "Minutes per module and the split into bands are ours, not the exam's: the real SIELE is one sitting per test and doesn't have band papers."
       ]
     }
   ]

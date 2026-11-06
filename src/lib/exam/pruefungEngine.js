@@ -601,6 +601,8 @@ function renderResult(main, set, ctx) {
   const table = el("table", "exam-breakdown");
   table.innerHTML = `<thead><tr><th>${escapeHtml(tx("ps.result.module", "Teil"))}</th><th>${escapeHtml(tx("ps.result.points", "Punkte"))}</th><th>%</th></tr></thead>`;
   const tbody = el("tbody");
+  // `passPct: null` = the exam has no pass mark (SIELE, content-plan §2): no verdict, no line.
+  const hasPass = set.scoring?.passPct !== null;
   const pass = set.scoring?.passPct ?? 60;
   let anyScored = false;
   for (const module of set.modules) {
@@ -623,12 +625,13 @@ function renderResult(main, set, ctx) {
     const pct = percent(got, max);
     const verdict = answered < total
       ? `<span class="ps-verdict">${escapeHtml(tx("ps.result.open", "noch {n} offen", { n: total - answered }))}</span>`
+      : !hasPass ? ""
       : `<span class="ps-verdict ${pct >= pass ? "is-pass" : "is-fail"}">${escapeHtml(pct >= pass ? tx("ps.result.pass", "bestanden") : tx("ps.result.fail", "noch nicht"))}</span>`;
     tbody.appendChild(el("tr", "", `<td>${escapeHtml(module.name)} ${verdict}</td><td>${got} / ${max}</td><td>${pct}</td>`));
   }
   table.appendChild(tbody);
   box.appendChild(table);
-  if (anyScored) box.appendChild(el("p", "format-note", escapeHtml(tx("ps.result.rule", "Richtwert: ab {p} % der Punkte gilt ein Teil als bestanden.", { p: pass }))));
+  if (anyScored && hasPass) box.appendChild(el("p", "format-note", escapeHtml(tx("ps.result.rule", "Richtwert: ab {p} % der Punkte gilt ein Teil als bestanden.", { p: pass }))));
   if (set.scoring?.note) box.appendChild(el("p", "format-note", escapeHtml(set.scoring.note)));
   const wrong = Object.values(ctx.state.answers ?? {}).filter((a) => a && a.correct === false).length;
   if (wrong) box.appendChild(el("p", "format-note", `<a href="${withBase("/my-mistakes")}">${escapeHtml(tx("fehler.saved", "{n} Fehler gespeichert → Meine Fehler", { n: wrong }))}</a>`));

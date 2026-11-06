@@ -1,120 +1,143 @@
 {
-  "note": "Format of IELTS Academic (the slot formerly used for TestDaF). Structure only: parts, question counts, timings, word counts and answer forms. As of 2026-10-30, from the public description of the test on ielts.org; the page was not re-fetched when this file was written, so entries marked \"verify\": true (finer details such as the timing of single speaking parts, the extra transfer time on paper, and the kinds of recordings and texts) should be checked once by hand against ielts.org before publication. The tasks, texts, charts and recordings of the real test are protected by copyright and are NOT in this file. IELTS can be taken on paper or on a computer; the content is the same, and Speaking is always a face-to-face interview with an examiner (in person or by video call).",
+  "note": "Format of SIELE Global and its modalities, shown on /ielts. Structure only, from the SIELE exam guide (Guía para la realización del examen SIELE, copy on seul.cervantes.es; its date could not be read, a copy elsewhere says April 2021) and siele.org/examenes, both checked 2026-11-06. No exam content is reproduced. Prices are not official: see reports/exams-siele.md.",
+  "checked": "2026-11-06",
   "sources": {
-    "ieltsOrg": "https://ielts.org/",
-    "aboutIelts": "https://ielts.org/take-a-test/test-types/ielts-academic-test",
-    "bandScores": "https://ielts.org/cms/ielts-scoring/understanding-ielts-scoring",
-    "practiceMaterial": "https://ielts.org/take-a-test/preparation-resources/sample-test-questions"
+    "examTypes": "https://siele.org/examenes",
+    "recognition": "https://siele.org/reconocimiento-internacional",
+    "guide": "https://seul.cervantes.es/imagenes/File/guia_de_examen_SIELE.pdf"
   },
-  "grading": "Each skill (Listening, Reading, Writing, Speaking) gets a band score from 0 to 9, in half bands where reported. The overall band is the average of the four scores, rounded to the nearest half band. There is no pass mark: each university, employer or immigration body sets the bands it asks for.",
-  "pilotNote": "This practice site's own set (testdaf/uebungssatz-1.json) has Reading (30 questions) and Writing Task 1 only. Listening and Speaking are not part of it.",
   "formate": [
     {
-      "id": "digital",
-      "exam": "IELTS Academic (computer-delivered)",
-      "delivery": "at a test centre on a computer; Speaking face to face with an examiner",
-      "sections": [
+      "id": "global",
+      "exam": "SIELE Global",
+      "level": "A1–C1",
+      "totalPoints": 1000,
+      "source": "SIELE exam guide and siele.org/examenes, checked 6 November 2026",
+      "intro": "One exam on a computer at an exam centre, about 3 hours in all, with a 15-minute break. Every candidate takes the same route: the tasks start at A1 and climb to C1.",
+      "blocks": [
         {
-          "skill": "hoeren",
-          "label": "Listening",
-          "time": "about 30 minutes",
-          "tasks": 4,
-          "items": 40,
-          "playsEach": 1,
+          "label": "Test",
           "rows": [
-            { "nr": 1, "type": "Conversation between two people in an everyday social setting", "items": 10, "verify": true },
-            { "nr": 2, "type": "Monologue in an everyday social setting", "items": 10, "verify": true },
-            { "nr": 3, "type": "Conversation of up to four people in an educational or training setting", "items": 10, "verify": true },
-            { "nr": 4, "type": "Monologue on an academic subject", "items": 10, "verify": true }
+            {
+              "part": "Reading",
+              "what": "5 tasks, 38 questions",
+              "type": "Marked automatically",
+              "time": "60 minutes",
+              "points": 250
+            },
+            {
+              "part": "Listening",
+              "what": "6 tasks, 38 questions; each recording plays twice",
+              "type": "Marked automatically",
+              "time": "55 minutes",
+              "points": 250
+            },
+            {
+              "part": "Writing",
+              "what": "2 tasks",
+              "type": "Marked by a rater",
+              "time": "50 minutes",
+              "points": 250
+            },
+            {
+              "part": "Speaking",
+              "what": "5 tasks, recorded on the computer",
+              "type": "Marked by a rater",
+              "time": "15–20 minutes",
+              "points": 250
+            }
           ],
-          "note": "Each recording is played once. Question types include multiple choice, matching, form or note completion, and short answers."
-        },
-        {
-          "skill": "lesen",
-          "label": "Reading",
-          "time": "60 minutes",
-          "tasks": 3,
-          "items": 40,
-          "rows": [
-            { "nr": 1, "type": "Passage 1", "text": "long text on an academic subject" },
-            { "nr": 2, "type": "Passage 2", "text": "long text on an academic subject" },
-            { "nr": 3, "type": "Passage 3", "text": "long text on an academic subject" }
-          ],
-          "note": "40 questions in total over three passages. Question types include multiple choice, matching headings or information, True / False / Not given and Yes / No / Not given, and sentence or summary completion."
-        },
-        {
-          "skill": "schreiben",
-          "label": "Writing",
-          "time": "60 minutes",
-          "tasks": 2,
-          "rows": [
-            { "nr": 1, "type": "Task 1: describe a chart, graph, table or diagram", "words": "at least 150 words", "time": "about 20 min." },
-            { "nr": 2, "type": "Task 2: essay in response to a point of view, argument or problem", "words": "at least 250 words", "time": "about 40 min." }
-          ],
-          "note": "Task 2 counts for more than Task 1 in the Writing band."
-        },
-        {
-          "skill": "sprechen",
-          "label": "Speaking",
-          "time": "11–14 minutes",
-          "tasks": 3,
-          "rows": [
-            { "nr": 1, "type": "Introduction and interview on familiar topics", "speak": "4–5 min.", "verify": true },
-            { "nr": 2, "type": "Long turn on a topic card (short preparation time)", "speak": "3–4 min.", "prep": "1 min.", "verify": true },
-            { "nr": 3, "type": "Two-way discussion of more abstract questions linked to the topic", "speak": "4–5 min.", "verify": true }
-          ],
-          "note": "Face to face with an examiner; the interview is recorded."
-        }
-      ]
-    },
-    {
-      "id": "papier",
-      "exam": "IELTS Academic (paper-based)",
-      "delivery": "on paper at a test centre; Speaking face to face with an examiner",
-      "totalTime": "2 hours 45 minutes for Listening, Reading and Writing (Speaking is on the same day or up to a week before or after)",
-      "sections": [
-        {
-          "skill": "hoeren",
-          "label": "Listening",
-          "time": "about 30 minutes, plus 10 minutes to copy the answers onto the answer sheet",
-          "items": 40,
-          "rows": [
-            { "nr": 1, "type": "Part 1", "items": 10, "verify": true },
-            { "nr": 2, "type": "Part 2", "items": 10, "verify": true },
-            { "nr": 3, "type": "Part 3", "items": 10, "verify": true },
-            { "nr": 4, "type": "Part 4", "items": 10, "verify": true }
-          ]
-        },
-        {
-          "skill": "lesen",
-          "label": "Reading",
-          "time": "60 minutes",
-          "items": 40,
-          "rows": [
-            { "nr": 1, "type": "Passage 1" },
-            { "nr": 2, "type": "Passage 2" },
-            { "nr": 3, "type": "Passage 3" }
-          ],
-          "note": "No extra time to copy answers: write them on the answer sheet during the 60 minutes."
-        },
-        {
-          "skill": "schreiben",
-          "label": "Writing",
-          "time": "60 minutes",
-          "rows": [
-            { "nr": 1, "type": "Task 1: describe a chart, graph, table or diagram", "words": "at least 150 words", "time": "about 20 min." },
-            { "nr": 2, "type": "Task 2: essay", "words": "at least 250 words", "time": "about 40 min." }
-          ],
-          "note": "Handwritten."
-        },
-        {
-          "skill": "sprechen",
-          "label": "Speaking",
-          "time": "11–14 minutes",
-          "tasks": 3,
-          "note": "Same interview as in the computer-delivered test."
+          "total": {
+            "time": "About 3 hours",
+            "points": 1000
+          }
         }
       ]
     }
-  ]
+  ],
+  "bands": {
+    "columns": [
+      "Level",
+      "Reading",
+      "Listening",
+      "Writing",
+      "Speaking"
+    ],
+    "rows": [
+      [
+        "A1",
+        "33–65.99",
+        "33–65.99",
+        "34–68.99",
+        "40–75.99"
+      ],
+      [
+        "A2",
+        "66–117.99",
+        "66–111.99",
+        "69–103.99",
+        "76–124.99"
+      ],
+      [
+        "B1",
+        "118–177.99",
+        "112–163.99",
+        "104–166.99",
+        "125–175.99"
+      ],
+      [
+        "B2",
+        "178–216.99",
+        "164–210.99",
+        "167–214.99",
+        "176–214.99"
+      ],
+      [
+        "C1",
+        "217–250",
+        "211–250",
+        "215–250",
+        "215–250"
+      ]
+    ]
+  },
+  "modalities": [
+    {
+      "id": "Global",
+      "tests": "Reading, Listening, Writing, Speaking",
+      "points": 1000,
+      "result": "Certificate"
+    },
+    {
+      "id": "S1",
+      "tests": "Reading, Listening",
+      "points": 500,
+      "result": "Report"
+    },
+    {
+      "id": "S2",
+      "tests": "Reading, Writing",
+      "points": 500,
+      "result": "Report"
+    },
+    {
+      "id": "S3",
+      "tests": "Listening, Speaking",
+      "points": 500,
+      "result": "Report"
+    },
+    {
+      "id": "S4",
+      "tests": "Speaking",
+      "points": 250,
+      "result": "Report"
+    },
+    {
+      "id": "S5",
+      "tests": "Writing, Speaking",
+      "points": 500,
+      "result": "Report"
+    }
+  ],
+  "pilotNote": "This practice site's own set (testdaf/uebungssatz-1.json) has reading and writing only, like the S2 modality, and is shorter than the real test. The telc band sets hold every task type."
 }

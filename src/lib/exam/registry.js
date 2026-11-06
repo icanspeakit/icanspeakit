@@ -60,20 +60,20 @@ export const examRegistry = [
   },
   {
     id: "testdaf",
-    title: "IELTS Academic",
+    title: "SIELE reading and writing",
     subtitle: "Reading · Writing",
-    level: "Band 5–7",
+    level: "B1–C1",
     href: "/ielts/practice-set",
     overview: "/ielts",
     store: { kind: "exam", key: "testdaf" },
-    // Deliberately no pass percentage: IELTS gives a band score per skill and every
+    // Deliberately no pass percentage: the SIELE gives a score per test and every
     // institution sets its own requirement, so a line here would be invented.
-    passNote: "No pass mark: IELTS gives each skill a band score from 0 to 9, and each university or employer sets the band it needs.",
+    passNote: "No pass mark: each SIELE test gets a score from 0 to 250 and a CEFR level, and each institution decides what it asks for.",
     passPct: null,
     modules: [
-      { key: "lesen1", label: "Reading · Passage 1", ids: idsOf(tdaf.leseverstehen.aufgabe1) },
-      { key: "lesen2", label: "Reading · Passage 2", ids: idsOf(tdaf.leseverstehen.aufgabe2) },
-      { key: "lesen3", label: "Reading · Passage 3", ids: idsOf(tdaf.leseverstehen.aufgabe3) },
+      { key: "lesen1", label: "Reading · Task 1", ids: idsOf(tdaf.leseverstehen.aufgabe1) },
+      { key: "lesen2", label: "Reading · Task 2", ids: idsOf(tdaf.leseverstehen.aufgabe2) },
+      { key: "lesen3", label: "Reading · Task 3", ids: idsOf(tdaf.leseverstehen.aufgabe3) },
       { key: "schreiben", label: "Writing", ids: ["tdaf-schreiben"], scored: false },
     ],
   },
