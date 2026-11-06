@@ -1,0 +1,155 @@
+---
+// "DELE or SIELE?": which exam fits which purpose (content-plan §2). General orientation, every
+// fact dated. Text lives in public/i18n/en.json; the markup holds the same English as a fallback.
+// Official sources and what is still "to verify": reports/exams-siele.md and testdaf-formate.json.
+import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import "../../styles/practice.css";
+import "../../styles/pruefungen.css";
+
+const purposes = [
+  {
+    key: "nationality",
+    title: "Spanish nationality",
+    answer: "DELE",
+    text: "If you need a language exam for Spanish nationality, take the DELE at A2 or above. It goes together with the CCSE knowledge test. The SIELE's own site says that its certificates don't count for the nationality procedure. Some applicants are exempt from the language exam, for example people from countries where Spanish is an official language, so check your own case with the Ministry of Justice.",
+  },
+  {
+    key: "university",
+    title: "University in Spain",
+    answer: "Often either: ask first",
+    text: "The SIELE site says that the Spanish rectors' conference (CRUE) and the university language centres' association (ACLES) list the SIELE as an accepted certificate. The site also says that many universities ask for B1 or B2. Even so, each university and each degree sets its own rule, so get it in writing from the admissions office. Ask how old your result may be, too.",
+  },
+  {
+    key: "work",
+    title: "Work",
+    answer: "Depends on the employer",
+    text: "Private employers often care more about your level than about which exam it came from. The SIELE is quick to book if you need a result soon, and the DELE has no expiry date as far as we could check. Public jobs and regulated professions can have fixed rules. For the specialist training places in health (Medicine, Nursing, Pharmacy and others), the SIELE site says the SIELE is recognised. Check the current call for applications.",
+  },
+  {
+    key: "visa",
+    title: "Visas, scholarships and other official uses",
+    answer: "Read the rules of the procedure",
+    text: "We can't give a general answer here. A consulate, ministry or scholarship body says which certificates it accepts, at which level, and how old they may be. If the rules name only one exam, take that one. This page is general orientation, not legal advice.",
+  },
+  {
+    key: "self",
+    title: "For yourself",
+    answer: "Your choice",
+    text: "If you want a goal to work towards, the DELE gives you one level to aim for and a diploma if you reach it. If you want to see where you stand, the SIELE gives you a level for each skill, and you don't have to know your level before you book.",
+  },
+];
+
+const rows = [
+  { key: "who", label: "Who is behind it", dele: "Instituto Cervantes", siele: "Instituto Cervantes, UNAM (Mexico), Universidad de Salamanca, Universidad de Buenos Aires" },
+  { key: "levels", label: "Levels", dele: "A1 to C2", siele: "A1 to C1" },
+  { key: "shape", label: "One exam or several", dele: "A separate exam for each level: you choose your level when you register", siele: "One exam for all levels: the tasks climb from A1 to C1" },
+  { key: "result", label: "Result", dele: "Apto or No apto: you pass or you don't", siele: "A score from 0 to 250 per test, each matched to a CEFR level. No pass mark, but a very low score reaches no level" },
+  { key: "doc", label: "What you get", dele: "A diploma", siele: "SIELE Global: a certificate, 0 to 1000 points. S1 to S5, with fewer tests: a report" },
+  { key: "valid", label: "How long it lasts", dele: "No expiry date, as far as we could check", siele: "Five years" },
+  { key: "how", label: "How you take it", dele: "At an exam centre. Speaking is with examiners", siele: "On a computer at an exam centre. Speaking is recorded, with nobody in the room to answer you" },
+  { key: "when", label: "When", dele: "On fixed dates a few times a year, with a registration deadline", siele: "When a centre offers a session: no fixed dates worldwide" },
+  { key: "fast", label: "How fast the result comes", dele: "Usually a few months", siele: "Within three weeks, according to the SIELE site" },
+  { key: "price", label: "Price in Spain, roughly", dele: "About 110 € (A1) to 240 € (C2); about 138 € for A2", siele: "SIELE Global about 125–155 €; S1 to S5 about 55–100 €" },
+];
+---
+<Layout
+  title="DELE or SIELE? Which Spanish exam you need – icanspeak Spanish"
+  description="DELE or SIELE: which Spanish exam fits nationality, university or work? Results, validity, format and rough prices side by side. General orientation, dated November 2026."
+>
+  <SiteNav active="pruefungen" />
+  <main class="practice-main practice-main--wide">
+    <a href="/exams" class="vp-back-link" data-i18n="fallen.back">Back to the exams</a>
+
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="delesiele.eyebrow">Choosing an exam</p>
+      <h1 data-i18n="delesiele.title">DELE or SIELE?</h1>
+      <p data-i18n="delesiele.lead">
+        Both are serious Spanish exams, and the Instituto Cervantes is behind both. What decides between
+        them is what you need the result for. For Spanish nationality, the answer is the DELE. For
+        almost everything else, ask the institution first.
+      </p>
+      <ExamDisclaimer />
+    </div>
+
+    <section class="exam-section">
+      <h2 data-i18n="delesiele.purpose.title">What do you need it for?</h2>
+      <div class="format-table-wrap">
+        <table class="format-table">
+          <thead><tr><th data-i18n="delesiele.th.purpose">Purpose</th><th data-i18n="delesiele.th.answer">Short answer</th><th data-i18n="delesiele.th.detail">What to know</th></tr></thead>
+          <tbody>
+            {purposes.map((p) => (
+              <tr>
+                <th scope="row" data-i18n={`delesiele.p.${p.key}.title`}>{p.title}</th>
+                <td><strong data-i18n={`delesiele.p.${p.key}.answer`}>{p.answer}</strong></td>
+                <td data-i18n={`delesiele.p.${p.key}.text`}>{p.text}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="format-note" data-i18n="delesiele.purpose.note">
+        General orientation, not legal advice. Rules change, so before you pay for an exam, check with
+        the office that will read your result.
+      </p>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="delesiele.compare.title">The two exams side by side</h2>
+      <div class="format-table-wrap">
+        <table class="format-table">
+          <thead><tr><th></th><th translate="no">DELE</th><th translate="no">SIELE</th></tr></thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr>
+                <th scope="row" data-i18n={`delesiele.r.${r.key}.label`}>{r.label}</th>
+                <td data-i18n={`delesiele.r.${r.key}.dele`}>{r.dele}</td>
+                <td data-i18n={`delesiele.r.${r.key}.siele`}>{r.siele}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="format-note" data-i18n="delesiele.compare.note">
+        Checked in November 2026. Prices are what some exam centres in Spain listed and aren't an official
+        tariff: they change every year and differ by country and centre. DELE timings and rules vary by
+        source, so check them in the current exam guide.
+      </p>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="delesiele.tips.title">If you still can't decide</h2>
+      <ul class="task-points">
+        <li data-i18n="delesiele.tips.1">You don't know your level: the SIELE places you wherever you are, while a DELE at the wrong level can end in No apto.</li>
+        <li data-i18n="delesiele.tips.2">You freeze when you talk to a computer: the DELE has examiners in the room. You get nervous in front of people: the SIELE is recorded.</li>
+        <li data-i18n="delesiele.tips.3">You need a result soon: the SIELE's flexible dates and quicker results usually help. Check that the institution accepts it first.</li>
+        <li data-i18n="delesiele.tips.4">You want something that doesn't run out: the DELE has no expiry date as far as we could check, while a SIELE result lasts five years.</li>
+        <li data-i18n="delesiele.tips.5">You only learn Spain's Spanish: the SIELE site says the exam uses varieties from across the Spanish-speaking world, so practise hearing other accents too.</li>
+      </ul>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="delesiele.practice.title">Practise here</h2>
+      <div class="mock-cta">
+        <h3 data-i18n="delesiele.practice.dele.title">DELE</h3>
+        <p data-i18n="delesiele.practice.dele.text">Format and practice tests for each level, A1 to C1, in the style of the exam.</p>
+        <a class="quiz-btn quiz-btn--primary" href="/cambridge" data-i18n="delesiele.practice.dele.cta">To the DELE page</a>
+      </div>
+      <div class="mock-cta">
+        <h3 data-i18n="delesiele.practice.siele.title">SIELE</h3>
+        <p data-i18n="delesiele.practice.siele.text">Scores, modalities and practice tasks for every band, A1 to C1, in the style of the exam.</p>
+        <a class="quiz-btn quiz-btn--primary" href="/ielts" data-i18n="delesiele.practice.siele.cta">To the SIELE page</a>
+      </div>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="delesiele.sources.title">Where to check</h2>
+      <ul class="task-points">
+        <li><a href="https://siele.org/examenes" rel="noopener" data-i18n="delesiele.sources.siele">SIELE: exam types, tests and scores</a></li>
+        <li><a href="https://siele.org/reconocimiento-internacional" rel="noopener" data-i18n="delesiele.sources.recog">SIELE: who recognises it</a></li>
+        <li><a href="https://cervantes.org/es/examenes/dele" rel="noopener" data-i18n="delesiele.sources.dele">Instituto Cervantes: DELE</a></li>
+      </ul>
+    </section>
+  </main>
+</Layout>

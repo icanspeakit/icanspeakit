@@ -6,23 +6,23 @@ import ExamPractice from "../../components/ExamPractice.astro";
 import ExamFormat from "../../components/ExamFormat.astro";
 import telcFormate from "../../data/pruefungen/telc-formate.json";
 
-// SIELE by level (content-plan §2: the telc slot). Format data comes from telc-formate.json
-// and its `source` field, rewritten by `exams-siele`. Official exam items are never
-// reproduced here; only the structure of the exam is.
+// SIELE by level (content-plan §2: the telc slot). Format data comes from telc-formate.json.
+// The real SIELE is one multilevel exam; each set here holds the tasks aimed at one band, and
+// the four together hold every task of it. Official exam items are never reproduced here.
 const formate = telcFormate.formate;
 ---
 <Layout
   title="SIELE by level: practice and exam format – icanspeak Spanish"
-  description="Practise for SIELE by level, A2 to B2: free practice in exam format, with listening, a timer and answers. Plus the exam format and an uso de la lengua trainer."
+  description="Practise the SIELE task by task, from A1 to C1: reading, listening, writing and speaking at each band, with a timer and answers. Not official exam material."
 >
   <ExamShell
     bild="telc"
     header="SIELE by level"
     title="SIELE by level"
     titleKey="telc.title"
-    lead="Practice for SIELE by level: tasks at the A2, B1 and B2 bands, module by module. SIELE tests reading, listening, writing and speaking on a computer, with a score and a CEFR level for each module."
+    lead="The tasks of the SIELE, one band at a time. The real exam climbs from A1 to C1 in one sitting; here you can practise the tasks that aim at your level, and the four sets together hold one whole exam."
     leadKey="telc.lead"
-    badges={["A2–B2"]}
+    badges={["A1–C1"]}
     practiceHeading="Practise for SIELE by level"
     practiceHeadingKey="telc.practiceHeading"
   >
@@ -30,39 +30,41 @@ const formate = telcFormate.formate;
       <section class="exam-section">
         <h2 data-i18n="telc.who.title">Who is SIELE for?</h2>
         <div class="exam-meta-row">
-          <span class="exam-meta-badge" data-i18n="telc.who.badge.level">Bands A2–B2</span>
-          <span class="exam-meta-badge" data-i18n="telc.who.badge.modular">A score per module</span>
+          <span class="exam-meta-badge" data-i18n="telc.who.badge.level">Tasks from A1 to C1</span>
+          <span class="exam-meta-badge" data-i18n="telc.who.badge.modular">A score per test</span>
         </div>
         <p data-i18n="telc.who.text">
-          SIELE is one exam for all levels rather than one exam per level. There is no pass or fail:
-          each module gives you a score and a CEFR level. People take it for study and work, and whether
-          it is accepted depends on the institution, so check before you book. For Spanish nationality
-          the usual route is DELE A2 plus the CCSE.
+          SIELE is one exam for all levels rather than one exam per level. There is no pass mark: each
+          test gives you a score and a CEFR level. People take it for study and work, and whether it is
+          accepted depends on the institution, so check before you book. It doesn't count for Spanish
+          nationality, according to the SIELE site: that route needs the DELE at A2 or above, plus the CCSE.
         </p>
+        <p><a class="plan-link" href="/exams/dele-or-siele" data-i18n="testdaf.whichExam">DELE or SIELE? Compare them by purpose →</a></p>
       </section>
 
       <section class="exam-section">
         <h2 data-i18n="exam.skills.title">Skills tested</h2>
         <div class="skill-grid">
-          <div class="skill-card"><div class="skill-card-icon">📖</div><h4 data-i18n="skill.lesen">Lesen</h4><p data-i18n="skill.lesen.desc">Leseverstehen</p></div>
-          <div class="skill-card"><div class="skill-card-icon">🎧</div><h4 data-i18n="skill.hoeren">Hören</h4><p data-i18n="skill.hoeren.desc">Hörverstehen</p></div>
-          <div class="skill-card"><div class="skill-card-icon">✍️</div><h4 data-i18n="skill.schreiben">Schreiben</h4><p data-i18n="skill.schreiben.desc">Schriftlicher Ausdruck</p></div>
-          <div class="skill-card"><div class="skill-card-icon">🗣️</div><h4 data-i18n="skill.sprechen">Sprechen</h4><p data-i18n="skill.sprechen.oralDesc">Spoken expression</p></div>
+          <div class="skill-card"><div class="skill-card-icon">📖</div><h4 data-i18n="skill.lesen">Reading</h4><p data-i18n="skill.lesen.desc">Reading comprehension</p></div>
+          <div class="skill-card"><div class="skill-card-icon">🎧</div><h4 data-i18n="skill.hoeren">Listening</h4><p data-i18n="skill.hoeren.desc">Listening comprehension</p></div>
+          <div class="skill-card"><div class="skill-card-icon">✍️</div><h4 data-i18n="skill.schreiben">Writing</h4><p data-i18n="skill.schreiben.desc">Written expression</p></div>
+          <div class="skill-card"><div class="skill-card-icon">🗣️</div><h4 data-i18n="skill.sprechen">Speaking</h4><p data-i18n="skill.sprechen.oralDesc">Spoken expression</p></div>
         </div>
         <p class="format-note" data-i18n="telc.sprachbausteine.note">
-          SIELE has four modules and no separate grammar paper: grammar and vocabulary count in how
-          well you read, write, speak and listen.
+          SIELE has four tests and no separate grammar paper. Grammar, vocabulary and cohesion are
+          tested in context, in the 12-gap text of reading task 5.
         </p>
       </section>
 
       {formate.map((f) => <ExamFormat format={f} />)}
 
       <section class="exam-section">
-        <h2 data-i18n="telc.moreLevels.title">Other levels</h2>
+        <h2 data-i18n="telc.moreLevels.title">How this differs from the real exam</h2>
         <p class="format-note" data-i18n="telc.moreLevels.text">
-          Times and task counts can differ between modules and bands. Check the official SIELE
-          information for what you plan to take. We enter here only what we can document, rather than
-          estimating figures.
+          The bands are our way of cutting up one exam: you can't book a "SIELE B1". Task types, numbers of
+          questions and word counts follow the public exam guide, which may be some years old, and our
+          times are our own share of the real test time. Check the current details on siele.org. The whole
+          exam, its scores and its options are on the SIELE page.
         </p>
       </section>
     </Fragment>
@@ -72,8 +74,8 @@ const formate = telcFormate.formate;
     <div class="mock-cta">
       <h2 data-i18n="telc.sb.title">Practise uso de la lengua</h2>
       <p data-i18n="telc.sb.text">
-        Gap-fill practice with grammar and vocabulary in context: part 1 from a word box, part 2 by
-        multiple choice inside a text, with everyday texts and instant marking.
+        More gap-fill practice with grammar and vocabulary in context, useful for reading task 5. We wrote
+        this trainer for the DELE, so its layout isn't the SIELE's.
       </p>
       <a class="quiz-btn quiz-btn--primary" href="/cambridge/use-of-english" data-i18n="telc.sb.cta">To the uso de la lengua trainer</a>
     </div>
@@ -85,10 +87,10 @@ const formate = telcFormate.formate;
     </div>
 
     <div class="mock-cta">
-      <h2 data-i18n="telc.a1.title">A1: our DELE A1 practice test</h2>
+      <h2 data-i18n="telc.a1.title">More at A1: our DELE A1 practice test</h2>
       <p data-i18n="telc.a1.text">
-        Our own A1 practice test: listening, reading and writing in exam style. It is marked against
-        a 60 % pass line, which is our own convention, not an official mark.
+        Our own A1 practice test in the style of the DELE, for more A1 practice than the first SIELE tasks
+        give. It is marked against a 60 % pass line, which is our own convention, not an official mark.
       </p>
       <a class="quiz-btn quiz-btn--primary" href="/a1-test" data-i18n="exam.startSet">Start the practice set</a>
     </div>

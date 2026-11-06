@@ -16,7 +16,7 @@ const exams = [
     icon: "document",
     title: "SIELE by level",
     level: "A2–C1",
-    desc: "Practice for one SIELE band at a time (A2, B1, B2, C1), module by module. The real SIELE is one computer-based test with four modules.",
+    desc: "The tasks of the SIELE, one band at a time, from A1 to C1. The real SIELE is one computer-based exam; our four sets together hold one whole exam.",
     practice: "Practice sets by band",
     practiceKey: "pruefungen.practice.telc",
   },
@@ -36,8 +36,8 @@ const exams = [
     icon: "graduation-cap",
     title: "SIELE",
     level: "A1–C1",
-    desc: "One computer-based test for levels A1 to C1. There is no pass or fail: each module gets a score and a CEFR level.",
-    practice: "Reading practice set · writing task",
+    desc: "One computer-based test for levels A1 to C1. There is no pass mark: each test gets a score and a CEFR level.",
+    practice: "Format and scores · reading and writing practice set",
     practiceKey: "pruefungen.practice.testdaf",
   },
   {
@@ -74,7 +74,7 @@ const levels = [
     desc: "First steps — understanding and using simple everyday expressions.",
     exams: [
       { name: "DELE A1 practice test", href: "/a1-test" },
-      { name: "SIELE (A1 result)", href: "/ielts" },
+      { name: "SIELE A1 and A2 tasks", href: "/trinity/a2" },
     ],
   },
   {
@@ -83,7 +83,7 @@ const levels = [
     exams: [
       { name: "DELE A2", href: "/cambridge/a2" },
       { name: "DELE A2 for nationality (full mock test)", href: "/trinity/ise-1" },
-      { name: "SIELE A2 practice", href: "/trinity/a2" },
+      { name: "SIELE A1 and A2 tasks", href: "/trinity/a2" },
     ],
   },
   {
@@ -107,7 +107,7 @@ const levels = [
     desc: "Proficient user — complex topics, university and work.",
     exams: [
       { name: "DELE C1", href: "/cambridge/c1" },
-      { name: "SIELE (C1 result)", href: "/ielts" },
+      { name: "SIELE C1 tasks", href: "/trinity/c1" },
     ],
   },
   {
@@ -151,6 +151,13 @@ const comparison = [
       <span class="fs-entry-txt">
         <b data-i18n="nav.account.progress">Mein Fortschritt</b>
         <i data-i18n="pruefungen.dashboard.blurb">Punkte, begonnene Teile und der nächste offene Prüfungsteil — für jede Prüfung.</i>
+      </span>
+      <span class="fs-entry-go" aria-hidden="true">→</span>
+    </a>
+    <a class="fs-entry" href="/exams/dele-or-siele">
+      <span class="fs-entry-txt">
+        <b data-i18n="delesiele.title">DELE or SIELE?</b>
+        <i data-i18n="delesiele.entry.blurb">Which exam fits your purpose: nationality, university or work.</i>
       </span>
       <span class="fs-entry-go" aria-hidden="true">→</span>
     </a>

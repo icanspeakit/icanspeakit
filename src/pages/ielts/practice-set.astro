@@ -1,16 +1,13 @@
 ---
 import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
-// TestDaF Leseverstehen + Schriftlicher Ausdruck on the exam shell (src/lib/examApp.js).
+// SIELE reading and writing (the testdaf slot) on the exam shell (src/lib/examApp.js), built
+// like the S2 modality but shorter. Two things are said out loud on the Start part: the
+// structure comes from the public exam guide, and every text and item is written by
+// icanspeak Spanish. Task 1 follows a real SIELE task type; tasks 2 and 3 are plain reading
+// practice, and the real gap-text tasks are in the band sets on /trinity.
 //
-// This is the exam with the weakest sourcing on the site: there is no TestDaF material in
-// the teaching folder at all. So two things are true at once and both are said out loud on
-// the Start part — the *structure* (three reading tasks: matching, multiple choice, then
-// ja/nein/steht-nicht-im-Text, plus one writing task about a chart) is public knowledge
-// about the format, and every text and every item is written by icanspeak Spanish.
-//
-// Hörverstehen is deliberately absent. At A1 a transcript is a workable stand-in for a
-// missing recording; at C1, where the task is following an academic lecture, reading it
-// is a different exercise wearing the same name. It comes when there is audio.
+// Listening is deliberately absent: it needs recordings. The band sets have listening
+// scripts to read until audio exists.
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
 import ExamApp from "../../components/ExamApp.astro";
@@ -74,6 +71,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
        rather than disappearing. */
     function readingText(text) {
       const box = el("div", "lese-text lese-text--long");
+      box.lang = "es";
       box.appendChild(el("p", "lese-text-label", escapeHtml(text.label)));
       if (text.title) box.appendChild(el("h3", "lese-text-title", escapeHtml(text.title)));
       const body = el("div", "lese-text-body");
@@ -101,7 +99,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
             eyebrow: t("exam.h1.set"),
             title: "SIELE — " + T("exam.h1.readWrite", "Reading and writing"),
             instruction: escapeHtml(T("tdf.start.intro",
-              "The SIELE has no pass or fail: each module gets a score and a CEFR level, and each institution decides what it asks for.")),
+              "The SIELE has no pass mark: each test gets a score from 0 to 250 and a CEFR level, and each institution decides what it asks for.")),
           });
 
           const facts = el("table", "exam-breakdown");
@@ -114,13 +112,13 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
             "</tbody>";
           main.appendChild(el("div", "exam-result")).appendChild(facts);
 
-          // The sourcing note is not a footnote here. This is the one exam on the site
-          // with no source material at all, so it goes above the start button.
+          // The sourcing note is not a footnote here: this set is shorter than the real
+          // test and only partly in its task types, so it goes above the start button.
           main.appendChild(el("p", "format-note format-note--loud", escapeHtml(T("tdf.sourcing", data.sourcing))));
           main.appendChild(el("p", "format-note", escapeHtml(T("tdf.scoringNote", data.scoringNote))));
           main.appendChild(
             el("p", "format-note", escapeHtml(T("tdf.noListening",
-              "Listening is missing from this practice set: it needs audio recordings. Reading a lecture instead of hearing it would be a different exercise under the same name.")))
+              "Listening and speaking aren't in this set. For every task type, including those two, use the SIELE sets by level.")))
           );
 
           const go = el("button", "quiz-btn quiz-btn--primary", t("exam.startSet"));
@@ -139,9 +137,10 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
           const a = lv.aufgabe1;
           sectionHeader(main, { eyebrow: T("tdf.eb.lesen", "Leseverstehen · Aufgabe {n}", { n: 1 }), title: a.title, instruction: escapeHtml(a.instruction) });
 
-          // The eight ads, then the ten people. Each ad is its own small card rather
-          // than one block of prose: you scan these, you do not read them through.
+          // The three texts, then the eight statements. Each text is its own small card
+          // rather than one block of prose: you scan these to find the statement.
           const ads = el("div", "ad-grid");
+          ads.lang = "es";
           for (const ad of a.anzeigen) {
             const card = el("div", "ad-card");
             card.appendChild(el("p", "ad-card-title", escapeHtml(ad.title)));
@@ -150,13 +149,9 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
           }
           main.appendChild(ads);
 
-          // Options are the ad letters plus "—", labelled with a two-word gist so a
-          // phone row stays short: the full ads are right above, and the real answer
-          // sheet is lettered too.
-          const options = [
-            ...a.anzeigen.map((ad) => ({ key: ad.key, label: ad.gist })),
-            { key: "x", label: "No ad fits" },
-          ];
+          // Options are the text letters, labelled with a short gist so a phone row stays
+          // short: the full texts are right above. In this task every statement fits a text.
+          const options = a.anzeigen.map((ad) => ({ key: ad.key, label: ad.gist }));
           a.items.forEach((item, i) => {
             main.appendChild(
               choiceCard({
@@ -168,6 +163,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
                 existing: ctx.state.answers[item.id],
                 onAnswer: (given, correct) => ctx.record(item.id, given, correct),
                 meldung: `x:testdaf/${data.setId}/${item.id}`.toLowerCase(),
+                contentLang: "es",
               })
             );
           });
@@ -186,13 +182,14 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
           a.items.forEach((item, i) => {
             main.appendChild(
               choiceCard({
-                qLabel: T("exam.qLabel.task", "Aufgabe {n}", { n: i + 11 }),
+                qLabel: T("exam.qLabel.task", "Aufgabe {n}", { n: i + 1 + a1Ids.length }),
                 questionText: item.prompt,
                 options: item.options.map((o, n) => ({ key: LETTERS[n], label: o })),
                 correctKey: LETTERS[item.options.indexOf(item.answer)],
                 existing: ctx.state.answers[item.id],
                 onAnswer: (given, correct) => ctx.record(item.id, given, correct),
                 meldung: `x:testdaf/${data.setId}/${item.id}`.toLowerCase(),
+                contentLang: "es",
               })
             );
           });
@@ -208,22 +205,17 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
           const a = lv.aufgabe3;
           sectionHeader(main, { eyebrow: T("tdf.eb.lesen", "Leseverstehen · Aufgabe {n}", { n: 3 }), title: a.title, instruction: escapeHtml(a.instruction) });
           main.appendChild(readingText(a.text));
-          const options = [
-            { key: "j", label: "Yes" },
-            { key: "n", label: "No" },
-            { key: "k", label: "Not given" },
-          ];
           a.items.forEach((item, i) => {
             main.appendChild(
               choiceCard({
-                qLabel: T("exam.qLabel.task", "Aufgabe {n}", { n: i + 21 }),
+                qLabel: T("exam.qLabel.task", "Aufgabe {n}", { n: i + 1 + a1Ids.length + a2Ids.length }),
                 questionText: item.prompt,
-                options,
-                correctKey: item.answer,
-                layout: "wrap",
+                options: item.options.map((o, n) => ({ key: LETTERS[n], label: o })),
+                correctKey: LETTERS[item.options.indexOf(item.answer)],
                 existing: ctx.state.answers[item.id],
                 onAnswer: (given, correct) => ctx.record(item.id, given, correct),
                 meldung: `x:testdaf/${data.setId}/${item.id}`.toLowerCase(),
+                contentLang: "es",
               })
             );
           });
@@ -234,7 +226,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
         key: "schreiben",
         label: "Schreiben",
         labelKey: "skill.schreiben",
-        // Not auto-graded — a chart description is marked by a human. It carries a
+        // Not auto-graded — an opinion text is marked by a human. It carries a
         // "geübt" mark so it counts as done without pretending to be scored.
         ids: ["tdaf-schreiben"],
         render(main, ctx) {
@@ -244,57 +236,10 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
             instruction: escapeHtml(schreiben.instruction),
           });
 
-          /* The chart, drawn from the data rather than shipped as an image: it has to
-             be readable at 390px and in dark mode, and a PNG is neither. Grouped bars,
-             one group per year, because the task is about change over time. */
-          const g = schreiben.grafik;
-          const max = Math.max(...g.series.flatMap((s) => s.values));
-          const chart = el("figure", "tdaf-chart");
-          chart.appendChild(el("figcaption", "tdaf-chart-cap", escapeHtml(g.caption)));
-
-          const plot = el("div", "tdaf-bars");
-          g.years.forEach((year, yi) => {
-            const group = el("div", "tdaf-bargroup");
-            const bars = el("div", "tdaf-bargroup-bars");
-            g.series.forEach((s, si) => {
-              const bar = el("div", "tdaf-bar");
-              bar.style.setProperty("--h", Math.round((s.values[yi] / max) * 100) + "%");
-              bar.dataset.series = String(si);
-              bar.appendChild(el("span", "tdaf-bar-val", s.values[yi] + ""));
-              bar.setAttribute("role", "img");
-              bar.setAttribute("aria-label", `${s.label}, ${year}: ${s.values[yi]} ${g.unit}`);
-              bars.appendChild(bar);
-            });
-            group.appendChild(bars);
-            group.appendChild(el("span", "tdaf-barlabel", year));
-            plot.appendChild(group);
-          });
-          chart.appendChild(plot);
-
-          const legend = el("ul", "tdaf-legend");
-          g.series.forEach((s, si) => {
-            const li = el("li");
-            const swatch = el("span", "tdaf-swatch");
-            swatch.dataset.series = String(si);
-            li.appendChild(swatch);
-            li.appendChild(el("span", null, escapeHtml(s.label)));
-            legend.appendChild(li);
-          });
-          chart.appendChild(legend);
-          chart.appendChild(el("p", "tdaf-chart-unit", escapeHtml(g.unit)));
-          main.appendChild(chart);
-
-          // The same numbers as a table, so a screen reader and a learner who wants to
-          // check a value both get them without squinting at bar heights.
-          const tbl = el("table", "exam-breakdown");
-          tbl.innerHTML =
-            "<thead><tr><th>Category</th>" + g.years.map((y) => `<th>${y}</th>`).join("") + "</tr></thead><tbody>" +
-            g.series.map((s) => `<tr><td>${escapeHtml(s.label)}</td>${s.values.map((v) => `<td>${v}</td>`).join("")}</tr>`).join("") +
-            "</tbody>";
-          main.appendChild(el("div", "exam-result")).appendChild(tbl);
-
+          // The SIELE opinion task starts from a headline, so the old chart task is gone.
           main.appendChild(el("h3", "sub-title", escapeHtml(T("tdf.yourTask", "Ihre Aufgabe"))));
           const task = el("ul", "task-points");
+          task.lang = "es";
           for (const t of schreiben.aufgabe) task.appendChild(el("li", null, escapeHtml(t)));
           main.appendChild(task);
 
@@ -332,6 +277,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
 
           help.appendChild(el("p", "lese-text-label", escapeHtml(T("tdf.help.phrases", "Redemittel"))));
           const rm = el("ul", "task-points");
+          rm.lang = "es";
           for (const r of schreiben.redemittel) rm.appendChild(el("li", null, escapeHtml(r)));
           help.appendChild(rm);
 
@@ -375,21 +321,21 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
             card.appendChild(el("p", "instruction", escapeHtml(T("tdf.result.empty", "Noch keine Aufgabe beantwortet — fang bei „Lesen 1“ an."))));
           } else {
             card.appendChild(el("div", "exam-score", correct + " <small>" + escapeHtml(T("exam.result.ofCorrect", "von {n} richtig", { n: allLeseIds.length })) + "</small>"));
-            // Explicitly not a TDN. TestDaF grades each skill separately and every
-            // university sets its own requirement, so a percentage here is feedback on
+            // Explicitly not a SIELE score. The SIELE scores each test separately and every
+            // institution sets its own requirement, so a percentage here is feedback on
             // this practice set and nothing more.
             const band = pct >= 80 ? ["", t("tdf.verdict.strong")]
               : pct >= 60 ? ["mid", t("tdf.verdict.mid")]
               : ["low", t("tdf.verdict.low")];
             card.appendChild(el("span", "exam-band " + band[0], band[1]));
-            card.appendChild(el("p", "instruction", escapeHtml(T("tdf.result.pct", "{pct}% richtig. Das ist keine TDN-Einstufung — siehe den Hinweis darunter.", { pct }))));
+            card.appendChild(el("p", "instruction", escapeHtml(T("tdf.result.pct", "{pct}% correct. This is not a SIELE score — see the note below.", { pct }))));
 
             const table = el("table", "exam-breakdown");
             table.innerHTML =
               "<thead><tr><th>" + escapeHtml(t("format.th.task")) + "</th><th>" + escapeHtml(t("exam.th.correct")) + "</th></tr></thead><tbody>" +
-              "<tr><td>1 · " + escapeHtml(T("tdf.type.matching", "Zuordnung")) + "</td><td>" + countCorrect(a1Ids, ctx.state) + " / " + a1Ids.length + "</td></tr>" +
-              "<tr><td>2 · Multiple Choice</td><td>" + countCorrect(a2Ids, ctx.state) + " / " + a2Ids.length + "</td></tr>" +
-              "<tr><td>3 · " + escapeHtml(T("tdf.type.yesno", "Ja/Nein/nichts")) + "</td><td>" + countCorrect(a3Ids, ctx.state) + " / " + a3Ids.length + "</td></tr>" +
+              "<tr><td>1 · " + escapeHtml(T("tdf.type.matching", "Matching")) + "</td><td>" + countCorrect(a1Ids, ctx.state) + " / " + a1Ids.length + "</td></tr>" +
+              "<tr><td>2 · " + escapeHtml(T("tdf.type.article", "Article")) + "</td><td>" + countCorrect(a2Ids, ctx.state) + " / " + a2Ids.length + "</td></tr>" +
+              "<tr><td>3 · " + escapeHtml(T("tdf.type.essay", "Essay")) + "</td><td>" + countCorrect(a3Ids, ctx.state) + " / " + a3Ids.length + "</td></tr>" +
               "</tbody>";
             card.appendChild(table);
 

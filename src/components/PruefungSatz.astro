@@ -42,7 +42,7 @@ const scoredItems = paid ? set.scoredItems : set.modules.flatMap((m: any) => m.p
 const minutes = paid ? set.minutes : examMinutes(set.modules);
 
 // The exam's structure as plain HTML (SEO-BRAND-TIERED-PROMPT.md Tier 4): what a learner
-// searching "telc B1 Übungssatz" wants to know before starting, and what search engines and
+// searching "SIELE B1 practice" wants to know before starting, and what search engines and
 // AI answers can read without running the engine. Points and the official model test come
 // from the format research the set was built on (set.formatRef); only those two fields are
 // read here, nothing of the official tasks.
@@ -62,6 +62,9 @@ const formatRows = set.modules.map((m: any, i: number) => {
     points: pointsOf(m.name),
   };
 });
+// A band set has no points of its own (the real 250 per test belong to the whole exam).
+const hasPoints = !!ref && formatRows.some((r: any) => r.points != null);
+const band = set.exam === "telc";
 // The date the format research was last checked; the older slots keep theirs until their item runs.
 const formatChecked = ref?.checked
   ? new Date(ref.checked + "T12:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })
@@ -97,9 +100,11 @@ const pageDescription = paid
     <div class="practice-hero">
       <p class="eyebrow" data-i18n="ps.eyebrow">Prüfung simulieren</p>
       <h1><span class="hero-exam">{examLevel}</span> {set.title}</h1>
-      <p data-i18n="ps.hero" data-i18n-vars={JSON.stringify({ n: scoredItems, min: minutes })}>
-        Alle Prüfungsteile im Format der echten Prüfung: {scoredItems} automatisch ausgewertete Aufgaben, dazu
-        Schreiben und Sprechen mit Musterlösung. Prüfungszeit insgesamt ca. {minutes} Minuten.
+      {/* A telc-slot set holds one band's tasks of the multilevel SIELE, not a whole exam. */}
+      <p data-i18n={band ? "ps.heroBand" : "ps.hero"} data-i18n-vars={JSON.stringify({ n: scoredItems, min: minutes })}>
+        {band
+          ? `The tasks of this band, modelled on the exam's public format: ${scoredItems} automatically marked tasks, plus writing and speaking with model answers. Our suggested time: about ${minutes} minutes.`
+          : `All the parts of the exam, modelled on its public format: ${scoredItems} automatically marked tasks, plus writing and speaking with model answers. Total exam time about ${minutes} minutes.`}
       </p>
       <ExamDisclaimer />
       {clipCount > 0 && withAudio < clipCount && (
@@ -107,14 +112,16 @@ const pageDescription = paid
       )}
     </div>
     <section class="ps-format" aria-labelledby="ps-format-h">
-      <h2 id="ps-format-h" data-i18n="ps.format.title" data-i18n-vars={JSON.stringify({ exam: `${examLevel}` })}>So ist {examLevel} aufgebaut</h2>
+      {band
+        ? <h2 id="ps-format-h" data-i18n="ps.format.titleBand">What this set holds</h2>
+        : <h2 id="ps-format-h" data-i18n="ps.format.title" data-i18n-vars={JSON.stringify({ exam: `${examLevel}` })}>How {examLevel} is structured</h2>}
       <div class="format-table-wrap">
         <table class="format-table">
           <thead><tr>
             <th scope="col" data-i18n="ps.format.th.module">Prüfungsteil</th>
             <th scope="col" data-i18n="ps.format.th.parts">Teile</th>
             <th scope="col" data-i18n="ps.format.th.time">Zeit</th>
-            {ref && <th scope="col" data-i18n="ps.format.th.points">Punkte</th>}
+            {hasPoints && <th scope="col" data-i18n="ps.format.th.points">Points</th>}
           </tr></thead>
           <tbody>
             {formatRows.map((r: any) => (
@@ -122,7 +129,7 @@ const pageDescription = paid
                 <th scope="row">{r.name}</th>
                 <td>{r.parts}</td>
                 {r.timeSpan > 0 && <td class="ps-nowrap" rowspan={r.timeSpan > 1 ? r.timeSpan : undefined}>{r.minutes} min</td>}
-                {ref && <td>{r.points ?? "–"}</td>}
+                {hasPoints && <td>{r.points ?? "–"}</td>}
               </tr>
             ))}
           </tbody>

@@ -227,6 +227,13 @@ export function buildSearchIndex() {
     k: "typische fehler tandembogen tandem partnerübung partnerarbeit arbeitsblatt lehrkräfte unterricht ausdrucken worksheet pair work",
     h: "/teachers/worksheets/tandem/common-mistakes",
   });
+  // DELE or SIELE?: a comparison page under the exam hub.
+  pages.push({
+    t: "DELE or SIELE?",
+    s: "Which Spanish exam fits your purpose: nationality, university or work",
+    k: "dele siele compare difference which exam comparison nationality university work price validity diferencia nacionalidad",
+    h: "/exams/dele-or-siele",
+  });
   // Prüfungsfallen (/exams/traps): a page under the exam hub, not an exam of its own.
   pages.push({
     t: "Exam traps: DELE, SIELE, CCSE",
