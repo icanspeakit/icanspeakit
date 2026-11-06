@@ -80,7 +80,8 @@ const glossTx = (term: string) => tx.glossary?.[term] ?? {};
       </button>
     </div>
     </div>
-    <GrammarHelp level="A2" root="fk-page" reviewed={tx.reviewed} />
+    {/* No translation switch while the layer is empty: it would announce a machine draft of nothing. */}
+    {Object.keys(tx.topics ?? {}).length > 0 && <GrammarHelp level="A2" root="fk-page" reviewed={tx.reviewed} />}
 
     <!-- ================= Layout 1: Tabs ================= -->
     <section class="fk-layout fk-layout--tabs" id="fk-tabs" data-layout-panel="tabs">
