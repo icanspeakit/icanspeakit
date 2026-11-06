@@ -17,6 +17,7 @@ import { printableSets } from "../../lib/arbeitsblatt/printable.js";
 import "../../styles/rule-intro.css";
 import "../../styles/live-quiz.css";
 import "../../styles/teacher-switch.css";
+import { languagesFor } from "../../lib/languages.js";
 
 // Zufallsmix: one level, and the round draws from all its words and all its grammar
 // chapters. The chapter slugs per level ride on the level pills (host.js reads them).
@@ -199,11 +200,7 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
         <label class="lq-field" data-show-lang-field hidden>
           <span data-i18n="lq.host.showLang">Sprache der Übersetzung auf diesem Bildschirm</span>
           <select data-show-lang>
-            <option value="en">English</option>
-            <option value="ar">العربية</option>
-            <option value="uk">Українська</option>
-            <option value="ru">Русский</option>
-            <option value="tr">Türkçe</option>
+            {languagesFor("cards").map((l) => <option value={l.code}>{l.native}</option>)}
           </select>
           <small data-i18n="lq.host.showLangHint">Diesen Bildschirm sehen alle, z. B. über den Projektor. Auf dem Handy sieht jede Person die Übersetzung in ihrer eigenen Sprache.</small>
         </label>

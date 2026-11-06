@@ -5,6 +5,7 @@ import Layout from "../../../layouts/Layout.astro";
 import SiteNav from "../../../components/SiteNav.astro";
 import "../../../styles/spiele.css";
 import "../../../styles/teacher-switch.css";
+import { languagesFor } from "../../../lib/languages.js";
 ---
 <Layout
   title="Bingo to print – icanspeak Spanish"
@@ -41,11 +42,7 @@ import "../../../styles/teacher-switch.css";
         </div>
         <label class="sp-field"><span data-i18n="sp.callerLang">Rufliste mit Bedeutung auf</span>
           <select name="lang">
-            <option value="en">English</option>
-            <option value="ar">العربية</option>
-            <option value="uk">Українська</option>
-            <option value="ru">Русский</option>
-            <option value="tr">Türkçe</option>
+            {languagesFor("cards").map((l) => <option value={l.code}>{l.native}</option>)}
           </select>
         </label>
         <div class="sp-actions">
