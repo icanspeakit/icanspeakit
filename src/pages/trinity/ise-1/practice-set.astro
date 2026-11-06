@@ -1,8 +1,8 @@
 ---
 import ExamDisclaimer from "../../../components/ExamDisclaimer.astro";
 // Full mock for DELE A2 (dtz slot, content-plan §2): nine parts, 45 scored items, plus the writing task.
-// Free Übungssätze are JSON files in src/data/pruefungen/dtz/ (inlined here). The DTZ-Paket
-// sets 2–4 live in src/paid/pruefungen/dtz/: this page only knows their names, from
+// Free sets are JSON files in src/data/pruefungen/dtz/ (inlined here). The paid
+// sets live in src/paid/pruefungen/dtz/: this page only knows their names, from
 // src/data/pruefungen/paid-manifest.json, and loads one from /inhalt/ when the learner
 // picks it and can("pruefungssaetze") allows it (scripts/build-paid-manifest.mjs).
 import Layout from "../../../layouts/Layout.astro";
@@ -10,6 +10,7 @@ import SiteNav from "../../../components/SiteNav.astro";
 import "../../../styles/practice.css";
 import "../../../styles/pruefungen.css";
 import "../../../styles/dtz.css";
+import "../../../styles/pruefung-satz.css";
 import { examClip } from "../../../lib/examHoeren.js";
 import paidManifest from "../../../data/pruefungen/paid-manifest.json";
 import PremiumLock from "../../../components/PremiumLock.astro";
@@ -58,7 +59,7 @@ const first = saetze[0];
 
     <div class="practice-hero">
       <p class="eyebrow" data-i18n="dtzSet.eyebrow">Simulate the exam</p>
-      <h1><span class="hero-exam" data-i18n="dtzSet.heroExam">DELE A2 mock</span> <span data-dtz-title data-i18n={first.meta.title === "DTZ-Übungssatz 1" ? "exam.h1.set1" : undefined}>{first.meta.title.replace(/^DTZ-/, "")}</span></h1>
+      <h1><span class="hero-exam" data-i18n="dtzSet.heroExam">DELE A2 mock</span> <span data-dtz-title>{first.meta.title}</span></h1>
       <p data-i18n="dtzSet.hero">
         Nine parts, 45 scored tasks in our own mock for DELE A2. The result uses our own point bands
         as a guide: well prepared from 33 points, getting close from 20 points.
@@ -66,12 +67,12 @@ const first = saetze[0];
     </div>
     <ExamDisclaimer />
 
-    {/* The structure of OUR mock, not of the real DELE A2 (its format: "to verify", nationality-path).
-        The source link only points to the official exam page; `checked` is the day it was read. */}
+    {/* The structure of OUR mock, not of the real DELE A2. The real parts are on the DELE A2 page
+        (research: formate-a2-c1.research.json, to verify). The minutes match GROUP_MINUTES in dtzTrainer.js. */}
     <ExamFacts
       title="How this mock is structured"
       titleKey="dtzSet.facts.title"
-      head={[{ text: "Part", key: "ps.format.th.module" }, { text: "Tasks", key: "dtzSet.facts.th.tasks" }, { text: "Suggested time", key: "dtzSet.facts.th.time" }]}
+      head={[{ text: "Part", key: "ps.format.th.module" }, { text: "Tasks", key: "dtzSet.facts.th.tasks" }, { text: "Time on our clock", key: "dtzSet.facts.th.time" }]}
       rows={[
         [{ text: "Listening", key: "skill.hoeren" }, { text: "4 parts, 20 tasks", key: "dtzSet.facts.hoeren" }, "25 min"],
         [{ text: "Reading", key: "skill.lesen" }, { text: "5 parts, 25 tasks", key: "dtzSet.facts.lesen" }, "45 min"],
@@ -85,7 +86,7 @@ const first = saetze[0];
       sources={[
         { label: "Instituto Cervantes: DELE", url: "https://www.cervantes.org/es/examenes/dele" },
       ]}
-      checked="03.11.2026"
+      checked="06.11.2026"
     />
 
     {saetze.length + paidSets.length > 1 && (
@@ -113,12 +114,13 @@ const first = saetze[0];
       </div>
     )}
 
+    <div data-dtz-clock></div>
     <div class="dtz-nav" data-dtz-nav></div>
     <div class="dtz-body" data-dtz-body></div>
     <div class="dtz-summary" data-dtz-summary></div>
 
     <p class="format-note" data-i18n="dtzSet.sourceNote">{first.meta.sourceNote}</p>
-    <LevelGrammar levels={["A2", "B1"]} />
+    <LevelGrammar levels={["A1", "A2"]} />
   </main>
 
   <script type="application/json" id="dtz-data" set:html={JSON.stringify(saetze)}></script>
@@ -133,7 +135,7 @@ const first = saetze[0];
     import { can, PAYWALL, APP } from "../../../lib/access.js";
 
     const lock = document.querySelector("[data-dtz-lock]");
-    const parts = ["[data-dtz-nav]", "[data-dtz-body]", "[data-dtz-summary]"].map((s) => root.querySelector(s));
+    const parts = ["[data-dtz-clock]", "[data-dtz-nav]", "[data-dtz-body]", "[data-dtz-summary]"].map((s) => root.querySelector(s));
     const showLock = (on) => {
       lock.hidden = !on;
       for (const el of parts) el.hidden = on;
@@ -147,7 +149,7 @@ const first = saetze[0];
     }
     mount(saetze[0]);
 
-    // A paid set (DTZ-Paket): fetched from /inhalt/ only with access. Soft lock by decision —
+    // A paid set: fetched from /inhalt/ only with access. Soft lock by decision —
     // what matters is that its questions are not in this page (scripts/build-paid-manifest.mjs).
     const cache = new Map();
     async function openPaid(id) {
@@ -179,7 +181,7 @@ const first = saetze[0];
         else mount(saetze.find((s) => s.id === btn.dataset.set));
       })
     );
-    // ?satz=uebungssatz-3 (links from the Prüfungsplan) opens that set.
+    // ?satz=uebungssatz-2 (links from the exam plan) opens that set.
     const wanted = new URLSearchParams(location.search).get("satz");
     if (wanted) picker?.querySelector(`[data-set="${CSS.escape(wanted)}"]`)?.click();
   </script>

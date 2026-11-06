@@ -11,7 +11,7 @@
  *   store "exam" → "da-exam-v1:<key>", { answers: { id: {given, correct} } }
  *                  (src/lib/exam/state.js — A1 practice test, SIELE, CCSE)
  *   store "dtz"  → "da-dtz-v1:<key>",  same answers plus a schreiben object
- *                  (src/lib/dtzTrainer.js — the B1 skills mock in the /trinity/ise-1 slot)
+ *                  (src/lib/dtzTrainer.js — the DELE A2 mock for nationality in the /trinity/ise-1 slot)
  * The ids (start-deutsch-1, testdaf, leben-in-deutschland, dtz) are storage keys from the
  * German course and stay; only the texts are English (docs/content-plan.md §2).
  *
@@ -97,14 +97,14 @@ export const examRegistry = [
   },
   {
     id: "dtz",
-    title: "B1 skills mock",
+    title: "DELE A2 mock for nationality",
     subtitle: dtz1.label,
-    level: "B1",
+    level: "A2",
     href: "/trinity/ise-1/practice-set",
     overview: "/trinity/ise-1",
     store: { kind: "dtz", key: dtz1.id },
-    // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not Trinity's.
-    passNote: "Our own guide: listening and reading count together; 33 of 45 points is a solid B1 result.",
+    // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not a DELE score.
+    passNote: "Our own guide, not a DELE score: listening and reading count together, and 33 of 45 points means you are well prepared.",
     passPct: Math.round((33 / 45) * 100),
     modules: [
       ...dtz1.parts.map((part, i) => ({

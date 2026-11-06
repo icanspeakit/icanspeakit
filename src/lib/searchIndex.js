@@ -227,6 +227,13 @@ export function buildSearchIndex() {
     k: "typische fehler tandembogen tandem partnerübung partnerarbeit arbeitsblatt lehrkräfte unterricht ausdrucken worksheet pair work",
     h: "/teachers/worksheets/tandem/common-mistakes",
   });
+  // The path to nationality: a guide page under the exam hub.
+  pages.push({
+    t: "Spanish nationality by residence: CCSE and DELE A2",
+    s: "How many years, who needs which test, who is exempt, and the steps in order",
+    k: "spanish nationality citizenship residence nacionalidad española residencia ccse dele a2 exempt dispensa oath jura registro civil how to become spanish passport",
+    h: "/nationality",
+  });
   // DELE or SIELE?: a comparison page under the exam hub.
   pages.push({
     t: "DELE or SIELE?",

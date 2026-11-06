@@ -1,0 +1,179 @@
+---
+// The CCSE + DELE A2 path to Spanish nationality by residence (content-plan §2, §5.11). General
+// orientation, never legal advice. Facts come from the Código Civil, RD 1004/2015, Orden
+// JUS/1625/2016 and Ley 19/2015, read in the BOE on 2026-11-06; everything still "to verify" is
+// in reports/nationality-path.md. All text lives in public/i18n/en.json, read here so that one
+// file holds each sentence. CCSE figures come from the CCSE data's meta, never repeated by hand.
+import ExamDisclaimer from "../components/ExamDisclaimer.astro";
+import Layout from "../layouts/Layout.astro";
+import SiteNav from "../components/SiteNav.astro";
+import "../styles/practice.css";
+import "../styles/pruefungen.css";
+import en from "../../public/i18n/en.json";
+import ccse from "../data/leben-in-deutschland.json";
+
+const tx = (key: string) => (en as Record<string, string>)[key];
+
+const residence = ["10", "5", "2", "1"];
+const tests = ["most", "list", "has", "cert", "minor", "eso", "disp"];
+const dispensa = ["1", "2", "3", "4", "5"];
+const shortVersion = ["1", "2", "3", "4"];
+const words = [
+  ["el empadronamiento", "padron"],
+  ["la tasa", "tasa"],
+  ["la dispensa", "dispensa"],
+  ["el certificado de antecedentes penales", "penales"],
+  ["el certificado de nacimiento", "nacimiento"],
+  ["la sede electrónica", "sede"],
+  ["la jura", "jura"],
+  ["el Registro Civil", "registro"],
+  ["el silencio administrativo", "silencio"],
+];
+const practice = [
+  { key: "ccse", href: "/life-in-the-uk" },
+  { key: "mock", href: "/trinity/ise-1/practice-set" },
+  { key: "set", href: "/cambridge/a2" },
+];
+const sources = [
+  { key: "mj", url: "https://www.mjusticia.gob.es/es/ciudadania/tramites/nacionalidad-residencia" },
+  { key: "cc", url: "https://www.boe.es/buscar/act.php?id=BOE-A-1889-4763" },
+  { key: "rd", url: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-12047" },
+  { key: "orden", url: "https://www.boe.es/buscar/act.php?id=BOE-A-2016-9314" },
+  { key: "ley", url: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-7851" },
+  { key: "dele", url: "https://www.cervantes.org/es/examenes/dele" },
+  { key: "ccse", url: "https://www.cervantes.org/es/examenes/ccse" },
+];
+const figures = { t: ccse.meta.totalQuestions, m: ccse.meta.minutes, pass: ccse.meta.passScore };
+const fill = (s: string, vars: Record<string, number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(vars[k]));
+---
+<Layout
+  title="Spanish nationality by residence: CCSE and DELE A2 – icanspeak Spanish"
+  description="The path to Spanish nationality by residence: how many years, who needs the CCSE and DELE A2, who is exempt, and the steps in order. General orientation, dated November 2026."
+>
+  <SiteNav active="pruefungen" />
+  <main class="practice-main practice-main--wide">
+    <a href="/exams" class="vp-back-link" data-i18n="fallen.back">{tx("fallen.back")}</a>
+
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="nat.eyebrow">{tx("nat.eyebrow")}</p>
+      <h1 data-i18n="nat.title">{tx("nat.title")}</h1>
+      <p data-i18n="nat.lead">{tx("nat.lead")}</p>
+      <p data-i18n-html="nat.legal" set:html={tx("nat.legal")} />
+      <ExamDisclaimer />
+    </div>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.short.title">{tx("nat.short.title")}</h2>
+      <ul class="task-points">
+        {shortVersion.map((n) => <li data-i18n={`nat.short.${n}`}>{tx(`nat.short.${n}`)}</li>)}
+      </ul>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.res.title">{tx("nat.res.title")}</h2>
+      <div class="format-table-wrap">
+        <table class="format-table">
+          <thead><tr><th data-i18n="nat.res.th.time">{tx("nat.res.th.time")}</th><th data-i18n="nat.res.th.who">{tx("nat.res.th.who")}</th></tr></thead>
+          <tbody>
+            {residence.map((n) => (
+              <tr>
+                <th scope="row" data-i18n={`nat.res.${n}.time`}>{tx(`nat.res.${n}.time`)}</th>
+                <td data-i18n={`nat.res.${n}.who`}>{tx(`nat.res.${n}.who`)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="format-note" data-i18n="nat.res.note">{tx("nat.res.note")}</p>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.tests.title">{tx("nat.tests.title")}</h2>
+      <div class="format-table-wrap">
+        <table class="format-table">
+          <thead><tr><th data-i18n="nat.tests.th.who">{tx("nat.tests.th.who")}</th><th translate="no">DELE</th><th translate="no">CCSE</th></tr></thead>
+          <tbody>
+            {tests.map((k) => (
+              <tr>
+                <th scope="row" data-i18n={`nat.t.${k}.who`}>{tx(`nat.t.${k}.who`)}</th>
+                <td data-i18n={`nat.t.${k}.dele`}>{tx(`nat.t.${k}.dele`)}</td>
+                <td data-i18n={`nat.t.${k}.ccse`}>{tx(`nat.t.${k}.ccse`)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <h3 data-i18n="nat.list.title">{tx("nat.list.title")}</h3>
+      <p data-i18n="nat.list.text">{tx("nat.list.text")}</p>
+      <p data-i18n-html="nat.list.warn" set:html={tx("nat.list.warn")} />
+
+      <h3 data-i18n="nat.disp.title">{tx("nat.disp.title")}</h3>
+      {dispensa.map((n) => <p data-i18n-html={`nat.disp.${n}`} set:html={tx(`nat.disp.${n}`)} />)}
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.steps.title">{tx("nat.steps.title")}</h2>
+      <h3 data-i18n="nat.s1.title">{tx("nat.s1.title")}</h3>
+      <p data-i18n="nat.s1.text">{tx("nat.s1.text")}</p>
+      <h3 data-i18n="nat.s2.title">{tx("nat.s2.title")}</h3>
+      <p data-i18n="nat.s2.text">{tx("nat.s2.text")}</p>
+      <h3 data-i18n="nat.s3.title">{tx("nat.s3.title")}</h3>
+      <p data-i18n="nat.s3.text">{tx("nat.s3.text")}</p>
+      <p data-i18n="nat.s3.figures" data-i18n-vars={JSON.stringify(figures)}>{fill(tx("nat.s3.figures"), figures)}</p>
+      <h3 data-i18n="nat.s4.title">{tx("nat.s4.title")}</h3>
+      <p data-i18n="nat.s4.text">{tx("nat.s4.text")}</p>
+      <h3 data-i18n="nat.s5.title">{tx("nat.s5.title")}</h3>
+      <p data-i18n="nat.s5.text">{tx("nat.s5.text")}</p>
+      <h3 data-i18n="nat.s6.title">{tx("nat.s6.title")}</h3>
+      <p data-i18n="nat.s6.text">{tx("nat.s6.text")}</p>
+      <h3 data-i18n="nat.s7.title">{tx("nat.s7.title")}</h3>
+      <p data-i18n="nat.s7.text">{tx("nat.s7.text")}</p>
+      <p data-i18n="nat.s7.after">{tx("nat.s7.after")}</p>
+      <p class="format-note" data-i18n="nat.other">{tx("nat.other")}</p>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.words.title">{tx("nat.words.title")}</h2>
+      <div class="format-table-wrap">
+        <table class="format-table">
+          <thead><tr><th data-i18n="nat.words.th.es">{tx("nat.words.th.es")}</th><th data-i18n="nat.words.th.en">{tx("nat.words.th.en")}</th></tr></thead>
+          <tbody>
+            {words.map(([es, key]) => (
+              <tr>
+                <th scope="row" lang="es" translate="no">{es}</th>
+                <td data-i18n={`nat.w.${key}`}>{tx(`nat.w.${key}`)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.practice.title">{tx("nat.practice.title")}</h2>
+      {practice.map((p) => (
+        <div class="mock-cta">
+          <h3 data-i18n={`nat.p.${p.key}.title`}>{tx(`nat.p.${p.key}.title`)}</h3>
+          <p data-i18n={`nat.p.${p.key}.text`}>{tx(`nat.p.${p.key}.text`)}</p>
+          <a class="quiz-btn quiz-btn--primary" href={p.href} data-i18n={`nat.p.${p.key}.cta`}>{tx(`nat.p.${p.key}.cta`)}</a>
+        </div>
+      ))}
+      <div class="mock-cta">
+        <h3 data-i18n="nat.p.plan.title">{tx("nat.p.plan.title")}</h3>
+        <p data-i18n="nat.p.plan.text">{tx("nat.p.plan.text")}</p>
+        <a class="plan-link" href="/exam-plan" data-i18n="plan.link">{tx("plan.link")}</a>
+      </div>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.sources.title">{tx("nat.sources.title")}</h2>
+      <ul class="task-points">
+        {sources.map((s) => (
+          <li><a href={s.url} rel="noopener" data-i18n={`nat.src.${s.key}`}>{tx(`nat.src.${s.key}`)}</a></li>
+        ))}
+      </ul>
+      <p class="format-note" data-i18n="nat.checked">{tx("nat.checked")}</p>
+    </section>
+  </main>
+</Layout>

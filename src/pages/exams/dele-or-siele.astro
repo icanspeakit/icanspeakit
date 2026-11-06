@@ -81,6 +81,7 @@ const rows = [
           <h3 data-i18n={`delesiele.p.${p.key}.title`}>{p.title}</h3>
           <p><strong data-i18n={`delesiele.p.${p.key}.answer`}>{p.answer}</strong></p>
           <p data-i18n={`delesiele.p.${p.key}.text`}>{p.text}</p>
+          {p.key === "nationality" && <p><a href="/nationality" data-i18n="nat.link.more">How nationality by residence works, step by step</a></p>}
         </>
       ))}
       <p class="format-note" data-i18n="delesiele.purpose.note">

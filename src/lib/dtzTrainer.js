@@ -1,13 +1,9 @@
-// DTZ trainer: nine exam parts, 45 scored items, plus the two writing tasks.
+// The mock trainer (registry id "dtz"; DELE A2 for nationality, content-plan §2): nine parts,
+// 45 scored items, plus a writing task chosen from two. Driven by the JSON in
+// src/data/pruefungen/dtz/ and src/paid/pruefungen/dtz/.
 //
-// The part shapes and the scoring model are ported from the DTZ trainer in the
-// Pflegeplace project (src/lib/dtz/{render,scoring,state}.ts) — same nine task
-// types, same id ranges, same GER bands — but rewritten against this project's
-// plain-JS + design-token style instead of its TS + Tailwind one, and driven by
-// JSON in src/data/pruefungen/dtz/ rather than TS modules.
-//
-// The content is *not* ported: the Übungssätze here are our own, written to the
-// official format. See that folder's files for their own source notes.
+// The parts are this trainer's own shape, not the structure of the real DELE A2, and the point
+// bands are our own guide. The sets are our own; see their source notes.
 
 import { getLang, loadDict, translate, onLangChange } from "./i18n.js";
 import { recordResult } from "./fehler.js";
@@ -22,11 +18,16 @@ import paidManifest from "../data/pruefungen/paid-manifest.json";
 /* Module-level because the renderers here are module functions, not closures inside the
    mount. Everything this trainer paints goes through render(), so filling the dict and
    re-rendering is the whole integration. The exam CONTENT — transcripts, questions,
-   options, statements, the writing prompts — stays German: that is the exam being sat. */
+   options, statements — stays Spanish and carries lang="es": that is the exam being sat. */
 let dict = {};
 const t = (key, vars) => translate(dict, key, vars);
 
 const STORAGE_PREFIX = "da-dtz-v1:";
+const CLOCK_PREFIX = "da-dtz-clock-v1:";
+/* Minutes on the clock for each skill in this mock (the table on the practice-set page shows
+   the same figures). Our own, not the real exam's timings. */
+const GROUP_MINUTES = { "Hören": 25, "Lesen": 45, "Schreiben": 30 };
+let clockTick = 0; // one running interval, also when another set is mounted
 
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -71,10 +72,7 @@ export function allQids(data) {
   return data.parts.flatMap(qidsOfPart);
 }
 
-/**
- * Official DTZ "Hören und Lesen" bands: the two skills are scored together out of
- * 45, and the total decides which level the certificate states.
- */
+/** Our own bands, not a DELE score: listening and reading together, out of 45. */
 export function stufeFor(score) {
   if (score >= 33) return { stufe: t("dtz.stufe.b1"), cls: "is-b1" };
   if (score >= 20) return { stufe: t("dtz.stufe.a2"), cls: "is-a2" };
@@ -84,6 +82,63 @@ export function stufeFor(score) {
 export function wordCount(s) {
   const t = (s || "").trim();
   return t ? t.split(/\s+/).length : 0;
+}
+
+/* ------------------------------------------------------------------ clock -- */
+
+/* One countdown per skill, like pruefungEngine's moduleTimer: optional, it survives a reload
+   and it never blocks. At 0 it says so and the learner decides. Moving to another skill pauses
+   the one you left. */
+function mountClock(box, setId, groupOf) {
+  clearInterval(clockTick);
+  if (!box) return { paint() {}, clear() {} };
+  const key = CLOCK_PREFIX + setId;
+  let all = {};
+  try { all = JSON.parse(localStorage.getItem(key)) || {}; } catch { /* start fresh */ }
+  const persist = () => { try { localStorage.setItem(key, JSON.stringify(all)); } catch { /* still works */ } };
+  const slot = (g) => (all[g] ??= { left: GROUP_MINUTES[g] * 60, since: null });
+  const leftNow = (c) => Math.max(0, c.since ? c.left - Math.floor((Date.now() - c.since) / 1000) : c.left);
+  const stop = (c) => { c.left = leftNow(c); c.since = null; };
+
+  box.innerHTML = `<div class="ps-timer"><span class="ps-timer-label"></span><span class="ps-timer-clock"></span><button type="button" class="ps-timer-btn"></button><button type="button" class="ps-timer-reset"></button></div>`;
+  const [label, clock, btn, reset] = box.firstChild.children;
+  let shown = null;
+
+  function paint() {
+    const g = groupOf();
+    if (shown && shown !== g && slot(shown).since) { stop(slot(shown)); persist(); }
+    shown = g;
+    const c = slot(g);
+    const total = GROUP_MINUTES[g] * 60;
+    const left = leftNow(c);
+    if (left === 0 && c.since) { stop(c); persist(); }
+    label.textContent = t("ps.timer.label", { m: t(SKILL_KEY[g]), n: GROUP_MINUTES[g] });
+    clock.textContent = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`;
+    clock.classList.toggle("is-out", left === 0);
+    btn.textContent = t(c.since ? "ps.timer.pause" : left === total ? "ps.timer.start" : left === 0 ? "ps.timer.again" : "ps.timer.resume");
+    reset.textContent = t("ps.timer.reset");
+  }
+  btn.addEventListener("click", () => {
+    const g = groupOf();
+    const c = slot(g);
+    if (c.since) stop(c);
+    else {
+      if (leftNow(c) === 0) c.left = GROUP_MINUTES[g] * 60;
+      c.since = Date.now();
+    }
+    persist();
+    paint();
+  });
+  reset.addEventListener("click", () => {
+    delete all[groupOf()];
+    persist();
+    paint();
+  });
+  clockTick = setInterval(() => { if (box.isConnected) paint(); }, 1000);
+  return {
+    paint,
+    clear() { all = {}; persist(); paint(); },
+  };
 }
 
 /* --------------------------------------------------------------- renderers -- */
@@ -97,7 +152,7 @@ function optionRow(qid, options, given, solved, correctIdx) {
         if (i === correctIdx) cls = "is-solved";
         else if (picked) cls = "is-wrongpick";
       } else if (picked) cls = "is-selected";
-      return `<button type="button" class="dtz-opt ${cls}" data-q="${qid}" data-v="${i}" ${solved ? "disabled" : ""}><strong>${"abc"[i]}</strong>${escapeHtml(opt)}</button>`;
+      return `<button type="button" class="dtz-opt ${cls}" lang="es" data-q="${qid}" data-v="${i}" ${solved ? "disabled" : ""}><strong>${"abc"[i]}</strong>${escapeHtml(opt)}</button>`;
     })
     .join("");
 }
@@ -111,7 +166,7 @@ function tfRow(qid, given, solved, correct) {
         if (v === correct) cls = "is-solved";
         else if (picked) cls = "is-wrongpick";
       } else if (picked) cls = "is-selected";
-      return `<button type="button" class="dtz-opt dtz-opt--tf ${cls}" data-q="${qid}" data-v="${v}" ${solved ? "disabled" : ""}>${v === "richtig" ? "true" : "false"}</button>`;
+      return `<button type="button" class="dtz-opt dtz-opt--tf ${cls}" data-q="${qid}" data-v="${v}" ${solved ? "disabled" : ""}>${escapeHtml(t(v === "richtig" ? "dtz.tf.true" : "dtz.tf.false"))}</button>`;
     })
     .join("");
 }
@@ -149,7 +204,7 @@ function audioTag(src) {
 }
 
 function transcriptBlock(text, label) {
-  return `<details class="dtz-transcript"><summary>${label || t("exam.readTranscript")}</summary><p>${escapeHtml(text)}</p></details>`;
+  return `<details class="dtz-transcript"><summary>${label || t("exam.readTranscript")}</summary><p lang="es">${escapeHtml(text)}</p></details>`;
 }
 
 function renderMcAudio(part, state, solved) {
@@ -158,8 +213,8 @@ function renderMcAudio(part, state, solved) {
          <span class="badge badge-neutral">${escapeHtml(t("dtz.example"))}</span>
          ${audioTag(part.example.audio)}
          ${transcriptBlock(part.example.transcript)}
-         <p class="dtz-q">${escapeHtml(part.example.question)}</p>
-         <div class="dtz-opts">${part.example.options.map((o, i) => `<span class="dtz-opt ${i === part.example.correct ? "is-solved" : ""}"><strong>${"abc"[i]}</strong>${escapeHtml(o)}</span>`).join("")}</div>
+         <p class="dtz-q" lang="es">${escapeHtml(part.example.question)}</p>
+         <div class="dtz-opts">${part.example.options.map((o, i) => `<span class="dtz-opt ${i === part.example.correct ? "is-solved" : ""}" lang="es"><strong>${"abc"[i]}</strong>${escapeHtml(o)}</span>`).join("")}</div>
        </div>`
     : "";
   const items = part.items
@@ -168,7 +223,7 @@ function renderMcAudio(part, state, solved) {
       return `<div class="dtz-item">
         <div class="dtz-item-head"><span class="dtz-num">${it.id}</span>${transcriptBlock(it.transcript)}</div>
         ${audioTag(it.audio)}
-        <p class="dtz-q">${escapeHtml(it.question)}</p>
+        <p class="dtz-q" lang="es">${escapeHtml(it.question)}</p>
         <div class="dtz-opts">${optionRow(it.id, it.options, a?.given, solved, it.correct)}</div>
       </div>`;
     })
@@ -179,7 +234,7 @@ function renderMcAudio(part, state, solved) {
 function renderDialog(part, state, solved) {
   return part.groups
     .map((g, gi) => {
-      const lines = g.dialog.map(([who, said]) => `<p><strong>${escapeHtml(who)}:</strong> ${escapeHtml(said)}</p>`).join("");
+      const lines = g.dialog.map(([who, said]) => `<p lang="es"><strong>${escapeHtml(who)}:</strong> ${escapeHtml(said)}</p>`).join("");
       const qs = g.questions
         .map((q) => {
           const a = state.answers[q.id];
@@ -188,7 +243,7 @@ function renderDialog(part, state, solved) {
               ? tfRow(q.id, a?.given, solved, q.correct)
               : optionRow(q.id, q.options, a?.given, solved, q.correct);
           return `<div class="dtz-item">
-            <p class="dtz-q"><span class="dtz-num">${q.id}</span>${escapeHtml(q.question)}</p>
+            <p class="dtz-q" lang="es"><span class="dtz-num">${q.id}</span>${escapeHtml(q.question)}</p>
             <div class="dtz-opts ${q.type === "tf" ? "dtz-opts--tf" : ""}">${body}</div>
           </div>`;
         })
@@ -196,7 +251,7 @@ function renderDialog(part, state, solved) {
       // With a recording the dialogue is heard first and read after, so it starts folded.
       return `<div class="dtz-group">
         ${audioTag(g.audio)}
-        <details class="dtz-transcript" ${gi === 0 && !g.audio ? "open" : ""}><summary>${escapeHtml(tOr("dtz.readDialog", `Gespräch ${gi + 1} lesen`, { n: gi + 1 }))}</summary>${lines}</details>
+        <details class="dtz-transcript" ${gi === 0 && !g.audio ? "open" : ""}><summary>${escapeHtml(tOr("dtz.readDialog", `Read conversation ${gi + 1}`, { n: gi + 1 }))}</summary>${lines}</details>
         ${qs}
       </div>`;
     })
@@ -213,7 +268,7 @@ function renderStatementMatch(part, state, solved) {
          <span class="badge badge-neutral">${escapeHtml(t("dtz.example"))}</span>
          ${audioTag(part.example.audio)}
          ${transcriptBlock(part.example.transcript)}
-         <p class="dtz-q">${escapeHtml(t("dtz.solution"))} <strong>${part.example.answer}</strong></p>
+         <p class="dtz-q" lang="es">${escapeHtml(t("dtz.solution"))} <strong>${part.example.answer}</strong></p>
        </div>`
     : "";
   const items = part.items
@@ -237,7 +292,7 @@ function renderStatementMatch(part, state, solved) {
       </div>`;
     })
     .join("");
-  return `<div class="dtz-statements"><ul>${list}</ul></div>${ex}${items}`;
+  return `<div class="dtz-statements" lang="es"><ul>${list}</ul></div>${ex}${items}`;
 }
 
 function renderToc(part, state, solved) {
@@ -247,19 +302,19 @@ function renderToc(part, state, solved) {
     .map((c) => `<li><strong>${c.label ?? t("dtz.chapter", { n: c.n })} — ${escapeHtml(c.title)}</strong><span>${escapeHtml(c.desc)}</span></li>`)
     .join("");
   const ex = part.example
-    ? `<div class="dtz-example"><span class="badge badge-neutral">${escapeHtml(t("dtz.example"))}</span><p class="dtz-q">${escapeHtml(part.example.question)}</p>
-         <div class="dtz-opts">${part.example.options.map((o, i) => `<span class="dtz-opt ${i === part.example.correct ? "is-solved" : ""}"><strong>${"abc"[i]}</strong>${escapeHtml(o)}</span>`).join("")}</div></div>`
+    ? `<div class="dtz-example"><span class="badge badge-neutral">${escapeHtml(t("dtz.example"))}</span><p class="dtz-q" lang="es">${escapeHtml(part.example.question)}</p>
+         <div class="dtz-opts">${part.example.options.map((o, i) => `<span class="dtz-opt ${i === part.example.correct ? "is-solved" : ""}" lang="es"><strong>${"abc"[i]}</strong>${escapeHtml(o)}</span>`).join("")}</div></div>`
     : "";
   const items = part.items
     .map((it) => {
       const a = state.answers[it.id];
       return `<div class="dtz-item">
-        <p class="dtz-q"><span class="dtz-num">${it.id}</span>${escapeHtml(it.question)}</p>
+        <p class="dtz-q" lang="es"><span class="dtz-num">${it.id}</span>${escapeHtml(it.question)}</p>
         <div class="dtz-opts">${optionRow(it.id, it.options, a?.given, solved, it.correct)}</div>
       </div>`;
     })
     .join("");
-  return `<div class="dtz-toc"><p class="dtz-toc-head">${escapeHtml(part.tocHeading)}</p><ol>${toc}</ol></div>${ex}${items}`;
+  return `<div class="dtz-toc" lang="es"><p class="dtz-toc-head">${escapeHtml(part.tocHeading)}</p><ol>${toc}</ol></div>${ex}${items}`;
 }
 
 function renderAds(part, state, solved) {
@@ -280,16 +335,16 @@ function renderAds(part, state, solved) {
             if (k === it.correct) cls = "is-solved";
             else if (picked) cls = "is-wrongpick";
           } else if (picked) cls = "is-selected";
-          return `<button type="button" class="dtz-opt dtz-opt--letter ${cls}" data-q="${it.id}" data-v="${k}" ${solved ? "disabled" : ""}>${k === "x" ? "none" : k}</button>`;
+          return `<button type="button" class="dtz-opt dtz-opt--letter ${cls}" data-q="${it.id}" data-v="${k}" ${solved ? "disabled" : ""}>${k === "x" ? escapeHtml(t("dtz.none")) : k}</button>`;
         })
         .join("");
       return `<div class="dtz-item">
-        <p class="dtz-q"><span class="dtz-num">${it.id}</span>${escapeHtml(it.question)}</p>
+        <p class="dtz-q" lang="es"><span class="dtz-num">${it.id}</span>${escapeHtml(it.question)}</p>
         <div class="dtz-opts dtz-opts--letters">${opts}</div>
       </div>`;
     })
     .join("");
-  return `<div class="dtz-ads">${ads}</div>${items}`;
+  return `<div class="dtz-ads" lang="es">${ads}</div>${items}`;
 }
 
 function renderTexts(part, state, solved) {
@@ -304,13 +359,13 @@ function renderTexts(part, state, solved) {
               ? tfRow(q.id, a?.given, solved, q.correct)
               : optionRow(q.id, q.options, a?.given, solved, q.correct);
           return `<div class="dtz-item">
-            <p class="dtz-q"><span class="dtz-num">${q.id}</span>${escapeHtml(q.question)}</p>
+            <p class="dtz-q" lang="es"><span class="dtz-num">${q.id}</span>${escapeHtml(q.question)}</p>
             <div class="dtz-opts ${q.type === "tf" ? "dtz-opts--tf" : ""}">${body}</div>
           </div>`;
         })
         .join("");
       return `<div class="dtz-group">
-        <div class="dtz-reading ${t.letter ? "dtz-reading--letter" : ""}"><h4>${escapeHtml(t.title)}</h4>${paras}</div>
+        <div class="dtz-reading ${t.letter ? "dtz-reading--letter" : ""}" lang="es"><h4>${escapeHtml(t.title)}</h4>${paras}</div>
         ${qs}
       </div>`;
     })
@@ -323,12 +378,12 @@ function renderRegulative(part, state, solved) {
     .map((it) => {
       const a = state.answers[it.id];
       return `<div class="dtz-item">
-        <p class="dtz-q"><span class="dtz-num">${it.id}</span>${escapeHtml(it.question)}</p>
+        <p class="dtz-q" lang="es"><span class="dtz-num">${it.id}</span>${escapeHtml(it.question)}</p>
         <div class="dtz-opts dtz-opts--tf">${tfRow(it.id, a?.given, solved, it.correct)}</div>
       </div>`;
     })
     .join("");
-  return `<div class="dtz-reading"><h4>${escapeHtml(part.readingTitle)}</h4>${paras}</div>${items}`;
+  return `<div class="dtz-reading" lang="es"><h4>${escapeHtml(part.readingTitle)}</h4>${paras}</div>${items}`;
 }
 
 function renderLetterGaps(part, state, solved) {
@@ -353,8 +408,8 @@ function renderLetterGaps(part, state, solved) {
       </div>`;
     })
     .join("");
-  const intro = part.letterIntro ? `<p class="dtz-q">${escapeHtml(part.letterIntro)}</p>` : "";
-  return `${intro}<div class="dtz-reading dtz-reading--letter dtz-letter">${text}</div>${items}`;
+  const intro = part.letterIntro ? `<p class="dtz-q" lang="es">${escapeHtml(part.letterIntro)}</p>` : "";
+  return `${intro}<div class="dtz-reading dtz-reading--letter dtz-letter" lang="es">${text}</div>${items}`;
 }
 
 const RENDERERS = {
@@ -396,12 +451,14 @@ function itemInfo(data, qid, given) {
     const label = (v) => {
       if (v == null) return "";
       if (q.options) return q.options[+v] ?? v;
-      if (part.ads) return v === "x" ? "keine Anzeige" : `${v}: ${part.ads[v]?.title ?? ""}`;
+      if (part.ads) return v === "x" ? t("dtz.none") : `${v}: ${part.ads[v]?.title ?? ""}`;
       if (part.statements) return `${v}: ${part.statements[v] ?? ""}`;
+      if (v === "richtig" || v === "falsch") return t(v === "richtig" ? "dtz.tf.true" : "dtz.tf.false");
       return v;
     };
-    const prompt = q.question ?? (part.type === "statement-match" ? `${part.label}: Person ${qid}` : `${part.label}, Lücke ${qid}`);
-    return { prompt: `${part.label} · ${prompt}`, expected: label(correctValue(data, qid)), given: label(given) };
+    const name = partLabel(part.label);
+    const prompt = q.question ?? t(part.type === "statement-match" ? "dtz.item.speaker" : "dtz.item.gap", { n: qid });
+    return { prompt: `${name} · ${prompt}`, expected: label(correctValue(data, qid)), given: label(given) };
   }
   return null;
 }
@@ -430,6 +487,9 @@ export function mountDtzTrainer(root, data, { onAnswer } = {}) {
   const nav = root.querySelector("[data-dtz-nav]");
   const body = root.querySelector("[data-dtz-body]");
   const summary = root.querySelector("[data-dtz-summary]");
+  const clock = mountClock(root.querySelector("[data-dtz-clock]"), data.id, () =>
+    current === data.parts.length ? "Schreiben" : data.parts[current].group
+  );
 
   // "Problem melden" (docs/problem-melden-tier0-v1.md): x:dtz/<set>/<n>. The link shows under
   // an item once it is answered (45 links on an open sitting would be clutter); dev: ⚑ per item.
@@ -497,7 +557,9 @@ export function mountDtzTrainer(root, data, { onAnswer } = {}) {
                <ul class="dtz-points">${task.points.map((p) => `<li>${escapeHtml(p)}</li>`).join("")}</ul></div>
              <textarea class="dtz-textarea" data-schreiben placeholder="${escapeHtml(t("dtz.writePlaceholder"))}">${escapeHtml(state.schreiben.text)}</textarea>
              <div class="dtz-wordcount ${wc >= 40 ? "is-ok" : ""}">${escapeHtml(t(wc < 40 ? "dtz.wordcount.under" : "dtz.wordcount.ok", { n: wc }))}</div>
-             <p class="dtz-note">${escapeHtml(s.selfRateNote)}</p>`
+             <p class="dtz-note">${escapeHtml(s.selfRateNote)}</p>
+             <details class="dtz-transcript"><summary>${escapeHtml(t("dtz.modelAnswer"))}</summary><div class="dtz-reading dtz-reading--letter dtz-letter" lang="es">${escapeHtml(task.modelAnswer ?? "")}</div></details>
+             <details class="dtz-transcript"><summary>${escapeHtml(t("dtz.checklist"))}</summary><ul class="dtz-points">${(task.checklist ?? []).map((c) => `<li>${escapeHtml(c)}</li>`).join("")}</ul></details>`
           : ""
       }`;
   }
@@ -552,7 +614,7 @@ export function mountDtzTrainer(root, data, { onAnswer } = {}) {
         persist();
         if (onAnswer) onAnswer(state.answers[qid].correct);
         const info = itemInfo(data, qid, given);
-        if (info) recordResult({ source: `dtz-${data.id}`, itemId: qid, ...info, level: "B1", topic: (data.label ?? "B1 skills mock").trim(), href: "/trinity/ise-1/practice-set" }, state.answers[qid].correct);
+        if (info) recordResult({ source: `dtz-${data.id}`, itemId: qid, ...info, level: "A2", topic: `${t("dtzSet.heroExam")}: ${data.label}`.trim(), href: "/trinity/ise-1/practice-set" }, state.answers[qid].correct);
         renderBody();
         renderNav();
         renderSummary();
@@ -598,7 +660,7 @@ export function mountDtzTrainer(root, data, { onAnswer } = {}) {
           <table class="format-table"><thead><tr><th>${escapeHtml(t("dtz.th.part"))}</th><th>${escapeHtml(t("dtz.th.correct"))}</th></tr></thead><tbody>${rows}</tbody></table>
         </div>
         ${upsell(data)}
-        ${score < total ? `<p class="dtz-note"><a href="${withBase("/my-mistakes")}">${escapeHtml(tOr("fehler.saved", `${total - score} Fehler gespeichert → Meine Fehler`, { n: total - score }))}</a></p>` : ""}
+        ${score < total ? `<p class="dtz-note"><a href="${withBase("/my-mistakes")}">${escapeHtml(tOr("fehler.saved", `${total - score} mistakes saved: My mistakes`, { n: total - score }))}</a></p>` : ""}
         <div class="dtz-actions">
           <button type="button" class="vp-link-btn" data-dtz-reset>${escapeHtml(t("dtz.restart"))}</button>
         </div>`;
@@ -606,7 +668,7 @@ export function mountDtzTrainer(root, data, { onAnswer } = {}) {
 
     summary.querySelector("[data-dtz-check]")?.addEventListener("click", () => {
       solved = true;
-      // traffic-baseline: exam_finish — set 1 is free, 2–4 are the DTZ-Paket.
+      // traffic-baseline: exam_finish — set 1 is free, later sets are the paid mock pack.
       intent("exam_finish", { exam: "dtz", set: data.id, score_pct: Math.round((correctCount(ids) / ids.length) * 100) });
       render();
       summary.scrollIntoView({ block: "start", behavior: "smooth" });
@@ -616,6 +678,7 @@ export function mountDtzTrainer(root, data, { onAnswer } = {}) {
       solved = false;
       persist();
       current = 0;
+      clock.clear();
       render();
     });
   }
@@ -628,6 +691,7 @@ export function mountDtzTrainer(root, data, { onAnswer } = {}) {
     renderNav();
     renderBody();
     renderSummary();
+    clock.paint();
   }
 
   render();
