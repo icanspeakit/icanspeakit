@@ -7,15 +7,15 @@
 // when the file is on disk, checked at build time, so a play button never points at a 404.
 import { existsSync } from "node:fs";
 import path from "node:path";
-import { BERUFE, LANGS, entryCount, refKind } from "./berufeCore.js";
+import { BERUFE, DGT, LANGS, entryCount, refKind } from "./berufeCore.js";
 import { byId as lexiconById, toVokabelCards } from "./lexicon.js";
 import { rowOf, liveDeck } from "./berufeRows.js";
 
-const modules = import.meta.glob("../data/berufe/*.json", { eager: true, import: "default" });
+const modules = import.meta.glob(["../data/berufe/*.json", "../data/dgt/*.json"], { eager: true, import: "default" });
 
 /** slug → deck, in hub order. Refs into English lexicon levels are dropped (liveDeck). */
 export const DECKS = Object.fromEntries(
-  BERUFE.map((b) => [b.slug, Object.values(modules).find((d) => d?.beruf === b.slug)]).filter(([, d]) => d).map(([s, d]) => [s, liveDeck(d)])
+  [...BERUFE, DGT].map((b) => [b.slug, Object.values(modules).find((d) => d?.beruf === b.slug)]).filter(([, d]) => d).map(([s, d]) => [s, liveDeck(d)])
 );
 
 export { LANGS, entryCount };
@@ -63,9 +63,10 @@ function refCard(ref) {
 }
 
 function withOverrides(card, w) {
-  if (!w.deHint && !w.example) return card;
+  if (!w.deHint && !w.example && !w.en) return card;
   const out = { ...card, translations: { ...card.translations } };
   if (w.deHint) out.translations.de = w.deHint;
+  if (w.en) out.translations.en = w.en;
   if (w.example) Object.assign(out, { example: w.example, note: w.example });
   return out;
 }

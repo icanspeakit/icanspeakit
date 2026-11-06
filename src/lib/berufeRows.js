@@ -3,10 +3,10 @@
 // (berufeWortschatz.rowsOf) and the live quiz (liveQuiz/questions.js). No node: imports, so
 // the quiz host can load it in the browser. A deck's unit id is `berufe-<beruf>-<gruppe>`,
 // the same id VokabelTrainer gets as its deck.
-import { BERUFE, refKind } from "./berufeCore.js";
+import { BERUFE, DGT, refKind } from "./berufeCore.js";
 import { byId as lexiconById } from "./lexicon.js";
 
-const modules = import.meta.glob("../data/berufe/*.json", { eager: true, import: "default" });
+const modules = import.meta.glob(["../data/berufe/*.json", "../data/dgt/*.json"], { eager: true, import: "default" });
 
 /** The decks point at lexicon ids. A ref into a word that is gone drops out rather than leaving
  *  a hole in the deck: a deck's old English refs do that, until `spanish-for-work` points them
@@ -15,7 +15,7 @@ const resolves = (w) => !w.ref || refKind(w.ref) !== "lexicon" || !!lexiconById(
 export const liveDeck = (deck) => ({ ...deck, groups: (deck.groups ?? []).map((g) => ({ ...g, words: (g.words ?? []).filter(resolves) })) });
 
 const decks = Object.fromEntries(
-  BERUFE.map((b) => [b.slug, Object.values(modules).find((d) => d?.beruf === b.slug)]).filter(([, d]) => d).map(([s, d]) => [s, liveDeck(d)])
+  [...BERUFE, DGT].map((b) => [b.slug, Object.values(modules).find((d) => d?.beruf === b.slug)]).filter(([, d]) => d).map(([s, d]) => [s, liveDeck(d)])
 );
 
 const own = new Map(
@@ -41,11 +41,12 @@ export function rowOf(w) {
   const kind = refKind(w.ref);
   const row = kind === "berufe" ? ownRow(own.get(w.ref)) : { ...lexiconById(w.ref) };
   if (w.deHint) { row.deHint = w.deHint; delete row.deFill; }
+  if (w.en) row.en = w.en;
   if (w.example) row.example = w.example;
   return row;
 }
 
-/** `berufe-hotel-taetigkeiten` → { slug, group } or null. */
+/** `berufe-hotel-taetigkeiten` (or `berufe-dgt-road`) → { slug, group } or null. */
 export function berufeUnit(unit) {
   if (!unit?.startsWith("berufe-")) return null;
   for (const [slug, deck] of Object.entries(decks)) {

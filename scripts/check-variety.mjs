@@ -47,7 +47,8 @@ const STRICT = new Set([
   "fehler-nach-sprache",
   "umgangssprache",
   "synonyme",
-  // "berufe", "dgt", "business-spanish",
+  "dgt",
+  // "berufe", "business-spanish",
 ]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);

@@ -7,7 +7,7 @@
 // `ref` resolves, no lemma defined twice, nouns have gender, verbs have forms, `reviewed`
 // present, and every profession of v1 has its file. Reports every problem at once, then exits 1
 // if there was any. Warnings (a word without morphSource) are printed and do not fail.
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { validate, entryCount, ownWords } from "../src/lib/berufeCore.js";
@@ -28,6 +28,15 @@ const files = [];
 for (const file of readdirSync(path.join(ROOT, DIR)).filter((f) => f.endsWith(".json")).sort()) {
   try { files.push({ file, deck: read(`${DIR}/${file}`) }); }
   catch (err) { files.push({ file, deck: null }); console.error(`  ERROR ${file}: invalid JSON — ${err.message}`); process.exitCode = 1; }
+}
+
+// The DGT driving deck: the same format, under its own slug (content-plan §4.4).
+const DGT_DIR = "src/data/dgt";
+if (existsSync(path.join(ROOT, DGT_DIR))) {
+  for (const file of readdirSync(path.join(ROOT, DGT_DIR)).filter((f) => f.endsWith(".json")).sort()) {
+    try { files.push({ file: `dgt/${file}`, slug: "dgt", deck: read(`${DGT_DIR}/${file}`) }); }
+    catch (err) { files.push({ file: `dgt/${file}`, slug: "dgt", deck: null }); console.error(`  ERROR dgt/${file}: invalid JSON — ${err.message}`); process.exitCode = 1; }
+  }
 }
 
 const { errors, warnings } = validate(files, { lexicon });

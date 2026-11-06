@@ -27,6 +27,10 @@ export const BERUFE = [
 ];
 export const SLUGS = BERUFE.map((b) => b.slug);
 
+/** The DGT driving deck (src/data/dgt/vocabulario.json, content-plan §4.4): same format and word
+ *  ids (bv-dgt-…), so sector decks can point at its words, but its own page, not a sector. */
+export const DGT = { slug: "dgt", emoji: "🚗" };
+
 /** Translation languages of a deck (registry surface "berufe"); LANGS adds "de", the German
  *  tab: an own word's deHint holds its German translation (docs/content-plan.md §5.12). */
 export const TRANSLATIONS = langsFor("berufe");
@@ -50,8 +54,9 @@ export const ownWords = (deck) =>
 export const entryCount = (deck) => (deck.groups ?? []).reduce((n, g) => n + (g.words ?? []).length, 0);
 
 /**
- * Every rule of the data format, in one place. `files` is [{ file, deck }]. `known` holds the
- * ids that exist outside the berufe files: { lexicon: Map<id, lemma> }.
+ * Every rule of the data format, in one place. `files` is [{ file, deck, slug? }]; `slug` is set
+ * for a deck that is not a sector and so has no file named after it (DGT). `known` holds the ids
+ * that exist outside the berufe files: { lexicon: Map<id, lemma> }.
  * Returns { errors, warnings }, never throws.
  */
 export function validate(files, known) {
@@ -63,12 +68,12 @@ export function validate(files, known) {
   for (const [id, lemma] of known.lexicon) lemmas.set(slugify(lemma), `lexicon ${id}`);
 
   // Pass 1: own words, so a ref to a word defined later in another file still resolves.
-  for (const { file, deck } of files) {
+  for (const { file, deck, slug: ownSlug } of files) {
     const at = (msg) => errors.push(`${file}: ${msg}`);
-    const slug = file.replace(/\.json$/, "");
+    const slug = ownSlug ?? file.replace(/\.json$/, "");
     if (!deck || typeof deck !== "object") { at("not a JSON object"); continue; }
-    if (deck.beruf !== slug) at(`"beruf" must be "${slug}" (the file name)`);
-    if (!SLUGS.includes(slug)) at(`"${slug}" is not one of the professions in BERUFE (src/lib/berufeCore.js)`);
+    if (deck.beruf !== slug) at(`"beruf" must be "${slug}"${ownSlug ? "" : " (the file name)"}`);
+    if (!ownSlug && !SLUGS.includes(slug)) at(`"${slug}" is not one of the professions in BERUFE (src/lib/berufeCore.js)`);
     if (!deck.title) at("no title");
     if (typeof deck.reviewed !== "boolean") at(`"reviewed" must be true or false`);
     if (!deck.intro) at("no intro");
@@ -85,9 +90,11 @@ export function validate(files, known) {
       if (!Array.isArray(g.words)) { at(`group ${g.id}: words must be an array`); continue; }
       for (const w of g.words) {
         if (w.ref) {
-          // A ref carries at most its own job-specific deHint and example (see berufeWortschatz.js).
-          const extra = Object.keys(w).filter((k) => !["ref", "deHint", "example"].includes(k));
-          if (extra.length) at(`${g.id}: ref „${w.ref}" may only add deHint/example, not ${extra.join(", ")}`);
+          // A ref carries at most its own job-specific deHint and example (see berufeWortschatz.js),
+          // and `en` where the deck means another sense than the lexicon's (el volante: the wheel,
+          // not the GP's referral slip).
+          const extra = Object.keys(w).filter((k) => !["ref", "deHint", "example", "en"].includes(k));
+          if (extra.length) at(`${g.id}: ref „${w.ref}" may only add deHint/example/en, not ${extra.join(", ")}`);
           continue;
         }
         const where = `${g.id}/${w.lemma ?? w.id ?? "?"}`;
@@ -135,7 +142,7 @@ export function validate(files, known) {
   }
 
   // Every profession of v1 has its file, so the parallel sessions only fill data.
-  const have = new Set(files.map((f) => f.file.replace(/\.json$/, "")));
+  const have = new Set(files.filter((f) => !f.slug).map((f) => f.file.replace(/\.json$/, "")));
   for (const s of SLUGS) if (!have.has(s)) errors.push(`src/data/berufe/${s}.json is missing`);
 
   return { errors, warnings };
