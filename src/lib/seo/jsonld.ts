@@ -75,7 +75,7 @@ export const SECTION_PAGES: Record<string, string> = {
   "/grammar": "Grammar",
   "/vocabulary": "Vocabulary & phrases",
   "/exams": "Exams",
-  "/cambridge": "Cambridge English",
+  "/cambridge": "DELE",
   "/trinity": "Trinity ISE",
   "/trinity/ise-1": "Trinity ISE I",
   "/ielts": "IELTS Academic",

@@ -27,7 +27,7 @@ const { set } = Astro.props;
 const paid = set.paid === true;
 const examName = EXAM_NAMES[set.exam] ?? set.exam;
 const overview = examPath(set.exam);
-// "Cambridge B1 Preliminary", "Trinity ISE I": the name learners search for.
+// "DELE B1", "SIELE B1": the name learners search for.
 const examLevel = examLabel(set);
 
 // Which clips have their mp3 (scripts/generate-pruefungen-audio.mjs). A clip without one
@@ -62,7 +62,10 @@ const formatRows = set.modules.map((m: any, i: number) => {
     points: pointsOf(m.name),
   };
 });
-const formatChecked = "30 October 2026";
+// The date the format research was last checked; the older slots keep theirs until their item runs.
+const formatChecked = ref?.checked
+  ? new Date(ref.checked + "T12:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })
+  : "30 October 2026";
 
 // Title and description in the words people search ("b1 preliminary practice test",
 // "ielts practice test free"). The first " – " segment stays the topic (src/lib/progress.js
@@ -73,8 +76,8 @@ const topic = `${examLevel} practice test${setNo > 1 ? ` ${setNo}` : ""}`;
 const skills = set.modules.map((m: any) => m.name).join(", ");
 const pageTitle = paid ? fitTitle(`${topic} – with answers`, topic) : fitTitle(`${topic} – free, with answers`, `${topic} – free`, topic);
 const pageDescription = paid
-  ? `${examLevel} practice test in the official exam format: ${skills}. With a timer, automatic marking and model answers.`
-  : `Free ${examLevel} practice test in the official exam format: ${skills}. With a timer, automatic marking and model answers.`;
+  ? `${examLevel} practice test modelled on the exam format: ${skills}. With a timer, automatic marking and model answers. Not official exam material.`
+  : `Free ${examLevel} practice test modelled on the exam format: ${skills}. With a timer, automatic marking and model answers. Not official exam material.`;
 ---
 <Layout
   title={pageTitle}

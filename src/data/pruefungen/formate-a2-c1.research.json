@@ -1,20 +1,35 @@
 {
-  "_note": "Research file (not read by pages): the structure of the exams our own practice sets follow, checked by scripts/check-pruefungen.mjs (same modules, same parts, same number of scored items per part). Ids are storage keys and stay: goethe-a2/b1/b2 = Cambridge English A2 Key / B1 Preliminary / B2 First, telc-a2/b1/b2 = Trinity ISE Foundation / ISE I / ISE II (content-plan §2). Only structure is described; no exam task or text is copied (© Cambridge University Press & Assessment, © Trinity College London). Field conventions: minutes = official paper time (modules timed together say so in minutesNote); items = scored items in OUR set (where the engine needs a different count than the real paper, the type says so, e.g. ISE 'five of eight true' is judged as eight true/false items); plays = how often the recording is heard; points = real raw marks where known. Facts checked against the official sites on 2026-10-30 (Trinity ISE I/II from the test-overview PDFs, ISE Foundation from the resources page; Cambridge from the exam-format pages and handbooks). Anything not confirmed is listed under unverified. The goethe-c1 and telc-c1 entries still describe the German exams: they belong to the paid C1 sets, which are not migrated yet (see automation/reports/exams.md).",
+  "_note": "Research file (not read by pages, except points and source link on the practice-set page): the structure of the exams our own practice sets follow, checked by scripts/check-pruefungen.mjs (same modules, same parts, same number of scored items per part). Ids are storage keys and stay: goethe-a1…c2 = DELE A1…C2 (goethe-a1 and goethe-c2 have no set in this file's sense: A1 lives in the start-deutsch-1 slot, C2 has no practice set), telc-* and testdaf = SIELE slots (exams-siele rewrites them; until then they still describe Trinity or the German exam). Only structure is described; no exam task or text is copied. Field conventions: minutes = paper time; items = scored items in OUR set, modelled on the best public information we found; plays = how often the recording is heard; points = marks where known. Every DELE fact here is 'to verify': see `unverified` in each entry and reports/exams-dele.md.",
   "sources": [
     {
+      "id": "goethe-a1",
+      "title": "Instituto Cervantes, DELE exam page",
+      "url": "https://cervantes.org/es/examenes/dele"
+    },
+    {
       "id": "goethe-a2",
-      "title": "Cambridge English A2 Key — exam format and handbook for teachers (2020 format)",
-      "url": "https://www.cambridgeenglish.org/exams-and-tests/qualifications/key/exam-format/"
+      "title": "Instituto Cervantes, DELE exam page",
+      "url": "https://cervantes.org/es/examenes/dele"
     },
     {
       "id": "goethe-b1",
-      "title": "Cambridge English B1 Preliminary — exam format and handbook for teachers (2020 format)",
-      "url": "https://www.cambridgeenglish.org/exams-and-tests/qualifications/preliminary/exam-format/"
+      "title": "Instituto Cervantes, DELE exam page",
+      "url": "https://cervantes.org/es/examenes/dele"
     },
     {
       "id": "goethe-b2",
-      "title": "Cambridge English B2 First — exam format and handbook for teachers (2015 format)",
-      "url": "https://www.cambridgeenglish.org/exams-and-tests/qualifications/first/exam-format/"
+      "title": "Instituto Cervantes, DELE exam page",
+      "url": "https://cervantes.org/es/examenes/dele"
+    },
+    {
+      "id": "goethe-c1",
+      "title": "Instituto Cervantes, DELE exam page",
+      "url": "https://cervantes.org/es/examenes/dele"
+    },
+    {
+      "id": "goethe-c2",
+      "title": "Instituto Cervantes, DELE exam page",
+      "url": "https://cervantes.org/es/examenes/dele"
     },
     {
       "id": "telc-a2",
@@ -32,16 +47,6 @@
       "url": "https://www.trinitycollege.com/resource?id=8447"
     },
     {
-      "id": "goethe-c1",
-      "title": "Goethe-Zertifikat C1 (modular) – Modellsatz (Vs0.2, 2. Aufl. Februar 2024, Stand April 2026)",
-      "url": "https://www.goethe.de/pro/relaunch/prf/materialien/C1_modular/c1-modular_modellsatz.pdf"
-    },
-    {
-      "id": "goethe-c1-alt",
-      "title": "Goethe-Zertifikat C1 – alter Modellsatz (Vs13_241014; nur bis 31.12.2023) – nur zum Abgleich",
-      "url": "https://www.goethe.de/pro/relaunch/prf/materialien/C1/c1_modellsatz.pdf"
-    },
-    {
       "id": "telc-c1",
       "title": "telc Deutsch C1 – Übungstest 1, Format 2016 (1. Aufl. 2016), aus telc_deutsch_c1.zip",
       "url": "https://www.telc.net/fileadmin/user_upload/mock_exams/Deutsch/telc_deutsch_c1.zip"
@@ -49,742 +54,750 @@
   ],
   "exams": [
     {
-      "id": "goethe-a2",
-      "exam": "Cambridge English A2 Key",
-      "alt": "KET",
-      "provider": "cambridge",
-      "level": "A2",
-      "source": "Cambridge English A2 Key, Information for candidates (ENG/97453/V1/MAY26) — https://www.cambridgeenglish.org/images/557749-a2-key-information-for-candidates.pdf (checked 2026-10-30)",
+      "id": "goethe-a1",
+      "exam": "DELE A1",
+      "provider": "instituto-cervantes",
+      "level": "A1",
+      "checked": "2026-11-06",
+      "source": "Instituto Cervantes, DELE exam page (https://cervantes.org/es/examenes/dele) and the format pages of its London and Paris centres, checked 2026-11-06",
       "modules": [
         {
           "name": "Reading",
-          "minutes": 60,
-          "minutesNote": "60 minutes for Reading and Writing together (one paper, Parts 1–7)",
-          "points": 30,
+          "minutes": 45,
+          "points": 25,
           "parts": [
             {
               "teil": 1,
-              "task": "Six short real-world texts (notices, signs, messages, emails): understand the main message",
+              "task": "An email or short letter: answer questions on it",
               "type": "Multiple choice, 3 options",
-              "items": 6,
-              "points": 6
+              "items": 5
             },
             {
               "teil": 2,
-              "task": "Three short texts on the same topic: which text (A, B or C) says this?",
-              "type": "Multiple matching, A/B/C (texts can be used more than once)",
-              "items": 7,
-              "points": 7,
-              "text": "3 short texts, e.g. three people describe a hobby"
+              "task": "Short notices and adverts: match each to a statement",
+              "type": "Matching",
+              "items": 6
             },
             {
               "teil": 3,
-              "task": "One longer text: detail, opinion and attitude",
-              "type": "Multiple choice, 3 options",
-              "items": 5,
-              "points": 5
+              "task": "Short texts from people or places: match each to a statement",
+              "type": "Matching",
+              "items": 6
             },
             {
               "teil": 4,
-              "task": "Multiple-choice cloze: one short text with gaps, mostly vocabulary",
-              "type": "Gapped text, 3 options per gap",
-              "items": 6,
-              "points": 6
-            },
-            {
-              "teil": 5,
-              "task": "Open cloze: one or two short emails with gaps, mostly grammar words",
-              "type": "Write one word in each gap",
-              "items": 6,
-              "points": 6
-            }
-          ]
-        },
-        {
-          "name": "Writing",
-          "minutes": 60,
-          "minutesNote": "same 60 minutes as Reading (Parts 6–7 of the paper)",
-          "points": 30,
-          "parts": [
-            {
-              "teil": 6,
-              "task": "Guided writing: a short email or note covering three points",
-              "type": "Free writing, 25 words or more",
-              "items": 1,
-              "points": 15
-            },
-            {
-              "teil": 7,
-              "task": "Picture story: write the story shown in three pictures",
-              "type": "Free writing, 35 words or more",
-              "items": 1,
-              "points": 15
+              "task": "Everyday information texts: find specific details",
+              "type": "Matching or multiple choice",
+              "items": 8
             }
           ]
         },
         {
           "name": "Listening",
-          "minutes": 30,
-          "minutesNote": "about 30 minutes; on paper, 6 more minutes at the end to transfer answers",
+          "minutes": 20,
           "points": 25,
           "parts": [
             {
               "teil": 1,
-              "task": "Five short recordings, one or two speakers: find the key information",
-              "type": "Multiple choice, 3 picture options (here: text options)",
+              "task": "Short conversations: choose the right option",
+              "type": "Multiple choice, 3 options",
               "items": 5,
-              "plays": 2,
-              "points": 5
+              "plays": 2
             },
             {
               "teil": 2,
-              "task": "One person speaking: complete notes",
-              "type": "Gap fill: 1 or 2 words, a number, a date or a time per gap",
+              "task": "Short messages and announcements",
+              "type": "Multiple choice or matching",
               "items": 5,
-              "plays": 2,
-              "points": 5
+              "plays": 2
             },
             {
               "teil": 3,
-              "task": "One longer conversation: detail",
-              "type": "Multiple choice, 3 options",
-              "items": 5,
-              "plays": 2,
-              "points": 5
+              "task": "A conversation: who or what goes with each item",
+              "type": "Matching",
+              "items": 8,
+              "plays": 2
             },
             {
               "teil": 4,
-              "task": "Five short dialogues or monologues: main idea, message, place, purpose",
-              "type": "Multiple choice, 3 options",
-              "items": 5,
-              "plays": 2,
-              "points": 5
+              "task": "Short messages: match each to a statement",
+              "type": "Matching",
+              "items": 7,
+              "plays": 2
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 25,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Fill in a form with personal information",
+              "type": "Form",
+              "items": 1
             },
             {
-              "teil": 5,
-              "task": "One longer conversation: match five items to eight options",
-              "type": "Matching, options A–H (three are not used)",
-              "items": 5,
-              "plays": 2,
-              "points": 5
+              "teil": 2,
+              "task": "Write a very short message, note or email",
+              "type": "Free writing, about 20–30 words",
+              "items": 1
             }
           ]
         },
         {
           "name": "Speaking",
-          "minutes": 10,
-          "minutesNote": "about 8–10 minutes, pairs (or groups of three), two examiners",
-          "points": 45,
+          "minutes": 15,
+          "minutesNote": "15 minutes, plus about 15 minutes to prepare",
+          "points": 25,
           "parts": [
             {
               "teil": 1,
-              "task": "Interview: basic factual and personal questions from the examiner",
-              "type": "Examiner and each candidate, about 3–4 minutes",
+              "task": "Introduce yourself",
+              "type": "On your own, after preparation",
               "items": 1
             },
             {
               "teil": 2,
-              "task": "Collaborative discussion with picture prompts, then follow-up questions",
-              "type": "Two candidates together, 5–6 minutes",
+              "task": "Talk about a topic from a card",
+              "type": "On your own, after preparation",
+              "items": 1
+            },
+            {
+              "teil": 3,
+              "task": "Conversation with the examiner about the topic",
+              "type": "Dialogue",
+              "items": 1
+            },
+            {
+              "teil": 4,
+              "task": "Short everyday exchange from cards",
+              "type": "Dialogue",
               "items": 1
             }
           ]
         }
       ],
-      "schreiben": {
-        "tasks": 2,
-        "wordCounts": [
-          "25 or more",
-          "35 or more"
-        ],
-        "criteria": [
-          "Content",
-          "Organisation",
-          "Language"
-        ],
-        "rules": "Part 6 must cover all three points of the task. The scores per criterion are on a 0–5 scale."
-      },
-      "sprechen": {
-        "format": "Paired test, two candidates, 8–10 minutes",
-        "preparation": "No preparation time",
-        "criteria": [
-          "Grammar and vocabulary",
-          "Pronunciation",
-          "Interactive communication",
-          "Global achievement"
-        ]
-      },
-      "total": null,
-      "totalNote": "Cambridge English Scale: 120–139 = A2 pass (Grade C 120–132, Grade B 133–139), 140–150 = Grade A (certificate at B1); 100–119 = A1 certificate. One overall score; Reading, Writing, Listening and Speaking each get their own scale score. You cannot fail a single paper.",
-      "pass": "Overall score of 120 or more on the Cambridge English Scale. Our practice sets use 60 % of the auto-marked points as their own guide, not a Cambridge pass mark.",
+      "total": 100,
+      "totalNote": "25 points per paper as far as we could check. To verify.",
+      "pass": "The result is Apto or No apto (pass or fail). As far as we could check, the four papers are marked in two groups of 50 points, and you need at least 30 points in each group: a strong group cannot make up for a weak one. Check the rule in the current exam guide.",
       "modular": false,
-      "modularNote": "The exam is taken as a whole; the result shows a score for each skill.",
       "unverified": [
-        "Writing and Speaking raw marks per part (shown here as a guide)"
+        "Timings as listed by Instituto Cervantes centres (London, Paris) on 6 November 2026. Other centres' pages differ on some timings, and the official exam guides could not be opened that day. Numbers of tasks and items are the best public information we found, not confirmed. To verify.",
+        "Pass rule and the make-up of the marking groups.",
+        "Which task types and how many items each paper has in the current version."
+      ]
+    },
+    {
+      "id": "goethe-a2",
+      "exam": "DELE A2",
+      "provider": "instituto-cervantes",
+      "level": "A2",
+      "checked": "2026-11-06",
+      "source": "Instituto Cervantes, DELE exam page (https://cervantes.org/es/examenes/dele) and the format pages of its London and Paris centres, checked 2026-11-06",
+      "modules": [
+        {
+          "name": "Reading",
+          "minutes": 60,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "A personal email or letter: answer questions on it",
+              "type": "Multiple choice, 3 options",
+              "items": 5
+            },
+            {
+              "teil": 2,
+              "task": "Eight short notices, adverts and messages: one question on each",
+              "type": "Multiple choice, 3 options",
+              "items": 8
+            },
+            {
+              "teil": 3,
+              "task": "Three people write about one topic: who says this?",
+              "type": "Matching, texts A–C (letters can repeat)",
+              "items": 6
+            },
+            {
+              "teil": 4,
+              "task": "A longer text on daily life or a person's story",
+              "type": "Multiple choice, 3 options",
+              "items": 6
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 35,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Six short messages and announcements",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 2,
+              "task": "Six short items from one radio programme",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 3,
+              "task": "A conversation: who says this?",
+              "type": "Matching, the two speakers or neither",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 4,
+              "task": "Seven short messages: match each to a statement",
+              "type": "Matching, 10 statements (three are not used)",
+              "items": 7,
+              "plays": 2
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 50,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Reply to an email or message",
+              "type": "Free writing, about 60–70 words",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "A short text about yourself: a description or something that happened",
+              "type": "Free writing, about 70–80 words",
+              "items": 1
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 15,
+          "minutesNote": "15 minutes, plus about 15 minutes to prepare",
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "A short talk on a familiar topic",
+              "type": "On your own, 2–3 minutes, after preparation",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "Describe a photo",
+              "type": "On your own, 2–3 minutes, after preparation",
+              "items": 1
+            },
+            {
+              "teil": 3,
+              "task": "Role play from the situation in the photo",
+              "type": "Dialogue, 3–4 minutes",
+              "items": 1
+            },
+            {
+              "teil": 4,
+              "task": "Conversation about your own life",
+              "type": "Dialogue, 3–4 minutes, no preparation",
+              "items": 1
+            }
+          ]
+        }
+      ],
+      "total": 100,
+      "totalNote": "25 points per paper as far as we could check. To verify.",
+      "pass": "The result is Apto or No apto (pass or fail). As far as we could check, the four papers are marked in two groups of 50 points, and you need at least 30 points in each group: a strong group cannot make up for a weak one. Check the rule in the current exam guide.",
+      "modular": false,
+      "unverified": [
+        "Timings as listed by Instituto Cervantes centres (London, Paris) on 6 November 2026. Other centres' pages differ on some timings, and the official exam guides could not be opened that day. Numbers of tasks and items are the best public information we found, not confirmed. To verify.",
+        "Pass rule and the make-up of the marking groups.",
+        "Which task types and how many items each paper has in the current version."
       ]
     },
     {
       "id": "goethe-b1",
-      "exam": "Cambridge English B1 Preliminary",
-      "alt": "PET",
-      "provider": "cambridge",
+      "exam": "DELE B1",
+      "provider": "instituto-cervantes",
       "level": "B1",
-      "source": "Cambridge English B1 Preliminary, exam format page and Handbook for teachers (2020 format) — https://www.cambridgeenglish.org/exams-and-tests/qualifications/preliminary/exam-format/ (checked 2026-10-30)",
+      "checked": "2026-11-06",
+      "source": "Instituto Cervantes, DELE exam page (https://cervantes.org/es/examenes/dele) and the format pages of its London and Paris centres, checked 2026-11-06",
       "modules": [
         {
           "name": "Reading",
-          "minutes": 45,
-          "points": 32,
+          "minutes": 70,
+          "points": 25,
           "parts": [
             {
               "teil": 1,
-              "task": "Five short real-world texts: understand the main message",
-              "type": "Multiple choice, 3 options",
-              "items": 5,
-              "points": 5
+              "task": "Six people's needs and nine short texts: match them",
+              "type": "Matching, texts A–I (three are not used)",
+              "items": 6
             },
             {
               "teil": 2,
-              "task": "Five people's needs: match each person to one of eight short texts",
-              "type": "Matching, texts A–H (three are not used)",
-              "items": 5,
-              "points": 5
+              "task": "One informative text: main ideas",
+              "type": "Multiple choice, 3 options",
+              "items": 6
             },
             {
               "teil": 3,
-              "task": "One longer text: detail, opinion, attitude and the writer's purpose",
-              "type": "Multiple choice, 4 options",
-              "items": 5,
-              "points": 5
+              "task": "Three short texts: which one says this?",
+              "type": "Matching, texts A–C (letters can repeat)",
+              "items": 6
             },
             {
               "teil": 4,
-              "task": "Gapped text: five sentences have been taken out of a text",
-              "type": "Choose from eight sentences A–H (three are not used)",
-              "items": 5,
-              "points": 5
+              "task": "A text with sentences taken out",
+              "type": "Choose from eight sentences (two are not used)",
+              "items": 6
             },
             {
               "teil": 5,
-              "task": "Multiple-choice cloze: vocabulary in a short text",
-              "type": "Gapped text, 4 options per gap",
-              "items": 6,
-              "points": 6
-            },
-            {
-              "teil": 6,
-              "task": "Open cloze: grammar words in a short text",
-              "type": "Write one word in each gap",
-              "items": 6,
-              "points": 6
-            }
-          ]
-        },
-        {
-          "name": "Writing",
-          "minutes": 45,
-          "points": 40,
-          "parts": [
-            {
-              "teil": 1,
-              "task": "Email: answer an email using four notes",
-              "type": "Free writing, about 100 words (compulsory)",
-              "items": 1,
-              "points": 20
-            },
-            {
-              "teil": 2,
-              "task": "Article or story (choose one)",
-              "type": "Free writing, about 100 words",
-              "items": 1,
-              "points": 20
+              "task": "A letter or message with gaps: grammar",
+              "type": "Gaps, 3 options each",
+              "items": 6
             }
           ]
         },
         {
           "name": "Listening",
-          "minutes": 30,
-          "minutesNote": "about 30 minutes including 6 minutes to transfer answers",
+          "minutes": 40,
           "points": 25,
           "parts": [
             {
               "teil": 1,
-              "task": "Seven short monologues or dialogues: key information",
-              "type": "Multiple choice, 3 picture options (here: text options)",
-              "items": 7,
-              "plays": 2,
-              "points": 7
+              "task": "Six short messages and announcements",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2
             },
             {
               "teil": 2,
-              "task": "Six short dialogues: attitude and opinion",
+              "task": "One long monologue: key ideas and details",
               "type": "Multiple choice, 3 options",
               "items": 6,
-              "plays": 2,
-              "points": 6
+              "plays": 2
             },
             {
               "teil": 3,
-              "task": "One monologue (e.g. a radio announcement): complete notes",
-              "type": "Gap fill, a word, number or short phrase per gap",
+              "task": "Six items from a radio news programme",
+              "type": "Multiple choice, 3 options",
               "items": 6,
-              "plays": 2,
-              "points": 6
+              "plays": 2
             },
             {
               "teil": 4,
-              "task": "One longer interview: detail, attitude and opinion",
-              "type": "Multiple choice, 3 options",
+              "task": "Six short monologues: match each to a statement",
+              "type": "Matching, 9 statements (three are not used)",
               "items": 6,
-              "plays": 2,
-              "points": 6
+              "plays": 2
+            },
+            {
+              "teil": 5,
+              "task": "A conversation between friends: who says this?",
+              "type": "Matching, the two speakers or neither",
+              "items": 6,
+              "plays": 2
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 60,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Reply to a message or forum post",
+              "type": "Free writing, about 100–120 words",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "A description or story with your opinion (the real exam offers a choice)",
+              "type": "Free writing, about 130–150 words",
+              "items": 1
             }
           ]
         },
         {
           "name": "Speaking",
-          "minutes": 14,
-          "minutesNote": "12–17 minutes per pair of candidates",
-          "points": 30,
+          "minutes": 15,
+          "minutesNote": "15 minutes, plus 15 minutes to prepare",
+          "points": 25,
           "parts": [
             {
               "teil": 1,
-              "task": "Interview: personal questions",
-              "type": "Examiner and candidate, 2–3 minutes",
+              "task": "Prepared talk on a topic",
+              "type": "On your own, 2–3 minutes, after preparation",
               "items": 1
             },
             {
               "teil": 2,
-              "task": "Long turn: describe a photograph",
-              "type": "Each candidate alone, about 1 minute each",
+              "task": "Conversation on the same topic",
+              "type": "Dialogue, 3–4 minutes",
               "items": 1
             },
             {
               "teil": 3,
-              "task": "Collaborative task: discuss options from a situation with picture prompts",
-              "type": "Two candidates together, 2–3 minutes",
+              "task": "Describe a photo and answer questions",
+              "type": "2–3 minutes, no preparation",
               "items": 1
             },
             {
               "teil": 4,
-              "task": "Discussion on the topic of Part 3",
-              "type": "Two candidates and examiner, 3 minutes",
+              "task": "Role play in an everyday situation",
+              "type": "Dialogue, 2–3 minutes, no preparation",
               "items": 1
             }
           ]
         }
       ],
-      "schreiben": {
-        "tasks": 2,
-        "wordCounts": [
-          "about 100",
-          "about 100"
-        ],
-        "criteria": [
-          "Content",
-          "Communicative achievement",
-          "Organisation",
-          "Language"
-        ],
-        "rules": "Part 1 must answer all four notes. Each criterion is marked 0–5."
-      },
-      "sprechen": {
-        "format": "Paired test, two candidates, 12–17 minutes",
-        "preparation": "No preparation time",
-        "criteria": [
-          "Grammar and vocabulary",
-          "Discourse management",
-          "Pronunciation",
-          "Interactive communication",
-          "Global achievement"
-        ]
-      },
-      "total": null,
-      "totalNote": "Cambridge English Scale: 140–159 = B1 pass (Grade C 140–152, Grade B 153–159), 160–170 = Grade A (certificate at B2); 120–139 = A2 certificate. One overall score; each skill gets its own scale score.",
-      "pass": "Overall score of 140 or more on the Cambridge English Scale. Our practice sets use 60 % of the auto-marked points as their own guide, not a Cambridge pass mark.",
+      "total": 100,
+      "totalNote": "25 points per paper as far as we could check. To verify.",
+      "pass": "The result is Apto or No apto (pass or fail). As far as we could check, the four papers are marked in two groups of 50 points, and you need at least 30 points in each group: a strong group cannot make up for a weak one. Check the rule in the current exam guide.",
       "modular": false,
-      "modularNote": "Taken as a whole; the result shows a score for each skill.",
       "unverified": [
-        "Raw marks per Writing/Speaking part (shown as a guide)",
-        "Part details and scale ranges are from the 2020 handbook; the live exam-format page could not be fetched in this run"
+        "Timings as listed by Instituto Cervantes centres (London, Paris) on 6 November 2026. Other centres' pages differ on some timings, and the official exam guides could not be opened that day. Numbers of tasks and items are the best public information we found, not confirmed. To verify.",
+        "Pass rule and the make-up of the marking groups.",
+        "Which task types and how many items each paper has in the current version."
       ]
     },
     {
       "id": "goethe-b2",
-      "exam": "Cambridge English B2 First",
-      "alt": "FCE",
-      "provider": "cambridge",
+      "exam": "DELE B2",
+      "provider": "instituto-cervantes",
       "level": "B2",
-      "source": "Cambridge English B2 First, exam format page and Handbook for teachers — https://www.cambridgeenglish.org/exams-and-tests/qualifications/first/exam-format/ (checked 2026-10-30)",
+      "checked": "2026-11-06",
+      "source": "Instituto Cervantes, DELE exam page (https://cervantes.org/es/examenes/dele) and the format pages of its London and Paris centres, checked 2026-11-06",
       "modules": [
         {
-          "name": "Reading and Use of English",
-          "minutes": 75,
-          "points": 52,
+          "name": "Reading",
+          "minutes": 70,
+          "points": 25,
           "parts": [
             {
               "teil": 1,
-              "task": "Multiple-choice cloze: vocabulary (collocations, fixed phrases, phrasal verbs)",
-              "type": "Gapped text, 4 options per gap",
-              "items": 8,
-              "points": 8
+              "task": "One complex text: key ideas and details",
+              "type": "Multiple choice, 3 options",
+              "items": 6
             },
             {
               "teil": 2,
-              "task": "Open cloze: grammar words",
-              "type": "Write one word in each gap",
-              "items": 8,
-              "points": 8
+              "task": "Four personal texts: match statements to the writers",
+              "type": "Matching, texts A–D (letters can repeat)",
+              "items": 10
             },
             {
               "teil": 3,
-              "task": "Word formation: change the word in capitals to fit the gap",
-              "type": "Write the changed word",
-              "items": 8,
-              "points": 8
+              "task": "A text with sentences taken out",
+              "type": "Choose from eight sentences (two are not used)",
+              "items": 6
             },
             {
               "teil": 4,
-              "task": "Key word transformation: same meaning with a given word, 2–5 words",
-              "type": "Write 2–5 words including the key word",
+              "task": "A text with gaps: grammar and vocabulary",
+              "type": "Gaps, 3 options each",
+              "items": 14
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 40,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Six short conversations",
+              "type": "Multiple choice, 3 options",
               "items": 6,
-              "points": 12,
-              "note": "up to 2 marks per item in the real exam; 1 point here"
+              "plays": 2
+            },
+            {
+              "teil": 2,
+              "task": "One conversation: who says this?",
+              "type": "Matching, the two speakers or neither",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 3,
+              "task": "An interview: details and what is implied",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 4,
+              "task": "Six short monologues: match each to a statement",
+              "type": "Matching, 9 statements (three are not used)",
+              "items": 6,
+              "plays": 2
             },
             {
               "teil": 5,
-              "task": "One long text: detail, opinion, attitude, purpose, implication",
-              "type": "Multiple choice, 4 options",
+              "task": "One long talk: details",
+              "type": "Multiple choice, 3 options",
               "items": 6,
-              "points": 12
-            },
-            {
-              "teil": 6,
-              "task": "Gapped text: six sentences have been taken out of a long text",
-              "type": "Choose from seven sentences A–G (one is not used)",
-              "items": 6,
-              "points": 12
-            },
-            {
-              "teil": 7,
-              "task": "Multiple matching: one text in sections or several short texts",
-              "type": "Matching, sections A–D/E (used more than once)",
-              "items": 10,
-              "points": 10
+              "plays": 2
             }
           ]
         },
         {
           "name": "Writing",
           "minutes": 80,
-          "points": 40,
+          "points": 25,
           "parts": [
             {
               "teil": 1,
-              "task": "Essay: give your opinion on a statement, using two given notes and one idea of your own",
-              "type": "Free writing, 140–190 words (compulsory)",
-              "items": 1,
-              "points": 20
+              "task": "A letter or email based on notes from a recording",
+              "type": "Free writing, about 150–180 words",
+              "items": 1
             },
             {
               "teil": 2,
-              "task": "Choose one: article, email/letter, report or review",
-              "type": "Free writing, 140–190 words",
-              "items": 1,
-              "points": 20
-            }
-          ]
-        },
-        {
-          "name": "Listening",
-          "minutes": 40,
-          "minutesNote": "about 40 minutes",
-          "points": 30,
-          "parts": [
-            {
-              "teil": 1,
-              "task": "Eight short unrelated extracts: gist, detail, function, attitude",
-              "type": "Multiple choice, 3 options",
-              "items": 8,
-              "plays": 2,
-              "points": 8
-            },
-            {
-              "teil": 2,
-              "task": "One monologue: complete sentences",
-              "type": "Sentence completion, a word or short phrase per gap",
-              "items": 10,
-              "plays": 2,
-              "points": 10
-            },
-            {
-              "teil": 3,
-              "task": "Five short related monologues: match each speaker to an option",
-              "type": "Matching, options A–H (three are not used)",
-              "items": 5,
-              "plays": 2,
-              "points": 5
-            },
-            {
-              "teil": 4,
-              "task": "One interview or discussion: opinion, attitude, detail",
-              "type": "Multiple choice, 3 options",
-              "items": 7,
-              "plays": 2,
-              "points": 7
+              "task": "An opinion text based on a short text, graph or table (the real exam offers a choice)",
+              "type": "Free writing, about 150–180 words",
+              "items": 1
             }
           ]
         },
         {
           "name": "Speaking",
-          "minutes": 14,
-          "minutesNote": "14 minutes per pair of candidates",
-          "points": 20,
+          "minutes": 20,
+          "minutesNote": "20 minutes, plus 20 minutes to prepare",
+          "points": 25,
           "parts": [
             {
               "teil": 1,
-              "task": "Interview: general and personal questions",
-              "type": "Examiner and candidates, 2 minutes",
+              "task": "Weigh up proposals for a problem",
+              "type": "4–5 minutes, after preparation",
               "items": 1
             },
             {
               "teil": 2,
-              "task": "Long turn: compare two photographs and answer a question, then comment on the partner's photos",
-              "type": "Each candidate about 1 minute, plus a 30-second response",
+              "task": "Describe and comment on a situation from a photo",
+              "type": "3–4 minutes, after preparation",
               "items": 1
             },
             {
               "teil": 3,
-              "task": "Collaborative task: discuss a question with five written prompts, then decide",
-              "type": "Two candidates together, about 3 minutes",
-              "items": 1
-            },
-            {
-              "teil": 4,
-              "task": "Discussion on the topic of Part 3",
-              "type": "Two candidates and examiner, 4 minutes",
+              "task": "Conversation from a survey or short text",
+              "type": "3–4 minutes, no preparation",
               "items": 1
             }
           ]
         }
       ],
-      "schreiben": {
-        "tasks": 2,
-        "wordCounts": [
-          "140–190",
-          "140–190"
-        ],
-        "criteria": [
-          "Content",
-          "Communicative achievement",
-          "Organisation",
-          "Language"
-        ],
-        "rules": "Each criterion is marked 0–5."
-      },
-      "sprechen": {
-        "format": "Paired test, two candidates, 14 minutes",
-        "preparation": "No preparation time",
-        "criteria": [
-          "Grammar and vocabulary",
-          "Discourse management",
-          "Pronunciation",
-          "Interactive communication",
-          "Global achievement"
-        ]
-      },
-      "total": null,
-      "totalNote": "Cambridge English Scale: 160–179 = B2 pass (Grade C 160–172, Grade B 173–179), 180–190 = Grade A (certificate at C1); 140–159 = B1 certificate. One overall score; each skill and Use of English get their own scale score.",
-      "pass": "Overall score of 160 or more on the Cambridge English Scale. Our practice sets use 60 % of the auto-marked points as their own guide, not a Cambridge pass mark.",
+      "total": 100,
+      "totalNote": "25 points per paper as far as we could check. To verify.",
+      "pass": "The result is Apto or No apto (pass or fail). As far as we could check, the four papers are marked in two groups of 50 points, and you need at least 30 points in each group: a strong group cannot make up for a weak one. Check the rule in the current exam guide.",
       "modular": false,
-      "modularNote": "Taken as a whole; the result shows a score for each skill and for Use of English.",
       "unverified": [
-        "Part details and scale ranges are from the handbook; the live exam-format page could not be fetched in this run"
+        "Timings as listed by Instituto Cervantes centres (London, Paris) on 6 November 2026. Other centres' pages differ on some timings, and the official exam guides could not be opened that day. Numbers of tasks and items are the best public information we found, not confirmed. To verify.",
+        "Pass rule and the make-up of the marking groups.",
+        "Which task types and how many items each paper has in the current version."
       ]
     },
     {
       "id": "goethe-c1",
-      "exam": "Goethe-Zertifikat C1",
-      "alt": "Goethe-Zertifikat C1 (modular, seit 2024)",
-      "provider": "goethe",
+      "exam": "DELE C1",
+      "provider": "instituto-cervantes",
       "level": "C1",
-      "source": "Goethe-Zertifikat C1 (modular) – Modellsatz, 2. Aufl. Feb. 2024, S. 5–6 (Vorwort, Überblick), Kandidatenblätter S. 7–28, Antwort-/Bewertungsbögen S. 30, 43, 46 — https://www.goethe.de/pro/relaunch/prf/materialien/C1_modular/c1-modular_modellsatz.pdf",
+      "checked": "2026-11-06",
+      "source": "Instituto Cervantes, DELE exam page (https://cervantes.org/es/examenes/dele) and the format pages of its London and Paris centres, checked 2026-11-06",
       "modules": [
         {
-          "name": "Lesen",
-          "minutes": 65,
-          "points": 100,
-          "scoring": "30 Items à 1 Punkt ('Punkte Lesen /30'), Umrechnung auf 100 (Umrechnung auf dem C1-Bogen nicht abgedruckt – Analogie zu B1/B2: UNVERIFIED)",
+          "name": "Reading and language use",
+          "minutes": 90,
+          "points": 25,
           "parts": [
             {
               "teil": 1,
-              "task": "Text mit Wörtern rekonstruieren",
-              "type": "Lückentext, Mehrfachauswahl a/b/c/d",
-              "items": 8,
-              "minutes": 10,
-              "text": "populärwissenschaftlicher/informativer Zeitschriftenartikel, ca. 350 Wörter",
-              "points": 8
+              "task": "One long text: general idea and details",
+              "type": "Multiple choice, 3 options",
+              "items": 6
             },
             {
               "teil": 2,
-              "task": "Hauptaussagen und Einzelinformationen verstehen",
-              "type": "Mehrfachauswahl a/b/c",
-              "items": 7,
-              "minutes": 20,
-              "text": "Zeitschriften-/Internetartikel mit hohem Informationsgehalt, ca. 650 Wörter",
-              "points": 7
+              "task": "A long text with paragraphs taken out",
+              "type": "Choose from seven paragraphs (one is not used)",
+              "items": 6
             },
             {
               "teil": 3,
-              "task": "Text mit Sätzen rekonstruieren",
-              "type": "Lückentext mit Satzzuordnung (10 Sätze a–j, 1 Beispiel, 2 passen nicht)",
-              "items": 8,
-              "minutes": 20,
-              "text": "Kommentar/Reportage aus der Presse, ca. 550 Wörter",
-              "points": 8
+              "task": "An academic or professional article: intent and viewpoint",
+              "type": "Multiple choice, 3 options",
+              "items": 6
             },
             {
               "teil": 4,
-              "task": "Meinungen/Aussagen suchen und verorten: Wer äußert das?",
-              "type": "Zuordnung a/b/c (3 Beiträge) oder 0 (2 Aussagen passen nicht)",
-              "items": 7,
-              "minutes": 15,
-              "text": "3 Beiträge von Wissenschaftler/innen in einer Fachzeitschrift, zusammen ca. 450 Wörter",
-              "points": 7
+              "task": "Short specialist texts: match statements to them",
+              "type": "Matching, texts A–D (letters can repeat)",
+              "items": 8
+            },
+            {
+              "teil": 5,
+              "task": "A text with gaps: grammar and vocabulary",
+              "type": "Gaps, 3 options each",
+              "items": 14
             }
           ]
         },
         {
-          "name": "Hören",
-          "minutes": 40,
-          "points": 100,
-          "scoring": "30 Items à 1 Punkt, Umrechnung auf 100 (UNVERIFIED, s. Lesen); Übertragungszeit am Ende",
+          "name": "Listening and language use",
+          "minutes": 50,
+          "points": 25,
           "parts": [
             {
               "teil": 1,
-              "task": "Podcast/Rezension: Zu welchem Buch passt die Aussage?",
-              "type": "Zuordnung zu 3 Textabschnitten (a/b/c)",
+              "task": "A talk: complete the notes",
+              "type": "Gaps in sentences, 3 options each",
               "items": 6,
-              "text": "Podcast, 3 Buchvorstellungen, 60 Sek. Lesezeit",
-              "plays": 1,
-              "points": 6
+              "plays": 2
             },
             {
               "teil": 2,
-              "task": "Interview mit Expertin/Experten zu einem Fachthema",
-              "type": "Mehrfachauswahl a/b/c",
-              "items": 9,
-              "text": "Radiointerview, 60 Sek. Lesezeit",
-              "plays": 2,
-              "points": 9
+              "task": "Four short conversations: three questions on each",
+              "type": "Multiple choice, 3 options",
+              "items": 12,
+              "plays": 2
             },
             {
               "teil": 3,
-              "task": "Diskussion mit mehreren Personen zu einem aktuellen Thema – in 4 Abschnitten, je 2 Aufgaben",
-              "type": "Mehrfachauswahl a/b/c",
-              "items": 8,
-              "text": "(Radio-)Diskussion mit 3 Personen; vor jedem Abschnitt 30 Sek. Lesezeit",
-              "plays": 1,
-              "points": 8
+              "task": "A long interview or debate",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2
             },
             {
               "teil": 4,
-              "task": "Vortrag zu einem aktuellen Thema: Einzelinformationen verstehen",
-              "type": "Mehrfachauswahl a/b/c",
-              "items": 7,
-              "text": "Vortrag, 90 Sek. Lesezeit",
-              "plays": 2,
-              "points": 7
+              "task": "Six very short exchanges: what the speakers really mean",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2
             }
           ]
         },
         {
-          "name": "Schreiben",
-          "minutes": 75,
-          "points": 100,
-          "scoring": "Teil 1: 60 (Erfüllung 14, Kohärenz 14, Wortschatz 16, Strukturen 16); Teil 2: 40 (je 10)",
+          "name": "Integrated writing",
+          "minutes": 80,
+          "points": 25,
           "parts": [
             {
               "teil": 1,
-              "task": "Diskussionsbeitrag in einem Online-Forum mit 4 Sprachfunktionen (erklären, argumentieren, Beispiel, Alternative erläutern)",
-              "type": "Freier Text (Produktion)",
-              "items": 1,
-              "minutes": 50,
-              "text": "Forumsbeitrag, ca. 230 Wörter",
-              "points": 60
+              "task": "Listen, take notes, then write a reasoned text",
+              "type": "Free writing, about 220–250 words",
+              "items": 1
             },
             {
               "teil": 2,
-              "task": "(Halb-)formelle Mitteilung, z. B. Beschwerde an Vorgesetzte, mit 4 Sprachfunktionen",
-              "type": "Freier Text (Interaktion)",
-              "items": 1,
-              "minutes": 25,
-              "text": "E-Mail, ca. 120 Wörter",
-              "points": 40
+              "task": "A formal text such as a report, review or letter of complaint (the real exam offers a choice)",
+              "type": "Free writing, about 220–250 words",
+              "items": 1
             }
           ]
         },
         {
-          "name": "Sprechen",
+          "name": "Integrated speaking",
           "minutes": 20,
-          "points": 100,
-          "scoring": "Teil 1 Vortrag: 40 (Erfüllung 10, Kohärenz 10, Wortschatz 10, Strukturen 10) + Fragen/Antworten 12; Teil 2 Diskussion: 32 (Erfüllung 8, Interaktion 4, Wortschatz 10, Strukturen 10); Aussprache Teil 1+2: 16",
+          "minutesNote": "20 minutes, plus 20 minutes to prepare",
+          "points": 25,
           "parts": [
             {
               "teil": 1,
-              "task": "Vortrag zu einem gewählten Thema (1 aus 2, mit kurzem Input und 4 Stichpunkten), danach Nachfragen beantworten",
-              "type": "Produktion/Interaktion",
-              "items": 1,
-              "text": "ca. 5 Min. Vortrag + ca. 2 Min. Fragen (ca. 7 Min. pro Person)",
-              "points": 52
+              "task": "Summarise and assess a long text",
+              "type": "On your own, 3–5 minutes, after preparation",
+              "items": 1
             },
             {
               "teil": 2,
-              "task": "Freie Diskussion zu einer kontroversen Frage mit kurzem Inputtext und 4 Stichpunkten; sich am Ende einigen/positionieren",
-              "type": "Interaktion (Paar)",
-              "items": 1,
-              "text": "Inputtext + 4 Stichpunkte; ca. 5 Min.",
-              "points": 32
+              "task": "Formal discussion on your talk",
+              "type": "Dialogue, 4–6 minutes",
+              "items": 1
+            },
+            {
+              "teil": 3,
+              "task": "Reach an agreement with the examiner",
+              "type": "Dialogue, 4–6 minutes",
+              "items": 1
             }
           ]
         }
       ],
-      "schreiben": {
-        "tasks": 2,
-        "wordCounts": [
-          "ca. 230",
-          "ca. 120"
-        ],
-        "criteria": [
-          "Aufgabenerfüllung",
-          "Kohärenz",
-          "Wortschatz",
-          "Strukturen"
-        ],
-        "rules": "Aufgabenerfüllung E (0) → Aufgabe insgesamt 0 Punkte."
-      },
-      "sprechen": {
-        "format": "Paarprüfung, ca. 20 Min. pro Paar (+ Vorbereitungszeit); Einzelprüfung möglich",
-        "preparation": "20 Minuten (Paar- und Einzelprüfung), allein, Notizen erlaubt",
-        "criteria": [
-          "Aufgabenerfüllung",
-          "Kohärenz/Flüssigkeit (Vortrag)",
-          "Fragen/Antworten (Vortrag)",
-          "Interaktion/Register (Diskussion)",
-          "Wortschatz",
-          "Strukturen",
-          "Aussprache"
-        ]
-      },
-      "total": 400,
-      "totalNote": "max. 100 Punkte pro Modul",
-      "pass": "pro Modul mind. 60 von 100 Punkten (60 %)",
-      "modular": true,
-      "oldFormatNote": "Altes C1 (bis 31.12.2023, c1_modellsatz.pdf): nicht modular; Lesen 70 Min. (3 Aufgaben), Hören 40 Min. (2), Schreiben 80 Min. (2), Sprechen 15 Min. Paar (2); 100 Punkte gesamt, 60 zum Bestehen, davon mind. 45 schriftlich und 15 mündlich. NICHT als Vorlage verwenden.",
+      "total": 100,
+      "totalNote": "25 points per paper as far as we could check. To verify.",
+      "pass": "The result is Apto or No apto (pass or fail). As far as we could check, the four papers are marked in two groups of 50 points, and you need at least 30 points in each group: a strong group cannot make up for a weak one. Check the rule in the current exam guide.",
+      "modular": false,
       "unverified": [
-        "Umrechnung 30 → 100 bei Lesen/Hören (auf dem C1-Antwortbogen steht nur '/30')",
-        "Textlängen sind Schätzungen",
-        "Überblickstabelle nennt Lesen Teil 4 'Zuordnung von fünf Aussagen', Aufgabenblatt/Antwortbogen zeigen 7 Items (24–30) mit a/b/c/0 – 7 übernommen"
+        "Timings as listed by Instituto Cervantes centres (London, Paris) on 6 November 2026. Other centres' pages differ on some timings, and the official exam guides could not be opened that day. Numbers of tasks and items are the best public information we found, not confirmed. To verify.",
+        "Pass rule and the make-up of the marking groups.",
+        "Which task types and how many items each paper has in the current version."
+      ]
+    },
+    {
+      "id": "goethe-c2",
+      "exam": "DELE C2",
+      "provider": "instituto-cervantes",
+      "level": "C2",
+      "checked": "2026-11-06",
+      "source": "Instituto Cervantes, DELE exam page (https://cervantes.org/es/examenes/dele) and the format pages of its London and Paris centres, checked 2026-11-06",
+      "modules": [
+        {
+          "name": "Language use, reading and listening",
+          "minutes": 105,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Three pieces in one paper: gap texts, reading and listening tasks (six tasks in all, about 52 items)",
+              "type": "Selected-response tasks"
+            }
+          ]
+        },
+        {
+          "name": "Integrated writing",
+          "minutes": 150,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Three writing tasks using recordings and written sources, including rewriting a text in another genre or register",
+              "type": "Free writing"
+            }
+          ]
+        },
+        {
+          "name": "Integrated speaking",
+          "minutes": 20,
+          "minutesNote": "about 20 minutes, plus about 30 minutes to prepare",
+          "parts": [
+            {
+              "teil": 1,
+              "task": "A talk from written material, then a conversation and an improvised discussion",
+              "type": "After 30 minutes' preparation"
+            }
+          ]
+        }
+      ],
+      "total": null,
+      "totalNote": "To verify.",
+      "pass": "The result is Apto or No apto (pass or fail). As far as we could check, each of the three papers needs a minimum score. Check the rule in the current exam guide.",
+      "modular": false,
+      "unverified": [
+        "Timings as listed by Instituto Cervantes centres (London, Paris) on 6 November 2026. Other centres' pages differ on some timings, and the official exam guides could not be opened that day. Numbers of tasks and items are the best public information we found, not confirmed. To verify.",
+        "Pass rule and the make-up of the marking groups.",
+        "Which task types and how many items each paper has in the current version."
       ]
     },
     {

@@ -1,6 +1,6 @@
 ---
-// The Übungssätze of one exam, A1 upwards, as the lead block of /cambridge and /trinity. A1 is
-// the older Start Deutsch 1 page (shared by both exams); everything else comes from
+// The practice sets of one exam, A1 upwards, as the lead block of /cambridge and /trinity. A1 is
+// the older test page in the start-deutsch-1 slot (DELE A1); everything else comes from
 // src/data/pruefungen/saetze/ through src/lib/exam/saetze.js, so a new file shows up here.
 import { saetzeOf, hrefOf } from "../lib/exam/saetze.js";
 import { examMinutes } from "../lib/exam/minutes.js";
@@ -9,7 +9,7 @@ import "../styles/pruefung-satz.css";
 interface Props { exam: "goethe" | "telc" }
 const { exam } = Astro.props;
 const rows = [
-  { level: "A1", href: "/a1-test", title: "DELE A1 practice test", meta: "Listening · Reading · Writing" },
+  ...(exam === "goethe" ? [{ level: "A1", href: "/a1-test", title: "Practice test", meta: "Listening · Reading · Writing · Speaking" }] : []),
   ...saetzeOf(exam).map((s) => ({
     level: s.level,
     href: hrefOf(s),
