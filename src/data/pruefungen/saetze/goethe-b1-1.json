@@ -5,305 +5,103 @@
   "level": "B1",
   "title": "Practice set 1",
   "formatRef": "goethe-b1",
-  "origin": "icanspeak Spanish: all texts, tasks and listening scripts written by us (2026-10-30).",
-  "sourcing": "The structure, number of tasks, task types and timings follow Cambridge English B1 Preliminary (Handbook for teachers, 2020 format). All texts, tasks and listening scripts here are our own; nothing is copied from a Cambridge exam paper. The real exam uses pictures in some tasks; here they are short text descriptions. People, places and businesses are invented. The listening scripts are voiced with speech synthesis. B1 Preliminary is © Cambridge University Press & Assessment.",
+  "origin": "icanspeak Spanish: all texts, tasks and listening scripts are our own (2026-11-06).",
+  "sourcing": "The structure (papers, parts, task types and timings) is modelled on public information about the DELE B1 of the Instituto Cervantes; numbers of items may differ from the real exam. All texts, questions and listening scripts here were written by icanspeak Spanish; nothing is copied from a DELE paper or model exam. DELE is a diploma of the Instituto Cervantes, which has no connection with this site. There are no recordings yet, so you read the listening scripts.",
   "scoring": {
     "passPct": 60,
-    "note": "Cambridge English B1 Preliminary gives one overall score on the Cambridge English Scale: 140-159 is a B1 pass (Grade C 140-152, Grade B 153-159) and 160-170 is Grade A, shown at B2 level. Each skill also gets its own scale score. Writing and Speaking are marked by examiners on set criteria. The 60 % line is our own guide for this practice set, not an official pass mark."
+    "note": "The real DELE gives Apto or No apto (pass or fail). As far as we could check, the papers are marked in two groups and you need a minimum in each group; check the current exam guide. The 60 % line is our own guide for this practice set, not an official pass mark."
   },
   "speakers": {
-    "w1": { "name": "Woman", "voice": "en-GB-SoniaNeural" },
-    "w2": { "name": "Woman", "voice": "en-GB-LibbyNeural" },
-    "w3": { "name": "Woman", "voice": "en-GB-HollieNeural" },
-    "w4": { "name": "Woman", "voice": "en-GB-MaisieNeural" },
-    "m1": { "name": "Man", "voice": "en-GB-RyanNeural" },
-    "m2": { "name": "Man", "voice": "en-GB-ThomasNeural" },
-    "m3": { "name": "Man", "voice": "en-GB-AlfieNeural" },
-    "m4": { "name": "Man", "voice": "en-GB-ElliotNeural" },
-    "ann": { "name": "Radio presenter", "voice": "en-GB-OliviaNeural" },
-    "pres": { "name": "Interviewer", "voice": "en-GB-AbbiNeural" },
-    "owen": { "name": "Owen Hughes", "voice": "en-GB-EthanNeural" }
+    "ann": { "name": "Locutor", "voice": "es-ES-AlvaroNeural" },
+    "w1": { "name": "Mujer", "voice": "es-ES-ElviraNeural" },
+    "w2": { "name": "Mujer", "voice": "es-ES-EstrellaNeural" },
+    "w3": { "name": "Mujer", "voice": "es-ES-AbrilNeural" },
+    "m1": { "name": "Hombre", "voice": "es-ES-AlvaroNeural" },
+    "m2": { "name": "Hombre", "voice": "es-ES-ArnauNeural" }
   },
   "modules": [
     {
-      "key": "lesen",
+      "key": "reading",
       "name": "Reading",
-      "minutes": 45,
+      "minutes": 70,
       "parts": [
         {
           "key": "r1",
           "teil": 1,
-          "type": "mc",
+          "type": "match",
           "points": 1,
-          "title": "Short real-world texts",
-          "instruction": "Read the five short texts. For each question 1-5, choose the correct answer A, B or C.",
-          "texts": [
-            {
-              "id": "r1-t1",
-              "kind": "anzeige",
-              "label": "Text 1",
-              "title": "Notice in a library",
-              "paras": [
-                "From Monday 3 March the library will close at 6 pm instead of 8 pm on weekdays while the heating is repaired. The children’s section will stay open until 7 pm. Books can still be returned at any time through the box next to the front door."
-              ]
-            },
-            {
-              "id": "r1-t2",
-              "kind": "brief",
-              "label": "Text 2",
-              "title": "Text message",
-              "paras": [
-                "Hi Ben, I’m running about 15 minutes late. Start without me and order me a coffee? The same as last time, please. Parking here is a nightmare! Zoe"
-              ]
-            },
-            {
-              "id": "r1-t3",
-              "kind": "anzeige",
-              "label": "Text 3",
-              "title": "Sign at a swimming pool",
-              "paras": [
-                "Please shower before you swim. Children under 10 must be with an adult in the pool area. The pool is closed for cleaning every Tuesday morning."
-              ]
-            },
-            {
-              "id": "r1-t4",
-              "kind": "brief",
-              "label": "Text 4",
-              "title": "Email from a school",
-              "paras": [
-                "Dear parents, the trip to the science museum on Friday will go ahead, even though the weather forecast is poor. Please make sure your child brings a waterproof coat and a packed lunch. We will leave school at 9 am and be back by 3.30 pm. Mrs Clarke"
-              ]
-            },
-            {
-              "id": "r1-t5",
-              "kind": "anzeige",
-              "label": "Text 5",
-              "title": "Sign in a bakery window",
-              "paras": [
-                "Bella’s Bakery: buy any loaf before 10 am and get a free cup of tea or coffee. This offer is not available on Sundays."
-              ]
-            }
-          ],
+          "title": "Matching people to services",
+          "instruction": "Lee las necesidades de seis personas (1-6) y los nueve textos (A-I) sobre servicios y actividades de una ciudad. Elige el texto que mejor corresponde a cada persona. Cada letra solo se puede usar una vez. Hay tres textos que no tienes que usar.",
+          "pool": {
+            "a": { "title": "A - Academia Lumbre", "body": "Cursos de inglés para adultos, de nivel básico a avanzado. Grupos reducidos, lunes y miércoles de 19:00 a 20:30. Primera clase de prueba sin compromiso." },
+            "b": { "title": "B - Taller de español del barrio", "body": "La asociación de vecinos organiza clases de español para personas recién llegadas. Martes y jueves de 10:00 a 12:00 en el local de la calle Olmo. Son gratuitas y no hace falta inscribirse: solo hay que venir." },
+            "c": { "title": "C - Taller Pedal", "body": "Aprende a reparar tu bicicleta con ayuda de un mecánico. Sábados por la mañana en el patio del mercado. Trae tu bici y tus ganas de aprender; las herramientas las ponemos nosotros." },
+            "d": { "title": "D - Gimnasio Ola", "body": "Sala de musculación y piscina cubierta. Cuota mensual de 32 €, sin permanencia. Abierto todos los días de 7:00 a 22:00." },
+            "e": { "title": "E - Club de lectura de la biblioteca", "body": "Cada jueves a las 18:00 comentamos juntos un libro distinto. Los ejemplares se prestan gratis a quien participa. Para cualquier edad y gusto." },
+            "f": { "title": "F - Mudanzas Iker", "body": "Pequeñas mudanzas dentro de la ciudad con furgoneta y dos personas. Subimos muebles pesados y electrodomésticos. Presupuesto rápido por mensaje, sin pagar nada antes." },
+            "g": { "title": "G - Clínica Dental Sonrisa", "body": "Atendemos urgencias también los sábados de 9:00 a 13:00. Primera revisión sin coste. Pide hora por teléfono o por la web." },
+            "h": { "title": "H - Huerto urbano La Cuña", "body": "Alquilamos pequeñas parcelas de tierra para cultivar tus propias verduras: 30 € al año. Las herramientas y el agua son comunes. Ideal para quien vive en un piso sin terraza." },
+            "i": { "title": "I - Coro Voces del Río", "body": "Ensayamos los viernes a las 20:00 en el centro cívico. Buscamos nuevas voces; no hace falta tener estudios de música ni leer partituras." }
+          },
           "items": [
-            {
-              "id": "r1-1",
-              "text": "r1-t1",
-              "question": "What is the notice about?",
-              "options": [
-                "The library will be closed all week.",
-                "The library will close earlier for a while.",
-                "The children's section is moving."
-              ],
-              "correct": 1,
-              "why": "Weekday closing moves from 8 pm to 6 pm 'while the heating is repaired', so it is temporary. Only the children's section stays open later."
-            },
-            {
-              "id": "r1-2",
-              "text": "r1-t2",
-              "question": "Why is Zoe writing to Ben?",
-              "options": [
-                "To ask him to find a parking space",
-                "To tell him she will arrive later than planned",
-                "To change the place where they will meet"
-              ],
-              "correct": 1,
-              "why": "She is 15 minutes late. Parking is only a complaint, and the place is not changed."
-            },
-            {
-              "id": "r1-3",
-              "text": "r1-t3",
-              "question": "What does the sign say about children under 10?",
-              "options": [
-                "They can only swim on Tuesday mornings.",
-                "They must wear a swimming cap.",
-                "They must be with an adult in the pool area."
-              ],
-              "correct": 2,
-              "why": "Tuesday morning is when the pool is closed, and caps are not mentioned."
-            },
-            {
-              "id": "r1-4",
-              "text": "r1-t4",
-              "question": "What are parents asked to do?",
-              "options": [
-                "Pick their children up from the museum",
-                "Decide whether their child goes on the trip",
-                "Send their child with a waterproof coat and a packed lunch"
-              ],
-              "correct": 2,
-              "why": "The trip is going ahead and the children travel with the school, so parents only need to pack a coat and lunch."
-            },
-            {
-              "id": "r1-5",
-              "text": "r1-t5",
-              "question": "What can customers get at Bella's Bakery?",
-              "options": [
-                "A free drink if they buy bread early in the day",
-                "A free loaf if they buy a hot drink",
-                "Half-price bread on Sundays"
-              ],
-              "correct": 0,
-              "why": "The offer is a free tea or coffee with a loaf bought before 10 am. It is not available on Sundays."
-            }
+            { "id": "r1-1", "prompt": "Kevin se ha mudado esta semana a otro piso de la ciudad y no puede mover solo una cama grande y una lavadora.", "correct": "f", "why": "Kevin needs help carrying a heavy bed and a washing machine, and text F offers a van and two people for small moves ('Mudanzas Iker')." },
+            { "id": "r1-2", "prompt": "Oksana llegó a España hace dos meses y quiere aprender español, pero solo tiene tiempo por las mañanas y no puede gastar dinero.", "correct": "b", "why": "Text B has Spanish classes on Tuesday and Thursday mornings ('de 10:00 a 12:00') that are free ('gratuitas'); text A is for English and in the evening." },
+            { "id": "r1-3", "prompt": "Javier quiere cantar en un grupo, aunque nunca ha estudiado música, y solo está libre los viernes por la noche.", "correct": "i", "why": "Text I rehearses on Fridays at 20:00 and says no music studies are needed ('no hace falta tener estudios de música')." },
+            { "id": "r1-4", "prompt": "Aitana tiene un fuerte dolor de muelas y trabaja de lunes a viernes por la mañana.", "correct": "g", "why": "Text G treats emergencies ('urgencias') on Saturday morning, which fits a person who works on weekday mornings." },
+            { "id": "r1-5", "prompt": "Pablo vive en un piso sin balcón y quiere cultivar sus propios tomates y lechugas.", "correct": "h", "why": "Text H rents small plots of land ('parcelas') for growing vegetables and mentions people who live in a flat without a terrace." },
+            { "id": "r1-6", "prompt": "Amina lee mucho, pero los libros le salen caros. Le gustaría comentar lo que lee con otras personas.", "correct": "e", "why": "Text E is a reading club where you discuss a book each week and the copies are lent for free ('se prestan gratis')." }
           ]
         },
         {
           "key": "r2",
           "teil": 2,
-          "type": "match",
+          "type": "mc",
           "points": 1,
-          "title": "Matching people to activities",
-          "instruction": "The five people below (6-10) each want to find an activity. Read the descriptions A-H of eight activities. Decide which activity (A-H) is the most suitable for each person. For questions 6-10, choose the correct letter A-H. There are three activities that you do not need to use.",
-          "pool": {
-            "a": {
-              "title": "A  Italian cooking evenings",
-              "body": "Learn to cook three classic dishes in a friendly group, then sit down and eat them together. Tuesdays and Thursdays, 6.30-8.30 pm. £25 per evening."
-            },
-            "b": {
-              "title": "B  River boat trip",
-              "body": "Sit on the covered deck while our guide tells you the history of the town’s mills and bridges. No walking needed. Daily at 11 am and 2 pm. 90 minutes. £12."
-            },
-            "c": {
-              "title": "C  Family pottery studio",
-              "body": "Saturdays, 2-4 pm. Children aged six and over make a bowl or a mug together with an adult. We bake it for you and you collect it the following week. £18 per pair."
-            },
-            "d": {
-              "title": "D  Early birds running club",
-              "body": "Wednesday mornings at 6.30 am in Mill Park. All speeds welcome and completely free. Finish in time for work."
-            },
-            "e": {
-              "title": "E  Sunday sounds",
-              "body": "Free live music by local bands in the market square, 1-4 pm every Sunday. Bring a chair and a picnic."
-            },
-            "f": {
-              "title": "F  Castle hill walking tour",
-              "body": "A three-hour guided walk to the castle ruins, starting Sunday at 10 am. Very steep steps and uneven paths. £8."
-            },
-            "g": {
-              "title": "G  Weekend photography course",
-              "body": "Two full days, Saturday and Sunday, 9 am-5 pm, for adults. Bring your own camera. £90."
-            },
-            "h": {
-              "title": "H  Bike hire",
-              "body": "Hire a bike from £10 a day. Helmets included. Open 9 am-5 pm every day."
+          "title": "An informative text",
+          "instruction": "Lee el texto sobre un banco de tiempo en un barrio. Para las preguntas 7-12, elige la respuesta correcta (A, B o C).",
+          "texts": [
+            {
+              "id": "r2-t1",
+              "kind": "artikel",
+              "label": "Texto",
+              "title": "Un banco de tiempo en el barrio",
+              "paras": [
+                "En un barrio de Valladolid funciona desde hace tres años un banco de tiempo. La idea es sencilla: los vecinos no se pagan con dinero, sino con horas. Si una persona dedica una hora a ayudar a otra, recibe una hora que después puede gastar pidiendo ayuda a quien quiera. Da igual que se trate de arreglar un enchufe o de dar clases de guitarra: todas las horas valen lo mismo.",
+                "El banco nació cuando Carmen, una profesora jubilada, se dio cuenta de que muchos vecinos tenían tiempo y ganas de ayudar, pero no sabían a quién. Empezó con un cuaderno en la tienda de su calle, donde cada uno apuntaba lo que podía ofrecer y lo que necesitaba. Hoy hay unas ciento veinte personas inscritas y la lista se gestiona con una aplicación gratuita que ha preparado un vecino informático.",
+                "Las ofertas son muy variadas. Hay quien acompaña a personas mayores al centro de salud, quien cuida plantas durante las vacaciones o quien enseña español a recién llegados. Las peticiones más frecuentes, sin embargo, son pequeñas reparaciones en casa y ayuda con los trámites por internet. Lo que menos se pide es cuidar niños, porque muchas familias prefieren hacerlo entre parientes.",
+                "La inscripción es gratuita. Para apuntarse hay que ir a una reunión de bienvenida, que se celebra el primer sábado de cada mes en la biblioteca del barrio. Allí se explican las normas y se reparte una tarjeta. Los organizadores insisten en que nadie debe sentirse obligado a dar tanto como recibe: «Lo importante es que el barrio se conozca mejor», dice Carmen. Cada seis meses se organiza además una comida en la que todos llevan algo para compartir."
+              ]
             }
-          },
+          ],
           "items": [
-            {
-              "id": "r2-6",
-              "prompt": "Marta works until 6 pm and has weekends free for her family. During the week she would like to learn to cook something new and enjoy eating it afterwards.",
-              "correct": "a"
-            },
-            {
-              "id": "r2-7",
-              "prompt": "Dev loves local history, but he has a bad knee and cannot manage steps or long walks. He would like to do something on a weekday morning or afternoon.",
-              "correct": "b"
-            },
-            {
-              "id": "r2-8",
-              "prompt": "Hannah would like to do something creative with her eight-year-old daughter on a Saturday afternoon.",
-              "correct": "c"
-            },
-            {
-              "id": "r2-9",
-              "prompt": "Tom wants to get fitter by running before he starts work in the morning. He does not want to spend any money.",
-              "correct": "d"
-            },
-            {
-              "id": "r2-10",
-              "prompt": "Amara wants to hear some live music on Sunday afternoon, but she is saving money at the moment.",
-              "correct": "e"
-            }
+            { "id": "r2-1", "text": "r2-t1", "question": "¿Cómo funciona el banco de tiempo?", "options": ["Cada persona paga una cuota por cada servicio.", "Los vecinos se intercambian horas de ayuda.", "Los servicios más difíciles valen más horas."], "correct": 1, "why": "The text says neighbours pay with hours, and that every hour has the same value ('todas las horas valen lo mismo'), so C is wrong." },
+            { "id": "r2-2", "text": "r2-t1", "question": "¿Por qué empezó Carmen el banco de tiempo?", "options": ["Porque vio que los vecinos querían ayudar pero no sabían a quién.", "Porque necesitaba ayuda con sus plantas durante las vacaciones.", "Porque quería ganar algo de dinero siendo jubilada."], "correct": 0, "why": "The second paragraph says many neighbours had time and wanted to help 'pero no sabían a quién'; plant care is only one of the offers." },
+            { "id": "r2-3", "text": "r2-t1", "question": "¿Qué piden más los vecinos?", "options": ["Cuidar niños", "Pequeñas reparaciones y ayuda con trámites por internet", "Acompañamiento al centro de salud"], "correct": 1, "why": "The text calls repairs and online paperwork the most frequent requests ('las peticiones más frecuentes'); looking after children is the least requested." },
+            { "id": "r2-4", "text": "r2-t1", "question": "¿Qué hay que hacer para entrar en el banco de tiempo?", "options": ["Pagar una pequeña cuota de inscripción", "Tener más de tres años de residencia", "Asistir a una reunión de bienvenida"], "correct": 2, "why": "Signing up is free ('La inscripción es gratuita') but you must go to the welcome meeting on the first Saturday of the month." },
+            { "id": "r2-5", "text": "r2-t1", "question": "¿Qué dicen los organizadores sobre dar y recibir?", "options": ["Que nadie tiene que dar tanto como recibe", "Que hay que devolver siempre las horas en un mes", "Que quien más recibe debe organizar la comida"], "correct": 0, "why": "They insist that nobody should feel obliged 'a dar tanto como recibe'; the other two ideas are not in the text." },
+            { "id": "r2-6", "text": "r2-t1", "question": "¿Cómo se gestiona hoy la lista de ofertas y peticiones?", "options": ["En un cuaderno que está en una tienda", "En una hoja que reparte la biblioteca", "Con una aplicación gratuita"], "correct": 2, "why": "The notebook was only the beginning; today the list is managed with a free app made by a neighbour ('una aplicación gratuita')." }
           ]
         },
         {
           "key": "r3",
           "teil": 3,
-          "type": "mc",
+          "type": "match",
           "points": 1,
-          "title": "A magazine article",
-          "instruction": "Read the article about learning to swim. For each question 11-15, choose the correct answer A, B, C or D.",
-          "texts": [
-            {
-              "id": "r3-text",
-              "kind": "artikel",
-              "label": "Magazine article",
-              "title": "Swimming at forty-two",
-              "paras": [
-                "When I turned forty-two, I could not swim. For years I had told people that I just didn’t like water, but the truth was that I was afraid of it. When I was seven, I fell into the deep end of a hotel pool and had to be pulled out by a lifeguard. After that I stayed at the side of every pool party and beach holiday, and I always had an excuse ready.",
-                "What changed things was my daughter, Lucy. Last spring her school announced a trip to an outdoor activity centre with canoeing, and she came home worried because she had never been in a boat. I wanted to say, “Don’t worry, Mum will come too.” Then I realised that I would not be able to get into a boat myself. I did not want her to grow up as nervous as I was, so I decided to do something about it.",
-                "I found a class for adult beginners at the leisure centre on Monday evenings. I almost didn’t go in. I sat in the car park for ten minutes, until another woman knocked on my window and said, “Are you here for the swimming class? I’m terrified too.” That was Priya, and we have been friends ever since.",
-                "The first lesson was just standing in the shallow end and putting our faces in the water. It sounds easy, but I found it harder than anything I do at work. Our teacher, Sam, never hurried us. He told us to think of each lesson as one small step and not to worry about the next one. After six weeks I could float on my back, and after four months I swam a whole length without stopping. I cried a little in the water, which was lucky because nobody could tell.",
-                "I’m not a good swimmer yet. I’m slow, and I still hold my nose when I jump in. But last month Lucy and I went canoeing together at her school’s activity centre, and I wore a life jacket and enjoyed every minute. If you have been avoiding something because you are afraid, my advice is to find someone who is afraid of it too. It is much easier to be brave in a pair."
-              ]
-            }
-          ],
+          "allowReuse": true,
+          "title": "Three people talk about their journey to work",
+          "instruction": "Lee los tres textos (A-C) en los que tres personas cuentan cómo van al trabajo. Relaciona cada afirmación (13-18) con la persona correcta. Puedes usar cada letra más de una vez.",
+          "pool": {
+            "a": { "title": "A - Youssef", "body": "Vivo a siete kilómetros de la oficina y voy en bici todo el año, también cuando llueve, aunque entonces llevo un chubasquero enorme. Empecé hace dos años porque el abono del autobús subió de precio y pensé que era una buena excusa para hacer deporte. Ahora no la cambiaría por nada. Solo tengo un problema: en mi calle no hay ningún sitio seguro para dejarla de noche, así que la subo al piso, y mi pareja no está muy contenta." },
+            "b": { "title": "B - Valentina", "body": "Yo tengo coche, pero lo uso solo los fines de semana. Entre semana cojo el tren de las 7:42, que tarda cuarenta minutos, y en ese rato me preparo el día: leo el correo, contesto mensajes y organizo la agenda. Así, cuando llego a la oficina, ya he empezado el día. Lo malo es que, cuando hay una avería o una huelga, llego tarde y mi jefe ya no sonríe tanto. Aun así, prefiero esto a conducir con atascos y pagar el aparcamiento del centro, que es carísimo." },
+            "c": { "title": "C - Iker", "body": "Hasta el año pasado iba al trabajo en coche yo solo, pero ahora comparto el trayecto con dos compañeros que viven cerca. Cada día conduce uno distinto, así que a mí solo me toca los miércoles. Nos repartimos también el gasto de gasolina, y eso se nota a final de mes. Además, las conversaciones del camino han hecho que nos llevemos mucho mejor en la oficina. Lo que menos me gusta es tener que salir de casa a las siete y diez en punto." }
+          },
           "items": [
-            {
-              "id": "r3-11",
-              "text": "r3-text",
-              "question": "Why did the writer say for years that she did not like water?",
-              "options": [
-                "She had never had the chance to learn.",
-                "Something frightening happened to her as a child.",
-                "She disliked pool parties and beach holidays.",
-                "Her family never went near water."
-              ],
-              "correct": 1,
-              "why": "She fell into a deep pool aged seven and had to be pulled out. The excuses came after that, not before."
-            },
-            {
-              "id": "r3-12",
-              "text": "r3-text",
-              "question": "Why did the writer decide to learn to swim?",
-              "options": [
-                "She did not want her daughter to grow up with the same fear.",
-                "Her daughter asked her to join a school trip.",
-                "Her doctor told her to take up exercise.",
-                "She was invited to a pool party."
-              ],
-              "correct": 0,
-              "why": "Lucy was worried about the canoe trip, and the writer says she did not want her to grow up as nervous as she was. Lucy did not ask her to come."
-            },
-            {
-              "id": "r3-13",
-              "text": "r3-text",
-              "question": "What happened in the car park?",
-              "options": [
-                "The writer decided to go home.",
-                "The swimming teacher came to meet her.",
-                "Another learner spoke to her.",
-                "She met an old friend."
-              ],
-              "correct": 2,
-              "why": "Priya knocked on her window, and the writer went in. They only became friends afterwards."
-            },
-            {
-              "id": "r3-14",
-              "text": "r3-text",
-              "question": "What does the writer say about the teacher, Sam?",
-              "options": [
-                "He kept the lessons very short.",
-                "He was strict about being on time.",
-                "He told the group about his own fears.",
-                "He told them to take one small step at a time."
-              ],
-              "correct": 3,
-              "why": "Sam told them to treat each lesson as one small step and not to worry about the next."
-            },
-            {
-              "id": "r3-15",
-              "text": "r3-text",
-              "question": "What is the writer's main purpose in the last paragraph?",
-              "options": [
-                "To describe how good a swimmer she has become",
-                "To complain about the cost of lessons",
-                "To encourage readers who are afraid of something",
-                "To explain how to canoe safely"
-              ],
-              "correct": 2,
-              "why": "She says she is not a good swimmer yet, and the paragraph ends with advice for anyone avoiding something they fear."
-            }
+            { "id": "r3-1", "prompt": "Aprovecha el trayecto para hacer tareas del trabajo antes de llegar.", "correct": "b", "why": "Valentina says that on the train she reads her email, answers messages and organises her agenda ('leo el correo, contesto mensajes')." },
+            { "id": "r3-2", "prompt": "Reparte con otras personas los gastos del viaje.", "correct": "c", "why": "Iker shares the car with two colleagues and they split the petrol ('nos repartimos el gasto de gasolina')." },
+            { "id": "r3-3", "prompt": "Cambió su forma de ir al trabajo porque subió un precio.", "correct": "a", "why": "Youssef started cycling because the bus pass became more expensive ('el abono del autobús subió de precio')." },
+            { "id": "r3-4", "prompt": "Cree que ir con otras personas ha mejorado la relación con sus compañeros.", "correct": "c", "why": "Iker says the conversations on the way mean that they get on much better in the office ('nos llevemos mucho mejor')." },
+            { "id": "r3-5", "prompt": "Tiene dificultades para guardar su vehículo por la noche.", "correct": "a", "why": "Youssef has no safe place in his street to leave the bike, so he carries it up to the flat ('no hay ningún sitio seguro')." },
+            { "id": "r3-6", "prompt": "A veces llega tarde por problemas del transporte.", "correct": "b", "why": "Valentina arrives late when there is a breakdown or a strike ('una avería o una huelga')." }
           ]
         },
         {
@@ -311,46 +109,51 @@
           "teil": 4,
           "type": "gap-bank",
           "points": 1,
-          "title": "Sentences removed from an article",
-          "instruction": "Five sentences have been removed from the article about volunteering. Choose from the sentences A-H the one which fits each gap (16-20). There are three extra sentences which you do not need to use.",
-          "textTitle": "Two weeks at an animal rescue centre",
+          "title": "Sentences removed from a text",
+          "instruction": "Lee el texto «Cómo ayudé a organizar la fiesta del barrio». Se han quitado seis frases. Elige para cada hueco (19-24) la frase correcta (A-H). Hay dos frases que no tienes que usar. Cada frase solo se puede usar una vez.",
+          "textTitle": "Cómo ayudé a organizar la fiesta del barrio",
           "bank": {
-            "a": "To my surprise, the little girl chose Biscuit.",
-            "b": "In the end, I agreed to stay for a third week.",
-            "c": "A friend of mine had done the same thing the year before and told me it was the best holiday she had ever had.",
-            "d": "He had been badly treated by his first owner and was afraid of strangers.",
-            "e": "The cats, on the other hand, spent most of the day asleep in the sun.",
-            "f": "There were about thirty dogs, twenty cats and a few rabbits living there.",
-            "g": "Gwen says the centre needs new volunteers every summer.",
-            "h": "My arms ached and my feet hurt, and I fell asleep as soon as I got into bed each night."
+            "a": "Nos faltaban sillas y no sabíamos dónde conseguir más.",
+            "b": "Ya me han pedido que ayude también con la fiesta de Navidad, y he dicho que sí.",
+            "c": "Trabajaba desde casa y, salvo con el repartidor, pasaba días sin hablar con nadie.",
+            "d": "Tardamos casi una hora, pero entre tantos fue más fácil de lo que esperábamos.",
+            "e": "Mi hermana vive en Madrid desde hace años y me visita en Navidad.",
+            "f": "Éramos unas veinte personas, casi todas jubiladas, y yo era con diferencia la más joven.",
+            "g": "El tiempo fue perfecto toda la noche, sin una sola nube.",
+            "h": "Los niños corrían entre las mesas y un grupo de vecinos tocaba la guitarra."
           },
           "segments": [
-            { "t": "Last summer I spent two weeks volunteering at an animal rescue centre near Bristol. " },
-            { "gap": "r4-16" },
-            { "t": " I had never worked with animals before, so I was nervous when I arrived on the first morning." },
+            { "t": "Hace un año me mudé a un piso del barrio de Triana, en Sevilla, y casi no conocía a nadie. " },
+            { "gap": "r4-1" },
+            { "t": " Por eso, cuando vi un cartel de la asociación de vecinos que buscaba voluntarios para la fiesta de la calle, me apunté sin pensarlo mucho." },
             { "br": true },
-            { "t": "The manager, a tall woman called Gwen, showed me round. " },
-            { "gap": "r4-17" },
-            { "t": " My job was to feed the dogs twice a day and to clean their kennels." },
+            { "t": "La primera reunión fue en el local de la asociación. " },
+            { "gap": "r4-2" },
+            { "t": " Pablo, el presidente, repartió las tareas: yo me encargaría de las mesas y las sillas." },
             { "br": true },
-            { "t": "At first the work was harder than I expected. I started at seven every morning and often did not finish until after six. " },
-            { "gap": "r4-18" },
-            { "t": " By the end of the first week, though, I hardly noticed the tiredness." },
+            { "t": "Los días anteriores fueron un poco locos. " },
+            { "gap": "r4-3" },
+            { "t": " Al final, un vecino nos prestó su furgoneta y pudimos traerlo todo en un solo viaje." },
             { "br": true },
-            { "t": "The dog I got to know best was an old brown terrier called Biscuit. " },
-            { "gap": "r4-19" },
-            { "t": " I spent my free half-hours sitting quietly next to his kennel, and after a few days he let me stroke him." },
+            { "t": "El sábado, a las ocho de la tarde, ya había mucha gente en la calle. " },
+            { "gap": "r4-4" },
+            { "t": " Mientras tanto, yo servía bebidas junto a la señora Rosario, que me contó historias del barrio de hace cincuenta años." },
             { "br": true },
-            { "t": "On my last day, a family came to the centre looking for a pet. " },
-            { "gap": "r4-20" },
-            { "t": " I was sad to say goodbye, but I was also very happy for him. I am going back next summer." }
+            { "t": "Hacia las doce, cuando empezaba a llover, todos ayudamos a recoger. " },
+            { "gap": "r4-5" },
+            { "t": " A pesar del cansancio, volví a casa muy contenta." },
+            { "br": true },
+            { "t": "Ahora conozco a media calle y ya no me siento sola en el barrio. " },
+            { "gap": "r4-6" },
+            { "t": " Creo que apuntarme fue la mejor decisión del año." }
           ],
           "items": [
-            { "id": "r4-16", "correct": "c", "why": "It explains why she went and leads into 'I had never worked with animals before'." },
-            { "id": "r4-17", "correct": "f", "why": "It tells us what the centre looks like, before her job with the dogs is described." },
-            { "id": "r4-18", "correct": "h", "why": "It describes the tiredness that 'I hardly noticed' refers to in the next sentence." },
-            { "id": "r4-19", "correct": "d", "why": "'He' is Biscuit, and the sentence explains why she has to sit quietly next to him." },
-            { "id": "r4-20", "correct": "a", "why": "The family are looking for a pet, and the next sentence shows she says goodbye to the dog they chose." }
+            { "id": "r4-1", "correct": "c", "why": "The sentence about working from home and talking to nobody explains why she knew nobody, and 'Por eso' then leads to joining the volunteers." },
+            { "id": "r4-2", "correct": "f", "why": "It describes the people at the meeting ('unas veinte personas'), before Pablo gives out the tasks." },
+            { "id": "r4-3", "correct": "a", "why": "The lack of chairs ('Nos faltaban sillas') is the problem that the neighbour's van solves in the next sentence." },
+            { "id": "r4-4", "correct": "h", "why": "It describes the crowd on Saturday evening, and 'Mientras tanto' then shows what she was doing at the same time." },
+            { "id": "r4-5", "correct": "d", "why": "It is about the clearing up ('Tardamos casi una hora'), which leads to her tiredness ('A pesar del cansancio')." },
+            { "id": "r4-6", "correct": "b", "why": "The new request for the Christmas party shows how she has become part of the neighbourhood ('Ahora conozco a media calle')." }
           ]
         },
         {
@@ -358,112 +161,364 @@
           "teil": 5,
           "type": "gap-mc",
           "points": 1,
-          "title": "Vocabulary in an email",
-          "instruction": "Read the email from Jo to a friend. Choose the correct word for each space (21-26). For each question, choose the correct answer A, B, C or D.",
-          "textTitle": "A message from Leeds",
+          "title": "Grammar in a letter",
+          "instruction": "Lee la carta de Lucía a una amiga. Elige la opción correcta (A, B o C) para cada hueco (25-30).",
+          "textTitle": "Una carta desde el piso nuevo",
           "segments": [
-            { "t": "Dear Maya," },
+            { "t": "Hola, Carmen:" },
             { "br": true },
-            { "t": "Thank you for your email! I am writing from my new flat in Leeds. It is small, but it has a lovely " },
-            { "gap": "r5-21" },
-            { "t": " of the park. I share it with a girl called Ana, who works at the hospital. We have already " },
-            { "gap": "r5-22" },
-            { "t": " friends, even though we only see each other at weekends." },
+            { "t": "¿Qué tal todo? Por fin estoy en mi piso nuevo. El sábado pasado " },
+            { "gap": "r5-1" },
+            { "t": " de piso con ayuda de unos amigos. Cuando llegamos con la furgoneta, ya " },
+            { "gap": "r5-2" },
+            { "t": " a mares y tuvimos que esperar una hora dentro. Jordi, el vecino de arriba, nos prestó un carrito y " },
+            { "gap": "r5-3" },
+            { "t": " devolvimos al día siguiente con una caja de bombones." },
             { "br": true },
-            { "t": "My new job at the bookshop is going well. The journey from the flat to the shop " },
-            { "gap": "r5-23" },
-            { "t": " about twenty minutes by bus, so I can read on the way. At the weekend I am going to " },
-            { "gap": "r5-24" },
-            { "t": " around the old town, because I have not seen much of it yet. Everything is more expensive than at home, so I am trying not to " },
-            { "gap": "r5-25" },
-            { "t": " too much money on takeaway food." },
+            { "gap": "r5-4" },
+            { "t": " el piso es pequeño, tiene mucha luz, y el sofá lo compré de segunda mano " },
+            { "gap": "r5-5" },
+            { "t": " solo cuarenta euros. Todavía hay cajas por todas partes, pero espero que " },
+            { "gap": "r5-6" },
+            { "t": " venir pronto a verlo. Hay un sofá cama para ti." },
             { "br": true },
-            { "t": "Please " },
-            { "gap": "r5-26" },
-            { "t": " me know when you can visit. There is a sofa bed in the living room, and you can stay as long as you like." },
+            { "t": "Un abrazo," },
             { "br": true },
-            { "t": "Best wishes," },
-            { "br": true },
-            { "t": "Jo" }
+            { "t": "Lucía" }
           ],
           "items": [
-            { "id": "r5-21", "options": ["scene", "view", "sight", "look"], "correct": 1, "why": "We say 'a view of' a park or a garden." },
-            { "id": "r5-22", "options": ["done", "had", "made", "got"], "correct": 2, "why": "The fixed phrase is 'make friends'." },
-            { "id": "r5-23", "options": ["costs", "takes", "goes", "spends"], "correct": 1, "why": "A journey 'takes' a certain amount of time." },
-            { "id": "r5-24", "options": ["see", "watch", "look", "view"], "correct": 2, "why": "'Look around' a place means to walk around it and see it." },
-            { "id": "r5-25", "options": ["pay", "spend", "cost", "take"], "correct": 1, "why": "'Spend money on' something. 'Pay' would need 'for'." },
-            { "id": "r5-26", "options": ["tell", "say", "let", "give"], "correct": 2, "why": "The fixed phrase is 'let me know'." }
-          ]
-        },
-        {
-          "key": "r6",
-          "teil": 6,
-          "type": "write-in",
-          "points": 1,
-          "title": "Open cloze: a day at the seaside",
-          "instruction": "Read the text about a day out. Write ONE word for each gap (27-32). Use only one word in each gap.",
-          "textTitle": "A day at the seaside",
-          "segments": [
-            { "t": "Last Saturday I went to the seaside " },
-            { "gap": "r6-27" },
-            { "t": " my cousin, Dan. We had planned to go swimming, but the water was " },
-            { "gap": "r6-28" },
-            { "t": " cold that we decided to walk along the beach instead. While we were walking, it began " },
-            { "gap": "r6-29" },
-            { "t": " rain." },
-            { "br": true },
-            { "t": "Luckily, we found a small café, " },
-            { "gap": "r6-30" },
-            { "t": " we sat for an hour and drank hot chocolate. Dan said it was one " },
-            { "gap": "r6-31" },
-            { "t": " the best days he had had for a long time. He has promised to take me again as soon " },
-            { "gap": "r6-32" },
-            { "t": " the weather gets warmer." }
-          ],
-          "items": [
-            { "id": "r6-27", "prompt": "Gap 27", "answer": "with", "accept": ["with"], "why": "'Go somewhere with someone' means together." },
-            { "id": "r6-28", "prompt": "Gap 28", "answer": "so", "accept": ["so"], "why": "'so cold that' shows the result: they decided to walk instead." },
-            { "id": "r6-29", "prompt": "Gap 29", "answer": "to", "accept": ["to"], "why": "'It began to rain.'" },
-            { "id": "r6-30", "prompt": "Gap 30", "answer": "where", "accept": ["where"], "why": "'where' refers back to the café as a place." },
-            { "id": "r6-31", "prompt": "Gap 31", "answer": "of", "accept": ["of"], "why": "'one of the best days'." },
-            { "id": "r6-32", "prompt": "Gap 32", "answer": "as", "accept": ["as"], "why": "'as soon as' means 'when' in a promise about the future." }
+            { "id": "r5-1", "options": ["nos mudamos", "nos mudábamos", "nos hemos mudado"], "correct": 0, "why": "'El sábado pasado' names a finished moment in the past, so the indefinido 'nos mudamos' is needed." },
+            { "id": "r5-2", "options": ["llovió", "llovía", "ha llovido"], "correct": 1, "why": "'ya ... a mares' describes the situation when they arrived, so the imperfect 'llovía' fits." },
+            { "id": "r5-3", "options": ["nos lo", "lo se", "se lo"], "correct": 2, "why": "'Devolvimos' goes to Jordi: the indirect 'le' becomes 'se' before 'lo', so 'se lo devolvimos'." },
+            { "id": "r5-4", "options": ["Porque", "Aunque", "Sino"], "correct": 1, "why": "The flat is small but bright: 'Aunque' introduces the contrast." },
+            { "id": "r5-5", "options": ["por", "para", "a"], "correct": 0, "why": "'Por solo cuarenta euros' gives the price paid in exchange for the sofa." },
+            { "id": "r5-6", "options": ["puedes", "puedas", "podrás"], "correct": 1, "why": "'Espero que' is followed by the subjunctive, so 'puedas'." }
           ]
         }
       ]
     },
     {
-      "key": "schreiben",
+      "key": "listening",
+      "name": "Listening",
+      "minutes": 40,
+      "parts": [
+        {
+          "key": "l1",
+          "teil": 1,
+          "type": "mc",
+          "points": 1,
+          "title": "Six short recordings",
+          "instruction": "Vas a escuchar seis mensajes o conversaciones breves. Para las preguntas 1-6, elige la respuesta correcta (A, B o C). Vas a escuchar cada audio dos veces.",
+          "clips": [
+            {
+              "id": "l1-c1",
+              "title": "Audio 1 · Un mensaje del casero",
+              "plays": 2,
+              "script": [
+                { "s": "m1", "t": "Hola, soy Javier, el casero del piso de la calle Olivo. Mañana por la mañana, entre las diez y las doce, irá un técnico a revisar la caldera. Si no podéis estar en casa, dejadle la llave a la vecina del segundo. Un saludo." }
+              ]
+            },
+            {
+              "id": "l1-c2",
+              "title": "Audio 2 · En el centro de salud",
+              "plays": 2,
+              "script": [
+                { "s": "w1", "t": "Buenos días, tengo cita a las nueve y media con la doctora Ríos." },
+                { "s": "m1", "t": "Lo siento, hoy la doctora no ha venido y la sustituye el doctor Vidal. Si lo prefiere, le doy cita con ella para el jueves." },
+                { "s": "w1", "t": "No, gracias. Prefiero que me vea hoy, que llevo tres días con tos." },
+                { "s": "m1", "t": "Perfecto, pase a la sala de espera." }
+              ]
+            },
+            {
+              "id": "l1-c3",
+              "title": "Audio 3 · Una excursión",
+              "plays": 2,
+              "script": [
+                { "s": "w2", "t": "¿A qué hora salimos el domingo hacia la sierra? ¿A las nueve?" },
+                { "s": "m2", "t": "Mejor antes. Dicen que por la tarde va a llover, y si salimos a las nueve llegamos casi a mediodía. ¿Las ocho?" },
+                { "s": "w2", "t": "Uf, es muy pronto para mí. Si te parece, a las ocho y media, y llevamos el almuerzo en la mochila." },
+                { "s": "m2", "t": "Vale, a las ocho y media en tu portal." }
+              ]
+            },
+            {
+              "id": "l1-c4",
+              "title": "Audio 4 · Un aviso de una tienda",
+              "plays": 2,
+              "script": [
+                { "s": "w3", "t": "Buenas tardes. Le llamamos de Electrodomésticos Moreno. Su lavadora ya está arreglada y puede recogerla de lunes a viernes, de nueve a dos. Los sábados abrimos solo hasta las doce. Si prefiere que se la llevemos a casa, hay que avisar con un día de antelación." }
+              ]
+            },
+            {
+              "id": "l1-c5",
+              "title": "Audio 5 · Entre compañeros",
+              "plays": 2,
+              "script": [
+                { "s": "m1", "t": "¿Has visto el correo de Dirección? El viernes cerramos la oficina a las tres." },
+                { "s": "w2", "t": "Sí, es por la despedida de Ana María, que se jubila. ¿Tú pones algo para el regalo?" },
+                { "s": "m1", "t": "Claro, diez euros. Entre todos vamos a comprarle un viaje de fin de semana." }
+              ]
+            },
+            {
+              "id": "l1-c6",
+              "title": "Audio 6 · Una llamada del colegio",
+              "plays": 2,
+              "script": [
+                { "s": "m2", "t": "Buenos días, le llamo del colegio San Miguel. Su hijo Iker se encuentra mal y tiene un poco de fiebre." },
+                { "s": "w1", "t": "¿Mucha?" },
+                { "s": "m2", "t": "Treinta y siete y ocho. No es grave, pero es mejor que descanse en casa. ¿Puede venir a recogerlo?" },
+                { "s": "w1", "t": "Salgo del trabajo en media hora. Estaré ahí a las doce y cuarto." }
+              ]
+            }
+          ],
+          "items": [
+            { "id": "l1-1", "clip": "l1-c1", "question": "¿Qué deben hacer los inquilinos si no están en casa mañana?", "options": ["Avisar al técnico por teléfono", "Dejar la llave a una vecina", "Pedir otra cita al casero"], "correct": 1, "why": "The landlord says to leave the key with the neighbour on the second floor ('dejadle la llave a la vecina del segundo')." },
+            { "id": "l1-2", "clip": "l1-c2", "question": "¿Qué decide hacer la mujer?", "options": ["Pedir cita para el jueves", "Cambiar de centro de salud", "Ver hoy al médico que sustituye"], "correct": 2, "why": "She says 'Prefiero que me vea hoy', so she accepts the doctor who is covering; the Thursday appointment is only offered." },
+            { "id": "l1-3", "clip": "l1-c3", "question": "¿A qué hora van a salir el domingo?", "options": ["A las 8:30", "A las 8:00", "A las 9:00"], "correct": 0, "why": "Nine is too late and eight too early for her, so they agree on 'las ocho y media'." },
+            { "id": "l1-4", "clip": "l1-c4", "question": "¿Hasta qué hora se puede recoger la lavadora el sábado?", "options": ["Hasta las doce", "Hasta las dos", "Todo el día"], "correct": 0, "why": "On Saturdays the shop is open only until twelve ('solo hasta las doce'); 'hasta las dos' is the weekday closing time." },
+            { "id": "l1-5", "clip": "l1-c5", "question": "¿Por qué cierra la oficina antes el viernes?", "options": ["Por unas obras en el edificio", "Por el cumpleaños del jefe", "Por la despedida de una compañera"], "correct": 2, "why": "The woman explains it is 'por la despedida de Ana María, que se jubila'." },
+            { "id": "l1-6", "clip": "l1-c6", "question": "¿Qué va a hacer la madre?", "options": ["Llevar a Iker al médico", "Ir al colegio a las 12:15", "Pedir a otro familiar que vaya"], "correct": 1, "why": "She says she will be there at a quarter past twelve ('a las doce y cuarto'); a doctor is not mentioned." }
+          ]
+        },
+        {
+          "key": "l2",
+          "teil": 2,
+          "type": "mc",
+          "points": 1,
+          "title": "A talk at a community centre",
+          "instruction": "Vas a escuchar a un coordinador que da la bienvenida a los participantes de un centro cívico. Para las preguntas 7-12, elige la respuesta correcta (A, B o C). Vas a escuchar el audio dos veces.",
+          "clips": [
+            {
+              "id": "l2-c1",
+              "title": "Charla de bienvenida · Centro cívico Las Acacias",
+              "plays": 2,
+              "script": [
+                { "s": "m2", "t": "Buenas tardes a todos y bienvenidos al centro cívico Las Acacias. Me llamo Jordi y soy el coordinador de las actividades de este trimestre. Quiero explicaros brevemente cómo funcionan los talleres. Este año hemos ampliado la oferta: además de cerámica y fotografía, hay un taller nuevo de cocina, que empieza el 12 de noviembre y se celebra los jueves por la tarde. Las plazas son limitadas, así que, si queréis apuntaros, hacedlo cuanto antes. La matrícula se puede hacer en la secretaría, de lunes a jueves, o en la página web del centro. Antes se podía pagar en efectivo, pero ahora solo se admite tarjeta. Quien se apunte a dos talleres tendrá un descuento del veinte por ciento en el segundo." },
+                { "s": "m2", "t": "También quiero avisaros de un cambio: el aparcamiento del patio estará cerrado durante las obras de la entrada, que acabarán a finales de diciembre. Podéis dejar el coche en la calle Mayor, a cinco minutos, o venir en autobús, porque la línea 7 para justo delante. Por último, el sábado 21 hacemos una jornada de puertas abiertas. Habrá una exposición con trabajos del curso pasado y los profesores harán demostraciones. La entrada es libre y, si venís en familia, los niños tienen un taller de pintura mientras vosotros paseáis. Si tenéis cualquier duda, me encontraréis en el despacho del primer piso. Muchas gracias y que disfrutéis del trimestre." }
+              ]
+            }
+          ],
+          "items": [
+            { "id": "l2-1", "clip": "l2-c1", "question": "¿Qué novedad hay este trimestre?", "options": ["Un taller de fotografía", "Un taller de cocina", "Un taller de cerámica"], "correct": 1, "why": "Ceramics and photography already existed; the new one is 'un taller nuevo de cocina'." },
+            { "id": "l2-2", "clip": "l2-c1", "question": "¿Cómo se puede pagar ahora la matrícula?", "options": ["Solo con tarjeta", "En efectivo en la secretaría", "Por transferencia bancaria"], "correct": 0, "why": "The speaker says cash was possible before, but now 'solo se admite tarjeta'." },
+            { "id": "l2-3", "clip": "l2-c1", "question": "¿Qué ventaja tiene quien se apunta a dos talleres?", "options": ["Una plaza en el aparcamiento", "Un taller de pintura gratuito", "Un descuento en el segundo taller"], "correct": 2, "why": "A 20 % discount applies to the second workshop ('un descuento del veinte por ciento en el segundo'); the painting workshop is for children on open day." },
+            { "id": "l2-4", "clip": "l2-c1", "question": "¿Por qué está cerrado el aparcamiento del patio?", "options": ["Por una exposición", "Por obras en la entrada", "Por falta de plazas"], "correct": 1, "why": "It is closed 'durante las obras de la entrada', which end in December." },
+            { "id": "l2-5", "clip": "l2-c1", "question": "¿Cómo se puede llegar al centro sin coche?", "options": ["Con la línea 7 de autobús", "Andando desde la calle Mayor", "En metro"], "correct": 0, "why": "'La línea 7 para justo delante'; the calle Mayor is where people who drive can park, five minutes away." },
+            { "id": "l2-6", "clip": "l2-c1", "question": "¿Qué habrá en la jornada de puertas abiertas?", "options": ["Talleres gratis para todo el mundo", "Matrícula con descuento", "Una exposición y demostraciones"], "correct": 2, "why": "There will be an exhibition of last year's work, and the teachers will give demonstrations ('demostraciones')." }
+          ]
+        },
+        {
+          "key": "l3",
+          "teil": 3,
+          "type": "mc",
+          "points": 1,
+          "title": "Radio news",
+          "instruction": "Vas a escuchar seis noticias de un informativo de radio. Para las preguntas 13-18, elige la respuesta correcta (A, B o C). Vas a escuchar cada noticia dos veces.",
+          "clips": [
+            {
+              "id": "l3-c1",
+              "title": "Noticia 1 · La biblioteca",
+              "plays": 2,
+              "script": [
+                { "s": "ann", "t": "Buenos días y bienvenidos al informativo de las ocho. La biblioteca central abrirá también los domingos por la mañana, de diez a dos, a partir del uno de diciembre. La concejala de Cultura ha explicado que muchos estudiantes lo pedían desde hace tiempo." }
+              ]
+            },
+            {
+              "id": "l3-c2",
+              "title": "Noticia 2 · Tráfico",
+              "plays": 2,
+              "script": [
+                { "s": "ann", "t": "Atención, conductores. Este fin de semana la avenida de la Constitución estará cortada por obras. Las líneas de autobús 3 y 12 no dejarán de funcionar, pero seguirán un recorrido alternativo por la calle Sol. Se recomienda salir con más tiempo." }
+              ]
+            },
+            {
+              "id": "l3-c3",
+              "title": "Noticia 3 · El tiempo",
+              "plays": 2,
+              "script": [
+                { "s": "ann", "t": "Y ahora el tiempo. Mañana tendremos nubes y viento fuerte en el norte, con temperaturas de entre ocho y catorce grados. En el sur, en cambio, habrá cielos despejados y las temperaturas subirán hasta los veinte grados." }
+              ]
+            },
+            {
+              "id": "l3-c4",
+              "title": "Noticia 4 · Un festival",
+              "plays": 2,
+              "script": [
+                { "s": "ann", "t": "La semana próxima comienza el festival de cortometrajes de la ciudad, con proyecciones en el Teatro Nuevo. Las entradas cuestan cuatro euros y ya están a la venta, solo por internet, desde hoy mismo." }
+              ]
+            },
+            {
+              "id": "l3-c5",
+              "title": "Noticia 5 · Una campaña",
+              "plays": 2,
+              "script": [
+                { "s": "ann", "t": "La asociación Ropero Solidario recoge ropa de abrigo hasta el viernes. Se puede dejar en tres puntos de la ciudad: el mercado, el polideportivo y la biblioteca del barrio. La ropa se repartirá antes de que llegue el frío fuerte." }
+              ]
+            },
+            {
+              "id": "l3-c6",
+              "title": "Noticia 6 · Un parque",
+              "plays": 2,
+              "script": [
+                { "s": "ann", "t": "El domingo, vecinos del barrio del Mirador plantaron cincuenta árboles en el parque. Participaron muchas familias y un grupo de alumnos de un instituto cercano, que se ocuparon de regar los árboles recién plantados." }
+              ]
+            }
+          ],
+          "items": [
+            { "id": "l3-1", "clip": "l3-c1", "question": "¿Qué novedad anuncia la noticia sobre la biblioteca central?", "options": ["Cerrará los domingos por obras.", "Abrirá también los domingos por la mañana.", "Tendrá una nueva directora."], "correct": 1, "why": "The library will open on Sunday mornings from 1 December ('abrirá también los domingos por la mañana')." },
+            { "id": "l3-2", "clip": "l3-c2", "question": "¿Qué pasará con los autobuses 3 y 12?", "options": ["Seguirán otro recorrido.", "Dejarán de circular.", "Pasarán más veces."], "correct": 0, "why": "The buses will not stop running but will take 'un recorrido alternativo'." },
+            { "id": "l3-3", "clip": "l3-c3", "question": "¿Qué tiempo hará mañana en el sur?", "options": ["Nubes y viento fuerte", "Lluvia débil", "Sol y unos veinte grados"], "correct": 2, "why": "In the south there will be 'cielos despejados' and up to twenty degrees; clouds and wind are for the north." },
+            { "id": "l3-4", "clip": "l3-c4", "question": "¿Cómo se pueden comprar las entradas del festival?", "options": ["En la taquilla el primer día", "Por internet desde hoy", "En la biblioteca central"], "correct": 1, "why": "The tickets are on sale 'solo por internet, desde hoy mismo'." },
+            { "id": "l3-5", "clip": "l3-c5", "question": "¿Qué se puede hacer hasta el viernes?", "options": ["Comprar ropa barata en el mercado", "Pedir ropa de abrigo en el ayuntamiento", "Dejar ropa de abrigo en tres puntos de la ciudad"], "correct": 2, "why": "Warm clothes can be dropped at three places until Friday; the market is only one of those places." },
+            { "id": "l3-6", "clip": "l3-c6", "question": "¿Quién se ocupó de regar los árboles?", "options": ["Alumnos de un instituto", "Empleados municipales", "Una empresa de jardinería"], "correct": 0, "why": "The students from a nearby school 'se ocuparon de regar los árboles recién plantados'." }
+          ]
+        },
+        {
+          "key": "l4",
+          "teil": 4,
+          "type": "match",
+          "points": 1,
+          "title": "Six people talk about their free time",
+          "instruction": "Vas a escuchar a seis personas que hablan de lo que hacen en su tiempo libre. Relaciona cada persona (1-6) con la afirmación que corresponde (A-I). Hay tres afirmaciones que no tienes que usar. Vas a escuchar cada audio dos veces.",
+          "pool": {
+            "a": "Se ha comprado material nuevo para empezar.",
+            "b": "Dejó una actividad porque le resultaba demasiado cara.",
+            "c": "Cree que su afición le ayuda a trabajar mejor.",
+            "d": "Hace deporte para descansar de un trabajo en el que pasa el día sentado.",
+            "e": "Practica su afición con un familiar.",
+            "f": "Enseña su afición a otras personas.",
+            "g": "Quiere probar algo nuevo el año próximo.",
+            "h": "Se queja de que le falta tiempo para su afición.",
+            "i": "Empezó su afición para conocer gente en una ciudad nueva."
+          },
+          "clips": [
+            {
+              "id": "l4-c1",
+              "title": "Persona 1",
+              "plays": 2,
+              "script": [
+                { "s": "w1", "t": "Trabajo ocho horas delante del ordenador, así que al salir me voy directa a la piscina. Nado una hora y me quita todo el cansancio de la espalda. Es lo mejor de mi día." }
+              ]
+            },
+            {
+              "id": "l4-c2",
+              "title": "Persona 2",
+              "plays": 2,
+              "script": [
+                { "s": "m1", "t": "Hace seis meses me apunté a un club de senderismo. Yo era nuevo en la ciudad y no conocía a nadie. Ahora salgo cada sábado con un grupo de quince personas y ya tengo varios amigos." }
+              ]
+            },
+            {
+              "id": "l4-c3",
+              "title": "Persona 3",
+              "plays": 2,
+              "script": [
+                { "s": "w2", "t": "Antes iba a clases de pintura, pero la mensualidad era muy alta y lo dejé. Ahora pinto en casa, con vídeos de internet, y la verdad es que no lo echo de menos." }
+              ]
+            },
+            {
+              "id": "l4-c4",
+              "title": "Persona 4",
+              "plays": 2,
+              "script": [
+                { "s": "m2", "t": "Los domingos hago pan con mi abuela. Ella me enseñó la receta, y cada semana probamos un tipo distinto: de nueces, de centeno, de aceitunas. Es nuestro momento del fin de semana." }
+              ]
+            },
+            {
+              "id": "l4-c5",
+              "title": "Persona 5",
+              "plays": 2,
+              "script": [
+                { "s": "w3", "t": "Doy clases de guitarra a niños del barrio, dos tardes a la semana, en la asociación. Empecé como voluntaria, para echar una mano, y ahora no podría dejarlo: me encanta verlos aprender." }
+              ]
+            },
+            {
+              "id": "l4-c6",
+              "title": "Persona 6",
+              "plays": 2,
+              "script": [
+                { "s": "w2", "t": "Llevo años haciendo fotos los fines de semana y estoy muy contenta. Pero para el año que viene me gustaría probar con el vídeo. Ya he mirado algún curso en internet." }
+              ]
+            }
+          ],
+          "items": [
+            { "id": "l4-1", "clip": "l4-c1", "prompt": "Persona 1", "correct": "d", "why": "She works eight hours at a computer and swims to relieve the tiredness in her back." },
+            { "id": "l4-2", "clip": "l4-c2", "prompt": "Persona 2", "correct": "i", "why": "He was new in the city ('era nuevo en la ciudad') and joined a hiking club, where he now has friends." },
+            { "id": "l4-3", "clip": "l4-c3", "prompt": "Persona 3", "correct": "b", "why": "She left painting classes because the monthly fee was very high ('la mensualidad era muy alta')." },
+            { "id": "l4-4", "clip": "l4-c4", "prompt": "Persona 4", "correct": "e", "why": "He makes bread on Sundays with his grandmother ('con mi abuela')." },
+            { "id": "l4-5", "clip": "l4-c5", "prompt": "Persona 5", "correct": "f", "why": "She gives guitar lessons to children of the neighbourhood ('Doy clases de guitarra')." },
+            { "id": "l4-6", "clip": "l4-c6", "prompt": "Persona 6", "correct": "g", "why": "She wants to try video next year ('para el año que viene me gustaría probar con el vídeo')." }
+          ]
+        },
+        {
+          "key": "l5",
+          "teil": 5,
+          "type": "match",
+          "points": 1,
+          "allowReuse": true,
+          "title": "A conversation between friends",
+          "instruction": "Vas a escuchar una conversación entre Carmen e Iker sobre la idea de irse a vivir a un pueblo. Para las preguntas 25-30, decide quién dice cada cosa: Carmen, Iker o ninguno de los dos. Puedes usar cada opción más de una vez. Vas a escuchar la conversación dos veces.",
+          "pool": { "a": "Carmen", "b": "Iker", "c": "Ninguno de los dos" },
+          "clips": [
+            {
+              "id": "l5-c1",
+              "title": "Conversación · Irse a vivir a un pueblo",
+              "plays": 2,
+              "names": { "w1": "Carmen", "m1": "Iker" },
+              "script": [
+                { "s": "w1", "t": "Oye, Iker, ¿al final qué hay de esa idea de iros a vivir a un pueblo?" },
+                { "s": "m1", "t": "Pues sigo dándole vueltas. Mi piso cuesta ochocientos euros al mes, y eso por dos habitaciones pequeñas. En un pueblo pagaría la mitad, y con un jardín donde plantar cosas." },
+                { "s": "w1", "t": "A mí también me parece una barbaridad lo que piden por los pisos, pero yo no podría. Me aburriría enseguida, necesito cines, tiendas y gente. De pequeña pasé todos los veranos en el pueblo de mi abuela, y lo único que hacía era esperar al autobús." },
+                { "s": "m1", "t": "Pues yo no me aburriría. Con mis plantas y la bicicleta tengo para entretenerme. Lo que sí me preocupa es el trabajo: tendría que trabajar a distancia, y allí internet no siempre funciona bien." },
+                { "s": "w1", "t": "¿Y has ido a ver alguno?" },
+                { "s": "m1", "t": "El mes pasado pasé un fin de semana en uno de Soria. Era precioso, pero el autobús a la capital sale solo dos veces al día. Por eso quiero volver otro fin de semana, con calma, antes de decidir nada." },
+                { "s": "w1", "t": "Me parece sensato. Si al final te vas, iré a verte, eso sí, con mis ganas de ciudad." }
+              ]
+            }
+          ],
+          "items": [
+            { "id": "l5-1", "clip": "l5-c1", "prompt": "Quiere vivir en un sitio con jardín.", "correct": "b", "why": "Iker says that in a village he would pay half 'y con un jardín donde plantar cosas'." },
+            { "id": "l5-2", "clip": "l5-c1", "prompt": "Piensa que se aburriría en un pueblo.", "correct": "a", "why": "Carmen says 'Me aburriría enseguida' and that she needs cinemas, shops and people." },
+            { "id": "l5-3", "clip": "l5-c1", "prompt": "Ha firmado ya un contrato de alquiler en un pueblo.", "correct": "c", "why": "Iker has only visited a village and wants to go back before deciding; nobody mentions a contract." },
+            { "id": "l5-4", "clip": "l5-c1", "prompt": "Le preocupa que el trabajo a distancia no funcione bien en un pueblo.", "correct": "b", "why": "Iker would have to work remotely and says internet there does not always work well ('internet no siempre funciona bien')." },
+            { "id": "l5-5", "clip": "l5-c1", "prompt": "Pasó muchos veranos de niña en un pueblo.", "correct": "a", "why": "Carmen spent all summers 'de pequeña' in her grandmother's village." },
+            { "id": "l5-6", "clip": "l5-c1", "prompt": "Ya ha encontrado trabajo en un pueblo.", "correct": "c", "why": "Nobody says this: Iker would work remotely, and Carmen is not planning to move." }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "writing",
       "name": "Writing",
-      "minutes": 45,
+      "minutes": 60,
       "parts": [
         {
           "key": "w1",
           "teil": 1,
           "type": "schreiben",
           "points": 20,
-          "title": "Email: answer a friend",
-          "instruction": "This is Part 1 and you must answer it. Read the email from your friend Sam and the four notes. Write an email to Sam using all the notes. Write about 100 words. You have about 20 minutes.",
+          "title": "Reply to a message",
+          "instruction": "Lee el mensaje de una amiga y respóndele. Escribe entre 110 y 120 palabras. Tienes que tratar todos los puntos.",
           "tasks": [
             {
-              "id": "w1-1",
-              "title": "Question 1 · Email to Sam",
-              "minutes": 20,
-              "words": 100,
-              "situation": "Your English friend Sam has sent you this email: “Hi! I’m planning a birthday dinner for my sister next Saturday. Would you like to come? I can’t decide where we should eat. Do you have any ideas? Sam”",
-              "prompt": "Write your email to Sam. Use all the notes.",
+              "id": "w1-t1",
+              "title": "Task 1 · Reply to Aitana",
+              "minutes": 25,
+              "words": 110,
+              "situation": "Tu amiga Aitana te ha escrito este mensaje: «¡Hola! El mes que viene me voy a vivir a tu ciudad por trabajo y estoy buscando piso. ¿Puedes contarme cómo es el barrio donde vives, cómo está de transporte y de precios? ¿Y quedamos cuando llegue? Un abrazo, Aitana».",
+              "prompt": "Responde a Aitana.",
               "points": [
-                "Thank Sam and say you would like to come.",
-                "Suggest a restaurant and say why it is a good choice.",
-                "Say you can only arrive after 7.30 pm and give a reason.",
-                "Ask whether you should bring a present for Sam’s sister."
+                "Describe el barrio donde vives.",
+                "Habla del transporte y de los precios de los alquileres.",
+                "Propón un plan para quedar cuando llegue.",
+                "Ofrécele tu ayuda con la mudanza."
               ],
-              "model": "Hi Sam,\nThanks so much for the invitation. I’d love to come to your sister’s birthday dinner!\nHow about going to the Olive Tree? It’s a small Italian restaurant near the station, and the pasta there is really good. It isn’t too expensive either, which is important for a big group.\nI’m afraid I can’t get there before 7.30, because I finish work at seven and I need to go home and change first. Please start without me if I’m a little late!\nShall I bring a present for your sister, or are you all giving her one together? Let me know.\nSee you on Saturday,\nMarco",
+              "model": "Hola, Aitana:\n¡Qué buena noticia! Me alegro mucho de que vengas a vivir aquí. Yo vivo en el barrio de La Fuente, que es tranquilo y tiene todo cerca: tiendas, una biblioteca y un parque grande. El autobús pasa cada diez minutos, así que llegar al centro es muy fácil. Los alquileres no son baratos, pero por unos 750 € al mes se puede encontrar un piso pequeño con dos habitaciones.\nCuando llegues, podemos quedar un sábado para tomar un café y te enseño la zona. Además, un amigo mío tiene furgoneta y puede ayudarte con la mudanza.\nAvísame cuando tengas la fecha.\nUn abrazo,\nLucía",
               "checklist": [
-                "Content: all four notes are answered (thanks and yes, restaurant with a reason, arrival time with a reason, question about a present).",
-                "Communicative achievement: friendly, informal tone suited to a friend (Hi Sam, Thanks so much, See you on Saturday).",
-                "Organisation: greeting, short paragraphs in a logical order, a closing line; linking words such as because, but, and.",
-                "Language: suggestions (How about + -ing), a polite question (Shall I bring …?), B1 vocabulary for food and plans.",
-                "Length: about 100 words; much shorter usually means a note is missed."
+                "Content: all four points are covered (the neighbourhood, transport and prices, a plan to meet, an offer of help).",
+                "Register: informal, friendly (tú, a greeting and a goodbye like «Un abrazo»).",
+                "Organisation: short paragraphs in a logical order, with linking words such as «así que», «además», «cuando».",
+                "Language: present tense for description, «poder» and «podemos + infinitive» for suggestions, correct accents and ¿ ¡.",
+                "Length: 110 to 120 words; much shorter usually means a point is missing."
               ]
             }
           ]
@@ -473,49 +528,28 @@
           "teil": 2,
           "type": "schreiben",
           "points": 20,
-          "title": "Article or story",
-          "instruction": "Choose one of the questions below (2A or 2B) and write about 100 words. You have about 25 minutes.",
+          "title": "Description with your opinion",
+          "instruction": "Escribe un texto de unas 140 palabras sobre el tema siguiente. Describe, cuenta y da tu opinión.",
           "tasks": [
             {
-              "id": "w2-a",
-              "title": "Question 2A · Article",
-              "minutes": 25,
-              "words": 100,
-              "situation": "You see this announcement in an English-language magazine: “Articles wanted: My favourite way to relax. What do you do to relax, and why do you enjoy it? Write us an article. We will publish the best ones next month.”",
-              "prompt": "Write your article.",
+              "id": "w2-t1",
+              "title": "Task 2 · My ideal neighbourhood",
+              "minutes": 35,
+              "words": 140,
+              "situation": "La escuela de idiomas donde estudias español publica textos de los alumnos en su blog. Este mes el tema es «Mi barrio ideal».",
+              "prompt": "Escribe un texto para el blog.",
               "points": [
-                "Say what you do to relax.",
-                "Explain why you enjoy it.",
-                "Give a tip to readers."
+                "Describe cómo es el barrio donde vives ahora.",
+                "Cuenta cómo sería tu barrio ideal.",
+                "Da tu opinión: ¿es mejor vivir en el centro o en las afueras? ¿Por qué?"
               ],
-              "model": "My favourite way to relax\nAfter a long week at work, my favourite way to relax is cooking. I know that sounds like more work, but for me it is the opposite.\nOn Sunday afternoons I put on some music, open the window and make something new. Last week it was a vegetable curry. I enjoy it because I can’t think about my emails while I’m chopping onions!\nCooking also gives me something at the end: a meal for my family or friends. We all sit down together and talk for hours.\nIf you have never tried it, start with something simple, like soup. You may find that you enjoy it too.",
+              "model": "Mi barrio ideal\nVivo en el centro de Granada desde hace tres años y, aunque me encanta, creo que mi barrio ideal estaría un poco más lejos del ruido. Ahora tengo todo a mano: el mercado, el centro de salud, las tiendas y la parada del autobús. Sin embargo, los fines de semana la calle está llena de gente y por la noche cuesta dormir con la ventana abierta.\nPor eso me imagino un barrio con muchas zonas verdes, calles tranquilas y un pequeño mercado donde todos se conozcan. Debería tener buenas conexiones de transporte, para no depender del coche.\nEn mi opinión, vivir en las afueras tiene más ventajas si trabajas desde casa o si tienes niños, pero para los jóvenes el centro es más cómodo. Yo, de momento, prefiero el centro, aunque algún día me gustaría cambiar.",
               "checklist": [
-                "Content: you say what you do, why you enjoy it, and you give a tip.",
-                "Communicative achievement: a title and a lively, friendly tone for magazine readers.",
-                "Organisation: introduction, middle, short ending; paragraphs.",
-                "Language: present simple for habits, because, but, so; some interesting words, not only 'good' and 'nice'.",
-                "Length: about 100 words."
-              ]
-            },
-            {
-              "id": "w2-b",
-              "title": "Question 2B · Story",
-              "minutes": 25,
-              "words": 100,
-              "situation": "Your English teacher has asked you to write a story. Your story must begin with this sentence: “When Tom opened the door, he could not believe what he saw.”",
-              "prompt": "Write your story.",
-              "points": [
-                "Begin with the sentence given.",
-                "Say what Tom saw and what happened next.",
-                "Finish your story."
-              ],
-              "model": "When Tom opened the door, he could not believe what he saw. His kitchen was full of friends, balloons and a huge chocolate cake.\n“Surprise!” everybody shouted.\nTom had come home early from work because he felt tired and a little sad. He thought that everyone had forgotten his thirtieth birthday. In fact, his sister had planned the party for weeks, and she had asked his neighbour for the key.\nTom laughed and hugged her. Then he blew out the candles, and everybody sang. It was the best birthday he had ever had, and he promised himself never to feel sad about it again.",
-              "checklist": [
-                "Content: the first sentence is used exactly; what Tom saw and the ending are clear.",
-                "Communicative achievement: the story is easy to follow and interesting.",
-                "Organisation: beginning, middle and end; time words such as then, in fact, after that.",
-                "Language: past simple and past perfect (had planned), direct speech, B1 vocabulary for feelings.",
-                "Length: about 100 words."
+                "Content: you describe where you live, say what your ideal neighbourhood would be like and give an opinion with reasons.",
+                "Register: neutral and friendly, suitable for a school blog; a title helps.",
+                "Organisation: three clear paragraphs (now, ideal, opinion) with connectors such as «sin embargo», «por eso», «en mi opinión».",
+                "Language: present for description, conditional («sería», «debería», «me gustaría») for the ideal, and a range of vocabulary about the city.",
+                "Length: about 140 words."
               ]
             }
           ]
@@ -523,337 +557,48 @@
       ]
     },
     {
-      "key": "hoeren",
-      "name": "Listening",
-      "minutes": 30,
-      "parts": [
-        {
-          "key": "l1",
-          "teil": 1,
-          "type": "mc",
-          "points": 1,
-          "title": "Seven short recordings",
-          "instruction": "You will hear seven short recordings. For each question 1-7, choose the correct answer A, B or C. You will hear each recording twice. In the real exam the options are pictures; here they are short descriptions.",
-          "clips": [
-            {
-              "id": "l1-1",
-              "title": "Question 1 · Meeting",
-              "plays": 2,
-              "script": [
-                { "s": "w1", "t": "Shall we meet at half past six outside the cinema?" },
-                { "s": "m1", "t": "I don’t finish work until six, and the bus takes forty minutes, so I’d be late. Could we say seven instead?" },
-                { "s": "w1", "t": "Seven is fine. The film doesn’t start until eight, so there’s plenty of time." }
-              ]
-            },
-            {
-              "id": "l1-2",
-              "title": "Question 2 · Shopping",
-              "plays": 2,
-              "script": [
-                { "s": "m2", "t": "Hi Jade, it’s Tom. I went to the shop on Saturday. I was going to buy the blue jacket, but they didn’t have my size, so I got the green one instead. I looked at some boots as well, but they were really expensive, so I’ll wait for the sale. Call me later." }
-              ]
-            },
-            {
-              "id": "l1-3",
-              "title": "Question 3 · At the station",
-              "plays": 2,
-              "script": [
-                { "s": "m3", "t": "Ticket office, can I help you?" },
-                { "s": "w2", "t": "Hello. I think I left my umbrella on the quarter past nine train from Manchester. It’s black, with a wooden handle." },
-                { "s": "m3", "t": "Let me look. Oh yes, the guard handed one in this morning. Normally we send things to the lost property office, but that’s closed until Monday, so I’m keeping it here with me at the ticket office." },
-                { "s": "w2", "t": "Oh, that’s lucky. I’ll come at lunchtime." }
-              ]
-            },
-            {
-              "id": "l1-4",
-              "title": "Question 4 · Weather",
-              "plays": 2,
-              "script": [
-                { "s": "ann", "t": "And now the weather. Friday will be warm and sunny all day, so make the most of it. On Saturday the morning stays dry, but clouds will move in from the west and bring rain by the afternoon. Sunday looks dry again, but it will be quite windy, especially near the coast." }
-              ]
-            },
-            {
-              "id": "l1-5",
-              "title": "Question 5 · Old bike",
-              "plays": 2,
-              "script": [
-                { "s": "m4", "t": "Is that your old bike in the garage? It looks fine. Have you thought about selling it?" },
-                { "s": "w3", "t": "I did, but advertising it online takes ages. Anyway, my nephew has just learnt to ride, and he’s got nothing to ride at the moment. So he can have it." },
-                { "s": "m4", "t": "That’s kind. Does it need fixing first?" },
-                { "s": "w3", "t": "Only new brakes, and I can do that myself." }
-              ]
-            },
-            {
-              "id": "l1-6",
-              "title": "Question 6 · Phone call",
-              "plays": 2,
-              "script": [
-                { "s": "w4", "t": "Good afternoon, Harbour Kitchen." },
-                { "s": "m1", "t": "Hello. I booked a table for four on Friday at eight o’clock, under the name Patel. Unfortunately, two more friends would like to come, so there will be six of us now. Is that possible?" },
-                { "s": "w4", "t": "Let me check. Yes, we can move you to a bigger table, same day and same time." },
-                { "s": "m1", "t": "Great, thank you very much." }
-              ]
-            },
-            {
-              "id": "l1-7",
-              "title": "Question 7 · Picnic",
-              "plays": 2,
-              "script": [
-                { "s": "w1", "t": "I’ll make the sandwiches, and Kim is bringing the drinks. What about you?" },
-                { "s": "m2", "t": "I could do a salad." },
-                { "s": "w1", "t": "Hmm, Kim’s mum is already making a big one, I think. Maybe something sweet?" },
-                { "s": "m2", "t": "Fruit, then. I’ll bring some melon and grapes." }
-              ]
-            }
-          ],
-          "items": [
-            { "id": "l1-q1", "clip": "l1-1", "question": "What time will they meet?", "options": ["At 6.30", "At 7.00", "At 7.40"], "correct": 1, "why": "He asks to meet at seven instead of half past six and she agrees. 7.40 would be six o'clock plus the bus journey." },
-            { "id": "l1-q2", "clip": "l1-2", "question": "What did Tom buy?", "options": ["A blue jacket", "A green jacket", "A pair of boots"], "correct": 1, "why": "The blue jacket was not in his size, and he is waiting for the sale for the boots." },
-            { "id": "l1-q3", "clip": "l1-3", "question": "Where can the woman collect her umbrella?", "options": ["At the lost property office", "At the ticket office", "From the train driver"], "correct": 1, "why": "The lost property office is closed until Monday, so the man keeps the umbrella at the ticket office." },
-            { "id": "l1-q4", "clip": "l1-4", "question": "What will the weather be like on Saturday?", "options": ["Sunny all day", "Dry in the morning, then rainy", "Dry and windy"], "correct": 1, "why": "Saturday is dry in the morning with rain in the afternoon. Sunny is Friday and windy is Sunday." },
-            { "id": "l1-q5", "clip": "l1-5", "question": "What will the woman do with her old bike?", "options": ["Sell it online", "Give it to her nephew", "Take it to a repair shop"], "correct": 1, "why": "She decides against selling it, and she can fix the brakes herself." },
-            { "id": "l1-q6", "clip": "l1-6", "question": "Why is the man phoning the restaurant?", "options": ["To cancel a booking", "To ask for a different evening", "To change the number of guests"], "correct": 2, "why": "He needs a table for six instead of four. Day and time stay the same." },
-            { "id": "l1-q7", "clip": "l1-7", "question": "What will the man bring to the picnic?", "options": ["Sandwiches", "A salad", "Fruit"], "correct": 2, "why": "The woman makes the sandwiches, and the salad is already taken care of, so he brings fruit." }
-          ]
-        },
-        {
-          "key": "l2",
-          "teil": 2,
-          "type": "mc",
-          "points": 1,
-          "title": "Six short conversations",
-          "instruction": "You will hear six short conversations. For each question 8-13, choose the correct answer A, B or C. You will hear each conversation twice.",
-          "clips": [
-            {
-              "id": "l2-1",
-              "title": "Question 8 · The gym",
-              "plays": 2,
-              "script": [
-                { "s": "m3", "t": "How’s the new gym? You joined last month, didn’t you?" },
-                { "s": "w2", "t": "Yes. To be honest, I’m not completely sure about it. It’s quite expensive, and the changing rooms are always crowded. But the instructors are fantastic." },
-                { "s": "m3", "t": "So are you going to cancel?" },
-                { "s": "w2", "t": "No, no. I’ll give it a few more months and see." }
-              ]
-            },
-            {
-              "id": "l2-2",
-              "title": "Question 9 · Working from home",
-              "plays": 2,
-              "script": [
-                { "s": "w3", "t": "Do you like working from home?" },
-                { "s": "m4", "t": "Mostly. There’s no journey to work, which is brilliant. But by Wednesday I start to feel a bit lonely, to be honest. I miss chatting to people at the coffee machine." },
-                { "s": "w3", "t": "I can imagine." }
-              ]
-            },
-            {
-              "id": "l2-3",
-              "title": "Question 10 · The exam",
-              "plays": 2,
-              "script": [
-                { "s": "w4", "t": "Have you finished revising for tomorrow?" },
-                { "s": "m1", "t": "Yes, I’ve done all the past papers twice. I know the topics. It’s just that I know I’ll feel sick when I sit down in the exam room." },
-                { "s": "w4", "t": "You’ll be fine. Try to get an early night." }
-              ]
-            },
-            {
-              "id": "l2-4",
-              "title": "Question 11 · The film",
-              "plays": 2,
-              "script": [
-                { "s": "w1", "t": "What did you think of the film? I loved it." },
-                { "s": "m2", "t": "The actors were great, I’ll say that. But it must have been nearly three hours long. I couldn’t wait for it to finish." }
-              ]
-            },
-            {
-              "id": "l2-5",
-              "title": "Question 12 · In a shop",
-              "plays": 2,
-              "script": [
-                { "s": "w2", "t": "I’d like to return this jumper, please. It’s too small." },
-                { "s": "m3", "t": "Do you have the receipt?" },
-                { "s": "w2", "t": "No, it was a present." },
-                { "s": "m3", "t": "I’m afraid I can’t give you a refund then, and we haven’t got it in a larger size. But I can offer you a credit note for the same amount." },
-                { "s": "w2", "t": "Hmm. Well, I did see a nice green scarf. Okay, a credit note is fine." }
-              ]
-            },
-            {
-              "id": "l2-6",
-              "title": "Question 13 · Building work",
-              "plays": 2,
-              "script": [
-                { "s": "m4", "t": "That building work starts at seven every morning. It’s driving me mad." },
-                { "s": "w3", "t": "I know, but I don’t really mind. It will be finished by the autumn, and the new park will be so much nicer than that empty ground." },
-                { "s": "m4", "t": "I suppose you’re right." }
-              ]
-            }
-          ],
-          "items": [
-            { "id": "l2-q8", "clip": "l2-1", "question": "What does the woman think about her new gym?", "options": ["She wants to cancel her membership.", "She likes it, although some things annoy her.", "She thinks the instructors are not good enough."], "correct": 1, "why": "She mentions the price and crowded changing rooms, but the instructors are fantastic and she will stay a few more months." },
-            { "id": "l2-q9", "clip": "l2-2", "question": "What does the man say about working from home?", "options": ["He would like to do it every day of the week.", "He sometimes feels lonely.", "He finds it hard to contact his boss."], "correct": 1, "why": "By Wednesday he starts to feel lonely and misses chatting to colleagues." },
-            { "id": "l2-q10", "clip": "l2-3", "question": "How does the boy feel about tomorrow's exam?", "options": ["He is well prepared but nervous.", "He has not done enough work.", "He is calm and does not care."], "correct": 0, "why": "He has done all the past papers twice, but he is afraid he will feel sick in the exam room." },
-            { "id": "l2-q11", "clip": "l2-4", "question": "What did the man think of the film?", "options": ["The actors were not good.", "It was too long.", "The ending was too sad."], "correct": 1, "why": "He praised the actors but said it was nearly three hours and he wanted it to finish." },
-            { "id": "l2-q12", "clip": "l2-5", "question": "What does the customer decide to do?", "options": ["Ask for her money back", "Exchange the jumper for a bigger size", "Accept a credit note"], "correct": 2, "why": "No refund is possible without a receipt, and there is no larger size, so she takes the credit note." },
-            { "id": "l2-q13", "clip": "l2-6", "question": "Why doesn't the woman mind the building work?", "options": ["She is out during the day.", "She thinks the result will be good.", "She can't hear much from her flat."], "correct": 1, "why": "She says it will end by the autumn and the new park will be much nicer than the empty ground." }
-          ]
-        },
-        {
-          "key": "l3",
-          "teil": 3,
-          "type": "write-in",
-          "points": 1,
-          "title": "Complete the notes",
-          "instruction": "You will hear a radio announcement about a community garden. For each question 14-19, write the missing information in the gap. You will hear the recording twice.",
-          "clips": [
-            {
-              "id": "l3-1",
-              "title": "Announcement · Garden open day",
-              "plays": 2,
-              "script": [
-                { "s": "ann", "t": "Good morning, and now some local news. The Riverside Community Garden is holding its open day, and everybody is invited. Some of you may have seen the first notice in the library, which gave the date as the seventh of June, but that was a mistake. The open day is on Saturday the fourteenth of June. The gates open at half past ten, not ten o’clock as it says on some leaflets, and they stay open until four." },
-                { "s": "ann", "t": "Entry is free, and there is a café run by volunteers. Tea and coffee are a pound, and the homemade cakes are usually two pounds, but on open day they will be just one pound fifty each. Every visitor will also get a packet of seeds to take home. Last year it was tomato seeds, but this year it is sunflower seeds, so you will have something bright in your garden by August." },
-                { "s": "ann", "t": "There is plenty for children, too. At eleven o’clock there will be plant pot painting, and at two o’clock children can make bird boxes with help from a local carpenter." },
-                { "s": "ann", "t": "If you would like more information, or if you can help on the day, please phone the garden office on oh one six three two, nine six oh, four one eight. I’ll repeat that: oh one six three two, nine six oh, four one eight. Now, on with the music." }
-              ]
-            }
-          ],
-          "items": [
-            {
-              "id": "l3-14",
-              "clip": "l3-1",
-              "prompt": "Open day: Saturday ____ June",
-              "answer": "14",
-              "accept": ["14", "14th", "fourteenth", "the 14th", "the fourteenth", "14 June", "14th June", "fourteenth June"],
-              "why": "The first notice said the seventh, but that was a mistake. The correct date is the fourteenth."
-            },
-            {
-              "id": "l3-15",
-              "clip": "l3-1",
-              "prompt": "The gates open at ____",
-              "answer": "10.30",
-              "accept": ["10.30", "10:30", "10.30 am", "10:30 am", "10.30am", "10:30am", "10.30 a.m", "10.30 a.m.", "half past ten", "half ten", "half past 10"],
-              "why": "The leaflets say ten o'clock, but the gates open at half past ten."
-            },
-            {
-              "id": "l3-16",
-              "clip": "l3-1",
-              "prompt": "On open day, cakes cost £____ each.",
-              "answer": "1.50",
-              "accept": ["1.50", "£1.50", "1.5", "£1.5", "1.50 pounds", "one pound fifty", "one pound 50", "1 pound 50", "£1.50 each", "1.50 each"],
-              "why": "Cakes are usually two pounds, but just one pound fifty on open day."
-            },
-            {
-              "id": "l3-17",
-              "clip": "l3-1",
-              "prompt": "Every visitor gets a packet of ____ seeds.",
-              "answer": "sunflower",
-              "accept": ["sunflower", "sunflowers", "sunflower seeds"],
-              "why": "Last year it was tomato seeds, but this year it is sunflower seeds."
-            },
-            {
-              "id": "l3-18",
-              "clip": "l3-1",
-              "prompt": "At 2 pm children can make ____.",
-              "answer": "bird boxes",
-              "accept": ["bird boxes", "bird box", "birdboxes", "birdbox", "bird houses", "birdhouses", "bird house", "birdhouse", "nest boxes", "nesting boxes"],
-              "why": "Plant pot painting is at eleven. At two o'clock it is bird boxes."
-            },
-            {
-              "id": "l3-19",
-              "clip": "l3-1",
-              "prompt": "Garden office phone number: ____",
-              "answer": "01632 960 418",
-              "accept": ["01632 960 418", "01632960418", "01632 960418", "01632-960-418", "01632 960-418", "(01632) 960 418", "(01632) 960418"],
-              "why": "The number is read out twice: oh one six three two, nine six oh, four one eight."
-            }
-          ]
-        },
-        {
-          "key": "l4",
-          "teil": 4,
-          "type": "mc",
-          "points": 1,
-          "title": "A radio interview",
-          "instruction": "You will hear an interview with a man called Owen Hughes, who started a bicycle repair project. For each question 20-25, choose the correct answer A, B or C. You will hear the interview twice.",
-          "clips": [
-            {
-              "id": "l4-1",
-              "title": "Interview · Owen Hughes",
-              "plays": 2,
-              "script": [
-                { "s": "pres", "t": "Welcome to Weekend Voices. My guest today is Owen Hughes, who started a bicycle repair project in Cardiff three years ago. Owen, welcome." },
-                { "s": "owen", "t": "Thanks for having me." },
-                { "s": "pres", "t": "How did it all begin?" },
-                { "s": "owen", "t": "Quite by accident. I’d worked in an office for ten years, and bikes were just a hobby. One weekend I fixed my neighbour’s bike in my garage, and word got round. Within a month I had a queue of people on my driveway." },
-                { "s": "pres", "t": "So you thought, I’ll turn this into a business?" },
-                { "s": "owen", "t": "Not at all. People offered to pay, but I wouldn’t take any money. I was happy to help. It was the council who suggested a proper workshop. They offered me an empty room next to the market, and I couldn’t say no." },
-                { "s": "pres", "t": "And do you charge now?" },
-                { "s": "owen", "t": "We ask for a donation, but it’s up to the customer. If somebody can’t afford to give anything, that’s fine. What matters is that they leave with a bike that works." },
-                { "s": "pres", "t": "I hear you also teach people to repair bikes themselves." },
-                { "s": "owen", "t": "Yes, and that’s the part I enjoy most. I love restoring old frames, of course, but every Thursday evening we have a class, and that’s the highlight of my week. Most people think they’ll be hopeless, but by the end of the first evening they can mend a puncture. I tell them it’s no harder than baking a cake." },
-                { "s": "pres", "t": "Was there ever a time when you nearly gave up?" },
-                { "s": "owen", "t": "Last winter. We had a flood in the workshop and lost a lot of tools and spare parts. I was tired, and I thought, perhaps this is a sign. But the next morning twenty people turned up with buckets and brushes. I couldn’t walk away after that." },
-                { "s": "pres", "t": "Some people say cycling in a city is dangerous." },
-                { "s": "owen", "t": "I understand that. But I think the city is not so much dangerous as unprepared. If there were more safe lanes, more people would cycle, and drivers would get used to them. I’m not angry about it. I just think change takes time." },
-                { "s": "pres", "t": "And what’s next for the project?" },
-                { "s": "owen", "t": "We’d like to open a second workshop on the other side of town, because our waiting list is long. But we need volunteers more than money. We have about fifteen at the moment, and we need at least double that." },
-                { "s": "pres", "t": "Owen Hughes, thank you very much for talking to us." },
-                { "s": "owen", "t": "My pleasure." }
-              ]
-            }
-          ],
-          "items": [
-            { "id": "l4-q20", "clip": "l4-1", "question": "What made Owen open a proper workshop?", "options": ["His neighbours paid him for repairs.", "The council suggested it.", "He lost his office job."], "correct": 1, "why": "He refused payment, and he still worked in an office when it started. The council offered the room." },
-            { "id": "l4-q21", "clip": "l4-1", "question": "What does Owen say about payment at the workshop?", "options": ["Customers pay fixed prices.", "The council pays for the repairs.", "Customers give what they can."], "correct": 2, "why": "The workshop asks for a donation, and someone who cannot pay anything is still helped." },
-            { "id": "l4-q22", "clip": "l4-1", "question": "What does Owen enjoy most about the work?", "options": ["Restoring old frames", "Teaching people to repair their own bikes", "Talking to the council"], "correct": 1, "why": "He loves restoring old frames, but he says the Thursday class is the part he enjoys most." },
-            { "id": "l4-q23", "clip": "l4-1", "question": "Why did Owen decide not to give up after the flood?", "options": ["Insurance paid for new tools.", "He found his spare parts.", "People came to help clear up."], "correct": 2, "why": "Twenty people arrived with buckets and brushes the next morning." },
-            { "id": "l4-q24", "clip": "l4-1", "question": "What is Owen's opinion about cycling in cities?", "options": ["It is too dangerous for most people.", "Safer lanes would help, but change is slow.", "He is angry with drivers."], "correct": 1, "why": "He says the city is unprepared, more lanes would bring more cyclists, and that change takes time. He says he is not angry." },
-            { "id": "l4-q25", "clip": "l4-1", "question": "What does Owen need most for a second workshop?", "options": ["More money", "A bigger building", "More volunteers"], "correct": 2, "why": "He says they need volunteers more than money, and they need at least double the fifteen they have." }
-          ]
-        }
-      ]
-    },
-    {
-      "key": "sprechen",
+      "key": "speaking",
       "name": "Speaking",
-      "minutes": 14,
+      "minutes": 15,
       "parts": [
         {
           "key": "sp1",
           "teil": 1,
           "type": "sprechen",
-          "title": "Interview",
-          "instruction": "The examiner asks you some questions about yourself. Answer in a few sentences each. In the real test this part takes about two to three minutes.",
+          "title": "Prepared talk",
+          "instruction": "Tienes 15 minutos para preparar una exposición sobre el tema de la tarjeta. Después hablas durante unos tres minutos, sin que el examinador te interrumpa.",
           "tasks": [
             {
-              "id": "sp1",
-              "title": "Part 1 · Interview",
-              "mode": "paar",
+              "id": "sp1-t1",
+              "title": "Part 1 · Living in a shared flat",
+              "mode": "solo",
+              "prepMinutes": 15,
               "minutes": 3,
-              "situation": "The examiner asks each candidate questions about their life, home, work or study, and free time.",
+              "situation": "Vas a hablar sobre el tema «Vivir en un piso compartido».",
+              "prompt": "Habla sobre el tema. Puedes usar los puntos de la tarjeta y tus propias ideas.",
               "card": {
-                "title": "Questions you might be asked",
+                "title": "Vivir en un piso compartido",
                 "lines": [
-                  "Where do you live? What do you like about it?",
-                  "What do you do? Do you like it?",
-                  "What do you usually do at the weekend?",
-                  "Tell me about a holiday you enjoyed.",
-                  "What would you like to learn in the future?"
+                  "Presenta el tema: ¿conoces a alguien que viva en un piso compartido o has vivido tú así?",
+                  "Ventajas: ¿qué cosas buenas tiene?",
+                  "Inconvenientes: ¿qué problemas puede haber?",
+                  "Tu opinión: ¿te gustaría vivir así o prefieres vivir solo? ¿Por qué?"
                 ]
               },
               "redemittel": [
-                "I live in … It’s a … place with …",
-                "I’m a … / I study …",
-                "What I like most about it is …",
-                "At the weekend I usually …, but sometimes I …",
-                "Last year I went to … with …",
-                "I’d really like to learn how to …"
+                "Voy a hablar de…",
+                "La principal ventaja es que…",
+                "Otra ventaja es que…",
+                "Por otro lado, hay inconvenientes: …",
+                "En mi opinión, …",
+                "Para terminar, quiero decir que…"
               ],
-              "model": "I live in a medium-sized town near the coast. What I like most about it is that it’s quiet but there’s still plenty to do. I work as a dental assistant, and I enjoy it because I meet different people every day. At the weekend I usually go for a long walk with my sister, and sometimes we cook dinner together. Last year I went to Portugal for a week, and the food was wonderful. In the future I’d really like to learn how to play the guitar.",
+              "model": "Buenos días. Voy a hablar de la vida en un piso compartido. Yo comparto piso desde hace dos años con dos compañeros en Valencia, así que lo conozco bien.\nLa principal ventaja es el dinero: el alquiler y las facturas se reparten entre tres, y así es posible vivir en un barrio céntrico. Además, siempre hay alguien con quien cenar o charlar, y eso es muy bueno cuando uno llega a una ciudad nueva.\nTambién hay inconvenientes. A veces cuesta ponerse de acuerdo con la limpieza, y si alguien tiene visitas a menudo, el ruido molesta. Para evitar problemas, nosotros tenemos un cuadro con las tareas de cada semana y una reunión corta los domingos.\nEn mi opinión, compartir piso es una buena idea durante unos años, sobre todo si eres joven o acabas de llegar. Más adelante, me gustaría vivir con mi pareja o solo, porque se necesita más tranquilidad. Muchas gracias.",
               "checklist": [
-                "Answer every question with more than one word, giving a reason or an example.",
-                "Use present simple for routines and past simple for the holiday.",
-                "Speak clearly, without long pauses.",
-                "Look at the examiner and be friendly."
+                "Cover all four bullet points of the card in a clear order.",
+                "Give reasons and a personal example for each idea.",
+                "Use connectors («además», «por otro lado», «por eso») so the talk flows.",
+                "Speak for about three minutes without long pauses."
               ]
             }
           ]
@@ -862,38 +607,40 @@
           "key": "sp2",
           "teil": 2,
           "type": "sprechen",
-          "title": "Describe a photograph",
-          "instruction": "You are given a photograph and speak about it on your own for about one minute. Say where the people are, what they are doing and how they seem to feel. If you do not know a word, describe it in a different way. The examiner’s photograph is described on the card here.",
+          "title": "Conversation on the same topic",
+          "instruction": "Ahora el examinador te hace preguntas sobre el tema de tu exposición. Responde con naturalidad y da ejemplos. Esta parte dura unos cuatro minutos.",
           "tasks": [
             {
-              "id": "sp2",
-              "title": "Part 2 · Photograph: cooking together",
-              "mode": "einzeln",
-              "minutes": 2,
-              "situation": "You have a photograph of two friends cooking together. Describe it for about a minute.",
+              "id": "sp2-t1",
+              "title": "Part 2 · Questions about shared flats",
+              "mode": "paar",
+              "minutes": 4,
+              "situation": "El examinador te pregunta sobre vivir en un piso compartido.",
+              "prompt": "Responde a las preguntas del examinador.",
               "card": {
-                "title": "Photo: two friends in a kitchen",
+                "title": "Preguntas del examinador",
                 "lines": [
-                  "Where are they?",
-                  "What are they doing?",
-                  "What do they look like, and how do they seem to feel?",
-                  "In the photo: two friends in a bright kitchen. One is stirring a pot, the other is cutting vegetables. Both are laughing. On the table there are plates and a bowl of fruit."
+                  "¿Es fácil encontrar piso en tu ciudad? ¿Cuánto cuesta un alquiler?",
+                  "¿Qué es importante al elegir con quién compartir piso?",
+                  "¿Cómo se pueden resolver los problemas entre compañeros?",
+                  "¿Crees que es mejor compartir piso con amigos o con desconocidos?",
+                  "¿Cómo sería para ti el piso ideal?"
                 ]
               },
               "redemittel": [
-                "In this photo I can see …",
-                "They are in …, perhaps at home.",
-                "On the left / on the right / in the background …",
-                "One of them is … -ing, and the other one is … -ing.",
-                "They look happy / relaxed because …",
-                "I think they might be …"
+                "Depende de…",
+                "Yo creo que lo más importante es…",
+                "Por ejemplo, en mi caso…",
+                "No estoy muy de acuerdo, porque…",
+                "Eso es verdad, pero…",
+                "La verdad es que no lo había pensado, pero…"
               ],
-              "model": "In this photo I can see two friends in a bright kitchen. It looks like a home kitchen, perhaps one of their flats. On the left a young man is stirring something in a big pot, and on the right a woman is cutting vegetables. They are both laughing, so I think they are having a good time. There are plates and a bowl of fruit on the table, so perhaps they are going to eat together soon. I think they might be good friends, because they seem very relaxed with each other. I enjoy cooking with friends too, because it makes the evening more fun.",
+              "model": "Examinador: ¿Es fácil encontrar piso en tu ciudad?\nYo: No mucho. Hay bastantes pisos, pero los precios han subido y los buenos se alquilan en pocos días. Por una habitación en el centro se pagan unos 400 euros al mes.\nExaminador: ¿Qué es importante al elegir con quién compartir piso?\nYo: Creo que lo más importante es tener horarios parecidos y las mismas ideas sobre la limpieza. Por ejemplo, en mi caso, mis compañeros se levantan tarde y yo muy pronto, así que hemos acordado hacer poco ruido por las mañanas.\nExaminador: ¿Es mejor compartir con amigos o con desconocidos?\nYo: Depende. Con amigos hay más confianza, pero si discutís, es más difícil. Con desconocidos todo es más formal, y a veces eso ayuda a respetarse más.",
               "checklist": [
-                "Say where the people are, what they are doing, and how they look or feel.",
-                "Use present continuous (are cooking, is stirring) and position words (on the left, in the background).",
-                "Use 'perhaps', 'I think' and 'might' when you are not sure.",
-                "Keep talking for about a minute; if a word is missing, describe it in other words."
+                "Answer each question with more than one sentence and a reason or example.",
+                "Give your own opinion and say when you disagree politely.",
+                "React to the examiner's follow-up questions naturally.",
+                "Use the same vocabulary as in your talk, but vary it."
               ]
             }
           ]
@@ -902,39 +649,39 @@
           "key": "sp3",
           "teil": 3,
           "type": "sprechen",
-          "title": "Talk together: choose a present",
-          "instruction": "You and your partner talk together for two to three minutes. A colleague is leaving the company. Talk about the presents on the card and decide together which one is best. You do not need to agree at once, but try to reach a decision.",
+          "title": "Describe a photo",
+          "instruction": "Mira la fotografía (aquí descrita con palabras) y habla de ella durante unos tres minutos. No hay tiempo de preparación.",
           "tasks": [
             {
-              "id": "sp3",
-              "title": "Part 3 · A leaving present",
-              "mode": "paar",
+              "id": "sp3-t1",
+              "title": "Part 3 · A neighbourhood market",
+              "mode": "solo",
               "minutes": 3,
-              "situation": "A colleague is leaving the company after five years. You and your partner want to buy a leaving present from the whole team.",
+              "situation": "Tienes una fotografía de un mercadillo de barrio. Descríbela y di qué opinas.",
+              "prompt": "Describe la foto, di qué crees que está pasando y cuenta si tú compras en mercados.",
               "card": {
-                "title": "Which present is best?",
+                "title": "Foto: un mercadillo de barrio",
                 "lines": [
-                  "A book about travelling",
-                  "A plant for the new home",
-                  "A photo album of the team",
-                  "A voucher for a café",
-                  "Tickets for a concert"
+                  "En la foto: un mercadillo de barrio un sábado por la mañana. En primer plano hay un puesto de fruta y verdura con cajas de naranjas y tomates. Detrás del puesto, una mujer mayor sonríe y pesa unas manzanas.",
+                  "Delante, un hombre con una bolsa de tela y un niño con gorra señalan la fruta. Al fondo se ven otros puestos con toldos de colores, bastante gente y los edificios del barrio. Hace buen tiempo.",
+                  "¿Qué ves en la foto? ¿Qué crees que están diciendo las personas?",
+                  "¿Haces tú la compra en mercados o prefieres el supermercado? ¿Por qué?"
                 ]
               },
               "redemittel": [
-                "What do you think about …?",
-                "I think … would be a good idea because …",
-                "That’s true, but …",
-                "I’m not sure about that. How about …?",
-                "Why don’t we …?",
-                "So, shall we choose …? / Let’s go for …, then."
+                "En la foto se ve…",
+                "En primer plano / al fondo / a la izquierda / a la derecha…",
+                "Parece que…",
+                "Seguramente están…",
+                "A mí me gusta / prefiero… porque…",
+                "Lo bueno de los mercados es que…"
               ],
-              "model": "A: Shall we start with the book about travelling? B: Maybe, but I don’t know if she likes reading. How about a photo album of the team? A: That’s a lovely idea because she can remember us, but it takes a lot of time to make. B: That’s true. What do you think about a voucher for a café? A: I’m not sure. It’s a bit impersonal. Why don’t we give her tickets for a concert? She loves music. B: Good point, but we don’t know what she likes. A: Then let’s go for the photo album, and we can all write a message in it. B: Great, let’s do that.",
+              "model": "En la foto se ve un mercadillo de barrio, seguramente un sábado por la mañana. En primer plano hay un puesto de fruta y verdura, con cajas de naranjas y tomates. Detrás del puesto está una mujer mayor que sonríe y pesa unas manzanas. Delante hay un hombre con una bolsa de tela y un niño con gorra; los dos señalan la fruta, así que parece que están decidiendo qué comprar. Al fondo se ven más puestos con toldos de colores y mucha gente. Hace buen tiempo y el ambiente parece tranquilo y agradable.\nA mí me gusta comprar en el mercado, sobre todo la fruta, porque está más fresca y puedes hablar con quien la vende. Pero entre semana, por falta de tiempo, voy al supermercado, que abre hasta más tarde.",
               "checklist": [
-                "Talk about most of the pictures and give a reason for your opinion.",
-                "Ask your partner questions and react to what they say.",
-                "Make suggestions and agree or disagree politely.",
-                "Reach a decision at the end."
+                "Describe the photo in an order (foreground, background, people, place).",
+                "Say what you think is happening, using «parece que» or «seguramente».",
+                "Give your own opinion and a reason.",
+                "Keep going for about three minutes; describe a missing word in other words."
               ]
             }
           ]
@@ -943,38 +690,40 @@
           "key": "sp4",
           "teil": 4,
           "type": "sprechen",
-          "title": "Discussion",
-          "instruction": "The examiner asks you and your partner some more questions on the topic of Part 3 (presents and celebrations). Give your own opinion and listen to your partner. This part takes about three minutes.",
+          "title": "Role play",
+          "instruction": "Vas a hacer un diálogo con el examinador en una situación cotidiana. Lee la tarjeta y habla con naturalidad. No hay tiempo de preparación.",
           "tasks": [
             {
-              "id": "sp4",
-              "title": "Part 4 · Presents and celebrations",
+              "id": "sp4-t1",
+              "title": "Part 4 · Phone call to the landlord",
               "mode": "paar",
               "minutes": 3,
-              "situation": "The examiner continues the topic of presents and celebrations.",
+              "situation": "Eres inquilino de un piso. La calefacción no funciona desde hace dos días y hace frío. Llamas a tu casero, que es el examinador.",
+              "prompt": "Habla con el casero y resuelve el problema.",
               "card": {
-                "title": "Questions you might be asked",
+                "title": "Tu papel: el inquilino",
                 "lines": [
-                  "Do you like giving presents? Why or why not?",
-                  "What was the best present you have ever received?",
-                  "Do you think people spend too much money on presents?",
-                  "How do you like to celebrate your birthday?"
+                  "Saluda y explica el problema y desde cuándo lo tienes.",
+                  "Pregunta cuándo puede venir alguien a arreglarlo.",
+                  "Di en qué horario estás en casa.",
+                  "Pregunta si el casero puede dejarte un calefactor mientras tanto.",
+                  "Examinador (casero): dice que hasta el jueves no puede mandar a nadie, propone la mañana y no tiene calefactor; hay que negociar una solución."
                 ]
               },
               "redemittel": [
-                "Personally, I think …",
-                "In my opinion, …",
-                "I agree / I don’t really agree, because …",
-                "For example, …",
-                "What about you?",
-                "I’ve never thought about that, but I suppose …"
+                "Le llamo porque…",
+                "Desde hace dos días…",
+                "¿Cuándo podría venir alguien?",
+                "Yo estoy en casa por las tardes, a partir de…",
+                "¿Podría dejarme…?",
+                "De acuerdo, muchas gracias."
               ],
-              "model": "Personally, I love giving presents, because I enjoy seeing people’s faces when they open them. The best present I have ever received was a small notebook from my grandmother. She wrote a message on the first page, and I still use it. I think some people do spend too much money on presents, for example at Christmas, when shops are full of things nobody needs. For my birthday I like a quiet evening with a few close friends and a nice meal. What about you?",
+              "model": "Inquilino: Buenos días, señor Vidal. Le llamo porque la calefacción del piso no funciona desde hace dos días y hace bastante frío.\nCasero: Vaya, lo siento. Hasta el jueves no puedo mandar a nadie.\nInquilino: ¿No podría venir antes? Es que no tengo otra forma de calentarme.\nCasero: Lo intentaré. Mañana por la mañana, quizá.\nInquilino: Por la mañana no estoy en casa, pero a partir de las cuatro sí. ¿Podría venir por la tarde?\nCasero: De acuerdo, le mando un técnico mañana a las cinco.\nInquilino: Muchas gracias. Y mientras tanto, ¿podría dejarme un calefactor?\nCasero: No tengo, pero puede comprar uno barato, y lo hablamos.\nInquilino: Vale, gracias. Hasta mañana.",
               "checklist": [
-                "Give your opinion and a reason or example for each answer.",
-                "Listen to your partner and respond to what they said.",
-                "Ask your partner a question as well.",
-                "Aim for clear pronunciation and a range of vocabulary."
+                "Explain the problem clearly and say since when it exists.",
+                "Ask politely («¿Podría…?») and give your availability.",
+                "React to what the landlord says and agree on a solution.",
+                "Close the call politely."
               ]
             }
           ]
