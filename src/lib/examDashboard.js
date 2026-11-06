@@ -29,7 +29,7 @@ const t = (key, vars) => translate(dict, key, vars);
 const tOr = (key, fallback, vars) => (dict[key] != null ? translate(dict, key, vars) : fallback);
 
 const SKILL_KEY = { "Hören": "skill.hoeren", "Lesen": "skill.lesen", "Schreiben": "skill.schreiben" };
-const PLAIN_LABEL_KEY = { "Schreiben": "skill.schreiben", "Bundesweit": "lid.sec.federal", "Mein Bundesland": "lid.sec.state" };
+const PLAIN_LABEL_KEY = { "Schreiben": "skill.schreiben", "Questions on Spain": "lid.federalQuestions", "My comunidad (extra)": "lid.sec.stateExtra" };
 const SUB_KEY = { "Leseverstehen · Schreiben": "tdf.sub", "Einbürgerungstest": "lid.sub", "Übungssatz 1": "exam.h1.set1" };
 export function locLabel(label) {
   const m = /^(Hören|Lesen|Schreiben) · (Teil|Aufgabe) ([0-9]+)$/.exec(label || "");

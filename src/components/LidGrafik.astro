@@ -1,10 +1,9 @@
 ---
-// One picture per "Leben in Deutschland" topic, drawn here as inline SVG in the site's
-// colours — no photos, so nothing to license and nothing to download. Each one shows the
-// topic's structure, not decoration: the three powers as pillars, the four election
-// principles, the timeline, the social insurances. Labels are short and the same in both
-// language levels. Used under the facts in all three layouts of fakten.astro, followed in
-// "In einfachem Deutsch" by the topic's few key words (LidWoerter below).
+// One picture per CCSE topic, drawn here as inline SVG in the site's colours: no photos, so
+// nothing to license and nothing to download. Each one shows the topic's structure: the three
+// powers, the five qualities of the vote, the timeline. Labels are Spanish, the language of the
+// test. Used under the facts in all three layouts of the facts page, followed in the English
+// view by the topic's key words (Spanish word and English meaning).
 interface Props {
   id: string;
   words?: { de: string; easy: string }[];
@@ -13,16 +12,15 @@ const { id, words = [] } = Astro.props;
 const uid = `lg-${id}-${Math.random().toString(36).slice(2, 7)}`;
 ---
 <figure class="lg" data-topic={id}>
-  {id === "demokratie" && (
-    <svg viewBox="0 0 560 250" role="img" aria-labelledby={`${uid}-t`}>
-      <title id={`${uid}-t`}>Gewaltenteilung: Legislative, Exekutive und Judikative, gewählt vom Volk</title>
-      {/* roof: the Grundgesetz over all three */}
+  {id === "government-parliament" && (
+    <svg viewBox="0 0 560 250" role="img" aria-labelledby={`${uid}-t`} lang="es">
+      <title id={`${uid}-t`}>The three powers under the Constitution: legislative, executive and judicial</title>
       <path d="M40 70 L280 18 L520 70 Z" class="lg-fill-soft lg-stroke" />
-      <text x="280" y="58" class="lg-t lg-t-b" text-anchor="middle">Grundgesetz</text>
+      <text x="280" y="58" class="lg-t lg-t-b" text-anchor="middle">Constitución de 1978</text>
       {[
-        { x: 44, t: "Gesetze machen", s: "Bundestag · Bundesrat", w: "Legislative" },
-        { x: 210, t: "Regieren", s: "Regierung · Kanzler/in", w: "Exekutive" },
-        { x: 376, t: "Recht sprechen", s: "Gerichte · Richter", w: "Judikative" },
+        { x: 44, t: "Hacer las leyes", s: "Congreso · Senado", w: "Legislativo" },
+        { x: 210, t: "Gobernar", s: "Gobierno · presidente", w: "Ejecutivo" },
+        { x: 376, t: "Juzgar", s: "Jueces · tribunales", w: "Judicial" },
       ].map((p) => (
         <g>
           <rect x={p.x} y="82" width="140" height="104" rx="8" class="lg-fill lg-stroke" />
@@ -32,179 +30,129 @@ const uid = `lg-${id}-${Math.random().toString(36).slice(2, 7)}`;
         </g>
       ))}
       <rect x="40" y="194" width="480" height="12" rx="3" class="lg-fill-soft lg-stroke" />
-      {/* the people, who choose */}
       {[0, 1, 2, 3, 4, 5, 6].map((i) => (
         <g transform={`translate(${196 + i * 28} 224)`} class="lg-person">
           <circle r="6" cy="-4" /><path d="M-9 14 Q0 2 9 14 Z" />
         </g>
       ))}
-      <text x="160" y="232" class="lg-t lg-t-s" text-anchor="end">Das Volk wählt</text>
+      <text x="160" y="232" class="lg-t lg-t-s" text-anchor="end">El pueblo elige</text>
     </svg>
   )}
 
-  {id === "wahlen" && (
-    <svg viewBox="0 0 560 210" role="img" aria-labelledby={`${uid}-t`}>
-      <title id={`${uid}-t`}>Wahlen sind frei, geheim, gleich und allgemein</title>
+  {id === "elections" && (
+    <svg viewBox="0 0 560 170" role="img" aria-labelledby={`${uid}-t`} lang="es">
+      <title id={`${uid}-t`}>The vote is universal, free, equal, direct and secret</title>
       {[
-        { t: "frei", s: "Du entscheidest.", icon: "free" },
-        { t: "geheim", s: "Niemand sieht es.", icon: "secret" },
-        { t: "gleich", s: "Jede Stimme zählt.", icon: "equal" },
-        { t: "allgemein", s: "Ab 18 Jahren.", icon: "all" },
+        { t: "universal", s: "desde los 18" },
+        { t: "libre", s: "tú decides" },
+        { t: "igual", s: "un voto cada uno" },
+        { t: "directo", s: "sin intermediarios" },
+        { t: "secreto", s: "nadie lo ve" },
       ].map((p, i) => {
-        const x = 12 + i * 137;
+        const x = 8 + i * 110;
         return (
           <g>
-            <rect x={x} y="12" width="125" height="150" rx="12" class="lg-fill lg-stroke" />
-            <g transform={`translate(${x + 62} 62)`} class="lg-icon">
-              {p.icon === "free" && <><rect x="-20" y="-14" width="40" height="30" rx="4" /><path d="M-10 -2 l7 7 13 -14" class="lg-ok" /></>}
-              {p.icon === "secret" && <><rect x="-22" y="-16" width="44" height="34" rx="4" /><path d="M-8 -16 v-6 a8 8 0 0 1 16 0 v6" /><circle r="4" cy="2" /></>}
-              {p.icon === "equal" && <><path d="M-22 -6 h44 M-22 8 h44" /></>}
-              {p.icon === "all" && <><circle r="7" cx="-14" cy="-6" /><circle r="7" cy="-10" /><circle r="7" cx="14" cy="-6" /><path d="M-26 18 q12 -14 24 0 M-10 16 q10 -16 20 0 M2 18 q12 -14 24 0" /></>}
-            </g>
-            <text x={x + 62} y="118" class="lg-t lg-t-b" text-anchor="middle">{p.t}</text>
-            <text x={x + 62} y="140" class="lg-t lg-t-s" text-anchor="middle">{p.s}</text>
+            <rect x={x} y="12" width="104" height="110" rx="12" class="lg-fill lg-stroke" />
+            <text x={x + 52} y="60" class="lg-t lg-t-b" text-anchor="middle">{p.t}</text>
+            <text x={x + 52} y="84" class="lg-t lg-t-s" text-anchor="middle">{p.s}</text>
           </g>
         );
       })}
-      <text x="280" y="192" class="lg-t lg-t-s" text-anchor="middle">Bund: alle 4 Jahre · Land: je nach Bundesland (Bayern 5) · Stadt: Kommunalwahl</text>
+      <text x="280" y="152" class="lg-t lg-t-s" text-anchor="middle">Congreso: cada 4 años · Parlamento Europeo: cada 5 años</text>
     </svg>
   )}
 
-  {id === "grundrechte" && (
-    <svg viewBox="0 0 560 220" role="img" aria-labelledby={`${uid}-t`}>
-      <title id={`${uid}-t`}>Das Grundgesetz schützt Würde, Meinung, Versammlung, Religion und Gleichheit</title>
+  {id === "values-law" && (
+    <svg viewBox="0 0 560 190" role="img" aria-labelledby={`${uid}-t`} lang="es">
+      <title id={`${uid}-t`}>The Constitution protects equality, freedom of religion, freedom of expression and the right to strike</title>
       <g transform="translate(20 20)">
         <rect width="110" height="150" rx="6" class="lg-fill-strong" />
         <rect x="8" y="0" width="4" height="150" class="lg-fill-soft" />
-        <text x="60" y="66" class="lg-t lg-t-inv lg-t-b" text-anchor="middle">GRUND-</text>
-        <text x="60" y="86" class="lg-t lg-t-inv lg-t-b" text-anchor="middle">GESETZ</text>
-        <text x="60" y="116" class="lg-t lg-t-inv lg-t-s" text-anchor="middle">Art. 1: Würde</text>
+        <text x="60" y="70" class="lg-t lg-t-inv lg-t-b" text-anchor="middle">CONSTI-</text>
+        <text x="60" y="90" class="lg-t lg-t-inv lg-t-b" text-anchor="middle">TUCIÓN</text>
       </g>
       {[
-        { t: "Meinung", icon: "speech" },
-        { t: "Versammlung", icon: "group" },
-        { t: "Religion", icon: "faith" },
-        { t: "Gleichheit", icon: "scale" },
+        { t: "Igualdad", s: "art. 14" },
+        { t: "Religión", s: "art. 16" },
+        { t: "Expresión", s: "art. 20" },
+        { t: "Huelga", s: "art. 28" },
       ].map((p, i) => {
         const x = 150 + (i % 2) * 200, y = 20 + Math.floor(i / 2) * 80;
         return (
           <g>
             <rect x={x} y={y} width="188" height="68" rx="10" class="lg-fill lg-stroke" />
-            <g transform={`translate(${x + 36} ${y + 34})`} class="lg-icon">
-              {p.icon === "speech" && <path d="M-16 -12 h32 a4 4 0 0 1 4 4 v14 a4 4 0 0 1 -4 4 h-18 l-8 8 v-8 h-6 a4 4 0 0 1 -4 -4 v-14 a4 4 0 0 1 4 -4 z" />}
-              {p.icon === "group" && <><circle r="5" cx="-10" cy="-6" /><circle r="5" cx="10" cy="-6" /><path d="M-20 12 q10 -14 20 0 M0 12 q10 -14 20 0" /></>}
-              {p.icon === "faith" && <><path d="M0 -16 v32 M-10 -6 h20" /></>}
-              {p.icon === "scale" && <><path d="M0 -16 v30 M-14 -10 h28 M-14 -10 l-7 12 h14 z M14 -10 l-7 12 h14 z" /></>}
-            </g>
-            <text x={x + 68} y={y + 40} class="lg-t lg-t-b">{p.t}</text>
+            <text x={x + 94} y={y + 32} class="lg-t lg-t-b" text-anchor="middle">{p.t}</text>
+            <text x={x + 94} y={y + 52} class="lg-t lg-t-s" text-anchor="middle">{p.s}</text>
           </g>
         );
       })}
-      <text x="150" y="200" class="lg-t lg-t-s">Pflichten: Gesetze befolgen · Steuern zahlen · Schule für Kinder</text>
     </svg>
   )}
 
-  {id === "geschichte" && (
-    <svg viewBox="0 0 560 190" role="img" aria-labelledby={`${uid}-t`}>
-      <title id={`${uid}-t`}>Zeitleiste der deutschen Geschichte von 1919 bis 1990</title>
-      <line x1="20" y1="96" x2="540" y2="96" class="lg-line" />
+  {id === "four-nations" && (
+    <svg viewBox="0 0 560 120" role="img" aria-labelledby={`${uid}-t`} lang="es">
+      <title id={`${uid}-t`}>Spain has 17 comunidades autónomas, 2 ciudades autónomas and 50 provinces</title>
       {[
-        { y: "1919", t: "Weimarer", t2: "Republik", x: 30, tone: "ok" },
-        { y: "1933", t: "Hitler,", t2: "Diktatur", x: 110, tone: "bad" },
-        { y: "1939", t: "2. Welt-", t2: "krieg", x: 180, tone: "bad" },
-        { y: "1945", t: "Kriegs-", t2: "ende", x: 250, tone: "mid" },
-        { y: "1949", t: "BRD", t2: "und DDR", x: 320, tone: "mid" },
-        { y: "1961", t: "Mauer", t2: "in Berlin", x: 390, tone: "bad" },
-        { y: "1989", t: "Mauer", t2: "fällt", x: 460, tone: "ok" },
-        { y: "1990", t: "3. Okt.:", t2: "Einheit", x: 525, tone: "ok" },
-      ].map((e, i) => (
-        <g>
-          <circle cx={e.x} cy="96" r="8" class={`lg-dot lg-dot--${e.tone}`} />
-          <text x={e.x} y={i % 2 ? 136 : 70} class="lg-t lg-t-b" text-anchor="middle">{e.y}</text>
-          <text x={e.x} y={i % 2 ? 154 : 40} class="lg-t lg-t-s" text-anchor="middle">{e.t}</text>
-          <text x={e.x} y={i % 2 ? 170 : 54} class="lg-t lg-t-s" text-anchor="middle">{e.t2}</text>
-        </g>
-      ))}
-    </svg>
-  )}
-
-  {id === "arbeit" && (
-    <svg viewBox="0 0 560 250" role="img" aria-labelledby={`${uid}-t`}>
-      <title id={`${uid}-t`}>Arbeit: 8 Stunden am Tag, 40 in der Woche, mindestens 20 Urlaubstage, und vier Sozialversicherungen</title>
-      {[
-        { n: "8", t: "Stunden", s: "pro Tag" },
-        { n: "40", t: "Stunden", s: "pro Woche" },
-        { n: "20", t: "Tage Urlaub", s: "mindestens" },
+        { n: "17", t: "comunidades", s: "autónomas" },
+        { n: "2", t: "ciudades", s: "autónomas" },
+        { n: "50", t: "provincias", s: "en toda España" },
       ].map((p, i) => (
         <g>
-          <rect x={12 + i * 180} y="10" width="170" height="80" rx="12" class="lg-fill lg-stroke" />
-          <text x={52 + i * 180} y="64" class="lg-t lg-num" text-anchor="middle">{p.n}</text>
-          <text x={90 + i * 180} y="46" class="lg-t lg-t-b">{p.t}</text>
-          <text x={90 + i * 180} y="66" class="lg-t lg-t-s">{p.s}</text>
+          <rect x={12 + i * 180} y="20" width="170" height="80" rx="12" class="lg-fill lg-stroke" />
+          <text x={50 + i * 180} y="74" class="lg-t lg-num" text-anchor="middle">{p.n}</text>
+          <text x={82 + i * 180} y="56" class="lg-t lg-t-b">{p.t}</text>
+          <text x={82 + i * 180} y="76" class="lg-t lg-t-s">{p.s}</text>
         </g>
       ))}
-      <text x="280" y="120" class="lg-t lg-t-m" text-anchor="middle">Der Sozialstaat hilft — mit vier Versicherungen</text>
-      {[
-        { t: "Kranken-", s: "Arzt, Medikamente", icon: "cross" },
-        { t: "Arbeitslosen-", s: "Geld ohne Job", icon: "case" },
-        { t: "Renten-", s: "Geld im Alter", icon: "clock" },
-        { t: "Pflege-", s: "Hilfe im Alltag", icon: "hand" },
-      ].map((p, i) => {
-        const x = 12 + i * 137;
-        return (
-          <g>
-            <rect x={x} y="134" width="125" height="108" rx="10" class="lg-fill-soft lg-stroke" />
-            <g transform={`translate(${x + 26} 160)`} class="lg-icon lg-icon-sm">
-              {p.icon === "cross" && <path d="M-4 -12 h8 v8 h8 v8 h-8 v8 h-8 v-8 h-8 v-8 h8 z" />}
-              {p.icon === "case" && <><rect x="-12" y="-6" width="24" height="16" rx="2" /><path d="M-5 -6 v-4 h10 v4" /></>}
-              {p.icon === "clock" && <><circle r="12" /><path d="M0 -7 v7 l5 4" /></>}
-              {p.icon === "hand" && <path d="M-12 6 q6 -10 14 -6 l8 -8 q3 -3 5 0 l-9 12 q-4 6 -12 6 z" />}
-            </g>
-            <text x={x + 12} y="194" class="lg-t lg-t-b">{p.t}</text>
-            <text x={x + 12} y="211" class="lg-t lg-t-s">versicherung</text>
-            <text x={x + 12} y="230" class="lg-t lg-t-s lg-t-muted">{p.s}</text>
-          </g>
-        );
-      })}
     </svg>
   )}
 
-  {id === "familie" && (
-    <svg viewBox="0 0 560 200" role="img" aria-labelledby={`${uid}-t`}>
-      <title id={`${uid}-t`}>Familie: Schulpflicht, keine Gewalt, keine Kinderarbeit, Ehe für alle, Eltern sorgen für ihre Kinder</title>
-      <g transform="translate(70 100)" class="lg-person lg-person-lg">
-        <circle r="14" cx="-30" cy="-38" /><path d="M-52 20 Q-30 -20 -8 20 Z" />
-        <circle r="14" cx="30" cy="-38" /><path d="M8 20 Q30 -20 52 20 Z" />
-        <circle r="9" cy="-8" /><path d="M-14 36 Q0 8 14 36 Z" />
-      </g>
+  {id === "history" && (
+    <svg viewBox="0 0 560 190" role="img" aria-labelledby={`${uid}-t`} lang="es">
+      <title id={`${uid}-t`}>Timeline of Spanish history from 1492 to 1986</title>
+      <line x1="20" y1="96" x2="540" y2="96" class="lg-line" />
       {[
-        { t: "Schulpflicht", icon: "school" },
-        { t: "Keine Gewalt", icon: "noHit" },
-        { t: "Keine Kinderarbeit", icon: "noWork" },
-        { t: "Ehe für alle", icon: "rings" },
-      ].map((p, i) => {
-        const x = 150 + (i % 2) * 204, y = 16 + Math.floor(i / 2) * 84;
-        return (
-          <g>
-            <rect x={x} y={y} width="198" height="70" rx="10" class="lg-fill lg-stroke" />
-            <g transform={`translate(${x + 32} ${y + 35})`} class="lg-icon">
-              {p.icon === "school" && <><path d="M-18 -4 L0 -14 L18 -4 L0 6 Z" /><path d="M-10 0 v10 q10 6 20 0 v-10" /></>}
-              {p.icon === "noHit" && <><circle r="15" /><path d="M-10 10 L10 -10" /></>}
-              {p.icon === "noWork" && <><circle r="15" /><path d="M-6 -4 h12 v10 h-12 z M-3 -4 v-3 h6 v3" /><path d="M-10 10 L10 -10" /></>}
-              {p.icon === "rings" && <><circle r="9" cx="-6" /><circle r="9" cx="6" /></>}
-            </g>
-            <text x={x + 58} y={y + 41} class="lg-t lg-t-b">{p.t}</text>
-          </g>
-        );
-      })}
+        { y: "1492", t: "Colón", t2: "en América", x: 40, tone: "mid" },
+        { y: "1812", t: "Constitución", t2: "de Cádiz", x: 120, tone: "ok" },
+        { y: "1931", t: "Segunda", t2: "República", x: 200, tone: "ok" },
+        { y: "1936", t: "Guerra", t2: "Civil", x: 280, tone: "bad" },
+        { y: "1939", t: "Dictadura", t2: "de Franco", x: 360, tone: "bad" },
+        { y: "1978", t: "Constitución", t2: "actual", x: 440, tone: "ok" },
+        { y: "1986", t: "Entrada", t2: "en la CEE", x: 520, tone: "ok" },
+      ].map((e, i) => (
+        <g>
+          <circle cx={e.x} cy="96" r="9" class={`lg-dot lg-dot--${e.tone}`} />
+          <text x={e.x} y={i % 2 ? 128 : 72} class="lg-t lg-t-b" text-anchor="middle">{e.y}</text>
+          <text x={e.x} y={i % 2 ? 150 : 32} class="lg-t lg-t-s" text-anchor="middle">{e.t}</text>
+          <text x={e.x} y={i % 2 ? 166 : 48} class="lg-t lg-t-s" text-anchor="middle">{e.t2}</text>
+        </g>
+      ))}
+    </svg>
+  )}
+
+  {id === "everyday-life" && (
+    <svg viewBox="0 0 560 120" role="img" aria-labelledby={`${uid}-t`} lang="es">
+      <title id={`${uid}-t`}>Key figures: emergency number 112, school from 6 to 16, national day on 12 October</title>
+      {[
+        { n: "112", t: "emergencias", s: "en toda España" },
+        { n: "16", t: "fin de la escuela", s: "obligatoria: de 6 a 16" },
+        { n: "12", t: "de octubre", s: "Fiesta Nacional" },
+      ].map((p, i) => (
+        <g>
+          <rect x={12 + i * 180} y="20" width="170" height="80" rx="12" class="lg-fill lg-stroke" />
+          <text x={46 + i * 180} y="74" class="lg-t lg-num" style="font-size:26px" text-anchor="middle">{p.n}</text>
+          <text x={78 + i * 180} y="56" class="lg-t lg-t-b" style="font-size:12px">{p.t}</text>
+          <text x={78 + i * 180} y="76" class="lg-t lg-t-s" style="font-size:10px">{p.s}</text>
+        </g>
+      ))}
     </svg>
   )}
 
   {words.length > 0 && (
     <div class="lg-words fk-easy">
-      <p class="lg-words-h">Wichtige Wörter</p>
+      <p class="lg-words-h" data-i18n="lid.fk.words">Key words</p>
       <dl>
-        {words.map((w) => (<div><dt>{w.de}</dt><dd>{w.easy}</dd></div>))}
+        {words.map((w) => (<div><dt lang="es">{w.de}</dt><dd>{w.easy}</dd></div>))}
       </dl>
     </div>
   )}
@@ -240,7 +188,7 @@ const uid = `lg-${id}-${Math.random().toString(36).slice(2, 7)}`;
   .lg .lg-dot--bad { fill: var(--danger, #c1462f); }
   .lg .lg-dot--mid { fill: var(--muted); }
 
-  /* The key words, only in "In einfachem Deutsch" (.fk-easy — fakten-layouts.css). */
+  /* The key words, only in the English view (.fk-easy, fakten-layouts.css). */
   .lg-words { margin: 18px auto 0; max-width: 620px; padding: 14px 16px; border-radius: 12px; background: color-mix(in srgb, var(--brand-blue) 7%, var(--surface-card)); border: 1px solid color-mix(in srgb, var(--brand-blue) 25%, var(--border)); }
   .lg-words-h { margin: 0 0 8px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--brand-blue-dark, var(--brand-blue)); }
   .lg-words dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px 18px; }

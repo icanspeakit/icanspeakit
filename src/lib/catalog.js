@@ -251,7 +251,7 @@ export const exams = [
   { id: "dtz", group: "pruefungen", href: "/trinity/ise-1", icon: "book-open", title: "DELE A2 for nationality", short: "DELE A2", count: "A2" },
   { id: "lid", group: "pruefungen", href: "/life-in-the-uk", icon: "map-pin", titleKey: "exam.lid.name", title: "CCSE nationality test", short: "CCSE",
     keywords: "ccse nacionalidad nationality citizenship naturalisation constitución constitution spain",
-    countKey: "group.count.bundeslaender", countVars: { n: lid.bundeslaender.length }, count: `${lid.bundeslaender.length} Bundesländer` },
+    countKey: "group.count.bundeslaender", countVars: { n: lid.bundeslaender.length }, count: `${lid.bundeslaender.length} regions` },
 ];
 
 export const groups = [
@@ -632,8 +632,8 @@ const kulturInsiderItem = {
    preparing for the exam is reading Landeskunde anyway. */
 const kulturLidFaktenItem = {
   id: "kultur-lid-fakten", href: "/life-in-the-uk/facts", icon: "graduation-cap",
-  title: "Fakten über Deutschland", titleKey: "nav.kultur.lidFakten",
-  count: "Einbürgerungstest (LiD)", countKey: "nav.kultur.lidFaktenHint",
+  title: "Facts about Spain", titleKey: "nav.kultur.lidFakten",
+  count: "CCSE nationality test", countKey: "nav.kultur.lidFaktenHint",
 };
 const kulturFeatures = [kulturQuizItem, kulturFehlerItem, kulturInsiderItem];
 

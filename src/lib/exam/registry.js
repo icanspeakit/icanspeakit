@@ -9,7 +9,7 @@
  *
  * Two storage shapes exist and both are read as-is rather than migrated:
  *   store "exam" → "da-exam-v1:<key>", { answers: { id: {given, correct} } }
- *                  (src/lib/exam/state.js — A1 practice test, IELTS, Life in the UK)
+ *                  (src/lib/exam/state.js — A1 practice test, SIELE, CCSE)
  *   store "dtz"  → "da-dtz-v1:<key>",  same answers plus a schreiben object
  *                  (src/lib/dtzTrainer.js — the B1 skills mock in the /trinity/ise-1 slot)
  * The ids (start-deutsch-1, testdaf, leben-in-deutschland, dtz) are storage keys from the
@@ -79,7 +79,7 @@ export const examRegistry = [
   },
   {
     id: "leben-in-deutschland",
-    title: "Life in the UK",
+    title: "CCSE",
     subtitle: "Practice test",
     level: "Knowledge test",
     href: "/life-in-the-uk/test",
@@ -88,11 +88,11 @@ export const examRegistry = [
     passNote: `Real test: pass with ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions.`,
     passPct: Math.round((lid.meta.passScore / lid.meta.totalQuestions) * 100),
     modules: [
-      { key: "bund", label: "UK-wide", ids: lidFederalIds },
-      // The ids depend on the nation stored in "da-lid-land"; only the browser knows
-      // which one, so the client resolves this. The count shown until then is the first
-      // nation's (England), the default the trainer itself falls back to.
-      { key: "land", label: "My part of the UK", idsFrom: "lid-land" },
+      { key: "bund", label: "Questions on Spain", ids: lidFederalIds },
+      // The ids depend on the comunidad stored in "da-lid-land"; only the browser knows which one,
+      // so the client resolves this. An extra: the real test has no part on one comunidad, so it
+      // does not count towards the score.
+      { key: "land", label: "My comunidad (extra)", idsFrom: "lid-land", scored: false },
     ],
   },
   {
@@ -136,13 +136,13 @@ export const examRegistry = [
   })),
 ];
 
-/** The question ids for one nation (the slot was the German Bundesland), in the trainer's own numbering. */
+/** The question ids for one comunidad, in the trainer's own numbering. */
 export function lidLandIds(landId) {
   const land = lid.bundeslaender.find((l) => l.id === landId) ?? lid.bundeslaender[0];
   return land.stateQuestions.map((_, i) => "land-" + land.id + "-" + (i + 1));
 }
 
-/** The first nation is the trainer's fallback, so it is what the registry counts until
+/** The first comunidad is the trainer's fallback, so it is what the registry counts until
  *  the browser says otherwise. */
 export const lidDefaultLandIds = lidLandIds(lid.bundeslaender[0].id);
 

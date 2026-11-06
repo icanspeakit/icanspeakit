@@ -80,7 +80,7 @@ export const SECTION_PAGES: Record<string, string> = {
   "/trinity/ise-1": "DELE A2 for nationality",
   "/ielts": "SIELE",
   "/english-for-work": "English for work",
-  "/life-in-the-uk": "Life in the UK",
+  "/life-in-the-uk": "CCSE",
   "/knowledge": "Knowledge base",
   "/knowledge/word-stories": "Word stories",
   "/culture": "Culture",
