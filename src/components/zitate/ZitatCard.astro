@@ -28,11 +28,11 @@ const Tag = heading;
     <span class="zt-level">{q.level}</span>
   </div>
 
-  <blockquote class="zt-quote" lang="en" data-original>
+  <blockquote class="zt-quote" lang="es" data-original>
     <Tag class="zt-quote-text">{q.text.split(" / ").map((line: string, n: number) => <>{n > 0 && <br />}{line}</>)}</Tag>
   </blockquote>
   <div class="zt-easy" data-easy hidden>
-    <p class="zt-easy-label" data-i18n="lid.fk.level.easy">In einfachem Deutsch</p>
+    <p class="zt-easy-label" data-i18n="zitate.card.easyLabel">In simple English</p>
     <p class="zt-easy-text" lang="en">{q.meaning}</p>
   </div>
 
@@ -70,7 +70,7 @@ const Tag = heading;
     <ul>
       {q.words.map((w: any) => (
         <li>
-          <p class="zt-w" lang="en">
+          <p class="zt-w" lang="es">
             {w.art && <span class={`zt-art zt-art--${w.art}`}>{w.art}</span>} <b>{w.de}</b>
             {w.art && w.pl && <small>, plural: {w.pl}</small>}
           </p>
