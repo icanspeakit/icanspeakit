@@ -5,11 +5,10 @@
 // Each one runs in its own process, in this order; the first that fails stops the build.
 //
 // Not in the gate, and why:
-//   check-aussprache  needs the drill audio, which waits for a TTS provider (content-plan §9)
 //   check-karten      card-quality report, thousands of findings, still tuned to German cards
 //   check-downloads   fetches every external link (network)
 //   check-inhalte     a QA report (docs/inhalte-qa/), not a gate; writes files
-// Run those by hand: pnpm check:aussprache, check:karten, check:downloads, check:inhalte.
+// Run those by hand: pnpm check:karten, check:downloads, check:inhalte.
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -29,6 +28,8 @@ const CHECKS = [
   "check-variety.mjs",
   "check-verbtabellen.mjs",
   "check-conjugation-trainer.mjs",
+  "check-aussprache.mjs",
+  "check-satzmelodie.mjs",
 ];
 
 for (const file of CHECKS) {
