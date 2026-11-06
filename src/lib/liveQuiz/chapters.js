@@ -91,7 +91,7 @@ function wortfallenGroups() {
 
 // Typische Fehler (/grammar/common-mistakes): each pair's gap, the wrong option its
 // look-alike. Two buttons, not four: the pair is the question. Built here rather than with
-// mcq(), whose case-blind de-duplication would drop Essen / essen, the very point of a pair.
+// mcq(), whose case-blind de-duplication would drop Sevilla / sevilla, the very point of a pair.
 const TF_KEY = "typische-fehler";
 function fehlerQuizGroups() {
   return fehlerGroups.map((g) => ({

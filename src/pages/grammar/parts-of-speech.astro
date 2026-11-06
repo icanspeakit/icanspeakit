@@ -85,7 +85,7 @@ const classes = wortarten.classes.map((c: any) => ({
           {c.fehler && (
             <a class="wa-fehler" href={`/grammar/common-mistakes#${c.fehler.id}`} lang="en">
               <span class="wa-fehler-k">Common mistake</span>
-              <span class="wa-fehler-p">{c.fehler.a.w} <span aria-label="don't confuse with">≠</span> {c.fehler.b.w}</span>
+              <span class="wa-fehler-p"><span lang="es">{c.fehler.a.w}</span> <span aria-label="don't confuse with">≠</span> <span lang="es">{c.fehler.b.w}</span></span>
             </a>
           )}
           {c.learn && <a class="wa-learn" href={c.learn.href} lang="en">{c.learn.label}</a>}

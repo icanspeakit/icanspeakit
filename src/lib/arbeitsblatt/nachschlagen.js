@@ -210,7 +210,7 @@ function fehlerTopic() {
     slug: "typische-fehler",
     name: "Common mistakes: words people mix up",
     level: "A1",
-    subtitle: "its or it's, then or than, your or you're",
+    subtitle: "tú or tu, sé or se, por or para",
     reference: "/grammar/common-mistakes",
     concept: { qa: fehlerGroups.map((g) => g.pairs[0]).map((p) => ({ html: ruleHtml(`*${p.a.w}* ≠ *${p.b.w}*: ${p.why}`) })) },
     exercises: fehlerGroups.map((g) => ({
