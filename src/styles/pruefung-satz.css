@@ -117,7 +117,8 @@
   color: var(--brand-blue-dark);
   white-space: nowrap;
 }
-.ps-gap.is-filled { background: color-mix(in srgb, var(--brand-blue) 10%, transparent); border-radius: 4px 4px 0 0; }
+/* A filled gap can hold a whole sentence (gap-bank fragments), so it wraps with the text. */
+.ps-gap.is-filled { display: inline; white-space: normal; background: color-mix(in srgb, var(--brand-blue) 10%, transparent); border-radius: 4px 4px 0 0; }
 
 /* --- Hören ------------------------------------------------------------------- */
 .ps-clip {
