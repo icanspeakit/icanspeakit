@@ -12,7 +12,7 @@ import { newSeed } from "../artikelSprint/rng.js";
 import { reducedMotion } from "../spieleEinstellungen.js";
 
 export const TXT = {
-  arts: ["a", "an", "some"],
+  arts: ["el", "la", "los", "las"],
   levelWords: "{n} words",
   go: "Let’s go",
   levelUp: "Level {n}!",
@@ -28,7 +28,7 @@ export const TXT = {
   survived: "Survived",
   defeated: "Words defeated",
   bestStreak: "Best streak",
-  accuracy: "Right word (a / an / some)",
+  accuracy: "Right article",
   again: "Another night",
   back: "Change level",
   skillReady: "Whirl ready! (Space bar)",
@@ -110,7 +110,14 @@ export function mountNussnacht(root, data) {
     onPause: () => (phase === "play" ? pause() : phase === "pause" ? resume() : null),
     onArt: (a) => syncArt(a),
     choosing: () => phase === "choice",
+    artCount: () => (S?.up.plural > 0 ? 4 : 2),
   });
+  // los and las appear with the Plural popper: A1 and A2 never need them, and two buttons that
+  // can only miss would just be in the way.
+  function syncPluralButtons() {
+    const on = S?.up.plural > 0;
+    ui.arts.forEach((b, i) => { if (i > 1) b.hidden = !on; });
+  }
   function syncArt(a) {
     ui.arts.forEach((b, i) => b.setAttribute("aria-pressed", String(i === a)));
     ui.stage.dataset.curArt = TXT.arts[a];
@@ -155,6 +162,7 @@ export function mountNussnacht(root, data) {
     rec = [];
     input.reset();
     syncArt(0);
+    syncPluralButtons();
     renderer.resize();
     setPhase("play");
     ui.stage.scrollIntoView({ block: "nearest", behavior: "auto" });
@@ -237,8 +245,8 @@ export function mountNussnacht(root, data) {
           break;
         case EV.SPLIT: {
           const w = S.words[e.a];
-          // a two-word noun cracks at the space; the article sits with the first word
-          if (w?.h) renderer.popup(e.x, e.y - 30, fmt(TXT.split, { art: TXT.arts[w.g], first: w.w.slice(0, w.h - 1), rest: w.w.slice(w.h) }), "#fff", 1.6);
+          // a compound cracks at its seam: the verb and the noun it is made of
+          if (w?.h) renderer.popup(e.x, e.y - 30, fmt(TXT.split, { art: TXT.arts[w.g], first: w.w.slice(0, w.h), rest: w.w.slice(w.h) }), "#fff", 1.6);
           break;
         }
         default:
@@ -302,6 +310,7 @@ export function mountNussnacht(root, data) {
     rec.push(inp);
     sim.step(inp);
     handleEvents();
+    syncPluralButtons();
     if (S.state === "choice") openChoice();
     else {
       setPhase("play");

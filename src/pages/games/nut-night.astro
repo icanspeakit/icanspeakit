@@ -1,7 +1,7 @@
 ---
 // /games/nut-night — Hamstis Nussnacht: an article survivor. Night in Hamsti's garden, word
 // creatures crawl in from all sides; Hamsti fires on his own, the learner moves and switches
-// the word on the shots (a / an / some). The right one hurts, the wrong one makes the word
+// the article on the shots (el / la, and los / las once plurals join in). The right one hurts, the wrong one makes the word
 // angrier. Survive 10 minutes. Logic: src/lib/nussnacht/. Plan: NUSSNACHT-TIERED-PROMPT.md.
 // A prototype since 2026-10-28: noindex and not in the menu (EXPERIMENTE.md).
 import Layout from "../../layouts/Layout.astro";
@@ -27,7 +27,7 @@ const data = { words, bosse };
   <SiteNav active="ueben" />
   <main class="nn-page" lang="en">
     <div class="nn" id="nussnacht" data-phase="start">
-      <div class="nn-stage" data-stage data-cur-art="a">
+      <div class="nn-stage" data-stage data-cur-art="el">
         <canvas class="nn-canvas" data-canvas role="img" aria-label="Game area: a garden at night, Hamsti in the middle, words crawling towards him"></canvas>
 
         <div class="nn-hud" data-hud hidden>
@@ -45,10 +45,11 @@ const data = { words, bosse };
             <span class="nn-skill-fill" data-skill-fill style="width:0%"></span>
             <span class="nn-skill-label">🌀 <span class="nn-key">Space</span></span>
           </button>
-          <div class="nn-arts" role="group" aria-label="Word for the shots">
-            <button type="button" class="nn-art nn-art--der" data-art="der" aria-pressed="true" lang="en"><span class="nn-key">1</span>a</button>
-            <button type="button" class="nn-art nn-art--die" data-art="die" aria-pressed="false" lang="en"><span class="nn-key">2</span>an</button>
-            <button type="button" class="nn-art nn-art--das" data-art="das" aria-pressed="false" lang="en"><span class="nn-key">3</span>some</button>
+          <div class="nn-arts" role="group" aria-label="Article for the shots">
+            <button type="button" class="nn-art nn-art--der" data-art="el" aria-pressed="true" lang="es"><span class="nn-key">1</span>el</button>
+            <button type="button" class="nn-art nn-art--die" data-art="la" aria-pressed="false" lang="es"><span class="nn-key">2</span>la</button>
+            <button type="button" class="nn-art nn-art--das" data-art="los" aria-pressed="false" lang="es" hidden><span class="nn-key">3</span>los</button>
+            <button type="button" class="nn-art nn-art--las" data-art="las" aria-pressed="false" lang="es" hidden><span class="nn-key">4</span>las</button>
           </div>
         </div>
 
@@ -59,7 +60,7 @@ const data = { words, bosse };
         <section class="nn-card nn-card--start" data-start data-nn-card>
           <p class="nn-eyebrow">Game · Prototype</p>
           <h1>Hamsti’s Nut Night</h1>
-          <p class="nn-lead">Night in the garden. Words crawl towards Hamsti from all sides. Hamsti shoots on his own – <b>you choose the word</b>: <span class="nn-a nn-a--der" lang="en">a</span>, <span class="nn-a nn-a--die" lang="en">an</span> or <span class="nn-a nn-a--das" lang="en">some</span>. Only the right one hits. The wrong one makes the word bigger and angrier. Survive 10 minutes!</p>
+          <p class="nn-lead">Night in the garden. Words crawl towards Hamsti from all sides. Hamsti shoots on his own – <b>you choose the article</b>: <span class="nn-a nn-a--der" lang="es">el</span> or <span class="nn-a nn-a--die" lang="es">la</span>. Only the right one hits. The wrong one makes the word bigger and angrier. Survive 10 minutes!</p>
           <p class="nn-label">Level</p>
           <div class="nn-seg" role="group" aria-label="Level">
             {LEVELS.map((lv) => (
@@ -70,11 +71,11 @@ const data = { words, bosse };
           <details class="nn-how">
             <summary>How to play</summary>
             <ul>
-              <li><b>Computer:</b> WASD or arrow keys = move. 1 / 2 / 3 or J / K / L = the article shots. Space bar = whirl. Esc = pause.</li>
+              <li><b>Computer:</b> WASD or arrow keys = move. 1 / 2 or J / K = el / la (3 / 4 = los / las, once plurals join in at B1). Space bar = whirl. Esc = pause.</li>
               <li><b>Phone:</b> move with your left thumb (the stick appears where you tap), tap an article on the right.</li>
               <li>Hamsti aims at the nearest word that matches your choice. If there isn’t one nearby, he hits the nearest word – and with the wrong choice it just gets bigger.</li>
               <li>Defeated words drop nuts. Full cheeks = level up: pick one of three extras.</li>
-              <li>A boss arrives every minute – a famous article puzzle. Beat it and you see the rule.</li>
+              <li>A boss arrives every minute – a famous gender trap like <span lang="es">el mapa</span> or <span lang="es">la mano</span>. Beat it and you see the rule.</li>
             </ul>
           </details>
         </section>

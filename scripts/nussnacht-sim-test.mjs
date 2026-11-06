@@ -33,7 +33,7 @@ function bot(S, r) {
         const w = 1 / Math.max(400, d2);
         fx -= dx * w; fy -= dy * w;
       }
-      if (best) art = r() < skill ? best.art : (best.art + 1 + Math.floor(r() * 2)) % 3;
+      if (best) art = r() < skill ? best.art : (best.art + 1 + Math.floor(r() * 3)) % 4;
       const l = Math.hypot(fx, fy);
       // circle around a little so the bot does not run into the next wave head-on
       if (l > 0) { mx = fx / l * 0.8 + -fy / l * 0.6; my = fy / l * 0.8 + fx / l * 0.6; }

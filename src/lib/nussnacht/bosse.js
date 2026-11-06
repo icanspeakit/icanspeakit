@@ -1,45 +1,60 @@
-// Hamstis Nussnacht: the minute bosses, the famous a / an / some traps. One per minute from
-// 1 to 9, three at once in the final wave at minute 10. A boss is a big creature with more HP;
-// when it falls, its rule card shows ("Silent h: an hour").
+// Hamstis Nussnacht: the minute bosses, the famous el / la traps. One per minute from 1 to 9,
+// three at once in the final wave at minute 10. A boss is a big creature with more HP; when it
+// falls, its rule card shows ("el mapa – It ends in -a but …").
 //
-// Two kinds of trap: the first *sound* is not the first letter (an hour, a university, an
-// uncle, a year), and nouns you cannot count take some (advice, information, luggage).
-// Nouns that are both (a coffee = a cup of coffee, a paper = a newspaper) are left out: the
+// Three kinds of trap: the ending points the wrong way (el mapa, la mano, el problema), a stressed
+// a- takes el although the noun is feminine (el agua, el aula), and an ending that says nothing
+// (el coche, la noche). Nouns with two possible articles stay out (generoDrill.js AMBIGUOUS): the
 // game can accept only one answer.
 //
 // `lv` is the first level that may meet the boss. Every boss is checked against the lexicon at
 // build time (bosseFuer): article and level must match, and the voice clip comes from there.
-// A boss with `lex: false` would skip that check (none at the moment). The build check names
-// any boss that does not match, and the page leaves it out.
+// A boss with `lex: false` skips that check (el paraguas: not in the lexicon yet). The build
+// names any boss that does not match, and the page leaves it out.
+//
+// Castilian Spanish: where Latin America differs, `es419` holds the note (src/lib/variety.js).
+// It is not shown until a LatAm mode exists; the rule text only states the Spanish standard.
 import { select } from "../lexicon.js";
 import { ARTS } from "./woerter.js";
 
+export const VARIETY = "es-ES";
+
 export const BOSSE = [
-  { w: "hour", g: "an", lv: "A1", regel: "Silent h: you say “our”, so it’s an hour (and an honest man)." },
-  { w: "hotel", g: "a", lv: "A1", regel: "You hear the h in hotel, so it’s a hotel – but an hour." },
-  { w: "university", g: "a", lv: "A1", regel: "This u sounds like “you”, a consonant sound: a university, a uniform." },
-  { w: "uncle", g: "an", lv: "A1", regel: "This u sounds like “uh”, a vowel sound: an uncle, an umbrella." },
-  { w: "year", g: "a", lv: "A1", regel: "Y at the start is a consonant sound: a year, a yoghurt." },
-  { w: "island", g: "an", lv: "A1", regel: "The s is silent, but i is a vowel sound: an island." },
-  { w: "advice", g: "some", lv: "A1", regel: "You can’t count advice: some advice or a piece of advice – never an advice." },
-  { w: "information", g: "some", lv: "A1", regel: "Information is uncountable: some information, not an information or informations." },
-  { w: "luggage", g: "some", lv: "A1", regel: "Luggage is uncountable: some luggage – but a bag, a suitcase." },
-  { w: "homework", g: "some", lv: "A1", regel: "Homework has no plural: some homework, not a homework." },
-  { w: "money", g: "some", lv: "A1", regel: "Money is uncountable: some money – but a coin, a note." },
-  { w: "bread", g: "some", lv: "A1", regel: "Some bread, or a loaf of bread – not a bread." },
-  { w: "work", g: "some", lv: "A1", regel: "Work is uncountable: some work – but a job." },
-  { w: "rubbish", g: "some", lv: "A1", regel: "Rubbish is uncountable: some rubbish – but a bin, a bag of rubbish." },
-  { w: "uniform", g: "a", lv: "A2", regel: "Uni- sounds like “you-ni”: a uniform, a university." },
-  { w: "onion", g: "an", lv: "A2", regel: "Onion starts with an “uh” sound: an onion (but a one-way ticket: one starts with “w”)." },
-  { w: "furniture", g: "some", lv: "A2", regel: "Furniture is uncountable: some furniture – but a chair, a table." },
-  { w: "accommodation", g: "some", lv: "A2", regel: "In British English accommodation is uncountable: some accommodation – but a room, a flat." },
-  { w: "equipment", g: "some", lv: "A2", regel: "Equipment is uncountable: some equipment, a piece of equipment." },
-  { w: "knowledge", g: "some", lv: "A2", regel: "Knowledge has no plural: some knowledge of English." },
-  { w: "progress", g: "some", lv: "A2", regel: "Progress is uncountable: you make some progress, not a progress." },
-  { w: "news", g: "some", lv: "B1", regel: "News ends in -s but is uncountable: some news, and the news is good." },
-  { w: "research", g: "some", lv: "B1", regel: "Research is uncountable: some research, not a research or researches." },
-  { w: "evidence", g: "some", lv: "B1", regel: "Evidence is uncountable: some evidence, a piece of evidence." },
-  { w: "software", g: "some", lv: "B1", regel: "Software is uncountable: some software – but an app, a program." },
+  { w: "mapa", g: "el", lv: "A1", regel: "It ends in -a but it is masculine: el mapa, los mapas." },
+  { w: "foto", g: "la", lv: "A1", regel: "Short for la fotografía, so it stays feminine in spite of the -o: la foto, las fotos." },
+  { w: "agua", g: "el", lv: "A1", regel: "Feminine, but a stressed a- takes el in the singular: el agua fría, las aguas." },
+  { w: "problema", g: "el", lv: "A1", regel: "A word from Greek in -ma, and masculine: el problema, el idioma." },
+  { w: "idioma", g: "el", lv: "A1", regel: "A word from Greek in -ma, and masculine: el idioma, el problema." },
+  { w: "día", g: "el", lv: "A1", regel: "It ends in -a but it is masculine: el día, buenos días." },
+  { w: "mano", g: "la", lv: "A1", regel: "One of the very few feminine nouns in -o: la mano derecha, las manos." },
+  { w: "hambre", g: "el", lv: "A1", regel: "Feminine with a stressed a-: el hambre, but tengo mucha hambre." },
+  { w: "tranvía", g: "el", lv: "A1", regel: "Most nouns in -ía are feminine (la cafetería), but it is el tranvía." },
+  { w: "coche", g: "el", lv: "A1", regel: "An -e tells you nothing: el coche, but la noche. Learn the article with the word." },
+  { w: "noche", g: "la", lv: "A1", regel: "An -e tells you nothing: la noche, but el coche. Learn the article with the word." },
+  { w: "llave", g: "la", lv: "A1", regel: "An -e tells you nothing: la llave, but el viaje. Learn the article with the word." },
+  { w: "flor", g: "la", lv: "A1", regel: "Nouns in -or are usually masculine (el color, el dolor), but it is la flor." },
+  { w: "nariz", g: "la", lv: "A1", regel: "A -z tells you nothing: la nariz, but el lápiz." },
+  { w: "cumpleaños", g: "el", lv: "A1", regel: "It ends in -s but it is one birthday: el cumpleaños, los cumpleaños." },
+  { w: "sartén", g: "la", lv: "A1", regel: "A consonant at the end tells you little: la sartén, las sartenes.",
+    es419: { note: "Parts of Latin America say el sartén.", gender: "el" } },
+  { w: "planeta", g: "el", lv: "A2", regel: "It ends in -a but it is masculine: el planeta, like el mapa." },
+  { w: "clima", g: "el", lv: "A2", regel: "A word from Greek in -ma, and masculine: el clima, el programa." },
+  { w: "programa", g: "el", lv: "A2", regel: "A word from Greek in -ma, and masculine: el programa, el clima." },
+  { w: "sal", g: "la", lv: "A2", regel: "A consonant at the end tells you little: la sal, but el sol." },
+  { w: "sangre", g: "la", lv: "A2", regel: "An -e tells you nothing, so learn this one with its article: la sangre." },
+  { w: "costumbre", g: "la", lv: "A2", regel: "Nouns in -umbre are feminine: la costumbre, la legumbre." },
+  { w: "garaje", g: "el", lv: "A2", regel: "Nouns in -aje are masculine: el garaje, el viaje, el paisaje." },
+  { w: "pintalabios", g: "el", lv: "A2", regel: "Verb + noun: pinta + labios. These compounds are masculine: el pintalabios, los pintalabios." },
+  { w: "lavavajillas", g: "el", lv: "A2", regel: "Verb + noun: lava + vajillas. These compounds are masculine: el lavavajillas." },
+  { w: "paraguas", g: "el", lv: "A2", lex: false, regel: "Verb + noun: para + aguas. It ends in -s, but it is one umbrella: el paraguas, los paraguas." },
+  { w: "radio", g: "la", lv: "B1", regel: "Short for la radiodifusión, so in Spain it stays feminine in spite of the -o: la radio.",
+    es419: { note: "Mexico, Central America, the Caribbean, Colombia, Venezuela and Peru usually say el radio.", gender: "el" } },
+  { w: "tema", g: "el", lv: "B1", regel: "A word from Greek in -ma, and masculine: el tema, el problema." },
+  { w: "diploma", g: "el", lv: "B1", regel: "A word from Greek in -ma, and masculine: el diploma, el clima." },
+  { w: "aula", g: "el", lv: "B1", regel: "Feminine, but a stressed a- takes el in the singular: el aula, las aulas." },
+  { w: "crisis", g: "la", lv: "B1", regel: "Many Greek nouns in -is are feminine (but el análisis). The plural looks the same: la crisis, las crisis." },
+  { w: "rascacielos", g: "el", lv: "B1", regel: "Verb + noun: rasca + cielos. These compounds are masculine: el rascacielos, los rascacielos." },
+  { w: "paisaje", g: "el", lv: "B1", regel: "Nouns in -aje are masculine: el paisaje, el viaje, el garaje." },
 ];
 
 const ORDER = ["A1", "A2", "B1"];

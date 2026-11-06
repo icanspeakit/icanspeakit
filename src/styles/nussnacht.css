@@ -15,7 +15,8 @@
   --nn-line: rgba(255, 255, 255, 0.14);
   --nn-der: color-mix(in srgb, var(--info, #2563eb) 62%, #fff);
   --nn-die: color-mix(in srgb, var(--danger, #c1462f) 62%, #fff);
-  --nn-das: color-mix(in srgb, var(--success, #047857) 62%, #fff);
+  --nn-das: color-mix(in srgb, var(--info, #2563eb) 28%, #fff); /* los: el's colour, paler */
+  --nn-las: color-mix(in srgb, var(--danger, #c1462f) 28%, #fff); /* las: la's colour, paler */
   scroll-margin-top: 64px;
 }
 
@@ -85,6 +86,10 @@
 }
 .nn-touch[hidden] { display: none; }
 .nn-arts { display: flex; gap: 8px; }
+/* With los and las in play, a row of four would cover a phone's bottom edge: two by two instead. */
+@media (max-width: 480px) {
+  .nn-arts:has(.nn-art--las:not([hidden])) { display: grid; grid-template-columns: 1fr 1fr; }
+}
 .nn-art {
   position: relative;
   min-width: 64px; min-height: 56px;
@@ -102,10 +107,13 @@
 .nn-art--der { color: var(--nn-der); }
 .nn-art--die { color: var(--nn-die); }
 .nn-art--das { color: var(--nn-das); }
+.nn-art--las { color: var(--nn-las); }
+.nn-art[hidden] { display: none; }
 .nn-art[aria-pressed="true"] { color: #10161f; border-color: #fff; transform: translateY(-2px); }
 .nn-art--der[aria-pressed="true"] { background: var(--nn-der); }
 .nn-art--die[aria-pressed="true"] { background: var(--nn-die); }
 .nn-art--das[aria-pressed="true"] { background: var(--nn-das); }
+.nn-art--las[aria-pressed="true"] { background: var(--nn-las); }
 .nn-key {
   position: absolute;
   top: 3px; left: 6px;

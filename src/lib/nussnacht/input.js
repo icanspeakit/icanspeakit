@@ -1,21 +1,23 @@
 // Hamstis Nussnacht: keyboard, touch and gamepad, read once per tick as
 // { mx, my, art, skill, pick } – exactly what the simulation takes and the replay records.
 //
-//   Desktop  WASD / arrows move · 1 2 3 or J K L = a an some · Space = skill · Esc / P = pause
-//   Touch    a floating joystick on the left half · three article buttons on the right
+//   Desktop  WASD / arrows move · 1 2 3 4 or J K L Ñ = el la los las · Space = skill · Esc / P = pause
+//   Touch    a floating joystick on the left half · the article buttons on the right
 //            (thumb zone) · the skill button above them
-//   Gamepad  left stick / d-pad · X a, A an, B some (LB/RB step through) · Y skill · Start pause
+//   Gamepad  left stick / d-pad · X el, A la, B los (LB/RB step through, also to las) · Y skill · Start pause
+//
+// los and las only answer once plurals are in the run: `artCount()` is 2 before that, 4 after.
 //
 // Movement is rounded to 1/64 so a recorded run stays small and replays bit for bit.
 
-const KEYS_ART = { Digit1: 0, Digit2: 1, Digit3: 2, Numpad1: 0, Numpad2: 1, Numpad3: 2, KeyJ: 0, KeyK: 1, KeyL: 2 };
+const KEYS_ART = { Digit1: 0, Digit2: 1, Digit3: 2, Digit4: 3, Numpad1: 0, Numpad2: 1, Numpad3: 2, Numpad4: 3, KeyJ: 0, KeyK: 1, KeyL: 2, Semicolon: 3 };
 const KEYS_MOVE = {
   KeyW: [0, -1], ArrowUp: [0, -1], KeyS: [0, 1], ArrowDown: [0, 1],
   KeyA: [-1, 0], ArrowLeft: [-1, 0], KeyD: [1, 0], ArrowRight: [1, 0],
 };
 const q = (v) => Math.round(Math.max(-1, Math.min(1, v)) * 64) / 64;
 
-export function createInput({ stage, stick, knob, artButtons, skillButton, onPause, onArt, choosing }) {
+export function createInput({ stage, stick, knob, artButtons, skillButton, onPause, onArt, choosing, artCount = () => 2 }) {
   const held = new Set();
   let art = 0;
   let skillPress = false;
@@ -24,7 +26,7 @@ export function createInput({ stage, stick, knob, artButtons, skillButton, onPau
   const JOY_R = 52;
 
   function setArt(a) {
-    if (a === art) return;
+    if (a === art || a >= artCount()) return;
     art = a;
     onArt?.(a);
   }
@@ -103,8 +105,8 @@ export function createInput({ stage, stick, knob, artButtons, skillButton, onPau
         if (edge(2)) setArt(0);
         if (edge(0)) setArt(1);
         if (edge(1)) setArt(2);
-        if (edge(4)) setArt((art + 2) % 3);
-        if (edge(5)) setArt((art + 1) % 3);
+        if (edge(4)) setArt((art + artCount() - 1) % artCount());
+        if (edge(5)) setArt((art + 1) % artCount());
         if (edge(3)) skillPress = true;
       }
       if (edge(9)) onPause?.();

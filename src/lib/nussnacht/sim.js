@@ -63,14 +63,13 @@ export const EV = {
   BOSS_DOWN: 8, SKILL: 9, HEAL: 10, MINUTE: 11, WIN: 12, DIE: 13, SPLIT: 14, BURST: 15, ORBIT: 16,
 };
 
-// First-sound radar: first letter → article index, by radar level. A word glows only when it
-// starts that way *and* has that article (an apple glows, some orange juice does not), so the
-// radar never teaches anything wrong. Level 3 adds h and u, where the letter does not tell the
-// sound: those words glow in whichever of a / an they take (an hour, a hotel, an uncle).
+// Ending radar: last letters → article index, by radar level. A word glows only when it ends that
+// way *and* has that article (el libro and la casa glow, la flor does not at the -or level), so
+// the radar never teaches anything wrong. Level 3 adds the traps: -a with el, -o with la.
 const RADAR = [
-  [[/^[aeio]/, 1]],
-  [[/^[bcdfgjklmnpqrstvwxyz]/, 0]],
-  [[/^[hu]/, 0], [/^[hu]/, 1]],
+  [[/o$/, 0], [/a$/, 1]],
+  [[/(ción|sión|dad|tad|tud|umbre)$/, 1], [/(aje|or)$/, 0]],
+  [[/a$/, 0], [/o$/, 1]],
 ];
 
 // Rotation of the orbiting acorns per tick (2.4 rad/s), as literal numbers: cos and sin of
@@ -84,7 +83,7 @@ const CELL = 64;
 /**
  * @param {object} o
  * @param {number} o.seed
- * @param {Array} o.words   the level's words { id, w, g, a, pl, h }
+ * @param {Array} o.words   the level's words { id, w, g, a, pl, pa, h }
  * @param {Array} o.low     the level below (a third of the weight)
  * @param {Array} o.bosse   { w, g, regel, id, a }
  * @param {string} o.level  "A1" | "A2" | "B1"
@@ -95,20 +94,21 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
   const ro = seeded(deckSeed(seed));
   const W = words.concat(low);
   const byArt = (from, to) => {
-    const out = [[], [], []];
+    const out = [[], []];
     for (let i = from; i < to; i++) out[W[i].g].push(i);
     return out;
   };
   const lvlIdx = byArt(0, words.length);
   const lowIdx = byArt(words.length, W.length);
+  // Compounds from the level below count too: Spanish has few per level.
   const compIdx = [];
-  for (let i = 0; i < words.length; i++) if (W[i].h) compIdx.push(i);
+  for (let i = 0; i < W.length; i++) if (W[i].h) compIdx.push(i);
   const plIdx = [];
   for (let i = 0; i < words.length; i++) if (W[i].pl) plIdx.push(i);
   // Radar: per word, the radar level that makes it glow (0 = never).
   const radarLv = new Uint8Array(W.length);
   for (let i = 0; i < W.length; i++) {
-    const lw = W[i].w.toLowerCase();
+    const lw = W[i].w.toLowerCase().split(/[ -]/)[0]; // the head noun: el viaje organizado ends in -e
     for (let l = 0; l < RADAR.length && !radarLv[i]; l++) {
       for (const [start, art] of RADAR[l]) if (start.test(lw) && W[i].g === art) { radarLv[i] = l + 1; break; }
     }
@@ -228,7 +228,7 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
     }
   }
   function pickWord() {
-    const art = Math.floor(rs() * 3);
+    const art = Math.floor(rs() * 2);
     const useLow = lowIdx[art].length > 0 && rs() < 0.25;
     const list = useLow ? lowIdx[art] : lvlIdx[art];
     if (!list.length) return lvlIdx[0][0] ?? 0;
@@ -242,7 +242,7 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
     c.alive = true; c.gen++;
     c.x = c.px = x; c.y = c.py = y;
     c.w = wi; c.kind = kind; c.boss = -1; c.scale = 1; c.angry = 0;
-    c.art = kind === 1 ? 2 : w.g; // a plural takes some
+    c.art = kind === 1 ? w.pa : w.g; // a plural takes los or las, from the noun's gender
     c.text = kind === 1 ? w.pl : w.w;
     c.r = T.CRE_R;
     c.maxHp = c.hp = T.CRE_HP * hpMul * (kind === 2 ? 1.5 : 1);
@@ -382,7 +382,7 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
       const s = shots[k];
       s.alive = true; s.x = s.px = S.hx; s.y = s.py = S.hy;
       s.vx = ux * T.SHOT_SPEED; s.vy = uy * T.SHOT_SPEED;
-      s.art = Math.floor(rs() * 3); s.life = 1.4; s.pierce = 99; s.dmg = 0; s.tgt = -1; s.tgen = 0; s.last = -1;
+      s.art = Math.floor(rs() * 4); s.life = 1.4; s.pierce = 99; s.dmg = 0; s.tgt = -1; s.tgen = 0; s.last = -1;
       S.shotN++;
     }
   }
@@ -538,7 +538,7 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
   const orb = [0, 0];
 
   // ---- one tick ---------------------------------------------------------------------------------
-  /** input: { mx, my, art, skill, pick } – mx/my in [-1, 1], art 0..2, skill true on press,
+  /** input: { mx, my, art, skill, pick } – mx/my in [-1, 1], art 0..3, skill true on press,
    *  pick 0..2 to choose a level-up card (−1 none). */
   function step(input) {
     S.evN = 0;
