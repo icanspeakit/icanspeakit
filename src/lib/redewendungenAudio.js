@@ -1,6 +1,6 @@
 // The play buttons of /knowledge/idioms: [data-say] with the text to speak and, when the
 // recording exists, its path (data-src, scripts/generate-redewendungen-audio.mjs). Without a
-// file, or when it fails to play, the browser's German voice reads the text instead.
+// file, or when it fails to play, the browser's Spanish voice reads the text instead.
 import { audioUrl } from "./audioSource.js";
 import { withBase } from "./paths.js";
 
@@ -10,7 +10,7 @@ function speak(text) {
   if (!("speechSynthesis" in window)) return;
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = "de-DE";
+  u.lang = "es-ES";
   u.rate = 0.9;
   speechSynthesis.speak(u);
 }

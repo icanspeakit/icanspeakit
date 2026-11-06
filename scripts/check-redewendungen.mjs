@@ -41,11 +41,12 @@ function routeExists(path) {
 }
 
 // Words too common to prove an example belongs to its phrase.
-const STOP = new Set("dass eine einen einem einer nicht noch auch aber oder wenn sich mein dein sein ihre jemandem jemanden etwas alle aller wird kein keine keinen".split(" "));
-// Short nouns count too („das Eis brechen“: „Eis“), short other words don't.
+const STOP = new Set("estar tener hacer para como pero algo alguien cada aquí muy unos unas este esta esto sobre desde hasta cuando donde quien".split(" "));
+// A word counts by its first letters, so a conjugated verb still matches when its stem holds.
+// Short names count too („Roma“), short other words don't.
 const keys = (de) =>
-  de.replace(/[„“"!?.,:;]/g, " ").split(/\s+/)
-    .filter((w, i) => (w.length >= 4 || (i > 0 && /^[A-ZÄÖÜ]/.test(w) && w.length >= 3)) && !STOP.has(w.toLowerCase()))
+  de.replace(/[„“"!?¿¡.,:;…]/g, " ").split(/\s+/)
+    .filter((w, i) => (w.length >= 4 || (i > 0 && /^[A-ZÁÉÍÓÚÑ]/.test(w) && w.length >= 3)) && !STOP.has(w.toLowerCase()))
     .map((w) => w.toLowerCase().slice(0, 4));
 
 for (const e of data.eintraege) {

@@ -41,6 +41,7 @@ const STRICT = new Set([
   "zungenbrecher",
   "satzmelodie",
   "ausspracheregeln",
+  "redewendungen",
   // "berufe", "dgt", "business-spanish",
 ]);
 
@@ -96,6 +97,8 @@ const MODULES = [
     items: (d) => [...arr(d.families), ...arr(d.stress), ...arr(d.rules)].map((item) => ({ item })) },
   { id: "ausspracheregeln", files: one("src/data/ausspracheregeln.json"),
     items: (d) => arr(d.rules).map((item) => ({ item })) },
+  { id: "redewendungen", files: one("src/data/redewendungen.json"),
+    items: (d) => arr(d.eintraege).map((item) => ({ item })) },
 ];
 
 const errors = [];

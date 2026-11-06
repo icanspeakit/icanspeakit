@@ -32,7 +32,7 @@ const jsonLd = {
   "@type": "DefinedTerm",
   name: e.de,
   description: e.bedeutung,
-  inLanguage: "en",
+  inLanguage: "es",
   url: site + hrefOf(e),
   inDefinedTermSet: {
     "@type": "DefinedTermSet",
@@ -68,7 +68,7 @@ const live = LIVE;
         <span class="rw-tag" data-i18n={`rw.typ.${e.typ}`}>{TYP[e.typ]}</span>
         <span class:list={["rw-tag", e.register === "umgang" && "rw-tag--umgang"]} data-i18n={`rw.reg.${e.register}`}>{REGISTER[e.register]}</span>
       </span>
-      <h1>{e.de} <button type="button" class="rw-say-btn rw-say-btn--h1" data-say={e.de} data-src={audioOf(e.id)} aria-label="Listen" data-i18n-attr="aria-label:rw.listen">🔊</button></h1>
+      <h1><span lang="es">{e.de}</span> <button type="button" class="rw-say-btn rw-say-btn--h1" data-say={e.de} data-src={audioOf(e.id)} aria-label="Listen" data-i18n-attr="aria-label:rw.listen">🔊</button></h1>
       <p class="rw-entry-bed">{e.bedeutung}</p>
     </header>
 
@@ -77,7 +77,7 @@ const live = LIVE;
     <section class="rw-facts">
       <div class="rw-fact">
         <h2 data-i18n="rw.facts.bsp">Examples</h2>
-        <ul class="rw-bsp-list">{e.bsp.map((b: string, i: number) => <li>“{b}” <button type="button" class="rw-say-btn rw-say-btn--inline" data-say={b} data-src={audioOf(`${e.id}-bsp-${i + 1}`)} aria-label="Listen to the example" data-i18n-attr="aria-label:rw.listen">🔊</button></li>)}</ul>
+        <ul class="rw-bsp-list">{e.bsp.map((b: string, i: number) => <li><span lang="es">“{b}”</span> <button type="button" class="rw-say-btn rw-say-btn--inline" data-say={b} data-src={audioOf(`${e.id}-bsp-${i + 1}`)} aria-label="Listen to the example" data-i18n-attr="aria-label:rw.listen">🔊</button></li>)}</ul>
       </div>
       <div class="rw-fact">
         <h2 data-i18n="rw.facts.wann">When do people say this?</h2>
@@ -99,7 +99,7 @@ const live = LIVE;
     {more.length > 0 && (
       <section class="rw-more" aria-labelledby="rw-more-h">
         <h2 id="rw-more-h" data-i18n="rw.more">Similar</h2>
-        <ul>{more.map((o: any) => <li><a href={hrefOf(o)}>{o.de}</a> <span class="rw-more-bed">{o.bedeutung}</span></li>)}</ul>
+        <ul>{more.map((o: any) => <li><a href={hrefOf(o)} lang="es">{o.de}</a> <span class="rw-more-bed">{o.bedeutung}</span></li>)}</ul>
       </section>
     )}
 
@@ -110,8 +110,8 @@ const live = LIVE;
     <script type="application/json" id="rw-items" set:html={JSON.stringify(items)} />
 
     <nav class="rw-pager" aria-label={`More from ${e.themaInfo.name}`}>
-      <a href={hrefOf(prev)} rel="prev">‹ {prev.de}</a>
-      <a href={hrefOf(next)} rel="next">{next.de} ›</a>
+      <a href={hrefOf(prev)} rel="prev">‹ <span lang="es">{prev.de}</span></a>
+      <a href={hrefOf(next)} rel="next"><span lang="es">{next.de}</span> ›</a>
     </nav>
   </main>
 </Layout>

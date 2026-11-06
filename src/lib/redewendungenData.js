@@ -22,12 +22,12 @@ export const themen = data.themen;
 export const themaById = Object.fromEntries(themen.map((t) => [t.id, t]));
 
 const sortKey = (de) =>
-  de.toLowerCase().replace(/^[“"]/, "").replace(/^(a|an|the|it's|not|be|get|have|keep)\s+/, "");
+  de.toLowerCase().replace(/^[“"¿¡]/, "").replace(/^(el|la|los|las|un|una|estar|ser|tener|no|a|al)\s+/, "");
 
 const order = Object.fromEntries(themen.map((t, i) => [t.id, i]));
 export const eintraege = data.eintraege
   .map((e) => ({ ...e, themaInfo: themaById[e.thema] }))
-  .sort((a, b) => order[a.thema] - order[b.thema] || sortKey(a.de).localeCompare(sortKey(b.de), "en"));
+  .sort((a, b) => order[a.thema] - order[b.thema] || sortKey(a.de).localeCompare(sortKey(b.de), "es"));
 
 export const byId = Object.fromEntries(eintraege.map((e) => [e.id, e]));
 
@@ -52,11 +52,11 @@ export const hrefOf = (e) => `/knowledge/idioms/${e.id}`;
 export const emojiSrc = (code) => `/img/openmoji/${code}.svg`;
 
 /** The key word to gap in „Complete“: the longest word that carries the picture, leaving
- *  out small and placeholder words. “It's raining cats and dogs.” → “raining”,
- *  “kill two birds with one stone” → “birds”. */
-const GAP_SKIP = new Set("a an the and of in on to by for with your my his her its it's not be get have keep there's there someone someone's something won't wasn't don't where through before about around just".split(" "));
+ *  out small words and the everyday verbs that frame an idiom. “estar en las nubes” → “nubes”,
+ *  “costar un ojo de la cara” → “cara”. */
+const GAP_SKIP = new Set("a al ante con de del el en la las lo los para por que sin sobre su un una y o no le se me te ni más muy mucha como cada alguien algo quien cuando donde estar ser tener hacer hace dar ir irse poner ponerse costar sacar sacarle tocar tocarle salir salirle llevarse buscarle importar sonar hablar hablando pagar tirar venir ahorrar llegar matar meter echar tomar quedarse ahogarse".split(" "));
 export function gapWord(de) {
-  const words = de.replace(/[„“"!?.,:;]/g, " ").split(/\s+/).filter(Boolean);
+  const words = de.replace(/[„“"!?¿¡.,:;]/g, " ").split(/\s+/).filter(Boolean);
   const pool = words.filter((w) => !GAP_SKIP.has(w.toLowerCase()) && w.length > 2);
   return [...(pool.length ? pool : words)].sort((a, b) => b.length - a.length)[0] ?? words[0];
 }

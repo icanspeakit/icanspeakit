@@ -42,12 +42,12 @@ function distractors(item, items, pick) {
 
 const KIND = {
   bedeutung: (it, items) => ({
-    prompt: `<p class="rw-q-kind">${t("rw.q.bedeutung", "Was bedeutet das?")}</p><p class="rw-q-de">${esc(it.de)}</p>`,
+    prompt: `<p class="rw-q-kind">${t("rw.q.bedeutung", "Was bedeutet das?")}</p><p class="rw-q-de" lang="es">${esc(it.de)}</p>`,
     answer: it.bed,
     options: [it.bed, ...distractors(it, items, (o) => o.bed)],
   }),
   luecke: (it, items) => ({
-    prompt: `<p class="rw-q-kind">${t("rw.q.luecke", "Ergänze")}</p><p class="rw-q-de">${esc(it.de.replace(it.gap, "___"))}</p>`,
+    prompt: `<p class="rw-q-kind">${t("rw.q.luecke", "Ergänze")}</p><p class="rw-q-de" lang="es">${esc(it.de.replace(it.gap, "___"))}</p>`,
     answer: it.gap,
     options: [it.gap, ...distractors(it, items, (o) => o.gap)],
   }),
