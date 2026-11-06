@@ -229,9 +229,9 @@ export function buildSearchIndex() {
   });
   // Prüfungsfallen (/exams/traps): a page under the exam hub, not an exam of its own.
   pages.push({
-    t: "Prüfungsfallen: DTZ und telc B1",
-    s: "Stellen mit Haken in der Prüfung – kurz erklärt, mit Beispiel und Aufgabe",
-    k: "prüfungsfallen pruefungsfallen fallen falle prüfung dtz telc b1 tipps fehler prüfungstipps hören lesen sprachbausteine schreiben sprechen exam traps exam tips",
+    t: "Exam traps: DELE, SIELE, CCSE",
+    s: "Parts of the exams with a catch, briefly explained, with an example and a task",
+    k: "exam traps exam tips dele siele ccse trampas examen consejos reading listening writing speaking language use uso de la lengua",
     h: "/exams/traps",
   });
   // Über mich (/about): who teaches behind the site.

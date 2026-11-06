@@ -1,8 +1,8 @@
 ---
 import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
-// Sprachbausteine trainer. Uses the same workspace shell and engine as the grammar
-// topics (src/lib/grammarWorkspace.js) — the two telc-specific exercise types
-// (wordbank, mcgap) live there alongside the grammar ones.
+// The language-use trainer (uso de la lengua, slot "sprachbausteine"). Uses the same workspace
+// shell and engine as the grammar topics (src/lib/grammarWorkspace.js): the two gap-text
+// exercise types (wordbank, mcgap) live there alongside the grammar ones.
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
 import "../../styles/practice.css";
@@ -17,9 +17,9 @@ const data = saetze[0];
 const concept = data.concept;
 const reference = concept.reference;
 
-// The explanation around the exercises is translated; the German gap texts, the word
-// bank and the reference lists of German constructions are not. Keys are derived from
-// the German string ("telcSb.t.<hash>") so the data files stay as authored.
+// The explanation around the exercises is translated; the Spanish gap texts, the word
+// bank and the reference lists of Spanish constructions are not. Keys are derived from
+// the English string ("telcSb.t.<hash>") so the data files stay as authored.
 function tk(s) {
   if (!s) return undefined;
   let h = 0x811c9dc5;
@@ -39,9 +39,9 @@ function tk(s) {
     <div class="vp-hero">
       <div class="vp-hero-badges">
         <span class="badge badge-brand" data-i18n="telcSb.badge">Language use practice</span>
-        <span class="badge badge-info">{data.level}</span>
+        <span class="badge badge-info">B2–C1</span>
       </div>
-      <h1>{data.name}</h1>
+      <h1 lang="es">{data.name}</h1>
       <p data-i18n={tk(data.subtitle)}>{data.subtitle}</p>
       <ExamDisclaimer />
     </div>
@@ -58,7 +58,7 @@ function tk(s) {
         ))}
       </div>
 
-      <p class="vp-example" set:html={concept.exampleHtml} />
+      <p class="vp-example" lang="es" set:html={concept.exampleHtml} />
 
       <div class="vp-qa-grid">
         {concept.qa.map((item) => (
@@ -85,7 +85,7 @@ function tk(s) {
           {reference.boxes.map((box) => (
             <div class={`vp-ref-box vp-ref-box--${box.variant}`}>
               <span class={`badge ${box.variant === "dat" ? "badge-info" : "badge-brand"}`} data-i18n={tk(box.badge)}>{box.badge}</span>
-              <ul>{box.items.map((item) => <li>{item}</li>)}</ul>
+              <ul lang="es">{box.items.map((item) => <li>{item}</li>)}</ul>
             </div>
           ))}
         </div>
