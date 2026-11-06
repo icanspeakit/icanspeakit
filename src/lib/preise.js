@@ -43,7 +43,7 @@ export function cell(f, plan) {
   const unlocked = plan === "premium" ? f.unlockedBy.includes("premium") || f.unlockedBy.some((p) => p.startsWith("pack_")) : f.unlockedBy.some((p) => p.startsWith("pack_"));
   if (plan !== "free" && !unlocked) return { text: "—", key: "preise.cell.no" };
   const lim = plan === "free" ? f.free : f.paid;
-  if (plan === "pack" && f.id === "pruefungssaetze") return { text: "+ 3 DTZ-Sätze", key: "preise.cell.dtz3" };
+  if (plan === "pack" && f.id === "pruefungssaetze") return { text: "+ 1 DELE A2 mock", key: "preise.cell.dtz3" };
   if (lim.limit === 0) return { text: "—", key: "preise.cell.no" };
   if (plan !== "free" && f.id === "pruefungsplan") return { text: "ganzer Plan + Kalender", key: "preise.cell.fullPlan" };
   if (lim.limit == null) return { text: "unbegrenzt", key: "preise.cell.unlimited" };
