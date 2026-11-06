@@ -44,13 +44,14 @@ function articleRule(noun) {
   const m = ruleMatch(noun);
   if (noun.genus === "f") return { k: "afem" };
   if (!m) return { k: "none" };
-  const k = m.rule.article === noun.gender ? "ending" : "exception";
+  const k = m.rule.article !== noun.gender ? "exception" : m.rule.names ? "greek" : "ending";
   return { k, ending: m.why, expected: m.rule.article };
 }
 
 const EXPLAIN = {
   afem: "“{word}” is feminine, but a stressed a- takes el in the singular, so the two a sounds don't run together: el {word}. In the plural it is las, and adjectives stay feminine.",
-  ending: "“{word}” ends in {ending}, and nouns with that ending take “{article}”: {article} {word}.",
+  ending: "“{word}” ends in {ending}, and nouns with that ending usually take “{article}”: {article} {word}.",
+  greek: "“{word}” is one of the words in -ma that come from Greek. They take “el”, unlike la cama or la forma: el {word}.",
   exception: "“{word}” ends in {ending}, which usually means “{expected}”, but this one takes “{article}”: {article} {word}. An exception to learn.",
   none: "This ending does not tell you the gender. Learn the noun together with its article: {article} {word}.",
 };
@@ -59,6 +60,7 @@ const EXPLAIN = {
 const EXPLAIN_LEICHT = {
   afem: "This word starts with a strong “a”. So you say “el {word}”, but the word is feminine.",
   ending: "The word ends in {ending}. So you say “{article}”: {article} {word}.",
+  greek: "This word ends in -ma, but you say “el”: el {word}.",
   exception: "This word does not follow the rule. You say “{article} {word}”.",
   none: "There is no rule here. Learn the word with its article: {article} {word}.",
 };
@@ -232,7 +234,8 @@ const freqChart = {
           come back when public/data/artikel-herkunft.json holds Spanish word histories. */}
 
       {/* How common the words of this session are in real life — see artikelFreqChart.js. */}
-      <figure class="vp-card afc" id="akk-freq">
+      {/* Only with frequency data: artikel-haeufigkeit.json stays empty until the Spanish ranks exist. */}
+      {ranked.length > 0 && <figure class="vp-card afc" id="akk-freq">
         <figcaption class="afc-title" data-i18n="ap.freq.title">How often do you hear it?</figcaption>
         <p class="afc-head" data-freq-head aria-live="polite"></p>
         <div class="afc-plot">
@@ -244,7 +247,7 @@ const freqChart = {
           <summary data-i18n="ap.freq.all">All words in this exercise</summary>
           <ol data-freq-list></ol>
         </details>
-      </figure>
+      </figure>}
 
       <footer class="akk-footer">
         <div class="akk-session-ring">
@@ -387,7 +390,10 @@ const freqChart = {
     let mode = "fokus";
     let practice = null;
 
-    const freqChart = mountFreqChart(document.getElementById("akk-freq"), JSON.parse(document.getElementById("akk-freq-data").textContent));
+    const freqEl = document.getElementById("akk-freq");
+    const freqChart = freqEl
+      ? mountFreqChart(freqEl, JSON.parse(document.getElementById("akk-freq-data").textContent))
+      : { setRound() {}, setCurrent() {} };
     // The card on screen is the word the chart picks out. The workspace re-renders on every
     // step, so watch for the card rather than hook each path that changes it.
     new MutationObserver(() => {
