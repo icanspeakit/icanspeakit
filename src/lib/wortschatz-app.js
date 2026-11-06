@@ -1227,11 +1227,11 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
      only shows while the German side is up — on the English front it would be the answer.
      Its slot keeps its height either way, so flipping never moves the nav row.
 
-     The class names stay German whatever the interface language: they are the words the
-     learner meets again on every grammar page. */
+     The class names are in English, the language of the explanations: they are the words
+     the learner meets again on every grammar page. */
   const POS_DE = {
-    noun: "Nomen", verb: "Verb", adj: "Adjektiv", adv: "Adverb", num: "Zahlwort",
-    prep: "Präposition", conj: "Konjunktion", pron: "Pronomen", phrase: "Wendung",
+    noun: "Noun", verb: "Verb", adj: "Adjective", adv: "Adverb", num: "Numeral",
+    prep: "Preposition", conj: "Conjunction", pron: "Pronoun", phrase: "Phrase",
   };
   const deckHasInfo = cards.some((c) => c.pos || c.example);
   /* Regi under the class: one line on what the class is, and the way to all of them
