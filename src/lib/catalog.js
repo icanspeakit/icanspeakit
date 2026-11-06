@@ -1100,8 +1100,8 @@ export const navLernen = { href: "/knowledge/learning", titleKey: "nav.wissen.le
 
 // „Wortfallen" (/knowledge/false-friends): Küche, Kuchen, Koch — words that sound alike and get
 // mixed up, with a quiz. A row in the Sprachen column and in the phone drawer.
-export const navWortfallen = { href: "/knowledge/false-friends", titleKey: "nav.wissen.wortfallen", title: "Wortfallen: Küche, Kuchen, Koch",
-  hintKey: "nav.wissen.wortfallenHint", hint: "Wörter, die man leicht verwechselt" };
+export const navWortfallen = { href: "/knowledge/false-friends", titleKey: "nav.wissen.wortfallen", title: "False friends: embarazada, éxito, carpeta",
+  hintKey: "nav.wissen.wortfallenHint", hint: "Words that are easy to mix up" };
 
 // „Bildkarten" (/knowledge/picture-dictionary): the 100 most important words as picture cards, all
 // at once or one after another. Our own drawings; the top ten are prints on /merch. In the
@@ -1120,18 +1120,18 @@ export const navZitate = { href: "/knowledge/quotes", titleKey: "nav.wissen.zita
 export const navDialekte = { href: "/knowledge/accents", titleKey: "nav.wissen.dialekte", title: "Accents: the map",
   hintKey: "nav.wissen.dialekteHint", hint: "From Scouse to Cockney" };
 
-// /knowledge/slang: haste, krass, Scheiße — how German is spoken, with the standard
+// /knowledge/slang: tío, mola, joder — how Spanish is spoken in Spain, with the standard
 // word beside it and where it is fine. In the Sprachen column under Dialekte and in the
 // phone drawer. No i18n keys yet: the menu shows the German title.
-export const navUmgangssprache = { href: "/knowledge/slang", titleKey: "nav.wissen.umgangssprache", title: "Umgangssprache & Slang",
-  hintKey: "nav.wissen.umgangsspracheHint", hint: "Haste, krass, Mist – und was man nie sagt" };
+export const navUmgangssprache = { href: "/knowledge/slang", titleKey: "nav.wissen.umgangssprache", title: "Informal Spanish & slang",
+  hintKey: "nav.wissen.umgangsspracheHint", hint: "Tío, mola, currar – and what never to say" };
 
 // /knowledge/idioms: Redewendungen & Sprichwörter, each with its picture, meaning and
 // origin. In the Sprachen column under Umgangssprache and in the phone drawer, once released
 // (src/lib/redewendungenLive.js); null until then, like navWortgeschichte.
 export const navRedewendungen = REDEWENDUNGEN_LIVE
-  ? { href: "/knowledge/idioms", titleKey: "nav.wissen.redewendungen", title: "Redewendungen & Sprichwörter",
-      hintKey: "nav.wissen.redewendungenHint", hint: "Nur Bahnhof verstehen? Hier steht's" }
+  ? { href: "/knowledge/idioms", titleKey: "nav.wissen.redewendungen", title: "Idioms & Proverbs",
+      hintKey: "nav.wissen.redewendungenHint", hint: "Puzzled by “estar en las nubes”? Look here" }
   : null;
 
 // /merch: an interest page for shirts, mugs and caps with the crew and the Wortfallen (no
@@ -1236,8 +1236,8 @@ export const navWissenMenu = {
           hintKey: "nav.wissen.verbPraepHint", hint: "warten auf, sich freuen über" },
         { href: "/grammar/parts-of-speech", titleKey: "nav.wissen.wortarten", title: "Wortarten",
           hintKey: "nav.wissen.wortartenHint", hint: "Nomen, Verb, Adjektiv und Co." },
-        { href: "/grammar/common-mistakes", titleKey: "nav.wissen.typischeFehler", title: "Typische Fehler",
-          hintKey: "nav.wissen.typischeFehlerHint", hint: "man oder Mann, das oder dass" },
+        { href: "/grammar/common-mistakes", titleKey: "nav.wissen.typischeFehler", title: "Common mistakes",
+          hintKey: "nav.wissen.typischeFehlerHint", hint: "tú or tu, por or para" },
       ] },
   ],
 };

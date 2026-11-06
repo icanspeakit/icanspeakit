@@ -77,13 +77,13 @@ function toChoices(pairs, kind, src, extraPool = []) {
 /** The verb tables (/grammar/verbs) as questions, one group per verb group. Per verb:
  *  a Präsens form (the first irregular one of du / er, else du), the Präteritum of ich and
  *  the Perfekt of er/sie/es. */
-// The Wortfallen of /knowledge/false-friends (Küche, Kuchen, Koch): each trap's gap sentences,
+// The Wortfallen of /knowledge/false-friends (embarazada, éxito, carpeta): each trap's gap sentences,
 // the wrong options being the words it is mixed up with. Not a grammar topic, so like the
 // verb tables it stays out of the Aufgaben catalog.
 const WF_KEY = "wortfallen";
 function wortfallenGroups() {
   return wortfallen.groups.map((g) => {
-    const title = g.words.map((w) => w.w.replace(/^(der|die|das) /, "")).join(" · ");
+    const title = g.words.map((w) => w.w.replace(/^(el|la) /, "")).join(" · ");
     const items = g.quiz.map((q, i) => mcq(q.s, q.a, q.o.filter((o) => o !== q.a), "Which word fits?", `g:${WF_KEY}#${g.id}-${i}`));
     return { title, items: items.filter(Boolean) };
   }).filter((g) => g.items.length);

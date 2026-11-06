@@ -1,294 +1,1017 @@
 {
-  "_about": "Word traps (/knowledge/false-friends): English words that learners mix up – look-alikes (kitchen/chicken, receipt/recipe) and false friends from other languages (become ≠ German bekommen, actual ≠ aktuell/actual, embarrassed ≠ Spanish embarazada) – each with the funny wrong sentence, the right one and a memory trick. *word* marks the word to highlight. quiz.a is the right option. Emoji are OpenMoji SVGs already in public/img/openmoji (scripts/fetch-openmoji.mjs). `audio` stays false until English recordings exist (scripts/generate-wortfallen-audio.mjs). British English, A1–B1; idioms-mistakes run (2026-10-30), not yet reviewed. The meanings, reactions and tips are also in public/i18n/en.json (wortfallen.<id>.*), which the build renders over the HTML: change both.",
+  "_about": "Word traps (/knowledge/false-friends): Spanish words that learners mix up: false friends for English, German, French, Portuguese and Italian speakers, and a few Spanish look-alikes. Each has the funny wrong sentence, the right one and a memory trick. *word* marks the word to highlight. quiz.a is the right option. Emoji are OpenMoji SVGs already in public/img/openmoji (scripts/fetch-openmoji.mjs). `audio` stays false until es-ES recordings exist. Castilian Spanish, A1–B1; variety on every group, es419 where usage differs; idioms-mistakes run (2026-11-06), not yet reviewed. The meanings, reactions and tips are also in public/i18n/en.json (wortfallen.<id>.*), which the build renders over the HTML: change both. scripts/check-sprachfallen.mjs checks them.",
   "groups": [
     {
-      "id": "kitchen",
+      "id": "embarazada",
       "words": [
-        { "w": "kitchen", "emoji": "🍳", "meaning": "the room where you cook" },
-        { "w": "chicken", "emoji": "🐥", "meaning": "a farm bird; also its meat" }
+        {
+          "w": "embarazada",
+          "emoji": "👶",
+          "meaning": "pregnant"
+        },
+        {
+          "w": "avergonzado, avergonzada",
+          "emoji": "😬",
+          "meaning": "embarrassed"
+        }
       ],
       "who": "hamsti",
-      "oops": "I'm roasting a *kitchen* for dinner tonight.",
-      "react": "A whole kitchen? With the fridge and the sink? You must be really hungry!",
-      "right": "I'm roasting a *chicken* for dinner tonight.",
-      "tip": "One sentence for both: the chicken is in the kitchen. You can eat only one of them.",
+      "oops": "Estoy muy *embarazada*: he llamado «mamá» a mi jefa.",
+      "react": "Pregnant? Congratulations! But what does your boss have to do with it?",
+      "right": "Estoy muy *avergonzada*: he llamado «mamá» a mi jefa.",
+      "tip": "False friend for English speakers, and for Portuguese (embaraçada), Italian (imbarazzata) and French (embarrassée) speakers too. embarazada only means pregnant. Embarrassed: avergonzado/a, or just ¡Qué vergüenza!",
       "quiz": [
-        { "s": "We had roast ___ with potatoes.", "o": ["chicken", "kitchen"], "a": "chicken" },
-        { "s": "Our ___ is small, but the cooker is new.", "o": ["kitchen", "chicken"], "a": "kitchen" }
+        {
+          "s": "Mi hermana está ___ de cinco meses.",
+          "o": [
+            "embarazada",
+            "avergonzada"
+          ],
+          "a": "embarazada"
+        },
+        {
+          "s": "Me caí delante de todos y estaba muy ___.",
+          "o": [
+            "avergonzada",
+            "embarazada"
+          ],
+          "a": "avergonzada"
+        }
       ],
-      "audio": false
+      "audio": false,
+      "variety": "es-ES"
     },
     {
-      "id": "sheep",
+      "id": "constipado",
       "words": [
-        { "w": "ship", "emoji": "⛴️", "meaning": "a big boat (short i)" },
-        { "w": "sheep", "emoji": "🐑", "meaning": "a farm animal with wool (long ee)" }
-      ],
-      "who": "quaki",
-      "oops": "We went to France by *sheep*.",
-      "react": "On a sheep? That was a slow and very woolly trip!",
-      "right": "We went to France by *ship*.",
-      "tip": "ship: short i, quick like a wave. sheep: long ee – make it as long as the sheep's baaa.",
-      "quiz": [
-        { "s": "The ___ leaves Dover at nine o'clock.", "o": ["ship", "sheep"], "a": "ship" },
-        { "s": "The farmer has two hundred ___.", "o": ["sheep", "ships"], "a": "sheep" }
-      ],
-      "audio": false
-    },
-    {
-      "id": "hungry",
-      "words": [
-        { "w": "hungry", "emoji": "😋", "meaning": "you want to eat" },
-        { "w": "angry", "emoji": "😠", "meaning": "you are very cross" }
+        {
+          "w": "constipado, constipada",
+          "emoji": "🤧",
+          "meaning": "with a cold"
+        },
+        {
+          "w": "estreñido, estreñida",
+          "emoji": "🚽",
+          "meaning": "constipated"
+        }
       ],
       "who": "bruno",
-      "oops": "I haven't eaten all day – I'm so *angry*!",
-      "react": "Angry? With me? What have I done?",
-      "right": "I haven't eaten all day – I'm so *hungry*!",
-      "tip": "hungry starts with h, like hamburger. angry starts with a, like argh!",
+      "oops": "Estoy *constipado*: hace tres días que no voy al baño.",
+      "react": "A cold? Then why are you talking about the toilet?",
+      "right": "Estoy *estreñido*: hace tres días que no voy al baño.",
+      "tip": "False friend for English and French speakers (constipé). In Spain, constipado means you have a cold: the nose, not the stomach. At the doctor's, this one matters.",
       "quiz": [
-        { "s": "Let's have lunch, I'm really ___.", "o": ["hungry", "angry"], "a": "hungry" },
-        { "s": "My boss was ___ because I was late again.", "o": ["angry", "hungry"], "a": "angry" }
+        {
+          "s": "Tengo tos y estoy ___, así que hoy me quedo en casa.",
+          "o": [
+            "constipado",
+            "estreñido"
+          ],
+          "a": "constipado"
+        },
+        {
+          "s": "Si estás ___, come más fruta y bebe agua.",
+          "o": [
+            "estreñido",
+            "constipado"
+          ],
+          "a": "estreñido"
+        }
       ],
-      "audio": false
+      "audio": false,
+      "variety": "es-ES",
+      "es419": {
+        "note": "In much of Latin America: resfriado. There constipado can mean constipated."
+      }
     },
     {
-      "id": "walk",
+      "id": "exito",
       "words": [
-        { "w": "walk", "emoji": "🚶", "meaning": "to go on foot" },
-        { "w": "work", "emoji": "💼", "meaning": "to do your job" }
-      ],
-      "who": "regi",
-      "oops": "Every morning I *work* to the station.",
-      "react": "You do your job on the way there? That's very busy!",
-      "right": "Every morning I *walk* to the station.",
-      "tip": "In walk the l is silent and the sound is long, like in door: /wɔːk/. work sounds like bird: /wɜːk/.",
-      "quiz": [
-        { "s": "It's a nice day – let's ___ to the park.", "o": ["walk", "work"], "a": "walk" },
-        { "s": "I ___ in a hospital as a nurse.", "o": ["work", "walk"], "a": "work" }
-      ],
-      "audio": false
-    },
-    {
-      "id": "become",
-      "words": [
-        { "w": "get", "emoji": "📦", "meaning": "to receive something" },
-        { "w": "become", "emoji": "🌱", "meaning": "to change into something, to start to be" }
-      ],
-      "who": "bruno",
-      "oops": "Can I *become* a coffee, please?",
-      "react": "You want to turn into a coffee? Hot and black?",
-      "right": "Can I *get* a coffee, please?",
-      "tip": "False friend for German speakers: bekommen = get. become = werden: She became a doctor.",
-      "quiz": [
-        { "s": "I ___ a lot of emails every day.", "o": ["get", "become"], "a": "get" },
-        { "s": "She wants to ___ a doctor.", "o": ["become", "get"], "a": "become" }
-      ],
-      "audio": false
-    },
-    {
-      "id": "gift",
-      "words": [
-        { "w": "gift", "emoji": "🎁", "meaning": "a present" },
-        { "w": "poison", "emoji": "☠️", "meaning": "it makes you ill or kills you" }
-      ],
-      "who": "regi",
-      "oops": "Careful, there's *gift* in that bottle!",
-      "react": "A present in a bottle? How lovely! Can I open it?",
-      "right": "Careful, there's *poison* in that bottle!",
-      "tip": "False friend for German speakers: Gift = poison. In English a gift is always a present.",
-      "quiz": [
-        { "s": "Thank you for the lovely birthday ___!", "o": ["gift", "poison"], "a": "gift" },
-        { "s": "Keep the rat ___ away from children.", "o": ["poison", "gift"], "a": "poison" }
-      ],
-      "audio": false
-    },
-    {
-      "id": "actual",
-      "words": [
-        { "w": "current", "emoji": "📰", "meaning": "happening now, of today" },
-        { "w": "actual", "emoji": "🎯", "meaning": "real, true" }
+        {
+          "w": "el éxito",
+          "emoji": "🏆",
+          "meaning": "success"
+        },
+        {
+          "w": "la salida",
+          "emoji": "🚪",
+          "meaning": "the exit, the way out"
+        }
       ],
       "who": "quaki",
-      "oops": "Our *actual* prices are on the website.",
-      "react": "And the other prices? Were they not real?",
-      "right": "Our *current* prices are on the website.",
-      "tip": "False friend: aktuell (German), actuel (French), attuale (Italian), actual (Spanish) = current. In English, actual means real: the actual price is the price you really pay.",
+      "oops": "Perdone, ¿dónde está el *éxito*?",
+      "react": "Success? We're all looking for that!",
+      "right": "Perdone, ¿dónde está la *salida*?",
+      "tip": "False friend for English speakers. éxito is success: la película fue un éxito. On the door and on the metro signs you'll read SALIDA.",
       "quiz": [
-        { "s": "The ___ timetable is valid until December.", "o": ["current", "actual"], "a": "current" },
-        { "s": "The photos looked great, but the ___ hotel was awful.", "o": ["actual", "current"], "a": "actual" }
+        {
+          "s": "La película fue un gran ___.",
+          "o": [
+            "éxito",
+            "salida"
+          ],
+          "a": "éxito"
+        },
+        {
+          "s": "La ___ de emergencia está al final del pasillo.",
+          "o": [
+            "salida",
+            "éxito"
+          ],
+          "a": "salida"
+        }
       ],
-      "audio": false
+      "audio": false,
+      "variety": "es-ES"
     },
     {
-      "id": "eventually",
+      "id": "carpeta",
       "words": [
-        { "w": "maybe", "emoji": "🤔", "meaning": "perhaps, it is possible" },
-        { "w": "eventually", "emoji": "🏁", "meaning": "in the end, after a long time" }
+        {
+          "w": "la carpeta",
+          "emoji": "📁",
+          "meaning": "a folder for papers"
+        },
+        {
+          "w": "la alfombra",
+          "emoji": "🧹",
+          "meaning": "a carpet, a rug"
+        }
       ],
-      "who": "hamsti",
-      "oops": "I'll *eventually* come to the party – I'm not sure yet.",
-      "react": "So you'll definitely come – just very, very late?",
-      "right": "*Maybe* I'll come to the party – I'm not sure yet.",
-      "tip": "False friend: eventuell (German), éventuellement (French), eventualmente (Spanish, Italian) = maybe. eventually = in the end.",
+      "who": "regi",
+      "oops": "Hemos puesto una *carpeta* nueva en el salón.",
+      "react": "A new folder? On the floor? Your papers must be very tidy.",
+      "right": "Hemos puesto una *alfombra* nueva en el salón.",
+      "tip": "False friend for English speakers (carpet) and French speakers (carpette). Keep your NIE papers in a carpeta. You walk on an alfombra.",
       "quiz": [
-        { "s": "We waited for an hour, but the bus ___ came.", "o": ["eventually", "maybe"], "a": "eventually" },
-        { "s": "___ it will rain later – take an umbrella.", "o": ["Maybe", "Eventually"], "a": "Maybe" }
+        {
+          "s": "Guarda los documentos en esta ___ azul.",
+          "o": [
+            "carpeta",
+            "alfombra"
+          ],
+          "a": "carpeta"
+        },
+        {
+          "s": "El gato duerme en la ___ del salón.",
+          "o": [
+            "alfombra",
+            "carpeta"
+          ],
+          "a": "alfombra"
+        }
       ],
-      "audio": false
+      "audio": false,
+      "variety": "es-ES"
+    },
+    {
+      "id": "libreria",
+      "words": [
+        {
+          "w": "la librería",
+          "emoji": "📖",
+          "meaning": "a bookshop: you buy books"
+        },
+        {
+          "w": "la biblioteca",
+          "emoji": "📚",
+          "meaning": "a library: you borrow books"
+        }
+      ],
+      "who": "bruno",
+      "oops": "Saco libros gratis de la *librería*.",
+      "react": "For free? The bookseller won't be happy about that!",
+      "right": "Saco libros gratis de la *biblioteca*.",
+      "tip": "False friend for English speakers. A library is la biblioteca, and you borrow from it. In a librería you pay. French librairie and Italian libreria work like the Spanish word.",
+      "quiz": [
+        {
+          "s": "He comprado esta novela en la ___ de la esquina.",
+          "o": [
+            "librería",
+            "biblioteca"
+          ],
+          "a": "librería"
+        },
+        {
+          "s": "En la ___ del barrio puedes estudiar en silencio.",
+          "o": [
+            "biblioteca",
+            "librería"
+          ],
+          "a": "biblioteca"
+        }
+      ],
+      "audio": false,
+      "variety": "es-ES"
+    },
+    {
+      "id": "actualmente",
+      "words": [
+        {
+          "w": "actualmente",
+          "emoji": "📰",
+          "meaning": "at the moment, nowadays"
+        },
+        {
+          "w": "en realidad",
+          "emoji": "🎯",
+          "meaning": "actually, in fact"
+        }
+      ],
+      "who": "quaki",
+      "oops": "*Actualmente* no soy de Madrid: nací en Lima.",
+      "react": "So you're not from Madrid right now? Where will you be from tomorrow?",
+      "right": "*En realidad* no soy de Madrid: nací en Lima.",
+      "tip": "False friend for English speakers. actualmente = now. Actually = en realidad or la verdad es que. It's the same with actual: el precio actual is today's price.",
+      "quiz": [
+        {
+          "s": "___ vivo en Valencia, pero antes vivía en Roma.",
+          "o": [
+            "Actualmente",
+            "En realidad"
+          ],
+          "a": "Actualmente"
+        },
+        {
+          "s": "Parece caro, pero ___ es bastante barato.",
+          "o": [
+            "en realidad",
+            "actualmente"
+          ],
+          "a": "en realidad"
+        }
+      ],
+      "audio": false,
+      "variety": "es-ES"
     },
     {
       "id": "sensible",
       "words": [
-        { "w": "sensitive", "emoji": "😢", "meaning": "easily hurt or upset" },
-        { "w": "sensible", "emoji": "👟", "meaning": "practical, with good judgement" }
+        {
+          "w": "sensible",
+          "emoji": "😢",
+          "meaning": "sensitive, easily hurt"
+        },
+        {
+          "w": "sensato, sensata",
+          "emoji": "🧠",
+          "meaning": "sensible, with good judgement"
+        }
       ],
       "who": "regi",
-      "oops": "Don't shout at him – he's very *sensible*.",
-      "react": "Sensible? Then he'll understand why you're shouting!",
-      "right": "Don't shout at him – he's very *sensitive*.",
-      "tip": "False friend: sensibel (German), sensible (French, Spanish) = sensitive. In English, sensible means practical: sensible shoes for a long walk.",
+      "oops": "Mi hermana es muy *sensible*: ahorra y nunca hace locuras.",
+      "react": "Sensitive? Does she cry at her bank statements?",
+      "right": "Mi hermana es muy *sensata*: ahorra y nunca hace locuras.",
+      "tip": "False friend for English speakers. sensible means sensitive, like a person who cries at films or skin that burns easily. Sensible, with good judgement, is sensato/a.",
       "quiz": [
-        { "s": "Wear ___ shoes – we're walking ten miles.", "o": ["sensible", "sensitive"], "a": "sensible" },
-        { "s": "My skin is very ___ to the sun.", "o": ["sensitive", "sensible"], "a": "sensitive" }
+        {
+          "s": "Mi piel es muy ___ al sol.",
+          "o": [
+            "sensible",
+            "sensata"
+          ],
+          "a": "sensible"
+        },
+        {
+          "s": "Lo más ___ es esperar la respuesta del banco.",
+          "o": [
+            "sensato",
+            "sensible"
+          ],
+          "a": "sensato"
+        }
       ],
-      "audio": false
+      "audio": false,
+      "variety": "es-ES"
     },
     {
-      "id": "embarrassed",
+      "id": "realizar",
       "words": [
-        { "w": "embarrassed", "emoji": "😬", "meaning": "you feel silly in front of other people" },
-        { "w": "pregnant", "emoji": "👶", "meaning": "a baby is growing inside you" }
+        {
+          "w": "realizar",
+          "emoji": "🛠️",
+          "meaning": "to carry out, to do"
+        },
+        {
+          "w": "darse cuenta",
+          "emoji": "💡",
+          "meaning": "to realise, to notice"
+        }
       ],
       "who": "hamsti",
-      "oops": "I'm *embarrassed* – the baby is due in May!",
-      "react": "Embarrassed? But a baby is wonderful news!",
-      "right": "I'm *pregnant* – the baby is due in May!",
-      "tip": "False friend for Spanish speakers: embarazada = pregnant. embarrassed = you go red because you feel silly.",
+      "oops": "*Realicé* que había perdido las llaves.",
+      "react": "You carried it out? So you lost your keys on purpose?",
+      "right": "*Me di cuenta* de que había perdido las llaves.",
+      "tip": "False friend for English speakers. realizar = to carry out: realizar un pago, realizar una obra. To realise = darse cuenta de: me doy cuenta de que …",
       "quiz": [
-        { "s": "I was so ___ when I fell over in the street.", "o": ["embarrassed", "pregnant"], "a": "embarrassed" },
-        { "s": "My sister is ___ with twins.", "o": ["pregnant", "embarrassed"], "a": "pregnant" }
+        {
+          "s": "No me ___ de la hora y perdí el tren.",
+          "o": [
+            "di cuenta",
+            "realicé"
+          ],
+          "a": "di cuenta"
+        },
+        {
+          "s": "La empresa ___ una obra en el edificio el año pasado.",
+          "o": [
+            "realizó",
+            "se dio cuenta"
+          ],
+          "a": "realizó"
+        }
       ],
-      "audio": false
+      "audio": false,
+      "variety": "es-ES"
     },
     {
-      "id": "library",
+      "id": "gimnasio",
       "words": [
-        { "w": "library", "emoji": "📚", "meaning": "you borrow books there, for free" },
-        { "w": "bookshop", "emoji": "📖", "meaning": "you buy books there" }
+        {
+          "w": "el gimnasio",
+          "emoji": "🏋️",
+          "meaning": "a gym"
+        },
+        {
+          "w": "el instituto",
+          "emoji": "🏫",
+          "meaning": "a secondary school"
+        }
       ],
       "who": "bruno",
-      "oops": "I bought this novel at the *library*.",
-      "react": "You paid at the library? There you borrow books – for free!",
-      "right": "I bought this novel at the *bookshop*.",
-      "tip": "False friend: librería (Spanish), librairie (French), libreria (Italian) = bookshop. A library lends books.",
+      "oops": "Mi hija tiene catorce años y estudia en el *gimnasio*.",
+      "react": "She does her maths on the treadmill?",
+      "right": "Mi hija tiene catorce años y estudia en el *instituto*.",
+      "tip": "False friend for German speakers: das Gymnasium = el instituto, a public secondary school in Spain. el gimnasio is where you lift weights.",
       "quiz": [
-        { "s": "You can borrow films from the ___ too.", "o": ["library", "bookshop"], "a": "library" },
-        { "s": "The ___ in town sells second-hand books.", "o": ["bookshop", "library"], "a": "bookshop" }
+        {
+          "s": "Voy al ___ tres veces por semana para hacer pesas.",
+          "o": [
+            "gimnasio",
+            "instituto"
+          ],
+          "a": "gimnasio"
+        },
+        {
+          "s": "Mi hijo empieza la ESO en el ___ del barrio.",
+          "o": [
+            "instituto",
+            "gimnasio"
+          ],
+          "a": "instituto"
+        }
       ],
-      "audio": false
+      "audio": false,
+      "variety": "es-ES",
+      "es419": {
+        "note": "Secondary school varies: often colegio, liceo or secundaria."
+      }
     },
     {
-      "id": "chef",
+      "id": "tasa",
       "words": [
-        { "w": "boss", "emoji": "👔", "meaning": "the person you work for" },
-        { "w": "chef", "emoji": "🧑‍🍳", "meaning": "a cook in a restaurant" }
-      ],
-      "who": "quaki",
-      "oops": "My *chef* gave me Friday off.",
-      "react": "Your chef? I didn't know you worked in a restaurant!",
-      "right": "My *boss* gave me Friday off.",
-      "tip": "False friend: Chef (German), chef (French) = boss. In English, a chef cooks in a restaurant kitchen.",
-      "quiz": [
-        { "s": "The ___ in this restaurant is from Naples.", "o": ["chef", "boss"], "a": "chef" },
-        { "s": "I asked my ___ for a pay rise.", "o": ["boss", "chef"], "a": "boss" }
-      ],
-      "audio": false
-    },
-    {
-      "id": "handy",
-      "words": [
-        { "w": "mobile", "emoji": "📱", "meaning": "a phone you carry with you" },
-        { "w": "handy", "emoji": "🔧", "meaning": "useful, easy to use" }
+        {
+          "w": "la tasa",
+          "emoji": "💶",
+          "meaning": "a fee, a rate"
+        },
+        {
+          "w": "la taza",
+          "emoji": "☕",
+          "meaning": "a cup"
+        }
       ],
       "who": "regi",
-      "oops": "Can I borrow your *handy*? Mine's dead.",
-      "react": "Your handy what? Your handy umbrella?",
-      "right": "Can I borrow your *mobile*? Mine's dead.",
-      "tip": "False friend for German speakers: das Handy = mobile (UK) or cell phone (US). In English, handy is an adjective: useful.",
+      "oops": "Una *tasa* de café, por favor.",
+      "react": "A coffee fee? The tax office would love that!",
+      "right": "Una *taza* de café, por favor.",
+      "tip": "False friend for German speakers: die Tasse = la taza, with z. You pay una tasa at the office, for example to renew a document. In most of Spain the two words sound different: tasa with s, taza with the th of think.",
       "quiz": [
-        { "s": "Call me on my ___ if you're late.", "o": ["mobile", "handy"], "a": "mobile" },
-        { "s": "This little torch is very ___ when you go camping.", "o": ["handy", "mobile"], "a": "handy" }
+        {
+          "s": "¿Quieres una ___ de té?",
+          "o": [
+            "taza",
+            "tasa"
+          ],
+          "a": "taza"
+        },
+        {
+          "s": "Para renovar el documento hay que pagar una ___.",
+          "o": [
+            "tasa",
+            "taza"
+          ],
+          "a": "tasa"
+        }
       ],
-      "audio": false
+      "audio": false,
+      "variety": "es-ES",
+      "es419": {
+        "note": "With seseo, as in Latin America, tasa and taza sound the same."
+      }
     },
     {
-      "id": "borrow",
+      "id": "mantel",
       "words": [
-        { "w": "borrow", "emoji": "🤝", "meaning": "to take something and give it back later" },
-        { "w": "lend", "emoji": "💵", "meaning": "to give something and get it back later" }
+        {
+          "w": "el mantel",
+          "emoji": "🍽️",
+          "meaning": "a tablecloth"
+        },
+        {
+          "w": "el abrigo",
+          "emoji": "🧥",
+          "meaning": "a coat"
+        }
+      ],
+      "who": "quaki",
+      "oops": "Hace mucho frío: ponte el *mantel*.",
+      "react": "The tablecloth? You'll have lunch on your shoulders!",
+      "right": "Hace mucho frío: ponte el *abrigo*.",
+      "tip": "False friend for German speakers: der Mantel = el abrigo. el mantel goes on the table before a meal.",
+      "quiz": [
+        {
+          "s": "Pon el ___ y los platos, que ya comemos.",
+          "o": [
+            "mantel",
+            "abrigo"
+          ],
+          "a": "mantel"
+        },
+        {
+          "s": "En enero no salgo de casa sin ___.",
+          "o": [
+            "abrigo",
+            "mantel"
+          ],
+          "a": "abrigo"
+        }
+      ],
+      "audio": false,
+      "variety": "es-ES"
+    },
+    {
+      "id": "regalo",
+      "words": [
+        {
+          "w": "el regalo",
+          "emoji": "🎁",
+          "meaning": "a present"
+        },
+        {
+          "w": "la estantería",
+          "emoji": "📚",
+          "meaning": "a set of shelves"
+        }
       ],
       "who": "hamsti",
-      "oops": "Can you *borrow* me ten pounds until Friday?",
-      "react": "Borrow you? From whom? You're not a library book!",
-      "right": "Can you *lend* me ten pounds until Friday?",
-      "tip": "You borrow FROM someone; someone lends TO you. The bank lends you money – you borrow money from the bank.",
+      "oops": "He puesto todos los libros en el *regalo*.",
+      "react": "All your books in one present? Who's the lucky person?",
+      "right": "He puesto todos los libros en la *estantería*.",
+      "tip": "False friend for German speakers: das Regal = la estantería. el regalo is a present, the thing you give on a birthday.",
       "quiz": [
-        { "s": "Can I ___ your pen for a minute?", "o": ["borrow", "lend"], "a": "borrow" },
-        { "s": "Could you ___ me your car tomorrow?", "o": ["lend", "borrow"], "a": "lend" }
+        {
+          "s": "¿Qué ___ le compramos a tu madre?",
+          "o": [
+            "regalo",
+            "estantería"
+          ],
+          "a": "regalo"
+        },
+        {
+          "s": "Los platos están en la ___ de arriba.",
+          "o": [
+            "estantería",
+            "regalo"
+          ],
+          "a": "estantería"
+        }
       ],
-      "audio": false
+      "audio": false,
+      "variety": "es-ES"
     },
     {
-      "id": "fun",
+      "id": "largo",
       "words": [
-        { "w": "fun", "emoji": "🎉", "meaning": "you enjoy it" },
-        { "w": "funny", "emoji": "😂", "meaning": "it makes you laugh" }
-      ],
-      "who": "quaki",
-      "oops": "The party was really *funny* – we danced all night.",
-      "react": "Funny? Did somebody tell jokes all night?",
-      "right": "The party was really *fun* – we danced all night.",
-      "tip": "fun = you enjoy it. funny = it makes you laugh. A holiday is fun; a clown is funny.",
-      "quiz": [
-        { "s": "Skiing is great ___!", "o": ["fun", "funny"], "a": "fun" },
-        { "s": "He told a really ___ joke.", "o": ["funny", "fun"], "a": "funny" }
-      ],
-      "audio": false
-    },
-    {
-      "id": "factory",
-      "words": [
-        { "w": "factory", "emoji": "🏭", "meaning": "a building where things are made" },
-        { "w": "fabric", "emoji": "🧶", "meaning": "material for clothes and curtains" }
+        {
+          "w": "largo, larga",
+          "emoji": "🧣",
+          "meaning": "long"
+        },
+        {
+          "w": "ancho, ancha",
+          "emoji": "🚪",
+          "meaning": "wide"
+        }
       ],
       "who": "bruno",
-      "oops": "My dad works in a car *fabric*.",
-      "react": "A car made of fabric? Soft, but not very safe!",
-      "right": "My dad works in a car *factory*.",
-      "tip": "False friend: Fabrik (German), fábrica (Spanish), fabbrica (Italian) = factory. fabric = cloth, material.",
+      "oops": "Esta calle es muy *larga*: caben cuatro coches a la vez.",
+      "react": "Long? Then the cars must be parked one after another.",
+      "right": "Esta calle es muy *ancha*: caben cuatro coches a la vez.",
+      "tip": "False friend for French speakers (large), and also for Italian and Portuguese speakers (largo) and Romanian speakers (larg): all of them mean wide. In Spanish, largo is long; wide is ancho.",
       "quiz": [
-        { "s": "The ___ makes 500 bikes a day.", "o": ["factory", "fabric"], "a": "factory" },
-        { "s": "This shirt is made of a soft ___.", "o": ["fabric", "factory"], "a": "fabric" }
+        {
+          "s": "El camino hasta el pueblo es muy ___: seis horas a pie.",
+          "o": [
+            "largo",
+            "ancho"
+          ],
+          "a": "largo"
+        },
+        {
+          "s": "Esta puerta no es lo bastante ___ para el sofá.",
+          "o": [
+            "ancha",
+            "larga"
+          ],
+          "a": "ancha"
+        }
       ],
-      "audio": false
+      "audio": false,
+      "variety": "es-ES"
     },
     {
-      "id": "receipt",
+      "id": "atender",
       "words": [
-        { "w": "receipt", "emoji": "🧾", "meaning": "the paper you get when you pay" },
-        { "w": "recipe", "emoji": "📝", "meaning": "it tells you how to cook something" }
+        {
+          "w": "atender",
+          "emoji": "🧑‍🍳",
+          "meaning": "to serve, to look after"
+        },
+        {
+          "w": "esperar",
+          "emoji": "⏳",
+          "meaning": "to wait"
+        }
       ],
       "who": "regi",
-      "oops": "Could I have the *recipe*, please? I might take the shoes back.",
-      "react": "The recipe? Do you want to cook the shoes?",
-      "right": "Could I have the *receipt*, please? I might take the shoes back.",
-      "tip": "receipt: the p is silent (/rɪˈsiːt/), you get it at the till. recipe has three syllables (/ˈresəpi/) and lives in the kitchen.",
+      "oops": "*Atiendo* el autobús desde hace media hora.",
+      "react": "You're serving the bus? Would it like a coffee?",
+      "right": "*Espero* el autobús desde hace media hora.",
+      "tip": "False friend for French speakers: attendre = esperar. atender is what staff do: el médico atiende a los pacientes. English speakers beware as well: to attend a class is asistir a clase.",
       "quiz": [
-        { "s": "Keep the ___ in case you want to return it.", "o": ["receipt", "recipe"], "a": "receipt" },
-        { "s": "This cake ___ is from my grandmother.", "o": ["recipe", "receipt"], "a": "recipe" }
+        {
+          "s": "___ a mi hermana en la estación.",
+          "o": [
+            "Espero",
+            "Atiendo"
+          ],
+          "a": "Espero"
+        },
+        {
+          "s": "El doctor ___ a los pacientes por la mañana.",
+          "o": [
+            "atiende",
+            "espera"
+          ],
+          "a": "atiende"
+        }
       ],
-      "audio": false
+      "audio": false,
+      "variety": "es-ES"
+    },
+    {
+      "id": "quitar",
+      "words": [
+        {
+          "w": "quitar",
+          "emoji": "🧽",
+          "meaning": "to take away, to remove"
+        },
+        {
+          "w": "dejar",
+          "emoji": "🧳",
+          "meaning": "to leave (a place, a job)"
+        }
+      ],
+      "who": "hamsti",
+      "oops": "*Quité* Francia hace dos años.",
+      "react": "You removed France? Does the map know?",
+      "right": "*Dejé* Francia hace dos años.",
+      "tip": "False friend for French speakers: quitter = dejar or irse de. quitar is to take something away: quitar una mancha.",
+      "quiz": [
+        {
+          "s": "___ mi país en 2021 para trabajar aquí.",
+          "o": [
+            "Dejé",
+            "Quité"
+          ],
+          "a": "Dejé"
+        },
+        {
+          "s": "Hay que ___ esta mancha de la camisa.",
+          "o": [
+            "quitar",
+            "dejar"
+          ],
+          "a": "quitar"
+        }
+      ],
+      "audio": false,
+      "variety": "es-ES"
+    },
+    {
+      "id": "exquisito",
+      "words": [
+        {
+          "w": "exquisito, exquisita",
+          "emoji": "😋",
+          "meaning": "delicious, very fine"
+        },
+        {
+          "w": "raro, rara",
+          "emoji": "🤨",
+          "meaning": "strange, odd"
+        }
+      ],
+      "who": "quaki",
+      "oops": "Ese hombre es muy *exquisito*: habla solo en el autobús.",
+      "react": "Delicious? Who's been tasting him?",
+      "right": "Ese hombre es muy *raro*: habla solo en el autobús.",
+      "tip": "False friend for Portuguese speakers: esquisito = raro. exquisito is high praise, usually for food: la paella está exquisita.",
+      "quiz": [
+        {
+          "s": "La paella de tu madre está ___.",
+          "o": [
+            "exquisita",
+            "rara"
+          ],
+          "a": "exquisita"
+        },
+        {
+          "s": "Hay un olor ___ en la cocina: abre la ventana.",
+          "o": [
+            "raro",
+            "exquisito"
+          ],
+          "a": "raro"
+        }
+      ],
+      "audio": false,
+      "variety": "es-ES"
+    },
+    {
+      "id": "polvo",
+      "words": [
+        {
+          "w": "el polvo",
+          "emoji": "🧹",
+          "meaning": "dust"
+        },
+        {
+          "w": "el pulpo",
+          "emoji": "🌊",
+          "meaning": "an octopus"
+        }
+      ],
+      "who": "bruno",
+      "oops": "Una ración de *polvo* a la gallega, por favor.",
+      "react": "A plate of dust, Galician style? Is that a house special?",
+      "right": "Una ración de *pulpo* a la gallega, por favor.",
+      "tip": "False friend for Portuguese speakers: polvo = el pulpo. In Spanish, el polvo is dust. Take extra care: echar un polvo is slang for having sex.",
+      "quiz": [
+        {
+          "s": "En Galicia comimos un ___ buenísimo.",
+          "o": [
+            "pulpo",
+            "polvo"
+          ],
+          "a": "pulpo"
+        },
+        {
+          "s": "Hay mucho ___ en los muebles: hay que limpiar.",
+          "o": [
+            "polvo",
+            "pulpo"
+          ],
+          "a": "polvo"
+        }
+      ],
+      "audio": false,
+      "variety": "es-ES"
+    },
+    {
+      "id": "oficina",
+      "words": [
+        {
+          "w": "la oficina",
+          "emoji": "🏢",
+          "meaning": "an office"
+        },
+        {
+          "w": "el taller",
+          "emoji": "🔧",
+          "meaning": "a garage, a workshop"
+        }
+      ],
+      "who": "regi",
+      "oops": "He llevado el coche a la *oficina* porque hace un ruido raro.",
+      "react": "To the office? Does it have an appointment with the boss?",
+      "right": "He llevado el coche al *taller* porque hace un ruido raro.",
+      "tip": "False friend for Portuguese speakers: oficina = el taller. la oficina in Spanish is where you sit at a desk.",
+      "quiz": [
+        {
+          "s": "El mecánico trabaja en un ___ cerca de casa.",
+          "o": [
+            "taller",
+            "oficina"
+          ],
+          "a": "taller"
+        },
+        {
+          "s": "Trabajo en una ___: ordenador y reuniones todo el día.",
+          "o": [
+            "oficina",
+            "taller"
+          ],
+          "a": "oficina"
+        }
+      ],
+      "audio": false,
+      "variety": "es-ES"
+    },
+    {
+      "id": "borracha",
+      "words": [
+        {
+          "w": "borracho, borracha",
+          "emoji": "🍺",
+          "meaning": "drunk"
+        },
+        {
+          "w": "la goma",
+          "emoji": "✏️",
+          "meaning": "an eraser, a rubber"
+        }
+      ],
+      "who": "hamsti",
+      "oops": "¿Me dejas una *borracha*? He escrito mal una palabra.",
+      "react": "A drunk woman? To fix your spelling?",
+      "right": "¿Me dejas una *goma*? He escrito mal una palabra.",
+      "tip": "False friend for Portuguese speakers: borracha = la goma. In Spanish, borracho/a means someone who has drunk too much.",
+      "quiz": [
+        {
+          "s": "Salió del bar completamente ___.",
+          "o": [
+            "borracha",
+            "goma"
+          ],
+          "a": "borracha"
+        },
+        {
+          "s": "Borra esto con la ___ y vuelve a escribirlo.",
+          "o": [
+            "goma",
+            "borracha"
+          ],
+          "a": "goma"
+        }
+      ],
+      "audio": false,
+      "variety": "es-ES",
+      "es419": {
+        "note": "An eraser is often el borrador in Latin America."
+      }
+    },
+    {
+      "id": "burro",
+      "words": [
+        {
+          "w": "el burro",
+          "emoji": "🐴",
+          "meaning": "a donkey"
+        },
+        {
+          "w": "la mantequilla",
+          "emoji": "🧈",
+          "meaning": "butter"
+        }
+      ],
+      "who": "quaki",
+      "oops": "Pan con *burro*, por favor.",
+      "react": "Bread with donkey? That's a tapa I don't know!",
+      "right": "Pan con *mantequilla*, por favor.",
+      "tip": "False friend for Italian speakers: il burro = la mantequilla. el burro is the animal, and also a mild insult for someone stubborn.",
+      "quiz": [
+        {
+          "s": "Para desayunar tomo tostadas con ___.",
+          "o": [
+            "mantequilla",
+            "burro"
+          ],
+          "a": "mantequilla"
+        },
+        {
+          "s": "En el pueblo vimos un ___ en el campo.",
+          "o": [
+            "burro",
+            "mantequilla"
+          ],
+          "a": "burro"
+        }
+      ],
+      "audio": false,
+      "variety": "es-ES"
+    },
+    {
+      "id": "salir",
+      "words": [
+        {
+          "w": "salir",
+          "emoji": "🚪",
+          "meaning": "to go out, to leave"
+        },
+        {
+          "w": "subir",
+          "emoji": "🪜",
+          "meaning": "to go up"
+        }
+      ],
+      "who": "bruno",
+      "oops": "*Salgo* al tercer piso por las escaleras.",
+      "react": "You're going out to the third floor? Through the window?",
+      "right": "*Subo* al tercer piso por las escaleras.",
+      "tip": "False friend for Italian speakers: salire = subir. salir is to go out: salgo de casa a las ocho.",
+      "quiz": [
+        {
+          "s": "Para llegar al tercer piso, tienes que ___ en el ascensor.",
+          "o": [
+            "subir",
+            "salir"
+          ],
+          "a": "subir"
+        },
+        {
+          "s": "¿A qué hora vas a ___ de casa?",
+          "o": [
+            "salir",
+            "subir"
+          ],
+          "a": "salir"
+        }
+      ],
+      "audio": false,
+      "variety": "es-ES"
+    },
+    {
+      "id": "guardar",
+      "words": [
+        {
+          "w": "guardar",
+          "emoji": "📦",
+          "meaning": "to keep, to put away"
+        },
+        {
+          "w": "ver",
+          "emoji": "👀",
+          "meaning": "to see, to watch"
+        }
+      ],
+      "who": "regi",
+      "oops": "*Guardo* la tele todas las noches.",
+      "react": "You put the TV away every night? In the wardrobe?",
+      "right": "*Veo* la tele todas las noches.",
+      "tip": "False friend for Italian speakers: guardare = ver or mirar. In Spanish, guardar means to keep something safe: guarda el pasaporte.",
+      "quiz": [
+        {
+          "s": "Por las noches ___ una serie en la tele.",
+          "o": [
+            "veo",
+            "guardo"
+          ],
+          "a": "veo"
+        },
+        {
+          "s": "___ el pasaporte en un lugar seguro.",
+          "o": [
+            "Guarda",
+            "Ve"
+          ],
+          "a": "Guarda"
+        }
+      ],
+      "audio": false,
+      "variety": "es-ES"
+    },
+    {
+      "id": "cansado",
+      "words": [
+        {
+          "w": "cansado, cansada",
+          "emoji": "😴",
+          "meaning": "tired"
+        },
+        {
+          "w": "casado, casada",
+          "emoji": "💍",
+          "meaning": "married"
+        }
+      ],
+      "who": "hamsti",
+      "oops": "Hoy estoy muy *casado*: he trabajado doce horas.",
+      "react": "Very married? Does your wife know about the twelve hours?",
+      "right": "Hoy estoy muy *cansado*: he trabajado doce horas.",
+      "tip": "Only one letter apart: cansado has an n, as in no sleep. Both go with estar: estoy cansado, estoy casado.",
+      "quiz": [
+        {
+          "s": "Después del trabajo siempre estoy muy ___.",
+          "o": [
+            "cansado",
+            "casado"
+          ],
+          "a": "cansado"
+        },
+        {
+          "s": "Llevo diez años ___ con Elena.",
+          "o": [
+            "casado",
+            "cansado"
+          ],
+          "a": "casado"
+        }
+      ],
+      "audio": false,
+      "variety": "es-ES"
+    },
+    {
+      "id": "hambre",
+      "words": [
+        {
+          "w": "el hambre",
+          "emoji": "😋",
+          "meaning": "hunger"
+        },
+        {
+          "w": "el hombre",
+          "emoji": "👨",
+          "meaning": "a man"
+        }
+      ],
+      "who": "bruno",
+      "oops": "Tengo mucho *hombre*: ¿comemos ya?",
+      "react": "You have a lot of men? And you want to eat now?",
+      "right": "Tengo mucha *hambre*: ¿comemos ya?",
+      "tip": "hambre starts like hamburguesa. hombre is a man. Careful: we say el hambre, but the word is feminine, so it's mucha hambre.",
+      "quiz": [
+        {
+          "s": "Tengo ___, ¿qué hay de cena?",
+          "o": [
+            "hambre",
+            "hombre"
+          ],
+          "a": "hambre"
+        },
+        {
+          "s": "¿Quién es ese ___ de la chaqueta azul?",
+          "o": [
+            "hombre",
+            "hambre"
+          ],
+          "a": "hombre"
+        }
+      ],
+      "audio": false,
+      "variety": "es-ES"
+    },
+    {
+      "id": "pero",
+      "words": [
+        {
+          "w": "pero",
+          "emoji": "🤔",
+          "meaning": "but (one quick tap)"
+        },
+        {
+          "w": "el perro",
+          "emoji": "🐕",
+          "meaning": "a dog (a long, rolled rr)"
+        }
+      ],
+      "who": "quaki",
+      "oops": "Quiero ir, *perro* no puedo.",
+      "react": "You want to go, dog? You can't? Who's talking to the dog?",
+      "right": "Quiero ir, *pero* no puedo.",
+      "tip": "One r is one quick tap; rr is several. Say them aloud: pero, perro. The difference is in your tongue, and you can practise it on the pronunciation page.",
+      "quiz": [
+        {
+          "s": "Es caro, ___ me gusta mucho.",
+          "o": [
+            "pero",
+            "perro"
+          ],
+          "a": "pero"
+        },
+        {
+          "s": "Mi vecino saca al ___ tres veces al día.",
+          "o": [
+            "perro",
+            "pero"
+          ],
+          "a": "perro"
+        }
+      ],
+      "audio": false,
+      "variety": "es-ES"
     }
   ]
 }
