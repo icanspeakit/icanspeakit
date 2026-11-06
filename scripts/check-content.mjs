@@ -30,6 +30,7 @@ const CHECKS = [
   "check-conjugation-trainer.mjs",
   "check-aussprache.mjs",
   "check-satzmelodie.mjs",
+  "check-sprachfallen.mjs",
 ];
 
 for (const file of CHECKS) {

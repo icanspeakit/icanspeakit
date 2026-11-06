@@ -3,7 +3,7 @@
 // /culture/mistakes and the picker on the Check both read and write it here.
 //
 // Not the UI language (src/lib/i18n.js): that is the language the site talks in (de, en,
-// ar, tr, uk). This is the language someone grew up with — "vietnamesisch", "arabisch" … —
+// ar, tr, uk). This is the language someone grew up with — "rumaenisch", "arabisch" … —
 // and decides which sounds are worth drilling. Ids are those of fehler-nach-sprache.json.
 //
 // Stored like the mascot switch (src/lib/mascotPrefs.js): localStorage for every visitor,

@@ -42,8 +42,8 @@ const hasDrills = ((drillData.languages as Record<string, string[]>)[l.id] ?? []
         <li class={`fe-mistake fe-mistake--${m.area}`} id={m.id}>
           <span class={`fe-area fe-area--${m.area}`}>{areas[m.area]}</span>
           <div class="fe-pair">
-            <p class="fe-wrong"><span class="fe-sign" aria-hidden="true">✗</span> <s>{m.wrong}</s></p>
-            <p class="fe-right"><span class="fe-sign" aria-hidden="true">✓</span> {m.right}</p>
+            <p class="fe-wrong"><span class="fe-sign" aria-hidden="true">✗</span> <s lang={m.area === "aussprache" ? undefined : "es"}>{m.wrong}</s></p>
+            <p class="fe-right"><span class="fe-sign" aria-hidden="true">✓</span> <span lang={m.area === "aussprache" ? undefined : "es"}>{m.right}</span></p>
           </div>
           <p class="fe-why">{m.why}</p>
           {m.drill && (
