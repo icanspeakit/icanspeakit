@@ -4,15 +4,16 @@
 //
 // Three parts, each with its own answer key:
 //   A  Word and meaning — up to 10 words against their meanings, shuffled by a seed.
-//   B  el or la? — up to 10 nouns with the article left out (a, an, some in a level still English).
+//   B  el or la? — up to 10 nouns with the article left out.
 //   C  Gap sentences — the lexicon's example sentences with the word blanked (up to 6).
 //
-// Meanings: `en` is the word's simple English definition, `de` its German translation
+// Meanings: `en` is the word's English gloss, `de` its German translation
 // (lexicon deHint). The sheet carries every offered language and the page shows the one
 // the teacher picks, so one static page serves every class.
 import { select, units } from "../lexicon.js";
 import { shuffle, LETTERS } from "./seed.js";
 import { languagesFor } from "../languages.js";
+import { isDrillNoun } from "../generoDrill.js";
 
 export const SHEET_LANGS = languagesFor("sheets").map((l) => l.code);
 export const LANG_NAMES = Object.fromEntries(languagesFor("sheets").map((l) => [l.code, l.native]));
@@ -67,11 +68,10 @@ export function wortschatzSheet(unitId, { words = select({ unit: unitId }), lang
     answers: picked.map((_, i) => LETTERS[order.indexOf(i)]),
   };
 
-  // B — nouns with a known article: el or la (lexicon `gender`, content-plan §1.4), or a, an,
-  // some in a level still English. el/la estudiante and plural-only nouns (las gafas) stay out:
-  // there is no choice to make.
+  // B — nouns with one right article (lexicon `gender`, content-plan §1.4). el/la estudiante,
+  // plural-only nouns (las gafas) and either-gender nouns (el/la mar) stay out: generoDrill.js.
   const nouns = words
-    .filter((w) => w.pos === "noun" && ["el", "la", "a", "an", "some"].includes(w.gender) && !w.pluralOnly)
+    .filter((w) => w.pos === "noun" && isDrillNoun(w))
     .slice(0, NOUN_MAX)
     .map((w) => ({ lemma: w.lemma, gender: w.gender, plural: w.plural ?? null }));
 

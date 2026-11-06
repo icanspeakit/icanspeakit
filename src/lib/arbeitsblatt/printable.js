@@ -23,7 +23,7 @@ let all = null;
 export function printableSets() {
   all ??= [
     ...worksheetUnits().map((u) => ({ kind: "w", id: u.id, name: u.title ?? u.id, level: u.level, path: `/teachers/worksheets/vocabulary/${u.id}` })),
-    ...worksheetLevels.map((id) => ({ kind: "w", id, name: `Ganze Stufe ${id.toUpperCase()}, gemischt`, level: id.toUpperCase(), path: `/teachers/worksheets/vocabulary/${id}` })),
+    ...worksheetLevels.map((id) => ({ kind: "w", id, name: `Whole level ${id.toUpperCase()}, mixed`, level: id.toUpperCase(), path: `/teachers/worksheets/vocabulary/${id}` })),
     ...cohorts().map((c) => ({ kind: "w", id: c.id, name: c.lead.join(" · "), level: c.levels.join("–"), path: `/vocabulary/print/${c.id}` })),
     ...BERUFE.flatMap((b) => berufGroups(b.slug).map((g) => ({
       kind: "w",

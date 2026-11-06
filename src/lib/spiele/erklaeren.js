@@ -3,15 +3,15 @@
 //
 // Forbidden words only when there are real ones. A random word from the same Lernset is
 // not forbidden for any reason — "name" with "trousers" and "station" teaches nothing — so a
-// word counts as related only if one contains the other (room → bedroom, rent → rental,
-// ticket → ticket office) or both are built on a third word of the Lernset (first name ↔
+// word counts as related only if one contains the other (cuarto → cuarto de baño,
+// billete → billete de ida) or both are built on a third word of the Lernset (first name ↔
 // surname share nothing, but bus stop ↔ bus station both build on bus). Those are exactly the words a student reaches for first when
 // explaining. Words from the example sentence were tried and dropped: "colleague" forbidding
 // "holiday" only because the example mentions a holiday is noise. With no related word the
 // card shows the rule line instead, which is honest about what the card is.
 import { chunk, esc, rng, sheet, shuffle, tx } from "./common.js";
 
-const norm = (s) => s.toLowerCase().replace(/[^a-zäöüß]/g, "");
+const norm = (s) => s.toLowerCase().normalize("NFD").replace(/[\u0301\u0308]/g, "").replace(/[^a-z\u0303]/g, "");
 
 /** Up to three words of the same Lernset that are genuinely tied to `w`. */
 export function relatedWords(w, sameUnit) {

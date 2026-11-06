@@ -1,6 +1,6 @@
 // Bingo: N different cards from the chosen Lernsets, plus the caller's list.
 //
-// The teacher calls a word — in English, or its meaning in the class's language, which turns
+// The teacher calls a word — in Spanish, or its meaning in the class's language, which turns
 // it into a listening-and-understanding game — and the students cross it off. Every card is
 // a different SET of words, not just a different order: two cards with the same words would
 // win on the same call.
@@ -77,7 +77,7 @@ export function renderBingo(state, data) {
   // box to tick when it has been called.
   const used = new Map();
   for (const card of cards) for (const w of card) used.set(w.display, w);
-  const called = [...used.values()].sort((a, b) => a.lemma.localeCompare(b.lemma, "en"));
+  const called = [...used.values()].sort((a, b) => a.lemma.localeCompare(b.lemma, "es"));
   const callerPages = chunk(called, 40);
   const pages = cardPages.length + callerPages.length;
   const title = "Bingo";
