@@ -6,20 +6,22 @@
 // plurals; the lexicon brings the volume. Short single words only, so a word fits a box on the beam.
 import { select } from "../lexicon.js";
 import { glossTable } from "../glossen.js";
+import { isDrillNoun } from "../generoDrill.js";
 
 export const LEVELS = ["A1", "A2", "B1"];
 /** Languages with a meaning in the lexicon (inline or as a sidecar) and a UI. English ships with the word. */
-export const GLOSS_LANGS = ["ar", "uk", "tr", "es", "hi", "id", "pt", "tl", "vi"];
+export const GLOSS_LANGS = ["de", "fr", "pt", "it"];
 
-// a / an nouns bring a plural for the Plural mode; some (uncountable) nouns have none and only join
-// the article gates (questions.js leaves nouns without a plural out of Plural).
-const fits = (e) => ["a", "an", "some"].includes(e.gender) && !e.pluralOnly && e.en
-  && /^[a-z]{2,12}$/.test(e.lemma) && (e.gender === "some" || /^[a-z]{2,14}$/.test(e.plural ?? ""));
+// el / la nouns with one right article (generoDrill.js); short single words, accents allowed. A noun
+// with no plural in the lexicon only joins the article gates (questions.js).
+const WORD = /^[a-záéíóúüñ]{2,12}$/;
+const PLURAL = /^[a-záéíóúüñ]{2,14}$/;
+const fits = (e) => isDrillNoun(e) && e.en && WORD.test(e.lemma) && (!e.plural || PLURAL.test(e.plural));
 
 export function lexNouns(level) {
   return select({ level, pos: "noun" })
     .filter(fits)
-    .map((e) => ({ id: e.id, word: e.lemma, article: e.gender, plural: e.plural ?? null, english: String(e.en).split(";")[0].trim(), level, audio: e.audio ?? undefined }));
+    .map((e) => ({ id: e.id, word: e.lemma, article: e.gender, ...(e.genus ? { genus: e.genus } : {}), plural: e.plural ?? null, english: String(e.en).split(";")[0].trim(), level }));
 }
 
 /** Count of nouns the game can deal per level, for the level buttons. */
@@ -34,7 +36,7 @@ export function enrich(words) {
   return {
     nouns: words.nouns.map((n) => {
       const e = nouns.find((x) => x.lemma === n.word && x.gender === n.article);
-      return e ? { ...n, id: e.id, audio: e.audio ?? undefined } : n;
+      return e ? { ...n, id: e.id } : n;
     }),
     verbs: words.verbs.map((v) => {
       const e = verbs.find((x) => x.lemma === v.infinitive);

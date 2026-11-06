@@ -1,21 +1,28 @@
-// Artikel-Flitzer: turns words.json into the questions the word gates ask. One question =
-// a prompt, three lane labels and the index of the right lane. Artikel keeps A / AN / SOME
-// in that order on every gate (the lanes stay where the learner expects them); plural and
-// verb options are shuffled per gate. The small label above the prompt is UI text (t()); the
-// verb label names the base form and the tense in English, as the grammar pages do.
+// Bruno Kart: turns words.json and the lexicon's nouns into the questions the word gates ask. One
+// question = a prompt, three lane labels and the index of the right lane.
+// Articles: the prompt is a noun, usually singular (agua → EL), about one gate in three plural
+// (aguas → LAS). The lanes stay where the learner expects them: masculine left, feminine in the
+// middle, and on the right a third box, an article of the wrong number. A two-way choice would
+// leave a lane with no box; fixed per number, the third box can't give the gender away.
+// Plural: "el lápiz" → los lápices / las lápices / los lápizes: the form and los or las at once.
+// Verb options are shuffled per gate. The small label above the prompt is UI text (t()).
 
 import { t } from "../uiText.js";
 import { seeded } from "./rng.js";
+import { pluralArticle } from "../generoDrill.js";
 
 export const MODES = {
-  artikel: { label: "Articles", key: "sprint.mode.artikel", hint: "a, an or some?", hintKey: "sprint.hint.artikel" },
-  plural: { label: "Plural", key: "sprint.mode.plural", hint: "Which plural is right?", hintKey: "sprint.hint.plural" },
+  artikel: { label: "Articles", key: "sprint.mode.artikel", hint: "el, la, los or las?", hintKey: "sprint.hint.artikel" },
+  plural: { label: "Plural", key: "sprint.mode.plural", hint: "los or las, and which plural?", hintKey: "sprint.hint.plural" },
   verb: { label: "Verbs", key: "sprint.mode.verb", hint: "Which form fits?", hintKey: "sprint.hint.verb" },
 };
 export const LEVELS = ["A1", "A2", "B1"];
-const ARTICLES = ["a", "an", "some"];
-// The five-lane road of a race room: two more boxes, never the answer to "a, an or some?".
-const TRAPS = ["the", "any"];
+const SINGULAR_LANES = ["el", "la", "los"];
+const PLURAL_LANES = ["los", "las", "el"];
+// The five-lane road of a race room: every article, plus "lo", which never goes with a noun.
+const WIDE_LANES = ["el", "la", "los", "las", "lo"];
+/** How many article gates ask for the plural article. */
+const PLURAL_SHARE = 1 / 3;
 
 /** `n` options: the given ones, topped up from made-up forms that are not among them. */
 function topUp(options, candidates, n, rnd) {
@@ -23,14 +30,16 @@ function topUp(options, candidates, n, rnd) {
   const extra = shuffle([...new Set(candidates)].filter((c) => c && !options.includes(c)), rnd);
   return [...options, ...extra.slice(0, n - options.length)];
 }
-// Plausible but made up ("boxs", "citys", "knifes", the greengrocer's "apple's"); topUp drops the
-// one that is the real plural.
-const fakePlurals = (w) => {
-  const y = /[^aeiou]y$/.test(w) ? [w.slice(0, -1) + "ies", w + "es"] : [];
-  const f = /fe?$/.test(w) ? [w.replace(/fe?$/, "ves")] : [];
-  return [w + "s", w + "es", ...y, ...f, w + "en", w, w + "'s", w + "ses"];
+// Plausible but made up (lápizes, ciudads, estaciónes, the bare singular): for the lexicon's nouns,
+// which carry no hand-made pluralWrong. build() filters out the one that is the real plural.
+const fakePlurals = (w) => [w + "es", w + "s", w, w + "ses"];
+// For the five-lane road: forms a verb does not have, or another person's.
+const SHORT_VERBS = { ir: ["iba", "ido", "vais", "van", "iremos"], ser: ["sois", "somos", "sido", "fui", "seréis"], ver: ["veis", "vio", "vemos", "veían", "visto"] };
+const fakeForms = (inf) => {
+  if (SHORT_VERBS[inf]) return SHORT_VERBS[inf];
+  const stem = inf.replace(/(ar|er|ir)$/, "");
+  return [inf, stem + "o", stem + "as", stem + "es", stem + "a", stem + "an", stem + "en"];
 };
-const fakeForms = (inf) => [inf, inf + "s", inf + "es", inf + "ed", inf + "ing", inf + "en"];
 
 function shuffle(arr, rnd) {
   const a = arr.slice();
@@ -43,9 +52,8 @@ function shuffle(arr, rnd) {
 
 /**
  * What the game does with a question besides asking it: `id` (lexicon id, for the word help's meaning
- * and the progress count), `say` (what is read out after a miss), `audio` (none: the English
- * lexicon's clips say the bare word, "apple", while the answer is "an apple", so the voice reads `say`)
- * and `key` (names the item, so a miss can be dealt again).
+ * and the progress count), `say` (what the browser's Spanish voice reads after a miss), `audio`
+ * (none: there are no Spanish recordings yet) and `key` (names the item, so a miss can be dealt again).
  */
 function extras(item, say, kind) {
   return {
@@ -58,40 +66,57 @@ function extras(item, say, kind) {
 }
 
 function build(item, mode, rnd, n = 3) {
+  const los = pluralArticle(item);
   if (mode === "artikel") {
+    // Always one draw from rnd, so a seed stays the same track for everyone.
+    const wantPlural = rnd() < PLURAL_SHARE;
+    // lunes, crisis: the plural looks like the singular, so the prompt could not say which is meant.
+    const asPlural = wantPlural && item.plural && item.plural !== item.word;
+    const right = asPlural ? los : item.article;
+    const lanes = n === 5 ? WIDE_LANES : asPlural ? PLURAL_LANES : SINGULAR_LANES;
+    const prompt = asPlural ? item.plural : item.word;
+    // el agua: the plural shows that it is feminine, so a miss on either form sees both.
+    const full = item.genus === "f" && item.plural ?`${item.article} ${item.word}, ${los} ${item.plural}` : `${right} ${prompt}`;
     return {
       kind: "artikel",
-      prompt: item.word,
-      tag: t("sprint.hint.artikel", "a, an or some?"),
+      prompt,
+      tag: t("sprint.hint.artikel", "el, la, los or las?"),
       english: item.english,
-      options: (n === 5 ? [...ARTICLES, ...TRAPS] : ARTICLES).map((a) => a.toUpperCase()),
-      answer: ARTICLES.indexOf(item.article),
-      full: `${item.article} ${item.word}`,
-      ...extras(item, `${item.article} ${item.word}`, "artikel"),
+      options: lanes.map((x) => x.toUpperCase()),
+      answer: lanes.indexOf(right),
+      full,
+      ...extras(item, `${right} ${prompt}`, "artikel"),
     };
   }
   if (mode === "plural") {
-    const options = shuffle(topUp([item.plural, ...(item.pluralWrong ?? [])], fakePlurals(item.word), n, rnd), rnd);
+    const other = los === "los" ? "las" : "los";
+    const right = `${los} ${item.plural}`;
+    const form = (f) => `${los} ${f}`;
+    const handMade = shuffle(item.pluralWrong ?? [], rnd).map(form);
+    const fakes = fakePlurals(item.word).filter((f) => f !== item.plural).map(form);
+    // Always one box with the wrong article and the right form: that is the los / las gate.
+    const options = shuffle(topUp([right, `${other} ${item.plural}`, ...handMade], fakes, n, rnd), rnd);
     return {
       kind: "plural",
       prompt: `${item.article} ${item.word}`,
       tag: t("sprint.tag.plural", "Plural?"),
       english: item.english,
       options,
-      answer: options.indexOf(item.plural),
-      full: `${item.article} ${item.word} → two ${item.plural}`,
-      ...extras(item, `two ${item.plural}`, "plural"),
+      answer: options.indexOf(right),
+      full: `${item.article} ${item.word} → ${right}`,
+      ...extras(item, right, "plural"),
     };
   }
   const options = shuffle(topUp(item.options, fakeForms(item.infinitive), n, rnd), rnd);
+  const tense = item.tense ?? "presente";
   return {
     kind: "verb",
     prompt: `${item.person} ___`,
-    tag: `${item.infinitive}${item.tense ? ` · ${item.tense}` : " · present simple"}`,
+    tag: `${item.infinitive} · ${tense}`,
     english: item.english,
     options,
     answer: options.indexOf(item.answer),
-    full: `${item.person} ${item.answer} (${item.infinitive}${item.tense ? `, ${item.tense}` : ""})`,
+    full: `${item.person} ${item.answer} (${item.infinitive}, ${tense})`,
     ...extras(item, `${item.person} ${item.answer}`, "verb"),
   };
 }
@@ -110,9 +135,9 @@ function build(item, mode, rnd, n = 3) {
  * order; a player who made mistakes just gets extra questions in between.
  */
 export function createDeck(data, mode, level, rnd = Math.random, n = 3) {
-  // Plural deals only nouns that have one (some = uncountable: no plural, article gates only).
+  // Plural deals only nouns that have one; the others only join the article gates.
   const pool = (mode === "verb" ? data.verbs : data.nouns)
-    .filter((it) => it.level === level && (mode !== "plural" || (it.article !== "some" && it.plural)));
+    .filter((it) => it.level === level && (mode !== "plural" || it.plural));
   const rr = seeded(Math.floor(rnd() * 4294967296));
   let queue = [];
   let last = null;

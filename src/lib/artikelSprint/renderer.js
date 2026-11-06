@@ -6,13 +6,13 @@ import { LANE_W, Z_FAR } from "./game.js";
 import { reducedMotion } from "../spieleEinstellungen.js";
 
 const CAM_D = 9;
-// A / AN / SOME take the three article hues (the theme keys keep their old names: der = blue,
-// die = red, das = green), the same as the Wortschatz.
-const ART = { A: "der", AN: "die", SOME: "das" };
-// The trap boxes of the five-lane road (THE, ANY) and anything else without an article colour.
+// Masculine articles blue, feminine red (the theme keys keep their old names: der = blue,
+// die = red), the same as the Wortschatz. "el agua" shows EL in blue: the box is the article.
+const ART = { EL: "der", LOS: "der", LA: "die", LAS: "die" };
+// The trap box of the five-lane road (LO) and anything else without an article colour.
 const NEUTRAL_BOX = "#64748b";
 
-/** Colours from the site's tokens, so the gates use the same der/die/das hues as the Wortschatz. */
+/** Colours from the site's tokens, so the gates use the same el/la hues as the Wortschatz. */
 export function readTheme(el) {
   const cs = getComputedStyle(el);
   const v = (n, f) => cs.getPropertyValue(n).trim() || f;
