@@ -25,6 +25,9 @@
 // fountain, buildings (solid; a person stands at the door side), trees – its own Bruno lines
 // and three quests. The second area opens once the first is done (game.js).
 
+/** All lines are Castilian. For a later es-419 mode: billete → boleto, vía → andén, “el primero” (floor), Quédate con el cambio. */
+export const VARIETY = "es-ES";
+
 // --- Villabruno – Morning -------------------------------------------------------------------
 const BRUNO_MORGEN = {
   id: "bruno", mascot: "bruno", name: "Bruno", role: "Plaza Mayor", x: 560, y: 500, clip: "bruno",

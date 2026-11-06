@@ -23,6 +23,13 @@
 // groups; no comments on bodies, origin or gender; "many people", not "the Spanish". Etiquette
 // is common practice, not law.
 
+/**
+ * All lines are Castilian. A later es-419 mode must rewrite these rather than swap words: vosotros
+ * forms (qué os pongo, coged, hacedlo vosotros, llamadme), coger (vulgar in parts of Latin America),
+ * caña, táper, móvil, majo, tío/tía, and customs that are Spain's (dos besos, the meal times).
+ */
+export const VARIETY = "es-ES";
+
 /** The players' mascots; the people they meet are played by the other three. */
 export const PLAYERS = ["bruno", "regi", "hamsti", "quaki"];
 
