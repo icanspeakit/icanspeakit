@@ -1,5 +1,5 @@
-// Regis Satzregen: is this order of chunks a correct sentence? (English since the games run:
-// only the canonical order and the listed alts count, see VORFELD_MODES below.)
+// Regis Satzregen: is this order of chunks a correct sentence? (Spanish: the canonical order and
+// the listed alts count, see src/data/satzregen/quelle.txt and VORFELD_MODES below.)
 //
 // A sentence (src/data/satzregen/saetze.json, built by scripts/build-satzregen.mjs) is a list
 // of chunks in their canonical order plus what the checker needs to know about them:
@@ -28,9 +28,9 @@ const NEVER_FIRST = /^(nicht|nichts|kein\w*|auch|doch|mal|denn|ja|noch|schon|seh
  *  Mittelfeld: "Man muss sich nach dem Umzug ummelden", not "… nach dem Umzug sich …". */
 const PRONOUN = /^(es|das|sich|mich|dich|uns|euch|ihn|ihm|ihr|mir|dir|ihnen|Ihnen)$/;
 
-// English has no verb-second rule: no mode gets automatic Vorfeld variants (moving a chunk to
-// the front would give "On Monday work I"). The sentences list the other correct orders as
-// alts instead (src/data/satzregen/quelle.txt). The German modes were ["v2", "klammer"].
+// Spanish has no verb-second rule: no mode gets automatic Vorfeld variants. The sentences list the
+// other correct orders as alts instead ({alt} and {free} in src/data/satzregen/quelle.txt). The
+// German modes were ["v2", "klammer"].
 const VORFELD_MODES = new Set([]);
 
 /** Does this sentence get Vorfeld variants? */
@@ -101,12 +101,12 @@ export function wrongMarks(s, order) {
 }
 
 /** The finished sentence as text: chunks joined, "," glued to the word before, the first
- *  letter capitalised, the end mark added. */
+ *  letter capitalised, the end mark added, and a question opened with ¿. */
 export function sentenceText(order, end) {
   let t = "";
   for (const c of order) t += t && !c.startsWith(",") ? ` ${c}` : c;
-  return (t.charAt(0).toUpperCase() + t.slice(1)).trim() + (end || "");
+  return (end === "?" ? "¿" : "") + (t.charAt(0).toUpperCase() + t.slice(1)).trim() + (end || "");
 }
 
-/** A chunk as shown in slot `i`: capitalised in slot 1. */
-export const chunkLabel = (text, i) => (i === 0 ? text.charAt(0).toUpperCase() + text.slice(1) : text);
+/** A chunk as shown in slot `i`: capitalised in slot 1, with ¿ in front when the line is a question. */
+export const chunkLabel = (text, i, end) => (i === 0 ? (end === "?" ? "¿" : "") + text.charAt(0).toUpperCase() + text.slice(1) : text);

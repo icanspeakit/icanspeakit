@@ -1,9 +1,9 @@
 ---
-// /games/sentence-rain — Regi's Sentence Rain: a word-order puzzle. Chunks of an English sentence
-// ("on Mondays", "play", "I") rain down one at a time; the learner steers each into a slot
+// /games/sentence-rain — Regi's Sentence Rain: a word-order puzzle. Chunks of a Spanish sentence
+// ("los lunes", "juego", "yo") rain down one at a time; the learner steers each into a slot
 // of the sentence line. A correct sentence clears, a wrong one turns to stone and the stack
-// grows. Modes in the data: statements and wh-questions, yes/no questions, auxiliaries and
-// modals, indirect questions (only the first is offered in the game so far).
+// grows. Modes in the data: statements and questions, yes/no questions, object pronouns
+// before the verb, indirect questions (only the first is offered in the game so far).
 // Logic: src/lib/satzregen/ (check.js = what counts as correct, engine.js = the game,
 // game.js = the page). Sentences: src/data/satzregen/saetze.json, built from quelle.txt by
 // scripts/build-satzregen.mjs. Plan: SATZREGEN-TIERED-PROMPT.md, notes docs/satzregen-tier*-v1.md.
@@ -18,7 +18,7 @@ const data = saetze.map(({ src, lv, ...s }) => s);
 ---
 <Layout
   title="Regi's Sentence Rain: word order as a game – icanspeak Spanish"
-  description="Words rain from the sky – put them in the right order. A puzzle game for Spanish word order: statements, questions, object pronouns and linking words."
+  description="Words rain from the sky – put them in the right order. A puzzle game for Spanish word order: statements and questions, with accents and ¿ ? in the right place."
   noindex
 >
   <SiteNav active="ueben" />

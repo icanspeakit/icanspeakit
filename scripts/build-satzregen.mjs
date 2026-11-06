@@ -32,6 +32,22 @@ const MODES = ["v2", "janein", "klammer", "nebensatz"];
 const errors = [];
 const err = (line, msg) => errors.push(`Zeile ${line}: ${msg}`);
 
+/** {free 1<2 3-4}: every order of n chunks with chunk 1 before 2 and 3 right before 4, canonical left out. */
+function freeOrders(n, conds) {
+  const rules = conds.map((c) => c.match(/^(\d+)([<-])(\d+)$/));
+  const out = [];
+  const walk = (order, left) => {
+    if (left.length) return left.forEach((x) => walk([...order, x], left.filter((y) => y !== x)));
+    const canon = order.every((x, i) => x === i);
+    if (!canon && rules.every(([, a, how, b]) => {
+      const d = order.indexOf(Number(b)) - order.indexOf(Number(a));
+      return how === "<" ? d > 0 : d === 1;
+    })) out.push(order);
+  };
+  walk([], [...Array(n).keys()]);
+  return out;
+}
+
 /** One source line → sentence object (or null). */
 export function parseLine(raw, mode, level, lineNo) {
   let text = raw;
@@ -41,6 +57,8 @@ export function parseLine(raw, mode, level, lineNo) {
     if (k === "nv") flags.nv = true;
     else if (k === "alt") (flags.a ??= []).push(rest.map(Number));
     else if (k === "rule") flags.rule = rest.join(" ");
+    else if (k === "free") flags.free = rest;
+    else if (k === "es419") flags.es419 = { note: rest.join(" ") };
     else err(lineNo, `unbekanntes Flag {${f}}`);
     return "";
   });
@@ -64,8 +82,10 @@ export function parseLine(raw, mode, level, lineNo) {
     s.c.push(t);
   });
   if (flags.nv) s.nv = true;
+  if (flags.free) flags.a = [...(flags.a ?? []), ...freeOrders(parts.length, flags.free)];
   if (flags.a) s.a = flags.a;
   if (flags.rule) s.rule = flags.rule;
+  if (flags.es419) s.es419 = flags.es419;
   return s;
 }
 
@@ -74,12 +94,15 @@ function validate(s, lineNo) {
   if (n < 3 || n > 6) err(lineNo, `${n} Chunks (erlaubt 3–6)`);
   if (s.v < 0) err(lineNo, "kein konjugiertes Verb (*)");
   if (s.mode === "janein" && s.v !== 0) err(lineNo, "Ja/Nein-Frage: Verb nicht auf Platz 1");
-  if ((s.mode === "v2" || s.mode === "klammer") && s.v !== 1) err(lineNo, "Verb nicht auf Platz 2");
-  // English B1 mode: indirect questions ("Can you tell me / where / the station / is?"):
-  // a question word or if/whether, and the verb after its subject at the end.
-  if (s.mode === "nebensatz" && !s.c.some((c) => /^(where|when|what|what time|who|why|how|how much|which \w+|if|whether)$/.test(c)))
-    err(lineNo, "indirect question without question word / if / whether chunk");
-  if (s.mode === "nebensatz" && s.v !== n - 1) err(lineNo, "indirect question: verb not at the end");
+  if (s.mode === "v2" && s.v !== 1) err(lineNo, "verb not in slot 2");
+  // A2 mode: the object pronoun stands right before the verb (me lo ha dado).
+  if (s.mode === "klammer" && !/^(me|te|lo|la|le|nos|os|los|las|les|se|se lo|se la)$/.test(s.c[s.v - 1] ?? ""))
+    err(lineNo, "object pronoun not right before the verb");
+  // B1 mode: indirect questions (¿Puedes decirme / dónde / está / la estación?): an accented
+  // question word or si, and the verb behind it.
+  if (s.mode === "nebensatz" && !s.c.some((c) => /^(dónde|adónde|cuándo|cómo|qué|quién|cuánto|por qué|a qué hora|de qué( \S+)?|si)$/.test(c)))
+    err(lineNo, "indirect question without question word / si chunk");
+  if (s.mode === "nebensatz" && s.v < 2) err(lineNo, "indirect question: verb before the question word");
   for (const a of s.a || []) {
     const sorted = [...a].sort((x, y) => x - y);
     if (a.length !== n || sorted.some((x, i) => x !== i)) err(lineNo, `alt ${a.join(" ")} ist keine Umstellung aller ${n} Chunks`);
@@ -128,7 +151,7 @@ lines.forEach((raw, i) => {
 });
 
 // Compact keys, empty fields dropped: the list is inlined into the page.
-const clean = out.map(({ id, mode, level, c, v, s, vp, f, a, e, nv, en, au, src, rule, lv }) => {
+const clean = out.map(({ id, mode, level, c, v, s, vp, f, a, e, nv, en, au, src, rule, lv, es419 }) => {
   const o = { id, mode, level, c, v, s, e, en };
   if (vp.length) o.vp = vp;
   if (f.length) o.f = f;
@@ -136,6 +159,7 @@ const clean = out.map(({ id, mode, level, c, v, s, vp, f, a, e, nv, en, au, src,
   if (nv) o.nv = true;
   if (au) o.au = au;
   if (rule) o.rule = rule;
+  if (es419) o.es419 = es419;
   o.src = src;
   if (lv) o.lv = lv;
   return o;
