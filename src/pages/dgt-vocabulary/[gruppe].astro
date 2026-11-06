@@ -1,0 +1,42 @@
+---
+import { fitTitle } from "../../lib/seo/title.js";
+// /dgt-vocabulary/[gruppe]: one word group of the DGT driving deck in the shared flashcard trainer,
+// the same page as a sector's group (english-for-work/[beruf]/[gruppe].astro).
+import Layout from "../../layouts/Layout.astro";
+import { workPath } from "../../lib/routes.js";
+import VokabelTrainer from "../../components/VokabelTrainer.astro";
+import DeckActions from "../../components/DeckActions.astro";
+import { DECKS, groupsOf, cardsOf, LANGS } from "../../lib/berufeWortschatz.js";
+import "../../styles/berufe.css";
+
+export function getStaticPaths() {
+  return groupsOf("dgt").map((g: any) => ({ params: { gruppe: g.id }, props: { group: g } }));
+}
+const { group } = Astro.props as any;
+const deck = DECKS.dgt;
+const cards = cardsOf("dgt", group.id);
+const deckId = `berufe-dgt-${group.id}`;
+const printHref = `${workPath("dgt", group.id)}/print`;
+---
+<Layout
+  title={fitTitle(`${group.title} – ${deck.title}`, group.title)}
+  description={`${deck.title}: ${group.title} — ${cards.length} words with example sentences and translations.`}
+  breadcrumb={[{ name: deck.title, path: "/dgt-vocabulary" }]}
+>
+  <VokabelTrainer
+    cards={cards}
+    heading={group.title}
+    sub={`${deck.title} · ${cards.length} words`}
+    subParts={[{ text: deck.title }, { text: `${cards.length} words`, key: "sets.wordCount", vars: { n: cards.length } }]}
+    deck={deckId}
+    langs={LANGS}
+    printHref={printHref}
+  >
+    <Fragment slot="hero">
+      <DeckActions setId={deckId} print={printHref} />
+    </Fragment>
+    <Fragment slot="tools">
+      <DeckActions setId={deckId} print={printHref} compact />
+    </Fragment>
+  </VokabelTrainer>
+</Layout>

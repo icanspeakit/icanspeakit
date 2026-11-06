@@ -16,7 +16,7 @@ import { CARD_LANG_EVENT, storedCardLang } from "./cardLangGloss.js";
 import { withBase, stripBase, currentPath } from "./paths.js";
 
 // The trainer routes. A link elsewhere is left alone without a fetch.
-const TRAINER = /^\/(vocabulary(\/(?!print\/|glosses\/)[^/]+(\/[^/]+)?)?|english-for-work\/[^/]+\/[^/]+)\/?$/;
+const TRAINER = /^\/(vocabulary(\/(?!print\/|glosses\/)[^/]+(\/[^/]+)?)?|english-for-work\/[^/]+\/[^/]+|dgt-vocabulary\/[^/]+)\/?$/;
 // Head tags that describe the page, replaced with the new page's.
 const HEAD = ['meta[name="description"]', 'link[rel="canonical"]', 'meta[property^="og:"]', 'meta[name^="twitter:"]', 'script[type="application/ld+json"]', 'link[rel="alternate"][hreflang]'];
 

@@ -1043,6 +1043,9 @@ export const navUebenMenu = {
         // Not a level: the profession decks (/english-for-work), A2–B1, for learners who work.
         { href: "/english-for-work", titleKey: "tool.berufe.title", title: "Deutsch für den Beruf",
           hintKey: "nav.wortschatz.berufeHint", hint: "Wörter für deine Arbeit" },
+        // Not a level either: the driving words (/dgt-vocabulary).
+        { href: "/dgt-vocabulary", titleKey: "dgt.title", title: "DGT driving vocabulary",
+          hintKey: "dgt.navHint", hint: "Car, road, signs, exam and paperwork" },
       ] },
     { id: "fertigkeiten", icon: "mic", href: "/skills",
       nameKey: "nav.subject.fertigkeiten", name: "Fertigkeiten",

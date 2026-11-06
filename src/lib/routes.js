@@ -374,7 +374,7 @@ export const itemKey = (section, slug) => ITEM_KEYS[section]?.[slug] ?? slug;
 /** The page of an item. */
 export const itemPath = (section, id) => `${section}/${itemSlug(section, id)}`;
 /** A work sector, or one word group of it. */
-export const workPath = (sector, group) =>
+export const workPath = (sector, group) => sector === "dgt" ? `/dgt-vocabulary${group ? `/${group}` : ""}` :
   `/english-for-work/${itemSlug("/english-for-work", sector)}${group ? `/${WORK_GROUP_SLUGS[group] ?? group}` : ""}`;
 /** A work group's id from its URL slug. */
 export const workGroupKey = (slug) => WORK_GROUP_KEYS[slug] ?? slug;
