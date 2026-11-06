@@ -541,7 +541,7 @@ export function mountHost(root) {
     } catch (e) {
       console.error(e);
       err.textContent = e?.message === "empty"
-        ? "No questions can be built from this card set: the words need a translation or a/an/some."
+        ? "No questions can be built from this card set: the words need a translation or el / la."
         : t("lq.host.error.create", "Der Raum konnte nicht geöffnet werden. Prüfe die Internetverbindung und versuch es noch einmal.");
     } finally {
       btns.forEach((b) => (b.disabled = false));

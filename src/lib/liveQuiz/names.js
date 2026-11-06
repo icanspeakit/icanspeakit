@@ -1,5 +1,6 @@
-// Default nicknames for the live quiz: a friendly English adjective and an animal
-// ("Brave Fox", "Clever Owl", "Busy Bee") — a player learns a phrase just by joining. Only
+// Default nicknames for the live quiz: an animal and a friendly Spanish adjective
+// ("Zorro valiente", "Búho feliz", "Abeja amable") — a player learns a phrase just by joining.
+// Only adjectives with one form for el and la, so *zorro* and *abeja* both agree, and only
 // adjectives nobody minds being called, and only combinations that fit the 16 characters
 // cleanName() allows, so a name is never cut off mid-word.
 //
@@ -8,20 +9,20 @@
 // (public/img/openmoji/, fetched by scripts/fetch-openmoji.mjs).
 
 const ADJECTIVES = [
-  "brave", "clever", "smart", "quick", "strong", "happy", "wise", "bold",
-  "funny", "proud", "gentle", "noble", "cool", "lucky", "kind", "busy", "jolly",
+  "valiente", "fuerte", "feliz", "alegre", "amable", "genial", "veloz", "capaz",
+  "libre", "audaz", "tenaz", "noble", "elegante", "brillante", "sonriente",
 ];
 
 /** [noun, emoji] */
 const ANIMALS = [
-  ["Fox", "🦊"], ["Bear", "🐻"], ["Wolf", "🐺"], ["Eagle", "🦅"], ["Lion", "🦁"],
-  ["Tiger", "🐯"], ["Dolphin", "🐬"], ["Otter", "🦦"], ["Hedgehog", "🦔"], ["Dog", "🐕"],
-  ["Hamster", "🐹"], ["Penguin", "🐧"], ["Panda", "🐼"], ["Beaver", "🦫"], ["Koala", "🐨"],
-  ["Frog", "🐸"], ["Rabbit", "🐰"], ["Monkey", "🐵"], ["Parrot", "🦜"],
-  ["Owl", "🦉"], ["Cat", "🐱"], ["Bee", "🐝"], ["Giraffe", "🦒"], ["Seal", "🦭"],
-  ["Mouse", "🐭"], ["Duck", "🦆"],
-  ["Horse", "🐴"], ["Unicorn", "🦄"], ["Deer", "🦌"], ["Zebra", "🦓"], ["Kangaroo", "🦘"],
-  ["Sheep", "🐑"], ["Chick", "🐥"],
+  ["Zorro", "🦊"], ["Oso", "🐻"], ["Lobo", "🐺"], ["Águila", "🦅"], ["León", "🦁"],
+  ["Tigre", "🐯"], ["Delfín", "🐬"], ["Nutria", "🦦"], ["Erizo", "🦔"], ["Perro", "🐕"],
+  ["Hámster", "🐹"], ["Pingüino", "🐧"], ["Panda", "🐼"], ["Castor", "🦫"], ["Koala", "🐨"],
+  ["Rana", "🐸"], ["Conejo", "🐰"], ["Mono", "🐵"], ["Loro", "🦜"],
+  ["Búho", "🦉"], ["Gato", "🐱"], ["Abeja", "🐝"], ["Jirafa", "🦒"], ["Foca", "🦭"],
+  ["Ratón", "🐭"], ["Pato", "🦆"],
+  ["Caballo", "🐴"], ["Unicornio", "🦄"], ["Ciervo", "🦌"], ["Cebra", "🦓"], ["Canguro", "🦘"],
+  ["Oveja", "🐑"], ["Pollito", "🐥"],
 ];
 
 import { withBase } from "../paths.js";
@@ -29,10 +30,8 @@ import { withBase } from "../paths.js";
 /** Animal → emoji, for the icon fetch script and for avatarSrc(). */
 export const ANIMAL_EMOJI = Object.fromEntries(ANIMALS);
 
-const cap = (s) => s[0].toUpperCase() + s.slice(1);
-
 const NAMES = ADJECTIVES.flatMap((adj) =>
-  ANIMALS.map(([noun]) => ({ name: `${cap(adj)} ${noun}`, animal: noun }))
+  ANIMALS.map(([noun]) => ({ name: `${noun} ${adj}`, animal: noun }))
 ).filter(({ name }) => name.length <= 16);
 
 const ANIMAL_NAMES = Object.keys(ANIMAL_EMOJI);
@@ -48,10 +47,10 @@ export function drawAnimal(not) {
 /** A random name, never the one passed in. */
 export const animalName = (not) => drawAnimal(not).name;
 
-/** The animal a name ends in ("Clever Owl" → "Owl"), or null for an own name. */
+/** The animal a name starts with ("Búho feliz" → "Búho"), or null for an own name. */
 export function animalOf(name) {
-  const last = String(name ?? "").trim().split(/\s+/).pop();
-  return ANIMAL_NAMES.find((a) => a.toLowerCase() === last?.toLowerCase()) ?? null;
+  const head = String(name ?? "").trim().split(/\s+/)[0];
+  return ANIMAL_NAMES.find((a) => a.toLowerCase() === head?.toLowerCase()) ?? null;
 }
 
 /** A random animal, for bots and for players whose phone sent none. */
