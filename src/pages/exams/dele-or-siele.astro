@@ -75,20 +75,14 @@ const rows = [
 
     <section class="exam-section">
       <h2 data-i18n="delesiele.purpose.title">What do you need it for?</h2>
-      <div class="format-table-wrap">
-        <table class="format-table">
-          <thead><tr><th data-i18n="delesiele.th.purpose">Purpose</th><th data-i18n="delesiele.th.answer">Short answer</th><th data-i18n="delesiele.th.detail">What to know</th></tr></thead>
-          <tbody>
-            {purposes.map((p) => (
-              <tr>
-                <th scope="row" data-i18n={`delesiele.p.${p.key}.title`}>{p.title}</th>
-                <td><strong data-i18n={`delesiele.p.${p.key}.answer`}>{p.answer}</strong></td>
-                <td data-i18n={`delesiele.p.${p.key}.text`}>{p.text}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {/* Headed paragraphs, not a table: these answers are too long for narrow columns on a phone. */}
+      {purposes.map((p) => (
+        <>
+          <h3 data-i18n={`delesiele.p.${p.key}.title`}>{p.title}</h3>
+          <p><strong data-i18n={`delesiele.p.${p.key}.answer`}>{p.answer}</strong></p>
+          <p data-i18n={`delesiele.p.${p.key}.text`}>{p.text}</p>
+        </>
+      ))}
       <p class="format-note" data-i18n="delesiele.purpose.note">
         General orientation, not legal advice. Rules change, so before you pay for an exam, check with
         the office that will read your result.
