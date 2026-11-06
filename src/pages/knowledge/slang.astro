@@ -1,12 +1,12 @@
 ---
-// /knowledge/slang — how English is really spoken in the UK: the short forms (gonna,
-// dunno), the everyday words (cheers, knackered), money words you hear but needn't say
-// (quid, a fiver, oh for zero), slang and young people's words, and the swear words — each
+// /knowledge/slang — how Spanish is really spoken in Spain: the short forms (finde, peli,
+// cansao), the everyday words (vale, tío, currar), money words you hear but needn't say
+// (pasta, pavos, a pachas), slang and young people's words, and the swear words — each
 // with its standard equivalent, an example and where it is fine. The four registers as a
 // ladder at the top; the rude section folded until opened, so the page can be shown in
-// class. At the foot: polite instead of rude, and what UK law says about abusive words.
+// class. At the foot: polite instead of rude.
 //
-// The words live in src/data/umgangssprache.json (own draft, unreviewed), British English
+// The words live in src/data/umgangssprache.json (own draft, unreviewed), Spain Spanish
 // at A2–B1. Linked from the Wissen menu (navUmgangssprache in catalog.js) and the phone drawer.
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
@@ -31,7 +31,7 @@ const stepFig = (id: string) => {
   const [name, expr, extra] = STEP_MASCOT[id] ?? ["bruno", "happy", undefined];
   return mascotSvg({ name, expr, view: "three", size: 56, extra, label: "", className: "us-step-fig" });
 };
-// A tip per section, from the mascot that fits it (≤ 6 words, easy German).
+// A tip per section, from the mascot that fits it (≤ 6 words, easy English).
 const GROUP_MASCOT: Record<string, { name: Crew; expr: Expr; say: string }> = {
   kurzformen: { name: "quaki", expr: "happy", say: "Say it, don’t write it!" },
   alltag: { name: "hamsti", expr: "happy", say: "You’ll hear these daily." },
@@ -77,7 +77,7 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
             </div>
             <b>{s.name}</b>
             <span class="us-step-wo">{s.wo}</span>
-            <q class="us-step-say">{s.satz}</q>
+            <q class="us-step-say" lang="es">{s.satz}</q>
           </li>
         ))}
       </ol>
@@ -101,9 +101,9 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
         <ul class="us-list">
           {g.eintraege.map((e) => (
             <li class="us-card">
-              <p class="us-w">{e.w}</p>
+              <p class="us-w" lang="es">{e.w}</p>
               <p class="us-std"><span>Standard Spanish</span> <b>{e.std}</b></p>
-              {e.bsp && <p class="us-bsp">“{e.bsp}”</p>}
+              {e.bsp && <p class="us-bsp" lang="es">“{e.bsp}”</p>}
               {e.info && <p class="us-info"><span aria-hidden="true">ℹ️</span> {e.info}</p>}
             </li>
           ))}
@@ -130,17 +130,16 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
           {vulgaer.eintraege.map((e) => (
             <li class="us-card" data-s={e.stufe}>
               <p class="us-w">
-                {e.w}
+                <span lang="es">{e.w}</span>
                 <span class="us-dots" data-s={e.stufe} title={STUFE[e.stufe ?? 0]}><span class="sr-only">{STUFE[e.stufe ?? 0]}</span></span>
               </p>
               <p class="us-std"><span>Meaning</span> <b>{e.std}</b></p>
-              {e.bsp && <p class="us-bsp">“{e.bsp}”</p>}
+              {e.bsp && <p class="us-bsp" lang="es">“{e.bsp}”</p>}
               {e.info && <p class="us-info"><span aria-hidden="true">ℹ️</span> {e.info}</p>}
             </li>
           ))}
         </ul>
       </details>
-      <p class="us-law"><span aria-hidden="true">⚖️</span> <span><b>Careful, the law:</b> {data.recht}</span></p>
     </section>
 
     <section class="us-group us-group--hoeflich" id="hoeflich" aria-labelledby="hoeflich-h">
@@ -150,9 +149,9 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
       <ul class="us-swap">
         {data.hoeflich.map((h) => (
           <li>
-            <span class="us-swap-side us-swap-side--bad"><i aria-hidden="true">✗</i><s>{h.von}</s></span>
+            <span class="us-swap-side us-swap-side--bad"><i aria-hidden="true">✗</i><s lang="es">{h.von}</s></span>
             <span class="us-swap-arrow" aria-hidden="true">→</span>
-            <span class="us-swap-side us-swap-side--good"><i aria-hidden="true">✓</i><b>{h.zu}</b></span>
+            <span class="us-swap-side us-swap-side--good"><i aria-hidden="true">✓</i><b lang="es">{h.zu}</b></span>
           </li>
         ))}
       </ul>
@@ -260,7 +259,6 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
     .us-dots[data-s="2"] { --d2: #dc2626; }
     .us-dots[data-s="3"] { --d2: #dc2626; --d3: #dc2626; }
     .us-card[data-s="3"] { border-color: #fca5a5; }
-    .us-law { display: flex; gap: 10px; margin: 16px 0 0; padding: 12px 14px; border-left: 4px solid #dc2626; border-radius: 8px; background: color-mix(in srgb, #dc2626 7%, transparent); line-height: 1.5; }
 
     /* Rude on the left (red, crossed out), polite on the right (green). */
     .us-swap { display: grid; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }

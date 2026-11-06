@@ -44,6 +44,8 @@ const STRICT = new Set([
   "redewendungen",
   "wortfallen",
   "typische-fehler",
+  "umgangssprache",
+  "synonyme",
   // "berufe", "dgt", "business-spanish",
 ]);
 
@@ -99,6 +101,8 @@ const MODULES = [
     items: (d) => [...arr(d.families), ...arr(d.stress), ...arr(d.rules)].map((item) => ({ item })) },
   { id: "ausspracheregeln", files: one("src/data/ausspracheregeln.json"),
     items: (d) => arr(d.rules).map((item) => ({ item })) },
+  { id: "umgangssprache", files: one("src/data/umgangssprache.json"), items: (d) => arr(d.gruppen).flatMap((g) => arr(g.eintraege).map((item) => ({ item }))) },
+  { id: "synonyme", files: one("src/data/synonyme.json"), items: (d) => arr(d.groups).map((item) => ({ item })) },
   { id: "typische-fehler", files: one("src/data/typische-fehler.json"), items: (d) => arr(d.groups).flatMap((g) => arr(g.pairs).map((item) => ({ item }))) },
   { id: "wortfallen", files: one("src/data/wortfallen.json"), items: (d) => arr(d.groups).map((item) => ({ item })) },
   { id: "redewendungen", files: one("src/data/redewendungen.json"),
