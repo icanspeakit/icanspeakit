@@ -7,7 +7,7 @@ import { t } from "../liveQuiz/text.js";
 export const S = {
   // Start
   title: "Bruno and the Impostor",
-  lead: "Everyone gets the same secret word – except one player. Describe the word in English, find the impostor and don't let them fool you.",
+  lead: "Everyone gets the same secret word – except one player. Describe the word in Spanish, find the impostor and don't let them fool you.",
   party: "Party: one phone for everyone",
   partyHint: "3–12 players, pass the phone round. No internet needed.",
   klasse: "Play with your class",
