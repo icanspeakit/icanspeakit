@@ -130,7 +130,7 @@ const markerData = JSON.stringify(
     <svg class="ls-foldtab-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
   </button>
 
-  <div class="nvb-rail" role="tablist" aria-label="Stufe wählen" data-i18n-attr="aria-label:ap.chooseLevel">
+  <div class="nvb-rail" role="tablist" aria-label="Choose a level" data-i18n-attr="aria-label:ap.chooseLevel">
     <!-- Your own record first, with the same icon on every side nav. Its pane is
          written by the trainer's script from this browser's history. -->
     <button
@@ -159,7 +159,7 @@ const markerData = JSON.stringify(
           aria-disabled={live ? undefined : "true"}
           aria-selected={level === openLevel ? "true" : "false"}
           aria-controls={live ? `ap-pane-${level}` : undefined}
-          aria-label={`Stufe ${level}`}
+          aria-label={`Level ${level}`}
           data-i18n-attr={`aria-label:kb.level.${level}`}
         >
           <span class="nvb-railbadge">{level}</span>
@@ -183,7 +183,7 @@ const markerData = JSON.stringify(
       data-level="haeufigkeit"
       aria-selected={current === "haeufigkeit" ? "true" : "false"}
       aria-controls="ap-pane-haeufigkeit"
-      aria-label="Nach Häufigkeit"
+      aria-label="By frequency"
       data-i18n-attr="aria-label:ap.byFreq"
     >
       <Icon name="bars" size={20} />
@@ -348,7 +348,7 @@ const markerData = JSON.stringify(
                 class:list={["nvb-item", "ap-round", openLevel === "haeufigkeit" && r.index === 1 && "active"]}
                 data-round={r.index - 1}
                 data-round-level="haeufigkeit"
-                title={`Nomen ${r.from}–${r.to}`}
+                title={`Nouns ${r.from}–${r.to}`}
               >
                 <span class="nv-icon ls-num">{r.index}</span>
                 <span>{r.preview}</span>

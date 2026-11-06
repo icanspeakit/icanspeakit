@@ -1,21 +1,18 @@
-// The packs of the der/die/das trainer — "Nach Thema" and "Nach Regel" — worked out at
-// build time from the lexicon and src/data/artikel-packs.json.
+// The packs of the el / la trainer ("By topic" and "By rule"), worked out at build time from the
+// lexicon and src/data/artikel-packs.json.
 //
-// Topic packs group the lexicon's own unit topics. A noun can carry more than one topic
-// (17 of the 386 A1 nouns do); it belongs to the pack of its first, so every noun sits in
-// exactly one pack and the packs of a level add up to the level.
+// Topic packs group the lexicon's own unit topics. A noun can carry more than one topic; it
+// belongs to the pack of its first, so every noun sits in exactly one pack and the packs of a
+// level add up to the level.
 //
-// Rule packs are article patterns — English: vowel letter → an, consonant letter → a,
-// uncountable → some (the German data had -ung → die, -chen → das; the suffix code stays).
-// A noun joins one only when it matches the pattern AND its real article is the pack's
-// article. The ones that match and break the rule (a university, an hour) are returned as
-// exceptions: they are what a rule pack must never teach, and together they make the
-// "Exceptions" pack (id "ausnahmen").
+// Rule packs are gender patterns: the ending of the noun's first word (-ción → la, -aje → el), a
+// word list (-ma words from Greek) or the feminine nouns with a stressed a- (el agua). A noun joins
+// one only when it matches the pattern AND its real article is the pack's article. The ones that
+// match and break the rule (el día, la mano) are returned as exceptions: they are what a rule pack
+// must never teach, and together they make the "Exceptions" pack (id "ausnahmen").
 //
 // Also importable from plain `node`, like lexicon.js — scripts can print the stats.
 import config from "../data/artikel-packs.json" with { type: "json" };
-import { verbs } from "./lexicon.js";
-
 export const PACK_CONFIG = config;
 const LEVELS = ["A1", "A2", "B1", "B2"];
 
@@ -31,41 +28,25 @@ export function topicPackFor(noun) {
   return null;
 }
 
-let infinitives = null;
-const isInfinitive = (lemma) => {
-  infinitives ??= new Set(verbs().map((v) => v.lemma.toLowerCase()));
-  return infinitives.has(lemma.toLowerCase());
-};
+/** The word that decides the article: la oferta de trabajo, el dolor de cabeza. */
+export const headWord = (lemma) => lemma.split(" ")[0].toLowerCase();
 
 /**
  * Which rule a noun's form points at, whatever its real article: `{ rule, why }`, or null
  * when no pattern applies. `why` names the matched pattern, for the exception list.
  */
 export function ruleMatch(noun) {
-  const L = noun.lemma;
+  // el IVA, la ESO: an acronym takes the article of the word behind it, not of its last letter.
+  if (/^\p{Lu}{2,}/u.test(noun.lemma) || config.noRule?.includes(noun.lemma)) return null;
+  const L = headWord(noun.lemma);
   for (const r of config.rules) {
-    // English (a / an / some): `uncountable` takes the "some" nouns; `countableOnly` rules
-    // skip them; `prefixes` match the first letter(s), so "university" matches the vowel rule
-    // and breaks it (a university), "hour" the consonant rule (an hour): the exceptions.
-    if (r.uncountable) {
-      if (noun.gender === "some") return { rule: r, why: noun.pluralOnly ? "always plural" : "uncountable" };
+    if (r.genusF) {
+      if (noun.genus === "f") return { rule: r, why: "stressed a-" };
       continue;
     }
-    if (r.countableOnly && noun.gender === "some") continue;
-    const prefix = r.prefixes?.find((p) => L.toLowerCase().startsWith(p));
-    if (prefix) return { rule: r, why: `starts with ${prefix}` };
-    if (r.names?.includes(L)) return { rule: r, why: "Name" };
-    if (r.notSuffixes?.some((s) => L.endsWith(s))) continue;
-    const suffix = r.suffixes?.find((s) => L.endsWith(s));
-    if (suffix) {
-      // -chen is a diminutive only after a consonant other than s: Brötchen, Mädchen —
-      // not Kuchen, Knochen, Groschen, which merely end in the same letters.
-      if (r.diminutiveCheck && suffix === "chen" && !/[^aeiouäöüs]chen$/.test(L)) continue;
-      return { rule: r, why: `-${suffix}` };
-    }
-    if (r.infinitives && isInfinitive(L)) return { rule: r, why: "Verb als Nomen" };
-    // "der Lehrer": a person on -er, recognisable because the lexicon has "die Lehrerin".
-    if (r.maleEr && L.endsWith("er") && noun._femaleForms?.has(L + "in")) return { rule: r, why: "Mann auf -er" };
+    if (r.names?.includes(L)) return { rule: r, why: "-ma" };
+    const suffix = r.suffixes?.find((x) => L.endsWith(x));
+    if (suffix) return { rule: r, why: `-${suffix}` };
   }
   return null;
 }
@@ -75,17 +56,16 @@ export function ruleMatch(noun) {
  * @param {Array} lexNouns  lexicon nouns with `gender` (A1–B2)
  */
 export function buildArtikelPacks(lexNouns) {
-  const femaleForms = new Set(lexNouns.filter((n) => n.gender === "die").map((n) => n.lemma));
   const nounTopic = {};
   const nounRule = {};
   const exceptions = [];
 
   for (const n of lexNouns) {
     nounTopic[n.id] = topicPackFor(n);
-    const m = ruleMatch({ ...n, _femaleForms: femaleForms });
+    const m = ruleMatch(n);
     if (!m) continue;
     if (m.rule.article === n.gender) nounRule[n.id] = m.rule.id;
-    else exceptions.push({ id: n.id, level: n.level, lemma: n.lemma, gender: n.gender, rule: m.rule.id, why: m.why });
+    else exceptions.push({ id: n.id, level: n.level, lemma: n.lemma, gender: n.gender, rule: m.rule.id, ruleArticle: m.rule.article, why: m.why });
   }
 
   const byLevel = {};
@@ -95,22 +75,22 @@ export function buildArtikelPacks(lexNouns) {
       // `levels` renames a pack per level: the same lexicon topic holds other nouns at A2.
       .map((p) => ({ id: p.id, name: p.levels?.[level]?.name ?? p.name, icon: p.levels?.[level]?.icon ?? p.icon, ids: here.filter((n) => nounTopic[n.id] === p.id).map((n) => n.id) }))
       .filter((p) => p.ids.length >= config.minPack);
-    // A rule is taught with every noun up to this level: A2 has no "der" nouns of its own
-    // to show it with, and a B1 learner still meets the A1 weekdays.
+    // A rule is taught with every noun up to this level: a B1 learner still meets the A1 words.
     const upTo = new Set(LEVELS.slice(0, i + 1));
     const reach = lexNouns.filter((n) => upTo.has(n.level));
     const rules = config.rules
       .map((r) => ({
-        id: r.id, article: r.article, name: r.name, rule: r.rule, ruleLeicht: r.ruleLeicht,
+        id: r.id, article: r.article, name: r.name, rule: r.rule, ruleLeicht: r.ruleLeicht, min: r.min,
         ids: reach.filter((n) => nounRule[n.id] === r.id).map((n) => n.id),
       }))
-      .filter((r) => r.ids.length >= config.minPack);
+      // `min` lets a small but useful rule through (el + stressed a- has few nouns).
+      .filter((r) => r.ids.length >= (r.min ?? config.minPack));
     const exc = exceptions.filter((e) => upTo.has(e.level));
     if (exc.length >= 5) {
       rules.push({
         id: "ausnahmen", article: null, name: "Exceptions",
-        rule: "These words look as if a rule applies – and break it: a university, a European, an hour. Learn them one by one.",
-        ruleLeicht: "These words do not follow the rule. Learn each word with a or an.",
+        rule: "These words look as if a rule applies, and break it: el día, el mapa, la mano, la foto. Learn them one by one.",
+        ruleLeicht: "These words do not follow the rule. Learn each word with el or la.",
         ids: exc.map((e) => e.id),
       });
     }

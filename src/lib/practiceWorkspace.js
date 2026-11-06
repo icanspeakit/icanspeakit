@@ -1,8 +1,9 @@
 // Shared "practice workspace" engine: Fokus-Modus (one question at a time) and
 // Testmodus (compact list), sharing per-question progress within the session.
 // Question shape: { id, difficulty?, prompt, options, answer, explain, explainLeicht?, change, audioSrc? }.
-// `audioSrc` is the answer spoken (the Artikel-Trainer's "der Tisch"); optional. It plays
-// once the question is settled — solved, or revealed — and the `change` chip replays it.
+// `audioSrc` is the answer spoken (a recorded "la casa"); `speak` is the same as text, for the
+// browser's Spanish voice while there are no recordings. Both optional. It plays once the
+// question is settled (solved, or revealed), and the `change` chip replays it.
 // `explainLeicht` is the Leichte-Sprache register of `explain`; optional, and absent means
 // the switch leaves that question's explanation as it is.
 // `difficulty` is optional — when absent, all questions form a single implicit group.
@@ -31,11 +32,12 @@ const HOLD_EXTRA_MS = 2000;
 // wrongFlow, right answer: long enough for Bruno to pop up (a 0.5 s hop) and stay a moment.
 const CORRECT_ADVANCE_DELAY_WRONGFLOW_MS = 1050;
 
-/* The article in its colour, for the noun shown in full after a wrong answer: the site's
-   der/die/das tokens, and a Pluraletantum's "die" in the plural colour (as in Wortschatz). */
+/* The article in its colour, for the noun shown in full after a wrong answer: el and la take the
+   site's two gender colours. */
+const ARTICLE_COLOUR = { el: "der", la: "die" };
 function articleHtml(q) {
-  const cls = q.pluralOnly ? "plural" : ["der", "die", "das"].includes(q.answer) ? q.answer : "";
-  return `<b class="akk-art${cls ? ` akk-art--${cls}` : ""}" lang="de">${q.answer}</b>`;
+  const cls = ARTICLE_COLOUR[q.answer] ?? "";
+  return `<b class="akk-art${cls ? ` akk-art--${cls}` : ""}" lang="es">${q.answer}</b>`;
 }
 
 function sentenceHtml(prompt) {
@@ -83,7 +85,7 @@ export function setSoundOn(on) {
    says which way the switch is set. Only questions with a file get one, which is what
    tells a learner which words are voiced. */
 function hearHtml(question, { slow = false } = {}) {
-  if (!question.audioSrc) return "";
+  if (!question.audioSrc && !question.speak) return "";
   const slowBtn = slow
     ? `<button type="button" class="akk-slow" data-slow-toggle aria-pressed="${slowOn}" title="${attr(t("pw.slow.title", "Langsamer vorlesen"))}"><span class="akk-slow-track" aria-hidden="true"><span class="akk-slow-knob"></span></span>${t("pw.slow", "Langsam")}</button>`
     : "";
@@ -111,7 +113,21 @@ if (typeof document !== "undefined") document.addEventListener("practice:sound",
 // and it outlives the re-render Fokus-Modus does when it moves on to the next card.
 let player = null;
 function speak(question, { force = false } = {}) {
-  if (!question.audioSrc || (!soundOn && !force)) return;
+  if (!soundOn && !force) return;
+  if (!question.audioSrc) {
+    // No recording: the browser's voice, one from Spain first. No speech at all: stay silent, the
+    // answer is on the card anyway.
+    if (!question.speak || typeof speechSynthesis === "undefined") return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(question.speak);
+    u.lang = "es-ES";
+    u.rate = slowOn ? 0.6 : 0.9;
+    const voices = speechSynthesis.getVoices();
+    const v = voices.find((x) => /^es(-|_)ES/i.test(x.lang)) ?? voices.find((x) => /^es(-|_)/i.test(x.lang));
+    if (v) u.voice = v;
+    speechSynthesis.speak(u);
+    return;
+  }
   if (!player) player = new Audio();
   player.pause();
   player.src = withBase(question.audioSrc);
@@ -137,7 +153,7 @@ function whyHtml(question) {
       <span class="akk-tag">${t("pw.why", "WARUM?")}</span>
       <p class="akk-why-text" data-ls="${attr(question.explain)}"${leicht}>${question.explain}</p>
       ${
-        question.audioSrc
+        question.audioSrc || question.speak
           ? `<button type="button" class="akk-why-chip akk-why-chip--audio" data-speak="${attr(question.id)}" aria-label="${attr(t("pw.listenTo", "{x} anhören", { x: question.change }))}">${SPEAKER_SVG}<span>${question.change}</span></button>`
           : `<span class="akk-why-chip">${question.change}</span>`
       }
@@ -479,7 +495,7 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
             // The noun in full once the answer is out, its article in colour: „die Dividende".
             // One LTR span: the sentence is a flex row, which an Arabic UI would reverse
             // into „Dividende die".
-            ? `<span dir="ltr" lang="de">${q.prompt.replace("___", articleHtml(q))}</span>`
+            ? `<span dir="ltr" lang="es">${q.prompt.replace("___", articleHtml(q))}</span>`
             : sentenceHtml(q.prompt)}${hearHtml(q, { slow: true })}</p>
           <div class="akk-pills">
             ${q.options
@@ -495,7 +511,7 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
             ? `<p class="akk-focus-instruction">${attr(root.dataset.instruction)}</p>`
             : `<p class="akk-focus-instruction" data-ls="${attr(t("pw.instruction", "Wähle den passenden Artikel."))}" data-ls-leicht="${attr(t("pw.instruction.leicht", "Was passt: der, die oder das? Klicke auf ein Wort."))}">${t("pw.instruction", "Wähle den passenden Artikel.")}</p>`}
           ${q.plural && !root.dataset.instruction
-            ? `<p class="akk-focus-plural">${t("pw.plural", "Plural:")} <b lang="de">die ${q.plural}</b></p>`
+            ? `<p class="akk-focus-plural">${t("pw.plural", "Plural:")} <b lang="es">${q.plural}</b></p>`
             : ""}
           <div class="akk-feedback" id="akk-focus-feedback">
             ${

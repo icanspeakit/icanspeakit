@@ -1,5 +1,6 @@
 {
-  "_comment": "Packs for the a / an / some trainer (/articles) — see src/lib/artikelPacks.js. `topics` groups the lexicon's own unit topics (src/content/lexicon/*.json; the topic ids stayed German) into everyday packs; a noun belongs to the pack of its FIRST topic, so every tagged noun is in exactly one. `rules` are article patterns; a noun joins a rule pack only if it matches the pattern AND its real article is the pack's article — the ones that match and break it are the exceptions (a university, a European, an hour). English rules match by first letter (`prefixes`, `countableOnly`) or by the article itself (`uncountable`); the letter is only a hint, the sound decides.",
+  "_comment": "Packs for the el / la trainer (/articles), see src/lib/artikelPacks.js. `topics` groups the lexicon's own unit topics (src/content/lexicon/*.json; the topic ids stayed German) into everyday packs; a noun belongs to the pack of its FIRST topic, so every tagged noun is in exactly one. `rules` are gender patterns, checked in this order on the noun's first word; a noun joins a rule pack only if it matches the pattern AND its real article is the pack's article. The ones that match and break it are the exceptions (el día, la mano). `names` is a word list, `suffixes` are endings, `genusF` takes the feminine nouns with a stressed a- (el agua, lexicon genus: f). `min` lowers minPack for a rule with few nouns. `noRule` lists set phrases no ending rule speaks about; acronyms (IVA, ESO) are skipped by the code.",
+  "noRule": ["tira y afloja", "boca a boca"],
   "minPack": 8,
   "_levels": "A topic pack's `levels` renames it per level: one lexicon topic holds different nouns at each level (A1 wohnen = kitchen, bathroom; A2 = deposit, landlord), so no pack name repeats across A1–B2. `name`/`icon` are the fallback.",
   "topics": [
@@ -22,38 +23,87 @@
     { "id": "zeit", "name": "Time, weather & nature", "icon": "🌦️", "topics": ["zeit", "wetter", "natur", "umwelt"],
       "levels": { "A2": { "name": "Environment & climate", "icon": "🌍" }, "B1": { "name": "Sustainability & energy", "icon": "♻️" }, "B2": { "name": "Climate & energy", "icon": "🌱" } } },
     { "id": "einkaufen", "name": "Shopping & money", "icon": "🛒", "topics": ["einkaufen", "geld"],
-      "levels": { "A2": { "name": "Banks & accounts", "icon": "💳" }, "B1": { "name": "Tax & finance", "icon": "🧾" }, "B2": { "name": "Markets & pensions", "icon": "💷" } } },
+      "levels": { "A2": { "name": "Banks & accounts", "icon": "💳" }, "B1": { "name": "Tax & finance", "icon": "🧾" }, "B2": { "name": "Markets & pensions", "icon": "💶" } } },
     { "id": "aemter", "name": "Offices & society", "icon": "🏛️", "topics": ["aemter", "gesellschaft", "politik", "recht", "migration"],
-      "levels": { "A1": { "name": "Offices & forms", "icon": "📋" }, "A2": { "name": "Post & letters", "icon": "✉️" }, "B1": { "name": "Authorities & visas", "icon": "🛂" }, "B2": { "name": "Law & politics", "icon": "⚖️" } } },
+      "levels": { "A1": { "name": "Offices & forms", "icon": "📋" }, "A2": { "name": "Post & letters", "icon": "✉️" }, "B1": { "name": "Authorities & permits", "icon": "🛂" }, "B2": { "name": "Law & politics", "icon": "⚖️" } } },
     { "id": "medien", "name": "Media & technology", "icon": "📱", "topics": ["medien", "kommunikation", "technik"],
       "levels": { "A2": { "name": "Phone & email", "icon": "📞" }, "B1": { "name": "News & media", "icon": "📰" }, "B2": { "name": "Digital life & data", "icon": "💻" } } }
   ],
   "rules": [
     {
-      "id": "some-uncountable",
-      "article": "some",
-      "name": "some: you can't count it",
-      "rule": "Uncountable nouns (water, money, advice, information, furniture) and plural-only nouns (trousers, clothes) never take a or an: some water, some advice.",
-      "ruleLeicht": "You can't count it? Then you say “some”: some water, some bread.",
-      "uncountable": true
+      "id": "el-a-tonica",
+      "article": "el",
+      "name": "el + stressed a-",
+      "rule": "Feminine nouns that start with a stressed a- or ha- take el in the singular, so the two a sounds don't run together: el agua, el aula, el hambre. They stay feminine: el agua fría, las aguas.",
+      "ruleLeicht": "Some words start with a strong “a”. They take “el”, but they are feminine: el agua fría, las aguas.",
+      "genusF": true,
+      "min": 4
     },
     {
-      "id": "an-vowel",
-      "article": "an",
-      "name": "an + vowel sound",
-      "rule": "Before a vowel sound you say an: an apple, an egg, an idea, an office, an umbrella. The sound counts, not the letter: a university, a European, a one-way ticket.",
-      "ruleLeicht": "The word starts with the sound a, e, i, o or u? Then you say “an”: an apple.",
-      "prefixes": ["a", "e", "i", "o", "u"],
-      "countableOnly": true
+      "id": "el-griego",
+      "article": "el",
+      "name": "-ma words from Greek",
+      "rule": "Many words in -ma come from Greek and are masculine: el problema, el tema, el idioma, el sistema. Not every word in -ma: la cama, la forma, la crema.",
+      "ruleLeicht": "These words end in -ma, but they take “el”: el problema, el idioma.",
+      "names": ["diploma", "ecosistema", "cronograma", "problema", "tema", "sistema", "idioma", "clima", "programa", "poema", "drama", "diagrama", "síntoma", "esquema", "dilema", "panorama", "teorema", "trauma", "lema", "emblema", "enigma", "dogma", "estigma", "fantasma", "telegrama", "crucigrama", "organigrama", "aroma", "cisma", "carisma"],
+      "min": 4
     },
     {
-      "id": "a-consonant",
-      "article": "a",
-      "name": "a + consonant sound",
-      "rule": "Before a consonant sound you say a: a book, a car, a house. The sound counts, not the letter: an hour, an honest answer (the h is silent).",
-      "ruleLeicht": "The word starts with another sound, like b, c, d, h or s? Then you say “a”: a book.",
-      "prefixes": ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"],
-      "countableOnly": true
+      "id": "la-cion",
+      "article": "la",
+      "name": "-ción and -sión",
+      "rule": "Nouns in -ción and -sión are feminine: la estación, la información, la televisión, la decisión.",
+      "ruleLeicht": "The word ends in -ción or -sión? Then you say “la”: la estación.",
+      "suffixes": ["ción", "sión"]
+    },
+    {
+      "id": "la-dad",
+      "article": "la",
+      "name": "-dad, -tad and -tud",
+      "rule": "Nouns in -dad, -tad and -tud are feminine: la ciudad, la universidad, la libertad, la salud.",
+      "ruleLeicht": "The word ends in -dad, -tad or -tud? Then you say “la”: la ciudad.",
+      "suffixes": ["dad", "tad", "tud"]
+    },
+    {
+      "id": "la-umbre",
+      "article": "la",
+      "name": "-umbre",
+      "rule": "Nouns in -umbre are feminine: la costumbre, la cumbre, la legumbre.",
+      "ruleLeicht": "The word ends in -umbre? Then you say “la”: la costumbre.",
+      "suffixes": ["umbre"],
+      "min": 4
+    },
+    {
+      "id": "el-aje",
+      "article": "el",
+      "name": "-aje",
+      "rule": "Nouns in -aje are masculine: el viaje, el garaje, el paisaje, el mensaje.",
+      "ruleLeicht": "The word ends in -aje? Then you say “el”: el viaje.",
+      "suffixes": ["aje"]
+    },
+    {
+      "id": "el-or",
+      "article": "el",
+      "name": "-or",
+      "rule": "Most nouns in -or are masculine: el ordenador, el color, el conductor. The ones to watch: la flor, la labor.",
+      "ruleLeicht": "The word ends in -or? Then you usually say “el”: el color.",
+      "suffixes": ["or"]
+    },
+    {
+      "id": "el-o",
+      "article": "el",
+      "name": "-o",
+      "rule": "Most nouns in -o are masculine: el libro, el trabajo, el vaso. The ones to watch: la mano, la foto, la moto, la radio.",
+      "ruleLeicht": "The word ends in -o? Then you usually say “el”: el libro.",
+      "suffixes": ["o"]
+    },
+    {
+      "id": "la-a",
+      "article": "la",
+      "name": "-a",
+      "rule": "Most nouns in -a are feminine: la casa, la silla, la mesa. The ones to watch: el día, el mapa, el planeta, el tranvía.",
+      "ruleLeicht": "The word ends in -a? Then you usually say “la”: la casa.",
+      "suffixes": ["a"]
     }
   ]
 }

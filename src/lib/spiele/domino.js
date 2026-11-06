@@ -1,14 +1,15 @@
 // Domino: a closed ring of tiles to cut out. Where two tiles touch, the right half of one
-// and the left half of the next belong together — "an | apple", "a lamp | lamps",
-// "a lamp | a light you can switch on" — and the last tile leads back to the first.
+// and the left half of the next belong together: "la | casa", "el libro | los libros",
+// "la casa | house, home", and the last tile leads back to the first.
 //
 // Tile i is [A of item i | B of item i+1], so each joint reads B then A of the same item.
 // The tiles print in shuffled order (a ring printed in order is already solved); the
 // solution follows on its own page for the teacher.
 import { chunk, esc, MEANING_LANGS, rng, sheet, shuffle, tx } from "./common.js";
+import { isDrillNoun, pluralArticle } from "../generoDrill.js";
 
 export const DOMINO_TYPES = {
-  artikel: { label: "a / an / some" },
+  artikel: { label: "el / la" },
   plural: { label: "Plural" },
   bedeutung: { label: "Word ↔ meaning" },
 };
@@ -22,19 +23,19 @@ function itemsFor(words, type, lang) {
     let a;
     let b;
     if (type === "artikel") {
-      if (w.pos !== "noun" || !["a", "an", "some"].includes(w.gender)) continue;
+      if (w.pos !== "noun" || !isDrillNoun(w)) continue;
       a = w.lemma;
       b = w.gender;
     } else if (type === "plural") {
-      if (w.pos !== "noun" || !w.gender || !w.plural || w.plural === w.lemma) continue;
+      if (w.pos !== "noun" || !isDrillNoun(w) || !w.plural) continue;
       a = `${w.gender} ${w.lemma}`;
-      b = w.plural;
+      b = `${pluralArticle(w)} ${w.plural}`;
     } else {
       if (!w[lang]) continue;
       a = w.display;
       b = w[lang];
     }
-    // Articles repeat by nature (a, an, some); every other B must be unique, or two
+    // Articles repeat by nature (el, la); every other B must be unique, or two
     // tiles would fit the same joint for a reason the game does not intend.
     if (seenA.has(a) || (type !== "artikel" && seenB.has(b))) continue;
     seenA.add(a);

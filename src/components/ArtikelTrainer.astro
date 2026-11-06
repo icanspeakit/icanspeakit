@@ -1,6 +1,6 @@
 ---
-// The a / an / some trainer (the German der/die/das trainer, same machinery; the lexicon's
-// `gender` holds the English indefinite article): a rail of levels A1–B2 and the Häufigkeit order beside a
+// The el / la trainer (the German der/die/das trainer, same machinery; the lexicon's
+// `gender` holds el or la): a rail of levels A1–B2 and the frequency order beside a
 // Fokus/Testmodus workspace over every gendered noun in the lexicon, with the spoken
 // answer, Langsam and the back button. A level's pane offers "Weiter üben" and packs by
 // topic and rule; sessions are built from the learner's own per-noun history
@@ -25,65 +25,59 @@ import "../styles/rule-intro.css";
 import "../styles/artikel-fit.css";
 // The /t2 "C · Mix" look on top of that layout, and the etymology card.
 import "../styles/artikel-t2.css";
-import { buildArtikelPacks, PACK_CONFIG } from "../lib/artikelPacks.js";
+import { buildArtikelPacks, ruleMatch } from "../lib/artikelPacks.js";
+import { isDrillNoun } from "../lib/generoDrill.js";
 import { nouns } from "../lib/lexicon.js";
 // Corpus counts for the ranked nouns, written by scripts/artikel-haeufigkeit.mjs.
 import haeufigkeit from "../data/artikel-haeufigkeit.json";
 import { uiTr } from "../lib/grammarUi.js";
-import { withBase } from "../lib/paths.js";
 
 // One session is SESSION_SIZE questions drawn from the chosen level — the pool is now
 // ~860 nouns (was 31 hand-listed ones), far too many for a single sitting.
 const SESSION_SIZE = 25;
 
-/* Why a noun takes a, an or some (English since the games run, content-plan §1.4: the
- * lexicon's `gender` is the indefinite article). The choice between a and an follows the
- * first SOUND, not the first letter, so the two interesting cases are the words where letter
- * and sound disagree: a university, a European, a one-way ticket (vowel letter, consonant
- * sound) and an hour, an honest man (silent h). `some` marks uncountable and plural-only
- * nouns (some water, some trousers). */
-const VOWEL_LETTER = /^[aeiou]/i;
-function articleRule(word, gender, pluralOnly) {
-  if (gender === "some") return pluralOnly ? "plural" : "some";
-  if (gender === "an") return VOWEL_LETTER.test(word) ? "vowel" : "silent";
-  return VOWEL_LETTER.test(word) ? "yu" : "consonant";
+/* Why a noun takes el or la: which case of the rules in artikel-packs.json it is. The rules are
+ * endings of the first word (la oferta de trabajo), so a noun either follows its pattern, breaks
+ * it (el día, la mano), hides its gender behind el (el agua, las aguas), or has no pattern at all
+ * (-e and most consonants: el coche, la llave). */
+function articleRule(noun) {
+  const m = ruleMatch(noun);
+  if (noun.genus === "f") return { k: "afem" };
+  if (!m) return { k: "none" };
+  const k = m.rule.article === noun.gender ? "ending" : "exception";
+  return { k, ending: m.why, expected: m.rule.article };
 }
 
 const EXPLAIN = {
-  vowel: (w) => `“${w}” starts with a vowel sound, so it takes “an”: an ${w}.`,
-  consonant: (w) => `“${w}” starts with a consonant sound, so it takes “a”: a ${w}.`,
-  yu: (w) => `“${w}” starts with a vowel letter but a consonant sound (like “you” or “w”), so it takes “a”: a ${w}.`,
-  silent: (w) => `“${w}” starts with a consonant letter but a vowel sound (a silent h, or a letter said like “em” or “ex”), so it takes “an”: an ${w}.`,
-  some: (w) => `“${w}” is uncountable: in English you don't count it. So you say “some ${w}”, not “a ${w}”.`,
-  plural: (w) => `“${w}” is always plural, so you say “some ${w}”, not “a ${w}”.`,
+  afem: "“{word}” is feminine, but a stressed a- takes el in the singular, so the two a sounds don't run together: el {word}. In the plural it is las, and adjectives stay feminine.",
+  ending: "“{word}” ends in {ending}, and nouns with that ending take “{article}”: {article} {word}.",
+  exception: "“{word}” ends in {ending}, which usually means “{expected}”, but this one takes “{article}”: {article} {word}. An exception to learn.",
+  none: "This ending does not tell you the gender. Learn the noun together with its article: {article} {word}.",
 };
 
-/* The same explanations in very simple English (A1), for the Leicht switch — see
- * src/lib/leichteSprache.js. Short sentences, one statement each, the example carries the rule. */
+/* The same in very simple English (A1), for the Leicht switch: see src/lib/leichteSprache.js. */
 const EXPLAIN_LEICHT = {
-  vowel: (w) => `The word starts with the sound a, e, i, o or u. Then you say “an”: an ${w}.`,
-  consonant: (w) => `The word does not start with the sound a, e, i, o or u. Then you say “a”: a ${w}.`,
-  yu: (w) => `Listen to the first sound. It sounds like “you” or “w”. So you say “a”: a ${w}.`,
-  silent: (w) => `Listen to the first sound. You don't say the first letter like “h”. The word starts with a vowel sound. So you say “an”: an ${w}.`,
-  some: (w) => `You can't count ${w}. So you say “some ${w}”.`,
-  plural: (w) => `“${w}” is always more than one. So you say “some ${w}”.`,
+  afem: "This word starts with a strong “a”. So you say “el {word}”, but the word is feminine.",
+  ending: "The word ends in {ending}. So you say “{article}”: {article} {word}.",
+  exception: "This word does not follow the rule. You say “{article} {word}”.",
+  none: "There is no rule here. Learn the word with its article: {article} {word}.",
 };
 
-const explainArtikel = (word, gender, pluralOnly) => EXPLAIN[articleRule(word, gender, pluralOnly)](word);
-const explainArtikelLeicht = (word, gender, pluralOnly) => EXPLAIN_LEICHT[articleRule(word, gender, pluralOnly)](word);
+const fill = (text, v) => text.replace(/\{(\w+)\}/g, (m, k) => (k in v ? String(v[k]) : m));
 
-/* Which of the explanations above applies, as an i18n key suffix and its variables, so the
- * page can say it in the UI language: `ap.ex.<k>` and `ap.ex.<k>.leicht` in public/i18n.
- * The English in the dictionary is exactly the English above. */
-const explainKey = (word, gender, pluralOnly) => ({ k: articleRule(word, gender, pluralOnly), v: { word } });
+/* Which of the explanations applies, as an i18n key suffix and its variables, so the page can say
+ * it in the UI language: `ap.ex.<k>` and `ap.ex.<k>.leicht` in public/i18n. The English in the
+ * dictionary is exactly the English above. */
+function explainNoun(n) {
+  const { k, ending, expected } = articleRule(n);
+  const v = { word: n.lemma, article: n.gender, ...(ending ? { ending, expected } : {}) };
+  return { ex: { k, v }, explain: fill(EXPLAIN[k], v), explainLeicht: fill(EXPLAIN_LEICHT[k], v) };
+}
 
 // `id` is the lexicon's stable slug, not an array index, so a learner's progress for
 // "haus" survives every future addition to the pool.
-// A1–B2: the lexicon carries gendered nouns at every one of them (386 / 478 / 762 /
-// 951), and the old two-level filter put three quarters of them out of reach.
-// Until `games` makes this trainer el / la: only the levels still English, so no card asks for
-// "el" among a / an / some.
-const lexNouns = nouns({ level: ["A1", "A2", "B1", "B2"], has: "gender" }).filter((n) => !["el", "la", "el/la"].includes(n.gender));
+// A1–B2, and only nouns with one right answer: see generoDrill.js for who stays out.
+const lexNouns = nouns({ level: ["A1", "A2", "B1", "B2"], has: "gender" }).filter(isDrillNoun);
 
 // "Nach Häufigkeit": the nouns that have a corpus count, most frequent first. `freqPos` is
 // the place in that order (1 = most frequent), which is what a round slices on.
@@ -102,19 +96,15 @@ const pool = lexNouns.map((n) => ({
   lemma: n.lemma,
   freq: freqPos.has(n.id) ? haeufigkeit[n.id] : null,
   prompt: `___ ${n.lemma}`,
-  options: ["a", "an", "some"],
+  options: ["el", "la"],
   answer: n.gender,
-  explain: explainArtikel(n.lemma, n.gender, n.pluralOnly),
-  explainLeicht: explainArtikelLeicht(n.lemma, n.gender, n.pluralOnly),
-  ex: explainKey(n.lemma, n.gender, n.pluralOnly),
+  ...explainNoun(n),
   change: `${n.gender} ${n.lemma}`,
-  // Shown under the instruction. Safe before the answer: the plural never shows a or an.
+  // Shown under the instruction, without its article: los / las would give the answer away.
   ...(n.plural ? { plural: n.plural } : {}),
-  // some trousers, some clothes: the "some" shown after a wrong answer takes the plural colour.
-  ...(n.pluralOnly ? { pluralOnly: true } : {}),
-  // "der Tisch", spoken — only for nouns that have a file (see generate-wortschatz-audio
-  // --nouns). Played once the answer is settled, never before: it says the article.
-  ...(n.audio ? { audioSrc: withBase(`/audio/wortschatz/${n.audio}.mp3`) } : {}),
+  // No Spanish recordings yet (lexicon `audio` is the future file name): the browser's voice says
+  // "la casa" once the answer is settled, never before, because it says the article.
+  speak: `${n.gender} ${n.lemma}`,
 }));
 
 const AP_LEVELS = ["A1", "A2", "B1", "B2"];
@@ -146,8 +136,8 @@ const { byLevel: packs, exceptions } = buildArtikelPacks(lexNouns);
 // it is one. Keyed by noun id; the client picks the one for the pack being played.
 const exceptionText = Object.fromEntries(exceptions.map((e) => [e.id, {
   // For the UI language: ap.ex.pack.exception, with the rule's name and `why` given as keys.
-  ev: { word: e.lemma, gender: e.gender, rule: PACK_CONFIG.rules.find((r) => r.id === e.rule)?.name ?? "", why: e.why },
-  explain: `“${e.lemma}” looks like “${PACK_CONFIG.rules.find((r) => r.id === e.rule)?.name}” (${e.why}) – but it takes “${e.gender}”: ${e.gender} ${e.lemma}. An exception.`,
+  ev: { word: e.lemma, gender: e.gender, why: e.why, expected: e.ruleArticle },
+  explain: `“${e.lemma}” ends in ${e.why}, which usually means “${e.ruleArticle}”, but it takes “${e.gender}”: ${e.gender} ${e.lemma}. An exception.`,
   explainLeicht: `“${e.lemma}” does not follow the rule. You say “${e.gender} ${e.lemma}”.`,
 }]));
 // `tr`: the pack's name and rule in the UI languages (grammatik-ui.json), picked client-side.
@@ -180,9 +170,9 @@ const freqChart = {
         {/* The phone sheet's head, as in the Wortschatz trainer: a name, "Einklappen" and ✕.
             Without it the sheet had no visible way down. Hidden on a desktop (artikel-fit.css). */}
         <div class="vp-sheet-head">
-          <div class="vp-card-label" data-i18n="ap.levels">Stufen</div>
-          <button type="button" class="vp-sheet-fold" data-sheet-close aria-label="Stufen einklappen" aria-controls="vp-rule-card">
-            <span data-i18n="vp.rule.collapseShort">Einklappen</span>
+          <div class="vp-card-label" data-i18n="ap.levels">Levels</div>
+          <button type="button" class="vp-sheet-fold" data-sheet-close aria-label="Collapse the levels" aria-controls="vp-rule-card">
+            <span data-i18n="vp.rule.collapseShort">Collapse</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </button>
           <button type="button" class="vp-sheet-x" data-sheet-close aria-label="Close the levels" data-i18n-attr="aria-label:ap.closeLevels" aria-controls="vp-rule-card">
@@ -198,12 +188,12 @@ const freqChart = {
         type="button"
         class="vp-rule-peek"
         id="vp-rule-peek"
-        data-show="Stufe wählen"
-        data-hide="Stufen ausblenden"
+        data-show="Choose a level"
+        data-hide="Hide levels"
         data-i18n-attr="data-show:ap.chooseLevel;data-hide:ap.levels.hide"
         data-i18n="ap.chooseLevel"
         aria-controls="vp-rule-card"
-      >Stufe wählen</button>
+      >Choose a level</button>
     </aside>
 
     <div class="vp-sheet-scrim" data-sheet-close aria-hidden="true"></div>
@@ -211,26 +201,26 @@ const freqChart = {
     <section class="vp-col vp-col--ex">
       <div class="vp-card">
       <div class="akk-mode-row">
-        <div class="akk-mode" role="group" aria-label="Übungsmodus" data-i18n-attr="aria-label:akk.mode.ariaLabel">
-          <button class="akk-mode-btn active" data-mode="fokus" type="button" data-i18n="akk.mode.fokus">Fokus-Modus</button>
+        <div class="akk-mode" role="group" aria-label="Practice mode" data-i18n-attr="aria-label:akk.mode.ariaLabel">
+          <button class="akk-mode-btn active" data-mode="fokus" type="button" data-i18n="akk.mode.fokus">Focus mode</button>
           <span class="akk-mode-sep">·</span>
-          <button class="akk-mode-btn" data-mode="test" type="button" data-i18n="akk.mode.test">Testmodus</button>
+          <button class="akk-mode-btn" data-mode="test" type="button" data-i18n="akk.mode.test">Test mode</button>
         </div>
         {/* Niveau and packs live in the rail beside the work. No "Neu mischen": picking the
             pack again, or "Weiter üben", is the fresh draw. */}
         {/* Sound on/off for "der Tisch" after each answer. Same switch as Leichte Sprache beside
             it; the state lives in practiceWorkspace.js, remembered per browser. */}
-        <button type="button" class="ls-switch ls-switch--sound" data-sound-switch aria-pressed="true" title="Aussprache nach der Antwort an- oder ausschalten" data-i18n-attr="title:ap.sound.title">
+        <button type="button" class="ls-switch ls-switch--sound" data-sound-switch aria-pressed="true" title="Turn pronunciation after the answer on or off" data-i18n-attr="title:ap.sound.title">
           <span class="ls-switch-track" aria-hidden="true"><span class="ls-switch-knob"></span></span>
           <span class="ls-switch-txt">
-            <span class="ls-switch-kicker" data-i18n="ap.sound.kicker">Aussprache</span>
-            <span class="ls-switch-state" data-sound-switch-state data-i18n="ap.sound.on">Ton an</span>
+            <span class="ls-switch-kicker" data-i18n="ap.sound.kicker">Pronunciation</span>
+            <span class="ls-switch-state" data-sound-switch-state data-i18n="ap.sound.on">Sound on</span>
           </span>
         </button>
         <LeichtToggle />
         {/* Every grammar topic has its Regel one click away; here it lives in the side
             column's rail, which nobody finds. This opens the column on it. */}
-        <button type="button" class="akk-regel-btn" data-regel-open data-i18n="ak.rule">Regel</button>
+        <button type="button" class="akk-regel-btn" data-regel-open data-i18n="ak.rule">Rule</button>
       </div>
       <p class="ak-now" data-ak-now aria-live="polite"></p>
       <div id="akk-exercise-root"></div>
@@ -238,27 +228,20 @@ const freqChart = {
 
       <SprintTeaser />
 
-      {/* Where the word on the card comes from, then how common it is — see artikelHerkunft.js. */}
-      <section class="vp-card ahk" id="akk-herkunft" hidden>
-        <p class="afc-title" data-i18n="ap.herkunft.title">Etymologie</p>
-        <p class="ahk-word" data-herkunft-word></p>
-        {/* The Stammbaum: oldest form on top, today's word at the bottom. */}
-        <ol class="ahk-tree" data-herkunft-tree hidden></ol>
-        <p class="ahk-text" data-herkunft-text></p>
-        <p class="ahk-src" data-herkunft-src hidden></p>
-      </section>
+      {/* The etymology card (artikelHerkunft.js) is off: its data is German Wiktionary text. It can
+          come back when public/data/artikel-herkunft.json holds Spanish word histories. */}
 
       {/* How common the words of this session are in real life — see artikelFreqChart.js. */}
       <figure class="vp-card afc" id="akk-freq">
-        <figcaption class="afc-title" data-i18n="ap.freq.title">Wie oft hört man das?</figcaption>
+        <figcaption class="afc-title" data-i18n="ap.freq.title">How often do you hear it?</figcaption>
         <p class="afc-head" data-freq-head aria-live="polite"></p>
         <div class="afc-plot">
-          <svg role="img" aria-label="Häufigkeit der Wörter dieser Übung im Alltag" data-i18n-attr="aria-label:ap.freq.aria"></svg>
+          <svg role="img" aria-label="How common this exercise's words are in everyday life" data-i18n-attr="aria-label:ap.freq.aria"></svg>
           <div class="afc-tip" data-freq-tip hidden></div>
         </div>
-        <p class="afc-note" data-i18n="ap.freq.note">Wie oft ein Wort in deutschen Film-Untertiteln vorkommt (OpenSubtitles). Rechts: Wörter, die dort zu selten sind, um gezählt zu werden.</p>
+        <p class="afc-note" data-i18n="ap.freq.note">How often a word appears in Spanish film subtitles (OpenSubtitles). On the right: words too rare there to be counted.</p>
         <details class="afc-table">
-          <summary data-i18n="ap.freq.all">Alle Wörter dieser Übung</summary>
+          <summary data-i18n="ap.freq.all">All words in this exercise</summary>
           <ol data-freq-list></ol>
         </details>
       </figure>
@@ -272,10 +255,10 @@ const freqChart = {
           <span class="akk-ring-num" id="akk-ring-num">0%</span>
         </div>
         <div class="akk-session-text">
-          <span class="akk-session-label" data-i18n="akk.session.label">Diese Sitzung</span>
-          <p class="akk-session-stats" id="akk-session-stats" data-i18n="akk.session.stats" data-i18n-vars={JSON.stringify({ answered: 0, total: SESSION_SIZE, correct: 0, hints: 0 })}>0 von {SESSION_SIZE} beantwortet · 0 richtig · 0 Hinweise</p>
+          <span class="akk-session-label" data-i18n="akk.session.label">This session</span>
+          <p class="akk-session-stats" id="akk-session-stats" data-i18n="akk.session.stats" data-i18n-vars={JSON.stringify({ answered: 0, total: SESSION_SIZE, correct: 0, hints: 0 })}>0 of {SESSION_SIZE} answered · 0 correct · 0 hints</p>
         </div>
-        <span class="akk-session-badge" data-i18n="akk.session.badge">lokal · ohne Konto</span>
+        <span class="akk-session-badge" data-i18n="akk.session.badge">local · no account</span>
       </footer>
     </section>
   </div>
@@ -299,7 +282,6 @@ const freqChart = {
     import { recordAttempt } from "../lib/progress.js";
     import { intent } from "../lib/intent.js";
     import { mountFreqChart } from "../lib/artikelFreqChart.js";
-    import { mountHerkunft } from "../lib/artikelHerkunft.js";
     import { record, stats, buildSession, buildFehlerSession } from "../lib/artikelVerlauf.js";
     import { getLang, loadDict, onLangChange } from "../lib/i18n.js";
     import { t, onUiText } from "../lib/uiText.js";
@@ -317,7 +299,6 @@ const freqChart = {
     const pool = read("akk-data");
     const SESSION_SIZE = read("akk-session-size");
     const PACKS = read("akk-packs");
-    queueMicrotask(() => Object.values(PACKS).forEach((lv) => lv.rules.forEach((r) => PACKS_BY_RULE.set(r.name, r))));
     const EXCEPTIONS = read("akk-exceptions");
     const byId = new Map(pool.map((q) => [q.id, q]));
 
@@ -326,17 +307,13 @@ const freqChart = {
     const lang = () => getLang();
     const trOf = (tr, de) => (tr && tr[lang()]) || de;
     const packName = (p) => trOf(p?.tr?.name, p?.name);
-    const levelName = (l) => t("ap.levelName", "Stufe {level}", { level: l });
+    const levelName = (l) => t("ap.levelName", "Level {level}", { level: l });
     // The "warum" line for a noun: its explanation by key (see explainKey on the server),
     // or in a rule session the pack's rule, or for an exception why it is one.
-    const WHY = { Name: "ap.why.name", "Verb als Nomen": "ap.why.infinitive", "Mann auf -er": "ap.why.maleEr" };
     function explainFor(q, pack) {
       if (pack && pack.id === "ausnahmen" && EXCEPTIONS[q.id]) {
         const ex = EXCEPTIONS[q.id];
-        const rule = PACKS_BY_RULE.get(ex.ev.rule);
-        const why = WHY[ex.ev.why] ? t(WHY[ex.ev.why], ex.ev.why) : ex.ev.why;
-        const v = { ...ex.ev, rule: rule ? packName(rule) : ex.ev.rule, why };
-        return { explain: t("ap.ex.pack.exception", ex.explain, v), explainLeicht: t("ap.ex.pack.exception.leicht", ex.explainLeicht, v) };
+        return { explain: t("ap.ex.pack.exception", ex.explain, ex.ev), explainLeicht: t("ap.ex.pack.exception.leicht", ex.explainLeicht, ex.ev) };
       }
       if (pack) return { explain: trOf(pack.tr?.rule, pack.rule), explainLeicht: trOf(pack.tr?.ruleLeicht, pack.ruleLeicht) };
       const base = byId.get(q.id) ?? q;
@@ -345,8 +322,6 @@ const freqChart = {
         explainLeicht: t(`ap.ex.${base.ex.k}.leicht`, base.explainLeicht, base.ex.v),
       };
     }
-    // Rule names by their German name, for the exception text ("sieht aus wie „Immer die“").
-    const PACKS_BY_RULE = new Map();
     const exerciseRoot = document.getElementById("akk-exercise-root");
     const nowLine = document.querySelector("[data-ak-now]");
 
@@ -415,20 +390,16 @@ const freqChart = {
     const freqChart = mountFreqChart(document.getElementById("akk-freq"), JSON.parse(document.getElementById("akk-freq-data").textContent));
     // The card on screen is the word the chart picks out. The workspace re-renders on every
     // step, so watch for the card rather than hook each path that changes it.
-    const herkunft = mountHerkunft(document.getElementById("akk-herkunft"), byId);
     new MutationObserver(() => {
       const qid = exerciseRoot.querySelector(".akk-focus-card")?.dataset.qid ?? null;
       freqChart.setCurrent(qid);
-      // Answered = a pill is marked right; until then the etymology hides the article.
-      herkunft.setCurrent(qid, !!exerciseRoot.querySelector(".akk-focus-card .akk-pill--correct"));
     }).observe(exerciseRoot, { childList: true, subtree: true });
 
-    /* After a wrong answer the card moves on by itself — two seconds later when the WARUM
-       line says something worth reading: the rule of the pack being drilled, why a noun is an
-       exception, or one of the person nouns (Kind, Kollege, Mann/Frau). The ending tendencies
-       ("Viele Wörter auf -e …") and "keine feste Regel" are the same sentence card after card.
-       „Anhalten" stops it on any card. */
-    const HOLD_KINDS = new Set(["exception", "male", "female", "kind", "kollege"]);
+    /* After a wrong answer the card moves on by itself: two seconds later when the "why" line
+       says something worth reading: the rule of the pack being drilled, why a noun is an
+       exception, or el + stressed a-. The plain ending line and "no rule here" are the same
+       sentence card after card. "Stop" holds any card. */
+    const HOLD_KINDS = new Set(["exception", "afem"]);
     const holdAfterWrong = (q) => Boolean(q._pack) || HOLD_KINDS.has(q.ex?.k);
 
     /* How we'll know the new error flow works (ARTIKEL-FEHLER-FLOW-PROMPT.md, Tier 4): rounds
@@ -502,11 +473,11 @@ const freqChart = {
       const rule = trOf(pack.tr?.rule, pack.rule), ruleLeicht = trOf(pack.tr?.ruleLeicht, pack.ruleLeicht);
       exerciseRoot.innerHTML = `
         <div class="akp-intro akk-anim-in">
-          <p class="akp-intro-kicker">${esc(t("ak.rule", "Regel"))}</p>
+          <p class="akp-intro-kicker">${esc(t("ak.rule", "Rule"))}</p>
           <h3 class="akp-intro-title">${esc(packName(pack))}</h3>
           <p class="akp-intro-rule" data-ls="${esc(rule)}" data-ls-leicht="${esc(ruleLeicht)}">${esc(isLeicht() ? ruleLeicht : rule)}</p>
           <ul class="akp-intro-ex">${examples.map((e) => `<li>${esc(e)}</li>`).join("")}</ul>
-          <button type="button" class="akk-btn akk-btn-primary" data-akp-start>${esc(t("ap.start", "Los geht's"))}</button>
+          <button type="button" class="akk-btn akk-btn-primary" data-akp-start>${esc(t("ap.start", "Let's go"))}</button>
         </div>`;
       exerciseRoot.querySelector("[data-akp-start]").addEventListener("click", () => mount(questions));
     }
@@ -565,12 +536,12 @@ const freqChart = {
       nowLine.textContent = labelOf(current);
     }
     function labelOf({ kind, id, back }) {
-      if (kind === "missed") return `${labelOf(back)} · ${t("ap.now.missed", "Fehler dieser Runde")}`;
+      if (kind === "missed") return `${labelOf(back)} · ${t("ap.now.missed", "This round's mistakes")}`;
       let label;
-      if (kind === "freq") label = t("ap.now.freq", "Nach Häufigkeit · Teil {n}", { n: round + 1 });
-      else if (kind === "fehler") label = `${levelName(level)} · ${t("ap.fehler", "Fehler wiederholen")}`;
+      if (kind === "freq") label = t("ap.now.freq", "By frequency · Part {n}", { n: round + 1 });
+      else if (kind === "fehler") label = `${levelName(level)} · ${t("ap.fehler", "Repeat mistakes")}`;
       else if (kind === "topic" || kind === "rule") label = `${levelName(level)} · ${packName(packOf(kind, id))}`;
-      else label = `${levelName(level)} · ${t("ap.mixed", "gemischt")}`;
+      else label = `${levelName(level)} · ${t("ap.mixed", "mixed")}`;
       return label;
     }
 
@@ -590,8 +561,8 @@ const freqChart = {
           const p = stats(pack.ids);
           btn.querySelector("[data-akp-state]").textContent = `${p.sicher}/${p.total}`;
           btn.title = p.gesehen === 0
-            ? `${packName(pack)} · ${t("ap.nouns", "{n} Nomen", { n: p.total })}`
-            : `${packName(pack)} · ${t("ap.sure", "{n} von {total} sicher", { n: p.sicher, total: p.total })}`;
+            ? `${packName(pack)} · ${t("ap.nouns", "{n} nouns", { n: p.total })}`
+            : `${packName(pack)} · ${t("ap.sure", "{n} of {total} secure", { n: p.sicher, total: p.total })}`;
           const on = lv === level && current.kind === kind && current.id === id;
           btn.classList.toggle("active", on);
           // The running pack's list is the one showing (a rule pack opens "Nach Regel").
@@ -610,7 +581,7 @@ const freqChart = {
         const p = stats(levelIds(el.dataset.snavProg));
         el.hidden = !p.gesehen;
         if (!p.gesehen) return;
-        el.querySelector("[data-snav-prog-txt]").textContent = t("ap.sure", "{n} von {total} sicher", { n: p.sicher, total: p.total });
+        el.querySelector("[data-snav-prog-txt]").textContent = t("ap.sure", "{n} of {total} secure", { n: p.sicher, total: p.total });
         el.querySelector("[data-snav-prog-bar]").style.width = `${p.total ? Math.round((p.sicher / p.total) * 100) : 0}%`;
       });
       if (!document.getElementById("ap-pane-fortschritt")?.hidden) paintOverview();
@@ -623,7 +594,7 @@ const freqChart = {
       const rows = ["A1", "A2", "B1", "B2"].map((lv) => ({ lv, ids: levelIds(lv) }));
       const all = rows.map((r) => ({ ...r, p: stats(r.ids) }));
       if (!all.some((r) => r.p.gesehen)) {
-        box.innerHTML = `<p class="snav-empty">${esc(t("ap.prog.empty", "Noch nichts geübt. Sobald du Artikel wählst, steht hier, wie viele Nomen du pro Stufe sicher kannst."))}</p>`;
+        box.innerHTML = `<p class="snav-empty">${esc(t("ap.prog.empty", "Nothing practised yet. Once you choose articles, this shows how many nouns you know securely at each level."))}</p>`;
         return;
       }
       box.innerHTML = all.map(({ lv, ids, p }) => `
@@ -718,7 +689,7 @@ const freqChart = {
       if (cap) {
         const vars = { n: i + 1, words, cover };
         cap.dataset.i18nVars = JSON.stringify(vars);
-        cap.innerHTML = t("ap.freq.caption", "Nach Teil {n} kennst du <b>{words} Nomen</b>, etwa <b>{cover} %</b> der Nomen, die du im Alltag hörst.", vars);
+        cap.innerHTML = t("ap.freq.caption", "After part {n} you know <b>{words} nouns</b>, about <b>{cover} %</b> of the nouns you hear in everyday life.", vars);
       }
     }
 
@@ -788,7 +759,7 @@ const freqChart = {
     const soundSwitch = document.querySelector("[data-sound-switch]");
     const syncSoundSwitch = () => {
       soundSwitch.setAttribute("aria-pressed", String(isSoundOn()));
-      soundSwitch.querySelector("[data-sound-switch-state]").textContent = isSoundOn() ? t("ap.sound.on", "Ton an") : t("ap.sound.off", "Ton aus");
+      soundSwitch.querySelector("[data-sound-switch-state]").textContent = isSoundOn() ? t("ap.sound.on", "Sound on") : t("ap.sound.off", "Sound off");
     };
     soundSwitch.addEventListener("click", () => setSoundOn(!isSoundOn()));
     document.addEventListener("practice:sound", syncSoundSwitch);
@@ -830,8 +801,8 @@ const freqChart = {
     // borrows the Häufigkeit pane and the open fold, and hands both back.
     let tourPrev = null;
     const chartBeat = {
-      get title() { return t("ap.tour.title", "Wie schnell du vorankommst"); },
-      get text() { return t("ap.tour.text", "Die Kurve zeigt, wie viel vom Alltag du nach jedem Teil verstehst. Ein Tipp auf „Lernkurve“ klappt sie ein — und wieder aus."); },
+      get title() { return t("ap.tour.title", "How fast you make progress"); },
+      get text() { return t("ap.tour.text", "The curve shows how much of everyday Spanish you understand after each part. Tap “Learning curve” to fold it away, and back out."); },
       target: () => chartFold?.closest(".ap-chart"),
       point: () => chartFold?.querySelector("summary"),
       enter: () => {
