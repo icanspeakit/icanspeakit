@@ -38,10 +38,15 @@ const quizCount = topics.reduce((n, t) => n + t.quiz.length, 0);
 // The levels come from the catalogue's Landeskunde list, which runs A1–C2. The site-wide
 // `levels` export stops at B2 because that is as far as the trainers reach, and using it
 // here would silently swallow every C1 and C2 topic.
+//
+// Spain first: the levels hold the Spain topics, and the Hispanic-world topics follow in a
+// section of their own, each with its level on the card.
+const WORLD_IDS = ["mundo-hispano", "tradiciones-america", "historia-compartida"];
 const groups = kulturLevels.map((lv) => ({
   ...lv,
-  items: topics.filter((t) => t.level === lv.level),
+  items: topics.filter((t) => t.level === lv.level && !WORLD_IDS.includes(t.id)),
 }));
+const world = WORLD_IDS.map((id) => topics.find((t) => t.id === id));
 ---
 <Layout
   title="Culture and everyday life in Spain – icanspeak Spanish"
@@ -51,13 +56,8 @@ const groups = kulturLevels.map((lv) => ({
   <main class="practice-main practice-main--wide">
     {/* No hero photo: the egg-market banner was taken out on request (2026-10-01). */}
     <div class="practice-hero">
-      <p class="eyebrow" data-i18n="kultur.hero.eyebrow">Landeskunde</p>
-      <h1 data-i18n="tool.kultur.title">Kulturwissen</h1>
-      <!-- A new key, not the old kultur.hero.subtitle: that one still says "aus echten
-           Unterrichtsgesprächen", which was true when this was one topic and is not true
-           of the fourteen written from public sources. A key with no translation yet
-           falls back to the German below, which is the behaviour we want until the five
-           locale files carry it. -->
+      <p class="eyebrow" data-i18n="kultur.hero.eyebrow">Culture &amp; society</p>
+      <h1 data-i18n="tool.kultur.title">Cultural Knowledge</h1>
       <SectionMascot name="bruno" say="This is how Spain works." sayKey="kultur.mascot.hero" align="center" class="ku-hero-mascot" />
       {/* The lead sentence and the quiz used to sit here, above the topics. They are still
           on the page, lower down: the first screen is for choosing a topic, and a banner
@@ -79,13 +79,11 @@ const groups = kulturLevels.map((lv) => ({
                 : <span class="ku-card-ic"><Icon name={t.icon} size={20} /></span>}
               <span class="ku-card-txt">
                 <b>{t.title}</b>
-                {/* Title stays German — "Pfand" is the term being learnt. The sentence
-                    under it is what tells a non-German speaker whether to open the card. */}
                 <i data-i18n={`kultur.${t.id}.cardIntro`}>{t.intro.split(". ")[0]}.</i>
               </span>
               <!-- No level badge: the section heading above the grid already says it. -->
               <span class="ku-card-meta">
-                <span class="ku-card-q" data-i18n="grammatik.card.questions" data-i18n-vars={JSON.stringify({ n: t.quiz.length })}>{t.quiz.length} Fragen</span>
+                <span class="ku-card-q" data-i18n="grammatik.card.questions" data-i18n-vars={JSON.stringify({ n: t.quiz.length })}>{t.quiz.length} questions</span>
               </span>
             </a>
           ))}
@@ -93,22 +91,43 @@ const groups = kulturLevels.map((lv) => ({
       </section>
     ))}
 
+    <section class="ku-group" id="hispanic-world">
+      <h2 class="ku-group-title">
+        <span data-i18n="kultur.world.title">The wider Hispanic world</span>
+      </h2>
+      <div class="ku-grid">
+        {world.map((t) => (
+          <a class="ku-card" href={itemPath("/culture", t.id)}>
+            <span class="ku-card-ic ku-card-pic"><img src={bild(bilder.topics[t.id])} alt="" width="40" height="40" loading="lazy" /></span>
+            <span class="ku-card-txt">
+              <b>{t.title}</b>
+              <i data-i18n={`kultur.${t.id}.cardIntro`}>{t.intro.split(". ")[0]}.</i>
+            </span>
+            <span class="ku-card-meta">
+              <span class="ku-badge">{t.level}</span>
+              <span class="ku-card-q" data-i18n="grammatik.card.questions" data-i18n-vars={JSON.stringify({ n: t.quiz.length })}>{t.quiz.length} questions</span>
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+
     {/* Below the topics: the mixed quiz and the two sections beside the topic list —
-        mistakes by first language, and "Deutschland von innen", which, unlike the topics
+        mistakes by first language, and "Spain from the inside", which, unlike the topics
         above, does talk about people, with a source under every number. */}
     <section class="ku-more">
       <div class="ku-more-head">
         <SectionMascot name="quaki" expr="thinking" say="What do you know already?" sayKey="kultur.mascot.more" class="ku-more-mascot" />
         <p class="ku-more-lead" data-i18n="kultur.hero.lead">
-          Wie Deutschland im Alltag funktioniert — Regeln, Ämter, Beträge und Abläufe, mit Quiz zu jedem Thema.
+          How Spain works day to day, then the wider Hispanic world: rules, services, festivals and food, with a quiz on every topic.
         </p>
       </div>
 
       <a class="ku-quiz-cta" href="/culture/quiz">
         <img class="ku-quiz-pic" src={bild(bilder.extras.quiz)} alt="" width="44" height="44" loading="lazy" />
         <span class="ku-quiz-cta-txt">
-          <b data-i18n="kultur.quiz.all">Quiz über alle Themen</b>
-          <i data-i18n="kultur.quiz.blurb" data-i18n-vars={JSON.stringify({ n: quizCount, t: topics.length })}>{quizCount} Fragen aus {topics.length} Themen, gemischt. Du kannst auch ein einzelnes Thema wählen.</i>
+          <b data-i18n="kultur.quiz.all">Quiz on all topics</b>
+          <i data-i18n="kultur.quiz.blurb" data-i18n-vars={JSON.stringify({ n: quizCount, t: topics.length })}>{quizCount} questions from {topics.length} topics, mixed together. You can also pick a single topic.</i>
         </span>
         <span class="ku-quiz-cta-go" aria-hidden="true">→</span>
       </a>
@@ -141,7 +160,7 @@ const groups = kulturLevels.map((lv) => ({
     </section>
 
     <section class="ku-sourcing">
-      <h2 data-i18n="kultur.h2.sources">Woher die Themen kommen</h2>
+      <h2 data-i18n="kultur.h2.sources">Where the topics come from</h2>
       <p data-i18n-html="kultur.sourcingNote" set:html={kultur.sourcingNote.replace(/\n/g, "<br>")} />
     </section>
   </main>
