@@ -12,7 +12,7 @@ import Icon from "../Icon.astro";
 import LeichtToggle from "../LeichtToggle.astro";
 import WortTree from "./WortTree.astro";
 import {
-  formsOf, audioOf, glossesOf, synonymsOf, familyOf, headword, formatDe, LANG_NAMES, RTL, KINDS, STATUS, entryLang, quoteIn,
+  formsOf, audioOf, glossesOf, synonymsOf, familyOf, headword, formatDe, LANG_NAMES, RTL, KINDS, STATUS, entryLang, quoteIn, PROSE_LANG,
 } from "../../lib/wortgeschichteCore.js";
 
 interface Props {
@@ -27,8 +27,10 @@ const { entry: e, mode = "archive", preview = false, today } = Astro.props;
 
 const head = headword(e);
 const [art, ...rest] = head.split(" ");
-const hasArt = /^(der|die|das|a|an|some)$/.test(art) && rest.length > 0;
-const L = entryLang(e);
+const hasArt = /^(el|la|el\/la)$/.test(art) && rest.length > 0;
+// W: the word itself and its Spanish relatives. L: everything written about it, which is English.
+const W = entryLang(e);
+const L = PROSE_LANG;
 const q = quoteIn(L);
 const forms = formsOf(e);
 const audio = audioOf(e);
@@ -79,7 +81,7 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
       <time datetime={e.publishOn}>{formatDe(e.publishOn)}</time>
     </p>
     <div class="wg-head">
-      <h1 class="wg-word" lang={L}>
+      <h1 class="wg-word" lang={W}>
         {hasArt ? <><span class="wg-art">{art}</span>{rest.join(" ")}</> : head}
       </h1>
       {audio && (
@@ -98,7 +100,7 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
     {part.wort && (
       <li class="wg-part" id="wort">
         <h2><span class="wg-num">{part.wort.n}</span><span data-i18n={part.wort.key}>{part.wort.de}</span></h2>
-        <ul class="wg-forms" lang={L}>
+        <ul class="wg-forms" lang={W}>
           {forms.map((f) => <li>{f.parts.map((p) => <span class="wg-form">{p}</span>)}</li>)}
         </ul>
       </li>
@@ -142,7 +144,7 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
       <li class="wg-part" id="synonyme">
         <h2><span class="wg-num">{part.synonyme.n}</span><span data-i18n={part.synonyme.key}>{part.synonyme.de}</span></h2>
         {/* A small tree: the headword as trunk, one branch per synonym (wortTreeDraw.js). */}
-        <div class="wg-syn" lang={L} data-wg-syn>
+        <div class="wg-syn" lang={W} data-wg-syn>
           <svg class="wg-tree-lines" aria-hidden="true" focusable="false"></svg>
           <ul class="wg-syn-leaves">
             {synonyms.map((s) => <li class="wg-syn-leaf"><b>{s.word}</b>{s.note && <small>{s.note}</small>}</li>)}
@@ -157,7 +159,7 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
         <h2><span class="wg-num">{part.verwandte.n}</span><span data-i18n={part.verwandte.key}>{part.verwandte.de}</span></h2>
         {family.length > 0 && <>
           <p class="wg-sub" data-i18n="wg.family">Die Wortfamilie</p>
-          <ul class="wg-chips" lang={L}>
+          <ul class="wg-chips" lang={W}>
             {family.map((f) => <li>{f.word}<small>{f.level}</small></li>)}
           </ul>
         </>}

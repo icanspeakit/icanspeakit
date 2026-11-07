@@ -28,9 +28,12 @@ export const CERTAINTY = ["sicher", "wahrscheinlich", "umstritten", "unklar"];
  *  marked as unrelated so it cannot be read as a cognate. */
 export const KINDS = ["verwandt", "entlehnt", "zufall", "parallele"];
 
-/** Language names as the page prints them. English since the `word-stories` run: the
- *  German stories still in the folder are replaced one by one or removed by `cleanup`. */
+/** The language stories are written in: a Spanish word, explained in English (content-plan §5.13). */
+export const PROSE_LANG = "en";
+
+/** Language names as the page prints them. */
 export const LANG_NAMES = {
+  ca: "Catalan", gl: "Galician", eu: "Basque", oc: "Occitan", qu: "Quechua", xaa: "Andalusian Arabic",
   de: "German", en: "English", nl: "Dutch", sv: "Swedish", da: "Danish",
   got: "Gothic", ang: "Old English", enm: "Middle English", non: "Old Norse", ru: "Russian", uk: "Ukrainian",
   cs: "Czech", pl: "Polish", ar: "Arabic", tr: "Turkish", ota: "Ottoman Turkish", fa: "Persian",
@@ -119,8 +122,8 @@ export function formsOf(entry) {
   return lines;
 }
 
-/** The language an entry is written in: "es" for a lemma in a Spanish lexicon level, else "en":
- *  an English story still waiting for `word-stories`, whose lemma may have left the lexicon. */
+/** The language of the headword: "es" for a lemma in a Spanish lexicon level. The prose about
+ *  it is PROSE_LANG. */
 export function entryLang(entry) {
   const row = lexiconRow(entry);
   return row && SPANISH_LEVELS.has(row.level) ? "es" : "en";
@@ -242,8 +245,13 @@ export function validate(items) {
     const warn = (msg) => warnings.push(`${file}: ${msg}`);
     if (!e || typeof e !== "object") { at("not a JSON object"); continue; }
     if (!e.lemma) at("no lemma");
-    // A warning until `word-stories` replaces the English stories: each vocab-* item takes lemmas away.
-    else if (!lexiconRow(e)) warn(`lemma „${e.lemma}" is not in the lexicon`);
+    else if (!lexiconRow(e)) at(`lemma „${e.lemma}" is not in the lexicon`);
+    else {
+      // The file name is the lexicon id (content-plan §1.3), the level the lexicon's.
+      const row = lexiconRow(e);
+      if (file !== `${row.id}.json`) at(`file should be named ${row.id}.json`);
+      if (e.level !== row.level) at(`level ${e.level}, but the lexicon says ${row.level}`);
+    }
     if (!Array.isArray(e.sources) || e.sources.length === 0) at("no sources — every entry needs at least one");
     else for (const s of e.sources) if (!s?.work || !s?.entry) at("a source needs `work` and `entry`");
     if (!e.checkedBy) at("no checkedBy");
@@ -265,8 +273,8 @@ export function validate(items) {
     const n = wordCount(e.history);
     if (!e.history) at("no history");
     else if (n < 80 || n > 140) at(`history has ${n} words — the rule is 80–140`);
-    for (const lemma of e.relatives?.family ?? []) if (!rowByLemma(lemma)) warn(`family word „${lemma}" is not in the lexicon`);
-    for (const lemma of e.formsAlso ?? []) if (!rowByLemma(lemma)) warn(`formsAlso „${lemma}" is not in the lexicon`);
+    for (const lemma of e.relatives?.family ?? []) if (!rowByLemma(lemma)) at(`family word „${lemma}" is not in the lexicon`);
+    for (const lemma of e.formsAlso ?? []) if (!rowByLemma(lemma)) at(`formsAlso „${lemma}" is not in the lexicon`);
     for (const c of e.relatives?.cognates ?? []) {
       if (!c.lang || !c.form) at("a cognate needs lang and form");
       if (c.kind && !KINDS.includes(c.kind)) at(`cognate ${c.form}: kind must be one of ${KINDS.join(", ")}`);
