@@ -906,7 +906,7 @@ export const navSections = [
 
   { id: "pruefungen", icon: "graduation-cap", href: "/exams",
     nameKey: "nav.exams", name: "Prüfungen",
-    blurbKey: "group.pruefungen.blurb", blurb: "telc, Goethe, TestDaF, DTZ",
+    blurbKey: "group.pruefungen.blurb", blurb: "DELE, SIELE and the CCSE",
     // The Führerschein simulation has no row of its own: it is one of the hub's actions.
     items: notSelf("/exams", itemsOf("pruefungen")) },
 ];

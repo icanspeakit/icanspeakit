@@ -94,7 +94,6 @@ const KNOWN = new Map([
   ["/test", "a class test needs a backend: no page until there is one (src/lib/klassentest)"],
   ["/game/hochstapler", "class mode of the impostor game needs live rooms: no page in this build"],
   ["/intern/meldungen", "demo dock only, not in a visitor's page"],
-  ["/politik", "photo slots in hub-bilder.json, never linked; `cleanup` removes them"],
 ]);
 const isKnown = (raw) => {
   const p = raw.replace(/\/+$/, "");
