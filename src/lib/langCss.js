@@ -12,9 +12,10 @@
 //
 // English is the base: a UI language without help texts of its own (German so far) shows the
 // English block (helpLang() in textHelp.js), which is what the first three lines cover.
+// `lang|=` because <html lang> can carry a region (pt-BR) while the code does not.
 export function langRules(c) {
   if (!c || !/^[a-z]{2,3}$/.test(c)) return "";
-  var r = ":root[lang=\"" + c + "\"] ";
+  var r =":root[lang|=\"" + c + "\"] ";
   var l = "[lang=\"" + c + "\"]";
   var g = "[data-gx-lang=\"" + c + "\"] ";
   return (

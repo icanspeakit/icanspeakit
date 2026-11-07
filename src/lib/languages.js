@@ -70,6 +70,14 @@ export const LANGUAGE_REGISTRY = [
     // and the profession decks fall back to English; print sheets don't offer French yet.
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
+  {
+    code: "pt", native: "Português", de: "Portugiesisch", en: "Portuguese", word: "Idioma",
+    dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "pt-BR", urlPrefix: "pt",
+    // Brazilian Portuguese: the code and URL say pt, <html lang> and hreflang say pt-BR. Same
+    // shape as German and French. Help texts, the legal pages and the profession decks fall
+    // back to English (the old pt blocks in src/data/uebersetzungen/ aren't used).
+    surfaces: { ui: draft, cards: { ...draft, fetch: true } },
+  },
   // To add a language: copy the entry above, set code/native/dir/script (and fontFamily for
   // non-Latin scripts, hreflang/urlPrefix for its own entry-page URLs), start every surface
   // as { status: "draft" }, and add public/i18n/<code>.json. RTL (dir: "rtl") is already
