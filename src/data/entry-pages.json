@@ -1,313 +1,78 @@
 {
-  "_note": "Entry pages with their own URL per language (SPRACHEN-REICHWEITE-TIERED-PROMPT.md, Tier 5): built by src/integrations/entry-pages.mjs from the German page plus public/i18n/<code>.json. Here: what the dictionary does not carry, per language: <title>, meta description, and the intro on the home page, written for that audience (German draft in docs/reichweite-tier5-v1.md). Machine draft, not yet read by a native speaker. `src` is the German page, `slug` the path after /<prefix>/. `meta[path]` is [title, description, h1?]: the third entry replaces the page's first <h1> where the German one is data, not a dictionary key (a deck title).",
-  "pages": [
-    {
-      "src": "/",
-      "slug": ""
-    },
-    {
-      "src": "/exams",
-      "slug": "exams"
-    },
-    {
-      "src": "/spanish-for-work",
-      "slug": "spanish-for-work"
-    },
-    {
-      "src": "/spanish-for-work/care-work",
-      "slug": "spanish-for-work/care-work"
-    },
-    {
-      "src": "/ccse",
-      "slug": "ccse"
-    },
-    {
-      "src": "/knowledge",
-      "slug": "downloads"
-    }
-  ],
-  "langs": {
-    "es": {
-      "meta": {
-        "/": [
-          "Aprender alemán gratis: Goethe, telc y DTZ – icanspeak Spanish",
-          "Aprende alemán de A1 a B2 con explicaciones en español: gramática, vocabulario con audio y práctica para Goethe, telc y el DTZ. Para quien quiere trabajar, estudiar o hacer una Ausbildung en Alemania."
-        ],
-        "/exams": [
-          "Exámenes de alemán: Goethe, telc, DTZ y TestDaF comparados – icanspeak Spanish",
-          "Qué examen de alemán necesitas para trabajar, estudiar o vivir en Alemania: Goethe-Zertifikat, telc, DTZ, TestDaF. Partes, niveles y práctica en línea."
-        ],
-        "/spanish-for-work": [
-          "Alemán para el trabajo: vocabulario por profesión – icanspeak Spanish",
-          "Vocabulario alemán para enfermería (Pflege), hostelería, hotel, almacén, construcción y más, con audio, ejemplos y traducción al español."
-        ],
-        "/spanish-for-work/care-work": [
-          "Alemán para enfermería (Pflege): vocabulario – icanspeak Spanish",
-          "Las primeras palabras en alemán para trabajar en enfermería y cuidados (Pflege) en Alemania, con audio, ejemplos y traducción al español.",
-          "Alemán para enfermería (Pflege)"
-        ],
-        "/ccse": [
-          "Einbürgerungstest „Leben in Deutschland“: preguntas y práctica – icanspeak Spanish",
-          "Cómo funciona el test „Leben in Deutschland“ (Einbürgerungstest), con práctica gratuita de las preguntas oficiales y explicaciones en español."
-        ],
-        "/knowledge": [
-          "Gramática alemana y listas de palabras en PDF gratis – icanspeak Spanish",
-          "PDF gratuitos para descargar: gramática de A1 a B2, listas de palabras con traducción al español, vocabulario por profesión y Grammatik-Start."
-        ]
-      },
-      "intro": {
-        "heading": "Alemán para tu camino a Alemania",
-        "paragraphs": [
-          "Desde España y América Latina llegan muchas personas a Alemania para trabajar en enfermería, en oficios o en informática, para hacer una Ausbildung (formación profesional) o para estudiar. Para la visa de trabajo, el reconocimiento del título o la plaza de estudio, empleadores y oficinas piden a menudo un certificado de idioma, casi siempre B1 o B2 (Goethe-Zertifikat o telc). Quien ya vive aquí hace el DTZ (Deutsch-Test für Zuwanderer) en el curso de integración.",
-          "Aquí practicas para esos exámenes: gramática, vocabulario con audio y cada parte del examen, con explicaciones en español. Los ejercicios siguen en alemán, como en el examen.",
-          "Qué documentos necesitas para la visa o el reconocimiento lo dicen las fuentes oficiales:"
-        ],
-        "links": [
-          [
-            "Make it in Germany, el portal del Gobierno alemán",
-            "https://www.make-it-in-germany.com/es/"
-          ],
-          [
-            "Anerkennung in Deutschland (reconocimiento de títulos)",
-            "https://www.anerkennung-in-deutschland.de/html/es/indice.php"
-          ]
-        ]
-      }
-    },
-    "pt": {
-      "meta": {
-        "/": [
-          "Aprender alemão grátis: Goethe, telc e DTZ – icanspeak Spanish",
-          "Aprenda alemão do A1 ao B2 com explicações em português: gramática, vocabulário com áudio e prática para Goethe, telc e o DTZ. Para quem quer trabalhar na enfermagem, estudar ou fazer uma Ausbildung na Alemanha."
-        ],
-        "/exams": [
-          "Provas de alemão: Goethe, telc, DTZ e TestDaF comparados – icanspeak Spanish",
-          "Qual prova de alemão você precisa para trabalhar, estudar ou viver na Alemanha: Goethe-Zertifikat, telc, DTZ, TestDaF. Partes, níveis e prática online."
-        ],
-        "/spanish-for-work": [
-          "Alemão para o trabalho: vocabulário por profissão – icanspeak Spanish",
-          "Vocabulário de alemão para enfermagem (Pflege), gastronomia, hotel, logística, construção e mais, com áudio, exemplos e tradução para o português."
-        ],
-        "/spanish-for-work/care-work": [
-          "Alemão para enfermagem (Pflege): vocabulário – icanspeak Spanish",
-          "As primeiras palavras em alemão para trabalhar na enfermagem e nos cuidados (Pflege) na Alemanha, com áudio, exemplos e tradução para o português.",
-          "Alemão para enfermagem (Pflege)"
-        ],
-        "/ccse": [
-          "Einbürgerungstest „Leben in Deutschland“: perguntas e prática – icanspeak Spanish",
-          "Como funciona o teste „Leben in Deutschland“ (Einbürgerungstest), com prática grátis das perguntas oficiais e explicações em português."
-        ],
-        "/knowledge": [
-          "Gramática alemã e listas de palavras em PDF grátis – icanspeak Spanish",
-          "PDFs grátis para baixar: gramática do A1 ao B2, listas de palavras com tradução para o português, vocabulário por profissão e Grammatik-Start."
-        ]
-      },
-      "intro": {
-        "heading": "Alemão para o seu caminho até a Alemanha",
-        "paragraphs": [
-          "Do Brasil vêm muitos profissionais de enfermagem para a Alemanha; outros trabalham com TI, fazem uma Ausbildung (formação profissional) ou estudam. Para o reconhecimento como profissional de enfermagem, geralmente se exige B2; outros empregadores pedem muitas vezes B1, com certificado do Goethe ou da telc. Quem já mora aqui faz o DTZ (Deutsch-Test für Zuwanderer) no curso de integração.",
-          "Aqui você pratica para isso: gramática, vocabulário com áudio, vocabulário de enfermagem e as partes da prova, com explicações em português. Os exercícios continuam em alemão, como na prova.",
-          "O que você precisa para o visto e o reconhecimento está nas fontes oficiais (as duas em inglês):"
-        ],
-        "links": [
-          [
-            "Make it in Germany, o portal do governo alemão",
-            "https://www.make-it-in-germany.com/en/"
-          ],
-          [
-            "Anerkennung in Deutschland (reconhecimento de diplomas)",
-            "https://www.anerkennung-in-deutschland.de/html/en/index.php"
-          ]
-        ]
-      }
-    },
-    "vi": {
-      "meta": {
-        "/": [
-          "Học tiếng Đức miễn phí: Goethe, telc và DTZ – icanspeak Spanish",
-          "Học tiếng Đức từ A1 đến B2, có giải thích bằng tiếng Việt: ngữ pháp, từ vựng có âm thanh và luyện thi Goethe, telc, DTZ. Dành cho người muốn học nghề (Ausbildung), làm việc hoặc du học ở Đức."
-        ],
-        "/exams": [
-          "Các kỳ thi tiếng Đức: so sánh Goethe, telc, DTZ và TestDaF – icanspeak Spanish",
-          "Bạn cần kỳ thi tiếng Đức nào để học nghề, làm việc, du học hay sống ở Đức: Goethe-Zertifikat, telc, DTZ, TestDaF. Các phần thi, trình độ và luyện tập trực tuyến."
-        ],
-        "/spanish-for-work": [
-          "Tiếng Đức cho công việc: từ vựng theo ngành nghề – icanspeak Spanish",
-          "Từ vựng tiếng Đức cho ngành điều dưỡng (Pflege), nhà hàng, khách sạn, kho vận, xây dựng và nhiều ngành khác, có âm thanh, ví dụ và bản dịch tiếng Việt."
-        ],
-        "/spanish-for-work/care-work": [
-          "Tiếng Đức ngành điều dưỡng (Pflege): từ vựng – icanspeak Spanish",
-          "Những từ tiếng Đức đầu tiên để làm việc trong ngành điều dưỡng và chăm sóc (Pflege) ở Đức, có âm thanh, ví dụ và bản dịch tiếng Việt.",
-          "Tiếng Đức ngành điều dưỡng (Pflege)"
-        ],
-        "/ccse": [
-          "Einbürgerungstest „Leben in Deutschland“: câu hỏi và luyện tập – icanspeak Spanish",
-          "Bài thi „Leben in Deutschland“ (Einbürgerungstest) diễn ra thế nào, luyện miễn phí các câu hỏi chính thức, có giải thích bằng tiếng Việt."
-        ],
-        "/knowledge": [
-          "Ngữ pháp tiếng Đức và danh sách từ vựng PDF miễn phí – icanspeak Spanish",
-          "Tải PDF miễn phí: ngữ pháp A1 đến B2, danh sách từ vựng có dịch sang tiếng Việt, từ vựng theo ngành nghề và Grammatik-Start."
-        ]
-      },
-      "intro": {
-        "heading": "Tiếng Đức cho con đường sang Đức của bạn",
-        "paragraphs": [
-          "Nhiều người từ Việt Nam sang Đức để học nghề (Ausbildung), nhất là ngành điều dưỡng, khách sạn và nhà hàng; người khác sang du học. Để học nghề và xin visa thường cần tiếng Đức trình độ B1, có chứng chỉ Goethe hoặc telc; ngành điều dưỡng thường cần B2.",
-          "Ở đây bạn luyện cho các kỳ thi đó: ngữ pháp, từ vựng có âm thanh, từ vựng ngành điều dưỡng, khách sạn và nhà hàng, cùng các phần thi, có giải thích bằng tiếng Việt. Bài tập vẫn bằng tiếng Đức, giống như trong kỳ thi.",
-          "Bạn cần giấy tờ gì cho visa, học nghề và công nhận bằng cấp thì các cơ quan chính thức sẽ cho biết (cả hai trang bằng tiếng Anh):"
-        ],
-        "links": [
-          [
-            "Make it in Germany, cổng thông tin của Chính phủ Đức",
-            "https://www.make-it-in-germany.com/en/"
-          ],
-          [
-            "Anerkennung in Deutschland (công nhận bằng cấp)",
-            "https://www.anerkennung-in-deutschland.de/html/en/index.php"
-          ]
-        ]
-      }
-    },
-    "hi": {
-      "meta": {
-        "/": [
-          "मुफ़्त में जर्मन सीखें: Goethe, telc और DTZ – icanspeak Spanish",
-          "A1 से B2 तक जर्मन सीखें, हिन्दी में व्याख्या के साथ: व्याकरण, ऑडियो के साथ शब्दावली और Goethe, telc व DTZ की तैयारी। जर्मनी में पढ़ाई, नौकरी या नर्सिंग के लिए।"
-        ],
-        "/exams": [
-          "जर्मन परीक्षाएँ: Goethe, telc, DTZ और TestDaF की तुलना – icanspeak Spanish",
-          "जर्मनी में पढ़ाई, नौकरी या रहने के लिए आपको कौन-सी जर्मन परीक्षा चाहिए: Goethe-Zertifikat, telc, DTZ, TestDaF। परीक्षा के हिस्से, स्तर और ऑनलाइन अभ्यास।"
-        ],
-        "/spanish-for-work": [
-          "काम के लिए जर्मन: पेशे के हिसाब से शब्दावली – icanspeak Spanish",
-          "नर्सिंग (Pflege), होटल, रेस्टोरेंट, वेयरहाउस, निर्माण और दूसरे पेशों के लिए जर्मन शब्दावली, ऑडियो, उदाहरण और हिन्दी अनुवाद के साथ।"
-        ],
-        "/spanish-for-work/care-work": [
-          "नर्सिंग (Pflege) के लिए जर्मन: शब्दावली – icanspeak Spanish",
-          "जर्मनी में नर्सिंग और देखभाल (Pflege) में काम के लिए पहले जर्मन शब्द, ऑडियो, उदाहरण और हिन्दी अनुवाद के साथ।",
-          "नर्सिंग (Pflege) के लिए जर्मन"
-        ],
-        "/ccse": [
-          "Einbürgerungstest „Leben in Deutschland“: प्रश्न और अभ्यास – icanspeak Spanish",
-          "„Leben in Deutschland“ टेस्ट (Einbürgerungstest) कैसे होता है, आधिकारिक प्रश्नों का मुफ़्त अभ्यास और हिन्दी में व्याख्या।"
-        ],
-        "/knowledge": [
-          "जर्मन व्याकरण और शब्द-सूचियाँ मुफ़्त PDF में – icanspeak Spanish",
-          "मुफ़्त PDF डाउनलोड करें: A1 से B2 तक व्याकरण, हिन्दी अनुवाद वाली शब्द-सूचियाँ, पेशे की शब्दावली और Grammatik-Start।"
-        ]
-      },
-      "intro": {
-        "heading": "जर्मनी की आपकी राह के लिए जर्मन",
-        "paragraphs": [
-          "भारत से बहुत लोग जर्मनी पढ़ाई के लिए या IT प्रोफ़ेशनल के तौर पर आते हैं, कुछ नर्सिंग में भी। भले ही आपका कोर्स या कंपनी अंग्रेज़ी में काम करे, रोज़मर्रा की ज़िंदगी में, सरकारी दफ़्तरों में और नर्सिंग के लिए आपको जर्मन चाहिए, अक्सर Goethe या telc के B1 या B2 सर्टिफ़िकेट के साथ।",
-          "यहाँ आप इसकी तैयारी करते हैं: व्याकरण, ऑडियो के साथ शब्दावली, पेशे की शब्दावली और परीक्षा के हिस्से, हिन्दी में व्याख्या के साथ। अभ्यास जर्मन में ही रहते हैं, जैसे परीक्षा में।",
-          "वीज़ा, पढ़ाई और डिग्री की मान्यता के लिए क्या चाहिए, यह आधिकारिक स्रोत बताते हैं (दोनों अंग्रेज़ी में):"
-        ],
-        "links": [
-          [
-            "Make it in Germany, जर्मन सरकार का पोर्टल",
-            "https://www.make-it-in-germany.com/en/"
-          ],
-          [
-            "Anerkennung in Deutschland (डिग्री की मान्यता)",
-            "https://www.anerkennung-in-deutschland.de/html/en/index.php"
-          ]
-        ]
-      }
-    },
-    "id": {
-      "meta": {
-        "/": [
-          "Belajar bahasa Jerman gratis: Goethe, telc, dan DTZ – icanspeak Spanish",
-          "Belajar bahasa Jerman dari A1 sampai B2 dengan penjelasan dalam bahasa Indonesia: tata bahasa, kosakata dengan audio, dan latihan untuk Goethe, telc, dan DTZ. Untuk Ausbildung, perawat, kerja, atau kuliah di Jerman."
-        ],
-        "/exams": [
-          "Ujian bahasa Jerman: perbandingan Goethe, telc, DTZ, dan TestDaF – icanspeak Spanish",
-          "Ujian bahasa Jerman mana yang Anda perlukan untuk Ausbildung, kerja, kuliah, atau tinggal di Jerman: Goethe-Zertifikat, telc, DTZ, TestDaF. Bagian ujian, tingkat, dan latihan online."
-        ],
-        "/spanish-for-work": [
-          "Bahasa Jerman untuk kerja: kosakata per profesi – icanspeak Spanish",
-          "Kosakata bahasa Jerman untuk keperawatan (Pflege), restoran, hotel, gudang, konstruksi, dan lainnya, dengan audio, contoh, dan terjemahan bahasa Indonesia."
-        ],
-        "/spanish-for-work/care-work": [
-          "Bahasa Jerman untuk perawat (Pflege): kosakata – icanspeak Spanish",
-          "Kata-kata bahasa Jerman pertama untuk bekerja di keperawatan dan perawatan (Pflege) di Jerman, dengan audio, contoh, dan terjemahan bahasa Indonesia.",
-          "Bahasa Jerman untuk perawat (Pflege)"
-        ],
-        "/ccse": [
-          "Einbürgerungstest „Leben in Deutschland“: soal dan latihan – icanspeak Spanish",
-          "Cara kerja tes „Leben in Deutschland“ (Einbürgerungstest), latihan gratis soal-soal resmi, dan penjelasan dalam bahasa Indonesia."
-        ],
-        "/knowledge": [
-          "Tata bahasa Jerman dan daftar kata PDF gratis – icanspeak Spanish",
-          "Unduh PDF gratis: tata bahasa A1 sampai B2, daftar kata dengan terjemahan bahasa Indonesia, kosakata per profesi, dan Grammatik-Start."
-        ]
-      },
-      "intro": {
-        "heading": "Bahasa Jerman untuk jalan Anda ke Jerman",
-        "paragraphs": [
-          "Dari Indonesia, banyak orang datang ke Jerman untuk Ausbildung (pendidikan vokasi) atau sebagai perawat, yang lain untuk kuliah. Untuk Ausbildung dan visa sering diminta bahasa Jerman tingkat B1; untuk pengakuan di bidang keperawatan biasanya B2, dengan sertifikat dari Goethe atau telc.",
-          "Di sini Anda berlatih untuk itu: tata bahasa, kosakata dengan audio, kosakata keperawatan, dan bagian-bagian ujian, dengan penjelasan dalam bahasa Indonesia. Soal-soalnya tetap dalam bahasa Jerman, seperti di ujian.",
-          "Apa yang Anda perlukan untuk visa, Ausbildung, dan pengakuan ijazah dijelaskan oleh sumber resmi (keduanya dalam bahasa Inggris):"
-        ],
-        "links": [
-          [
-            "Make it in Germany, portal pemerintah Jerman",
-            "https://www.make-it-in-germany.com/en/"
-          ],
-          [
-            "Anerkennung in Deutschland (pengakuan ijazah)",
-            "https://www.anerkennung-in-deutschland.de/html/en/index.php"
-          ]
-        ]
-      }
-    },
-    "tl": {
-      "meta": {
-        "/": [
-          "Matuto ng German nang libre: Goethe, telc at DTZ – icanspeak Spanish",
-          "Matuto ng German mula A1 hanggang B2 na may paliwanag sa Tagalog: gramatika, bokabularyo na may audio at paghahanda para sa Goethe, telc at DTZ. Para sa mga nurse, caregiver, Ausbildung at pamilyang lilipat sa Germany."
-        ],
-        "/exams": [
-          "Mga pagsusulit sa German: Goethe, telc, DTZ at TestDaF – icanspeak Spanish",
-          "Aling pagsusulit sa German ang kailangan mo para sa trabaho, Ausbildung, pag-aaral o pamumuhay sa Germany: Goethe-Zertifikat, telc, DTZ, TestDaF. Mga bahagi, antas at online na pagsasanay."
-        ],
-        "/spanish-for-work": [
-          "German para sa trabaho: bokabularyo ayon sa propesyon – icanspeak Spanish",
-          "Bokabularyong German para sa Pflege (nursing at pag-aalaga), restawran, hotel, bodega at logistics, construction at iba pa, na may audio, halimbawa at salin sa Tagalog."
-        ],
-        "/spanish-for-work/care-work": [
-          "German para sa Pflege (nursing at pag-aalaga): bokabularyo – icanspeak Spanish",
-          "Ang mga unang salitang German para magtrabaho sa nursing at pag-aalaga (Pflege) sa Germany, na may audio, halimbawa at salin sa Tagalog.",
-          "German para sa Pflege (nursing at pag-aalaga)"
-        ],
-        "/ccse": [
-          "Einbürgerungstest „Leben in Deutschland“: mga tanong at pagsasanay – icanspeak Spanish",
-          "Paano ang pagsusulit na „Leben in Deutschland“ (Einbürgerungstest), at libreng pagsasanay sa mga opisyal na tanong, na may paliwanag sa Tagalog."
-        ],
-        "/knowledge": [
-          "Libreng PDF ng gramatika at listahan ng salitang German – icanspeak Spanish",
-          "I-download nang libre: gramatika A1 hanggang B2, listahan ng salita na may salin sa Tagalog, bokabularyo ayon sa propesyon at Grammatik-Start."
-        ]
-      },
-      "intro": {
-        "heading": "German para sa landas mo papuntang Germany",
-        "paragraphs": [
-          "Maraming taga-Pilipinas ang pumupunta sa Germany bilang nurse o caregiver; ang iba ay nag-a-Ausbildung (pagsasanay sa isang trabaho), nagtatrabaho sa hotel, o sumusunod sa pamilya nila. Para sa pagkilala bilang nurse (Anerkennung), karaniwang B2 ang hinihingi; para sa Ausbildung at sa maraming employer, madalas B1, na may certificate mula sa Goethe o telc.",
-          "Dito ka magsasanay para rito: gramatika, bokabularyo na may audio, ang bokabularyo para sa Pflege (pag-aalaga) at ang mga bahagi ng pagsusulit, na may paliwanag sa Tagalog. Nananatiling German ang mga gawain, gaya ng sa mismong pagsusulit.",
-          "Kung ano ang kailangan mo para sa visa, Anerkennung at Ausbildung, sasabihin sa iyo ng mga opisyal na tanggapan (parehong nasa English):"
-        ],
-        "links": [
-          [
-            "Make it in Germany, ang portal ng gobyerno ng Germany",
-            "https://www.make-it-in-germany.com/en/"
-          ],
-          [
-            "Anerkennung in Deutschland (pagkilala sa propesyon)",
-            "https://www.anerkennung-in-deutschland.de/html/en/index.php"
-          ]
-        ]
-      }
-    }
+ "_note": "Entry pages with their own URL per language: built by src/integrations/entry-pages.mjs from the English page plus public/i18n/<code>.json. Here: what the dictionary does not carry, per language: <title>, meta description, and the intro on the home page, written for that audience. Machine draft, not yet read by a native speaker. `src` is the English page, `slug` the path after /<prefix>/. `meta[path]` is [title, description, h1?]: the third entry replaces the page's first <h1> where the English one is data, not a dictionary key (a deck title).",
+ "pages": [
+  {
+   "src": "/",
+   "slug": ""
+  },
+  {
+   "src": "/exams",
+   "slug": "exams"
+  },
+  {
+   "src": "/spanish-for-work",
+   "slug": "spanish-for-work"
+  },
+  {
+   "src": "/spanish-for-work/care-work",
+   "slug": "spanish-for-work/care-work"
+  },
+  {
+   "src": "/ccse",
+   "slug": "ccse"
+  },
+  {
+   "src": "/knowledge",
+   "slug": "knowledge"
   }
+ ],
+ "langs": {
+  "de": {
+   "meta": {
+    "/": [
+     "icanspeak Spanish – Spanisch aus Spanien kostenlos lernen: DELE, SIELE, CCSE",
+     "Lerne Spanisch, wie es in Spanien gesprochen wird, von A1 bis C1: kostenlose Grammatik, Wortschatz und Übungen für DELE, SIELE und CCSE, mit deutscher Oberfläche."
+    ],
+    "/exams": [
+     "Spanisch-Prüfungen im Vergleich: DELE, SIELE, CCSE – icanspeak Spanish",
+     "Vergleiche DELE, SIELE und den CCSE-Test für die spanische Staatsbürgerschaft: nach Prüfung oder Niveau, mit den Formaten im direkten Vergleich."
+    ],
+    "/spanish-for-work": [
+     "Spanisch für den Beruf: Wortschatz für die Arbeit – icanspeak Spanish",
+     "Spanisch für Pflege, Gastronomie, Reinigung, Landwirtschaft, Bau, Handel, Lager, Fahrdienste, Hotel und Büro: Wörter mit Beispielsätzen und Übersetzungen, kostenlos."
+    ],
+    "/spanish-for-work/care-work": [
+     "Pflege: ältere Menschen zu Hause und im Heim – icanspeak Spanish",
+     "Die Betreuung älterer Menschen ist für Neuankömmlinge in Spanien einer der häufigsten ersten Jobs, in einer residencia oder im Privathaushalt. Wortschatz für die Arbeit, mit Beispielsätzen und Übersetzungen.",
+     "Pflege: ältere Menschen zu Hause und im Heim"
+    ],
+    "/ccse": [
+     "CCSE, der Test für die spanische Staatsbürgerschaft: Format und Übung – icanspeak Spanish",
+     "Der CCSE für die spanische Staatsbürgerschaft: wie er abläuft, worum es in den Fragen geht und wie du dich vorbereitest. Eigene Übungsfragen; allgemeine Orientierung, keine Rechtsberatung."
+    ],
+    "/knowledge": [
+     "Spanische Grammatik und Wortlisten als kostenlose PDFs – icanspeak Spanish",
+     "Grammatikbücher, Wortlisten und Prüfungsmaterial als PDF: kostenlos herunterladen, ausdrucken und im Unterricht teilen. Kein Konto nötig."
+    ]
+   },
+   "intro": {
+    "heading": "Spanisch lernen, mit deutscher Oberfläche",
+    "paragraphs": [
+     "Ob du nach Spanien ziehst, schon dort lebst oder einfach Spanisch können möchtest: Hier lernst du das Spanisch Spaniens, von A1 bis C1, mit Situationen aus dem echten Alltag wie Arzt, Vermieter, Arbeit und Ämter.",
+     "Menüs und Schaltflächen sind auf Deutsch, die Wortkarten zeigen deutsche Bedeutungen. Viele Grammatikerklärungen und Übungsanweisungen sind noch auf Englisch: Die deutsche Fassung ist neu, maschinell übersetzt und wird noch geprüft.",
+     "Du bereitest dich auf eine Prüfung vor? Hier übst du mit eigenem Material für DELE, SIELE und den CCSE. Verbindlich sind die offiziellen Quellen:"
+    ],
+    "links": [
+     [
+      "Instituto Cervantes: Prüfungen",
+      "https://examenes.cervantes.es/"
+     ],
+     [
+      "Verwaltungsportal der spanischen Regierung",
+      "https://administracion.gob.es/"
+     ]
+    ]
+   }
+  }
+ }
 }

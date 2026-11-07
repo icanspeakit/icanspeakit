@@ -26,7 +26,7 @@ import { entryLanguages, BASE } from '../lib/languages.js';
 import { absoluteUrl, rebaseHtml } from '../lib/paths.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-const OG_LOCALE = { es: 'es_LA', pt: 'pt_BR', vi: 'vi_VN', hi: 'hi_IN', id: 'id_ID' };
+const OG_LOCALE = { de: 'de_DE', pt: 'pt_BR' };
 
 const escText = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const escAttr = (s) => escText(s).replace(/"/g, '&quot;');

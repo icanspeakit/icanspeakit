@@ -6,24 +6,24 @@
 // and commit the JSON with them; the build does not run it.
 //
 // What a "key" is per surface:
-//   ui            keys of public/i18n/<code>.json that de.json has, with a non-empty value
+//   ui            keys of public/i18n/<code>.json that en.json has, with a non-empty value
 //   cards, sheets lexicon words (all levels) with a gloss in that language — inline in the
 //                 lexicon, or in its sidecar src/content/lexicon/i18n/<code>.json for the
 //                 languages whose glosses are fetched on demand (src/lib/glossen.js)
 //   help, legal   translation blocks in src/data/uebersetzungen/*.json: every object that
 //                 carries at least one language code of the registry as a key
 //   berufe        the decks' own words (not refs) with a translation
-// German is the source, so it is 100 % wherever it is registered.
+// English is the source, so it is 100 % wherever it is registered.
 //
 // `--check` exits 1 when a language registered on a gated surface is below the gate.
 import fs from "node:fs";
 import path from "node:path";
-import { LANGUAGE_REGISTRY, SURFACES, GATES } from "../src/lib/languages.js";
+import { LANGUAGE_REGISTRY, SURFACES, GATES, BASE } from "../src/lib/languages.js";
 import { all } from "../src/lib/lexicon.js";
 
 const ROOT = process.cwd();
 const readJson = (...p) => JSON.parse(fs.readFileSync(path.join(ROOT, ...p), "utf8"));
-const CODES = LANGUAGE_REGISTRY.map((l) => l.code).filter((c) => c !== "de");
+const CODES = LANGUAGE_REGISTRY.map((l) => l.code).filter((c) => c !== BASE);
 const filled = (v) => v != null && v !== "" && !(Array.isArray(v) && v.length === 0);
 
 /** Every object in a JSON tree that carries a translation: one with a language code key. */
@@ -40,7 +40,7 @@ const HELP_FILES = ["grammatik", "grammatik-ui", "grammatik-themen", "hoeren", "
 const helpBlocks = Object.fromEntries(HELP_FILES.map((f) => [f, blocks(readJson("src", "data", "uebersetzungen", `${f}.json`))]));
 const legalBlocks = blocks(readJson("src", "data", "uebersetzungen", "rechtliches.json"));
 
-const uiBase = Object.keys(readJson("public", "i18n", "de.json"));
+const uiBase = Object.keys(readJson("public", "i18n", `${BASE}.json`));
 const lexicon = all();
 const berufeWords = fs
   .readdirSync(path.join(ROOT, "src", "data", "berufe"))
@@ -63,18 +63,18 @@ function uiCount(code) {
 
 /** [have, total] per surface for one language. */
 function measure(code) {
-  const isDe = code === "de";
-  const inBlocks = (list) => [isDe ? list.length : list.filter((b) => filled(b[code])).length, list.length];
+  const isBase = code === BASE;
+  const inBlocks = (list) => [isBase ? list.length : list.filter((b) => filled(b[code])).length, list.length];
   const allHelp = Object.values(helpBlocks).flat();
-  const side = isDe ? {} : sidecar(code);
-  const lex = [isDe ? lexicon.length : lexicon.filter((e) => filled(e[code]) || filled(side[e.id])).length, lexicon.length];
+  const side = isBase ? {} : sidecar(code);
+  const lex = [isBase ? lexicon.length : lexicon.filter((e) => filled(e[code]) || filled(side[e.id])).length, lexicon.length];
   return {
-    ui: [isDe ? uiBase.length : uiCount(code), uiBase.length],
+    ui: [isBase ? uiBase.length : uiCount(code), uiBase.length],
     cards: lex,
     help: inBlocks(allHelp),
     legal: inBlocks(legalBlocks),
     sheets: lex,
-    berufe: [isDe ? berufeWords.length : berufeWords.filter((w) => filled(w.translations?.[code])).length, berufeWords.length],
+    berufe: [isBase ? berufeWords.length : berufeWords.filter((w) => filled(w.translations?.[code])).length, berufeWords.length],
   };
 }
 
@@ -94,7 +94,7 @@ const cell = (l, s) => {
   const p = langs[l.code][s];
   const reg = !!l.surfaces[s];
   const gate = GATES[s];
-  const low = reg && gate != null && l.code !== "de" && p < gate;
+  const low = reg && gate != null && l.code !== BASE && p < gate;
   if (low) failures.push(`${l.code} ${s}: ${p} % < ${gate} %`);
   const txt = `${p.toFixed(1)}${low ? "!" : ""}`;
   return reg ? txt : `(${txt})`;
@@ -117,7 +117,7 @@ for (const [f, list] of Object.entries(helpBlocks)) {
 }
 
 const out = {
-  _note: "Written by scripts/lang-coverage.mjs (pnpm lang:coverage). % of the German keys/words per language and surface; src/lib/languages.js gates on it. Do not edit by hand.",
+  _note: "Written by scripts/lang-coverage.mjs (pnpm lang:coverage). % of the English keys/words per language and surface; src/lib/languages.js gates on it. Do not edit by hand.",
   langs,
 };
 fs.writeFileSync(path.join(ROOT, "docs", "lang-coverage.json"), JSON.stringify(out, null, 2) + "\n");

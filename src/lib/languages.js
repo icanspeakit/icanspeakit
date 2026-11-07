@@ -10,9 +10,9 @@
 //
 // Plain ESM with a JSON import, like lexicon.js: the pages, the client bundles and the Node
 // scripts (scripts/check-*.mjs, scripts/lang-coverage.mjs) all load it.
-// Coverage per language and surface (% of the base keys), written by `pnpm lang:coverage`
-// once a second language exists. icanspeak Spanish ships English only, so it starts empty.
-const coverage = { langs: {} };
+// Coverage per language and surface (% of the base keys), written by `pnpm lang:coverage`.
+// Commit the file with every translation batch: the `ui` gate below reads it.
+import coverage from "../../docs/lang-coverage.json" with { type: "json" };
 
 /** The surfaces a language can be offered on, and what each one is:
  *  ui            public/i18n/<code>.json — the interface and the header menu
@@ -34,6 +34,7 @@ export const GATES = { ui: 98 };
 // A language added from here on starts as { status: "draft" } until a native speaker has
 // read it. A flashcard language can carry `fetch: true` to load its glosses on demand.
 const reviewed = { status: "reviewed" };
+const draft = { status: "draft" };
 
 /* Order is the order lists come out in: English first, Ukrainian before Russian (Ukrainian
    learners are not sent to Russian). A surface whose list has always had a different order
@@ -52,6 +53,15 @@ export const LANGUAGE_REGISTRY = [
     dir: "ltr", script: "Latn", region: "europa", fontFamily: null,
     // The source language: the interface and every text exist in English first.
     surfaces: { ui: { ...reviewed, order: 0 }, cards: reviewed, help: reviewed, legal: { ...reviewed, order: 0 }, sheets: reviewed, berufe: reviewed },
+  },
+  {
+    code: "de", native: "Deutsch", de: "Deutsch", en: "German", word: "Sprache",
+    dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "de", urlPrefix: "de",
+    // Named only where German text exists (docs/content-plan.md §10.4). Help texts and the
+    // profession decks fall back to English; the legal pages are German already.
+    // `fetch` keeps `de` out of the surfaces that inline glosses (live quiz, printable games):
+    // there, `de` on a question or option still means the Spanish being learnt.
+    surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
   // To add a language: copy the entry above, set code/native/dir/script (and fontFamily for
   // non-Latin scripts, hreflang/urlPrefix for its own entry-page URLs), start every surface
