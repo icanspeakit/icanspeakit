@@ -3,10 +3,14 @@
 // (berufeWortschatz.rowsOf) and the live quiz (liveQuiz/questions.js). No node: imports, so
 // the quiz host can load it in the browser. A deck's unit id is `berufe-<beruf>-<gruppe>`,
 // the same id VokabelTrainer gets as its deck.
-import { BERUFE, DGT, refKind } from "./berufeCore.js";
+import { BERUFE, DGT, BUSINESS, refKind } from "./berufeCore.js";
 import { byId as lexiconById } from "./lexicon.js";
+import { businessDeck } from "./businessSpanish.js";
 
-const modules = import.meta.glob(["../data/berufe/*.json", "../data/dgt/*.json"], { eager: true, import: "default" });
+const modules = {
+  ...import.meta.glob(["../data/berufe/*.json", "../data/dgt/*.json"], { eager: true, import: "default" }),
+  business: businessDeck(Object.values(import.meta.glob("../data/business-spanish/*.json", { eager: true, import: "default" }))),
+};
 
 /** The decks point at lexicon ids, and check-berufe fails on one that is gone. Should a page ever
  *  see such a ref anyway, the word drops out rather than leaving a hole in the deck. */
@@ -14,7 +18,7 @@ const resolves = (w) => !w.ref || refKind(w.ref) !== "lexicon" || !!lexiconById(
 export const liveDeck = (deck) => ({ ...deck, groups: (deck.groups ?? []).map((g) => ({ ...g, words: (g.words ?? []).filter(resolves) })) });
 
 const decks = Object.fromEntries(
-  [...BERUFE, DGT].map((b) => [b.slug, Object.values(modules).find((d) => d?.beruf === b.slug)]).filter(([, d]) => d).map(([s, d]) => [s, liveDeck(d)])
+  [...BERUFE, DGT, BUSINESS].map((b) => [b.slug, Object.values(modules).find((d) => d?.beruf === b.slug)]).filter(([, d]) => d).map(([s, d]) => [s, liveDeck(d)])
 );
 
 const own = new Map(

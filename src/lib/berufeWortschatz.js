@@ -7,15 +7,19 @@
 // when the file is on disk, checked at build time, so a play button never points at a 404.
 import { existsSync } from "node:fs";
 import path from "node:path";
-import { BERUFE, DGT, LANGS, entryCount, refKind } from "./berufeCore.js";
+import { BERUFE, DGT, BUSINESS, LANGS, entryCount, refKind } from "./berufeCore.js";
 import { byId as lexiconById, toVokabelCards, spokenForm, pluralArticle } from "./lexicon.js";
 import { rowOf, liveDeck } from "./berufeRows.js";
+import { businessDeck } from "./businessSpanish.js";
 
-const modules = import.meta.glob(["../data/berufe/*.json", "../data/dgt/*.json"], { eager: true, import: "default" });
+const modules = {
+  ...import.meta.glob(["../data/berufe/*.json", "../data/dgt/*.json"], { eager: true, import: "default" }),
+  business: businessDeck(Object.values(import.meta.glob("../data/business-spanish/*.json", { eager: true, import: "default" }))),
+};
 
 /** slug → deck, in hub order. */
 export const DECKS = Object.fromEntries(
-  [...BERUFE, DGT].map((b) => [b.slug, Object.values(modules).find((d) => d?.beruf === b.slug)]).filter(([, d]) => d).map(([s, d]) => [s, liveDeck(d)])
+  [...BERUFE, DGT, BUSINESS].map((b) => [b.slug, Object.values(modules).find((d) => d?.beruf === b.slug)]).filter(([, d]) => d).map(([s, d]) => [s, liveDeck(d)])
 );
 
 export { LANGS, entryCount };

@@ -1,0 +1,26 @@
+---
+import { fitTitle } from "../../../../lib/seo/title.js";
+// /business-spanish/[unit]/words/print: a unit's words on paper, the same sheet as a sector's group
+// (english-for-work/[beruf]/[gruppe]/print.astro).
+import Layout from "../../../../layouts/Layout.astro";
+import { BUSINESS_SLUGS, workPath } from "../../../../lib/routes.js";
+import WortschatzDruck from "../../../../components/WortschatzDruck.astro";
+import { DECKS, groupsOf, rowsOf } from "../../../../lib/berufeWortschatz.js";
+import { wortschatzSheet, SHEET_LANGS } from "../../../../lib/arbeitsblatt/wortschatz.js";
+
+export function getStaticPaths() {
+  return groupsOf("business").map((g: any) => ({ params: { unit: (BUSINESS_SLUGS as Record<string, string>)[g.id] }, props: { group: g } }));
+}
+const { group } = Astro.props as any;
+const deck = DECKS.business;
+const words = rowsOf("business", group.id);
+// A sheet language only when every word of the group has it, as on the cards.
+const langs = SHEET_LANGS.filter((l) => words.every((w: any) => w[l]));
+const sheet = wortschatzSheet(`berufe-business-${group.id}`, { words, langs });
+---
+<Layout
+  title={fitTitle(`${group.title} – ${deck.title} to print`, `${group.title} to print`)}
+  description={`${deck.title}: ${group.title} as a PDF: every word with a translation and an example sentence, plus a short test with answers.`}
+>
+  <WortschatzDruck title={group.title} level={deck.title} words={words} sheet={sheet} langs={langs} setPath={workPath("business", group.id)} />
+</Layout>

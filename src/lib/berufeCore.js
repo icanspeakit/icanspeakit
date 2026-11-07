@@ -33,6 +33,10 @@ export const SLUGS = BERUFE.map((b) => b.slug);
  *  ids (bv-dgt-…), so sector decks can point at its words, but its own page, not a sector. */
 export const DGT = { slug: "dgt", emoji: "🚗" };
 
+/** Business Spanish (src/data/business-spanish/<unit>.json, content-plan §4.3): each unit's words are
+ *  a group of this one deck, ids bv-business-…, under its own pages. */
+export const BUSINESS = { slug: "business", emoji: "💼" };
+
 /** Translation languages of a deck (registry surface "berufe"); LANGS adds "de", the German
  *  tab: an own word's deHint holds its German translation (docs/content-plan.md §5.12). */
 export const TRANSLATIONS = langsFor("berufe");

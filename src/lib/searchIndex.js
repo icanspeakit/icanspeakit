@@ -241,6 +241,13 @@ export function buildSearchIndex() {
     k: "dgt driving licence test theory exam spanish spain carné de conducir permiso autoescuela coche carretera señales tráfico road signs car words multa itv puntos canje vocabulary",
     h: "/dgt-vocabulary",
   });
+  // Business Spanish: phrases, model texts and exercises for office work.
+  pages.push({
+    t: "Business Spanish",
+    s: "Emails, phone calls, CVs, job interviews, meetings and negotiating in Spain, B1 to C1",
+    k: "business spanish work office email correo formal letter phone call llamada cv currículum curriculum resume cover letter carta de presentación job interview entrevista meeting reunión negotiate negociación figures presentation estimado atentamente",
+    h: "/business-spanish",
+  });
   // DELE or SIELE?: a comparison page under the exam hub.
   pages.push({
     t: "DELE or SIELE?",

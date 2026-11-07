@@ -25,7 +25,7 @@ import { itemPath, workPath } from "../lib/routes.js";
 import { counts, modules, cohorts, frequencyCounts, portions } from "../lib/lernsets.js";
 import { LEVELS, LEVEL_NAMES, byUnit, spokenForm } from "../lib/lexicon.js";
 import { unitIcon, duplicateIconsIn } from "../lib/unitIcon.js";
-import { BERUFE, DGT } from "../lib/berufeCore.js";
+import { BERUFE, DGT, BUSINESS } from "../lib/berufeCore.js";
 import { DECKS as BERUF_DECKS, groupsOf as berufGroups } from "../lib/berufeWortschatz.js";
 import { SETS as RM_SETS } from "../lib/redemittelWortschatz.js";
 import curated from "../data/wortschatz.json";
@@ -125,7 +125,7 @@ const isFreq = current.startsWith("haeufigkeit-");
 // On a profession deck (/english-for-work/<beruf>/<gruppe>, deck id berufe-<beruf>-<gruppe>) the panel
 // shows the Berufe — this one open with its word groups — instead of an A1 list that has
 // nothing to do with the page. Elsewhere the Berufe icon stays a plain link to /english-for-work.
-const berufList = [...BERUFE, DGT].filter((b) => berufGroups(b.slug).length > 0).map((b) => ({
+const berufList = [...BERUFE, DGT, BUSINESS].filter((b) => berufGroups(b.slug).length > 0).map((b) => ({
   ...b,
   title: BERUF_DECKS[b.slug].title,
   groups: berufGroups(b.slug),
@@ -501,6 +501,8 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
       ))}
       {!select && (currentBeruf?.slug === "dgt"
         ? <a class="ls-prog-more" href="/dgt-vocabulary" data-i18n="dgt.back">← DGT driving vocabulary</a>
+        : currentBeruf?.slug === "business"
+        ? <a class="ls-prog-more" href="/business-spanish" data-i18n="biz.back">← Business Spanish</a>
         : <a class="ls-prog-more" href="/english-for-work" data-i18n="berufe.back.hub">← Alle Berufe</a>)}
     </div>
     )}

@@ -377,8 +377,19 @@ export const itemSlug = (section, id) => ITEM_SLUGS[section]?.[id] ?? id;
 export const itemKey = (section, slug) => ITEM_KEYS[section]?.[slug] ?? slug;
 /** The page of an item. */
 export const itemPath = (section, id) => `${section}/${itemSlug(section, id)}`;
+/** Business Spanish units: the id is the Spanish name of the file, the URL says it in English. */
+export const BUSINESS_SLUGS = {
+  correos: "emails",
+  llamadas: "phone-calls",
+  curriculum: "cv-and-cover-letter",
+  entrevista: "job-interviews",
+  reuniones: "meetings",
+  negociacion: "negotiating",
+};
+export const businessPath = (unit) => `/business-spanish/${BUSINESS_SLUGS[unit] ?? unit}`;
 /** A work sector, or one word group of it. */
 export const workPath = (sector, group) => sector === "dgt" ? `/dgt-vocabulary${group ? `/${group}` : ""}` :
+  sector === "business" ? (group ? `${businessPath(group)}/words` : "/business-spanish") :
   `/english-for-work/${itemSlug("/english-for-work", sector)}${group ? `/${WORK_GROUP_SLUGS[group] ?? group}` : ""}`;
 /** A work group's id from its URL slug. */
 export const workGroupKey = (slug) => WORK_GROUP_KEYS[slug] ?? slug;
