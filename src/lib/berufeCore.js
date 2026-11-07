@@ -1,4 +1,4 @@
-// Deutsch für den Beruf — the profession decks (FACHVOKABULAR-TIERED-PROMPT.md).
+// Spanish for work: the sector decks (docs/content-plan.md §5.12).
 //
 // Plain ESM with no Vite imports, so the build check (scripts/check-berufe.mjs) and the pages
 // share one set of rules. The pages load the files through src/lib/berufeWortschatz.js.
@@ -6,24 +6,26 @@
 // One file per profession, src/data/berufe/<slug>.json, so one session per profession can fill
 // its deck without touching anyone else's file. A word is either defined in the file
 // ({ id, lemma, pos, … }) or a pointer to a word that already exists elsewhere ({ ref }):
-// the lexicon (lexicon id), the Fahrschul-Wortschatz (fs-…) or another profession (bv-…).
+// the lexicon (lexicon id), the DGT deck or another sector (both bv-…).
 // Ids are learners' progress keys, so they are derived once and never renamed.
 import { slugify } from "./audioSlug.js";
 import { langsFor } from "./languages.js";
 import { varietyProblems } from "./variety.js";
 
-/** The ten professions of v1, in hub order. `emoji` is the OpenMoji on the hub card. */
+/** The ten sectors, in hub order: where newcomers to Spain most often start work first. The slugs
+ *  are history (progress keys): kita is cleaning and domestic work, elektro-technik is farm work.
+ *  `emoji` is the OpenMoji on the hub card. */
 export const BERUFE = [
+  { slug: "pflege", emoji: "🩺" },
   { slug: "gastronomie", emoji: "🍽️" },
-  { slug: "hotel", emoji: "🏨" },
+  { slug: "kita", emoji: "🧹" },
+  { slug: "elektro-technik", emoji: "🍅" },
+  { slug: "bau-handwerk", emoji: "🔨" },
+  { slug: "einzelhandel", emoji: "🛒" },
   { slug: "lager-logistik", emoji: "📦" },
   { slug: "kraftfahrer", emoji: "🚚" },
-  { slug: "bau-handwerk", emoji: "🔨" },
-  { slug: "elektro-technik", emoji: "🔌" },
-  { slug: "einzelhandel", emoji: "🛒" },
+  { slug: "hotel", emoji: "🏨" },
   { slug: "buero", emoji: "💼" },
-  { slug: "kita", emoji: "👶" },
-  { slug: "pflege", emoji: "🩺" },
 ];
 export const SLUGS = BERUFE.map((b) => b.slug);
 
@@ -36,9 +38,8 @@ export const DGT = { slug: "dgt", emoji: "🚗" };
 export const TRANSLATIONS = langsFor("berufe");
 export const LANGS = ["de", ...TRANSLATIONS];
 export const POS = ["noun", "verb", "adj", "adverb", "phrase"];
-/** English decks: the indefinite article, "some" for uncountable and plural-only nouns;
- *  Spanish decks: el/la, el/la for common-gender person nouns (docs/content-plan.md §1.4). */
-export const GENDERS = ["a", "an", "some", "el", "la", "el/la"];
+/** The article as the learner says it: el/la, el/la for common-gender person nouns (content-plan §1.4). */
+export const GENDERS = ["el", "la", "el/la"];
 
 /** `bv-gastronomie-schneidebrett` */
 export const idFor = (slug, lemma) => `bv-${slug}-${slugify(lemma)}`;
@@ -114,7 +115,7 @@ export function validate(files, known) {
         // variety / es419 (§1.5). A ref inherits both from the word it points to (rule above).
         for (const p of varietyProblems(w, { noun: w.pos === "noun" })) at(`${where}: ${p}`);
         if (w.pos === "noun" && w.plural === undefined && !w.pluralOnly) at(`${where}: a noun needs "plural" (null when there is none)`);
-        if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [3rd person, past simple, past participle]`);
+        if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [yo present, él indefinido, participio]`);
         if (!w.example) at(`${where}: no example sentence`);
         if (!w.deHint) at(`${where}: no deHint`);
         for (const l of TRANSLATIONS) if (!w.translations?.[l]) at(`${where}: no ${l} translation`);
@@ -134,9 +135,7 @@ export function validate(files, known) {
         if (!w.ref) continue;
         const kind = refKind(w.ref);
         const ok = kind === "berufe" ? berufeIds.has(w.ref) : known.lexicon.has(w.ref);
-        // A lexicon ref that is gone is a warning until `spanish-for-work` rewrites the decks: every
-        // vocab-* item removes English ids they point at, and liveDeck() drops those words.
-        if (!ok) (kind === "lexicon" ? warnings : errors).push(`${file}: ${g.id}: ref „${w.ref}" does not resolve (${kind})`);
+        if (!ok) errors.push(`${file}: ${g.id}: ref „${w.ref}" does not resolve (${kind})`);
       }
     }
   }

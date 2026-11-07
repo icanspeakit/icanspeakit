@@ -8,20 +8,18 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { BERUFE, DGT, LANGS, entryCount, refKind } from "./berufeCore.js";
-import { byId as lexiconById, toVokabelCards } from "./lexicon.js";
+import { byId as lexiconById, toVokabelCards, spokenForm, pluralArticle } from "./lexicon.js";
 import { rowOf, liveDeck } from "./berufeRows.js";
 
 const modules = import.meta.glob(["../data/berufe/*.json", "../data/dgt/*.json"], { eager: true, import: "default" });
 
-/** slug → deck, in hub order. Refs into English lexicon levels are dropped (liveDeck). */
+/** slug → deck, in hub order. */
 export const DECKS = Object.fromEntries(
   [...BERUFE, DGT].map((b) => [b.slug, Object.values(modules).find((d) => d?.beruf === b.slug)]).filter(([, d]) => d).map(([s, d]) => [s, liveDeck(d)])
 );
 
 export { LANGS, entryCount };
 
-/** What the voice says: nouns with their article (a / an / some), everything else as written. */
-const spoken = (w) => (w.pos === "noun" && w.gender ? `${w.gender} ${w.lemma}` : w.pluralOnly ? `some ${w.lemma}` : w.lemma);
 const audioFile = (id) => path.join(process.cwd(), "public", "audio", "berufe", `${id}.mp3`);
 
 /** A word the deck defines itself → card. */
@@ -36,8 +34,8 @@ function ownCard(w) {
     example: w.example,
     ...(w.separable ? { separable: true } : {}),
   };
-  if (w.pos === "noun") Object.assign(card, { gender: w.gender ?? (w.pluralOnly ? "some" : null), plural: w.plural ?? null, pluralOnly: !!w.pluralOnly });
-  if (existsSync(audioFile(w.id))) Object.assign(card, { audioSrc: `/audio/berufe/${w.id}.mp3`, spoken: spoken(w) });
+  if (w.pos === "noun") Object.assign(card, { gender: w.gender ?? null, plural: w.plural ?? null, pluralOnly: !!w.pluralOnly });
+  if (existsSync(audioFile(w.id))) Object.assign(card, { audioSrc: `/audio/berufe/${w.id}.mp3`, spoken: spokenForm(w) });
   return card;
 }
 
@@ -77,17 +75,16 @@ export const cardsOf = (slug, groupId = null) =>
 export const rowsOf = (slug, groupId = null) =>
   groupsOf(slug).filter((g) => !groupId || g.id === groupId).flatMap((g) => g.words.map(rowOf));
 
-/** The decks that have words: these get pages. Pflege also gets its page while empty, because
- *  that page carries the pflegeplace.com box (see the Pflege rule in the prompt). */
-export const hasPage = (slug) => entryCount(DECKS[slug] ?? {}) > 0 || slug === "pflege";
+/** The decks that have words: these get pages. */
+export const hasPage = (slug) => entryCount(DECKS[slug] ?? {}) > 0;
 
-/** A few of the deck's own example sentences for the profession page ("What it sounds like at
+/** A few of the deck's own example sentences for the sector page ("What it sounds like at
  *  work", with the simple English definition as `meaning`): real sentences from the cards, not text written for the page. One per group
  *  first, so the sample spreads across the deck. */
 export function samplesOf(slug, n = 3) {
   const per = groupsOf(slug).map((g) => g.words.filter((w) => !w.ref && w.example));
   const out = [];
   for (let i = 0; out.length < n && per.some((ws) => ws[i]); i++)
-    for (const ws of per) if (ws[i] && out.length < n) out.push({ lemma: ws[i].lemma, gender: ws[i].gender ?? null, example: ws[i].example, deHint: ws[i].deHint, meaning: ws[i].translations?.en ?? null });
+    for (const ws of per) if (ws[i] && out.length < n) out.push({ lemma: ws[i].pluralOnly ? (ws[i].plural ?? ws[i].lemma) : ws[i].lemma, gender: ws[i].pluralOnly ? pluralArticle(ws[i]) : ws[i].gender ?? null, example: ws[i].example, deHint: ws[i].deHint, meaning: ws[i].translations?.en ?? null });
   return out;
 }

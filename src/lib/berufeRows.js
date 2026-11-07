@@ -8,9 +8,8 @@ import { byId as lexiconById } from "./lexicon.js";
 
 const modules = import.meta.glob(["../data/berufe/*.json", "../data/dgt/*.json"], { eager: true, import: "default" });
 
-/** The decks point at lexicon ids. A ref into a word that is gone drops out rather than leaving
- *  a hole in the deck: a deck's old English refs do that, until `spanish-for-work` points them
- *  at Spanish ids. */
+/** The decks point at lexicon ids, and check-berufe fails on one that is gone. Should a page ever
+ *  see such a ref anyway, the word drops out rather than leaving a hole in the deck. */
 const resolves = (w) => !w.ref || refKind(w.ref) !== "lexicon" || !!lexiconById(w.ref);
 export const liveDeck = (deck) => ({ ...deck, groups: (deck.groups ?? []).map((g) => ({ ...g, words: (g.words ?? []).filter(resolves) })) });
 
@@ -26,7 +25,7 @@ const ownRow = (w) => ({
   id: w.id,
   lemma: w.lemma,
   pos: w.pos === "adverb" ? "adv" : w.pos,
-  gender: w.gender ?? (w.pluralOnly ? "some" : null),
+  gender: w.gender ?? null,
   plural: w.plural ?? null,
   pluralOnly: !!w.pluralOnly,
   example: w.example,

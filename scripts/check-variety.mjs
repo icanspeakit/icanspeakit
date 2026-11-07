@@ -51,7 +51,8 @@ const STRICT = new Set([
   "arbeitsblatt",
   "partneruebungen",
   "unterricht-wortschatz",
-  // "berufe", "business-spanish",
+  "berufe",
+  // "business-spanish",
 ]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);
