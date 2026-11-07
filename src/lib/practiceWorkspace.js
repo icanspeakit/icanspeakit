@@ -367,7 +367,7 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
         ? `<span class="akk-done-second">${t("pw.done.secondTryShort", "2. Versuch ✓")}</span>`
         : "";
       answer = (pick && pick !== q.answer
-        ? `<s class="akk-done-pick" lang="de" title="${attr(t("pw.done.yourPick", "Deine Antwort: {a}", { a: pick }))}">${pick}</s>`
+        ? `<s class="akk-done-pick" lang="es" title="${attr(t("pw.done.yourPick", "Deine Antwort: {a}", { a: pick }))}">${pick}</s>`
         : `<span class="akk-done-x">✗</span>`) + second;
     } else {
       answer = `<span class="akk-done-ok" title="${attr(t("pw.done", "richtig"))}">✓</span>`;
@@ -375,7 +375,7 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
     return `
           <tr class="akk-done-row${wrong ? " akk-done-row--wrong" : ""}">
             <td class="akk-done-art" dir="ltr">${articleHtml(q)}</td>
-            <td class="akk-done-word" dir="ltr" lang="de"><span class="akk-done-noun">${doneNoun(q)}</span>${plural}</td>
+            <td class="akk-done-word" dir="ltr" lang="es"><span class="akk-done-noun">${doneNoun(q)}</span>${plural}</td>
             <td class="akk-done-ans">${answer}</td>
           </tr>`;
   }

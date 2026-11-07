@@ -169,7 +169,7 @@ export async function buildEntryPages(root, site, logger = console) {
         html = setMeta(html, /<meta name="twitter:description"[^>]*>/, description);
       }
       // An H1 that is data rather than a dictionary key (a deck title) gets its own line.
-      if (h1) html = html.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/, (tag) => tag.replace(/\slang="de"/, '').replace(/>[\s\S]*<\/h1>$/, `>${escText(h1)}</h1>`));
+      if (h1) html = html.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/, (tag) => tag.replace(/\slang="(?:de|es)"/, '').replace(/>[\s\S]*<\/h1>$/, `>${escText(h1)}</h1>`));
       // The home page: an intro for this audience, after the hero.
       if (page.src === '/' && own.intro) {
         const hero = html.match(/<section class="fr-page fr-page--home"[^>]*>/);

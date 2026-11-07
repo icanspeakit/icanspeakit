@@ -23,7 +23,7 @@ const Tag = html ? "div" : "span";
   ? (html ? <Fragment set:html={de} /> : de)
   : (
     <Tag class="uit">
-      {html ? <div class="uit-de" lang="de" set:html={de} /> : <span class="uit-de" lang="de">{de}</span>}
+      {html ? <div class="uit-de" lang="en" set:html={de} /> : <span class="uit-de" lang="en">{de}</span>}
       {langs.map((l) => html
         ? <div class="uit-l" lang={l} dir={isRtl(l) ? "rtl" : "ltr"} set:html={t![l]} />
         : <span class="uit-l" lang={l} dir={isRtl(l) ? "rtl" : "ltr"}>{t![l]}</span>)}

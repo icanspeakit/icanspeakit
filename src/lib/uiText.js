@@ -47,7 +47,7 @@ export function onUiText(fn) {
 export function uitHtml(de, tr, esc = (s) => String(s)) {
   const langs = tr ? UI_LANGS.filter((l) => tr[l]) : [];
   if (!langs.length) return esc(de);
-  return `<span class="uit"><span class="uit-de" lang="de">${esc(de)}</span>${langs
+  return `<span class="uit"><span class="uit-de" lang="en">${esc(de)}</span>${langs
     .map((l) => `<span class="uit-l" lang="${l}" dir="${isRtl(l) ? "rtl" : "ltr"}">${esc(tr[l])}</span>`)
     .join("")}</span>`;
 }

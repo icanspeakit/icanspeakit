@@ -152,7 +152,7 @@ const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: 96, l
     const hits = rows.map((r) => [score(r, t, tokens), r] as const).filter(([s]) => s > 0)
       .sort((a, b) => b[0] - a[0]).slice(0, 12);
     list.innerHTML = hits.map(([, r]) => `<li><a href="${esc(withBase(r.href))}">
-      <span class="nsw-r-main"><b lang="de">${esc(r.label)}</b>${r.sub ? `<small lang="de">${esc(r.sub)}</small>` : ""}</span>
+      <span class="nsw-r-main"><b>${esc(r.label)}</b>${r.sub ? `<small>${esc(r.sub)}</small>` : ""}</span>
       <span class="nsw-r-kind">${esc(KIND[r.kind] ?? "")}</span></a></li>`).join("");
     none.hidden = hits.length > 0;
   }

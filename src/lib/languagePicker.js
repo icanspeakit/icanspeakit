@@ -106,7 +106,7 @@ function rowHtml({ item, via, tag }, current, withDe) {
   const draft = !item.special && item.status === "draft";
   return `<button type="button" class="langpk-row" role="menuitemradio" aria-checked="${item.code === current}" data-lp-code="${esc(item.code)}" data-lp-via="${via}"${item.special ? "" : ` lang="${esc(item.code)}"`}>
     <span class="langpk-check" aria-hidden="true">${item.code === current ? "✓" : ""}</span>
-    <span class="langpk-names"><span class="langpk-native"${item.dir ? ` dir="${item.dir}"` : ""}>${esc(item.native)}</span>${sub ? `<span class="langpk-sub" lang="de">${esc(sub)}</span>` : ""}${draft ? `<span class="langpk-draft">${esc(t("langpicker.machine", "maschinell übersetzt"))}</span>` : ""}</span>
+    <span class="langpk-names"><span class="langpk-native"${item.dir ? ` dir="${item.dir}"` : ""}>${esc(item.native)}</span>${sub ? `<span class="langpk-sub" lang="en">${esc(sub)}</span>` : ""}${draft ? `<span class="langpk-draft">${esc(t("langpicker.machine", "maschinell übersetzt"))}</span>` : ""}</span>
   </button>`;
 }
 

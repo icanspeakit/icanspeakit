@@ -117,7 +117,7 @@ export function openCardLangPicker({ anchor, items, soon = [], current = null, t
     return `<div role="option" class="clp-opt${disabled ? " is-soon" : ""}" id="${id}-${group}-${n}" data-clp-code="${esc(l.code)}"
         aria-selected="${on}"${disabled ? ' aria-disabled="true"' : ""}>
       <span class="clp-check" aria-hidden="true">${on ? "✓" : ""}</span>
-      <span class="clp-names"><span class="clp-native"${l.special ? "" : ` lang="${esc(l.code)}"`} dir="${l.dir === "rtl" ? "rtl" : "auto"}">${esc(l.native)}</span>${sub ? `<span class="clp-sub" lang="de">${esc(sub)}</span>` : ""}</span>
+      <span class="clp-names"><span class="clp-native"${l.special ? "" : ` lang="${esc(l.code)}"`} dir="${l.dir === "rtl" ? "rtl" : "auto"}">${esc(l.native)}</span>${sub ? `<span class="clp-sub" lang="en">${esc(sub)}</span>` : ""}</span>
       ${disabled ? `<span class="clp-tag">${esc(t("vt.cl.soonTag"))}</span>` : ""}
     </div>`;
   }

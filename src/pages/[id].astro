@@ -446,7 +446,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
         {/* `concept.signal`: the one idea the rule rests on, named before the comic uses it
             (Adjektivendungen: "Wer zeigt das Signal?" needs to know what a Signal is). */}
         {concept.signal && (
-          <section class="vp-signal" lang="de">
+          <section class="vp-signal">
             <h3 class="vp-signal-title">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 20v-6"/><path d="M8.5 10.5a5 5 0 0 1 7 0"/><path d="M5.5 7.5a9 9 0 0 1 13 0"/><circle cx="12" cy="13.5" r="1.2" fill="currentColor"/></svg>
               {concept.signal.title}
@@ -480,10 +480,10 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
           <div class="vp-scenes">
             {concept.scenes.map((sc, i) => (
               <div class={`vp-scene vp-scene--${sc.variant}`}>
-                <p class="vp-scene-head"><b class={`vp-brief-form vp-brief-form--${sc.variant}`} lang="de">{sc.form}</b><span>{sc.label}</span></p>
+                <p class="vp-scene-head"><b class={`vp-brief-form vp-brief-form--${sc.variant}`} lang="es">{sc.form}</b><span>{sc.label}</span></p>
                 <div class="vp-scene-say">
                   <Mascot name={QA_CREW[i % QA_CREW.length].name} expr={QA_CREW[i % QA_CREW.length].expr} view="three" size={48} class="vp-scene-mascot" />
-                  <p class="vp-scene-bubble" lang="de" set:html={sc.sayHtml} />
+                  <p class="vp-scene-bubble" lang="es" set:html={sc.sayHtml} />
                 </div>
                 <p class="vp-scene-why">{sc.why}</p>
               </div>
@@ -551,7 +551,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
         {/* Verb pairs with and without a prefix as sets (`concept.pictures` "euler"):
             Teilmenge, Schnittmenge, getrennt (src/lib/eulerArt.js). */}
         {concept.pictures === "euler" && (
-          <div class="eu-pics" lang="de">
+          <div class="eu-pics" lang="es">
             {EULER_PANELS.map((p) => (
               <figure class={`eu-pic eu-pic--${p.kind}`}>
                 <Fragment set:html={eulerPanelSvg(p)} />
@@ -580,7 +580,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
                 <li class={`vp-comic-rule-step vp-comic-rule-step--${st.q}`}>
                   <span class="vp-comic-rule-who" data-mascot-part aria-hidden="true"><Mascot name={st.name} expr={st.expr ?? "happy"} size={40} /></span>
                   <div>
-                    <p class="vp-comic-rule-say" lang="de"><span class="vp-comic-rule-q">{st.q === "wohin" ? "Wohin?" : "Wo?"}</span> <span set:html={st.say} /></p>
+                    <p class="vp-comic-rule-say" lang="es"><span class="vp-comic-rule-q">{st.q === "wohin" ? "¿Adónde?" : "¿Dónde?"}</span> <span set:html={st.say} /></p>
                     <p class="vp-comic-rule-why" set:html={st.why} />
                   </div>
                 </li>
@@ -686,7 +686,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
             The first strip folds too: open on the first visit, folded on every later one
             (the script under it), so it stops pushing the exercises down. */}
         <details class="vp-comics-first" open data-comic-fold={data.id}>
-          <summary lang="de">{workspace.comics[0].title ? `Comic: ${workspace.comics[0].title.replace(/[{}]/g, "")}` : "Comic"}</summary>
+          <summary lang="es">{workspace.comics[0].title ? `Comic: ${workspace.comics[0].title.replace(/[{}]/g, "")}` : "Comic"}</summary>
           <MascotComic comic={workspace.comics[0]} chip="form" fit />
         </details>
         <script is:inline>
@@ -746,7 +746,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
         )}
         {lookup && (
           <div class="vp-brief-lookup">
-            <a class="vp-brief-lookup-link" href={lookup.href} lang="de">{lookup.label}</a>
+            <a class="vp-brief-lookup-link" href={lookup.href}>{lookup.label}</a>
             {lookupChips.length > 0 && (
               <nav class="vp-brief-chips" aria-label={lookup.label}>
                 {lookupChips.map((c) => <a class={`wa-chip wa-chip--${c.id}`} href={`${lookup.href}#${c.id}`}>{c.name}</a>)}
@@ -790,7 +790,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
               apart (stellen/stehen …): one pair per row, Wohin? above Wo?, always visible —
               they are what the items are checked against, not a rule to look up. */}
           {ex.examples && (
-            <dl class="vp-ex-examples" lang="de">
+            <dl class="vp-ex-examples" lang="es">
               {ex.examples.map((e: { verbs: string; wohin: string; wo: string }) => (
                 <div class="vp-ex-example">
                   <dt>{e.verbs}</dt>

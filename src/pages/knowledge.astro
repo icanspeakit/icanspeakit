@@ -288,7 +288,7 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
                 const tr = f.contents.itemTr?.[i];
                 return (
                   <li>
-                    <span lang="de" dir={k ? undefined : "ltr"} data-i18n={k?.key} data-i18n-vars={k?.vars ? JSON.stringify(k.vars) : undefined}>{line}</span>
+                    <span lang="en" dir={k ? undefined : "ltr"} data-i18n={k?.key} data-i18n-vars={k?.vars ? JSON.stringify(k.vars) : undefined}>{line}</span>
                     {tr && Object.entries(tr).map(([l, v]) => <span class="wi-toc-tr" lang={l} dir={isRtl(l) ? "rtl" : "ltr"}>{v}</span>)}
                   </li>
                 );

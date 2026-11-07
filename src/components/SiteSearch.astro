@@ -215,10 +215,10 @@ import "../styles/site-search.css";
           lvl(w.level))))]);
     if (r.verbs.length)
       groups.push([best(r.verbs), section("verbs", r.verbs.map(([, v]) =>
-        row(v.href, `<span class="ss-title">${esc(v.inf)}</span><span class="ss-sub" lang="de">${esc(v.preview)}</span>`, `<span class="ss-level">${esc(str("verbs"))}</span>`)))]);
+        row(v.href, `<span class="ss-title">${esc(v.inf)}</span><span class="ss-sub" lang="es">${esc(v.preview)}</span>`, `<span class="ss-level">${esc(str("verbs"))}</span>`)))]);
     // The Nachschlagewerk rows.
     const refRows = r.refs.map(([, e]) =>
-      row(e.href, `<span class="ss-title" lang="de">${esc(e.label)}</span>${e.sub ? `<span class="ss-sub" lang="de">${esc(e.sub)}</span>` : ""}`, ""));
+      row(e.href, `<span class="ss-title">${esc(e.label)}</span>${e.sub ? `<span class="ss-sub">${esc(e.sub)}</span>` : ""}`, ""));
     if (refRows.length)
       groups.push([best(r.refs), section("refs", refRows)]);
     if (r.pages.length)

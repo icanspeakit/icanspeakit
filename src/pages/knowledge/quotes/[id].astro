@@ -33,8 +33,8 @@ const short = (s: string, n = 60) => (s.length > n ? `${s.slice(0, n - 1).trimEn
     </div>
 
     <nav class="zt-pager" aria-label="More quotes" data-i18n-attr="aria-label:zitate.pagerAria">
-      <a href={`/knowledge/quotes/${prev.id}`} rel="prev" lang="de">‹ {prev.who.name.split(" ").at(-1)}</a>
-      <a href={`/knowledge/quotes/${next.id}`} rel="next" lang="de">{next.who.name.split(" ").at(-1)} ›</a>
+      <a href={`/knowledge/quotes/${prev.id}`} rel="prev" lang="es">‹ {prev.who.name.split(" ").at(-1)}</a>
+      <a href={`/knowledge/quotes/${next.id}`} rel="next" lang="es">{next.who.name.split(" ").at(-1)} ›</a>
     </nav>
 
     <ZitatAbo />
@@ -45,7 +45,7 @@ const short = (s: string, n = 60) => (s.length > n ? `${s.slice(0, n - 1).trimEn
         <div class="zt-group">
           <ul>
             {more.map((o: any) => (
-              <li><a href={`/knowledge/quotes/${o.id}`} lang="de">„{oneLine(o.text)}“</a> <span class="zt-lv">{o.level}</span></li>
+              <li><a href={`/knowledge/quotes/${o.id}`} lang="es">„{oneLine(o.text)}“</a> <span class="zt-lv">{o.level}</span></li>
             ))}
           </ul>
         </div>

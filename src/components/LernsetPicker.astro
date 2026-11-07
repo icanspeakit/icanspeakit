@@ -474,7 +474,6 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
               data-block={`bv-${b.slug}`}
               aria-expanded="false"
               aria-controls={`ls-block-bv-${b.slug}`}
-              lang="de"
             >{b.title}</button>
             <span class="ls-group-n">{b.groups.length}</span>
           </h4>
@@ -491,7 +490,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
                   data-name={`${b.title.split(":")[0]} · ${g.title}`}
                 >
                   <span class="nv-icon" aria-hidden="true">{b.emoji}</span>
-                  <span class="ls-name" lang="de">{g.title}</span>
+                  <span class="ls-name">{g.title}</span>
                   <span class="nv-count">{g.words.length}</span>
                 </a>
               );

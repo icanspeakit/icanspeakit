@@ -246,7 +246,7 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
               <li>
                 <p class="in-vocab-word" lang="es"><b>{v.word}</b>{v.grammar && <span>{v.grammar}</span>}</p>
                 <p class="in-vocab-meaning uit">
-                  <span class="uit-de" lang="de">{v.meaning.de}</span>
+                  <span class="uit-de" lang="en">{v.meaning.de}</span>
                   {LANGS.filter((l) => v.meaning[l]).map((l) => (
                     <span class="uit-l" lang={l} dir={isRtl(l) ? "rtl" : "ltr"}>{v.meaning[l]}</span>
                   ))}

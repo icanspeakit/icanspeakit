@@ -1,5 +1,5 @@
 // The thank-you after a report is sent (src/lib/meldung.js): the sheet turns into a small
-// „Danke!" card with a mascot, and hearts, balloons and sparkles burst out of the Senden
+// "Thanks!" card with a mascot, and hearts, balloons and sparkles burst out of the Senden
 // button and float up over the page. People who report a mistake help everyone; this says so.
 //
 // The burst is a popover, so it sits in the top layer above the modal sheet (a plain element
@@ -19,7 +19,7 @@ export function dankeHtml(line, esc) {
   return `
     <div class="mf-danke" role="status">
       ${crew}
-      <h2 id="mf-title" lang="de">Danke!</h2>
+      <h2 id="mf-title">Thanks!</h2>
       <p>${esc(line)} <span aria-hidden="true">💛</span></p>
     </div>`;
 }

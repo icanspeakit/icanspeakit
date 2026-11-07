@@ -151,7 +151,7 @@ export function mountHerkunft(root, byId) {
     syn.hidden = !t?.syn?.length;
     if (t?.syn?.length) {
       syn.innerHTML = `<span class="ahk-syn-h">${esc(SYN[lang] ?? SYN.de)}</span>` +
-        t.syn.map((w) => `<span class="ahk-syn-w" lang="de">${esc(w)}</span>`).join("");
+        t.syn.map((w) => `<span class="ahk-syn-w" lang="es">${esc(w)}</span>`).join("");
     }
     tree.hidden = !html;
     // The tree ends in the word itself, so the heading above it would say it twice.

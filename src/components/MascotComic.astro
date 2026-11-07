@@ -44,7 +44,7 @@ const fig = (s: Side) => mascotSvg({ name: s.name, expr: s.expr ?? "happy", view
         <div class="ku-comic-stage">
           {[["left", p.left, 0], ["right", p.right, 1]].map(([side, s, order]) => (
             <div class={`ku-comic-who ku-comic-who--${side}`} style={`--b:${order}`}>
-              <p class="ku-comic-say" lang="de" set:html={marks((s as Side).say)} />
+              <p class="ku-comic-say" lang="es" set:html={marks((s as Side).say)} />
               <span class="ku-comic-body" set:html={fig(s as Side)} />
             </div>
           ))}

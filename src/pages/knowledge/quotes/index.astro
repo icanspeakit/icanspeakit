@@ -57,10 +57,10 @@ const ids = quotes.map((q: any) => q.id);
       <div class="zt-groups">
         {byAuthor.map((a) => (
           <details class="zt-group">
-            <summary><h3 lang="de">{a.name} <small>{a.years}</small></h3><span class="zt-n">{a.quotes.length}</span></summary>
+            <summary><h3 lang="es">{a.name} <small>{a.years}</small></h3><span class="zt-n">{a.quotes.length}</span></summary>
             <ul>
               {a.quotes.map((q: any) => (
-                <li><a href={`/knowledge/quotes/${q.id}`} lang="de">„{oneLine(q.text)}“</a> <span class="zt-lv">{q.level}</span></li>
+                <li><a href={`/knowledge/quotes/${q.id}`} lang="es">„{oneLine(q.text)}“</a> <span class="zt-lv">{q.level}</span></li>
               ))}
             </ul>
           </details>
