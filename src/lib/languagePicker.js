@@ -22,7 +22,7 @@ import { track } from "./track.js";
 import { languageOf } from "./languages.js";
 
 const RECENT_KEY = "da_lang_recent";
-const CORE = ["de", "en", "ar", "tr", "uk", "ru"];
+const CORE = ["en", "de", "fr", "pt", "it", "ar", "tr", "uk", "ru"];
 const MAX_ROWS = 7;
 const REGIONS = [
   ["europa", "Europa"],
