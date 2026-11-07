@@ -52,7 +52,7 @@ const STRICT = new Set([
   "partneruebungen",
   "unterricht-wortschatz",
   "berufe",
-  // "business-spanish",
+  "business-spanish",
 ]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);
@@ -81,7 +81,9 @@ const MODULES = [
     items: (d) => arr(d.units).flatMap((u) => arr(u.words).map((item) => ({ item }))) },
   { id: "berufe", files: jsonFiles("src/data/berufe"), items: deckWords },
   { id: "dgt", files: jsonFiles("src/data/dgt"), items: deckWords },
-  { id: "business-spanish", files: jsonFiles("src/data/business-spanish"), items: deckWords },
+  // A unit: its phrases and its own words (refs inherit); exercises inherit from the unit.
+  { id: "business-spanish", files: jsonFiles("src/data/business-spanish"),
+    items: (d) => [...arr(d.phrases), ...arr(d.words).filter((w) => !w.ref)].map((item) => ({ item })) },
   { id: "wortschatz", files: one("src/data/wortschatz.json"), items: (d) => arr(d).map((item) => ({ item })) },
   { id: "redemittel", files: one("src/data/redemittel.json"),
     items: (d) => arr(d.sets).flatMap((s) => arr(s.phrases).map((item) => ({ item }))) },

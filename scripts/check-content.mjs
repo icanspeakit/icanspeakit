@@ -19,6 +19,7 @@ const CHECKS = [
   "check-einfach-pfad.mjs",
   "check-pruefungen.mjs",
   "check-berufe.mjs",
+  "check-business-spanish.mjs",
   "validate-wortgeschichte.mjs",
   "check-premium.mjs",
   "check-pruefungsplan.mjs",
