@@ -1,0 +1,89 @@
+/* „Für dich": the pronunciation drills by first language (src/components/AusspracheFuerDich.astro),
+   on /culture/mistakes and in the Aussprache-Check. Moved here from kultur-insider.css when the
+   drills became one component on both pages.
+   One collapsible card per drill. Everything tappable is at least 40px high: this is
+   used on phones, one thumb, while speaking. */
+.md {
+  margin-top: 22px; padding: 18px 18px 8px;
+  border: 1px solid color-mix(in srgb, var(--brand-blue) 28%, var(--border));
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--brand-blue) 7%, var(--surface-card));
+}
+.md-top { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.md-mascot { flex: none; width: 64px; height: 64px; }
+.md-head { margin: 0 0 4px; font-size: 1.1rem; font-weight: var(--fw-semibold); color: var(--brand-blue-dark); }
+.md-lead { margin: 0; font-size: .9rem; color: var(--muted); line-height: 1.55; }
+.md .md-drill { background: var(--surface-card); scroll-margin-top: 96px; }
+@media (max-width: 480px) {
+  .md { padding: 14px 12px 4px; }
+  .md-top { align-items: flex-start; gap: 10px; }
+  .md-mascot { width: 48px; height: 48px; }
+}
+.md-drill { border: 1px solid var(--border); border-radius: 12px; padding: 0 14px; margin-bottom: 10px; background: var(--surface); }
+/* Opening a drill: the chevron pivots a quarter turn and the body slides open. The slide
+   needs ::details-content + interpolate-size (Chromium 131+); elsewhere it opens at once,
+   with the chevron still turning. */
+.md-drill { interpolate-size: allow-keywords; }
+.md-drill > summary {
+  cursor: pointer; padding: 12px 0; font-weight: var(--fw-semibold); color: var(--ink);
+  list-style: none; display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid transparent;
+  transition: border-color .28s ease, margin-bottom .28s ease;
+}
+.md-drill > summary::-webkit-details-marker { display: none; }
+.md-drill > summary::before {
+  content: ""; flex: none; width: 8px; height: 8px; margin-inline: 2px 4px;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg); transition: transform .28s cubic-bezier(.3, 1.4, .5, 1);
+}
+:dir(rtl) .md-drill > summary::before { transform: rotate(135deg); }
+.md-drill[open] > summary::before { transform: rotate(45deg); }
+.md-drill[open] > summary { border-bottom-color: var(--border); margin-bottom: 10px; }
+.md-drill::details-content {
+  block-size: 0; overflow: clip;
+  transition: block-size .28s ease, padding-bottom .28s ease, content-visibility .28s allow-discrete;
+}
+.md-drill[open]::details-content { block-size: auto; padding-bottom: 14px; }
+@supports not selector(::details-content) {
+  .md-drill[open] { padding-bottom: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .md-drill > summary, .md-drill > summary::before, .md-drill::details-content { transition: none; }
+}
+.md-tip { margin: 0 0 12px; font-size: .9rem; line-height: 1.6; color: var(--ink); }
+.md-pairs { list-style: none; margin: 0 0 10px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 8px; }
+.md-pairs li { display: flex; align-items: center; gap: 8px; }
+.md-vs { color: var(--muted); }
+.md-words { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.md-say {
+  min-height: 40px; padding: 6px 14px; border-radius: 999px; font: inherit; font-weight: var(--fw-semibold);
+  border: 1px solid var(--brand-blue); background: var(--surface-card); color: var(--brand-blue-dark); cursor: pointer;
+}
+.md-say--other { border-color: var(--border-strong); color: var(--muted); font-weight: 500; }
+.md-say--icon { min-height: 36px; min-width: 36px; padding: 0; display: inline-grid; place-items: center; flex: none; }
+.md-say:hover { background: var(--brand-blue-light); }
+.md-btn {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 42px; padding: 8px 16px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface-card); color: var(--ink); font: inherit; font-weight: var(--fw-semibold);
+  cursor: pointer; text-decoration: none;
+}
+.md-btn--primary { background: var(--brand-blue); border-color: var(--brand-blue); color: #fff; }
+.md-btn:disabled { opacity: .6; cursor: default; }
+.md-ht { margin: 4px 0 12px; }
+.md-ht-q { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; font-size: .9rem; color: var(--muted); }
+.md-ht-options { display: flex; gap: 8px; flex-wrap: wrap; }
+.md-ht-opt { min-height: 44px; min-width: 110px; padding: 8px 16px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--surface-card); font: inherit; font-weight: var(--fw-semibold); color: var(--ink); cursor: pointer; }
+.md-ht-opt.is-right { border-color: #067647; background: #dcfae6; color: #067647; }
+.md-ht-opt.is-wrong { border-color: #b42318; background: #fee4e2; color: #b42318; }
+.md-ht-result { margin: 0 0 8px; font-weight: var(--fw-semibold); color: var(--ink); }
+.md-rec { border-top: 1px dashed var(--border); padding-top: 12px; }
+.md-sentence { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; font-size: 1.05rem; color: var(--ink); }
+.md-words-scored { margin: 0 0 10px; font-size: 1.05rem; line-height: 1.9; }
+.md-w { padding: 2px 6px; border-radius: 6px; }
+.md-w--good { background: #dcfae6; color: #067647; }
+.md-w--ok { background: #fef0c7; color: #93370d; }
+.md-w--bad { background: #fee4e2; color: #b42318; }
+.md-status { margin: 8px 0 0; font-size: .88rem; color: var(--muted); }
+.md-status[data-kind="error"] { color: #b42318; }
+.md-status[data-kind="good"] { color: #067647; font-weight: var(--fw-semibold); }
+.md-btn[hidden] { display: none; }

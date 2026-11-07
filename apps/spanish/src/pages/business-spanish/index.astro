@@ -1,0 +1,71 @@
+---
+// /business-spanish: the hub of the Business Spanish module (content-plan §4.3). One card per unit,
+// the register labels explained once, links to the office deck and the everyday writing tasks.
+// All text lives in public/i18n/en.json and the units' JSON.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import { UNITS } from "../../lib/businessSpanishData.js";
+import { businessPath, itemPath, workPath } from "../../lib/routes.js";
+import en from "../../../public/i18n/en.json";
+import "../../styles/practice.css";
+import "../../styles/kultur.css";
+import "../../styles/kultur-hub.css";
+import "../../styles/berufe.css";
+import "../../styles/pruefungen.css";
+import "../../styles/business-spanish.css";
+
+const tx = (key: string) => (en as Record<string, string>)[key];
+const v = (o: Record<string, unknown>) => JSON.stringify(o);
+const registers = ["formal", "neutral", "informal"];
+const related = [
+  { key: "biz.link.office", href: workPath("buero") },
+  { key: "biz.link.writing", href: itemPath("/writing", "b1-email-employer") },
+  { key: "biz.link.vocab", href: "/vocabulary/b1-32" },
+];
+---
+<Layout
+  title="Business Spanish: emails, calls, CVs, interviews, meetings – icanspeak Spanish"
+  description="Spanish for office work in Spain, B1 to C1: formal emails, phone calls, CVs and cover letters, job interviews, meetings and negotiating, with phrases, model texts and exercises."
+>
+  <SiteNav active="wortschatz" />
+  <main class="practice-main practice-main--wide">
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="biz.eyebrow">{tx("biz.eyebrow")}</p>
+      <h1 data-i18n="biz.title">{tx("biz.title")}</h1>
+      <p class="bv-hero-lead" data-i18n="biz.lead">{tx("biz.lead")}</p>
+      <div class="bv-badges">
+        <span class="bv-badge">B1–C1</span>
+        <span class="bv-badge" data-i18n="biz.unitCount" data-i18n-vars={v({ n: UNITS.length })}>{UNITS.length} units</span>
+      </div>
+    </div>
+
+    <section class="ku-group">
+      <h2 class="ku-group-title" data-i18n="biz.units">{tx("biz.units")}</h2>
+      <div class="ku-grid ku-grid--fill">
+        {UNITS.map((u: any) => (
+          <a class="ku-card" href={businessPath(u.id)}>
+            <span class="ku-card-txt"><b>{u.title}</b> <i>{u.introEasy}</i></span>
+            <span class="bv-card-meta">{u.level}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="exam-section" aria-labelledby="biz-reg-h">
+      <h2 id="biz-reg-h" data-i18n="biz.reg.title">{tx("biz.reg.title")}</h2>
+      <p data-i18n-html="biz.reg.lead" set:html={tx("biz.reg.lead")} />
+      <ul class="bz-reg-list">
+        {registers.map((r) => (
+          <li>
+            <span class={`bz-reg bz-reg--${r}`} data-i18n={`biz.reg.${r}`}>{tx(`biz.reg.${r}`)}</span>
+            <span data-i18n-html={`biz.reg.${r}.about`} set:html={tx(`biz.reg.${r}.about`)} />
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <nav class="bv-links" aria-label="Related" data-i18n-attr="aria-label:berufe.deck.related">
+      {related.map((l) => <a href={l.href} data-i18n={l.key}>{tx(l.key)}</a>)}
+    </nav>
+  </main>
+</Layout>

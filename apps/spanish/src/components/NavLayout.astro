@@ -1,0 +1,44 @@
+---
+// Where the side navigation sits on the Wortschatz trainer — decision 1 of the
+// Seitennavigation workbook, settled by Edgar on 2026-10-03 for variant A „wie der/die/das“
+// after an A/B test: no page title block above the work. The nav column and the exercise
+// start right under the site nav (below one slim line with the deck's name, like the topic
+// bar on /articles) and are both exactly one screen tall.
+//
+// Desktop only — below 1001px the page keeps its title and the nav is the bottom sheet.
+// The page's <main id="vp-page"> carries data-navlayout="a"; the layout is
+// src/styles/navlayout.css. This script only measures the one-screen height.
+import "../styles/navlayout.css";
+---
+<script>
+  const page = document.getElementById("vp-page");
+  const ws = page?.querySelector<HTMLElement>(".vp-workspace");
+
+  // One screen tall from where the work starts: measured, because the strip and the site
+  // nav are whatever height they render at, and a guessed number drifts.
+  function fit() {
+    if (!page || !ws) return;
+    const top = ws.getBoundingClientRect().top + scrollY;
+    const nav = document.querySelector<HTMLElement>(".lp-nav, nav")?.getBoundingClientRect().height ?? 69;
+    // On a short screen the exercise needs more than one screen: then both columns take
+    // the exercise's own height, so they still end on the same line.
+    const tool = page.querySelector<HTMLElement>(".vt-tool");
+    let natural = 0;
+    if (tool) {
+      const was = tool.style.minHeight;
+      tool.style.minHeight = "0";
+      natural = tool.offsetHeight;
+      tool.style.minHeight = was;
+    }
+    page.style.setProperty("--nl-h", `${Math.max(420, innerHeight - top - 24, natural)}px`);
+    page.style.setProperty("--nl-nav", `${Math.round(nav)}px`);
+  }
+
+  // An old ?nav=a|b from the test is dropped from the address, so shared links stay clean.
+  const u = new URL(location.href);
+  if (u.searchParams.has("nav")) { u.searchParams.delete("nav"); history.replaceState(history.state, "", u); }
+  try { localStorage.removeItem("da-navlayout-test"); } catch {}
+  requestAnimationFrame(fit);
+  addEventListener("resize", fit);
+  addEventListener("load", fit);
+</script>

@@ -1,0 +1,68 @@
+---
+// Word order as a grid: each example is one row of words, and the last row names the
+// position every column stands on — "aber | ich | liebe | dich" over "Pos 0 | Pos 1 |
+// Pos 2 · Verb". It replaces the box-and-arrow flow, which wraps into a tangle in a
+// narrow column. Data: concept.positionTable in src/data/grammatik/<topic>.json.
+interface Props {
+  table: {
+    rows: string[][];
+    labels: { text: string; variant?: "prep" | "verb" }[];
+  };
+}
+const { table } = Astro.props;
+const variant = (i: number) => table.labels[i]?.variant;
+---
+<div class="pt-wrap">
+<table class="pt">
+  <tbody>
+    {table.rows.map((row) => (
+      <tr>
+        {table.labels.map((_, i) => (
+          <td class:list={["pt-word", variant(i) && `pt--${variant(i)}`]}>{row[i] ?? ""}</td>
+        ))}
+      </tr>
+    ))}
+  </tbody>
+  <tfoot>
+    <tr>
+      {table.labels.map((l) => (
+        <th scope="col" class:list={["pt-label", l.variant && `pt--${l.variant}`]}>{l.text}</th>
+      ))}
+    </tr>
+  </tfoot>
+</table>
+</div>
+
+<style>
+  /* The rule column can be ~300px wide; the grid tightens to the box it is in, not the screen. */
+  .pt-wrap { container-type: inline-size; margin: 0 0 22px; }
+  .pt {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.0625rem;
+    line-height: 1.35;
+  }
+  .pt td,
+  .pt th {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    text-align: start;
+    vertical-align: middle;
+  }
+  .pt-word { color: var(--ink); white-space: nowrap; }
+  .pt-label {
+    font-size: .8125rem;
+    font-weight: var(--fw-semibold);
+    color: var(--muted);
+    background: var(--surface-card);
+    border-top: 2px solid var(--border-strong);
+  }
+  /* The same two colours as the flow boxes: blue for the connector, orange for the verb. */
+  .pt--prep { background: var(--blue-50); color: var(--brand-blue-dark); font-weight: var(--fw-bold); }
+  .pt--verb { background: #faf3e3; color: var(--accent-dark); font-weight: var(--fw-bold); }
+  @container (max-width: 400px) {
+    .pt { font-size: .9375rem; }
+    .pt td, .pt th { padding: 7px 6px; }
+    .pt-label { font-size: .75rem; }
+  }
+</style>

@@ -1,0 +1,126 @@
+---
+// /knowledge/idioms/<id> — one Redewendung or Sprichwort on its own page: people google
+// the exact phrase („ich verstehe nur Bahnhof Bedeutung“). The phrase, Quaki's literal
+// picture beside the real meaning (RwStrip), the examples, when to say it, English, the
+// origin with how sure it is and the sources, related entries and prev/next in the theme.
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import RwStrip from "../../../components/redewendungen/RwStrip.astro";
+import { eintraege, related, prevNext, hrefOf, emojiSrc, TYP, REGISTER, CERTAINTY, itemsOf, ofThema, audioOf, LIVE } from "../../../lib/redewendungenData.js";
+import { fitTitle } from "../../../lib/seo/title.js";
+import { published, hrefOf as wgHref } from "../../../lib/wortgeschichte.js";
+import { orgId } from "../../../lib/seo/jsonld";
+import { SITE_ORIGIN, BASE_PATH } from "../../../lib/paths.js";
+import "../../../styles/practice.css";
+import "../../../styles/redewendungen.css";
+
+export function getStaticPaths() {
+  return eintraege.map((e: any) => ({ params: { id: e.id }, props: { e } }));
+}
+const { e } = Astro.props as { e: any };
+const { prev, next } = prevNext(e);
+const more = related(e);
+// „Mehr dazu“ only where it leads somewhere: a word history counts once it is published.
+const wgLive = new Set(published().map((w: any) => wgHref(w)));
+const siehe = e.siehe && (!e.siehe.startsWith("/knowledge/word-stories/") || wgLive.has(e.siehe)) ? e.siehe : null;
+const plain = e.de.replace(/[.!?]$/, "");
+// Origin + base path (src/lib/paths.js): https://icanspeak.it/spanish
+const site = SITE_ORIGIN + BASE_PATH;
+const description = `“${plain}”: ${e.bedeutung} With an example and the origin – simply explained.`.slice(0, 160);
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "DefinedTerm",
+  name: e.de,
+  description: e.bedeutung,
+  inLanguage: "es",
+  url: site + hrefOf(e),
+  inDefinedTermSet: {
+    "@type": "DefinedTermSet",
+    name: "Idioms & proverbs",
+    url: site + "/knowledge/idioms",
+    publisher: { "@id": orgId(site) },
+  },
+  subjectOf: e.quellen.map((q: any) => ({ "@type": "CreativeWork", name: q.name, url: q.url })),
+};
+// The practice: this entry's three questions, then a few from its theme (distractors too).
+const items = itemsOf(ofThema(e.thema));
+// Until the page is released (LIVE) every entry page is noindex, like the index.
+const live = LIVE;
+---
+<Layout
+  title={fitTitle(`${plain} – meaning and origin`, `${plain} – meaning`, plain)}
+  description={description}
+  noindex={!live}
+  breadcrumb={[{ name: "Knowledge", path: "/knowledge" }, { name: "Idioms & proverbs", path: "/knowledge/idioms" }]}
+>
+  {live && <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />}
+  <SiteNav active="wissen" />
+  <main class="practice-main rw-page rw-entry">
+    <nav class="rw-crumb" aria-label="Back">
+      <a href="/knowledge/idioms" data-i18n="rw.back">‹ Idioms & Proverbs</a>
+      <span aria-hidden="true">·</span>
+      <a href={`/knowledge/idioms#${e.thema}`}><img src={emojiSrc(e.themaInfo.icon)} alt="" width="16" height="16" /> <span data-i18n={`rw.thema.${e.thema}`}>{e.themaInfo.name}</span></a>
+    </nav>
+
+    <header class="rw-entry-head">
+      <span class="rw-badges">
+        <span class={`rw-lv rw-lv--${e.level}`}>{e.level}</span>
+        <span class="rw-tag" data-i18n={`rw.typ.${e.typ}`}>{TYP[e.typ]}</span>
+        <span class:list={["rw-tag", e.register === "umgang" && "rw-tag--umgang"]} data-i18n={`rw.reg.${e.register}`}>{REGISTER[e.register]}</span>
+      </span>
+      <h1><span lang="es">{e.de}</span> <button type="button" class="rw-say-btn rw-say-btn--h1" data-say={e.de} data-src={audioOf(e.id)} aria-label="Listen" data-i18n-attr="aria-label:rw.listen">🔊</button></h1>
+      <p class="rw-entry-bed">{e.bedeutung}</p>
+    </header>
+
+    <RwStrip e={e} />
+
+    <section class="rw-facts">
+      <div class="rw-fact">
+        <h2 data-i18n="rw.facts.bsp">Examples</h2>
+        <ul class="rw-bsp-list">{e.bsp.map((b: string, i: number) => <li><span lang="es">“{b}”</span> <button type="button" class="rw-say-btn rw-say-btn--inline" data-say={b} data-src={audioOf(`${e.id}-bsp-${i + 1}`)} aria-label="Listen to the example" data-i18n-attr="aria-label:rw.listen">🔊</button></li>)}</ul>
+      </div>
+      <div class="rw-fact">
+        <h2 data-i18n="rw.facts.wann">When do people say this?</h2>
+        <p>{e.wann}</p>
+        {e.vorsicht && <p class="rw-vorsicht"><span aria-hidden="true">⚠️</span> {e.vorsicht}</p>}
+      </div>
+      <div class="rw-fact">
+        <h2 data-i18n="rw.facts.en">In plain words</h2>
+        <p>{e.en}</p>
+      </div>
+      <div class="rw-fact rw-fact--wide">
+        <h2><span data-i18n="rw.facts.herkunft">Where does it come from?</span> <span class={`rw-cert rw-cert--${e.herkunft.certainty}`} data-i18n={`rw.cert.${e.herkunft.certainty}`}>{CERTAINTY[e.herkunft.certainty]}</span></h2>
+        <p>{e.herkunft.text}</p>
+        <p class="rw-quellen"><span data-i18n="rw.facts.quellen">Sources:</span> {e.quellen.map((q: any, i: number) => <>{i > 0 && " · "}<a href={q.url} target="_blank" rel="noopener noreferrer">{q.name}</a></>)}</p>
+        {siehe && <p class="rw-siehe"><a href={siehe} data-i18n="rw.facts.siehe">More on this ›</a></p>}
+      </div>
+    </section>
+
+    {more.length > 0 && (
+      <section class="rw-more" aria-labelledby="rw-more-h">
+        <h2 id="rw-more-h" data-i18n="rw.more">Similar</h2>
+        <ul>{more.map((o: any) => <li><a href={hrefOf(o)} lang="es">{o.de}</a> <span class="rw-more-bed">{o.bedeutung}</span></li>)}</ul>
+      </section>
+    )}
+
+    <section class="rw-practice rw-practice--entry" aria-labelledby="rw-practice-h">
+      <h2 id="rw-practice-h" data-i18n="rw.practice.short">Quick practice</h2>
+      <div class="quiz-container rw-quiz" data-uebung data-focus={e.id}><noscript>You need JavaScript to practise.</noscript></div>
+    </section>
+    <script type="application/json" id="rw-items" set:html={JSON.stringify(items)} />
+
+    <nav class="rw-pager" aria-label={`More from ${e.themaInfo.name}`}>
+      <a href={hrefOf(prev)} rel="prev">‹ <span lang="es">{prev.de}</span></a>
+      <a href={hrefOf(next)} rel="next"><span lang="es">{next.de}</span> ›</a>
+    </nav>
+  </main>
+</Layout>
+
+<script>
+  import { mountUebung } from "../../../lib/redewendungenUebung.js";
+  import { initSay } from "../../../lib/redewendungenAudio.js";
+  initSay();
+  const root = document.querySelector<HTMLElement>("[data-uebung]")!;
+  const items = JSON.parse(document.getElementById("rw-items")!.textContent!);
+  mountUebung(root, items, { focus: root.dataset.focus, n: 6 });
+</script>

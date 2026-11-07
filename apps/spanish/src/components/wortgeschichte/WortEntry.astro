@@ -1,0 +1,285 @@
+---
+// One Wortgeschichte entry, the six parts in the order of the showcase
+// (WORTGESCHICHTE-TIERED-PROMPT.md): Das Wort · Die Wurzel · Die Geschichte · Synonyme ·
+// Verwandte · Spurensuche. A part with nothing in it is left out, and the numbers follow.
+//
+// The German content stays German: it *is* the reading practice. Only the chrome (headings,
+// labels, the legend) is translated, through data-i18n. A cognate or a Spurensuche block may
+// carry its own `certainty` (umstritten, unklar …): where scholars disagree, the page says so. The history prose is the one text
+// with an Einfache-Sprache variant (data-ls, src/lib/leichteSprache.js); forms and root
+// never change.
+import Icon from "../Icon.astro";
+import LeichtToggle from "../LeichtToggle.astro";
+import WortTree from "./WortTree.astro";
+import {
+  formsOf, audioOf, glossesOf, synonymsOf, familyOf, headword, formatDe, LANG_NAMES, RTL, KINDS, STATUS, entryLang, quoteIn, PROSE_LANG,
+} from "../../lib/wortgeschichteCore.js";
+
+interface Props {
+  entry: any;
+  /** "today": the eyebrow says „Wort des Tages“; "archive": just the date. */
+  mode?: "today" | "archive";
+  /** Shown only when the publish gates were lifted (dev / WORTGESCHICHTE_VORSCHAU). */
+  preview?: boolean;
+  today: string;
+}
+const { entry: e, mode = "archive", preview = false, today } = Astro.props;
+
+const head = headword(e);
+const [art, ...rest] = head.split(" ");
+const hasArt = /^(el|la|el\/la)$/.test(art) && rest.length > 0;
+// W: the word itself and its Spanish relatives. L: everything written about it, which is English.
+const W = entryLang(e);
+const L = PROSE_LANG;
+const q = quoteIn(L);
+const forms = formsOf(e);
+const audio = audioOf(e);
+const gloss = glossesOf(e);
+const synonyms = synonymsOf(e);
+const family = familyOf(e);
+const cognates = e.relatives?.cognates ?? [];
+const elsewhere = e.elsewhere ?? [];
+const kindsUsed = KINDS.filter((k) => cognates.some((c: any) => c.kind === k) || elsewhere.some((b: any) => b.kind === k));
+const isDraft = e.status !== STATUS.REVIEWED;
+const notYet = e.publishOn > today;
+
+const parts = [
+  { id: "wort", key: "wg.part.wort", de: "Das Wort", show: forms.length > 0 },
+  { id: "wurzel", key: "wg.part.wurzel", de: "Die Wurzel", show: true },
+  { id: "geschichte", key: "wg.part.geschichte", de: "Die Geschichte", show: true },
+  { id: "synonyme", key: "wg.part.synonyme", de: "Synonyme", show: synonyms.length > 0 },
+  { id: "verwandte", key: "wg.part.verwandte", de: "Verwandte", show: family.length > 0 || cognates.length > 0 },
+  { id: "spuren", key: "wg.part.spuren", de: "Spurensuche – in anderen Sprachen", show: elsewhere.length > 0 || !!e.tree },
+].filter((p) => p.show).map((p, i) => ({ ...p, n: i + 1 }));
+const part = Object.fromEntries(parts.map((p) => [p.id, p]));
+
+const certKey = (c: string) => `wg.cert.${c}`;
+const CERT_DE: Record<string, string> = { sicher: "sicher", wahrscheinlich: "wahrscheinlich", umstritten: "umstritten", unklar: "unklar" };
+const KIND_DE: Record<string, string> = { verwandt: "verwandt", entlehnt: "entlehnt", zufall: "Zufall", parallele: "gleiches Bild" };
+const KIND_HINT_DE: Record<string, string> = {
+  verwandt: "Gleiche Wurzel, getrennt vererbt.",
+  entlehnt: "Von einer Sprache in die andere gewandert.",
+  zufall: "Sieht ähnlich aus, ist aber nicht verwandt.",
+  parallele: "Nicht verwandt, aber dasselbe Bild.",
+};
+const langName = (code: string) => LANG_NAMES[code] ?? code;
+const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
+---
+<article class="wg-entry" data-wg-entry>
+  {preview && (isDraft || notYet) && (
+    <p class="wg-draft" role="note">
+      <b>Preview.</b>
+      {isDraft ? " Draft – not released yet (status “entwurf”)." : ""}
+      {notYet ? ` Goes live on ${formatDe(e.publishOn)}.` : ""}
+      {" "}This page is only visible in preview.
+    </p>
+  )}
+
+  <header class="wg-hero">
+    <p class="uv-eyebrow">
+      {mode === "today" && <><span data-i18n="wg.eyebrow">Wort des Tages</span> · </>}
+      <time datetime={e.publishOn}>{formatDe(e.publishOn)}</time>
+    </p>
+    <div class="wg-head">
+      <h1 class="wg-word" lang={W}>
+        {hasArt ? <><span class="wg-art">{art}</span>{rest.join(" ")}</> : head}
+      </h1>
+      {audio && (
+        <button type="button" class="wg-play" data-wg-play={audio} aria-label="Listen" data-i18n-attr="aria-label:wg.listen;title:wg.listen" title="Listen">
+          <Icon name="volume" size={22} />
+        </button>
+      )}
+    </div>
+    <div class="wg-meta">
+      <span class="wg-level">{e.level}</span>
+      {gloss.en && <span class="wg-gloss" data-wg-gloss={JSON.stringify(gloss)} lang="en">{gloss.en}</span>}
+    </div>
+  </header>
+
+  <ol class="wg-parts">
+    {part.wort && (
+      <li class="wg-part" id="wort">
+        <h2><span class="wg-num">{part.wort.n}</span><span data-i18n={part.wort.key}>{part.wort.de}</span></h2>
+        <ul class="wg-forms" lang={W}>
+          {forms.map((f) => <li>{f.parts.map((p) => <span class="wg-form">{p}</span>)}</li>)}
+        </ul>
+      </li>
+    )}
+
+    <li class="wg-part" id="wurzel">
+      <h2><span class="wg-num">{part.wurzel.n}</span><span data-i18n={part.wurzel.key}>{part.wurzel.de}</span></h2>
+      <div class="wg-root" lang={L}>
+        <div class="wg-node">
+          <small>{e.root.lang}</small>
+          <b>{e.root.form}</b>
+          {e.root.meaning && <i>{q(e.root.meaning)}</i>}
+          <span class={`wg-cert wg-cert--${e.root.certainty}`} data-i18n={certKey(e.root.certainty)}>{CERT_DE[e.root.certainty]}</span>
+        </div>
+        {e.root.via && <>
+          <span class="wg-arrow" aria-hidden="true">↓</span>
+          <div class="wg-node">
+            <small>{e.root.via.lang}</small>
+            <b>{e.root.via.form}</b>
+            {e.root.via.meaning && <i>{q(e.root.via.meaning)}</i>}
+          </div>
+        </>}
+      </div>
+      {e.root.note && <p class="wg-note" lang={L}>{e.root.note}</p>}
+    </li>
+
+    <li class="wg-part" id="geschichte">
+      <h2><span class="wg-num">{part.geschichte.n}</span><span data-i18n={part.geschichte.key}>{part.geschichte.de}</span></h2>
+      <ol class="wg-time" lang={L}>
+        <li><span class="wg-when">{e.root.lang}</span><b>{e.root.form}</b>{e.root.meaning && <span class="wg-mean"> {q(e.root.meaning)}</span>}</li>
+        {e.root.via && <li><span class="wg-when">{e.root.via.lang}</span><b>{e.root.via.form}</b>{e.root.via.meaning && <span class="wg-mean"> {q(e.root.via.meaning)}</span>}</li>}
+        {(e.stages ?? []).map((s: any) => (
+          <li><span class="wg-when">{s.lang}{s.when ? ` · ${s.when}` : ""}</span><b>{s.form}</b>{s.meaning && <span class="wg-mean"> {q(s.meaning)}</span>}</li>
+        ))}
+      </ol>
+      {e.historyEinfach && <div class="wg-ls"><LeichtToggle /></div>}
+      <p class="wg-story" lang={L} data-ls={e.history} data-ls-leicht={e.historyEinfach || undefined}>{e.history}</p>
+    </li>
+
+    {part.synonyme && (
+      <li class="wg-part" id="synonyme">
+        <h2><span class="wg-num">{part.synonyme.n}</span><span data-i18n={part.synonyme.key}>{part.synonyme.de}</span></h2>
+        {/* A small tree: the headword as trunk, one branch per synonym (wortTreeDraw.js). */}
+        <div class="wg-syn" lang={W} data-wg-syn>
+          <svg class="wg-tree-lines" aria-hidden="true" focusable="false"></svg>
+          <ul class="wg-syn-leaves">
+            {synonyms.map((s) => <li class="wg-syn-leaf"><b>{s.word}</b>{s.note && <small>{s.note}</small>}</li>)}
+          </ul>
+          <p class="wg-syn-head">{head}</p>
+        </div>
+      </li>
+    )}
+
+    {part.verwandte && (
+      <li class="wg-part" id="verwandte">
+        <h2><span class="wg-num">{part.verwandte.n}</span><span data-i18n={part.verwandte.key}>{part.verwandte.de}</span></h2>
+        {family.length > 0 && <>
+          <p class="wg-sub" data-i18n="wg.family">Die Wortfamilie</p>
+          <ul class="wg-chips" lang={W}>
+            {family.map((f) => <li>{f.word}<small>{f.level}</small></li>)}
+          </ul>
+        </>}
+        {cognates.length > 0 && <>
+          <p class="wg-sub" data-i18n="wg.cognates">In anderen Sprachen</p>
+          <ul class="wg-cog">
+            {cognates.map((c: any) => (
+              <li>
+                <span class="wg-cog-lang" lang={L}>{langName(c.lang)}</span>
+                <span class="wg-cog-form" lang={c.lang} dir={dir(c.lang)}>{c.form}{c.translit && <span lang={L}> ({c.translit})</span>}</span>
+                {c.kind && <span class={`wg-kind wg-kind--${c.kind}`} data-i18n={`wg.kind.${c.kind}`}>{KIND_DE[c.kind]}</span>}
+                {c.certainty && <span class={`wg-cert wg-cert--${c.certainty}`} data-i18n={certKey(c.certainty)}>{CERT_DE[c.certainty]}</span>}
+                {c.note && <span class="wg-cog-note" lang={L}>{c.note}</span>}
+              </li>
+            ))}
+          </ul>
+        </>}
+      </li>
+    )}
+
+    {part.spuren && (
+      <li class="wg-part" id="spuren">
+        <h2><span class="wg-num">{part.spuren.n}</span><span data-i18n={part.spuren.key}>{part.spuren.de}</span></h2>
+        {e.tree && <WortTree tree={e.tree} lang={L} />}
+        <div class="wg-else-list" data-wg-else-list>
+          {elsewhere.map((b: any) => (
+            <section class="wg-else" data-audience={[b.lang, ...(b.audience ?? [])].join(" ")}>
+              <h3>
+                <span lang={L}>{langName(b.lang)}:</span>
+                <span class="wg-else-word" lang={b.lang} dir={dir(b.lang)}>{b.word}</span>
+                {b.translit && <span class="wg-else-tr" lang={L}>{b.translit}</span>}
+                <span class={`wg-kind wg-kind--${b.kind}`} data-i18n={`wg.kind.${b.kind}`}>{KIND_DE[b.kind]}</span>
+                {b.certainty && <span class={`wg-cert wg-cert--${b.certainty}`} data-i18n={certKey(b.certainty)}>{CERT_DE[b.certainty]}</span>}
+                <span class="wg-yours" data-i18n="wg.yours">Deine Sprache</span>
+              </h3>
+              {b.chain?.length > 0 && <ol class="wg-chain" lang={L}>{b.chain.map((c: string) => <li>{c}</li>)}</ol>}
+              <p lang={L}>{b.text}</p>
+            </section>
+          ))}
+        </div>
+        {kindsUsed.length > 0 && (
+          <ul class="wg-legend">
+            {kindsUsed.map((k) => (
+              <li><span class={`wg-kind wg-kind--${k}`} data-i18n={`wg.kind.${k}`}>{KIND_DE[k]}</span><span data-i18n={`wg.kind.hint.${k}`}>{KIND_HINT_DE[k]}</span></li>
+            ))}
+          </ul>
+        )}
+      </li>
+    )}
+  </ol>
+
+  <footer class="wg-sources">
+    <h2 data-i18n="wg.sources">Quellen</h2>
+    <ul lang={L}>
+      {e.sources.map((s: any) => (
+        <li>{s.url ? <a href={s.url} rel="noopener" target="_blank">{s.work}, s.v. {s.entry}</a> : <>{s.work}, s.v. {s.entry}</>}</li>
+      ))}
+    </ul>
+    <p data-i18n="wg.checked" data-i18n-vars={JSON.stringify({ who: e.checkedBy, date: formatDe(e.checkedAt) })}>
+      Mit den Quellen abgeglichen: {e.checkedBy}, {formatDe(e.checkedAt)}
+    </p>
+    <p data-i18n="wg.ownWords">Alle Texte sind eigene Formulierungen von icanspeak Spanish. Wo die Forschung unsicher ist, sagen wir es.</p>
+  </footer>
+</article>
+
+<script>
+  import { getLang, onLangChange } from "../../lib/i18n.js";
+  import { isRtl } from "../../lib/languages.js";
+  import { mountLeichteSprache } from "../../lib/leichteSprache.js";
+  import { audioUrl } from "../../lib/audioSource.js";
+  import { track } from "../../lib/track.js";
+  import { drawTrees } from "../../lib/wortTreeDraw.js";
+  import { withBase, currentPath } from "../../lib/paths.js";
+
+  for (const root of document.querySelectorAll<HTMLElement>("[data-wg-entry]")) {
+    // Speaker: the lexicon's own recording of the headword.
+    const play = root.querySelector<HTMLButtonElement>("[data-wg-play]");
+    let audio: HTMLAudioElement | null = null;
+    play?.addEventListener("click", () => {
+      audio ??= new Audio(withBase(audioUrl(play.dataset.wgPlay!)));
+      audio.currentTime = 0;
+      play.classList.add("is-playing");
+      audio.onended = audio.onerror = () => play.classList.remove("is-playing");
+      audio.play().catch(() => play.classList.remove("is-playing"));
+    });
+
+    // The gloss in the learner's interface language; English for German and anything missing.
+    const gloss = root.querySelector<HTMLElement>("[data-wg-gloss]");
+    // The block of the learner's language goes first (Spurensuche, prompt: "the same entry
+    // speaks to each community"). Order in the HTML is the author's order; this only lifts.
+    const list = root.querySelector<HTMLElement>("[data-wg-else-list]");
+    const original = list ? [...list.children] : [];
+    const paint = (lang: string) => {
+      if (gloss) {
+        const g = JSON.parse(gloss.dataset.wgGloss || "{}");
+        const l = g[lang] ? lang : "en";
+        gloss.textContent = g[l] ?? "";
+        gloss.lang = l;
+        gloss.dir = isRtl(l) ? "rtl" : "ltr";
+      }
+      if (list) {
+        const aud = (el: Element) => (el as HTMLElement).dataset.audience?.split(" ") ?? [];
+        // The block in the learner's own language first, then those marked for them too.
+        const mine = original.filter((el) => aud(el).includes(lang))
+          .sort((a, b) => Number(aud(b)[0] === lang) - Number(aud(a)[0] === lang));
+        const rest = original.filter((el) => !mine.includes(el));
+        for (const el of original) el.classList.toggle("is-yours", mine.includes(el));
+        list.append(...mine, ...rest);
+      }
+    };
+    paint(getLang());
+    onLangChange((code: string) => paint(code));
+  }
+  mountLeichteSprache(document);
+  drawTrees(document);
+
+  // Arrived from a Wortgeschichte mail (emails/wortgeschichte.mjs tags every link)?
+  // PostHog only records it with the visitor's consent — track() is a no-op otherwise.
+  const utm = new URLSearchParams(location.search);
+  if (utm.get("utm_campaign") === "wortgeschichte" && utm.get("utm_medium") === "email") {
+    track("wort_mail_click", { content: utm.get("utm_content") ?? "", page: currentPath() });
+  }
+</script>

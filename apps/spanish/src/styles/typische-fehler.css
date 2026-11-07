@@ -1,0 +1,157 @@
+/* /grammar/common-mistakes — one card per pair of look-alikes: the two side by side with
+   ≠ between them, the difference below, then a gap to try it. Same card language as
+   /grammar/parts-of-speech (wortarten.css), so the two reference pages read as one shelf. */
+.tf-page { max-width: 760px; }
+.tf-head { margin: 0 0 18px; }
+.tf-head h1 { margin: 4px 0 12px; }
+.tf-lead { margin: 10px 0 0; color: var(--muted); line-height: 1.6; }
+html:has(.tf-page) { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html:has(.tf-page) { scroll-behavior: auto; } }
+
+/* Each group has a colour: its number, its jump tile, the edge of its cards. */
+.tf-grp--gleich { --grp: #1a2940; }
+.tf-grp--gross { --grp: #2563eb; }
+.tf-grp--aehnlich { --grp: #7d571a; }
+.tf-grp--wendung { --grp: #7c3aed; }
+.tf-grp--hinten { --grp: #be185d; }
+:root[data-theme="dark"] .tf-grp--gleich { --grp: #8fa3c0; }
+:root[data-theme="dark"] .tf-grp--gross { --grp: #93c5fd; }
+:root[data-theme="dark"] .tf-grp--aehnlich { --grp: #e0bd7a; }
+:root[data-theme="dark"] .tf-grp--wendung { --grp: #c4b5fd; }
+:root[data-theme="dark"] .tf-grp--hinten { --grp: #f9a8d4; }
+.tf-num {
+  flex: none; display: grid; place-items: center; width: 34px; height: 34px;
+  border-radius: 50%; background: var(--grp); color: #fff; font-weight: 800; font-size: 1rem;
+}
+:root[data-theme="dark"] .tf-num { color: #111; }
+
+.tf-page .ku-comic { margin: 4px 0 24px; }
+
+/* The groups as tiles: two across on a phone, four on a wide screen. */
+.tf-jump { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 0 0 28px; }
+/* A tile left alone on the last row takes the whole row, so the grid ends flush. */
+.tf-jump-item:last-child:nth-child(odd) { grid-column: 1 / -1; }
+@media (min-width: 720px) {
+  .tf-jump { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .tf-jump-item:last-child:nth-child(odd) { grid-column: auto; }
+  .tf-jump-item:last-child:nth-child(4n+1) { grid-column: 1 / -1; }
+}
+.tf-jump-item {
+  display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 8px 12px;
+  border: 1px solid var(--border); border-radius: var(--radius, 14px); background: var(--surface-card, #fff);
+  color: var(--ink); text-decoration: none; transition: border-color .15s ease, transform .15s ease;
+}
+.tf-jump-item:hover { border-color: var(--grp); transform: translateY(-1px); }
+.tf-jump-item .tf-num { width: 28px; height: 28px; font-size: .85rem; }
+.tf-jump-txt { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+.tf-jump-txt b { font-size: .86rem; }
+.tf-jump-txt i { font-style: normal; font-size: .75rem; color: var(--muted); }
+
+.tf-group { margin: 0 0 36px; scroll-margin-top: 90px; }
+.tf-group-head { display: flex; align-items: flex-start; gap: 12px; margin: 0 0 14px; }
+.tf-group-head .tf-num { margin-top: 1px; }
+.tf-group h2 { margin: 0 0 4px; font-size: 1.4rem; }
+.tf-group-lead { margin: 0; color: var(--muted); line-height: 1.55; }
+
+/* The Regel: the same neutral card and pill as the Verbtabellen (.vb-regel, verbtabellen.css). */
+.tf-regel {
+  margin: 0 0 16px; padding: 10px 16px 12px;
+  border: 1px solid var(--border-strong); border-left: 3px solid var(--ink);
+  border-radius: 0 var(--radius, 14px) var(--radius, 14px) 0;
+  background: var(--surface-card, #fff);
+}
+.tf-regel-bar { display: flex; align-items: center; gap: 12px; }
+.tf-regel-label { margin: 0; font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.tf-regel-toggle {
+  margin-left: auto; min-height: 36px; padding: 5px 13px; cursor: pointer;
+  border: 1.5px solid var(--ink); border-radius: var(--radius-pill, 999px);
+  background: var(--surface-card, #fff); color: var(--ink);
+  font-family: var(--font-label, inherit); font-size: var(--text-xs, .75rem); font-weight: var(--fw-semibold, 600);
+  transition: transform .12s, box-shadow .12s;
+}
+.tf-regel-toggle:hover { background: color-mix(in srgb, var(--ink) 6%, var(--surface-card, #fff)); }
+.tf-regel-toggle[aria-expanded="true"] { border-width: 2px; box-shadow: 2px 2px 0 var(--ink); }
+.tf-regel-toggle[aria-expanded="true"]:hover { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--ink); }
+.tf-regel-toggle[aria-expanded="true"]:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--ink); }
+.tf-regel-toggle:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+.tf-regel-body {
+  display: grid; grid-template-rows: 1fr; margin-top: 8px; opacity: 1; visibility: visible;
+  transition: grid-template-rows .32s cubic-bezier(.2, .7, .2, 1), margin-top .32s, opacity .22s, visibility 0s;
+}
+.tf-regel-body[hidden] {
+  display: grid; grid-template-rows: 0fr; margin-top: 0; opacity: 0; visibility: hidden;
+  transition: grid-template-rows .28s cubic-bezier(.4, 0, .2, 1), margin-top .28s, opacity .18s, visibility 0s .28s;
+}
+.tf-regel-inner { min-height: 0; overflow: hidden; }
+@media (prefers-reduced-motion: reduce) { .tf-regel-body, .tf-regel-body[hidden] { transition: none; } }
+.tf-regel ul { margin: 0; padding: 0 0 0 18px; display: grid; gap: 6px; }
+.tf-regel li { line-height: 1.5; font-size: .95rem; }
+.tf-regel li::marker { color: var(--muted-soft); }
+.tf-regel b { font-weight: 700; color: var(--ink); }
+.tf-regel em { font-style: normal; font-weight: 700; color: var(--grp); }
+
+.tf-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+
+.tf-card {
+  position: relative; scroll-margin-top: 90px;
+  padding: 16px 16px 14px; border: 1px solid var(--border); border-left: 3px solid var(--grp); border-radius: var(--radius, 14px);
+  background: var(--surface-card, #fff);
+}
+.tf-card:target { border-color: var(--brand-blue); box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-blue) 20%, transparent); }
+.tf-level {
+  position: absolute; top: -9px; right: 14px; padding: 1px 8px; border-radius: var(--radius-pill, 999px);
+  background: var(--surface-card, #fff); border: 1px solid var(--border);
+  font-family: var(--font-label, inherit); font-size: .68rem; font-weight: 700; letter-spacing: .06em; color: var(--muted);
+}
+
+.tf-pair { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; gap: 6px; }
+.tf-side { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border-radius: 10px; background: var(--surface); }
+.tf-w { font-size: 1.05rem; line-height: 1.3; }
+.tf-pos { font-size: .75rem; color: var(--muted); }
+.tf-ex { margin-top: 4px; font-size: .88rem; line-height: 1.45; }
+.tf-ex b { font-weight: 700; color: var(--ink); text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
+/* „So sagt man es nicht": struck through, softer. */
+.tf-side--wrong .tf-w { text-decoration: line-through; text-decoration-color: color-mix(in srgb, #dc2626 60%, transparent); text-decoration-thickness: 2px; color: var(--muted); }
+.tf-side--wrong .tf-pos { color: #b91c1c; }
+:root[data-theme="dark"] .tf-side--wrong .tf-pos { color: #fca5a5; }
+.tf-vs { align-self: center; font-size: 1.15rem; font-weight: 700; color: var(--muted); }
+.tf-why { margin: 10px 0 0; line-height: 1.5; }
+
+/* The gap. */
+.tf-check { margin: 12px 0 0; padding: 12px 0 0; border-top: 1px dashed var(--border); }
+.tf-gap { margin: 0 0 8px; font-size: .98rem; line-height: 1.5; }
+.tf-blank { display: inline-block; min-width: 3.2em; padding: 0 4px; border-bottom: 2px solid var(--border-strong); text-align: center; color: var(--muted); }
+.tf-blank[data-result="ok"] { color: var(--ink); font-weight: 700; border-bottom-color: #16a34a; }
+.tf-opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.tf-opt {
+  min-height: 44px; padding: 0 16px; border: 1.5px solid var(--border); border-radius: var(--radius-pill, 999px);
+  background: var(--surface-card, #fff); color: var(--ink); font: inherit; font-weight: 600; cursor: pointer;
+  transition: border-color .15s ease, background-color .15s ease;
+}
+.tf-opt:hover:not(:disabled) { border-color: var(--brand-blue); }
+.tf-opt[data-result="ok"] { border-color: #16a34a; background: color-mix(in srgb, #16a34a 12%, transparent); }
+.tf-opt[data-result="no"] { border-color: #dc2626; background: color-mix(in srgb, #dc2626 8%, transparent); text-decoration: line-through; }
+.tf-opt:disabled { cursor: default; }
+.tf-opt:disabled:not([data-result]) { opacity: .5; }
+.tf-fb { margin: 8px 0 0; min-height: 1.4em; font-size: .88rem; color: var(--muted); }
+.tf-check[data-state="done"] .tf-fb { color: #15803d; font-weight: 600; }
+:root[data-theme="dark"] .tf-check[data-state="done"] .tf-fb { color: #86efac; }
+
+.tf-next { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 16px; margin: 8px 0 0; padding: 16px 18px; border: 1px solid var(--border); border-radius: var(--radius, 14px); background: var(--surface); }
+.tf-next-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.tf-next-btn {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px;
+  border-radius: var(--radius-pill, 999px); background: var(--brand-blue-dark, #1a2940); color: #fff;
+  font-weight: 700; text-decoration: none;
+}
+.tf-next-more { flex-basis: 100%; margin: 0; font-size: .9rem; color: var(--muted); line-height: 1.5; }
+.tf-next-more a { font-weight: 600; color: var(--brand-blue-dark); }
+.tf-next-btn--ghost { background: transparent; color: var(--brand-blue-dark); border: 1.5px solid currentColor; }
+
+@media print {
+  @page { margin: 12mm; }
+  body:has(#tf-page) > :not(#tf-page) { display: none !important; }
+  #tf-page > .vp-back-link, #tf-page .gx-bar, #tf-page [data-mascot-part], .tf-jump, .tf-opts, .tf-fb, .tf-next, .tf-regel-toggle { display: none !important; }
+  .tf-regel-body[hidden] { grid-template-rows: 1fr !important; opacity: 1 !important; visibility: visible !important; }
+  .tf-card { break-inside: avoid; }
+}

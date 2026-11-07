@@ -1,0 +1,166 @@
+---
+// A little looping film of the progress page, for MascotGuide's "sim" slot on /progress.
+// Three scenes, 4 s each, in step with the guide's three numbered steps (MascotGuide lights the
+// step whose scene is playing):
+//   1  streak: a small flame grows, a week row of seven dots fills one by one
+//   2  topics: four bars grow to different lengths, one theme colour each
+//   3  mistakes: a short list with a red mark per row, the cursor taps one, it turns into an
+//      exercise card (sentence bars with a gap, answer chips) that slides in
+//
+// Same make as UmfrageSim.astro: pure SVG + CSS, no words inside (bars stand for text), colours
+// from the theme tokens so dark mode just works, one 12 s cycle; a part's animation-delay is its
+// scene start plus its own offset. Reduced motion: no film, the topic bars scene stands still.
+
+const bars = [
+  [150, "var(--brand-blue)"],
+  [96, "var(--blue-400)"],
+  [176, "var(--accent)"],
+  [62, "var(--success)"],
+] as const;
+---
+<div class="sim" aria-hidden="true">
+  <svg viewBox="0 0 320 180" role="presentation">
+    <rect class="desk" x="0" y="0" width="320" height="180" rx="14" />
+
+    <!-- 1 · Serie -->
+    <g class="sc sc1">
+      <rect class="card" x="40" y="18" width="240" height="144" rx="10" />
+      <g class="flame">
+        <path class="flame-out" d="M160 36c4 11 17 17 17 34a17 17 0 0 1-34 0c0-9 4-13 7-18 1 5 3 7 5 8-1-10 0-17 5-24z" />
+        <path class="flame-in" d="M160 62c2.5 5 9 8 9 16a9 9 0 0 1-18 0c0-4 2-7 4-9 .5 2 2 3 3.5 3-.5-5 0-7 1.5-10z" />
+      </g>
+      <rect class="line" x="140" y="96" width="40" height="7" rx="3.5" />
+      {[0, 1, 2, 3, 4, 5, 6].map((i) => (
+        <g>
+          <circle class="slot" cx={100 + i * 20} cy="128" r="7.5" />
+          <circle class:list={["in", "day", i === 6 && "day--today"]} style={`animation-delay:${0.9 + i * 0.4}s`} cx={100 + i * 20} cy="128" r="7.5" />
+          <path class="in day-tick" style={`animation-delay:${0.9 + i * 0.4}s`} d={`M${96.5 + i * 20} 128l2.5 2.5 4.5-5`} />
+        </g>
+      ))}
+    </g>
+
+    <!-- 2 · Themen -->
+    <g class="sc sc2">
+      <rect class="card" x="30" y="20" width="260" height="140" rx="10" />
+      {bars.map(([w, fill], i) => (
+        <g>
+          <circle cx="52" cy={48 + i * 29} r="6.5" style={`fill:${fill}`} />
+          <rect class="track" x="68" y={42 + i * 29} width="202" height="12" rx="6" />
+          <rect class="growx" style={`animation-delay:${4.3 + i * 0.35}s;fill:${fill}`} x="68" y={42 + i * 29} width={w} height="12" rx="6" />
+        </g>
+      ))}
+    </g>
+
+    <!-- 3 · Fehler üben -->
+    <g class="sc sc3">
+      <rect class="card" x="30" y="20" width="260" height="140" rx="10" />
+      {[0, 1, 2].map((i) => (
+        <g>
+          <rect class="row" x="40" y={32 + i * 34} width="240" height="26" rx="6" />
+          <circle class="mark" cx="56" cy={45 + i * 34} r="7" />
+          <path class="mark-x" d={`M53 ${42 + i * 34}l6 6m0-6l-6 6`} />
+          <rect class="line" x="72" y={42.5 + i * 34} width={[110, 86, 124][i]} height="5" rx="2.5" />
+        </g>
+      ))}
+      <rect class="fade row-hi" x="40" y="66" width="240" height="26" rx="6" style="animation-delay:9.5s" />
+      <g class="slide" style="animation-delay:9.7s">
+        <rect class="ex" x="84" y="28" width="196" height="124" rx="8" />
+        <rect class="line" x="98" y="44" width="52" height="6" rx="3" />
+        <rect class="gap" x="156" y="40" width="34" height="14" rx="4" />
+        <rect class="line" x="196" y="44" width="68" height="6" rx="3" />
+        <rect class="line line--soft" x="98" y="62" width="120" height="6" rx="3" />
+        <rect class="chip" x="98" y="94" width="50" height="18" rx="9" />
+        <rect class="chip chip--on" x="154" y="94" width="50" height="18" rx="9" />
+        <rect class="chip" x="210" y="94" width="50" height="18" rx="9" />
+        <rect class="line line--soft" x="98" y="126" width="80" height="5" rx="2.5" />
+      </g>
+      <path class="cursor" d="M0 0v14l4-3.5 3 6.5 2.5-1.2-3-6.3H12z" />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .sim { width: 100%; }
+  .sim svg { display: block; width: 100%; height: auto; }
+
+  .desk { fill: var(--blue-100); }
+  .card, .ex { fill: var(--surface-card); stroke: var(--border-strong); stroke-width: 1.2; }
+  .line { fill: var(--border-strong); }
+  .line--soft { fill: var(--border); }
+  .flame-out { fill: var(--accent); }
+  .flame-in { fill: var(--warning); }
+  .slot, .track { fill: var(--border); }
+  .day { fill: var(--brand-blue); }
+  .day--today { fill: var(--success); }
+  .day-tick { fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .row { fill: var(--surface-card); stroke: var(--border); stroke-width: 1.2; }
+  .row-hi { fill: var(--blue-100); stroke: var(--brand-blue); stroke-width: 1.6; opacity: 0; }
+  .mark { fill: var(--danger-soft); stroke: var(--danger); stroke-width: 1.2; }
+  .mark-x { fill: none; stroke: var(--danger); stroke-width: 1.8; stroke-linecap: round; }
+  .gap { fill: none; stroke: var(--brand-blue); stroke-width: 1.6; stroke-dasharray: 4 3; }
+  .chip { fill: var(--surface-card); stroke: var(--border-strong); stroke-width: 1.2; }
+  .chip--on { fill: var(--blue-100); stroke: var(--brand-blue); }
+  .cursor { fill: var(--ink); stroke: var(--surface-card); stroke-width: 1; }
+
+  /* everything timed: one 12 s cycle, started per part by animation-delay */
+  .sc, .in, .fade, .flame, .growx, .slide, .cursor {
+    animation-duration: 12s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+    transform-box: fill-box;
+  }
+  .sc { opacity: 0; animation-name: fs-sim-scene; }
+  .sc2 { animation-delay: 4s; }
+  .sc3 { animation-delay: 8s; }
+  @keyframes fs-sim-scene { 0% { opacity: 0 } 2%, 31% { opacity: 1 } 33%, 100% { opacity: 0 } }
+
+  /* pops in, stays to the end of its scene */
+  .in { opacity: 0; transform-origin: center; animation-name: fs-sim-in; }
+  @keyframes fs-sim-in {
+    0% { opacity: 0; transform: scale(.4) }
+    3% { opacity: 1; transform: scale(1.15) }
+    5%, 31% { opacity: 1; transform: scale(1) }
+    33%, 100% { opacity: 0 }
+  }
+  .fade { animation-name: fs-sim-fade; }
+  @keyframes fs-sim-fade { 0% { opacity: 0 } 3%, 31% { opacity: 1 } 33%, 100% { opacity: 0 } }
+
+  /* scene 1: the flame grows from its base */
+  .flame { transform-origin: bottom; transform: scale(.2); animation-name: fs-sim-flame; }
+  @keyframes fs-sim-flame {
+    0% { transform: scale(.2) }
+    8% { transform: scale(1.12) }
+    11%, 31% { transform: scale(1) }
+    33%, 100% { transform: scale(.2) }
+  }
+
+  /* scene 2: bars grow from the left */
+  .growx { transform-origin: left; transform: scaleX(0); animation-name: fs-sim-growx; }
+  @keyframes fs-sim-growx { 0% { transform: scaleX(0) } 12%, 30% { transform: scaleX(1) } 31%, 100% { transform: scaleX(0) } }
+
+  /* scene 3: tap the middle mistake, the exercise card slides in from the right */
+  .slide { opacity: 0; animation-name: fs-sim-slide; }
+  @keyframes fs-sim-slide {
+    0% { opacity: 0; transform: translateX(40px) }
+    6%, 31% { opacity: 1; transform: none }
+    33%, 100% { opacity: 0 }
+  }
+  .sc3 .cursor { animation-delay: 8s; animation-name: fs-sim-cursor3; }
+  @keyframes fs-sim-cursor3 {
+    0%, 4% { transform: translate(250px, 140px) }
+    13% { transform: translate(150px, 76px) }
+    14% { transform: translate(150px, 76px) scale(.8) }
+    16% { transform: translate(150px, 76px) }
+    24% { transform: translate(210px, 100px) }
+    25%, 100% { transform: translate(210px, 100px) }
+  }
+
+  /* MascotGuide's pause button */
+  :global(.mg-paused) .sim * { animation-play-state: paused !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sim * { animation: none !important; }
+    .sc2 { opacity: 1; }
+    .sc2 .growx { transform: none; }
+  }
+</style>

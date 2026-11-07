@@ -1,0 +1,16 @@
+---
+// The course wordmark from the icanspeak.it kit (public/logos, docs/brand/BRAND.md): the
+// light and the dark SVG, one of which global.css hides by theme (.wordmark-img--*).
+// `onDark` is for a band that is dark in both themes (the footer): always the dark one.
+// The wrapper is display: contents, so a parent's `… img { height }` rule sizes it as before.
+interface Props {
+  alt?: string;
+  onDark?: boolean;
+  class?: string;
+}
+const { alt = "icanspeak Spanish", onDark = false, class: cls } = Astro.props;
+---
+<span class:list={["wordmark", { "wordmark--on-dark": onDark }]}>
+  <img class:list={["wordmark-img--light", cls]} src="/logos/icanspeak-spanish-wordmark.svg" alt={alt} width="933" height="161" />
+  <img class:list={["wordmark-img--dark", cls]} src="/logos/icanspeak-spanish-wordmark-dark.svg" alt={alt} width="933" height="161" />
+</span>

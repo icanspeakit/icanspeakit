@@ -1,0 +1,46 @@
+/* Business Spanish: /business-spanish and /business-spanish/[unit]. The cards, tips and links come
+   from kultur.css and berufe.css, the exercises from akkusativ.css; this file adds the phrase
+   lists, model texts and the register labels. */
+
+.bz-section { margin: 34px 0 0; scroll-margin-top: 72px; }
+
+.bz-jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; margin: 0 0 8px; font-size: .9rem; }
+
+/* Register labels: words first, so they don't rely on colour alone. */
+.bz-reg { flex: 0 0 auto; align-self: center; padding: 2px 9px; border: 1px solid var(--border); border-radius: 999px; font-size: .72rem; color: var(--muted); white-space: nowrap; }
+.bz-reg--formal { border-color: var(--brand-blue); color: var(--brand-blue); }
+.bz-reg--informal { border-style: dashed; }
+.bz-reg-list { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.bz-reg-list li { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; font-size: .92rem; }
+
+.bz-phrase-group { margin-top: 20px; }
+.bz-phrase-group h3 { margin: 0 0 8px; font-size: 1rem; }
+.bz-phrases { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.bz-phrases li { display: flex; gap: 10px; align-items: center; padding: 9px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface-card, var(--surface)); }
+.bz-phrase-text { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.bz-phrase-text b { font-weight: 600; overflow-wrap: anywhere; }
+.bz-phrase-en { font-size: .88rem; color: var(--muted); }
+.bz-say { flex: 0 0 auto; display: inline-grid; place-items: center; width: 44px; height: 44px; margin: -6px -6px -6px 0; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--muted); cursor: pointer; }
+.bz-say:hover { color: var(--brand-blue); background: var(--surface); }
+.bz-say[hidden] { display: none; }
+
+.bz-model { margin-top: 18px; padding: 16px 18px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-card, var(--surface)); }
+.bz-model h3 { margin: 0 0 10px; font-size: 1.05rem; }
+.bz-model h4 { margin: 14px 0 6px; font-size: .9rem; }
+/* The JSON keeps line breaks in the text: an email, a dialogue or a CV reads by its lines. */
+.bz-model-text { white-space: pre-line; overflow-wrap: anywhere; padding-inline-start: 12px; border-inline-start: 3px solid var(--brand-blue); line-height: 1.55; }
+.bz-notes { margin: 0; padding-inline-start: 20px; display: grid; gap: 5px; font-size: .92rem; }
+
+.bz-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 14px; }
+.bz-btn { display: inline-block; padding: 9px 16px; border-radius: 999px; background: var(--brand-blue); color: #fff; font-weight: 600; font-size: .92rem; text-decoration: none; }
+.bz-btn--quiet { background: none; border: 1px solid var(--border); color: inherit; font-weight: 500; }
+.bz-words { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr)); gap: 6px 18px; }
+.bz-words li { display: grid; padding-block: 5px; border-bottom: 1px solid var(--border); font-size: .92rem; }
+.bz-words b { font-weight: 600; }
+.bz-words span { color: var(--muted); font-size: .86rem; }
+
+.bz-workspace { background: none; }
+.bz-context { display: block; margin-bottom: 6px; font-size: .9rem; line-height: 1.4; color: var(--muted); }
+.bz-stats { margin: 8px 0 0; font-size: .85rem; color: var(--muted); text-align: center; }
+
+.bz-pager { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 18px; margin: 34px 0 10px; font-size: .9rem; }

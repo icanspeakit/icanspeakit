@@ -1,0 +1,183 @@
+/* The mascot comic (src/components/MascotComic.astro) and the taught-word chips it shares
+ * with the Landeskunde text (src/lib/kulturMarks.js). Kultur imports this through
+ * kultur.css; the component imports it itself, so a grammar topic with `comics` gets it
+ * without pulling in the rest of the Kultur styles. */
+
+/* ---- The taught word as a chip (src/lib/kulturMarks.js) --------------------------------
+   „Du sagst du zu Freunden": the second du is the word being taught, and it has to look
+   different from the one doing the talking. du warm, Sie cool, the same in the text, the
+   table and the comic, so the colour alone already says which of the two it is.
+   The typeface says it too, for anyone who can't tell the colours apart: du in the rounded
+   mascot voice (Fredoka — casual, among friends), Sie in a serif (formal, like a letter
+   from an office). */
+.ku-term {
+  display: inline-block;
+  padding: 0 .38em;
+  border: 1px solid;
+  border-radius: 6px;
+  font-weight: 700;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+.ku-term--du { font-family: var(--font-voice); font-weight: 600; }
+.ku-term--sie { font-family: Georgia, "Noto Serif", "Times New Roman", serif; font-weight: 700; letter-spacing: .01em; }
+.ku-term--du { background: var(--warning-soft); border-color: var(--warning-border); color: var(--accent-dark); }
+.ku-term--sie { background: var(--info-soft); border-color: var(--info-border); color: var(--brand-blue-dark); }
+h1 .ku-term { padding: 0 .22em; border-radius: 10px; }
+/* An ending inside a word („alt{e}"): no gap before it, or „alt e" reads as two words. */
+.ku-term--tail { padding: 0 .1em; border-radius: 4px; }
+.ku-nb { white-space: nowrap; }
+
+/* ---- Mascot comic (src/components/MascotComic.astro) ------------------------------------
+   Three panels, stacked on a phone and a tablet, side by side from 1000px (below that a
+   panel is too narrow for a mascot beside its bubble). Each panel: a caption, two
+   mascots facing each other with their bubbles, and the one-line rule underneath. */
+.ku-comic { margin: 22px 0 26px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.ku-comic-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 12px; }
+.ku-comic-title { font-family: var(--font-voice); font-weight: 600; font-size: 1.1rem; color: var(--ink); }
+.ku-comic-replay {
+  flex: none; min-height: 36px; padding: 0 14px;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-pill, 999px);
+  background: var(--surface-card, #fff); color: var(--ink); font: inherit; font-size: .85rem; font-weight: 600; cursor: pointer;
+}
+.ku-comic-replay[hidden] { display: none; }
+.ku-comic-panels { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+@media (min-width: 1000px) { .ku-comic-panels { grid-template-columns: repeat(3, 1fr); } }
+.ku-comic-panel {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 12px; border: 2px solid var(--ink); border-radius: 12px; background: var(--surface-card, #fff);
+}
+.ku-comic-cap { margin: 0; font-size: .78rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+/* A dialogue, read top to bottom: each mascot beside its own bubble, the left one first.
+   Two bubbles side by side above the mascots left each one under half a panel — 60–120px —
+   and hyphens: auto then cut nearly every word („Jo-ghurtbe-cher", „al-les"). */
+.ku-comic-stage { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; align-content: end; flex: 1; }
+.ku-comic-who { display: flex; align-items: flex-end; gap: 12px; min-width: 0; }
+.ku-comic-who--left { flex-direction: row-reverse; justify-content: flex-end; }
+.ku-comic-who--right { flex-direction: row; justify-content: flex-end; }
+.ku-comic-body { flex: none; }
+/* The right mascot turns to face the left one. */
+.ku-comic-who--right .ku-comic-body { transform: scaleX(-1); }
+.ku-comic-body { display: block; line-height: 0; }
+.ku-comic-say {
+  position: relative; margin: 0; padding: 7px 10px;
+  border: 1.5px solid var(--ink); border-radius: 12px; background: var(--surface-card, #fff);
+  font-family: var(--font-voice); font-weight: 500; font-size: .92rem; line-height: 1.3; color: var(--ink);
+  flex: 0 1 auto; min-width: 0;
+  /* Whole words: a learner reads „Verpackung", not „Verpa-ckung". Only a compound too long
+     for any line (Wohnungsgeberbestätigung, 12+ letters) breaks, and then not within the
+     first or last five letters (lang="es" on the bubble picks the syllables). */
+  overflow-wrap: break-word; hyphens: auto;
+  -webkit-hyphenate-limit-before: 5; -webkit-hyphenate-limit-after: 5;
+  hyphenate-limit-chars: 12 5 5;
+}
+/* The tail points sideways, at the speaker beside the bubble. */
+.ku-comic-say::after {
+  content: ""; position: absolute; bottom: 16px; width: 12px; height: 12px;
+  background: inherit; border: inherit; transform: rotate(45deg);
+}
+/* A bubble stays inside its half of the stage: a chip like „Wohnungsgeberbestätigung“ may
+   wrap and hyphenate there (box-decoration-break keeps its frame on both lines) instead of
+   pushing the bubble over the other speaker's. */
+.ku-comic-say { max-width: 100%; box-sizing: border-box; }
+.ku-comic-say .ku-term { display: inline; white-space: normal; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.ku-comic-say .ku-nb { white-space: normal; }
+/* The Sie forms are short (Sie, Ihnen, Ihr): kept whole, the wider serif broke „Ih-nen“. */
+.ku-comic-say .ku-term--sie { hyphens: manual; white-space: nowrap; }
+.ku-comic-who--left .ku-comic-say::after { left: -7px; border-width: 0 0 1.5px 1.5px; }
+.ku-comic-who--right .ku-comic-say::after { right: -7px; border-width: 1.5px 1.5px 0 0; }
+.ku-comic-tag { margin: 2px 0 0; font-size: .85rem; font-weight: 600; color: var(--ink); }
+
+/* Played once on sight (the script adds .is-ready, then .is-playing): panel by panel, in
+   each the bubbles in speaking order, the speaker hopping as it talks. Before it plays the
+   strip is hidden; without JS or with reduced motion .is-ready never comes and it stands. */
+.ku-comic.is-ready:not(.is-playing) .ku-comic-panel,
+.ku-comic.is-ready:not(.is-playing) .ku-comic-say,
+.ku-comic.is-ready:not(.is-playing) .ku-comic-tag { opacity: 0; }
+.ku-comic.is-playing .ku-comic-panel { animation: ku-comic-in .45s ease both; animation-delay: calc(var(--p) * 2.1s); }
+.ku-comic.is-playing .ku-comic-say {
+  transform-origin: bottom left;
+  animation: ku-comic-pop .35s cubic-bezier(.3, 1.6, .5, 1) both;
+  animation-delay: calc(var(--p) * 2.1s + .45s + var(--b) * .8s);
+}
+.ku-comic.is-playing .ku-comic-who--right .ku-comic-say { transform-origin: bottom right; }
+.ku-comic.is-playing .ku-comic-body > svg { animation: ku-comic-hop .45s ease both; animation-delay: calc(var(--p) * 2.1s + .45s + var(--b) * .8s); }
+.ku-comic.is-playing .ku-comic-tag { animation: ku-comic-in .4s ease both; animation-delay: calc(var(--p) * 2.1s + 1.8s); }
+@keyframes ku-comic-in { from { opacity: 0; transform: translateY(8px); } }
+@keyframes ku-comic-pop { from { opacity: 0; transform: scale(.6); } }
+@keyframes ku-comic-hop { 40% { transform: translateY(-7px); } }
+@media (prefers-reduced-motion: reduce) {
+  .ku-comic * { animation: none !important; }
+}
+
+/* ---- Grammar topics -----------------------------------------------------------------------
+   One chip colour for every taught form (schneller, am liebsten): there is no du/Sie pair
+   to tell apart, only "this is the form". The brand teal, so it reads as the site's own
+   highlight rather than as one side of the Kultur pair. */
+.ku-term--form {
+  background: color-mix(in srgb, var(--brand-blue) 12%, var(--surface-card, #fff));
+  border-color: color-mix(in srgb, var(--brand-blue) 45%, transparent);
+  color: var(--brand-blue-dark);
+  font-family: var(--font-voice); font-weight: 600;
+}
+
+/* In the exercise column a strip is narrower than the viewport says: on a laptop the rule
+   sits beside it. So the grammar strip goes three-across by its own width, not the
+   screen's — the Kultur strip, full width on its page, keeps the viewport breakpoint. */
+.ku-comic--fit { container-type: inline-size; }
+.ku-comic--fit .ku-comic-panels { grid-template-columns: minmax(0, 1fr); }
+@container (min-width: 700px) { .ku-comic--fit .ku-comic-panels { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* On a grammar page the strips sit at the top of the exercise column (src/pages/[id].astro). */
+.vp-comics .ku-comic:first-child { margin-top: 0; }
+/* A taught form is never hyphenated: „am langsams-ten" splits the very ending it teaches.
+   It may still wrap between its words (am / langsamsten). */
+.ku-comic-say .ku-term--form { hyphens: manual; }
+
+/* The first strip in a fold of its own ([id].astro): open on the first visit only. */
+.vp-comics-first { margin: 0 0 10px; }
+.vp-comics-first > .ku-comic { margin-top: 0; }
+.vp-comics-first > summary {
+  display: inline-flex; align-items: center; gap: 6px; cursor: pointer; list-style: none;
+  margin: 0 0 8px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--border);
+  font-size: .8125rem; font-weight: var(--fw-semibold, 600); color: var(--muted); background: var(--surface-card);
+}
+.vp-comics-first > summary::-webkit-details-marker { display: none; }
+.vp-comics-first > summary::after { content: "▾"; font-size: .75em; transition: transform .2s ease; }
+.vp-comics-first[open] > summary::after { transform: rotate(180deg); }
+.vp-comics-first > summary:hover { color: var(--ink); }
+.vp-comics-first > summary:focus-visible { outline: 2px solid var(--brand-blue, #3a5680); outline-offset: 2px; }
+/* The strips after the first, folded away ([id].astro): one comic is the way in, the
+   exercises come straight after it. */
+.vp-comics-more { margin: 6px 0 28px; }
+/* A quiet text link under the strip, not a button: it is an extra, the exercises are next. */
+.vp-comics-more > summary {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 4px;
+  font-size: .875rem; font-weight: 500; color: var(--muted); cursor: pointer; list-style: none;
+  border-radius: 6px; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 3px;
+  transition: color .15s ease, text-decoration-color .15s ease;
+}
+.vp-comics-more > summary::-webkit-details-marker { display: none; }
+.vp-comics-more > summary::after { content: "▾"; font-size: .75em; transition: transform .2s ease; }
+.vp-comics-more[open] > summary::after { transform: rotate(180deg); }
+.vp-comics-more > summary:hover { color: var(--ink); text-decoration-color: currentColor; }
+.vp-comics-more > summary:focus-visible { outline: 2px solid var(--brand-blue, #3a5680); outline-offset: 2px; }
+.vp-comics-more[open] > .ku-comic { animation: vp-comics-in .35s ease both; }
+@keyframes vp-comics-in { from { opacity: 0; transform: translateY(-6px); } }
+@media (prefers-reduced-motion: reduce) { .vp-comics-more[open] > .ku-comic { animation: none; } }
+
+/* The small strip at the top of a grammar rule ([id].astro, concept.comic): two panels side
+   by side once there is room, smaller mascots and bubbles, so the rule below stays in view. */
+.vp-concept-comic .ku-comic { margin: 0 0 16px; padding: 10px 12px; }
+.vp-concept-comic .ku-comic-head { margin-bottom: 8px; }
+.vp-concept-comic .ku-comic-title { font-size: .95rem; }
+.vp-concept-comic .ku-comic-replay { min-height: 30px; font-size: .78rem; }
+.vp-concept-comic .ku-comic-panel { padding: 8px 10px; gap: 6px; }
+.vp-concept-comic .ku-comic-body svg { width: 52px; height: auto; }
+.vp-concept-comic .ku-comic-say { font-size: .82rem; padding: 5px 8px; }
+.vp-concept-comic .ku-comic-say::after { bottom: 10px; }
+.vp-concept-comic .ku-comic-tag { font-size: .78rem; }
+/* Three panels in a row once they fit; two columns left a strip's third panel alone with an
+   empty cell beside it. A panel's speakers sit closer, too — no tall gap between turns. */
+@container (min-width: 700px) { .vp-concept-comic .ku-comic--fit .ku-comic-panels { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.vp-concept-comic .ku-comic-stage { gap: 4px; }

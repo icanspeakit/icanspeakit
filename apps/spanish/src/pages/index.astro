@@ -1,0 +1,351 @@
+---
+import Wordmark from "../components/Wordmark.astro";
+import PartOfIcanspeak from "../components/PartOfIcanspeak.astro";
+import Layout from "../layouts/Layout.astro";
+import EinfachEntry from "../components/EinfachEntry.astro";
+import SiteNav from "../components/SiteNav.astro";
+import NextStepCta from "../components/NextStepCta.astro";
+// Still used in the footer; the nav imports its own copies.
+import LanguageSwitcher from "../components/LanguageSwitcher.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import DashboardMock from "../components/mocks/DashboardMock.astro";
+import UebungenMock from "../components/mocks/UebungenMock.astro";
+import LevelFold from "../components/LevelFold.astro";
+import PracticePicker from "../components/PracticePicker.astro";
+import Icon from "../components/Icon.astro";
+import WortDesTagesCard from "../components/wortgeschichte/WortDesTagesCard.astro";
+// One catalogue for / and /exercises — see src/lib/catalog.js.
+import { tools, landingTools, exams } from "../lib/catalog.js";
+import { grammarTopicCount } from "../lib/inventory.js";
+import "../styles/landing.css";
+import "../styles/m1.css";
+import "../styles/front.css";
+// Last, so its fold-switching rules win over front.css at equal specificity.
+import "../styles/home-fold.css";
+import GrammatikStartTeaser from "../components/GrammatikStartTeaser.astro";
+
+
+const toolCount = tools.length;
+const examCount = exams.length;
+// Paywall kill switch (src/lib/access.js): with it on, the footer carries § 312k's link.
+const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
+---
+<Layout umbrella={false}>
+  <div class="lp">
+    <SiteNav />
+
+    <!-- After "Konto löschen" (/konto lands here with ?konto=geloescht): one line, then the
+         parameter leaves the address bar. Nobody else ever sees it. -->
+    <p class="lp-deleted" role="status" data-konto-geloescht hidden data-i18n="loeschen.erledigt">Dein Konto wurde gelöscht.</p>
+
+    <!-- HERO FOLD, ≤1024px: "Wo stehst du?" — five tap targets instead of a
+         paragraph. Below that width the two mockups cannot be shown at a size
+         where their controls are clickable, so they are replaced rather than
+         shrunk; they reappear further down, at real width, in the peek band. -->
+    <!-- Returning learners only: "Wo stehst du?" below is a question they have already
+         answered, so the thing they were last doing goes above it. Filled client-side from
+         this browser's own record; a first visit renders nothing here at all. -->
+    <div class="lp-resume-band" data-pp-resume-top hidden></div>
+    <LevelFold />
+
+    <!-- HERO FOLD, >1024px: the "A · Versetzt" arrangement promoted from the
+         /front layout studies. Overlapping 12x12 grid: headline left, dashboard
+         mock over the right edge of it, exercises mock below-left, brand line
+         bottom-right. Markup is identical across the three studied variants —
+         only the grid-area rules in front.css differ — so switching to "buehne"
+         or "split" is a one-word change to data-variant below. -->
+    <section class="fr-page fr-page--home" data-variant="versetzt">
+      <div class="fr-stage">
+        <div class="fr-grid">
+          <div class="fr-block fr-copy">
+                        <h1 class="fr-title" data-i18n="front.title">Deutsch lernen</h1>
+            <p class="fr-accent" data-i18n="home.hero2.accent">Schritt für Schritt.</p>
+            <p class="fr-lead" data-i18n="home3.hero.lead">
+              Grammatik, Alltagsdeutsch und Sprechen von A1 bis B2. Jede Übung
+              wurde schon in einem echten Deutschkurs unterrichtet, bevor sie hier
+              online ging.
+            </p>
+            <div class="fr-actions">
+              <NextStepCta variant="hero" />
+              <a href="/exams" class="lp-btn lp-btn--outline" data-i18n="home3.hero.cta2">Prüfungen ansehen</a>
+            </div>
+          </div>
+
+          <div class="fr-block fr-mock fr-mock--dash" aria-label="Fortschritt-Vorschau" data-i18n-attr="aria-label:home.mock.preview">
+            <DashboardMock />
+          </div>
+
+          <div class="fr-block fr-mock fr-mock--ueb" aria-label="Übungen-Vorschau" data-i18n-attr="aria-label:home.mock.previewExercises">
+            <UebungenMock />
+          </div>
+
+          <div class="fr-block fr-slogan">
+            <p class="fr-slogan-line" data-i18n="home.footer.tagline">Da für Dich!</p>
+            <p class="fr-slogan-sub" data-i18n="home3.slogan.sub">Die Übungen sind kostenlos und funktionieren ohne Konto.</p>
+            <EinfachEntry />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // The fold's mocks are fixed-size artwork laid out at their design width and
+      // taken out of flow (see front.css), so each has to be scaled to its grid
+      // cell. Ported from /front, minus the variant switcher.
+      const DEFAULT_W = 760;
+      // Past this the dashboard stops reading as a UI and starts reading as a
+      // poster of one.
+      const MAX_SCALE = 1.15;
+      // Breathing room so the frame's shadow is not flush against its neighbour.
+      const GUTTER = 20;
+      const mocks = [...document.querySelectorAll(".fr-page--home .fr-mock")];
+
+      function designWidth(cell) {
+        const raw = getComputedStyle(cell).getPropertyValue("--fr-mock-w");
+        return parseFloat(raw) || DEFAULT_W;
+      }
+
+      function fitMocks() {
+        // Below the breakpoint front.css puts the mocks back in normal flow.
+        if (window.matchMedia("(max-width: 900px)").matches) {
+          for (const cell of mocks) {
+            const b = cell.querySelector(".lp-browser");
+            if (b) b.style.transform = "";
+          }
+          return;
+        }
+        for (const cell of mocks) {
+          const browser = cell.querySelector(".lp-browser");
+          if (!browser) continue;
+          browser.style.transform = "";
+          const cw = cell.clientWidth - GUTTER * 2;
+          const ch = cell.clientHeight - GUTTER * 2;
+          const mh = browser.offsetHeight;
+          const dw = designWidth(cell);
+          if (cw <= 0 || ch <= 0 || !mh) continue;
+          const scale = Math.min(cw / dw, ch / mh, MAX_SCALE);
+          const x = GUTTER + (cw - dw * scale) / 2;
+          const y = GUTTER + (ch - mh * scale) / 2;
+          browser.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+        }
+      }
+
+      requestAnimationFrame(() => requestAnimationFrame(fitMocks));
+      addEventListener("resize", fitMocks);
+      // Fonts land after first paint and change the mock's intrinsic height; so do
+      // late images and, in dev, stylesheets injected after hydration.
+      if (window.ResizeObserver) {
+        const ro = new ResizeObserver(() => fitMocks());
+        for (const cell of mocks) {
+          const browser = cell.querySelector(".lp-browser");
+          if (browser) ro.observe(browser);
+        }
+      }
+      document.fonts?.ready.then(fitMocks);
+    </script>
+
+    <!-- TRUST BAR -->
+    <section class="lp-trust">
+      <div class="lp-wrap lp-trust-grid">
+        <div class="lp-trust-item"><div class="lp-trust-num">{toolCount}</div><div class="lp-trust-label" data-i18n="home3.trust.tools">Übungstools</div></div>
+        <div class="lp-trust-item"><div class="lp-trust-num">{examCount}</div><div class="lp-trust-label" data-i18n="home.trust.exams">Prüfungen im Überblick</div></div>
+      </div>
+    </section>
+
+    <!-- WORT DES TAGES: one small card, renders nothing until a word is published -->
+    <WortDesTagesCard />
+
+    <!-- VALUE PROPS -->
+    <section class="lp-section">
+      <div class="lp-wrap">
+        <div class="lp-section-head">
+          <h2 data-i18n="home3.value.title">Was du hier übst</h2>
+        </div>
+        <div class="lp-value-grid">
+          <div class="lp-value-card">
+            <img src="/assets/bricks-2181920_1280.jpg" alt="" />
+            <div class="lp-value-card-body"><h3 data-i18n="home3.value.card1.title">{grammarTopicCount} Grammatikthemen</h3><p data-i18n="home3.value.card1.desc">Fälle, Zeiten und Satzbau von A1 bis B2, etwa Dativ, Passiv, Konjunktiv II und Relativsätze. Zu jedem Thema gibt es eine Erklärung und Übungen dazu.</p><GrammatikStartTeaser compact /></div>
+          </div>
+          <div class="lp-value-card">
+            <img src="/assets/online-is-futur.jpg" alt="" />
+            <div class="lp-value-card-body"><h3 data-i18n="home3.value.card2.title">Alltagsdeutsch</h3><p data-i18n="home3.value.card2.desc">Situationen, die dir in Deutschland begegnen: der Termin auf dem Amt, der Umzug in eine neue Wohnung, die Bestellung im Café.</p></div>
+          </div>
+          <div class="lp-value-card">
+            <img src="/assets/letsdoit.jpg" alt="" />
+            <div class="lp-value-card-body"><h3 data-i18n="home3.value.card3.title">Sprechen</h3><p data-i18n="home3.value.card3.desc">Rollenspiele, Partnerübungen und Bildbeschreibungen, also der Teil, den es sonst meist nur im Präsenzkurs gibt. Du kannst ihn hier allein vorbereiten oder mit jemandem zusammen üben.</p></div>
+          </div>
+          <div class="lp-value-card">
+            <img src="/assets/foto-buero-1.jpg" alt="" />
+            <div class="lp-value-card-body"><h3 data-i18n="home3.value.card4.title">Prüfungsvorbereitung</h3><p data-i18n="home3.value.card4.desc">Mock exams and writing tasks in the style of the DELE and the SIELE, plus practice for the CCSE.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOLS -->
+    <section class="lp-section">
+      <div class="lp-wrap">
+        <!-- One catalogue, two shapes, one per width — see the swap rule at the end of
+             landing.css. Wide enough for a grid, the grid is the better answer: thirteen
+             tools read at a glance and nothing has to be asked. It is only when the grid
+             collapses to one card per row that the list becomes the page, and there the
+             question earns its tap. Both are in the HTML; CSS shows one. -->
+        <div class="lp-section-head lp-desk" style="max-width:600px">
+          <h2 data-i18n="home3.tools.title">Alle Übungen und Prüfungen</h2>
+        </div>
+        <div class="lp-section-head lp-phone" style="max-width:600px">
+          <h2 data-i18n="picker.title">Was willst du üben?</h2>
+        </div>
+
+        <div class="lp-desk">
+          <div class="lp-tools-group">
+            <div class="lp-tools-label" data-i18n="nav.exercises">Übungen</div>
+            <div class="lp-tools-grid lp-tools-grid--tools">
+              {landingTools.map((t) => (
+                <a href={t.href} class="lp-tool-card">
+                  <div class="lp-tool-tile"><Icon name={t.icon} /></div>
+                  <h4 data-i18n={t.titleKey}>{t.title}</h4>
+                  <p data-i18n={t.descKey}>{t.desc}</p>
+                  <span class="badge badge-brand" data-i18n={t.countKey} data-i18n-vars={JSON.stringify(t.countVars)}>{t.count}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+          <div class="lp-tools-group lp-tools-group--exams">
+            <div class="lp-tools-label" data-i18n="nav.exams">Prüfungen</div>
+            <div class="lp-tools-grid lp-tools-grid--exams">
+              {exams.map((e) => (
+                <a href={e.href} class="lp-tool-card">
+                  <div class="lp-tool-tile"><Icon name={e.icon} /></div>
+                  <h4 data-i18n={e.titleKey}>{e.title}</h4>
+                  <span class="badge badge-neutral" data-i18n={e.countKey} data-i18n-vars={e.countVars ? JSON.stringify(e.countVars) : undefined}>{e.count}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <PracticePicker class="lp-picker lp-phone" />
+      </div>
+    </section>
+
+    <!-- PEEK, ≤1024px only: the two mockups the fold no longer shows at this
+         width. Down here they are useful rather than in the way, and at real
+         width they are not pictures of a UI — they are the UI. -->
+    <section class="lp-section hf-peek-band">
+      <div class="lp-wrap">
+        <div class="lp-section-head" style="max-width:600px">
+          <h2 data-i18n="home3.peek.title">Fortschritt und Übungen in der Vorschau</h2>
+          <p data-i18n="home3.peek.subtitle">Beide Vorschauen sind klickbar: Tipp in der Seitenleiste auf ein Thema.</p>
+        </div>
+        <div class="hf-peek">
+          <div class="hf-peek-item">
+            <p class="hf-peek-label" data-i18n="home.peek.progress">Dein Fortschritt</p>
+            <DashboardMock />
+          </div>
+          <div class="hf-peek-item">
+            <p class="hf-peek-label" data-i18n="nav.exercises">Übungen</p>
+            <UebungenMock />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING: removed until payments exist (src/lib/backend.js). -->
+
+    <!-- FINAL CTA -->
+    <section class="lp-final-cta">
+      <div class="lp-wrap lp-final-cta-inner">
+        <h2 data-i18n="home3.finalcta.title">Einstufungstest</h2>
+        <p data-i18n="home3.finalcta.subtitle">Finde heraus, ob du bei A1, A2, B1 oder B2 einsteigst, und fang dort an.</p>
+        <a href="/placement-test" class="lp-final-cta-btn" data-i18n="home3.finalcta.cta">Test starten</a>
+        <div class="lp-final-cta-login"><span data-i18n="home.finalcta.loginQuestion">Schon dabei?</span> <a href="/account" data-i18n="home.finalcta.loginAction">Einloggen</a></div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="lp-footer">
+      <div class="lp-wrap lp-footer-inner">
+        <div class="lp-footer-grid">
+          <div class="lp-footer-brand">
+            <Wordmark onDark />
+            <strong data-i18n="home.footer.tagline">Da für Dich!</strong>
+            <p data-i18n="home3.footer.blurb">Deutsch von A1 bis B2, aus echtem Unterrichtsmaterial.</p>
+          </div>
+          <!-- Every entry is a route that exists. A footer of dead links is the same
+               construction site as a footer of filler text, only harder to spot. -->
+          <div class="lp-footer-col">
+            <h5 data-i18n="home.footer.col.practise">Üben</h5>
+            <a href="/grammar" data-i18n="nav.subject.grammatik">Grammatik</a>
+            <a href="/vocabulary" data-i18n="nav.subject.wortschatz">Wortschatz</a>
+            <a href="/skills" data-i18n="nav.subject.fertigkeiten">Fertigkeiten</a>
+            <a href="/culture" data-i18n="group.kultur.name">Landeskunde</a>
+          </div>
+          <div class="lp-footer-col">
+            <h5 data-i18n="nav.exams">Prüfungen</h5>
+            <a href="/dele" data-i18n="home.footer.exam.cambridge">DELE</a>
+            <a href="/siele" data-i18n="home.footer.exam.ielts">SIELE</a>
+            <a href="/siele/levels" data-i18n="home.footer.exam.trinity">SIELE by level</a>
+            <a href="/ccse" data-i18n="home.footer.exam.lifeUk">CCSE</a>
+          </div>
+          <div class="lp-footer-col">
+            <h5 data-i18n="home.footer.col.practiseExam">Direkt üben</h5>
+            <a href="/dele/b1" data-i18n="home.footer.practice.b1Prelim">DELE B1 practice test</a>
+            <a href="/siele/practice-set" data-i18n="home.footer.practice.ielts">SIELE practice set</a>
+            <a href="/nationality/dele-a2/practice-set" data-i18n="home.footer.practice.ise1">DELE A2 mock test</a>
+            <a href="/ccse/test" data-i18n="home.footer.practice.lifeUk">CCSE practice test</a>
+            <a href="/dele/a1" data-i18n="home.footer.practice.a1">DELE A1 practice test</a>
+          </div>
+          <div class="lp-footer-col">
+            <h5 data-i18n="home.footer.col.more">Mehr</h5>
+            <a href="/exercises" data-i18n="nav.exercises">Übungen</a>
+            <a href="/placement-test" data-i18n="home.footer.link.placement">Einstufungstest</a>
+            <a href="/knowledge" data-i18n="home.footer.link.knowledge">Wissen</a>
+            <a href="/progress" data-i18n="home.footer.link.dashboard">Dein Fortschritt</a>
+            <a href="/mascots" data-i18n="home.footer.link.mascots">Die Maskottchen</a>
+            <a href="/account" data-i18n="home.footer.link.merch">Merch</a>
+            <a href="/about" data-i18n="home.footer.link.about">Über mich</a>
+          </div>
+          <!-- Pflichtangaben. Impressum and Datenschutz are not "more links" — a German
+               site has to carry them, and they have to be reachable from every page, so
+               they get their own column rather than being appended to one above. -->
+          <div class="lp-footer-col">
+            <h5 data-i18n="home.footer.col.legal">Rechtliches</h5>
+            <a href="/legal-notice" data-i18n="home.footer.link.imprint">Impressum</a>
+            <a href="/privacy" data-i18n="home.footer.link.privacy">Datenschutz</a>
+            <a href="/terms" data-i18n="home.footer.link.terms">Nutzungsbedingungen</a>
+            {PAYWALL && <a href="/account" data-i18n="home.footer.link.cancel">Cancel a contract</a>}
+            {PAYWALL && <a href="/account" data-i18n="home.footer.link.withdraw">Withdraw from a contract</a>}
+          </div>
+        </div>
+        <div class="lp-footer-bottom">
+          <div class="lp-footer-copyright" data-i18n="home3.footer.copyright">© 2018–2026 icanspeak Spanish</div>
+          <PartOfIcanspeak onDark />
+          <LanguageSwitcher />
+          <ThemeToggle />
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module">
+    import { mountPracticePicker, mountResumeCard } from "../lib/practicePicker.js";
+
+    // `remote` stays null until there is an account to read a last session from; the
+    // "Weitermachen" card falls back to this browser's own record (src/lib/progress.js)
+    // and renders nothing at all on a first visit.
+    mountPracticePicker(document.querySelector("[data-pp]"), { remote: null });
+    // Same card at the top of the page, without the recents list — one line of a long page.
+    mountResumeCard(document.querySelector("[data-pp-resume-top]"), { remote: null, recents: false });
+
+
+    if (new URLSearchParams(location.search).get("konto") === "geloescht") {
+      document.querySelector("[data-konto-geloescht]").hidden = false;
+      history.replaceState(null, "", location.pathname + location.hash);
+    }
+  </script>
+  <style>
+    .lp-deleted { margin: 12px 16px 0; padding: 12px 16px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border); color: var(--ink); font-weight: 600; }
+    .lp-deleted[hidden] { display: none; }
+  </style>
+</Layout>

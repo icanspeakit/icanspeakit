@@ -1,0 +1,76 @@
+---
+// Write, for the articles topic: a dictation. The learner hears "la estación" and types it:
+// article, noun, accent. It is the fourth beat of Active (See · Listen · Speak · Write), which on
+// the other topics hands back to Practice; here Practice is the el / la trainer, where nothing is
+// written, so the chip got a panel of its own.
+//
+// The browser's Spanish voice says the words (no recordings yet). Spanish spelling follows the
+// sound, so a clear voice is enough, and without speech the English meaning is the prompt. Only
+// one-word nouns of A1 and A2: everyday words a beginner can be asked to spell, with one right
+// article. The checking lives in src/lib/artikelDiktat.js.
+import { nouns } from "../lib/lexicon.js";
+import { isDrillNoun } from "../lib/generoDrill.js";
+import "../styles/artikel-diktat.css";
+
+const ROUND = 10;
+const pool = nouns({ level: ["A1", "A2"], has: "gender" })
+  .filter((n) => isDrillNoun(n) && !n.lemma.includes(" "))
+  .map((n) => ({ id: n.id, lemma: n.lemma, gender: n.gender, level: n.level, en: n.en }));
+---
+<section class="ak-panel akd" data-beat-panel="schreiben" hidden>
+  <h2 data-i18n="ak.beat.schreiben">Write</h2>
+  <p class="ak-panel-lead" data-i18n="akd.lead">Dictation: you hear a noun with its article. Write both.</p>
+
+  <div class="ak-card akd-card" data-akd>
+    <div class="akd-top">
+      <span class="akd-count" data-akd-count>1 / {ROUND}</span>
+      <span class="akd-score" data-akd-score></span>
+    </div>
+
+    <div class="akd-listen">
+      <button type="button" class="akd-play" data-akd-play aria-label="Listen" data-i18n-attr="aria-label:wg.listen">
+        <span class="ak-play-icon" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="akd-slow" data-akd-slow aria-pressed="false" data-i18n="akd.slow">Slow</button>
+    </div>
+    <p class="akd-meaning" data-akd-meaning hidden></p>
+
+    <form class="akd-form" data-akd-form autocomplete="off">
+      <input
+        class="akd-input"
+        data-akd-input
+        type="text"
+        inputmode="text"
+        autocapitalize="off"
+        autocorrect="off"
+        spellcheck="false"
+        lang="es"
+        placeholder="article + noun"
+        aria-label="What do you hear?"
+        data-i18n-attr="placeholder:akd.placeholder;aria-label:akd.ask"
+      />
+      <div class="akd-keys" aria-label="Spanish letters" data-i18n-attr="aria-label:akd.keys">
+        {["á", "é", "í", "ó", "ú", "ü", "ñ"].map((k) => <button type="button" lang="es" data-akd-key={k}>{k}</button>)}
+      </div>
+      <button type="submit" class="akd-check" data-akd-check data-i18n="akd.check">Check</button>
+    </form>
+
+    <div class="akd-feedback" data-akd-feedback aria-live="polite" hidden></div>
+    <button type="button" class="akd-next" data-akd-next hidden data-i18n="akd.next">Next</button>
+
+    <div class="akd-done" data-akd-done hidden>
+      <p class="akd-done-title" data-akd-done-title></p>
+      <p class="akd-done-text" data-akd-done-text></p>
+      <button type="button" class="akd-check" data-akd-again data-i18n="akd.again">New dictation</button>
+    </div>
+  </div>
+
+  <script type="application/json" id="akd-data" set:html={JSON.stringify({ round: ROUND, pool })}></script>
+</section>
+
+<script>
+  import { mountDiktat } from "../lib/artikelDiktat.js";
+  const root = document.querySelector<HTMLElement>("[data-akd]");
+  const raw = document.getElementById("akd-data")?.textContent;
+  if (root && raw) mountDiktat(root, JSON.parse(raw));
+</script>

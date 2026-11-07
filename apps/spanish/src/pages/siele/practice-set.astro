@@ -1,0 +1,368 @@
+---
+import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
+// SIELE reading and writing (the testdaf slot) on the exam shell (src/lib/examApp.js), built
+// like the S2 modality but shorter. Two things are said out loud on the Start part: the
+// structure comes from the public exam guide, and every text and item is written by
+// icanspeak Spanish. Task 1 follows a real SIELE task type; tasks 2 and 3 are plain reading
+// practice, and the real gap-text tasks are in the band sets on /siele/levels.
+//
+// Listening is deliberately absent: it needs recordings. The band sets have listening
+// scripts to read until audio exists.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import ExamApp from "../../components/ExamApp.astro";
+import "../../styles/practice.css";
+import "../../styles/pruefungen.css";
+import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
+---
+<Layout
+  title="SIELE: reading practice – icanspeak Spanish"
+  description="Practise for the SIELE reading module in exam style, plus a writing task — with progress for each task and a score. Not an official test."
+>
+  <SiteNav active="pruefungen" />
+  <main class="practice-main practice-main--wide practice-main--trainer">
+    <a href="/siele" class="vp-back-link" data-i18n="exam.backToTestdaf">Back to the SIELE page</a>
+
+    <div class="practice-hero">
+      <p class="eyebrow"><span translate="no">SIELE</span> · <span data-i18n="exam.h1.set">Practice set</span></p>
+      <h1><span class="hero-exam" translate="no">SIELE</span> <span data-i18n="exam.h1.readWrite">Reading and writing</span></h1>
+      <p data-i18n="tdf.hero.text">
+        Reading tasks in the style of the SIELE, plus a writing task. How
+        the tasks were made is explained in the “Start” part — please read it once.
+      </p>
+    </div>
+    <ExamDisclaimer />
+
+    <ExamApp brand="SIELE" sub="Reading · Writing" subKey="tdf.sub" unit="tasks" />
+  </main>
+
+  <script type="application/json" id="tdaf-data" set:html={JSON.stringify(satz)}></script>
+  <script type="module">
+    import { mountExamApp } from "../../lib/examApp.js";
+    import { withBase } from "../../lib/paths.js";
+    import { choiceCard, el, sectionHeader, escapeHtml, practiceToggle } from "../../lib/exam/renderHelpers.js";
+    import { countAnswered, countCorrect, percent } from "../../lib/exam/scoring.js";
+    import { recordAttempt } from "../../lib/progress.js";
+    import { readyExamI18n, tx } from "../../lib/exam/i18n.js";
+
+    /* Resolved once, before the app mounts, rather than re-rendered on every language
+       change. This page is a running exam: its sections are built from one config array
+       at mount and hold answers already typed, so rebuilding them mid-sitting to change a
+       table header would be a poor trade. The surrounding page still re-translates
+       instantly via data-i18n; the simulator's own chrome follows on the next visit.
+       Exam CONTENT is untouched — prompts, options and transcripts stay German. */
+    await readyExamI18n();
+    const t = (key, vars) => tx(key, key, vars);
+    const T = (key, de, vars) => tx(key, de, vars);
+
+    const data = JSON.parse(document.getElementById("tdaf-data").textContent);
+    const { leseverstehen: lv, schreiben } = data;
+    const LETTERS = "abcdefgh";
+    const idsOf = (part) => part.items.map((i) => i.id);
+
+    const a1Ids = idsOf(lv.aufgabe1);
+    const a2Ids = idsOf(lv.aufgabe2);
+    const a3Ids = idsOf(lv.aufgabe3);
+    const allLeseIds = [...a1Ids, ...a2Ids, ...a3Ids];
+
+    /* A long text the items below are answered against. Collapsible, because at ~330
+       words it is four phone screens, and once you have read it you want it out of the
+       way — but it must still be reachable while answering, so it collapses in place
+       rather than disappearing. */
+    function readingText(text) {
+      const box = el("div", "lese-text lese-text--long");
+      box.lang = "es";
+      box.appendChild(el("p", "lese-text-label", escapeHtml(text.label)));
+      if (text.title) box.appendChild(el("h3", "lese-text-title", escapeHtml(text.title)));
+      const body = el("div", "lese-text-body");
+      for (const para of text.body.split("\n\n")) body.appendChild(el("p", null, escapeHtml(para)));
+      box.appendChild(body);
+
+      const toggle = el("button", "quiz-btn quiz-btn--ghost", t("exam.hideText"));
+      toggle.type = "button";
+      toggle.addEventListener("click", () => {
+        const folded = box.classList.toggle("is-folded");
+        toggle.textContent = t(folded ? "exam.showText" : "exam.hideText");
+      });
+      box.appendChild(toggle);
+      return box;
+    }
+
+    const sections = [
+      {
+        key: "start",
+        label: "Start",
+        labelKey: "exam.sec.start",
+        ids: null,
+        render(main, ctx) {
+          sectionHeader(main, {
+            eyebrow: t("exam.h1.set"),
+            title: "SIELE — " + T("exam.h1.readWrite", "Reading and writing"),
+            instruction: escapeHtml(T("tdf.start.intro",
+              "The SIELE has no pass mark: each test gets a score from 0 to 250 and a CEFR level, and each institution decides what it asks for.")),
+          });
+
+          const facts = el("table", "exam-breakdown");
+          facts.innerHTML =
+            "<thead><tr><th>" + escapeHtml(t("format.th.task")) + "</th><th>" + escapeHtml(t("format.th.todo")) + "</th></tr></thead><tbody>" +
+            "<tr><td>" + escapeHtml(t("skill.lesen")) + " 1</td><td>" + escapeHtml(t("tdf.row.lesen1")) + "</td></tr>" +
+            "<tr><td>" + escapeHtml(t("skill.lesen")) + " 2</td><td>" + escapeHtml(t("tdf.row.lesen2")) + "</td></tr>" +
+            "<tr><td>" + escapeHtml(t("skill.lesen")) + " 3</td><td>" + escapeHtml(t("tdf.row.lesen3")) + "</td></tr>" +
+            "<tr><td>" + escapeHtml(t("skill.schreiben")) + "</td><td>" + escapeHtml(t("tdf.row.schreiben")) + "</td></tr>" +
+            "</tbody>";
+          main.appendChild(el("div", "exam-result")).appendChild(facts);
+
+          // The sourcing note is not a footnote here: this set is shorter than the real
+          // test and only partly in its task types, so it goes above the start button.
+          main.appendChild(el("p", "format-note format-note--loud", escapeHtml(T("tdf.sourcing", data.sourcing))));
+          main.appendChild(el("p", "format-note", escapeHtml(T("tdf.scoringNote", data.scoringNote))));
+          main.appendChild(
+            el("p", "format-note", escapeHtml(T("tdf.noListening",
+              "Listening and speaking aren't in this set. For every task type, including those two, use the SIELE sets by level.")))
+          );
+
+          const go = el("button", "quiz-btn quiz-btn--primary", t("exam.startSet"));
+          go.type = "button";
+          go.addEventListener("click", () => ctx.goTo("lesen1"));
+          main.appendChild(el("div", "exam-actions")).appendChild(go);
+        },
+      },
+
+      {
+        key: "lesen1",
+        label: "Lesen 1",
+        labelKey: "exam.sec.lesen1",
+        ids: a1Ids,
+        render(main, ctx) {
+          const a = lv.aufgabe1;
+          sectionHeader(main, { eyebrow: T("tdf.eb.lesen", "Leseverstehen · Aufgabe {n}", { n: 1 }), title: a.title, instruction: escapeHtml(a.instruction) });
+
+          // The three texts, then the eight statements. Each text is its own small card
+          // rather than one block of prose: you scan these to find the statement.
+          const ads = el("div", "ad-grid");
+          ads.lang = "es";
+          for (const ad of a.anzeigen) {
+            const card = el("div", "ad-card");
+            card.appendChild(el("p", "ad-card-title", escapeHtml(ad.title)));
+            card.appendChild(el("p", "ad-card-body", escapeHtml(ad.body)));
+            ads.appendChild(card);
+          }
+          main.appendChild(ads);
+
+          // Options are the text letters, labelled with a short gist so a phone row stays
+          // short: the full texts are right above. In this task every statement fits a text.
+          const options = a.anzeigen.map((ad) => ({ key: ad.key, label: ad.gist }));
+          a.items.forEach((item, i) => {
+            main.appendChild(
+              choiceCard({
+                qLabel: T("exam.qLabel.task", "Aufgabe {n}", { n: i + 1 }),
+                questionText: item.situation,
+                options,
+                correctKey: item.answer,
+                layout: "grid",
+                existing: ctx.state.answers[item.id],
+                onAnswer: (given, correct) => ctx.record(item.id, given, correct),
+                meldung: `x:testdaf/${data.setId}/${item.id}`.toLowerCase(),
+                contentLang: "es",
+              })
+            );
+          });
+        },
+      },
+
+      {
+        key: "lesen2",
+        label: "Lesen 2",
+        labelKey: "exam.sec.lesen2",
+        ids: a2Ids,
+        render(main, ctx) {
+          const a = lv.aufgabe2;
+          sectionHeader(main, { eyebrow: T("tdf.eb.lesen", "Leseverstehen · Aufgabe {n}", { n: 2 }), title: a.title, instruction: escapeHtml(a.instruction) });
+          main.appendChild(readingText(a.text));
+          a.items.forEach((item, i) => {
+            main.appendChild(
+              choiceCard({
+                qLabel: T("exam.qLabel.task", "Aufgabe {n}", { n: i + 1 + a1Ids.length }),
+                questionText: item.prompt,
+                options: item.options.map((o, n) => ({ key: LETTERS[n], label: o })),
+                correctKey: LETTERS[item.options.indexOf(item.answer)],
+                existing: ctx.state.answers[item.id],
+                onAnswer: (given, correct) => ctx.record(item.id, given, correct),
+                meldung: `x:testdaf/${data.setId}/${item.id}`.toLowerCase(),
+                contentLang: "es",
+              })
+            );
+          });
+        },
+      },
+
+      {
+        key: "lesen3",
+        label: "Lesen 3",
+        labelKey: "exam.sec.lesen3",
+        ids: a3Ids,
+        render(main, ctx) {
+          const a = lv.aufgabe3;
+          sectionHeader(main, { eyebrow: T("tdf.eb.lesen", "Leseverstehen · Aufgabe {n}", { n: 3 }), title: a.title, instruction: escapeHtml(a.instruction) });
+          main.appendChild(readingText(a.text));
+          a.items.forEach((item, i) => {
+            main.appendChild(
+              choiceCard({
+                qLabel: T("exam.qLabel.task", "Aufgabe {n}", { n: i + 1 + a1Ids.length + a2Ids.length }),
+                questionText: item.prompt,
+                options: item.options.map((o, n) => ({ key: LETTERS[n], label: o })),
+                correctKey: LETTERS[item.options.indexOf(item.answer)],
+                existing: ctx.state.answers[item.id],
+                onAnswer: (given, correct) => ctx.record(item.id, given, correct),
+                meldung: `x:testdaf/${data.setId}/${item.id}`.toLowerCase(),
+                contentLang: "es",
+              })
+            );
+          });
+        },
+      },
+
+      {
+        key: "schreiben",
+        label: "Schreiben",
+        labelKey: "skill.schreiben",
+        // Not auto-graded — an opinion text is marked by a human. It carries a
+        // "geübt" mark so it counts as done without pretending to be scored.
+        ids: ["tdaf-schreiben"],
+        render(main, ctx) {
+          sectionHeader(main, {
+            eyebrow: T("tdf.eb.schreiben", "Schriftlicher Ausdruck"),
+            title: schreiben.thema,
+            instruction: escapeHtml(schreiben.instruction),
+          });
+
+          // The SIELE opinion task starts from a headline, so the old chart task is gone.
+          main.appendChild(el("h3", "sub-title", escapeHtml(T("tdf.yourTask", "Ihre Aufgabe"))));
+          const task = el("ul", "task-points");
+          task.lang = "es";
+          for (const t of schreiben.aufgabe) task.appendChild(el("li", null, escapeHtml(t)));
+          main.appendChild(task);
+
+          const box = el("textarea", "write-box");
+          box.rows = 12;
+          box.placeholder = T("tdf.write.placeholder", "Schreibe deinen Text hier …");
+          box.setAttribute("aria-label", T("tdf.write.aria", "Dein Text"));
+          try {
+            box.value = localStorage.getItem("da-tdaf-schreiben") ?? "";
+            box.addEventListener("input", () => localStorage.setItem("da-tdaf-schreiben", box.value));
+          } catch {}
+          main.appendChild(box);
+
+          const words = el("p", "word-count");
+          const paint = () => {
+            const n = box.value.trim() ? box.value.trim().split(/\s+/).length : 0;
+            words.textContent = T("tdf.write.words", "{n} Wörter", { n });
+          };
+          paint();
+          box.addEventListener("input", paint);
+          main.appendChild(words);
+
+          /* Aufbau, Redemittel and the checklist are help, not task — so they are
+             behind one button rather than three screens of scaffolding above the box
+             the learner is supposed to be writing in. */
+          const helpBtn = el("button", "quiz-btn quiz-btn--ghost", escapeHtml(T("tdf.help.show", "Aufbau, Redemittel und Checkliste zeigen")));
+          helpBtn.type = "button";
+          const help = el("div", "model-answer");
+          help.hidden = true;
+
+          help.appendChild(el("p", "lese-text-label", escapeHtml(T("tdf.help.structure", "Aufbau"))));
+          const steps = el("ol", "task-points");
+          for (const a of schreiben.aufbau) steps.appendChild(el("li", null, escapeHtml(a)));
+          help.appendChild(steps);
+
+          help.appendChild(el("p", "lese-text-label", escapeHtml(T("tdf.help.phrases", "Redemittel"))));
+          const rm = el("ul", "task-points");
+          rm.lang = "es";
+          for (const r of schreiben.redemittel) rm.appendChild(el("li", null, escapeHtml(r)));
+          help.appendChild(rm);
+
+          help.appendChild(el("p", "lese-text-label", escapeHtml(T("exam.checklist", "Checkliste"))));
+          const ck = el("ul", "task-points");
+          for (const c of schreiben.checklist) ck.appendChild(el("li", null, escapeHtml(c)));
+          help.appendChild(ck);
+
+          helpBtn.addEventListener("click", () => {
+            help.hidden = !help.hidden;
+            helpBtn.textContent = help.hidden
+              ? T("tdf.help.show", "Aufbau, Redemittel und Checkliste zeigen")
+              : T("tdf.help.hide", "Aufbau, Redemittel und Checkliste verbergen");
+          });
+          main.appendChild(el("div", "exam-actions")).appendChild(helpBtn);
+          main.appendChild(help);
+
+          main.appendChild(
+            practiceToggle({
+              existing: ctx.state.answers["tdaf-schreiben"],
+              onToggle: (marked) => ctx.record("tdaf-schreiben", marked ? "done" : "", marked),
+            })
+          );
+        },
+      },
+
+      {
+        key: "ergebnis",
+        label: "Ergebnis",
+        labelKey: "exam.sec.result",
+        ids: null,
+        render(main, ctx) {
+          const answered = countAnswered(allLeseIds, ctx.state);
+          const correct = countCorrect(allLeseIds, ctx.state);
+          const pct = percent(correct, allLeseIds.length);
+
+          sectionHeader(main, { eyebrow: T("exam.result.eyebrow", "Auswertung"), title: T("tdf.result.title", "Dein Ergebnis im Leseverstehen") });
+
+          const card = el("div", "exam-result");
+          if (!answered) {
+            card.appendChild(el("p", "instruction", escapeHtml(T("tdf.result.empty", "Noch keine Aufgabe beantwortet — fang bei „Lesen 1“ an."))));
+          } else {
+            card.appendChild(el("div", "exam-score", correct + " <small>" + escapeHtml(T("exam.result.ofCorrect", "von {n} richtig", { n: allLeseIds.length })) + "</small>"));
+            // Explicitly not a SIELE score. The SIELE scores each test separately and every
+            // institution sets its own requirement, so a percentage here is feedback on
+            // this practice set and nothing more.
+            const band = pct >= 80 ? ["", t("tdf.verdict.strong")]
+              : pct >= 60 ? ["mid", t("tdf.verdict.mid")]
+              : ["low", t("tdf.verdict.low")];
+            card.appendChild(el("span", "exam-band " + band[0], band[1]));
+            card.appendChild(el("p", "instruction", escapeHtml(T("tdf.result.pct", "{pct}% correct. This is not a SIELE score — see the note below.", { pct }))));
+
+            const table = el("table", "exam-breakdown");
+            table.innerHTML =
+              "<thead><tr><th>" + escapeHtml(t("format.th.task")) + "</th><th>" + escapeHtml(t("exam.th.correct")) + "</th></tr></thead><tbody>" +
+              "<tr><td>1 · " + escapeHtml(T("tdf.type.matching", "Matching")) + "</td><td>" + countCorrect(a1Ids, ctx.state) + " / " + a1Ids.length + "</td></tr>" +
+              "<tr><td>2 · " + escapeHtml(T("tdf.type.article", "Article")) + "</td><td>" + countCorrect(a2Ids, ctx.state) + " / " + a2Ids.length + "</td></tr>" +
+              "<tr><td>3 · " + escapeHtml(T("tdf.type.essay", "Essay")) + "</td><td>" + countCorrect(a3Ids, ctx.state) + " / " + a3Ids.length + "</td></tr>" +
+              "</tbody>";
+            card.appendChild(table);
+
+            if (answered < allLeseIds.length) {
+              card.appendChild(el("p", "instruction", escapeHtml(T("exam.result.openTasks", "Noch offen: {n} Aufgaben.", { n: allLeseIds.length - answered }))));
+            }
+          }
+          main.appendChild(card);
+          main.appendChild(el("p", "format-note", escapeHtml(T("tdf.scoringNote", data.scoringNote))));
+
+          const actions = el("div", "exam-actions");
+          const back = el("a", "quiz-btn", escapeHtml(T("tdf.toPage", "To the SIELE page")));
+          back.href = withBase("/siele");
+          actions.appendChild(back);
+          main.appendChild(actions);
+        },
+      },
+    ];
+
+    mountExamApp(document.querySelector("[data-exam-root]"), {
+      examId: "testdaf",
+      // traffic-baseline: exam_start / exam_finish
+      meta: { exam: "testdaf", set: data.setId },
+      unit: "tasks",
+      unitKey: "exam.unit.tasks",
+      sections,
+      onAnswer: (ok) => recordAttempt({ skill: "pruefungen", correct: ok }),
+    });
+  </script>
+</Layout>

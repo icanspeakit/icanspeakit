@@ -1,0 +1,63 @@
+---
+// The official facts of an exam as plain HTML above a practice set (SEO-BRAND-TIERED-PROMPT.md
+// Tier 4): parts, times, points, how it is scored, and where that is written. It is what a
+// learner wants to know before starting, and what search engines and AI answers can read
+// without running the trainer. Every number comes from the official source listed under it;
+// `checked` is the day those sources were read.
+//
+//   <ExamFacts title="So ist der DTZ aufgebaut" titleKey="…" head={[…]} rows={[[…], …]}
+//              notes={[{ key, html }]} sources={[{ label, url }]} checked="04.10.2026" />
+//
+// A cell is a string, or { text, key } when it has a translation in public/i18n/*.json.
+// The first cell of each row is the row header.
+import "../styles/pruefungen.css";
+
+type Cell = string | { text: string; key?: string };
+interface Props {
+  title: string;
+  titleKey?: string;
+  head?: Cell[];
+  rows: Cell[][];
+  notes?: { key?: string; html: string }[];
+  sources: { label: string; url: string }[];
+  checked: string;
+}
+const { title, titleKey, head = [], rows, notes = [], sources, checked } = Astro.props;
+const text = (c: Cell) => (typeof c === "string" ? c : c.text);
+const key = (c: Cell) => (typeof c === "string" ? undefined : c.key);
+const id = `ef-${Math.abs([...title].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) | 0, 7)).toString(36)}`;
+---
+<section class="exam-facts" aria-labelledby={id}>
+  <h2 id={id} data-i18n={titleKey}>{title}</h2>
+  <div class="format-table-wrap">
+    <table class="format-table">
+      {head.length > 0 && (
+        <thead><tr>{head.map((c) => <th scope="col" data-i18n={key(c)}>{text(c)}</th>)}</tr></thead>
+      )}
+      <tbody>
+        {rows.map((r) => (
+          <tr>
+            {r.map((c, i) => (i === 0
+              ? <th scope="row" data-i18n={key(c)}>{text(c)}</th>
+              : <td data-i18n={key(c)}>{text(c)}</td>))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  {notes.map((n) => <p class="format-note" data-i18n-html={n.key} set:html={n.html} />)}
+  <p class="format-note exam-facts-src">
+    <span data-i18n="examFacts.sources">Quellen:</span>{" "}
+    {sources.map((s, i) => (
+      <>{i > 0 && " · "}<a href={s.url} rel="noopener">{s.label}</a></>
+    ))}.{" "}
+    <span data-i18n="ps.format.checked" data-i18n-vars={JSON.stringify({ d: checked })}>Stand: {checked}</span>
+  </p>
+</section>
+
+<style>
+  .exam-facts { margin: 18px 0 22px; }
+  .exam-facts h2 { margin: 0 0 10px; font-size: 1.15rem; }
+  .exam-facts .format-table th[scope="row"] { font-weight: 600; text-align: start; }
+  .exam-facts .format-note { margin: 10px 0 0; }
+</style>

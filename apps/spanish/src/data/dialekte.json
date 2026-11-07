@@ -1,0 +1,407 @@
+{
+  "_comment": "Content for /knowledge/accents: varieties of Spanish in Spain, Spain's own languages, and the varieties of Latin America as notes. Names, places and examples ([local form, plain English]) are not translated; the descriptions are in public/i18n/en.json under dialekte.r.* (areas), dialekte.m.* (dots), dialekte.w.* (world notes) and dialekte.group.*. Markers with lang: true are languages, not accents. words: `de` holds what the map asks about. lines: `benrath` is the line of weak final s (los niños with a clear s north of it), `speyer` the line of seseo and ceceo (cinco with /θ/ north and east of it); the key names are kept from the German page. shift: one row per word, columns in the order of groups. Coordinates for the Canary Islands are real; the generator moves them into an inset box. Geometry: scripts/generate-dialekte-karte.mjs → dialekte-karte.json.",
+  "groups": [
+    { "id": "norte", "regions": ["centro", "asturias", "aragon"] },
+    { "id": "transicion", "regions": ["mancha", "extremadura", "murcia"] },
+    { "id": "andalucia", "regions": ["andaluciaoc", "andaluciaor"] },
+    { "id": "canarias", "regions": ["canarias"] },
+    { "id": "bilingue", "regions": ["catalunya", "valencia", "galicia", "euskadi"] }
+  ],
+  "regions": [
+    {
+      "id": "centro",
+      "name": "Castile and Madrid",
+      "alias": "castellano del centro y del norte",
+      "short": "Castile\nand Madrid",
+      "color": "#a9b9ef",
+      "label": [-4.1, 41.65],
+      "places": ["Madrid", "Valladolid", "Burgos", "Salamanca", "Segovia", "Logroño"],
+      "say": [
+        ["Le vi ayer.", "I saw him yesterday. (leísmo: le for lo)"],
+        ["Madriz", "Madrid: a final d can sound like z here"],
+        ["cansao", "cansado: casual speech drops the d"]
+      ]
+    },
+    {
+      "id": "asturias",
+      "name": "Asturias and Cantabria",
+      "alias": "Spanish with an Asturian or Cantabrian colour",
+      "short": "Asturias,\nCantabria",
+      "color": "#93d2ec",
+      "label": [-4.45, 43.2],
+      "places": ["Oviedo", "Gijón", "Avilés", "Santander", "Torrelavega"],
+      "say": [
+        ["pequeñín, pequeñina", "small (-ín in Asturias)"],
+        ["pequeñuco, pequeñuca", "small (-uco in Cantabria)"],
+        ["Me presta.", "I like it. (Asturias)"],
+        ["guaje", "kid (Asturias)"]
+      ]
+    },
+    {
+      "id": "aragon",
+      "name": "Aragon",
+      "alias": "Spanish as spoken in Aragon",
+      "short": "Aragon",
+      "color": "#7fb3e0",
+      "label": [-0.75, 41.45],
+      "places": ["Zaragoza", "Huesca", "Teruel"],
+      "say": [
+        ["pequeñico, pequeñica", "small"],
+        ["¡Maño! ¡Maña!", "a friendly way to call someone; also a nickname for people from Aragon"],
+        ["zagal, zagala", "boy, girl"]
+      ]
+    },
+    {
+      "id": "mancha",
+      "name": "Castilla-La Mancha",
+      "alias": "castellano manchego",
+      "short": "Castilla-\nLa Mancha",
+      "color": "#e8de8c",
+      "label": [-3.05, 39.35],
+      "places": ["Toledo", "Ciudad Real", "Albacete", "Cuenca", "Guadalajara"],
+      "say": [
+        ["¡Ea!", "right then, there you go: a very common filler"],
+        ["loh niñoh", "los niños: in the south of the region the final s weakens"],
+        ["zagal, zagala", "boy, girl (Albacete)"]
+      ]
+    },
+    {
+      "id": "extremadura",
+      "name": "Extremadura",
+      "alias": "Spanish as spoken in Extremadura",
+      "short": "Extremadura",
+      "color": "#b8da8c",
+      "label": [-6.05, 39.2],
+      "places": ["Cáceres", "Badajoz", "Mérida", "Plasencia"],
+      "say": [
+        ["chiquino, chiquinino", "small, tiny"],
+        ["loh niñoh", "los niños: the final s becomes a breath"],
+        ["hamón", "jamón: the j is soft, like an English h"]
+      ]
+    },
+    {
+      "id": "murcia",
+      "name": "Region of Murcia",
+      "alias": "murciano",
+      "short": "Murcia",
+      "color": "#fdba74",
+      "label": [-1.45, 38.02],
+      "places": ["Murcia", "Cartagena", "Lorca", "Yecla"],
+      "say": [
+        ["¡Acho!", "hey, mate (from muchacho)"],
+        ["un momentico", "just a moment"],
+        ["¡Pijo!", "wow, damn (a strong word, for friends only)"],
+        ["zagal, zagala", "boy, girl"]
+      ]
+    },
+    {
+      "id": "andaluciaoc",
+      "name": "Western Andalusia",
+      "alias": "andaluz occidental",
+      "short": "Western\nAndalusia",
+      "color": "#fca5a5",
+      "label": [-4.95, 37.95],
+      "places": ["Seville", "Cádiz", "Huelva", "Córdoba", "Málaga"],
+      "say": [
+        ["¡Quillo!", "mate! (from chiquillo)"],
+        ["ustedes vais", "vosotros vais: ustedes for vosotros in popular speech"],
+        ["cansá", "cansada: the end of the word falls away"]
+      ]
+    },
+    {
+      "id": "andaluciaor",
+      "name": "Eastern Andalusia",
+      "alias": "andaluz oriental",
+      "short": "Eastern\nAndalusia",
+      "color": "#f9a8d4",
+      "label": [-3.05, 37.5],
+      "places": ["Granada", "Almería", "Jaén", "Motril"],
+      "say": [
+        ["lah casah", "las casas: the s fades, and more open vowels show the plural"],
+        ["Graná", "Granada"],
+        ["¡Cucha!", "listen! (from escucha)"],
+        ["la malafollá", "Granada's famous curt manner, said with a wink"]
+      ]
+    },
+    {
+      "id": "canarias",
+      "name": "Canary Islands",
+      "alias": "canario",
+      "short": "Canary Islands",
+      "color": "#fcd34d",
+      "label": [-15.9, 29.3],
+      "places": ["Las Palmas", "Santa Cruz de Tenerife", "La Laguna", "Lanzarote", "Fuerteventura", "La Palma"],
+      "say": [
+        ["la guagua", "the bus"],
+        ["las papas", "the potatoes"],
+        ["¡Chacho!", "hey! wow! (from muchacho)"],
+        ["ustedes", "you, to a group: friends too, no vosotros"]
+      ]
+    },
+    {
+      "id": "catalunya",
+      "name": "Catalonia and the Balearic Islands",
+      "alias": "Spanish beside Catalan",
+      "short": "Catalonia",
+      "color": "#c4b5fd",
+      "label": [1.55, 41.45],
+      "places": ["Barcelona", "Girona", "Lleida", "Tarragona", "Palma", "Ibiza"],
+      "say": [
+        ["nen, nena", "kid; also friendly: ¿Qué dices, nen?"],
+        ["plegar", "to finish work: Plego a las seis."],
+        ["Madrit", "Madrid: a final d sounds like t"]
+      ]
+    },
+    {
+      "id": "valencia",
+      "name": "Valencian Community",
+      "alias": "Spanish beside Valencian",
+      "short": "Valencia",
+      "color": "#6fc2b4",
+      "label": [-0.62, 39.45],
+      "places": ["Valencia", "Alicante", "Castellón", "Elche"],
+      "say": [
+        ["¡Xe!", "hey! wow!"],
+        ["xiquet, xiqueta", "kid"],
+        ["el esmorzaret", "the mid-morning sandwich break"]
+      ]
+    },
+    {
+      "id": "galicia",
+      "name": "Galicia",
+      "alias": "Spanish beside Galician",
+      "short": "Galicia",
+      "color": "#9fd6cf",
+      "label": [-7.9, 42.75],
+      "places": ["A Coruña", "Vigo", "Santiago de Compostela", "Ourense", "Lugo"],
+      "say": [
+        ["un momentiño", "just a moment"],
+        ["neno, nena", "kid; also friendly"],
+        ["Malo será.", "It can't be that bad."],
+        ["Hoy comí pronto.", "Hoy he comido pronto: simple past where Castile uses the perfect"]
+      ]
+    },
+    {
+      "id": "euskadi",
+      "name": "Basque Country and Navarre",
+      "alias": "Spanish beside Basque",
+      "short": "Basque\nCountry,\nNavarre",
+      "color": "#5eead4",
+      "label": [-1.85, 42.55],
+      "places": ["Bilbao", "San Sebastián", "Vitoria-Gasteiz", "Pamplona", "Tudela"],
+      "say": [
+        ["el sirimiri", "fine drizzle"],
+        ["aita, ama", "dad, mum"],
+        ["agur", "bye"],
+        ["Si tendría tiempo…", "Si tuviera tiempo: conditional for subjunctive. Hear it, don't copy it."]
+      ]
+    }
+  ],
+  "markers": [
+    {
+      "id": "madrid",
+      "name": "Madrid speech",
+      "where": "Madrid",
+      "at": [-3.7, 40.42],
+      "say": [
+        ["chulapo, chulapa", "a traditional Madrid character, in costume at the summer fiestas"],
+        ["mogollón", "loads, a lot"],
+        ["La dije que sí.", "I told her yes. (laísmo: heard often, but not standard)"]
+      ]
+    },
+    {
+      "id": "sevilla",
+      "name": "Seville speech",
+      "where": "Seville",
+      "at": [-5.98, 37.39],
+      "say": [
+        ["mi arma", "my dear (mi alma, my soul)"],
+        ["¡Ozú!", "wow! (from Jesús)"],
+        ["¡Illo!", "mate! (short for chiquillo)"]
+      ]
+    },
+    {
+      "id": "cadiz",
+      "name": "Cádiz speech",
+      "where": "Cádiz",
+      "at": [-6.29, 36.53],
+      "say": [
+        ["Cai", "Cádiz, as locals say it"],
+        ["pisha", "mate (casual; friends only)"],
+        ["la chirigota", "a comic song group at carnival"]
+      ]
+    },
+    {
+      "id": "ceuta",
+      "name": "Ceuta and Melilla",
+      "where": "Spanish cities in North Africa; Melilla lies east of this map",
+      "at": [-5.32, 35.89],
+      "say": []
+    },
+    {
+      "id": "catala",
+      "name": "Catalan / Valencian",
+      "where": "català, valencià · Catalonia, the Balearic Islands, the Valencian Community",
+      "at": [1.9, 41.95],
+      "lang": true,
+      "say": [
+        ["Bon dia!", "Good morning!"],
+        ["Gràcies!", "Thank you!"]
+      ]
+    },
+    {
+      "id": "gallego",
+      "name": "Galician",
+      "where": "galego · Galicia",
+      "at": [-8.3, 42.3],
+      "lang": true,
+      "say": [
+        ["Bos días!", "Good morning!"],
+        ["Grazas!", "Thank you!"]
+      ]
+    },
+    {
+      "id": "euskera",
+      "name": "Basque",
+      "where": "euskara · the Basque Country and the north of Navarre",
+      "at": [-2.75, 43.2],
+      "lang": true,
+      "say": [
+        ["Egun on!", "Good morning!"],
+        ["Eskerrik asko!", "Thank you!"]
+      ]
+    },
+    {
+      "id": "aranes",
+      "name": "Aranese",
+      "where": "aranés (Occitan) · Val d'Aran, Catalonia",
+      "at": [0.8, 42.72],
+      "lang": true,
+      "say": [
+        ["Bon dia!", "Good morning!"],
+        ["Mercés!", "Thank you!"]
+      ]
+    },
+    {
+      "id": "asturiano",
+      "name": "Asturian",
+      "where": "asturianu · Asturias",
+      "at": [-6.7, 43.28],
+      "lang": true,
+      "say": [
+        ["Bonos díes!", "Good morning!"],
+        ["Gracies!", "Thank you!"]
+      ]
+    },
+    {
+      "id": "aragones",
+      "name": "Aragonese",
+      "where": "aragonés · valleys of the Pyrenees in Aragon",
+      "at": [-0.2, 42.55],
+      "lang": true,
+      "say": [
+        ["Buen día!", "Good morning!"],
+        ["Grazias!", "Thank you!"]
+      ]
+    }
+  ],
+  "others": [
+    { "id": "atlantic", "name": "Atlantic Ocean", "at": [-10.9, 41.2] },
+    { "id": "biscay", "name": "Bay of Biscay", "at": [-4.5, 44.25] },
+    { "id": "med", "name": "Mediterranean Sea", "at": [2.1, 37.7] },
+    { "id": "portugal", "name": "Portugal", "at": [-8.05, 39.95] },
+    { "id": "france", "name": "France", "at": [1.5, 43.75] },
+    { "id": "morocco", "name": "Morocco", "at": [-1.6, 35.72] }
+  ],
+  "words": [
+    {
+      "id": "mate",
+      "de": "hey, mate",
+      "variants": [
+        { "w": "¡Tío! ¡Tía!", "regions": ["centro", "asturias", "mancha", "extremadura", "euskadi"] },
+        { "w": "¡Quillo!", "regions": ["andaluciaoc", "andaluciaor"] },
+        { "w": "¡Acho!", "regions": ["murcia"] },
+        { "w": "¡Chacho!", "regions": ["canarias"] },
+        { "w": "¡Maño!", "regions": ["aragon"] },
+        { "w": "¡Nen!", "regions": ["catalunya"] },
+        { "w": "¡Xe!", "regions": ["valencia"] },
+        { "w": "¡Neno!", "regions": ["galicia"] }
+      ]
+    },
+    {
+      "id": "momento",
+      "de": "just a moment",
+      "variants": [
+        { "w": "momentito", "regions": ["centro", "canarias", "catalunya", "valencia", "euskadi"] },
+        { "w": "momentillo", "regions": ["andaluciaoc", "andaluciaor", "mancha"] },
+        { "w": "momentico", "regions": ["murcia", "aragon"] },
+        { "w": "momentín, momentuco", "regions": ["asturias"] },
+        { "w": "momentiño", "regions": ["galicia"] },
+        { "w": "momentino", "regions": ["extremadura"] }
+      ]
+    }
+  ],
+  "lines": {
+    "benrath": [[-7.1, 40.55], [-6.3, 40.5], [-5.4, 40.3], [-4.4, 40.05], [-3.5, 39.85], [-2.5, 39.6], [-1.7, 39.2], [-1, 38.75], [-0.4, 38.55]],
+    "speyer": [[-7.4, 37.95], [-6.3, 37.85], [-5.2, 37.75], [-4.3, 37.45], [-3.7, 37.2], [-3.2, 36.95], [-2.6, 36.7]],
+    "benrathAt": [-6.55, 40.5],
+    "speyerAt": [-6.75, 37.9]
+  },
+  "shift": [
+    ["cinco", "/θ/, as in think", "/θ/", "/s/ or /θ/, by place", "/s/", "/θ/; /s/ from some Catalan and Galician speakers"],
+    ["los niños", "clear s", "weak: loh niñoh", "weak or gone: loh niñoh, lo niño", "weak: loh niñoh", "clear s"],
+    ["jamón", "strong /x/", "softer, near /h/ in the south", "soft /h/", "soft /h/", "/x/"],
+    ["Madrid", "Madriz or Madrí", "Madrí", "Madrí", "Madrí", "Madrit in Catalonia and Valencia"],
+    ["calle", "like y (yeísmo)", "like y", "like y", "like y", "like y; some older speakers keep /ʎ/"],
+    ["vosotros", "vosotros", "vosotros", "vosotros; ustedes in much of the west", "ustedes", "vosotros"]
+  ],
+  "world": [
+    {
+      "id": "mexicano",
+      "name": "Mexico and Central America",
+      "say": [
+        ["ahorita", "in a moment, or sometime later"],
+        ["¿Mande?", "Sorry? Pardon? (Mexico)"],
+        ["el carro", "el coche, the car"]
+      ]
+    },
+    {
+      "id": "caribe",
+      "name": "The Caribbean",
+      "say": [
+        ["la guagua", "the bus (as in the Canary Islands)"],
+        ["chévere", "great"],
+        ["¿Qué tú quieres?", "¿Qué quieres? The subject stays before the verb."]
+      ]
+    },
+    {
+      "id": "andino",
+      "name": "The Andes",
+      "say": [
+        ["la chompa", "el jersey, the sweater"],
+        ["el choclo", "el maíz, corn on the cob"],
+        ["Pasa no más.", "Please, come in."]
+      ]
+    },
+    {
+      "id": "rioplatense",
+      "name": "The River Plate",
+      "say": [
+        ["vos tenés", "tú tienes, you have (voseo)"],
+        ["che", "hey, mate"],
+        ["sho", "yo: ll and y sound like sh"],
+        ["dale", "OK, sure"]
+      ]
+    },
+    {
+      "id": "chileno",
+      "name": "Chile",
+      "say": [
+        ["¿Cachai?", "Get it? (¿Entiendes?)"],
+        ["sí, po", "yes, of course (pues → po)"],
+        ["la polera", "la camiseta, the T-shirt"]
+      ]
+    }
+  ],
+  "variantColors": ["#93c5fd", "#fca5a5", "#6ee7b7", "#fcd34d", "#c4b5fd", "#f9a8d4", "#5eead4", "#fdba74"]
+}

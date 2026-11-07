@@ -1,0 +1,88 @@
+---
+// Which case a preposition takes, at a glance (`concept.caseMap` in src/data/grammatik/*.json):
+// three overlapping ovals like the classic textbook diagram — always Dativ (blue), the ones that
+// switch in the middle where both meet (Wo? or Wohin?), always Akkusativ (orange). The site's
+// case colours, as in the reference tables. Side by side in a wide column; stacked top to
+// bottom on a phone, where three ovals in a row would be too narrow to read.
+interface Props {
+  map: { title?: string; dativ: string[]; wechsel: string[]; akkusativ: string[]; note?: string };
+}
+const { map } = Astro.props;
+---
+<figure class="cm" lang="es">
+  {map.title && <figcaption class="cm-title">{map.title}</figcaption>}
+  <div class="cm-venn">
+    <span class="cm-oval cm-oval--dat" aria-hidden="true"></span>
+    <span class="cm-oval cm-oval--both" aria-hidden="true"></span>
+    <span class="cm-oval cm-oval--akk" aria-hidden="true"></span>
+
+    <div class="cm-zone cm-zone--dat">
+      <p class="cm-head">immer Dativ</p>
+      <ul class="cm-words">{map.dativ.map((w) => <li>{w}</li>)}</ul>
+    </div>
+    <div class="cm-zone cm-zone--both">
+      <ul class="cm-words">{map.wechsel.map((w) => <li>{w}</li>)}</ul>
+      <p class="cm-head">
+        <span class="cm-q cm-q--dat">Wo? → Dativ</span>
+        <span class="cm-q cm-q--akk">Wohin? → Akkusativ</span>
+      </p>
+    </div>
+    <div class="cm-zone cm-zone--akk">
+      <p class="cm-head">immer Akkusativ</p>
+      <ul class="cm-words">{map.akkusativ.map((w) => <li>{w}</li>)}</ul>
+    </div>
+  </div>
+  {map.note && <p class="cm-note">{map.note}</p>}
+</figure>
+
+<style>
+  .cm { container-type: inline-size; margin: 14px 0; }
+  .cm-title { margin: 0 0 8px; font-size: .8rem; font-weight: var(--fw-bold); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+
+  /* Phone first: the ovals stack, overlapping by a quarter of their height. */
+  .cm-venn { position: relative; aspect-ratio: 10 / 17; max-width: 420px; margin: 0 auto; }
+  .cm-oval { position: absolute; left: 0; right: 0; height: 40%; border-radius: 50%; }
+  .cm-oval--dat {
+    top: 0;
+    background: color-mix(in srgb, var(--brand-blue) 24%, transparent);
+    border: 1.5px solid color-mix(in srgb, var(--brand-blue) 45%, transparent);
+  }
+  .cm-oval--both {
+    top: 30%;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--brand-blue) 16%, transparent), color-mix(in srgb, var(--accent) 16%, transparent));
+    border: 2px solid var(--ink);
+  }
+  .cm-oval--akk {
+    top: 60%;
+    background: color-mix(in srgb, var(--accent) 24%, transparent);
+    border: 1.5px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+
+  .cm-zone { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+  .cm-zone--dat { top: 5%; bottom: 72%; left: 13%; right: 13%; }
+  .cm-zone--both { top: 31%; bottom: 31%; left: 6%; right: 6%; }
+  .cm-zone--akk { top: 72%; bottom: 5%; left: 13%; right: 13%; }
+  .cm-zone--akk .cm-head { order: 1; }
+
+  .cm-head { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 10px; margin: 0; font-size: .74rem; font-weight: var(--fw-bold); letter-spacing: .04em; text-align: center; }
+  .cm-zone--dat .cm-head, .cm-q--dat { color: var(--brand-blue-dark); }
+  .cm-zone--akk .cm-head, .cm-q--akk { color: var(--accent-dark); }
+  .cm-zone--dat .cm-head, .cm-zone--akk .cm-head { text-transform: uppercase; font-size: .8rem; letter-spacing: .08em; }
+  .cm-words { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 12px; margin: 0; padding: 0; list-style: none; font-size: 1.02rem; line-height: 1.55; color: var(--ink); text-align: center; }
+  .cm-zone--both .cm-words { font-weight: var(--fw-bold); font-size: 1.12rem; gap: 4px 14px; }
+  .cm-note { margin: 10px 0 0; font-size: .82rem; line-height: 1.5; color: var(--muted); }
+
+  /* Wide column: the ovals sit side by side, like the original diagram. */
+  @container (min-width: 560px) {
+    .cm-venn { aspect-ratio: 16 / 9; max-width: none; }
+    .cm-oval { top: 0; bottom: 0; right: auto; left: auto; width: 40%; height: auto; }
+    .cm-oval--dat { left: 0; }
+    .cm-oval--both { left: 30%; background: linear-gradient(90deg, color-mix(in srgb, var(--brand-blue) 16%, transparent), color-mix(in srgb, var(--accent) 16%, transparent)); }
+    .cm-oval--akk { left: 60%; }
+    .cm-zone--dat { top: 12%; bottom: 12%; left: 4%; right: 71%; }
+    .cm-zone--both { top: 10%; bottom: 10%; left: 32%; right: 32%; }
+    .cm-zone--akk { top: 12%; bottom: 12%; left: 71%; right: 4%; }
+    .cm-zone--akk .cm-head { order: 0; }
+    .cm-words { gap: 0 10px; }
+  }
+</style>

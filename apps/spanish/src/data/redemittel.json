@@ -1,0 +1,223 @@
+{
+  "_comment": "Useful phrases (Redemittel) by speech act: agreeing, disagreeing, doubting, comforting … Each set is a flashcard deck (/vocabulary/phrases/<id>) and a row under the phrases on /pronunciation. The key `de` holds the Spanish phrase that is practised (the key name is history, see docs/content-plan.md §1.4); `en` is the English meaning, with a short usage note where it helps. Every phrase has `variety`, and `es419` where Latin American usage differs. Phrase order matters: the beginner path refers to phrases as redemittel:<set>#<index>. Translations live in src/data/redemittel-i18n/<lang>.json, keyed by the Spanish phrase: machine drafts until a native speaker has read them (reviewed: false). Audio: scripts/generate-satz-audio.mjs → public/audio/redemittel/<slug>.mp3 (none yet for the Spanish phrases).",
+  "reviewed": false,
+  "sets": [
+    {
+      "id": "zustimmen",
+      "name": "Agreeing",
+      "icon": "👍",
+      "phrases": [
+        { "de": "Tienes razón.", "en": "You're right. (To someone you call usted: Tiene razón.)", "variety": "es-ES" },
+        { "de": "Estoy totalmente de acuerdo.", "en": "I completely agree.", "variety": "es-ES" },
+        { "de": "¡Exacto!", "en": "Exactly!", "variety": "es-ES" },
+        { "de": "Estoy de acuerdo contigo.", "en": "I agree with you.", "variety": "es-ES" },
+        { "de": "Yo también lo creo.", "en": "I think so too.", "variety": "es-ES" },
+        { "de": "Eso es justo lo que pienso.", "en": "That's exactly what I think.", "variety": "es-ES" },
+        { "de": "Me parece buena idea.", "en": "That sounds like a good idea.", "variety": "es-ES" },
+        { "de": "Vale, de acuerdo.", "en": "OK, agreed. Vale is the everyday “OK” in Spain.", "variety": "es-ES", "es419": { "note": "Vale is typical of Spain. In Latin America: Bueno, de acuerdo, or regional forms such as Dale.", "form": "Bueno, de acuerdo." }}
+      ]
+    },
+    {
+      "id": "widersprechen",
+      "name": "Disagreeing",
+      "icon": "✋",
+      "phrases": [
+        { "de": "Yo lo veo de otra manera.", "en": "I see it differently.", "variety": "es-ES" },
+        { "de": "No estoy de acuerdo.", "en": "I don't agree.", "variety": "es-ES" },
+        { "de": "Eso no es del todo cierto.", "en": "That's not quite right.", "variety": "es-ES" },
+        { "de": "Lo siento, pero no estoy de acuerdo.", "en": "I'm sorry, but I disagree. A polite way to say no.", "variety": "es-ES" },
+        { "de": "No creo que sea verdad.", "en": "I don't think that's true. (After no creo que comes the subjunctive: sea.)", "variety": "es-ES" },
+        { "de": "Yo creo que no.", "en": "I don't think so.", "variety": "es-ES" },
+        { "de": "Sí, pero …", "en": "Yes, but … You agree a little, then add your point.", "variety": "es-ES" },
+        { "de": "¡Ni hablar!", "en": "No way! (informal)", "variety": "es-ES" }
+      ]
+    },
+    {
+      "id": "zweifeln",
+      "name": "Expressing doubt",
+      "icon": "🤔",
+      "phrases": [
+        { "de": "No lo tengo tan claro.", "en": "I'm not so sure about that.", "variety": "es-ES" },
+        { "de": "¿De verdad lo crees?", "en": "Do you really think so?", "variety": "es-ES" },
+        { "de": "No sé, no estoy seguro.", "en": "I don't know, I'm not sure. (A woman says: segura.)", "variety": "es-ES" },
+        { "de": "¿Seguro que es así?", "en": "Is that really so?", "variety": "es-ES" },
+        { "de": "Me cuesta creerlo.", "en": "I find that hard to believe.", "variety": "es-ES" },
+        { "de": "Mmm, tengo mis dudas.", "en": "Hmm, I have my doubts.", "variety": "es-ES" },
+        { "de": "¿Estás seguro?", "en": "Are you sure? (To a woman: ¿Estás segura?)", "variety": "es-ES" },
+        { "de": "Lo dudo.", "en": "I doubt it.", "variety": "es-ES" }
+      ]
+    },
+    {
+      "id": "troesten",
+      "name": "Comforting",
+      "icon": "🤗",
+      "phrases": [
+        { "de": "Lo siento mucho.", "en": "I'm so sorry.", "variety": "es-ES" },
+        { "de": "¡Ánimo!", "en": "Cheer up! Keep going!", "variety": "es-ES" },
+        { "de": "Todo va a salir bien.", "en": "It'll be all right.", "variety": "es-ES" },
+        { "de": "No te preocupes.", "en": "Don't worry.", "variety": "es-ES" },
+        { "de": "Aquí me tienes para lo que necesites.", "en": "I'm here for whatever you need.", "variety": "es-ES" },
+        { "de": "No es para tanto.", "en": "It's not that bad. Careful: with a real problem it can sound dismissive.", "variety": "es-ES" },
+        { "de": "¡Tú puedes!", "en": "You can do it!", "variety": "es-ES" },
+        { "de": "¿Puedo hacer algo por ti?", "en": "Is there anything I can do for you?", "variety": "es-ES" }
+      ]
+    },
+    {
+      "id": "meinung",
+      "name": "Giving your opinion",
+      "icon": "💭",
+      "phrases": [
+        { "de": "Mi opinión es que …", "en": "My view is that …", "variety": "es-ES" },
+        { "de": "Creo que …", "en": "I think that … The easiest way to give your opinion.", "variety": "es-ES" },
+        { "de": "En mi opinión, …", "en": "In my opinion, …", "variety": "es-ES" },
+        { "de": "Me parece que …", "en": "It seems to me that …", "variety": "es-ES" },
+        { "de": "Para mí lo importante es que …", "en": "What matters to me is that … (Often followed by the subjunctive.)", "variety": "es-ES" },
+        { "de": "Para ser sincero, …", "en": "To be honest, … (A woman says: sincera.)", "variety": "es-ES" },
+        { "de": "Me parece bien.", "en": "That seems fine to me.", "variety": "es-ES" },
+        { "de": "¿Tú qué opinas?", "en": "What do you think? (To someone you call usted: ¿Usted qué opina?)", "variety": "es-ES" }
+      ]
+    },
+    {
+      "id": "nachfragen",
+      "name": "Checking you understand",
+      "icon": "❓",
+      "phrases": [
+        { "de": "¿Perdón?", "en": "Sorry? You didn't hear what someone said.", "variety": "es-ES" },
+        { "de": "¿Puede repetir, por favor?", "en": "Could you say that again, please? (With tú: ¿Puedes repetir?)", "variety": "es-ES" },
+        { "de": "¿Puede hablar más despacio, por favor?", "en": "Could you speak more slowly, please?", "variety": "es-ES" },
+        { "de": "¿Qué significa eso?", "en": "What does that mean?", "variety": "es-ES" },
+        { "de": "Perdone, no lo he entendido.", "en": "Sorry, I didn't understand that.", "variety": "es-ES", "es419": { "note": "Many Latin American varieties (Mexico, for example) prefer the simple past here: no lo entendí.", "form": "Perdone, no lo entendí." } },
+        { "de": "¿Cómo se escribe?", "en": "How do you spell that?", "variety": "es-ES" },
+        { "de": "¿Quiere decir que …?", "en": "Do you mean that …? You check that you have understood.", "variety": "es-ES" },
+        { "de": "¿Puede darme un ejemplo?", "en": "Could you give me an example?", "variety": "es-ES" }
+      ]
+    },
+    {
+      "id": "bitten",
+      "name": "Asking for help",
+      "icon": "🙏",
+      "phrases": [
+        { "de": "¿Me puede ayudar, por favor?", "en": "Could you help me, please? A polite way to ask.", "variety": "es-ES" },
+        { "de": "¿Tiene un momento?", "en": "Have you got a minute? (With tú: ¿Tienes un momento?)", "variety": "es-ES" },
+        { "de": "¿Me pasas la sal, por favor?", "en": "Could you pass me the salt, please?", "variety": "es-ES" },
+        { "de": "¿Le puedo pedir un favor?", "en": "Could I ask you a favour? (With tú: ¿Te puedo pedir un favor?)", "variety": "es-ES" },
+        { "de": "Perdone que le moleste.", "en": "Sorry to bother you. Say this before you interrupt someone.", "variety": "es-ES" },
+        { "de": "¿Me lo puede enseñar?", "en": "Could you show me?", "variety": "es-ES"},
+        { "de": "Necesito ayuda.", "en": "I need some help.", "variety": "es-ES" },
+        { "de": "¿Sería posible?", "en": "Would that be possible?", "variety": "es-ES" }
+      ]
+    },
+    {
+      "id": "entschuldigen",
+      "name": "Apologising",
+      "icon": "😔",
+      "phrases": [
+        { "de": "¡Perdón!", "en": "Sorry! For a small mistake, or when you bump into someone.", "variety": "es-ES" },
+        { "de": "Lo siento de verdad.", "en": "I'm really sorry.", "variety": "es-ES" },
+        { "de": "No quería decir eso.", "en": "I didn't mean it like that.", "variety": "es-ES" },
+        { "de": "Perdona por llegar tarde.", "en": "Sorry I'm late. (With usted: Perdone.)", "variety": "es-ES" },
+        { "de": "Ha sido culpa mía.", "en": "That was my fault.", "variety": "es-ES", "es419": { "note": "Many Latin American varieties (Mexico, for example) prefer the simple past here: Fue culpa mía.", "form": "Fue culpa mía." }},
+        { "de": "No pasa nada.", "en": "No problem. An answer to an apology: it's OK.", "variety": "es-ES" },
+        { "de": "No tiene importancia.", "en": "It doesn't matter. An answer to an apology: forget it.", "variety": "es-ES" },
+        { "de": "Le puede pasar a cualquiera.", "en": "It could happen to anyone. An answer to an apology.", "variety": "es-ES" }
+      ]
+    },
+    {
+      "id": "danken",
+      "name": "Thanking",
+      "icon": "💐",
+      "phrases": [
+        { "de": "¡Muchas gracias!", "en": "Thank you very much!", "variety": "es-ES" },
+        { "de": "Gracias, eres muy amable.", "en": "Thanks, that's very kind of you.", "variety": "es-ES" },
+        { "de": "Muchísimas gracias por tu ayuda.", "en": "Thank you so much for your help.", "variety": "es-ES" },
+        { "de": "¡Qué detalle!", "en": "How thoughtful of you! For a small gift or a kind gesture.", "variety": "es-ES" },
+        { "de": "¡De nada!", "en": "You're welcome! An answer to thank you.", "variety": "es-ES" },
+        { "de": "Ha sido un placer.", "en": "It was my pleasure. An answer to thank you.", "variety": "es-ES", "es419": { "note": "Many Latin American varieties (Mexico, for example) prefer the simple past here: Fue un placer.", "form": "Fue un placer." }},
+        { "de": "No hay de qué.", "en": "Don't mention it. An answer to thank you.", "variety": "es-ES" },
+        { "de": "Te lo agradezco mucho.", "en": "I really appreciate it.", "variety": "es-ES" }
+      ]
+    },
+    {
+      "id": "vorschlagen",
+      "name": "Making suggestions",
+      "icon": "💡",
+      "phrases": [
+        { "de": "¿Qué tal si …?", "en": "How about …? (¿Qué tal si vamos en metro?)", "variety": "es-ES" },
+        { "de": "¿Salimos a comer?", "en": "Shall we go out for a meal?", "variety": "es-ES" },
+        { "de": "Propongo que …", "en": "I suggest that we … (Followed by the subjunctive: Propongo que vayamos.)", "variety": "es-ES" },
+        { "de": "¿Te apetece ir al cine?", "en": "Do you fancy going to the cinema?", "variety": "es-ES", "es419": { "note": "Te apetece is far more common in Spain. In Latin America you often hear ¿Quieres …? or ¿Tienes ganas de …?", "form": "¿Quieres ir al cine?" }},
+        { "de": "¡Buena idea, vamos!", "en": "Good idea, let's do that! A yes to a suggestion.", "variety": "es-ES" },
+        { "de": "Lo siento, ese día no puedo.", "en": "Sorry, I can't make it that day. A no to a suggestion.", "variety": "es-ES" },
+        { "de": "Quizás otro día.", "en": "Maybe another time.", "variety": "es-ES" },
+        { "de": "¿Te viene bien el sábado?", "en": "Is Saturday good for you?", "variety": "es-ES", "es419": { "note": "In Mexico and elsewhere ¿Te queda bien el sábado? is also common." }}
+      ]
+    },
+    {
+      "id": "gratulieren",
+      "name": "Congratulating and wishing",
+      "icon": "🎉",
+      "phrases": [
+        { "de": "¡Enhorabuena!", "en": "Congratulations! For an exam, a new job, a baby.", "variety": "es-ES", "es419": { "note": "Latin America more often says ¡Felicidades! or ¡Felicitaciones!", "form": "¡Felicitaciones!" }},
+        { "de": "¡Feliz cumpleaños!", "en": "Happy birthday!", "variety": "es-ES" },
+        { "de": "¡Buena suerte!", "en": "Good luck!", "variety": "es-ES" },
+        { "de": "¡Suerte con el examen!", "en": "Good luck with your exam!", "variety": "es-ES" },
+        { "de": "¡Que te mejores!", "en": "Get well soon! To someone who is ill.", "variety": "es-ES" },
+        { "de": "¡Buen fin de semana!", "en": "Have a nice weekend! Said on Friday.", "variety": "es-ES" },
+        { "de": "¡Feliz Navidad!", "en": "Merry Christmas!", "variety": "es-ES" },
+        { "de": "¡Me alegro mucho por ti!", "en": "I'm so happy for you!", "variety": "es-ES" }
+      ]
+    },
+    {
+      "id": "begruessen",
+      "name": "Greeting and saying goodbye",
+      "icon": "👋",
+      "phrases": [
+        { "de": "¡Buenos días!", "en": "Good morning! Used until lunchtime, which in Spain is often around two o'clock.", "variety": "es-ES" },
+        { "de": "Encantado de conocerte.", "en": "Nice to meet you. (A woman says: Encantada.)", "variety": "es-ES", "es419": { "note": "Mucho gusto is the more usual phrase in much of Latin America.", "form": "Mucho gusto." }},
+        { "de": "¿Qué tal?", "en": "How are you? Answer: Bien, gracias. ¿Y tú?", "variety": "es-ES" },
+        { "de": "¡Cuánto tiempo!", "en": "Long time no see! (informal)", "variety": "es-ES" },
+        { "de": "¡Hasta mañana!", "en": "See you tomorrow!", "variety": "es-ES" },
+        { "de": "¡Adiós!", "en": "Goodbye!", "variety": "es-ES" },
+        { "de": "¡Cuídate!", "en": "Take care! A friendly goodbye.", "variety": "es-ES" },
+        { "de": "¡Que tengas un buen día!", "en": "Have a good day!", "variety": "es-ES" }
+      ]
+    },
+    {
+      "id": "bildbeschreibung",
+      "name": "Describing pictures",
+      "icon": "🖼️",
+      "phrases": [
+        { "de": "En la foto veo …", "bild": "🖼️", "en": "In the picture I can see … The easiest way to start.", "variety": "es-ES" },
+        { "de": "La foto muestra a una familia comiendo.", "bild": "👪", "en": "The picture shows a family having a meal. You say what it is about.", "variety": "es-ES" },
+        { "de": "En primer plano se ve …", "bild": "/img/bildposition/vordergrund.svg", "en": "In the foreground you can see …", "variety": "es-ES" },
+        { "de": "Al fondo hay un parque.", "bild": "/img/bildposition/hintergrund.svg", "en": "In the background there's a park.", "variety": "es-ES" },
+        { "de": "En el centro hay una mesa.", "bild": "/img/bildposition/mitte.svg", "en": "In the middle there's a table.", "variety": "es-ES" },
+        { "de": "A la izquierda hay una mujer joven sentada.", "bild": "/img/bildposition/links.svg", "en": "On the left there's a young woman sitting down.", "variety": "es-ES" },
+        { "de": "En la esquina superior derecha hay una ventana.", "bild": "/img/bildposition/rechts-oben.svg", "en": "In the top right-hand corner there's a window.", "variety": "es-ES" },
+        { "de": "Seguramente la gente está de vacaciones.", "bild": "🏖️", "en": "The people are probably on holiday. A guess about the situation.", "variety": "es-ES" },
+        { "de": "Creo que es una fiesta de cumpleaños.", "bild": "🎂", "en": "I think it's a birthday party. A guess about the situation.", "variety": "es-ES" },
+        { "de": "Parece que todos están contentos.", "bild": "😄", "en": "It looks as if everyone is happy.", "variety": "es-ES" },
+        { "de": "El ambiente es relajado.", "bild": "😌", "en": "The atmosphere is relaxed.", "variety": "es-ES" },
+        { "de": "La foto me recuerda a mi infancia.", "bild": "🧒", "en": "The picture reminds me of my childhood. You connect it with your own life.", "variety": "es-ES" }
+      ]
+    },
+    {
+      "id": "wo-ist-der-ball",
+      "level": "A1",
+      "name": "Where's the ball? (prepositions)",
+      "icon": "⚽",
+      "bildRaten": true,
+      "phrases": [
+        { "de": "La pelota está dentro de la caja.", "bild": "/img/praeposition/in.svg", "en": "The ball is in the box.", "variety": "es-ES" },
+        { "de": "La pelota está encima de la caja.", "bild": "/img/praeposition/auf.svg", "en": "The ball is on the box.", "variety": "es-ES" },
+        { "de": "La pelota está debajo de la mesa.", "bild": "/img/praeposition/unter.svg", "en": "The ball is under the table.", "variety": "es-ES" },
+        { "de": "La lámpara cuelga sobre la mesa.", "bild": "/img/praeposition/ueber.svg", "en": "The lamp is hanging above the table. (Sobre can mean “on” or “above”.)", "variety": "es-ES" },
+        { "de": "La pelota está al lado de la caja.", "bild": "/img/praeposition/neben.svg", "en": "The ball is next to the box.", "variety": "es-ES" },
+        { "de": "La pelota está delante de la caja.", "bild": "/img/praeposition/vor.svg", "en": "The ball is in front of the box.", "variety": "es-ES" },
+        { "de": "La pelota está detrás de la caja.", "bild": "/img/praeposition/hinter.svg", "en": "The ball is behind the box.", "variety": "es-ES" },
+        { "de": "La pelota está entre las cajas.", "bild": "/img/praeposition/zwischen.svg", "en": "The ball is between the boxes.", "variety": "es-ES" },
+        { "de": "El cuadro está en la pared.", "bild": "/img/praeposition/an.svg", "en": "The picture is on the wall. (En covers “in”, “on” and “at”.)", "variety": "es-ES" }
+      ]
+    }
+  ]
+}

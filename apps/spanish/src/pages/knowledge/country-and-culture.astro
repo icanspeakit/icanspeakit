@@ -1,0 +1,98 @@
+---
+// /knowledge/country-and-culture — the Landeskunde lobby: every area of the section as a card
+// (Kulturwissen, Deutschland von innen, Fehler nach Muttersprache, Fakten, Quiz, Auto),
+// then every single topic, so nothing has to be found through a sub-hub first.
+// The Wissen menu's Landeskunde box points here ("Land und Kultur").
+import Layout from "../../layouts/Layout.astro";
+import { itemPath } from "../../lib/routes.js";
+import SiteNav from "../../components/SiteNav.astro";
+import SectionMascot from "../../components/mascots/SectionMascot.astro";
+import kultur from "../../data/kultur.json";
+import insider from "../../data/kultur-insider.json";
+import fehler from "../../data/fehler-nach-sprache.json";
+import bilder from "../../data/kultur-bilder.json";
+import filme from "../../data/kultur-filme.json";
+import { iconFile } from "../../lib/wortBild.js";
+import "../../styles/practice.css";
+import "../../styles/kultur.css";
+import "../../styles/kultur-hub.css";
+import "../../styles/land-und-kultur.css";
+
+const bild = (emoji: string | undefined) => (emoji ? `/img/openmoji/${iconFile(emoji)}.svg` : null);
+const LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
+const byLevel = <T extends { level: string }>(list: T[]) =>
+  [...list].sort((a, b) => LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level));
+const quizCount = kultur.topics.reduce((n, t) => n + t.quiz.length, 0);
+
+const areas = [
+  { href: "/culture", pic: "🏛️", title: "Culture in Spain", text: "How Spain works day to day: the padrón, the centro de salud, public holidays, renting, school.", meta: `${kultur.topics.length} topics` },
+  { href: "/culture/insider", pic: bilder.extras.insider, title: "Spain from the inside", text: "Greetings, meal times, tú and usted and how people really live, with figures and sources.", meta: `${insider.topics.length} topics` },
+  { href: "/culture/mistakes", pic: bilder.extras.fehler, title: "Common mistakes by first language", text: "Which mistakes come from which first language, and how do you get rid of them?", meta: `${fehler.languages.length} languages` },
+  { href: "/ccse/facts", pic: "🗺️", title: "Facts about Spain", text: "The constitution, institutions, history, the comunidades autónomas: the knowledge for the CCSE.", meta: "CCSE" },
+  { href: "/culture/quiz", pic: bilder.extras.quiz, title: "Culture quiz", text: "Questions from all the culture topics, mixed or by topic.", meta: `${quizCount} questions` },
+  { href: "/culture/insider/cars-and-driving", pic: "🚗", title: "Cars and driving", text: "Roads, speed limits and what to know about driving.", meta: "Cars & driving" },
+  { href: "/culture/films-and-series", pic: bilder.extras.filme, title: "Films and series in Spanish", text: "What to watch from Spain and Latin America, with a level for each.", meta: `${filme.groups.reduce((n, g) => n + g.items.length, 0)} titles` },
+];
+
+const lists = [
+  { id: "kulturwissen", title: "Culture in Spain", href: "/culture",
+    items: byLevel(kultur.topics).map((t) => ({ href: itemPath("/culture", t.id), title: t.title, level: t.level, pic: (bilder.topics as Record<string, string>)[t.id] })) },
+  { id: "von-innen", title: "Spain from the inside", href: "/culture/insider",
+    items: byLevel(insider.topics).map((t) => ({ href: itemPath("/culture/insider", t.id), title: t.title, level: t.level, pic: (bilder.insider as Record<string, string>)[t.id] })) },
+  { id: "fehler", title: "Common mistakes by first language", href: "/culture/mistakes",
+    items: fehler.languages.map((l) => ({ href: `/culture/mistakes?lang=${l.id}`, title: l.name, level: "", pic: undefined })) },
+];
+---
+<Layout
+  title="Country and culture – all topics – icanspeak Spanish"
+  description="Every culture topic at a glance: culture in Spain, Spain from the inside, typical mistakes by first language, facts for the CCSE and the culture quiz."
+>
+  <SiteNav active="landeskunde" />
+  <main class="practice-main practice-main--wide">
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="kultur.hero.eyebrow">Culture &amp; society</p>
+      <h1 data-i18n="landkultur.title">Country and culture</h1>
+      <SectionMascot name="bruno" say="Spain at a glance." sayKey="landkultur.say" align="center" class="ku-hero-mascot" />
+    </div>
+
+    <section class="lk-block">
+      <h2 class="lk-h2">Areas</h2>
+      <div class="ku-grid ku-grid--fill">
+        {areas.map((a) => (
+          <a class="ku-card" href={a.href}>
+            <span class="ku-card-ic ku-card-pic"><img src={bild(a.pic)} alt="" width="40" height="40" loading="lazy" /></span>
+            <span class="ku-card-txt">
+              <b>{a.title}</b>
+              <i>{a.text}</i>
+            </span>
+            <span class="ku-card-meta"><span class="ku-card-q">{a.meta}</span></span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <nav class="lk-jump" aria-label="Jump to">
+      {lists.map((l) => <a href={`#${l.id}`}>{l.title} <span>{l.items.length}</span></a>)}
+    </nav>
+
+    {lists.map((l) => (
+      <section class="lk-block" id={l.id}>
+        <h2 class="lk-h2">
+          <a href={l.href}>{l.title}</a>
+          <span class="lk-count">{l.items.length}</span>
+        </h2>
+        <ul class="lk-list">
+          {l.items.map((it) => (
+            <li>
+              <a href={it.href}>
+                {it.pic ? <img src={bild(it.pic)} alt="" width="24" height="24" loading="lazy" /> : <span class="lk-dot" aria-hidden="true" />}
+                <span class="lk-title">{it.title}</span>
+                {it.level && <span class="ku-badge">{it.level}</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </main>
+</Layout>

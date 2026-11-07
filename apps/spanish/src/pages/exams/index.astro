@@ -1,0 +1,342 @@
+---
+import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
+import Layout from "../../layouts/Layout.astro";
+import HubBild from "../../components/HubBild.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import Icon from "../../components/Icon.astro";
+import { grammarTopicCount } from "../../lib/inventory.js";
+import "../../styles/practice.css";
+import "../../styles/pruefungen.css";
+import "../../styles/exam-dashboard.css";
+
+const exams = [
+  {
+    id: "telc",
+    href: "/siele/levels",
+    icon: "document",
+    title: "SIELE by level",
+    level: "A2–C1",
+    desc: "The tasks of the SIELE, one band at a time, from A1 to C1. The real SIELE is one computer-based exam; our four sets together hold one whole exam.",
+    practice: "Practice sets by band",
+    practiceKey: "pruefungen.practice.telc",
+  },
+  {
+    id: "goethe",
+    href: "/dele",
+    icon: "landmark",
+    title: "DELE",
+    level: "A1–C2",
+    desc: "The Spanish diplomas of the Instituto Cervantes: one exam per level from A1 to C2, recognised by employers, universities and public bodies.",
+    practice: "Practice tests · language-use trainer · links to official sample papers",
+    practiceKey: "pruefungen.practice.goethe",
+  },
+  {
+    id: "testdaf",
+    href: "/siele",
+    icon: "graduation-cap",
+    title: "SIELE",
+    level: "A1–C1",
+    desc: "One computer-based test for levels A1 to C1. There is no pass mark: each test gets a score and a CEFR level.",
+    practice: "Format and scores · reading and writing practice set",
+    practiceKey: "pruefungen.practice.testdaf",
+  },
+  {
+    id: "dtz",
+    href: "/nationality/dele-a2",
+    icon: "book-open",
+    title: "DELE A2 for nationality (full mock test)",
+    level: "A2",
+    desc: "A full mock test in the style of the DELE A2, the language exam most applicants need for Spanish nationality, with a result at the end.",
+    practice: "Practice set in exam format · reading mock test",
+    practiceKey: "pruefungen.practice.dtz",
+  },
+  {
+    id: "lid",
+    href: "/ccse",
+    icon: "map-pin",
+    title: "CCSE nationality test",
+    titleKey: "exam.lid.name",
+    level: "No language level (a knowledge test)",
+    desc: "The knowledge test on Spain's constitution, institutions, society and culture, usually needed for Spanish nationality by residence.",
+    practice: "Facts study page · practice test",
+    practiceKey: "pruefungen.practice.lid",
+  },
+];
+
+// Which exam on this site fits which CEFR level. The routes keep their old names for now
+// (the `routes` item renames them): /dele = DELE, /siele/levels = SIELE by level,
+// /nationality/dele-a2 = DELE A2 mock for nationality, /siele = SIELE, /dele/a1 = DELE A1.
+// An entry without href is shown as plain text (exam not on this site yet).
+// The CCSE has no CEFR level (a knowledge test), so it is in no row.
+const levels = [
+  {
+    level: "A1",
+    desc: "First steps — understanding and using simple everyday expressions.",
+    exams: [
+      { name: "DELE A1 practice test", href: "/dele/a1" },
+      { name: "SIELE A1 and A2 tasks", href: "/siele/levels/a2" },
+    ],
+  },
+  {
+    level: "A2",
+    desc: "Basic user — exchanging simple, direct information.",
+    exams: [
+      { name: "DELE A2", href: "/dele/a2" },
+      { name: "DELE A2 for nationality (full mock test)", href: "/nationality/dele-a2" },
+      { name: "SIELE A1 and A2 tasks", href: "/siele/levels/a2" },
+    ],
+  },
+  {
+    level: "B1",
+    desc: "Independent user — familiar topics at home, work and school.",
+    exams: [
+      { name: "DELE B1", href: "/dele/b1" },
+      { name: "SIELE B1 practice", href: "/siele/levels/b1" },
+    ],
+  },
+  {
+    level: "B2",
+    desc: "Independent user, advanced.",
+    exams: [
+      { name: "DELE B2", href: "/dele/b2" },
+      { name: "SIELE B2 practice", href: "/siele/levels/b2" },
+    ],
+  },
+  {
+    level: "C1",
+    desc: "Proficient user — complex topics, university and work.",
+    exams: [
+      { name: "DELE C1", href: "/dele/c1" },
+      { name: "SIELE C1 tasks", href: "/siele/levels/c1" },
+    ],
+  },
+  {
+    level: "C2",
+    desc: "Near-native proficiency.",
+    exams: [
+      { name: "DELE C2 (format only, no practice set here)", href: "/dele" },
+    ],
+  },
+];
+
+// Comparison table — every cell restates a claim made on that exam's own page; nothing new
+// is asserted here.
+const comparison = [
+  { id: "telc", exam: "SIELE by level", levels: "A2–C1", forWhom: "Practice for the SIELE, one band at a time", format: "Tasks at one band, by module" },
+  { id: "goethe", exam: "DELE", levels: "A1–C2", forWhom: "Work, study and, from A2, Spanish nationality; one diploma per level", format: "One exam per level, with reading, listening, writing and speaking parts" },
+  { id: "testdaf", exam: "SIELE", levels: "A1–C1", forWhom: "Work and study, where the institution accepts it — check its rules", format: "Reading, listening, writing and speaking modules, each with a score and a CEFR level; no pass or fail" },
+  { id: "dtz", exam: "DELE A2 for nationality (full mock test)", levels: "A2", forWhom: "People preparing the language part of Spanish nationality", format: "Reading, listening, writing and speaking, with a result at the end" },
+  { id: "lid", exam: "CCSE nationality test", levels: "No language level (a knowledge test)", forWhom: "Spanish nationality by residence", format: "Multiple choice on the constitution, institutions, society and culture. Check the current format with the Instituto Cervantes" },
+];
+---
+<Layout
+  title="Spanish exams compared: DELE, SIELE, CCSE – icanspeak Spanish"
+  description="Compare the DELE, the SIELE and the CCSE nationality test — by exam or by level, with a side-by-side look at the formats."
+>
+  <SiteNav active="pruefungen" />
+  <main class="practice-main practice-main--wide">
+    <!-- No exam rail here: the cards below already list every exam. The switcher lives
+         one level down, on each exam's page (ExamRail.astro). -->
+    <div class="pr-hub">
+      <section>
+    <HubBild id="pruefungen" />
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="pruefungen.hero.eyebrow">Prüfungsvorbereitung</p>
+      <h1 data-i18n="pruefungen.hero.title">Welche Prüfung machst du?</h1>
+      <p data-i18n="pruefungen.hero.subtitle">Ein Überblick über die fünf wichtigsten deutschen Sprach- und Integrationsprüfungen — Niveau, Aufbau und wie du dich vorbereiten kannst.</p>
+      <a class="plan-link" href="/exam-plan" data-i18n="plan.link">Dein Plan bis zur Prüfung →</a>
+    </div>
+
+    <a class="fs-entry" href="/progress">
+      <span class="fs-entry-txt">
+        <b data-i18n="nav.account.progress">Mein Fortschritt</b>
+        <i data-i18n="pruefungen.dashboard.blurb">Punkte, begonnene Teile und der nächste offene Prüfungsteil — für jede Prüfung.</i>
+      </span>
+      <span class="fs-entry-go" aria-hidden="true">→</span>
+    </a>
+    <a class="fs-entry" href="/nationality">
+      <span class="fs-entry-txt">
+        <b data-i18n="nat.entry.title">Spanish nationality: the path</b>
+        <i data-i18n="nat.entry.blurb">Residence, CCSE and DELE A2: who needs what, who is exempt, and the steps in order.</i>
+      </span>
+      <span class="fs-entry-go" aria-hidden="true">→</span>
+    </a>
+    <a class="fs-entry" href="/dgt-vocabulary">
+      <span class="fs-entry-txt">
+        <b data-i18n="dgt.title">DGT driving vocabulary</b>
+        <i data-i18n="dgt.entry.blurb">The Spanish words for the driving course, the road and the paperwork. Vocabulary only, no exam questions.</i>
+      </span>
+      <span class="fs-entry-go" aria-hidden="true">→</span>
+    </a>
+    <a class="fs-entry" href="/exams/dele-or-siele">
+      <span class="fs-entry-txt">
+        <b data-i18n="delesiele.title">DELE or SIELE?</b>
+        <i data-i18n="delesiele.entry.blurb">Which exam fits your purpose: nationality, university or work.</i>
+      </span>
+      <span class="fs-entry-go" aria-hidden="true">→</span>
+    </a>
+    <a class="fs-entry" href="/exams/traps">
+      <span class="fs-entry-txt">
+        <b data-i18n="fallen.title">Exam traps</b>
+        <i data-i18n="fallen.entry.blurb">Stellen mit Haken – kurz erklärt, mit Beispiel und einer Aufgabe zum Ausprobieren.</i>
+      </span>
+      <span class="fs-entry-go" aria-hidden="true">→</span>
+    </a>
+
+    <div class="topic-tabs hub-switch" id="hub-view-tabs">
+      <span class="hub-switch-pill" aria-hidden="true"></span>
+      <button class="topic-tab active" type="button" data-view="exam" data-i18n="pruefungen.tab.byExam">Nach Prüfung</button>
+      <button class="topic-tab" type="button" data-view="level" data-i18n="pruefungen.tab.byLevel">Nach Niveau</button>
+    </div>
+
+    <div id="view-exam" class="hub-view">
+      <div class="exam-grid">
+        {exams.map((e) => (
+          <a class="exam-card" href={e.href}>
+            <div class="exam-card-icon"><Icon name={e.icon} /></div>
+            {/* Top to bottom, the order a learner asks in: which exam, which levels, what it
+                is, what there is to practise here. */}
+            <h3 data-i18n={e.titleKey}>{e.title}</h3>
+            <span class="exam-card-level" data-i18n={e.levelKey ?? (e.id === "lid" ? "pruefungen.card.lid.level" : undefined)}>{e.level}</span>
+            <p data-i18n={`pruefungen.card.${e.id}.desc`}>{e.desc}</p>
+            {e.practice && <p class="exam-card-practice" data-i18n={e.practiceKey}>{e.practice}</p>}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div id="view-level" class="hub-view" hidden>
+      <div class="level-grid">
+        {levels.map((l) => (
+          <div class="level-card">
+            <div class="level-card-badge">{l.level}</div>
+            <p data-i18n={`pruefungen.level.${l.level}.desc`}>{l.desc}</p>
+            <div class="level-card-exams">
+              {l.exams.map((e) => e.href ? <a href={e.href}>{e.name}</a> : <span class="level-card-soon">{e.name}</span>)}
+            </div>
+          </div>
+        ))}
+      </div>
+      <p class="format-note" style="max-width:780px;margin:20px auto 0;" data-i18n-html="pruefungen.levelNote">
+        „Leben in Deutschland“ hat kein CEFR-Sprachniveau — es ist ein Wissenstest zu Gesellschaft,
+        Geschichte und Recht, kein Sprachtest. Deshalb erscheint er in keiner Niveau-Zeile oben; siehe
+        die <a href="/ccse">eigene Prüfungsseite</a>.
+      </p>
+    </div>
+
+    <section class="exam-section" style="margin-top:48px;">
+      <h2 data-i18n="pruefungen.compare.title">Prüfungen im Vergleich</h2>
+      <div class="format-table-wrap">
+        <table class="format-table">
+          <thead><tr><th data-i18n="pruefungen.compare.exam">Prüfung</th><th data-i18n="pruefungen.compare.level">Niveau</th><th data-i18n="pruefungen.compare.forWhom">Für wen</th><th data-i18n="pruefungen.compare.format">Format</th></tr></thead>
+          <tbody>
+            {comparison.map((c) => (
+              <tr>
+                {/* The exam's name is a proper noun; the level column is codes. Only the
+                    two prose columns carry a key. */}
+                <td data-i18n={c.id === "lid" ? "exam.lid.name" : undefined}>{c.exam}</td>
+                <td data-i18n={`pruefungen.compare.${c.id}.levels`}>{c.levels}</td>
+                <td data-i18n={`pruefungen.compare.${c.id}.forWhom`}>{c.forWhom}</td>
+                <td data-i18n={`pruefungen.compare.${c.id}.format`}>{c.format}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <ExamDisclaimer foot />
+      </section>
+    </div>
+  </main>
+
+  <script type="module">
+    // "Nach Prüfung" / "Nach Niveau": the pill slides to the chosen option, the old view
+    // fades out and the new one comes in from the side of the option that was tapped, its
+    // cards one after another. With reduced motion it simply swaps, as it always did.
+    const tabs = document.getElementById("hub-view-tabs");
+    const pill = tabs.querySelector(".hub-switch-pill");
+    const buttons = [...tabs.querySelectorAll(".topic-tab")];
+    const views = { exam: document.getElementById("view-exam"), level: document.getElementById("view-level") };
+    const order = ["exam", "level"];
+    const still = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let current = "exam";
+    let busy = null;
+
+    function placePill(btn, animate) {
+      pill.style.transition = animate && !still() ? "" : "none";
+      pill.style.width = `${btn.offsetWidth}px`;
+      pill.style.transform = `translateX(${btn.offsetLeft}px)`;
+      pill.style.height = `${btn.offsetHeight}px`;
+      pill.style.top = `${btn.offsetTop}px`;
+    }
+
+    async function show(target) {
+      if (target === current) return;
+      const from = views[current];
+      const to = views[target];
+      const dir = order.indexOf(target) > order.indexOf(current) ? 1 : -1;
+      current = target;
+      busy?.forEach((a) => a.cancel());
+      if (still()) {
+        from.hidden = true;
+        to.hidden = false;
+        return;
+      }
+      const out = from.animate(
+        [{ opacity: 1, transform: "none" }, { opacity: 0, transform: `translateX(${-24 * dir}px)` }],
+        { duration: 160, easing: "ease-in" },
+      );
+      busy = [out];
+      await out.finished.catch(() => {});
+      if (current !== target) return;
+      from.hidden = true;
+      to.hidden = false;
+      const cards = [...to.firstElementChild.children];
+      busy = cards.map((card, i) =>
+        card.animate(
+          [{ opacity: 0, transform: `translateX(${32 * dir}px)` }, { opacity: 1, transform: "none" }],
+          { duration: 320, delay: Math.min(i, 8) * 45, easing: "cubic-bezier(.2,.8,.2,1)", fill: "backwards" },
+        ),
+      );
+    }
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        buttons.forEach((b) => b.classList.toggle("active", b === btn));
+        placePill(btn, true);
+        show(btn.dataset.view);
+      });
+    });
+    // Placed once without a slide, and again whenever the buttons change size (a language
+    // switch changes their labels, a narrow screen wraps them).
+    const active = () => buttons.find((b) => b.classList.contains("active"));
+    placePill(active(), false);
+    new ResizeObserver(() => placePill(active(), false)).observe(tabs);
+    tabs.classList.add("is-ready");
+  </script>
+
+  <style>
+    /* The switch is a segmented control here: one pill behind the chosen option that slides,
+       instead of two buttons swapping their colours. Before the script has placed it, the
+       active button keeps its own gradient, so nothing is missing without JavaScript. */
+    .hub-switch { position: relative; width: max-content; margin-inline: auto; padding: 4px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); gap: 4px; }
+    .hub-switch .topic-tab { position: relative; z-index: 1; border-color: transparent; background: transparent; transition: color 0.25s ease; }
+    .hub-switch:not(.is-ready) .topic-tab.active { background: var(--gradient-brand); }
+    .hub-switch .topic-tab.active { color: #fff; }
+    .hub-switch-pill {
+      position: absolute;
+      left: 0;
+      border-radius: 999px;
+      background: var(--gradient-brand);
+      box-shadow: 0 4px 14px rgb(13 148 136 / 0.28);
+      opacity: 0;
+      transition: transform 0.38s cubic-bezier(0.3, 1.3, 0.5, 1), width 0.38s cubic-bezier(0.3, 1.3, 0.5, 1);
+    }
+    .hub-switch.is-ready .hub-switch-pill { opacity: 1; }
+    .level-card-soon { color: var(--muted); font-size: var(--text-sm); }
+    @media (prefers-reduced-motion: reduce) {
+      .hub-switch-pill, .hub-switch .topic-tab { transition: none; }
+    }
+  </style>
+</Layout>
