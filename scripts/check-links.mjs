@@ -130,7 +130,8 @@ for (const file of files) {
     if (parts.some((s) => s.includes("${"))) {
       const pre = [];
       for (const s of parts) { if (s.includes("${")) break; pre.push(s); }
-      if (pre.length && !routes.some((r) => pre.every((seg, i) => r[i] && segMatches(r[i], seg)))) {
+      // The top-level [id] page is the grammar topics, so it doesn't vouch for a fixed first segment.
+      if (pre.length && !routes.some((r) => !isParam(r[0] ?? "") && pre.every((seg, i) => r[i] && segMatches(r[i], seg)))) {
         if (!dead.has(raw)) dead.set(raw, []);
         dead.get(raw).push(`${rel}:${line}`);
       } else skipped.add(raw);
