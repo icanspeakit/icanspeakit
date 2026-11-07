@@ -1,5 +1,5 @@
 {
-  "name": "icanspeak-spanish",
+  "name": "@icanspeak/spanish",
   "type": "module",
   "private": true,
   "license": "UNLICENSED",
@@ -66,7 +66,10 @@
     "check:content": "node scripts/check-content.mjs",
     "check:base": "node scripts/check-base.mjs",
     "check:links": "node scripts/check-links.mjs",
-    "check:extranjeria": "node scripts/check-extranjeria.mjs"
+    "check:extranjeria": "node scripts/check-extranjeria.mjs",
+    "cf:prepare": "node ../../scripts/nest-dist.mjs dist /spanish",
+    "cf:preview": "pnpm cf:prepare && wrangler dev",
+    "deploy": "pnpm build && pnpm cf:prepare && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",
@@ -85,6 +88,7 @@
     "pdfkit": "^0.20.2",
     "postcss": "^8.5.28",
     "postcss-rtlcss": "^6.0.0",
-    "sharp": "^0.35.4"
+    "sharp": "^0.35.4",
+    "wrangler": "^4.157.0"
   }
 }
