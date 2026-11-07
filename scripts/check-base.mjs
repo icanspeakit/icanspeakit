@@ -13,6 +13,7 @@
  *   - absolute URLs on the own domain (https://icanspeak.it/…) in HTML, sitemap.xml and
  *     llms.txt that are not under /spanish (the bare domain root is allowed: a link to the
  *     umbrella site)
+ *   - _headers: rule paths (Cloudflare matches them against the public URL) and line length
  *
  * Run after `pnpm build`. Exit code 1 lists the offenders (file, count, first examples).
  * Usage: node scripts/check-base.mjs [distDir] */
@@ -97,6 +98,12 @@ for await (const file of walk(DIST)) {
     if (rel === 'robots.txt') {
       for (const m of text.matchAll(/^(?:Allow|Disallow):\s*(\/\S*)/gim)) if (bad(m[1]) && m[1] !== '/') found.push(m[0]);
     }
+  } else if (rel === '_headers') {
+    // Rules match the public URL: one without the base path never applies, and nothing says so.
+    const lines = (await readFile(file, 'utf8')).split(/\r?\n/);
+    found = lines.filter((l) => l.startsWith('/') && !based(l.trim().split(/\s+/)[0]));
+    const tooLong = lines.filter((l) => l.length > 2000);
+    if (tooLong.length) found.push(`line over the 2,000-character limit: ${tooLong[0].slice(0, 60)}…`);
   } else continue;
   files++;
   if (found.length) report.set(rel, found);

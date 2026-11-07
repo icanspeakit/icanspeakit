@@ -15,7 +15,7 @@ fetches `/inhalt/…json` only when `can(feature)` from `src/lib/access.js` allo
 
 This is a soft lock by decision (2026-10-02): someone who opens `/inhalt/…` directly gets
 the file. What it guarantees is that search engines do not index paid questions and answers
-— `Disallow: /inhalt/`, `X-Robots-Tag: noindex` (vercel.json), no links to the files — and
+— `Disallow: /spanish/inhalt/`, `X-Robots-Tag: noindex` (`public/_headers`), no links to the files — and
 `scripts/check-paid-leak.mjs` (postbuild) fails the build if a passage from here appears in
 any page's HTML.
 

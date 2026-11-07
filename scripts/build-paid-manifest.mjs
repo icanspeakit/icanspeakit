@@ -11,7 +11,7 @@
 //
 // AGREED TRADE-OFF: the lock is client-side. Someone who opens /inhalt/… directly gets the
 // file. Search engines are kept out three ways: Disallow in robots.txt, an X-Robots-Tag
-// header (vercel.json), and no <a href> to these files anywhere.
+// header (public/_headers), and no <a href> to these files anywhere.
 //
 // Writes:
 //   src/data/pruefungen/paid-manifest.json  what the pages may know about paid sets: title,
