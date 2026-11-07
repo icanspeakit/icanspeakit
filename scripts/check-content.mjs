@@ -32,6 +32,7 @@ const CHECKS = [
   "check-aussprache.mjs",
   "check-satzmelodie.mjs",
   "check-sprachfallen.mjs",
+  "check-arbeitsblatt.mjs",
 ];
 
 for (const file of CHECKS) {

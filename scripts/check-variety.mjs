@@ -48,6 +48,9 @@ const STRICT = new Set([
   "umgangssprache",
   "synonyme",
   "dgt",
+  "arbeitsblatt",
+  "partneruebungen",
+  "unterricht-wortschatz",
   // "berufe", "business-spanish",
 ]);
 
@@ -110,6 +113,10 @@ const MODULES = [
   { id: "wortfallen", files: one("src/data/wortfallen.json"), items: (d) => arr(d.groups).map((item) => ({ item })) },
   { id: "redewendungen", files: one("src/data/redewendungen.json"),
     items: (d) => arr(d.eintraege).map((item) => ({ item })) },
+  // Teacher material carries `variety` at the top level of each file.
+  { id: "arbeitsblatt", files: jsonFiles("src/data/arbeitsblatt"), items: (d) => [{ item: d }] },
+  { id: "partneruebungen", files: jsonFiles("src/data/partneruebungen"), items: (d) => [{ item: d }] },
+  { id: "unterricht-wortschatz", files: one("src/data/unterricht-wortschatz.json"), items: (d) => [{ item: d }] },
 ];
 
 const errors = [];
