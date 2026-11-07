@@ -64,19 +64,22 @@ const payload = JSON.stringify(legalPayload(page)).replace(/</g, "\\u003c");
     const render = () => {
       const { code, dict } = current;
       const translate = code !== "de" && !showGerman;
+      // A UI language with no legal translation (French so far) reads the English one, so the
+      // note's "this translation" stays true and the toggle does something.
+      const txLang = Object.values(tx).some((entry) => entry[code]) ? code : "en";
       note.hidden = code === "de";
       for (const el of nodes) {
-        const html = translate ? tx[el.dataset.lx!]?.[code] : undefined;
+        const html = translate ? tx[el.dataset.lx!]?.[txLang] : undefined;
         el.innerHTML = html ?? original.get(el)!;
       }
       relabel();
       // The German original inside an Arabic page still reads left to right, and says it is German.
-      main.lang = translate ? code : "de";
-      main.dir = translate && isRtl(code) ? "rtl" : isRtl(code) ? "ltr" : "";
+      main.lang = translate ? txLang : "de";
+      main.dir = translate && isRtl(txLang) ? "rtl" : isRtl(code) ? "ltr" : "";
       if (!main.dir) main.removeAttribute("dir");
       note.dir = isRtl(code) ? "rtl" : "ltr";
       note.lang = code;
-      const title = translate ? tx.title?.[code] : undefined;
+      const title = translate ? tx.title?.[txLang] : undefined;
       document.title = title ? `${title.replace(/<[^>]+>/g, "")} – icanspeak Spanish` : originalTitle;
       toggle.setAttribute("aria-pressed", String(showGerman));
       toggle.textContent =
