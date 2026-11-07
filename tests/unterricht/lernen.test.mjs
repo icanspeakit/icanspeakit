@@ -15,11 +15,11 @@ const memory = () => {
   return { getItem: (k) => m.get(k) ?? null, setItem: (k, v) => m.set(k, String(v)), removeItem: (k) => m.delete(k) };
 };
 
-test("plan key from /stunde's URL: stunden and min default to 3 × 90", () => {
+test("plan key from /lesson's URL: stunden and min default to 3 × 90", () => {
   const k = lernKeyFromParams(new URLSearchParams("niveau=a1-1&block=2"));
   assert.deepEqual(k, { niveau: "a1-1", block: 2, stunden: 3, stunde: 1, minuten: 90 });
   assert.equal(lernKeyFromParams(new URLSearchParams("niveau=a1-1&block=2&stunde=4")), null);
-  assert.equal(stundeHref(k), "/stunde?niveau=a1-1&block=2&stunden=3&stunde=1&min=90");
+  assert.equal(stundeHref(k), "/lesson?niveau=a1-1&block=2&stunden=3&stunde=1&min=90");
 });
 
 test("goals per phase, with „Fertig“ when there is nothing to count", () => {
