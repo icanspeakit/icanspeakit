@@ -1,0 +1,86 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ExamShell from "../../components/ExamShell.astro";
+import ExamPractice from "../../components/ExamPractice.astro";
+import lid from "../../data/leben-in-deutschland.json";
+
+const { meta, questions, bundeslaender } = lid;
+---
+<Layout
+  title="CCSE, the Spanish nationality test: format and practice – icanspeak Spanish"
+  description="The CCSE for Spanish nationality: how it works, what the questions are about and how to prepare. Our own practice questions; general orientation, not legal advice."
+>
+  <ExamShell
+    bild="leben-in-deutschland"
+    header="CCSE"
+    title="CCSE nationality test"
+    titleKey="exam.lid.name"
+    lead="The CCSE (Conocimientos Constitucionales y Socioculturales de España): a test in Spanish on Spain's constitution, institutions, territory, culture and society, run by the Instituto Cervantes."
+    leadKey="lid.lead"
+    badges={["Knowledge test"]}
+    badgeKeys={["lid.badge.knowledgeTest"]}
+    practiceHeading="Practise for the test"
+    practiceHeadingKey="lid.practiceHeading"
+  >
+    <Fragment slot="info">
+      <section class="exam-section">
+        <h2 data-i18n="lid.who.title">Who is the CCSE for?</h2>
+        <div class="exam-meta-row">
+          <span class="exam-meta-badge" data-i18n="lid.who.badge.noCefr">No CEFR level — a knowledge test</span>
+          <span class="exam-meta-badge" data-i18n="lid.who.badge.course">Spanish nationality by residence</span>
+        </div>
+        <p><a href="/nationality" data-i18n="nat.link.more">How nationality by residence works, step by step</a></p>
+        <p data-i18n="lid.who.text">The CCSE does not test your level of Spanish but your knowledge of Spain's constitution, institutions, society and culture. Most people applying for Spanish nationality by residence need it, usually together with a DELE A2 or higher, and some applicants are exempt. This is general orientation, not legal advice: check the current rules on the official government and Instituto Cervantes pages.</p>
+      </section>
+
+      <section class="exam-section">
+        <h2 data-i18n="exam.skills.title">Skills tested</h2>
+        <div class="skill-grid">
+          <div class="skill-card"><div class="skill-card-icon">📖</div><h4 data-i18n="skill.lesen">Reading</h4><p data-i18n="lid.skill.lesen.desc">Reading and understanding the questions</p></div>
+          <div class="skill-card skill-card--na"><div class="skill-card-icon">🎧</div><h4 data-i18n="skill.hoeren">Listening</h4><p data-i18n="lid.skill.hoeren.desc">No listening in this test</p></div>
+          <div class="skill-card skill-card--na"><div class="skill-card-icon">✍️</div><h4 data-i18n="skill.schreiben">Writing</h4><p data-i18n="lid.skill.schreiben.desc">No writing part — ticking boxes only</p></div>
+          <div class="skill-card skill-card--na"><div class="skill-card-icon">🗣️</div><h4 data-i18n="skill.sprechen">Speaking</h4><p data-i18n="lid.skill.sprechen.desc">No separate speaking part in this test</p></div>
+        </div>
+      </section>
+
+      <section class="exam-section">
+        <h2 data-i18n="exam.format.title">Format</h2>
+        <div class="format-table-wrap">
+          <table class="format-table">
+            <thead><tr><th data-i18n="format.th.part">Part</th><th data-i18n="format.th.what">What is tested</th><th data-i18n="format.th.scope">Scope</th></tr></thead>
+            <tbody>
+              {meta.tareas.map((t) => (
+                <tr><td lang="es">{t.title}</td><td data-i18n={`lid.tarea.${t.n}.what`}>{t.title}</td><td data-i18n={`lid.tarea.${t.options === 2 ? "tf" : "mc"}`} data-i18n-vars={JSON.stringify({ n: t.realCount })}>{t.realCount}</td></tr>
+              ))}
+              <tr><td data-i18n="lid.fmt.state.part">Our extra: comunidades autónomas</td><td data-i18n="lid.fmt.state.what">Practice questions on the comunidades autónomas (not part of the real test)</td><td data-i18n="lid.fmt.state.scope" data-i18n-vars={JSON.stringify({ st: meta.stateQuestions })}>{meta.stateQuestions}</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="format-note" data-i18n-html="lid.format.note" data-i18n-vars={JSON.stringify({ t: meta.totalQuestions, m: meta.minutes, pass: meta.passScore, fed: questions.length })}>
+          {meta.totalQuestions} questions, {meta.minutes} minutes, pass with {meta.passScore} correct answers.
+        </p>
+        <p class="format-note" data-i18n="lid.format.more">The test is taken in Spanish at an exam centre. Test centres report a fee of €85 in 2026 and say the pass certificate is valid for 4 years. Check both with the Instituto Cervantes.</p>
+        <p class="format-note">{meta.sourceNote}</p>
+      </section>
+    </Fragment>
+
+    <div class="mock-cta mock-cta--lead">
+      <h2 data-i18n="lid.cta.title" data-i18n-vars={JSON.stringify({ n: meta.federalQuestions, t: meta.totalQuestions, st: meta.stateQuestions, m: meta.minutes, pass: meta.passScore, fed: questions.length, bl: bundeslaender.length, src: meta.sourceNote, facts: meta.stateFactsNote })}>{questions.length} bundesweite + {meta.stateQuestions} Bundesland-Fragen</h2>
+      <p data-i18n="lid.cta.text" data-i18n-vars={JSON.stringify({ n: meta.federalQuestions, t: meta.totalQuestions, st: meta.stateQuestions, m: meta.minutes, pass: meta.passScore, fed: questions.length, bl: bundeslaender.length, src: meta.sourceNote, facts: meta.stateFactsNote })}>
+        Our own questions on government, rights, territory, culture and society, each with a short explanation in English. There is also extra practice on the comunidades autónomas (bl to choose from).
+      </p>
+      <div class="exam-meta-row">
+        <a class="quiz-btn quiz-btn--primary" href="/ccse/test" data-i18n="lid.cta.test">To the practice test</a>
+        <a class="quiz-btn quiz-btn--primary" href="/ccse/facts" data-i18n="lid.cta.facts">Learn the facts</a>
+      </div>
+    </div>
+
+    <ExamPractice
+      heading="Prepare the language side"
+      headingKey="lid.practice.heading"
+      introKey="lid.practice.intro"
+      intro="The CCSE checks knowledge, not a language level, but you do have to understand the questions and the answer options. These tools help with that side. It has no speaking or writing part, so the speaking and writing tools are not linked here."
+      tools={["artikel", "grammatik", "wortschatz"]}
+    />
+  </ExamShell>
+</Layout>

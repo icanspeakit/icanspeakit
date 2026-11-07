@@ -1,0 +1,18 @@
+/* Jump rows (src/lib/jumpNav.js): the active link, and the section lighting up on arrival.
+   :where() keeps these at zero specificity where a page may want its own value. */
+:where(.jn-target) { scroll-margin-top: 90px; }
+
+/* The active link. In a chip row segSwitch.js copies this fill onto its sliding pill. */
+.jn-nav a.is-active {
+  background: color-mix(in srgb, var(--brand-blue, #2563eb) 12%, var(--surface-card, #fff));
+  border-color: var(--brand-blue, #2563eb);
+  color: var(--brand-blue-dark, var(--brand-blue, #1d4ed8));
+}
+
+/* Arrival: a soft ring that widens and fades, once. */
+.jn-arrive { animation: jnArrive 1.1s cubic-bezier(.2, .8, .2, 1); }
+@keyframes jnArrive {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--brand-blue, #2563eb) 45%, transparent); }
+  100% { box-shadow: 0 0 0 14px color-mix(in srgb, var(--brand-blue, #2563eb) 0%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) { .jn-arrive { animation: none; } }

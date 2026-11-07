@@ -1,0 +1,179 @@
+/* Klassen: /teachers/classes (teacher) and /join (student). Builds on
+   live-quiz.css (.lq, .lq-card, .lq-btn, .lq-field), which both pages also load. */
+
+.kl { max-width: 760px; }
+.kl h2 { margin: 0; font-size: var(--text-lg, 1.125rem); color: var(--ink); }
+.kl-stack { display: grid; gap: 14px; }
+.kl-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.kl-muted { margin: 0; color: var(--muted); font-size: var(--text-sm, .875rem); line-height: 1.5; }
+
+.kl-code-input {
+  font-size: 1.6rem !important; letter-spacing: .25em; text-align: center; text-transform: uppercase;
+  font-family: var(--font-mono, ui-monospace, monospace);
+}
+
+/* ── Consent list ─────────────────────────────────────────────────────── */
+.kl-consent { display: grid; gap: 12px; }
+.kl-consent-cols { display: grid; gap: 14px; }
+.kl-consent h3 { margin: 0 0 6px; text-align: start; font-size: var(--text-sm, .875rem); text-transform: uppercase; letter-spacing: .06em; }
+.kl-consent ul { margin: 0; padding-inline-start: 1.2em; display: grid; gap: 4px; color: var(--ink); font-size: var(--text-sm, .875rem); line-height: 1.5; }
+.kl-yes { color: var(--brand-blue); }
+.kl-no { color: var(--muted); }
+.kl-consent-foot { margin: 0; color: var(--muted); font-size: var(--text-sm, .875rem); line-height: 1.5; }
+@media (min-width: 640px) { .kl-consent-cols { grid-template-columns: 1fr 1fr; } }
+
+/* ── Teacher: new class ───────────────────────────────────────────────── */
+.kl-new { display: grid; gap: 12px; }
+.kl-new-fields { display: grid; gap: 12px; }
+@media (min-width: 640px) { .kl-new-fields { grid-template-columns: 1fr 9rem; align-items: end; } }
+
+/* ── Teacher: one class ───────────────────────────────────────────────── */
+.kl-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.kl-class { display: grid; gap: 12px; }
+.kl-class-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.kl-class-head h3 { margin: 0; font-size: var(--text-lg, 1.125rem); color: var(--ink); overflow-wrap: anywhere; }
+.kl-badge {
+  display: inline-block; padding: 1px 8px; border-radius: var(--radius-pill, 999px);
+  border: 1px solid var(--border-strong); font-size: 12px; color: var(--muted);
+}
+.kl-count { margin-left: auto; color: var(--muted); font-size: var(--text-sm, .875rem); font-variant-numeric: tabular-nums; }
+
+.kl-code {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px;
+}
+.kl-code-big {
+  font-family: var(--font-mono, ui-monospace, monospace); font-size: 1.9rem; font-weight: 700; letter-spacing: .2em;
+  color: var(--ink); user-select: all;
+}
+.kl-share { display: grid; gap: 12px; justify-items: center; padding: 14px; border: 1px dashed var(--border-strong); border-radius: var(--radius-lg, 14px); }
+.kl-share[hidden] { display: none; }
+.kl-qr { width: min(240px, 70vw); aspect-ratio: 1; background: #fff; border-radius: 8px; padding: 6px; }
+.kl-qr svg { display: block; width: 100%; height: 100%; }
+.kl-link { font-size: var(--text-sm, .875rem); color: var(--muted); overflow-wrap: anywhere; text-align: center; }
+
+.kl-members { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.kl-members li { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: var(--text-sm, .875rem); }
+.kl-members li:last-child { border-bottom: 0; }
+.kl-members small { color: var(--muted); }
+
+.kl-archive > summary { cursor: pointer; color: var(--muted); font-size: var(--text-sm, .875rem); padding: 6px 0; }
+.kl-archive[open] > summary { margin-bottom: 8px; }
+.kl-class--archived { opacity: .85; }
+
+.kl-status { margin: 0; min-height: 1.2em; color: var(--muted); font-size: var(--text-sm, .875rem); }
+.kl-done h2 { overflow-wrap: anywhere; }
+
+/* ── Teacher dashboard (/teachers/classes/class) ──────────────────── */
+.kld { max-width: 1100px; }
+.kld-explain > summary { cursor: pointer; font-weight: var(--fw-semibold, 600); color: var(--ink); }
+.kld-explain-body { display: grid; gap: 8px; margin-top: 10px; }
+.kld-explain-body p { margin: 0; color: var(--muted); font-size: var(--text-sm, .875rem); line-height: 1.55; max-width: 70ch; }
+
+.kld-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.kld-tabs {
+  position: relative; display: inline-flex; padding: 3px; gap: 2px;
+  border-radius: var(--radius-pill, 999px); background: var(--surface); border: 1px solid var(--border);
+}
+.kld-tabs button {
+  position: relative; font: inherit; font-size: var(--text-sm, .875rem); min-height: 40px; padding: 6px 16px;
+  border: 0; border-radius: var(--radius-pill, 999px); background: transparent; color: var(--muted); cursor: pointer;
+}
+.kld-tabs button.is-on { background: var(--surface-card); color: var(--ink); box-shadow: var(--shadow-sm); font-weight: var(--fw-semibold, 600); }
+.kld-tabs button:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 1px; }
+.kld-h { scroll-margin-top: 88px; margin: 0 0 8px; font-size: var(--text-base, 1rem) !important; color: var(--ink); }
+
+/* Tables scroll inside their box; the page never scrolls sideways. */
+.kld-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: var(--radius-lg, 14px); background: var(--surface-card); }
+.kld-table { border-collapse: separate; border-spacing: 0; width: 100%; font-size: var(--text-sm, .875rem); }
+.kld-table th, .kld-table td { padding: 8px 10px; text-align: start; border-bottom: 1px solid var(--border); white-space: nowrap; color: var(--ink); }
+.kld-table thead th { vertical-align: bottom; font-weight: var(--fw-semibold, 600); background: var(--surface-card); }
+.kld-table thead th button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
+.kld-table thead th small { display: block; font-weight: 400; color: var(--muted); font-size: 11px; }
+.kld-table tbody th { font-weight: 400; }
+/* The name column stays put while the rest scrolls. */
+.kld-table tr > :first-child { position: sticky; inset-inline-start: 0; background: var(--surface-card); z-index: 1; }
+.kld-num { text-align: end !important; font-variant-numeric: tabular-nums; }
+.kld-name { font: inherit; color: var(--brand-blue); background: none; border: 0; padding: 0; cursor: pointer; text-align: start; text-decoration: underline; text-underline-offset: 2px; }
+.kld-group th { background: var(--surface) !important; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; }
+.kld-quiet td, .kld-quiet th { color: var(--muted); }
+
+/* Heat table: one blue, light → dark with the share right. Steps validated with the
+   dataviz validator (ordinal, light on #fff, dark on #182029); the number is always in
+   the cell, so colour is the second signal, never the only one. */
+.kld-heatmap td.kld-heat { text-align: center; font-variant-numeric: tabular-nums; min-width: 3.2em; border-inline-start: 2px solid var(--surface-card); }
+.kld-topic { white-space: normal !important; min-width: 6.5em; max-width: 9em; vertical-align: bottom; }
+.kld-topic span { display: block; line-height: 1.25; }
+.kld-corner { vertical-align: bottom; }
+.kld-s0 { background: #86b6ef; color: #0d1520 !important; }
+.kld-s1 { background: #5598e7; color: #0d1520 !important; }
+.kld-s2 { background: #2f5f9e; color: #fff !important; }
+.kld-s3 { background: #1c5cab; color: #fff !important; }
+.kld-s4 { background: #104281; color: #fff !important; }
+.kld-done { background: var(--surface); color: var(--muted) !important; }
+.kld-empty { background: transparent; }
+:root[data-theme="dark"] .kld-s0 { background: #184f95; color: #fff !important; }
+:root[data-theme="dark"] .kld-s1 { background: #256abf; color: #fff !important; }
+:root[data-theme="dark"] .kld-s2 { background: #3987e5; color: #0d1520 !important; }
+:root[data-theme="dark"] .kld-s3 { background: #6da7ec; color: #0d1520 !important; }
+:root[data-theme="dark"] .kld-s4 { background: #9ec5f4; color: #0d1520 !important; }
+.kld-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-bottom: 10px; font-size: 12px; color: var(--muted); }
+.kld-key { display: inline-flex; align-items: center; gap: 6px; }
+.kld-key i { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 4px; font-style: normal; font-size: 11px; border: 1px solid var(--border); }
+
+/* One student's attempts. */
+.kld-detail-back { margin-bottom: 6px; }
+.kld-attempts { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border: 1px solid var(--border); border-radius: var(--radius-lg, 14px); background: var(--surface-card); }
+.kld-attempt {
+  display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; align-items: center;
+  padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: var(--text-sm, .875rem);
+}
+.kld-attempt:last-child { border-bottom: 0; }
+.kld-when { color: var(--muted); font-size: 12px; grid-column: 1 / -1; }
+.kld-what { color: var(--ink); overflow-wrap: anywhere; }
+.kld-what small { color: var(--muted); }
+.kld-score { font-variant-numeric: tabular-nums; text-align: end; color: var(--ink); }
+.kld-dur { color: var(--muted); font-size: 12px; }
+.kld-badge { justify-self: end; font-size: 11px; padding: 1px 8px; border-radius: var(--radius-pill, 999px); border: 1px solid var(--border-strong); color: var(--muted); }
+.kld-badge--live, .kld-badge--server { color: var(--ink); border-color: var(--ink); }
+.kld-hint {
+  justify-self: start; width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--border-strong);
+  background: var(--surface); color: var(--muted); font: italic 600 12px/1 Georgia, serif; cursor: pointer;
+}
+.kld-hint-text { grid-column: 1 / -1; color: var(--muted); font-size: 12px; }
+@media (min-width: 720px) {
+  .kld-attempt { grid-template-columns: 9.5em 1fr 8em 4.5em 8.5em 24px; }
+  .kld-when { grid-column: auto; }
+  .kld-hint-text { grid-column: 2 / -1; }
+}
+/* Grid items default to min-width: auto, so a wide table would widen the page instead of
+   scrolling inside .kld-scroll. */
+.kl-stack > *, .kld [data-panel] { min-width: 0; }
+
+/* Aufgaben tab */
+.kld-task-row { display: grid; gap: 12px; }
+@media (min-width: 640px) { .kld-task-row { grid-template-columns: 1fr 1fr; } }
+.kld-tasks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.kld-task { display: grid; gap: 8px; }
+.kld-task-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.kld-task-head b { display: block; color: var(--ink); overflow-wrap: anywhere; }
+.kld-task-head small { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+.kld-tchips { display: flex; flex-wrap: wrap; gap: 6px; }
+/* Status chips carry their word, so the colour is never the only signal. */
+.kld-tchip { font-size: 12px; padding: 2px 10px; border-radius: var(--radius-pill, 999px); border: 1px solid var(--border-strong); color: var(--ink); background: var(--surface); }
+.kld-tchip--erledigt { border-color: color-mix(in srgb, var(--brand-blue) 55%, var(--border)); }
+.kld-tchip--ueberfaellig { font-weight: 600; }
+.kld-task-who > summary { cursor: pointer; color: var(--brand-blue); font-size: var(--text-sm, .875rem); }
+.kld-task-who p { margin: 6px 0 0; font-size: var(--text-sm, .875rem); color: var(--ink); line-height: 1.5; }
+
+/* Stunden as Aufgaben (SCHUELER-STUNDE Tier 3): released lessons, and per person the table. */
+.kld-nh { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.kld-nh li { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 10px 12px; border-radius: 10px; background: var(--surface); }
+.kld-nh b { display: block; color: var(--ink); }
+.kld-nh small { color: var(--muted); }
+.kld-st-scroll { overflow-x: auto; }
+.kld-st-table th[scope="row"] { font-weight: 600; white-space: nowrap; }
+.kld-st-table td { white-space: nowrap; }
+.kld-st-table small { color: var(--muted); }
+.kld-st-ok { color: var(--success, #15803d); font-weight: 600; }
+.kld-st-skip { color: var(--muted); font-style: italic; }
+.kld-st-open { color: var(--muted); }

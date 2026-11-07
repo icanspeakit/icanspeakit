@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Erster Start: Sprache</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&amp;family=Albert+Sans:wght@500;600;700&amp;family=Fredoka:wght@500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#0f766e}a:hover{color:#115e59}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; box-sizing: border-box; background: #ffffff; color: #1a2230; font-family: 'Sora', sans-serif; display: flex; flex-direction: column; padding: 24px 20px 32px">
+  <div style="display: flex; align-items: center; justify-content: space-between; height: 44px">
+    <span style="display: flex; gap: 6px" aria-label="Schritt 1 von 2"><span style="width: 24px; height: 6px; border-radius: 3px; background: #0f766e"></span><span style="width: 6px; height: 6px; border-radius: 3px; background: #cbd2db"></span></span>
+    <span style="font: 500 13px 'Albert Sans', sans-serif; color: #4b5768">1 von 2</span>
+  </div>
+
+  <div style="display: flex; align-items: flex-end; gap: 10px; margin-top: 16px">
+    <img src="bruno.svg" alt="Bruno, der Dackel" style="width: 104px; height: 104px; flex: none">
+    <div style="margin-bottom: 30px; padding: 10px 14px; border-radius: 16px 16px 16px 4px; background: #f0fdfa; border: 1px solid #ccfbf1; font: 600 17px 'Fredoka', sans-serif; color: #115e59">Hallo, ich bin Bruno!</div>
+  </div>
+
+  <h1 style="margin: 20px 0 8px; font-size: 24px; font-weight: 700; line-height: 1.25">In welcher Sprache sollen wir dir helfen?</h1>
+  <p style="margin: 0 0 20px; font: 500 14px/1.45 'Albert Sans', sans-serif; color: #4b5768">Die Übungen bleiben auf Deutsch. Du kannst das später unter „Mehr" ändern.</p>
+
+  <fieldset style="margin: 0; padding: 0; border: none; display: flex; flex-direction: column; gap: 8px">
+    <legend style="position: absolute; width: 1px; height: 1px; overflow: hidden">Sprache</legend>
+    <label style="display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 16px; border: 2px solid #0f766e; background: #f0fdfa; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer"><input type="radio" name="lang" checked="checked" style="width: 20px; height: 20px; accent-color: #0f766e; margin: 0"><span>Deutsch</span></label>
+    <label style="display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 16px; border: 1px solid #e7e9ee; border-radius: 14px; font-size: 16px; cursor: pointer"><input type="radio" name="lang" style="width: 20px; height: 20px; accent-color: #0f766e; margin: 0"><span>English</span></label>
+    <label style="display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 16px; border: 1px solid #e7e9ee; border-radius: 14px; font-size: 16px; cursor: pointer"><input type="radio" name="lang" style="width: 20px; height: 20px; accent-color: #0f766e; margin: 0"><span lang="ar" dir="rtl">العربية</span></label>
+    <label style="display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 16px; border: 1px solid #e7e9ee; border-radius: 14px; font-size: 16px; cursor: pointer"><input type="radio" name="lang" style="width: 20px; height: 20px; accent-color: #0f766e; margin: 0"><span lang="tr">Türkçe</span></label>
+    <label style="display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 16px; border: 1px solid #e7e9ee; border-radius: 14px; font-size: 16px; cursor: pointer"><input type="radio" name="lang" style="width: 20px; height: 20px; accent-color: #0f766e; margin: 0"><span lang="uk">Українська</span></label>
+  </fieldset>
+
+  <div style="flex: 1"></div>
+  <a href="Main.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 28px; background: #0f766e; color: #ffffff; text-decoration: none; font-size: 17px; font-weight: 600">Weiter</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

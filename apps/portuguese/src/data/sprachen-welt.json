@@ -1,0 +1,119 @@
+{
+  "_comment": "Structure for /knowledge/languages (Spanish around the world). All prose lives in public/i18n/en.json under sprachen.*; this file holds what is not translated: ids, ISO codes, coordinates, the words compared. Status keys keep their old names: amtssprache = Spanish is the main language, region = Spanish is official but many people grow up with another language at home, minderheit = not official but widely spoken, gemeinschaft = small or historic communities. seeds: points inside the country's outlines, for the generator. compare: the learner's first language next to Spanish (compareWords); third value 1 = same root as the Spanish word. decoder: English ending or sound → Spanish (from → to), pairs [English, Spanish]. Map geometry is generated from it by scripts/generate-sprachen-karte.mjs into sprachen-karte.json.",
+  "countries": [
+    { "id": "ESP", "iso": "724", "status": "amtssprache", "name": "Spain", "seeds": [[-3.7, 40.4]] },
+    { "id": "MEX", "iso": "484", "status": "amtssprache", "name": "Mexico", "seeds": [[-99.1, 19.4]] },
+    { "id": "GTM", "iso": "320", "status": "amtssprache", "name": "Guatemala", "seeds": [[-90.5, 15]] },
+    { "id": "SLV", "iso": "222", "status": "amtssprache", "name": "El Salvador", "seeds": [[-89, 13.75]] },
+    { "id": "HND", "iso": "340", "status": "amtssprache", "name": "Honduras", "seeds": [[-86.8, 14.8]] },
+    { "id": "NIC", "iso": "558", "status": "amtssprache", "name": "Nicaragua", "seeds": [[-85, 12.9]] },
+    { "id": "CRI", "iso": "188", "status": "amtssprache", "name": "Costa Rica", "seeds": [[-84.1, 9.9]] },
+    { "id": "PAN", "iso": "591", "status": "amtssprache", "name": "Panama", "seeds": [[-80.2, 8.5]] },
+    { "id": "CUB", "iso": "192", "status": "amtssprache", "name": "Cuba", "seeds": [[-79, 22]] },
+    { "id": "DOM", "iso": "214", "status": "amtssprache", "name": "Dominican Republic", "seeds": [[-70.2, 18.8]] },
+    { "id": "PRI", "iso": "630", "status": "amtssprache", "name": "Puerto Rico", "seeds": [[-66.4, 18.2]] },
+    { "id": "COL", "iso": "170", "status": "amtssprache", "name": "Colombia", "seeds": [[-73, 4]] },
+    { "id": "VEN", "iso": "862", "status": "amtssprache", "name": "Venezuela", "seeds": [[-66, 7.5]] },
+    { "id": "ECU", "iso": "218", "status": "amtssprache", "name": "Ecuador", "seeds": [[-78, -1.5]] },
+    { "id": "PER", "iso": "604", "status": "amtssprache", "name": "Peru", "seeds": [[-75, -10]] },
+    { "id": "BOL", "iso": "068", "status": "amtssprache", "name": "Bolivia", "seeds": [[-65, -17]] },
+    { "id": "CHL", "iso": "152", "status": "amtssprache", "name": "Chile", "seeds": [[-70.7, -30], [-69.5, -53.4]] },
+    { "id": "ARG", "iso": "032", "status": "amtssprache", "name": "Argentina", "seeds": [[-64, -34], [-67.6, -54.2]] },
+    { "id": "URY", "iso": "858", "status": "amtssprache", "name": "Uruguay", "seeds": [[-56, -33]] },
+    { "id": "PRY", "iso": "600", "status": "region", "name": "Paraguay", "seeds": [[-58, -23.5]] },
+    { "id": "GNQ", "iso": "226", "status": "region", "name": "Equatorial Guinea", "seeds": [[10.4, 1.6]] },
+    {
+      "id": "USA",
+      "iso": "840",
+      "status": "minderheit",
+      "name": "United States",
+      "seeds": [[-100, 40], [-150, 65], [-155.5, 19.6]],
+      "speakers": { "n": 44900000, "of": "minority" },
+      "regions": [
+        { "id": "suroeste", "name": "California and the Southwest", "km": 260, "points": [[-118.2, 34.05], [-111, 33.4]] },
+        { "id": "texas", "name": "Texas", "km": 260, "points": [[-98.5, 29.4]] },
+        { "id": "florida", "name": "Florida", "km": 180, "points": [[-80.4, 26]] },
+        { "id": "nuevayork", "name": "New York and New Jersey", "km": 130, "points": [[-74, 40.7]] }
+      ]
+    },
+    {
+      "id": "BLZ",
+      "iso": "084",
+      "status": "minderheit",
+      "name": "Belize",
+      "seeds": [[-88.7, 17.2]],
+      "regions": [
+        { "id": "norte", "name": "Corozal and Orange Walk in the north; Cayo in the west", "km": 30, "points": [[-88.55, 18.1], [-89, 17.15]] }
+      ]
+    },
+    { "id": "AND", "iso": "020", "status": "minderheit", "name": "Andorra", "seeds": [] }
+  ],
+  "markers": [
+    { "id": "guinea", "ref": "GNQ", "kind": "region", "name": "Equatorial Guinea", "views": ["world"], "points": [[10.4, 1.6]] },
+    { "id": "puertorico", "ref": "PRI", "kind": "amtssprache", "name": "Puerto Rico", "views": ["world", "americas"], "points": [[-66.4, 18.2]] },
+    { "id": "andorra", "ref": "AND", "kind": "minderheit", "name": "Andorra", "views": ["world"], "points": [[1.55, 42.5]] },
+    { "id": "gibraltar", "kind": "gemeinschaft", "name": "Gibraltar", "views": ["world"], "points": [[-5.35, 36.14]] },
+    { "id": "sahara", "kind": "gemeinschaft", "name": "Western Sahara", "views": ["world"], "points": [[-13, 25]] },
+    { "id": "filipinas", "kind": "gemeinschaft", "name": "Philippines", "views": ["world"], "points": [[120.98, 14.6], [122.08, 6.92]] },
+    { "id": "ladino", "kind": "gemeinschaft", "name": "Judeo-Spanish (Ladino)", "views": ["world"], "points": [[34.8, 32.1], [28.97, 41.01]] }
+  ],
+  "tree": {
+    "id": "ie",
+    "children": [
+      {
+        "id": "rom",
+        "children": [
+          { "id": "iber", "langs": ["Spanish", "Portuguese", "Galician", "Asturian", "Aragonese", "Ladino"] },
+          { "id": "gal", "langs": ["French", "Catalan", "Occitan"] },
+          { "id": "ital", "langs": ["Italian", "Sardinian", "Romanian"] }
+        ]
+      },
+      { "id": "germ", "langs": ["English", "German", "Dutch", "Swedish", "Danish", "Norwegian"] },
+      { "id": "slaw", "langs": ["Russian", "Ukrainian", "Polish", "Czech", "Croatian", "Bulgarian"] },
+      { "id": "iran", "langs": ["Persian", "Kurdish", "Pashto", "Hindi", "Urdu", "Bengali"] },
+      { "id": "weitere", "langs": ["Greek", "Albanian", "Armenian", "Lithuanian", "Irish", "Welsh"] }
+    ]
+  },
+  "otherFamilies": [
+    { "id": "isolat", "langs": ["Basque"] },
+    { "id": "afro", "langs": ["Arabic", "Tamazight", "Hebrew", "Somali"] },
+    { "id": "amer", "langs": ["Quechua", "Guaraní", "Nahuatl", "Aymara"] },
+    { "id": "niger", "langs": ["Fang", "Wolof", "Yoruba", "Swahili"] },
+    { "id": "sino", "langs": ["Chinese", "Tibetan", "Burmese"] },
+    { "id": "turk", "langs": ["Turkish", "Azerbaijani", "Kazakh", "Uzbek"] }
+  ],
+  "compareWords": ["madre", "hermano", "noche", "tres", "nuevo", "nombre", "casa", "agua"],
+  "compare": [
+    { "id": "englisch", "tree": "English", "level": "entfernt", "words": [["mother", null, 1], ["brother", null, 0], ["night", null, 1], ["three", null, 1], ["new", null, 1], ["name", null, 1], ["house", null, 0], ["water", null, 0]] },
+    { "id": "deutsch", "tree": "German", "level": "entfernt", "words": [["Mutter", null, 1], ["Bruder", null, 0], ["Nacht", null, 1], ["drei", null, 1], ["neu", null, 1], ["Name", null, 1], ["Haus", null, 0], ["Wasser", null, 0]] },
+    { "id": "franzoesisch", "tree": "French", "level": "sehr-nah", "words": [["mère", null, 1], ["frère", null, 0], ["nuit", null, 1], ["trois", null, 1], ["nouveau", null, 1], ["nom", null, 1], ["maison", null, 0], ["eau", null, 1]] },
+    { "id": "portugiesisch", "tree": "Portuguese", "level": "sehr-nah", "words": [["mãe", null, 1], ["irmão", null, 1], ["noite", null, 1], ["três", null, 1], ["novo", null, 1], ["nome", null, 1], ["casa", null, 1], ["água", null, 1]] },
+    { "id": "italienisch", "tree": "Italian", "level": "sehr-nah", "words": [["madre", null, 1], ["fratello", null, 0], ["notte", null, 1], ["tre", null, 1], ["nuovo", null, 1], ["nome", null, 1], ["casa", null, 1], ["acqua", null, 1]] },
+    { "id": "rumaenisch", "tree": "Romanian", "level": "sehr-nah", "words": [["mamă", null, 0], ["frate", null, 0], ["noapte", null, 1], ["trei", null, 1], ["nou", null, 1], ["nume", null, 1], ["casă", null, 1], ["apă", null, 1]] },
+    { "id": "arabisch", "tree": "Arabic", "level": "fremd", "rtl": true, "words": [["أُمّ", "umm", 0], ["أَخ", "aḫ", 0], ["لَيْل", "layl", 0], ["ثَلَاثَة", "ṯalāṯa", 0], ["جَدِيد", "jadīd", 0], ["اِسْم", "ism", 0], ["بَيْت", "bayt", 0], ["مَاء", "māʾ", 0]] },
+    { "id": "russisch", "tree": "Russian", "level": "entfernt", "words": [["мать", "mat'", 1], ["брат", "brat", 0], ["ночь", "noč'", 1], ["три", "tri", 1], ["новый", "novyj", 1], ["имя", "imja", 1], ["дом", "dom", 0], ["вода", "voda", 0]] },
+    { "id": "ukrainisch", "tree": "Ukrainian", "level": "entfernt", "words": [["мати", "maty", 1], ["брат", "brat", 0], ["ніч", "nič", 1], ["три", "try", 1], ["новий", "novyj", 1], ["ім'я", "im'ja", 1], ["дім", "dim", 0], ["вода", "voda", 0]] },
+    { "id": "chinesisch", "tree": "Chinese", "level": "fremd", "words": [["母亲", "mǔqīn", 0], ["兄弟", "xiōngdì", 0], ["夜", "yè", 0], ["三", "sān", 0], ["新", "xīn", 0], ["名字", "míngzi", 0], ["房子", "fángzi", 0], ["水", "shuǐ", 0]] }
+  ],
+  "decoder": [
+    { "id": "cion", "from": "-tion", "to": "-ción", "pairs": [["nation", "nación"], ["situation", "situación"], ["information", "información"], ["solution", "solución"]] },
+    { "id": "dad", "from": "-ty", "to": "-dad", "pairs": [["city", "ciudad"], ["university", "universidad"], ["quality", "calidad"], ["possibility", "posibilidad"]] },
+    { "id": "es", "from": "s + consonant", "to": "es-", "pairs": [["school", "escuela"], ["student", "estudiante"], ["special", "especial"], ["Spain", "España"]] },
+    { "id": "oso", "from": "-ous", "to": "-oso", "pairs": [["famous", "famoso"], ["delicious", "delicioso"], ["nervous", "nervioso"], ["curious", "curioso"]] },
+    { "id": "mente", "from": "-ly", "to": "-mente", "pairs": [["finally", "finalmente"], ["normally", "normalmente"], ["really", "realmente"], ["probably", "probablemente"]] },
+    { "id": "encia", "from": "-ence", "to": "-encia", "pairs": [["difference", "diferencia"], ["science", "ciencia"], ["patience", "paciencia"], ["experience", "experiencia"]] },
+    { "id": "ico", "from": "-ic", "to": "-ico", "pairs": [["public", "público"], ["electric", "eléctrico"], ["economic", "económico"], ["plastic", "plástico"]] },
+    { "id": "f", "from": "ph", "to": "f", "pairs": [["photo", "foto"], ["telephone", "teléfono"], ["pharmacy", "farmacia"], ["philosophy", "filosofía"]] },
+    { "id": "t", "from": "th", "to": "t", "pairs": [["theatre", "teatro"], ["method", "método"], ["theme", "tema"], ["author", "autor"]] }
+  ],
+  "decoderQuiz": [
+    ["conversation", "conversación"],
+    ["activity", "actividad"],
+    ["stomach", "estómago"],
+    ["generous", "generoso"],
+    ["generally", "generalmente"],
+    ["residence", "residencia"],
+    ["republic", "república"],
+    ["geography", "geografía"]
+  ]
+}

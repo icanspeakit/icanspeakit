@@ -1,0 +1,517 @@
+@import "./button.css";
+/* Concept 9 · Infographic/Roadmap homepage layout — reuses brand tokens from global.css */
+
+.lp {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--surface-card);
+}
+.lp * { box-sizing: border-box; }
+.lp img { max-width: 100%; display: block; }
+.lp a { color: inherit; text-decoration: none; }
+
+.lp-wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+.lp-eyebrow {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--brand-blue-dark);
+}
+/* Bungee Shade accent under the hero h1 — the single place the face is used
+   site-wide, so it stays an accent rather than a second display voice. Sized
+   well below the h1 on purpose; if it ever needs to appear somewhere else,
+   reuse this class instead of reaching for var(--font-accent) directly. */
+.lp-hero-accent {
+  display: inline-block;
+  /* .lp-hero-copy is a flex column, which blockifies and stretches children —
+     pin it to the start so the highlight hugs the text instead of the column. */
+  align-self: flex-start;
+  width: fit-content;
+  margin: 6px 0 0;
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--blue-100);
+  color: var(--accent-dark);
+  font-family: var(--font-accent);
+  font-size: clamp(.9rem, 2.2vw, 1.25rem);
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: .02em; font-weight: var(--fw-regular);
+}
+
+/* Sit tight under the h1 rather than a full column gap away. */
+.lp-hero-copy .lp-hero-accent { margin-top: -16px; font-weight: var(--fw-regular); }
+/* The phone-frame hero styles every <p> as muted body copy — win on
+   specificity so the accent keeps its own color and scale there. */
+.m1-phone-block .lp-hero-accent {
+  font-size: 12px;
+  color: var(--accent-dark);
+  margin: 2px 0 12px;
+  padding: 3px 9px;
+}
+
+.lp-section { padding: 88px 0; }
+.lp-section--alt { background: var(--surface); border-top: 1px solid var(--border); }
+.lp-section-head {
+  max-width: 600px;
+  margin: 0 auto 48px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.lp-section-head h2 {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  font-size: clamp(1.6rem, 3vw, 2.125rem);
+  line-height: 1.2;
+  color: var(--ink);
+  overflow-wrap: break-word;
+}
+.lp-section-head p { margin: 0; font-size: 16.5px; line-height: 1.55; color: var(--muted); }
+
+/* Base size lives here so an .lp-btn works anywhere it is dropped. Every
+   context that wants a different size (nav, hero, showcase, m1) overrides
+   padding/font-size with a two-class selector and still wins. */
+/* .lp-btn lives in src/styles/button.css — see the note there. */
+
+/* Nav lives in src/styles/site-nav.css, next to the SiteNav component that owns it. */
+
+/* Hero */
+.lp-hero { background: var(--surface-card); }
+.lp-hero-inner { padding-top: 80px; padding-bottom: 88px; display: grid; grid-template-columns: 1.05fr 1fr; gap: 64px; align-items: center; }
+.lp-hero-inner--reverse { grid-template-columns: 1fr 1.05fr; }
+.lp-hero-inner--reverse .lp-hero-copy { order: 2; }
+.lp-hero-inner--reverse .lp-browser { order: 1; }
+.lp-hero-copy { display: flex; flex-direction: column; gap: 22px; }
+.lp-hero-copy h1 {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  color: var(--ink);
+}
+.lp-hero-lead { margin: 0; font-size: 19px; line-height: 1.5; color: var(--muted); max-width: 46ch; }
+.lp-hero-sub { margin: 0; font-size: 14.5px; line-height: 1.6; color: var(--muted-soft); max-width: 52ch; }
+.lp-hero-actions { display: flex; gap: 14px; align-items: center; padding-top: 6px; flex-wrap: wrap; }
+.lp-hero-actions .lp-btn--primary { padding: 17px 32px; font-size: 16px; }
+.lp-hero-actions .lp-btn--outline { padding: 16px 28px; font-size: 16px; }
+.lp-hero-note { font-size: 13px; color: var(--muted-soft); }
+
+.lp-hero-media {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background-size: cover;
+  background-position: center;
+  aspect-ratio: 4 / 3;
+}
+.lp-hero-media::before { content: ""; position: absolute; inset: 0; background: var(--gradient-hero-scrim); opacity: .5; }
+.lp-hero-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.lp-hero-play-circle {
+  width: 84px; height: 84px; border-radius: 50%;
+  background: rgba(255,255,255,.94);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 12px 34px rgba(36,32,27,.28);
+}
+.lp-hero-play-triangle {
+  width: 0; height: 0;
+  border-left: 22px solid var(--brand-blue-dark);
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  margin-left: 6px;
+}
+.lp-hero-badge {
+  position: absolute; left: 20px; bottom: 20px;
+  padding: 8px 14px; border-radius: var(--radius-pill);
+  background: rgba(36,32,27,.72); color: #fff;
+  font-size: 12px; font-weight: 600;
+}
+
+/* Trust bar */
+.lp-trust { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.lp-trust-grid { padding-top: 32px; padding-bottom: 32px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.lp-trust-item { padding: 0 28px; border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; }
+.lp-trust-item:first-child { padding-left: 0; }
+.lp-trust-item:last-child { border-right: none; padding-right: 0; }
+.lp-trust-num { font-family: var(--font-display); font-weight: 700; font-size: 30px; line-height: 1; color: var(--ink); }
+.lp-trust-label { font-size: 13.5px; color: var(--muted); }
+
+/* Value props */
+.lp-value-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+.lp-value-card { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface-card); display: flex; flex-direction: column; }
+.lp-value-card img { width: 100%; height: 140px; object-fit: cover; }
+.lp-value-card-body { padding: 22px; display: flex; flex-direction: column; gap: 9px; }
+.lp-value-card-body h3 { margin: 0; font-size: 17.5px; font-weight: var(--fw-regular); line-height: 1.3; color: var(--ink); }
+.lp-value-card-body p { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--muted); }
+
+/* How it works — Concept 9 roadmap track */
+.lp-track { position: relative; display: flex; justify-content: space-between; padding-top: 26px; max-width: 900px; margin: 0 auto; }
+.lp-track::before { content: ""; position: absolute; top: 13px; left: 5%; right: 5%; height: 3px; background: var(--border); }
+.lp-road-step { flex: 1; text-align: center; padding: 0 16px; position: relative; }
+.lp-road-node {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--brand-blue); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 700; font-size: 13px;
+  margin: 0 auto 18px; position: relative; z-index: 1;
+}
+.lp-road-step:nth-child(2) .lp-road-node { background: var(--accent); }
+.lp-road-label { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted-soft); margin-bottom: 8px; font-weight: 700; }
+.lp-road-step h3 { margin: 0 0 8px; font-size: 17px; font-weight: var(--fw-regular); color: var(--ink); }
+.lp-road-step p { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--muted); }
+@media (max-width: 900px) { .lp-track { flex-direction: column; gap: 30px; } .lp-track::before { display: none; } }
+
+/* Hero progress bar (Concept 9) */
+.lp-hero-progress { display: flex; gap: 6px; max-width: 260px; margin: 4px 0 0; }
+.lp-hero-progress span { flex: 1; height: 6px; border-radius: 3px; background: var(--border); }
+.lp-hero-progress span:nth-child(1) { background: var(--brand-blue); }
+.lp-hero-progress span:nth-child(2) { background: var(--accent); }
+
+/* Tools grid */
+.lp-tools-group { margin-bottom: 40px; }
+.lp-tools-group:last-child { margin-bottom: 0; }
+.lp-tools-label { font-family: var(--font-display); font-weight: 700; font-size: 12.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted-soft); margin-bottom: 16px; }
+/* Fixed column counts (not auto-fill) so each group forms complete rows: the 8 exercise
+   tools land as a clean 4x2, the 5 exams as a single row — no ragged tail. */
+.lp-tools-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+.lp-tools-grid--exams { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.lp-tool-card { display: flex; flex-direction: column; gap: 14px; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 18px; background: var(--surface-card); transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+.lp-tool-card:hover { border-color: var(--brand-blue); box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+.lp-tool-tile { width: 44px; height: 44px; border-radius: var(--radius-lg); background: var(--gradient-brand); color: #fff; box-shadow: 0 6px 14px rgba(43,65,98,.14); display: flex; align-items: center; justify-content: center; }
+.lp-tools-group--exams .lp-tool-tile { background: linear-gradient(135deg, #e0bd7a, var(--accent)); box-shadow: 0 6px 14px rgba(148,102,32,.14); }
+.lp-tool-card h4 { margin: 0; font-size: 15px; font-weight: var(--fw-regular); color: var(--ink); line-height: 1.3; }
+.lp-tool-card p { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--muted); flex-grow: 1; }
+
+/* Product showcase */
+.lp-showcase { display: grid; grid-template-columns: 1.3fr 1fr; gap: 56px; align-items: center; }
+.lp-browser { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: var(--surface-card); box-shadow: var(--shadow-raised); }
+.lp-browser-bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: var(--surface); border-bottom: 1px solid var(--border); }
+.lp-browser-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border-strong); }
+.lp-browser-url { flex: 1; height: 22px; border-radius: 6px; background: var(--surface-card); border: 1px solid var(--border); margin-left: 10px; display: flex; align-items: center; padding: 0 10px; font-size: 10.5px; color: var(--muted-soft); }
+.lp-browser-body { display: grid; grid-template-columns: 186px 1fr; min-height: 370px; }
+.lp-sidebar { border-right: 1px solid var(--border); padding: 20px 14px; display: flex; flex-direction: column; gap: 6px; background: var(--surface); }
+.lp-sidebar img { height: 18px; max-width: 100%; width: auto; object-fit: contain; object-position: left; margin-bottom: 14px; }
+.lp-sidebar-link { padding: 10px 12px; font-size: 12.5px; color: var(--muted); border-radius: 8px; }
+.lp-sidebar-link--active { background: var(--surface-card); border: 1px solid var(--border); font-weight: 700; color: var(--brand-blue-dark); }
+.lp-sidebar-upsell { margin-top: auto; padding: 12px; border-radius: 10px; background: var(--gradient-brand-soft); border: 1px solid var(--blue-200); }
+.lp-sidebar-upsell strong { display: block; font-size: 11.5px; font-weight: 700; color: var(--brand-blue-dark); margin-bottom: 4px; }
+.lp-sidebar-upsell span { font-size: 10.5px; line-height: 1.4; color: var(--muted); }
+.lp-dash { padding: 22px; display: flex; flex-direction: column; gap: 18px; }
+.lp-dash-header { display: flex; align-items: center; justify-content: space-between; }
+.lp-dash-greeting strong { display: block; font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--ink); }
+.lp-dash-greeting span { font-size: 11.5px; color: var(--muted); }
+.lp-avatar-initials {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--gradient-brand); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 700; font-size: 12px;
+  border: 1px solid var(--border);
+}
+.lp-dash-stat-row { display: flex; gap: 10px; }
+.lp-dash-stat { flex: 1; border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; }
+.lp-dash-stat strong { display: block; font-family: var(--font-display); font-weight: 700; font-size: 19px; color: var(--ink); }
+.lp-dash-stat span { font-size: 11px; color: var(--muted); }
+.lp-dash-question { border: 1px dashed var(--border-strong); border-radius: 12px; padding: 18px; }
+.lp-quiz-kicker { font-family: var(--font-display); font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--brand-blue-dark); margin-bottom: 10px; }
+.lp-quiz-prompt { margin: 0 0 4px; font-size: 16px; font-weight: 700; color: var(--ink); }
+.lp-quiz-prompt .blank { display: inline-block; min-width: 38px; border-bottom: 2px solid var(--brand-blue); text-align: center; }
+.lp-quiz-prompt .blank.is-filled { color: var(--brand-blue-dark); padding: 0 4px; }
+.lp-quiz-hint { margin: 0 0 14px; font-size: 12px; color: var(--muted-soft); }
+.lp-quiz-choices { display: flex; gap: 8px; flex-wrap: wrap; }
+/* The homepage mock renders these as real <button>s (the quiz card there is
+   playable), the design-preview pages still as <span>s — so reset the button
+   chrome here rather than assuming one element. */
+.lp-quiz-choice {
+  padding: 9px 16px; border-radius: var(--radius-pill); border: 1.5px solid var(--border);
+  font-family: inherit; font-weight: 700; font-size: 13px; color: var(--ink);
+  background: var(--surface-card); line-height: 1.2;
+  transition: border-color .15s ease, background .15s ease, color .15s ease;
+}
+button.lp-quiz-choice { cursor: pointer; }
+button.lp-quiz-choice:hover:not(:disabled) { border-color: var(--brand-blue); }
+button.lp-quiz-choice:disabled { cursor: default; }
+.lp-quiz-choice--correct { border-color: var(--brand-blue); background: var(--blue-50, #f2f5f9); color: var(--brand-blue-dark); position: relative; }
+.lp-quiz-choice--correct::after {
+  content: "✓"; position: absolute; top: -7px; right: -6px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--brand-blue); color: #fff;
+  font-size: 9px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.lp-quiz-choice--wrong { border-color: var(--danger); color: var(--danger); background: var(--surface-card); animation: lp-quiz-shake .35s ease; }
+@keyframes lp-quiz-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+.lp-quiz-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 12px; min-height: 16px; }
+.lp-quiz-feedback { font-size: 12px; font-weight: 700; }
+.lp-quiz-feedback.is-correct { color: var(--brand-blue-dark); }
+.lp-quiz-feedback.is-wrong { color: var(--danger); }
+.lp-quiz-dots { display: flex; gap: 5px; }
+.lp-quiz-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--border-strong); }
+.lp-quiz-dots i.is-done { background: var(--blue-200); }
+.lp-quiz-dots i.is-current { background: var(--brand-blue); }
+@media (prefers-reduced-motion: reduce) {
+  .lp-quiz-choice { transition: none; }
+  .lp-quiz-choice--wrong { animation: none; }
+}
+.lp-progress-card { border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.lp-progress-row { display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 700; color: var(--ink); }
+.lp-progress-row span.pct { color: var(--brand-blue-dark); }
+.lp-progress-track { height: 9px; border-radius: var(--radius-pill); background: var(--blue-100); overflow: hidden; }
+.lp-progress-fill { height: 100%; background: var(--gradient-brand); }
+.lp-progress-note { font-size: 11px; color: var(--muted-soft); }
+.lp-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.lp-mini-card { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.lp-mini-card img { width: 100%; height: 56px; object-fit: cover; object-position: top; }
+.lp-mini-card-body { padding: 12px; display: flex; flex-direction: column; gap: 7px; }
+.lp-mini-card-body span { font-size: 12.5px; font-weight: 700; color: var(--ink); }
+.lp-mini-bar { height: 6px; border-radius: var(--radius-pill); background: var(--blue-100); }
+.lp-mini-bar-fill { height: 100%; border-radius: var(--radius-pill); }
+.lp-locked-card {
+  border: 1px dashed var(--border-strong); border-radius: 12px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  min-height: 110px; background: var(--surface);
+}
+.lp-locked-card .icon { font-size: 16px; color: var(--muted-soft); }
+.lp-locked-card strong { font-size: 11px; font-weight: 700; color: var(--muted); }
+.lp-locked-card span { font-size: 10.5px; color: var(--muted-soft); }
+
+.lp-showcase-copy { display: flex; flex-direction: column; gap: 22px; }
+.lp-showcase-copy h2 { margin: 0; font-family: var(--font-body); font-weight: var(--fw-regular); font-size: clamp(1.5rem, 3vw, 2.125rem); line-height: 1.2; color: var(--ink); }
+.lp-showcase-copy > p { margin: 0; font-size: 16px; line-height: 1.55; color: var(--muted); }
+.lp-checklist { display: flex; flex-direction: column; gap: 14px; }
+.lp-check-item { display: flex; gap: 12px; align-items: flex-start; }
+.lp-check-icon {
+  width: 22px; height: 22px; flex: none; border-radius: 50%;
+  background: var(--blue-100); color: var(--brand-blue-dark);
+  display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+}
+.lp-check-icon--premium { background: var(--gradient-brand); color: #fff; }
+.lp-check-item strong { display: block; font-size: 14.5px; font-weight: 700; color: var(--ink); }
+.lp-check-item span { font-size: 13.5px; line-height: 1.5; color: var(--muted); }
+.lp-showcase-actions { display: flex; gap: 12px; align-items: center; padding-top: 4px; flex-wrap: wrap; }
+.lp-showcase-actions .lp-btn--primary { padding: 14px 28px; font-size: 15px; }
+.lp-showcase-actions .lp-btn--outline { padding: 13px 26px; font-size: 15px; }
+
+/* Deep dive */
+.lp-deepdive-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
+.lp-deep-card { background: var(--surface-card); border: 1px solid var(--border); border-top: 5px solid var(--brand-blue-light); border-radius: var(--radius); padding: 30px 26px; display: flex; flex-direction: column; gap: 18px; }
+.lp-deep-card--featured { border-top-color: var(--brand-blue); box-shadow: var(--shadow-hover); }
+.lp-deep-card--cyan { border-top-color: var(--brand-cyan); }
+.lp-deep-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--blue-100); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--brand-blue-dark); }
+.lp-deep-icon--featured { background: var(--gradient-brand); color: #fff; }
+.lp-deep-head h3 { margin: 0 0 7px; font-family: var(--font-body); font-weight: var(--fw-regular); font-size: 20px; line-height: 1.25; color: var(--ink); }
+.lp-deep-head p { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--muted); }
+.lp-deep-list { display: flex; flex-direction: column; gap: 11px; }
+.lp-deep-item { display: flex; gap: 10px; }
+.lp-deep-item .lp-check-icon { width: 19px; height: 19px; font-size: 11px; }
+.lp-deep-item span { font-size: 13.5px; line-height: 1.45; color: var(--ink); }
+.lp-deep-cta {
+  margin-top: auto; padding: 13px 20px; border-radius: var(--radius-pill);
+  background: var(--surface-card); border: 1px solid var(--border-strong); color: var(--brand-blue-dark);
+  font-size: 14px; font-weight: 700; text-align: center;
+}
+.lp-deep-cta--featured { background: var(--gradient-brand); border: none; color: #fff; box-shadow: var(--shadow-cta); padding: 14px 20px; }
+
+/* Pricing */
+.lp-pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; max-width: 880px; margin: 0 auto; }
+.lp-price-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 36px 30px; display: flex; flex-direction: column; gap: 20px; background: var(--surface-card); }
+.lp-price-card--featured { position: relative; border: 2px solid var(--brand-blue); box-shadow: var(--shadow-raised); }
+.lp-price-badge {
+  position: absolute; top: -14px; left: 30px; padding: 7px 16px; border-radius: var(--radius-pill);
+  background: var(--gradient-brand); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .06em;
+}
+.lp-price-name { font-family: var(--font-display); font-weight: 700; font-size: 22px; color: var(--ink); }
+.lp-price-amount { display: flex; align-items: baseline; gap: 8px; }
+.lp-price-amount strong { font-family: var(--font-display); font-weight: 700; font-size: 46px; line-height: 1; color: var(--ink); }
+.lp-price-amount span { font-size: 14px; color: var(--muted); }
+.lp-price-desc { font-size: 14px; line-height: 1.5; color: var(--muted); }
+.lp-price-divider { height: 1px; background: var(--border); }
+.lp-price-list { display: flex; flex-direction: column; gap: 11px; }
+.lp-price-item { display: flex; gap: 10px; }
+.lp-price-item .lp-check-icon { width: 19px; height: 19px; font-size: 11px; }
+.lp-price-item span { font-size: 14px; line-height: 1.45; color: var(--ink); }
+.lp-price-item--off .lp-check-icon { background: var(--surface); border: 1px solid var(--border); color: var(--muted-soft); }
+.lp-price-item--off span { color: var(--muted-soft); }
+.lp-price-cta {
+  margin-top: auto; padding: 15px 20px; border-radius: var(--radius-pill);
+  background: var(--surface-card); border: 1px solid var(--border-strong); color: var(--brand-blue-dark);
+  font-size: 15px; font-weight: 700; text-align: center;
+}
+.lp-price-cta--featured { background: var(--gradient-brand); border: none; color: #fff; box-shadow: var(--shadow-cta); padding: 16px 20px; }
+.lp-pricing-note { text-align: center; font-size: 13px; color: var(--muted-soft); margin-top: 26px; }
+
+/* Final CTA */
+.lp-final-cta { background: var(--gradient-brand); }
+.lp-final-cta-inner { padding-top: 96px; padding-bottom: 96px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.lp-final-cta-inner h2 { margin: 0; font-family: var(--font-body); font-weight: var(--fw-regular); font-size: clamp(1.75rem, 4vw, 2.75rem); line-height: 1.12; letter-spacing: -.015em; color: #fff; max-width: 24ch; }
+.lp-final-cta-inner p { margin: 0; font-size: 17px; line-height: 1.55; color: rgba(255,255,255,.9); max-width: 52ch; }
+.lp-final-cta-btn { padding: 20px 46px; border-radius: var(--radius-pill); background: var(--surface-card); color: var(--brand-blue-dark); font-size: 17.5px; font-weight: 700; margin-top: 8px; box-shadow: 0 12px 30px rgba(36,32,27,.22); }
+.lp-final-cta-login { font-size: 14px; color: rgba(255,255,255,.85); }
+.lp-final-cta-login b { color: #fff; text-decoration: underline; }
+
+/* Footer */
+/* The brand footer: primary-dark navy, link grey #cdd6e2, notes #aab5c6, fine print #8b95a8
+   (4.9:1 and up on the navy). */
+.lp-footer { background: var(--inverse-surface); color: #cdd6e2; }
+.lp-footer-inner { padding-top: 64px; padding-bottom: 28px; }
+.lp-footer-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) repeat(5, minmax(0, 1fr)); gap: 32px; }
+.lp-footer-brand { display: flex; flex-direction: column; gap: 16px; }
+/* The dark wordmark from the kit (Wordmark onDark); never filtered or recoloured. */
+.lp-footer-brand img { height: 26px; width: auto; object-fit: contain; object-position: left; }
+.lp-footer-brand strong { font-family: var(--font-display); font-weight: 600; font-size: 17px; color: #fff; }
+.lp-footer-brand p { margin: 0; font-size: 13.5px; line-height: 1.6; color: #aab5c6; max-width: 32ch; }
+.lp-footer-col { display: flex; flex-direction: column; gap: 12px; }
+.lp-footer-col h5 { margin: 0; font-size: 13px; font-weight: 700; color: #fff; }
+/* The columns hold links now, not four lines of filler text. */
+.lp-footer-col span,
+.lp-footer-col a { font-size: 13.5px; color: #aab5c6; text-decoration: none; }
+.lp-footer-col a:hover { color: #fff; text-decoration: underline; }
+.lp-footer-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 44px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.12); flex-wrap: wrap; gap: 12px; }
+.lp-footer-copyright { font-size: 13px; color: #8b95a8; }
+.lp-footer-lang { display: flex; align-items: center; gap: 8px; padding: 9px 15px; border: 1px solid rgba(255,255,255,.18); border-radius: var(--radius-pill); font-size: 13px; color: #cdd6e2; }
+.lp-footer-lang .caret { color: #8b95a8; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .lp-value-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lp-trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 24px; }
+  .lp-trust-item { border-right: none; padding: 0 !important; }
+  .lp-deepdive-grid { grid-template-columns: 1fr; }
+  .lp-footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lp-showcase { grid-template-columns: 1fr; }
+  .lp-tools-grid, .lp-tools-grid--exams { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  .lp-hero-inner { grid-template-columns: 1fr; }
+  .lp-steps { grid-template-columns: 1fr; }
+  .lp-step-arrow { transform: rotate(90deg); height: 32px; }
+}
+
+@media (max-width: 720px) {
+  .lp-value-grid { grid-template-columns: 1fr; }
+  .lp-browser-body { grid-template-columns: 1fr; }
+  .lp-sidebar { flex-direction: row; flex-wrap: wrap; }
+  .lp-sidebar-upsell { display: none; }
+  .lp-mini-grid { grid-template-columns: 1fr; }
+  .lp-mini-card img { height: 140px; }
+  .lp-pricing-grid { grid-template-columns: 1fr; }
+  .lp-tools-grid, .lp-tools-grid--exams { grid-template-columns: minmax(0, 1fr); }
+  .lp-footer-grid { grid-template-columns: 1fr; }
+  .lp-section { padding: 56px 0; }
+  .lp-hero-inner { padding-top: 48px; padding-bottom: 56px; }
+  .lp-final-cta-inner { padding-top: 64px; padding-bottom: 64px; }
+}
+
+/* --- Homepage "Übungen" mock: a switching sidebar over four live panels ------
+   Scoped to [data-mock] so the same .lp-browser markup on the design-preview
+   pages (m1, uebungen-vorschau) keeps its original static proportions. The body
+   height is fixed rather than min-height because index.astro's fitMocks() rescales
+   the whole frame whenever the artwork's height changes — without this, switching
+   panels would make the mock jump. */
+[data-mock] .lp-browser-body { height: 440px; }
+[data-mock] .lp-dash { overflow: hidden; }
+[data-mock] .lp-dash > [data-panel-body] { display: flex; flex-direction: column; gap: 18px; flex: 1; min-height: 0; }
+[data-mock] .lp-dash > [data-panel-body][hidden] { display: none; }
+
+/* The sidebar entries are real buttons here, so undo the button chrome and keep
+   the look landing.css already defines for .lp-sidebar-link. */
+[data-mock] button.lp-sidebar-link {
+  display: flex; align-items: center; gap: 7px;
+  width: 100%; text-align: left;
+  font-family: inherit; font-size: 12.5px; line-height: 1.3;
+  background: none; border: 1px solid transparent; cursor: pointer;
+  transition: background var(--duration-base, .18s) var(--ease-standard, ease);
+}
+[data-mock] button.lp-sidebar-link:hover { background: var(--surface-card); }
+[data-mock] button.lp-sidebar-link.lp-sidebar-link--active { background: var(--surface-card); border-color: var(--border); }
+
+/* Everything else in the toolbox: shown so the sidebar still tells the whole
+   story, styled as a list so it never reads as a button that does nothing. */
+.lp-sidebar-more { margin-top: auto; display: flex; flex-direction: column; gap: 5px; padding-top: 12px; border-top: 1px solid var(--border); }
+.lp-sidebar-more > span { font-size: 11px; color: var(--muted-soft); display: flex; align-items: center; gap: 6px; }
+.lp-sidebar-more-label { font-size: 9.5px !important; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted-soft); }
+
+/* Aussprache panel */
+.lp-pron-text { margin: 0 0 4px; font-family: var(--font-display); font-weight: 700; font-size: 21px; line-height: 1.25; color: var(--ink); }
+.lp-pron-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
+.lp-pron-play {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 18px; border-radius: var(--radius-pill); border: none;
+  background: var(--gradient-brand); color: #fff;
+  font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+}
+.lp-pron-icon { font-size: 10px; line-height: 1; }
+.is-playing .lp-pron-play { box-shadow: 0 0 0 4px var(--blue-100); }
+.lp-pron-slow { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); cursor: pointer; }
+.lp-pron-slow input { accent-color: var(--brand-blue); cursor: pointer; }
+.lp-pron-nav { margin-left: auto; display: inline-flex; gap: 6px; }
+.lp-pron-step {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1px solid var(--border-strong); background: var(--surface-card);
+  color: var(--ink); font-size: 15px; line-height: 1; cursor: pointer;
+}
+.lp-pron-step:hover { border-color: var(--brand-blue); color: var(--brand-blue-dark); }
+
+/* Bildbeschreibung panel */
+.lp-bild { display: flex; gap: 16px; min-height: 0; }
+.lp-bild img { width: 168px; height: 100%; max-height: 210px; object-fit: cover; border-radius: 10px; flex-shrink: 0; }
+.lp-bild-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.lp-bild-tabs { display: flex; gap: 6px; }
+.lp-bild-tab {
+  padding: 5px 11px; border-radius: var(--radius-pill);
+  border: 1px solid var(--border); background: var(--surface-card);
+  font-family: inherit; font-size: 11px; font-weight: 700; color: var(--muted); cursor: pointer;
+}
+.lp-bild-tab.is-active { border-color: var(--brand-blue); background: var(--blue-50); color: var(--brand-blue-dark); }
+.lp-bild-list { margin: 0; padding-left: 16px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; line-height: 1.45; color: var(--muted); overflow: hidden; }
+.lp-bild-body .lp-quiz-foot { margin-top: auto; }
+
+/* Kulturwissen panel */
+.lp-kultur-score { font-size: 12px; font-weight: 700; color: var(--brand-blue-dark); }
+/* Four stacked options plus prompt, kicker and foot have to clear the fixed
+   440px body — hence the tighter rhythm than the other panels use. */
+.lp-kultur-options { display: flex; flex-direction: column; gap: 5px; margin-top: 10px; }
+.lp-kultur-option { text-align: left; padding: 6px 13px; font-size: 12px; font-weight: 600; }
+[data-mock] [data-panel-body="kultur"] .lp-quiz-prompt { font-size: 14px; }
+
+/* Narrow: landing.css reflows .lp-browser-body to one column at 720px, so the
+   fixed desktop height (and the clipping that goes with it) has to be released —
+   the sidebar now sits above the panel instead of beside it, and the panel is
+   free to be as tall as its content. Mirrors what mock-dashboard.css does for
+   the dashboard mock at its own breakpoint. */
+@media (max-width: 720px) {
+  [data-mock] .lp-browser-body { height: auto; }
+  [data-mock] .lp-dash { overflow: visible; }
+  [data-mock] .lp-sidebar { align-items: center; gap: 6px; }
+  [data-mock] .lp-sidebar img { width: 100%; margin-bottom: 4px; }
+  [data-mock] button.lp-sidebar-link { width: auto; }
+  /* A vertical "also included" list would double the sidebar's height on a
+     phone for something that is only context — lay it out inline instead. */
+  .lp-sidebar-more { margin-top: 0; width: 100%; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+  .lp-bild { flex-direction: column; }
+  .lp-bild img { width: 100%; max-height: 150px; }
+}
+
+/* --- Alle Werkzeuge: grid on a desktop, question on a phone ----------------
+   The same thirteen entries in two shapes, both in the HTML, one shown at a
+   time. 720px is not a taste: it is the width at which .lp-tools-grid above
+   drops to a single column. Wider than that, the grid is at least 2-up and the
+   whole catalogue reads at a glance — nothing to ask, so it stays as it was.
+   Narrower, it is thirteen cards under each other and the list becomes the
+   page; there the ask-first picker (idea B from /pivot) takes over. */
+.lp-phone { display: none; }
+@media (max-width: 720px) {
+  .lp-desk { display: none; }
+  .lp-phone { display: block; }
+}

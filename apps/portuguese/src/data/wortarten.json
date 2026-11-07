@@ -1,0 +1,262 @@
+{
+  "_note": "The parts of speech to look up (/grammar/parts-of-speech) and Regi's line under the part-of-speech label of the flashcards (wortschatz-app.js). `practice` = the anchor of the exercise on /parts-of-speech where the class comes up. `fehler` = the word pair on /grammar/common-mistakes that belongs to the class, empty where none fits. `id` = the pos field in the lexicon; the article has no lexicon word of its own but belongs here. `examples` are set by hand (Spanish, A1) so the page does not depend on the lexicon. `say` is the short form for the card (≤ 8 words), `what` the sentence on the page, `tr` its translation into the help languages (`en` = the same sentence; ar/uk/tr: machine-assisted draft, reviewed:false, removed where `what` changed for Spanish).",
+  "reviewed": false,
+  "classes": [
+    {
+      "id": "noun",
+      "name": "Noun",
+      "also": "a naming word",
+      "practice": "erkennen",
+      "fehler": "el-problema",
+      "say": "A noun is a name for something.",
+      "what": "A noun is a name: for a person, an animal, a thing or an idea.",
+      "ask": "Who? What?",
+      "tip": "Every Spanish noun is masculine or feminine: el libro, la casa. Most nouns have a plural: libro – libros. Names of people and places start with a capital letter: Amina, Sevilla.",
+      "examples": [
+        "el libro",
+        "la casa",
+        "el amigo",
+        "la mesa",
+        "la idea"
+      ],
+      "learn": {
+        "href": "/noun-gender",
+        "label": "Nouns and gender: rule and exercises"
+      },
+      "tr": {
+        "en": "A noun is a name: for a person, an animal, a thing or an idea.",
+        "ar": "الاسم هو اسم: لشخص أو حيوان أو شيء أو فكرة.",
+        "uk": "Іменник — це назва: людини, тварини, речі чи ідеї.",
+        "tr": "İsim bir addır: bir kişinin, hayvanın, eşyanın ya da düşüncenin adı."
+      }
+    },
+    {
+      "id": "art",
+      "name": "Article",
+      "also": "el, la, un, una",
+      "practice": "erkennen",
+      "fehler": "el-el",
+      "say": "An article comes before a noun.",
+      "what": "An article comes before a noun and agrees with it: el, la, los, las for a thing we both know; un, una, unos, unas for one of many, or some.",
+      "ask": "el or la? un or una?",
+      "tip": "The article shows the gender and the number: el coche, la casa, los coches, las casas. a + el becomes al and de + el becomes del: voy al banco, vengo del banco.",
+      "examples": [
+        "el",
+        "la",
+        "los",
+        "las",
+        "un",
+        "una"
+      ],
+      "learn": {
+        "href": "/articles",
+        "label": "Articles: el, la, un, una – rule and exercises"
+      },
+      "tr": {
+        "en": "An article comes before a noun and agrees with it: el, la, los, las for a thing we both know; un, una, unos, unas for one of many, or some."
+      }
+    },
+    {
+      "id": "verb",
+      "name": "Verb",
+      "also": "a doing word",
+      "practice": "im-satz",
+      "fehler": "ser-estar",
+      "say": "A verb says what someone does.",
+      "sub": {
+        "name": "pronominal verb",
+        "what": "A verb that comes with a pronoun: me levanto, te acuerdas, se va.",
+        "href": "/reflexive-verbs",
+        "more": "Reflexive verbs"
+      },
+      "what": "A verb says what someone does or what happens.",
+      "ask": "What does he do? What happens?",
+      "tip": "The ending shows the person, so the pronoun is often left out: hablo, hablas, habla. The infinitive ends in -ar, -er or -ir: hablar, comer, vivir.",
+      "examples": [
+        "ser",
+        "tener",
+        "ir",
+        "hablar",
+        "vivir"
+      ],
+      "tr": {
+        "en": "A verb says what someone does or what happens.",
+        "ar": "الفعل يقول ماذا يفعل شخص ما أو ماذا يحدث.",
+        "uk": "Дієслово каже, що хтось робить або що відбувається.",
+        "tr": "Fiil, birinin ne yaptığını ya da ne olduğunu söyler."
+      }
+    },
+    {
+      "id": "adj",
+      "name": "Adjective",
+      "also": "a describing word",
+      "practice": "im-satz",
+      "fehler": "bien-bueno",
+      "say": "An adjective says what something is like.",
+      "what": "An adjective says what someone or something is like.",
+      "ask": "What is it like?",
+      "tip": "An adjective agrees with its noun and usually goes after it: una casa blanca, unos coches blancos. Some have one form for both genders: un piso grande, una casa grande.",
+      "examples": [
+        "grande",
+        "bueno",
+        "nuevo",
+        "feliz",
+        "frío"
+      ],
+      "tr": {
+        "en": "An adjective says what someone or something is like.",
+        "ar": "الصفة تقول كيف يكون شخص ما أو شيء ما.",
+        "uk": "Прикметник каже, яким є хтось або щось.",
+        "tr": "Sıfat, birinin ya da bir şeyin nasıl olduğunu söyler."
+      }
+    },
+    {
+      "id": "adv",
+      "name": "Adverb",
+      "also": "says when, where, how",
+      "practice": "erkennen",
+      "fehler": "muy-mucho",
+      "say": "An adverb says when, where or how.",
+      "what": "An adverb says when, where or how something happens.",
+      "ask": "When? Where? How?",
+      "tip": "Adverbs don't change their form. Many end in -mente: rápidamente, normalmente. Others don't: hoy, aquí, siempre, bien.",
+      "examples": [
+        "hoy",
+        "aquí",
+        "siempre",
+        "rápidamente",
+        "bien"
+      ],
+      "tr": {
+        "en": "An adverb says when, where or how something happens.",
+        "ar": "الظرف يقول متى أو أين أو كيف يحدث شيء ما.",
+        "uk": "Прислівник каже, коли, де або як щось відбувається.",
+        "tr": "Zarf, bir şeyin ne zaman, nerede ya da nasıl olduğunu söyler."
+      }
+    },
+    {
+      "id": "pron",
+      "name": "Pronoun",
+      "also": "yo, tú, ella, lo …",
+      "practice": "im-satz",
+      "fehler": "tu-tu",
+      "say": "A pronoun stands for a noun.",
+      "what": "A pronoun stands for a noun, so you don't have to repeat it.",
+      "ask": "Who? What?",
+      "tip": "Ana llega tarde. → Ella llega tarde, or just: Llega tarde. Veo a Ana. → La veo.",
+      "examples": [
+        "yo",
+        "tú",
+        "ella",
+        "lo",
+        "nos"
+      ],
+      "learn": {
+        "href": "/subject-pronouns",
+        "label": "Subject pronouns: rule and exercises"
+      },
+      "tr": {
+        "en": "A pronoun stands for a noun, so you don't have to repeat it.",
+        "ar": "الضمير يحلّ محلّ الاسم — فلا تحتاج إلى تكراره.",
+        "uk": "Займенник стоїть замість іменника — тож його не треба повторювати.",
+        "tr": "Zamir bir ismin yerine geçer — böylece onu tekrarlamak zorunda kalmazsın."
+      }
+    },
+    {
+      "id": "prep",
+      "name": "Preposition",
+      "also": "a, en, de, con …",
+      "practice": "im-satz",
+      "fehler": "por-para",
+      "say": "A preposition comes before a noun: a, en, de.",
+      "what": "A preposition comes before a noun and shows place, time or direction.",
+      "ask": "Where? When? Where to?",
+      "tip": "After a preposition, use a noun, a pronoun or an infinitive: con mi amigo, para ti, antes de salir.",
+      "examples": [
+        "a",
+        "en",
+        "de",
+        "con",
+        "para"
+      ],
+      "tr": {
+        "en": "A preposition comes before a noun and shows place, time or direction.",
+        "ar": "حرف الجر يأتي قبل الاسم ويُظهر المكان أو الزمان أو الاتجاه.",
+        "uk": "Прийменник стоїть перед іменником і показує місце, час або напрямок.",
+        "tr": "Edat bir ismin önünde durur ve yer, zaman ya da yön gösterir."
+      }
+    },
+    {
+      "id": "conj",
+      "name": "Conjunction",
+      "also": "a joining word",
+      "practice": "zuordnen",
+      "fehler": "por-que",
+      "say": "A conjunction joins words and sentences.",
+      "what": "A conjunction joins words or sentences.",
+      "ask": "y? pero? porque?",
+      "tip": "y, o and pero join two sentences: Estoy cansado, pero voy. porque gives a reason. y becomes e before i-: padre e hijo. o becomes u before o-: siete u ocho.",
+      "examples": [
+        "y",
+        "pero",
+        "o",
+        "porque",
+        "cuando"
+      ],
+      "tr": {
+        "en": "A conjunction joins words or sentences.",
+        "ar": "أداة الربط تربط الكلمات أو الجمل.",
+        "uk": "Сполучник з'єднує слова або речення.",
+        "tr": "Bağlaç kelimeleri ya da cümleleri birbirine bağlar."
+      }
+    },
+    {
+      "id": "num",
+      "name": "Number",
+      "also": "numeral",
+      "practice": "erkennen",
+      "fehler": "",
+      "say": "A number says how many.",
+      "what": "A number word says how much or how many, or in which position.",
+      "ask": "How many? How much? Which one in order?",
+      "tip": "dos niños (how many?), el segundo día (which one in order?). uno becomes un before a masculine noun: un libro, veintiún años.",
+      "examples": [
+        "uno",
+        "dos",
+        "diez",
+        "primero",
+        "segundo"
+      ],
+      "tr": {
+        "en": "A number word says how much or how many, or in which position.",
+        "ar": "اسم العدد يقول كم — أو في أي ترتيب.",
+        "uk": "Числівник каже, скільки — або на якому місці.",
+        "tr": "Sayı sözcüğü ne kadar ya da kaç tane olduğunu söyler — ya da kaçıncı sırada."
+      }
+    },
+    {
+      "id": "phrase",
+      "name": "Phrase",
+      "also": "not a part of speech, a fixed group of words",
+      "practice": "erkennen",
+      "fehler": "estoy-de-acuerdo",
+      "say": "A phrase: several words, one meaning.",
+      "what": "A phrase is several words that together have one fixed meaning.",
+      "ask": "",
+      "tip": "Learn it as a whole. Translated word for word, it often doesn't work: ¿Qué tal?",
+      "examples": [
+        "por favor",
+        "de nada",
+        "hasta luego",
+        "en casa",
+        "¿qué tal?"
+      ],
+      "tr": {
+        "en": "A phrase is several words that together have one fixed meaning.",
+        "ar": "العبارة الثابتة هي عدة كلمات لها معًا معنى ثابت واحد.",
+        "uk": "Стійкий вислів — це кілька слів, які разом мають одне стале значення.",
+        "tr": "Kalıp ifade, birlikte tek bir sabit anlam taşıyan birkaç kelimedir."
+      }
+    }
+  ]
+}

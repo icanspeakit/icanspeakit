@@ -1,0 +1,49 @@
+---
+// /knowledge/word-stories/weekly — „auf wöchentlich umstellen“. The mail links to
+// /api/wortgeschichte/umstellen?e=…&t=…, which checks the link and redirects here. Static and
+// noindex: it asks first, and only the button posts. A link that switched on GET would be
+// clicked by every mail scanner that prefetches links.
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import "../../../styles/practice.css";
+import "../../../styles/auth.css";
+---
+<Layout title="Switch to weekly – icanspeak Spanish" description="Get the word of the day only once a week." noindex>
+  <SiteNav />
+  <main class="da-auth-page">
+    <div class="da-auth-card" data-um>
+      <h1 class="da-auth-title" data-i18n="wg.um.title">Switch to weekly?</h1>
+      <p class="da-auth-lead" data-i18n="wg.um.lead">Then you'll only get one email on Sundays, with the week's words.</p>
+      <button type="button" class="da-auth-btn da-auth-btn--primary" data-um-go data-i18n="wg.um.btn">Yes, weekly</button>
+      <p class="da-auth-lead" role="status" aria-live="polite" data-um-status></p>
+      <a class="da-auth-btn da-auth-btn--ghost" href="/knowledge/word-stories" data-i18n="wg.backToday">Word of the day</a>
+      <span hidden data-um-msg="done" data-i18n="wg.um.done">Done. From now on the words come once a week, on Sunday.</span>
+      <span hidden data-um-msg="bad" data-i18n="wg.um.bad">This link doesn't work. Please use the link from your latest email.</span>
+      <span hidden data-um-msg="error" data-i18n="wg.abo.error">That didn't work just now. Please try again later.</span>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { withBase } from "../../../lib/paths.js";
+  const root =document.querySelector<HTMLElement>("[data-um]")!;
+  const go = root.querySelector<HTMLButtonElement>("[data-um-go]")!;
+  const status = root.querySelector<HTMLElement>("[data-um-status]")!;
+  const msg = (k: string) => root.querySelector<HTMLElement>(`[data-um-msg="${k}"]`)?.textContent?.trim() ?? "";
+  // The address never reaches this URL: /api/wortgeschichte/umstellen (GET) checked the
+  // link, kept it in an HttpOnly cookie and sent us here; ?ungueltig=1 if the link was bad.
+  if (new URLSearchParams(location.search).has("ungueltig")) { go.style.display = "none"; status.textContent = msg("bad"); }
+  go.addEventListener("click", async () => {
+    go.disabled = true;
+    try {
+      const r = await fetch(withBase("/api/wortgeschichte/umstellen"), {
+        method: "POST", credentials: "same-origin", headers: { "content-type": "application/json" }, body: "{}",
+      });
+      if (r.ok) { go.style.display = "none"; status.textContent = msg("done"); }
+      else { status.textContent = msg(r.status === 400 ? "bad" : "error"); go.disabled = false; }
+    } catch {
+      status.textContent = msg("error");
+      go.disabled = false;
+    }
+  });
+</script>

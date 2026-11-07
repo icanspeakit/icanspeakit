@@ -1,0 +1,18 @@
+# Response headers for the static assets (Cloudflare Worker with static assets, see README.md).
+# The file ends up at dist/_headers, is read at deploy time and is not served itself.
+# Rule paths are public URLs, so they carry the base path; `pnpm check:base` fails on any that
+# doesn't. Limits: 100 rules, 2,000 characters per line.
+#
+# The CSP is report-only and sends its reports nowhere (no integrations): violations show in the
+# browser console. Everything loads from this site; add a host here when a service comes back.
+
+/spanish/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: camera=(), geolocation=(), microphone=(self)
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self'; frame-src 'self'; worker-src 'self' blob:; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'
+
+/spanish/inhalt/*
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: public, max-age=0, must-revalidate

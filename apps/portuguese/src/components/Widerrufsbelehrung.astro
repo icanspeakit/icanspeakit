@@ -1,0 +1,44 @@
+---
+// The Widerrufsbelehrung with the Muster-Widerrufsformular, rendered from the one source
+// (src/lib/widerrufsbelehrung.js) for /widerruf and the section in /terms.
+// German only, no data-lx: the legal translation (LegalTranslation.astro) leaves it as it is,
+// and in another UI language one line says the German version is binding.
+import { BELEHRUNG, FORMULAR } from "../lib/widerrufsbelehrung.js";
+
+interface Props {
+  /** Heading level of "Widerrufsbelehrung": h1 on /widerruf, h2 inside the terms. */
+  level?: "h1" | "h2";
+}
+const { level = "h2" } = Astro.props;
+const Title = level;
+const Sub = level === "h1" ? "h2" : "h3";
+---
+<section class="wb" id="widerrufsbelehrung" lang="de">
+  <Title class="wb-title">Widerrufsbelehrung</Title>
+  <p class="wb-binding" data-i18n="widerruf.binding">Rechtsverbindlich ist die deutsche Fassung.</p>
+  {BELEHRUNG.map((s) => (
+    <>
+      <Sub>{s.heading}</Sub>
+      {s.paragraphs.map((t) => <p>{t}</p>)}
+    </>
+  ))}
+  <p class="wb-end">– Ende der Widerrufsbelehrung –</p>
+
+  <Sub id="muster-widerrufsformular">{FORMULAR.heading}</Sub>
+  <p>{FORMULAR.intro}</p>
+  <ul class="wb-form">
+    {FORMULAR.lines.map((l) => <li>{l}</li>)}
+  </ul>
+  <p>{FORMULAR.foot}</p>
+  <p class="wb-online">
+    Am schnellsten geht es online: <a href="/account">Vertrag widerrufen</a> – auch ohne Anmeldung.
+  </p>
+</section>
+
+<style>
+  .wb-binding { display: none; font-size: var(--text-sm); color: var(--muted); }
+  :global(html:not(:lang(de))) .wb-binding { display: block; }
+  .wb-end { font-size: var(--text-sm); color: var(--muted); }
+  .wb-form { list-style: "– "; padding-inline-start: 1.2em; }
+  .wb-online { margin-top: 1.2em; font-weight: var(--fw-semibold); }
+</style>

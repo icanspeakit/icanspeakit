@@ -1,0 +1,505 @@
+/* Wissensdatenbank — the download cards, the external-links list and the rights note.
+ *
+ * Every card is a download, so every card ends the same way: what you get (PDF, pages, size)
+ * on the left and an arrow on the right. A learner deciding between "Wortliste B1" at 58
+ * pages and "Grammatik B1" at 25 should not have to click to find that out. */
+
+.wi-group { margin-top: 44px; }
+.wi-group-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 6px;
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: var(--fw-regular);
+  text-align: left;
+}
+.wi-group-ic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--blue-100);
+  color: var(--brand-blue-dark);
+}
+.wi-group-n {
+  min-width: 22px;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-sunken, rgba(0, 0, 0, .05));
+  font-size: .78rem;
+  color: var(--muted);
+  text-align: center;
+}
+.wi-group-blurb {
+  margin: 0 0 18px;
+  max-width: 68ch;
+  color: var(--muted);
+  font-size: .92rem;
+  line-height: 1.6;
+}
+
+.wi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.wi-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-card);
+  color: var(--ink);
+  text-decoration: none;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.wi-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--brand-blue);
+  box-shadow: var(--shadow-hover);
+}
+.wi-card b { margin: 10px 0 5px; font-size: 1.02rem; font-weight: var(--fw-regular); }
+.wi-card i {
+  display: block;
+  font-style: normal;
+  font-size: .89rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+/* margin-top:auto pins the meta row to the bottom, so cards in one row line their
+   "PDF · 25 Seiten" up however long the description above it runs. */
+.wi-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.wi-badge {
+  align-self: flex-start;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--blue-100);
+  color: var(--brand-blue-dark);
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+/* min-width + overflow-wrap: the edition list („+EN/AR/UK/…/TL“) is one long token and pushed the
+   download arrow out of a phone-width card. */
+.wi-meta {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: .78rem;
+  letter-spacing: .02em;
+  color: var(--muted-soft, var(--muted));
+}
+
+.wi-dl {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* The whole card is the tap target; this only says what the tap does. A chevron
+     where it opens the sheet (the download is in there), a filled tray arrow where the
+     tap itself downloads (the external Modellsätze). */
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  color: var(--brand-blue-dark);
+  transition: transform .15s ease, background-color .15s ease;
+}
+.wi-card:hover .wi-dl:not(.wi-dl--download) { transform: translateX(3px); }
+/* Arabic reads right to left: the chevron points, and nudges, the other way. */
+:dir(rtl) .wi-dl:not(.wi-dl--download) svg { transform: scaleX(-1); }
+.wi-card:hover:dir(rtl) .wi-dl:not(.wi-dl--download) { transform: translateX(-3px); }
+.wi-dl--download { background: var(--brand-blue); color: #fff; }
+.wi-card:hover .wi-dl--download { background: var(--brand-blue-dark); }
+@media (prefers-reduced-motion: reduce) { .wi-dl { transition: none; } }
+
+/* --- Official links --------------------------------------------------------- */
+
+.wi-links { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.wi-links a {
+  display: block;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--brand-blue);
+  border-radius: var(--radius);
+  background: var(--surface-card);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color .15s ease, background-color .15s ease;
+}
+.wi-links a:hover { background: var(--surface); }
+.wi-links b { display: block; font-weight: var(--fw-regular); margin-bottom: 4px; }
+.wi-links i {
+  display: block;
+  font-style: normal;
+  font-size: .89rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.wi-source {
+  display: block;
+  margin-top: 8px;
+  font-size: .78rem;
+  color: var(--brand-blue-dark);
+}
+
+/* --- Rights ----------------------------------------------------------------- */
+
+.wi-rights {
+  margin-top: 52px;
+  padding: 24px 26px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.wi-rights h2 {
+  margin: 0 0 12px;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: var(--fw-regular);
+  text-align: left;
+}
+.wi-rights p {
+  margin: 0 0 12px;
+  max-width: 72ch;
+  color: var(--muted);
+  font-size: .9rem;
+  line-height: 1.65;
+}
+.wi-rights-meta { font-size: .82rem !important; }
+.wi-rights code {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--surface-sunken, rgba(0, 0, 0, .06));
+  font-size: .95em;
+}
+
+@media (max-width: 600px) {
+  .wi-rights { padding: 18px 16px; }
+}
+
+
+/* --- The download sheet ------------------------------------------------------
+ *
+ * A card used to be a link with `download` on it: one click and a file landed in
+ * the downloads folder, with nothing in between saying which of the fourteen it
+ * was. The card opens this instead, and the download is a button inside it.
+ */
+.wi-sheet-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(15, 23, 42, .45);
+  backdrop-filter: blur(2px);
+}
+.wi-sheet-scrim[hidden] { display: none; }
+
+.wi-sheet {
+  position: fixed;
+  z-index: 51;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(520px, calc(100vw - 32px));
+  max-height: min(80vh, 720px);
+  overflow-y: auto;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: var(--surface-card);
+  box-shadow: 0 30px 70px -30px rgba(15, 23, 42, .7);
+  animation: wi-sheet-in .18s ease-out;
+}
+.wi-sheet[hidden] { display: none; }
+.wi-sheet-body[hidden] { display: none; }
+
+@keyframes wi-sheet-in {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + 10px)); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wi-sheet { animation: none; }
+}
+
+/* The page behind it must not scroll while the sheet is up: on a phone a scrim
+   that scrolls reads as the page having moved on without you. */
+body.wi-sheet-open { overflow: hidden; }
+
+.wi-sheet-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.wi-sheet-x {
+  margin-left: auto;
+  border: none;
+  background: none;
+  color: var(--muted-soft);
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.wi-sheet-x:hover { color: var(--ink); background: var(--surface-sunken, rgba(0, 0, 0, .04)); }
+
+.wi-sheet h2 {
+  margin: 0 0 4px;
+  font-family: var(--font-body);
+  font-size: 1.3rem;
+  font-weight: var(--fw-regular);
+}
+.wi-sheet .wi-meta { display: block; margin: 0 0 14px; }
+.wi-sheet-desc { margin: 0 0 18px; font-size: .95rem; line-height: 1.6; color: var(--muted); }
+
+.wi-sheet-toc {
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-sunken, rgba(0, 0, 0, .02));
+}
+.wi-sheet-toclabel {
+  margin: 0 0 8px;
+  font-family: var(--font-label);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--brand-blue);
+}
+/* The contents fold: a summary line with a chevron, the list only on request. No
+   scroll box of its own: a list scrolling inside a scrolling sheet is where people
+   got stuck. */
+.wi-sheet-toc { padding: 0; }
+.wi-sheet-toc summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  min-height: 44px; padding: 10px 16px;
+  list-style: none; cursor: pointer;
+}
+.wi-sheet-toc summary::-webkit-details-marker { display: none; }
+.wi-sheet-toc summary .wi-sheet-toclabel { margin: 0; }
+.wi-sheet-toc summary::after {
+  content: ""; flex: none; width: 8px; height: 8px;
+  border-right: 2px solid var(--brand-blue); border-bottom: 2px solid var(--brand-blue);
+  transform: rotate(45deg) translateY(-2px); transition: transform .2s ease;
+}
+.wi-sheet-toc[open] summary::after { transform: rotate(-135deg) translateY(-2px); }
+.wi-sheet-toc ul {
+  margin: 0;
+  padding: 0 16px 12px 34px;
+  font-size: .88rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+/* The main button right under the description, with every other download below it. */
+.wi-sheet-cta { margin: 0 0 20px; }
+.wi-sheet-extra + .wi-sheet-toc, .wi-sheet-eds + .wi-sheet-toc { margin-top: 0; }
+.wi-sheet-extra:last-of-type { margin-bottom: 20px; }
+
+.wi-sheet-dl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-brand);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 10px 24px -14px rgba(43,65,98, .8);
+}
+.wi-sheet-dl:hover { filter: brightness(1.05); }
+/* The translated editions: secondary to the main button, one tap each. */
+.wi-sheet-eds { margin: 0 0 20px; }
+.wi-sheet-eds-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 8px; }
+/* Two per row on a phone: four editions wrapped 3 + 1 there, leaving one button alone. */
+@media (max-width: 480px) { .wi-sheet-eds-row { grid-template-columns: repeat(2, 1fr); } }
+.wi-sheet-ed {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  min-height: 44px; padding: 8px 10px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--ink, inherit); font-weight: 600; text-decoration: none;
+}
+.wi-sheet-ed small { font-size: .75rem; font-weight: 400; color: var(--muted); }
+.wi-sheet-ed:hover { border-color: var(--brand-blue); }
+/* Bundesland picker in the sheet: full width, a real tap target on a phone. */
+.wi-sheet-land { display: block; margin: 0 0 14px; }
+.wi-sheet-land select {
+  width: 100%; min-height: 44px; padding: 8px 14px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface, transparent); color: var(--ink, inherit);
+  font: inherit; font-weight: 600;
+}
+.wi-sheet-extra {
+  display: flex; align-items: center; gap: 10px; margin-top: 8px; padding: 10px 12px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--ink, inherit); text-decoration: none;
+}
+.wi-sheet-extra[hidden] { display: none; }
+.wi-sheet-extra > span:nth-child(2) { flex: 1; display: flex; flex-direction: column; gap: 2px; font-size: .9rem; }
+.wi-sheet-extra small { color: var(--muted); font-size: .75rem; }
+.wi-sheet-extra:hover { border-color: var(--brand-blue); }
+.wi-sheet-foot { margin: 10px 0 0; text-align: center; font-size: .8rem; color: var(--muted-soft); }
+/* After a download: the page that continues this file online. Quiet, one line, one tap. */
+/* "✓ Der Download hat begonnen" under the button (wissen.astro, data-wi-dlnote). */
+.wi-dlnote { margin: 10px 0 18px; padding: 12px 14px; border-radius: 14px; background: var(--success-soft, #e7f7ef); border: 1px solid color-mix(in srgb, var(--success, #16a34a) 35%, transparent); }
+.wi-dlnote[hidden] { display: none; }
+.wi-dlnote p { margin: 0; }
+.wi-dlnote-h { font-weight: var(--fw-bold, 700); color: var(--success, #15803d); }
+.wi-dlnote-where { margin-top: 4px !important; font-size: var(--text-sm); color: var(--ink); line-height: 1.45; }
+.wi-dlnote-open { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-top: 4px; color: var(--brand-blue-dark); font-weight: var(--fw-semibold, 600); text-decoration: underline; text-underline-offset: 3px; }
+.wi-dlnote-open svg { flex: none; }
+.wi-dlnote-open:dir(rtl) svg { transform: scaleX(-1); }
+.wi-dlnote.is-new { animation: wi-dlnote-in .35s cubic-bezier(.2, .8, .2, 1); }
+@keyframes wi-dlnote-in { from { opacity: 0; transform: translateY(-6px); } }
+@media (prefers-reduced-motion: reduce) { .wi-dlnote.is-new { animation: none; } }
+.wi-next { margin: 0 0 20px; }
+.wi-next[hidden] { display: none; }
+/* "Und jetzt?": one task as a card, filled blue so it reads as the next button after the
+   download one, and the topic list as a plain link under it. */
+.wi-next-card {
+  display: flex; align-items: center; gap: 12px;
+  min-height: 64px; padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--brand-blue); color: #fff; text-decoration: none;
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--brand-blue) 30%, transparent);
+}
+.wi-next-card:hover { background: var(--brand-blue-dark); }
+.wi-next-card .wi-next-mascot { flex: none; margin: 0; }
+.wi-next-card .section-mascot-fig { display: block; }
+.wi-next-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.wi-next-text b { font-weight: var(--fw-bold, 700); line-height: 1.3; }
+.wi-next-text small { font-size: var(--text-sm); opacity: .9; line-height: 1.35; }
+.wi-next-card > svg { flex: none; }
+.wi-next-card:dir(rtl) > svg { transform: scaleX(-1); }
+.wi-next-alt {
+  display: inline-flex; align-items: center; min-height: 44px; margin-top: 4px;
+  color: var(--brand-blue-dark); font-weight: var(--fw-semibold, 600);
+  text-decoration: underline; text-underline-offset: 3px;
+}
+/* /knowledge#grammatik-a1 scrolls the card clear of the sticky nav. */
+.wi-card { scroll-margin-top: 96px; }
+
+/* Phone: a sheet from the bottom edge, where the thumb is, rather than a box
+   floating in the middle of the screen. */
+@media (max-width: 640px) {
+  .wi-sheet {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    max-height: 88vh;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
+    animation: wi-sheet-up .2s ease-out;
+  }
+  @keyframes wi-sheet-up {
+    from { transform: translateY(16px); opacity: 0; }
+    to { transform: none; opacity: 1; }
+  }
+  /* The RTL build step mirrors the desktop centring into a [dir="rtl"] rule —
+     translate(50%, -50%) and its own keyframes — which outranks the plain
+     `transform: none` above, so in Arabic the phone sheet slid half off-screen.
+     One notch more specific than that generated rule puts it back. */
+  html .wi-sheet.wi-sheet { transform: none; animation-name: wi-sheet-up; }
+}
+
+/* An exam board's own PDF: the publisher is named in the foot, so nobody mistakes it for ours. */
+.wi-meta-src { font-weight: 700; }
+
+/* The shelf's blurb with one of the mascot crew beside it (SectionMascot). */
+.wi-group-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-bottom: 14px; }
+.wi-group-head .wi-group-blurb { flex: 1 1 320px; margin: 0; }
+.wi-group-mascot { flex: none; }
+
+/* A booklet with a picture (Deutsch für den Beruf): the Kultur card's shape — the OpenMoji
+   on the left, title and a short line of topics beside it, the meta row underneath. */
+.wi-card--pic {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  grid-template-rows: auto auto 1fr;
+  column-gap: 14px;
+  padding: 16px;
+}
+.wi-card--pic .wi-card-pic { grid-row: 1 / span 3; align-self: start; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 12px; background: var(--surface-sunken, rgba(0, 0, 0, .05)); }
+.wi-card--pic .wi-card-pic img { width: 36px; height: 36px; transition: transform .25s cubic-bezier(.34, 1.56, .64, 1); }
+.wi-card--pic:hover .wi-card-pic img { transform: rotate(-8deg) scale(1.12); }
+.wi-card--pic b { margin: 2px 0 4px; font-weight: var(--fw-semibold); }
+.wi-card--pic i { font-size: .84rem; }
+.wi-card--pic .wi-card-foot { grid-column: 2; padding-top: 10px; }
+@media (prefers-reduced-motion: reduce) { .wi-card--pic .wi-card-pic img { transition: none; } }
+
+/* A contents line in the interface language, under its German (src/lib/downloads.js,
+   itemTr). Hidden on a German page; one language shown at a time, chosen by <html lang>
+   through the rule src/lib/langCss.js writes. */
+.wi-toc-tr { display: none; font-size: .85em; color: var(--muted); }
+
+/* ============================================================ book covers == */
+/* Every file as a schoolbook (BookCover.astro): the cover on top of its card. The shelf's
+   colour, darker from A1 to B2 (--lv 0–3), a spine, the level in big type, and a picture in
+   print style: the mascot in grey ink overprinted (multiply) on the cover, on halftone dots.
+   The colours are fixed, not theme tokens: a cover looks the same in dark mode. */
+.bk {
+  --bk: #0f9e8f;
+  position: relative; display: grid; grid-template-rows: auto auto auto auto minmax(0, 1fr);
+  aspect-ratio: 3 / 4; overflow: hidden; padding: 9px 9px 0 19px; border-radius: 3px 10px 10px 3px;
+  background: color-mix(in srgb, var(--bk) calc(100% - var(--lv, 1) * 11%), #0b1220);
+  color: #fff; text-align: start;
+  box-shadow: inset -3px 0 0 rgb(255 255 255 / .12), 0 1px 2px rgb(0 0 0 / .18), 4px 6px 14px rgb(15 23 42 / .14);
+}
+.bk--wortschatz { --bk: #d97706; }
+.bk--berufe { --bk: #2f6fdc; }
+.bk--pruefungen { --bk: #d9485f; }
+.bk-spine { position: absolute; inset: 0 auto 0 0; width: 11px; background: rgb(0 0 0 / .22); box-shadow: inset -1px 0 0 rgb(255 255 255 / .25); }
+.bk-pub { font-size: 8.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; opacity: .8; }
+.bk-lv { margin-top: 4px; font-family: var(--font-display); font-size: 1.9rem; font-weight: 700; line-height: .95; letter-spacing: -.01em; }
+.bk-title { margin-top: 4px; font-size: .9rem; font-weight: 700; line-height: 1.12; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.bk-sub { margin-top: 2px; font-size: .7rem; line-height: 1.2; opacity: .85; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.bk-art { position: relative; align-self: end; justify-self: end; width: 74%; margin: 0 -8% -4% 0; aspect-ratio: 1; }
+.bk-art::before {
+  content: ""; position: absolute; inset: 4% 4% 4% 4%; border-radius: 50%;
+  background: radial-gradient(rgb(255 255 255 / .38) 1.1px, transparent 1.5px) 0 0 / 6px 6px;
+}
+.bk-ink { position: relative; display: block; mix-blend-mode: multiply; }
+.bk-ink svg { display: block; width: 100%; height: auto; filter: grayscale(1) brightness(1.3) contrast(1.05); }
+.bk-emoji { position: relative; display: block; width: 66%; height: auto; margin: 14% 0 0 14%; filter: drop-shadow(2px 3px 0 rgb(0 0 0 / .18)); }
+html[data-mascots="off"] .bk-art::before { opacity: .5; }
+
+/* The mini cover in the featured rows: a thumbnail, no words but the level. */
+.bk--mini { flex: none; width: 40px; padding: 4px 3px 0 9px; border-radius: 2px 5px 5px 2px; grid-template-rows: auto minmax(0, 1fr); }
+.bk--mini .bk-spine { width: 6px; }
+.bk--mini .bk-pub, .bk--mini .bk-title { display: none; }
+.bk--mini .bk-lv { margin: 0; font-size: .58rem; letter-spacing: 0; }
+.bk--mini .bk-art { width: 100%; margin: 0 -10% -6% 0; }
+
+/* The shelf: two books a row on a phone, as many as fit from there. */
+.wi-grid:has(.wi-card--book) { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+.wi-card--book { padding: 10px 10px 12px; gap: 0; }
+.wi-card--book .bk { width: 100%; transition: transform .2s cubic-bezier(.34, 1.56, .64, 1); }
+.wi-card--book:hover .bk { transform: translateY(-3px) rotate(-1.2deg); }
+.wi-card--book b { margin: 10px 0 3px; font-size: .95rem; line-height: 1.25; font-weight: var(--fw-semibold); }
+.wi-card--book i { font-size: .82rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.wi-card--book .wi-card-foot { padding-top: 8px; }
+.wi-card--book .wi-meta { font-size: .72rem; }
+@media (min-width: 640px) { .wi-grid:has(.wi-card--book) { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 18px; } }
+@media (prefers-reduced-motion: reduce) { .wi-card--book:hover .bk { transform: none; } }
+/* The exam boards' Modellsätze sit in their own grid under the books (no cover). Long German
+   words on a narrow book card break at a hyphen instead of running out of it. */
+.wi-grid--ext { margin-top: 16px; }
+.wi-card--book b, .wi-card--book i { hyphens: auto; overflow-wrap: anywhere; }

@@ -1,0 +1,50 @@
+---
+// /knowledge/word-stories — the word of the day (WORTGESCHICHTE-TIERED-PROMPT.md, Tier 1).
+//
+// Static like every content page: "today" is the Berlin date of the build, and a daily
+// Vercel deploy hook (Tier 3, /api/wortgeschichte/neu-bauen) rebuilds the site shortly after
+// midnight so the next word appears. Until a first entry is approved and its day has come,
+// the page shows an empty state and nothing in the nav or on the homepage links here.
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import SectionMascot from "../../../components/mascots/SectionMascot.astro";
+import WortEntry from "../../../components/wortgeschichte/WortEntry.astro";
+import WortRecent from "../../../components/wortgeschichte/WortRecent.astro";
+import WortAbo from "../../../components/wortgeschichte/WortAbo.astro";
+import { wordOfTheDay, archive, today, PREVIEW, headword } from "../../../lib/wortgeschichte.js";
+import "../../../styles/practice.css";
+import "../../../styles/uebungen-vorschau.css";
+import "../../../styles/wortgeschichte.css";
+
+const day = today();
+const entry = wordOfTheDay(day);
+const list = archive(day);
+const title = entry
+  ? `Word of the day: ${headword(entry)} – word stories – icanspeak Spanish`
+  : "Word stories – word of the day – icanspeak Spanish";
+---
+<Layout
+  title={title}
+  description="A Spanish word every day: where it comes from, how it has changed and which words in other languages it is related to – with sources."
+  noindex={!entry || PREVIEW}
+>
+  <div class="uv">
+    <SiteNav active="wissen" />
+    <main class="uv-main">
+      <div class="wg">
+        <a href="/knowledge/languages" class="vp-back-link" data-i18n="wg.back">Spanish around the world</a>
+        <SectionMascot name="regi" expr="happy" say="Every word has a story." align="center" class="hub-mascot uv-hub-mascot" />
+        {entry ? (
+          <WortEntry entry={entry} mode="today" preview={PREVIEW} today={day} />
+        ) : (
+          <div class="wg-empty">
+            <h2 data-i18n="wg.empty.title">Soon there will be a word here every day.</h2>
+            <p data-i18n="wg.empty.lead">Where does it come from, how has it changed, and which words in your language are related to it? We check every story against sources before it appears.</p>
+          </div>
+        )}
+        <WortAbo />
+        <WortRecent entries={list} current={entry} />
+      </div>
+    </main>
+  </div>
+</Layout>

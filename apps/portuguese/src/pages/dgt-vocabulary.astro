@@ -1,0 +1,111 @@
+---
+// /dgt-vocabulary: Spain's driving words (content-plan §4.4), the profession-deck format under its
+// own page. Vocabulary only: no official DGT questions, no text from the DGT manual, no claim to
+// prepare for the exam alone. General orientation, never legal advice; what is still "to verify"
+// is in reports/dgt-vocab.md. All text lives in public/i18n/en.json and the deck's JSON.
+import Layout from "../layouts/Layout.astro";
+import SiteNav from "../components/SiteNav.astro";
+import SectionMascot from "../components/mascots/SectionMascot.astro";
+import LeichtToggle from "../components/LeichtToggle.astro";
+import { workPath } from "../lib/routes.js";
+import { DECKS, groupsOf, entryCount, samplesOf } from "../lib/berufeWortschatz.js";
+import { pair } from "../lib/leichteSprache.js";
+import en from "../../public/i18n/en.json";
+import "../styles/practice.css";
+import "../styles/kultur.css";
+import "../styles/kultur-hub.css";
+import "../styles/berufe.css";
+import "../styles/pruefungen.css";
+
+const tx = (key: string) => (en as Record<string, string>)[key];
+const deck = DECKS.dgt;
+const groups = groupsOf("dgt");
+const n = entryCount(deck);
+const samples = samplesOf("dgt", 3);
+const v = (o: Record<string, unknown>) => JSON.stringify(o);
+const points = ["1", "2", "3", "4", "5"];
+const sources = [
+  { key: "dgt.link.official", url: "https://www.dgt.es/nuestros-servicios/permisos-de-conducir/obtener-un-nuevo-permiso-de-conducir/" },
+  { key: "dgt.link.exchange", url: "https://www.dgt.es/" },
+];
+---
+<Layout
+  title="DGT driving vocabulary – Spanish for drivers – icanspeak Spanish"
+  description="The Spanish words for the car, the road, signs, driving lessons, the driving exam and the paperwork in Spain, with examples. Vocabulary only, no exam questions."
+>
+  <SiteNav active="wortschatz" />
+  <main class="practice-main practice-main--wide">
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="dgt.eyebrow">{tx("dgt.eyebrow")}</p>
+      <h1 data-i18n="dgt.title">{tx("dgt.title")}</h1>
+      <p class="bv-hero-lead" data-i18n="dgt.lead">{tx("dgt.lead")}</p>
+      <div class="bv-badges">
+        <span class="bv-badge">{deck.level}</span>
+        <span class="bv-badge" data-i18n="sets.wordCount" data-i18n-vars={v({ n })}>{n} words</span>
+      </div>
+    </div>
+
+    <div class="bv-ls"><LeichtToggle /></div>
+    <p class="bv-intro" {...pair(deck.intro, deck.introEasy)}>{deck.intro}</p>
+
+    <section class="ku-group">
+      <h2 class="ku-group-title" data-i18n="dgt.groups">{tx("dgt.groups")}</h2>
+      <div class="ku-grid ku-grid--fill">
+        {groups.map((g: any) => (
+          <a class="ku-card" href={workPath("dgt", g.id)}>
+            <span class="ku-card-txt"><b>{g.title}</b></span>
+            <span class="bv-card-meta" data-i18n="sets.wordCount" data-i18n-vars={v({ n: g.words.length })}>{g.words.length} words</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="exam-section" aria-labelledby="dgt-orient-h">
+      <h2 id="dgt-orient-h" data-i18n="dgt.orient.title">{tx("dgt.orient.title")}</h2>
+      <p data-i18n-html="dgt.orient.legal" set:html={tx("dgt.orient.legal")} />
+      <ul class="task-points">
+        {points.map((k) => <li data-i18n-html={`dgt.orient.${k}`} set:html={tx(`dgt.orient.${k}`)} />)}
+      </ul>
+      <p data-i18n="dgt.orient.practice">{tx("dgt.orient.practice")}</p>
+      <ul class="task-points">
+        {sources.map((s) => <li><a href={s.url} target="_blank" rel="noopener" data-i18n={s.key}>{tx(s.key)}</a></li>)}
+      </ul>
+    </section>
+
+    {samples.length > 0 && (
+      <section class="bv-samples" aria-labelledby="dgt-samples-h">
+        <div class="bv-sec-head">
+          <h2 id="dgt-samples-h" class="ku-group-title" data-i18n="dgt.samples">{tx("dgt.samples")}</h2>
+          <SectionMascot name="quaki" say="Read the sentences out loud!" sayKey="berufe.say.samples" />
+        </div>
+        <ul>
+          {samples.map((x) => (
+            <li>
+              <q lang="es">{x.example}</q>
+              <span class="bv-sample-word"><b lang="es">{x.gender ? `${x.gender} ${x.lemma}` : x.lemma}</b> — {x.meaning ?? x.deHint}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="bv-tipps" aria-labelledby="dgt-tips-h">
+      <div class="bv-sec-head">
+        <h2 id="dgt-tips-h" class="ku-group-title" data-i18n="dgt.tips">{tx("dgt.tips")}</h2>
+        <SectionMascot name="bruno" expr="thinking" say={tx("dgt.say.tips")} sayKey="dgt.say.tips" />
+      </div>
+      <ul>{deck.tipps.map((t: string) => <li>{t}</li>)}</ul>
+    </section>
+
+    {deck.links?.length > 0 && (
+      <nav class="bv-links" aria-label="Related" data-i18n-attr="aria-label:berufe.deck.related">
+        {deck.links.map((l: any) => <a href={l.href}>{l.label} →</a>)}
+      </nav>
+    )}
+  </main>
+</Layout>
+
+<script>
+  import { mountLeichteSprache } from "../lib/leichteSprache.js";
+  mountLeichteSprache(document);
+</script>

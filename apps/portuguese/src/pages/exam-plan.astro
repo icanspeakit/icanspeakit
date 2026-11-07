@@ -1,0 +1,207 @@
+---
+// /exam-plan — "Your plan up to the exam" (PREMIUM-FEATURES Tier 4). English-only page (no i18n keys).
+//
+// Everything the plan may contain is gathered here at build time from data in the repo —
+// the exams' Übungssätze (src/lib/exam/saetze.js, the DTZ sets, the paid manifest), the
+// Lehrplan's grammar topics (src/lib/grammarCatalog.js), the built Lernsets — and handed to
+// buildPlan() (src/lib/pruefungsplan.js) in the browser. The plan never names anything that
+// is not on the site.
+//
+// Free: week 1 in full, the rest as an outline. Any pack or Premium: the whole plan,
+// checkboxes per day (da_plan_v1) and the .ics calendar file. SOFT LOCK, deliberately
+// client-side: the plan is built from public pages and costs nothing; bypassing it gives
+// nobody content they could not already open.
+import Layout from "../layouts/Layout.astro";
+import SiteNav from "../components/SiteNav.astro";
+import PremiumLock from "../components/PremiumLock.astro";
+import "../styles/practice.css";
+import { saetze, hrefOf } from "../lib/exam/saetze.js";
+
+// The exam names shown in this page's menu (the set data still carries the old German
+// names; the route ids goethe/telc stay until the routes are renamed).
+const EXAM_NAMES: Record<string, string> = { goethe: "DELE", telc: "SIELE" };
+import paidManifest from "../data/pruefungen/paid-manifest.json";
+import dtz1 from "../data/pruefungen/dtz/uebungssatz-1.json";
+import { grammarAt } from "../lib/grammarCatalog.js";
+import { lernsets } from "../lib/lernsets.js";
+
+const LEVELS = ["A1", "A2", "B1", "B2", "C1"];
+const grammar = Object.fromEntries(LEVELS.map((l) => [l, grammarAt(l).map((t) => ({ name: t.name, href: t.href }))]));
+const words = Object.fromEntries(
+  LEVELS.map((l) => [l, lernsets({ level: l, status: "built" }).map((u) => ({ title: u.title, href: `/vocabulary/${u.id}` }))]),
+);
+const exams = [
+  {
+    key: "dtz", label: "DELE A2 mock test (nationality)", level: "A2", feature: "pruefungssaetze",
+    sets: [
+      { label: dtz1.label ?? "Practice set 1", href: "/nationality/dele-a2/practice-set" },
+      ...paidManifest.dtz.map((s) => ({ label: s.label, href: `/nationality/dele-a2/practice-set?satz=${s.id}`, paid: true })),
+    ],
+  },
+  { key: "start-deutsch-1", label: "DELE A1 practice test", level: "A1", sets: [{ label: "Practice set 1", href: "/dele/a1" }] },
+  ...["goethe", "telc"].flatMap((exam) =>
+    [...new Set(saetze.filter((s) => s.exam === exam).map((s) => s.level))].map((level) => ({
+      key: `${exam}-${level.toLowerCase()}`,
+      label: `${EXAM_NAMES[exam]} ${level}`,
+      level,
+      feature: level === "C1" ? "c1" : "pruefungssaetze",
+      sets: saetze.filter((s) => s.exam === exam && s.level === level).map((s) => ({ label: s.title, href: hrefOf(s), paid: !!s.paid })),
+    })),
+  ),
+].map((e) => ({ ...e, grammar, lernsets: words }));
+---
+<Layout title="Exam plan – icanspeak Spanish" description="Your study plan up to exam day: a few tasks every day and a full practice set every week – for the DELE and the SIELE.">
+  <SiteNav active="pruefungen" />
+  <main class="practice-main pp">
+    <div class="practice-hero">
+      <p class="eyebrow" lang="en">Exam plan</p>
+      <h1 lang="en">Your plan up to the exam</h1>
+      <p lang="en">Choose your exam and the date. You get a few short tasks every day and a full practice set every week – the last one a few days before the exam.</p>
+    </div>
+
+    <form class="pp-form" data-pp-form lang="en">
+      <label>Exam
+        <select name="exam" required>{exams.map((e) => <option value={e.key}>{e.label}</option>)}</select>
+      </label>
+      <label>Exam date <input type="date" name="date" required /></label>
+      <label>My level now
+        <select name="level">{LEVELS.map((l) => <option>{l}</option>)}</select>
+      </label>
+      <fieldset class="pp-min">
+        <legend>Time per day</legend>
+        {[15, 30, 60].map((m) => <label><input type="radio" name="minutes" value={m} checked={m === 30} /> {m} min</label>)}
+      </fieldset>
+      <button type="submit" class="lp-btn lp-btn--primary">Create plan</button>
+    </form>
+
+    <p class="pp-error" data-pp-error role="alert" hidden></p>
+    <div class="pp-plan" data-pp-plan hidden>
+      <div class="pp-head">
+        <p class="pp-sum" data-pp-sum></p>
+        <button type="button" class="lp-btn lp-btn--outline" data-pp-ics data-needs="pack">Add to calendar (.ics)</button>
+      </div>
+      <div data-pp-days></div>
+      <div class="pp-more" data-pp-more hidden>
+        <div data-pp-outline></div>
+        <PremiumLock feature="pruefungsplan" variant="preview-end" />
+      </div>
+    </div>
+  </main>
+  <script type="application/json" id="pp-data" set:html={JSON.stringify(exams)}></script>
+</Layout>
+
+<style>
+  .pp { max-width: 820px; }
+  .pp-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; align-items: end; padding: 18px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface-card); }
+  .pp-form label { display: grid; gap: 6px; font-size: var(--text-sm); color: var(--muted); font-weight: var(--fw-semibold); }
+  .pp-form select, .pp-form input[type="date"] { font: inherit; padding: 9px 10px; border: 1px solid var(--border-strong); border-radius: 10px; background: var(--page-bg); color: var(--ink); }
+  .pp-min { border: 0; padding: 0; margin: 0; display: flex; gap: 12px; flex-wrap: wrap; font-size: var(--text-sm); color: var(--muted); }
+  .pp-min legend { font-weight: var(--fw-semibold); margin-bottom: 6px; }
+  .pp-min label { display: inline-flex; gap: 6px; align-items: center; font-weight: var(--fw-medium); color: var(--ink); }
+  .pp-error { color: var(--danger); margin-top: 12px; }
+  .pp-plan { margin-top: 22px; }
+  .pp-head { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .pp-sum { margin: 0; color: var(--muted); }
+  .pp-week { margin: 18px 0 8px; font-size: var(--text-lg); }
+  .pp-day { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-card); margin-bottom: 8px; }
+  .pp-day.is-done { opacity: .6; }
+  .pp-day.is-exam { border-color: var(--brand-blue); background: var(--surface); }
+  .pp-date { font-weight: var(--fw-bold); color: var(--ink); font-size: var(--text-sm); white-space: nowrap; }
+  .pp-items { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: var(--text-sm); }
+  .pp-items a { color: var(--brand-blue-dark); }
+  .pp-items .pp-lock { color: var(--muted); font-size: var(--text-xs); margin-left: 6px; }
+  .pp-check { display: inline-flex; gap: 6px; align-items: center; font-size: var(--text-xs); color: var(--muted); grid-column: 1; }
+  .pp-outline { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 6px; font-size: var(--text-sm); color: var(--muted); }
+  .pp [hidden] { display: none !important; }
+</style>
+
+<script>
+  import { buildPlan, planToIcs } from "../lib/pruefungsplan.js";
+  import { can } from "../lib/access.js";
+  import { freeLimit, wouldLock } from "../lib/intent.js";
+  import { withBase } from "../lib/paths.js";
+
+  const exams = JSON.parse(document.getElementById("pp-data")!.textContent!);
+  const form = document.querySelector<HTMLFormElement>("[data-pp-form]")!;
+  const KEY = "da_plan_v1";
+  const store = (() => { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch { return {}; } })();
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch {} };
+  const esc = (s: string) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+  const todayYmd = () => new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Madrid" });
+  const nice = (d: string) => new Date(`${d}T12:00:00Z`).toLocaleDateString("en-GB",{ weekday: "short", day: "numeric", month: "numeric" });
+
+  // Prefill: the last plan, else the Einstufungstest result for the level.
+  const f = store.form ?? {};
+  form.exam.value = f.exam ?? form.exam.value;
+  form.date.value = f.date ?? "";
+  form.level.value = f.level ?? (() => { try { return localStorage.getItem("da-einstufung") || "B1"; } catch { return "B1"; } })();
+  if (f.minutes) (form.querySelector(`[name=minutes][value="${f.minutes}"]`) as HTMLInputElement | null)?.click();
+  form.date.min = todayYmd();
+
+  let current: any = null;
+  function render() {
+    const exam = exams.find((e: any) => e.key === form.exam.value);
+    const input = { exam, date: form.date.value, minutesPerDay: Number((form.querySelector("[name=minutes]:checked") as HTMLInputElement).value), level: form.level.value, today: todayYmd() };
+    store.form = { exam: exam.key, date: input.date, level: input.level, minutes: input.minutesPerDay };
+    save();
+    const plan = buildPlan(input);
+    const err = document.querySelector<HTMLElement>("[data-pp-error]")!;
+    const box = document.querySelector<HTMLElement>("[data-pp-plan]")!;
+    if ("error" in plan) {
+      err.textContent = plan.error === "past" ? "That date is today or in the past. Please choose the day of your exam." : "Please enter your exam date.";
+      err.hidden = false;
+      box.hidden = true;
+      return;
+    }
+    err.hidden = true;
+    box.hidden = false;
+    current = { plan, exam };
+    const full = can("pruefungsplan");
+    const unlockSets = can(exam.feature ?? "pruefungssaetze");
+    document.querySelector("[data-pp-sum]")!.textContent = `${plan.days.length} ${plan.days.length === 1 ? "day" : "days"} until the exam · ${plan.sittings} full practice ${plan.sittings === 1 ? "set" : "sets"}`;
+    const done = (store.done ??= {});
+    const item = (i: any) => {
+      if (i.kind === "sitting" && i.paid && !unlockSets) {
+        return `<li>${i.fallback ? `<a href="${esc(withBase(i.fallback.href))}">${esc(exam.label)}: ${esc(i.fallback.label)}</a> (once more)` : esc(i.label)} <span class="pp-lock">🔒 ${esc(i.label)} is in the pack</span></li>`;
+      }
+      return `<li><a href="${esc(withBase(i.href))}">${esc(i.label)}</a></li>`;
+    };
+    const dayHtml = (d: any) => `
+      <div class="pp-day${done[d.date] ? " is-done" : ""}">
+        <span class="pp-date">${nice(d.date)}</span>
+        <ul class="pp-items">${d.items.map(item).join("")}</ul>
+        ${full ? `<label class="pp-check"><input type="checkbox" data-pp-done="${d.date}" ${done[d.date] ? "checked" : ""}/> done</label>` : ""}
+      </div>`;
+    const weeks = [...new Set(plan.days.map((d: any) => d.week))];
+    const shown = full ? weeks : weeks.slice(0, 1);
+    // traffic-baseline: would_lock — the plan runs past the free week(s).
+    wouldLock("pruefungsplan", weeks.length > freeLimit("pruefungsplan"));
+    document.querySelector("[data-pp-days]")!.innerHTML =
+      shown.map((w) => `<h2 class="pp-week">Week ${w}</h2>${plan.days.filter((d: any) => d.week === w).map(dayHtml).join("")}`).join("") +
+      (full ? `<div class="pp-day is-exam"><span class="pp-date">${nice(plan.examDate)}</span><ul class="pp-items"><li><b>Exam: ${esc(exam.label)}</b> – good luck!</li></ul></div>` : "");
+    const rest = weeks.slice(1);
+    document.querySelector<HTMLElement>("[data-pp-more]")!.hidden = full || !rest.length;
+    document.querySelector("[data-pp-outline]")!.innerHTML = full ? "" : `<ul class="pp-outline">${rest.map((w) => {
+      const days = plan.days.filter((d: any) => d.week === w);
+      const sit = days.filter((d: any) => d.items.some((i: any) => i.kind === "sitting")).length;
+      return `<li>Week ${w}: ${days.length} ${days.length === 1 ? "day" : "days"}${sit ? `, ${sit} full practice ${sit === 1 ? "set" : "sets"}` : ""}</li>`;
+    }).join("")}</ul>`;
+  }
+  form.addEventListener("submit", (e) => { e.preventDefault(); render(); });
+  if (form.date.value) render();
+
+  document.addEventListener("change", (e) => {
+    const box = (e.target as HTMLElement).closest<HTMLInputElement>("[data-pp-done]");
+    if (!box) return;
+    (store.done ??= {})[box.dataset.ppDone!] = box.checked;
+    save();
+    box.closest(".pp-day")?.classList.toggle("is-done", box.checked);
+  });
+  document.querySelector("[data-pp-ics]")!.addEventListener("click", () => {
+    if (!current || !can("pruefungsplan")) return;
+    const blob = new Blob([planToIcs(current.plan, { examLabel: current.exam.label })], { type: "text/calendar;charset=utf-8" });
+    const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: `exam-plan-${current.exam.key}.ics` });
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+</script>

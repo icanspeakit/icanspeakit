@@ -1,0 +1,210 @@
+/* The exam-app shell: one sitting, split into sections, with progress that survives a
+ * reload.
+ *
+ * Ported from the Pflegeplace project's exam trainers (src/lib/kenntnispruefung/render.ts
+ * and friends), which all share this chrome: a left rail listing the parts with a
+ * per-part progress dot, a thin progress bar across the top, a section pane that swaps
+ * rather than scrolls, and a result section that is itself one of the parts. Below 860px
+ * the rail is replaced by a single select — the same trade Pflegeplace makes, and the
+ * one that matters here, since most learners are on a phone.
+ *
+ * A page supplies its own sections; everything about scoring, persistence and navigation
+ * lives here. See src/pages/leben-in-deutschland/test.astro for a caller.
+ *
+ * Section: {
+ *   key, label, labelKey?,        // labelKey: i18n key for the rail/select label
+ *                                 // (label stays the German fallback); a function works too
+ *   ids,                         // array | () => array | null  (null = no scored items)
+ *   render(main, ctx),           // paint the section into `main`
+ * }
+ * ctx: { state, record(id, given, correct), forget(id), idsOf(key), goTo(key), refresh(), allIds() }
+ *
+ * meta: { exam, set, scoreIds? } names the sitting for the intent events exam_start and
+ * exam_finish (src/lib/intent.js). scoreIds: the ids that count for score_pct; without it,
+ * every id except those marked done without a right/wrong (correct: null, e.g. Schreiben).
+ */
+import { loadExamState, saveExamState, freshExamState } from "./exam/state.js";
+import { countAnswered, countCorrect, percent } from "./exam/scoring.js";
+import { el } from "./exam/renderHelpers.js";
+import { tx } from "./exam/i18n.js";
+import { onLangChange } from "./i18n.js";
+import { endSet, hintItem, setRef } from "./versuche.js";
+import { intent } from "./intent.js";
+import { examOfPath } from "./routes.js";
+import { currentPath } from "./paths.js";
+
+const calm = matchMedia("(prefers-reduced-motion: reduce)");
+
+// "x:telc/telc-b1-1/lesen-1" on /siele/levels/telc-b1-1, "x:start-deutsch-1/lesen2" where the page
+// is named after the exam itself (docs/klassen-tier0-v1.md §6).
+function examRef(examId, key) {
+  // The family by its registry id (telc on /siele/levels/…), so refs stay what they were.
+  const family = examOfPath(currentPath()) ?? currentPath().split("/").filter(Boolean)[0];
+  return family && family !== examId ? `x:${family}/${examId}/${key}` : `x:${examId}/${key}`;
+}
+
+export function mountExamApp(root, { examId, sections, onAnswer, unit = "Fragen", unitKey, meta }) {
+  if (!root) return null;
+  const topFill = root.querySelector("[data-exam-topfill]");
+  const topCount = root.querySelector("[data-exam-topcount]");
+  const sidebarEl = root.querySelector("[data-exam-sidebar]");
+  const mobileNavEl = root.querySelector("[data-exam-mobile-nav]");
+  const mainEl = root.querySelector("[data-exam-main]");
+  if (!mainEl || !sidebarEl) return null;
+
+  let state = loadExamState(examId);
+  const hash = location.hash.slice(1);
+  let currentKey = sections.some((s) => s.key === hash) ? hash : sections[0].key;
+
+  const labelOf = (s) => (typeof s.label === "function" ? s.label() : s.labelKey ? tx(s.labelKey, s.label) : s.label);
+  const idsOfSection = (s) => (typeof s.ids === "function" ? s.ids() : s.ids) ?? [];
+  const allIds = () => sections.flatMap(idsOfSection);
+
+  function save() {
+    saveExamState(examId, state);
+  }
+
+  const sitting = { exam: meta?.exam ?? examId, set: meta?.set ?? examId };
+  let finished = false;
+  function scorePct() {
+    const ids = meta?.scoreIds ? meta.scoreIds() : allIds().filter((id) => state.answers[id]?.correct !== null);
+    return percent(countCorrect(ids, state), ids.length);
+  }
+
+  const ctx = {
+    get state() {
+      return state;
+    },
+    allIds,
+    idsOf: (key) => idsOfSection(sections.find((s) => s.key === key) ?? {}),
+    record(id, given, correct) {
+      // traffic-baseline: exam_start — the first answer of a fresh sitting.
+      if (!Object.keys(state.answers).length) intent("exam_start", sitting);
+      state.answers[id] = { given, correct };
+      save();
+      paintSidebar();
+      paintTopbar();
+      hintItem(id);
+      onAnswer?.(correct, id);
+    },
+    // Take an answer back (a "geübt" mark switched off). Not reported to onAnswer.
+    forget(id) {
+      delete state.answers[id];
+      save();
+      paintSidebar();
+      paintTopbar();
+    },
+    goTo,
+    refresh() {
+      paintSidebar();
+      paintTopbar();
+      paintMain();
+    },
+  };
+
+  /* ---------------------------------------------------------------- chrome -- */
+  function navButton(section) {
+    const ids = idsOfSection(section);
+    const btn = el("button", "navitem" + (section.key === currentKey ? " active" : ""));
+    btn.type = "button";
+    let dot = '<span class="navdot"></span>';
+    let frac = "";
+    if (ids.length) {
+      const done = countAnswered(ids, state);
+      const cls = done === 0 ? "" : done === ids.length ? "done" : "partial";
+      dot = '<span class="navdot ' + cls + '" style="--pct:' + percent(done, ids.length) + '%"></span>';
+      frac = '<span class="navfrac">' + done + "/" + ids.length + "</span>";
+    }
+    btn.innerHTML = dot + "<span>" + labelOf(section) + "</span>" + frac;
+    btn.addEventListener("click", () => goTo(section.key));
+    return btn;
+  }
+
+  function paintSidebar() {
+    sidebarEl.innerHTML = "";
+    for (const s of sections) sidebarEl.appendChild(navButton(s));
+
+    const reset = el("button", "reset-link", tx("exam.resetProgress", "Fortschritt zurücksetzen"));
+    reset.type = "button";
+    reset.addEventListener("click", () => {
+      // No confirm() — a browser dialog on a phone is a modal that blocks the page,
+      // and there is nothing here that a second sitting cannot rebuild.
+      state = freshExamState();
+      finished = false;
+      save();
+      ctx.refresh();
+    });
+    sidebarEl.appendChild(el("div", "sidebar-foot")).appendChild(reset);
+
+    paintMobileNav();
+  }
+
+  function paintMobileNav() {
+    if (!mobileNavEl) return;
+    mobileNavEl.innerHTML = "";
+    const select = el("select", "mobile-nav-select");
+    select.setAttribute("aria-label", tx("exam.jumpToPart", "Zu einem Prüfungsteil springen"));
+    for (const s of sections) {
+      const ids = idsOfSection(s);
+      const opt = document.createElement("option");
+      opt.value = s.key;
+      opt.textContent = ids.length ? `${labelOf(s)} (${countAnswered(ids, state)}/${ids.length})` : labelOf(s);
+      opt.selected = s.key === currentKey;
+      select.appendChild(opt);
+    }
+    select.addEventListener("change", () => goTo(select.value));
+    mobileNavEl.appendChild(select);
+  }
+
+  function paintTopbar() {
+    const ids = allIds();
+    const done = countAnswered(ids, state);
+    if (topFill) topFill.style.width = percent(done, ids.length) + "%";
+    if (topCount) topCount.textContent = `${done} / ${ids.length} ${unitKey ? tx(unitKey, unit) : unit}`;
+  }
+
+  function paintMain() {
+    const section = sections.find((s) => s.key === currentKey) ?? sections[0];
+    // Klassen log: each section (Teil) of a set is its own exercise; the result page ends it.
+    if (section.key === "ergebnis") {
+      endSet();
+      // A learner's Stunde (/lesson, lernstunde.js): the exam part of the step is done.
+      dispatchEvent(new CustomEvent("da:set-end", { detail: { exam: examId } }));
+    }
+    else setRef(examRef(examId, section.key));
+    // traffic-baseline: exam_finish — the result section, once per page view, not empty-handed.
+    if (section.key === "ergebnis" && !finished && countAnswered(allIds(), state) > 0) {
+      finished = true;
+      intent("exam_finish", { ...sitting, score_pct: scorePct() });
+    }
+    mainEl.innerHTML = "";
+    section.render(mainEl, ctx);
+  }
+
+  function goTo(key) {
+    currentKey = key;
+    history.replaceState(null, "", "#" + key);
+    paintSidebar();
+    if (calm.matches) {
+      paintMain();
+      mainEl.scrollIntoView({ block: "start" });
+      return;
+    }
+    mainEl.classList.add("is-swapping");
+    setTimeout(() => {
+      paintMain();
+      // Scroll the pane, not the window: on a phone the rail is a select above it, and
+      // landing mid-section is the one thing that makes a swap feel like a page load.
+      mainEl.scrollIntoView({ block: "start", behavior: "smooth" });
+      requestAnimationFrame(() => mainEl.classList.remove("is-swapping"));
+    }, 90);
+  }
+
+  ctx.refresh();
+  // A language switch repaints the rail, the select and the counter at once. The open
+  // section is left alone — it may hold a half-written Schreiben text — and picks up the
+  // new language the next time it is painted (the page's strings read the same live
+  // dictionary through tx()).
+  onLangChange(() => { paintSidebar(); paintTopbar(); });
+  return ctx;
+}

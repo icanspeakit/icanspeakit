@@ -1,0 +1,38 @@
+---
+// The practice sets of one exam, A1 upwards, as the lead block of /dele and /siele/levels. A1 is
+// the older test page in the start-deutsch-1 slot (DELE A1); everything else comes from
+// src/data/pruefungen/saetze/ through src/lib/exam/saetze.js, so a new file shows up here.
+import { saetzeOf, hrefOf } from "../lib/exam/saetze.js";
+import { examMinutes } from "../lib/exam/minutes.js";
+import "../styles/pruefung-satz.css";
+
+interface Props { exam: "goethe" | "telc" }
+const { exam } = Astro.props;
+const rows = [
+  ...(exam === "goethe" ? [{ level: "A1", href: "/dele/a1", title: "Practice test", meta: "Listening · Reading · Writing · Speaking" }] : []),
+  ...saetzeOf(exam).map((s) => ({
+    level: s.level,
+    href: hrefOf(s),
+    title: s.title,
+    meta: `${s.modules.map((m: any) => m.name).join(" · ")} · ${examMinutes(s.modules)} min`,
+  })),
+];
+---
+<div class="mock-cta mock-cta--lead">
+  <h2 data-i18n="ps.list.title">Übungssätze im Prüfungsformat</h2>
+  <p data-i18n="ps.list.text">
+    Ein kompletter Übungssatz pro Niveau: alle Prüfungsteile im offiziellen Format, mit Timer, automatischer
+    Auswertung für Lesen und Hören und Musterlösungen für Schreiben und Sprechen. Alle Texte sind von uns geschrieben.
+  </p>
+  <ul class="ps-list">
+    {rows.map((r) => (
+      <li>
+        <a href={r.href}>
+          <span class="ps-list-level">{r.level}</span>
+          <span class="ps-list-txt"><b>{r.title}</b><i>{r.meta}</i></span>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <a class="plan-link" href="/exam-plan" data-i18n="plan.link">Dein Plan bis zur Prüfung →</a>
+</div>

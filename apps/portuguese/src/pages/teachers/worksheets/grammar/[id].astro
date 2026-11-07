@@ -1,0 +1,316 @@
+---
+import { fitTitle } from "../../../../lib/seo/title.js";
+import { isDraft } from "../../../../lib/topicStatus.js";
+// A grammar worksheet for one topic: the topic's own exercises in paper form, a compact
+// rule box on top, the answer key on its own page. Built by src/lib/arbeitsblatt/grammatik.js;
+// print/online/check behaviour in src/lib/arbeitsblatt/client.js.
+//
+// The paper is English (the exercise titles and hints are the data's instructions); the
+// controls around it follow the site language (data-i18n).
+import Layout from "../../../../layouts/Layout.astro";
+import { markedHtml } from "../../../../lib/markedText.js";
+import SiteNav from "../../../../components/SiteNav.astro";
+import "../../../../styles/arbeitsblatt.css";
+import "../../../../styles/teacher-switch.css";
+import { sheetTopics, grammarSheet, topicSlug } from "../../../../lib/arbeitsblatt/grammatik.js";
+import { sheetSlug, sheetPath } from "../../../../lib/routes.js";
+import { tandemFor } from "../../../../lib/partneruebungen/tandem.js";
+import AbTopicSwitch from "../../../../components/arbeitsblatt/AbTopicSwitch.astro";
+import AbOrigin from "../../../../components/arbeitsblatt/AbOrigin.astro";
+import MascotComic from "../../../../components/MascotComic.astro";
+import ZimmerSzene from "../../../../components/arbeitsblatt/ZimmerSzene.astro";
+import { kuecheSvg } from "../../../../lib/arbeitsblatt/kuecheSzene.js";
+import { mascotSvg } from "../../../../lib/mascots.js";
+
+export function getStaticPaths() {
+  return sheetTopics.map((t) => ({ params: { id: sheetSlug(topicSlug(t)) }, props: { topic: t } }));
+}
+
+const { topic } = Astro.props;
+const sheet = grammarSheet(topic);
+// The same topic as pair work (Tandembogen), when its items make one.
+const tandem = tandemFor(topicSlug(topic));
+const path = sheetPath(topicSlug(topic));
+const w = (answers: string[]) => `--w:${Math.min(40, Math.max(4, ...answers.map((a) => a.length)) + 2)}ch`;
+const json = (a: string[]) => JSON.stringify(a);
+const LETTER = "ABCDEFGHIJKLMNOP";
+let gap = 0;
+// A sheet with hand-made extras (src/data/arbeitsblatt/<id>.json): its picture exercises
+// come first and take the first letters; the topic's own exercises follow.
+const extra = sheet.extra;
+const pics = extra?.bildUebungen ?? [];
+const off = pics.length;
+const isGap = (x: unknown): x is { a: string[] } => typeof x === "object" && x !== null;
+// An extra sheet at the end („Zusatz“, e.g. the kitchen): its letters follow the topic's.
+const zusatz = extra?.zusatz;
+const zOff = off + sheet.sections.length;
+// A topic that teaches a second level on its page ("A2: …" exercises) says so in the header.
+const upTo = ["A2", "B1", "B2", "C1"].filter((l) => l > topic.level && (topic.exercises ?? []).some((ex) => ex.title?.startsWith(`${l}:`))).pop();
+const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
+---
+<Layout
+  title={fitTitle(`Grammar worksheet: ${topic.name} (${topic.level})`, `Worksheet: ${topic.name} (${topic.level})`, `Worksheet: ${topic.name.replace(/\s*[:—].*$/, "")} (${topic.level})`, `Worksheet: ${topic.name.replace(/\s*[:—].*$/, "")}`)}
+  description={`Worksheet “${topic.name}” (${topic.level}): the rule at a glance and all the exercises, to print or fill in online, with an answer sheet.`}
+  noindex={isDraft(topic)}
+>
+  <SiteNav active="lehrkraefte" />
+
+  <main class="ab" id="ab-root" data-mode="print" data-key="on">
+    <div class="ab-bar">
+      <AbOrigin />
+      <a class="ab-back" href="/teachers/worksheets" data-i18n="ab.back">Alle Arbeitsblätter</a>
+      <AbTopicSwitch slug={topicSlug(topic)} current="blatt" hasTandem={!!tandem} />
+      <div class="ab-seg t-sw t-sw--fill" role="group" aria-label="Ansicht" data-i18n-attr="aria-label:ab.view">
+        <button type="button" data-ab-mode="print" aria-pressed="true"><span class="t-sw-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg></span><span class="t-sw-txt"><b data-i18n="ab.mode.print">Zum Drucken</b><small data-i18n="ab.mode.printSub">Papier oder PDF</small></span></button>
+        <button type="button" data-ab-mode="online" aria-pressed="false"><span class="t-sw-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="m9 12 2 2 4-4"/></svg></span><span class="t-sw-txt"><b data-i18n="ab.mode.online">Online ausfüllen</b><small data-i18n="ab.mode.onlineSub">am Gerät prüfen</small></span></button>
+      </div>
+      <div class="ab-actions ab-only-print">
+        <label class="ab-check"><input type="checkbox" data-ab-withkey checked /> <span data-i18n="ab.withKey">Lösungsblatt mitdrucken</span></label>
+        <button type="button" class="ab-btn ab-btn--primary" data-ab-print data-i18n="ab.print">Drucken / als PDF speichern</button>
+      </div>
+      <div class="ab-actions ab-only-online">
+        <button type="button" class="ab-btn ab-btn--primary" data-ab-check data-i18n="ab.check">Prüfen</button>
+        <button type="button" class="ab-btn" data-ab-reset data-i18n="ab.reset">Leeren</button>
+        <span class="ab-score" data-ab-score data-tpl="{n} von {total} richtig" data-i18n-attr="data-tpl:ab.score" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <article class="ab-sheet" lang="es">
+      <header class="ab-head">
+        <p class="ab-eyebrow">icanspeak Spanish · Grammar worksheet · {levelLabel}</p>
+        <h1 class="ab-title">{topic.name}</h1>
+        <p class="ab-namerow"><span>Name: <i></i></span><span>Date: <i></i></span></p>
+      </header>
+
+      {extra?.regel && (
+        <aside class="ab-wowo" aria-label="The rule">
+          {[["wo", extra.regel.wo], ["wohin", extra.regel.wohin]].map(([k, r]) => (
+            <div class={`ab-wowo-card ab-wowo-card--${k}`}>
+              <p class="ab-wowo-q"><b>{r.frage}</b> → {r.kasus}</p>
+              <p class="ab-wowo-was">{r.was}</p>
+              <p class="ab-wowo-verbs">{r.verben.map((v: string) => <span>{v}</span>)}</p>
+              <p class="ab-wowo-ex" set:html={r.beispiel} />
+            </div>
+          ))}
+          {extra.regel.lage && (
+            <ul class="ab-wowo-lage">
+              {extra.regel.lage.map((l: any) => (
+                <li>
+                  
+                  <span><b>{l.verben}</b> <em>{l.form}</em><br />{l.text}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+          <p class="ab-wowo-nine"><span class="ab-wowo-label">Place words:</span> {extra.regel.neun.map((p: string) => <b>{p}</b>)}</p>
+          <p class="ab-wowo-kurz">{extra.regel.kurz}</p>
+        </aside>
+      )}
+
+      {extra?.comic && <div class="ab-comic"><MascotComic comic={extra.comic} chip="form" fit /></div>}
+
+      {extra?.bild && (
+        <section class="ab-sec ab-bild">
+          <h2 class="ab-h ab-h--pic">{extra.bild.title}</h2>
+          {extra.bild.hint && <p class="ab-instr">{extra.bild.hint}</p>}
+          <ZimmerSzene />
+        </section>
+      )}
+
+      {pics.map((s: any, si: number) => (
+        <section class="ab-sec">
+          <h2 class="ab-h"><b>{LETTER[si]}</b> {s.title}</h2>
+          {s.hint && <p class="ab-instr">{s.hint}</p>}
+          {s.box && <p class="ab-box">{s.box.map((b: string) => <span>{b}</span>)}</p>}
+          {s.pfeile && <ZimmerSzene moves label="The room with arrows: each arrow shows where a thing goes." />}
+          {s.type === "scene" && (
+            <ol class="ab-lines ab-lines--pic">
+              {s.items.map((it: any) => (
+                <li>
+                  <span class="ab-pin" aria-label={`Picture number ${it.n}`}>{it.n}</span>
+                  {it.seg.map((x: any) => isGap(x)
+                    ? <input class="ab-in" style={w(x.a)} data-a={json(x.a)} data-kind="text" aria-label={`Gap ${++gap}`} autocomplete="off" autocapitalize="off" />
+                    : x)}
+                </li>
+              ))}
+            </ol>
+          )}
+          {s.type === "truefalse" && (
+            <ol class="ab-tf">
+              {s.items.map((it: any) => (
+                <li>
+                  <input class="ab-in ab-in--letter" data-a={json([it.a])} data-kind="letter" maxlength="1" aria-label={`t or f, sentence ${++gap}`} autocomplete="off" />
+                  <span>{it.text}</span>
+                </li>
+              ))}
+            </ol>
+          )}
+        </section>
+      ))}
+
+      {extra?.zuZweit && (
+        <aside class="ab-pair">
+          <span class="ab-pair-fig" data-mascot-part set:html={mascotSvg({ name: extra.zuZweit.mascot, expr: "happy", view: "three", size: 72, label: "", className: "ab-pair-svg" })} />
+          <div>
+            <p class="ab-pair-title">{extra.zuZweit.title}</p>
+            {extra.zuZweit.say && <p class="ab-pair-say" data-mascot-part>“{extra.zuZweit.say}”</p>}
+            <ol>{extra.zuZweit.steps.map((t: string) => <li>{t}</li>)}</ol>
+          </div>
+        </aside>
+      )}
+
+      {!extra?.regel && (sheet.rule.subtitle || sheet.rule.points.length > 0) && (
+        <aside class="ab-rule">
+          <p class="ab-rule-title">The rule</p>
+          {sheet.rule.subtitle && <p>{sheet.rule.subtitle}</p>}
+          {sheet.rule.example && <p class="ab-rule-ex" set:html={sheet.rule.example} />}
+          {sheet.rule.points.length > 0 && <ul>{sheet.rule.points.map((p) => <li set:html={p} />)}</ul>}
+        </aside>
+      )}
+
+      {sheet.sections.map((s, si) => (
+        <section class="ab-sec">
+          <h2 class="ab-h"><b>{LETTER[si + off]}</b> {s.title}</h2>
+          {s.hint && <p class="ab-instr">{s.hint}</p>}
+          {s.box && <p class="ab-box">{s.box.map((b) => <span>{b}</span>)}</p>}
+
+          {s.type === "fill" && (
+            <ol class="ab-lines">
+              {s.items.map((it) => (
+                <li>
+                  {it.before}<input class="ab-in" style={w(it.answers)} data-a={json(it.answers)} data-kind="text" aria-label={`Gap ${++gap}`} autocomplete="off" autocapitalize="off" />{it.after}
+                  {it.hint && <span class="ab-hint"> ({it.hint})</span>}
+                </li>
+              ))}
+            </ol>
+          )}
+
+          {s.type === "table" && (
+            <table class="ab-table">
+              <thead><tr>{s.columns.map((c) => <th>{c}</th>)}</tr></thead>
+              <tbody>
+                {s.items.map((it) => (
+                  <tr>
+                    <td set:html={markedHtml(it.term)} />
+                    <td><input class="ab-in ab-in--cell" style={w(it.answers)} data-a={json(it.answers)} data-kind="text" aria-label={`Gap ${++gap}`} autocomplete="off" autocapitalize="off" /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+
+          {s.type === "match" && (
+            <div class="ab-match">
+              <ol class="ab-match-left">
+                {s.left.map((q, i) => (
+                  <li>
+                    <input class="ab-in ab-in--letter" data-a={json([s.answers[i]])} data-kind="letter" maxlength="1" aria-label={`Letter for line ${i + 1}`} autocomplete="off" />
+                    <span set:html={markedHtml(q)} />
+                  </li>
+                ))}
+              </ol>
+              <ul class="ab-match-right">
+                {s.right.map((r) => <li><b>{r.letter})</b> <span set:html={markedHtml(r.text)} /></li>)}
+              </ul>
+            </div>
+          )}
+
+          {s.type === "build" && (
+            <ol class="ab-build">
+              {s.items.map((it) => (
+                <li>
+                  <p class="ab-words">{it.words.map((wd) => <span>{wd}</span>)}{it.hint && <span class="ab-hint">({it.hint})</span>}</p>
+                  <input class="ab-in ab-in--line" data-a={json(it.answers)} data-kind="sentence" aria-label={`Sentence ${++gap}`} autocomplete="off" autocapitalize="off" />
+                </li>
+              ))}
+            </ol>
+          )}
+
+          {s.type === "story" && (
+            <p class="ab-story">
+              {s.segments.map((seg) =>
+                seg.blank
+                  ? <input class="ab-in" style={w(seg.answers)} data-a={json(seg.answers)} data-kind="text" aria-label={`Gap ${++gap}`} autocomplete="off" autocapitalize="off" />
+                  : seg.text,
+              )}
+            </p>
+          )}
+        </section>
+      ))}
+
+      {zusatz && (
+        <div class="ab-zusatz">
+          <p class="ab-zusatz-title">{zusatz.title}</p>
+          {zusatz.uebungen.map((s: any, si: number) => (
+            <section class="ab-sec">
+              <h2 class="ab-h"><b>{LETTER[zOff + si]}</b> {s.title}</h2>
+              {s.hint && <p class="ab-instr">{s.hint}</p>}
+              {s.box && <p class="ab-box">{s.box.map((b: string) => <span>{b}</span>)}</p>}
+              {s.pfeile && <figure class="ab-scene" set:html={kuecheSvg()} />}
+              <ol class="ab-lines ab-lines--pic">
+                {s.items.map((it: any) => (
+                  <li>
+                    <span class="ab-pin" aria-label={`Picture number ${it.n}`}>{it.n}</span>
+                    {it.seg.map((x: any) => isGap(x)
+                      ? <input class="ab-in" style={w(x.a)} data-a={json(x.a)} data-kind="text" aria-label={`Gap ${++gap}`} autocomplete="off" autocapitalize="off" />
+                      : x)}
+                  </li>
+                ))}
+              </ol>
+            </section>
+          ))}
+        </div>
+      )}
+
+      <footer class="ab-foot">icanspeak Spanish · icanspeak.it/spanish{path} · free to copy for use in class</footer>
+    </article>
+
+    <article class="ab-sheet ab-key" lang="es" aria-label="Answers">
+      <header class="ab-head">
+        <p class="ab-eyebrow">icanspeak Spanish · Answers · {levelLabel}</p>
+        <h2 class="ab-title ab-title--key">{topic.name}</h2>
+      </header>
+      {pics.map((s: any, si: number) => (
+        <section class="ab-sec">
+          <h3 class="ab-h"><b>{LETTER[si]}</b> {s.title}</h3>
+          {s.type === "scene" && <ol class="ab-keylist">{s.items.map((it: any) => <li>{it.seg.map((x: any) => (isGap(x) ? <b>{x.a.join(" / ")}</b> : x))}</li>)}</ol>}
+          {s.type === "truefalse" && <ol class="ab-keylist">{s.items.map((it: any) => <li><b>{it.a}</b>&ensp;{it.text}{it.fix && <> <i>({it.fix})</i></>}</li>)}</ol>}
+        </section>
+      ))}
+      {sheet.sections.map((s, si) => (
+        <section class="ab-sec">
+          <h3 class="ab-h"><b>{LETTER[si + off]}</b> {s.title}</h3>
+          {s.type === "fill" && <ol class="ab-keylist">{s.items.map((it) => <li>{it.before}<b>{it.answers.join(" / ")}</b>{it.after}</li>)}</ol>}
+          {s.type === "table" && <ol class="ab-keylist ab-keylist--cols">{s.items.map((it) => <li><Fragment set:html={markedHtml(it.term)} />: <b>{it.answers.join(" / ")}</b></li>)}</ol>}
+          {s.type === "match" && <ol class="ab-keylist ab-keylist--cols">{s.left.map((q, i) => <li><Fragment set:html={markedHtml(q)} />: <b>{s.answers[i]}</b></li>)}</ol>}
+          {s.type === "build" && <ol class="ab-keylist">{s.items.map((it) => <li><b>{it.answers[0]}</b></li>)}</ol>}
+          {s.type === "story" && (
+            <p class="ab-story ab-story--key">
+              {s.segments.map((seg) => (seg.blank ? <b>{seg.answers.join(" / ")}</b> : seg.text))}
+            </p>
+          )}
+        </section>
+      ))}
+      {zusatz?.uebungen.map((s: any, si: number) => (
+        <section class="ab-sec">
+          <h3 class="ab-h"><b>{LETTER[zOff + si]}</b> {s.title}</h3>
+          <ol class="ab-keylist">{s.items.map((it: any) => <li>{it.seg.map((x: any) => (isGap(x) ? <b>{x.a.join(" / ")}</b> : x))}</li>)}</ol>
+        </section>
+      ))}
+      <footer class="ab-foot">icanspeak Spanish · icanspeak.it/spanish{path}</footer>
+    </article>
+  </main>
+
+  <style>
+    /* The „Zusatz“: an extra sheet below the worksheet, on its own page when printed. */
+    .ab-zusatz { margin-top: 2rem; padding-top: 1.25rem; border-top: 2px dashed var(--paper-ink); }
+    .ab-zusatz-title { margin: 0 0 .5rem; font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; }
+    @media print { .ab-zusatz { break-before: page; margin-top: 0; padding-top: 0; border-top: 0; } }
+  </style>
+
+  <script>
+    import { mountWorksheet } from "../../../../lib/arbeitsblatt/client.js";
+    const root = document.getElementById("ab-root");
+    if (root) mountWorksheet(root);
+  </script>
+</Layout>

@@ -1,0 +1,24 @@
+---
+// „Die letzten Wörter": the last 14 published entries, newest first, as links to their
+// archive pages. Static; the list is as fresh as the last build (the daily deploy hook).
+import { hrefOf, headword, formatDe, entryLang } from "../../lib/wortgeschichteCore.js";
+
+interface Props { entries: any[]; current?: any }
+const { entries, current } = Astro.props;
+const list = [...entries].reverse().slice(0, 14);
+---
+{list.length > 1 && (
+  <section class="wg-recent" aria-labelledby="wg-recent-h">
+    <h2 id="wg-recent-h" data-i18n="wg.recent">Die letzten Wörter</h2>
+    <ul>
+      {list.map((e) => (
+        <li>
+          <a href={hrefOf(e)} aria-current={e === current ? "page" : undefined}>
+            <b lang={entryLang(e)}>{headword(e)}</b>
+            <small>{formatDe(e.publishOn)}</small>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

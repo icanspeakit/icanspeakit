@@ -1,0 +1,493 @@
+---
+import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
+// The DELE A1 practice test as a full sitting on the exam shell (src/lib/examApp.js). The
+// slot id start-deutsch-1 is a storage key and stays (docs/content-plan.md §2).
+//
+// Everything a learner answers here was written by icanspeak Spanish. Real DELE items are
+// copyrighted and are not reproduced, and this test is shorter than the real exam. The
+// sourcing note is in the data file and repeated on the Start section.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import ExamApp from "../../components/ExamApp.astro";
+import LevelGrammar from "../../components/LevelGrammar.astro";
+import "../../styles/practice.css";
+import "../../styles/pruefungen.css";
+import satz from "../../data/pruefungen/start-deutsch-1/uebungssatz-1.json";
+import { examClips } from "../../lib/examHoeren.js";
+
+// The recordings that exist (scripts/generate-exam-hoeren-audio.mjs), by item id.
+const hoerIds = ["teil1", "teil2", "teil3"].flatMap((k) => satz.hoeren[k].items.map((i) => i.id));
+const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
+---
+<Layout
+  title="DELE A1 practice test – icanspeak Spanish"
+  description="A complete practice test in the style of the DELE A1: listening, reading and writing, with your score at the end. Not an official exam."
+>
+  <SiteNav active="pruefungen" />
+  <main class="practice-main practice-main--wide practice-main--trainer">
+    <a href="/progress?pruefung=start-deutsch-1" class="vp-back-link" data-i18n="exam.backToOverview">Zurück zur Übersicht</a>
+
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="sd1.eyebrow">A1 · Practice test</p>
+      <h1><span class="hero-exam" data-i18n="sd1.h1.exam">DELE A1</span> <span data-i18n="sd1.h1.rest">practice test</span></h1>
+      <p data-i18n="sd1.hero.text">
+        A complete A1 practice test in exam style: listening, reading and writing, with your score
+        at the end. The details are in the “Start” part.
+      </p>
+    </div>
+    <ExamDisclaimer />
+
+    <ExamApp brand="DELE A1" sub="Practice test" subKey="sd1.sub" unit="tasks" />
+    <LevelGrammar levels={["A1"]} />
+  </main>
+
+  <script type="application/json" id="sd1-data" set:html={JSON.stringify(data)}></script>
+  <script type="module">
+    import { mountExamApp } from "../../lib/examApp.js";
+    import { withBase } from "../../lib/paths.js";
+    import { choiceCard, el, sectionHeader, escapeHtml, practiceToggle } from "../../lib/exam/renderHelpers.js";
+    import { countAnswered, countCorrect, percent } from "../../lib/exam/scoring.js";
+    import { recordAttempt } from "../../lib/progress.js";
+    import { readyExamI18n, tx } from "../../lib/exam/i18n.js";
+
+    /* Resolved once, before the app mounts, rather than re-rendered on every language
+       change like the other surfaces. This page is a running exam: its sections are built
+       from one config array at mount and hold answers the learner has already typed, so
+       rebuilding them mid-sitting to change a table header would be a poor trade. The
+       surrounding page (header, drawer, footer) still re-translates instantly via
+       data-i18n; the simulator's own chrome follows on the next visit.
+       Exam CONTENT is untouched here — prompts, options and transcripts stay Spanish. */
+    /* (Since src/lib/exam/i18n.js the dictionary is live: a section painted after a
+       language switch comes up in the new language; the open one is not rebuilt.) */
+    await readyExamI18n();
+    const t = (key, vars) => tx(key, key, vars);
+    // Same, with the German fallback inline.
+    const T = (key, de, vars) => tx(key, de, vars);
+
+    const data = JSON.parse(document.getElementById("sd1-data").textContent);
+    const { hoeren, lesen, schreiben, sprechen } = data;
+
+    const LETTERS = "abcdefgh";
+    const RF = [{ key: "r", label: "True" }, { key: "f", label: "False" }];
+
+    const idsOf = (part) => part.items.map((i) => i.id);
+
+    /* A richtig/falsch item: the same choiceCard as everywhere else, with the two
+       fixed options and the boolean answer mapped onto them. */
+    function trueFalseCard(main, item, ctx, { qLabel, context }) {
+      main.appendChild(
+        choiceCard({
+          qLabel,
+          context,
+          questionText: item.prompt,
+          contentLang: "es",
+          options: RF,
+          correctKey: item.answer ? "r" : "f",
+          layout: "wrap",
+          existing: ctx.state.answers[item.id],
+          onAnswer: (given, correct) => ctx.record(item.id, given, correct),
+          meldung: `x:start-deutsch-1/${data.setId}/${item.id}`.toLowerCase(),
+        })
+      );
+    }
+
+    function abcCard(main, item, ctx, { qLabel, context }) {
+      main.appendChild(
+        choiceCard({
+          qLabel,
+          context,
+          questionText: item.prompt,
+          contentLang: "es",
+          options: item.options.map((o, n) => ({ key: LETTERS[n], label: o })),
+          correctKey: LETTERS[item.options.indexOf(item.answer)],
+          existing: ctx.state.answers[item.id],
+          onAnswer: (given, correct) => ctx.record(item.id, given, correct),
+          meldung: `x:start-deutsch-1/${data.setId}/${item.id}`.toLowerCase(),
+        })
+      );
+    }
+
+    /* Each item's recording (data.audio, by id) sits above its question; a part the exam
+       plays twice has the repeat in the file. The transcript stays behind "Text anzeigen",
+       for after answering. An item without a recording keeps only the transcript, and
+       the section then says so plainly rather than pretending. */
+    function hoerAudio(item) {
+      const src = data.audio?.[item.id];
+      if (!src) return null;
+      const player = el("audio", "hoer-audio");
+      player.controls = true;
+      player.preload = "none";
+      player.src = withBase(src);
+      return player;
+    }
+
+    function hoerText(item) {
+      const wrap = el("div", "hoer-text");
+      const btn = el("button", "quiz-btn quiz-btn--ghost", t("exam.showText"));
+      btn.type = "button";
+      const body = el("p", "hoer-transcript", escapeHtml(item.transcript));
+      body.lang = "es";
+      body.hidden = true;
+      btn.addEventListener("click", () => {
+        body.hidden = !body.hidden;
+        btn.textContent = body.hidden ? t("exam.showText") : T("exam.hideTextShort", "Text verbergen");
+      });
+      wrap.appendChild(btn);
+      wrap.appendChild(body);
+      return wrap;
+    }
+
+    function hoerSection({ key, label, labelKey, eyebrow, title, part, kind, offset }) {
+      return {
+        key,
+        label,
+        labelKey,
+        ids: idsOf(part),
+        render(main, ctx) {
+          sectionHeader(main, { eyebrow: T(eyebrow[0], eyebrow[1]), title: T(title[0], title[1]), instruction: escapeHtml(part.instruction) });
+          if (!part.items.every((item) => data.audio?.[item.id])) {
+            main.appendChild(
+              el("p", "format-note",
+                escapeHtml(T("sd1.noAudio", "Für diesen Übungssatz gibt es noch keine Tonaufnahmen. Bis dahin steht der Text zu jeder Aufgabe darunter — lies ihn erst, wenn du geantwortet hast.")))
+            );
+          }
+          part.items.forEach((item, i) => {
+            const card = el("div", "hoer-item");
+            const player = hoerAudio(item);
+            if (player) card.appendChild(player);
+            (kind === "rf" ? trueFalseCard : abcCard)(card, item, ctx, { qLabel: T("exam.qLabel.task", "Aufgabe {n}", { n: offset + i + 1 }) });
+            card.appendChild(hoerText(item));
+            main.appendChild(card);
+          });
+        },
+      };
+    }
+
+    const sections = [
+      {
+        key: "start",
+        label: "Start",
+        labelKey: "exam.sec.start",
+        ids: null,
+        render(main, ctx) {
+          sectionHeader(main, {
+            eyebrow: t("exam.h1.set"),
+            title: t("sd1.title"),
+            instruction: t("sd1.instruction"),
+          });
+
+          const facts = el("table", "exam-breakdown");
+          facts.innerHTML =
+            "<thead><tr><th>" + escapeHtml(t("format.th.part")) + "</th><th>" + escapeHtml(t("exam.th.scope")) + "</th></tr></thead><tbody>" +
+            "<tr><td>" + escapeHtml(t("skill.hoeren")) + "</td><td>" + escapeHtml(t("sd1.row.hoeren")) + "</td></tr>" +
+            "<tr><td>" + escapeHtml(t("skill.lesen")) + "</td><td>" + escapeHtml(t("sd1.row.lesen")) + "</td></tr>" +
+            "<tr><td>" + escapeHtml(t("skill.schreiben")) + "</td><td>" + escapeHtml(t("sd1.row.schreiben")) + "</td></tr>" +
+            "<tr><td>" + escapeHtml(t("skill.sprechen")) + "</td><td>" + escapeHtml(t("sd1.row.sprechen")) + "</td></tr>" +
+            "<tr><td>" + escapeHtml(t("sd1.row.passLabel")) + "</td><td>" + escapeHtml(t("sd1.row.pass")) + "</td></tr>" +
+            "</tbody>";
+          main.appendChild(el("div", "exam-result")).appendChild(facts);
+
+          main.appendChild(el("p", "format-note", escapeHtml(T("sd1.sourcing", data.sourcing))));
+
+          const go = el("button", "quiz-btn quiz-btn--primary", t("exam.startSet"));
+          go.type = "button";
+          go.addEventListener("click", () => ctx.goTo("hoeren1"));
+          main.appendChild(el("div", "exam-actions")).appendChild(go);
+        },
+      },
+
+      hoerSection({ key: "hoeren1", label: "Hören 1", labelKey: "exam.sec.hoeren1", eyebrow: ["exam.eb.hoeren1", "Hören · Teil 1"], title: ["sd1.t.hoeren1", "Kurze Gespräche"], part: hoeren.teil1, kind: "abc", offset: 0 }),
+      hoerSection({ key: "hoeren2", label: "Hören 2", labelKey: "exam.sec.hoeren2", eyebrow: ["exam.eb.hoeren2", "Hören · Teil 2"], title: ["sd1.t.hoeren2", "Durchsagen"], part: hoeren.teil2, kind: "rf", offset: 6 }),
+      hoerSection({ key: "hoeren3", label: "Hören 3", labelKey: "exam.sec.hoeren3", eyebrow: ["exam.eb.hoeren3", "Hören · Teil 3"], title: ["sd1.t.hoeren3", "Ansagen am Telefon"], part: hoeren.teil3, kind: "abc", offset: 10 }),
+
+      {
+        key: "lesen1",
+        label: "Lesen 1",
+        labelKey: "exam.sec.lesen1",
+        ids: idsOf(lesen.teil1),
+        render(main, ctx) {
+          sectionHeader(main, { eyebrow: T("exam.eb.lesen1", "Lesen · Teil 1"), title: T("sd1.t.lesen1", "Zwei kurze Texte"), instruction: escapeHtml(lesen.teil1.instruction) });
+          // Both texts up top, then the five items — the way the real answer sheet
+          // works, where you read once and answer five questions against it.
+          for (const t of lesen.teil1.texts) {
+            const box = el("div", "lese-text");
+            box.lang = "es";
+            box.appendChild(el("p", "lese-text-label", escapeHtml(t.label)));
+            box.appendChild(el("p", "lese-text-body", escapeHtml(t.body).replace(/\n/g, "<br>")));
+            main.appendChild(box);
+          }
+          lesen.teil1.items.forEach((item, i) => {
+            trueFalseCard(main, item, ctx, {
+              qLabel: T("exam.qLabel.task", "Aufgabe {n}", { n: i + 1 }),
+              context: lesen.teil1.texts[item.textRef]?.label,
+            });
+          });
+        },
+      },
+      {
+        key: "lesen2",
+        label: "Lesen 2",
+        labelKey: "exam.sec.lesen2",
+        ids: idsOf(lesen.teil2),
+        render(main, ctx) {
+          sectionHeader(main, { eyebrow: T("exam.eb.lesen2", "Lesen · Teil 2"), title: T("sd1.t.lesen2", "Anzeigen"), instruction: escapeHtml(lesen.teil2.instruction) });
+          lesen.teil2.items.forEach((item, i) => {
+            main.appendChild(
+              choiceCard({
+                qLabel: T("exam.qLabel.task", "Aufgabe {n}", { n: i + 6 }),
+                questionText: item.situation,
+                contentLang: "es",
+                options: item.options,
+                correctKey: item.answer,
+                existing: ctx.state.answers[item.id],
+                onAnswer: (given, correct) => ctx.record(item.id, given, correct),
+                meldung: `x:start-deutsch-1/${data.setId}/${item.id}`.toLowerCase(),
+              })
+            );
+          });
+        },
+      },
+      {
+        key: "lesen3",
+        label: "Lesen 3",
+        labelKey: "exam.sec.lesen3",
+        ids: idsOf(lesen.teil3),
+        render(main, ctx) {
+          sectionHeader(main, { eyebrow: T("exam.eb.lesen3", "Lesen · Teil 3"), title: T("sd1.t.lesen3", "Schilder und Hinweise"), instruction: escapeHtml(lesen.teil3.instruction) });
+          lesen.teil3.items.forEach((item, i) => {
+            const box = el("div", "lese-sign", escapeHtml(item.sign).replace(/\n/g, "<br>"));
+            box.lang = "es";
+            main.appendChild(box);
+            trueFalseCard(main, item, ctx, { qLabel: T("exam.qLabel.task", "Aufgabe {n}", { n: i + 11 }) });
+          });
+        },
+      },
+
+      {
+        key: "schreiben",
+        label: "Schreiben",
+        labelKey: "skill.schreiben",
+        // Not scored: a form and a free text cannot be graded here, so they carry a
+        // "geübt" mark instead and stay out of the Hören/Lesen point count.
+        ids: ["s-formular", "s-nachricht"],
+        render(main, ctx) {
+          sectionHeader(main, {
+            eyebrow: t("skill.schreiben"),
+            title: T("sd1.t.schreiben", "Formular und Nachricht"),
+            instruction: escapeHtml(T("sd1.schreiben.intro", "Diese beiden Aufgaben bewertet in der echten Prüfung ein Mensch. Hier vergleichst du selbst — mit der Lösung und der Checkliste darunter.")),
+          });
+
+          /* Teil 1 — the form. The filled rows are given; the five gaps are the task. */
+          const t1 = schreiben.teil1;
+          main.appendChild(el("h3", "sub-title", escapeHtml(T("sd1.sub.form", "Teil 1 — Formular"))));
+          main.appendChild(el("p", "instruction", escapeHtml(t1.instruction)));
+          const ctxText = el("p", "lese-text-body", escapeHtml(t1.context));
+          ctxText.lang = "es";
+          main.appendChild(ctxText);
+
+          const table = el("table", "form-table");
+          table.lang = "es";
+          table.appendChild(el("caption", null, escapeHtml(t1.form.title)));
+          const tb = el("tbody");
+          for (const row of t1.form.rows) {
+            const tr = el("tr", row.gap ? "is-gap" : "");
+            tr.appendChild(el("th", null, escapeHtml(row.label)));
+            const td = el("td");
+            if (row.gap) {
+              const input = el("input", "form-input");
+              input.type = "text";
+              input.placeholder = row.hint ? row.hint : "…";
+              input.setAttribute("aria-label", row.label);
+              td.appendChild(input);
+              td.appendChild(el("span", "form-answer", escapeHtml(row.expected)));
+            } else {
+              td.textContent = row.value;
+            }
+            tr.appendChild(td);
+            table.appendChild(tb).appendChild(tr);
+          }
+          main.appendChild(table);
+
+          const reveal = el("button", "quiz-btn quiz-btn--ghost", t("exam.showSolution"));
+          reveal.type = "button";
+          reveal.addEventListener("click", () => {
+            const on = table.classList.toggle("show-answers");
+            reveal.textContent = t(on ? "exam.hideSolution" : "exam.showSolution");
+          });
+          main.appendChild(el("div", "exam-actions")).appendChild(reveal);
+          main.appendChild(
+            practiceToggle({
+              existing: ctx.state.answers["s-formular"],
+              onToggle: (marked) => ctx.record("s-formular", marked ? "done" : "", marked),
+            })
+          );
+
+          /* Teil 2 — the short message. */
+          const t2 = schreiben.teil2;
+          main.appendChild(el("h3", "sub-title", escapeHtml(T("sd1.sub.message", "Teil 2 — Kurze Nachricht"))));
+          main.appendChild(el("p", "instruction", escapeHtml(t2.instruction)));
+          const taskText = el("p", "lese-text-body", escapeHtml(t2.task));
+          taskText.lang = "es";
+          main.appendChild(taskText);
+
+          const pts = el("ul", "task-points");
+          pts.lang = "es";
+          for (const p of t2.points) pts.appendChild(el("li", null, escapeHtml(p)));
+          main.appendChild(pts);
+
+          const box = el("textarea", "write-box");
+          box.rows = 7;
+          box.placeholder = T("sd1.write.placeholder", "Schreibe deine Nachricht hier …");
+          box.setAttribute("aria-label", T("sd1.write.aria", "Deine Nachricht"));
+          // Kept in this browser only, and only so a half-written message survives a
+          // tab switch — the exam state itself stores nothing but the "geübt" mark.
+          try {
+            box.value = localStorage.getItem("da-sd1-schreiben") ?? "";
+            box.addEventListener("input", () => localStorage.setItem("da-sd1-schreiben", box.value));
+          } catch {}
+          main.appendChild(box);
+
+          const words = el("p", "word-count");
+          const countWords = () => (box.value.trim() ? box.value.trim().split(/\s+/).length : 0);
+          const paintWords = () => { words.textContent = T("sd1.write.words", "{n} Wörter (circa 30 sind gefragt)", { n: countWords() }); };
+          paintWords();
+          box.addEventListener("input", paintWords);
+          main.appendChild(words);
+
+          const modelBtn = el("button", "quiz-btn quiz-btn--ghost", t("exam.showModel"));
+          modelBtn.type = "button";
+          const model = el("div", "model-answer");
+          model.hidden = true;
+          const modelText = el("p", "lese-text-body", escapeHtml(t2.model).replace(/\n/g, "<br>"));
+          modelText.lang = "es";
+          model.appendChild(modelText);
+          const check = el("ul", "task-points");
+          for (const c of t2.checklist) check.appendChild(el("li", null, escapeHtml(c)));
+          model.appendChild(el("p", "lese-text-label", escapeHtml(T("exam.checklist", "Checkliste"))));
+          model.appendChild(check);
+          modelBtn.addEventListener("click", () => {
+            model.hidden = !model.hidden;
+            modelBtn.textContent = t(model.hidden ? "exam.showModel" : "exam.hideModel");
+          });
+          main.appendChild(el("div", "exam-actions")).appendChild(modelBtn);
+          main.appendChild(model);
+          main.appendChild(
+            practiceToggle({
+              existing: ctx.state.answers["s-nachricht"],
+              onToggle: (marked) => ctx.record("s-nachricht", marked ? "done" : "", marked),
+            })
+          );
+        },
+      },
+
+      {
+        key: "sprechen",
+        label: "Speaking",
+        labelKey: "skill.sprechen",
+        // Not scored either: it needs another person. Each task carries a "practised" mark.
+        ids: sprechen.tasks.map((task) => task.id),
+        render(main, ctx) {
+          sectionHeader(main, {
+            eyebrow: t("skill.sprechen"),
+            title: T("sd1.t.sprechen", "Speak aloud"),
+            instruction: escapeHtml(T("sd1.sprechen.intro", sprechen.instruction)),
+          });
+          for (const task of sprechen.tasks) {
+            main.appendChild(el("h3", "sub-title", escapeHtml(T("sd1.sprechen." + task.id, task.title))));
+            const line = el("p", "lese-text-body", escapeHtml(task.task));
+            line.lang = "es";
+            main.appendChild(line);
+            const points = el("ul", "task-points");
+            points.lang = "es";
+            for (const p of task.points) points.appendChild(el("li", null, escapeHtml(p)));
+            main.appendChild(points);
+
+            const btn = el("button", "quiz-btn quiz-btn--ghost", t("exam.showModel"));
+            btn.type = "button";
+            const box = el("div", "model-answer");
+            box.hidden = true;
+            const text = el("p", "lese-text-body", escapeHtml(task.model).replace(/\n/g, "<br>"));
+            text.lang = "es";
+            box.appendChild(text);
+            btn.addEventListener("click", () => {
+              box.hidden = !box.hidden;
+              btn.textContent = t(box.hidden ? "exam.showModel" : "exam.hideModel");
+            });
+            main.appendChild(el("div", "exam-actions")).appendChild(btn);
+            main.appendChild(box);
+            main.appendChild(
+              practiceToggle({
+                existing: ctx.state.answers[task.id],
+                onToggle: (marked) => ctx.record(task.id, marked ? "done" : "", marked),
+              })
+            );
+          }
+        },
+      },
+
+      {
+        key: "ergebnis",
+        label: "Ergebnis",
+        labelKey: "exam.sec.result",
+        ids: null,
+        render(main, ctx) {
+          // Only the auto-graded parts count: Hören and Lesen, 15 points each. Schreiben and
+          // Sprechen are self-marked, so neither is folded into a number that would look
+          // like a grade.
+          const hoerIds = [...idsOf(hoeren.teil1), ...idsOf(hoeren.teil2), ...idsOf(hoeren.teil3)];
+          const leseIds = [...idsOf(lesen.teil1), ...idsOf(lesen.teil2), ...idsOf(lesen.teil3)];
+          const ids = [...hoerIds, ...leseIds];
+          const answered = countAnswered(ids, ctx.state);
+          const correct = countCorrect(ids, ctx.state);
+          const pct = percent(correct, ids.length);
+
+          sectionHeader(main, { eyebrow: T("exam.result.eyebrow", "Auswertung"), title: T("exam.result.title", "Dein Ergebnis") });
+
+          const card = el("div", "exam-result");
+          if (!answered) {
+            card.appendChild(el("p", "instruction", escapeHtml(T("sd1.result.empty", "Noch keine Aufgabe beantwortet — fang bei „Hören 1“ an, dein Ergebnis erscheint hier automatisch."))));
+          } else {
+            card.appendChild(el("div", "exam-score", correct + " <small>" + escapeHtml(T("exam.result.ofCorrect", "von {n} richtig", { n: ids.length })) + "</small>"));
+            // 60 % is our own line for this test (sd1.passNote); the DELE has its own rules.
+            const band = pct >= 60 ? ["", T("exam.band.pass", "Über der Bestehensgrenze")] : pct >= 48 ? ["mid", T("exam.band.near", "Knapp darunter")] : ["low", T("exam.band.low", "Noch zu wenig")];
+            card.appendChild(el("span", "exam-band " + band[0], band[1]));
+            card.appendChild(el("p", "instruction", escapeHtml(T("sd1.result.pct", "{pct}% richtig in Hören und Lesen. Bestanden ist die ganze Prüfung ab 36 von 60 Punkten, also 60%.", { pct }))));
+
+            const table = el("table", "exam-breakdown");
+            table.innerHTML =
+              "<thead><tr><th>" + escapeHtml(t("format.th.part")) + "</th><th>" + escapeHtml(t("exam.th.correct")) + "</th></tr></thead><tbody>" +
+              "<tr><td>" + escapeHtml(t("skill.hoeren")) + "</td><td>" + countCorrect(hoerIds, ctx.state) + " / " + hoerIds.length + "</td></tr>" +
+              "<tr><td>" + escapeHtml(t("skill.lesen")) + "</td><td>" + countCorrect(leseIds, ctx.state) + " / " + leseIds.length + "</td></tr>" +
+              "</tbody>";
+            card.appendChild(table);
+
+            if (answered < ids.length) {
+              card.appendChild(el("p", "instruction", escapeHtml(T("exam.result.openTasks", "Noch offen: {n} Aufgaben.", { n: ids.length - answered }))));
+            }
+          }
+          main.appendChild(card);
+          main.appendChild(el("p", "format-note", escapeHtml(T("sd1.passNote", data.passNote))));
+
+          const actions = el("div", "exam-actions");
+          const telc = el("a", "quiz-btn", escapeHtml(T("sd1.toTelc", "To the SIELE overview")));
+          telc.href = withBase("/siele");
+          const goethe = el("a", "quiz-btn", escapeHtml(T("sd1.toGoethe", "To the DELE overview")));
+          goethe.href = withBase("/dele");
+          actions.appendChild(telc);
+          actions.appendChild(goethe);
+          main.appendChild(actions);
+        },
+      },
+    ];
+
+    mountExamApp(document.querySelector("[data-exam-root]"), {
+      examId: "start-deutsch-1",
+      // traffic-baseline: exam_start / exam_finish
+      meta: { exam: "start-deutsch-1", set: data.setId },
+      unit: "tasks",
+      unitKey: "exam.unit.tasks",
+      sections,
+      onAnswer: (ok) => recordAttempt({ skill: "pruefungen", correct: ok }),
+    });
+  </script>
+</Layout>

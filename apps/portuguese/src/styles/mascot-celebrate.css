@@ -1,0 +1,89 @@
+/* The milestone celebration and the feedback hop (src/lib/mascotCelebrate.js).
+   Mascot text uses --font-voice; see docs/newfont.md. */
+
+.mc-celebrate {
+  position: fixed; inset: auto 0 max(16px, env(safe-area-inset-bottom)) 0;
+  z-index: 70;
+  display: flex; justify-content: center;
+  padding: 0 16px;
+  pointer-events: none;
+}
+.mc-card {
+  pointer-events: auto; cursor: pointer;
+  position: relative; overflow: hidden;
+  width: min(360px, 100%);
+  padding: var(--space-5) var(--space-6) var(--space-4);
+  background: var(--surface-card);
+  border: 2px solid var(--success-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 18px 50px rgba(15, 23, 42, .22);
+  text-align: center;
+  animation: mc-pop .42s cubic-bezier(.2, 1.4, .4, 1) both;
+}
+.mc-lead { display: flex; justify-content: center; }
+.mc-lead .mascot { animation: mc-bounce .9s ease-in-out .25s 2; }
+.mc-title {
+  margin: var(--space-2) 0 0;
+  font-family: var(--font-voice); font-weight: var(--fw-bold);
+  font-size: var(--text-2xl); line-height: 1.1; color: var(--success);
+}
+.mc-body { margin: var(--space-1) 0 0; font-family: var(--font-body); font-size: var(--text-sm); color: var(--ink); }
+.mc-optout { margin-top: var(--space-2); padding: 6px; border: 0; background: none; color: var(--muted); font-family: var(--font-body); font-size: var(--text-xs); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.mc-crew { display: flex; justify-content: center; gap: var(--space-2); margin-top: var(--space-3); }
+.mc-crew-item { animation: mc-hop .55s ease-out calc(.35s + var(--i) * .12s) 2 both; }
+.mc-confetti { position: absolute; inset: 0; pointer-events: none; }
+.mc-confetti i {
+  position: absolute; top: -12px; width: 8px; height: 12px; border-radius: 2px;
+  animation: mc-fall 1.6s ease-in both;
+}
+.mc-leave .mc-card { animation: mc-out .25s ease-in both; }
+
+/* Feedback hop: a small Bruno at the start of the feedback line. */
+.mc-hop { display: inline-flex; vertical-align: middle; margin-inline-end: var(--space-2); animation: mc-hop .5s ease-out both; }
+.mc-hop--err { animation-name: mc-shake; }
+.mc-hop .mascot { width: 40px; height: 40px; }
+
+@keyframes mc-pop { from { transform: translateY(24px) scale(.9); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes mc-out { to { transform: translateY(16px) scale(.96); opacity: 0; } }
+@keyframes mc-bounce { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-14px) rotate(-4deg); } 70% { transform: translateY(0) rotate(2deg); } }
+@keyframes mc-hop { 0% { transform: translateY(10px) scale(.8); opacity: 0; } 50% { transform: translateY(-8px); opacity: 1; } 100% { transform: none; opacity: 1; } }
+@keyframes mc-shake { 0%, 100% { transform: none; } 25% { transform: translateX(-4px) rotate(-6deg); } 75% { transform: translateX(4px) rotate(6deg); } }
+@keyframes mc-fall { from { transform: translateY(0) rotate(0); opacity: 1; } to { transform: translateY(240px) rotate(var(--r)); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .mc-card, .mc-lead .mascot, .mc-crew-item, .mc-hop, .mc-leave .mc-card { animation: none; }
+  .mc-confetti { display: none; }
+}
+
+/* Belt and braces: the JS already skips everything when mascots are off. */
+html[data-mascots="off"] .mc-celebrate, html[data-mascots="off"] .mc-hop { display: none !important; }
+
+/* The quiet nudge (src/lib/mascotNudge.js): a mascot and one line, bottom left, gone by
+   itself. Small on purpose — it accompanies the work, it does not interrupt it. */
+.mn-nudge {
+  position: fixed; left: 16px; bottom: 16px; z-index: 1200;
+  display: flex; align-items: center; gap: 10px;
+  max-width: min(360px, calc(100vw - 32px));
+  padding: 8px 14px 8px 8px;
+  border: 1px solid var(--border); border-radius: 999px;
+  background: var(--surface-card); color: var(--ink);
+  box-shadow: 0 8px 24px rgb(15 23 42 / .12);
+  cursor: pointer;
+  animation: mn-in .35s cubic-bezier(.22, 1, .36, 1) both;
+}
+.mn-nudge.mn-leave { animation: mn-out .25s ease both; }
+.mn-who { flex-shrink: 0; width: 44px; height: 44px; }
+.mn-say {
+  margin: 0; font-family: var(--font-voice); font-weight: var(--fw-medium, 500);
+  font-size: .95rem; line-height: 1.3;
+}
+@keyframes mn-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes mn-out { to { opacity: 0; transform: translateY(6px); } }
+@media (prefers-reduced-motion: reduce) {
+  .mn-nudge, .mn-nudge.mn-leave { animation: none; }
+}
+/* On a phone it sits above the bottom bar of controls rather than over it. */
+@media (max-width: 640px) {
+  .mn-nudge { left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); max-width: none; border-radius: 16px; }
+}
+html[data-mascots="off"] .mn-nudge { display: none; }

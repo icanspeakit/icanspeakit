@@ -1,0 +1,49 @@
+---
+// /culture/films-and-series: films and series in Spanish, Spain first, then Latin America.
+// Titles and our own short descriptions only (src/data/kultur-filme.json), no streaming links:
+// where a film can be watched changes all the time. /explore/films is something else: short
+// films about this site.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import SectionMascot from "../../components/mascots/SectionMascot.astro";
+import data from "../../data/kultur-filme.json";
+import "../../styles/practice.css";
+import "../../styles/kultur.css";
+import "../../styles/kultur-hub.css";
+---
+<Layout
+  title="Films and series in Spanish – icanspeak Spanish"
+  description="Films and series to learn Spanish with, from Spain and Latin America, each with a short description and a level."
+>
+  <SiteNav active="landeskunde" />
+  <main class="practice-main practice-main--wide">
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="kultur.hero.eyebrow">Culture &amp; society</p>
+      <h1 data-i18n="kultur.filme.title">Films and series in Spanish</h1>
+      <SectionMascot name="quaki" say="Watch with Spanish subtitles." sayKey="kultur.filme.say" align="center" class="ku-hero-mascot" />
+    </div>
+
+    {data.groups.map((g) => (
+      <section class="ku-group is-in" id={g.id}>
+        <h2 class="ku-group-title"><span data-i18n={g.titleKey}>{g.title}</span></h2>
+        <div class="ku-grid">
+          {g.items.map((f) => (
+            <article class="ku-card">
+              <span class="ku-card-txt">
+                <b lang="es">{f.title}</b>
+                <i><span>{f.year} · {f.by}</span> · <span data-i18n={`kultur.filme.kind.${f.kind}`}>{f.kind === "series" ? "Series" : "Film"}</span></i>
+                <i>{f.text}</i>
+              </span>
+              <span class="ku-card-meta"><span class="ku-badge">{f.level}</span></span>
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <section class="ku-sourcing">
+      <h2 data-i18n="kultur.filme.howH">How to watch</h2>
+      <p data-i18n="kultur.filme.how">Use Spanish subtitles rather than English ones, and watch a scene twice. The level is our estimate of the Spanish you need with subtitles on. The Spanish of Latin America sounds different from Castilian: you will hear ustedes instead of vosotros, and vos in Argentina. Some films have adult themes.</p>
+    </section>
+  </main>
+</Layout>

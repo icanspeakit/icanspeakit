@@ -1,0 +1,43 @@
+---
+// What a teacher sees about a student, and what not. Shown on /join before the
+// button (that is the consent) and on /teachers/classes, where it is quoted word for
+// word: a teacher reads exactly the list their students agreed to. Keep it in step with
+// what Tiers 2–3 actually show (KLASSEN-TIERED-PROMPT.md): if the dashboard ever shows
+// more, this list changes first.
+interface Props {
+  /** "lehrkraft" only changes the heading: "this is what your students read". */
+  fuer?: "schueler" | "lehrkraft";
+}
+const { fuer = "schueler" } = Astro.props;
+const forTeacher = fuer === "lehrkraft";
+---
+<section class="lq-card kl-consent" aria-labelledby={`kl-consent-${fuer}`}>
+  <h2 id={`kl-consent-${fuer}`}>
+    {forTeacher
+      ? <span data-i18n="kl.consent.titleTeacher">Das lesen deine Schülerinnen und Schüler, bevor sie beitreten</span>
+      : <span data-i18n="kl.consent.title">Was deine Lehrkraft sieht</span>}
+  </h2>
+  <div class="kl-consent-cols">
+    <div>
+      <h3 class="kl-yes" data-i18n="kl.consent.sees">Deine Lehrkraft sieht</h3>
+      <ul>
+        <li data-i18n="kl.consent.yes.name">den Namen, den du hier eingibst</li>
+        <li data-i18n="kl.consent.yes.what">welche Übungen du machst, und wann</li>
+        <li data-i18n="kl.consent.yes.score">wie viele Antworten richtig waren</li>
+        <li data-i18n="kl.consent.yes.time">wie lange eine Übung gedauert hat</li>
+        <li data-i18n="kl.consent.yes.hints">Hinweise als Zahl: wie oft Text eingefügt, der Tab gewechselt oder sehr schnell geantwortet wurde. Nur die Anzahl, nie der Text.</li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="kl-no" data-i18n="kl.consent.notSees">Deine Lehrkraft sieht nicht</h3>
+      <ul>
+        <li data-i18n="kl.consent.no.email">deine E-Mail-Adresse</li>
+        <li data-i18n="kl.consent.no.before">was du vor dem Beitritt geübt hast</li>
+        <li data-i18n="kl.consent.no.other">andere Klassen, in denen du bist</li>
+        <li data-i18n="kl.consent.no.progress">deine Serie, dein Wochenziel und den Einfach-Weg</li>
+        <li data-i18n="kl.consent.no.content">was du schreibst oder sprichst</li>
+      </ul>
+    </div>
+  </div>
+  <p class="kl-consent-foot" data-i18n="kl.consent.foot">Du kannst die Klasse jederzeit in deinem Konto verlassen. Dann sieht deine Lehrkraft sofort nichts mehr von dir.</p>
+</section>

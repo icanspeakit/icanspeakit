@@ -1,0 +1,51 @@
+/* Not-ready buttons and the bubble that says why (src/lib/notReady.js). */
+
+/* Looks unavailable, stays tappable. */
+[aria-disabled="true"][data-why] { opacity: .55; cursor: pointer; }
+[aria-disabled="true"][data-why]:hover { filter: none; transform: none; }
+.nr-nudge { animation: nr-nudge .32s ease; }
+@keyframes nr-nudge { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+
+/* What is still missing: a ring that pulses twice. */
+.nr-missing { animation: nr-missing .7s ease 2; }
+@keyframes nr-missing { 50% { box-shadow: 0 0 0 4px var(--warning); } }
+
+.nr-bubble {
+  position: fixed;
+  z-index: 2147483000;
+  max-width: min(320px, calc(100vw - 24px));
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--ink, #1d2633);
+  color: #fff;
+  font: var(--fw-medium, 500) .9375rem/1.35 var(--font-body, system-ui, sans-serif);
+  box-shadow: 0 8px 24px rgb(0 0 0 / .18);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .18s ease, transform .18s ease;
+}
+.nr-bubble.is-in { opacity: 1; transform: none; }
+.nr-bubble.is-below { transform: translateY(-4px); }
+.nr-bubble.is-below.is-in { transform: none; }
+.nr-bubble::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--nr-arrow, 50%) - 7px);
+  top: 100%;
+  border: 7px solid transparent;
+  border-top-color: var(--ink, #1d2633);
+}
+.nr-bubble.is-below::after { top: auto; bottom: 100%; border-top-color: transparent; border-bottom-color: var(--ink, #1d2633); }
+:root[data-theme="dark"] .nr-bubble { background: #f4f6f9; color: #1d2633; }
+:root[data-theme="dark"] .nr-bubble::after { border-top-color: #f4f6f9; }
+:root[data-theme="dark"] .nr-bubble.is-below::after { border-top-color: transparent; border-bottom-color: #f4f6f9; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nr-nudge, .nr-missing { animation: none; }
+  .nr-missing { box-shadow: 0 0 0 3px var(--warning); }
+  .nr-bubble { transition: none; }
+}
+
+/* Groups (a row of pills, a gap) get round corners for the ring; buttons keep their own. */
+.nr-missing:not(button) { border-radius: 14px; }

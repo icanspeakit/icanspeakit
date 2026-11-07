@@ -1,0 +1,29 @@
+---
+import { fitTitle } from "../../../../lib/seo/title.js";
+// /spanish-for-work/[beruf]/[gruppe]/print — one word group of a profession deck on paper: the same
+// sheet as a Lernset's (WortschatzDruck.astro), in the meaning languages the deck has.
+import Layout from "../../../../layouts/Layout.astro";
+import { itemSlug, itemKey, workPath, WORK_GROUP_SLUGS } from "../../../../lib/routes.js";
+import WortschatzDruck from "../../../../components/WortschatzDruck.astro";
+import { BERUFE } from "../../../../lib/berufeCore.js";
+import { DECKS, groupsOf, rowsOf } from "../../../../lib/berufeWortschatz.js";
+import { wortschatzSheet, SHEET_LANGS } from "../../../../lib/arbeitsblatt/wortschatz.js";
+
+export function getStaticPaths() {
+  return BERUFE.flatMap((b) => groupsOf(b.slug).map((g: any) => ({ params: { beruf: itemSlug("/spanish-for-work", b.slug), gruppe: WORK_GROUP_SLUGS[g.id] ?? g.id }, props: { group: g } })));
+}
+const beruf = itemKey("/spanish-for-work", (Astro.params as { beruf: string }).beruf);
+const { group } = Astro.props as any;
+const deck = DECKS[beruf];
+const words = rowsOf(beruf, group.id);
+// A sheet language only when every word of the group has it, as on the cards.
+const langs = SHEET_LANGS.filter((l) => words.every((w: any) => w[l]));
+const sheet = wortschatzSheet(`berufe-${beruf}-${group.id}`, { words, langs });
+const tag = deck.title.split(":")[0];
+---
+<Layout
+  title={fitTitle(`${group.title} – ${deck.title} to print`, `${group.title} to print`)}
+  description={`${deck.title}: ${group.title} as a PDF: every word with a translation, a simple explanation and an example sentence, plus a short test with answers.`}
+>
+  <WortschatzDruck title={group.title} level={tag} words={words} sheet={sheet} langs={langs} setPath={workPath(beruf, group.id)} />
+</Layout>

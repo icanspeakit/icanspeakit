@@ -1,0 +1,90 @@
+---
+// /syllabus — the course levels A1.1 → C1 at a glance: the level line and one card per
+// level (its themes, Dauer, textbooks), each opening /syllabus/<niveau>. The cards carry the level
+// id, so /syllabus#b2-1 lands on the B2.1 card. Content: src/data/kursinhalte.json.
+// English only (lang="en"), like KursTimeline and KursProgression; no keys.
+import Layout from "../layouts/Layout.astro";
+import SiteNav from "../components/SiteNav.astro";
+import KursTimeline from "../components/KursTimeline.astro";
+import data from "../data/kursinhalte.json";
+import "../styles/practice.css";
+
+const first = data.niveaus[0].label;
+const last = data.niveaus.at(-1)!.label;
+const books = (l: (typeof data.niveaus)[number]): string[] => data.lehrwerke[l.lehrwerke as keyof typeof data.lehrwerke] ?? [];
+---
+<Layout
+  title={`Spanish courses ${first}–${last} – topics and learning goals | icanspeak Spanish`}
+  description={`What do you learn at each level? All levels from ${first} to ${last}: topics, learning goals, grammar and vocabulary in the right order, with a self-test for your level.`}
+>
+  <SiteNav />
+  <main class="practice-main ki" lang="en">
+    <header class="ki-hero">
+      <p class="ki-eyebrow">Syllabus</p>
+      <h1>What do you learn when?</h1>
+      <p class="ki-lead">
+        Our courses build on each other: from your first sentences ({first}) to texts for study
+        and work ({last}). Choose a level to see its topics, learning goals and grammar.
+      </p>
+    </header>
+
+    <KursTimeline />
+
+    <ol class="ki-levels">
+      {data.niveaus.map((l) => (
+        <li id={l.id}>
+          <a class="ki-card" href={`/syllabus/${l.id}`}>
+            <span class="ki-badge">{l.label}</span>
+            <span class="ki-card-body">
+              <span class="ki-card-title">{l.titel}</span>
+              <span class="ki-card-ziel">{l.ziel}</span>
+              <span class="ki-card-themen">{l.bloecke.map((b) => b.thema).join(" · ")}</span>
+              <span class="ki-card-meta">{l.dauer} · {l.bloecke.length} topics</span>
+              {books(l).length > 0 && <span class="ki-card-books">Goes with: {books(l).join(" · ")}</span>}
+            </span>
+          </a>
+        </li>
+      ))}
+    </ol>
+
+    <p class="ki-test">
+      Not sure where you are? Every level page has a short self-test. Or take the
+      <a href="/placement-test">placement test</a>.
+    </p>
+  </main>
+</Layout>
+
+<style>
+  .ki { max-width: 820px; }
+  .ki-hero { margin-bottom: 8px; }
+  .ki-eyebrow { margin: 0 0 6px; font-size: var(--text-sm); font-weight: var(--fw-semibold); color: var(--muted); }
+  .ki-hero h1 { margin: 0 0 8px; font-size: var(--text-4xl); line-height: 1.15; }
+  .ki-lead { margin: 0; color: var(--muted); font-size: var(--text-lg); line-height: 1.5; }
+
+  .ki-levels { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 10px; }
+  .ki-levels li { scroll-margin-top: calc(var(--practice-header-h, 68px) + 16px); }
+  .ki-card {
+    display: flex; gap: 14px; align-items: flex-start; padding: 14px 16px;
+    border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-card);
+    color: var(--ink); text-decoration: none; transition: border-color .15s ease;
+  }
+  .ki-card:hover, .ki-levels li:target .ki-card { border-color: var(--brand-blue); }
+  .ki-card:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+  .ki-badge {
+    flex: none; min-width: 52px; padding: 6px 8px; border-radius: var(--radius-pill); text-align: center;
+    background: var(--blue-100); color: var(--brand-blue-dark); font-weight: var(--fw-bold); font-size: var(--text-sm);
+  }
+  .ki-card-body { display: grid; gap: 4px; min-width: 0; }
+  .ki-card-title { font-weight: var(--fw-bold); font-size: var(--text-lg); }
+  .ki-card-ziel { color: var(--ink); line-height: 1.45; }
+  .ki-card-themen { color: var(--muted); font-size: var(--text-sm); line-height: 1.45; }
+  .ki-card-meta { color: var(--brand-blue-dark); font-size: var(--text-sm); font-weight: var(--fw-semibold); }
+  .ki-card-books { color: var(--muted); font-size: var(--text-sm); line-height: 1.45; }
+  .ki-test { color: var(--muted); }
+  .ki-test a { color: var(--brand-blue-dark); }
+
+  @media (max-width: 480px) {
+    .ki { padding-left: 16px; padding-right: 16px; padding-top: 24px; }
+    .ki-card { flex-direction: column; gap: 8px; }
+  }
+</style>
