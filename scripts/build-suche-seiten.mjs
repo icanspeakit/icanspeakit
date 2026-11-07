@@ -1,11 +1,10 @@
 // The pages the nav search (/suche.json, src/lib/searchIndex.js) has no data source for:
 // Berufe, Fertigkeiten, Prüfungen, Führerschein, Wortgeschichten, Spiele, tools … Read from
-// the sitemap, each fetched from a running dev server, and kept as title, description and
+// the sitemap, each read from the last build in dist/, and kept as title, description and
 // headings in src/data/suche-seiten.json. searchIndex.js adds every entry whose page is
 // not indexed already.
 //
-//   pnpm build && npx astro preview --port 4391   (or a dev server)
-//   node scripts/build-suche-seiten.mjs [--base http://localhost:4391/spanish] [--sitemap <url>]
+//   pnpm build && node scripts/build-suche-seiten.mjs   (then build again to ship the result)
 //
 // Entries hold site paths without the base (/grammar), like all other data; rebaseHtml adds it.
 //
@@ -14,12 +13,7 @@
 // the legal pages.
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 
-const arg = (name, dflt) => {
-  const i = process.argv.indexOf(`--${name}`);
-  return i > 0 ? process.argv[i + 1] : dflt;
-};
-const BASE = arg("base", "http://localhost:4391/spanish");
-const SITEMAP = arg("sitemap", `${BASE}/sitemap.xml`);
+const DIST = "dist";
 const OUT = "src/data/suche-seiten.json";
 
 const SKIP = [
@@ -37,11 +31,11 @@ const decode = (s) => s
   .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&nbsp;/g, " ");
 const text = (html) => decode(html.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
 
-const xml = await (await fetch(SITEMAP)).text();
+const xml = readFileSync(`${DIST}/sitemap.xml`, "utf8");
 const paths = [...new Set([...xml.matchAll(/<loc>https?:\/\/[^/<]+([^<]*)<\/loc>/g)].map((m) => m[1].replace(/^\/spanish(?=\/|$)/, "").replace(/\/$/, "") || "/"))];
 
 // What the search already finds from its own sources: the index minus this file's entries.
-const ix = await (await fetch(`${BASE}/suche.json`)).json();
+const ix = JSON.parse(readFileSync(`${DIST}/suche.json`, "utf8"));
 const indexed = new Set();
 JSON.stringify(ix).replace(/"(\/[^"]*)"/g, (_, h) => { indexed.add(h.split(/[?#]/)[0].replace(/\/$/, "") || "/"); return ""; });
 if (existsSync(OUT)) for (const e of JSON.parse(readFileSync(OUT, "utf8"))) indexed.delete(e.h);
@@ -51,14 +45,11 @@ console.log(`${paths.length} in the sitemap, ${todo.length} to read`);
 
 const out = [];
 const failed = [];
-let next = 0;
-async function worker() {
-  while (next < todo.length) {
-    const p = todo[next++];
+for (const p of todo) {
     try {
-      const res = await fetch(`${BASE}${p}/`);
-      if (!res.ok) { failed.push(`${p} ${res.status}`); continue; }
-      const html = await res.text();
+      const file = `${DIST}${p}/index.html`;
+      if (!existsSync(file)) { failed.push(`${p} not in dist`); continue; }
+      const html = readFileSync(file, "utf8");
       if (/<meta name="robots" content="noindex/i.test(html)) continue;
       const title = text(/<title>([\s\S]*?)<\/title>/i.exec(html)?.[1] ?? "").replace(/\s+[–|-]\s+icanspeak Spanish$/, "");
       const desc = decode(/<meta name="description" content="([^"]*)"/i.exec(html)?.[1] ?? "");
@@ -69,10 +60,8 @@ async function worker() {
     } catch (e) {
       failed.push(`${p} ${e.message}`);
     }
-  }
 }
-await Promise.all(Array.from({ length: 4 }, worker));
-// Headings that stand on many pages (the side nav's level list, „Deutsch für den Beruf“ …)
+// Headings that stand on many pages (the side nav's level list, “Spanish for work” …)
 // say nothing about one page and would make every page match „a1": left out.
 const seen = new Map();
 for (const e of out) for (const x of e.heads) seen.set(x, (seen.get(x) ?? 0) + 1);
