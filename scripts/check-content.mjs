@@ -34,6 +34,7 @@ const CHECKS = [
   "check-satzmelodie.mjs",
   "check-sprachfallen.mjs",
   "check-arbeitsblatt.mjs",
+  "check-links.mjs",
 ];
 
 for (const file of CHECKS) {
