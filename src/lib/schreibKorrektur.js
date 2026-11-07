@@ -72,7 +72,7 @@ const T = {
   it: {
     button: "Correggi il mio testo", again: "Correggi di nuovo", busy: "Controllo in corso …",
     grammatik: "Grammatica", ausdruck: "Espressione", satzzeichen: "Punteggiatura", rechtschreibung: "Ortografia",
-    none: "Nessun errore trovato. Bravo!", apply: "Applica la correzione", applyAll: "Applica tutte le correzioni",
+    none: "Nessun errore trovato. Ottimo lavoro!", apply: "Applica la correzione", applyAll: "Applica tutte le correzioni",
     task: "Compito", words: "{n} parole", wordsRange: "{n} parole — il compito ne chiede {min}–{max}.",
     ltDown: "Il controllo ortografico non è raggiungibile in questo momento. Qui sotto trovi solo i nostri suggerimenti.",
     empty: "Prima scrivi qualche frase.", wait: "Un momento: tra poco puoi controllare di nuovo.",
