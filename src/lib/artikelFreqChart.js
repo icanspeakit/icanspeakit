@@ -70,7 +70,7 @@ export function mountFreqChart(root, { curve, total, maxCount, minCount }) {
       ${ticks.map((t) => `<text x="${X0 - 6}" y="${ly(t) + 3}" text-anchor="end">${t >= 1000 ? t / 1000 + " " + tr("afc.thousand", "Tsd.") : t}</text>`).join("")}
       <text x="${X0}" y="${H - 8}">Platz 1</text>
       <text x="${X1}" y="${H - 8}" text-anchor="end">Platz ${fmt(total)}</text>
-      <text x="${LX0 + LANE / 2}" y="${H - 8}" text-anchor="middle">nicht gezählt</text>
+      <text x="${LX0 + LANE / 2}" y="${H - 8}" text-anchor="middle">not counted</text>
     </g>
     <rect class="afc-lane" x="${LX0}" y="${Y0}" width="${LANE}" height="${Y1 - Y0}" rx="6"/>
     <path class="afc-area" d="${area}"/>

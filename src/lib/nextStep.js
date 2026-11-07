@@ -19,7 +19,7 @@ const norm = (p) => (stripBase(String(p || "").split(/[?#]/)[0]).replace(/\/+$/,
 export function fallbackStep(path) {
   // The button never links to the page it is on: on the test itself, point onward.
   if (norm(path) === PLACEMENT) {
-    return { state: "placement", labelKey: "nav.next.toExercises", label: "Zu den Übungen", href: withBase("/exercises") };
+    return { state: "placement", labelKey: "nav.next.toExercises", label: "To the exercises", href: withBase("/exercises") };
   }
   return {
     state: "placement",

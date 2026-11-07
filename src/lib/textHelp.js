@@ -101,7 +101,7 @@ export function mountVocabList(root, vocab) {
     const on = root.dataset.cover !== "on";
     root.dataset.cover = on ? "on" : "off";
     cover.setAttribute("aria-pressed", String(on));
-    cover.textContent = on ? "Alle aufdecken" : "Abdecken & üben";
+    cover.textContent = on ? "Show all" : "Cover and practise";
     root.querySelectorAll(".vl-row").forEach((r) => r.classList.remove("is-open"));
   });
   root.querySelectorAll(".vl-row").forEach((row) => {

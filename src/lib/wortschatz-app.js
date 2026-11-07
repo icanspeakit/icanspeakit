@@ -1108,8 +1108,9 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
     const swap = `<button type="button" class="vt-cl-swap" data-cl-swap data-cl-focus="swap" aria-label="${escapeHtml(`${t("vt.cl.swap")} · ${dirText}`)}" title="${escapeHtml(t("vt.cl.swap"))}">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h12l-3-3M17 17H5l3 3"/></svg>
       </button>`;
-    // „Erklärung auf Deutsch": only where this deck has the German hints (A1 and some A2).
-    const erklBtn = has("de")
+    // The `de` sidecar is a German translation, not a Spanish explanation: no toggle until a
+    // German interface exists (ui-lang-de shows it there as a card language).
+    const erklBtn = has("de") && document.documentElement.lang === "de"
       ? `<button type="button" class="vt-cl-erkl" data-cl-erkl data-cl-focus="erkl" aria-pressed="${state.lang === "de"}">
           <span class="vt-cl-erkl-track" aria-hidden="true"></span><span>${escapeHtml(t("vt.cl.erkl"))}</span>
         </button>`

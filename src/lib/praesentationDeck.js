@@ -22,7 +22,7 @@ const from = () => {
 // The learner's Stunde (lernstunde.js) hears that this deck was seen to its end.
 const seenToEnd = () => dispatchEvent(new CustomEvent("da:deck-end", { detail: { topic: currentPath() } }));
 
-// A chevron instead of a text arrow: ‹ › for paging, and on „Zurück zur Präsentation“.
+// A chevron instead of a text arrow: ‹ › for paging, and on „Back to the presentation“.
 // A rule card's running text, set for the projector: every whole example sentence (an <em>
 // ending in . ! ?) on its own line with an accent bar, the "—" between examples dropped,
 // and each "Label:" in bold opening a new block. Short <em> marks inside a sentence stay.
@@ -47,18 +47,18 @@ export function slidesOf(deck, level) {
 function slideHtml(s, name) {
   if (s.kind === "example") {
     return `<p class="pr-label">${esc(s.label)}</p><p class="pr-example">${s.html}</p>
-      ${s.audio ? `<button type="button" class="pr-audio" data-pr-audio="${esc(s.audio)}" aria-label="Anhören">▶ Anhören</button>` : ""}`;
+      ${s.audio ? `<button type="button" class="pr-audio" data-pr-audio="${esc(s.audio)}" aria-label="Listen">▶ Listen</button>` : ""}`;
   }
   if (s.kind === "end") {
     // Opened from a lesson (?ut=1, /teachers/lesson): back to it; else to the exercises.
     const lesson = from() != null;
-    return `<p class="pr-label">${esc(name)}</p><p class="pr-reveal">Ende der Präsentation<br><span>Noch Fragen? Dann zeig die ganze Regel.</span></p>
+    return `<p class="pr-label">${esc(name)}</p><p class="pr-reveal">End of the presentation<br><span>Any questions? Then show the whole rule.</span></p>
       <div class="pr-end">
-        <button type="button" class="pr-end-btn" data-pr-rule>Regel ansehen</button>
-        <button type="button" class="pr-end-btn pr-end-btn--main" data-pr-back>${lesson ? "Zurück zur Stunde" : "Zu den Übungen"}</button>
+        <button type="button" class="pr-end-btn" data-pr-rule>See the rule</button>
+        <button type="button" class="pr-end-btn pr-end-btn--main" data-pr-back>${lesson ? "Back to the lesson" : "To the exercises"}</button>
       </div>`;
   }
-  if (s.kind === "turn") return `<p class="pr-label">${esc(name)}</p><p class="pr-reveal">Jetzt in Sätzen<br><span>Hört zu und sprecht nach.</span></p>`;
+  if (s.kind === "turn") return `<p class="pr-label">${esc(name)}</p><p class="pr-reveal">Now in sentences<br><span>Listen and repeat.</span></p>`;
   if (s.kind === "flow") {
     return `<p class="pr-label">Die Regel</p><div class="pr-flow">${s.items.map((f, k) =>
       `${k ? `<span class="pr-flow-arrow">${chev(1)}</span>` : ""}<span class="pr-flow-item${f.variant ? ` pr-flow-item--${esc(f.variant)}` : ""}">${esc(f.text)}</span>`).join("")}</div>`;
@@ -84,16 +84,16 @@ export function mountDeck(deck, { name, level, rule = false }) {
   root.className = "pr";
   root.setAttribute("role", "dialog");
   root.setAttribute("aria-modal", "true");
-  root.setAttribute("aria-label", `${name} – Präsentation`);
+  root.setAttribute("aria-label", `${name} – presentation`);
   root.innerHTML = `
     <div class="pr-top"><b>${esc(name)}</b>
-      <button type="button" class="pr-btn" data-pr-full aria-label="Vollbild">⛶</button>
-      <button type="button" class="pr-btn" data-pr-close aria-label="${fromLesson ? "Zurück zur Stunde" : "Präsentation schließen"}" title="${fromLesson ? "Zurück zur Stunde" : "Schließen"}">✕</button></div>
+      <button type="button" class="pr-btn" data-pr-full aria-label="Fullscreen">⛶</button>
+      <button type="button" class="pr-btn" data-pr-close aria-label="${fromLesson ? "Back to the lesson" : "Close the presentation"}" title="${fromLesson ? "Back to the lesson" : "Close"}">✕</button></div>
     <section class="pr-stage" data-pr-stage aria-live="polite"></section>
     <div class="pr-nav">
-      <button type="button" class="pr-btn" data-pr-prev aria-label="Zurück">${chev(-1)}</button>
+      <button type="button" class="pr-btn" data-pr-prev aria-label="Back">${chev(-1)}</button>
       <span class="pr-count" data-pr-count></span>
-      <button type="button" class="pr-btn" data-pr-next aria-label="Weiter">${chev(1)}</button>
+      <button type="button" class="pr-btn" data-pr-next aria-label="Next">${chev(1)}</button>
     </div>`;
   document.body.append(root);
   document.documentElement.dataset.praes = "on";
@@ -154,7 +154,7 @@ export function mountDeck(deck, { name, level, rule = false }) {
   // „Regel ansehen“: the page's whole rule card, shown inside the deck as one scrolling
   // screen – the teacher stays in the presentation (the page under it, with its exercises
   // and side list, is where a projector audience gets lost). A copy of the card without
-  // its sheet controls; ← or „Zurück zur Präsentation“ returns to the end screen.
+  // its sheet controls; ← or „Back to the presentation“ returns to the end screen.
   let ruleOpen = false;
   function showRule() {
     const body = document.querySelector("#vp-rule-card .vp-sheet-body") ?? document.getElementById("vp-rule-card");
@@ -166,8 +166,8 @@ export function mountDeck(deck, { name, level, rule = false }) {
     // The same two buttons above and under the rule: a long rule is scrolled to its end, and
     // the way on should be there, not back at the top.
     const bar = `<div class="pr-rule-bar">
-        <button type="button" class="pr-end-btn" data-pr-rule-back>${shown ? `${chev(-1)} Zurück zur Präsentation` : "Präsentation zeigen"}</button>
-        <button type="button" class="pr-end-btn pr-end-btn--main" data-pr-back>${fromLesson ? "Zurück zur Stunde" : "Zu den Übungen"}</button>
+        <button type="button" class="pr-end-btn" data-pr-rule-back>${shown ? `${chev(-1)} Back to the presentation` : "Show the presentation"}</button>
+        <button type="button" class="pr-end-btn pr-end-btn--main" data-pr-back>${fromLesson ? "Back to the lesson" : "To the exercises"}</button>
       </div>`;
     stage.innerHTML = `${bar}
       <div class="pr-rule"><div class="vp-card vp-rule-card"></div></div>
@@ -183,7 +183,7 @@ export function mountDeck(deck, { name, level, rule = false }) {
     void stage.offsetWidth;
     stage.classList.add("pr-in");
     stage.scrollTop = 0;
-    // The bar above already has „← Zurück zur Präsentation“; a second ← with „Die Regel“
+    // The bar above already has „← Back to the presentation“; a second ← with „Die Regel“
     // beside it read like a button back to the rule.
     $(".pr-nav").style.display = "none";
   }

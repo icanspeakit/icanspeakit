@@ -40,7 +40,8 @@ interface Props {
   active?: string;
 }
 const { title, level, words, sheet, langs, facts = [], setPath, footPath = setPath, active = "wortschatz" } = Astro.props;
-// "de" = Spanish only: no meaning column, the target-language explanation (deHint) carries the word.
+// "de" was the old course's target-language mode; `deHint` is now a German translation, so it
+// is off (hasDe below) until a German interface exists.
 const LANGS = [...langs, "de"];
 const langLabel = (l: string) => (l === "de" ? "Spanish only" : LANG_NAMES[l]);
 const meaningCss =
@@ -49,7 +50,7 @@ const meaningCss =
 
 const deOf = (w: any) => (w.deHint ? (w.deFill && w.deHint.includes("…") ? solvedHint(w.deHint, w.deFill) ?? w.deHint : w.deHint) : "");
 const byLemma = new Map(words.map((w: any) => [w.lemma, w]));
-const hasDe = words.some((w: any) => w.deHint);
+const hasDe = false;
 const w = (answers: string[]) => `--w:${Math.max(4, ...answers.map((a) => a.length)) + 2}ch`;
 const json = (a: string[]) => JSON.stringify(a);
 // Part A in „Nur Deutsch“: the German explanation stands in for the meaning. A gap hint
@@ -64,11 +65,9 @@ const bruno = mascotSvg({ name: "bruno", size: 64, label: "" });
 const hamsti = mascotSvg({ name: "hamsti", size: 56, label: "" });
 const regi = mascotSvg({ name: "regi", size: 52, label: "" });
 let gap = 0;
-// Part B asks for the article the nouns carry: el/la once the lexicon level is Spanish
-// (docs/content-plan.md §1.4), a/an/some while it is still the English course's.
-const spanishArticles = words.some((w: any) => ["el", "la", "el/la"].includes(w.gender));
-const artQuestion = spanishArticles ? "el or la?" : "a, an or some?";
-const artInstr = spanishArticles ? "Write el or la." : "Write a, an or some.";
+// Part B asks for the article the nouns carry (docs/content-plan.md §1.4).
+const artQuestion = "el or la?";
+const artInstr = "Write el or la.";
 ---
 <SiteNav active={active} />
 
@@ -103,7 +102,7 @@ const artInstr = spanishArticles ? "Write el or la." : "Write a, an or some.";
       <div>
         <p class="ab-eyebrow">icanspeak Spanish · Vocabulary · {level}</p>
         <h1 class="ab-title">{title}</h1>
-        <p class="pr-sub">{words.length} words · {spanishArticles ? "el / la" : "a / an"}, meaning, explanation and example sentence</p>
+        <p class="pr-sub">{words.length} words · el / la, meaning and example sentence</p>
       </div>
       <span class="pr-mascot" aria-hidden="true" set:html={hamsti}></span>
     </header>
@@ -121,7 +120,7 @@ const artInstr = spanishArticles ? "Write el or la." : "Write a, an or some.";
         {words.map((e: any) => (
           <tr>
             <td class="pr-word">
-              {e.pos === "noun" && (e.gender || e.pluralOnly) && <b class={`pr-art pr-art--${e.pluralOnly ? "pl" : e.gender}`}>{e.pluralOnly && ["el", "la"].includes(e.gender) ? pluralArticle(e) : e.gender ?? "some"} </b>}
+              {e.pos === "noun" && (e.gender || e.pluralOnly) && <b class={`pr-art pr-art--${e.pluralOnly ? "pl" : e.gender}`}>{e.pluralOnly && ["el", "la"].includes(e.gender) ? pluralArticle(e) : e.gender ?? ""} </b>}
               <b>{e.lemma}</b>
               {e.genderAlt && <span class="pr-muted"> (also: {e.genderAlt})</span>}
               {e.pos === "noun" && e.plural && !e.pluralOnly && <span class="pr-pl">pl. {e.plural}</span>}
