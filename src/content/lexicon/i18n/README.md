@@ -6,9 +6,10 @@
 > the English gloss: `de.json` (nouns with their article, „das Haus“), `fr.json`, `pt.json`
 > (European Portuguese: *comboio, autocarro, telemóvel*, because the course's Portuguese readers
 > live in Europe) and `it.json`. Status: machine draft, no native speaker has reviewed them.
-> `scripts/lexicon-import.mjs` writes them. `de` is joined as `deHint` and shown as the German
-> tab; `fr`, `pt`, `it` appear once their `ui-lang-*` item registers the language for `cards`
-> with `fetch: true` (`src/lib/glossen.js` reads the file by name). `es.json` and the other empty
+> `scripts/lexicon-import.mjs` writes them. `de` is a normal card language since `ui-lang-de`
+> (`cards` with `fetch: true`), and is joined as `deHint` as well for the print sheets and the decks
+> built from rows; `fr`, `pt`, `it` appear once their `ui-lang-*` item registers the language for
+> `cards` with `fetch: true` (`src/lib/glossen.js` reads the file by name). `es.json` and the other empty
 > sidecars are deleted (`cleanup`); `ar`, `ru`, `uk`, `tr` stay as empty files because `lexicon.js` imports them.
 > A language comes back as a new file once someone can write it reliably.
 >

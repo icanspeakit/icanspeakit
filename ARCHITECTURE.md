@@ -81,8 +81,14 @@ module's body. Nothing else needs to change.
 
 ## i18n
 
-- `src/lib/languages.js`: `LANGUAGE_REGISTRY` holds a single entry (`en`) and `BASE = "en"`.
-  Add a language by adding an entry plus `public/i18n/<code>.json`. Fallback to `en` is automatic.
+- `src/lib/languages.js`: `LANGUAGE_REGISTRY` holds the languages, `BASE = "en"`. Add one with an
+  entry plus `public/i18n/<code>.json`, then run `pnpm lang:coverage` (the `ui` surface only offers
+  a language at 98 % in `docs/lang-coverage.json`). Fallback to `en` is automatic.
+- `de` is a real language (German UI) **and**, in old data keys, the Spanish being learnt
+  (`phrase.de`, `option.de`, `word.de`). Never look a value up with a UI code on such an object
+  without checking; that's why `de` carries `cards.fetch` and stays out of the live quiz and games.
+- A language with `urlPrefix` gets entry pages (`src/data/entry-pages.json` lists pages and
+  per-language meta), e.g. `/spanish/de/`, with hreflang on both sides.
 - Components carry server text plus a `data-i18n` key. **At build time**
   `src/integrations/base-language.mjs` fills every key from `en.json`, so the static HTML is
   English even without JS. In the browser, `src/lib/i18n.js` does the same for dynamic markup.
