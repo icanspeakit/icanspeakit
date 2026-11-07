@@ -1,0 +1,116 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import ExamShell from "../../../components/ExamShell.astro";
+import ExamPractice from "../../../components/ExamPractice.astro";
+---
+<Layout
+  title="DELE A2 for nationality: mock test and practice – icanspeak Spanish"
+  description="DELE A2 on the path to Spanish nationality: what it is, how it is marked and free practice with our own mock and a reading test. General orientation, not legal advice."
+>
+  <ExamShell
+    bild="dtz"
+    header="DELE A2 for nationality"
+    title="DELE A2 for Spanish nationality"
+    titleKey="dtz.title"
+    lead="Most people who apply for Spanish nationality by residence must show Spanish at A2 or higher and pass the CCSE. Here you can read about DELE A2 and practise with our own mock."
+    leadKey="dtz.lead"
+    badges={["A2"]}
+    practiceHeading="Practise for DELE A2"
+    practiceHeadingKey="dtz.practiceHeading"
+  >
+    <Fragment slot="info">
+      <section class="exam-section">
+        <h2 data-i18n="dtz.who.title">Who is this for?</h2>
+        <div class="exam-meta-row">
+          <span class="exam-meta-badge" data-i18n="dtz.who.badge.result">Level A2</span>
+          <span class="exam-meta-badge" data-i18n="dtz.who.badge.course">For the nationality path</span>
+        </div>
+        <p data-i18n="dtz.who.text">
+          DELE A2 is the Instituto Cervantes diploma at level A2. Most applicants for nationality by
+          residence need it, or a higher DELE, together with the CCSE. Some people are exempt from one
+          or both: nationals of Spanish-speaking countries, for example, usually don't need the DELE.
+          The rules can change, so check the official sources before you book. This is general
+          orientation, not legal advice.
+        </p>
+      </section>
+
+      <section class="exam-section">
+        <h2 data-i18n="exam.skills.title">Skills tested</h2>
+        <div class="skill-grid">
+          <div class="skill-card"><div class="skill-card-icon">📖</div><h4 data-i18n="skill.lesen">Lesen</h4><p data-i18n="skill.lesen.desc">Leseverstehen</p></div>
+          <div class="skill-card"><div class="skill-card-icon">🎧</div><h4 data-i18n="skill.hoeren">Hören</h4><p data-i18n="skill.hoeren.desc">Hörverstehen</p></div>
+          <div class="skill-card"><div class="skill-card-icon">✍️</div><h4 data-i18n="skill.schreiben">Schreiben</h4><p data-i18n="dtz.skill.schreiben.desc">Written tasks</p></div>
+          <div class="skill-card"><div class="skill-card-icon">🗣️</div><h4 data-i18n="skill.sprechen">Sprechen</h4><p data-i18n="skill.sprechen.oralDesc">Spoken expression</p></div>
+        </div>
+      </section>
+
+      <section class="exam-section">
+        <h2 data-i18n="dtz.format.title">How our mock is built</h2>
+        <div class="format-table-wrap">
+          <table class="format-table">
+            <thead><tr><th data-i18n="format.th.part">Part</th><th data-i18n="format.th.what">What it tests</th></tr></thead>
+            <tbody>
+              <tr><td data-i18n="dtz.fmt.listen1.part">Listening: messages and radio</td><td data-i18n="dtz.fmt.listen1.what">Short announcements, phone messages and radio items, with one question each</td></tr>
+              <tr><td data-i18n="dtz.fmt.listen2.part">Listening: conversations and opinions</td><td data-i18n="dtz.fmt.listen2.what">Everyday conversations with two tasks each; three people matched to what they think</td></tr>
+              <tr><td data-i18n="dtz.fmt.read1.part">Reading: contents page and adverts</td><td data-i18n="dtz.fmt.read1.what">Find the right chapter in a guide; match situations to adverts</td></tr>
+              <tr><td data-i18n="dtz.fmt.read2.part">Reading: short texts and rules</td><td data-i18n="dtz.fmt.read2.what">An email, a forum, local news and a set of rules or a contract</td></tr>
+              <tr><td data-i18n="dtz.fmt.read3.part">Reading: an email with gaps</td><td data-i18n="dtz.fmt.read3.what">Choose the word that fits each gap</td></tr>
+              <tr><td data-i18n="dtz.fmt.write.part">Writing</td><td data-i18n="dtz.fmt.write.what">One message or email from a choice of two, with a model answer and a checklist</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="format-note" data-i18n-html="dtz.format.note">
+          This is the structure of our own mock, not of the real exam. For the real parts and timings,
+          as far as we could check them, see our <a href="/dele/a2">DELE A2 practice set</a> and the
+          Instituto Cervantes. The mock has no speaking part: practise that with our
+          <a href="/speaking/set/a2-out-and-about">speaking tasks</a>. The extra
+          <a href="/reading-writing">reading &amp; writing</a> tasks are good for more practice.
+        </p>
+
+        <h3 data-i18n="dtz.scoring.title">How DELE A2 is marked</h3>
+        <p data-i18n-html="dtz.scoring.text">
+          The final result of a DELE is pass or fail (<em>apto</em> or <em>no apto</em>). The parts are
+          scored in groups, and the Instituto Cervantes publishes the current rule. In our mock the point
+          bands are <strong>our own guide</strong>, not a DELE score.
+        </p>
+      </section>
+    </Fragment>
+
+    <div class="mock-cta mock-cta--lead">
+      <h2 data-i18n="dtz.set.title">Our DELE A2 mock: listening, reading and writing</h2>
+      <p data-i18n="dtz.set.text">
+        Nine parts, 45 scored tasks in Spanish at level A2: listening parts 1–4 and reading parts 1–5,
+        plus a writing task with a model answer. You can run a clock for each skill. At the end you see
+        your result by part, with our own point bands as a guide. Progress stays saved in the browser.
+      </p>
+      <a class="quiz-btn quiz-btn--primary" href="/nationality/dele-a2/practice-set" data-i18n="exam.startSet">Start the practice set</a>
+      <a class="plan-link" href="/exam-plan" data-i18n="plan.link">Your plan up to the exam →</a>
+    </div>
+
+    <div class="mock-cta">
+      <h2 data-i18n="dtz.path.title">The whole path to nationality</h2>
+      <p data-i18n="dtz.path.text">Which tests you need, who is exempt and the order of the steps, from residence to the oath.</p>
+      <a class="quiz-btn quiz-btn--primary" href="/nationality" data-i18n="dtz.path.cta">See the path</a>
+    </div>
+
+    <div class="mock-cta">
+      <h2 data-i18n="dtz.mock.title">Kürzer: Mock-Test Lesen (Aufgabe 1–4)</h2>
+      <p data-i18n="dtz.mock.text">All four reading tasks as one continuous test at level B1, a step above DELE A2, with an overall result at the end.</p>
+      <a class="quiz-btn quiz-btn--primary" href="/nationality/dele-a2/mock-test" data-i18n="dtz.mock.start">Mock-Test starten</a>
+    </div>
+
+    <div class="mock-cta">
+      <h2 data-i18n="fallen.title">Exam traps</h2>
+      <p data-i18n="fallen.entry.blurb">Spots with a catch – briefly explained, with an example and a task to try.</p>
+      <a class="quiz-btn quiz-btn--primary" href="/exams/traps" data-i18n="fallen.entry.cta">Fallen ansehen</a>
+    </div>
+
+    <ExamPractice
+      heading="Grundlagen trainieren"
+      headingKey="exam.practice.heading"
+      intro="These practice tools train the skills that DELE A2 tests."
+      introKey="dtz.practice.intro"
+      tools={["artikel", "grammatik", "wortschatz", "sprechen", "lesen"]}
+    />
+  </ExamShell>
+</Layout>

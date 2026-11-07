@@ -1,0 +1,793 @@
+---
+// Aussprache-Workbench. The old page was a centred 880px column of identical
+// speaker cards; this is a full-bleed rail + stage, so one phrase is the focus
+// and the set stays navigable. Layout and interaction patterns are lifted from
+// ../icanspeakit (dashboard rail, ListeningWorkbench player, ShadowRecorder).
+import Layout from "../layouts/Layout.astro";
+import SectionMascot from "../components/mascots/SectionMascot.astro";
+import SiteNav from "../components/SiteNav.astro";
+import "../styles/practice.css";
+import "../styles/nav.css";
+import "../styles/lernset-picker.css";
+import "../styles/sidenav.css";
+import "../styles/aussprache.css";
+import "../styles/rule-intro.css";
+import Icon from "../components/Icon.astro";
+import SideNavFold from "../components/SideNavFold.astro";
+import AusspracheRegeln from "../components/AusspracheRegeln.astro";
+import { unitIcon } from "../lib/unitIcon.js";
+import phrases from "../data/wortschatz.json";
+import redemittel from "../data/redemittel.json";
+import { existsSync } from "node:fs";
+import path from "node:path";
+import { slugify, satzSlug } from "../lib/audioSlug.js";
+import { LEVELS, LEVEL_NAMES, units, asAudioItems } from "../lib/lexicon.js";
+import fehler from "../data/fehler-nach-sprache.json";
+
+// A recording on disk, by its public path — only what scripts/generate-satz-audio.mjs has
+// actually voiced gets a button, so a half-finished run never shows a silent one.
+const onDisk = (src: string) => existsSync(path.join(process.cwd(), "public", src));
+
+type Item = {
+  text: string;
+  audioSrc: string;
+  note: string;
+  translations: Record<string, string>;
+  sentence?: { text: string; audioSrc: string };
+};
+
+// Every voiced lexicon word, one set per unit (≈15 words each), so the rail stays short
+// and the progress bar means something. Levels appear here as soon as
+// scripts/generate-wortschatz-audio.mjs voices them — nothing to wire by hand.
+// A word whose example sentence is voiced shows it under the word, with its own play button.
+const unitSets = units()
+  .map((u) => ({
+    ...u,
+    items: asAudioItems({ unit: u.id }).map(({ example, ...it }): Item => {
+      const src = example ? `/audio/saetze/${satzSlug(example)}.mp3` : "";
+      // The sentence then shows above, so the note keeps only the IPA.
+      return src && onDisk(src)
+        ? { ...it, sentence: { text: example, audioSrc: src }, note: it.note.replace(example, "").replace(/ · $/, "") }
+        : it;
+    }),
+  }))
+  .filter((u) => u.items.length);
+
+// The hand-picked phrases keep their own set: whole sentences, voiced by scripts/generate-audio.mjs.
+const PHRASES = "saetze";
+// Redemittel by speech act — Zustimmen, Widersprechen, Zweifel, Trösten … — one set each,
+// listed under "Sätze & Redemittel". A phrase not voiced yet has no audioSrc: the player
+// reads it with the browser's Spanish voice and says so, until the recording exists.
+const rmSets = redemittel.sets.map((s) => ({
+  key: `rm-${s.id}`,
+  name: s.name,
+  icon: s.icon,
+  items: s.phrases.map((p): Item => {
+    // Only the translations: bild, variety and es419 describe the phrase.
+    const { de, bild: _bild, variety: _variety, es419: _es419, ...tr } = p as Record<string, any>;
+    const src = `/audio/redemittel/${satzSlug(de)}.mp3`;
+    return onDisk(src)
+      ? { text: de, audioSrc: src, note: "", translations: tr }
+      : { text: de, audioSrc: "", note: "No recording yet: your browser reads it aloud.", translations: tr };
+  }),
+}));
+const sets: Record<string, Item[]> = {
+  ...Object.fromEntries(unitSets.map((u) => [u.id, u.items])),
+  [PHRASES]: phrases.map((w) => ({
+    text: w.front,
+    audioSrc: `/audio/aussprache/${slugify(w.front)}.mp3`,
+    note: w.note ?? "",
+    translations: w.translations ?? {},
+  })),
+  ...Object.fromEntries(rmSets.map((s) => [s.key, s.items])),
+};
+
+const groups = LEVELS.map((level) => ({ level, units: unitSets.filter((u) => u.level === level) }))
+  .filter((g) => g.units.length);
+const firstSet = unitSets[0]?.id ?? PHRASES;
+const totalWords = unitSets.reduce((n, u) => n + u.items.length, 0);
+
+// The side nav is the one every trainer has (sidenav.css): a rail of level badges beside a
+// panel of that level's topics, each row with the emoji its Lernset wears on Wortschatz.
+const iconFor = unitIcon;
+// A1–B2 always on the rail, so it reads the same as on every other page; a level with no
+// voiced words yet is greyed rather than left out.
+const RAIL_LEVELS = ["A1", "A2", "B1", "B2"];
+const liveLevels = new Set(groups.map((g) => g.level));
+const firstLevel = unitSets.find((u) => u.id === firstSet)?.level ?? groups[0]?.level;
+// The bridge to /culture/mistakes: per first language, the sounds it makes hard (the
+// "aussprache" mistakes there). All rendered; the script shows the learner's own
+// (src/lib/muttersprache.js) and puts its chip first.
+const bridgeLangs = fehler.languages
+  .map((l) => ({
+    id: l.id,
+    name: l.name,
+    native: l.native,
+    sounds: (l.mistakes as { id: string; area?: string; wrong: string; right: string }[])
+      .filter((m) => m.area === "aussprache")
+      .slice(0, 5),
+  }))
+  .filter((l) => l.sounds.length);
+
+---
+<Layout title="Pronunciation practice – listen and repeat – icanspeak Spanish" description="Listen, repeat and record yourself: pronunciation practice with all the vocabulary that has audio, by topic.">
+  <SiteNav active="fertigkeiten" />
+
+  <main class="pr-shell" id="pron-root">
+    <aside class="pr-rail" data-pick-open="false">
+      <div class="pr-rail-head">
+        <SectionMascot name="quaki" say="Listen and repeat." sayKey="aussprache.say.hero" size={44} />
+        <p class="pr-rail-eyebrow" data-i18n="aussprache.hero.eyebrow">Hören & nachsprechen</p>
+        <h1 class="pr-rail-title" data-i18n="aussprache.hero.title">Aussprache trainieren</h1>
+        <p class="pr-set-total"><span data-i18n="aussprache.set.total">Wörter mit Audio</span>: {totalWords}</p>
+      </div>
+
+      {/* Phone only: the menu is a fold under this button, so the phrase still owns the
+          first screen. The label is the topic you are on. */}
+      <button type="button" class="pr-pick-toggle" data-pick-toggle aria-expanded="false" aria-controls="pr-nvb">
+        <span class="pr-pick-toggle-label" data-i18n="aussprache.set.label">Thema</span>
+        <span class="pr-pick-toggle-name" data-pick-current></span>
+        <span class="pr-pick-toggle-chev" aria-hidden="true">▾</span>
+      </button>
+
+      <div class="nvb ls-nvb pr-nvb snav" id="pr-nvb">
+        <!-- The fold tab on the panel's edge: the list goes, the rail stays. -->
+        <button type="button" class="ls-foldtab" data-nvb-collapse aria-label="Liste einklappen" data-i18n-attr="aria-label:ap.list.collapse" aria-controls="pr-pane">
+          <span class="ls-foldtab-txt" data-i18n="tr.topics">Themen</span>
+          <svg class="ls-foldtab-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <div class="nvb-rail" role="tablist" aria-label="Stufe wählen" data-i18n-attr="aria-label:ap.chooseLevel">
+          <button
+            type="button"
+            role="tab"
+            class="nvb-railbtn"
+            data-pr-rail="fortschritt"
+            aria-selected="false"
+            aria-controls="pr-pane-fortschritt"
+            aria-label="Dein Fortschritt"
+            data-i18n-attr="aria-label:sets.prog.title"
+          >
+            <Icon name="target" size={20} />
+            <span class="nvb-tip" data-i18n="sets.prog.title">Dein Fortschritt</span>
+          </button>
+          {RAIL_LEVELS.map((level) => {
+            const live = liveLevels.has(level);
+            return (
+              <button
+                type="button"
+                role="tab"
+                class:list={["nvb-railbtn", level === firstLevel && "active"]}
+                data-pr-rail={live ? level : undefined}
+                aria-disabled={live ? undefined : "true"}
+                aria-selected={level === firstLevel ? "true" : "false"}
+                aria-controls={live ? `pr-pane-${level}` : undefined}
+                aria-label={`Level ${level}`}
+                data-i18n-attr={`aria-label:kb.level.${level}`}
+              >
+                <span class="nvb-railbadge">{level}</span>
+                <span class="nvb-tip"><span data-i18n="ap.levelName" data-i18n-vars={JSON.stringify({ level })}>Stufe {level}</span> · <span data-i18n={`level.name.${level}`}>{LEVEL_NAMES[level as keyof typeof LEVEL_NAMES]}</span></span>
+              </button>
+            );
+          })}
+          <span class="ls-raildiv" aria-hidden="true"></span>
+          <button
+            type="button"
+            role="tab"
+            class="nvb-railbtn"
+            data-pr-rail={PHRASES}
+            aria-selected="false"
+            aria-controls={`pr-pane-${PHRASES}`}
+            aria-label="Sätze & Redemittel"
+            data-i18n-attr="aria-label:aussprache.set.phrases"
+          >
+            <Icon name="volume" size={20} />
+            <span class="nvb-tip" data-i18n="aussprache.set.phrases">Sätze & Redemittel</span>
+          </button>
+        </div>
+
+        <div class="nvb-panel" id="pr-pane">
+          <div class="nvb-section" id="pr-pane-fortschritt" data-pr-pane="fortschritt" hidden>
+            <div class="nvb-panelhead"><h3 data-i18n="sets.prog.title">Dein Fortschritt</h3></div>
+            <div data-snav-overview></div>
+            <a class="snav-more" href="/progress" data-i18n="sets.prog.more">Alles im Fortschritt ansehen</a>
+          </div>
+          {groups.map((g) => (
+            <div class="nvb-section" id={`pr-pane-${g.level}`} data-pr-pane={g.level} hidden={g.level !== firstLevel}>
+              <div class="nvb-panelhead">
+                <h3><span data-i18n="ap.levelName" data-i18n-vars={JSON.stringify({ level: g.level })}>Stufe {g.level}</span><span class="snav-head-name"> · <span data-i18n={`level.name.${g.level}`}>{LEVEL_NAMES[g.level as keyof typeof LEVEL_NAMES]}</span></span></h3>
+              </div>
+              <div class="snav-prog" data-snav-prog={g.level} hidden>
+                <span class="snav-prog-txt" data-snav-prog-txt></span>
+                <span class="snav-prog-bar"><span data-snav-prog-bar></span></span>
+              </div>
+              <p class="pr-pane-lead" data-i18n="aussprache.levelLead" data-i18n-vars={JSON.stringify({ n: g.units.reduce((n, u) => n + u.items.length, 0) })}>{g.units.reduce((n, u) => n + u.items.length, 0)} Wörter mit Audio. Wähle ein Thema.</p>
+              <h4 class="pr-pane-sub" data-i18n="ap.byTopic">Nach Thema</h4>
+              {g.units.map((u) => (
+                <button type="button" class="nvb-item pr-pack" data-set-btn={u.id} aria-selected={u.id === firstSet ? "true" : "false"}>
+                  <span class="pr-pack-ic" aria-hidden="true">{iconFor(u)}</span>
+                  <span class="pr-pack-name" data-i18n={`ws.set.${u.id}`}>{u.title ?? u.id}</span>
+                  <span class="pr-pack-n" data-set-count={u.id}>0/{u.items.length}</span>
+                </button>
+              ))}
+            </div>
+          ))}
+          <div class="nvb-section" id={`pr-pane-${PHRASES}`} data-pr-pane={PHRASES} hidden>
+            <div class="nvb-panelhead">
+              <h3 data-i18n="aussprache.set.phrases">Sätze & Redemittel</h3>
+            </div>
+            {rmSets.length > 0 && <h4 class="pr-pane-sub">Redemittel</h4>}
+            {rmSets.map((s) => (
+              <button type="button" class="nvb-item pr-pack" data-set-btn={s.key} aria-selected="false">
+                <span class="pr-pack-ic" aria-hidden="true">{s.icon}</span>
+                <span class="pr-pack-name">{s.name}</span>
+                <span class="pr-pack-n" data-set-count={s.key}>0/{s.items.length}</span>
+              </button>
+            ))}
+            <h4 class="pr-pane-sub" data-i18n="pr.pack.mixed">Mixed</h4>
+            <button type="button" class="nvb-item pr-pack" data-set-btn={PHRASES} aria-selected="false">
+              <span class="pr-pack-ic" aria-hidden="true">💬</span>
+              <span class="pr-pack-name" data-i18n="pr.pack.phrases">First phrases</span>
+              <span class="pr-pack-n" data-set-count={PHRASES}>0/{sets[PHRASES].length}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <SideNavFold />
+    </aside>
+
+    <section class="pr-stage">
+      <div class="pr-stage-inner">
+        {/* The position, and on the right the pill that folds the Ausspracheregeln — the
+            grammar topics' „Regel einblenden / ausblenden“, same words, same setting. */}
+        <div class="pr-stage-top">
+          <p class="pr-kicker" data-kicker>1 / 1</p>
+          <button
+            type="button"
+            class="vp-rule-toggle pr-regel-toggle"
+            data-regel-toggle
+            aria-controls="pr-regel"
+            data-show="Show rule"
+            data-hide="Hide rule"
+            data-i18n-attr="data-show:vp.rule.show;data-hide:vp.rule.hide"
+            data-i18n="vp.rule.show"
+          >Show rule</button>
+        </div>
+
+        <h2 class="pr-phrase" data-phrase aria-live="polite"></h2>
+        <p class="pr-translation" data-translation></p>
+        {/* The word's example sentence, always under it, with its own play button. Hidden
+            where no sentence is voiced (scripts/generate-satz-audio.mjs). */}
+        <div class="pr-example" data-example hidden>
+          <button type="button" class="pr-example-play" data-example-play aria-label="Beispielsatz abspielen" data-i18n-attr="aria-label:aussprache.playExample">
+            <svg viewBox="0 0 24 24" aria-hidden="true" data-example-icon><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <p class="pr-example-text" data-example-text lang="es"></p>
+        </div>
+
+        <div class="pr-player">
+          <button type="button" class="pr-play" data-play aria-label="Abspielen" data-i18n-attr="aria-label:aussprache.play">
+            <svg viewBox="0 0 24 24" aria-hidden="true" data-play-icon><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="pr-wave" data-wave>
+            <div class="pr-wave-bars" data-wave-base></div>
+            <div class="pr-wave-bars pr-wave-bars--played" data-wave-played></div>
+          </div>
+          <div class="pr-rates" role="group" aria-label="Tempo" data-i18n-attr="aria-label:aussprache.rate.ariaLabel">
+            {[0.6, 0.8, 1].map((r) => (
+              <button type="button" class="pr-rate" data-rate={r} aria-pressed={r === 1 ? "true" : "false"}>{r}×</button>
+            ))}
+          </div>
+        </div>
+
+        <div class="pr-tools">
+          <button type="button" class="pr-tool" data-loop aria-pressed="false">
+            <span data-i18n="aussprache.loop">Schleife</span>
+          </button>
+          <button type="button" class="pr-tool pr-tool--rec" data-rec data-recording="false">
+            <span class="pr-dot"></span><span data-i18n="aussprache.record">Aufnehmen</span>
+          </button>
+          <button type="button" class="pr-tool" data-play-mine disabled>
+            <span data-i18n="aussprache.playMine">Meine Aufnahme</span>
+          </button>
+        </div>
+
+        {/* The keys, right under the buttons they stand in for. */}
+        <p class="pr-hint">
+          <span class="pr-key">←</span> <span class="pr-key">→</span>
+          <span data-i18n="aussprache.hint.nav">wechseln</span> ·
+          <span class="pr-key" data-i18n="aussprache.hint.spaceKey">Leertaste</span>
+          <span data-i18n="aussprache.hint.nextPlay">weiter & abspielen</span> ·
+          <span class="pr-key">Enter</span>
+          <span data-i18n="aussprache.hint.again">nochmal</span>
+        </p>
+
+        <p class="pr-status" data-status aria-live="polite"></p>
+        <p class="pr-note" data-note></p>
+
+        <nav class="pr-nav">
+          <button type="button" class="pr-nav-btn" data-prev data-i18n="aussprache.prev">← Zurück</button>
+          <button type="button" class="pr-nav-btn" data-next data-i18n="aussprache.next">Weiter</button>
+        </nav>
+
+        <section class="pr-words" aria-labelledby="pr-words-h">
+          <div class="pr-rail-progress">
+            <div class="pr-rail-progress-meta">
+              <span id="pr-words-h" data-i18n="aussprache.progress.label">Gehört</span>
+              <span><span data-heard-count>0</span> / <span data-heard-total>0</span></span>
+            </div>
+            <div class="pr-rail-bar"><span data-rail-bar></span></div>
+          </div>
+          <div class="pr-rail-scroll">
+            {Object.entries(sets).map(([key, items]) => (
+              <div data-rail-list={key} hidden={key !== firstSet}>
+                {items.map((item, i) => (
+                  <button type="button" class="pr-row" data-row-index={i} aria-current="false" data-heard="false">
+                    <span class="pr-row-bar"></span>
+                    {/* The article in its Wortschatz colour, as on the card above. */}
+                    <span class="pr-row-text">{(() => {
+                      const [first, ...rest] = item.text.split(" ");
+                      const art = ["der", "die", "das"].includes(first) && rest.length ? first : null;
+                      return art
+                        ? <Fragment><span class={`pr-art pr-art--${art}`}>{art}</span> {rest.join(" ")}</Fragment>
+                        : item.text;
+                    })()}</span>
+                    <span class="pr-row-heard" aria-hidden="true">✓</span>
+                  </button>
+                ))}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Bridge to /culture/mistakes: which sounds are hard depends on your first language. */}
+        <section class="pr-bridge" aria-labelledby="pr-bridge-h" data-bridge>
+          <div class="pr-bridge-head">
+            <SectionMascot name="hamsti" size={72} class="pr-bridge-mascot" />
+            <div>
+              <p class="pr-bridge-eyebrow" data-i18n="aussprache.bridge.eyebrow">Typische Fehler</p>
+              <h2 class="pr-bridge-title" id="pr-bridge-h" data-i18n="aussprache.bridge.title">Welche Laute sind für dich schwer?</h2>
+            </div>
+          </div>
+          <p class="pr-bridge-lead" data-i18n="aussprache.bridge.lead">Das hängt von deiner Muttersprache ab: Mit Arabisch wird „p“ oft zu „b“, mit Russisch „h“ zu „ch“. Wähle deine Sprache, dann siehst du hier, welche Laute für dich schwer sind.</p>
+          {bridgeLangs.map((l) => (
+            <div class="pr-bridge-mine" data-bridge-mine={l.id} hidden>
+              <p class="pr-bridge-mine-h"><span data-i18n="aussprache.bridge.forYou">Für dich</span> · {l.name}</p>
+              <ul class="pr-bridge-list">
+                {l.sounds.map((m) => (
+                  <li><span class="pr-bridge-wrong" lang="es">{m.wrong}</span> <span aria-hidden="true">→</span> <span class="pr-bridge-right" lang="es">{m.right}</span></li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          <div class="pr-bridge-langs" data-bridge-langs>
+            {bridgeLangs.map((l) => (
+              <button type="button" class="pr-bridge-lang" data-bridge-lang={l.id} data-bridge-name={l.name} aria-pressed="false">
+                <span class="pr-bridge-native" dir="auto">{l.native}</span>
+                <span class="pr-bridge-name">{l.name}</span>
+              </button>
+            ))}
+          </div>
+          {/* The only way off the page: to the chosen language's tab, or to all of them. */}
+          <a class="pr-bridge-all" href="/culture/mistakes" data-bridge-all>
+            <span data-bridge-all-any data-i18n="aussprache.bridge.all">Alle typischen Fehler nach Muttersprache →</span>
+            <span data-bridge-all-for data-i18n="aussprache.bridge.allFor" hidden></span>
+          </a>
+        </section>
+      </div>
+    </section>
+
+    <AusspracheRegeln />
+  </main>
+
+  <script type="application/json" id="pron-data" set:html={JSON.stringify(sets)}></script>
+
+  <script type="module">
+    import { mountPronunciation, readHeard } from "../lib/pronunciation.js";
+    import { mountSideNavFold } from "../lib/sideNavFold.js";
+    import { t } from "../lib/uiText.js";
+    import { withBase } from "../lib/paths.js";
+    import { recordSession } from "../lib/progress.js";
+    import { getLang, loadDict, onLangChange, retranslate } from "../lib/i18n.js";
+    import { getMuttersprache, setMuttersprache, onMutterspracheChange } from "../lib/muttersprache.js";
+    import { createRuleIntro } from "../lib/ruleIntro.js";
+    import { nudgeStep } from "../lib/mascotNudge.js";
+    import { celebrate } from "../lib/mascotCelebrate.js";
+
+    const raw = JSON.parse(document.getElementById("pron-data").textContent);
+    const root = document.getElementById("pron-root");
+
+    // A UI language without its own gloss reads the English one.
+    function buildSets(lang) {
+      const pick = (item) => ({
+        ...item,
+        translation: item.translations?.[lang] || item.translations?.en || "",
+      });
+      return Object.fromEntries(Object.entries(raw).map(([k, items]) => [k, items.map(pick)]));
+    }
+
+    const LAST_KEY = "aussprache.set";
+    let lastSet = null;
+    try { lastSet = localStorage.getItem(LAST_KEY); } catch {}
+
+    const FALLBACK = {
+      position: "{i} / {n}",
+      recActive: "Recording …",
+      recDone: "Recorded – compare yourself with the model.",
+      recDenied: "No access to the microphone. You can still listen and repeat out loud.",
+      recUnsupported: "Your browser can't record.",
+      audioError: "The audio couldn't be loaded.",
+    };
+
+    function stringsFrom(dict) {
+      return {
+        position: dict["aussprache.position"] || FALLBACK.position,
+        recActive: dict["aussprache.rec.active"] || FALLBACK.recActive,
+        recDone: dict["aussprache.rec.done"] || FALLBACK.recDone,
+        recDenied: dict["aussprache.rec.denied"] || FALLBACK.recDenied,
+        recUnsupported: dict["aussprache.rec.unsupported"] || FALLBACK.recUnsupported,
+        audioError: dict["aussprache.audioError"] || FALLBACK.audioError,
+        next: dict["aussprache.next"] || "Next",
+        nextSet: dict["aussprache.nextSet"] || "Next topic →",
+      };
+    }
+
+    // The menu (ArtikelPicker's shape): a rail button shows that level's topics, a topic
+    // row switches the set. The row names carry data-i18n (ws.set.<unit id>), so a
+    // language switch relabels them on its own.
+    const railBtns = [...root.querySelectorAll("[data-pr-rail]")];
+    const panes = [...root.querySelectorAll("[data-pr-pane]")];
+    const aside = root.querySelector(".pr-rail");
+    const toggle = root.querySelector("[data-pick-toggle]");
+    const currentLabel = root.querySelector("[data-pick-current]");
+
+    function showPane(key) {
+      panes.forEach((p) => { p.hidden = p.dataset.prPane !== key; });
+      railBtns.forEach((b) => {
+        const on = b.dataset.prRail === key;
+        b.classList.toggle("active", on);
+        b.setAttribute("aria-selected", String(on));
+      });
+    }
+    const fold = mountSideNavFold(root.querySelector(".pr-nvb"));
+    railBtns.forEach((b) => b.addEventListener("click", () => {
+      if (fold?.press(b)) return;
+      showPane(b.dataset.prRail);
+      if (b.dataset.prRail === "fortschritt") paintOverview();
+    }));
+
+    // "x/N gehört" per topic row, per level under its head, and every level at once in
+    // "Dein Fortschritt" — all from the words this browser has heard (pronunciation.js).
+    const levelOfSet = Object.fromEntries(
+      [...root.querySelectorAll("[data-pr-pane]")].flatMap((p) =>
+        [...p.querySelectorAll("[data-set-btn]")].map((b) => [b.dataset.setBtn, p.dataset.prPane]))
+    );
+    const heardCount = (key, saved) => (raw[key] || []).filter((it) => saved[key]?.includes(it.text)).length;
+    function levelTotals() {
+      const saved = readHeard();
+      const out = {};
+      for (const key of Object.keys(raw)) {
+        const lv = levelOfSet[key];
+        if (!/^[AB][12]$/.test(lv || "")) continue;
+        const o = (out[lv] ??= { n: 0, total: 0 });
+        o.n += heardCount(key, saved);
+        o.total += raw[key].length;
+      }
+      return out;
+    }
+    function paintCounts() {
+      const saved = readHeard();
+      root.querySelectorAll("[data-set-count]").forEach((el) => {
+        const key = el.dataset.setCount;
+        el.textContent = `${heardCount(key, saved)}/${(raw[key] || []).length}`;
+      });
+      const totals = levelTotals();
+      root.querySelectorAll("[data-snav-prog]").forEach((el) => {
+        const lv = totals[el.dataset.snavProg];
+        el.hidden = !lv?.n;
+        if (!lv?.n) return;
+        el.querySelector("[data-snav-prog-txt]").textContent = t("aussprache.heardOf", "{n} von {total} gehört", { n: lv.n, total: lv.total });
+        el.querySelector("[data-snav-prog-bar]").style.width = `${Math.round((lv.n / lv.total) * 100)}%`;
+      });
+      if (!root.querySelector("#pr-pane-fortschritt").hidden) paintOverview();
+    }
+    function paintOverview() {
+      const box = root.querySelector("[data-snav-overview]");
+      const totals = levelTotals();
+      if (!Object.values(totals).some((x) => x.n)) {
+        box.innerHTML = `<p class="snav-empty"></p>`;
+        box.firstElementChild.textContent = t("aussprache.prog.empty", "Noch nichts gehört. Sobald du Wörter abspielst, steht hier, wie viele du pro Stufe schon gehört hast.");
+        return;
+      }
+      box.innerHTML = ["A1", "A2", "B1", "B2"].map((lv) => {
+        const x = totals[lv] ?? { n: 0, total: 0 };
+        return `<button type="button" class="snav-lvl" data-snav-lvl="${lv}"${x.total ? "" : " disabled"}>
+          <span class="snav-lvl-name">${lv}</span>
+          <span class="snav-prog-bar"><span style="width:${x.total ? Math.round((x.n / x.total) * 100) : 0}%"></span></span>
+          <span class="snav-lvl-n">${x.n}/${x.total}</span>
+        </button>`;
+      }).join("");
+      box.querySelectorAll("[data-snav-lvl]").forEach((b) => b.addEventListener("click", () => showPane(b.dataset.snavLvl)));
+    }
+    paintCounts();
+
+    function setOpen(open) {
+      aside.dataset.pickOpen = String(open);
+      toggle.setAttribute("aria-expanded", String(open));
+    }
+    toggle.addEventListener("click", () => setOpen(aside.dataset.pickOpen !== "true"));
+
+    function markSet(key) {
+      const row = root.querySelector(`[data-set-btn="${key}"]`);
+      root.querySelectorAll("[data-set-btn]").forEach((b) => b.classList.toggle("active", b === row));
+      if (!row) return;
+      showPane(row.closest("[data-pr-pane]").dataset.prPane);
+      currentLabel.textContent = row.querySelector(".pr-pack-name").textContent;
+    }
+
+    const lang = getLang();
+    const dict = await loadDict(lang);
+
+    let sets = buildSets(lang);
+    // The set being practised, for the Klassen log (a:<set key>).
+    let currentSet = (() => { try { return localStorage.getItem(LAST_KEY); } catch { return null; } })() || "aussprache";
+    const app = mountPronunciation(root, {
+      sets,
+      strings: stringsFrom(dict),
+      onHeard: () => {
+        recordSession("hoeren", { ref: `a:${currentSet}` });
+        paintCounts();
+        // Quaki, now and then, with a quiet word — and "Noch 4" near the end of the topic.
+        const total = sets[currentSet]?.length ?? 0;
+        const heard = readHeard()[currentSet]?.length ?? 0;
+        nudgeStep({ area: "aussprache", left: total ? total - heard : undefined, set: currentSet });
+      },
+      // Through the topic: the crew cheers, then the next topic in the menu opens on its
+      // first word. The last topic of the menu just gets the cheer.
+      onEnd: (key) => {
+        const keys = [...new Set([...root.querySelectorAll("[data-set-btn]")].map((b) => b.dataset.setBtn))].filter((k) => sets[k]?.length);
+        const next = keys[keys.indexOf(key) + 1];
+        const name = (k) => root.querySelector(`[data-set-btn="${k}"] .pr-pack-name`)?.textContent.trim() || "";
+        const total = sets[key]?.length ?? 0;
+        const heard = readHeard()[key]?.length ?? 0;
+        celebrate({
+          title: heard >= total ? t("aussprache.end.all", "Alle {n} Wörter gehört!", { n: total }) : t("aussprache.end.title", "Thema geschafft!"),
+          body: next
+            ? t("aussprache.end.next", "{done} ist durch. Weiter mit {next}.", { done: name(key), next: name(next) })
+            : t("aussprache.end.last", "{done} ist durch – das letzte Thema hier.", { done: name(key) }),
+          lead: "quaki",
+          crew: ["bruno", "hamsti", "regi"],
+        });
+        if (next) {
+          app.switchSet(next);
+          const top = root.querySelector("[data-kicker]") ?? root;
+          // under the sticky site header, with room to breathe
+          const y = top.getBoundingClientRect().top + scrollY - 96;
+          if (y < scrollY) window.scrollTo({ top: Math.max(0, y), behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+        }
+      },
+      onSetChange: (key) => {
+        currentSet = key;
+        try { localStorage.setItem(LAST_KEY, key); } catch {}
+        markSet(key);
+        setOpen(false);
+      },
+    });
+    if (lastSet && raw[lastSet]) app.switchSet(lastSet);
+    else markSet(Object.keys(raw)[0]);
+
+    onLangChange((code, nextDict) => {
+      const next = buildSets(code);
+      for (const [k, items] of Object.entries(sets)) {
+        items.forEach((item, i) => (item.translation = next[k][i].translation));
+      }
+      app.refresh(stringsFrom(nextDict));
+      // The rows were relabelled by applyToDom before this runs; the phone button copies one.
+      markSet(root.querySelector("[data-set-btn].active")?.dataset.setBtn);
+    });
+
+    // The bridge: the learner's first language (set here, on /culture/mistakes or in the Check —
+    // one shared setting) shows its sounds in place and fills its chip. Choosing a language
+    // stays on this page; only the button at the bottom leaves, to that language's tab.
+    const bridge = root.querySelector("[data-bridge]");
+    const paintBridge = (id) => {
+      if (!bridge) return;
+      bridge.querySelectorAll("[data-bridge-mine]").forEach((el) => (el.hidden = el.dataset.bridgeMine !== id));
+      let name = null;
+      bridge.querySelectorAll("[data-bridge-lang]").forEach((b) => {
+        const on = b.dataset.bridgeLang === id;
+        b.classList.toggle("is-mine", on);
+        b.setAttribute("aria-pressed", on ? "true" : "false");
+        if (on) name = b.dataset.bridgeName;
+      });
+      const forEl = bridge.querySelector("[data-bridge-all-for]");
+      bridge.querySelector("[data-bridge-all]").href = withBase(name ? `/culture/mistakes?lang=${id}` : "/culture/mistakes");
+      bridge.querySelector("[data-bridge-all-any]").hidden = !!name;
+      forEl.hidden = !name;
+      if (name) {
+        forEl.dataset.i18nVars = JSON.stringify({ lang: name });
+        retranslate();
+      }
+    };
+    if (bridge) {
+      // A stored language starts first in the row; a click later doesn't move the chips.
+      const start = getMuttersprache();
+      const first = start && bridge.querySelector(`[data-bridge-lang="${start}"]`);
+      if (first) bridge.querySelector("[data-bridge-langs]").prepend(first);
+      paintBridge(start);
+      bridge.addEventListener("click", (e) => {
+        const chip = e.target.closest("[data-bridge-lang]");
+        if (!chip) return;
+        // The chosen chip again takes the choice back: nothing picked, as for a new visitor.
+        const id = chip.getAttribute("aria-pressed") === "true" ? null : chip.dataset.bridgeLang;
+        paintBridge(id);
+        setMuttersprache(id);
+      });
+    }
+    onMutterspracheChange(paintBridge);
+
+    // The Ausspracheregeln (AusspracheRegeln.astro): folded and unfolded like a grammar
+    // topic's rule, and with the same remembered choice, so it is one setting site-wide.
+    // Below 1001px the column is a sheet: opening it there is for this visit only.
+    {
+      const RULE_KEY = "da-grammatik-rule";
+      const wide = matchMedia("(min-width: 1001px)");
+      const shell = root;
+      const toggle = root.querySelector("[data-regel-toggle]");
+      const aside = document.getElementById("pr-regel");
+      const label = () => {
+        const shown = shell.dataset.regel === "shown";
+        toggle.textContent = shown ? toggle.dataset.hide : toggle.dataset.show;
+        toggle.setAttribute("aria-expanded", String(shown));
+        aside.inert = !shown;
+        aside.setAttribute("aria-hidden", String(!shown));
+      };
+      const set = (shown, persist) => {
+        shell.dataset.regel = shown ? "shown" : "hidden";
+        if (persist && wide.matches) { try { localStorage.setItem(RULE_KEY, shown ? "shown" : "hidden"); } catch {} }
+        label();
+      };
+      let saved = null;
+      try { saved = localStorage.getItem(RULE_KEY); } catch {}
+      // Open on a desktop unless put away once; closed on a phone, where it covers the word.
+      set(wide.matches && saved !== "hidden", false);
+      requestAnimationFrame(() => shell.classList.add("pr-regel-ready"));
+      toggle.addEventListener("click", () => set(shell.dataset.regel !== "shown", true));
+      root.querySelectorAll("[data-regel-hide]").forEach((b) => b.addEventListener("click", () => set(false, true)));
+      addEventListener("keydown", (e) => { if (e.key === "Escape" && !wide.matches && shell.dataset.regel === "shown") set(false, false); });
+      // A click on empty page space puts the column away, for this visit only: a stray
+      // click is not the decision the pill is. Controls, text being selected, the column
+      // itself, the focus view, the tour and the cheer leave it alone.
+      document.addEventListener("click", (e) => {
+        if (shell.dataset.regel !== "shown" || shell.dataset.regelMax) return;
+        const el = e.target;
+        if (!(el instanceof Element) || !el.isConnected) return;
+        if (el.closest("#pr-regel, a, button, input, select, textarea, label, summary, audio, video, [role=button], [role=tab], [role=link], [role=option], [role=menuitem], [role=switch], [role=slider], [tabindex]:not([tabindex='-1']), [contenteditable], [data-row-index], .ri-overlay, .ri-hello, .mc-celebrate, .pr-regel-maxscrim")) return;
+        if (String(getSelection?.() ?? "")) return;
+        set(false, false);
+      });
+      wide.addEventListener("change", () => {
+        let v = null;
+        try { v = localStorage.getItem(RULE_KEY); } catch {}
+        set(wide.matches && v !== "hidden", false);
+      });
+      // The pill's words follow the UI language: i18n rewrites data-show / data-hide.
+      onLangChange(() => requestAnimationFrame(label));
+
+      // „Für dieses Wort": the rules whose pattern fits the word on the stage.
+      const rulesEl = [...aside.querySelectorAll("[data-rule]")];
+      const mine = aside.querySelector("[data-regel-mine]");
+      const mineList = aside.querySelector("[data-regel-mine-list]");
+      const phrase = root.querySelector("[data-phrase]");
+      const forWord = () => {
+        // One span per word (pronunciation.js renderPhrase), the article its own.
+        const words = [...(phrase?.querySelectorAll(".pr-word:not(.pr-word--article)") ?? [])].map((s) => s.textContent.trim());
+        const word = words.join(" ");
+        const single = words.length === 1 && !!word;
+        const w = word.toLowerCase();
+        const hits = single ? rulesEl.filter((r) => r.dataset.match && new RegExp(r.dataset.match).test(w)) : [];
+        rulesEl.forEach((r) => r.classList.toggle("is-hit", hits.includes(r)));
+        mine.hidden = !hits.length;
+        if (!hits.length) return;
+        aside.querySelector("[data-regel-word]").textContent = word;
+        mineList.replaceChildren(...hits.map((r) => {
+          const a = document.createElement("a");
+          a.href = `#${r.id}`;
+          a.className = "pr-regel-chip";
+          a.textContent = r.dataset.title;
+          a.lang = "en";
+          return a;
+        }));
+      };
+      if (phrase) new MutationObserver(forWord).observe(phrase, { childList: true, characterData: true, subtree: true });
+      forWord();
+      // A chip scrolls its rule into view inside the column, not the page.
+      mineList.addEventListener("click", (e) => {
+        const a = e.target.closest("a");
+        if (!a) return;
+        e.preventDefault();
+        const target = document.getElementById(a.hash.slice(1));
+        target?.scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+        target?.classList.add("is-flash");
+        setTimeout(() => target?.classList.remove("is-flash"), 1200);
+      });
+
+      // Examples the lexicon has voiced play their recording.
+      const voice = new Audio();
+      aside.addEventListener("click", (e) => {
+        const b = e.target.closest("[data-regel-play]");
+        if (!b) return;
+        voice.src = withBase(b.dataset.regelPlay);
+        voice.play().catch(() => {});
+      });
+
+      // Full screen (⤢), as the grammar rule's focus view: a moment for reading, never
+      // remembered. ✕, Escape, the scrim and ⤢ again all bring the column back.
+      const maxBtn = aside.querySelector("[data-regel-max]");
+      const calm = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let scrim = null;
+      const paintMax = (on) => {
+        const k = on ? "vp.rule.shrink" : "vp.rule.expand";
+        maxBtn.setAttribute("data-i18n-attr", `aria-label:${k};title:${k}`);
+        maxBtn.setAttribute("aria-label", t(k, on ? "Verkleinern" : "Vergrößern"));
+        maxBtn.title = maxBtn.getAttribute("aria-label");
+        maxBtn.setAttribute("aria-pressed", String(on));
+        maxBtn.querySelector("path").setAttribute("d", on ? "M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7" : "M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7");
+      };
+      const openMax = () => {
+        shell.dataset.regelMax = "1";
+        scrim?.remove();
+        scrim = document.createElement("div");
+        scrim.className = "pr-regel-maxscrim";
+        scrim.addEventListener("click", closeMax);
+        document.body.append(scrim);
+        document.body.style.overflow = "hidden";
+        paintMax(true);
+      };
+      function closeMax() {
+        if (shell.dataset.regelMax !== "1") return;
+        paintMax(false);
+        document.body.style.overflow = "";
+        const done = () => { delete shell.dataset.regelMax; scrim?.remove(); scrim = null; };
+        if (calm()) return done();
+        shell.dataset.regelMax = "closing";
+        scrim?.classList.add("is-closing");
+        aside.addEventListener("animationend", done, { once: true });
+        setTimeout(() => { if (shell.dataset.regelMax === "closing") done(); }, 450);
+      }
+      maxBtn.addEventListener("click", () => (shell.dataset.regelMax === "1" ? closeMax() : openMax()));
+      // ✕ in the focus view: back to the page, with the column put away as asked.
+      aside.querySelectorAll("[data-regel-hide]").forEach((b) => b.addEventListener("click", closeMax));
+      addEventListener("keydown", (e) => { if (e.key === "Escape") closeMax(); });
+      wide.addEventListener("change", () => { if (!wide.matches) closeMax(); });
+
+      // The rule tour (src/lib/ruleIntro.js), once per browser, as on a grammar page:
+      // the column, the rules for this word, ⤢, then the pill that folds it. ?intro replays.
+      const SEEN = "da-aussprache-regel-peek";
+      let seen = false;
+      try { seen = localStorage.getItem(SEEN) === "1"; } catch {}
+      const forced = new URLSearchParams(location.search).has("intro");
+      if ((forced || !seen) && !calm()) {
+        if (!forced) { try { localStorage.setItem(SEEN, "1"); } catch {} }
+        const compact = !wide.matches;
+        const intro = createRuleIntro({
+          ruleEl: aside,
+          ruleBtn: toggle,
+          ruleCard: compact ? null : aside,
+          setRule: (hidden) => set(!hidden, false),
+          compact,
+          restHidden: shell.dataset.regel !== "shown",
+          mascot: "quaki",
+          coach: compact
+            ? [["intro.prRegel.title", "intro.prRegelCompact.text"], ["intro.toggle.title", "intro.toggleCompact.text"]]
+            : [["intro.prRegel.title", "intro.prRegel.text"], ["intro.toggle.title", "intro.toggle.text"]],
+          beats: compact ? [] : [
+            ...(mine.hidden ? [] : [{ title: "intro.prRegelWord.title", text: "intro.prRegelWord.text", target: () => mine }]),
+            { title: "intro.expand.title", text: "intro.expand.text", target: () => maxBtn, point: () => maxBtn },
+          ],
+        });
+        // After the page has settled, like the grammar pages' tour.
+        setTimeout(() => intro.play(), 600);
+      }
+    }
+  </script>
+</Layout>

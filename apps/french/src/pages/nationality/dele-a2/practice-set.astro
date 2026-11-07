@@ -1,0 +1,188 @@
+---
+import ExamDisclaimer from "../../../components/ExamDisclaimer.astro";
+// Full mock for DELE A2 (dtz slot, content-plan §2): nine parts, 45 scored items, plus the writing task.
+// Free sets are JSON files in src/data/pruefungen/dtz/ (inlined here). The paid
+// sets live in src/paid/pruefungen/dtz/: this page only knows their names, from
+// src/data/pruefungen/paid-manifest.json, and loads one from /inhalt/ when the learner
+// picks it and can("pruefungssaetze") allows it (scripts/build-paid-manifest.mjs).
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import "../../../styles/practice.css";
+import "../../../styles/pruefungen.css";
+import "../../../styles/dtz.css";
+import "../../../styles/pruefung-satz.css";
+import { examClip } from "../../../lib/examHoeren.js";
+import paidManifest from "../../../data/pruefungen/paid-manifest.json";
+import PremiumLock from "../../../components/PremiumLock.astro";
+import ExamFacts from "../../../components/ExamFacts.astro";
+import LevelGrammar from "../../../components/LevelGrammar.astro";
+
+const paidSets = paidManifest.dtz;
+
+// Each Hören text gets its recording as `audio` where scripts/generate-exam-hoeren-audio.mjs
+// has made one: public/audio/pruefungen/dtz-<NN>/<part>-<id>.mp3 (Teil 3: one per dialogue).
+// A set's own folder, so a second set never plays the first one's clips.
+function withAudio(satz) {
+  const set = `dtz-${satz.id.replace(/\D/g, "").padStart(2, "0")}`;
+  const s = structuredClone(satz);
+  let all = true;
+  const put = (obj, clip) => {
+    const href = examClip(set, clip);
+    if (href) obj.audio = href;
+    else all = false;
+  };
+  for (const part of s.parts.filter((p) => p.group === "Hören")) {
+    if (part.type === "dialog") part.groups.forEach((g, i) => put(g, `${part.key}-dialog-${i + 1}`));
+    else {
+      if (part.example) put(part.example, `${part.key}-bsp`);
+      part.items.forEach((it) => put(it, `${part.key}-${it.id}`));
+    }
+  }
+  s.hasAllAudio = all;
+  return s;
+}
+
+const modules = import.meta.glob("../../../data/pruefungen/dtz/*.json", { eager: true });
+const saetze = Object.values(modules)
+  .map((m) => withAudio(m.default ?? m))
+  .sort((a, b) => a.id.localeCompare(b.id));
+const first = saetze[0];
+---
+<Layout
+  title="DELE A2 mock test – complete practice set – icanspeak Spanish"
+  description="Our own complete mock for DELE A2, on the path to Spanish nationality: reading, listening and writing tasks, with your score at the end."
+>
+  <SiteNav active="pruefungen" />
+
+  <main class="practice-main practice-main--wide practice-main--trainer dtz-trainer" id="dtz-root">
+    <a href="/nationality/dele-a2" class="vp-back-link" data-i18n="exam.backToDtz">Back to the DELE A2 overview</a>
+
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="dtzSet.eyebrow">Simulate the exam</p>
+      <h1><span class="hero-exam" data-i18n="dtzSet.heroExam">DELE A2 mock</span> <span data-dtz-title>{first.meta.title}</span></h1>
+      <p data-i18n="dtzSet.hero">
+        Nine parts, 45 scored tasks in our own mock for DELE A2. The result uses our own point bands
+        as a guide: well prepared from 33 points, getting close from 20 points.
+      </p>
+    </div>
+    <ExamDisclaimer />
+
+    {/* The structure of OUR mock, not of the real DELE A2. The real parts are on the DELE A2 page
+        (research: formate-a2-c1.research.json, to verify). The minutes match GROUP_MINUTES in dtzTrainer.js. */}
+    <ExamFacts
+      title="How this mock is structured"
+      titleKey="dtzSet.facts.title"
+      head={[{ text: "Part", key: "ps.format.th.module" }, { text: "Tasks", key: "dtzSet.facts.th.tasks" }, { text: "Time on our clock", key: "dtzSet.facts.th.time" }]}
+      rows={[
+        [{ text: "Listening", key: "skill.hoeren" }, { text: "4 parts, 20 tasks", key: "dtzSet.facts.hoeren" }, "25 min"],
+        [{ text: "Reading", key: "skill.lesen" }, { text: "5 parts, 25 tasks", key: "dtzSet.facts.lesen" }, "45 min"],
+        [{ text: "Writing", key: "skill.schreiben" }, { text: "1 email or letter", key: "dtzSet.facts.schreiben" }, "30 min"],
+        [{ text: "Speaking", key: "skill.sprechen" }, { text: "not included (needs a partner)", key: "dtzSet.facts.sprechen" }, { text: "—", key: "dtzSet.facts.sprechenTime" }],
+      ]}
+      notes={[
+        { key: "dtzSet.facts.scoring", html: "<strong>Scoring:</strong> listening and reading count together for 45 points. Our guide: well prepared from 33 points, getting close from 20 points. You check the writing task yourself with the model answer and the checklist. The real DELE A2 has its own marking rule and ends in <em>apto</em> or <em>no apto</em>." },
+        { key: "dtzSet.facts.certificate", html: "This mock is practice only. To take the real DELE A2, register at an Instituto Cervantes exam centre, and check the current rules for your nationality application first. This is general orientation, not legal advice." },
+      ]}
+      sources={[
+        { label: "Instituto Cervantes: DELE", url: "https://www.cervantes.org/es/examenes/dele" },
+      ]}
+      checked="06.11.2026"
+    />
+
+    {saetze.length + paidSets.length > 1 && (
+      <div class="dtz-setpicker" data-dtz-setpicker>
+        {saetze.map((s, i) => (
+          <button type="button" class={`dtz-tab ${i === 0 ? "is-active" : ""}`} data-set={s.id}>{s.label}</button>
+        ))}
+        {paidSets.map((s) => (
+          <button type="button" class="dtz-tab dtz-tab--paid" data-set={s.id} data-paid>
+            {s.label}
+            <span class="dtz-tab-lock" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
+            </span>
+          </button>
+        ))}
+      </div>
+    )}
+    <div class="dtz-lock" data-dtz-lock hidden>
+      <PremiumLock feature="pruefungssaetze" variant="inline" />
+    </div>
+
+    {!first.hasAllAudio && (
+      <div class="dtz-audio-note">
+        <strong data-i18n="dtzSet.noAudio.title">Kein Ton?</strong> <span data-i18n="dtzSet.noAudio.text">{first.meta.audioNote}</span>
+      </div>
+    )}
+
+    <div data-dtz-clock></div>
+    <div class="dtz-nav" data-dtz-nav></div>
+    <div class="dtz-body" data-dtz-body></div>
+    <div class="dtz-summary" data-dtz-summary></div>
+
+    <p class="format-note" data-i18n="dtzSet.sourceNote">{first.meta.sourceNote}</p>
+    <LevelGrammar levels={["A1", "A2"]} />
+  </main>
+
+  <script type="application/json" id="dtz-data" set:html={JSON.stringify(saetze)}></script>
+  <script type="module">
+    import { mountDtzTrainer } from "../../../lib/dtzTrainer.js";
+    import { recordAttempt } from "../../../lib/progress.js";
+    import { withBase } from "../../../lib/paths.js";
+
+    const saetze = JSON.parse(document.getElementById("dtz-data").textContent);
+    const root = document.getElementById("dtz-root");
+
+    import { can, PAYWALL, APP } from "../../../lib/access.js";
+
+    const lock = document.querySelector("[data-dtz-lock]");
+    const parts = ["[data-dtz-clock]", "[data-dtz-nav]", "[data-dtz-body]", "[data-dtz-summary]"].map((s) => root.querySelector(s));
+    const showLock = (on) => {
+      lock.hidden = !on;
+      for (const el of parts) el.hidden = on;
+    };
+
+    function mount(satz) {
+      showLock(false);
+      mountDtzTrainer(root, satz, {
+        onAnswer: (ok) => recordAttempt({ skill: "lesen", correct: ok }),
+      });
+    }
+    mount(saetze[0]);
+
+    // A paid set: fetched from /inhalt/ only with access. Soft lock by decision —
+    // what matters is that its questions are not in this page (scripts/build-paid-manifest.mjs).
+    const cache = new Map();
+    async function openPaid(id) {
+      if (!can("pruefungssaetze")) {
+        import("../../../lib/analytics.js").then(({ track }) => track("paid_set_locked_seen", { set: id }));
+        return showLock(true);
+      }
+      if (!cache.has(id)) {
+        const res = await fetch(withBase(`/inhalt/pruefungen/dtz/${id}.json`)).catch(() => null);
+        if (!res?.ok) return showLock(true);
+        cache.set(id, await res.json());
+      }
+      mount(cache.get(id));
+    }
+
+    const picker = document.querySelector("[data-dtz-setpicker]");
+    // The app sells nothing: a set the learner does not own is not listed at all.
+    if (APP && PAYWALL && !can("pruefungssaetze")) picker?.querySelectorAll("[data-paid]").forEach((b) => b.remove());
+    picker?.querySelectorAll("[data-set]").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        picker.querySelectorAll("[data-set]").forEach((b) => b.classList.toggle("is-active", b === btn));
+        // The heading names the set that is open, not always the first one.
+        const title = document.querySelector("[data-dtz-title]");
+        if (title) {
+          title.removeAttribute("data-i18n");
+          title.textContent = btn.textContent.trim();
+        }
+        if (btn.hasAttribute("data-paid")) openPaid(btn.dataset.set);
+        else mount(saetze.find((s) => s.id === btn.dataset.set));
+      })
+    );
+    // ?satz=uebungssatz-2 (links from the exam plan) opens that set.
+    const wanted = new URLSearchParams(location.search).get("satz");
+    if (wanted) picker?.querySelector(`[data-set="${CSS.escape(wanted)}"]`)?.click();
+  </script>
+</Layout>

@@ -1,0 +1,770 @@
+{
+  "_comment": "Extras for the worksheet /teachers/worksheets/grammar/wechselpraepositionen (Spanish: a or en, going and being), on top of the topic's own exercises: a position/movement rule (the keys keep their old names: regel.wo = position (estar + place word), regel.wohin = movement (a), kasus = the label 'position' / 'movement'; regel.lage = two notes: no stand/lie in Spanish, and poner/meter/colgar/dejar + en), a mascot comic, and picture exercises on the room in src/components/arbeitsblatt/ZimmerSzene.astro (numbers 1–12 are the things in the picture). In segments, a string is text and {\"a\": [...]} is a gap with every accepted answer.",
+  "variety": "es-ES",
+  "regel": {
+    "wo": {
+      "frage": "¿Dónde está?",
+      "kasus": "position",
+      "was": "Place: it stays there. Always estar, plus a place word.",
+      "verben": [
+        "está",
+        "están"
+      ],
+      "beispiel": "El libro <b>está</b> <b>encima de</b> la cama."
+    },
+    "wohin": {
+      "frage": "¿Adónde va?",
+      "kasus": "movement",
+      "was": "Direction: you go there, or you take it there. Use a.",
+      "verben": [
+        "ir a",
+        "venir a",
+        "volver a",
+        "llevar a"
+      ],
+      "beispiel": "<b>Llevo</b> el libro <b>a</b> mi habitación."
+    },
+    "lage": [
+      {
+        "form": "no stand / lie",
+        "verben": "estar",
+        "text": "Spanish does not say whether a thing stands, lies or hangs: it is always estar. La botella y el libro están en la mesa."
+      },
+      {
+        "form": "+ en, not a",
+        "verben": "poner · meter · colgar · dejar",
+        "text": "The thing moves, but these verbs take en: Pongo el libro en la mesa. Meto la leche en la nevera. Never “a la mesa”."
+      }
+    ],
+    "neun": [
+      "en",
+      "sobre",
+      "encima de",
+      "debajo de",
+      "delante de",
+      "detrás de",
+      "al lado de",
+      "entre",
+      "enfrente de"
+    ],
+    "kurz": "ir, venir, volver, llevar + a: Voy a la cocina. poner, meter, colgar, dejar + en: Pongo el libro en la mesa. Remember a + el = al and de + el = del: delante del armario, al lado del sofá."
+  },
+  "comic": {
+    "title": "Bruno tidies up",
+    "panels": [
+      {
+        "caption": "poner: where to?",
+        "tag": "{poner} + {en} the table (never “a”)",
+        "left": {
+          "name": "bruno",
+          "expr": "happy",
+          "say": "{Pongo} el libro {en} la mesa."
+        },
+        "right": {
+          "name": "regi",
+          "expr": "thinking",
+          "say": "Se mueve, pero con {poner} decimos {en}."
+        }
+      },
+      {
+        "caption": "estar: where?",
+        "tag": "{está} {en} the table (position)",
+        "left": {
+          "name": "hamsti",
+          "expr": "thinking",
+          "say": "¿Y dónde está el libro ahora?"
+        },
+        "right": {
+          "name": "regi",
+          "expr": "happy",
+          "say": "{Está} {en} la mesa. ¡Se queda ahí!"
+        }
+      },
+      {
+        "caption": "ir and llevar: a",
+        "tag": "{voy} {a} a place · {llevo} {a} a place",
+        "left": {
+          "name": "quaki",
+          "expr": "happy",
+          "say": "{Voy} {a} la cocina."
+        },
+        "right": {
+          "name": "bruno",
+          "expr": "celebrate",
+          "say": "¡Bien! Yo {llevo} la leche {a} la cocina."
+        }
+      },
+      {
+        "caption": "colgar: en",
+        "tag": "{cuelgo} + {en} · {está} {en}",
+        "left": {
+          "name": "hamsti",
+          "expr": "happy",
+          "say": "{Cuelgo} el cuadro {en} la pared."
+        },
+        "right": {
+          "name": "quaki",
+          "expr": "oops",
+          "say": "{Está} {en} la pared… ¡pero torcido!"
+        }
+      }
+    ]
+  },
+  "bild": {
+    "title": "The room",
+    "hint": "Look at the picture carefully. You need the numbers for A, B and C."
+  },
+  "bildUebungen": [
+    {
+      "type": "scene",
+      "title": "Where is everything? (position)",
+      "hint": "Write estar in the right form and the place word. The number shows the thing in the picture. Some answers need del (de + el).",
+      "box": [
+        "está",
+        "están",
+        "en",
+        "encima de",
+        "encima del",
+        "debajo de",
+        "delante del",
+        "entre"
+      ],
+      "items": [
+        {
+          "n": 1,
+          "seg": [
+            "El libro ",
+            { "a": ["está"] },
+            " ",
+            { "a": ["encima de", "sobre", "en"] },
+            " la cama."
+          ]
+        },
+        {
+          "n": 2,
+          "seg": [
+            "El jarrón ",
+            { "a": ["está"] },
+            " ",
+            { "a": ["en", "encima de", "sobre"] },
+            " la mesa."
+          ]
+        },
+        {
+          "n": 5,
+          "seg": [
+            "El gato ",
+            { "a": ["está"] },
+            " ",
+            { "a": ["debajo de"] },
+            " la mesa."
+          ]
+        },
+        {
+          "n": 4,
+          "seg": [
+            "El cuadro ",
+            { "a": ["está"] },
+            " ",
+            { "a": ["encima de", "sobre"] },
+            " la cama."
+          ]
+        },
+        {
+          "n": 6,
+          "seg": [
+            "Los zapatos ",
+            { "a": ["están"] },
+            " ",
+            { "a": ["delante del"] },
+            " armario."
+          ]
+        },
+        {
+          "n": 7,
+          "seg": [
+            "La chaqueta ",
+            { "a": ["está"] },
+            " ",
+            { "a": ["en", "encima de", "sobre"] },
+            " la silla."
+          ]
+        },
+        {
+          "n": 9,
+          "seg": [
+            "El móvil ",
+            { "a": ["está"] },
+            " ",
+            { "a": ["debajo de"] },
+            " la cama."
+          ]
+        },
+        {
+          "n": 10,
+          "seg": [
+            "La pelota ",
+            { "a": ["está"] },
+            " ",
+            { "a": ["entre"] },
+            " el armario y la cama."
+          ]
+        },
+        {
+          "n": 3,
+          "seg": [
+            "La lámpara ",
+            { "a": ["está"] },
+            " ",
+            { "a": ["encima del", "sobre el", "en el"] },
+            " escritorio."
+          ]
+        },
+        {
+          "n": 12,
+          "seg": [
+            "El reloj ",
+            { "a": ["está"] },
+            " ",
+            { "a": ["encima de", "sobre"] },
+            " la puerta."
+          ]
+        }
+      ]
+    },
+    {
+      "type": "scene",
+      "title": "Tidy up! (movement)",
+      "hint": "Bruno is tidying the room. Follow the arrows: where does each thing go? Write the verb and the preposition. After poner, meter and colgar the word is en, not a.",
+      "pfeile": true,
+      "box": [
+        "pongo",
+        "meto",
+        "cuelgo",
+        "en",
+        "encima del",
+        "debajo de",
+        "delante del"
+      ],
+      "items": [
+        {
+          "n": 6,
+          "seg": [
+            { "a": ["pongo", "meto"] },
+            " los zapatos ",
+            { "a": ["en"] },
+            " el armario."
+          ]
+        },
+        {
+          "n": 7,
+          "seg": [
+            { "a": ["cuelgo"] },
+            " la chaqueta ",
+            { "a": ["en"] },
+            " la puerta (en el gancho)."
+          ]
+        },
+        {
+          "n": 9,
+          "seg": [
+            { "a": ["pongo"] },
+            " el móvil ",
+            { "a": ["en", "encima de", "sobre"] },
+            " la cama."
+          ]
+        },
+        {
+          "n": 2,
+          "seg": [
+            { "a": ["pongo"] },
+            " el jarrón ",
+            { "a": ["en", "encima de", "sobre"] },
+            " la estantería."
+          ]
+        },
+        {
+          "n": 5,
+          "seg": [
+            { "a": ["pongo"] },
+            " al gato ",
+            { "a": ["en", "encima de", "sobre"] },
+            " la mesa."
+          ]
+        },
+        {
+          "n": 10,
+          "seg": [
+            { "a": ["pongo", "meto"] },
+            " la pelota ",
+            { "a": ["debajo de"] },
+            " la cama."
+          ]
+        },
+        {
+          "n": 4,
+          "seg": [
+            { "a": ["cuelgo"] },
+            " el cuadro ",
+            { "a": ["encima del"] },
+            " escritorio."
+          ]
+        },
+        {
+          "n": 8,
+          "seg": [
+            { "a": ["pongo"] },
+            " la alfombra ",
+            { "a": ["delante del"] },
+            " armario."
+          ]
+        }
+      ]
+    },
+    {
+      "type": "truefalse",
+      "title": "True or false?",
+      "hint": "Look at the picture. Write t (true) or f (false). Correct the false sentences in your notebook.",
+      "items": [
+        {
+          "text": "La alfombra (8) está delante de la cama.",
+          "a": "t"
+        },
+        {
+          "text": "La planta (11) está encima del escritorio.",
+          "a": "f",
+          "fix": "La planta está al lado de la ventana."
+        },
+        {
+          "text": "El gato (5) está en la cama.",
+          "a": "f",
+          "fix": "El gato está debajo de la mesa."
+        },
+        {
+          "text": "El cuadro (4) está encima de la cama.",
+          "a": "t"
+        },
+        {
+          "text": "La lámpara (3) está en el techo.",
+          "a": "f",
+          "fix": "La lámpara está encima del escritorio."
+        },
+        {
+          "text": "La pelota (10) está entre el armario y la cama.",
+          "a": "t"
+        }
+      ]
+    }
+  ],
+  "tandemSoGehts": [
+    "Cut the cards in the middle. Partner A takes the left half, Partner B the right half.",
+    "A builds question 1 from the tiles and reads it out: “¿Dónde pone Lucía la botella?”",
+    "B only has tiles: the verb in its base form and the parts of the sentence. Build the answer and put the verb in the right form (pone, está, están). Watch the point: with ir and llevar choose a, with poner, meter, colgar, dejar choose en. A choice tile looks like “a / en”: keep only the right one.",
+    "Then B asks question 2 and A answers. Take turns. At the end, check with the answer sheet.",
+    "Now swap cards and do it all again, faster."
+  ],
+  "tandemRedemittel": [
+    { "p1": "Número 1: ¿Dónde pone Carmen …?", "p2": "Carmen pone … en …" },
+    { "p1": "¿Se mueve o se queda? ¿Adónde va?", "p2": "¿Dónde está? Está + en / encima de / debajo de …" },
+    { "p1": "Perdona, ¿puedes repetir, por favor?", "p2": "Número 2: ¿Dónde está …?" }
+  ],
+  "tandemFrageBeispiel": {
+    "infinitiv": "estar",
+    "kacheln": ["dónde", "estar", "la mochila"],
+    "frage": "¿Dónde está la mochila?",
+    "antwortKacheln": ["estar", "la mochila", "detrás de", "la silla"],
+    "antwort": "La mochila está detrás de la silla."
+  },
+  "tandemFragen": [
+    {
+      "frage": "¿Adónde va Lucía?",
+      "infinitiv": "ir",
+      "frageKacheln": ["adónde", "ir", "Lucía"],
+      "kacheln": ["ir", "Lucía", "a / en", "la farmacia"],
+      "antwort": "Lucía va a la farmacia."
+    },
+    {
+      "frage": "¿Dónde está el gato?",
+      "infinitiv": "estar",
+      "frageKacheln": ["dónde", "estar", "el gato"],
+      "kacheln": ["estar", "el gato", "debajo de", "la mesa"],
+      "antwort": "El gato está debajo de la mesa."
+    },
+    {
+      "frage": "¿Dónde pone Carmen el móvil?",
+      "infinitiv": "poner",
+      "frageKacheln": ["dónde", "poner", "Carmen", "el móvil"],
+      "kacheln": ["poner", "Carmen", "el móvil", "a / en", "la mesa"],
+      "antwort": "Carmen pone el móvil en la mesa."
+    },
+    {
+      "frage": "¿Dónde están los zapatos?",
+      "infinitiv": "estar",
+      "frageKacheln": ["dónde", "estar", "los zapatos"],
+      "kacheln": ["estar", "los zapatos", "delante de", "la puerta"],
+      "antwort": "Los zapatos están delante de la puerta."
+    },
+    {
+      "frage": "¿Adónde lleva Javier el paquete?",
+      "infinitiv": "llevar",
+      "frageKacheln": ["adónde", "llevar", "Javier", "el paquete"],
+      "kacheln": ["llevar", "Javier", "el paquete", "a / en", "la oficina"],
+      "antwort": "Javier lleva el paquete a la oficina."
+    },
+    {
+      "frage": "¿Dónde está la pelota?",
+      "infinitiv": "estar",
+      "frageKacheln": ["dónde", "estar", "la pelota"],
+      "kacheln": ["estar", "la pelota", "entre", "el armario y la cama"],
+      "antwort": "La pelota está entre el armario y la cama."
+    },
+    {
+      "frage": "¿Dónde mete Iker la leche?",
+      "infinitiv": "meter",
+      "frageKacheln": ["dónde", "meter", "Iker", "la leche"],
+      "kacheln": ["meter", "Iker", "la leche", "a / en", "la nevera"],
+      "antwort": "Iker mete la leche en la nevera."
+    },
+    {
+      "frage": "¿Dónde está la leche ahora?",
+      "infinitiv": "estar",
+      "frageKacheln": ["dónde", "estar", "la leche", "ahora"],
+      "kacheln": ["estar", "la leche", "en", "la nevera"],
+      "antwort": "La leche está en la nevera."
+    },
+    {
+      "frage": "¿Adónde vuelve Nerea?",
+      "infinitiv": "volver",
+      "frageKacheln": ["adónde", "volver", "Nerea"],
+      "kacheln": ["volver", "Nerea", "a / en", "casa"],
+      "antwort": "Nerea vuelve a casa."
+    },
+    {
+      "frage": "¿Dónde está la llave?",
+      "infinitiv": "estar",
+      "frageKacheln": ["dónde", "estar", "la llave"],
+      "kacheln": ["estar", "la llave", "al lado de", "la lámpara"],
+      "antwort": "La llave está al lado de la lámpara."
+    },
+    {
+      "frage": "¿Dónde cuelga Aitana la chaqueta?",
+      "infinitiv": "colgar",
+      "frageKacheln": ["dónde", "colgar", "Aitana", "la chaqueta"],
+      "kacheln": ["colgar", "Aitana", "la chaqueta", "a / en", "la puerta"],
+      "antwort": "Aitana cuelga la chaqueta en la puerta."
+    },
+    {
+      "frage": "¿Dónde está el cuadro?",
+      "infinitiv": "estar",
+      "frageKacheln": ["dónde", "estar", "el cuadro"],
+      "kacheln": ["estar", "el cuadro", "encima de", "la cama"],
+      "antwort": "El cuadro está encima de la cama."
+    },
+    {
+      "frage": "¿Dónde deja Pablo las llaves?",
+      "infinitiv": "dejar",
+      "frageKacheln": ["dónde", "dejar", "Pablo", "las llaves"],
+      "kacheln": ["dejar", "Pablo", "las llaves", "a / en", "el cajón"],
+      "antwort": "Pablo deja las llaves en el cajón."
+    },
+    {
+      "frage": "¿Dónde están las llaves ahora?",
+      "infinitiv": "estar",
+      "frageKacheln": ["dónde", "estar", "las llaves", "ahora"],
+      "kacheln": ["estar", "las llaves", "en", "el cajón"],
+      "antwort": "Las llaves están en el cajón."
+    }
+  ],
+  "tandemKueche": {
+    "title": "Round 3: Tidy the kitchen",
+    "hint": "Bruno is tidying the kitchen. A has the picture with arrows and knows where everything goes. B only sees the mess. Don't show your picture!",
+    "teil1": "Part 1 (Where does he put it? ¿Dónde lo pone?): B asks, A answers. B writes the answer down.",
+    "teil2": "Part 2 (Where is it now? ¿Dónde está ahora?): Now A asks. B answers from their notes.",
+    "redemittel": [
+      "Número 4: ¿Dónde _pone_ Bruno la olla?",
+      "_Pone_ la olla *en* la vitrocerámica.",
+      "¿Dónde _está_ la olla ahora?",
+      "La olla _está_ *en* la vitrocerámica."
+    ],
+    "items": [
+      {
+        "n": 4,
+        "verb": "poner",
+        "ding": "la olla",
+        "frage": "¿Dónde pone Bruno la olla?",
+        "wohin": "Pone la olla en la vitrocerámica.",
+        "woFrage": "¿Dónde está la olla ahora?",
+        "wo": "La olla está en la vitrocerámica."
+      },
+      {
+        "n": 1,
+        "verb": "poner",
+        "ding": "la leche",
+        "frage": "¿Dónde pone Bruno la leche?",
+        "wohin": "Pone la leche en la nevera.",
+        "woFrage": "¿Dónde está la leche ahora?",
+        "wo": "La leche está en la nevera."
+      },
+      {
+        "n": 2,
+        "verb": "poner",
+        "ding": "la cuchara",
+        "frage": "¿Dónde pone Bruno la cuchara?",
+        "wohin": "Pone la cuchara en el cajón.",
+        "woFrage": "¿Dónde está la cuchara ahora?",
+        "wo": "La cuchara está en el cajón."
+      },
+      {
+        "n": 8,
+        "verb": "colgar",
+        "ding": "el trapo",
+        "frage": "¿Dónde cuelga Bruno el trapo?",
+        "wohin": "Cuelga el trapo en el gancho.",
+        "woFrage": "¿Dónde está el trapo ahora?",
+        "wo": "El trapo está en el gancho."
+      },
+      {
+        "n": 3,
+        "verb": "poner",
+        "ding": "los platos",
+        "frage": "¿Dónde pone Bruno los platos?",
+        "wohin": "Pone los platos en el armario.",
+        "woFrage": "¿Dónde están los platos ahora?",
+        "wo": "Los platos están en el armario."
+      },
+      {
+        "n": 7,
+        "verb": "poner",
+        "ding": "la planta",
+        "frage": "¿Dónde pone Bruno la planta?",
+        "wohin": "Pone la planta en el alféizar.",
+        "woFrage": "¿Dónde está la planta ahora?",
+        "wo": "La planta está en el alféizar."
+      },
+      {
+        "n": 9,
+        "verb": "colgar",
+        "ding": "el calendario",
+        "frage": "¿Dónde cuelga Bruno el calendario?",
+        "wohin": "Cuelga el calendario en la pared.",
+        "woFrage": "¿Dónde está el calendario ahora?",
+        "wo": "El calendario está en la pared."
+      },
+      {
+        "n": 5,
+        "verb": "poner",
+        "ding": "la silla",
+        "frage": "¿Dónde pone Bruno la silla?",
+        "wohin": "Pone la silla al lado de la mesa.",
+        "woFrage": "¿Dónde está la silla ahora?",
+        "wo": "La silla está al lado de la mesa."
+      },
+      {
+        "n": 6,
+        "verb": "tirar",
+        "ding": "el papel",
+        "frage": "¿Dónde tira Bruno el papel?",
+        "wohin": "Tira el papel a la papelera.",
+        "woFrage": "¿Dónde está el papel ahora?",
+        "wo": "El papel está en la papelera."
+      }
+    ]
+  },
+  "tandemBild": {
+    "title": "Round 2: Spot the differences",
+    "hint": "A and B have almost the same room. Five things are in a different place. Take turns to describe your picture with _está_ or _están_ and a *place word* (en, debajo de, delante de …). Tick every difference.",
+    "redemittel": [
+      "En mi dibujo, el gato _está_ *debajo de* la mesa.",
+      "¿Y en el tuyo?",
+      "¿Dónde _está_ el jarrón?",
+      "¡Igual! / En el mío no."
+    ]
+  },
+  "zuZweit": {
+    "title": "In pairs: memory game",
+    "mascot": "quaki",
+    "say": "¿Quién tiene mejor memoria?",
+    "steps": [
+      "A looks at the picture for 30 seconds. Then A covers the picture.",
+      "B asks: “¿Dónde está el móvil?” or “¿Dónde está el reloj?”",
+      "A answers: “El móvil está debajo de la cama.”",
+      "Five questions, then swap. Who gets more right?"
+    ]
+  },
+  "zusatz": {
+    "_comment": "Extra sheet below the worksheet: the messy kitchen in src/lib/arbeitsblatt/kuecheSzene.js (numbers 1–9 are the things, the arrows show where they go).",
+    "title": "Extra: the kitchen",
+    "uebungen": [
+      {
+        "type": "scene",
+        "title": "Tidy the kitchen! (movement)",
+        "hint": "Bruno is tidying the kitchen. Follow the arrows: where does each thing go? Write the verb and the preposition. After poner, meter and colgar the word is en. After tirar, a or en both work.",
+        "pfeile": true,
+        "box": [
+          "pongo",
+          "meto",
+          "cuelgo",
+          "tiro",
+          "en",
+          "a",
+          "al lado de"
+        ],
+        "items": [
+          {
+            "n": 4,
+            "seg": [
+              { "a": ["pongo"] },
+              " la olla ",
+              { "a": ["en", "encima de", "sobre"] },
+              " la vitrocerámica."
+            ]
+          },
+          {
+            "n": 8,
+            "seg": [
+              { "a": ["cuelgo"] },
+              " el trapo ",
+              { "a": ["en"] },
+              " el gancho."
+            ]
+          },
+          {
+            "n": 1,
+            "seg": [
+              { "a": ["meto", "pongo"] },
+              " la leche ",
+              { "a": ["en"] },
+              " la nevera."
+            ]
+          },
+          {
+            "n": 6,
+            "seg": [
+              { "a": ["tiro"] },
+              " el papel ",
+              { "a": ["a", "en"] },
+              " la papelera."
+            ]
+          },
+          {
+            "n": 2,
+            "seg": [
+              { "a": ["meto", "pongo"] },
+              " la cuchara ",
+              { "a": ["en"] },
+              " el cajón."
+            ]
+          },
+          {
+            "n": 7,
+            "seg": [
+              { "a": ["pongo"] },
+              " la planta ",
+              { "a": ["en", "encima de", "sobre"] },
+              " el alféizar."
+            ]
+          },
+          {
+            "n": 3,
+            "seg": [
+              { "a": ["pongo", "meto"] },
+              " los platos ",
+              { "a": ["en"] },
+              " el armario."
+            ]
+          },
+          {
+            "n": 9,
+            "seg": [
+              { "a": ["cuelgo"] },
+              " el calendario ",
+              { "a": ["en"] },
+              " la pared."
+            ]
+          },
+          {
+            "n": 5,
+            "seg": [
+              { "a": ["pongo"] },
+              " la silla ",
+              { "a": ["al lado de"] },
+              " la mesa."
+            ]
+          }
+        ]
+      },
+      {
+        "type": "scene",
+        "title": "Done! Where is everything now? (position)",
+        "hint": "The kitchen is tidy. Write estar in the right form and the place word.",
+        "box": [
+          "está",
+          "están",
+          "en"
+        ],
+        "items": [
+          {
+            "n": 4,
+            "seg": [
+              "La olla ",
+              { "a": ["está"] },
+              " ",
+              { "a": ["en", "encima de", "sobre"] },
+              " la vitrocerámica."
+            ]
+          },
+          {
+            "n": 2,
+            "seg": [
+              "La cuchara ",
+              { "a": ["está"] },
+              " ",
+              { "a": ["en"] },
+              " el cajón."
+            ]
+          },
+          {
+            "n": 1,
+            "seg": [
+              "La leche ",
+              { "a": ["está"] },
+              " ",
+              { "a": ["en"] },
+              " la nevera."
+            ]
+          },
+          {
+            "n": 8,
+            "seg": [
+              "El trapo ",
+              { "a": ["está"] },
+              " ",
+              { "a": ["en"] },
+              " el gancho."
+            ]
+          },
+          {
+            "n": 3,
+            "seg": [
+              "Los platos ",
+              { "a": ["están"] },
+              " ",
+              { "a": ["en"] },
+              " el armario."
+            ]
+          },
+          {
+            "n": 9,
+            "seg": [
+              "El calendario ",
+              { "a": ["está"] },
+              " ",
+              { "a": ["en"] },
+              " la pared."
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

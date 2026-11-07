@@ -1,0 +1,184 @@
+---
+// /about — who builds icanspeak Spanish: Edgar Kretschmann, DaF/DaZ teacher since 2015.
+// Facts come from his CV (Lebenslauf DaF-DaZ 2026) and edgarkretschmann.com/bio; photos from
+// there too (public/assets/ueber-mich). Only teaching is told here — no address, phone or
+// marketing jobs. Years are counted from the first class (Qingdao, March 2015), so the page
+// says "seit 2015" and no rounded-up number.
+//
+// English only, in plain English like /mascots: the readers are learners and teachers.
+// Linked from the home page footer ("Mehr") and the site search.
+import Layout from "../layouts/Layout.astro";
+import SiteNav from "../components/SiteNav.astro";
+import "../styles/practice.css";
+import "../styles/ueber-mich.css";
+
+const stats = [
+  { n: "since 2015", label: "I have been teaching German" },
+  { n: "4 countries", label: "China, Korea, the Philippines, Germany" },
+  { n: "A1–C1", label: "all levels, from children to doctors" },
+  { n: "up to 40", label: "participants in one class" },
+];
+
+const stationen = [
+  {
+    zeit: "2015", ort: "Qingdao, China",
+    titel: "The first classes",
+    text: "German and English at XDF and the Wales Language School: for children, school students and students of Qingdao University, in groups of 15 to 20. Plus placement tests from B1.",
+  },
+  {
+    zeit: "2015–2016", ort: "Seoul, South Korea",
+    titel: "Teaching to telc standards",
+    text: "Groups from A1 to B2 at Times Academy. I built the teaching there on telc standards and advised the school management on teaching quality.",
+  },
+  {
+    zeit: "2016–2019", ort: "Berlin",
+    titel: "Language schools in Berlin",
+    text: "At Alpadia, Startcon and the Eurasia Institute: groups from A2 to C1 and preparation for telc and TestDaF.",
+  },
+  {
+    zeit: "2018–2021", ort: "The Philippines",
+    titel: "Nurses on their way to Germany",
+    text: "In Iloilo, Manila and Subic Bay I prepared nurses for telc B2 Pflege and doctors for the medical language exam (Fachsprachprüfung). Online as well since 2020, in classes of 20 to 40.",
+  },
+  {
+    zeit: "since 2022", ort: "online",
+    titel: "My own online school, icanspeak",
+    text: "I choose the teachers, plan the lessons and the curriculum, and teach myself.",
+  },
+  {
+    zeit: "2022–2024", ort: "Berlin",
+    titel: "Job-related language courses and the DTZ",
+    text: "At FONS Akademie and inlingua: in-person courses with about 20 people, many from Ukraine. Preparation for the DTZ – including museum visits with large groups.",
+  },
+  {
+    zeit: "since 2024", ort: "online",
+    titel: "Integration courses",
+    text: "BAMF integration courses for Frohsinn Augsburg and the VHS Biberach: mixed groups of about 20 people, preparation for the DTZ, my own worksheets and digital exercises.",
+  },
+  {
+    zeit: "2026", ort: "icanspeak.it/spanish",
+    titel: "icanspeak Spanish",
+    text: "This site grew out of those worksheets and exercises from my German teaching. I use the same approach in my own classes.",
+  },
+];
+
+// Class photos from Edgar's folder "Lehrerphotos", cropped to 4:3 (1200 + 600 px webp).
+// Zoom shots (online-*) are cropped to the video grid, 16:10, with every name label blurred.
+const fotos = [
+  { file: "qingdao-1", alt: "A class of adults in Qingdao, China" },
+  { file: "qingdao-2", alt: "Edgar at the board in front of a children's class in Qingdao" },
+  { file: "berlin-1", alt: "Group photo of a class at the Eurasia Institute in Berlin" },
+  { file: "berlin-2", alt: "Class trip in front of a palace" },
+  { file: "philippinen-1", alt: "Christmas photo with a class in the Philippines" },
+  { file: "philippinen-2", alt: "A class of nurses in the classroom in the Philippines" },
+  { file: "berlin-3", alt: "Course outing in Berlin" },
+  { file: "berlin-4", alt: "Course group in front of a picture of the Brandenburg Gate" },
+  { file: "online-1", alt: "Online integration course: participants waving at the camera", online: true },
+  { file: "online-2", alt: "Online integration course on Zoom", online: true },
+  { file: "online-3", alt: "Online course on Zoom", online: true },
+  { file: "online-4", alt: "Online course with cameras on", online: true },
+];
+const quali = [
+  "Cambridge CELTA (teaching adults)",
+  "Goethe-Institut: Deutsch Lehren Lernen",
+  "VHS teacher qualification",
+  "BAMF approval for integration courses",
+  "B.A. Economics and Politics, University of Jena",
+];
+
+const sprachen = ["German", "English", "Spanish", "Italian", "French", "Portuguese", "Russian"];
+---
+<Layout
+  title="About me: Edgar Kretschmann – icanspeak Spanish"
+  description="Edgar Kretschmann has taught German since 2015: in China, Korea, the Philippines and Germany, today in integration courses. Here he tells you where the exercises on icanspeak Spanish come from."
+>
+  <SiteNav />
+
+  <main class="vp-page um-page" lang="en">
+    <header class="um-hero">
+      <img class="um-portrait" src="/assets/ueber-mich/edgar.webp" alt="Edgar Kretschmann" width="240" height="240" />
+      <div>
+        <p class="um-eyebrow">About me</p>
+        <h1>Hello, I’m Edgar.</h1>
+        <p class="um-lead">
+          I have taught German since 2015 – in China, South Korea, the Philippines and
+          Germany. Today I teach integration courses and prepare students for the DTZ.
+          I’m building icanspeak Spanish for everyone who is learning Spanish.
+        </p>
+      </div>
+    </header>
+
+    <ul class="um-stats">
+      {stats.map((s) => <li><b>{s.n}</b><span>{s.label}</span></li>)}
+    </ul>
+
+    <section class="um-section">
+      <h2>Why this site?</h2>
+      <p>
+        In every German class I see the same sticking points: the article, verb position,
+        the formal letter, the announcement you only hear once. For years I made worksheets for
+        them. icanspeak Spanish takes that idea to Spanish: exercises you can practise on your
+        phone – with explanations, instant feedback and help in many languages.
+      </p>
+    </section>
+
+    <figure class="um-photo">
+      <ul class="um-gallery">
+        {fotos.map((f) => (
+          <li class={f.online ? "is-online" : undefined}>
+            <img
+              src={`/assets/ueber-mich/${f.file}.webp`}
+              srcset={`/assets/ueber-mich/${f.file}-600.webp 600w, /assets/ueber-mich/${f.file}.webp 1200w`}
+              sizes="(min-width: 760px) 360px, 50vw"
+              alt={f.alt} width="1200" height={f.online ? 750 : 900} loading="lazy" decoding="async"
+            />
+          </li>
+        ))}
+      </ul>
+      <figcaption>My classes in Qingdao, Berlin, the Philippines and online.</figcaption>
+    </figure>
+
+    <section class="um-section">
+      <h2>Where I have taught</h2>
+      <ol class="um-timeline">
+        {stationen.map((s) => (
+          <li>
+            <p class="um-when"><span>{s.zeit}</span> · {s.ort}</p>
+            <h3>{s.titel}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <div class="um-grid">
+      <section class="um-section um-box">
+        <h2>Qualifications</h2>
+        <ul class="um-list">{quali.map((q) => <li>{q}</li>)}</ul>
+      </section>
+      <section class="um-section um-box">
+        <h2>Languages</h2>
+        <p class="um-langs">{sprachen.map((l) => <span>{l}</span>)}</p>
+        <p class="um-note">I know what it is like to learn a new language – I have done it many times.</p>
+      </section>
+    </div>
+
+    <section class="um-section">
+      <h2>Start here</h2>
+      <div class="um-cards">
+        <a class="um-card" href="/placement-test">
+          <b>Placement test</b>
+          <span>Find out your level in a few minutes.</span>
+        </a>
+        <a class="um-card" href="/exams">
+          <b>Exam preparation</b>
+          <span>Practice for Spanish exams such as the DELE and the SIELE.</span>
+        </a>
+        <a class="um-card" href="/teachers">
+          <b>For teachers</b>
+          <span>Worksheets, live quiz and games for your own lessons.</span>
+        </a>
+      </div>
+    </section>
+  </main>
+</Layout>

@@ -1,0 +1,189 @@
+---
+import ShareButton from "./ShareButton.astro";
+import ExamDisclaimer from "./ExamDisclaimer.astro";
+// The split layout for a /exams detail page.
+//
+// These pages used to be an essay with the exercises at the bottom: who the exam is
+// for, which skills it tests, a format table or three, then — four screens down on a
+// phone — the thing you actually came to do. That order is backwards for everyone who
+// already knows what the DTZ is, which is most of the people looking at the DTZ page.
+//
+// So it takes the shape the grammar topics already use (src/lib/ruleColumn.js): the
+// practice column is the page, and the explanation is a column beside it that is
+// collapsed until asked for. On desktop the explanation sits on the right and slides
+// out of a grid track that shrinks to zero; on a phone it contracts to nothing and
+// leaves one button, so the first screen is the hero and the exercises.
+//
+// Unlike a grammar topic, the explanation is NOT a prerequisite here — you do not need
+// the scoring rules to start an Übungssatz — so the collapsed default is the honest one
+// rather than a space-saving compromise, and the preference is remembered per browser.
+import SiteNav from "./SiteNav.astro";
+import ExamRail from "./ExamRail.astro";
+import HubBild from "./HubBild.astro";
+import "../styles/practice.css";
+import "../styles/pruefungen.css";
+import "../styles/verben-praepositionen.css";
+import "../styles/rule-intro.css";
+import "../styles/exam-shell.css";
+
+interface Props {
+  /** Shown in the sticky practice header. */
+  header: string;
+  /** Exam name, the page's <h1>. */
+  title: string;
+  /** One line under the title — what this exam is, in a sentence. */
+  lead: string;
+  /** The badges next to the eyebrow, e.g. "Niveau A1–C2". */
+  badges?: string[];
+  /** Heading over the practice column. */
+  practiceHeading?: string;
+  /* i18n keys for the three strings above. The German prop stays the server-rendered
+     text and the fallback; the key is what the other four languages are read from. An
+     exam's own name (`header`, and `title` where it is a proper noun like "TestDaF")
+     needs no key — it is the same word everywhere. */
+  titleKey?: string;
+  leadKey?: string;
+  practiceHeadingKey?: string;
+  /** i18n keys for `badges`, same order; a missing entry leaves that badge untranslated
+      (level codes like "A1–C2" need none). */
+  badgeKeys?: (string | undefined)[];
+  /** Slot id in src/data/hub-bilder.json for the photo above the title; nothing shows until
+      that hub has a photo in the manifest. */
+  bild?: string;
+}
+const {
+  header, title, lead, badges = [], practiceHeading = "Üben",
+  titleKey, leadKey, practiceHeadingKey = "exam.practiceHeading", badgeKeys = [], bild,
+} = Astro.props;
+---
+<SiteNav active="pruefungen" />
+
+<!-- Rendered collapsed, then opened by the script if this learner asked for it.
+     Collapsed is the more common state, so starting here means no visible re-layout
+     on load. -->
+<main class="vp-page vp-page--split vp-page--sheet" id="vp-page" data-rule="hidden" data-anim="off">
+  {/* The way back up ("Übersicht") and sideways to the other exams, in one row. */}
+  <ExamRail />
+
+  <div class="vp-workspace">
+    <!-- First in the DOM so that on a phone — where scroll order is the only hierarchy
+         there is — the hero still introduces the page before anything else. The card
+         under it collapses to zero height, so "first" costs the exercises nothing. -->
+    {/* Teilen for the rule's focus view: ruleColumn.js moves it into the column's top bar. */}
+    <div hidden data-rule-tools><ShareButton size="sm" /></div>
+    <aside class="vp-col vp-col--rule" id="vp-rule">
+      <div class="vp-hero">
+        {bild && <HubBild id={bild} variant="inset" />}
+        <div class="vp-hero-badges">
+          <span class="badge badge-brand" data-i18n="exam.badge">Prüfung</span>
+          {badges.map((b, i) => <span class="badge badge-info" data-i18n={badgeKeys[i]}>{b}</span>)}
+        </div>
+        <h1 data-i18n={titleKey}>{title}</h1>
+        <p data-i18n={leadKey}>{lead}</p>
+        <ExamDisclaimer />
+      </div>
+
+      <div class="vp-card vp-rule-card" id="vp-rule-card">
+        <!-- On a desktop this head is just the card's label. On a phone the card is a
+             bottom sheet and the head is its handle: pinned to the top with the ✕, so the
+             way out is never a scroll away. What an exam consists of runs to a list of
+             parts, timings and scoring — several screens on a phone, with the control
+             that closed it at the bottom of all of them. -->
+        <div class="vp-sheet-head">
+          <div class="vp-card-label" data-i18n="exam.whatIsThis">Was ist das für eine Prüfung?</div>
+          <button
+            type="button"
+            class="vp-sheet-fold"
+            data-sheet-close
+            aria-label="Infos einklappen"
+            data-i18n-attr="aria-label:vp.rule.collapse"
+            aria-controls="vp-rule-card"
+          >
+            <span data-i18n="vp.rule.collapseShort">Einklappen</span>
+            {/* Down, because that is where the sheet goes. */}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <button
+            type="button"
+            class="vp-sheet-x"
+            data-sheet-close
+            aria-label="Infos schließen"
+            data-i18n-attr="aria-label:vp.rule.close"
+            aria-controls="vp-rule-card"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+          </button>
+        </div>
+        <div class="vp-sheet-body">
+          <slot name="info" />
+        </div>
+      </div>
+
+      <!-- Phone counterpart of .vp-rule-toggle: there is no side column to slide
+           below 1001px, so the same preference contracts the card and this opens it. -->
+      <button
+        type="button"
+        class="vp-rule-peek"
+        id="vp-rule-peek"
+        data-show="Was ist das für eine Prüfung?"
+        data-hide="Erklärung einklappen"
+        data-i18n-attr="data-show:exam.whatIsThis;data-hide:exam.collapseInfo"
+        data-i18n="exam.whatIsThis"
+        aria-controls="vp-rule-card"
+      >Was ist das für eine Prüfung?</button>
+    </aside>
+
+    <!-- The sheet's backdrop. Outside .vp-col--rule, because that column goes inert when
+         the rule collapses and a control inside it would go inert with it. -->
+    <div class="vp-sheet-scrim" data-sheet-close aria-hidden="true"></div>
+
+    <section class="vp-col vp-col--ex">
+      <div class="vp-ex-toolbar">
+        <h2 class="vp-section-title" data-i18n={practiceHeadingKey}>{practiceHeading}</h2>
+        <button
+          type="button"
+          class="vp-rule-toggle"
+          id="vp-rule-toggle"
+          data-show="Erklärung einblenden"
+          data-hide="Erklärung ausblenden"
+          data-i18n-attr="data-show:exam.showInfo;data-hide:exam.hideInfo"
+          data-i18n="exam.showInfo"
+        >Erklärung einblenden</button>
+      </div>
+
+      <slot />
+    </section>
+  </div>
+
+  <!-- Dev only, same as the grammar pages: the tour is once per browser, so once you
+       have seen it you can no longer see it the way a learner does. This wipes both
+       stored flags and reloads clean. Our own devices only (DemoDock.astro). -->
+  <button type="button" class="vp-dev-reset" id="vp-dev-reset" title="Clear tour flags and reload" data-i18n-attr="title:exam.devReset.title">
+    ↻ Reset tour
+  </button>
+</main>
+
+<script>
+  import { mountRuleColumn } from "../lib/ruleColumn.js";
+
+  // Its own keys, not the grammar ones: choosing to keep a grammar rule open says
+  // nothing about wanting an exam's scoring rules open, and the tour should introduce
+  // each surface once.
+  mountRuleColumn(document.getElementById("vp-page"), {
+    storageKey: "da-pruefung-info",
+    seenKey: "da-pruefung-info-seen",
+    expandable: true,
+    // Below 1001px the info card is a bottom sheet rather than an accordion, matching
+    // the drill pages. Expanded in place it pushed the exam parts off the screen and
+    // carried its own way out down with it.
+    sheet: true,
+    coach: [
+      ["intro.exam.title", "intro.exam.text"],
+      ["intro.toggle.title", "intro.exam.toggleText"],
+    ],
+    coachCompact: [
+      ["intro.examCompact.title", "intro.examCompact.text"],
+      ["intro.toggle.title", "intro.toggleCompact.text"],
+    ],
+  });
+</script>

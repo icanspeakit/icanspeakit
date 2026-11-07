@@ -1,0 +1,96 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ExamShell from "../components/ExamShell.astro";
+import ExamPractice from "../components/ExamPractice.astro";
+import ExamFormat from "../components/ExamFormat.astro";
+import SatzListe from "../components/SatzListe.astro";
+import goetheFormate from "../data/pruefungen/goethe-formate.json";
+---
+<Layout
+  title="DELE exams A1–C2: format and practice – icanspeak Spanish"
+  description="The DELE diplomas of the Instituto Cervantes, from A1 to C2: who they are for, how each exam works, and free practice."
+>
+  <ExamShell
+    bild="goethe"
+    header="DELE"
+    title="DELE"
+    lead="The official Spanish diplomas of the Instituto Cervantes, recognised by employers, universities and public bodies."
+    leadKey="goethe.lead"
+    badges={["A1–C2"]}
+    practiceHeading="Practise for the DELE"
+    practiceHeadingKey="goethe.practiceHeading"
+  >
+    <Fragment slot="info">
+      <section class="exam-section">
+        <h2 data-i18n="goethe.who.title">Who is the DELE for?</h2>
+        <div class="exam-meta-row">
+          <span class="exam-meta-badge" data-i18n="goethe.who.badge.level">Levels A1–C2</span>
+          <span class="exam-meta-badge" data-i18n="goethe.who.badge.perLevel">One diploma per level</span>
+        </div>
+        <p data-i18n="goethe.who.text">
+          Each DELE diploma is a separate exam for one level, from A1 to C2.
+        </p>
+      </section>
+
+      <section class="exam-section">
+        <h2 data-i18n="exam.skills.title">Skills tested</h2>
+        <div class="skill-grid">
+          <div class="skill-card"><div class="skill-card-icon">📖</div><h4 data-i18n="skill.lesen">Reading</h4><p data-i18n="skill.lesen.desc">Reading comprehension</p></div>
+          <div class="skill-card"><div class="skill-card-icon">🎧</div><h4 data-i18n="skill.hoeren">Listening</h4><p data-i18n="skill.hoeren.desc">Listening comprehension</p></div>
+          <div class="skill-card"><div class="skill-card-icon">✍️</div><h4 data-i18n="skill.schreiben">Writing</h4><p data-i18n="skill.schreiben.desc">Written expression</p></div>
+          <div class="skill-card"><div class="skill-card-icon">🗣️</div><h4 data-i18n="skill.sprechen">Speaking</h4><p data-i18n="skill.sprechen.oralDesc">Spoken expression</p></div>
+        </div>
+      </section>
+
+      {goetheFormate.formate.map((f) => <ExamFormat format={f} />)}
+
+      <section class="exam-section" id="modellsaetze">
+        <h2 data-i18n="goethe.modell.title">Official sample tests</h2>
+        <p class="format-note" data-i18n="goethe.moreLevels.text">
+          The Instituto Cervantes publishes sample papers for each level.
+        </p>
+        <p class="format-note"><a href="https://cervantes.org/es/examenes/dele" target="_blank" rel="noopener noreferrer" data-i18n="goethe.modell.link">The DELE page of the Instituto Cervantes (in Spanish)</a></p>
+      </section>
+    </Fragment>
+
+    <SatzListe exam="goethe" />
+
+    <div class="mock-cta">
+      <p class="joint-exam" aria-label="Our own A1 test, not an official exam" data-i18n-attr="aria-label:exam.joint.label">
+        <span>DELE A1</span><b aria-hidden="true">·</b><span data-i18n="exam.joint.own">our own practice test</span>
+      </p>
+      <h2 data-i18n="goethe.a1.title">A1: our own practice test</h2>
+      <p data-i18n="goethe.a1.text">
+        Our A1 practice test follows the general shape of the DELE A1.
+      </p>
+      <a class="quiz-btn quiz-btn--primary" href="/dele/a1" data-i18n="exam.startSet">Start the practice set</a>
+      <a class="quiz-btn" href="/siele" data-i18n="goethe.a1.telcLink">To the SIELE page</a>
+    </div>
+
+    <div class="mock-cta">
+      <h2 data-i18n="delesiele.title">DELE or SIELE?</h2>
+      <p data-i18n="delesiele.entry.blurb">Which exam fits your purpose: nationality, university or work.</p>
+      <a class="quiz-btn" href="/exams/dele-or-siele" data-i18n="delesiele.entry.cta">Compare the two exams</a>
+    </div>
+
+    <div class="mock-cta">
+      <h2 data-i18n="goethe.c2.title">C2: the format only</h2>
+      <p data-i18n="goethe.c2.text">The DELE C2 is above the range of this course (A1 to C1), so there is no practice set for it here. Its format is on this page, with the other levels.</p>
+    </div>
+
+    <div class="mock-cta">
+      <h2 data-i18n="goethe.languageUse.title">Language use (uso de la lengua)</h2>
+      <p data-i18n="goethe.languageUse.text">From B2, gap texts train grammar and vocabulary in context. Practise them on their own with two sets at B2 and C1.</p>
+      <a class="quiz-btn" href="/dele/language-use" data-i18n="goethe.languageUse.cta">To the language-use trainer</a>
+    </div>
+
+    <ExamPractice
+      heading="Train the basics"
+      headingKey="exam.practice.heading"
+      intro="These tools help at every level and for every exam."
+      introKey="goethe.practice.intro"
+      tools={["artikel", "grammatik", "wortschatz"]}
+    />
+  </ExamShell>
+</Layout>
+

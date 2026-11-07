@@ -1,0 +1,187 @@
+---
+// A little looping film of how a poll runs, for MascotGuide's "sim" slot on /teachers/surveys.
+// Three scenes, 4 s each, in step with the guide's three numbered steps (MascotGuide lights the
+// step whose scene is playing):
+//   1  laptop: questions get ticked, the cursor taps the create button
+//   2  projector: the QR code, three phones slide up and scan it, each gets a tick
+//   3  laptop: the answer bars grow live, the cursor taps close, a lock pops up
+//
+// Pure SVG + CSS, no words inside (the steps beside it carry the text, translated), colours from
+// the theme tokens so dark mode just works. Every timed part shares the 12 s cycle; a part's
+// animation-delay is its scene start plus its own offset. Reduced motion: no film, the
+// projector scene stands still.
+
+// a 9×9 QR-ish pattern: three finder squares plus a fixed scatter
+const N = 9;
+const finder = (x: number, y: number) =>
+  [[0, 0], [0, 6], [6, 0]].some(([fx, fy]) => {
+    const dx = x - fx, dy = y - fy;
+    if (dx < 0 || dy < 0 || dx > 2 || dy > 2) return false;
+    return !(dx === 1 && dy === 1); // a ring
+  });
+const scatter = "000000000000000000000101000000010100110101011010010110101101001010000110101000101101".split("");
+const qr: [number, number][] = [];
+for (let y = 0; y < N; y++)
+  for (let x = 0; x < N; x++) {
+    const inFinder = (x < 3 && y < 3) || (x < 3 && y > 5) || (x > 5 && y < 3);
+    if (inFinder ? finder(x, y) : scatter[(y * N + x) % scatter.length] === "1") qr.push([x, y]);
+  }
+---
+<div class="sim" aria-hidden="true">
+  <svg viewBox="0 0 320 180" role="presentation">
+    <rect class="desk" x="0" y="0" width="320" height="180" rx="14" />
+
+    <!-- 1 · erstellen -->
+    <g class="sc sc1">
+      <rect class="bezel" x="86" y="16" width="148" height="100" rx="7" />
+      <rect class="screen" x="93" y="23" width="134" height="86" rx="3" />
+      <path class="base" d="M66 116h188l-10 14H76z" />
+      <rect class="bar-title" x="102" y="31" width="64" height="7" rx="3.5" />
+      {[0, 1, 2, 3].map((i) => (
+        <g>
+          <rect class="box" x="102" y={46 + i * 12} width="8" height="8" rx="2" />
+          <rect class="line" x="116" y={47.5 + i * 12} width={70 - i * 10} height="5" rx="2.5" />
+          <path class="in tick" style={`animation-delay:${0.4 + i * 0.45}s`} d={`M103.5 ${50 + i * 12}l2 2 3.5-4`} />
+        </g>
+      ))}
+      <rect class="btn" x="150" y="94" width="68" height="10" rx="5" />
+      <rect class="btn-flash" x="150" y="94" width="68" height="10" rx="5" />
+      <path class="cursor" d="M0 0v14l4-3.5 3 6.5 2.5-1.2-3-6.3H12z" />
+    </g>
+
+    <!-- 2 · QR-Code zeigen -->
+    <g class="sc sc2">
+      <rect class="wall" x="22" y="14" width="140" height="96" rx="4" />
+      <path class="stand" d="M92 110v18M78 128h28" />
+      <g transform="translate(65 34)">
+        <rect class="qr-bg" x="-4" y="-4" width="62" height="62" rx="3" />
+        {qr.map(([x, y]) => <rect class="qr" x={x * 6} y={y * 6} width="6" height="6" />)}
+      </g>
+      {[0, 1, 2].map((i) => (
+        <g class="up" style={`animation-delay:${4.3 + i * 0.35}s`}>
+          <rect class="phone" x={182 + i * 44} y={i === 1 ? 62 : 74} width="34" height="62" rx="6" />
+          <rect class="phone-screen" x={185 + i * 44} y={(i === 1 ? 62 : 74) + 6} width="28" height="48" rx="2" />
+          <rect class="mini-qr" x={191 + i * 44} y={(i === 1 ? 62 : 74) + 18} width="16" height="16" rx="1" />
+          <g class="in" style={`animation-delay:${5.6 + i * 0.4}s`}>
+            <circle class="ok" cx={199 + i * 44} cy={(i === 1 ? 62 : 74) + 26} r="11" />
+            <path class="ok-tick" d={`M${193.5 + i * 44} ${(i === 1 ? 62 : 74) + 26}l4 4 7-8`} />
+          </g>
+        </g>
+      ))}
+    </g>
+
+    <!-- 3 · auswerten und schließen -->
+    <g class="sc sc3">
+      <rect class="bezel" x="86" y="16" width="148" height="100" rx="7" />
+      <rect class="screen" x="93" y="23" width="134" height="86" rx="3" />
+      <path class="base" d="M66 116h188l-10 14H76z" />
+      <path class="axis" d="M104 92h88" />
+      {[[110, 52], [134, 30], [158, 42], [182, 18]].map(([x, h], i) => (
+        <rect class:list={["grow", i % 2 && "grow--alt"]} style={`animation-delay:${8.3 + i * 0.3}s`} x={x} y={92 - h} width="16" height={h} rx="2" />
+      ))}
+      <g class="in" style="animation-delay:8.6s">
+        <circle class="count" cx="210" cy="36" r="9" />
+        <circle class="count-dot" cx="210" cy="33" r="2.6" />
+        <path class="count-dot" d="M205 41a5 4 0 0 1 10 0z" />
+      </g>
+      <rect class="btn btn--ghost" x="196" y="96" width="26" height="9" rx="4.5" />
+      <g class="in lock" style="animation-delay:10.7s">
+        <circle class="lock-bg" cx="209" cy="66" r="12" />
+        <rect class="lock-body" x="203" y="65" width="12" height="9" rx="2" />
+        <path class="lock-arc" d="M205.5 65v-3a3.5 3.5 0 0 1 7 0v3" />
+      </g>
+      <path class="cursor cursor--3" d="M0 0v14l4-3.5 3 6.5 2.5-1.2-3-6.3H12z" />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .sim { width: 100%; }
+  .sim svg { display: block; width: 100%; height: auto; }
+
+  .desk { fill: var(--blue-100); }
+  .bezel { fill: var(--rail-surface); }
+  .screen, .wall, .qr-bg, .phone-screen { fill: var(--surface-card); }
+  .base { fill: var(--border-strong); }
+  .bar-title { fill: var(--blue-200); }
+  .box { fill: none; stroke: var(--brand-blue); stroke-width: 1.4; }
+  .line, .axis { fill: var(--border); stroke: var(--border-strong); }
+  .line { stroke: none; fill: var(--border-strong); }
+  .axis { stroke-width: 1.2; }
+  .tick, .ok-tick, .lock-arc { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .tick { stroke: var(--brand-blue); stroke-width: 1.8; }
+  .btn { fill: var(--brand-blue); }
+  .btn--ghost { fill: var(--surface-card); stroke: var(--border-strong); stroke-width: 1.2; }
+  .btn-flash { fill: var(--ink); opacity: 0; }
+  .cursor { fill: var(--ink); stroke: var(--surface-card); stroke-width: 1; }
+  .stand { fill: none; stroke: var(--border-strong); stroke-width: 3; stroke-linecap: round; }
+  .wall { stroke: var(--border-strong); stroke-width: 1.5; }
+  .qr, .mini-qr { fill: var(--ink); }
+  .phone { fill: var(--ink); }
+  .ok { fill: var(--success); }
+  .ok-tick { stroke: #fff; stroke-width: 2.6; }
+  .grow { fill: var(--brand-blue); }
+  .grow--alt { fill: var(--blue-400); }
+  .count { fill: var(--accent); }
+  .count-dot { fill: #fff; }
+  .lock-bg { fill: var(--ink); }
+  .lock-body { fill: #fff; }
+  .lock-arc { stroke: #fff; stroke-width: 2; }
+
+  /* everything timed: one 12 s cycle, started per part by animation-delay */
+  .sc, .in, .up, .grow, .cursor, .btn-flash {
+    animation-duration: 12s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+    transform-box: fill-box;
+  }
+  .sc { opacity: 0; animation-name: uf-sim-scene; }
+  .sc2 { animation-delay: 4s; }
+  .sc3 { animation-delay: 8s; }
+  @keyframes uf-sim-scene { 0% { opacity: 0 } 2%, 31% { opacity: 1 } 33%, 100% { opacity: 0 } }
+
+  /* pops in, stays to the end of its scene */
+  .in { opacity: 0; transform-origin: center; animation-name: uf-sim-in; }
+  @keyframes uf-sim-in {
+    0% { opacity: 0; transform: scale(.4) }
+    3% { opacity: 1; transform: scale(1.15) }
+    5%, 31% { opacity: 1; transform: scale(1) }
+    33%, 100% { opacity: 0 }
+  }
+  .up { opacity: 0; animation-name: uf-sim-up; }
+  @keyframes uf-sim-up {
+    0% { opacity: 0; transform: translateY(50px) }
+    5%, 31% { opacity: 1; transform: none }
+    33%, 100% { opacity: 0 }
+  }
+  .grow { transform-origin: bottom; transform: scaleY(0); animation-name: uf-sim-grow; }
+  @keyframes uf-sim-grow { 0% { transform: scaleY(0) } 12%, 30% { transform: scaleY(1) } 31%, 100% { transform: scaleY(0) } }
+
+  /* scene 1: glide to the create button, press */
+  .sc1 .cursor { animation-name: uf-sim-cursor1; }
+  @keyframes uf-sim-cursor1 {
+    0%, 12% { transform: translate(206px, 52px) }
+    20% { transform: translate(196px, 98px) }
+    22% { transform: translate(196px, 98px) scale(.8) }
+    24%, 100% { transform: translate(196px, 98px) }
+  }
+  .btn-flash { animation-name: uf-sim-flash; }
+  @keyframes uf-sim-flash { 0%, 21% { opacity: 0 } 22% { opacity: .35 } 25%, 100% { opacity: 0 } }
+
+  /* scene 3: wait for the bars, then tap close */
+  .cursor--3 { animation-name: uf-sim-cursor3; animation-delay: 8s; }
+  @keyframes uf-sim-cursor3 {
+    0%, 14% { transform: translate(150px, 40px) }
+    20% { transform: translate(206px, 100px) }
+    22% { transform: translate(206px, 100px) scale(.8) }
+    24%, 100% { transform: translate(206px, 100px) }
+  }
+
+  /* MascotGuide's pause button */
+  :global(.mg-paused) .sim * { animation-play-state: paused !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sim * { animation: none !important; }
+    .sc2, .sc2 .in, .sc2 .up { opacity: 1; }
+  }
+</style>

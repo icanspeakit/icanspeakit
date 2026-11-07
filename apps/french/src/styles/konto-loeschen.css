@@ -1,0 +1,44 @@
+/* "Konto löschen" (src/lib/kontoLoeschen.js), on /konto and in the app's Mehr › Konto.
+   Mobile first; the box is plain and red-edged, the final button solid red. */
+.kl-box {
+  display: grid;
+  gap: var(--space-3, 12px);
+  padding: var(--space-4, 16px);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius, 12px);
+  background: var(--surface-card);
+  color: var(--ink);
+}
+.kl-title { margin: 0; font-weight: 700; font-size: 1.05rem; }
+.kl-warn { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; font-size: var(--text-sm, 0.95rem); line-height: 1.45; }
+.kl-label { font-size: var(--text-sm, 0.95rem); color: var(--muted); }
+.kl-input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-strong, var(--border));
+  border-radius: 10px;
+  background: var(--surface-card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px; /* no zoom-in on iOS */
+  letter-spacing: .08em;
+}
+.kl-msg { margin: 0; font-size: var(--text-sm, 0.95rem); color: var(--muted); }
+.kl-msg:empty { display: none; }
+.kl-err { color: var(--danger); }
+.kl-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.kl-go, .kl-cancel {
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill, 999px);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.kl-go { border: 0; background: var(--danger); color: #fff; }
+.kl-go:disabled { opacity: .45; cursor: default; }
+.kl-cancel { border: 1px solid var(--border-strong, var(--border)); background: var(--surface-card); color: var(--ink); }
+/* In the app the open button is a row of the Konto group. */
+.kl-open.app-row { width: 100%; color: var(--danger); text-align: start; }

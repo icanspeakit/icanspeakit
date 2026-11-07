@@ -1,0 +1,172 @@
+---
+// A little looping film of the exam training, for MascotGuide's "sim" slot on the Prüfungen page.
+// Three scenes, 4 s each, in step with the guide's three numbered steps (MascotGuide lights the
+// step whose scene is playing):
+//   1  laptop: four section tiles (book, headphones, pencil, speech bubble), the cursor taps one
+//   2  laptop: a question, a timer ring runs down in the corner, the cursor ticks one of three options
+//   3  laptop: the result: four bars grow to different heights, a round score badge pops with a tick
+//
+// Same make as UmfrageSim.astro: pure SVG + CSS, no words inside (bars stand for text), colours
+// from the theme tokens so dark mode just works, one 12 s cycle; a part's animation-delay is its
+// scene start plus its own offset. Reduced motion: no film, the result scene stands still.
+
+// Tile icons, drawn round a centre (cx, cy); the tile is 27 wide, the icon about 22.
+const tiles = [
+  (x: number, y: number) => `M${x - 10} ${y - 6}q5-2.5 10 1q5-3.5 10-1v11q-5-2.5-10 1q-5 3.5-10 1zM${x} ${y - 5}v11`, // book
+  (x: number, y: number) => `M${x - 8} ${y + 3}v-3a8 8 0 0 1 16 0v3M${x - 10} ${y + 1}h4v7h-4zM${x + 6} ${y + 1}h4v7h-4z`, // headphones
+  (x: number, y: number) => `M${x - 8} ${y + 8}l1.5-6 9-9 4.5 4.5-9 9zM${x + 3} ${y - 4}l4.5 4.5`, // pencil
+  (x: number, y: number) => `M${x - 9} ${y - 7}h18a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8l-5 4v-4h-5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z`, // bubble
+];
+const tx = (i: number) => 101 + i * 31.5;
+const R = 11; // timer ring radius
+const C = +(2 * Math.PI * R).toFixed(1);
+---
+<div class="sim" aria-hidden="true">
+  <svg viewBox="0 0 320 180" role="presentation">
+    <rect class="desk" x="0" y="0" width="320" height="180" rx="14" />
+
+    <!-- 1 · Teil wählen -->
+    <g class="sc sc1">
+      <rect class="bezel" x="86" y="16" width="148" height="100" rx="7" />
+      <rect class="screen" x="93" y="23" width="134" height="86" rx="3" />
+      <path class="base" d="M66 116h188l-10 14H76z" />
+      <rect class="bar-title" x="102" y="31" width="64" height="7" rx="3.5" />
+      {tiles.map((icon, i) => (
+        <g>
+          <rect class="tile" x={tx(i)} y="46" width="27" height="36" rx="4" />
+          <path class="icon" d={icon(tx(i) + 13.5, 62)} />
+          <rect class="line" x={tx(i) + 5} y="73" width="17" height="3" rx="1.5" />
+        </g>
+      ))}
+      <rect class="fade tile-hi" x={tx(1)} y="46" width="27" height="36" rx="4" style="animation-delay:1.9s" />
+      <rect class="line" x="102" y="92" width="70" height="5" rx="2.5" />
+      <rect class="line line--soft" x="102" y="100" width="46" height="4" rx="2" />
+      <path class="cursor cursor--1" d="M0 0v14l4-3.5 3 6.5 2.5-1.2-3-6.3H12z" />
+    </g>
+
+    <!-- 2 · Frage mit Zeit -->
+    <g class="sc sc2">
+      <rect class="bezel" x="86" y="16" width="148" height="100" rx="7" />
+      <rect class="screen" x="93" y="23" width="134" height="86" rx="3" />
+      <path class="base" d="M66 116h188l-10 14H76z" />
+      <rect class="bar-title" x="102" y="31" width="76" height="7" rx="3.5" />
+      <rect class="line" x="102" y="43" width="62" height="5" rx="2.5" />
+      <g transform="rotate(-90 207 42)">
+        <circle class="track" cx="207" cy="42" r={R} />
+        <circle class="timer" cx="207" cy="42" r={R} style={`stroke-dasharray:${C};--c:${C}`} />
+      </g>
+      {[0, 1, 2].map((i) => (
+        <g>
+          <rect class="opt" x="102" y={58 + i * 14} width="118" height="11" rx="5.5" />
+          <circle class="radio" cx="108.5" cy={63.5 + i * 14} r="2.8" />
+          <rect class="line line--soft" x="116" y={61.5 + i * 14} width={72 - i * 12} height="4" rx="2" />
+        </g>
+      ))}
+      <rect class="fade opt-hi" x="102" y="72" width="118" height="11" rx="5.5" style="animation-delay:6.2s" />
+      <circle class="in radio-on" cx="108.5" cy="77.5" r="2.8" style="animation-delay:6.2s" />
+      <path class="in tick" d="M209 77.5l3 3 6-6.5" style="animation-delay:6.3s" />
+      <path class="cursor cursor--2" d="M0 0v14l4-3.5 3 6.5 2.5-1.2-3-6.3H12z" />
+    </g>
+
+    <!-- 3 · Ergebnis -->
+    <g class="sc sc3">
+      <rect class="bezel" x="86" y="16" width="148" height="100" rx="7" />
+      <rect class="screen" x="93" y="23" width="134" height="86" rx="3" />
+      <path class="base" d="M66 116h188l-10 14H76z" />
+      <path class="axis" d="M102 94h88" />
+      {[40, 26, 50, 34].map((h, i) => (
+        <g>
+          <rect class:list={["grow", i % 2 && "grow--alt"]} style={`animation-delay:${8.3 + i * 0.3}s`} x={104 + i * 22} y={94 - h} width="16" height={h} rx="2" />
+          <circle class="dot" cx={112 + i * 22} cy="100" r="2" />
+        </g>
+      ))}
+      <g class="in" style="animation-delay:9.9s">
+        <circle class="badge" cx="209" cy="50" r="15" />
+        <path class="badge-tick" d="M201.5 50.5l5 5 9-10.5" />
+      </g>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .sim { width: 100%; }
+  .sim svg { display: block; width: 100%; height: auto; }
+
+  .desk { fill: var(--blue-100); }
+  .bezel { fill: var(--rail-surface); }
+  .screen { fill: var(--surface-card); }
+  .base { fill: var(--border-strong); }
+  .bar-title { fill: var(--blue-200); }
+  .line { fill: var(--border-strong); }
+  .line--soft { fill: var(--border); }
+  .tile, .opt { fill: var(--surface-card); stroke: var(--border-strong); stroke-width: 1.2; }
+  .icon { fill: none; stroke: var(--brand-blue); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .tile-hi, .opt-hi { fill: var(--blue-100); fill-opacity: .35; stroke: var(--brand-blue); stroke-width: 1.8; opacity: 0; }
+  .radio { fill: none; stroke: var(--border-strong); stroke-width: 1.2; }
+  .radio-on { fill: var(--brand-blue); }
+  .tick, .badge-tick { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .tick { stroke: var(--brand-blue); stroke-width: 2; }
+  .track { fill: none; stroke: var(--border); stroke-width: 4; }
+  .timer { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; }
+  .axis { fill: none; stroke: var(--border-strong); stroke-width: 1.2; }
+  .dot { fill: var(--border-strong); }
+  .grow { fill: var(--brand-blue); }
+  .grow--alt { fill: var(--blue-400); }
+  .badge { fill: var(--success); }
+  .badge-tick { stroke: #fff; stroke-width: 3; }
+  .cursor { fill: var(--ink); stroke: var(--surface-card); stroke-width: 1; }
+
+  /* everything timed: one 12 s cycle, started per part by animation-delay */
+  .sc, .in, .fade, .grow, .cursor, .timer {
+    animation-duration: 12s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+    transform-box: fill-box;
+  }
+  .sc { opacity: 0; animation-name: pr-sim-scene; }
+  .sc2 { animation-delay: 4s; }
+  .sc3 { animation-delay: 8s; }
+  @keyframes pr-sim-scene { 0% { opacity: 0 } 2%, 31% { opacity: 1 } 33%, 100% { opacity: 0 } }
+
+  /* pops in, stays to the end of its scene */
+  .in { opacity: 0; transform-origin: center; animation-name: pr-sim-in; }
+  @keyframes pr-sim-in {
+    0% { opacity: 0; transform: scale(.4) }
+    3% { opacity: 1; transform: scale(1.15) }
+    5%, 31% { opacity: 1; transform: scale(1) }
+    33%, 100% { opacity: 0 }
+  }
+  .fade { animation-name: pr-sim-fade; }
+  @keyframes pr-sim-fade { 0% { opacity: 0 } 3%, 31% { opacity: 1 } 33%, 100% { opacity: 0 } }
+  .grow { transform-origin: bottom; transform: scaleY(0); animation-name: pr-sim-grow; }
+  @keyframes pr-sim-grow { 0% { transform: scaleY(0) } 12%, 30% { transform: scaleY(1) } 31%, 100% { transform: scaleY(0) } }
+
+  /* scene 1: glide to the Hören tile, tap */
+  .cursor--1 { animation-name: pr-sim-cursor1; }
+  @keyframes pr-sim-cursor1 {
+    0%, 3% { transform: translate(200px, 100px) }
+    14% { transform: translate(140px, 66px) }
+    16% { transform: translate(140px, 66px) scale(.8) }
+    18%, 100% { transform: translate(140px, 66px) }
+  }
+
+  /* scene 2: the ring runs down, the cursor ticks the middle option */
+  .timer { animation-name: pr-sim-timer; animation-delay: 4s; animation-timing-function: linear; }
+  @keyframes pr-sim-timer { 0%, 2% { stroke-dashoffset: 0 } 31% { stroke-dashoffset: var(--c) } 100% { stroke-dashoffset: var(--c) } }
+  .cursor--2 { animation-name: pr-sim-cursor2; animation-delay: 4s; }
+  @keyframes pr-sim-cursor2 {
+    0%, 4% { transform: translate(200px, 98px) }
+    14% { transform: translate(190px, 77px) }
+    15% { transform: translate(190px, 77px) scale(.8) }
+    17%, 100% { transform: translate(190px, 77px) }
+  }
+
+  /* MascotGuide's pause button */
+  :global(.mg-paused) .sim * { animation-play-state: paused !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sim * { animation: none !important; }
+    .sc3, .sc3 .in { opacity: 1; }
+    .sc3 .grow { transform: none; }
+  }
+</style>

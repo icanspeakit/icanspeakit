@@ -1,0 +1,305 @@
+---
+// /placement-test — the page behind "Weiß ich nicht" on the homepage.
+//
+// That tile used to link to the first A1 topic and say so: "Wir fangen bei A1 an — du
+// merkst in zwei Fragen, ob es zu leicht ist." Which put the work on the learner: guess,
+// start, notice, go back, guess again. Most people who cannot place themselves on the CEFR
+// scale also cannot tell whether a topic is "too easy" from one exercise, so the guess was
+// rarely corrected — they just worked below their level or bounced.
+//
+// The test is a staircase, not an exam. Two questions per level, starting at A1, climbing
+// while they are answered. Both right → next level. One right → this is the level. Both
+// wrong → the level below. So it ends after two questions for a beginner and after ten
+// for someone at C1, and nobody sits through questions far above or below them.
+//
+// Nothing is graded out loud and no score is shown: the result is a starting point, not a
+// verdict. A learner who thinks it landed too high or too low can take the level next to
+// it straight from the result — the whole point is to get them into an exercise.
+import Layout from "../layouts/Layout.astro";
+import SectionMascot from "../components/mascots/SectionMascot.astro";
+import SiteNav from "../components/SiteNav.astro";
+import einstufung from "../data/einstufung.json";
+import EinfachEntry from "../components/EinfachEntry.astro";
+import "../styles/practice.css";
+
+// Not NAV_LEVELS (A1–B2, the menu): the test climbs to C1, the top of the grammar course,
+// so a strong learner is not capped at B2. Levels without items are skipped.
+const LEVELS = ["A1", "A2", "B1", "B2", "C1"].filter((l) => (einstufung.levels[l] ?? []).length > 0);
+const PER_LEVEL = 2;
+---
+<Layout
+  title="Spanish placement test online: A1 to C1 – icanspeak Spanish"
+  description="Find out your level in two minutes: a short placement test from A1 to C1, no account needed. At the end you know where to start."
+>
+  <SiteNav />
+  <main class="practice-main" id="es-root" data-levels={JSON.stringify(LEVELS)} data-per={PER_LEVEL}>
+    <div class="practice-hero practice-hero--tight">
+      <p class="eyebrow" data-i18n="placement.eyebrow">Einstufung</p>
+      <h1 data-i18n="fold.ask">Wo stehst du?</h1>
+      <!-- Describes the test, so it goes once the test is over. -->
+      <p data-es-intro data-i18n="placement.intro">
+        At most ten questions, about two minutes. It gets harder as long as you're right, and
+        stops as soon as it's clear where you should start. No account, no grade.
+      </p>
+    </div>
+
+    <!-- Every question of every level is in the HTML and the script picks from them: the
+         test runs with one page load and no fetch, and a crawler sees a page with content
+         rather than an empty shell. -->
+    <div class="es-bank" hidden>
+      {LEVELS.map((level) => (
+        <div data-bank={level}>
+          {einstufung.levels[level].map((q, i) => (
+            <div data-q={q.prompt} data-a={q.answer} data-o={JSON.stringify(q.options)} data-n={i + 1}></div>
+          ))}
+        </div>
+      ))}
+    </div>
+
+    <!-- The quiz kit from practice.css, not a second one: .quiz-card, .quiz-prompt and
+         .quiz-choice are what the Landeskunde quiz and every grammar exercise already
+         wear, so a learner arriving here from one of those meets the same card and the
+         same buttons. This page's own rules, at the foot of the file, cover the result
+         screen and nothing else. -->
+    <section class="quiz-card" data-es-quiz>
+      <div class="quiz-dots" data-es-steps aria-hidden="true"></div>
+      <p class="quiz-progress" data-es-level></p>
+      <p class="quiz-prompt" data-es-prompt></p>
+      <div class="quiz-choices" data-es-options></div>
+      <button class="quiz-btn quiz-btn--ghost" type="button" data-es-skip data-i18n="placement.skip">Weiß ich nicht</button>
+    </section>
+
+    <section class="quiz-card es-result" data-es-result hidden>
+      <SectionMascot name="bruno" expr="celebrate" view="front" size={80} class="section-mascot--big" />
+      <p class="quiz-progress" data-i18n="placement.result">Dein Einstieg</p>
+      <p class="es-result-level" data-es-result-level></p>
+      <p class="es-result-lead" data-es-result-lead></p>
+      <div class="es-actions">
+        <a class="quiz-btn quiz-btn--primary" data-es-go-grammar data-i18n="placement.goGrammar">Grammatik anfangen</a>
+        <a class="quiz-btn" data-es-go-vocab data-i18n="placement.goVocab">Wortschatz anfangen</a>
+      </div>
+      <!-- A1 is the floor of the test, so "A1" also stands for "not even that yet". Those
+           learners get the gentler way in offered right here, next to the A1 buttons. -->
+      <div class="es-einfach" data-es-einfach hidden><EinfachEntry variant="row" /></div>
+      <p class="es-nudge">
+        <span data-i18n="placement.nudge">Zu leicht oder zu schwer?</span> <button type="button" class="es-link" data-es-down></button>
+        <span data-es-or hidden> · </span>
+        <button type="button" class="es-link" data-es-up></button>
+      </p>
+      <button class="quiz-btn quiz-btn--ghost" type="button" data-es-again data-i18n="placement.again">Test noch einmal machen</button>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  /* Only what the result screen needs. The card, the prompt, the answer buttons, the
+     progress dots and the two button shapes are practice.css, because this is the same
+     quiz the rest of the site already runs.
+
+     The first version restyled all of it here, which cost more than the duplication: the
+     answer buttons and the dots are built by the script, and Astro applies scoped styles
+     server-side, so those two never matched any selector and rendered as raw <button>s
+     while everything around them looked right. */
+  .practice-hero.practice-hero--tight { text-align: left; margin-bottom: 20px; }
+  .practice-hero.practice-hero--tight .eyebrow { text-align: left; }
+  .practice-hero.practice-hero--tight h1 { margin: 2px 0 8px; }
+  .practice-hero.practice-hero--tight p { margin: 0; max-width: 56ch; font-size: .95rem; }
+
+  /* The one number on the page, and the only thing anyone came for. */
+  .es-result-level {
+    margin: 0;
+    font-size: clamp(2.4rem, 9vw, 3.4rem);
+    font-weight: var(--fw-bold);
+    line-height: 1;
+    color: var(--brand-blue-dark);
+  }
+  .es-einfach { margin: 18px 0 0; text-align: start; }
+  .es-result-lead { margin: 10px 0 22px; max-width: 46ch; color: var(--muted); }
+  .es-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .es-actions .quiz-btn { text-decoration: none; }
+
+  .es-nudge { margin: 20px 0 0; font-size: .85rem; color: var(--muted); }
+  .es-link { padding: 0; font: inherit; color: var(--brand-blue); background: none; border: none; cursor: pointer; text-decoration: underline; }
+</style>
+
+<script>
+  import { getLang, loadDict, onLangChange, translate } from "../lib/i18n.js";
+  import { intent } from "../lib/intent.js";
+  import { withBase } from "../lib/paths.js";
+  import { flagElement, meldenLink } from "../lib/meldung.js";
+  import { fingerprint } from "../lib/meldungRef.js";
+
+  // The questions are Spanish on purpose — they are the test. Everything the script
+  // writes around them follows the UI language: each such element carries its key in
+  // data-i18n, so the language switcher's own DOM pass re-translates it later too.
+  let dict: Record<string, string> = {};
+  function setT(el: HTMLElement, key: string, fallback: string, vars?: Record<string, string | number>) {
+    el.dataset.i18n = key;
+    if (vars) el.dataset.i18nVars = JSON.stringify(vars); else delete el.dataset.i18nVars;
+    el.textContent = dict[key] != null ? translate(dict, key, vars) : fallback;
+  }
+
+  const root = document.getElementById("es-root");
+  const LEVELS: string[] = JSON.parse(root.dataset.levels!);
+  const PER = Number(root.dataset.per);
+  const LEAD: Record<string, string> = {
+    A1: "First sentences: introducing yourself, shopping, asking the way.",
+    A2: "Everyday life in Spanish: appointments, home, work – in simple sentences.",
+    B1: "Independent: services, work and opinions, even in longer texts.",
+    B2: "Arguing with confidence: newspapers, work, discussion – in writing too.",
+    C1: "Fluent and precise: complex texts, formal writing, fine shades of meaning.",
+  };
+
+  type Item = { prompt: string; answer: string; options: string[]; level: string; n: string };
+  const bank: Record<string, Item[]> = {};
+  for (const level of LEVELS) {
+    bank[level] = [...root.querySelectorAll(`[data-bank="${level}"] [data-q]`)].map((el) => ({
+      prompt: (el as HTMLElement).dataset.q!,
+      answer: (el as HTMLElement).dataset.a!,
+      level,
+      n: (el as HTMLElement).dataset.n!,
+      options: JSON.parse((el as HTMLElement).dataset.o!),
+    }));
+  }
+
+  const quiz = root.querySelector<HTMLElement>("[data-es-quiz]")!;
+  const result = root.querySelector<HTMLElement>("[data-es-result]")!;
+  const stepsEl = root.querySelector<HTMLElement>("[data-es-steps]")!;
+  const levelEl = root.querySelector<HTMLElement>("[data-es-level]")!;
+  const promptEl = root.querySelector<HTMLElement>("[data-es-prompt]")!;
+  const optionsEl = root.querySelector<HTMLElement>("[data-es-options]")!;
+
+  const shuffle = <T,>(xs: T[]) => xs.map((x) => [Math.random(), x] as const).sort((a, b) => a[0] - b[0]).map(([, x]) => x);
+
+  // "Problem melden" (docs/problem-melden-tier0-v1.md): x:einstufung/<level>/q<n>, always for
+  // the question on screen; dev: ⚑ on the prompt.
+  let picked: string | null = null;
+  const meldungTarget = () => {
+    const item = asked[at];
+    return item
+      ? {
+          ref: `x:einstufung/${item.level}/q${item.n}`,
+          fingerprint: fingerprint(item.prompt, item.answer),
+          snapshot: () => ({ frage: item.prompt, optionen: item.options, loesung: item.answer, antwort: picked }),
+        }
+      : null;
+  };
+  quiz.append(Object.assign(document.createElement("div"), { className: "mf-row" }));
+  quiz.lastElementChild!.append(meldenLink(meldungTarget));
+  flagElement(promptEl, meldungTarget);
+
+  let rung = 0;        // which level we are asking about
+  let asked: Item[] = [];
+  let at = 0;          // position inside this level's two questions
+  let right = 0;       // correct answers at this level
+
+  function drawLevel() {
+    asked = shuffle(bank[LEVELS[rung]]).slice(0, PER);
+    at = 0;
+    right = 0;
+    ask();
+  }
+
+  function ask() {
+    const item = asked[at];
+    picked = null;
+    // Six dots would be a lie about a test that can end after two, so the row grows with
+    // the test: what is behind you, plus the question you are on.
+    const done = rung * PER + at;
+    stepsEl.innerHTML = Array.from({ length: done + 1 })
+      .map((_, i) => `<span class="quiz-dot ${i < done ? "quiz-dot--done" : "quiz-dot--now"}"></span>`).join("");
+    setT(levelEl, "placement.question", `Frage ${done + 1}`, { n: done + 1 });
+    promptEl.textContent = item.prompt;
+    optionsEl.className = "quiz-choices";
+    optionsEl.innerHTML = shuffle(item.options)
+      .map((o) => `<button class="quiz-choice" type="button">${o.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]!))}</button>`)
+      .join("");
+    [...optionsEl.children].forEach((btn) => {
+      btn.addEventListener("click", () => answer(btn as HTMLElement, item));
+    });
+  }
+
+  function answer(btn: HTMLElement, item: Item) {
+    const ok = btn.textContent === item.answer;
+    picked = btn.textContent;
+    if (ok) right++;
+    // `disabled` rather than a lock class: practice.css already dims and un-clicks a
+    // disabled .quiz-choice, and it is the state a screen reader can also see.
+    for (const el of [...optionsEl.children] as HTMLButtonElement[]) {
+      el.disabled = true;
+      if (el.textContent === item.answer) el.classList.add("quiz-choice--correct");
+      else if (el === btn) el.classList.add("quiz-choice--incorrect");
+    }
+    setTimeout(next, ok ? 420 : 900);
+  }
+
+  function skip() {
+    for (const el of [...optionsEl.children] as HTMLButtonElement[]) el.disabled = true;
+    next();
+  }
+
+  function next() {
+    at++;
+    if (at < asked.length) { ask(); return; }
+    // Both right: there may be more above. One right: this is the level. None: the one
+    // below — and below A1 there is nothing lower to offer, so A1 it is.
+    if (right === PER && rung < LEVELS.length - 1) { rung++; drawLevel(); return; }
+    if (right === PER) { verdict(LEVELS[rung]); return; }
+    if (right > 0) { verdict(LEVELS[rung]); return; }
+    verdict(LEVELS[Math.max(0, rung - 1)]);
+  }
+
+  // The test's own verdict. "Lieber B1" on the result screen calls finish() directly and is
+  // not reported again.
+  function verdict(level: string) {
+    // traffic-baseline: einstufung_result
+    intent("einstufung_result", { level });
+    finish(level);
+  }
+
+  function finish(level: string) {
+    try { localStorage.setItem("da-einstufung", level); } catch {}
+    quiz.hidden = true;
+    result.hidden = false;
+    root.querySelector<HTMLElement>("[data-es-intro]")!.hidden = true;
+    result.querySelector<HTMLElement>("[data-es-result-level]")!.textContent = level;
+    setT(result.querySelector<HTMLElement>("[data-es-result-lead]")!, `placement.lead.${level}`, LEAD[level] ?? "");
+    const slug = level.toLowerCase();
+    result.querySelector<HTMLAnchorElement>("[data-es-go-grammar]")!.href = withBase(`/grammar#niveau-${slug}`);
+    result.querySelector<HTMLAnchorElement>("[data-es-go-vocab]")!.href = withBase(`/vocabulary/${slug}`);
+    result.querySelector<HTMLElement>("[data-es-einfach]")!.hidden = level !== LEVELS[0];
+
+    // The neighbours, named rather than implied: a test this short can land one step off,
+    // and the fix should not be "take it again".
+    const i = LEVELS.indexOf(level);
+    const down = result.querySelector<HTMLButtonElement>("[data-es-down]")!;
+    const up = result.querySelector<HTMLButtonElement>("[data-es-up]")!;
+    const or = result.querySelector<HTMLElement>("[data-es-or]")!;
+    down.hidden = i === 0;
+    up.hidden = i === LEVELS.length - 1;
+    or.hidden = down.hidden || up.hidden;
+    if (!down.hidden) { setT(down, "placement.prefer", `Lieber ${LEVELS[i - 1]}`, { level: LEVELS[i - 1] }); down.onclick = () => finish(LEVELS[i - 1]); }
+    if (!up.hidden) { setT(up, "placement.prefer", `Lieber ${LEVELS[i + 1]}`, { level: LEVELS[i + 1] }); up.onclick = () => finish(LEVELS[i + 1]); }
+    result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  root.querySelector<HTMLButtonElement>("[data-es-skip]")!.addEventListener("click", skip);
+  root.querySelector<HTMLButtonElement>("[data-es-again]")!.addEventListener("click", () => {
+    result.hidden = true;
+    quiz.hidden = false;
+    root.querySelector<HTMLElement>("[data-es-intro]")!.hidden = false;
+    rung = 0;
+    drawLevel();
+  });
+
+  drawLevel();
+  // The first question is drawn before the dictionary arrives, and the page-wide i18n
+  // pass may already have run by then — so re-translate what the script tagged.
+  loadDict(getLang()).then((d) => {
+    dict = d;
+    for (const el of root.querySelectorAll<HTMLElement>("[data-es-level][data-i18n], [data-es-result-lead][data-i18n], [data-es-down][data-i18n], [data-es-up][data-i18n]")) {
+      if (d[el.dataset.i18n!] != null) el.textContent = translate(d, el.dataset.i18n!, el.dataset.i18nVars ? JSON.parse(el.dataset.i18nVars) : undefined);
+    }
+  });
+  onLangChange((_code, d) => { dict = d; });
+</script>

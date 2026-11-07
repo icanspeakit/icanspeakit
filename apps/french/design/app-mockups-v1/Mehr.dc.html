@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Mehr</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&amp;family=Albert+Sans:wght@500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#0f766e}a:hover{color:#115e59}
+</style>
+</helmet>
+<div style="width: 390px; height: 960px; position: relative; overflow: hidden; box-sizing: border-box; background: #f7f8fa; color: #1a2230; font-family: 'Sora', sans-serif">
+  <div style="padding: 28px 20px 0; display: flex; flex-direction: column; gap: 24px">
+    <h1 style="margin: 0; font-size: 26px; font-weight: 700">Mehr</h1>
+
+    <section style="display: flex; flex-direction: column; gap: 8px">
+      <h2 style="margin: 0 4px; font: 600 13px 'Albert Sans', sans-serif; color: #4b5768">Darstellung</h2>
+      <div role="radiogroup" aria-label="Darstellung" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 4px; background: #ffffff; border: 1px solid #e7e9ee; border-radius: 14px">
+        <button type="button" role="radio" aria-checked="false" style="height: 44px; border: none; border-radius: 10px; background: transparent; font: 600 14px 'Albert Sans', sans-serif; color: #4b5768">Hell</button>
+        <button type="button" role="radio" aria-checked="false" style="height: 44px; border: none; border-radius: 10px; background: transparent; font: 600 14px 'Albert Sans', sans-serif; color: #4b5768">Dunkel</button>
+        <button type="button" role="radio" aria-checked="true" style="height: 44px; border: none; border-radius: 10px; background: #ccfbf1; font: 700 14px 'Albert Sans', sans-serif; color: #0f766e">Wie Handy</button>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 8px">
+      <h2 style="margin: 0 4px; font: 600 13px 'Albert Sans', sans-serif; color: #4b5768">Lernen</h2>
+      <div style="background: #ffffff; border: 1px solid #e7e9ee; border-radius: 14px; overflow: hidden">
+        <a href="Onboarding.dc.html" style="display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 0 16px; border-bottom: 1px solid #e7e9ee; text-decoration: none; color: #1a2230; font-size: 15px"><span>Sprache der App</span><span style="display: flex; align-items: center; gap: 4px; font: 500 14px 'Albert Sans', sans-serif; color: #4b5768">Deutsch<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a0b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></span></a>
+        <a href="Onboarding.dc.html" style="display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 0 16px; border-bottom: 1px solid #e7e9ee; text-decoration: none; color: #1a2230; font-size: 15px"><span>Meine Muttersprache</span><span style="display: flex; align-items: center; gap: 4px; font: 500 14px 'Albert Sans', sans-serif; color: #4b5768">Englisch<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a0b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></span></a>
+        <a href="Woerter.dc.html" style="display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 0 16px; border-bottom: 1px solid #e7e9ee; text-decoration: none; color: #1a2230; font-size: 15px"><span>Meine Stufe</span><span style="display: flex; align-items: center; gap: 4px; font: 500 14px 'Albert Sans', sans-serif; color: #4b5768">A1<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a0b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></span></a>
+        <a href="Mehr.dc.html" style="display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 0 16px; border-bottom: 1px solid #e7e9ee; text-decoration: none; color: #1a2230; font-size: 15px"><span>Audio ohne Internet</span><span style="display: flex; align-items: center; gap: 4px; font: 500 14px 'Albert Sans', sans-serif; color: #4b5768">A1, B1<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a0b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></span></a>
+        <div style="display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 0 16px; font-size: 15px"><span id="m-mascots">Maskottchen</span><button type="button" role="switch" aria-checked="true" aria-labelledby="m-mascots" style="width: 52px; height: 32px; border: none; border-radius: 16px; background: #0f766e; position: relative; padding: 0"><span style="position: absolute; top: 3px; right: 3px; width: 26px; height: 26px; border-radius: 13px; background: #ffffff"></span></button></div>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 8px">
+      <h2 style="margin: 0 4px; font: 600 13px 'Albert Sans', sans-serif; color: #4b5768">Erinnerung</h2>
+      <div style="background: #ffffff; border: 1px solid #e7e9ee; border-radius: 14px">
+        <div style="display: flex; align-items: center; justify-content: space-between; min-height: 60px; padding: 0 16px">
+          <span style="display: flex; flex-direction: column; gap: 2px"><span id="m-rem" style="font-size: 15px">Wochenziel-Erinnerung</span><span style="font: 500 13px 'Albert Sans', sans-serif; color: #4b5768">Sonntag, 18:00</span></span>
+          <button type="button" role="switch" aria-checked="false" aria-labelledby="m-rem" style="width: 52px; height: 32px; border: none; border-radius: 16px; background: #cbd2db; position: relative; padding: 0"><span style="position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; border-radius: 13px; background: #ffffff"></span></button>
+        </div>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 8px">
+      <h2 style="margin: 0 4px; font: 600 13px 'Albert Sans', sans-serif; color: #4b5768">Konto</h2>
+      <a href="Mehr.dc.html" style="display: flex; align-items: center; justify-content: space-between; min-height: 60px; padding: 0 16px; background: #ffffff; border: 1px solid #e7e9ee; border-radius: 14px; text-decoration: none; color: #1a2230">
+        <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 600; color: #0f766e">Anmelden</span><span style="font: 500 13px 'Albert Sans', sans-serif; color: #4b5768">Für den Aussprache-Check</span></span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a0b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+      </a>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 8px">
+      <h2 style="margin: 0 4px; font: 600 13px 'Albert Sans', sans-serif; color: #4b5768">Info</h2>
+      <div style="background: #ffffff; border: 1px solid #e7e9ee; border-radius: 14px; overflow: hidden">
+        <a href="https://englishacademy.com" style="display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 0 16px; border-bottom: 1px solid #e7e9ee; text-decoration: none; color: #1a2230; font-size: 15px"><span>Alles auf englishacademy.com</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a0b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"></path></svg></a>
+        <a href="https://englishacademy.com/datenschutz" style="display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 0 16px; border-bottom: 1px solid #e7e9ee; text-decoration: none; color: #1a2230; font-size: 15px"><span>Datenschutz</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a0b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"></path></svg></a>
+        <a href="https://englishacademy.com/impressum" style="display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 0 16px; text-decoration: none; color: #1a2230; font-size: 15px"><span>Impressum</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a0b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"></path></svg></a>
+      </div>
+      <p style="margin: 8px 0 0; text-align: center; font: 500 13px 'Albert Sans', sans-serif; color: #4b5768">Version 1.0 (1)</p>
+    </section>
+  </div>
+
+  <nav aria-label="Hauptnavigation" style="position: absolute; left: 0; right: 0; bottom: 0; height: 84px; box-sizing: border-box; padding: 6px 8px 20px; background: #ffffff; border-top: 1px solid #e7e9ee; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr))">
+    <a href="Main.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: #4b5768; font: 600 12px 'Albert Sans', sans-serif"><span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg></span><span>Start</span></a>
+    <a href="Einfach.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: #4b5768; font: 600 12px 'Albert Sans', sans-serif"><span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6.5" cy="10" r="2"></circle><circle cx="10" cy="5.5" r="2"></circle><circle cx="14" cy="5.5" r="2"></circle><circle cx="17.5" cy="10" r="2"></circle><path d="M12 12c-3 0-5.5 3.5-5.5 5.8 0 1.6 1.4 2.4 2.9 1.9l2.6-.9 2.6.9c1.5.5 2.9-.3 2.9-1.9 0-2.3-2.5-5.8-5.5-5.8z"></path></svg></span><span>Einfach</span></a>
+    <a href="Woerter.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: #4b5768; font: 600 12px 'Albert Sans', sans-serif"><span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"></path><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19"></path><path d="M9 7.5h6"></path></svg></span><span>Wörter</span></a>
+    <a href="Sprechen.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: #4b5768; font: 600 12px 'Albert Sans', sans-serif"><span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3"></path></svg></span><span>Sprechen</span></a>
+    <a href="Mehr.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: #0f766e; font: 700 12px 'Albert Sans', sans-serif"><span style="width: 56px; height: 30px; border-radius: 15px; background: #ccfbf1; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"></path><circle cx="15" cy="7" r="2"></circle><circle cx="9" cy="17" r="2"></circle></svg></span><span>Mehr</span></a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":960}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

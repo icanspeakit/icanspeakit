@@ -1,0 +1,64 @@
+---
+// The printable group games for teachers: what each one is and how it runs in class, then
+// the generator. The three share their machinery (src/lib/spiele/common.js) and their data
+// (the lexicon, per level: ./woerter-[level].json.ts).
+import TeacherNudge from "../../../components/TeacherNudge.astro";
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import "../../../styles/spiele.css";
+
+const games = [
+  {
+    href: "/teachers/games/bingo",
+    title: "Bingo",
+    titleKey: null,
+    what: "Wortschatz-Bingo mit einer anderen Karte für jede Person, 4 × 4 oder 5 × 5.",
+    whatKey: "sp.index.bingo.what",
+    how: "You call a word – in Spanish, or its meaning from the caller list. Everyone crosses it off their card. The first to complete a row shouts “¡Bingo!” and reads the words aloud.",
+    howKey: "sp.index.bingo.how",
+  },
+  {
+    href: "/teachers/games/domino",
+    title: "Domino",
+    titleKey: null,
+    what: "A closed chain to cut out: el / la, plural, or word ↔ meaning.",
+    whatKey: "sp.index.domino.what",
+    how: "In Gruppen zu dritt oder viert: Die Steine liegen verdeckt, jede Person zieht und legt an, was passt. Die Gruppe, deren Kreis sich zuerst schließt, gewinnt. Die Lösung liegt bei dir.",
+    howKey: "sp.index.domino.how",
+  },
+  {
+    href: "/teachers/games/explain",
+    title: "Wörter erklären",
+    titleKey: "sp.erklaeren.title",
+    what: "Sprechkarten wie bei Tabu, acht pro Seite, mit verbotenen Wörtern, wo es welche gibt.",
+    whatKey: "sp.index.erklaeren.what",
+    how: "Zwei Teams, eine Minute pro Runde: Eine Person erklärt so viele Karten wie möglich, ihr Team rät. Das andere Team passt auf, dass niemand das Wort oder ein verbotenes Wort sagt.",
+    howKey: "sp.index.erklaeren.how",
+  },
+];
+---
+<Layout
+  title="Games to print – for teachers – icanspeak Spanish"
+  description="Bingo, dominoes and Explain the word for the Spanish class: made from the icanspeak Spanish vocabulary, by level and word set, free to print."
+>
+  <SiteNav active="lehrkraefte" />
+  <main class="sp-page">
+    <p class="sp-eyebrow" data-i18n="sp.eyebrow">Für Lehrkräfte · Spiele zum Ausdrucken</p>
+    <h1 class="sp-title" data-i18n="sp.index.title">Spiele für die Gruppe</h1>
+    <p class="sp-lead" data-i18n="sp.index.lead">Wähle Niveau und Lernsets, schau dir die Vorschau an und drucke. Jede Einstellung steht im Link — öffne ihn später wieder, und du bekommst genau dieselben Blätter.</p>
+    <TeacherNudge />
+
+    <div class="sp-games">
+      {games.map((g) => (
+        <a class="sp-game" href={g.href}>
+          <h2 data-i18n={g.titleKey ?? undefined}>{g.title}</h2>
+          <p data-i18n={g.whatKey}>{g.what}</p>
+          <p class="sp-game-how" data-i18n={g.howKey}>{g.how}</p>
+          <span class="sp-game-go" data-i18n="sp.index.open">Erstellen</span>
+        </a>
+      ))}
+    </div>
+
+    <p class="sp-note" data-i18n="sp.index.note">Alle Wörter kommen aus dem icanspeak Spanish-Wortschatz (A1–B2), die Bedeutungen sind dieselben wie in den Wortlisten. Kostenlos, ohne Konto, zum Kopieren und Weitergeben im Unterricht.</p>
+  </main>
+</Layout>

@@ -1,0 +1,96 @@
+# build output
+dist/
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
+
+.vercel
+.env*
+
+# Diagnostic output from scripts/mobile-sweep.mjs — regenerated on every run, and
+# 23 MB of PNGs that would sit in history forever. The report is a snapshot of a
+# moment, not a source of truth; rerun the sweep rather than reading an old one.
+mobile-sweep-screenshots/
+verify-mobile-screenshots/
+mobile-sweep-report.json
+
+# Scratch files left behind by script runs (empty or short-lived). They accumulate in
+# the repo root and have never been part of the source.
+_tmp_*
+.claude/
+
+# Android app (ANDROID-APP-TIERED-PROMPT.md). The app's web bundle is a build output.
+dist-app/
+# Signing: never in the repo. keystore.properties is read from outside it (Tier 4).
+*.jks
+*.keystore
+keystore.properties
+google-services.json
+android/app/release/
+android/app/debug/
+
+# Local-only: generated reports, session scratch, raw hub source photos (the site serves
+# the optimised avif/webp next to them), and things parked for deletion.
+Claude outputs/
+_to_delete/
+UsersEdgarAppDataLocalTemp/
+.chk-tmp.mjs
+public/assets/hubs/*.jpg
+
+# astro dev log (restarted in background)
+.astro-dev.log
+
+# Raw output of scripts/error-sweep.mjs (summary goes to docs/error-sweep/)
+.error-sweep/
+
+# Copy of src/paid/ for the browser, rebuilt by scripts/build-paid-manifest.mjs (prebuild)
+public/inhalt/
+
+# Search-Console-Exporte (SEO Tier 0), nicht einchecken
+data/seo/
+
+# Lokale Testseiten und Logs — gehen nicht live (REPO-AUFRAEUMEN-UND-WEITER-PROMPT.md, Schritt 3)
+src/pages/list.astro
+src/pages/testnavbarlanguages.astro
+.stage.tmp
+.t/
+
+# Windows-Verknüpfungen (Chrome-App-Fenster für Analytics), nur lokal
+*.lnk
+# Raw output of scripts/ux-sweep.mjs (npm run check:ux)
+.ux-sweep/
+
+# Cloudflare Wrangler local state
+.wrangler/
+.dev.vars*
+
+# Public production build settings (PUBLIC_* only) are committed on purpose.
+!.env.production
+
+# Vokabeln vom Foto: sample textbook photos and their OCR cache, never committed
+design/vokabel-foto/beispiele/
+
+_ea_*.zip
+
+# content automation run logs
+automation/logs/
+automation/logs/preview.*

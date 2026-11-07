@@ -1,0 +1,58 @@
+/* The hub hero photo — src/components/HubBild.astro. */
+
+.hub-bild {
+  position: relative;
+  margin: 0 0 28px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--surface-card, #eef1f5);
+}
+.hub-bild img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 4;
+  /* A banner, not the page: a strip of scene over the title. At 300px it took most of a
+     laptop screen and pushed the H1 and the first cards below the fold. */
+  max-height: 190px;
+  object-fit: cover;
+}
+
+/* Inside ExamShell's hero column: a little taller, since the column is narrow. */
+.hub-bild--inset { margin: 0 0 16px; border-radius: 14px; }
+.hub-bild--inset img { aspect-ratio: 16 / 8; }
+
+/* Above a Lernset's cards: a thin strip, so the scene names the topic without pushing the
+   first card down on a phone, where most of these learners are. */
+.hub-bild--deck { margin: 0 0 14px; border-radius: 14px; }
+.hub-bild--deck img { aspect-ratio: 16 / 3.6; max-height: 150px; }
+
+/* On top of a card: a picture of the place, not a
+   banner — it may be taller, the card is narrow. */
+.hub-bild--card { margin: 0 0 14px; border-radius: 12px; }
+.hub-bild--card img { aspect-ratio: 16 / 7; max-height: 240px; }
+
+/* On a phone 16:4 is too thin to read; 16:7 keeps the scene without pushing the
+   exercises below the fold (16:9 was over half the first screen). */
+@media (max-width: 640px) {
+  .hub-bild { border-radius: 14px; margin-bottom: 16px; }
+  .hub-bild img, .hub-bild--inset img { aspect-ratio: 16 / 7; }
+  .hub-bild--deck img { aspect-ratio: 16 / 5.5; }
+}
+
+.hub-bild-credit {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  padding: 0 6px;
+  border-radius: 999px;
+  font-size: .58rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, .9);
+  background: rgba(11, 26, 46, .4);
+}
+.hub-bild-credit a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+/* Photos are shot for daylight; on the dark theme they glare next to the dark surfaces.
+   Layout always sets data-theme (from the toggle or the OS), so one selector covers both. */
+:root[data-theme="dark"] .hub-bild img { filter: brightness(.85); }

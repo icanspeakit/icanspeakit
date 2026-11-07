@@ -1,0 +1,153 @@
+---
+// /terms — Terms of use.
+//
+// Adapted from colevitate.com's Terms of Service (same section order: Service, Accounts,
+// Acceptable use, Your content, Our content, Disclaimers, Liability, Changes, Contact),
+// rewritten in German and for what this site actually is: free teaching material, no
+// payment, no subscription, no AI correction promise.
+//
+// Two deliberate differences from the Colevitate original:
+//   1. The liability section follows German law (§§ 276, 309 BGB) rather than the US-style
+//      blanket cap, which is unenforceable against German consumers.
+//   2. deutschacademy had a Widerrufsbelehrung section here for its paid products. icanspeak Spanish
+//      sells nothing (src/lib/backend.js: payments false, /widerruf removed), so the section is
+//      gone; when payments come back, put <Widerrufsbelehrung /> (src/components/Widerrufsbelehrung.astro)
+//      back before "Kontakt" and restore /widerruf.
+//
+// icanspeak Spanish has no accounts either (backend.js: auth false), so the account clauses say so.
+// German is the binding version; the English translation lives in
+// src/data/uebersetzungen/rechtliches.json (LegalTranslation.astro).
+//
+// Not legal advice. Have it reviewed before relying on it.
+import Layout from "../layouts/Layout.astro";
+import SiteNav from "../components/SiteNav.astro";
+import LegalTranslation from "../components/LegalTranslation.astro";
+import { LEGAL } from "../lib/legal.js";
+import "../styles/practice.css";
+import "../styles/legal.css";
+---
+<Layout
+  title="Terms of use – icanspeak Spanish"
+  description="The terms for using icanspeak Spanish: free exercises, what you may do with our content and what we are liable for."
+>
+  <SiteNav />
+  <main class="legal-main">
+    <LegalTranslation page="nutzungsbedingungen" />
+    <div class="legal-head">
+      <h1 data-lx="title">Nutzungsbedingungen</h1>
+      <p data-lx="updated" class="legal-updated">Stand: {LEGAL.lastUpdated}</p>
+    </div>
+
+    <div class="legal-body">
+      <h2 data-lx="h.offer">Das Angebot</h2>
+      <p data-lx="p.offer1En">
+        icanspeak Spanish stellt kostenlose Materialien zum Spanischlernen bereit: Übungen zu
+        Grammatik und Wortschatz, Übungssätze zur Prüfungsvorbereitung (etwa DELE, SIELE und
+        CCSE) sowie PDFs zum Herunterladen. Die Nutzung ist kostenlos
+        und ohne Konto möglich.
+      </p>
+      <p data-lx="p.offer2">
+        Wir entwickeln die Seite laufend weiter. Einzelne Übungen, Seiten oder Funktionen können
+        sich ändern oder wegfallen. Einen Anspruch auf ständige Verfügbarkeit gibt es nicht.
+      </p>
+
+      <h2 data-lx="h.accounts">Konten</h2>
+      <p data-lx="p.accountsNone">
+        Konten gibt es derzeit nicht. Dein Lernfortschritt wird nur in deinem Browser
+        gespeichert. Führen wir Konten ein, ergänzen wir diese Bedingungen vorher.
+      </p>
+
+      <h2 data-lx="h.use">Zulässige Nutzung</h2>
+      <p data-lx="p.useIntro">Nicht erlaubt ist insbesondere:</p>
+      <ul>
+        <li data-lx="li.use1">die Seite automatisiert in einem Umfang abzurufen, der den Betrieb beeinträchtigt;</li>
+        <li data-lx="li.use2NoAccount">Sicherheitsvorkehrungen zu umgehen;</li>
+        <li data-lx="li.use3">Inhalte der Seite gewerblich weiterzuverkaufen;</li>
+        <li data-lx="li.use5">Inhalte der Seite systematisch oder automatisiert auszulesen, zu kopieren oder zu sammeln (etwa mit Scrapern oder Crawlern), um sie anderswo zu veröffentlichen oder weiterzuverwenden;</li>
+        <li data-lx="li.use6">Inhalte der Seite zum Training, zur Entwicklung oder zur Verbesserung von KI-Systemen zu verwenden;</li>
+        <li data-lx="li.use4">die Seite für rechtswidrige Zwecke zu nutzen.</li>
+      </ul>
+
+      <h2 data-lx="h.yours">Deine Inhalte</h2>
+      <p data-lx="p.yoursLocal">
+        Texte, die du in Schreibaufgaben verfasst, gehören dir. Wir erhalten sie nicht. Sie werden
+        nur in deinem Browser gespeichert, damit du an ihnen weiterarbeiten kannst. Wählst du
+        „Text korrigieren“, schickt dein Browser den Text zur Prüfung an LanguageTool (siehe
+        <a href="/privacy">Datenschutzerklärung</a>).
+      </p>
+
+      <h2 data-lx="h.ours">Unsere Inhalte</h2>
+      <p data-lx="p.ours0">
+        Texte, Übungen, Wortlisten, Audioaufnahmen, Illustrationen, die Maskottchen, das
+        Design und die Software von icanspeak Spanish sind urheberrechtlich geschützt. Soweit nicht
+        anders angegeben, liegen alle Rechte bei Edgar Kretschmann (icanspeak Spanish).
+      </p>
+      <p data-lx="p.ours1">
+        Die von uns erstellten Übungen, Wortlisten und PDFs darfst du kostenlos nutzen,
+        ausdrucken und im eigenen Unterricht weitergeben. Nicht erlaubt ist der Weiterverkauf.
+      </p>
+      <p data-lx="p.ours2En">
+        Prüfungsnamen und Prüfungsmaterialien Dritter (etwa DELE, SIELE und CCSE) gehören den
+        jeweiligen Rechteinhabern. Unsere Übungssätze orientieren sich am
+        veröffentlichten Prüfungsformat, sind aber eigene Materialien und <strong>kein
+        offizielles Prüfungsmaterial</strong>. Offizielle Modellsätze verlinken wir dort, wo die
+        Anbieter sie selbst veröffentlichen.
+      </p>
+      <p data-lx="p.ours3">
+        Nicht erlaubt ist außerdem, Inhalte ganz oder in wesentlichen Teilen zu übernehmen und
+        in eigenen Websites, Apps, Lernplattformen oder Kursangeboten zu veröffentlichen, auch
+        nicht in bearbeiteter Form. Für eine solche Nutzung brauchst du unsere vorherige
+        schriftliche Zustimmung.
+      </p>
+      <p data-lx="p.tdm">
+        <strong>Nutzungsvorbehalt nach § 44b UrhG:</strong> Wir behalten uns die Nutzung
+        unserer Inhalte für Text und Data Mining ausdrücklich vor, einschließlich des Trainings
+        von KI-Systemen. Der Vorbehalt ist zusätzlich maschinenlesbar in der robots.txt und in
+        den Metadaten der Seite hinterlegt.
+      </p>
+
+      <h2 data-lx="h.noGuarantee">Keine Gewähr für Prüfungserfolg</h2>
+      <p data-lx="p.noGuarantee">
+        Die Inhalte werden sorgfältig erstellt, ersetzen aber weder einen Kurs noch eine
+        Beratung. Wir sichern kein bestimmtes Prüfungsergebnis und keine bestimmte
+        Niveaustufe zu. Ergebnisse aus dem Einstufungstest sind eine Orientierung, keine
+        Zertifizierung. Verbindlich sind allein die Angaben und Bewertungen der offiziellen
+        Prüfungsanbieter.
+      </p>
+
+      <h2 data-lx="h.liability">Haftung</h2>
+      <p data-lx="p.liab1">
+        Wir haften unbeschränkt für Vorsatz und grobe Fahrlässigkeit sowie bei Verletzung von
+        Leben, Körper oder Gesundheit. Bei einfacher Fahrlässigkeit haften wir nur bei
+        Verletzung einer wesentlichen Vertragspflicht — also einer Pflicht, deren Erfüllung die
+        ordnungsgemäße Nutzung überhaupt erst ermöglicht und auf deren Einhaltung du vertrauen
+        darfst — und der Höhe nach begrenzt auf den vertragstypischen, vorhersehbaren Schaden.
+        Ansprüche nach dem Produkthaftungsgesetz bleiben unberührt.
+      </p>
+      <p data-lx="p.liab2Local">
+        Für den Verlust von Lernfortschritt, der ausschließlich in deinem Browser gespeichert
+        ist, können wir nicht einstehen: Auf diese Daten haben wir keinen Zugriff, und sie
+        werden gelöscht, sobald du deine Browserdaten löschst.
+      </p>
+
+      <h2 data-lx="h.changes">Änderungen und Beendigung</h2>
+      <p data-lx="p.changesNoAccount">
+        Wir können diese Bedingungen ändern, wenn sich das Angebot oder die Rechtslage ändert.
+        Das Datum oben zeigt den Stand.
+      </p>
+
+      <h2 data-lx="h.law">Anwendbares Recht</h2>
+      <p data-lx="p.law">
+        Es gilt deutsches Recht. Zwingende Verbraucherschutzvorschriften des Staates, in dem du
+        deinen gewöhnlichen Aufenthalt hast, bleiben davon unberührt.
+      </p>
+
+      <h2 data-lx="h.contact">Kontakt</h2>
+      <p data-lx="p.contact">
+        Fragen zu diesen Bedingungen:{" "}
+        <a href={`mailto:${LEGAL.contactEmail}`}>{LEGAL.contactEmail}</a>. Die vollständigen
+        Anbieterangaben stehen im <a href="/legal-notice">Impressum</a>.
+      </p>
+    </div>
+  </main>
+</Layout>

@@ -1,0 +1,49 @@
+/* Hub pages (/grammar, /exercises): the same beats as the /culture hub (kultur-hub.css).
+ *   .hub-hero      a quiet title with a mascot instead of a banner
+ *   .hub-mascot    a SectionMascot that hops in once and then breathes
+ *   .hub-pic       an OpenMoji picture on a card; tilts when the card is pointed at
+ *   [data-hub-pop] a group whose pictures pop in, one after another, when it scrolls into
+ *                  view (src/lib/hubPop.js sets .hub-anim on <html> and .is-in on the group)
+ * Reduced motion: everything is simply there. */
+
+.hub-hero { text-align: center; margin: 8px 0 30px; }
+.hub-hero .eyebrow { margin: 0 0 6px; }
+.hub-hero h1 { margin: 0; font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: var(--fw-regular); color: var(--ink); }
+.hub-hero .section-mascot { margin-top: 14px; }
+
+.hub-mascot .section-mascot-fig { animation: hub-hop .7s cubic-bezier(.22, 1, .36, 1) both, hub-bob 3.2s ease-in-out .9s infinite; transform-origin: 50% 100%; }
+.hub-mascot .section-mascot-say { animation: hub-say .45s ease-out .45s both; }
+.hub-mascot:hover .section-mascot-fig { animation: hub-wiggle .6s ease-in-out; }
+
+.hub-pic { display: inline-flex; align-items: center; justify-content: center; flex: none; background: none !important; }
+.hub-pic img { display: block; width: 100%; height: 100%; transition: transform .25s cubic-bezier(.34, 1.56, .64, 1); }
+a:hover > .hub-pic img, a:focus-visible > .hub-pic img,
+a:hover .hub-pic img, a:focus-visible .hub-pic img { transform: rotate(-8deg) scale(1.12); }
+
+.hub-anim [data-hub-pop] .hub-pic img { opacity: 0; transform: scale(.4); }
+.hub-anim [data-hub-pop].is-in .hub-pic img { animation: hub-pop .5s cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(var(--i, 0) * 60ms); }
+
+/* Below the list: a mascot, a line, and whatever used to stand above the list. */
+.hub-more { margin: 40px 0 8px; padding-top: 28px; border-top: 1px solid var(--border); }
+.hub-more-head { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-bottom: 18px; }
+.hub-more-lead { margin: 0; flex: 1 1 280px; color: var(--muted); font-size: 1rem; line-height: 1.55; }
+.hub-more .section-mascot-fig { animation: hub-bob 2.8s ease-in-out infinite; transform-origin: 50% 100%; }
+
+@keyframes hub-hop { 0% { transform: translateY(18px) scale(.7); opacity: 0; } 60% { transform: translateY(-6px) scale(1.04); opacity: 1; } 100% { transform: none; opacity: 1; } }
+@keyframes hub-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes hub-wiggle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
+@keyframes hub-say { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: none; } }
+@keyframes hub-pop { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hub-mascot .section-mascot-fig, .hub-mascot .section-mascot-say, .hub-more .section-mascot-fig,
+  .hub-mascot:hover .section-mascot-fig { animation: none; }
+  .hub-anim [data-hub-pop] .hub-pic img { opacity: 1; transform: none; animation: none; }
+  .hub-pic img { transition: none; }
+}
+
+/* /exercises: the card tiles were gradient squares around a glyph; a picture needs neither. */
+.uv-card-icon.hub-pic { width: 52px; height: 52px; border-radius: 0; box-shadow: none; }
+.uv-wk-ic.hub-pic { width: 28px; height: 28px; }
+.uv-hub-mascot { margin: 4px 0 22px; }
+.uv-einfach-below { margin-top: var(--space-10, 40px); }

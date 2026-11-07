@@ -1,0 +1,62 @@
+---
+// /knowledge/quotes/<id> — one quote on its own page: the card (quote, meaning, three words,
+// the person), the sign-up for the Monday mail, and the person's other quotes. Linked from
+// the archive on /knowledge/quotes and from the Monday mail.
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import ZitatCard from "../../../components/zitate/ZitatCard.astro";
+import ZitatAbo from "../../../components/zitate/ZitatAbo.astro";
+import { quotes, oneLine } from "../../../lib/zitateData.js";
+import "../../../styles/practice.css";
+import "../../../styles/teacher-switch.css";
+import "../../../styles/zitate.css";
+
+export function getStaticPaths() {
+  return quotes.map((q: any, i: number) => ({
+    params: { id: q.id },
+    props: { q, prev: quotes[(i - 1 + quotes.length) % quotes.length], next: quotes[(i + 1) % quotes.length] },
+  }));
+}
+const { q, prev, next } = Astro.props;
+const more = quotes.filter((o: any) => o.author === q.author && o.id !== q.id);
+const short = (s: string, n = 60) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s);
+---
+<Layout
+  title={`“${short(oneLine(q.text), 70)}” – ${q.who.name} – quote explained – icanspeak Spanish`}
+  description={`${q.who.name}: “${short(oneLine(q.text), 110)}” What the quote means, the key words (${q.level}) and the life of ${q.who.name}, in simple English.`}
+>
+  <SiteNav active="wissen" />
+  <main class="practice-main practice-main--wide zt-page">
+    <div class="zt-day">
+      <a class="zt-back" href="/knowledge/quotes">‹ <span data-i18n="zitate.title">Quote of the day</span></a>
+      <ZitatCard q={q} heading="h1" />
+    </div>
+
+    <nav class="zt-pager" aria-label="More quotes" data-i18n-attr="aria-label:zitate.pagerAria">
+      <a href={`/knowledge/quotes/${prev.id}`} rel="prev" lang="es">‹ {prev.who.name.split(" ").at(-1)}</a>
+      <a href={`/knowledge/quotes/${next.id}`} rel="next" lang="es">{next.who.name.split(" ").at(-1)} ›</a>
+    </nav>
+
+    <ZitatAbo />
+
+    {more.length > 0 && (
+      <section class="zt-all" aria-labelledby="zt-more-h">
+        <h2 id="zt-more-h" data-i18n="zitate.more" data-i18n-vars={JSON.stringify({ name: q.who.name })}>More by {q.who.name}</h2>
+        <div class="zt-group">
+          <ul>
+            {more.map((o: any) => (
+              <li><a href={`/knowledge/quotes/${o.id}`} lang="es">„{oneLine(o.text)}“</a> <span class="zt-lv">{o.level}</span></li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+  </main>
+</Layout>
+
+<script>
+  import { onUiText } from "../../../lib/uiText.js";
+  import { fillTr, initCards } from "../../../lib/zitateClient.js";
+  initCards();
+  onUiText(() => fillTr());
+</script>

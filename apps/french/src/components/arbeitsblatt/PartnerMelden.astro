@@ -1,0 +1,71 @@
+---
+// „⚑ Fehler melden" on every Partnerübung (Tandembogen and partner/group sheet): the shared
+// "Problem melden" sheet (src/lib/meldung.js) — what is wrong, which task, a comment. It
+// lands in public.meldungen like every report; refs start with "p:" (p:tandem/<slug>,
+// p:partner/<id>, one more segment per task), so /api/meldung mails the admins about it
+// and /intern/meldungen can list Partnerübungen on their own. Screen only: the bar it sits
+// in is not printed.
+import { fingerprint } from "../../lib/meldungRef.js";
+
+interface Props {
+  /** "tandem" or "partner": the two kinds of sheet. */
+  kind: "tandem" | "partner";
+  id: string;
+  titel: string;
+  /** The sheet's answer key: one entry per task, so a report can name the task. */
+  loesungen?: { frage?: string; antwort: string; buchstabe?: string }[];
+}
+const { kind, id, titel, loesungen = [] } = Astro.props;
+const plain = (s: unknown) => String(s ?? "").replace(/<[^>]+>/g, "").replace(/\*/g, "").replace(/\s+/g, " ").trim();
+const cut = (s: string, n: number) => (s.length > n ? `${s.slice(0, n - 1)}…` : s);
+const data = {
+  ref: `p:${kind}/${id}`,
+  titel: plain(titel),
+  items: loesungen.map((l, i) => {
+    const frage = plain(l.frage), antwort = plain(l.antwort);
+    return {
+      n: i + 1,
+      label: cut(`${l.buchstabe ?? i + 1}. ${frage || antwort}`, 60),
+      fingerprint: fingerprint(frage, antwort),
+      frage: cut(frage, 300),
+      antwort: cut(antwort, 300),
+    };
+  }),
+};
+---
+<button type="button" class="ab-btn pu-melden" data-pu-melden={JSON.stringify(data)}>
+  <span aria-hidden="true">⚑</span> <span data-i18n="ab.partner.melden">Fehler melden</span>
+</button>
+
+<script>
+  import { openMeldung } from "../../lib/meldung.js";
+  import { cleanRef } from "../../lib/meldungRef.js";
+
+  type Item = { n: number; label: string; fingerprint: string; frage: string; antwort: string };
+  for (const btn of document.querySelectorAll<HTMLButtonElement>("[data-pu-melden]")) {
+    const d = JSON.parse(btn.dataset.puMelden ?? "{}") as { ref: string; titel: string; items: Item[] };
+    // Which half the teacher was looking at (A, B, Lösungen) helps to find the line.
+    const view = () => document.getElementById("ab-root")?.dataset.partner ?? "both";
+    btn.addEventListener("click", () => {
+      openMeldung({
+        ref: cleanRef(d.ref),
+        snapshot: () => ({ uebung: d.titel, ansicht: view() }),
+        items: d.items.length
+          ? () => d.items.map((it) => ({
+              ref: cleanRef(`${d.ref}/${it.n}`),
+              fingerprint: it.fingerprint,
+              label: it.label,
+              snapshot: () => ({ aufgabe: it.n, frage: it.frage || undefined, loesung: it.antwort }),
+            }))
+          : undefined,
+      });
+    });
+  }
+</script>
+
+<style>
+  .pu-melden { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-weight: 600; }
+  .pu-melden:hover { color: var(--ink); border-color: var(--ink); }
+  .pu-melden span[aria-hidden] { color: var(--danger, #b91c1c); }
+  @media print { .pu-melden { display: none !important; } }
+</style>

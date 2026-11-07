@@ -1,0 +1,206 @@
+{
+  "id": "nebensaetze-weil-dass",
+  "name": "porque, como, así que, por eso; creo que, dice que",
+  "level": "A2",
+  "status": "geprueft",
+  "variety": "es-ES",
+  "subtitle": "Give a reason with porque (after the main idea) or como (at the start). Give a result with así que or por eso. To say what you think or what someone says, use que: Creo que está cerrado. Dice que viene mañana.",
+  "briefMarks": ["porque", "como", "así que", "por eso", "creo que", "dice que"],
+  "source": "icanspeak Spanish original text (grammar-a2 run, 2026-11-04)",
+  "concept": {
+    "flow": [
+      { "text": "sentence 1" },
+      { "text": "porque · así que · por eso", "variant": "prep" },
+      { "text": "sentence 2", "variant": "verb" }
+    ],
+    "exampleHtml": "No voy <span class=\"vp-prep\">porque</span> estoy enfermo. · <span class=\"vp-prep\">Como</span> estoy enfermo, no voy. · Estoy enfermo, <span class=\"vp-prep\">así que</span> no voy. · <span class=\"vp-verb\">Creo</span> <span class=\"vp-prep\">que</span> está cerrado.",
+    "qa": [
+      {
+        "html": "<strong>porque</strong> gives the reason. It normally comes <strong>after</strong> the main idea: <em>No voy porque estoy enfermo.</em> It also answers <em>¿Por qué?</em>: <em>—¿Por qué no vienes? —Porque trabajo.</em>",
+        "tag": "porque"
+      },
+      {
+        "html": "<strong>como</strong> also gives the reason, but it comes <strong>first</strong>: <em>Como no tengo coche, voy en metro.</em> Not in the middle: ✗ <em>Voy en metro como no tengo coche.</em> <em>porque</em> at the start of a sentence is unusual.",
+        "tag": "como"
+      },
+      {
+        "html": "<strong>así que</strong> and <strong>por eso</strong> give the <strong>result</strong>: <em>No tengo coche, así que voy en metro. No tengo coche. Por eso voy en metro.</em>",
+        "tag": "Result"
+      },
+      {
+        "html": "<strong>que</strong> joins a verb of thinking or saying to what you think or say: <em>Creo que, pienso que, sé que, dice que</em>. You can't leave it out: <em>Creo que es tarde</em>, not <em>Creo es tarde</em>.",
+        "tag": "que"
+      },
+      {
+        "html": "Short answers: <em>Creo que sí. Creo que no.</em> Reporting what someone says: <em>El casero dice que va a venir el lunes.</em> Here the verb after <em>que</em> is a normal present form.",
+        "tag": "Short answers"
+      }
+    ],
+    "noteHtml": "Common mistakes: ✗ <em>Creo es tarde</em> → ✓ <em>Creo que es tarde</em>. At the start of a sentence, use <em>como</em>: <em>Como no tengo coche, voy en metro</em>; <em>porque</em> sounds odd there. ✗ <em>por que</em> as “because” → ✓ <em>porque</em>; the question is <em>¿por qué?</em> ✗ <em>Dice viene mañana</em> → ✓ <em>Dice que viene mañana</em>.",
+    "reference": {
+      "showLabel": "Show overview ▼",
+      "hideLabel": "Hide overview ▲",
+      "tables": [
+        {
+          "caption": "Reason and result",
+          "head": ["Word", "Says", "Example"],
+          "rows": [
+            ["porque", "reason, after", "Voy en metro porque no tengo coche."],
+            ["como", "reason, first", "Como no tengo coche, voy en metro."],
+            ["así que", "result", "No tengo coche, así que voy en metro."],
+            ["por eso", "result", "No tengo coche. Por eso voy en metro."]
+          ]
+        },
+        {
+          "caption": "Verb + que",
+          "head": ["Verb", "Example"],
+          "rows": [
+            ["creo que", "Creo que el banco está cerrado."],
+            ["pienso que", "Pienso que es una buena idea."],
+            ["sé que", "Sé que es difícil."],
+            ["dice que", "Mi jefe dice que hay trabajo."],
+            ["me parece que", "Me parece que no viene."]
+          ]
+        }
+      ],
+      "boxes": [
+        {
+          "badge": "Careful: the spelling",
+          "variant": "dat",
+          "items": [
+            "¿Por qué no vienes? The question.",
+            "Porque trabajo. The answer.",
+            "Por eso no voy. The result."
+          ]
+        }
+      ]
+    }
+  },
+  "aktiv": {
+    "listen": [
+      { "text": "No voy porque estoy enfermo.", "note": "Reason after: porque." },
+      { "text": "Como estoy enfermo, no voy.", "note": "Reason first: como." },
+      { "text": "Estoy enfermo, así que no voy.", "note": "Result: así que." },
+      { "text": "Creo que está cerrado.", "note": "Don't drop que." },
+      { "text": "Dice que viene mañana.", "note": "Reporting: dice que." }
+    ],
+    "hoeren": {
+      "instruction": "Listen and choose the sentence you heard. You can listen twice.",
+      "items": [
+        { "text": "Como no tengo tiempo, no voy.", "choices": ["Como no tengo tiempo, no voy.", "No voy porque no tengo tiempo.", "No tengo tiempo, así que no voy."], "correct": 0 },
+        { "text": "Por eso no voy.", "choices": ["¿Por qué no vas?", "Por eso no voy.", "Porque no voy."], "correct": 1 },
+        { "text": "Creo que no.", "choices": ["Creo que sí.", "Dice que no.", "Creo que no."], "correct": 2 },
+        { "text": "Dice que está cerrado.", "choices": ["Dice que está cerrado.", "Creo que está cerrado.", "Sé que está cerrado."], "correct": 0 }
+      ]
+    },
+    "sprechen": {
+      "rounds": [
+        {
+          "label": "1 · Give the reason",
+          "instruction": "You hear two facts. Join them with porque.",
+          "example": { "prompt": "No voy. Estoy enferma.", "answer": "No voy porque estoy enferma." },
+          "items": [
+            { "prompt": "Voy en metro. No tengo coche.", "answer": "Voy en metro porque no tengo coche." },
+            { "prompt": "Estudio español. Vivo en España.", "answer": "Estudio español porque vivo en España." },
+            { "prompt": "Me acuesto pronto. Trabajo mañana.", "answer": "Me acuesto pronto porque trabajo mañana." },
+            { "prompt": "No como. No tengo hambre.", "answer": "No como porque no tengo hambre." }
+          ]
+        },
+        {
+          "label": "2 · What do you think?",
+          "instruction": "You hear a fact. Say that you think it is true.",
+          "example": { "prompt": "Está cerrado.", "answer": "Creo que está cerrado." },
+          "items": [
+            { "prompt": "Es tarde.", "answer": "Creo que es tarde." },
+            { "prompt": "Viene mañana.", "answer": "Creo que viene mañana." },
+            { "prompt": "Es caro.", "answer": "Creo que es caro." },
+            { "prompt": "Hay una farmacia aquí.", "answer": "Creo que hay una farmacia aquí." }
+          ]
+        }
+      ]
+    }
+  },
+  "exercises": [
+    {
+      "type": "fill",
+      "title": "porque or como?",
+      "hint": "como goes first. porque goes after the main idea.",
+      "placeholder": "porque / como",
+      "items": [
+        { "prompt": "___ está lloviendo, no salimos.", "answer": "Como", "choices": ["Porque", "Como"] },
+        { "prompt": "No salimos ___ está lloviendo.", "answer": "porque", "choices": ["porque", "como"] },
+        { "prompt": "___ no tengo coche, voy en metro.", "answer": "Como", "choices": ["Porque", "Como"], "es419": { "note": "In Latin America: carro or auto." } },
+        { "prompt": "Voy al médico ___ me duele la espalda.", "answer": "porque", "choices": ["porque", "como"] },
+        { "prompt": "—¿Por qué estudias español? —___ vivo en España.", "answer": "Porque", "choices": ["Porque", "Como"] }
+      ]
+    },
+    {
+      "type": "fill",
+      "title": "Reason or result?",
+      "hint": "Reason: porque, como. Result: así que, por eso.",
+      "placeholder": "Word",
+      "items": [
+        { "prompt": "Mi contrato termina en mayo, ___ busco trabajo.", "answer": "así que", "choices": ["así que", "porque"] },
+        { "prompt": "Busco trabajo ___ mi contrato termina en mayo.", "answer": "porque", "choices": ["así que", "porque"] },
+        { "prompt": "El alquiler es muy caro. ___ vivo con mi hermano.", "answer": "Por eso", "choices": ["Por eso", "Como"] },
+        { "prompt": "Hoy no hay autobús, ___ voy andando.", "answer": "así que", "choices": ["así que", "como"] },
+        { "prompt": "___ hoy no hay autobús, voy andando.", "answer": "Como", "choices": ["Por eso", "Como"] }
+      ]
+    },
+    {
+      "type": "fill",
+      "title": "Which sentence is right?",
+      "hint": "Verbs of thinking and saying need que.",
+      "placeholder": "Form",
+      "items": [
+        { "prompt": "¿Abren el domingo? ___.", "answer": "Creo que no", "choices": ["Creo que no", "Creo no", "Creo no que"] },
+        { "prompt": "Mi jefe ___ tengo que trabajar el sábado.", "answer": "dice que", "choices": ["dice", "dice que", "que dice"] },
+        { "prompt": "___ este piso es muy caro.", "answer": "Pienso que", "choices": ["Pienso", "Pienso que", "Que pienso"], "es419": { "note": "In Latin America: este departamento." } },
+        { "prompt": "___ el banco está cerrado.", "answer": "Me parece que", "choices": ["Me parece", "Parezco que", "Me parece que"] }
+      ]
+    },
+    {
+      "type": "match",
+      "title": "Match the two halves.",
+      "hint": "Which ending makes sense?",
+      "pairs": [
+        { "q": "Como no hablo bien español,", "a": "voy a clase." },
+        { "q": "No como carne", "a": "porque no me gusta." },
+        { "q": "Trabajo de noche, así que", "a": "duermo por la mañana." },
+        { "q": "Mi casero dice que", "a": "va a subir el alquiler." },
+        { "q": "¿Abren hoy? Creo que", "a": "sí." }
+      ]
+    },
+    {
+      "type": "story",
+      "title": "Fill the gaps: Ibrahim's flat.",
+      "hint": "porque, como, así que, por eso or que?",
+      "choices": ["porque", "Como", "así que", "Por eso", "que"],
+      "segments": [
+        { "text": "Ibrahim busca piso " },
+        { "blank": 0, "answer": "porque" },
+        { "text": " su casero va a vender la casa. " },
+        { "blank": 1, "answer": "Como" },
+        { "text": " no conoce bien la ciudad, le pide ayuda a una amiga. Ella dice " },
+        { "blank": 2, "answer": "que" },
+        { "text": " hay pisos baratos en su barrio. Ibrahim trabaja cerca, " },
+        { "blank": 3, "answer": ["así que", "Por eso"] },
+        { "text": " va a verlos el sábado. Los pisos del centro son carísimos. " },
+        { "blank": 4, "answer": ["Por eso", "así que"] },
+        { "text": " no quiere vivir allí." }
+      ]
+    },
+    {
+      "type": "build",
+      "title": "Build the sentences.",
+      "hint": "A comma after the como clause.",
+      "sentences": [
+        { "id": "ne1", "hint": "I'm not going because I'm working", "correct": ["No", "voy", "porque", "trabajo", "."], "shuffled": ["voy",".","porque","No","trabajo"] },
+        { "id": "ne2", "hint": "Since I'm tired, I'm staying at home", "correct": ["Como", "estoy", "cansado", ",", "me", "quedo", "en", "casa", "."], "shuffled": ["quedo","en",",","casa",".","me","cansado","Como","estoy"] },
+        { "id": "ne3", "hint": "I think it is closed", "correct": ["Creo", "que", "está", "cerrado", "."], "shuffled": ["que","está","cerrado","Creo","."] },
+        { "id": "ne4", "hint": "He says he is coming tomorrow", "correct": ["Dice", "que", "viene", "mañana", "."], "shuffled": ["que","mañana","viene",".","Dice"], "alt": [["Dice","que","mañana","viene","."]] },
+        { "id": "ne5", "hint": "It's raining, so we aren't going out", "correct": ["Llueve", ",", "así", "que", "no", "salimos", "."], "shuffled": [",",".","salimos","Llueve","que","así","no"] }
+      ]
+    }
+  ]
+}

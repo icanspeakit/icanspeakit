@@ -1,0 +1,484 @@
+/* The Lesen, Schreiben and Sprechen libraries (src/pages/uebungen/{lesen,schreiben,sprechen}/).
+ *
+ * One stylesheet for three skills because they are one thing: an index grouped by level and
+ * a detail page per exercise, exactly the shape /listening already has. It does not
+ * reuse hoeren.css — a `.ho-card` on a Leseverstehen page reads as a copy-paste rather than
+ * a decision — but it deliberately matches its measurements, so the four skills feel like
+ * four doors into one building.
+ *
+ * Layout comes from practice.css (.practice-main); everything here is the content. */
+
+/* --- Hub ------------------------------------------------------------------- */
+
+.sk-group { margin-bottom: 40px; }
+.sk-group-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 16px;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: var(--fw-regular);
+  color: var(--muted);
+}
+.sk-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--blue-50);
+  color: var(--brand-blue-dark);
+  font-family: var(--font-label);
+  font-size: .8125rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: .02em;
+}
+
+.sk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+}
+/* Four cards read best as 2 × 2: three columns left one card alone on a second row. */
+@media (min-width: 720px) {
+  .sk-grid--pairs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.sk-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-card);
+  text-decoration: none;
+  transition: border-color .15s ease, transform .15s ease;
+}
+.sk-card:hover { border-color: var(--brand-blue); transform: translateY(-1px); }
+.sk-card-ic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: var(--blue-50);
+  color: var(--brand-blue-dark);
+}
+
+/* A Bildbeschreibung card shows its picture where every other card shows an icon.
+   The hub and the Bildserie pages used to list picture tasks behind the same generic map
+   pin as everything else — four cards saying "Bildbeschreibung" with no picture on them,
+   on pages whose whole subject is the picture. The photos were always there; nothing was
+   showing them.
+   Same 38px box as .sk-card-ic so the grid does not move, just filled rather than tinted. */
+.sk-card-thumb {
+  display: block;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  /* A tinted placeholder while it decodes, so the row does not flash white. */
+  background: var(--blue-50);
+}
+
+/* Roomier on the series page, where four pictures are the content rather than a hint:
+   a thumbnail you can actually recognise the scene in is worth the extra column. */
+.sk-grid--bilder .sk-card-thumb { width: 72px; height: 54px; }
+@media (max-width: 480px) {
+  .sk-grid--bilder .sk-card-thumb { width: 56px; height: 44px; }
+}
+
+.sk-card-txt { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.sk-card-txt b { font-weight: var(--fw-semibold); color: var(--ink); }
+.sk-card-txt i { font-style: normal; font-size: .875rem; line-height: 1.5; color: var(--muted); }
+.sk-card-meta {
+  margin-top: 2px;
+  font-family: var(--font-label);
+  font-size: .6875rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted-soft);
+}
+.sk-card-go { color: var(--muted-soft); }
+.sk-card:hover .sk-card-go { color: var(--brand-blue-dark); }
+
+.sk-foot {
+  margin-top: 8px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  font-size: .8125rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* --- One exercise ---------------------------------------------------------- */
+
+.sk-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+/* global.css centres .eyebrow for the hero it was written for; in a head that sits beside
+   an icon it has to line up with the title under it. */
+.sk-head .eyebrow { text-align: left; margin-bottom: 2px; }
+.sk-head h1 {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  font-weight: var(--fw-regular);
+  color: var(--ink);
+}
+.sk-blurb { margin: 0 0 26px; color: var(--muted); line-height: 1.7; }
+
+.sk-block { margin: 0 0 30px; }
+.sk-block h2 {
+  margin: 0 0 12px;
+  font-family: var(--font-label);
+  font-size: .8125rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--brand-blue-dark);
+}
+
+/* The reading text. `white-space: pre-wrap` so the JSON's own line breaks survive without
+   a Markdown pass, and a measure narrow enough to actually read — a Zeitungsartikel set
+   across 880px is the one thing worse than no Zeitungsartikel. */
+.sk-text {
+  padding: 22px 24px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--brand-blue);
+  border-radius: var(--radius);
+  background: var(--surface-card);
+  font-size: 1rem;
+  line-height: 1.85;
+  white-space: pre-wrap;
+  max-width: 62ch;
+}
+.sk-text b { font-weight: var(--fw-bold); color: var(--ink); }
+
+/* --- Schreiben: the editor ------------------------------------------------- */
+
+.sk-points { margin: 0; padding-left: 20px; }
+.sk-points li { margin-bottom: 8px; line-height: 1.6; }
+/* DTZ Nachfragen: the second timed half, revealed on demand. */
+.sk-followups-note { margin: 0 0 12px; color: var(--muted); line-height: 1.5; }
+#sk-followups { margin-top: 4px; }
+#sk-followups-show[hidden] { display: none; }
+
+.sk-phrases { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.sk-phrase {
+  padding: 6px 12px;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-pill);
+  font-size: .8125rem;
+  color: var(--muted);
+}
+
+.sk-write {
+  width: 100%;
+  min-height: 220px;
+  padding: 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface-card);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  resize: vertical;
+}
+.sk-write:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 1px; }
+.sk-write-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: .8125rem;
+  color: var(--muted);
+}
+
+/* The form task: a label and an input per field, with the answer revealed together at the
+   end rather than per row — checking one field at a time turns a transfer task into a
+   guessing game. */
+.sk-fields { display: flex; flex-direction: column; gap: 10px; }
+.sk-field { display: grid; grid-template-columns: minmax(140px, 0.8fr) minmax(0, 1.2fr); gap: 12px; align-items: start; }
+.sk-field label { padding-top: 9px; }
+.sk-field label { font-size: .875rem; color: var(--muted); }
+.sk-field input {
+  padding: 9px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--surface-card);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: .9375rem;
+}
+.sk-field input:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 1px; }
+.sk-field-in { position: relative; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.sk-field-in input { width: 100%; }
+.sk-field-answer { margin: 0; font-size: .875rem; font-weight: 600; }
+.sk-field-answer mark { background: color-mix(in srgb, #f59e0b 30%, transparent); color: inherit; border-radius: 2px; }
+/* After "Lösung zeigen": the box says it. Green when it matches, amber when it is nearly
+   right, red when it is not — the correction under the box in the last two cases. */
+.sk-field[data-check="ok"] input { border-color: var(--success, #16a34a); background: var(--success-soft, #f0fdf4); padding-right: 36px; }
+.sk-field[data-check="ok"] .sk-field-in::after {
+  content: "✓"; position: absolute; right: 12px; top: 9px; font-weight: 700; color: var(--success, #16a34a);
+}
+.sk-field[data-check="near"] input { border-color: #d97706; background: color-mix(in srgb, #f59e0b 8%, var(--surface-card)); }
+.sk-field[data-check="near"] .sk-field-answer { color: #b45309; }
+.sk-field[data-check="no"] input { border-color: var(--danger, #dc2626); background: var(--danger-soft, #fef2f2); }
+.sk-field[data-check="no"] .sk-field-answer { color: var(--danger, #dc2626); }
+
+.sk-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-card);
+  color: var(--brand-blue-dark);
+  font-family: var(--font-body);
+  font-size: .875rem;
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+  cursor: pointer;
+}
+.sk-btn:hover { border-color: var(--brand-blue); text-decoration: none; }
+
+/* The model answer and the checklist stay shut until the learner has written something.
+   Opening them first turns every writing task into a reading task. */
+.sk-reveal { margin-top: 18px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-card); }
+.sk-reveal > summary {
+  padding: 14px 18px;
+  cursor: pointer;
+  font-weight: var(--fw-semibold);
+  color: var(--brand-blue-dark);
+  list-style: none;
+}
+.sk-reveal > summary::-webkit-details-marker { display: none; }
+.sk-reveal > summary::before { content: "▸ "; }
+.sk-reveal[open] > summary::before { content: "▾ "; }
+.sk-reveal-body { padding: 0 18px 18px; }
+.sk-model { white-space: pre-wrap; line-height: 1.8; max-width: 62ch; }
+.sk-check { margin: 0; padding-left: 20px; }
+.sk-check li { margin-bottom: 8px; line-height: 1.6; color: var(--muted); }
+
+/* --- Sprechen -------------------------------------------------------------- */
+
+.sk-photo { width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--border); display: block; }
+/* What a picture task looks like before its photo exists. It is not a placeholder box —
+   the described scene is enough to speak about, and saying so is more useful than a grey
+   rectangle with a camera icon in it. */
+.sk-photo-pending {
+  padding: 18px 20px;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: .9375rem;
+  line-height: 1.7;
+}
+.sk-photo-pending b { color: var(--ink); }
+
+/* The photo credit — under the picture on a task page, and once in the hub footer. Quiet
+   on purpose: Pexels' API guidelines ask for the link, not for it to compete with the
+   exercise. The hub copy sits inside .sk-foot, so it only needs its spacing reset. */
+.sk-credit {
+  margin: 6px 0 0;
+  font-size: .62rem;
+  color: var(--muted-soft, var(--muted));
+}
+.sk-credit a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.sk-credit a:hover { color: var(--brand-blue-dark); }
+.sk-foot.sk-credit { margin-top: 0; padding-top: 6px; border-top: none; }
+
+.sk-timer {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-card);
+}
+.sk-timer-clock {
+  font-family: var(--font-label);
+  font-size: 1.75rem;
+  font-weight: var(--fw-bold);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.sk-timer-clock.is-out { color: var(--danger); }
+
+/* --- Prev / next ----------------------------------------------------------- */
+
+.sk-prevnext {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: .875rem;
+}
+.sk-prevnext a { color: var(--brand-blue-dark); text-decoration: none; }
+.sk-prevnext a:hover { text-decoration: underline; }
+
+@media (max-width: 600px) {
+  .sk-head { grid-template-columns: auto minmax(0, 1fr); }
+  .sk-head .sk-badge { grid-column: 2; justify-self: start; }
+  .sk-text { padding: 16px 16px; }
+  .sk-field { grid-template-columns: minmax(0, 1fr); gap: 5px; }
+}
+
+/* --- Hilfe in der eigenen Sprache (TextWithTranslation, VocabList) -------------------
+   The German always leads: the translation is quieter, smaller and off until asked for.
+   Phone first — under each paragraph; beside it only where there is room for two
+   readable measures. */
+
+/* .help-langs / .help-lang / .help-draft: src/styles/help-langs.css — the grammar pages use
+   them too, and do not load this sheet. */
+
+.tt-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 12px; }
+.tt-toggle {
+  min-height: 40px;
+  padding: 8px 16px;
+  border: 1px solid var(--brand-blue);
+  border-radius: 999px;
+  background: none;
+  color: var(--brand-blue-dark);
+  font: inherit;
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+}
+.tt-toggle[aria-pressed="true"] { background: var(--brand-blue); color: #fff; }
+.tt-toggle-on { display: none; }
+.tt[data-translation="on"] .tt-toggle-on { display: inline; }
+.tt[data-translation="on"] .tt-toggle-off { display: none; }
+/* The chips only matter while there is a translation to steer. */
+.tt[data-translation="off"] .tt-bar .help-langs,
+.tt[data-translation="off"] .help-draft { display: none; }
+
+.tt-text { white-space: normal; }
+.tt-row + .tt-row { margin-top: .15em; }
+.tt-row--para { margin-top: 1.1em !important; }
+.tt[data-translation="on"] .tt-row + .tt-row { margin-top: .6em; }
+.tt-de, .tt-tr { margin: 0; white-space: pre-wrap; }
+.tt-tr { display: none; }
+.tt[data-translation="on"] .tt-tr {
+  display: block;
+  margin-top: 6px;
+  padding-inline-start: 12px;
+  border-inline-start: 2px solid var(--border);
+  font-size: .9375rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+.tt-tr[dir="rtl"] { text-align: right; }
+
+@media (min-width: 900px) {
+  .tt[data-translation="on"] .tt-text { max-width: none; }
+  .tt[data-translation="on"] .tt-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 28px;
+  }
+  .tt[data-translation="on"] .tt-tr { margin-top: 0; font-size: .9375rem; line-height: 1.85; }
+}
+
+.vl { margin: 0 0 30px; }
+.vl-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.vl-cover {
+  min-height: 36px;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: none;
+  color: var(--brand-blue-dark);
+  font: inherit;
+  font-size: .875rem;
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+}
+.vl-cover[aria-pressed="true"] { border-color: var(--brand-blue); background: var(--surface); }
+.vl-list { margin: 0; padding: 0; list-style: none; }
+.vl-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+  padding: 9px 4px;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.45;
+}
+.vl-row:last-child { border-bottom: none; }
+.vl-de { font-weight: var(--fw-semibold); color: var(--ink); }
+.vl-tr { color: var(--muted); }
+.vl-tr[dir="rtl"] { text-align: right; }
+/* Abgedeckt: the meaning is there, just not readable until the row is tapped. */
+.vl[data-cover="on"] .vl-row { cursor: pointer; }
+.vl[data-cover="on"] .vl-tr { color: transparent; background: var(--surface); border-radius: 6px; user-select: none; }
+.vl[data-cover="on"] .vl-row.is-open .vl-tr { color: var(--muted); background: none; user-select: auto; }
+@media (max-width: 480px) {
+  .help-langs { gap: 4px; }
+  .help-lang { padding: 5px 9px; font-size: .8125rem; }
+}
+
+/* The header language decides (textHelp.js): with a German UI there is no translation to
+   offer, so the bar, the empty cells and the draft note all go. */
+.tt-bar[hidden] { display: none; }
+.tt[data-tt-lang=""] .tt-tr,
+.tt[data-tt-lang=""] .help-draft { display: none; }
+
+/* --- Text korrigieren (src/lib/schreibKorrektur.js) ----------------------------------
+   Four groups, four colours, used the same way in the chips, the underlines and the tags,
+   so the eye can match a mark in the text to its line in the list without reading. */
+.skk { --skk-grammatik: #dc2626; --skk-ausdruck: #7c3aed; --skk-satzzeichen: #d97706; --skk-rechtschreibung: #2563eb; margin-top: 14px; }
+.skk-bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.skk-status { font-size: .875rem; color: var(--muted); }
+.skk-out { margin-top: 16px; padding: 18px 20px; border: 1px solid var(--border); border-radius: var(--radius, 12px); background: var(--surface-card); display: grid; gap: 14px; }
+.skk-note { margin: 0; font-size: .875rem; color: #b45309; }
+.skk-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.skk-chip { display: inline-flex; align-items: baseline; gap: 6px; padding: 5px 12px; border-radius: var(--radius-pill); font-size: .875rem; font-weight: 600; border: 1px solid currentColor; }
+.skk-chip b { font-size: 1rem; }
+.skk-chip.is-zero { opacity: .45; }
+.skk-grammatik { color: var(--skk-grammatik); }
+.skk-ausdruck { color: var(--skk-ausdruck); }
+.skk-satzzeichen { color: var(--skk-satzzeichen); }
+.skk-rechtschreibung { color: var(--skk-rechtschreibung); }
+.skk-none { margin: 0; font-weight: 600; color: var(--success, #16a34a); }
+.skk-text { white-space: pre-wrap; line-height: 1.9; font-size: 1rem; color: var(--ink); padding: 12px 14px; border-radius: 8px; background: var(--surface, #f6f7f9); }
+.skk-m { background: none; color: inherit; text-decoration: underline wavy; text-decoration-thickness: 1.5px; text-underline-offset: 4px; cursor: pointer; border-radius: 2px; }
+.skk-m.skk-grammatik { text-decoration-color: var(--skk-grammatik); background: color-mix(in srgb, var(--skk-grammatik) 8%, transparent); }
+.skk-m.skk-ausdruck { text-decoration-color: var(--skk-ausdruck); background: color-mix(in srgb, var(--skk-ausdruck) 8%, transparent); }
+.skk-m.skk-satzzeichen { text-decoration-color: var(--skk-satzzeichen); background: color-mix(in srgb, var(--skk-satzzeichen) 12%, transparent); }
+.skk-m.skk-rechtschreibung { text-decoration-color: var(--skk-rechtschreibung); background: color-mix(in srgb, var(--skk-rechtschreibung) 8%, transparent); }
+.skk-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.skk-item { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "tag what btn" "tag msg btn"; gap: 2px 12px; align-items: start; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; }
+.skk-tag { grid-area: tag; font-size: .75rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: color-mix(in srgb, currentColor 10%, transparent); white-space: nowrap; }
+.skk-what { grid-area: what; font-size: 1rem; color: var(--ink); }
+.skk-what s { color: var(--muted); }
+.skk-what b { color: var(--success, #16a34a); }
+.skk-msg { grid-area: msg; font-size: .875rem; color: var(--muted); }
+.skk-apply { grid-area: btn; align-self: center; border: 1px solid var(--border); background: var(--surface-card); color: var(--brand-blue-dark, var(--brand-blue)); border-radius: var(--radius-pill); padding: 5px 12px; font: inherit; font-size: .8125rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
+.skk-apply:hover { border-color: var(--brand-blue); }
+.skk-task { border-top: 1px solid var(--border); padding-top: 12px; }
+.skk-task-h, .skk-task-q { margin: 0 0 6px; font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.skk-task-q { margin-top: 10px; }
+.skk-words { margin: 0; font-weight: 600; color: var(--success, #16a34a); }
+.skk-words.is-off { color: #b45309; }
+.skk-points { margin: 0; padding-left: 1.2em; color: var(--ink); font-size: .9375rem; }
+@media (max-width: 600px) {
+  .skk-out { padding: 14px; }
+  .skk-item { grid-template-columns: minmax(0, 1fr); grid-template-areas: "tag" "what" "msg" "btn"; }
+  .skk-tag { justify-self: start; }
+  .skk-apply { justify-self: start; margin-top: 6px; }
+}

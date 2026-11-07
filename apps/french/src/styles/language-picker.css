@@ -1,0 +1,92 @@
+/* The nested language picker (src/lib/languagePicker.js). Fixed on <body>; the script sets
+   left/top/max-height for the popover forms, the sheet form fills the screen. */
+.langpk {
+  position: fixed;
+  z-index: 1000;
+  background: var(--surface-card);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(36,32,27, .16);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-size: .9rem;
+}
+.langpk--menu { width: 240px; max-width: calc(100vw - 16px); padding: 6px; overflow-y: auto; }
+.langpk--pop { width: 360px; max-width: calc(100vw - 16px); }
+/* A phone: the whole screen, so the list has room and the keyboard can come up under it. */
+.langpk--sheet {
+  inset: 0;
+  width: auto;
+  height: 100%;
+  height: 100dvh;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+.langpk-list { display: flex; flex-direction: column; }
+.langpk-scroll { overflow-y: auto; padding: 4px 6px 12px; flex: 1 1 auto; min-height: 0; overscroll-behavior: contain; }
+
+.langpk-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  background: none;
+  border: none;
+  text-align: start;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.langpk-row:hover, .langpk-row:focus-visible { background: var(--surface); outline: none; }
+.langpk-row:focus-visible { box-shadow: inset 0 0 0 2px var(--brand-blue); }
+.langpk-row[aria-checked="true"] { font-weight: 700; color: var(--brand-blue-dark); background: var(--blue-50); }
+.langpk-check { width: 1em; flex: none; color: var(--brand-blue); }
+/* align-items: flex-start, so a name carrying its own dir (العربية on a German page, English on an
+   Arabic one) sits at the start edge with the others instead of stretching to the far side. */
+.langpk-names { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; flex: 1 1 auto; }
+.langpk-native { font-size: 1rem; line-height: 1.3; }
+.langpk-sub { font-size: .75rem; color: var(--muted); font-weight: 400; line-height: 1.3; }
+.langpk-draft { font-size: .7rem; color: var(--muted); font-style: italic; font-weight: 400; }
+.langpk-more { border-top: 1px solid var(--border); border-radius: 0 0 8px 8px; margin-top: 4px; }
+.langpk-more .langpk-native { font-size: .9rem; font-weight: 600; color: var(--brand-blue-dark); }
+.langpk-chev { flex: none; color: var(--muted); font-size: 1.2rem; }
+/* The chevron points "forward", which is left in Arabic. */
+[dir="rtl"] .langpk-chev, [dir="rtl"] .langpk-back { transform: scaleX(-1); }
+
+.langpk-head { display: flex; align-items: center; gap: 4px; padding: 6px 6px 0; }
+.langpk-title { flex: 1 1 auto; margin: 0; font-weight: 700; font-size: .95rem; text-align: center; }
+.langpk-back, .langpk-x {
+  width: 44px; height: 44px; flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: none; border: none; border-radius: 8px;
+  font-size: 1.25rem; color: var(--ink); cursor: pointer;
+}
+.langpk-back { font-size: 1.6rem; }
+.langpk-back:hover, .langpk-x:hover { background: var(--surface); }
+.langpk-search {
+  margin: 8px 10px 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1rem; /* 16px: iOS zooms into a smaller field */
+}
+.langpk-search:focus { outline: 2px solid var(--brand-blue); outline-offset: 0; }
+.langpk-group-h {
+  margin: 12px 10px 4px;
+  font-family: var(--font-label);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.langpk-none { margin: 16px 10px; color: var(--muted); }

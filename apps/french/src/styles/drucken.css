@@ -1,0 +1,68 @@
+/* The learner's printable Lernset (/vocabulary/print/<set>): the word list, „Wusstest
+   du?“ and the small test. Builds on arbeitsblatt.css (the paper, the bar, the test parts);
+   only the word table, the mascots and the fact box are new. */
+.pr-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.pr-sub { margin: 4px 0 0; color: var(--muted); font-size: var(--text-sm); }
+.pr-mascot { flex: none; }
+.pr-mascot svg { width: 56px; height: 56px; }
+
+.pr-table { width: 100%; border-collapse: collapse; margin-top: var(--space-4); font-size: .9rem; line-height: 1.35; }
+.pr-table th { text-align: left; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: var(--fw-semibold); padding: 6px 8px; border-bottom: 2px solid var(--border-strong); }
+.pr-table td { padding: 7px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.pr-table tr { break-inside: avoid; }
+.pr-word { min-width: 9.5em; }
+.pr-art--der { color: #1d5fbf; }
+.pr-art--die { color: #b4540a; }
+.pr-art--das { color: #3f7d3a; }
+.pr-art--el { color: #1d5fbf; }
+.pr-art--la { color: #b4540a; }
+.pr-art--pl { color: #6b4fa0; }
+.pr-pl, .pr-syn { display: block; font-size: .8rem; color: var(--muted); }
+.pr-syn { font-style: italic; }
+.pr-muted { color: var(--muted); font-size: .8rem; }
+.pr-de { color: var(--ink); }
+.pr-ex { font-style: italic; }
+.pr-col-m .ab-m[dir="rtl"] { unicode-bidi: plaintext; }
+
+.pr-facts {
+  display: flex; gap: 14px; align-items: flex-start; margin-top: var(--space-5);
+  padding: 14px 16px; border: 2px dashed var(--brand-blue, #2563eb); border-radius: 14px;
+  background: var(--blue-50, #eff5ff); break-inside: avoid;
+}
+.pr-facts-fig svg { width: 64px; height: 64px; }
+.pr-facts-h { margin: 0 0 6px; font-family: var(--font-display); font-size: 1.1rem; color: var(--brand-blue-dark, #1e3a8a); }
+.pr-facts ul { margin: 0; padding-left: 1.1em; }
+.pr-facts li + li { margin-top: 4px; }
+
+.pr-test { margin-top: var(--space-6); }
+/* Part B's three columns: „Betriebsvereinbarung“ ran past the paper's edge. */
+.pr-test .ab-articles li > span { min-width: 0; hyphens: auto; overflow-wrap: anywhere; }
+
+@media (max-width: 640px) {
+  .pr-table thead { display: none; }
+  .pr-table, .pr-table tbody, .pr-table tr, .pr-table td { display: block; width: 100%; }
+  .pr-table tr { padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .pr-table td { border: 0; padding: 2px 0; }
+}
+
+@media print {
+  .pr-sheet + .pr-sheet { break-before: page; }
+  .pr-test { margin-top: 0; }
+  /* The test has to stay one sheet: at the worksheet's spacing a 10-word set ran two lines
+     onto a fourth page. Name and date on one line, the parts a little closer. */
+  .pr-test .ab-namerow span { flex: 1 1 0; }
+  .pr-test .ab-sec { margin-top: 12px; }
+  .pr-test .ab-match-left li { margin-bottom: 3px; }
+  .pr-test .ab-in--letter { width: 1.7em; min-height: 1.6em; }
+  .pr-test .ab-lines li { margin-bottom: 6px; }
+  .pr-test .ab-head { margin-bottom: 8px; }
+  .pr-test .ab-foot { margin-top: 10px; }
+  .pr-test .ab-articles { column-gap: 10px; row-gap: 6px; font-size: 10pt; }
+  .pr-test .ab-articles .ab-in { width: 3.6ch; }
+  .pr-table { font-size: 9.5pt; }
+  .pr-table th { border-bottom-color: #000; color: #000; }
+  .pr-table td { border-bottom-color: #bbb; }
+  .pr-facts { background: #f2f6ff; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .pr-art--der, .pr-art--die, .pr-art--das, .pr-art--el, .pr-art--la, .pr-art--pl { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .pr-mascot svg, .pr-facts-fig svg { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+}
