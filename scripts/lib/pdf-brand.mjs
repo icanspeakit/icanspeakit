@@ -1,10 +1,6 @@
 // The brand's look for generated PDFs, as reusable primitives.
 //
-// scripts/generate-fakten-pdf.mjs grew these inline and they were good; a second and third
-// generator wanting the same cover, the same teal rule under a heading and the same striped
-// table made copying them the wrong move. That script is left alone — it works, and a
-// refactor of a shipping generator buys nothing here — but everything written after it
-// builds on this file, so the downloads look like one set rather than three.
+// Every generator builds on this file, so the downloads look like one set.
 //
 // pdfkit's built-in Helvetica is WinAnsi-encoded, which covers ä ö ü ß € — the whole set the
 // German content needs. No font files to ship, no licence to check.

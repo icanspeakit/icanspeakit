@@ -1,4 +1,4 @@
-// Hamstis Wachtelhuhn: the ranking under the game („Bestenliste“) and the line about it on the end
+// Hamsti's Bird Safari: the ranking under the game („Bestenliste“) and the line about it on the end
 // screen. One board per level and card mode, „Diese Woche“ or „Allzeit“. Modelled on
 // src/lib/artikelSprint/board.js; the nickname is shared with Bruno Kart.
 import { fetchBoard, submitRun, saveName, flushRuns, signedIn } from "./bestenliste.js";

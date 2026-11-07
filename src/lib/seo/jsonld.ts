@@ -5,7 +5,6 @@
 // Organization and WebSite go on the homepage only; every other page points at them by @id
 // (a page's LearningResource names the organisation as its provider). BreadcrumbList goes on
 // every nested page. SEO-BRAND-TIERED-PROMPT.md, Tier 1.
-import { LEGAL } from "../legal.js";
 
 /** Official profiles that belong to icanspeak Spanish. Only accounts we control; the English
     course's Instagram is not this site's. Empty → no sameAs at all. */
@@ -28,9 +27,7 @@ export function organizationLd(site: string) {
     parentOrganization: { "@type": "Organization", name: "icanspeak.it", url: "https://icanspeak.it/" },
     description:
       "icanspeak Spanish is a free website for learning the Spanish of Spain, from A1 to C1, and preparing for the DELE, the SIELE and the CCSE.",
-    // Already public on /legal-notice. The operator's name and address stay there: they are a
-    // private person's, not an organisation's.
-    email: LEGAL.contactEmail,
+    // No email here: the contact address is still the old placeholder in src/lib/legal.js.
     ...(SAME_AS.length ? { sameAs: SAME_AS } : {}),
   };
 }

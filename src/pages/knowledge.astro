@@ -3,7 +3,7 @@
 //
 // Two halves, and the split between them is a rights decision, not a design one. Above:
 // files we wrote and therefore may give away, generated from the same data the trainers
-// load. Below: links to the official Modellsätze at telc, Goethe and BAMF, which are free
+// load. Below: links to the official exam publishers' free material, which is free
 // to use but not ours to host — so they are linked where they are published, where they
 // also stay current.
 //
@@ -80,7 +80,6 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
     };
   }
   if (f.category === "berufe") return { mascot: "hamsti", href: workPath(f.id.replace(/^berufe-/, "")), key: "wissen.next.berufe", label: "Learn the words for your job with flashcards", subKey: "wissen.next.cardsSubPlain", sub: "With audio, one set at a time." };
-  if (f.id.startsWith("lid")) return { mascot: "bruno", href: "/ccse/test", key: "wissen.next.lid", label: "Practise the CCSE online", ...PRACTICE_SUB };
   return { mascot: "bruno", ...PLACEMENT, subKey: "wissen.next.placementSub", sub: "2 minutes, then you know where to start." };
 }
 ---
@@ -206,23 +205,10 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
           <p class="wi-meta">PDF{f.pages ? <span data-i18n="wissen.pagesSuffix" data-i18n-vars={JSON.stringify({ n: f.pages })}>{` · ${f.pages} pages`}</span> : ""} · {f.size}</p>
           <p class="wi-sheet-desc" data-i18n={`wissen.file.${f.id}.desc`}>{f.desc}</p>
 
-          {/* One booklet per Bundesland: the dropdown picks which file the button below
-              fetches. Starts on the state the learner chose in the Übungstest. */}
-          {f.states && (
-            <label class="wi-sheet-land">
-              <span class="wi-sheet-toclabel" data-i18n="wissen.land.pick">Your region</span>
-              <select data-land-select>
-                {f.states.map((l) => (
-                  <option value={l.id} data-href={l.href} selected={l.href === f.href}>{l.name}</option>
-                ))}
-              </select>
-            </label>
-          )}
-
           {/* Every download first, the contents last: in session replays learners
               scrolled through languages and contents and never found the button. */}
           <div class="wi-sheet-cta">
-            <a class="wi-sheet-dl" href={f.href} download data-land-dl={f.states ? "" : undefined}>
+            <a class="wi-sheet-dl" href={f.href} download>
               <Icon name="download" size={20} />
               <span data-i18n="wissen.download">Download now</span>
             </a>
@@ -284,7 +270,7 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
 
           {/* Bayern's classroom booklets, shown only while Bayern is picked. */}
           {f.extras.length > 0 && f.extras.map((x) => (
-            <a class="wi-sheet-extra" href={x.href} download data-land-extra={x.state} hidden={!f.href.includes(`-${x.state}.pdf`)}>
+            <a class="wi-sheet-extra" href={x.href} download>
               <span class="wi-badge">{x.level}</span>
               <span><b>{x.title}</b><small>PDF · {x.size}</small></span>
               <Icon name="download" size={18} />
@@ -380,28 +366,6 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
     }
     scrim?.addEventListener("click", closeSheet);
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeSheet(); });
-    // The Bundesland picker: the button follows the dropdown, and the choice is shared
-    // with the Übungstest (same key), so the learner's state is already selected here.
-    const LAND_KEY = "da-lid-land";
-    for (const sel of Array.from(document.querySelectorAll<HTMLSelectElement>("[data-land-select]"))) {
-      const body = sel.closest<HTMLElement>("[data-sheet-for]")!;
-      const dl = body.querySelector<HTMLAnchorElement>("[data-land-dl]");
-      const apply = () => {
-        const o = sel.selectedOptions[0];
-        if (!o) return;
-        if (dl) dl.href = withBase(o.dataset.href!);
-        for (const x of Array.from(body.querySelectorAll<HTMLElement>("[data-land-extra]"))) x.hidden = x.dataset.landExtra !== sel.value;
-      };
-      try {
-        const saved = localStorage.getItem(LAND_KEY);
-        if (saved && Array.from(sel.options).some((o) => o.value === saved)) sel.value = saved;
-      } catch {}
-      apply();
-      sel.addEventListener("change", () => {
-        apply();
-        try { localStorage.setItem(LAND_KEY, sel.value); } catch {}
-      });
-    }
 
     // A download used to close the sheet. Now it stays open on the next step for that file.
     const fileName = (href: string) => href.split("/").pop()?.split("?")[0] ?? href;

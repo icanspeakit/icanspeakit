@@ -140,8 +140,8 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     <!-- translate="no" on <html> (above) is the standard attribute for the same thing. Chrome
          on iOS ignores the meta tag but honours the attribute; it translated /spanish-for-work and
          /anmelden anyway, and the translated text nodes crashed the React sign-in island
-         (Sentry DEUTSCHACADEMY-WEB-A, NotFoundError on insertBefore; WEB-B is the same
-         translation loading its CSS from www.gstatic.com). -->
+         (NotFoundError on insertBefore; the same translation also loaded its CSS from
+         www.gstatic.com). -->
     <!-- A tab left open across a deploy still points at the old build's hashed chunks, which
          are gone from the new one, so the next lazy import (touchpoints, mascotCelebrate …)
          404s: "Failed to fetch dynamically imported module" in Chrome, "Importing a module

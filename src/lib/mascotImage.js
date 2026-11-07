@@ -1,7 +1,7 @@
 // A mascot (src/lib/mascots.js) as an <img> a canvas can draw, made once per look.
 //
 // The games put a mascot in the lead role and the name: Bruno Kart (Artikel-Sprint, drawn in
-// 3D-look by its renderer, not from here), Hamstis Wachtelhuhn (Hör-Safari), Brunos Stadtfahrt,
+// 3D-look by its renderer, not from here), Hamsti's Bird Safari, Brunos Stadtfahrt,
 // Quaki kreuzt (Vorfahrt), Die Legende von Lindenau (Regi as Super-Blubb). They draw it
 // with drawImage once `ready(img)` says it has loaded; until then a frame just leaves it out.
 import { mascotSvg } from "./mascots.js";

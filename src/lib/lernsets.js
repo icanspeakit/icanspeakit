@@ -6,8 +6,8 @@
 // is the honesty convention the hub already follows (docs/wortschatz-programm-v1.md §3):
 // if a word is not in src/content/lexicon/*.json, no page can claim it exists.
 //
-// data/lernsets/ is a *snapshot* produced by scripts/extract-lernsets.mjs for review. It
-// is deliberately not imported here — importing it would recreate exactly the per-trainer
+// scripts/extract-lernsets.mjs can write a *snapshot* to data/lernsets/ for review (not kept in
+// the repo). It is deliberately not imported here — importing it would recreate exactly the per-trainer
 // data silo §1 of that document was written to kill.
 //
 // Import attributes keep this loadable from plain `node` as well as from Astro/Vite, the

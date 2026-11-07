@@ -2,7 +2,7 @@
   "_hinweis": "Content for /syllabus (src/pages/kursinhalte.astro, src/pages/kursinhalte/[level].astro, src/components/KursProgression.astro) and the lesson-plan generator (src/lib/stundenplan.js, which links each grammar line to a topic page by the patterns in GRAMMAR_RULES, so keep the wording of a grammar line close to the topic's name). Everything here is our own, written from the CEFR can-do descriptors. Never copy from coursebooks or from the Plan Curricular: no unit titles, no tables of contents, no texts. `lehrwerke` would name coursebook series only (\"goes with\"), without a level after the name; the lists are empty until Edgar decides whether to name any (scripts/check-lehrwerk-leak.mjs fails the build on series + level). To add a level: insert an object in `niveaus` (order = order on the page and in the timeline); the id becomes the URL (/syllabus/<id>). `pruefung` from A2.2 (DELE, SIELE; see docs/content-plan.md §2): name the exam and the skill, never a task number, a timing or a word count, because those facts are unverified until the exam items check them. `selbstcheck`: exactly 5 sentences describing what a learner can do BEFORE this level.",
   "probestunde": {
     "href": "",
-    "_hinweis": "Empty = an email to the contact address in src/lib/legal.js (there is no booking page yet). Once there is one, put its path here, e.g. \"/probestunde\". {niveau} is replaced by the level."
+    "_hinweis": "Empty = no trial-lesson button (there is no booking page yet). Once there is one, put its path here, e.g. \"/probestunde\". {niveau} is replaced by the level."
   },
   "lehrwerke": {
     "grundstufe": [],

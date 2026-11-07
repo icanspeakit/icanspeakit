@@ -569,28 +569,6 @@ const defaultVariant = variants[0];
 
 ---
   <div class:list={["nv", study && "nv--study"]}>
-    {study && (
-      <div class="nv-banner">
-        🧪 <strong>Navigations-Studie</strong> — dieselbe Seite wie <a href="/progress">/progress</a>, hier mit allen drei Navigationsvarianten zum Vergleichen.
-      </div>
-    )}
-
-    {study && (
-      <header class="nv-topbar">
-        <a href="/" class="nv-brand">
-          <Wordmark />
-          <span>icanspeak Spanish</span>
-        </a>
-        <div class="nv-toggle">
-          <span class="nv-toggle-label">Navigation</span>
-          <div class="nv-toggle-group" role="tablist" aria-label="Navigationsvariante">
-            {showVariant("a") && <button type="button" class="nv-toggle-btn" data-variant="a" role="tab">A · Rail</button>}
-            {showVariant("b") && <button type="button" class="nv-toggle-btn" data-variant="b" role="tab">B · Icon-Rail</button>}
-            {showVariant("c") && <button type="button" class="nv-toggle-btn" data-variant="c" role="tab">C · Akkordeon</button>}
-          </div>
-        </div>
-      </header>
-    )}
 
     <div class="nv-strip">
       <span class="nv-strip-title" data-i18n="fortschritt.strip.title">Dein Kurs</span>

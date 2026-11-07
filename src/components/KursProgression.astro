@@ -8,7 +8,6 @@
 // the block titles sit one below. The print rules at the end make window.print() give a
 // one-page plan of this level and nothing else of the page.
 import data from "../data/kursinhalte.json";
-import { LEGAL } from "../lib/legal.js";
 
 interface Props {
   level: string;
@@ -24,9 +23,8 @@ const books: string[] = data.lehrwerke[level.lehrwerke as keyof typeof data.lehr
 
 const H = `h${heading}` as "h2" | "h3";
 const HB = `h${heading + 1}` as "h3" | "h4";
-const probestunde = data.probestunde.href
-  ? data.probestunde.href.replaceAll("{niveau}", level.label)
-  : `mailto:${LEGAL.contactEmail}?subject=${encodeURIComponent(`Trial lesson ${level.label}`)}`;
+// No booking page and no real contact address yet: without an href the button is not shown.
+const probestunde = data.probestunde.href ? data.probestunde.href.replaceAll("{niveau}", level.label) : "";
 const url = `icanspeak.it/spanish/syllabus/${level.id}`;
 ---
 <div class="kp" lang="en" data-kp data-level={level.label}>
@@ -103,7 +101,7 @@ const url = `icanspeak.it/spanish/syllabus/${level.id}`;
     {/* The three answers, filled in by the script. Here so the texts stay in the markup. */}
     <template data-kp-ok>
       <p><b>Good fit!</b> {level.label} is the right level for you.</p>
-      <a class="lp-btn lp-btn--primary" href={probestunde}>Book a trial lesson</a>
+      {probestunde && <a class="lp-btn lp-btn--primary" href={probestunde}>Book a trial lesson</a>}
     </template>
     <template data-kp-low>
       {below ? (
@@ -114,14 +112,14 @@ const url = `icanspeak.it/spanish/syllabus/${level.id}`;
       ) : (
         <>
           <p>{level.selbstcheckNiedrig}</p>
-          <a class="lp-btn lp-btn--primary" href={probestunde}>Book a trial lesson</a>
+          {probestunde && <a class="lp-btn lp-btn--primary" href={probestunde}>Book a trial lesson</a>}
         </>
       )}
     </template>
   </section>
 
   <div class="kp-cta">
-    <a class="lp-btn lp-btn--primary" href={probestunde}>Book a trial lesson</a>
+    {probestunde && <a class="lp-btn lp-btn--primary" href={probestunde}>Book a trial lesson</a>}
     <button type="button" class="lp-btn lp-btn--outline" data-kp-print>Course plan as PDF</button>
   </div>
 

@@ -13,8 +13,6 @@ import path from "node:path";
 import catalogue from "../data/downloads.json";
 import { grammarTopics } from "./catalog.js";
 import { lernsets } from "./lernsets.js";
-import lid from "../data/leben-in-deutschland.json";
-import lidTr from "../data/uebersetzungen/leben-in-deutschland.json";
 import themenTr from "../data/uebersetzungen/grammatik-themen.json";
 import { langsFor, languagesFor, languageOf } from "./languages.js";
 import startBook from "../data/grammatik-start/en.json";
@@ -68,19 +66,7 @@ function editionsOf(entry) {
 function hydrate(entry) {
   const info = fileInfo(entry.file);
   if (!info) return null;
-  return { ...entry, ...info, editions: editionsOf(entry), states: entry.states ? statesOf() : null };
-}
-
-/* The Bundesland booklets (generate-bundesland-pdf.mjs): one file per state, offered in a
-   single card with a dropdown rather than as sixteen cards. A state's classroom booklets
-   (Bayern's A2/B1) are catalogue entries with `parent` and ride along under it. */
-function statesOf() {
-  return lid.bundeslaender
-    .map((l) => {
-      const info = fileInfo(`leben-in-deutschland-land-${l.id}.pdf`);
-      return info && { id: l.id, name: l.name, ...info };
-    })
-    .filter(Boolean);
+  return { ...entry, ...info, editions: editionsOf(entry) };
 }
 
 /* The contents lines in the learner's language. The books are German and so is every line
@@ -89,7 +75,7 @@ function statesOf() {
    German yet. So each line can carry its translations, and the page shows the one for the
    interface language under the German (CSS only, see .wi-toc-tr in wissen.css).
    Sources: grammar topic names (uebersetzungen/grammatik-themen.json), set names (the same
-   ws.set.* strings the Wortschatz picker uses), Leben-in-Deutschland chapter titles. */
+   ws.set.* strings the Wortschatz picker uses). */
 const TR_LANGS = langsFor("help");
 const uiDicts = Object.fromEntries(TR_LANGS.map((l) => {
   try {
@@ -108,7 +94,6 @@ const pick = (get) => {
 };
 const topicTr = (id) => pick((l) => themenTr.topics?.[id]?.[l]);
 const setTr = (id) => pick((l) => uiDicts[l][`ws.set.${id}`]);
-const chapterTr = (id) => pick((l) => lidTr.topics?.[id]?.title?.[l]);
 
 // What is actually inside a PDF, read from the same data the generator used — not
 // typed into the catalogue, where it would drift the first time a topic is added.
@@ -164,25 +149,6 @@ function contentsOf(entry) {
       itemTr: sets.map((s) => setTr(s.id)),
     };
   }
-  if (entry.category === "pruefungen") {
-    // The Bayern booklets are the Landesfragen; the two Fakten bands are the topic
-    // chapters. Both are answered by what the file's own name says it is.
-    if (entry.states) {
-      return {
-        label: "In jedem Übungsbogen", labelKey: "wissen.toc.land",
-        items: ["Kurzprofil des Bundeslands", "Fragen zum Bundesland", `${lid.questions.length} bundesweite Fragen`, "Lösungen am Ende"],
-        itemKeys: [{ key: "wissen.toc.land.profile" }, { key: "wissen.toc.land.q" }, { key: "wissen.toc.land.fed", vars: { n: lid.questions.length } }, { key: "wissen.toc.land.key" }],
-      };
-    }
-    if (entry.file.includes("bayern")) {
-      return {
-        label: "Landesteil Bayern", labelKey: "wissen.toc.bayern",
-        items: ["10 Landesfragen mit Lösungen", "Karte und Kurzprofil des Bundeslands"],
-        itemKeys: [{ key: "wissen.toc.bayern.q" }, { key: "wissen.toc.bayern.map" }],
-      };
-    }
-    return { label: `${lid.topics.length} Kapitel`, labelKey: "wissen.toc.chapters", labelVars: { n: lid.topics.length }, items: lid.topics.map((t) => t.title), itemTr: lid.topics.map((t) => chapterTr(t.id)) };
-  }
   return null;
 }
 
@@ -216,10 +182,9 @@ export const links = catalogue.links;
 export const rightsNote = catalogue.rightsNote;
 export const rights = catalogue.rights;
 
-// Every file on offer: each state's booklet counts, not just the card's default one.
-const everyFile = all.flatMap((f) => (f.states ? f.states : [f]));
+// Every file on offer.
 export const totals = {
-  files: everyFile.length,
-  pages: everyFile.reduce((n, f) => n + (f.pages ?? 0), 0),
-  bytes: everyFile.reduce((n, f) => n + f.bytes, 0),
+  files: all.length,
+  pages: all.reduce((n, f) => n + (f.pages ?? 0), 0),
+  bytes: all.reduce((n, f) => n + f.bytes, 0),
 };

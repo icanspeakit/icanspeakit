@@ -1239,18 +1239,13 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
      line and drops only Regi. German on purpose, like the class name above it. */
   const WA_SAY = Object.fromEntries(wortarten.classes.map((c) => [c.id, c.say]));
   const REGI = mascotSvg({ name: "regi", view: "three", size: 34, label: "", className: "vt-wa-fig" });
-  /* A separable verb is a verb with one thing more to know: in the sentence its prefix
-     leaves it for the end ("Zieh bitte die Jacke an."). So the chip names the subclass and
-     Regi's line says that one thing, linking to the topic instead of the class list. */
-  const SEPARABLE = { label: "trennbares Verb", say: "Der Anfang steht im Satz am Ende.", href: "/ir-a-infinitive", more: "Trennbare Verben" };
   // The chip and Regi's link lead to the same place: the class on /grammar/parts-of-speech.
-  const posHref = (card) => withBase(card.pos === "verb" && card.separable ? SEPARABLE.href : `/grammar/parts-of-speech#${card.pos}`);
+  const posHref = (card) => withBase(`/grammar/parts-of-speech#${card.pos}`);
   function waHtml(card) {
-    const sep = card.pos === "verb" && card.separable;
-    const say = sep ? SEPARABLE.say : WA_SAY[card.pos];
+    const say = WA_SAY[card.pos];
     if (!say) return "";
     const href = posHref(card);
-    const more = sep ? SEPARABLE.more : t("vt.wa.more");
+    const more = t("vt.wa.more");
     return `<p class="vt-wa">
         <span class="vt-wa-fig-wrap" data-mascot-part aria-hidden="true">${REGI}</span>
         <span class="vt-wa-say" lang="de">${escapeHtml(say)}</span>
@@ -1285,7 +1280,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
 
   function cardInfoHtml(card) {
     if (!deckHasInfo) return "";
-    const pos = card.pos === "verb" && card.separable ? SEPARABLE.label : POS_DE[card.pos];
+    const pos = POS_DE[card.pos];
     const ex = card.example
       ? `<span class="vt-info-ex">
           <span class="vt-info-ex-text" lang="de" id="vt-info-ex-text">${exampleHtml(card)}</span>

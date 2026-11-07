@@ -1580,7 +1580,7 @@ export function mountHoerSafari(root, allWords) {
     }
 
     const g = gunPose();
-    // Hamsti mans the blaster (Hamstis Wachtelhuhn): beside it, drawn first so it overlaps.
+    // Hamsti mans the blaster (Bird Safari): beside it, drawn first so it overlaps.
     if (ready(hamsti)) {
       const hs = hamstiSize();
       ctx.drawImage(hamsti, hamstiX(g, hs), VIEW_H - hs * 0.92, hs, hs);
