@@ -63,6 +63,13 @@ export const LANGUAGE_REGISTRY = [
     // there, `de` on a question or option still means the Spanish being learnt.
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
+  {
+    code: "fr", native: "Français", de: "Französisch", en: "French", word: "Langue",
+    dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "fr", urlPrefix: "fr",
+    // Same shape as German: named only where French text exists. Help texts, the legal pages
+    // and the profession decks fall back to English; print sheets don't offer French yet.
+    surfaces: { ui: draft, cards: { ...draft, fetch: true } },
+  },
   // To add a language: copy the entry above, set code/native/dir/script (and fontFamily for
   // non-Latin scripts, hreflang/urlPrefix for its own entry-page URLs), start every surface
   // as { status: "draft" }, and add public/i18n/<code>.json. RTL (dir: "rtl") is already
