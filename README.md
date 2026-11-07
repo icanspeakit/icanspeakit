@@ -70,12 +70,16 @@ The Worker config will look like this (Wrangler 4.148.0 or newer, which `assets.
 - `public/_headers` becomes `dist/_headers` and sets the response headers. Its rule paths are
   public URLs, so they start with `/spanish/`.
 
-To deploy, run these from `apps/spanish`:
+To deploy, run these from `apps/spanish`, in a clean checkout so no old files in `dist/` ship:
 
 ```sh
 pnpm build && pnpm check:base
 pnpm dlx wrangler@latest deploy
 ```
+
+The build has to run in the app folder, because build-time code finds its data through
+`process.cwd()`. `pnpm --filter icanspeak-spanish build` from the monorepo root also works, since
+pnpm runs a package's scripts in that package's folder.
 
 ### After a deploy
 
