@@ -10,13 +10,17 @@
 // this function's source, so it must stay self-contained: no imports, no outer names) and
 // by applyLang() in i18n.js on every switch.
 //
-// German shows the German and needs no rule.
+// English is the base: a UI language without help texts of its own (German so far) shows the
+// English block (helpLang() in textHelp.js), which is what the first three lines cover.
 export function langRules(c) {
-  if (!c || c === "de" || !/^[a-z]{2,3}$/.test(c)) return "";
+  if (!c || !/^[a-z]{2,3}$/.test(c)) return "";
   var r = ":root[lang=\"" + c + "\"] ";
   var l = "[lang=\"" + c + "\"]";
   var g = "[data-gx-lang=\"" + c + "\"] ";
   return (
+    "[data-gx-lang=\"en\"] .gx-tr-l[lang=\"en\"]{display:block}" +
+    "[data-gx-lang=\"en\"] .ct-grprow .gx-tr-l[lang=\"en\"]{display:inline}" +
+    "[data-gx-lang=\"en\"] .gx-tr--i18n{display:none}" +
     // UiText.astro: the German steps aside for its translation.
     r + ".uit:has(> .uit-l" + l + ") > .uit-de{display:none}" +
     r + ".uit > .uit-l" + l + "{display:revert}" +

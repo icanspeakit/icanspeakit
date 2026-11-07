@@ -31,7 +31,8 @@ export function mountParty(root) {
   const screens = $$("[data-screen]");
   const redemittel = JSON.parse(document.getElementById("hst-redemittel")?.textContent || "{}");
   const ui = getLang();
-  const lang = ["en", "ar", "uk", "ru", "tr"].includes(ui) ? ui : ui === "de" ? "de" : "en";
+  // The word lists' `de` is the Spanish word itself, so a German UI reads the English meaning.
+  const lang = ["en", "ar", "uk", "ru", "tr"].includes(ui) ? ui : "en";
 
   /* ---------------------------------------------------------- state ---- */
   // The setup survives games (names, options); the game itself only this tab.

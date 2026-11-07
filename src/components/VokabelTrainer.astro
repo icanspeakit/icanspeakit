@@ -104,37 +104,30 @@ const cards = rawCards.map((c: any) => {
 // The trainer quizzes German against one other language at a time: every registry language
 // a deck can carry (lexicon, Berufe, Fahrschule), in registry order. "ins Englische" →
 // deInto is the German name + "e".
-const ALL_LANGUAGES = [
-  ...LANGUAGE_REGISTRY.filter((l) => l.code !== "de" && (l.surfaces.cards || l.surfaces.berufe)).map((l) => ({
-    code: l.code,
-    label: l.native,
-    deName: l.de,
-    deInto: `${l.de}e`,
-    ...(l.dir === "rtl" ? { rtl: true } : {}),
-    // Glosses not in fc-data: wortschatz-app.js loads /vocabulary/glosses/<code>.json on first use.
-    ...(l.surfaces.cards?.fetch ? { fetch: true } : {}),
-  })),
-  // Not a translation: a synonym or a short explanation in simple German (lexicon.js deHint).
-  { code: "de", label: "Auf Deutsch", deName: "Erklärung", deInto: "Erklärung" },
-];
-/* "de" is the German synonym or explanation („Erklärung auf Deutsch", a toggle in the trainer),
-   then the translations. Several languages on one card for a class in front of one screen are
-   the teachers' Klassenansicht (src/lib/klassenansicht.js), chosen per class – no longer a
-   learner's „Alle Sprachen" tab (KARTENSPRACHE Tier 4). */
+const ALL_LANGUAGES = LANGUAGE_REGISTRY.filter((l) => l.surfaces.cards || l.surfaces.berufe).map((l) => ({
+  code: l.code,
+  label: l.native,
+  deName: l.de,
+  deInto: `${l.de}e`,
+  ...(l.dir === "rtl" ? { rtl: true } : {}),
+  // Glosses not in fc-data: wortschatz-app.js loads /vocabulary/glosses/<code>.json on first use.
+  ...(l.surfaces.cards?.fetch ? { fetch: true } : {}),
+}));
+/* Several languages on one card for a class in front of one screen are the teachers'
+   Klassenansicht (src/lib/klassenansicht.js), chosen per class – no longer a learner's
+   „Alle Sprachen" tab (KARTENSPRACHE Tier 4). */
 // The fetched languages (src/lib/glossen.js) are checked here, against the cards' lexicon ids:
 // offered only when every card of this deck has a gloss, the same rule as langsIn().
 const fetched = fetchedLangsFor(rawCards);
 const found = ALL_LANGUAGES.filter((l) => langs.includes(l.code) || fetched.includes(l.code));
-const translated = found.filter((l) => l.code !== "de");
 const languages = [
-  ...found.filter((l) => l.code === "de"),
-  ...translated,
+  ...found,
   // Not offered: the registry languages this deck does not fully cover. The picker shows them
   // greyed under „Bald" (src/lib/cardLangPicker.js), so a learner sees theirs is coming.
   ...notCovered(),
 ];
 function notCovered() {
-  return ALL_LANGUAGES.filter((l) => l.code !== "de" && !found.includes(l)).map((l) => ({ ...l, soon: true }));
+  return ALL_LANGUAGES.filter((l) => !found.includes(l)).map((l) => ({ ...l, soon: true }));
 }
 ---
 <!-- No title. The bar carried "Wortliste A1" directly above an <h1> reading "Wortschatz

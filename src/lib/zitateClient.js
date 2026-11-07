@@ -22,7 +22,6 @@ const setText = (el, text, code) => {
 /**
  * Everything that follows the header language: the word glosses (English when that
  * language has none), the explanation, and whether the translate button is offered.
- * German UI: none of it — the hints and the explanation are German already.
  * @param {ParentNode} [root]
  */
 export function fillTr(root = document) {
@@ -30,9 +29,8 @@ export function fillTr(root = document) {
   root.querySelectorAll("[data-tr]").forEach((el) => {
     const tr = JSON.parse(el.dataset.tr);
     const code = tr[lang] ? lang : "en";
-    el.hidden = lang === "de";
-    if (el.hidden) el.textContent = "";
-    else setText(el, tr[code], code);
+    el.hidden = false;
+    setText(el, tr[code], code);
   });
   root.querySelectorAll("[data-zitat]").forEach((card) => {
     const tl = JSON.parse(card.dataset.tl || "{}")[lang];

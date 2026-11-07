@@ -226,29 +226,6 @@
 .vt-cl-swap svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .vt-cl-swap:hover { background: var(--vt-border, var(--border)); }
 .vt-cl-lang:focus-visible, .vt-cl-swap:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
-/* „Erklärung auf Deutsch" (Tier 3): a small switch beside the pill, the German synonym or
-   explanation on the card instead of a translation. */
-.vt-cl-erkl {
-  display: inline-flex; align-items: center; gap: 8px;
-  min-height: 40px; padding: 0 4px;
-  border: 0; background: none; color: var(--vt-muted);
-  font: inherit; font-size: .8125rem; cursor: pointer;
-}
-.vt-cl-erkl-track {
-  position: relative; width: 34px; height: 20px; flex: none; border-radius: 999px;
-  background: var(--vt-border-strong, var(--border-strong)); transition: background .2s ease;
-}
-.vt-cl-erkl-track::after {
-  content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%;
-  background: #fff; box-shadow: 0 1px 2px rgb(0 0 0 / .2); transition: transform .2s ease;
-}
-.vt-cl-erkl[aria-pressed="true"] { color: var(--vt-ink); }
-.vt-cl-erkl[aria-pressed="true"] .vt-cl-erkl-track { background: var(--brand-blue); }
-.vt-cl-erkl[aria-pressed="true"] .vt-cl-erkl-track::after { transform: translateX(14px); }
-/* postcss-rtlcss moves the knob's start to the right but cannot turn a transform round. */
-[dir="rtl"] .vt-cl-erkl[aria-pressed="true"] .vt-cl-erkl-track::after { transform: translateX(-14px); }
-.vt-cl-erkl:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; border-radius: 8px; }
-@media (prefers-reduced-motion: reduce) { .vt-cl-erkl-track, .vt-cl-erkl-track::after { transition: none; } }
 /* Klassenansicht (Tier 4): the bar that stands in for the language control, and a card big
    enough to read from the back of the room. */
 /* Quiet on purpose: the class looks at the card; the bar only names the languages and offers

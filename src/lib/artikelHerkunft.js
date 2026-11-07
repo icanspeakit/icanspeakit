@@ -123,7 +123,7 @@ export function mountHerkunft(root, byId) {
   function drawTree(entry, lemma, glossTr) {
     // The last box says what the word means now, in the learner's language (from our
     // lexicon, `mean`). Ukrainian has no word translations yet, so it reads the English.
-    const meaning = lang === "de" ? null : entry.mean?.[lang] ?? entry.mean?.en ?? null;
+    const meaning = entry.mean?.[lang] ?? entry.mean?.en ?? null;
     const today = box("Deutsch, heute", lemma, meaning, true);
     if (entry.chain) {
       // Translated glosses are keyed by the German gloss, so a chain that gains a step

@@ -5,13 +5,12 @@
  * ONE control decides the language, and it is the language menu in the site header. There
  * used to be a second one — a row of English / العربية / Українська / Türkçe chips and an
  * "in meiner Sprache" switch on every block — which meant a learner could have the site in
- * Arabic and the rule in English. The header choice is now all-encompassing:
- *   UI in en / ar / uk / tr  →  every help text shows, in that language, at every level;
- *   UI in German             →  German only; nothing is translated.
+ * Arabic and the rule in English. The header choice is now all-encompassing: every help text
+ * shows in that language where it exists, in English otherwise.
  * It follows the menu live, on every page, without a reload.
  */
 import { getLang, onLangChange } from "./i18n.js";
-import { languagesFor } from "./languages.js";
+import { languagesFor, BASE } from "./languages.js";
 
 export const HELP_LANGS = languagesFor("help").map((l) => ({ code: l.code, label: l.native, dir: l.dir }));
 const SHOW_KEY = "da-text-translation";
@@ -19,9 +18,10 @@ const SHOW_KEY = "da-text-translation";
 const isHelpLang = (c) => HELP_LANGS.some((l) => l.code === c);
 const dirOf = (c) => HELP_LANGS.find((l) => l.code === c)?.dir ?? "ltr";
 
-/** The language help is shown in: the header's, or null when that is German. */
+/** The language help is shown in: the header's, or English, the course's explaining language,
+ *  when that language has no help texts of its own (German so far). */
 export function helpLang(code = getLang()) {
-  return isHelpLang(code) ? code : null;
+  return isHelpLang(code) ? code : BASE;
 }
 
 /** Runs `fn(helpLang)` now and on every change of the header language. */

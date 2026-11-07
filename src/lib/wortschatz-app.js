@@ -174,24 +174,13 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
      A deck that lacks the language falls back to the default below and leaves the stored
      choice alone for the next deck that has it.
 
-     KARTENSPRACHE Tier 3: with no choice yet the cards no longer start on „Auf Deutsch" but
-     in a language the learner probably reads – the interface language when it is not German,
-     else the first of the browser's languages this deck has, else English. Nothing is asked:
-     the button already says what was chosen. „Auf Deutsch" is no longer a language but the
-     toggle „Erklärung auf Deutsch", kept in its own key (ERKL_KEY), so switching it off comes
-     back to the language it was switched on over. An old stored "de" becomes that toggle. */
+     KARTENSPRACHE Tier 3: with no choice yet the cards start in a language the learner probably
+     reads – the interface language, else the first of the browser's languages this deck has,
+     else English. Nothing is asked: the button already says what was chosen. */
   const has = (code) => !!code && languages.some((l) => l.code === code);
-  const ERKL_KEY = "da-vt-erklaerung";
   const lsGet = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
   const lsSet = (k, v) => { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch {} };
   let storedLang = lsGet(CARD_LANG_KEY);
-  let erkl = lsGet(ERKL_KEY) === "1";
-  if (storedLang === "de") {
-    erkl = true;
-    storedLang = null;
-    lsSet(ERKL_KEY, "1");
-    lsSet(CARD_LANG_KEY, null);
-  }
   /* KARTENSPRACHE Tier 4: „Alle Sprachen" left the learners' choice and became the teachers'
      Klassenansicht. A stored "all" is cleared here; on a teacher's browser the Klassenansicht
      takes its place once the account is known (end of mount). */
@@ -200,14 +189,13 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
     storedLang = null;
     lsSet(CARD_LANG_KEY, null);
   }
-  const translatable = () => languages.map((l) => l.code).filter((c) => c !== "de" && c !== "all");
+  const translatable = () => languages.map((l) => l.code).filter((c) => c !== "all");
   function defaultLang() {
     const codes = translatable();
     const ui = getLang();
-    if (ui !== "de" && codes.includes(ui)) return ui;
+    if (codes.includes(ui)) return ui;
     return suggestedLang(codes) ?? (codes.includes("en") ? "en" : codes[0] ?? languages[0]?.code ?? null);
   }
-  // The language under the toggle: what „Erklärung auf Deutsch" switched off returns to.
   let foreign = storedLang && has(storedLang) ? storedLang : defaultLang();
   /* The Klassenansicht (src/lib/klassenansicht.js): 2–4 languages on one card, state.lang "all".
      On for this browser until „Klassenansicht beenden"; a deck that has fewer than two of its
@@ -217,7 +205,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
     const on = klassOn();
     return on && fitKlass(on.codes).length >= KLASS_MIN ? { ...on, codes: fitKlass(on.codes) } : null;
   })();
-  const cardLang = () => (klass ? "all" : erkl && has("de") ? "de" : foreign);
+  const cardLang = () => (klass ? "all" : foreign);
   state.lang = cardLang();
 
   /* Card languages beyond the ones inlined in the page (SPRACHEN Tier 3, src/lib/glossen.js):
@@ -227,6 +215,8 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
   const glossLoads = {};
   function ensureGlosses(code) {
     if (!languages.find((l) => l.code === code)?.fetch) return Promise.resolve();
+    // German rides in the page as well (lexicon.js toCard): nothing to fetch then.
+    if (cards.every((c) => c.translations?.[code])) return Promise.resolve();
     glossLoads[code] ??= fetch(withBase(`/vocabulary/glosses/${code}.json`))
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
       .then((map) => {
@@ -394,11 +384,11 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
   }
 
   /* The picture of a concrete word (lexicon.js → card.img, OpenMoji). It sits on the side
-     that has to work without a shared language: "Auf Deutsch" and "Alle Sprachen". On a
-     single translation it would only repeat what the word already says — except where the
-     picture adds something (`imgAlways`: a Redemittel position diagram, „Im Vordergrund …“). */
+     that has to work without a shared language: "Alle Sprachen". On a single translation it
+     would only repeat what the word already says — except where the picture adds something
+     (`imgAlways`: a Redemittel position diagram, „Im Vordergrund …“). */
   const cueImg = (card) =>
-    card.img && (card.imgAlways || state.lang === "de" || state.lang === "all")
+    card.img && (card.imgAlways || state.lang === "all")
       ? `<img class="vt-cue-img${/\/(bildposition|praeposition)\//.test(card.img) ? " vt-cue-img--pos" : ""}" src="${escapeHtml(withBase(card.img))}" alt="" width="88" height="88" loading="lazy">`
       : "";
 
@@ -940,12 +930,11 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
 
 
   /* Only a choice away from the site's language is a decision of its own. Picking the tab
-     that matches it (Español on a Spanish site, „Auf Deutsch" on a German one) keeps the
-     cards following the site, so switching the site later takes them along. */
-  const siteCardLang = () => (getLang() === "de" ? "de" : getLang());
+     that matches it (Deutsch on a German site) keeps the cards following the site, so
+     switching the site later takes them along. */
   function storeCardLang(code) {
     try {
-      if (code === siteCardLang()) localStorage.removeItem(CARD_LANG_KEY);
+      if (code === getLang()) localStorage.removeItem(CARD_LANG_KEY);
       else localStorage.setItem(CARD_LANG_KEY, code);
     } catch {}
   }
@@ -958,7 +947,6 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
     storeCardLang(code);
     storedLang = code;
     foreign = code;
-    if (erkl) { erkl = false; lsSet(ERKL_KEY, null); }
     dispatchEvent(new CustomEvent(CARD_LANG_EVENT, { detail: { lang: code } }));
     pendingLang = code;
     renderToolbar();
@@ -972,27 +960,15 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
 
   /** „Erklärung auf Deutsch" on or off: the card's other side becomes the German synonym or
    *  explanation (lexicon deHint), or goes back to the language it was switched on over. */
-  function setErkl(on) {
-    erkl = on;
-    lsSet(ERKL_KEY, on ? "1" : null);
-    track("card_erklaerung", { on });
-    const code = cardLang();
-    dispatchEvent(new CustomEvent(CARD_LANG_EVENT, { detail: { lang: code } }));
-    ensureGlosses(code).then(() => {
-      reset({ lang: code });
-      render();
-    });
-  }
 
   /** A card language's name on the button and in the picker: its own name, in its own script. */
   function nativeLabel(code) {
-    if (code === "de") return t("vt.lang.de");
     if (code === "all") return allCodes().map((c) => languageOf(c)?.native ?? c).join(" · ");
     return languageOf(code)?.native ?? languages.find((l) => l.code === code)?.label ?? code;
   }
 
-  /** What the picker lists: the deck's languages in registry order. „Auf Deutsch" is the toggle
-   *  beside the button, „Alle auf einer Karte" the teachers' Klassenansicht (Tier 4). */
+  /** What the picker lists: the deck's languages in registry order. „Alle auf einer Karte" is
+   *  the teachers' Klassenansicht (Tier 4). */
   const pickerItems = () => translatable();
 
   /* ---- Klassenansicht -------------------------------------------------------------------
@@ -1078,7 +1054,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
       anchor,
       items: pickerItems(),
       soon: soonCodes,
-      current: pendingLang ?? (state.lang === "de" ? null : state.lang),
+      current: pendingLang ?? state.lang,
       t,
       onPick: (code) => { if (code !== state.lang) chooseCardLang(code, "picker"); },
     });
@@ -1108,20 +1084,12 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
     const swap = `<button type="button" class="vt-cl-swap" data-cl-swap data-cl-focus="swap" aria-label="${escapeHtml(`${t("vt.cl.swap")} · ${dirText}`)}" title="${escapeHtml(t("vt.cl.swap"))}">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h12l-3-3M17 17H5l3 3"/></svg>
       </button>`;
-    // The `de` sidecar is a German translation, not a Spanish explanation: no toggle until a
-    // German interface exists (ui-lang-de shows it there as a card language).
-    const erklBtn = has("de") && document.documentElement.lang === "de"
-      ? `<button type="button" class="vt-cl-erkl" data-cl-erkl data-cl-focus="erkl" aria-pressed="${state.lang === "de"}">
-          <span class="vt-cl-erkl-track" aria-hidden="true"></span><span>${escapeHtml(t("vt.cl.erkl"))}</span>
-        </button>`
-      : "";
     const klassBtn = klassOk
       ? `<button type="button" class="vt-kl-open" data-klassenansicht data-cl-focus="klopen" aria-haspopup="dialog" aria-expanded="false">
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span>${escapeHtml(t("vt.kl.name"))}</span>
         </button>`
       : "";
-    langTabsEl.innerHTML = `<div class="vt-cl" role="group" aria-label="${escapeHtml(dirText)}">${state.dir === "toDe" ? langBtn + swap + deSide : deSide + swap + langBtn}</div>${erklBtn}${klassBtn}`;
-    langTabsEl.querySelector("[data-cl-erkl]")?.addEventListener("click", () => setErkl(state.lang !== "de"));
+    langTabsEl.innerHTML = `<div class="vt-cl" role="group" aria-label="${escapeHtml(dirText)}">${state.dir === "toDe" ? langBtn + swap + deSide : deSide + swap + langBtn}</div>${klassBtn}`;
     langTabsEl.querySelector("[data-cl-open]").addEventListener("click", (e) => {
       e.stopPropagation();
       openPicker(e.currentTarget);

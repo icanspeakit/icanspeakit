@@ -3,8 +3,7 @@
 // group (/spanish-for-work/<beruf>/<gruppe>/drucken). Three parts on paper:
 //
 //   1  Wortliste      every word with its article and plural, the meaning in the language the
-//                     learner picked (or none: „Nur Deutsch“), the German explanation
-//                     (deHint, a gap solved) and the example sentence;
+//                     learner picked (English, or German from deHint) and the example sentence;
 //                     „Wusstest du?“ — facts on the topic, where the set has some
 //   2  Kleiner Test   the teachers' worksheet parts (src/lib/arbeitsblatt/wortschatz.js):
 //                     Wort ↔ Bedeutung, der/die/das, Lückensätze — fillable on screen too
@@ -17,7 +16,6 @@ import "../styles/arbeitsblatt.css";
 import "../styles/drucken.css";
 import { LANG_NAMES } from "../lib/arbeitsblatt/wortschatz.js";
 import { pluralArticle } from "../lib/lexicon.js";
-import { solvedHint } from "../lib/audioSlug.js";
 import { isRtl } from "../lib/languages.js";
 import { mascotSvg } from "../lib/mascots.js";
 
@@ -40,27 +38,18 @@ interface Props {
   active?: string;
 }
 const { title, level, words, sheet, langs, facts = [], setPath, footPath = setPath, active = "wortschatz" } = Astro.props;
-// "de" was the old course's target-language mode; `deHint` is now a German translation, so it
-// is off (hasDe below) until a German interface exists.
-const LANGS = [...langs, "de"];
-const langLabel = (l: string) => (l === "de" ? "Spanish only" : LANG_NAMES[l]);
+// German is a meaning language like the others, offered when every word has it (`deHint`, the
+// lexicon's de sidecar). It is not in `langs`: rows carry it as deHint, not as `de`.
+const hasDe = words.length > 0 && words.every((w: any) => w.deHint);
+const LANGS = hasDe ? [...langs, "de"] : langs;
+const langLabel = (l: string) => (l === "de" ? "Deutsch" : LANG_NAMES[l]);
 const meaningCss =
-  langs.map((l) => `#ab-root[data-lang="${l}"] .ab-m[lang="${l}"]`).join(",") + "{display:inline}" +
-  `#ab-root[data-lang="de"] .ab-m[lang="de"]{display:inline}#ab-root[data-lang="de"] .pr-col-m{display:none}`;
+  LANGS.map((l) => `#ab-root[data-lang="${l}"] .ab-m[lang="${l}"]`).join(",") + "{display:inline}";
 
-const deOf = (w: any) => (w.deHint ? (w.deFill && w.deHint.includes("…") ? solvedHint(w.deHint, w.deFill) ?? w.deHint : w.deHint) : "");
 const byLemma = new Map(words.map((w: any) => [w.lemma, w]));
-const hasDe = false;
 const w = (answers: string[]) => `--w:${Math.max(4, ...answers.map((a) => a.length)) + 2}ch`;
 const json = (a: string[]) => JSON.stringify(a);
-// Part A in „Nur Deutsch“: the German explanation stands in for the meaning. A gap hint
-// would need its answer, so the word's synonym is used there, or the solved sentence.
-const deMeaning = (lemma: string) => {
-  const e: any = byLemma.get(lemma);
-  if (!e) return "";
-  if (e.deHint && !e.deHint.includes("…")) return e.deHint;
-  return e.syn?.[0] ?? deOf(e);
-};
+const deMeaning = (lemma: string) => (byLemma.get(lemma) as any)?.deHint ?? "";
 const bruno = mascotSvg({ name: "bruno", size: 64, label: "" });
 const hamsti = mascotSvg({ name: "hamsti", size: 56, label: "" });
 const regi = mascotSvg({ name: "regi", size: 52, label: "" });
@@ -77,7 +66,7 @@ const artInstr = "Write el or la.";
     <a class="ab-back" href={setPath} data-i18n="pr.back">← Zurück zu den Karteikarten</a>
     <div class="ab-langs" role="group" aria-label="Übersetzung auf" data-i18n-attr="aria-label:pr.lang">
       <span class="ab-langs-label" data-i18n="pr.lang">Übersetzung</span>
-      {LANGS.filter((l) => l !== "de" || hasDe).map((l) => (
+      {LANGS.map((l) => (
         <button type="button" data-ab-lang={l} aria-pressed={l === "en" ? "true" : "false"} lang={l}>{langLabel(l)}</button>
       ))}
     </div>
@@ -112,7 +101,6 @@ const artInstr = "Write el or la.";
         <tr>
           <th>Word</th>
           <th class="pr-col-m">Meaning</th>
-          {hasDe && <th>Explanation</th>}
           <th>Example sentence</th>
         </tr>
       </thead>
@@ -128,8 +116,8 @@ const artInstr = "Write el or la.";
             </td>
             <td class="pr-col-m">
               {langs.map((l) => <span class="ab-m" lang={l} dir={isRtl(l) ? "rtl" : "ltr"}>{e[l] ?? ""}</span>)}
+              {hasDe && <span class="ab-m" lang="de">{e.deHint}</span>}
             </td>
-            {hasDe && <td class="pr-de">{deOf(e)}</td>}
             <td class="pr-ex">{e.example ?? ""}</td>
           </tr>
         ))}

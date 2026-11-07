@@ -396,11 +396,11 @@ const bridgeLangs = fehler.languages
     const raw = JSON.parse(document.getElementById("pron-data").textContent);
     const root = document.getElementById("pron-root");
 
-    // Glosses exist for en/ar/ru/tr; any other UI language simply shows none.
+    // A UI language without its own gloss reads the English one.
     function buildSets(lang) {
       const pick = (item) => ({
         ...item,
-        translation: lang === "de" ? "" : item.translations?.[lang] || "",
+        translation: item.translations?.[lang] || item.translations?.en || "",
       });
       return Object.fromEntries(Object.entries(raw).map(([k, items]) => [k, items.map(pick)]));
     }
