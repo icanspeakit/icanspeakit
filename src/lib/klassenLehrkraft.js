@@ -23,7 +23,7 @@ export async function mountKlassen(root) {
   await loadText(() => { if (mounted) render(); });
 
   /* -------------------------------------------------------------- who ---- */
-  $("[data-signin-link]").href = withBase(`/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`);
+  $("[data-signin-link]").href = withBase(`/account?next=${encodeURIComponent(currentPath() + location.search)}`);
   let user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {
@@ -114,7 +114,7 @@ export async function mountKlassen(root) {
 
   function memberList(list) {
     if (list === null) return `<p class="kl-muted">${esc(t("kl.loading", "Einen Moment …"))}</p>`;
-    if (!list.length) return `<p class="kl-muted">${esc(t("kl.t.noMembers", "Noch niemand beigetreten. Zeig den QR-Code oder gib den Code weiter: {link}", { link: `${location.host}${withBase("/beitreten")}` }))}</p>`;
+    if (!list.length) return `<p class="kl-muted">${esc(t("kl.t.noMembers", "Noch niemand beigetreten. Zeig den QR-Code oder gib den Code weiter: {link}", { link: `${location.host}${withBase("/join")}` }))}</p>`;
     return `<ul class="kl-members">${list
       .map((m) => `
         <li>

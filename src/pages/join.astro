@@ -33,7 +33,7 @@ import "../styles/klassen.css";
     <section class="lq-card kl-stack" data-gate="signin" hidden>
       <h2 data-i18n="kl.join.signin.title">Erst anmelden</h2>
       <p data-i18n="kl.join.signin.text">Eine Klasse gehört zu deinem Konto, damit deine Lehrkraft dich auf jedem Gerät wiederfindet. Das Konto ist kostenlos. Danach kommst du hierher zurück, der Code bleibt drin.</p>
-      <a class="lq-btn lq-btn--primary" data-signin-link href="/anmelden?next=/join" data-i18n="kl.join.signin.button">Anmelden oder registrieren</a>
+      <a class="lq-btn lq-btn--primary" data-signin-link href="/account?next=/join" data-i18n="kl.join.signin.button">Anmelden oder registrieren</a>
     </section>
 
     <form class="kl-stack" data-gate="form" hidden novalidate>
@@ -60,7 +60,7 @@ import "../styles/klassen.css";
       <p data-i18n="kl.join.done.text">Ab jetzt sieht deine Lehrkraft, was du hier übst. Verlassen kannst du die Klasse jederzeit in deinem Konto.</p>
       <div class="kl-row">
         <a class="lq-btn lq-btn--primary" href="/exercises" data-i18n="kl.join.done.practice">Weiter üben</a>
-        <a class="lq-btn lq-btn--ghost" href="/konto" data-i18n="kl.join.done.account">Meine Klassen</a>
+        <a class="lq-btn lq-btn--ghost" href="/account" data-i18n="kl.join.done.account">Meine Klassen</a>
       </div>
     </section>
   </main>
@@ -89,7 +89,7 @@ import "../styles/klassen.css";
       await loadText();
       const params = new URLSearchParams(location.search);
       const fromUrl = normCode(params.get("code"));
-      $<HTMLAnchorElement>("[data-signin-link]").href = withBase(`/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`);
+      $<HTMLAnchorElement>("[data-signin-link]").href = withBase(`/account?next=${encodeURIComponent(currentPath() + location.search)}`);
 
       let user = null;
       try {

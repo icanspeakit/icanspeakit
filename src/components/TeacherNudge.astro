@@ -27,7 +27,7 @@ import Mascot from "./mascots/Mascot.astro";
       </ul>
       <p class="tn-fine" data-tn-out hidden data-i18n="tn.signedOut">Dafür brauchst du nur ein kostenloses Konto.</p>
       <div class="tn-actions">
-        <a class="tn-btn tn-btn--primary" data-tn-signup hidden href="/anmelden?lehrkraft=1" data-i18n="tn.signup">Kostenlos freischalten</a>
+        <a class="tn-btn tn-btn--primary" data-tn-signup hidden href="/account?lehrkraft=1" data-i18n="tn.signup">Kostenlos freischalten</a>
         <button type="button" class="tn-btn tn-btn--primary" data-tn-on hidden data-i18n="tn.on">Ja, kostenlos freischalten</button>
         <button type="button" class="tn-btn" data-tn-no data-i18n="tn.no">Nein, danke</button>
       </div>
@@ -91,7 +91,7 @@ import Mascot from "./mascots/Mascot.astro";
     $("[data-tn-no]").addEventListener("click", () => { put(NO, "nein"); card.hidden = true; });
     if (!user || !mod) {
       const signup = $<HTMLAnchorElement>("[data-tn-signup]");
-      signup.href = `${withBase("/anmelden")}?lehrkraft=1&next=${encodeURIComponent(currentPath() + location.search)}`;
+      signup.href = `${withBase("/account")}?lehrkraft=1&next=${encodeURIComponent(currentPath() + location.search)}`;
       signup.hidden = false;
       $("[data-tn-out]").hidden = false;
     } else {

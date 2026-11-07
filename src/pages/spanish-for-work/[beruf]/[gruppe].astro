@@ -1,6 +1,6 @@
 ---
 import { fitTitle } from "../../../lib/seo/title.js";
-// /english-for-work/[beruf]/[gruppe] — one word group of a profession deck in the shared flashcard
+// /spanish-for-work/[beruf]/[gruppe] — one word group of a profession deck in the shared flashcard
 // trainer (one sitting of 20–30 words). Hamsti marks the section (VokabelTrainer's own mascot).
 import Layout from "../../../layouts/Layout.astro";
 import { itemSlug, itemKey, workPath, WORK_GROUP_SLUGS } from "../../../lib/routes.js";
@@ -11,9 +11,9 @@ import { DECKS, groupsOf, cardsOf, LANGS } from "../../../lib/berufeWortschatz.j
 import "../../../styles/berufe.css";
 
 export function getStaticPaths() {
-  return BERUFE.flatMap((b) => groupsOf(b.slug).map((g: any) => ({ params: { beruf: itemSlug("/english-for-work", b.slug), gruppe: WORK_GROUP_SLUGS[g.id] ?? g.id }, props: { group: g } })));
+  return BERUFE.flatMap((b) => groupsOf(b.slug).map((g: any) => ({ params: { beruf: itemSlug("/spanish-for-work", b.slug), gruppe: WORK_GROUP_SLUGS[g.id] ?? g.id }, props: { group: g } })));
 }
-const beruf = itemKey("/english-for-work", (Astro.params as { beruf: string }).beruf);
+const beruf = itemKey("/spanish-for-work", (Astro.params as { beruf: string }).beruf);
 const { group } = Astro.props as any;
 const deck = DECKS[beruf];
 const cards = cardsOf(beruf, group.id);
@@ -23,7 +23,7 @@ const printHref = `${workPath(beruf, group.id)}/print`;
 <Layout
   title={fitTitle(`${group.title} – ${deck.title}`, group.title)}
   description={`${deck.title}: ${group.title} — ${cards.length} words with example sentences and translations.`}
-  breadcrumb={[{ name: "Spanish for work", path: "/english-for-work" }, { name: deck.title, path: workPath(beruf) }]}
+  breadcrumb={[{ name: "Spanish for work", path: "/spanish-for-work" }, { name: deck.title, path: workPath(beruf) }]}
 >
   <VokabelTrainer
     cards={cards}

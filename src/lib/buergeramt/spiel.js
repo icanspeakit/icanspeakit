@@ -1,4 +1,4 @@
-// Bruno at the desk (/games/front-desk, later /games/extranjeria): Bruno, our dachshund, works
+// Bruno at the desk (/games/extranjeria): Bruno, our dachshund, works
 // window 3 in the invented town of Villabruno: two days at the padrón, then the foreigners' office
 // (NIE, TIE, questions about arraigo and the 2026 regularisation). The number display dings, a
 // customer slides papers across the desk, and the player checks them against Regi's rule memo:

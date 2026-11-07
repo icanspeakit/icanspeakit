@@ -20,7 +20,7 @@ export const STEPS = [
     tap: "Tap the first step and show how little is on the screen.",
   },
   {
-    href: "/two-objects",
+    href: "/indirect-object-pronouns",
     title: "Grammar: rule and exercises",
     pitch: "Every topic as a short rule with examples, then exercises with instant feedback – from A1 to C1.",
     tap: "Fill a gap wrongly: the explanation appears at once.",

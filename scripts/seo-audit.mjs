@@ -23,12 +23,12 @@ const BRAND = "icanspeak Spanish";
 const MAX_TITLE = 60;
 
 const PRIORITY = [
-  "/", "/trinity/ise-1", "/trinity/ise-1/mock-test", "/trinity/ise-1/practice-set", "/life-in-the-uk",
-  "/life-in-the-uk/test", "/exams", "/trinity", "/cambridge", "/ielts",
-  "/a1-test", "/placement-test", "/grammar", "/vocabulary", "/exercises",
+  "/", "/nationality/dele-a2", "/nationality/dele-a2/mock-test", "/nationality/dele-a2/practice-set", "/ccse",
+  "/ccse/test", "/exams", "/siele/levels", "/dele", "/siele",
+  "/dele/a1", "/placement-test", "/grammar", "/vocabulary", "/exercises",
   "/pronunciation-check",
 ];
-const isPriority = (p) => PRIORITY.includes(p) || p.startsWith("/cambridge/");
+const isPriority = (p) => PRIORITY.includes(p) || p.startsWith("/dele/");
 
 const walk = (dir) =>
   readdirSync(dir).flatMap((name) => {

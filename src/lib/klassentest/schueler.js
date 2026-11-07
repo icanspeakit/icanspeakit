@@ -91,7 +91,7 @@ export async function mountTest(root) {
       $("[data-code-error]").textContent = t("uf.s.err.code", "Diesen Code gibt es nicht. Schau noch einmal auf die Tafel.");
       return;
     }
-    history.replaceState(null, "", `/test?c=${code}`);
+    history.replaceState(null, "", `?c=${code}`);
     if (done) { result = done; return drawDone(); }
     if (!test.offen) return go("zu");
     const kept = read(STAND_KEY(code));

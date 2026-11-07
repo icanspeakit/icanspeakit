@@ -68,7 +68,7 @@ const drills = ids.map((id) => ({ id, ...all[id] }));
           <button type="button" class="md-btn md-btn--primary" data-record-btn>● <span data-i18n="kultur.fehler.record">Nachsprechen</span></button>
           <p class="md-status" data-record-status aria-live="polite"></p>
           <div data-record-findings></div>
-          <p data-record-login hidden><a class="md-btn" href={`/anmelden?next=${encodeURIComponent(stripBase(Astro.url.pathname))}`} data-i18n="af.login">Anmelden</a></p>
+          <p data-record-login hidden><a class="md-btn" href={`/account?next=${encodeURIComponent(stripBase(Astro.url.pathname))}`} data-i18n="af.login">Anmelden</a></p>
         </div>
       </details>
     ))}

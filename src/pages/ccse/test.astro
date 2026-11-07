@@ -26,7 +26,7 @@ const { questions, meta, bundeslaender } = lid;
       <p class="eyebrow"><span data-i18n="exam.lid.name">CCSE nationality test</span> · <span data-i18n="lid.test.eyebrow">Practice test</span></p>
       <h1><span class="hero-exam" data-i18n="exam.lid.name">CCSE nationality test</span> <span data-i18n="exam.h1.lidTest">Practice test</span></h1>
       <p data-i18n-html="lid.test.hero" data-i18n-vars={JSON.stringify({ n: meta.federalQuestions, t: meta.totalQuestions, m: meta.minutes, pass: meta.passScore })}>
-        n practice questions in Spanish in the same five areas as the real test, plus extra questions on a comunidad autónoma. The real test has t questions and m minutes; you pass with pass correct answers (check the current figures with the Instituto Cervantes). Unsure of the facts? Go through the <a href="/life-in-the-uk/facts">facts page</a> first.
+        n practice questions in Spanish in the same five areas as the real test, plus extra questions on a comunidad autónoma. The real test has t questions and m minutes; you pass with pass correct answers (check the current figures with the Instituto Cervantes). Unsure of the facts? Go through the <a href="/ccse/facts">facts page</a> first.
       </p>
     </div>
     <ExamDisclaimer />
@@ -229,7 +229,7 @@ const { questions, meta, bundeslaender } = lid;
 
           const actions = el("div", "exam-actions");
           const facts = el("a", "quiz-btn", t("lid.toFacts"));
-          facts.href = withBase("/life-in-the-uk/facts");
+          facts.href = withBase("/ccse/facts");
           actions.appendChild(facts);
           main.appendChild(actions);
         },

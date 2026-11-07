@@ -43,7 +43,7 @@ import praepTrainer from "../data/praepositionen-trainer.json";
 // shadows the quiz entry with the same id.
 const workspaceModules = import.meta.glob("../data/grammatik/*.json", { eager: true });
 // Deutsch für den Beruf (FACHVOKABULAR-TIERED-PROMPT.md, Tier 3): the word count over every
-// profession deck, refs included — the number the /english-for-work hub shows.
+// profession deck, refs included — the number the /spanish-for-work hub shows.
 const berufeDecks = Object.values(import.meta.glob("../data/berufe/*.json", { eager: true, import: "default" }));
 const berufeWordCount = berufeDecks.reduce((n, d) => n + (d.groups ?? []).reduce((m, g) => m + (g.words ?? []).length, 0), 0);
 const workspaces = Object.values(workspaceModules).map((m) => m.default ?? m).filter(isReviewed);
@@ -135,7 +135,7 @@ export const tools = [
     titleKey: "tool.aussprache.title", title: "Aussprache-Training", shortKey: "group.short.aussprache", short: "Aussprache",
     descKey: "tool.aussprache.desc", desc: "Wörter anhören und im Langsam-Modus üben.",
     countKey: "tool.aussprache.count", countVars: { n: wortschatz.length + artikel.length }, count: `${wortschatz.length + artikel.length} Wörter` },
-  { id: "berufe", group: "woerter", href: "/english-for-work", icon: "target",
+  { id: "berufe", group: "woerter", href: "/spanish-for-work", icon: "target",
     titleKey: "tool.berufe.title", title: "Spanish for work", shortKey: "group.short.berufe", short: "Work",
     descKey: "tool.berufe.desc", desc: "Job vocabulary for Spain: care work, bars and restaurants, cleaning, farm work, construction and more.",
     countKey: "tool.berufe.count", countVars: { n: berufeWordCount }, count: `${berufeWordCount} words`,
@@ -245,11 +245,11 @@ export const landingTools = (() => {
 
 export const exams = [
   // Exam names per docs/content-plan.md §2 (ids are the old slots; hrefs renamed by `routes`).
-  { id: "telc", group: "pruefungen", href: "/trinity", icon: "document", title: "SIELE by level", short: "SIELE levels", count: "A2–C1" },
-  { id: "goethe", group: "pruefungen", href: "/cambridge", icon: "landmark", title: "DELE", short: "DELE", count: "A1–C2" },
-  { id: "testdaf", group: "pruefungen", href: "/ielts", icon: "graduation-cap", title: "SIELE", short: "SIELE", count: "A1–C1" },
-  { id: "dtz", group: "pruefungen", href: "/trinity/ise-1", icon: "book-open", title: "DELE A2 for nationality", short: "DELE A2", count: "A2" },
-  { id: "lid", group: "pruefungen", href: "/life-in-the-uk", icon: "map-pin", titleKey: "exam.lid.name", title: "CCSE nationality test", short: "CCSE",
+  { id: "telc", group: "pruefungen", href: "/siele/levels", icon: "document", title: "SIELE by level", short: "SIELE levels", count: "A2–C1" },
+  { id: "goethe", group: "pruefungen", href: "/dele", icon: "landmark", title: "DELE", short: "DELE", count: "A1–C2" },
+  { id: "testdaf", group: "pruefungen", href: "/siele", icon: "graduation-cap", title: "SIELE", short: "SIELE", count: "A1–C1" },
+  { id: "dtz", group: "pruefungen", href: "/nationality/dele-a2", icon: "book-open", title: "DELE A2 for nationality", short: "DELE A2", count: "A2" },
+  { id: "lid", group: "pruefungen", href: "/ccse", icon: "map-pin", titleKey: "exam.lid.name", title: "CCSE nationality test", short: "CCSE",
     keywords: "ccse nacionalidad nationality citizenship naturalisation constitución constitution spain",
     countKey: "group.count.bundeslaender", countVars: { n: lid.bundeslaender.length }, count: `${lid.bundeslaender.length} regions` },
 ];
@@ -631,7 +631,7 @@ const kulturInsiderItem = {
    The same facts serve both: a learner reading about Germany meets the exam, and one
    preparing for the exam is reading Landeskunde anyway. */
 const kulturLidFaktenItem = {
-  id: "kultur-lid-fakten", href: "/life-in-the-uk/facts", icon: "graduation-cap",
+  id: "kultur-lid-fakten", href: "/ccse/facts", icon: "graduation-cap",
   title: "Facts about Spain", titleKey: "nav.kultur.lidFakten",
   count: "CCSE nationality test", countKey: "nav.kultur.lidFaktenHint",
 };
@@ -820,9 +820,9 @@ export const skills = SKILLS.map((skill) => ({
 
 const grammatikTrainer = notSelf("/grammar", itemsOf("grammatik"));
 
-/** The Bruno Kart game (/games/countable-sprint): listed under Spiele in both menus.
+/** The Bruno Kart game (/games/gender-sprint): listed under Spiele in both menus.
  *  Not in `tools`, which feeds the landing grid and the counts. */
-const sprintItem = { id: "artikel-sprint", href: "/games/countable-sprint", icon: "sparkle",
+const sprintItem = { id: "artikel-sprint", href: "/games/gender-sprint", icon: "sparkle",
   titleKey: "sprint.name", title: "Bruno Kart",
   hintKey: "nav.hint.game", hint: "Spiel, auch mit Freunden",
   countKey: "nav.hint.game", count: "Spiel, auch mit Freunden" };
@@ -832,7 +832,7 @@ const wortschatzItems = notSelf("/vocabulary", itemsOf("woerter"));
  *  page, so the section has no href — the desktop head is a label and the drawer pane has
  *  no "Alle …" row. */
 const spieleItems = [
-  { id: "lindenau", href: "/games/brambleford", icon: "landmark",
+  { id: "lindenau", href: "/games/villabruno", icon: "landmark",
     titleKey: "nav.spiele.lindenau", title: "The Legend of Villabruno",
     hintKey: "nav.spiele.lindenauHint", hint: "Role-play in town, A1",
     countKey: "nav.spiele.lindenauHint", count: "Role-play in town, A1" },
@@ -1040,8 +1040,8 @@ export const navUebenMenu = {
           href: `/vocabulary/${level.toLowerCase()}`,
           titleKey: "nav.vocab.listLevel", titleVars: { level }, title: `Wortliste ${level}`,
         })),
-        // Not a level: the profession decks (/english-for-work), A2–B1, for learners who work.
-        { href: "/english-for-work", titleKey: "tool.berufe.title", title: "Spanish for work",
+        // Not a level: the profession decks (/spanish-for-work), A2–B1, for learners who work.
+        { href: "/spanish-for-work", titleKey: "tool.berufe.title", title: "Spanish for work",
           hintKey: "nav.wortschatz.berufeHint", hint: "Words for your job" },
         // Not a level: phrases, model texts and exercises for office work (/business-spanish).
         { href: "/business-spanish", titleKey: "biz.title", title: "Business Spanish",
@@ -1142,7 +1142,7 @@ export const navRedewendungen = REDEWENDUNGEN_LIVE
 
 // /merch: an interest page for shirts, mugs and caps with the crew and the Wortfallen (no
 // shop yet). In the Wissen menu beside Wortfallen and on the phone drawer's first screen.
-export const navMerch = { href: "/merch", titleKey: "nav.merch", title: "Merch: Shirts & Tassen",
+export const navMerch = { href: "/account", titleKey: "nav.merch", title: "Merch: Shirts & Tassen",
   hintKey: "nav.merchHint", hint: "Bald: die Crew zum Anziehen" };
 
 // „Entdecken“: the extras that are not lessons – the crew, the live hour, the films of how it
@@ -1236,7 +1236,7 @@ export const navWissenMenu = {
           hintKey: "nav.wissen.verbenHint", hint: "Präsens, Präteritum, Perfekt mit Regeln" },
         { href: "/grammar/irregular-verbs", titleKey: "nav.wissen.stark", title: "Starke und schwache Verben",
           hintKey: "nav.wissen.starkHint", hint: "Vokalreihen, Präteritum, Partizip" },
-        { href: "/grammar/phrasal-verbs-list", titleKey: "nav.wissen.trennbar", title: "Trennbare und untrennbare Verben",
+        { href: "/grammar/reflexive-verbs-list", titleKey: "nav.wissen.trennbar", title: "Trennbare und untrennbare Verben",
           hintKey: "nav.wissen.trennbarHint", hint: "anrufen, verstehen, übersetzen" },
         { href: "/grammar/verbs-with-prepositions", titleKey: "nav.wissen.verbPraep", title: "Verben mit Präpositionen",
           hintKey: "nav.wissen.verbPraepHint", hint: "warten auf, sich freuen über" },

@@ -121,7 +121,7 @@ function starkTopic(file, data) {
   };
 }
 
-/* ---- /grammar/phrasal-verbs-list (reflexive and pronominal verbs) ------------------------------------------------------- */
+/* ---- /grammar/reflexive-verbs-list (reflexive and pronominal verbs) ------------------------------------------------------- */
 function trennbarTopic(file, data) {
   const sec = (id) => rowsOf(data.sections.find((s) => s.id === id) ?? {});
   const trennbar = sec("trennbar");

@@ -34,11 +34,11 @@ const exams = [
   {
     key: "dtz", label: "DELE A2 mock test (nationality)", level: "A2", feature: "pruefungssaetze",
     sets: [
-      { label: dtz1.label ?? "Practice set 1", href: "/trinity/ise-1/practice-set" },
-      ...paidManifest.dtz.map((s) => ({ label: s.label, href: `/trinity/ise-1/practice-set?satz=${s.id}`, paid: true })),
+      { label: dtz1.label ?? "Practice set 1", href: "/nationality/dele-a2/practice-set" },
+      ...paidManifest.dtz.map((s) => ({ label: s.label, href: `/nationality/dele-a2/practice-set?satz=${s.id}`, paid: true })),
     ],
   },
-  { key: "start-deutsch-1", label: "DELE A1 practice test", level: "A1", sets: [{ label: "Practice set 1", href: "/a1-test" }] },
+  { key: "start-deutsch-1", label: "DELE A1 practice test", level: "A1", sets: [{ label: "Practice set 1", href: "/dele/a1" }] },
   ...["goethe", "telc"].flatMap((exam) =>
     [...new Set(saetze.filter((s) => s.exam === exam).map((s) => s.level))].map((level) => ({
       key: `${exam}-${level.toLowerCase()}`,

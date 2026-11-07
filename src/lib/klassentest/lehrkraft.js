@@ -66,7 +66,7 @@ export async function mountTests(root) {
   await loadText(() => { if (mounted) { render(); drawTopics(); drawPreview(); } });
 
   /* -------------------------------------------------------------- who ---- */
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(location.pathname)}`;
+  $("[data-signin-link]").href = `${withBase("/account")}?next=${encodeURIComponent(location.pathname)}`;
   const user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {

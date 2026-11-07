@@ -1,10 +1,10 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import ExamShell from "../../components/ExamShell.astro";
-import SatzListe from "../../components/SatzListe.astro";
-import ExamPractice from "../../components/ExamPractice.astro";
-import ExamFormat from "../../components/ExamFormat.astro";
-import telcFormate from "../../data/pruefungen/telc-formate.json";
+import Layout from "../../../layouts/Layout.astro";
+import ExamShell from "../../../components/ExamShell.astro";
+import SatzListe from "../../../components/SatzListe.astro";
+import ExamPractice from "../../../components/ExamPractice.astro";
+import ExamFormat from "../../../components/ExamFormat.astro";
+import telcFormate from "../../../data/pruefungen/telc-formate.json";
 
 // SIELE by level (content-plan §2: the telc slot). Format data comes from telc-formate.json.
 // The real SIELE is one multilevel exam; each set here holds the tasks aimed at one band, and
@@ -77,7 +77,7 @@ const formate = telcFormate.formate;
         More gap-fill practice with grammar and vocabulary in context, useful for reading task 5. We wrote
         this trainer for the DELE, so its layout isn't the SIELE's.
       </p>
-      <a class="quiz-btn quiz-btn--primary" href="/cambridge/use-of-english" data-i18n="telc.sb.cta">To the uso de la lengua trainer</a>
+      <a class="quiz-btn quiz-btn--primary" href="/dele/language-use" data-i18n="telc.sb.cta">To the uso de la lengua trainer</a>
     </div>
 
     <div class="mock-cta">
@@ -92,7 +92,7 @@ const formate = telcFormate.formate;
         Our own A1 practice test in the style of the DELE, for more A1 practice than the first SIELE tasks
         give. It is marked against a 60 % pass line, which is our own convention, not an official mark.
       </p>
-      <a class="quiz-btn quiz-btn--primary" href="/a1-test" data-i18n="exam.startSet">Start the practice set</a>
+      <a class="quiz-btn quiz-btn--primary" href="/dele/a1" data-i18n="exam.startSet">Start the practice set</a>
     </div>
 
     <ExamPractice

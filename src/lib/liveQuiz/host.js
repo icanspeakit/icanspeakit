@@ -127,7 +127,7 @@ export function mountHost(root) {
     const next = encodeURIComponent(location.pathname + location.search);
     if (!user) {
       ownSel.innerHTML = "";
-      ownNote.innerHTML = t("lq.src.signin", "Eigene Quizze sind in deinem Konto gespeichert. <a href=\"{href}\">Anmelden</a>, um sie hier zu starten.", { href: `${withBase("/anmelden")}?next=${next}` });
+      ownNote.innerHTML = t("lq.src.signin", "Eigene Quizze sind in deinem Konto gespeichert. <a href=\"{href}\">Anmelden</a>, um sie hier zu starten.", { href: `${withBase("/account")}?next=${next}` });
       return;
     }
     try {

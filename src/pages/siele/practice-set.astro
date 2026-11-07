@@ -4,7 +4,7 @@ import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
 // like the S2 modality but shorter. Two things are said out loud on the Start part: the
 // structure comes from the public exam guide, and every text and item is written by
 // icanspeak Spanish. Task 1 follows a real SIELE task type; tasks 2 and 3 are plain reading
-// practice, and the real gap-text tasks are in the band sets on /trinity.
+// practice, and the real gap-text tasks are in the band sets on /siele/levels.
 //
 // Listening is deliberately absent: it needs recordings. The band sets have listening
 // scripts to read until audio exists.
@@ -21,7 +21,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
 >
   <SiteNav active="pruefungen" />
   <main class="practice-main practice-main--wide practice-main--trainer">
-    <a href="/ielts" class="vp-back-link" data-i18n="exam.backToTestdaf">Back to the SIELE page</a>
+    <a href="/siele" class="vp-back-link" data-i18n="exam.backToTestdaf">Back to the SIELE page</a>
 
     <div class="practice-hero">
       <p class="eyebrow"><span translate="no">SIELE</span> · <span data-i18n="exam.h1.set">Practice set</span></p>
@@ -348,7 +348,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
 
           const actions = el("div", "exam-actions");
           const back = el("a", "quiz-btn", escapeHtml(T("tdf.toPage", "To the SIELE page")));
-          back.href = withBase("/ielts");
+          back.href = withBase("/siele");
           actions.appendChild(back);
           main.appendChild(actions);
         },

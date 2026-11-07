@@ -1,6 +1,6 @@
 ---
 import { fitTitle } from "../../../lib/seo/title.js";
-// /english-for-work/[beruf]: one sector, with its intro, word groups, sample sentences, tips and links.
+// /spanish-for-work/[beruf]: one sector, with its intro, word groups, sample sentences, tips and links.
 // Tips and job titles come from the deck: general orientation, never legal advice.
 import Layout from "../../../layouts/Layout.astro";
 import { itemSlug, itemKey, workPath } from "../../../lib/routes.js";
@@ -18,10 +18,10 @@ import "../../../styles/kultur-hub.css";
 import "../../../styles/berufe.css";
 
 export function getStaticPaths() {
-  return BERUFE.filter((b) => hasPage(b.slug)).map((b) => ({ params: { beruf: itemSlug("/english-for-work", b.slug) } }));
+  return BERUFE.filter((b) => hasPage(b.slug)).map((b) => ({ params: { beruf: itemSlug("/spanish-for-work", b.slug) } }));
 }
 // The sector's key (berufe/<key>.json, refs, downloads); the URL slug is English.
-const beruf = itemKey("/english-for-work", (Astro.params as { beruf: string }).beruf);
+const beruf = itemKey("/spanish-for-work", (Astro.params as { beruf: string }).beruf);
 const deck = DECKS[beruf];
 const groups = groupsOf(beruf);
 const n = entryCount(deck);
@@ -40,7 +40,7 @@ const v = (o: Record<string, unknown>) => JSON.stringify(o);
   <main class="practice-main practice-main--wide">
     <HubBild id={`berufe-${beruf}`} />
     <div class="practice-hero">
-      <p class="eyebrow"><a href="/english-for-work" data-i18n="berufe.hero.title">Deutsch für den Beruf</a></p>
+      <p class="eyebrow"><a href="/spanish-for-work" data-i18n="berufe.hero.title">Deutsch für den Beruf</a></p>
       <h1>{deck.title}</h1>
       <div class="bv-badges">
         <span class="bv-badge">{deck.level}</span>
@@ -124,7 +124,7 @@ const v = (o: Record<string, unknown>) => JSON.stringify(o);
       </nav>
     )}
 
-    <p class="bv-back"><a href="/english-for-work" data-i18n="berufe.back.hub">← Alle Berufe</a></p>
+    <p class="bv-back"><a href="/spanish-for-work" data-i18n="berufe.back.hub">← Alle Berufe</a></p>
   </main>
 </Layout>
 

@@ -67,7 +67,7 @@ export async function mountErgebnis(root) {
   let sortBy = "name";
   await loadText(() => { if (k) render(); });
 
-  $("[data-signin-link]").href = withBase(`/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`);
+  $("[data-signin-link]").href = withBase(`/account?next=${encodeURIComponent(currentPath() + location.search)}`);
   if (!(await currentUser())) return gate("signin");
   try {
     k = await test(params.get("id"));

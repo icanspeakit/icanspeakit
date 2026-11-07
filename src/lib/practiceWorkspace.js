@@ -427,7 +427,7 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
       : t("pw.done.savedLocal", "Dein Fortschritt und deine Fehler sind nur in diesem Browser gespeichert. Melde dich an, dann gehen sie nicht verloren.");
     const link = signedIn
       ? `<a class="akk-done-save-link" href="${withBase("/progress")}">${t("pw.done.toProgress", "Zum Fortschritt")}</a>`
-      : `<a class="akk-done-save-link" href="${withBase("/anmelden")}?next=${next}">${t("pw.done.signIn", "Anmelden und speichern")}</a>`;
+      : `<a class="akk-done-save-link" href="${withBase("/account")}?next=${next}">${t("pw.done.signIn", "Anmelden und speichern")}</a>`;
     return `
       <div class="akk-done-save${signedIn ? "" : " akk-done-save--local"}">
         <span class="akk-done-save-who" aria-hidden="true">${mascotSvg({ name: "regi", expr: "happy", size: 52, label: "" })}</span>

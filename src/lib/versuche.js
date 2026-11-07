@@ -31,7 +31,7 @@
 // accepted. Each row carries a client_id and the insert ignores duplicates, so a retry after
 // an uncertain send can't count a set twice.
 import { answerTimed, startHinweise, takeHinweise } from "./hinweise.js";
-import { germanPath } from "./routes.js";
+import { itemKey, topicKeyFromSlug, workGroupKey } from "./routes.js";
 import { currentPath } from "./paths.js";
 
 const QUEUE_KEY = "da_versuche_queue";
@@ -71,32 +71,37 @@ const clean = (ref) => {
  * hold several exercises call setRef() when the learner switches. null = not logged.
  */
 export function pageRef(path = currentPath()) {
-  // Refs stayed German when the URLs became English (src/lib/routes.js): map back first.
-  const s = germanPath(path.replace(/\/+$/, "")).split("/").filter(Boolean);
+  // The URL is the course's; a ref keeps its data id, which class tasks and progress key on.
+  const s = path.replace(/\/+$/, "").split("/").filter(Boolean);
   const [a, b, c] = s;
   switch (a) {
-    case undefined: case "einfach": return null;
-    case "wortschatz": return `w:${b ?? "redemittel"}`;
+    case undefined: case "step-by-step": return null;
+    case "vocabulary": return `w:${!b || b === "phrases" ? "redemittel" : b}`;
     // A teacher's shared card set: the class task for it carries the same ref.
-    case "kartenset": {
+    case "card-set": {
       const t = new URLSearchParams(location.search).get("t");
       return t ? `vs:${t}` : null;
     }
-    case "berufe": return b && c ? `w:berufe-${b}-${c}` : null;
-    case "hoeren": return b ? `h:${b}` : null;
-    case "lesen": return b ? `l:${b}` : null;
-    case "lesen-schreiben": return "l:ls";
-    case "kultur": return b === "insider" ? (c ? `k:insider/${c}` : null) : b ? `k:${b}` : null;
-    case "schreiben": return b ? `s:${b}` : null;
-    case "sprechen": return b ? `sp:${b}` : null;
-    case "sprechen-b1b2": return "sp:b1b2";
-    case "aussprache": return "a:aussprache";
-    case "dtz": return b ? `x:dtz/${b === "uebungssatz" ? "uebungssatz-1" : b}` : null;
-    case "grammatik": return b === "quiz" ? "g:quiz" : b === "lauf" ? "g:lauf" : null;
+    case "spanish-for-work": return b && c ? `w:berufe-${itemKey("/spanish-for-work", b)}-${workGroupKey(c)}` : null;
+    case "listening": return b ? `h:${itemKey("/listening", b)}` : null;
+    case "reading": return b ? `l:${itemKey("/reading", b)}` : null;
+    case "reading-writing": return "l:ls";
+    case "culture":
+      if (b === "insider") return c ? `k:insider/${itemKey("/culture/insider", c)}` : null;
+      return b ? `k:${itemKey("/culture", b)}` : null;
+    case "writing": return b ? `s:${itemKey("/writing", b)}` : null;
+    case "speaking": return b ? `sp:${itemKey("/speaking", b)}` : null;
+    case "speaking-b1-b2": return "sp:b1b2";
+    case "pronunciation": return "a:aussprache";
+    case "nationality":
+      if (b !== "dele-a2" || !c) return null;
+      return `x:dtz/${c === "practice-set" ? "uebungssatz-1" : c}`;
+    case "grammar": return b === "quiz" ? "g:quiz" : b === "path" ? "g:lauf" : null;
+    case "prepositions": return "g:praepositionen";
   }
-  // Root-level grammar topics (/past-simple, /object-pronouns, /prepositions, …).
+  // Root-level grammar topics (/present-perfect, /object-pronouns, …).
   const key = document.getElementById("vp-page")?.dataset.topicKey;
-  return s.length === 1 ? `g:${key || a}` : null;
+  return s.length === 1 ? `g:${key || topicKeyFromSlug(a)}` : null;
 }
 
 /** For pages with several exercises: the one the learner is on now. Ends a set of another. */

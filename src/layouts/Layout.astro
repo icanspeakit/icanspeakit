@@ -41,7 +41,7 @@ interface Props {
       the page itself shows; see the structured-data block below. */
   schema?: Record<string, unknown> | Record<string, unknown>[];
   /** The pages above this one in the breadcrumb trail, when the route alone does not name
-      them (a dynamic parent such as /english-for-work/care-work, or a top-level grammar topic that belongs
+      them (a dynamic parent such as /spanish-for-work/care-work, or a top-level grammar topic that belongs
       under /grammar). Start and the page itself are added. */
   breadcrumb?: Crumb[];
   /** No analytics on this page at all: no consent banner, so PostHog,
@@ -138,7 +138,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
          example sentences and exercises stay German. -->
     <meta name="google" content="notranslate" />
     <!-- translate="no" on <html> (above) is the standard attribute for the same thing. Chrome
-         on iOS ignores the meta tag but honours the attribute; it translated /english-for-work and
+         on iOS ignores the meta tag but honours the attribute; it translated /spanish-for-work and
          /anmelden anyway, and the translated text nodes crashed the React sign-in island
          (Sentry DEUTSCHACADEMY-WEB-A, NotFoundError on insertBefore; WEB-B is the same
          translation loading its CSS from www.gstatic.com). -->

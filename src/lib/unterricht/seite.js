@@ -41,7 +41,7 @@ export async function mountUnterricht(root, data) {
   const show = (name) => views.forEach((v) => (v.hidden = v.dataset.view !== name));
 
   /* -------------------------------------------------------------- who ---- */
-  $("[data-signin-link]").href = `${withBase("/anmelden")}?next=${encodeURIComponent(location.pathname + location.search)}`;
+  $("[data-signin-link]").href = `${withBase("/account")}?next=${encodeURIComponent(location.pathname + location.search)}`;
   const user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {

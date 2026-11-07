@@ -1,4 +1,4 @@
-// "The Legend of Villabruno" (/games/brambleford until `routes`; internal id: lindenau): who
+// "The Legend of Villabruno" (/games/villabruno; internal id: lindenau): who
 // stands where and what they say. One quest per person, A1, everyday errands in Villabruno, an
 // invented Spanish town. The Spanish is the content (npc / de); `en` is its English meaning, the
 // 💡 Help line. (The key `de` is historical: it holds the Spanish line the learner reads and builds.)

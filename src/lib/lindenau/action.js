@@ -1,4 +1,4 @@
-// Lindenau's action parts (/games/brambleford): the story of Super-Blubb, a side-scrolling level
+// Lindenau's action parts (/games/villabruno): the story of Super-Blubb, a side-scrolling level
 // as the way into town, and after every errand another one – run, jump over the mud pits and
 // blow soap bubbles at the dirt monsters. A bubble hurts nobody: it lifts the monster up and washes it clean, and it pops
 // into sparkles, a flower and a word from the errand just played. The third level of an area

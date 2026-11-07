@@ -7,7 +7,7 @@ import { t, onUiText } from "../uiText.js";
 import { withBase } from "../paths.js";
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-const LOGIN = withBase(`/anmelden?next=${encodeURIComponent("/games/listening-safari#bestenliste")}`);
+const LOGIN = withBase(`/account?next=${encodeURIComponent("/games/listening-safari#bestenliste")}`);
 const karten = (k) => (k === "bild" ? t("hs.cards.bild", "Bilder") : k === "wort" ? t("hs.cards.wort", "Wörter") : k);
 
 export function mountBoard(el) {

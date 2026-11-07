@@ -45,7 +45,7 @@ const SWITCHES = [
   { sel: ".ab-seg" },
   { sel: ".ab-langs", options: ":scope > button" },
   { sel: ".sp-seg", options: ":scope > label", content: "[data-sp-sheets]" },
-  // Wortgeschichte: wöchentlich/täglich (subscribe box), Aus/Wöchentlich/Täglich (/konto)
+  // Wortgeschichte: wöchentlich/täglich (subscribe box), Aus/Wöchentlich/Täglich (/account)
   { sel: ".wg-freq", options: ":scope > label" },
   { sel: ".kt-wort-freq", options: ":scope > button" },
   // Merch: Motive by kind, and by product (the grid is redrawn on each change)

@@ -789,7 +789,7 @@ export function mountPlayer(root) {
         note.innerHTML = `<a href="${withBase("/progress")}?ansicht=quiz">${escapeHtml(t("lq.record.saved", "In „Mein Fortschritt“ gespeichert"))} →</a>`;
         note.hidden = false;
       } else if (solo && !/(?:^|;\s*)sb-[^=]+-auth-token/.test(document.cookie)) {
-        note.innerHTML = `<a href="${withBase("/konto")}">${escapeHtml(t("lq.record.signIn", "Anmelden, dann wird jede Runde in deinem Fortschritt gespeichert"))} →</a>`;
+        note.innerHTML = `<a href="${withBase("/account")}">${escapeHtml(t("lq.record.signIn", "Anmelden, dann wird jede Runde in deinem Fortschritt gespeichert"))} →</a>`;
         note.hidden = false;
       }
     });

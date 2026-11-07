@@ -10,7 +10,7 @@ const RECENTS_MAX = 6;
 // Routes worth remembering as "where I was": every page except the hubs and overviews,
 // which are places you pass through (see src/lib/routes.js). The trainers are the only
 // callers of remember(), so a page that never grades anything never lands here.
-import { NOT_RESUMABLE, englishPath } from "./routes.js";
+import { NOT_RESUMABLE } from "./routes.js";
 // The Klassen attempt log. It does nothing at all unless the learner is signed in and in a
 // class; see the header of ./versuche.js.
 import { logAttempt, logSession } from "./versuche.js";
@@ -40,8 +40,7 @@ function load() {
         vocabMastered: data.vocabMastered || [],
         topics: data.topics || {},
         drills: data.drills || {},
-        // Saved before the flat URLs: point old entries at the new address.
-        recents: (data.recents || []).map((r) => (r && r.path ? { ...r, path: englishPath(r.path) } : r)),
+        recents: data.recents || [],
       };
     }
   } catch {}

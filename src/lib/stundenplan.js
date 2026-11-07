@@ -146,9 +146,9 @@ export function videoSearch(name, level) {
 /** An exam line of the plan → the page with that exam's practice sets. */
 export function examHref(text) {
   // The exam pages keep their old slots until the routes run (docs/content-plan.md §2):
-  // SIELE = /trinity, DELE = /cambridge.
-  if (/SIELE/.test(text)) return "/trinity";
-  if (/DELE/.test(text)) return "/cambridge";
+  // SIELE = /siele/levels, DELE = /dele.
+  if (/SIELE/.test(text)) return "/siele/levels";
+  if (/DELE/.test(text)) return "/dele";
   return null;
 }
 

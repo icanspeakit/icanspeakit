@@ -259,7 +259,7 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
         <h2 data-i18n="home3.finalcta.title">Einstufungstest</h2>
         <p data-i18n="home3.finalcta.subtitle">Finde heraus, ob du bei A1, A2, B1 oder B2 einsteigst, und fang dort an.</p>
         <a href="/placement-test" class="lp-final-cta-btn" data-i18n="home3.finalcta.cta">Test starten</a>
-        <div class="lp-final-cta-login"><span data-i18n="home.finalcta.loginQuestion">Schon dabei?</span> <a href="/anmelden" data-i18n="home.finalcta.loginAction">Einloggen</a></div>
+        <div class="lp-final-cta-login"><span data-i18n="home.finalcta.loginQuestion">Schon dabei?</span> <a href="/account" data-i18n="home.finalcta.loginAction">Einloggen</a></div>
       </div>
     </section>
 
@@ -283,18 +283,18 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
           </div>
           <div class="lp-footer-col">
             <h5 data-i18n="nav.exams">Prüfungen</h5>
-            <a href="/cambridge" data-i18n="home.footer.exam.cambridge">DELE</a>
-            <a href="/ielts" data-i18n="home.footer.exam.ielts">SIELE</a>
-            <a href="/trinity" data-i18n="home.footer.exam.trinity">SIELE by level</a>
-            <a href="/life-in-the-uk" data-i18n="home.footer.exam.lifeUk">CCSE</a>
+            <a href="/dele" data-i18n="home.footer.exam.cambridge">DELE</a>
+            <a href="/siele" data-i18n="home.footer.exam.ielts">SIELE</a>
+            <a href="/siele/levels" data-i18n="home.footer.exam.trinity">SIELE by level</a>
+            <a href="/ccse" data-i18n="home.footer.exam.lifeUk">CCSE</a>
           </div>
           <div class="lp-footer-col">
             <h5 data-i18n="home.footer.col.practiseExam">Direkt üben</h5>
-            <a href="/cambridge/b1" data-i18n="home.footer.practice.b1Prelim">DELE B1 practice test</a>
-            <a href="/ielts/practice-set" data-i18n="home.footer.practice.ielts">SIELE practice set</a>
-            <a href="/trinity/ise-1/practice-set" data-i18n="home.footer.practice.ise1">DELE A2 mock test</a>
-            <a href="/life-in-the-uk/test" data-i18n="home.footer.practice.lifeUk">CCSE practice test</a>
-            <a href="/a1-test" data-i18n="home.footer.practice.a1">DELE A1 practice test</a>
+            <a href="/dele/b1" data-i18n="home.footer.practice.b1Prelim">DELE B1 practice test</a>
+            <a href="/siele/practice-set" data-i18n="home.footer.practice.ielts">SIELE practice set</a>
+            <a href="/nationality/dele-a2/practice-set" data-i18n="home.footer.practice.ise1">DELE A2 mock test</a>
+            <a href="/ccse/test" data-i18n="home.footer.practice.lifeUk">CCSE practice test</a>
+            <a href="/dele/a1" data-i18n="home.footer.practice.a1">DELE A1 practice test</a>
           </div>
           <div class="lp-footer-col">
             <h5 data-i18n="home.footer.col.more">Mehr</h5>
@@ -303,7 +303,7 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
             <a href="/knowledge" data-i18n="home.footer.link.knowledge">Wissen</a>
             <a href="/progress" data-i18n="home.footer.link.dashboard">Dein Fortschritt</a>
             <a href="/mascots" data-i18n="home.footer.link.mascots">Die Maskottchen</a>
-            <a href="/merch" data-i18n="home.footer.link.merch">Merch</a>
+            <a href="/account" data-i18n="home.footer.link.merch">Merch</a>
             <a href="/about" data-i18n="home.footer.link.about">Über mich</a>
           </div>
           <!-- Pflichtangaben. Impressum and Datenschutz are not "more links" — a German
@@ -314,8 +314,8 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
             <a href="/legal-notice" data-i18n="home.footer.link.imprint">Impressum</a>
             <a href="/privacy" data-i18n="home.footer.link.privacy">Datenschutz</a>
             <a href="/terms" data-i18n="home.footer.link.terms">Nutzungsbedingungen</a>
-            {PAYWALL && <a href="/kuendigen" data-i18n="home.footer.link.cancel">Cancel a contract</a>}
-            {PAYWALL && <a href="/widerrufen" data-i18n="home.footer.link.withdraw">Withdraw from a contract</a>}
+            {PAYWALL && <a href="/account" data-i18n="home.footer.link.cancel">Cancel a contract</a>}
+            {PAYWALL && <a href="/account" data-i18n="home.footer.link.withdraw">Withdraw from a contract</a>}
           </div>
         </div>
         <div class="lp-footer-bottom">

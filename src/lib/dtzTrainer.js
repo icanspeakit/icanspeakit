@@ -478,7 +478,7 @@ export function mountDtzTrainer(root, data, { onAnswer } = {}) {
   const hoerenIds = ids.filter((i) => i <= 20);
   const lesenIds = ids.filter((i) => i > 20);
   let current = 0; // index into data.parts; data.parts.length === the Schreiben tab
-  // A link may open one part: /trinity/ise-1/practice-set#l5, #schreiben (the cards on /exams/traps).
+  // A link may open one part: /nationality/dele-a2/practice-set#l5, #schreiben (the cards on /exams/traps).
   const hash = location.hash.slice(1);
   if (hash === "schreiben") current = data.parts.length;
   else if (data.parts.some((p) => p.key === hash)) current = data.parts.findIndex((p) => p.key === hash);
@@ -614,7 +614,7 @@ export function mountDtzTrainer(root, data, { onAnswer } = {}) {
         persist();
         if (onAnswer) onAnswer(state.answers[qid].correct);
         const info = itemInfo(data, qid, given);
-        if (info) recordResult({ source: `dtz-${data.id}`, itemId: qid, ...info, level: "A2", topic: `${t("dtzSet.heroExam")}: ${data.label}`.trim(), href: "/trinity/ise-1/practice-set" }, state.answers[qid].correct);
+        if (info) recordResult({ source: `dtz-${data.id}`, itemId: qid, ...info, level: "A2", topic: `${t("dtzSet.heroExam")}: ${data.label}`.trim(), href: "/nationality/dele-a2/practice-set" }, state.answers[qid].correct);
         renderBody();
         renderNav();
         renderSummary();

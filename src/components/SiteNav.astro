@@ -159,12 +159,10 @@ const APP_BUILD = import.meta.env.PUBLIC_TARGET === "app";
 
 {PAYWALL && !APP_BUILD && (
   <script>
-    // "Premium" in the drawer: /mein-zugang for a Premium learner (what they
-    // have and where to start), /preise for everyone else. <html data-plan> is set before
-    // first paint (Layout.astro) and again whenever the purchase hint changes.
+    // "Premium" in the drawer leads to /account (no pricing page in this build).
     import { withBase } from "../lib/paths.js";
     const setPremiumLinks = () => {
-      const href = withBase(document.documentElement.dataset.plan === "premium" ? "/mein-zugang" : "/preise");
+      const href = withBase("/account");
       document.querySelectorAll<HTMLAnchorElement>("a[data-premium-link]").forEach((a) => (a.href = href));
     };
     setPremiumLinks();

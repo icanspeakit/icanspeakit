@@ -122,9 +122,9 @@ const freq = frequencyCounts();
 const cohortList = cohorts();
 const isFreq = current.startsWith("haeufigkeit-");
 
-// On a profession deck (/english-for-work/<beruf>/<gruppe>, deck id berufe-<beruf>-<gruppe>) the panel
+// On a profession deck (/spanish-for-work/<beruf>/<gruppe>, deck id berufe-<beruf>-<gruppe>) the panel
 // shows the Berufe — this one open with its word groups — instead of an A1 list that has
-// nothing to do with the page. Elsewhere the Berufe icon stays a plain link to /english-for-work.
+// nothing to do with the page. Elsewhere the Berufe icon stays a plain link to /spanish-for-work.
 const berufList = [...BERUFE, DGT, BUSINESS].filter((b) => berufGroups(b.slug).length > 0).map((b) => ({
   ...b,
   title: BERUF_DECKS[b.slug].title,
@@ -503,7 +503,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
         ? <a class="ls-prog-more" href="/dgt-vocabulary" data-i18n="dgt.back">← DGT driving vocabulary</a>
         : currentBeruf?.slug === "business"
         ? <a class="ls-prog-more" href="/business-spanish" data-i18n="biz.back">← Business Spanish</a>
-        : <a class="ls-prog-more" href="/english-for-work" data-i18n="berufe.back.hub">← Alle Berufe</a>)}
+        : <a class="ls-prog-more" href="/spanish-for-work" data-i18n="berufe.back.hub">← Alle Berufe</a>)}
     </div>
     )}
 

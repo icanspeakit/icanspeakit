@@ -10,7 +10,7 @@
 // and Anlage 2 (Muster-Widerrufsformular) zu Art. 246a § 1 Abs. 2 Satz 2 EGBGB. Only the
 // placeholders are filled: [1] "des Vertragsabschlusses" (digital content, not on a physical
 // medium), [2] operator details from src/lib/legal.js, [3] the optional sentence on the
-// electronic withdrawal on our website (/widerrufen). Do not rephrase it — not into the
+// electronic withdrawal on our website (/account). Do not rephrase it — not into the
 // du-form either; the model protects best against Abmahnungen as it stands.
 // TODO(legal): the lawyer confirms the filled-in model (docs/legal-drafts/offene-rechtsfragen.md).
 import { LEGAL } from "./legal.js";

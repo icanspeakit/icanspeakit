@@ -2,7 +2,7 @@
 // /games/impostor — Bruno sucht den Hochstapler: everybody gets the same secret word,
 // except the impostor, who only knows the theme. One Spanish sentence each, discuss, vote.
 // This page is the start and the Party mode: one phone passed around, no server, works
-// offline. The class version (projector + phones) is /teachers/games/hochstapler.
+// offline. The class version (projector + phones, src/lib/hochstapler/host.js) needs live rooms and has no page in this build.
 // Logic: src/lib/hochstapler/ (rules game.js, this screen party.js, strings strings.js).
 // A prototype until Edgar releases it: noindex, not in the menu (EXPERIMENTE.md).
 import Layout from "../../layouts/Layout.astro";
@@ -45,7 +45,7 @@ import "../../styles/hochstapler.css";
         <button type="button" class="hst-mode hst-mode--party" data-go-setup>
           <b>{S.party}</b><small>{S.partyHint}</small>
         </button>
-        <a class="hst-mode" href="/teachers/games/hochstapler">
+        <a class="hst-mode" href="/teachers/games">
           <b>{S.klasse}</b><small>{S.klasseHint}</small>
         </a>
       </div>

@@ -58,12 +58,12 @@ export async function mountQuizRecord(root) {
   if (!root || mounted) return;
   mounted = true;
   if (!signedIn()) {
-    root.innerHTML = `<p class="fq-empty">Sign in and every quiz round is saved here: points, correct answers and every question to look back at. <a href="${withBase("/konto")}">Sign in →</a></p>`;
+    root.innerHTML = `<p class="fq-empty">Sign in and every quiz round is saved here: points, correct answers and every question to look back at. <a href="${withBase("/account")}">Sign in →</a></p>`;
     return;
   }
   const res = await apiFetch("/api/quiz/ergebnisse", { credentials: "same-origin" }).catch(() => null);
   if (res?.status === 401) {
-    root.innerHTML = `<p class="fq-empty">Sign in and every quiz round is saved here. <a href="${withBase("/konto")}">Sign in →</a></p>`;
+    root.innerHTML = `<p class="fq-empty">Sign in and every quiz round is saved here. <a href="${withBase("/account")}">Sign in →</a></p>`;
     return;
   }
   if (!res?.ok) {

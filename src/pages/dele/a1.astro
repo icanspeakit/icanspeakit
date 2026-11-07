@@ -1,19 +1,19 @@
 ---
-import ExamDisclaimer from "../components/ExamDisclaimer.astro";
+import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
 // The DELE A1 practice test as a full sitting on the exam shell (src/lib/examApp.js). The
 // slot id start-deutsch-1 is a storage key and stays (docs/content-plan.md §2).
 //
 // Everything a learner answers here was written by icanspeak Spanish. Real DELE items are
 // copyrighted and are not reproduced, and this test is shorter than the real exam. The
 // sourcing note is in the data file and repeated on the Start section.
-import Layout from "../layouts/Layout.astro";
-import SiteNav from "../components/SiteNav.astro";
-import ExamApp from "../components/ExamApp.astro";
-import LevelGrammar from "../components/LevelGrammar.astro";
-import "../styles/practice.css";
-import "../styles/pruefungen.css";
-import satz from "../data/pruefungen/start-deutsch-1/uebungssatz-1.json";
-import { examClips } from "../lib/examHoeren.js";
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import ExamApp from "../../components/ExamApp.astro";
+import LevelGrammar from "../../components/LevelGrammar.astro";
+import "../../styles/practice.css";
+import "../../styles/pruefungen.css";
+import satz from "../../data/pruefungen/start-deutsch-1/uebungssatz-1.json";
+import { examClips } from "../../lib/examHoeren.js";
 
 // The recordings that exist (scripts/generate-exam-hoeren-audio.mjs), by item id.
 const hoerIds = ["teil1", "teil2", "teil3"].flatMap((k) => satz.hoeren[k].items.map((i) => i.id));
@@ -43,12 +43,12 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
 
   <script type="application/json" id="sd1-data" set:html={JSON.stringify(data)}></script>
   <script type="module">
-    import { mountExamApp } from "../lib/examApp.js";
-    import { withBase } from "../lib/paths.js";
-    import { choiceCard, el, sectionHeader, escapeHtml, practiceToggle } from "../lib/exam/renderHelpers.js";
-    import { countAnswered, countCorrect, percent } from "../lib/exam/scoring.js";
-    import { recordAttempt } from "../lib/progress.js";
-    import { readyExamI18n, tx } from "../lib/exam/i18n.js";
+    import { mountExamApp } from "../../lib/examApp.js";
+    import { withBase } from "../../lib/paths.js";
+    import { choiceCard, el, sectionHeader, escapeHtml, practiceToggle } from "../../lib/exam/renderHelpers.js";
+    import { countAnswered, countCorrect, percent } from "../../lib/exam/scoring.js";
+    import { recordAttempt } from "../../lib/progress.js";
+    import { readyExamI18n, tx } from "../../lib/exam/i18n.js";
 
     /* Resolved once, before the app mounts, rather than re-rendered on every language
        change like the other surfaces. This page is a running exam: its sections are built
@@ -470,9 +470,9 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
 
           const actions = el("div", "exam-actions");
           const telc = el("a", "quiz-btn", escapeHtml(T("sd1.toTelc", "To the SIELE overview")));
-          telc.href = withBase("/ielts");
+          telc.href = withBase("/siele");
           const goethe = el("a", "quiz-btn", escapeHtml(T("sd1.toGoethe", "To the DELE overview")));
-          goethe.href = withBase("/cambridge");
+          goethe.href = withBase("/dele");
           actions.appendChild(telc);
           actions.appendChild(goethe);
           main.appendChild(actions);

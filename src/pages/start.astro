@@ -19,20 +19,20 @@ const menu = [
         ["/reading", "Reading & writing", ""],
       ]},
     ],
-    extra: ["/games/brambleford", "🎮 Prefer to play? Go to the games"],
+    extra: ["/games/villabruno", "🎮 Prefer to play? Go to the games"],
     all: ["/exercises", "All exercises"],
   },
   {
     id: "pruefungen", label: "Exams", href: "/exams",
     cols: [
       { title: "Language exams", links: [
-        ["/cambridge", "DELE", "A2 to C1 practice, C2 format"],
-        ["/trinity", "SIELE by level", ""],
-        ["/ielts", "SIELE", ""],
+        ["/dele", "DELE", "A2 to C1 practice, C2 format"],
+        ["/siele/levels", "SIELE by level", ""],
+        ["/siele", "SIELE", ""],
       ]},
       { title: "For life in Spain", links: [
-        ["/trinity/ise-1", "DELE A2 for nationality", "Practice set"],
-        ["/life-in-the-uk", "CCSE", "For nationality"],
+        ["/nationality/dele-a2", "DELE A2 for nationality", "Practice set"],
+        ["/ccse", "CCSE", "For nationality"],
       ]},
     ],
     all: ["/exams", "All exams"],
@@ -59,9 +59,9 @@ const paths = [
   { icon: "/email/hamsti.png", title: "Practise Spanish", text: "Grammar, words, listening and speaking. Short exercises, instant feedback.",
     links: [["/grammar", "Grammar"], ["/vocabulary", "Vocabulary"], ["/articles", "el, la"]], href: "/exercises", cta: "Go to the exercises" },
   { icon: "/email/regi.png", title: "Pass your exam", text: "Real exam formats with timing, scores and an explanation for every answer.",
-    links: [["/cambridge", "DELE"], ["/ielts", "SIELE"], ["/trinity/ise-1", "DELE A2"]], href: "/exams", cta: "Go to the exams" },
+    links: [["/dele", "DELE"], ["/siele", "SIELE"], ["/nationality/dele-a2", "DELE A2"]], href: "/exams", cta: "Go to the exams" },
   { icon: "/email/quaki.png", title: "Live in Spain", text: "The CCSE, Spanish for work and everyday life. What you really need.",
-    links: [["/life-in-the-uk", "CCSE"], ["/english-for-work", "Work"], ["/culture", "Culture"]], href: "/knowledge", cta: "Find out more" },
+    links: [["/ccse", "CCSE"], ["/spanish-for-work", "Work"], ["/culture", "Culture"]], href: "/knowledge", cta: "Find out more" },
 ];
 ---
 <Layout title="Homepage – draft" noindex>
@@ -104,7 +104,7 @@ const paths = [
           <button class="sn-icon" aria-label="Search" title="Search">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
           </button>
-          <a href="/anmelden" class="sn-login">Log in</a>
+          <a href="/account" class="sn-login">Log in</a>
           <a href="/placement-test" class="sn-btn sn-btn--sm">Test your level</a>
           <button class="sn-burger" aria-label="Menu" aria-expanded="false" data-burger>
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -191,7 +191,7 @@ const paths = [
       <section class="sn-final">
         <div class="sn-wrap">
           <h2>Ready? Find your level in 5 minutes.</h2>
-          <p>After that we only show you what suits you. <a href="/preise">See Premium</a></p>
+          <p>After that we only show you what suits you. <a href="/account">See Premium</a></p>
           <a href="/placement-test" class="sn-btn sn-btn--lg">Start the placement test</a>
         </div>
       </section>

@@ -22,7 +22,7 @@ export async function mountUmfragen(root) {
   await loadText(() => { if (mounted) { render(); drawTopics(); drawOwn(); drawZeit(); } });
 
   /* -------------------------------------------------------------- who ---- */
-  $("[data-signin-link]").href = `${withBase("/anmelden")}?next=${encodeURIComponent(location.pathname)}`;
+  $("[data-signin-link]").href = `${withBase("/account")}?next=${encodeURIComponent(location.pathname)}`;
   const user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {

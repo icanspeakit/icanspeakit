@@ -5,7 +5,7 @@
 //   w  a Lernset          → the teachers' worksheet (…/arbeitsblaetter/wortschatz/<id>)
 //      a whole level (a1) → the same, words from the whole level
 //      a frequency round  → the learners' print page (/vocabulary/print/<id>)
-//      a Berufe group     → its print page (/english-for-work/<beruf>/<gruppe>/drucken)
+//      a Berufe group     → its print page (/spanish-for-work/<beruf>/<gruppe>/drucken)
 //   g  a grammar topic    → the teachers' worksheet (…/arbeitsblaetter/grammatik/<slug>)
 //   p  a partner or group sheet, checked ones only (…/arbeitsblaetter/partner/<id>)
 //

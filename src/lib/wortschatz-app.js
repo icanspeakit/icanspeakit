@@ -1242,7 +1242,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
   /* A separable verb is a verb with one thing more to know: in the sentence its prefix
      leaves it for the end ("Zieh bitte die Jacke an."). So the chip names the subclass and
      Regi's line says that one thing, linking to the topic instead of the class list. */
-  const SEPARABLE = { label: "trennbares Verb", say: "Der Anfang steht im Satz am Ende.", href: "/phrasal-verbs", more: "Trennbare Verben" };
+  const SEPARABLE = { label: "trennbares Verb", say: "Der Anfang steht im Satz am Ende.", href: "/ir-a-infinitive", more: "Trennbare Verben" };
   // The chip and Regi's link lead to the same place: the class on /grammar/parts-of-speech.
   const posHref = (card) => withBase(card.pos === "verb" && card.separable ? SEPARABLE.href : `/grammar/parts-of-speech#${card.pos}`);
   function waHtml(card) {

@@ -12,7 +12,7 @@ import "../../styles/exam-dashboard.css";
 const exams = [
   {
     id: "telc",
-    href: "/trinity",
+    href: "/siele/levels",
     icon: "document",
     title: "SIELE by level",
     level: "A2–C1",
@@ -22,7 +22,7 @@ const exams = [
   },
   {
     id: "goethe",
-    href: "/cambridge",
+    href: "/dele",
     icon: "landmark",
     title: "DELE",
     level: "A1–C2",
@@ -32,7 +32,7 @@ const exams = [
   },
   {
     id: "testdaf",
-    href: "/ielts",
+    href: "/siele",
     icon: "graduation-cap",
     title: "SIELE",
     level: "A1–C1",
@@ -42,7 +42,7 @@ const exams = [
   },
   {
     id: "dtz",
-    href: "/trinity/ise-1",
+    href: "/nationality/dele-a2",
     icon: "book-open",
     title: "DELE A2 for nationality (full mock test)",
     level: "A2",
@@ -52,7 +52,7 @@ const exams = [
   },
   {
     id: "lid",
-    href: "/life-in-the-uk",
+    href: "/ccse",
     icon: "map-pin",
     title: "CCSE nationality test",
     titleKey: "exam.lid.name",
@@ -64,8 +64,8 @@ const exams = [
 ];
 
 // Which exam on this site fits which CEFR level. The routes keep their old names for now
-// (the `routes` item renames them): /cambridge = DELE, /trinity = SIELE by level,
-// /trinity/ise-1 = DELE A2 mock for nationality, /ielts = SIELE, /a1-test = DELE A1.
+// (the `routes` item renames them): /dele = DELE, /siele/levels = SIELE by level,
+// /nationality/dele-a2 = DELE A2 mock for nationality, /siele = SIELE, /dele/a1 = DELE A1.
 // An entry without href is shown as plain text (exam not on this site yet).
 // The CCSE has no CEFR level (a knowledge test), so it is in no row.
 const levels = [
@@ -73,48 +73,48 @@ const levels = [
     level: "A1",
     desc: "First steps — understanding and using simple everyday expressions.",
     exams: [
-      { name: "DELE A1 practice test", href: "/a1-test" },
-      { name: "SIELE A1 and A2 tasks", href: "/trinity/a2" },
+      { name: "DELE A1 practice test", href: "/dele/a1" },
+      { name: "SIELE A1 and A2 tasks", href: "/siele/levels/a2" },
     ],
   },
   {
     level: "A2",
     desc: "Basic user — exchanging simple, direct information.",
     exams: [
-      { name: "DELE A2", href: "/cambridge/a2" },
-      { name: "DELE A2 for nationality (full mock test)", href: "/trinity/ise-1" },
-      { name: "SIELE A1 and A2 tasks", href: "/trinity/a2" },
+      { name: "DELE A2", href: "/dele/a2" },
+      { name: "DELE A2 for nationality (full mock test)", href: "/nationality/dele-a2" },
+      { name: "SIELE A1 and A2 tasks", href: "/siele/levels/a2" },
     ],
   },
   {
     level: "B1",
     desc: "Independent user — familiar topics at home, work and school.",
     exams: [
-      { name: "DELE B1", href: "/cambridge/b1" },
-      { name: "SIELE B1 practice", href: "/trinity/b1" },
+      { name: "DELE B1", href: "/dele/b1" },
+      { name: "SIELE B1 practice", href: "/siele/levels/b1" },
     ],
   },
   {
     level: "B2",
     desc: "Independent user, advanced.",
     exams: [
-      { name: "DELE B2", href: "/cambridge/b2" },
-      { name: "SIELE B2 practice", href: "/trinity/b2" },
+      { name: "DELE B2", href: "/dele/b2" },
+      { name: "SIELE B2 practice", href: "/siele/levels/b2" },
     ],
   },
   {
     level: "C1",
     desc: "Proficient user — complex topics, university and work.",
     exams: [
-      { name: "DELE C1", href: "/cambridge/c1" },
-      { name: "SIELE C1 tasks", href: "/trinity/c1" },
+      { name: "DELE C1", href: "/dele/c1" },
+      { name: "SIELE C1 tasks", href: "/siele/levels/c1" },
     ],
   },
   {
     level: "C2",
     desc: "Near-native proficiency.",
     exams: [
-      { name: "DELE C2 (format only, no practice set here)", href: "/cambridge" },
+      { name: "DELE C2 (format only, no practice set here)", href: "/dele" },
     ],
   },
 ];
@@ -220,7 +220,7 @@ const comparison = [
       <p class="format-note" style="max-width:780px;margin:20px auto 0;" data-i18n-html="pruefungen.levelNote">
         „Leben in Deutschland“ hat kein CEFR-Sprachniveau — es ist ein Wissenstest zu Gesellschaft,
         Geschichte und Recht, kein Sprachtest. Deshalb erscheint er in keiner Niveau-Zeile oben; siehe
-        die <a href="/life-in-the-uk">eigene Prüfungsseite</a>.
+        die <a href="/ccse">eigene Prüfungsseite</a>.
       </p>
     </div>
 

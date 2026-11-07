@@ -28,7 +28,7 @@ export async function mountKlassenDashboard(root, names) {
   await loadText(() => { if (ready) renderAll(); });
 
   const id = new URLSearchParams(location.search).get("id");
-  $("[data-signin-link]").href = withBase(`/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`);
+  $("[data-signin-link]").href = withBase(`/account?next=${encodeURIComponent(currentPath() + location.search)}`);
   const user = await currentUser();
   if (!user) return gate("signin");
 

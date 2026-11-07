@@ -80,7 +80,7 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
     };
   }
   if (f.category === "berufe") return { mascot: "hamsti", href: workPath(f.id.replace(/^berufe-/, "")), key: "wissen.next.berufe", label: "Learn the words for your job with flashcards", subKey: "wissen.next.cardsSubPlain", sub: "With audio, one set at a time." };
-  if (f.id.startsWith("lid")) return { mascot: "bruno", href: "/life-in-the-uk/test", key: "wissen.next.lid", label: "Practise the CCSE online", ...PRACTICE_SUB };
+  if (f.id.startsWith("lid")) return { mascot: "bruno", href: "/ccse/test", key: "wissen.next.lid", label: "Practise the CCSE online", ...PRACTICE_SUB };
   return { mascot: "bruno", ...PLACEMENT, subKey: "wissen.next.placementSub", sub: "2 minutes, then you know where to start." };
 }
 ---

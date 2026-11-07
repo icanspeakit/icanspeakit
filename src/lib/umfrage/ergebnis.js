@@ -52,7 +52,7 @@ export async function mountErgebnis(root) {
   let shareOpen = params.has("neu");
   await loadText(() => { if (u) render(); });
 
-  $("[data-signin-link]").href = `${withBase("/anmelden")}?next=${encodeURIComponent(location.pathname + location.search)}`;
+  $("[data-signin-link]").href = `${withBase("/account")}?next=${encodeURIComponent(location.pathname + location.search)}`;
   if (!(await currentUser())) return gate("signin");
   try {
     u = await umfrage(params.get("id"));

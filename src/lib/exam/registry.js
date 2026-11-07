@@ -11,7 +11,7 @@
  *   store "exam" → "da-exam-v1:<key>", { answers: { id: {given, correct} } }
  *                  (src/lib/exam/state.js — A1 practice test, SIELE, CCSE)
  *   store "dtz"  → "da-dtz-v1:<key>",  same answers plus a schreiben object
- *                  (src/lib/dtzTrainer.js — the DELE A2 mock for nationality in the /trinity/ise-1 slot)
+ *                  (src/lib/dtzTrainer.js — the DELE A2 mock for nationality in the /nationality/dele-a2 slot)
  * The ids (start-deutsch-1, testdaf, leben-in-deutschland, dtz) are storage keys from the
  * German course and stay; only the texts are English (docs/content-plan.md §2).
  *
@@ -41,8 +41,8 @@ export const examRegistry = [
     title: "DELE A1 practice test",
     subtitle: "Listening · Reading · Writing · Speaking",
     level: "A1",
-    href: "/a1-test",
-    overview: "/cambridge",
+    href: "/dele/a1",
+    overview: "/dele",
     store: { kind: "exam", key: "start-deutsch-1" },
     // In the style of the DELE A1 (content-plan §2), shorter than the real exam: 60 % is our own convention.
     passNote: "Our own guide: 60 % of the Listening and Reading points. The real DELE A1 has its own scoring rules.",
@@ -63,8 +63,8 @@ export const examRegistry = [
     title: "SIELE reading and writing",
     subtitle: "Reading · Writing",
     level: "B1–C1",
-    href: "/ielts/practice-set",
-    overview: "/ielts",
+    href: "/siele/practice-set",
+    overview: "/siele",
     store: { kind: "exam", key: "testdaf" },
     // Deliberately no pass percentage: the SIELE gives a score per test and every
     // institution sets its own requirement, so a line here would be invented.
@@ -82,8 +82,8 @@ export const examRegistry = [
     title: "CCSE",
     subtitle: "Practice test",
     level: "Knowledge test",
-    href: "/life-in-the-uk/test",
-    overview: "/life-in-the-uk",
+    href: "/ccse/test",
+    overview: "/ccse",
     store: { kind: "exam", key: "leben-in-deutschland" },
     passNote: `Real test: pass with ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions.`,
     passPct: Math.round((lid.meta.passScore / lid.meta.totalQuestions) * 100),
@@ -100,8 +100,8 @@ export const examRegistry = [
     title: "DELE A2 mock for nationality",
     subtitle: dtz1.label,
     level: "A2",
-    href: "/trinity/ise-1/practice-set",
-    overview: "/trinity/ise-1",
+    href: "/nationality/dele-a2/practice-set",
+    overview: "/nationality/dele-a2",
     store: { kind: "dtz", key: dtz1.id },
     // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not a DELE score.
     passNote: "Our own guide, not a DELE score: listening and reading count together, and 33 of 45 points means you are well prepared.",

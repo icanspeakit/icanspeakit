@@ -1,6 +1,6 @@
 // The Übungssätze built on the generic engine (src/lib/exam/pruefungEngine.js): one JSON file
 // per set in src/data/pruefungen/saetze/, named <exam>-<level>-<n>.json. Adding a file is the
-// whole integration — its page (/cambridge/<slug>, /trinity/<slug>), the lists on the exam pages
+// whole integration — its page (/dele/<slug>, /siele/levels/<slug>), the lists on the exam pages
 // and the /progress registry all read this module. Plan: PRUEFUNGEN-A2-C1-TIERED-PROMPT.md.
 //
 // Paid sets (C1) are NOT in that folder: they live in src/paid/pruefungen/saetze/ and only

@@ -1,7 +1,7 @@
 ---
 // Every SIELE-by-level set (telc slot) in src/data/pruefungen/saetze/ (generic engine, see PruefungSatz.astro).
-import PruefungSatz from "../../components/PruefungSatz.astro";
-import { saetzeOf } from "../../lib/exam/saetze.js";
+import PruefungSatz from "../../../components/PruefungSatz.astro";
+import { saetzeOf } from "../../../lib/exam/saetze.js";
 
 export function getStaticPaths() {
   return saetzeOf("telc").map((set) => ({ params: { slug: set.slug }, props: { set } }));

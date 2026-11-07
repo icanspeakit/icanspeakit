@@ -28,7 +28,7 @@ export async function mountBuilder(root) {
 
   /* -------------------------------------------------------------- who ---- */
   const next = encodeURIComponent(location.pathname + location.search);
-  $("[data-signin-link]").href = `${withBase("/anmelden")}?next=${next}`;
+  $("[data-signin-link]").href = `${withBase("/account")}?next=${next}`;
   let user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {

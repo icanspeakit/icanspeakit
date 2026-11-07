@@ -119,8 +119,8 @@ export const setText = (extra, i, text) => ({ ...extra, texte: { ...extra.texte,
 
 /**
  * An event from a page while step i runs → the new extra (the same object if nothing
- * changed). ev: { type: "answer", topic: "/two-objects", key: "0/3", ok } | { type: "karten" }
- *            | { type: "deck", topic: "/two-objects" } | { type: "set" }
+ * changed). ev: { type: "answer", topic: "/indirect-object-pronouns", key: "0/3", ok } | { type: "karten" }
+ *            | { type: "deck", topic: "/indirect-object-pronouns" } | { type: "set" }
  * Only events that count for the step's goal are kept; the step turns „fertig“ once the
  * goal is reached, and never back.
  */

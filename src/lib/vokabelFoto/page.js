@@ -21,7 +21,7 @@ async function teacherGate(root) {
   const $ = (s) => root.querySelector(s);
   const gates = [...root.querySelectorAll("[data-gate]")];
   const gate = (name) => gates.forEach((g) => (g.hidden = g.dataset.gate !== name));
-  $("[data-signin-link]").href = `${withBase("/anmelden")}?next=${encodeURIComponent(location.pathname + location.search)}`;
+  $("[data-signin-link]").href = `${withBase("/account")}?next=${encodeURIComponent(location.pathname + location.search)}`;
   const user = await currentUser();
   if (!user) return gate("signin"), new Promise(() => {});
   if (!isTeacher(user)) {
@@ -513,7 +513,7 @@ export async function mountSetList(root) {
             <a class="lq-btn lq-btn--primary vf-play" href="${withBase("/teachers/cards/learn")}?set=${s.id}">Karteikarten</a>
             <a class="lq-btn lq-btn--ghost vf-play" href="${withBase("/teachers/quiz")}?set=kartenset:${s.id}">Live-Quiz</a>
             <button type="button" class="lq-btn lq-btn--ghost vf-play" data-share aria-expanded="false">${s.share_token ? "Geteilt ✓" : "Mit der Klasse teilen"}</button>
-            <a class="qb-link" href="${withBase("/teachers/cards/print")}?set=${s.id}">Drucken</a>
+            <a class="qb-link" href="${withBase("/account")}?set=${s.id}">Drucken</a>
             <a class="qb-link" href="${withBase("/teachers/quiz/create")}?set=${s.id}">Quizfragen bearbeiten</a>
             <a class="qb-link" href="${withBase("/teachers/cards/photo")}?set=${s.id}">Bearbeiten · Foto hinzufügen</a>
             <button type="button" class="qb-link" data-rename>Umbenennen</button>

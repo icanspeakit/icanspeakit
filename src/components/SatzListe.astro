@@ -1,5 +1,5 @@
 ---
-// The practice sets of one exam, A1 upwards, as the lead block of /cambridge and /trinity. A1 is
+// The practice sets of one exam, A1 upwards, as the lead block of /dele and /siele/levels. A1 is
 // the older test page in the start-deutsch-1 slot (DELE A1); everything else comes from
 // src/data/pruefungen/saetze/ through src/lib/exam/saetze.js, so a new file shows up here.
 import { saetzeOf, hrefOf } from "../lib/exam/saetze.js";
@@ -9,7 +9,7 @@ import "../styles/pruefung-satz.css";
 interface Props { exam: "goethe" | "telc" }
 const { exam } = Astro.props;
 const rows = [
-  ...(exam === "goethe" ? [{ level: "A1", href: "/a1-test", title: "Practice test", meta: "Listening · Reading · Writing · Speaking" }] : []),
+  ...(exam === "goethe" ? [{ level: "A1", href: "/dele/a1", title: "Practice test", meta: "Listening · Reading · Writing · Speaking" }] : []),
   ...saetzeOf(exam).map((s) => ({
     level: s.level,
     href: hrefOf(s),

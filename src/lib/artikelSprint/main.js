@@ -111,7 +111,7 @@ export function mountArtikelSprint(root, data) {
   const pools = new Map();
   async function wordsForRoom(lvl) {
     if (!roomWords.has(lvl)) {
-      roomWords.set(lvl, fetch(withBase(`/games/countable-sprint/woerter-${lvl.toLowerCase()}.json`))
+      roomWords.set(lvl, fetch(withBase(`/games/gender-sprint/woerter-${lvl.toLowerCase()}.json`))
         .then((r) => (r.ok ? r.json() : { nouns: [] }))
         .catch(() => ({ nouns: [] }))
         .then((lex) => {
