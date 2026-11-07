@@ -87,7 +87,8 @@ function check(code) {
   }
   for (const [id, v] of Object.entries(want.chapters)) {
     text(`${id}.title`, tr.chapters?.[id]?.title, v.title);
-    text(`${id}.bubble`, tr.chapters?.[id]?.bubble, v.bubble);
+    // A bubble may stay as it is: the mascots speak Spanish in the book, in every edition.
+    text(`${id}.bubble`, tr.chapters?.[id]?.bubble);
   }
   for (const [id, slot] of Object.entries(want.blocks)) {
     const got = tr.blocks?.[id];
