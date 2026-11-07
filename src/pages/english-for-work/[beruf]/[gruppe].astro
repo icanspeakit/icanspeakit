@@ -28,8 +28,8 @@ const printHref = `${workPath(beruf, group.id)}/print`;
   <VokabelTrainer
     cards={cards}
     heading={group.title}
-    sub={`${deck.title} · ${cards.length} Wörter`}
-    subParts={[{ text: deck.title }, { text: `${cards.length} Wörter`, key: "sets.wordCount", vars: { n: cards.length } }]}
+    sub={`${deck.title} · ${cards.length} words`}
+    subParts={[{ text: deck.title }, { text: `${cards.length} words`, key: "sets.wordCount", vars: { n: cards.length } }]}
     deck={deckId}
     langs={LANGS}
     printHref={printHref}

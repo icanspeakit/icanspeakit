@@ -351,20 +351,20 @@ export const ITEM_SLUGS = {
   // English for work: the sectors; their word groups are WORK_GROUP_SLUGS (one table for
   // all sectors, because the group ids repeat: taetigkeiten, ablaeufe, kunden-team …).
   "/english-for-work": {
-    "bau-handwerk": "construction", buero: "office", einzelhandel: "retail", "elektro-technik": "electrical-and-plumbing",
-    gastronomie: "restaurants", hotel: "hotels", kita: "childcare", kraftfahrer: "driving",
+    "bau-handwerk": "construction", buero: "office", einzelhandel: "shops", "elektro-technik": "agriculture",
+    gastronomie: "hospitality", hotel: "hotels", kita: "cleaning-domestic-work", kraftfahrer: "driving",
     "lager-logistik": "warehouse", pflege: "care-work",
   },
 };
 export const WORK_GROUP_SLUGS = {
   "baustelle-werkzeug": "site-and-tools", taetigkeiten: "tasks", ablaeufe: "workflow", sicherheit: "safety",
   "kunden-team": "customers-and-team", "buero-geraete": "office-and-equipment", datenschutz: "data-protection",
-  "kasse-laden": "till-and-shop-floor", "bauteile-geraete": "parts-and-equipment", "kueche-geraete": "kitchen-and-equipment",
+  "kasse-laden": "till-and-shop-floor", "bauteile-geraete": "tools-and-machines", "kueche-geraete": "kitchen-and-equipment",
   "hygiene-sicherheit": "hygiene-and-safety", "gaeste-team": "guests-and-team", "rezeption-zimmer": "reception-and-rooms",
-  "sicherheit-hygiene": "safety-and-cleaning", "kita-material": "nursery-and-materials", tagesablauf: "nursery-day",
-  "sicherheit-gesundheit": "safety-and-health", "eltern-team": "parents-and-team", fahrzeug: "vehicle",
+  "sicherheit-hygiene": "safety-and-cleaning", "kita-material": "products-and-tools", tagesablauf: "working-day",
+  "sicherheit-gesundheit": "safety-and-health", "eltern-team": "family-and-team", fahrzeug: "vehicle",
   "sicherheit-regeln": "safety-and-rules", "lager-geraete": "warehouse-and-equipment", team: "team",
-  "pflege-kurz": "first-words",
+  "pflege-kurz": "people-and-places",
 };
 const invert = (o) => Object.fromEntries(Object.entries(o).map(([k, v]) => [v, k]));
 const ITEM_KEYS = Object.fromEntries(Object.entries(ITEM_SLUGS).map(([s, m]) => [s, invert(m)]));

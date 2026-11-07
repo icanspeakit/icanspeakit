@@ -1,8 +1,7 @@
 ---
 import { fitTitle } from "../../../lib/seo/title.js";
-// /english-for-work/[beruf] — one profession: intro, its word groups, cross-links (later: situations and
-// the PDF, Tier 2). Built only for a deck with words, plus Pflege (noindex until its words are in).
-// The box pointing to pflegeplace.com, carried over from the German course, is gone.
+// /english-for-work/[beruf]: one sector, with its intro, word groups, sample sentences, tips and links.
+// Tips and job titles come from the deck: general orientation, never legal advice.
 import Layout from "../../../layouts/Layout.astro";
 import { itemSlug, itemKey, workPath } from "../../../lib/routes.js";
 import SiteNav from "../../../components/SiteNav.astro";
@@ -42,7 +41,7 @@ const v = (o: Record<string, unknown>) => JSON.stringify(o);
     <HubBild id={`berufe-${beruf}`} />
     <div class="practice-hero">
       <p class="eyebrow"><a href="/english-for-work" data-i18n="berufe.hero.title">Deutsch für den Beruf</a></p>
-      <h1 lang="en">{deck.title}</h1>
+      <h1>{deck.title}</h1>
       <div class="bv-badges">
         <span class="bv-badge">{deck.level}</span>
         {n > 0 && <span class="bv-badge" data-i18n="sets.wordCount" data-i18n-vars={v({ n })}>{n} Wörter</span>}
@@ -51,12 +50,12 @@ const v = (o: Record<string, unknown>) => JSON.stringify(o);
     </div>
 
     {deck.introEasy && <div class="bv-ls"><LeichtToggle /></div>}
-    <p class="bv-intro" lang="en" {...pair(deck.intro, deck.introEasy)}>{deck.intro}</p>
+    <p class="bv-intro" {...pair(deck.intro, deck.introEasy)}>{deck.intro}</p>
 
     {deck.jobs?.length > 0 && (
       <section class="bv-jobs" aria-labelledby="bv-jobs-h">
         <h2 id="bv-jobs-h" class="bv-sub" data-i18n="berufe.deck.jobs">Für diese Jobs</h2>
-        <ul class="bv-chips" lang="en">{deck.jobs.map((j: string) => <li>{j}</li>)}</ul>
+        <ul class="bv-chips" lang="es">{deck.jobs.map((j: string) => <li>{j}</li>)}</ul>
       </section>
     )}
 
@@ -67,7 +66,7 @@ const v = (o: Record<string, unknown>) => JSON.stringify(o);
           <div class="ku-grid ku-grid--fill">
             {groups.map((g: any) => (
               <a class="ku-card" href={workPath(beruf, g.id)}>
-                <span class="ku-card-txt"><b lang="en">{g.title}</b></span>
+                <span class="ku-card-txt"><b>{g.title}</b></span>
                 <span class="bv-card-meta" data-i18n="sets.wordCount" data-i18n-vars={v({ n: g.words.length })}>{g.words.length} Wörter</span>
               </a>
             ))}
@@ -98,11 +97,11 @@ const v = (o: Record<string, unknown>) => JSON.stringify(o);
           <h2 id="bv-samples-h" class="ku-group-title" data-i18n="berufe.deck.samples">So klingt es bei der Arbeit</h2>
           <SectionMascot name="quaki" say="Read the sentences out loud!" sayKey="berufe.say.samples" />
         </div>
-        <ul lang="en">
+        <ul>
           {samples.map((x) => (
             <li>
-              <q>{x.example}</q>
-              <span class="bv-sample-word"><b>{x.gender ? `${x.gender} ${x.lemma}` : x.lemma}</b> — {x.meaning ?? x.deHint}</span>
+              <q lang="es">{x.example}</q>
+              <span class="bv-sample-word"><b lang="es">{x.gender ? `${x.gender} ${x.lemma}` : x.lemma}</b> — {x.meaning ?? x.deHint}</span>
             </li>
           ))}
         </ul>
@@ -115,13 +114,13 @@ const v = (o: Record<string, unknown>) => JSON.stringify(o);
           <h2 id="bv-tipps-h" class="ku-group-title" data-i18n="berufe.deck.tipps">Tipps für Deutsch bei der Arbeit</h2>
           <SectionMascot name="bruno" expr="thinking" say="This helps you at work." sayKey="berufe.say.tipps" />
         </div>
-        <ul lang="en">{deck.tipps.map((t: string) => <li>{t}</li>)}</ul>
+        <ul>{deck.tipps.map((t: string) => <li>{t}</li>)}</ul>
       </section>
     )}
 
     {deck.links?.length > 0 && (
       <nav class="bv-links" aria-label="Passt dazu" data-i18n-attr="aria-label:berufe.deck.related">
-        {deck.links.map((l: any) => <a href={l.href} lang="en">{l.label} →</a>)}
+        {deck.links.map((l: any) => <a href={l.href}>{l.label} →</a>)}
       </nav>
     )}
 
