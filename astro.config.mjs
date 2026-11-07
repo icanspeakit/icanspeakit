@@ -48,8 +48,8 @@ export default defineConfig({
   // the change is wrong: the build will still succeed and the site will still work, it
   // will just be rendering on demand what it used to serve from the edge.
   output: 'static',
-  // No adapter: a plain static build (dist/) that any static host serves. Add an adapter
-  // (Cloudflare, Vercel, Netlify, Node) only when the first on-demand route arrives.
+  // No adapter: a plain static build (dist/), deployed as a Cloudflare Worker with static
+  // assets only (README.md). Add an adapter only when the first on-demand route arrives.
 
   // React is available for islands; the site itself is vanilla .astro plus the JS modules in
   // src/lib/ — the zero-JS default on content pages is deliberate.

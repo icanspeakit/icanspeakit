@@ -1,13 +1,13 @@
-# EnglishAcademy: architecture
+# icanspeak Spanish: architecture
 
-EnglishAcademy is a copy of the **deutschacademy** codebase (Astro, ~3,000 static pages). The
-whole content, practice and game architecture came across, and **every external integration
-was removed**. The interface is English-only and set up so more languages can be added later.
+icanspeak Spanish is built on the icanspeak-english codebase, itself a copy of **deutschacademy**
+(Astro, static pages). The whole content, practice and game architecture came across, and **every
+external integration was removed**. English is the base interface language, and more languages
+are added through the language registry.
 
-> **Status:** infrastructure and architecture are in place and the build is green. The *learning
-> content* (`src/data/**`, `src/content/**`, `src/paid/**`) is still the German-course
-> material from deutschacademy and works as placeholder data showing each module's shape.
-> Turning it into English-course content is the next phase (see "Content migration" below).
+> **Deploy:** the site is served at `https://icanspeak.it/spanish/`, as a Cloudflare Worker with
+> static assets only. The repo moves into the icanspeakit monorepo as `apps/spanish`. See
+> `README.md`.
 
 ## Stack
 

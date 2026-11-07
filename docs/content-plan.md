@@ -791,9 +791,10 @@ learning Spanish, in Spain and worldwide; see the Portuguese UI decisions at the
 
 ### 10.5 `routes`, `cleanup`, `deploy-readme`
 
-§8, §7; `deploy-readme`: README (pnpm commands, `pnpm check:base`), static Vercel project
-(framework Astro, build `pnpm build`, output `dist`, base `/spanish`), the umbrella rewrite of
-`icanspeak.it/spanish/*` to this project, post-deploy checks.
+§8, §7; `deploy-readme`: README (pnpm commands, `pnpm check:base`), deploy target as changed on
+2026-11-04: this repo moves into the icanspeakit monorepo as `apps/spanish` and deploys as a
+Cloudflare Worker with static assets only on the route `icanspeak.it/spanish/*` (no Vercel, no
+rewrites), post-deploy checks.
 
 ---
 
@@ -910,9 +911,15 @@ are handled by the `ui-*` items where they are rendered.
 - **Contact e-mail** `hello@englishacademy.com` (`src/lib/legal.js`, two strings in `en.json`):
   a legal fact, left unchanged; Edgar: set the real icanspeak address.
 - **robots.txt and deploy**: crawlers only read `https://icanspeak.it/robots.txt` (umbrella
-  site); `public/robots.txt` here is the template for the `/spanish` lines. `public/_headers`
-  is a Cloudflare/Netlify file Vercel ignores; `deploy-readme` decides (vercel.json headers,
-  and whether the Vercel project also rewrites `/spanish/*` → `/*` so its own domain works).
+  site); `public/robots.txt` here is the template for the `/spanish` lines. Decided by
+  `deploy-readme` (2026-11-07): Cloudflare Worker with static assets only, `assets.base_path:
+  "/spanish"`, `dist/` stays flat, no `wrangler` config or dependency in this repo until the move
+  to `apps/spanish` (the config is in `README.md`). `public/_headers` stays and its rule paths
+  carry the base; `pnpm check:base` checks them. Its CSP no longer reports to the old Sentry
+  project or names the old vendors. Open: `/spanish` without a slash may need a redirect or a
+  second route; merging the AI-crawler `Disallow: /` into the umbrella `robots.txt` would cover
+  the whole domain, so Edgar decides its scope; `public/.well-known/tdmrep.json`, which
+  `Layout.astro` and `robots.txt` mention, does not exist.
 - **UI chrome decisions** (`ui-components`, 2026-11-03): component and nav chrome already
   names the Spanish exams by slot (goethe = DELE, testdaf = SIELE, telc = "SIELE by level",
   dtz = "DELE A2 for nationality", Life in the UK = "CCSE nationality test", `/a1-test` = DELE
