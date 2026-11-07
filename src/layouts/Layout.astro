@@ -79,9 +79,8 @@ const {
 const route = stripBase(Astro.url.pathname).replace(/\/+$/, "") || "/";
 const hubOg = Object.values(hubBilder as Record<string, { path: string; og: string; alt: string }>)
   .find((h) => h.path === route);
-// The hub cards in public/og/ still carry the German titles and the deutschacademy brand of
-// the fork (src/data/hub-bilder.json). Until they are rebuilt with Spanish-course titles
-// (`pnpm hubs:build --force` after the titles are rewritten), every page shares the default
+// The old hub cards are gone (they carried the fork's titles and brand). Until new ones exist
+// (`pnpm hubs:build --force`, which needs the original photos), every page shares the default
 // card (scripts/build-wordmark.mjs). Set HUB_CARDS to true then.
 const HUB_CARDS = false;
 const OG_IMAGE = (HUB_CARDS && hubOg?.og) || "/assets/og-default.png";
