@@ -4,12 +4,12 @@
 > Spanish (`SPANISH_LEVELS` in `src/lib/lexicon.js`; all six since `vocab-c1-c2`). For those words every sidecar is
 > **Spanish → that language**, written with the Spanish word in front of the writer, never from
 > the English gloss: `de.json` (nouns with their article, „das Haus“), `fr.json`, `pt.json`
-> (European Portuguese: *comboio, autocarro, telemóvel*, because the course's Portuguese readers
-> live in Europe) and `it.json`. Status: machine draft, no native speaker has reviewed them.
+> (Brazilian Portuguese since `ui-lang-pt`: *trem, ônibus, celular*, the same variety as the
+> interface; written as European Portuguese first and converted) and `it.json`. Status: machine draft, no native speaker has reviewed them.
 > `scripts/lexicon-import.mjs` writes them. `de` is a normal card language since `ui-lang-de`
 > (`cards` with `fetch: true`), and is joined as `deHint` as well for the print sheets and the decks
 > built from rows; `fr` is a card language since `ui-lang-fr` (`cards` with `fetch: true`,
-> `src/lib/glossen.js` reads the file by name), and `pt`, `it` follow with their `ui-lang-*` items. `es.json` and the other empty
+> `src/lib/glossen.js` reads the file by name), so is `pt` since `ui-lang-pt`, and `it` follows with its `ui-lang-*` item. `es.json` and the other empty
 > sidecars are deleted (`cleanup`); `ar`, `ru`, `uk`, `tr` stay as empty files because `lexicon.js` imports them.
 > A language comes back as a new file once someone can write it reliably.
 >
