@@ -1,0 +1,94 @@
+---
+// One quote as a card: the quote, who said it and where, what it means, its three words
+// (article, plural, a hint in easy German and the word in the UI language), and a short
+// life of the person. Used by /knowledge/quotes/<id> and by the fragment
+// /knowledge/quotes/card/<id> that the hub loads for today. Styles: src/styles/zitate.css;
+// behaviour: initCard() in src/lib/zitateClient.js.
+//
+// Two helps on the quote:
+//   „Original | Einfach“  the quote, or the same thought in easy German (`meaning`) in its
+//                          place. The learner's choice is remembered.
+//   „Übersetzung zeigen“  the quote in the language chosen in the header (the only language
+//                          control on the site). Behind a button because reading the German
+//                          is the point, like the Lesetext. Not shown with a German UI.
+// The explanation „Was heißt das?“ is help, not the German being learned, so it shows in the
+// UI language by itself under the German one, like the word glosses.
+import { initials } from "../../lib/zitateData.js";
+
+interface Props { q: any; heading?: "h1" | "p" }
+const { q, heading = "p" } = Astro.props;
+const Tag = heading;
+---
+<article class="zt-card" id={`z-${q.id}`} data-zitat={q.id} data-tl={JSON.stringify(q.tl)}>
+  <div class="zt-top">
+    <div class="t-sw zt-mode" role="group" aria-label="Wie möchtest du das Zitat lesen?" data-i18n-attr="aria-label:zitate.card.modeAria" data-mode>
+      <button type="button" aria-pressed="true" data-mode-btn="original" data-i18n="zitate.card.original">Original</button>
+      <button type="button" aria-pressed="false" data-mode-btn="einfach" data-i18n="zitate.card.einfach">Einfach</button>
+    </div>
+    <span class="zt-level">{q.level}</span>
+  </div>
+
+  <blockquote class="zt-quote" lang="es" data-original>
+    <Tag class="zt-quote-text">{q.text.split(" / ").map((line: string, n: number) => <>{n > 0 && <br />}{line}</>)}</Tag>
+  </blockquote>
+  <div class="zt-easy" data-easy hidden>
+    <p class="zt-easy-label" data-i18n="zitate.card.easyLabel">In simple English</p>
+    <p class="zt-easy-text" lang="en">{q.meaning}</p>
+  </div>
+
+  <div class="zt-tl-wrap" data-tl-wrap hidden>
+    <button type="button" class="zt-tl-btn" aria-expanded="false" data-tl-btn data-i18n="tt.show">Übersetzung zeigen</button>
+    <div class="zt-tl" data-tl-box hidden>
+      <p class="zt-tl-text" data-tl-text></p>
+      <p class="zt-tl-note" data-i18n="zitate.card.machine">Maschinell übersetzt, noch nicht geprüft.</p>
+    </div>
+  </div>
+
+  <!-- Who said it: the face (Wikimedia Commons, credit in the bio below) and one easy line. -->
+  <div class="zt-by">
+    {q.who.bild
+      ? <img class="zt-face" src={q.who.bild.src} alt="" width="56" height="56" loading="lazy" decoding="async" />
+      : <span class="zt-mono zt-face" aria-hidden="true">{initials(q.who.name)}</span>}
+    <div>
+      <p class="zt-by-name"><b lang="en">{q.who.name}</b> <span class="zt-by-years">{q.who.years}</span></p>
+      {q.who.kurz && <p class="zt-kurz" lang="en">{q.who.kurz}</p>}
+      <p class="zt-by-src">
+        <span lang="en">{q.source}{q.year && `, ${q.year}`}</span>
+        {q.disputed && <span class="zt-disputed" data-i18n="wg.cert.umstritten">umstritten</span>}
+      </p>
+    </div>
+  </div>
+
+  <div class="zt-mean" data-mean>
+    <h2 data-i18n="zitate.card.meaningH">Was heißt das?</h2>
+    <p lang="en">{q.meaning}</p>
+    <p class="zt-mean-tl" data-mean-tl hidden></p>
+  </div>
+
+  <div class="zt-words">
+    <h2 data-i18n="zitate.card.wordsH">Wörter aus dem Zitat</h2>
+    <ul>
+      {q.words.map((w: any) => (
+        <li>
+          <p class="zt-w" lang="es">
+            {w.art && <span class={`zt-art zt-art--${w.art}`}>{w.art}</span>} <b>{w.de}</b>
+            {w.art && w.pl && <small>, plural: {w.pl}</small>}
+          </p>
+          <p class="zt-hint" lang="en">{w.hint}</p>
+          <p class="zt-tr" data-tr={JSON.stringify(w.tr)} hidden></p>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  {/* No second portrait here: the face already stands beside the name under the quote. */}
+  <aside class="zt-bio" aria-label={`About ${q.who.name}`} data-bio-name={q.who.name}>
+    <div>
+      <h2 lang="en">{q.who.name}</h2>
+      <p class="zt-meta"><span lang="en">{q.who.role}</span> · {q.who.years} · <span data-i18n="zitate.card.born" data-i18n-vars={JSON.stringify({ place: q.who.place })}>geboren in {q.who.place}</span></p>
+      <p lang="en">{q.who.bio}</p>
+      <a href={q.who.wiki} rel="noopener" target="_blank" data-i18n="zitate.card.wiki">Mehr bei Wikipedia</a>
+      {q.who.bild && <p class="zt-credit">Image: <a href={q.who.bild.quelle} rel="noopener" target="_blank">{q.who.bild.von}, {q.who.bild.lizenz === "Public domain" ? "public domain" : q.who.bild.lizenz}</a> <span translate="no">(Wikimedia Commons)</span></p>}
+    </div>
+  </aside>
+</article>

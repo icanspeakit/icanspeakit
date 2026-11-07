@@ -1,0 +1,208 @@
+---
+import { fitTitle } from "../../../lib/seo/title.js";
+// /business-spanish/[unit]: one unit (content-plan §4.3): phrases by purpose, model texts with notes,
+// tips, its words with a link to the flashcards, and exercises in the shared practice workspace.
+// The exercises come in through a data attribute; the script below mounts them. Spain text only
+// while LATAM_MODE is off: textFor and skippedFor read the es419 fields once a LatAm mode exists.
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import SectionMascot from "../../../components/mascots/SectionMascot.astro";
+import LeichtToggle from "../../../components/LeichtToggle.astro";
+import { UNITS } from "../../../lib/businessSpanishData.js";
+import { phraseGroups } from "../../../lib/businessSpanish.js";
+import { cardsOf } from "../../../lib/berufeWortschatz.js";
+import { BUSINESS_SLUGS, businessPath, workPath } from "../../../lib/routes.js";
+import { pair } from "../../../lib/leichteSprache.js";
+import { textFor, skippedFor } from "../../../lib/variety.js";
+import en from "../../../../public/i18n/en.json";
+import "../../../styles/practice.css";
+import "../../../styles/kultur.css";
+import "../../../styles/berufe.css";
+import "../../../styles/akkusativ.css";
+import "../../../styles/business-spanish.css";
+
+export function getStaticPaths() {
+  return UNITS.map((u: any) => ({ params: { unit: (BUSINESS_SLUGS as Record<string, string>)[u.id] }, props: { unit: u } }));
+}
+const { unit } = Astro.props as any;
+const tx = (key: string) => (en as Record<string, string>)[key];
+const v = (o: Record<string, unknown>) => JSON.stringify(o);
+
+const groups = phraseGroups(unit);
+const words = cardsOf("business", unit.id);
+const trainer = workPath("business", unit.id);
+const index = UNITS.findIndex((u: any) => u.id === unit.id);
+const prev = UNITS[index - 1];
+const next = UNITS[index + 1];
+
+// The workspace's shape. It writes `prompt` as HTML, so the situation can sit above the sentence.
+const questions = unit.exercises.filter((q: any) => !skippedFor(q)).map((q: any) => ({
+  id: q.id,
+  prompt: q.context ? `<span class="bz-context">${q.context}</span> ${q.prompt}` : q.prompt,
+  options: q.options,
+  answer: q.answer,
+  explain: q.explain,
+  change: q.answer,
+  speak: q.prompt.replace("___", q.answer),
+}));
+---
+<Layout
+  title={fitTitle(`${unit.title} – Business Spanish`, unit.title)}
+  description={`${unit.title} (${unit.level}): phrases, model texts, words and exercises for work in Spain.`}
+  breadcrumb={[{ name: "Business Spanish", path: "/business-spanish" }]}
+>
+  <SiteNav active="wortschatz" />
+  <main class="practice-main practice-main--wide bz-unit">
+    <div class="practice-hero">
+      <p class="eyebrow"><a href="/business-spanish" data-i18n="biz.title">{tx("biz.title")}</a></p>
+      <h1>{unit.title}</h1>
+      <div class="bv-badges">
+        <span class="bv-badge">{unit.level}</span>
+        <span class="bv-badge" data-i18n="sets.wordCount" data-i18n-vars={v({ n: words.length })}>{words.length} words</span>
+      </div>
+    </div>
+
+    <div class="bv-ls"><LeichtToggle /></div>
+    <p class="bv-intro" {...pair(unit.intro, unit.introEasy)}>{unit.intro}</p>
+
+    <nav class="bz-jump" aria-label="On this page" data-i18n-attr="aria-label:biz.jump">
+      <a href="#bz-phrases" data-i18n="biz.sec.phrases">{tx("biz.sec.phrases")}</a>
+      <a href="#bz-models" data-i18n="biz.sec.models">{tx("biz.sec.models")}</a>
+      <a href="#bz-tips" data-i18n="biz.sec.tips">{tx("biz.sec.tips")}</a>
+      <a href="#bz-words" data-i18n="biz.sec.words">{tx("biz.sec.words")}</a>
+      <a href="#bz-practice" data-i18n="biz.sec.practice">{tx("biz.sec.practice")}</a>
+    </nav>
+
+    <section id="bz-phrases" class="bz-section">
+      <h2 class="ku-group-title" data-i18n="biz.sec.phrases">{tx("biz.sec.phrases")}</h2>
+      {groups.map((g) => (
+        <div class="bz-phrase-group">
+          <h3>{g.use}</h3>
+          <ul class="bz-phrases">
+            {g.phrases.map((p: any) => {
+              const es = textFor(p, p.es);
+              return (
+                <li>
+                  <span class="bz-phrase-text">
+                    <b lang="es">{es}</b>
+                    <span class="bz-phrase-en">{p.en}</span>
+                  </span>
+                  <span class={`bz-reg bz-reg--${p.register}`} data-i18n={`biz.reg.${p.register}`}>{tx(`biz.reg.${p.register}`)}</span>
+                  <button type="button" class="bz-say" data-say={es} aria-label="Listen" data-i18n-attr="aria-label:biz.listen" hidden>
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
+    </section>
+
+    <section id="bz-models" class="bz-section">
+      <h2 class="ku-group-title" data-i18n="biz.sec.models">{tx("biz.sec.models")}</h2>
+      {unit.models.map((m: any) => (
+        <article class="bz-model">
+          <h3>{m.title}</h3>
+          <div class="bz-model-text" lang="es">{m.text}</div>
+          <h4 data-i18n="biz.notes">{tx("biz.notes")}</h4>
+          <ul class="bz-notes">{m.notes.map((n: string) => <li>{n}</li>)}</ul>
+        </article>
+      ))}
+    </section>
+
+    <section id="bz-tips" class="bv-tipps bz-section">
+      <div class="bv-sec-head">
+        <h2 class="ku-group-title" data-i18n="biz.sec.tips">{tx("biz.sec.tips")}</h2>
+        <SectionMascot name="bruno" expr="thinking" say={tx("biz.say.tips")} sayKey="biz.say.tips" />
+      </div>
+      <ul>{unit.tips.map((t: string) => <li>{t}</li>)}</ul>
+    </section>
+
+    <section id="bz-words" class="bz-section">
+      <h2 class="ku-group-title" data-i18n="biz.sec.words">{tx("biz.sec.words")}</h2>
+      <p class="bz-actions">
+        <a class="bz-btn" href={trainer} data-i18n="biz.cards">{tx("biz.cards")}</a>
+        <a class="bz-btn bz-btn--quiet" href={`${trainer}/print`} data-i18n="biz.print">{tx("biz.print")}</a>
+      </p>
+      <ul class="bz-words">
+        {words.map((w: any) => (
+          <li>
+            <b lang="es">{w.gender ? `${w.gender} ${w.front}` : w.front}</b>
+            <span>{w.translations?.en}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section id="bz-practice" class="bz-section">
+      <h2 class="ku-group-title" data-i18n="biz.sec.practice">{tx("biz.sec.practice")}</h2>
+      <div class="akk bz-workspace">
+        <div class="akk-card">
+          <div class="akk-mode-row">
+            <div class="akk-mode" role="group" aria-label="Practice mode" data-i18n-attr="aria-label:akk.mode.ariaLabel">
+              <button class="akk-mode-btn active" data-mode="fokus" type="button" data-i18n="akk.mode.fokus">Focus mode</button>
+              <span class="akk-mode-sep">·</span>
+              <button class="akk-mode-btn" data-mode="test" type="button" data-i18n="akk.mode.test">Test mode</button>
+            </div>
+          </div>
+          <div id="bz-exercise-root" data-questions={JSON.stringify(questions)} data-instruction={tx("biz.instruction")}></div>
+        </div>
+        <p class="bz-stats" id="bz-stats" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <nav class="bz-pager" aria-label="Units" data-i18n-attr="aria-label:biz.units">
+      {prev ? <a href={businessPath(prev.id)}>← {prev.title}</a> : <span />}
+      <a href="/business-spanish" data-i18n="biz.allUnits">{tx("biz.allUnits")}</a>
+      {next ? <a href={businessPath(next.id)}>{next.title} →</a> : <span />}
+    </nav>
+  </main>
+</Layout>
+
+<script>
+  import { mountLeichteSprache } from "../../../lib/leichteSprache.js";
+  import { mountPracticeWorkspace } from "../../../lib/practiceWorkspace.js";
+  import { recordAttempt } from "../../../lib/progress.js";
+  import { t as uiT, onUiText } from "../../../lib/uiText.js";
+
+  mountLeichteSprache(document);
+
+  // Phrases: the browser's Spanish voice, as in the workspace. No voice, no button.
+  if (typeof speechSynthesis !== "undefined") {
+    document.querySelectorAll<HTMLButtonElement>(".bz-say").forEach((btn) => {
+      btn.hidden = false;
+      btn.addEventListener("click", () => {
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(btn.dataset.say ?? "");
+        u.lang = "es-ES";
+        speechSynthesis.speak(u);
+      });
+    });
+  }
+
+  const root = document.getElementById("bz-exercise-root");
+  const statsLine = document.getElementById("bz-stats");
+  if (root && statsLine) {
+    let stats = { answered: 0, correct: 0, total: 0 };
+    const paintStats = () => {
+      statsLine.textContent = uiT("biz.stats", "{answered} of {total} answered · {correct} correct", stats);
+    };
+    const setInstruction = () => {
+      root.dataset.instruction = uiT("biz.instruction", root.dataset.instruction ?? "");
+    };
+    setInstruction();
+    const practice = mountPracticeWorkspace(root, JSON.parse(root.dataset.questions ?? "[]"), {
+      onSessionUpdate: (s: typeof stats) => { stats = s; paintStats(); },
+      onAnswer: (ok: boolean) => recordAttempt({ skill: "wortschatz", correct: ok }),
+    });
+    onUiText(() => { setInstruction(); paintStats(); });
+    document.querySelectorAll<HTMLButtonElement>(".akk-mode-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".akk-mode-btn").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        practice.setMode(btn.dataset.mode);
+      });
+    });
+  }
+</script>

@@ -1,0 +1,1108 @@
+{
+  "_note": "Research file (not read by pages, except points and source link on the practice-set page): the structure of the exams our own practice sets follow, checked by scripts/check-pruefungen.mjs (same modules, same parts, same number of scored items per part). Ids are storage keys and stay: goethe-a1…c2 = DELE A1…C2 (goethe-a1 and goethe-c2 have no set in this file's sense: A1 lives in the start-deutsch-1 slot, C2 has no practice set), telc-a2…c1 = the SIELE tasks at each band: together those four sets hold every task of one SIELE Global (the real exam is one multilevel sitting, not band papers). The testdaf slot has its own shape and is described in testdaf-formate.json. Only structure is described; no exam task or text is copied. Field conventions: minutes = paper time; items = scored items in OUR set, modelled on the best public information we found; plays = how often the recording is heard; points = marks where known. Every DELE fact here is 'to verify': see `unverified` in each entry and reports/exams-dele.md. SIELE entries were checked against the official exam guide and siele.org on 2026-11-06, see reports/exams-siele.md.",
+  "sources": [
+    {
+      "id": "goethe-a1",
+      "title": "Instituto Cervantes, DELE exam page",
+      "url": "https://cervantes.org/es/examenes/dele"
+    },
+    {
+      "id": "goethe-a2",
+      "title": "Instituto Cervantes, DELE exam page",
+      "url": "https://cervantes.org/es/examenes/dele"
+    },
+    {
+      "id": "goethe-b1",
+      "title": "Instituto Cervantes, DELE exam page",
+      "url": "https://cervantes.org/es/examenes/dele"
+    },
+    {
+      "id": "goethe-b2",
+      "title": "Instituto Cervantes, DELE exam page",
+      "url": "https://cervantes.org/es/examenes/dele"
+    },
+    {
+      "id": "goethe-c1",
+      "title": "Instituto Cervantes, DELE exam page",
+      "url": "https://cervantes.org/es/examenes/dele"
+    },
+    {
+      "id": "goethe-c2",
+      "title": "Instituto Cervantes, DELE exam page",
+      "url": "https://cervantes.org/es/examenes/dele"
+    },
+    {
+      "id": "telc-a2",
+      "title": "SIELE, exam types and tests",
+      "url": "https://siele.org/examenes"
+    },
+    {
+      "id": "telc-b1",
+      "title": "SIELE, exam types and tests",
+      "url": "https://siele.org/examenes"
+    },
+    {
+      "id": "telc-b2",
+      "title": "SIELE, exam types and tests",
+      "url": "https://siele.org/examenes"
+    },
+    {
+      "id": "telc-c1",
+      "title": "SIELE, exam types and tests",
+      "url": "https://siele.org/examenes"
+    }
+  ],
+  "exams": [
+    {
+      "id": "goethe-a1",
+      "exam": "DELE A1",
+      "provider": "instituto-cervantes",
+      "level": "A1",
+      "checked": "2026-11-06",
+      "source": "Instituto Cervantes, DELE exam page (https://cervantes.org/es/examenes/dele) and the format pages of its London and Paris centres, checked 2026-11-06",
+      "modules": [
+        {
+          "name": "Reading",
+          "minutes": 45,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "An email or short letter: answer questions on it",
+              "type": "Multiple choice, 3 options",
+              "items": 5
+            },
+            {
+              "teil": 2,
+              "task": "Short notices and adverts: match each to a statement",
+              "type": "Matching",
+              "items": 6
+            },
+            {
+              "teil": 3,
+              "task": "Short texts from people or places: match each to a statement",
+              "type": "Matching",
+              "items": 6
+            },
+            {
+              "teil": 4,
+              "task": "Everyday information texts: find specific details",
+              "type": "Matching or multiple choice",
+              "items": 8
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 20,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Short conversations: choose the right option",
+              "type": "Multiple choice, 3 options",
+              "items": 5,
+              "plays": 2
+            },
+            {
+              "teil": 2,
+              "task": "Short messages and announcements",
+              "type": "Multiple choice or matching",
+              "items": 5,
+              "plays": 2
+            },
+            {
+              "teil": 3,
+              "task": "A conversation: who or what goes with each item",
+              "type": "Matching",
+              "items": 8,
+              "plays": 2
+            },
+            {
+              "teil": 4,
+              "task": "Short messages: match each to a statement",
+              "type": "Matching",
+              "items": 7,
+              "plays": 2
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 25,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Fill in a form with personal information",
+              "type": "Form",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "Write a very short message, note or email",
+              "type": "Free writing, about 20–30 words",
+              "items": 1
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 15,
+          "minutesNote": "15 minutes, plus about 15 minutes to prepare",
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Introduce yourself",
+              "type": "On your own, after preparation",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "Talk about a topic from a card",
+              "type": "On your own, after preparation",
+              "items": 1
+            },
+            {
+              "teil": 3,
+              "task": "Conversation with the examiner about the topic",
+              "type": "Dialogue",
+              "items": 1
+            },
+            {
+              "teil": 4,
+              "task": "Short everyday exchange from cards",
+              "type": "Dialogue",
+              "items": 1
+            }
+          ]
+        }
+      ],
+      "total": 100,
+      "totalNote": "25 points per paper as far as we could check. To verify.",
+      "pass": "The result is Apto or No apto (pass or fail). As far as we could check, the four papers are marked in two groups of 50 points, and you need at least 30 points in each group: a strong group cannot make up for a weak one. Check the rule in the current exam guide.",
+      "modular": false,
+      "unverified": [
+        "Timings as listed by Instituto Cervantes centres (London, Paris) on 6 November 2026. Other centres' pages differ on some timings, and the official exam guides could not be opened that day. Numbers of tasks and items are the best public information we found, not confirmed. To verify.",
+        "Pass rule and the make-up of the marking groups.",
+        "Which task types and how many items each paper has in the current version."
+      ]
+    },
+    {
+      "id": "goethe-a2",
+      "exam": "DELE A2",
+      "provider": "instituto-cervantes",
+      "level": "A2",
+      "checked": "2026-11-06",
+      "source": "Instituto Cervantes, DELE exam page (https://cervantes.org/es/examenes/dele) and the format pages of its London and Paris centres, checked 2026-11-06",
+      "modules": [
+        {
+          "name": "Reading",
+          "minutes": 60,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "A personal email or letter: answer questions on it",
+              "type": "Multiple choice, 3 options",
+              "items": 5
+            },
+            {
+              "teil": 2,
+              "task": "Eight short notices, adverts and messages: one question on each",
+              "type": "Multiple choice, 3 options",
+              "items": 8
+            },
+            {
+              "teil": 3,
+              "task": "Three people write about one topic: who says this?",
+              "type": "Matching, texts A–C (letters can repeat)",
+              "items": 6
+            },
+            {
+              "teil": 4,
+              "task": "A longer text on daily life or a person's story",
+              "type": "Multiple choice, 3 options",
+              "items": 6
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 35,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Six short messages and announcements",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 2,
+              "task": "Six short items from one radio programme",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 3,
+              "task": "A conversation: who says this?",
+              "type": "Matching, the two speakers or neither",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 4,
+              "task": "Seven short messages: match each to a statement",
+              "type": "Matching, 10 statements (three are not used)",
+              "items": 7,
+              "plays": 2
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 50,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Reply to an email or message",
+              "type": "Free writing, about 60–70 words",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "A short text about yourself: a description or something that happened",
+              "type": "Free writing, about 70–80 words",
+              "items": 1
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 15,
+          "minutesNote": "15 minutes, plus about 15 minutes to prepare",
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "A short talk on a familiar topic",
+              "type": "On your own, 2–3 minutes, after preparation",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "Describe a photo",
+              "type": "On your own, 2–3 minutes, after preparation",
+              "items": 1
+            },
+            {
+              "teil": 3,
+              "task": "Role play from the situation in the photo",
+              "type": "Dialogue, 3–4 minutes",
+              "items": 1
+            },
+            {
+              "teil": 4,
+              "task": "Conversation about your own life",
+              "type": "Dialogue, 3–4 minutes, no preparation",
+              "items": 1
+            }
+          ]
+        }
+      ],
+      "total": 100,
+      "totalNote": "25 points per paper as far as we could check. To verify.",
+      "pass": "The result is Apto or No apto (pass or fail). As far as we could check, the four papers are marked in two groups of 50 points, and you need at least 30 points in each group: a strong group cannot make up for a weak one. Check the rule in the current exam guide.",
+      "modular": false,
+      "unverified": [
+        "Timings as listed by Instituto Cervantes centres (London, Paris) on 6 November 2026. Other centres' pages differ on some timings, and the official exam guides could not be opened that day. Numbers of tasks and items are the best public information we found, not confirmed. To verify.",
+        "Pass rule and the make-up of the marking groups.",
+        "Which task types and how many items each paper has in the current version."
+      ]
+    },
+    {
+      "id": "goethe-b1",
+      "exam": "DELE B1",
+      "provider": "instituto-cervantes",
+      "level": "B1",
+      "checked": "2026-11-06",
+      "source": "Instituto Cervantes, DELE exam page (https://cervantes.org/es/examenes/dele) and the format pages of its London and Paris centres, checked 2026-11-06",
+      "modules": [
+        {
+          "name": "Reading",
+          "minutes": 70,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Six people's needs and nine short texts: match them",
+              "type": "Matching, texts A–I (three are not used)",
+              "items": 6
+            },
+            {
+              "teil": 2,
+              "task": "One informative text: main ideas",
+              "type": "Multiple choice, 3 options",
+              "items": 6
+            },
+            {
+              "teil": 3,
+              "task": "Three short texts: which one says this?",
+              "type": "Matching, texts A–C (letters can repeat)",
+              "items": 6
+            },
+            {
+              "teil": 4,
+              "task": "A text with sentences taken out",
+              "type": "Choose from eight sentences (two are not used)",
+              "items": 6
+            },
+            {
+              "teil": 5,
+              "task": "A letter or message with gaps: grammar",
+              "type": "Gaps, 3 options each",
+              "items": 6
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 40,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Six short messages and announcements",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 2,
+              "task": "One long monologue: key ideas and details",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 3,
+              "task": "Six items from a radio news programme",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 4,
+              "task": "Six short monologues: match each to a statement",
+              "type": "Matching, 9 statements (three are not used)",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 5,
+              "task": "A conversation between friends: who says this?",
+              "type": "Matching, the two speakers or neither",
+              "items": 6,
+              "plays": 2
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 60,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Reply to a message or forum post",
+              "type": "Free writing, about 100–120 words",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "A description or story with your opinion (the real exam offers a choice)",
+              "type": "Free writing, about 130–150 words",
+              "items": 1
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 15,
+          "minutesNote": "15 minutes, plus 15 minutes to prepare",
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Prepared talk on a topic",
+              "type": "On your own, 2–3 minutes, after preparation",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "Conversation on the same topic",
+              "type": "Dialogue, 3–4 minutes",
+              "items": 1
+            },
+            {
+              "teil": 3,
+              "task": "Describe a photo and answer questions",
+              "type": "2–3 minutes, no preparation",
+              "items": 1
+            },
+            {
+              "teil": 4,
+              "task": "Role play in an everyday situation",
+              "type": "Dialogue, 2–3 minutes, no preparation",
+              "items": 1
+            }
+          ]
+        }
+      ],
+      "total": 100,
+      "totalNote": "25 points per paper as far as we could check. To verify.",
+      "pass": "The result is Apto or No apto (pass or fail). As far as we could check, the four papers are marked in two groups of 50 points, and you need at least 30 points in each group: a strong group cannot make up for a weak one. Check the rule in the current exam guide.",
+      "modular": false,
+      "unverified": [
+        "Timings as listed by Instituto Cervantes centres (London, Paris) on 6 November 2026. Other centres' pages differ on some timings, and the official exam guides could not be opened that day. Numbers of tasks and items are the best public information we found, not confirmed. To verify.",
+        "Pass rule and the make-up of the marking groups.",
+        "Which task types and how many items each paper has in the current version."
+      ]
+    },
+    {
+      "id": "goethe-b2",
+      "exam": "DELE B2",
+      "provider": "instituto-cervantes",
+      "level": "B2",
+      "checked": "2026-11-06",
+      "source": "Instituto Cervantes, DELE exam page (https://cervantes.org/es/examenes/dele) and the format pages of its London and Paris centres, checked 2026-11-06",
+      "modules": [
+        {
+          "name": "Reading",
+          "minutes": 70,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "One complex text: key ideas and details",
+              "type": "Multiple choice, 3 options",
+              "items": 6
+            },
+            {
+              "teil": 2,
+              "task": "Four personal texts: match statements to the writers",
+              "type": "Matching, texts A–D (letters can repeat)",
+              "items": 10
+            },
+            {
+              "teil": 3,
+              "task": "A text with sentences taken out",
+              "type": "Choose from eight sentences (two are not used)",
+              "items": 6
+            },
+            {
+              "teil": 4,
+              "task": "A text with gaps: grammar and vocabulary",
+              "type": "Gaps, 3 options each",
+              "items": 14
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 40,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Six short conversations",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 2,
+              "task": "One conversation: who says this?",
+              "type": "Matching, the two speakers or neither",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 3,
+              "task": "An interview: details and what is implied",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 4,
+              "task": "Six short monologues: match each to a statement",
+              "type": "Matching, 9 statements (three are not used)",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 5,
+              "task": "One long talk: details",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 80,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "A letter or email based on notes from a recording",
+              "type": "Free writing, about 150–180 words",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "An opinion text based on a short text, graph or table (the real exam offers a choice)",
+              "type": "Free writing, about 150–180 words",
+              "items": 1
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 20,
+          "minutesNote": "20 minutes, plus 20 minutes to prepare",
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Weigh up proposals for a problem",
+              "type": "4–5 minutes, after preparation",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "Describe and comment on a situation from a photo",
+              "type": "3–4 minutes, after preparation",
+              "items": 1
+            },
+            {
+              "teil": 3,
+              "task": "Conversation from a survey or short text",
+              "type": "3–4 minutes, no preparation",
+              "items": 1
+            }
+          ]
+        }
+      ],
+      "total": 100,
+      "totalNote": "25 points per paper as far as we could check. To verify.",
+      "pass": "The result is Apto or No apto (pass or fail). As far as we could check, the four papers are marked in two groups of 50 points, and you need at least 30 points in each group: a strong group cannot make up for a weak one. Check the rule in the current exam guide.",
+      "modular": false,
+      "unverified": [
+        "Timings as listed by Instituto Cervantes centres (London, Paris) on 6 November 2026. Other centres' pages differ on some timings, and the official exam guides could not be opened that day. Numbers of tasks and items are the best public information we found, not confirmed. To verify.",
+        "Pass rule and the make-up of the marking groups.",
+        "Which task types and how many items each paper has in the current version."
+      ]
+    },
+    {
+      "id": "goethe-c1",
+      "exam": "DELE C1",
+      "provider": "instituto-cervantes",
+      "level": "C1",
+      "checked": "2026-11-06",
+      "source": "Instituto Cervantes, DELE exam page (https://cervantes.org/es/examenes/dele) and the format pages of its London and Paris centres, checked 2026-11-06",
+      "modules": [
+        {
+          "name": "Reading and language use",
+          "minutes": 90,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "One long text: general idea and details",
+              "type": "Multiple choice, 3 options",
+              "items": 6
+            },
+            {
+              "teil": 2,
+              "task": "A long text with paragraphs taken out",
+              "type": "Choose from seven paragraphs (one is not used)",
+              "items": 6
+            },
+            {
+              "teil": 3,
+              "task": "An academic or professional article: intent and viewpoint",
+              "type": "Multiple choice, 3 options",
+              "items": 6
+            },
+            {
+              "teil": 4,
+              "task": "Short specialist texts: match statements to them",
+              "type": "Matching, texts A–D (letters can repeat)",
+              "items": 8
+            },
+            {
+              "teil": 5,
+              "task": "A text with gaps: grammar and vocabulary",
+              "type": "Gaps, 3 options each",
+              "items": 14
+            }
+          ]
+        },
+        {
+          "name": "Listening and language use",
+          "minutes": 50,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "A talk: complete the notes",
+              "type": "Gaps in sentences, 3 options each",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 2,
+              "task": "Four short conversations: three questions on each",
+              "type": "Multiple choice, 3 options",
+              "items": 12,
+              "plays": 2
+            },
+            {
+              "teil": 3,
+              "task": "A long interview or debate",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 4,
+              "task": "Six very short exchanges: what the speakers really mean",
+              "type": "Multiple choice, 3 options",
+              "items": 6,
+              "plays": 2
+            }
+          ]
+        },
+        {
+          "name": "Integrated writing",
+          "minutes": 80,
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Listen, take notes, then write a reasoned text",
+              "type": "Free writing, about 220–250 words",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "A formal text such as a report, review or letter of complaint (the real exam offers a choice)",
+              "type": "Free writing, about 220–250 words",
+              "items": 1
+            }
+          ]
+        },
+        {
+          "name": "Integrated speaking",
+          "minutes": 20,
+          "minutesNote": "20 minutes, plus 20 minutes to prepare",
+          "points": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Summarise and assess a long text",
+              "type": "On your own, 3–5 minutes, after preparation",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "Formal discussion on your talk",
+              "type": "Dialogue, 4–6 minutes",
+              "items": 1
+            },
+            {
+              "teil": 3,
+              "task": "Reach an agreement with the examiner",
+              "type": "Dialogue, 4–6 minutes",
+              "items": 1
+            }
+          ]
+        }
+      ],
+      "total": 100,
+      "totalNote": "25 points per paper as far as we could check. To verify.",
+      "pass": "The result is Apto or No apto (pass or fail). As far as we could check, the four papers are marked in two groups of 50 points, and you need at least 30 points in each group: a strong group cannot make up for a weak one. Check the rule in the current exam guide.",
+      "modular": false,
+      "unverified": [
+        "Timings as listed by Instituto Cervantes centres (London, Paris) on 6 November 2026. Other centres' pages differ on some timings, and the official exam guides could not be opened that day. Numbers of tasks and items are the best public information we found, not confirmed. To verify.",
+        "Pass rule and the make-up of the marking groups.",
+        "Which task types and how many items each paper has in the current version."
+      ]
+    },
+    {
+      "id": "goethe-c2",
+      "exam": "DELE C2",
+      "provider": "instituto-cervantes",
+      "level": "C2",
+      "checked": "2026-11-06",
+      "source": "Instituto Cervantes, DELE exam page (https://cervantes.org/es/examenes/dele) and the format pages of its London and Paris centres, checked 2026-11-06",
+      "modules": [
+        {
+          "name": "Language use, reading and listening",
+          "minutes": 105,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Three pieces in one paper: gap texts, reading and listening tasks (six tasks in all, about 52 items)",
+              "type": "Selected-response tasks"
+            }
+          ]
+        },
+        {
+          "name": "Integrated writing",
+          "minutes": 150,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Three writing tasks using recordings and written sources, including rewriting a text in another genre or register",
+              "type": "Free writing"
+            }
+          ]
+        },
+        {
+          "name": "Integrated speaking",
+          "minutes": 20,
+          "minutesNote": "about 20 minutes, plus about 30 minutes to prepare",
+          "parts": [
+            {
+              "teil": 1,
+              "task": "A talk from written material, then a conversation and an improvised discussion",
+              "type": "After 30 minutes' preparation"
+            }
+          ]
+        }
+      ],
+      "total": null,
+      "totalNote": "To verify.",
+      "pass": "The result is Apto or No apto (pass or fail). As far as we could check, each of the three papers needs a minimum score. Check the rule in the current exam guide.",
+      "modular": false,
+      "unverified": [
+        "Timings as listed by Instituto Cervantes centres (London, Paris) on 6 November 2026. Other centres' pages differ on some timings, and the official exam guides could not be opened that day. Numbers of tasks and items are the best public information we found, not confirmed. To verify.",
+        "Pass rule and the make-up of the marking groups.",
+        "Which task types and how many items each paper has in the current version."
+      ]
+    },
+    {
+      "id": "telc-a2",
+      "exam": "SIELE: the A1 and A2 tasks",
+      "provider": "siele",
+      "level": "A2",
+      "checked": "2026-11-06",
+      "source": "SIELE exam pages (siele.org/examenes, siele.org/reconocimiento-internacional) and the SIELE exam guide, Guía para la realización del examen SIELE, copy on seul.cervantes.es, checked 2026-11-06",
+      "modules": [
+        {
+          "name": "Reading",
+          "minutes": 20,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Reading task 1 (A1): five short texts, 40–80 words each",
+              "type": "Multiple choice, 3 options, one question per text",
+              "items": 5
+            },
+            {
+              "teil": 2,
+              "task": "Reading task 2 (A2): one text, 250–300 words",
+              "type": "Multiple choice, 3 options",
+              "items": 5
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 15,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Listening task 1 (A1): a conversation, 150–170 words",
+              "type": "Complete sentences from a shared bank of 15 options",
+              "items": 5,
+              "plays": 2
+            },
+            {
+              "teil": 2,
+              "task": "Listening task 2 (A2): information, 250–300 words",
+              "type": "Multiple choice, 3 options",
+              "items": 5,
+              "plays": 2
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 20,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Writing task 1 (A1–B1): reply to a letter, email, forum or blog message",
+              "type": "Free writing, 100–150 words recommended",
+              "items": 1
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 5,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Speaking task 1 (A1–A2): four personal questions",
+              "type": "Recorded answers",
+              "items": 1
+            },
+            {
+              "teil": 2,
+              "task": "Speaking task 2 (A2): describe one of two photos",
+              "type": "Recorded monologue, after preparation",
+              "items": 1
+            }
+          ]
+        }
+      ],
+      "total": null,
+      "totalNote": "In the real test each of the four tests counts up to 250 points, 1000 in SIELE Global. This set has no points of its own.",
+      "pass": "No pass mark. Each test gets a score from 0 to 250, matched to a CEFR level; a score below the A1 band reaches no level.",
+      "modular": true,
+      "modularNote": "SIELE Global is all four tests; S1 to S5 are combinations of them.",
+      "unverified": [
+        "The guide copy has no date we could read; a copy elsewhere is labelled April 2021. Tasks, question counts, times and score bands agree with siele.org/examenes as read on 6 November 2026 where that page gives them, but they may have changed. To verify.",
+        "Minutes per module and the split into bands are ours, not the exam's: the real SIELE is one sitting per test and doesn't have band papers."
+      ]
+    },
+    {
+      "id": "telc-b1",
+      "exam": "SIELE: the B1 tasks",
+      "provider": "siele",
+      "level": "B1",
+      "checked": "2026-11-06",
+      "source": "SIELE exam pages (siele.org/examenes, siele.org/reconocimiento-internacional) and the SIELE exam guide, Guía para la realización del examen SIELE, copy on seul.cervantes.es, checked 2026-11-06",
+      "modules": [
+        {
+          "name": "Reading",
+          "minutes": 15,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Reading task 3 (B1): three texts, 100–120 words each",
+              "type": "Match eight statements to the texts",
+              "items": 8
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 15,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Listening task 3 (B1): eight short recordings, 50–70 words each",
+              "type": "Match to statements, 11 options",
+              "items": 8,
+              "plays": 2
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 25,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Writing task 1 (A1–B1): reply to a letter, email, forum or blog message",
+              "type": "Free writing, 100–150 words recommended",
+              "items": 1
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 5,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Speaking task 3 (B1): two simulated situations, one personal and one public, each chosen from two",
+              "type": "Recorded answers",
+              "items": 2
+            }
+          ]
+        }
+      ],
+      "total": null,
+      "totalNote": "In the real test each of the four tests counts up to 250 points, 1000 in SIELE Global. This set has no points of its own.",
+      "pass": "No pass mark. Each test gets a score from 0 to 250, matched to a CEFR level; a score below the A1 band reaches no level.",
+      "modular": true,
+      "modularNote": "SIELE Global is all four tests; S1 to S5 are combinations of them.",
+      "unverified": [
+        "The guide copy has no date we could read; a copy elsewhere is labelled April 2021. Tasks, question counts, times and score bands agree with siele.org/examenes as read on 6 November 2026 where that page gives them, but they may have changed. To verify.",
+        "Minutes per module and the split into bands are ours, not the exam's: the real SIELE is one sitting per test and doesn't have band papers."
+      ]
+    },
+    {
+      "id": "telc-b2",
+      "exam": "SIELE: the B2 tasks",
+      "provider": "siele",
+      "level": "B2",
+      "checked": "2026-11-06",
+      "source": "SIELE exam pages (siele.org/examenes, siele.org/reconocimiento-internacional) and the SIELE exam guide, Guía para la realización del examen SIELE, copy on seul.cervantes.es, checked 2026-11-06",
+      "modules": [
+        {
+          "name": "Reading",
+          "minutes": 20,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Reading task 4 (B2): first text, 230–280 words, four gaps",
+              "type": "Five fragments for four gaps",
+              "items": 4
+            },
+            {
+              "teil": 2,
+              "task": "Reading task 4 (B2): second text, 230–280 words, four gaps",
+              "type": "Five fragments for four gaps",
+              "items": 4
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 15,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Listening task 4 (B2): an interview, 550–600 words",
+              "type": "Multiple choice, 3 options",
+              "items": 8,
+              "plays": 2
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 30,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Writing task 2 (B2–C1): opinion article or letter to a newspaper, from one of two headlines",
+              "type": "Free writing, 250–300 words recommended",
+              "items": 1
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 5,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Speaking task 4 (B2): choose one of two topics, read a short text, answer three questions",
+              "type": "Recorded answers",
+              "items": 1
+            }
+          ]
+        }
+      ],
+      "total": null,
+      "totalNote": "In the real test each of the four tests counts up to 250 points, 1000 in SIELE Global. This set has no points of its own.",
+      "pass": "No pass mark. Each test gets a score from 0 to 250, matched to a CEFR level; a score below the A1 band reaches no level.",
+      "modular": true,
+      "modularNote": "SIELE Global is all four tests; S1 to S5 are combinations of them.",
+      "unverified": [
+        "The guide copy has no date we could read; a copy elsewhere is labelled April 2021. Tasks, question counts, times and score bands agree with siele.org/examenes as read on 6 November 2026 where that page gives them, but they may have changed. To verify.",
+        "Minutes per module and the split into bands are ours, not the exam's: the real SIELE is one sitting per test and doesn't have band papers."
+      ]
+    },
+    {
+      "id": "telc-c1",
+      "exam": "SIELE: the C1 tasks",
+      "provider": "siele",
+      "level": "C1",
+      "checked": "2026-11-06",
+      "source": "SIELE exam pages (siele.org/examenes, siele.org/reconocimiento-internacional) and the SIELE exam guide, Guía para la realización del examen SIELE, copy on seul.cervantes.es, checked 2026-11-06",
+      "modules": [
+        {
+          "name": "Reading",
+          "minutes": 20,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Reading task 5 (C1): a text with 12 gaps, 375–425 words in the real test",
+              "type": "Multiple choice, 3 options: grammar, vocabulary, cohesion",
+              "items": 12
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 20,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Listening task 5 (C1): a monologue in six fragments, 450–500 words",
+              "type": "One idea per fragment, 3 options",
+              "items": 6,
+              "plays": 2
+            },
+            {
+              "teil": 2,
+              "task": "Listening task 6 (C1): a lecture, 450–500 words",
+              "type": "Six ideas out of 12 options",
+              "items": 6,
+              "plays": 2
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 30,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Writing task 2 (B2–C1): opinion article or letter to a newspaper, from one of two headlines",
+              "type": "Free writing, 250–300 words recommended",
+              "items": 1
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 5,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Speaking task 5 (C1): a monologue for or against one of two statements, on the topic of task 4",
+              "type": "Recorded monologue",
+              "items": 1
+            }
+          ]
+        }
+      ],
+      "total": null,
+      "totalNote": "In the real test each of the four tests counts up to 250 points, 1000 in SIELE Global. This set has no points of its own.",
+      "pass": "No pass mark. Each test gets a score from 0 to 250, matched to a CEFR level; a score below the A1 band reaches no level.",
+      "modular": true,
+      "modularNote": "SIELE Global is all four tests; S1 to S5 are combinations of them.",
+      "unverified": [
+        "The guide copy has no date we could read; a copy elsewhere is labelled April 2021. Tasks, question counts, times and score bands agree with siele.org/examenes as read on 6 November 2026 where that page gives them, but they may have changed. To verify.",
+        "Minutes per module and the split into bands are ours, not the exam's: the real SIELE is one sitting per test and doesn't have band papers."
+      ]
+    }
+  ]
+}

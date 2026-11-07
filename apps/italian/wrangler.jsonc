@@ -1,0 +1,16 @@
+{
+  // icanspeak Italian — https://icanspeak.it/italian/*
+  // Assets only (no Worker code): the static build, copied under italian/ by
+  // `pnpm cf:prepare` (scripts/nest-dist.mjs), because the route keeps the /italian prefix.
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "icanspeak-italian",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./cf-dist",
+    "not_found_handling": "404-page"
+  },
+  "routes": [
+    { "pattern": "icanspeak.it/italian", "zone_name": "icanspeak.it" },
+    { "pattern": "icanspeak.it/italian/*", "zone_name": "icanspeak.it" }
+  ]
+}

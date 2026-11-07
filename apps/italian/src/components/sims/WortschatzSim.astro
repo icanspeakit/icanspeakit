@@ -1,0 +1,215 @@
+---
+// A little looping film of the Wortschatz flashcards in your own language, for MascotGuide's "sim"
+// slot. Three scenes, 4 s each, in step with the guide's three steps:
+//   1  phone: a card with a picture (a house), the cursor taps it, it flips to its back with the
+//      word as a bold bar
+//   2  phone: the cursor taps the language pill, a list sheet slides up with four rows, one row is
+//      ticked, the sheet slides away and the word bars jump to the right (as for Arabic)
+//   3  phone: the green tick and the red cross under the card, the cursor taps the green one, the
+//      card flies onto a small stack and a calendar with a repeat arrow pops (spaced repetition)
+//
+// Same make as UmfrageSim.astro: pure SVG + CSS, no words inside (bars stand for text), one 12 s
+// cycle, colours from the theme tokens. Reduced motion: no film, scene 2 stands still with the
+// list sheet open.
+---
+<div class="sim" aria-hidden="true">
+  <svg viewBox="0 0 320 180" role="presentation">
+    <defs>
+      <clipPath id="wsim-screen"><rect x="118" y="13" width="84" height="154" rx="7" /></clipPath>
+    </defs>
+    <rect class="desk" x="0" y="0" width="320" height="180" rx="14" />
+    <rect class="bezel" x="112" y="5" width="96" height="170" rx="12" />
+    <rect class="screen" x="118" y="13" width="84" height="154" rx="7" />
+
+    <!-- 1 · umdrehen -->
+    <g class="sc sc1">
+      <rect class="pill" x="134" y="21" width="52" height="14" rx="7" />
+      <circle class="globe" cx="143" cy="28" r="3.2" />
+      <rect class="line" x="150" y="26.5" width="26" height="3" rx="1.5" />
+      <g class="flip flip-front">
+        <rect class="card" x="130" y="42" width="60" height="64" rx="7" />
+        <path class="roof" d="M141 64L160 49l19 15z" />
+        <rect class="house" x="146" y="64" width="28" height="20" />
+        <rect class="door" x="156" y="72" width="8" height="12" rx="1.5" />
+        <rect class="line" x="144" y="92" width="32" height="4" rx="2" />
+      </g>
+      <g class="flip flip-back">
+        <rect class="card" x="130" y="42" width="60" height="64" rx="7" />
+        <rect class="word" x="138" y="64" width="40" height="9" rx="4.5" />
+        <rect class="line" x="138" y="80" width="26" height="5" rx="2.5" />
+      </g>
+      <path class="cursor" d="M0 0v14l4-3.5 3 6.5 2.5-1.2-3-6.3H12z" />
+    </g>
+
+    <!-- 2 · Sprache wählen -->
+    <g class="sc sc2">
+      <rect class="pill" x="134" y="21" width="52" height="14" rx="7" />
+      <rect class="pill-flash" x="134" y="21" width="52" height="14" rx="7" />
+      <circle class="globe" cx="143" cy="28" r="3.2" />
+      <rect class="line" x="150" y="26.5" width="26" height="3" rx="1.5" />
+      <rect class="card" x="130" y="42" width="60" height="64" rx="7" />
+      <rect class="word shift" style="--dx:4px" x="138" y="64" width="40" height="9" rx="4.5" />
+      <rect class="line shift" style="--dx:18px" x="138" y="80" width="26" height="5" rx="2.5" />
+      <g clip-path="url(#wsim-screen)">
+        <g class="sheet">
+          <rect class="sheet-bg" x="118" y="92" width="84" height="80" rx="9" />
+          <rect class="grab" x="150" y="95" width="20" height="3" rx="1.5" />
+          <rect class="in row-sel" style="animation-delay:6.1s" x="123" y="114" width="74" height="13" rx="4" />
+          {[["--brand-blue", 40], ["--accent", 32], ["--success", 44], ["--warning", 28]].map(([c, w], i) => (
+            <g>
+              <circle cx="131" cy={106 + i * 15} r="3.4" style={`fill:var(${c})`} />
+              <rect class="line" x="140" y={104 + i * 15} width={w} height="4" rx="2" />
+            </g>
+          ))}
+          <path class="in tick" style="animation-delay:6.1s" d="M184 120.5l3 3 5-6" />
+        </g>
+      </g>
+      <path class="cursor cursor--2" d="M0 0v14l4-3.5 3 6.5 2.5-1.2-3-6.3H12z" />
+    </g>
+
+    <!-- 3 · behalten oder wiederholen -->
+    <g class="sc sc3">
+      <rect class="stack" x="240" y="120" width="22" height="24" rx="3.5" />
+      <rect class="stack" x="240" y="116" width="22" height="24" rx="3.5" />
+      <g class="in" style="animation-delay:10.6s">
+        <rect class="cal" x="238" y="52" width="26" height="28" rx="4.5" />
+        <path class="cal-top" d="M238 56.5a4.5 4.5 0 0 1 4.5-4.5h17a4.5 4.5 0 0 1 4.5 4.5V59h-26z" />
+        <path class="ring" d="M244 50v5M258 50v5" />
+        <path class="repeat" d="M246 70a5 5 0 0 1 8.5-3.5M255 63v4h-4M256 70a5 5 0 0 1-8.5 3.5M247 77v-4h4" />
+      </g>
+      <g class="in" style="animation-delay:8.3s">
+        <circle class="yes" cx="146" cy="136" r="10" />
+        <circle class="yes-flash" cx="146" cy="136" r="10" />
+        <path class="mark" d="M141 136.5l3.5 3.5 6-7" />
+        <circle class="no" cx="174" cy="136" r="10" />
+        <path class="mark" d="M170 132l8 8M178 132l-8 8" />
+      </g>
+      <g class="fly">
+        <rect class="card" x="130" y="42" width="60" height="64" rx="7" />
+        <rect class="word" x="142" y="64" width="40" height="9" rx="4.5" />
+        <rect class="line" x="156" y="80" width="26" height="5" rx="2.5" />
+      </g>
+      <path class="cursor cursor--3" d="M0 0v14l4-3.5 3 6.5 2.5-1.2-3-6.3H12z" />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .sim { width: 100%; }
+  .sim svg { display: block; width: 100%; height: auto; }
+
+  .desk { fill: var(--blue-100); }
+  .bezel { fill: var(--rail-surface); }
+  .screen, .sheet-bg { fill: var(--surface-card); }
+  .sheet-bg { stroke: var(--border-strong); stroke-width: 1.2; }
+  .grab, .line { fill: var(--border-strong); }
+  .pill { fill: var(--blue-200); stroke: var(--brand-blue); stroke-width: 1.2; }
+  .pill-flash { fill: var(--ink); opacity: 0; }
+  .globe { fill: var(--brand-blue); }
+  .card { fill: var(--surface-card); stroke: var(--border-strong); stroke-width: 1.5; }
+  .roof { fill: var(--accent); }
+  .house { fill: var(--blue-200); }
+  .door { fill: var(--brand-blue); }
+  .word { fill: var(--ink); }
+  .row-sel { fill: var(--blue-100); }
+  .tick, .repeat, .ring, .mark { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .tick { stroke: var(--success); stroke-width: 2.2; }
+  .yes { fill: var(--success); }
+  .no { fill: var(--danger); }
+  .yes-flash { fill: var(--ink); opacity: 0; }
+  .mark { stroke: #fff; stroke-width: 2.2; }
+  .stack { fill: var(--blue-200); stroke: var(--border-strong); stroke-width: 1.2; }
+  .cal { fill: var(--surface-card); stroke: var(--brand-blue); stroke-width: 1.4; }
+  .cal-top { fill: var(--brand-blue); }
+  .ring { stroke: var(--brand-blue); stroke-width: 2; }
+  .repeat { stroke: var(--brand-blue); stroke-width: 1.7; }
+  .cursor { fill: var(--ink); stroke: var(--surface-card); stroke-width: 1; }
+
+  /* everything timed: one 12 s cycle, started per part by animation-delay */
+  .sc, .in, .flip, .sheet, .shift, .fly, .cursor, .pill-flash, .yes-flash {
+    animation-duration: 12s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+    transform-box: fill-box;
+  }
+  .sc { opacity: 0; animation-name: ws-sim-scene; }
+  .sc2, .sc2 .sheet, .sc2 .shift, .sc2 .cursor, .sc2 .pill-flash { animation-delay: 4s; }
+  .sc3, .sc3 .fly, .sc3 .cursor, .sc3 .yes-flash { animation-delay: 8s; }
+  @keyframes ws-sim-scene { 0% { opacity: 0 } 2%, 31% { opacity: 1 } 33%, 100% { opacity: 0 } }
+
+  /* pops in, stays to the end of its scene */
+  .in { opacity: 0; transform-origin: center; animation-name: ws-sim-in; }
+  @keyframes ws-sim-in {
+    0% { opacity: 0; transform: scale(.4) }
+    3% { opacity: 1; transform: scale(1.15) }
+    5%, 31% { opacity: 1; transform: scale(1) }
+    33%, 100% { opacity: 0 }
+  }
+
+  /* scene 1: tap the card, it turns round (front shrinks to nothing, back grows) */
+  .flip { transform-origin: center; }
+  .flip-front { animation-name: ws-sim-front; }
+  .flip-back { transform: scaleX(0); animation-name: ws-sim-back; }
+  @keyframes ws-sim-front { 0%, 10% { transform: scaleX(1) } 14%, 100% { transform: scaleX(0) } }
+  @keyframes ws-sim-back { 0%, 14% { transform: scaleX(0) } 19%, 100% { transform: scaleX(1) } }
+  .sc1 .cursor { animation-name: ws-sim-cursor1; }
+  @keyframes ws-sim-cursor1 {
+    0%, 3% { transform: translate(200px, 152px) }
+    8% { transform: translate(162px, 84px) }
+    9.5% { transform: translate(162px, 84px) scale(.8) }
+    11%, 100% { transform: translate(162px, 84px) }
+  }
+
+  /* scene 2: tap the pill, the sheet comes up, a row is ticked, the sheet leaves, the words go right */
+  .sheet { transform: translateY(110px); animation-name: ws-sim-sheet; }
+  @keyframes ws-sim-sheet {
+    0%, 7.5% { transform: translateY(110px) }
+    12%, 24% { transform: translateY(0) }
+    29%, 100% { transform: translateY(110px) }
+  }
+  .shift { animation-name: ws-sim-shift; }
+  @keyframes ws-sim-shift {
+    0%, 24% { transform: none }
+    29%, 100% { transform: translateX(var(--dx)) }
+  }
+  .pill-flash { animation-name: ws-sim-flash2; }
+  @keyframes ws-sim-flash2 { 0%, 6.5% { opacity: 0 } 7.5% { opacity: .3 } 10%, 100% { opacity: 0 } }
+  .cursor--2 { animation-name: ws-sim-cursor2; }
+  @keyframes ws-sim-cursor2 {
+    0%, 2% { transform: translate(196px, 150px) }
+    6% { transform: translate(160px, 30px) }
+    7.5% { transform: translate(160px, 30px) scale(.8) }
+    9% { transform: translate(160px, 30px) }
+    16% { transform: translate(152px, 122px) }
+    17.5% { transform: translate(152px, 122px) scale(.8) }
+    19% { transform: translate(152px, 122px) }
+    26%, 100% { transform: translate(192px, 152px) }
+  }
+
+  /* scene 3: tap the green tick, the card flies onto the stack */
+  .fly { transform-origin: center; animation-name: ws-sim-fly; }
+  @keyframes ws-sim-fly {
+    0%, 13.5% { transform: none }
+    24%, 100% { transform: translate(91px, 50px) scale(.36) rotate(10deg) }
+  }
+  .yes-flash { animation-name: ws-sim-flash3; }
+  @keyframes ws-sim-flash3 { 0%, 11.5% { opacity: 0 } 12.5% { opacity: .35 } 16%, 100% { opacity: 0 } }
+  .cursor--3 { animation-name: ws-sim-cursor3; }
+  @keyframes ws-sim-cursor3 {
+    0%, 4% { transform: translate(205px, 152px) }
+    11% { transform: translate(146px, 137px) }
+    12.5% { transform: translate(146px, 137px) scale(.8) }
+    14%, 22% { transform: translate(146px, 137px) }
+    30%, 100% { transform: translate(200px, 156px) }
+  }
+
+  /* MascotGuide's pause button */
+  :global(.mg-paused) .sim * { animation-play-state: paused !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sim * { animation: none !important; }
+    .sc2, .sc2 .in { opacity: 1; }
+    .sc2 .sheet { transform: none; }
+    .sim .cursor { display: none; }
+  }
+</style>

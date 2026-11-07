@@ -1,0 +1,415 @@
+---
+// /knowledge — the Wissensdatenbank: everything on this site that is worth having on paper.
+//
+// Two halves, and the split between them is a rights decision, not a design one. Above:
+// files we wrote and therefore may give away, generated from the same data the trainers
+// load. Below: links to the official exam publishers' free material, which is free
+// to use but not ours to host — so they are linked where they are published, where they
+// also stay current.
+//
+// Publisher material (Hueber, Klett, Cornelsen) appears in neither list. See `rightsNote`
+// in src/data/downloads.json.
+import Layout from "../layouts/Layout.astro";
+import SiteNav from "../components/SiteNav.astro";
+import Icon from "../components/Icon.astro";
+import SectionMascot from "../components/mascots/SectionMascot.astro";
+import BookCard from "../components/wissen/BookCard.astro";
+import WortAbo from "../components/wortgeschichte/WortAbo.astro";
+import { categories, featured, files, links, rightsNote, totals } from "../lib/downloads.js";
+import { isRtl } from "../lib/languages.js";
+import { grammarTopics } from "../lib/catalog.js";
+import { orderOf } from "../lib/grammatikOrder.js";
+import { topicPath, workPath } from "../lib/routes.js";
+import { lernsets } from "../lib/lernsets.js";
+import startBook from "../data/grammatik-start/en.json";
+import "../styles/practice.css";
+import "../styles/wissen.css";
+import "../styles/wortgeschichte.css";
+
+// One of the crew per shelf, by their roles: Regi grammar, Hamsti words, Bruno the coach
+// for exams. SectionMascot hides itself when the learner has switched the crew off.
+const SHELF_MASCOT: Record<string, { name: "bruno" | "regi" | "hamsti" | "quaki"; say: string }> = {
+  grammatik: { name: "regi", say: "Rule by rule." },
+  wortschatz: { name: "hamsti", say: "Words to take with you." },
+  berufe: { name: "hamsti", say: "Words for your job." },
+  pruefungen: { name: "bruno", say: "Be well prepared!" },
+};
+
+const mb = (totals.bytes / 1024 / 1024).toFixed(1);
+
+// What to do once the PDF is on the phone (SEO-BRAND-TIERED-PROMPT.md, Tier 7a). Most people
+// who land here come from ChatGPT, take a file and leave. A link to the topic list was
+// tapped by 5 % of downloaders (PostHog, Oct 2026): a menu is one more decision. So the
+// card names one task, the book's own first chapter or Lernset, the one the PDF opens with,
+// and the list stays as the quieter second link.
+type Next = {
+  mascot: "bruno" | "regi" | "hamsti" | "quaki";
+  href: string; key: string; label: string; vars?: Record<string, string | number>;
+  subKey: string; sub: string; subVars?: Record<string, string | number>;
+  alt?: { href: string; key: string; label: string; vars?: Record<string, string> };
+};
+const PLACEMENT = { href: "/placement-test", key: "wissen.next.niveau", label: "What is your level? Take the placement test" };
+const PRACTICE_SUB = { subKey: "wissen.next.practiceSub", sub: "Practise online – your phone checks your answers right away." };
+// Chapter 1 of a level as the book prints it (scripts/generate-grammatik-pdf.mjs, same order).
+const firstTopic = (level: string) => grammarTopics.filter((t) => t.level === level).sort((a, b) => orderOf(a) - orderOf(b))[0];
+
+function nextStep(f: { id: string; category: string; level: string }): Next {
+  if (f.id === "grammatik-start") {
+    const c = startBook.chapters[0];
+    return { mascot: "regi", href: topicPath(c.topic), key: "wissen.next.chapter", label: `Start with chapter 1: ${c.titleDe}`, vars: { name: c.titleDe }, ...PRACTICE_SUB, alt: PLACEMENT };
+  }
+  if (f.category === "grammatik") {
+    const level = /^[ABC][12]$/.test(f.level) ? f.level : null;
+    const t = firstTopic(level ?? "A1");
+    const alt = level
+      ? { href: `/grammar#niveau-${level.toLowerCase()}`, key: "wissen.next.allTopics", label: `All ${level} topics`, vars: { level } }
+      : PLACEMENT;
+    if (!t) return { mascot: "regi", href: "/grammar", key: "wissen.next.grammatik", label: "Practise the topics online, with feedback", ...PRACTICE_SUB };
+    return { mascot: "regi", href: t.href, key: "wissen.next.chapter", label: `Start with chapter 1: ${t.name}`, vars: { name: t.name }, ...PRACTICE_SUB, alt };
+  }
+  if (f.category === "wortschatz") {
+    const level = /^[ABC][12]$/.test(f.level) ? f.level : null;
+    const set = lernsets({ level: level ?? "A1", status: "built" })[0];
+    const alt = level
+      ? { href: `/vocabulary/${level.toLowerCase()}`, key: "wissen.next.allSets", label: `All ${level} sets`, vars: { level } }
+      : { href: "/vocabulary", key: "wissen.next.wortschatz", label: "Learn the words with flashcards" };
+    if (!set) return { mascot: "hamsti", href: "/vocabulary", key: "wissen.next.wortschatz", label: "Learn the words with flashcards", subKey: "wissen.next.cardsSubPlain", sub: "With audio, one set at a time." };
+    return {
+      mascot: "hamsti", href: `/vocabulary/${set.id}`, key: "wissen.next.set", label: `Set 1 as flashcards: ${set.title}`, vars: { name: set.title },
+      subKey: "wissen.next.cardsSub", sub: `With audio, ${set.words} words.`, subVars: { n: set.words }, alt,
+    };
+  }
+  if (f.category === "berufe") return { mascot: "hamsti", href: workPath(f.id.replace(/^berufe-/, "")), key: "wissen.next.berufe", label: "Learn the words for your job with flashcards", subKey: "wissen.next.cardsSubPlain", sub: "With audio, one set at a time." };
+  return { mascot: "bruno", ...PLACEMENT, subKey: "wissen.next.placementSub", sub: "2 minutes, then you know where to start." };
+}
+---
+<Layout
+  title="Spanish grammar & word lists as free PDFs – icanspeak Spanish"
+  description="Grammar books, word lists and exam material as PDFs — download them for free, print them and share them in class. No account needed."
+>
+  <SiteNav active="wissen" />
+  <main class="practice-main practice-main--wide">
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="wissen.eyebrow">Knowledge base</p>
+      <h1 data-i18n="wissen.h1">Books and lists to download</h1>
+      {/* One sentence that says what is here: the line answer engines quote. */}
+      <p data-i18n="wissen.lead" data-i18n-vars={JSON.stringify({ files: totals.files, pages: totals.pages })}>
+        {totals.files} free PDFs with {totals.pages} pages for levels A1 to B2: grammar, word lists,
+        vocabulary for work and exam preparation, ready to download and print without an account.
+      </p>
+    </div>
+
+    {/* The big books, as the same cards as the shelves below. As thin green strips with a
+        tiny cover they read as banners, not as the three books worth taking first. */}
+    {featured.length > 0 && (
+      <section class="wi-group" id="einstieg">
+        <h2 class="wi-group-title">
+          <span class="wi-group-ic"><Icon name="sparkle" size={20} /></span>
+          <span data-i18n="wissen.cat.einstieg.name">Start here</span>
+          <span class="wi-group-n">{featured.length}</span>
+        </h2>
+        <div class="wi-group-head">
+          <p class="wi-group-blurb" data-i18n="wissen.cat.einstieg.blurb">All the grammar and all the words, each in one volume – plus the starter book for beginners.</p>
+        </div>
+        <div class="wi-grid wi-grid--featured">
+          {featured.map((f, i) => <BookCard file={f} i={i} />)}
+        </div>
+      </section>
+    )}
+
+    {categories.map((cat) => (
+      <section class="wi-group" id={cat.id}>
+        <h2 class="wi-group-title">
+          <span class="wi-group-ic"><Icon name={cat.icon} size={20} /></span>
+          <span data-i18n={`wissen.cat.${cat.id}.name`}>{cat.name}</span>
+          <span class="wi-group-n">{cat.items.length + cat.external.length}</span>
+        </h2>
+        <div class="wi-group-head">
+          <p class="wi-group-blurb" data-i18n={`wissen.cat.${cat.id}.blurb`}>{cat.blurb}</p>
+          {SHELF_MASCOT[cat.id] && <SectionMascot name={SHELF_MASCOT[cat.id].name} say={SHELF_MASCOT[cat.id].say} class="wi-group-mascot" />}
+        </div>
+        <div class="wi-grid">
+          {cat.items.map((f, i) => <BookCard file={f} i={i} />)}
+        </div>
+        {/* Below the books, in a grid of their own: they have no cover, and their text needs
+            the wider card. */}
+        {cat.external.length > 0 && <div class="wi-grid wi-grid--ext">
+          {/* The exam boards' Modellsätze: a plain link to the publisher's PDF itself,
+              so one tap downloads it. No sheet, since we cannot list what is inside a file we
+              do not have. The source line says whose file it is. */}
+          {cat.external.map((e) => (
+            <a class="wi-card wi-card--ext" href={e.href} target="_blank" rel="noopener noreferrer" download data-ext={e.id}>
+              <span class="wi-badge">{e.level}</span>
+              <b>{e.title}</b>
+              <i data-i18n={`wissen.ext.${e.id}.desc`}>{e.desc}</i>
+              <span class="wi-card-foot">
+                <span class="wi-meta">PDF · {e.size} · <span class="wi-meta-src">{e.source}</span></span>
+                <span class="wi-dl wi-dl--download" aria-hidden="true"><Icon name="download" size={18} /></span>
+              </span>
+            </a>
+          ))}
+        </div>}
+      </section>
+    ))}
+
+    <section class="wi-group" id="offiziell">
+      <h2 class="wi-group-title">
+        <span class="wi-group-ic"><Icon name="landmark" size={20} /></span>
+        <span data-i18n="wissen.official.title">Official materials</span>
+        <span class="wi-group-n">{links.length}</span>
+      </h2>
+      <p class="wi-group-blurb" data-i18n="wissen.official.blurb">
+        Model papers and question catalogues from the exam boards. They are free, but they are not ours —
+        so we link to them where they are published. That is also where they stay up to date.
+      </p>
+      <ul class="wi-links">
+        {links.map((l) => (
+          <li>
+            <a href={l.href} target="_blank" rel="noopener noreferrer">
+              <b>{l.title}</b>
+              {/* Keyed by id, not position: an index key silently pinned each note to whichever
+                  link happened to sit in that slot once a link was added above it. The
+                  titles are the publishers' own names and stay as they are. */}
+              <i data-i18n={`wissen.link.${l.id}.note`}>{l.note}</i>
+              <span class="wi-source">{l.source} ↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="wi-rights">
+      <h2 data-i18n="wissen.h2.sources">Where all this comes from</h2>
+      {rightsNote.split("\n\n").map((p, i) => <p data-i18n={`wissen.rights.p${i + 1}`}>{p}</p>)}
+      <p class="wi-rights-meta" data-i18n-html="wissen.rights.meta" data-i18n-vars={JSON.stringify({ files: totals.files, mb })}>
+        Together {totals.files} files, {mb} MB. Generated from this site's data with
+        <code>pnpm generate:pdfs</code>.
+      </p>
+    </section>
+
+    {/* The one mailing list that needs no account. Renders only once PUBLIC_WORT_ABO is on. */}
+    <WortAbo />
+
+    <!-- The sheet. Rendered here for all files rather than built by JS, so every
+         title and table of contents is in the HTML for crawlers, and so a reader
+         with no JS still gets the plain download links in the <noscript> below. -->
+    <div class="wi-sheet-scrim" data-sheet-scrim hidden></div>
+    <div class="wi-sheet" data-sheet hidden role="dialog" aria-modal="true" aria-labelledby="wi-sheet-title">
+      {files.map((f) => (
+        <div class="wi-sheet-body" data-sheet-for={f.id} hidden>
+          <div class="wi-sheet-head">
+            <span class="wi-badge">{f.level}</span>
+            <button class="wi-sheet-x" type="button" data-sheet-close aria-label="Close" data-i18n-attr="aria-label:wissen.close">✕</button>
+          </div>
+          <h2 id="wi-sheet-title">{f.title}</h2>
+          <p class="wi-meta">PDF{f.pages ? <span data-i18n="wissen.pagesSuffix" data-i18n-vars={JSON.stringify({ n: f.pages })}>{` · ${f.pages} pages`}</span> : ""} · {f.size}</p>
+          <p class="wi-sheet-desc" data-i18n={`wissen.file.${f.id}.desc`}>{f.desc}</p>
+
+          {/* Every download first, the contents last: in session replays learners
+              scrolled through languages and contents and never found the button. */}
+          <div class="wi-sheet-cta">
+            <a class="wi-sheet-dl" href={f.href} download>
+              <Icon name="download" size={20} />
+              <span data-i18n="wissen.download">Download now</span>
+            </a>
+          </div>
+          {/* Said right under the button once it is tapped. Chrome on Android saves the file
+              without opening anything; in replays learners saw nothing happen and tapped again
+              and again (2026-10-09: seven times). So: it has started, where it went, and the
+              same file to read in the browser at once. Filled by the script below. */}
+          <div class="wi-dlnote" data-wi-dlnote role="status" hidden>
+            <p class="wi-dlnote-h" data-i18n="wissen.dl.started">✓ Your download has started.</p>
+            <p class="wi-dlnote-where" data-i18n="wissen.dl.where">The file is in your “Downloads” folder. On a phone: tap the file in your notifications at the top.</p>
+            <a class="wi-dlnote-open" href={f.href} target="_blank" rel="noopener" data-wi-dlopen>
+              <Icon name="chevron-right" size={18} />
+              <span data-i18n="wissen.dl.open">Nothing happened? Open the PDF in your browser</span>
+            </a>
+          </div>
+
+          {/* Shown once a download has started (the script below), right under the note
+              that it has: before, it sat below the language editions and the eye went
+              to those (downloaders went on to other files, not to the site). */}
+          {(() => {
+            const next = nextStep(f);
+            return (
+              <div class="wi-next" data-wi-next hidden>
+                <p class="wi-sheet-toclabel" data-i18n="wissen.next.title">What next?</p>
+                <a class="wi-next-card" href={next.href} data-next-target={next.href}>
+                  <SectionMascot name={next.mascot} size={44} class="wi-next-mascot" />
+                  <span class="wi-next-text">
+                    <b data-i18n={next.key} data-i18n-vars={next.vars ? JSON.stringify(next.vars) : undefined}>{next.label}</b>
+                    <small data-i18n={next.subKey} data-i18n-vars={next.subVars ? JSON.stringify(next.subVars) : undefined}>{next.sub}</small>
+                  </span>
+                  <Icon name="chevron-right" size={20} />
+                </a>
+                {next.alt && (
+                  <a class="wi-next-alt" href={next.alt.href} data-next-target={next.alt.href} data-next-alt>
+                    <span data-i18n={next.alt.key} data-i18n-vars={next.alt.vars ? JSON.stringify(next.alt.vars) : undefined}>{next.alt.label}</span>
+                  </a>
+                )}
+              </div>
+            );
+          })()}
+
+          {/* The same book with the learner's language in the translation column. Each
+              language is named in itself — that is the word its reader will spot. Right
+              under the German button, so every download sits at the top of the sheet. */}
+          {f.editions.length > 0 && (
+            <div class="wi-sheet-eds">
+              <p class="wi-sheet-toclabel" data-i18n="wissen.editions.label">With a translation into your language</p>
+              <div class="wi-sheet-eds-row">
+                {f.editions.map((e) => (
+                  <a class="wi-sheet-ed" href={e.href} download lang={e.lang} dir={e.rtl ? "rtl" : undefined}>
+                    <span>{e.label}</span>
+                    <small dir="ltr">{e.size}</small>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Bayern's classroom booklets, shown only while Bayern is picked. */}
+          {f.extras.length > 0 && f.extras.map((x) => (
+            <a class="wi-sheet-extra" href={x.href} download>
+              <span class="wi-badge">{x.level}</span>
+              <span><b>{x.title}</b><small>PDF · {x.size}</small></span>
+              <Icon name="download" size={18} />
+            </a>
+          ))}
+
+          {f.contents && f.contents.items.length > 0 && (
+            /* Below the downloads and folded. Still in the HTML for crawlers. */
+            <details class="wi-sheet-toc">
+              <summary><span class="wi-sheet-toclabel" data-i18n={f.contents.labelKey} data-i18n-vars={f.contents.labelVars ? JSON.stringify(f.contents.labelVars) : undefined}>{f.contents.label}</span></summary>
+              {/* Each line stays German — it is what the book prints — and carries its
+                  translations; the interface language picks one (wissen.css, .wi-toc-tr). */}
+              <ul>{f.contents.items.map((line, i) => {
+                const k = f.contents.itemKeys?.[i];
+                const tr = f.contents.itemTr?.[i];
+                return (
+                  <li>
+                    <span lang="en" dir={k ? undefined : "ltr"} data-i18n={k?.key} data-i18n-vars={k?.vars ? JSON.stringify(k.vars) : undefined}>{line}</span>
+                    {tr && Object.entries(tr).map(([l, v]) => <span class="wi-toc-tr" lang={l} dir={isRtl(l) ? "rtl" : "ltr"}>{v}</span>)}
+                  </li>
+                );
+              })}</ul>
+            </details>
+          )}
+
+          <p class="wi-sheet-foot" data-i18n="wissen.sheetFoot">Free, no account. To print and pass on.</p>
+        </div>
+      ))}
+    </div>
+  </main>
+
+  <noscript>
+    <style>
+      /* No JS: the cards cannot open anything, so the sheets are simply the list. */
+      .wi-grid { display: none; }
+      .wi-sheet-scrim { display: none; }
+      .wi-sheet, .wi-sheet-body { display: block !important; position: static; }
+      .wi-sheet-body[hidden] { display: block !important; }
+      .wi-sheet-x { display: none; }
+    </style>
+  </noscript>
+
+  <script>
+    import { track } from "../lib/track.js";
+    import { withBase } from "../lib/paths.js";
+
+    // The download sheet. Every card is a button; the sheet it opens is already in
+    // the page, one body per file, and only the matching one is shown.
+    const sheet = document.querySelector<HTMLElement>("[data-sheet]");
+    const scrim = document.querySelector<HTMLElement>("[data-sheet-scrim]");
+    const bodies = Array.from(document.querySelectorAll<HTMLElement>("[data-sheet-for]"));
+    let opener: HTMLElement | null = null;
+
+    function closeSheet() {
+      if (!sheet || sheet.hidden) return;
+      sheet.hidden = true;
+      if (scrim) scrim.hidden = true;
+      document.body.classList.remove("wi-sheet-open");
+      for (const b of bodies) b.hidden = true;
+      for (const n of Array.from(document.querySelectorAll<HTMLElement>("[data-wi-next]"))) n.hidden = true;
+      // The address goes back to the page itself; it pointed at the file while the sheet was open.
+      if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+      // Back to the card it came from, so a keyboard reader does not land at the
+      // top of the page after every look.
+      opener?.focus();
+      opener = null;
+    }
+
+    function openSheet(id: string, from: HTMLElement) {
+      if (!sheet) return;
+      let found = false;
+      for (const b of bodies) {
+        const on = b.dataset.sheetFor === id;
+        b.hidden = !on;
+        found ||= on;
+      }
+      if (!found) return;
+      opener = from;
+      sheet.hidden = false;
+      if (scrim) scrim.hidden = false;
+      document.body.classList.add("wi-sheet-open");
+      sheet.scrollTop = 0;
+      // /knowledge#grammatik-a1 is a link to that file: copy the address, get the same sheet.
+      history.replaceState(null, "", `#${id}`);
+      sheet.querySelector<HTMLElement>("[data-sheet-close]:not([hidden])")?.focus();
+    }
+
+    for (const card of Array.from(document.querySelectorAll<HTMLElement>("[data-file]"))) {
+      card.addEventListener("click", () => openSheet(card.dataset.file!, card));
+    }
+    for (const x of Array.from(document.querySelectorAll<HTMLElement>("[data-sheet-close]"))) {
+      x.addEventListener("click", closeSheet);
+    }
+    scrim?.addEventListener("click", closeSheet);
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeSheet(); });
+
+    // A download used to close the sheet. Now it stays open on the next step for that file.
+    const fileName = (href: string) => href.split("/").pop()?.split("?")[0] ?? href;
+    for (const dl of Array.from(document.querySelectorAll<HTMLAnchorElement>(".wi-sheet-dl, .wi-sheet-ed, .wi-sheet-extra"))) {
+      dl.addEventListener("click", () => {
+        const body = dl.closest<HTMLElement>("[data-sheet-for]");
+        track("pdf_download", { pdf: fileName(dl.href), file: body?.dataset.sheetFor, lang: dl.getAttribute("lang") ?? "de" });
+        // Say that it worked, and offer the very file just tapped (a language edition too)
+        // to open in the browser instead.
+        const note = body?.querySelector<HTMLElement>("[data-wi-dlnote]");
+        const open = note?.querySelector<HTMLAnchorElement>("[data-wi-dlopen]");
+        if (note && open) {
+          open.href = dl.href;
+          note.hidden = false;
+          // Re-announce on a second tap, and make it move so the eye catches it.
+          note.classList.remove("is-new");
+          void note.offsetWidth;
+          note.classList.add("is-new");
+        }
+        const next = body?.querySelector<HTMLElement>("[data-wi-next]");
+        if (!next) return;
+        next.hidden = false;
+        window.setTimeout(() => next.scrollIntoView({ block: "nearest", behavior: "smooth" }), 150);
+      });
+    }
+    for (const a of Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-wi-dlopen]"))) {
+      a.addEventListener("click", () => track("pdf_open_browser", { pdf: fileName(a.href), file: a.closest<HTMLElement>("[data-sheet-for]")?.dataset.sheetFor }));
+    }
+    for (const a of Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-ext]"))) {
+      a.addEventListener("click", () => track("pdf_download", { pdf: fileName(a.href), file: a.dataset.ext, lang: "de", external: true }));
+    }
+    for (const a of Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-next-target]"))) {
+      a.addEventListener("click", () => track("wissen_next_step", { target: a.dataset.nextTarget, file: a.closest<HTMLElement>("[data-sheet-for]")?.dataset.sheetFor, alt: "nextAlt" in a.dataset }));
+    }
+
+    // A link to one file (/knowledge#wortschatz-b1) opens its sheet.
+    function openFromHash() {
+      const id = decodeURIComponent(location.hash.slice(1));
+      const card = id ? document.getElementById(id) : null;
+      if (!card?.matches("[data-file]")) return;
+      card.scrollIntoView({ block: "center" });
+      openSheet(id, card);
+    }
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+  </script>
+</Layout>

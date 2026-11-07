@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Einfach: Aufgabe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&amp;family=Albert+Sans:wght@500;600;700&amp;family=Big+Shoulders+Display:wght@800&amp;family=Fredoka:wght@500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#0f766e}a:hover{color:#115e59}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; box-sizing: border-box; background: #ffffff; color: #1a2230; font-family: 'Sora', sans-serif; display: flex; flex-direction: column; padding: 16px 20px 32px">
+  <div style="display: flex; align-items: center; gap: 12px; height: 48px">
+    <a href="Main.dc.html" aria-label="Einheit beenden" style="width: 44px; height: 44px; margin-left: -10px; display: flex; align-items: center; justify-content: center; color: #4b5768; text-decoration: none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+    <span role="progressbar" aria-valuemin="0" aria-valuemax="7" aria-valuenow="3" aria-label="Aufgabe 3 von 7" style="flex: 1; display: block; height: 8px; border-radius: 4px; background: #e7e9ee"><span style="display: block; width: 43%; height: 8px; border-radius: 4px; background: #0f766e"></span></span>
+    <span style="font: 600 13px 'Albert Sans', sans-serif; color: #4b5768">3/7</span>
+  </div>
+
+  <div style="display: flex; align-items: center; gap: 10px; margin-top: 24px">
+    <img src="bruno.svg" alt="" style="width: 56px; height: 56px; flex: none">
+    <span style="padding: 8px 12px; border-radius: 14px 14px 14px 4px; background: #f0fdfa; border: 1px solid #ccfbf1; font: 600 15px 'Fredoka', sans-serif; color: #115e59">Was antwortest du?</span>
+  </div>
+
+  <div style="display: flex; align-items: center; gap: 14px; margin-top: 28px">
+    <button type="button" aria-label="Frage anhören" style="width: 52px; height: 52px; flex: none; border-radius: 26px; border: none; background: #0f766e; color: #ffffff; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"></path></svg></button>
+    <p style="margin: 0; font: 800 40px/1.05 'Big Shoulders Display', sans-serif; letter-spacing: 0.2px">Wie heißt du?</p>
+  </div>
+
+  <fieldset style="margin: 32px 0 0; padding: 0; border: none; display: flex; flex-direction: column; gap: 10px">
+    <legend style="position: absolute; width: 1px; height: 1px; overflow: hidden">Antwort wählen</legend>
+    <label style="display: flex; align-items: center; min-height: 60px; padding: 0 18px; border: 2px solid #0f766e; background: #f0fdfa; border-radius: 16px; font-size: 17px; font-weight: 600; cursor: pointer"><input type="radio" name="a" checked="checked" style="position: absolute; opacity: 0"><span>Ich heiße Ana.</span></label>
+    <label style="display: flex; align-items: center; min-height: 60px; padding: 0 18px; border: 1px solid #e7e9ee; border-radius: 16px; font-size: 17px; cursor: pointer"><input type="radio" name="a" style="position: absolute; opacity: 0"><span>Ich komme aus Spanien.</span></label>
+    <label style="display: flex; align-items: center; min-height: 60px; padding: 0 18px; border: 1px solid #e7e9ee; border-radius: 16px; font-size: 17px; cursor: pointer"><input type="radio" name="a" style="position: absolute; opacity: 0"><span>Mir geht's gut, danke.</span></label>
+    <label style="display: flex; align-items: center; min-height: 60px; padding: 0 18px; border: 1px solid #e7e9ee; border-radius: 16px; font-size: 17px; cursor: pointer"><input type="radio" name="a" style="position: absolute; opacity: 0"><span>Ich wohne in Berlin.</span></label>
+  </fieldset>
+
+  <div style="flex: 1"></div>
+  <a href="Einfach.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 28px; background: #0f766e; color: #ffffff; text-decoration: none; font-size: 17px; font-weight: 600">Prüfen</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

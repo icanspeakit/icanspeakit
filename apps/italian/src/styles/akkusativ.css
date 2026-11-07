@@ -1,0 +1,938 @@
+/* Akkusativ / Artikel-Trainer practice workspace — retinted onto the site's
+   main brand tokens (Sora/Big Shoulders Display, teal + sparing orange
+   accent) from what used to be its own visual system (Fira Sans/Mono,
+   navy ink + signal amber). Class names are shared with
+   src/lib/practiceWorkspace.js across both pages that use this file —
+   only the values changed, not the selectors. */
+
+:root[data-theme="dark"] .akk { --akk-amber-bg-tint: #33220f; }
+
+.akk {
+  --akk-ink: var(--ink);
+  --akk-ink-2: var(--brand-blue-dark);
+  --akk-paper: var(--surface);
+  --akk-surface: var(--surface-card);
+  --akk-line: var(--border);
+  --akk-line-strong: var(--border-strong);
+  --akk-muted: var(--muted);
+  --akk-amber: var(--accent);
+  --akk-amber-bg: var(--akk-amber-bg-tint, #f0e2bf);
+  --akk-amber-ink: var(--accent-dark);
+  --akk-green: var(--success);
+  --akk-green-bg: var(--success-soft);
+  --akk-red: var(--danger);
+  --akk-red-bg: var(--danger-soft);
+  --akk-font: var(--font-body);
+  --akk-mono: var(--font-label);
+
+  font-family: var(--akk-font);
+  background: var(--akk-paper);
+  color: var(--akk-ink);
+}
+
+/* `min-height: 100vh` belongs to .akk only when it IS the page. LearnShell embeds
+   .akk inside a shell that is already full height, where the rule forced a blank
+   viewport below the exercise (the "why is there so much space" on /v2). Standalone
+   pages opt in with this modifier instead. */
+.akk--page {
+  min-height: 100vh;
+}
+
+.akk * { box-sizing: border-box; }
+
+/* Motion */
+@keyframes akk-fade-slide-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes akk-pop {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+@keyframes akk-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+.akk-anim-in { animation: akk-fade-slide-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.akk-pill--pop { animation: akk-pop 0.32s ease; }
+.akk-pill--shake { animation: akk-shake 0.32s ease; }
+.akk-rail-seg { transition: background-color 0.3s ease; }
+.akk-test-badge { transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease; }
+.akk-pill { transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, opacity 0.2s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .akk-anim-in, .akk-pill--pop, .akk-pill--shake { animation: none; }
+  .akk-rail-seg, .akk-test-badge, .akk-pill, .akk-ring-fill, .akk-test-rail-fill { transition: none; }
+}
+
+/* Top bar — same brand gradient used for the site's other CTA/stat bands */
+.akk-topbar {
+  background: var(--gradient-brand);
+  color: #fff;
+}
+.akk-topbar-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.akk-wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+}
+.akk-breadcrumb {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.akk-breadcrumb a { color: rgba(255, 255, 255, 0.85); text-decoration: none; display: inline-block; padding: 10px 2px; margin: -10px -2px; }
+.akk-breadcrumb a:hover { color: #fff; text-decoration: underline; }
+.akk-crumb-sep { color: rgba(255, 255, 255, 0.5); }
+.akk-crumb-current { color: #fff; font-weight: 600; }
+
+/* Main */
+.akk-main { max-width: 760px; margin: 0 auto; padding: 28px 20px 40px; }
+
+.akk-card {
+  background: var(--akk-surface);
+  border: 1px solid var(--akk-line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+/* Card header: AKK tag + title (left), difficulty control (right) */
+.akk-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px 20px 16px;
+}
+.akk-title-group { display: flex; align-items: center; gap: 10px; }
+.akk-title { margin: 0; font-family: var(--font-body); font-size: 1.4rem; font-weight: var(--fw-regular); color: var(--akk-ink); }
+
+.akk-difficulty {
+  display: inline-flex;
+  border: 1px solid var(--akk-line-strong);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+}
+.akk-diff-btn {
+  font-family: var(--akk-font);
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--akk-muted);
+  cursor: pointer;
+  min-height: 44px;
+}
+.akk-diff-btn.active { background: var(--gradient-brand); color: #fff; }
+.akk-diff-btn:hover:not(.active) { color: var(--akk-ink); }
+
+/* Übung / Regel segmented control */
+.akk-tabs {
+  display: flex;
+  gap: 0;
+  margin: 0 20px 16px;
+  border: 1px solid var(--akk-line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.akk-tab {
+  flex: 1;
+  font-family: var(--akk-font);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 14px 16px;
+  border: none;
+  background: var(--akk-surface);
+  color: var(--akk-ink);
+  cursor: pointer;
+}
+.akk-tab + .akk-tab { border-left: 1px solid var(--akk-line-strong); }
+.akk-tab.active { background: var(--gradient-brand); border-color: transparent; color: #fff; }
+.akk-tab:hover:not(.active) { background: var(--akk-paper); }
+
+/* Mode control: visually secondary, sits below the tabs */
+.akk-mode-row { padding: 0 20px 16px; border-bottom: 1px solid var(--akk-line); }
+/* Inside the Artikel card on a phone the card already pads 28px; 20px more squeezed the
+   controls to ~260px of a 358px card and out of line with the "Stufe" header. */
+@media (max-width: 480px) { .vp-card > .akk-mode-row { padding-inline: 0; } }
+.akk-mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+}
+.akk-mode-label {
+  color: var(--akk-muted);
+  font-family: var(--akk-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.7rem;
+  margin-right: 4px;
+}
+.akk-mode-btn {
+  font-family: var(--akk-font);
+  font-weight: 500;
+  font-size: 0.85rem;
+  padding: 12px 4px;
+  margin: -6px -4px;
+  border: none;
+  background: none;
+  color: var(--akk-muted);
+  cursor: pointer;
+  min-height: 44px;
+}
+.akk-mode-btn.active { color: var(--brand-blue-dark); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.akk-mode-sep { color: var(--akk-line-strong); }
+
+/* Level picker — the noun pool spans A1 and A2, so a session is drawn from one level. */
+.akk-mode-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px; }
+.akk-level-btn {
+  font-family: var(--akk-font);
+  font-weight: 500;
+  font-size: 0.85rem;
+  padding: 12px 4px;
+  margin: -6px -4px;
+  border: none;
+  background: none;
+  color: var(--akk-muted);
+  cursor: pointer;
+  min-height: 44px;
+}
+.akk-level-btn.active { color: var(--brand-blue-dark); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.akk-level-reload {
+  margin-left: 12px;
+  font-family: var(--akk-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.akk-level-reload:hover { color: var(--brand-blue-dark); }
+
+/* Tag: transit-style line-code label, e.g. "AKK" */
+.akk-tag {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--akk-mono);
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: var(--brand-blue);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.akk-counter {
+  font-family: var(--akk-mono);
+  font-size: 0.82rem;
+  color: var(--akk-muted);
+  white-space: nowrap;
+}
+
+/* Fokus-Modus position rail: one segment per question */
+.akk-focus-progress { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.akk-rail { flex: 1; display: flex; gap: 4px; }
+.akk-rail-seg { flex: 1; height: 6px; border-radius: 999px; background: var(--akk-line); }
+.akk-rail-seg--current { background: var(--brand-blue); }
+.akk-rail-seg--done { background: var(--brand-blue-dark); }
+.akk-back {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--akk-line);
+  border-radius: 50%;
+  background: none;
+  color: var(--akk-ink);
+  cursor: pointer;
+}
+.akk-back:hover:not(:disabled) { border-color: var(--brand-blue); color: var(--brand-blue-dark); }
+.akk-back:disabled { opacity: .35; cursor: default; }
+.akk-focus-done-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+
+/* Exercise area */
+#akk-exercise-root { padding: 24px 20px 28px; }
+
+/* Fokus-Modus */
+.akk-focus-card { padding: 8px 0 4px; }
+.akk-focus-sentence {
+  font-size: 1.55rem;
+  line-height: 1.5;
+  margin: 0 0 24px;
+}
+.akk-blank {
+  display: inline-block;
+  min-width: 2.6em;
+  border-bottom: 3px dashed var(--brand-blue);
+  color: transparent;
+  text-align: center;
+}
+.akk-focus-instruction {
+  color: var(--akk-muted);
+  font-size: 0.9rem;
+  margin: 16px 0 0;
+}
+.akk-focus-plural { color: var(--akk-muted); font-size: 0.9rem; margin: 4px 0 0; }
+.akk-focus-plural b { color: var(--ink); font-weight: 600; }
+
+.akk-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+.akk-pill {
+  font-family: var(--akk-font);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 12px 22px;
+  min-height: 48px;
+  border: 1px solid var(--akk-line-strong);
+  border-radius: 999px;
+  background: var(--akk-surface);
+  color: var(--akk-ink);
+  cursor: pointer;
+}
+.akk-pill:hover:not(:disabled) { border-color: var(--brand-blue); }
+.akk-pill:disabled { cursor: default; }
+.akk-pill--correct { background: var(--akk-green-bg); border-color: var(--akk-green); color: var(--akk-green); }
+.akk-pill--incorrect { background: var(--akk-red-bg); border-color: var(--akk-red); color: var(--akk-red); }
+.akk-pill--dim { opacity: 0.5; }
+
+/* The noun in full after a wrong answer (wrongFlow, practiceWorkspace.js): its article in
+   the site's gender colours, the same ones Wortschatz uses (vokabeltrainer.css). The word is
+   always printed, so nothing is carried by hue alone. */
+.akk-art { font-weight: 700; }
+.akk-art--der { color: var(--info); }
+.akk-art--die { color: var(--danger); }
+.akk-art--das { color: var(--success); }
+/* Pluraletantum: a plural "die", in the plural colour. Yellow is faint on white, so it
+   gets an underline in the same colour rather than relying on the hue. */
+.akk-art--plural { color: var(--gender-plural); text-decoration: underline 3px var(--gender-plural); text-underline-offset: 4px; }
+
+/* The pause before the card moves on by itself: a bar that fills over its length. */
+.akk-autoadv {
+  display: block;
+  height: 3px;
+  margin-bottom: 10px;
+  border-radius: 2px;
+  background: var(--akk-red-bg);
+  overflow: hidden;
+}
+.akk-autoadv::before {
+  content: "";
+  display: block;
+  height: 100%;
+  background: var(--akk-red);
+  transform-origin: left;
+  animation: akk-autoadv var(--akk-autoadv, 1200ms) linear both;
+}
+[dir="rtl"] .akk-autoadv::before { transform-origin: right; }
+/* „Anhalten" beside Weiter while the pause runs: the plain .akk-btn, quieter than Weiter. */
+.akk-pause span { font-size: .8em; letter-spacing: -.1em; margin-inline-end: 4px; }
+@keyframes akk-autoadv { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) {
+  /* The pause stays; only the moving bar goes. */
+  .akk-autoadv { display: none; }
+}
+
+/* A noun missed earlier in the round, shown a second time (wrongFlow). */
+.akk-again {
+  display: table;
+  margin: 0 auto 10px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--akk-red-bg);
+  color: var(--akk-red);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+/* The round's summary (wrongFlow): one table — article, noun (plural under it), the answer
+   given — grouped into "falsch" and "richtig" so the columns line up across both. */
+.akk-done-table {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto 20px;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: start;
+}
+.akk-done-table th, .akk-done-table td { padding: 9px 12px; vertical-align: middle; text-align: start; }
+.akk-done-table thead th {
+  font-family: var(--font-label);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--akk-muted);
+  background: var(--surface-sunken, #f8fafc);
+  border-bottom: 1px solid var(--border, #e5e7eb);
+}
+.akk-done-table thead th:last-child, .akk-done-table .akk-done-ans { text-align: center; }
+.akk-done-group th { font-size: 0.86rem; font-weight: 700; padding-top: 12px; padding-bottom: 6px; }
+.akk-done-group--wrong th { color: var(--akk-red); background: var(--akk-red-bg); }
+.akk-done-group--right th { color: var(--akk-green); background: var(--akk-green-bg, #ecfdf5); }
+tbody + tbody .akk-done-group th { border-top: 1px solid var(--border, #e5e7eb); }
+.akk-done-row td { border-top: 1px solid var(--border, #e5e7eb); }
+.akk-done-group + .akk-done-row td { border-top: none; }
+.akk-done-art { width: 3.6em; font-size: 1.05rem; }
+.akk-done-word { min-width: 0; }
+.akk-done-noun { display: block; font-size: 1.05rem; font-weight: 600; color: var(--akk-ink); }
+.akk-done-plural { display: block; white-space: nowrap; font-size: 0.82rem; color: var(--akk-muted); }
+.akk-done-ans { width: 7.5em; }
+.akk-done-pick { font-size: 1rem; font-weight: 700; color: var(--akk-red); text-decoration-thickness: 2px; }
+.akk-done-x { font-weight: 700; color: var(--akk-red); }
+.akk-done-ok { font-size: 1.05rem; font-weight: 700; color: var(--akk-green); }
+.akk-done-second { display: block; white-space: nowrap; font-size: 0.74rem; font-weight: 700; color: var(--akk-green); }
+.akk-done-count {
+  display: inline-block;
+  min-width: 1.6em;
+  margin-inline-start: 4px;
+  padding: 0 6px;
+  border-radius: 999px;
+  text-align: center;
+  font-size: 0.78rem;
+}
+.akk-done-group--wrong .akk-done-count { color: #fff; background: var(--akk-red); }
+.akk-done-group--right .akk-done-count { color: #fff; background: var(--akk-green); }
+.akk-focus-done p.akk-done-clean { color: var(--akk-green); font-weight: 700; }
+@media (max-width: 420px) {
+  .akk-done-table th, .akk-done-table td { padding: 8px 6px; }
+  .akk-done-table th:first-child, .akk-done-table td:first-child { padding-inline-start: 10px; }
+  .akk-done-table thead th { font-size: 0.62rem; letter-spacing: .03em; }
+  .akk-done-art { width: 2.6em; }
+  .akk-done-ans { width: 4.6em; }
+  .akk-done-second { white-space: normal; font-size: 0.68rem; line-height: 1.2; }
+}
+
+/* Regi's note under the summary: where this round was saved. */
+.akk-done-save {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto 20px;
+  padding: 12px 14px;
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 14px;
+  background: var(--surface-sunken, #f8fafc);
+  text-align: start;
+}
+.akk-done-save--local { border-color: var(--brand-blue); background: var(--blue-50); }
+.akk-done-save-who { flex: none; width: 52px; height: 52px; }
+.akk-done-save-who svg { width: 100%; height: 100%; }
+html[data-mascots="off"] .akk-done-save-who { display: none; }
+.akk-done-save-txt { min-width: 0; }
+.akk-focus-done .akk-done-save-txt p { margin: 0 0 4px; font-size: 0.9rem; line-height: 1.4; color: var(--akk-ink); }
+.akk-done-save-link { font-size: 0.9rem; font-weight: 700; color: var(--brand-blue-dark); }
+.akk-focus-done .akk-done-save-txt p.akk-done-mood { margin-bottom: 8px; font-weight: 600; }
+html[data-mascots="off"] .akk-done-mood { display: none; }
+.akk-done-regel { padding: 0; border: none; background: none; cursor: pointer; text-decoration: underline; font-family: inherit; }
+
+/* The screen-reader verdict beside the exercise root. */
+.akk-sr { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.akk-feedback { margin-top: 16px; }
+.akk-feedback-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+.akk-feedback--correct { font-weight: 700; color: var(--akk-green); }
+.akk-feedback--incorrect { font-weight: 700; color: var(--akk-red); }
+
+.akk-why {
+  margin-top: 14px;
+  background: var(--akk-surface);
+  border: 1px solid var(--akk-line-strong);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+.akk-why .akk-tag { margin-bottom: 10px; }
+.akk-why-text { margin: 0 0 10px; font-size: 0.92rem; line-height: 1.5; color: var(--akk-ink); }
+.akk-why-chip {
+  display: inline-block;
+  font-family: var(--akk-mono);
+  font-size: 0.85rem;
+  background: var(--akk-paper);
+  border: 1px solid var(--akk-line);
+  border-radius: 6px;
+  padding: 4px 10px;
+  color: var(--akk-ink-2);
+}
+
+.akk-why-chip--audio {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  cursor: pointer;
+}
+.akk-why-chip--audio:hover { border-color: var(--akk-line-strong); color: var(--akk-ink); }
+.akk-why-chip--audio svg { flex: none; }
+
+.akk-focus-done { text-align: center; padding: 20px 0; }
+.akk-focus-done-score { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; color: var(--akk-ink); }
+.akk-focus-done p { color: var(--akk-muted); margin: 6px 0 20px; }
+
+/* Testmodus */
+.akk-test-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.akk-test-count { font-family: var(--akk-mono); font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
+.akk-test-rail { flex: 1; height: 6px; background: var(--akk-line); border-radius: 999px; overflow: hidden; }
+.akk-test-rail-fill { display: block; height: 100%; background: var(--akk-green); border-radius: 999px; transition: width 0.25s ease; }
+
+.akk-test-row {
+  display: flex;
+  gap: 14px;
+  padding: 16px 0;
+  border-top: 1px solid var(--akk-line);
+}
+.akk-test-row:first-child { border-top: none; }
+.akk-test-badge {
+  flex: 0 0 auto;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--akk-line-strong);
+  color: var(--akk-muted);
+  font-family: var(--akk-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.akk-test-badge--solved { background: var(--akk-green); border-color: var(--akk-green); color: #fff; }
+.akk-test-badge--revealed { border-color: var(--akk-red); color: var(--akk-red); }
+.akk-test-body { flex: 1; min-width: 0; }
+.akk-test-sentence { font-size: 1rem; line-height: 1.5; margin: 0 0 12px; }
+.akk-test-row .akk-pill { font-size: 0.9rem; padding: 9px 16px; min-height: 42px; }
+.akk-test-row .akk-why { margin-top: 12px; }
+
+/* Regel view */
+#akk-regel-view { padding: 24px 20px 28px; }
+.akk-regel-intro { color: var(--akk-ink); font-size: 0.98rem; line-height: 1.6; margin: 0 0 20px; }
+.akk-decl-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 0.92rem;
+  display: block;
+  overflow-x: auto;
+}
+.akk-decl-table th, .akk-decl-table td {
+  border: 1px solid var(--akk-line);
+  padding: 10px 12px;
+  text-align: left;
+}
+.akk-decl-table th {
+  font-family: var(--akk-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--akk-muted);
+  background: var(--akk-paper);
+}
+.akk-decl-table td:first-child { font-weight: 700; color: var(--akk-ink-2); background: var(--akk-paper); }
+.akk-decl-change {
+  font-weight: 800;
+  color: var(--akk-amber-ink);
+  background: var(--akk-amber-bg);
+  border: 1px solid var(--akk-amber) !important;
+}
+/* In the rule column the table has ~360px, not the 760px card it was drawn for. The
+   `display: block; overflow-x: auto` above is the escape hatch for a wide page; inside a
+   grid track it does not clip — the track grows to the table's max-content and carries the
+   whole page sideways with it (1096px of it, at 1440). Beside the work it is a plain fixed
+   table that wraps into the column instead. */
+.vp-col--rule .akk-decl-table {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  min-width: 0;
+  font-size: 0.85rem;
+}
+.vp-col--rule .akk-decl-table th,
+.vp-col--rule .akk-decl-table td {
+  padding: 8px 9px;
+  overflow-wrap: anywhere;
+}
+
+.ap-regel-hint {
+  margin: 0 0 20px;
+  padding: 12px 14px;
+  border-left: 3px solid var(--brand-blue);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--surface);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--akk-ink);
+}
+.ap-regel-hint p { margin: 0; }
+.ap-regel-hint .ap-regel-hint-title {
+  margin-bottom: 4px;
+  font-family: var(--font-label);
+  font-size: 0.72rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--brand-blue-dark);
+}
+.ap-regel-hint a { color: var(--brand-blue-dark); }
+.akk-regel-note { color: var(--akk-muted); font-size: 0.92rem; line-height: 1.6; margin: 0 0 24px; }
+.akk-btn {
+  font-family: var(--akk-font);
+  font-weight: 700;
+  font-size: 0.92rem;
+  padding: 12px 22px;
+  min-height: 48px;
+  border-radius: 999px;
+  border: 1px solid var(--akk-line-strong);
+  background: var(--akk-surface);
+  color: var(--akk-ink);
+  cursor: pointer;
+}
+.akk-btn-primary { background: var(--gradient-brand); border-color: transparent; color: #fff; }
+
+/* Footer */
+.akk-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  padding-top: 16px;
+}
+.akk-session-ring { flex: 0 0 auto; position: relative; width: 56px; height: 56px; }
+.akk-session-ring svg { width: 56px; height: 56px; transform: rotate(-90deg); }
+.akk-ring-track { fill: none; stroke: var(--akk-line); stroke-width: 5; }
+.akk-ring-fill { fill: none; stroke: var(--brand-blue); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 0.3s ease; }
+.akk-ring-num {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--akk-mono); font-weight: 700; font-size: 0.78rem; color: var(--akk-ink);
+}
+.akk-session-text { flex: 1; min-width: 0; }
+.akk-session-label { display: block; font-family: var(--akk-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--akk-muted); margin-bottom: 2px; }
+.akk-session-stats { margin: 0; font-size: 0.88rem; color: var(--akk-ink-2); }
+.akk-session-badge {
+  flex: 0 0 auto;
+  font-family: var(--akk-mono);
+  font-size: 0.72rem;
+  color: var(--akk-muted);
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .akk-focus-sentence { font-size: 1.3rem; }
+  .akk-controls-row { flex-direction: column; align-items: flex-start; }
+  .akk-difficulty { width: 100%; justify-content: space-between; }
+  .akk-diff-btn { flex: 1; text-align: center; }
+}
+
+/* --- Artikel-Trainer side column (ArtikelPicker.astro) ----------------------
+   The column is the Wortschatz one's shape, so nav.css and lernset-picker.css do almost
+   all of it. Only the Runden list is ours: rows that start a session rather than link to
+   a page, so they are buttons and need the row styling a bare <button> does not inherit. */
+.ap-rounds { display: flex; flex-direction: column; gap: 2px; }
+.ap-round {
+  width: 100%;
+  background: none;
+  border: none;
+  border-left: 2px solid transparent;
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+/* Nach Häufigkeit: the coverage curve and the timeline under it. Everything is drawn in
+   tokens so dark mode needs no second copy; the area is the line colour at low opacity
+   rather than a light tint that would glow on a dark panel. */
+.ap-chart { margin: 0 var(--space-2) var(--space-4); }
+.ap-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+/* The fold's handle: a label row, not a button-shaped button — it sits where a chart title
+   would, and the chevron says it moves. */
+.ap-chart-sum {
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: 36px;
+  margin-bottom: var(--space-1);
+  padding: 0 var(--space-1);
+  border-radius: 8px;
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--font-label);
+  font-size: 0.72rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--brand-blue-dark);
+}
+.ap-chart-sum::-webkit-details-marker { display: none; }
+.ap-chart-sum:hover { background: var(--surface); }
+.ap-chart-sum:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+.ap-chart .ap-chart-chev { width: 14px; height: 14px; transition: transform .2s var(--nv-ease-out, ease); }
+.ap-chart-fold:not([open]) .ap-chart-chev { transform: rotate(-90deg); }
+.ap-chart-fold:not([open]) + figcaption { margin-top: 0; }
+.ap-chart text { font-family: var(--font-label); font-size: 10px; fill: var(--muted); }
+.ap-chart-grid line { stroke: var(--border); stroke-width: 1; }
+.ap-chart-area { fill: var(--brand-blue); fill-opacity: .1; }
+.ap-chart-line { fill: none; stroke: var(--brand-blue); stroke-width: 2; stroke-linejoin: round; }
+.ap-chart-ms circle { fill: var(--page-bg); stroke: var(--brand-blue); stroke-width: 1.5; }
+.ap-chart-ms text { font-weight: var(--fw-bold); fill: var(--brand-blue-dark); }
+.ap-chart-now line { stroke: var(--accent); stroke-width: 1; stroke-dasharray: 2 2; }
+.ap-chart-now circle { fill: var(--accent); stroke: var(--page-bg); stroke-width: 2; }
+.ap-chart-now line, .ap-chart-now circle { transition: all .3s var(--nv-ease-out, ease); }
+.ap-chart-band rect { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
+.ap-chart-band text { font-size: 9.5px; font-weight: var(--fw-semibold); }
+.ap-chart-band.is-now rect { fill: var(--accent); fill-opacity: .14; stroke: var(--accent); }
+.ap-chart-band.is-now text { fill: var(--accent-dark); }
+.ap-chart-axis { font-size: 9.5px !important; fill: var(--muted-soft) !important; }
+.ap-chart figcaption {
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  line-height: 1.55;
+  color: var(--muted);
+}
+.ap-chart figcaption b { color: var(--ink); }
+.ap-phase + .ap-phase { margin-top: var(--space-3); }
+.ap-phase-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin: 0 var(--space-2) var(--space-1);
+  font-family: var(--font-label);
+  font-size: 0.72rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--brand-blue-dark);
+}
+.ap-phase-n { font-weight: var(--fw-medium); letter-spacing: 0; text-transform: none; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) {
+  .ap-chart-now line, .ap-chart-now circle, .ap-chart .ap-chart-chev { transition: none; }
+}
+
+/* The picker brings its own card; .vp-rule-card's padding would be a second frame
+   around it, exactly as it is on a Wortschatz page. */
+.vp-rule-card:has(.ap-nvb) {
+  padding: 0;
+  background: none;
+  border: none;
+  overflow: visible;
+}
+/* Folded to its rail (the Stufen tab), the track shrinks with the panel — the same move
+   .vt-split makes on a Wortschatz page. The freed width goes to the exercise, so the page
+   keeps its edges instead of pulling its right side in. Not while the whole column is
+   away: that state owns --rule-w, and :has() would otherwise out-rank it. */
+@media (min-width: 1001px) {
+  /* The column stops being the scroller, as on a Wortschatz page: it clipped the tab
+     hanging off the panel's edge and carried the rail away with the list. The panel
+     beside the rail scrolls instead (lernset-picker.css). */
+  .vp-col--rule:has(.ap-nvb) {
+    overflow: visible;
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+  }
+  .vp-rule-card:has(.ap-nvb), .ap-nvb { min-height: 0; }
+  .ap-nvb { max-height: calc(100vh - 32px); }
+  .vp-page--split:has(.ap-nvb)[data-fold="1"]:not([data-rule="hidden"]) {
+    --ex-w: calc(880px + clamp(320px, 28vw, 440px) - 66px);
+    --rule-w: 66px;
+  }
+}
+
+/* --- Leichte-Sprache switch (LeichtToggle.astro) ---------------------------
+   A real switch, not a link styled as one: the state is the point, so the track and knob
+   carry it and the word beside them says it out loud. Muted until it is on, because off
+   is the normal state of the page and a permanently lit control reads as a warning. */
+.ls-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  padding: 6px 12px 6px 8px;
+  border: 1px solid var(--akk-line);
+  border-radius: var(--radius-pill);
+  background: none;
+  font-family: var(--akk-font);
+  cursor: pointer;
+  text-align: left;
+}
+.ls-switch:hover { border-color: var(--brand-blue); }
+.ls-switch-track {
+  position: relative;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 20px;
+  border-radius: var(--radius-pill);
+  background: var(--akk-line-strong);
+  transition: background .18s ease;
+}
+.ls-switch-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--akk-surface);
+  box-shadow: 0 1px 3px rgba(8, 20, 34, .3);
+  transition: transform .18s ease;
+}
+.ls-switch[aria-pressed="true"] .ls-switch-track { background: var(--brand-blue); }
+.ls-switch[aria-pressed="true"] .ls-switch-knob { transform: translateX(14px); }
+.ls-switch-txt { display: flex; flex-direction: column; line-height: 1.2; }
+.ls-switch-kicker {
+  font-family: var(--akk-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--akk-muted);
+}
+.ls-switch-state { font-size: .8rem; font-weight: 600; color: var(--akk-ink); }
+.ls-switch[aria-pressed="true"] .ls-switch-state { color: var(--brand-blue-dark); }
+
+/* The sound switch sits before the Leichte-Sprache one and takes the push to the right
+   edge; the second switch then sits beside it instead of claiming the edge too. */
+.ls-switch--sound + .ls-switch { margin-left: 0; }
+
+.akk-hear-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 12px;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.akk-hear-group .akk-slow, .akk-hear-group .akk-hear { margin-left: 0; }
+/* On the Artikel topic page .akk sits on the page's <main>, which is narrower than the
+   window — its paper background would show as a band. The page's own background stays. */
+.vp-page.akk { background: none; }
+/* The speaker beside a voiced prompt (practiceWorkspace.js hearHtml): says "this word can
+   be heard" and is the sound switch. Quiet when off, brand-coloured when on. */
+.akk-hear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-left: 10px;
+  vertical-align: middle;
+  border: 1px solid var(--akk-line);
+  border-radius: 50%;
+  background: none;
+  color: var(--akk-muted);
+  cursor: pointer;
+}
+.akk-hear[aria-pressed="true"] { color: var(--brand-blue-dark); border-color: var(--brand-blue); }
+/* Langsam is a light switch like Aussprache and Leichte Sprache in the toolbar — the same
+   track and knob, smaller, because it sits beside the word. */
+.akk-slow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  margin-left: 12px;
+  padding: 0 12px 0 8px;
+  vertical-align: middle;
+  border: 1px solid var(--akk-line);
+  border-radius: var(--radius-pill);
+  background: none;
+  font-family: var(--akk-font);
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--akk-muted);
+  cursor: pointer;
+}
+.akk-slow:hover { border-color: var(--brand-blue); }
+.akk-slow-track {
+  position: relative;
+  flex: none;
+  width: 28px;
+  height: 16px;
+  border-radius: var(--radius-pill);
+  background: var(--akk-line-strong);
+  transition: background .18s ease;
+}
+.akk-slow-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--akk-surface);
+  box-shadow: 0 1px 2px rgba(8, 20, 34, .3);
+  transition: transform .18s ease;
+}
+.akk-slow[aria-pressed="true"] { color: var(--brand-blue-dark); }
+.akk-slow[aria-pressed="true"] .akk-slow-track { background: var(--brand-blue); }
+.akk-slow[aria-pressed="true"] .akk-slow-knob { transform: translateX(12px); }
+.akk-test-sentence .akk-slow { height: 30px; padding: 0 10px; margin-left: 8px; font-size: .75rem; }
+.akk-hear:hover { border-color: var(--brand-blue); }
+.akk-hear svg { width: 18px; height: 18px; }
+.akk-test-sentence .akk-hear { width: 30px; height: 30px; margin-left: 8px; }
+.akk-test-sentence .akk-hear svg { width: 15px; height: 15px; }
+
+/* Leichte Sprache is read slowly and often by someone who is not a confident reader, so
+   where it is on, the sentences it produced get more room than the normal register had. */
+.is-leicht .akk-why-text,
+.is-leicht .akk-focus-instruction { line-height: 1.7; }
+
+/* --- "Wie oft hört man das?" (artikelFreqChart.js) ---------------------------
+   One series: the curve is the brand teal, recessive; the round's words are dots on it;
+   the word on the card is the one accent, with a surface ring so it lifts off the line.
+   Grid and axis text stay in the muted ink. */
+.afc { margin-top: 16px; padding: 18px 20px 14px; }
+.afc-title { font-family: var(--akk-mono); font-size: .72rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--akk-muted); }
+.afc-head { margin: 6px 0 10px; font-size: .95rem; line-height: 1.5; color: var(--akk-ink); min-height: 1.5em; }
+.afc-plot { position: relative; }
+.afc-plot svg { display: block; max-width: 100%; overflow: visible; }
+.afc-tip[hidden] { display: none; }
+.afc-grid line { stroke: var(--akk-line); stroke-width: 1; }
+.afc-axis text { font-family: var(--akk-mono); font-size: 10px; fill: var(--akk-muted); }
+.afc-area { fill: var(--brand-blue); opacity: .08; }
+.afc-line { fill: none; stroke: var(--brand-blue); stroke-width: 2; stroke-linejoin: round; opacity: .55; }
+.afc-lane { fill: var(--akk-line); opacity: .45; }
+.afc-hit { fill: transparent; cursor: pointer; }
+.afc-mark { fill: var(--brand-blue-dark); stroke: var(--akk-surface); stroke-width: 2; }
+.afc-dot.is-rare .afc-mark { fill: var(--akk-surface); stroke: var(--brand-blue-dark); stroke-width: 2; }
+.afc-dot.is-current .afc-mark { fill: var(--accent); stroke: var(--akk-surface); stroke-width: 2; }
+.afc-dot:focus { outline: none; }
+.afc-dot:focus-visible .afc-mark { stroke: var(--akk-ink); }
+.afc-label { font-family: var(--akk-font); font-size: 12px; font-weight: 600; fill: var(--akk-ink); paint-order: stroke; stroke: var(--akk-surface); stroke-width: 3px; }
+.afc-label.is-rare { font-weight: 500; fill: var(--akk-muted); }
+.afc-tip {
+  position: absolute; z-index: 2; pointer-events: none;
+  display: flex; flex-direction: column; gap: 1px;
+  padding: 6px 10px; border-radius: 8px;
+  background: var(--akk-ink); color: var(--akk-surface);
+  font-size: .78rem; line-height: 1.35; white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(8, 20, 34, .18);
+}
+.afc-note { margin: 8px 0 0; font-size: .78rem; line-height: 1.45; color: var(--akk-muted); }
+.afc-table { margin-top: 8px; font-size: .85rem; }
+.afc-table summary { cursor: pointer; color: var(--brand-blue-dark); font-weight: 600; padding: 4px 0; }
+.afc-table ol { margin: 6px 0 0; padding: 0; list-style: none; }
+.afc-table li { display: flex; justify-content: space-between; gap: 12px; padding: 5px 0; border-top: 1px solid var(--akk-line); color: var(--akk-ink); }
+.afc-table li span:last-child { color: var(--akk-muted); text-align: right; }
+.afc-table li.is-current span:first-child { font-weight: 700; }
+@media (max-width: 600px) { .afc { padding: 14px 14px 10px; } }

@@ -1,0 +1,97 @@
+/* The mascot as a help button (src/lib/mascotHelp.js): a pointer, a "?" badge, a hop when
+   tapped, and the help card under it. */
+.section-mascot.is-helpful { cursor: pointer; position: relative; border-radius: 16px; }
+.section-mascot.is-helpful:focus-visible { outline: 3px solid var(--brand-blue); outline-offset: 4px; }
+.section-mascot.is-helpful .section-mascot-fig { transition: transform 0.2s ease; }
+.section-mascot.is-helpful:hover .section-mascot-fig { transform: translateY(-2px) rotate(-3deg); }
+
+/* The "?" on the figure, so the tap is discoverable without reading anything. Placed by
+   mascotHelp.js in px from the figure's own box (the wrapper can be as wide as the page),
+   so the RTL pass leaves it alone. */
+/*rtl:begin:ignore*/
+.mhelp-badge {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font: 700 12px/18px system-ui, sans-serif;
+  text-align: center;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+  pointer-events: none;
+}
+/*rtl:end:ignore*/
+/* After the first tap the badge pops away (mascotHelp.js, markSeen). */
+.mhelp-badge.is-gone { animation: mhelp-badge-out 0.25s ease-in forwards; }
+@keyframes mhelp-badge-out { to { transform: scale(0); opacity: 0; } }
+
+.section-mascot.is-hopping .section-mascot-fig { animation: mhelp-hop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1); }
+@keyframes mhelp-hop {
+  0% { transform: translateY(0); }
+  40% { transform: translateY(-10px) rotate(-6deg); }
+  100% { transform: translateY(0); }
+}
+
+.mhelp {
+  position: absolute;
+  z-index: 1000;
+  box-sizing: border-box;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface-card);
+  color: var(--ink);
+  box-shadow: 0 12px 32px rgb(15 20 28 / 0.18);
+  text-align: start;
+  animation: mhelp-in 0.22s ease-out;
+}
+/* The arrow is placed in px from the left edge (mascotHelp.js measures it that way), so the
+   RTL pass must not mirror it. */
+/*rtl:begin:ignore*/
+.mhelp::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: calc(var(--mhelp-arrow, 50%) - 7px);
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  transform: rotate(45deg);
+}
+.mhelp.is-above::before { top: auto; bottom: -7px; transform: rotate(225deg); }
+/*rtl:end:ignore*/
+@keyframes mhelp-in { from { opacity: 0; transform: translateY(-6px) scale(0.98); } }
+.mhelp.is-above { animation-name: mhelp-in-up; }
+@keyframes mhelp-in-up { from { opacity: 0; transform: translateY(6px) scale(0.98); } }
+
+.mhelp-kicker {
+  margin: 0 0 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brand-blue-dark);
+}
+.mhelp-what { margin: 0 0 14px; line-height: 1.45; }
+.mhelp-steps { margin: 0 0 14px; padding-inline-start: 1.3em; display: grid; gap: 6px; line-height: 1.4; }
+.mhelp-ok {
+  display: block;
+  margin-inline-start: auto;
+  min-height: 40px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--gradient-brand);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-mascot.is-hopping .section-mascot-fig, .mhelp { animation: none; }
+  .section-mascot.is-helpful:hover .section-mascot-fig { transform: none; }
+}

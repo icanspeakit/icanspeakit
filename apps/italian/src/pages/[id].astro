@@ -1,0 +1,1083 @@
+---
+import { fitTitle } from "../lib/seo/title.js";
+import ShareButton from "../components/ShareButton.astro";
+import Layout from "../layouts/Layout.astro";
+import SiteNav from "../components/SiteNav.astro";
+import TopicBar from "../components/TopicBar.astro";
+import TopicRail from "../components/TopicRail.astro";
+import ArtikelTrainer from "../components/ArtikelTrainer.astro";
+import ArtikelDiktat from "../components/ArtikelDiktat.astro";
+import CourseBar from "../components/CourseBar.astro";
+import ModeSwitch from "../components/ModeSwitch.astro";
+import ConjTable from "../components/ConjTable.astro";
+import RefTable from "../components/RefTable.astro";
+import CaseMap from "../components/CaseMap.astro";
+import SatzRahmen from "../components/SatzRahmen.astro";
+import { taskCountOf, topicKeyOf } from "../lib/grammarTasks.js";
+import "../styles/practice.css";
+import "../styles/landing.css";
+import "../styles/verben-praepositionen.css";
+import conjugationTrainer from "../data/conjugation-trainer.json";
+import "../styles/rule-intro.css";
+import "../styles/aktiv.css";
+import grammatik from "../data/grammatik.json";
+import GrammarHelp from "../components/GrammarHelp.astro";
+import GrammarHelpText from "../components/GrammarHelpText.astro";
+import grammarHelp from "../data/uebersetzungen/grammatik.json";
+import UiText from "../components/UiText.astro";
+import Mascot from "../components/mascots/Mascot.astro";
+import { uiTr } from "../lib/grammarUi.js";
+import deDict from "../../public/i18n/en.json";
+import { rulePairsHtml, examplePairsHtml } from "../lib/examplePairs.js";
+import "../styles/ex-pairs.css";
+import "../styles/zimmer.css";
+import PositionTable from "../components/PositionTable.astro";
+import { isDraft } from "../lib/topicStatus.js";
+import { isPaidLevel } from "../lib/premium.js";
+import PremiumLock from "../components/PremiumLock.astro";
+import MascotComic from "../components/MascotComic.astro";
+import { marksToHtml } from "../lib/kulturMarks.js";
+import { VERB_PAIRS, verbPanelSvg } from "../lib/verbPairsArt.js";
+import { EULER_PANELS, eulerPanelSvg } from "../lib/eulerArt.js";
+// Who says which rule card (see .vp-qa-say): the crew in turn, Regi (Grammatik) first.
+const QA_CREW = [
+  { name: "regi", expr: "happy" },
+  { name: "bruno", expr: "thinking" },
+  { name: "hamsti", expr: "happy" },
+  { name: "quaki", expr: "happy" },
+] as const;
+// The mood of the mascot under a rule card: `expr` in the card's JSON if set, else from its
+// tag (Ausnahme/Achtung → oops, a question → thinking, höflich/Tipp → celebrate), else in
+// turn, so the crew does not wear one face all down the rule.
+const QA_MOODS = ["happy", "thinking", "celebrate", "happy"] as const;
+const qaExpr = (item: { tag?: string; expr?: string }, i: number) =>
+  item.expr
+  ?? (/Ausnahme|Achtung|Vorsicht|Fehler|falsch|✗/i.test(item.tag ?? "") ? "oops"
+    : /\?|warum|wann|oder/i.test(item.tag ?? "") ? "thinking"
+    : /höflich|Tipp|Merk/i.test(item.tag ?? "") ? "celebrate"
+    : QA_MOODS[i % QA_MOODS.length]);
+import LiveQuizLink from "../components/LiveQuizLink.astro";
+import GrammarActions from "../components/GrammarActions.astro";
+import GrammarRelated from "../components/GrammarRelated.astro";
+import wortartenRef from "../data/wortarten.json";
+import "../styles/wortarten.css";
+import { endingHtml, stripMarks } from "../lib/endingMarks.js";
+import { deckOf } from "../lib/praesentation.js";
+import { topicSlug, topicKeyFromSlug, topicPath } from "../lib/routes.js";
+import { absoluteUrl } from "../lib/paths.js";
+
+// Two kinds of topic live on this route:
+//
+//   1. Workspaces — a file in src/data/grammatik/ describes a full Kursbuchseite: the
+//      "Wie funktioniert das?" card plus up to five exercises, driven by grammarWorkspace.js.
+//      Adding one is a JSON file; no page change needed.
+//   2. Quiz topics — an entry in grammatik.json with nothing but questions. They get the
+//      same shell with a single Lückentext exercise, until someone writes them a workspace.
+//
+// akkusativ keeps its own bespoke page (akkusativ.astro) and is skipped here.
+export function getStaticPaths() {
+  const mods = import.meta.glob("../data/grammatik/*.json", { eager: true });
+  const all = Object.values(mods).map((m) => m.default ?? m);
+  const covered = new Set(all.map((w) => w.id));
+
+  const paths = [
+    // The URL is the English slug (src/lib/routes.js, TOPIC_SLUGS); the page works with the key.
+    ...all.map((w) => ({ params: { id: topicSlug(w.slug ?? w.id) }, props: { workspace: w } })),
+    ...grammatik
+      .filter((t) => t.id !== "akkusativ" && !covered.has(t.id))
+      .map((t) => ({ params: { id: topicSlug(t.id) }, props: { topic: t } })),
+  ];
+
+  // Grammar topics live at the top level (/articles — see src/lib/routes.js), next to every
+  // other top-level page. A static page wins silently over this route in Astro, so a topic
+  // named like an existing page (or section) would simply never render. Fail the build.
+  const taken = new Set(
+    Object.keys(import.meta.glob(["./*.astro", "./*/index.astro", "!./\\[id\\].astro"]))
+      .map((f) => f.replace(/^\.\//, "").replace(/(\/index)?\.astro$/, ""))
+  );
+  const clash = paths.map((p) => p.params.id).filter((id) => taken.has(id));
+  if (clash.length) throw new Error(`Grammar topic id(s) collide with an existing top-level page: ${clash.join(", ")}`);
+  return paths;
+}
+
+const { workspace, topic, noindex = false } = Astro.props;
+// The topic's key (German id / slug: progress, lehrplan, verwandt, worksheets key on it).
+const slug = topicKeyFromSlug(Astro.params.id);
+const data = workspace ?? topic;
+// A draft (src/lib/topicStatus.js) is rendered so it can be reviewed, but kept out of search
+// engines and marked as unchecked on the page itself.
+const draft = isDraft(data);
+const name = workspace ? workspace.name : topic.name;
+const level = workspace ? workspace.level : topic.level;
+const intro = workspace ? workspace.subtitle : topic.intro;
+// `subtitleMarked`: the subtitle again with the articles in braces ({der} neue Tisch), shown
+// underlined. A copy that no longer matches the subtitle fails the build.
+const introMarked = workspace?.subtitleMarked;
+if (introMarked && introMarked.replace(/[{}]/g, "") !== intro) {
+  throw new Error(`${slug}: subtitleMarked passt nicht mehr zum subtitle.`);
+}
+const introHtml = introMarked
+  && introMarked.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\{([^{}]+)\}/g, '<u class="vp-art">$1</u>');
+const concept = workspace?.concept;
+// `lookup` in a topic's JSON: its reference page, linked from the Kurz-erklärt box. With
+// `chips: "wortarten"` each class is its own chip (→ /grammar/parts-of-speech#noun), the same
+// chips that page opens with, so practice and lookup point at each other class by class.
+const lookup = workspace?.lookup;
+const lookupChips = lookup?.chips === "wortarten" ? wortartenRef.classes.map((c) => ({ id: c.id, name: c.name })) : [];
+// A verb topic links the drill or set that practises its forms (conjugation-trainer.json, topicLinks).
+const drillLink = workspace?.id ? conjugationTrainer.topicLinks[workspace.id] : null;
+const drillHref = drillLink ? `/grammar/conjugation?${drillLink.replace(":", "=")}` : null;
+const reference = concept?.reference;
+// The rule in the learner's language (src/data/uebersetzungen/grammatik.json). A topic with
+// no entry renders exactly as before: no switch, no empty blocks.
+const gx = (grammarHelp.entries as Record<string, any>)[data.id] ?? null;
+// The intro's i18n key. Workspaces name theirs; a quiz topic has one by convention when the
+// dictionary carries it. Where the intro itself turns into the UI language, its .gx-tr
+// copy in that language steps aside (grammar-help.css, .gx-tr--i18n).
+const introKey = workspace?.subtitleKey ?? ((deDict as Record<string, string>)[`grammatik.${data.id}.intro`] ? `grammatik.${data.id}.intro` : undefined);
+// `briefHtml` in a topic's JSON: the Kurz-erklärt box's text with structure (a question and
+// one row per form) where a plain sentence would run its rules together. Its translations
+// sit under grammatik.<id>.brief and in the help entry's `brief`.
+const briefHtml = workspace?.briefHtml as string | undefined;
+const briefKey = briefHtml && (deDict as Record<string, string>)[`grammatik.${data.id}.brief`] ? `grammatik.${data.id}.brief` : undefined;
+
+// This page used to wear PracticeHeader — a bar with four text links and no sign that it
+// belonged to the same site as everything else. Reached from the homepage it was a dead end:
+// no menu, and nothing saying that answers were being kept. It now carries the real nav, and
+// TopicBar below it says where you are and how far you got.
+//
+// `topicKey` is the URL slug, which is the key /dashboard draws its per-topic bars from.
+const topicKey = topicKeyOf(data) ?? slug;
+const tasks = taskCountOf(data);
+
+// Artikel's Üben view is the der/die/das trainer — every gendered noun in the lexicon, in
+// levels and rounds, with audio — instead of this topic's handful of fixed exercises. The
+// lesson around it (Sehen, Hören, Sprechen) is unchanged. See ArtikelTrainer.astro.
+const isArtikel = topicKey === "artikel";
+
+// Aktiv mode — Sehen · Hören · Sprechen, for the topics whose JSON carries an `aktiv`
+// block. It is a second view of THIS page, not a second page: the fourth beat, Schreiben,
+// is the exercise column below, so the exercises are mounted once and both modes share
+// their state. Topics without the block never render the switch and are untouched.
+const aktiv = workspace?.aktiv ?? null;
+// The exercises of a paid level (C1, src/lib/premium.js). Their items are not in this page:
+// src/data/ keeps only each exercise's title and hint, and the page script loads the rest
+// from /inhalt/grammatik/<id>.json once can("c1") says yes (scripts/build-paid-manifest.mjs).
+// The explanation, rules and tables stay free and indexable.
+// An exercise's model sentences (`examples`): {stelle} in the data → the verb or article in bold.
+const exampleHtml = (s: string) => String(s)
+  .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+  .replace(/{([^{}]+)}/g, "<strong>$1</strong>");
+const premiumPractice = isPaidLevel(level) && workspace?.exercises?.some((ex) => ex.paid);
+// No mp3s for this topic yet, so the browser's own Spanish voice reads every line. Say so
+// rather than let a learner conclude the site sounds like that on purpose. The check is
+// the data, not a flag, so the notice disappears by itself the moment the generator runs.
+const synthetic = aktiv ? !aktiv.hoeren?.items?.some((i) => i.audio) : false;
+// What the page script gets: the topic, plus the translations of the instructions it
+// renders itself (Aktiv's notes, drill labels and instructions) — see uitHtml in uiText.js.
+const clientData = aktiv
+  ? {
+      ...data,
+      aktiv: {
+        ...aktiv,
+        listen: aktiv.listen?.map((l) => ({ ...l, noteTr: uiTr(l.note) })),
+        sprechen: aktiv.sprechen && {
+          ...aktiv.sprechen,
+          rounds: aktiv.sprechen.rounds?.map((r) => ({ ...r, labelTr: uiTr(r.label), instructionTr: uiTr(r.instruction) })),
+        },
+      },
+    }
+  : data;
+
+// The search snippet and the structured data come from the topic's own intro, cut at a word
+// before ~160 characters. Without this every topic page carried the homepage's description.
+const plainIntro = String(intro ?? "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+const description = plainIntro.length > 160
+  ? plainIntro.slice(0, 157).replace(/\s+\S*$/, "") + " …"
+  : plainIntro || undefined;
+const schema = {
+  "@type": "LearningResource",
+  name,
+  ...(description ? { description } : {}),
+  url: Astro.site ? absoluteUrl(topicPath(slug)) : undefined,
+  learningResourceType: "Grammar exercise",
+  ...(level ? { educationalLevel: level } : {}),
+  teaches: name,
+};
+
+// Title: "<Thema> – Übungen <Niveau> – icanspeak Spanish". That is how learners search
+// ("verben mit präpositionen übungen b1", Search Console 2026-10); fitTitle drops the level,
+// then "Übungen", when the topic name is too long for 60 characters.
+const BEATS = [
+  { id: "sehen", n: 1, label: "Sehen", key: "ak.beat.sehen" },
+  { id: "hoeren", n: 2, label: "Hören", key: "ak.beat.hoeren" },
+  { id: "sprechen", n: 3, label: "Sprechen", key: "ak.beat.sprechen" },
+  // Its own panel: the Sprechen drill typed (mountSchreiben). It used to switch the page
+  // back to Üben, which felt like being thrown out of the mode you had picked.
+  { id: "schreiben", n: 4, label: "Schreiben", key: "ak.beat.schreiben" },
+];
+// ?mode=present (src/lib/praesentationDeck.js): examples and rule of a workspace as a
+// projector deck, from this JSON only. Loaded only when asked for.
+const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
+---
+<Layout title={fitTitle(level ? `${name} – exercises ${level}` : null, `${name} – exercises`, name, name.replace(/:.*$/, ""))} description={description} schema={schema} breadcrumb={[{ name: "Grammar", path: "/grammar" }]} noindex={noindex || draft}>
+  {/* ?mode=present: the page stays hidden until the deck covers it (praesentationDeck.js
+      loads after the first paint, and a glimpse of the exercises flashed before it).
+      Inline and before the content, so it holds from the first frame; the deck lifts it,
+      and so does the timeout should the deck never come. */}
+  {praes && (
+    <Fragment>
+      <style is:inline>html[data-praes-boot] body { visibility: hidden; }</style>
+      <script is:inline>
+        if (new URLSearchParams(location.search).get("mode") === "present") {
+          document.documentElement.dataset.praesBoot = "";
+          setTimeout(() => delete document.documentElement.dataset.praesBoot, 4000);
+        }
+      </script>
+    </Fragment>
+  )}
+  <SiteNav active="grammatik" />
+  {/* One bar: the topic and its progress, then where it sits in its Stufe and the way
+      back to it on the map. They were two stacked bars, a row of height for nothing. */}
+  <TopicBar topic={topicKey} kind="Grammatik" title={name} level={level} tasks={tasks} showKind={false} scoped={isArtikel} heading={isArtikel}>
+    <div slot="end" class="tb-end-row">
+      {/* Üben/Aktiv rides in this bar instead of a row of its own above the work, so the
+          exercises start higher (and on Artikel the trainer gets the height back, see
+          artikel-fit.css). */}
+      {aktiv && <ModeSwitch compact />}
+      <CourseBar inline topic={topicKey} title={`${name} – icanspeak Spanish`} />
+      {/* Artikel has no hero (its trainer starts with the level rail), so the teacher's
+          link rides in this bar there; every other topic has it under its intro. */}
+      {isArtikel && <LiveQuizLink chapter={`g-${topicKey}`} bar />}
+    </div>
+  </TopicBar>
+  {draft && (
+    <p class="topic-draft" role="note">
+      <span data-i18n="grammatik.draft.banner">Entwurf — noch nicht geprüft. Dieses Thema ist neu und wird gerade durchgesehen.</span>
+      {/* Learners help review a draft: the button opens the "Problem melden" sheet for the
+          whole topic (ref g:<topic>/entwurf), so comments land where the reports do. */}
+      <button type="button" class="topic-draft-comment" data-draft-comment data-i18n="grammatik.draft.comment">Kommentieren</button>
+    </p>
+  )}
+
+  <!-- The side nav and the page share one grid (topic-rail.css): the rail is a sticky
+       column on the left, the page centres in what is left. Above 1100px only. -->
+  <div class:list={[!isArtikel && "tr-layout"]}>
+  {/* Not on Artikel: its trainer brings its own A1–B2 rail (the noun levels), and two
+      A1–B2 rails side by side read as one menu twice. */}
+  {!isArtikel && <TopicRail current={topicKey} />}
+
+  <!-- Rendered collapsed, then opened by the script if this learner asked for it.
+       Collapsed is the more common state — the side column slides away on desktop,
+       the rule card crops to a preview on a phone — so starting here means no
+       visible re-layout on load. -->
+  <main class:list={["vp-page vp-page--split vp-page--sheet", isArtikel && "akk vp-page--rule-left vp-page--fit"]} id="vp-page" data-rule="hidden" data-anim="off" data-topic-key={topicKey} data-mode="ueben" data-gx="off" data-premium={premiumPractice ? "practice" : undefined}>
+
+    {aktiv && (
+      <div class="ak-aktiv" id="ak-aktiv">
+        <!-- The beat chips, pinned. The rule itself is the first beat (Sehen); a collapsed
+             one-line copy of it here was removed as noise. -->
+        <div class="ak-sticky" id="ak-sticky">
+          <div class="ak-beats" role="tablist" aria-label="Phasen" data-i18n-attr="aria-label:ak.beats">
+            {BEATS.map((b) => (
+              <button type="button" class="ak-beat-chip" data-beat-chip={b.id} role="tab" aria-selected="false">
+                <b>{b.n}</b><span data-i18n={b.key}>{b.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {synthetic && (
+          <p class="ak-proto" data-i18n-html="ak.proto">
+            <strong>Die Stimme ist noch synthetisch.</strong> Für dieses Thema gibt es noch
+            keine Aufnahmen — alles wird von der deutschen Stimme deines Browsers
+            vorgelesen. Auf manchen Geräten klingt das hölzern oder fehlt ganz.
+          </p>
+        )}
+
+        <section class="ak-panel" data-beat-panel="sehen">
+          <h2 data-i18n="ak.beat.sehen">Sehen</h2>
+          <p class="ak-panel-lead" data-i18n="ak.sehen.lead">Erst die Regel, dann das Ohr.</p>
+          {/* The rule's switch, here too: in Aktiv the rule card that carries the other one
+              is out of sight, and on Artikel there is no rule card at all. */}
+          {gx && concept && <GrammarHelp level={level} reviewed={gx.reviewed} />}
+
+          {concept && (
+            <div class="ak-card">
+              {/* The rule first, the heard examples after — "Erst die Regel, dann das Ohr".
+                  A topic with a `table` shows its rule as the grid, not as paragraphs. */}
+              {concept.table ? <ConjTable table={concept.table} /> : reference?.tables?.length ? (
+                <>
+                  {/* The overview tables ARE the rule at a glance; the sentences stay, folded
+                      under them, for the why — and for their translation. */}
+                  {concept.caseMap && <CaseMap map={concept.caseMap} />}
+                  {reference.tables.map((table) => <RefTable table={table} />)}
+                  <details class="ak-rule-words">
+                    <summary data-i18n="ak.ruleWords">Die Regel in Worten</summary>
+                    <div class="ak-qa">
+                      {concept.qa?.map((item, i) => (
+                        <div class="ak-qa-item"><Fragment set:html={item.html} /><GrammarHelpText text={gx?.qa?.[i]} /></div>
+                      ))}
+                    </div>
+                    {concept.noteHtml && <p class="ak-note" set:html={concept.noteHtml} />}
+                    <GrammarHelpText text={gx?.note} />
+                  </details>
+                </>
+              ) : (
+                <div class="ak-qa">
+                  {concept.qa?.map((item, i) => (
+                    <div class="ak-qa-item"><Fragment set:html={item.html} /><GrammarHelpText text={gx?.qa?.[i]} /></div>
+                  ))}
+                </div>
+              )}
+              {!(!concept.table && reference?.tables?.length) && concept.noteHtml && <p class="ak-note" set:html={concept.noteHtml} />}
+              {!(!concept.table && reference?.tables?.length) && <GrammarHelpText text={gx?.note} />}
+            </div>
+          )}
+
+          <div class="ak-card">
+            {concept?.positionTable ? <PositionTable table={concept.positionTable} /> : (
+            <div class="ak-flow">
+              {concept?.flow?.map((step, i) => (
+                <>
+                  {i > 0 && <span class="ak-flow-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span>}
+                  <span class={`ak-flow-step ${step.variant ? `ak-flow-step--${step.variant}` : ""}`}>{step.text}</span>
+                </>
+              ))}
+            </div>
+            )}
+            {/* The ▶ hint sits right above the ▶ buttons — up in the lead it pointed at nothing on screen. */}
+            <p class="ak-listen-hint" data-i18n="ak.sehen.listen">Tipp auf ▶ — die Endung hört man deutlicher, als man sie liest.</p>
+            <ul class="ak-listen-list" id="ak-listen"></ul>
+          </div>
+
+          <button type="button" class="ak-next" data-beat-next="hoeren" data-i18n="ak.next.hoeren">Weiter → Hören</button>
+        </section>
+
+        <section class="ak-panel" data-beat-panel="hoeren" hidden>
+          <h2 data-i18n="ak.beat.hoeren">Hören</h2>
+          <p class="ak-panel-lead"><UiText de={aktiv.hoeren.instruction} /></p>
+          <div id="ak-hoeren"></div>
+          <button type="button" class="ak-next" data-beat-next="sprechen" data-i18n="ak.next.sprechen">Weiter → Sprechen</button>
+        </section>
+
+        <section class="ak-panel" data-beat-panel="sprechen" hidden>
+          <h2 data-i18n="ak.beat.sprechen">Sprechen</h2>
+          <p class="ak-panel-lead" data-i18n="ak.sprechen.lead">Hören, kurz überlegen, laut sagen — dann kommt die Lösung. Die einzige Übung hier, bei der du die Form selbst produzieren musst.</p>
+          <div id="ak-sprechen"></div>
+          <button type="button" class="ak-next" data-beat-next="schreiben" data-i18n="ak.next.schreiben">Weiter → Schreiben</button>
+        </section>
+
+        {/* Schreiben: on Artikel a Diktat (ArtikelDiktat.astro), on every other topic the
+            Sprechen drill typed instead of said (mountSchreiben in aktivMode.js). */}
+        {isArtikel ? <ArtikelDiktat /> : (
+          <section class="ak-panel" data-beat-panel="schreiben" hidden>
+            <h2 data-i18n="ak.beat.schreiben">Schreiben</h2>
+            <p class="ak-panel-lead" data-i18n="ak.schreiben.lead">Jetzt schriftlich: Hör die Vorgabe, schreib die Form und prüf sie — mit Umlauten und Endungen.</p>
+            <div id="ak-schreiben"></div>
+          </section>
+        )}
+      </div>
+    )}
+
+    <!-- Two columns on desktop: rule sticky on the right, exercises on the left.
+         The rule stays FIRST in the DOM so that on a phone — where scroll order is
+         the only hierarchy there is — the learner still meets the rule before the
+         exercises. The desktop grid then places the exercises in column 1.
+         Every [data-ex-index] slot must stay inside #vp-page: mountGrammarWorkspace
+         binds to them from that root. -->
+    {isArtikel ? <ArtikelTrainer /> : (
+    <div class="vp-workspace">
+    {/* Teilen for the rule's focus view: ruleColumn.js moves it into the column's top bar. */}
+    <div hidden data-rule-tools><ShareButton size="sm" /></div>
+    <aside class="vp-col vp-col--rule" id="vp-rule">
+    <div class="vp-hero">
+      <div class="vp-hero-badges">
+        <span class="badge badge-brand" data-i18n="grammatik.hero.eyebrow">GRAMMATIK ÜBEN</span>
+        <span class="badge badge-info">{level}</span>
+      </div>
+      {workspace?.nameHtml ? <h1 set:html={workspace.nameHtml} /> : <h1>{name}</h1>}
+      {introHtml ? <p data-i18n={introKey} set:html={introHtml} /> : <p data-i18n={introKey}>{intro}</p>}
+      <GrammarHelpText text={gx?.intro} class={introKey ? "gx-tr--i18n" : undefined} />
+      {/* The switch sits with the rule it translates — in the rule card when there is one.
+          A quiz-only topic has no card, so its switch goes under the intro here. */}
+      {gx && !concept && <GrammarHelp level={level} reviewed={gx.reviewed} />}
+      {/* Worksheet, live quiz and Partnerblatt for everyone, as on a Lernset page (DeckActions). */}
+      <GrammarActions slug={slug} topic={topicKey} place="hero" present={!!praes} />
+    </div>
+
+    {concept && (
+      <div class="vp-card vp-rule-card" id="vp-rule-card">
+        <!-- On a desktop this head is just the card's label. On a phone the card is a
+             bottom sheet and the head is its handle: pinned to the top with the ✕, so the
+             way out is never a scroll away. A rule with a flow, a table and its examples
+             is several screens tall, and the only control that closed it used to sit
+             under all of them — the same reason the Artikel-Trainer and the Wortschatz
+             picker grew this head. -->
+        <div class="vp-sheet-head">
+          <div class="vp-card-label" data-i18n="vp.howItWorks">Wie funktioniert das?</div>
+          <button
+            type="button"
+            class="vp-sheet-fold"
+            data-sheet-close
+            aria-label="Regel einklappen"
+            data-i18n-attr="aria-label:vp.rule.collapse"
+            aria-controls="vp-rule-card"
+          >
+            <span data-i18n="vp.rule.collapseShort">Einklappen</span>
+            {/* Down, because that is where the sheet goes. */}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <button
+            type="button"
+            class="vp-sheet-x"
+            data-sheet-close
+            aria-label="Regel schließen"
+            data-i18n-attr="aria-label:vp.rule.close"
+            aria-controls="vp-rule-card"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+          </button>
+        </div>
+        <div class="vp-sheet-body">
+
+        {gx && <GrammarHelp level={level} reviewed={gx.reviewed} />}
+
+        {/* `concept.signal`: the one idea the rule rests on, named before the comic uses it
+            (Adjektivendungen: "Wer zeigt das Signal?" needs to know what a Signal is). */}
+        {concept.signal && (
+          <section class="vp-signal">
+            <h3 class="vp-signal-title">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 20v-6"/><path d="M8.5 10.5a5 5 0 0 1 7 0"/><path d="M5.5 7.5a9 9 0 0 1 13 0"/><circle cx="12" cy="13.5" r="1.2" fill="currentColor"/></svg>
+              {concept.signal.title}
+            </h3>
+            <p class="vp-signal-lead" set:html={concept.signal.lead} />
+            <ul class="vp-signal-items">
+              {concept.signal.items.map((it: { word: string; label: string }) => (
+                <li><span class="vp-signal-word" set:html={marksToHtml(it.word, "form")} /><span class="vp-signal-label">{it.label}</span></li>
+              ))}
+            </ul>
+            <p class="vp-signal-rule" set:html={concept.signal.ruleHtml} />
+            <ul class="vp-signal-rows">
+              {concept.signal.rows.map((r: { say: string; why: string }) => (
+                <li><span class="vp-signal-say" set:html={marksToHtml(r.say, "form")} /><span class="vp-signal-why">{r.why}</span></li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* A small strip opens the rule (`concept.comic`): the rule happening before it is
+            said. Smaller than the exercise comics, two panels side by side. */}
+        {concept.comic && <div class="vp-concept-comic"><MascotComic comic={concept.comic} chip="form" fit /></div>}
+
+        {/* A topic with `positionTable` shows its word order as a grid — the words on top,
+            their positions under them. Boxes and arrows wrap into a tangle in a narrow column. */}
+        {concept.positionTable && <PositionTable table={concept.positionTable} />}
+        {/* `concept.scenes`: each case of the rule as a small scene — a mascot says the example,
+            the form on top, the reason under it. Replaces the flow and the example sentence,
+            which say the same thing in shorthand. */}
+        {concept.scenes && (
+          <div class="vp-scenes">
+            {concept.scenes.map((sc, i) => (
+              <div class={`vp-scene vp-scene--${sc.variant}`}>
+                <p class="vp-scene-head"><b class={`vp-brief-form vp-brief-form--${sc.variant}`} lang="es">{sc.form}</b><span>{sc.label}</span></p>
+                <div class="vp-scene-say">
+                  <Mascot name={QA_CREW[i % QA_CREW.length].name} expr={QA_CREW[i % QA_CREW.length].expr} view="three" size={48} class="vp-scene-mascot" />
+                  <p class="vp-scene-bubble" lang="es" set:html={sc.sayHtml} />
+                </div>
+                <p class="vp-scene-why">{sc.why}</p>
+              </div>
+            ))}
+          </div>
+        )}
+        {concept.flow && !concept.positionTable && !concept.scenes && (
+          <div class="vp-flow">
+            {/* Each arrow travels with the step after it, so a wrap never leaves one
+                dangling at the end of a line. */}
+            {concept.flow.map((step, i) => (
+              <span class="vp-flow-pair">
+                {i > 0 && <span class="vp-flow-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span>}
+                <span class={`vp-flow-step ${step.variant ? `vp-flow-step--${step.variant}` : ""}`}>{step.text}</span>
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* "a → b · c → d" in the data is a set of pairs: shown as a table, the arrows
+            lined up, rather than a sentence that wraps wherever the card happens to end. */}
+        {concept.exampleHtml && !concept.table && !concept.scenes && (
+          examplePairsHtml(concept.exampleHtml)
+            ? <div class="vp-example vp-example--rows" set:html={examplePairsHtml(concept.exampleHtml)} />
+            : <p class="vp-example" set:html={concept.exampleHtml} />
+        )}
+
+        {concept.table && <ConjTable table={concept.table} />}
+
+        {/* A topic with a `table` shows its rule as the grid and keeps the cards out —
+            unless `qaWithTable`: then the cards explain what the grid only shows (Präsens:
+            why sein and haben look the way they do). */}
+        {concept.qa && (!concept.table || concept.qaWithTable) && (
+          <div class="vp-qa-grid vp-qa-grid--crew">
+            {/* Each rule card is said by one of the crew: the text sits in a speech bubble,
+                the mascot below it, taking turns so no two neighbours look the same. */}
+            {concept.qa.map((item, i) => (
+              <div class="vp-qa-item vp-qa-say">
+                <div class="vp-qa-bubble">
+                  {item.tag && <span class="vp-qa-tag">{item.tag}</span>}
+                  <div class="vp-qa-text" set:html={rulePairsHtml(item.html)} />
+                  <GrammarHelpText text={gx?.qa?.[i]} />
+                </div>
+                <div class="vp-qa-speaker">
+                  <Mascot name={QA_CREW[i % QA_CREW.length].name} expr={qaExpr(item, i)} view="three" size={52} class="vp-qa-mascot" />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Which prepositions take which case (`concept.caseMap`), right under the rule. */}
+        {concept.caseMap && <CaseMap map={concept.caseMap} />}
+
+        {/* Drawn pictures for the rule (`concept.pictures`): the verb pairs of the
+            Wechselpräpositionen, Wohin beside Wo (src/lib/verbPairsArt.js); the PDF prints the same. */}
+        {concept.pictures === "verbpaare" && (
+          <figure class="vp-verbpics" aria-label="Verbpaare im Bild">
+            {VERB_PAIRS.map(([a, b, kind]) => (
+              <Fragment set:html={verbPanelSvg(a, kind, true) + verbPanelSvg(b, kind, false)} />
+            ))}
+          </figure>
+        )}
+
+        {/* Verb pairs with and without a prefix as sets (`concept.pictures` "euler"):
+            Teilmenge, Schnittmenge, getrennt (src/lib/eulerArt.js). */}
+        {concept.pictures === "euler" && (
+          <div class="eu-pics" lang="es">
+            {EULER_PANELS.map((p) => (
+              <figure class={`eu-pic eu-pic--${p.kind}`}>
+                <Fragment set:html={eulerPanelSvg(p)} />
+                <figcaption><strong>{p.title}</strong> · {p.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+        )}
+
+        {/* Satzklammer (Hauptsatz) and Satzbrücke (Nebensatz) side by side
+            (`concept.pictures` "satzrahmen"): two different things, so both are drawn. */}
+        {concept.pictures === "satzrahmen" && <SatzRahmen />}
+
+        {concept.noteHtml && <p class="vp-note" set:html={concept.noteHtml} />}
+        <GrammarHelpText text={gx?.note} />
+
+        {/* The comic, explained (`concept.comicRule`): each bubble once more, with who says
+            it and why it is Wohin or Wo. The strip shows the rule happening; this says it in
+            words, next to the rule it belongs to. Mascot faces go with "Maskottchen: aus". */}
+        {concept.comicRule && (
+          <section class="vp-comic-rule">
+            <h3 class="vp-comic-rule-title"><UiText de={concept.comicRule.title} /></h3>
+            {concept.comicRule.lead && <p class="vp-comic-rule-lead" set:html={concept.comicRule.lead} />}
+            <ol class="vp-comic-rule-steps">
+              {concept.comicRule.steps.map((st: { name: "bruno" | "regi" | "hamsti" | "quaki"; expr?: "happy" | "thinking" | "celebrate" | "oops" | "sleepy"; q: "wohin" | "wo"; say: string; why: string }) => (
+                <li class={`vp-comic-rule-step vp-comic-rule-step--${st.q}`}>
+                  <span class="vp-comic-rule-who" data-mascot-part aria-hidden="true"><Mascot name={st.name} expr={st.expr ?? "happy"} size={40} /></span>
+                  <div>
+                    <p class="vp-comic-rule-say" lang="es"><span class="vp-comic-rule-q">{st.q === "wohin" ? "¿Adónde?" : "¿Dónde?"}</span> <span set:html={st.say} /></p>
+                    <p class="vp-comic-rule-why" set:html={st.why} />
+                  </div>
+                </li>
+              ))}
+            </ol>
+            {concept.comicRule.sumHtml && <p class="vp-comic-rule-sum" set:html={concept.comicRule.sumHtml} />}
+          </section>
+        )}
+
+        {/* The grid above already is the overview; a second copy behind a toggle is noise. */}
+        {reference && !concept.table && (
+          <>
+            {/* Always open: the overview is what learners come back for, and a toggle in
+                front of it only hid it (Edgar, 22.10.2026). showLabel/hideLabel/open in the
+                topic data are no longer read. */}
+            <div id="vp-ref-panel">
+              {reference.tables?.map((table) => (
+                <div class="vp-ref-table-wrap">
+                  {table.caption && <p class="vp-ref-table-caption"><UiText de={table.caption} /></p>}
+                  <div class="vp-ref-table-scroll">
+                    {/* `cases`: which case each column stands for (akk / dat / null). Its header is tinted
+                        and the words marked in braces take that colour; on a phone such a
+                        table turns into one card per row, each cell labelled by its header. */}
+                    <table class:list={["vp-ref-table", table.compact && "vp-ref-table--compact", table.cases && "vp-ref-table--cases"]}>
+                      <thead>
+                        <tr>{table.head.map((h, i) => <th class={table.cases?.[i] ? `vp-ref-col--${table.cases[i]}` : undefined}>{h}</th>)}</tr>
+                      </thead>
+                      <tbody>
+                        {table.rows.map((row) => (
+                          <tr>{row.map((cell, i) => (i === 0
+                            ? <th scope="row" class={table.cases?.[0] ? `vp-ref-col--${table.cases[0]}` : undefined}>{stripMarks(cell)}</th>
+                            : <td class={table.cases?.[i] ? `vp-ref-col--${table.cases[i]}` : undefined} data-label={table.cases ? table.head[i] : undefined}><span set:html={endingHtml(cell)} /></td>))}</tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  {table.note && <p class="vp-ref-table-note"><UiText de={table.note} /></p>}
+                </div>
+              ))}
+
+              {reference.boxes && (
+                <div class="vp-ref-grid">
+                  {reference.boxes.map((box) => (
+                    <div class={`vp-ref-box vp-ref-box--${box.variant ?? "akk"}`}>
+                      <span class={`badge ${box.variant === "dat" ? "badge-info" : "badge-brand"}`}><UiText de={box.badge} /></span>
+                      <ul>{box.items.map((item) => <li>{item}</li>)}</ul>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </>
+        )}
+        </div>
+      </div>
+    )}
+
+    <!-- Phone counterpart of .vp-rule-toggle. There is no side column to slide on a
+         phone, so the same preference crops the rule card to a preview instead and
+         this button opens it. Rendered only with a concept card — there is nothing
+         to crop otherwise. -->
+    {concept && (
+      <button
+        type="button"
+        class="vp-rule-peek"
+        id="vp-rule-peek"
+        data-show="Regel anzeigen"
+        data-hide="Regel einklappen"
+        data-i18n-attr="data-show:vp.rule.peekShow;data-hide:vp.rule.peekHide"
+        data-i18n="vp.rule.peekShow"
+        aria-controls="vp-rule-card"
+      >Regel anzeigen</button>
+    )}
+
+    </aside>
+
+    <!-- The sheet's backdrop. Outside .vp-col--rule, because that column goes inert when
+         the rule collapses and a control inside it would go inert with it. -->
+    <div class="vp-sheet-scrim" data-sheet-close aria-hidden="true"></div>
+
+    <section class="vp-col vp-col--ex">
+    <div class="vp-ex-toolbar">
+      {/* The desktop's copy of the hero's Drucken / Live-Quiz / Partnerblatt row: the hero is
+          in the rule column, which may be folded away. */}
+      <GrammarActions slug={slug} topic={topicKey} place="toolbar" present={!!praes} />
+      <button
+        type="button"
+        class="vp-rule-toggle"
+        id="vp-rule-toggle"
+        data-show="Show rule"
+        data-hide="Hide rule"
+        data-i18n-attr="data-show:vp.rule.show;data-hide:vp.rule.hide"
+        data-i18n="vp.rule.show"
+      >Show rule</button>
+    </div>
+
+    {/* A topic's comic strips (`comics` in its JSON): above Kurz erklärt — the story first,
+        then the rule it shows, then the exercises. Topics without them are unchanged. */}
+    {workspace?.comics?.length ? (
+      <div class="vp-comics">
+        {/* One strip is the way in; more than one stands between the learner and the
+            grammar. The rest wait in a fold — opened, a strip comes into view and plays.
+            The first strip folds too: open on the first visit, folded on every later one
+            (the script under it), so it stops pushing the exercises down. */}
+        <details class="vp-comics-first" open data-comic-fold={data.id}>
+          <summary lang="es">{workspace.comics[0].title ? `Comic: ${workspace.comics[0].title.replace(/[{}]/g, "")}` : "Comic"}</summary>
+          <MascotComic comic={workspace.comics[0]} chip="form" fit />
+        </details>
+        <script is:inline>
+          (function () {
+            var d = document.currentScript.previousElementSibling;
+            try {
+              var k = "da:comicSeen:" + d.dataset.comicFold;
+              // Marked as seen when the page is left, not on load: a script that runs
+              // twice (page swap) would otherwise fold it on the very first visit.
+              if (localStorage.getItem(k)) d.open = false;
+              else addEventListener("pagehide", function () { try { localStorage.setItem(k, "1"); } catch (e) {} }, { once: true });
+            } catch (e) {}
+          })();
+        </script>
+        {workspace.comics.length > 1 && (
+          <details class="vp-comics-more">
+            <summary>
+              <span data-i18n="vp.comics.more" data-i18n-vars={JSON.stringify({ n: workspace.comics.length - 1 })}>
+                {`Weitere Comics (${workspace.comics.length - 1})`}
+              </span>
+            </summary>
+            {workspace.comics.slice(1).map((comic) => <MascotComic comic={comic} chip="form" fit />)}
+          </details>
+        )}
+      </div>
+    ) : null}
+
+    {/* Kurz erklärt: the topic's answer in two sentences, on screen without a click. Most
+        visitors arrive from a search for exactly this question („Was ist ein Nomen?“), and
+        otherwise the explanation sits in the folded rule column (desktop) or behind
+        „Regel anzeigen“ with the hero's paragraph hidden (phone). The name shows on a
+        desktop only: the phone has the hero's h1 right above. Hidden while the rule is open
+        beside it on a desktop — it would say the same thing twice. */}
+    {intro && (
+      <section class="vp-brief" aria-labelledby="vp-brief-label">
+        <p class="vp-brief-label" id="vp-brief-label" data-i18n="vp.brief.label">Kurz erklärt</p>
+        {workspace?.nameHtml ? <p class="vp-brief-name" set:html={workspace.nameHtml} /> : <p class="vp-brief-name">{name}</p>}
+        {briefHtml ? (
+          <>
+            <div class="vp-brief-text" data-i18n-html={briefKey} set:html={briefHtml} />
+            <GrammarHelpText text={gx?.brief ?? gx?.intro} class={briefKey ? "gx-tr--i18n" : undefined} />
+          </>
+        ) : (
+          <>
+            {introHtml ? <p class="vp-brief-text" data-i18n={introKey} set:html={introHtml} /> : <p class="vp-brief-text" data-i18n={introKey}>{intro}</p>}
+            <GrammarHelpText text={gx?.intro} class={introKey ? "gx-tr--i18n" : undefined} />
+          </>
+        )}
+        {concept?.exampleHtml && !concept.table && !examplePairsHtml(concept.exampleHtml) && (
+          <p class="vp-example vp-brief-example" set:html={concept.exampleHtml} />
+        )}
+        {concept && <button type="button" class="vp-brief-more" data-brief-more data-i18n="vp.brief.more">Ganze Regel ansehen</button>}
+        {drillHref && (
+          <div class="vp-brief-lookup">
+            <a class="vp-brief-lookup-link" href={drillHref} data-i18n="conj.topicLink">Practise these forms in the conjugation trainer</a>
+          </div>
+        )}
+        {lookup && (
+          <div class="vp-brief-lookup">
+            <a class="vp-brief-lookup-link" href={lookup.href}>{lookup.label}</a>
+            {lookupChips.length > 0 && (
+              <nav class="vp-brief-chips" aria-label={lookup.label}>
+                {lookupChips.map((c) => <a class={`wa-chip wa-chip--${c.id}`} href={`${lookup.href}#${c.id}`}>{c.name}</a>)}
+              </nav>
+            )}
+          </div>
+        )}
+      </section>
+    )}
+
+    {premiumPractice && <PremiumLock feature="c1" variant="inline" />}
+    <div class="vp-ex-grid" data-needs={premiumPractice ? "premium" : undefined}>
+    {workspace ? (
+      workspace.exercises.map((ex, i) => (
+        <div class="vp-card" id={`uebung-${i + 1}`}>
+          {/* A stable name next to the number (#zimmer): uebung-N moves when exercises are added. */}
+          {ex.anchor && <span id={ex.anchor} class="vp-anchor" aria-hidden="true"></span>}
+          <div class="vp-ex-head">
+            <span class="badge badge-neutral">{i + 1}</span>
+            <h3><UiText de={ex.title} /></h3>
+
+            {/* Same control as the column's "Regel einblenden", at this exercise's
+                height: the learner asks for the rule where they are, not at the top
+                of the page. Same pill, same show/hide, driven by the same
+                mountRefToggle as the reference panel. */}
+            {ex.rule && (
+              <button
+                type="button"
+                class="vp-rule-toggle vp-ex-rule-btn"
+                data-ex-rule={i}
+                data-show="Regel"
+                data-hide="Regel ausblenden"
+                data-i18n-attr="data-show:ak.rule;data-hide:vp.rule.hide"
+                aria-controls={`vp-ex-rule-${i}`}
+              >Regel</button>
+            )}
+          </div>
+          {ex.hint && (<div class="vp-ex-tip"><span class="vp-ex-tip-who" data-mascot-part aria-hidden="true"><Mascot name="regi" expr="thinking" size={52} /></span>{ex.hintHtml ? <p class="vp-ex-hint vp-ex-hint--rows" set:html={ex.hintHtml} /> : <p class="vp-ex-hint"><UiText de={ex.hint} /></p>}</div>)}
+
+          {/* Model sentences before the first question, for an exercise about telling look-alikes
+              apart (stellen/stehen …): one pair per row, Wohin? above Wo?, always visible —
+              they are what the items are checked against, not a rule to look up. */}
+          {ex.examples && (
+            <dl class="vp-ex-examples" lang="es">
+              {ex.examples.map((e: { verbs: string; wohin: string; wo: string }) => (
+                <div class="vp-ex-example">
+                  <dt>{e.verbs}</dt>
+                  <dd class="vp-ex-example--akk"><span class="vp-ex-example-q">Wohin?</span><span set:html={exampleHtml(e.wohin)} /></dd>
+                  <dd class="vp-ex-example--dat"><span class="vp-ex-example-q">Wo?</span><span set:html={exampleHtml(e.wo)} /></dd>
+                </div>
+              ))}
+            </dl>
+          )}
+
+          {/* Per-exercise rule. The topic's own rule card is one level up and covers the
+              whole page; an exercise that asks the learner to apply ONE narrow rule needs
+              that rule within reach of the thing they are doing, not behind a toggle in
+              another column. Nested rather than promoted: it is a detail of this exercise,
+              and putting it in the main card would bury the topic's actual point.
+              `open: true` for the case where the exercise is impossible without it. */}
+          {ex.rule && (
+            <div class="vp-ex-rule" id={`vp-ex-rule-${i}`} hidden>
+              {ex.rule.label && <p class="vp-ex-rule-label"><UiText de={ex.rule.label} /></p>}
+              <div class="vp-ex-rule-body">
+                {ex.rule.groups?.map((g) => (
+                  <div class="vp-ex-rule-group">
+                    <span class="vp-ex-rule-artikel">{g.artikel}</span>
+                    <div>
+                      <div class="vp-ex-rule-endungen">
+                        {g.endungen.map((e) => <code>{e}</code>)}
+                      </div>
+                      {g.examples && <p class="vp-ex-rule-examples">{g.examples}</p>}
+                    </div>
+                  </div>
+                ))}
+                {/* Nested one level deeper, and closed. The endings above have to be open —
+                    the exercise is impossible without them — but the caveat is four
+                    paragraphs, and open it pushes the first noun two screens down at 390px.
+                    The summary carries the point on its own, so a learner who never opens
+                    it has still been told not to trust the table. */}
+                {ex.rule.disclaimer && (
+                  <details class="vp-ex-rule-warn">
+                    <summary><UiText de={ex.rule.disclaimer.label} /></summary>
+                    <UiText de={ex.rule.disclaimer.html} html />
+                  </details>
+                )}
+              </div>
+            </div>
+          )}
+
+          <div data-ex-index={i}></div>
+        </div>
+      ))
+    ) : (
+      <div class="vp-card">
+        <div class="vp-ex-head">
+          <span class="badge badge-neutral">1</span>
+          <h3 data-i18n="vp.quiz.title">Lückentext: Ergänzen Sie.</h3>
+        </div>
+        <div id="quiz-root"></div>
+      </div>
+    )}
+    </div>
+    </section>
+    </div>
+    )}
+
+    <GrammarRelated id={slug} />
+
+    <!-- Dev only. The tour is a once-per-browser thing, so the moment you have seen
+         it you can no longer see it the way a learner does — ?intro replays the
+         animation but not the first-load path around it (the auto-play decision, the
+         collapsed first paint, the scroll position it measures from). This wipes both
+         stored flags and reloads clean, so the same browser gets to be a new user
+         again. Our own devices only (DemoDock.astro). -->
+    <button type="button" class="vp-dev-reset" id="vp-dev-reset" title="Tour-Flags löschen und neu laden" data-i18n-attr="title:vp.devReset.title" data-i18n="vp.devReset">↻ Tour neu</button>
+  </main>
+  </div>
+
+  <script type="application/json" id="topic-data" set:html={JSON.stringify(clientData)}></script>
+  <script type="module">
+    import { mountGrammarWorkspace } from "../lib/grammarWorkspace.js";
+    import { mountRuleColumn } from "../lib/ruleColumn.js";
+    import { nudgeStep } from "../lib/mascotNudge.js";
+    import { mountExerciseRules } from "../lib/exerciseRule.js";
+    import { mountQuiz, withChoices } from "../lib/quiz.js";
+    import { recordAttempt } from "../lib/progress.js";
+    import { withBase, currentPath } from "../lib/paths.js";
+
+    const data = JSON.parse(document.getElementById("topic-data").textContent);
+
+    document.querySelector("[data-draft-comment]")?.addEventListener("click", async () => {
+      const { openMeldung } = await import("../lib/meldung.js");
+      const key = document.getElementById("vp-page")?.dataset.topicKey ?? data.id;
+      openMeldung({ ref: `g:${key}/entwurf`, snapshot: () => ({ typ: "entwurf", thema: data.name ?? key }) });
+    });
+
+    // `topic` was missing here, which is why practising on this page never moved the row for
+    // this same topic on /dashboard: recordAttempt() only counts per topic when it is told
+    // which one. The key is the URL slug — the one /dashboard keys its rows on too.
+    const topicKey = document.getElementById("vp-page").dataset.topicKey;
+    const onAnswer = (ok) => {
+      try { recordAttempt({ skill: "grammatik", correct: ok, topic: topicKey }); } catch (e) {}
+      dispatchEvent(new CustomEvent("da:progress", { detail: { topic: topicKey, correct: ok } }));
+      // Regi, now and then, with a quiet word (src/lib/mascotNudge.js).
+      nudgeStep({ area: "grammatik", correct: ok, set: topicKey });
+    };
+
+    // Artikel brings its own workspace and rule column (ArtikelTrainer.astro); mounting
+    // this page's on top of it would bind two sets of handlers to one column.
+    const ownTrainer = Boolean(document.getElementById("akk-exercise-root"));
+
+    if (ownTrainer) {
+      // Nothing to mount — the trainer's own script has.
+    } else if (Array.isArray(data.exercises) && data.exercises.some((ex) => ex.paid)) {
+      // Paid practice (C1): only with access, and only then is it fetched. A soft lock by
+      // decision — the file is static (see scripts/build-paid-manifest.mjs); what matters is
+      // that the questions are not in this page's HTML.
+      const { can } = await import("../lib/access.js");
+      if (!can("c1")) import("../lib/analytics.js").then(({ track }) => track("paid_set_locked_seen", { set: `grammatik:${data.id}` }));
+      if (can("c1")) {
+        const res = await fetch(withBase(`/inhalt/grammatik/${data.id}.json`)).catch(() => null);
+        if (res?.ok) {
+          const paid = await res.json();
+          data.exercises = data.exercises.map((ex, i) => ({ ...ex, ...paid.exercises[i] }));
+          mountGrammarWorkspace(document.getElementById("vp-page"), data, { onAnswer });
+        }
+      }
+    } else if (Array.isArray(data.exercises)) {
+      mountGrammarWorkspace(document.getElementById("vp-page"), data, { onAnswer });
+    } else {
+      mountQuiz(document.getElementById("quiz-root"), withChoices(data.questions), { mode: "choice", onAnswer });
+    }
+
+    // Live üben (src/lib/liveUebung/): in teaching mode (?ut=1, or a lesson running) the
+    // „Live üben“ button shows; ?live=PIN is a phone that scanned the teacher's code.
+    if (!ownTrainer && Array.isArray(data.exercises) && !data.exercises.some((ex) => ex.paid)) {
+      const slug = document.getElementById("vp-page")?.dataset.topicKey || currentPath().replace(/^\/+|\/+$/g, "");
+      const q = new URLSearchParams(location.search);
+      let lesson = false;
+      try { lesson = !!localStorage.getItem("da:unterricht"); } catch (e) {}
+      if (q.get("ut") === "1" || lesson) {
+        let live = null;
+        document.querySelectorAll("[data-live-uebung]").forEach((btn) => {
+          btn.hidden = false;
+          btn.addEventListener("click", async () => {
+            const { createLiveUebung } = await import("../lib/liveUebung/lehrkraft.js");
+            (live ??= createLiveUebung(data, slug)).start();
+          });
+        });
+        // ?live-start=1: the Üben step of a lesson opened this page, so the QR code is up at once.
+        if (q.get("live-start") === "1") {
+          import("../lib/liveUebung/lehrkraft.js").then(({ createLiveUebung }) => (live ??= createLiveUebung(data, slug)).start());
+        }
+      }
+      if (q.has("live")) {
+        import("../lib/liveUebung/schueler.js").then(({ livePin, joinLiveUebung }) => {
+          const pin = livePin();
+          if (pin) joinLiveUebung(data, slug, pin);
+        });
+      }
+    }
+
+    // The rule column's own behaviour — collapse state, what it means at each width,
+    // and the one-time tour — is shared with the exam pages; see src/lib/ruleColumn.js.
+    if (!ownTrainer) mountRuleColumn(document.getElementById("vp-page"), {
+      storageKey: "da-grammatik-rule",
+      // No first-visit tour under the projector deck (?mode=present): no seen key = seen.
+      seenKey: new URLSearchParams(location.search).get("mode") === "present" ? null : "da-grammatik-rule-peek",
+      expandable: true,
+      // A click into the exercises puts the rule away, like "Regel ausblenden".
+      closeOnWorkClick: true,
+      // Below 1001px the rule is a bottom sheet rather than an accordion, matching the
+      // Artikel-Trainer and the Wortschatz picker. Expanded in place it pushed the
+      // exercise off the screen and carried its own way out down with it.
+      sheet: true,
+    });
+
+    // „Ganze Regel ansehen“ in the Kurz-erklärt box: the same press as whichever rule
+    // button this screen shows — the toolbar pill on a desktop, „Regel anzeigen“ on a phone.
+    document.querySelector("[data-brief-more]")?.addEventListener("click", () => {
+      const btn = [document.getElementById("vp-rule-toggle"), document.getElementById("vp-rule-peek")]
+        .find((b) => b && b.offsetParent !== null);
+      if (document.getElementById("vp-page")?.dataset.rule === "hidden") btn?.click();
+    });
+
+
+    // Per-exercise rule buttons, plus the glow that waits until one is on screen so it
+    // does not compete with the column's tour. See src/lib/exerciseRule.js.
+    if (!ownTrainer) mountExerciseRules(document.getElementById("vp-page"), { seenKey: "da-grammatik-ex-rule-peek" });
+
+    // Aktiv mode. Only topics whose JSON carries an `aktiv` block have the markup.
+    if (data.aktiv && document.getElementById("ak-aktiv")) {
+      const { makeVoice, mountBeats, mountListen, mountHoeren, mountSprechen, mountSchreiben } =
+        await import("../lib/aktivMode.js");
+      const { recordDrill } = await import("../lib/progress.js");
+
+      const page = document.getElementById("vp-page");
+      const voice = makeVoice();
+
+      // Aktiv opens only when the address asks for it: #aktiv, or an older link to one of
+      // its steps. Never from memory — a topic always opens in Üben.
+      const askedForAktiv = ["aktiv", "sehen", "hoeren", "sprechen"].includes(location.hash.slice(1));
+
+      mountListen(document.getElementById("ak-listen"), data.aktiv.listen, voice);
+      mountHoeren(document.getElementById("ak-hoeren"), data.aktiv.hoeren, { voice, notify: onAnswer });
+      // Self-rated, so it goes on its own counter rather than into the accuracy figure
+      // /dashboard presents as measured. See recordDrill in progress.js.
+      mountSprechen(document.getElementById("ak-sprechen"), data.aktiv.sprechen, {
+        voice,
+        onRate: (sure) => { try { recordDrill({ topic: topicKey, sure }); } catch (e) {} },
+      });
+
+      // Typed, so it is measured: each check counts like an answer in Üben.
+      mountSchreiben(document.getElementById("ak-schreiben"), data.aktiv.sprechen, {
+        voice,
+        onAnswer: (ok) => { try { onAnswer(ok); } catch (e) {} },
+      });
+
+      // The beat chips pin below the site nav, not under it. Measured, because the nav is
+      // 69px tall today and a different height the moment it gains a row.
+      // .lp-nav on the pages that carry SiteNav, .practice-header on the trainers — both
+      // are sticky at top:0 now, and the chips have to pin under whichever one is there.
+      const navEl = document.querySelector(".lp-nav, .practice-header");
+      const syncNav = () => {
+        if (navEl) page.style.setProperty("--ak-nav-h", navEl.offsetHeight + "px");
+      };
+      syncNav();
+      addEventListener("resize", syncNav);
+
+      const setMode = (mode) => {
+        page.dataset.mode = mode;
+        document.querySelectorAll("[data-mode-btn]").forEach((b) => {
+          const on = b.dataset.modeBtn === mode;
+          b.classList.toggle("is-active", on);
+          b.setAttribute("aria-selected", String(on));
+        });
+        if (mode !== "aktiv") voice.stop();
+        // #aktiv while Aktiv is on screen, nothing in Üben — so a shared link opens what
+        // the sender was looking at, and a plain link always opens Üben.
+        if (history.replaceState) {
+          const url = location.pathname + location.search;
+          history.replaceState(null, "", mode === "aktiv" ? `${url}#aktiv` : url);
+        }
+      };
+
+      mountBeats(page, {
+        onLeave: () => voice.stop(),
+        // Only for a chip without a panel (a topic whose data has no drill).
+        onExit: () => setMode("ueben"),
+        anchor: document.getElementById("ak-sticky"),
+      });
+
+      document.querySelectorAll("[data-mode-btn]").forEach((b) =>
+        b.addEventListener("click", () => setMode(b.dataset.modeBtn))
+      );
+
+      // Üben by default, always. Aktiv only when the address says #aktiv.
+      setMode(askedForAktiv ? "aktiv" : "ueben");
+    }
+  </script>
+
+  <style>
+    /* The draft marker (see topicStatus.js): one line under the topic bar, in the warning
+       tokens so it reads as "not final" in both themes without shouting over the lesson. */
+    .topic-draft {
+      max-width: 1200px;
+      margin: 12px auto 0;
+      padding: 10px 16px;
+      border: 1px solid var(--warning-border);
+      border-radius: var(--radius-md, 10px);
+      background: var(--warning-soft);
+      color: var(--ink);
+      font-size: var(--text-sm, .875rem);
+      font-weight: var(--fw-semibold, 600);
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px;
+    }
+    .topic-draft-comment {
+      flex: none; padding: 5px 14px; border-radius: 999px; cursor: pointer;
+      border: 1px solid var(--warning-border); background: var(--surface-card); color: var(--ink);
+      font: inherit; font-size: .8125rem;
+    }
+    .topic-draft-comment:hover { border-color: var(--ink); }
+    @media (max-width: 1240px) { .topic-draft { margin-inline: 16px; } }
+  </style>
+  {praes && <script type="application/json" id="praes-data" set:html={JSON.stringify(praes)} />}
+  {praes && (
+    <script>
+      if (new URLSearchParams(location.search).get("mode") === "present") {
+        import("../lib/praesentationDeck.js").then((m) => m.bootDeck());
+      }
+    </script>
+  )}
+</Layout>

@@ -1,0 +1,167 @@
+---
+// A little looping film of "Grammatik: Regel und Übungen", for MascotGuide's "sim" slot. Three
+// scenes, 4 s each, in step with the guide's three numbered steps:
+//   1  laptop: the rule card with a small table – its three rows light up one after another,
+//      each with a colour chip (blue / amber / grey, like der / die / das)
+//   2  laptop: an exercise sentence with a gap; the cursor fills it, it turns red, an explanation
+//      bubble pops up under it
+//   3  laptop: the gap is corrected and turns green with a tick, the progress bar fills, the
+//      next sentence slides in
+//
+// Same make as UmfrageSim.astro: pure SVG + CSS, no words inside (bars stand for text), one 12 s
+// cycle, theme tokens so dark mode works. Reduced motion: no film, the red-gap scene stands still.
+const rows = [["--brand-blue", 58], ["--warning", 70], ["--border-strong", 50]] as const; // chip colour, text width
+---
+<div class="sim" aria-hidden="true">
+  <svg viewBox="0 0 320 180" role="presentation">
+    <rect class="desk" x="0" y="0" width="320" height="180" rx="14" />
+
+    <!-- 1 · die Regel -->
+    <g class="sc sc1">
+      <rect class="bezel" x="86" y="16" width="148" height="100" rx="7" />
+      <rect class="screen" x="93" y="23" width="134" height="86" rx="3" />
+      <path class="base" d="M66 116h188l-10 14H76z" />
+      <rect class="bar-title" x="102" y="31" width="64" height="7" rx="3.5" />
+      <rect class="table" x="102" y="45" width="116" height="55" rx="4" />
+      {rows.map(([c, w], i) => (
+        <g>
+          <rect class="hl" style={`animation-delay:${0.5 + i * 1.1}s`} x="103" y={47 + i * 17} width="114" height="15" rx="3" />
+          <rect class="chip" style={`fill:var(${c})`} x="108" y={50 + i * 17} width="20" height="9" rx="4.5" />
+          <rect class="line" x="136" y={52 + i * 17} width={w} height="5" rx="2.5" />
+        </g>
+      ))}
+    </g>
+
+    <!-- 2 · Lücke füllen, falsch, Erklärung -->
+    <g class="sc sc2">
+      <rect class="bezel" x="86" y="16" width="148" height="100" rx="7" />
+      <rect class="screen" x="93" y="23" width="134" height="86" rx="3" />
+      <path class="base" d="M66 116h188l-10 14H76z" />
+      <rect class="bar-title" x="102" y="31" width="64" height="7" rx="3.5" />
+      <rect class="line" x="102" y="50" width="28" height="6" rx="3" />
+      <rect class="line" x="136" y="50" width="20" height="6" rx="3" />
+      <rect class="gap" x="162" y="46" width="30" height="14" rx="4" />
+      <rect class="line" x="198" y="50" width="20" height="6" rx="3" />
+      <g class="in" style="animation-delay:5.2s">
+        <rect class="bad" x="162" y="46" width="30" height="14" rx="4" />
+        <rect class="bad-bar" x="168" y="51.5" width="18" height="3" rx="1.5" />
+      </g>
+      <g class="in" style="animation-delay:6.2s">
+        <path class="bubble" d="M110 64h60l6-6 6 6h32a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4H110a4 4 0 0 1-4-4V68a4 4 0 0 1 4-4z" />
+        <rect class="bub-line" x="114" y="72" width="82" height="4" rx="2" />
+        <rect class="bub-line" x="114" y="81" width="64" height="4" rx="2" />
+        <rect class="bub-line bub-line--chip" x="114" y="90" width="26" height="4" rx="2" />
+      </g>
+      <path class="cursor cursor--2" d="M0 0v14l4-3.5 3 6.5 2.5-1.2-3-6.3H12z" />
+    </g>
+
+    <!-- 3 · richtig, Fortschritt, nächster Satz -->
+    <g class="sc sc3">
+      <rect class="bezel" x="86" y="16" width="148" height="100" rx="7" />
+      <rect class="screen" x="93" y="23" width="134" height="86" rx="3" />
+      <path class="base" d="M66 116h188l-10 14H76z" />
+      <rect class="bar-title" x="102" y="31" width="64" height="7" rx="3.5" />
+      <g class="out" style="animation-delay:8s">
+        <rect class="line" x="102" y="50" width="28" height="6" rx="3" />
+        <rect class="line" x="136" y="50" width="20" height="6" rx="3" />
+        <rect class="line" x="198" y="50" width="20" height="6" rx="3" />
+        <rect class="gap" x="162" y="46" width="30" height="14" rx="4" />
+        <rect class="bad bad--fade" x="162" y="46" width="30" height="14" rx="4" />
+        <g class="in" style="animation-delay:8.5s">
+          <rect class="good" x="162" y="46" width="30" height="14" rx="4" />
+          <rect class="good-bar" x="168" y="51.5" width="12" height="3" rx="1.5" />
+          <circle class="ok" cx="188" cy="46" r="6" />
+          <path class="ok-tick" d="M185 46l2 2 3.5-4" />
+        </g>
+      </g>
+      <g class="next" style="animation-delay:8s">
+        <rect class="line" x="102" y="50" width="34" height="6" rx="3" />
+        <rect class="line" x="142" y="50" width="22" height="6" rx="3" />
+        <rect class="gap" x="170" y="46" width="30" height="14" rx="4" />
+        <rect class="line" x="206" y="50" width="12" height="6" rx="3" />
+      </g>
+      <rect class="track" x="102" y="92" width="116" height="7" rx="3.5" />
+      <rect class="fill" style="animation-delay:8s" x="102" y="92" width="116" height="7" rx="3.5" />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .sim { width: 100%; }
+  .sim svg { display: block; width: 100%; height: auto; }
+
+  .desk { fill: var(--blue-100); }
+  .bezel { fill: var(--rail-surface); }
+  .screen { fill: var(--surface-card); }
+  .base { fill: var(--border-strong); }
+  .bar-title { fill: var(--blue-200); }
+  .line { fill: var(--border-strong); }
+  .table { fill: none; stroke: var(--border-strong); stroke-width: 1.2; }
+  .hl { fill: var(--blue-100); opacity: 0; }
+  .gap { fill: var(--blue-50); stroke: var(--brand-blue); stroke-width: 1.4; stroke-dasharray: 3 2.5; }
+  .bad { fill: var(--danger-soft); stroke: var(--danger); stroke-width: 1.6; }
+  .bad-bar { fill: var(--danger); }
+  .bubble { fill: var(--danger-soft); stroke: var(--danger-border); stroke-width: 1.2; stroke-linejoin: round; }
+  .bub-line { fill: var(--border-strong); }
+  .bub-line--chip { fill: var(--danger); }
+  .good { fill: var(--success-soft); stroke: var(--success); stroke-width: 1.6; }
+  .good-bar { fill: var(--success); }
+  .ok { fill: var(--success); }
+  .ok-tick { fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .track { fill: var(--border); }
+  .fill { fill: var(--brand-blue); }
+  .cursor { fill: var(--ink); stroke: var(--surface-card); stroke-width: 1; }
+
+  /* everything timed: one 12 s cycle, started per part by animation-delay */
+  .sc, .in, .hl, .out, .next, .fill, .bad--fade, .cursor {
+    animation-duration: 12s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+    transform-box: fill-box;
+  }
+  .sc { opacity: 0; animation-name: gra-sim-scene; }
+  .sc2 { animation-delay: 4s; }
+  .sc3 { animation-delay: 8s; }
+  @keyframes gra-sim-scene { 0% { opacity: 0 } 2%, 31% { opacity: 1 } 33%, 100% { opacity: 0 } }
+
+  /* pops in, stays to the end of its scene */
+  .in { opacity: 0; transform-origin: center; animation-name: gra-sim-in; }
+  @keyframes gra-sim-in {
+    0% { opacity: 0; transform: scale(.4) }
+    3% { opacity: 1; transform: scale(1.15) }
+    5%, 31% { opacity: 1; transform: scale(1) }
+    33%, 100% { opacity: 0 }
+  }
+
+  /* scene 1: a row lights up for a moment, then the next one */
+  .hl { animation-name: gra-hl; }
+  @keyframes gra-hl { 0% { opacity: 0 } 2%, 8% { opacity: 1 } 11%, 100% { opacity: 0 } }
+
+  /* scene 2: the cursor goes to the gap and taps */
+  .cursor--2 { animation-name: gra-cursor2; animation-delay: 4s; }
+  @keyframes gra-cursor2 {
+    0%, 6% { transform: translate(206px, 98px) }
+    11% { transform: translate(176px, 56px) }
+    12% { transform: translate(176px, 56px) scale(.8) }
+    14%, 100% { transform: translate(176px, 56px) }
+  }
+
+  /* scene 3: the red answer fades out under the green one; the sentence leaves, the next arrives */
+  .bad--fade { animation-name: gra-redout; animation-delay: 8s; }
+  @keyframes gra-redout { 0%, 3% { opacity: 1 } 5%, 100% { opacity: 0 } }
+  .out { animation-name: gra-out; }
+  @keyframes gra-out { 0%, 20% { opacity: 1; transform: none } 25%, 100% { opacity: 0; transform: translateX(-24px) } }
+  .next { opacity: 0; animation-name: gra-next; }
+  @keyframes gra-next { 0%, 22% { opacity: 0; transform: translateX(24px) } 28%, 31% { opacity: 1; transform: none } 33%, 100% { opacity: 0 } }
+  .fill { transform-origin: left; transform: scaleX(0); animation-name: gra-fill; }
+  @keyframes gra-fill { 0% { transform: scaleX(0) } 12%, 30% { transform: scaleX(.6) } 31%, 100% { transform: scaleX(0) } }
+
+  /* MascotGuide's pause button */
+  :global(.mg-paused) .sim * { animation-play-state: paused !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sim * { animation: none !important; }
+    .sc2, .sc2 .in { opacity: 1; }
+    .sc2 .cursor { transform: translate(176px, 56px); }
+  }
+</style>

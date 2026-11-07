@@ -1,0 +1,75 @@
+---
+// /spanish-for-work: Spanish for work (content-plan §5.12). One card per sector;
+// the word count is derived from the deck at build time, never typed. A profession whose deck
+// is still empty shows as „kommt bald“ without a link, so no thin page is built for it.
+import Layout from "../../layouts/Layout.astro";
+import { workPath } from "../../lib/routes.js";
+import SiteNav from "../../components/SiteNav.astro";
+import SectionMascot from "../../components/mascots/SectionMascot.astro";
+import HubBild from "../../components/HubBild.astro";
+import hubBilder from "../../data/hub-bilder.manifest.json";
+import { BERUFE } from "../../lib/berufeCore.js";
+import { DECKS, entryCount, hasPage } from "../../lib/berufeWortschatz.js";
+import { emojiSrc } from "../../lib/wortBild.js";
+import "../../styles/practice.css";
+import "../../styles/kultur.css";
+import "../../styles/kultur-hub.css";
+import "../../styles/berufe.css";
+
+const v = (o: Record<string, unknown>) => JSON.stringify(o);
+const cards = BERUFE.map((b) => {
+  const deck = DECKS[b.slug];
+  const n = entryCount(deck ?? {});
+  // The profession's photo (src/data/hub-bilder.json, slot berufe-<slug>); none → the OpenMoji.
+  const foto = (hubBilder as Record<string, any>)[`berufe-${b.slug}`] ?? null;
+  return { ...b, deck, n, foto, live: hasPage(b.slug) && n > 0, page: hasPage(b.slug) };
+});
+const total = cards.reduce((s, c) => s + c.n, 0);
+---
+<Layout
+  title="Spanish for work – workplace vocabulary – icanspeak Spanish"
+  description="Workplace Spanish for care work, hospitality, cleaning, farm work, construction, shops, warehouses, driving, hotels and offices: words with example sentences and translations, free."
+>
+  <SiteNav active="wortschatz" />
+  <main class="practice-main practice-main--wide">
+    <HubBild id="berufe" />
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="berufe.hero.eyebrow">Wortschatz</p>
+      <h1 data-i18n="berufe.hero.title">Deutsch für den Beruf</h1>
+      <p class="bv-hero-lead" data-i18n="berufe.hero.lead">Die Wörter für deine Arbeit in Deutschland: mit Artikel, Beispielsatz und Übersetzung. Kostenlos.</p>
+      <div class="bv-badges">
+        <span class="bv-badge">A2–B1</span>
+        <span class="bv-badge" data-i18n="berufe.badge.count" data-i18n-vars={v({ n: total })}>{total} Wörter</span>
+      </div>
+      <SectionMascot name="hamsti" say="Words for your job." sayKey="berufe.say.hero" align="center" class="ku-hero-mascot" />
+    </div>
+
+    <section class="ku-group">
+      <div class="bv-grid">
+        {cards.map((c) => {
+          const inner = (
+            <>
+              {c.foto
+                ? <img class="bv-pcard-foto" src={`/assets/hubs/opt/berufe-${c.slug}-800.webp`} alt="" width="800" height="300" loading="lazy" decoding="async" />
+                : <span class="bv-pcard-foto bv-pcard-foto--emoji"><img src={emojiSrc(c.emoji)} alt="" width="48" height="48" loading="lazy" /></span>}
+              <span class="bv-pcard-body">
+                <span class="bv-pcard-head">
+                  <img class="bv-pcard-ic" src={emojiSrc(c.emoji)} alt="" width="28" height="28" loading="lazy" />
+                  <b>{c.deck?.title ?? c.slug}</b>
+                </span>
+                <i>{c.deck?.introEasy}</i>
+                {c.deck?.jobs?.length > 0 && <span class="bv-pcard-jobs" lang="es">{c.deck.jobs.slice(0, 3).join(" · ")}</span>}
+                {c.n > 0
+                  ? <span class="bv-card-meta" data-i18n="sets.wordCount" data-i18n-vars={v({ n: c.n })}>{c.n} Wörter</span>
+                  : <span class="bv-card-meta" data-i18n="berufe.card.soon">Kommt bald</span>}
+              </span>
+            </>
+          );
+          return c.page
+            ? <a class="bv-pcard" href={workPath(c.slug)}>{inner}</a>
+            : <div class="bv-pcard bv-card-soon" aria-disabled="true">{inner}</div>;
+        })}
+      </div>
+    </section>
+  </main>
+</Layout>

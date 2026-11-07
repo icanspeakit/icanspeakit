@@ -1,0 +1,429 @@
+/* Worksheets for teachers (/teachers/worksheets). Two surfaces:
+ *   .abi  the index — phone-first rows, a level chip row and a search field
+ *   .ab   one sheet — a paper-like card on screen, a clean A4 page in print
+ * The sheet has two modes (data-mode on #ab-root): "print" shows the paper and its answer
+ * key, "online" turns the same gaps into inputs to check and hides the key. Print media
+ * always gets the paper layout, whatever the mode. */
+
+/* ============================================================== index == */
+.abi { max-width: 860px; margin: 0 auto; padding: var(--space-5) 16px var(--space-12); }
+.abi-eyebrow { margin: 0 0 4px; font-family: var(--font-label); font-size: var(--text-xs); letter-spacing: .08em; text-transform: uppercase; color: var(--brand-blue); }
+.abi-title { margin: 0 0 6px; font-family: var(--font-display); font-size: var(--text-2xl); color: var(--ink); }
+.abi-lead { margin: 0 0 var(--space-4); color: var(--muted); font-size: var(--text-sm); line-height: 1.5; max-width: 60ch; }
+
+.abi-controls { display: grid; gap: 10px; margin-bottom: var(--space-4); }
+.abi-levels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 4px; background: var(--surface); border-radius: var(--radius-pill); }
+.abi-levels button {
+  min-height: 40px; border: 0; border-radius: var(--radius-pill); background: none;
+  font: inherit; font-weight: var(--fw-bold); color: var(--muted); cursor: pointer;
+}
+.abi-levels button[aria-pressed="true"] { background: var(--surface-card); color: var(--brand-blue-dark); box-shadow: var(--shadow-sm); }
+.abi-search {
+  width: 100%; min-height: 44px; padding: 0 14px; box-sizing: border-box;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-pill);
+  background: var(--surface-card); color: var(--ink); font: inherit;
+}
+.abi-search:focus-visible, .abi-levels button:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+
+.abi-sec { margin-top: var(--space-5); }
+.abi-h { display: flex; align-items: baseline; gap: 8px; margin: 0 0 8px; font-size: var(--text-lg); color: var(--ink); }
+.abi-h small { font-size: var(--text-xs); color: var(--muted); font-weight: var(--fw-medium); }
+.abi-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface-card); overflow: hidden; }
+.abi-list li + li { border-top: 1px solid var(--border); }
+.abi-list a {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px;
+  min-height: 52px; padding: 8px 14px; color: var(--ink); text-decoration: none;
+}
+.abi-list a:hover { background: var(--surface); }
+.abi-list a:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: -2px; }
+.abi-badge { padding: 2px 8px; border-radius: var(--radius-pill); background: var(--blue-50); color: var(--brand-blue-dark); font-size: 12px; font-weight: var(--fw-bold); }
+.abi-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--fw-medium); }
+.abi-meta { font-size: 12px; color: var(--muted); white-space: nowrap; }
+/* Partner sheets: the Übungsform under the title. */
+.abi-list--partner .abi-name { display: grid; white-space: normal; }
+.abi-sub { color: var(--muted); font-size: 12px; font-weight: var(--fw-regular, 400); }
+.pu-draft-tag { display: block; width: fit-content; align-self: flex-start; justify-self: start; margin: 2px 0; padding: 1px 8px; border-radius: 999px; background: #fde68a; color: #6b4500; font-size: 11px; font-weight: 800; vertical-align: middle; }
+/* The library's ways in: cards with a mascot, not a row of text links. */
+.abi-cards { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 0 0 var(--space-5); }
+.abi-card {
+  display: flex; align-items: center; gap: 14px; min-height: 84px; padding: 10px 16px 10px 12px;
+  border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface-card);
+  color: var(--ink); text-decoration: none;
+  transition: border-color .15s, box-shadow .15s, transform .15s;
+}
+.abi-card:hover { border-color: var(--brand-blue); box-shadow: 0 6px 18px rgb(15 23 42 / .08); transform: translateY(-1px); }
+.abi-card:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+.abi-card-m { flex: none; width: 64px; height: 64px; }
+.abi-card-t { display: grid; gap: 2px; min-width: 0; }
+.abi-card-t b { font-size: var(--text-base, 1rem); line-height: 1.25; }
+.abi-card-short { display: none; }
+@media (max-width: 719px) { .abi-card-t .abi-card-short { display: block; } }
+.abi-card-t small { color: var(--muted); font-size: var(--text-sm); line-height: 1.4; }
+.abi-card--partner { background: linear-gradient(135deg, color-mix(in srgb, #22c55e 10%, var(--surface-card)), var(--surface-card) 70%); }
+.abi-card--einzel { background: linear-gradient(135deg, color-mix(in srgb, var(--brand-blue) 10%, var(--surface-card)), var(--surface-card) 70%); }
+.abi-card--mappe { background: linear-gradient(135deg, color-mix(in srgb, #f59e0b 12%, var(--surface-card)), var(--surface-card) 70%); }
+@media (min-width: 720px) { .abi-cards { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); } }
+/* The page you are on: its card stands out, the others step back a little. */
+.abi-card.is-current { border: 2px solid var(--brand-blue); box-shadow: 0 6px 18px rgb(15 23 42 / .10); cursor: default; }
+.abi-card.is-current .abi-card-t b { color: var(--brand-blue-dark); }
+.abi-card.is-current .abi-card-m { transform: scale(1.08); }
+.abi-card-m { transition: transform .2s; }
+.abi-cards:has(.is-current) .abi-card:not(.is-current) { opacity: .78; }
+.abi-cards:has(.is-current) .abi-card:not(.is-current):hover { opacity: 1; }
+/* Phones: one compact row of three (mascot over the title), so navigation does not push the
+   page a screen down. The line of text comes back from 720px. */
+@media (max-width: 719px) {
+  .abi-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .abi-card { flex-direction: column; justify-content: flex-start; gap: 4px; min-height: 0; padding: 8px 6px 10px; text-align: center; }
+  .abi-card-m { width: 44px; height: 44px; }
+  .abi-card-t small { display: none; }
+  .abi-card-full { display: none; }
+  .abi-card-t b { font-size: 12px; line-height: 1.2; hyphens: manual; overflow-wrap: anywhere; }
+  .abi-cards:has(.is-current) .abi-card:not(.is-current) { opacity: .85; }
+}
+/* On the Arbeitsmappe the row spans picker and preview; never on paper. */
+.abm > .abi-cards { grid-column: 1 / -1; margin-bottom: 0; }
+@media print { .abi-cards { display: none !important; } }
+@media (prefers-reduced-motion: reduce) { .abi-card { transition: none; } .abi-card:hover { transform: none; } }
+.abi-empty { margin-top: var(--space-5); color: var(--muted); }
+.abi [hidden] { display: none !important; }
+
+/* ============================================================== sheet == */
+.ab { max-width: 900px; margin: 0 auto; padding: var(--space-4) 16px var(--space-12); }
+.ab [hidden] { display: none !important; }
+
+.ab-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: var(--space-4); }
+.ab-back { flex-basis: 100%; color: var(--brand-blue-dark); font-size: var(--text-sm); text-decoration: none; }
+.ab-back:hover { text-decoration: underline; }
+.ab-seg, .ab-langs { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px; padding: 4px; background: var(--surface); border-radius: var(--radius-pill); }
+.ab-seg button, .ab-langs button {
+  min-height: 36px; padding: 0 14px; border: 0; border-radius: var(--radius-pill); background: none;
+  font: inherit; font-size: var(--text-sm); font-weight: var(--fw-semibold); color: var(--muted); cursor: pointer;
+}
+.ab-seg button[aria-pressed="true"], .ab-langs button[aria-pressed="true"] { background: var(--surface-card); color: var(--brand-blue-dark); box-shadow: var(--shadow-sm); }
+.ab-langs-label { padding: 0 6px 0 10px; font-size: 12px; color: var(--muted); }
+.ab-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.ab-check { display: inline-flex; align-items: center; gap: 6px; font-size: var(--text-sm); color: var(--ink); }
+.ab-btn {
+  min-height: 40px; padding: 0 16px; border: 1px solid var(--border-strong); border-radius: var(--radius-pill);
+  background: var(--surface-card); color: var(--ink); font: inherit; font-weight: var(--fw-semibold); cursor: pointer;
+}
+.ab-btn--primary { border-color: transparent; background: var(--gradient-brand); color: #fff; }
+.ab-btn:focus-visible, .ab-seg button:focus-visible, .ab-langs button:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+.ab-score { font-weight: var(--fw-bold); color: var(--danger); }
+.ab-score[data-all="true"] { color: var(--success); }
+
+#ab-root[data-mode="print"] .ab-only-online,
+#ab-root[data-mode="online"] .ab-only-print,
+#ab-root[data-mode="online"] .ab-key { display: none; }
+
+/* One meaning language at a time: the page writes the rule per sheet language from the
+   registry (lehrkraefte/arbeitsblaetter/wortschatz/[unit].astro). */
+.ab-m { display: none; }
+.ab-m[dir="rtl"] { unicode-bidi: isolate; }
+
+/* The paper. Light on purpose in dark mode too: it is a sheet of paper. */
+.ab-sheet {
+  --paper-ink: #1c2b3f;
+  --paper-muted: #5b6676;
+  --paper-line: #c9ced6;
+  color: var(--paper-ink);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 16px 16px;
+  font-size: 15px;
+  line-height: 1.55;
+  /* Break a word only if it cannot fit at all (a URL in the footer), never mid-word by default. */
+  overflow-wrap: break-word;
+}
+.ab-sheet + .ab-sheet { margin-top: var(--space-5); }
+.ab-head { border-bottom: 2px solid var(--paper-ink); padding-bottom: 10px; margin-bottom: 14px; }
+.ab-eyebrow { margin: 0 0 2px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--paper-muted); }
+.ab-title { margin: 0; font-family: var(--font-display); font-size: 1.5rem; line-height: 1.2; color: var(--paper-ink); }
+.ab-title--key { font-size: 1.2rem; }
+.ab-namerow { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 12px 0 0; font-size: 13px; }
+.ab-namerow span { display: inline-flex; align-items: flex-end; gap: 6px; flex: 1 1 160px; }
+.ab-namerow i { flex: 1; border-bottom: 1px solid var(--paper-ink); min-width: 80px; height: 1.1em; }
+#ab-root[data-mode="online"] .ab-namerow { display: none; }
+
+.ab-sec { margin: 18px 0 0; }
+.ab-h { display: flex; gap: 8px; align-items: baseline; margin: 0 0 4px; font-size: 1.02rem; color: var(--paper-ink); }
+.ab-h b {
+  flex: none; display: inline-grid; place-items: center; width: 22px; height: 22px;
+  border-radius: 50%; background: var(--paper-ink); color: #fff; font-size: 12px;
+}
+.ab-instr { margin: 0 0 8px; font-size: 13.5px; color: var(--paper-muted); }
+.ab-hint { font-size: 12.5px; color: var(--paper-muted); }
+
+.ab-rule { margin: 0 0 6px; padding: 10px 12px; border: 1px solid var(--paper-line); border-left: 4px solid var(--brand-blue); border-radius: 6px; font-size: 13.5px; }
+.ab-rule p { margin: 0 0 4px; }
+.ab-rule ul { margin: 4px 0 0; padding-left: 18px; }
+.ab-rule-title { font-weight: 700; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--paper-muted); }
+.ab-rule-ex { font-style: italic; }
+
+/* Gaps: an underline on paper, a field on screen in online mode. */
+.ab-in {
+  width: var(--w, 8ch); max-width: 100%;
+  min-height: 1.6em; padding: 0 4px; margin: 0 2px;
+  border: 0; border-bottom: 1.5px solid var(--paper-ink); border-radius: 0;
+  background: transparent; color: var(--paper-ink);
+  font: inherit; vertical-align: baseline;
+}
+.ab-in:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 1px; }
+.ab-in--letter {
+  width: 2em; min-height: 2em; text-align: center; text-transform: lowercase;
+  border: 1.5px solid var(--paper-ink); border-radius: 4px;
+}
+.ab-in--line { display: block; width: 100%; margin: 6px 0 0; min-height: 2em; }
+.ab-in--cell { width: 100%; }
+#ab-root[data-mode="online"] .ab-in { background: #f3f6f9; border-radius: 4px 4px 0 0; }
+#ab-root[data-mode="online"] .ab-in--letter { border-radius: 4px; }
+.ab-in.is-right { border-color: var(--success); background: var(--success-soft) !important; }
+.ab-in.is-wrong { border-color: var(--danger); background: var(--danger-soft) !important; }
+
+.ab-lines, .ab-build, .ab-keylist { margin: 0; padding-left: 22px; }
+.ab-lines li, .ab-build li { margin: 0 0 10px; }
+.ab-keylist li { margin: 0 0 3px; }
+.ab-keylist--cols { columns: 2 220px; column-gap: 24px; }
+.ab-keylist--cols li { break-inside: avoid; }
+
+.ab-match { display: grid; grid-template-columns: 1fr; gap: 10px 24px; }
+.ab-match ol, .ab-match ul { margin: 0; padding: 0; list-style: none; }
+.ab-match-left li { display: flex; align-items: center; gap: 10px; margin: 0 0 6px; }
+.ab-match-left { counter-reset: m; }
+.ab-match-left li::before { counter-increment: m; content: counter(m) "."; min-width: 1.6em; color: var(--paper-muted); }
+.ab-match-right li { margin: 0 0 6px; }
+.ab-match-right b { display: inline-block; min-width: 1.6em; }
+
+/* Wide enough for "Missverständnis" on one line: long nouns used to break mid-word. */
+.ab-articles { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px 16px; margin: 0; padding: 0; list-style: none; }
+.ab-articles li { display: flex; align-items: baseline; gap: 6px; overflow-wrap: normal; }
+
+.ab-box { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0 0 10px; padding: 8px 12px; border: 1.5px dashed var(--paper-line); border-radius: 6px; }
+.ab-words { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; }
+.ab-words span { padding: 1px 8px; border: 1px solid var(--paper-line); border-radius: 4px; }
+.ab-words .ab-hint { border: 0; padding: 0; }
+.ab-story { margin: 0; line-height: 2.1; }
+.ab-story--key { line-height: 1.6; }
+
+.ab-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.ab-table th { text-align: left; font-size: 12px; color: var(--paper-muted); border-bottom: 1.5px solid var(--paper-ink); padding: 4px 6px; }
+.ab-table td { padding: 6px; border-bottom: 1px solid var(--paper-line); vertical-align: bottom; }
+.ab-table td:first-child { width: 55%; }
+
+.ab-muted { color: var(--paper-muted); }
+.ab-foot { margin-top: 22px; padding-top: 8px; border-top: 1px solid var(--paper-line); font-size: 11px; color: var(--paper-muted); }
+.ab-key .ab-sec { margin-top: 12px; }
+
+@media (min-width: 640px) {
+  .abi { padding-top: var(--space-7); }
+  .abi-title { font-size: var(--text-3xl); }
+  .abi-controls { grid-template-columns: 280px minmax(0, 1fr); align-items: center; }
+  .ab-back { flex-basis: auto; margin-right: auto; }
+  .ab-sheet { padding: 32px 40px 24px; }
+  .ab-title { font-size: 1.8rem; }
+  .ab-match { grid-template-columns: 1fr 1fr; }
+}
+
+/* ============================================================= Mappe == */
+/* Several sheets in one print job (lehrkraefte/arbeitsblaetter/mappe.astro): the picker
+   above the sheets on a phone, beside them from a laptop up. */
+.abm { max-width: 1280px; display: grid; gap: var(--space-5); }
+.abm-pick { min-width: 0; }
+.abm-pick .ab-back { display: inline-block; margin-bottom: 8px; }
+.abm-main { min-width: 0; }
+.abm-chosen { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 var(--space-4); padding: 0; list-style: none; }
+.abm-chosen li { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; padding: 4px 4px 4px 6px; border: 1px solid var(--border); border-radius: var(--radius-pill); background: var(--surface-card); font-size: var(--text-sm); }
+.abm-chip-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.abm-chosen button { display: grid; place-items: center; width: 28px; height: 28px; border: 0; border-radius: 50%; background: var(--surface); color: var(--muted); font: inherit; font-size: 12px; cursor: pointer; }
+.abm-chosen button:hover { color: var(--danger); }
+.abm-add > summary { display: flex; align-items: center; min-height: 48px; padding: 0 16px; margin-bottom: var(--space-3); border: 1px solid var(--border-strong); border-radius: var(--radius-pill); background: var(--surface-card); color: var(--brand-blue-dark); font-weight: var(--fw-semibold); cursor: pointer; list-style: none; }
+.abm-add > summary::-webkit-details-marker { display: none; }
+.abm-add[open] > summary { display: none; }
+.abm-list label { display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 48px; padding: 8px 14px; cursor: pointer; }
+.abm-list label:hover { background: var(--surface); }
+.abm-list input { width: 18px; height: 18px; accent-color: var(--brand-blue); }
+.abm-list li:has(input:checked) { background: var(--blue-50); }
+.abm-empty { padding: var(--space-6) var(--space-4); border: 1px dashed var(--border-strong); border-radius: var(--radius-lg); color: var(--muted); text-align: center; }
+.abm-error { color: var(--danger); }
+.abm-keys:not(:empty) { margin-top: var(--space-5); }
+@media (min-width: 1024px) {
+  .abm { grid-template-columns: 340px minmax(0, 1fr); align-items: start; }
+  .abm-pick { position: sticky; top: var(--space-4); max-height: calc(100dvh - 2 * var(--space-4)); overflow-y: auto; padding-right: 4px; }
+  .abm .abi-controls { grid-template-columns: 1fr; }
+}
+
+/* Moving between the library, the Tandembögen and the Arbeitsmappe (the AbCards row): the
+   cards are one element across the three pages, so they hold still (or glide to their new
+   place) while the page changes around them. The Mappe's picker column opens from the left
+   when you arrive and folds back when you leave — a cross-document view transition, the same
+   mechanism as the page change in global.css; browsers without it just navigate. */
+.abi-cards { view-transition-name: abi-cards; }
+@media (min-width: 1024px) {
+  .abm-pick { view-transition-name: abm-pick; }
+}
+@keyframes abm-pick-open {
+  from { clip-path: inset(0 100% 0 0); transform: translateX(-28px); opacity: 0; }
+  to { clip-path: inset(0 0 0 0); transform: none; opacity: 1; }
+}
+@keyframes abm-pick-close {
+  from { clip-path: inset(0 0 0 0); transform: none; opacity: 1; }
+  to { clip-path: inset(0 100% 0 0); transform: translateX(-28px); opacity: 0; }
+}
+/* Leaving the Mappe, the column folds away in the view transition (:only-child = it exists
+   on the old page only). Arriving, the transition shows the live column, and the column
+   itself opens: html.abm-arrive, set for one load by a click on the Mappe card (AbCards),
+   so it also opens in browsers without view transitions and not on a reload. */
+::view-transition-new(abm-pick):only-child { animation: none; }
+html.abm-arrive .abm-pick { animation: abm-pick-drop 380ms cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes abm-pick-drop { from { opacity: 0; transform: translateY(-12px); } }
+@media (min-width: 1024px) {
+  html.abm-arrive .abm-pick { animation: abm-pick-open 560ms cubic-bezier(.2, .8, .2, 1) 60ms both; }
+  html.abm-arrive .abm-main { animation: abm-main-shift 560ms cubic-bezier(.2, .8, .2, 1) 60ms both; }
+}
+@keyframes abm-main-shift { from { transform: translateX(-120px); opacity: .4; } }
+::view-transition-old(abm-pick):only-child { animation: abm-pick-close 300ms cubic-bezier(.4, 0, .9, .6) both; }
+::view-transition-group(abi-cards) { animation-duration: 320ms; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+@media (prefers-reduced-motion: reduce) {
+  html.abm-arrive .abm-pick, html.abm-arrive .abm-main { animation: da-nav-in-fade 120ms linear both !important; }
+  ::view-transition-old(abm-pick):only-child { animation: da-nav-out-fade 90ms linear both; }
+  ::view-transition-group(abi-cards) { animation-duration: 0s; }
+}
+
+/* =================================================== topic switch == */
+/* Arbeitsblatt | Tandem for one topic (AbTopicSwitch.astro). Its look is the shared teacher
+   switch (teacher-switch.css); here only its place in the bar, and that it keeps that place
+   when the page changes. */
+.ab-tswitch { flex: 1 1 100%; view-transition-name: ab-tswitch; }
+@media (min-width: 640px) { .ab-tswitch { flex: 0 1 460px; } }
+
+/* ======================================================== sheet extras == */
+/* Hand-made extras (src/data/arbeitsblatt/<id>.json): a Wo/Wohin rule in two colours,
+   a mascot comic, a picture with numbered things and its exercises, a pair game.
+   Wo? is teal (Dativ, it stays), Wohin? orange (Akkusativ, it moves) — the same two
+   colours wherever the sheet shows the pair. */
+.ab-sheet { --wo: #2b4162; --wo-soft: #e6f6f4; --wohin: #86601f; --wohin-soft: #fff1e7; }
+.ab-wowo { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin: 0 0 6px; }
+.ab-wowo-card { padding: 10px 12px 12px; border-radius: 10px; border: 2px solid var(--wo); background: var(--wo-soft); }
+.ab-wowo-card--wohin { border-color: var(--wohin); background: var(--wohin-soft); }
+.ab-wowo-card p { margin: 0; }
+.ab-wowo-q { font-size: 1.05rem; color: var(--paper-ink); }
+.ab-wowo-q b { font-family: var(--font-display); font-size: 1.35rem; color: var(--wo); }
+.ab-wowo-card--wohin .ab-wowo-q b { color: var(--wohin); }
+.ab-wowo-was { font-size: 13px; color: var(--paper-muted); }
+.ab-wowo-verbs { display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0 !important; }
+.ab-wowo-verbs span { padding: 1px 9px; border-radius: 999px; background: #fff; border: 1.5px solid var(--wo); font-size: 13.5px; font-weight: 600; }
+.ab-wowo-card--wohin .ab-wowo-verbs span { border-color: var(--wohin); }
+.ab-wowo-ex { font-style: italic; }
+.ab-wowo-ex b { color: var(--wo); font-style: normal; }
+.ab-wowo-card--wohin .ab-wowo-ex b { color: var(--wohin); }
+.ab-wowo-nine { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin: 2px 0 0; }
+.ab-wowo-nine b { padding: 0 8px; border: 1.5px solid var(--paper-ink); border-radius: 6px; font-size: 14px; }
+.ab-wowo-label { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--paper-muted); }
+.ab-wowo-kurz { margin: 0; font-size: 13px; color: var(--paper-muted); }
+/* stellen/stehen upright, legen/liegen flat: a small shape says it before the words do. */
+.ab-wowo-lage { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px 14px; font-size: 13px; }
+.ab-wowo-lage li { display: flex; gap: 8px; align-items: center; }
+.ab-wowo-lage svg { flex: none; width: 28px; height: 28px; fill: none; stroke: var(--paper-ink); stroke-width: 2; }
+.ab-wowo-lage em { color: var(--paper-muted); }
+
+/* The comic sits on the paper: paper colours, two panels a row once there is room. */
+.ab-comic { margin: 16px 0 0; --ink: var(--paper-ink); --muted: var(--paper-muted); --surface-card: #fff; color: var(--paper-ink); }
+.ab-comic .ku-comic--fit .ku-comic-panels { grid-template-columns: minmax(0, 1fr); }
+@container (min-width: 560px) { .ab-comic .ku-comic--fit .ku-comic-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.ab-h--pic { font-family: var(--font-display); font-size: 1.15rem; }
+.ab-scene { margin: 0; border: 2px solid var(--paper-ink); border-radius: 10px; overflow: hidden; }
+.ab-scene svg { display: block; width: 100%; height: auto; }
+
+.ab-pin {
+  display: inline-grid; place-items: center; width: 22px; height: 22px; margin-right: 6px;
+  border-radius: 50%; background: #946620; color: #fff; font-size: 12px; font-weight: 700; vertical-align: 1px;
+}
+.ab-lines--pic { list-style: none; padding-left: 0; }
+.ab-lines--pic li { line-height: 2; }
+.ab-tf { margin: 0; padding: 0; list-style: none; }
+.ab-tf li { display: flex; align-items: center; gap: 10px; margin: 0 0 8px; }
+
+.ab-pair {
+  display: flex; gap: 12px; align-items: flex-start; margin: 18px 0 0; padding: 12px 14px;
+  border: 2px dashed var(--wo); border-radius: 12px; background: var(--wo-soft);
+}
+.ab-pair-fig { flex: none; }
+.ab-pair-fig svg { display: block; width: 64px; height: 64px; }
+.ab-pair p { margin: 0; }
+.ab-pair-title { font-weight: 700; font-size: 1.02rem; }
+.ab-pair-say { font-family: var(--font-voice, inherit); color: var(--wo); }
+.ab-pair ol { margin: 6px 0 0; padding-left: 20px; font-size: 14px; }
+
+@media (min-width: 640px) {
+  .ab-wowo { grid-template-columns: 1fr 1fr; }
+  .ab-wowo-nine, .ab-wowo-kurz, .ab-wowo-lage { grid-column: 1 / -1; }
+  .ab-wowo-lage { grid-template-columns: 1fr 1fr; }
+}
+
+/* ============================================================== print == */
+@media print {
+  @page { size: A4; margin: 14mm 14mm 12mm; }
+  /* Only the sheet: the site header, the toolbar and everything else fixed on the page
+     (demo dock, rails) stay off the paper. */
+  body > :not(:has(#ab-root)):not(#ab-root),
+  :has(> #ab-root) > :not(#ab-root),
+  .ab-bar { display: none !important; }
+  body { background: #fff !important; }
+  .ab { max-width: none; padding: 0; margin: 0; }
+  .ab-sheet { border: 0; border-radius: 0; padding: 0; font-size: 11pt; color: #000; }
+  .ab-sheet + .ab-sheet { margin-top: 0; }
+  #ab-root .ab-key { display: block; break-before: page; }
+  #ab-root[data-key="off"] .ab-key { display: none; }
+  #ab-root .ab-namerow { display: flex; }
+  .ab-in, #ab-root[data-mode="online"] .ab-in { background: transparent !important; border-color: #000 !important; }
+  .ab-in.is-right, .ab-in.is-wrong { background: transparent !important; }
+  .ab-h b { background: #000; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .ab-rule { border-left-color: #000; }
+  .ab-lines li, .ab-build li, .ab-match li, .ab-articles li, .ab-table tr { break-inside: avoid; }
+  .ab-sec { break-inside: auto; }
+  .ab-h { break-after: avoid; }
+  .ab-match { grid-template-columns: 1fr 1fr; }
+  .ab-keylist--cols { columns: 2; }
+  /* Extras: colours on paper, the comic as a still (it may never have been scrolled to). */
+  .ab-wowo, .ab-pair, .ab-pin, .ab-scene { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .ab-wowo { grid-template-columns: 1fr 1fr; }
+  .ab-wowo-nine, .ab-wowo-kurz, .ab-wowo-lage { grid-column: 1 / -1; }
+  .ab-wowo-lage { grid-template-columns: 1fr 1fr; }
+  .ab-comic .ku-comic-replay { display: none; }
+  .ab-comic .ku-comic-panel, .ab-comic .ku-comic-say, .ab-comic .ku-comic-tag, .ab-comic svg { opacity: 1 !important; animation: none !important; }
+  .ab-comic .ku-comic-panels { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 8px; }
+  .ab-comic .ku-comic-panel { break-inside: avoid; padding: 6px; }
+  .ab-bild, .ab-pair, .ab-wowo { break-inside: avoid; }
+  a { color: inherit; text-decoration: none; }
+  /* Mappe: only the sheets, each from a new page. */
+  .abm { display: block; }
+  .abm-pick, .abm-empty { display: none !important; }
+  .abm-sheets .ab-sheet + .ab-sheet { break-before: page; }
+  .abm-keys:not(:empty) { margin-top: 0; }
+}
+
+/* Mappe opened from the Live-Quiz: no picker, the sheets get the whole width. */
+.abm--quiz { max-width: 900px; grid-template-columns: minmax(0, 1fr) !important; }
+.abm-quizhead .abi-title { margin-bottom: var(--space-3); }
+.abm-chosen--fixed li { padding-right: 12px; }
+.abm-fold { margin: 0 0 var(--space-4); }
+.abm-fold-sum {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 6px 14px 6px 8px;
+  border: 1px solid var(--border); border-radius: var(--radius-pill); background: var(--surface-card);
+  font-size: var(--text-sm); font-weight: var(--fw-semibold); cursor: pointer; list-style: none;
+}
+.abm-fold-sum::-webkit-details-marker { display: none; }
+.abm-fold-sum:hover { border-color: var(--brand-blue); }
+.abm-fold-chev { color: var(--muted); transition: transform .2s ease; }
+.abm-fold[open] .abm-fold-chev { transform: rotate(180deg); }
+.abm-fold[open] > .abm-chosen { margin-top: var(--space-3); }
+.abm-fold--flat > .abm-fold-sum { display: none; }
+.abm-fold--flat > .abm-chosen { margin-top: 0 !important; }
+@media print { .abm-quizhead { display: none !important; } }
+
+/* „← Zurück zu …“ (AbOrigin.astro): the page the sheet was opened from, above the bar's own back link. */
+.ab-back.ab-origin { flex-basis: 100%; margin-right: 0; font-weight: 600; }
+.ab-origin + .ab-back { margin-top: -6px; }

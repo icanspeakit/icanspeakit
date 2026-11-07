@@ -1,0 +1,286 @@
+// One canonical lexicon behind every vocabulary trainer, replacing the per-trainer data
+// silos (src/data/artikel.json, src/data/wortschatz.json). Full rationale, on-disk format
+// and the A1–C2 volume plan: docs/wortschatz-programm-v1.md.
+//
+// On disk each level file groups words by unit and states shared fields (level, unit,
+// topics) once. This module flattens that into the runtime shape every selector returns:
+// flat fields, no per-part-of-speech nesting, so `nouns().filter((n) => n.plural)` works.
+//
+// Import attributes (`with { type: "json" }`) keep this loadable from both Astro/Vite pages
+// and plain `node` scripts — scripts/ relies on the latter.
+import { slugify } from "./audioSlug.js";
+import { wortBild } from "./wortBild.js";
+import { langsFor } from "./languages.js";
+import a1 from "../content/lexicon/a1.json" with { type: "json" };
+import a2 from "../content/lexicon/a2.json" with { type: "json" };
+import b1 from "../content/lexicon/b1.json" with { type: "json" };
+import b2 from "../content/lexicon/b2.json" with { type: "json" };
+import c1 from "../content/lexicon/c1.json" with { type: "json" };
+import c2 from "../content/lexicon/c2.json" with { type: "json" };
+// Arabic, Russian and Turkish live beside the lexicon rather than in it, keyed by word id.
+// Why: src/content/lexicon/i18n/README.md. `en` is not among them — it ships inline with
+// the word because it is part of how the lexicon was compiled.
+import ar from "../content/lexicon/i18n/ar.json" with { type: "json" };
+import ru from "../content/lexicon/i18n/ru.json" with { type: "json" };
+import uk from "../content/lexicon/i18n/uk.json" with { type: "json" };
+import tr from "../content/lexicon/i18n/tr.json" with { type: "json" };
+// German glosses: a plain German translation of the word (the trainer's German tab). Kept as
+// `deHint` on the word, not `de`, and outside TRANSLATION_LANGS, because `de` on a card is its
+// own tab. Why a sidecar: i18n/README.md.
+import deHint from "../content/lexicon/i18n/de.json" with { type: "json" };
+// de-fill.json (gap answers of German hints) and de-syn.json (German synonyms) were dropped
+// by the `cleanup` run: every level is English now, so neither had entries. A word can still
+// carry `syn` inline; the code that shows it stays.
+
+export const LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
+
+/** A short name per level, in German — the one place it is defined. The UI shows it
+ *  through the i18n key `level.name.<LEVEL>` (public/i18n/*.json), with this as the
+ *  server-rendered German text. First used by the Artikel rail's tooltips. */
+export const LEVEL_NAMES = { A1: "Einstieg", A2: "Aufbau", B1: "Ausbau", B2: "Vertiefung" };
+
+/** Every language a card can carry a translation in, English first. Ukrainian stands wherever
+ *  Russian does, and before it: Ukrainian learners are not sent to Russian. */
+export const TRANSLATION_LANGS = langsFor("cards");
+
+const FILES = { A1: a1, A2: a2, B1: b1, B2: b2, C1: c1, C2: c2 };
+const SIDECARS = { ar, uk, ru, tr, deHint };
+
+function flatten(file) {
+  const out = [];
+  for (const unit of file.units ?? []) {
+    for (const word of unit.words ?? []) {
+      out.push({
+        // Defaults first, the word's own fields override them, then the fields the file
+        // structure alone decides (id/level/unit) are applied last so they can't be
+        // accidentally shadowed by a stray key in the data.
+        topics: unit.topics ?? [],
+        rank: null,
+        audio: null,
+        ...word,
+        id: word.id ?? slugify(word.lemma),
+        level: file.level,
+        unit: unit.id,
+      });
+      // The sidecar glosses, joined on the id the line above just settled. A language with
+      // no entry for this word leaves no key at all, so `w.ar != null` stays the honest
+      // test for "this word has an Arabic translation".
+      const row = out[out.length - 1];
+      for (const [lang, table] of Object.entries(SIDECARS)) {
+        const value = table[row.id];
+        if (value && (lang !== "syn" || Array.isArray(value))) row[lang] = value;
+      }
+    }
+  }
+  return out;
+}
+
+const ENTRIES = LEVELS.flatMap((level) => flatten(FILES[level]));
+
+// The unit headers themselves. flatten() spreads a unit's topics onto each word and then
+// throws the unit away, but the unit's *title* has no word to live on — and the Lernset
+// picker (src/lib/lernsets.js) lists units, not words. So keep the headers alongside.
+const UNITS = LEVELS.flatMap((level) =>
+  (FILES[level].units ?? []).map((u) => ({
+    id: u.id,
+    title: u.title ?? null,
+    topics: u.topics ?? [],
+    level: FILES[level].level,
+    words: (u.words ?? []).length,
+  }))
+);
+
+// ---------------------------------------------------------------------------
+// Selectors
+// ---------------------------------------------------------------------------
+
+function toArray(value) {
+  if (value == null) return null;
+  return Array.isArray(value) ? value : [value];
+}
+
+/**
+ * The one selector everything else is built on.
+ *
+ * @param {object} [opts]
+ * @param {string|string[]} [opts.level]  "A1" or ["A1","A2"]
+ * @param {string|string[]} [opts.topic]  topic slug(s) from the §4 taxonomy
+ * @param {string|string[]} [opts.pos]    "noun" | "verb" | "adj" | …
+ * @param {string|string[]} [opts.unit]   unit id, e.g. "a1-04"
+ * @param {string|string[]} [opts.has]    require these fields to be present and non-null
+ * @param {number}          [opts.limit]
+ */
+export function select(opts = {}) {
+  const levels = toArray(opts.level);
+  const topics = toArray(opts.topic);
+  const pos = toArray(opts.pos);
+  const units = toArray(opts.unit);
+  const has = toArray(opts.has);
+
+  let rows = ENTRIES;
+  if (levels) rows = rows.filter((e) => levels.includes(e.level));
+  if (pos) rows = rows.filter((e) => pos.includes(e.pos));
+  if (units) rows = rows.filter((e) => units.includes(e.unit));
+  if (topics) rows = rows.filter((e) => e.topics.some((t) => topics.includes(t)));
+  if (has) rows = rows.filter((e) => has.every((f) => e[f] != null));
+  return opts.limit ? rows.slice(0, opts.limit) : rows;
+}
+
+/** The levels in Spanish (docs/content-plan.md §1.4): their nouns carry el / la. All six since
+ *  `vocab-c1-c2`. */
+export const SPANISH_LEVELS = new Set(
+  LEVELS.filter((level) => ENTRIES.some((e) => e.level === level && ["el", "la", "el/la"].includes(e.gender)))
+);
+
+export const all = () => ENTRIES;
+export const nouns = (opts = {}) => select({ ...opts, pos: "noun" });
+export const verbs = (opts = {}) => select({ ...opts, pos: "verb" });
+export const adjectives = (opts = {}) => select({ ...opts, pos: "adj" });
+export const byTopic = (level, topic) => select({ level, topic });
+export const byUnit = (unit) => select({ unit });
+export const byId = (id) => ENTRIES.find((e) => e.id === id) ?? null;
+
+/** Unit headers `{ id, title, topics, level, words }`, in file order. */
+export function units(opts = {}) {
+  const levels = toArray(opts.level);
+  return levels ? UNITS.filter((u) => levels.includes(u.level)) : UNITS;
+}
+export const unitById = (id) => UNITS.find((u) => u.id === id) ?? null;
+
+/** Per-level totals for the hub — derived, never hand-typed. */
+export function counts() {
+  const out = {};
+  for (const level of LEVELS) {
+    const rows = select({ level });
+    out[level] = {
+      words: rows.length,
+      nouns: rows.filter((e) => e.pos === "noun").length,
+      verbs: rows.filter((e) => e.pos === "verb").length,
+      units: new Set(rows.map((e) => e.unit)).size,
+    };
+  }
+  out.total = ENTRIES.length;
+  return out;
+}
+
+// ---------------------------------------------------------------------------
+// Back-compat adapters — emit the exact shapes the existing trainers already consume,
+// so a page swaps its import and changes nothing else.
+// ---------------------------------------------------------------------------
+
+/** Shape of src/data/artikel.json: `{ word, gender }`. */
+export const asArtikelRows = (opts = {}) =>
+  nouns({ ...opts, has: "gender" }).map((n) => ({ word: n.lemma, gender: n.gender }));
+
+/**
+ * Which of TRANSLATION_LANGS every one of these rows can be quizzed in.
+ *
+ * `every`, not `some`, and that is the whole point: the trainer renders one tab per
+ * language, and a tab that resolves to "Übersetzung folgt" partway through the deck is a
+ * promise the content did not keep. So a language appears only once the deck is complete
+ * in it — which also makes a half-finished translation pass invisible instead of broken.
+ */
+export function langsIn(rows) {
+  if (!rows.length) return ["en"];
+  return TRANSLATION_LANGS.filter((lang) => rows.every((r) => r[lang] != null));
+}
+
+/** The same question asked of cards rather than lexicon rows — what a page has in hand. */
+export function langsOf(cards) {
+  if (!cards.length) return ["en"];
+  return CARD_LANGS.filter((lang) => cards.every((c) => c.translations?.[lang]));
+}
+
+/** What a flashcard can be quizzed against: the translations, then the German hints. */
+export const CARD_LANGS = [...TRANSLATION_LANGS, "de"];
+
+/** What the voice says for a word: nouns carry their article, everything else is bare.
+ *  One place, because the generator and the page have to agree on the text or the slug
+ *  the page asks for is not the slug the file was written under. */
+export const spokenForm = (e) => {
+  if (e.pos !== "noun" || !e.gender) return e.lemma;
+  if (e.pluralOnly && ["el", "la"].includes(e.gender)) return `${pluralArticle(e)} ${e.plural ?? e.lemma}`;
+  // el/la estudiante: the voice says one article, the masculine, as a dictionary lists it.
+  return `${e.gender === "el/la" ? "el" : e.gender} ${e.lemma}`;
+};
+
+/** los or las for a Spanish noun: from the article, except that el agua is feminine (las aguas). */
+export const pluralArticle = (e) => (e.genus === "f" || e.gender === "la" ? "las" : "los");
+
+/** Shape of src/data/wortschatz.json: `{ front, note, translations }`. */
+const toCard = (e) => {
+  const translations = {};
+  for (const lang of TRANSLATION_LANGS) if (e[lang] != null) translations[lang] = e[lang];
+  if (e.deHint) translations.de = e.deHint;
+  return {
+    // The stable lexicon id: what the spaced-repetition state is keyed on (src/lib/srs.js).
+    id: e.id,
+    front: e.lemma,
+    note: e.note ?? e.example ?? "",
+    translations,
+    // Word class and example for the strip under the flashcard. `pos` settles the prompt
+    // an English front leaves open ("help": helfen or die Hilfe?); the example shows the
+    // word at work once the German side is up.
+    ...(e.pos ? { pos: e.pos } : {}),
+    ...(e.example ? { example: e.example } : {}),
+    // "trennbares Verb" on the class chip: the prefix leaves the verb in the sentence.
+    ...(e.separable ? { separable: true } : {}),
+    // The verb's forms („tanzt, tanzte, getanzt“): the example sentence under an unflipped
+    // card blanks the word out, and „getanzt“ is only found through them (exampleGap.js).
+    ...(e.pos === "verb" && e.forms?.length ? { forms: e.forms } : {}),
+    // „oder auch: der Müll“ under the word (a `syn` list), and a second article where both
+    // are in use („das Pfand, auch: der Pfand“ — `genderAlt` in the lexicon).
+    ...(e.syn?.length ? { syn: e.syn } : {}),
+    ...(e.genderAlt ? { genderAlt: e.genderAlt } : {}),
+    ...(e.deHint && e.deFill && e.deHint.includes("…") ? { deFill: e.deFill } : {}),
+    // A German noun without its article is half a word: "Name" is not learnable, "der
+    // Name" is. The lexicon has carried `gender` and `plural` all along — 2 577 of the
+    // 2 594 nouns — and only the card dropped them, which is why the audio already said "der
+    // Name" while the card showed "Name".
+    //
+    // They stay two fields rather than one string: the Wortliste sorts on `front` and
+    // would otherwise file every noun under d, and the test checks against it. The
+    // renderers compose them.
+    //
+    // A Pluraletantum (Eltern, Ferien, Möbel) has no gender of its own and takes the
+    // plural article, which is what a dictionary prints: "die Eltern".
+    ...(e.pos === "noun"
+      ? {
+          // los padres, las gafas: a plural-only noun shows its plural article, not el / la.
+          gender: e.pluralOnly && ["el", "la"].includes(e.gender) ? pluralArticle(e) : e.gender ?? (e.pluralOnly ? "die" : null),
+          plural: e.plural ?? null,
+          pluralOnly: !!e.pluralOnly,
+          // las aguas, not los aguas: the card's article alone can't tell (el agua is feminine).
+          ...(["el", "la", "el/la"].includes(e.gender) ? { pluralArt: pluralArticle(e) } : {}),
+        }
+      : {}),
+    // Only the words that actually have a file. A deck is partly voiced for as long as
+    // the generator has been run over part of the lexicon, and a play button that 404s
+    // is worse than no play button — so the card carries the source or carries nothing,
+    // and every renderer keys off its presence.
+    ...(e.audio ? { audioSrc: `/audio/wortschatz/${e.audio}.mp3`, spoken: spokenForm(e) } : {}),
+    // A picture for concrete words (src/data/wort-bilder.json, OpenMoji). The trainer shows
+    // it on the German side of the card — "Auf Deutsch" and "Alle Sprachen" — so a word can
+    // be understood without any one shared language.
+    ...(wortBild(e.id) ? { img: wortBild(e.id) } : {}),
+  };
+};
+export const asVokabelCards = (opts = {}) => select({ ...opts, has: "en" }).map(toCard);
+
+/** The same shape for rows a caller has already selected some other way — the frequency
+ *  cohorts in lernsets.js pick their words by rank, which `select` has no filter for. One
+ *  mapping, so a deck built by query and a deck built by rank can never drift apart. */
+export const toVokabelCards = (rows) => rows.filter((e) => e.en != null).map(toCard);
+
+/** Shape consumed by src/lib/pronunciation.js via aussprache.astro. The files are the
+ *  ones scripts/generate-wortschatz-audio.mjs writes, so every word it voices shows up on
+ *  the Aussprache page without further wiring. */
+export const asAudioItems = (opts = {}) =>
+  select({ ...opts, has: "audio" }).map((e) => ({
+    text: spokenForm(e),
+    audioSrc: `/audio/wortschatz/${e.audio}.mp3`,
+    note: [e.ipa ? `/${e.ipa}/` : "", e.example ?? ""].filter(Boolean).join(" · "),
+    // The page looks for its recording (scripts/generate-satz-audio.mjs) — "Im Satz hören".
+    example: e.example ?? "",
+    translations: Object.fromEntries(TRANSLATION_LANGS.filter((l) => e[l]).map((l) => [l, e[l]])),
+  }));

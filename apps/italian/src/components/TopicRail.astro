@@ -1,0 +1,309 @@
+---
+// The side navigation on a grammar topic page: a rail of levels beside the level's topics.
+//
+// Same markup and the same stylesheets as the side nav on der/die/das and Wortschatz —
+// nav.css's `.nvb`, lernset-picker.css's fold, sidenav.css's shared look — with one
+// necessary difference: every row is an <a>, because the next topic is a different page.
+//
+// It is a column in the page's grid, sticky under the site nav (decision 1 of
+// "Seitennavigation vereinheitlichen"). It used to float over the page, fixed to the
+// viewport's edge; on a 1280px laptop the open panel then covered the exercise. Folding
+// takes the list away and leaves the rail (decision 3), and the column shrinks with it.
+//
+// Below 1101px it is not rendered: next to the exercise and the rule column there is no
+// room left, and SiteNav's drawer covers navigation at that size.
+import Icon from "./Icon.astro";
+import { grammarAt, grammarByKey } from "../lib/grammarCatalog.js";
+import { GRAMMAR_LEVELS } from "../lib/catalog.js";
+import { LEVEL_NAMES } from "../lib/lexicon.js";
+import "../styles/nav.css";
+import "../styles/lernset-picker.css";
+import "../styles/sidenav.css";
+import "../styles/topic-rail.css";
+import SideNavFold from "./SideNavFold.astro";
+
+interface Props {
+  /** Progress key of the topic this page is showing — the row that reads as current. */
+  current: string;
+}
+const { current } = Astro.props;
+
+const levels = GRAMMAR_LEVELS.map((level) => ({
+  id: level.toLowerCase(),
+  level,
+  items: grammarAt(level).map((t) => ({ key: t.key, label: t.name, href: t.href, tasks: t.tasks })),
+}));
+const exams = [
+  { label: "DELE A1 practice test", icon: "document", href: "/dele/a1", meta: "A1" },
+  { label: "DELE A2 mock for nationality", icon: "book-open", href: "/nationality/dele-a2/practice-set", meta: "A2" },
+  { label: "SIELE practice set", icon: "graduation-cap", href: "/siele/practice-set", meta: "Score" },
+  { label: "CCSE practice test", icon: "map-pin", href: "/ccse/test", meta: "Test" },
+];
+
+// Opens on the level this topic belongs to, so the first thing in the panel is its own
+// row. A topic the catalogue does not know falls back to the progress pane.
+const openSection = grammarByKey(current)?.level?.toLowerCase() ?? "weg";
+---
+<aside class="tr-wrap" data-rail>
+  <div class="nvb ls-nvb snav" data-nvb>
+    <!-- The fold tab on the panel's edge, as on der/die/das ("Stufen") and Wortschatz
+         ("Lernsets"): the list pivots away, the tab stays on the rail. -->
+    <button type="button" class="ls-foldtab" data-nvb-collapse aria-label="Liste einklappen" data-i18n-attr="aria-label:ap.list.collapse" aria-controls="tr-pane">
+      <span class="ls-foldtab-txt" data-i18n="tr.topics">Themen</span>
+      <svg class="ls-foldtab-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+    </button>
+
+    <!-- Fixed order, as on every side nav (decision 7): your progress, the four levels,
+         a divider, then what is this page's own. -->
+    <div class="nvb-rail" role="tablist" aria-label="Bereich" data-i18n-attr="aria-label:tr.area">
+      <button
+        type="button"
+        class:list={["nvb-railbtn", openSection === "weg" && "active"]}
+        data-rail-sec="weg"
+        role="tab"
+        aria-label="Dein Fortschritt"
+        data-i18n-attr="aria-label:sets.prog.title"
+      >
+        <Icon name="target" size={20} />
+        <span class="nvb-tip" data-i18n="sets.prog.title">Dein Fortschritt</span>
+      </button>
+
+      {levels.map((sec) => {
+        const live = sec.items.length > 0;
+        return (
+          <button
+            type="button"
+            class:list={["nvb-railbtn", sec.id === openSection && "active"]}
+            data-rail-sec={live ? sec.id : undefined}
+            aria-disabled={live ? undefined : "true"}
+            role="tab"
+            aria-label={`Level ${sec.level}`}
+            data-i18n-attr={`aria-label:kb.level.${sec.level}`}
+          >
+            <span class="nvb-railbadge">{sec.level}</span>
+            <span class="nvb-raildot" data-rail-secdot={sec.id}></span>
+            {/* The level's name, not a count (decision 8). */}
+            <span class="nvb-tip"><span data-i18n="ap.levelName" data-i18n-vars={JSON.stringify({ level: sec.level })}>Stufe {sec.level}</span> · <span data-i18n={`level.name.${sec.level}`}>{LEVEL_NAMES[sec.level as keyof typeof LEVEL_NAMES]}</span></span>
+          </button>
+        );
+      })}
+
+      <span class="ls-raildiv" aria-hidden="true"></span>
+
+      <button
+        type="button"
+        class="nvb-railbtn"
+        data-rail-sec="pruefungen"
+        role="tab"
+        aria-label="Prüfungen"
+        data-i18n-attr="aria-label:fortschritt.sec.pruefungen.label"
+      >
+        <Icon name="landmark" size={20} />
+        <span class="nvb-tip" data-i18n="fortschritt.sec.pruefungen.label">Prüfungen</span>
+      </button>
+    </div>
+
+    <div class="nvb-panel" id="tr-pane">
+      <!-- Dein Fortschritt: where this learner is, not where they could go. -->
+      <div class="nvb-section" data-rail-secview="weg" hidden={openSection !== "weg"}>
+        <div class="nvb-panelhead"><h3 data-i18n="sets.prog.title">Dein Fortschritt</h3></div>
+        <div class="tr-prog" data-tr-prog>
+          {/* Written by the script — all of it comes from localStorage, so a
+              server-rendered number would be a guess about a stranger. */}
+          <p class="tr-prog-empty" data-tr-prog-empty data-i18n="tr.prog.empty">Noch nichts geübt.</p>
+          <div class="tr-prog-body" data-tr-prog-body hidden>
+            <a class="tr-prog-next" data-tr-prog-next hidden>
+              <span class="tr-prog-kicker" data-i18n="tr.prog.next">Weitermachen</span>
+              <b data-tr-prog-next-title></b>
+            </a>
+            <div class="tr-prog-week" data-tr-prog-week hidden>
+              <p><span data-i18n="tr.prog.week">Diese Woche</span><span data-tr-prog-weekn></span></p>
+              <span class="tr-prog-bar"><span data-tr-prog-weekbar style="width:0%"></span></span>
+            </div>
+            <p class="tr-prog-streak" data-tr-prog-streak hidden></p>
+            <p class="tr-prog-label" data-i18n="tr.prog.byLevel">Grammatik nach Stufe</p>
+            {levels.map((sec) => (
+              <button type="button" class="snav-lvl" data-rail-sec={sec.id} disabled={!sec.items.length}>
+                <span class="snav-lvl-name">{sec.level}</span>
+                <span class="snav-prog-bar"><span data-tr-prog-lvlbar={sec.id}></span></span>
+                <span class="snav-lvl-n" data-tr-prog-lvlpct={sec.id}>0 %</span>
+              </button>
+            ))}
+          </div>
+        </div>
+        <a class="snav-more" href="/exercises" data-i18n="tr.ov.course">Kursübersicht öffnen</a>
+      </div>
+
+      {levels.map((sec) => (
+        <div class="nvb-section" data-rail-secview={sec.id} hidden={sec.id !== openSection}>
+          <div class="nvb-panelhead">
+            <h3><span data-i18n="ap.levelName" data-i18n-vars={JSON.stringify({ level: sec.level })}>Stufe {sec.level}</span><span class="snav-head-name"> · <span data-i18n={`level.name.${sec.level}`}>{LEVEL_NAMES[sec.level as keyof typeof LEVEL_NAMES]}</span></span></h3>
+          </div>
+          {/* "x von N Aufgaben" — shown once something at this level has been done. */}
+          <div class="snav-prog" data-snav-prog={sec.id} hidden>
+            <span class="snav-prog-txt" data-snav-prog-txt></span>
+            <span class="snav-prog-bar"><span data-snav-prog-bar></span></span>
+          </div>
+          {sec.items.map((item) => (
+            <a
+              class:list={["nvb-item", item.key === current && "active"]}
+              href={item.href}
+              aria-current={item.key === current ? "page" : undefined}
+              data-rail-topic={item.key}
+              data-rail-tasks={item.tasks}
+            >
+              <span class="nv-icon"><Icon name="book" size={16} /></span>
+              <span>{item.label}</span>
+              <span class="nv-count" data-rail-count>0/{item.tasks}</span>
+            </a>
+          ))}
+        </div>
+      ))}
+
+      <div class="nvb-section" data-rail-secview="pruefungen" hidden>
+        <div class="nvb-panelhead"><h3 data-i18n="fortschritt.sec.pruefungen.label">Prüfungen</h3></div>
+        {exams.map((item) => (
+          <a class="nvb-item" href={item.href}>
+            <span class="nv-icon"><Icon name={item.icon} size={16} /></span>
+            <span>{item.label}</span>
+            <span class="nv-count">{item.meta}</span>
+          </a>
+        ))}
+        <a class="snav-more" href="/exams" data-i18n="tr.ov.exams">Alle Prüfungen öffnen</a>
+      </div>
+    </div>
+  </div>
+  <SideNavFold />
+</aside>
+
+<script>
+  // Numbers come from the same store the dashboard reads, so the two surfaces cannot
+  // disagree about how far a topic got.
+  import { getTopicProgress, getProgress, getResume } from "../lib/progress.js";
+  import { withBase, stripBase, currentPath } from "../lib/paths.js";
+  import { t, onUiText } from "../lib/uiText.js";
+  import { mountSideNavFold } from "../lib/sideNavFold.js";
+
+  const rail = document.querySelector<HTMLElement>("[data-rail]");
+  const nvb = rail?.querySelector<HTMLElement>("[data-nvb]");
+
+  if (rail && nvb) {
+    const $$ = <T extends Element>(sel: string) => Array.from(rail.querySelectorAll<T>(sel));
+    const safeProgress = () => {
+      try { return getTopicProgress() ?? {}; } catch (e) { return {}; }
+    };
+
+    function paint() {
+      const prog = safeProgress();
+
+      for (const a of $$<HTMLElement>("[data-rail-topic]")) {
+        const tasks = Number(a.dataset.railTasks || 0);
+        if (!tasks) continue;
+        const done = Math.min(prog[a.dataset.railTopic!]?.done ?? 0, tasks);
+        const el = a.querySelector("[data-rail-count]");
+        if (el) el.textContent = `${done}/${tasks}`;
+      }
+
+      // Per level: "x von N Aufgaben" under the head, the dot on the rail, and the same
+      // numbers again in "Dein Fortschritt".
+      for (const view of $$<HTMLElement>("[data-rail-secview]")) {
+        const id = view.dataset.railSecview!;
+        const rows = Array.from(view.querySelectorAll<HTMLElement>("[data-rail-topic]"));
+        if (!rows.length) continue;
+        const total = rows.reduce((n, a) => n + Number(a.dataset.railTasks || 0), 0);
+        const done = rows.reduce(
+          (n, a) => n + Math.min(prog[a.dataset.railTopic!]?.done ?? 0, Number(a.dataset.railTasks || 0)),
+          0
+        );
+        const pct = total ? Math.round((done / total) * 100) : 0;
+        const line = view.querySelector<HTMLElement>("[data-snav-prog]");
+        if (line) {
+          line.hidden = !done;
+          line.querySelector("[data-snav-prog-txt]")!.textContent = t("tr.levelDone", "{n} von {total} Aufgaben", { n: done, total });
+          line.querySelector<HTMLElement>("[data-snav-prog-bar]")!.style.width = pct + "%";
+        }
+        const dot = rail.querySelector<HTMLElement>(`[data-rail-secdot="${id}"]`);
+        if (dot) dot.dataset.state = !total ? "" : pct >= 100 ? "done" : pct > 0 ? "current" : "";
+        const lvlBar = rail.querySelector<HTMLElement>(`[data-tr-prog-lvlbar="${id}"]`);
+        const lvlPct = rail.querySelector<HTMLElement>(`[data-tr-prog-lvlpct="${id}"]`);
+        if (lvlBar) lvlBar.style.width = pct + "%";
+        if (lvlPct) lvlPct.textContent = pct + " %";
+      }
+
+      paintWeg();
+    }
+
+    /** "Dein Fortschritt": where this learner is, not where they could go. */
+    function paintWeg() {
+      const box = rail.querySelector<HTMLElement>("[data-tr-prog]");
+      if (!box) return;
+      let data: any = {}, resume: any = null;
+      try { data = getProgress() ?? {}; resume = getResume(); } catch {}
+      const week = resume?.week ?? { count: 0, goal: 0 };
+      const streak = data.streak || 0;
+      const attempts = Object.values(data.topics ?? {}).reduce((n: number, t: any) => n + (t?.attempts ?? 0), 0);
+      const empty = !attempts && !streak && !resume;
+
+      box.querySelector<HTMLElement>("[data-tr-prog-empty]")!.hidden = !empty;
+      box.querySelector<HTMLElement>("[data-tr-prog-body]")!.hidden = empty;
+      if (empty) return;
+
+      const next = resume?.last;
+      const nextEl = box.querySelector<HTMLAnchorElement>("[data-tr-prog-next]");
+      if (nextEl) {
+        const show = !!next && stripBase(next.path) !== currentPath().replace(/\/+$/, "");
+        nextEl.hidden = !show;
+        if (show) {
+          nextEl.href = withBase(next.path);
+          box.querySelector<HTMLElement>("[data-tr-prog-next-title]")!.textContent = next.title;
+        }
+      }
+
+      const weekEl = box.querySelector<HTMLElement>("[data-tr-prog-week]");
+      if (weekEl) {
+        weekEl.hidden = !week.goal;
+        if (week.goal) {
+          box.querySelector<HTMLElement>("[data-tr-prog-weekn]")!.textContent = `${week.count} / ${week.goal}`;
+          box.querySelector<HTMLElement>("[data-tr-prog-weekbar]")!.style.width =
+            Math.min(100, Math.round((week.count / week.goal) * 100)) + "%";
+        }
+      }
+
+      const streakEl = box.querySelector<HTMLElement>("[data-tr-prog-streak]");
+      if (streakEl) {
+        streakEl.hidden = !streak;
+        streakEl.textContent = streak === 1 ? t("fortschritt.weg.streak1", "1 Tag in Folge") : t("fortschritt.weg.streak", "{n} Tage in Folge", { n: streak });
+      }
+    }
+
+    // Written by script, so a language switch rewrites it.
+    onUiText(() => paint());
+
+    // The fold: one behaviour and one remembered state for every side nav.
+    const fold = mountSideNavFold(nvb);
+
+    for (const b of $$<HTMLElement>("[data-rail-sec]")) {
+      b.addEventListener("click", () => {
+        // The level already showing, pressed again, puts the list away (sideNavFold.press).
+        if (fold?.press(b)) return;
+        const id = b.dataset.railSec!;
+        for (const x of $$<HTMLElement>(".nvb-rail [data-rail-sec]")) x.classList.toggle("active", x.dataset.railSec === id);
+        for (const v of $$<HTMLElement>("[data-rail-secview]")) {
+          const on = v.dataset.railSecview === id;
+          v.hidden = !on;
+          // The dashboard staggers the rows in when a section changes; same class.
+          if (on) {
+            v.classList.remove("nvb-section--enter");
+            void v.offsetWidth;
+            v.classList.add("nvb-section--enter");
+          }
+        }
+      });
+    }
+
+    // Answers land while the rail is open, so its own row has to move with them.
+    addEventListener("da:progress", () => paint());
+
+    paint();
+  }
+</script>

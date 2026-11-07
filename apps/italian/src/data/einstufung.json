@@ -1,0 +1,61 @@
+{
+  "note": "The placement test behind the “I don't know” tile on the homepage (src/pages/placement-test.astro). The A1 set is also the quick check on /step-by-step.\n\nSix items per level; the test draws two, so someone who takes it twice does not get the same sentences. Each item tests exactly one feature that is typical of its level and not yet expected at the level below: ser, estar, present regular, el/la, gustar and hay for A1; indefinido, perfecto (irregular participle), imperfecto, direct object pronouns, ir a + infinitive and comparatives for A2; indefinido against imperfecto, present subjunctive after a wish, por/para, conditional, negative imperative (vosotros) and cuando + subjunctive for B1; imperfect subjunctive, unreal si, passive se, backshift in reported speech, subjunctive in relatives and unreal si in the past for B2; sequence of tenses, como si, conditions without si (de + infinitive), formal relatives (cuyo), cleft sentences with a repeated preposition and ni que for C1.\n\nThe standard is Castilian (Spain). Only one option is right, and the wrong ones are not nonsense words but the mistakes learners really make at that point (escribido, Si tendría, que su contrato). A test you can pass by ruling out the silly answer measures nothing. Options that a native speaker could also accept in some context are deliberately left out, and that rules out more than it first seems: es cerca, the imperfect for the conditional (yo en tu lugar hablaba), courtesy podías, laísmo and leísmo (la escribo, le encuentro), the impersonal venden next to se venden, venía for vendría in reported speech, Fue… que in clefts, indicative after por mucho que. Second forms of a right answer (-se for -ra, a la que for a quien) are simply not offered, so nobody has to choose between two correct answers.\n\nThe items on the perfecto avoid the choice between he ido and fui for today's events, because Spain and Latin America answer it differently. Items with Spain-only words or vosotros carry an es419 note (docs/content-plan.md §1.5); the page ignores the field for now.\n\nItem order is part of the problem-report ref (x:einstufung/<level>/q<n>).",
+  "variety": "es-ES",
+  "levels": {
+    "A1": [
+      { "prompt": "Carmen ___ enfermera.", "options": ["es", "está", "tiene"], "answer": "es" },
+      { "prompt": "Mi hermano ___ en Valencia.", "options": ["vive", "vivo", "vivir"], "answer": "vive" },
+      { "prompt": "___ farmacia está abierta.", "options": ["La", "El", "Las"], "answer": "La" },
+      { "prompt": "Me ___ el café con leche.", "options": ["gusta", "gusto", "gustan"], "answer": "gusta" },
+      { "prompt": "En mi barrio ___ dos supermercados.", "options": ["hay", "están", "son"], "answer": "hay" },
+      { "prompt": "Los niños ___ en el colegio.", "options": ["están", "son", "hay"], "answer": "están" }
+    ],
+    "A2": [
+      { "prompt": "Ayer ___ al médico con mi hija.", "options": ["fui", "he ido", "voy"], "answer": "fui" },
+      { "prompt": "He ___ un correo a la casera, pero no contesta.", "options": ["escrito", "escribido", "escribiendo"], "answer": "escrito" },
+      { "prompt": "De pequeña, ___ al colegio en autobús todos los días.", "options": ["iba", "voy", "iré"], "answer": "iba" },
+      {
+        "prompt": "He perdido el móvil y no ___ encuentro.",
+        "options": ["lo", "la", "los"],
+        "answer": "lo",
+        "es419": { "note": "In Latin America: el celular.", "form": "He perdido el celular y no ___ encuentro." }
+      },
+      { "prompt": "Mañana voy ___ pedir cita en el centro de salud.", "options": ["a", "de", "en"], "answer": "a" },
+      {
+        "prompt": "Mi piso es ___ grande que el tuyo.",
+        "options": ["más", "muy", "tan"],
+        "answer": "más",
+        "es419": { "note": "In much of Latin America: el departamento or el apartamento.", "form": "Mi departamento es ___ grande que el tuyo." }
+      }
+    ],
+    "B1": [
+      { "prompt": "Ayer estaba en la ducha cuando ___ el teléfono.", "options": ["sonó", "sonaba", "ha sonado"], "answer": "sonó" },
+      { "prompt": "Espero que te ___ pronto.", "options": ["mejores", "mejoras", "mejorar"], "answer": "mejores" },
+      { "prompt": "Necesito el certificado ___ el viernes.", "options": ["para", "por", "en"], "answer": "para" },
+      { "prompt": "Yo, en tu lugar, ___ con el casero.", "options": ["hablaría", "hablaré", "hablé"], "answer": "hablaría" },
+      {
+        "prompt": "Chicos, no ___ tarde mañana, por favor.",
+        "options": ["lleguéis", "llegáis", "llegad"],
+        "answer": "lleguéis",
+        "es419": { "note": "Latin America uses ustedes, not vosotros: no lleguen tarde.", "skip": true }
+      },
+      { "prompt": "Te llamaré cuando ___ a casa.", "options": ["llegue", "llego", "llegaré"], "answer": "llegue" }
+    ],
+    "B2": [
+      { "prompt": "Mi jefa quería que ___ el sábado.", "options": ["trabajara", "trabajaba", "trabajaría"], "answer": "trabajara" },
+      { "prompt": "Si ___ más tiempo, haría un curso de informática.", "options": ["tuviera", "tendría", "tengo"], "answer": "tuviera" },
+      { "prompt": "Para hacer este trámite ___ dos documentos.", "options": ["se necesitan", "se necesita", "se necesiten"], "answer": "se necesitan" },
+      { "prompt": "Javier me dijo que ___ al día siguiente.", "options": ["vendría", "vendrá", "viene"], "answer": "vendría" },
+      { "prompt": "No hay nadie en la oficina que ___ árabe.", "options": ["hable", "habla", "hablar"], "answer": "hable" },
+      { "prompt": "Si me lo ___ antes, te habría ayudado.", "options": ["hubieras dicho", "habrías dicho", "dijiste"], "answer": "hubieras dicho" }
+    ],
+    "C1": [
+      { "prompt": "La directora lamentó que nadie ___ el informe antes de la reunión.", "options": ["hubiera leído", "haya leído", "había leído"], "answer": "hubiera leído" },
+      { "prompt": "Me habla como si yo no ___ español.", "options": ["entendiera", "entienda", "entendería"], "answer": "entendiera" },
+      { "prompt": "De ___ sabido antes, no habría firmado el contrato.", "options": ["haberlo", "lo haber", "habiéndolo"], "answer": "haberlo" },
+      { "prompt": "La inquilina, ___ contrato vence en junio, ha pedido una prórroga.", "options": ["cuyo", "cuya", "que su"], "answer": "cuyo" },
+      { "prompt": "Fue a Lucía ___ despidieron, no a mí.", "options": ["a quien", "quien", "cual"], "answer": "a quien" },
+      { "prompt": "¿Vas a pagar tanto por un reloj? ¡Ni que ___ millonario!", "options": ["fueras", "seas", "eres"], "answer": "fueras" }
+    ]
+  }
+}

@@ -1,0 +1,225 @@
+{
+  "_note": "Spanish pronunciation drills by first language, for /culture/mistakes and the Aussprache-Check. Each drill practises one Spanish sound or pattern that is hard from a particular first language (transfer, see fehler-nach-sprache.json). `pairs`: minimal pairs, the first word is the target, the second is what often comes out instead or a word to tell it apart from; both are real Spanish words. `words`: practice words without a partner. `sentence`: to repeat, scored like the Aussprache-Check; it contains one word of every pair. `fehler`: the ids of the mistakes in fehler-nach-sprache.json that this drill practises (the other side of their `drill`; checked by pnpm check:aussprache). Castilian Spanish; the file's `variety` covers every drill, and `es419` says where Latin America differs. Drill ids that still fit kept their slot id (p-b, e-i-o-u, h, s, ende, r-l, cluster, betonung), the rest are new (content-plan §5.6). Audio: public/audio/muttersprache/<slug>.mp3 once es-ES recordings exist; until then the browser voice reads them.",
+  "variety": "es-ES",
+  "drills": {
+    "r-rr": {
+      "title": "r or rr?",
+      "tip": "A single r is one quick tap of the tongue tip behind your top teeth. rr is several quick taps. Say “pero” fast, then keep the tongue moving for “perro”. Neither one comes from the throat.",
+      "pairs": [
+        ["pero", "perro"],
+        ["caro", "carro"],
+        ["cero", "cerro"]
+      ],
+      "words": ["rojo", "rápido", "Enrique", "hablar", "trabajar"],
+      "sentence": "Pero el carro de la compra no es caro: cuesta cero euros.",
+      "fehler": ["englisch-r-rr", "deutsch-r-rr", "franzoesisch-r-rr", "portugiesisch-r-rr"]
+    },
+    "ce-zi": {
+      "es419": { "note": "Latin America has seseo: z and c before e, i sound like s, and that is correct there." },
+      "title": "c and z in Spain: /θ/",
+      "tip": "In most of Spain, z and c before e or i are like th in “think”: tongue tip between your teeth, only air. If you say s, people understand you: much of Andalusia, the Canaries and Latin America do. It is never ts, ch or a buzzing z.",
+      "pairs": [
+        ["caza", "casa"],
+        ["cocer", "coser"],
+        ["cien", "sien"]
+      ],
+      "words": ["zapato", "cerveza", "gracias", "cine", "plaza", "diez"],
+      "sentence": "En casa vamos a cocer cien gramos de arroz.",
+      "fehler": ["englisch-ce-zi", "deutsch-ce-zi", "italienisch-ce-zi", "russisch-ce-zi", "ukrainisch-ce-zi"]
+    },
+    "j-g": {
+      "es419": { "note": "In the Caribbean, Central America and Colombia this sound is softer, close to the h in “house”." },
+      "title": "j, and g before e or i",
+      "tip": "A rasp at the back of your mouth, like ch in Scottish “loch” or German “Bach”. Lift the back of your tongue and push air through. Not the j in “jam”, not the soft j in French “je”.",
+      "pairs": [
+        ["hijo", "higo"],
+        ["ajo", "hago"],
+        ["paja", "paga"]
+      ],
+      "words": ["jamón", "gente", "trabajo", "mujer", "página", "jueves"],
+      "sentence": "Mi hijo trabaja con gente joven, come ajo y paga con tarjeta.",
+      "fehler": ["franzoesisch-j-g", "portugiesisch-j-g", "italienisch-j-g"]
+    },
+    "b-v": {
+      "title": "b and v: one sound",
+      "tip": "Spanish b and v sound the same. Use only your lips: closed at the start of a phrase and after m or n, almost closed between vowels. Your top teeth never touch your lip.",
+      "words": ["vino", "vaca", "bien", "vivir", "beber", "abuela", "nueve", "Valencia"],
+      "sentence": "Vivo en Valencia y bebo vino con mi abuela.",
+      "fehler": ["englisch-b-v", "deutsch-b-v", "italienisch-b-v", "russisch-b-v", "ukrainisch-b-v"]
+    },
+    "vokale": {
+      "title": "Clear vowels",
+      "tip": "Spanish vowels stay short and clear in every syllable, stressed or not. They don't glide and they don't get weak. The last vowel of a word often carries the meaning: hablo is “I speak”, habla is “she speaks”.",
+      "pairs": [
+        ["hablo", "habla"],
+        ["caso", "casa"],
+        ["gata", "gato"]
+      ],
+      "words": ["teléfono", "problema", "importante", "Barcelona", "tomate", "corazón"],
+      "sentence": "Hablo con mi amiga del caso de la gata.",
+      "fehler": ["englisch-vokale", "portugiesisch-vokale", "russisch-vokale"]
+    },
+    "aspiration": {
+      "title": "p, t, k without a puff",
+      "tip": "Spanish p, t and k come with no puff of air. Hold a piece of paper in front of your mouth: it should hardly move. Start the vowel straight away.",
+      "words": ["papá", "tomate", "casa", "poco", "taza", "queso", "tiempo", "pan"],
+      "sentence": "Tomo un poco de queso con tomate y pan.",
+      "fehler": ["englisch-aspiration", "deutsch-aspiration"]
+    },
+    "d-suave": {
+      "title": "The soft d",
+      "tip": "Between vowels and at the end of a word, d is soft, like th in “this”. The tongue only just touches your teeth and the air keeps flowing. Don't tap it, or cada turns into cara. Don't harden it at the end: Madrid has no t.",
+      "pairs": [
+        ["cada", "cara"],
+        ["todo", "toro"]
+      ],
+      "words": ["nada", "cansado", "Madrid", "ciudad", "usted", "dedo"],
+      "sentence": "Todo el mundo está cansado cada día.",
+      "fehler": ["englisch-d-suave", "deutsch-d-suave"]
+    },
+    "ll-y": {
+      "es419": { "note": "In Argentina and Uruguay ll and y often sound like sh or the s in “measure”." },
+      "title": "ll and y",
+      "tip": "In most of Spain ll sounds just like y: the y in “yes”, a little stronger. It is never a plain or long l. calle sounds like “ca-ye”, pollo like “po-yo”.",
+      "pairs": [
+        ["pollo", "polo"],
+        ["llave", "lave"],
+        ["calle", "cale"]
+      ],
+      "words": ["yo", "mayo", "ayer", "lluvia", "amarillo", "me llamo"],
+      "sentence": "Mi calle huele a pollo y yo no tengo la llave.",
+      "fehler": ["portugiesisch-ll-y", "italienisch-ll-y"]
+    },
+    "nasal": {
+      "title": "Vowel, then a real n",
+      "tip": "Say the vowel clean, with no air through your nose, and then close it with a real n or m. Spanish has no nasal vowels: pan is “pa” + “n”, and you feel your tongue touch behind your teeth at the end.",
+      "words": ["pan", "bien", "tiempo", "también", "son", "un", "cinco", "mundo"],
+      "sentence": "También tengo un poco de pan y cinco manzanas.",
+      "fehler": ["franzoesisch-nasal", "portugiesisch-nasal"]
+    },
+    "u": {
+      "title": "u, always round and back",
+      "tip": "Spanish u is the French “ou” (vous) and the Portuguese u. Round your lips and pull your tongue back. It is never the French u of “tu”.",
+      "words": ["tú", "una", "mucho", "julio", "música", "luna", "lunes", "azúcar"],
+      "sentence": "El lunes hay mucha música en la universidad.",
+      "fehler": ["franzoesisch-u"]
+    },
+    "ch": {
+      "title": "ch as in “church”",
+      "tip": "Spanish ch starts with the tongue touching the roof of your mouth, then lets go: the ch in “church”. It is not French or Portuguese sh, and it is not the k of Italian “chi”.",
+      "words": ["chico", "coche", "ocho", "mucho", "noche", "leche", "chaqueta", "churros"],
+      "sentence": "Esta noche tomo ocho churros con leche.",
+      "fehler": ["franzoesisch-ch", "portugiesisch-ch", "italienisch-ch"]
+    },
+    "doble": {
+      "title": "Short, single consonants",
+      "tip": "Italian has long consonants. Spanish doesn't: gato, mamá, oficina and difícil have short consonants, and you write them once. Move straight on to the next vowel. (rr and ll are not long consonants: they are different sounds.)",
+      "words": ["gato", "mamá", "papá", "oficina", "difícil", "comida", "sábado", "abogado"],
+      "sentence": "Mi mamá trabaja en una oficina y tiene un gato.",
+      "fehler": ["italienisch-doble"]
+    },
+    "s": {
+      "title": "s: no buzz",
+      "tip": "Spanish s is the s in “sun”, at the start of a word and between vowels too. It doesn't buzz there: put your fingers on your throat and say casa. Nothing should shake on the s.",
+      "words": ["casa", "mesa", "rosa", "música", "presidente", "sopa", "señor", "museo"],
+      "sentence": "En casa hay una mesa con una rosa.",
+      "fehler": ["deutsch-s", "franzoesisch-s", "portugiesisch-s", "italienisch-s"]
+    },
+    "enlace": {
+      "title": "No stop between words",
+      "tip": "Don't start a word on a vowel with a small stop in your throat. Let the words run together, as if they were one: mi amigo sounds like “mia-mi-go”, en España like “e-nes-pa-ña”.",
+      "words": ["mi amigo", "la escuela", "en España", "los otros", "es alto", "con Ana"],
+      "sentence": "Mi amigo es alto y vive en Alicante.",
+      "fehler": ["deutsch-enlace"]
+    },
+    "h": {
+      "title": "h is silent",
+      "tip": "Never say the letter h: hola sounds just like ola. Start straight on the next vowel, and don't breathe out first.",
+      "words": ["hola", "hora", "hoy", "hombre", "hermano", "ahora", "hospital", "hablar"],
+      "sentence": "Hola, ¿hablas con tu hermano ahora?",
+      "fehler": ["englisch-h", "deutsch-h", "arabisch-h"]
+    },
+    "betonung": {
+      "title": "Stress and written accents",
+      "tip": "A word that ends in a vowel, n or s is stressed on the second-to-last syllable. Others are stressed on the last. A written accent overrules this. Keep the stress where it belongs: it can change the word.",
+      "pairs": [
+        ["hablo", "habló"],
+        ["papá", "papa"],
+        ["termino", "término"]
+      ],
+      "words": ["teléfono", "música", "médico", "ciudad", "también", "trabajo", "examen"],
+      "sentence": "Hablo con mi papá y termino el trabajo.",
+      "fehler": ["franzoesisch-betonung"]
+    },
+    "p-b": {
+      "title": "p or b?",
+      "tip": "For both, close your lips. For b your voice is on from the start: put your fingers on your throat and feel it shake. For p your voice starts only with the vowel, and no puff of air comes out.",
+      "pairs": [
+        ["pan", "van"],
+        ["pelo", "velo"],
+        ["peso", "beso"]
+      ],
+      "words": ["papá", "poco", "pero", "abogado", "bien", "bueno"],
+      "sentence": "Compro pan, me lavo el pelo y me peso en el baño.",
+      "fehler": ["arabisch-p-b", "chinesisch-p-b"]
+    },
+    "e-i-o-u": {
+      "title": "e or i · o or u?",
+      "tip": "Spanish has five vowels, and they make different words: mesa and misa, lona and luna. For e your mouth is a little more open than for i. For o it is a little more open than for u.",
+      "pairs": [
+        ["mesa", "misa"],
+        ["piso", "peso"],
+        ["luna", "lona"]
+      ],
+      "sentence": "Mi piso tiene una mesa y veo la luna.",
+      "fehler": ["arabisch-e-i-o-u"]
+    },
+    "g": {
+      "title": "g as in “go”",
+      "tip": "Before a, o, u and consonants, Spanish g is made at the back of your mouth, like Ukrainian ґ. It is not the breathy Ukrainian г. Between vowels it is softer, but it never turns into h.",
+      "pairs": [
+        ["gota", "jota"],
+        ["higo", "hijo"]
+      ],
+      "words": ["gato", "gracias", "amigo", "agua", "domingo", "grande"],
+      "sentence": "El domingo mi amigo no bebe ni una gota de agua y come un higo.",
+      "fehler": ["ukrainisch-g"]
+    },
+    "r-l": {
+      "title": "r or l?",
+      "tip": "For l, the tip of your tongue stays against the top of your mouth, behind your teeth, and the air goes round the sides. For r, it touches there for a moment and goes straight away. pero and pelo are different words.",
+      "pairs": [
+        ["pero", "pelo"],
+        ["hora", "hola"],
+        ["para", "pala"]
+      ],
+      "sentence": "Pero, ¿qué hora es? Para mí es tarde.",
+      "fehler": ["chinesisch-r-l"]
+    },
+    "ende": {
+      "title": "Say the last consonant",
+      "tip": "Many Spanish words end in s, l, r or d. Say that last sound so people can hear it: the -s often means more than one, and the -r marks the infinitive. Don't add a vowel after it.",
+      "words": ["mes", "sal", "mujer", "hablar", "tren", "ciudad", "los libros"],
+      "sentence": "Las mujeres quieren hablar con el profesor.",
+      "fehler": ["chinesisch-ende"]
+    },
+    "cluster": {
+      "title": "Two consonants, no vowel between",
+      "tip": "Spanish words often have two consonants together: pl-, tr-, gr-, fr-. Say them straight after each other, with no vowel between them: tren, not “te-ren”.",
+      "words": ["tren", "plaza", "grande", "libro", "fruta", "problema", "gracias", "claro"],
+      "sentence": "Compro fruta en la plaza y tomo el tren.",
+      "fehler": ["chinesisch-cluster"]
+    }
+  },
+  "languages": {
+    "englisch": ["r-rr", "vokale", "aspiration", "b-v", "d-suave", "ce-zi", "h"],
+    "deutsch": ["ce-zi", "b-v", "s", "r-rr", "aspiration", "enlace", "d-suave", "h"],
+    "franzoesisch": ["r-rr", "nasal", "u", "betonung", "j-g", "s", "ch"],
+    "portugiesisch": ["vokale", "j-g", "r-rr", "s", "nasal", "ch", "ll-y"],
+    "italienisch": ["ce-zi", "j-g", "doble", "ll-y", "ch", "s", "b-v"],
+    "arabisch": ["p-b", "e-i-o-u", "h"],
+    "russisch": ["vokale", "b-v", "ce-zi"],
+    "ukrainisch": ["g", "b-v", "ce-zi"],
+    "chinesisch": ["r-l", "p-b", "ende", "cluster"]
+  }
+}

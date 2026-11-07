@@ -1,0 +1,94 @@
+---
+// The level row of /syllabus: A1.1 → C1 as one line, each step a link to its level
+// page. `current` marks the step with "Du bist hier" and fills the line up to it; without
+// it (the overview) the line is empty and every step is a plain way in.
+// Data: src/data/kursinhalte.json.
+import data from "../data/kursinhalte.json";
+
+interface Props {
+  current?: string;
+}
+const { current } = Astro.props;
+const levels = data.niveaus;
+const n = levels.length;
+const idx = levels.findIndex((l) => l.id === current);
+const edge = idx === 0 ? "start" : idx === n - 1 ? "end" : "mid";
+---
+<nav class="kt" lang="en" aria-label="Choose a level" style={`--n: ${n}; --i: ${Math.max(idx, 0)}`}>
+  {idx >= 0 && <p class="kt-here" data-edge={edge} aria-hidden="true">You are here</p>}
+  <ol class="kt-track" data-active={idx >= 0 ? "" : undefined}>
+    {levels.map((l, i) => (
+      <li class:list={["kt-step", { "is-done": idx >= 0 && i < idx, "is-active": i === idx }]}>
+        <a href={`/syllabus/${l.id}`} aria-current={i === idx ? "page" : undefined}>
+          <span class="kt-dot" aria-hidden="true"></span>
+          <span class="kt-label">{l.label}</span>
+          {i === idx && <span class="sr-only"> (you are here)</span>}
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .kt { position: relative; margin: 8px 0 24px; padding-top: 30px; }
+  .kt-track {
+    position: relative; list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+  }
+  /* The line runs from the first dot's centre to the last one's; the fill up to the chosen step. */
+  .kt-track::before, .kt-track::after {
+    content: ""; position: absolute; top: 21px; height: 4px; border-radius: 2px;
+    left: calc(50% / var(--n));
+  }
+  .kt-track::before { right: calc(50% / var(--n)); background: var(--border-strong); }
+  .kt-track::after {
+    width: calc((100% - 100% / var(--n)) * var(--i) / (var(--n) - 1));
+    background: var(--brand-blue); transition: width .3s ease;
+  }
+  .kt-track:not([data-active])::after { display: none; }
+  .kt-step a {
+    position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px;
+    min-height: 48px; padding: 14px 0 4px; color: var(--muted); text-decoration: none;
+    border-radius: var(--radius-sm);
+  }
+  .kt-step a:hover { color: var(--ink); }
+  .kt-step a:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+  .kt-dot {
+    width: 14px; height: 14px; border-radius: 50%; margin-top: 0;
+    background: var(--surface-card); border: 3px solid var(--border-strong);
+    position: relative; z-index: 1;
+  }
+  .kt-step a:hover .kt-dot { border-color: var(--brand-blue); }
+  .kt-step.is-done .kt-dot { background: var(--brand-blue); border-color: var(--brand-blue); }
+  .kt-step.is-active .kt-dot {
+    width: 20px; height: 20px; margin-top: -3px; margin-bottom: -3px;
+    background: var(--brand-blue); border-color: var(--surface-card);
+    box-shadow: 0 0 0 3px var(--brand-blue);
+  }
+  .kt-label { font-size: var(--text-sm); font-weight: var(--fw-semibold); white-space: nowrap; }
+  .kt-step.is-active .kt-label { color: var(--brand-blue-dark); font-weight: var(--fw-bold); }
+
+  .kt-here {
+    position: absolute; top: 0; margin: 0; padding: 3px 10px; border-radius: var(--radius-pill);
+    background: var(--brand-blue); color: #fff; font-size: var(--text-xs); font-weight: var(--fw-bold);
+    white-space: nowrap; left: calc((var(--i) + .5) * 100% / var(--n)); transform: translateX(-50%);
+  }
+  .kt-here::after {
+    content: ""; position: absolute; left: 50%; bottom: -5px; margin-left: -5px;
+    border: 5px solid transparent; border-bottom: 0; border-top-color: var(--brand-blue);
+  }
+  /* At the ends the bubble would stick out of the page: align it to the dot instead. */
+  .kt-here[data-edge="start"] { transform: translateX(-12px); }
+  .kt-here[data-edge="start"]::after { left: 12px; }
+  .kt-here[data-edge="end"] { transform: translateX(calc(-100% + 12px)); }
+  .kt-here[data-edge="end"]::after { left: auto; right: 7px; }
+
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  @media (max-width: 480px) {
+    .kt-label { font-size: 11px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .kt-track::after { transition: none; }
+  }
+</style>

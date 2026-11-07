@@ -1,0 +1,87 @@
+---
+// /konto → Profil: "Meine Klassen" — the classes this account joined, each with
+// "Verlassen" (KLASSEN-TIERED-PROMPT.md, Tier 1). Read on the server with the request's
+// own session, so RLS returns this account's memberships only. If the query fails (the
+// migration not run yet, Supabase down) the box is left out rather than showing an error
+// on the account page.
+const user = Astro.locals.user;
+const supabase = Astro.locals.supabase;
+let rows: { klasse_id: string; anzeigename: string; klasse: { name: string; niveau: string | null; archiviert: boolean } | null }[] | null = null;
+if (user && supabase) {
+  const { data, error } = await supabase
+    .from("klassen_mitglieder")
+    .select("klasse_id, anzeigename, klasse:klassen(name, niveau, archiviert)")
+    .eq("user_id", user.id)
+    .order("beigetreten_at", { ascending: false });
+  if (!error) rows = data as typeof rows;
+}
+---
+{rows && (
+  <div class="kt-card kt-field kt-klassen" data-kt-klassen>
+    <p class="kt-setting-title" data-i18n="konto.klassen.title">Meine Klassen</p>
+    {rows.length === 0 ? (
+      <p class="kt-setting-desc">
+        <span data-i18n="konto.klassen.none">Du bist in keiner Klasse.</span>
+        {" "}<a href="/join" data-i18n="konto.klassen.join">Mit einem Code beitreten</a>
+      </p>
+    ) : (
+      <>
+        <p class="kt-setting-desc" data-i18n="konto.klassen.desc">Deine Lehrkraft sieht, was du hier übst, seit du beigetreten bist. Wenn du eine Klasse verlässt, sieht sie sofort nichts mehr von dir.</p>
+        <ul class="kt-klassen-list">
+          {rows.map((r) => (
+            <li data-klasse={r.klasse_id}>
+              <span>
+                <b>{r.klasse?.name ?? "–"}</b>
+                {r.klasse?.niveau && <small> · {r.klasse.niveau}</small>}
+                <small> · <span data-i18n="konto.klassen.as">als</span> {r.anzeigename}</small>
+              </span>
+              <button type="button" class="kt-btn kt-btn--ghost" data-kt-leave data-name={r.klasse?.name ?? ""} data-i18n="konto.klassen.leave">Verlassen</button>
+            </li>
+          ))}
+        </ul>
+        <p><a href="/join" data-i18n="konto.klassen.joinAnother">Einer weiteren Klasse beitreten</a></p>
+      </>
+    )}
+    <p class="kt-status" role="status" aria-live="polite" data-kt-klassen-status></p>
+    <span hidden data-kt-klassen-msg="confirm" data-i18n="konto.klassen.confirm">Klasse „{"{name}"}“ verlassen? Deine Lehrkraft sieht dann nichts mehr von dir.</span>
+    <span hidden data-kt-klassen-msg="left" data-i18n="konto.klassen.left">Du hast die Klasse verlassen.</span>
+    <span hidden data-kt-klassen-msg="error" data-i18n="konto.klassen.error">Das hat gerade nicht geklappt. Bitte versuche es später noch einmal.</span>
+  </div>
+)}
+
+<style>
+  .kt-klassen-list { list-style: none; margin: 8px 0; padding: 0; display: grid; gap: 4px; }
+  .kt-klassen-list li {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 8px 0; border-bottom: 1px solid var(--border);
+  }
+  .kt-klassen-list li:last-child { border-bottom: 0; }
+  .kt-klassen-list b { overflow-wrap: anywhere; }
+  .kt-klassen-list small { color: var(--muted); }
+  .kt-klassen a { color: var(--brand-blue); }
+</style>
+
+<script>
+  import { verlassen } from "../../lib/klassen.js";
+
+  const card = document.querySelector<HTMLElement>("[data-kt-klassen]");
+  if (card) {
+    const status = card.querySelector<HTMLElement>("[data-kt-klassen-status]")!;
+    const msg = (k: string) => card.querySelector<HTMLElement>(`[data-kt-klassen-msg="${k}"]`)?.textContent?.trim() ?? "";
+    card.addEventListener("click", async (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-kt-leave]");
+      const li = btn?.closest<HTMLElement>("[data-klasse]");
+      if (!btn || !li) return;
+      if (!confirm(msg("confirm").replace("{name}", btn.dataset.name ?? ""))) return;
+      btn.disabled = true;
+      try {
+        await verlassen(li.dataset.klasse!);
+        li.remove();
+        status.textContent = msg("left");
+      } catch {
+        btn.disabled = false;
+        status.textContent = msg("error");
+      }
+    });
+  }
+</script>

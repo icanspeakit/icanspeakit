@@ -1,0 +1,138 @@
+/* /knowledge/quotes: the hub, the quote pages and the card (src/components/zitate/ZitatCard.astro). */
+.zt-hero { text-align: center; }
+.zt-lead { max-width: 560px; margin-inline: auto; }
+
+.zt-day { max-width: 720px; margin: 0 auto 48px; scroll-margin-top: 80px; }
+.zt-nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 12px; }
+.zt-date { margin: 0; min-width: 12ch; text-align: center; font-family: var(--font-label); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; font-size: .85rem; color: var(--muted); }
+.zt-step {
+  width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface-card);
+  color: var(--ink); font-size: 1.5rem; line-height: 1; cursor: pointer;
+}
+.zt-step:hover { border-color: var(--brand-blue); }
+
+.zt-card {
+  position: relative; display: grid; gap: 20px; padding: 28px 24px;
+  background: var(--surface-card); border: 1px solid var(--border); border-radius: 20px; box-shadow: var(--shadow-sm);
+}
+.zt-card[hidden] { display: none; }
+.zt-level {
+  position: absolute; top: 14px; inset-inline-end: 14px; padding: 2px 10px; border-radius: 999px;
+  background: color-mix(in srgb, var(--brand-blue) 12%, transparent); color: var(--brand-blue-dark);
+  font-family: var(--font-label); font-weight: 700; font-size: .8rem;
+}
+.zt-quote { margin: 8px 0 0; padding: 0; border: 0; }
+.zt-quote-text {
+  margin: 0; font-size: clamp(1.35rem, 4.6vw, 1.9rem); line-height: 1.3; font-weight: 600; color: var(--ink);
+  text-wrap: balance;
+}
+.zt-quote-text::before { content: "„"; }
+.zt-quote-text::after { content: "“"; }
+/* Who said it: a round face, the name with years, one line in easy German, the source. */
+.zt-by { margin: -6px 0 0; display: flex; gap: 12px; align-items: flex-start; color: var(--muted); }
+.zt-by p { margin: 0; }
+.zt-face { flex: none; width: 56px; height: 56px; border-radius: 50%; object-fit: cover; background: var(--border); box-shadow: 0 0 0 2px var(--surface-card, #fff), 0 0 0 3px var(--border); }
+.zt-by b { color: var(--ink); font-size: 1.05rem; }
+.zt-by-years { font-size: .88rem; }
+.zt-kurz { color: var(--ink); line-height: 1.4; margin-top: 2px !important; }
+.zt-by-src { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; font-size: .88rem; margin-top: 4px !important; }
+.zt-disputed { padding: 1px 8px; border-radius: 999px; background: color-mix(in srgb, var(--warning, #f59e0b) 18%, transparent); font-size: .8rem; }
+
+.zt-card h2 { margin: 0 0 8px; font-size: .8rem; font-family: var(--font-label); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.zt-mean p { margin: 0; font-size: 1.05rem; line-height: 1.5; }
+
+.zt-words ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.zt-words li { padding: 12px 14px; border-radius: 14px; background: var(--surface, rgba(0,0,0,.03)); border: 1px solid var(--border); }
+.zt-w { margin: 0; font-size: 1.15rem; }
+.zt-w small { color: var(--muted); font-size: .85rem; }
+.zt-art { font-weight: 700; }
+.zt-art--el { color: var(--info); }
+.zt-art--la { color: var(--danger); }
+.zt-hint { margin: 4px 0 0; color: var(--muted); font-size: .9rem; line-height: 1.4; }
+.zt-tr { margin: 6px 0 0; font-weight: 600; color: var(--brand-blue-dark); }
+
+.zt-bio { display: flex; gap: 14px; align-items: flex-start; padding-top: 18px; border-top: 1px solid var(--border); }
+.zt-mono {
+  flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
+  background: var(--brand-blue); color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 1.2rem;
+}
+.zt-bio h2 { margin: 0; font-size: 1.1rem; font-family: inherit; text-transform: none; letter-spacing: 0; color: var(--ink); }
+.zt-meta { margin: 2px 0 8px; color: var(--muted); font-size: .88rem; }
+.zt-bio p { line-height: 1.55; }
+.zt-bio a { color: var(--brand-blue-dark); font-weight: var(--fw-semibold); }
+img.zt-mono { object-fit: cover; background: var(--border); }
+.zt-credit { margin: 10px 0 0; font-size: .75rem; color: var(--muted); }
+.zt-bio .zt-credit a { color: inherit; font-weight: 400; }
+
+.zt-abo {
+  max-width: 720px; margin: 0 auto 48px; padding: 22px 20px; border-radius: 20px;
+  background: color-mix(in srgb, var(--brand-blue) 8%, var(--surface-card)); border: 1px solid var(--border);
+}
+.zt-abo h2 { margin: 0 0 4px; font-size: 1.2rem; }
+.zt-abo-lead { margin: 0 0 14px; color: var(--muted); line-height: 1.5; }
+.zt-abo-form { display: grid; gap: 8px; }
+.zt-abo-form label { font-size: .85rem; font-weight: var(--fw-semibold); }
+.zt-abo-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.zt-abo-row input {
+  flex: 1 1 220px; min-width: 0; padding: 12px 14px; font: inherit; font-size: 1rem; border-radius: 12px;
+  border: 1px solid var(--border); background: var(--surface-card); color: var(--ink);
+}
+.zt-abo-row button { flex: 0 0 auto; }
+.zt-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.zt-abo-fine { margin: 0; font-size: .8rem; color: var(--muted); line-height: 1.45; }
+.zt-abo-fine a { color: inherit; }
+.zt-abo-status { margin: 0; min-height: 1.2em; font-size: .92rem; }
+
+.zt-all { max-width: 900px; margin: 0 auto 64px; }
+.zt-all > h2 { text-align: center; margin-bottom: 4px; }
+.zt-all-lead { text-align: center; color: var(--muted); margin: 0 0 24px; }
+.zt-groups { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); }
+.zt-group { padding: 16px 18px; border: 1px solid var(--border); border-radius: 16px; background: var(--surface-card); }
+.zt-group h3 { margin: 0 0 8px; font-size: 1.05rem; }
+.zt-group h3 small { color: var(--muted); font-weight: 400; font-size: .85rem; }
+.zt-group ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.zt-group a { color: var(--ink); text-decoration: none; line-height: 1.4; }
+.zt-group a:hover { color: var(--brand-blue-dark); text-decoration: underline; }
+.zt-lv { color: var(--muted); font-size: .78rem; font-family: var(--font-label); font-weight: 700; white-space: nowrap; }
+
+@media (max-width: 520px) {
+  .zt-card { padding: 22px 16px; }
+  .zt-bio { flex-direction: column; }
+}
+
+/* Archive: one <details> per person, so 99 people fit on a phone screen. */
+.zt-group summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.zt-group summary::-webkit-details-marker { display: none; }
+.zt-group summary h3 { margin: 0; }
+.zt-group summary .zt-n { color: var(--muted); font-size: .85rem; white-space: nowrap; }
+.zt-group[open] summary { margin-bottom: 10px; }
+.zt-loading { padding: 40px 16px; text-align: center; color: var(--muted); }
+.zt-back { display: inline-block; margin: 0 0 12px; color: var(--brand-blue-dark); font-weight: var(--fw-semibold); }
+.zt-pager { display: flex; justify-content: space-between; gap: 12px; max-width: 720px; margin: 16px auto 40px; }
+.zt-pager a { color: var(--brand-blue-dark); font-weight: var(--fw-semibold); text-decoration: none; }
+.zt-more { margin: 10px 0 0; text-align: center; font-size: .9rem; } .zt-more a { color: var(--brand-blue-dark); }
+
+/* Original | Einfach and the translation (ZitatCard.astro). */
+.zt-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.zt-top .zt-level { position: static; }
+.zt-page .zt-quote { padding: 0; }
+.zt-easy { margin: 0; padding: 14px 16px; border-radius: 14px; background: color-mix(in srgb, var(--brand-blue) 8%, transparent); }
+.zt-easy-label { margin: 0 0 4px; font-size: .78rem; font-family: var(--font-label); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.zt-easy-text { margin: 0; font-size: clamp(1.15rem, 4vw, 1.4rem); line-height: 1.4; font-weight: 600; color: var(--ink); }
+.zt-tl-wrap { margin-top: -6px; }
+.zt-tl-btn {
+  padding: 8px 14px; min-height: 40px; border-radius: 999px; border: 1px solid var(--border);
+  background: var(--surface-card); color: var(--brand-blue-dark); font: inherit; font-size: .9rem; font-weight: var(--fw-semibold); cursor: pointer;
+}
+.zt-tl-btn:hover { border-color: var(--brand-blue); }
+.zt-tl { margin-top: 10px; padding: 12px 14px; border-inline-start: 3px solid var(--brand-blue); background: var(--surface, rgba(0,0,0,.03)); border-radius: 0 12px 12px 0; }
+.zt-tl-text { margin: 0; font-size: 1.05rem; line-height: 1.5; color: var(--ink); }
+.zt-tl-note { margin: 6px 0 0; font-size: .78rem; color: var(--muted); }
+.zt-mean-tl { margin: 8px 0 0 !important; color: var(--brand-blue-dark); font-weight: 600; line-height: 1.5; }
+
+/* Arabic UI: the page is right-to-left, but everything on these pages is German except the
+   translations, which carry their own dir="rtl" (zitateClient.js). Without this the German
+   punctuation flips („Höflichkeit ist„, „?WAS HEISST DAS“). */
+[dir="rtl"] .zt-page { direction: ltr; unicode-bidi: isolate; text-align: left; }
+[dir="rtl"] .zt-page :is(.zt-hero, .zt-all > h2, .zt-all-lead, .zt-date) { text-align: center; }
+[dir="rtl"] .zt-page [dir="rtl"] { text-align: right; }

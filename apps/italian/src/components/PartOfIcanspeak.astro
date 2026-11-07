@@ -1,0 +1,26 @@
+---
+// "part of icanspeak.it": the umbrella brand's wordmark linking to the domain root, which is
+// the icanspeak.it site itself (a separate repo), not this course. Its own wordmark from the
+// kit (public/logos, docs/brand/BRAND.md); `onDark` for the footer band, which is dark in both
+// themes. Styles in global.css (.part-of).
+interface Props {
+  onDark?: boolean;
+}
+const { onDark = false } = Astro.props;
+---
+<a
+  class:list={["part-of", { "part-of--on-dark": onDark }]}
+  href="https://icanspeak.it/"
+  aria-label="icanspeak Spanish is part of icanspeak.it"
+  data-i18n-attr="aria-label:footer.partOfLabel"
+>
+  <span class="part-of-text" data-i18n="footer.partOf">part of</span>
+  {onDark ? (
+    <img class="part-of-mark" src="/logos/icanspeakit-wordmark-dark.svg" alt="" width="636" height="161" />
+  ) : (
+    <span class="wordmark">
+      <img class="part-of-mark wordmark-img--light" src="/logos/icanspeakit-wordmark.svg" alt="" width="636" height="161" />
+      <img class="part-of-mark wordmark-img--dark" src="/logos/icanspeakit-wordmark-dark.svg" alt="" width="636" height="161" />
+    </span>
+  )}
+</a>

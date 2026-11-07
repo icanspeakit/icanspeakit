@@ -1,0 +1,497 @@
+{
+  "_note": [
+    "Reading A1–B2, in the shape src/data/hoeren.json already proved: one entry per exercise,",
+    "each with its own level, so the skill can be offered level by level instead of as one B1",
+    "page. Every text is written for this site in Castilian Spanish; places and firms are made up",
+    "(Valdelora, Montealbar, Envíos Albar), so no real local rule is misquoted.",
+    "",
+    "Question language: prompts and options are English at A1–A2 (the check is about the text, not",
+    "about reading the question) and Spanish at B1–B2. `title`, `blurb` and `explain` are English",
+    "at every level. Same rule as src/data/hoeren.json.",
+    "",
+    "`type` names the TEXT TYPE, not the topic, because that is what exam tasks actually vary",
+    "between items: a learner who can read a newspaper article may still be lost in front of",
+    "six small ads. The hub and the nav show it for the same reason.",
+    "",
+    "The five B1 entries below borrow the B1 simulation from src/data/lesen.json (`from`), so",
+    "each part is reachable on its own. That file and /reading-writing stay: doing the five",
+    "parts one after the other under time is a different exercise from practising one."
+  ],
+  "types": {
+    "schild": "Signs & notices",
+    "nachricht": "Message",
+    "anzeige": "Adverts & notices",
+    "brief": "Letter & email",
+    "artikel": "Newspaper article",
+    "forum": "Forum",
+    "interview": "Interview"
+  },
+  "texts": [
+    {
+      "id": "a1-schilder-im-haus",
+      "level": "A1",
+      "type": "schild",
+      "title": "Notices in a block of flats",
+      "blurb": "Six notices in the entrance hall – what can you do where?",
+      "minutes": 4,
+      "text": "**Aviso 1 – Puerta del portal**\nPor favor, cierren siempre la puerta. ¡Gracias!\n\n**Aviso 2 – Piscina**\nAbierta de lunes a sábado, de 11:00 a 20:00. Los domingos, cerrada.\n\n**Aviso 3 – Bicicletas**\nLas bicicletas, solo en el cuarto de las bicicletas. En el portal, no.\n\n**Aviso 4 – Buzones**\nEl cartero viene de lunes a viernes, de 9:00 a 11:00.\n\n**Aviso 5 – Basura**\nContenedor amarillo: plástico y latas. Contenedor azul: papel y cartón. Contenedor verde: vidrio.\n\n**Aviso 6 – Escalera**\nViernes, 14:00: el portero arregla las luces. Por favor, usen el ascensor.",
+      "questions": [
+        {
+          "prompt": "You want to go to the pool on Sunday at 12:00. Can you?",
+          "options": [
+            "Yes, it is open every day",
+            "No, it is closed on Sundays",
+            "Yes, but only until 12:00"
+          ],
+          "answer": "No, it is closed on Sundays",
+          "explain": "“Los domingos, cerrada”: the times 11:00 to 20:00 are only for Monday to Saturday (“de lunes a sábado”)."
+        },
+        {
+          "prompt": "Where should your bike go?",
+          "options": [
+            "In the entrance hall",
+            "In the bike room",
+            "On the stairs"
+          ],
+          "answer": "In the bike room",
+          "explain": "“En el portal, no”: the “portal” is the entrance hall of the building."
+        },
+        {
+          "prompt": "Which container is for old newspapers?",
+          "options": [
+            "The yellow one",
+            "The blue one",
+            "The green one"
+          ],
+          "answer": "The blue one"
+        },
+        {
+          "prompt": "When does the postman come?",
+          "options": [
+            "On Friday at 14:00",
+            "From 9:00 to 11:00",
+            "From 11:00 to 20:00"
+          ],
+          "answer": "From 9:00 to 11:00",
+          "explain": "Friday at 14:00 is the caretaker (“el portero”), not the postman (“el cartero”). The number alone is not enough: you have to read which notice it is on."
+        }
+      ]
+    },
+    {
+      "id": "a1-nachricht-einladung",
+      "level": "A1",
+      "type": "nachricht",
+      "title": "An invitation by text message",
+      "blurb": "Who, when, where – and what should you bring?",
+      "minutes": 3,
+      "text": "**Lucía, 18:42**\n¡Hola, Kevin! El sábado es mi cumpleaños. Hago una fiesta pequeña en mi piso. ¿Puedes venir?\n\n**Lucía, 18:43**\nEmpezamos a las nueve de la noche. Vivo en la calle Mayor, 8, 2.º izquierda. El timbre no funciona: llámame por teléfono y bajo.\n\n**Lucía, 18:44**\nTengo mucha comida y bebida. No tienes que traer nada. Bueno… ¿puedes traer música? ¡Siempre tienes buena música! 🙂",
+      "questions": [
+        {
+          "prompt": "Why is Lucía having a party?",
+          "options": [
+            "She has a new flat",
+            "It's her birthday",
+            "She has a new job"
+          ],
+          "answer": "It's her birthday"
+        },
+        {
+          "prompt": "When does the party start?",
+          "options": [
+            "At 18:42",
+            "At 20:00",
+            "At 21:00"
+          ],
+          "answer": "At 21:00",
+          "explain": "“A las nueve de la noche” is 21:00. 18:42 is the time of the message: phones show it next to every message, and it is not part of the text."
+        },
+        {
+          "prompt": "What should Kevin do when he arrives?",
+          "options": [
+            "Ring the doorbell",
+            "Phone Lucía",
+            "Go up to the second floor"
+          ],
+          "answer": "Phone Lucía",
+          "explain": "“El timbre no funciona: llámame por teléfono y bajo.” The doorbell doesn't work, so he calls and she comes down."
+        },
+        {
+          "prompt": "What should Kevin bring?",
+          "options": [
+            "Food",
+            "Drinks",
+            "Music"
+          ],
+          "answer": "Music"
+        }
+      ]
+    },
+    {
+      "id": "a1-phone-messages",
+      "level": "A1",
+      "type": "nachricht",
+      "title": "Messages on your phone",
+      "blurb": "Four short messages: who wrote, and what do they want?",
+      "minutes": 3,
+      "text": "**Centro de salud Las Acacias**\nCita con la doctora Pardo: martes 10, a las 9:30. Para cancelar, llame al 600 000 021.\n\n**Envíos Albar**\nSu paquete llega mañana, de 10:00 a 14:00. Si no está en casa, puede recogerlo en la tienda de la calle Mayor.\n\n**Colegio Los Almendros**\nEl viernes no hay clase. Los niños vuelven al colegio el lunes.\n\n**Ana (trabajo)**\nHola. Mañana por la mañana no puedo trabajar. ¿Puedes trabajar tú? Yo trabajo por ti el sábado. ¡Gracias!",
+      "questions": [
+        {
+          "prompt": "When is the doctor's appointment?",
+          "options": [
+            "Tuesday the 10th at 9:30",
+            "Tuesday the 9th at 10:30",
+            "Thursday the 10th at 9:30"
+          ],
+          "answer": "Tuesday the 10th at 9:30",
+          "explain": "“Martes” is Tuesday; “jueves” is Thursday. Spanish puts the day first and then its number: “martes 10”."
+        },
+        {
+          "prompt": "You are not at home when the parcel comes. What can you do?",
+          "options": [
+            "Collect it from a shop",
+            "Phone the health centre",
+            "Wait until Monday"
+          ],
+          "answer": "Collect it from a shop",
+          "explain": "“Puede recogerlo en la tienda”: “recoger” means to collect."
+        },
+        {
+          "prompt": "What happens on Friday?",
+          "options": [
+            "There is no school",
+            "School starts late",
+            "The parcel arrives"
+          ],
+          "answer": "There is no school"
+        },
+        {
+          "prompt": "What does Ana want?",
+          "options": [
+            "You work tomorrow morning",
+            "You work on Saturday",
+            "You phone the doctor"
+          ],
+          "answer": "You work tomorrow morning",
+          "explain": "Ana can't work “mañana por la mañana”, and she offers to do your Saturday in return. Note the two meanings of “mañana”: “tomorrow” and “morning”."
+        }
+      ]
+    },
+    {
+      "id": "a2-wohnungsanzeigen",
+      "level": "A2",
+      "type": "anzeige",
+      "title": "Reading adverts for flats",
+      "blurb": "Four adverts, four people looking – who matches which home?",
+      "minutes": 6,
+      "text": "**Anuncio A**\nPiso de un dormitorio, tercera planta, sin ascensor. 780 € al mes. Disponible ya. No se admiten mascotas.\n\n**Anuncio B**\nHabitación en piso compartido con tres estudiantes. 350 € al mes, gastos incluidos. Cocina y baño compartidos. Nos gusta cocinar y comer juntos.\n\n**Anuncio C**\nPiso de dos dormitorios en planta baja, con un patio pequeño. 1.150 € al mes. Se admiten perros y gatos. Disponible desde el 1 de octubre.\n\n**Anuncio D**\nEstudio amueblado. 850 € al mes, internet incluido. Solo seis meses.",
+      "questions": [
+        {
+          "prompt": "Mr Adeyemi is coming to Spain for a six-month job. He has no furniture.",
+          "options": [
+            "Advert A",
+            "Advert B",
+            "Advert C",
+            "Advert D"
+          ],
+          "answer": "Advert D",
+          "explain": "Two things must be right: furnished (“amueblado”) AND six months. Only D has both."
+        },
+        {
+          "prompt": "The Novak family have a dog and two children.",
+          "options": [
+            "Advert A",
+            "Advert B",
+            "Advert C",
+            "Advert D"
+          ],
+          "answer": "Advert C",
+          "explain": "“Se admiten perros y gatos”, and A says the opposite: “No se admiten mascotas”."
+        },
+        {
+          "prompt": "Lena is a student. She doesn't have much money, and she likes cooking for other people.",
+          "options": [
+            "Advert A",
+            "Advert B",
+            "Advert C",
+            "Advert D"
+          ],
+          "answer": "Advert B"
+        },
+        {
+          "prompt": "Mr Ferrer is 71 and can't climb stairs.",
+          "options": [
+            "Advert A",
+            "Advert C",
+            "Advert D"
+          ],
+          "answer": "Advert C",
+          "explain": "“Planta baja” is the ground floor. A is on the third floor with no lift (“sin ascensor”), and D doesn't say which floor it is on, so C is the safe answer."
+        }
+      ]
+    },
+    {
+      "id": "a2-email-kurs-absage",
+      "level": "A2",
+      "type": "brief",
+      "title": "An email from the language school",
+      "blurb": "The class is cancelled. What does that mean for you?",
+      "minutes": 5,
+      "text": "Asunto: Cambio en vuestra clase de español A2. Por favor, leed este correo.\n\nHola a todos:\n\nVuestra profesora, Marta Berrocal, está enferma. Por eso, esta semana no hay clase ni el martes ni el jueves.\n\nA partir de la semana que viene, vuestro profesor será Óscar Prieto. Las clases serán a la hora de siempre, pero en el aula 2.14 en lugar del aula 1.03, porque ahora hace demasiado frío en el aula grande de la primera planta.\n\nRecuperaremos las dos clases el sábado 18, de 10:00 a 13:00. Si no podéis venir ese sábado, enviadnos un correo corto antes del viernes. El examen sigue siendo a final de mes.\n\nUn saludo,\nLa secretaría de la academia",
+      "questions": [
+        {
+          "prompt": "Why are the classes cancelled?",
+          "options": [
+            "The room is too cold",
+            "The teacher is ill",
+            "It's a Saturday"
+          ],
+          "answer": "The teacher is ill"
+        },
+        {
+          "prompt": "Which room is the class in from next week?",
+          "options": [
+            "Room 1.03",
+            "Room 2.14",
+            "The big room on the first floor"
+          ],
+          "answer": "Room 2.14",
+          "explain": "“En el aula 2.14 en lugar del aula 1.03”: “en lugar de” (“instead of”) always points to the old thing, not the new one."
+        },
+        {
+          "prompt": "What must you do if you are not free on the Saturday?",
+          "options": [
+            "Nothing",
+            "Send an email before Friday",
+            "Phone Óscar Prieto"
+          ],
+          "answer": "Send an email before Friday"
+        },
+        {
+          "prompt": "When is the exam?",
+          "options": [
+            "On Saturday the 18th",
+            "At the end of the month",
+            "On Tuesday"
+          ],
+          "answer": "At the end of the month",
+          "explain": "“El examen sigue siendo a final de mes”: “seguir siendo” means “to still be”, so the date does not change."
+        }
+      ]
+    },
+    {
+      "id": "a2-padron-notice",
+      "level": "A2",
+      "type": "schild",
+      "title": "A town hall notice: the padrón",
+      "blurb": "An invented town's notice for practice. Every town hall has its own list, so check yours.",
+      "minutes": 5,
+      "text": "**Ayuntamiento de Valdelora · Cómo empadronarse**\n\nSi vives en Valdelora, tienes que inscribirte en el padrón municipal. El trámite es gratis.\n\n**Dónde:** Oficina de Atención a la Ciudadanía, plaza Mayor, 1. De lunes a viernes, de 9:00 a 14:00. Antes de venir, hay que pedir cita por teléfono (600 000 052) o en la página web del Ayuntamiento.\n\n**Qué tienes que traer:**\n– el impreso de empadronamiento, rellenado y firmado (lo tenemos en la oficina);\n– tu pasaporte o tu tarjeta de residencia;\n– tu contrato de alquiler o las escrituras del piso.\n\n**Si vives en casa de otra persona:** esa persona también tiene que firmar el impreso y darte una copia de su DNI o NIE.\n\n**El certificado de empadronamiento:** te lo damos en la oficina el mismo día.",
+      "questions": [
+        {
+          "prompt": "How much does it cost to register?",
+          "options": [
+            "Nothing",
+            "A small fee",
+            "It depends on the flat"
+          ],
+          "answer": "Nothing",
+          "explain": "“El trámite es gratis.” “Trámite” is a word you will meet everywhere: an official procedure. This notice is invented, so for the rules where you live, ask your own town hall."
+        },
+        {
+          "prompt": "What must you do before you go to the office?",
+          "options": [
+            "Send them your passport",
+            "Make an appointment",
+            "Pay at the bank"
+          ],
+          "answer": "Make an appointment",
+          "explain": "“Antes de venir, hay que pedir cita.” “Pedir cita” means to make an appointment."
+        },
+        {
+          "prompt": "You rent a room in a friend's flat, and your name is not on any contract. What else do you need?",
+          "options": [
+            "Your friend signs the form and gives you a copy of their ID",
+            "A new passport and a letter from your employer or school",
+            "Your friend comes with you to the office and pays the fee"
+          ],
+          "answer": "Your friend signs the form and gives you a copy of their ID",
+          "explain": "“Esa persona también tiene que firmar el impreso y darte una copia de su DNI o NIE.”"
+        },
+        {
+          "prompt": "When do you get the certificate?",
+          "options": [
+            "The same day, at the office",
+            "A week later, by post",
+            "A month later, online"
+          ],
+          "answer": "The same day, at the office"
+        }
+      ]
+    },
+    {
+      "id": "b1-digitales-buero",
+      "level": "B1",
+      "type": "brief",
+      "title": "Short text: the paperless office",
+      "blurb": "A notice from the management – three questions.",
+      "minutes": 5,
+      "from": "dtz-simulation"
+    },
+    {
+      "id": "b1-anzeigen",
+      "level": "B1",
+      "type": "anzeige",
+      "title": "B1 task 1: matching notices",
+      "blurb": "Five people, six notices – one is left over.",
+      "minutes": 8,
+      "from": "dtz-simulation"
+    },
+    {
+      "id": "b1-zeitungsartikel",
+      "level": "B1",
+      "type": "artikel",
+      "title": "B1 task 2: local news article",
+      "blurb": "One article, five statements – true or false?",
+      "minutes": 8,
+      "from": "dtz-simulation"
+    },
+    {
+      "id": "b1-forumsbeitraege",
+      "level": "B1",
+      "type": "forum",
+      "title": "B1 task 3: forum posts",
+      "blurb": "Four opinions – who says what?",
+      "minutes": 7,
+      "from": "dtz-simulation"
+    },
+    {
+      "id": "b1-interview",
+      "level": "B1",
+      "type": "interview",
+      "title": "B1 task 4: interview",
+      "blurb": "One interview, four questions – which answer fits?",
+      "minutes": 7,
+      "from": "dtz-simulation"
+    },
+    {
+      "id": "b2-artikel-homeoffice",
+      "level": "B2",
+      "type": "artikel",
+      "title": "Newspaper article: the teleworking debate",
+      "blurb": "Two studies, two results – and what the article really says about them.",
+      "minutes": 9,
+      "text": "**¿Más productivos en casa o simplemente más solos?**\n\nVarios años después del gran cambio que vivió el mundo laboral, el debate sobre el teletrabajo está lejos de cerrarse. Un estudio universitario publicado esta primavera concluye que quienes trabajan desde casa completan, de media, alrededor de un ocho por ciento más de tareas que en la oficina. Los investigadores lo atribuyen sobre todo a la falta de interrupciones: si nadie te para cada veinte minutos para charlar, te concentras mejor.\n\nUna segunda encuesta, realizada por un instituto de investigación económica, matiza este panorama. Aunque también detecta un aumento de la productividad en las tareas individuales bien definidas, sostiene que el trabajo creativo en equipo se resiente cuando los compañeros están separados. Los empleados nuevos, en particular, tardan bastante más en adaptarse a su puesto, señalan los autores, porque se pierden el aprendizaje informal que surge cuando hay compañeros con experiencia cerca.\n\nLas empresas están reaccionando de maneras distintas. Algunas grandes compañías quieren que su plantilla vuelva a la oficina cuatro días a la semana; otras fijan días de oficina para todo el equipo y dejan el resto de la semana a elección de cada persona. En cuanto al marco legal en España, el teletrabajo regular es, como norma general, voluntario para ambas partes y se recoge en un acuerdo por escrito. Lo que se aplica en la práctica depende de ese acuerdo y del convenio colectivo.\n\nLos expertos solo coinciden en una cosa: «¿oficina o casa?» es la pregunta equivocada. Lo que importa, dicen, no es el lugar, sino si una tarea exige debate o silencio.",
+      "questions": [
+        {
+          "prompt": "Según el estudio universitario, el aumento de la productividad se debe sobre todo a que…",
+          "options": [
+            "… en casa se trabajan más horas.",
+            "… en casa hay menos interrupciones.",
+            "… las tareas en casa son más fáciles."
+          ],
+          "answer": "… en casa hay menos interrupciones.",
+          "explain": "“Lo atribuyen sobre todo a la falta de interrupciones.” The text says nothing about longer working hours."
+        },
+        {
+          "prompt": "¿Qué dice la segunda encuesta sobre los empleados nuevos?",
+          "options": [
+            "Rinden más en casa que los veteranos.",
+            "Necesitan más tiempo para adaptarse.",
+            "La mayoría rechaza el teletrabajo."
+          ],
+          "answer": "Necesitan más tiempo para adaptarse."
+        },
+        {
+          "prompt": "¿Qué relación hay entre los dos estudios?",
+          "options": [
+            "El segundo demuestra que el primero está equivocado.",
+            "El segundo confirma una parte y limita otra.",
+            "Los dos llegan exactamente a la misma conclusión."
+          ],
+          "answer": "El segundo confirma una parte y limita otra.",
+          "explain": "“Matiza este panorama” + “Aunque también detecta…, sostiene que…”: that is a limitation, not a contradiction. At B2, “matizar” and “aunque…, …” are typical signals for this."
+        },
+        {
+          "prompt": "¿Cuál es la situación legal en España, según el artículo?",
+          "options": [
+            "Toda persona tiene derecho a teletrabajar cuando quiera.",
+            "El teletrabajo se permite cuatro días a la semana.",
+            "Como norma general, se pacta por escrito con la empresa."
+          ],
+          "answer": "Como norma general, se pacta por escrito con la empresa.",
+          "explain": "“Voluntario para ambas partes” and “se recoge en un acuerdo por escrito”. This is a reading text, not legal advice: your contract and your “convenio” say what applies to you."
+        },
+        {
+          "prompt": "¿En qué coinciden los expertos, según el artículo?",
+          "options": [
+            "En que la oficina es la mejor solución a largo plazo.",
+            "En que el tipo de tarea importa más que el lugar.",
+            "En que los días fijos de oficina son la única regla sensata."
+          ],
+          "answer": "En que el tipo de tarea importa más que el lugar."
+        }
+      ]
+    },
+    {
+      "id": "b2-kommentare-innenstadt",
+      "level": "B2",
+      "type": "forum",
+      "title": "Readers' comments: a car-free town centre",
+      "blurb": "Five comments, five positions – who argues how?",
+      "minutes": 8,
+      "text": "**Tema: ¿Debe ser peatonal el centro de Valdelora?**\n\n**Comentario A – Dario_87**\nLlevo doce años haciendo este recorrido en bici y ya me he acostumbrado al peligro diario. Pero nadie debería tener que acostumbrarse. Quien tenga hijos sabe de lo que hablo.\n\n**Comentario B – M. Quiroga**\nNadie niega que con menos coches se viviría mejor. Pero mientras el tren se suprima dos veces por semana y el último autobús salga a las ocho y media, no es una elección justa. Lo pagarán quienes menos dinero tienen.\n\n**Comentario C – Irene V.**\nMi tienda vive de los clientes que paran un minuto, compran algo y siguen su camino. Eso funciona desde hace treinta años. No nos quitan los coches: nos quitan a los clientes.\n\n**Comentario D – pedalea_valdelora**\nPontevedra, Gante, Groninga: en todas partes pasa lo mismo. Los comerciantes protestan el primer año y, unos años después, nadie quiere que vuelvan los coches. Estamos discutiendo algo que otras ciudades resolvieron hace tiempo.\n\n**Comentario E – Enrique R.**\nLo que me molesta no es la idea, sino el procedimiento. La decisión ya estaba tomada antes de que empezara la consulta pública. Se puede discutir el resultado; lo que no se puede aceptar es cómo se ha llegado a él.",
+      "questions": [
+        {
+          "prompt": "¿Quién está de acuerdo con la idea en principio, pero cree que el plan es injusto con la gente con menos dinero?",
+          "options": [
+            "Comentario A",
+            "Comentario B",
+            "Comentario C",
+            "Comentario D",
+            "Comentario E"
+          ],
+          "answer": "Comentario B",
+          "explain": "“Nadie niega que…” is agreement; “Pero mientras…” (with the subjunctive) brings in the objection. The objection is about public transport, not about the idea itself."
+        },
+        {
+          "prompt": "¿Quién no critica el plan en sí, sino cómo se tomó la decisión?",
+          "options": [
+            "Comentario A",
+            "Comentario B",
+            "Comentario D",
+            "Comentario E"
+          ],
+          "answer": "Comentario E"
+        },
+        {
+          "prompt": "¿Quién usa como argumento la experiencia de otras ciudades?",
+          "options": [
+            "Comentario B",
+            "Comentario C",
+            "Comentario D",
+            "Comentario E"
+          ],
+          "answer": "Comentario D"
+        },
+        {
+          "prompt": "¿A quién le preocupa perder dinero personalmente?",
+          "options": [
+            "Comentario A",
+            "Comentario C",
+            "Comentario D"
+          ],
+          "answer": "Comentario C"
+        },
+        {
+          "prompt": "¿Quién basa su postura en el peligro que vive a diario?",
+          "options": [
+            "Comentario A",
+            "Comentario B",
+            "Comentario E"
+          ],
+          "answer": "Comentario A"
+        }
+      ]
+    }
+  ]
+}

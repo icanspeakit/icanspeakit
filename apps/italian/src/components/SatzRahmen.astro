@@ -1,0 +1,67 @@
+---
+// Satzklammer and Satzbrücke as two small pictures (`concept.pictures` "satzrahmen" on a
+// grammar page): the words as chips in one row, a bracket under the two verb parts of a
+// Hauptsatz, an arch over a Nebensatz from weil to its verb at the end. Two different
+// things, Edgar's terms: the Klammer holds a main clause together (Verb 1 on Position 2 …
+// Verb 2 at the end), the Brücke spans a subordinate clause (Konjunktion … Verb at the end).
+//
+// Plain HTML on a CSS grid, so it reflows with the text size and needs no drawing library;
+// the bracket and the arch are borders on an element spanning the right columns.
+
+interface Word { w: string; kind?: "verb" | "verb2" | "konj" }
+interface Pic { id: string; title: string; where: string; words: Word[]; from: number; to: number; label: string; caption: string }
+
+const PICS: Pic[] = [
+  {
+    id: "klammer", title: "Satzklammer", where: "im Hauptsatz",
+    words: [{ w: "Ich" }, { w: "kann", kind: "verb" }, { w: "heute" }, { w: "kommen.", kind: "verb2" }],
+    from: 2, to: 4, label: "Klammer",
+    caption: "Verb 1 steht auf Position 2, Verb 2 am Satzende. Alles andere steht dazwischen – wie in einer Klammer.",
+  },
+  {
+    id: "bruecke", title: "Satzbrücke", where: "im Nebensatz",
+    words: [{ w: "…," }, { w: "weil", kind: "konj" }, { w: "ich" }, { w: "müde" }, { w: "bin.", kind: "verb" }],
+    from: 2, to: 5, label: "Brücke",
+    caption: "Der Nebensatz beginnt mit weil oder dass. Das Verb geht ganz ans Ende – die Brücke führt vom Anfang bis dahin.",
+  },
+];
+---
+<div class="sr-pics" lang="es">
+  {PICS.map((p) => (
+    <figure class={`sr-pic sr-pic--${p.id}`}>
+      <figcaption class="sr-head"><strong>{p.title}</strong> · {p.where}</figcaption>
+      <div class="sr-grid" style={`--n:${p.words.length}`}>
+        {p.id === "bruecke" && <span class="sr-arch" style={`grid-column:${p.from} / ${p.to + 1}`}><span>{p.label}</span></span>}
+        {p.words.map((w, i) => <span class:list={["sr-word", w.kind && `sr-word--${w.kind}`]} style={`grid-column:${i + 1}`}>{w.w}</span>)}
+        {p.id === "klammer" && <span class="sr-bracket" style={`grid-column:${p.from} / ${p.to + 1}`}><span>{p.label}</span></span>}
+      </div>
+      <p class="sr-caption">{p.caption}</p>
+    </figure>
+  ))}
+</div>
+
+<style>
+  .sr-pics { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 12px; margin: 16px 0; }
+  .sr-pic { margin: 0; padding: 14px 14px 12px; border: 1px solid var(--border); border-radius: var(--radius-lg, 14px); background: var(--surface-card); }
+  .sr-pic--klammer { --sr: #2b4162; }
+  .sr-pic--bruecke { --sr: #7d571a; }
+  .sr-head { margin-bottom: 10px; font-size: .95rem; }
+  .sr-head strong { color: var(--sr); }
+  .sr-grid { display: grid; grid-template-columns: repeat(var(--n), auto); justify-content: start; align-items: center; column-gap: 6px; row-gap: 4px; }
+  .sr-word { grid-row: 2; padding: 4px 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-muted, #f4f4f5); font-weight: 600; white-space: nowrap; }
+  .sr-word--verb, .sr-word--verb2, .sr-word--konj { border-color: var(--sr); background: color-mix(in srgb, var(--sr) 14%, var(--surface-card)); color: color-mix(in srgb, var(--sr) 75%, var(--ink)); }
+  /* The bracket: open at the top, under the words from Verb 1 to Verb 2. */
+  .sr-bracket { grid-row: 3; position: relative; height: 12px; margin: 0 14px; border: 2px solid var(--sr); border-top: 0; border-radius: 0 0 6px 6px; }
+  /* The arch: open at the bottom, over the words from weil to the verb. */
+  .sr-arch { grid-row: 1; position: relative; height: 16px; margin: 0 12px; border: 2px solid var(--sr); border-bottom: 0; border-radius: 40px 40px 0 0; }
+  .sr-bracket span, .sr-arch span {
+    position: absolute; left: 50%; transform: translateX(-50%); padding: 0 6px; background: var(--surface-card);
+    color: var(--sr); font-size: .72rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap;
+  }
+  .sr-bracket span { bottom: -9px; }
+  .sr-arch span { top: -9px; }
+  .sr-caption { margin: 14px 0 0; color: var(--muted); font-size: .9rem; line-height: 1.45; }
+  /* By the width of the picture, not the screen: on desktop it sits in the narrow rule column. */
+  .sr-pic { container-type: inline-size; }
+  @container (max-width: 300px) { .sr-word { padding: 3px 6px; font-size: .9rem; } .sr-grid { column-gap: 4px; } }
+</style>

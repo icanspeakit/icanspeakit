@@ -1,0 +1,98 @@
+---
+// Two ways on from a Lernset page (or a Berufe group), under its heading:
+//   „Drucken / PDF“        the set's printable sheet (/vocabulary/print/<id>): word list
+//                          in the learner's card language, German explanations, example
+//                          sentences, „Wusstest du?“ and a small test;
+//   „Live-Quiz: Synonyme“  the live quiz with this set chosen in the Deutsch → Deutsch mode
+//                          (synonyms and German explanations of these words, questions.js).
+//                          Offered where the set has enough German hints, and never in the
+//                          Android app, whose build drops /teachers.
+import { unitGermanSize } from "../lib/liveQuiz/questions.js";
+
+interface Props {
+  /** The quiz unit: a Lernset id ("a1-04") or a Berufe group ("berufe-hotel-taetigkeiten"). */
+  setId: string;
+  /** The printable sheet; a Lernset's by default. */
+  print?: string;
+  /** For a set the quiz's picker does not list (a frequency round): its name and a level,
+   *  passed along so the quiz can show what is chosen. */
+  name?: string;
+  level?: string;
+  /** Icons only, for the trainer's toolbar beside the card counter: the row under the
+   *  heading scrolls away once the learner is down at the card, this one does not. */
+  compact?: boolean;
+}
+const { setId, print = `/vocabulary/print/${setId}`, name, level, compact = false } = Astro.props;
+const quiz = import.meta.env.PUBLIC_TARGET !== "app" && unitGermanSize(setId) >= 4;
+const extra = name ? `&name=${encodeURIComponent(name)}&level=${encodeURIComponent(level ?? "A1")}` : "";
+const quizHref = `/teachers/quiz?set=${encodeURIComponent(`unit:${setId}`)}&mode=synonym${extra}`;
+---
+<div class:list={["da-actions", compact && "da-actions--compact"]}>
+  <a class="da-btn" href={print} data-print-link
+    {...(compact ? { "aria-label": "Drucken / PDF", title: "Drucken / PDF", "data-i18n-attr": "aria-label:pr.open;title:pr.open" } : {})}>
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    {!compact && <span data-i18n="pr.open">Drucken / PDF</span>}
+  </a>
+  {quiz && (
+    <a class="da-btn" href={quizHref} target="_blank" rel="noopener"
+      {...(compact ? { "aria-label": "Live-Quiz: Synonyme", title: "Live-Quiz: Synonyme", "data-i18n-attr": "aria-label:pr.quizSyn;title:pr.quizSyn" } : {})}>
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>
+      {!compact && <span data-i18n="pr.quizSyn">Live-Quiz: Synonyme</span>}
+    </a>
+  )}
+</div>
+
+<script>
+  // The sheet opens in the card language the learner has on (?lang=), as the cards show it.
+  import { CARD_LANG_KEY } from "../lib/cardLangGloss.js";
+  // Delegated: a deck swapped in place (src/lib/deckSwap.js) brings new links.
+  document.addEventListener("click", (e) => {
+    const a = (e.target as Element).closest?.<HTMLAnchorElement>("[data-print-link], [data-print-href-link]");
+    if (!a) return;
+    let lang = null;
+    try { lang = localStorage.getItem(CARD_LANG_KEY); } catch {}
+    if (lang && lang !== "all") {
+      const u = new URL(a.href, location.href);
+      u.searchParams.set("lang", lang);
+      a.href = u.pathname + u.search;
+    }
+  });
+
+  // One place at a time: the labelled row under the heading while it is on screen, the
+  // icons beside the card counter once it has scrolled up under the site nav. Again after
+  // a deck swap, which brings both rows new.
+  let io: IntersectionObserver | null = null;
+  function pair() {
+    io?.disconnect();
+    const full = document.querySelector<HTMLElement>(".da-actions:not(.da-actions--compact)");
+    const icons = document.querySelectorAll<HTMLElement>(".da-actions--compact");
+    if (!icons.length) return;
+    const show = (on: boolean) => icons.forEach((el) => el.toggleAttribute("data-shown", on));
+    if (!full) return show(true);
+    const nav = document.querySelector<HTMLElement>(".lp-nav, nav")?.getBoundingClientRect().height ?? 0;
+    io = new IntersectionObserver(([e]) => show(!e.isIntersecting), { rootMargin: `-${Math.round(nav)}px 0px 0px 0px` });
+    io.observe(full);
+  }
+  pair();
+  addEventListener("da:deck-swap", pair);
+</script>
+
+<style>
+  .da-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .da-btn {
+    display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 12px;
+    border: 1px solid var(--border-strong, #ccc); border-radius: 999px; background: var(--surface-card, #fff);
+    color: var(--ink); font-size: .8125rem; font-weight: 600; text-decoration: none;
+  }
+  .da-btn:hover { border-color: var(--brand-blue, #2563eb); color: var(--brand-blue-dark, #1e3a8a); }
+  .da-actions--compact { margin-top: 0; gap: 4px; flex-wrap: nowrap; }
+  .da-actions--compact .da-btn { width: 30px; min-height: 30px; padding: 0; justify-content: center; }
+  /* Hidden while the labelled row is in view; the space stays, so the counter beside it
+     does not jump. visibility, not opacity alone: hidden icons leave the tab order too. */
+  .da-actions--compact { opacity: 0; visibility: hidden; transform: translateY(4px); transition: opacity .2s ease, transform .2s ease, visibility 0s linear .2s; }
+  .da-actions--compact[data-shown] { opacity: 1; visibility: visible; transform: none; transition: opacity .2s ease, transform .2s ease, visibility 0s; }
+  @media (prefers-reduced-motion: reduce) {
+    .da-actions--compact, .da-actions--compact[data-shown] { transition: none; transform: none; }
+  }
+  .da-btn:focus-visible { outline: 2px solid var(--brand-blue, #2563eb); outline-offset: 2px; }
+</style>

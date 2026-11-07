@@ -1,0 +1,199 @@
+{
+  "id": "indefinitpronomen",
+  "name": "algo, nada, alguien, nadie, algún, ningún, otro",
+  "level": "A2",
+  "status": "entwurf",
+  "variety": "es-ES",
+  "subtitle": "algo is something, nada is nothing. alguien is someone, nadie is no one. algún and ningún go with a noun: ¿Hay algún problema? No hay ningún problema. otro means another: otro café.",
+  "briefMarks": ["algo", "nada", "alguien", "nadie", "algún", "ningún", "otro"],
+  "source": "icanspeak Spanish original text (grammar-a2 run, 2026-11-04)",
+  "concept": {
+    "flow": [
+      { "text": "yes, question: algo · alguien · algún", "variant": "prep" },
+      { "text": "no: nada · nadie · ningún", "variant": "verb" }
+    ],
+    "exampleHtml": "¿Quieres <span class=\"vp-prep\">algo</span>? · No quiero <span class=\"vp-prep\">nada</span>. · ¿Hay <span class=\"vp-prep\">alguien</span> en casa? · No hay <span class=\"vp-prep\">nadie</span>. · ¿Tienes <span class=\"vp-prep\">algún</span> problema? · No tengo <span class=\"vp-prep\">ningún</span> problema.",
+    "qa": [
+      {
+        "html": "<strong>algo</strong> (something, anything) and <strong>nada</strong> (nothing, anything after <em>no</em>) are for things: <em>¿Necesitas algo? No necesito nada.</em>",
+        "tag": "Things"
+      },
+      {
+        "html": "<strong>alguien</strong> (someone, anyone) and <strong>nadie</strong> (no one) are for people: <em>¿Hay alguien? No hay nadie.</em> As an object they take the personal <em>a</em>: <em>¿Conoces a alguien? No veo a nadie.</em>",
+        "tag": "People"
+      },
+      {
+        "html": "<strong>alguno</strong> and <strong>ninguno</strong> go with a noun and agree with it. Before a masculine singular noun they become <strong>algún</strong> and <strong>ningún</strong>: <em>algún libro, alguna carta, algunos libros, algunas cartas; ningún libro, ninguna carta</em>.",
+        "tag": "With a noun"
+      },
+      {
+        "html": "<strong>ninguno</strong> is nearly always singular: <em>No tengo ningún amigo aquí. No tengo ninguna duda.</em>",
+        "tag": "Singular"
+      },
+      {
+        "html": "After <strong>no</strong> + verb, Spanish uses <em>nada, nadie, ningún</em>, not <em>algo, alguien, algún</em>. More in <a href=\"/negation\">negation</a>.",
+        "tag": "After no"
+      },
+      {
+        "html": "<strong>otro</strong> never takes <em>un</em> or <em>una</em>: <em>otro café, otra cita, otros papeles</em>. Not: <em>un otro café</em>. “The other one” is <em>el otro</em>.",
+        "tag": "otro"
+      }
+    ],
+    "noteHtml": "Common mistakes: ✗ <em>No quiero algo</em> → ✓ <em>No quiero nada</em>. ✗ <em>No hay alguien</em> → ✓ <em>No hay nadie</em>. ✗ <em>alguno problema</em> → ✓ <em>algún problema</em>. ✗ <em>un otro café</em> → ✓ <em>otro café</em>. ✗ <em>No veo nadie</em> → ✓ <em>No veo a nadie</em>.",
+    "reference": {
+      "showLabel": "Show overview ▼",
+      "hideLabel": "Hide overview ▲",
+      "tables": [
+        {
+          "caption": "Yes or no",
+          "head": ["About", "Positive, question", "Negative"],
+          "rows": [
+            ["things", "algo", "nada"],
+            ["people", "alguien", "nadie"],
+            ["with a noun (masc.)", "algún problema", "ningún problema"],
+            ["with a noun (fem.)", "alguna duda", "ninguna duda"]
+          ]
+        },
+        {
+          "caption": "algún, ningún, otro: all the forms",
+          "head": ["", "masc. sing.", "fem. sing.", "masc. pl.", "fem. pl."],
+          "rows": [
+            ["algún", "algún", "alguna", "algunos", "algunas"],
+            ["ningún", "ningún", "ninguna", "–", "–"],
+            ["otro", "otro", "otra", "otros", "otras"]
+          ]
+        }
+      ],
+      "boxes": [
+        {
+          "badge": "Without a noun",
+          "variant": "dat",
+          "items": [
+            "¿Tienes algún libro? Sí, tengo alguno.",
+            "¿Tienes algún libro? No, no tengo ninguno.",
+            "alguno and ninguno keep the -o when no noun follows."
+          ]
+        }
+      ]
+    }
+  },
+  "aktiv": {
+    "listen": [
+      { "text": "¿Necesitas algo?", "note": "A question: algo." },
+      { "text": "No necesito nada.", "note": "After no: nada." },
+      { "text": "No hay nadie en la oficina.", "note": "People: nadie." },
+      { "text": "¿Hay algún problema?", "note": "algún, before a masculine noun." },
+      { "text": "Quiero otro café, por favor.", "note": "No un before otro." }
+    ],
+    "hoeren": {
+      "instruction": "Listen and choose the sentence you heard. You can listen twice.",
+      "items": [
+        { "text": "¿Hay alguien en casa?", "choices": ["¿Hay algo en casa?", "¿Hay alguien en casa?", "No hay nadie en casa."], "correct": 1 },
+        { "text": "No tengo nada.", "choices": ["No tengo nada.", "Tengo algo.", "No tengo ninguno."], "correct": 0 },
+        { "text": "No tengo ninguna duda.", "choices": ["No tengo ningún problema.", "Tengo alguna duda.", "No tengo ninguna duda."], "correct": 2 },
+        { "text": "Necesito otra cita.", "choices": ["Necesito otra cita.", "Necesito una cita.", "Necesito otro café."], "correct": 0 }
+      ]
+    },
+    "sprechen": {
+      "rounds": [
+        {
+          "label": "1 · Say no",
+          "instruction": "You hear a question. Answer no.",
+          "example": { "prompt": "¿Quieres algo?", "answer": "No, no quiero nada." },
+          "items": [
+            { "prompt": "¿Necesitas algo?", "answer": "No, no necesito nada." },
+            { "prompt": "¿Hay alguien?", "answer": "No, no hay nadie." },
+            { "prompt": "¿Tienes algún problema?", "answer": "No, no tengo ningún problema." },
+            { "prompt": "¿Tienes alguna duda?", "answer": "No, no tengo ninguna duda." }
+          ]
+        }
+      ]
+    }
+  },
+  "exercises": [
+    {
+      "type": "fill",
+      "title": "algo or nada, alguien or nadie?",
+      "hint": "Things: algo, nada. People: alguien, nadie. After no: nada, nadie.",
+      "placeholder": "Word",
+      "items": [
+        { "prompt": "¿Quieres ___ de la tienda?", "answer": "algo", "choices": ["algo", "nada", "alguien"] },
+        { "prompt": "No, gracias, no quiero ___.", "answer": "nada", "choices": ["algo", "nada", "nadie"] },
+        { "prompt": "¿Conoces a ___ en esta oficina?", "answer": "alguien", "choices": ["algo", "alguien", "nadie"] },
+        { "prompt": "Llamo a la puerta, pero no abre ___.", "answer": "nadie", "choices": ["alguien", "nada", "nadie"] },
+        { "prompt": "Tengo que decirte ___ importante.", "answer": "algo", "choices": ["algo", "alguien", "nada"] },
+        { "prompt": "No veo a ___ en la sala.", "answer": "nadie", "choices": ["nada", "nadie", "alguien"] }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "Which form with this noun?",
+      "hint": "Masculine singular: algún, ningún. Feminine: alguna, ninguna.",
+      "columns": ["Sentence", "Form"],
+      "placeholder": "Form",
+      "rows": [
+        { "term": "¿Tienes ___ problema?", "answer": "algún", "choices": ["alguno", "algún", "alguna"] },
+        { "term": "¿Hay ___ farmacia cerca?", "answer": "alguna", "choices": ["algún", "alguno", "alguna"] },
+        { "term": "No tengo ___ amigo aquí.", "answer": "ningún", "choices": ["ningún", "ninguno", "alguno"] },
+        { "term": "No hay ___ carta para ti.", "answer": "ninguna", "choices": ["ningún", "ninguna", "ningunas"] },
+        { "term": "¿Tienes ___ documentos?", "answer": "algunos", "choices": ["algún", "algunos", "algunas"] },
+        { "term": "He visto ___ tiendas buenas.", "answer": "algunas", "choices": ["algunas", "algún", "algunos"] }
+      ]
+    },
+    {
+      "type": "fill",
+      "title": "otro, otra, otros, otras.",
+      "hint": "Agrees with the noun. No un, una in front.",
+      "placeholder": "Form",
+      "items": [
+        { "prompt": "Quiero ___ café, por favor.", "answer": "otro", "choices": ["otro", "un otro", "otra"] },
+        { "prompt": "Necesito ___ cita con el médico.", "answer": "otra", "choices": ["otro", "una otra", "otra"] },
+        { "prompt": "Me piden ___ papeles.", "answer": "otros", "choices": ["otros", "otras", "unos otros"] },
+        { "prompt": "Hay ___ opciones.", "answer": "otras", "choices": ["otros", "otras", "unas otras"] }
+      ]
+    },
+    {
+      "type": "match",
+      "title": "Question and answer.",
+      "hint": "Find the answer that fits.",
+      "pairs": [
+        { "q": "¿Quieres algo?", "a": "No, nada, gracias." },
+        { "q": "¿Hay alguien en casa?", "a": "No, no hay nadie." },
+        { "q": "¿Tienes algún problema?", "a": "No, ninguno." },
+        { "q": "¿Tienes alguna pregunta?", "a": "No, ninguna." },
+        { "q": "¿Te pongo otro café?", "a": "Sí, otro, por favor." }
+      ]
+    },
+    {
+      "type": "story",
+      "title": "Fill the gaps: at the office.",
+      "hint": "Choose the word that fits each gap.",
+      "choices": ["algo", "nada", "alguien", "nadie", "ningún"],
+      "segments": [
+        { "text": "Llego a la oficina de empleo a las nueve. Hay mucha gente. Pregunto: “¿Hay " },
+        { "blank": 0, "answer": "alguien" },
+        { "text": " aquí? Necesito ayuda”. Pero en la primera mesa no hay " },
+        { "blank": 1, "answer": "nadie" },
+        { "text": ". Por fin me atiende una señora: “¿Necesita " },
+        { "blank": 2, "answer": "algo" },
+        { "text": "?”. Yo le doy mis papeles y ella dice: “Todo está bien. No hay " },
+        { "blank": 3, "answer": "ningún" },
+        { "text": " problema. No tiene que hacer " },
+        { "blank": 4, "answer": "nada" },
+        { "text": " más”." }
+      ]
+    },
+    {
+      "type": "build",
+      "title": "Build the sentences.",
+      "hint": "After no: nada, nadie, ningún.",
+      "sentences": [
+        { "id": "in1", "hint": "Do you need anything?", "correct": ["¿Necesitas", "algo", "?"], "shuffled": ["algo","?","¿Necesitas"] },
+        { "id": "in2", "hint": "There is no one at home", "correct": ["No", "hay", "nadie", "en", "casa", "."], "shuffled": ["casa","en","hay","No",".","nadie"] },
+        { "id": "in3", "hint": "I don't have any problem", "correct": ["No", "tengo", "ningún", "problema", "."], "shuffled": ["tengo","ningún","problema",".","No"] },
+        { "id": "in4", "hint": "I want another appointment", "correct": ["Quiero", "otra", "cita", "."], "shuffled": ["otra",".","cita","Quiero"] },
+        { "id": "in5", "hint": "Do you know anyone here?", "correct": ["¿Conoces", "a", "alguien", "aquí", "?"], "shuffled": ["a","alguien","aquí","¿Conoces","?"] }
+      ]
+    }
+  ]
+}

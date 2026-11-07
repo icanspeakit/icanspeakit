@@ -1,0 +1,24 @@
+---
+// The grammar topics of one or more levels as a plain link row under a practice exam: what
+// to repeat after a weak result, and the exam → grammar half of the internal links
+// (SEO-BRAND-TIERED-PROMPT.md Tier 4; the grammar → exam half is in GrammarRelated.astro).
+import { grammarTopics } from "../lib/catalog.js";
+
+interface Props { levels: string[] }
+const { levels } = Astro.props;
+const label = levels.join("/");
+const topics = grammarTopics.filter((t) => levels.some((l) => String(t.level).startsWith(l)));
+---
+{topics.length > 0 && (
+  <section class="lvl-grammar" aria-labelledby={`lvl-grammar-${label}`}>
+    <h2 id={`lvl-grammar-${label}`} data-i18n="ps.grammar.title" data-i18n-vars={JSON.stringify({ level: label })}>Grammatik für {label}</h2>
+    <ul>{topics.map((t) => <li><a href={t.href}>{t.name}</a></li>)}</ul>
+  </section>
+)}
+
+<style>
+  .lvl-grammar { margin: 28px 0 10px; padding-top: 16px; border-top: 1px solid var(--border); }
+  .lvl-grammar h2 { margin: 0 0 10px; font-size: 1rem; }
+  .lvl-grammar ul { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; padding: 0; list-style: none; }
+  .lvl-grammar a { display: inline-flex; align-items: center; min-height: 40px; color: var(--brand-blue-dark, var(--ink)); font-size: .92rem; }
+</style>

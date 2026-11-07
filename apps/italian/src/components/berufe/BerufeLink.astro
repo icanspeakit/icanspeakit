@@ -1,0 +1,24 @@
+---
+// The way from a lexicon word set about work to Spanish for work. One line in the trainer's hero
+// slot. The hospital and care set goes straight to the care work deck.
+interface Props { setId: string }
+const { setId } = Astro.props;
+const LINKS: Record<string, string> = {
+  "a1-12": "/spanish-for-work",
+  "a2-10": "/spanish-for-work",
+  "b1-32": "/spanish-for-work",
+  "b1-33": "/spanish-for-work/care-work",
+};
+const href = LINKS[setId];
+---
+{href && (
+  <div class="bv-xlink">
+    <a href={href}>
+      <span data-i18n="berufe.xlink">More words for your job: Spanish for work</span>&nbsp;→
+    </a>
+  </div>
+)}
+
+<style>
+  .bv-xlink { margin: 6px 0 0; font-size: .86rem; text-align: center; }
+</style>

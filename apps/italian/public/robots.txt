@@ -1,0 +1,49 @@
+# icanspeak Spanish is served at https://icanspeak.it/spanish/. Crawlers only read
+# /robots.txt at the domain root, which belongs to the umbrella site (icanspeak.it): this file
+# ends up at /spanish/robots.txt and is the template for the /spanish lines to merge there.
+#
+# Crawl the learner site; skip the design prototypes.
+#
+# Everything listed below is a route under src/pages/ that builds to a public URL but is
+# not reachable from the site's navigation — internal reference and the font test. Each also
+# carries <meta name="robots" content="noindex, nofollow"> via the `noindex` prop on
+# src/layouts/Layout.astro. The old layout studies were deleted on 2026-10-01.
+
+User-agent: *
+Disallow: /spanish/design-system
+Disallow: /spanish/newfont
+# Paid practice data (scripts/build-paid-manifest.mjs): fetched by the pages after the lock
+# check, never meant for search results. Also sent with X-Robots-Tag: noindex (public/_headers).
+Disallow: /spanish/inhalt/
+# Content Signals (contentsignals.org): search and answers that link here yes, model
+# training no — the same policy as the AI-crawler block below.
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+
+# ── AI training crawlers: blocked ─────────────────────────────────────────────
+# These bots collect pages to train AI models. Blocking them is the machine-readable
+# rights reservation under § 44b UrhG (text and data mining), matching the clause in
+# /terms and public/.well-known/tdmrep.json.
+#
+# AI *search* bots (OAI-SearchBot, ChatGPT-User, PerplexityBot, Claude-SearchBot,
+# Claude-User) are deliberately NOT listed: they fetch pages to answer a learner's
+# question and link back here, which is how new learners find the site. They fall
+# under the `User-agent: *` group above.
+
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: anthropic-ai
+User-agent: CCBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: meta-externalagent
+User-agent: FacebookBot
+User-agent: Bytespider
+User-agent: cohere-ai
+User-agent: cohere-training-data-crawler
+User-agent: Diffbot
+User-agent: Omgilibot
+User-agent: ImagesiftBot
+User-agent: Timpibot
+Disallow: /
+
+Sitemap: https://icanspeak.it/spanish/sitemap.xml

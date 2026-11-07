@@ -1,0 +1,28 @@
+---
+import { fitTitle } from "../../../lib/seo/title.js";
+// One Redemittel set (~8 phrases for one speech act) as flashcards. The side nav shows
+// all the sets in its Redemittel pane (LernsetPicker.astro, deck redemittel-<id>).
+import Layout from "../../../layouts/Layout.astro";
+import { itemSlug } from "../../../lib/routes.js";
+import VokabelTrainer from "../../../components/VokabelTrainer.astro";
+import { SETS, cardsOf, langsOf } from "../../../lib/redemittelWortschatz.js";
+
+export function getStaticPaths() {
+  return SETS.map((s: any) => ({ params: { set: itemSlug("/vocabulary/phrases", s.id) }, props: { set: s } }));
+}
+const { set } = Astro.props as any;
+const cards = cardsOf(set.id);
+// A set with a level (redemittel.json) is listed under that level, so its header says so.
+const kind = set.level ? { text: set.level } : { text: "Useful phrases", key: "sets.redemittel" };
+---
+<Layout title={fitTitle(`${kind.text}: ${set.name} – icanspeak Spanish`, `${kind.text}: ${set.name}`)} description={`Useful phrases “${set.name}”: ${cards.length} sentences for everyday life as flashcards — with audio and translation.`}>
+  <VokabelTrainer
+    cards={cards}
+    heading={`${set.name}`}
+    headingKey={`rm.set.${set.id}`}
+    sub={`${kind.text} · ${cards.length} phrases`}
+    subParts={[kind, { text: `${cards.length} phrases`, key: "rm.phraseCount", vars: { n: cards.length } }]}
+    deck={`redemittel-${set.id}`}
+    langs={langsOf(cards)}
+  />
+</Layout>

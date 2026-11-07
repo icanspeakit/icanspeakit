@@ -1,0 +1,112 @@
+/* Eigenes Quiz: /teachers/quiz/create. Built on live-quiz.css (.lq-card, .lq-field,
+   .lq-btn, the option colours); this adds the two-column builder. */
+
+.qb-back { display: inline-block; margin-bottom: 12px; color: var(--brand-blue); font-size: var(--text-sm, .875rem); text-decoration: none; }
+.qb-back::before { content: "← "; }
+.qb-back:hover { text-decoration: underline; }
+
+.qb-gate { max-width: 560px; display: grid; gap: 12px; justify-items: start; }
+.qb-gate h2 { margin: 0; font-family: var(--font-display); font-size: var(--text-xl, 1.3rem); }
+.qb-gate p { margin: 0; color: var(--muted); line-height: 1.5; }
+
+.qb-layout { display: grid; gap: 20px; align-items: start; }
+@media (min-width: 1001px) {
+  .qb-layout { grid-template-columns: 300px minmax(0, 1fr); }
+  .qb-mine { position: sticky; top: 88px; max-height: calc(100vh - 110px); overflow: auto; }
+}
+
+/* .lq-field is display: grid, which would beat the hidden attribute. */
+.qb-step .lq-field[hidden] { display: none; }
+.qb-ed-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.qb-h2, .qb-mine h2 { margin: 0; font-family: var(--font-display); font-size: var(--text-xl, 1.3rem); }
+.qb-step h3 { margin: 0; font-size: 1.05rem; text-align: left; }
+.qb-editor { display: grid; gap: 16px; min-width: 0; }
+.qb-step { display: grid; gap: 14px; }
+.qb-empty { margin: 0; color: var(--muted); font-size: var(--text-sm, .875rem); }
+.qb-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.qb-link { background: none; border: 0; padding: 4px 2px; color: var(--brand-blue); font: inherit; font-size: var(--text-sm, .875rem); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.qb-link:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; border-radius: 4px; }
+.qb-editor textarea {
+  width: 100%; padding: 12px 14px; border: 1px solid var(--border-strong); border-radius: var(--radius, 12px);
+  background: var(--surface-card); color: var(--ink); font: inherit; font-size: 1rem; resize: vertical;
+}
+.qb-editor textarea:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 1px; }
+
+/* ---- My quizzes ---------------------------------------------------------------- */
+.qb-mine { display: grid; gap: 12px; }
+.qb-mine-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.qb-new { min-height: 40px; padding: 0 14px; font-size: var(--text-sm, .875rem); }
+.qb-mine-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.qb-mine-list li { display: flex; align-items: stretch; border: 1px solid var(--border); border-radius: var(--radius, 12px); overflow: hidden; }
+.qb-mine-list li.is-on { border-color: var(--brand-blue); box-shadow: 0 0 0 1px var(--brand-blue) inset; }
+.qb-mine-open { flex: 1; min-width: 0; display: grid; gap: 2px; padding: 10px 12px; background: none; border: 0; text-align: left; color: var(--ink); font: inherit; cursor: pointer; }
+.qb-mine-open b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.qb-mine-open small { color: var(--muted); font-size: 12px; }
+.qb-mine-open:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
+.qb-mine-play { display: grid; place-items: center; width: 44px; flex: none; color: #fff; background: var(--lq-a); text-decoration: none; font-size: .9rem; }
+.qb-mine-play:hover { filter: brightness(1.08); }
+
+/* ---- Chapter bank -------------------------------------------------------------- */
+.qb-bank-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.qb-bank-tools { display: flex; gap: 12px; }
+.qb-bank { display: grid; gap: 14px; max-height: 460px; overflow: auto; padding-right: 4px; }
+.qb-group { margin: 0; padding: 0; border: 0; display: grid; gap: 4px; min-width: 0; }
+.qb-group legend { padding: 0 0 6px; font-size: var(--text-sm, .875rem); font-weight: var(--fw-semibold, 600); color: var(--muted); }
+.qb-item { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 10px; padding: 8px 10px; border-radius: 10px; cursor: pointer; }
+.qb-item:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
+.qb-item:has(input:checked) { background: color-mix(in srgb, var(--brand-blue) 8%, transparent); }
+.qb-item input { grid-row: span 2; margin-top: 3px; width: 18px; height: 18px; accent-color: var(--brand-blue); }
+.qb-item-q { line-height: 1.35; }
+.qb-item-a { font-size: 13px; color: var(--muted); }
+.qb-item-a s { text-decoration: none; opacity: .75; margin-left: 6px; }
+
+/* Two chapters: the Lernset on the left, the grammar that goes with it on the right.
+   Below 1001px the second card simply follows the first. */
+.qb-banks { display: grid; gap: 16px; align-items: start; min-width: 0; }
+@media (min-width: 1001px) {
+  .qb-banks.is-two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+.qb-banks > * { min-width: 0; }
+.qb-add2 { justify-self: start; }
+.qb-bank2 { border-color: color-mix(in srgb, var(--brand-blue) 35%, var(--border)); }
+
+/* ---- Own question -------------------------------------------------------------- */
+.qb-opts { gap: 8px; }
+.qb-opt { display: flex; align-items: center; gap: 10px; padding-left: 10px; border-left: 6px solid var(--opt, var(--border)); border-radius: 8px; }
+.qb-opt.lq-opt--a { --opt: var(--lq-a); }
+.qb-opt.lq-opt--b { --opt: var(--lq-b); }
+.qb-opt.lq-opt--c { --opt: var(--lq-c); }
+.qb-opt.lq-opt--d { --opt: var(--lq-d); }
+.qb-opt input[type=radio] { width: 20px; height: 20px; flex: none; accent-color: var(--lq-ok); }
+.lq-field .qb-opt input[type=text] { flex: 1; min-width: 0; }
+.qb-opt:has(input[type=radio]:checked) input[type=text] { border-color: var(--lq-ok); box-shadow: 0 0 0 1px var(--lq-ok) inset; }
+
+/* ---- The quiz list ------------------------------------------------------------- */
+.qb-count { color: var(--muted); font-weight: var(--fw-regular, 400); font-size: var(--text-sm, .875rem); }
+.qb-list { margin: 0; padding: 0; list-style: none; counter-reset: qb; display: grid; gap: 6px; }
+.qb-list li { counter-increment: qb; display: flex; gap: 10px; align-items: flex-start; padding: 10px 10px 10px 12px; border: 1px solid var(--border); border-radius: 10px; }
+.qb-list li::before { content: counter(qb); flex: none; min-width: 1.6em; font-weight: var(--fw-semibold, 600); color: var(--muted); }
+.qb-list li.is-editing { border-color: var(--brand-blue); }
+.qb-li-body { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.qb-li-kind { font-size: 12px; color: var(--muted); }
+.qb-li-q { line-height: 1.35; overflow-wrap: anywhere; }
+.qb-li-a { font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+.qb-li-a b { color: var(--lq-ok); font-weight: var(--fw-semibold, 600); }
+.qb-li-tools { display: flex; gap: 2px; flex: none; }
+.qb-li-tools button { width: 32px; height: 32px; border: 0; border-radius: 8px; background: none; color: var(--muted); font: inherit; cursor: pointer; }
+.qb-li-tools button:hover:not(:disabled) { background: color-mix(in srgb, var(--ink) 6%, transparent); color: var(--ink); }
+.qb-li-tools button:disabled { opacity: .3; cursor: default; }
+@media (max-width: 520px) {
+  .qb-list li { flex-wrap: wrap; }
+  .qb-li-tools { width: 100%; justify-content: flex-end; }
+}
+
+/* ---- Save bar ------------------------------------------------------------------ */
+.qb-save {
+  position: sticky; bottom: 0; z-index: 2;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px;
+  padding: 12px 0; background: var(--page-bg, #fff);
+  border-top: 1px solid var(--border);
+}
+.qb-status { margin: 0 auto 0 0; color: var(--muted); font-size: var(--text-sm, .875rem); }
+.qb-del { color: var(--lq-bad); }

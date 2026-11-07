@@ -1,0 +1,273 @@
+/* Lindenau (/games/villabruno) — see src/lib/lindenau/game.js. Builds on stadtfahrt.css
+   (stage, panel, option buttons, result); this file adds the HUD items, the talk button,
+   the dialogue and the word tiles. Phone first: the dialogue is a sheet at the bottom. */
+.ld-hud { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 10px; padding: 8px 4px; }
+.ld-items { display: flex; flex: 1 1 auto; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.ld-item {
+  display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px 3px 4px;
+  border: 1px solid var(--border); border-radius: 999px; background: var(--surface-card, #fff);
+  font-size: .85rem; color: var(--muted);
+}
+.ld-item img { filter: grayscale(1); opacity: .55; }
+.ld-item b { color: #287346; }
+.ld-item.is-done { color: var(--ink); border-color: #16a34a; background: rgba(22,163,74,.08); }
+.ld-item.is-done img { filter: none; opacity: 1; }
+.ld-item.is-new { animation: ld-pop .7s ease 2; }
+@keyframes ld-pop { 50% { transform: scale(1.15); } }
+
+.ld-stage { cursor: pointer; }
+.ld-talk-btn {
+  position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%);
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 20px; border: 0; border-radius: 999px;
+  background: #2b4162; color: #fff; font: inherit; font-weight: 700;
+  box-shadow: 0 6px 20px rgba(0,0,0,.25); cursor: pointer;
+  animation: ld-in .25s ease;
+}
+.ld-talk-btn kbd { font: inherit; font-size: .75rem; padding: 1px 6px; border-radius: 5px; background: rgba(255,255,255,.2); }
+.ld-talk-btn[hidden] { display: none; }
+@media (hover: none) { .ld-talk-btn kbd { display: none; } }
+@keyframes ld-in { from { opacity: 0; transform: translate(-50%, 8px); } }
+
+.ld-panel { inset: auto 10px 10px 10px; margin: 0 auto; max-height: calc(100% - 20px); }
+.ld-who { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.ld-who svg { flex: 0 0 auto; }
+.ld-who b { display: block; line-height: 1.2; }
+.ld-who span { font-size: .8rem; color: var(--muted); }
+.ld-step { margin: 0 0 2px; font-size: .75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.ld-line { margin: 0 0 6px; font-size: 1.08rem; font-weight: 600; line-height: 1.45; }
+.ld-tools { display: flex; gap: 6px; margin-bottom: 8px; }
+.ld-tool {
+  padding: 4px 10px; border: 1px solid var(--border); border-radius: 999px;
+  background: var(--surface, #fff); color: var(--ink); font: inherit; font-size: .8rem; cursor: pointer;
+}
+.ld-tool[aria-expanded="true"] { border-color: #2b4162; background: rgba(43,65,98,.08); }
+.ld-gloss { margin: -2px 0 10px; font-size: .9rem; color: var(--muted); font-style: italic; }
+.ld-you { margin: 6px 0 6px; font-size: .85rem; color: var(--muted); }
+.ld-opts { display: grid; gap: 8px; }
+.ld-answer {
+  display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 48px;
+  padding: 6px; margin-bottom: 8px; border: 2px dashed var(--border); border-radius: 12px;
+}
+.ld-answer.is-right { border-style: solid; border-color: #16a34a; background: rgba(22,163,74,.08); }
+.ld-answer.is-shake { animation: ld-shake .35s ease; }
+@keyframes ld-shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+.ld-answer-ph { padding: 0 6px; color: var(--muted); font-size: .9rem; }
+.ld-bank { display: flex; flex-wrap: wrap; gap: 6px; }
+.ld-tile {
+  padding: 8px 12px; border: 1px solid var(--border); border-bottom-width: 3px; border-radius: 10px;
+  background: var(--surface, #fff); color: var(--ink); font: inherit; font-weight: 600; cursor: pointer;
+}
+.ld-tile:hover { border-color: #2b4162; }
+.ld-tile.is-placed { background: rgba(43,65,98,.1); border-color: #2b4162; }
+.ld-tile[aria-disabled="true"] { cursor: default; }
+.ld-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.ld-solution { margin: 0 0 4px; font-weight: 700; color: #15803d; }
+.ld-missed-where { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+/* No site-wide .sr-only exists; keep this one to the game. */
+.ld-page .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+:root[data-theme="dark"] .ld-solution { color: #4ade80; }
+
+/* Phone: the three task chips stay on one row above the map. */
+@media (max-width: 480px) {
+  .ld-items { gap: 4px; flex-wrap: nowrap; }
+  .ld-item { gap: 3px; padding: 2px 8px 2px 3px; font-size: .78rem; }
+  .ld-item img { width: 20px; height: 20px; }
+}
+
+/* Intro: the parts of town to choose from. */
+.ld-areas { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin: 6px 0 14px; }
+.ld-area {
+  display: grid; gap: 6px; padding: 12px 14px; text-align: left;
+  border: 2px solid var(--border); border-radius: 14px; background: var(--surface-card, #fff);
+  color: var(--ink); font: inherit; cursor: pointer;
+}
+.ld-area[aria-pressed="true"] { border-color: #2b4162; background: rgba(43,65,98,.08); }
+.ld-area.is-locked { opacity: .65; cursor: default; }
+.ld-area-title { font-weight: 800; }
+.ld-area-quests { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-size: .85rem; color: var(--muted); }
+.ld-area-quests img { width: 22px; height: 22px; }
+.ld-area-lock { font-size: .8rem; font-weight: 700; color: var(--muted); }
+
+/* Speaking turn: the sentence to say, and what the microphone is doing. */
+.ld-say-line { margin: 0 0 6px; padding: 10px 12px; border-radius: 12px; background: rgba(43,65,98,.08); font-size: 1.05rem; font-weight: 700; }
+.ld-say-status { min-height: 1.2em; margin: 0; font-size: .9rem; color: var(--muted); }
+
+/* Super-Blubb: the sound switch, the action option, and the level overlay (lindenau/action.js). */
+.ld-sound {
+  margin-left: auto; flex: 0 0 auto; width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid var(--border); background: var(--surface-card, #fff); font-size: 1.1rem; cursor: pointer;
+}
+/* The coin total (coins.js) and the pause button next to the sound switch. */
+.ld-coins {
+  margin-left: auto; flex: 0 0 auto; display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px;
+  border: 1px solid var(--border); border-radius: 999px; background: var(--surface-card, #fff);
+  font-weight: 700; font-size: .95rem; font-variant-numeric: tabular-nums; cursor: help;
+}
+.ld-coins + .ld-sound, .ld-pausebtn { margin-left: 0; }
+.ld-coin-line { margin: 2px 0 10px; font-weight: 700; color: var(--muted); }
+.ld-act-note { margin: 8px 0 0; font-weight: 700; color: var(--muted); }
+
+/* Pause: a card over the stage (town) or the level (action.js pauseOverlay). */
+.ld-pause {
+  position: absolute; inset: 0; z-index: 20; display: grid; place-items: center; padding: 16px;
+  background: rgba(15, 23, 42, .62); touch-action: manipulation;
+}
+.ld-pause[hidden] { display: none; }
+.ld-pause-card {
+  width: min(320px, 100%); padding: 18px 16px 14px; border-radius: 16px; text-align: center;
+  background: var(--surface-card, #fff); color: var(--ink); box-shadow: 0 14px 40px rgba(0, 0, 0, .4);
+}
+.ld-pause-card h3 { margin: 0 0 12px; font-size: 1.3rem; }
+.ld-pause-btns { display: grid; gap: 8px; }
+.ld-pause-btns .quiz-btn { width: 100%; min-height: 46px; }
+.ld-pause-keys { margin: 10px 0 0; font-size: .8rem; color: var(--muted); }
+@media (pointer: coarse) { .ld-pause-keys { display: none; } }
+.ld-act-btns { display: inline-flex; gap: 8px; pointer-events: none; }
+.ld-act-btns > * { pointer-events: auto; }
+
+.ld-action-opt { display: flex; align-items: center; gap: 8px; margin: 12px 0 0; font-weight: 600; cursor: pointer; }
+.ld-action-opt input { width: 20px; height: 20px; accent-color: #2b4162; }
+
+.ld-act { position: absolute; inset: 0; z-index: 5; background: #7cc6f2; touch-action: none; }
+.ld-act-canvas { display: block; width: 100%; height: 100%; outline: none; }
+.ld-act-hud {
+  position: absolute; top: 8px; left: 8px; right: 8px; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  pointer-events: none;
+}
+.ld-act-count, .ld-act-skip {
+  padding: 6px 12px; border-radius: 999px; background: rgba(15, 23, 42, .55); color: #fff;
+  font: inherit; font-size: .9rem; font-weight: 700; white-space: nowrap;
+}
+.ld-act-count { letter-spacing: .02em; }
+@media (max-width: 480px) { .ld-act-skip-t { display: none; } }
+.ld-act-skip { border: 0; cursor: pointer; pointer-events: auto; }
+.ld-act:not(.is-playing) .ld-act-hud, .ld-act:not(.is-playing) .ld-act-pad { display: none; }
+.ld-act-shoot { background: rgba(56, 189, 248, .7); }
+/* A story card never scrolls: fitCard() in action.js shrinks the scene, then --ld-fs (the text). */
+.ld-act-card { max-width: 600px; font-size: calc(1rem * var(--ld-fs, 1)); padding: 14px 16px; }
+.ld-act-title { margin: 0 0 8px; font-size: 1.3em; line-height: 1.25; }
+.ld-act-scene { display: block; width: auto; max-width: 100%; height: auto; aspect-ratio: 560 / 200; margin: 0 auto 8px; border-radius: 12px; border: 2px solid #24201b; }
+.ld-act-scene[hidden] { display: none; }
+.ld-act-row { display: flex; align-items: flex-start; gap: 8px; margin-top: 6px; }
+.ld-act-row .ld-act-line { flex: 1; margin: 0; font-size: 1.05em; line-height: 1.4; }
+.ld-act-row .ld-tools { flex: 0 0 auto; margin: 0; gap: 4px; }
+.ld-act-row .ld-tool { width: 32px; height: 32px; padding: 0; display: inline-grid; place-items: center; font-size: .85rem; }
+.ld-act-card .ld-gloss { margin: 2px 0 0; font-size: .9em; }
+.ld-act-card .ld-btns { margin-top: 10px; }
+.ld-act-words-h { margin: 12px 0 6px; font-weight: 700; }
+.ld-act-words { display: flex; flex-wrap: wrap; gap: 6px; }
+.ld-act-word {
+  padding: 5px 12px; border-radius: 999px; border: 1px solid #7dd3fc; background: rgba(125, 211, 252, .18);
+  color: inherit; font: inherit; font-weight: 600; cursor: pointer;
+}
+.ld-act-keys, .ld-act-touch, .ld-act-tip { margin: 8px 0 0; font-size: .85em; line-height: 1.4; color: var(--muted); }
+.ld-act-touch { display: none; }
+@media (hover: none), (pointer: coarse) {
+  .ld-act-keys { display: none; }
+  .ld-act-touch { display: block; }
+}
+@media (hover: hover) and (pointer: fine) {
+  .ld-act-pad { opacity: .55; }
+}
+
+/* The level's controls: one steering pad (the thumb slides between ◀ and ▶, ⤓ below ducks)
+   and a big A (jump) with B (bubbles) above it, Gameboy style. */
+.ld-deck {
+  position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: flex-end;
+  padding: 12px; pointer-events: none;
+}
+.ld-deck > * { pointer-events: auto; }
+.ld-dpad {
+  display: grid; grid-template-columns: 1fr .7fr 1fr; grid-template-rows: 1fr 1fr; grid-template-areas: "l c r" "l d r";
+  width: 176px; height: 88px; border-radius: 44px; border: 2px solid rgba(255,255,255,.85); background: rgba(15, 23, 42, .45);
+  color: #fff; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; cursor: pointer;
+}
+.ld-dpad span { display: grid; place-items: center; font-size: 1.4rem; border-radius: 40px; pointer-events: none; }
+.ld-dpad [data-d="left"] { grid-area: l; }
+.ld-dpad [data-d="right"] { grid-area: r; }
+.ld-dpad [data-d="down"] { grid-area: d; font-size: 1.1rem; border-radius: 12px; }
+.ld-dpad[data-dir="left"] [data-d="left"], .ld-dpad[data-dir="right"] [data-d="right"], .ld-dpad[data-dir="down"] [data-d="down"] {
+  background: rgba(250, 204, 21, .85); color: #1f2937;
+}
+.ld-ab { display: flex; align-items: flex-end; gap: 12px; }
+.ld-deck .ld-key-a { width: 78px; height: 78px; font-size: 1.8rem; }
+.ld-deck .ld-key-b { margin-bottom: 30px; }
+
+/* Phones: the level takes the whole screen (no header, no page scrolling). Upright, the
+   controls get their own strip under the picture, so no thumb covers the street. */
+@media (pointer: coarse) {
+  :root.ld-act-on, :root.ld-act-on body { overflow: hidden; }
+  .ld-act.is-playing { position: fixed; inset: 0; z-index: 10000; display: flex; flex-direction: column; background: #27272a; }
+  .ld-act.is-playing .ld-act-canvas { flex: 1 1 auto; min-height: 0; height: auto; }
+  .ld-act.is-playing .ld-act-hud { top: max(8px, env(safe-area-inset-top)); left: max(8px, env(safe-area-inset-left)); right: max(8px, env(safe-area-inset-right)); }
+  .ld-act.is-playing .ld-deck { padding: 10px max(14px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left)); }
+}
+@media (pointer: coarse) and (orientation: portrait) {
+  .ld-act.is-playing .ld-act-canvas { flex: 0 0 auto; height: min(calc(100% - 200px), 140vw); }
+  .ld-act.is-playing .ld-deck {
+    position: static; flex: 1 1 auto; align-items: center; padding-top: 16px; padding-bottom: max(20px, env(safe-area-inset-bottom));
+    background: #d4d4d8; border-top: 3px solid #24201b;
+  }
+  .ld-act.is-playing .ld-dpad { width: 180px; height: 104px; background: #27272a; border-color: #18181b; }
+  .ld-act.is-playing .ld-deck .sf-key { border-color: #18181b; color: #fff; }
+  .ld-act.is-playing .ld-key-a { width: 84px; height: 84px; background: #be185d; }
+  .ld-act.is-playing .ld-key-b { background: #7e22ce; }
+  .ld-act.is-playing .sf-key.is-down { background: rgba(250, 204, 21, .95); color: #1f2937; }
+}
+/* Sideways: steering left of the picture, A and B right of it – nothing over the street. */
+@media (pointer: coarse) and (orientation: landscape) {
+  .ld-act.is-playing { flex-direction: row; align-items: center; }
+  .ld-act.is-playing .ld-act-canvas { flex: 1 1 auto; align-self: stretch; min-width: 0; width: auto; }
+  .ld-act.is-playing .ld-deck { display: contents; }
+  .ld-act.is-playing .ld-dpad {
+    order: -1; flex: 0 0 auto; width: 150px; height: 110px; margin: 0 max(12px, env(safe-area-inset-left)) 0 max(12px, env(safe-area-inset-left));
+    align-self: flex-end; margin-bottom: max(18px, env(safe-area-inset-bottom));
+  }
+  .ld-act.is-playing .ld-ab {
+    order: 1; flex: 0 0 auto; flex-direction: column-reverse; align-items: center; gap: 14px;
+    align-self: flex-end; margin: 0 max(12px, env(safe-area-inset-right)) max(18px, env(safe-area-inset-bottom));
+  }
+  .ld-act.is-playing .ld-deck .ld-key-b { margin-bottom: 0; }
+}
+
+/* Action in town: the bubble count, and bubble + jump buttons over the map (phones). */
+.ld-clean {
+  position: absolute; top: 8px; left: 8px; padding: 5px 12px; border-radius: 999px;
+  background: rgba(15, 23, 42, .55); color: #fff; font-size: .9rem; font-weight: 700; white-space: nowrap; pointer-events: none;
+}
+.ld-clean[hidden] { display: none; }
+.ld-town-pad { position: absolute; right: 12px; bottom: 12px; display: flex; flex-direction: column; gap: 10px; }
+.ld-town-pad[hidden] { display: none; }
+.ld-stage:has(.ld-panel:not([hidden])) .ld-town-pad { display: none; }
+@media (hover: hover) and (pointer: fine) { .ld-town-pad { opacity: .6; } }
+/* the keyboard key under each button, for computers only */
+.ld-town-pad .sf-key { position: relative; }
+.ld-pad-kbd {
+  position: absolute; left: 50%; bottom: -9px; transform: translateX(-50%); white-space: nowrap;
+  font: 700 .62rem/1 system-ui, sans-serif; padding: 2px 5px; border-radius: 4px;
+  background: #0f172a; color: #fff; pointer-events: none;
+}
+@media (hover: none) { .ld-pad-kbd { display: none; } }
+
+/* The person speaking: their head bobs along with the voice. */
+.ld-who svg { transform-origin: 50% 85%; }
+.ld-who.is-talking svg { animation: ld-chatter .18s ease-in-out infinite alternate; }
+@keyframes ld-chatter {
+  from { transform: translateY(0) rotate(-4deg) scale(1, 1); }
+  to { transform: translateY(-3px) rotate(4deg) scale(1.03, .95); }
+}
+.ld-who.is-talking b::after { content: " 🗨️"; font-size: .8em; }
+@media (prefers-reduced-motion: reduce) { .ld-who.is-talking svg { animation-duration: .5s; } }
+
+/* While playing, the town gets more room than the 880px text column: wider and taller. */
+@media (min-width: 700px) {
+  .ld-page:has(#ld-game:not([hidden])) { max-width: 1160px; }
+  .ld-stage { height: min(80svh, 820px); }
+}
+
+/* "Reduce motion": no shaking, popping or sliding in. */
+@media (prefers-reduced-motion: reduce) {
+  .ld-answer.is-shake, .ld-item.is-new, .ld-talk-btn { animation: none; }
+}

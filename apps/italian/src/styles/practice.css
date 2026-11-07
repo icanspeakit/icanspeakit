@@ -1,0 +1,491 @@
+/* Practice tools — reuses brand tokens from global.css */
+
+/* The practice bar is also the site nav (see PracticeHeader.astro), so it is as wide as
+   .lp-nav-row and carries the same breakpoint: menu bar above 900px, burger below. */
+.practice-header {
+  /* Sticky, because this bar carries the menu and the drawer, not just a title: after a
+     jump to #niveau-a1 — or three screens into a trainer — it is the only way to anything
+     else on the site. Its height is published so the things that pin under it (the beat
+     chips, the dashboard rail) and every anchor target can clear it. */
+  position: sticky;
+  top: 0;
+  --practice-header-h: 66px;
+  z-index: 20;
+  background: var(--surface-card);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+}
+.practice-header-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.practice-back {
+  color: var(--brand-blue-dark);
+  text-decoration: none;
+  font-weight: var(--fw-light);
+  display: inline-block;
+  padding: 10px 4px;
+  margin: -10px -4px;
+}
+.practice-back:hover { text-decoration: underline; }
+
+/* The left slot: the logo, and it always goes to the front page. */
+.practice-home {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--brand-blue-dark);
+  padding: 6px 4px;
+  margin: -6px -4px;
+}
+.practice-home img { height: 22px; width: auto; display: block; }
+
+.practice-header-title {
+  min-width: 0;
+  font-family: var(--font-body);
+  font-weight: var(--fw-light);
+  color: var(--ink);
+}
+
+/* An anchor jump has to land below the pinned bar, not under it. */
+:root { --practice-header-h: 66px; }
+.practice-main :target,
+.practice-main [id] { scroll-margin-top: calc(var(--practice-header-h) + 16px); }
+
+.practice-header-right { margin-left: auto; flex: 0 0 auto; display: flex; align-items: center; gap: 16px; }
+.practice-header-utils { display: flex; align-items: center; gap: 16px; }
+.practice-dash { display: inline-flex; align-items: center; }
+/* The search lens (SiteSearch.astro). Bare glyph, like the dashboard icon beside it. */
+.practice-search {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: -4px -6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--brand-blue-dark);
+  cursor: pointer;
+}
+.practice-search:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; border-radius: 8px; }
+.practice-dash-icon { display: none; }
+
+/* Desktop: the menu bar fills the middle and the page's own <h1> is two lines below,
+   so repeating it here at half the size buys nothing. */
+@media (min-width: 901px) {
+  .practice-header-title { display: none; }
+}
+
+/* Seven menu items plus Dashboard plus the two utilities do not fit a small laptop: at
+   1100px the right-hand cluster ran 55px past the edge. site-nav.css already tightens the
+   menu bar itself below 1280px; the rest of the room comes from Dashboard, which drops its
+   word for its icon here instead of waiting for the phone. Nothing is lost — it is the
+   same control, and its aria-label still says what it is.
+
+   (The homepage solves the same squeeze by dropping its CTA below 1280px. This bar has no
+   CTA to drop, so it gives up a word instead.) */
+@media (max-width: 1279px) and (min-width: 901px) {
+  .practice-header-inner { gap: 16px; }
+  .practice-header-right, .practice-header-utils { gap: 12px; }
+  .practice-dash-icon { display: inline-flex; }
+  .practice-dash-label { display: none; }
+}
+
+/* Phone: the menu bar becomes the burger (site-nav.css owns that switch), the title takes
+   the middle and truncates rather than pushing the controls off the row, and language and
+   theme leave the bar for the drawer's footer, where the thumb can reach them.
+
+   This bar used to be ~400px tall here: the title, the back link and four right-hand
+   controls each claimed a row at desktop type size. It is one row now. */
+@media (max-width: 900px) {
+  .practice-header { padding: 8px 14px; }
+  .practice-header-inner { gap: 10px; }
+  .practice-home img { height: 18px; }
+  .practice-header-title {
+    flex: 1 1 auto;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: .85rem;
+    font-weight: var(--fw-regular);
+  }
+  .practice-header-utils { display: none; }
+  .practice-header-right { gap: 6px; }
+  .practice-dash { padding: 7px 2px; margin: -7px -2px; }
+  .practice-dash-icon { display: inline-flex; }
+  .practice-dash-label { display: none; }
+  .practice-header .lp-nav-toggle { width: 40px; height: 40px; margin-right: -8px; }
+}
+
+.practice-main { max-width: 880px; margin: 0 auto; padding: 40px 24px 80px; }
+/* Image-led pages (Bildbeschreibung) need the photo as large as the screen allows —
+   880px wastes most of a desktop viewport. */
+.practice-main--wide { max-width: 1240px; }
+
+.practice-back-link { display: inline-block; margin-bottom: 20px; font-weight: var(--fw-light); font-size: .875rem; color: var(--brand-blue-dark); text-decoration: none; }
+.practice-back-link:hover { color: var(--accent-dark); }
+
+/* The "back to the overview" link above a trainer. Lived in verben-praepositionen.css
+   until the DTZ Übungssatz and the exam trainers started using it without importing
+   that file, which left it rendering as a default blue browser link. */
+.vp-back-link { display: inline-block; margin-bottom: 20px; font-weight: var(--fw-light); font-size: .875rem; color: var(--brand-blue-dark); text-decoration: none; }
+.vp-back-link:hover { color: var(--accent-dark); }
+
+.practice-hero { text-align: center; margin-bottom: 40px; }
+.practice-hero .eyebrow { text-align: center; }
+.practice-hero h1 {
+  font-family: var(--font-body);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  color: var(--ink);
+  margin: 0 0 12px; font-weight: var(--fw-regular);
+}
+.practice-hero p { color: var(--muted); max-width: 560px; margin: 0 auto; }
+
+/* Hub grid */
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 32px;
+}
+.tool-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  text-decoration: none;
+  color: var(--ink);
+  display: block;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.tool-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+.tool-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-brand);
+  color: #fff;
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  box-shadow: 0 6px 14px rgba(43,65,98, .14);
+}
+.tool-card h3 { text-align: left; margin: 0 0 8px; font-family: var(--font-body); font-weight: var(--fw-regular); }
+.tool-card p { margin: 0 0 16px; color: var(--muted); font-size: .95rem; }
+.tool-card-count {
+  display: inline-flex;
+  align-items: center;
+  background: var(--blue-100);
+  color: var(--brand-blue-dark);
+  font-size: .8rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+}
+
+/* Topic tabs (grammar page) */
+.topic-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; justify-content: center; }
+.topic-tab {
+  border: 1px solid var(--border);
+  background: var(--surface-card);
+  color: var(--ink);
+  padding: 12px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: .9rem;
+  cursor: pointer;
+}
+.topic-tab:hover { border-color: var(--brand-blue); }
+.topic-tab.active { background: var(--gradient-brand); color: #fff; border-color: transparent; }
+.topic-intro {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  color: var(--muted);
+  font-size: .92rem;
+  margin-bottom: 20px;
+}
+.topic-crosslink {
+  text-align: center;
+  color: var(--muted);
+  font-size: .88rem;
+  margin: -8px 0 20px;
+}
+.topic-crosslink a { color: var(--brand-blue-dark); font-weight: 600; }
+
+/* Quiz card */
+.quiz-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.quiz-progress { font-size: .85rem; color: var(--muted); font-weight: 600; margin-bottom: 14px; }
+.quiz-progress--split { display: flex; justify-content: space-between; gap: 12px; }
+/* A row of dots instead of "Frage 3 von 8", for a quiz whose length is not known in
+   advance. The Einstufungstest stops as soon as it has placed you, so it cannot print a
+   denominator — but it can show that what is behind you is short, which is the thing that
+   keeps someone going. Here rather than in the page, because the row is rebuilt by script
+   on every question and Astro's scoped styles only reach what the server rendered. */
+.quiz-dots { display: flex; gap: 6px; margin-bottom: 16px; }
+.quiz-dot { width: 22px; height: 4px; border-radius: 2px; background: var(--border); }
+.quiz-dot--done { background: var(--brand-blue); }
+.quiz-dot--now { background: var(--brand-blue); opacity: .45; }
+
+.quiz-prompt { font-size: 1.15rem; line-height: 1.5; margin-bottom: 20px; }
+.quiz-prompt em { color: var(--brand-blue-dark); font-style: normal; font-weight: 600; }
+.quiz-form { display: flex; gap: 10px; }
+.quiz-form input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 1rem;
+  font-family: var(--font-body);
+}
+.quiz-choices { display: flex; flex-wrap: wrap; gap: 10px; }
+.quiz-choice {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: var(--font-body);
+  transition: opacity .15s ease, border-color .15s ease;
+}
+.quiz-choice:hover:not(:disabled) { border-color: var(--brand-blue); }
+.quiz-choice:disabled { opacity: .6; cursor: default; }
+.quiz-choice--pending { opacity: .7; }
+.quiz-choice--correct { border-color: var(--brand-blue); background: #e8f6fb; font-weight: 700; opacity: 1; }
+.quiz-choice--incorrect { border-color: #c1462f; background: #fdeeea; opacity: 1; }
+.quiz-btn {
+  display: inline-block;
+  border: 1px solid var(--border);
+  background: var(--surface-card);
+  color: var(--ink);
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-body);
+  text-decoration: none;
+}
+.quiz-btn--primary { background: var(--gradient-brand); color: #fff; border-color: transparent; }
+.quiz-btn--ghost { background: none; border: none; color: var(--muted); text-decoration: underline; margin-top: 12px; }
+.quiz-btn--next { margin-top: 12px; }
+.quiz-feedback { margin-top: 16px; }
+.quiz-ok { color: #287346; font-weight: 700; }
+.quiz-no { color: #c1462f; font-weight: 700; }
+.quiz-explain { margin-top: 6px; color: var(--muted); font-size: .9rem; }
+.quiz-done { text-align: center; }
+.quiz-done-score { font-family: var(--font-display); font-size: 2.4rem; color: var(--brand-blue-dark); }
+
+/* Flashcards */
+.fc-wrap { max-width: 480px; margin: 0 auto; text-align: center; }
+.fc-progress { font-size: .85rem; color: var(--muted); font-weight: 600; margin-bottom: 12px; }
+.fc-card {
+  perspective: 1200px;
+  height: 260px;
+  cursor: pointer;
+  position: relative;
+}
+.fc-face {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  transition: transform .4s ease;
+  background: var(--surface-card);
+  overflow-y: auto;
+}
+.fc-face--front { transform: rotateY(0deg); }
+.fc-face--back { transform: rotateY(180deg); }
+.fc-card--flipped .fc-face--front { transform: rotateY(-180deg); }
+.fc-card--flipped .fc-face--back { transform: rotateY(0deg); }
+.fc-back-content { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.fc-eyebrow { font-size: .78rem; font-weight: 700; letter-spacing: .06em; color: var(--brand-blue-dark); text-transform: uppercase; }
+.fc-phrase { font-size: 1.4rem; font-weight: 700; color: var(--ink); }
+.fc-back-text--rtl { font-size: 1.3rem; font-family: "DA Script", "Noto Sans Arabic", "Segoe UI", Tahoma, Arial, sans-serif; }
+.fc-note { font-size: .85rem; color: var(--muted); line-height: 1.4; font-weight: 400; }
+.fc-controls { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; }
+.fc-link {
+  background: none; border: none; padding: 4px; cursor: pointer;
+  font-family: var(--font-body); font-size: .95rem; font-weight: 600; color: var(--muted);
+}
+.fc-link:hover { color: var(--ink); }
+.fc-link--primary { color: var(--brand-blue-dark); }
+.fc-link--primary:hover { color: var(--brand-blue-dark); }
+.fc-link--ghost { display: block; margin: 14px auto 0; font-size: .85rem; font-weight: 400; color: var(--muted); text-decoration: underline; }
+.fc-kbd-hint { font-size: .78rem; color: var(--muted-soft); margin-top: 14px; }
+
+/* Speaking prompts */
+.prompt-card { background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; max-width: 100%; margin: 0 auto; }
+.prompt-card h3 { text-align: left; margin: 0 0 6px; font-weight: var(--fw-regular); }
+/* No fixed height and no `contain` box: a fixed 640x420 frame letterboxed every photo
+   against a grey slab — badly for the 1200x1800 portrait shot, which rendered only 280px
+   wide. Sizing by natural aspect ratio instead lets each photo be as large as the card
+   width and the viewport height allow, with no bars around it. */
+.prompt-image {
+  display: block;
+  margin: 0 auto 16px;
+  width: 100%;
+  max-width: 1100px;
+  height: auto;
+  border-radius: 10px;
+}
+/* Portrait shots (the 1200x1800 escalator one) would be ~1.5 viewports tall at full card
+   width, so they are capped by height instead — `width: auto` keeps the ratio intact,
+   which a `max-height` alone would not. The class is set from naturalWidth/naturalHeight
+   in sprechen.astro. */
+.prompt-image--portrait { width: auto; max-width: 100%; max-height: min(78vh, 860px); }
+.prompt-timer { font-family: var(--font-display); font-size: 2rem; color: var(--brand-blue-dark); text-align: center; margin: 12px 0; }
+/* The card is now as wide as the photo needs, but prose shouldn't be 1200px wide —
+   cap the text columns and centre them under the image. */
+.prompt-section-label { font-weight: 700; color: var(--brand-blue-dark); margin: 18px auto 6px; max-width: 70ch; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; }
+.prompt-card ul { margin: 0 auto; max-width: 70ch; padding-left: 20px; }
+.prompt-card h3 { max-width: 70ch; margin-inline: auto; font-weight: var(--fw-regular); }
+.prompt-card li { margin-bottom: 6px; }
+.prompt-nav { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+.prompt-reveal-btn { display: block; margin: 16px auto 0; }
+
+/* Reading / writing blocks */
+/* scroll-margin: each block is a link target from the Fertigkeiten menu, and the practice
+   header is sticky — without it the heading lands underneath the bar. */
+.reading-block { background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; margin-bottom: 32px; scroll-margin-top: 84px; }
+.reading-block h3 { text-align: left; margin: 0 0 4px; font-weight: var(--fw-regular); }
+.reading-level { color: var(--muted); font-size: .85rem; margin-bottom: 16px; }
+.reading-text { white-space: pre-line; background: var(--surface); border-radius: 10px; padding: 18px; margin-bottom: 20px; line-height: 1.6; }
+.form-field { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.form-field:last-child { border-bottom: none; }
+.form-field-answer { color: var(--brand-blue-dark); font-weight: 600; display: none; }
+.form-field.revealed .form-field-answer { display: inline; }
+.word-count { color: var(--muted); font-size: .85rem; margin-top: 6px; }
+textarea.writing-area {
+  width: 100%; min-height: 180px; border: 1px solid var(--border); border-radius: 10px;
+  padding: 14px; font-family: var(--font-body); font-size: 1rem; resize: vertical;
+}
+.tips-box { background: var(--surface); border-radius: 10px; padding: 14px 18px; color: var(--muted); font-size: .9rem; margin-top: 10px; }
+
+/* Culture notes */
+.culture-card { background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; max-width: 720px; margin: 0 auto 24px; }
+.culture-card h3 { text-align: left; margin: 0 0 10px; font-weight: var(--fw-regular); }
+.culture-question { font-weight: 700; color: var(--brand-blue-dark); }
+.culture-pros-cons { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 16px 0; }
+.culture-pros-cons h4 { margin: 0 0 8px; font-size: .95rem; font-weight: var(--fw-regular); }
+.culture-pros-cons ul { margin: 0; padding-left: 20px; }
+.culture-pros-cons li { margin-bottom: 6px; font-size: .92rem; }
+.culture-table-wrap { margin-top: 16px; }
+.culture-table-wrap summary { cursor: pointer; font-weight: 600; color: var(--brand-blue-dark); margin-bottom: 10px; }
+.culture-table-wrap table { width: 100%; border-collapse: collapse; margin-top: 10px; display: block; overflow-x: auto; }
+.culture-table-wrap th, .culture-table-wrap td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: .88rem; }
+.culture-table-wrap th { background: var(--surface); color: var(--brand-blue-dark); }
+.culture-source { color: var(--muted); font-size: .82rem; margin-top: 16px; margin-bottom: 0; }
+.culture-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.culture-links a { text-decoration: none; font-size: .88rem; }
+.culture-more-note { max-width: 720px; margin: 0 auto; text-align: center; color: var(--muted); font-size: .88rem; }
+
+/* Pronunciation trainer */
+.pron-toolbar { display: flex; justify-content: center; margin-bottom: 20px; }
+#pron-speed.active { background: var(--gradient-brand); color: #fff; border-color: transparent; }
+.pron-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+.pron-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 14px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  text-align: center;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.pron-card:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(36,32,27,.08); border-color: var(--brand-blue); }
+.pron-play-icon { font-size: 1.4rem; }
+.pron-text { color: var(--ink); font-weight: 600; font-size: .95rem; }
+.pron-card--playing { border-color: var(--brand-blue-dark); background: var(--surface); }
+.pron-card--playing .pron-play-icon { animation: pron-pulse 1s ease-in-out infinite; }
+@keyframes pron-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+
+/* Sprechen B1/B2: three-stage prompt card (Bildbeschreibung · Kurzvortrag · Diskussion). */
+.prompt-stages { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 0 0 16px; }
+.prompt-hint { margin: 0 0 12px; font-size: .875rem; line-height: 1.6; color: var(--muted); }
+.prompt-topic { margin: 0 0 12px; font-size: 1rem; line-height: 1.6; }
+
+/* A trainer page — one whose point is the exercise, not the words above it.
+   Marked with .practice-main--trainer rather than keyed off --wide, because only four
+   of the eight pages using --wide are trainers; the Kultur hub's eyebrow, for one,
+   says something the page does not repeat. The
+   centred hero pushed the card 371px down on a 1440x900 desktop and 445px down on a
+   phone — before you can answer anything, half the screen is a title you have already
+   read. So on these pages the whole head block goes compact and left-aligned, at every
+   width rather than only on phones: less top padding, a tighter back link, a smaller
+   heading, and a lead paragraph that reads as a subtitle instead of a paragraph. */
+.practice-main--trainer { padding-top: 20px; }
+.practice-main--trainer .vp-back-link,
+.practice-main--trainer .practice-back-link { margin-bottom: 10px; }
+
+.practice-main--trainer .practice-hero { text-align: left; margin-bottom: 18px; }
+/* The eyebrow says the same thing as the card's own brand line a few elements below
+   it — "Goethe A1 · telc A1" over "Start Deutsch 1 / Goethe A1 · telc A1", and the
+   same on the TestDaF and Leben-in-Deutschland trainers. It stays in the DOM for
+   crawlers; on screen the card says it. */
+.practice-main--trainer .practice-hero .eyebrow { display: none; }
+.practice-main--trainer .practice-hero h1 {
+  font-size: clamp(1.3rem, 2.4vw, 1.6rem);
+  margin: 0 0 6px;
+}
+/* Hiding the eyebrow took the exam's name off the screen with it: on the TestDaF
+   trainer the head read "Leseverstehen und Schreiben" with nothing saying which exam
+   that was, and the same on Leben in Deutschland. The repetition was never the name —
+   it was the rest of the eyebrow. So the name moves into the heading as an inline
+   prefix: it costs no extra line, it is the first thing read on the page, and the
+   heading still says which part of the exam you are in. */
+.practice-hero h1 .hero-exam { color: var(--brand-blue-dark); }
+/* The separator is glued to the name with a no-break space so the dot can never
+   orphan onto the next line; the break opportunity is the ordinary space that follows
+   the span in the markup. Gluing both sides instead made "Deutschland·Übungstest" one
+   unbreakable word, which pushed the phone layout 31px wide. */
+.practice-hero h1 .hero-exam::after {
+  content: " ·";
+  color: var(--muted-soft);
+  font-weight: var(--fw-regular, 400);
+}
+.practice-main--trainer .practice-hero p {
+  max-width: 78ch;
+  margin: 0;
+  font-size: .9rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+  /* The lead still ran four lines at 390px, which is most of what was left between the
+     title and the trainer. Two lines is enough to say what the page is; the full text
+     stays in the DOM for crawlers and for anyone who widens the window. */
+  .practice-main--trainer .practice-hero p {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}

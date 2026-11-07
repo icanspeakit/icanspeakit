@@ -1,0 +1,215 @@
+/* /grammar/verbs — the verb tables. Laid out for a 390px phone first: the table has four
+   short columns and only scrolls sideways when a form is unusually long. */
+.vb-page { max-width: 820px; }
+.vb-head { margin: 0 0 18px; }
+.vb-head h1 { margin: 4px 0 12px; }
+.vb-lead { margin: 10px 0 0; color: var(--muted); line-height: 1.6; }
+.vb-more-refs { margin: 10px 0 0; font-size: .92rem; color: var(--muted); line-height: 1.7; }
+.vb-more-refs a { color: var(--ink); font-weight: 600; }
+
+.vb-x { background: color-mix(in srgb, #f59e0b 22%, transparent); color: inherit; border-radius: 4px; }
+mark.vb-x { padding: 0 4px; }
+:root[data-theme="dark"] .vb-x { background: color-mix(in srgb, #fbbf24 22%, transparent); }
+
+.vb-chip {
+  --grp: var(--brand-blue-dark, #1a2940);
+  display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px;
+  border: 1.5px solid color-mix(in srgb, var(--grp) 40%, transparent); border-radius: var(--radius-pill, 999px);
+  background: color-mix(in srgb, var(--grp) 8%, transparent);
+  color: var(--grp); font-weight: 700; font-size: .92rem; text-decoration: none;
+}
+.vb-chip:hover { background: color-mix(in srgb, var(--grp) 18%, transparent); }
+.vb-chip--hilfsverb { --grp: #7d571a; }
+.vb-chip--modal { --grp: #7c3aed; }
+.vb-chip--unregelmaessig { --grp: #b45309; }
+.vb-chip--trennbar { --grp: #2563eb; }
+.vb-chip--stem-change { --grp: #0f766e; }
+:root[data-theme="dark"] .vb-chip { --grp: #8fa3c0; }
+:root[data-theme="dark"] .vb-chip--hilfsverb { --grp: #e0bd7a; }
+:root[data-theme="dark"] .vb-chip--modal { --grp: #c4b5fd; }
+:root[data-theme="dark"] .vb-chip--unregelmaessig { --grp: #fcd34d; }
+:root[data-theme="dark"] .vb-chip--trennbar { --grp: #93c5fd; }
+:root[data-theme="dark"] .vb-chip--stem-change { --grp: #5eead4; }
+
+.vb-jump { display: grid; gap: 12px; margin: 0 0 28px; }
+.vb-jump-label { display: block; width: fit-content; text-decoration: none; margin: 0 0 6px; font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.vb-jump-list { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* Each group is its own chapter: a rule above it, a numbered head in the group colour and a
+   Regel box saying when the verbs are used, before the tables. */
+.vb-group {
+  --grp: var(--brand-blue-dark, #1a2940);
+  margin: 0 0 20px; padding: 28px 0 0; border-top: 2px solid var(--border);
+  scroll-margin-top: 80px;
+}
+.vb-group--hilfsverb { --grp: #7d571a; }
+.vb-group--modal { --grp: #7c3aed; }
+.vb-group--unregelmaessig { --grp: #b45309; }
+.vb-group--trennbar { --grp: #2563eb; }
+.vb-group--stem-change { --grp: #0f766e; }
+:root[data-theme="dark"] .vb-group { --grp: #8fa3c0; }
+:root[data-theme="dark"] .vb-group--hilfsverb { --grp: #e0bd7a; }
+:root[data-theme="dark"] .vb-group--modal { --grp: #c4b5fd; }
+:root[data-theme="dark"] .vb-group--unregelmaessig { --grp: #fcd34d; }
+:root[data-theme="dark"] .vb-group--trennbar { --grp: #93c5fd; }
+:root[data-theme="dark"] .vb-group--stem-change { --grp: #5eead4; }
+.vb-group-head { display: flex; align-items: flex-start; gap: 12px; margin: 0 0 14px; }
+.vb-group-num {
+  flex: none; display: grid; place-items: center; width: 34px; height: 34px; margin-top: 1px;
+  border-radius: 50%; background: var(--grp); color: #fff; font-weight: 800; font-size: 1rem;
+}
+:root[data-theme="dark"] .vb-group-num { color: #111; }
+.vb-group-title { margin: 0 0 4px; font-size: 1.4rem; }
+.vb-group-what { margin: 0; color: var(--muted); line-height: 1.55; }
+
+/* The Regel: a neutral reference card, not an alert. The group colour stays on the chips
+   and the number; here a plain card with an ink edge reads as "this is the rule" without
+   the tinted red-orange box looking like an error message. Folds with the same pill as
+   the rule cards on the topic pages (.vp-rule-toggle in verben-praepositionen.css). */
+.vb-regel {
+  margin: 0 0 16px; padding: 10px 16px 12px;
+  border: 1px solid var(--border-strong); border-left: 3px solid var(--ink);
+  border-radius: 0 var(--radius, 14px) var(--radius, 14px) 0;
+  background: var(--surface-card, #fff);
+}
+.vb-regel-bar { display: flex; align-items: center; gap: 12px; }
+.vb-regel-label { margin: 0; font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.vb-regel-toggle {
+  margin-left: auto; padding: 5px 13px; cursor: pointer;
+  border: 1.5px solid var(--ink); border-radius: var(--radius-pill, 999px);
+  background: var(--surface-card, #fff); color: var(--ink);
+  font-family: var(--font-label, inherit); font-size: var(--text-xs, .75rem); font-weight: var(--fw-semibold, 600);
+  transition: transform .12s, box-shadow .12s;
+}
+.vb-regel-toggle:hover { background: color-mix(in srgb, var(--ink) 6%, var(--surface-card, #fff)); }
+.vb-regel-toggle[aria-expanded="true"] { border-width: 2px; box-shadow: 2px 2px 0 var(--ink); }
+.vb-regel-toggle[aria-expanded="true"]:hover { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--ink); }
+.vb-regel-toggle[aria-expanded="true"]:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--ink); }
+.vb-regel-toggle:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+/* Folding slides instead of snapping: mountRefToggle sets [hidden], and the body stays a
+   grid that collapses its one row to 0fr. visibility follows after the slide, so folded
+   text is out of the tab order and the accessibility tree like a real hidden. */
+.vb-regel-body {
+  display: grid; grid-template-rows: 1fr; margin-top: 8px; opacity: 1; visibility: visible;
+  transition: grid-template-rows .32s cubic-bezier(.2, .7, .2, 1), margin-top .32s, opacity .22s, visibility 0s;
+}
+.vb-regel-body[hidden] {
+  display: grid; grid-template-rows: 0fr; margin-top: 0; opacity: 0; visibility: hidden;
+  transition: grid-template-rows .28s cubic-bezier(.4, 0, .2, 1), margin-top .28s, opacity .18s, visibility 0s .28s;
+}
+.vb-regel-inner { min-height: 0; overflow: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .vb-regel-body, .vb-regel-body[hidden] { transition: none; }
+}
+.vb-regel-dl { margin: 0 0 10px; display: grid; gap: 2px; }
+.vb-regel-dl div { display: grid; grid-template-columns: 6.5em 1fr; gap: 8px; padding: 3px 0; border-bottom: 1px dashed var(--border-strong); }
+.vb-regel-dl dt { font-weight: 700; }
+.vb-regel-dl dd { margin: 0; }
+.vb-regel ul { margin: 0; padding: 0 0 0 18px; display: grid; gap: 6px; }
+.vb-regel li { line-height: 1.5; font-size: .95rem; }
+.vb-regel li::marker { color: var(--muted-soft); }
+.vb-regel b { font-weight: 700; color: var(--ink); }
+
+.vb-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.vb-card {
+  scroll-margin-top: 90px; min-width: 0;
+  padding: 16px 16px 14px; border: 1px solid var(--border); border-radius: var(--radius, 14px);
+  background: var(--surface-card, #fff);
+}
+.vb-card:target { border-color: var(--brand-blue); box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-blue) 20%, transparent); }
+.vb-card-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 0 0 6px; }
+.vb-card-head h3 { margin: 0; font-size: 1.35rem; }
+.vb-level { padding: 1px 8px; border: 1px solid var(--border); border-radius: 6px; font-size: .75rem; font-weight: 700; color: var(--muted); }
+.vb-aux { margin-left: auto; font-size: .85rem; color: var(--muted); }
+.vb-aux b { color: var(--ink); }
+.vb-gloss { margin: 0 0 8px; }
+.vb-en { color: var(--muted); font-size: .95rem; }
+
+.vb-scroll { overflow-x: auto; margin: 8px 0 0; }
+.vb-table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+.vb-table th, .vb-table td { padding: 7px 8px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.vb-table thead th { font-size: .8rem; font-weight: 700; color: var(--muted); vertical-align: bottom; }
+.vb-table tbody th { font-weight: 600; color: var(--muted); font-size: .88rem; }
+.vb-table tbody tr:last-child > * { border-bottom: 0; }
+.vb-when { display: block; font-weight: 400; font-size: .72rem; }
+.vb-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+.vb-more { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 10px 0 0; font-size: .88rem; color: var(--muted); }
+.vb-more b { color: var(--ink); font-weight: 600; }
+.vb-more .vb-x { padding: 0 3px; }
+.vb-note { margin: 10px 0 0; padding: 8px 12px; border-left: 3px solid var(--border-strong); background: var(--surface); border-radius: 0 8px 8px 0; font-size: .9rem; line-height: 1.5; }
+
+/* Every other tense and mood, folded inside the card. */
+.vb-all { margin: 12px 0 0; border-top: 1px solid var(--border); }
+.vb-all summary { min-height: 44px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 700; font-size: .92rem; color: var(--ink); }
+.vb-all summary:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+.vb-mood { margin: 4px 0 16px; }
+.vb-mood h4 { margin: 0; font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+/* Long compound forms (nos hubiéramos levantado / hubiésemos levantado) wrap on a phone. */
+.vb-mood .vb-table td { white-space: normal; vertical-align: top; }
+
+.vb-practice-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0 0; }
+.vb-practice {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px;
+  border-radius: var(--radius-pill, 999px); background: var(--brand-blue-dark, #1a2940); color: #fff;
+  font-weight: 700; text-decoration: none;
+}
+.vb-practice--ghost { background: transparent; color: var(--brand-blue-dark, #1a2940); border: 1.5px solid currentColor; }
+
+@media (max-width: 480px) {
+  .vb-card { padding: 14px 12px 12px; }
+  .vb-table { font-size: .88rem; }
+  .vb-table th, .vb-table td { padding: 6px 5px; }
+  .vb-aux { margin-left: 0; width: 100%; }
+}
+
+/* ---- Print (the „Drucken / PDF" button, or a group's own print icon) ----------------------
+   The tables only: no site chrome, no jump list, no buttons. Two cards side by side in a
+   smaller type, so the verbs come to a handful of pages instead of one verb per page.
+   Rules print open (the script unfolds them for the print). "All tenses" prints as it stands:
+   closed by default, open for the verbs a learner opened. */
+.vb-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 12px; }
+.vb-print {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 12px;
+  border: 1px solid var(--border-strong, #ccc); border-radius: 999px; background: var(--surface-card, #fff);
+  color: var(--ink); font: inherit; font-size: .8125rem; font-weight: 600; cursor: pointer;
+}
+.vb-print:hover { border-color: var(--brand-blue); color: var(--brand-blue-dark); }
+.vb-print:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+.vb-print--group { margin-left: auto; flex: none; width: 36px; padding: 0; justify-content: center; color: var(--muted); }
+
+@media print {
+  @page { margin: 12mm; }
+  body:has(#vb-page) > :not(#vb-page) { display: none !important; }
+  #vb-page { max-width: none; margin: 0; padding: 0; }
+  .vb-page > .vp-back-link, .vb-page .gx-bar, .vb-jump, .vb-practice-row, .vb-actions, .vb-print,
+  .vb-regel-toggle, .vb-head .section-mascot, .vb-more-refs, .vb-page [data-mascot-part] { display: none !important; }
+  body[data-vb-print-only] .vb-group { display: none; }
+  body[data-vb-print-only="hilfsverb"] .vb-group--hilfsverb,
+  body[data-vb-print-only="modal"] .vb-group--modal,
+  body[data-vb-print-only="unregelmaessig"] .vb-group--unregelmaessig,
+  body[data-vb-print-only="regelmaessig"] .vb-group--regelmaessig,
+  body[data-vb-print-only="trennbar"] .vb-group--trennbar,
+  body[data-vb-print-only="stem-change"] .vb-group--stem-change { display: block; }
+  .vb-all:not([open]) { display: none; }
+  .vb-all summary { min-height: 0; font-size: 8pt; }
+  body { background: #fff; color: #000; font-size: 9.5pt; }
+  .vb-head h1 { font-size: 18pt; margin: 0 0 4pt; }
+  .vb-lead { font-size: 9.5pt; margin: 0; }
+  .vb-group { break-before: auto; margin-top: 10pt; }
+  .vb-group-head { break-after: avoid; margin-bottom: 6pt; }
+  .vb-group-title { font-size: 13pt; }
+  .vb-group-what { font-size: 9pt; }
+  .vb-group-num, .vb-x, .vb-table td.vb-x, mark.vb-x { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .vb-regel { break-inside: avoid; margin-bottom: 8pt; box-shadow: none; }
+  .vb-regel-body, .vb-regel-body[hidden] { display: block; opacity: 1; visibility: visible; transition: none; margin-top: 4pt; }
+  .vb-regel li { font-size: 9pt; }
+  .vb-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8pt; }
+  .vb-card { break-inside: avoid; padding: 8pt; box-shadow: none; border: 1px solid #999; }
+  .vb-card h3 { font-size: 12pt; }
+  .vb-scroll { overflow: visible; margin-top: 4pt; }
+  .vb-table { width: 100%; font-size: 8.5pt; }
+  .vb-table th, .vb-table td { padding: 2pt 4pt; font-size: 8.5pt; }
+  .vb-when { display: none; }
+  .vb-more, .vb-note { font-size: 8pt; margin-top: 4pt; }
+}

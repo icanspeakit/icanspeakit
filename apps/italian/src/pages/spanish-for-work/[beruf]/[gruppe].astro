@@ -1,0 +1,46 @@
+---
+import { fitTitle } from "../../../lib/seo/title.js";
+// /spanish-for-work/[beruf]/[gruppe] — one word group of a profession deck in the shared flashcard
+// trainer (one sitting of 20–30 words). Hamsti marks the section (VokabelTrainer's own mascot).
+import Layout from "../../../layouts/Layout.astro";
+import { itemSlug, itemKey, workPath, WORK_GROUP_SLUGS } from "../../../lib/routes.js";
+import VokabelTrainer from "../../../components/VokabelTrainer.astro";
+import DeckActions from "../../../components/DeckActions.astro";
+import { BERUFE } from "../../../lib/berufeCore.js";
+import { DECKS, groupsOf, cardsOf, LANGS } from "../../../lib/berufeWortschatz.js";
+import "../../../styles/berufe.css";
+
+export function getStaticPaths() {
+  return BERUFE.flatMap((b) => groupsOf(b.slug).map((g: any) => ({ params: { beruf: itemSlug("/spanish-for-work", b.slug), gruppe: WORK_GROUP_SLUGS[g.id] ?? g.id }, props: { group: g } })));
+}
+const beruf = itemKey("/spanish-for-work", (Astro.params as { beruf: string }).beruf);
+const { group } = Astro.props as any;
+const deck = DECKS[beruf];
+const cards = cardsOf(beruf, group.id);
+const deckId = `berufe-${beruf}-${group.id}`;
+const printHref = `${workPath(beruf, group.id)}/print`;
+---
+<Layout
+  title={fitTitle(`${group.title} – ${deck.title}`, group.title)}
+  description={`${deck.title}: ${group.title} — ${cards.length} words with example sentences and translations.`}
+  breadcrumb={[{ name: "Spanish for work", path: "/spanish-for-work" }, { name: deck.title, path: workPath(beruf) }]}
+>
+  <VokabelTrainer
+    cards={cards}
+    heading={group.title}
+    sub={`${deck.title} · ${cards.length} words`}
+    subParts={[{ text: deck.title }, { text: `${cards.length} words`, key: "sets.wordCount", vars: { n: cards.length } }]}
+    deck={deckId}
+    langs={LANGS}
+    printHref={printHref}
+  >
+    {/* Print sheet and live quiz. The Beruf's other groups are in the side list, not as a
+        chip row here: picking one there swaps the cards in place (src/lib/deckSwap.js). */}
+    <Fragment slot="hero">
+      <DeckActions setId={deckId} print={printHref} />
+    </Fragment>
+    <Fragment slot="tools">
+      <DeckActions setId={deckId} print={printHref} compact />
+    </Fragment>
+  </VokabelTrainer>
+</Layout>
