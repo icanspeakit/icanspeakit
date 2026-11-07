@@ -1,4 +1,4 @@
-// Checks the five translation files against each other. Run with `pnpm validate:i18n`.
+// Checks the interface translation files against the base dictionary. Run with `pnpm validate:i18n`.
 //
 // Written after three copies of the same bug shipped unnoticed: tool.praepositionen.count
 // read "{n} Themen · {q} Aufgaben" in German but "{n} فعلاً" / "{n} fiil" / "{n} дієслів" in
@@ -7,8 +7,8 @@
 // leaves an unknown placeholder in place and a missing one simply never appears, so a
 // translation can quietly lose half its content and still render.
 //
-// German is the source of truth (BASE in src/lib/i18n.js), so every check is "does this
-// locale still match de". The placeholder check is the one that earns its keep: a
+// English is the source of truth (BASE in src/lib/i18n.js), so every check is "does this
+// locale still match en". The placeholder check is the one that earns its keep: a
 // translator can legitimately reorder or reword anything, but the set of {tokens} is a
 // contract with the calling code and must come through unchanged.
 
@@ -17,7 +17,7 @@ import path from 'path';
 import { langsFor } from '../src/lib/languages.js';
 
 const DIR = 'public/i18n';
-const BASE = 'de';
+const BASE = 'en';
 // Every interface language of the registry, gated or not: the check is how a new one gets there.
 const OTHERS = langsFor('ui', { gated: false }).filter((c) => c !== BASE);
 

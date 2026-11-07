@@ -111,6 +111,6 @@ For each module, in order of value:
 4. Regenerate audio once a TTS provider is wired (`BACKEND.speech`).
 5. Re-enable that module's validator in `prebuild`.
 
-The original German-only modules (Leben in Deutschland, Führerschein, DTZ/telc/Goethe,
-Bürgeramt, politics) are kept as architecture templates. Map them to English equivalents
-(e.g. Cambridge/IELTS for the exams, Life in the UK for the citizenship test) or delete them.
+The old course's modules are converted: the exam slots hold DELE, SIELE and the CCSE, the
+front-desk sim is the Extranjería sim, the driving module is the DGT vocabulary, and politics is
+gone (docs/content-plan.md §2, §4.4, §5, §7). The data files keep their German names (§6).

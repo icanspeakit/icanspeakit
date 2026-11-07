@@ -2,7 +2,7 @@
 // es, pt, vi, hi, id — every registry language with a `urlPrefix`. Runs after
 // validate-i18n.mjs in `pnpm validate:i18n`.
 //
-// Against the source of each text — de.json for the interface, the English text of a block
+// Against the source of each text — en.json for the interface, the English text of a block
 // in src/data/uebersetzungen/*.json for the help texts (the blocks carry no German) — it
 // checks what a machine draft most often breaks:
 //   • placeholders {x} — the same set
@@ -27,7 +27,7 @@ const tokens = (s) => [...String(s).matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sor
 const bolds = (s) => (String(s).match(/\*\*/g) ?? []).length;
 const tags = (s) => [...String(s).matchAll(/<\/?([a-z][a-z0-9]*)\b/gi)].map((m) => m[0].toLowerCase()).sort().join(",");
 const quoted = (s) => [...String(s).matchAll(/„([^“]+)“/g)].map((m) => m[1]);
-const UI_LABELS = new Set(Object.values(readJson("public", "i18n", "de.json")).filter((v) => typeof v === "string" && v.length <= 40).map((v) => v.trim()));
+const UI_LABELS = new Set(Object.values(readJson("public", "i18n", "en.json")).filter((v) => typeof v === "string" && v.length <= 40).map((v) => v.trim()));
 const RTL =/[֐-ࣿיִ-﷿ﹰ-﻿]/;
 
 function compare(where, src, out, code) {
@@ -47,14 +47,14 @@ function compare(where, src, out, code) {
   if (RTL.test(out)) problems.push(`${where}: right-to-left letters in a ${code} text`);
 }
 
-// Interface: public/i18n/<code>.json against de.json.
-const de = readJson("public", "i18n", "de.json");
+// Interface: public/i18n/<code>.json against en.json.
+const base = readJson("public", "i18n", "en.json");
 for (const l of LANGS) {
   if (l.dir !== "ltr") problems.push(`${l.code}: registry says dir "${l.dir}", expected ltr`);
   const file = path.join(ROOT, "public", "i18n", `${l.code}.json`);
   if (!fs.existsSync(file)) continue;
   const dict = JSON.parse(fs.readFileSync(file, "utf8"));
-  for (const [k, v] of Object.entries(dict)) if (k in de) compare(`ui ${l.code} ${k}`, de[k], v, l.code);
+  for (const [k, v] of Object.entries(dict)) if (k in base) compare(`ui ${l.code} ${k}`, base[k], v, l.code);
 }
 
 // Help texts: every block of src/data/uebersetzungen/*.json against its English.

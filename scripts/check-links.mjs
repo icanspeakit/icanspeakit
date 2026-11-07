@@ -81,7 +81,7 @@ function resolves(segs) {
 // `(` of a markdown link or `=` of a query (?next=/x). Ends at a quote, #, ?, ) or \.
 const LINK = /(?<=["'`(=])\/[a-z0-9][a-zA-Z0-9_./[\]-]*(?:\$\{[^}]*\}[a-zA-Z0-9_./-]*)*(?=["'`)#?\\&]|\$\{|$)/gm;
 
-const SKIP_FILE = /[\\/](oldux|styles)[\\/]|\.css$|\.svg$|hub-bilder\.manifest\.json$/;
+const SKIP_FILE = /[\\/]styles[\\/]|\.css$|\.svg$|hub-bilder\.manifest\.json$/;
 // Fields that hold a path that isn't this site's: API paths, data files read from public/.
 const NOT_A_PAGE = /^\/(api|node_modules|src|tmp|usr|dev|bin|etc|sb-|_astro|\.)/;
 // Looks like a link, is none, or is known to have no page. Say why, so the list stays short.

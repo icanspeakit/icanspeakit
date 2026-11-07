@@ -11,9 +11,9 @@
 //   • a file below it is reported; `--update` writes the lower numbers back
 // Fix a page, run `pnpm check:i18n-luecken --update`, commit the baseline with it.
 //
-// Text that is German on purpose (the words being taught, an exam's own wording, quotes)
+// Text that is Spanish on purpose (the words being taught, an exam's own wording, quotes)
 // is marked where it stands, so it never counts:
-//   lang="de" on the element or an ancestor · translate="no" · data-i18n-skip
+//   lang="es" on the element or an ancestor · translate="no" · data-i18n-skip
 // Not seen: strings built in JavaScript (innerHTML, textContent = "…"). Those go through
 // t() keys by hand.
 import fs from "node:fs";
@@ -28,7 +28,7 @@ const SKIP = [
   /^src\/pages\/(design-system|newfont|list|testnavbarlanguages|nav\d)\.astro$/,
   /^src\/pages\/intonation\/check\.astro$/,
   /^src\/pages\/(privacy|terms|legal-notice)\.astro$/,
-  /^src\/(oldux|paid)\//,
+  /^src\/paid\//,
 ];
 const VOID = new Set(["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr", "path", "circle", "rect", "line", "polyline", "polygon", "ellipse", "use", "stop"]);
 const COVER = /\sdata-i18n(-html)?=|\slang=|\stranslate=["']?no|\sdata-i18n-skip\b/;
@@ -123,7 +123,7 @@ if (worse.length && !update) {
     console.error(`  ${w.f}: ${w.was} → ${w.n}`);
     for (const t of w.g.slice(0, 6)) console.error(`      „${t}“`);
   }
-  console.error(`Add data-i18n keys (public/i18n/*.json), or mark German on purpose with lang="de" / data-i18n-skip.`);
+  console.error(`Add data-i18n keys (public/i18n/*.json), or mark Spanish on purpose with lang="es" / data-i18n-skip.`);
   process.exit(1);
 }
 console.log(`i18n-luecken: ${total} known gaps in ${Object.keys(now).length} files, none new.`);

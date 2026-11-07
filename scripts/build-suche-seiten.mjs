@@ -4,8 +4,10 @@
 // headings in src/data/suche-seiten.json. searchIndex.js adds every entry whose page is
 // not indexed already.
 //
-//   npx astro dev --port 4391   (or astro dev --background)
-//   node scripts/build-suche-seiten.mjs [--base http://localhost:4391] [--sitemap <url>]
+//   pnpm build && npx astro preview --port 4391   (or a dev server)
+//   node scripts/build-suche-seiten.mjs [--base http://localhost:4391/spanish] [--sitemap <url>]
+//
+// Entries hold site paths without the base (/grammar), like all other data; rebaseHtml adds it.
 //
 // Re-run when pages are added. Left out on purpose: print versions, worksheets, single
 // quotes (the Zitate hub is found by its authors instead), the translated landing pages and
@@ -16,8 +18,8 @@ const arg = (name, dflt) => {
   const i = process.argv.indexOf(`--${name}`);
   return i > 0 ? process.argv[i + 1] : dflt;
 };
-const BASE = arg("base", "http://localhost:4391");
-const SITEMAP = arg("sitemap", "https://icanspeak.it/spanish/sitemap.xml");
+const BASE = arg("base", "http://localhost:4391/spanish");
+const SITEMAP = arg("sitemap", `${BASE}/sitemap.xml`);
 const OUT = "src/data/suche-seiten.json";
 
 const SKIP = [
@@ -36,7 +38,7 @@ const decode = (s) => s
 const text = (html) => decode(html.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
 
 const xml = await (await fetch(SITEMAP)).text();
-const paths = [...new Set([...xml.matchAll(/<loc>https?:\/\/[^/<]+([^<]*)<\/loc>/g)].map((m) => m[1].replace(/\/$/, "") || "/"))];
+const paths = [...new Set([...xml.matchAll(/<loc>https?:\/\/[^/<]+([^<]*)<\/loc>/g)].map((m) => m[1].replace(/^\/spanish(?=\/|$)/, "").replace(/\/$/, "") || "/"))];
 
 // What the search already finds from its own sources: the index minus this file's entries.
 const ix = await (await fetch(`${BASE}/suche.json`)).json();
@@ -54,7 +56,7 @@ async function worker() {
   while (next < todo.length) {
     const p = todo[next++];
     try {
-      const res = await fetch(BASE + p);
+      const res = await fetch(`${BASE}${p}/`);
       if (!res.ok) { failed.push(`${p} ${res.status}`); continue; }
       const html = await res.text();
       if (/<meta name="robots" content="noindex/i.test(html)) continue;
