@@ -10,6 +10,12 @@
 // own solution. The book opens with the 30 most frequent German words, which are almost
 // all grammar words: the case for the chapters that follow.
 //
+// NOT YET FRENCH (grammar-structure, 2026-11-08): the cover lines, level blurbs, the frequency
+// page and the editions below still describe the German books this script was written for, so
+// it is not run for the French course and public/downloads has no grammatik-<level>.pdf (the
+// download page drops catalogue entries whose file is missing). The topic order already
+// follows the French syllabus (GRAMMATIK_ORDER). See docs/content-plan.md §13.
+//
 // Everything here is written by icanspeak French. Nothing is scanned, copied or excerpted
 // from a Lehrwerk, which is what makes these free to hand out.
 import { readdirSync, readFileSync, statSync } from "node:fs";
@@ -197,11 +203,11 @@ function translatedIn(topic, lang) {
 /* Word meanings for the word tables of a translated edition. A table whose rows are single
    German words (kaufen, der Tisch, du · kommen) gets one more column with the word's meaning
    in the reader's language, from the site's lexicon (A1–B2), so the site and the PDF agree.
-   Ukrainian is not in the lexicon yet; its drafts live in src/data/uebersetzungen/woerter-uk.json.
+   Ukrainian is not in the lexicon; its meanings stay empty (src/data/uebersetzungen/woerter-uk.json,
+   read here before, held Spanish-based glosses and is no longer read; content-plan §7).
    A table only gets the column when at least 70 % of its rows are such a word: sentence
    tables and grammar-term tables stay as they are, and a word the lexicon lacks gets an
    empty cell rather than a guess. */
-const woerterUk = JSON.parse(readFileSync(path.join(root, "src", "data", "uebersetzungen", "woerter-uk.json"), "utf8")).uk;
 const MEANING_HEAD = { en: "English", ar: "Arabisch", uk: "Українська", tr: "Türkçe" };
 const LEAD = new Set("der die das ein eine ich du er sie es wir ihr sich".split(" "));
 const normWord = (w) => w.toLowerCase().replace(/[^a-zäöüß-]/g, "");
@@ -222,7 +228,7 @@ function rowWord(cell) {
   const content = plain(cell).replace(/\([^)]*\)/g, " ").split(/[\s·,/]+/).map(normWord).filter((t) => t && !LEAD.has(t));
   return content.length === 1 ? byLemma.get(content[0]) ?? byForm.get(content[0]) ?? null : null;
 }
-const meaningOf = (e, lang) => (lang === "uk" ? woerterUk[e.id] : e[lang]) ?? "";
+const meaningOf = (e, lang) => (lang === "uk" ? "" : e[lang]) ?? "";
 
 /** The table with a meaning column added, or the table as it was. */
 function withMeanings(head, rows, lang) {
