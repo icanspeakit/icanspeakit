@@ -12,8 +12,10 @@
 // A boss with `lex: false` skips that check (el paraguas: not in the lexicon yet). The build
 // names any boss that does not match, and the page leaves it out.
 //
-// Castilian Spanish: where Latin America differs, `es419` holds the note (src/lib/variety.js).
-// It is not shown until a LatAm mode exists; the rule text only states the Spanish standard.
+// Variety (src/lib/variety.js, content-plan §1.5): the list below is still the Spanish course's
+// (es-ES, legacy `es419` notes); the `games` item replaces it with French bosses (le/la/l'
+// traps) carrying VARIETY "fr-FR" and, where Québec differs, a `frCA` note { note, gender }.
+// Neither note is shown until a Canada mode exists; the rule text states the standard only.
 import { select } from "../lexicon.js";
 import { ARTS } from "./woerter.js";
 

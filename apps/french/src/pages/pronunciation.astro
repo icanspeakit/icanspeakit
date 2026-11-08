@@ -63,8 +63,8 @@ const rmSets = redemittel.sets.map((s) => ({
   name: s.name,
   icon: s.icon,
   items: s.phrases.map((p): Item => {
-    // Only the translations: bild, variety and es419 describe the phrase.
-    const { de, bild: _bild, variety: _variety, es419: _es419, ...tr } = p as Record<string, any>;
+    // Only the translations: bild, variety, frCA, regional (and legacy es419) describe the phrase.
+    const { de, bild: _bild, variety: _variety, frCA: _frCA, regional: _regional, es419: _es419, ...tr } = p as Record<string, any>;
     const src = `/audio/redemittel/${satzSlug(de)}.mp3`;
     return onDisk(src)
       ? { text: de, audioSrc: src, note: "", translations: tr }

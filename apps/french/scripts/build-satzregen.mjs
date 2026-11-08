@@ -58,7 +58,8 @@ export function parseLine(raw, mode, level, lineNo) {
     else if (k === "alt") (flags.a ??= []).push(rest.map(Number));
     else if (k === "rule") flags.rule = rest.join(" ");
     else if (k === "free") flags.free = rest;
-    else if (k === "es419") flags.es419 = { note: rest.join(" ") };
+    else if (k === "frCA") flags.frCA = { note: rest.join(" ") };
+    else if (k === "es419") flags.es419 = { note: rest.join(" ") }; // legacy (Spanish lines), until `cleanup`
     else err(lineNo, `unbekanntes Flag {${f}}`);
     return "";
   });
@@ -85,6 +86,7 @@ export function parseLine(raw, mode, level, lineNo) {
   if (flags.free) flags.a = [...(flags.a ?? []), ...freeOrders(parts.length, flags.free)];
   if (flags.a) s.a = flags.a;
   if (flags.rule) s.rule = flags.rule;
+  if (flags.frCA) s.frCA = flags.frCA;
   if (flags.es419) s.es419 = flags.es419;
   return s;
 }
@@ -151,7 +153,7 @@ lines.forEach((raw, i) => {
 });
 
 // Compact keys, empty fields dropped: the list is inlined into the page.
-const clean = out.map(({ id, mode, level, c, v, s, vp, f, a, e, nv, en, au, src, rule, lv, es419 }) => {
+const clean = out.map(({ id, mode, level, c, v, s, vp, f, a, e, nv, en, au, src, rule, lv, frCA, es419 }) => {
   const o = { id, mode, level, c, v, s, e, en };
   if (vp.length) o.vp = vp;
   if (f.length) o.f = f;
@@ -159,6 +161,7 @@ const clean = out.map(({ id, mode, level, c, v, s, vp, f, a, e, nv, en, au, src,
   if (nv) o.nv = true;
   if (au) o.au = au;
   if (rule) o.rule = rule;
+  if (frCA) o.frCA = frCA;
   if (es419) o.es419 = es419;
   o.src = src;
   if (lv) o.lv = lv;

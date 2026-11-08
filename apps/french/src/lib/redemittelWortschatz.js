@@ -35,8 +35,8 @@ const SIDECARS = Object.fromEntries(CARD_LANGS.map((code) => {
 }));
 
 export function toCard(phrase) {
-  // variety and es419 describe the phrase; they are not translations.
-  const { de, bild, variety: _variety, es419: _es419, ...inline } = phrase;
+  // variety, frCA, regional (and legacy es419) describe the phrase; they are not translations.
+  const { de, bild, variety: _variety, frCA: _frCA, regional: _regional, es419: _es419, ...inline } = phrase;
   const translations = { ...inline };
   for (const code of CARD_LANGS) if (!translations[code] && SIDECARS[code][de]) translations[code] = SIDECARS[code][de];
   const audioSrc = audioOf(de);

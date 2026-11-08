@@ -1,59 +1,30 @@
-// Checks the `variety` field and the `es419` note (docs/content-plan.md §1.5):
+// Checks the `variety` field, the `frCA` note and `regional` (docs/content-plan.md §1.5):
 //
-//   node scripts/check-variety.mjs
+//   node scripts/check-variety.mjs            (--legacy lists the files with legacy values)
 //
-// 1. Shape, everywhere: every `variety` / `es419` key in any JSON under src/data, src/content
-//    and src/paid is checked by varietyProblems() in src/lib/variety.js (allowed values,
-//    es419.note present and ≤ 160 characters, es419.gender only el/la, no unknown keys).
+// 1. Shape, everywhere: every `variety` / `frCA` / `regional` key in any JSON under src/data,
+//    src/content and src/paid is checked by varietyProblems() in src/lib/variety.js (allowed
+//    values, frCA.note present and ≤ 160 characters, frCA.gender only le/la/l', no unknown keys).
 //    A wrong shape is an error.
-// 2. Coverage, per module (the table in §1.5): items that should carry `variety` but don't.
-//    While a module is still English this is one summary line. Once the module's content item
+// 2. Legacy (§1.6 rule 1): the Spanish course's `variety: "es-ES"` and `es419` notes are accepted
+//    with a warning (one summary count) in modules not converted yet; in a strict module they are
+//    errors. The `cleanup` item removes this branch.
+// 3. Coverage, per module (the table in §1.5): items that should carry `variety` but don't.
+//    While a module is still Spanish this is one summary line. Once the module's content item
 //    has run, that item adds the module id to STRICT below, and every missing `variety` becomes
 //    an error.
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { varietyProblems } from "../src/lib/variety.js";
+import { legacyVariety, varietyProblems } from "../src/lib/variety.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const rel = (p) => path.relative(ROOT, p).replaceAll("\\", "/");
 
 // Modules whose content item has run: missing `variety` is an error there. Add the module id
-// in the same commit that converts the module.
-const STRICT = new Set([
-  "einstufung",
-  "grammatik",
-  "grammatik-quiz",
-  "grammatik-start",
-  "praepositionen",
-  "verbtabellen",
-  "conjugation-trainer",
-  "lexicon-a1",
-  "lexicon-a2",
-  "lexicon-b1",
-  "lexicon-b2",
-  "lexicon-c1",
-  "lexicon-c2",
-  "wortschatz",
-  "hoeren",
-  "redemittel",
-  "aussprache-check",
-  "zungenbrecher",
-  "satzmelodie",
-  "ausspracheregeln",
-  "redewendungen",
-  "wortfallen",
-  "typische-fehler",
-  "fehler-nach-sprache",
-  "umgangssprache",
-  "synonyme",
-  "dgt",
-  "arbeitsblatt",
-  "partneruebungen",
-  "unterricht-wortschatz",
-  "berufe",
-  "business-spanish",
-]);
+// in the same commit that converts the module. Empty at the start of the French queue
+// (variety-schema): every module still holds Spanish data. The ids are those of MODULES below.
+const STRICT = new Set([]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);
 const jsonFiles = (dir) =>
@@ -128,12 +99,14 @@ const read = (file) => {
   catch (e) { errors.push(`${file}: invalid JSON — ${e.message}`); return undefined; }
 };
 
-// --- 1. shape, every JSON file --------------------------------------------------------------
+// --- 1. shape, every JSON file; 2. legacy values counted per file ----------------------------
+const legacy = new Map();
 function walk(node, file, where) {
   if (Array.isArray(node)) { node.forEach((v, i) => walk(v, file, `${where}[${i}]`)); return; }
   if (!node || typeof node !== "object") return;
   for (const p of varietyProblems(node)) errors.push(`${file} ${where || "(top)"}: ${p}`);
-  for (const [k, v] of Object.entries(node)) if (k !== "es419") walk(v, file, where ? `${where}.${k}` : k);
+  if (legacyVariety(node).length) legacy.set(file, (legacy.get(file) ?? 0) + 1);
+  for (const [k, v] of Object.entries(node)) if (k !== "es419" && k !== "frCA") walk(v, file, where ? `${where}.${k}` : k);
 }
 function allJson(dir, out = []) {
   const abs = path.join(ROOT, dir);
@@ -155,32 +128,35 @@ for (const file of ["src/data", "src/content", "src/paid"].flatMap((d) => allJso
   walk(data, file, "");
 }
 
-// --- 2. coverage per module -----------------------------------------------------------------
+// --- 3. coverage per module -----------------------------------------------------------------
 const lines = [];
 for (const m of MODULES) {
-  let total = 0, missing = 0, latam = 0;
+  let total = 0, missing = 0, canada = 0, old = 0;
   for (const file of m.files) {
     const data = cache.get(file) ?? read(file);
     if (data === undefined) continue;
     for (const { item } of m.items(data)) {
       if (!item || typeof item !== "object") continue;
       total++;
-      if (item.es419) latam++;
+      if (item.frCA) canada++;
+      if (legacyVariety(item).length) old++;
+      const label = item.id ?? item.lemma ?? item.front ?? item.de ?? item.inf ?? "?";
+      if (STRICT.has(m.id)) for (const w of legacyVariety(item)) errors.push(`${file} ${label}: ${w} (module ${m.id} is strict)`);
       if ("variety" in item) continue;
       missing++;
-      if (STRICT.has(m.id)) {
-        const label = item.id ?? item.lemma ?? item.front ?? item.de ?? item.inf ?? "?";
-        errors.push(`${file} ${label}: no "variety" (module ${m.id} is strict)`);
-      }
+      if (STRICT.has(m.id)) errors.push(`${file} ${label}: no "variety" (module ${m.id} is strict)`);
     }
   }
   if (!m.files.length) continue;
   const state = STRICT.has(m.id) ? "strict" : "not strict yet";
-  lines.push(`  ${m.id}: ${total - missing}/${total} with variety, ${latam} es419 notes (${state})`);
+  lines.push(`  ${m.id}: ${total - missing}/${total} with variety (${old} legacy es-ES/es419), ${canada} frCA notes (${state})`);
 }
 
 for (const e of errors) console.error(`  ERROR ${e}`);
 const pending = MODULES.filter((m) => m.files.length && !STRICT.has(m.id)).length;
+const legacyTotal = [...legacy.values()].reduce((a, b) => a + b, 0);
 console.log(`variety: ${scanned} JSON files scanned, ${errors.length} errors · ${STRICT.size} strict modules, ${pending} still warning-only`);
+if (legacyTotal) console.log(`  WARN ${legacyTotal} objects in ${legacy.size} files still carry legacy es-ES / es419 values (Spanish data, converted module by module; --legacy lists them)`);
+if (process.argv.includes("--legacy")) for (const [f, n] of [...legacy].sort()) console.log(`    ${f}: ${n}`);
 for (const l of lines) console.log(l);
 if (errors.length) process.exit(1);
