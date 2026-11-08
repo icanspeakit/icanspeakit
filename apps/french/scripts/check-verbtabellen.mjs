@@ -165,11 +165,15 @@ for (const v of verbs) {
 }
 
 // --- 4. agreement with the reference list -----------------------------------------------------
-// That list is written by hand: "yo presente · él indefinido · participio". A mismatch means one
-// of the two files is wrong.
+// That list is written by hand. A mismatch means one of the two files is wrong.
+// PAUSED by `grammar-structure` (2026-11-08, docs/content-plan.md §1.6 rule 5): the list is
+// French now ("je présent · il passé composé · participe passé") while verbtabellen.json is still
+// the Spanish table, so the three forms can't be compared. `conjugation-data` turns it back on
+// (COMPARE_REFERENCE = true) and compares je présent, il passé composé and the participle.
+const COMPARE_REFERENCE = false;
 const list = read("src/data/nachschlagen/starke-schwache-verben.json");
 let compared = 0;
-for (const s of list.sections) {
+for (const s of COMPARE_REFERENCE ? list.sections : []) {
   for (const it of s.items) {
     if (!Array.isArray(it)) continue;
     const inf = String(it[0]).replace(/[[\]|]/g, "");

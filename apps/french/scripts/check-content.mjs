@@ -12,6 +12,9 @@
 //   check-grammatik-ui counts help-language gaps of an old language list; only a baseline
 //   check-jsonld       reads dist/, so it can't run before a build; a report for now
 //   check-lemmas, check-free  lookup tools for lexicon imports, they take arguments
+// Paused in part: check-verbtabellen's step 4 (agreement with nachschlagen/starke-schwache-verben.json),
+//   turned off by `grammar-structure` because the list is French and the table still Spanish;
+//   `conjugation-data` turns it back on (COMPARE_REFERENCE in that script).
 // Run those by hand: pnpm check:karten, check:downloads, check:inhalte, check:grammatik-ui, seo:jsonld.
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
