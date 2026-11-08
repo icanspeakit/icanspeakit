@@ -104,7 +104,7 @@ const pool = lexNouns.map((n) => ({
   change: `${n.gender} ${n.lemma}`,
   // Shown under the instruction, without its article: los / las would give the answer away.
   ...(n.plural ? { plural: n.plural } : {}),
-  // No Spanish recordings yet (lexicon `audio` is the future file name): the browser's voice says
+  // No French recordings yet (lexicon `audio` is the future file name): the browser's voice says
   // "la casa" once the answer is settled, never before, because it says the article.
   speak: `${n.gender} ${n.lemma}`,
 }));
@@ -231,10 +231,10 @@ const freqChart = {
       <SprintTeaser />
 
       {/* The etymology card (artikelHerkunft.js) is off: its data is German Wiktionary text. It can
-          come back when public/data/artikel-herkunft.json holds Spanish word histories. */}
+          come back when public/data/artikel-herkunft.json holds French word histories. */}
 
       {/* How common the words of this session are in real life — see artikelFreqChart.js. */}
-      {/* Only with frequency data: artikel-haeufigkeit.json stays empty until the Spanish ranks exist. */}
+      {/* Only with frequency data: artikel-haeufigkeit.json stays empty until the French ranks exist. */}
       {ranked.length > 0 && <figure class="vp-card afc" id="akk-freq">
         <figcaption class="afc-title" data-i18n="ap.freq.title">How often do you hear it?</figcaption>
         <p class="afc-head" data-freq-head aria-live="polite"></p>
@@ -242,7 +242,7 @@ const freqChart = {
           <svg role="img" aria-label="How common this exercise's words are in everyday life" data-i18n-attr="aria-label:ap.freq.aria"></svg>
           <div class="afc-tip" data-freq-tip hidden></div>
         </div>
-        <p class="afc-note" data-i18n="ap.freq.note">How often a word appears in Spanish film subtitles (OpenSubtitles). On the right: words too rare there to be counted.</p>
+        <p class="afc-note" data-i18n="ap.freq.note">How often a word appears in French film subtitles (OpenSubtitles). On the right: words too rare there to be counted.</p>
         <details class="afc-table">
           <summary data-i18n="ap.freq.all">All words in this exercise</summary>
           <ol data-freq-list></ol>
@@ -808,7 +808,7 @@ const freqChart = {
     let tourPrev = null;
     const chartBeat = {
       get title() { return t("ap.tour.title", "How fast you make progress"); },
-      get text() { return t("ap.tour.text", "The curve shows how much of everyday Spanish you understand after each part. Tap “Learning curve” to fold it away, and back out."); },
+      get text() { return t("ap.tour.text", "The curve shows how much of everyday French you understand after each part. Tap “Learning curve” to fold it away, and back out."); },
       target: () => chartFold?.closest(".ap-chart"),
       point: () => chartFold?.querySelector("summary"),
       enter: () => {

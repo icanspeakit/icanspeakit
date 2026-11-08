@@ -11,9 +11,12 @@
 //   • a file below it is reported; `--update` writes the lower numbers back
 // Fix a page, run `pnpm check:i18n-luecken --update`, commit the baseline with it.
 //
-// Text that is Spanish on purpose (the words being taught, an exam's own wording, quotes)
+// Text that is French on purpose (the words being taught, an exam's own wording, quotes)
 // is marked where it stands, so it never counts:
-//   lang="es" on the element or an ancestor · translate="no" · data-i18n-skip
+//   lang="fr" on the element or an ancestor · translate="no" · data-i18n-skip
+// Any lang attribute covers (COVER below), so the Spanish course's lang="es" markup still
+// counts while pages are converted (docs/content-plan.md §1.6 rule 9); `cleanup` checks that
+// no lang="es" is left.
 // Not seen: strings built in JavaScript (innerHTML, textContent = "…"). Those go through
 // t() keys by hand.
 import fs from "node:fs";
@@ -123,7 +126,7 @@ if (worse.length && !update) {
     console.error(`  ${w.f}: ${w.was} → ${w.n}`);
     for (const t of w.g.slice(0, 6)) console.error(`      „${t}“`);
   }
-  console.error(`Add data-i18n keys (public/i18n/*.json), or mark Spanish on purpose with lang="es" / data-i18n-skip.`);
+  console.error(`Add data-i18n keys (public/i18n/*.json), or mark French on purpose with lang="fr" / data-i18n-skip.`);
   process.exit(1);
 }
 console.log(`i18n-luecken: ${total} known gaps in ${Object.keys(now).length} files, none new.`);
