@@ -728,6 +728,11 @@ a.vt-info-pos:hover { background: color-mix(in srgb, var(--pos) 22%, transparent
 .vt-art--la { color: var(--danger); }
 .vt-art--los { color: var(--info); }
 .vt-art--las { color: var(--danger); }
+/* French (content-plan §1.4): the class is the gender, not the article, so l'école is red like
+ * la maison and l'hôtel blue like le livre; le/la journaliste (common gender) is green. */
+.vt-art--m { color: var(--info); }
+.vt-art--f { color: var(--danger); }
+.vt-art--mf { color: var(--success); }
 /* A Pluraletantum (die Eltern, die Möbel) takes the plural colour, not the feminine one:
  * its "die" is a plural article that happens to look like the feminine. Same for the
  * plural line under a singular noun ("die Tische" below "der Tisch").

@@ -1,8 +1,9 @@
 // Bruno sucht den Hochstapler: the word sets, built from the lexicon at build time (the
 // woerter-[level].json endpoint) — never in the browser, which only fetches one level.
 //
-// A word as the game uses it: { id, de: "la nevera", img, en, ... } (`de` holds the Spanish word
-// with el/la; the key name is kept from the German game).
+// A word as the game uses it: { id, de: "le frigo", img, en, ... } (`de` holds the target-language
+// word with its article, l'œuf without a space: French for A1 since vocab-a1, Spanish el/la for A2
+// until vocab-a2; the key name is kept from the German game).
 // A1/A2 are hand-picked themes (src/data/hochstapler/themen.json): the theme is the
 // Hochstapler's only hint, and the lexicon's topic tags are too loose for that.
 import { byId, spokenForm, TRANSLATION_LANGS, withArticle } from "../lexicon.js";
@@ -15,7 +16,8 @@ export const LEVELS = ["A1", "A2"];
 export function gameWord(id) {
   const e = byId(id);
   if (!e || e.pos !== "noun") return null;
-  // "la nevera", "el coche", "el/la estudiante"; plural-only nouns as they are said: "las tijeras".
+  // "le frigo", "l'œuf", "le/la dentiste"; plural-only nouns as they are said: "les toilettes"
+  // (Spanish A2 until vocab-a2: "la nevera", "las tijeras").
   const de = e.pluralOnly && e.plural ? spokenForm(e) : withArticle(e);
   const w = { id: e.id, de, img: wortBild(e.id) };
   for (const l of TRANSLATION_LANGS) if (e[l]) w[l] = e[l];
