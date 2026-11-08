@@ -27,10 +27,17 @@ const say = (file, where, msg) => errors.push(`${file} ${where}: ${msg}`);
 const ENGLISH = /\b(the|and|you|your|what|where|when|why|who|does|did|with|have|she|they|this|that|from|want|would|should|please|there)\b/i;
 const isEnglish = (s) => ENGLISH.test(String(s).replace(/\*|_/g, ""));
 const isQuestion = (s) => /¿[^?]*\?/.test(s);
+// A file converted to French (variety fr-FR; so far arbeitsblatt/verbtabellen.json, from
+// `conjugation-data`) has no ¿ and a no-break space before the ? (content-plan §5.10); `teachers`
+// converts the rest and drops the Spanish branch.
+const isFrenchQuestion = (s) => /\S \?$/.test(s) && !/[¿¡]/.test(s);
+let frenchFile = false;
 const norm = (s) => String(s).toLowerCase().replace(/[¿?¡!.,;:«»“”"()…]/g, " ").replace(/\s+/g, " ").trim();
 
 function checkPair(file, where, { frage, kacheln, antwort, infinitiv, frageKacheln }) {
-  if (typeof frage !== "string" || !isQuestion(frage)) say(file, where, `question needs ¿…?: ${frage}`);
+  if (frenchFile) {
+    if (typeof frage !== "string" || !isFrenchQuestion(frage)) say(file, where, `question needs a no-break space before ? and no ¿: ${frage}`);
+  } else if (typeof frage !== "string" || !isQuestion(frage)) say(file, where, `question needs ¿…?: ${frage}`);
   if (typeof antwort !== "string" || !/[.!?…]$/.test(antwort)) say(file, where, `answer needs a closing mark: ${antwort}`);
   if (!Array.isArray(kacheln) || kacheln.length < 2) say(file, where, "at least two answer tiles");
   if (frageKacheln != null && (!Array.isArray(frageKacheln) || frageKacheln.length < 2)) say(file, where, "at least two question tiles");
@@ -48,7 +55,9 @@ function checkPair(file, where, { frage, kacheln, antwort, infinitiv, frageKache
 const files = readdirSync(SHEETS).filter((f) => f.endsWith(".json")).sort();
 for (const f of files) {
   const d = JSON.parse(readFileSync(path.join(SHEETS, f), "utf8"));
-  if (d.variety !== "es-ES") say(f, "(top)", 'variety must be "es-ES"');
+  frenchFile = d.variety === "fr-FR";
+  if (!frenchFile && d.variety !== "es-ES") say(f, "(top)", 'variety must be "fr-FR" (converted) or "es-ES" (still Spanish)');
+  if (frenchFile && /[¿¡]/.test(JSON.stringify(d))) say(f, "(top)", "a French file has no ¿ or ¡");
   const b = d.tandemFrageBeispiel;
   if (b) {
     checkPair(f, "example", { frage: b.frage, kacheln: b.antwortKacheln, antwort: b.antwort, infinitiv: b.infinitiv, frageKacheln: b.kacheln });
