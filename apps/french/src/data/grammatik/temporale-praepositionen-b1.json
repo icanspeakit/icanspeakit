@@ -1,144 +1,164 @@
 {
   "id": "temporale-praepositionen-b1",
-  "name": "desde, desde hace, hace… que, hasta, durante, llevar",
+  "name": "depuis, il y a, pendant, pour, en, dans",
   "level": "B1",
   "status": "geprueft",
-  "variety": "es-ES",
-  "es419": { "note": "These structures work the same in Latin America. Piso is departamento there, and móvil is celular." },
-  "subtitle": "If something started in the past and is still going on, Spanish uses the present tense: Vivo aquí desde 2020 (a starting point). Vivo aquí desde hace tres años (a period). You can also say Hace tres años que vivo aquí, or Llevo tres años aquí.",
-  "briefMarks": ["desde", "desde hace", "hace", "llevo", "hasta", "durante"],
-  "source": "icanspeak French original text (grammar-b1 run, 2026-11-04)",
+  "variety": "fr-FR",
+  "subtitle": "If something started in the past and is still going on, French uses the present tense: J'habite ici depuis 2020. Il y a plus a period and a past tense means ago: Je suis arrivé il y a trois ans. Pendant says how long something lasted, en how long it took, and dans when it will happen counted from now.",
+  "briefMarks": ["depuis", "il y a", "pendant", "pour", "en", "dans", "depuis quand", "ça fait… que"],
+  "source": "icanspeak French original text (grammar-b1 run, 2026-11-08)",
   "concept": {
     "comic": {
-      "title": "¿Cuánto tiempo {llevas} aquí?",
+      "title": "{Depuis} quand habites-tu ici ?",
       "panels": [
         {
           "caption": "A starting point",
-          "tag": "{desde} + a moment",
-          "left": { "name": "quaki", "expr": "thinking", "say": "¿{Desde} cuándo vives en Valencia?" },
-          "right": { "name": "bruno", "expr": "happy", "say": "Vivo aquí {desde} 2022." }
+          "tag": "{depuis} + a moment",
+          "left": { "name": "quaki", "expr": "thinking", "say": "{Depuis} quand habites-tu à Lille ?" },
+          "right": { "name": "bruno", "expr": "happy", "say": "J'habite ici {depuis} 2022." }
         },
         {
           "caption": "A period up to now",
-          "tag": "{desde hace} + a period",
-          "left": { "name": "regi", "expr": "thinking", "say": "¿Y este trabajo?" },
-          "right": { "name": "bruno", "expr": "happy", "say": "Trabajo aquí {desde hace} dos años." }
+          "tag": "{depuis} + a period, present tense",
+          "left": { "name": "regi", "expr": "thinking", "say": "Et ton travail ?" },
+          "right": { "name": "bruno", "expr": "happy", "say": "Je travaille ici {depuis} deux ans." }
         },
         {
-          "caption": "The same idea with llevar",
-          "tag": "{llevar} + a period",
-          "left": { "name": "hamsti", "expr": "happy", "say": "Yo {llevo} un mes en España." },
-          "right": { "name": "quaki", "expr": "celebrate", "say": "¡Bienvenido!" }
+          "caption": "Ago",
+          "tag": "{il y a} + passé composé",
+          "left": { "name": "hamsti", "expr": "happy", "say": "Je suis arrivé en France {il y a} un mois." },
+          "right": { "name": "quaki", "expr": "celebrate", "say": "Bienvenue !" }
         }
       ]
     },
     "flow": [
-      { "text": "vivo · trabajo · estudio", "variant": "verb" },
-      { "text": "desde 2020 · desde hace tres años", "variant": "prep" }
+      { "text": "j'habite · je travaille · j'apprends", "variant": "verb" },
+      { "text": "depuis 2020 · depuis deux ans", "variant": "prep" },
+      { "text": "il y a trois ans · dans deux jours" }
     ],
     "qa": [
       {
-        "html": "<strong>desde</strong> + a moment: the starting point. <em>Trabajo aquí desde marzo. Vivo en Bilbao desde 2021.</em> The question: <em>¿Desde cuándo…?</em>",
-        "tag": "desde"
+        "html": "<strong>depuis</strong> + a moment or a period: it started in the past and <strong>still goes on</strong>. French uses the <strong>present</strong>. <em>J'habite à Lille depuis 2021. Je travaille ici depuis deux ans.</em> The questions: <em>Depuis quand… ? Depuis combien de temps… ?</em>",
+        "tag": "depuis"
       },
       {
-        "html": "<strong>desde hace</strong> + a period: how long so far. <em>Trabajo aquí desde hace dos años. Estudio español desde hace seis meses.</em> Use the <strong>present</strong> tense when it is still going on. This is different from English <em>I have worked</em>.",
-        "tag": "desde hace"
+        "html": "<strong>il y a</strong> + a period with a <strong>past</strong> tense means <strong>ago</strong>: <em>Je suis arrivé en France il y a trois ans.</em> The action is over. Compare: <em>J'habite en France depuis trois ans</em> (I still live here).",
+        "tag": "il y a: ago"
       },
       {
-        "html": "<strong>hace</strong> + a period + <strong>que</strong> + present: the same meaning, with the time first. <em>Hace dos años que trabajo aquí.</em> The question: <em>¿Cuánto tiempo hace que…?</em>",
-        "tag": "hace… que"
+        "html": "<strong>Ça fait… que</strong> and <strong>il y a… que</strong> put the time first and take the present, with the same meaning as <em>depuis</em>: <em>Ça fait deux ans que j'habite ici. Ça fait un mois que je cherche un travail.</em>",
+        "tag": "ça fait… que"
       },
       {
-        "html": "<strong>llevar</strong> + a period + place or situation: <em>Llevo dos años aquí. Mi hija lleva un mes en este colegio.</em> The question: <em>¿Cuánto tiempo llevas en España?</em> Llevar + a gerund comes in the topic on verbal periphrases.",
-        "tag": "llevar + time"
+        "html": "With a <strong>negative</strong> verb, <em>depuis</em> goes with the passé composé: <em>Je n'ai pas vu Léa depuis un mois.</em> The thing has not happened, and it is still not happening.",
+        "tag": "Negative"
       },
       {
-        "html": "<strong>hace</strong> + a period with a past verb means <strong>ago</strong>: <em>Llegué a España hace tres años.</em> The action is finished. Compare: <em>Hace tres años que vivo aquí</em> (I still live here).",
-        "tag": "hace: ago"
+        "html": "<strong>pendant</strong> + a period: how long something lasted. <em>J'ai attendu pendant une heure à la préfecture. Nous avons habité à Lyon pendant cinq ans.</em> It is finished, so the passé composé or imparfait. In speech <em>pendant</em> is often dropped: <em>J'ai attendu une heure.</em>",
+        "tag": "pendant"
       },
       {
-        "html": "<strong>hasta</strong>: until. <em>La oficina está abierta hasta las dos.</em> <strong>durante</strong>: during, or for a period. <em>Durante la reunión tomé notas. Estuve en el hospital durante dos semanas.</em> With <em>desde</em>: <em>desde las diez hasta las ocho</em>.",
-        "tag": "hasta, durante"
+        "html": "<strong>pour</strong> + a period: how long you <strong>plan</strong> to stay or how long something is meant to last. <em>Je pars pour trois semaines. Ce visa est valable pour un an.</em> <em>Pendant</em> is also possible: <em>Je pars pendant trois semaines.</em>",
+        "tag": "pour"
+      },
+      {
+        "html": "<strong>en</strong> + a period: how long it <strong>takes</strong> to do something. <em>J'ai rempli le formulaire en dix minutes.</em> <strong>dans</strong> + a period: <strong>in</strong> that time, counted from now. <em>Le médecin viendra dans deux jours. Le train part dans dix minutes.</em>",
+        "tag": "en or dans"
       }
     ],
-    "noteHtml": "Common mistakes: ✗ <em>Vivo aquí desde tres años</em> → ✓ <em>Vivo aquí desde hace tres años</em>. ✗ <em>Estoy aquí por tres años</em> → ✓ <em>Llevo tres años aquí</em>. ✗ <em>Llegué hace tres años que</em> → ✓ <em>Llegué hace tres años</em>. For something still going on, the normal form is the present: <em>Vivo aquí desde 2020</em>. The perfect is possible too (<em>He vivido aquí desde 2020</em>), but start with the present.",
+    "noteHtml": "Common mistakes: ✗ <em>J'ai habité ici depuis 2020</em> (I still live here) → ✓ <em>J'habite ici depuis 2020</em>. ✗ <em>Je suis arrivé depuis trois ans</em> → ✓ <em>Je suis arrivé il y a trois ans</em>. ✗ <em>Je reviens en une semaine</em> (when you mean: in a week's time) → ✓ <em>dans une semaine</em>. ✗ <em>Je travaille ici pendant deux ans</em> (and still do) → ✓ <em>depuis deux ans</em>. Related: <a href=\"/present-perfect\">passé composé</a>, <a href=\"/preterite-vs-imperfect\">passé composé or imparfait</a>, <a href=\"/future-simple\">futur simple</a>.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
       "tables": [
         {
-          "caption": "Still going on: four ways",
-          "head": ["Form", "Example"],
+          "caption": "Which word for which meaning",
+          "head": ["Word", "Meaning", "Tense", "Example"],
           "rows": [
-            ["desde + moment", "Vivo aquí desde 2020."],
-            ["desde hace + period", "Vivo aquí desde hace seis años."],
-            ["hace + period + que", "Hace seis años que vivo aquí."],
-            ["llevar + period", "Llevo seis años aquí."]
+            ["depuis", "since, for (still going on)", "present", "J'habite ici depuis 2020."],
+            ["il y a", "ago", "past", "Je suis arrivé il y a trois ans."],
+            ["pendant", "for (how long it lasted)", "past or future", "J'ai attendu pendant une heure."],
+            ["pour", "for (planned length)", "present or future", "Je pars pour trois semaines."],
+            ["en", "in (how long it takes)", "any", "Je l'ai fait en deux heures."],
+            ["dans", "in (from now)", "present or future", "Il vient dans deux jours."]
           ]
         },
         {
-          "caption": "Finished, or with limits",
-          "head": ["Form", "Meaning", "Example"],
+          "caption": "The questions",
+          "head": ["Question", "Answer"],
           "rows": [
-            ["hace + period + past verb", "ago", "Llegué hace seis años."],
-            ["hasta", "until", "Trabajo hasta las ocho."],
-            ["durante", "during, for", "Durante el verano no hay clases."],
-            ["desde… hasta", "from… until", "Abre desde las diez hasta las ocho."]
+            ["Depuis quand habitez-vous ici ?", "Depuis 2020."],
+            ["Depuis combien de temps travaillez-vous ici ?", "Depuis deux ans."],
+            ["Quand êtes-vous arrivé ?", "Il y a trois ans."],
+            ["Combien de temps avez-vous attendu ?", "Pendant une heure."],
+            ["Quand revenez-vous ?", "Dans une semaine."]
           ]
         }
       ],
       "boxes": [
         {
-          "badge": "Careful: same word, two meanings",
+          "badge": "Quick guide",
           "variant": "dat",
-          "items": [
-            "Hace tres años que vivo aquí: I still live here.",
-            "Viví aquí hace tres años: I lived here three years ago, and I don't now."
-          ]
+          "items": ["still going on → depuis + present", "ago → il y a + passé composé", "from now → dans", "time needed → en"]
         }
       ]
     }
   },
   "aktiv": {
     "listen": [
-      { "text": "Vivo aquí desde 2020.", "note": "desde + a moment." },
-      { "text": "Trabajo aquí desde hace dos años.", "note": "desde hace + a period, verb in the present." },
-      { "text": "Hace tres años que estudio español.", "note": "Same meaning, time first." },
-      { "text": "Llevo un mes en este trabajo.", "note": "llevar + a period." },
-      { "text": "Llegué a España hace un año.", "note": "Past verb: hace means ago." }
+      { "text": "J'habite à Lille depuis 2019.", "note": "depuis + present: I still live there." },
+      { "text": "Je suis arrivée en France il y a trois ans.", "note": "il y a + passé composé: three years ago." },
+      { "text": "Nous avons attendu pendant une heure.", "note": "pendant: how long it lasted." },
+      { "text": "Le rendez-vous est dans deux semaines.", "note": "dans: two weeks from now." },
+      { "text": "J'ai rempli le dossier en deux heures.", "note": "en: how long it took." }
     ],
     "hoeren": {
       "instruction": "Listen and choose the sentence you heard. You can listen twice.",
       "items": [
-        { "text": "Vivo aquí desde hace dos años.", "choices": ["Vivo aquí desde 2022.", "Vivo aquí desde hace dos años.", "Viví aquí hace dos años."], "correct": 1 },
-        { "text": "Hace un año que trabajo aquí.", "choices": ["Hace un año que trabajo aquí.", "Trabajé aquí hace un año.", "Llevo un año aquí."], "correct": 0 },
-        { "text": "Llevamos tres meses en Bilbao.", "choices": ["Llegamos hace tres meses.", "Llevo tres meses en Bilbao.", "Llevamos tres meses en Bilbao."], "correct": 2 },
-        { "text": "La oficina está abierta hasta las dos.", "choices": ["La oficina está abierta desde las dos.", "La oficina está abierta hasta las dos.", "La oficina está cerrada hasta las dos."], "correct": 1 }
+        {
+          "text": "Elle habite ici depuis un an.",
+          "choices": ["Elle a habité ici il y a un an.", "Elle habite ici depuis un an.", "Elle habitera ici dans un an."],
+          "correct": 1
+        },
+        {
+          "text": "Je pars dans une semaine.",
+          "choices": ["Je pars dans une semaine.", "Je suis parti il y a une semaine.", "Je pars pour une semaine."],
+          "correct": 0
+        },
+        {
+          "text": "J'ai travaillé pendant deux ans.",
+          "choices": ["J'ai travaillé en deux ans.", "Je travaille depuis deux ans.", "J'ai travaillé pendant deux ans."],
+          "correct": 2
+        },
+        {
+          "text": "Il est arrivé il y a une heure.",
+          "choices": ["Il arrive dans une heure.", "Il est arrivé il y a une heure.", "Il est là depuis une heure."],
+          "correct": 1
+        }
       ]
     },
     "sprechen": {
       "rounds": [
         {
-          "label": "1 · How long?",
-          "instruction": "You hear a period. Say that you have lived here for that long, using desde hace.",
-          "example": { "prompt": "dos años", "answer": "Vivo aquí desde hace dos años." },
+          "label": "1 · depuis",
+          "instruction": "You hear a sentence and a length of time. Join them with depuis (it is still going on).",
+          "example": { "prompt": "J'habite ici. Deux ans.", "answer": "J'habite ici depuis deux ans." },
           "items": [
-            { "prompt": "tres meses", "answer": "Vivo aquí desde hace tres meses." },
-            { "prompt": "un año", "answer": "Vivo aquí desde hace un año." },
-            { "prompt": "seis años", "answer": "Vivo aquí desde hace seis años." },
-            { "prompt": "mucho tiempo", "answer": "Vivo aquí desde hace mucho tiempo." }
+            { "prompt": "Elle travaille à la poste. Trois mois.", "answer": "Elle travaille à la poste depuis trois mois." },
+            { "prompt": "Nous attendons. Une heure.", "answer": "Nous attendons depuis une heure." },
+            { "prompt": "Tu apprends le français. Janvier.", "answer": "Tu apprends le français depuis janvier." },
+            { "prompt": "Ils sont en France. Cinq ans.", "answer": "Ils sont en France depuis cinq ans." }
           ]
         },
         {
-          "label": "2 · With llevar",
-          "instruction": "You hear a period. Say how long you have been in Spain, using llevar.",
-          "example": { "prompt": "dos años", "answer": "Llevo dos años en España." },
+          "label": "2 · il y a",
+          "instruction": "You hear a sentence in the passé composé and a length of time. Say when it happened, with il y a.",
+          "example": { "prompt": "Je suis arrivé. Trois ans.", "answer": "Je suis arrivé il y a trois ans." },
           "items": [
-            { "prompt": "un mes", "answer": "Llevo un mes en España." },
-            { "prompt": "cinco años", "answer": "Llevo cinco años en España." },
-            { "prompt": "seis meses", "answer": "Llevo seis meses en España." },
-            { "prompt": "muchos años", "answer": "Llevo muchos años en España." }
+            { "prompt": "Elle a déménagé. Un mois.", "answer": "Elle a déménagé il y a un mois." },
+            { "prompt": "Nous avons signé le bail. Deux semaines.", "answer": "Nous avons signé le bail il y a deux semaines." },
+            { "prompt": "Il a appelé. Dix minutes.", "answer": "Il a appelé il y a dix minutes." },
+            { "prompt": "Tu as commencé. Un an.", "answer": "Tu as commencé il y a un an." }
           ]
         }
       ]
@@ -147,107 +167,133 @@
   "exercises": [
     {
       "type": "fill",
-      "title": "desde or desde hace?",
-      "hint": "A moment (2021, marzo): desde. A period (cinco años, un mes): desde hace.",
-      "instant": true,
+      "title": "depuis, il y a, pendant, dans, en, pour.",
+      "hint": "Ask: still going on, ago, how long it lasted, in x time from now, how long it took, planned length.",
       "placeholder": "Word",
       "items": [
-        { "prompt": "Vivo en Zaragoza ___ 2021.", "answer": "desde", "choices": ["desde", "desde hace"], "why": "2021 is a moment: desde." },
-        { "prompt": "Mi hermano vive en Zaragoza ___ cinco años.", "answer": "desde hace", "choices": ["desde", "desde hace"], "why": "Five years is a period: desde hace." },
-        { "prompt": "Trabajo en este hospital ___ marzo.", "answer": "desde", "choices": ["desde", "desde hace"], "why": "March is a moment: desde." },
-        { "prompt": "Estudio español ___ seis meses.", "answer": "desde hace", "choices": ["desde", "desde hace"], "why": "Six months is a period: desde hace." },
-        { "prompt": "No veo a mi hermana ___ el verano pasado.", "answer": "desde", "choices": ["desde", "desde hace"], "why": "Last summer is a moment: desde." },
-        { "prompt": "Tengo este móvil ___ dos años.", "answer": "desde hace", "choices": ["desde", "desde hace"], "why": "Two years is a period: desde hace.", "es419": { "note": "In Latin America: este celular." } },
-        { "prompt": "Estamos empadronados aquí ___ enero.", "answer": "desde", "choices": ["desde", "desde hace"], "why": "January is a moment: desde." },
-        { "prompt": "No hablo con el casero ___ una semana.", "answer": "desde hace", "choices": ["desde", "desde hace"], "why": "A week is a period: desde hace." }
+        { "prompt": "J'habite à Rennes ___ 2021.", "answer": "depuis", "choices": ["depuis", "pendant", "il y a"] },
+        { "prompt": "Léa travaille à l'hôpital ___ trois ans.", "answer": "depuis", "choices": ["depuis", "il y a", "pendant"] },
+        { "prompt": "Je suis arrivé en France ___ deux ans.", "answer": "il y a", "choices": ["il y a", "depuis", "pendant"] },
+        { "prompt": "Karim a attendu ___ une heure à la préfecture.", "answer": "pendant", "choices": ["pendant", "depuis", "dans"] },
+        { "prompt": "Le technicien viendra ___ deux jours.", "answer": "dans", "choices": ["dans", "en", "pendant"] },
+        {
+          "prompt": "J'ai fait mon dossier ___ deux heures, c'était vite fait.",
+          "answer": "en",
+          "choices": ["en", "dans", "depuis"]
+        },
+        {
+          "prompt": "Mme Lefèvre part ___ six mois à Marseille pour son travail.",
+          "answer": ["pour", "pendant"],
+          "choices": ["pour", "depuis", "il y a"]
+        },
+        { "prompt": "Nous avons habité à Nantes ___ cinq ans, de 2015 à 2020.", "answer": "pendant", "choices": ["pendant", "depuis", "dans"] }
       ]
     },
     {
       "type": "fill",
-      "title": "hace, llevar or desde?",
-      "hint": "hace + period + que + present. llevar + period. hace + period after a past verb: ago.",
+      "title": "Present or passé composé?",
+      "hint": "depuis and still true: present. il y a: a past tense.",
       "placeholder": "Form",
       "items": [
-        { "prompt": "___ tres años que vivo en España.", "answer": "Hace", "choices": ["Hace", "Llevo", "Desde"], "why": "hace + period + que + present." },
-        { "prompt": "___ tres años en España.", "answer": "Llevo", "choices": ["Hace", "Llevo", "Desde"], "why": "There is no que and no other verb, so llevar is the verb here." },
-        { "prompt": "Mi hija ___ dos meses en este colegio.", "answer": "lleva", "choices": ["lleva", "hace", "desde"], "why": "llevar + period, in the él/ella form." },
-        { "prompt": "Llegué a Madrid ___ tres años.", "answer": "hace", "choices": ["hace", "desde", "desde hace"], "why": "A past verb: hace means ago." },
-        { "prompt": "Empezamos a trabajar aquí ___ un mes.", "answer": "hace", "choices": ["hace", "desde", "desde hace"], "why": "A past verb: hace means ago." },
-        { "prompt": "¿Cuánto tiempo ___ en este piso?", "answer": "llevas", "choices": ["llevas", "hace", "desde"], "why": "llevar + period + place.", "es419": { "note": "In Latin America: en este departamento." } },
-        { "prompt": "¿___ cuándo vives en Valencia?", "answer": "Desde", "choices": ["Desde", "Hace", "Durante"], "why": "The question for a starting point: ¿Desde cuándo?" },
-        { "prompt": "¿Cuánto tiempo ___ que estudias español?", "answer": "hace", "choices": ["hace", "llevas", "desde"], "why": "The question form of hace… que." }
-      ]
-    },
-    {
-      "type": "fill",
-      "title": "hasta, durante or desde?",
-      "hint": "hasta: the end point. durante: during, for a period. desde: the start.",
-      "placeholder": "Word",
-      "items": [
-        { "prompt": "La oficina abre a las nueve y está abierta ___ las dos.", "answer": "hasta", "choices": ["hasta", "durante", "desde"], "why": "Two o'clock is the end point." },
-        { "prompt": "___ la reunión, Luis tomó muchas notas.", "answer": "Durante", "choices": ["Durante", "Hasta", "Desde"], "why": "While the meeting went on: durante." },
-        { "prompt": "Estuve en el hospital ___ dos semanas.", "answer": "durante", "choices": ["durante", "hasta", "desde"], "why": "A finished period: durante." },
-        { "prompt": "Te espero ___ las seis. Luego me voy.", "answer": "hasta", "choices": ["hasta", "durante", "desde"], "why": "Six o'clock is the end point." },
-        { "prompt": "La tienda abre ___ las diez hasta las ocho.", "answer": "desde", "choices": ["desde", "durante", "hasta"], "why": "desde… hasta: from… until." },
-        { "prompt": "No pude dormir ___ toda la noche.", "answer": "durante", "choices": ["durante", "desde", "hasta"], "why": "The whole night is a period: durante." }
+        { "prompt": "Nous ___ à Lille depuis 2019.", "hint": "habiter", "answer": "habitons", "choices": ["habitons", "avons habité"] },
+        { "prompt": "Elle ___ en France il y a deux ans.", "hint": "arriver", "answer": "est arrivée", "choices": ["est arrivée", "arrive"] },
+        { "prompt": "Je ___ ce kiné depuis six mois.", "hint": "voir", "answer": "vois", "choices": ["vois", "ai vu"] },
+        { "prompt": "Il ___ sans travail depuis un an.", "hint": "être", "answer": "est", "choices": ["est", "a été"] },
+        { "prompt": "Ils ___ leur appartement il y a trois mois.", "hint": "acheter", "answer": "ont acheté", "choices": ["ont acheté", "achètent"] },
+        { "prompt": "Karim ___ le français depuis deux ans.", "hint": "apprendre", "answer": "apprend", "choices": ["apprend", "a appris"] }
       ]
     },
     {
       "type": "table",
-      "title": "Same meaning, other words.",
-      "hint": "Keep the meaning: it is still going on. Use hace… que or llevar, as the pills show.",
-      "columns": ["Sentence", "Same meaning"],
-      "placeholder": "Sentence",
+      "title": "Which word for which meaning?",
+      "hint": "Think of two hours as an example.",
+      "columns": ["Meaning", "Word"],
+      "placeholder": "Word",
       "rows": [
-        { "term": "Vivo aquí desde hace dos años.", "answer": "Hace dos años que vivo aquí.", "choices": ["Hace dos años que vivo aquí.", "Viví aquí hace dos años.", "Desde dos años vivo aquí."] },
-        { "term": "Estudio español desde hace un año.", "answer": "Hace un año que estudio español.", "choices": ["Estudié español hace un año.", "Hace un año que estudio español.", "Desde un año estudio español."] },
-        { "term": "Conozco a Ana desde hace mucho tiempo.", "answer": "Hace mucho tiempo que conozco a Ana.", "choices": ["Conocí a Ana hace mucho tiempo.", "Desde mucho tiempo conozco a Ana.", "Hace mucho tiempo que conozco a Ana."] },
-        { "term": "Estamos en Bilbao desde hace tres meses.", "answer": "Llevamos tres meses en Bilbao.", "choices": ["Llevamos tres meses en Bilbao.", "Hacemos tres meses en Bilbao.", "Llevamos desde tres meses en Bilbao."] },
-        { "term": "Carmen está en paro desde hace un año.", "answer": "Carmen lleva un año en paro.", "choices": ["Carmen hace un año en paro.", "Carmen lleva un año en paro.", "Carmen lleva desde un año en paro."] },
-        { "term": "Estoy en este trabajo desde hace seis meses.", "answer": "Llevo seis meses en este trabajo.", "choices": ["Hago seis meses en este trabajo.", "Llevo desde seis meses en este trabajo.", "Llevo seis meses en este trabajo."] }
+        { "term": "in two hours (counted from now)", "answer": "dans", "choices": ["dans", "en", "depuis"] },
+        { "term": "it takes two hours to do it", "answer": "en", "choices": ["en", "dans", "il y a"] },
+        { "term": "it lasted two hours", "answer": "pendant", "choices": ["pendant", "depuis", "dans"] },
+        { "term": "two hours ago", "answer": "il y a", "choices": ["il y a", "depuis", "en"] },
+        { "term": "since two o'clock, still going on", "answer": "depuis", "choices": ["depuis", "pendant", "dans"] }
       ]
     },
     {
       "type": "match",
-      "title": "What does it mean?",
-      "hint": "Is it still going on, or finished?",
+      "title": "Question and answer.",
+      "hint": "Each question has one answer. Look at the question word and the tense.",
       "pairs": [
-        { "q": "Vivo aquí desde 2020.", "a": "I've lived here since 2020." },
-        { "q": "Vivo aquí desde hace seis años.", "a": "I've lived here for six years." },
-        { "q": "Viví aquí seis años.", "a": "I lived here for six years, and I don't now." },
-        { "q": "Llegué hace seis años.", "a": "I arrived six years ago." },
-        { "q": "Vivo aquí hasta junio.", "a": "I'm living here until June." }
+        { "q": "Pour combien de temps pars-tu en stage ?", "a": "Pour deux semaines." },
+        { "q": "Depuis combien de temps vit-elle en France ?", "a": "Depuis trois ans." },
+        { "q": "Quand es-tu arrivé en France ?", "a": "Il y a trois mois." },
+        { "q": "Combien de temps as-tu attendu ?", "a": "Pendant une heure." },
+        { "q": "Quand reviens-tu ?", "a": "Dans une semaine." }
       ]
     },
     {
       "type": "story",
-      "title": "Fill the gaps: Omar's years in Spain.",
-      "hint": "hace, desde, llevo, durante or hasta?",
-      "choices": ["hace", "desde", "llevo", "durante", "hasta"],
+      "title": "Fill the gaps: a few words about me.",
+      "hint": "Which time word fits?",
+      "choices": ["depuis", "il y a", "pendant", "en", "dans", "pour"],
       "segments": [
-        { "text": "Omar llegó a España " },
-        { "blank": 0, "answer": "hace" },
-        { "text": " cuatro años. Vive en Almería " },
-        { "blank": 1, "answer": "desde" },
-        { "text": " 2023 y trabaja en un invernadero. “" },
-        { "blank": 2, "answer": "Llevo" },
-        { "text": " dos años en esta empresa”, dice. " },
-        { "blank": 3, "answer": "Durante" },
-        { "text": " las vacaciones visita a su familia. En septiembre vuelve al trabajo y muchos días se queda " },
-        { "blank": 4, "answer": "hasta" },
-        { "text": " las siete de la tarde." }
+        { "text": "Bonjour, je m'appelle Sofia. J'habite à Nantes " },
+        { "blank": 0, "answer": "depuis" },
+        { "text": " 2021. Je suis arrivée en France " },
+        { "blank": 1, "answer": "il y a" },
+        { "text": " quatre ans. J'ai travaillé " },
+        { "blank": 2, "answer": "pendant" },
+        { "text": " deux ans dans un restaurant, puis j'ai trouvé un emploi de comptable. Le trajet se fait " },
+        { "blank": 3, "answer": "en" },
+        { "text": " vingt minutes à vélo. Mon contrat se termine " },
+        { "blank": 4, "answer": "dans" },
+        { "text": " six mois." }
       ]
     },
     {
       "type": "build",
       "title": "Build the sentences.",
-      "hint": "Still going on: verb in the present.",
+      "hint": "Time expressions can open or close the sentence.",
       "sentences": [
-        {"id":"dh1","hint":"I've lived in Seville since 2022","correct":["Vivo","en","Sevilla","desde","2022","."],"shuffled":["desde",".","Sevilla","Vivo","2022","en"],"alt":[["Desde","2022","vivo","en","Sevilla","."],["Vivo","desde","2022","en","Sevilla","."]]},
-        {"id":"dh2","hint":"I've worked here for two years (use desde hace)","correct":["Trabajo","aquí","desde","hace","dos","años","."],"shuffled":["hace","aquí",".","años","Trabajo","dos","desde"],"alt":[["Desde","hace","dos","años","trabajo","aquí","."],["Trabajo","desde","hace","dos","años","aquí","."]]},
-        { "id": "dh3", "hint": "I've been studying Spanish for three years (start with Hace)", "correct": ["Hace", "tres", "años", "que", "estudio", "español", "."], "shuffled": ["que", "español", "tres", ".", "Hace", "estudio", "años"] },
-        {"id":"dh4","hint":"I've been in this flat for six months (use llevar)","correct":["Llevo","seis","meses","en","este","piso","."],"shuffled":["este","meses",".","Llevo","piso","seis","en"],"es419":{"note":"In Latin America: en este departamento."},"alt":[["Llevo","en","este","piso","seis","meses","."],["En","este","piso","llevo","seis","meses","."]]},
-        { "id": "dh5", "hint": "We arrived in Spain a year ago", "correct": ["Llegamos", "a", "España", "hace", "un", "año", "."], "shuffled": ["un", "hace", ".", "Llegamos", "año", "a", "España"], "alt": [["Hace", "un", "año", "llegamos", "a", "España", "."]] }
+        {
+          "id": "tp1",
+          "hint": "I have lived here for two years",
+          "correct": ["J'habite", "ici", "depuis", "deux", "ans", "."],
+          "shuffled": ["ans", "depuis", ".", "J'habite", "deux", "ici"],
+          "alt": [["Depuis", "deux", "ans", "j'habite", "ici", "."], ["J'habite", "depuis", "deux", "ans", "ici", "."]]
+        },
+        {
+          "id": "tp2",
+          "hint": "I arrived in France a year ago",
+          "correct": ["Je", "suis", "arrivé", "en", "France", "il y a", "un", "an", "."],
+          "shuffled": ["un", "France", "Je", "il y a", "arrivé", ".", "an", "suis", "en"],
+          "alt": [["Il y a", "un", "an", "je", "suis", "arrivé", "en", "France", "."]]
+        },
+        {
+          "id": "tp3",
+          "hint": "We waited for an hour",
+          "correct": ["Nous", "avons", "attendu", "pendant", "une", "heure", "."],
+          "shuffled": ["heure", "avons", "Nous", ".", "pendant", "attendu", "une"],
+          "alt": [["Pendant", "une", "heure", "nous", "avons", "attendu", "."]]
+        },
+        {
+          "id": "tp4",
+          "hint": "The doctor will come in two days",
+          "correct": ["Le", "médecin", "viendra", "dans", "deux", "jours", "."],
+          "shuffled": ["jours", "Le", "dans", ".", "viendra", "deux", "médecin"],
+          "alt": [["Dans", "deux", "jours", "le", "médecin", "viendra", "."]]
+        },
+        {
+          "id": "tp5",
+          "hint": "I filled in the form in ten minutes",
+          "correct": ["J'ai", "rempli", "le", "formulaire", "en", "dix", "minutes", "."],
+          "shuffled": ["dix", "formulaire", "J'ai", "en", ".", "le", "minutes", "rempli"],
+          "alt": [["En", "dix", "minutes", "j'ai", "rempli", "le", "formulaire", "."]]
+        },
+        {
+          "id": "tp6",
+          "hint": "I have been looking for a job for three months (start with Ça)",
+          "correct": ["Ça", "fait", "trois", "mois", "que", "je", "cherche", "un", "travail", "."],
+          "shuffled": ["que", "travail", "Ça", "cherche", "mois", ".", "je", "trois", "fait", "un"]
+        }
       ]
     }
   ]
