@@ -6,7 +6,7 @@
 // (a page's LearningResource names the organisation as its provider). BreadcrumbList goes on
 // every nested page. SEO-BRAND-TIERED-PROMPT.md, Tier 1.
 
-/** Official profiles that belong to icanspeak Spanish. Only accounts we control; the English
+/** Official profiles that belong to icanspeak French. Only accounts we control; the English
     course's Instagram is not this site's. Empty → no sameAs at all. */
 export const SAME_AS: string[] = [];
 
@@ -17,16 +17,16 @@ export function organizationLd(site: string) {
   return {
     "@type": "Organization",
     "@id": orgId(site),
-    name: "icanspeak Spanish",
-    alternateName: ["icanspeak", "icanspeak.it/spanish"],
+    name: "icanspeak French",
+    alternateName: ["icanspeak", "icanspeak.it/french"],
     url: `${site}/`,
     // Square, ≥ 112 px: what Google needs for the logo next to the result. The course mark
     // from the icanspeak.it kit (docs/brand/BRAND.md); the wide wordmark does not qualify.
-    logo: { "@type": "ImageObject", url: `${site}/logos/icanspeak-spanish-mark-1024.png`, width: 1024, height: 1024 },
+    logo: { "@type": "ImageObject", url: `${site}/logos/icanspeak-french-mark-1024.png`, width: 1024, height: 1024 },
     // Part of the icanspeak.it family (the domain root is the umbrella site).
     parentOrganization: { "@type": "Organization", name: "icanspeak.it", url: "https://icanspeak.it/" },
     description:
-      "icanspeak Spanish is a free website for learning the Spanish of Spain, from A1 to C1, and preparing for the DELE, the SIELE and the CCSE.",
+      "icanspeak French is a free website for learning the Spanish of Spain, from A1 to C1, and preparing for the DELE, the SIELE and the CCSE.",
     // No email here: the contact address is still the old placeholder in src/lib/legal.js.
     ...(SAME_AS.length ? { sameAs: SAME_AS } : {}),
   };
@@ -38,7 +38,7 @@ export function websiteLd(site: string) {
   return {
     "@type": "WebSite",
     "@id": websiteId(site),
-    name: "icanspeak Spanish",
+    name: "icanspeak French",
     alternateName: "icanspeak",
     url: `${site}/`,
     inLanguage: "en",

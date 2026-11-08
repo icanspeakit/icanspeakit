@@ -95,14 +95,14 @@ export function plain(html) {
  * it is. Exported for the German Fakten PDFs, which open their own PDFDocument.
  */
 export const PDF_COPYRIGHT =
-  "© 2018–2026 Edgar Kretschmann (icanspeak Spanish), icanspeak.it/spanish. Kostenlos für den eigenen Unterricht; Weiterverkauf, Veröffentlichung auf anderen Plattformen und KI-Training nicht gestattet.";
+  "© 2018–2026 Edgar Kretschmann (icanspeak French), icanspeak.it/french. Kostenlos für den eigenen Unterricht; Weiterverkauf, Veröffentlichung auf anderen Plattformen und KI-Training nicht gestattet.";
 export function pdfInfo(title) {
   return {
-    Title: String(title ?? "icanspeak Spanish").replace(/^ICANSPEAK SPANISH · /, "icanspeak Spanish · "),
-    Author: "icanspeak Spanish (Edgar Kretschmann)",
+    Title: String(title ?? "icanspeak French").replace(/^ICANSPEAK FRENCH · /, "icanspeak French · "),
+    Author: "icanspeak French (Edgar Kretschmann)",
     Subject: PDF_COPYRIGHT,
-    Keywords: "icanspeak Spanish, icanspeak.it/spanish, Deutsch lernen",
-    Creator: "icanspeak Spanish — icanspeak.it/spanish",
+    Keywords: "icanspeak French, icanspeak.it/french, Deutsch lernen",
+    Creator: "icanspeak French — icanspeak.it/french",
   };
 }
 
@@ -713,7 +713,7 @@ export function createDoc({ outPath, runningHead, unicode = false, footer = null
       // own still says where it came from. A book can draw its own (`footer` in createDoc).
       if (footer) footer(i - range.start, range.count);
       else doc.fillColor(MUTED).font(F.regular).fontSize(8).text(
-        "icanspeak.it/spanish · © icanspeak Spanish",
+        "icanspeak.it/french · © icanspeak French",
         MARGIN,
         doc.page.height - 38,
         { width: doc.page.width - MARGIN * 2 - 70, align: "left", lineBreak: false }

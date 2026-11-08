@@ -17,7 +17,7 @@ import { htmlFiles, toPathname, NOINDEX, REFRESH } from './sitemap.mjs';
 import { absoluteUrl } from '../lib/paths.js';
 
 /** Headings and the pages under them. `/x/*` = every built page below /x as well. */
-// Site paths (without /spanish); the URLs are built with absoluteUrl() (src/lib/paths.js).
+// Site paths (without /french); the URLs are built with absoluteUrl() (src/lib/paths.js).
 const SECTIONS = [
   ['Start here', ['/placement-test', '/step-by-step', '/exercises', '/progress']],
   ['Grammar and vocabulary', ['/grammar', '/grammar/conjugation', '/vocabulary', '/pronunciation']],
@@ -33,7 +33,7 @@ const ENTITIES = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;
 const decode = (s) => s.replace(/&(amp|lt|gt|quot|#39|#x27);/g, (m) => ENTITIES[m] ?? m).trim();
 const TITLE = /<title>([^<]*)<\/title>/i;
 const DESC = /<meta\s[^>]*name=["']description["'][^>]*content=["']([^"']*)["']/i;
-const SUFFIX = /\s+[–|-]\s+(icanspeak Spanish|icanspeak)$/;
+const SUFFIX = /\s+[–|-]\s+(icanspeak French|icanspeak)$/;
 
 /** @returns {import('astro').AstroIntegration} */
 export default function llmsTxt() {
@@ -67,7 +67,7 @@ export default function llmsTxt() {
           const url = absoluteUrl(p);
           return `- [${page.title}](${url})${page.description ? `: ${page.description}` : ''}`;
         };
-        let out = `# icanspeak Spanish\n\n> ${home.description}\n`;
+        let out = `# icanspeak French\n\n> ${home.description}\n`;
         for (const [heading, list] of SECTIONS) {
           const paths = list.flatMap((p) =>
             p.endsWith('/*')

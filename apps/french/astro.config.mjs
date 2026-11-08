@@ -14,7 +14,7 @@ const r301 = (destination) => ({ status: 301, destination });
 
 /* A grammar topic lives at /<slug>, but /grammar/<slug> is the address people guess. Pages and
  * reference tables under /grammar win over a guessed topic address. Keys are the workspaces'
- * `slug ?? id`. The site at /spanish is new, so this is the only redirect it has: nothing was
+ * `slug ?? id`. The site at /french is new, so this is the only redirect it has: nothing was
  * ever public under an earlier address (docs/content-plan.md §7, §8). */
 function grammarTopicRedirects() {
   const dir = new URL('./src/data/grammatik/', import.meta.url);
@@ -32,7 +32,7 @@ function grammarTopicRedirects() {
   return out;
 }
 
-/* The live address: https://icanspeak.it/spanish/ (src/lib/paths.js owns both values; the
+/* The live address: https://icanspeak.it/french/ (src/lib/paths.js owns both values; the
  * domain root is a separate site). Canonical URLs, og:url, hreflang, /sitemap.xml and
  * llms.txt are built from them. Redirect sources and destinations stay site paths: Astro
  * writes the stubs under the base, and the destinations are moved under it by the base-path

@@ -63,7 +63,7 @@ export async function mountFotoPage(root) {
         Object.assign(draft, { id: row.id, name: row.name, level: row.level ?? "", words: row.words ?? [] });
         $("[data-page-title]").textContent = row.name;
         $("[data-photo-title]").textContent = "1 · Weiteres Foto (optional)";
-        document.title = `${row.name} – icanspeak Spanish`;
+        document.title = `${row.name} – icanspeak French`;
       }
     } catch (err) {
       console.error(err);
