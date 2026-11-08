@@ -393,6 +393,10 @@ html:not([data-mascots="off"]) .el-walk-marker { display: none; }
   font-size: var(--text-lg);
   font-weight: 600;
 }
+/* French puts a space before ? ! ; : ("Tu viens ?"): keep the flex gap instead of pulling in. */
+.el-line-end--spaced {
+  margin-left: 0;
+}
 .el-pool {
   display: flex;
   flex-wrap: wrap;
