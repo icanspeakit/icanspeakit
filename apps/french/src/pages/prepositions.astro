@@ -42,9 +42,9 @@ const total = packs.reduce((n, p) => n + p.questions.length, 0);
 
 // The full grammar topics these packs are a warm-up for, shown under the level they belong to.
 const MORE: Record<string, { href: string; label: string; key: string }[]> = {
-  A2: [{ href: "/a-or-en", label: "a or en: going and being – in depth", key: "praep.more.wechsel" }],
+  A2: [{ href: "/a-or-en", label: "à, en, au: towns and countries – in depth", key: "praep.more.wechsel" }],
   B1: [
-    { href: "/verbs-prepositions", label: "Verbs + prepositions – in depth", key: "praep.more.verben" },
+    { href: "/verbs-prepositions", label: "Verbs + à and de – in depth", key: "praep.more.verben" },
     { href: "/grammar/conjugation?set=por-para-b1", label: "por or para in real situations", key: "conj.set.por-para-b1" },
   ],
   B2: [{ href: "/adjectives-prepositions", label: "Adjectives + prepositions – in depth", key: "praep.more.nvv" }],
@@ -163,7 +163,7 @@ const overview = {
                   <div class="nvb-panelhead">
                     <h3 data-i18n="praep.wechsel.name">Place and movement</h3>
                   </div>
-                  <p class="ls-lead" data-i18n-html="praep.wechsel.lead"><b>Where is it?</b> in, on, at, next to, behind … <b>Where does it go?</b> to, into, through, across … “in the room” is not “into the room”.</p>
+                  <p class="ls-lead" data-i18n-html="praep.wechsel.lead"><b>Where is it?</b> dans, sur, à côté de, derrière … <b>Where does it go?</b> à, vers, jusqu'à, dans … A town takes à, most countries en or au, for being and for going alike: <em>J'habite à Lyon. Je vais au Maroc.</em></p>
                   <section class="ap-packs">
                     {wechsel.map((p) => (
                       <button type="button" class="nvb-item akp-pack pr-pack" data-pack={p.id} data-level={p.level}>
@@ -177,7 +177,7 @@ const overview = {
                   </section>
                   <section class="ap-packs pr-more">
                     <h4 class="ap-phase-head"><span data-i18n="praep.more">Ausführlich üben</span></h4>
-                    <a class="nvb-item pr-more-link" href="/a-or-en" data-i18n="praep.more.wechselShort">a or en: going and being – rule and exercises</a>
+                    <a class="nvb-item pr-more-link" href="/a-or-en" data-i18n="praep.more.wechselShort">à, en, au: towns and countries – rule and exercises</a>
                   </section>
                 </div>
               </div>
@@ -242,7 +242,7 @@ const overview = {
         ))}
         <section class="pr-rule pr-rule--overview">
           <RefTable table={overview} />
-          <p class="akk-regel-note" data-i18n-html="praep.rule.note">After verbs, adjectives and nouns the preposition is fixed — learn it together with the word: <b>wait for</b>, <b>good at</b>, <b>reason for</b>.</p>
+          <p class="akk-regel-note" data-i18n-html="praep.rule.note">After verbs, adjectives and nouns the preposition is fixed — learn it together with the word: <b>penser à</b>, <b>fier de</b>, <b>avoir envie de</b>.</p>
         </section>
       </div>
     </aside>
