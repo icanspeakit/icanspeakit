@@ -960,6 +960,15 @@ At `87df0a7e` that pattern hits 115 files in `src/lib`, 37 in `scripts`, 1 in `s
 - **Civic mock weighting** (§2.2): `meta.tareas[].realCount` per theme is unverified, and the mock draws by it.
 - **Nobody has checked the French in this plan.** Examples were written by the plan's author, unreviewed by a native speaker. Runs treat them as starting points.
 - **Not checked for this plan:** see §14.
+- **Decisions by `variety-schema`** (binding for later items):
+  - The article helpers live in **`src/lib/articles.js`** (no imports, so client scripts and validators can use them without the lexicon bundle); `src/lib/lexicon.js` re-exports `withArticle`, `genderOf`, `indefinite`, `pluralArticle`. `genderProblems()` there is the one set of gender/genus/hAspire rules, used by `validate-lexicon.mjs` and `berufeCore.js`.
+  - **Legacy vs French is decided by `variety`:** an entry with gender `el`/`el/la` or `variety` `es-ES`/`es-419` follows the Spanish rules; everything else the French ones. So **a converted entry must carry `variety: "fr-FR"` (or none), never keep `es-ES`**: a French `la` noun still marked `es-ES` would get `las` as plural article. The validators report `gender le on an entry still marked es-ES`.
+  - `withArticle` takes `lemma`, else `front` (cards), else `word`; for `les` it uses `plural` when `pluralOnly`. `spokenForm` says `le` for `le/la` nouns, as the Spanish one said `el`.
+  - Lexicon `aux` accepts `avoir`, `être`, `both` (and the old `haben`/`sein`); `mascVowel` (adjectives only) and `rectified` (≠ lemma) are shape-checked.
+  - `regional` is shape-checked everywhere (non-empty, ≤ 160). An item may carry `frCA` or `es419`, not both; `frCA` on an item still marked `es-ES` is an error.
+  - `check-variety.mjs --legacy` lists the files that still hold es-ES/es419; the summary prints one WARN line with the count.
+  - Satzregen source (`quelle.txt`) takes a `{frCA …}` flag; `{es419 …}` stays legal for the Spanish lines until the file is French.
+  - **Left for their owners** (they compose `${gender} ${lemma}` or carry Spanish article logic): `ArtikelTrainer.astro`, `artikelDiktat.js`, `generoDrill.js` (own `pluralArticle`), `spiele/domino.js`, `nussnacht/*`, `vokabelFoto/*` (`stripArticle`), `einfach-content.js` (`pluralWithArticle`, `ARTICLE_HINT`), `scripts/lexicon-import.mjs` (writes `es419` from `lat`). Each should switch to `articles.js` when its item runs (`games`, `games-arcade`, `beginner-path`, `vocab-a1`). CSS classes `pr-art--<gender>` in the print sheet need `le`/`la`/`l'`/`les` styles (`ui-components`).
 
 ---
 
