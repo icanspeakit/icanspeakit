@@ -996,6 +996,11 @@ At `87df0a7e` that pattern hits 115 files in `src/lib`, 37 in `scripts`, 1 in `s
   - `konto.teacher.title`, `konto.ms.desc` and `konto.lang.desc` (account page, left by `ui-pages-a-l`) now say French.
   - `lang="es"` → `lang="fr"` across pages m–z (owned pages included). Greetings in the target language use NBSP before `!` (*Salut !*, *Bingo !*).
   - Left for their owners in pages m–z: the body of `object-pronouns.astro` (Spanish table, `akk.regel.example`) → `grammar-a2`; `pronunciation*.astro`, `tongue-twisters` data, `ac.find.*` → `pronunciation`; `step-by-step` app → `beginner-path-ui`; `vp.hero.subtitle`, `verben.lead` → `conjugation-data`/`grammar-structure`; `mhelp.kultur.what`, `mhelp.wortgeschichte.what` (`mascotHelp.js`) → `culture`, `word-stories`; `intro.fkEasy*` → `civic-exam`; `sprint.*`, `hs.*` → `games`, `games-arcade`.
+- **Decisions by `placement-test`** (binding for later items):
+  - `einstufung` is in `STRICT` (`check-variety.mjs`); `variety: "fr-FR"` sits only at the top level, items inherit. frCA notes on two items (A1 carte Vitale → carte d'assurance maladie, B2 préfecture → IRCC). The variety summary counts frCA only on top-level items, so it prints "0 frCA notes" for this module.
+  - Items are three-option gaps with the written standard as the only right answer: no option a native speaker could also accept (no *sonnait* next to *a sonné*, no plus-que-parfait next to the passé composé, no *aura fait* for the journalistic conditional), and spoken forms (dropped *ne*, unagreed participle, *C'est à … à qui*) are distractors.
+  - Prompts carry NBSP before `? ! : ;` (§1.2); options and answers never do. `placement-test.astro` marks the quiz prompt and options `lang="fr"`.
+  - Left for `beginner-path-ui`: the quick check on `/step-by-step` renders these A1 items with `lang="es"` (`einfach-view.js` lines 370, 374), and the comment on `einfach-app.js` lines 165–167 still lists the Spanish A1 features (ser, estar, hay, gustar); the A1 set now tests être/avoir, the -er present, le/la, ne…pas, est-ce que and adjective agreement.
 
 ---
 
