@@ -1,17 +1,20 @@
 # Translations of the lexicon
 
-> **Spanish levels (since 2026-11-04, `vocab-a1`).** A level whose nouns carry `el` / `la` is
-> Spanish (`SPANISH_LEVELS` in `src/lib/lexicon.js`; all six since `vocab-c1-c2`). For those words every sidecar is
-> **Spanish → that language**, written with the Spanish word in front of the writer, never from
-> the English gloss: `de.json` (nouns with their article, „das Haus“), `fr.json`, `pt.json`
-> (Brazilian Portuguese since `ui-lang-pt`: *trem, ônibus, celular*, the same variety as the
-> interface; written as European Portuguese first and converted) and `it.json`. Status: machine draft, no native speaker has reviewed them.
-> `scripts/lexicon-import.mjs` writes them. `de` is a normal card language since `ui-lang-de`
-> (`cards` with `fetch: true`), and is joined as `deHint` as well for the print sheets and the decks
-> built from rows; `fr` is a card language since `ui-lang-fr` (`cards` with `fetch: true`,
-> `src/lib/glossen.js` reads the file by name), so is `pt` since `ui-lang-pt` and `it` since `ui-lang-it`. `es.json` and the other empty
-> sidecars are deleted (`cleanup`); `ar`, `ru`, `uk`, `tr` stay as empty files because `lexicon.js` imports them.
-> A language comes back as a new file once someone can write it reliably.
+> **French levels (icanspeak French, since 2026-11-08, `vocab-a1`).** A level whose words carry
+> `variety: "fr-FR"` is French (`FRENCH_LEVELS` in `src/lib/lexicon.js`; A1 since `vocab-a1`, the
+> others as their vocab-* item runs). For those words the sidecars are **French → that language**
+> (docs/content-plan.md §1.4), written with the French word in front of the writer, never from the
+> English gloss: `de.json` (nouns with their article, „die Schule“), `es.json` (Spain Spanish, „la
+> escuela“), `pt.json` (Brazilian Portuguese, „a escola“) and `it.json` („la scuola“).
+> Status: machine draft, no native speaker has reviewed them. `scripts/lexicon-import.mjs` writes
+> them. `fr.json` was emptied by `vocab-a1` (a French gloss of a French word means nothing) and is
+> deleted by `ui-lang-es`, which also registers `es` as a card language; until then `es.json` is
+> written but no tab reads it.
+>
+> **Spanish levels (legacy, until their vocab-* item).** A level whose nouns carry `el` / `la` and
+> `variety: "es-ES"` is still Spanish (`SPANISH_LEVELS`). Its `de`, `pt` and `it` entries are
+> Spanish → that language; its `fr` entries went with `vocab-a1`.
+> `ar`, `ru`, `uk`, `tr` stay as empty files because `lexicon.js` imports them.
 >
 > The rest of this file describes the German-course setup; no level uses it any more.
 

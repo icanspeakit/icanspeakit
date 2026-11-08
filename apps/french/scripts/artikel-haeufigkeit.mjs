@@ -7,7 +7,7 @@
 // which attach-ranks.mjs downloads and which a Vercel build does not have. The counts
 // change only when the lexicon does, so they are written once and committed, like `rank`.
 //
-// Same source as `rank` (OpenSubtitles 2018, hermitdave/FrequencyWords, MIT) and the same
+// Same source as `rank` (OpenSubtitles 2018, hermitdave/FrequencyWords, licence to verify) and the same
 // limitation: it is a lowercased WORDFORM list. "bitte", "weg", "morgen" and "wissen"
 // count their adverb and verb uses too, so the top of the curve is steeper than the nouns
 // alone would make it. The order is the same one Wortschatz already uses. The share is an
@@ -18,26 +18,30 @@ import path from "node:path";
 import { nouns } from "../src/lib/lexicon.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
-// Spanish lexicon since the vocab runs: the Spanish list (attach-ranks.mjs downloads es_50k).
-const CACHE = path.join(ROOT, "node_modules", ".cache", "es_50k.txt");
+// The list of each noun's language (attach-ranks.mjs downloads them): fr_50k for the French levels
+// (variety fr-FR, since vocab-a1), es_50k for the levels still in Spanish.
+const CACHE = (lang) => path.join(ROOT, "node_modules", ".cache", `${lang}_50k.txt`);
 const OUT = path.join(ROOT, "src", "data", "artikel-haeufigkeit.json");
 
-if (!existsSync(CACHE)) {
-  console.error("Frequency list missing. Run `node scripts/attach-ranks.mjs` once to download it.");
+if (!["fr", "es"].every((lang) => existsSync(CACHE(lang)))) {
+  console.error("Frequency list missing. Run `node scripts/attach-ranks.mjs` once to download them.");
   process.exit(1);
 }
 
-const counts = new Map();
-for (const line of readFileSync(CACHE, "utf8").split("\n")) {
-  const [word, n] = line.split(" ");
-  if (word && !counts.has(word)) counts.set(word, Number(n));
+const lists = {};
+for (const lang of ["fr", "es"]) {
+  const counts = (lists[lang] = new Map());
+  for (const line of readFileSync(CACHE(lang), "utf8").split("\n")) {
+    const [word, n] = line.split(" ");
+    if (word && !counts.has(word)) counts.set(word, Number(n));
+  }
 }
 
 const out = {};
 let missing = 0;
 for (const n of nouns({ level: ["A1", "A2", "B1", "B2"], has: "gender" })) {
   if (n.rank == null) continue;
-  const c = counts.get(n.lemma.toLowerCase());
+  const c = lists[n.variety === "fr-FR" ? "fr" : "es"].get(n.lemma.toLowerCase());
   if (c) out[n.id] = c;
   else missing++;
 }
