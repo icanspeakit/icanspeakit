@@ -11,6 +11,7 @@ import HubBild from "../../../components/HubBild.astro";
 import { BERUFE } from "../../../lib/berufeCore.js";
 import { DECKS, groupsOf, entryCount, hasPage, samplesOf } from "../../../lib/berufeWortschatz.js";
 import { pair } from "../../../lib/leichteSprache.js";
+import { withArticle } from "../../../lib/articles.js";
 import { files as downloads } from "../../../lib/downloads.js";
 import "../../../styles/practice.css";
 import "../../../styles/kultur.css";
@@ -101,7 +102,7 @@ const v = (o: Record<string, unknown>) => JSON.stringify(o);
           {samples.map((x) => (
             <li>
               <q lang="es">{x.example}</q>
-              <span class="bv-sample-word"><b lang="es">{x.gender ? `${x.gender} ${x.lemma}` : x.lemma}</b> — {x.meaning ?? x.deHint}</span>
+              <span class="bv-sample-word"><b lang="es">{withArticle(x)}</b> — {x.meaning ?? x.deHint}</span>
             </li>
           ))}
         </ul>

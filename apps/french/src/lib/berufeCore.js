@@ -11,6 +11,7 @@
 import { slugify } from "./audioSlug.js";
 import { langsFor } from "./languages.js";
 import { varietyProblems } from "./variety.js";
+import { GENDERS as ARTICLE_GENDERS, genderProblems } from "./articles.js";
 
 /** The ten sectors, in hub order: where newcomers to Spain most often start work first. The slugs
  *  are history (progress keys): kita is cleaning and domestic work, elektro-technik is farm work.
@@ -42,8 +43,9 @@ export const BUSINESS = { slug: "business", emoji: "💼" };
 export const TRANSLATIONS = langsFor("berufe");
 export const LANGS = ["de", ...TRANSLATIONS];
 export const POS = ["noun", "verb", "adj", "adverb", "phrase"];
-/** The article as the learner says it: el/la, el/la for common-gender person nouns (content-plan §1.4). */
-export const GENDERS = ["el", "la", "el/la"];
+/** The article as the learner says it (content-plan §1.4): le / la / l' / les / le/la, with the
+ *  Spanish el / la / el/la accepted as legacy until french-for-work (§1.6 rule 2). */
+export const GENDERS = ARTICLE_GENDERS;
 
 /** `bv-gastronomie-schneidebrett` */
 export const idFor = (slug, lemma) => `bv-${slug}-${slugify(lemma)}`;
@@ -113,10 +115,11 @@ export function validate(files, known) {
         if (lemmas.has(key)) at(`${where}: „${w.lemma}" is already defined (${lemmas.get(key)}) — use { "ref": "<id>" }`);
         else lemmas.set(key, `${file} ${w.id}`);
         if (!POS.includes(w.pos)) at(`${where}: pos must be one of ${POS.join(", ")}`);
-        if (w.pos === "noun" && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender ${GENDERS.join("/")}`);
-        if (w.genus != null && !(w.genus === "f" && w.pos === "noun" && w.gender === "el")) at(`${where}: genus "f" only on nouns with gender "el" (el agua)`);
+        if (w.pos === "noun" && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender ${GENDERS.join(", ")}`);
+        else if (w.pos === "noun") for (const p of genderProblems(w)) at(`${where}: ${p}`);
+        else if (w.genus != null || w.hAspire != null) at(`${where}: genus and hAspire only on nouns`);
         if (w.fem != null && !(w.pos === "adj" && typeof w.fem === "string" && w.fem.trim())) at(`${where}: fem must be the feminine form of an adjective`);
-        // variety / es419 (§1.5). A ref inherits both from the word it points to (rule above).
+        // variety / frCA / regional (§1.5; legacy es419 still accepted). A ref inherits them from the word it points to (rule above).
         for (const p of varietyProblems(w, { noun: w.pos === "noun" })) at(`${where}: ${p}`);
         if (w.pos === "noun" && w.plural === undefined && !w.pluralOnly) at(`${where}: a noun needs "plural" (null when there is none)`);
         if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [yo present, él indefinido, participio]`);

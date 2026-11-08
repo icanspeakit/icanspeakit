@@ -11,6 +11,7 @@
 import { slugify } from "./audioSlug.js";
 import { wortBild } from "./wortBild.js";
 import { langsFor } from "./languages.js";
+import { GENDERS, genderOf, indefinite, legacyEntry, pluralArticle, withArticle } from "./articles.js";
 import a1 from "../content/lexicon/a1.json" with { type: "json" };
 import a2 from "../content/lexicon/a2.json" with { type: "json" };
 import b1 from "../content/lexicon/b1.json" with { type: "json" };
@@ -199,13 +200,19 @@ export const CARD_LANGS = [...TRANSLATION_LANGS, "de"];
  *  the page asks for is not the slug the file was written under. */
 export const spokenForm = (e) => {
   if (e.pos !== "noun" || !e.gender) return e.lemma;
-  if (e.pluralOnly && ["el", "la"].includes(e.gender)) return `${pluralArticle(e)} ${e.plural ?? e.lemma}`;
-  // el/la estudiante: the voice says one article, the masculine, as a dictionary lists it.
-  return `${e.gender === "el/la" ? "el" : e.gender} ${e.lemma}`;
+  if (legacyEntry(e)) {
+    if (e.pluralOnly && ["el", "la"].includes(e.gender)) return `${pluralArticle(e)} ${e.plural ?? e.lemma}`;
+    // el/la estudiante: the voice says one article, the masculine, as a dictionary lists it.
+    return `${e.gender === "el/la" ? "el" : e.gender} ${e.lemma}`;
+  }
+  // le/la journaliste: the voice says one article, the masculine, as a dictionary lists it.
+  if (e.gender === "le/la") return `le ${e.lemma}`;
+  return withArticle(e);
 };
 
-/** los or las for a Spanish noun: from the article, except that el agua is feminine (las aguas). */
-export const pluralArticle = (e) => (e.genus === "f" || e.gender === "la" ? "las" : "los");
+// The article helpers (content-plan §1.4) live in articles.js, which has no imports, so client
+// scripts and validators can use them without the lexicon bundle. Re-exported here.
+export { withArticle, genderOf, indefinite, pluralArticle };
 
 /** Shape of src/data/wortschatz.json: `{ front, note, translations }`. */
 const toCard = (e) => {
@@ -247,11 +254,15 @@ const toCard = (e) => {
     ...(e.pos === "noun"
       ? {
           // los padres, las gafas: a plural-only noun shows its plural article, not el / la.
-          gender: e.pluralOnly && ["el", "la"].includes(e.gender) ? pluralArticle(e) : e.gender ?? (e.pluralOnly ? "die" : null),
+          // A French plural-only noun already carries "les".
+          gender: e.pluralOnly && legacyEntry(e) && ["el", "la"].includes(e.gender) ? pluralArticle(e) : e.gender ?? (e.pluralOnly ? "die" : null),
           plural: e.plural ?? null,
           pluralOnly: !!e.pluralOnly,
           // las aguas, not los aguas: the card's article alone can't tell (el agua is feminine).
-          ...(["el", "la", "el/la"].includes(e.gender) ? { pluralArt: pluralArticle(e) } : {}),
+          // French: always les.
+          ...(GENDERS.includes(e.gender) ? { pluralArt: pluralArticle(e) } : {}),
+          // l'école is feminine, l'hôtel masculine: the card keeps what the article hides.
+          ...(e.genus && !legacyEntry(e) ? { genus: e.genus } : {}),
         }
       : {}),
     // Only the words that actually have a file. A deck is partly voiced for as long as

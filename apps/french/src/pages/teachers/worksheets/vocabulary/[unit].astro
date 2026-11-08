@@ -162,7 +162,7 @@ let gap = 0;
         <section class="ab-sec">
           <h3 class="ab-h"><b>B</b> {artQuestion}</h3>
           <ol class="ab-keylist ab-keylist--cols">
-            {sheet.nouns.map((n) => <li><b>{n.gender}</b> {n.lemma}{n.plural && <span class="ab-muted">, pl. {n.plural}</span>}</li>)}
+            {sheet.nouns.map((n) => <li><b>{n.gender}</b>{n.gender === "l'" ? "" : " "}{n.lemma}{n.plural && <span class="ab-muted">, pl. {n.plural}</span>}</li>)}
           </ol>
         </section>
       )}

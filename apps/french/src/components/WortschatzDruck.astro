@@ -108,7 +108,7 @@ const artInstr = "Write el or la.";
         {words.map((e: any) => (
           <tr>
             <td class="pr-word">
-              {e.pos === "noun" && (e.gender || e.pluralOnly) && <b class={`pr-art pr-art--${e.pluralOnly ? "pl" : e.gender}`}>{e.pluralOnly && ["el", "la"].includes(e.gender) ? pluralArticle(e) : e.gender ?? ""} </b>}
+              {e.pos === "noun" && (e.gender || e.pluralOnly) && <b class={`pr-art pr-art--${e.pluralOnly ? "pl" : e.gender}`}>{e.pluralOnly && ["el", "la"].includes(e.gender) ? pluralArticle(e) : e.gender ?? ""}{e.gender === "l'" ? "" : " "}</b>}
               <b>{e.lemma}</b>
               {e.genderAlt && <span class="pr-muted"> (also: {e.genderAlt})</span>}
               {e.pos === "noun" && e.plural && !e.pluralOnly && <span class="pr-pl">pl. {e.plural}</span>}
@@ -228,7 +228,7 @@ const artInstr = "Write el or la.";
       <section class="ab-sec">
         <h3 class="ab-h"><b>B</b> {artQuestion}</h3>
         <ol class="ab-keylist ab-keylist--cols">
-          {sheet.nouns.map((n) => <li><b>{n.gender}</b> {n.lemma}{byLemma.get(n.lemma)?.genderAlt && <span class="ab-muted"> (also: {byLemma.get(n.lemma).genderAlt})</span>}{n.plural && <span class="ab-muted">, pl. {n.plural}</span>}</li>)}
+          {sheet.nouns.map((n) => <li><b>{n.gender}</b>{n.gender === "l'" ? "" : " "}{n.lemma}{byLemma.get(n.lemma)?.genderAlt && <span class="ab-muted"> (also: {byLemma.get(n.lemma).genderAlt})</span>}{n.plural && <span class="ab-muted">, pl. {n.plural}</span>}</li>)}
         </ol>
       </section>
     )}

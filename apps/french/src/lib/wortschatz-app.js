@@ -10,6 +10,7 @@
 // because those are reused by other practice pages with a different, simpler visual language.
 
 import { judgeSound } from "./uiSound.js";
+import { withArticle } from "./articles.js";
 import { withBase, currentPath } from "./paths.js";
 import { getLang, loadDict, translate, onLangChange } from "./i18n.js";
 import { mascotSvg } from "./mascots.js";
@@ -482,7 +483,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
   }
 
   /** The full form to name in feedback: "der Name", not "Name". */
-  const fullDe = (card) => (card.gender ? `${card.gender} ${card.front}` : card.front);
+  const fullDe = (card) => withArticle(card);
 
   /* A typed answer is right when the WORD is right. The article may be left off or got
      wrong without costing the point — it was never asked for, and a learner who is
@@ -1553,7 +1554,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
   function searchHit(card, q) {
     if (!q) return true;
     // "der name" has to find it as surely as "name" does.
-    const de = card.gender ? card.gender + " " + card.front : card.front;
+    const de = withArticle(card);
     return norm(de).includes(q) || norm(card.front).includes(q) || norm(foreignText(card)).includes(q) || (card.syn ?? []).some((x) => norm(x).includes(q));
   }
 

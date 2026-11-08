@@ -15,13 +15,13 @@ import GrammarHelpText from "../../components/GrammarHelpText.astro";
 import wortarten from "../../data/wortarten.json";
 import uebung from "../../data/grammatik/wortarten.json";
 import typischeFehler from "../../data/typische-fehler.json";
-import { select } from "../../lib/lexicon.js";
+import { select, withArticle } from "../../lib/lexicon.js";
 import { field } from "../../lib/helpContent.js";
 import "../../styles/practice.css";
 import "../../styles/wortarten.css";
 
 // Up to five examples per class, the most frequent first, from A1 where there are enough.
-const shown = (e: any) => (e.pos === "noun" && e.gender ? `${e.gender} ${e.lemma}` : e.lemma);
+const shown = (e: any) => (e.pos === "noun" && e.gender ? withArticle(e) : e.lemma);
 const byRank = (a: any, b: any) => (a.rank ?? 1e9) - (b.rank ?? 1e9);
 function examplesOf(c: any): string[] {
   if (c.examples) return c.examples;
