@@ -112,7 +112,7 @@ export function mountTypedDrill(root, questions, { onSessionUpdate, onAnswer, on
               <div class="akk-feedback-row">
                 ${p.solved
                   ? `<span class="akk-feedback--correct">${esc(t("pw.right", "Correct."))}</span>`
-                  : `<span class="akk-feedback--incorrect">${esc(t("pw.correctForm", "The correct form is „{a}“.", { a: q.answer }))}</span>`}
+                  : `<span class="akk-feedback--incorrect">${esc(t("pw.correctForm", "The correct form is “{a}”.", { a: q.answer }))}</span>`}
                 <button class="akk-btn akk-btn-primary" type="button" data-next>${esc(t("quiz.next", "Next"))}</button>
               </div>
               <div class="akk-why">
