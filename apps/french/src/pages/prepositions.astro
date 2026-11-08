@@ -61,16 +61,16 @@ const overview = {
   caption: "Which preposition when?",
   head: ["Job", "Prepositions", "Example"],
   rows: [
-    ["Time", "a (clock times), en (months, years), por (part of the day)", "a las seis, en mayo, por la mañana"],
-    ["Place", "en (in, on, at), de (origin, owner)", "en el coche, en la mesa, de Marruecos"],
-    ["Movement", "a, hacia, hasta, por, desde", "voy a Madrid, paso por el parque"],
-    ["After verbs, adjectives, nouns", "fixed: learn them together", "pensar en, harto de, ganas de"],
+    ["Time", "à (clock times), en (months, years), no preposition for parts of the day", "à six heures, en mai, le matin"],
+    ["Place", "à (towns), en / au / aux (countries), dans (inside), sur (on), de (origin)", "à Lyon, en France, au Maroc, dans la voiture, sur la table"],
+    ["Movement", "à, en, vers, jusqu'à, par, de", "je vais à Paris, je passe par le parc"],
+    ["After verbs, adjectives, nouns", "fixed: learn them together", "penser à, avoir besoin de, prêt à"],
   ],
 };
 ---
 <Layout
   title="Prepositions – icanspeak French"
-  description="Practise Spanish prepositions from A1 to B2: a, en, de, por and para, time, place and movement, and verbs with prepositions — with a rule for every topic."
+  description="Practise French prepositions from A1 to B2: à, de, en, dans, pour and par, time, place and movement, and verbs with prepositions — with a rule for every topic."
 >
   <SiteNav active="grammatik" />
   <TopicBar topic="praepositionen" kind="Grammar" title="Prepositions" level="A1–B2" tasks={total} showKind={false} scoped heading />
@@ -144,7 +144,7 @@ const overview = {
                         <button type="button" class="nvb-item akp-pack pr-pack" data-pack={p.id} data-level={level}>
                           <span class="pr-pack-body">
                             <span class="akp-pack-name" data-i18n={`praep.pack.${p.id}`}>{p.name}</span>
-                            <span class="pr-pack-preps" lang="es">{p.preps}</span>
+                            <span class="pr-pack-preps" lang="fr">{p.preps}</span>
                           </span>
                           <span class="akp-pack-state" data-pack-state>0/{p.questions.length}</span>
                         </button>
@@ -169,7 +169,7 @@ const overview = {
                       <button type="button" class="nvb-item akp-pack pr-pack" data-pack={p.id} data-level={p.level}>
                         <span class="pr-pack-body">
                           <span class="akp-pack-name" data-i18n={`praep.pack.${p.id}`}>{p.name}</span>
-                          <span class="pr-pack-preps" lang="es">{p.preps}</span>
+                          <span class="pr-pack-preps" lang="fr">{p.preps}</span>
                         </span>
                         <span class="akp-pack-state" data-pack-state>0/{p.questions.length}</span>
                       </button>

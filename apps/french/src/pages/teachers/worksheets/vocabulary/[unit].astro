@@ -37,13 +37,13 @@ const json = (a: string[]) => JSON.stringify(a);
 const sheetLangs = sheet.hasDe ? [...SHEET_LANGS, "de"] : SHEET_LANGS;
 const firstLang = sheetLangs[0];
 const langName = (l: string) => (l === "de" ? "In German" : LANG_NAMES[l]);
-const artQuestion = "el or la?";
-const artInstr = "Write el or la.";
+const artQuestion = "le, la or l'?";
+const artInstr = "Write the article: le, la or l'.";
 let gap = 0;
 ---
 <Layout
   title={fitTitle(`Vocabulary worksheet: ${title} (${level})`, `Worksheet: ${title} (${level})`, `Worksheet: ${title.replace(/\s*[:—].*$/, "")} (${level})`, `Worksheet: ${title.replace(/\s*[:—].*$/, "")}`)}
-  description={`Worksheet for the word set “${title}” (${level}): match words and meanings, add el or la, complete the sentences. To print or fill in online, with answers.`}
+  description={`Worksheet for the word set “${title}” (${level}): match words and meanings, add le, la or l', complete the sentences. To print or fill in online, with answers.`}
 >
   <SiteNav active="lehrkraefte" />
 
@@ -72,7 +72,7 @@ let gap = 0;
       </div>
     </div>
 
-    <article class="ab-sheet" lang="es" data-has-de={sheet.hasDe ? "" : undefined}>
+    <article class="ab-sheet" lang="fr" data-has-de={sheet.hasDe ? "" : undefined}>
       <header class="ab-head">
         <p class="ab-eyebrow">icanspeak French · Vocabulary worksheet · {level}</p>
         <h1 class="ab-title">{title}</h1>
@@ -137,7 +137,7 @@ let gap = 0;
       <footer class="ab-foot">icanspeak French · icanspeak.it/french{path} · free to copy for your lessons</footer>
     </article>
 
-    <article class="ab-sheet ab-key" lang="es" aria-label="Answers">
+    <article class="ab-sheet ab-key" lang="fr" aria-label="Answers">
       <header class="ab-head">
         <p class="ab-eyebrow">icanspeak French · Answers · {level}</p>
         <h2 class="ab-title ab-title--key">{title}</h2>

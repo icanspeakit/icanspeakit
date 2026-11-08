@@ -27,8 +27,8 @@ const cards = BERUFE.map((b) => {
 const total = cards.reduce((s, c) => s + c.n, 0);
 ---
 <Layout
-  title="Spanish for work – workplace vocabulary – icanspeak French"
-  description="Workplace Spanish for care work, hospitality, cleaning, farm work, construction, shops, warehouses, driving, hotels and offices: words with example sentences and translations, free."
+  title="French for work – workplace vocabulary – icanspeak French"
+  description="Workplace French for care work, restaurants, cleaning and childcare, security, construction, shops, warehouses, driving, hotels and offices: words with example sentences and translations, free."
 >
   <SiteNav active="wortschatz" />
   <main class="practice-main practice-main--wide">
@@ -58,7 +58,7 @@ const total = cards.reduce((s, c) => s + c.n, 0);
                   <b>{c.deck?.title ?? c.slug}</b>
                 </span>
                 <i>{c.deck?.introEasy}</i>
-                {c.deck?.jobs?.length > 0 && <span class="bv-pcard-jobs" lang="es">{c.deck.jobs.slice(0, 3).join(" · ")}</span>}
+                {c.deck?.jobs?.length > 0 && <span class="bv-pcard-jobs" lang="fr">{c.deck.jobs.slice(0, 3).join(" · ")}</span>}
                 {c.n > 0
                   ? <span class="bv-card-meta" data-i18n="sets.wordCount" data-i18n-vars={v({ n: c.n })}>{c.n} Wörter</span>
                   : <span class="bv-card-meta" data-i18n="berufe.card.soon">Kommt bald</span>}

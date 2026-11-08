@@ -16,8 +16,8 @@ import "../../styles/pruefungen.css";
 import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
 ---
 <Layout
-  title="SIELE: reading practice – icanspeak French"
-  description="Practise for the SIELE reading module in exam style, plus a writing task — with progress for each task and a score. Not an official test."
+  title="TEF: reading and writing practice – icanspeak French"
+  description="Practise reading in the style of the TEF, plus a writing task — with progress for each task and a score. Not an official test."
 >
   <SiteNav active="pruefungen" />
   <main class="practice-main practice-main--wide practice-main--trainer">
@@ -33,7 +33,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
     </div>
     <ExamDisclaimer />
 
-    <ExamApp brand="SIELE" sub="Reading · Writing" subKey="tdf.sub" unit="tasks" />
+    <ExamApp brand="TEF" sub="Reading · Writing" subKey="tdf.sub" unit="tasks" />
   </main>
 
   <script type="application/json" id="tdaf-data" set:html={JSON.stringify(satz)}></script>
@@ -97,7 +97,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
         render(main, ctx) {
           sectionHeader(main, {
             eyebrow: t("exam.h1.set"),
-            title: "SIELE — " + T("exam.h1.readWrite", "Reading and writing"),
+            title: "TEF — " + T("exam.h1.readWrite", "Reading and writing"),
             instruction: escapeHtml(T("tdf.start.intro",
               "The SIELE has no pass mark: each test gets a score from 0 to 250 and a CEFR level, and each institution decides what it asks for.")),
           });
