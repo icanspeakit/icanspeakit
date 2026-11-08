@@ -61,6 +61,12 @@ for (const set of data.sets) {
 }
 
 // --- 2. drills -------------------------------------------------------------------------------
+// PAUSED in part by `conjugation-data` (2026-11-08, docs/content-plan.md §1.6 rule 7): the verb
+// tables are French now, while this file's drill groups, presets, limits and the judge cases
+// below still name the Spanish verbs (hablar, tener …). Everything that looks a verb up in
+// verbtabellen.json is skipped until `conjugation-trainer` rewrites the drills for French and sets
+// TRAINER_VERBS_FRENCH = true. The sets (section 1) and the tense and topic-link checks still run.
+const TRAINER_VERBS_FRENCH = false;
 const { tenses, groups, presets, limits, notDrilled } = data.drills;
 const tenseKeys = new Set(tenses.map((t) => t.key));
 const groupIds = new Set(groups.map((g) => g.id));
@@ -68,18 +74,18 @@ const infs = new Set(verbData.verbs.map((v) => v.inf));
 const placed = new Map();
 for (const g of groups) {
   for (const inf of g.verbs) {
-    if (!infs.has(inf)) err(`group ${g.id}: ${inf} isn't in verbtabellen.json`);
+    if (TRAINER_VERBS_FRENCH && !infs.has(inf)) err(`group ${g.id}: ${inf} isn't in verbtabellen.json`);
     if (placed.has(inf)) err(`${inf}: in groups ${placed.get(inf)} and ${g.id}`);
     placed.set(inf, g.id);
   }
 }
 for (const inf of Object.keys(notDrilled)) {
-  if (!infs.has(inf)) err(`notDrilled: ${inf} isn't in verbtabellen.json`);
+  if (TRAINER_VERBS_FRENCH && !infs.has(inf)) err(`notDrilled: ${inf} isn't in verbtabellen.json`);
   if (placed.has(inf)) err(`${inf}: both drilled and on notDrilled`);
 }
-for (const inf of infs) if (!placed.has(inf) && !(inf in notDrilled)) err(`${inf}: in no drill group`);
+if (TRAINER_VERBS_FRENCH) for (const inf of infs) if (!placed.has(inf) && !(inf in notDrilled)) err(`${inf}: in no drill group`);
 for (const [inf, lim] of Object.entries(limits)) {
-  if (!infs.has(inf)) err(`limits: ${inf} isn't in verbtabellen.json`);
+  if (TRAINER_VERBS_FRENCH && !infs.has(inf)) err(`limits: ${inf} isn't in verbtabellen.json`);
   for (const k of [...(lim.only ?? []), ...(lim.skip ?? [])]) if (!tenseKeys.has(k)) err(`limits ${inf}: tense ${k}`);
 }
 for (const t of tenses) {
@@ -107,7 +113,7 @@ for (const [topic, link] of Object.entries(data.topicLinks)) {
 let seed = 42;
 const rng = () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
 const trainer = createTrainer(verbData, data, { rng });
-const pool = trainer.poolFor();
+const pool = TRAINER_VERBS_FRENCH ? trainer.poolFor() : [];
 const seen = new Set();
 for (const stub of pool) {
   if (seen.has(stub.id)) err(`${stub.id}: asked twice`);
@@ -129,7 +135,7 @@ for (const stub of pool) {
   if (/undefined|null/.test(q.explain + q.prompt + q.change)) err(`${at}: undefined text`);
 }
 if (trainer.poolFor({ vosotros: false }).some((s) => s.person === VOSOTROS)) err("a pool without vosotros still has vosotros forms");
-for (const p of presets) if (!trainer.presetCount(p.id, true)) err(`preset ${p.id}: asks nothing`);
+if (TRAINER_VERBS_FRENCH) for (const p of presets) if (!trainer.presetCount(p.id, true)) err(`preset ${p.id}: asks nothing`);
 for (const set of data.sets) {
   for (const q of trainer.setQuestions(set.id)) {
     if (!judge(q, q.answer).ok) err(`${q.id}: its own answer fails the check`);
@@ -139,19 +145,21 @@ for (const set of data.sets) {
 
 // The accent rule itself, on forms that differ by nothing else (content-plan §1.2).
 const ask = (verb, tense, person) => trainer.question({ id: "x", verb, tense, person });
-const cases = [
-  [ask("hablar", "praet", 2), "hablo", "accent"],
-  [ask("saber", "praes", 0), "se", "accent"],
-  [ask("hablar", "praes", 4), "hablais", "accent"],
-  [ask("levantarse", "praes", 0), "levanto", "pronoun"],
-  [ask("tener", "praet", 0), "tení", "wrong"],
-];
-for (const [q, typed, why] of cases) {
-  const got = judge(q, typed);
-  if (got.ok || got.why !== why) err(`judge: "${typed}" for ${q.change} gives ${JSON.stringify(got)}, wanted ${why}`);
-}
-for (const [q, typed] of [[ask("tener", "subjImpf", 0), "tuviese"], [ask("hablar", "impNeg", 1), "no hables"], [ask("hablar", "impNeg", 1), "hables"], [ask("tener", "praes", 0), "  Tengo "]]) {
-  if (!judge(q, typed).ok) err(`judge: "${typed}" for ${q.change} should pass`);
+if (TRAINER_VERBS_FRENCH) {
+  const cases = [
+    [ask("hablar", "praet", 2), "hablo", "accent"],
+    [ask("saber", "praes", 0), "se", "accent"],
+    [ask("hablar", "praes", 4), "hablais", "accent"],
+    [ask("levantarse", "praes", 0), "levanto", "pronoun"],
+    [ask("tener", "praet", 0), "tení", "wrong"],
+  ];
+  for (const [q, typed, why] of cases) {
+    const got = judge(q, typed);
+    if (got.ok || got.why !== why) err(`judge: "${typed}" for ${q.change} gives ${JSON.stringify(got)}, wanted ${why}`);
+  }
+  for (const [q, typed] of [[ask("tener", "subjImpf", 0), "tuviese"], [ask("hablar", "impNeg", 1), "no hables"], [ask("hablar", "impNeg", 1), "hables"], [ask("tener", "praes", 0), "  Tengo "]]) {
+    if (!judge(q, typed).ok) err(`judge: "${typed}" for ${q.change} should pass`);
+  }
 }
 
 for (const e of errors.slice(0, 60)) console.error(`  ERROR ${e}`);

@@ -5,7 +5,7 @@ import data from "../data/verbtabellen.json";
 import { all } from "./lexicon.js";
 import { buildAll } from "./verbtabellenCore.js";
 
-export { PERSONS, regularPraes, regularPraet, regularP2 } from "./verbtabellenCore.js";
+export { PERSONS, regularPraes, regularPraet, regularFut, regularP2, subjectFor } from "./verbtabellenCore.js";
 
 const glossOf = (() => {
   let map;
