@@ -61,9 +61,7 @@ const total = akkusativQuestions.filter((q) => q.difficulty === "leicht").length
 
         <div id="akk-regel-view" hidden>
           <p class="akk-regel-intro" data-i18n-html="akk.regel.intro">
-            The <strong>direct object</strong> is the person or thing the verb acts on. A person takes the
-            personal <em>a</em>: <em>Veo <strong>a</strong> Ana.</em> A thing doesn't: <em>Veo la casa.</em>
-            The pronoun usually goes <strong>before</strong> the conjugated verb: <em><strong>La</strong> veo.</em>
+            The <strong>direct object</strong> (COD) is the person or thing the verb acts on, with no preposition: <em>Je vois <strong>Ana</strong>. Je cherche <strong>mes clés</strong>.</em> The pronoun goes <strong>before</strong> the conjugated verb: <em>Je <strong>la</strong> vois.</em> Before a vowel or a mute <em>h</em>, <em>me, te, le, la</em> become <em>m', t', l'</em>: <em>Je <strong>l'</strong>aime.</em>
           </p>
           <table class="akk-decl-table">
             <thead>
@@ -75,50 +73,49 @@ const total = akkusativQuestions.filter((q) => q.difficulty === "leicht").length
             </thead>
             <tbody lang="fr">
               <tr>
-                <td>yo</td>
-                <td class="akk-decl-change">me</td>
-                <td>¿<strong>Me</strong> ayudas?</td>
+                <td>je</td>
+                <td class="akk-decl-change">me (m')</td>
+                <td>Tu <strong>me</strong> comprends ?</td>
               </tr>
               <tr>
-                <td>tú</td>
-                <td class="akk-decl-change">te</td>
-                <td><strong>Te</strong> llamo luego.</td>
+                <td>tu</td>
+                <td class="akk-decl-change">te (t')</td>
+                <td>Je <strong>te</strong> rappelle ce soir.</td>
               </tr>
               <tr>
-                <td>él</td>
-                <td class="akk-decl-change">lo</td>
-                <td><strong>Lo</strong> veo todos los días.</td>
+                <td>il</td>
+                <td class="akk-decl-change">le (l')</td>
+                <td>Je <strong>le</strong> vois tous les jours.</td>
               </tr>
               <tr>
-                <td>ella</td>
-                <td class="akk-decl-change">la</td>
-                <td><strong>La</strong> conozco del trabajo.</td>
+                <td>elle</td>
+                <td class="akk-decl-change">la (l')</td>
+                <td>Je <strong>la</strong> connais du travail.</td>
               </tr>
               <tr>
-                <td>nosotros / nosotras</td>
-                <td class="akk-decl-change">nos</td>
-                <td><strong>Nos</strong> visitan los domingos.</td>
+                <td>nous</td>
+                <td class="akk-decl-change">nous</td>
+                <td>Ils <strong>nous</strong> invitent dimanche.</td>
               </tr>
               <tr>
-                <td>vosotros / vosotras</td>
-                <td class="akk-decl-change">os</td>
-                <td><strong>Os</strong> espero aquí.</td>
+                <td>vous</td>
+                <td class="akk-decl-change">vous</td>
+                <td>Je <strong>vous</strong> attends ici.</td>
               </tr>
               <tr>
-                <td>ellos</td>
-                <td class="akk-decl-change">los</td>
-                <td><strong>Los</strong> invito a casa.</td>
+                <td>ils</td>
+                <td class="akk-decl-change">les</td>
+                <td>Je <strong>les</strong> invite à la maison.</td>
               </tr>
               <tr>
-                <td>ellas</td>
-                <td class="akk-decl-change">las</td>
-                <td><strong>Las</strong> llamo mañana.</td>
+                <td>elles</td>
+                <td class="akk-decl-change">les</td>
+                <td>Je <strong>les</strong> appelle demain.</td>
               </tr>
             </tbody>
           </table>
           <p class="akk-regel-note" data-i18n-html="akk.regel.example">
-            Common mistake: <em>Veo la.</em> → <em><strong>La</strong> veo.</em> With an infinitive it can also go on the end:
-            <em>Quiero ver<strong>la</strong>.</em> In Spain you will also hear <em>le</em> for a man: <em><strong>Le</strong> veo.</em>
+            Common mistake: <em>Je vois la.</em> → <em>Je <strong>la</strong> vois.</em> With an infinitive, the pronoun goes before the infinitive: <em>Je vais <strong>la</strong> voir.</em> In the negative it stays next to its verb: <em>Je ne <strong>la</strong> vois pas.</em> In the passé composé it goes before <em>avoir</em>, and the participle agrees: <em>Je <strong>l'</strong>ai vu<strong>e</strong>.</em> Don't mix it up with <em>lui, leur</em> (à + a person): <em>Je <strong>lui</strong> parle.</em>
           </p>
           <button class="akk-btn akk-btn-primary" id="akk-back-to-uebung" type="button" data-i18n="akk.backToPractice">Zurück zur Übung</button>
         </div>
