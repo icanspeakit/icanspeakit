@@ -7,9 +7,10 @@
 //            multiple choice. The wrong options are other answers of the same exercise
 //            (werde / wirst / wird / werden), so they are always forms a learner could
 //            plausibly mix up, never random words.
-//   g:verbtabellen  the verb tables of /grammar/verbs: a form of each verb in the presente,
-//            indefinido and perfecto, the wrong options being the same verb's other forms
-//            and the form the regular pattern would wrongly give (teno, hací, ha hacido).
+//   g:verbtabellen  the verb tables of /grammar/verbs: a form of each verb in the présent,
+//            futur simple and passé composé, the wrong options being the same verb's other
+//            forms, the other auxiliary and the form the regular pattern would wrongly give
+//            (venissons, venirai, a prendu).
 //   w:<id>   a Wortschatz Lernset — its words, asked German → translation by default.
 //            Stored as a reference ({ t: "word", id }) and turned into a question on the
 //            projector, where the lexicon is loaded anyway: that is what lets every
@@ -24,7 +25,7 @@ import wortfallen from "../../data/wortfallen.json";
 import { fehlerGroups, answerOf, wrongOf } from "../typischeFehler.js";
 import { units, byUnit, spokenForm } from "../lexicon.js";
 import { MEANING_LANGS } from "./protocol.js";
-import { groups as verbGroupList, verbs as verbList, PERSONS, regularPraes, regularPraet, regularP2 } from "../verbtabellen.js";
+import { groups as verbGroupList, verbs as verbList, PERSONS, regularPraes, regularFut, regularP2 } from "../verbtabellen.js";
 
 const workspaceMods = import.meta.glob("../../data/grammatik/*.json", { eager: true });
 const workspaces = Object.values(workspaceMods).map((m) => m.default ?? m);
@@ -114,16 +115,21 @@ function verbGroups() {
     const items = [];
     for (const v of verbList.filter((x) => x.group === g.id)) {
       const praes = v.rows.map((r) => r.praes.f);
-      const praet = v.rows.map((r) => r.praet.f);
-      // The person whose form breaks the pattern (tengo, tienes), else él/ella.
+      const fut = v.rows.map((r) => r.fut.f);
+      // The person whose form breaks the pattern (prennent, viens), else il/elle. The je row is
+      // asked as "je/j'" so elision doesn't give the answer away.
       const pi = v.rows.findIndex((r) => r.praes.x);
       const p = pi === -1 ? 2 : pi;
-      items.push(q(`${PERSONS[p]} ___ (${v.inf}) · presente`, praes[p], [regularPraes(v.inf)[p], ...praes], g.name, `g:${VERB_KEY}#${v.id}-praes`));
-      // A verb with gaps in its table (haber, soler) hardly uses the indefinido: not asked.
-      if (!v.defective) items.push(q(`yo ___ (${v.inf}) · indefinido`, praet[0], [regularPraet(v.inf)[0], ...praet], g.name, `g:${VERB_KEY}#${v.id}-praet`));
+      const who = (i) => (i === 0 ? "je/j'" : PERSONS[i]);
+      items.push(q(`${who(p)} ___ (${v.inf}) · présent`, praes[p], [regularPraes(v.inf)[p], ...praes], g.name, `g:${VERB_KEY}#${v.id}-praes`));
+      // A verb with gaps in its table (falloir, pleuvoir) is asked in the il form only.
+      const fp = v.defective ? 2 : 3;
+      items.push(q(`${who(fp)} ___ (${v.inf}) · futur simple`, fut[fp], [regularFut(v.inf)[fp], v.rows[fp].cond.f, praes[fp], ...fut], g.name, `g:${VERB_KEY}#${v.id}-fut`));
+      // The passé composé: the right auxiliary and participle (est allé(e), not a allé).
       const perf = v.rows[2].perf.f;
       const withPart = (part) => perf.replace(v.p2, part);
-      items.push(q(`él/ella ___ (${v.inf}) · pretérito perfecto`, perf, [v.rows[5].perf.f, withPart(regularP2(v.inf)), withPart(v.plain), v.rows[0].perf.f], g.name, `g:${VERB_KEY}#${v.id}-perf`));
+      const otherAux = v.auxName === "être" ? perf.replace(/^(s'|se )?est /, "a ") : perf.replace(/^a /, "est ");
+      items.push(q(`il/elle ___ (${v.inf}) · passé composé`, perf, [otherAux, withPart(regularP2(v.inf)), v.rows[5].perf.f, v.rows[0].perf.f], g.name, `g:${VERB_KEY}#${v.id}-perf`));
     }
     return { title: g.name, items: items.filter(Boolean) };
   }).filter((g) => g.items.length);

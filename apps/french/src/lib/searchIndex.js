@@ -387,10 +387,10 @@ export function buildSearchIndex() {
     ]);
 
   // Verb tables (/grammar/verbs): [infinitive, preview, href, every form]. Every form
-  // so that "tengo", "hizo" or "haga" also find their verb.
+  // so that "prends", "fait" or "fasse" also find their verb.
   const verbs = verbTables.map((v) => [
     v.inf,
-    `${v.rows.slice(0, 3).map((r) => r.praes.f).join(", ")} … · ${v.rows[2].praet.f} · ${v.rows[2].perf.f}`,
+    `${v.rows.slice(0, 3).map((r) => (r.praes.el ? `j'${r.praes.f}` : r.praes.f)).join(", ")} … · ${v.rows[2].perf.f} · ${v.rows[2].fut.f}`,
     verbHref(v),
     v.forms.join("|"),
   ]);
