@@ -168,7 +168,7 @@ export function buildSearchIndex() {
     })),
     // akkusativ has its own page outside the catalog's [id] route.
     { t: "Akkusativ", s: "", k: KEYWORDS.akkusativ, l: "A1", h: "/object-pronouns", c: "grammatik" },
-    { t: "Conjugation trainer", s: "Grammar", k: "conjugation verbs tenses drill trainer conjugar verbos irregular subjunctive imperative", l: "", h: "/grammar/conjugation", c: "grammatik" },
+    { t: "Conjugation trainer", s: "Grammar", k: "conjugation conjugaison verbs verbes tenses temps drill trainer irregular subjunctive subjonctif imperative impératif passé composé avoir être agreement accord", l: "", h: "/grammar/conjugation", c: "grammatik" },
     ...conjugationTrainer.sets.map((s) => ({
       t: s.title,
       s: "Conjugation trainer",
