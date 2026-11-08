@@ -1,4 +1,5 @@
-// Validates src/content/lexicon/*.json against the rules in docs/wortschatz-programm-v1.md.
+// Validates src/content/lexicon/*.json against the rules in docs/wortschatz-programm-v1.md and,
+// for the French levels, docs/content-plan.md §1.4 (articles, genus, hAspire, aux, IPA).
 // Plain JS, no schema library — package.json deliberately carries only `astro` at runtime.
 //   node scripts/validate-lexicon.mjs
 // Exits non-zero on any error, so it can gate a build or a commit hook.
@@ -92,17 +93,27 @@ for (const level of LEVELS) {
       else seenIds.set(id, where);
 
       if (w.pos === "noun") {
-        if (!w.gender && !w.pluralOnly) err(where, "noun without gender (set pluralOnly for Eltern/Ferien)");
+        if (!w.gender && !w.pluralOnly) err(where, "noun without gender (plural-only nouns: gender les, pluralOnly, genus)");
         if (!w.plural && !w.pluralOnly && !w.example) warnings.push(`${where}: no plural (uncountable?)`);
       }
       if (w.pos === "verb") {
         if (w.aux && !AUX.includes(w.aux)) err(where, `bad aux "${w.aux}"`);
         if (w.forms && w.forms.length !== 3) {
-          err(where, `forms must be [3rd sg, past / Präteritum, past participle / Partizip II], got ${w.forms.length}`);
+          err(where, `forms must be [je présent, il passé composé, participe passé], got ${w.forms.length}`);
         }
         if (w.separable && w.forms && !w.forms[0].includes(" ")) {
           err(where, `separable verb but present form "${w.forms[0]}" has no split prefix`);
         }
+      }
+      // French words (content-plan §1.4): a verb shows its auxiliary, a reflexive verb carries its
+      // pronoun in the lemma, French IPA has no stress marks.
+      if (w.variety === "fr-FR") {
+        if (w.pos === "verb" && !["avoir", "être", "both"].includes(w.aux)) err(where, `a French verb needs aux avoir, être or both`);
+        if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3)) err(where, "a French verb needs forms [je présent, il passé composé, participe passé]");
+        if (w.reflexive && !/^(se |s')/.test(w.lemma)) err(where, "reflexive: the lemma carries its pronoun (se lever, s'appeler)");
+        if (w.pos === "verb" && /^(se |s')/.test(w.lemma) && !w.reflexive) err(where, "a lemma with se / s' needs reflexive: true");
+        if (typeof w.ipa === "string" && /[ˈˌ]/.test(w.ipa)) err(where, `French IPA has no stress marks: ${w.ipa}`);
+        if (w.pos === "adj" && !w.fem) err(where, "a French adjective needs fem (same as the lemma when it doesn't change: jeune)");
       }
       if (w.pos === "noun") for (const p of genderProblems(w)) err(where, p);
       else if (w.gender != null || w.genus != null || w.hAspire != null) err(where, "gender, genus and hAspire only on nouns");
