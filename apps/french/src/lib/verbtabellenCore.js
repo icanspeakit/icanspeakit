@@ -29,8 +29,6 @@
 // In the je row, `el: true` marks a form that elides the pronoun: j'aime, j'ai parlé.
 
 export const PERSONS = ["je", "tu", "il/elle/on", "nous", "vous", "ils/elles"];
-/** French has no row a Canada mode would hide; kept for the trainer until `conjugation-trainer`. */
-export const VOSOTROS = -1;
 export const DASH = "–";
 
 /** Tenses a verb may store as a comma list of six forms. */
