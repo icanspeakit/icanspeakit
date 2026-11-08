@@ -77,7 +77,7 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
             </div>
             <b>{s.name}</b>
             <span class="us-step-wo">{s.wo}</span>
-            <q class="us-step-say" lang="es">{s.satz}</q>
+            <q class="us-step-say" lang="fr">{s.satz}</q>
           </li>
         ))}
       </ol>
@@ -101,9 +101,9 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
         <ul class="us-list">
           {g.eintraege.map((e) => (
             <li class="us-card">
-              <p class="us-w" lang="es">{e.w}</p>
+              <p class="us-w" lang="fr">{e.w}</p>
               <p class="us-std"><span>Standard French</span> <b>{e.std}</b></p>
-              {e.bsp && <p class="us-bsp" lang="es">“{e.bsp}”</p>}
+              {e.bsp && <p class="us-bsp" lang="fr">“{e.bsp}”</p>}
               {e.info && <p class="us-info"><span aria-hidden="true">ℹ️</span> {e.info}</p>}
             </li>
           ))}
@@ -130,11 +130,11 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
           {vulgaer.eintraege.map((e) => (
             <li class="us-card" data-s={e.stufe}>
               <p class="us-w">
-                <span lang="es">{e.w}</span>
+                <span lang="fr">{e.w}</span>
                 <span class="us-dots" data-s={e.stufe} title={STUFE[e.stufe ?? 0]}><span class="sr-only">{STUFE[e.stufe ?? 0]}</span></span>
               </p>
               <p class="us-std"><span>Meaning</span> <b>{e.std}</b></p>
-              {e.bsp && <p class="us-bsp" lang="es">“{e.bsp}”</p>}
+              {e.bsp && <p class="us-bsp" lang="fr">“{e.bsp}”</p>}
               {e.info && <p class="us-info"><span aria-hidden="true">ℹ️</span> {e.info}</p>}
             </li>
           ))}
@@ -149,9 +149,9 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
       <ul class="us-swap">
         {data.hoeflich.map((h) => (
           <li>
-            <span class="us-swap-side us-swap-side--bad"><i aria-hidden="true">✗</i><s lang="es">{h.von}</s></span>
+            <span class="us-swap-side us-swap-side--bad"><i aria-hidden="true">✗</i><s lang="fr">{h.von}</s></span>
             <span class="us-swap-arrow" aria-hidden="true">→</span>
-            <span class="us-swap-side us-swap-side--good"><i aria-hidden="true">✓</i><b lang="es">{h.zu}</b></span>
+            <span class="us-swap-side us-swap-side--good"><i aria-hidden="true">✓</i><b lang="fr">{h.zu}</b></span>
           </li>
         ))}
       </ul>

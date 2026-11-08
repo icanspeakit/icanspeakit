@@ -15,8 +15,8 @@ import lid from "../../data/leben-in-deutschland.json";
 const { questions, meta, bundeslaender } = lid;
 ---
 <Layout
-  title="CCSE practice test – online – icanspeak French"
-  description="A CCSE practice test: our own questions about Spain, scored against the pass mark of the real test. Not the official question bank."
+  title="Civic exam practice test – online – icanspeak French"
+  description="A practice test for France's civic exam: our own questions about France, scored against the pass mark of the real test. Not the official question bank."
 >
   <SiteNav active="pruefungen" />
   <main class="practice-main practice-main--wide practice-main--trainer">
@@ -215,7 +215,7 @@ const { questions, meta, bundeslaender } = lid;
               "<thead><tr><th>" + escapeHtml(t("format.th.part")) + "</th><th>" + escapeHtml(t("exam.th.correct")) + "</th></tr></thead><tbody>" +
               meta.tareas.map((tarea) => {
                 const part = federalIds.filter((_, i) => federal[i].tarea === tarea.n);
-                return `<tr><td lang="es">${escapeHtml(tarea.title)}</td><td>${countCorrect(part, ctx.state)} / ${part.length}</td></tr>`;
+                return `<tr><td lang="fr">${escapeHtml(tarea.title)}</td><td>${countCorrect(part, ctx.state)} / ${part.length}</td></tr>`;
               }).join("") +
               `<tr><td>${escapeHtml(land().name)} (${escapeHtml(T("lid.sec.extra", "Extra"))})</td><td>${countCorrect(landIds(), ctx.state)} / ${landIds().length}</td></tr>` +
               "</tbody>";

@@ -48,9 +48,9 @@ const questions = unit.exercises.filter((q: any) => !skippedFor(q)).map((q: any)
 }));
 ---
 <Layout
-  title={fitTitle(`${unit.title} – Business Spanish`, unit.title)}
-  description={`${unit.title} (${unit.level}): phrases, model texts, words and exercises for work in Spain.`}
-  breadcrumb={[{ name: "Business Spanish", path: "/business-spanish" }]}
+  title={fitTitle(`${unit.title} – Business French`, unit.title)}
+  description={`${unit.title} (${unit.level}): phrases, model texts, words and exercises for work in France.`}
+  breadcrumb={[{ name: "Business French", path: "/business-spanish" }]}
 >
   <SiteNav active="wortschatz" />
   <main class="practice-main practice-main--wide bz-unit">
@@ -85,7 +85,7 @@ const questions = unit.exercises.filter((q: any) => !skippedFor(q)).map((q: any)
               return (
                 <li>
                   <span class="bz-phrase-text">
-                    <b lang="es">{es}</b>
+                    <b lang="fr">{es}</b>
                     <span class="bz-phrase-en">{p.en}</span>
                   </span>
                   <span class={`bz-reg bz-reg--${p.register}`} data-i18n={`biz.reg.${p.register}`}>{tx(`biz.reg.${p.register}`)}</span>
@@ -105,7 +105,7 @@ const questions = unit.exercises.filter((q: any) => !skippedFor(q)).map((q: any)
       {unit.models.map((m: any) => (
         <article class="bz-model">
           <h3>{m.title}</h3>
-          <div class="bz-model-text" lang="es">{m.text}</div>
+          <div class="bz-model-text" lang="fr">{m.text}</div>
           <h4 data-i18n="biz.notes">{tx("biz.notes")}</h4>
           <ul class="bz-notes">{m.notes.map((n: string) => <li>{n}</li>)}</ul>
         </article>
@@ -129,7 +129,7 @@ const questions = unit.exercises.filter((q: any) => !skippedFor(q)).map((q: any)
       <ul class="bz-words">
         {words.map((w: any) => (
           <li>
-            <b lang="es">{withArticle(w)}</b>
+            <b lang="fr">{withArticle(w)}</b>
             <span>{w.translations?.en}</span>
           </li>
         ))}

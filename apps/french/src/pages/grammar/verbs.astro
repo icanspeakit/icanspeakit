@@ -49,7 +49,7 @@ const cell = (c: any) => (c.alt ? `${c.f} / ${c.alt}` : c.f);
 ---
 <Layout
   title="Verb tables: the most important verbs – Grammar – icanspeak French"
-  description="Spanish verb tables: regular -ar, -er, -ir verbs, ser, estar, haber, ir and the common irregular verbs in every tense and mood, vosotros included."
+  description="French verb tables: regular -er, -ir and -re verbs, être, avoir, aller, faire and the common irregular verbs in every tense and mood."
 >
   <SiteNav active="grammatik" />
   <main class="practice-main vb-page" id="vb-page">
@@ -79,7 +79,7 @@ const cell = (c: any) => (c.alt ? `${c.f} / ${c.alt}` : c.f);
       {byGroup.map((g) => (
         <div class="vb-jump-group">
           <a class="vb-jump-label" href={`#gruppe-${g.id}`} data-i18n={`${gKey(g.id)}.name`}>{g.name}</a>
-          <div class="vb-jump-list" lang="es">
+          <div class="vb-jump-list" lang="fr">
             {g.verbs.map((v) => <a class={`vb-chip vb-chip--${g.id}`} href={`#${v.id}`}>{v.inf}</a>)}
           </div>
         </div>
@@ -130,13 +130,13 @@ const cell = (c: any) => (c.alt ? `${c.f} / ${c.alt}` : c.f);
           {g.verbs.map((v) => (
             <li class={`vb-card vb-card--${g.id}`} id={v.id}>
               <div class="vb-card-head">
-                <h3 lang="es">{v.inf}</h3>
+                <h3 lang="fr">{v.inf}</h3>
                 {v.en && <span class="vb-en">{v.en}</span>}
                 {v.level && <span class="vb-level">{v.level}</span>}
               </div>
               <GrammarHelpText text={gloss(v)} class="vb-gloss" />
               <div class="vb-scroll">
-                <table class="vb-table" lang="es">
+                <table class="vb-table" lang="fr">
                   <thead>
                     <tr>
                       <th scope="col"><span class="vb-sr" data-i18n="verben.person">Person</span></th>
@@ -154,8 +154,8 @@ const cell = (c: any) => (c.alt ? `${c.f} / ${c.alt}` : c.f);
                 </table>
               </div>
               <p class="vb-more">
-                <span><span data-i18n="verben.ger">Gerund</span>: <b lang="es" class:list={[v.gerX && "vb-x"]}>{v.ger}</b></span>
-                <span><span data-i18n="verben.p2">Participle</span>: <b lang="es" class:list={[v.p2X && "vb-x"]}>{v.p2}</b></span>
+                <span><span data-i18n="verben.ger">Gerund</span>: <b lang="fr" class:list={[v.gerX && "vb-x"]}>{v.ger}</b></span>
+                <span><span data-i18n="verben.p2">Participle</span>: <b lang="fr" class:list={[v.p2X && "vb-x"]}>{v.p2}</b></span>
               </p>
               {v.note && <p class="vb-note" lang="en">{v.note}</p>}
               {/* Everything else, folded: open it to read or to print this verb in full. */}
@@ -165,7 +165,7 @@ const cell = (c: any) => (c.alt ? `${c.f} / ${c.alt}` : c.f);
                   <section class="vb-mood">
                     <h4 data-i18n={`verben.mood.${block.key}`}>{block.name}</h4>
                     <div class="vb-scroll">
-                      <table class="vb-table" lang="es">
+                      <table class="vb-table" lang="fr">
                         <thead>
                           <tr>
                             <th scope="col"><span class="vb-sr" data-i18n="verben.person">Person</span></th>

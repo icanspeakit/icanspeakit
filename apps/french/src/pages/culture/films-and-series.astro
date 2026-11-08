@@ -12,8 +12,8 @@ import "../../styles/kultur.css";
 import "../../styles/kultur-hub.css";
 ---
 <Layout
-  title="Films and series in Spanish – icanspeak French"
-  description="Films and series to learn Spanish with, from Spain and Latin America, each with a short description and a level."
+  title="Films and series in French – icanspeak French"
+  description="Films and series to learn French with, from France and the French-speaking world, each with a short description and a level."
 >
   <SiteNav active="landeskunde" />
   <main class="practice-main practice-main--wide">
@@ -30,7 +30,7 @@ import "../../styles/kultur-hub.css";
           {g.items.map((f) => (
             <article class="ku-card">
               <span class="ku-card-txt">
-                <b lang="es">{f.title}</b>
+                <b lang="fr">{f.title}</b>
                 <i><span>{f.year} · {f.by}</span> · <span data-i18n={`kultur.filme.kind.${f.kind}`}>{f.kind === "series" ? "Series" : "Film"}</span></i>
                 <i>{f.text}</i>
               </span>

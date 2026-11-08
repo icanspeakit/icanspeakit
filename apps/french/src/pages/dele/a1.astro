@@ -20,8 +20,8 @@ const hoerIds = ["teil1", "teil2", "teil3"].flatMap((k) => satz.hoeren[k].items.
 const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
 ---
 <Layout
-  title="DELE A1 practice test – icanspeak French"
-  description="A complete practice test in the style of the DELE A1: listening, reading and writing, with your score at the end. Not an official exam."
+  title="DELF A1 practice test – icanspeak French"
+  description="A complete practice test in the style of the DELF A1: listening, reading and writing, with your score at the end. Not an official exam."
 >
   <SiteNav active="pruefungen" />
   <main class="practice-main practice-main--wide practice-main--trainer">
@@ -29,7 +29,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
 
     <div class="practice-hero">
       <p class="eyebrow" data-i18n="sd1.eyebrow">A1 · Practice test</p>
-      <h1><span class="hero-exam" data-i18n="sd1.h1.exam">DELE A1</span> <span data-i18n="sd1.h1.rest">practice test</span></h1>
+      <h1><span class="hero-exam" data-i18n="sd1.h1.exam">DELF A1</span> <span data-i18n="sd1.h1.rest">practice test</span></h1>
       <p data-i18n="sd1.hero.text">
         A complete A1 practice test in exam style: listening, reading and writing, with your score
         at the end. The details are in the “Start” part.
@@ -37,7 +37,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
     </div>
     <ExamDisclaimer />
 
-    <ExamApp brand="DELE A1" sub="Practice test" subKey="sd1.sub" unit="tasks" />
+    <ExamApp brand="DELF A1" sub="Practice test" subKey="sd1.sub" unit="tasks" />
     <LevelGrammar levels={["A1"]} />
   </main>
 
@@ -469,9 +469,9 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
           main.appendChild(el("p", "format-note", escapeHtml(T("sd1.passNote", data.passNote))));
 
           const actions = el("div", "exam-actions");
-          const telc = el("a", "quiz-btn", escapeHtml(T("sd1.toTelc", "To the SIELE overview")));
+          const telc = el("a", "quiz-btn", escapeHtml(T("sd1.toTelc", "To the TCF overview")));
           telc.href = withBase("/siele");
-          const goethe = el("a", "quiz-btn", escapeHtml(T("sd1.toGoethe", "To the DELE overview")));
+          const goethe = el("a", "quiz-btn", escapeHtml(T("sd1.toGoethe", "To the DELF / DALF overview")));
           goethe.href = withBase("/dele");
           actions.appendChild(telc);
           actions.appendChild(goethe);

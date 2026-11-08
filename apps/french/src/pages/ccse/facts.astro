@@ -26,8 +26,8 @@ const topicTx = (id: string) => tx.topics?.[id] ?? {};
 const glossTx = (term: string) => tx.glossary?.[term] ?? {};
 ---
 <Layout
-  title="CCSE: facts to learn – icanspeak French"
-  description="Key facts for the CCSE: the constitution, institutions, rights, history, culture, everyday life and the comunidades autónomas of Spain. General orientation, not legal advice."
+  title="Civic exam: facts to learn – icanspeak French"
+  description="Key facts for France's civic exam: the values of the Republic, institutions, rights and duties, history and everyday life, plus the regions. General orientation, not legal advice."
 >
   <div class="fk-page" id="fk-page" data-lang="standard" data-gx="off">
   <SiteNav active="pruefungen" />
@@ -72,7 +72,7 @@ const glossTx = (term: string) => tx.glossary?.[term] ?? {};
     <span class="fk-lang-kicker" data-i18n="lid.fk.level.kicker">Read the texts:</span>
     <div class="fk-lang-toggle" role="tablist" aria-label="Choose language" data-i18n-attr="aria-label:lid.fk.level.aria">
       <button type="button" class="fk-lang-btn" data-lang="standard">
-        <span data-i18n="lid.fk.level.standard" lang="es">En español</span>
+        <span data-i18n="lid.fk.level.standard" lang="fr">En français</span>
       </button>
       <button type="button" class="fk-lang-btn" data-lang="easy">
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5V6a2 2 0 0 1 2-2h13.5v15H6a2 2 0 0 0-2 2Z"/><path d="M19.5 19.5H6a2 2 0 0 1 0-4h13.5"/></svg>
@@ -87,7 +87,7 @@ const glossTx = (term: string) => tx.glossary?.[term] ?? {};
     <section class="fk-layout fk-layout--tabs" id="fk-tabs" data-layout-panel="tabs">
       <div class="fk-tabbar" role="tablist">
         {topics.map((t) => (
-          <button class="fk-tab" type="button" data-target={`fkt-${t.id}`}><span lang="es">{t.title}</span></button>
+          <button class="fk-tab" type="button" data-target={`fkt-${t.id}`}><span lang="fr">{t.title}</span></button>
         ))}
         <button class="fk-tab" type="button" data-target="fkt-glossar" data-i18n="lid.fk.glossary">Glossary</button>
         <button class="fk-tab" type="button" data-target="fkt-bundesland" data-i18n="lid.fk.yourState">Your comunidad</button>
@@ -95,9 +95,9 @@ const glossTx = (term: string) => tx.glossary?.[term] ?? {};
 
       {topics.map((t, i) => (
         <div class={`fk-tab-panel${i === 0 ? " active" : ""}`} id={`fkt-${t.id}`}>
-          <h3 lang="es">{t.title}</h3>
+          <h3 lang="fr">{t.title}</h3>
           <GrammarHelpText text={field(topicTx(t.id).title)} />
-          <ul class="fact-list">{t.facts.map((f, fi) => <li><span class="fk-std" lang="es">{f}</span><span class="fk-easy">{t.factsEasy[fi]}</span><GrammarHelpText class="fk-std" text={item(topicTx(t.id).facts, fi)} /><GrammarHelpText class="fk-easy" text={item(topicTx(t.id).factsEasy, fi)} /></li>)}</ul>
+          <ul class="fact-list">{t.facts.map((f, fi) => <li><span class="fk-std" lang="fr">{f}</span><span class="fk-easy">{t.factsEasy[fi]}</span><GrammarHelpText class="fk-std" text={item(topicTx(t.id).facts, fi)} /><GrammarHelpText class="fk-easy" text={item(topicTx(t.id).factsEasy, fi)} /></li>)}</ul>
           <LidGrafik id={t.id} words={(t as any).words} />
         </div>
       ))}
@@ -105,7 +105,7 @@ const glossTx = (term: string) => tx.glossary?.[term] ?? {};
       <div class="fk-tab-panel" id="fkt-glossar">
         <h3 data-i18n="lid.fk.glossary">Glossary</h3>
         <dl class="glossary-list">
-          {glossary.map((g) => (<><dt lang="es">{g.term}</dt><dd><span class="fk-std" lang="es">{g.def}</span><span class="fk-easy">{g.defEasy}</span><GrammarHelpText class="fk-std" text={field(glossTx(g.term).def)} /><GrammarHelpText class="fk-easy" text={field(glossTx(g.term).defEasy)} /></dd></>))}
+          {glossary.map((g) => (<><dt lang="fr">{g.term}</dt><dd><span class="fk-std" lang="fr">{g.def}</span><span class="fk-easy">{g.defEasy}</span><GrammarHelpText class="fk-std" text={field(glossTx(g.term).def)} /><GrammarHelpText class="fk-easy" text={field(glossTx(g.term).defEasy)} /></dd></>))}
         </dl>
       </div>
 
@@ -127,7 +127,7 @@ const glossTx = (term: string) => tx.glossary?.[term] ?? {};
         <nav class="fk-doc-nav">
           <p class="fk-doc-nav-label" data-i18n="lid.fk.topics">Topics</p>
           <ul>
-            {topics.map((t) => <li><a href={`#fks-${t.id}`} lang="es">{t.title}</a></li>)}
+            {topics.map((t) => <li><a href={`#fks-${t.id}`} lang="fr">{t.title}</a></li>)}
             <li><a href="#fks-glossar" data-i18n="lid.fk.glossary">Glossary</a></li>
             <li><a href="#fks-bundesland" data-i18n="lid.fk.yourState">Your comunidad</a></li>
           </ul>
@@ -136,9 +136,9 @@ const glossTx = (term: string) => tx.glossary?.[term] ?? {};
         <div class="fk-doc-content">
           {topics.map((t) => (
             <article class="fk-doc-section" id={`fks-${t.id}`}>
-              <h3 lang="es">{t.title}</h3>
+              <h3 lang="fr">{t.title}</h3>
           <GrammarHelpText text={field(topicTx(t.id).title)} />
-              <ul class="fact-list">{t.facts.map((f, fi) => <li><span class="fk-std" lang="es">{f}</span><span class="fk-easy">{t.factsEasy[fi]}</span><GrammarHelpText class="fk-std" text={item(topicTx(t.id).facts, fi)} /><GrammarHelpText class="fk-easy" text={item(topicTx(t.id).factsEasy, fi)} /></li>)}</ul>
+              <ul class="fact-list">{t.facts.map((f, fi) => <li><span class="fk-std" lang="fr">{f}</span><span class="fk-easy">{t.factsEasy[fi]}</span><GrammarHelpText class="fk-std" text={item(topicTx(t.id).facts, fi)} /><GrammarHelpText class="fk-easy" text={item(topicTx(t.id).factsEasy, fi)} /></li>)}</ul>
           <LidGrafik id={t.id} words={(t as any).words} />
             </article>
           ))}
@@ -146,7 +146,7 @@ const glossTx = (term: string) => tx.glossary?.[term] ?? {};
           <article class="fk-doc-section" id="fks-glossar">
             <h3 data-i18n="lid.fk.glossary">Glossary</h3>
             <dl class="glossary-list">
-              {glossary.map((g) => (<><dt lang="es">{g.term}</dt><dd><span class="fk-std" lang="es">{g.def}</span><span class="fk-easy">{g.defEasy}</span><GrammarHelpText class="fk-std" text={field(glossTx(g.term).def)} /><GrammarHelpText class="fk-easy" text={field(glossTx(g.term).defEasy)} /></dd></>))}
+              {glossary.map((g) => (<><dt lang="fr">{g.term}</dt><dd><span class="fk-std" lang="fr">{g.def}</span><span class="fk-easy">{g.defEasy}</span><GrammarHelpText class="fk-std" text={field(glossTx(g.term).def)} /><GrammarHelpText class="fk-easy" text={field(glossTx(g.term).defEasy)} /></dd></>))}
             </dl>
           </article>
 
@@ -169,10 +169,10 @@ const glossTx = (term: string) => tx.glossary?.[term] ?? {};
         {topics.map((t, i) => (
           <details class="fk-fact-card" open={i === 0}>
             <summary>
-              <span class="fk-fact-card-title" lang="es">{t.title}</span>
+              <span class="fk-fact-card-title" lang="fr">{t.title}</span>
               <span class="fk-fact-card-count" data-i18n="lid.fk.nFacts" data-i18n-vars={JSON.stringify({ n: t.facts.length })}>{t.facts.length} Fakten</span>
             </summary>
-            <ul class="fact-list">{t.facts.map((f, fi) => <li><span class="fk-std" lang="es">{f}</span><span class="fk-easy">{t.factsEasy[fi]}</span><GrammarHelpText class="fk-std" text={item(topicTx(t.id).facts, fi)} /><GrammarHelpText class="fk-easy" text={item(topicTx(t.id).factsEasy, fi)} /></li>)}</ul>
+            <ul class="fact-list">{t.facts.map((f, fi) => <li><span class="fk-std" lang="fr">{f}</span><span class="fk-easy">{t.factsEasy[fi]}</span><GrammarHelpText class="fk-std" text={item(topicTx(t.id).facts, fi)} /><GrammarHelpText class="fk-easy" text={item(topicTx(t.id).factsEasy, fi)} /></li>)}</ul>
           <LidGrafik id={t.id} words={(t as any).words} />
           </details>
         ))}
@@ -186,7 +186,7 @@ const glossTx = (term: string) => tx.glossary?.[term] ?? {};
           </summary>
           <div class="fk-glossary-grid">
             {glossary.map((g) => (
-              <div class="fk-glossary-item"><strong lang="es">{g.term}</strong><span class="fk-std" lang="es">{g.def}</span><span class="fk-easy">{g.defEasy}</span><GrammarHelpText class="fk-std" text={field(glossTx(g.term).def)} /><GrammarHelpText class="fk-easy" text={field(glossTx(g.term).defEasy)} /></div>
+              <div class="fk-glossary-item"><strong lang="fr">{g.term}</strong><span class="fk-std" lang="fr">{g.def}</span><span class="fk-easy">{g.defEasy}</span><GrammarHelpText class="fk-std" text={field(glossTx(g.term).def)} /><GrammarHelpText class="fk-easy" text={field(glossTx(g.term).defEasy)} /></div>
             ))}
           </div>
         </details>
@@ -211,7 +211,7 @@ const glossTx = (term: string) => tx.glossary?.[term] ?? {};
           <thead><tr><th data-i18n="format.th.part">Part</th><th data-i18n="format.th.scope">Scope</th></tr></thead>
           <tbody>
             {meta.tareas.map((t) => (
-              <tr><td lang="es">{t.title}</td><td data-i18n={`lid.tarea.${t.options === 2 ? "tf" : "mc"}`} data-i18n-vars={JSON.stringify({ n: t.realCount })}>{t.realCount}</td></tr>
+              <tr><td lang="fr">{t.title}</td><td data-i18n={`lid.tarea.${t.options === 2 ? "tf" : "mc"}`} data-i18n-vars={JSON.stringify({ n: t.realCount })}>{t.realCount}</td></tr>
             ))}
             <tr><td data-i18n="format.th.time">Time</td><td data-i18n="lid.fk.minutes" data-i18n-vars={JSON.stringify({ n: meta.minutes })}>{meta.minutes} minutes</td></tr>
             <tr><td data-i18n="lid.fk.passFrom">Pass from</td><td data-i18n="lid.fk.nCorrect" data-i18n-vars={JSON.stringify({ n: meta.passScore })}>{meta.passScore} correct answers</td></tr>

@@ -45,8 +45,8 @@ const lines = (s: string) => s.split("\n");
 const LANG_OF: Record<string, string> = { catala: "ca", gallego: "gl", euskera: "eu", aranes: "oc", asturiano: "ast", aragones: "an" };
 ---
 <Layout
-  title="Accents of Spanish in Spain – icanspeak French"
-  description="How Spanish sounds across Spain: Castilian, Andalusian, Canarian and more — with examples, typical features such as seseo, and the co-official languages."
+  title="Accents of French – icanspeak French"
+  description="How French sounds in different places: Paris, the south of France, Belgium, Switzerland, Québec and Africa — with examples and typical features."
 >
   <style set:html={modeCss}></style>
   <div class="uv">
@@ -170,7 +170,7 @@ const LANG_OF: Record<string, string> = { catala: "ca", gallego: "gl", euskera: 
                 {r.say.length > 0 && (
                   <div class="dl-say">
                     <p class="sp-where-title" data-i18n="dialekte.card.say">{t("dialekte.card.say")}</p>
-                    <ul>{r.say.map(([d, h], i) => <li style={`--i:${i}`}><b lang="es">{d}</b><span>{h}</span></li>)}</ul>
+                    <ul>{r.say.map(([d, h], i) => <li style={`--i:${i}`}><b lang="fr">{d}</b><span>{h}</span></li>)}</ul>
                   </div>
                 )}
                 <div class="sp-where">
@@ -197,7 +197,7 @@ const LANG_OF: Record<string, string> = { catala: "ca", gallego: "gl", euskera: 
                 <h3 data-i18n="dialekte.map.wordLead" data-i18n-vars={vars({ w: w.de })}>{t("dialekte.map.wordLead").replace("{w}", w.de)}</h3>
                 <ul class="dl-variants">
                   {w.variants.map((v, i) => (
-                    <li><span class="dl-swatch" style={`background:${dl.variantColors[i % dl.variantColors.length]}`}></span><b lang="es">{v.w}</b></li>
+                    <li><span class="dl-swatch" style={`background:${dl.variantColors[i % dl.variantColors.length]}`}></span><b lang="fr">{v.w}</b></li>
                   ))}
                 </ul>
                 <p class="sp-fine" data-i18n="dialekte.map.wordNote">{t("dialekte.map.wordNote")}</p>
@@ -259,7 +259,7 @@ const LANG_OF: Record<string, string> = { catala: "ca", gallego: "gl", euskera: 
             <tbody>
               {dl.shift.map(([en, ...cols]) => (
                 <tr>
-                  <th scope="row" lang="es">{en}</th>
+                  <th scope="row" lang="fr">{en}</th>
                   {cols.map((c) => <td class="sp-word">{c}</td>)}
                 </tr>
               ))}
@@ -280,7 +280,7 @@ const LANG_OF: Record<string, string> = { catala: "ca", gallego: "gl", euskera: 
               <p data-i18n={`dialekte.w.${w.id}`}>{t(`dialekte.w.${w.id}`)}</p>
               <div class="dl-say">
                 <p class="sp-where-title" data-i18n="dialekte.card.say">{t("dialekte.card.say")}</p>
-                <ul>{w.say.map(([d, h], i) => <li style={`--i:${i}`}><b lang="es">{d}</b><span>{h}</span></li>)}</ul>
+                <ul>{w.say.map(([d, h], i) => <li style={`--i:${i}`}><b lang="fr">{d}</b><span>{h}</span></li>)}</ul>
               </div>
             </article>
           ))}

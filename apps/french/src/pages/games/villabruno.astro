@@ -44,8 +44,8 @@ import "../../styles/lindenau.css";
         <div class="ld-areas" role="group" aria-label="Choose a part of town" data-i18n-attr="aria-label:ld.areasLabel">
           {AREAS.map((a, k) => (
             <button type="button" class="ld-area" data-area={a.id} aria-pressed={k === 0 ? "true" : "false"}>
-              <span class="ld-area-title" lang="es">{a.title}</span>
-              <span class="ld-area-quests" lang="es">
+              <span class="ld-area-title" lang="fr">{a.title}</span>
+              <span class="ld-area-quests" lang="fr">
                 {a.quests.map((q) => <img src={`/img/openmoji/${q.item.icon}.svg`} alt="" width="22" height="22" />)}
                 {a.quests.map((q) => q.role).join(" · ")}
               </span>
