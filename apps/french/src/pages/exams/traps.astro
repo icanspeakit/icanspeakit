@@ -34,8 +34,8 @@ const level = (f: (typeof fallen)[number]) => f.level;
 
     <div class="vp-hero">
       <div class="vp-hero-badges">
-        <span class="badge badge-brand">DELF / DALF</span>
-        <span class="badge badge-info">TCF / TEF</span>
+        <span class="badge badge-brand" translate="no">DELF / DALF</span>
+        <span class="badge badge-info" translate="no">TCF / TEF</span>
         <span class="badge badge-info" data-i18n="exam.lid.name">Civic exam</span>
       </div>
       <h1 data-i18n="fallen.title">Exam traps</h1>
@@ -45,8 +45,8 @@ const level = (f: (typeof fallen)[number]) => f.level;
 
     <div class="fl-chips" role="group" aria-label="Filter by exam" data-i18n-attr="aria-label:fallen.filter.label" data-fl-chips>
       <button type="button" class="fl-chip" data-fl-filter="" aria-pressed="true"><span data-i18n="fallen.filter.all">Alle</span> <span class="fl-chip-n">{fallen.length}</span></button>
-      <button type="button" class="fl-chip" data-fl-filter="dele" aria-pressed="false"><span>DELF / DALF</span> <span class="fl-chip-n">{count("dele")}</span></button>
-      <button type="button" class="fl-chip" data-fl-filter="siele" aria-pressed="false"><span>TCF / TEF</span> <span class="fl-chip-n">{count("siele")}</span></button>
+      <button type="button" class="fl-chip" data-fl-filter="dele" aria-pressed="false"><span translate="no">DELF / DALF</span> <span class="fl-chip-n">{count("dele")}</span></button>
+      <button type="button" class="fl-chip" data-fl-filter="siele" aria-pressed="false"><span translate="no">TCF / TEF</span> <span class="fl-chip-n">{count("siele")}</span></button>
       <button type="button" class="fl-chip" data-fl-filter="ccse" aria-pressed="false"><span data-i18n="exam.lid.name">Civic exam</span> <span class="fl-chip-n">{count("ccse")}</span></button>
     </div>
 
