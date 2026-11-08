@@ -24,7 +24,7 @@ const rel = (p) => path.relative(ROOT, p).replaceAll("\\", "/");
 // Modules whose content item has run: missing `variety` is an error there. Add the module id
 // in the same commit that converts the module. Empty at the start of the French queue
 // (variety-schema): every module still held Spanish data. The ids are those of MODULES below.
-const STRICT = new Set(["einstufung", "grammatik", "grammatik-quiz", "praepositionen"]);
+const STRICT = new Set(["einstufung", "grammatik", "grammatik-quiz", "grammatik-start", "praepositionen"]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);
 const jsonFiles = (dir) =>
@@ -62,7 +62,7 @@ const MODULES = [
   { id: "grammatik", files: [...jsonFiles("src/data/grammatik"), ...jsonFiles("src/paid/grammatik")],
     items: (d) => [{ item: d }] },
   { id: "grammatik-quiz", files: one("src/data/grammatik.json"), items: (d) => arr(d).map((item) => ({ item })) },
-  // The starter book carries `variety` at the top level; its translations hold no Spanish of their own.
+  // The starter book carries `variety` at the top level; its translations hold no French of their own.
   { id: "grammatik-start", files: one("src/data/grammatik-start/en.json"), items: (d) => [{ item: d }] },
   { id: "praepositionen", files: one("src/data/praepositionen-trainer.json"),
     items: (d) => arr(d.packs).map((item) => ({ item })) },

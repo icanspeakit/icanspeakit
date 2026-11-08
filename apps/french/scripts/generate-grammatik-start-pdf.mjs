@@ -1,4 +1,4 @@
-// Builds „Spanish Grammar Start A1–B1 – The 10 most important chapters“, the free starter
+// Builds „French Grammar Start A1–B1 – The 10 most important chapters“, the free starter
 // grammar book, with English explanations and in every help language with a translation file:
 //
 //   pnpm generate:grammatik-start-pdf          all editions
@@ -8,7 +8,7 @@
 //
 // The content is src/data/grammatik-start/en.json; each translation (<code>.json) carries only
 // the explaining blocks — the book rule: rules, explanations and Merke boxes in the learner's
-// language, examples, tables, exercises and solutions Spanish, because Spanish is the subject.
+// language, examples, tables, exercises and solutions French, because French is the subject.
 // Check them with scripts/check-grammatik-start.mjs. A translation with status "skeleton" is
 // not written yet and gets no edition.
 //
@@ -20,7 +20,7 @@
 // page, Bruno on the contents, Regi on the book's rule and at every Merke, Hamsti at the
 // exercises, Bruno at a typical mistake and dozing over the answer key, Quaki pointing to the
 // matching exercises online. Every chapter has a three-panel comic before its exercises
-// (the crew makes the chapter's typical mistake in Spanish and puts it right), and a page
+// (the crew makes the chapter's typical mistake in French and puts it right), and a page
 // with none of them gets a small one beside the page number. Never more than three on a
 // page (the comic counts as three), never on top of text.
 //
@@ -93,7 +93,7 @@ async function build(lang) {
   let footerDraw = null;
   const pdf = createDoc({
     outPath: path.join(outDir, file),
-    runningHead: `SPANISH GRAMMAR START A1–B1 · ${SITE.toUpperCase()}`,
+    runningHead: `FRENCH GRAMMAR START A1–B1 · ${SITE.toUpperCase()}`,
     unicode: true,
     script: languageOf(lang)?.script,
     footer: (i, n) => footerDraw(i, n),
@@ -316,7 +316,7 @@ async function build(lang) {
     doc.image(pdf.pic(LOGO), MARGIN, 36, { width: 150 });
     doc.fillColor(INK).font(F.bold).fontSize(13).text("icanspeak French", MARGIN + 164, 46, { lineBreak: false });
     doc.fillColor(TEAL_DARK).font("Fredoka").fontSize(11).text("Here for you!", MARGIN + 164, 63, { lineBreak: false });
-    doc.fillColor(TEAL_DARK).font(F.bold).fontSize(9).text("LEARN SPANISH · A1 – B1", MARGIN, 104, { characterSpacing: 1.2 });
+    doc.fillColor(TEAL_DARK).font(F.bold).fontSize(9).text("LEARN FRENCH · A1 – B1", MARGIN, 104, { characterSpacing: 1.2 });
     // As large as fits on one line: a break inside „A1–B1“ reads badly.
     let titleSize = 34;
     while (titleSize > 24 && doc.font(F.bold).fontSize(titleSize).widthOfString(baseUi.bookTitle) > W) titleSize -= 1;
