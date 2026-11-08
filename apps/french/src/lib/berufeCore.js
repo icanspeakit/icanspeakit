@@ -11,7 +11,7 @@
 import { slugify } from "./audioSlug.js";
 import { langsFor } from "./languages.js";
 import { varietyProblems } from "./variety.js";
-import { GENDERS as ARTICLE_GENDERS, genderProblems } from "./articles.js";
+import { GENDERS as ARTICLE_GENDERS, genderProblems, legacyEntry } from "./articles.js";
 
 /** The ten sectors, in hub order: where newcomers to Spain most often start work first. The slugs
  *  are history (progress keys): kita is cleaning and domestic work, elektro-technik is farm work.
@@ -57,6 +57,12 @@ export const refKind = (ref) => (ref.startsWith("bv-") ? "berufe" : "lexicon");
 export const ownWords = (deck) =>
   (deck.groups ?? []).flatMap((g) => (g.words ?? []).filter((w) => !w.ref).map((w) => ({ ...w, group: g.id })));
 
+/** Which deck family a file belongs to: "dgt", "business" or "berufe". */
+const deckKind = (file) => (file.startsWith("dgt/") ? "dgt" : file.startsWith("business") ? "business" : "berufe");
+/** Deck families whose dangling lexicon refs are errors again (content-plan §1.6 rule 3): each of
+ *  code-route-vocab, french-for-work and business-french adds its own when it has re-pointed them. */
+const LEXICON_REF_ERRORS = new Set([]);
+
 /** Entries in a deck, refs included: what the hub counts and the trainer shows. */
 export const entryCount = (deck) => (deck.groups ?? []).reduce((n, g) => n + (g.words ?? []).length, 0);
 
@@ -72,7 +78,13 @@ export function validate(files, known) {
   const berufeIds = new Map(); // id → file
   const lemmas = new Map(); // slugify(lemma) → "file id" — one definition across every source
 
-  for (const [id, lemma] of known.lexicon) lemmas.set(slugify(lemma), `lexicon ${id}`);
+  // lemma slug → where it is defined. A French lexicon word and a Spanish (legacy) deck word that
+  // happen to share a spelling (film, test) are two languages, not one word defined twice.
+  const frenchLemmas = new Set();
+  for (const [id, lemma] of known.lexicon) {
+    lemmas.set(slugify(lemma), `lexicon ${id}`);
+    if (known.french?.has(id)) frenchLemmas.add(slugify(lemma));
+  }
 
   // Pass 1: own words, so a ref to a word defined later in another file still resolves.
   for (const { file, deck, slug: ownSlug } of files) {
@@ -112,7 +124,7 @@ export function validate(files, known) {
         if (berufeIds.has(w.id)) at(`${where}: id ${w.id} also in ${berufeIds.get(w.id)}`);
         berufeIds.set(w.id, file);
         const key = slugify(w.lemma);
-        if (lemmas.has(key)) at(`${where}: „${w.lemma}" is already defined (${lemmas.get(key)}) — use { "ref": "<id>" }`);
+        if (lemmas.has(key) && !(frenchLemmas.has(key) && legacyEntry(w))) at(`${where}: „${w.lemma}" is already defined (${lemmas.get(key)}) — use { "ref": "<id>" }`);
         else lemmas.set(key, `${file} ${w.id}`);
         if (!POS.includes(w.pos)) at(`${where}: pos must be one of ${POS.join(", ")}`);
         if (w.pos === "noun" && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender ${GENDERS.join(", ")}`);
@@ -142,7 +154,12 @@ export function validate(files, known) {
         if (!w.ref) continue;
         const kind = refKind(w.ref);
         const ok = kind === "berufe" ? berufeIds.has(w.ref) : known.lexicon.has(w.ref);
-        if (!ok) errors.push(`${file}: ${g.id}: ref „${w.ref}" does not resolve (${kind})`);
+        // A lexicon ref that no longer resolves is a warning while the vocab-* items replace the
+        // Spanish levels with French words (docs/content-plan.md §1.6 rule 3, since vocab-a1).
+        // code-route-vocab (dgt), french-for-work (berufe) and business-french turn theirs back into
+        // errors (LEXICON_REF_ERRORS). The trainer skips a ref that doesn't resolve.
+        if (!ok && kind === "lexicon" && !LEXICON_REF_ERRORS.has(deckKind(file))) warnings.push(`${file}: ${g.id}: ref „${w.ref}" does not resolve (lexicon; a Spanish word that left the lexicon)`);
+        else if (!ok) errors.push(`${file}: ${g.id}: ref „${w.ref}" does not resolve (${kind})`);
       }
     }
   }

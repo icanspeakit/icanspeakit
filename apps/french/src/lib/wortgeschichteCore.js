@@ -17,7 +17,7 @@
 //             emit entries whose day has come; a daily deploy hook publishes the next one.
 // In `astro dev`, or with WORTGESCHICHTE_VORSCHAU=1 at build time, both gates are lifted
 // so entries can be reviewed on their real page (noindex, with a draft banner).
-import { all as lexicon, spokenForm, pluralArticle, TRANSLATION_LANGS, SPANISH_LEVELS } from "./lexicon.js";
+import { all as lexicon, spokenForm, pluralArticle, withArticle, TRANSLATION_LANGS, SPANISH_LEVELS, FRENCH_LEVELS } from "./lexicon.js";
 import { slugify } from "./audioSlug.js";
 import synonyme from "../data/synonyme.json" with { type: "json" };
 
@@ -97,7 +97,15 @@ export function formsOf(entry) {
     if (!row) continue;
     const parts = [];
     const spanish = SPANISH_LEVELS.has(row.level);
-    if (row.pos === "noun" && spanish) {
+    const french = FRENCH_LEVELS.has(row.level);
+    if (row.pos === "noun" && french) {
+      // l'école · les écoles / les lunettes (content-plan §1.4: gender = the article, plural without it)
+      parts.push(withArticle(row));
+      if (row.plural && !row.pluralOnly) parts.push(`les ${row.plural}`);
+    } else if (row.pos === "verb" && french && Array.isArray(row.forms) && row.forms.length === 3) {
+      // infinitive · je présent · il passé composé · participe passé
+      parts.push(row.lemma, ...row.forms);
+    } else if (row.pos === "noun" && spanish) {
       // la casa · las casas / las gafas (content-plan §1.4: gender = el/la, plural without article)
       parts.push(spokenForm(row));
       if (row.plural && !row.pluralOnly) parts.push(`${pluralArticle(row)} ${row.plural}`);
@@ -122,11 +130,13 @@ export function formsOf(entry) {
   return lines;
 }
 
-/** The language of the headword: "es" for a lemma in a Spanish lexicon level. The prose about
- *  it is PROSE_LANG. */
+/** The language of the headword: "fr" for a lemma in a French lexicon level, "es" for one in a
+ *  level still in Spanish, and "es" for a lemma no longer in the lexicon: until `word-stories`
+ *  rewrites them, every story there is about a Spanish word. The prose about it is PROSE_LANG. */
 export function entryLang(entry) {
   const row = lexiconRow(entry);
-  return row && SPANISH_LEVELS.has(row.level) ? "es" : "en";
+  if (row && FRENCH_LEVELS.has(row.level)) return "fr";
+  return "es";
 }
 
 /** A meaning in single quotes as the entry's language writes them: ‘…’ / ‚…‘. */
@@ -245,7 +255,9 @@ export function validate(items) {
     const warn = (msg) => warnings.push(`${file}: ${msg}`);
     if (!e || typeof e !== "object") { at("not a JSON object"); continue; }
     if (!e.lemma) at("no lemma");
-    else if (!lexiconRow(e)) at(`lemma „${e.lemma}" is not in the lexicon`);
+    // A lemma outside the lexicon is a warning while the vocab-* items replace the Spanish words
+    // (content-plan §1.6 rule 3, since vocab-a1); `word-stories` turns it back into an error.
+    else if (!lexiconRow(e)) warn(`lemma „${e.lemma}" is not in the lexicon (a Spanish word that left it; word-stories rewrites the story)`);
     else {
       // The file name is the lexicon id (content-plan §1.3), the level the lexicon's.
       const row = lexiconRow(e);
@@ -273,8 +285,8 @@ export function validate(items) {
     const n = wordCount(e.history);
     if (!e.history) at("no history");
     else if (n < 80 || n > 140) at(`history has ${n} words — the rule is 80–140`);
-    for (const lemma of e.relatives?.family ?? []) if (!rowByLemma(lemma)) at(`family word „${lemma}" is not in the lexicon`);
-    for (const lemma of e.formsAlso ?? []) if (!rowByLemma(lemma)) at(`formsAlso „${lemma}" is not in the lexicon`);
+    for (const lemma of e.relatives?.family ?? []) if (!rowByLemma(lemma)) warn(`family word „${lemma}" is not in the lexicon`);
+    for (const lemma of e.formsAlso ?? []) if (!rowByLemma(lemma)) warn(`formsAlso „${lemma}" is not in the lexicon`);
     for (const c of e.relatives?.cognates ?? []) {
       if (!c.lang || !c.form) at("a cognate needs lang and form");
       if (c.kind && !KINDS.includes(c.kind)) at(`cognate ${c.form}: kind must be one of ${KINDS.join(", ")}`);

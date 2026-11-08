@@ -127,10 +127,17 @@ export function select(opts = {}) {
   return opts.limit ? rows.slice(0, opts.limit) : rows;
 }
 
-/** The levels in Spanish (docs/content-plan.md §1.4): their nouns carry el / la. All six since
- *  `vocab-c1-c2`. */
+/** The levels already in French (docs/content-plan.md §1.4): their words carry `variety: "fr-FR"`
+ *  and their nouns le / la / l' / les / le/la. A1 since `vocab-a1`; each vocab-* item adds its own
+ *  by converting the file, nothing to edit here. */
+export const FRENCH_LEVELS = new Set(
+  LEVELS.filter((level) => ENTRIES.some((e) => e.level === level && e.pos === "noun" && !legacyEntry(e)))
+);
+
+/** The levels still in Spanish (legacy until `vocab-c1-c2`): their nouns carry el / la. Empty once
+ *  every level is French; the callers' Spanish branches go with it in `cleanup`. */
 export const SPANISH_LEVELS = new Set(
-  LEVELS.filter((level) => ENTRIES.some((e) => e.level === level && ["el", "la", "el/la"].includes(e.gender)))
+  LEVELS.filter((level) => ENTRIES.some((e) => e.level === level && ["el", "la", "el/la"].includes(e.gender) && legacyEntry(e)))
 );
 
 export const all = () => ENTRIES;
