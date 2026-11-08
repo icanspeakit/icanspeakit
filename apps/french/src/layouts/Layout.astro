@@ -53,8 +53,8 @@ interface Props {
 }
 
 const {
-  title = "icanspeak French – learn the Spanish of Spain for free: DELE, SIELE, CCSE",
-  description = "Learn Spanish as it is spoken in Spain, from A1 to C1: free grammar, vocabulary and practice for the DELE, the SIELE and the CCSE.",
+  title = "icanspeak French – learn the French of France for free: DELF, DALF, TCF, TEF",
+  description = "Learn French as it is spoken in France, from A1 to C1: free grammar, vocabulary and practice for the DELF, the DALF, the TCF and the TEF.",
   noindex = false,
   schema,
   breadcrumb,
@@ -84,7 +84,7 @@ const hubOg = Object.values(hubBilder as Record<string, { path: string; og: stri
 // card (scripts/build-wordmark.mjs). Set HUB_CARDS to true then.
 const HUB_CARDS = false;
 const OG_IMAGE = (HUB_CARDS && hubOg?.og) || "/assets/og-default.png";
-const OG_ALT = (HUB_CARDS && hubOg?.alt) || "icanspeak French – learn the Spanish of Spain for free";
+const OG_ALT = (HUB_CARDS && hubOg?.alt) || "icanspeak French – learn the French of France for free";
 const abs = (path) => (Astro.site ? absoluteUrl(path) : withBase(path));
 // One address per page for search engines: no trailing slash (the form every internal link
 // uses and the one in /sitemap.xml), no query string — ?voll, ?lang=…, tracking parameters all

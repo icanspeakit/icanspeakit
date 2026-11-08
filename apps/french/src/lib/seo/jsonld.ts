@@ -26,7 +26,7 @@ export function organizationLd(site: string) {
     // Part of the icanspeak.it family (the domain root is the umbrella site).
     parentOrganization: { "@type": "Organization", name: "icanspeak.it", url: "https://icanspeak.it/" },
     description:
-      "icanspeak French is a free website for learning the Spanish of Spain, from A1 to C1, and preparing for the DELE, the SIELE and the CCSE.",
+      "icanspeak French is a free website for learning the French of France, from A1 to C1, and preparing for the DELF, the DALF, the TCF and the TEF.",
     // No email here: the contact address is still the old placeholder in src/lib/legal.js.
     ...(SAME_AS.length ? { sameAs: SAME_AS } : {}),
   };
