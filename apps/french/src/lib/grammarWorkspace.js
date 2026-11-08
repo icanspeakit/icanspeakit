@@ -68,7 +68,8 @@ function optionSet(ex, answers) {
  * look most like it (hätte → hätten, wärst, wäre), which is also the harder, fairer
  * question — the near misses are the ones worth telling apart. */
 const ITEM_CHOICES = 4;
-const fold = (w) => String(w).toLowerCase().replace(/ä/g, "a").replace(/ö/g, "o").replace(/ü/g, "u").replace(/ß/g, "ss");
+// Accents folded for the distance only (est → êtes, es, et), never for the check itself.
+const fold = (w) => String(w).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/œ/g, "oe");
 function editDistance(a, b) {
   const d = Array.from({ length: b.length + 1 }, (_, j) => j);
   for (let i = 1; i <= a.length; i++) {
@@ -204,7 +205,7 @@ function mountFill(root, ex, notify) {
             <p class="vp-fill-prompt">${escapeHtml(item.prompt)}</p>
             ${item.hint ? `<p class="vp-fill-hint">${escapeHtml(item.hint)}${irregularHtml(item)}</p>` : ""}
             <div class="vp-fill-row">${control}${feedback}</div>
-            ${others.length ? `<p class="vp-fill-why" lang="es"><b>${escapeHtml(t("vp.fillAlso", "Auch richtig:"))}</b> ${others.map((a) => `„${escapeHtml(a)}“`).join(", ")}</p>` : ""}
+            ${others.length ? `<p class="vp-fill-why"><b>${escapeHtml(t("vp.fillAlso", "Also right:"))}</b> ${others.map((a) => `<span lang="fr">« ${escapeHtml(a)} »</span>`).join(", ")}</p>` : ""}
             ${checked && !ok && item.why ? `<p class="vp-fill-why"><b>${escapeHtml(t("vp.fillWhy", "Warum?"))}</b> ${escapeHtml(item.why)}</p>` : ""}
           </div>`;
       })
@@ -676,22 +677,35 @@ function buildReadings(correct) {
      next tap simply builds on from there. The solution waits behind "Lösung zeigen" and
      shows itself after the second wrong try. */
 const END = /^[.?!]$/;
-const SUBORD = new Set("als wenn weil bevor nachdem während obwohl seit seitdem bis sobald damit falls sodass".split(" "));
-const PRON = new Set("ich du er sie es wir ihr man".split(" "));
+/* French (grammar-a1 run, 2026-11-08). Only single-tile conjunctions whose clause reads as
+   well in front as behind: quand, lorsque, si, puisque. Not parce que (two tiles, and fronted it
+   is informal), not comme (it must come first), not que. Elided forms (S'il, Qu'il, Lorsqu'il)
+   are one tile and are left alone. */
+const SUBORD = new Set("quand lorsque si puisque".split(" "));
+const PRON = new Set("je j' tu il elle on nous vous ils elles".split(" "));
 const capW = (w) => w[0].toUpperCase() + w.slice(1);
-const lowW = (w) => (w === "Sie" ? w : w[0].toLowerCase() + w.slice(1));
-/** The same sentence with main and subordinate clause swapped, where that is just as right:
-    one comma, a pronoun subject, an adverbial clause (not dass/ob: fronted they sound odd), no
-    pronominal adverb (darauf …) pointing at it, and no hint that asks for one order. */
+const lowW = (w) => w[0].toLowerCase() + w.slice(1);
+/** The same sentence with main and subordinate clause swapped, where that is just as right.
+    French writes a comma after a fronted clause and none before a following one:
+      Quand il pleut, je reste à la maison.  ↔  Je reste à la maison quand il pleut.
+    So: a fronted clause (one comma, conjunction first, the main clause starting with a subject
+    pronoun) can move to the end without the comma; a main clause with a pronoun subject and a
+    following clause (no comma) can move behind a fronted one. A hint that asks for one order
+    ("start with …", "first") switches it off. */
 function swapClauses(words, hint = "") {
-  if (/zuerst|vorne|am Anfang|beginnt/i.test(hint)) return null;
+  if (/\bfirst\b|\bstart|\bbegin/i.test(hint)) return null;
   const c = words.indexOf(",");
-  if (c < 1 || words.indexOf(",", c + 1) !== -1) return null;
-  const a = words.slice(0, c), b = words.slice(c + 1);
-  if ([...a, ...b].some((w) => /^dar?(an|auf|aus|bei|für|mit|nach|über|um|von|vor|zu)$/i.test(bare(w)))) return null;
-  if (SUBORD.has(bare(a[0]).toLowerCase()) && b.length >= 2 && PRON.has(bare(b[1]).toLowerCase())) return [capW(b[1]), b[0], ...b.slice(2), ",", lowW(a[0]), ...a.slice(1)];
-  if (a.length >= 2 && PRON.has(bare(a[0]).toLowerCase()) && SUBORD.has(bare(b[0]))) return [capW(b[0]), ...b.slice(1), ",", a[1], lowW(a[0]), ...a.slice(2)];
-  return null;
+  if (c !== -1) {
+    if (c < 2 || words.indexOf(",", c + 1) !== -1) return null;
+    const a = words.slice(0, c), b = words.slice(c + 1);
+    if (SUBORD.has(bare(a[0]).toLowerCase()) && b.length >= 2 && PRON.has(bare(b[0]).toLowerCase())) return [capW(b[0]), ...b.slice(1), lowW(a[0]), ...a.slice(1)];
+    return null;
+  }
+  if (words.length < 4 || !PRON.has(bare(words[0]).toLowerCase())) return null;
+  // Not si here: behind a verb it is often "whether" (Je ne sais pas si elle vient), which can't move.
+  const k = words.findIndex((w, i) => i >= 2 && bare(w) !== "si" && SUBORD.has(bare(w)));
+  if (k === -1 || k > words.length - 3) return null;
+  return [capW(words[k]), ...words.slice(k + 1), ",", lowW(words[0]), ...words.slice(1, k)];
 }
 /** A sentence ready to build: its tiles (without the closing mark), that mark, and every right order. */
 function prepBuild(sentence) {

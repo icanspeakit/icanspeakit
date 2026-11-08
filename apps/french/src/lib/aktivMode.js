@@ -467,7 +467,8 @@ export function mountSprechen(root, data, { voice, onRate } = {}) {
  * says so when that was the only difference. Accents count: "esta" is not "está", and the
  * verdict says when an accent was the only thing wrong (content-plan §1.2).
  */
-const ACCENT_KEYS = ["á", "é", "í", "ó", "ú", "ü", "ñ", "¿", "¡"];
+// The French key row (content-plan §1.2; grammar-a1 run, 2026-11-08). Typed oe for œ is accepted anyway.
+const ACCENT_KEYS = ["é", "è", "ê", "ë", "à", "â", "ù", "û", "î", "ï", "ô", "ç", "œ"];
 
 export function mountSchreiben(root, data, { voice, onAnswer } = {}) {
   if (!root || !data?.rounds?.length) return { stop() {} };
@@ -480,7 +481,7 @@ export function mountSchreiben(root, data, { voice, onAnswer } = {}) {
 
   const round = () => rounds[r];
   const item = () => round().items[i];
-  const loose = (s) => s.toLowerCase().replace(/[.,!?¿¡;:„“"«»()]/g, "").replace(/\s+/g, " ").trim();
+  const loose = (s) => s.toLowerCase().replace(/[’‘]/g, "'").replace(/[.,!?¿¡;:„“"«»()]/g, "").replace(/\s+/g, " ").trim();
   const strict = (s) => s.replace(/\s+/g, " ").trim();
 
   function render() {
@@ -514,7 +515,7 @@ export function mountSchreiben(root, data, { voice, onAnswer } = {}) {
               placeholder="${esc(t("ak.write.placeholder", "Schreib die Lösung …"))}"
               aria-label="${esc(t("ak.write.placeholder", "Schreib die Lösung …"))}">
           </form>
-          ${answered ? "" : `<div class="ak-accent-keys" role="group" aria-label="${esc(t("ak.write.keys", "Spanish letters"))}">${ACCENT_KEYS.map((k) => `<button type="button" class="ak-accent-key" data-key="${k}">${k}</button>`).join("")}</div>`}
+          ${answered ? "" : `<div class="ak-accent-keys" role="group" aria-label="${esc(t("ak.write.keys", "Accented letters"))}">${ACCENT_KEYS.map((k) => `<button type="button" class="ak-accent-key" data-key="${k}">${k}</button>`).join("")}</div>`}
           <p class="ak-write-verdict" aria-live="polite">${
             state === "right" ? `✓ ${esc(t("ak.write.right", "Richtig!"))}` :
             state === "near" ? `✓ ${esc(t("ak.write.near", "Richtig — achte auf Groß- und Kleinschreibung und Satzzeichen:"))} <strong>${esc(item().answer)}</strong>` :
