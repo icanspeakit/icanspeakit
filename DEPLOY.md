@@ -24,9 +24,9 @@ The zone and the Workers are in "Hello@deutschacademy.com's Account".
    nameservers at the registrar. Routes only work on a zone Cloudflare serves.
 2. **A proxied DNS record for the apex**, so requests reach Cloudflare at all: e.g. `A @ 192.0.2.1`
    or `AAAA @ 100::` (proxied, orange cloud). The Workers answer every path, so no real origin
-   is needed. **Still open:** the apex `A` still holds Vercel's `216.198.79.1` (harmless while
-   proxied, since the hub Worker answers every path), and the DNS-only wildcard `*.icanspeak.it → 216.198.79.1`
-   should be deleted.
+   is needed. The old DNS-only wildcard `*.icanspeak.it → 216.198.79.1` (Vercel) was deleted
+   on 2026-11-10. If the apex `A` still shows `216.198.79.1`, that's harmless while proxied (the
+   hub Worker answers every path), but `192.0.2.1` is cleaner.
 3. **www → apex:** a Redirect Rule `https://www.icanspeak.it/*` → `https://icanspeak.it/${1}`
    (301, preserve query string), plus a proxied `CNAME www → icanspeak.it`. Without the rule,
    www has no Worker route and falls through to the origin IP.
