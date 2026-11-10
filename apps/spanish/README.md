@@ -43,43 +43,27 @@ example `/spanish/de/`.
 
 ## Deploy
 
-The site deploys as a **Cloudflare Worker with static assets only**, on the route
-`icanspeak.it/spanish/*`. There is no Worker script, no adapter and no rewrite. This repo will
-move into the icanspeakit monorepo as `apps/spanish`, and the Worker will be deployed from there.
-The deploy is not set up yet.
-
-The Worker config will look like this (Wrangler 4.148.0 or newer, which `assets.base_path` needs):
-
-```jsonc
-// apps/spanish/wrangler.jsonc
-{
-  "name": "icanspeak-spanish",
-  "compatibility_date": "<date of the first deploy>",
-  "routes": [{ "pattern": "icanspeak.it/spanish/*", "zone_name": "icanspeak.it" }],
-  "assets": {
-    "directory": "./dist",
-    "base_path": "/spanish",
-    "not_found_handling": "404-page"
-  }
-}
-```
-
-- `assets.base_path` maps `/spanish/about/` to `dist/about/index.html`, so the files stay at the
-  root of `dist/`.
-- `not_found_handling` makes unknown URLs show `dist/404.html` with a 404 status.
-- `public/_headers` becomes `dist/_headers` and sets the response headers. Its rule paths are
-  public URLs, so they start with `/spanish/`.
-
-To deploy, run these from `apps/spanish`, in a clean checkout so no old files in `dist/` ship:
+The course is a Cloudflare Worker with **static assets only** (no Worker code). Its route is
+`icanspeak.it/spanish` and `icanspeak.it/spanish/*` (`wrangler.jsonc`), the same setup as
+`apps/english`. The root DEPLOY.md describes the account and the umbrella site.
 
 ```sh
-pnpm build && pnpm check:base
-pnpm dlx wrangler@latest deploy
+pnpm --filter @icanspeak/spanish deploy   # build, then cf:prepare, then wrangler deploy
 ```
 
-The build has to run in the app folder, because build-time code finds its data through
-`process.cwd()`. `pnpm --filter icanspeak-spanish build` from the monorepo root also works, since
-pnpm runs a package's scripts in that package's folder.
+- **`pnpm build`** writes `dist/` (flat: `dist/index.html` is the page at `/spanish/`).
+  `pnpm check:base` runs after it and fails on any URL outside `/spanish/`.
+- **`pnpm cf:prepare`** runs `scripts/nest-dist.mjs`: it copies `dist/` to `cf-dist/spanish/`.
+  The Worker looks up assets by the full request path, so the files must sit under `spanish/`.
+  `cf-dist/` is generated and not committed.
+- **`wrangler deploy`** uploads `cf-dist/` with `not_found_handling: "404-page"`: an unknown
+  address under `/spanish/` serves `spanish/404.html`.
+
+Size: the build has about 3,340 files (`dist/`, last build). The free plan allows 20,000 files per
+Worker.
+
+Not deployed yet. The deploy runs only after Edgar's ok, and the hub's course list and DEPLOY.md
+change with it.
 
 ### After a deploy
 
@@ -87,7 +71,7 @@ Check these on the live site:
 
 - `/spanish/` and `/spanish/de/` load with their styles and images.
 - `/spanish/` still comes from this Worker and `/` still comes from the umbrella site.
-- `/spanish` without the slash reaches the course. The route may not cover it (see below).
+- `/spanish` without the slash reaches the course (the route covers both forms).
 - An unknown URL such as `/spanish/nope` shows the course's 404 page with status 404.
 - `/spanish/inhalt/` files send `X-Robots-Tag: noindex, nofollow`, and pages send
   `X-Content-Type-Options: nosniff`.
@@ -98,8 +82,6 @@ Check these on the live site:
 
 Some things only work at the domain root, so this repo can't do them:
 
-- **`/spanish` without a slash:** the route may not match it. If it doesn't, redirect it to
-  `/spanish/` from the umbrella site, or add a second route for it.
 - **`robots.txt`:** crawlers only read `https://icanspeak.it/robots.txt`. `public/robots.txt`
   holds the lines to merge there, including the sitemap line. Its AI-crawler group says
   `Disallow: /`, which would cover the whole domain once merged, so decide that scope on purpose.
