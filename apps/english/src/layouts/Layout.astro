@@ -1,6 +1,7 @@
 ---
 import { currentPath, stripBase } from "../lib/paths.js";
 import "../styles/global.css";
+import "../styles/brand.css";
 import LanguageOffer from "../components/LanguageOffer.astro";
 // The paywall kill switch (src/lib/access.js). Only rendered when on, so with it off the
 // HTML is what it was before the paywall existed.
@@ -73,7 +74,7 @@ const {
 const route = Astro.url.pathname.replace(/\/+$/, "") || "/";
 const hubOg = Object.values(hubBilder as Record<string, { path: string; og: string; alt: string }>)
   .find((h) => h.path === route);
-const OG_IMAGE = hubOg?.og ?? "/assets/og-default.png";
+const OG_IMAGE = hubOg?.og ?? "/og/og-default.png";
 const OG_ALT = hubOg?.alt ?? "icanspeak English – learn English for free";
 const abs = (path) => (Astro.site ? absoluteUrl(path) : withBase(path));
 // One address per page for search engines: no trailing slash (the form every internal link
@@ -286,26 +287,25 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
          icon changes.
          `rel="shortcut icon"` was dropped: it is a non-standard legacy alias for
          `rel="icon"` and adds a second, competing declaration for the same file. -->
-    <link rel="icon" href="/favicon.ico?v=2" sizes="32x32" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
-    <link rel="manifest" href="/site.webmanifest?v=2" />
-    <!-- Brand teal (--brand-blue in global.css). Was #4d9be1, a blue left over from an
-         earlier palette, so the browser chrome did not match the site. -->
-    <meta name="theme-color" content="#0d9488" />
+    <link rel="icon" href="/favicon.ico?v=3" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=3" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=3" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
+    <link rel="manifest" href="/site.webmanifest?v=3" />
+    <!-- Brand navy (brand/kit/tokens.css, --isk-navy); the kit's theme colour. -->
+    <meta name="theme-color" content="#172a6e" />
     <script is:inline>
       (function () {
         var m = document.querySelector('meta[name="theme-color"]');
         if (m && document.documentElement.dataset.theme === "dark") m.setAttribute("content", "#0f141b");
       })();
     </script>
-    <!-- All four families are self-hosted from /public/fonts; nothing is
-         fetched from fonts.googleapis.com. Preload the three that paint
-         above the fold (Bungee Shade is accent-only, so it can wait). -->
-    <link rel="preload" href="/fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/big-shoulders-display-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/albert-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Self-hosted only (brand/kit/BRAND.md §4): Inter and Fraunces from /fonts/icanspeak/,
+         nothing from fonts.googleapis.com. Preload the two that paint above the fold. -->
+    <link rel="preload" href="/fonts/icanspeak/fraunces-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/icanspeak/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/fonts/icanspeak/fonts.css" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="icanspeak English" />
     <meta property="og:locale" content="en_GB" />

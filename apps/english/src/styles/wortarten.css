@@ -7,20 +7,20 @@
 .wa-lead { margin: 10px 0 0; color: var(--muted); line-height: 1.6; }
 
 .wa-chip {
-  --pos: var(--brand-blue-dark, #0f766e);
+  --pos: var(--brand-blue-dark, #0d1a4a);
   display: inline-flex; align-items: center; min-height: 32px; padding: 0 12px;
   border: 1.5px solid color-mix(in srgb, var(--pos) 45%, transparent); border-radius: var(--radius-pill, 999px);
   background: color-mix(in srgb, var(--pos) 9%, transparent);
   color: var(--pos); font-family: var(--font-label, inherit); font-size: .8rem; font-weight: 700;
   letter-spacing: .06em; text-transform: uppercase; text-decoration: none;
 }
-.wa-chip--verb { --pos: #c2410c; }
+.wa-chip--verb { --pos: #7a4f00; }
 .wa-chip--adj, .wa-chip--adv { --pos: #7c3aed; }
 .wa-chip--prep, .wa-chip--conj, .wa-chip--pron { --pos: #2563eb; }
 .wa-chip--num, .wa-chip--phrase { --pos: #b45309; }
 .wa-chip--art { --pos: #475569; }
-:root[data-theme="dark"] .wa-chip { --pos: #5eead4; }
-:root[data-theme="dark"] .wa-chip--verb { --pos: #fdba74; }
+:root[data-theme="dark"] .wa-chip { --pos: #bfe3ff; }
+:root[data-theme="dark"] .wa-chip--verb { --pos: #ffe29a; }
 :root[data-theme="dark"] .wa-chip--adj, :root[data-theme="dark"] .wa-chip--adv { --pos: #c4b5fd; }
 :root[data-theme="dark"] .wa-chip--prep, :root[data-theme="dark"] .wa-chip--conj, :root[data-theme="dark"] .wa-chip--pron { --pos: #93c5fd; }
 :root[data-theme="dark"] .wa-chip--num, :root[data-theme="dark"] .wa-chip--phrase { --pos: #fcd34d; }
@@ -59,7 +59,7 @@ html:has(.wa-page) { scroll-behavior: smooth; }
 .wa-card:has(.wa-try) { position: relative; }
 .wa-card:has(.wa-try) .wa-card-head { padding-right: 84px; }
 .wa-try {
-  --try: var(--pos, var(--brand-blue-dark, #0f766e));
+  --try: var(--pos, var(--brand-blue-dark, #0d1a4a));
   position: absolute; top: 14px; right: 12px; isolation: isolate; display: inline-flex; align-items: center; gap: 5px;
   min-height: 44px; padding: 0 12px;
   color: color-mix(in srgb, var(--try) 75%, var(--muted)); font-size: .82rem; font-weight: 600; text-decoration: none;
@@ -73,7 +73,7 @@ html:has(.wa-page) { scroll-behavior: smooth; }
 .wa-try:hover, .wa-try:focus-visible { color: var(--try); }
 .wa-try:hover::before, .wa-try:focus-visible::before { border-color: color-mix(in srgb, var(--try) 50%, transparent); background: color-mix(in srgb, var(--try) 12%, transparent); }
 .wa-try svg { flex: none; opacity: .75; }
-:root[data-theme="dark"] .wa-try.wa-chip--noun { --pos: #5eead4; }
+:root[data-theme="dark"] .wa-try.wa-chip--noun { --pos: #bfe3ff; }
 .wa-what { margin: 0 0 6px; font-size: 1.05rem; line-height: 1.55; color: var(--ink); }
 .wa-ask { margin: 8px 0; font-size: .92rem; color: var(--muted); }
 .wa-ask b { color: var(--ink); }
@@ -92,7 +92,7 @@ html:has(.wa-page) { scroll-behavior: smooth; }
 /* The way from the lookup to practice (/wortarten: rule + exercises). */
 .wa-practice {
   display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; margin: 0 0 20px;
-  border-radius: var(--radius-pill, 999px); background: var(--brand-blue-dark, #0f766e); color: #fff;
+  border-radius: var(--radius-pill, 999px); background: var(--brand-blue-dark, #0d1a4a); color: #fff;
   font-weight: 700; text-decoration: none;
 }
 .wa-practice:hover { filter: brightness(1.08); }

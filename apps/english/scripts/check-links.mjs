@@ -107,6 +107,8 @@ function toSitePath(ref, fromPath) {
   }
   const siteOrigin = new URL(SITE_ORIGIN).origin;
   if (u.origin !== ORIGIN && u.origin !== siteOrigin) return null;
+  // The bare domain root is the umbrella site (icanspeak.it): a link to it is allowed, like check:base.
+  if (u.origin === siteOrigin && u.pathname === "/") return null;
   if (u.origin === siteOrigin && !u.pathname.startsWith(BASE_PATH)) return { bad: `outside ${BASE_PATH}` };
   return { path: u.pathname + u.search };
 }

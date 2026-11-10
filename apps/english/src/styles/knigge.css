@@ -10,7 +10,7 @@
   border: 2px solid var(--border); border-radius: 14px; background: var(--surface-card, #fff);
   color: var(--ink); font: inherit; font-weight: 600; cursor: pointer;
 }
-.kn-pick[aria-pressed="true"] { border-color: #0d9488; background: rgba(13, 148, 136, .1); box-shadow: 0 0 0 3px rgba(13, 148, 136, .18); }
+.kn-pick[aria-pressed="true"] { border-color: #172a6e; background: rgba(23,42,110, .1); box-shadow: 0 0 0 3px rgba(23,42,110, .18); }
 .kn-pick svg { width: 64px; height: 64px; }
 
 /* HUD: the Ruf meter. */
@@ -25,7 +25,7 @@
 .kn-bar-track i { position: absolute; inset: 0 auto 0 0; border-radius: inherit; background: #f59e0b; transition: width .5s ease, background-color .3s; }
 .kn-bar-track i.is-high { background: #16a34a; }
 .kn-bar-track i.is-low { background: #dc2626; }
-.kn-ruf-track i { background: linear-gradient(90deg, #f59e0b, #0d9488); }
+.kn-ruf-track i { background: linear-gradient(90deg, #f59e0b, #172a6e); }
 
 /* The scene picture. Backdrops are CSS: a wall / sky and a floor, plus the scene's props. */
 .kn-stage {
@@ -108,7 +108,7 @@
   padding: 4px 10px; border: 1px solid var(--border); border-radius: 999px;
   background: var(--surface, #fff); color: var(--ink); font: inherit; font-size: .8rem; cursor: pointer;
 }
-.kn-tool[aria-expanded="true"] { border-color: #0d9488; background: rgba(13, 148, 136, .08); }
+.kn-tool[aria-expanded="true"] { border-color: #172a6e; background: rgba(23,42,110, .08); }
 .kn-gloss { margin: -2px 0 10px; font-size: .9rem; color: var(--muted); font-style: italic; }
 .kn-gloss[hidden], .kn-opt-en[hidden] { display: none; }
 .kn-you { margin: 8px 0 6px; font-size: .85rem; font-weight: 700; color: var(--muted); }
@@ -119,17 +119,17 @@
   background: var(--surface, #fff); color: var(--ink); font: inherit; font-size: 1rem; line-height: 1.4; cursor: pointer;
   transition: opacity .2s, border-color .2s;
 }
-.kn-opt:hover { border-color: #0d9488; }
-.kn-opt-n { flex: 0 0 auto; width: 1.6em; height: 1.6em; display: inline-grid; place-items: center; border-radius: 50%; background: rgba(13, 148, 136, .12); font-size: .8rem; font-weight: 700; }
+.kn-opt:hover { border-color: #172a6e; }
+.kn-opt-n { flex: 0 0 auto; width: 1.6em; height: 1.6em; display: inline-grid; place-items: center; border-radius: 50%; background: rgba(23,42,110, .12); font-size: .8rem; font-weight: 700; }
 .kn-opt-en { display: block; margin-top: 2px; font-size: .85rem; font-style: italic; color: var(--muted); }
 .kn-opt[aria-disabled="true"] { cursor: default; }
-.kn-opt.is-picked { border-color: #0d9488; background: rgba(13, 148, 136, .1); }
+.kn-opt.is-picked { border-color: #172a6e; background: rgba(23,42,110, .1); }
 .kn-opt.is-faded { opacity: .45; }
 .kn-after:empty { display: none; }
 .kn-react { display: flex; align-items: center; gap: 10px; margin: 12px 0 6px; }
 .kn-react svg { flex: 0 0 auto; }
 .kn-react p { margin: 0; font-size: 1.05rem; line-height: 1.4; }
-.kn-why { margin: 6px 0 0; padding: 8px 12px; border-left: 4px solid #0d9488; border-radius: 8px; background: rgba(13, 148, 136, .07); line-height: 1.45; }
+.kn-why { margin: 6px 0 0; padding: 8px 12px; border-left: 4px solid #172a6e; border-radius: 8px; background: rgba(23,42,110, .07); line-height: 1.45; }
 .kn-more { display: inline-block; margin-top: 6px; font-size: .9rem; }
 .kn-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 
@@ -152,7 +152,7 @@
 .kn-bg--sbahn { background: linear-gradient(#cfe3f1 0 20%, #94a3b8 20% 22%, #e2e8f0 22% 60%, #475569 60% 62%, #9ca3af 62%); }
 .kn-bg--aufzug { background: linear-gradient(90deg, #cbd5e1 0 3%, transparent 3% 97%, #cbd5e1 97%), linear-gradient(#e5e7eb 0 66%, #9ca3af 66%); }
 .kn-bg--strasse { background: linear-gradient(#bfe7f7 0 50%, #cbd5e1 50% 66%, #64748b 66%); }
-.kn-bg--bilanz { background: radial-gradient(circle at 50% 70%, #fef3c7, #fde68a 40%, #99f6e4); }
+.kn-bg--bilanz { background: radial-gradient(circle at 50% 70%, #fef3c7, #fde68a 40%, #cdd6ee); }
 .kn-bg--tag { background: linear-gradient(#fef9c3 0 55%, #bbf7d0 55%); }
 .kn-bg--kueche { background: linear-gradient(90deg, transparent 0 8%, rgba(255,255,255,.35) 8% 9%, transparent 9%) 0 0 / 60px 100%, linear-gradient(#d1fae5 0 56%, #6b7280 56% 60%, #f3f4f6 60%); }
 .kn-bg--buero { background: linear-gradient(#e0e7ff 0 18%, #c7d2fe 18% 19%, #eef2ff 19% 60%, #a8a29e 60% 63%, #d6d3d1 63%); }
@@ -161,7 +161,7 @@
 .kn-bg--wohnungstuer { background: linear-gradient(90deg, #f5f5f4 0 8%, #b45309 8% 34%, #f5f5f4 34%) 0 0 / 100% 64% no-repeat, linear-gradient(#f5f5f4 0 64%, #d6d3d1 64%); }
 .kn-bg--party { background: radial-gradient(circle at 20% 20%, rgba(244,114,182,.5) 0 8%, transparent 9%), radial-gradient(circle at 70% 30%, rgba(96,165,250,.5) 0 7%, transparent 8%), linear-gradient(#312e81 0 62%, #1e1b4b 62%); }
 .kn-bg--esszimmer { background: linear-gradient(#fef3c7 0 52%, #92400e 52% 56%, #fde68a 56% 70%, #a16207 70%); }
-.kn-bg--cafe { background: repeating-linear-gradient(90deg, #fecaca 0 22px, #fff 22px 44px) 0 0 / 100% 14% no-repeat, linear-gradient(#ffedd5 0 60%, #c2410c 60% 62%, #e7e5e4 62%); }
+.kn-bg--cafe { background: repeating-linear-gradient(90deg, #fecaca 0 22px, #fff 22px 44px) 0 0 / 100% 14% no-repeat, linear-gradient(#fff1c2 0 60%, #7a4f00 60% 62%, #e7e5e4 62%); }
 .kn-bg--abend { background: linear-gradient(#1e3a8a 0 30%, #6d28d9 55%, #f472b6 64%, #475569 64%); }
 .kn-bg--klasse { background: linear-gradient(#ecfccb 0 12%, #166534 12% 40%, #ecfccb 40% 62%, #a8a29e 62%); }
 
@@ -175,9 +175,9 @@
 }
 .kn-area b { display: block; font-size: 1.05rem; }
 .kn-area small { display: block; color: var(--muted); font-size: .8rem; line-height: 1.35; }
-.kn-area:hover { border-color: #0d9488; }
+.kn-area:hover { border-color: #172a6e; }
 .kn-area.is-done { border-color: rgba(22, 163, 74, .5); background: rgba(22, 163, 74, .06); }
-.kn-area-state { font-weight: 800; color: #0d9488; }
+.kn-area-state { font-weight: 800; color: #172a6e; }
 .kn-area.is-done .kn-area-state { color: #16a34a; }
 
 /* Dark mode: the sheet follows the site; the scene picture keeps its daylight, a bit dimmed. */
@@ -217,7 +217,7 @@
 }
 
 /* The Smalltalk-Rad: ten topics around the person's head. */
-.kn-wheel { position: relative; width: min(340px, 88vw); aspect-ratio: 1; margin: 6px auto 4px; border-radius: 50%; background: radial-gradient(circle, rgba(13, 148, 136, .1) 0 28%, transparent 29%), conic-gradient(from 0deg, rgba(245, 158, 11, .12), rgba(13, 148, 136, .12), rgba(99, 102, 241, .12), rgba(245, 158, 11, .12)); }
+.kn-wheel { position: relative; width: min(340px, 88vw); aspect-ratio: 1; margin: 6px auto 4px; border-radius: 50%; background: radial-gradient(circle, rgba(23,42,110, .1) 0 28%, transparent 29%), conic-gradient(from 0deg, rgba(245, 158, 11, .12), rgba(23,42,110, .12), rgba(99, 102, 241, .12), rgba(245, 158, 11, .12)); }
 .kn-wheel-hub { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
 .kn-topic {
   position: absolute; transform: translate(-50%, -50%);
@@ -225,9 +225,9 @@
   border: 1px solid var(--border); border-bottom-width: 3px; border-radius: 14px;
   background: var(--surface, #fff); color: var(--ink); font: inherit; font-size: .72rem; font-weight: 700; line-height: 1.1; cursor: pointer;
 }
-.kn-topic:hover { border-color: #0d9488; }
+.kn-topic:hover { border-color: #172a6e; }
 .kn-topic.is-used { opacity: .35; }
-.kn-topic.is-picked { opacity: 1; border-color: #0d9488; background: rgba(13, 148, 136, .14); }
+.kn-topic.is-picked { opacity: 1; border-color: #172a6e; background: rgba(23,42,110, .14); }
 .kn-topic-tip { position: absolute; top: -8px; right: -6px; font-size: .9rem; }
 .kn-hint { margin: 2px 0 0; font-size: .85rem; color: var(--muted); text-align: center; }
 .kn-said { margin: 10px 0 0; font-size: 1.05rem; }

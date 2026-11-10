@@ -22,7 +22,7 @@ import "../../styles/practice.css";
 
 type Name = "bruno" | "regi" | "hamsti" | "quaki";
 const NAMES: Record<Name, string> = { bruno: "Bruno", regi: "Regi", hamsti: "Hamsti", quaki: "Quaki" };
-const COLORS: Record<Name, string> = { bruno: "#f97316", regi: "#0d9488", hamsti: "#f2a900", quaki: "#2563eb" };
+const COLORS: Record<Name, string> = { bruno: "#ffc21a", regi: "#172a6e", hamsti: "#f2a900", quaki: "#2563eb" };
 
 // The studies, in the order the page first cites them — that order gives their numbers.
 const STUDIES: { id: string; cite: string; doi?: string; shows: string }[] = [
@@ -326,7 +326,7 @@ const rules: { id: string; who: Name; expr: string; say: string; title: string; 
        row get a thin comma between them. */
     .ln-ref { font-size: .6em; line-height: 0; margin-left: 1px; opacity: .75; }
     .ln-ref + .ln-ref::before { content: ","; color: var(--muted); }
-    .ln-ref a { color: var(--brand-teal, #0d9488); text-decoration: none; font-weight: 600; padding: 0 1px; }
+    .ln-ref a { color: var(--brand-teal, #172a6e); text-decoration: none; font-weight: 600; padding: 0 1px; }
     .ln-ref a:hover { text-decoration: underline; }
     .ln-ref:hover { opacity: 1; }
 
@@ -341,7 +341,7 @@ const rules: { id: string; who: Name; expr: string; say: string; title: string; 
     .ln-wheel-hub {
       position: absolute; inset: 22%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
       border-radius: 50%; text-align: center; padding: 10px;
-      background: radial-gradient(circle, color-mix(in srgb, var(--brand-teal, #0d9488) 10%, var(--surface-card)) 0%, var(--surface-card) 75%);
+      background: radial-gradient(circle, color-mix(in srgb, var(--brand-teal, #172a6e) 10%, var(--surface-card)) 0%, var(--surface-card) 75%);
     }
     .ln-wheel-hub b { font-size: 1.05rem; }
     .ln-wheel-hub span { font-size: .78rem; line-height: 1.4; color: var(--muted); }
@@ -368,8 +368,8 @@ const rules: { id: string; who: Name; expr: string; say: string; title: string; 
     .ln-studies > p { margin: 0 0 12px; color: var(--muted); font-size: .9rem; }
     .ln-studies ol { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
     .ln-studies li { display: flex; gap: 10px; padding: 8px 10px; border-radius: var(--radius-sm); scroll-margin-top: 90px; transition: background .3s ease; }
-    .ln-studies li:target { background: color-mix(in srgb, var(--brand-teal, #0d9488) 12%, transparent); }
-    .ln-studies-n { flex: none; width: 2.4em; font-weight: 700; color: var(--brand-teal, #0d9488); }
+    .ln-studies li:target { background: color-mix(in srgb, var(--brand-teal, #172a6e) 12%, transparent); }
+    .ln-studies-n { flex: none; width: 2.4em; font-weight: 700; color: var(--brand-teal, #172a6e); }
     .ln-studies-shows { margin: 0 0 2px; font-size: .93rem; line-height: 1.45; }
     .ln-studies-cite { margin: 0; font-size: .8rem; line-height: 1.45; color: var(--muted); overflow-wrap: anywhere; }
     .ln-studies-cite a { color: inherit; }
@@ -411,8 +411,8 @@ const rules: { id: string; who: Name; expr: string; say: string; title: string; 
 
     .ln-sum {
       max-width: 46rem; margin: 28px auto 10px; padding: 20px 22px; text-align: left;
-      border-radius: var(--radius-lg); background: color-mix(in srgb, var(--brand-teal, #0d9488) 9%, var(--surface-card));
-      border: 1px solid color-mix(in srgb, var(--brand-teal, #0d9488) 30%, var(--border));
+      border-radius: var(--radius-lg); background: color-mix(in srgb, var(--brand-teal, #172a6e) 9%, var(--surface-card));
+      border: 1px solid color-mix(in srgb, var(--brand-teal, #172a6e) 30%, var(--border));
     }
     .ln-sum h2 { margin: 0 0 8px; font-size: 1.2rem; text-align: left; }
     .ln-sum ul { margin: 0 0 16px; padding-left: 1.2em; line-height: 1.7; }

@@ -1,14 +1,16 @@
+@import "./brand-tokens.css";
+
 :root {
-  --brand-blue-light: #5eead4;
-  --brand-cyan:       #f97316;
-  --brand-blue:       #0d9488;
-  --brand-blue-dark:  #0f766e;
-  --accent:           #f97316;
-  --accent-dark:      #c2410c;
+  --brand-blue-light: #bfe3ff;
+  --brand-cyan:       #8a5a00;
+  --brand-blue:       #172a6e;
+  --brand-blue-dark:  #0d1a4a;
+  --accent:           #ffc21a;
+  --accent-dark:      #7a4f00;
 
   /* The plural article's colour, used where a noun's gender is shown by hue (see the note
      on .vt-art in vokabeltrainer.css). Its own token rather than --accent-dark, which is
-     #c2410c — a burnt orange one step from --danger's #c1462f, so the plural "die" and the
+     #7a4f00 — a burnt orange one step from --danger's #c1462f, so the plural "die" and the
      feminine "die" were effectively the same colour.
      Hue is what separates these two: the feminine red is at 9°, this is at 48°. Yellow, as
      asked for. Note that it is 1.53:1 on white — well under the 4.5:1 normal text wants —
@@ -16,39 +18,39 @@
      standing on colour alone. */
   --gender-plural:    #facc15;
 
-  --blue-50:  #f0fdfa;
-  --blue-100: #ccfbf1;
-  --blue-200: #99f6e4;
-  --blue-300: #5eead4;
-  --blue-400: #2dd4bf;
-  --blue-500: #14b8a6;
-  --blue-600: #0d9488;
-  --blue-700: #0f766e;
-  --blue-800: #115e59;
-  --blue-900: #134e4a;
+  --blue-50:  #f3f5fb;
+  --blue-100: #e6ebf7;
+  --blue-200: #cdd6ee;
+  --blue-300: #a3b1d9;
+  --blue-400: #6d7fb8;
+  --blue-500: #41569a;
+  --blue-600: #172a6e;
+  --blue-700: #13235a;
+  --blue-800: #0d1a4a;
+  --blue-900: #0a1438;
 
-  --ink:        #1a2230;
-  --ink-deep:   #0f141c;
-  --muted:      #4b5768;
-  --muted-soft: #94a0b0;
+  --ink:        #172a6e;
+  --ink-deep:   #0d1a4a;
+  --muted:      #566173;
+  --muted-soft: #6b7483;
   --border:     #e7e9ee;
-  --border-strong: #cbd2db;
-  --surface:    #f7f8fa;
+  --border-strong: #c6cbd6;
+  --surface:    #f5f6fa;
   /* Page ground and card ground. Split out from the literal #fff they used to be
      so dark mode has somewhere to hook in — see the [data-theme="dark"] block below. */
   --page-bg:      #ffffff;
   --surface-card: #ffffff;
   /* Deliberately-inverted bands (footers, the dashboard callout) — dark in light
      mode, and *deeper* rather than lighter in dark mode, so they stay a band. */
-  --inverse-surface: #1a2230;
+  --inverse-surface: #111015;
   /* The level rail beside a panel is not a band; at full inverse-surface it was the
      loudest thing on the page. A softer slate keeps white labels readable (~10:1). */
-  --rail-surface: #334155;
+  --rail-surface: #38427a;
 
-  --gradient-brand: linear-gradient(135deg, #2dd4bf, var(--brand-blue));
-  --gradient-brand-soft: linear-gradient(135deg, var(--blue-100), #f0fdfa 50%, var(--blue-200));
-  --gradient-accent-soft: linear-gradient(135deg, #ffedd5, #fff7ed 50%, #fed7aa);
-  --gradient-hero-scrim: linear-gradient(120deg, rgba(26,34,48,.82), rgba(13,148,136,.55));
+  --gradient-brand: linear-gradient(135deg, #41569a, #172a6e);
+  --gradient-brand-soft: linear-gradient(135deg, #e6ebf7, #f5f6fa 50%, #cdd6ee);
+  --gradient-accent-soft: linear-gradient(135deg, #fff1c2, #fff8e6 50%, #ffe29a);
+  --gradient-hero-scrim: linear-gradient(120deg, rgba(17,16,21,.82), rgba(23,42,110,.55));
 
   /* Semantic status colors — formalized from colors already organically in use
      across practice.css/akkusativ.css/fakten-layouts.css. New/refactored UI
@@ -69,16 +71,16 @@
   /* "DA Script": the Noto face for Arabic, Ethiopic, Devanagari … script, declared only
      once a language in that script is chosen (src/lib/scriptFonts.js). Until then the
      name matches nothing and costs nothing. */
-  --font-body: "DA Chevron", "Sora", "DA Script", "Segoe UI", Arial, sans-serif;
-  --font-display: "DA Chevron", "Big Shoulders Display", "DA Script", "Segoe UI", Arial, sans-serif;
-  --font-accent: "Bungee Shade", var(--font-display), cursive;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-accent: var(--font-display);
   /* Eyebrows, labels and counters. Swappable: /font compares the two
      candidates by overriding this token on the page root. */
-  --font-label: "Albert Sans", "DA Script", "Segoe UI", Arial, sans-serif;
+  --font-label: "Inter", "Segoe UI", Arial, sans-serif;
   /* Mascot voice: speech bubbles, mascot hints, feedback words, name tags.
      Only for text a mascot says — never headlines, body or buttons.
      See docs/newfont.md; /newfont compares it against today's fonts. */
-  --font-voice: "Fredoka", var(--font-display), sans-serif;
+  --font-voice: "Fredoka", "Inter", sans-serif;
 
   /* Type scale */
   --text-xs:   .75rem;
@@ -148,46 +150,10 @@
   --breakpoint-lg: 1024px;
 }
 
-/* → and ← as thin chevrons, sitewide: a two-glyph font first in the stacks above, limited to
-   those two characters, so everything else falls through to Sora (scripts/build-chevron-font.py). */
-@font-face {
-  font-family: "DA Chevron";
-  font-display: swap;
-  src: url("/fonts/da-chevron.woff2") format("woff2");
-  unicode-range: U+2190, U+2192;
-}
 
-@font-face {
-  font-family: "Albert Sans";
-  font-style: normal;
-  font-weight: 300 800;
-  font-display: swap;
-  src: url("/fonts/albert-sans-latin.woff2") format("woff2");
-}
 
-@font-face {
-  font-family: "Big Shoulders Display";
-  font-style: normal;
-  font-weight: 500 800;
-  font-display: swap;
-  src: url("/fonts/big-shoulders-display-latin.woff2") format("woff2");
-}
 
-@font-face {
-  font-family: "Bungee Shade";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/bungee-shade-latin.woff2") format("woff2");
-}
 
-@font-face {
-  font-family: "Sora";
-  font-style: normal;
-  font-weight: 300 800;
-  font-display: swap;
-  src: url("/fonts/sora-latin.woff2") format("woff2");
-}
 
 /* Mascot voice (--font-voice). Deliberately not preloaded in Layout.astro: the
    browser only fetches it on pages that actually render mascot text. */
@@ -300,18 +266,18 @@ html[data-paywall="on"]:not([data-plan="premium"]):not([data-plan="pack"]) [data
   --inverse-surface: #070b10;
   --rail-surface: #0b1118;
 
-  --brand-blue:       #14b8a6;
-  --brand-blue-dark:  #5eead4;
-  --brand-blue-light: #99f6e4;
-  --accent:      #fb923c;
-  --accent-dark: #fdba74;
+  --brand-blue:       #8fa3c0;
+  --brand-blue-dark:  #bfe3ff;
+  --brand-blue-light: #e6ebf7;
+  --accent:      #ffc21a;
+  --accent-dark: #ffe29a;
   /* On a dark card yellow needs no help — #fde047 is 13:1 here, against --danger's
      #f87171. Brighter than the light-mode value, and the weight bump is harmless. */
   --gender-plural: #fde047;
 
-  --blue-50:  #102a2c;
-  --blue-100: #133a3a;
-  --blue-200: #1f5a58;
+  --blue-50:  #1a2540;
+  --blue-100: #22305a;
+  --blue-200: #2b4162;
 
   --success:      #34d399;
   --success-soft: #0e2a20;
@@ -328,14 +294,14 @@ html[data-paywall="on"]:not([data-plan="premium"]):not([data-plan="pack"]) [data
 
   /* The brand gradient itself stays put — it is the logo teal and reads well on
      dark — but the pale tint gradients have to be rebuilt from scratch. */
-  --gradient-brand-soft:  linear-gradient(135deg, #133a3a, #0f2a2c 50%, #17494a);
-  --gradient-accent-soft: linear-gradient(135deg, #2e1d11, #251810 50%, #3d2615);
-  --gradient-hero-scrim:  linear-gradient(120deg, rgba(6,10,15,.88), rgba(13,148,136,.45));
+  --gradient-brand-soft:  linear-gradient(135deg, #22305a, #1a2540 50%, #2b4162);
+  --gradient-accent-soft: linear-gradient(135deg, #3d2f05, #2b2110 50%, #4d3b08);
+  --gradient-hero-scrim:  linear-gradient(120deg, rgba(6,6,9,.88), rgba(43,65,98,.5));
 
   /* Shadows need real black on a dark ground; the light-mode navy tints vanish. */
   --shadow-sm:     0 2px 8px rgba(0,0,0,.40);
   --shadow-hover:  0 12px 28px rgba(0,0,0,.50);
-  --shadow-cta:    0 8px 20px rgba(20,184,166,.30);
+  --shadow-cta:    0 8px 20px rgba(143,163,192,.30);
   --shadow-raised: 0 18px 44px rgba(0,0,0,.55);
 
   color-scheme: dark;
