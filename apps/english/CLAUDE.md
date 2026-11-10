@@ -29,7 +29,7 @@ Consult these guides before working on related tasks:
 
 ## Project
 
-EnglishAcademy: the deutschacademy architecture, English-only UI, **no integrations**.
+icanspeak English: the deutschacademy architecture, English-only UI, **no integrations**.
 Read ARCHITECTURE.md first. Rules that follow from it:
 
 - Every service goes through `src/lib/backend.js` and its stand-in modules

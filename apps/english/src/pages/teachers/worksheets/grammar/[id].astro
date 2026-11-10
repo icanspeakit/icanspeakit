@@ -77,7 +77,7 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
 
     <article class="ab-sheet" lang="en">
       <header class="ab-head">
-        <p class="ab-eyebrow">EnglishAcademy · Grammar worksheet · {levelLabel}</p>
+        <p class="ab-eyebrow">icanspeak English · Grammar worksheet · {levelLabel}</p>
         <h1 class="ab-title">{topic.name}</h1>
         <p class="ab-namerow"><span>Name: <i></i></span><span>Date: <i></i></span></p>
       </header>
@@ -262,12 +262,12 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
         </div>
       )}
 
-      <footer class="ab-foot">EnglishAcademy · englishacademy.com{path} · free to copy for use in class</footer>
+      <footer class="ab-foot">icanspeak English · icanspeak.it/english{path} · free to copy for use in class</footer>
     </article>
 
     <article class="ab-sheet ab-key" lang="en" aria-label="Answers">
       <header class="ab-head">
-        <p class="ab-eyebrow">EnglishAcademy · Answers · {levelLabel}</p>
+        <p class="ab-eyebrow">icanspeak English · Answers · {levelLabel}</p>
         <h2 class="ab-title ab-title--key">{topic.name}</h2>
       </header>
       {pics.map((s: any, si: number) => (
@@ -297,7 +297,7 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
           <ol class="ab-keylist">{s.items.map((it: any) => <li>{it.seg.map((x: any) => (isGap(x) ? <b>{x.a.join(" / ")}</b> : x))}</li>)}</ol>
         </section>
       ))}
-      <footer class="ab-foot">EnglishAcademy · englishacademy.com{path}</footer>
+      <footer class="ab-foot">icanspeak English · icanspeak.it/english{path}</footer>
     </article>
   </main>
 

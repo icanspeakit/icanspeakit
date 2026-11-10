@@ -50,7 +50,7 @@ interface Props {
 }
 
 const {
-  title = "EnglishAcademy – practise English for free: Cambridge, IELTS, Trinity",
+  title = "icanspeak English – practise English for free: Cambridge, IELTS, Trinity",
   description = "Learn English with real classroom material: free practice for Cambridge English, IELTS, Trinity ISE and the Life in the UK test.",
   noindex = false,
   schema,
@@ -74,7 +74,7 @@ const route = Astro.url.pathname.replace(/\/+$/, "") || "/";
 const hubOg = Object.values(hubBilder as Record<string, { path: string; og: string; alt: string }>)
   .find((h) => h.path === route);
 const OG_IMAGE = hubOg?.og ?? "/assets/og-default.png";
-const OG_ALT = hubOg?.alt ?? "EnglishAcademy – learn English for free";
+const OG_ALT = hubOg?.alt ?? "icanspeak English – learn English for free";
 const abs = (path) => (Astro.site ? absoluteUrl(path) : withBase(path));
 // One address per page for search engines: no trailing slash (the form every internal link
 // uses and the one in /sitemap.xml), no query string — ?voll, ?lang=…, tracking parameters all
@@ -86,7 +86,7 @@ const canonical = Astro.site && route !== "/404" ? absoluteUrl(route) : null;
 // own titles; a page may name its parents with the `breadcrumb` prop), and whatever the page
 // adds with `schema` (grammar topics, exam sets), which points at the organisation by @id.
 const SITE_URL = Astro.site ? SITE_ORIGIN + BASE_PATH : "";
-const pageName = title.replace(/\s+[–|-]\s+(EnglishAcademy|English Academy)$/, "");
+const pageName = title.replace(/\s+[–|-]\s+(icanspeak English|icanspeak English)$/, "");
 const trail = trailFor(route, pageName, breadcrumb);
 const pageSchema = [schema ?? []].flat().map((o) => ({ provider: { "@id": orgId(SITE_URL) }, inLanguage: BASE, ...o }));
 const graph = SITE_URL && !noindex
@@ -307,7 +307,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     <link rel="preload" href="/fonts/big-shoulders-display-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/albert-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="EnglishAcademy" />
+    <meta property="og:site_name" content="icanspeak English" />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />

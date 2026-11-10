@@ -23,7 +23,7 @@ import "../styles/arbeitsblatt.css";
 
 const freeLimit = premiumFeatures.find((f) => f.id === "fehler")!.free.limit;
 ---
-<Layout title="My mistakes – EnglishAcademy" description="Your mistakes from every exercise in one place – and as a worksheet to go over them again." noindex>
+<Layout title="My mistakes – icanspeak English" description="Your mistakes from every exercise in one place – and as a worksheet to go over them again." noindex>
   <SiteNav active="profil" />
   <main class="practice-main mf" data-free-limit={freeLimit}>
     <div class="practice-hero">
@@ -219,7 +219,7 @@ import { withBase } from "../lib/paths.js";
     main.querySelector("[data-mf-sheets]")!.innerHTML = `
       <article class="ab-sheet" lang="en">
         <header class="ab-head">
-          <p class="ab-eyebrow">EnglishAcademy · My worksheet · ${today}</p>
+          <p class="ab-eyebrow">icanspeak English · My worksheet · ${today}</p>
           <h1 class="ab-title">My mistakes</h1>
           <p class="ab-namerow"><span>Name: <i></i></span><span>Date: <i></i></span></p>
         </header>
@@ -234,10 +234,10 @@ import { withBase } from "../lib/paths.js";
           <ol class="ab-lines" start="${start}">${lines}</ol>
         </section>`;
         }).join("")}
-        <footer class="ab-foot">EnglishAcademy · englishacademy.com/my-mistakes</footer>
+        <footer class="ab-foot">icanspeak English · icanspeak.it/english/my-mistakes</footer>
       </article>
       <article class="ab-sheet ab-key" lang="en" aria-label="Answers">
-        <header class="ab-head"><p class="ab-eyebrow">EnglishAcademy · Answers</p><h2 class="ab-title ab-title--key">My mistakes</h2></header>
+        <header class="ab-head"><p class="ab-eyebrow">icanspeak English · Answers</p><h2 class="ab-title ab-title--key">My mistakes</h2></header>
         <section class="ab-sec"><ol class="ab-keylist">${[...groups.values()].flat().map((e) => `<li>${esc(e.prompt)} → <b>${esc(e.expected)}</b></li>`).join("")}</ol></section>
       </article>`;
     sheetRoot.hidden = false;

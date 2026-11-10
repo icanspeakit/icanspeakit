@@ -8,7 +8,7 @@
 //   1. bundled    — in the app itself (/audio-manifest.json, written by scripts/build-app.mjs:
 //                   A1 words and sentences, everything that is not lexicon audio);
 //   2. downloaded — in an audio pack the learner downloaded (src/lib/audioPacks.js);
-//   3. network    — https://englishacademy.com, same path. Works online; offline it fails the
+//   3. network    — https://icanspeak.it/english, same path. Works online; offline it fails the
 //                   way a missing file always has, and the players fall back to speech.
 // src/lib/appShell.js routes every audio source a page sets through audioUrl(), so no page
 // has to know.
@@ -16,7 +16,7 @@ import { downloadedUrl, initPacks } from "./audioPacks.js";
 import { withBase } from "./paths.js";
 
 const APP = import.meta.env.PUBLIC_TARGET === "app";
-const SITE = "https://englishacademy.com";
+const SITE = "https://icanspeak.it/english";
 
 /** @type {Set<string> | null} null until the manifest is loaded (or when it cannot be). */
 let bundled = null;

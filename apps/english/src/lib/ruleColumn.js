@@ -497,7 +497,7 @@ export function printRule(ruleEl, { frameStyle = "position:fixed;right:0;bottom:
   const root = document.documentElement;
   const doc = frame.contentDocument;
   doc.open();
-  doc.write(`<!doctype html><html lang="${esc(root.lang || "de")}" dir="${esc(root.dir || "ltr")}" data-theme="light"><head><meta charset="utf-8"><base href="${esc(location.href)}"><title>${esc(document.title)}</title>${css}<style>${PRINT_CSS}</style></head><body><main class="vp-print" data-rule="shown">${clone.outerHTML}<p class="vp-print-foot">EnglishAcademy · ${esc(location.origin + location.pathname)}</p></main></body></html>`);
+  doc.write(`<!doctype html><html lang="${esc(root.lang || "de")}" dir="${esc(root.dir || "ltr")}" data-theme="light"><head><meta charset="utf-8"><base href="${esc(location.href)}"><title>${esc(document.title)}</title>${css}<style>${PRINT_CSS}</style></head><body><main class="vp-print" data-rule="shown">${clone.outerHTML}<p class="vp-print-foot">icanspeak English · ${esc(location.origin + location.pathname)}</p></main></body></html>`);
   doc.close();
   if (!autoPrint) return frame;
   const win = frame.contentWindow;

@@ -201,7 +201,7 @@ const schema = {
   teaches: name,
 };
 
-// Title: "<Thema> – Übungen <Niveau> – EnglishAcademy". That is how learners search
+// Title: "<Thema> – Übungen <Niveau> – icanspeak English". That is how learners search
 // ("verben mit präpositionen übungen b1", Search Console 2026-10); fitTitle drops the level,
 // then "Übungen", when the topic name is too long for 60 characters.
 const BEATS = [
@@ -241,7 +241,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
           exercises start higher (and on Artikel the trainer gets the height back, see
           artikel-fit.css). */}
       {aktiv && <ModeSwitch compact />}
-      <CourseBar inline topic={topicKey} title={`${name} – EnglishAcademy`} />
+      <CourseBar inline topic={topicKey} title={`${name} – icanspeak English`} />
       {/* Artikel has no hero (its trainer starts with the level rail), so the teacher's
           link rides in this bar there; every other topic has it under its intro. */}
       {isArtikel && <LiveQuizLink chapter={`g-${topicKey}`} bar />}

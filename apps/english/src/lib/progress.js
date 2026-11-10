@@ -61,7 +61,7 @@ function remember(data) {
   if (typeof location === "undefined") return;
   const path = currentPath().replace(/\/+$/, "") || "/";
   if (NOT_RESUMABLE.has(path)) return;
-  // "Perfekt – Grammatik – EnglishAcademy" -> "Perfekt". The suffix is the same on every
+  // "Perfekt – Grammatik – icanspeak English" -> "Perfekt". The suffix is the same on every
   // page, so keeping it would make every card in the list read as the site's name.
   const title = (typeof document === "undefined" ? "" : document.title).split(/\s[–—-]\s/)[0].trim();
   const list = data.recents.filter((r) => r.path !== path);

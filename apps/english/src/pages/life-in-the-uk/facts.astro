@@ -4,7 +4,7 @@ import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
 // Geschichte, Arbeit, Familie) are sourced from Leben_in_Deutschland_Bayern_A2.pdf,
 // Leben_in_Deutschland_Bayern_B1.pdf and Leben_in_Deutschland_Bayern_B1_A.pdf (Deutsch v3
 // folder) — see docs/section-prompts-v1.md section 14. The Bayern entry in `bundeslaender`
-// carries that same sourced material. The other 15 Bundesländer have no EnglishAcademy source
+// carries that same sourced material. The other 15 Bundesländer have no icanspeak English source
 // material in the project: their basic facts (capital, parliament name, head-of-government
 // title) are general public knowledge, not teaching-material sourced — see meta.stateFactsNote,
 // shown on this page. Deliberately excludes officeholder names and exact election-cycle lengths,
@@ -67,7 +67,7 @@ const downloads: { href: string; label: string; key?: string; vars?: Record<stri
 const dlVars = (d: { vars?: Record<string, string> }) => (d.vars ? JSON.stringify(d.vars) : undefined);
 ---
 <Layout
-  title="Life in the UK test: facts to learn – EnglishAcademy"
+  title="Life in the UK test: facts to learn – icanspeak English"
   description="The key facts for the Life in the UK test: democracy, elections, rights, history, everyday life and the four nations of the UK."
 >
   <div class="fk-page" id="fk-page" data-lang="standard" data-gx="off">
@@ -315,8 +315,8 @@ const dlVars = (d: { vars?: Record<string, string> }) => (d.vars ? JSON.stringif
       container.innerHTML = `
         <div class="topic-intro" style="margin:14px 0;">
           ${l.sourced
-            ? esc(tx("lid.fk.land.sourced", "Aus echtem EnglishAcademy-Unterrichtsmaterial."))
-            : esc(tx("lid.fk.land.public", "Allgemein bekannte, öffentliche Fakten — keine EnglishAcademy-Quelle.")) + " " + esc(stateNote)}
+            ? esc(tx("lid.fk.land.sourced", "Aus echtem icanspeak English-Unterrichtsmaterial."))
+            : esc(tx("lid.fk.land.public", "Allgemein bekannte, öffentliche Fakten — keine icanspeak English-Quelle.")) + " " + esc(stateNote)}
         </div>
         <ul class="fact-list">
           <li><strong>${esc(tx("lid.fk.land.capital", "Hauptstadt:"))}</strong> ${esc(l.capital)}</li>

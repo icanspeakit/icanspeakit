@@ -7,7 +7,7 @@ import lid from "../../data/leben-in-deutschland.json";
 const { meta, questions, bundeslaender } = lid;
 ---
 <Layout
-  title="Life in the UK test: format, questions, pass mark – EnglishAcademy"
+  title="Life in the UK test: format, questions, pass mark – icanspeak English"
   description="The Life in the UK test: how it works, what the questions are about, what you need to pass and how to prepare."
 >
   <ExamShell
@@ -59,7 +59,7 @@ const { meta, questions, bundeslaender } = lid;
         </div>
         <p class="format-note" data-i18n-html="lid.format.note" data-i18n-vars={JSON.stringify({ n: meta.federalQuestions, t: meta.totalQuestions, st: meta.stateQuestions, m: meta.minutes, pass: meta.passScore, fed: questions.length, bl: bundeslaender.length, src: meta.sourceNote, facts: meta.stateFactsNote })}>
           Multiple-Choice, {meta.totalQuestions} Fragen aus dem offiziellen BAMF-Fragenkatalog, Zeitlimit {meta.minutes} Minuten, bestanden ab {meta.passScore} richtigen Antworten.
-          Unsere <a href="/life-in-the-uk/facts">Fakten-Seite</a> und unser <a href="/life-in-the-uk/test">Übungstest</a> decken alle 16 Bundesländer ab: {questions.length} bundesweite Fragen aus echtem EnglishAcademy-Unterrichtsmaterial für Bayern, plus {meta.stateQuestions} Fragen zu deinem Bundesland — nicht identisch mit dem offiziellen Fragenkatalog selbst. {meta.sourceNote} {meta.stateFactsNote}
+          Unsere <a href="/life-in-the-uk/facts">Fakten-Seite</a> und unser <a href="/life-in-the-uk/test">Übungstest</a> decken alle 16 Bundesländer ab: {questions.length} bundesweite Fragen aus echtem icanspeak English-Unterrichtsmaterial für Bayern, plus {meta.stateQuestions} Fragen zu deinem Bundesland — nicht identisch mit dem offiziellen Fragenkatalog selbst. {meta.sourceNote} {meta.stateFactsNote}
         </p>
       </section>
     </Fragment>

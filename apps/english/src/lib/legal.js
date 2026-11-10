@@ -4,12 +4,12 @@
 // ⚠️ THE FIELDS MARKED `TODO` ARE NOT FILLED IN AND MUST NOT BE GUESSED.
 // §5 DDG requires a real, reachable name and postal address. A placeholder here is worse
 // than no page at all — an incomplete Impressum is itself abmahnfähig. The archived
-// /former-site footer carries "English Academy Inc., 35F Tycoon Centre, Pearl Drive,
+// /former-site footer carries "icanspeak English Inc., 35F Tycoon Centre, Pearl Drive,
 // Ortigas, 1600 Pasig City, Manila", which may or may not still be the operating entity;
 // it was left untouched deliberately rather than copied here on a guess.
 
 export const LEGAL = {
-  // Who operates englishacademy.com — the "Verantwortlicher" under Art. 4(7) DSGVO.
+  // Who operates icanspeak.it/english — the "Verantwortlicher" under Art. 4(7) DSGVO.
   operatorName: "Edgar Kretschmann",
   operatorStreet: "Ansbacher Straße 48",
   operatorPostcode: "10777",

@@ -5,7 +5,7 @@
 import path from "node:path";
 import { buildEntryPages } from "../src/integrations/entry-pages.mjs";
 const root = path.resolve(process.argv[2] ?? "dist/client");
-await buildEntryPages(root, new URL("https://englishacademy.com"));
+await buildEntryPages(root, new URL("https://icanspeak.it/english"));
 // …and the sitemap after it, with the language versions as xhtml:link.
 const { writeSitemap } = await import("../src/integrations/sitemap.mjs");
-await writeSitemap(root, new URL("https://englishacademy.com"));
+await writeSitemap(root, new URL("https://icanspeak.it/english"));

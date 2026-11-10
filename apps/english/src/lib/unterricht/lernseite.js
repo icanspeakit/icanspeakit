@@ -125,7 +125,7 @@ export async function mountLernstunde(root, data) {
 
   $("[data-meta]").textContent = `${label}: ${block.thema} · ${key.stunden} lessons`;
   $("[data-title]").textContent = `Lesson ${key.stunde}: ${lesson.final ? "Use and revise" : lesson.focus}`;
-  document.title = `Lesson ${key.stunde}: ${block.thema} – EnglishAcademy`;
+  document.title = `Lesson ${key.stunde}: ${block.thema} – icanspeak English`;
 
   if (mine && !mine.extra?.parked && !done && q.get("spaeter") !== "1") return run(mine);
 

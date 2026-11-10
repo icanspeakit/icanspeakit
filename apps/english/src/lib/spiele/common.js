@@ -117,7 +117,7 @@ export function sheet(inner, { title, page, pages }) {
   return `<section class="sp-sheet">
     <div class="sp-sheet-body">${inner}</div>
     <footer class="sp-sheet-foot">
-      <span><b>EnglishAcademy</b> · ${esc(title)} · ${page}/${pages}</span>
+      <span><b>icanspeak English</b> · ${esc(title)} · ${page}/${pages}</span>
       <span class="sp-sheet-url">${esc(url)}</span>
     </footer>
   </section>`;

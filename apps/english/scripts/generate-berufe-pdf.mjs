@@ -95,10 +95,10 @@ async function build(deck, lang = null) {
       deck.introEasy ?? deck.intro,
       `${rows.length} Wörter in ${groups.length} ${groups.length === 1 ? "Gruppe" : "Gruppen"} · ${deck.level}`,
       `${rows.filter((r) => r.example).length} Beispielsätze`,
-      `Als Karteikarten mit Audio: englishacademy.com/berufe/${deck.beruf}`,
+      `Als Karteikarten mit Audio: icanspeak.it/english/berufe/${deck.beruf}`,
     ],
     footer:
-      "Von EnglishAcademy geschrieben — von Lehrkräften, die wirklich unterrichten. Dieses PDF darfst du frei " +
+      "Von icanspeak English geschrieben — von Lehrkräften, die wirklich unterrichten. Dieses PDF darfst du frei " +
       "herunterladen, ausdrucken und im Unterricht oder am Arbeitsplatz weitergeben. Kein Konto, keine Kosten." +
       (deck.reviewed ? "" : " Die Übersetzungen sind ein Entwurf und werden noch geprüft."),
   });
@@ -127,7 +127,7 @@ async function build(deck, lang = null) {
       { widths: [w * 0.27, w * 0.11, w * 0.2, w * 0.42], inkCols: [2], ...(ed.rtl && { rtl: [2] }) }
     );
   }
-  pdf.tip(`Alle Wörter als Karteikarten mit Audio: englishacademy.com/berufe/${deck.beruf}`, {
+  pdf.tip(`Alle Wörter als Karteikarten mit Audio: icanspeak.it/english/berufe/${deck.beruf}`, {
     art: art.mascot.wordsCheer,
     title: "Weiter üben",
   });

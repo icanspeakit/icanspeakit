@@ -8,7 +8,7 @@
  * description length, H1, canonical, flags. Writes docs/seo-audit-v1.md and exits 1 if a
  * page from PRIORITY has a flag or any two indexable pages share a title.
  *
- * Flags: title > 60 · no "– EnglishAcademy" suffix (the homepage starts with the brand
+ * Flags: title > 60 · no "– icanspeak English" suffix (the homepage starts with the brand
  * instead) · duplicate title · duplicate description · missing description · H1 missing
  * or more than one · "Da für Dich" in the title.
  */
@@ -19,7 +19,7 @@ const ROOT = path.resolve(process.argv[2] ?? "dist");
 // The Vercel adapter puts the static pages under client/; a plain static build does not.
 const BASE = existsSync(path.join(ROOT, "client")) ? path.join(ROOT, "client") : ROOT;
 const OUT = "docs/seo-audit-v1.md";
-const BRAND = "EnglishAcademy";
+const BRAND = "icanspeak English";
 const MAX_TITLE = 60;
 
 const PRIORITY = [

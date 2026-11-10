@@ -311,7 +311,7 @@ function buildPdf(mode) {
     executiveTitle: l.executiveTitle,
   }));
   drawTable(stateColumns, stateRows, { fontSize: 8.5 });
-  paragraph("* Grunddaten aus echtem EnglishAcademy-Unterrichtsmaterial (Bayern). Alle anderen Bundesländer: allgemein bekannte, öffentliche Fakten, keine EnglishAcademy-Quelle.", { size: 8 });
+  paragraph("* Grunddaten aus echtem icanspeak English-Unterrichtsmaterial (Bayern). Alle anderen Bundesländer: allgemein bekannte, öffentliche Fakten, keine icanspeak English-Quelle.", { size: 8 });
 
   // --- Bayern deep dive (the only state with extra sourced facts) — back to portrait ---
   const bayern = bundeslaender.find((l) => l.id === "bayern");
@@ -319,7 +319,7 @@ function buildPdf(mode) {
   if (bayernFacts?.length) {
     doc.addPage();
     h2("Vertiefung: Bayern");
-    paragraph("Aus echtem EnglishAcademy-Unterrichtsmaterial.", { size: 9 });
+    paragraph("Aus echtem icanspeak English-Unterrichtsmaterial.", { size: 9 });
     doc.moveDown(0.2);
     for (const f of bayernFacts) fact(f);
   }
@@ -335,7 +335,7 @@ function buildPdf(mode) {
     const bottomMargin = doc.page.margins.bottom;
     doc.page.margins.bottom = 0;
     doc.fillColor(MUTED).font("Helvetica").fontSize(8).text(
-      `englishacademy.com/leben-in-deutschland/fakten · © EnglishAcademy · Seite ${i + 1} von ${range.count}`,
+      `icanspeak.it/english/leben-in-deutschland/fakten · © icanspeak English · Seite ${i + 1} von ${range.count}`,
       MARGIN,
       doc.page.height - 36,
       { align: "center", width: doc.page.width - MARGIN * 2 }
@@ -430,9 +430,9 @@ async function buildEdition(mode, lang) {
       `Jeder Fakt auf Deutsch, darunter auf ${ed.name} — der Test selbst ist auf Deutsch`,
       ...(help.reviewed ? [] : [`Die Übersetzung ins ${ed.into ?? `${ed.name}e`} ist ein maschineller Entwurf, noch nicht von einer Lehrkraft geprüft`]),
       `${topics.length} Themen, ${glossary.length} Begriffe im Glossar, alle 16 Bundesländer`,
-      "Der Übungstest dazu steht kostenlos auf englishacademy.com/leben-in-deutschland",
+      "Der Übungstest dazu steht kostenlos auf icanspeak.it/english/leben-in-deutschland",
     ],
-    footer: "Von EnglishAcademy geschrieben. Dieses PDF darfst du frei herunterladen, ausdrucken und im Unterricht weitergeben.",
+    footer: "Von icanspeak English geschrieben. Dieses PDF darfst du frei herunterladen, ausdrucken und im Unterricht weitergeben.",
   });
 
   pdf.doc.addPage();
@@ -479,7 +479,7 @@ async function buildEdition(mode, lang) {
     ]),
     { fontSize: 8 }
   );
-  pdf.paragraph("* Grunddaten aus echtem EnglishAcademy-Unterrichtsmaterial (Bayern). Alle anderen Bundesländer: allgemein bekannte, öffentliche Fakten.", { size: 8, color: MUTED });
+  pdf.paragraph("* Grunddaten aus echtem icanspeak English-Unterrichtsmaterial (Bayern). Alle anderen Bundesländer: allgemein bekannte, öffentliche Fakten.", { size: 8, color: MUTED });
 
   const bayern = bundeslaender.find((l) => l.id === "bayern");
   const bayernFacts = bayern?.[mode.sourceFactsKey];

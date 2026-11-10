@@ -18,7 +18,7 @@ import path from "node:path";
 // The marker goes after a normal Chrome UA, not instead of it: with a bare bot UA,
 // accounts.google.com answers /gsi/client with non-JS (ERR_BLOCKED_BY_ORB) and publishers
 // answer links with 403/400 — errors a visitor never sees.
-const UA_MARK = "EnglishAcademy-ErrorSweep/1.0";
+const UA_MARK = "icanspeak English-ErrorSweep/1.0";
 const CHROME = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
 const CHROME_MOBILE = "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Mobile Safari/537.36";
 const UA = `${CHROME} ${UA_MARK}`;
@@ -37,7 +37,7 @@ const ONLY = opt("--only");
 const NO_MOBILE = flag("--no-mobile");
 const MOBILE_SAMPLE = flag("--mobile-sample");
 
-const BASE_IN = (process.env.BASE ?? "https://englishacademy.com").replace(/\/$/, "");
+const BASE_IN = (process.env.BASE ?? "https://icanspeak.it/english").replace(/\/$/, "");
 
 // The routes that render on demand never appear in the sitemap but must not break for a
 // logged-out visitor. The last one must answer with a real 404.

@@ -148,10 +148,10 @@ async function buildLevel(level, lang = null) {
     meta: [
       `${words.length} Wörter in ${sets.length} Lernsets`,
       `${withExample} Beispielsätze`,
-      "Als Karteikarten mit Audio: englishacademy.com/wortschatz" + (all ? "" : "/" + level.toLowerCase()),
+      "Als Karteikarten mit Audio: icanspeak.it/english/wortschatz" + (all ? "" : "/" + level.toLowerCase()),
     ],
     footer:
-      "Von EnglishAcademy geschrieben — von Lehrkräften, die wirklich unterrichten. Dieses PDF darfst du frei " +
+      "Von icanspeak English geschrieben — von Lehrkräften, die wirklich unterrichten. Dieses PDF darfst du frei " +
       "herunterladen, ausdrucken und im Unterricht weitergeben. Kein Konto, keine Kosten.",
   });
 
@@ -177,7 +177,7 @@ async function buildLevel(level, lang = null) {
     pdf.section(set.title, set.id.toUpperCase());
     // The set's own page on the site, as a link: the list is what gets printed and kept,
     // and the flashcards with audio are one tap (or one typed address) away.
-    const url = `englishacademy.com/wortschatz/${set.id}`;
+    const url = `icanspeak.it/english/wortschatz/${set.id}`;
     const href = `https://${url}?utm_source=pdf&utm_medium=wortschatz&utm_campaign=${fileName.replace(/\.pdf$/, "")}`;
     pdf.doc.fillColor(MUTED).font(pdf.F.regular).fontSize(9.5)
       .text(pdf.S(`${items.length} Wörter · Als Karteikarten mit Audio: `), MARGIN, pdf.doc.y, { continued: true })

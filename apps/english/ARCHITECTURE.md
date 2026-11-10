@@ -1,6 +1,6 @@
-# EnglishAcademy: architecture
+# icanspeak English: architecture
 
-EnglishAcademy is a copy of the **deutschacademy** codebase (Astro, ~3,000 static pages). The
+icanspeak English is a copy of the **deutschacademy** codebase (Astro, ~3,000 static pages). The
 whole content, practice and game architecture came across, and **every external integration
 was removed**. The interface is English-only and set up so more languages can be added later.
 

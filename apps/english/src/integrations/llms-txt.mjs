@@ -32,7 +32,7 @@ const ENTITIES = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;
 const decode = (s) => s.replace(/&(amp|lt|gt|quot|#39|#x27);/g, (m) => ENTITIES[m] ?? m).trim();
 const TITLE = /<title>([^<]*)<\/title>/i;
 const DESC = /<meta\s[^>]*name=["']description["'][^>]*content=["']([^"']*)["']/i;
-const SUFFIX = /\s+[–|-]\s+(EnglishAcademy|English Academy)$/;
+const SUFFIX = /\s+[–|-]\s+(icanspeak English|icanspeak English)$/;
 
 /** @returns {import('astro').AstroIntegration} */
 export default function llmsTxt() {
@@ -66,7 +66,7 @@ export default function llmsTxt() {
           const url = absoluteUrl(p);
           return `- [${page.title}](${url})${page.description ? `: ${page.description}` : ''}`;
         };
-        let out = `# EnglishAcademy\n\n> ${home.description}\n`;
+        let out = `# icanspeak English\n\n> ${home.description}\n`;
         for (const [heading, list] of SECTIONS) {
           const paths = list.flatMap((p) =>
             p.endsWith('/*')
