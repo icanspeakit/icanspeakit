@@ -67,7 +67,8 @@ if (!process.argv.some((a) => a.startsWith("--lang="))) {
 function buildPdf(mode) {
   const outPath = path.join(outDir, mode.fileName);
   const doc = new PDFDocument({ size: "A4", margin: MARGIN, bufferPages: true, info: pdfInfo(mode.title) });
-  doc.pipe(createWriteStream(outPath));
+  const out = createWriteStream(outPath);
+  doc.pipe(out);
 
   // Running header on every page after the cover, drawn on 'pageAdded' so it also applies to
   // pages created mid-table (see drawTable) and the landscape Bundesländer page.
@@ -346,7 +347,8 @@ function buildPdf(mode) {
   // (see scripts/lib/pdf-brand.mjs) — otherwise these five are the only downloads on /knowledge
   // that cannot say how long they are.
   const pages = doc.bufferedPageRange().count;
-  const stream = doc.pipes?.[0];
+  // Wait for the file to be flushed before reading its size (doc.end() is asynchronous).
+  const stream = out;
   doc.end();
   const record = () => {
     const file = path.join(outDir, "manifest.json");

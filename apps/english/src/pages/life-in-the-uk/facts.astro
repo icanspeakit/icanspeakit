@@ -63,9 +63,6 @@ const downloads: { href: string; label: string; key?: string; vars?: Record<stri
   ...editions("lid-fakten", "Fakten", "lid.fk.dl.factsEd"),
   { href: "/downloads/leben-in-deutschland-fakten-einfach.pdf", label: "Fakten in einfachem Deutsch (PDF)", key: "lid.fk.dl.easy" },
   ...editions("lid-fakten-einfach", "Einfach", "lid.fk.dl.easyEd"),
-  { href: "/downloads/leben-in-deutschland-bayern-a2.pdf", label: "Bayern A2" },
-  { href: "/downloads/leben-in-deutschland-bayern-b1.pdf", label: "Bayern B1" },
-  { href: "/downloads/leben-in-deutschland-bayern-b1-grafiken.pdf", label: "Bayern B1, mit Grafiken", key: "lid.fk.dl.b1charts" },
 ];
 const dlVars = (d: { vars?: Record<string, string> }) => (d.vars ? JSON.stringify(d.vars) : undefined);
 ---

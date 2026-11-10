@@ -62,7 +62,8 @@
     "cf:prepare": "node ../../scripts/nest-dist.mjs dist /english",
     "cf:preview": "pnpm cf:prepare && wrangler dev",
     "deploy": "pnpm build && pnpm cf:prepare && wrangler deploy",
-    "check:base": "node scripts/check-base.mjs dist"
+    "check:base": "node scripts/check-base.mjs dist",
+    "check:links": "node scripts/check-links.mjs dist"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",
