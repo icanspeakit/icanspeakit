@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import "../styles/brand.css";
 import LanguageOffer from "../components/LanguageOffer.astro";
 import PartOfIcanspeak from "../components/PartOfIcanspeak.astro";
 // The paywall kill switch (src/lib/access.js). Only rendered when on, so with it off the
@@ -83,7 +84,7 @@ const hubOg = Object.values(hubBilder as Record<string, { path: string; og: stri
 // (`pnpm hubs:build --force`, which needs the original photos), every page shares the default
 // card (scripts/build-wordmark.mjs). Set HUB_CARDS to true then.
 const HUB_CARDS = false;
-const OG_IMAGE = (HUB_CARDS && hubOg?.og) || "/assets/og-default.png";
+const OG_IMAGE = (HUB_CARDS && hubOg?.og) || "/og/og-default.png";
 const OG_ALT = (HUB_CARDS && hubOg?.alt) || "icanspeak Spanish – learn the Spanish of Spain for free";
 const abs = (path) => (Astro.site ? absoluteUrl(path) : withBase(path));
 // One address per page for search engines: no trailing slash (the form every internal link
@@ -299,17 +300,19 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
          `rel="icon"` and adds a second, competing declaration for the same file. -->
     <!-- The icanspeak.it kit (public/logos, docs/brand/BRAND.md): SVG favicon for current
          browsers, the .ico for the rest, the app icon for home screens. -->
-    <link rel="icon" href={withBase("/logos/favicon.ico?v=4")} sizes="32x32" />
-    <link rel="icon" type="image/svg+xml" href={withBase("/logos/favicon.svg?v=4")} />
-    <link rel="apple-touch-icon" sizes="180x180" href={withBase("/logos/icanspeak-spanish-apple-touch-icon.png?v=4")} />
-    <link rel="manifest" href={withBase("/site.webmanifest?v=4")} />
+    <link rel="icon" href={withBase("/favicon.ico?v=3")} sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg?v=3")} />
+    <link rel="icon" type="image/png" sizes="32x32" href={withBase("/favicon-32x32.png?v=3")} />
+    <link rel="icon" type="image/png" sizes="16x16" href={withBase("/favicon-16x16.png?v=3")} />
+    <link rel="apple-touch-icon" sizes="180x180" href={withBase("/apple-touch-icon.png?v=3")} />
+    <link rel="manifest" href={withBase("/site.webmanifest?v=3")} />
     <!-- The warm paper of the page (--page-bg in global.css), so the browser chrome runs
          into the page as on icanspeak.it. -->
-    <meta name="theme-color" content="#fbf7ef" />
+    <meta name="theme-color" content="#172a6e" />
     <script is:inline>
       (function () {
         var m = document.querySelector('meta[name="theme-color"]');
-        if (m && document.documentElement.dataset.theme === "dark") m.setAttribute("content", "#16130f");
+        if (m && document.documentElement.dataset.theme === "dark") m.setAttribute("content", "#0f141b");
       })();
     </script>
     <!-- Brand fonts, self-hosted: Fraunces (headings) and Inter (body/UI) from
@@ -317,7 +320,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
          Nothing is fetched from fonts.googleapis.com. Preload the two faces that paint
          above the fold on almost every page. -->
     <link rel="preload" href={withBase("/fonts/icanspeak/inter-latin-400-normal.woff2")} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={withBase("/fonts/icanspeak/fraunces-latin-500-normal.woff2")} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={withBase("/fonts/icanspeak/fraunces-latin-900-normal.woff2")} as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href={withBase("/fonts/icanspeak/fonts.css")} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="icanspeak Spanish" />

@@ -1,0 +1,85 @@
+@import "./tiles.css";
+/* The course home (src/pages/index.astro), in the brand pattern of brand/kit/BRAND.md §5.
+   Colours are the kit tokens (tokens.css, imported by global.css). Text is navy or body
+   colour on white, or white on navy and black: every pairing passes AA. */
+
+.home4 { color: var(--isk-text); background: var(--isk-white); font-family: var(--isk-font-body); }
+.home4 h1, .home4 h2, .home4 h3 { font-family: var(--isk-font-display); font-weight: 900; color: var(--isk-navy); }
+
+.h4-wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+.h4-ribbon { --isk-tile: 64px; display: flex; height: var(--isk-tile); overflow: hidden; }
+@media (max-width: 640px) { .h4-ribbon { --isk-tile: 40px; } .h4-wrap { padding: 0 16px; } }
+
+/* hero */
+.h4-hero { max-width: 1200px; margin: 0 auto; padding: 64px 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 48px; }
+.h4-hero__copy { flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+.h4-eyebrow { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--isk-navy); }
+.h4-h1 { margin: 0; font-size: clamp(2.4rem, 6vw, 68px); line-height: 1.02; letter-spacing: -0.02em; }
+.h4-h1__mark { background: linear-gradient(transparent 58%, var(--isk-yellow) 58%, var(--isk-yellow) 92%, transparent 92%); }
+.h4-lead { margin: 0; font-size: 19px; line-height: 1.6; color: var(--isk-text); max-width: 32em; }
+.h4-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+.h4-btn { display: inline-flex; align-items: center; min-height: 44px; padding: 13px 24px; border-radius: var(--isk-radius-pill);
+  font-weight: 700; font-size: 16px; text-decoration: none; }
+.h4-btn--primary { background: var(--isk-navy); color: var(--isk-white); }
+.h4-btn--primary:hover { background: var(--isk-navy-deep); }
+.h4-btn--outline { border: 2px solid var(--isk-navy); color: var(--isk-navy); }
+.h4-free { margin: 4px 0 0; font-size: 14px; color: var(--isk-text); }
+.h4-hero__grid { flex: 0 1 450px; min-width: 0; display: grid; grid-template-columns: repeat(3, 150px); max-width: 450px; }
+.h4-hero__grid .isk-tile { --t: 150px; }
+.h4-hero__grid .isk-tile__fill { font-size: 120px; }
+@media (max-width: 900px) { .h4-hero__grid { display: none; } }
+
+/* navy band */
+.h4-band { background: var(--isk-navy); }
+.h4-band .h4-wrap { padding-top: 72px; padding-bottom: 72px; display: flex; flex-direction: column; gap: 32px; }
+.h4-h2 { margin: 0; font-size: 44px; letter-spacing: -0.01em; line-height: 1.1; }
+.home4 .h4-h2--light { color: var(--isk-white); }
+.h4-crew { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+.h4-card { background: var(--isk-white); border-radius: var(--isk-radius-card); overflow: hidden; display: flex; flex-direction: column; }
+.h4-card__top { height: 170px; display: flex; align-items: center; justify-content: center; border-bottom: 3px solid var(--isk-navy); }
+.h4-card__body { padding: 20px 22px 26px; display: flex; flex-direction: column; gap: 8px; }
+.h4-kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--isk-text); }
+.h4-h3 { margin: 0; font-size: 23px; }
+.h4-p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--isk-text); }
+.h4-p--light { color: #d6dbf0; font-size: 17px; line-height: 1.6; }
+
+/* exercise cards */
+.h4-exercises { padding-top: 72px; padding-bottom: 72px; display: flex; flex-direction: column; gap: 28px; }
+.h4-row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px; }
+.h4-link { font-weight: 700; font-size: 15px; color: var(--isk-navy); }
+.h4-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.h4-ex { text-decoration: none; background: var(--isk-white); border: 2px solid var(--isk-navy); border-radius: 18px;
+  padding: 22px; display: flex; flex-direction: column; gap: 12px; min-height: 44px; }
+.h4-ex:hover { background: var(--isk-cream); }
+.h4-ex__glyph { border-radius: 14px; }
+.h4-ex__glyph .isk-tile__fill { font-size: 30px; }
+.h4-ex__title { font-family: var(--isk-font-display); font-weight: 900; font-size: 20px; color: var(--isk-navy); }
+.h4-ex__desc { font-size: 14px; line-height: 1.5; color: var(--isk-text); }
+.h4-badge { align-self: flex-start; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: var(--isk-radius-pill);
+  background: var(--isk-yellow); color: var(--isk-navy); }
+
+/* glass band: the five courses */
+.h4-glass { background: var(--isk-black); }
+.h4-glass__row { display: flex; flex-wrap: wrap; align-items: center; gap: 40px; padding-top: 48px; padding-bottom: 48px; }
+.h4-glass__img { flex: 1 1 520px; min-width: 0; height: 300px; border-radius: var(--isk-radius-card); overflow: hidden; }
+.h4-glass__img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 78%; display: block; }
+.h4-glass__copy { flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.h4-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+.h4-pill { display: inline-flex; align-items: center; min-height: 44px; padding: 7px 14px; border-radius: var(--isk-radius-pill);
+  border: 2px solid #3a4680; color: var(--isk-white); font-weight: 600; font-size: 15px; text-decoration: none; }
+.h4-pill--live { background: var(--isk-sky); border-color: var(--isk-sky); color: var(--isk-navy); font-weight: 700; padding: 9px 16px; }
+
+/* yellow band: the placement test */
+.h4-place { background: var(--isk-yellow); }
+.h4-place__row { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; padding-top: 48px; padding-bottom: 48px; }
+.h4-place__row > div { flex: 1 1 320px; display: flex; flex-direction: column; gap: 8px; }
+.h4-place .h4-p { color: var(--isk-navy); }
+.h4-place .h4-btn--primary { background: var(--isk-navy); }
+
+/* footer */
+.h4-footer { background: var(--isk-navy); }
+.h4-footer__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding-top: 40px; padding-bottom: 40px; }
+.h4-footer__logo { height: 30px; width: auto; }
+.h4-footer__links { display: flex; flex-wrap: wrap; gap: 22px; font-size: 14px; }
+.h4-footer__links a { color: #d6dbf0; text-decoration: none; }
+.h4-footer__links a:hover { color: var(--isk-white); text-decoration: underline; }

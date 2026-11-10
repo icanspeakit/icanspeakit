@@ -1,3 +1,5 @@
+@import "./brand-tokens.css";
+
 /* icanspeak.it palette (docs/brand/BRAND.md). The token names are the fork's (brand-blue,
    blue-50…900, accent) so no component had to change: "blue" is now the icanspeak navy
    #2b4162 and "accent" the amber. Two deliberate departures from the brand sheet, both for
@@ -9,14 +11,14 @@
    - --muted is #6b6152 rather than #7a6f60, which drops to 4.1:1 on --surface. */
 :root {
   --brand-amber:      #b3812e;
-  --brand-blue-light: #8fa3c0;
-  --brand-cyan:       #946620;
-  --brand-blue:       #2b4162;
-  --brand-blue-dark:  #1a2940;
+  --brand-blue-light: #bfe3ff;
+  --brand-cyan:       #8a5a00;
+  --brand-blue:       #172a6e;
+  --brand-blue-dark:  #0d1a4a;
   /* Fill behind white labels; differs from --brand-blue only in the dark theme. */
   --brand-fill:       #2b4162;
-  --accent:           #946620;
-  --accent-dark:      #7d571a;
+  --accent:           #ffc21a;
+  --accent-dark:      #7a4f00;
   --accent-soft:      #f0e2bf;
 
   /* The plural article's colour, used where a noun's gender is shown by hue (see the note
@@ -31,29 +33,29 @@
 
   /* Navy scale around --color-primary #2b4162 (600) and --color-primary-dark #1a2940 (800);
      100 is the brand's --color-primary-soft. */
-  --blue-50:  #f2f5f9;
-  --blue-100: #e5eaf1;
-  --blue-200: #cbd5e3;
-  --blue-300: #a3b3ca;
-  --blue-400: #7389ab;
-  --blue-500: #4a6288;
-  --blue-600: #2b4162;
-  --blue-700: #22344f;
-  --blue-800: #1a2940;
-  --blue-900: #121d2e;
+  --blue-50:  #f3f5fb;
+  --blue-100: #e6ebf7;
+  --blue-200: #cdd6ee;
+  --blue-300: #a3b1d9;
+  --blue-400: #6d7fb8;
+  --blue-500: #41569a;
+  --blue-600: #172a6e;
+  --blue-700: #13235a;
+  --blue-800: #0d1a4a;
+  --blue-900: #0a1438;
 
-  --ink:        #24201b;
-  --ink-deep:   #15120e;
+  --ink:        #172a6e;
+  --ink-deep:   #0d1a4a;
   /* Body copy in the brand is --color-text #3c352c; here --ink carries headings and body
      alike, so it stays the darker ink. */
   --text:       #3c352c;
-  --muted:      #6b6152;
+  --muted:      #566173;
   /* Used as text in many places (counters, hints, notes), so it has to pass AA on
      --surface too; barely lighter than --muted for that reason. */
-  --muted-soft: #73685a;
-  --border:     #e3d6bd;
-  --border-strong: #cdbd9e;
-  --surface:    #f2ead9;
+  --muted-soft: #6b7483;
+  --border:     #e7e9ee;
+  --border-strong: #c6cbd6;
+  --surface:    #f5f6fa;
   /* Page ground and card ground. Split out from the literal #fff they used to be
      so dark mode has somewhere to hook in — see the [data-theme="dark"] block below.
      The page is the brand's warm paper; cards stay white on it. */
@@ -65,15 +67,15 @@
   /* Deliberately-inverted bands (footers, the dashboard callout) — dark in light
      mode, and *deeper* rather than lighter in dark mode, so they stay a band.
      The brand footer navy. */
-  --inverse-surface: #1a2940;
+  --inverse-surface: #111015;
   /* The level rail beside a panel is not a band; at full inverse-surface it was the
      loudest thing on the page. The primary navy keeps white labels readable (10:1). */
-  --rail-surface: #2b4162;
+  --rail-surface: #38427a;
 
-  --gradient-brand: linear-gradient(135deg, #3a5680, var(--brand-blue));
-  --gradient-brand-soft: linear-gradient(135deg, var(--blue-100), #f2f5f9 50%, var(--blue-200));
-  --gradient-accent-soft: linear-gradient(135deg, #f0e2bf, #faf3e3 50%, #ecd7a6);
-  --gradient-hero-scrim: linear-gradient(120deg, rgba(36,32,27,.82), rgba(43,65,98,.55));
+  --gradient-brand: linear-gradient(135deg, #41569a, #172a6e);
+  --gradient-brand-soft: linear-gradient(135deg, #e6ebf7, #f5f6fa 50%, #cdd6ee);
+  --gradient-accent-soft: linear-gradient(135deg, #fff1c2, #fff8e6 50%, #ffe29a);
+  --gradient-hero-scrim: linear-gradient(120deg, rgba(17,16,21,.82), rgba(23,42,110,.55));
 
   /* Semantic status colors — formalized from colors already organically in use
      across practice.css/akkusativ.css/fakten-layouts.css. New/refactored UI
@@ -100,17 +102,17 @@
      "DA Script": the Noto face for Arabic, Ethiopic, Devanagari … script, declared only
      once a language in that script is chosen (src/lib/scriptFonts.js). Until then the
      name matches nothing and costs nothing. */
-  --font-body: "Inter", "DA Script", system-ui, "Segoe UI", Arial, sans-serif;
-  --font-display: "Fraunces", "DA Script", Georgia, "Times New Roman", serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
   /* Was a decorative shaded face (Bungee Shade); the brand has none, so accents are
      Fraunces italic where they are set in --font-accent. */
   --font-accent: var(--font-display);
   /* Eyebrows, labels and counters: Inter, like the brand's eyebrows. */
-  --font-label: var(--font-body);
+  --font-label: "Inter", "Segoe UI", Arial, sans-serif;
   /* Mascot voice: speech bubbles, mascot hints, feedback words, name tags.
      Only for text a mascot says — never headlines, body or buttons.
      Was Fredoka; in the brand the mascots speak in the heading serif. */
-  --font-voice: var(--font-display);
+  --font-voice: "Fredoka", "Inter", sans-serif;
 
   /* Type scale */
   --text-xs:   .75rem;
@@ -325,20 +327,20 @@ html[data-paywall="on"]:not([data-plan="premium"]):not([data-plan="pack"]) [data
      deeper fill, --brand-fill (5.7:1), in the fixups below. --brand-blue-dark is the
      foreground navy, light on dark. */
   --brand-amber:      #c99645;
-  --brand-blue:       #7593bd;
+  --brand-blue:       #8fa3c0;
   --brand-fill:       #4a6890;
-  --brand-blue-dark:  #a9bcd6;
-  --brand-blue-light: #cbd5e3;
-  --accent:      #d4a65a;
-  --accent-dark: #e6c486;
+  --brand-blue-dark:  #bfe3ff;
+  --brand-blue-light: #e6ebf7;
+  --accent:      #ffc21a;
+  --accent-dark: #ffe29a;
   --accent-soft: #3a2d17;
   /* On a dark card yellow needs no help — #fde047 is 13:1 here, against --danger's
      #f87171. Brighter than the light-mode value, and the weight bump is harmless. */
   --gender-plural: #fde047;
 
-  --blue-50:  #1c2433;
-  --blue-100: #212c3d;
-  --blue-200: #31415a;
+  --blue-50:  #1a2540;
+  --blue-100: #22305a;
+  --blue-200: #2b4162;
 
   --success:      #7cc49a;
   --success-soft: #16261c;
@@ -354,15 +356,15 @@ html[data-paywall="on"]:not([data-plan="premium"]):not([data-plan="pack"]) [data
   --info-border:  #2d4567;
 
   --gradient-brand:       linear-gradient(135deg, #4f6d96, #4a6890);
-  --gradient-brand-soft:  linear-gradient(135deg, #212c3d, #24201b 50%, #2a3850);
-  --gradient-accent-soft: linear-gradient(135deg, #2e2414, #251d10 50%, #3d2f18);
-  --gradient-hero-scrim:  linear-gradient(120deg, rgba(10,8,6,.88), rgba(43,65,98,.50));
+  --gradient-brand-soft:  linear-gradient(135deg, #22305a, #1a2540 50%, #2b4162);
+  --gradient-accent-soft: linear-gradient(135deg, #3d2f05, #2b2110 50%, #4d3b08);
+  --gradient-hero-scrim:  linear-gradient(120deg, rgba(6,6,9,.88), rgba(43,65,98,.5));
 
   /* Shadows need real black on a dark ground; the light-mode tints vanish. */
   --shadow-sm:     0 2px 8px rgba(0,0,0,.40);
   --shadow-md:     0 12px 28px rgba(0,0,0,.50);
   --shadow-hover:  var(--shadow-md);
-  --shadow-cta:    0 8px 20px rgba(0,0,0,.40);
+  --shadow-cta:    0 8px 20px rgba(143,163,192,.30);
   --shadow-raised: 0 18px 44px rgba(0,0,0,.55);
 
   color-scheme: dark;
