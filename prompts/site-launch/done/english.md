@@ -53,11 +53,13 @@ Nothing pushed, nothing merged into main, no `wrangler deploy` (step 1 rule).
 - Dev server on port 4521 (`/english/`) renders the new home page; desktop 1280 wide checked by screenshot.
 
 ## Not verified / left
-- **Browser checks are incomplete.** The home page was checked at desktop width. The other five page
-  types (grammar topic, vocabulary trainer, exam page, game, placement test) were not checked after the
-  brand change. Phone width (390 px) was not verified: the browser window would not resize.
-- The Chrome profile for the localhost checks was lost mid-session (the default profile was no longer
-  connected); this needs a decision from Edgar before the remaining screenshots.
+- **Browser checks: desktop only.** On localhost:4521 (Chrome "Browser 1", chosen by Edgar), I looked
+  at the home page, the placement test, a grammar topic (`/present-continuous`), the vocabulary trainer
+  (`/vocabulary/a1`), an exam page (`/cambridge/b1/`) and a game (`/games/countable-sprint/`). All render
+  with the new header and no console errors. The game screenshot caught its setup dialog mid-transition.
+  Phone width (390 px) was not verified: the browser window would not resize below about 1560 px.
+- The default Chrome profile (2fba1407) was not connected during the session, so the checks ran on
+  Browser 1. Its CLAUDE.md row says it is approved for localhost dev pages.
 - Dark mode: the dark token block is mapped by hand to navy tints, but not checked on any page.
 - Runtime JS that builds links in `innerHTML` was not swept for root-absolute paths beyond the
   fetch/navigation/pathname sites; the crawler does not read inline scripts. Check in the browser.
