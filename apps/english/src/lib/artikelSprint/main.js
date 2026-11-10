@@ -47,6 +47,8 @@ import { setWaiting } from "../notReady.js";
 import { track } from "../track.js";
 import { t, onUiText } from "../uiText.js";
 import { spielMelden } from "../spielMelden.js";
+import { withBase } from "../paths.js";
+import { currentPath } from "../paths.js";
 
 export function mountArtikelSprint(root, data) {
   const $ = (sel) => root.querySelector(sel);
@@ -110,7 +112,7 @@ export function mountArtikelSprint(root, data) {
   const pools = new Map();
   async function wordsForRoom(lvl) {
     if (!roomWords.has(lvl)) {
-      roomWords.set(lvl, fetch(`/games/countable-sprint/woerter-${lvl.toLowerCase()}.json`)
+      roomWords.set(lvl, fetch(withBase(`/games/countable-sprint/woerter-${lvl.toLowerCase()}.json`))
         .then((r) => (r.ok ? r.json() : { nouns: [] }))
         .catch(() => ({ nouns: [] }))
         .then((lex) => {
@@ -644,7 +646,7 @@ export function mountArtikelSprint(root, data) {
     setPhase("room");
     renderLobby();
   }
-  const roomUrl = (pin) => `${location.origin}${location.pathname}?raum=${pin}`;
+  const roomUrl = (pin) => `${location.origin}${currentPath()}?raum=${pin}`;
   function setRoomInUrl(pin) {
     const u = new URL(location.href);
     if (pin) u.searchParams.set("raum", pin);

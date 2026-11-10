@@ -21,6 +21,7 @@ import {
 } from "./game.js";
 import { tx } from "./strings.js";
 import { avImg, esc, wordCard } from "./view.js";
+import { withBase } from "../paths.js";
 
 const SAVE_KEY = "hst.party";
 const SETUP_KEY = "hst.party.setup";
@@ -53,7 +54,7 @@ export function mountParty(root) {
 
   async function loadLevel(level) {
     if (words[level]) return words[level];
-    const res = await fetch(`/games/impostor/woerter-${level.toLowerCase()}.json`);
+    const res = await fetch(withBase(`/games/impostor/woerter-${level.toLowerCase()}.json`));
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     words[level] = (await res.json()).themes;
     return words[level];

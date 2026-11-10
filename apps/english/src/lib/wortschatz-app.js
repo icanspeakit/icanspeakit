@@ -41,6 +41,8 @@ import { sameMeaning } from "./sameMeaning.js";
 import { gapTokens } from "./exampleGap.js";
 import { meldenLinkHtml, onMeldenClick } from "./meldung.js";
 import { cleanRef, fingerprint } from "./meldungRef.js";
+import { withBase } from "./paths.js";
+import { currentPath } from "./paths.js";
 
 export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionStart, canContinue } = {}) {
   const { tabsEl, langTabsEl, deckChip, counterEl, contentEl, eyebrowEl } = els;
@@ -133,7 +135,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
      restoring it. sessionStorage, keyed by the page: this tab only, gone when it closes,
      so a fresh visit tomorrow still starts clean. Checked against the deck size, so a deck
      that changed in a deploy is not resumed at the wrong card. */
-  const SAVE_KEY = `da-vt-session:${location.pathname.replace(/\/+$/, "")}`;
+  const SAVE_KEY = `da-vt-session:${currentPath().replace(/\/+$/, "")}`;
   const SAVED = ["mode", "lastMode", "idx", "lang", "dir", "results", "lastResult", "selected", "filter", "part", "done", "listQuery", "listSort", "listAll", "learnSeq", "learnPos", "learnFirst", "learnRetry", "cardBack", "retryFrom"];
   try {
     const saved = JSON.parse(sessionStorage.getItem(SAVE_KEY) || "null");
@@ -162,7 +164,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
     }
     params.delete("wort");
     const qs = params.toString();
-    history.replaceState(history.state, "", `${location.pathname}${qs ? `?${qs}` : ""}${location.hash}`);
+    history.replaceState(history.state, "", `${currentPath()}${qs ? `?${qs}` : ""}${location.hash}`);
   }
   /* The card language is the learner's, not the deck's. It used to live only in the
      per-page session above, so choosing العربية on "Familie" and opening "Wohnen" next
@@ -226,7 +228,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
   const glossLoads = {};
   function ensureGlosses(code) {
     if (!languages.find((l) => l.code === code)?.fetch) return Promise.resolve();
-    glossLoads[code] ??= fetch(`/vocabulary/glosses/${code}.json`)
+    glossLoads[code] ??= fetch(withBase(`/vocabulary/glosses/${code}.json`))
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
       .then((map) => {
         for (const c of cards) if (c.id && map[c.id]) (c.translations ??= {})[code] = map[c.id];

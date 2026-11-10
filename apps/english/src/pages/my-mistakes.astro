@@ -118,6 +118,7 @@ const freeLimit = premiumFeatures.find((f) => f.id === "fehler")!.free.limit;
 </style>
 
 <script>
+import { withBase } from "../lib/paths.js";
   import { readFehler } from "../lib/fehler.js";
   import { can } from "../lib/access.js";
   import { wouldLock } from "../lib/intent.js";
@@ -190,7 +191,7 @@ const freeLimit = premiumFeatures.find((f) => f.id === "fehler")!.free.limit;
   Object.values(filters).forEach((f) => f.addEventListener("change", render));
   render();
   const rulesReady = all.some((e) => e.source === "grammatik")
-    ? fetch("/fehler-regeln.json").then((r) => (r.ok ? r.json() : {})).then((j) => { rules = j; render(); }).catch(() => {})
+    ? fetch(withBase("/fehler-regeln.json")).then((r) => (r.ok ? r.json() : {})).then((j) => { rules = j; render(); }).catch(() => {})
     : Promise.resolve();
   // traffic-baseline: would_lock — more mistakes than the free view shows.
   wouldLock("fehler", all.length > FREE);

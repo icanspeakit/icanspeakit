@@ -21,6 +21,7 @@
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { absoluteUrl } from '../lib/paths.js';
 
 export const NOINDEX = /<meta\s[^>]*name=["']robots["'][^>]*content=["'][^"']*noindex/i;
 export const REFRESH = /<meta\s[^>]*http-equiv=["']refresh["']/i;
@@ -58,7 +59,7 @@ export async function writeSitemap(root, site, logger = console) {
     if (NOINDEX.test(head) || REFRESH.test(head)) { skipped++; continue; }
     const alts = [...head.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">/g)].map((m) => [m[1], m[2]]);
     const canonical = alts.length ? head.match(/<link rel="canonical" href="([^"]+)">/)?.[1] : null;
-    entries.push({ loc: canonical ?? new URL(pathname, site).href, alts });
+    entries.push({ loc: canonical ?? absoluteUrl(pathname), alts });
   }
   entries.sort((a, b) => a.loc.length - b.loc.length || a.loc.localeCompare(b.loc));
   const any = entries.some((e) => e.alts.length);

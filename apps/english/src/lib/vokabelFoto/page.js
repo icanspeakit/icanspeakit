@@ -10,6 +10,8 @@ import { isDocument, readDocument } from "./dateien.js";
 import { lexiconCard, lexiconTranslations } from "./play.js";
 import { LANGUAGE_REGISTRY } from "../languages.js";
 import { currentUser, deleteSet, getSet, isTeacher, listSets, shareToken, shareUrl, unshare, MAX_WORDS, machineText, readPhotos, saveSet, setTeacher, shrinkPhoto, stripArticle, synonymWords, translateWords, wordKey } from "./sets.js";
+import { withBase } from "../paths.js";
+import { currentPath } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const MAX_PHOTOS = 4;
@@ -20,7 +22,7 @@ async function teacherGate(root) {
   const $ = (s) => root.querySelector(s);
   const gates = [...root.querySelectorAll("[data-gate]")];
   const gate = (name) => gates.forEach((g) => (g.hidden = g.dataset.gate !== name));
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(location.pathname + location.search)}`;
+  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`;
   const user = await currentUser();
   if (!user) return gate("signin"), new Promise(() => {});
   if (!isTeacher(user)) {
@@ -458,7 +460,7 @@ export async function mountFotoPage(root) {
         await saveSet({ name: `${name.slice(0, 68)} (Teil ${part})`, level, words: words.slice(k, k + MAX_WORDS) });
       }
       dirty = false;
-      location.href = `/teachers/cards?gespeichert=${row.id}`;
+      location.href = withBase(`/teachers/cards?gespeichert=${row.id}`);
     } catch (err) {
       console.error(err);
       btn.disabled = false;

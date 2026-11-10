@@ -13,6 +13,7 @@
 // src/lib/appShell.js routes every audio source a page sets through audioUrl(), so no page
 // has to know.
 import { downloadedUrl, initPacks } from "./audioPacks.js";
+import { withBase } from "./paths.js";
 
 const APP = import.meta.env.PUBLIC_TARGET === "app";
 const SITE = "https://englishacademy.com";
@@ -24,7 +25,7 @@ let bundled = null;
 export async function loadAudioManifest() {
   if (!APP) return;
   try {
-    const res = await fetch("/audio-manifest.json");
+    const res = await fetch(withBase("/audio-manifest.json"));
     if (res.ok) bundled = new Set(await res.json());
   } catch {}
   await initPacks();

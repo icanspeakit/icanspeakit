@@ -106,6 +106,7 @@ const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: 96, l
 </Layout>
 
 <script>
+import { withBase } from "../lib/paths.js";
   // Kinds of row and their label; the same names as the cards below.
   const KIND: Record<string, string> = {
     verb: "Verb table", nomen: "Noun forms", stark: "Irregular and regular verbs",
@@ -122,7 +123,7 @@ const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: 96, l
   let rows: Row[] | null = null;
   let loading: Promise<void> | null = null;
 
-  const load = () => (loading ??= fetch("/suche.json").then((r) => r.json()).then((ix) => {
+  const load = () => (loading ??= fetch(withBase("/suche.json")).then((r) => r.json()).then((ix) => {
     const out: Row[] = [];
     for (const [inf, preview, href, forms] of ix.verbs ?? [])
       out.push({ label: inf, sub: preview, href, kind: "verb", n: norm(inf),

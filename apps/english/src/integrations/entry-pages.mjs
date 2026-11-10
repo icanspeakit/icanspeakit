@@ -23,6 +23,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { entryLanguages, BASE } from '../lib/languages.js';
+import { absoluteUrl, rebaseHtml } from '../lib/paths.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const OG_LOCALE = { es: 'es_LA', pt: 'pt_BR', vi: 'vi_VN', hi: 'hi_IN', id: 'id_ID' };
@@ -108,8 +109,8 @@ export function translateHtml(html, dict) {
 const setMeta = (html, re, value) => html.replace(re, (tag) => tag.replace(/content="[^"]*"/, `content="${escAttr(value)}"`));
 
 /** The German URL of a page and its copy in one language: home with a trailing slash, the rest without. */
-const deUrl = (site, page) => new URL(page.src, site).href;
-const langUrl = (site, page, l) => new URL(`/${l.urlPrefix}/${page.slug}`, site).href;
+const deUrl = (_site, page) => absoluteUrl(page.src);
+const langUrl = (_site, page, l) => absoluteUrl(`/${l.urlPrefix}/${page.slug}`);
 
 function alternatesHtml(site, page, langs) {
   const de = deUrl(site, page);
@@ -174,7 +175,7 @@ export async function buildEntryPages(root, site, logger = console) {
         if (close) html = html.slice(0, close.end) + introHtml(own.intro, l) + html.slice(close.end);
         else logger.warn?.('entry-pages: home hero not found, intro skipped');
       }
-      html = withAlternates(html, alt);
+      html = rebaseHtml(withAlternates(html, alt));
       const out = fileOf(`/${l.urlPrefix}${page.slug ? `/${page.slug}` : ''}`);
       await mkdir(path.dirname(out), { recursive: true });
       await writeFile(out, html);

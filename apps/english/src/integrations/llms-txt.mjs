@@ -14,6 +14,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { htmlFiles, toPathname, NOINDEX, REFRESH } from './sitemap.mjs';
+import { absoluteUrl } from '../lib/paths.js';
 
 /** Headings and the pages under them. `/x/*` = every built page below /x as well. */
 const SECTIONS = [
@@ -62,7 +63,7 @@ export default function llmsTxt() {
         const line = (p) => {
           const page = pages.get(p);
           if (!page) return null;
-          const url = new URL(p, site).href;
+          const url = absoluteUrl(p);
           return `- [${page.title}](${url})${page.description ? `: ${page.description}` : ''}`;
         };
         let out = `# EnglishAcademy\n\n> ${home.description}\n`;

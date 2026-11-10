@@ -386,6 +386,7 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
   </main>
 
   <script>
+import { currentPath } from "../../lib/paths.js";
     import { mountHost } from "../../lib/liveQuiz/host.js";
     import { mountSetupHelp } from "../../lib/liveQuiz/help.js";
     const root = document.getElementById("lq-host");
@@ -437,7 +438,7 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
     // Back from the Arbeitsmappe's tab lands here (mappe.astro puts the quiz behind it);
     // Forward again only changes the address in this document, so load that page for real.
     addEventListener("popstate", () => {
-      if (!location.pathname.startsWith("/teachers/quiz")) location.reload();
+      if (!currentPath().startsWith("/teachers/quiz")) location.reload();
     });
   </script>
 </Layout>

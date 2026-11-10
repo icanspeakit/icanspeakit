@@ -39,7 +39,7 @@
     "check:pruefungsplan": "node scripts/check-pruefungsplan.mjs",
     "check:lindenau": "node scripts/check-lindenau.mjs",
     "check:redewendungen": "node scripts/check-redewendungen.mjs",
-    "postbuild": "node scripts/check-paid-leak.mjs && node scripts/check-lehrwerk-leak.mjs",
+    "postbuild": "node scripts/check-paid-leak.mjs && node scripts/check-lehrwerk-leak.mjs && node scripts/check-base.mjs dist",
     "check:lehrwerk-leak": "node scripts/check-lehrwerk-leak.mjs",
     "check:berufe": "node scripts/check-berufe.mjs",
     "check:aussprache": "node scripts/check-aussprache.mjs",
@@ -61,7 +61,8 @@
     "check:content": "node scripts/check-content.mjs",
     "cf:prepare": "node ../../scripts/nest-dist.mjs dist /english",
     "cf:preview": "pnpm cf:prepare && wrangler dev",
-    "deploy": "pnpm build && pnpm cf:prepare && wrangler deploy"
+    "deploy": "pnpm build && pnpm cf:prepare && wrangler deploy",
+    "check:base": "node scripts/check-base.mjs dist"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",

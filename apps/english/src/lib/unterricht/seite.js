@@ -21,6 +21,7 @@ import { createSteuerung } from "./steuerung.js";
 import { einstiegInhalt } from "./einstieg.js";
 import { mountLeiste } from "./leiste.js";
 import { LESSON_WINDOW, MATERIAL_WINDOW } from "./zurueck.js";
+import { currentPath } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const SOC = { EA: "Solo work", PA: "Pair work", GA: "Group work", PL: "Whole class" };
@@ -40,7 +41,7 @@ export async function mountUnterricht(root, data) {
   const show = (name) => views.forEach((v) => (v.hidden = v.dataset.view !== name));
 
   /* -------------------------------------------------------------- who ---- */
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(location.pathname + location.search)}`;
+  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`;
   const user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {

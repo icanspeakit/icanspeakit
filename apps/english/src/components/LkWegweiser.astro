@@ -178,6 +178,7 @@ const goals = [
 </style>
 
 <script>
+import { currentPath } from "../lib/paths.js";
   type Grammar = { key: string; name: string; href: string; sheet: boolean; quiz: boolean };
   type Block = { thema: string; ziel: string; grammar: Grammar[] };
   type Level = { id: string; label: string; titel: string; cefr: string; games: boolean; words: string | null; blocks: Block[] };
@@ -215,7 +216,7 @@ const goals = [
       if (st.niveau && FLOW[st.ziel!]?.includes("niveau")) p.set("niveau", st.niveau);
       if (st.block && FLOW[st.ziel!]?.includes("block")) p.set("block", String(st.block));
       const qs = p.toString();
-      history.replaceState(null, "", location.pathname + (qs ? `?${qs}` : "") + location.hash);
+      history.replaceState(null, "", currentPath() + (qs ? `?${qs}` : "") + location.hash);
       try { localStorage.setItem(KEY, JSON.stringify({ ziel: st.ziel, niveau: st.niveau, block: st.block })); } catch {}
     }
 

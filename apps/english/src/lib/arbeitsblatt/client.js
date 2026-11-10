@@ -12,6 +12,7 @@
 // necessity — the printed key needs them — but never shown on screen in online mode until
 // the learner asks for them to be checked.
 import { intent } from "../intent.js";
+import { currentPath } from "../paths.js";
 
 const norm = (s) =>
   String(s ?? "")
@@ -73,7 +74,7 @@ export function mountWorksheet(root) {
   root.querySelectorAll("[data-ab-mode]").forEach((b) => b.addEventListener("click", () => setMode(b.dataset.abMode)));
   root.querySelector("[data-ab-print]")?.addEventListener("click", () => {
     // traffic-baseline: teacher_tool_use — only the teachers' sheets, not "Meine Fehler".
-    const kind = location.pathname.match(/^\/teachers\/worksheets\/(grammar|vocabulary|partner)\//)?.[1];
+    const kind = currentPath().match(/^\/teachers\/worksheets\/(grammar|vocabulary|partner)\//)?.[1];
     if (kind) intent("teacher_tool_use", { tool: `worksheet_${kind}` });
     window.print();
   });

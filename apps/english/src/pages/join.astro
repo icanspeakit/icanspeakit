@@ -66,6 +66,7 @@ import "../styles/klassen.css";
   </main>
 
   <script>
+import { currentPath } from "../lib/paths.js";
     import { createBrowserSupabase } from "../lib/supabase/browser.js";
     import { beitreten, isCode, normCode } from "../lib/klassen.js";
     import { loadText, t } from "../lib/liveQuiz/text.js";
@@ -88,7 +89,7 @@ import "../styles/klassen.css";
       await loadText();
       const params = new URLSearchParams(location.search);
       const fromUrl = normCode(params.get("code"));
-      $<HTMLAnchorElement>("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(location.pathname + location.search)}`;
+      $<HTMLAnchorElement>("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`;
 
       let user = null;
       try {
@@ -134,7 +135,7 @@ import "../styles/klassen.css";
           ? t("kl.join.done.already", "Du bist schon in der Klasse „{name}“.", { name: res.name })
           : t("kl.join.done.title", "Du bist jetzt in der Klasse „{name}“.", { name: res.name });
         gate("done");
-        history.replaceState(null, "", location.pathname);
+        history.replaceState(null, "", currentPath());
       });
     })();
   </script>

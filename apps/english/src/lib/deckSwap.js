@@ -13,6 +13,8 @@
 
 import { retranslate } from "./i18n.js";
 import { CARD_LANG_EVENT, storedCardLang } from "./cardLangGloss.js";
+import { currentPath } from "./paths.js";
+import { stripBase } from "./paths.js";
 
 // The trainer routes. A link elsewhere is left alone without a fetch.
 const TRAINER = /^\/(vocabulary(\/(?!print\/|glosses\/)[^/]+(\/[^/]+)?)?|english-for-work\/[^/]+\/[^/]+)\/?$/;
@@ -36,9 +38,9 @@ function load(path) {
 
 const pathOf = (a) => {
   if (!a || a.target || a.hasAttribute("download") || a.origin !== location.origin) return null;
-  return TRAINER.test(a.pathname) ? a.pathname.replace(/\/+$/, "") || "/" : null;
+  return TRAINER.test(stripBase(a.pathname)) ? stripBase(a.pathname).replace(/\/+$/, "") || "/" : null;
 };
-const here = () => location.pathname.replace(/\/+$/, "") || "/";
+const here = () => currentPath().replace(/\/+$/, "") || "/";
 
 export function initDeckSwap({ onSwap }) {
   const page = document.getElementById("vp-page");
@@ -51,7 +53,7 @@ export function initDeckSwap({ onSwap }) {
     if (!nvb) return;
     let row = null;
     nvb.querySelectorAll("a.nvb-item").forEach((a) => {
-      const on = (a.pathname.replace(/\/+$/, "") || "/") === path;
+      const on = (stripBase(a.pathname).replace(/\/+$/, "") || "/") === path;
       a.classList.toggle("active", on);
       if (on) { a.setAttribute("aria-current", "page"); row ??= a; } else a.removeAttribute("aria-current");
     });

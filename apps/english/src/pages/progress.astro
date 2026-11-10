@@ -141,6 +141,7 @@ import "../styles/exam-dashboard.css";
     nameLocalOnlyNotices();
   </script>
   <script type="module">
+import { currentPath } from "../lib/paths.js";
     import { mountExamDashboard } from "../lib/examDashboard.js";
     import { mountQuizRecord } from "../lib/liveQuiz/recordView.js";
 
@@ -177,7 +178,7 @@ import "../styles/exam-dashboard.css";
       if (next === "uebungen") u.searchParams.delete("ansicht");
       else u.searchParams.set("ansicht", next);
       const href = u.pathname + (u.search || "") + u.hash;
-      if (href !== location.pathname + location.search + location.hash) {
+      if (href !== currentPath() + location.search + location.hash) {
         try { history[push ? "pushState" : "replaceState"]({ fsView: next }, "", href); } catch (e) {}
       }
     }

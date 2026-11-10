@@ -24,6 +24,8 @@ import {
 } from "./game.js";
 import { tx } from "./strings.js";
 import { avImg, esc, wordCard } from "./view.js";
+import { withBase } from "../paths.js";
+import { currentPath } from "../paths.js";
 
 const SAVE_KEY = "hst.host.game";
 const SAVE_MAX_AGE = 3 * 60 * 60_000;
@@ -66,7 +68,7 @@ export function mountHost(root) {
 
   async function loadLevel(level) {
     if (words[level]) return words[level];
-    const res = await fetch(`/games/impostor/woerter-${level.toLowerCase()}.json`);
+    const res = await fetch(withBase(`/games/impostor/woerter-${level.toLowerCase()}.json`));
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     words[level] = (await res.json()).themes;
     return words[level];
@@ -141,7 +143,7 @@ export function mountHost(root) {
     } else if (!resumed) {
       try {
         const hk = await makeHostKey();
-        const res = await fetch("/api/live-quiz/raum", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ hostPub: hk.pub }) });
+        const res = await fetch(withBase("/api/live-quiz/raum"), { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ hostPub: hk.pub }) });
         if (res.ok) {
           registered = await res.json();
           room = { roomKey: registered.roomKey, jwk: hk.jwk };
@@ -697,7 +699,7 @@ export function mountHost(root) {
     forget();
     setTimeout(() => { if (ch) supabase.removeChannel(ch); ch = null; }, 600);
   }
-  $("[data-end-close]").addEventListener("click", () => { close(); location.href = location.pathname; });
+  $("[data-end-close]").addEventListener("click", () => { close(); location.href = currentPath(); });
   $("[data-end-again]").addEventListener("click", () => {
     for (const p of players.values()) { p.score = 0; p.times = 0; }
     game = { r: 0, usedWords: [], themesPlayed: {}, lastImp: [], history: [], seed: (Math.random() * 0xffffffff) >>> 0 };

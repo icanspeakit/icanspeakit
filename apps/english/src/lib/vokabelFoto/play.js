@@ -10,6 +10,7 @@
 // langsOf()); a word of the teacher's own shows its book translation or nothing there.
 import { getSet, getSharedSet, machineText, saveSet, stripArticle, translateWords } from "./sets.js";
 import { slugify } from "../audioSlug.js";
+import { currentPath } from "../paths.js";
 // The trainer's card-language setting (CARD_LANG_KEY in src/lib/cardLangGloss.js).
 const CARD_LANG_KEY = "da-vt-lang";
 
@@ -182,7 +183,7 @@ export async function loadPlayableSet({ shared = false } = {}) {
   if (!set) {
     return fail(shared
       ? "Dieses Kartenset ist nicht (mehr) geteilt. Bitte fragen Sie Ihre Lehrkraft nach einem neuen Link."
-      : `Dieses Kartenset gibt es nicht, oder Sie sind nicht angemeldet. <a href="/anmelden?next=${encodeURIComponent(location.pathname + location.search)}">Anmelden</a> · <a href="/teachers/cards">Meine Kartensets</a>`);
+      : `Dieses Kartenset gibt es nicht, oder Sie sind nicht angemeldet. <a href="/anmelden?next=${encodeURIComponent(currentPath() + location.search)}">Anmelden</a> · <a href="/teachers/cards">Meine Kartensets</a>`);
   }
   // Own words' SRS key: the set's id for the teacher, the link's token for students.
   set = { ...set, id: shared ? `t-${id}` : set.id };

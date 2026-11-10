@@ -326,6 +326,7 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
   </div>
 
   <script type="module">
+import { currentPath } from "../lib/paths.js";
     import { mountPracticePicker, mountResumeCard } from "../lib/practicePicker.js";
 
     // `remote` stays null until there is an account to read a last session from; the
@@ -338,7 +339,7 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
 
     if (new URLSearchParams(location.search).get("konto") === "geloescht") {
       document.querySelector("[data-konto-geloescht]").hidden = false;
-      history.replaceState(null, "", location.pathname + location.hash);
+      history.replaceState(null, "", currentPath() + location.hash);
     }
   </script>
   <style>

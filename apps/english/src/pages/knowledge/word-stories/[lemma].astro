@@ -17,6 +17,7 @@ import { archive, published, today, slugOf, headword, hrefOf, PREVIEW, STATUS, s
 import "../../../styles/practice.css";
 import "../../../styles/uebungen-vorschau.css";
 import "../../../styles/wortgeschichte.css";
+import { SITE_ORIGIN, BASE_PATH } from '../../../lib/paths.js';
 
 export function getStaticPaths() {
   return archive(today()).map((entry) => ({ params: { lemma: slugOf(entry) }, props: { entry } }));
@@ -28,7 +29,7 @@ const live = entry.status === STATUS.REVIEWED && entry.publishOn <= day;
 const lemma = entry.lemma;
 const firstSentences = sentences(entry.history).slice(0, 2).join(" ");
 const description = `Where does the word ${lemma} come from? ${firstSentences}`.slice(0, 158).replace(/\s+\S*$/, "") + " …";
-const site = Astro.site ? new URL(Astro.site).origin : "https://englishacademy.com";
+const site = Astro.site ? SITE_ORIGIN + BASE_PATH : "https://icanspeak.it/english";
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "DefinedTerm",

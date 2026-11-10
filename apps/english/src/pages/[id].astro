@@ -63,6 +63,7 @@ import "../styles/wortarten.css";
 import { endingHtml, stripMarks } from "../lib/endingMarks.js";
 import { deckOf } from "../lib/praesentation.js";
 import { topicSlug, topicKeyFromSlug, topicPath } from "../lib/routes.js";
+import { absoluteUrl } from '../lib/paths.js';
 
 // Two kinds of topic live on this route:
 //
@@ -194,7 +195,7 @@ const schema = {
   "@type": "LearningResource",
   name,
   ...(description ? { description } : {}),
-  url: Astro.site ? new URL(topicPath(slug), Astro.site).href : undefined,
+  url: Astro.site ? absoluteUrl(topicPath(slug)) : undefined,
   learningResourceType: "Grammar exercise",
   ...(level ? { educationalLevel: level } : {}),
   teaches: name,
@@ -858,6 +859,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
 
   <script type="application/json" id="topic-data" set:html={JSON.stringify(clientData)}></script>
   <script type="module">
+import { withBase, currentPath } from "../lib/paths.js";
     import { mountGrammarWorkspace } from "../lib/grammarWorkspace.js";
     import { mountRuleColumn } from "../lib/ruleColumn.js";
     import { nudgeStep } from "../lib/mascotNudge.js";
@@ -897,7 +899,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
       const { can } = await import("../lib/access.js");
       if (!can("c1")) import("../lib/analytics.js").then(({ track }) => track("paid_set_locked_seen", { set: `grammatik:${data.id}` }));
       if (can("c1")) {
-        const res = await fetch(`/inhalt/grammatik/${data.id}.json`).catch(() => null);
+        const res = await fetch(withBase(`/inhalt/grammatik/${data.id}.json`)).catch(() => null);
         if (res?.ok) {
           const paid = await res.json();
           data.exercises = data.exercises.map((ex, i) => ({ ...ex, ...paid.exercises[i] }));
@@ -913,7 +915,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
     // Live üben (src/lib/liveUebung/): in teaching mode (?ut=1, or a lesson running) the
     // „Live üben“ button shows; ?live=PIN is a phone that scanned the teacher's code.
     if (!ownTrainer && Array.isArray(data.exercises) && !data.exercises.some((ex) => ex.paid)) {
-      const slug = document.getElementById("vp-page")?.dataset.topicKey || location.pathname.replace(/^\/+|\/+$/g, "");
+      const slug = document.getElementById("vp-page")?.dataset.topicKey || currentPath().replace(/^\/+|\/+$/g, "");
       const q = new URLSearchParams(location.search);
       let lesson = false;
       try { lesson = !!localStorage.getItem("da:unterricht"); } catch (e) {}
@@ -1017,7 +1019,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
         // #aktiv while Aktiv is on screen, nothing in Üben — so a shared link opens what
         // the sender was looking at, and a plain link always opens Üben.
         if (history.replaceState) {
-          const url = location.pathname + location.search;
+          const url = currentPath() + location.search;
           history.replaceState(null, "", mode === "aktiv" ? `${url}#aktiv` : url);
         }
       };

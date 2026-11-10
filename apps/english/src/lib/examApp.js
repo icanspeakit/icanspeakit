@@ -31,6 +31,7 @@ import { onLangChange } from "./i18n.js";
 import { endSet, hintItem, setRef } from "./versuche.js";
 import { intent } from "./intent.js";
 import { examOfPath } from "./routes.js";
+import { currentPath } from "./paths.js";
 
 const calm = matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -38,7 +39,7 @@ const calm = matchMedia("(prefers-reduced-motion: reduce)");
 // is named after the exam itself (docs/klassen-tier0-v1.md §6).
 function examRef(examId, key) {
   // The family by its registry id (telc on /trinity/…), so refs stay what they were.
-  const family = examOfPath(location.pathname) ?? location.pathname.split("/").filter(Boolean)[0];
+  const family = examOfPath(currentPath()) ?? currentPath().split("/").filter(Boolean)[0];
   return family && family !== examId ? `x:${family}/${examId}/${key}` : `x:${examId}/${key}`;
 }
 

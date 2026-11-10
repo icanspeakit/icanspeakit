@@ -328,6 +328,7 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
   </noscript>
 
   <script>
+import { currentPath } from "../lib/paths.js";
     import { track } from "../lib/track.js";
 
     // The download sheet. Every card is a button; the sheet it opens is already in
@@ -345,7 +346,7 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
       for (const b of bodies) b.hidden = true;
       for (const n of Array.from(document.querySelectorAll<HTMLElement>("[data-wi-next]"))) n.hidden = true;
       // The address goes back to the page itself; it pointed at the file while the sheet was open.
-      if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+      if (location.hash) history.replaceState(null, "", currentPath() + location.search);
       // Back to the card it came from, so a keyboard reader does not land at the
       // top of the page after every look.
       opener?.focus();

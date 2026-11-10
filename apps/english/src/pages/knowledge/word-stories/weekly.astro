@@ -25,6 +25,7 @@ import "../../../styles/auth.css";
 </Layout>
 
 <script>
+import { withBase } from "../../../lib/paths.js";
   const root = document.querySelector<HTMLElement>("[data-um]")!;
   const go = root.querySelector<HTMLButtonElement>("[data-um-go]")!;
   const status = root.querySelector<HTMLElement>("[data-um-status]")!;
@@ -35,7 +36,7 @@ import "../../../styles/auth.css";
   go.addEventListener("click", async () => {
     go.disabled = true;
     try {
-      const r = await fetch("/api/wortgeschichte/umstellen", {
+      const r = await fetch(withBase("/api/wortgeschichte/umstellen"), {
         method: "POST", credentials: "same-origin", headers: { "content-type": "application/json" }, body: "{}",
       });
       if (r.ok) { go.style.display = "none"; status.textContent = msg("done"); }

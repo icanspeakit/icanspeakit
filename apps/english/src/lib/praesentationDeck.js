@@ -12,6 +12,7 @@
 import "../styles/praesentation.css";
 import { fitsLevel } from "./praesentation.js";
 import { LERN_KEY, stundeHref } from "./unterricht/lernen.js";
+import { currentPath, withBase } from "./paths.js";
 
 // Opened from a lesson: the teacher's (?ut=1) or a learner's Stunde (?ls=1, /lesson).
 const from = () => {
@@ -19,7 +20,7 @@ const from = () => {
   return q.get("ut") === "1" ? "ut" : q.get("ls") === "1" ? "ls" : null;
 };
 // The learner's Stunde (lernstunde.js) hears that this deck was seen to its end.
-const seenToEnd = () => dispatchEvent(new CustomEvent("da:deck-end", { detail: { topic: location.pathname } }));
+const seenToEnd = () => dispatchEvent(new CustomEvent("da:deck-end", { detail: { topic: currentPath() } }));
 
 // A chevron instead of a text arrow: ‹ › for paging, and on „Zurück zur Präsentation“.
 // A rule card's running text, set for the projector: every whole example sentence (an <em>
@@ -206,7 +207,7 @@ export function mountDeck(deck, { name, level, rule = false }) {
     if (from() === "ls") {
       let k = null;
       try { k = JSON.parse(localStorage.getItem(LERN_KEY) ?? "null")?.key; } catch {}
-      location.assign(k ? stundeHref(k) : "/lesson");
+      location.assign(withBase(k ? stundeHref(k) : "/lesson"));
       return;
     }
     if (document.fullscreenElement) await document.exitFullscreen().catch(() => {});

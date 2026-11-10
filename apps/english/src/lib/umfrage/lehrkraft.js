@@ -7,6 +7,8 @@ import { setWaiting } from "../notReady.js";
 import { MAX_EIGENE, MAX_GRAMMATIK, MAX_OPTIONEN, buildFragen, niveauDavor } from "./katalog.js";
 import { MAX_UMFRAGEN, meineUmfragen, umfrageAnlegen, umfrageLoeschen, umfrageOffen } from "./daten.js";
 import { MIN_SEK, ZEITEN, empfehlung, verteilung } from "./zeit.js";
+import { withBase } from "../paths.js";
+import { currentPath } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const datum = (iso) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
@@ -21,7 +23,7 @@ export async function mountUmfragen(root) {
   await loadText(() => { if (mounted) { render(); drawTopics(); drawOwn(); drawZeit(); } });
 
   /* -------------------------------------------------------------- who ---- */
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(location.pathname)}`;
+  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(currentPath())}`;
   const user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {
@@ -260,7 +262,7 @@ export async function mountUmfragen(root) {
     btn.disabled = true;
     try {
       const u = await umfrageAnlegen({ titel: $("[data-new-name]").value.trim() || t("uf.t.defaultTitle", "Was möchtest du lernen?"), niveau, fragen, zeit: Number(zeitSel.value) || null });
-      location.href = `/teachers/surveys/result?id=${u.id}&neu=1`;
+      location.href = withBase(`/teachers/surveys/result?id=${u.id}&neu=1`);
     } catch (err) {
       btn.disabled = false;
       if (err?.code === "limit") error.textContent = t("uf.t.err.limit", "Du hast schon {n} Umfragen. Lösch eine alte, dann geht es wieder.", { n: MAX_UMFRAGEN });

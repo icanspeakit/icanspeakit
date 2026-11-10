@@ -1,3 +1,4 @@
+import { currentPath } from "./paths.js";
 // The „Live-Quiz“ row in the phone drawer (NavDrawer.astro; the header button went 2026-10-28):
 // on every page, for teachers only. It ships `hidden` with [data-lq-nav]; this unhides it once
 // the account says teacher — the same lazy check as LiveQuizLink.astro, so a signed-out learner
@@ -25,7 +26,7 @@ function show(buttons) {
 }
 
 const buttons = document.querySelectorAll("[data-lq-nav]");
-if (buttons.length && !ON_QUIZ.test(location.pathname) && /(^|;\s*)sb-[^=]*-auth-token[^=]*=/.test(document.cookie)) {
+if (buttons.length && !ON_QUIZ.test(currentPath()) && /(^|;\s*)sb-[^=]*-auth-token[^=]*=/.test(document.cookie)) {
   import("./liveQuiz/custom.js")
     .then(async ({ currentUser, isTeacher }) => {
       if (!isTeacher(await currentUser())) return;

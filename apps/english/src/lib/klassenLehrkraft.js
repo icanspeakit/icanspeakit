@@ -10,6 +10,7 @@ import {
   MAX_MITGLIEDER, codeErneuern, joinLink, klasseAnlegen, klasseArchivieren, klasseLoeschen,
   meineKlassen, mitgliedEntfernen, mitglieder,
 } from "./klassen.js";
+import { currentPath } from "./paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const datum = (iso) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
@@ -22,7 +23,7 @@ export async function mountKlassen(root) {
   await loadText(() => { if (mounted) render(); });
 
   /* -------------------------------------------------------------- who ---- */
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(location.pathname + location.search)}`;
+  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`;
   let user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {

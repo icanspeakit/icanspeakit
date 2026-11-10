@@ -45,11 +45,12 @@ const name = joinName(step.label, step.sub);
 </a>
 
 <script>
+import { currentPath } from "../lib/paths.js";
   import { getNextStep, getPlacementLevel } from "../lib/nextStep.js";
   import { getLang, loadDict, onLangChange, translate } from "../lib/i18n.js";
 
   const buttons = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-next-cta]"));
-  const step = getNextStep(location.pathname);
+  const step = getNextStep(currentPath());
   // Mirrors HERO_SUB in the frontmatter: the hero's longer state-C line.
   const HERO_SUB: Record<string, [string, string]> = {
     "nav.next.placementSub": ["nav.next.placementSubHero", "Einstufungstest · 2 Minuten"],

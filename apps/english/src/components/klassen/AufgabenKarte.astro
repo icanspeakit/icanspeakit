@@ -41,6 +41,7 @@ const { wo = "uebungen" } = Astro.props;
 </style>
 
 <script>
+import { withBase } from "../../lib/paths.js";
   import { loadText, t } from "../../lib/liveQuiz/text.js";
   import { aufgabenStatus, berlinDatum } from "../../lib/aufgabenStatus.js";
   import { keyFromRef, stundeHref } from "../../lib/unterricht/lernen.js";
@@ -59,7 +60,7 @@ const { wo = "uebungen" } = Astro.props;
     let queued: any[] = [];
     try { queued = JSON.parse(localStorage.getItem("da_versuche_queue") ?? "[]"); } catch {}
     const rows = [...data.rows, ...queued];
-    const katalog: any[] = await fetch("/klassen-katalog.json").then((r) => r.json()).catch(() => []);
+    const katalog: any[] = await fetch(withBase("/klassen-katalog.json")).then((r) => r.json()).catch(() => []);
     const byRef = new Map(katalog.map((e) => [e.ref, e]));
     await loadText(() => render());
     render();

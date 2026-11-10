@@ -297,6 +297,7 @@ function notCovered() {
 <script type="application/json" id="fc-data" data-runtime={runtime ? "" : undefined} set:html={JSON.stringify(cards)}></script>
 <script type="application/json" id="fc-langs" set:html={JSON.stringify(languages)}></script>
 <script>
+import { currentPath } from "../lib/paths.js";
   import { mountWortschatzApp } from "../lib/wortschatz-app.js";
   import { mountRuleColumn } from "../lib/ruleColumn.js";
   import { recordAttempt, recordSession } from "../lib/progress.js";
@@ -357,7 +358,7 @@ function notCovered() {
   const ids = deckCards.map(cardId);
   // The cards graded in this deck so far, for the mascot's "Noch 4" (mascotNudge.js).
   const answered = new Set();
-  const deckId = location.pathname;
+  const deckId = currentPath();
   const cards = nextDue(ids).map((i) => deckCards[i]);
   const dueEl = document.querySelector("[data-vt-due]");
   const showDue = () => {

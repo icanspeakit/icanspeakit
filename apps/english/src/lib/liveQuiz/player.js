@@ -18,6 +18,7 @@ import { mountMusicPickers, mountSoundToggles, music, sfx, unlock, victory } fro
 import { mascotSvg } from "../mascots.js";
 import { setMarked } from "../markedText.js";
 import { enhanceSwitch } from "../segSwitch.js";
+import { withBase, stripBase } from "../paths.js";
 
 const SHAPES = ["▲", "◆", "●", "■"];
 const HOST_WAIT_MS = 6000; // how long "is there a host?" gets before the PIN is called wrong
@@ -136,7 +137,7 @@ export function mountPlayer(root) {
     back.addEventListener("click", (e) => {
       let from = null;
       try { from = new URL(document.referrer); } catch {}
-      if (from?.origin === location.origin && from.pathname.replace(/\/$/, "") === "/teachers/quiz" && history.length > 1) {
+      if (from?.origin === location.origin && stripBase(from.pathname).replace(/\/$/, "") === "/teachers/quiz" && history.length > 1) {
         e.preventDefault();
         history.back();
       }
@@ -206,7 +207,7 @@ export function mountPlayer(root) {
     for (let i = 0; i < 3; i++) {
       if (i) await wait(i * 1200);
       try {
-        const res = await fetch("/api/live-quiz/beitreten", {
+        const res = await fetch(withBase("/api/live-quiz/beitreten"), {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({ pin, ...(saved?.secret ? { id: saved.id, secret: saved.secret } : {}) }),

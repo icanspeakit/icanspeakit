@@ -273,6 +273,7 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
   </style>
 
   <script>
+import { currentPath } from "../../lib/paths.js";
     import { track } from "../../lib/track.js";
     import { enhanceSwitch } from "../../lib/segSwitch.js";
     import { t, onUiText } from "../../lib/uiText.js";
@@ -352,7 +353,7 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
         const list = visible();
         show(from ? Math.max(0, list.indexOf(from as HTMLButtonElement)) : pos, null, sound);
       } else {
-        history.replaceState(null, "", location.pathname + location.search);
+        history.replaceState(null, "", currentPath() + location.search);
         const cur = visible()[pos];
         if (cur) requestAnimationFrame(() => cur.scrollIntoView({ block: "center" }));
       }

@@ -8,6 +8,7 @@
 // C is also what the server renders, so no JS, no storage and any failure here all land on
 // the same honest button. Reads only existing keys; writes nothing.
 import { getResume } from "./progress.js";
+import { currentPath } from "./paths.js";
 
 const LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
 const PLACEMENT = "/placement-test";
@@ -42,7 +43,7 @@ function placementLevel() {
  * @returns {{ state: "resume"|"level"|"placement", labelKey: string, label: string,
  *   subKey?: string, sub?: string, vars?: object, href: string }}
  */
-export function getNextStep(path = typeof location !== "undefined" ? location.pathname : "/") {
+export function getNextStep(path = typeof location !== "undefined" ? currentPath() : "/") {
   const here = norm(path);
   try {
     const resume = getResume();

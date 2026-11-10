@@ -1,3 +1,4 @@
+import { currentPath } from "./paths.js";
 // „▶ Vorschau“ in the demo dock (DemoDock.astro): the ten best things on the site, one page
 // each, for showing the project to investors. Start writes the demo record first (the same as
 // „✱ Demo-Daten“), so progress, streaks and mistakes are filled in where a page shows them.
@@ -127,7 +128,7 @@ export function mountVorschau() {
     </div>`;
   document.body.append(card);
   // a page reached by hand (not this step's): one tap back to the step's page
-  if (location.pathname.replace(/\/$/, "") !== s.href) {
+  if (currentPath().replace(/\/$/, "") !== s.href) {
     const back = document.createElement("a");
     back.className = "vs-here";
     back.href = s.href;

@@ -13,6 +13,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { translateHtml } from './entry-pages.mjs';
 import { BASE } from '../lib/languages.js';
+import { rebaseHtml, absoluteUrl, SITE_ORIGIN } from '../lib/paths.js';
+
+const CANONICAL_RE = new RegExp(`(<link rel="canonical" href=")${SITE_ORIGIN.replace(/\./g, '\\.')}(/[^"]*)(")`, 'g');
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -30,7 +33,11 @@ export async function renderBaseLanguage(root, logger = console) {
   let n = 0;
   for await (const file of htmlFiles(root)) {
     const html = await readFile(file, 'utf8');
-    const out = translateHtml(html, dict).replace(/<html\b([^>]*?)\slang="[^"]*"/i, `<html$1 lang="${BASE}"`);
+    // rebaseHtml: the dictionary strings may carry links; they move under the base path here.
+    const out = rebaseHtml(translateHtml(html, dict))
+      // Redirect stubs write <link rel="canonical"> as origin + destination without the base.
+      .replace(CANONICAL_RE, (_, pre, p, post) => pre + absoluteUrl(p) + post)
+      .replace(/<html\b([^>]*?)\slang="[^"]*"/i, `<html$1 lang="${BASE}"`);
     if (out !== html) { await writeFile(file, out); n++; }
   }
   logger.info?.(`base-language: ${n} pages rendered in "${BASE}"`);

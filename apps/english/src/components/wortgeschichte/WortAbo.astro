@@ -47,6 +47,7 @@ const daily = dailyOpen();
 )}
 
 <script>
+import { withBase } from "../../lib/paths.js";
   import { getLang } from "../../lib/i18n.js";
   import { track } from "../../lib/track.js";
 
@@ -68,7 +69,7 @@ const daily = dailyOpen();
       btn.disabled = true;
       status.textContent = "";
       try {
-        const r = await fetch("/api/wortgeschichte/abo", {
+        const r = await fetch(withBase("/api/wortgeschichte/abo"), {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({ email, frequency: data.get("frequency"), website: data.get("website"), lang: getLang() }),

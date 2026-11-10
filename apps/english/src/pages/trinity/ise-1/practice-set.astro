@@ -125,6 +125,7 @@ const first = saetze[0];
 
   <script type="application/json" id="dtz-data" set:html={JSON.stringify(saetze)}></script>
   <script type="module">
+import { withBase } from "../../../lib/paths.js";
     import { mountDtzTrainer } from "../../../lib/dtzTrainer.js";
     import { recordAttempt } from "../../../lib/progress.js";
 
@@ -157,7 +158,7 @@ const first = saetze[0];
         return showLock(true);
       }
       if (!cache.has(id)) {
-        const res = await fetch(`/inhalt/pruefungen/dtz/${id}.json`).catch(() => null);
+        const res = await fetch(withBase(`/inhalt/pruefungen/dtz/${id}.json`)).catch(() => null);
         if (!res?.ok) return showLock(true);
         cache.set(id, await res.json());
       }

@@ -13,6 +13,8 @@ import { currentUser } from "../liveQuiz/custom.js";
 import { loadText, t } from "../liveQuiz/text.js";
 import { bewertungSpeichern, ergebnisLoeschen, ergebnisse, test, testLink, testOffen } from "./daten.js";
 import { ORDER, SCHWELLE, einstufen, profil, stufenOf, teileOf } from "./niveau.js";
+import { withBase } from "../paths.js";
+import { currentPath } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const REFRESH_MS = 5000;
@@ -66,7 +68,7 @@ export async function mountErgebnis(root) {
   let sortBy = "name";
   await loadText(() => { if (k) render(); });
 
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(location.pathname + location.search)}`;
+  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`;
   if (!(await currentUser())) return gate("signin");
   try {
     k = await test(params.get("id"));
@@ -100,7 +102,7 @@ export async function mountErgebnis(root) {
   // Model text and examiner checklist for the writing task: teacher-only, from the pool.
   let fk = { schreiben: [] };
   if (PARTS.includes("schreiben")) {
-    try { fk = await (await fetch("/teachers/tests/fertigkeiten.json")).json(); } catch (err) { console.error(err); }
+    try { fk = await (await fetch(withBase("/teachers/tests/fertigkeiten.json"))).json(); } catch (err) { console.error(err); }
   }
   const entwurf = new Map(); // student key → unsaved rating, so a refresh does not wipe it
 

@@ -145,6 +145,7 @@ const pageDescription = paid
     ? <script type="application/json" id="ps-paid" set:html={JSON.stringify({ id: set.id, feature: set.feature })}></script>
     : <script type="application/json" id="ps-data" set:html={JSON.stringify({ ...set, audio })}></script>}
   <script>
+import { withBase } from "../lib/paths.js";
     import { readyExamI18n } from "../lib/exam/i18n.js";
     import { mountPruefung } from "../lib/exam/pruefungEngine.js";
     import { can } from "../lib/access.js";
@@ -159,7 +160,7 @@ const pageDescription = paid
         import("../lib/analytics.js").then(({ track }) => track("paid_set_locked_seen", { set: id }));
         return null;
       }
-      const res = await fetch(`/inhalt/pruefungen/saetze/${id}.json`).catch(() => null);
+      const res = await fetch(withBase(`/inhalt/pruefungen/saetze/${id}.json`)).catch(() => null);
       return res?.ok ? res.json() : null;
     }
     const set = await loadSet();

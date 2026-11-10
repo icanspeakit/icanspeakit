@@ -1,6 +1,7 @@
 import { languagesFor, htmlLang, BASE } from "./languages.js";
 import { loadScriptFont } from "./scriptFonts.js";
 import { applyLangCss } from "./langCss.js";
+import { withBase, stripBase, currentPath } from "./paths.js";
 
 /** The interface languages, from the registry (src/lib/languages.js), in menu order. */
 // `htmlLang` is what <html lang> says: the code, or its hreflang where the registry has one
@@ -27,7 +28,7 @@ export function getLang() {
 async function loadDict(code) {
   if (dictCache[code]) return dictCache[code];
   try {
-    const res = await fetch(`/i18n/${code}.json`);
+    const res = await fetch(withBase(`/i18n/${code}.json`));
     dictCache[code] = await res.json();
   } catch {
     dictCache[code] = {};
@@ -132,7 +133,7 @@ export function setLang(code) {
   const sibling = lang && document.querySelector(`link[rel="alternate"][hreflang="${lang.htmlLang ?? code}"]`);
   if (sibling) {
     const target = new URL(sibling.getAttribute("href"), location.href);
-    if (target.pathname.replace(/\/$/, "") !== location.pathname.replace(/\/$/, "")) {
+    if (stripBase(target.pathname).replace(/\/$/, "") !== currentPath().replace(/\/$/, "")) {
       location.assign(target.pathname + location.search + location.hash);
       return Promise.resolve(null);
     }

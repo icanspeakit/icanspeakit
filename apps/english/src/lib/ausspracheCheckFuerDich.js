@@ -15,6 +15,7 @@ import { checkMicrophone, MSG } from "./ausspracheCheck.js";
 import { findingsFor, findingsHtml, langName, esc, t, onDict } from "./aussprachePatterns.js";
 import { mountFuerDich, showDrillsFor, openDrill } from "./ausspracheFuerDich.js";
 import { mutterspracheFromUrl, setMuttersprache, onMutterspracheChange, syncMutterspracheFromAccount } from "./muttersprache.js";
+import { currentPath } from "./paths.js";
 
 const LIVE_MS = 60_000;
 const LIVE_SENTENCES = 3;
@@ -58,7 +59,7 @@ export function mountCheckFuerDich(root, { info, levels }) {
     if (lang) q.set("lang", lang);
     else q.delete("lang");
     const qs = q.toString();
-    history.replaceState(null, "", `${location.pathname}${qs ? `?${qs}` : ""}${location.hash}`);
+    history.replaceState(null, "", `${currentPath()}${qs ? `?${qs}` : ""}${location.hash}`);
     paint();
   });
   onMutterspracheChange((id) => {
@@ -79,7 +80,7 @@ export function mountCheckFuerDich(root, { info, levels }) {
         const q = new URLSearchParams(location.search);
         q.set("drill", a.dataset.practice);
         if (lang) q.set("lang", lang);
-        history.replaceState(null, "", `${location.pathname}?${q}`);
+        history.replaceState(null, "", `${currentPath()}?${q}`);
       });
     }
   }

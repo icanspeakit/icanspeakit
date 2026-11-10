@@ -1,3 +1,4 @@
+import { withBase } from "../paths.js";
 // Wortschatz + Grammatik in one round (/teachers/quiz): the teacher picks a Lernset on
 // the left and a grammar chapter on the right, and half the questions come from each,
 // taking turns. Used by the projector (host.js) and by „Solo spielen" (player.js).
@@ -23,7 +24,7 @@ export async function grammarQuestions(pick, n) {
   const slugs = String(pick).split(",").filter((s) => /^g-[a-z0-9-]+$/.test(s));
   if (!slugs.length || n < 1) return [];
   const files = await Promise.all(slugs.map(async (slug) => {
-    const res = await fetch(`/teachers/quiz-chapters/${slug}.json`);
+    const res = await fetch(withBase(`/teachers/quiz-chapters/${slug}.json`));
     if (!res.ok) throw new Error(`quiz-kapitel/${slug} → ${res.status}`);
     return res.json();
   }));

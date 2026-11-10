@@ -25,6 +25,8 @@ import { mountKeep } from "./keep.js";
 import { intent } from "../intent.js";
 import { mascotSvg } from "../mascots.js";
 import { setMarked } from "../markedText.js";
+import { withBase } from "../paths.js";
+import { currentPath } from "../paths.js";
 
 const SHAPES = ["▲", "◆", "●", "■"];
 /** Shows `src` in an <img>, or hides it. */
@@ -123,7 +125,7 @@ export function mountHost(root) {
     if (ownQuizzes) return;
     const { currentUser, listQuizzes } = await loadCustom();
     const user = await currentUser();
-    const next = encodeURIComponent(location.pathname + location.search);
+    const next = encodeURIComponent(currentPath() + location.search);
     if (!user) {
       ownSel.innerHTML = "";
       ownNote.innerHTML = t("lq.src.signin", "Eigene Quizze sind in deinem Konto gespeichert. <a href=\"{href}\">Anmelden</a>, um sie hier zu starten.", { href: `/anmelden?next=${next}` });
@@ -440,7 +442,7 @@ export function mountHost(root) {
       const vocabName = $("[data-vocab-name]")?.textContent.trim();
       const grammarName = $("[data-grammar-name]")?.textContent.trim();
       q.set("titel", (settings.grammarOnly ? grammarName : settings.grammar ? `${vocabName} + ${grammarName}` : vocabName) || "");
-      location.href = `/game?${q}`;
+      location.href = withBase(`/game?${q}`);
       return;
     }
     const btns = form.querySelectorAll("[type=submit]");
@@ -562,7 +564,7 @@ export function mountHost(root) {
       room = { roomKey: resumed.roomKey, jwk: resumed.jwk };
     } else if (!resumed) try {
       const hk = await makeHostKey();
-      const res = await fetch("/api/live-quiz/raum", {
+      const res = await fetch(withBase("/api/live-quiz/raum"), {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ hostPub: hk.pub }),

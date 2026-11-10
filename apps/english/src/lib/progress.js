@@ -14,6 +14,7 @@ import { NOT_RESUMABLE, englishPath } from "./routes.js";
 // The Klassen attempt log. It does nothing at all unless the learner is signed in and in a
 // class; see the header of ./versuche.js.
 import { logAttempt, logSession } from "./versuche.js";
+import { currentPath } from "./paths.js";
 
 function todayStr(d = new Date()) {
   return d.toISOString().slice(0, 10);
@@ -58,7 +59,7 @@ function save(data) {
 // does not render at all rather than inventing a plausible last session.
 function remember(data) {
   if (typeof location === "undefined") return;
-  const path = location.pathname.replace(/\/+$/, "") || "/";
+  const path = currentPath().replace(/\/+$/, "") || "/";
   if (NOT_RESUMABLE.has(path)) return;
   // "Perfekt – Grammatik – EnglishAcademy" -> "Perfekt". The suffix is the same on every
   // page, so keeping it would make every card in the list read as the site's name.

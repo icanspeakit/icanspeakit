@@ -51,6 +51,7 @@
 import { createRuleIntro } from "./ruleIntro.js";
 import { createCardCollapse } from "./cardCollapse.js";
 import { getLang, loadDict, onLangChange } from "./i18n.js";
+import { currentPath } from "./paths.js";
 
 // A label from data-show / data-hide, or its copy for the UI language where the page
 // rendered one (data-show-en, data-hide-ar …) — labels that come from a topic's data rather

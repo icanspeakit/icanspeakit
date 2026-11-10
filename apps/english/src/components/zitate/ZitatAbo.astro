@@ -101,6 +101,7 @@ const show = import.meta.env.PUBLIC_ZITAT_ABO === "an" || import.meta.env.DEV;
 </style>
 
 <script>
+import { withBase } from "../../lib/paths.js";
   import { getLang } from "../../lib/i18n.js";
   import { t, onUiText } from "../../lib/uiText.js";
   import { track } from "../../lib/track.js";
@@ -177,7 +178,7 @@ const show = import.meta.env.PUBLIC_ZITAT_ABO === "an" || import.meta.env.DEV;
     btn.textContent = t("auth.email.loading", "Wird gesendet …");
     status.textContent = "";
     try {
-      const r = await fetch("/api/zitate/abo", {
+      const r = await fetch(withBase("/api/zitate/abo"), {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ email, website: data.get("website"), lang: getLang() }),

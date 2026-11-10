@@ -26,6 +26,7 @@ import { waitAttrs } from "./notReady.js";
 import { cleanRef } from "./meldungRef.js";
 import { dankeHtml, loveBurst } from "./meldungDanke.js";
 import "../styles/meldung.css";
+import { currentPath } from "./paths.js";
 
 const APP = import.meta.env.PUBLIC_TARGET === "app";
 const QUEUE_KEY = "da_meldung_queue";
@@ -85,7 +86,7 @@ function payload(target, grund, text) {
     grund,
     text: text || null,
     snapshot,
-    seite: location.pathname + (location.hash || ""),
+    seite: currentPath() + (location.hash || ""),
     ui_sprache: getLang(),
     posthog_session: posthog,
     client_id: clientId(),

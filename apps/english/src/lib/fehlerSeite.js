@@ -6,6 +6,7 @@
 // that drill; ?lang= or the stored choice picks the language.
 import { mountFuerDich } from "./ausspracheFuerDich.js";
 import { mutterspracheFromUrl, setMuttersprache, onMutterspracheChange, syncMutterspracheFromAccount } from "./muttersprache.js";
+import { currentPath } from "./paths.js";
 
 /**
  * @param {HTMLElement} page
@@ -61,7 +62,7 @@ export function mountFehlerSeite(page, { fallback = "alle", onShow, onReveal } =
       if (id === "alle") q.delete("lang");
       else q.set("lang", id);
       const qs = q.toString();
-      history.replaceState(null, "", `${location.pathname}${qs ? `?${qs}` : ""}`);
+      history.replaceState(null, "", `${currentPath()}${qs ? `?${qs}` : ""}`);
       show(id);
       if (id !== "alle") setMuttersprache(id);
       c.dispatchEvent(new CustomEvent("fe:pick", { bubbles: true, detail: id }));

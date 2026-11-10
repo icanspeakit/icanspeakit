@@ -5,6 +5,7 @@
 // lexId = the word is in our lexicon (card, audio and translations come from there).
 // checked = a lexicon word, or a word the teacher confirmed in the review table.
 import { createBrowserSupabase } from "../supabase/browser.js";
+import { withBase } from "../paths.js";
 
 export { currentUser, isTeacher, setTeacher } from "../liveQuiz/custom.js";
 
@@ -91,7 +92,7 @@ export const shareUrl = (token) => `${location.origin}/card-set?t=${token}`;
 
 /** A shared set, for students (no account): { name, level, words } or null. */
 export async function getSharedSet(token) {
-  const res = await fetch(`/api/wortschatz/set?t=${encodeURIComponent(token)}`);
+  const res = await fetch(withBase(`/api/wortschatz/set?t=${encodeURIComponent(token)}`));
   if (res.status === 404 || res.status === 400) return null;
   if (!res.ok) throw new Error(`set ${res.status}`);
   return res.json();
@@ -122,7 +123,7 @@ async function askTranslator(body) {
   // (limit, translator trouble) is the route's answer and is not retried.
   const call = async () => {
     try {
-      const res = await fetch("/api/wortschatz/uebersetzen", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+      const res = await fetch(withBase("/api/wortschatz/uebersetzen"), { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
       return /json/.test(res.headers.get("content-type") ?? "") ? res : null;
     } catch {
       return null;
@@ -167,7 +168,7 @@ export async function readPhotos(files, lines = []) {
   if (lines.length) body.append("zeilen", JSON.stringify(lines));
   let res;
   try {
-    res = await fetch("/api/wortschatz/foto", { method: "POST", body });
+    res = await fetch(withBase("/api/wortschatz/foto"), { method: "POST", body });
   } catch {
     throw new Error("Keine Verbindung. Prüfen Sie das Internet und versuchen Sie es noch einmal.");
   }

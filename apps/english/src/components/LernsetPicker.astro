@@ -593,6 +593,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
 
 {!select && <SideNavFold />}
 <script>
+import { withBase, currentPath } from "../lib/paths.js";
   import { getResume, getProgress } from "../lib/progress.js";
   import { slide, replay } from "../lib/fold.js";
   import { mountSideNavFold } from "../lib/sideNavFold.js";
@@ -806,7 +807,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
   function progressHtml() {
     const resume = getResume();
     const data = getProgress();
-    const here = location.pathname.replace(/\/+$/, "");
+    const here = currentPath().replace(/\/+$/, "");
     const mine = (resume ? [resume.last, ...resume.recents] : []).filter(
       (r) => r && r.path.startsWith("/vocabulary")
     );
@@ -884,7 +885,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
   async function loadCounts() {
     if (!learnt().size) return;
     try {
-      setWords ??= await (await fetch("/lernset-woerter.json")).json();
+      setWords ??= await (await fetch(withBase("/lernset-woerter.json"))).json();
       paintCounts();
     } catch {}
   }
@@ -909,7 +910,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
       levelPane.querySelectorAll(".ls-item--teil").forEach((el, i) => mark(el, i === part));
       if (!lemma) return;
       try {
-        setWords ??= await (await fetch("/lernset-woerter.json")).json();
+        setWords ??= await (await fetch(withBase("/lernset-woerter.json"))).json();
       } catch { return; }
       const level = levelPane.dataset.level;
       const id = Object.entries(setWords).find(([, s]) => s.level === level && s.words.includes(lemma))?.[0];

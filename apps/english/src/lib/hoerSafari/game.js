@@ -40,6 +40,7 @@ import { recordAttempt } from "../progress.js";
 import { celebrate } from "../mascotCelebrate.js";
 import { gameMuted, setGameMuted, reducedMotion, GAME_MUTE_EVENT } from "../spieleEinstellungen.js";
 import { spielMelden } from "../spielMelden.js";
+import { withBase } from "../paths.js";
 
 // ---- tuning (docs/hoer-safari-tier4-v1.md has the reasoning) ---------------------------------
 export const TUNING = {
@@ -376,7 +377,7 @@ export function mountHoerSafari(root, allWords) {
     const l = glossLang();
     if (INLINE.includes(l) || fetched[l]) return;
     try {
-      fetched[l] = await (await fetch(`/vocabulary/glosses/${l}.json`)).json();
+      fetched[l] = await (await fetch(withBase(`/vocabulary/glosses/${l}.json`))).json();
     } catch {
       fetched[l] = {};
     }

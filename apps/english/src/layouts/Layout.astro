@@ -1,4 +1,5 @@
 ---
+import { currentPath, stripBase } from "../lib/paths.js";
 import "../styles/global.css";
 import LanguageOffer from "../components/LanguageOffer.astro";
 // The paywall kill switch (src/lib/access.js). Only rendered when on, so with it off the
@@ -9,6 +10,7 @@ import { i18nGlobals } from "../lib/inventory.js";
 import hubBilder from "../data/hub-bilder.manifest.json";
 import { LANGUAGES } from "../lib/i18n.js";
 import { languageOf, BASE } from "../lib/languages.js";
+import { withBase, absoluteUrl, SITE_ORIGIN, BASE_PATH } from "../lib/paths.js";
 import { fontFaceCss } from "../lib/scriptFonts.js";
 import { langRules } from "../lib/langCss.js";
 import { organizationLd, websiteLd, breadcrumbLd, trailFor, orgId, type Crumb } from "../lib/seo/jsonld";
@@ -73,17 +75,17 @@ const hubOg = Object.values(hubBilder as Record<string, { path: string; og: stri
   .find((h) => h.path === route);
 const OG_IMAGE = hubOg?.og ?? "/assets/og-default.png";
 const OG_ALT = hubOg?.alt ?? "EnglishAcademy – learn English for free";
-const abs = (path) => (Astro.site ? new URL(path, Astro.site).href : path);
+const abs = (path) => (Astro.site ? absoluteUrl(path) : withBase(path));
 // One address per page for search engines: no trailing slash (the form every internal link
 // uses and the one in /sitemap.xml), no query string — ?voll, ?lang=…, tracking parameters all
 // collapse onto the clean URL. Not emitted on noindex pages: a draft has nothing to point at.
-const canonical = Astro.site && route !== "/404" ? new URL(route, Astro.site).href : null;
+const canonical = Astro.site && route !== "/404" ? absoluteUrl(route) : null;
 
 // Structured data (schema.org JSON-LD), built in src/lib/seo/jsonld.ts: Organization and
 // WebSite on the homepage, a breadcrumb trail on nested pages (named like the section pages'
 // own titles; a page may name its parents with the `breadcrumb` prop), and whatever the page
 // adds with `schema` (grammar topics, exam sets), which points at the organisation by @id.
-const SITE_URL = Astro.site ? Astro.site.href.replace(/\/$/, "") : "";
+const SITE_URL = Astro.site ? SITE_ORIGIN + BASE_PATH : "";
 const pageName = title.replace(/\s+[–|-]\s+(EnglishAcademy|English Academy)$/, "");
 const trail = trailFor(route, pageName, breadcrumb);
 const pageSchema = [schema ?? []].flat().map((o) => ({ provider: { "@id": orgId(SITE_URL) }, inLanguage: BASE, ...o }));
@@ -141,7 +143,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
           var msg = (e && (e.reason || e.payload) && String((e.reason || e.payload).message || e.reason || e.payload)) || "";
           if (!STALE.test(msg)) return;
           try {
-            var key = "da-stale-reload:" + location.pathname;
+            var key = "da-stale-reload:" + currentPath();
             var last = Number(sessionStorage.getItem(key) || 0);
             if (Date.now() - last < 60000) return;
             sessionStorage.setItem(key, String(Date.now()));
@@ -334,9 +336,9 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         let running = false;
         let lernt = false;
         try { running = !!localStorage.getItem("da:unterricht"); lernt = !!localStorage.getItem("da:lernstunde"); } catch {}
-        if (running && !location.pathname.startsWith("/teachers/lesson")) {
+        if (running && !currentPath().startsWith("/teachers/lesson")) {
           import("../lib/unterricht/leiste.js").then((m) => m.boot()).catch(() => {});
-        } else if (!running && lernt && location.pathname !== "/lesson") {
+        } else if (!running && lernt && currentPath() !== "/lesson") {
           // A learner's Stunde (/lesson): the same bar in its learner mode. A teacher session
           // on the same device wins (the learner's stays stored).
           import("../lib/unterricht/leiste.js").then((m) => m.bootLern()).catch(() => {});
@@ -360,14 +362,15 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
           const a = e.target instanceof Element && e.target.closest("a[href]");
           if (!a || a.target) return;
           const u = new URL(a.href, location.href);
-          if (u.origin !== location.origin || u.pathname.replace(/\/$/, "") !== "/teachers/quiz") return;
-          if (location.pathname.startsWith("/teachers/quiz") || location.pathname.startsWith("/game")) return;
+          if (u.origin !== location.origin || stripBase(u.pathname).replace(/\/$/, "") !== "/teachers/quiz") return;
+          if (currentPath().startsWith("/teachers/quiz") || currentPath().startsWith("/game")) return;
           a.target = "_blank";
           a.rel = "noopener";
         }, true);
       </script>
     )}
     <script>
+import { currentPath } from "../lib/paths.js";
       import { initI18n } from "../lib/i18n.js";
       import "../styles/mascot-celebrate.css";
       import "../styles/touchpoints.css";
@@ -388,8 +391,8 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         window.addEventListener(type, (e) => { tips().then((m) => m.handle(e as CustomEvent)); });
       }
       try {
-        if (localStorage.getItem("da-tips-v1") == null || location.pathname.startsWith("/progress")) {
-          tips().then((m) => { m.noteVisit(); if (location.pathname.startsWith("/progress")) m.markProgressSeen(); });
+        if (localStorage.getItem("da-tips-v1") == null || currentPath().startsWith("/progress")) {
+          tips().then((m) => { m.noteVisit(); if (currentPath().startsWith("/progress")) m.markProgressSeen(); });
         }
       } catch {}
     </script>

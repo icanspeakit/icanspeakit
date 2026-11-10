@@ -73,11 +73,12 @@ const help = (uebersetzungen.entries as Record<string, any>)[text.id] ?? null;
 
   <script type="application/json" id="sk-quiz-data" set:html={JSON.stringify(text.questions ?? [])}></script>
   <script>
+import { currentPath } from "../../lib/paths.js";
     import { mountQuiz } from "../../lib/quiz.js";
     import { recordAttempt } from "../../lib/progress.js";
 
     const questions = JSON.parse(document.getElementById("sk-quiz-data").textContent);
-    const textId = itemKey("/reading", location.pathname.split("/").filter(Boolean)[1]);
+    const textId = itemKey("/reading", currentPath().split("/").filter(Boolean)[1]);
     mountQuiz(document.getElementById("sk-quiz"), questions, {
       mode: "choice",
       meldung: (q, i) => `l:${textId}/q${i + 1}`,

@@ -6,6 +6,8 @@
 import { currentUser, isTeacher, setTeacher } from "../liveQuiz/custom.js";
 import { loadText, t } from "../liveQuiz/text.js";
 import { ANZAHLEN, MAX_TESTS, PRO_NIVEAU, meineTests, testAnlegen, testLoeschen, testOffen } from "./daten.js";
+import { withBase } from "../paths.js";
+import { currentPath } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const datum = (iso) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
@@ -65,7 +67,7 @@ export async function mountTests(root) {
   await loadText(() => { if (mounted) { render(); drawTopics(); drawPreview(); } });
 
   /* -------------------------------------------------------------- who ---- */
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(location.pathname)}`;
+  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(currentPath())}`;
   const user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {
@@ -181,7 +183,7 @@ export async function mountTests(root) {
   let titelByHand = false;
 
   try {
-    const [a, b] = await Promise.all([fetch("/teachers/tests/fragen.json"), fetch("/teachers/tests/fertigkeiten.json")]);
+    const [a, b] = await Promise.all([fetch(withBase("/teachers/tests/fragen.json")), fetch(withBase("/teachers/tests/fertigkeiten.json"))]);
     pool = await a.json();
     fk = await b.json();
   } catch (err) {
@@ -447,7 +449,7 @@ export async function mountTests(root) {
         fragen: fragen.map(({ id, t: tid, tn, l, q, h, x, o, a, teil, ref, typ }) => ({ id, t: tid, tn, l, q, h, x, o, a, teil, ref, typ })),
         material: materialOf(fragen),
       });
-      location.href = `/teachers/tests/result?id=${k.id}&neu=1`;
+      location.href = withBase(`/teachers/tests/result?id=${k.id}&neu=1`);
     } catch (err) {
       btn.disabled = false;
       if (err?.code === "limit") error.textContent = t("kt.t.err.limit", "Du hast schon {n} Tests. Lösch einen alten, dann geht es wieder.", { n: MAX_TESTS });

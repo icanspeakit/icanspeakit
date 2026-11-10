@@ -11,6 +11,7 @@
 import { MODES, LEVELS } from "./questions.js";
 import { DIFFICULTIES } from "./game.js";
 import { cleanName } from "../liveQuiz/protocol.js";
+import { currentPath } from "../paths.js";
 
 /** The challenge in the page's URL, or null. */
 export function readChallenge(search = location.search) {
@@ -22,7 +23,7 @@ export function readChallenge(search = location.search) {
 }
 
 export function challengeUrl({ seed, mode, level, diff = "normal", score, name }) {
-  const u = new URL(location.pathname, location.origin);
+  const u = new URL(currentPath(), location.origin);
   u.searchParams.set("duell", `${(seed >>> 0).toString(36)}.${mode}.${level}.${Math.floor(score)}${diff === "normal" ? "" : `.${diff}`}`);
   const n = cleanName(name);
   if (n) u.searchParams.set("von", n);

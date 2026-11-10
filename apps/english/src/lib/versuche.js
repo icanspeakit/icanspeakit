@@ -32,6 +32,7 @@
 // an uncertain send can't count a set twice.
 import { answerTimed, startHinweise, takeHinweise } from "./hinweise.js";
 import { germanPath } from "./routes.js";
+import { currentPath } from "./paths.js";
 
 const QUEUE_KEY = "da_versuche_queue";
 const OPEN_KEY = "da_versuche_offen";
@@ -69,7 +70,7 @@ const clean = (ref) => {
  * The exercise a page is about, from its URL (docs/klassen-tier0-v1.md §6). Pages that
  * hold several exercises call setRef() when the learner switches. null = not logged.
  */
-export function pageRef(path = location.pathname) {
+export function pageRef(path = currentPath()) {
   // Refs stayed German when the URLs became English (src/lib/routes.js): map back first.
   const s = germanPath(path.replace(/\/+$/, "")).split("/").filter(Boolean);
   const [a, b, c] = s;

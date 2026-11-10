@@ -18,6 +18,7 @@
 import { getProgress } from "./progress.js";
 import { getLang, loadDict, translate } from "./i18n.js";
 import { track } from "./track.js";
+import { currentPath } from "./paths.js";
 
 const KEY = "da-tips-v1";
 const NEW_DAYS = 21;
@@ -65,7 +66,7 @@ let shownThisPage = false;
 function pickTip(event, s) {
   const p = getProgress();
   const left = (id) => (s.seen[id] || 0) < LIMIT[id];
-  const onProgressPage = location.pathname.startsWith("/progress");
+  const onProgressPage = currentPath().startsWith("/progress");
   if (event.type === "da:round" && event.detail?.kind === "karten") {
     if (s.progressSeen || onProgressPage || !left("karten-progress")) return null;
     const n = p.vocabMastered.length;
@@ -76,7 +77,7 @@ function pickTip(event, s) {
     };
   }
   if (event.type === "da:round" && event.detail?.kind === "uebung") {
-    if (p.skills.wortschatz || location.pathname.startsWith("/vocabulary") || !left("uebung-karten")) return null;
+    if (p.skills.wortschatz || currentPath().startsWith("/vocabulary") || !left("uebung-karten")) return null;
     return { id: "uebung-karten", text: ["tp.uebung.text"], link: ["tp.uebung.link", "/vocabulary"] };
   }
   if (event.type === "da:attempt") {

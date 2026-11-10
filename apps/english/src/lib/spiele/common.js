@@ -9,6 +9,8 @@
 import { getLang, loadDict, onLangChange, translate } from "../i18n.js";
 import { langsFor, languagesFor } from "../languages.js";
 import { intent } from "../intent.js";
+import { withBase } from "../paths.js";
+import { currentPath } from "../paths.js";
 
 /* ----------------------------------------------------------------- random -- */
 
@@ -63,7 +65,7 @@ export function loadLevel(level) {
   if (!levelCache.has(key)) {
     levelCache.set(
       key,
-      fetch(`/teachers/games/woerter-${key}.json`)
+      fetch(withBase(`/teachers/games/woerter-${key}.json`))
         .then((r) => {
           if (!r.ok) throw new Error(String(r.status));
           return r.json();
@@ -161,7 +163,7 @@ export function mountGenerator(root, { defaults, render }) {
   // "a1-01%2Ca1-02" is harder to read off paper than "a1-01,a1-02".
   const writeUrl = () => {
     const q = new URLSearchParams(state).toString().replace(/%2C/gi, ",");
-    history.replaceState(null, "", `${location.pathname}?${q}`);
+    history.replaceState(null, "", `${currentPath()}?${q}`);
   };
 
   const fit = () => {
@@ -242,7 +244,7 @@ export function mountGenerator(root, { defaults, render }) {
   });
   root.querySelector("[data-sp-print]")?.addEventListener("click", () => {
     // traffic-baseline: teacher_tool_use — "game_bingo", "game_domino", "game_erklaeren".
-    intent("teacher_tool_use", { tool: `game_${location.pathname.split("/").filter(Boolean).pop()}` });
+    intent("teacher_tool_use", { tool: `game_${currentPath().split("/").filter(Boolean).pop()}` });
     window.print();
   });
   root.querySelector("[data-sp-all]")?.addEventListener("click", () => {

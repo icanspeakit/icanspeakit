@@ -6,6 +6,8 @@
 // the projector page with ?quiz=<id>.
 import { cleanQuestion, currentUser, deleteQuiz, getQuiz, isTeacher, listQuizzes, MAX_QUESTIONS, saveQuiz, setTeacher } from "./custom.js";
 import { loadText, t } from "./text.js";
+import { withBase } from "../paths.js";
+import { currentPath } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
@@ -26,7 +28,7 @@ export async function mountBuilder(root) {
   loadText(() => { if (mounted) { render(); renderMine(); banks.forEach((b) => b.render()); refreshBanks(); } });
 
   /* -------------------------------------------------------------- who ---- */
-  const next = encodeURIComponent(location.pathname + location.search);
+  const next = encodeURIComponent(currentPath() + location.search);
   $("[data-signin-link]").href = `/anmelden?next=${next}`;
   let user = await currentUser();
   if (!user) return gate("signin");
@@ -186,7 +188,7 @@ export async function mountBuilder(root) {
       list.innerHTML = `<p class="qb-empty">${esc(t("qb.loading", "Einen Moment …"))}</p>`;
       try {
         if (!bankCache.has(slug)) {
-          const res = await fetch(`/teachers/quiz-chapters/${slug}.json`);
+          const res = await fetch(withBase(`/teachers/quiz-chapters/${slug}.json`));
           if (!res.ok) throw new Error(String(res.status));
           bankCache.set(slug, await res.json());
         }
@@ -446,7 +448,7 @@ export async function mountBuilder(root) {
   $("[data-save]").addEventListener("click", save);
   const play = async () => {
     const saved = await save();
-    if (saved) location.href = `/teachers/quiz?quiz=${saved.id}`;
+    if (saved) location.href = withBase(`/teachers/quiz?quiz=${saved.id}`);
   };
   $("[data-play]").addEventListener("click", play);
   $("[data-play-top]").addEventListener("click", play);

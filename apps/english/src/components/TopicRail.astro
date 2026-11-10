@@ -177,6 +177,7 @@ const openSection = grammarByKey(current)?.level?.toLowerCase() ?? "weg";
 </aside>
 
 <script>
+import { currentPath } from "../lib/paths.js";
   // Numbers come from the same store the dashboard reads, so the two surfaces cannot
   // disagree about how far a topic got.
   import { getTopicProgress, getProgress, getResume } from "../lib/progress.js";
@@ -250,7 +251,7 @@ const openSection = grammarByKey(current)?.level?.toLowerCase() ?? "weg";
       const next = resume?.last;
       const nextEl = box.querySelector<HTMLAnchorElement>("[data-tr-prog-next]");
       if (nextEl) {
-        const show = !!next && next.path !== location.pathname.replace(/\/+$/, "");
+        const show = !!next && next.path !== currentPath().replace(/\/+$/, "");
         nextEl.hidden = !show;
         if (show) {
           nextEl.href = next.path;

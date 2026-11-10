@@ -16,6 +16,7 @@
 // that build HTML use waitAttrs(); live elements use setWaiting(). Busy states (sending,
 // loading) are not this: those stay `disabled`.
 import "../styles/not-ready.css";
+import { currentPath } from "./paths.js";
 
 /** The attributes for a button's markup: `why` set = not ready, null/"" = ready (empty string). */
 export function waitAttrs(why, mark) {
@@ -129,7 +130,7 @@ function onTap(e) {
   const now = Date.now();
   if (now - (lastTrack.get(btn) ?? 0) > 5000) {
     lastTrack.set(btn, now);
-    import("./track.js").then(({ track }) => track("not_ready_tap", { path: location.pathname, why: btn.dataset.why.slice(0, 80) })).catch(() => {});
+    import("./track.js").then(({ track }) => track("not_ready_tap", { path: currentPath(), why: btn.dataset.why.slice(0, 80) })).catch(() => {});
   }
 }
 

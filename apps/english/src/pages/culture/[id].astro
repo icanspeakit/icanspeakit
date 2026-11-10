@@ -164,11 +164,12 @@ const pc = (key: string) => tx?.prosCons ? Object.fromEntries(Object.entries(tx.
 
   <script type="application/json" id="ku-quiz-data" set:html={JSON.stringify(topic.quiz)}></script>
   <script type="module">
+import { currentPath } from "../../lib/paths.js";
     import { mountQuiz } from "../../lib/quiz.js";
     import { recordAttempt } from "../../lib/progress.js";
 
     const questions = JSON.parse(document.getElementById("ku-quiz-data").textContent);
-    const topicId = itemKey("/culture", location.pathname.split("/").filter(Boolean)[1]);
+    const topicId = itemKey("/culture", currentPath().split("/").filter(Boolean)[1]);
     mountQuiz(document.getElementById("ku-quiz"), questions, {
       mode: "choice",
       meldung: (q, i) => `k:${topicId}/q${i + 1}`,

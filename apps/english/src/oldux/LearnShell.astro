@@ -1153,6 +1153,7 @@ const defaultVariant = variants[0];
   <script type="application/json" id="nv-artikel" set:html={JSON.stringify({ pool: ARTIKEL_POOL, levels: ARTIKEL_LEVELS, session: ARTIKEL_SESSION })}></script>
 
   <script>
+import { currentPath } from "../lib/paths.js";
     import { getTopicProgress, recordAttempt, resetProgress } from "../lib/progress.js";
     import { mountWegPanel, paintWegPanel } from "./wegPanel.js";
     import { createExerciseMounter, INLINE_TITLES, loaderFor } from "./inlineExercises.js";
@@ -1949,13 +1950,13 @@ const defaultVariant = variants[0];
       if (section && section !== "weg") p.set("stufe", section);
       if (item) p.set("thema", item);
       const q = p.toString();
-      return location.pathname + (q ? `?${q}` : "") + location.hash;
+      return currentPath() + (q ? `?${q}` : "") + location.hash;
     }
 
     function syncUrl(replace = false) {
       if (applying) return;
       const next = urlFor(current.section, current.item);
-      if (next === location.pathname + location.search + location.hash) return;
+      if (next === currentPath() + location.search + location.hash) return;
       try { history[replace ? "replaceState" : "pushState"]({ nv: true }, "", next); } catch (e) {}
     }
 

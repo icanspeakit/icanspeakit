@@ -310,11 +310,12 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
 
   <script type="application/json" id="in-quiz-data" set:html={JSON.stringify(topic.quiz ?? [])}></script>
   <script type="module">
+import { currentPath } from "../../../lib/paths.js";
     import { mountQuiz } from "../../../lib/quiz.js";
     import { recordAttempt } from "../../../lib/progress.js";
 
     const questions = JSON.parse(document.getElementById("in-quiz-data").textContent);
-    const topicId = itemKey("/culture/insider", location.pathname.split("/").filter(Boolean)[2]);
+    const topicId = itemKey("/culture/insider", currentPath().split("/").filter(Boolean)[2]);
     if (questions.length) mountQuiz(document.getElementById("in-quiz"), questions, {
       mode: "choice",
       meldung: (q, i) => `k:insider/${topicId}/q${i + 1}`,

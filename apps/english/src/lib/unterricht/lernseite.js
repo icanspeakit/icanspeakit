@@ -24,6 +24,7 @@ import { isId } from "./speichern.js";
 import { LERN_MATERIAL_WINDOW, LERN_WINDOW } from "./zurueck.js";
 import { endSet, logSession } from "../versuche.js";
 import { mascotSvg } from "../mascots.js";
+import { withBase } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const stepsOf = (lesson) => lesson.phases.map((p) => ({ id: p.id, name: p.name, minutes: p.minutes }));
@@ -137,7 +138,7 @@ export async function mountLernstunde(root, data) {
   if (done) {
     msg.textContent = "You have finished this lesson.";
     go.textContent = nextHref ? "Go to the next lesson" : "Go to your progress";
-    go.addEventListener("click", () => location.assign(nextHref ?? "/progress"));
+    go.addEventListener("click", () => location.assign(withBase(nextHref ?? "/progress")));
     fresh.hidden = false;
     fresh.textContent = "Do it again";
   } else if (saved) {
@@ -365,7 +366,7 @@ export async function mountLernstunde(root, data) {
     }).join("");
     const next = $("[data-done-next]");
     if (nextHref) next.href = nextHref;
-    else { next.href = "/progress"; next.textContent = "Go to your progress"; }
+    else { next.href = withBase("/progress"); next.textContent = "Go to your progress"; }
   }
 
   /* ----------------------------------------------------------- helpers ---- */

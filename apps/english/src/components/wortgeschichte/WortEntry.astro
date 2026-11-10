@@ -224,6 +224,7 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
 </article>
 
 <script>
+import { currentPath } from "../../lib/paths.js";
   import { getLang, onLangChange } from "../../lib/i18n.js";
   import { isRtl } from "../../lib/languages.js";
   import { mountLeichteSprache } from "../../lib/leichteSprache.js";
@@ -277,6 +278,6 @@ const dir = (code: string) => (RTL.has(code) ? "rtl" : "ltr");
   // PostHog only records it with the visitor's consent — track() is a no-op otherwise.
   const utm = new URLSearchParams(location.search);
   if (utm.get("utm_campaign") === "wortgeschichte" && utm.get("utm_medium") === "email") {
-    track("wort_mail_click", { content: utm.get("utm_content") ?? "", page: location.pathname });
+    track("wort_mail_click", { content: utm.get("utm_content") ?? "", page: currentPath() });
   }
 </script>

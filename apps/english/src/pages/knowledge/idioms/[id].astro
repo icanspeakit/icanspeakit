@@ -12,6 +12,7 @@ import { published, hrefOf as wgHref } from "../../../lib/wortgeschichte.js";
 import { orgId } from "../../../lib/seo/jsonld";
 import "../../../styles/practice.css";
 import "../../../styles/redewendungen.css";
+import { SITE_ORIGIN, BASE_PATH } from '../../../lib/paths.js';
 
 export function getStaticPaths() {
   return eintraege.map((e: any) => ({ params: { id: e.id }, props: { e } }));
@@ -23,7 +24,7 @@ const more = related(e);
 const wgLive = new Set(published().map((w: any) => wgHref(w)));
 const siehe = e.siehe && (!e.siehe.startsWith("/knowledge/word-stories/") || wgLive.has(e.siehe)) ? e.siehe : null;
 const plain = e.de.replace(/[.!?]$/, "");
-const site = Astro.site ? new URL(Astro.site).origin : "https://englishacademy.com";
+const site = Astro.site ? SITE_ORIGIN + BASE_PATH : "https://icanspeak.it/english";
 const description = `“${plain}”: ${e.bedeutung} With an example and the origin – simply explained.`.slice(0, 160);
 const jsonLd = {
   "@context": "https://schema.org",

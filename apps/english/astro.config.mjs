@@ -12,6 +12,7 @@ import sitemap from './src/integrations/sitemap.mjs';
 import baseLanguage from './src/integrations/base-language.mjs';
 import entryPages from './src/integrations/entry-pages.mjs';
 import llmsTxt from './src/integrations/llms-txt.mjs';
+import { SITE_ORIGIN, BASE_PATH } from './src/lib/paths.js';
 
 const r301 = (destination) => ({ status: 301, destination });
 
@@ -94,8 +95,11 @@ function englishRedirects() {
   return out;
 }
 
-/* The live domain: canonical URLs, og:url, /sitemap.xml. Set SITE_URL when the real domain
- * is known; the default is a placeholder. */
+/* The live address: https://icanspeak.it/english/ (src/lib/paths.js owns both values; the
+ * domain root is a separate site). Canonical URLs, og:url, hreflang, /sitemap.xml and llms.txt
+ * are built from them. Redirect sources stay site paths; Astro writes the stubs under the base,
+ * and the destinations are moved under it by the base-path pass (src/middleware.js,
+ * src/integrations/base-language.mjs), checked by `pnpm check:base`. */
 /* Account, sign-in, purchase and merch routes of englishacademy that are not part of this
  * build (no backend yet, src/lib/backend.js): every old link lands on /account instead of 404. */
 const ACCOUNT_REDIRECTS = Object.fromEntries(
@@ -130,10 +134,9 @@ const DROPPED_REDIRECTS = Object.fromEntries(
   Object.entries(DROPPED).flatMap(([to, froms]) => froms.map((from) => [from, r301(to)])),
 );
 
-const SITE_URL = process.env.SITE_URL ?? 'https://englishacademy.com';
-
 export default defineConfig({
-  site: SITE_URL,
+  site: SITE_ORIGIN,
+  base: BASE_PATH,
   // Static stays the default: every one of the ~670 content pages is still prerendered
   // to HTML at build time and served from the CDN with no server involved. The adapter
   // does not change that — it only makes it *possible* for an individual route to opt

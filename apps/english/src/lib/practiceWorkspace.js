@@ -13,6 +13,7 @@ import { celebrateRound, mascotHop } from "./mascotCelebrate.js";
 import { mascotSvg } from "./mascots.js";
 import { flagItems, meldenLinkHtml, onMeldenClick } from "./meldung.js";
 import { itemFingerprint } from "./meldungRef.js";
+import { currentPath } from "./paths.js";
 
 const KNOWN_DIFFICULTY_ORDER = ["leicht", "mittel", "schwer"];
 const WRONG_ATTEMPTS_BEFORE_REVEAL = 2;
@@ -404,7 +405,7 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
      With the mascots off the line stays and Regi goes (CSS). */
   function saveNoteHtml(mood = "") {
     const signedIn = document.documentElement.dataset.auth === "in";
-    const next = encodeURIComponent(location.pathname + location.search);
+    const next = encodeURIComponent(currentPath() + location.search);
     const say = signedIn
       ? t("pw.done.savedAccount", "Gespeichert. Deinen Fortschritt und deine Fehler findest du jederzeit wieder.")
       : t("pw.done.savedLocal", "Dein Fortschritt und deine Fehler sind nur in diesem Browser gespeichert. Melde dich an, dann gehen sie nicht verloren.");

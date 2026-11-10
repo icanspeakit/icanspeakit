@@ -9,6 +9,7 @@ import QRCode from "qrcode";
 import { currentUser } from "../liveQuiz/custom.js";
 import { loadText, t } from "../liveQuiz/text.js";
 import { antworten, umfrage, umfrageLink, umfrageOffen } from "./daten.js";
+import { currentPath } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const REFRESH_MS = 5000;
@@ -51,7 +52,7 @@ export async function mountErgebnis(root) {
   let shareOpen = params.has("neu");
   await loadText(() => { if (u) render(); });
 
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(location.pathname + location.search)}`;
+  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`;
   if (!(await currentUser())) return gate("signin");
   try {
     u = await umfrage(params.get("id"));

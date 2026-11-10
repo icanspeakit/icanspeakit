@@ -53,6 +53,7 @@ const { spec } = t;
   </main>
 
   <script>
+import { currentPath } from "../../../../lib/paths.js";
     import { mountWorksheet } from "../../../../lib/arbeitsblatt/client.js";
     const root = document.getElementById("ab-root");
     if (root) mountWorksheet(root);
@@ -108,7 +109,7 @@ const { spec } = t;
         try {
           const { domToBlob } = await import("modern-screenshot");
           const blob = await domToBlob(wrap, { scale: 2, backgroundColor: "#ffffff", type: "image/png", style: { position: "static", left: "0" } });
-          const name = `${location.pathname.split("/").pop()}-partner-${who.toLowerCase()}.png`;
+          const name = `${currentPath().split("/").pop()}-partner-${who.toLowerCase()}.png`;
           const file = new File([blob], name, { type: "image/png" });
           if (matchMedia("(pointer: coarse)").matches && navigator.canShare?.({ files: [file] })) {
             await navigator.share({ files: [file], title: document.title }).catch(() => {});

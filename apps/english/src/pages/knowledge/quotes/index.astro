@@ -71,6 +71,7 @@ const ids = quotes.map((q: any) => q.id);
 </Layout>
 
 <script>
+import { withBase } from "../../../lib/paths.js";
   import { getLang } from "../../../lib/i18n.js";
   import { t, i18nAttrs, onUiText } from "../../../lib/uiText.js";
   import { localYmd, addDays, indexFor } from "../../../lib/zitate.js";
@@ -86,7 +87,7 @@ const ids = quotes.map((q: any) => q.id);
 
   const idFor = (off: number) => ids[indexFor(addDays(today, off), ids.length)];
   const card = (id: string) => {
-    if (!cache.has(id)) cache.set(id, fetch(`/knowledge/quotes/card/${id}`).then((r) => (r.ok ? r.text() : Promise.reject(r.status))));
+    if (!cache.has(id)) cache.set(id, fetch(withBase(`/knowledge/quotes/card/${id}`)).then((r) => (r.ok ? r.text() : Promise.reject(r.status))));
     return cache.get(id)!;
   };
 
