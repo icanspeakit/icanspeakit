@@ -17,13 +17,19 @@ free; only the linguistics TTS routes run Worker code.
 
 ## One-time setup (Edgar)
 
+Steps 1–5 are done: live on Cloudflare since 2026-11-05, www redirect since 2026-11-10.
+The zone and the Workers are in "Hello@deutschacademy.com's Account".
+
 1. **Move DNS to Cloudflare.** Add `icanspeak.it` as a site in Cloudflare and change the
    nameservers at the registrar. Routes only work on a zone Cloudflare serves.
-2. **A proxied DNS record for the apex**, so requests reach Cloudflare at all: e.g. `AAAA @ 100::`
-   (proxied, orange cloud). The Workers answer every path, so no real origin is needed. Once
-   live, remove the old Vercel records.
-3. **www → apex:** a Redirect Rule `www.icanspeak.it/*` → `https://icanspeak.it/${1}` (301),
-   plus a proxied `CNAME www → icanspeak.it`.
+2. **A proxied DNS record for the apex**, so requests reach Cloudflare at all: e.g. `A @ 192.0.2.1`
+   or `AAAA @ 100::` (proxied, orange cloud). The Workers answer every path, so no real origin
+   is needed. **Still open:** the apex `A` still holds Vercel's `216.198.79.1` (harmless while
+   proxied, since the hub Worker answers every path), and the DNS-only wildcard `*.icanspeak.it → 216.198.79.1`
+   should be deleted.
+3. **www → apex:** a Redirect Rule `https://www.icanspeak.it/*` → `https://icanspeak.it/${1}`
+   (301, preserve query string), plus a proxied `CNAME www → icanspeak.it`. Without the rule,
+   www has no Worker route and falls through to the origin IP.
 4. **Log in once:** `pnpm exec wrangler login` (from any app folder).
 5. **Linguistics secret:** in `apps/linguistics`: `pnpm exec wrangler secret put ELEVENLABS_API_KEY`.
 
@@ -67,7 +73,8 @@ The old icanspeak.it paths (`/blog/…`, `/words/`, `/exercises/…`, `/dashboar
 `/former-site/…`) now live under `/linguistics/`. `apps/hub/public/_redirects` sends them there
 with a 301.
 
-## Don't merge into main before the switch
+## Vercel
 
-Vercel still deploys `main` to the live site. Merge `monorepo` into `main` and push only once the Cloudflare Workers are up and DNS points at Cloudflare; until then a push to main makes Vercel try to build the repo root (it would fail and keep the old deployment, but don't rely on that). Delete `vercel.json` and the Vercel project after the switch.
+Retired. `main` no longer deploys anywhere by itself; deploys are `pnpm deploy` (wrangler) only.
+`vercel.json` is gone; delete the Vercel project in the Vercel dashboard if it still exists.
 
