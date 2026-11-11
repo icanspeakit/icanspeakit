@@ -36,8 +36,8 @@ const { task, prev, next } = Astro.props;
 const { types } = schreiben;
 const help = (uebersetzungen.entries as Record<string, any>)[task.id] ?? null;
 const parts = (task.source ?? "").split(/\*\*(.+?)\*\*/g);
-// Task wording is English at A1–A2 and Spanish at B1–B2 (see the note in schreiben.json).
-const taskLang = task.level === "B1" || task.level === "B2" ? "es" : undefined;
+// Task wording is English at A1–A2 and French at B1–B2 (see the note in schreiben.json).
+const taskLang = task.level === "B1" || task.level === "B2" ? "fr" : undefined;
 ---
 <Layout
   title={fitTitle(`${task.title} – Writing ${task.level}`, task.title)}
@@ -106,7 +106,7 @@ const taskLang = task.level === "B1" || task.level === "B2" ? "es" : undefined;
             <h2 data-i18n="schreiben.h2.points">Das muss vorkommen</h2>
             <ul class="sk-points" lang={taskLang}>{task.points.map((p) => <li>{p}</li>)}</ul>
             {task.phrases?.length > 0 && (
-              <div class="sk-phrases">{task.phrases.map((p) => <span class="sk-phrase" lang={task.from ? undefined : "es"}>{p}</span>)}</div>
+              <div class="sk-phrases">{task.phrases.map((p) => <span class="sk-phrase" lang={task.from ? undefined : "fr"}>{p}</span>)}</div>
             )}
           </section>
 

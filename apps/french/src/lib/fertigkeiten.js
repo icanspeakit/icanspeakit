@@ -79,7 +79,7 @@ const BRIEF_CHECK = [
 ];
 const ERROR_CHECK = [
   "Read first, then compare: discuss the text only once you have marked every mistake you can find.",
-  "The text has about 20 mistakes. Look at: gender and agreement, être or avoir, “depuis” with the present tense, the passé composé and its participles, the subjunctive after “je voudrais que”, accents, capital letters in dates, the space before ? and !, and a closing line translated word for word from English.",
+  "The text has about 15 mistakes. Look at: agreement and gender (“très sale”, “la problème”), prepositions after verbs and adjectives (“en colère sur”, “s'en intéresser”), adverb or adjective (“pas bon”), the subjunctive after “je voudrais que”, a missing article (“tous locataires”), a plural verb, a capital letter in a date, the space before “?”, and a closing line that is not a French formula.",
   "Write down the mistakes you make yourself, too. That is the point of the task.",
 ];
 

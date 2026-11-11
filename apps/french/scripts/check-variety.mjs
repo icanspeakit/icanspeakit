@@ -24,7 +24,7 @@ const rel = (p) => path.relative(ROOT, p).replaceAll("\\", "/");
 // Modules whose content item has run: missing `variety` is an error there. Add the module id
 // in the same commit that converts the module. Empty at the start of the French queue
 // (variety-schema): every module still held Spanish data. The ids are those of MODULES below.
-const STRICT = new Set(["conjugation-trainer", "einstufung", "grammatik", "grammatik-quiz", "grammatik-start", "hoeren", "lexicon-a1", "lexicon-a2", "lexicon-b1", "lexicon-b2", "lexicon-c1", "lexicon-c2", "praepositionen", "verbtabellen", "wortschatz"]);
+const STRICT = new Set(["conjugation-trainer", "einstufung", "grammatik", "grammatik-quiz", "grammatik-start", "hoeren", "lesen", "fertigkeiten-lesen", "fertigkeiten-schreiben", "lexicon-a1", "lexicon-a2", "lexicon-b1", "lexicon-b2", "lexicon-c1", "lexicon-c2", "praepositionen", "verbtabellen", "wortschatz"]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);
 const jsonFiles = (dir) =>
@@ -72,6 +72,9 @@ const MODULES = [
   { id: "conjugation-trainer", files: one("src/data/conjugation-trainer.json"),
     items: (d) => arr(d.sets ?? d).map((item) => ({ item })) },
   { id: "hoeren", files: one("src/data/hoeren.json"), items: (d) => arr(d.texts).map((item) => ({ item })) },
+  { id: "lesen", files: one("src/data/lesen.json"), items: (d) => arr(d.groups).map((item) => ({ item })) },
+  { id: "fertigkeiten-lesen", files: one("src/data/fertigkeiten/lesen.json"), items: (d) => arr(d.texts).map((item) => ({ item })) },
+  { id: "fertigkeiten-schreiben", files: one("src/data/fertigkeiten/schreiben.json"), items: (d) => arr(d.tasks).map((item) => ({ item })) },
   { id: "aussprache-check", files: one("src/data/aussprache-check.json"),
     items: (d) => arr(d.levels).flatMap((l) => arr(l.sentences).map((item) => ({ item }))) },
   { id: "zungenbrecher", files: one("src/data/zungenbrecher.json"),
