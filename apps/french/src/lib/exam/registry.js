@@ -38,14 +38,14 @@ const lidFederalIds = lid.questions.map((_, i) => "bund-" + (i + 1));
 export const examRegistry = [
   {
     id: "start-deutsch-1",
-    title: "DELE A1 practice test",
+    title: "DELF A1 practice test",
     subtitle: "Listening · Reading · Writing · Speaking",
     level: "A1",
     href: "/dele/a1",
     overview: "/dele",
     store: { kind: "exam", key: "start-deutsch-1" },
-    // In the style of the DELE A1 (content-plan §2), shorter than the real exam: 60 % is our own convention.
-    passNote: "Our own guide: 60 % of the Listening and Reading points. The real DELE A1 has its own scoring rules.",
+    // In the style of the DELF A1 (content-plan §2), shorter than the real exam: 60 % is our own convention.
+    passNote: "Our own guide: 60 % of the Listening and Reading points. The real DELF A1 has its own scoring rules.",
     passPct: 60,
     modules: [
       { key: "hoeren1", label: "Listening · Part 1", ids: idsOf(sd1.hoeren.teil1) },
