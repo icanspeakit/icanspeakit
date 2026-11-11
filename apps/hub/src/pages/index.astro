@@ -138,6 +138,23 @@ const HERO = [
   </div>
   <script is:inline>
     (function () {
+      // Both circles walk the page through the four brand colours; the layout switch also flips the layout.
+      var TONES = ['green', 'red', 'blue', 'yellow'];
+      var step = 0;
+      var turns = document.querySelectorAll('.l-turn');
+      function setStep(n) {
+        step = n % TONES.length;
+        document.body.dataset.tone = TONES[step];
+        turns.forEach(function (b) {
+          b.dataset.step = String(step);
+          b.style.setProperty('--spin', (step * 360) + 'deg');
+          b.setAttribute('aria-pressed', step === 0 ? 'false' : 'true');
+        });
+      }
+      setStep(0);
+      turns.forEach(function (b) {
+        b.addEventListener('click', function () { setStep(step + 1); });
+      });
       var flip = document.querySelector('.l-flip');
       if (!flip) return;
       function current() { return document.body.dataset.v === 'c' ? 'c' : 'a'; }
@@ -147,21 +164,8 @@ const HERO = [
         var next = current() === 'c' ? 'a' : 'c';
         document.body.dataset.v = next;
         paint(next);
+        setStep(step + 1);
         try { localStorage.setItem('isk-landing-v', next); } catch (e) {}
-      });
-      // The turn tile walks the page through the four brand colours; its circle shows the next two.
-      var TONES = ['green', 'red', 'blue', 'yellow'];
-      document.body.dataset.tone = TONES[0];
-      document.querySelectorAll('.l-turn').forEach(function (b) {
-        var step = 0;
-        b.dataset.step = '0';
-        b.addEventListener('click', function () {
-          step = (step + 1) % TONES.length;
-          b.dataset.step = String(step);
-          b.style.setProperty('--spin', (step * 360) + 'deg');
-          b.setAttribute('aria-pressed', step === 0 ? 'false' : 'true');
-          document.body.dataset.tone = TONES[step];
-        });
       });
     })();
   </script>
