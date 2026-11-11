@@ -80,3 +80,10 @@ Nothing pushed, nothing merged into main, no `wrangler deploy` (step 1 rule).
 ## Build
 - `pnpm build`: about one minute on this machine (the 1,700-page build took 51 s in the last timed run).
 - Files: 6,988 in `dist/` (and `cf-dist/english/`), under the 20,000-file Worker limit.
+
+## Deployed (2026-11-11)
+- English Worker `icanspeak-english` on `icanspeak.it/english/*`, built from `7df50d56` plus the fixes in
+  `bf5b707e`. Checked after upload: `/english/` 200, `/english/robots.txt` 200, an unknown page under
+  `/english/` 404, `/english/grammar` 307 to `/english/grammar/` (200).
+- Hub Worker `icanspeak-hub` on `icanspeak.it/*` redeployed with the new landing. English and Spanish cards
+  are live. Spanish's Worker was already up with an older build, so its card stays live.
