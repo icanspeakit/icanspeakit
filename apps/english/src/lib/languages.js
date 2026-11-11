@@ -53,9 +53,9 @@ export const LANGUAGE_REGISTRY = [
     // The source language: the interface and every text exist in English first.
     surfaces: { ui: { ...reviewed, order: 0 }, cards: reviewed, help: reviewed, legal: { ...reviewed, order: 0 }, sheets: reviewed, berufe: reviewed },
   },
-  // German UI (ui-lang-de). Stub for now: public/i18n/de.json is empty, so every string falls
-  // back to English. Only the interface surface is registered; the picker stays hidden until
-  // coverage passes GATES.ui, but /english/de/ entry pages are built and linked (hreflang).
+  // German UI (ui-lang-de): public/i18n/de.json carries every key of en.json (machine draft, du-form,
+  // not yet read by a native speaker; scripts/check-i18n-keys.mjs enforces it). The header picker
+  // stays hidden until coverage passes GATES.ui; /english/de/ entry pages are built and linked (hreflang).
   {
     code: "de", native: "Deutsch", de: "Deutsch", en: "German", word: "Sprache",
     dir: "ltr", script: "Latn", region: "europa", fontFamily: null,
