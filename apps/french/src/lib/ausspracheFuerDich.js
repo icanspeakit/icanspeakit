@@ -16,7 +16,7 @@ import { findingsFor, findingsHtml, insertionsOf, esc, t } from "./aussprachePat
 import { DRILL_AUDIO_DIR, drillSlug } from "./drillAudio.js";
 import { withBase } from "./paths.js";
 
-const LANG = "es-ES";
+const LANG = "fr-FR";
 const ROUNDS = 5;
 const band = (s) => (s >= 80 ? "good" : s >= 60 ? "ok" : "bad");
 
@@ -30,7 +30,7 @@ function browserSpeak(text) {
     u.lang = LANG;
     u.rate = 0.85;
     const voices = synth.getVoices();
-    const es = voices.find((v) => v.lang?.replace("_", "-") === "es-ES") ?? voices.find((v) => v.lang?.startsWith("es"));
+    const es = voices.find((v) => v.lang?.replace("_", "-") === "fr-FR") ?? voices.find((v) => v.lang?.startsWith("fr"));
     if (es) u.voice = es;
     u.onend = resolve;
     u.onerror = resolve;

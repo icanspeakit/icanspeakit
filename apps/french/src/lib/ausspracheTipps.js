@@ -1,98 +1,115 @@
-// Short tips for the Aussprache-Check: one rule per Spanish sound that learners most often get
+// Short tips for the Aussprache-Check: one rule per French sound that learners most often get
 // wrong. No API: the tip is picked from the spelling of the word the learner scored worst on.
-// Spanish spelling is regular, so the tests are reliable: z and ce/ci are /θ/, rr is the trill.
+// French spelling is less regular than Spanish, so the tests are tests of letters that
+// usually give the sound (nasal vowels, u/ou, eu, silent endings); the tips say "usually".
 //
 // Each sound has a `test` on the lower-cased word and a `tip` written in English for A1–B1
 // readers: short main clauses, the mouth position first, one example they already know.
-// Castilian Spanish (the site's standard, docs/content-plan.md §1.1), with distinción.
+// Standard French of France (the site's standard, docs/content-plan.md §1.1).
 
 /** @typedef {{ id: string, label: string, test: (w: string) => boolean, tip: (w: string, shown: string) => string }} Sound */
 
-const V = "aeiouáéíóúü";
-const STRONG_R = /rr|^r|[nls]r/;
+const V = "aeiouyéèêëàâîïôûù";
+// Words that usually make a liaison with a following vowel: determiners, subject pronouns, short adverbs.
+const LIAISON_WORDS = /^(les|des|ces|mes|tes|ses|nous|vous|ils|elles|un|mon|ton|son|très|dans|en|chez|plus|bien|trois|deux|aux|quels|quelles)$/;
 
 /** @type {Sound[]} */
 export const SOUNDS = [
   {
-    id: "enye",
-    label: "ñ",
-    test: (w) => w.includes("ñ"),
-    tip: () => "ñ is one sound, like ny in “canyon”. Press the middle of your tongue against the roof of your mouth. Like “año”, “mañana”.",
+    id: "nasal",
+    label: "nasal vowels",
+    test: (w) => /(an|am|en|em|on|om|in|im|un|um)($|[^aeiouyéèêàâîïôûhnm])/.test(w),
+    tip: (w, shown) => `In “${shown}” the n or m is not a consonant here. It tells you to send the air through your nose: an/en (vent), on (bon), in/ain (vin). Don't add an n or a “g” at the end.`,
   },
   {
-    id: "ce-zi",
-    label: "c · z",
-    test: (w) => /z|c[eiéí]/.test(w),
-    tip: (w, shown) => `In “${shown}”, z or c before e, i is /θ/ in Spain, like th in “think”: tongue tip between your teeth, only air. Not ts, not ch. (Southern Spain and Latin America say s here, and that is fine too.)`,
+    id: "u-ou",
+    label: "u · ou",
+    test: (w) => /ou|où|[ûù]|(^|[^aeoqg])u/.test(w),
+    tip: (w, shown) =>
+      /ou|où/.test(w)
+        ? `“${shown}” has ou: as in “you”, lips round, tongue back. It is not the French u: tout is not tu.`
+        : `“${shown}” has French u: say “ee”, then round your lips and keep your tongue forward. It is not “oo”: tu is not tout, rue is not roue.`,
   },
   {
-    id: "j-g",
-    label: "j · g",
-    test: (w) => /j|g[eiéí]/.test(w),
-    tip: (w, shown) => `In “${shown}”, j or g before e, i is a rasp at the back of your mouth, like ch in Scottish “loch”. Not the j in “jam”. Like “trabajo”, “gente”.`,
+    id: "eu",
+    label: "eu",
+    test: (w) => /eu|œu/.test(w),
+    tip: (w, shown) => `In “${shown}” say eu: start from é and round your lips. It is the vowel of “fur” without the r, never ou. Like “deux”, “peur”.`,
   },
   {
     id: "r",
-    label: "r · rr",
+    label: "r",
     test: (w) => w.includes("r"),
+    tip: (w, shown) => `The r in “${shown}” is made at the back of the mouth, with a little friction, like a soft gargle. The tip of your tongue stays down behind your bottom teeth. Not the English r, not a trill. Like “rue”, “merci”.`,
+  },
+  {
+    id: "e-muet",
+    label: "e muet",
+    test: (w) => /e$|es$|[^aeiou]ent$|^[bcdjlmnpqrstv]e[^aeiouyéèêr]/.test(w),
+    tip: (w, shown) => `A final e, as in “${shown}”, is not said, and a short e in the middle of a phrase is weak and often dropped. Say the consonant before it: table sounds like “tabl”, demain like “d'main”.`,
+  },
+  {
+    id: "liaison",
+    label: "liaison",
+    test: (w) => LIAISON_WORDS.test(w),
+    tip: (w, shown) => `“${shown}” usually links to a vowel after it: its last letter is said (as z or n). Like les amis (lé-z-ami), un ami (u-n-ami). After et there is never a liaison.`,
+  },
+  {
+    id: "silent",
+    label: "silent letters",
+    test: (w) => /(t|s|d|x|p|z|g)$|[^aeiouyéèêàâîïôû]ent$|er$|ez$/.test(w),
+    tip: (w, shown) => `The last letter of “${shown}” is usually silent. Don't say it: petit sounds like “peti”, parler like “parlé”, ils parlent like “il parle”. It comes back only before a vowel, in a liaison.`,
+  },
+  {
+    id: "e-accent",
+    label: "é · è · ê",
+    test: (w) => /[éèêë]|e(ll|rr|tt|ss)/.test(w),
+    tip: (w, shown) => `In “${shown}” the accent shows the vowel: é is closed, without the glide of “say”; è and ê are open, as in “bed”. Keep your mouth still while you say it.`,
+  },
+  {
+    id: "ch-j",
+    label: "ch · j · g",
+    test: (w) => /ch|j|g[eiéèy]/.test(w),
+    tip: (w, shown) => `In “${shown}”, ch is like sh in “shop”, and j (or g before e, i) is the voiced sound in “measure”. Not the j in “jam”, not a rasp at the back of your mouth.`,
+  },
+  {
+    id: "s-z",
+    label: "s · z · ç",
+    test: (w) => new RegExp(`[${V}]s[${V}]|ss|ç|c[eiéèy]`).test(w),
     tip: (w, shown) =>
-      STRONG_R.test(w)
-        ? `“${shown}” has a strong r: several quick taps of the tongue tip behind your top teeth. Not in the throat. Like “perro”, “rojo”.`
-        : `The r in “${shown}” is one quick tap of the tongue tip behind your top teeth. Don't curl your tongue back. Like “pero”, “caro”.`,
-  },
-  {
-    id: "ll-y",
-    label: "ll · y",
-    test: (w) => new RegExp(`ll|y[${V}]`).test(w),
-    tip: () => "In most of Spain, ll and y are the same sound: y in “yes”, a little stronger. It is never an l. Like “calle”, “yo”.",
-  },
-  {
-    id: "ch",
-    label: "ch",
-    test: (w) => w.includes("ch"),
-    tip: () => "ch is one sound, as in “church”: first the tongue touches the roof of your mouth, then lets go. Not sh, not k. Like “ocho”, “noche”.",
-  },
-  {
-    id: "qu-gu",
-    label: "qu · gu",
-    test: (w) => /qu|gu[eiéí]|gü/.test(w),
-    tip: (w, shown) =>
-      w.includes("gü")
-        ? `In “${shown}” you say the u: the two dots tell you to. Like “pingüino”, “vergüenza”.`
-        : `In “${shown}” the u is silent: que sounds like “ke”, gue like “ge” with the g of “go”.`,
-  },
-  {
-    id: "h",
-    label: "h",
-    test: (w) => /(^|[^c])h/.test(w),
-    tip: (w, shown) => `The h in “${shown}” is silent. Don't breathe out first: start straight on the next vowel. hola sounds just like ola.`,
+      new RegExp(`[${V}]s[${V}]`).test(w)
+        ? `In “${shown}” the s between two vowels is a z: maison, cuisine. A double ss is always s: poisson (fish) is not poison.`
+        : `In “${shown}” the sound is a sharp s: ss, ç and c before e or i. Like “poisson”, “français”, “cinéma”.`,
   },
   {
     id: "b-v",
     label: "b · v",
     test: (w) => /[bv]/.test(w),
-    tip: (w) =>
-      new RegExp(`[${V}][bv][${V}]`).test(w)
-        ? "b and v are the same sound. Between vowels it is soft: your lips almost touch, and your teeth stay away from your lip. Like “abuela”, “nuevo”."
-        : "b and v are the same sound: close both lips. Your top teeth never touch your lip. Like “vino”, “bien”.",
+    tip: (w, shown) => `In “${shown}” b uses both lips, and v puts your top teeth on your bottom lip, with voice. French has both: vin is not bain.`,
   },
   {
-    id: "d",
-    label: "d",
-    test: (w) => /[^nl]d/.test(w),
-    tip: (w, shown) => `The d in “${shown}” is soft, like th in “this”: the tongue only just touches your teeth, and the air keeps flowing. Like “nada”, “Madrid”.`,
+    id: "gn",
+    label: "gn · ill",
+    test: (w) => /gn|ill/.test(w),
+    tip: (w, shown) => `In “${shown}” gn is one sound, like ny in “canyon”, and ill is usually the y of “yes”. Like “montagne”, “fille”.`,
   },
   {
-    id: "acento",
+    id: "h",
+    label: "h",
+    test: (w) => /^h/.test(w),
+    tip: (w, shown) => `The h in “${shown}” is silent. Start straight on the next vowel, and link it to the word before: l'homme, les hommes (lé-z-omme).`,
+  },
+  {
+    id: "stress",
     label: "stress",
-    test: (w) => /[áéíóú]/.test(w),
-    tip: (w, shown) => `The written accent shows the strong syllable of “${shown}”. Keep the stress there, because moving it can change the word: hablo (I speak), habló (she spoke).`,
+    test: (w) => new RegExp(`[${V}]+[^${V}]+[${V}]`).test(w),
+    tip: (w, shown) => `In French no syllable of “${shown}” stands out. Keep them even, and make only the last syllable of the group a little longer and higher: cho-co-LAT.`,
   },
   {
-    id: "vocal",
+    id: "vowels",
     label: "vowels",
     test: (w) => new RegExp(`[${V}][^${V}]+[${V}]`).test(w),
-    tip: (w, shown) => `Keep every vowel of “${shown}” short and clear, stressed or not. Spanish vowels don't glide and don't get weak.`,
+    tip: (w, shown) => `Keep every vowel of “${shown}” short and pure, stressed or not. French vowels don't glide (é is not “ay”) and don't get weak.`,
   },
 ];
 
@@ -100,7 +117,7 @@ const GENERIC = "Listen to the word again and repeat it slowly, one syllable at 
 
 /**
  * The tip for one word. Sounds the sentence was chosen to practise come first, so a
- * learner on the r sentence hears about r even if the word also has a b. Without a focus the
+ * learner on the r sentence hears about r even if the word also has a nasal vowel. Without a focus the
  * order of SOUNDS decides: the narrowest and most-often-wrong sounds come first.
  * @param {string} word as shown in the sentence (punctuation is ignored)
  * @param {string[]} [focus] the sentence's focus sound ids

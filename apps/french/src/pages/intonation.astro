@@ -260,9 +260,9 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
   const synth = "speechSynthesis" in window ? window.speechSynthesis : null;
   let enVoice: SpeechSynthesisVoice | null = null;
   const pickVoice = () => {
-    const all = synth?.getVoices().filter((x) => /^es/i.test(x.lang)) ?? [];
-    // Spain first (the site's variety), then any Spanish voice.
-    const es = all.filter((x) => /^es[-_]ES/i.test(x.lang));
+    const all = synth?.getVoices().filter((x) => /^fr/i.test(x.lang)) ?? [];
+    // France first (the site's variety), then any French voice (never another language's).
+    const es = all.filter((x) => /^fr[-_]FR/i.test(x.lang));
     const v = es.length ? es : all;
     enVoice = v.find((x) => /natural|online|neural|premium/i.test(x.name)) ?? v[0] ?? null;
   };
@@ -280,7 +280,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
     return new Promise((res) => {
       if (!synth) return res();
       const u = new SpeechSynthesisUtterance(text);
-      u.lang = "es-ES";
+      u.lang = "fr-FR";
       if (enVoice) u.voice = enVoice;
       u.pitch = pitch; u.rate = rate;
       let done = false;
@@ -465,7 +465,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
   // ---- 2: quiz ----
   const qSent = document.getElementById("sm-q-sent")!, qFb = document.getElementById("sm-q-fb")!;
   const qBtns = [...document.querySelectorAll<HTMLButtonElement>("#sm-q-answers [data-a]")];
-  const MARK: Record<string, [string, string]> = { aussage: ["", "."], echo: ["¿", "?"], ausruf: ["¡", "!"] };
+  const MARK: Record<string, [string, string]> = { aussage: ["", "."], echo: ["", "?"], ausruf: ["", "!"] };
   const WHY: Record<string, () => string> = {
     aussage: () => t("satzmelodie.why.aussage", "Aussage: Die Stimme geht am Ende nach unten ↘."),
     echo: () => t("satzmelodie.why.echo", "Nachfrage: Die Stimme geht am Ende deutlich nach oben ↗. Man ist überrascht oder prüft, ob man richtig gehört hat. Keine normale Frage — die hat das Verb auf Position 1."),
@@ -479,7 +479,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
     cur = { base: D.quiz[i].base, t, src: D.quiz[i].src[t] };
     answered = false;
     qSent.innerHTML = "";
-    // Spanish marks both ends: the opening mark is only filled in with the answer, or it would give it away.
+    // French has no opening mark: the gap after the sentence is only filled in with the answer, or it would give it away.
     qSent.append(Object.assign(document.createElement("span"), { className: "sm-gap-open" }), cur.base, Object.assign(document.createElement("span"), { className: "sm-gap", textContent: " " }));
     qFb.textContent = ""; qFb.className = "sm-fb";
     qBtns.forEach((b) => (b.className = "sm-btn"));

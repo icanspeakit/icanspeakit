@@ -12,7 +12,7 @@
 // editing one JSON file.
 //
 // AUDIO — until scripts/generate-grammatik-audio.mjs has run for a topic, every line is
-// spoken by the browser's Spanish (es-ES) SpeechSynthesis voice. Quality varies by OS and the
+// spoken by the browser's French (fr-FR) SpeechSynthesis voice. Quality varies by OS and the
 // voice can be absent entirely. Every item may carry an `audio` path; when it does the
 // file wins and the synthesiser is never touched, so the generator is purely additive and
 // nothing in this module changes when the mp3s land.
@@ -28,12 +28,12 @@ export function makeVoice() {
   function pickVoice() {
     if (!synth) return;
     const voices = synth.getVoices();
-    // A real es-ES voice first (the course's standard); some platforms only ship another
-    // Spanish, still better than an English voice reading "hoy" as "hoy-ee".
+    // A real fr-FR voice first (the course's standard); some platforms only ship another
+    // French (fr-CA, fr-BE), still better than an English voice reading "rue" as "roo".
     preferred =
-      voices.find((v) => v.lang === "es-ES" && /google|natural|premium|siri/i.test(v.name)) ||
-      voices.find((v) => v.lang === "es-ES") ||
-      voices.find((v) => v.lang && v.lang.startsWith("es")) ||
+      voices.find((v) => v.lang === "fr-FR" && /google|natural|premium|siri/i.test(v.name)) ||
+      voices.find((v) => v.lang === "fr-FR") ||
+      voices.find((v) => v.lang && v.lang.startsWith("fr")) ||
       null;
   }
   pickVoice();
@@ -72,7 +72,7 @@ export function makeVoice() {
       if (!synth) return done();
 
       const u = new SpeechSynthesisUtterance(text);
-      u.lang = "es-ES";
+      u.lang = "fr-FR";
       u.rate = rate * 0.95;
       if (preferred) u.voice = preferred;
       u.onend = done;

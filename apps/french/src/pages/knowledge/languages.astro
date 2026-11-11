@@ -518,7 +518,7 @@ const vars = (v: Record<string, unknown>) => JSON.stringify(v);
     const fromUrl = new URLSearchParams(location.search).get("lang");
     // No first language set: guess from the language the site is read in. English is the base
     // language and opens when nothing else is known.
-    const BY_UI: Record<string, string> = { en: "englisch", de: "deutsch", fr: "franzoesisch", pt: "portugiesisch", it: "italienisch", ro: "rumaenisch", ar: "arabisch", ru: "russisch", uk: "ukrainisch", zh: "chinesisch" };
+    const BY_UI: Record<string, string> = { en: "englisch", de: "deutsch", es: "spanisch", pt: "portugiesisch", it: "italienisch", ro: "rumaenisch", ar: "arabisch", ru: "russisch", uk: "ukrainisch", zh: "chinesisch" };
     const has = (id: string | null) => !!id && panels.some((p) => p.dataset.cmpPanel === id);
     const start = [fromUrl, getMuttersprache(), BY_UI[getLang()], "englisch"].find(has);
     if (start) choose(start);
