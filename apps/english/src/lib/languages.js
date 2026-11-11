@@ -78,6 +78,13 @@ export const LANGUAGE_REGISTRY = [
     hreflang: "pt-PT", urlPrefix: "pt",
     surfaces: { ui: { status: "draft" } },
   },
+  // French UI (ui-lang-fr): machine draft, tu-form, not yet read by a native speaker. Same gating as de/es/pt.
+  {
+    code: "fr", native: "Français", de: "Französisch", en: "French", word: "Langue",
+    dir: "ltr", script: "Latn", region: "europa", fontFamily: null,
+    hreflang: "fr", urlPrefix: "fr",
+    surfaces: { ui: { status: "draft" } },
+  },
   // To add a language: copy the entry above, set code/native/dir/script (and fontFamily for
   // non-Latin scripts, hreflang/urlPrefix for its own entry-page URLs), start every surface
   // as { status: "draft" }, and add public/i18n/<code>.json. RTL (dir: "rtl") is already
