@@ -1,4 +1,5 @@
 ---
+import PostHog from '../components/posthog.astro';
 import '../styles/hub.css';
 
 interface Props {
@@ -28,6 +29,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL('/logos/icanspeakit-mark-1024.png', Astro.site).href} />
+    <PostHog />
   </head>
   <body>
     <header class="site-header">

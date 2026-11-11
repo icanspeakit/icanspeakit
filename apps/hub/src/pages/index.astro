@@ -24,7 +24,13 @@ import { COURSES } from '../data/courses';
         {COURSES.map((c) => (
           <li>
             {c.live ? (
-              <a class="course" href={`/${c.slug}/`} lang={c.slug === 'english' ? 'en' : undefined}>
+              <a
+                class="course"
+                href={`/${c.slug}/`}
+                lang={c.slug === 'english' ? 'en' : undefined}
+                data-course-slug={c.slug}
+                data-course-language={c.english}
+              >
                 <span class="tag tag--live">Open</span>
                 <span class="course__code">{c.code}</span>
                 <span class="course__name">{c.name}</span>
@@ -57,12 +63,38 @@ import { COURSES } from '../data/courses';
           </p>
         </div>
         <ul>
-          <li><a href="/linguistics/blog/">Word stories <span>Magazine</span></a></li>
-          <li><a href="/linguistics/words/">Word cards <span>Bite-sized</span></a></li>
-          <li><a href="/linguistics/exercises/">Speech exercises <span>Practice</span></a></li>
-          <li><a href="/linguistics/">All of linguistics <span>→</span></a></li>
+          <li><a href="/linguistics/blog/" data-linguistics-resource="word_stories">Word stories <span>Magazine</span></a></li>
+          <li><a href="/linguistics/words/" data-linguistics-resource="word_cards">Word cards <span>Bite-sized</span></a></li>
+          <li><a href="/linguistics/exercises/" data-linguistics-resource="speech_exercises">Speech exercises <span>Practice</span></a></li>
+          <li><a href="/linguistics/" data-linguistics-resource="linguistics_hub">All of linguistics <span>→</span></a></li>
         </ul>
       </div>
     </div>
   </section>
 </Hub>
+
+<script is:inline>
+  document.querySelectorAll('[data-course-slug]').forEach((course) => {
+    course.addEventListener('click', () => {
+      window.posthog?.capture('course_selected', {
+        course_slug: course.dataset.courseSlug,
+        course_language: course.dataset.courseLanguage,
+      });
+      window.posthog?.logger?.info('course navigation selected', {
+        course_slug: course.dataset.courseSlug,
+        course_language: course.dataset.courseLanguage,
+      });
+    });
+  });
+
+  document.querySelectorAll('[data-linguistics-resource]').forEach((resource) => {
+    resource.addEventListener('click', () => {
+      window.posthog?.capture('linguistics_resource_opened', {
+        resource: resource.dataset.linguisticsResource,
+      });
+      window.posthog?.logger?.info('linguistics resource navigation selected', {
+        resource: resource.dataset.linguisticsResource,
+      });
+    });
+  });
+</script>
