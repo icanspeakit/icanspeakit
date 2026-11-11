@@ -1,12 +1,13 @@
 // "Correct my text" on a writing task (/writing/[id]).
 //
 // Two checkers, one result:
-//   1. Our own rules, in the browser: what only the task knows, plus what learners of Spanish
-//      get wrong all the time: ¿ and ¡, accents on question words and on words that always
-//      carry one, capitals on days and months, the punctuation of a greeting, a few fixed
-//      gender and contraction errors, "soy cansado", "yo" at the start of every sentence, a
-//      greeting and sign-off, the word count the task asks for.
-//   2. LanguageTool (api.languagetool.org, language "es"): spelling and a good share of
+//   1. Our own rules, in the browser: what only the task knows, plus what learners of French
+//      get wrong all the time: the non-breaking space before ? ! : ;, missing accents on words
+//      that always carry one (déjà, très, ça), capitals on days and months, the punctuation of a
+//      greeting (a comma), a few fixed gender, contraction and elision errors (à le, je ai),
+//      "je suis 30 ans", "je" at the start of every sentence, a greeting and sign-off, the
+//      word count the task asks for.
+//   2. LanguageTool (api.languagetool.org, language "fr"): spelling and a good share of
 //      grammar. Only if BACKEND.languageTool is on, and it is OFF: this site sends nothing
 //      anywhere. With it off the panel says these are basic checks, not a full correction.
 //      Turning it on also needs schreiben.privacy in en.json to mention it again.
@@ -23,7 +24,7 @@ const COOLDOWN_MS = 6000; // a click every few seconds is plenty; LanguageTool a
 export const CATS = ["grammatik", "ausdruck", "satzzeichen", "rechtschreibung"];
 
 // UI strings in the UI language. The findings stay English on purpose: English is the course's
-// explanation language (the text they point at is Spanish).
+// explanation language (the text they point at is French).
 const T = {
   de: {
     button: "Text korrigieren", again: "Noch einmal korrigieren", busy: "Wird geprüft …",
@@ -33,7 +34,7 @@ const T = {
     ltDown: "Die Rechtschreibprüfung ist gerade nicht erreichbar. Unten stehen nur unsere eigenen Hinweise.",
     empty: "Schreib zuerst ein paar Sätze.", wait: "Einen Moment — gleich kannst du wieder prüfen.",
     points: "Hast du an alles gedacht?", hint: "Hinweis",
-    ownOnly: "Das sind Basisprüfungen (¿ ¡, Akzente, Großschreibung, Anrede, Länge), keine vollständige Korrektur. Vergleiche deinen Text auch mit dem Modelltext.",
+    ownOnly: "Das sind Basisprüfungen (geschütztes Leerzeichen vor ? ! : ;, Akzente, Großschreibung, Anrede, Länge), keine vollständige Korrektur. Vergleiche deinen Text auch mit dem Modelltext.",
     noneOwn: "Die Basisprüfungen haben nichts gefunden.",
   },
   en: {
@@ -44,7 +45,7 @@ const T = {
     ltDown: "The spelling check is not reachable right now. Only our own hints are shown below.",
     empty: "Write a few sentences first.", wait: "One moment — you can check again shortly.",
     points: "Did you cover everything?", hint: "Hint",
-    ownOnly: "These are basic checks (¿ ¡, accents, capitals, greeting, length), not a full correction. Compare your text with the model text too.",
+    ownOnly: "These are basic checks (a non-breaking space before ? ! : ;, accents, capitals, greeting, length), not a full correction. Compare your text with the model text too.",
     noneOwn: "The basic checks found nothing.",
   },
   fr: {
@@ -55,7 +56,7 @@ const T = {
     ltDown: "Le correcteur orthographique n'est pas accessible pour le moment. Seules nos remarques s'affichent ci-dessous.",
     empty: "Écris d'abord quelques phrases.", wait: "Un instant : tu pourras vérifier à nouveau bientôt.",
     points: "As-tu pensé à tout ?", hint: "Remarque",
-    ownOnly: "Ce sont des vérifications de base (¿ ¡, accents, majuscules, formule d'appel, longueur), pas une correction complète. Compare aussi ton texte avec le texte modèle.",
+    ownOnly: "Ce sont des vérifications de base (espace insécable avant ? ! : ;, accents, majuscules, formule d'appel, longueur), pas une correction complète. Compare aussi ton texte avec le texte modèle.",
     noneOwn: "Les vérifications de base n'ont rien trouvé.",
   },
   pt: {
@@ -66,7 +67,7 @@ const T = {
     ltDown: "O corretor ortográfico não está disponível no momento. Abaixo estão apenas as nossas observações.",
     empty: "Escreva primeiro algumas frases.", wait: "Um momento: logo você poderá verificar de novo.",
     points: "Você pensou em tudo?", hint: "Observação",
-    ownOnly: "Estas são verificações básicas (¿ ¡, acentos, maiúsculas, saudação, extensão), não uma correção completa. Compare também o seu texto com o texto modelo.",
+    ownOnly: "Estas são verificações básicas (espaço inseparável antes de ? ! : ;, acentos, maiúsculas, saudação, extensão), não uma correção completa. Compare também o seu texto com o texto modelo.",
     noneOwn: "As verificações básicas não encontraram nada.",
   },
   it: {
@@ -77,7 +78,7 @@ const T = {
     ltDown: "Il controllo ortografico non è raggiungibile in questo momento. Qui sotto trovi solo i nostri suggerimenti.",
     empty: "Prima scrivi qualche frase.", wait: "Un momento: tra poco puoi controllare di nuovo.",
     points: "Hai pensato a tutto?", hint: "Nota",
-    ownOnly: "Questi sono controlli di base (¿ ¡, accenti, maiuscole, saluto, lunghezza), non una correzione completa. Confronta il tuo testo anche con il testo modello.",
+    ownOnly: "Questi sono controlli di base (spazio unificatore prima di ? ! : ;, accenti, maiuscole, saluto, lunghezza), non una correzione completa. Confronta il tuo testo anche con il testo modello.",
     noneOwn: "I controlli di base non hanno trovato nulla.",
   },
   uk: {
@@ -127,7 +128,7 @@ function ltCat(m) {
 }
 
 async function languageTool(text) {
-  const body = new URLSearchParams({ text, language: "es", level: "default" });
+  const body = new URLSearchParams({ text, language: "fr", level: "default" });
   const res = await fetch(LT_URL, { method: "POST", body });
   if (!res.ok) throw new Error(`LanguageTool ${res.status}`);
   const j = await res.json();
@@ -146,36 +147,49 @@ async function languageTool(text) {
 
 // ---- Our own rules ------------------------------------------------------------------
 
-// A statement can start with almost anything, and "Qué alegría." or "Cuánto me alegro." are
-// exclamations, so only words that make a sentence a question beyond doubt count here.
-const QUESTION_START = /^(Dónde|Adónde|Cuándo|Quién(?:es)?|Cuál(?:es)?|Por qué|Podrías)(?![\p{L}])/u;
-// Question words that need their accent straight after ¿. "¿Por qué" has its own rule below.
-const QUESTION_WORD = { que: "qué", como: "cómo", donde: "dónde", adonde: "adónde", cuando: "cuándo", quien: "quién", quienes: "quiénes", cual: "cuál", cuales: "cuáles", cuanto: "cuánto", cuanta: "cuánta", cuantos: "cuántos", cuantas: "cuántas" };
-// Only words with one possible spelling, so the hint can't be wrong: "esta/está", "si/sí", "tu/tú",
-// "el/él", "mi/mí", "hablo/habló" depend on the sentence and are left to a person.
-const withoutAcute = (w) => w.normalize("NFD").replace(/́/g, "").normalize("NFC");
-const ALWAYS_ACCENT = Object.fromEntries(
-  "también aquí allí así además después adiós más días sábado miércoles teléfono móvil número fácil difícil música médica rápido según quizás lápiz árbol país ningún algún común autobús avión camión jardín inglés francés alemán portugués japonés"
-    .split(" ").map((w) => [withoutAcute(w), w]),
-);
-// JavaScript's \b counts "í" as a word break ("mejoraría el" would look like "a el"), so these
-// patterns use letter lookarounds instead.
-const CAPITAL_DATE = /(?<=(?<!\p{L})(?:el|los|este|cada|del|próximo)\s)(?:Lunes|Martes|Miércoles|Jueves|Viernes|Sábado|Domingo)(?!\p{L})|(?<=(?<!\p{L})(?:de|en|hasta|desde)\s)(?:Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)(?!\p{L})/gu;
-// Fixed errors: wrong in any sentence these words can appear in. "a el" and "de el" keep a
-// small "el", because "de El País" is correct.
-const SER_ESTAR = { soy: "estoy", eres: "estás", somos: "estamos", sois: "estáis" };
+// Only words that make a sentence a question beyond doubt count here.
+const QUESTION_START = /^(Est-ce que|Pourquoi|Pouvez-vous|Pourriez-vous|Avez-vous|Auriez-vous|Peux-tu|Pourrais-tu|Où est|Où sont|Quand est|Combien de)(?![\p{L}])/u;
+const NBSP = " ";
+// Only words with one possible spelling, so the hint can't be wrong: "a/à", "ou/où", "sur/sûr",
+// "du/dû" depend on the sentence and are left to a person.
+const ALWAYS_ACCENT = {
+  deja: "déjà", tres: "très", apres: "après", etre: "être", eleve: "élève", eleves: "élèves", ecole: "école",
+  francais: "français", francaise: "française", etudiant: "étudiant", etudiante: "étudiante", etudes: "études",
+  probleme: "problème", problemes: "problèmes", systeme: "système", theme: "thème", mere: "mère", pere: "père",
+  frere: "frère", meme: "même", cafe: "café", voila: "voilà", bientot: "bientôt", plutot: "plutôt", aout: "août",
+  fevrier: "février", decembre: "décembre", ete: "été", numero: "numéro", telephone: "téléphone", prefecture: "préfecture",
+  reponse: "réponse", recu: "reçu", lecon: "leçon", garcon: "garçon", dejeuner: "déjeuner", reunion: "réunion",
+  quartier: "quartier", appartement: "appartement", resume: "résumé", demenagement: "déménagement", demenager: "déménager",
+  adresse: "adresse", cote: "côté", hopital: "hôpital", pret: "prêt", ecrire: "écrire", ecris: "écris", echeance: "échéance",
+  eteint: "éteint", electricite: "électricité", memoire: "mémoire", medecin: "médecin", sante: "santé", securite: "sécurité",
+  societe: "société", presente: "présente", cordialement: "cordialement", desole: "désolé", desolee: "désolée",
+  ca: "ça", a_bientot: "à bientôt",
+};
+delete ALWAYS_ACCENT.quartier; delete ALWAYS_ACCENT.appartement; delete ALWAYS_ACCENT.adresse;
+delete ALWAYS_ACCENT.cordialement; delete ALWAYS_ACCENT.a_bientot;
+// "Le Lundi", "en Mars": days and months take a small letter in French. Letter lookarounds,
+// because \b counts "é" as a word break.
+const CAPITAL_DATE = /(?<=(?<!\p{L})(?:le|ce|du|chaque|prochain)\s)(?:Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche)(?!\p{L})|(?<=(?:(?<!\p{L})(?:en|de|mi|début|fin)\s|d'|\d\s|1er\s))(?:Janvier|Février|Mars|Avril|Mai|Juin|Juillet|Août|Septembre|Octobre|Novembre|Décembre)(?!\p{L})/gu;
+// Fixed errors: wrong in any sentence these words can appear in.
+const MASC = "problème|logement|document|appartement|dossier|travail|courriel|bureau|contrat|loyer|titre|chauffage|immeuble|rendez-vous|certificat|justificatif|formulaire";
+const FEM = "maison|lettre|demande|réunion|facture|chambre|adresse|attestation|préfecture|mairie|caution|carte|date|candidature|réclamation|réponse|signature|pièce";
 const FIXED = [
-  [/(?<!\p{L})la (problema|sistema|tema|idioma|día|mapa)(?!\p{L})/giu, (m) => `el ${m[1]}`, "This word is masculine, even though it ends in -a."],
-  [/(?<!\p{L})una (problema|sistema|tema|idioma|día|mapa)(?!\p{L})/giu, (m) => `un ${m[1]}`, "This word is masculine, even though it ends in -a."],
-  [/(?<!\p{L})el (mano|foto|moto|gente|noche|calle|clase|leche)(?!\p{L})/giu, (m) => `la ${m[1]}`, "This word is feminine."],
-  [/(?<!\p{L})un (mano|foto|moto|gente|noche|calle|clase|leche)(?!\p{L})/giu, (m) => `una ${m[1]}`, "This word is feminine."],
-  [/(?<!\p{L})[Aa] el(?!\p{L})/gu, () => "al", "“a” + “el” contracts to “al”."],
-  [/(?<!\p{L})[Dd]e el(?!\p{L})/gu, () => "del", "“de” + “el” contracts to “del”."],
-  [/(?<!\p{L})muy mucho(?!\p{L})/giu, () => "muchísimo", "“Muy” does not go with “mucho”: say “mucho” or “muchísimo”."],
-  [/(?<!\p{L})(soy|eres|somos|sois) (cansad[oa]s?|enferm[oa]s?|content[oa]s?)(?!\p{L})/giu, (m) => `${SER_ESTAR[m[1].toLowerCase()]} ${m[2]}`, "For a state or feeling, Spanish uses “estar”, not “ser”."],
+  [new RegExp(`(?<!\\p{L})(la|une) (${MASC})(?!\\p{L})`, "giu"), (m) => `${m[1].toLowerCase() === "la" ? "le" : "un"} ${m[2]}`, "This noun is masculine."],
+  [new RegExp(`(?<!\\p{L})(le|un) (${FEM})(?!\\p{L})`, "giu"), (m) => `${m[1].toLowerCase() === "le" ? "la" : "une"} ${m[2]}`, "This noun is feminine."],
+  [/(?<!\p{L})à le(?!\p{L})/giu, () => "au", "“à” + “le” contracts to “au”."],
+  [/(?<!\p{L})à les(?!\p{L})/giu, () => "aux", "“à” + “les” contracts to “aux”."],
+  [/(?<!\p{L})de le(?!\p{L})/giu, () => "du", "“de” + “le” contracts to “du”."],
+  [/(?<!\p{L})de les(?!\p{L})/giu, () => "des", "“de” + “les” contracts to “des”."],
+  [/(?<!\p{L})[Jj]e (ai|aime|habite|arrive|écris|attends|espère|étais|essaie|ouvre)(?!\p{L})/gu, (m) => `j'${m[1]}`, "“je” elides before a vowel or mute h: “j'ai”, “j'habite”."],
+  [/(?<!\p{L})[Cc]e est(?!\p{L})/gu, () => "c'est", "“ce” + “est” becomes “c'est”."],
+  [/(?<!\p{L})[Ss]i (il|ils)(?!\p{L})/gu, (m) => `s'${m[1]}`, "“si” elides before “il”/“ils”: “s'il vous plaît”, “s'ils”."],
+  [/(?<!\p{L})que (il|elle|ils|elles|on)(?!\p{L})/giu, (m) => `qu'${m[1]}`, "“que” elides before a vowel: “qu'il”, “qu'elle”."],
+  [/(?<!\p{L})([Jj]e|[Ii]l|[Ee]lle|[Oo]n) à (été|fait|eu|dit|reçu|pris|vu)(?!\p{L})/gu, (m) => `${m[1]} a ${m[2]}`, "“a” (from “avoir”) takes no accent: “il a été”."],
+  [/(?<!\p{L})[Jj]e suis (\d+) ans(?!\p{L})/gu, (m) => `j'ai ${m[1]} ans`, "French gives age with “avoir”: “j'ai 30 ans”."],
+  [/(?<!\p{L})très beaucoup(?!\p{L})/giu, () => "beaucoup", "“Très” does not go with “beaucoup”: say “beaucoup” or “très bien”."],
 ];
-const GREETING = /^(Hola|Buen[oa]s|Estimad[oa]s?|Querid[oa]s?|Señor|Señora|Sr\.|Sra\.|Muy señor|A quien corresponda|A la atención)(?![\p{L}])/iu;
-const SIGN_OFF = /(saludos?|atentamente|cordialmente|abrazos?|besos?|besitos|hasta (pronto|luego|mañana)|nos vemos|gracias|cuídate)/iu;
+const GREETING = /^(Bonjour|Bonsoir|Salut|Coucou|Madame|Monsieur|Mesdames|Chère?s?|Chères|À l'attention|A l'attention|Objet)(?![\p{L}])/iu;
+const SIGN_OFF = /(cordialement|salutations|bien à vous|bien a vous|amicalement|bises?|bisous|à bientôt|a bientot|à très bientôt|à plus|merci|bonne (journée|soirée)|veuillez agréer|je vous prie d'agréer|dans l'attente|amitiés|je t'embrasse|à demain|à samedi|à dimanche)/iu;
 const count = (s, ch) => s.split(ch).length - 1;
 const keepCase = (src, fix) => (src[0] === src[0].toUpperCase() ? fix[0].toUpperCase() + fix.slice(1) : fix);
 
@@ -183,8 +197,7 @@ function ownRules(text, task) {
   const out = [];
   const add = (cat, offset, length, message, replacements = []) => out.push({ cat, offset, length, message, replacements, source: "own" });
 
-  // A "sentence" here runs to the next end mark, so "Sra." and "3.º" cut one in two: the marks
-  // are compared over the whole line, never inside one piece.
+  // A "sentence" here runs to the next end mark, so "M." and "3e" can cut one in two.
   const sentences = [...text.matchAll(/[^.!?\n]+[.!?]*/g)];
   for (const s of sentences) {
     const raw = s[0];
@@ -194,96 +207,80 @@ function ownRules(text, task) {
     if (!sentence) continue;
     const start = s.index + lead;
     const endAt = s.index + body.length;
-    const last = sentence.at(-1);
-    const lineStart = text.lastIndexOf("\n", start - 1) + 1;
-    const lineSoFar = text.slice(lineStart, endAt);
-    const restOfLine = text.slice(start).split("\n")[0];
-
-    // 1. ¿ and ¡ open what ? and ! close. A clause may open mid-sentence ("Hola, ¿qué tal?").
-    if (last === "?" && count(lineSoFar, "¿") < count(lineSoFar, "?")) add("satzzeichen", start, 0, "Spanish opens a question with “¿”.", ["¿"]);
-    if (last === "!" && count(lineSoFar, "¡") < count(lineSoFar, "!")) add("satzzeichen", start, 0, "Spanish opens an exclamation with “¡”.", ["¡"]);
-    if (sentence.includes("¿") && !restOfLine.includes("?")) add("satzzeichen", endAt - 1, 1, "A question that opens with “¿” closes with “?”.", [`${last === "." ? "" : last}?`]);
-    if (sentence.includes("¡") && !restOfLine.includes("!")) add("satzzeichen", endAt - 1, 1, "An exclamation that opens with “¡” closes with “!”.", [`${last === "." ? "" : last}!`]);
-
     const words = sentence.split(/\s+/);
     const lastWord = words.at(-1);
-    // 2. An accented question word with no question marks at all.
+    // 1. A question that starts like one but has no question mark.
     if (QUESTION_START.test(sentence) && !/[?!]/.test(sentence) && words.length >= 3) {
-      add("satzzeichen", endAt - lastWord.length, lastWord.length, "A question ends with “?” and opens with “¿”.", [`${lastWord.replace(/[.,]$/, "")}?`]);
+      add("satzzeichen", endAt - lastWord.length, lastWord.length, "A question ends with “?”, and French puts a non-breaking space before it.", [`${lastWord.replace(/[.,]$/, "")}${NBSP}?`]);
     }
-    // 3. The text needs a final mark. A last line of capitalised words is a signature.
+    // 2. The text needs a final mark. A last line of capitalised words is a signature.
     const isLast = start + sentence.length === text.trimEnd().length;
     if (isLast && words.length >= 3 && !/[.!?:,]$/.test(sentence) && words.some((w) => /^\p{Ll}/u.test(w))) {
       add("satzzeichen", endAt - lastWord.length, lastWord.length, "The sentence needs a full stop at the end.", [`${lastWord}.`]);
     }
   }
 
-  // 4. Accents on question words after ¿.
-  for (const m of text.matchAll(/¿\s*(\p{L}+)/gu)) {
-    const fix = QUESTION_WORD[m[1].toLowerCase()];
-    if (fix) add("rechtschreibung", m.index + m[0].length - m[1].length, m[1].length, "Question words carry a written accent.", [keepCase(m[1], fix)]);
+  // 3. French typography: a space before ? ! ; : (a non-breaking one is the standard; a normal
+  //    space is accepted by most readers, no space at all is the mistake English speakers make).
+  //    A colon inside a time (10:00) or a web address is left alone.
+  for (const m of text.matchAll(/(?<=\p{L}|[)»"0-9])([ ]?)([?!;:])(?=\s|$)/gu)) {
+    add("satzzeichen", m.index, m[1].length, "French writes a non-breaking space before ? ! ; and : — “Vous venez ?”, “Attention !”.", [NBSP]);
   }
-  for (const m of text.matchAll(/¿\s*por que(?!\p{L})/giu)) {
-    add("rechtschreibung", m.index + m[0].length - 3, 3, "“¿Por qué?” is two words, with an accent.", ["qué"]);
-  }
-
-  // 5. Words that always carry an accent, and every word ending in -cion or -sion.
+  // 4. Words that always carry an accent when written correctly.
   for (const m of text.matchAll(/\p{L}+/gu)) {
     const low = m[0].toLowerCase();
-    const fix = ALWAYS_ACCENT[low] !== low && ALWAYS_ACCENT[low]
-      ? ALWAYS_ACCENT[low]
-      : /.[cs]ion$/.test(low) ? low.replace(/ion$/, "ión") : null;
-    if (fix) add("rechtschreibung", m.index, m[0].length, "This word needs a written accent. In Spanish it is part of the spelling.", [keepCase(m[0], fix)]);
+    const fix = Object.hasOwn(ALWAYS_ACCENT, low) ? ALWAYS_ACCENT[low] : null;
+    if (fix) add("rechtschreibung", m.index, m[0].length, "This word needs its accent. In French it is part of the spelling.", [keepCase(m[0], fix)]);
   }
 
-  // 6. Days and months take a small letter in Spanish.
+  // 5. Days and months take a small letter in French.
   for (const m of text.matchAll(CAPITAL_DATE)) {
-    add("rechtschreibung", m.index, m[0].length, "Days and months are written with a small letter in Spanish.", [m[0].toLowerCase()]);
+    add("rechtschreibung", m.index, m[0].length, "Days and months are written with a small letter in French.", [m[0].toLowerCase()]);
   }
 
-  // 7. Fixed errors of gender, contraction and ser/estar.
+  // 6. Fixed errors of gender, contraction, elision and a few verbs.
   for (const [re, fix, msg] of FIXED) {
     for (const m of text.matchAll(re)) add("grammatik", m.index, m[0].length, msg, [keepCase(m[0], fix(m))]);
   }
 
-  // 8. "Yo" three times in a row: Spanish verbs already say who it is.
+  // 7. "Je" at the start of three sentences in a row: it reads like a list.
   let run = 0;
   for (const s of sentences) {
     const sentence = s[0].trimStart();
-    if (/^Yo(?!\p{L})/u.test(sentence)) {
+    if (/^(Je|J')(?!\p{L})/u.test(sentence)) {
       run++;
-      if (run === 3) add("ausdruck", s.index + (s[0].length - sentence.length), 2, "Three sentences in a row start with “Yo”. The verb already says who it is, so Spanish usually leaves it out: “Trabajo…”, not “Yo trabajo…”.");
+      if (run === 3) add("ausdruck", s.index + (s[0].length - sentence.length), 2, "Three sentences in a row start with “Je”. Vary the start: “Il y a…”, “C'est…”, “Depuis lundi, …”, “Pourriez-vous…”.");
     } else run = 0;
   }
 
-  // 9. A message, email or letter needs a greeting and a sign-off.
+  // 8. A message, email or letter needs a greeting and a sign-off.
   if (["nachricht", "email", "brief"].includes(task?.type)) {
     const lines = text.split("\n").map((l) => l.trim()).filter(Boolean);
-    // A letter may open with the sender's address, so the greeting can be a few lines down.
-    const greeting = lines.slice(0, 6).find((l) => GREETING.test(l.replace(/^¡/, "")));
+    // A letter may open with the sender's address and the date, so the greeting can be a few lines down.
+    const greeting = lines.slice(0, 8).find((l) => GREETING.test(l));
     if (lines.length && !greeting) {
-      add("ausdruck", 0, 0, "A greeting is missing at the start, e.g. “¡Hola, Lucía!” or “Estimada señora Ortega:”.");
+      add("ausdruck", 0, 0, "A greeting is missing at the start, e.g. “Bonjour Léa,” or “Madame, Monsieur,”.");
     }
-    const tail = lines.slice(-3).join(" ");
+    const tail = lines.slice(-4).join(" ");
     if (lines.length > 1 && !SIGN_OFF.test(tail)) {
-      add("ausdruck", text.trimEnd().length, 0, "A sign-off is missing at the end, e.g. “Un abrazo,” or “Un saludo,”.");
+      add("ausdruck", text.trimEnd().length, 0, "A sign-off is missing at the end, e.g. “Cordialement,” or “À bientôt,”.");
     }
-    // 10. The greeting's punctuation: a comma before the name, and a colon in emails and letters.
+    // 9. The greeting's punctuation: a comma, not a colon; and no comma at all is a gap.
     if (greeting) {
       const lineAt = text.indexOf(greeting);
-      const hola = greeting.match(/^¡?Hola (?=\p{Lu})/u);
-      if (hola) add("satzzeichen", lineAt + hola[0].length - 1, 1, "A comma goes before the person's name: “Hola, Lucía”.", [", "]);
-      if (task.type !== "nachricht" && /^(Estimad[oa]s?|Querid[oa]s?|Buen[oa]s|Hola)(?!\p{L}).*,$/iu.test(greeting) && greeting.split(/\s+/).length <= 6) {
-        add("satzzeichen", lineAt + greeting.length - 1, 1, "In Spanish, the greeting of an email or letter ends with a colon, not a comma.", [":"]);
+      if (/[:;]$/.test(greeting)) {
+        add("satzzeichen", lineAt + greeting.length - 1, 1, "In French the greeting of an email or letter ends with a comma, not a colon: “Madame, Monsieur,”.", [","]);
+      } else if (task.type !== "nachricht" && greeting.split(/\s+/).length <= 6 && !/[,!?]$/.test(greeting) && /^(Bonjour|Bonsoir|Madame|Monsieur|Mesdames|Chère?s?)/iu.test(greeting)) {
+        add("satzzeichen", lineAt + greeting.length, 0, "The greeting ends with a comma: “Bonjour Madame Lefèvre,”.", [","]);
       }
     }
   }
   return out;
 }
 
-/** "(30–40 words)" or "(80–100 palabras)" in the task situation, or null. */
+/** "(30–40 words)" or "(80–100 mots)" in the task situation, or null. */
 export function wordRange(task) {
-  const m = (task?.situation ?? "").match(/(\d+)\s*[–-]\s*(\d+)\s*(words|palabras)/);
+  const m = (task?.situation ?? "").match(/(\d+)\s*[–-]\s*(\d+)\s*(words|mots)/);
   return m ? { min: +m[1], max: +m[2] } : null;
 }
 
@@ -362,13 +359,13 @@ export function mountKorrektur(root, area, task) {
     out.innerHTML = `
       ${!BACKEND.languageTool ? `<p class="skk-note">${esc(t("ownOnly"))}</p>` : ltDown ? `<p class="skk-note">${esc(t("ltDown"))}</p>` : ""}
       <div class="skk-chips">${CATS.map((c) => `<span class="skk-chip skk-${c}${counts[c] ? "" : " is-zero"}"><b>${counts[c]}</b> ${esc(t(c))}</span>`).join("")}</div>
-      ${issues.length ? `<div class="skk-text" lang="es">${marked}</div>` : `<p class="skk-none">${esc(t(BACKEND.languageTool ? "none" : "noneOwn"))}</p>`}
+      ${issues.length ? `<div class="skk-text" lang="fr">${marked}</div>` : `<p class="skk-none">${esc(t(BACKEND.languageTool ? "none" : "noneOwn"))}</p>`}
       ${issues.length ? `<ol class="skk-list">${issues.map((i, k) => {
         const bad = text.slice(i.offset, i.offset + i.length);
         const fix = i.replacements[0];
         return `<li class="skk-item" data-n="${k}">
           <span class="skk-tag skk-${i.cat}">${esc(t(i.cat))}</span>
-          <span class="skk-what" lang="es">${bad.trim() ? `<s>${esc(bad)}</s>` : ""}${fix != null ? ` → <b>${esc(fix.trim() || fix)}</b>` : ""}</span>
+          <span class="skk-what" lang="fr">${bad.trim() ? `<s>${esc(bad)}</s>` : ""}${fix != null ? ` → <b>${esc(fix.trim() || fix)}</b>` : ""}</span>
           <span class="skk-msg" lang="en">${esc(i.message)}</span>
           ${fix != null ? `<button type="button" class="skk-apply" data-apply="${k}">${esc(t("apply"))}</button>` : ""}
         </li>`;
