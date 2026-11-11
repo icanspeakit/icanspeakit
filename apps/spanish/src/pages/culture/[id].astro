@@ -167,6 +167,7 @@ const pc = (key: string) => tx?.prosCons ? Object.fromEntries(Object.entries(tx.
     import { mountQuiz } from "../../lib/quiz.js";
     import { recordAttempt } from "../../lib/progress.js";
     import { currentPath } from "../../lib/paths.js";
+    import { itemKey } from "../../lib/routes.js";
 
     const questions = JSON.parse(document.getElementById("ku-quiz-data").textContent);
     const topicId = itemKey("/culture", currentPath().split("/").filter(Boolean)[1]);

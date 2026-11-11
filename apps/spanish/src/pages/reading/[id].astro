@@ -76,6 +76,7 @@ const help = (uebersetzungen.entries as Record<string, any>)[text.id] ?? null;
     import { mountQuiz } from "../../lib/quiz.js";
     import { recordAttempt } from "../../lib/progress.js";
     import { currentPath } from "../../lib/paths.js";
+    import { itemKey } from "../../lib/routes.js";
 
     const questions = JSON.parse(document.getElementById("sk-quiz-data").textContent);
     const textId = itemKey("/reading", currentPath().split("/").filter(Boolean)[1]);
