@@ -47,7 +47,7 @@ import {
 import { mascotSvg } from "./mascots.js";
 import { onMascotsChange, setMascotsEnabled } from "./mascotPrefs.js";
 import { waitAttrs } from "./notReady.js";
-import { BASE_PATH } from "./paths.js";
+import { BASE_PATH, withBase } from "./paths.js";
 
 /* Everything Bruno says, in one place. Short (≤ 8 words), A1 English, warm, never
    blaming. `text` is what the bubble shows; an optional `help` (a translation into the
@@ -83,7 +83,7 @@ function play(src, text) {
   window.speechSynthesis?.cancel();
   clip = null;
   if (src) {
-    clip = new Audio(src);
+    clip = new Audio(withBase(src));
     return clip.play().catch(() => text && say(text));
   }
   return text ? say(text) : Promise.resolve();

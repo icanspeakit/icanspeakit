@@ -1,3 +1,4 @@
+import { withBase } from "../paths.js";
 // The live quiz's sound: game-show music on the projector and short effects on both
 // screens. The music is CC0 loops from OpenGameArt in public/audio/quiz/ (see
 // TRACKS below); the effects are synthesised with the Web Audio API. If a loop can't be
@@ -287,7 +288,7 @@ export function music(name) {
     out.gain.setValueAtTime(0.0001, ctx.currentTime);
     out.gain.exponentialRampToValueAtTime(0.9, ctx.currentTime + 0.6);
     src.start();
-    current.src = src;
+    current.src = withBase(src);
   });
 }
 

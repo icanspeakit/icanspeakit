@@ -160,7 +160,7 @@ export function mountPlayer(root) {
   nameInput.placeholder = drawn.name;
   const showAvatar = () => {
     const src = avatarSrc(avatar);
-    root.querySelectorAll("[data-name-avatar]").forEach((img) => { if (src) img.src = src; });
+    root.querySelectorAll("[data-name-avatar]").forEach((img) => { if (src) img.src = withBase(src); });
   };
   showAvatar();
   // One tap selects it all, so typing an own name needs no deleting first.
@@ -579,7 +579,7 @@ export function mountPlayer(root) {
 
   function setImg(el, src) {
     el.hidden = !src;
-    if (src) el.src = src;
+    if (src) el.src = withBase(src);
     else el.removeAttribute("src");
   }
 

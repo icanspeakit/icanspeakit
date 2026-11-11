@@ -1,7 +1,7 @@
 import { languagesFor, htmlLang, BASE } from "./languages.js";
 import { loadScriptFont } from "./scriptFonts.js";
 import { applyLangCss } from "./langCss.js";
-import { withBase, stripBase, currentPath } from "./paths.js";
+import { withBase, stripBase, currentPath, rebaseHtml } from "./paths.js";
 
 /** The interface languages, from the registry (src/lib/languages.js), in menu order. */
 // `htmlLang` is what <html lang> says: the code, or its hreflang where the registry has one
@@ -81,7 +81,8 @@ function applyToDom(dict) {
   document.querySelectorAll("[data-i18n-html]").forEach((el) => {
     const key = el.getAttribute("data-i18n-html");
     const vars = varsOf(el, globals);
-    if (dict[key] != null) el.innerHTML = translate(dict, key, vars);
+    // rebaseHtml: dictionary links are written as site paths ("/grammar"); they live under the base.
+    if (dict[key] != null) el.innerHTML = rebaseHtml(translate(dict, key, vars));
   });
   document.querySelectorAll("[data-i18n-attr]").forEach((el) => {
     el.getAttribute("data-i18n-attr").split(";").forEach((pair) => {

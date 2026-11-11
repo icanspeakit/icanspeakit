@@ -250,6 +250,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
   import { initLabyrinth } from "../lib/melodieLabyrinth.js";
   import { melodyFromUrl, learnerMelody, compareMelody, endingCheck, melodyChart } from "../lib/satzmelodie.js";
   import { t, onUiText } from "../lib/uiText.js";
+  import { withBase } from "../lib/paths.js";
   type Line = { text: string; src: string; type?: string };
   const root = document.getElementById("sm-root")!;
   const D = JSON.parse(document.getElementById("sm-data")!.textContent || "{}");
@@ -293,7 +294,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
   async function play(line: Line, parts?: { t: string; type: string }[], stressK?: number, words?: string[]) {
     if (line.src) {
       return new Promise<void>((res) => {
-        audio.src = line.src;
+        audio.src = withBase(line.src);
         audio.onended = () => res(); audio.onerror = () => res();
         audio.play().catch(() => res());
       });

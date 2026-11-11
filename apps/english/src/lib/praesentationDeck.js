@@ -222,7 +222,7 @@ export function mountDeck(deck, { name, level, rule = false }) {
     if (ruleOpen) return; // reading the rule: a click is not „next“
     const a = e.target.closest("[data-pr-audio]");
     if (a) {
-      audio.src = a.dataset.prAudio;
+      audio.src = withBase(a.dataset.prAudio);
       audio.play().catch(() => {});
       return;
     }

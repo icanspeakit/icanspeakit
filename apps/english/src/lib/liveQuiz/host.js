@@ -32,7 +32,7 @@ const SHAPES = ["▲", "◆", "●", "■"];
 /** Shows `src` in an <img>, or hides it. */
 function setImg(el, src) {
   el.hidden = !src;
-  if (src) el.src = src;
+  if (src) el.src = withBase(src);
   else el.removeAttribute("src");
 }
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);

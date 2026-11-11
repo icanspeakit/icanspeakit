@@ -1,3 +1,4 @@
+import { withBase } from "./paths.js";
 // "Aktiv" mode — the Üben · Hören · Sprechen half of a grammar topic.
 //
 // The workspaces at /<topic> are silent and text-only: the learner
@@ -59,7 +60,7 @@ export function makeVoice() {
       const done = () => { if (!settled) { settled = true; resolve(); } };
 
       if (src) {
-        el.src = src;
+        el.src = withBase(src);
         el.playbackRate = rate;
         el.onended = done;
         el.onerror = done;

@@ -58,6 +58,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
     import { countAnswered, countCorrect, percent } from "../lib/exam/scoring.js";
     import { recordAttempt } from "../lib/progress.js";
     import { readyExamI18n, tx } from "../lib/exam/i18n.js";
+    import { withBase } from "../lib/paths.js";
 
     /* Resolved once, before the app mounts, rather than re-rendered on every language
        change like the other surfaces. This page is a running exam: its sections are built
@@ -124,7 +125,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
       const player = el("audio", "hoer-audio");
       player.controls = true;
       player.preload = "none";
-      player.src = src;
+      player.src = withBase(src);
       return player;
     }
 

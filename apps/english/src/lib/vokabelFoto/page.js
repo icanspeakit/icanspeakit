@@ -599,7 +599,7 @@ export async function mountSetList(root) {
         <input type="text" readonly value="${esc(url)}" aria-label="Link zum Kartenset" />
         <div class="vf-share-tools">
           <button type="button" class="lq-btn lq-btn--ghost" data-copy="${esc(url)}">Link kopieren</button>
-          <a class="qb-link" href="/teachers/classes">Als Aufgabe in einer Klasse stellen</a>
+          <a class="qb-link" href="${BASE_PATH}/teachers/classes">Als Aufgabe in einer Klasse stellen</a>
           <button type="button" class="qb-link vf-danger" data-unshare>Nicht mehr teilen</button>
         </div>
       </div>`;
