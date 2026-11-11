@@ -24,7 +24,7 @@ export const COURSES: Course[] = [
     name: 'Español',
     english: 'Spanish',
     meta: 'Castilian Spanish · DELE and SIELE · life in Spain',
-    live: false, // flip to true after the Spanish Worker is deployed (step 4)
+    live: true, // the Spanish Worker is already up (older build); the card stays live
   },
   {
     slug: 'french',
