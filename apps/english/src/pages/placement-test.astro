@@ -127,6 +127,7 @@ const PER_LEVEL = 2;
   import { intent } from "../lib/intent.js";
   import { flagElement, meldenLink } from "../lib/meldung.js";
   import { fingerprint } from "../lib/meldungRef.js";
+  import { BASE_PATH } from "../lib/paths.js";
 
   // The questions are English on purpose — they are the test. Everything the script
   // writes around them follows the UI language: each such element carries its key in
@@ -264,8 +265,8 @@ const PER_LEVEL = 2;
     result.querySelector<HTMLElement>("[data-es-result-level]")!.textContent = level;
     setT(result.querySelector<HTMLElement>("[data-es-result-lead]")!, `placement.lead.${level}`, LEAD[level] ?? "");
     const slug = level.toLowerCase();
-    result.querySelector<HTMLAnchorElement>("[data-es-go-grammar]")!.href = `/grammar#niveau-${slug}`;
-    result.querySelector<HTMLAnchorElement>("[data-es-go-vocab]")!.href = `/vocabulary/${slug}`;
+    result.querySelector<HTMLAnchorElement>("[data-es-go-grammar]")!.href = `${BASE_PATH}/grammar#niveau-${slug}`;
+    result.querySelector<HTMLAnchorElement>("[data-es-go-vocab]")!.href = `${BASE_PATH}/vocabulary/${slug}`;
     result.querySelector<HTMLElement>("[data-es-einfach]")!.hidden = level !== LEVELS[0];
 
     // The neighbours, named rather than implied: a test this short can land one step off,

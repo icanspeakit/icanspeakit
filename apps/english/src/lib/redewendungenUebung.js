@@ -11,6 +11,7 @@
 import { mountQuiz } from "./quiz.js";
 import { recordAttempt } from "./progress.js";
 import { t } from "./uiText.js";
+import { BASE_PATH } from "./paths.js";
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const shuffle = (a) => {
@@ -52,7 +53,7 @@ const KIND = {
   }),
   bild: (it, items) => ({
     prompt: `<p class="rw-q-kind">${t("rw.q.bild", "Bild oder Bedeutung? Welche Redewendung ist das?")}</p>
-      <p class="rw-q-props" aria-hidden="true">${(it.props ?? []).map((c) => `<img src="/img/openmoji/${c}.svg" alt="" width="52" height="52">`).join("")}</p>
+      <p class="rw-q-props" aria-hidden="true">${(it.props ?? []).map((c) => `<img src="${BASE_PATH}/img/openmoji/${c}.svg" alt="" width="52" height="52">`).join("")}</p>
       <p class="rw-q-bild">${esc(it.bild)}</p>`,
     answer: it.de,
     options: [it.de, ...distractors(it, items, (o) => o.de)],

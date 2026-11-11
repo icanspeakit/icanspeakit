@@ -401,7 +401,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
 
           const actions = el("div", "exam-actions");
           const back = el("a", "quiz-btn", escapeHtml(T("tdf.toPage", "To the IELTS page")));
-          back.href = "/ielts";
+          back.href = document.documentElement.dataset.base + "/ielts";
           actions.appendChild(back);
           main.appendChild(actions);
         },

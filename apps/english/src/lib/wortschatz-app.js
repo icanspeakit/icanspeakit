@@ -59,7 +59,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
     cleanups.push(() => target.removeEventListener(type, fn, opts));
   };
   // A Lernset's printable sheet (VokabelTrainer printHref), linked from the Wortliste tab.
-  const printHref = document.getElementById("vp-page")?.dataset.printHref || "";
+  const printHref = withBase(document.getElementById("vp-page")?.dataset.printHref || "");
 
   /* Two different "languages" meet on this page and must not be confused. `state.lang` is
      the language of the VOCABULARY — which column of card.translations the deck quizzes
@@ -886,7 +886,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
     if (!player) player = new Audio();
     contentEl.querySelectorAll(".vt-audio.is-playing").forEach((b) => b.classList.remove("is-playing"));
     player.pause();
-    player.src = src;
+    player.src = withBase(src);
     if (btn) {
       btn.classList.add("is-playing");
       const done = () => btn.classList.remove("is-playing");

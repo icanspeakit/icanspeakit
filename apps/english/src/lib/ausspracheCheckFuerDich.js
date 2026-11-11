@@ -15,7 +15,7 @@ import { checkMicrophone, MSG } from "./ausspracheCheck.js";
 import { findingsFor, findingsHtml, langName, esc, t, onDict } from "./aussprachePatterns.js";
 import { mountFuerDich, showDrillsFor, openDrill } from "./ausspracheFuerDich.js";
 import { mutterspracheFromUrl, setMuttersprache, onMutterspracheChange, syncMutterspracheFromAccount } from "./muttersprache.js";
-import { currentPath } from "./paths.js";
+import { currentPath, BASE_PATH } from "./paths.js";
 
 const LIVE_MS = 60_000;
 const LIVE_SENTENCES = 3;
@@ -46,7 +46,7 @@ export function mountCheckFuerDich(root, { info, levels }) {
     if (more) {
       more.hidden = !lang;
       if (lang) {
-        more.href = `/culture/mistakes?lang=${encodeURIComponent(lang)}#${encodeURIComponent(lang)}`;
+        more.href = `${BASE_PATH}/culture/mistakes?lang=${encodeURIComponent(lang)}#${encodeURIComponent(lang)}`;
         more.textContent = t("ac.moreFehler", "Weitere typische Fehler für {lang}-Sprecher", { lang: langName(info, lang) });
       }
     }

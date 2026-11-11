@@ -4,6 +4,7 @@
 // text. Silent while the game is muted.
 
 import { isMuted } from "./sound.js";
+import { BASE_PATH } from "../paths.js";
 
 let clip = null;
 
@@ -35,7 +36,7 @@ export function speak({ audio, say } = {}, { force = false } = {}) {
   if (!audio) return voice(say);
   let fell = false;
   const fallback = () => { if (!fell) { fell = true; voice(say); } };
-  const a = new Audio(`/audio/wortschatz/${audio}.mp3`);
+  const a = new Audio(`${BASE_PATH}/audio/wortschatz/${audio}.mp3`);
   clip = a;
   a.addEventListener("error", fallback);
   a.play().catch(fallback);

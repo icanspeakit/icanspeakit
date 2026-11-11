@@ -25,7 +25,7 @@ import { mountKeep } from "./keep.js";
 import { intent } from "../intent.js";
 import { mascotSvg } from "../mascots.js";
 import { setMarked } from "../markedText.js";
-import { withBase } from "../paths.js";
+import { withBase, BASE_PATH } from "../paths.js";
 import { currentPath } from "../paths.js";
 
 const SHAPES = ["▲", "◆", "●", "■"];
@@ -168,7 +168,7 @@ export function mountHost(root) {
       loadOwn();
       const q = ownQuiz();
       $("[data-own-edit]").hidden = !q;
-      if (q) $("[data-own-edit]").href = `/teachers/quiz/create?id=${q.id}`;
+      if (q) $("[data-own-edit]").href = `${BASE_PATH}/teachers/quiz/create?id=${q.id}`;
       // Only a quiz with Lernset words shows translations on this screen.
       $("[data-show-lang-field]").hidden = !(q && q.questions?.some((x) => x?.t === "word"));
       $("[data-set-hint]").hidden = true;
@@ -1221,7 +1221,7 @@ export function mountHost(root) {
     // replace(), not src =: a src change is a history entry, and Back would then step
     // the phone preview instead of returning to the setup.
     dock.querySelector("iframe").contentWindow.location.replace(src);
-    $("[data-test-open]").href = `/game?pin=${pin}`;
+    $("[data-test-open]").href = `${BASE_PATH}/game?pin=${pin}`;
     dock.hidden = false;
     fold(false);
     renderLobby();

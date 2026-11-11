@@ -120,6 +120,7 @@ const searchText = (e: any) => [e.de, e.bedeutung, e.en, ...(e.bsp ?? [])].join(
   import { localYmd, indexFor } from "../../../lib/zitate.js";
   import { initSay } from "../../../lib/redewendungenAudio.js";
   import { t, onUiText } from "../../../lib/uiText.js";
+  import { BASE_PATH } from "../../../lib/paths.js";
   initSay();
 
   const { items, dayOrder } = JSON.parse(document.getElementById("rw-items")!.textContent!);
@@ -128,7 +129,7 @@ const searchText = (e: any) => [e.de, e.bedeutung, e.en, ...(e.bsp ?? [])].join(
   const day = document.querySelector<HTMLElement>("[data-day]")!;
   const today = items.find((i: any) => i.id === dayOrder[indexFor(localYmd(), dayOrder.length)]);
   if (today) {
-    day.querySelector<HTMLAnchorElement>("[data-day-link]")!.href = `/knowledge/idioms/${today.id}`;
+    day.querySelector<HTMLAnchorElement>("[data-day-link]")!.href = `${BASE_PATH}/knowledge/idioms/${today.id}`;
     day.querySelector("[data-day-de]")!.textContent = today.de;
     day.querySelector("[data-day-bed]")!.textContent = today.bed;
     day.querySelector("[data-day-bsp]")!.textContent = `“${today.bsp}”`;

@@ -28,6 +28,7 @@ import { idsOfPart, isScored, partsOf } from "./saetze.js";
 import { flagElement, meldenLink } from "../meldung.js";
 import { fingerprint } from "../meldungRef.js";
 import { examPath } from "../routes.js";
+import { BASE_PATH } from "../paths.js";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 const TF_LABELS = { richtig: "Richtig", falsch: "Falsch", ja: "Ja", nein: "Nein", "nicht im text": "Steht nicht im Text" };
@@ -143,7 +144,7 @@ function clipBlock(set, clip, itemIds, ctx) {
     const audio = el("audio", "ps-audio");
     audio.controls = true;
     audio.preload = "none";
-    audio.src = `/audio/pruefungen/${set.id}/${clip.id}.mp3`;
+    audio.src = `${BASE_PATH}/audio/pruefungen/${set.id}/${clip.id}.mp3`;
     const count = el("span", "ps-clip-plays");
     const paintCount = () => {
       count.textContent = played < plays
@@ -619,7 +620,7 @@ function renderResult(main, set, ctx) {
   if (anyScored) box.appendChild(el("p", "format-note", escapeHtml(tx("ps.result.rule", "Richtwert: ab {p} % der Punkte gilt ein Teil als bestanden.", { p: pass }))));
   if (set.scoring?.note) box.appendChild(el("p", "format-note", escapeHtml(set.scoring.note)));
   const wrong = Object.values(ctx.state.answers ?? {}).filter((a) => a && a.correct === false).length;
-  if (wrong) box.appendChild(el("p", "format-note", `<a href="/my-mistakes">${escapeHtml(tx("fehler.saved", "{n} Fehler gespeichert → Meine Fehler", { n: wrong }))}</a>`));
+  if (wrong) box.appendChild(el("p", "format-note", `<a href="${BASE_PATH}/my-mistakes">${escapeHtml(tx("fehler.saved", "{n} Fehler gespeichert → Meine Fehler", { n: wrong }))}</a>`));
   main.appendChild(box);
 }
 

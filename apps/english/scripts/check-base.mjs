@@ -16,7 +16,8 @@
  *   - _headers: rule paths (Cloudflare matches them against the public URL) and line length
  *
  * Run after `pnpm build`. Exit code 1 lists the offenders (file, count, first examples).
- * Usage: node scripts/check-base.mjs [distDir] */
+ * Usage: node scripts/check-base.mjs [distDir]   (pnpm check:base:strict; pnpm check:base is the
+ * shared, looser monorepo check ../../scripts/check-base.mjs) */
 import { readdir, readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';

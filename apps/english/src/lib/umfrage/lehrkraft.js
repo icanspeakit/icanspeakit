@@ -7,7 +7,7 @@ import { setWaiting } from "../notReady.js";
 import { MAX_EIGENE, MAX_GRAMMATIK, MAX_OPTIONEN, buildFragen, niveauDavor } from "./katalog.js";
 import { MAX_UMFRAGEN, meineUmfragen, umfrageAnlegen, umfrageLoeschen, umfrageOffen } from "./daten.js";
 import { MIN_SEK, ZEITEN, empfehlung, verteilung } from "./zeit.js";
-import { withBase } from "../paths.js";
+import { withBase, BASE_PATH } from "../paths.js";
 import { currentPath } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
@@ -23,7 +23,7 @@ export async function mountUmfragen(root) {
   await loadText(() => { if (mounted) { render(); drawTopics(); drawOwn(); drawZeit(); } });
 
   /* -------------------------------------------------------------- who ---- */
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(currentPath())}`;
+  $("[data-signin-link]").href = `${BASE_PATH}/anmelden?next=${encodeURIComponent(currentPath())}`;
   const user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {
@@ -53,14 +53,14 @@ export async function mountUmfragen(root) {
     return `
       <li class="lq-card kl-class uf-item" data-id="${u.id}">
         <div class="kl-class-head">
-          <h3><a href="/teachers/surveys/result?id=${u.id}">${esc(u.titel)}</a></h3>
+          <h3><a href="${BASE_PATH}/teachers/surveys/result?id=${u.id}">${esc(u.titel)}</a></h3>
           ${u.niveau ? `<span class="kl-badge">${esc(u.niveau)}</span>` : ""}
           <span class="uf-state ${u.offen ? "is-open" : ""}">${esc(u.offen ? t("uf.t.open", "offen") : t("uf.t.closed", "geschlossen"))}</span>
           <span class="kl-count">${esc(n === 1 ? t("uf.t.one", "1 Antwort") : t("uf.t.count", "{n} Antworten", { n }))}</span>
         </div>
         <p class="kl-muted">${esc(datum(u.created_at))} · ${esc(t("kl.t.code", "Code"))} <span class="uf-code-sm">${esc(u.code)}</span> · ${esc(t("uf.t.questions", "{n} Fragen", { n: u.fragen?.length ?? 0 }))}${u.zeit ? ` · ⏱ ${esc(t("uf.t.zeit.short", "{n} Min.", { n: u.zeit }))}` : ""}</p>
         <div class="kl-row">
-          <a class="lq-btn lq-btn--primary" href="/teachers/surveys/result?id=${u.id}">${esc(t("uf.t.results", "Ergebnisse und QR-Code"))}</a>
+          <a class="lq-btn lq-btn--primary" href="${BASE_PATH}/teachers/surveys/result?id=${u.id}">${esc(t("uf.t.results", "Ergebnisse und QR-Code"))}</a>
           <button type="button" class="lq-btn lq-btn--ghost" data-act="toggle">${esc(u.offen ? t("uf.t.close", "Schließen") : t("uf.t.reopen", "Wieder öffnen"))}</button>
           <button type="button" class="lq-btn lq-btn--quiet" data-act="delete">${esc(t("uf.t.delete", "Löschen"))}</button>
         </div>

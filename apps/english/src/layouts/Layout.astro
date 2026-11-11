@@ -100,7 +100,7 @@ const graph = SITE_URL && !noindex
 const structuredData = graph.length ? { "@context": "https://schema.org", "@graph": graph } : null;
 ---
 <!doctype html>
-<html lang="en" translate="no" data-i18n-globals={JSON.stringify(i18nGlobals)} data-paywall={PAYWALL ? "on" : undefined}>
+<html lang="en" translate="no" data-base={BASE_PATH} data-i18n-globals={JSON.stringify(i18nGlobals)} data-paywall={PAYWALL ? "on" : undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

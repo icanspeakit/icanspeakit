@@ -246,7 +246,7 @@ import { withBase } from "../../../lib/paths.js";
 
   let audio: HTMLAudioElement | null = null;
   for (const b of document.querySelectorAll<HTMLButtonElement>("[data-audio]")) {
-    b.addEventListener("click", () => { audio?.pause(); audio = new Audio(b.dataset.audio!); audio.play().catch(() => {}); });
+    b.addEventListener("click", () => { audio?.pause(); audio = new Audio(withBase(b.dataset.audio!)); audio.play().catch(() => {}); });
   }
   stats();
   apply();

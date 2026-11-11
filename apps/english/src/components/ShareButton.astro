@@ -51,7 +51,7 @@ const href = url ?? Astro.url.pathname;
 </button>
 
 <script>
-import { currentPath } from "../lib/paths.js";
+import { currentPath, withBase } from "../lib/paths.js";
   import { getLang, onLangChange } from "../lib/i18n.js";
 
   // The menu is built in script, so its words live here rather than in public/i18n —
@@ -183,7 +183,7 @@ import { currentPath } from "../lib/paths.js";
         return;
       }
       if (btn === owner) { close(); return; }
-      const url = new URL(btn.dataset.shareUrl || currentPath(), location.origin).href;
+      const url = new URL(withBase(btn.dataset.shareUrl || currentPath()), location.origin).href;
       const title = btn.dataset.shareTitle || document.title;
 
       if (touch && navigator.share) {

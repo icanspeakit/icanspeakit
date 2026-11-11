@@ -66,7 +66,7 @@ import "../styles/klassen.css";
   </main>
 
   <script>
-import { currentPath } from "../lib/paths.js";
+import { currentPath, BASE_PATH } from "../lib/paths.js";
     import { createBrowserSupabase } from "../lib/supabase/browser.js";
     import { beitreten, isCode, normCode } from "../lib/klassen.js";
     import { loadText, t } from "../lib/liveQuiz/text.js";
@@ -89,7 +89,7 @@ import { currentPath } from "../lib/paths.js";
       await loadText();
       const params = new URLSearchParams(location.search);
       const fromUrl = normCode(params.get("code"));
-      $<HTMLAnchorElement>("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`;
+      $<HTMLAnchorElement>("[data-signin-link]").href = `${BASE_PATH}/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`;
 
       let user = null;
       try {

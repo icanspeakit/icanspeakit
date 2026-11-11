@@ -22,6 +22,7 @@ import { reducedMotion } from "../spieleEinstellungen.js";
 import { glossP } from "./gloss.js";
 import { coinTotal, nextLook, LOOKS_AT } from "./coins.js";
 import { spielMeldenRow } from "../spielMelden.js";
+import { BASE_PATH } from "../paths.js";
 
 const W = 1280, H = 960;
 const P_R = 14; // player collision radius
@@ -71,7 +72,7 @@ function svgImage(svg) {
 }
 function moji(hex) {
   const img = new Image();
-  img.src = `/img/openmoji/${hex}.svg`;
+  img.src = `${BASE_PATH}/img/openmoji/${hex}.svg`;
   return img;
 }
 
@@ -569,7 +570,7 @@ export function mountLindenau(root) {
     paintCoins();
     hudItems.innerHTML = QUESTS.map((q) => {
       const ok = done.has(q.id);
-      return `<li class="ld-item${ok ? " is-done" : ""}" title="${esc(q.item.label)}"><img src="/img/openmoji/${q.item.icon}.svg" alt="" width="26" height="26" /><span lang="en">${esc(q.item.label)}</span><b aria-hidden="true">${ok ? "✓" : ""}</b><span class="sr-only">${esc(ok ? t("ld.itemDone", "done") : t("ld.itemOpen", "to do"))}</span></li>`;
+      return `<li class="ld-item${ok ? " is-done" : ""}" title="${esc(q.item.label)}"><img src="${BASE_PATH}/img/openmoji/${q.item.icon}.svg" alt="" width="26" height="26" /><span lang="en">${esc(q.item.label)}</span><b aria-hidden="true">${ok ? "✓" : ""}</b><span class="sr-only">${esc(ok ? t("ld.itemDone", "done") : t("ld.itemOpen", "to do"))}</span></li>`;
     }).join("");
   }
 
@@ -706,7 +707,7 @@ export function mountLindenau(root) {
 
   function head(n) {
     const svg = n.moji
-      ? `<img src="/img/openmoji/${n.moji}.svg" alt="" width="60" height="60" />`
+      ? `<img src="${BASE_PATH}/img/openmoji/${n.moji}.svg" alt="" width="60" height="60" />`
       : mascotSvg({ name: n.mascot, expr: "happy", view: "front", size: 60, label: "" });
     return `<div class="ld-who">${svg}<div><b>${esc(n.name)}</b><span>${esc(n.role)}</span></div></div>`;
   }
@@ -1029,7 +1030,7 @@ export function mountLindenau(root) {
         ${canReview ? `<button type="button" class="quiz-btn quiz-btn--primary" data-review>${esc(t("ld.review", "Review"))}</button>` : ""}
         ${nextArea && !canReview ? `<button type="button" class="quiz-btn quiz-btn--primary" data-next-area>${esc(t("ld.nextArea", "Next: {a}", { a: nextArea.title }))}</button>` : ""}
         <button type="button" class="quiz-btn${canReview || nextArea ? "" : " quiz-btn--primary"}" data-again>${esc(t("ld.again", "Play again"))}</button>
-        <a class="quiz-btn" href="/games/countable-sprint">${esc(t("ld.more", "Another game"))}</a>
+        <a class="quiz-btn" href="${BASE_PATH}/games/countable-sprint">${esc(t("ld.more", "Another game"))}</a>
       </div></div>`);
     panel.querySelector("[data-again]").addEventListener("click", () => start(area.id));
     panel.querySelector(".sf-result").append(spielMeldenRow("lindenau", roundInfo));

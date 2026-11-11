@@ -6,7 +6,7 @@
 import { currentUser, isTeacher, setTeacher } from "../liveQuiz/custom.js";
 import { loadText, t } from "../liveQuiz/text.js";
 import { ANZAHLEN, MAX_TESTS, PRO_NIVEAU, meineTests, testAnlegen, testLoeschen, testOffen } from "./daten.js";
-import { withBase } from "../paths.js";
+import { withBase, BASE_PATH } from "../paths.js";
 import { currentPath } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
@@ -67,7 +67,7 @@ export async function mountTests(root) {
   await loadText(() => { if (mounted) { render(); drawTopics(); drawPreview(); } });
 
   /* -------------------------------------------------------------- who ---- */
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(currentPath())}`;
+  $("[data-signin-link]").href = `${BASE_PATH}/anmelden?next=${encodeURIComponent(currentPath())}`;
   const user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {
@@ -96,14 +96,14 @@ export async function mountTests(root) {
     return `
       <li class="lq-card kl-class uf-item" data-id="${k.id}">
         <div class="kl-class-head">
-          <h3><a href="/teachers/tests/result?id=${k.id}">${esc(k.titel)}</a></h3>
+          <h3><a href="${BASE_PATH}/teachers/tests/result?id=${k.id}">${esc(k.titel)}</a></h3>
           <span class="kl-badge">${esc(k.art === "einstufung" ? ART_TEXT.einstufung() : k.niveau ?? ART_TEXT.thema())}</span>
           <span class="uf-state ${k.offen ? "is-open" : ""}">${esc(k.offen ? t("uf.t.open", "offen") : t("uf.t.closed", "geschlossen"))}</span>
           <span class="kl-count">${esc(n === 1 ? t("kt.t.one", "1 Ergebnis") : t("kt.t.count", "{n} Ergebnisse", { n }))}</span>
         </div>
         <p class="kl-muted">${esc(datum(k.created_at))} · ${esc(t("kl.t.code", "Code"))} <span class="uf-code-sm">${esc(k.code)}</span> · ${esc(t("uf.t.questions", "{n} Fragen", { n: k.fragen?.length ?? 0 }))}</p>
         <div class="kl-row">
-          <a class="lq-btn lq-btn--primary" href="/teachers/tests/result?id=${k.id}">${esc(t("kt.t.results", "Ergebnisse und QR-Code"))}</a>
+          <a class="lq-btn lq-btn--primary" href="${BASE_PATH}/teachers/tests/result?id=${k.id}">${esc(t("kt.t.results", "Ergebnisse und QR-Code"))}</a>
           <button type="button" class="lq-btn lq-btn--ghost" data-act="toggle">${esc(k.offen ? t("uf.t.close", "Schließen") : t("uf.t.reopen", "Wieder öffnen"))}</button>
           <button type="button" class="lq-btn lq-btn--quiet" data-act="delete">${esc(t("uf.t.delete", "Löschen"))}</button>
         </div>

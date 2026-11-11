@@ -420,9 +420,9 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
 
           const actions = el("div", "exam-actions");
           const telc = el("a", "quiz-btn", escapeHtml(T("sd1.toTelc", "Zur telc-Übersicht")));
-          telc.href = "/trinity";
+          telc.href = document.documentElement.dataset.base + "/trinity";
           const goethe = el("a", "quiz-btn", escapeHtml(T("sd1.toGoethe", "Zur Goethe-Übersicht")));
-          goethe.href = "/cambridge";
+          goethe.href = document.documentElement.dataset.base + "/cambridge";
           actions.appendChild(telc);
           actions.appendChild(goethe);
           main.appendChild(actions);

@@ -386,7 +386,7 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
   </main>
 
   <script>
-import { currentPath } from "../../lib/paths.js";
+import { currentPath, BASE_PATH } from "../../lib/paths.js";
     import { mountHost } from "../../lib/liveQuiz/host.js";
     import { mountSetupHelp } from "../../lib/liveQuiz/help.js";
     const root = document.getElementById("lq-host");
@@ -423,7 +423,7 @@ import { currentPath } from "../../lib/paths.js";
         if (printable.has(`g:${g}`)) q.set("g", g);
       }
       const ready = q.has("w") || q.has("g");
-      printLink.href = `/teachers/worksheets/folder?${q}`;
+      printLink.href = `${BASE_PATH}/teachers/worksheets/folder?${q}`;
       printLink.toggleAttribute("aria-disabled", !ready);
       printLink.classList.toggle("is-off", !ready);
     };

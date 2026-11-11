@@ -20,6 +20,7 @@ import { isRtl } from "../lib/languages.js";
 import { grammarTopics } from "../lib/catalog.js";
 import { orderOf } from "../lib/grammatikOrder.js";
 import { topicPath, workPath } from "../lib/routes.js";
+import { withBase } from "../lib/paths.js";
 import { lernsets } from "../lib/lernsets.js";
 import startBook from "../data/grammatik-start/en.json";
 import "../styles/practice.css";
@@ -213,7 +214,7 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
               <span class="wi-sheet-toclabel" data-i18n="wissen.land.pick">Your region</span>
               <select data-land-select>
                 {f.states.map((l) => (
-                  <option value={l.id} data-href={l.href} selected={l.href === f.href}>{l.name}</option>
+                  <option value={l.id} data-href={withBase(l.href)} selected={l.href === f.href}>{l.name}</option>
                 ))}
               </select>
             </label>

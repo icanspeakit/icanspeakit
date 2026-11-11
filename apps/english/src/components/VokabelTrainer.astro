@@ -17,6 +17,7 @@ import SiteNav from "./SiteNav.astro";
 import SectionMascot from "./mascots/SectionMascot.astro";
 import LernsetPicker from "./LernsetPicker.astro";
 import NavLayout from "./NavLayout.astro";
+import { withBase } from "../lib/paths.js";
 import ShareButton from "./ShareButton.astro";
 import PremiumLock from "./PremiumLock.astro";
 // The free daily meter's lock (paywall on only; src/lib/access.js).
@@ -147,7 +148,7 @@ function notCovered() {
      Rendered collapsed, then opened by the script — which state that ends up being is a
      remembered per-browser preference, defaulting to open on a desktop, where a nav
      column costs the trainer nothing, and closed on a phone, where it costs a screen. -->
-<main class="vt-shell vp-page vp-page--split vp-page--sheet vt-split" id="vp-page" data-rule="hidden" data-anim="off" data-navlayout="a" data-print-href={printHref}>
+<main class="vt-shell vp-page vp-page--split vp-page--sheet vt-split" id="vp-page" data-rule="hidden" data-anim="off" data-navlayout="a" data-print-href={printHref && withBase(printHref)}>
   <div class="vt-hero">
     {/* A Lernset's scene photo (HubBild set="szenen"), above everything in the hero. */}
     <slot name="banner" />

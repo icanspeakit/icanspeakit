@@ -47,6 +47,7 @@ import {
 import { mascotSvg } from "./mascots.js";
 import { onMascotsChange, setMascotsEnabled } from "./mascotPrefs.js";
 import { waitAttrs } from "./notReady.js";
+import { BASE_PATH } from "./paths.js";
 
 /* Everything Bruno says, in one place. Short (≤ 8 words), A1 English, warm, never
    blaming. `text` is what the bubble shows; an optional `help` (a translation into the
@@ -117,7 +118,7 @@ const articleQuestion = (task) => {
   const o = articleOptions(task);
   return `${o.slice(0, -1).join(", ")} or ${o[o.length - 1]}?`;
 };
-const MASCOTS_OFF_NOTE = `<p class="el-note" role="status">The mascots are off. To turn them on again: <a href="/konto">Account → Settings</a>.</p>`;
+const MASCOTS_OFF_NOTE = `<p class="el-note" role="status">The mascots are off. To turn them on again: <a href="${BASE_PATH}/konto">Account → Settings</a>.</p>`;
 
 export function mountEinfach(root) {
   let state = loadState();
