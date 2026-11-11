@@ -24,7 +24,7 @@ const rel = (p) => path.relative(ROOT, p).replaceAll("\\", "/");
 // Modules whose content item has run: missing `variety` is an error there. Add the module id
 // in the same commit that converts the module. Empty at the start of the French queue
 // (variety-schema): every module still held Spanish data. The ids are those of MODULES below.
-const STRICT = new Set(["conjugation-trainer", "einstufung", "grammatik", "grammatik-quiz", "grammatik-start", "lexicon-a1", "lexicon-a2", "lexicon-b1", "praepositionen", "verbtabellen", "wortschatz"]);
+const STRICT = new Set(["conjugation-trainer", "einstufung", "grammatik", "grammatik-quiz", "grammatik-start", "lexicon-a1", "lexicon-a2", "lexicon-b1", "lexicon-b2", "praepositionen", "verbtabellen", "wortschatz"]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);
 const jsonFiles = (dir) =>
