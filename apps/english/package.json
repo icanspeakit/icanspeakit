@@ -59,7 +59,7 @@
     "seo:audit": "node scripts/seo-audit.mjs",
     "seo:jsonld": "node scripts/check-jsonld.mjs",
     "check:content": "node scripts/check-content.mjs",
-    "cf:prepare": "node ../../scripts/nest-dist.mjs dist /english",
+    "cf:prepare": "node ../../scripts/nest-dist.mjs dist /english && node -e \"require('fs').renameSync('cf-dist/english/_headers', 'cf-dist/_headers')\"",
     "cf:preview": "pnpm cf:prepare && wrangler dev",
     "deploy": "pnpm build && pnpm cf:prepare && wrangler deploy",
     "check:base": "node ../../scripts/check-base.mjs dist /english",
