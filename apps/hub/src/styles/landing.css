@@ -1,0 +1,102 @@
+/* icanspeak.it landing, brand pattern of brand/kit/BRAND.md §5. Tokens: tokens.css, tiles: tiles.css. */
+*, *::before, *::after { box-sizing: border-box; }
+body.landing { margin: 0; padding: 20px; background: var(--isk-yellow-soft); color: var(--isk-text); font-family: var(--isk-font-body); line-height: 1.5; }
+:where(.landing) a { color: inherit; }
+.landing h1, .landing h2, .landing h3 { font-family: var(--isk-font-display); font-weight: 900; color: var(--isk-navy); margin: 0; }
+.l-wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+@media (max-width: 640px) { .l-wrap { padding: 0 16px; } }
+
+.l-header { background: var(--isk-white); border-bottom: 1px solid var(--isk-line); }
+.l-header .l-wrap { display: flex; align-items: center; justify-content: space-between; min-height: 72px; gap: 16px; }
+.l-header img { display: block; height: 34px; width: auto; }
+.l-header nav a { font-weight: 600; font-size: 15px; color: var(--isk-navy); text-decoration: none; }
+.l-header nav a:hover { text-decoration: underline; }
+
+.l-ribbon { --isk-tile: 64px; display: flex; height: var(--isk-tile); overflow: hidden; }
+@media (max-width: 640px) { .l-ribbon { --isk-tile: 40px; } }
+
+.l-hero { max-width: 1200px; margin: 0 auto; padding: 64px 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 48px; }
+.l-hero__copy { flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+.l-eyebrow { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--isk-navy); }
+.l-h1 { font-size: clamp(2.4rem, 6vw, 68px); line-height: 1.02; letter-spacing: -0.02em; }
+.l-h1__mark { background: linear-gradient(transparent 58%, var(--isk-yellow) 58%, var(--isk-yellow) 92%, transparent 92%); }
+.l-lead { margin: 0; font-size: 19px; line-height: 1.6; max-width: 32em; }
+.l-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+.l-btn { display: inline-flex; align-items: center; min-height: 44px; padding: 13px 24px; border-radius: var(--isk-radius-pill); font-weight: 700; font-size: 16px; text-decoration: none; }
+.l-btn--primary { background: var(--isk-navy); color: var(--isk-white); }
+.l-btn--primary:hover { background: var(--isk-navy-deep); }
+.l-btn--outline { border: 2px solid var(--isk-navy); color: var(--isk-navy); }
+.l-free { margin: 4px 0 0; font-size: 14px; }
+.l-hero__grid { flex: 0 1 450px; min-width: 0; display: grid; grid-template-columns: repeat(3, 150px); max-width: 450px; }
+.l-hero__grid .isk-tile__fill { font-size: 120px; }
+@media (max-width: 900px) { .l-hero__grid { display: none; } }
+
+.l-band { background: var(--isk-navy); }
+.l-band .l-wrap { padding-top: 72px; padding-bottom: 72px; display: flex; flex-direction: column; gap: 32px; }
+.l-h2 { font-size: 44px; letter-spacing: -0.01em; line-height: 1.1; }
+.landing .l-h2--light { color: var(--isk-white); }
+
+.l-courses { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+.l-course { display: flex; flex-direction: column; gap: 6px; height: 100%; padding: 22px 24px 24px; background: var(--isk-white);
+  border: 2px dashed #b9bfd8; border-radius: var(--isk-radius-card); color: var(--isk-text); text-decoration: none; }
+.l-course--live { border: 2px solid var(--isk-yellow); }
+a.l-course--live:hover { background: var(--isk-cream); }
+.l-course__tag { align-self: flex-end; font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: var(--isk-radius-pill); background: var(--isk-cream); }
+.l-course--live .l-course__tag { background: var(--isk-yellow); color: var(--isk-navy); }
+.l-course__code { font-family: var(--isk-font-display); font-weight: 900; font-size: 14px; letter-spacing: 0.08em; color: var(--isk-navy); }
+.l-course__name { font-family: var(--isk-font-display); font-weight: 900; font-size: 34px; line-height: 1.1; color: var(--isk-navy); }
+.l-course__meta { font-size: 15px; }
+.l-course:not(.l-course--live) .l-course__name, .l-course:not(.l-course--live) .l-course__code { opacity: 0.6; }
+.l-course__go { margin-top: 8px; font-weight: 700; color: var(--isk-navy); }
+
+.l-ling { padding: 72px 0; }
+.l-ling .l-wrap { display: flex; flex-wrap: wrap; gap: 40px; align-items: center; }
+.l-ling__copy { flex: 1 1 380px; display: flex; flex-direction: column; gap: 16px; }
+.l-ling h2 { font-size: 34px; line-height: 1.15; }
+.l-ling p { margin: 0; font-size: 17px; max-width: 34em; }
+.l-ling ul { flex: 1 1 320px; list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.l-ling li a { display: flex; justify-content: space-between; gap: 12px; padding: 14px 18px; border: 2px solid var(--isk-navy); border-radius: 18px;
+  font-weight: 700; color: var(--isk-navy); text-decoration: none; }
+.l-ling li a:hover { background: var(--isk-cream); }
+.l-ling li a span { font-weight: 600; font-size: 13px; background: var(--isk-yellow); border-radius: var(--isk-radius-pill); padding: 2px 10px; align-self: center; }
+
+.l-footer { background: var(--isk-navy); color: var(--isk-white); }
+.l-footer .l-wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding-top: 28px; padding-bottom: 28px; }
+.l-footer img { height: 30px; width: auto; display: block; }
+.l-footer nav { display: flex; gap: 20px; font-size: 14px; }
+.l-footer a { color: #cfd6f0; text-decoration: none; }
+.l-footer a:hover { color: var(--isk-white); text-decoration: underline; }
+
+/* The frame: the whole page sits in a rounded, navy-outlined card on a warm yellow surround. */
+.l-frame { max-width: 1360px; margin: 0 auto; background: var(--isk-cream); border: 3px solid var(--isk-navy); border-radius: 32px; overflow: hidden; }
+.l-header { background: transparent; border-bottom: 0; }
+.l-hero { padding-top: 56px; padding-bottom: 72px; }
+.l-ling { background: var(--isk-cream); }
+@media (max-width: 640px) { body.landing { padding: 10px; } .l-frame { border-radius: 22px; } }
+
+/* c: Postcard. Sky surround, white card with a hard navy offset shadow, tiles tilt slightly. */
+body[data-v="c"] { padding: 28px; background: var(--isk-sky-soft); }
+body[data-v="c"] .l-frame { background: var(--isk-white); border-radius: 28px; box-shadow: 10px 10px 0 var(--isk-navy); max-width: 1320px; }
+body[data-v="c"] .l-hero__grid .isk-tile { border-radius: 18px; }
+body[data-v="c"] .l-hero__grid { gap: 8px; transform: rotate(2deg); }
+body[data-v="c"] .l-band { margin: 0 24px; border-radius: 28px; }
+body[data-v="c"] .l-hero, body[data-v="c"] .l-ling { background: var(--isk-white); }
+body[data-v="c"] .l-ribbon { margin: 16px 24px; border-radius: 20px; }
+
+   Yellow = layout A (framed), sky = layout C (postcard). The one in use is full; the other is faded. */
+
+/* Layout switch: the top-right half-moon. Click turns it over (navy top becomes yellow top) and the page changes layout. */
+.l-flip { border: 0; padding: 0; cursor: pointer; font: inherit; }
+.l-flip::before { transition: transform .6s cubic-bezier(.3,.7,.3,1); }
+.l-flip.is-flipped::before { transform: rotate(180deg); }
+.l-flip:focus-visible { outline: 3px solid var(--isk-navy); outline-offset: -6px; }
+
+/* Turning half-moon: rotates on click, no other effect yet. */
+.l-turn { border: 0; padding: 0; cursor: pointer; font: inherit; }
+.l-turn::before { transition: transform .6s cubic-bezier(.3,.7,.3,1); }
+.l-turn.is-flipped::before { transform: rotate(180deg); }
+.l-turn:focus-visible { outline: 3px solid var(--isk-navy); outline-offset: -6px; }
+/* The turning half-moon sits on green. Turning it changes the whole page: green at rest, red when turned. */
+.l-turn { background: var(--isk-green); }
+body.landing[data-tone="green"] { background: var(--isk-green); }
+body.landing[data-tone="red"] { background: var(--isk-coral); }

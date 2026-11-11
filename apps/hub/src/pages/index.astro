@@ -1,60 +1,123 @@
 ---
-import Hub from '../layouts/Hub.astro';
+// icanspeak.it root: the umbrella landing in the brand pattern (brand/kit/BRAND.md §5):
+// header, ribbon, hero with the 3×3 mascot tile grid, "Choose a course", the linguistics
+// band and the navy footer. Tiles are CSS (styles/tiles.css) and decoration only: aria-hidden.
+import Brand from '../layouts/Brand.astro';
 import { COURSES } from '../data/courses';
+
+const RIBBON = [
+  { cls: 'isk-tile--half', bg: 'var(--isk-navy)', a: 'var(--isk-yellow)', b: '#fff' },
+  { cls: 'isk-tile--dots', bg: 'var(--isk-sky)', a: 'var(--isk-navy)', b: '#fff' },
+  { cls: 'isk-tile--bowl', bg: '#fff', a: 'var(--isk-navy)', b: 'var(--isk-yellow)' },
+  { cls: 'isk-tile--quarter', bg: 'var(--isk-coral)', a: 'var(--isk-navy)', b: '#fff' },
+  { cls: 'isk-tile--stripes', bg: '#fff', a: 'var(--isk-yellow)', b: '#fff' },
+  { cls: 'isk-tile--dside', bg: 'var(--isk-navy)', a: 'var(--isk-coral)', b: '#fff' },
+  { cls: 'isk-tile--dome', bg: 'var(--isk-green)', a: 'var(--isk-navy)', b: '#fff' },
+  { cls: '', bg: 'var(--isk-navy)', a: 'var(--isk-yellow)', b: '#fff', glyph: '¡' },
+];
+const RIBBON_TILES = Array.from({ length: 64 }, (_, i) => RIBBON[i % RIBBON.length]);
+
+const HERO = [
+  { cls: '', bg: 'var(--isk-sky)', a: 'var(--isk-navy)', b: '#fff', mascot: 'bruno' },
+  { cls: 'isk-tile--dots', bg: 'var(--isk-navy)', a: 'var(--isk-yellow)', b: '#fff' },
+  { cls: 'isk-tile--half', bg: 'var(--isk-coral)', a: 'var(--isk-navy)', b: 'var(--isk-yellow)', switch: true },
+  { cls: '', bg: 'var(--isk-navy)', a: 'var(--isk-yellow)', b: '#fff', glyph: '¡' },
+  { cls: '', bg: 'var(--isk-yellow)', a: 'var(--isk-navy)', b: '#fff', mascot: 'regi' },
+  { cls: 'isk-tile--bubble', bg: 'var(--isk-sky)', a: '#fff', b: '#fff', say: 'Here for you!' },
+  { cls: 'isk-tile--half', bg: 'var(--isk-green)', a: 'var(--isk-navy)', b: 'var(--isk-yellow)', turn: true },
+  { cls: '', bg: 'var(--isk-coral)', a: 'var(--isk-navy)', b: '#fff', mascot: 'quaki' },
+  { cls: '', bg: 'var(--isk-green)', a: 'var(--isk-navy)', b: '#fff', mascot: 'hamsti' },
+];
 ---
-<Hub
+<Brand
   title="icanspeak.it — learn a language, properly"
   description="Ad-free language courses from A1 to C1 — English first, Spanish, French, Portuguese and Italian on the way — plus word stories and speech training for the curious."
 >
-  <section class="hero">
-    <div class="wrap">
-      <span class="eyebrow">Language courses</span>
-      <h1>Which language do you <em>want to speak?</em></h1>
-      <p>
-        Full courses from your first words to C1: grammar, vocabulary, real-life situations and exam
-        preparation. No ads, no tricks.
-      </p>
+  <div class="l-frame">
+  <header class="l-header">
+    <div class="l-wrap">
+      <a href="/" aria-label="icanspeak.it home"><img src="/logos/icanspeakit-wordmark.svg" alt="icanspeak.it" width="160" height="34" /></a>
+      <nav aria-label="Main"><a href="/linguistics/">Linguistics</a></nav>
     </div>
-  </section>
+  </header>
 
-  <section class="courses" aria-labelledby="courses-title">
-    <div class="wrap">
-      <h2 class="section-title" id="courses-title">Choose a course</h2>
-      <ul class="grid">
-        {COURSES.map((c) => (
-          <li>
-            {c.live ? (
-              <a class="course" href={`/${c.slug}/`} lang={c.slug === 'english' ? 'en' : undefined}>
-                <span class="tag tag--live">Open</span>
-                <span class="course__code">{c.code}</span>
-                <span class="course__name">{c.name}</span>
-                <span class="course__meta">{c.meta}</span>
-                <span class="course__go">Start learning {c.english} →</span>
-              </a>
-            ) : (
-              <div class="course course--soon" aria-label={`${c.english} course, coming soon`}>
-                <span class="tag">Coming soon</span>
-                <span class="course__code">{c.code}</span>
-                <span class="course__name">{c.name}</span>
-                <span class="course__meta">{c.meta}</span>
-              </div>
-            )}
-          </li>
+  <div class="isk-ribbon l-ribbon" aria-hidden="true">
+    {RIBBON_TILES.map((t) => (
+      <div class={`isk-tile ${t.cls}`} style={`--t:var(--isk-tile);--bg:${t.bg};--a:${t.a};--b:${t.b}`}>
+        {t.glyph && <span class="isk-tile__fill">{t.glyph}</span>}
+      </div>
+    ))}
+  </div>
+
+  <main>
+    <section class="l-hero">
+      <div class="l-hero__copy">
+        <p class="l-eyebrow">Language courses</p>
+        <h1 class="l-h1">Learn a language.<br /><span class="l-h1__mark">Step by step.</span></h1>
+        <p class="l-lead">Full courses from your first words to C1: grammar, vocabulary, real-life situations and exam preparation. No ads, no tricks.</p>
+        <div class="l-cta">
+          <a href="#courses" class="l-btn l-btn--primary">Choose a course</a>
+          <a href="/linguistics/" class="l-btn l-btn--outline">Word stories</a>
+        </div>
+        <p class="l-free">Free exercises, no account needed.</p>
+      </div>
+      <div class="l-hero__grid">
+        {HERO.map((t) => t.switch ? (
+          <button type="button" class={`isk-tile ${t.cls} l-flip`} aria-label="Switch layout" aria-pressed="false" style={`--t:150px;--bg:${t.bg};--a:${t.a};--b:${t.b}`}></button>
+        ) : t.turn ? (
+          <button type="button" class={`isk-tile ${t.cls} l-turn`} aria-label="Turn" aria-pressed="false" style={`--t:150px;--bg:${t.bg};--a:${t.a};--b:${t.b}`}></button>
+        ) : (
+          <div class={`isk-tile ${t.cls}`} aria-hidden="true" style={`--t:150px;--bg:${t.bg};--a:${t.a};--b:${t.b}`}>
+            {t.mascot && <div class="isk-tile__fill"><img src={`/mascots/${t.mascot}.svg`} alt="" width="120" height="120" /></div>}
+            {t.glyph && <div class="isk-tile__fill">{t.glyph}</div>}
+            {t.say && <span class="isk-tile__say">{t.say}</span>}
+          </div>
         ))}
-      </ul>
-    </div>
-  </section>
+      </div>
+    </section>
 
-  <section class="linguistics" aria-labelledby="ling-title">
-    <div class="wrap">
-      <div class="band">
-        <div>
-          <span class="eyebrow">For the curious</span>
+    <section class="l-band" id="courses" aria-labelledby="courses-title">
+      <div class="l-wrap">
+        <h2 class="l-h2 l-h2--light" id="courses-title">Choose a course</h2>
+        <ul class="l-courses">
+          {COURSES.map((c) => (
+            <li>
+              {c.live ? (
+                <a class="l-course l-course--live" href={`/${c.slug}/`} lang={c.slug === 'english' ? 'en' : undefined}>
+                  <span class="l-course__tag">Almost ready</span>
+                  <span class="l-course__code">{c.code}</span>
+                  <span class="l-course__name">{c.name}</span>
+                  <span class="l-course__meta">{c.meta}</span>
+                  <span class="l-course__go">Start learning {c.english} →</span>
+                </a>
+              ) : (
+                <div class="l-course" aria-label={`${c.english} course, coming soon`}>
+                  <span class="l-course__tag">Coming soon</span>
+                  <span class="l-course__code">{c.code}</span>
+                  <span class="l-course__name">{c.name}</span>
+                  <span class="l-course__meta">{c.meta}</span>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <div class="isk-ribbon l-ribbon" aria-hidden="true">
+      {RIBBON_TILES.map((t) => (
+        <div class={`isk-tile ${t.cls}`} style={`--t:var(--isk-tile);--bg:${t.bg};--a:${t.a};--b:${t.b}`}>
+          {t.glyph && <span class="isk-tile__fill">{t.glyph}</span>}
+        </div>
+      ))}
+    </div>
+
+    <section class="l-ling" aria-labelledby="ling-title">
+      <div class="l-wrap">
+        <div class="l-ling__copy">
+          <p class="l-eyebrow">For the curious</p>
           <h2 id="ling-title">Linguistics: where words come from and how speech works</h2>
-          <p>
-            Word origin stories, word cards and speech exercises for articulation, prosody, voice and
-            pace: the mechanics behind sounding like yourself in another language.
-          </p>
+          <p>Word origin stories, word cards and speech exercises for articulation, prosody, voice and pace: the mechanics behind sounding like yourself in another language.</p>
         </div>
         <ul>
           <li><a href="/linguistics/blog/">Word stories <span>Magazine</span></a></li>
@@ -63,6 +126,38 @@ import { COURSES } from '../data/courses';
           <li><a href="/linguistics/">All of linguistics <span>→</span></a></li>
         </ul>
       </div>
+    </section>
+  </main>
+
+  <footer class="l-footer">
+    <div class="l-wrap">
+      <img src="/logos/icanspeakit-wordmark-dark.svg" alt="icanspeak.it" width="160" height="30" />
+      <nav aria-label="Footer"><a href="/linguistics/former-site/impressum/">Impressum</a></nav>
     </div>
-  </section>
-</Hub>
+  </footer>
+  </div>
+  <script is:inline>
+    (function () {
+      var flip = document.querySelector('.l-flip');
+      if (!flip) return;
+      function current() { return document.body.dataset.v === 'c' ? 'c' : 'a'; }
+      function paint(v) { flip.setAttribute('aria-pressed', v === 'c' ? 'true' : 'false'); flip.classList.toggle('is-flipped', v === 'c'); }
+      paint(current());
+      flip.addEventListener('click', function () {
+        var next = current() === 'c' ? 'a' : 'c';
+        document.body.dataset.v = next;
+        paint(next);
+        try { localStorage.setItem('isk-landing-v', next); } catch (e) {}
+        try { var u = new URL(location.href); u.searchParams.set('v', next); history.replaceState(null, '', u); } catch (e) {}
+      });
+      document.body.dataset.tone = 'green';
+      document.querySelectorAll('.l-turn').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var on = b.classList.toggle('is-flipped');
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+          document.body.dataset.tone = on ? 'red' : 'green';
+        });
+      });
+    })();
+  </script>
+</Brand>

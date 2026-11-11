@@ -16,7 +16,7 @@ export const COURSES: Course[] = [
     name: 'English',
     english: 'English',
     meta: 'A1 to C1 · grammar, vocabulary, exams, speaking',
-    live: false, // flip once apps/english is deployed at /english (overclaude base-path item)
+    live: true, // almost ready: linked from the landing while apps/english is finished
   },
   {
     slug: 'spanish',
@@ -24,7 +24,7 @@ export const COURSES: Course[] = [
     name: 'Español',
     english: 'Spanish',
     meta: 'Castilian Spanish · DELE and SIELE · life in Spain',
-    live: false,
+    live: true, // almost ready,
   },
   {
     slug: 'french',

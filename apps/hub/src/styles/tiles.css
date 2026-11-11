@@ -1,0 +1,37 @@
+/* The mosaic tiles (round 4 "tile world"): pure CSS, no images. Used for the hero grid, the ribbons
+   between sections and small icon tiles. Reference layout: design/english-landing/D-canspeak-tiles.dc.html
+   Usage:  <div class="isk-tile isk-tile--half" style="--bg:var(--isk-navy);--a:var(--isk-yellow);--b:#fff"></div>
+           <div class="isk-ribbon" aria-hidden="true"> …tiles… </div>
+   Tiles are decoration: give the wrapper aria-hidden="true", put real content (mascot img alt, text) outside. */
+.isk-tile { --t: var(--isk-tile, 150px); --bg: var(--isk-navy); --a: var(--isk-yellow); --b: #fff;
+  width: var(--t); height: var(--t); flex: none; position: relative; overflow: hidden; background: var(--bg); }
+.isk-tile::before, .isk-tile::after { content: ""; position: absolute; }
+/* circle split horizontally */
+.isk-tile--half::before { inset: 6%; border-radius: 50%; background: linear-gradient(to bottom, var(--a) 50%, var(--b) 50%); }
+/* dot field */
+.isk-tile--dots { background-image: radial-gradient(var(--a) 22%, transparent 24%);
+  background-size: calc(var(--t) / 6) calc(var(--t) / 6); background-position: calc(var(--t) / 12) calc(var(--t) / 12); }
+/* stripes */
+.isk-tile--stripes { background-image: repeating-linear-gradient(to bottom, var(--a) 0 calc(var(--t) / 6), var(--b) calc(var(--t) / 6) calc(var(--t) / 3)); }
+/* quarter circle */
+.isk-tile--quarter::before { inset: 0; border-top-left-radius: 100%; background: var(--a); }
+/* bowl: half circle hanging from the middle */
+.isk-tile--bowl::before { left: 0; right: 0; top: 0; height: 50%; background: var(--b); }
+.isk-tile--bowl::after { left: 0; right: 0; bottom: 0; height: 50%; border-radius: 0 0 var(--t) var(--t); background: var(--a); }
+/* dome: half circle standing on the middle */
+.isk-tile--dome::before { left: 0; right: 0; top: 0; height: 50%; border-radius: var(--t) var(--t) 0 0; background: var(--a); }
+/* D-shape on the right half */
+.isk-tile--dside::before { top: 0; bottom: 0; left: 50%; right: 0; border-radius: 0 var(--t) var(--t) 0; background: var(--a); }
+/* speech bubble; put text in a child .isk-tile__say */
+.isk-tile--bubble::before { left: 12%; right: 12%; top: 16%; height: 46%; border-radius: calc(var(--t) / 14); background: var(--a); }
+.isk-tile--bubble::after { left: 24%; top: 58%; border-left: calc(var(--t) / 10) solid transparent;
+  border-right: calc(var(--t) / 10) solid transparent; border-top: calc(var(--t) / 6) solid var(--a); transform: skewX(-20deg); }
+.isk-tile__say { position: absolute; left: 12%; right: 12%; top: 16%; height: 46%; z-index: 1; display: flex;
+  align-items: center; justify-content: center; text-align: center; font: 600 calc(var(--t) / 9) var(--isk-font-voice); color: var(--isk-navy); }
+/* a glyph (¡ ! ¿ Aa) or a mascot: put it in a child .isk-tile__fill */
+.isk-tile__fill { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font: 900 calc(var(--t) * 0.8)/1 var(--isk-font-display); color: var(--a); }
+.isk-tile__fill img { width: 86%; height: 86%; }
+/* ribbon: one row of small tiles across the page */
+.isk-ribbon { --isk-tile: 64px; display: flex; height: var(--isk-tile); overflow: hidden; }
+@media (max-width: 640px) { .isk-ribbon { --isk-tile: 40px; } }

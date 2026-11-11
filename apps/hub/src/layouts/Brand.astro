@@ -1,0 +1,38 @@
+---
+// Head and body shell for the brand-pattern landing (brand/kit/BRAND.md §5). The 404 keeps Hub.astro.
+import '../styles/tokens.css';
+import '../styles/tiles.css';
+import '../styles/landing.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/fonts/icanspeak/fonts.css" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="icanspeak.it" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/logos/icanspeakit-mark-1024.png', Astro.site).href} />
+  </head>
+  <body class="landing">
+    <script is:inline>try{var q=new URLSearchParams(location.search).get("v")||localStorage.getItem("isk-landing-v");if(q==="a"||q==="c")document.body.dataset.v=q}catch(e){}</script>
+    <slot />
+  </body>
+</html>
