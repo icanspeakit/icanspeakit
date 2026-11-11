@@ -18,12 +18,15 @@ const bad = (where, msg) => problems.push(`${where}: ${msg}`);
 const emojiFile = (e) => [...e].map((c) => c.codePointAt(0)).filter((c) => c !== 0xfe0f).map((c) => c.toString(16).toUpperCase()).join("-");
 const hasEmoji = (e) => existsSync(path.join(ROOT, "public/img/openmoji", `${emojiFile(e)}.svg`));
 
-// A Spanish sentence with ? or ! needs its opening mark.
+// French has no opening ¿ or ¡ (a left-over from the Spanish course), and a Québec note is
+// plain English of at most 160 characters (content-plan §1.5).
 const marks = (where, s) => {
-  for (const part of String(s).split(/(?<=[.:;])\s+/)) {
-    if (part.includes("?") && !part.includes("¿")) bad(where, `? without ¿: “${s}”`);
-    if (part.includes("!") && !part.includes("¡")) bad(where, `! without ¡: “${s}”`);
-  }
+  if (/[¿¡]/.test(String(s))) bad(where, `Spanish opening mark left in “${s}”`);
+};
+const frca = (where, o) => {
+  if (o.es419) bad(where, "es419 left over: it is frCA now");
+  if (o.frCA && (!o.frCA.note || o.frCA.note.length > 160)) bad(where, "frCA.note missing or over 160 characters");
+  if (o.regional && o.regional.length > 160) bad(where, "regional over 160 characters");
 };
 const unique = (where, ids) => {
   const seen = new Set();
@@ -40,6 +43,7 @@ const en = read("public/i18n/en.json");
 unique("wortfallen", wf.groups.map((g) => g.id));
 for (const g of wf.groups) {
   const at = `wortfallen ${g.id}`;
+  frca(at, g);
   if (!WHO.has(g.who)) bad(at, `who “${g.who}” unknown`);
   if (g.words?.length !== 2) bad(at, "needs two words");
   for (const w of g.words ?? []) {
@@ -75,9 +79,10 @@ const pairs = tf.groups.flatMap((g) => g.pairs);
 unique("typische-fehler", pairs.map((p) => p.id));
 for (const p of pairs) {
   const at = `typische-fehler ${p.id}`;
+  frca(at, p);
   if (!/^[a-z0-9-]+$/.test(p.id)) bad(at, "id isn't a plain slug");
   if (!["A1", "A2", "B1", "B2", "C1", "C2"].includes(p.level)) bad(at, `level “${p.level}”`);
-  if (p.variety !== "es-ES") bad(at, "no variety");
+  if (p.variety !== "fr-FR") bad(at, "no variety");
   for (const s of [p.a, p.b]) if (!s?.w || !s?.pos || !s?.ex) bad(at, "a side without w, pos or ex");
   if (p.a.wrong) bad(at, "only side b can be wrong (the page shows a first)");
   if (!p.why) bad(at, "no why");
@@ -96,8 +101,9 @@ for (const id of ["kurzformen", "alltag", "zahlen", "jugend", "vulgaer"]) if (!u
 for (const g of us.gruppen) {
   for (const e of g.eintraege) {
     const at = `umgangssprache ${g.id} ${e.w}`;
+    frca(at, e);
     if (!e.w || !e.std) bad(at, "no w or std");
-    if (e.variety !== "es-ES") bad(at, "no variety");
+    if (e.variety !== "fr-FR") bad(at, "no variety");
     if (g.reg === "vulgaer" && ![1, 2, 3].includes(e.stufe)) bad(at, "rude entry without stufe 1–3");
     if (e.bsp) marks(at, e.bsp);
   }
@@ -109,10 +115,11 @@ const LEVELS = new Set(["A1", "A2", "B1", "B2"]);
 const POS = new Set(["verb", "adj", "adv", "noun"]);
 for (const g of read("src/data/synonyme.json").groups) {
   const at = `synonyme ${g.words?.join("/")}`;
+  frca(at, g);
   if (!LEVELS.has(g.level)) bad(at, `level “${g.level}”`);
   if (!POS.has(g.pos)) bad(at, `pos “${g.pos}”`);
   if (!(g.words?.length >= 2) || new Set(g.words).size !== g.words.length) bad(at, "needs two different words");
-  if (g.variety !== "es-ES") bad(at, "no variety");
+  if (g.variety !== "fr-FR") bad(at, "no variety");
   if (g.emoji && !hasEmoji(g.emoji)) bad(at, `no picture ${g.emoji}`);
 }
 
