@@ -224,10 +224,10 @@ html[data-paywall="on"]:not([data-plan="premium"]):not([data-plan="pack"]) [data
   text-decoration: none;
   border-radius: var(--radius-sm);
 }
-.part-of-mark { height: 16px; width: auto; }
+.part-of-mark { height: 24px; width: auto; }
 .part-of:hover .part-of-text { color: var(--ink); text-decoration: underline; }
 .part-of:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 3px; }
-.part-of--on-dark { color: #aab5c6; }
+.part-of--on-dark { color: #d6dbf0; }
 .part-of--on-dark:hover .part-of-text { color: #fff; }
 .part-of--on-dark:focus-visible { outline-color: #cdd6e2; }
 .umbrella-row {
@@ -383,6 +383,11 @@ html[data-paywall="on"]:not([data-plan="premium"]):not([data-plan="pack"]) [data
    pair sits on a band that is dark in both themes (the footer) and always shows the dark one. */
 .wordmark { display: contents; }
 .wordmark img { width: auto; }
+/* The course lockup (Wordmark.astro): wordmark + yellow course pill, 12 px apart (BRAND.md
+   §1). The slots size the wordmark at 24–36 px; the kit's pill is 0.5 × that, set a touch
+   smaller as in the header (brand.css). */
+.wordmark-lockup { display: inline-flex; align-items: center; gap: 10px; }
+.wordmark-lockup .wordmark-pill { font-size: 13px; }
 .wordmark-img--dark { display: none !important; }
 :root[data-theme="dark"] .wordmark:not(.wordmark--on-dark) .wordmark-img--light,
 .wordmark--on-dark .wordmark-img--light { display: none !important; }
