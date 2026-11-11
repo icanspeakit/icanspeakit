@@ -148,7 +148,6 @@ const HERO = [
         document.body.dataset.v = next;
         paint(next);
         try { localStorage.setItem('isk-landing-v', next); } catch (e) {}
-        try { var u = new URL(location.href); u.searchParams.set('v', next); history.replaceState(null, '', u); } catch (e) {}
       });
       document.body.dataset.tone = 'green';
       document.querySelectorAll('.l-turn').forEach(function (b) {
