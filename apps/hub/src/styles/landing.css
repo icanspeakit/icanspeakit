@@ -78,7 +78,7 @@ a.l-course--live:hover { background: var(--isk-cream); }
 body[data-v="c"] { padding: 28px; background: var(--isk-sky-soft); }
 body[data-v="c"] .l-frame { background: var(--isk-white); border-radius: 28px; box-shadow: 10px 10px 0 var(--isk-navy); max-width: 1320px; }
 body[data-v="c"] .l-hero__grid .isk-tile { border-radius: 18px; }
-body[data-v="c"] .l-hero__grid { gap: 8px; transform: rotate(2deg); }
+body[data-v="c"] .l-hero__grid { gap: 8px; }
 body[data-v="c"] .l-band { margin: 0 24px; border-radius: 28px; }
 body[data-v="c"] .l-hero, body[data-v="c"] .l-ling { background: var(--isk-white); }
 body[data-v="c"] .l-ribbon { margin: 16px 24px; border-radius: 20px; }
@@ -95,9 +95,12 @@ body[data-v="c"] .l-ribbon { margin: 16px 24px; border-radius: 20px; }
 .l-turn.is-flipped::before { transform: rotate(180deg); }
 .l-turn:focus-visible { outline: 3px solid var(--isk-navy); outline-offset: -6px; }
 /* The turning half-moon sits on green. Turning it changes the whole page: green at rest, red when turned. */
-.l-turn { background: var(--isk-green); }
 body.landing[data-tone="green"] { background: var(--isk-green); }
 body.landing[data-tone="red"] { background: var(--isk-coral); }
 
-/* Switch tile (image 3): the grid tilts 2deg in variant c; this tile counter-tilts so the box itself is square. */
-body[data-v="c"] .l-flip { transform: rotate(-2deg); }
+/* Colours of the two tiles per state, brand colours only. The circle shows the colour the tile
+   changes into; clicking changes the background, the circle and the page tone. */
+.l-turn { --bg: var(--isk-green); --a: var(--isk-coral); --b: var(--isk-yellow); background: var(--bg); }
+.l-turn.is-flipped { --bg: var(--isk-coral); --a: var(--isk-green); --b: var(--isk-yellow); }
+.l-flip { --bg: var(--isk-yellow); --a: var(--isk-green); --b: var(--isk-coral); background: var(--bg); }
+.l-flip.is-flipped { --bg: var(--isk-sky); --a: var(--isk-coral); --b: var(--isk-yellow); }

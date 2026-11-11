@@ -63,9 +63,9 @@ const HERO = [
       </div>
       <div class="l-hero__grid">
         {HERO.map((t) => t.switch ? (
-          <button type="button" class={`isk-tile ${t.cls} l-flip`} aria-label="Switch layout" aria-pressed="false" style={`--t:150px;--bg:${t.bg};--a:${t.a};--b:${t.b}`}></button>
+          <button type="button" class={`isk-tile ${t.cls} l-flip`} aria-label="Switch layout" aria-pressed="false" style="--t:150px"></button>
         ) : t.turn ? (
-          <button type="button" class={`isk-tile ${t.cls} l-turn`} aria-label="Turn" aria-pressed="false" style={`--t:150px;--bg:${t.bg};--a:${t.a};--b:${t.b}`}></button>
+          <button type="button" class={`isk-tile ${t.cls} l-turn`} aria-label="Turn" aria-pressed="false" style="--t:150px"></button>
         ) : (
           <div class={`isk-tile ${t.cls}`} aria-hidden="true" style={`--t:150px;--bg:${t.bg};--a:${t.a};--b:${t.b}`}>
             {t.mascot && <div class="isk-tile__fill"><img src={`/mascots/${t.mascot}.svg`} alt="" width="120" height="120" /></div>}
