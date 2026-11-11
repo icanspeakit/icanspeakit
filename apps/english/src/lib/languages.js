@@ -62,6 +62,14 @@ export const LANGUAGE_REGISTRY = [
     hreflang: "de", urlPrefix: "de",
     surfaces: { ui: { status: "draft" } },
   },
+  // Spanish UI (ui-lang-es): public/i18n/es.json carries every key of en.json (machine draft, tú-form,
+  // not yet read by a native speaker). Same gating as German: picker hidden until GATES.ui is met.
+  {
+    code: "es", native: "Español", de: "Spanisch", en: "Spanish", word: "Idioma",
+    dir: "ltr", script: "Latn", region: "europa", fontFamily: null,
+    hreflang: "es", urlPrefix: "es",
+    surfaces: { ui: { status: "draft" } },
+  },
   // To add a language: copy the entry above, set code/native/dir/script (and fontFamily for
   // non-Latin scripts, hreflang/urlPrefix for its own entry-page URLs), start every surface
   // as { status: "draft" }, and add public/i18n/<code>.json. RTL (dir: "rtl") is already
