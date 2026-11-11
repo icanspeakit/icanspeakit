@@ -112,6 +112,7 @@ const tx = (hoerenHelp.entries as Record<string, any>)[text.id] ?? null;
     import { mountQuiz } from "../../lib/quiz.js";
     import { recordAttempt } from "../../lib/progress.js";
     import { currentPath } from "../../lib/paths.js";
+    import { itemKey } from "../../lib/routes.js";
 
     const questions = JSON.parse(document.getElementById("ho-quiz-data").textContent);
     const textId = itemKey("/listening", currentPath().split("/").filter(Boolean)[1]);

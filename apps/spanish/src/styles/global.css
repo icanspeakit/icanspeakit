@@ -1,25 +1,24 @@
 @import "./brand-tokens.css";
 
-/* icanspeak.it palette (docs/brand/BRAND.md). The token names are the fork's (brand-blue,
-   blue-50…900, accent) so no component had to change: "blue" is now the icanspeak navy
-   #2b4162 and "accent" the amber. Two deliberate departures from the brand sheet, both for
+/* icanspeak palette (docs/brand/BRAND.md §3, kit tokens in brand-tokens.css). The token
+   names are the fork's (brand-blue, blue-50…900, accent) so no component had to change:
+   "blue" is the kit navy #172a6e, "accent" the kit sun yellow #ffc21a.
    WCAG AA (4.5:1 for text):
-   - --accent is #946620, a deeper amber than the brand's #b3812e (3.2:1 on the paper
-     background). It is used as text in eyebrows and as a fill behind white labels, and
-     passes both ways. The brand amber itself is --brand-amber, for dots, underlines and
-     other marks that carry no text.
-   - --muted is #6b6152 rather than #7a6f60, which drops to 4.1:1 on --surface. */
+   - --accent (yellow) is a fill only, never text on white (1.6:1). Text and labels on it are
+     navy (8.2:1), as the kit says; amber text uses --accent-dark (7.1:1 on white).
+   - --brand-amber is a yellow mark (the .q-mark underline), never text. */
 :root {
-  --brand-amber:      #b3812e;
+  --brand-amber:      #ffc21a;
   --brand-blue-light: #bfe3ff;
+  /* Dark amber, used as a border/accent hue next to the navy (5.9:1 as text on white). */
   --brand-cyan:       #8a5a00;
   --brand-blue:       #172a6e;
   --brand-blue-dark:  #0d1a4a;
   /* Fill behind white labels; differs from --brand-blue only in the dark theme. */
-  --brand-fill:       #2b4162;
+  --brand-fill:       #172a6e;
   --accent:           #ffc21a;
   --accent-dark:      #7a4f00;
-  --accent-soft:      #f0e2bf;
+  --accent-soft:      #fff1c2;
 
   /* The plural article's colour, used where a noun's gender is shown by hue (see the note
      on .vt-art in vokabeltrainer.css). Its own token rather than --accent-dark, which was
@@ -31,8 +30,7 @@
      standing on colour alone. */
   --gender-plural:    #facc15;
 
-  /* Navy scale around --color-primary #2b4162 (600) and --color-primary-dark #1a2940 (800);
-     100 is the brand's --color-primary-soft. */
+  /* Navy scale around the kit navy #172a6e (600) and its hover #0d1a4a (800). */
   --blue-50:  #f3f5fb;
   --blue-100: #e6ebf7;
   --blue-200: #cdd6ee;
@@ -46,27 +44,24 @@
 
   --ink:        #172a6e;
   --ink-deep:   #0d1a4a;
-  /* Body copy in the brand is --color-text #3c352c; here --ink carries headings and body
-     alike, so it stays the darker ink. */
-  --text:       #3c352c;
+  /* Body copy in the kit is #38427a (9.4:1 on white); here --ink carries headings and most
+     body text alike, so it stays the navy. */
+  --text:       #38427a;
   --muted:      #566173;
   /* Used as text in many places (counters, hints, notes), so it has to pass AA on
-     --surface too; barely lighter than --muted for that reason. */
-  --muted-soft: #6b7483;
+     --surface too (4.9:1; 5.3:1 on white); barely lighter than --muted for that reason. */
+  --muted-soft: #636c7b;
   --border:     #e7e9ee;
   --border-strong: #c6cbd6;
   --surface:    #f5f6fa;
   /* Page ground and card ground. Split out from the literal #fff they used to be
      so dark mode has somewhere to hook in — see the [data-theme="dark"] block below.
-     The page is the brand's warm paper; cards stay white on it. */
+     White, as in the kit. */
   --page-bg:      #ffffff;
   --surface-card: #ffffff;
-  /* The two faint glows on the paper (amber top left, navy top right), see body below. */
-  --page-glow-a: rgba(179,129,46,.10);
-  --page-glow-b: rgba(43,65,98,.07);
   /* Deliberately-inverted bands (footers, the dashboard callout) — dark in light
      mode, and *deeper* rather than lighter in dark mode, so they stay a band.
-     The brand footer navy. */
+     The kit's near-black. */
   --inverse-surface: #111015;
   /* The level rail beside a panel is not a band; at full inverse-surface it was the
      loudest thing on the page. The primary navy keeps white labels readable (10:1). */
@@ -80,9 +75,10 @@
   /* Semantic status colors — formalized from colors already organically in use
      across practice.css/akkusativ.css/fakten-layouts.css. New/refactored UI
      should reference these instead of one-off hex values.
-     Harmonised with the warm palette (a moss green, a brick red, an ochre, a slate
-     blue) but still clearly green/red/yellow/blue; every one is ≥ 4.9:1 as text on
-     its own -soft ground, on the paper and on white. --warning was #f2a900 (2:1 as text). */
+     Muted (a moss green, a brick red, an ochre, a slate blue) so they sit next to the
+     kit's bright fills without competing, but still clearly green/red/yellow/blue; every
+     one is ≥ 4.9:1 as text on its own -soft ground and on white. --warning was #f2a900
+     (2:1 as text). */
   --success:      #2e6b47;
   --success-soft: #eaf3ec;
   --success-border: #a9cdb3;
@@ -111,7 +107,7 @@
   --font-label: "Inter", "Segoe UI", Arial, sans-serif;
   /* Mascot voice: speech bubbles, mascot hints, feedback words, name tags.
      Only for text a mascot says — never headlines, body or buttons.
-     Was Fredoka; in the brand the mascots speak in the heading serif. */
+     Fredoka 600, self-hosted in fonts.css (BRAND.md §4). */
   --font-voice: "Fredoka", "Inter", sans-serif;
 
   /* Type scale */
@@ -125,7 +121,7 @@
   --text-4xl:  clamp(1.8rem, 4vw, 2.25rem);
   --text-5xl:  clamp(1.8rem, 4vw, 2.8rem);
 
-  /* Inter ships 400-700 (fonts.css), Fraunces 400-600: 300 renders as 400 and 800 as the
+  /* Inter ships 400-700 (fonts.css), Fraunces 400-600 and 900: 300 renders as 400 and 800 as the
      heaviest face there is. Light is reserved for header and back links, which are marked
      as links by colour and need no weight at all. */
   --fw-light:     300;
@@ -158,12 +154,12 @@
   --radius-lg: 20px;
   --radius-pill: 999px;
 
-  /* Brand shadows: --shadow-sm and --shadow-md (here --shadow-hover) as in BRAND.md. */
-  --shadow-sm: 0 1px 2px rgba(36,32,27,.08);
-  --shadow-md: 0 10px 28px rgba(36,32,27,.10);
+  /* Shadows, faintly tinted with the kit navy. */
+  --shadow-sm: 0 1px 2px rgba(23,42,110,.08);
+  --shadow-md: 0 10px 28px rgba(23,42,110,.10);
   --shadow-hover: var(--shadow-md);
-  --shadow-cta: 0 8px 20px rgba(43,65,98,.22);
-  --shadow-raised: 0 18px 44px rgba(36,32,27,.14);
+  --shadow-cta: 0 8px 20px rgba(23,42,110,.22);
+  --shadow-raised: 0 18px 44px rgba(23,42,110,.14);
 
   /* Motion */
   --ease-standard: cubic-bezier(.4, 0, .2, 1);
@@ -308,8 +304,6 @@ html[data-paywall="on"]:not([data-plan="premium"]):not([data-plan="pack"]) [data
   --page-bg:      #16130f;
   --surface-card: #211d18;
   --surface:      #1b1814;
-  --page-glow-a: rgba(179,129,46,.07);
-  --page-glow-b: rgba(143,163,192,.05);
 
   --ink:        #f1ebe0;
   --ink-deep:   #fbf7ef;
@@ -399,16 +393,13 @@ html[data-paywall="on"]:not([data-plan="premium"]):not([data-plan="pack"]) [data
 body {
   margin: 0;
   font-family: var(--font-body);
-  /* Warm paper with two faint glows at the top (BRAND.md). */
-  background:
-    radial-gradient(900px 520px at 0% 0%, var(--page-glow-a), transparent 65%) no-repeat,
-    radial-gradient(820px 520px at 100% 0%, var(--page-glow-b), transparent 65%) no-repeat,
-    var(--page-bg);
+  /* A plain ground: white in the kit (BRAND.md), the night tone in dark mode. */
+  background: var(--page-bg);
   color: var(--ink);
   line-height: 1.6;
   transition: background-color var(--duration-base) var(--ease-standard);
 }
-/* Headings in Fraunces (500 for h1/h2, 600 for h3/h4), as on icanspeak.it. Components that
+/* Headings in Fraunces 900 (h1–h3) as in the kit (BRAND.md §4), h4 at 600. Components that
    set their own family or weight keep it; this is the default they start from (:where()
    keeps it at zero specificity, so any class rule wins). No colour here: a heading on a
    dark band inherits the band's white. */
@@ -417,8 +408,9 @@ body {
   letter-spacing: -0.01em;
   line-height: 1.15;
 }
-:where(h1, h2) { font-weight: 500; }
-:where(h3, h4) { font-weight: 600; }
+:where(h1, h2, h3) { font-weight: 900; }
+:where(h1, h2) { letter-spacing: -0.02em; }
+:where(h4) { font-weight: 600; }
 :where(a:not([class])) { color: var(--brand-blue); }
 :where(a:not([class])):hover { color: var(--brand-blue-dark); }
 img { max-width: 100%; display: block; }

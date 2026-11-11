@@ -313,6 +313,7 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
     import { mountQuiz } from "../../../lib/quiz.js";
     import { recordAttempt } from "../../../lib/progress.js";
     import { currentPath } from "../../../lib/paths.js";
+    import { itemKey } from "../../../lib/routes.js";
 
     const questions = JSON.parse(document.getElementById("in-quiz-data").textContent);
     const topicId = itemKey("/culture/insider", currentPath().split("/").filter(Boolean)[2]);

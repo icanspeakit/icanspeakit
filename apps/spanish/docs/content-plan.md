@@ -1,9 +1,10 @@
 # Content plan: English course → icanspeak Spanish
 
 Written 2026-11-03 by the `content-plan` run. It replaces the German → English plan of the
-EnglishAcademy fork (that file is in the icanspeak-english history; this repo starts from the
-squashed snapshot `9577286` = icanspeak English @ `39ac46f`, so its old commit hashes such as
-`db88ba4` do **not** exist here).
+EnglishAcademy fork (that file is in the icanspeak-english history). The Spanish history starts
+from the squashed snapshot `9577286` = icanspeak English @ `39ac46f`. Since 2026-11-09 both
+courses live in the icanspeakit monorepo with their histories merged, so icanspeak-english
+hashes such as `db88ba4` **are** reachable here again; see §7 for how to restore from them.
 
 **Every later item in the queue (`overclaude/projects/icanspeak-spanish/QUEUE.md`) follows this
 file.** A run that has to deviate (a mapping turns out not to work) changes this file in the same
@@ -138,7 +139,7 @@ The English course left several German fields hollow or gave them English meanin
 - No `es419` = same in Latin America as far as this course goes. Don't invent differences;
   typical real ones: *vosotros → ustedes*, *ordenador/computadora, coche/carro (auto), móvil/celular,
   zumo/jugo, piso/departamento (apartamento), conducir/manejar, coger/tomar, gafas/lentes
-  (anteojos), patata/papa, melocotón/durazno, vale/okey-dale (regional)*, seseo, *perfecto vs
+  (anteojos), patata/papa, melocotón/durazno*, *vale* (Spain; in Latin America it varies by country: *dale, sale, ok*), seseo, *perfecto vs
   indefinido for recent past*, *leísmo* (Spain accepts *le* for male persons; LatAm prefers *lo*).
 
 **Where the fields go:**
@@ -439,19 +440,24 @@ tables; accents (*habláis, comeríais, estéis*) checked by script.
   teórico, práctico, permiso B, puntos*), *documentos y multas*. A short orientation box: the
   theory exam can be taken in some other languages (which: "to verify"), the official source is
   the DGT website.
-- **Where the removed Führerschein module comes back from:** it is **not in this repo's
-  history** (it starts at `9577286`, a squashed snapshot of icanspeak English @ `39ac46f`). The
-  files were removed in icanspeak-english commit `db88ba4` (`cleanup`, 2026-11-02); the state
-  before it is `db88ba4~1` in the **icanspeak-english** repo (paths in `EXPERIMENTE.md`:
-  `src/data/fuehrerschein`, `src/lib/fahrQuiz.js`, `fahrQuizData.js`, `fahrSzene.js`,
-  `fuehrerscheinData.js`, `stadtfahrt.js`, `src/lib/vorfahrt`, `src/pages/games/stadtfahrt.astro`,
-  `vorfahrt.astro`, `src/styles/vorfahrt.css`; older still in deutschacademy).
-  **Decision:** `dgt-vocab` restores **nothing**: the deck needs none of it, the German question
-  bank is German-law content and must not come back, and queue runs must not touch other
-  repositories. If a later item wants the driving scene code (`fahrSzene.js`) or the driving
-  games, Edgar exports the files from icanspeak-english (`git -C <icanspeak-english> show
-  db88ba4~1:<path>`) into this repo; that item then adapts them to Spanish rules and records it
-  in `EXPERIMENTE.md`.
+- **Where the removed Führerschein module comes back from:** git history. The files were
+  removed in icanspeak-english commit `db88ba4` (`content(cleanup): drop the Führerschein module
+  and the driving games`, 2026-11-02), before the Spanish snapshot `9577286` was taken, so the
+  Spanish line of history never had them. Since the monorepo merge (2026-11-09) `db88ba4` is
+  reachable in the icanspeakit repo; its paths are those of the old icanspeak-english root (no
+  `apps/…` prefix). Main files at `db88ba4~1`: `src/data/fuehrerschein/*` (`wortschatz.json`,
+  `fragen.json`, `regeln.json`, `szenen.json`, `ablauf.json`, …), `src/data/uebersetzungen/fuehrerschein.json`,
+  `src/lib/fuehrerschein*.js`, `fahrQuiz.js`, `fahrQuizData.js`, `fahrSpiel.js`, `fahrSzene.js`,
+  `fahrSzenePlayer.js`, `stadtfahrt.js`, `src/lib/vorfahrt/*`, `src/components/FahrSzene.astro`,
+  `src/components/fuehrerschein/*`, `src/pages/fuehrerschein/**`, `src/pages/games/{stadtfahrt,vorfahrt}.astro`,
+  `src/styles/{fahr-szene,fahrspiel,vorfahrt}.css`, `public/img/verkehrszeichen/*.svg` (German
+  signs), `scripts/check-fuehrerschein.mjs` (full list: `git show --stat db88ba4`). One file, from
+  the monorepo root: `git show db88ba4~1:src/lib/fahrSzene.js > apps/spanish/src/lib/fahrSzene.js`.
+  Older versions are in deutschacademy.
+  **Decision:** `dgt-vocab` restores **nothing**: the deck needs none of it, and the German
+  question bank, rules and sign images are German-law content that must not come back. If a later
+  item wants the driving scene code (`fahrSzene.js`) or the driving games, it restores them with
+  the command above, adapts them to Spanish rules and records it in `EXPERIMENTE.md`.
 
 ---
 
@@ -553,7 +559,7 @@ browser voice (`LANG = "es-ES"` in the check libs, the dialogue voice in `src/li
 |---|---|
 | `redewendungen.json` | Spanish idioms and proverbs B1–C1 used in Spain (*estar en las nubes, costar un ojo de la cara, ponerse las pilas*); `de` = the idiom, `en` = English meaning; origin only where well sourced |
 | `umgangssprache.json` | colloquial Spain Spanish (*guay, currar, flipar, mola, tío/tía, vale*) with register notes; mild-to-strong swearing with warnings, no slurs; the UK law note goes |
-| `typische-fehler.json` | typical mistakes (*soy cansado, la problema, me gusta los libros, estoy de acuerdo* vs *soy de acuerdo*, *pienso de*) in the same 5 group ids |
+| `typische-fehler.json` | typical mistakes (*soy cansado, la problema, me gusta los libros*, *soy de acuerdo* for *estoy de acuerdo*, *pienso de ti* for *pienso en ti*) in the same 5 group ids |
 | `fehler-nach-sprache.json` | mistakes per first language. Language slots: `spanisch` (Spanish speakers) → **English speakers** (id `englisch`, it is free again); add `portugiesisch`; keep `deutsch`, `franzoesisch`, `italienisch`; keep `arabisch`, `ukrainisch`, `russisch`, `chinesisch` and add `rumaenisch` (large groups in Spain) only with reliable content; `tuerkisch`, `persisch`, `polnisch`, `vietnamesisch`, `tagalog` kept only if the run writes reliable content, otherwise removed (with their drills) |
 | `wortfallen.json` | false friends for English (*embarazada, constipado, éxito, carpeta, librería, actualmente*), German (*el gimnasio* ≠ Gymnasium, *la tasa* ≠ Tasse, *el mantel* ≠ Mantel), French (*la carpeta* ≠ carpette, *largo* ≠ large), Portuguese (*exquisito, polvo, oficina*), Italian (*burro, salir*) speakers; group ids new (English), en.json keys re-keyed in the same commit |
 | `synonyme.json` | Spanish synonym groups A1–B2 with register differences |
@@ -673,7 +679,7 @@ when their Spanish batch lands (the same `publishOn` dates reused); `cleanup` re
 | Module | Spanish course |
 |---|---|
 | `/knowledge/accents` (`dialekte.json`, `dialekte-karte.json`, `dachMap.js`) | varieties of Spanish **in Spain** (Castilian north/centre, Andalusian, Canarian, Murcian, Extremaduran, Spanish in Catalonia/Galicia/Basque Country) with features (seseo/ceceo, aspiration, yeísmo); world varieties (Mexican, Caribbean, Andean, Rioplatense, Chilean) as notes; Spain's co-official languages (Catalan/Valencian, Galician, Basque, Aranese) as dots (`lang: true`). Map geometry from Natural Earth as the English run did (geo packages in a scratch folder, never site dependencies). |
-| `/knowledge/languages` (`sprachen-welt.json`, `sprachen-karte.json`) | where Spanish is spoken: 20 countries with Spanish as official/main language + Puerto Rico, Equatorial Guinea, the US as a large community; status keys keep names with these meanings |
+| `/knowledge/languages` (`sprachen-welt.json`, `sprachen-karte.json`) | where Spanish is spoken: the 20 sovereign countries with Spanish as an official language (Spain, 18 in the Americas, Equatorial Guinea) plus Puerto Rico, and the US as a large community; status keys keep names with these meanings |
 
 ---
 
@@ -697,9 +703,16 @@ visitor. New files use English names. A later clean-up of file names is out of t
 | 617 unused `en.json` keys, photos of Germany and of old sectors (`politik*`, `kultur`, `leben-in-deutschland`, `berufe-kita`, `berufe-elektro-technik`), `.tdaf-*` styles, done by `cleanup` | no reader, or they show Germany | `git checkout 06c1090~1 -- <path>` |
 | `public/og/` hub cards, `public/zitate/`, `public/img/merch/`, four stray photos in `public/assets/`, done by `cleanup` | old brand or German content, no reader | `git checkout 77c57b6~1 -- <path>` |
 
+**Restore commands since the monorepo merge (2026-11-09):** the hashes above are from the
+Spanish repo's own history and still exist, but their trees have the old repo-root paths
+(`src/…`, not `apps/spanish/src/…`), so a plain `git checkout <hash>~1 -- <path>` no longer
+lands in the right place. From the monorepo root use `git show <hash>~1:<path> >
+apps/spanish/<path>` (one file) or `git archive <hash>~1 <dir> | tar -x -C apps/spanish`
+(a folder). The same applies to the commands in `EXPERIMENTE.md`.
+
 Experiment pages follow CLAUDE.md (`EXPERIMENTE.md` archive entry before removal). The
 Führerschein, driving games, politics, tax havens, beer map and German declension were already
-removed in icanspeak-english (§4.4 for where they live).
+removed in icanspeak-english before the Spanish snapshot (§4.4 for where they live).
 
 ---
 
@@ -874,7 +887,7 @@ are handled by the `ui-*` items where they are rendered.
 - **Edgar: review** the sector swap in Spanish for work (§5.12): `elektro-technik` → agriculture,
   `kita` → cleaning and domestic work.
 - **Town name** *Villabruno* (§5.9) is settled (`games-dialogue`, 2026-11-06): a web search found no municipality of that name; the INE list itself was not checked.
-- **Führerschein restore**: only by Edgar, from icanspeak-english `db88ba4~1` (§4.4).
+- **Führerschein restore**: not planned; if wanted, from `db88ba4~1` in this monorepo (§4.4).
 - **Frequency ranks**: `es_50k` licence and download (§1.4).
 - **Audio**: every `audio` field points to files that don't exist until an es-ES TTS voice is
   wired (`BACKEND.speech`); validators that need the files stay off until then.
