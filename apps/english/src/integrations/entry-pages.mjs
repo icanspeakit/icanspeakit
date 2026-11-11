@@ -22,7 +22,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { entryLanguages, BASE } from '../lib/languages.js';
+import { entryLanguages, languageOf, BASE } from '../lib/languages.js';
 import { absoluteUrl, rebaseHtml } from '../lib/paths.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -108,17 +108,35 @@ export function translateHtml(html, dict) {
 
 const setMeta = (html, re, value) => html.replace(re, (tag) => tag.replace(/content="[^"]*"/, `content="${escAttr(value)}"`));
 
-/** The German URL of a page and its copy in one language: home with a trailing slash, the rest without. */
-const deUrl = (_site, page) => absoluteUrl(page.src);
-const langUrl = (_site, page, l) => absoluteUrl(`/${l.urlPrefix}/${page.slug}`);
+/** The base-language URL of a page (the English one) and its copy in one language. */
+// No trailing slash: the form Layout.astro puts in <link rel="canonical"> and the sitemap lists,
+// so a page's canonical and its hreflang entries are the same URL.
+const noSlash = (u) => u.replace(/\/$/, '');
+const baseUrl = (_site, page) => noSlash(absoluteUrl(page.src));
+const langUrl = (_site, page, l) => noSlash(absoluteUrl(`/${l.urlPrefix}/${page.slug}`));
 
 function alternatesHtml(site, page, langs) {
-  const de = deUrl(site, page);
-  return [`<link rel="alternate" hreflang="${BASE}" href="${de}">`,
+  const base = baseUrl(site, page);
+  return [`<link rel="alternate" hreflang="${BASE}" href="${base}">`,
     ...langs.map((l) => `<link rel="alternate" hreflang="${l.hreflang}" href="${langUrl(site, page, l)}">`),
-    `<link rel="alternate" hreflang="x-default" href="${de}">`].join('');
+    `<link rel="alternate" hreflang="x-default" href="${base}">`].join('');
 }
 const withAlternates = (html, alt) => html.replace(/<link rel="alternate" hreflang="[^"]*" href="[^"]*">/g, '').replace('</head>', `${alt}</head>`);
+
+/* The language switcher of an entry page: one link per version of the page (English and each
+ * entry language), rendered at build time so it works without JS and does not depend on the
+ * header picker (which only lists languages past GATES.ui). The current one is marked. */
+function switcherHtml(site, page, langs, current) {
+  const items = [
+    { code: BASE, hreflang: BASE, native: languageOf(BASE)?.native ?? BASE, href: baseUrl(site, page) },
+    ...langs.map((l) => ({ code: l.code, hreflang: l.hreflang, native: l.native, href: langUrl(site, page, l) })),
+  ];
+  const links = items.map((i) => `<a href="${escAttr(i.href)}" lang="${escAttr(i.hreflang)}" hreflang="${escAttr(i.hreflang)}"${i.code === current ? ' aria-current="true"' : ''}>${escText(i.native)}</a>`).join('');
+  return `<nav class="ep-langs" aria-label="Language · Sprache">`
+    + `<style>.ep-langs{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;padding:8px 16px;font-size:.9rem;background:var(--surface-card,#fff);border-bottom:1px solid var(--border,#e7e9ee)}.ep-langs a{color:var(--brand-blue-dark,#0f766e);text-decoration:none}.ep-langs a[aria-current="true"]{font-weight:700;text-decoration:underline}</style>`
+    + links + `</nav>`;
+}
+const withSwitcher = (html, nav) => (html.includes('class="ep-langs"') ? html : html.replace(/<body\b[^>]*>/i, (tag) => tag + nav));
 
 function introHtml(intro, l) {
   const links = intro.links.map(([label, href]) => `<li><a href="${escAttr(href)}" rel="noopener" target="_blank">${escText(label)}</a></li>`).join('');
@@ -144,7 +162,7 @@ export async function buildEntryPages(root, site, logger = console) {
     if (!existsSync(src)) { logger.warn?.(`entry-pages: ${page.src} not built, skipped`); continue; }
     const german = await readFile(src, 'utf8');
     const alt = alternatesHtml(site, page, langs);
-    await writeFile(src, withAlternates(german, alt));
+    await writeFile(src, withAlternates(withSwitcher(german, switcherHtml(site, page, langs, BASE)), alt));
     for (const l of langs) {
       const own = cfg.langs[l.code];
       const [title, description, h1] = own.meta[page.src] ?? [];
@@ -175,7 +193,7 @@ export async function buildEntryPages(root, site, logger = console) {
         if (close) html = html.slice(0, close.end) + introHtml(own.intro, l) + html.slice(close.end);
         else logger.warn?.('entry-pages: home hero not found, intro skipped');
       }
-      html = rebaseHtml(withAlternates(html, alt));
+      html = rebaseHtml(withAlternates(withSwitcher(html, switcherHtml(site, page, langs, l.code)), alt));
       const out = fileOf(`/${l.urlPrefix}${page.slug ? `/${page.slug}` : ''}`);
       await mkdir(path.dirname(out), { recursive: true });
       await writeFile(out, html);

@@ -15,6 +15,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { htmlFiles, toPathname, NOINDEX, REFRESH } from './sitemap.mjs';
 import { absoluteUrl } from '../lib/paths.js';
+import { entryLanguages } from '../lib/languages.js';
 
 /** Headings and the pages under them. `/x/*` = every built page below /x as well. */
 const SECTIONS = [
@@ -25,7 +26,8 @@ const SECTIONS = [
   ['Alltag, Beruf und Landeskunde', ['/english-for-work', '/culture', '/knowledge', '/knowledge/word-stories']],
   ['Für Lehrkräfte', ['/teachers']],
   // The entry pages with their own URL per language (./entry-pages.mjs): the home of each.
-  ['In anderen Sprachen', ['/es', '/pt-br', '/vi', '/hi', '/id', '/tl']],
+  // Derived from the registry, so a language added there is listed here with no change.
+  ['In anderen Sprachen', entryLanguages().map((l) => `/${l.urlPrefix}`)],
 ];
 
 const ENTITIES = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'", '&#x27;': "'" };
