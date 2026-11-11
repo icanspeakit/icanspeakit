@@ -24,7 +24,7 @@ export const COURSES: Course[] = [
     name: 'Español',
     english: 'Spanish',
     meta: 'Castilian Spanish · DELE and SIELE · life in Spain',
-    live: true, // almost ready,
+    live: false, // flip to true after the Spanish Worker is deployed (step 4)
   },
   {
     slug: 'french',

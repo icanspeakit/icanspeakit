@@ -31,7 +31,7 @@ The course is a Cloudflare Worker with **static assets only** (no Worker code). 
 `apps/spanish`). The root DEPLOY.md describes the account and the umbrella site.
 
 ```sh
-pnpm --filter englishacademy deploy   # build, then cf:prepare, then wrangler deploy
+pnpm --filter englishacademy run deploy   # build, then cf:prepare, then wrangler deploy
 ```
 
 - **`pnpm build`** writes `dist/`. The base path makes Astro write the pages without the
