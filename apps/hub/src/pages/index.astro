@@ -138,34 +138,20 @@ const HERO = [
   </div>
   <script is:inline>
     (function () {
-      // Both circles walk the page through the four brand colours; the layout switch also flips the layout.
+      // Two circles, each with its own step through the four brand colours. A click moves only the
+      // clicked circle, and the page background takes that circle's new colour. The layout never changes.
       var TONES = ['green', 'red', 'blue', 'yellow'];
-      var step = 0;
-      var turns = document.querySelectorAll('.l-turn');
-      function setStep(n) {
-        step = n % TONES.length;
-        document.body.dataset.tone = TONES[step];
-        turns.forEach(function (b) {
+      document.body.dataset.tone = TONES[0];
+      document.querySelectorAll('.l-turn, .l-flip').forEach(function (b) {
+        var step = 0;
+        b.dataset.step = '0';
+        b.addEventListener('click', function () {
+          step = (step + 1) % TONES.length;
           b.dataset.step = String(step);
           b.style.setProperty('--spin', (step * 360) + 'deg');
           b.setAttribute('aria-pressed', step === 0 ? 'false' : 'true');
+          document.body.dataset.tone = TONES[step];
         });
-      }
-      setStep(0);
-      turns.forEach(function (b) {
-        b.addEventListener('click', function () { setStep(step + 1); });
-      });
-      var flip = document.querySelector('.l-flip');
-      if (!flip) return;
-      function current() { return document.body.dataset.v === 'c' ? 'c' : 'a'; }
-      function paint(v) { flip.setAttribute('aria-pressed', v === 'c' ? 'true' : 'false'); flip.classList.toggle('is-flipped', v === 'c'); }
-      paint(current());
-      flip.addEventListener('click', function () {
-        var next = current() === 'c' ? 'a' : 'c';
-        document.body.dataset.v = next;
-        paint(next);
-        setStep(step + 1);
-        try { localStorage.setItem('isk-landing-v', next); } catch (e) {}
       });
     })();
   </script>

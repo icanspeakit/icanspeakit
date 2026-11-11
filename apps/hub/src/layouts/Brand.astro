@@ -32,7 +32,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <meta property="og:image" content={new URL('/logos/icanspeakit-mark-1024.png', Astro.site).href} />
   </head>
   <body class="landing">
-    <script is:inline>try{var q=new URLSearchParams(location.search).get("v")||localStorage.getItem("isk-landing-v");if(q==="a"||q==="c")document.body.dataset.v=q}catch(e){}</script>
     <slot />
   </body>
 </html>

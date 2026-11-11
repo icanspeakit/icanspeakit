@@ -74,19 +74,10 @@ a.l-course--live:hover { background: var(--isk-cream); }
 .l-ling { background: var(--isk-cream); }
 @media (max-width: 640px) { body.landing { padding: 10px; } .l-frame { border-radius: 22px; } }
 
-/* c: Postcard. Sky surround, white card with a hard navy offset shadow, tiles tilt slightly. */
-body[data-v="c"] { padding: 28px; background: var(--isk-sky-soft); }
-body[data-v="c"] .l-frame { background: var(--isk-white); border-radius: 28px; box-shadow: 10px 10px 0 var(--isk-navy); max-width: 1320px; }
-body[data-v="c"] .l-hero__grid .isk-tile { border-radius: 18px; }
-body[data-v="c"] .l-hero__grid { gap: 8px; }
-body[data-v="c"] .l-band { margin: 0 24px; border-radius: 28px; }
-body[data-v="c"] .l-hero, body[data-v="c"] .l-ling { background: var(--isk-white); }
-body[data-v="c"] .l-ribbon { margin: 16px 24px; border-radius: 20px; }
-
-/* Layout switch: the top-right half-moon. Click turns it over (navy top becomes yellow top) and the page changes layout. */
+/* Colour switch: the top-right half-moon. A click moves the page colour on; the layout never changes. */
 .l-flip { border: 0; padding: 0; cursor: pointer; font: inherit; }
 .l-flip::before { transition: transform .6s cubic-bezier(.3,.7,.3,1); }
-.l-flip.is-flipped::before { transform: rotate(180deg); }
+.l-flip::before { transform: rotate(var(--spin, 0deg)); }
 .l-flip:focus-visible { outline: 3px solid var(--isk-navy); outline-offset: -6px; }
 
 /* Turning half-moon: rotates on click, no other effect yet. */
@@ -108,5 +99,9 @@ body.landing[data-tone="yellow"] { background: var(--isk-yellow); }
 .l-turn[data-step="1"] { --bg: var(--isk-coral); --a: var(--isk-sky); --b: var(--isk-yellow); }
 .l-turn[data-step="2"] { --bg: var(--isk-sky); --a: var(--isk-yellow); --b: var(--isk-green); }
 .l-turn[data-step="3"] { --bg: var(--isk-yellow); --a: var(--isk-green); --b: var(--isk-coral); }
-.l-flip { --bg: var(--isk-yellow); --a: var(--isk-sky); --b: var(--isk-green); background: var(--bg); }
-.l-flip.is-flipped { --bg: var(--isk-coral); --a: var(--isk-yellow); --b: var(--isk-sky); }
+.l-flip { background: var(--bg); }
+/* Same four steps as the turn tile, a different colour on each: tile, then two circle halves. */
+.l-flip, .l-flip[data-step="0"] { --bg: var(--isk-yellow); --a: var(--isk-sky); --b: var(--isk-coral); }
+.l-flip[data-step="1"] { --bg: var(--isk-green); --a: var(--isk-yellow); --b: var(--isk-sky); }
+.l-flip[data-step="2"] { --bg: var(--isk-coral); --a: var(--isk-green); --b: var(--isk-yellow); }
+.l-flip[data-step="3"] { --bg: var(--isk-sky); --a: var(--isk-coral); --b: var(--isk-green); }
