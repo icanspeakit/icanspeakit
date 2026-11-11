@@ -92,15 +92,21 @@ body[data-v="c"] .l-ribbon { margin: 16px 24px; border-radius: 20px; }
 /* Turning half-moon: rotates on click, no other effect yet. */
 .l-turn { border: 0; padding: 0; cursor: pointer; font: inherit; }
 .l-turn::before { transition: transform .6s cubic-bezier(.3,.7,.3,1); }
-.l-turn.is-flipped::before { transform: rotate(180deg); }
+.l-turn::before { transform: rotate(var(--spin, 0deg)); }
 .l-turn:focus-visible { outline: 3px solid var(--isk-navy); outline-offset: -6px; }
 /* The turning half-moon sits on green. Turning it changes the whole page: green at rest, red when turned. */
 body.landing[data-tone="green"] { background: var(--isk-green); }
 body.landing[data-tone="red"] { background: var(--isk-coral); }
+body.landing[data-tone="blue"] { background: var(--isk-sky); }
+body.landing[data-tone="yellow"] { background: var(--isk-yellow); }
 
 /* Colours of the two tiles per state, brand colours only. The circle shows the colour the tile
    changes into; clicking changes the background, the circle and the page tone. */
-.l-turn { --bg: var(--isk-green); --a: var(--isk-coral); --b: var(--isk-yellow); background: var(--bg); }
-.l-turn.is-flipped { --bg: var(--isk-coral); --a: var(--isk-green); --b: var(--isk-yellow); }
-.l-flip { --bg: var(--isk-yellow); --a: var(--isk-green); --b: var(--isk-coral); background: var(--bg); }
-.l-flip.is-flipped { --bg: var(--isk-sky); --a: var(--isk-coral); --b: var(--isk-yellow); }
+.l-turn { background: var(--bg); }
+/* Four steps through green, coral, sky and yellow: the tile is the current colour, the circle shows the next two. */
+.l-turn, .l-turn[data-step="0"] { --bg: var(--isk-green); --a: var(--isk-coral); --b: var(--isk-sky); }
+.l-turn[data-step="1"] { --bg: var(--isk-coral); --a: var(--isk-sky); --b: var(--isk-yellow); }
+.l-turn[data-step="2"] { --bg: var(--isk-sky); --a: var(--isk-yellow); --b: var(--isk-green); }
+.l-turn[data-step="3"] { --bg: var(--isk-yellow); --a: var(--isk-green); --b: var(--isk-coral); }
+.l-flip { --bg: var(--isk-yellow); --a: var(--isk-sky); --b: var(--isk-green); background: var(--bg); }
+.l-flip.is-flipped { --bg: var(--isk-coral); --a: var(--isk-yellow); --b: var(--isk-sky); }
