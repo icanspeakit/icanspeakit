@@ -32,7 +32,7 @@ const pdf = downloads.find((f: any) => f.id === `berufe-${beruf}`);
 const v = (o: Record<string, unknown>) => JSON.stringify(o);
 ---
 <Layout
-  title={fitTitle(`${deck.title} – Spanish for work`, `${deck.title} – Workplace Spanish`, deck.title)}
+  title={fitTitle(`${deck.title} – Italian for work`, `${deck.title} – Workplace Italian`, deck.title)}
   description={`${deck.intro.split(/(?<=\.)\s/)[0]} Workplace vocabulary with example sentences and translations.`}
   noindex={n === 0}
 >
@@ -55,7 +55,7 @@ const v = (o: Record<string, unknown>) => JSON.stringify(o);
     {deck.jobs?.length > 0 && (
       <section class="bv-jobs" aria-labelledby="bv-jobs-h">
         <h2 id="bv-jobs-h" class="bv-sub" data-i18n="berufe.deck.jobs">Für diese Jobs</h2>
-        <ul class="bv-chips" lang="es">{deck.jobs.map((j: string) => <li>{j}</li>)}</ul>
+        <ul class="bv-chips" lang="it">{deck.jobs.map((j: string) => <li>{j}</li>)}</ul>
       </section>
     )}
 
@@ -100,8 +100,9 @@ const v = (o: Record<string, unknown>) => JSON.stringify(o);
         <ul>
           {samples.map((x) => (
             <li>
-              <q lang="es">{x.example}</q>
-              <span class="bv-sample-word"><b lang="es">{x.gender ? `${x.gender} ${x.lemma}` : x.lemma}</b> — {x.meaning ?? x.deHint}</span>
+              <q lang="it">{x.example}</q>
+              {/* No space after an elided article: l'infermiere, not l' infermiere. */}
+              <span class="bv-sample-word"><b lang="it">{x.gender ? (x.gender.endsWith("'") ? `${x.gender}${x.lemma}` : `${x.gender} ${x.lemma}`) : x.lemma}</b> — {x.meaning ?? x.deHint}</span>
             </li>
           ))}
         </ul>
