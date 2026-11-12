@@ -1,15 +1,16 @@
-// Bruno at the desk (/games/extranjeria): Bruno, our dachshund, works
-// window 3 in the invented town of Villabruno: two days at the padrón, then the foreigners' office
-// (NIE, TIE, questions about arraigo and the 2026 regularisation). The number display dings, a
-// customer slides papers across the desk, and the player checks them against Regi's rule memo:
-// find what contradicts (Check), ask a question in Spanish, then stamp COMPLETO or DEVUELTO.
+// Bruno at the desk (/games/extranjeria, the Préfecture sim): Bruno, our dachshund, works
+// guichet 3 in the invented town of Montbruno: two days at the mairie, then the ANEF help point,
+// the CAF / sécurité sociale desk, and a day of questions this desk never decides (refusal, OQTF,
+// naturalisation). The number display dings, a customer slides papers across the desk, and the
+// player checks them against Regi's rule memo: find what contradicts (Check), ask a question in
+// French, then stamp COMPLET or INCOMPLET.
 // The player only ever checks that paperwork is complete; nothing here decides anyone's status.
 // Code ids keep the names of the German original (the Bürgeramt sim from deutschacademy).
 //
 // This is the game flow: the start card, the days, points and warnings, the end card. The
 // desk itself is tisch.js, cases come from faelle.js, rules from regeln.js. Every interface
 // string is in UI below (one object, so the release tier can move them to i18n keys); the
-// Spanish on the papers, memos and in the customers' mouths is the content being learnt and
+// French on the papers, memos and in the customers' mouths is the content being learnt and
 // stays in regeln.js / faelle.js / kunden.json.
 
 import { makeTisch } from "./tisch.js";
@@ -21,28 +22,28 @@ import { gameMuted, setGameMuted, reducedMotion, GAME_MUTE_EVENT } from "../spie
 
 export const UI = {
   eyebrow: "Game · A2–B1 · Prototype",
-  titel: "Bruno at the desk: padrón and Extranjería",
-  lead: "Bruno works at window 3 in the invented town of Villabruno: first at the town hall (padrón), then at the foreigners’ office (NIE and TIE). Check the papers, find the mistakes, ask in Spanish and stamp: COMPLETO (complete) or DEVUELTO (sent back).",
-  orientacion: "General orientation, not legal advice. Villabruno and its office are invented, and the papers are simplified. A stamp here only says whether paperwork is complete. Rules and deadlines change, so check your town hall, the sede electrónica, your Oficina de Extranjería or your consulate. Facts as of November 2026.",
+  titel: "Bruno at the desk: the préfecture",
+  lead: "Bruno helps at desk 3 in the invented town of Montbruno: first at the town hall (la mairie), then at the ANEF help point, the CAF and health-insurance desk, and a day of questions he can’t decide. Check the papers, find the mistakes, ask in French and stamp: COMPLET (complete) or INCOMPLET (something is missing or wrong).",
+  orientacion: "General orientation, not legal advice. Montbruno and its offices are invented, and the papers are simplified. A stamp here only says whether paperwork is complete, never anything about a person’s status. Rules, forms and deadlines change, so check service-public.gouv.fr, your préfecture, your mairie, your CAF or ameli. Facts as of November 2026; several are marked to be verified.",
   comoJugar: "How to play",
   pasos: [
     "Tap 🔍 Check (or press P), then two things that don’t match: two fields, a field and the calendar, a field and a rule, or what the customer says and a rule.",
     "A match goes on your notes. Tap Ask and choose the question that fits. Sometimes that fixes the problem.",
-    "Papers in order: stamp COMPLETO. Still a problem: stamp DEVUELTO.",
+    "Papers in order: stamp COMPLET (key C). Still a problem: stamp INCOMPLET (key I).",
     "Tap a word on a paper to see what it means. The EN button shows or hides all the English.",
   ],
-  verdad: "How it really works in Spain",
+  verdad: "How it usually works in France",
   fuente: "Source",
   verdadHoy: "Today’s real rules",
-  inventada: "Rules marked “Villabruno rule” are made up for the game.",
+  inventada: "Rules marked “Montbruno rule” are made up for the game.",
   los: "Start day 1",
   wartende: "Waiting",
   punkte: "Points",
   verwarnungen: "Warnings",
   ton: "Sound on/off",
   enTitel: "Show or hide the English",
-  nummer: "Turno",
-  schalter: "Ventanilla 3",
+  nummer: "Numéro",
+  schalter: "Guichet 3",
   pruefen: "Check",
   pruefenTitel: "Check: tap two fields that don’t match (key P, or hold Shift)",
   notizzettel: "Notes",
@@ -52,24 +53,24 @@ export const UI = {
   grundWaehlen: "Why are you rejecting it?",
   abbrechen: "Cancel",
   geklaert: "sorted ✓",
-  genehmigt: "COMPLETO",
-  abgelehnt: "DEVUELTO",
+  genehmigt: "COMPLET",
+  abgelehnt: "INCOMPLET",
   ablehnenWarum: "Find a mistake first: tap 🔍 Check, then two fields that don’t match.",
   erstPruefen: "To compare, tap 🔍 Check first (or hold Shift).",
   passt: "That matches.",
   egal: "You can’t compare those.",
   schonNotiert: "That’s already in your notes.",
   schonGeklaert: "That’s already sorted.",
-  memoTitel: "Normas de hoy",
+  memoTitel: "Règles du jour",
   memoVon: "– Regi",
-  tabMemo: "📌 Normas",
-  echt: "Usual in Spain",
-  lindenau: "Villabruno rule",
+  tabMemo: "📌 Règles",
+  echt: "Usual in France",
+  lindenau: "Montbruno rule",
   verwarnung: "Warning",
   richtigGenehmigt: "Correct! The papers were complete.",
   richtigAbgelehnt: "Correctly sent back.",
   falschGenehmigt: (notiz) => `You missed this: ${notiz}`,
-  falschAbgelehnt: "The papers were complete: you should have stamped COMPLETO.",
+  falschAbgelehnt: "The papers were complete: you should have stamped COMPLET.",
   plus: (n) => `+${n}`,
   endeTitel: (tag) => `End of day ${tag}!`,
   endeWoche: "You’ve finished the week!",
@@ -84,11 +85,11 @@ export const UI = {
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
-/** The real-life facts behind some rules: Spanish, English and a source type with a link. */
+/** The real-life facts behind some rules: French, English and a source type with a link. */
 function verdadHtml(ids) {
   return ids.filter((id) => REGELN[id].wirklich).map((id) => {
     const r = REGELN[id];
-    return `<li><p lang="es">${esc(r.wirklich.de)}</p><p class="ba-verdad-en" lang="en">${esc(r.wirklich.en)}</p>
+    return `<li><p lang="fr">${esc(r.wirklich.de)}</p><p class="ba-verdad-en" lang="en">${esc(r.wirklich.en)}</p>
       <small>${UI.fuente}: <a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.quelle)}</a></small></li>`;
   }).join("");
 }
