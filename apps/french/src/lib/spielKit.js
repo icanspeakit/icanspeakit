@@ -6,10 +6,16 @@
 import { audioUrl } from "./audioSource.js";
 import { withBase } from "./paths.js";
 
-let deVoice; // the Spanish (Spain) browser voice (name kept from the German original)
+// The browser voice: French of France first, then any French voice, never another language
+// (an English voice reading French teaches the wrong sounds). Name kept from the German original.
+let deVoice;
 if (typeof window !== "undefined" && window.speechSynthesis) {
   window.speechSynthesis.addEventListener?.("voiceschanged", () => { deVoice = undefined; });
 }
+const isFr = (v, exact) => {
+  const l = (v.lang ?? "").toLowerCase().replace("_", "-");
+  return exact ? l.startsWith("fr-fr") : l === "fr" || l.startsWith("fr-");
+};
 
 /** @param {(clip: string) => string} clipPath where a clip id's mp3 lives */
 export function createVoice(clipPath) {
@@ -19,10 +25,13 @@ export function createVoice(clipPath) {
   function speak(text, npc = false) {
     const s = window.speechSynthesis;
     if (!s) return;
-    if (deVoice === undefined) deVoice = s.getVoices().find((v) => v.lang?.toLowerCase().replace("_", "-").startsWith("es-es")) || s.getVoices().find((v) => v.lang?.toLowerCase().startsWith("es")) || null;
+    const all = s.getVoices();
+    if (deVoice === undefined && all.length) deVoice = all.find((v) => isFr(v, true)) || all.find((v) => isFr(v, false)) || null;
     s.cancel();
+    // Voices listed, none French: stay quiet rather than read French with another language's sounds.
+    if (all.length && !deVoice) { if (npc) onTalk(false); return; }
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = "es-ES";
+    u.lang = "fr-FR";
     if (deVoice) u.voice = deVoice;
     u.rate = 0.9;
     if (npc) {
