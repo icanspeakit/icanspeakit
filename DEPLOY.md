@@ -38,12 +38,12 @@ The zone and the Workers are in "Hello@deutschacademy.com's Account".
 From the repo root, after `pnpm install`:
 
 ```
-pnpm --filter @icanspeak/hub deploy
-pnpm --filter @icanspeak/linguistics deploy
-pnpm --filter englishacademy deploy        # only after the base-path item (see below)
+pnpm --filter @icanspeak/hub run deploy
+pnpm --filter @icanspeak/linguistics run deploy
+pnpm --filter englishacademy run deploy        # only after the base-path item (see below)
 ```
 
-or `pnpm deploy` for all of them. Each app's `deploy` script builds, then runs
+or `pnpm run deploy` for all of them (`pnpm deploy` without `run` is pnpm's own built-in command and fails with ERR_PNPM_INVALID_DEPLOY_TARGET). Each app's `deploy` script builds, then runs
 `wrangler deploy` with that app's `wrangler.jsonc` (routes included).
 
 Order for the first go-live: linguistics and english first, the hub last. The hub's
@@ -75,6 +75,6 @@ with a 301.
 
 ## Vercel
 
-Retired. `main` no longer deploys anywhere by itself; deploys are `pnpm deploy` (wrangler) only.
+Retired. `main` no longer deploys anywhere by itself; deploys are `pnpm run deploy` (wrangler) only.
 `vercel.json` is gone; delete the Vercel project in the Vercel dashboard if it still exists.
 
