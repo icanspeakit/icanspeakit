@@ -49,7 +49,7 @@ const { meta, questions, bundeslaender } = lid;
             <thead><tr><th data-i18n="format.th.part">Part</th><th data-i18n="format.th.what">What is tested</th><th data-i18n="format.th.scope">Scope</th></tr></thead>
             <tbody>
               {meta.tareas.map((t) => (
-                <tr><td lang="es">{t.title}</td><td data-i18n={`lid.tarea.${t.n}.what`}>{t.title}</td><td data-i18n={`lid.tarea.${t.options === 2 ? "tf" : "mc"}`} data-i18n-vars={JSON.stringify({ n: t.realCount })}>{t.realCount}</td></tr>
+                <tr><td lang="it">{t.title}</td><td data-i18n={`lid.tarea.${t.n}.what`}>{t.title}</td><td data-i18n={`lid.tarea.${t.options === 2 ? "tf" : "mc"}`} data-i18n-vars={JSON.stringify({ n: t.realCount })}>{t.realCount}</td></tr>
               ))}
               <tr><td data-i18n="lid.fmt.state.part">Our extra: comunidades autónomas</td><td data-i18n="lid.fmt.state.what">Practice questions on the comunidades autónomas (not part of the real test)</td><td data-i18n="lid.fmt.state.scope" data-i18n-vars={JSON.stringify({ st: meta.stateQuestions })}>{meta.stateQuestions}</td></tr>
             </tbody>

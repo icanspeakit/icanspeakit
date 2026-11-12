@@ -315,7 +315,7 @@ const vars = (v: Record<string, unknown>) => JSON.stringify(v);
                 <tbody>
                   {c.words.map((w, j) => (
                     <tr class:list={[w[2] && "is-same"]}>
-                      <th scope="row" lang="es">{welt.compareWords[j]}</th>
+                      <th scope="row" lang="it">{welt.compareWords[j]}</th>
                       <td>
                         <span lang={RTL_LANG[c.id]} dir={c.rtl ? "rtl" : undefined} class="sp-word">{w[0]}</span>
                         {w[1] && <span class="sp-translit">{w[1]}</span>}
@@ -351,7 +351,7 @@ const vars = (v: Record<string, unknown>) => JSON.stringify(v);
           <div class="sp-dec-demo" aria-hidden="true">
             <span class="sp-dec-demo-en" lang="en">na<mark>tion</mark></span>
             <span class="sp-dec-demo-arrow">→</span>
-            <span class="sp-dec-demo-de" lang="es">na<mark>ción</mark></span>
+            <span class="sp-dec-demo-de" lang="it">na<mark>ción</mark></span>
           </div>
           <div class="sp-dec-how">
             <p class="sp-dec-how-title" data-i18n="sprachen.dec.howTitle">{t("sprachen.dec.howTitle")}</p>
@@ -365,9 +365,9 @@ const vars = (v: Record<string, unknown>) => JSON.stringify(v);
         <ul class="sp-dec">
           {welt.decoder.map((d) => (
             <li class="sp-dec-card">
-              <p class="sp-dec-rule"><span lang="en">{d.from}</span><span class="sp-dec-arrow" aria-hidden="true">→</span><span lang="es">{d.to}</span></p>
+              <p class="sp-dec-rule"><span lang="en">{d.from}</span><span class="sp-dec-arrow" aria-hidden="true">→</span><span lang="it">{d.to}</span></p>
               <ul>
-                {d.pairs.map(([en, es]) => <li><span lang="en">{en}</span><span aria-hidden="true">→</span><b lang="es">{es}</b></li>)}
+                {d.pairs.map(([en, es]) => <li><span lang="en">{en}</span><span aria-hidden="true">→</span><b lang="it">{es}</b></li>)}
               </ul>
             </li>
           ))}
@@ -380,7 +380,7 @@ const vars = (v: Record<string, unknown>) => JSON.stringify(v);
             <li>
               <details>
                 <summary><span lang="en">{en}</span> → <span class="sp-quiz-q">?</span><span class="sp-quiz-show" data-i18n="sprachen.dec.show">{t("sprachen.dec.show")}</span></summary>
-                <b lang="es">{es}</b>
+                <b lang="it">{es}</b>
               </details>
             </li>
           ))}

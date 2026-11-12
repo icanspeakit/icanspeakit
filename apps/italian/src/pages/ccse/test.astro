@@ -15,16 +15,16 @@ import lid from "../../data/leben-in-deutschland.json";
 const { questions, meta, bundeslaender } = lid;
 ---
 <Layout
-  title="CCSE practice test – online – icanspeak Italian"
-  description="A CCSE practice test: our own questions about Spain, scored against the pass mark of the real test. Not the official question bank."
+  title="Civic knowledge practice test – online – icanspeak Italian"
+  description="A civic knowledge practice test: our own questions about life and institutions in Italy, for the civic part of the Accordo di integrazione. Not an official question bank; general orientation, not legal advice."
 >
   <SiteNav active="pruefungen" />
   <main class="practice-main practice-main--wide practice-main--trainer">
     <a href="/progress?pruefung=leben-in-deutschland" class="vp-back-link" data-i18n="exam.backToOverview">Back to the overview</a>
 
     <div class="practice-hero">
-      <p class="eyebrow"><span data-i18n="exam.lid.name">CCSE nationality test</span> · <span data-i18n="lid.test.eyebrow">Practice test</span></p>
-      <h1><span class="hero-exam" data-i18n="exam.lid.name">CCSE nationality test</span> <span data-i18n="exam.h1.lidTest">Practice test</span></h1>
+      <p class="eyebrow"><span data-i18n="exam.lid.name">Civic knowledge test</span> · <span data-i18n="lid.test.eyebrow">Practice test</span></p>
+      <h1><span class="hero-exam" data-i18n="exam.lid.name">Civic knowledge test</span> <span data-i18n="exam.h1.lidTest">Practice test</span></h1>
       <p data-i18n-html="lid.test.hero" data-i18n-vars={JSON.stringify({ n: meta.federalQuestions, t: meta.totalQuestions, m: meta.minutes, pass: meta.passScore })}>
         n practice questions in Spanish in the same five areas as the real test, plus extra questions on a comunidad autónoma. The real test has t questions and m minutes; you pass with pass correct answers (check the current figures with the Instituto Cervantes). Unsure of the facts? Go through the <a href="/ccse/facts">facts page</a> first.
       </p>
@@ -52,7 +52,7 @@ const { questions, meta, bundeslaender } = lid;
       checked="06.11.2026"
     />
 
-    <ExamApp brand="CCSE" sub="Practice test" subKey="lid.test.eyebrow" unit="questions" />
+    <ExamApp brand="Civic knowledge" sub="Practice test" subKey="lid.test.eyebrow" unit="questions" />
   </main>
 
   <script type="application/json" id="lid-data" set:html={JSON.stringify({ questions, meta, bundeslaender })}></script>
@@ -104,7 +104,7 @@ const { questions, meta, bundeslaender } = lid;
             options: (q.options.length === 2 ? q.options.map((o, n) => ({ key: LETTERS[n], label: o })) : seededShuffle(q.options.map((o, n) => ({ key: LETTERS[n], label: o })), q.prompt)).map((o, pos) => ({ ...o, badge: LETTERS[pos] })),
             correctKey: LETTERS[q.options.indexOf(q.answer)],
             existing: ctx.state.answers[id],
-            contentLang: "es",
+            contentLang: "it",
             why: q.explain,
             onAnswer: (given, correct) => ctx.record(id, given, correct),
             // bund-3 → x:lid/q3, land-galicia-2 → x:lid/galicia/q2 (Tier 0 §2)
@@ -215,7 +215,7 @@ const { questions, meta, bundeslaender } = lid;
               "<thead><tr><th>" + escapeHtml(t("format.th.part")) + "</th><th>" + escapeHtml(t("exam.th.correct")) + "</th></tr></thead><tbody>" +
               meta.tareas.map((tarea) => {
                 const part = federalIds.filter((_, i) => federal[i].tarea === tarea.n);
-                return `<tr><td lang="es">${escapeHtml(tarea.title)}</td><td>${countCorrect(part, ctx.state)} / ${part.length}</td></tr>`;
+                return `<tr><td lang="it">${escapeHtml(tarea.title)}</td><td>${countCorrect(part, ctx.state)} / ${part.length}</td></tr>`;
               }).join("") +
               `<tr><td>${escapeHtml(land().name)} (${escapeHtml(T("lid.sec.extra", "Extra"))})</td><td>${countCorrect(landIds(), ctx.state)} / ${landIds().length}</td></tr>` +
               "</tbody>";
