@@ -234,12 +234,12 @@ export function buildSearchIndex() {
     k: "french nationality naturalisation citizenship residence titre de séjour carte de résident multi-year card tcf irn b1 b2 civic exam examen civique exempt contrat d integration republicaine ofii décret how to become french",
     h: "/nationality",
   });
-  // The DGT driving deck: words for the driving course, the road and the paperwork.
+  // The code de la route deck: words for the driving course, the road and the paperwork.
   pages.push({
-    t: "DGT driving vocabulary",
-    s: "Spanish words for the car, the road, signs, the driving exam and the paperwork",
-    k: "dgt driving licence test theory exam spanish spain carné de conducir permiso autoescuela coche carretera señales tráfico road signs car words multa itv puntos canje vocabulary",
-    h: "/dgt-vocabulary",
+    t: "Code de la route vocabulary",
+    s: "French words for the car, the road, signs, the driving exam and the paperwork",
+    k: "code de la route driving licence test theory exam french france permis de conduire auto-école voiture route panneaux circulation amende contrôle technique carte grise points échange de permis road signs car words vocabulary",
+    h: "/code-de-la-route-vocabulary",
   });
   // Business Spanish: phrases, model texts and exercises for office work.
   pages.push({

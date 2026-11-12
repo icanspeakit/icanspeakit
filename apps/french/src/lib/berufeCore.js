@@ -61,7 +61,7 @@ export const ownWords = (deck) =>
 const deckKind = (file) => (file.startsWith("dgt/") ? "dgt" : file.startsWith("business") ? "business" : "berufe");
 /** Deck families whose dangling lexicon refs are errors again (content-plan §1.6 rule 3): each of
  *  code-route-vocab, french-for-work and business-french adds its own when it has re-pointed them. */
-const LEXICON_REF_ERRORS = new Set([]);
+const LEXICON_REF_ERRORS = new Set(["dgt"]);
 
 /** Entries in a deck, refs included: what the hub counts and the trainer shows. */
 export const entryCount = (deck) => (deck.groups ?? []).reduce((n, g) => n + (g.words ?? []).length, 0);
