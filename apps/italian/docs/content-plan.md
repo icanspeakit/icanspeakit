@@ -930,6 +930,23 @@ handled by the `ui-*` items where they are rendered.
   (`BACKEND.speech`); validators that need the files stay off until then.
 - **Regional notes**: data carries `regional` from the start; showing it is a later item, not in
   this queue (`variety.js` has no alternate mode).
+- **Variety, how it is enforced** (`variety-schema`, 2026-11-12): the Spanish data still says
+  `variety: "es-ES"` and carries `es419`. `variety.js` exports `LEGACY_VARIETIES` and tolerates both
+  on items that still say es-ES; `es419` on an it-IT item is an error, and so are es-ES and `es419`
+  anywhere in a module listed in `STRICT` (`check-variety.mjs`). `STRICT` was emptied (every module
+  still holds Spanish content); **each content item adds its module id back** in the commit that
+  converts it (module ids as in `MODULES`; `patente` and `business-italian` are listed already).
+  `validate-lexicon.mjs` and `berufeCore.js` pick the rule set per word: Italian rules for
+  `variety: "it-IT"` (gender `il, lo, la, l', il/la, lo/la`; `genus` m/f required with `l'`;
+  `pluralGender: "f"`; `aux` `avere/essere`; `fem` on adjectives and mobile-gender nouns; `forms`
+  io presente · participio · io imperfetto), Spanish rules otherwise; so **an item writes
+  `variety: "it-IT"` on every Italian word** or the Spanish rules reject its articles.
+  `isCourseStandard(v)` (it-IT, or es-ES while still Spanish) is what the file-level checks
+  (`check-verbtabellen`, `check-conjugation-trainer`, `check-arbeitsblatt`, `check-sprachfallen`)
+  require; `cleanup` drops es-ES from it and `LEGACY_VARIETIES`. `scripts/lexicon-import.mjs` still
+  writes Spanish (es-ES, `lat=` → `es419`, Spanish grammar syntax, `es-ipa.mjs`): `vocab-a1`
+  converts it (e.g. `reg=note~area~form~gender` → `regional`). `build-satzregen.mjs` and
+  `nussnacht/bosse.js` still write/hold `es419`: `games` / `games-arcade`.
 - **Arabic UI**: later, not in this queue (RTL ready).
 - **Business Italian rename** (§4.3): the phrase text key `es` → `it` and the file/folder renames
   happen in one commit by `business-italian`; until then the module still reads `business-spanish`.
