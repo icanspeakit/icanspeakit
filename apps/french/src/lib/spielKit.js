@@ -17,6 +17,10 @@ const isFr = (v, exact) => {
   return exact ? l.startsWith("fr-fr") : l === "fr" || l.startsWith("fr-");
 };
 
+/** A French line for the screen: the no-break space French print puts before ? ! : ; and
+ *  inside « ». The data keeps plain spaces (tiles, matching); English never has a space there. */
+export const frSpace = (s) => String(s ?? "").replace(/ ([?!:;»])/g, " $1").replace(/« /g, "« ");
+
 /** @param {(clip: string) => string} clipPath where a clip id's mp3 lives */
 export function createVoice(clipPath) {
   let current = null;

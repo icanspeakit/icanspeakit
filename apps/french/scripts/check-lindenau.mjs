@@ -1,5 +1,5 @@
-// check:lindenau — the dialogues of The Legend of Villabruno (src/lib/lindenau/quests.js) hold
-// together: every turn has a Spanish line and its English help, every `choose` has exactly
+// check:lindenau — the dialogues of The Legend of Montbruno (src/lib/lindenau/quests.js) hold
+// together: every turn has a French line and its English help, every `choose` has exactly
 // one right reply and a why for each wrong one, every `build`/`say` is a sentence the tiles can
 // actually make (alts too), distractor tiles are not part of the sentence, and every icon
 // exists in public/img/openmoji/. Runs in prebuild; exit 1 on any error.
@@ -17,13 +17,24 @@ const icon = (where, hex) => {
 };
 const sorted = (a) => [...a].sort().join("\u0000");
 const STRAIGHT = /"/;
-// Spanish opens what it closes; the English `en` line is not checked.
+// French print: a space before ? ! : ; (the screen makes it a no-break space, spielKit.js
+// frSpace); no ¿ ¡ or other Spanish leftovers. The English `en` line is not checked.
+const SPANISH = /[ñ¿¡]|\b(usted|señora?|gracias|hola|vale|quería|por favor|billete)\b/i;
 const marks = (where, s) => {
-  if (/\?/.test(s) && !s.includes("¿")) err(where, `„${s}“: ¿ fehlt`);
-  if (/!/.test(s) && !s.includes("¡")) err(where, `„${s}“: ¡ fehlt`);
+  if (/[^\s(«"“][?!:;]/.test(s)) err(where, `„${s}“: Leerzeichen vor ? ! : ; fehlt`);
+  if (SPANISH.test(s)) err(where, `„${s}“: Rest aus dem Spanischkurs`);
 };
-// The player's gender is unknown: nothing to or from the player is gendered.
-const GENDERED = /(?<!la )\bbienvenid[oa]s?\b|\bencantad[oa]\b|\b(estoy|soy|eres|estás)\s+(muy\s+)?(nuev|cansad|reventad|list|segur|maj|sincer|despiert|llen|tranquil)[oa]\b|\bqué\s+maj[oa]\b/i;
+// The player's gender is unknown: nothing the player says and nothing said to the player is
+// gendered (an adjective or participle after je suis / tu es / vous êtes, enchanté(e),
+// désolé(e), soyez le/la bienvenu(e)). Same patterns as check-knigge.mjs.
+const L = "a-zàâçéèêëîïôûùüœ";
+const START = `(?<![${L}'])`, END = `(?![${L}])`;
+const AGREE = `(?:[${L}]+(?:é|ée|és|ées)|ravie?|venue?|perdue?|prête?|sûre?|contente?|nouveau|nouvelle|seule?|heureux|heureuse|certaine?|partie?|sortie?|prise?|surprise?|assise?|inquiète|inquiet)${END}`;
+const ADV = String.raw`(?:pas\s+)?(?:très\s+|trop\s+|si\s+|tellement\s+|vraiment\s+|bien\s+)?`;
+const SELF = new RegExp(`${START}(?:(?:enchantée?|désolée?)${END}|(?:je\\s+(?:ne\\s+)?suis|j'étais|je\\s+serai|je\\s+serais)\\s+${ADV}${AGREE})`, "i");
+const TO_PLAYER = new RegExp(`${START}(?:soyez\\s+(?:le|la)\\s+bienvenue?${END}|(?:tu\\s+(?:n')?es|t'es|vous\\s+(?:n')?êtes|tu\\s+étais|vous\\s+étiez|tu\\s+seras|vous\\s+serez)\\s+${ADV}${AGREE})`, "i");
+const GENDERED = { test: (s) => SELF.test(s) || TO_PLAYER.test(s) };
+const ARTICLE = /^(le|la) [a-zàâçéèêëîïôûùüœ]/;
 
 function line(where, l) {
   if (!l?.npc?.trim()) err(where, "Zeile ohne `npc`");
@@ -57,9 +68,9 @@ for (const area of areas) {
     const Q = `${A} ${q.id}`;
     if (ids.has(q.id)) err(Q, "id doppelt");
     ids.add(q.id);
-    if (/Bramble|£|British/.test(JSON.stringify(q))) err(Q, "Rest aus dem Englischkurs");
-    if (!/^(el|la) /.test(q.item?.label ?? "")) err(Q, "`item.label` ohne el / la");
-    for (const w of q.words ?? []) if (!/^(el|la) /.test(w)) err(Q, `Wort „${w}“ ohne el / la`);
+    if (/Bramble|£|British|Villabruno|Spanish|Spain/.test(JSON.stringify(q))) err(Q, "Rest aus einem anderen Kurs");
+    if (!ARTICLE.test(q.item?.label ?? "")) err(Q, "`item.label` ohne le / la");
+    for (const w of q.words ?? []) if (!ARTICLE.test(w)) err(Q, `Wort „${w}“ ohne le / la (kein l', das verbirgt das Genus)`);
     for (const k of ["mascot", "name", "role"]) if (!q[k]) err(Q, `\`${k}\` fehlt`);
     if (!q.item?.label) err(Q, "`item.label` fehlt");
     icon(Q, q.item?.icon);
@@ -79,21 +90,23 @@ for (const area of areas) {
           if (!o.ok && !o.why?.trim()) err(T, `„${o.de}“: falsch, aber ohne \`why\``);
           if (STRAIGHT.test(o.de + (o.why ?? ""))) err(T, `„${o.de}“: gerade Anführungszeichen`);
           marks(T, o.de);
-          if (o.ok && GENDERED.test(o.de)) err(T, `„${o.de}“: Form mit Genus, Spieler:in ist offen`);
+          if (o.ok && SELF.test(o.de)) err(T, `„${o.de}“: Form mit Genus, Spieler:in ist offen`);
         }
         if (new Set(opts.map((o) => o.de)).size !== opts.length) err(T, "zwei gleiche Antworten");
       } else if (t.task.type === "build" || t.task.type === "say") {
         const { words = [], extra = [], alts = [], why } = t.task;
         const sentence = words.join(" ");
         if (words.length < 2) err(T, "Satz mit weniger als 2 Kacheln");
-        if (!/[.?!]$/.test(sentence)) err(T, `„${sentence}“ endet nicht mit . ? !`);
-        if (/\?$/.test(sentence) && !sentence.includes("¿")) err(T, `„${sentence}“: ¿ fehlt`);
-        if (/!$/.test(sentence) && !sentence.includes("¡")) err(T, `„${sentence}“: ¡ fehlt`);
-        if (!/^[¿¡]?[A-ZÁÉÍÓÚÑ]/.test(sentence)) err(T, `„${sentence}“ beginnt nicht groß`);
+        // French needs a space before ? and !, and a tile must not be split from its mark.
+        if (!/[^\s.?!]\.$/.test(sentence)) err(T, `„${sentence}“ endet nicht mit einem Punkt`);
+        for (const w of [...words, ...extra]) if (/\s/.test(w) || /^[?!:;.,]+$/.test(w)) err(T, `Kachel „${w}“: Leerzeichen oder nur Satzzeichen`);
+        if (!/^[A-ZÀÂÇÉÈÊËÎÏÔÛÙÜŒ]/.test(sentence)) err(T, `„${sentence}“ beginnt nicht groß`);
+        marks(T, sentence);
+        if (SELF.test(sentence)) err(T, `„${sentence}“: Form mit Genus, Spieler:in ist offen`);
         if (!why?.trim()) err(T, "build ohne `why`");
         for (const x of extra) if (words.includes(x)) err(T, `Ablenker „${x}“ steht auch im Satz`);
         for (const a of alts) {
-          if (!/[.?!]$/.test(a)) err(T, `alt „${a}“ endet nicht mit . ? !`);
+          if (!/\.$/.test(a)) err(T, `alt „${a}“ endet nicht mit einem Punkt`);
           if (sorted(a.split(/\s+/)) !== sorted(words)) err(T, `alt „${a}“ lässt sich aus den Kacheln nicht bauen`);
           if (a === sentence) err(T, `alt „${a}“ ist der Satz selbst`);
         }
