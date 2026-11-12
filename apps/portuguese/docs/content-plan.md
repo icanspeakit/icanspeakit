@@ -1181,6 +1181,27 @@ handled by the `ui-*` items where they are rendered.
   in `scripts/check-variety.mjs` (`STRICT`). **Open:** check-variety counts `ptBR` notes only on
   the module's listed items (here the file object), so the per-question notes show as "0 ptBR
   notes"; a later item may list `levels.*[]` as the einstufung items. The page ignores `ptBR`.
+- **Grammar A1 (`grammar-a1`, 2026-11-12):** the 19 A1 slots are pt-PT topics (same ids, same
+  exercise types in the same order, `status` kept as it was). Slot content follows §3 with two
+  small widenings: `verb-position-2` adds *ficar* (and *ser* for events) for where fixed places
+  are, `berufe-mit-in` teaches *há / está / fica*; `possessivartikel` ex6 became "dele, dela,
+  deles or seu?" (Portuguese has no *tu/tú* contrast); `praesens` drops the *vós* row (5 persons;
+  *vós* only in the verb tables). **Beginner path:** the 94 tasks that point into A1 slots now
+  take options, hints and whys from the Portuguese items (Spanish task fields dropped, refs
+  re-signed); their units are still the Spanish units until `beginner-path`.
+  `einfach-content.js` `ARTICLE_PLACEHOLDERS` accepts `o / a`, `o / a / os / as`, `um / uma`,
+  `um / uma / uns / umas` next to the Spanish ones (`beginner-path-ui` removes those and the
+  Spanish `ARTICLE_HINT`). **Variety:** a new strict module `grammatik-a1` in
+  `check-variety.mjs` (the A1 files); `grammatik` stays non-strict until the last grammar item,
+  which makes it strict and drops `grammatik-a1`. **Voice, key row, lang:** `[id].astro` derives
+  the target language from the topic's `variety` (`pt-PT` → `lang="pt-PT"`, browser voice
+  `pt-PT`, Portuguese key row `á à â ã ç é ê í ó ô õ ú` in the Aktiv write mode; Spanish
+  for slots not yet converted). `ak.write.keys` reads "Letters with accents" (en/de/fr/it/pt).
+  **Left:** `conjugationTyped.js` and `artikelDiktat.js` keep the Spanish key row (their items:
+  `conjugation-trainer`, `vocab-a1`/`games`); `grammarWorkspace.js` "Auch richtig" line has a
+  hard-coded `lang="es"` (`cleanup`); the "¿Adónde?/¿Dónde?" comic labels in `[id].astro` stay
+  for `grammar-a2` (`wechselpraepositionen`); the A1 teacher worksheets
+  (`arbeitsblatt/<id>.json`) are still Spanish (`teachers`).
 
 ### 13.2 Carried over from the Spanish build (still true)
 
