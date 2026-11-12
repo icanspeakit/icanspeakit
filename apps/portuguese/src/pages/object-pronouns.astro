@@ -11,7 +11,7 @@ import akkusativQuestions from "../data/akkusativ.json";
 
 const total = akkusativQuestions.filter((q) => q.difficulty === "leicht").length;
 ---
-<Layout title="Object pronouns – A2 exercises, rule and table – icanspeak Portuguese" description="Spanish direct object pronouns made simple: me, te, lo, la, nos, os, los, las, and the personal a. Where they go in the sentence, with rule, examples and exercises.">
+<Layout title="Object pronouns – A2 exercises, rule and table – icanspeak Portuguese" description="European Portuguese direct object pronouns made simple: me, te, o, a, nos, vos, os, as. Where they go in Portugal: after the verb (vejo-o), before it after não. With rule, examples and exercises.">
   <div class="akk akk--page">
     <header class="akk-topbar">
       <div class="akk-topbar-inner">
@@ -61,9 +61,9 @@ const total = akkusativQuestions.filter((q) => q.difficulty === "leicht").length
 
         <div id="akk-regel-view" hidden>
           <p class="akk-regel-intro" data-i18n-html="akk.regel.intro">
-            The <strong>direct object</strong> is the person or thing the verb acts on. A person takes the
-            personal <em>a</em>: <em>Veo <strong>a</strong> Ana.</em> A thing doesn't: <em>Veo la casa.</em>
-            The pronoun usually goes <strong>before</strong> the conjugated verb: <em><strong>La</strong> veo.</em>
+            The <strong>direct object</strong> is the person or thing the verb acts on: <em>Vejo a Ana.</em> <em>Vejo a casa.</em>
+            In Portugal the pronoun usually goes <strong>after</strong> the verb, joined with a hyphen: <em>Vejo-<strong>a</strong>.</em>
+            After <em>não</em>, question words, <em>que</em> and some adverbs (<em>já, também, ainda, nunca</em>) it moves <strong>before</strong> the verb: <em>Não <strong>a</strong> vejo.</em>
           </p>
           <table class="akk-decl-table">
             <thead>
@@ -73,52 +73,53 @@ const total = akkusativQuestions.filter((q) => q.difficulty === "leicht").length
                 <th data-i18n="akk.tbl.example">Example</th>
               </tr>
             </thead>
-            <tbody lang="es">
+            <tbody lang="pt-PT">
               <tr>
-                <td>yo</td>
+                <td>eu</td>
                 <td class="akk-decl-change">me</td>
-                <td>¿<strong>Me</strong> ayudas?</td>
+                <td>Ajudas-<strong>me</strong>?</td>
               </tr>
               <tr>
-                <td>tú</td>
+                <td>tu</td>
                 <td class="akk-decl-change">te</td>
-                <td><strong>Te</strong> llamo luego.</td>
+                <td>Vejo-<strong>te</strong> amanhã.</td>
               </tr>
               <tr>
-                <td>él</td>
-                <td class="akk-decl-change">lo</td>
-                <td><strong>Lo</strong> veo todos los días.</td>
+                <td>ele</td>
+                <td class="akk-decl-change">o</td>
+                <td>Vejo-<strong>o</strong> todos os dias.</td>
               </tr>
               <tr>
-                <td>ella</td>
-                <td class="akk-decl-change">la</td>
-                <td><strong>La</strong> conozco del trabajo.</td>
+                <td>ela</td>
+                <td class="akk-decl-change">a</td>
+                <td>Conheço-<strong>a</strong> do trabalho.</td>
               </tr>
               <tr>
-                <td>nosotros / nosotras</td>
+                <td>nós</td>
                 <td class="akk-decl-change">nos</td>
-                <td><strong>Nos</strong> visitan los domingos.</td>
+                <td>Visitam-<strong>nos</strong> ao domingo.</td>
               </tr>
               <tr>
-                <td>vosotros / vosotras</td>
+                <td>vocês</td>
+                <td class="akk-decl-change">vos</td>
+                <td>Espero-<strong>vos</strong> aqui.</td>
+              </tr>
+              <tr>
+                <td>eles</td>
                 <td class="akk-decl-change">os</td>
-                <td><strong>Os</strong> espero aquí.</td>
+                <td>Convido-<strong>os</strong> para jantar.</td>
               </tr>
               <tr>
-                <td>ellos</td>
-                <td class="akk-decl-change">los</td>
-                <td><strong>Los</strong> invito a casa.</td>
-              </tr>
-              <tr>
-                <td>ellas</td>
-                <td class="akk-decl-change">las</td>
-                <td><strong>Las</strong> llamo mañana.</td>
+                <td>elas</td>
+                <td class="akk-decl-change">as</td>
+                <td>Encontro-<strong>as</strong> amanhã.</td>
               </tr>
             </tbody>
           </table>
           <p class="akk-regel-note" data-i18n-html="akk.regel.example">
-            Common mistake: <em>Veo la.</em> → <em><strong>La</strong> veo.</em> With an infinitive it can also go on the end:
-            <em>Quiero ver<strong>la</strong>.</em> In Spain you will also hear <em>le</em> for a man: <em><strong>Le</strong> veo.</em>
+            Common mistake: <em>A vejo.</em> → <em>Vejo-<strong>a</strong>.</em> In Portugal a sentence never starts with the pronoun (Spanish speakers, watch out).
+            After <em>-r, -s, -z</em> the verb loses that letter and <em>o, a</em> become <em>lo, la</em>: <em>Quero ver + a → Quero vê-<strong>la</strong>.</em>
+            After a nasal sound they become <em>no, na</em>: <em>Dão-<strong>no</strong>.</em>
           </p>
           <button class="akk-btn akk-btn-primary" id="akk-back-to-uebung" type="button" data-i18n="akk.backToPractice">Zurück zur Übung</button>
         </div>

@@ -34,11 +34,11 @@ type Place = { href: string; label: string; key?: string };
 const crew: { name: Name; tier: string; job: string; jobKey?: string; color: string; about: string; aboutKey?: string; say: string; sayKey: string; places: Place[] }[] = [
   {
     name: "bruno", tier: "Dachshund", job: "Your coach – for teachers too", jobKey: "mk.bruno.job", color: "#f97316",
-    about: "Bruno is always there. He shows you where to start, is happy about every step forward and explains how Spain works: the padrón, opening hours, the centro de salud. And if you teach, he helps you too: with the lesson plan, in class and with the quiz.",
+    about: "Bruno is always there. He shows you where to start, is happy about every step forward and explains how Portugal works: the Junta de Freguesia, opening hours, the centro de saúde. And if you teach, he helps you too: with the lesson plan, in class and with the quiz.",
     aboutKey: "mk.bruno.about",
     say: "Great to have you here!", sayKey: "mk.bruno.say",
     places: [
-      { href: "/culture", label: "Culture in Spain", key: "mk.bruno.place.culture" },
+      { href: "/culture", label: "Culture in Portugal", key: "mk.bruno.place.culture" },
       { href: "/placement-test", label: "Placement test", key: "mk.place.placement" },
       { href: "/progress", label: "Your progress", key: "mk.place.progress" },
       { href: "/teachers", label: "For teachers", key: "nav.subject.lehrkraefte" },
@@ -51,7 +51,7 @@ const crew: { name: Name; tier: string; job: string; jobKey?: string; color: str
     say: "Rule by rule.", sayKey: "mk.regi.say",
     places: [
       { href: "/grammar", label: "Grammar", key: "mk.place.grammar" },
-      { href: "/articles", label: "el, la", key: "mk.place.articles" },
+      { href: "/articles", label: "o, a", key: "mk.place.articles" },
       { href: "/grammar/parts-of-speech", label: "Word classes", key: "mk.place.partsOfSpeech" },
     ],
   },
@@ -68,7 +68,7 @@ const crew: { name: Name; tier: string; job: string; jobKey?: string; color: str
   },
   {
     name: "quaki", tier: "Frog", job: "Speaking", jobKey: "mk.quaki.job", color: "#2563eb",
-    about: "Quaki loves to croak — in Spanish, of course. He helps you with speaking and pronunciation. Mistakes? No problem. The main thing is that you speak.",
+    about: "Quaki loves to croak — in Portuguese, of course. He helps you with speaking and pronunciation. Mistakes? No problem. The main thing is that you speak.",
     aboutKey: "mk.quaki.about",
     say: "Just start talking!", sayKey: "mk.quaki.say",
     places: [
@@ -91,7 +91,7 @@ const small = (name: Name, expr: string) => mascotSvg({ name, expr, view: "front
     <header class="practice-hero mk-hero">
       <p class="eyebrow" data-i18n="mk.eyebrow">Meet the crew</p>
       <h1 data-i18n="mk.title">The mascots</h1>
-      <p class="mk-lead" data-i18n="mk.lead">Four friends are with you while you learn Spanish. Each one knows one thing especially well.</p>
+      <p class="mk-lead" data-i18n="mk.lead">Four friends are with you while you learn Portuguese. Each one knows one thing especially well.</p>
       <div class="mk-crew" aria-hidden="true">
         {crew.map((m, i) => (
           <a href={`#${m.name}`} class="mk-crew-fig" style={`--d:${i * 90}ms`} tabindex="-1">
