@@ -1174,6 +1174,13 @@ handled by the `ui-*` items where they are rendered.
   `rechtliches.json` `pt` entries are Brazilian Portuguese; they stop being shown when `ui-lang-es`
   removes the pt UI (`cleanup` may delete them). The contact e-mail in `src/lib/legal.js`
   (`hello@englishacademy.com`) is a legal fact this item may not change: **Edgar must set it**.
+- **Placement test (`placement-test`, 2026-11-12):** `einstufung.json` is pt-PT, six items per
+  level, A1–C1, one feature per item (list in the file's `note`); Portugal-only structures
+  (*estar a* + infinitive, enclisis, mesoclisis, *tu* imperatives and future subjunctive with *tu*)
+  carry `ptBR.skip`, wording differences `ptBR.form`. `einstufung` is the **first strict module**
+  in `scripts/check-variety.mjs` (`STRICT`). **Open:** check-variety counts `ptBR` notes only on
+  the module's listed items (here the file object), so the per-question notes show as "0 ptBR
+  notes"; a later item may list `levels.*[]` as the einstufung items. The page ignores `ptBR`.
 
 ### 13.2 Carried over from the Spanish build (still true)
 
