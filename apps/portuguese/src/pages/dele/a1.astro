@@ -1,6 +1,6 @@
 ---
 import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
-// The DELE A1 practice test as a full sitting on the exam shell (src/lib/examApp.js). The
+// The ACESSO A1 practice test (start-deutsch-1 slot; Spanish DELE A1 content until exams-caple) as a full sitting on the exam shell (src/lib/examApp.js). The
 // slot id start-deutsch-1 is a storage key and stays (docs/content-plan.md §2).
 //
 // Everything a learner answers here was written by icanspeak Portuguese. Real DELE items are
@@ -20,8 +20,8 @@ const hoerIds = ["teil1", "teil2", "teil3"].flatMap((k) => satz.hoeren[k].items.
 const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
 ---
 <Layout
-  title="DELE A1 practice test – icanspeak Portuguese"
-  description="A complete practice test in the style of the DELE A1: listening, reading and writing, with your score at the end. Not an official exam."
+  title="ACESSO A1 practice test – icanspeak Portuguese"
+  description="A complete practice test in the style of the ACESSO A1 (CAPLE): listening, reading and writing, with your score at the end. Not an official exam."
 >
   <SiteNav active="pruefungen" />
   <main class="practice-main practice-main--wide practice-main--trainer">
@@ -29,7 +29,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
 
     <div class="practice-hero">
       <p class="eyebrow" data-i18n="sd1.eyebrow">A1 · Practice test</p>
-      <h1><span class="hero-exam" data-i18n="sd1.h1.exam">DELE A1</span> <span data-i18n="sd1.h1.rest">practice test</span></h1>
+      <h1><span class="hero-exam" data-i18n="sd1.h1.exam">ACESSO A1</span> <span data-i18n="sd1.h1.rest">practice test</span></h1>
       <p data-i18n="sd1.hero.text">
         A complete A1 practice test in exam style: listening, reading and writing, with your score
         at the end. The details are in the “Start” part.
@@ -37,7 +37,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
     </div>
     <ExamDisclaimer />
 
-    <ExamApp brand="DELE A1" sub="Practice test" subKey="sd1.sub" unit="tasks" />
+    <ExamApp brand="ACESSO A1" sub="Practice test" subKey="sd1.sub" unit="tasks" />
     <LevelGrammar levels={["A1"]} />
   </main>
 
@@ -448,7 +448,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
             card.appendChild(el("p", "instruction", escapeHtml(T("sd1.result.empty", "Noch keine Aufgabe beantwortet — fang bei „Hören 1“ an, dein Ergebnis erscheint hier automatisch."))));
           } else {
             card.appendChild(el("div", "exam-score", correct + " <small>" + escapeHtml(T("exam.result.ofCorrect", "von {n} richtig", { n: ids.length })) + "</small>"));
-            // 60 % is our own line for this test (sd1.passNote); the DELE has its own rules.
+            // 60 % is our own line for this test (sd1.passNote); the ACESSO A1 has its own rules.
             const band = pct >= 60 ? ["", T("exam.band.pass", "Über der Bestehensgrenze")] : pct >= 48 ? ["mid", T("exam.band.near", "Knapp darunter")] : ["low", T("exam.band.low", "Noch zu wenig")];
             card.appendChild(el("span", "exam-band " + band[0], band[1]));
             card.appendChild(el("p", "instruction", escapeHtml(T("sd1.result.pct", "{pct}% richtig in Hören und Lesen. Bestanden ist die ganze Prüfung ab 36 von 60 Punkten, also 60%.", { pct }))));
@@ -469,9 +469,9 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
           main.appendChild(el("p", "format-note", escapeHtml(T("sd1.passNote", data.passNote))));
 
           const actions = el("div", "exam-actions");
-          const telc = el("a", "quiz-btn", escapeHtml(T("sd1.toTelc", "To the SIELE overview")));
+          const telc = el("a", "quiz-btn", escapeHtml(T("sd1.toTelc", "To the level check")));
           telc.href = withBase("/siele");
-          const goethe = el("a", "quiz-btn", escapeHtml(T("sd1.toGoethe", "To the DELE overview")));
+          const goethe = el("a", "quiz-btn", escapeHtml(T("sd1.toGoethe", "To the CAPLE overview")));
           goethe.href = withBase("/dele");
           actions.appendChild(telc);
           actions.appendChild(goethe);
