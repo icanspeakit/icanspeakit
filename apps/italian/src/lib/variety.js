@@ -1,85 +1,117 @@
-// Spanish variety of a content item (docs/content-plan.md §1.5).
+// Italian variety of a content item (docs/content-plan.md §1.5).
 //
-// Castilian Spanish (Spain) is the course standard. Vocabulary, grammar and audio items carry
-// `variety: "es-ES"`; where Latin American usage differs, an optional `es419` note records it:
+// Standard Italian (italiano standard) is the course standard. Vocabulary, grammar and audio
+// items carry `variety: "it-IT"`; where a learner will meet a regional difference in daily life,
+// an optional `regional` note records it:
 //
-//   "variety": "es-ES",
-//   "es419": { "note": "In most of Latin America: la computadora.", "form": "computadora", "gender": "la" }
+//   "variety": "it-IT",
+//   "regional": { "note": "Central Italy and the south say cocomero.", "area": "general",
+//                 "form": "cocomero", "gender": "il" }
 //
-// so a LatAm mode can be switched on later without rewriting content. Until then nothing is
-// shown for es419: LATAM_MODE is false and the read helpers below return the Spain text.
+// Italian has no second standard to switch to, so there is no alternate mode: the read helpers
+// below always return the standard text, and regional notes are not shown anywhere yet (a later
+// item). The field and its validators stay so content can carry the notes from the start.
+//
+// Legacy: until every module is converted, the data still holds the Spanish course's
+// `variety: "es-ES"` and `es419` notes. They are tolerated on items that still say es-ES (the
+// Spanish content a later item replaces) and are an error on an Italian item, and anywhere in a
+// module that scripts/check-variety.mjs lists as strict (opts.strict).
 //
 // Plain ESM without Vite imports: scripts/check-variety.mjs and the lexicon/berufe validators
 // share these rules with the pages.
 
-/** The course standard. An item without `variety` (and without a parent that has one) is es-ES. */
-export const DEFAULT_VARIETY = "es-ES";
+/** The course standard. An item without `variety` (and without a parent that has one) is it-IT. */
+export const DEFAULT_VARIETY = "it-IT";
 
-/** Allowed `variety` values. "es-419" is reserved for future Latin-America-only items. */
-export const VARIETIES = ["es-ES", "es-419"];
+/** Allowed `variety` values. "it-CH" (Swiss Italian) is reserved for future Ticino-only items. */
+export const VARIETIES = ["it-IT", "it-CH"];
 
-/** Off until a later item builds a LatAm mode. While false, es419 notes stay invisible. */
+/** The Spanish course's values, tolerated on not-yet-converted content only (see above). */
+export const LEGACY_VARIETIES = ["es-ES", "es-419"];
+
+/** Kept so no import breaks; inert. Italian has no alternate mode and no helper reads this. */
 export const LATAM_MODE = false;
 
-/** Keys allowed inside `es419`. `note` is required. */
-export const ES419_KEYS = ["note", "form", "gender", "skip"];
-export const ES419_NOTE_MAX = 160;
-/** `es419.gender`: the article of the Latin American noun when it differs. */
-export const ES419_GENDERS = ["el", "la"];
+/** Keys allowed inside `regional`. `note` is required. There is no `skip` (no second mode). */
+export const REGIONAL_KEYS = ["note", "area", "form", "gender"];
+export const REGIONAL_NOTE_MAX = 160;
+/** `regional.area`: where the regional usage is met. */
+export const REGIONAL_AREAS = ["north", "centre", "south", "islands", "ch", "general"];
+/** `regional.gender`: the article of the regional noun when it differs (nouns only). */
+export const REGIONAL_GENDERS = ["il", "lo", "la", "l'"];
 
-/** The item's variety: its own `variety`, else the parent's (topic, pack, file), else es-ES. */
+/** True for the variety a whole file or set must carry (it-IT; es-ES while still Spanish). */
+export function isCourseStandard(v) {
+  return v === DEFAULT_VARIETY || v === "es-ES";
+}
+
+/** The item's variety: its own `variety`, else the parent's (topic, pack, file), else it-IT. */
 export function varietyOf(item, parent) {
   return item?.variety ?? parent?.variety ?? DEFAULT_VARIETY;
 }
 
-/** The item's es419 note object, or null when Latin American usage is the same. */
-export function es419Of(item) {
-  const n = item?.es419;
+/** The item's regional note object, or null when the item is used throughout Italy. */
+export function regionalOf(item) {
+  const n = item?.regional;
   return n && typeof n === "object" && !Array.isArray(n) ? n : null;
 }
 
-/** Text to show for an item's main field: the es419 `form` in LatAm mode, the Spain text otherwise. */
-export function textFor(item, text, latam = LATAM_MODE) {
-  const form = latam ? es419Of(item)?.form : undefined;
-  return form ?? text;
+/** Text to show for an item's main field: always the standard text (no alternate mode). */
+export function textFor(_item, text) {
+  return text;
 }
 
-/** True when the item is Spain-only and should be left out in LatAm mode (never while it is off). */
-export function skippedFor(item, latam = LATAM_MODE) {
-  return Boolean(latam && es419Of(item)?.skip === true);
-}
-
-/** Verb tables and drills show the vosotros row only in the Spain standard. */
-export function showsVosotros(latam = LATAM_MODE) {
-  return !latam;
+/** True when an item should be left out for a region: never (there is no second mode). */
+export function skippedFor(_item) {
+  return false;
 }
 
 /**
- * Shape problems of one object's `variety` / `es419` fields, as messages (empty = fine).
- * `opts.noun`: the item is a lexicon/deck noun, so `es419.gender` is allowed.
+ * Shape problems of one object's `variety` / `regional` fields, as messages (empty = fine).
+ * `opts.noun`: false when the item is known not to be a noun (then `regional.gender` is an error).
+ * `opts.strict`: the object sits in a converted module, so es-ES and `es419` are errors.
  */
 export function varietyProblems(obj, opts = {}) {
   const out = [];
-  if (!obj || typeof obj !== "object") return out;
-  if ("variety" in obj && !VARIETIES.includes(obj.variety)) {
-    out.push(`variety must be one of ${VARIETIES.join(", ")}, got ${JSON.stringify(obj.variety)}`);
+  if (!obj || typeof obj !== "object" || Array.isArray(obj)) return out;
+  const legacyItem = LEGACY_VARIETIES.includes(obj.variety);
+  if ("variety" in obj) {
+    if (legacyItem) {
+      if (opts.strict) out.push(`variety ${JSON.stringify(obj.variety)} is the Spanish course's; use ${DEFAULT_VARIETY}`);
+    } else if (!VARIETIES.includes(obj.variety)) {
+      out.push(`variety must be one of ${VARIETIES.join(", ")}, got ${JSON.stringify(obj.variety)}`);
+    }
   }
-  if (!("es419" in obj)) return out;
-  const n = obj.es419;
+
+  if ("es419" in obj) {
+    if (opts.strict || ("variety" in obj && !legacyItem) || "regional" in obj) {
+      out.push("es419 is the Spanish course's note: convert it to `regional` or drop it");
+    } else {
+      const n = obj.es419;
+      if (!n || typeof n !== "object" || Array.isArray(n) || typeof n.note !== "string" || !n.note.trim()) {
+        out.push("es419 (legacy) must be an object with a note");
+      }
+    }
+  }
+
+  if (!("regional" in obj)) return out;
+  if (legacyItem) out.push("regional belongs on Italian items, not on an es-ES item");
+  const n = obj.regional;
   if (!n || typeof n !== "object" || Array.isArray(n)) {
-    out.push("es419 must be an object { note, form?, gender?, skip? }");
+    out.push("regional must be an object { note, area?, form?, gender? }");
     return out;
   }
-  const unknown = Object.keys(n).filter((k) => !ES419_KEYS.includes(k));
-  if (unknown.length) out.push(`es419: unknown key(s) ${unknown.join(", ")} (allowed: ${ES419_KEYS.join(", ")})`);
-  if (typeof n.note !== "string" || !n.note.trim()) out.push("es419.note is required (plain English)");
-  else if (n.note.length > ES419_NOTE_MAX) out.push(`es419.note is ${n.note.length} characters, max ${ES419_NOTE_MAX}`);
-  if ("form" in n && (typeof n.form !== "string" || !n.form.trim())) out.push("es419.form must be a non-empty string");
-  if ("gender" in n) {
-    if (!ES419_GENDERS.includes(n.gender)) out.push(`es419.gender must be el or la, got ${JSON.stringify(n.gender)}`);
-    else if (opts.noun === false) out.push("es419.gender is only for nouns");
+  const unknown = Object.keys(n).filter((k) => !REGIONAL_KEYS.includes(k));
+  if (unknown.length) out.push(`regional: unknown key(s) ${unknown.join(", ")} (allowed: ${REGIONAL_KEYS.join(", ")})`);
+  if (typeof n.note !== "string" || !n.note.trim()) out.push("regional.note is required (plain English)");
+  else if (n.note.length > REGIONAL_NOTE_MAX) out.push(`regional.note is ${n.note.length} characters, max ${REGIONAL_NOTE_MAX}`);
+  if ("area" in n && !REGIONAL_AREAS.includes(n.area)) {
+    out.push(`regional.area must be one of ${REGIONAL_AREAS.join(", ")}, got ${JSON.stringify(n.area)}`);
   }
-  if ("skip" in n && n.skip !== true) out.push("es419.skip must be true (omit it otherwise)");
-  if (obj.variety === "es-419") out.push("an es-419 item carries no es419 note (the note describes how LatAm differs from es-ES)");
+  if ("form" in n && (typeof n.form !== "string" || !n.form.trim())) out.push("regional.form must be a non-empty string");
+  if ("gender" in n) {
+    if (!REGIONAL_GENDERS.includes(n.gender)) out.push(`regional.gender must be one of ${REGIONAL_GENDERS.join(", ")}, got ${JSON.stringify(n.gender)}`);
+    else if (opts.noun === false) out.push("regional.gender is only for nouns");
+  }
   return out;
 }

@@ -12,6 +12,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { isCourseStandard } from "../src/lib/variety.js";
 import { validateSheet } from "../src/lib/partneruebungen/schema.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -48,7 +49,7 @@ function checkPair(file, where, { frage, kacheln, antwort, infinitiv, frageKache
 const files = readdirSync(SHEETS).filter((f) => f.endsWith(".json")).sort();
 for (const f of files) {
   const d = JSON.parse(readFileSync(path.join(SHEETS, f), "utf8"));
-  if (d.variety !== "es-ES") say(f, "(top)", 'variety must be "es-ES"');
+  if (!isCourseStandard(d.variety)) say(f, "(top)", 'variety must be "it-IT" ("es-ES" while the file is still Spanish)');
   const b = d.tandemFrageBeispiel;
   if (b) {
     checkPair(f, "example", { frage: b.frage, kacheln: b.antwortKacheln, antwort: b.antwort, infinitiv: b.infinitiv, frageKacheln: b.kacheln });
@@ -82,7 +83,7 @@ for (const f of partner) {
   const spec = JSON.parse(readFileSync(path.join(PARTNER, f), "utf8"));
   for (const e of validateSheet(spec)) say(f, "schema", e);
   if (spec.id !== f.replace(/\.json$/, "")) say(f, "id", "does not match the file name");
-  if (spec.variety !== "es-ES") say(f, "(top)", 'variety must be "es-ES"');
+  if (!isCourseStandard(spec.variety)) say(f, "(top)", 'variety must be "it-IT" ("es-ES" while the file is still Spanish)');
   if (spec.quelle?.geprueft !== false) say(f, "quelle.geprueft", "stays false until Edgar has reviewed the sheet (content-plan §5.10)");
   for (const text of spoken(spec)) if (isEnglish(text)) say(f, "text", `English left: ${text}`);
 }

@@ -6,19 +6,33 @@ import { readdirSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { slugify } from "../src/lib/audioSlug.js";
-import { varietyProblems } from "../src/lib/variety.js";
+import { VARIETIES, varietyProblems } from "../src/lib/variety.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 
 const LEVELS = ["a1", "a2", "b1", "b2", "c1", "c2"];
 const POS = ["noun", "verb", "adj", "adv", "prep", "conj", "pron", "num", "phrase"];
-// el / la, and el/la for common-gender person nouns (docs/content-plan.md §1.4).
-const GENDERS = ["el", "la", "el/la"];
-// genus (§1.4): only "f", only where the article hides the gender (el agua, el aula).
-const GENUS = ["f"];
+
+// Two rule sets while the levels are converted one by one (docs/content-plan.md §1.4, §1.5):
+// a word whose `variety` is Italian (it-IT / it-CH) is checked by the Italian rules, any other
+// word by the Spanish course's rules. `vocab-c1-c2` drops the Spanish set.
+//
+// Italian: the singular definite article as the learner says it; il/la, lo/la for common-gender
+// person nouns (the masculine article; `fem` gives the feminine). The plural article is derived,
+// never stored. Whether the article fits the lemma's first sound is vocab-a1's rule (articles.js).
+const IT_GENDERS = ["il", "lo", "la", "l'", "il/la", "lo/la"];
+// genus: "m" or "f", required with l' (the article hides the gender: l'amico m, l'ora f).
+const IT_GENUS = ["m", "f"];
+// pluralGender: "f" for the -a plurals of masculine nouns (l'uovo → le uova, il braccio → le braccia).
+const IT_PLURAL_GENDER = ["f"];
+// The auxiliary of the passato prossimo.
+const IT_AUX = ["avere", "essere", "avere/essere"];
+// Spanish course: el / la, el/la; genus only "f" on el + stressed a- (el agua).
+const ES_GENDERS = ["el", "la", "el/la"];
+const ES_GENUS = ["f"];
 const CASES = ["akk", "dat", "gen", "akk/dat"];
-const AUX = ["haben", "sein"];
+const ES_AUX = ["haben", "sein"];
 
 // §4 taxonomy. A word may only carry topics listed here, so a typo can't silently create
 // a topic that no deck will ever select.
@@ -58,6 +72,66 @@ function err(where, msg) {
   errors.push(`${where}: ${msg}`);
 }
 
+const nonEmpty = (s) => typeof s === "string" && s.trim() !== "";
+
+// An Italian word (variety it-IT / it-CH), content-plan §1.4.
+function checkItalian(w, where) {
+  if (w.pos === "noun") {
+    if (!w.gender) err(where, "noun without gender (il / lo / la / l', il/la; pluralOnly nouns keep the singular-equivalent article)");
+    else if (!IT_GENDERS.includes(w.gender)) err(where, `bad gender "${w.gender}" (allowed: ${IT_GENDERS.join(", ")})`);
+    if (w.gender === "l'" && !IT_GENUS.includes(w.genus)) err(where, `gender "l'" needs genus "m" or "f" (the article hides the gender)`);
+    if (!w.plural && !w.pluralOnly && !w.example) warnings.push(`${where}: no plural (uncountable?)`);
+  }
+  if (w.genus != null) {
+    if (!IT_GENUS.includes(w.genus)) err(where, `bad genus "${w.genus}" (only "m" or "f")`);
+    else if (w.pos !== "noun") err(where, "genus only on nouns");
+  }
+  if (w.pluralGender != null) {
+    if (!IT_PLURAL_GENDER.includes(w.pluralGender)) err(where, `bad pluralGender "${w.pluralGender}" (only "f": l'uovo → le uova)`);
+    else if (w.pos !== "noun") err(where, "pluralGender only on nouns");
+    else if (!nonEmpty(w.plural)) err(where, "pluralGender without plural");
+  }
+  if (w.pos === "verb") {
+    if (w.aux != null && !IT_AUX.includes(w.aux)) err(where, `bad aux "${w.aux}" (allowed: ${IT_AUX.join(", ")})`);
+    if (w.forms && w.forms.length !== 3) {
+      err(where, `forms must be [io presente, participio passato, io imperfetto], got ${w.forms.length}`);
+    }
+  } else if (w.aux != null) err(where, "aux only on verbs");
+  if (w.separable != null) err(where, "separable is not used for Italian (omit the key)");
+  if (w.case != null) err(where, "case is not used for Italian (omit the key)");
+  if (w.fem != null) {
+    if (w.pos !== "adj" && w.pos !== "noun") err(where, "fem (feminine singular) only on adjectives and mobile-gender nouns");
+    else if (!nonEmpty(w.fem)) err(where, "empty fem — omit the field instead");
+  }
+}
+
+// A word still holding the Spanish course's content (variety es-ES or none).
+function checkSpanish(w, where) {
+  if (w.pos === "noun") {
+    if (!w.gender && !w.pluralOnly) err(where, "noun without gender (set pluralOnly for Eltern/Ferien)");
+    if (w.gender && !ES_GENDERS.includes(w.gender)) err(where, `bad gender "${w.gender}"`);
+    if (!w.plural && !w.pluralOnly && !w.example) warnings.push(`${where}: no plural (uncountable?)`);
+  }
+  if (w.pos === "verb") {
+    if (w.aux && !ES_AUX.includes(w.aux)) err(where, `bad aux "${w.aux}"`);
+    if (w.forms && w.forms.length !== 3) {
+      err(where, `forms must be [3rd sg, past / Präteritum, past participle / Partizip II], got ${w.forms.length}`);
+    }
+    if (w.separable && w.forms && !w.forms[0].includes(" ")) {
+      err(where, `separable verb but present form "${w.forms[0]}" has no split prefix`);
+    }
+  }
+  if (w.genus != null) {
+    if (!ES_GENUS.includes(w.genus)) err(where, `bad genus "${w.genus}" — only "f" (el agua, el aula)`);
+    else if (w.pos !== "noun" || w.gender !== "el") err(where, `genus "f" only on nouns with gender "el" (stressed a-/ha-)`);
+  }
+  if (w.fem != null) {
+    if (w.pos !== "adj") err(where, "fem (feminine form) only on adjectives");
+    else if (typeof w.fem !== "string" || !w.fem.trim()) err(where, "empty fem — omit the field instead");
+  }
+  if (w.pluralGender != null) err(where, "pluralGender is an Italian field (set variety it-IT)");
+}
+
 for (const level of LEVELS) {
   const file = path.join(ROOT, "src/content/lexicon", `${level}.json`);
   const data = JSON.parse(readFileSync(file, "utf8"));
@@ -89,29 +163,10 @@ for (const level of LEVELS) {
       if (seenIds.has(id)) err(where, `duplicate id "${id}" — also in ${seenIds.get(id)}`);
       else seenIds.set(id, where);
 
-      if (w.pos === "noun") {
-        if (!w.gender && !w.pluralOnly) err(where, "noun without gender (set pluralOnly for Eltern/Ferien)");
-        if (w.gender && !GENDERS.includes(w.gender)) err(where, `bad gender "${w.gender}"`);
-        if (!w.plural && !w.pluralOnly && !w.example) warnings.push(`${where}: no plural (uncountable?)`);
-      }
-      if (w.pos === "verb") {
-        if (w.aux && !AUX.includes(w.aux)) err(where, `bad aux "${w.aux}"`);
-        if (w.forms && w.forms.length !== 3) {
-          err(where, `forms must be [3rd sg, past / Präteritum, past participle / Partizip II], got ${w.forms.length}`);
-        }
-        if (w.separable && w.forms && !w.forms[0].includes(" ")) {
-          err(where, `separable verb but present form "${w.forms[0]}" has no split prefix`);
-        }
-      }
-      if (w.genus != null) {
-        if (!GENUS.includes(w.genus)) err(where, `bad genus "${w.genus}" — only "f" (el agua, el aula)`);
-        else if (w.pos !== "noun" || w.gender !== "el") err(where, `genus "f" only on nouns with gender "el" (stressed a-/ha-)`);
-      }
-      if (w.fem != null) {
-        if (w.pos !== "adj") err(where, "fem (feminine form) only on adjectives");
-        else if (typeof w.fem !== "string" || !w.fem.trim()) err(where, "empty fem — omit the field instead");
-      }
-      // variety / es419 (§1.5); scripts/check-variety.mjs checks coverage.
+      const italian = VARIETIES.includes(w.variety);
+      if (italian) checkItalian(w, where);
+      else checkSpanish(w, where);
+      // variety / regional (§1.5): es419 is an error on an Italian word; check-variety.mjs checks coverage.
       for (const p of varietyProblems(w, { noun: w.pos === "noun" })) err(where, p);
       if (w.case && !CASES.includes(w.case)) err(where, `bad case "${w.case}"`);
       if (w.en == null) err(where, "missing English gloss");
