@@ -1143,6 +1143,37 @@ handled by the `ui-*` items where they are rendered.
   topic keys (`kultur.<id>.cardIntro`, `kultur.linkLabel.*`, `kultur.eyebrow.*`) and the
   `#world` group ids (`WORLD_IDS` in `culture/index.astro`) with `culture`; `lang="es"` on
   module text in the pages with each module, `cleanup` at the latest.
+- **UI pages m–z and legal pages (`ui-pages-m-z`, 2026-11-12):** titles, descriptions and frame
+  strings of `src/pages/[m-z]*` speak of Portugal and (European) Portuguese, *o / a* instead of
+  *el / la* in labels, the teachers' area says "the Portuguese class", the `/start` draft and the
+  class task labels (`teachers/classes/class.astro`) name the exams by slot (CAPLE, ACESSO A1,
+  CIPLE A2 mock, Level check, Civics, *Uso da língua*). Three static rule blocks were rewritten as
+  European Portuguese because they live in the page, not in data: the **object-pronoun table and
+  rule** on `/object-pronouns` (*me, te, o, a, nos, vos, os, as*, enclisis by default, proclisis
+  after *não* etc., *-lo/-la* and *-no/-na*; `akk.regel.*`; the de/fr/pt/it files carry the new
+  English text until `ui-lang-*`), the **preposition overview** on `/prepositions`
+  (*a, em, de, por, para* and contractions; `praep.wechsel.lead`), and the **reference questions**
+  on `/reference` (`nsw.q.*`). The exercises under them (`akkusativ.json`,
+  `praepositionen-trainer.json`) are still Spanish until `grammar-a2` / `grammar-structure`.
+  **Legal pages:** only language and brand: the German binding text and the English
+  `rechtliches.json` entries say *Portugiesisch* and name CAPLE/CIPLE/DEPLE/Celpe-Bras instead of
+  DELE/SIELE/CCSE; company, address and contact unchanged. The class due-date hint now says
+  "Central European Time" because `src/lib/aufgabenStatus.js` computes due dates in
+  `Europe/Berlin`: **open** whether due dates should move to `Europe/Lisbon` (a lib change for
+  `teachers` or `cleanup`, together with `srs.js` / `zitate.js` / `wortgeschichteCore.js` day
+  boundaries).
+- **Left by `ui-pages-m-z` to the module items:** `/siele`, `/siele/levels`, `/siele/practice-set`
+  and their `testdaf.*`, `telc.*`, `tdf.*` keys (`exams-caple`: the slot becomes the level check or
+  is removed, `telc` is removed; every sentence on these pages is a SIELE fact); `/nationality` and
+  `/nationality/dele-a2/*` with `nat.*`, `dtz*`, `exam.backToDtz` (`nationality-path`);
+  `/spanish-for-work/*` with `berufe.*` (`portuguese-for-work`); the `sprechen.exam.*` exam lines and
+  the text → key map in `speaking/[id].astro`, and `sprechen.check.*` (`speaking`); `schreiben.*`
+  checklists and blurbs (`reading-writing`); `ws.set.*` deck titles (`vocab-*`); `lang="es"`
+  attributes on module text in `pronunciation*`, `tongue-twisters`, `reading-writing`,
+  `speaking*`, `prepositions`, teacher worksheets (each module, `cleanup` at the latest).
+  `rechtliches.json` `pt` entries are Brazilian Portuguese; they stop being shown when `ui-lang-es`
+  removes the pt UI (`cleanup` may delete them). The contact e-mail in `src/lib/legal.js`
+  (`hello@englishacademy.com`) is a legal fact this item may not change: **Edgar must set it**.
 
 ### 13.2 Carried over from the Spanish build (still true)
 
