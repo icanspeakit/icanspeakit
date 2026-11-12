@@ -37,13 +37,13 @@ const json = (a: string[]) => JSON.stringify(a);
 const sheetLangs = sheet.hasDe ? [...SHEET_LANGS, "de"] : SHEET_LANGS;
 const firstLang = sheetLangs[0];
 const langName = (l: string) => (l === "de" ? "In German" : LANG_NAMES[l]);
-const artQuestion = "el or la?";
-const artInstr = "Write el or la.";
+const artQuestion = "il, lo, la or l'?";
+const artInstr = "Write the article: il, lo, la or l'.";
 let gap = 0;
 ---
 <Layout
   title={fitTitle(`Vocabulary worksheet: ${title} (${level})`, `Worksheet: ${title} (${level})`, `Worksheet: ${title.replace(/\s*[:—].*$/, "")} (${level})`, `Worksheet: ${title.replace(/\s*[:—].*$/, "")}`)}
-  description={`Worksheet for the word set “${title}” (${level}): match words and meanings, add el or la, complete the sentences. To print or fill in online, with answers.`}
+  description={`Worksheet for the word set “${title}” (${level}): match words and meanings, add the article, complete the sentences. To print or fill in online, with answers.`}
 >
   <SiteNav active="lehrkraefte" />
 
