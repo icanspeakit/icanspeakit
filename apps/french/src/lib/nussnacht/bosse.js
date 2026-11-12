@@ -1,62 +1,57 @@
-// Hamstis Nussnacht: the minute bosses, the famous el / la traps. One per minute from 1 to 9,
+// Hamstis Nussnacht: the minute bosses, the famous le / la traps. One per minute from 1 to 9,
 // three at once in the final wave at minute 10. A boss is a big creature with more HP; when it
-// falls, its rule card shows ("el mapa – It ends in -a but …").
+// falls, its rule card shows ("la plage – Most nouns in -age are masculine, but …").
 //
-// Three kinds of trap: the ending points the wrong way (el mapa, la mano, el problema), a stressed
-// a- takes el although the noun is feminine (el agua, el aula), and an ending that says nothing
-// (el coche, la noche). Nouns with two possible articles stay out (generoDrill.js AMBIGUOUS): the
-// game can accept only one answer.
+// Kinds of trap: an ending that points the wrong way (la plage, le musée, la peau, le silence,
+// le camion, la maison), a short form that keeps the gender of the long word (la photo, la météo),
+// an -s that is not a plural (le pays, la souris), an h aspiré that blocks the elision (la honte),
+// and words with nothing to go on (la main, la mer). Only le / la nouns: a boss that elides to l'
+// would need the un / une shots, which a run may not have (main.js). Nouns with two possible
+// articles stay out (generoDrill.js AMBIGUOUS, lexicon genderAlt): the game accepts one answer.
 //
 // `lv` is the first level that may meet the boss. Every boss is checked against the lexicon at
 // build time (bosseFuer): article and level must match, and the voice clip comes from there.
-// A boss with `lex: false` skips that check (el paraguas: not in the lexicon yet). The build
-// names any boss that does not match, and the page leaves it out.
+// A boss with `lex: false` skips that check. The build names any boss that does not match, and
+// the page leaves it out.
 //
-// Variety (src/lib/variety.js, content-plan §1.5): the list below is still the Spanish course's
-// (es-ES, legacy `es419` notes); the `games` item replaces it with French bosses (le/la/l'
-// traps) carrying VARIETY "fr-FR" and, where Québec differs, a `frCA` note { note, gender }.
-// Neither note is shown until a Canada mode exists; the rule text states the standard only.
+// Variety (src/lib/variety.js, content-plan §1.5): standard French of France. A boss whose gender
+// differs in Québec would carry a `frCA` note { note, gender }; none of these does. Neither note
+// is shown until a Canada mode exists; the rule text states the standard only.
 import { select } from "../lexicon.js";
 import { ARTS } from "./woerter.js";
 
-export const VARIETY = "es-ES";
+export const VARIETY = "fr-FR";
 
 export const BOSSE = [
-  { w: "mapa", g: "el", lv: "A1", regel: "It ends in -a but it is masculine: el mapa, los mapas." },
-  { w: "foto", g: "la", lv: "A1", regel: "Short for la fotografía, so it stays feminine in spite of the -o: la foto, las fotos." },
-  { w: "agua", g: "el", lv: "A1", regel: "Feminine, but a stressed a- takes el in the singular: el agua fría, las aguas." },
-  { w: "problema", g: "el", lv: "A1", regel: "A word from Greek in -ma, and masculine: el problema, el idioma." },
-  { w: "idioma", g: "el", lv: "A1", regel: "A word from Greek in -ma, and masculine: el idioma, el problema." },
-  { w: "día", g: "el", lv: "A1", regel: "It ends in -a but it is masculine: el día, buenos días." },
-  { w: "mano", g: "la", lv: "A1", regel: "One of the very few feminine nouns in -o: la mano derecha, las manos." },
-  { w: "hambre", g: "el", lv: "A1", regel: "Feminine with a stressed a-: el hambre, but tengo mucha hambre." },
-  { w: "tranvía", g: "el", lv: "A1", regel: "Most nouns in -ía are feminine (la cafetería), but it is el tranvía." },
-  { w: "coche", g: "el", lv: "A1", regel: "An -e tells you nothing: el coche, but la noche. Learn the article with the word." },
-  { w: "noche", g: "la", lv: "A1", regel: "An -e tells you nothing: la noche, but el coche. Learn the article with the word." },
-  { w: "llave", g: "la", lv: "A1", regel: "An -e tells you nothing: la llave, but el viaje. Learn the article with the word." },
-  { w: "flor", g: "la", lv: "A1", regel: "Nouns in -or are usually masculine (el color, el dolor), but it is la flor." },
-  { w: "nariz", g: "la", lv: "A1", regel: "A -z tells you nothing: la nariz, but el lápiz." },
-  { w: "cumpleaños", g: "el", lv: "A1", regel: "It ends in -s but it is one birthday: el cumpleaños, los cumpleaños." },
-  { w: "sartén", g: "la", lv: "A1", regel: "A consonant at the end tells you little: la sartén, las sartenes.",
-    es419: { note: "Parts of Latin America say el sartén.", gender: "el" } },
-  { w: "planeta", g: "el", lv: "A2", regel: "It ends in -a but it is masculine: el planeta, like el mapa." },
-  { w: "clima", g: "el", lv: "A2", regel: "A word from Greek in -ma, and masculine: el clima, el programa." },
-  { w: "programa", g: "el", lv: "A2", regel: "A word from Greek in -ma, and masculine: el programa, el clima." },
-  { w: "sal", g: "la", lv: "A2", regel: "A consonant at the end tells you little: la sal, but el sol." },
-  { w: "sangre", g: "la", lv: "A2", regel: "An -e tells you nothing, so learn this one with its article: la sangre." },
-  { w: "costumbre", g: "la", lv: "A2", regel: "Nouns in -umbre are feminine: la costumbre, la legumbre." },
-  { w: "garaje", g: "el", lv: "A2", regel: "Nouns in -aje are masculine: el garaje, el viaje, el paisaje." },
-  { w: "pintalabios", g: "el", lv: "A2", regel: "Verb + noun: pinta + labios. These compounds are masculine: el pintalabios, los pintalabios." },
-  { w: "lavavajillas", g: "el", lv: "A2", regel: "Verb + noun: lava + vajillas. These compounds are masculine: el lavavajillas." },
-  { w: "paraguas", g: "el", lv: "A2", lex: false, regel: "Verb + noun: para + aguas. It ends in -s, but it is one umbrella: el paraguas, los paraguas." },
-  { w: "radio", g: "la", lv: "B1", regel: "Short for la radiodifusión, so in Spain it stays feminine in spite of the -o: la radio.",
-    es419: { note: "Mexico, Central America, the Caribbean, Colombia, Venezuela and Peru usually say el radio.", gender: "el" } },
-  { w: "tema", g: "el", lv: "B1", regel: "A word from Greek in -ma, and masculine: el tema, el problema." },
-  { w: "diploma", g: "el", lv: "B1", regel: "A word from Greek in -ma, and masculine: el diploma, el clima." },
-  { w: "aula", g: "el", lv: "B1", regel: "Feminine, but a stressed a- takes el in the singular: el aula, las aulas." },
-  { w: "crisis", g: "la", lv: "B1", regel: "Many Greek nouns in -is are feminine (but el análisis). The plural looks the same: la crisis, las crisis." },
-  { w: "rascacielos", g: "el", lv: "B1", regel: "Verb + noun: rasca + cielos. These compounds are masculine: el rascacielos, los rascacielos." },
-  { w: "paisaje", g: "el", lv: "B1", regel: "Nouns in -aje are masculine: el paisaje, el viaje, el garaje." },
+  { w: "plage", g: "la", lv: "A1", regel: "Most nouns in -age are masculine (le garage, le voyage), but la plage is feminine, like la page and la cage." },
+  { w: "musée", g: "le", lv: "A1", regel: "Most nouns in -ée are feminine (la journée, l'idée), but le musée is masculine, like le lycée." },
+  { w: "peau", g: "la", lv: "A1", regel: "Nouns in -eau are masculine (le bureau, le gâteau), but la peau is feminine, and so is l'eau." },
+  { w: "problème", g: "le", lv: "A1", regel: "A word from Greek in -ème, and masculine in spite of the -e: le problème, le système." },
+  { w: "photo", g: "la", lv: "A1", regel: "Short for la photographie, so it stays feminine in spite of the -o: la photo, like la météo." },
+  { w: "météo", g: "la", lv: "A1", regel: "Short for la météorologie, so it stays feminine in spite of the -o: la météo, like la photo." },
+  { w: "maison", g: "la", lv: "A1", regel: "Many nouns in -on are masculine (le garçon, le salon), but la maison is feminine, like la leçon." },
+  { w: "leçon", g: "la", lv: "A1", regel: "Many nouns in -on are masculine (le garçon, le salon), but la leçon is feminine, like la chanson." },
+  { w: "chanson", g: "la", lv: "A1", regel: "Many nouns in -on are masculine (le garçon, le salon), but la chanson is feminine, like la maison." },
+  { w: "forêt", g: "la", lv: "A1", regel: "Nouns in -et are usually masculine (le billet, le jouet), but la forêt is feminine." },
+  { w: "dent", g: "la", lv: "A1", regel: "Nouns in -ent are usually masculine (le moment, le vent), but la dent is feminine." },
+  { w: "cœur", g: "le", lv: "A1", regel: "Many nouns in -eur are feminine (la fleur, la couleur), but le cœur is masculine." },
+  { w: "main", g: "la", lv: "A1", regel: "Nothing in the word tells you: la main, but le pain. Learn the article with the word." },
+  { w: "mer", g: "la", lv: "A1", regel: "Nothing in the word tells you: la mer. It sounds like la mère (mother) and le maire (mayor)." },
+  { w: "pays", g: "le", lv: "A1", regel: "It ends in -s, but it is one country: le pays, les pays." },
+  { w: "dimanche", g: "le", lv: "A1", regel: "The days of the week are masculine, -e or not: le dimanche, le samedi." },
+  { w: "fin", g: "la", lv: "A2", regel: "Nouns in -in are usually masculine (le vin, le jardin, le matin), but la fin is feminine." },
+  { w: "bonheur", g: "le", lv: "A2", regel: "Feelings in -eur are usually feminine (la peur, la douleur), but le bonheur is masculine, like le malheur." },
+  { w: "souris", g: "la", lv: "A2", regel: "It ends in -s, but it is one mouse, and feminine: la souris, les souris." },
+  { w: "honte", g: "la", lv: "A2", regel: "The h is aspiré, so there is no elision: la honte, never l'honte. Same with le haricot, le héros." },
+  { w: "stade", g: "le", lv: "A2", regel: "Nouns in -ade are usually feminine (la salade, la promenade), but le stade is masculine." },
+  { w: "lave-vaisselle", g: "le", lv: "A2", regel: "Verb + noun: lave + vaisselle. These compounds are masculine, even though la vaisselle is feminine." },
+  { w: "porte-monnaie", g: "le", lv: "A2", regel: "Verb + noun: porte + monnaie. These compounds are masculine, even though la monnaie is feminine." },
+  { w: "lycée", g: "le", lv: "B1", regel: "Most nouns in -ée are feminine (la journée, l'idée), but le lycée is masculine, like le musée." },
+  { w: "silence", g: "le", lv: "B1", regel: "Nouns in -ence are almost all feminine (la science, la patience), but le silence is masculine." },
+  { w: "camion", g: "le", lv: "B1", regel: "Nouns in -ion are usually feminine (la région, la station), but le camion is masculine, like le million." },
+  { w: "programme", g: "le", lv: "B1", regel: "From Greek, like le problème, and masculine in spite of the -e: le programme, le système." },
+  { w: "paix", g: "la", lv: "B1", regel: "A final -x tells you nothing: la paix, but le prix. Learn the article with the word." },
+  { w: "gratte-ciel", g: "le", lv: "B1", regel: "Verb + noun: gratte + ciel. These compounds are masculine: le gratte-ciel, like le sèche-cheveux." },
 ];
 
 const ORDER = ["A1", "A2", "B1"];
