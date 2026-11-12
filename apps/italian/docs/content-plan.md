@@ -991,5 +991,18 @@ handled by the `ui-*` items where they are rendered.
   are whole exams per level: `exams-cils-celi`. The "Spanish letters" fallbacks in
   `src/lib/aktivMode.js` and `conjugationTyped.js` (en.json already says "Italian letters"):
   `grammar-a1`. The word-decoder label in `catalog.js` (`sprachen.dec.title`): `accents-languages`.
+- **Left in the a–l pages for later items** (`ui-pages-a-l`, 2026-11-12): the page texts are
+  Italian and target-language markup says `lang="it"`. Still Spanish, because their data or owner
+  is another item: `/ccse` body, `/ccse/test` hero/facts/sources and `/ccse/facts` (the `lid.*`
+  keys other than `lid.lead`/`lid.who.*`, Cervantes links, comunidades): `civic-knowledge`;
+  `/dgt-vocabulary*`: `patente-vocab`; `/business-spanish*`: `business-italian`;
+  `/grammar/conjugation`: `conjugation-trainer`; the decoder and map texts on
+  `/knowledge/languages` and `/knowledge/accents` (`sprachen.*`, `dialekte.*`):
+  `accents-languages`; `kultur.*.cardIntro`, `kultur.linkLabel.*`, `kultur.filme.*` and the
+  `WORLD_IDS` on `/culture`: `culture`; the official links on `/knowledge` (`wissen.link.*`, from
+  `downloads.json`): `teachers`; `fallen.json` content on `/exams/traps`: `exams-cils-celi`. The
+  traps page maps the slot ids to labels in one place (`EXAM_LABEL`: dele → CILS, siele → CELI,
+  ccse → Civic knowledge); the filter ids stay. The nav drawer shows data titles (culture topics,
+  grammar names) that their content items convert.
 - Gaps (§3): elision/truncation topic, *si* impersonale as its own topic, *ne* drills, *stare/essere*
   in the south.
