@@ -1,6 +1,6 @@
 ---
-// The el / la trainer (the German der/die/das trainer, same machinery; the lexicon's
-// `gender` holds el or la): a rail of levels A1–B2 and the frequency order beside a
+// The le / la trainer (the German der/die/das trainer, same machinery; nouns that elide to l'
+// are asked with un / une, see generoDrill.js): a rail of levels A1–B2 and the frequency order beside a
 // Fokus/Testmodus workspace over every gendered noun in the lexicon, with the spoken
 // answer, Langsam and the back button. A level's pane offers "Weiter üben" and packs by
 // topic and rule; sessions are built from the learner's own per-noun history
@@ -26,8 +26,8 @@ import "../styles/artikel-fit.css";
 // The /t2 "C · Mix" look on top of that layout, and the etymology card.
 import "../styles/artikel-t2.css";
 import { buildArtikelPacks, ruleMatch } from "../lib/artikelPacks.js";
-import { isDrillNoun } from "../lib/generoDrill.js";
-import { nouns } from "../lib/lexicon.js";
+import { drillChoice, drillGenus, isDrillNoun } from "../lib/generoDrill.js";
+import { nouns, withArticle } from "../lib/lexicon.js";
 // Corpus counts for the ranked nouns, written by scripts/artikel-haeufigkeit.mjs.
 import haeufigkeit from "../data/artikel-haeufigkeit.json";
 import { uiTr } from "../lib/grammarUi.js";
@@ -36,31 +36,31 @@ import { uiTr } from "../lib/grammarUi.js";
 // ~860 nouns (was 31 hand-listed ones), far too many for a single sitting.
 const SESSION_SIZE = 25;
 
-/* Why a noun takes el or la: which case of the rules in artikel-packs.json it is. The rules are
- * endings of the first word (la oferta de trabajo), so a noun either follows its pattern, breaks
- * it (el día, la mano), hides its gender behind el (el agua, las aguas), or has no pattern at all
- * (-e and most consonants: el coche, la llave). */
-function articleRule(noun) {
+/* Why a noun takes le or la: which case of the rules in artikel-packs.json it is. The rules are
+ * endings of the first word (la carte de séjour), so a noun either follows its pattern, breaks it
+ * (la plage, le musée), or has no pattern at all (le livre, la main). A noun that elides to l'
+ * (l'école) is asked with un / une, because l' hides the gender: `elided` says so when no ending
+ * rule covers it. */
+function articleRule(noun, answer, kind) {
   const m = ruleMatch(noun);
-  if (noun.genus === "f") return { k: "afem" };
-  if (!m) return { k: "none" };
-  const k = m.rule.article !== noun.gender ? "exception" : m.rule.names ? "greek" : "ending";
-  return { k, ending: m.why, expected: m.rule.article };
+  if (!m) return { k: kind === "indef" ? "elided" : "none" };
+  const ruleGenus = m.rule.article === "la" ? "f" : "m";
+  const expected = kind === "indef" ? (ruleGenus === "f" ? "une" : "un") : m.rule.article;
+  const k = ruleGenus !== drillGenus(noun) ? "exception" : "ending";
+  return { k, ending: m.why, expected };
 }
 
 const EXPLAIN = {
-  afem: "“{word}” is feminine, but a stressed a- takes el in the singular, so the two a sounds don't run together: el {word}. In the plural it is las, and adjectives stay feminine.",
+  elided: "“{word}” starts with a vowel or a mute h, so le and la both become l': {def}. That hides the gender, so learn it with un or une: {article} {word}.",
   ending: "“{word}” ends in {ending}, and nouns with that ending usually take “{article}”: {article} {word}.",
-  greek: "“{word}” is one of the words in -ma that come from Greek. They take “el”, unlike la cama or la forma: el {word}.",
   exception: "“{word}” ends in {ending}, which usually means “{expected}”, but this one takes “{article}”: {article} {word}. An exception to learn.",
   none: "This ending does not tell you the gender. Learn the noun together with its article: {article} {word}.",
 };
 
 /* The same in very simple English (A1), for the Leicht switch: see src/lib/leichteSprache.js. */
 const EXPLAIN_LEICHT = {
-  afem: "This word starts with a strong “a”. So you say “el {word}”, but the word is feminine.",
+  elided: "Before a vowel, le and la become l': {def}. So learn the word with un or une: {article} {word}.",
   ending: "The word ends in {ending}. So you say “{article}”: {article} {word}.",
-  greek: "This word ends in -ma, but you say “el”: el {word}.",
   exception: "This word does not follow the rule. You say “{article} {word}”.",
   none: "There is no rule here. Learn the word with its article: {article} {word}.",
 };
@@ -70,16 +70,21 @@ const fill = (text, v) => text.replace(/\{(\w+)\}/g, (m, k) => (k in v ? String(
 /* Which of the explanations applies, as an i18n key suffix and its variables, so the page can say
  * it in the UI language: `ap.ex.<k>` and `ap.ex.<k>.leicht` in public/i18n. The English in the
  * dictionary is exactly the English above. */
-function explainNoun(n) {
-  const { k, ending, expected } = articleRule(n);
-  const v = { word: n.lemma, article: n.gender, ...(ending ? { ending, expected } : {}) };
+function explainNoun(n, answer, kind) {
+  const { k, ending, expected } = articleRule(n, answer, kind);
+  const v = { word: n.lemma, article: answer, def: withArticle(n), ...(ending ? { ending, expected } : {}) };
   return { ex: { k, v }, explain: fill(EXPLAIN[k], v), explainLeicht: fill(EXPLAIN_LEICHT[k], v) };
 }
 
 // `id` is the lexicon's stable slug, not an array index, so a learner's progress for
-// "haus" survives every future addition to the pool.
+// "maison" survives every future addition to the pool.
 // A1–B2, and only nouns with one right answer: see generoDrill.js for who stays out.
 const lexNouns = nouns({ level: ["A1", "A2", "B1", "B2"], has: "gender" }).filter(isDrillNoun);
+/** What the learner sees as the right form: "la maison", or "une école (l'école)" for an elided noun. */
+const shownForm = (n) => {
+  const c = drillChoice(n);
+  return c.kind === "indef" ? `${c.answer} ${n.lemma} (${withArticle(n)})` : withArticle(n);
+};
 
 // "Nach Häufigkeit": the nouns that have a corpus count, most frequent first. `freqPos` is
 // the place in that order (1 = most frequent), which is what a round slices on.
@@ -89,25 +94,29 @@ const ranked = lexNouns
 const freqPos = new Map(ranked.map((n, i) => [n.id, i + 1]));
 const freqTotal = ranked.reduce((sum, n) => sum + haeufigkeit[n.id], 0);
 
-const pool = lexNouns.map((n) => ({
-  id: n.id,
-  level: n.level,
-  freqPos: freqPos.get(n.id) ?? null,
-  // For the "Wie oft hört man das?" chart. `freq` is null for the nouns the corpus list
-  // does not reach — the rarities.
-  lemma: n.lemma,
-  freq: freqPos.has(n.id) ? haeufigkeit[n.id] : null,
-  prompt: `___ ${n.lemma}`,
-  options: ["el", "la"],
-  answer: n.gender,
-  ...explainNoun(n),
-  change: `${n.gender} ${n.lemma}`,
-  // Shown under the instruction, without its article: los / las would give the answer away.
-  ...(n.plural ? { plural: n.plural } : {}),
-  // No French recordings yet (lexicon `audio` is the future file name): the browser's voice says
-  // "la casa" once the answer is settled, never before, because it says the article.
-  speak: `${n.gender} ${n.lemma}`,
-}));
+const pool = lexNouns.map((n) => {
+  // le / la, or un / une for a noun that elides to l' (generoDrill.js, content-plan §5.9).
+  const { options, answer, kind } = drillChoice(n);
+  return {
+    id: n.id,
+    level: n.level,
+    freqPos: freqPos.get(n.id) ?? null,
+    // For the "Wie oft hört man das?" chart. `freq` is null for the nouns the corpus list
+    // does not reach — the rarities.
+    lemma: n.lemma,
+    freq: freqPos.has(n.id) ? haeufigkeit[n.id] : null,
+    prompt: `___ ${n.lemma}`,
+    options,
+    answer,
+    ...explainNoun(n, answer, kind),
+    change: shownForm(n),
+    // Shown under the instruction, with no article: les says nothing about the gender.
+    ...(n.plural && n.plural !== n.lemma ? { plural: n.plural } : {}),
+    // No French recordings yet (lexicon `audio` is the future file name): the browser's voice says
+    // "la maison" or "une école" once the answer is settled, never before, because it says the article.
+    speak: `${answer} ${n.lemma}`,
+  };
+});
 
 const AP_LEVELS = ["A1", "A2", "B1", "B2"];
 const levelCounts = Object.fromEntries(AP_LEVELS.map((l) => [l, pool.filter((q) => q.level === l).length]));
@@ -126,7 +135,7 @@ for (let i = 0; i < ranked.length; i += SESSION_SIZE) {
     to: i + slice.length,
     // Floored, so the last round is the only one that says 100 %.
     cover: Math.floor((seen / freqTotal) * 100),
-    preview: slice.slice(0, 3).map((n) => `${n.gender} ${n.lemma}`).join(", ") + " …",
+    preview: slice.slice(0, 3).map(withArticle).join(", ") + " …",
   });
 }
 const freq = { words: ranked.length, unranked: lexNouns.length - ranked.length, perWeek: PER_WEEK, rounds: freqRounds };

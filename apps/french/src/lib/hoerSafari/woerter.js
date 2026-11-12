@@ -7,7 +7,8 @@
 // from /vocabulary/glosses/ by the game.
 import { nouns } from "../lexicon.js";
 import { wortBild } from "../wortBild.js";
-import { isDrillNoun } from "../generoDrill.js";
+// le / la only: hearing l'école can't tell the gender (content-plan §5.9).
+import { isDefiniteDrillNoun as isDrillNoun } from "../generoDrill.js";
 
 // In the shared picture table (wort-bilder.json) these are there to decorate a word card, which is
 // not enough here: el casero is a key, el padrón a clipboard, el estrés and la diversión a face;

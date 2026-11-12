@@ -359,7 +359,7 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
   const doneNoun = (q) => q.lemma ?? q.prompt.replace("___", "").trim();
   function doneRowHtml(q, wrong) {
     const plural = q.plural && !q.pluralOnly
-      ? `<span class="akk-done-plural"><b class="akk-art akk-art--plural">die</b> ${q.plural}</span>`
+      ? `<span class="akk-done-plural"><b class="akk-art akk-art--plural">les</b> ${q.plural}</span>`
       : "";
     let answer;
     if (wrong) {
