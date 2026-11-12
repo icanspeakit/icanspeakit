@@ -34,10 +34,11 @@ const levels = GRAMMAR_LEVELS.map((level) => ({
   items: grammarAt(level).map((t) => ({ key: t.key, label: t.name, href: t.href, tasks: t.tasks })),
 }));
 const exams = [
-  { label: "DELE A1 practice test", icon: "document", href: "/dele/a1", meta: "A1" },
-  { label: "DELE A2 mock for nationality", icon: "book-open", href: "/nationality/dele-a2/practice-set", meta: "A2" },
-  { label: "SIELE practice set", icon: "graduation-cap", href: "/siele/practice-set", meta: "Score" },
-  { label: "CCSE practice test", icon: "map-pin", href: "/ccse/test", meta: "Test" },
+  // Names per docs/content-plan.md §2; hrefs are the old slots until `routes`.
+  { label: "ACESSO A1 practice test", icon: "document", href: "/dele/a1", meta: "A1" },
+  { label: "CIPLE A2 mock for residence and nationality", icon: "book-open", href: "/nationality/dele-a2/practice-set", meta: "A2" },
+  { label: "Level-check practice set", icon: "graduation-cap", href: "/siele/practice-set", meta: "Score" },
+  { label: "Civics practice test", icon: "map-pin", href: "/ccse/test", meta: "Test" },
 ];
 
 // Opens on the level this topic belongs to, so the first thing in the panel is its own

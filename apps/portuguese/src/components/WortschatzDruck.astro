@@ -54,9 +54,13 @@ const bruno = mascotSvg({ name: "bruno", size: 64, label: "" });
 const hamsti = mascotSvg({ name: "hamsti", size: 56, label: "" });
 const regi = mascotSvg({ name: "regi", size: 52, label: "" });
 let gap = 0;
-// Part B asks for the article the nouns carry (docs/content-plan.md §1.4).
-const artQuestion = "el or la?";
-const artInstr = "Write el or la.";
+// Part B asks for the article the nouns carry (docs/content-plan.md §1.4): o/a once a level is
+// Portuguese; el/la only while a lexicon level still holds the Spanish course's words.
+const legacyArticles = words.some((x: any) => x.gender === "el" || x.gender === "la");
+const artPair = legacyArticles ? "el or la" : "o or a";
+const artQuestion = `${artPair}?`;
+const artInstr = `Write ${artPair}.`;
+const artLabel = legacyArticles ? "el / la" : "o / a";
 ---
 <SiteNav active={active} />
 
@@ -91,7 +95,7 @@ const artInstr = "Write el or la.";
       <div>
         <p class="ab-eyebrow">icanspeak Portuguese · Vocabulary · {level}</p>
         <h1 class="ab-title">{title}</h1>
-        <p class="pr-sub">{words.length} words · el / la, meaning and example sentence</p>
+        <p class="pr-sub">{words.length} words · {artLabel}, meaning and example sentence</p>
       </div>
       <span class="pr-mascot" aria-hidden="true" set:html={hamsti}></span>
     </header>
