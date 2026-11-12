@@ -1,7 +1,8 @@
 ---
-// "DELE or SIELE?": which exam fits which purpose (content-plan §2). General orientation, every
-// fact dated. Text lives in public/i18n/en.json; the markup holds the same English as a fallback.
-// Official sources and what is still "to verify": reports/exams-siele.md and testdaf-formate.json.
+// "DELF, TCF or TEF?": which exam fits which purpose (content-plan §2). General orientation, every
+// fact dated. Text lives in public/i18n/en.json (keys keep the old `delesiele.*` names until the
+// `routes` item renames them); the markup holds the same English as a fallback.
+// `dele` column = DELF / DALF, `siele` column = TCF, `tef` column = TEF.
 import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
@@ -11,47 +12,47 @@ import "../../styles/pruefungen.css";
 const purposes = [
   {
     key: "nationality",
-    title: "Spanish nationality",
-    answer: "DELE",
-    text: "If you need a language exam for Spanish nationality, take the DELE at A2 or above. It goes together with the CCSE knowledge test. The SIELE's own site says that its certificates don't count for the nationality procedure. Some applicants are exempt from the language exam, for example people from countries where Spanish is an official language, so check your own case with the Ministry of Justice.",
+    title: "Residence card and French nationality",
+    answer: "TCF IRN, TEF IRN or a DELF / DALF",
+    text: "For a multi-year card, a resident card or naturalisation, the prefecture asks for proof of a French level. The level has changed over the years and depends on the procedure, so look at the current list on service-public.fr. In general, an exam from the list is accepted: the TCF IRN and the TEF IRN are made for exactly this, and a DELF or DALF at or above the level asked usually counts too. Results older than the validity period do not count, so don't book too early. Some people are exempt, for example because of a French diploma, so check your own case with the prefecture.",
+  },
+  {
+    key: "canada",
+    title: "Immigration to Canada",
+    answer: "TCF Canada or TEF Canada",
+    text: "Canadian immigration programmes accept only specific tests, and they convert your scores into NCLC levels. Take the Canada version of the TCF or the TEF, not the general one and not a DELF. The points you get depend on the programme and the level, so read the current rules of the programme you apply to. Canadian accents are part of these tests, so listen to some Québec French as well.",
   },
   {
     key: "university",
-    title: "University in Spain",
-    answer: "Often either: ask first",
-    text: "The SIELE site says that the Spanish rectors' conference (CRUE) and the university language centres' association (ACLES) list the SIELE as an accepted certificate. The site also says that many universities ask for B1 or B2. Even so, each university and each degree sets its own rule, so get it in writing from the admissions office. Ask how old your result may be, too.",
+    title: "University in France",
+    answer: "Often DELF B2 / DALF, or TCF DAP: ask first",
+    text: "Universities usually ask for B2, sometimes C1 for demanding courses, and each one names the exams it accepts. A DELF B2 or a DALF is a safe bet, and the TCF for admission to French universities (TCF DAP) is built for it. Some institutions also take the TCF tout public or the TEF. Get the rule in writing from the admissions office, including how old your result may be.",
   },
   {
     key: "work",
-    title: "Work",
+    title: "Work and your CV",
     answer: "Depends on the employer",
-    text: "Private employers often care more about your level than about which exam it came from. The SIELE is quick to book if you need a result soon, and the DELE has no expiry date as far as we could check. Public jobs and regulated professions can have fixed rules. For the specialist training places in health (Medicine, Nursing, Pharmacy and others), the SIELE site says the SIELE is recognised. Check the current call for applications.",
-  },
-  {
-    key: "visa",
-    title: "Visas, scholarships and other official uses",
-    answer: "Read the rules of the procedure",
-    text: "We can't give a general answer here. A consulate, ministry or scholarship body says which certificates it accepts, at which level, and how old they may be. If the rules name only one exam, take that one. This page is general orientation, not legal advice.",
+    text: "Private employers care more about your level than about the exam. A DELF or DALF has no expiry date, which suits a CV. A TCF or TEF result is valid for a limited time, but it is quick to book if you need a result soon. Regulated professions and public jobs can have their own rules, so check the call or the professional body.",
   },
   {
     key: "self",
     title: "For yourself",
     answer: "Your choice",
-    text: "If you want a goal to work towards, the DELE gives you one level to aim for and a diploma if you reach it. If you want to see where you stand, the SIELE gives you a level for each skill, and you don't have to know your level before you book.",
+    text: "If you want one level to work towards and a diploma at the end, the DELF or DALF fits. If you want to see where you stand, the TCF gives you a level on a six-step scale, and you don't have to know your level before you book.",
   },
 ];
 
 const rows = [
-  { key: "who", label: "Who is behind it", dele: "Instituto Cervantes", siele: "Instituto Cervantes, UNAM (Mexico), Universidad de Salamanca, Universidad de Buenos Aires" },
-  { key: "levels", label: "Levels", dele: "A1 to C2", siele: "A1 to C1" },
-  { key: "shape", label: "One exam or several", dele: "A separate exam for each level: you choose your level when you register", siele: "One exam for all levels: the tasks climb from A1 to C1" },
-  { key: "result", label: "Result", dele: "Apto or No apto: you pass or you don't", siele: "A score from 0 to 250 per test, each matched to a CEFR level. No pass mark, but a very low score reaches no level" },
-  { key: "doc", label: "What you get", dele: "A diploma", siele: "SIELE Global: a certificate, 0 to 1000 points. S1 to S5, with fewer tests: a report" },
-  { key: "valid", label: "How long it lasts", dele: "No expiry date, as far as we could check", siele: "Five years" },
-  { key: "how", label: "How you take it", dele: "At an exam centre. Speaking is with examiners", siele: "On a computer at an exam centre. Speaking is recorded, with nobody in the room to answer you" },
-  { key: "when", label: "When", dele: "On fixed dates a few times a year, with a registration deadline", siele: "When a centre offers a session: no fixed dates worldwide" },
-  { key: "fast", label: "How fast the result comes", dele: "Usually a few months", siele: "Within three weeks, according to the SIELE site" },
-  { key: "price", label: "Price in Spain, roughly", dele: "About 110 € (A1) to 240 € (C2); about 138 € for A2", siele: "SIELE Global about 125–155 €; S1 to S5 about 55–100 €" },
+  { key: "who", label: "Who is behind it", dele: "France Éducation international, for the French ministry of education", siele: "France Éducation international, for the French ministry of education", tef: "The Paris Île-de-France Chamber of Commerce and Industry (CCI)" },
+  { key: "levels", label: "Levels", dele: "A1 to C2: DELF covers A1 to B2, DALF covers C1 and C2", siele: "A1 to C2, reported as one of six levels", tef: "A1 to C2, reported as a level and a score (to verify for each version)" },
+  { key: "shape", label: "One exam or several", dele: "A separate exam for each level: you choose your level when you register", siele: "One test for all levels: the questions get harder as you go", tef: "One test for all levels, in several versions: general, IRN, Canada and others" },
+  { key: "result", label: "Result", dele: "Pass or fail, with a minimum score in each of four papers and overall (to verify the exact marks)", siele: "A level for each skill, not pass or fail", tef: "A score and a level for each paper, not pass or fail" },
+  { key: "doc", label: "What you get", dele: "A diploma, plus a score report", siele: "An attestation of results", tef: "An attestation of results" },
+  { key: "valid", label: "How long it lasts", dele: "The diploma has no expiry date, as far as we could check", siele: "Two years for the result (to verify)", tef: "Two years for the result (to verify)" },
+  { key: "how", label: "How you take it", dele: "At an approved centre, on paper. Speaking is a conversation with examiners", siele: "At an approved centre, on a computer for listening and reading, in versions with oral and written parts by examiner or recorded (to verify)", tef: "At an approved centre, mostly on a computer, depending on the version (to verify)" },
+  { key: "when", label: "When", dele: "On fixed session dates, with a registration deadline", siele: "Sessions are offered several times a month in many centres (to verify)", tef: "Sessions are offered regularly in many centres (to verify)" },
+  { key: "fast", label: "How fast the result comes", dele: "Usually a few weeks", siele: "Often a few weeks (to verify)", tef: "Often a few weeks (to verify)" },
+  { key: "price", label: "Price", dele: "Set by each centre, and it rises with the level. Check the centre", siele: "Set by each centre, and it differs by version. Check the centre", tef: "Set by each centre, and it differs by version. Check the centre" },
 ];
 ---
 <Layout
@@ -64,11 +65,12 @@ const rows = [
 
     <div class="practice-hero">
       <p class="eyebrow" data-i18n="delesiele.eyebrow">Choosing an exam</p>
-      <h1 data-i18n="delesiele.title">DELE or SIELE?</h1>
+      <h1 data-i18n="delesiele.title">DELF, TCF or TEF?</h1>
       <p data-i18n="delesiele.lead">
-        Both are serious Spanish exams, and the Instituto Cervantes is behind both. What decides between
-        them is what you need the result for. For Spanish nationality, the answer is the DELE. For
-        almost everything else, ask the institution first.
+        All three are serious French exams. What decides between them is what you need the result for:
+        for Canada it is the TCF Canada or the TEF Canada, for a residence card or nationality it is
+        an exam on the prefecture's list (TCF IRN, TEF IRN or a DELF/DALF), and for a diploma that never
+        expires it is the DELF or DALF. For anything else, ask the institution first.
       </p>
       <ExamDisclaimer />
     </div>
@@ -91,59 +93,60 @@ const rows = [
     </section>
 
     <section class="exam-section">
-      <h2 data-i18n="delesiele.compare.title">The two exams side by side</h2>
+      <h2 data-i18n="delesiele.compare.title">The exams side by side</h2>
       <div class="format-table-wrap">
         <table class="format-table">
-          <thead><tr><th></th><th translate="no">DELE</th><th translate="no">SIELE</th></tr></thead>
+          <thead><tr><th></th><th translate="no">DELF / DALF</th><th translate="no">TCF</th><th translate="no">TEF</th></tr></thead>
           <tbody>
             {rows.map((r) => (
               <tr>
                 <th scope="row" data-i18n={`delesiele.r.${r.key}.label`}>{r.label}</th>
                 <td data-i18n={`delesiele.r.${r.key}.dele`}>{r.dele}</td>
                 <td data-i18n={`delesiele.r.${r.key}.siele`}>{r.siele}</td>
+                <td data-i18n={`delesiele.r.${r.key}.tef`}>{r.tef}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       <p class="format-note" data-i18n="delesiele.compare.note">
-        Checked in November 2026. Prices are what some exam centres in Spain listed and aren't an official
-        tariff: they change every year and differ by country and centre. DELE timings and rules vary by
-        source, so check them in the current exam guide.
+        Checked in November 2026 against general sources, and several details are marked "to verify".
+        Prices, validity periods and which exams count for which procedure change, so check the current
+        rules before you book.
       </p>
     </section>
 
     <section class="exam-section">
       <h2 data-i18n="delesiele.tips.title">If you still can't decide</h2>
       <ul class="task-points">
-        <li data-i18n="delesiele.tips.1">You don't know your level: the SIELE places you wherever you are, while a DELE at the wrong level can end in No apto.</li>
-        <li data-i18n="delesiele.tips.2">You freeze when you talk to a computer: the DELE has examiners in the room. You get nervous in front of people: the SIELE is recorded.</li>
-        <li data-i18n="delesiele.tips.3">You need a result soon: the SIELE's flexible dates and quicker results usually help. Check that the institution accepts it first.</li>
-        <li data-i18n="delesiele.tips.4">You want something that doesn't run out: the DELE has no expiry date as far as we could check, while a SIELE result lasts five years.</li>
-        <li data-i18n="delesiele.tips.5">You only learn Spain's Spanish: the SIELE site says the exam uses varieties from across the Spanish-speaking world, so practise hearing other accents too.</li>
+        <li data-i18n="delesiele.tips.1">You don't know your level: the TCF and the TEF place you wherever you are, while a DELF at the wrong level can end in a fail.</li>
+        <li data-i18n="delesiele.tips.2">You want a result that never runs out: the DELF and DALF diplomas have no expiry date as far as we could check, while a TCF or TEF result is valid for a limited time.</li>
+        <li data-i18n="delesiele.tips.3">You need a result soon: TCF and TEF sessions are usually easier to book than DELF sessions. Check that the institution accepts it first.</li>
+        <li data-i18n="delesiele.tips.4">You apply for Canada: take the Canada version of the TCF or the TEF. A DELF is not enough, and a general TCF or TEF may not be either.</li>
+        <li data-i18n="delesiele.tips.5">You only know French as it is spoken in France: tests such as the TCF Canada and the TEF Canada can include Québec accents, so practise hearing them too.</li>
       </ul>
     </section>
 
     <section class="exam-section">
       <h2 data-i18n="delesiele.practice.title">Practise here</h2>
       <div class="mock-cta">
-        <h3 data-i18n="delesiele.practice.dele.title">DELE</h3>
+        <h3 data-i18n="delesiele.practice.dele.title">DELF / DALF</h3>
         <p data-i18n="delesiele.practice.dele.text">Format and practice tests for each level, A1 to C1, in the style of the exam.</p>
-        <a class="quiz-btn quiz-btn--primary" href="/dele" data-i18n="delesiele.practice.dele.cta">To the DELE page</a>
+        <a class="quiz-btn quiz-btn--primary" href="/dele" data-i18n="delesiele.practice.dele.cta">To the DELF / DALF page</a>
       </div>
       <div class="mock-cta">
-        <h3 data-i18n="delesiele.practice.siele.title">SIELE</h3>
-        <p data-i18n="delesiele.practice.siele.text">Scores, modalities and practice tasks for every band, A1 to C1, in the style of the exam.</p>
-        <a class="quiz-btn quiz-btn--primary" href="/siele" data-i18n="delesiele.practice.siele.cta">To the SIELE page</a>
+        <h3 data-i18n="delesiele.practice.siele.title">TCF and TEF</h3>
+        <p data-i18n="delesiele.practice.siele.text">Scores, versions and practice tasks in the style of the TCF (by band, A2 to C1) and the TEF.</p>
+        <a class="quiz-btn quiz-btn--primary" href="/siele" data-i18n="delesiele.practice.siele.cta">To the TCF and TEF pages</a>
       </div>
     </section>
 
     <section class="exam-section">
       <h2 data-i18n="delesiele.sources.title">Where to check</h2>
       <ul class="task-points">
-        <li><a href="https://siele.org/examenes" rel="noopener" data-i18n="delesiele.sources.siele">SIELE: exam types, tests and scores</a></li>
-        <li><a href="https://siele.org/reconocimiento-internacional" rel="noopener" data-i18n="delesiele.sources.recog">SIELE: who recognises it</a></li>
-        <li><a href="https://cervantes.org/es/examenes/dele" rel="noopener" data-i18n="delesiele.sources.dele">Instituto Cervantes: DELE</a></li>
+        <li><a href="https://www.france-education-international.fr/" rel="noopener" data-i18n="delesiele.sources.siele">France Éducation international: DELF, DALF and TCF</a></li>
+        <li><a href="https://www.lefrancaisdesaffaires.fr/" rel="noopener" data-i18n="delesiele.sources.recog">CCI Paris Île-de-France: TEF</a></li>
+        <li><a href="https://www.service-public.fr/" rel="noopener" data-i18n="delesiele.sources.dele">service-public.fr: which exam counts for your procedure</a></li>
       </ul>
     </section>
   </main>
