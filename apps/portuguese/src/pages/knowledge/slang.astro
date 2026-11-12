@@ -1,13 +1,12 @@
 ---
-// /knowledge/slang — how Spanish is really spoken in Spain: the short forms (finde, peli,
-// cansao), the everyday words (vale, tío, currar), money words you hear but needn't say
-// (pasta, pavos, a pachas), slang and young people's words, and the swear words — each
+// /knowledge/slang — how Portuguese is really spoken in Portugal: short forms, everyday
+// words (pá, fixe, bué), money words you hear but needn't say (guita, paus), slang and young people's words, and the swear words — each
 // with its standard equivalent, an example and where it is fine. The four registers as a
 // ladder at the top; the rude section folded until opened, so the page can be shown in
 // class. At the foot: polite instead of rude.
 //
-// The words live in src/data/umgangssprache.json (own draft, unreviewed), Spain Spanish
-// at A2–B1. Linked from the Wissen menu (navUmgangssprache in catalog.js) and the phone drawer.
+// The words live in src/data/umgangssprache.json (own draft, unreviewed; still the Spanish
+// course's list until idioms-mistakes converts it to Portugal Portuguese) at A2–B1. Linked from the Wissen menu (navUmgangssprache in catalog.js) and the phone drawer.
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
 import data from "../../data/umgangssprache.json";
@@ -35,7 +34,7 @@ const stepFig = (id: string) => {
 const GROUP_MASCOT: Record<string, { name: Crew; expr: Expr; say: string }> = {
   kurzformen: { name: "quaki", expr: "happy", say: "Say it, don’t write it!" },
   alltag: { name: "hamsti", expr: "happy", say: "You’ll hear these daily." },
-  zahlen: { name: "regi", expr: "thinking", say: "¿Pasta? That means money!" },
+  zahlen: { name: "regi", expr: "thinking", say: "Guita? That means money!" },
   jugend: { name: "hamsti", expr: "celebrate", say: "Cool – with friends only." },
   vulgaer: { name: "bruno", expr: "oops", say: "Understand it, don’t say it!" },
 };
@@ -43,9 +42,9 @@ const GROUP_MASCOT: Record<string, { name: Crew; expr: Expr; say: string }> = {
 const comic = {
   title: "One question, two registers",
   panels: [
-    { caption: "At the town hall", tag: "Standard Spanish", left: { name: "bruno" as Crew, say: "¿Podría atenderme un momento, por favor?" }, right: { name: "regi" as Crew, say: "Por supuesto. ¿De qué se trata?" } },
-    { caption: "With friends", tag: "Informal", left: { name: "hamsti" as Crew, say: "¿Tienes un momento, tío?" }, right: { name: "quaki" as Crew, say: "Claro, ¿qué pasa?" } },
-    { caption: "Wrong register", tag: "Too casual for the office", left: { name: "quaki" as Crew, expr: "oops" as Expr, say: "Oye, tío, ¿tienes un segundo?" }, right: { name: "bruno" as Crew, expr: "thinking" as Expr, say: "¿Perdón?" } },
+    { caption: "At the Junta de Freguesia", tag: "Standard Portuguese", left: { name: "bruno" as Crew, say: "Desculpe, pode atender-me um momento, por favor?" }, right: { name: "regi" as Crew, say: "Com certeza. Em que posso ajudar?" } },
+    { caption: "With friends", tag: "Informal", left: { name: "hamsti" as Crew, say: "Tens um minuto, pá?" }, right: { name: "quaki" as Crew, say: "Claro, diz lá." } },
+    { caption: "Wrong register", tag: "Too casual for the office", left: { name: "quaki" as Crew, expr: "oops" as Expr, say: "Ó pá, tens um segundo?" }, right: { name: "bruno" as Crew, expr: "thinking" as Expr, say: "Desculpe?" } },
   ],
 };
 const STUFE = ["", "mild", "strong", "very strong"];
@@ -54,16 +53,16 @@ const offen = gruppen.filter((g) => g.reg !== "vulgaer");
 const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
 ---
 <Layout
-  title="Informal Spanish and slang – how people really talk in Spain – icanspeak Portuguese"
-  description="Tío, mola, guay, curro, pasta – what do they mean, and when can you say them? With standard Spanish next to them and polite alternatives."
+  title="Informal Portuguese and slang – how people really talk in Portugal – icanspeak Portuguese"
+  description="Pá, fixe, giro, bué, guita – what do they mean, and when can you say them? With standard Portuguese next to them and polite alternatives."
 >
   <SiteNav active="wissen" />
   <main class="practice-main practice-main--wide us-page" lang="en">
     <header class="practice-hero us-hero">
       <p class="eyebrow">Knowledge · Language</p>
-      <h1>Informal Spanish, slang and rude words</h1>
-      <p class="us-lead">In class you learn standard Spanish. On the street, at work and in films you often hear something different. Here you can see what it means – and when you can say it yourself.</p>
-      <SectionMascot name="quaki" say="¿Tienes un momento, tío?" align="center" size={64} />
+      <h1>Informal Portuguese, slang and rude words</h1>
+      <p class="us-lead">In class you learn standard Portuguese. On the street, at work and in films you often hear something different. Here you can see what it means – and when you can say it yourself.</p>
+      <SectionMascot name="quaki" say="Tens um minuto, pá?" align="center" size={64} />
     </header>
 
     <section class="us-ladder" aria-labelledby="us-ladder-h">
@@ -81,7 +80,7 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
           </li>
         ))}
       </ol>
-      <p class="us-tip"><span aria-hidden="true">💡</span> If in doubt, use standard Spanish. Too polite is never a problem, too casual can be.</p>
+      <p class="us-tip"><span aria-hidden="true">💡</span> If in doubt, use standard Portuguese. Too polite is never a problem, too casual can be.</p>
       <div class="us-comic"><MascotComic comic={comic} fit /></div>
     </section>
 
@@ -102,7 +101,7 @@ const vulgaer = gruppen.find((g) => g.reg === "vulgaer")!;
           {g.eintraege.map((e) => (
             <li class="us-card">
               <p class="us-w" lang="es">{e.w}</p>
-              <p class="us-std"><span>Standard Spanish</span> <b>{e.std}</b></p>
+              <p class="us-std"><span>Standard Portuguese</span> <b>{e.std}</b></p>
               {e.bsp && <p class="us-bsp" lang="es">“{e.bsp}”</p>}
               {e.info && <p class="us-info"><span aria-hidden="true">ℹ️</span> {e.info}</p>}
             </li>
