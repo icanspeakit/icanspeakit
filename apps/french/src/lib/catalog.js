@@ -250,7 +250,7 @@ export const exams = [
   { id: "testdaf", group: "pruefungen", href: "/siele", icon: "graduation-cap", title: "TEF", short: "TEF", count: "A1–C1" },
   { id: "dtz", group: "pruefungen", href: "/nationality/dele-a2", icon: "book-open", title: "TCF IRN practice mock", short: "TCF IRN", count: "A2–B1" },
   { id: "lid", group: "pruefungen", href: "/ccse", icon: "map-pin", titleKey: "exam.lid.name", title: "Civic exam", short: "Civic exam",
-    keywords: "ccse nacionalidad nationality citizenship naturalisation constitución constitution spain",
+    keywords: "civic exam examen civique naturalisation nationality citizenship titre de séjour résidence carte de résident république constitution france",
     countKey: "group.count.bundeslaender", countVars: { n: lid.bundeslaender.length }, count: `${lid.bundeslaender.length} regions` },
 ];
 
