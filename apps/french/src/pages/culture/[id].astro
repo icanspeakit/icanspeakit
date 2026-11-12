@@ -47,7 +47,7 @@ const slug = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").t
 // The taught words as chips (“Use {tú} with friends”), where the topic has a marked twin
 // of its texts (src/lib/kulturMarks.js); every other topic renders its plain text.
 const mk = topic.marked ?? null;
-const cellHtml = (cell: string) => (mk && /^(tú|usted)$/.test(cell) ? marksToHtml(`{${cell}}`) : markHtml(cell, null));
+const cellHtml = (cell: string) => (mk && /^(tu|vous)$/.test(cell) ? marksToHtml(`{${cell}}`) : markHtml(cell, null));
 const pc = (key: string) => tx?.prosCons ? Object.fromEntries(Object.entries(tx.prosCons).map(([k, v]: [string, any]) => [k, v[key]])) : null;
 ---
 <Layout

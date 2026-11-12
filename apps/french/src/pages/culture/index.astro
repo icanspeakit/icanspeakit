@@ -1,10 +1,10 @@
 ---
 // /culture — the culture hub, over src/data/kultur.json: cards here, one route per topic,
-// and a quiz that can run over one topic or all of them. Spain first, then the wider
-// Hispanic world.
+// and a quiz that can run over one topic or all of them. France first, then the wider
+// francophone world.
 //
 // Every topic is "sachwissen": publicly checkable fact about rules, institutions and
-// amounts, written by us. Nothing here claims anything about what people in Spain are
+// amounts, written by us. Nothing here claims anything about what people in France are
 // like — only what the rules say and where practice varies.
 import Layout from "../../layouts/Layout.astro";
 import { itemPath } from "../../lib/routes.js";
@@ -39,7 +39,7 @@ const quizCount = topics.reduce((n, t) => n + t.quiz.length, 0);
 // `levels` export stops at B2 because that is as far as the trainers reach, and using it
 // here would silently swallow every C1 and C2 topic.
 //
-// Spain first: the levels hold the Spain topics, and the Hispanic-world topics follow in a
+// France first: the levels hold the France topics, and the francophone-world topics follow in a
 // section of their own, each with its level on the card.
 const WORLD_IDS = ["mundo-hispano", "tradiciones-america", "historia-compartida"];
 const groups = kulturLevels.map((lv) => ({
@@ -58,7 +58,7 @@ const world = WORLD_IDS.map((id) => topics.find((t) => t.id === id));
     <div class="practice-hero">
       <p class="eyebrow" data-i18n="kultur.hero.eyebrow">Culture &amp; society</p>
       <h1 data-i18n="tool.kultur.title">Cultural Knowledge</h1>
-      <SectionMascot name="bruno" say="This is how Spain works." sayKey="kultur.mascot.hero" align="center" class="ku-hero-mascot" />
+      <SectionMascot name="bruno" say="This is how France works." sayKey="kultur.mascot.hero" align="center" class="ku-hero-mascot" />
       {/* The lead sentence and the quiz used to sit here, above the topics. They are still
           on the page, lower down: the first screen is for choosing a topic, and a banner
           and two feature cards between the title and the first level pushed the topics
@@ -91,9 +91,9 @@ const world = WORLD_IDS.map((id) => topics.find((t) => t.id === id));
       </section>
     ))}
 
-    <section class="ku-group" id="hispanic-world">
+    <section class="ku-group" id="francophone-world">
       <h2 class="ku-group-title">
-        <span data-i18n="kultur.world.title">The wider Hispanic world</span>
+        <span data-i18n="kultur.world.title">The wider francophone world</span>
       </h2>
       <div class="ku-grid">
         {world.map((t) => (
@@ -113,13 +113,13 @@ const world = WORLD_IDS.map((id) => topics.find((t) => t.id === id));
     </section>
 
     {/* Below the topics: the mixed quiz and the two sections beside the topic list —
-        mistakes by first language, and "Spain from the inside", which, unlike the topics
+        mistakes by first language, and "France from the inside", which, unlike the topics
         above, does talk about people, with a source under every number. */}
     <section class="ku-more">
       <div class="ku-more-head">
         <SectionMascot name="quaki" expr="thinking" say="What do you know already?" sayKey="kultur.mascot.more" class="ku-more-mascot" />
         <p class="ku-more-lead" data-i18n="kultur.hero.lead">
-          How Spain works day to day, then the wider Hispanic world: rules, services, festivals and food, with a quiz on every topic.
+          How France works day to day, then the wider francophone world: rules, services, festivals and food, with a quiz on every topic.
         </p>
       </div>
 
@@ -144,7 +144,7 @@ const world = WORLD_IDS.map((id) => topics.find((t) => t.id === id));
         <a class="ku-card" href="/culture/insider">
           <span class="ku-card-ic ku-card-pic"><img src={bild(bilder.extras.insider)} alt="" width="40" height="40" loading="lazy" /></span>
           <span class="ku-card-txt">
-            <b data-i18n="kultur.extra.insider">Spain from the inside</b>
+            <b data-i18n="kultur.extra.insider">France from the inside</b>
             <i data-i18n="kultur.extra.insiderSub">Small talk, politeness, humour and how people really live – with figures and sources.</i>
           </span>
           <span class="ku-card-meta"><span class="ku-card-q" data-i18n="kultur.extra.topics" data-i18n-vars={JSON.stringify({ n: insider.topics.length })}>{insider.topics.length} topics</span></span>
@@ -152,8 +152,8 @@ const world = WORLD_IDS.map((id) => topics.find((t) => t.id === id));
         <a class="ku-card" href="/culture/films-and-series">
           <span class="ku-card-ic ku-card-pic"><img src={bild(bilder.extras.filme)} alt="" width="40" height="40" loading="lazy" /></span>
           <span class="ku-card-txt">
-            <b data-i18n="kultur.filme.title">Films and series in Spanish</b>
-            <i data-i18n="kultur.extra.filmeSub">What to watch from Spain and Latin America, with a level for each.</i>
+            <b data-i18n="kultur.filme.title">Films and series in French</b>
+            <i data-i18n="kultur.extra.filmeSub">What to watch from France and the francophone world, with a level for each.</i>
           </span>
         </a>
       </div>
