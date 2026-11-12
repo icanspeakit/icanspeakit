@@ -43,7 +43,7 @@ const ARTICLE_HINT = {
   number: "Is it one thing or more? Then look at the ending.",
 };
 const articleHint = (noun, options) =>
-  options?.some((o) => /^(los|las|unos|unas)$/.test(o))
+  options?.some((o) => /^(i|gli|le|los|las|unos|unas)$/.test(o))
     ? ARTICLE_HINT.number
     : /[oa]$/.test(noun)
       ? ARTICLE_HINT.ending
@@ -58,7 +58,9 @@ const pluralWithArticle = (w) => {
 
 /* Table exercises whose placeholder lists articles become article tasks (same screen,
    same helper). Each entry is the placeholder as written in the grammar topic files. */
-const ARTICLE_PLACEHOLDERS = ["el / la", "el / la / los / las", "un / una", "un / una / unos / unas"];
+// Italian placeholders (grammar-a1); the Spanish ones stay until no data uses them.
+const ARTICLE_PLACEHOLDERS = ["il / la", "il / lo / la", "il / lo / la / l'", "un / uno / una / un'", "un / una",
+  "el / la", "el / la / los / las", "un / una / unos / unas"];
 
 /* A screen has three options at most, so an item's longer `choices` list needs "options" on the task. */
 const itemChoices = (item) => (item.choices?.length >= 2 && item.choices.length <= 3 ? item.choices : undefined);
@@ -277,7 +279,8 @@ export function resolveTask(task, sources) {
           options: opts,
           back: "",
           hint: task.hint || articleHint(term, opts),
-          why: task.why || `We say: ${answers[0]} ${term}.`,
+          // l'amico, un'amica: no space after the apostrophe.
+          why: task.why || `We say: ${answers[0]}${/'$/.test(answers[0]) ? "" : " "}${term}.`,
         };
       }
     } else {
