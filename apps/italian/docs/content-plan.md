@@ -974,5 +974,22 @@ handled by the `ui-*` items where they are rendered.
   check:i18n-luecken` baseline and `validate-i18n.mjs` (needs `public/i18n/de.json`) are fixed by
   the `ui-lang-*` items; the **Spanish-course text links inside topics** use today's slugs and move
   with `routes`.
+- **UI labels for the exam slots** (`ui-components`, 2026-11-12), used in ExamRail, LevelFold,
+  TopicRail, GrammarRelated, LearnShell, the home mocks and the `exams` rows of `catalog.js`:
+  start-deutsch-1 = "Italian A1 practice test", goethe = "CILS" (A1–C2), telc = "CELI" (A2–C1),
+  testdaf = "PLIDA" (A1–C2; its set is B1), dtz = "B1 mock for citizenship", lid = "Civic
+  knowledge test". The exam items may refine them; hrefs stay on the old slugs until `routes`.
+  `ui-components` also changed the visible labels in `src/lib/catalog.js` (the nav renders them
+  on every page); `routes` still owns its hrefs.
+- **Left in components for later items** (they depend on data that is still Spanish): the
+  article trainer's logic in `ArtikelTrainer.astro` (`options: ["el","la"]`, the `EXPLAIN` rules
+  `afem`/`greek` and their `ap.ex.*` keys in `en.json`), `pluralArticle` with `["el","la"]` in
+  `WortschatzDruck.astro`, the article regex in `wortgeschichte/WortEntry.astro` and
+  `AusspracheRegeln.astro` `bare()`: `vocab-a1` / `games` with `src/lib/articles.js`.
+  `LidGrafik.astro` (Spain's powers, comunidades, history timeline, `lang="es"`): `civic-knowledge`.
+  `PruefungSatz.astro` treats a telc-slot set as one "band" of a multilevel test (SIELE); CELI sets
+  are whole exams per level: `exams-cils-celi`. The "Spanish letters" fallbacks in
+  `src/lib/aktivMode.js` and `conjugationTyped.js` (en.json already says "Italian letters"):
+  `grammar-a1`. The word-decoder label in `catalog.js` (`sprachen.dec.title`): `accents-languages`.
 - Gaps (§3): elision/truncation topic, *si* impersonale as its own topic, *ne* drills, *stare/essere*
   in the south.
