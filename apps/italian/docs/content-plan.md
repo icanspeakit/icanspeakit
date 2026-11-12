@@ -1044,3 +1044,14 @@ handled by the `ui-*` items where they are rendered.
   *qualora* + subjunctive. Still open: the comment above `placementStart()` in
   `src/lib/einfach-app.js` names the Spanish A1 features (*ser, estar, hay, gustar*) and the
   unit ids it starts at are Spanish-path ids (`beginner-path`).
+- `grammar-a1` (2026-11-12): the 19 A1 slots are Italian (`variety: "it-IT"`, no `es419`; regional
+  notes on `artikel` (*la Giulia* in the north and Tuscany) and `verb-position-2` (*sto stanco, sto a
+  casa* in the south and Rome)); `grammatik.<slot>.intro` follows the subtitles in `en.json`, with
+  de/fr/pt/it translated. `grammatik` cannot be strict in `check-variety.mjs` until `grammar-c1`
+  (the module is the whole folder); the last grammar item adds it. `scripts/repoint-einfach-grammar.mjs`
+  is back (from the French run) and repointed 94 path refs; the later grammar items run it with
+  their slot ids, `beginner-path` deletes it. `einfach-content.js` accepts the Italian article
+  placeholders (`il / la`, `il / lo / la / l'`, `un / uno / una / un'`); the `un / uno / una / un'`
+  table in `artikel` has four choices, so path tasks on it need their own `options`. Stories in
+  `artikel`, `plural` and `adjektive-nach-sein` now have a `choices` list. Exercises avoid items
+  where essere and stare are both right, and job sentences with or without *un/una*.
