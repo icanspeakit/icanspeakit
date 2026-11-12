@@ -1004,5 +1004,34 @@ handled by the `ui-*` items where they are rendered.
   traps page maps the slot ids to labels in one place (`EXAM_LABEL`: dele → CILS, siele → CELI,
   ccse → Civic knowledge); the filter ids stay. The nav drawer shows data titles (culture topics,
   grammar names) that their content items convert.
+- **Left in the m–z pages for later items** (`ui-pages-m-z`, 2026-11-12): page texts are Italian,
+  target-language markup says `lang="it"`, hrefs stay on the old slugs. Decisions and leftovers:
+  - `/siele` is now the **PLIDA** page and `/siele/levels` the **CELI** page (texts and `testdaf.*`,
+    `telc.*`, `tdf.*` keys). The SIELE-only sections (score bands per test, the S1–S5 options) are
+    gone from the page; `testdaf-formate.json` `bands`/`modalities` and their `testdaf.bands.*`/
+    `testdaf.mod.*` keys are unused now (`exams-plida-certit` drops them or reuses the shape; `cleanup`
+    removes leftover keys). The format blocks still render `testdaf-formate.json`/`telc-formate.json`
+    (Spanish until `exams-plida-certit` / `exams-cils-celi`). `/siele/practice-set` says PLIDA; its set
+    is still the SIELE S2-style set.
+  - `/nationality` was **cut down**: the Spanish law sections (residence periods, DELE/CCSE
+    exemption table, steps, word list, BOE sources) are gone; the page keeps an Italian head, a
+    four-point "short version" (B1 for citizenship, A2 for the long-term permit, online application),
+    the practice links and sources (Interior Ministry, the four certifying bodies). The unused
+    `nat.res.*`, `nat.t.*`, `nat.list.*`, `nat.disp.*`, `nat.s*`, `nat.w.*`, `nat.words.*` keys are
+    still Spanish: `citizenship-path` writes `/citizenship` and deletes or reuses them.
+  - `/nationality/dele-a2*` say **B1 mock for citizenship** (`dtz.*`, `dtzSet.*`, `dtzMock.*`); the
+    mock data is still the Spanish A2 set (`citizenship-path`).
+  - `/speaking/[id]`: `EXAM_KEYS` is keyed by the Spanish-course exam lines in `sprechen.json`; the
+    en.json values already say CILS/CELI. `speaking` must update the map keys when it rewrites the
+    data lines, or the lines fall back to the data text.
+  - `/prepositions`: the "por or para" conjugation-set link was removed; the overview table and rule
+    notes are Italian; the packs are `praepositionen-trainer.json` (`grammar-structure`).
+  - `/object-pronouns`: rule and table are Italian (mi, ti, lo, la, La, ci, vi, li, le); the
+    exercises are `akkusativ.json` (`grammar-a2`).
+  - Still Spanish because another item owns the data: `schreiben.check.*`/blurbs (`reading-writing`),
+    `sprechen.check.*` (`speaking`), `ac.find.*` (`pronunciation`), `format.t.*` (`exams-cils-celi`),
+    `ws.set.*` (`vocab-*`), `kultur.*` (`culture`). In `src/lib` (not page-owned): `CONTENT_LANG = "es"`
+    in `exam/pruefungEngine.js` and several `lang = "es"` in libs (`aktivMode`, `artikelDiktat`,
+    `ausspracheCheck*`, `buergeramt/*` …): the owning content items or `cleanup`.
 - Gaps (§3): elision/truncation topic, *si* impersonale as its own topic, *ne* drills, *stare/essere*
   in the south.
