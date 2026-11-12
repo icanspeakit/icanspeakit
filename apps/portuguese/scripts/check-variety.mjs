@@ -31,7 +31,7 @@ const WARN_LINES = 40;
 // Modules whose Portuguese item has run: a missing `variety`, a legacy es-ES value or an es419
 // note is an error there. The Portuguese content items add their module id here in the same
 // commit that converts the module (e.g. vocab-a1 adds "lexicon-a1"). placement-test made einstufung the first.
-const STRICT = new Set(["einstufung"]);
+const STRICT = new Set(["einstufung", "grammatik-a1"]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);
 const jsonFiles = (dir) =>
@@ -64,6 +64,13 @@ const MODULES = [
     items: (d) => arr(d.sets).flatMap((s) => arr(s.phrases).map((item) => ({ item }))) },
   // A grammar topic carries `variety` at the top level; its exercises inherit.
   { id: "grammatik", files: [...jsonFiles("src/data/grammatik"), ...jsonFiles("src/paid/grammatik")],
+    items: (d) => [{ item: d }] },
+  // The A1 slots, converted by grammar-a1: strict while the other levels still hold Spanish text.
+  // grammar-c1 (or cleanup) makes "grammatik" strict and drops this entry.
+  { id: "grammatik-a1", files: ["nomen", "artikel", "personalpronomen", "praesens", "konjugation",
+      "praeteritum-sein-haben", "verb-position-2", "berufe-mit-in", "w-fragen", "ja-nein-fragen", "plural",
+      "adjektive-nach-sein", "possessivartikel", "welcher-dieser", "gern", "temporale-praepositionen", "aduso",
+      "zahlen", "wortarten"].flatMap((id) => one(`src/data/grammatik/${id}.json`)),
     items: (d) => [{ item: d }] },
   { id: "grammatik-quiz", files: one("src/data/grammatik.json"), items: (d) => arr(d).map((item) => ({ item })) },
   // The starter book carries `variety` at the top level; its translations hold no Portuguese of their own.

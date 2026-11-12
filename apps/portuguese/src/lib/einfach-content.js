@@ -58,7 +58,12 @@ const pluralWithArticle = (w) => {
 
 /* Table exercises whose placeholder lists articles become article tasks (same screen,
    same helper). Each entry is the placeholder as written in the grammar topic files. */
-const ARTICLE_PLACEHOLDERS = ["el / la", "el / la / los / las", "un / una", "un / una / unos / unas"];
+/* The Portuguese placeholders came with grammar-a1 (2026-11-12); the Spanish ones go when
+   beginner-path-ui rewrites the article screen for o / a. */
+const ARTICLE_PLACEHOLDERS = [
+  "o / a", "o / a / os / as", "um / uma", "um / uma / uns / umas",
+  "el / la", "el / la / los / las", "un / una", "un / una / unos / unas",
+];
 
 /* A screen has three options at most, so an item's longer `choices` list needs "options" on the task. */
 const itemChoices = (item) => (item.choices?.length >= 2 && item.choices.length <= 3 ? item.choices : undefined);
