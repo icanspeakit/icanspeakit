@@ -467,7 +467,7 @@ export function mountSprechen(root, data, { voice, onRate } = {}) {
  * says so when that was the only difference. Accents count: "esta" is not "está", and the
  * verdict says when an accent was the only thing wrong (content-plan §1.2).
  */
-const ACCENT_KEYS = ["á", "é", "í", "ó", "ú", "ü", "ñ", "¿", "¡"];
+const ACCENT_KEYS = ["à", "è", "é", "ì", "ò", "ù"];
 
 export function mountSchreiben(root, data, { voice, onAnswer } = {}) {
   if (!root || !data?.rounds?.length) return { stop() {} };
@@ -514,7 +514,7 @@ export function mountSchreiben(root, data, { voice, onAnswer } = {}) {
               placeholder="${esc(t("ak.write.placeholder", "Schreib die Lösung …"))}"
               aria-label="${esc(t("ak.write.placeholder", "Schreib die Lösung …"))}">
           </form>
-          ${answered ? "" : `<div class="ak-accent-keys" role="group" aria-label="${esc(t("ak.write.keys", "Spanish letters"))}">${ACCENT_KEYS.map((k) => `<button type="button" class="ak-accent-key" data-key="${k}">${k}</button>`).join("")}</div>`}
+          ${answered ? "" : `<div class="ak-accent-keys" role="group" aria-label="${esc(t("ak.write.keys", "Italian letters"))}">${ACCENT_KEYS.map((k) => `<button type="button" class="ak-accent-key" data-key="${k}">${k}</button>`).join("")}</div>`}
           <p class="ak-write-verdict" aria-live="polite">${
             state === "right" ? `✓ ${esc(t("ak.write.right", "Richtig!"))}` :
             state === "near" ? `✓ ${esc(t("ak.write.near", "Richtig — achte auf Groß- und Kleinschreibung und Satzzeichen:"))} <strong>${esc(item().answer)}</strong>` :

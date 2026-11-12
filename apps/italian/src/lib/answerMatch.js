@@ -6,6 +6,9 @@ export function normalize(s) {
   return String(s || "")
     .trim()
     .toLowerCase()
+    // The typographic apostrophe a phone keyboard types is the straight one the content stores
+    // (l’amico = l'amico, content-plan §1.2). Spaces are not touched: l' amico stays wrong.
+    .replace(/[’‘ʼ`´]/g, "'")
     .replace(/ä/g, "ae")
     .replace(/ö/g, "oe")
     .replace(/ü/g, "ue")
@@ -21,10 +24,12 @@ export function accepts(answer, value) {
   const list = Array.isArray(answer) ? answer : [answer];
   return list.some((a) => normalize(a) === normalize(value) && !politeClash(a, value));
 }
-/* Case is otherwise forgiven ("Wäre" at a sentence start, "wäre" in the pill), but for the
- * Sie-forms it is the meaning: "ihr" (her / you all) and "Ihr" (your, polite) are two
- * pills on /possessives, and either one used to be marked right for both rows. */
-const POLITE = /^(sie|ihr|ihre|ihrem|ihren|ihrer|ihres|ihnen)$/i;
+/* Case is otherwise forgiven ("Dove" at a sentence start, "dove" in the pill), but for the
+ * polite subject pronoun it is the meaning: "lei" (she) and "Lei" (you, polite) can be two
+ * pills on one item (/subject-pronouns). Only Lei: the object forms La/Le are also plain
+ * articles at a sentence start ("La casa…"), so they are judged without case. Content never
+ * puts lei/Lei at the start of a gap sentence. */
+const POLITE = /^lei$/i;
 function politeClash(a, value) {
   const x = String(a).trim();
   const y = String(value || "").trim();
@@ -32,12 +37,12 @@ function politeClash(a, value) {
 }
 
 /**
- * In Spanish an accent changes the word (tu/tú, el/él, hablo/habló, esta/está), so `accepts`
- * never folds accents away (content-plan §1.2). This says whether a wrong answer differs from
- * a right one ONLY in its accents, so the page can add "check the accent" to the verdict.
- * ñ is a letter of its own, not an accent: año/ano stays a plain wrong answer.
+ * In Italian an accent changes the word (e/è, da/dà, la/là, si/sì, ne/né, parlo/parlò), so
+ * `accepts` never folds accents away (content-plan §1.2). This says whether a wrong answer
+ * differs from a right one ONLY in its accents (missing, or grave for acute: perchè/perché),
+ * so the page can add "check the accent" to the verdict.
  */
-const ACCENT_MARKS = /[\u0301\u0308]/g; // acute, diaeresis (the tilde of ñ, U+0303, stays)
+const ACCENT_MARKS = /\p{Mn}/gu; // combining marks after NFD: the grave and acute of à è é ì ò ù
 const withoutAccents = (s) => String(s || "").trim().toLowerCase().normalize("NFD").replace(ACCENT_MARKS, "").normalize("NFC");
 export function accentOnly(answer, value) {
   if (!String(value || "").trim() || accepts(answer, value)) return false;
