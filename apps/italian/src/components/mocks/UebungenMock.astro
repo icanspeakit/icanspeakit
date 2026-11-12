@@ -48,7 +48,7 @@ const bildQuestions = sprechen.reduce((n, b) => n + b.beschreibung.length + b.pe
 // overlapping first question made the pair look like one screenshot twice. This round
 // leads with the prepositions with articles instead. Standard Italian (docs/content-plan.md §1.1).
 const ROUND = [
-  { topic: "Prepositions with articles", level: "A2", pre: "Vado ", post: " supermercato.", hint: "a + il = al: supermercato is masculine and starts with a plain consonant.", choices: ["al", "allo", "alla"], answer: 0 },
+  { topic: "Prepositions with articles", level: "A2", pre: "Vado ", post: " supermercato.", hint: "a + il = al: supermercato is masculine and starts with s + vowel, so il, not lo.", choices: ["al", "allo", "alla"], answer: 0 },
   { topic: "Piacere", level: "A1", pre: "Mi ", post: " i film dell'orrore.", hint: "piacere agrees with what is liked — here a plural.", choices: ["piace", "piacciono", "piaccio"], answer: 1 },
   { topic: "C'è or ci sono", level: "A1", pre: "", post: " una farmacia in questa strada.", hint: "One thing exists somewhere: use c'è.", choices: ["C'è", "Ci sono", "È"], answer: 0 },
   { topic: "Object pronouns", level: "A2", pre: "Il libro? ", post: " leggo stasera.", hint: "Direct object, a masculine thing.", choices: ["Lo", "La", "Gli"], answer: 0 },

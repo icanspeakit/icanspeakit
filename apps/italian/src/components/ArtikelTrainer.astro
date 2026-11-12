@@ -242,7 +242,7 @@ const freqChart = {
           <svg role="img" aria-label="How common this exercise's words are in everyday life" data-i18n-attr="aria-label:ap.freq.aria"></svg>
           <div class="afc-tip" data-freq-tip hidden></div>
         </div>
-        <p class="afc-note" data-i18n="ap.freq.note">How often a word appears in Spanish film subtitles (OpenSubtitles). On the right: words too rare there to be counted.</p>
+        <p class="afc-note" data-i18n="ap.freq.note">How often a word appears in Italian film subtitles (OpenSubtitles). On the right: words too rare there to be counted.</p>
         <details class="afc-table">
           <summary data-i18n="ap.freq.all">All words in this exercise</summary>
           <ol data-freq-list></ol>
@@ -808,7 +808,7 @@ const freqChart = {
     let tourPrev = null;
     const chartBeat = {
       get title() { return t("ap.tour.title", "How fast you make progress"); },
-      get text() { return t("ap.tour.text", "The curve shows how much of everyday Spanish you understand after each part. Tap “Learning curve” to fold it away, and back out."); },
+      get text() { return t("ap.tour.text", "The curve shows how much of everyday Italian you understand after each part. Tap “Learning curve” to fold it away, and back out."); },
       target: () => chartFold?.closest(".ap-chart"),
       point: () => chartFold?.querySelector("summary"),
       enter: () => {

@@ -136,8 +136,8 @@ export const tools = [
     descKey: "tool.aussprache.desc", desc: "Wörter anhören und im Langsam-Modus üben.",
     countKey: "tool.aussprache.count", countVars: { n: wortschatz.length + artikel.length }, count: `${wortschatz.length + artikel.length} Wörter` },
   { id: "berufe", group: "woerter", href: "/spanish-for-work", icon: "target",
-    titleKey: "tool.berufe.title", title: "Spanish for work", shortKey: "group.short.berufe", short: "Work",
-    descKey: "tool.berufe.desc", desc: "Job vocabulary for Spain: care work, bars and restaurants, cleaning, farm work, construction and more.",
+    titleKey: "tool.berufe.title", title: "Italian for work", shortKey: "group.short.berufe", short: "Work",
+    descKey: "tool.berufe.desc", desc: "Job vocabulary for Italy: care work, bars and restaurants, cleaning, farm work, construction and more.",
     countKey: "tool.berufe.count", countVars: { n: berufeWordCount }, count: `${berufeWordCount} words`,
     keywords: "work job jobs trabajo empleo workplace vocabulary spanish for work care carer cuidador cuidadora residencia hostelería hospitality bar restaurant kitchen camarero cocina cleaning limpieza empleada de hogar domestic farm campo agriculture invernadero temporero recogida construction obra albañil shop supermarket supermercado cajero warehouse almacén logistics carretilla delivery reparto repartidor driver camión hotel camarera de pisos recepción office oficina administrativo" },
   { id: "hoeren", group: "fertigkeiten", href: "/listening", icon: "volume",
@@ -245,12 +245,16 @@ export const landingTools = (() => {
 
 export const exams = [
   // Exam names per docs/content-plan.md §2 (ids are the old slots; hrefs renamed by `routes`).
-  { id: "telc", group: "pruefungen", href: "/siele/levels", icon: "document", title: "SIELE by level", short: "SIELE levels", count: "A2–C1" },
-  { id: "goethe", group: "pruefungen", href: "/dele", icon: "landmark", title: "DELE", short: "DELE", count: "A1–C2" },
-  { id: "testdaf", group: "pruefungen", href: "/siele", icon: "graduation-cap", title: "SIELE", short: "SIELE", count: "A1–C1" },
-  { id: "dtz", group: "pruefungen", href: "/nationality/dele-a2", icon: "book-open", title: "DELE A2 for nationality", short: "DELE A2", count: "A2" },
-  { id: "lid", group: "pruefungen", href: "/ccse", icon: "map-pin", titleKey: "exam.lid.name", title: "CCSE nationality test", short: "CCSE",
-    keywords: "ccse nacionalidad nationality citizenship naturalisation constitución constitution spain",
+  { id: "telc", group: "pruefungen", href: "/siele/levels", icon: "document", title: "CELI", short: "CELI", count: "A2–C1",
+    keywords: "celi perugia università per stranieri certificate certificato" },
+  { id: "goethe", group: "pruefungen", href: "/dele", icon: "landmark", title: "CILS", short: "CILS", count: "A1–C2",
+    keywords: "cils siena università per stranieri certificate certificazione" },
+  { id: "testdaf", group: "pruefungen", href: "/siele", icon: "graduation-cap", title: "PLIDA", short: "PLIDA", count: "A1–C2",
+    keywords: "plida dante alighieri certificate" },
+  { id: "dtz", group: "pruefungen", href: "/nationality/dele-a2", icon: "book-open", title: "B1 mock for citizenship", short: "Citizenship B1", count: "B1",
+    keywords: "citizenship cittadinanza b1 language proof mock test" },
+  { id: "lid", group: "pruefungen", href: "/ccse", icon: "map-pin", titleKey: "exam.lid.name", title: "Civic knowledge test", short: "Civic knowledge",
+    keywords: "civic knowledge educazione civica accordo di integrazione constitution costituzione italy permesso",
     countKey: "group.count.bundeslaender", countVars: { n: lid.bundeslaender.length }, count: `${lid.bundeslaender.length} regions` },
 ];
 
@@ -259,7 +263,7 @@ export const groups = [
   { id: "woerter", icon: "folder", nameKey: "group.woerter.name", name: "Wörter & Aussprache", blurbKey: "group.woerter.blurb", blurb: "Vokabeln hören und behalten" },
   { id: "fertigkeiten", icon: "mic", nameKey: "group.fertigkeiten.name", name: "Sprechen, Lesen & Schreiben", blurbKey: "group.fertigkeiten.blurb", blurb: "Prüfungsteile am Stück üben" },
   { id: "kultur", icon: "map-pin", nameKey: "group.kultur.name", name: "Landeskunde", blurbKey: "group.kultur.blurb", blurb: "Alltag und Kultur in Deutschland" },
-  { id: "pruefungen", icon: "graduation-cap", nameKey: "nav.exams", name: "Prüfungen", blurbKey: "group.pruefungen.blurb", blurb: "DELE, SIELE and the CCSE" },
+  { id: "pruefungen", icon: "graduation-cap", nameKey: "nav.exams", name: "Prüfungen", blurbKey: "group.pruefungen.blurb", blurb: "CILS, CELI, PLIDA, CERT.IT and civic knowledge" },
 ];
 
 export const entries = [...tools, ...exams];
@@ -445,7 +449,7 @@ export const grammarWorkspaceLevels = GRAMMAR_LEVELS
 
 const LEVEL_BLURB = {
   A1: "First sentences",
-  A2: "Everyday Spanish",
+  A2: "Everyday Italian",
   B1: "Speaking independently",
   B2: "Arguing with confidence",
   C1: "Saying it precisely",
@@ -632,8 +636,8 @@ const kulturInsiderItem = {
    preparing for the exam is reading Landeskunde anyway. */
 const kulturLidFaktenItem = {
   id: "kultur-lid-fakten", href: "/ccse/facts", icon: "graduation-cap",
-  title: "Facts about Spain", titleKey: "nav.kultur.lidFakten",
-  count: "CCSE nationality test", countKey: "nav.kultur.lidFaktenHint",
+  title: "Facts about Italy", titleKey: "nav.kultur.lidFakten",
+  count: "Civic knowledge test", countKey: "nav.kultur.lidFaktenHint",
 };
 const kulturFeatures = [kulturQuizItem, kulturFehlerItem, kulturInsiderItem];
 
@@ -906,7 +910,7 @@ export const navSections = [
 
   { id: "pruefungen", icon: "graduation-cap", href: "/exams",
     nameKey: "nav.exams", name: "Prüfungen",
-    blurbKey: "group.pruefungen.blurb", blurb: "DELE, SIELE and the CCSE",
+    blurbKey: "group.pruefungen.blurb", blurb: "CILS, CELI, PLIDA, CERT.IT and civic knowledge",
     // The Führerschein simulation has no row of its own: it is one of the hub's actions.
     items: notSelf("/exams", itemsOf("pruefungen")) },
 ];
@@ -1041,13 +1045,13 @@ export const navUebenMenu = {
           titleKey: "nav.vocab.listLevel", titleVars: { level }, title: `Wortliste ${level}`,
         })),
         // Not a level: the profession decks (/spanish-for-work), A2–B1, for learners who work.
-        { href: "/spanish-for-work", titleKey: "tool.berufe.title", title: "Spanish for work",
+        { href: "/spanish-for-work", titleKey: "tool.berufe.title", title: "Italian for work",
           hintKey: "nav.wortschatz.berufeHint", hint: "Words for your job" },
         // Not a level: phrases, model texts and exercises for office work (/business-spanish).
-        { href: "/business-spanish", titleKey: "biz.title", title: "Business Spanish",
+        { href: "/business-spanish", titleKey: "biz.title", title: "Business Italian",
           hintKey: "biz.navHint", hint: "Emails, calls, CVs, interviews, meetings" },
         // Not a level either: the driving words (/dgt-vocabulary).
-        { href: "/dgt-vocabulary", titleKey: "dgt.title", title: "DGT driving vocabulary",
+        { href: "/dgt-vocabulary", titleKey: "dgt.title", title: "Patente vocabulary",
           hintKey: "dgt.navHint", hint: "Car, road, signs, exam and paperwork" },
       ] },
     { id: "fertigkeiten", icon: "mic", href: "/skills",
@@ -1082,7 +1086,7 @@ export const navUebenMenu = {
 export const navSprachen = {
   href: "/knowledge/languages",
   sections: [
-    { id: "karte", titleKey: "sprachen.map.title", title: "Where Spanish is spoken" },
+    { id: "karte", titleKey: "sprachen.map.title", title: "Where Italian is spoken" },
     { id: "familie", titleKey: "sprachen.tree.title", title: "The language family" },
     { id: "vergleich", titleKey: "sprachen.cmp.title", title: "How close is your language?" },
     { id: "decoder", titleKey: "sprachen.dec.title", title: "English → Spanish: the word decoder" },
@@ -1124,13 +1128,13 @@ export const navZitate = { href: "/knowledge/quotes", titleKey: "nav.wissen.zita
 // /knowledge/accents: the accent map of Spain. In the Sprachen column, under the sections of
 // "Spanish around the world", whose map it zooms into.
 export const navDialekte = { href: "/knowledge/accents", titleKey: "nav.wissen.dialekte", title: "Accents: the map",
-  hintKey: "nav.wissen.dialekteHint", hint: "From Andalusian to Canarian" };
+  hintKey: "nav.wissen.dialekteHint", hint: "From Milan to Palermo" };
 
 // /knowledge/slang: tío, mola, joder — how Spanish is spoken in Spain, with the standard
 // word beside it and where it is fine. In the Sprachen column under Dialekte and in the
 // phone drawer. No i18n keys yet: the menu shows the German title.
-export const navUmgangssprache = { href: "/knowledge/slang", titleKey: "nav.wissen.umgangssprache", title: "Informal Spanish & slang",
-  hintKey: "nav.wissen.umgangsspracheHint", hint: "Tío, mola, currar – and what never to say" };
+export const navUmgangssprache = { href: "/knowledge/slang", titleKey: "nav.wissen.umgangssprache", title: "Informal Italian & slang",
+  hintKey: "nav.wissen.umgangsspracheHint", hint: "Figo, boh, dai – and what never to say" };
 
 // /knowledge/idioms: Redewendungen & Sprichwörter, each with its picture, meaning and
 // origin. In the Sprachen column under Umgangssprache and in the phone drawer, once released
@@ -1179,9 +1183,9 @@ export const navWissenMenu = {
         ...[kulturInsiderItem, kulturFehlerItem, kulturLidFaktenItem, { ...kulturQuizItem, titleKey: "nav.kultur.quiz", title: "Landeskunde-Quiz" }]
           .map((it) => ({ href: it.href, titleKey: it.titleKey, title: it.title,
             hintKey: it.countKey, hintVars: it.countVars, hint: it.count })),
-        // One insider topic by name: everyday driving in Spain.
-        { href: "/culture/insider/cars-and-driving", titleKey: "nav.kultur.auto", title: "Deutschland und das Auto",
-          hintKey: "nav.kultur.autoHint", hint: "Auto, Tempolimit, Führerschein" },
+        // One insider topic by name: everyday driving in Italy.
+        { href: "/culture/insider/cars-and-driving", titleKey: "nav.kultur.auto", title: "Cars and driving in Italy",
+          hintKey: "nav.kultur.autoHint", hint: "Trains, speed limits, the revisione" },
       ] },
     // The levels as one-line rows (badge + blurb), the way "Wo anfangen?" lists them in
     // the Üben panel: six two-line rows made this column twice the height of the others.
@@ -1210,7 +1214,7 @@ export const navWissenMenu = {
     { id: "sprachen", icon: "globe", href: navSprachen.href,
       nameKey: "nav.wissen.sprachen", name: "Languages",
       primary: { href: navSprachen.href,
-        titleKey: "nav.wissen.sprachenAll", title: "Spanish around the world",
+        titleKey: "nav.wissen.sprachenAll", title: "Italian around the world",
         hintKey: "nav.wissen.sprachenHint", hint: "Map, language family, comparison" },
       items: [
         ...navSprachen.sections.filter((s) => s.id === "karte").map((s) => ({ href: `${navSprachen.href}#${s.id}`, titleKey: s.titleKey, title: s.title })),

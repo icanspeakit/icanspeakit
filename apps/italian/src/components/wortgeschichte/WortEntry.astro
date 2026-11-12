@@ -28,7 +28,7 @@ const { entry: e, mode = "archive", preview = false, today } = Astro.props;
 const head = headword(e);
 const [art, ...rest] = head.split(" ");
 const hasArt = /^(el|la|el\/la)$/.test(art) && rest.length > 0;
-// W: the word itself and its Spanish relatives. L: everything written about it, which is English.
+// W: the word itself and its relatives. L: everything written about it, which is English.
 const W = entryLang(e);
 const L = PROSE_LANG;
 const q = quoteIn(L);

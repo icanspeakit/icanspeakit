@@ -27,7 +27,7 @@ const { set } = Astro.props;
 const paid = set.paid === true;
 const examName = EXAM_NAMES[set.exam] ?? set.exam;
 const overview = examPath(set.exam);
-// "DELE B1", "SIELE B1": the name learners search for.
+// "CILS B1", "CELI B1": the name learners search for.
 const examLevel = examLabel(set);
 
 // Which clips have their mp3 (scripts/generate-pruefungen-audio.mjs). A clip without one
@@ -42,7 +42,7 @@ const scoredItems = paid ? set.scoredItems : set.modules.flatMap((m: any) => m.p
 const minutes = paid ? set.minutes : examMinutes(set.modules);
 
 // The exam's structure as plain HTML (SEO-BRAND-TIERED-PROMPT.md Tier 4): what a learner
-// searching "SIELE B1 practice" wants to know before starting, and what search engines and
+// searching "CILS B1 practice" wants to know before starting, and what search engines and
 // AI answers can read without running the engine. Points and the official model test come
 // from the format research the set was built on (set.formatRef); only those two fields are
 // read here, nothing of the official tasks.
