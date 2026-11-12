@@ -192,6 +192,8 @@ not rewritten: `DEFAULT_VARIETY = "pt-PT"`, `VARIETIES = ["pt-PT", "pt-BR"]`,
 **`showsVos(brazil)`** (was `showsVosotros`; the *vós* row of the verb tables is hidden in Brazil
 mode, §4.1). Callers are renamed in the same commit (`conjugationTrainer.js`, `verbtabellen.js`,
 validators, `check-variety.mjs`). Nothing is shown for `ptBR` until a later item builds the mode.
+Done by `variety-schema` (2026-11-12), plus `isStandardVariety()`, `isLegacy()` and
+`LEGACY_ALLOWED` for the transition from the Spanish values (§13.1 "Variety transition").
 `check-variety.mjs` is in the gate; the strict list is rewritten (a module is strict once its
 Portuguese item has run; Spanish modules are warnings until then).
 
@@ -1058,6 +1060,34 @@ handled by the `ui-*` items where they are rendered.
 - **Brand sweep (`base-path-and-brand`):** "icanspeak Spanish" became "icanspeak Portuguese" everywhere,
   including sentences whose subject is still Spanish (DELE, SIELE, CCSE …); the content items rewrite
   those sentences. Route slugs (`/spanish-for-work`, `/business-spanish`) wait for the routes item.
+- **Variety transition (`variety-schema`):** the data still carries ~6,600 Spanish `variety: "es-ES"`
+  values and `es419` notes. They are **not** relabelled pt-PT (that would mark Spanish text as
+  Portuguese and switch the Brazilian-form scan on for it). `src/lib/variety.js` accepts them while
+  `LEGACY_ALLOWED = true`; `isStandardVariety()` lets the module validators (verb tables,
+  conjugation sets, worksheets, word traps) accept `pt-PT` or, until then, `es-ES`.
+  `check-variety.mjs` `STRICT` starts **empty**: each content item that converts a module adds its
+  module id there (ids as in `MODULES`: `lexicon-a1` … `lexicon-c2`, `berufe`, `imt`, `business`,
+  `grammatik`, `hoeren` …), and from then on a missing `variety`, an `es-ES` or an `es419` in that
+  module is an error. When the content item converts an `es419` note it writes `ptBR` only where
+  Brazil really differs (§1.5), never by renaming the Spanish note. `cleanup` sets
+  `LEGACY_ALLOWED = false` and removes the Spanish genders from `validate-lexicon.mjs` and
+  `berufeCore.js` (both accept `o`/`a`/`o/a` now, and `fem` on nouns).
+- **Brazilian-form scan (`variety-schema`):** runs only on items whose own or inherited variety is
+  explicitly `pt-PT`, in the fields `de, pt, example, text, phrase, front, lemma, sentence`
+  (strings and string lists), never inside `ptBR`, `es419`, `translations`, `note`, `en`,
+  `explain`, `why`. Warnings only; the full list with `node scripts/check-variety.mjs --all`.
+  Each pattern in `scripts/data/brazilianisms.json` carries `hits`/`clean` examples that the check
+  runs first (a broken pattern is an error). Additions beyond §10.2: initial proclisis
+  (*Me diz*), *equipe, registro, esporte, aluguel, xícara*. *se* and *nos* are left out of the
+  proclisis pattern (*Se calhar*, *Nos Açores*).
+- **Left to their content items (not `variety-schema`):** `scripts/lexicon-import.mjs` still writes
+  `variety: "es-ES"` / `es419` and el/la genders (`vocab-a1` rewrites it for pt-PT/`ptBR`);
+  `scripts/build-satzregen.mjs` and `src/data/satzregen/quelle.txt` use an `{es419 …}` flag
+  (its content item switches to `{ptBR …}`); the games' `VARIETY = "es-ES"` constants
+  (`knigge/scenes.js`, `lindenau/quests.js`, `nussnacht/bosse.js`, with inline `es419` notes);
+  browser-speech and assessment language `"es-ES"` in about 15 files (`u.lang`, `language:`) must
+  become `"pt-PT"` in the item that converts each module's text, not before (a pt-PT voice reading
+  Spanish text would be worse).
 
 ### 13.2 Carried over from the Spanish build (still true)
 
