@@ -1050,6 +1050,14 @@ handled by the `ui-*` items where they are rendered.
 - **Audio:** every `audio` field points to files that don't exist until a pt-PT TTS voice is wired
   (`BACKEND.speech`); browser voices are often pt-BR.
 - **Brazil mode** is a later item, not in this queue. **Arabic UI** later, not in this queue.
+- **Logo rasters (`base-path-and-brand`):** the course PNGs in the kit (Spanish and Portuguese) were
+  empty renders, and `favicon.ico` was still the Spanish one. `scripts/build-wordmark.mjs` now
+  rasterises app-512/1024, mark-1024, the apple-touch icon (flattened onto the icon paper),
+  `favicon.ico` (16/32/48) and the root icon copies from the SVG masters; the SVGs are untouched.
+  Edgar: check whether the umbrella kit's own PNG exports are broken too.
+- **Brand sweep (`base-path-and-brand`):** "icanspeak Spanish" became "icanspeak Portuguese" everywhere,
+  including sentences whose subject is still Spanish (DELE, SIELE, CCSE …); the content items rewrite
+  those sentences. Route slugs (`/spanish-for-work`, `/business-spanish`) wait for the routes item.
 
 ### 13.2 Carried over from the Spanish build (still true)
 
