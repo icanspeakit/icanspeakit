@@ -2,8 +2,11 @@
 // /privacy — Datenschutzerklärung nach Art. 13 DSGVO.
 //
 // Written from what this codebase actually does, not from a generator. icanspeak Spanish ships
-// with no integrations (src/lib/backend.js: every flag false): no accounts, no analytics, no
-// consent banner, no error monitoring, no e-mail, no app. Every claim below traces to code:
+// with one integration (src/lib/backend.js: only analytics is on): no accounts, no consent
+// banner, no error monitoring, no e-mail, no app. Every claim below traces to code:
+//   • PostHog EU, cookieless_mode "always" (src/lib/analytics.js): no cookie, nothing in
+//     localStorage, no replay, no profiles; project 344818 has "Discard client IP data" on.
+//     Autocapture (clicks), heatmaps, web vitals and $exception are on.
 //   • progress and settings only in localStorage (src/lib/progress.js, src/lib/exam/state.js)
 //   • "Text korrigieren" on /writing/[id] posts the text to api.languagetool.org
 //     (src/lib/schreibKorrektur.js) — the one request that carries learner input off the device
@@ -57,9 +60,10 @@ const ready = legalComplete();
         deines Geräts. Wir sehen sie nicht, und sie sind weg, sobald du deine Browserdaten löschst.
       </p>
       <p data-lx="p.e2">
-        Wir setzen keine Cookies, messen keine Reichweite und binden keine Analyse-, Werbe- oder
-        Fehlerüberwachungsdienste ein. Daten verlassen dein Gerät nur in zwei Fällen: beim Aufruf
-        der Seite (die Server-Logdaten des Hosters) und wenn du in einer Schreibaufgabe selbst
+        Wir setzen keine Cookies und binden keine Werbe- oder Fehlerüberwachungsdienste ein.
+        Daten verlassen dein Gerät in drei Fällen: beim Aufruf der Seite (die Server-Logdaten des
+        Hosters), für eine cookielose Reichweitenmessung, die nichts auf deinem Gerät speichert
+        (siehe „Reichweitenmessung mit PostHog“), und wenn du in einer Schreibaufgabe selbst
         „Text korrigieren“ wählst (siehe „Textkorrektur mit LanguageTool“).
       </p>
 
@@ -109,6 +113,13 @@ const ready = legalComplete();
             <td data-lx="r5.when" data-label="Wann">Bei jedem Seitenaufruf</td>
             <td data-lx="r5.where" data-label="Wo gespeichert">Beim Hoster, kurzzeitig</td>
           </tr>
+          <tr>
+            <td data-lx="r6.data" data-label="Daten">Nutzungsdaten: aufgerufene Seite, Herkunftsseite, Browser, Betriebssystem,
+                Bildschirmgröße, ungefährer Standort (Land, Stadt), Klicks auf Seitenelemente,
+                Ladezeiten und technische Fehlermeldungen</td>
+            <td data-lx="r6.when" data-label="Wann">Bei jedem Seitenaufruf</td>
+            <td data-lx="r6.where" data-label="Wo gespeichert">Bei PostHog (Server in der EU), ohne Cookie und ohne Speicherung auf deinem Gerät</td>
+          </tr>
         </tbody>
       </table>
       <p data-lx="p.noAsk">
@@ -122,6 +133,11 @@ const ready = legalComplete();
           <strong>Art. 6 Abs. 1 lit. f DSGVO</strong> (berechtigtes Interesse) — für den
           technisch notwendigen Betrieb der Seite, insbesondere die Server-Logdaten des Hosters
           zur Auslieferung und Absicherung der Seite.
+        </li>
+        <li data-lx="li.basisPh">
+          <strong>Art. 6 Abs. 1 lit. f DSGVO</strong> (berechtigtes Interesse) — für die
+          cookielose Reichweitenmessung mit PostHog. Unser Interesse: zu erkennen, welche Seiten
+          und Übungen genutzt werden und wo Fehler auftreten, um das Angebot zu verbessern.
         </li>
         <li data-lx="li.basisLt">
           <strong>Art. 6 Abs. 1 lit. b DSGVO</strong> — für die Übermittlung deines Textes an
@@ -149,11 +165,23 @@ const ready = legalComplete();
         dafür nicht nötig.
       </p>
 
-      <h2 data-lx="h.noAnalytics">Keine Reichweitenmessung</h2>
-      <p data-lx="p.noAnalytics">
-        Wir nutzen keine Reichweitenmessung, keine Produktanalyse, keine Sitzungsaufzeichnung,
-        keine Werbe- oder Tracking-Dienste und keine Fehlerüberwachung. Wir erfahren also nicht,
-        welche Seiten du aufrufst oder welche Aufgaben du löst.
+      <h2 data-lx="h.analytics">Reichweitenmessung mit PostHog</h2>
+      <p data-lx="p.analytics1">
+        Um zu verstehen, welche Seiten und Übungen genutzt werden und wo technische Fehler
+        auftreten, nutzen wir <strong>PostHog</strong> (PostHog Inc., USA) mit Datenverarbeitung
+        auf Servern in der EU (Frankfurt), und zwar im cookielosen Modus: PostHog setzt kein Cookie
+        und speichert nichts in deinem Browser. Damit mehrere Aufrufe am selben Tag als ein Besuch
+        zählen, bildet PostHog auf dem Server einen Hashwert aus IP-Adresse und Browserkennung mit
+        einem täglich wechselnden Schlüssel. Die IP-Adresse selbst wird nicht gespeichert. Über
+        mehrere Tage hinweg können wir dich so nicht wiedererkennen.
+      </p>
+      <p data-lx="p.analytics2">
+        Wir legen keine Nutzerprofile an, zeichnen keine Sitzungen auf und übermitteln keine
+        Eingaben aus Übungen. Weil nichts auf deinem Gerät gespeichert oder ausgelesen wird, ist
+        dafür keine Einwilligung nach § 25 TDDDG nötig. Du kannst der Messung jederzeit
+        widersprechen (Art. 21 DSGVO), formlos per E-Mail. Ein Tracking-Blocker in deinem
+        Browser verhindert sie ebenfalls. Mehr steht in der{" "}
+        <a href="https://posthog.com/privacy" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von PostHog</a>.
       </p>
 
       <h2 data-lx="h.lt">Textkorrektur mit LanguageTool</h2>
@@ -187,6 +215,10 @@ const ready = legalComplete();
           <strong>Hosting-Anbieter</strong> — Auslieferung der Seite. Dabei fallen die oben
           genannten Server-Logdaten an.
         </li>
+        <li data-lx="li.posthog">
+          <strong>PostHog</strong> (PostHog Inc., Server in der EU) — Reichweitenmessung, siehe
+          „Reichweitenmessung mit PostHog“.
+        </li>
         <li data-lx="li.languagetool">
           <strong>LanguageTool</strong> (LanguageTooler GmbH) — nur wenn du „Text korrigieren“
           wählst, siehe „Textkorrektur mit LanguageTool“.
@@ -199,6 +231,7 @@ const ready = legalComplete();
       <h2 data-lx="h.retention">Speicherdauer</h2>
       <ul>
         <li data-lx="li.ret1">Daten im Browser bleiben, bis du deine Browserdaten löschst.</li>
+        <li data-lx="li.retPh">Nutzungsdaten bei PostHog werden nach höchstens 12 Monaten gelöscht.</li>
         <li data-lx="li.ret3">Server-Logdaten werden beim Hoster nur kurzzeitig vorgehalten.</li>
       </ul>
 
