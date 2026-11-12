@@ -1089,6 +1089,31 @@ handled by the `ui-*` items where they are rendered.
   become `"pt-PT"` in the item that converts each module's text, not before (a pt-PT voice reading
   Spanish text would be worse).
 
+- **UI components (`ui-components`, 2026-11-12):** exam names in the rails and links
+  (`ExamRail`, `GrammarRelated`, `LevelFold`, `TopicRail`, `LearnShell`, nav labels in
+  `src/lib/catalog.js`) follow §2: goethe = CAPLE (ACESSO A1 … DAPLE C1), dtz = "CIPLE A2 for
+  residence and nationality", testdaf = "Level check", CCSE slot = "Civics: Portugal, how it
+  works"; hrefs stay on the old slots for `routes`. The SIELE "by level" links (telc slot) were
+  **dropped** from `ExamRail` and `GrammarRelated` (the slot is removed by `exams-caple`); the
+  catalog entry stays with the neutral title "Practice by level" until then. Nav labels for work,
+  business and driving name the Portuguese modules (Portuguese for work, Business Portuguese,
+  IMT driving vocabulary) before their content items run. The homepage mockups
+  (`mocks/DashboardMock`, `mocks/UebungenMock`) carry original pt-PT sample items; the CIPLE
+  parts list in the dashboard mock names the skills without timings (CAPLE timings "to verify").
+- **Left by `ui-components` to the module items:** `LidGrafik.astro` (the CCSE pictures: Spain's
+  institutions, territory, timeline, 112) is redrawn by `civics` for the topic keys it writes;
+  `ArtikelDiktat.astro` key row (`á é í ó ú ü ñ`) and `lang="es"` switch with the lexicon
+  (`vocab-a1`, or `games`); `src/lib/lexicon.js` / `generoDrill.js` `pluralArticle()` and the
+  `["el","la"]` tests in `WortschatzDruck.astro` (line with `pr-art`) and `lexicon.js` must learn
+  `o`/`a` → `os`/`as` (`vocab-a1`); `WortschatzDruck` part B already picks "o or a" once a level
+  has no el/la nouns; the `ap.ex.*` explanations (el agua, Greek -ma) follow `artikel-packs.json`
+  (`games`); `catalog.js` "el / la · A1" list rows (`games`/`vocab-a1`); `lang="es"` on
+  target-language text in about 15 components (`TextWithTranslation`, `VocabList`, `ZitatCard`,
+  `MascotComic`, `RwStrip`, `SatzRahmen`, `CaseMap`, `Aussprache*`, `SiteSearch`) becomes
+  `pt-PT` with the module whose text it shows, or in `cleanup` at the latest. `grammatik.*.intro`,
+  `ws.set.*`, `wissen.file.*`, `dgt.*` (except title/back), `biz.*` (except title/back),
+  `berufe.hero.*`, `exam.backTo*` and the `konto.*` page strings stay with their items.
+
 ### 13.2 Carried over from the Spanish build (still true)
 
 - **Base path enforcement:** `src/lib/paths.js` is the helper; browser code uses `withBase()` /
