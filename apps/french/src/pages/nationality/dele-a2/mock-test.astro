@@ -1,6 +1,6 @@
 ---
 import ExamDisclaimer from "../../../components/ExamDisclaimer.astro";
-// Reading mock test (dtz slot, DELE A2 for nationality): the four numbered reading tasks from
+// Reading mock test (dtz slot, TCF IRN mock for nationality): the four numbered reading tasks from
 // src/data/lesen.json, run as one continuous self-scored test with a combined
 // results summary — see docs/exams-hub-tier3-v1.md for sourcing.
 // Deliberately excludes the "digitales-buero" entry in lesen.json (a separate practice
@@ -24,10 +24,10 @@ const totalQuestions = tasks.reduce((sum, t) => sum + t.questions.length, 0);
   <SiteNav active="pruefungen" />
   <main class="practice-main">
     <div class="practice-hero">
-      <p class="eyebrow"><span data-i18n="dtzMock.exam">DELE A2</span> · <span data-i18n="skill.lesen">Reading</span> · <span data-i18n="dtzMock.mock">Mock test</span></p>
+      <p class="eyebrow"><span data-i18n="dtzMock.exam">TCF IRN</span> · <span data-i18n="skill.lesen">Reading</span> · <span data-i18n="dtzMock.mock">Mock test</span></p>
       <h1 data-i18n="dtzMock.title">Lesen-Simulation, Aufgabe 1–4</h1>
       <p data-i18n-html="dtzMock.hero" data-i18n-vars={JSON.stringify({ n: tasks.length, q: totalQuestions })}>
-        {tasks.length} tasks, {totalQuestions} questions at level B1, a step above DELE A2, written for this
+        {tasks.length} tasks, {totalQuestions} questions at level B1, written for this
         site. At the end you get an overall result. Form, writing and speaking tasks are not included here –
         practise them separately under <a href="/reading-writing">Reading &amp; Writing</a> and
         <a href="/speaking/set/a2-out-and-about">Speaking</a>.

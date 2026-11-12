@@ -1,6 +1,6 @@
 ---
 import ExamDisclaimer from "../../../components/ExamDisclaimer.astro";
-// Full mock for DELE A2 (dtz slot, content-plan §2): nine parts, 45 scored items, plus the writing task.
+// Full mock for the TCF IRN (dtz slot, content-plan §2): nine parts, 45 scored items, plus the writing task.
 // Free sets are JSON files in src/data/pruefungen/dtz/ (inlined here). The paid
 // sets live in src/paid/pruefungen/dtz/: this page only knows their names, from
 // src/data/pruefungen/paid-manifest.json, and loads one from /inhalt/ when the learner
@@ -55,20 +55,18 @@ const first = saetze[0];
   <SiteNav active="pruefungen" />
 
   <main class="practice-main practice-main--wide practice-main--trainer dtz-trainer" id="dtz-root">
-    <a href="/nationality/dele-a2" class="vp-back-link" data-i18n="exam.backToDtz">Back to the DELE A2 overview</a>
+    <a href="/nationality/dele-a2" class="vp-back-link" data-i18n="exam.backToDtz">Back to the TCF IRN overview</a>
 
     <div class="practice-hero">
       <p class="eyebrow" data-i18n="dtzSet.eyebrow">Simulate the exam</p>
-      <h1><span class="hero-exam" data-i18n="dtzSet.heroExam">DELE A2 mock</span> <span data-dtz-title>{first.meta.title}</span></h1>
+      <h1><span class="hero-exam" data-i18n="dtzSet.heroExam">TCF IRN practice mock</span> <span data-dtz-title>{first.meta.title}</span></h1>
       <p data-i18n="dtzSet.hero">
-        Nine parts, 45 scored tasks in our own mock for DELE A2. The result uses our own point bands
-        as a guide: well prepared from 33 points, getting close from 20 points.
+        Nine parts, 45 scored tasks in our own mock for the TCF IRN: set 1 aims at A2–B1, set 2 at B1–B2. The result uses our own point bands as a guide: well prepared from 33 points, getting close from 20 points.
       </p>
     </div>
     <ExamDisclaimer />
 
-    {/* The structure of OUR mock, not of the real DELE A2. The real parts are on the DELE A2 page
-        (research: formate-a2-c1.research.json, to verify). The minutes match GROUP_MINUTES in dtzTrainer.js. */}
+    {/* The structure of OUR mock, not of the real TCF IRN (the real format is to verify). The minutes match GROUP_MINUTES in dtzTrainer.js. */}
     <ExamFacts
       title="How this mock is structured"
       titleKey="dtzSet.facts.title"
@@ -80,13 +78,13 @@ const first = saetze[0];
         [{ text: "Speaking", key: "skill.sprechen" }, { text: "not included (needs a partner)", key: "dtzSet.facts.sprechen" }, { text: "—", key: "dtzSet.facts.sprechenTime" }],
       ]}
       notes={[
-        { key: "dtzSet.facts.scoring", html: "<strong>Scoring:</strong> listening and reading count together for 45 points. Our guide: well prepared from 33 points, getting close from 20 points. You check the writing task yourself with the model answer and the checklist. The real DELE A2 has its own marking rule and ends in <em>apto</em> or <em>no apto</em>." },
-        { key: "dtzSet.facts.certificate", html: "This mock is practice only. To take the real DELE A2, register at an Instituto Cervantes exam centre, and check the current rules for your nationality application first. This is general orientation, not legal advice." },
+        { key: "dtzSet.facts.scoring", html: "<strong>Scoring:</strong> listening and reading count together for 45 points. Our guide: well prepared from 33 points, getting close from 20 points. You check the writing task yourself with the model answer and the checklist. The real TCF IRN reports levels, not points like ours." },
+        { key: "dtzSet.facts.certificate", html: "This mock is practice only. To take the real TCF IRN, register at an approved centre, and check the current rules for your residence or nationality application first (which tests count, for how long). This is general orientation, not legal advice." },
       ]}
       sources={[
-        { label: "Instituto Cervantes: DELE", url: "https://www.cervantes.org/es/examenes/dele" },
+        { label: "France Éducation international: TCF IRN", url: "https://www.france-education-international.fr/tcf-irn" },
       ]}
-      checked="06.11.2026"
+      checked="12.11.2026"
     />
 
     {saetze.length + paidSets.length > 1 && (
