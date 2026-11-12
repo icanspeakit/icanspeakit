@@ -59,7 +59,6 @@ export function parseLine(raw, mode, level, lineNo) {
     else if (k === "rule") flags.rule = rest.join(" ");
     else if (k === "free") flags.free = rest;
     else if (k === "frCA") flags.frCA = { note: rest.join(" ") };
-    else if (k === "es419") flags.es419 = { note: rest.join(" ") }; // legacy (Spanish lines), until `cleanup`
     else err(lineNo, `unbekanntes Flag {${f}}`);
     return "";
   });
@@ -87,7 +86,6 @@ export function parseLine(raw, mode, level, lineNo) {
   if (flags.a) s.a = flags.a;
   if (flags.rule) s.rule = flags.rule;
   if (flags.frCA) s.frCA = flags.frCA;
-  if (flags.es419) s.es419 = flags.es419;
   return s;
 }
 
@@ -95,16 +93,19 @@ function validate(s, lineNo) {
   const n = s.c.length;
   if (n < 3 || n > 6) err(lineNo, `${n} Chunks (erlaubt 3–6)`);
   if (s.v < 0) err(lineNo, "kein konjugiertes Verb (*)");
-  if (s.mode === "janein" && s.v !== 0) err(lineNo, "Ja/Nein-Frage: Verb nicht auf Platz 1");
-  if (s.mode === "v2" && s.v !== 1) err(lineNo, "verb not in slot 2");
-  // A2 mode: the object pronoun stands right before the verb (me lo ha dado).
-  if (s.mode === "klammer" && !/^(me|te|lo|la|le|nos|os|los|las|les|se|se lo|se la)$/.test(s.c[s.v - 1] ?? ""))
-    err(lineNo, "object pronoun not right before the verb");
-  // B1 mode: indirect questions (¿Puedes decirme / dónde / está / la estación?): an accented
-  // question word or si, and the verb behind it.
-  if (s.mode === "nebensatz" && !s.c.some((c) => /^(dónde|adónde|cuándo|cómo|qué|quién|cuánto|por qué|a qué hora|de qué( \S+)?|si)$/.test(c)))
+  // v2: a statement has its verb in slot 2 (slot 1 when subject + verb are one elided tile: j'habite).
+  if (s.mode === "v2" && s.e === "." && !(s.v === 1 || (s.v === 0 && /^\S+'/.test(s.c[0])))) err(lineNo, "verb not in slot 2");
+  if (s.mode === "v2" && s.e === "?" && s.v > 3) err(lineNo, "question: verb too far back");
+  // janein: a yes/no question (est-ce que / inversion / intonation) ends with "?".
+  if (s.mode === "janein" && s.e !== "?") err(lineNo, "yes/no question must end with ?");
+  // A2 mode: an object pronoun (also elided: l'a, m'a) or ne / n' stands in front of the verb.
+  if (s.mode === "klammer" && !s.c.some((c, i) => i <= s.v && /^(me|te|le|la|les|lui|leur|nous|vous|y|en|ne|[mtlsn]'\S*)$/.test(c)))
+    err(lineNo, "no object pronoun or ne before the verb");
+  // B1 mode: indirect questions (Pouvez-vous me dire / où / est / la gare ?): a question word or si
+  // chunk, and the verb behind it.
+  if (s.mode === "nebensatz" && !s.c.some((c) => /^(où|d'où|quand|comment|pourquoi|combien( de \S+)?|ce que|ce qui|qui|si|s'ils?|à quelle heure|de quoi|à quoi|à qui|avec qui|pour qui|depuis quand|(de |à )?quel(le)?s? \S+)$/.test(c)))
     err(lineNo, "indirect question without question word / si chunk");
-  if (s.mode === "nebensatz" && s.v < 2) err(lineNo, "indirect question: verb before the question word");
+  if (s.mode === "nebensatz" && s.v < 1) err(lineNo, "indirect question: verb before the question word");
   for (const a of s.a || []) {
     const sorted = [...a].sort((x, y) => x - y);
     if (a.length !== n || sorted.some((x, i) => x !== i)) err(lineNo, `alt ${a.join(" ")} ist keine Umstellung aller ${n} Chunks`);
@@ -134,7 +135,7 @@ lines.forEach((raw, i) => {
   const s = parseLine(line, mode, level, lineNo);
   if (!s) return;
   validate(s, lineNo);
-  const full = sentenceText(s.c, s.e);
+  const full = sentenceText(s.c, s.e, false); // plain text: no no-break space (matching, audio slug)
   if (texts.has(full)) err(lineNo, `doppelt: ${full}`);
   texts.add(full);
   const k = known.get(full);
@@ -146,14 +147,14 @@ lines.forEach((raw, i) => {
   s.id = `${mode}-${String(counter[mode]).padStart(3, "0")}`;
   out.push(s);
   if (SHOW_VORFELD) {
-    const vs = vorfeldVariants(s).map((o) => sentenceText(o.map((j) => s.c[j]), s.e)).filter((t) => t !== full);
+    const vs = vorfeldVariants(s).map((o) => sentenceText(o.map((j) => s.c[j]), s.e, false)).filter((t) => t !== full);
     const alts = acceptedOrders(s).length;
     console.log(`${s.id}  ${full}${vs.length ? `\n        ${vs.join("\n        ")}` : ""}${alts > 1 ? "" : "  (nur Grundform)"}`);
   }
 });
 
 // Compact keys, empty fields dropped: the list is inlined into the page.
-const clean = out.map(({ id, mode, level, c, v, s, vp, f, a, e, nv, en, au, src, rule, lv, frCA, es419 }) => {
+const clean = out.map(({ id, mode, level, c, v, s, vp, f, a, e, nv, en, au, src, rule, lv, frCA }) => {
   const o = { id, mode, level, c, v, s, e, en };
   if (vp.length) o.vp = vp;
   if (f.length) o.f = f;
@@ -162,7 +163,6 @@ const clean = out.map(({ id, mode, level, c, v, s, vp, f, a, e, nv, en, au, src,
   if (au) o.au = au;
   if (rule) o.rule = rule;
   if (frCA) o.frCA = frCA;
-  if (es419) o.es419 = es419;
   o.src = src;
   if (lv) o.lv = lv;
   return o;
