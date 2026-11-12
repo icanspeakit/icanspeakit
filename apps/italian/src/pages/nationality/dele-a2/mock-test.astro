@@ -1,6 +1,6 @@
 ---
 import ExamDisclaimer from "../../../components/ExamDisclaimer.astro";
-// Reading mock test (dtz slot, DELE A2 for nationality): the four numbered reading tasks from
+// Reading mock test (dtz slot, B1 for citizenship): the four numbered reading tasks from
 // src/data/lesen.json, run as one continuous self-scored test with a combined
 // results summary — see docs/exams-hub-tier3-v1.md for sourcing.
 // Deliberately excludes the "digitales-buero" entry in lesen.json (a separate practice
@@ -18,16 +18,16 @@ const tasks = taskIds.map((id) => lesen.groups.find((g) => g.id === id));
 const totalQuestions = tasks.reduce((sum, t) => sum + t.questions.length, 0);
 ---
 <Layout
-  title="Reading mock test for DELE A2 – four tasks – icanspeak Italian"
-  description="Free reading mock test for DELE A2 preparation: four tasks at level B1, and at the end you see your total score."
+  title="Reading mock test at B1 for Italian citizenship – four tasks – icanspeak Italian"
+  description="Free reading mock test for the B1 language proof: four tasks at level B1, and at the end you see your total score."
 >
   <SiteNav active="pruefungen" />
   <main class="practice-main">
     <div class="practice-hero">
-      <p class="eyebrow"><span data-i18n="dtzMock.exam">DELE A2</span> · <span data-i18n="skill.lesen">Reading</span> · <span data-i18n="dtzMock.mock">Mock test</span></p>
+      <p class="eyebrow"><span data-i18n="dtzMock.exam">B1 for citizenship</span> · <span data-i18n="skill.lesen">Reading</span> · <span data-i18n="dtzMock.mock">Mock test</span></p>
       <h1 data-i18n="dtzMock.title">Lesen-Simulation, Aufgabe 1–4</h1>
       <p data-i18n-html="dtzMock.hero" data-i18n-vars={JSON.stringify({ n: tasks.length, q: totalQuestions })}>
-        {tasks.length} tasks, {totalQuestions} questions at level B1, a step above DELE A2, written for this
+        {tasks.length} tasks, {totalQuestions} questions at level B1, written for this
         site. At the end you get an overall result. Form, writing and speaking tasks are not included here –
         practise them separately under <a href="/reading-writing">Reading &amp; Writing</a> and
         <a href="/speaking/set/a2-out-and-about">Speaking</a>.
@@ -70,7 +70,7 @@ const totalQuestions = tasks.reduce((sum, t) => sum + t.questions.length, 0);
         <div class="reading-block">
           <h3>${esc(t.title)}</h3>
           <div class="reading-level">${esc(t.level)}</div>
-          <div class="reading-text" lang="es">${esc(t.text)}</div>
+          <div class="reading-text" lang="it">${esc(t.text)}</div>
           <div class="quiz-card" id="mock-quiz"></div>
         </div>`;
       const quizEl = document.getElementById("mock-quiz");
