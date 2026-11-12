@@ -1082,10 +1082,10 @@ export const navUebenMenu = {
 export const navSprachen = {
   href: "/knowledge/languages",
   sections: [
-    { id: "karte", titleKey: "sprachen.map.title", title: "Where Spanish is spoken" },
+    { id: "karte", titleKey: "sprachen.map.title", title: "Where French is spoken" },
     { id: "familie", titleKey: "sprachen.tree.title", title: "The language family" },
     { id: "vergleich", titleKey: "sprachen.cmp.title", title: "How close is your language?" },
-    { id: "decoder", titleKey: "sprachen.dec.title", title: "English → Spanish: the word decoder" },
+    { id: "decoder", titleKey: "sprachen.dec.title", title: "English → French: the word decoder" },
   ],
 };
 
@@ -1121,10 +1121,10 @@ export const navBildwoerterbuch = { href: "/knowledge/picture-dictionary", title
 export const navZitate = { href: "/knowledge/quotes", titleKey: "nav.wissen.zitate", title: "Zitat des Tages",
   hintKey: "nav.wissen.zitateHint", hint: "Ein Satz, drei Wörter, ein Leben" };
 
-// /knowledge/accents: the accent map of Spain. In the Sprachen column, under the sections of
-// "Spanish around the world", whose map it zooms into.
+// /knowledge/accents: the accent map of France. In the Sprachen column, under the sections of
+// "French around the world", whose map it zooms into.
 export const navDialekte = { href: "/knowledge/accents", titleKey: "nav.wissen.dialekte", title: "Accents: the map",
-  hintKey: "nav.wissen.dialekteHint", hint: "From Andalusian to Canarian" };
+  hintKey: "nav.wissen.dialekteHint", hint: "From the south of France to Québec" };
 
 // /knowledge/slang: tío, mola, joder — how Spanish is spoken in Spain, with the standard
 // word beside it and where it is fine. In the Sprachen column under Dialekte and in the

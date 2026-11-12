@@ -307,9 +307,9 @@ export function buildSearchIndex() {
     h: "/culture/insider",
   });
   pages.push({
-    t: "Spanish around the world",
+    t: "French around the world",
     s: "World map, language family, how close is your language?",
-    k: "spanish around the world where is spanish spoken official language countries world map spanish-speaking countries latin america hispanic world language family tree romance indo-european related languages cognates english spanish word decoder false friends puerto rico equatorial guinea united states ladino sprachen weltkarte",
+    k: "french around the world where is french spoken official language countries world map french-speaking countries francophonie francophone africa canada quebec belgium switzerland luxembourg haiti senegal maghreb morocco algeria tunisia overseas france louisiana language family tree romance indo-european related languages cognates english french word decoder false friends sprachen weltkarte",
     h: "/knowledge/languages",
   });
   // The rest of the Nachschlagewerk: the overview, the three verb lists (found by their
@@ -336,8 +336,8 @@ export function buildSearchIndex() {
   });
   pages.push({
     t: "Accents: the map",
-    s: "Accents of Spanish in Spain, and Spain's other languages",
-    k: "accents accent map dialects dialect spanish accents regional accents spain andaluz andalusian canario canarian murciano extremeño castellano castilian madrid seville cadiz seseo ceceo distincion yeismo leismo laismo voseo ustedes vosotros guagua catalan valencian galician basque euskera aranese asturian aragonese co-official languages mexican caribbean andean rioplatense chilean latin america dialekte",
+    s: "Accents of French in France, and France's regional languages",
+    k: "accents accent map dialects dialect french accents regional accents regional french france paris ch'ti nord picardy normandy lorraine alsace lyon marseille toulouse bordeaux midi southern accent accent du midi corsica chocolatine pain au chocolat serpillière wassingue panosse oil oc langue d'oc langue d'oïl regional languages breton occitan alsatian corsican basque catalan gallo franco-provençal quebec acadia belgium switzerland septante nonante huitante africa maghreb antilles dialekte",
     h: "/knowledge/accents",
   });
   // Every Redemittel set (/vocabulary/phrases/<id>), found by its name and its phrases.
