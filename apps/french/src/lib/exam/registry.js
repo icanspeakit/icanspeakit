@@ -11,7 +11,7 @@
  *   store "exam" → "da-exam-v1:<key>", { answers: { id: {given, correct} } }
  *                  (src/lib/exam/state.js — A1 practice test, SIELE, CCSE)
  *   store "dtz"  → "da-dtz-v1:<key>",  same answers plus a schreiben object
- *                  (src/lib/dtzTrainer.js — the DELE A2 mock for nationality in the /nationality/dele-a2 slot)
+ *                  (src/lib/dtzTrainer.js — the TCF IRN mock for residence and nationality in the /nationality/dele-a2 slot)
  * The ids (start-deutsch-1, testdaf, leben-in-deutschland, dtz) are storage keys from the
  * German course and stay; only the texts are English (docs/content-plan.md §2).
  *
@@ -97,9 +97,9 @@ export const examRegistry = [
   },
   {
     id: "dtz",
-    title: "DELE A2 mock for nationality",
+    title: "TCF IRN practice mock (residence and nationality)",
     subtitle: dtz1.label,
-    level: "A2",
+    level: "A2–B1",
     href: "/nationality/dele-a2/practice-set",
     overview: "/nationality/dele-a2",
     store: { kind: "dtz", key: dtz1.id },

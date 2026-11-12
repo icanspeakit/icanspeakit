@@ -229,9 +229,9 @@ export function buildSearchIndex() {
   });
   // The path to nationality: a guide page under the exam hub.
   pages.push({
-    t: "Spanish nationality by residence: CCSE and DELE A2",
-    s: "How many years, who needs which test, who is exempt, and the steps in order",
-    k: "spanish nationality citizenship residence nacionalidad española residencia ccse dele a2 exempt dispensa oath jura registro civil how to become spanish passport",
+    t: "French residence card and nationality: language level and civic exam",
+    s: "Which language level and civic exam each step asks for, who may be exempt, and the steps in order",
+    k: "french nationality naturalisation citizenship residence titre de séjour carte de résident multi-year card tcf irn b1 b2 civic exam examen civique exempt contrat d integration republicaine ofii décret how to become french",
     h: "/nationality",
   });
   // The DGT driving deck: words for the driving course, the road and the paperwork.
