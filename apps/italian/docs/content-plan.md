@@ -1035,3 +1035,12 @@ handled by the `ui-*` items where they are rendered.
     `ausspracheCheck*`, `buergeramt/*` …): the owning content items or `cleanup`.
 - Gaps (§3): elision/truncation topic, *si* impersonale as its own topic, *ne* drills, *stare/essere*
   in the south.
+- `placement-test` (2026-11-12): `einstufung.json` is Italian and strict in `check-variety.mjs`.
+  Deviations from §5.1: A1 tests *lo* before s + consonant (the *il/la* choice is too easy to
+  guess); A2 adds the irregular participle (*scritto*) and tests the comparative as *più … del*
+  (prepositions with the article are tested by *sul*); B1 adds combined pronouns (*te la*); B2
+  tests the subjunctive after *benché* instead of in a relative clause, because the indicative after
+  *nessuno che* / *cerco un … che* is common in speech and a native could accept it; C1 adds
+  *qualora* + subjunctive. Still open: the comment above `placementStart()` in
+  `src/lib/einfach-app.js` names the Spanish A1 features (*ser, estar, hay, gustar*) and the
+  unit ids it starts at are Spanish-path ids (`beginner-path`).
