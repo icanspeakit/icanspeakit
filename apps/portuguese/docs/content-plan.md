@@ -1113,6 +1113,36 @@ handled by the `ui-*` items where they are rendered.
   `pt-PT` with the module whose text it shows, or in `cleanup` at the latest. `grammatik.*.intro`,
   `ws.set.*`, `wissen.file.*`, `dgt.*` (except title/back), `biz.*` (except title/back),
   `berufe.hero.*`, `exam.backTo*` and the `konto.*` page strings stay with their items.
+- **UI pages a–l (`ui-pages-a-l`, 2026-11-12):** page titles, descriptions, heroes and frame
+  strings of `src/pages/[a-l]*` (plus `404`, `[id]`) speak of Portugal and Portuguese and name the
+  exams by slot (goethe = CAPLE, ACESSO A1 … DUPLE C2; dtz = CIPLE A2 for residence and
+  nationality; testdaf = "Level check", our own set; lid = "Civics: Portugal, how it works", our
+  own quiz). `/exams` has **no SIELE-by-level card or level-row links** any more (telc slot,
+  removed by `exams-caple`), and the home footer drops `/siele/levels`; the `pruefungen.*.telc.*`
+  keys are unused until `cleanup`. `/exam-plan` names the goethe levels by certificate
+  (`CAPLE_NAMES` in the page) and uses `Europe/Lisbon`. `/exams/traps` builds its filter chips from
+  a tag → label list (`dele`/`caple` = CAPLE, `siele` = Level check, `ccse` = Civics) and hides a
+  chip with no traps, so `exams-caple` can rename the tags in `fallen.json` and add the id there.
+  The **official links on `/knowledge`** (`downloads.json` `links`, `wissen.link.<id>.*`) are now
+  CAPLE, Camões I.P., Priberam, Ciberdúvidas, AIMA and IMT (new ids; the other UI languages carry
+  the English text for them until `ui-lang-*`). Pages owned by other items were **not** touched:
+  `/exams/dele-or-siele` (`exams-compare`, but its title key `delesiele.title` now reads "CIPLE,
+  DEPLE or Celpe-Bras?"), `/dgt-vocabulary` (`imt-vocab`), `/business-spanish` (`business-portuguese`),
+  `/ccse` (`civics`), `/grammar/verbs`, `/grammar/conjugation` (`conjugation-*`),
+  `/knowledge/languages`, `/knowledge/accents` (`accents-languages`), `/legal-notice` (`ui-pages-m-z`).
+- **Left by `ui-pages-a-l` to the module items:** `src/pages/intonation.astro` `MARK` adds the
+  Spanish opening marks `¿ ¡` in the quiz, and `u.lang = "es-ES"`: `pronunciation` switches both
+  with `satzmelodie.json` (Portuguese has no opening marks); `src/pages/[id].astro` hard-codes
+  "¿Adónde?" / "¿Dónde?" in the direction comic: the grammar item that converts that slot writes
+  *Para onde?* / *Onde?*; `games/extranjeria.astro` HUD and stamps (*Día 1, Turno, Ventanilla 3,
+  COMPLETO, DEVUELTO*) go with `aima-sim`; *Villabruno* in `ld.*` with `games-dialogue`; `el`/`la`
+  buttons and controls text in `games/nut-night.astro`, `hs.about.p`, `sprint.about.*`,
+  `sprint.hint.artikel` with `games` / `games-arcade` (titles and descriptions already say *o or a*);
+  `wissen.cat.wortschatz.blurb` and `wissen.file.*` ("with el or la") with `vocab-*`; `ak.proto`
+  and `hs.*` voice notes ("Spanish voice") with the module that switches the voice; the culture
+  topic keys (`kultur.<id>.cardIntro`, `kultur.linkLabel.*`, `kultur.eyebrow.*`) and the
+  `#world` group ids (`WORLD_IDS` in `culture/index.astro`) with `culture`; `lang="es"` on
+  module text in the pages with each module, `cleanup` at the latest.
 
 ### 13.2 Carried over from the Spanish build (still true)
 
