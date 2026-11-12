@@ -12,6 +12,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildAll, DASH, ROW_TENSES, STORED_TENSES } from "../src/lib/verbtabellenCore.js";
+import { isStandardVariety } from "../src/lib/variety.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (f) => JSON.parse(readFileSync(path.join(ROOT, f), "utf8"));
@@ -26,7 +27,7 @@ const MINIMUM = `hablar comer vivir ser estar haber ir tener hacer decir poder q
   caber andar levantarse llamarse irse deber soler`.split(/\s+/);
 for (const inf of MINIMUM) if (!by.has(inf)) errors.push(`${inf}: on the plan's minimum list, missing`);
 const groupIds = new Set(data.groups.map((g) => g.id));
-if (data.variety !== "es-ES") errors.push('top level: variety must be "es-ES"');
+if (!isStandardVariety(data.variety)) errors.push('top level: variety must be "pt-PT"');
 const seen = new Set();
 for (const v of data.verbs) {
   if (seen.has(v.inf)) errors.push(`${v.inf}: listed twice`);

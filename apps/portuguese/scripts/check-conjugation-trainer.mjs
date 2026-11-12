@@ -14,6 +14,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createTrainer, judge, LEVELS } from "../src/lib/conjugationTrainer.js";
 import { DASH, VOSOTROS } from "../src/lib/verbtabellenCore.js";
+import { isStandardVariety } from "../src/lib/variety.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (f) => JSON.parse(readFileSync(path.join(ROOT, f), "utf8"));
@@ -30,7 +31,7 @@ for (const set of data.sets) {
   for (const k of ["title", "lead"]) if (!set[k]) err(`${set.id}: needs ${k}`);
   if (!set.rule?.text) err(`${set.id}: needs rule.text`);
   if (!LEVELS.includes(set.level)) err(`${set.id}: level ${set.level}`);
-  if (set.variety !== "es-ES") err(`${set.id}: variety must be es-ES`);
+  if (!isStandardVariety(set.variety)) err(`${set.id}: variety must be pt-PT`);
   if (!["choice", "form"].includes(set.kind)) err(`${set.id}: kind ${set.kind}`);
   if (set.items.length < 8) err(`${set.id}: only ${set.items.length} items`);
   const prompts = new Set();

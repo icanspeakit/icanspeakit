@@ -42,8 +42,9 @@ export const BUSINESS = { slug: "business", emoji: "💼" };
 export const TRANSLATIONS = langsFor("berufe");
 export const LANGS = ["de", ...TRANSLATIONS];
 export const POS = ["noun", "verb", "adj", "adverb", "phrase"];
-/** The article as the learner says it: el/la, el/la for common-gender person nouns (content-plan §1.4). */
-export const GENDERS = ["el", "la", "el/la"];
+/** The article as the learner says it: o/a, o/a for common-gender person nouns (content-plan §1.4).
+ *  The Spanish el/la/el/la stay accepted until `portuguese-for-work` and `imt-vocab` have converted the decks. */
+export const GENDERS = ["o", "a", "o/a", "el", "la", "el/la"];
 
 /** `bv-gastronomie-schneidebrett` */
 export const idFor = (slug, lemma) => `bv-${slug}-${slugify(lemma)}`;
@@ -115,8 +116,8 @@ export function validate(files, known) {
         if (!POS.includes(w.pos)) at(`${where}: pos must be one of ${POS.join(", ")}`);
         if (w.pos === "noun" && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender ${GENDERS.join("/")}`);
         if (w.genus != null && !(w.genus === "f" && w.pos === "noun" && w.gender === "el")) at(`${where}: genus "f" only on nouns with gender "el" (el agua)`);
-        if (w.fem != null && !(w.pos === "adj" && typeof w.fem === "string" && w.fem.trim())) at(`${where}: fem must be the feminine form of an adjective`);
-        // variety / es419 (§1.5). A ref inherits both from the word it points to (rule above).
+        if (w.fem != null && !(["adj", "noun"].includes(w.pos) && typeof w.fem === "string" && w.fem.trim())) at(`${where}: fem must be the feminine form of an adjective or noun`);
+        // variety / ptBR (legacy es419) (§1.5). A ref inherits both from the word it points to (rule above).
         for (const p of varietyProblems(w, { noun: w.pos === "noun" })) at(`${where}: ${p}`);
         if (w.pos === "noun" && w.plural === undefined && !w.pluralOnly) at(`${where}: a noun needs "plural" (null when there is none)`);
         if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [yo present, él indefinido, participio]`);

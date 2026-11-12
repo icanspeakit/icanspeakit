@@ -251,7 +251,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>'
     import { recordAttempt } from "../../lib/progress.js";
     import { createVerlauf } from "../../lib/artikelVerlauf.js";
     import { setWaiting } from "../../lib/notReady.js";
-    import { showsVosotros } from "../../lib/variety.js";
+    import { showsVos } from "../../lib/variety.js";
     import { t as uiT, onUiText } from "../../lib/uiText.js";
 
     const SESSION_SIZE = 20;
@@ -275,14 +275,14 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>'
     type Current = { kind: "drill" | "set" | "build"; id: string | null };
     const compact = matchMedia("(max-width: 720px)");
     let mode: string = load(MODE_KEY, compact.matches ? "fokus" : "type");
-    let vosotros: boolean = load(VOS_KEY, true) && showsVosotros();
+    let vosotros: boolean = load(VOS_KEY, true) && showsVos();
     let build = load(BUILD_KEY, { tenses: ["praes"], groups: ["reg-ar", "reg-er", "reg-ir"] });
     let current: Current = { kind: "drill", id: trainer.presets[0].id };
     let questions: any[] = [];
     let practice: any = null;
     let typed: any = null;
     vosBox.checked = vosotros;
-    if (!showsVosotros()) vosWrap.hidden = true;
+    if (!showsVos()) vosWrap.hidden = true;
 
     // --- the session stats, shared by both engines --------------------------------------------
     const ringFill = document.getElementById("akk-ring-fill")!;
@@ -376,7 +376,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>'
       });
       // One way to answer leaves nothing to choose between.
       modes.hidden = allowed.length < 2;
-      vosWrap.hidden = current.kind === "set" || !showsVosotros();
+      vosWrap.hidden = current.kind === "set" || !showsVos();
     }
 
     function nowText() {

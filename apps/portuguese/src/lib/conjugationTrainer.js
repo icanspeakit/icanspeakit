@@ -6,7 +6,7 @@
 // mountPracticeWorkspace takes: { id, prompt, options, answer, explain, change }.
 // Typed answers add `accepted` (every right form) and are judged by judge() below.
 import { accepts, accentOnly } from "./answerMatch.js";
-import { showsVosotros, skippedFor } from "./variety.js";
+import { showsVos, skippedFor } from "./variety.js";
 import { buildAll, buildVerb, DASH, PERSONS, parseInf, patternForms, VOSOTROS } from "./verbtabellenCore.js";
 
 export const LEVELS = ["A1", "A2", "B1", "B2"];
@@ -76,7 +76,7 @@ export function createTrainer(verbData, trainer, { rng = Math.random, tr = fallb
   function poolFor({ tenses: wanted = tenses.map((t) => t.key), groups: inGroups, verbs: only, vosotros = true } = {}) {
     const pool = [];
     const list = only ? only.map((inf) => byInf.get(inf)).filter(Boolean) : verbs;
-    const withVos = vosotros && showsVosotros();
+    const withVos = vosotros && showsVos();
     for (const v of list) {
       if (!groupOfInf.has(v.inf)) continue;
       if (inGroups && !only && !inGroups.includes(groupOfInf.get(v.inf))) continue;

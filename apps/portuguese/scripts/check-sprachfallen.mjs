@@ -8,6 +8,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { isStandardVariety } from "../src/lib/variety.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => JSON.parse(readFileSync(path.join(ROOT, p), "utf8"));
@@ -77,7 +78,7 @@ for (const p of pairs) {
   const at = `typische-fehler ${p.id}`;
   if (!/^[a-z0-9-]+$/.test(p.id)) bad(at, "id isn't a plain slug");
   if (!["A1", "A2", "B1", "B2", "C1", "C2"].includes(p.level)) bad(at, `level “${p.level}”`);
-  if (p.variety !== "es-ES") bad(at, "no variety");
+  if (!isStandardVariety(p.variety)) bad(at, "no variety");
   for (const s of [p.a, p.b]) if (!s?.w || !s?.pos || !s?.ex) bad(at, "a side without w, pos or ex");
   if (p.a.wrong) bad(at, "only side b can be wrong (the page shows a first)");
   if (!p.why) bad(at, "no why");
@@ -97,7 +98,7 @@ for (const g of us.gruppen) {
   for (const e of g.eintraege) {
     const at = `umgangssprache ${g.id} ${e.w}`;
     if (!e.w || !e.std) bad(at, "no w or std");
-    if (e.variety !== "es-ES") bad(at, "no variety");
+    if (!isStandardVariety(e.variety)) bad(at, "no variety");
     if (g.reg === "vulgaer" && ![1, 2, 3].includes(e.stufe)) bad(at, "rude entry without stufe 1–3");
     if (e.bsp) marks(at, e.bsp);
   }
@@ -112,7 +113,7 @@ for (const g of read("src/data/synonyme.json").groups) {
   if (!LEVELS.has(g.level)) bad(at, `level “${g.level}”`);
   if (!POS.has(g.pos)) bad(at, `pos “${g.pos}”`);
   if (!(g.words?.length >= 2) || new Set(g.words).size !== g.words.length) bad(at, "needs two different words");
-  if (g.variety !== "es-ES") bad(at, "no variety");
+  if (!isStandardVariety(g.variety)) bad(at, "no variety");
   if (g.emoji && !hasEmoji(g.emoji)) bad(at, `no picture ${g.emoji}`);
 }
 
