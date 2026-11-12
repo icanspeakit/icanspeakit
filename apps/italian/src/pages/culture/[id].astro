@@ -44,21 +44,21 @@ const tx = (kulturHelp.entries as Record<string, any>)[topic.id] ?? null;
 // eyebrow (a category name) and the link labels under a topic. Slugged from the German so
 // a new topic needs no key list here — a label with no key yet just stays German.
 const slug = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-// The taught words as chips (“Use {tú} with friends”), where the topic has a marked twin
+// The taught words as chips (“Use {tu} with friends”), where the topic has a marked twin
 // of its texts (src/lib/kulturMarks.js); every other topic renders its plain text.
 const mk = topic.marked ?? null;
-const cellHtml = (cell: string) => (mk && /^(tú|usted)$/.test(cell) ? marksToHtml(`{${cell}}`) : markHtml(cell, null));
+const cellHtml = (cell: string) => (mk && /^(tu|Lei)$/.test(cell) ? marksToHtml(`{${cell}}`) : markHtml(cell, null));
 const pc = (key: string) => tx?.prosCons ? Object.fromEntries(Object.entries(tx.prosCons).map(([k, v]: [string, any]) => [k, v[key]])) : null;
 ---
 <Layout
-  title={fitTitle(`${topic.title} – Culture in Spain`, topic.title, topic.title.replace(/:.*$/, ""))}
+  title={fitTitle(`${topic.title} – Culture in Italy`, topic.title, topic.title.replace(/:.*$/, ""))}
   description={topic.intro.slice(0, 160)}
 >
   <SiteNav active="landeskunde" />
   <main class="practice-main" id="ku-page" data-gx="off">
     <div class="ku-topbar">
-      <a href="/culture" class="vp-back-link" data-i18n="kultur.back">Alle Themen</a>
-      <ShareButton title={`${topic.title} – Culture in Spain`} label />
+      <a href="/culture" class="vp-back-link" data-i18n="kultur.back">All topics</a>
+      <ShareButton title={`${topic.title} – Culture in Italy`} label />
     </div>
 
     <article class="ku-topic">
@@ -81,14 +81,14 @@ const pc = (key: string) => tx?.prosCons ? Object.fromEntries(Object.entries(tx.
 
       {topic.facts && (
         <section class="ku-block">
-          <h2 data-i18n="kultur.h2.facts">Das Wichtigste</h2>
+          <h2 data-i18n="kultur.h2.facts">Key facts</h2>
           <ul class="ku-facts">{topic.facts.map((f: string, i: number) => <li><Fragment set:html={markHtml(f, mk?.facts?.[i], `facts[${i}]`)} /><GrammarHelpText text={item(tx?.facts, i)} /></li>)}</ul>
         </section>
       )}
 
       {topic.prosCons && (
         <section class="ku-block">
-          <h2 data-i18n="kultur.h2.prosCons">Dafür und dagegen</h2>
+          <h2 data-i18n="kultur.h2.prosCons">For and against</h2>
           <div class="ku-proscons">
             <div>
               <h3>{topic.prosCons.prosLabel}</h3>
@@ -126,15 +126,15 @@ const pc = (key: string) => tx?.prosCons ? Object.fromEntries(Object.entries(tx.
 
       {topic.phrases && (
         <section class="ku-block">
-          <h2 data-i18n="kultur.h2.phrases">So sagt man das</h2>
+          <h2 data-i18n="kultur.h2.phrases">How to say it</h2>
           <ul class="ku-phrases">{topic.phrases.map((p: string, i: number) => <li set:html={markHtml(p, mk?.phrases?.[i], `phrases[${i}]`)} />)}</ul>
         </section>
       )}
 
       <p class={`ku-source ${sourcedInClass ? "is-lesson" : ""}`}>
         {sourcedInClass
-          ? <span data-i18n="kultur.source.lesson">Aus dem Unterricht:</span>
-          : <span data-i18n="kultur.source.fact">Sachwissen:</span>}{" "}{topic.sourceNote}
+          ? <span data-i18n="kultur.source.lesson">From class:</span>
+          : <span data-i18n="kultur.source.fact">Facts:</span>}{" "}{topic.sourceNote}
       </p>
       <GrammarHelpText text={field(tx?.sourceNote)} />
 
@@ -148,11 +148,11 @@ const pc = (key: string) => tx?.prosCons ? Object.fromEntries(Object.entries(tx.
     </article>
 
     <section class="ku-block ku-quizblock">
-      <h2 data-i18n="kultur.h2.quiz">Quiz zu diesem Thema</h2>
-      <p class="ku-quiz-intro" data-i18n="skills.quizIntro" data-i18n-vars={JSON.stringify({ n: topic.quiz.length })}>{topic.quiz.length} Fragen. Antworte per Klick — die Erklärung steht danach dabei.</p>
+      <h2 data-i18n="kultur.h2.quiz">Quiz on this topic</h2>
+      <p class="ku-quiz-intro" data-i18n="skills.quizIntro" data-i18n-vars={JSON.stringify({ n: topic.quiz.length })}>{topic.quiz.length} questions. Click to answer — the explanation appears right after.</p>
       <div class="quiz-card" id="ku-quiz"></div>
       <p class="ku-quiz-more">
-        <a href="/culture/quiz" data-i18n="kultur.quiz.allLink">Quiz über alle Themen</a>
+        <a href="/culture/quiz" data-i18n="kultur.quiz.allLink">Quiz on all topics</a>
       </p>
     </section>
 

@@ -7,28 +7,28 @@ import SatzListe from "../components/SatzListe.astro";
 import goetheFormate from "../data/pruefungen/goethe-formate.json";
 ---
 <Layout
-  title="DELE exams A1–C2: format and practice – icanspeak Italian"
-  description="The DELE diplomas of the Instituto Cervantes, from A1 to C2: who they are for, how each exam works, and free practice."
+  title="CILS exams A1–C2: format and practice – icanspeak Italian"
+  description="The CILS certificates of the Università per Stranieri di Siena, from A1 to C2: who they are for, how each exam works, and free practice. Our own material; general orientation."
 >
   <ExamShell
     bild="goethe"
-    header="DELE"
-    title="DELE"
-    lead="The official Spanish diplomas of the Instituto Cervantes, recognised by employers, universities and public bodies."
+    header="CILS"
+    title="CILS"
+    lead="The CILS (Certificazione di Italiano come Lingua Straniera) is issued by the Università per Stranieri di Siena. It is one of the Italian certificates used for study, work and residence in Italy."
     leadKey="goethe.lead"
     badges={["A1–C2"]}
-    practiceHeading="Practise for the DELE"
+    practiceHeading="Practise for the CILS"
     practiceHeadingKey="goethe.practiceHeading"
   >
     <Fragment slot="info">
       <section class="exam-section">
-        <h2 data-i18n="goethe.who.title">Who is the DELE for?</h2>
+        <h2 data-i18n="goethe.who.title">Who is the CILS for?</h2>
         <div class="exam-meta-row">
           <span class="exam-meta-badge" data-i18n="goethe.who.badge.level">Levels A1–C2</span>
-          <span class="exam-meta-badge" data-i18n="goethe.who.badge.perLevel">One diploma per level</span>
+          <span class="exam-meta-badge" data-i18n="goethe.who.badge.perLevel">One certificate per level</span>
         </div>
         <p data-i18n="goethe.who.text">
-          Each DELE diploma is a separate exam for one level, from A1 to C2.
+          Each CILS certificate is a separate exam for one level, from A1 to C2. People use it for study, for work and, at the level required, for the language proof in citizenship or long-term residence procedures in Italy. Which certificates and levels an office accepts can change, so ask that office before you book. This is general orientation, not legal advice.
         </p>
       </section>
 
@@ -47,9 +47,9 @@ import goetheFormate from "../data/pruefungen/goethe-formate.json";
       <section class="exam-section" id="modellsaetze">
         <h2 data-i18n="goethe.modell.title">Official sample tests</h2>
         <p class="format-note" data-i18n="goethe.moreLevels.text">
-          The Instituto Cervantes publishes sample papers for each level.
+          The Università per Stranieri di Siena publishes sample papers for the CILS levels. We do not copy them. The formats above are our summary of public exam information and still need checking against the official CILS page, so read the current information before you book.
         </p>
-        <p class="format-note"><a href="https://cervantes.org/es/examenes/dele" target="_blank" rel="noopener noreferrer" data-i18n="goethe.modell.link">The DELE page of the Instituto Cervantes (in Spanish)</a></p>
+        <p class="format-note"><a href="https://cils.unistrasi.it/" target="_blank" rel="noopener noreferrer" data-i18n="goethe.modell.link">The CILS website of the Università per Stranieri di Siena (in Italian)</a></p>
       </section>
     </Fragment>
 
@@ -57,30 +57,30 @@ import goetheFormate from "../data/pruefungen/goethe-formate.json";
 
     <div class="mock-cta">
       <p class="joint-exam" aria-label="Our own A1 test, not an official exam" data-i18n-attr="aria-label:exam.joint.label">
-        <span>DELE A1</span><b aria-hidden="true">·</b><span data-i18n="exam.joint.own">our own practice test</span>
+        <span>Italian A1</span><b aria-hidden="true">·</b><span data-i18n="exam.joint.own">our own practice test</span>
       </p>
       <h2 data-i18n="goethe.a1.title">A1: our own practice test</h2>
       <p data-i18n="goethe.a1.text">
-        Our A1 practice test follows the general shape of the DELE A1.
+        Our A1 practice test follows the general shape of the A1 exams, with listening, reading, writing and speaking. It is shorter than a real exam and not official, and its 60 % pass line is our own convention.
       </p>
       <a class="quiz-btn quiz-btn--primary" href="/dele/a1" data-i18n="exam.startSet">Start the practice set</a>
-      <a class="quiz-btn" href="/siele" data-i18n="goethe.a1.telcLink">To the SIELE page</a>
+      <a class="quiz-btn" href="/siele" data-i18n="goethe.a1.telcLink">To the PLIDA page</a>
     </div>
 
     <div class="mock-cta">
-      <h2 data-i18n="delesiele.title">DELE or SIELE?</h2>
-      <p data-i18n="delesiele.entry.blurb">Which exam fits your purpose: nationality, university or work.</p>
-      <a class="quiz-btn" href="/exams/dele-or-siele" data-i18n="delesiele.entry.cta">Compare the two exams</a>
+      <h2 data-i18n="delesiele.title">CILS, CELI, PLIDA or CERT.IT?</h2>
+      <p data-i18n="delesiele.entry.blurb">Which exam fits your purpose: citizenship, residence permit, university or work.</p>
+      <a class="quiz-btn" href="/exams/dele-or-siele" data-i18n="delesiele.entry.cta">Compare the exams</a>
     </div>
 
     <div class="mock-cta">
       <h2 data-i18n="goethe.c2.title">C2: the format only</h2>
-      <p data-i18n="goethe.c2.text">The DELE C2 is above the range of this course (A1 to C1), so there is no practice set for it here. Its format is on this page, with the other levels.</p>
+      <p data-i18n="goethe.c2.text">The CILS C2 is above the range of this course (A1 to C1), so there is no practice set for it here. Its format is on this page, with the other levels.</p>
     </div>
 
     <div class="mock-cta">
-      <h2 data-i18n="goethe.languageUse.title">Language use (uso de la lengua)</h2>
-      <p data-i18n="goethe.languageUse.text">From B2, gap texts train grammar and vocabulary in context. Practise them on their own with two sets at B2 and C1.</p>
+      <h2 data-i18n="goethe.languageUse.title">Language use (strutture di comunicazione)</h2>
+      <p data-i18n="goethe.languageUse.text">Gap texts train grammar and vocabulary in context, like the language-structure tasks in some written papers. Practise them on their own, with one set at B2 and one at C1.</p>
       <a class="quiz-btn" href="/dele/language-use" data-i18n="goethe.languageUse.cta">To the language-use trainer</a>
     </div>
 

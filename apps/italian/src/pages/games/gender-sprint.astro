@@ -1,6 +1,6 @@
 ---
 // /games/gender-sprint — an endless runner where every few seconds a word gate asks for the
-// article (el, la, los, las), the plural or a verb form, and the learner answers by riding through
+// article (il, lo, la, l'; i, gli, le), the plural or a verb form, and the learner answers by riding through
 // a lane. Phone-first: swipe controls, the stage fills the screen below the nav.
 // Logic: src/lib/artikelSprint/ (game loop, renderer, input, questions, storage, sound).
 // Words: src/data/artikel-sprint/words.json (the verbs and hand-picked nouns); Artikel and Plural also draw
@@ -14,9 +14,9 @@ import { enrich, nounCount } from "../../lib/artikelSprint/lexWords.js";
 
 const words = enrich(rawWords);
 const modes = [
-  { id: "artikel", label: "Articles", key: "sprint.mode.artikel", sub: "el · la · los · las" },
-  { id: "plural", label: "Plural", key: "sprint.mode.plural", sub: "las mesas" },
-  { id: "verb", label: "Verbs", key: "sprint.mode.verb", sub: "yo voy" },
+  { id: "artikel", label: "Articles", key: "sprint.mode.artikel", sub: "il · lo · la · l'" },
+  { id: "plural", label: "Plural", key: "sprint.mode.plural", sub: "le case" },
+  { id: "verb", label: "Verbs", key: "sprint.mode.verb", sub: "io vado" },
 ];
 const levels = ["A1", "A2", "B1"];
 // Schwierigkeit: speed and lives (src/lib/artikelSprint/game.js, DIFFICULTIES). Separate from the word level.
@@ -31,8 +31,8 @@ const counts = Object.fromEntries(levels.map((l) => [l, {
 }]));
 ---
 <Layout
-  title="Bruno Kart: el or la in a kart race – icanspeak Italian"
-  description="A racing game for learning Spanish: drive through the right gate – el or la, the plural or the verb form. A1 to B1, free in the browser, on your phone too."
+  title="Bruno Kart: il, lo, la or l' in a kart race – icanspeak Italian"
+  description="A racing game for learning Italian: drive through the right gate – il, lo, la or l', the plural or the verb form. A1 to B1, free in the browser, on your phone too."
 >
   <SiteNav active="ueben" />
   <main class="asp-page">
@@ -100,11 +100,11 @@ const counts = Object.fromEntries(levels.map((l) => [l, {
             <div class="asp-seg asp-seg--modes" data-switch role="group" aria-labelledby="asp-mode-l">
               {modes.map((m) => (
                 <button type="button" class="asp-seg-btn" data-mode={m.id} aria-pressed={m.id === "artikel" ? "true" : "false"}>
-                  <span data-i18n={m.key}>{m.label}</span><small lang="es">{m.sub}</small>
+                  <span data-i18n={m.key}>{m.label}</span><small lang="it">{m.sub}</small>
                 </button>
               ))}
             </div>
-            <p class="asp-mode-hint" data-mode-hint data-i18n="sprint.hint.artikel">el, la, los or las?</p>
+            <p class="asp-mode-hint" data-mode-hint data-i18n="sprint.hint.artikel">il, lo, la or l'?</p>
 
             <p class="asp-label" id="asp-level-l" data-i18n="sprint.level">Niveau</p>
             <div class="asp-seg" data-switch role="group" aria-labelledby="asp-level-l">
@@ -189,7 +189,7 @@ const counts = Object.fromEntries(levels.map((l) => [l, {
                 <div class="asp-seg asp-seg--modes" data-switch role="group" aria-labelledby="asp-room-mode-l">
                   {modes.map((m) => (
                     <button type="button" class="asp-seg-btn" data-mode={m.id} aria-pressed={m.id === "artikel" ? "true" : "false"}>
-                      <span data-i18n={m.key}>{m.label}</span><small lang="es">{m.sub}</small>
+                      <span data-i18n={m.key}>{m.label}</span><small lang="it">{m.sub}</small>
                     </button>
                   ))}
                 </div>
@@ -296,8 +296,8 @@ const counts = Object.fromEntries(levels.map((l) => [l, {
 
     <section class="asp-about">
       <h2 data-i18n="sprint.about.title">Worum geht's?</h2>
-      <p data-i18n-html="sprint.about.p1">Bruno Kart verbindet ein Kartrennen mit Grammatik: Alle paar Sekunden steht ein Wort über der Strecke, und die drei Spuren tragen die Antworten. Du übst die Artikel <b>der, die, das</b>, die <b>Pluralformen</b> oder <b>Verbformen</b> – auf A1, A2 oder B1. Was du falsch hattest, steht am Ende unter „Üben“.</p>
-      <p data-i18n-html="sprint.about.p2">Lieber in Ruhe? Der <a href="/articles">der/die/das-Trainer</a> fragt dieselben Artikel ohne Zeitdruck.</p>
+      <p data-i18n-html="sprint.about.p1">Bruno Kart verbindet ein Kartrennen mit Grammatik: Alle paar Sekunden steht ein Wort über der Strecke, und die drei Spuren tragen die Antworten. You practise <b>il, lo, la and l'</b>, <b>plural forms</b> or <b>verb forms</b> – at A1, A2 or B1. Whatever you got wrong is listed at the end under “Practise”.</p>
+      <p data-i18n-html="sprint.about.p2">Prefer to take your time? The <a href="/articles">il / lo / la / l' trainer</a> asks the same questions with no time pressure.</p>
     </section>
   </main>
 

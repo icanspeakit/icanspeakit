@@ -1,5 +1,5 @@
 ---
-// /culture/insider — "Deutschland von innen": how people in Germany live, love and vote.
+// /culture/insider — "Italy from the inside": how people in Italy live, love and vote.
 //
 // This deliberately goes further than /culture, whose sourcing note says nothing is
 // claimed about people. Here claims about people are allowed — but only with a number
@@ -30,16 +30,16 @@ const groups = LEVELS
   .filter((g) => g.items.length);
 ---
 <Layout
-  title="Spain from the inside – Culture – icanspeak Italian"
-  description="How people in Spain really live: greetings, meal times, tú and usted, neighbours, friendship and more, with figures and sources."
+  title="Italy from the inside – Culture – icanspeak Italian"
+  description="How people in Italy really live: greetings, meal times, tu and Lei, the condominio, the bar, friendship and more, with figures and sources where we have them."
 >
   <SiteNav active="landeskunde" />
   <main class="practice-main practice-main--wide">
-    <a href="/culture" class="vp-back-link" data-i18n="kultur.back">Alle Themen</a>
+    <a href="/culture" class="vp-back-link" data-i18n="kultur.back">All topics</a>
 
     <div class="practice-hero">
-      <p class="eyebrow" data-i18n="kultur.hero.eyebrow">Landeskunde</p>
-      <h1 data-i18n="kultur.insider.title">Deutschland von innen</h1>
+      <p class="eyebrow" data-i18n="kultur.hero.eyebrow">Culture &amp; society</p>
+      <h1 data-i18n="kultur.insider.title">Italy from the inside</h1>
       <SectionMascot name="quaki" say="Figures, not clichés." sayKey="insider.say.hero" align="center" class="ku-hero-mascot" />
     </div>
 
@@ -61,8 +61,8 @@ const groups = LEVELS
               </span>
               <span class="ku-card-meta">
                 {t.quiz
-                  ? <span class="ku-card-q" data-i18n="grammatik.card.questions" data-i18n-vars={vars({ n: t.quiz.length })}>{t.quiz.length} Fragen</span>
-                  : <span class="ku-card-q">{t.decoder.groups.reduce((n, g) => n + g.items.length, 0)} Sätze</span>}
+                  ? <span class="ku-card-q" data-i18n="grammatik.card.questions" data-i18n-vars={vars({ n: t.quiz.length })}>{t.quiz.length} questions</span>
+                  : <span class="ku-card-q">{t.decoder.groups.reduce((n, g) => n + g.items.length, 0)} sentences</span>}
               </span>
             </a>
           ))}
@@ -74,14 +74,14 @@ const groups = LEVELS
       <div class="ku-more-head">
         <SectionMascot name="bruno" expr="thinking" say="What do you think?" sayKey="insider.say.more" class="ku-more-mascot" />
         <p class="ku-more-lead" data-i18n="kultur.insider.lead">
-          What the textbook leaves out: how people in Spain really live, think and talk – with
+          What the textbook leaves out: how people in Italy really live, think and talk – with
           figures and sources instead of clichés.
         </p>
       </div>
     </section>
 
     <section class="ku-sourcing">
-      <h2 data-i18n="kultur.insider.ruleTitle">Unsere Regel für diesen Bereich</h2>
+      <h2 data-i18n="kultur.insider.ruleTitle">Our rule for this section</h2>
       <p set:html={sourcingNote.replace(/\n/g, "<br>")} />
     </section>
   </main>
