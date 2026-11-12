@@ -1,405 +1,410 @@
 {
-  "_comment": "Content for /knowledge/accents: varieties of Spanish in Spain, Spain's own languages, and the varieties of Latin America as notes. Names, places and examples ([local form, plain English]) are not translated; the descriptions are in public/i18n/en.json under dialekte.r.* (areas), dialekte.m.* (dots), dialekte.w.* (world notes) and dialekte.group.*. Markers with lang: true are languages, not accents. words: `de` holds what the map asks about. lines: `benrath` is the line of weak final s (los niños with a clear s north of it), `speyer` the line of seseo and ceceo (cinco with /θ/ north and east of it); the key names are kept from the German page. shift: one row per word, columns in the order of groups. Coordinates for the Canary Islands are real; the generator moves them into an inset box. Geometry: scripts/generate-dialekte-karte.mjs → dialekte-karte.json.",
+  "_comment": "Content for /knowledge/accents: the regional accents of French in France, France's regional languages, and French outside France as notes. Names, places and examples ([local form, plain English]) are not translated; the descriptions are in public/i18n/en.json under dialekte.r.* (areas), dialekte.m.* (dots), dialekte.w.* (world notes) and dialekte.group.*. Markers with lang: true are languages, not accents; their ids differ from the area ids. words: `de` holds what the map asks about (English). lines: `benrath` is the old line between the langue d'oïl (north) and the langue d'oc (south), `speyer` the Breton language line (Breton west of it, Gallo east of it, as mapped in the late 19th century); the key names are kept from the German page. shift: one row per word, columns in the order of groups. Everything here is simplified on purpose: real borders are wide and blurred. Geometry: scripts/generate-dialekte-karte.mjs → dialekte-karte.json.",
   "groups": [
-    { "id": "norte", "regions": ["centro", "asturias", "aragon"] },
-    { "id": "transicion", "regions": ["mancha", "extremadura", "murcia"] },
-    { "id": "andalucia", "regions": ["andaluciaoc", "andaluciaor"] },
-    { "id": "canarias", "regions": ["canarias"] },
-    { "id": "bilingue", "regions": ["catalunya", "valencia", "galicia", "euskadi"] }
+    { "id": "oil", "regions": ["paris", "nord", "ouest", "est"] },
+    { "id": "transition", "regions": ["centre", "lyon"] },
+    { "id": "midi", "regions": ["sudouest", "provence"] },
+    { "id": "corse", "regions": ["corse"] },
+    { "id": "bilingue", "regions": ["bretagne", "alsace", "paysbasque", "roussillon"] }
   ],
   "regions": [
     {
-      "id": "centro",
-      "name": "Castile and Madrid",
-      "alias": "castellano del centro y del norte",
-      "short": "Castile\nand Madrid",
+      "id": "paris",
+      "name": "Paris and Île-de-France",
+      "alias": "le français parisien",
+      "short": "Paris",
       "color": "#a9b9ef",
-      "label": [-4.1, 41.65],
-      "places": ["Madrid", "Valladolid", "Burgos", "Salamanca", "Segovia", "Logroño"],
+      "label": [2.45, 48.68],
+      "places": ["Paris", "Saint-Denis", "Versailles", "Créteil", "Argenteuil", "Cergy"],
       "say": [
-        ["Le vi ayer.", "I saw him yesterday. (leísmo: le for lo)"],
-        ["Madriz", "Madrid: a final d can sound like z here"],
-        ["cansao", "cansado: casual speech drops the d"]
+        ["Chais pas.", "Je ne sais pas: casual speech squeezes it into one word"],
+        ["C'est ouf !", "It's crazy! (verlan: ouf is fou turned round)"],
+        ["métro, boulot, dodo", "commute, work, sleep: the Paris routine"]
       ]
     },
     {
-      "id": "asturias",
-      "name": "Asturias and Cantabria",
-      "alias": "Spanish with an Asturian or Cantabrian colour",
-      "short": "Asturias,\nCantabria",
+      "id": "nord",
+      "name": "Nord and Picardy",
+      "alias": "le français du Nord, le ch'ti",
+      "short": "Nord,\nPicardy",
       "color": "#93d2ec",
-      "label": [-4.45, 43.2],
-      "places": ["Oviedo", "Gijón", "Avilés", "Santander", "Torrelavega"],
+      "label": [2.75, 50.05],
+      "places": ["Lille", "Amiens", "Roubaix", "Dunkerque", "Arras", "Valenciennes"],
       "say": [
-        ["pequeñín, pequeñina", "small (-ín in Asturias)"],
-        ["pequeñuco, pequeñuca", "small (-uco in Cantabria)"],
-        ["Me presta.", "I like it. (Asturias)"],
-        ["guaje", "kid (Asturias)"]
+        ["le ch'ti", "the local speech of the Nord, and a name for its people"],
+        ["une drache", "a downpour (also in Belgium)"],
+        ["la wassingue", "the floor cloth (la serpillière)"],
+        ["biloute", "mate (friendly, Nord)"]
       ]
     },
     {
-      "id": "aragon",
-      "name": "Aragon",
-      "alias": "Spanish as spoken in Aragon",
-      "short": "Aragon",
+      "id": "ouest",
+      "name": "Normandy, the Loire and the west",
+      "alias": "le français de l'Ouest",
+      "short": "Normandy,\nthe Loire",
       "color": "#7fb3e0",
-      "label": [-0.75, 41.45],
-      "places": ["Zaragoza", "Huesca", "Teruel"],
+      "label": [0.55, 47.75],
+      "places": ["Rouen", "Caen", "Le Havre", "Nantes", "Angers", "Tours", "Orléans", "Poitiers"],
       "say": [
-        ["pequeñico, pequeñica", "small"],
-        ["¡Maño! ¡Maña!", "a friendly way to call someone; also a nickname for people from Aragon"],
-        ["zagal, zagala", "boy, girl"]
+        ["P'têt ben qu'oui, p'têt ben qu'non.", "Maybe yes, maybe no: the famous Norman non-answer"],
+        ["une poche", "a plastic bag (un sac in Paris)"],
+        ["Il mouille.", "It's drizzling. (il pleut un peu)"]
       ]
     },
     {
-      "id": "mancha",
-      "name": "Castilla-La Mancha",
-      "alias": "castellano manchego",
-      "short": "Castilla-\nLa Mancha",
+      "id": "est",
+      "name": "The north-east: Lorraine, Champagne, Burgundy",
+      "alias": "le français de l'Est",
+      "short": "Lorraine,\nChampagne,\nBurgundy",
       "color": "#e8de8c",
-      "label": [-3.05, 39.35],
-      "places": ["Toledo", "Ciudad Real", "Albacete", "Cuenca", "Guadalajara"],
+      "label": [5.15, 48.15],
+      "places": ["Metz", "Nancy", "Reims", "Troyes", "Dijon", "Besançon"],
       "say": [
-        ["¡Ea!", "right then, there you go: a very common filler"],
-        ["loh niñoh", "los niños: in the south of the region the final s weakens"],
-        ["zagal, zagala", "boy, girl (Albacete)"]
+        ["Comment qu'c'est ?", "How's it going? (Lorraine)"],
+        ["vingt", "said with its t, «vinte», in Lorraine"],
+        ["la toile", "the floor cloth (Lorraine)"]
       ]
     },
     {
-      "id": "extremadura",
-      "name": "Extremadura",
-      "alias": "Spanish as spoken in Extremadura",
-      "short": "Extremadura",
+      "id": "centre",
+      "name": "Auvergne and Limousin",
+      "alias": "le français du Massif central",
+      "short": "Auvergne,\nLimousin",
       "color": "#b8da8c",
-      "label": [-6.05, 39.2],
-      "places": ["Cáceres", "Badajoz", "Mérida", "Plasencia"],
+      "label": [2.35, 45.5],
+      "places": ["Clermont-Ferrand", "Limoges", "Vichy", "Aurillac", "Brive", "Le Puy-en-Velay"],
       "say": [
-        ["chiquino, chiquinino", "small, tiny"],
-        ["loh niñoh", "los niños: the final s becomes a breath"],
-        ["hamón", "jamón: the j is soft, like an English h"]
+        ["Adieu !", "hello! (in parts of the centre and south adieu is a greeting)"],
+        ["un bougnat", "an old nickname for the Auvergnats of Paris, who ran its cafés and coal shops"]
       ]
     },
     {
-      "id": "murcia",
-      "name": "Region of Murcia",
-      "alias": "murciano",
-      "short": "Murcia",
+      "id": "lyon",
+      "name": "Lyon, the Alps and the Jura",
+      "alias": "le français de Lyon et des Alpes",
+      "short": "Lyon,\nthe Alps",
       "color": "#fdba74",
-      "label": [-1.45, 38.02],
-      "places": ["Murcia", "Cartagena", "Lorca", "Yecla"],
+      "label": [5.55, 45.6],
+      "places": ["Lyon", "Saint-Étienne", "Grenoble", "Chambéry", "Annecy", "Bourg-en-Bresse"],
       "say": [
-        ["¡Acho!", "hey, mate (from muchacho)"],
-        ["un momentico", "just a moment"],
-        ["¡Pijo!", "wow, damn (a strong word, for friends only)"],
-        ["zagal, zagala", "boy, girl"]
+        ["un gone", "a kid (Lyon)"],
+        ["un mâchon", "a hearty late-morning meal, Lyon style"],
+        ["la panosse", "the floor cloth (also in Switzerland)"]
       ]
     },
     {
-      "id": "andaluciaoc",
-      "name": "Western Andalusia",
-      "alias": "andaluz occidental",
-      "short": "Western\nAndalusia",
+      "id": "sudouest",
+      "name": "The south-west: Bordeaux and Toulouse",
+      "alias": "l'accent du Sud-Ouest",
+      "short": "Bordeaux,\nToulouse",
       "color": "#fca5a5",
-      "label": [-4.95, 37.95],
-      "places": ["Seville", "Cádiz", "Huelva", "Córdoba", "Málaga"],
+      "label": [0.65, 44.45],
+      "places": ["Bordeaux", "Toulouse", "Agen", "Montauban", "Albi", "Tarbes", "Rodez"],
       "say": [
-        ["¡Quillo!", "mate! (from chiquillo)"],
-        ["ustedes vais", "vosotros vais: ustedes for vosotros in popular speech"],
-        ["cansá", "cansada: the end of the word falls away"]
+        ["une chocolatine", "a pain au chocolat"],
+        ["Il fait un cagnard !", "The sun is blazing! (le cagnard)"],
+        ["une poche", "a plastic bag"],
+        ["la since", "the floor cloth (around Bordeaux)"]
       ]
     },
     {
-      "id": "andaluciaor",
-      "name": "Eastern Andalusia",
-      "alias": "andaluz oriental",
-      "short": "Eastern\nAndalusia",
+      "id": "provence",
+      "name": "Provence, Languedoc and the Riviera",
+      "alias": "l'accent du Midi",
+      "short": "Provence,\nLanguedoc",
       "color": "#f9a8d4",
-      "label": [-3.05, 37.5],
-      "places": ["Granada", "Almería", "Jaén", "Motril"],
+      "label": [5.35, 43.95],
+      "places": ["Marseille", "Montpellier", "Nice", "Toulon", "Nîmes", "Avignon", "Narbonne"],
       "say": [
-        ["lah casah", "las casas: the s fades, and more open vowels show the plural"],
-        ["Graná", "Granada"],
-        ["¡Cucha!", "listen! (from escucha)"],
-        ["la malafollá", "Granada's famous curt manner, said with a wink"]
+        ["Peuchère !", "poor thing! (said with sympathy)"],
+        ["Il est fada !", "He's mad!"],
+        ["la pièce", "the floor cloth"]
       ]
     },
     {
-      "id": "canarias",
-      "name": "Canary Islands",
-      "alias": "canario",
-      "short": "Canary Islands",
+      "id": "corse",
+      "name": "Corsica",
+      "alias": "le français de Corse",
+      "short": "Corsica",
       "color": "#fcd34d",
-      "label": [-15.9, 29.3],
-      "places": ["Las Palmas", "Santa Cruz de Tenerife", "La Laguna", "Lanzarote", "Fuerteventura", "La Palma"],
+      "label": [9.05, 42.25],
+      "places": ["Ajaccio", "Bastia", "Porto-Vecchio", "Corte", "Calvi"],
       "say": [
-        ["la guagua", "the bus"],
-        ["las papas", "the potatoes"],
-        ["¡Chacho!", "hey! wow! (from muchacho)"],
-        ["ustedes", "you, to a group: friends too, no vosotros"]
+        ["le maquis", "the scrubland that covers much of the island"],
+        ["le figatellu", "a smoked liver sausage, a winter speciality"],
+        ["Aiacciu", "Ajaccio, as the Corsican name has it"]
       ]
     },
     {
-      "id": "catalunya",
-      "name": "Catalonia and the Balearic Islands",
-      "alias": "Spanish beside Catalan",
-      "short": "Catalonia",
+      "id": "bretagne",
+      "name": "Brittany",
+      "alias": "French beside Breton and Gallo",
+      "short": "Brittany",
       "color": "#c4b5fd",
-      "label": [1.55, 41.45],
-      "places": ["Barcelona", "Girona", "Lleida", "Tarragona", "Palma", "Ibiza"],
+      "label": [-2.05, 48.25],
+      "places": ["Rennes", "Brest", "Quimper", "Lorient", "Vannes", "Saint-Brieuc"],
       "say": [
-        ["nen, nena", "kid; also friendly: ¿Qué dices, nen?"],
-        ["plegar", "to finish work: Plego a las seis."],
-        ["Madrit", "Madrid: a final d sounds like t"]
+        ["Kenavo !", "goodbye (from Breton, used in French)"],
+        ["le crachin", "fine drizzle"],
+        ["Yec'hed mat !", "cheers! (Breton)"]
       ]
     },
     {
-      "id": "valencia",
-      "name": "Valencian Community",
-      "alias": "Spanish beside Valencian",
-      "short": "Valencia",
+      "id": "alsace",
+      "name": "Alsace",
+      "alias": "French beside Alsatian",
+      "short": "Alsace",
       "color": "#6fc2b4",
-      "label": [-0.62, 39.45],
-      "places": ["Valencia", "Alicante", "Castellón", "Elche"],
+      "label": [7.55, 48.35],
+      "places": ["Strasbourg", "Mulhouse", "Colmar", "Haguenau", "Sélestat"],
       "say": [
-        ["¡Xe!", "hey! wow!"],
-        ["xiquet, xiqueta", "kid"],
-        ["el esmorzaret", "the mid-morning sandwich break"]
+        ["Hopla !", "come on! there we go!"],
+        ["Ça va ou bien ?", "Are you OK? (ou bien as a tag, also in Switzerland)"],
+        ["un schluck", "a sip, a little drink"]
       ]
     },
     {
-      "id": "galicia",
-      "name": "Galicia",
-      "alias": "Spanish beside Galician",
-      "short": "Galicia",
-      "color": "#9fd6cf",
-      "label": [-7.9, 42.75],
-      "places": ["A Coruña", "Vigo", "Santiago de Compostela", "Ourense", "Lugo"],
-      "say": [
-        ["un momentiño", "just a moment"],
-        ["neno, nena", "kid; also friendly"],
-        ["Malo será.", "It can't be that bad."],
-        ["Hoy comí pronto.", "Hoy he comido pronto: simple past where Castile uses the perfect"]
-      ]
-    },
-    {
-      "id": "euskadi",
-      "name": "Basque Country and Navarre",
-      "alias": "Spanish beside Basque",
-      "short": "Basque\nCountry,\nNavarre",
+      "id": "paysbasque",
+      "name": "The Basque Country and Béarn",
+      "alias": "French beside Basque and Gascon",
+      "short": "Basque\nCountry",
       "color": "#5eead4",
-      "label": [-1.85, 42.55],
-      "places": ["Bilbao", "San Sebastián", "Vitoria-Gasteiz", "Pamplona", "Tudela"],
+      "label": [-0.4, 43.42],
+      "places": ["Bayonne", "Biarritz", "Saint-Jean-de-Luz", "Pau", "Hendaye", "Oloron-Sainte-Marie"],
       "say": [
-        ["el sirimiri", "fine drizzle"],
-        ["aita, ama", "dad, mum"],
-        ["agur", "bye"],
-        ["Si tendría tiempo…", "Si tuviera tiempo: conditional for subjunctive. Hear it, don't copy it."]
+        ["Agur !", "bye (Basque)"],
+        ["Adishatz !", "hello, bye (Gascon, in Béarn)"],
+        ["une chocolatine", "a pain au chocolat"]
+      ]
+    },
+    {
+      "id": "roussillon",
+      "name": "Roussillon (Northern Catalonia)",
+      "alias": "French beside Catalan",
+      "short": "Roussillon",
+      "color": "#9fd6cf",
+      "label": [2.6, 42.8],
+      "places": ["Perpignan", "Céret", "Prades", "Collioure", "Font-Romeu"],
+      "say": [
+        ["la cargolade", "a feast of snails grilled over vine wood"],
+        ["la sardane", "the Catalan circle dance"],
+        ["Bon dia !", "good morning (Catalan, heard in markets)"]
       ]
     }
   ],
   "markers": [
     {
-      "id": "madrid",
-      "name": "Madrid speech",
-      "where": "Madrid",
-      "at": [-3.7, 40.42],
+      "id": "marseille",
+      "name": "Marseille speech",
+      "where": "Marseille",
+      "at": [5.37, 43.3],
       "say": [
-        ["chulapo, chulapa", "a traditional Madrid character, in costume at the summer fiestas"],
-        ["mogollón", "loads, a lot"],
-        ["La dije que sí.", "I told her yes. (laísmo: heard often, but not standard)"]
+        ["Fan de chichourle !", "wow! good grief! (old-fashioned and jokey)"],
+        ["Oh, tu m'escagasses !", "you're wearing me out!"],
+        ["la cagole", "a loud, flashy girl (rude: hear it, don't say it)"]
       ]
     },
     {
-      "id": "sevilla",
-      "name": "Seville speech",
-      "where": "Seville",
-      "at": [-5.98, 37.39],
+      "id": "toulouse",
+      "name": "Toulouse speech",
+      "where": "Toulouse",
+      "at": [1.44, 43.6],
       "say": [
-        ["mi arma", "my dear (mi alma, my soul)"],
-        ["¡Ozú!", "wow! (from Jesús)"],
-        ["¡Illo!", "mate! (short for chiquillo)"]
+        ["la chocolatine", "the pain au chocolat, defended with pride"],
+        ["Adieu !", "hello! (a greeting here, not a farewell)"],
+        ["le pitchoun, la pitchoune", "the little one, the kid (from Occitan)"]
       ]
     },
     {
-      "id": "cadiz",
-      "name": "Cádiz speech",
-      "where": "Cádiz",
-      "at": [-6.29, 36.53],
+      "id": "lille",
+      "name": "Lille speech",
+      "where": "Lille",
+      "at": [3.06, 50.63],
       "say": [
-        ["Cai", "Cádiz, as locals say it"],
-        ["pisha", "mate (casual; friends only)"],
-        ["la chirigota", "a comic song group at carnival"]
+        ["Ch'est cha !", "C'est ça! (ch for c and s in ch'ti)"],
+        ["un estaminet", "a traditional pub of the Nord"],
+        ["Il drache.", "It's pouring."]
       ]
     },
     {
-      "id": "ceuta",
-      "name": "Ceuta and Melilla",
-      "where": "Spanish cities in North Africa; Melilla lies east of this map",
-      "at": [-5.32, 35.89],
-      "say": []
+      "id": "brezhoneg",
+      "name": "Breton",
+      "where": "brezhoneg · western Brittany",
+      "at": [-3.75, 48.3],
+      "lang": true,
+      "say": [
+        ["Demat !", "Hello!"],
+        ["Trugarez !", "Thank you!"]
+      ]
+    },
+    {
+      "id": "occitan",
+      "name": "Occitan",
+      "where": "occitan, lenga d'òc · the south of France",
+      "at": [2.4, 44.15],
+      "lang": true,
+      "say": [
+        ["Bonjorn !", "Hello!"],
+        ["Mercé !", "Thank you!"]
+      ]
+    },
+    {
+      "id": "alsacien",
+      "name": "Alsatian",
+      "where": "Elsässisch · Alsace and part of Moselle",
+      "at": [7.25, 48.75],
+      "lang": true,
+      "say": [
+        ["Güete Morge !", "Good morning!"],
+        ["Merci vielmols !", "Thank you very much!"]
+      ]
+    },
+    {
+      "id": "corsu",
+      "name": "Corsican",
+      "where": "corsu · Corsica",
+      "at": [9.15, 42.55],
+      "lang": true,
+      "say": [
+        ["Bonghjornu !", "Hello! Good morning!"],
+        ["Grazie !", "Thank you!"]
+      ]
+    },
+    {
+      "id": "euskara",
+      "name": "Basque",
+      "where": "euskara · the French Basque Country",
+      "at": [-1.15, 43.15],
+      "lang": true,
+      "say": [
+        ["Egun on !", "Good morning!"],
+        ["Milesker !", "Thank you!"]
+      ]
     },
     {
       "id": "catala",
-      "name": "Catalan / Valencian",
-      "where": "català, valencià · Catalonia, the Balearic Islands, the Valencian Community",
-      "at": [1.9, 41.95],
+      "name": "Catalan",
+      "where": "català · Roussillon",
+      "at": [2.2, 42.5],
       "lang": true,
       "say": [
-        ["Bon dia!", "Good morning!"],
-        ["Gràcies!", "Thank you!"]
-      ]
-    },
-    {
-      "id": "gallego",
-      "name": "Galician",
-      "where": "galego · Galicia",
-      "at": [-8.3, 42.3],
-      "lang": true,
-      "say": [
-        ["Bos días!", "Good morning!"],
-        ["Grazas!", "Thank you!"]
-      ]
-    },
-    {
-      "id": "euskera",
-      "name": "Basque",
-      "where": "euskara · the Basque Country and the north of Navarre",
-      "at": [-2.75, 43.2],
-      "lang": true,
-      "say": [
-        ["Egun on!", "Good morning!"],
-        ["Eskerrik asko!", "Thank you!"]
-      ]
-    },
-    {
-      "id": "aranes",
-      "name": "Aranese",
-      "where": "aranés (Occitan) · Val d'Aran, Catalonia",
-      "at": [0.8, 42.72],
-      "lang": true,
-      "say": [
-        ["Bon dia!", "Good morning!"],
-        ["Mercés!", "Thank you!"]
-      ]
-    },
-    {
-      "id": "asturiano",
-      "name": "Asturian",
-      "where": "asturianu · Asturias",
-      "at": [-6.7, 43.28],
-      "lang": true,
-      "say": [
-        ["Bonos díes!", "Good morning!"],
-        ["Gracies!", "Thank you!"]
-      ]
-    },
-    {
-      "id": "aragones",
-      "name": "Aragonese",
-      "where": "aragonés · valleys of the Pyrenees in Aragon",
-      "at": [-0.2, 42.55],
-      "lang": true,
-      "say": [
-        ["Buen día!", "Good morning!"],
-        ["Grazias!", "Thank you!"]
+        ["Bon dia !", "Good morning!"],
+        ["Mercès !", "Thank you! (the Roussillon word; gràcies in Barcelona)"]
       ]
     }
   ],
   "others": [
-    { "id": "atlantic", "name": "Atlantic Ocean", "at": [-10.9, 41.2] },
-    { "id": "biscay", "name": "Bay of Biscay", "at": [-4.5, 44.25] },
-    { "id": "med", "name": "Mediterranean Sea", "at": [2.1, 37.7] },
-    { "id": "portugal", "name": "Portugal", "at": [-8.05, 39.95] },
-    { "id": "france", "name": "France", "at": [1.5, 43.75] },
-    { "id": "morocco", "name": "Morocco", "at": [-1.6, 35.72] }
+    { "id": "atlantic", "name": "Atlantic Ocean", "at": [-4.6, 45.6] },
+    { "id": "channel", "name": "English Channel", "at": [-1.2, 50.15] },
+    { "id": "med", "name": "Mediterranean Sea", "at": [5.4, 42.55] },
+    { "id": "uk", "name": "United Kingdom", "at": [-1.3, 51.35] },
+    { "id": "belgium", "name": "Belgium", "at": [4.75, 50.65] },
+    { "id": "germany", "name": "Germany", "at": [8.85, 49.75] },
+    { "id": "switzerland", "name": "Switzerland", "at": [7.75, 46.85] },
+    { "id": "italy", "name": "Italy", "at": [8.45, 44.75] },
+    { "id": "spain", "name": "Spain", "at": [-1.6, 42.55] }
   ],
   "words": [
     {
-      "id": "mate",
-      "de": "hey, mate",
+      "id": "chocolatine",
+      "de": "chocolate pastry",
       "variants": [
-        { "w": "¡Tío! ¡Tía!", "regions": ["centro", "asturias", "mancha", "extremadura", "euskadi"] },
-        { "w": "¡Quillo!", "regions": ["andaluciaoc", "andaluciaor"] },
-        { "w": "¡Acho!", "regions": ["murcia"] },
-        { "w": "¡Chacho!", "regions": ["canarias"] },
-        { "w": "¡Maño!", "regions": ["aragon"] },
-        { "w": "¡Nen!", "regions": ["catalunya"] },
-        { "w": "¡Xe!", "regions": ["valencia"] },
-        { "w": "¡Neno!", "regions": ["galicia"] }
+        { "w": "pain au chocolat", "regions": ["paris", "nord", "ouest", "est", "centre", "lyon", "provence", "corse", "bretagne", "alsace", "roussillon"] },
+        { "w": "chocolatine", "regions": ["sudouest", "paysbasque"] }
       ]
     },
     {
-      "id": "momento",
-      "de": "just a moment",
+      "id": "serpilliere",
+      "de": "floor cloth",
       "variants": [
-        { "w": "momentito", "regions": ["centro", "canarias", "catalunya", "valencia", "euskadi"] },
-        { "w": "momentillo", "regions": ["andaluciaoc", "andaluciaor", "mancha"] },
-        { "w": "momentico", "regions": ["murcia", "aragon"] },
-        { "w": "momentín, momentuco", "regions": ["asturias"] },
-        { "w": "momentiño", "regions": ["galicia"] },
-        { "w": "momentino", "regions": ["extremadura"] }
+        { "w": "serpillière", "regions": ["paris", "ouest", "centre", "bretagne", "alsace", "paysbasque", "corse"] },
+        { "w": "wassingue", "regions": ["nord"] },
+        { "w": "toile, loque", "regions": ["est"] },
+        { "w": "panosse", "regions": ["lyon"] },
+        { "w": "since", "regions": ["sudouest"] },
+        { "w": "pièce", "regions": ["provence", "roussillon"] }
       ]
     }
   ],
   "lines": {
-    "benrath": [[-7.1, 40.55], [-6.3, 40.5], [-5.4, 40.3], [-4.4, 40.05], [-3.5, 39.85], [-2.5, 39.6], [-1.7, 39.2], [-1, 38.75], [-0.4, 38.55]],
-    "speyer": [[-7.4, 37.95], [-6.3, 37.85], [-5.2, 37.75], [-4.3, 37.45], [-3.7, 37.2], [-3.2, 36.95], [-2.6, 36.7]],
-    "benrathAt": [-6.55, 40.5],
-    "speyerAt": [-6.75, 37.9]
+    "benrath": [[-1.35, 45.62], [-0.5, 45.78], [0.3, 45.95], [0.9, 46.15], [1.6, 46.32], [2.3, 46.28], [3.0, 46.12], [3.6, 45.98], [4.0, 45.72], [4.2, 45.3], [4.8, 45.0], [5.6, 44.85], [6.4, 44.95], [7.0, 45.0]],
+    "speyer": [[-2.95, 48.75], [-2.95, 48.45], [-2.85, 48.2], [-2.8, 47.95], [-2.75, 47.7], [-2.8, 47.5]],
+    "benrathAt": [-0.3, 45.82],
+    "speyerAt": [-2.8, 47.8]
   },
   "shift": [
-    ["cinco", "/θ/, as in think", "/θ/", "/s/ or /θ/, by place", "/s/", "/θ/; /s/ from some Catalan and Galician speakers"],
-    ["los niños", "clear s", "weak: loh niñoh", "weak or gone: loh niñoh, lo niño", "weak: loh niñoh", "clear s"],
-    ["jamón", "strong /x/", "softer, near /h/ in the south", "soft /h/", "soft /h/", "/x/"],
-    ["Madrid", "Madriz or Madrí", "Madrí", "Madrí", "Madrí", "Madrit in Catalonia and Valencia"],
-    ["calle", "like y (yeísmo)", "like y", "like y", "like y", "like y; some older speakers keep /ʎ/"],
-    ["vosotros", "vosotros", "vosotros", "vosotros; ustedes in much of the west", "ustedes", "vosotros"]
+    ["petite", "p'tite: the e falls away", "mostly p'tite", "pe-ti-te: every e is sounded", "the e is often sounded", "p'tite in Brittany and Alsace; pe-ti-te in the Basque Country and Roussillon"],
+    ["pain", "a pure nasal vowel", "a pure nasal vowel", "nasal with a light ng after it: «peng»", "nasal, often with a light ng", "ng after it in the Basque Country and Roussillon"],
+    ["rose", "closed o, as in beau", "closed o", "open o, as in bol", "open o", "open o in the south, closed o in Brittany and Alsace"],
+    ["brin / brun", "the same sound for most people", "often two sounds", "two different sounds", "two different sounds", "often two sounds"],
+    ["pain au chocolat", "pain au chocolat", "pain au chocolat", "chocolatine in the south-west, pain au chocolat in Provence", "pain au chocolat", "chocolatine in the Basque Country"]
   ],
   "world": [
     {
-      "id": "mexicano",
-      "name": "Mexico and Central America",
+      "id": "quebec",
+      "name": "Québec",
       "say": [
-        ["ahorita", "in a moment, or sometime later"],
-        ["¿Mande?", "Sorry? Pardon? (Mexico)"],
-        ["el carro", "el coche, the car"]
+        ["le char", "la voiture, the car"],
+        ["magasiner", "faire du shopping, to go shopping"],
+        ["le courriel", "l'e-mail"],
+        ["déjeuner, dîner, souper", "breakfast, lunch, dinner (in France: petit-déjeuner, déjeuner, dîner)"]
       ]
     },
     {
-      "id": "caribe",
-      "name": "The Caribbean",
+      "id": "acadie",
+      "name": "Acadia",
       "say": [
-        ["la guagua", "the bus (as in the Canary Islands)"],
-        ["chévere", "great"],
-        ["¿Qué tú quieres?", "¿Qué quieres? The subject stays before the verb."]
+        ["asteure", "now (from à cette heure)"],
+        ["je parlons", "nous parlons: je with the -ons ending"],
+        ["le chiac", "the French-English mix of south-east New Brunswick"]
       ]
     },
     {
-      "id": "andino",
-      "name": "The Andes",
+      "id": "belgique",
+      "name": "Belgium",
       "say": [
-        ["la chompa", "el jersey, the sweater"],
-        ["el choclo", "el maíz, corn on the cob"],
-        ["Pasa no más.", "Please, come in."]
+        ["septante, nonante", "70, 90 (soixante-dix, quatre-vingt-dix)"],
+        ["le GSM", "le portable, the mobile phone"],
+        ["S'il vous plaît.", "Here you are. (said when handing something over)"],
+        ["Il drache.", "It's pouring."]
       ]
     },
     {
-      "id": "rioplatense",
-      "name": "The River Plate",
+      "id": "suisse",
+      "name": "Switzerland",
       "say": [
-        ["vos tenés", "tú tienes, you have (voseo)"],
-        ["che", "hey, mate"],
-        ["sho", "yo: ll and y sound like sh"],
-        ["dale", "OK, sure"]
+        ["septante, huitante, nonante", "70, 80, 90 (huitante in Vaud, Valais and Fribourg)"],
+        ["le natel", "le portable, the mobile phone"],
+        ["Ça joue ?", "Is that OK? Does that work for you?"],
+        ["déjeuner, dîner, souper", "breakfast, lunch, dinner, as in Québec"]
       ]
     },
     {
-      "id": "chileno",
-      "name": "Chile",
+      "id": "afriqueouest",
+      "name": "West and Central Africa",
       "say": [
-        ["¿Cachai?", "Get it? (¿Entiendes?)"],
-        ["sí, po", "yes, of course (pues → po)"],
-        ["la polera", "la camiseta, the T-shirt"]
+        ["un maquis", "a cheap open-air restaurant (Côte d'Ivoire)"],
+        ["une essencerie", "a petrol station (Senegal)"],
+        ["On est ensemble.", "We're in this together; also: see you (Côte d'Ivoire)"],
+        ["une go", "a girl, a girlfriend"]
+      ]
+    },
+    {
+      "id": "maghreb",
+      "name": "North Africa",
+      "say": [
+        ["Ça va, hamdoullah.", "I'm fine, thank God."],
+        ["le bled", "the home village; in France also: the middle of nowhere"],
+        ["Wallah !", "I swear! (also common among young people in France)"]
+      ]
+    },
+    {
+      "id": "antilles",
+      "name": "The Caribbean and the Indian Ocean",
+      "say": [
+        ["Bonsoir !", "said from early afternoon in the Antilles"],
+        ["Sa ou fè ?", "How are you? (Antillean Creole, heard beside French)"],
+        ["la doudou", "darling (Antilles)"]
       ]
     }
   ],
