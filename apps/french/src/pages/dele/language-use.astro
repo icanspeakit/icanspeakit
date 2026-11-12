@@ -1,6 +1,6 @@
 ---
 import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
-// The language-use trainer (uso de la lengua, slot "sprachbausteine"). Uses the same workspace
+// The language-in-use trainer (lexique et structure, slot "sprachbausteine"). Uses the same workspace
 // shell and engine as the grammar topics (src/lib/grammarWorkspace.js): the two gap-text
 // exercise types (wordbank, mcgap) live there alongside the grammar ones.
 import Layout from "../../layouts/Layout.astro";
@@ -17,8 +17,8 @@ const data = saetze[0];
 const concept = data.concept;
 const reference = concept.reference;
 
-// The explanation around the exercises is translated; the Spanish gap texts, the word
-// bank and the reference lists of Spanish constructions are not. Keys are derived from
+// The explanation around the exercises is translated; the French gap texts, the word
+// bank and the reference lists of French constructions are not. Keys are derived from
 // the English string ("telcSb.t.<hash>") so the data files stay as authored.
 function tk(s) {
   if (!s) return undefined;
@@ -29,7 +29,7 @@ function tk(s) {
 ---
 <Layout
   title="Language in use practice – icanspeak French"
-  description="Practise language in use: fill the gaps in a French text from a word box (part 1) and by multiple choice (part 2), with instant marking."
+  description="Practise language in use (lexique et structure): fill the gaps in a French text from a word box (part 1) and by multiple choice (part 2), with instant marking."
 >
   <SiteNav active="pruefungen" />
 
