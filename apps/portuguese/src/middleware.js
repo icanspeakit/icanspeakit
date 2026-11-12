@@ -1,7 +1,7 @@
 // @ts-check
 /* Base path for server-rendered HTML (src/lib/paths.js).
  *
- * The site lives under /spanish/, but hundreds of templates and data files still write
+ * The site lives under /portuguese/, but hundreds of templates and data files still write
  * root-absolute links (href="/grammar", src="/assets/…"). Rather than leave any of them
  * pointing at the domain root, every HTML response is passed through rebaseHtml() once:
  * href, src, action, srcset, poster, CSS url() and meta refresh move under the base.

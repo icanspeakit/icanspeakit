@@ -83,7 +83,7 @@ export function buildPlan({ exam, date, minutesPerDay, level, today }) {
 }
 
 /** An .ics calendar: one all-day event per study day, the exam as its own event. */
-export function planToIcs(plan, { examLabel, site = "https://icanspeak.it/spanish" }) {
+export function planToIcs(plan, { examLabel, site = "https://icanspeak.it/portuguese" }) {
   const esc = (s) => String(s).replace(/[\\;,]/g, (c) => `\\${c}`).replace(/\n/g, "\\n");
   const d8 = (s) => s.replaceAll("-", "");
   const next = (s) => ymd(parse(s) + DAY);
@@ -111,5 +111,5 @@ export function planToIcs(plan, { examLabel, site = "https://icanspeak.it/spanis
     .filter((d) => d.items.length)
     .map((d) => ev(d.date, `Deutsch: ${d.items.map((i) => i.label).join(" · ")}`, d.items.map((i) => `${i.label}: ${site}${i.href}`).join("\n"), `plan-${d.date}`));
   events.push(ev(plan.examDate, `Prüfung: ${examLabel}`, "Viel Erfolg!", `exam-${plan.examDate}`));
-  return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//icanspeak Spanish//Pruefungsplan//DE", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", ...events, "END:VCALENDAR", ""].join("\r\n");
+  return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//icanspeak Portuguese//Pruefungsplan//DE", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", ...events, "END:VCALENDAR", ""].join("\r\n");
 }

@@ -17,13 +17,13 @@ import { htmlFiles, toPathname, NOINDEX, REFRESH } from './sitemap.mjs';
 import { absoluteUrl } from '../lib/paths.js';
 
 /** Headings and the pages under them. `/x/*` = every built page below /x as well. */
-// Site paths (without /spanish); the URLs are built with absoluteUrl() (src/lib/paths.js).
+// Site paths (without /portuguese); the URLs are built with absoluteUrl() (src/lib/paths.js).
 const SECTIONS = [
   ['Start here', ['/placement-test', '/step-by-step', '/exercises', '/progress']],
   ['Grammar and vocabulary', ['/grammar', '/grammar/conjugation', '/vocabulary', '/pronunciation']],
   ['Skills', ['/skills', '/speaking', '/listening', '/reading', '/writing']],
   ['Exams', ['/exams', '/dele', '/dele/*', '/siele', '/siele/*', '/exams/dele-or-siele', '/ccse', '/ccse/*', '/nationality', '/nationality/*']],
-  ['Life and work in Spain', ['/spanish-for-work', '/business-spanish', '/dgt-vocabulary', '/culture', '/knowledge', '/knowledge/word-stories']],
+  ['Life and work in Portugal', ['/spanish-for-work', '/business-spanish', '/dgt-vocabulary', '/culture', '/knowledge', '/knowledge/word-stories']],
   ['For teachers', ['/teachers']],
   // The entry pages with their own URL per language (./entry-pages.mjs): the home of each.
   ['In other languages', ['/de', '/fr', '/pt', '/it']],
@@ -33,7 +33,7 @@ const ENTITIES = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;
 const decode = (s) => s.replace(/&(amp|lt|gt|quot|#39|#x27);/g, (m) => ENTITIES[m] ?? m).trim();
 const TITLE = /<title>([^<]*)<\/title>/i;
 const DESC = /<meta\s[^>]*name=["']description["'][^>]*content=["']([^"']*)["']/i;
-const SUFFIX = /\s+[–|-]\s+(icanspeak Spanish|icanspeak)$/;
+const SUFFIX = /\s+[–|-]\s+(icanspeak Portuguese|icanspeak)$/;
 
 /** @returns {import('astro').AstroIntegration} */
 export default function llmsTxt() {
@@ -67,7 +67,7 @@ export default function llmsTxt() {
           const url = absoluteUrl(p);
           return `- [${page.title}](${url})${page.description ? `: ${page.description}` : ''}`;
         };
-        let out = `# icanspeak Spanish\n\n> ${home.description}\n`;
+        let out = `# icanspeak Portuguese\n\n> ${home.description}\n`;
         for (const [heading, list] of SECTIONS) {
           const paths = list.flatMap((p) =>
             p.endsWith('/*')

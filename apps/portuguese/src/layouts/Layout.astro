@@ -53,8 +53,8 @@ interface Props {
 }
 
 const {
-  title = "icanspeak Spanish – learn the Spanish of Spain for free: DELE, SIELE, CCSE",
-  description = "Learn Spanish as it is spoken in Spain, from A1 to C1: free grammar, vocabulary and practice for the DELE, the SIELE and the CCSE.",
+  title = "icanspeak Portuguese – learn European Portuguese for free: CIPLE and the CAPLE exams",
+  description = "Learn Portuguese as it is spoken in Portugal, from A1 to C1: free grammar, vocabulary, practice for CIPLE A2 and the other CAPLE exams, and the Portuguese you need for life in Portugal.",
   noindex = false,
   schema,
   breadcrumb,
@@ -74,7 +74,7 @@ const {
 // shares its own 1200×630 card instead of the default. Matched on the route, so no page has
 // to pass anything; read from the manifest rather than the disk, which the on-demand routes
 // on Vercel do not have.
-// The site path without the base (/spanish/grammar → /grammar, src/lib/paths.js): routes,
+// The site path without the base (/portuguese/grammar → /grammar, src/lib/paths.js): routes,
 // hub photos and breadcrumbs are keyed on it; every URL written out gets the base back.
 const route = stripBase(Astro.url.pathname).replace(/\/+$/, "") || "/";
 const hubOg = Object.values(hubBilder as Record<string, { path: string; og: string; alt: string }>)
@@ -84,12 +84,12 @@ const hubOg = Object.values(hubBilder as Record<string, { path: string; og: stri
 // card (scripts/build-wordmark.mjs). Set HUB_CARDS to true then.
 const HUB_CARDS = false;
 const OG_IMAGE = (HUB_CARDS && hubOg?.og) || "/assets/og-default.png";
-const OG_ALT = (HUB_CARDS && hubOg?.alt) || "icanspeak Spanish – learn the Spanish of Spain for free";
+const OG_ALT = (HUB_CARDS && hubOg?.alt) || "icanspeak Portuguese – learn European Portuguese for free";
 const abs = (path) => (Astro.site ? absoluteUrl(path) : withBase(path));
 // One address per page for search engines: no trailing slash (the form every internal link
 // uses and the one in /sitemap.xml), no query string — ?voll, ?lang=…, tracking parameters all
 // collapse onto the clean URL. Not emitted on noindex pages: a draft has nothing to point at.
-// The home page is https://icanspeak.it/spanish/ (with the slash: it is a folder of the domain).
+// The home page is https://icanspeak.it/portuguese/ (with the slash: it is a folder of the domain).
 const canonical = Astro.site && route !== "/404" ? absoluteUrl(route) : null;
 
 // Structured data (schema.org JSON-LD), built in src/lib/seo/jsonld.ts: Organization and
@@ -97,7 +97,7 @@ const canonical = Astro.site && route !== "/404" ? absoluteUrl(route) : null;
 // own titles; a page may name its parents with the `breadcrumb` prop), and whatever the page
 // adds with `schema` (grammar topics, exam sets), which points at the organisation by @id.
 const SITE_URL = Astro.site ? SITE_ORIGIN + BASE_PATH : "";
-const pageName = title.replace(/\s+[–|-]\s+(icanspeak Spanish|icanspeak)$/, "");
+const pageName = title.replace(/\s+[–|-]\s+(icanspeak Portuguese|icanspeak)$/, "");
 const trail = trailFor(route, pageName, breadcrumb);
 const pageSchema = [schema ?? []].flat().map((o) => ({ provider: { "@id": orgId(SITE_URL) }, inLanguage: BASE, ...o }));
 const graph = SITE_URL && !noindex
@@ -299,10 +299,10 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
          `rel="icon"` and adds a second, competing declaration for the same file. -->
     <!-- The icanspeak.it kit (public/logos, docs/brand/BRAND.md): SVG favicon for current
          browsers, the .ico for the rest, the app icon for home screens. -->
-    <link rel="icon" href={withBase("/logos/favicon.ico?v=4")} sizes="32x32" />
-    <link rel="icon" type="image/svg+xml" href={withBase("/logos/favicon.svg?v=4")} />
-    <link rel="apple-touch-icon" sizes="180x180" href={withBase("/logos/icanspeak-spanish-apple-touch-icon.png?v=4")} />
-    <link rel="manifest" href={withBase("/site.webmanifest?v=4")} />
+    <link rel="icon" href={withBase("/logos/favicon.ico?v=5")} sizes="16x16 32x32 48x48" />
+    <link rel="icon" type="image/svg+xml" href={withBase("/logos/favicon.svg?v=5")} />
+    <link rel="apple-touch-icon" sizes="180x180" href={withBase("/logos/icanspeak-portuguese-apple-touch-icon.png?v=5")} />
+    <link rel="manifest" href={withBase("/site.webmanifest?v=5")} />
     <!-- The warm paper of the page (--page-bg in global.css), so the browser chrome runs
          into the page as on icanspeak.it. -->
     <meta name="theme-color" content="#fbf7ef" />
@@ -320,7 +320,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     <link rel="preload" href={withBase("/fonts/icanspeak/fraunces-latin-500-normal.woff2")} as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href={withBase("/fonts/icanspeak/fonts.css")} />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="icanspeak Spanish" />
+    <meta property="og:site_name" content="icanspeak Portuguese" />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -377,7 +377,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         Inside the quiz pages themselves (builder, /game) links keep the same tab. */}
     {(
       <script is:inline define:vars={{ BASE_PATH }}>
-        // Paths compared without the base (/spanish, src/lib/paths.js).
+        // Paths compared without the base (/portuguese, src/lib/paths.js).
         const strip = (p) => (p === BASE_PATH || p.startsWith(BASE_PATH + "/") ? p.slice(BASE_PATH.length) || "/" : p);
         document.addEventListener("click", (e) => {
           const a = e.target instanceof Element && e.target.closest("a[href]");

@@ -70,12 +70,12 @@ async function build(deck, lang = null) {
   const outPath = path.join(outDir, fileName);
   const pdf = createDoc({
     outPath,
-    runningHead: `ICANSPEAK SPANISH · SPANISH FOR WORK${ed ? ` · SPANISH–${ed.column.toUpperCase()}` : ""}`,
+    runningHead: `ICANSPEAK PORTUGUESE · SPANISH FOR WORK${ed ? ` · SPANISH–${ed.column.toUpperCase()}` : ""}`,
     unicode: true,
     script: lang ? languageOf(lang)?.script : null,
   });
   pdf.cover({
-    eyebrow: ed ? `SPANISH FOR WORK · SPANISH–${ed.column.toUpperCase()}` : "ICANSPEAK SPANISH · SPANISH FOR WORK",
+    eyebrow: ed ? `SPANISH FOR WORK · SPANISH–${ed.column.toUpperCase()}` : "ICANSPEAK PORTUGUESE · SPANISH FOR WORK",
     art: art.mascot.words,
     title: deck.title,
     // No subtitle: the cover band is a fixed 210pt, and a two-line profession title next to
@@ -86,10 +86,10 @@ async function build(deck, lang = null) {
       deck.introEasy ?? deck.intro,
       `${rows.length} words in ${groups.length} ${groups.length === 1 ? "group" : "groups"} · ${deck.level}`,
       `${rows.filter((r) => r.example).length} example sentences`,
-      `As flashcards: icanspeak.it/spanish${workPath(deck.beruf)}`,
+      `As flashcards: icanspeak.it/portuguese${workPath(deck.beruf)}`,
     ],
     footer:
-      "Written by icanspeak Spanish. You may download this PDF, print it and share it in class or at work. No account, no cost." +
+      "Written by icanspeak Portuguese. You may download this PDF, print it and share it in class or at work. No account, no cost." +
       (deck.reviewed ? "" : " The content is a draft and is still being checked."),
   });
 
@@ -117,7 +117,7 @@ async function build(deck, lang = null) {
       { widths: [w * 0.27, w * 0.11, w * 0.2, w * 0.42], inkCols: [2], ...(ed.rtl && { rtl: [2] }) }
     );
   }
-  pdf.tip(`All the words as flashcards: icanspeak.it/spanish${workPath(deck.beruf)}`, {
+  pdf.tip(`All the words as flashcards: icanspeak.it/portuguese${workPath(deck.beruf)}`, {
     art: art.mascot.wordsCheer,
     title: "Keep practising",
   });
