@@ -2,8 +2,8 @@
 // @ts-check
 /* pnpm check:base — every URL in the build output stays under the base path.
  *
- * icanspeak Spanish lives at https://icanspeak.it/spanish/ (src/lib/paths.js); the domain
- * root is another site. A root-absolute link that does not start with /spanish/ leaves the
+ * icanspeak Italian lives at https://icanspeak.it/italian/ (src/lib/paths.js); the domain
+ * root is another site. A root-absolute link that does not start with /italian/ leaves the
  * course (or 404s), so this fails on any of them in dist/:
  *
  *   - HTML: href, src, action, formaction, poster, xlink:href, srcset/imagesrcset entries,
@@ -11,7 +11,7 @@
  *   - CSS files: url()
  *   - site.webmanifest: icon src, start_url, scope
  *   - absolute URLs on the own domain (https://icanspeak.it/…) in HTML, sitemap.xml and
- *     llms.txt that are not under /spanish (the bare domain root is allowed: a link to the
+ *     llms.txt that are not under /italian (the bare domain root is allowed: a link to the
  *     umbrella site)
  *   - _headers: rule paths (Cloudflare matches them against the public URL) and line length
  *

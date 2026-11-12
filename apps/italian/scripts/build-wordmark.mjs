@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Raster versions of the icanspeak Spanish wordmark, made from the icanspeak.it brand kit
+// Raster versions of the icanspeak Italian wordmark, made from the icanspeak.it brand kit
 // (public/logos, docs/brand/BRAND.md). The SVGs there are the masters and are never redrawn
 // or recoloured; this script only rasterises them for the places that need a PNG.
 //
@@ -31,7 +31,7 @@ const MUTED = "#6b6152";
 const AMBER = "#b3812e";
 const SERIF = "Georgia, 'Times New Roman', serif";
 
-const wordmark = readFileSync(out("public/logos/icanspeak-spanish-wordmark.svg"));
+const wordmark = readFileSync(out("public/logos/icanspeak-italian-wordmark.svg"));
 // viewBox 933 × 161
 const wordmarkPng = (width) => sharp(wordmark, { density: 300 }).resize({ width }).png().toBuffer();
 
@@ -59,5 +59,5 @@ await sharp(Buffer.from(ogBase))
   .toFile(out("public/assets/og-default.png"));
 
 copyFileSync(out("public/logos/favicon.ico"), out("public/favicon.ico"));
-copyFileSync(out("public/logos/icanspeak-spanish-apple-touch-icon.png"), out("public/apple-touch-icon.png"));
+copyFileSync(out("public/logos/icanspeak-italian-apple-touch-icon.png"), out("public/apple-touch-icon.png"));
 console.log("wordmark: public/assets/logo.png, og-default.png; favicon.ico, apple-touch-icon.png copied from public/logos");

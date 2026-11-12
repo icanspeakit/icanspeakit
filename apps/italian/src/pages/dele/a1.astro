@@ -3,7 +3,7 @@ import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
 // The DELE A1 practice test as a full sitting on the exam shell (src/lib/examApp.js). The
 // slot id start-deutsch-1 is a storage key and stays (docs/content-plan.md §2).
 //
-// Everything a learner answers here was written by icanspeak Spanish. Real DELE items are
+// Everything a learner answers here was written by icanspeak Italian. Real DELE items are
 // copyrighted and are not reproduced, and this test is shorter than the real exam. The
 // sourcing note is in the data file and repeated on the Start section.
 import Layout from "../../layouts/Layout.astro";
@@ -20,7 +20,7 @@ const hoerIds = ["teil1", "teil2", "teil3"].flatMap((k) => satz.hoeren[k].items.
 const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
 ---
 <Layout
-  title="DELE A1 practice test – icanspeak Spanish"
+  title="DELE A1 practice test – icanspeak Italian"
   description="A complete practice test in the style of the DELE A1: listening, reading and writing, with your score at the end. Not an official exam."
 >
   <SiteNav active="pruefungen" />

@@ -8,9 +8,9 @@ stays independent. Don't invent a separate visual identity.
 
 | File | Use |
 |---|---|
-| `icanspeak-spanish-wordmark(-dark).svg` | header, footer of this course |
-| `icanspeak-spanish-mark(-dark).svg`, `-mark-1024.png` | small logo, OG/JSON-LD logo |
-| `icanspeak-spanish-app.svg`, `-app-512/1024.png`, `-apple-touch-icon.png`, `favicon.svg/.ico` | favicons, web manifest |
+| `icanspeak-italian-wordmark(-dark).svg` | header, footer of this course |
+| `icanspeak-italian-mark(-dark).svg`, `-mark-1024.png` | small logo, OG/JSON-LD logo |
+| `icanspeak-italian-app.svg`, `-app-512/1024.png`, `-apple-touch-icon.png`, `favicon.svg/.ico` | favicons, web manifest |
 | `icanspeakit-wordmark(-dark).svg`, `icanspeakit-mark(-dark).svg` | the umbrella brand: "part of icanspeak.it" link in the footer |
 
 The signature: Literata, ink `#1F1B16`, and the amber dot `#B7752B` over a dotless "ı"

@@ -26,7 +26,7 @@ const topicTx = (id: string) => tx.topics?.[id] ?? {};
 const glossTx = (term: string) => tx.glossary?.[term] ?? {};
 ---
 <Layout
-  title="CCSE: facts to learn – icanspeak Spanish"
+  title="CCSE: facts to learn – icanspeak Italian"
   description="Key facts for the CCSE: the constitution, institutions, rights, history, culture, everyday life and the comunidades autónomas of Spain. General orientation, not legal advice."
 >
   <div class="fk-page" id="fk-page" data-lang="standard" data-gx="off">
@@ -259,8 +259,8 @@ const glossTx = (term: string) => tx.glossary?.[term] ?? {};
       container.innerHTML = `
         <div class="topic-intro" style="margin:14px 0;">
           ${l.sourced
-            ? esc(tx("lid.fk.land.sourced", "Written by icanspeak Spanish from public sources."))
-            : esc(tx("lid.fk.land.public", "Well-known public facts, written up by icanspeak Spanish.")) + " " + esc(stateNote)}
+            ? esc(tx("lid.fk.land.sourced", "Written by icanspeak Italian from public sources."))
+            : esc(tx("lid.fk.land.public", "Well-known public facts, written up by icanspeak Italian.")) + " " + esc(stateNote)}
         </div>
         <ul class="fact-list">
           <li><strong>${esc(tx("lid.fk.land.capital", "Hauptstadt:"))}</strong> ${esc(l.capital)}</li>

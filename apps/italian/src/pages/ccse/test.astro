@@ -15,7 +15,7 @@ import lid from "../../data/leben-in-deutschland.json";
 const { questions, meta, bundeslaender } = lid;
 ---
 <Layout
-  title="CCSE practice test – online – icanspeak Spanish"
+  title="CCSE practice test – online – icanspeak Italian"
   description="A CCSE practice test: our own questions about Spain, scored against the pass mark of the real test. Not the official question bank."
 >
   <SiteNav active="pruefungen" />
@@ -143,8 +143,8 @@ const { questions, meta, bundeslaender } = lid;
           const l = land();
           main.appendChild(
             el("p", "format-note", l.sourced
-              ? escapeHtml(T("lid.test.sourced", "{land}: {n} extra questions written by icanspeak Spanish from public sources.", { land: l.name, n: l.stateQuestions.length }))
-              : escapeHtml(T("lid.test.public", "{land}: {n} extra questions written by icanspeak Spanish from well-known public facts.", { land: l.name, n: l.stateQuestions.length })))
+              ? escapeHtml(T("lid.test.sourced", "{land}: {n} extra questions written by icanspeak Italian from public sources.", { land: l.name, n: l.stateQuestions.length }))
+              : escapeHtml(T("lid.test.public", "{land}: {n} extra questions written by icanspeak Italian from well-known public facts.", { land: l.name, n: l.stateQuestions.length })))
           );
 
           const go = el("button", "quiz-btn quiz-btn--primary", t("exam.startTest"));

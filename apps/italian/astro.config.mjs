@@ -14,7 +14,7 @@ const r301 = (destination) => ({ status: 301, destination });
 
 /* A grammar topic lives at /<slug>, but /grammar/<slug> is the address people guess. Pages and
  * reference tables under /grammar win over a guessed topic address. Keys are the workspaces'
- * `slug ?? id`. The site at /spanish is new, so this is the only redirect it has: nothing was
+ * `slug ?? id`. The site at /italian is new, so this is the only redirect it has: nothing was
  * ever public under an earlier address (docs/content-plan.md §7, §8). */
 function grammarTopicRedirects() {
   const dir = new URL('./src/data/grammatik/', import.meta.url);

@@ -1,6 +1,6 @@
 # Brand masters
 
-> **icanspeak Spanish (2026-11-03):** the masters below are the "da für Dich" lockup inherited
+> **icanspeak Italian (2026-11-03):** the masters below are the "da für Dich" lockup inherited
 > from deutschacademy and are **not** this site's brand. The brand is the icanspeak.it kit:
 > SVG masters in `public/logos/`, rules in `docs/brand/BRAND.md`. `public/assets/logo.png` and
 > `public/assets/og-default.png` are rasterised from the kit's wordmark by
