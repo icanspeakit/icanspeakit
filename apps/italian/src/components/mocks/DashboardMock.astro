@@ -22,58 +22,58 @@ const tabs = [
 // The choice matching `answer` is the one the quiz accepts; the rest are wrong.
 const quiz = [
   {
-    kicker: "Ser or estar",
-    before: "Mi hermana ",
-    after: " enfermera.",
-    hint: "(ser / estar)",
-    choices: ["es", "está", "hay"],
-    answer: "es",
-    note: "A job says who someone is: use ser. Mi hermana es enfermera.",
+    kicker: "Essere or avere",
+    before: "Mia sorella ",
+    after: " trent'anni.",
+    hint: "(essere / avere)",
+    choices: ["ha", "è", "sta"],
+    answer: "ha",
+    note: "Age takes avere in Italian: Mia sorella ha trent'anni, never è.",
     noteKey: "home.mock.note.akk",
   },
   {
-    kicker: "el / la",
-    before: "¿Dónde está ",
-    after: " parada del autobús?",
-    hint: "(el or la?)",
-    choices: ["la", "el", "los"],
+    kicker: "il / lo / la",
+    before: "Dov'è ",
+    after: " fermata dell'autobus?",
+    hint: "(il, lo or la?)",
+    choices: ["la", "il", "lo"],
     answer: "la",
-    note: "parada is feminine: la parada. Watch the exceptions: el día, el problema, la mano.",
+    note: "fermata is feminine: la fermata. Watch the exceptions: la mano, il problema, la radio.",
     noteKey: "home.mock.note.dat",
   },
   {
-    kicker: "Pretérito indefinido",
-    before: "Ayer ",
-    after: " al médico.",
-    hint: "(ir, yo)",
-    choices: ["fui", "fue", "he ido"],
-    answer: "fui",
-    note: "ir is irregular: fui, fuiste, fue … With ayer, Spain uses the indefinido.",
+    kicker: "Passato prossimo",
+    before: "Ieri ",
+    after: " dal medico.",
+    hint: "(andare, io)",
+    choices: ["sono andato", "ho andato", "andavo"],
+    answer: "sono andato",
+    note: "andare takes essere in the passato prossimo: sono andato (a woman says sono andata).",
     noteKey: "home.mock.note.perf",
   },
 ];
 
 // Field names kept from the German mock (de = the word on the card, en = its meaning).
-// Castilian Spanish, the words a newcomer in Spain needs first (docs/content-plan.md §1.1).
+// Standard Italian, the words a newcomer in Italy needs first (docs/content-plan.md §1.1).
 const vocab = [
-  { de: "la solicitud", en: "a form or letter you send to ask for something, e.g. a job or a permit", ex: "Envié la solicitud esta mañana." },
-  { de: "la cita previa", en: "an appointment you book in advance, e.g. at an office or the doctor", ex: "Tengo cita previa a las diez." },
-  { de: "la fianza", en: "money you pay at the start when you rent a flat", ex: "Pagamos una fianza de un mes." },
-  { de: "empadronarse", en: "register your address at the town hall", ex: "Me empadroné en Valencia en marzo." },
-  { de: "el centro de salud", en: "your local public health centre", ex: "El centro de salud abre a las ocho." },
-  { de: "puntual", en: "on time, never late", ex: "Mi compañera es muy puntual." },
+  { de: "la domanda", en: "a form or letter you send to ask for something, e.g. a job or a permit", ex: "Ho mandato la domanda stamattina." },
+  { de: "l'appuntamento", en: "an appointment you book in advance, e.g. at an office or the doctor", ex: "Ho un appuntamento in Questura alle dieci." },
+  { de: "la cauzione", en: "money you pay at the start when you rent a flat", ex: "Abbiamo pagato due mesi di cauzione." },
+  { de: "fare la residenza", en: "register your address at the Comune (the Anagrafe office)", ex: "Ho fatto la residenza a Bologna a marzo." },
+  { de: "il medico di base", en: "your family doctor in the public health service", ex: "Il medico di base riceve dalle otto alle dieci." },
+  { de: "puntuale", en: "on time, never late", ex: "La mia collega è molto puntuale." },
 ];
 
 const speaking = [
-  { title: "Making an appointment", key: "home.mock.speak.amt", level: "A2", line: "Buenos días, quería pedir cita, por favor." },
-  { title: "Introducing yourself", key: "home.mock.speak.intro", level: "A1", line: "Me llamo Ana y soy de Brasil." },
-  { title: "At the doctor's", key: "home.mock.speak.arzt", level: "A2", line: "Me duele la garganta desde hace tres días." },
+  { title: "Making an appointment", key: "home.mock.speak.amt", level: "A2", line: "Buongiorno, vorrei prendere un appuntamento, per favore." },
+  { title: "Introducing yourself", key: "home.mock.speak.intro", level: "A1", line: "Mi chiamo Ana e vengo dal Brasile." },
+  { title: "At the doctor's", key: "home.mock.speak.arzt", level: "A2", line: "Ho mal di gola da tre giorni." },
 ];
 
 const exams = [
-  { name: "DELE B1", sub: "Instituto Cervantes · B1", subKey: "home.mock.exam.dtzSub", premium: false },
-  { name: "SIELE Global", sub: "One test, every level", subKey: "home.mock.exam.telcSub", premium: false },
-  { name: "DELE B2", sub: "Prep set", subKey: "home.mock.exam.goetheSub", premium: true },
+  { name: "CILS B1", sub: "Università per Stranieri di Siena · B1", subKey: "home.mock.exam.dtzSub", premium: false },
+  { name: "CELI B1", sub: "Università per Stranieri di Perugia · B1", subKey: "home.mock.exam.telcSub", premium: false },
+  { name: "CILS B2", sub: "Prep set", subKey: "home.mock.exam.goetheSub", premium: true },
 ];
 
 const weekdays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
@@ -134,7 +134,7 @@ const weekdays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
           </div>
           <div class="lp-locked-card">
             <div class="icon">🔒</div>
-            <strong data-i18n="home.mock.goetheB2Prep">DELE B2 prep</strong>
+            <strong data-i18n="home.mock.goetheB2Prep">CILS B2 prep</strong>
             <span data-i18n="home.word.premium">Premium</span>
           </div>
         </div>
@@ -154,10 +154,10 @@ const weekdays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
         <div class="dm-block">
           <div class="dm-block-head"><strong data-i18n="picker.resume.recents">Zuletzt geübt</strong><span data-i18n="home.mock.topics7">7 Themen</span></div>
           <ul class="dm-list">
-            <li><span class="dm-list-name" data-i18n="home.mock.recent1.name">Present perfect</span><span class="dm-list-meta" data-i18n="home.mock.recent1">12 / 12 · gestern</span></li>
-            <li><span class="dm-list-name" data-i18n="home.mock.recent2.name">Verbs + prepositions</span><span class="dm-list-meta" data-i18n="home.mock.recent2">8 / 14 · vor 2 Tagen</span></li>
+            <li><span class="dm-list-name" data-i18n="home.mock.recent1.name">Essere and avere</span><span class="dm-list-meta" data-i18n="home.mock.recent1">12 / 12 · gestern</span></li>
+            <li><span class="dm-list-name" data-i18n="home.mock.recent2.name">Prepositions with articles</span><span class="dm-list-meta" data-i18n="home.mock.recent2">8 / 14 · vor 2 Tagen</span></li>
             <li><span class="dm-list-name" data-i18n="home.mock.recent3.name">Wortschatz: Behörden</span><span class="dm-list-meta" data-i18n="home.mock.recent3">31 Karten · vor 3 Tagen</span></li>
-            <li><span class="dm-list-name" data-i18n="home.mock.recent4.name">Aussprache: ü / ö</span><span class="dm-list-meta" data-i18n="home.mock.recent4">6 Runden · letzte Woche</span></li>
+            <li><span class="dm-list-name" data-i18n="home.mock.recent4.name">Pronunciation: double consonants</span><span class="dm-list-meta" data-i18n="home.mock.recent4">6 Runden · letzte Woche</span></li>
           </ul>
         </div>
       </section>
@@ -167,7 +167,7 @@ const weekdays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
         <div class="lp-dash-header">
           <div class="lp-dash-greeting">
             <strong data-i18n="tool.grammatik.title">Grammatik</strong>
-            <span data-i18n="home.mock.grammarSub">Akkusativ, Dativ, Perfekt · antworte direkt hier</span>
+            <span data-i18n="home.mock.grammarSub">Essere or avere, il/la, passato prossimo · answer right here</span>
           </div>
           <div class="dm-score" data-dm-score>0 / {quiz.length}</div>
         </div>
@@ -258,7 +258,7 @@ const weekdays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
           ))}
         </div>
         <div class="dm-block">
-          <div class="dm-block-head"><strong data-i18n="fs.partsAria">Prüfungsteile</strong><span translate="no">DELE B1</span></div>
+          <div class="dm-block-head"><strong data-i18n="fs.partsAria">Prüfungsteile</strong><span data-i18n="home.mock.partsSet">B1 practice set</span></div>
           <ul class="dm-list">
             <li><span class="dm-list-name" data-i18n="skill.hoeren">Hören</span><span class="dm-list-meta" data-i18n="home.mock.part.hoeren">3 Teile · 25 Min</span></li>
             <li><span class="dm-list-name" data-i18n="skill.lesen">Lesen</span><span class="dm-list-meta" data-i18n="home.mock.part.lesen">5 Teile · 45 Min</span></li>

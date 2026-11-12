@@ -17,26 +17,27 @@ const related = ((verwandt.topics as Record<string, string[]>)[id] ?? [])
 // The exam sets this topic's level prepares for (SEO-BRAND-TIERED-PROMPT.md Tier 4: grammar
 // links to the exam it helps with). The anchors are what learners type into a search.
 const EXAMS: Record<string, { href: string; label: string }[]> = {
-  // Exam names per docs/content-plan.md §2: goethe slot = DELE, telc slot = SIELE by band,
-  // the dtz mock = DELE A2 for nationality, testdaf = SIELE Global. Hrefs renamed by `routes`.
-  A1: [{ href: "/dele/a1", label: "DELE A1 practice test" }],
+  // Exam names per docs/content-plan.md §2: start-deutsch-1 slot = Italian A1 practice test,
+  // goethe slot = CILS, telc slot = CELI, the dtz mock = B1 mock for citizenship,
+  // testdaf = PLIDA (B1 set). Hrefs are the old slots until `routes` renames them.
+  A1: [{ href: "/dele/a1", label: "Italian A1 practice test" }],
   A2: [
-    { href: "/dele/a2", label: "DELE A2 practice test" },
-    { href: "/nationality/dele-a2/practice-set", label: "DELE A2 full mock for nationality" },
-    { href: "/siele/levels/a2", label: "SIELE practice, A2 band" },
+    { href: "/dele/a2", label: "CILS A2 practice test" },
+    { href: "/siele/levels/a2", label: "CELI A2 practice test" },
   ],
   B1: [
-    { href: "/dele/b1", label: "DELE B1 practice test" },
-    { href: "/siele/levels/b1", label: "SIELE practice, B1 band" },
+    { href: "/dele/b1", label: "CILS B1 practice test" },
+    { href: "/siele/levels/b1", label: "CELI B1 practice test" },
+    { href: "/siele", label: "PLIDA B1 practice set" },
+    { href: "/nationality/dele-a2/practice-set", label: "B1 full mock for citizenship" },
   ],
   B2: [
-    { href: "/dele/b2", label: "DELE B2 practice test" },
-    { href: "/siele/levels/b2", label: "SIELE practice, B2 band" },
-    { href: "/siele", label: "SIELE practice" },
+    { href: "/dele/b2", label: "CILS B2 practice test" },
+    { href: "/siele/levels/b2", label: "CELI B2 practice test" },
   ],
   C1: [
-    { href: "/dele/c1", label: "DELE C1 practice test" },
-    { href: "/siele/levels/c1", label: "SIELE practice, C1 band" },
+    { href: "/dele/c1", label: "CILS C1 practice test" },
+    { href: "/siele/levels/c1", label: "CELI C1 practice test" },
   ],
 };
 const level = String(byId.get(id)?.level ?? "").match(/[ABC][12]/)?.[0] ?? "";

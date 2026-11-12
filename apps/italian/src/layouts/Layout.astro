@@ -41,7 +41,7 @@ interface Props {
       the page itself shows; see the structured-data block below. */
   schema?: Record<string, unknown> | Record<string, unknown>[];
   /** The pages above this one in the breadcrumb trail, when the route alone does not name
-      them (a dynamic parent such as /spanish-for-work/care-work, or a top-level grammar topic that belongs
+      them (a dynamic parent such as /italian-for-work/care-work, or a top-level grammar topic that belongs
       under /grammar). Start and the page itself are added. */
   breadcrumb?: Crumb[];
   /** No analytics on this page at all: no consent banner, so PostHog,
@@ -53,8 +53,8 @@ interface Props {
 }
 
 const {
-  title = "icanspeak Italian – learn the Spanish of Spain for free: DELE, SIELE, CCSE",
-  description = "Learn Spanish as it is spoken in Spain, from A1 to C1: free grammar, vocabulary and practice for the DELE, the SIELE and the CCSE.",
+  title = "icanspeak Italian – learn Italian for free, A1 to C1: CILS, CELI, PLIDA, CERT.IT",
+  description = "Learn standard Italian from A1 to C1 for life, work and citizenship in Italy: free grammar, vocabulary and practice for CILS, CELI, PLIDA and CERT.IT.",
   noindex = false,
   schema,
   breadcrumb,
@@ -84,7 +84,7 @@ const hubOg = Object.values(hubBilder as Record<string, { path: string; og: stri
 // card (scripts/build-wordmark.mjs). Set HUB_CARDS to true then.
 const HUB_CARDS = false;
 const OG_IMAGE = (HUB_CARDS && hubOg?.og) || "/assets/og-default.png";
-const OG_ALT = (HUB_CARDS && hubOg?.alt) || "icanspeak Italian – learn the Spanish of Spain for free";
+const OG_ALT = (HUB_CARDS && hubOg?.alt) || "icanspeak Italian – learn Italian for free";
 const abs = (path) => (Astro.site ? absoluteUrl(path) : withBase(path));
 // One address per page for search engines: no trailing slash (the form every internal link
 // uses and the one in /sitemap.xml), no query string — ?voll, ?lang=…, tracking parameters all
@@ -137,7 +137,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
          example sentences and exercises stay German. -->
     <meta name="google" content="notranslate" />
     <!-- translate="no" on <html> (above) is the standard attribute for the same thing. Chrome
-         on iOS ignores the meta tag but honours the attribute; it translated /spanish-for-work and
+         on iOS ignores the meta tag but honours the attribute; it translated a work page and
          /anmelden anyway, and the translated text nodes crashed the React sign-in island
          (NotFoundError on insertBefore; the same translation also loaded its CSS from
          www.gstatic.com). -->
