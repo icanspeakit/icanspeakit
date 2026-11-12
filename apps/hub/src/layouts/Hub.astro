@@ -48,5 +48,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
         <span><a href="/linguistics/former-site/impressum/">Impressum</a></span>
       </div>
     </footer>
+    <script>
+      // PostHog, cookieless (src/lib/analytics.js).
+      import { initAnalytics } from "../lib/analytics.js";
+      initAnalytics("hub");
+    </script>
   </body>
 </html>

@@ -54,5 +54,10 @@ const {
       <slot />
     </main>
     {!hideFooter && <Footer />}
+    <script>
+      // PostHog, cookieless (src/lib/analytics.js).
+      import { initAnalytics } from "../lib/analytics.js";
+      initAnalytics("linguistics");
+    </script>
   </body>
 </html>

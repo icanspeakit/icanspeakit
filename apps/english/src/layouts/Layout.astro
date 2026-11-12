@@ -369,6 +369,13 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         }, true);
       </script>
     )}
+    {!noTracking && (
+      <script>
+        // PostHog, cookieless (src/lib/analytics.js). Pages with noTracking skip it.
+        import { initAnalytics } from "../lib/analytics.js";
+        initAnalytics("english");
+      </script>
+    )}
     <script>
 import { currentPath } from "../lib/paths.js";
       import { initI18n } from "../lib/i18n.js";

@@ -33,5 +33,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
   </head>
   <body class="landing">
     <slot />
+    <script>
+      // PostHog, cookieless (src/lib/analytics.js).
+      import { initAnalytics } from "../lib/analytics.js";
+      initAnalytics("hub");
+    </script>
   </body>
 </html>
