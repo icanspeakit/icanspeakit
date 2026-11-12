@@ -21,19 +21,23 @@ import { withBase } from "./paths.js";
 
 /* ---------------------------------------------------------------- voice ---- */
 
-export function makeVoice() {
+/* `lang` follows the topic's variety ([id].astro): "pt-PT" for the Portuguese topics, "es-ES"
+   for slots still holding the Spanish course's text (content-plan §13.1, the voice switches with
+   the module whose text it reads). Browser voices for Portuguese are often pt-BR only. */
+export function makeVoice(lang = "es-ES") {
   const synth = typeof speechSynthesis !== "undefined" ? speechSynthesis : null;
+  const family = lang.split("-")[0];
   let preferred = null;
 
   function pickVoice() {
     if (!synth) return;
     const voices = synth.getVoices();
-    // A real es-ES voice first (the course's standard); some platforms only ship another
-    // Spanish, still better than an English voice reading "hoy" as "hoy-ee".
+    // A real voice of the exact variety first; some platforms only ship another variety
+    // (pt-BR for pt-PT), still better than an English voice reading the line.
     preferred =
-      voices.find((v) => v.lang === "es-ES" && /google|natural|premium|siri/i.test(v.name)) ||
-      voices.find((v) => v.lang === "es-ES") ||
-      voices.find((v) => v.lang && v.lang.startsWith("es")) ||
+      voices.find((v) => v.lang === lang && /google|natural|premium|siri/i.test(v.name)) ||
+      voices.find((v) => v.lang === lang) ||
+      voices.find((v) => v.lang && v.lang.startsWith(family)) ||
       null;
   }
   pickVoice();
@@ -72,7 +76,7 @@ export function makeVoice() {
       if (!synth) return done();
 
       const u = new SpeechSynthesisUtterance(text);
-      u.lang = "es-ES";
+      u.lang = lang;
       u.rate = rate * 0.95;
       if (preferred) u.voice = preferred;
       u.onend = done;
@@ -467,10 +471,17 @@ export function mountSprechen(root, data, { voice, onRate } = {}) {
  * says so when that was the only difference. Accents count: "esta" is not "está", and the
  * verdict says when an accent was the only thing wrong (content-plan §1.2).
  */
-const ACCENT_KEYS = ["á", "é", "í", "ó", "ú", "ü", "ñ", "¿", "¡"];
+// The key row of content-plan §1.2 for Portuguese; the Spanish row stays for the slots that
+// still hold Spanish text until their grammar item has run.
+const ACCENT_KEYS = {
+  pt: ["á", "à", "â", "ã", "ç", "é", "ê", "í", "ó", "ô", "õ", "ú"],
+  es: ["á", "é", "í", "ó", "ú", "ü", "ñ", "¿", "¡"],
+};
 
-export function mountSchreiben(root, data, { voice, onAnswer } = {}) {
+export function mountSchreiben(root, data, { voice, onAnswer, lang = "es-ES" } = {}) {
   if (!root || !data?.rounds?.length) return { stop() {} };
+  const keys = lang.startsWith("pt") ? ACCENT_KEYS.pt : ACCENT_KEYS.es;
+  const inputLang = lang.startsWith("pt") ? "pt-PT" : "es";
   const rounds = data.rounds;
   let r = 0;
   let i = 0;
@@ -509,12 +520,12 @@ export function mountSchreiben(root, data, { voice, onAnswer } = {}) {
           <div class="ak-arrow" aria-hidden="true">↓</div>
           <form class="ak-write-form" data-form autocomplete="off">
             <input class="ak-write-input ${state === "right" || state === "near" ? "is-right" : state === "wrong" ? "is-wrong" : ""}"
-              data-input type="text" lang="es" spellcheck="false" autocapitalize="off" autocorrect="off"
+              data-input type="text" lang="${inputLang}" spellcheck="false" autocapitalize="off" autocorrect="off"
               value="${esc(typed)}" ${answered ? "readonly" : ""}
               placeholder="${esc(t("ak.write.placeholder", "Schreib die Lösung …"))}"
               aria-label="${esc(t("ak.write.placeholder", "Schreib die Lösung …"))}">
           </form>
-          ${answered ? "" : `<div class="ak-accent-keys" role="group" aria-label="${esc(t("ak.write.keys", "Spanish letters"))}">${ACCENT_KEYS.map((k) => `<button type="button" class="ak-accent-key" data-key="${k}">${k}</button>`).join("")}</div>`}
+          ${answered ? "" : `<div class="ak-accent-keys" role="group" aria-label="${esc(t("ak.write.keys", "Letters with accents"))}">${keys.map((k) => `<button type="button" class="ak-accent-key" data-key="${k}">${k}</button>`).join("")}</div>`}
           <p class="ak-write-verdict" aria-live="polite">${
             state === "right" ? `✓ ${esc(t("ak.write.right", "Richtig!"))}` :
             state === "near" ? `✓ ${esc(t("ak.write.near", "Richtig — achte auf Groß- und Kleinschreibung und Satzzeichen:"))} <strong>${esc(item().answer)}</strong>` :

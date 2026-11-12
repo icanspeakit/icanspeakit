@@ -154,6 +154,9 @@ const tasks = taskCountOf(data);
 // levels and rounds, with audio — instead of this topic's handful of fixed exercises. The
 // lesson around it (Sehen, Hören, Sprechen) is unchanged. See ArtikelTrainer.astro.
 const isArtikel = topicKey === "artikel";
+// The language of the topic's target text: pt-PT once its grammar item has run (variety
+// "pt-PT"), Spanish for the slots that still hold the Spanish course's text (content-plan §13.1).
+const targetLang = data.variety === "pt-PT" ? "pt-PT" : "es";
 
 // Aktiv mode — Sehen · Hören · Sprechen, for the topics whose JSON carries an `aktiv`
 // block. It is a second view of THIS page, not a second page: the fourth beat, Schreiben,
@@ -480,10 +483,10 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
           <div class="vp-scenes">
             {concept.scenes.map((sc, i) => (
               <div class={`vp-scene vp-scene--${sc.variant}`}>
-                <p class="vp-scene-head"><b class={`vp-brief-form vp-brief-form--${sc.variant}`} lang="es">{sc.form}</b><span>{sc.label}</span></p>
+                <p class="vp-scene-head"><b class={`vp-brief-form vp-brief-form--${sc.variant}`} lang={targetLang}>{sc.form}</b><span>{sc.label}</span></p>
                 <div class="vp-scene-say">
                   <Mascot name={QA_CREW[i % QA_CREW.length].name} expr={QA_CREW[i % QA_CREW.length].expr} view="three" size={48} class="vp-scene-mascot" />
-                  <p class="vp-scene-bubble" lang="es" set:html={sc.sayHtml} />
+                  <p class="vp-scene-bubble" lang={targetLang} set:html={sc.sayHtml} />
                 </div>
                 <p class="vp-scene-why">{sc.why}</p>
               </div>
@@ -551,7 +554,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
         {/* Verb pairs with and without a prefix as sets (`concept.pictures` "euler"):
             Teilmenge, Schnittmenge, getrennt (src/lib/eulerArt.js). */}
         {concept.pictures === "euler" && (
-          <div class="eu-pics" lang="es">
+          <div class="eu-pics" lang={targetLang}>
             {EULER_PANELS.map((p) => (
               <figure class={`eu-pic eu-pic--${p.kind}`}>
                 <Fragment set:html={eulerPanelSvg(p)} />
@@ -580,7 +583,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
                 <li class={`vp-comic-rule-step vp-comic-rule-step--${st.q}`}>
                   <span class="vp-comic-rule-who" data-mascot-part aria-hidden="true"><Mascot name={st.name} expr={st.expr ?? "happy"} size={40} /></span>
                   <div>
-                    <p class="vp-comic-rule-say" lang="es"><span class="vp-comic-rule-q">{st.q === "wohin" ? "¿Adónde?" : "¿Dónde?"}</span> <span set:html={st.say} /></p>
+                    <p class="vp-comic-rule-say" lang={targetLang}><span class="vp-comic-rule-q">{st.q === "wohin" ? "¿Adónde?" : "¿Dónde?"}</span> <span set:html={st.say} /></p>
                     <p class="vp-comic-rule-why" set:html={st.why} />
                   </div>
                 </li>
@@ -686,7 +689,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
             The first strip folds too: open on the first visit, folded on every later one
             (the script under it), so it stops pushing the exercises down. */}
         <details class="vp-comics-first" open data-comic-fold={data.id}>
-          <summary lang="es">{workspace.comics[0].title ? `Comic: ${workspace.comics[0].title.replace(/[{}]/g, "")}` : "Comic"}</summary>
+          <summary lang={targetLang}>{workspace.comics[0].title ? `Comic: ${workspace.comics[0].title.replace(/[{}]/g, "")}` : "Comic"}</summary>
           <MascotComic comic={workspace.comics[0]} chip="form" fit />
         </details>
         <script is:inline>
@@ -790,7 +793,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
               apart (stellen/stehen …): one pair per row, Wohin? above Wo?, always visible —
               they are what the items are checked against, not a rule to look up. */}
           {ex.examples && (
-            <dl class="vp-ex-examples" lang="es">
+            <dl class="vp-ex-examples" lang={targetLang}>
               {ex.examples.map((e: { verbs: string; wohin: string; wo: string }) => (
                 <div class="vp-ex-example">
                   <dt>{e.verbs}</dt>
@@ -985,7 +988,9 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
       const { recordDrill } = await import("../lib/progress.js");
 
       const page = document.getElementById("vp-page");
-      const voice = makeVoice();
+      // pt-PT for the Portuguese topics, es-ES for slots still holding Spanish text.
+      const speechLang = data.variety === "pt-PT" ? "pt-PT" : "es-ES";
+      const voice = makeVoice(speechLang);
 
       // Aktiv opens only when the address asks for it: #aktiv, or an older link to one of
       // its steps. Never from memory — a topic always opens in Üben.
@@ -1003,6 +1008,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
       // Typed, so it is measured: each check counts like an answer in Üben.
       mountSchreiben(document.getElementById("ak-schreiben"), data.aktiv.sprechen, {
         voice,
+        lang: speechLang,
         onAnswer: (ok) => { try { onAnswer(ok); } catch (e) {} },
       });
 
