@@ -31,7 +31,7 @@ export function mountParty(root) {
   const screens = $$("[data-screen]");
   const redemittel = JSON.parse(document.getElementById("hst-redemittel")?.textContent || "{}");
   const ui = getLang();
-  // The word lists' `de` is the Spanish word itself, so a German UI reads the English meaning.
+  // The word lists' `de` is the French word itself, so a German UI reads the English meaning.
   const lang = ["en", "ar", "uk", "ru", "tr"].includes(ui) ? ui : "en";
 
   /* ---------------------------------------------------------- state ---- */
