@@ -5,115 +5,57 @@ import ExamPractice from "../../components/ExamPractice.astro";
 import ExamFormat from "../../components/ExamFormat.astro";
 import formate from "../../data/pruefungen/testdaf-formate.json";
 
-// SIELE Global: format, scores, modalities and practice (content-plan §2: the testdaf slot).
-// Figures come from testdaf-formate.json, checked against the official guide on 2026-11-06.
-const { bands, modalities } = formate;
+// PLIDA: who it is for, how it works, and practice (content-plan §2: the testdaf slot; the
+// page moves to /plida with `routes`). The format block comes from testdaf-formate.json,
+// which `exams-plida-certit` converts. The Spanish course's SIELE-only sections (score bands
+// per test, the S1–S5 options) were dropped by `ui-pages-m-z`: PLIDA has one exam per level.
+// Exam facts here are worded as orientation; the details are "to verify" in the run reports.
 ---
 <Layout
-  title="SIELE: format, scores and practice – icanspeak Italian"
-  description="The SIELE, the computer-based Spanish test for levels A1 to C1: its four tests, how scores match CEFR levels, S1 to S5, and free practice."
+  title="PLIDA: levels, format and practice – icanspeak Italian"
+  description="The PLIDA certificate of the Società Dante Alighieri, from A1 to C2: who it is for, the four skills it tests, and free practice in exam style. Not official exam material."
 >
   <ExamShell
     bild="testdaf"
-    header="SIELE"
-    title="SIELE"
-    lead="The computer-based Spanish test for levels A1 to C1. Each test gets a score from 0 to 250 and a CEFR level. There is no pass mark."
+    header="PLIDA"
+    title="PLIDA"
+    lead="The Italian certificate of the Società Dante Alighieri, with one exam per level from A1 to C2. It tests listening, reading, writing and speaking."
     leadKey="testdaf.lead"
-    badges={["A1–C1"]}
-    practiceHeading="Practise for the SIELE"
+    badges={["A1–C2"]}
+    practiceHeading="Practise for the PLIDA"
     practiceHeadingKey="testdaf.practiceHeading"
   >
     <Fragment slot="info">
       <section class="exam-section">
-        <h2 data-i18n="testdaf.who.title">Who is the SIELE for?</h2>
+        <h2 data-i18n="testdaf.who.title">Who is the PLIDA for?</h2>
         <div class="exam-meta-row">
-          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.result">Result: score and CEFR level</span>
-          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.oneFormat">One test, levels A1–C1</span>
+          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.result">One certificate per level</span>
+          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.oneFormat">Levels A1–C2</span>
         </div>
         <p data-i18n="testdaf.who.text">
-          The SIELE (Servicio Internacional de Evaluación de la Lengua Española) is taken on a computer at an
-          exam centre. It comes from the Instituto Cervantes, UNAM in Mexico, the Universidad de Salamanca
-          and the Universidad de Buenos Aires. People take it for study and work when the institution
-          accepts it. It doesn't count for Spanish nationality, according to the SIELE site. That route
-          needs the DELE at A2 or above, plus the CCSE.
+          The PLIDA (Progetto Lingua Italiana Dante Alighieri) is issued by the Società Dante Alighieri
+          and taken at its exam centres in Italy and abroad. People use it for study, for work and, at
+          the level required, as the language proof for citizenship or the long-term residence permit.
+          Check what your office or university asks for before you book.
         </p>
-        <p><a class="plan-link" href="/exams/dele-or-siele" data-i18n="testdaf.whichExam">DELE or SIELE? Compare them by purpose →</a></p>
+        <p><a class="plan-link" href="/exams/dele-or-siele" data-i18n="testdaf.whichExam">CILS, CELI, PLIDA or CERT.IT? Compare them by purpose →</a></p>
       </section>
 
       {formate.formate.map((f) => <ExamFormat format={f} />)}
 
       <section class="exam-section">
-        <h2 data-i18n="testdaf.bands.title">How scores match levels</h2>
-        <p data-i18n="testdaf.bands.text">
-          Each test has its own table, so the same score can mean different levels: 120 points is B1 in
-          reading but A2 in speaking. These are the points the exam guide lists for each level.
-        </p>
-        <div class="format-table-wrap">
-          <table class="format-table">
-            <thead><tr>
-              <th data-i18n="testdaf.bands.level">Level</th>
-              <th data-i18n="skill.lesen">Reading</th>
-              <th data-i18n="skill.hoeren">Listening</th>
-              <th data-i18n="skill.schreiben">Writing</th>
-              <th data-i18n="skill.sprechen">Speaking</th>
-            </tr></thead>
-            <tbody>
-              {bands.rows.map((r) => (
-                <tr>{r.map((c, i) => (i === 0 ? <th scope="row">{c}</th> : <td>{c}</td>))}</tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p class="format-note" data-i18n="testdaf.bands.note">
-          There is no pass mark: you always get a score. A score under the A1 line reaches no level, which
-          the guide calls No apto. Reading and listening are marked automatically, with no points lost for
-          wrong answers as far as the guide's formula shows, so answer everything. Writing and speaking go to
-          trained raters.
-        </p>
-      </section>
-
-      <section class="exam-section">
-        <h2 data-i18n="testdaf.mod.title">SIELE Global or S1 to S5?</h2>
-        <p data-i18n="testdaf.mod.text">
-          You can take all four tests or a combination. Only SIELE Global gives a certificate; the
-          others give a report. Both are valid for five years. Before you choose one of the shorter
-          options, ask whether your institution accepts a report.
-        </p>
-        <div class="format-table-wrap">
-          <table class="format-table">
-            <thead><tr>
-              <th data-i18n="testdaf.mod.th.name">Option</th>
-              <th data-i18n="testdaf.mod.th.tests">Tests</th>
-              <th data-i18n="format.th.points">Points</th>
-              <th data-i18n="testdaf.mod.th.result">You get</th>
-            </tr></thead>
-            <tbody>
-              {modalities.map((m) => (
-                <tr>
-                  <th scope="row" translate="no">{m.id}</th>
-                  <td data-i18n={`testdaf.mod.${m.id}.tests`}>{m.tests}</td>
-                  <td>{m.points}</td>
-                  <td data-i18n={`testdaf.mod.result.${m.result}`}>{m.result}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="exam-section">
         <h2 data-i18n="testdaf.day.title">On the day</h2>
         <ul class="task-points">
-          <li data-i18n="testdaf.day.1">In reading you can't go back to a task you've finished, and when the time is up the test moves on by itself.</li>
-          <li data-i18n="testdaf.day.2">Each recording plays twice, and then the task closes.</li>
-          <li data-i18n="testdaf.day.3">Speaking is recorded on the computer. Nobody answers you, so keep talking until the time is up.</li>
-          <li data-i18n="testdaf.day.4">The exam uses Spanish from across the Spanish-speaking world, according to the SIELE site. Expect accents other than Spain's.</li>
-          <li data-i18n="testdaf.day.5">Results come within three weeks at most, according to the SIELE site. An institution can check your result with the code on the document.</li>
+          <li data-i18n="testdaf.day.1">Each skill has its own part: listening, reading, writing and speaking (ascoltare, leggere, scrivere, parlare).</li>
+          <li data-i18n="testdaf.day.2">You register for one level. Choose the level you need, not the highest you might reach.</li>
+          <li data-i18n="testdaf.day.3">Speaking is a conversation at the exam centre. Be ready to talk about yourself, describe a situation and give your opinion.</li>
+          <li data-i18n="testdaf.day.4">In the written parts, accents and double consonants count: perché, città, anno, sono.</li>
+          <li data-i18n="testdaf.day.5">Dates, prices and how long results take are set by the exam centres. Ask yours.</li>
         </ul>
         <p class="format-note" data-i18n="testdaf.format.note">
-          We aren't connected with the SIELE, and all our practice material is our own. These details come
-          from the public SIELE exam guide and siele.org, checked in November 2026. The guide copy may be
-          some years old. Check the current rules and prices on siele.org or with your exam centre.
+          We aren't connected with the Società Dante Alighieri, and all our practice material is our own.
+          How each skill is marked and what counts as a pass can change: check the current rules on
+          plida.it or with your exam centre.
         </p>
       </section>
     </Fragment>
@@ -121,26 +63,25 @@ const { bands, modalities } = formate;
     <div class="mock-cta mock-cta--lead">
       <h2 data-i18n="testdaf.set.title">Practise reading and writing</h2>
       <p data-i18n-html="testdaf.set.text">
-        Three reading tasks from about B1 to C1, plus an opinion text with structure, useful phrases and a
-        checklist: built like the S2 option, but shorter. All texts and tasks are written by us, not
-        official exam material.
+        Reading tasks and a writing task in exam style, with structure, useful phrases and a checklist
+        for your text. All texts and tasks are written by us, not official exam material.
       </p>
       <a class="quiz-btn quiz-btn--primary" href="/siele/practice-set" data-i18n="exam.startSet">Start the practice set</a>
     </div>
 
     <div class="mock-cta">
-      <h2 data-i18n="testdaf.bands.cta.title">Practise every task type</h2>
+      <h2 data-i18n="testdaf.bands.cta.title">Practise every skill</h2>
       <p data-i18n="testdaf.bands.cta.text">
-        Our four SIELE sets by level follow the real tasks, from A1 to C1. Together they hold one whole
-        exam: reading, listening, writing and speaking.
+        Our CELI sets go from A2 to C1 and train all four skills: reading, listening, writing and
+        speaking. They are good practice for the PLIDA at the same level too.
       </p>
-      <a class="quiz-btn quiz-btn--primary" href="/siele/levels" data-i18n="testdaf.bands.cta.link">To the SIELE sets by level</a>
+      <a class="quiz-btn quiz-btn--primary" href="/siele/levels" data-i18n="testdaf.bands.cta.link">To the CELI sets</a>
     </div>
 
     <ExamPractice
       heading="Train the basics"
       headingKey="exam.practice.heading"
-      intro="Besides the practice sets above, these three tools help at every level and for every exam. They test general articles, grammar and vocabulary, not anything SIELE-specific."
+      intro="Besides the practice sets above, these three tools help at every level and for every exam. They train articles, grammar and vocabulary in general, not anything PLIDA-specific."
       introKey="testdaf.practice.intro"
       tools={["artikel", "grammatik", "wortschatz"]}
     />

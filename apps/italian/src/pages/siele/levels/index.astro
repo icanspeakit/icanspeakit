@@ -6,40 +6,41 @@ import ExamPractice from "../../../components/ExamPractice.astro";
 import ExamFormat from "../../../components/ExamFormat.astro";
 import telcFormate from "../../../data/pruefungen/telc-formate.json";
 
-// SIELE by level (content-plan §2: the telc slot). Format data comes from telc-formate.json.
-// The real SIELE is one multilevel exam; each set here holds the tasks aimed at one band, and
-// the four together hold every task of it. Official exam items are never reproduced here.
+// CELI by level (content-plan §2: the telc slot; the page moves to /celi with `routes`).
+// Format data comes from telc-formate.json and the sets from saetze/telc-*, both converted by
+// `exams-cils-celi`. Each CELI level is its own exam. Official exam items are never
+// reproduced here; exam facts are worded as orientation and "to verify" in the run reports.
 const formate = telcFormate.formate;
 ---
 <Layout
-  title="SIELE by level: practice and exam format – icanspeak Italian"
-  description="Practise the SIELE task by task, from A1 to C1: reading, listening, writing and speaking at each band, with a timer and answers. Not official exam material."
+  title="CELI by level: practice and exam format – icanspeak Italian"
+  description="Practise for the CELI from A2 to C1: reading, listening, writing and speaking in exam style, with a timer and answers. Not official exam material."
 >
   <ExamShell
     bild="telc"
-    header="SIELE by level"
-    title="SIELE by level"
+    header="CELI"
+    title="CELI"
     titleKey="telc.title"
-    lead="The tasks of the SIELE, one band at a time. The real exam climbs from A1 to C1 in one sitting; here you can practise the tasks that aim at your level, and the four sets together hold one whole exam."
+    lead="The CELI certificates of the Università per Stranieri di Perugia, one exam per level. Here you can practise in their style at A2, B1, B2 and C1."
     leadKey="telc.lead"
-    badges={["A1–C1"]}
-    practiceHeading="Practise for SIELE by level"
+    badges={["A2–C1"]}
+    practiceHeading="Practise for the CELI"
     practiceHeadingKey="telc.practiceHeading"
   >
     <Fragment slot="info">
       <section class="exam-section">
-        <h2 data-i18n="telc.who.title">Who is SIELE for?</h2>
+        <h2 data-i18n="telc.who.title">Who is the CELI for?</h2>
         <div class="exam-meta-row">
-          <span class="exam-meta-badge" data-i18n="telc.who.badge.level">Tasks from A1 to C1</span>
-          <span class="exam-meta-badge" data-i18n="telc.who.badge.modular">A score per test</span>
+          <span class="exam-meta-badge" data-i18n="telc.who.badge.level">One exam per level</span>
+          <span class="exam-meta-badge" data-i18n="telc.who.badge.modular">Four skills</span>
         </div>
         <p data-i18n="telc.who.text">
-          SIELE is one exam for all levels rather than one exam per level. There is no pass mark: each
-          test gives you a score and a CEFR level. People take it for study and work, and whether it is
-          accepted depends on the institution, so check before you book. It doesn't count for Spanish
-          nationality, according to the SIELE site: that route needs the DELE at A2 or above, plus the CCSE.
+          Each CELI level is a separate exam with its own name: CELI 1 is A2, CELI 2 is B1, CELI 3 is
+          B2 and CELI 4 is C1, with further levels below and above. People use it for study, for work
+          and, at the level required, as the language proof for citizenship or the long-term residence
+          permit. Check what your office or university asks for before you book.
         </p>
-        <p><a class="plan-link" href="/exams/dele-or-siele" data-i18n="testdaf.whichExam">DELE or SIELE? Compare them by purpose →</a></p>
+        <p><a class="plan-link" href="/exams/dele-or-siele" data-i18n="testdaf.whichExam">CILS, CELI, PLIDA or CERT.IT? Compare them by purpose →</a></p>
       </section>
 
       <section class="exam-section">
@@ -51,8 +52,8 @@ const formate = telcFormate.formate;
           <div class="skill-card"><div class="skill-card-icon">🗣️</div><h4 data-i18n="skill.sprechen">Speaking</h4><p data-i18n="skill.sprechen.oralDesc">Spoken expression</p></div>
         </div>
         <p class="format-note" data-i18n="telc.sprachbausteine.note">
-          SIELE has four tests and no separate grammar paper. Grammar, vocabulary and cohesion are
-          tested in context, in the 12-gap text of reading task 5.
+          At the higher levels the written exam also tests grammar and vocabulary in context. Check the
+          exact parts for your level on the website of the Università per Stranieri di Perugia (CVCL).
         </p>
       </section>
 
@@ -61,10 +62,10 @@ const formate = telcFormate.formate;
       <section class="exam-section">
         <h2 data-i18n="telc.moreLevels.title">How this differs from the real exam</h2>
         <p class="format-note" data-i18n="telc.moreLevels.text">
-          The bands are our way of cutting up one exam: you can't book a "SIELE B1". Task types, numbers of
-          questions and word counts follow the public exam guide, which may be some years old, and our
-          times are our own share of the real test time. Check the current details on siele.org. The whole
-          exam, its scores and its options are on the SIELE page.
+          Our sets follow the general shape of the CELI levels, but every text and task is our own, and
+          our timings and marks are a guide, not the official ones. The Università per Stranieri di
+          Perugia publishes the current format and sample papers; we do not copy them. Check the details
+          there before you book.
         </p>
       </section>
     </Fragment>
@@ -72,12 +73,12 @@ const formate = telcFormate.formate;
     <SatzListe exam="telc" />
 
     <div class="mock-cta">
-      <h2 data-i18n="telc.sb.title">Practise uso de la lengua</h2>
+      <h2 data-i18n="telc.sb.title">Practise language use</h2>
       <p data-i18n="telc.sb.text">
-        More gap-fill practice with grammar and vocabulary in context, useful for reading task 5. We wrote
-        this trainer for the DELE, so its layout isn't the SIELE's.
+        More gap-fill practice with grammar and vocabulary in context (strutture di comunicazione),
+        useful for the language-use tasks of the written exams.
       </p>
-      <a class="quiz-btn quiz-btn--primary" href="/dele/language-use" data-i18n="telc.sb.cta">To the uso de la lengua trainer</a>
+      <a class="quiz-btn quiz-btn--primary" href="/dele/language-use" data-i18n="telc.sb.cta">To the language-use trainer</a>
     </div>
 
     <div class="mock-cta">
@@ -87,10 +88,10 @@ const formate = telcFormate.formate;
     </div>
 
     <div class="mock-cta">
-      <h2 data-i18n="telc.a1.title">More at A1: our DELE A1 practice test</h2>
+      <h2 data-i18n="telc.a1.title">More at A1: our Italian A1 practice test</h2>
       <p data-i18n="telc.a1.text">
-        Our own A1 practice test in the style of the DELE, for more A1 practice than the first SIELE tasks
-        give. It is marked against a 60 % pass line, which is our own convention, not an official mark.
+        Our own A1 practice test in the style of the A1 exams, for learners not yet at A2. It is marked
+        against a 60 % pass line, which is our own convention, not an official mark.
       </p>
       <a class="quiz-btn quiz-btn--primary" href="/dele/a1" data-i18n="exam.startSet">Start the practice set</a>
     </div>
@@ -98,7 +99,7 @@ const formate = telcFormate.formate;
     <ExamPractice
       heading="Train the basics"
       headingKey="exam.practice.heading"
-      intro="These tools help at every level and for every exam. They train articles, grammar and vocabulary in general, not SIELE-specific task types."
+      intro="These tools help at every level and for every exam. They train articles, grammar and vocabulary in general, not CELI-specific task types."
       introKey="telc.practice.intro"
       tools={["artikel", "grammatik", "wortschatz"]}
     />

@@ -1,13 +1,13 @@
 ---
 import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
-// SIELE reading and writing (the testdaf slot) on the exam shell (src/lib/examApp.js), built
-// like the S2 modality but shorter. Two things are said out loud on the Start part: the
-// structure comes from the public exam guide, and every text and item is written by
-// icanspeak Italian. Task 1 follows a real SIELE task type; tasks 2 and 3 are plain reading
-// practice, and the real gap-text tasks are in the band sets on /siele/levels.
+// PLIDA-style reading and writing (the testdaf slot) on the exam shell (src/lib/examApp.js).
+// The set itself is still the Spanish course's SIELE set (built like the S2 modality);
+// `exams-plida-certit` rewrites it as a PLIDA B1 set (content-plan §2). The page text says
+// "PLIDA" already (ui-pages-m-z). Two things are said out loud on the Start part: every
+// text and item is written by icanspeak Italian, and the rating is our own guide.
 //
-// Listening is deliberately absent: it needs recordings. The band sets have listening
-// scripts to read until audio exists.
+// Listening is deliberately absent: it needs recordings. The CELI sets on /siele/levels
+// have listening scripts to read until audio exists.
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
 import ExamApp from "../../components/ExamApp.astro";
@@ -16,24 +16,24 @@ import "../../styles/pruefungen.css";
 import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
 ---
 <Layout
-  title="SIELE: reading practice – icanspeak Italian"
-  description="Practise for the SIELE reading module in exam style, plus a writing task — with progress for each task and a score. Not an official test."
+  title="PLIDA: reading and writing practice – icanspeak Italian"
+  description="Practise reading and writing for the PLIDA in exam style — with progress for each task and a score. Not an official test."
 >
   <SiteNav active="pruefungen" />
   <main class="practice-main practice-main--wide practice-main--trainer">
-    <a href="/siele" class="vp-back-link" data-i18n="exam.backToTestdaf">Back to the SIELE page</a>
+    <a href="/siele" class="vp-back-link" data-i18n="exam.backToTestdaf">Back to the PLIDA page</a>
 
     <div class="practice-hero">
-      <p class="eyebrow"><span translate="no">SIELE</span> · <span data-i18n="exam.h1.set">Practice set</span></p>
-      <h1><span class="hero-exam" translate="no">SIELE</span> <span data-i18n="exam.h1.readWrite">Reading and writing</span></h1>
+      <p class="eyebrow"><span translate="no">PLIDA</span> · <span data-i18n="exam.h1.set">Practice set</span></p>
+      <h1><span class="hero-exam" translate="no">PLIDA</span> <span data-i18n="exam.h1.readWrite">Reading and writing</span></h1>
       <p data-i18n="tdf.hero.text">
-        Reading tasks in the style of the SIELE, plus a writing task. How
+        Reading tasks and a writing task in exam style. How
         the tasks were made is explained in the “Start” part — please read it once.
       </p>
     </div>
     <ExamDisclaimer />
 
-    <ExamApp brand="SIELE" sub="Reading · Writing" subKey="tdf.sub" unit="tasks" />
+    <ExamApp brand="PLIDA" sub="Reading · Writing" subKey="tdf.sub" unit="tasks" />
   </main>
 
   <script type="application/json" id="tdaf-data" set:html={JSON.stringify(satz)}></script>
@@ -71,7 +71,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
        rather than disappearing. */
     function readingText(text) {
       const box = el("div", "lese-text lese-text--long");
-      box.lang = "es";
+      box.lang = "it";
       box.appendChild(el("p", "lese-text-label", escapeHtml(text.label)));
       if (text.title) box.appendChild(el("h3", "lese-text-title", escapeHtml(text.title)));
       const body = el("div", "lese-text-body");
@@ -97,9 +97,9 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
         render(main, ctx) {
           sectionHeader(main, {
             eyebrow: t("exam.h1.set"),
-            title: "SIELE — " + T("exam.h1.readWrite", "Reading and writing"),
+            title: "PLIDA — " + T("exam.h1.readWrite", "Reading and writing"),
             instruction: escapeHtml(T("tdf.start.intro",
-              "The SIELE has no pass mark: each test gets a score from 0 to 250 and a CEFR level, and each institution decides what it asks for.")),
+              "This set is practice, not a real exam: the rating at the end is our own guide.")),
           });
 
           const facts = el("table", "exam-breakdown");
@@ -118,7 +118,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
           main.appendChild(el("p", "format-note", escapeHtml(T("tdf.scoringNote", data.scoringNote))));
           main.appendChild(
             el("p", "format-note", escapeHtml(T("tdf.noListening",
-              "Listening and speaking aren't in this set. For every task type, including those two, use the SIELE sets by level.")))
+              "Listening and speaking aren't in this set. For those, use the CELI sets by level.")))
           );
 
           const go = el("button", "quiz-btn quiz-btn--primary", t("exam.startSet"));
@@ -140,7 +140,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
           // The three texts, then the eight statements. Each text is its own small card
           // rather than one block of prose: you scan these to find the statement.
           const ads = el("div", "ad-grid");
-          ads.lang = "es";
+          ads.lang = "it";
           for (const ad of a.anzeigen) {
             const card = el("div", "ad-card");
             card.appendChild(el("p", "ad-card-title", escapeHtml(ad.title)));
@@ -163,7 +163,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
                 existing: ctx.state.answers[item.id],
                 onAnswer: (given, correct) => ctx.record(item.id, given, correct),
                 meldung: `x:testdaf/${data.setId}/${item.id}`.toLowerCase(),
-                contentLang: "es",
+                contentLang: "it",
               })
             );
           });
@@ -189,7 +189,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
                 existing: ctx.state.answers[item.id],
                 onAnswer: (given, correct) => ctx.record(item.id, given, correct),
                 meldung: `x:testdaf/${data.setId}/${item.id}`.toLowerCase(),
-                contentLang: "es",
+                contentLang: "it",
               })
             );
           });
@@ -215,7 +215,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
                 existing: ctx.state.answers[item.id],
                 onAnswer: (given, correct) => ctx.record(item.id, given, correct),
                 meldung: `x:testdaf/${data.setId}/${item.id}`.toLowerCase(),
-                contentLang: "es",
+                contentLang: "it",
               })
             );
           });
@@ -236,10 +236,10 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
             instruction: escapeHtml(schreiben.instruction),
           });
 
-          // The SIELE opinion task starts from a headline, so the old chart task is gone.
+          // The opinion task starts from a headline (Spanish-course set, see the header).
           main.appendChild(el("h3", "sub-title", escapeHtml(T("tdf.yourTask", "Ihre Aufgabe"))));
           const task = el("ul", "task-points");
-          task.lang = "es";
+          task.lang = "it";
           for (const t of schreiben.aufgabe) task.appendChild(el("li", null, escapeHtml(t)));
           main.appendChild(task);
 
@@ -277,7 +277,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
 
           help.appendChild(el("p", "lese-text-label", escapeHtml(T("tdf.help.phrases", "Redemittel"))));
           const rm = el("ul", "task-points");
-          rm.lang = "es";
+          rm.lang = "it";
           for (const r of schreiben.redemittel) rm.appendChild(el("li", null, escapeHtml(r)));
           help.appendChild(rm);
 
@@ -321,14 +321,13 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
             card.appendChild(el("p", "instruction", escapeHtml(T("tdf.result.empty", "Noch keine Aufgabe beantwortet — fang bei „Lesen 1“ an."))));
           } else {
             card.appendChild(el("div", "exam-score", correct + " <small>" + escapeHtml(T("exam.result.ofCorrect", "von {n} richtig", { n: allLeseIds.length })) + "</small>"));
-            // Explicitly not a SIELE score. The SIELE scores each test separately and every
-            // institution sets its own requirement, so a percentage here is feedback on
-            // this practice set and nothing more.
+            // Explicitly not a PLIDA mark. The real exam marks each skill by its own rules,
+            // so a percentage here is feedback on this practice set and nothing more.
             const band = pct >= 80 ? ["", t("tdf.verdict.strong")]
               : pct >= 60 ? ["mid", t("tdf.verdict.mid")]
               : ["low", t("tdf.verdict.low")];
             card.appendChild(el("span", "exam-band " + band[0], band[1]));
-            card.appendChild(el("p", "instruction", escapeHtml(T("tdf.result.pct", "{pct}% correct. This is not a SIELE score — see the note below.", { pct }))));
+            card.appendChild(el("p", "instruction", escapeHtml(T("tdf.result.pct", "{pct}% correct. This is not a PLIDA mark — see the note below.", { pct }))));
 
             const table = el("table", "exam-breakdown");
             table.innerHTML =
@@ -347,7 +346,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
           main.appendChild(el("p", "format-note", escapeHtml(T("tdf.scoringNote", data.scoringNote))));
 
           const actions = el("div", "exam-actions");
-          const back = el("a", "quiz-btn", escapeHtml(T("tdf.toPage", "To the SIELE page")));
+          const back = el("a", "quiz-btn", escapeHtml(T("tdf.toPage", "To the PLIDA page")));
           back.href = withBase("/siele");
           actions.appendChild(back);
           main.appendChild(actions);
