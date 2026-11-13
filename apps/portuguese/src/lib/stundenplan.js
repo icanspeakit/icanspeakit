@@ -17,9 +17,9 @@ const GRAMMAR_RULES = [
   // C1
   [/Sequence of tenses|subjunctive and sequence/, ["konjunktiv-1"]],
   [/Emphasis and cleft/, ["es-korrelat"]],
-  [/Conditions without si/, ["passiversatz"]],
+  [/Conditions without s[ie]/, ["passiversatz"]],
   [/Non-finite clauses/, ["futur-2"]],
-  [/^como si/, ["irreale-vergleiche"]],
+  [/^como s[ie]/, ["irreale-vergleiche"]],
   [/Modal periphrases/, ["subjektive-modalverben"]],
   [/Formal connectors/, ["nominale-praepositionen"]],
   [/Nominalisation/, ["nominalisierung"]],
