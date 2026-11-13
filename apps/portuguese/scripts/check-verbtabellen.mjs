@@ -166,11 +166,14 @@ for (const v of verbs) {
 }
 
 // --- 4. agreement with the reference list -----------------------------------------------------
-// That list is written by hand: "yo presente · él indefinido · participio". A mismatch means one
-// of the two files is wrong.
+// That list is written by hand: "eu presente · ele perfeito · particípio". A mismatch means one
+// of the two files is wrong. Skipped while the table still holds the Spanish verbs (the reference
+// list is Portuguese since grammar-structure); `conjugation-data` makes the table Portuguese and
+// this comparison then runs.
 const list = read("src/data/nachschlagen/starke-schwache-verben.json");
 let compared = 0;
-for (const s of list.sections) {
+const tableIsPortuguese = by.has("falar");
+for (const s of tableIsPortuguese ? list.sections : []) {
   for (const it of s.items) {
     if (!Array.isArray(it)) continue;
     const inf = String(it[0]).replace(/[[\]|]/g, "");
