@@ -11,7 +11,7 @@
 import { slugify } from "./audioSlug.js";
 import { langsFor } from "./languages.js";
 import { varietyProblems } from "./variety.js";
-import { GENDERS as ARTICLE_GENDERS, genderProblems, legacyEntry } from "./articles.js";
+import { GENDERS as ARTICLE_GENDERS, FR_GENDERS, genderProblems, legacyEntry } from "./articles.js";
 
 /** The ten sectors, in hub order: where newcomers to France most often start work first. The slugs
  *  are history (progress keys): kita is cleaning and childcare, elektro-technik is private security
@@ -43,9 +43,12 @@ export const BUSINESS = { slug: "business", emoji: "💼" };
 export const TRANSLATIONS = langsFor("berufe");
 export const LANGS = ["de", ...TRANSLATIONS];
 export const POS = ["noun", "verb", "adj", "adverb", "phrase"];
-/** The article as the learner says it (content-plan §1.4): le / la / l' / les / le/la, with the
- *  Spanish el / la / el/la accepted as legacy until french-for-work (§1.6 rule 2). */
-export const GENDERS = ARTICLE_GENDERS;
+/** The article as the learner says it (content-plan §1.4): le / la / l' / les / le/la. The sector
+ *  decks and the code de la route deck are French only (french-for-work); the Spanish el / la / el/la
+ *  and es-ES stay accepted as legacy in the Business deck until business-french (§1.6 rule 2). */
+export const GENDERS = FR_GENDERS;
+/** Deck families that may still hold legacy Spanish entries. */
+const LEGACY_DECKS = new Set(["business"]);
 
 /** `bv-gastronomie-schneidebrett` */
 export const idFor = (slug, lemma) => `bv-${slug}-${slugify(lemma)}`;
@@ -61,7 +64,7 @@ export const ownWords = (deck) =>
 const deckKind = (file) => (file.startsWith("dgt/") ? "dgt" : file.startsWith("business") ? "business" : "berufe");
 /** Deck families whose dangling lexicon refs are errors again (content-plan §1.6 rule 3): each of
  *  code-route-vocab, french-for-work and business-french adds its own when it has re-pointed them. */
-const LEXICON_REF_ERRORS = new Set(["dgt"]);
+const LEXICON_REF_ERRORS = new Set(["dgt", "berufe"]);
 
 /** Entries in a deck, refs included: what the hub counts and the trainer shows. */
 export const entryCount = (deck) => (deck.groups ?? []).reduce((n, g) => n + (g.words ?? []).length, 0);
@@ -127,14 +130,17 @@ export function validate(files, known) {
         if (lemmas.has(key) && !(frenchLemmas.has(key) && legacyEntry(w))) at(`${where}: „${w.lemma}" is already defined (${lemmas.get(key)}) — use { "ref": "<id>" }`);
         else lemmas.set(key, `${file} ${w.id}`);
         if (!POS.includes(w.pos)) at(`${where}: pos must be one of ${POS.join(", ")}`);
-        if (w.pos === "noun" && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender ${GENDERS.join(", ")}`);
+        const legacyOk = LEGACY_DECKS.has(deckKind(file));
+        const genders = legacyOk ? ARTICLE_GENDERS : GENDERS;
+        if (!legacyOk && legacyEntry(w)) at(`${where}: legacy Spanish entry (gender ${w.gender ?? "–"}, variety ${w.variety ?? "–"}): this deck is French only`);
+        if (w.pos === "noun" && !genders.includes(w.gender)) at(`${where}: a noun needs gender ${genders.join(", ")}`);
         else if (w.pos === "noun") for (const p of genderProblems(w)) at(`${where}: ${p}`);
         else if (w.genus != null || w.hAspire != null) at(`${where}: genus and hAspire only on nouns`);
         if (w.fem != null && !(w.pos === "adj" && typeof w.fem === "string" && w.fem.trim())) at(`${where}: fem must be the feminine form of an adjective`);
         // variety / frCA / regional (§1.5; legacy es419 still accepted). A ref inherits them from the word it points to (rule above).
         for (const p of varietyProblems(w, { noun: w.pos === "noun" })) at(`${where}: ${p}`);
         if (w.pos === "noun" && w.plural === undefined && !w.pluralOnly) at(`${where}: a noun needs "plural" (null when there is none)`);
-        if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [yo present, él indefinido, participio]`);
+        if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [je présent, il passé composé, participe passé]`);
         if (!w.example) at(`${where}: no example sentence`);
         if (!w.deHint) at(`${where}: no deHint`);
         for (const l of TRANSLATIONS) if (!w.translations?.[l]) at(`${where}: no ${l} translation`);

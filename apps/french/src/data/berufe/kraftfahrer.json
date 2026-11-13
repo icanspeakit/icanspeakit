@@ -3,25 +3,30 @@
   "title": "Driving and delivery",
   "level": "A2–B1",
   "reviewed": false,
-  "_note": "spanish-for-work run, 2026-11-07: written by hand for Spain, read once by an AI second reader, not yet by a human. translations.en = English meaning; deHint = German translation (the 'German' tab). Words already in the lexicon or in another deck are refs, with this job's own example and sense. Working conditions are general orientation only.",
-  "intro": "Delivering parcels, food and goods (reparto) is a common job in Spanish cities, by van, motorbike or lorry. This deck has the vehicle, your daily work, routes and deliveries, the rules and safety, and what you say at the door. For the driving test itself, see the DGT vocabulary.",
-  "introEasy": "Do you deliver parcels or food, or drive for work in Spain? Learn the words for your work here.",
+  "_note": "french-for-work run, 2026-11-13: written by hand for France, not yet checked by a second reader. translations.en = English meaning; deHint = German translation (the 'German' tab). Words already in the lexicon are refs, with this job's own example and sense. Working conditions are general orientation only.",
+  "intro": "Delivering parcels, meals and goods is a common job in French towns, by bike, scooter, van or lorry, often through an agency or an app. This deck covers the vehicle, your daily work, rounds and deliveries, rules and safety, and what you say at the door. Say vous to customers; colleagues at the depot usually say tu. For the driving test itself, see the code de la route vocabulary.",
+  "introEasy": "Do you deliver parcels or food, or drive for work in France? Learn the words for your work here.",
   "jobs": [
-    "Repartidor/a",
-    "Conductor/a de furgoneta",
-    "Camionero/a",
-    "Mensajero/a",
-    "Rider"
+    "Livreur / livreuse",
+    "Chauffeur-livreur / chauffeuse-livreuse",
+    "Chauffeur poids lourd",
+    "Coursier / coursière",
+    "Livreur / livreuse à vélo ou à scooter"
   ],
   "tipps": [
-    "At the door, one short sentence is enough: «Buenos días, un paquete para Ana García. ¿Me firma aquí?»",
-    "Through the entryphone, say who you are and what you bring: «Hola, es el repartidor. Traigo un paquete.»",
-    "Foreign licences are not always valid for long, and professional driving needs extra permits. Check with the DGT or your employer before you drive for work. This is general orientation, not legal advice."
+    "At the door, one short sentence is enough, always with vous: « Bonjour, j'ai un colis pour madame Martin. Vous pouvez signer ici ? »",
+    "At the entryphone, say who you are and what you bring: « Bonjour, c'est le livreur. J'ai un colis pour monsieur Diallo. » If the digicode does not work, call the customer.",
+    "At the depot, colleagues and the dispatcher usually say tu: « Tu peux m'aider à décharger ? » With customers, stay with vous.",
+    "Driving for work usually needs the right licence category, medical checks and sometimes extra training or papers, and a licence from another country may not be valid for long. Ask your employer, France Travail or a union before you start. This is general orientation, not legal advice."
   ],
   "links": [
     {
       "href": "/code-de-la-route-vocabulary",
       "label": "Code de la route vocabulary"
+    },
+    {
+      "href": "/vocabulary/a2-19",
+      "label": "Cars and driving (A2)"
     },
     {
       "href": "/vocabulary/a2-13",
@@ -32,19 +37,38 @@
   "groups": [
     {
       "id": "fahrzeug",
-      "title": "El vehículo: the vehicle",
+      "title": "Le véhicule : the vehicle",
       "words": [
         {
-          "ref": "furgoneta",
-          "example": "Cargo la furgoneta a las siete y media.",
-          "en": "van",
-          "deHint": "Lieferwagen, Kleintransporter"
+          "id": "bv-kraftfahrer-utilitaire",
+          "lemma": "utilitaire",
+          "pos": "noun",
+          "gender": "l'",
+          "genus": "m",
+          "plural": "utilitaires",
+          "example": "L'utilitaire est garé devant l'entrepôt.",
+          "deHint": "Kleintransporter, Lieferwagen",
+          "translations": {
+            "en": "van, light commercial vehicle"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
         },
         {
           "ref": "camion",
-          "example": "Conduzco un camión de dieciocho toneladas.",
-          "en": "lorry",
+          "example": "Le camion part du dépôt à six heures.",
+          "en": "lorry, truck",
           "deHint": "Lastwagen"
+        },
+        {
+          "ref": "bv-dgt-poids-lourd",
+          "example": "Je conduis un poids lourd entre Lyon et Marseille.",
+          "deHint": "Lkw, Schwerlaster"
+        },
+        {
+          "ref": "bv-dgt-camionnette",
+          "example": "Je fais ma tournée en camionnette dans le centre-ville.",
+          "deHint": "Lieferwagen, Transporter"
         },
         {
           "id": "bv-kraftfahrer-moto",
@@ -52,521 +76,650 @@
           "pos": "noun",
           "gender": "la",
           "plural": "motos",
-          "example": "Reparto comida en moto por el centro.",
-          "deHint": "Motorrad, Roller",
+          "example": "Je livre des repas à moto dans le centre-ville.",
+          "deHint": "Motorrad",
           "translations": {
-            "en": "motorbike, scooter"
+            "en": "motorbike"
           },
           "morphSource": "authored",
-          "variety": "es-ES"
+          "variety": "fr-FR"
         },
         {
-          "ref": "bicicleta",
-          "example": "Hago el reparto en bicicleta eléctrica.",
-          "en": "bicycle",
+          "ref": "bv-dgt-scooter",
+          "example": "Le soir, je livre des pizzas en scooter.",
+          "deHint": "Motorroller"
+        },
+        {
+          "ref": "velo",
+          "example": "Je livre à vélo, avec un vélo électrique.",
+          "en": "bike, bicycle",
           "deHint": "Fahrrad"
         },
         {
-          "ref": "bv-dgt-remorque"
+          "ref": "bv-dgt-remorque",
+          "example": "On accroche la remorque au camion avant de partir.",
+          "deHint": "Anhänger"
         },
         {
-          "ref": "caja",
-          "example": "La caja de la furgoneta está llena.",
-          "en": "load area (of a van or lorry)",
-          "deHint": "Ladefläche"
-        },
-        {
-          "id": "bv-kraftfahrer-tacografo",
-          "lemma": "tacógrafo",
+          "id": "bv-kraftfahrer-hayon",
+          "lemma": "hayon",
           "pos": "noun",
-          "gender": "el",
-          "plural": "tacógrafos",
-          "example": "El tacógrafo registra las horas de conducción.",
-          "deHint": "Fahrtenschreiber",
+          "gender": "le",
+          "hAspire": true,
+          "plural": "hayons",
+          "example": "Le hayon de l'utilitaire est cassé.",
+          "deHint": "Ladeklappe, Heckklappe",
           "translations": {
-            "en": "tachograph"
+            "en": "tailgate, tail lift (of a van or lorry)"
           },
           "morphSource": "authored",
-          "variety": "es-ES"
+          "variety": "fr-FR"
+        },
+        {
+          "ref": "casque",
+          "example": "Je mets mon casque avant de démarrer le scooter.",
+          "en": "helmet",
+          "deHint": "Helm"
+        },
+        {
+          "id": "bv-kraftfahrer-sac-isotherme",
+          "lemma": "sac isotherme",
+          "pos": "noun",
+          "gender": "le",
+          "plural": "sacs isothermes",
+          "example": "Les repas restent chauds dans le sac isotherme.",
+          "deHint": "Thermorucksack, Warmhaltetasche",
+          "translations": {
+            "en": "insulated delivery bag"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
+        },
+        {
+          "ref": "batterie",
+          "example": "La batterie du vélo tient toute la soirée.",
+          "en": "battery",
+          "deHint": "Akku"
         },
         {
           "ref": "gps",
-          "example": "El GPS me manda por la autovía.",
+          "example": "Le GPS m'envoie par la rocade.",
           "en": "satnav",
           "deHint": "Navi"
-        },
-        {
-          "ref": "mochila",
-          "example": "La comida va en la mochila térmica.",
-          "en": "delivery backpack",
-          "deHint": "Lieferrucksack"
-        },
-        {
-          "ref": "rueda",
-          "example": "Se me ha pinchado una rueda.",
-          "en": "wheel, tyre",
-          "deHint": "Rad, Reifen"
-        },
-        {
-          "ref": "bv-dgt-reservoir"
-        },
-        {
-          "ref": "gasolinera",
-          "example": "Paro en la gasolinera y sigo.",
-          "en": "petrol station",
-          "deHint": "Tankstelle"
         }
       ]
     },
     {
       "id": "taetigkeiten",
-      "title": "Lo que haces: your daily work",
+      "title": "Ce que vous faites : your daily work",
       "words": [
         {
-          "ref": "conducir",
-          "example": "Conduzco ocho horas al día.",
+          "id": "bv-kraftfahrer-livrer",
+          "lemma": "livrer",
+          "pos": "verb",
+          "forms": [
+            "livre",
+            "a livré",
+            "livré"
+          ],
+          "example": "Je livre douze colis avant midi.",
+          "deHint": "liefern",
+          "translations": {
+            "en": "to deliver"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
+        },
+        {
+          "ref": "charger",
+          "example": "Je charge l'utilitaire à sept heures.",
+          "en": "to load",
+          "deHint": "beladen, einladen"
+        },
+        {
+          "id": "bv-kraftfahrer-decharger",
+          "lemma": "décharger",
+          "pos": "verb",
+          "forms": [
+            "décharge",
+            "a déchargé",
+            "déchargé"
+          ],
+          "example": "Je décharge les cartons devant le magasin.",
+          "deHint": "entladen, ausladen",
+          "translations": {
+            "en": "to unload"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
+        },
+        {
+          "ref": "scanner",
+          "example": "Avec le scanner, je valide chaque colis au départ.",
+          "en": "handheld scanner (for parcels)",
+          "deHint": "Handscanner"
+        },
+        {
+          "ref": "trier",
+          "example": "Je trie les colis par rue avant de partir.",
+          "en": "to sort (parcels)",
+          "deHint": "sortieren"
+        },
+        {
+          "id": "bv-kraftfahrer-ramasser",
+          "lemma": "ramasser",
+          "pos": "verb",
+          "forms": [
+            "ramasse",
+            "a ramassé",
+            "ramassé"
+          ],
+          "example": "Je ramasse les colis à retourner chez les clients.",
+          "deHint": "abholen, einsammeln",
+          "translations": {
+            "en": "to collect, to pick up"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
+        },
+        {
+          "id": "bv-kraftfahrer-recuperer",
+          "lemma": "récupérer",
+          "pos": "verb",
+          "forms": [
+            "récupère",
+            "a récupéré",
+            "récupéré"
+          ],
+          "example": "Je récupère la commande au restaurant.",
+          "deHint": "abholen",
+          "translations": {
+            "en": "to pick up (an order)"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
+        },
+        {
+          "ref": "deposer",
+          "example": "Je dépose le colis devant la porte, avec l'accord du client.",
+          "en": "to drop off, to leave",
+          "deHint": "abstellen, ablegen"
+        },
+        {
+          "ref": "remettre",
+          "example": "Je remets le colis en main propre.",
+          "en": "to hand over",
+          "deHint": "übergeben, aushändigen"
+        },
+        {
+          "ref": "conduire",
+          "example": "Je conduis plusieurs heures par jour.",
           "en": "to drive",
           "deHint": "fahren"
         },
         {
-          "ref": "aparcar",
-          "example": "Aquí no puedo aparcar la furgoneta.",
+          "ref": "se-garer",
+          "example": "Je me gare sur la zone de livraison.",
           "en": "to park",
           "deHint": "parken"
         },
         {
-          "ref": "repartir",
-          "example": "Reparto paquetes en tres barrios.",
-          "en": "to deliver",
-          "deHint": "ausliefern"
+          "ref": "recharger",
+          "example": "Je recharge la batterie du scooter la nuit.",
+          "en": "to charge (a battery)",
+          "deHint": "aufladen"
         },
         {
-          "id": "bv-kraftfahrer-reparto",
-          "lemma": "reparto",
-          "pos": "noun",
-          "gender": "el",
-          "plural": "repartos",
-          "example": "Empiezo el reparto a las nueve.",
-          "deHint": "Zustellung, Tour",
-          "translations": {
-            "en": "delivery, delivery round"
-          },
-          "morphSource": "authored",
-          "variety": "es-ES"
-        },
-        {
-          "ref": "entregar",
-          "example": "Ya he entregado todos los paquetes de la calle.",
-          "en": "to hand over, to deliver",
-          "deHint": "abgeben, zustellen"
-        },
-        {
-          "ref": "recoger",
-          "example": "Recojo el pedido en el restaurante.",
-          "en": "to collect",
-          "deHint": "abholen"
-        },
-        {
-          "ref": "cargar",
-          "example": "Cargo primero los paquetes grandes.",
-          "en": "to load",
-          "deHint": "laden"
-        },
-        {
-          "ref": "descargar",
-          "example": "¿Dónde puedo descargar?",
-          "en": "to unload",
-          "deHint": "abladen"
-        },
-        {
-          "ref": "firmar",
-          "example": "Firme aquí, por favor.",
-          "en": "to sign",
-          "deHint": "unterschreiben"
-        },
-        {
-          "id": "bv-kraftfahrer-echar-gasolina",
-          "lemma": "echar gasolina",
-          "pos": "phrase",
-          "example": "Echo gasolina cada dos días.",
-          "deHint": "tanken",
-          "translations": {
-            "en": "to fill up (with fuel)"
-          },
-          "variety": "es-ES"
-        },
-        {
-          "id": "bv-kraftfahrer-avisar",
-          "lemma": "avisar",
-          "pos": "verb",
-          "forms": [
-            "aviso",
-            "avisó",
-            "avisado"
-          ],
-          "example": "Avisa a la central si llegas tarde.",
-          "deHint": "Bescheid sagen",
-          "translations": {
-            "en": "to let (someone) know"
-          },
-          "morphSource": "authored",
-          "variety": "es-ES"
-        },
-        {
-          "id": "bv-kraftfahrer-repartidor",
-          "lemma": "repartidor",
-          "pos": "noun",
-          "gender": "el",
-          "plural": "repartidores",
-          "example": "El repartidor ha dejado una nota.",
-          "deHint": "Zusteller, Lieferfahrer",
-          "translations": {
-            "en": "delivery driver, courier (female: la repartidora)"
-          },
-          "morphSource": "authored",
-          "variety": "es-ES"
+          "ref": "bv-gastronomie-prendre-son-service",
+          "example": "Il faut prendre son service avant six heures au dépôt.",
+          "en": "to start your shift",
+          "deHint": "den Dienst antreten"
         }
       ]
     },
     {
       "id": "ablaeufe",
-      "title": "Rutas y entregas: routes and deliveries",
+      "title": "La tournée et la livraison : rounds and deliveries",
       "words": [
         {
-          "id": "bv-kraftfahrer-ruta",
-          "lemma": "ruta",
-          "pos": "noun",
-          "gender": "la",
-          "plural": "rutas",
-          "example": "Hoy tengo una ruta nueva.",
-          "deHint": "Route",
-          "translations": {
-            "en": "route"
-          },
-          "morphSource": "authored",
-          "variety": "es-ES"
+          "ref": "tournee",
+          "example": "Ma tournée commence au dépôt à six heures.",
+          "en": "delivery round, route",
+          "deHint": "Tour, Lieferroute"
         },
         {
-          "ref": "paquete",
-          "example": "Este paquete pesa mucho.",
+          "ref": "colis",
+          "example": "Ce colis pèse vingt kilos.",
           "en": "parcel",
           "deHint": "Paket"
         },
         {
-          "id": "bv-kraftfahrer-destinatario",
-          "lemma": "destinatario",
+          "id": "bv-kraftfahrer-destinataire",
+          "lemma": "destinataire",
           "pos": "noun",
-          "gender": "el",
-          "plural": "destinatarios",
-          "example": "El destinatario no está en casa.",
-          "deHint": "Empfänger",
+          "gender": "le/la",
+          "plural": "destinataires",
+          "example": "Le destinataire n'est pas là aujourd'hui.",
+          "deHint": "Empfänger, Empfängerin",
           "translations": {
-            "en": "recipient (female: la destinataria)"
+            "en": "recipient, addressee"
           },
           "morphSource": "authored",
-          "variety": "es-ES"
+          "variety": "fr-FR"
         },
         {
-          "ref": "remitente",
-          "example": "Si no lo recogen, vuelve al remitente.",
-          "en": "sender",
-          "deHint": "Absender, Absenderin"
-        },
-        {
-          "ref": "bv-einzelhandel-albaran",
-          "example": "Firme el albarán, por favor.",
-          "en": "delivery note",
-          "deHint": "Lieferschein"
-        },
-        {
-          "ref": "portal",
-          "example": "Te dejo el paquete en el portal.",
-          "en": "main entrance of a block of flats",
-          "deHint": "Hauseingang"
-        },
-        {
-          "id": "bv-kraftfahrer-portero-automatico",
-          "lemma": "portero automático",
+          "id": "bv-kraftfahrer-avis-de-passage",
+          "lemma": "avis de passage",
           "pos": "noun",
-          "gender": "el",
-          "plural": "porteros automáticos",
-          "example": "Llamo al portero automático, pero nadie contesta.",
+          "gender": "l'",
+          "genus": "m",
+          "plural": "avis de passage",
+          "example": "Je laisse un avis de passage dans la boîte aux lettres.",
+          "deHint": "Benachrichtigungskarte",
+          "translations": {
+            "en": "card left when nobody is home to take the parcel"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
+        },
+        {
+          "id": "bv-kraftfahrer-point-relais",
+          "lemma": "point relais",
+          "pos": "noun",
+          "gender": "le",
+          "plural": "points relais",
+          "example": "Votre colis est au point relais, chez le buraliste.",
+          "deHint": "Paketshop, Abholstation",
+          "translations": {
+            "en": "pick-up point (a shop where parcels are collected)"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
+        },
+        {
+          "ref": "creneau",
+          "example": "Le client a choisi le créneau de dix-huit à vingt heures.",
+          "en": "time slot",
+          "deHint": "Zeitfenster"
+        },
+        {
+          "id": "bv-kraftfahrer-interphone",
+          "lemma": "interphone",
+          "pos": "noun",
+          "gender": "l'",
+          "genus": "m",
+          "plural": "interphones",
+          "example": "Je sonne à l'interphone, mais personne ne répond.",
           "deHint": "Gegensprechanlage",
           "translations": {
-            "en": "entryphone"
+            "en": "entryphone, intercom"
           },
           "morphSource": "authored",
-          "variety": "es-ES"
+          "variety": "fr-FR"
         },
         {
-          "ref": "buzon",
-          "example": "Dejé el aviso en el buzón.",
+          "id": "bv-kraftfahrer-digicode",
+          "lemma": "digicode",
+          "pos": "noun",
+          "gender": "le",
+          "plural": "digicodes",
+          "example": "Le digicode de l'immeuble ne marche pas.",
+          "deHint": "Türcode, Codeschloss",
+          "translations": {
+            "en": "door code, keypad lock"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
+        },
+        {
+          "id": "bv-kraftfahrer-bon-de-livraison",
+          "lemma": "bon de livraison",
+          "pos": "noun",
+          "gender": "le",
+          "plural": "bons de livraison",
+          "example": "Le client signe le bon de livraison.",
+          "deHint": "Lieferschein",
+          "translations": {
+            "en": "delivery note"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
+        },
+        {
+          "id": "bv-kraftfahrer-palette",
+          "lemma": "palette",
+          "pos": "noun",
+          "gender": "la",
+          "plural": "palettes",
+          "example": "Il y a vingt cartons sur la palette.",
+          "deHint": "Palette",
+          "translations": {
+            "en": "pallet"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
+        },
+        {
+          "id": "bv-kraftfahrer-entrepot",
+          "lemma": "entrepôt",
+          "pos": "noun",
+          "gender": "l'",
+          "genus": "m",
+          "plural": "entrepôts",
+          "example": "L'entrepôt ouvre à cinq heures.",
+          "deHint": "Lager, Lagerhalle",
+          "translations": {
+            "en": "warehouse"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
+        },
+        {
+          "ref": "adresse",
+          "example": "L'adresse est fausse : il manque le numéro de la rue.",
+          "en": "address",
+          "deHint": "Adresse"
+        },
+        {
+          "ref": "boite-aux-lettres",
+          "example": "Le colis ne rentre pas dans la boîte aux lettres.",
           "en": "letterbox",
           "deHint": "Briefkasten"
         },
         {
-          "id": "bv-kraftfahrer-punto-de-recogida",
-          "lemma": "punto de recogida",
-          "pos": "noun",
-          "gender": "el",
-          "plural": "puntos de recogida",
-          "example": "El paquete está en el punto de recogida.",
-          "deHint": "Abholstelle",
-          "translations": {
-            "en": "pick-up point"
-          },
-          "morphSource": "authored",
-          "variety": "es-ES"
-        },
-        {
-          "id": "bv-kraftfahrer-carga-y-descarga",
-          "lemma": "carga y descarga",
-          "pos": "noun",
-          "gender": "la",
-          "plural": null,
-          "example": "Aparco en la zona de carga y descarga.",
-          "deHint": "Be- und Entladezone",
-          "translations": {
-            "en": "loading and unloading (bay)"
-          },
-          "morphSource": "authored",
-          "variety": "es-ES"
-        },
-        {
-          "id": "bv-kraftfahrer-central",
-          "lemma": "central",
-          "pos": "noun",
-          "gender": "la",
-          "plural": "centrales",
-          "example": "Llamo a la central para cambiar la ruta.",
-          "deHint": "Zentrale",
-          "translations": {
-            "en": "dispatch, head office"
-          },
-          "morphSource": "authored",
-          "variety": "es-ES"
-        },
-        {
-          "ref": "retraso",
-          "example": "Llevo un retraso de media hora por el tráfico.",
-          "en": "delay",
+          "ref": "retard",
+          "example": "J'ai vingt minutes de retard à cause des travaux.",
+          "en": "delay, lateness",
           "deHint": "Verspätung"
         }
       ]
     },
     {
       "id": "sicherheit-regeln",
-      "title": "Normas y seguridad: rules and safety",
+      "title": "Les règles et la sécurité : rules and safety",
       "words": [
         {
-          "ref": "carne-de-conducir",
-          "example": "Lleva siempre el carné de conducir.",
+          "ref": "permis",
+          "example": "Il me faut un permis valable pour ce véhicule.",
           "en": "driving licence",
           "deHint": "Führerschein"
         },
         {
-          "id": "bv-kraftfahrer-cap",
-          "lemma": "CAP",
+          "id": "bv-kraftfahrer-permis-c",
+          "lemma": "permis C",
           "pos": "noun",
-          "gender": "el",
-          "plural": "CAP",
-          "example": "Para este camión piden el CAP.",
-          "deHint": "Berufskraftfahrer-Qualifikation",
+          "gender": "le",
+          "plural": "permis C",
+          "example": "Pour ce camion, il faut le permis C.",
+          "deHint": "Lkw-Führerschein (Klasse C)",
           "translations": {
-            "en": "professional driver's certificate"
+            "en": "lorry licence (category C)"
           },
           "morphSource": "authored",
-          "variety": "es-ES"
+          "variety": "fr-FR"
         },
         {
-          "ref": "itv",
-          "example": "La furgoneta tiene que pasar la ITV.",
-          "en": "vehicle inspection (like MOT)",
-          "deHint": "Hauptuntersuchung (TÜV)"
-        },
-        {
-          "ref": "seguro",
-          "example": "¿Tiene seguro esta furgoneta?",
-          "en": "insurance",
-          "deHint": "Versicherung"
-        },
-        {
-          "ref": "multa",
-          "example": "Me han puesto una multa por aparcar mal.",
-          "en": "fine",
-          "deHint": "Bußgeld"
-        },
-        {
-          "ref": "casco",
-          "example": "Ponte el casco, aunque sea un viaje corto.",
-          "en": "helmet",
-          "deHint": "Helm"
-        },
-        {
-          "id": "bv-kraftfahrer-tiempo-de-descanso",
-          "lemma": "tiempo de descanso",
+          "id": "bv-kraftfahrer-fimo",
+          "lemma": "FIMO",
           "pos": "noun",
-          "gender": "el",
-          "plural": "tiempos de descanso",
-          "example": "Tengo que respetar los tiempos de descanso.",
-          "deHint": "Ruhezeit",
+          "gender": "la",
+          "plural": "FIMO",
+          "example": "J'ai fait la FIMO pour conduire un poids lourd.",
+          "deHint": "Grundqualifikation für Berufskraftfahrer",
           "translations": {
-            "en": "rest period"
+            "en": "initial training course for professional lorry drivers"
           },
           "morphSource": "authored",
-          "variety": "es-ES"
+          "variety": "fr-FR"
         },
         {
-          "ref": "atasco",
-          "example": "Hay atasco en la M-30.",
-          "en": "traffic jam",
-          "deHint": "Stau"
+          "id": "bv-kraftfahrer-chronotachygraphe",
+          "lemma": "chronotachygraphe",
+          "pos": "noun",
+          "gender": "le",
+          "plural": "chronotachygraphes",
+          "example": "Le chronotachygraphe enregistre mes heures de conduite.",
+          "deHint": "Fahrtenschreiber",
+          "translations": {
+            "en": "tachograph"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
         },
         {
-          "ref": "accidente",
-          "example": "He tenido un accidente, sin heridos.",
-          "en": "accident",
-          "deHint": "Unfall"
+          "id": "bv-kraftfahrer-temps-de-pause",
+          "lemma": "temps de pause",
+          "pos": "noun",
+          "gender": "le",
+          "plural": "temps de pause",
+          "example": "Mon temps de pause commence à midi.",
+          "deHint": "Pausenzeit",
+          "translations": {
+            "en": "break time, rest break"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
         },
         {
-          "ref": "parte-noun",
-          "example": "Rellena el parte del seguro con el otro conductor.",
-          "en": "accident report form",
-          "deHint": "Unfallbericht"
+          "ref": "ceinture",
+          "example": "Je mets la ceinture à chaque trajet.",
+          "en": "seat belt",
+          "deHint": "Sicherheitsgurt"
         },
         {
-          "ref": "autonomo",
-          "example": "Algunos riders trabajaban como autónomos.",
-          "en": "self-employed person (female: la autónoma)",
-          "deHint": "Selbstständiger"
+          "id": "bv-kraftfahrer-gilet-fluo",
+          "lemma": "gilet fluo",
+          "pos": "noun",
+          "gender": "le",
+          "plural": "gilets fluo",
+          "example": "Je mets mon gilet fluo avant de descendre sur la route.",
+          "deHint": "Warnweste",
+          "translations": {
+            "en": "high-visibility vest"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
+        },
+        {
+          "id": "bv-kraftfahrer-charge-utile",
+          "lemma": "charge utile",
+          "pos": "noun",
+          "gender": "la",
+          "plural": "charges utiles",
+          "example": "Attention à la charge utile du camion.",
+          "deHint": "Nutzlast, Zuladung",
+          "translations": {
+            "en": "payload (the weight the vehicle may carry)"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
+        },
+        {
+          "ref": "bv-dgt-vitesse-maximale",
+          "example": "Avec le camion chargé, je ne dépasse jamais la vitesse maximale.",
+          "deHint": "Höchstgeschwindigkeit"
+        },
+        {
+          "ref": "bv-dgt-feux-de-detresse",
+          "example": "Je mets les feux de détresse pendant que je décharge.",
+          "deHint": "Warnblinkanlage"
+        },
+        {
+          "ref": "bv-dgt-stationnement-interdit",
+          "example": "Ici, c'est stationnement interdit : je cherche une aire de livraison.",
+          "deHint": "Parkverbot"
+        },
+        {
+          "ref": "visite-medicale",
+          "example": "J'ai ma visite médicale lundi, avec la médecine du travail.",
+          "en": "medical check-up (through occupational health)",
+          "deHint": "ärztliche Untersuchung (Arbeitsmedizin)"
+        },
+        {
+          "ref": "amende",
+          "example": "J'ai reçu une amende pour stationnement interdit.",
+          "en": "fine (traffic)",
+          "deHint": "Bußgeld, Strafzettel"
+        },
+        {
+          "ref": "bv-dgt-constat-amiable",
+          "example": "Après l'accrochage, on remplit le constat amiable.",
+          "en": "joint accident report form",
+          "deHint": "Unfallbericht (gemeinsam ausgefüllt)"
         }
       ]
     },
     {
       "id": "kunden-team",
-      "title": "En la puerta y en el equipo: customers and team",
+      "title": "À la porte et en équipe : at the door and in the team",
       "words": [
         {
-          "id": "bv-kraftfahrer-traigo-un-paquete-para-usted",
-          "lemma": "Traigo un paquete para usted.",
-          "pos": "phrase",
-          "example": "Buenos días, traigo un paquete para usted.",
-          "deHint": "Ich habe ein Paket für Sie.",
+          "id": "bv-kraftfahrer-livreur",
+          "lemma": "livreur",
+          "pos": "noun",
+          "gender": "le",
+          "plural": "livreurs",
+          "example": "Le livreur sonne à la porte.",
+          "deHint": "Lieferant, Lieferantin",
           "translations": {
-            "en": "I have a parcel for you."
+            "en": "delivery driver, delivery rider (f: la livreuse)"
           },
-          "variety": "es-ES"
+          "morphSource": "authored",
+          "variety": "fr-FR"
         },
         {
-          "id": "bv-kraftfahrer-me-firma-aqui",
-          "lemma": "¿Me firma aquí?",
+          "id": "bv-kraftfahrer-coursier",
+          "lemma": "coursier",
+          "pos": "noun",
+          "gender": "le",
+          "plural": "coursiers",
+          "example": "Le coursier porte les documents à l'étage.",
+          "deHint": "Kurier, Kurierin",
+          "translations": {
+            "en": "courier (f: la coursière)"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
+        },
+        {
+          "id": "bv-kraftfahrer-chauffeur-livreur",
+          "lemma": "chauffeur-livreur",
+          "pos": "noun",
+          "gender": "le",
+          "plural": "chauffeurs-livreurs",
+          "example": "Le chauffeur-livreur charge son utilitaire à six heures.",
+          "deHint": "Auslieferungsfahrer, Auslieferungsfahrerin",
+          "translations": {
+            "en": "delivery van driver (f: la chauffeuse-livreuse)"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
+        },
+        {
+          "id": "bv-kraftfahrer-dispatcheur",
+          "lemma": "dispatcheur",
+          "pos": "noun",
+          "gender": "le",
+          "plural": "dispatcheurs",
+          "example": "Le dispatcheur m'a donné une livraison en plus.",
+          "deHint": "Disponent, Disponentin",
+          "translations": {
+            "en": "dispatcher (f: la dispatcheuse)"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
+        },
+        {
+          "id": "bv-kraftfahrer-plateforme",
+          "lemma": "plateforme",
+          "pos": "noun",
+          "gender": "la",
+          "plural": "plateformes",
+          "example": "La plateforme m'envoie les courses sur le téléphone.",
+          "deHint": "Plattform (Lieferdienst-App)",
+          "translations": {
+            "en": "delivery platform, app that sends you orders"
+          },
+          "morphSource": "authored",
+          "variety": "fr-FR"
+        },
+        {
+          "ref": "client",
+          "example": "Le client n'est pas chez lui.",
+          "en": "customer (f: la cliente)",
+          "deHint": "Kunde, Kundin"
+        },
+        {
+          "ref": "pourboire",
+          "example": "Le client m'a laissé un pourboire de deux euros.",
+          "en": "tip (money)",
+          "deHint": "Trinkgeld"
+        },
+        {
+          "id": "bv-kraftfahrer-bonjour-j-ai-un-colis-pour-madame-martin",
+          "lemma": "Bonjour, j'ai un colis pour madame Martin.",
           "pos": "phrase",
-          "example": "Son dos paquetes. ¿Me firma aquí?",
+          "example": "À l'interphone, je dis : Bonjour, j'ai un colis pour madame Martin.",
+          "deHint": "Guten Tag, ich habe ein Paket für Frau Martin.",
+          "translations": {
+            "en": "Hello, I have a parcel for Mrs Martin."
+          },
+          "variety": "fr-FR"
+        },
+        {
+          "id": "bv-kraftfahrer-vous-pouvez-signer-ici",
+          "lemma": "Vous pouvez signer ici ?",
+          "pos": "phrase",
+          "example": "Je tends le téléphone : Vous pouvez signer ici ?",
           "deHint": "Können Sie hier unterschreiben?",
           "translations": {
             "en": "Can you sign here?"
           },
-          "variety": "es-ES"
+          "variety": "fr-FR"
         },
         {
-          "id": "bv-kraftfahrer-me-abre-por-favor",
-          "lemma": "¿Me abre, por favor?",
+          "id": "bv-kraftfahrer-c-est-a-quel-etage",
+          "lemma": "C'est à quel étage ?",
           "pos": "phrase",
-          "example": "Es el repartidor. ¿Me abre, por favor?",
-          "deHint": "Können Sie mir bitte öffnen?",
+          "example": "Je suis devant l'immeuble. C'est à quel étage ?",
+          "deHint": "In welchem Stock ist es?",
           "translations": {
-            "en": "Can you buzz me in, please?"
+            "en": "Which floor is it on?"
           },
-          "variety": "es-ES"
+          "variety": "fr-FR"
         },
         {
-          "id": "bv-kraftfahrer-se-lo-puedo-dejar-a-un-vecino",
-          "lemma": "¿Se lo puedo dejar a un vecino?",
+          "id": "bv-kraftfahrer-je-le-laisse-chez-le-voisin",
+          "lemma": "Je le laisse chez le voisin ?",
           "pos": "phrase",
-          "example": "No está en casa. ¿Se lo puedo dejar a un vecino?",
-          "deHint": "Kann ich es bei einem Nachbarn abgeben?",
+          "example": "Madame Martin n'est pas là. Je le laisse chez le voisin ?",
+          "deHint": "Soll ich es beim Nachbarn lassen?",
           "translations": {
-            "en": "Can I leave it with a neighbour?"
+            "en": "Shall I leave it with the neighbour?"
           },
-          "variety": "es-ES"
+          "variety": "fr-FR"
         },
         {
-          "id": "bv-kraftfahrer-le-dejo-un-aviso",
-          "lemma": "Le dejo un aviso.",
+          "id": "bv-kraftfahrer-bonne-journee",
+          "lemma": "Bonne journée !",
           "pos": "phrase",
-          "example": "No había nadie, así que le dejo un aviso.",
-          "deHint": "Ich hinterlasse Ihnen eine Benachrichtigung.",
+          "example": "Voilà votre colis, monsieur Diallo. Bonne journée !",
+          "deHint": "Einen schönen Tag noch!",
           "translations": {
-            "en": "I'll leave you a note."
+            "en": "Have a good day! (said when leaving)"
           },
-          "variety": "es-ES"
+          "variety": "fr-FR"
         },
         {
-          "id": "bv-kraftfahrer-llego-en-diez-minutos",
-          "lemma": "Llego en diez minutos.",
+          "id": "bv-kraftfahrer-je-suis-un-peu-en-retard-desole",
+          "lemma": "Je suis un peu en retard, désolé.",
           "pos": "phrase",
-          "example": "Hay mucho tráfico. Llego en diez minutos.",
-          "deHint": "Ich bin in zehn Minuten da.",
+          "example": "Au téléphone, je dis : Je suis un peu en retard, désolé.",
+          "deHint": "Ich bin etwas spät dran, tut mir leid.",
           "translations": {
-            "en": "I'll be there in ten minutes."
+            "en": "I'm a bit late, sorry. (a woman says désolée)"
           },
-          "variety": "es-ES"
-        },
-        {
-          "id": "bv-kraftfahrer-no-encuentro-la-direccion",
-          "lemma": "No encuentro la dirección.",
-          "pos": "phrase",
-          "example": "Perdone, no encuentro la dirección. ¿Es por aquí?",
-          "deHint": "Ich finde die Adresse nicht.",
-          "translations": {
-            "en": "I can't find the address."
-          },
-          "variety": "es-ES"
-        },
-        {
-          "id": "bv-kraftfahrer-que-piso-es",
-          "lemma": "¿Qué piso es?",
-          "pos": "phrase",
-          "example": "Hola, soy el repartidor. ¿Qué piso es?",
-          "deHint": "Welches Stockwerk ist es?",
-          "translations": {
-            "en": "Which floor is it?"
-          },
-          "variety": "es-ES"
-        },
-        {
-          "id": "bv-kraftfahrer-camionero",
-          "lemma": "camionero",
-          "pos": "noun",
-          "gender": "el",
-          "plural": "camioneros",
-          "example": "Los camioneros paran aquí a comer.",
-          "deHint": "Lastwagenfahrer",
-          "translations": {
-            "en": "lorry driver (female: la camionera)"
-          },
-          "morphSource": "authored",
-          "variety": "es-ES"
-        },
-        {
-          "id": "bv-kraftfahrer-jefe-de-trafico",
-          "lemma": "jefe de tráfico",
-          "pos": "noun",
-          "gender": "el",
-          "plural": "jefes de tráfico",
-          "example": "El jefe de tráfico me cambia la ruta.",
-          "deHint": "Disponent",
-          "translations": {
-            "en": "fleet or dispatch manager (female: la jefa de tráfico)"
-          },
-          "morphSource": "authored",
-          "variety": "es-ES"
-        },
-        {
-          "ref": "movil",
-          "example": "Te mando la ubicación al móvil.",
-          "en": "mobile phone",
-          "deHint": "Handy"
+          "variety": "fr-FR"
         }
       ]
     }
