@@ -27,6 +27,7 @@ const GRAMMAR_RULES = [
   [/^Cohesion/, ["textkohaerenz"]],
   [/^Prefixes and derivation/, ["verbpraefixe"]],
   [/Review: formal style/, ["nominalisierung", "nominale-praepositionen"]],
+  [/Review: congiuntivo and sequence/, ["konjunktiv-1", "konjunktiv2"]],
   // B2
   [/^Congiuntivo imperfetto/, ["konjunktiv2"]],
   [/^Periodo ipotetico/, ["modalsaetze"]],
