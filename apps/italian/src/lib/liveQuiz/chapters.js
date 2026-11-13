@@ -132,9 +132,9 @@ function verbGroups() {
 /* ---- The Nachschlagewerk lists (/grammar/<ref>, src/data/nachschlagen/*.json) ------
    Chapter g-nachschlagen-<file>, one group per section of the list. Rows are
    [verb, forms, example, level]; a "# …" string is a sub-heading and is skipped.
-     starke-schwache-verben     él indefinido and participle of each verb; wrong: the other
-                                forms, the regular pattern (tenió, hacido)
-     trennbare-verben           yo present of the pronominal verb; wrong: no pronoun, another pronoun
+     starke-schwache-verben     past participle and io imperfect of each verb; wrong: the other
+                                forms, the regular pattern (fato, facevo → fatavo)
+     trennbare-verben           io present of the pronominal verb; wrong: no pronoun, another pronoun
      verben-mit-praepositionen  the preposition in the example sentence; wrong: the others */
 const REF_PREFIX = "nachschlagen-";
 const refMods = import.meta.glob("../../data/nachschlagen/*.json", { eager: true });
@@ -143,9 +143,9 @@ const refLists = Object.fromEntries(Object.entries(refMods).map(([path, m]) => [
 const REF_LEVEL = { "starke-schwache-verben": "A1", "trennbare-verben": "A1", "verben-mit-praepositionen": "A2" };
 const rowsOf = (sec) => (sec.items ?? []).filter((it) => Array.isArray(it));
 const bareVerb = (v) => String(v).replace(/[[\]|]/g, "");
-// The form a learner guesses from the regular pattern: wrong for an irregular verb.
-const regularEl = (inf) => inf.replace(/ar$/, "ó").replace(/(er|ir|ír)$/, "ió");
-const regularPart = (inf) => inf.replace(/ar$/, "ado").replace(/(er|ir|ír)$/, "ido");
+// The forms a learner guesses from the regular pattern: wrong for an irregular verb.
+const regularPart = (inf) => inf.replace(/are$/, "ato").replace(/ere$/, "uto").replace(/ire$/, "ito");
+const regularImpf = (inf) => inf.replace(/are$/, "avo").replace(/ere$/, "evo").replace(/ire$/, "ivo");
 const mcq = (prompt, right, wrong, kind, src) => {
   const seen = new Set([right.toLowerCase()]);
   const opts = shuffle(wrong).filter((w) => w && !seen.has(w.toLowerCase()) && seen.add(w.toLowerCase())).slice(0, 3);
@@ -162,17 +162,19 @@ function refGroups(file) {
       const [v, forms, example] = row;
       const inf = bareVerb(v);
       if (file === "starke-schwache-verben") {
-        // "tengo · tuvo · tenido": yo presente · él indefinido · participio
-        const [yo, past, p2] = String(forms).split(" · ").map((f) => f.trim());
-        if (!past || !p2) return;
-        items.push(mcq(`Ayer ella ___ (${inf}) · indefinido`, past, [regularEl(inf), yo, p2, inf], sec.name, src(sec, i, "praet")));
-        items.push(mcq(`Ella ha ___ (${inf}) · perfecto`, p2, [regularPart(inf), past, inf, yo], sec.name, src(sec, i, "perf")));
+        // "vado · andato · andavo": io presente · participio passato · io imperfetto
+        const [io, part, impf] = String(forms).split(" · ").map((f) => f.trim());
+        if (!part || !impf) return;
+        items.push(mcq(`Lei ha ___ (${inf}) · passato prossimo`, part, [regularPart(inf), impf, io, inf], sec.name, src(sec, i, "perf")));
+        items.push(mcq(`Io ___ (${inf}) · imperfetto`, impf, [regularImpf(inf), part, io, inf], sec.name, src(sec, i, "impf")));
       } else if (file === "trennbare-verben") {
-        // The yo form with its pronoun; wrong: no pronoun, or the pronoun of another person.
-        const yo = String(forms).split(" · ")[0].trim();
-        if (!yo.startsWith("me ")) return;
-        const bare = yo.slice(3);
-        items.push(mcq(`Yo ___ (${inf}) · presente`, yo, [bare, `se ${bare}`, `te ${bare}`], sec.name, src(sec, i)));
+        // The io form with its pronoun; wrong: no pronoun, or the pronoun of another person.
+        const io = String(forms).split(" · ")[0].trim();
+        const m = io.match(/^(mi|me) (.+)$/);
+        if (!m) return;
+        const bare = m[2];
+        const wrong = m[1] === "mi" ? [bare, `si ${bare}`, `ti ${bare}`] : [bare, `se ${bare}`, `te ${bare}`];
+        items.push(mcq(`Io ___ (${inf}) · presente`, io, wrong, sec.name, src(sec, i)));
       } else if (file === "verben-mit-praepositionen") {
         const prep = sec.name;
         const verb = String(v).endsWith(` ${prep}`) ? String(v).slice(0, -prep.length - 1) : String(v);
