@@ -1,10 +1,12 @@
-// Business Spanish (docs/content-plan.md §4.3): the units in src/data/business-spanish/<id>.json.
+// Business French (docs/content-plan.md §4.3): the units in src/data/business-spanish/<id>.json
+// (folder, file and unit ids stay Spanish internally, §1.3; the page is /business-spanish until `routes`).
 //
 // Plain ESM with no Vite imports, so the build check (scripts/check-business-spanish.mjs) and the
 // pages share one set of rules. Pages get the units through src/lib/businessSpanishData.js.
 //
 // A unit: { id, level, title, variety, reviewed, intro, introEasy, phrases, models, tips, words,
-// exercises }. Its `words` are berufe deck entries, so businessDeck() folds all units into one
+// exercises }. A phrase is { use, fr, en, register, variety, frCA? }: the French text sits under `fr`
+// (the Spanish course had `es`, which would now read as the Spanish UI language). Its `words` are berufe deck entries, so businessDeck() folds all units into one
 // deck ("business"), one group per unit: the flashcard trainer, the print sheet and the live quiz
 // then work as they do for a sector deck, and word ids are bv-business-<slug of the lemma>.
 import { varietyProblems } from "./variety.js";
@@ -23,7 +25,7 @@ export function businessDeck(units) {
   const sorted = byOrder(units);
   return {
     beruf: "business",
-    title: "Business Spanish",
+    title: "Business French",
     level: "B1–C1",
     reviewed: sorted.length > 0 && sorted.every((u) => u.reviewed === true),
     intro: "The words for emails, phone calls, CVs, interviews, meetings and negotiating.",
@@ -62,8 +64,9 @@ export function validateUnits(files) {
 
     if (!Array.isArray(unit.phrases) || unit.phrases.length === 0) at("no phrases");
     for (const p of unit.phrases ?? []) {
-      const where = `phrase „${p.es ?? "?"}"`;
-      for (const k of ["use", "es", "en"]) if (!text(p[k])) at(`${where}: no ${k}`);
+      const where = `phrase „${p.fr ?? "?"}"`;
+      for (const k of ["use", "fr", "en"]) if (!text(p[k])) at(`${where}: no ${k}`);
+      if ("es" in p) at(`${where}: the French text goes under "fr", not "es"`);
       if (!REGISTERS.includes(p.register)) at(`${where}: register must be one of ${REGISTERS.join(", ")}`);
       if (!p.variety) at(`${where}: no variety`);
       for (const v of varietyProblems(p)) at(`${where}: ${v}`);

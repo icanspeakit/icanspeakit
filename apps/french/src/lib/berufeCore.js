@@ -11,7 +11,7 @@
 import { slugify } from "./audioSlug.js";
 import { langsFor } from "./languages.js";
 import { varietyProblems } from "./variety.js";
-import { GENDERS as ARTICLE_GENDERS, FR_GENDERS, genderProblems, legacyEntry } from "./articles.js";
+import { FR_GENDERS, genderProblems, legacyEntry } from "./articles.js";
 
 /** The ten sectors, in hub order: where newcomers to France most often start work first. The slugs
  *  are history (progress keys): kita is cleaning and childcare, elektro-technik is private security
@@ -34,7 +34,7 @@ export const SLUGS = BERUFE.map((b) => b.slug);
  *  ids (bv-dgt-…), so sector decks can point at its words, but its own page, not a sector. */
 export const DGT = { slug: "dgt", emoji: "🚗" };
 
-/** Business Spanish (src/data/business-spanish/<unit>.json, content-plan §4.3): each unit's words are
+/** Business French (src/data/business-spanish/<unit>.json, content-plan §4.3): each unit's words are
  *  a group of this one deck, ids bv-business-…, under its own pages. */
 export const BUSINESS = { slug: "business", emoji: "💼" };
 
@@ -43,12 +43,9 @@ export const BUSINESS = { slug: "business", emoji: "💼" };
 export const TRANSLATIONS = langsFor("berufe");
 export const LANGS = ["de", ...TRANSLATIONS];
 export const POS = ["noun", "verb", "adj", "adverb", "phrase"];
-/** The article as the learner says it (content-plan §1.4): le / la / l' / les / le/la. The sector
- *  decks and the code de la route deck are French only (french-for-work); the Spanish el / la / el/la
- *  and es-ES stay accepted as legacy in the Business deck until business-french (§1.6 rule 2). */
+/** The article as the learner says it (content-plan §1.4): le / la / l' / les / le/la. Every deck is
+ *  French only (french-for-work, business-french): a Spanish el / la / el/la or es-ES entry is an error. */
 export const GENDERS = FR_GENDERS;
-/** Deck families that may still hold legacy Spanish entries. */
-const LEGACY_DECKS = new Set(["business"]);
 
 /** `bv-gastronomie-schneidebrett` */
 export const idFor = (slug, lemma) => `bv-${slug}-${slugify(lemma)}`;
@@ -63,8 +60,8 @@ export const ownWords = (deck) =>
 /** Which deck family a file belongs to: "dgt", "business" or "berufe". */
 const deckKind = (file) => (file.startsWith("dgt/") ? "dgt" : file.startsWith("business") ? "business" : "berufe");
 /** Deck families whose dangling lexicon refs are errors again (content-plan §1.6 rule 3): each of
- *  code-route-vocab, french-for-work and business-french adds its own when it has re-pointed them. */
-const LEXICON_REF_ERRORS = new Set(["dgt", "berufe"]);
+ *  code-route-vocab, french-for-work and business-french added its own once it had re-pointed them. */
+const LEXICON_REF_ERRORS = new Set(["dgt", "berufe", "business"]);
 
 /** Entries in a deck, refs included: what the hub counts and the trainer shows. */
 export const entryCount = (deck) => (deck.groups ?? []).reduce((n, g) => n + (g.words ?? []).length, 0);
@@ -130,10 +127,8 @@ export function validate(files, known) {
         if (lemmas.has(key) && !(frenchLemmas.has(key) && legacyEntry(w))) at(`${where}: „${w.lemma}" is already defined (${lemmas.get(key)}) — use { "ref": "<id>" }`);
         else lemmas.set(key, `${file} ${w.id}`);
         if (!POS.includes(w.pos)) at(`${where}: pos must be one of ${POS.join(", ")}`);
-        const legacyOk = LEGACY_DECKS.has(deckKind(file));
-        const genders = legacyOk ? ARTICLE_GENDERS : GENDERS;
-        if (!legacyOk && legacyEntry(w)) at(`${where}: legacy Spanish entry (gender ${w.gender ?? "–"}, variety ${w.variety ?? "–"}): this deck is French only`);
-        if (w.pos === "noun" && !genders.includes(w.gender)) at(`${where}: a noun needs gender ${genders.join(", ")}`);
+        if (legacyEntry(w)) at(`${where}: legacy Spanish entry (gender ${w.gender ?? "–"}, variety ${w.variety ?? "–"}): this deck is French only`);
+        if (w.pos === "noun" && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender ${GENDERS.join(", ")}`);
         else if (w.pos === "noun") for (const p of genderProblems(w)) at(`${where}: ${p}`);
         else if (w.genus != null || w.hAspire != null) at(`${where}: genus and hAspire only on nouns`);
         if (w.fem != null && !(w.pos === "adj" && typeof w.fem === "string" && w.fem.trim())) at(`${where}: fem must be the feminine form of an adjective`);

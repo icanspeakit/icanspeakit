@@ -81,15 +81,15 @@ const questions = unit.exercises.filter((q: any) => !skippedFor(q)).map((q: any)
           <h3>{g.use}</h3>
           <ul class="bz-phrases">
             {g.phrases.map((p: any) => {
-              const es = textFor(p, p.es);
+              const fr = textFor(p, p.fr);
               return (
                 <li>
                   <span class="bz-phrase-text">
-                    <b lang="fr">{es}</b>
+                    <b lang="fr">{fr}</b>
                     <span class="bz-phrase-en">{p.en}</span>
                   </span>
                   <span class={`bz-reg bz-reg--${p.register}`} data-i18n={`biz.reg.${p.register}`}>{tx(`biz.reg.${p.register}`)}</span>
-                  <button type="button" class="bz-say" data-say={es} aria-label="Listen" data-i18n-attr="aria-label:biz.listen" hidden>
+                  <button type="button" class="bz-say" data-say={fr}aria-label="Listen" data-i18n-attr="aria-label:biz.listen" hidden>
                     <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
                   </button>
                 </li>
@@ -169,14 +169,14 @@ const questions = unit.exercises.filter((q: any) => !skippedFor(q)).map((q: any)
 
   mountLeichteSprache(document);
 
-  // Phrases: the browser's Spanish voice, as in the workspace. No voice, no button.
+  // Phrases: the browser's French voice (fr-FR), as in the workspace. No voice, no button.
   if (typeof speechSynthesis !== "undefined") {
     document.querySelectorAll<HTMLButtonElement>(".bz-say").forEach((btn) => {
       btn.hidden = false;
       btn.addEventListener("click", () => {
         speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(btn.dataset.say ?? "");
-        u.lang = "es-ES";
+        u.lang = "fr-FR";
         speechSynthesis.speak(u);
       });
     });

@@ -24,7 +24,7 @@ const rel = (p) => path.relative(ROOT, p).replaceAll("\\", "/");
 // Modules whose content item has run: missing `variety` is an error there. Add the module id
 // in the same commit that converts the module. Empty at the start of the French queue
 // (variety-schema): every module still held Spanish data. The ids are those of MODULES below.
-const STRICT = new Set(["conjugation-trainer", "einstufung", "grammatik", "grammatik-quiz", "grammatik-start", "hoeren", "lesen", "fertigkeiten-lesen", "fertigkeiten-schreiben", "lexicon-a1", "lexicon-a2", "lexicon-b1", "lexicon-b2", "lexicon-c1", "lexicon-c2", "praepositionen", "verbtabellen", "wortschatz", "aussprache-check", "zungenbrecher", "satzmelodie", "ausspracheregeln", "redewendungen", "umgangssprache", "synonyme", "fehler-nach-sprache", "typische-fehler", "wortfallen", "dgt", "berufe", "arbeitsblatt", "partneruebungen", "unterricht-wortschatz"]);
+const STRICT = new Set(["conjugation-trainer", "einstufung", "grammatik", "grammatik-quiz", "grammatik-start", "hoeren", "lesen", "fertigkeiten-lesen", "fertigkeiten-schreiben", "lexicon-a1", "lexicon-a2", "lexicon-b1", "lexicon-b2", "lexicon-c1", "lexicon-c2", "praepositionen", "verbtabellen", "wortschatz", "aussprache-check", "zungenbrecher", "satzmelodie", "ausspracheregeln", "redewendungen", "umgangssprache", "synonyme", "fehler-nach-sprache", "typische-fehler", "wortfallen", "dgt", "berufe", "business-spanish", "arbeitsblatt", "partneruebungen", "unterricht-wortschatz"]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);
 const jsonFiles = (dir) =>
