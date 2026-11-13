@@ -37,8 +37,9 @@ const json = (a: string[]) => JSON.stringify(a);
 const sheetLangs = sheet.hasDe ? [...SHEET_LANGS, "de"] : SHEET_LANGS;
 const firstLang = sheetLangs[0];
 const langName = (l: string) => (l === "de" ? "In German" : LANG_NAMES[l]);
-const artQuestion = "le, la or l'?";
-const artInstr = "Write the article: le, la or l'.";
+// l' hides the gender, so a noun that elides is asked as un / une (wortschatz.js, generoDrill.js).
+const artQuestion = "le or la?";
+const artInstr = "Write le or la. Before a vowel or a mute h (… école), write un or une.";
 let gap = 0;
 ---
 <Layout
