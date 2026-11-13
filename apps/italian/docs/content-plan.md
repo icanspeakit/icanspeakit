@@ -1055,3 +1055,11 @@ handled by the `ui-*` items where they are rendered.
   table in `artikel` has four choices, so path tasks on it need their own `options`. Stories in
   `artikel`, `plural` and `adjektive-nach-sein` now have a `choices` list. Exercises avoid items
   where essere and stare are both right, and job sentences with or without *un/una*.
+- `grammar-a2` (2026-11-13): the 20 A2 slot files plus `akkusativ.json` are Italian (`variety: "it-IT"`;
+  regional notes on `perfekt`, `zusammengesetzte-verben`, `dativ`, `lokale-praepositionen`,
+  `modalverben` where marked). Decision: `penso che` needs the congiuntivo in standard Italian, so
+  `nebensaetze-weil-dass` teaches `dice che`, `so che`, `penso di sì/no` and `penso che sia …` only
+  as a chunk; the rest is `grammar-b1` (this replaces "indicative at this level" in the A2 table).
+  `positionsadverbien` teaches *di solito* (no Italian *soler*). `dativ` leaves combined pronouns
+  (*glielo*) to B1. 71 `einfach-pfad.json` refs repointed. `grammatik` is still not strict in
+  `check-variety.mjs` (see `grammar-a1`).
