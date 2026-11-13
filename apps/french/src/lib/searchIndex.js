@@ -241,11 +241,11 @@ export function buildSearchIndex() {
     k: "code de la route driving licence test theory exam french france permis de conduire auto-école voiture route panneaux circulation amende contrôle technique carte grise points échange de permis road signs car words vocabulary",
     h: "/code-de-la-route-vocabulary",
   });
-  // Business Spanish: phrases, model texts and exercises for office work.
+  // Business French: phrases, model texts and exercises for office work.
   pages.push({
-    t: "Business Spanish",
-    s: "Emails, phone calls, CVs, job interviews, meetings and negotiating in Spain, B1 to C1",
-    k: "business spanish work office email correo formal letter phone call llamada cv currículum curriculum resume cover letter carta de presentación job interview entrevista meeting reunión negotiate negociación figures presentation estimado atentamente",
+    t: "Business French",
+    s: "Emails, phone calls, CVs, job interviews, meetings and negotiating in France, B1 to C1",
+    k: "business french work office email e-mail courriel formal letter phone call appel téléphone cv curriculum resume cover letter lettre de motivation candidature job interview entretien d'embauche meeting réunion compte rendu negotiate négociation figures chiffres presentation madame monsieur cordialement salutations distinguées vous tu",
     h: "/business-spanish",
   });
   // DELE or SIELE?: a comparison page under the exam hub.

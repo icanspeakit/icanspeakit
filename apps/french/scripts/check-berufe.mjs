@@ -47,7 +47,7 @@ if (existsSync(path.join(ROOT, DGT_DIR))) {
   }
 }
 
-// Business Spanish: each unit's words are one group of a single deck (content-plan §4.3).
+// Business French: each unit's words are one group of a single deck (content-plan §4.3).
 const BUSINESS_DIR = "src/data/business-spanish";
 if (existsSync(path.join(ROOT, BUSINESS_DIR))) {
   try {
