@@ -1063,3 +1063,10 @@ handled by the `ui-*` items where they are rendered.
   `positionsadverbien` teaches *di solito* (no Italian *soler*). `dativ` leaves combined pronouns
   (*glielo*) to B1. 71 `einfach-pfad.json` refs repointed. `grammatik` is still not strict in
   `check-variety.mjs` (see `grammar-a1`).
+- `grammar-b1` (2026-11-13): the 27 B1 slot files are Italian (`variety: "it-IT"`; one regional note, on
+  `zustandspassiv`: passato remoto in the south; `positionsverben` has a Tuscany note on *mi garba*).
+  `genitiv` became verbal periphrases (plan table). `verben-praepositionen` keeps its id `praepositionen`
+  and its intro under `grammatik.praepositionen.intro`; its subtitle is `vp.hero.subtitle`. The Spanish
+  `status` and `es419` keys are dropped. Teaching choices: futuro after *quando/appena* taught as careful
+  Italian, present accepted in speech; `anche se` + indicative; `ci vogliono` with plurals. 51 `einfach-pfad.json`
+  refs repointed. Still open: `check-variety.mjs` `grammatik` strict only after `grammar-c1`.
