@@ -1070,3 +1070,13 @@ handled by the `ui-*` items where they are rendered.
   `status` and `es419` keys are dropped. Teaching choices: futuro after *quando/appena* taught as careful
   Italian, present accepted in speech; `anche se` + indicative; `ci vogliono` with plurals. 51 `einfach-pfad.json`
   refs repointed. Still open: `check-variety.mjs` `grammatik` strict only after `grammar-c1`.
+- `grammar-structure` (2026-11-13): syllabus order (`grammatik-lehrplan.json`, `GRAMMATIK_ORDER`), related
+  topics, `nachschlagen/*` (forms `io presente · participio · io imperfetto`; the auxiliary is in the note),
+  `wortarten.json` (`fehler` links emptied until `idioms-mistakes` writes the Italian pairs: re-link them
+  there), `praepositionen-trainer.json` (14 packs, ids kept; names in `en.json` `praep.pack.*`),
+  `grammatik.json` quizzes, `kursinhalte.json` (CILS/CELI exam lines; `examHref` points at the old
+  slots /dele, /siele/levels, /siele until `routes`) and `program.json` titles. Object pronouns come after
+  the passato prossimo in the A2 order (they are used with it). `grammatik-quiz` and `praepositionen` are
+  strict in `check-variety.mjs`. Open: `verbtabellen.json` is still Spanish (`conjugation-data`), so
+  `check-verbtabellen` compares 0 rows with the reference list until then; the `verbTopic` worksheet in
+  `arbeitsblatt/nachschlagen.js` still has Spanish text for the same reason.
