@@ -99,7 +99,7 @@ function verbTopic() {
 /* ---- /grammar/irregular-verbs ------------------------------------------------- */
 function starkTopic(file, data) {
   const sec = (id) => data.sections.find((s) => s.id === id)?.regel ?? [];
-  // forms: "tengo · tuvo · tenido" (yo presente · él indefinido · participio)
+  // forms: "tenho · teve · tido" (eu presente · ele perfeito simples · particípio)
   const pools = data.sections.map((sec) => rowsOf(sec).filter((r) => String(r.forms).split(" · ").length === 3));
   const form = (r, k) => String(r.forms).split(" · ")[k].trim();
   return {
@@ -107,8 +107,8 @@ function starkTopic(file, data) {
     exercises: [
       {
         type: "table",
-        title: "Indefinido: regular or irregular? Write the él/ella form.",
-        columns: ["Verb", "él/ella (indefinido)"],
+        title: "Pretérito perfeito: regular or irregular? Write the ele/ela form.",
+        columns: ["Verb", "ele/ela (perfeito)"],
         rows: roundRobin(pools, ROWS).map((r) => ({ term: bareVerb(r.verb), answer: form(r, 1) })),
       },
       {
@@ -126,7 +126,7 @@ function trennbarTopic(file, data) {
   const sec = (id) => rowsOf(data.sections.find((s) => s.id === id) ?? {});
   const trennbar = sec("trennbar");
   const untrennbar = sec("untrennbar");
-  // forms: "me levanto · se levantó · levantado"; the yo form comes first.
+  // forms: "levanto-me · levantou-se · levantado"; the eu form comes first.
   const yo = (r) => String(r.forms).split(" · ")[0].trim();
   const built = trennbar.filter((r) => r.example && tokens(r.example).length <= 9).slice(0, 8);
   const regel = (id) => data.sections.find((s) => s.id === id)?.regel ?? [];
@@ -143,8 +143,8 @@ function trennbarTopic(file, data) {
       },
       {
         type: "table",
-        title: "Present: write the yo form with its pronoun.",
-        columns: ["Verb", "yo (present)"],
+        title: "Present: write the eu form with its pronoun.",
+        columns: ["Verb", "eu (present)"],
         rows: roundRobin([trennbar.filter((r) => !built.includes(r)), untrennbar], ROWS).map((r) => ({ term: bareVerb(r.verb), answer: yo(r) })),
       },
     ],
@@ -168,7 +168,7 @@ function praepTopic(file, data) {
         type: "fill",
         title: "Which preposition is right?",
         hint: "Learn the verb and its preposition together.",
-        choices: [...new Set(fill.map((r) => r.prep))].sort((a, b) => a.localeCompare(b, "es")),
+        choices: [...new Set(fill.map((r) => r.prep))].sort((a, b) => a.localeCompare(b, "pt")),
         items: fill.map((r) => ({ prompt: r.prompt, hint: r.verb, answer: r.prep })),
       },
     ],
