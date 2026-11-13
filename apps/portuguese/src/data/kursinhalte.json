@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Content for /syllabus (src/pages/kursinhalte.astro, src/pages/kursinhalte/[level].astro, src/components/KursProgression.astro) and the lesson-plan generator (src/lib/stundenplan.js, which links each grammar line to a topic page by the patterns in GRAMMAR_RULES, so keep the wording of a grammar line close to the topic's name). Everything here is our own, written from the CEFR can-do descriptors. Never copy from coursebooks or from the Plan Curricular: no unit titles, no tables of contents, no texts. `lehrwerke` would name coursebook series only (\"goes with\"), without a level after the name; the lists are empty until Edgar decides whether to name any (scripts/check-lehrwerk-leak.mjs fails the build on series + level). To add a level: insert an object in `niveaus` (order = order on the page and in the timeline); the id becomes the URL (/syllabus/<id>). `pruefung` from A2.2 (DELE, SIELE; see docs/content-plan.md §2): name the exam and the skill, never a task number, a timing or a word count, because those facts are unverified until the exam items check them. `selbstcheck`: exactly 5 sentences describing what a learner can do BEFORE this level.",
+  "_hinweis": "Content for /syllabus (src/pages/kursinhalte.astro, src/pages/kursinhalte/[level].astro, src/components/KursProgression.astro) and the lesson-plan generator (src/lib/stundenplan.js, which links each grammar line to a topic page by the patterns in GRAMMAR_RULES, so keep the wording of a grammar line close to the topic's name). Everything here is our own, written from the CEFR can-do descriptors. Never copy from coursebooks or from the Plan Curricular: no unit titles, no tables of contents, no texts. `lehrwerke` would name coursebook series only (\"goes with\"), without a level after the name; the lists are empty until Edgar decides whether to name any (scripts/check-lehrwerk-leak.mjs fails the build on series + level). To add a level: insert an object in `niveaus` (order = order on the page and in the timeline); the id becomes the URL (/syllabus/<id>). `pruefung` from A2.2 (CIPLE, DEPLE, DIPLE, DAPLE; see docs/content-plan.md §2): name the exam and the skill, never a task number, a timing or a word count, because those facts are unverified until the exam items check them. `selbstcheck`: exactly 5 sentences describing what a learner can do BEFORE this level.",
   "probestunde": {
     "href": "",
     "_hinweis": "Empty = no trial-lesson button (there is no booking page yet). Once there is one, put its path here, e.g. \"/probestunde\". {niveau} is replaced by the level."
@@ -25,9 +25,9 @@
             "You can spell your name."
           ],
           "grammatik": [
-            "Subject pronouns: yo, tú, usted, vosotros",
-            "ser and estar: soy, eres, es; estoy, estás, está",
-            "Question words: qué, quién, dónde, de dónde"
+            "Subject pronouns: eu, tu, o senhor, vocês",
+            "ser and estar: the basics",
+            "Question words: o que, quem, onde, quando"
           ],
           "wortschatz": [
             "Greetings",
@@ -43,15 +43,15 @@
             "You can fill in a simple form."
           ],
           "grammatik": [
-            "Numbers up to 1,000",
-            "Yes/no questions: ¿Eres…? ¿Tienes…?",
-            "Key irregular verbs: tener (tengo 30 años)"
+            "Numbers, prices and phone numbers",
+            "Yes/no questions and negation with não",
+            "Key irregular verbs in the present"
           ],
           "wortschatz": [
             "Numbers",
             "Address",
             "Email",
-            "Forms: nombre, apellidos, domicilio"
+            "Forms: nome, apelido, morada, NIF"
           ]
         },
         {
@@ -61,98 +61,93 @@
             "You can say who belongs to you and how old they are."
           ],
           "grammatik": [
-            "Possessives: mi, tu, su",
-            "Nouns and gender: el hermano, la hermana",
-            "Plurals: hijos, padres, jóvenes"
+            "Possessives: o meu, a tua, o nosso",
+            "Nouns and gender: o or a?",
+            "Plurals of nouns and adjectives"
           ],
           "wortschatz": [
             "Family",
-            "Married, single …",
+            "Friends",
             "Describing people"
           ]
         },
         {
           "thema": "Home",
           "kannZiele": [
-            "You can describe your flat and your furniture.",
-            "You can say what is in your home and where it is."
+            "You can describe where you live.",
+            "You can say what is in a room."
           ],
           "grammatik": [
-            "Articles: el, la, un, una",
-            "hay or está: Hay un sofá. El sofá está aquí.",
-            "Adjectives: agreement (la cocina pequeña)"
+            "há or está / estão",
+            "Articles: o, a, um, uma and the contractions",
+            "Adjectives: agreement and position"
           ],
           "wortschatz": [
             "Rooms",
             "Furniture",
             "Colours",
-            "grande / pequeño / luminoso"
+            "Hunting for a flat"
           ]
         },
         {
           "thema": "Food & shopping",
           "kannZiele": [
-            "You can ask for products and prices in a shop.",
-            "You can order in a bar.",
-            "You can write a shopping list."
+            "You can order in a café and say what you like.",
+            "You can ask for things and prices in a shop."
           ],
           "grammatik": [
-            "Articles: unos, unas (unos tomates)",
-            "Polite requests: quería…, ¿me pone…?",
-            "Demonstratives: este, ese, aquel",
-            "Question words: ¿cuánto cuesta?"
+            "Present tense: regular -ar, -er, -ir verbs",
+            "gostar de: gosto de, gostas de",
+            "Demonstratives: este, esse, aquele",
+            "Numbers, prices and phone numbers"
           ],
           "wortschatz": [
-            "Food",
-            "Drinks",
-            "Containers (una botella de, un paquete de)",
+            "Food and drink",
+            "At the café (pequeno-almoço, bica, pastel de nata)",
+            "Shopping phrases",
             "Prices in euros"
           ]
         },
         {
           "thema": "My day",
           "kannZiele": [
-            "You can describe your daily routine with times.",
-            "You can say how often you do something."
+            "You can say what time you get up and go to work.",
+            "You can describe your daily routine."
           ],
           "grammatik": [
-            "Present tense: regular -ar, -er, -ir verbs",
-            "Telling the time: a las ocho, por la mañana",
-            "Reflexive verbs: me levanto, me ducho (first look)",
-            "Frequency: siempre, a veces, nunca (first look)"
+            "Telling the time and days",
+            "Verbs that change in the eu form: peço, durmo, saio",
+            "Reflexive verbs: levanto-me, chamo-me"
           ],
           "wortschatz": [
             "Daily routine",
-            "Times of the day",
-            "Days of the week"
+            "Days and times",
+            "Meals"
           ]
         },
         {
           "thema": "Free time & hobbies",
           "kannZiele": [
-            "You can talk about your hobbies.",
-            "You can say what you like and what you don't like.",
-            "You can ask others what they do in their free time."
+            "You can say what you like to do on the weekend.",
+            "You can invite someone and answer an invitation."
           ],
           "grammatik": [
-            "gustar: me gusta, me gustan",
-            "Stem-changing verbs: quiero, puedo, juego",
-            "Yes/no questions and negation with no: No trabajo hoy.",
-            "Linking words: y, o, pero, porque"
+            "Linking words: e, ou, mas, porque, por isso",
+            "Adjectives: agreement and position",
+            "Yes/no questions and negation with não"
           ],
           "wortschatz": [
             "Hobbies",
-            "Sport",
-            "Music",
-            "Weekend"
+            "Sports",
+            "Weekend plans"
           ]
         }
       ],
       "selbstcheck": [
         "I can read and write the letters of the Latin alphabet.",
-        "I know a few words in Spanish (hola, gracias, sí, no).",
-        "I can say my name in Spanish.",
-        "I know the numbers from 1 to 10 in Spanish.",
+        "I know a few words in Portuguese (olá, obrigado, sim, não).",
+        "I can say my name in Portuguese.",
+        "I know the numbers from 1 to 10 in Portuguese.",
         "I have some time each week to practise at home."
       ],
       "selbstcheckNiedrig": "No problem: A1.1 is the beginning, you don't need to know anything yet. In the trial lesson we look together at the best way for you to start."
@@ -160,136 +155,130 @@
     {
       "id": "a1-2",
       "label": "A1.2",
-      "titel": "Everyday Spanish",
-      "ziel": "You get by in everyday life: in town, at the health centre, in shops and at the town hall.",
+      "titel": "Everyday Portuguese",
+      "ziel": "You get by in everyday life in Portugal: in town, at the health centre, in shops and at the Junta de Freguesia.",
       "dauer": "about 8 weeks",
       "lehrwerke": "grundstufe",
       "bloecke": [
         {
           "thema": "Getting around town",
           "kannZiele": [
-            "You can ask the way and understand simple directions.",
-            "You can buy a ticket for the bus, the metro or the train."
+            "You can ask the way and understand directions.",
+            "You can buy a ticket for the autocarro, the comboio or the metro."
           ],
           "grammatik": [
-            "Key irregular verbs: ir, venir, salir",
-            "a or en: voy a Madrid, estoy en Madrid",
-            "Saying where: al lado de, enfrente de, entre",
-            "Question words: ¿Cómo voy a…? ¿Dónde está…?"
+            "Saying where: em, em cima de, debaixo de, ao lado de",
+            "a, para or em: going and being",
+            "há or está / estão"
           ],
           "wortschatz": [
             "Places in town",
+            "Transport: autocarro, comboio, metro",
             "Directions",
-            "Transport",
-            "Tickets"
+            "Tickets and passes"
           ]
         },
         {
           "thema": "Health & the body",
           "kannZiele": [
-            "You can say what hurts at the health centre.",
-            "You can understand simple advice and instructions."
+            "You can say what hurts.",
+            "You can make an appointment at the centro de saúde."
           ],
           "grammatik": [
-            "gustar and doler: me duele la cabeza",
-            "tener que, hay que, poder",
-            "Possessives or article: me duele la pierna"
+            "Verb + infinitive: ter de, é preciso, poder, dever",
+            "Possessives: o meu, a tua, o nosso"
           ],
           "wortschatz": [
             "The body",
-            "Illness",
-            "At the health centre",
-            "Asking for an appointment"
+            "Symptoms",
+            "The pharmacy",
+            "Centro de saúde and número de utente"
           ]
         },
         {
           "thema": "What are you doing? What will you do?",
           "kannZiele": [
             "You can say what you are doing right now.",
-            "You can talk about your plans.",
-            "You can say what you have done today."
+            "You can talk about your plans for the next days."
           ],
           "grammatik": [
-            "estar + gerund: estoy trabajando",
-            "ir a + infinitive: voy a llamar",
-            "Pretérito perfecto: first steps (hoy he comido)"
+            "estar a + infinitive: estou a trabalhar",
+            "ir + infinitive: vou ligar",
+            "Telling the time and days"
           ],
           "wortschatz": [
-            "Everyday actions",
-            "Plans for the weekend",
-            "hoy, ahora, mañana"
+            "Everyday activities",
+            "Plans",
+            "Time words: amanhã, na próxima semana"
           ]
         },
         {
           "thema": "Work & jobs",
           "kannZiele": [
-            "You can say what you do and where you work.",
-            "You can describe your working day."
+            "You can say what you do for a living.",
+            "You can talk about your working hours."
           ],
           "grammatik": [
-            "ser and estar: soy enfermera, estoy en paro",
-            "Article or no article: Soy enfermera.",
-            "Key irregular verbs: hacer, saber, conocer"
+            "Present tense: regular -ar, -er, -ir verbs",
+            "Article or no article?",
+            "Key irregular verbs in the present"
           ],
           "wortschatz": [
             "Jobs",
-            "Workplaces",
-            "Hours and shifts"
+            "The workplace",
+            "Working hours",
+            "Contract and salary"
           ]
         },
         {
           "thema": "Clothes & shopping",
           "kannZiele": [
-            "You can ask for clothes in a shop and try them on.",
+            "You can say what you want to buy and what fits you.",
             "You can compare two things."
           ],
           "grammatik": [
-            "Comparatives: más… que, menos… que",
-            "Direct object pronouns: lo, la (¿Lo tiene en azul?)",
-            "Demonstratives: este, esa, aquellos",
-            "Adjectives: colours and agreement"
+            "Demonstratives: este, esse, aquele",
+            "Comparatives and superlatives: mais… (do) que, tão… como, o mais",
+            "muito, pouco, bastante, demasiado, tão, tanto"
           ],
           "wortschatz": [
             "Clothes",
-            "Colours",
-            "Sizes",
-            "Paying"
+            "Sizes and colours",
+            "At the checkout"
           ]
         },
         {
           "thema": "Celebrations & dates",
           "kannZiele": [
-            "You can say the date and when something happens.",
-            "You can invite someone and accept or say no."
+            "You can say the date and the month.",
+            "You can invite someone to a celebration."
           ],
           "grammatik": [
-            "Ordinal numbers and dates: primero, segundo; el 3 de mayo",
-            "Telling the time and days: el lunes, los lunes",
-            "ir a + infinitive for plans"
+            "Ordinal numbers, dates and floors",
+            "Telling the time and days",
+            "Key irregular verbs in the present"
           ],
           "wortschatz": [
-            "Months",
-            "Festivals",
-            "Invitations",
-            "Congratulations"
+            "Months and seasons",
+            "Holidays: Natal, Páscoa, 25 de Abril",
+            "Invitations"
           ]
         },
         {
           "thema": "Services & offices",
           "kannZiele": [
-            "You can make an appointment and ask for a form.",
-            "You can give your details at a counter (town hall, bank, health centre)."
+            "You can ask politely for help in an office.",
+            "You can say which document you need and give your details."
           ],
           "grammatik": [
-            "Polite requests: ¿Puede…? Quería…",
-            "Yes/no questions and short answers: Sí, claro. No, todavía no.",
-            "Numbers: letters and numbers of an NIE, phone numbers"
+            "Polite requests: Pode…?, Podia…?, Queria…",
+            "Direct object pronouns",
+            "Numbers, prices and phone numbers"
           ],
           "wortschatz": [
-            "Town hall",
-            "Bank",
-            "Forms",
-            "Empadronamiento: the words"
+            "Offices: Junta de Freguesia, Finanças, AIMA",
+            "Forms: NIF, NISS, morada",
+            "Making an appointment (marcação)"
           ]
         }
       ],
@@ -312,126 +301,124 @@
         {
           "thema": "Childhood & memories",
           "kannZiele": [
-            "You can say what your life was like before.",
-            "You can talk about what you used to do."
+            "You can tell someone about your childhood.",
+            "You can say what you used to do."
           ],
           "grammatik": [
-            "Pretérito imperfecto: antes vivía, era, iba",
-            "Frequency: soler + infinitive",
-            "Comparatives: más que antes"
+            "Pretérito imperfeito: antes vivia, era, ia",
+            "How often: sempre, muitas vezes, às vezes; costumar + infinitive",
+            "Article or no article?"
           ],
           "wortschatz": [
             "Childhood",
             "School",
-            "Your town or village"
+            "Memories"
           ]
         },
         {
           "thema": "Yesterday & last year",
           "kannZiele": [
             "You can say what you did yesterday or last year.",
-            "You can tell a short story from your life."
+            "You can say when things happened."
           ],
           "grammatik": [
-            "Pretérito indefinido: hablé, comí, fui",
-            "Pretérito perfecto: ya, todavía no, esta semana",
-            "Pretérito indefinido: ayer, el año pasado, hace dos años"
+            "Pretérito perfeito simples: falei, comi, parti",
+            "Pretérito perfeito, irregular verbs: fui, tive, fiz",
+            "Telling the time and days"
           ],
           "wortschatz": [
-            "Moving to Spain",
-            "Life events",
-            "Time words"
+            "Time words: ontem, no ano passado, há dois dias",
+            "Past events",
+            "Months and years"
           ]
         },
         {
           "thema": "Home & neighbours",
           "kannZiele": [
-            "You can describe a flat and say where things are.",
-            "You can talk to a neighbour or a landlord about a small problem."
+            "You can describe your flat and your neighbourhood.",
+            "You can report a problem to the senhorio."
           ],
           "grammatik": [
-            "Saying where: encima de, debajo de, detrás de",
-            "a or en: going and being",
-            "Indefinites: algo, nada, alguien, nadie"
+            "Direct object pronouns",
+            "Indirect object pronouns: dou-lhe, dá-me",
+            "Saying where: em, em cima de, debaixo de, ao lado de"
           ],
           "wortschatz": [
-            "Renting",
-            "Repairs",
+            "Renting: renda, senhorio, contrato",
             "Neighbours",
-            "Rubbish and recycling"
+            "Repairs"
           ]
         },
         {
           "thema": "Work & training",
           "kannZiele": [
-            "You can explain why you do something.",
-            "You can say what you have to do at work."
+            "You can talk about your job and your training.",
+            "You can say what you have to do."
           ],
           "grammatik": [
-            "porque, como, así que, por eso; creo que",
-            "tener que, hay que, deber",
-            "Indirect object pronouns: le doy, me pagan"
+            "Verb + infinitive: ter de, é preciso, poder, dever",
+            "Pretérito imperfeito: antes vivia, era, ia",
+            "Negation: não, nunca, nada, ninguém"
           ],
           "wortschatz": [
-            "Contracts",
-            "Tasks",
-            "Courses"
+            "Jobs and trades",
+            "Courses and certificates",
+            "Colleagues and bosses"
           ]
         },
         {
           "thema": "Free time & interests",
           "kannZiele": [
-            "You can say how much you like something.",
-            "You can describe how you do things."
+            "You can say what you are interested in.",
+            "You can compare activities."
           ],
           "grammatik": [
-            "muy, mucho, poco, bastante, demasiado",
-            "Adverbs: -mente; bien or bueno",
-            "gustar: a mí también, a mí tampoco"
+            "Verbs like apetecer: apetecer, doer, interessar, custar",
+            "Comparatives and superlatives: mais… (do) que, tão… como, o mais"
           ],
           "wortschatz": [
-            "Interests",
-            "Going out",
-            "Bars and restaurants"
+            "Hobbies",
+            "Culture and events",
+            "Sports"
           ]
         },
         {
           "thema": "Healthy living",
           "kannZiele": [
-            "You can compare habits and say what is better.",
-            "You can talk about your routine and your health."
+            "You can say what is good or bad for you.",
+            "You can give simple advice."
           ],
           "grammatik": [
-            "Comparatives and superlatives: tan… como, el mejor",
-            "Reflexive verbs: me cuido, me acuesto tarde",
-            "Negation: no, nunca, tampoco, nada"
+            "Polite requests: Pode…?, Podia…?, Queria…",
+            "algo, nada, alguém, ninguém, algum, nenhum, outro",
+            "Verb + infinitive: ter de, é preciso, poder, dever"
           ],
           "wortschatz": [
-            "Food and exercise",
-            "Sleep",
-            "At the pharmacy"
+            "Food and health",
+            "Sport and fitness",
+            "At the doctor"
           ]
         },
         {
           "thema": "Travel & holidays",
           "kannZiele": [
             "You can plan a trip and book a room.",
-            "You can pass things on and say who gets what."
+            "You can tell someone about a holiday."
           ],
           "grammatik": [
-            "ir a + infinitive for trips",
-            "Indirect object pronouns: se lo doy",
-            "Direct object pronouns: lo, la, los, las; personal a"
+            "a, para or em: going and being",
+            "Pretérito perfeito simples: falei, comi, parti",
+            "Adverbs: -mente; bem or bom, mal or mau"
           ],
           "wortschatz": [
-            "Hotels",
-            "Trains and flights",
-            "Luggage"
+            "Travel",
+            "Accommodation",
+            "Holiday activities"
           ]
         }
       ],
       "selbstcheck": [
-        "I can say what I have done today (hoy he…).",
+        "I can say what I did yesterday (ontem fui…).",
         "I can ask the way and understand the answer.",
         "I can tell a doctor what hurts.",
         "I can make or cancel an appointment.",
@@ -442,7 +429,7 @@
       "id": "a2-2",
       "label": "A2.2",
       "titel": "Confident in everyday life",
-      "ziel": "You describe people and things in more detail, give advice and deal with offices and work. This is the level of the DELE A2, the language certificate usually asked for on the path to Spanish nationality.",
+      "ziel": "You describe people and things in more detail, give advice and deal with offices and work. This is the level of the CIPLE A2, the certificate often used as proof of Portuguese for residence and nationality applications (check the current rules).",
       "dauer": "about 8 weeks",
       "lehrwerke": "grundstufe",
       "bloecke": [
@@ -453,141 +440,139 @@
             "You can say when things happened."
           ],
           "grammatik": [
-            "Pretérito indefinido: fui, tuve, hice, dije",
-            "Ordinal numbers and dates",
-            "Key irregular verbs: review"
+            "Pretérito perfeito, irregular verbs: fui, tive, fiz",
+            "Ordinal numbers, dates and floors",
+            "Key irregular verbs in the present"
           ],
           "wortschatz": [
-            "Festivals",
+            "Festivals: Santos Populares, Natal, Carnaval",
             "Traditions",
             "Family celebrations"
           ],
           "pruefung": [
-            "DELE A2: reading practice"
+            "CIPLE A2: reading practice"
           ]
         },
         {
           "thema": "People & relationships",
           "kannZiele": [
-            "You can describe what someone is like.",
-            "You can say what you have in common."
+            "You can describe a person: looks and character.",
+            "You can compare people."
           ],
           "grammatik": [
-            "Article or no article: Me gusta el café. Tengo coche.",
-            "Adjectives: agreement and position",
-            "Comparatives: tan… como, tanto como"
+            "Comparatives and superlatives: mais… (do) que, tão… como, o mais",
+            "Possessives: o meu, a tua, o nosso",
+            "Adjectives: agreement and position"
           ],
           "wortschatz": [
+            "Appearance",
             "Character",
-            "Friends",
-            "Feelings"
+            "Relationships"
           ],
           "pruefung": [
-            "DELE A2: speaking practice"
+            "CIPLE A2: speaking practice"
           ]
         },
         {
           "thema": "Advice & help",
           "kannZiele": [
-            "You can ask for help and offer it.",
-            "You can give simple advice."
+            "You can give simple advice.",
+            "You can ask for help and thank someone."
           ],
           "grammatik": [
-            "deber and tener que for advice",
-            "Polite requests: me gustaría, ¿te importa…?",
-            "Reflexive verbs: review"
+            "Imperative: fala, não fales, diz-me",
+            "Polite requests: Pode…?, Podia…?, Queria…"
           ],
           "wortschatz": [
-            "Everyday problems",
-            "Asking favours"
+            "Asking for help",
+            "Advice",
+            "Thanking"
           ]
         },
         {
           "thema": "Money & online shopping",
           "kannZiele": [
-            "You can pay, return a product and complain politely.",
-            "You can read a bill and understand the main charges."
+            "You can ask about prices and ways to pay.",
+            "You can order online and report a problem."
           ],
           "grammatik": [
-            "Direct object pronouns: lo devuelvo, la pago; personal a",
-            "Indefinites: algún, ningún, otro",
-            "Indirect object pronouns: se lo mando"
+            "muito, pouco, bastante, demasiado, tão, tanto",
+            "Numbers, prices and phone numbers",
+            "Direct object pronouns"
           ],
           "wortschatz": [
-            "Bank",
-            "Bills",
-            "Online orders",
-            "Returns"
+            "Money and payment (Multibanco, MB Way)",
+            "Online shopping",
+            "Returns and complaints",
+            "The bank"
           ],
           "pruefung": [
-            "DELE A2: writing practice"
+            "CIPLE A2: writing practice"
           ]
         },
         {
           "thema": "Nature & the environment",
           "kannZiele": [
-            "You can talk about the weather and the seasons in Spain.",
-            "You can say what you do for the environment."
+            "You can say what the weather is like.",
+            "You can give a reason for an opinion."
           ],
           "grammatik": [
-            "muy, mucho, demasiado: review",
-            "Pretérito imperfecto: describing the weather and the place",
-            "Negation: nadie, ninguno, double negation"
+            "porque, como, por isso, então, portanto; acho que, diz que",
+            "Pretérito imperfeito: antes vivia, era, ia"
           ],
           "wortschatz": [
             "Weather",
-            "Landscape",
+            "Nature",
             "Recycling"
           ]
         },
         {
           "thema": "Applying for a job",
           "kannZiele": [
-            "You can talk about your work experience.",
-            "You can answer simple questions in an interview."
+            "You can write a short application.",
+            "You can answer simple questions at an interview."
           ],
           "grammatik": [
-            "Pretérito perfecto and pretérito indefinido in your CV",
-            "porque, como, por eso",
-            "Saying how often: siempre, a menudo, soler"
+            "Reflexive verbs: levanto-me, chamo-me",
+            "Article or no article?",
+            "Pretérito perfeito simples: falei, comi, parti"
           ],
           "wortschatz": [
-            "Job adverts",
-            "CV (currículum)",
-            "Experience and skills"
+            "Jobs and CV",
+            "Skills and experience",
+            "The interview"
           ],
           "pruefung": [
-            "DELE A2: listening practice"
+            "CIPLE A2: writing practice"
           ]
         },
         {
           "thema": "Offices & services",
           "kannZiele": [
-            "You can explain what you need at an office (padrón, NIE, health card) and understand what to bring.",
-            "You can ask someone to repeat or to write something down."
+            "You can ask politely for information in an office.",
+            "You can understand a simple letter from an office."
           ],
           "grammatik": [
-            "Polite requests: ¿Podría…? Quería…",
-            "Direct object pronouns: ¿Lo traigo? ¿La firmo?",
-            "Ordinal numbers: la primera planta, el segundo piso"
+            "Polite requests: Pode…?, Podia…?, Queria…",
+            "Indirect object pronouns: dou-lhe, dá-me",
+            "Negation: não, nunca, nada, ninguém"
           ],
           "wortschatz": [
-            "Town hall",
-            "Appointments (cita previa)",
+            "Offices: Junta de Freguesia, Finanças, Segurança Social",
             "Documents",
-            "Forms"
+            "Appointments and forms"
           ],
           "pruefung": [
-            "DELE A2: all parts"
+            "CIPLE A2: listening practice"
           ]
         }
       ],
       "selbstcheck": [
         "I can talk about my childhood.",
         "I can give reasons with porque and como.",
-        "I can ask politely: ¿Puede…? Quería…",
-        "I can compare things: más grande que, el mejor.",
-        "I can talk about my hobbies (me interesa, me gusta)."
+        "I can ask politely: Pode…? Queria…",
+        "I can compare things: maior do que, o melhor.",
+        "I can talk about my hobbies (interesso-me por, gosto de)."
       ]
     },
     {
@@ -601,149 +586,147 @@
         {
           "thema": "Life stories",
           "kannZiele": [
-            "You can tell the story of your life or of a journey in the right order.",
-            "You can describe the background of an event."
+            "You can tell a story in the past.",
+            "You can say what has been going on lately."
           ],
           "grammatik": [
-            "Indefinido or imperfecto: telling a story",
-            "Pluscuamperfecto: había comido",
-            "Time: desde, desde hace, hace… que, hasta, durante"
+            "Perfeito composto or perfeito simples: tenho trabalhado, trabalhei",
+            "Perfeito or imperfeito: telling a story",
+            "Mais-que-perfeito composto: tinha comido"
           ],
           "wortschatz": [
             "Life events",
-            "Migration",
-            "Memories"
+            "Biographies",
+            "Time words"
           ],
           "pruefung": [
-            "DELE B1: reading practice"
+            "DEPLE B1: reading practice"
           ]
         },
         {
           "thema": "Work & careers",
           "kannZiele": [
-            "You can talk about your experience and your plans at work.",
-            "You can write a short email to a company."
+            "You can talk about your plans for the future.",
+            "You can say what you would do in someone's place."
           ],
           "grammatik": [
-            "Perfecto or indefinido: hoy he ido, ayer fui",
-            "Verbal periphrases: acabar de, volver a, dejar de, llevar",
-            "Relative clauses: que, donde, lo que"
+            "The future: vou fazer, farei, amanhã tenho",
+            "Condicional: falaria, gostaria de, eu no teu lugar"
           ],
           "wortschatz": [
             "Careers",
-            "Applying for a job",
-            "Colleagues"
+            "Plans",
+            "Applying and changing jobs"
           ],
           "pruefung": [
-            "DELE B1: writing practice",
-            "SIELE: writing practice"
+            "DEPLE B1: writing practice"
           ]
         },
         {
           "thema": "Media in daily life",
           "kannZiele": [
-            "You can say what you think about the news and social media.",
-            "You can give arguments for and against."
+            "You can report what someone said.",
+            "You can ask indirect questions."
           ],
           "grammatik": [
-            "Linkers: aunque, sin embargo, además",
-            "Verbs + prepositions: pensar en, depender de"
+            "Indirect questions and reporting: diz que, pergunta-me se, não sei onde",
+            "Relative clauses: que, onde, quem, o que"
           ],
           "wortschatz": [
-            "The press",
-            "Social media",
-            "Internet"
+            "News and media",
+            "Social networks",
+            "Opinions"
           ],
           "pruefung": [
-            "DELE B1: writing practice"
+            "DEPLE B1: listening practice"
           ]
         },
         {
           "thema": "Health & wellbeing",
           "kannZiele": [
-            "You can follow a doctor's instructions and ask for details.",
-            "You can tell someone what to do and what not to do."
+            "You can describe symptoms and follow instructions.",
+            "You can give and ask for advice."
           ],
           "grammatik": [
-            "Imperative: toma, no tomes, tómalo",
-            "Verbs like gustar: doler, molestar, parecer"
+            "Imperative: fala, não fales, diz-me",
+            "Verbs like apetecer: apetecer, doer, interessar, custar"
           ],
           "wortschatz": [
-            "The health system",
-            "Medicine",
-            "Mental health"
+            "Illness and treatment",
+            "Healthy habits",
+            "The SNS and the centro de saúde"
           ],
           "pruefung": [
-            "DELE B1: listening practice",
-            "SIELE: listening practice"
+            "DEPLE B1: speaking practice"
           ]
         },
         {
           "thema": "Home & living together",
           "kannZiele": [
-            "You can sort out a problem with a landlord or flatmates.",
-            "You can say what would be better."
+            "You can say what you want others to do.",
+            "You can talk about rules in a flat or a house."
           ],
           "grammatik": [
-            "Real conditions: si + present",
-            "Condicional simple: me gustaría, yo que tú",
-            "Pronouns after prepositions: para mí, conmigo"
+            "Present subjunctive: the forms (fale, coma, tenha, vá)",
+            "Subjunctive after wishes and feelings: quero que, espero que, oxalá",
+            "Clitic placement: where me, te, o, lhe go"
           ],
           "wortschatz": [
-            "Contracts",
-            "Bills",
-            "Shared flats"
+            "Living together",
+            "Rules and agreements",
+            "Condomínio and neighbours"
           ],
           "pruefung": [
-            "DELE B1: reading practice",
-            "SIELE: reading practice"
+            "DEPLE B1: reading practice"
           ]
         },
         {
           "thema": "Travel & transport",
           "kannZiele": [
-            "You can talk about plans and predictions.",
-            "You can solve a problem while travelling."
+            "You can say what you will do when something happens.",
+            "You can say what you do if something happens."
           ],
           "grammatik": [
-            "Futuro simple: hablaré, tendré",
-            "por or para: salgo para Sevilla, paso por Toledo"
+            "Time clauses: quando chego, quando chegar",
+            "Real conditions: se chover, se tiveres tempo",
+            "há… que, desde, até, durante, faz… que, demorar"
           ],
           "wortschatz": [
-            "Delays and complaints",
-            "Driving",
-            "Public transport"
+            "Travel problems",
+            "Transport",
+            "Plans and conditions"
           ],
           "pruefung": [
-            "DELE B1: speaking practice"
+            "DEPLE B1: listening practice"
           ]
         },
         {
           "thema": "Friends & family",
           "kannZiele": [
-            "You can talk about relationships and what people are like.",
-            "You can say whose something is."
+            "You can talk about relationships and feelings.",
+            "You can say what belongs to whom."
           ],
           "grammatik": [
-            "ser and estar: when the meaning changes",
-            "Possessive pronouns: el mío, la tuya"
+            "Possessive pronouns: o meu, a tua, o dele, o seu",
+            "Pronouns after prepositions: para mim, sem ti, comigo, contigo",
+            "ser and estar: when the meaning changes"
           ],
           "wortschatz": [
-            "Relationships",
-            "Character",
-            "Celebrations"
+            "Feelings",
+            "Friendships",
+            "Family occasions"
           ],
           "pruefung": [
-            "DELE B1: speaking practice"
+            "DEPLE B1: speaking practice"
           ]
         }
       ],
       "selbstcheck": [
-        "I can talk about past events with the indefinido and the perfecto.",
-        "I can give advice: Tienes que… Deberías…",
+        "I can talk about past events with the perfeito and the imperfeito.",
+        "I can give advice: Tens de… Devias…",
         "I can describe people and things with ser, estar and adjectives.",
         "I can write a simple email to a company.",
-        "I can say when something happened with cuando and después de."
+        "I can say when something happened with quando and depois de."
       ]
     },
     {
@@ -757,118 +740,116 @@
         {
           "thema": "Environment & sustainability",
           "kannZiele": [
-            "You can say what you hope and what you want others to do.",
-            "You can discuss what should change."
+            "You can say what you do for a goal.",
+            "You can discuss what everyone could do."
           ],
           "grammatik": [
-            "Present subjunctive: the forms (hable, coma, tenga, vaya)",
-            "Subjunctive after wishes and feelings: espero que, ojalá"
+            "Purpose: para + infinitive, para que + subjunctive",
+            "Infinitive or subjunctive: quero ir, quero que vás"
           ],
           "wortschatz": [
-            "Climate",
+            "Environment",
             "Energy",
-            "Water"
+            "Everyday sustainability"
           ],
           "pruefung": [
-            "DELE B1: speaking practice"
+            "DEPLE B1: reading practice"
           ]
         },
         {
           "thema": "Learning & training",
           "kannZiele": [
-            "You can talk about courses and qualifications.",
-            "You can say what something is for."
+            "You can describe how you learn.",
+            "You can say what you have just done or will go on doing."
           ],
           "grammatik": [
-            "Infinitive or subjunctive: quiero ir, quiero que vayas",
-            "Purpose: para + infinitive, para que + subjunctive"
+            "Verbal periphrases: acabar de, voltar a, deixar de, continuar a, estar a",
+            "estar + participle: a loja está fechada"
           ],
           "wortschatz": [
+            "Learning",
             "Courses",
-            "Recognising qualifications",
-            "Skills"
+            "Exams"
           ],
           "pruefung": [
-            "DELE B1: reading practice",
-            "SIELE: reading practice"
+            "DEPLE B1: writing practice"
           ]
         },
         {
           "thema": "Society & community",
           "kannZiele": [
-            "You can report what other people say.",
-            "You can ask for information politely."
+            "You can discuss a social issue.",
+            "You can link your arguments."
           ],
           "grammatik": [
-            "Indirect questions and reporting: dice que, me pregunta si, no sé dónde",
-            "Relative clauses: lo que, donde"
+            "Linkers: mas, no entanto, além disso, por outro lado, portanto",
+            "Verbs + prepositions: pensar em, sonhar com, depender de"
           ],
           "wortschatz": [
-            "Neighbourhood",
+            "Society",
             "Volunteering",
-            "Rights"
+            "Associations"
           ],
           "pruefung": [
-            "DELE B1: listening practice"
+            "DEPLE B1: speaking practice"
           ]
         },
         {
           "thema": "Shopping & advertising",
           "kannZiele": [
-            "You can compare offers and make a complaint.",
-            "You can talk about what is on sale and what is closed."
+            "You can describe a product and give your opinion about it.",
+            "You can complain about a purchase."
           ],
           "grammatik": [
-            "estar + participle: la tienda está cerrada",
-            "Adjective position and short forms: buen, gran",
-            "Word formation: -ción, -dad, -ero, -ería"
+            "por or para",
+            "Adjective position and short forms: bom, mau, grande, são",
+            "O + adjective: o bom, o importante, o que, aquilo que, o facto de"
           ],
           "wortschatz": [
             "Advertising",
             "Consumer rights",
-            "Returns"
+            "Complaints"
           ],
           "pruefung": [
-            "DELE B1: reading practice"
+            "DEPLE B1: writing practice"
           ]
         },
         {
           "thema": "The changing world of work",
           "kannZiele": [
-            "You can talk about what will happen when things change.",
-            "You can write a formal email or a complaint."
+            "You can talk about changes in work.",
+            "You can name jobs and ways of working."
           ],
           "grammatik": [
-            "Time clauses: cuando llegue, en cuanto, hasta que",
-            "lo + adjective: lo importante es, lo que"
+            "Word formation: -ção, -dade, -mento, -eiro, -aria, -ista, -inho",
+            "Relative clauses: que, onde, quem, o que"
           ],
           "wortschatz": [
-            "New jobs",
             "Remote work",
-            "Contracts"
+            "New jobs",
+            "Work-life balance"
           ],
           "pruefung": [
-            "DELE B1: writing practice",
-            "SIELE: writing practice"
+            "DEPLE B1: listening practice"
           ]
         },
         {
           "thema": "Culture & free time",
           "kannZiele": [
-            "You can talk about films, books and events.",
+            "You can say what you would like to do.",
             "You can recommend something and say why."
           ],
           "grammatik": [
-            "Verbs + prepositions: soñar con, acordarse de, tardar en",
-            "Verbs like gustar: encantar, interesar, quedar"
+            "Condicional: falaria, gostaria de, eu no teu lugar",
+            "Real conditions: se chover, se tiveres tempo"
           ],
           "wortschatz": [
-            "Cinema and books",
-            "Festivals in Spain",
-            "Regions"
+            "Culture",
+            "Music and film",
+            "Free time"
           ],
           "pruefung": [
-            "DELE B1: reading practice"
+            "DEPLE B1: speaking practice"
           ]
         },
         {
@@ -878,7 +859,7 @@
             "You can do a full practice test."
           ],
           "grammatik": [
-            "Review: past tenses and time clauses",
+            "Review: past tenses",
             "Review: subjunctive and conditions"
           ],
           "wortschatz": [
@@ -886,15 +867,14 @@
             "Useful phrases for writing and speaking"
           ],
           "pruefung": [
-            "DELE B1: all parts",
-            "SIELE: all modules"
+            "DEPLE B1: all parts"
           ]
         }
       ],
       "selbstcheck": [
-        "I can tell a story in the right order (primero, después, mientras).",
-        "I can give my opinion and support it with aunque and sin embargo.",
-        "I can say what I would like to do (me gustaría…).",
+        "I can tell a story in the right order (primeiro, depois, enquanto).",
+        "I can give my opinion and support it with mas and no entanto.",
+        "I can say what I would like to do (gostava de…).",
         "I can write a complaint or a formal email.",
         "I can plan a meeting or a trip with other people."
       ]
@@ -910,144 +890,141 @@
         {
           "thema": "Work & careers",
           "kannZiele": [
-            "You can discuss working conditions and give reasons for your view.",
-            "You can write a formal letter of application."
+            "You can talk about what you would do under other conditions.",
+            "You can discuss career moves."
           ],
           "grammatik": [
-            "Subjunctive in opinion and doubt: no creo que, es posible que",
-            "Collocations: tomar una decisión, dar un paseo"
+            "Imperfect subjunctive: queria que viesses",
+            "Unreal conditions: se tivesse, compraria"
           ],
           "wortschatz": [
-            "Labour market",
-            "Rights at work",
-            "Applications"
+            "Careers",
+            "Applications",
+            "Workplace relations"
           ],
           "pruefung": [
-            "DELE B2: writing practice",
-            "SIELE: writing practice"
+            "DIPLE B2: reading practice"
           ]
         },
         {
           "thema": "Media & society",
           "kannZiele": [
-            "You can follow a news report and say what it means.",
-            "You can report what was said."
+            "You can report what someone said, with the tense shifts.",
+            "You can describe how things are done."
           ],
           "grammatik": [
-            "Passive and se: se dice, se alquila, fue aprobado",
-            "Reported speech with tense shifts: dijo que vendría"
+            "Passive and -se: aluga-se casa",
+            "Reported speech with tense shifts"
           ],
           "wortschatz": [
-            "News",
-            "Politics",
-            "Public debate"
+            "Media",
+            "Press and news",
+            "Public opinion"
           ],
           "pruefung": [
-            "DELE B2: reading practice",
-            "SIELE: reading practice"
+            "DIPLE B2: listening practice"
           ]
         },
         {
           "thema": "Cities & housing",
           "kannZiele": [
-            "You can describe the housing market where you live.",
-            "You can say exactly what you are looking for."
+            "You can describe the kind of home or person you are looking for.",
+            "You can use the personal infinitive."
           ],
           "grammatik": [
-            "Relative clauses with subjunctive: busco un piso que tenga…",
-            "Concession and consequence: aunque + subjunctive"
+            "Relative clauses: que saiba, em que, cujo",
+            "Personal infinitive: para falarmos, sem eles saberem"
           ],
           "wortschatz": [
-            "Housing",
-            "Neighbourhoods",
-            "Urban life"
+            "Cities",
+            "Housing market",
+            "Neighbourhoods"
           ],
           "pruefung": [
-            "DELE B2: speaking practice"
+            "DIPLE B2: writing practice"
           ]
         },
         {
           "thema": "Health & mind",
           "kannZiele": [
-            "You can talk about stress, moods and how people change.",
-            "You can tell someone about a small accident or a mistake."
+            "You can express opinion, doubt and certainty.",
+            "You can talk about changes in a state."
           ],
           "grammatik": [
-            "Verbs of change: ponerse, volverse, quedarse",
-            "Accidental se: se me olvidó, se me ha roto"
+            "Subjunctive in opinion and doubt",
+            "Verbs of change: ficar, tornar-se, passar a ser, transformar-se em, pôr-se"
           ],
           "wortschatz": [
-            "Stress",
-            "Habits",
-            "Health care"
+            "Health",
+            "Psychology",
+            "Stress and wellbeing"
           ],
           "pruefung": [
-            "DELE B2: listening practice",
-            "SIELE: listening practice"
+            "DIPLE B2: speaking practice"
           ]
         },
         {
           "thema": "Education & learning",
           "kannZiele": [
-            "You can talk about what would be different under other conditions.",
-            "You can say what you wanted other people to do."
+            "You can say that something happens despite something else.",
+            "You can name causes and consequences."
           ],
           "grammatik": [
-            "Imperfect subjunctive: quería que vinieras",
-            "Unreal conditions: si tuviera, compraría"
+            "Concession and consequence: embora, tão… que",
+            "Adjectives + prepositions: farto de, contente com, interessado em"
           ],
           "wortschatz": [
-            "School system",
-            "University",
-            "Lifelong learning"
+            "Education",
+            "Studying abroad",
+            "Learning strategies"
           ],
           "pruefung": [
-            "DELE B2: writing practice"
+            "DIPLE B2: reading practice"
           ]
         },
         {
           "thema": "Business & consumers",
           "kannZiele": [
-            "You can read a contract or terms and ask about the details.",
-            "You can explain results and effects."
+            "You can use common collocations in a business context.",
+            "You can take part in a discussion."
           ],
           "grammatik": [
-            "Adjectives + prepositions: harto de, capaz de, interesado en",
-            "Concession and consequence: tan… que, de modo que"
+            "Collocations: tomar uma decisão, dar um passeio, fazer fila",
+            "Discourse markers: pois, então, olha, se calhar"
           ],
           "wortschatz": [
-            "Companies",
-            "Contracts",
-            "Insurance"
+            "Business",
+            "Consumers",
+            "Contracts"
           ],
           "pruefung": [
-            "DELE B2: reading practice"
+            "DIPLE B2: writing practice"
           ]
         },
         {
           "thema": "Communication & conflict",
           "kannZiele": [
-            "You can keep a conversation going and interrupt politely.",
-            "You can guess what has happened and say how sure you are."
+            "You can talk about small accidents and what happened to you.",
+            "You can disagree politely."
           ],
           "grammatik": [
-            "Discourse markers in speech: pues, bueno, o sea, es que",
-            "Probability: serán las tres, habrá salido"
+            "Accidental dative: esqueceu-me a carteira",
+            "Discourse markers: pois, então, olha, se calhar"
           ],
           "wortschatz": [
-            "Spoken language",
-            "Disagreeing",
-            "Politeness"
+            "Communication",
+            "Conflict",
+            "Mediating"
           ],
           "pruefung": [
-            "DELE B2: speaking practice"
+            "DIPLE B2: speaking practice"
           ]
         }
       ],
       "selbstcheck": [
         "I have finished B1 or feel confident at B1.",
         "I can use the present subjunctive for wishes and feelings.",
-        "I can link ideas with aunque, sin embargo and por lo tanto.",
+        "I can link ideas with embora, no entanto and portanto.",
         "I can give a talk on a topic for 3–4 minutes.",
         "I understand the main points of the news on the radio."
       ]
@@ -1063,117 +1040,115 @@
         {
           "thema": "The future & the environment",
           "kannZiele": [
-            "You can discuss scenarios and what could happen.",
-            "You can weigh up possible solutions."
+            "You can report predictions and what experts said.",
+            "You can discuss causes and consequences."
           ],
           "grammatik": [
-            "Probability: future and conditional of conjecture",
-            "Unreal conditions: si hubiera…, habría… (introduction)"
+            "Reported speech with tense shifts",
+            "Concession and consequence: embora, tão… que"
           ],
           "wortschatz": [
-            "Climate policy",
+            "Climate",
             "Energy",
-            "Technology"
+            "Future scenarios"
           ],
           "pruefung": [
-            "DELE B2: speaking practice"
+            "DIPLE B2: reading practice"
           ]
         },
         {
           "thema": "Science & technology",
           "kannZiele": [
-            "You can summarise a report in your own words.",
-            "You can describe processes in a formal style."
+            "You can explain how something works.",
+            "You can describe a process."
           ],
           "grammatik": [
-            "Passive and se: se ha demostrado, fue descubierto",
-            "Nominalisation in formal writing (introduction)"
+            "Passive and -se: aluga-se casa",
+            "Personal infinitive: para falarmos, sem eles saberem"
           ],
           "wortschatz": [
-            "Research",
-            "Digital life",
-            "Data"
+            "Science",
+            "Technology",
+            "Innovation"
           ],
           "pruefung": [
-            "DELE B2: reading practice",
-            "SIELE: reading practice"
+            "DIPLE B2: listening practice"
           ]
         },
         {
           "thema": "Politics & taking part",
           "kannZiele": [
-            "You can explain how decisions are made in Spain.",
-            "You can report requests and demands."
+            "You can discuss a political issue.",
+            "You can express doubt and certainty."
           ],
           "grammatik": [
-            "Reported speech with tense shifts: me pidió que fuera",
-            "Subjunctive in opinion and doubt: dudo que, no es verdad que"
+            "Subjunctive in opinion and doubt",
+            "Review: subjunctive and conditions"
           ],
           "wortschatz": [
-            "Institutions",
+            "Politics",
             "Elections",
-            "Unions and associations"
+            "Participation"
           ],
           "pruefung": [
-            "DELE B2: listening practice"
+            "DIPLE B2: speaking practice"
           ]
         },
         {
           "thema": "Culture & identity",
           "kannZiele": [
-            "You can talk about belonging, languages and customs.",
-            "You can describe how a person or a place has changed."
+            "You can talk about identity and belonging.",
+            "You can use discourse markers in a discussion."
           ],
           "grammatik": [
-            "Relative clauses with prepositions: el piso en el que vivo, quien",
-            "Verbs of change: hacerse, convertirse en"
+            "Discourse markers: pois, então, olha, se calhar",
+            "Verbs of change: ficar, tornar-se, passar a ser, transformar-se em, pôr-se"
           ],
           "wortschatz": [
-            "Regions",
-            "Languages of Spain",
-            "Migration"
+            "Culture",
+            "Identity",
+            "Language and migration"
           ],
           "pruefung": [
-            "SIELE: speaking practice"
+            "DIPLE B2: writing practice"
           ]
         },
         {
           "thema": "Working internationally",
           "kannZiele": [
-            "You can write a report or a review.",
-            "You can say what you would like to happen."
+            "You can write a formal email to a company or office.",
+            "You can use fixed combinations correctly."
           ],
           "grammatik": [
-            "Imperfect subjunctive: me gustaría que, ojalá pudiera",
-            "Collocations: hacer caso, poner una queja, echar de menos"
+            "Adjectives + prepositions: farto de, contente com, interessado em",
+            "Collocations: tomar uma decisão, dar um passeio, fazer fila"
           ],
           "wortschatz": [
-            "International teams",
-            "Reports",
+            "International work",
+            "Business correspondence",
             "Meetings"
           ],
           "pruefung": [
-            "DELE B2: writing practice",
-            "SIELE: writing practice"
+            "DIPLE B2: writing practice"
           ]
         },
         {
           "thema": "Rights & everyday life",
           "kannZiele": [
-            "You can discuss a rule or a law and say what you think of it.",
-            "You can make a formal complaint."
+            "You can describe your rights and duties.",
+            "You can talk about what would happen if things were different."
           ],
           "grammatik": [
-            "Concession and consequence: por mucho que, aunque",
-            "Adjectives + prepositions: contento con, responsable de"
+            "Accidental dative: esqueceu-me a carteira",
+            "Unreal conditions: se tivesse, compraria"
           ],
           "wortschatz": [
             "Rights",
-            "Complaints (hoja de reclamaciones)",
-            "Public services"
+            "Residence and work",
+            "Everyday situations"
           ],
           "pruefung": [
-            "DELE B2: reading practice"
+            "DIPLE B2: reading practice"
           ]
         },
         {
@@ -1184,22 +1159,21 @@
           ],
           "grammatik": [
             "Review: subjunctive and conditions",
-            "Review: reported speech and linkers"
+            "Review: past tenses"
           ],
           "wortschatz": [
             "Exam instructions",
             "Useful phrases for writing and speaking"
           ],
           "pruefung": [
-            "DELE B2: all parts",
-            "SIELE: all modules"
+            "DIPLE B2: all parts"
           ]
         }
       ],
       "selbstcheck": [
         "I can write formal emails without help.",
         "I understand the imperfect subjunctive when I read it.",
-        "I can report what someone said (dijo que…).",
+        "I can report what someone said (disse que…).",
         "I can disagree in a discussion and suggest a compromise.",
         "I understand newspaper articles on familiar topics."
       ]
@@ -1207,7 +1181,7 @@
     {
       "id": "c1",
       "label": "C1",
-      "titel": "Spanish for study and work",
+      "titel": "Portuguese for study and work",
       "ziel": "You understand demanding texts, speak spontaneously and fluently, and write well-structured texts.",
       "dauer": "about 14 weeks",
       "lehrwerke": "oberstufe",
@@ -1215,137 +1189,134 @@
         {
           "thema": "Science & research",
           "kannZiele": [
-            "You can understand long factual texts and summarise them.",
-            "You can present results in a formal style."
+            "You can present research and its limits.",
+            "You can use the right tense in a chain of clauses."
           ],
           "grammatik": [
-            "Nominalisation in formal writing",
-            "Sequence of tenses with the subjunctive; hubiera hecho"
+            "Sequence of tenses with the subjunctive; tivesse feito, tiver feito",
+            "Non-finite clauses: ao chegar, vendo que…, terminada a reunião"
           ],
           "wortschatz": [
             "Research",
-            "Academic language",
-            "Data"
+            "Method",
+            "Results"
           ],
           "pruefung": [
-            "DELE C1: reading practice",
-            "SIELE: reading practice"
+            "DAPLE C1: reading practice"
           ]
         },
         {
           "thema": "Work & business",
           "kannZiele": [
-            "You can write a report or a proposal.",
-            "You can lead a meeting and sum up."
+            "You can write formal business letters.",
+            "You can link ideas in a formal way."
           ],
           "grammatik": [
-            "Non-finite clauses: al llegar, viendo que…, terminada la reunión",
-            "Formal connectors: debido a, a raíz de"
+            "Formal connectors: devido a, em virtude de, no entanto, por conseguinte, ao abrigo de",
+            "Nominalisation in formal writing"
           ],
           "wortschatz": [
-            "Business Spanish",
-            "Reports",
-            "Meetings"
+            "Business",
+            "Legal wording",
+            "Correspondence"
           ],
           "pruefung": [
-            "DELE C1: writing practice",
-            "SIELE: writing practice"
+            "DAPLE C1: writing practice"
           ]
         },
         {
           "thema": "Society & values",
           "kannZiele": [
-            "You can argue about abstract topics and answer counter-arguments.",
-            "You can set conditions and limits precisely."
+            "You can talk about unreal comparisons and conditions.",
+            "You can state conditions precisely."
           ],
           "grammatik": [
-            "Conditions without si: de + infinitive, a no ser que, siempre que",
-            "Formal relatives: el cual, lo cual, cuyo"
+            "como se + subjunctive; nem que",
+            "Conditions without se: caso, desde que, a não ser que, no caso de"
           ],
           "wortschatz": [
+            "Society",
             "Values",
-            "Equality",
-            "Public debate"
+            "Debates"
           ],
           "pruefung": [
-            "DELE C1: writing practice"
+            "DAPLE C1: speaking practice"
           ]
         },
         {
           "thema": "Media & the public",
           "kannZiele": [
-            "You can tell fact from opinion in a long article or a programme.",
-            "You can put the focus exactly where you want it."
+            "You can stress what matters in a sentence.",
+            "You can follow a long text from its cohesion."
           ],
           "grammatik": [
-            "Emphasis and cleft sentences: Fue Ana quien…, Lo que necesito es…",
-            "Modal periphrases: deber de, venir a, llegar a"
+            "Emphasis and cleft sentences: Foi a Ana que…, O que preciso é de…",
+            "Cohesion: reference, ellipsis, o que, isso, tal, register"
           ],
           "wortschatz": [
-            "Press",
-            "Radio and television",
-            "Rhetoric"
+            "Media",
+            "Public discussion",
+            "Critical reading"
           ],
           "pruefung": [
-            "DELE C1: listening practice",
-            "SIELE: listening practice"
+            "DAPLE C1: listening practice"
           ]
         },
         {
           "thema": "Language & communication",
           "kannZiele": [
-            "You can talk about how language varies in Spain and the Spanish-speaking world.",
-            "You can switch between formal and informal style."
+            "You can read formal and literary texts with mesoclisis.",
+            "You can recognise the simple pluperfect."
           ],
           "grammatik": [
-            "Prefixes and derivation: des-, re-, pre-, in-, sobre-",
-            "Discourse markers and register"
+            "Mesoclisis: dar-lhe-ei, far-se-ia, dir-lhe-ia",
+            "Simple pluperfect: comera, fora, tivera, dissera"
           ],
           "wortschatz": [
-            "Varieties of Spanish",
-            "Register",
-            "Fixed expressions"
+            "Language",
+            "Style and register",
+            "Rhetoric"
           ],
           "pruefung": [
-            "DELE C1: speaking practice"
+            "DAPLE C1: reading practice"
           ]
         },
         {
           "thema": "Environment & globalisation",
           "kannZiele": [
-            "You can explain complex causes and effects.",
-            "You can turn a spoken explanation into formal writing."
+            "You can write complex relative clauses.",
+            "You can express obligation and possibility in different ways."
           ],
           "grammatik": [
-            "Nominalisation and verbal style: decidir, la decisión",
-            "Formal connectors: no obstante, por consiguiente, en virtud de"
+            "Formal relatives: o qual, cujo, quanto, pelo que; indicative or subjunctive",
+            "Modal periphrases: dever, dever de, ter de, haver de, vir a, chegar a"
           ],
           "wortschatz": [
+            "Environment",
             "Globalisation",
-            "Resources",
-            "International cooperation"
+            "Economy"
           ],
           "pruefung": [
-            "DELE C1: speaking practice"
+            "DAPLE C1: writing practice"
           ]
         },
         {
           "thema": "Art & culture",
           "kannZiele": [
-            "You can write a review and give a nuanced opinion.",
-            "You can follow a discussion about a film or a book."
+            "You can build new words from prefixes and suffixes.",
+            "You can write a coherent critique."
           ],
           "grammatik": [
-            "como si + subjunctive; ni que",
-            "Cohesion: reference, ellipsis, lo and ello"
+            "Prefixes and derivation: des-, re-, pré-, in-, sobre-, contra-, entre- and the hyphen",
+            "Cohesion: reference, ellipsis, o que, isso, tal, register"
           ],
           "wortschatz": [
+            "Art",
             "Literature",
-            "Film",
-            "Art"
+            "Film and theatre"
           ],
           "pruefung": [
-            "DELE C1: writing practice"
+            "DAPLE C1: speaking practice"
           ]
         },
         {
@@ -1363,8 +1334,7 @@
             "Useful phrases for writing and speaking"
           ],
           "pruefung": [
-            "DELE C1: all parts",
-            "SIELE: all modules"
+            "DAPLE C1: all parts"
           ]
         }
       ],
