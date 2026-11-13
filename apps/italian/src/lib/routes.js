@@ -53,10 +53,10 @@ export const TOPIC_SLUGS = {
   "nutzen-benutzen": "sapere-conoscere", positionsverben: "verbs-like-piacere",
   "wortbildung-nomen": "word-formation", "adjektive-als-nomen": "adjective-as-noun",
   // B2
-  konjunktiv2: "imperfect-subjunctive", modalsaetze: "si-unreal", passiv: "passive-and-se",
+  konjunktiv2: "congiuntivo-imperfetto", modalsaetze: "periodo-ipotetico", passiv: "passive-and-si",
   "relativsaetze-was-wo": "relative-clauses-advanced", "zumal-wohingegen": "reported-speech",
-  "zweiteilige-konnektoren": "subjunctive-opinion", konsekutivsaetze: "aunque-subjunctive",
-  negationswoerter: "probability", irgend: "accidental-se", fokuspartikeln: "verbs-of-change",
+  "zweiteilige-konnektoren": "congiuntivo-opinion", konsekutivsaetze: "concession-consequence",
+  negationswoerter: "probability", irgend: "gerundio-constructions", fokuspartikeln: "verbs-of-change",
   modalpartikeln: "discourse-markers", "adjektive-mit-praepositionen": "adjectives-prepositions",
   "nomen-verb-verbindungen": "collocations",
   // C1
