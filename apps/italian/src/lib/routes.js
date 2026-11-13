@@ -60,9 +60,9 @@ export const TOPIC_SLUGS = {
   modalpartikeln: "discourse-markers", "adjektive-mit-praepositionen": "adjectives-prepositions",
   "nomen-verb-verbindungen": "collocations",
   // C1
-  "konjunktiv-1": "sequence-of-tenses", "es-korrelat": "cleft-sentences",
-  passiversatz: "conditions-without-si", "futur-2": "non-finite-clauses",
-  "irreale-vergleiche": "como-si", "subjektive-modalverben": "modal-periphrases",
+  "konjunktiv-1": "sequence-of-tenses", "es-korrelat": "cleft-and-emphasis",
+  passiversatz: "conditions-without-se", "futur-2": "non-finite-clauses",
+  "irreale-vergleiche": "come-se-unreal", "subjektive-modalverben": "passato-remoto",
   "nominale-praepositionen": "formal-connectors", nominalisierung: "nominalisation",
   partizipialattribute: "formal-relatives", textkohaerenz: "cohesion", verbpraefixe: "prefixes",
 };

@@ -26,7 +26,7 @@ const rel = (p) => path.relative(ROOT, p).replaceAll("\\", "/");
 // Empty since `variety-schema` (2026-11-12): every module still holds Spanish-course content, so
 // the Spanish course's strict list was dropped; the items re-add their modules one by one.
 // Re-added: einstufung (placement-test).
-const STRICT = new Set(["einstufung"]);
+const STRICT = new Set(["einstufung", "grammatik"]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);
 const jsonFiles = (dir) =>
