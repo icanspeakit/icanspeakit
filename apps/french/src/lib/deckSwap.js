@@ -1,5 +1,5 @@
 // Switching word sets without a page load. Every flashcard deck keeps its own URL
-// (/vocabulary/a1-04, /spanish-for-work/hospitality/kitchen-and-equipment …)
+// (/vocabulary/a1-04, /spanish-for-work/restaurants/kitchen-and-equipment …)
 // so Google, shared links and Back still work, but picking another set in the side list
 // no longer reloads the page: the target page is fetched, and only what belongs to the
 // deck is replaced — the hero (title, print, live quiz, group chips), the trainer column

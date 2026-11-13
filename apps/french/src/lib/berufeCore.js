@@ -13,14 +13,14 @@ import { langsFor } from "./languages.js";
 import { varietyProblems } from "./variety.js";
 import { GENDERS as ARTICLE_GENDERS, genderProblems, legacyEntry } from "./articles.js";
 
-/** The ten sectors, in hub order: where newcomers to Spain most often start work first. The slugs
- *  are history (progress keys): kita is cleaning and domestic work, elektro-technik is farm work.
- *  `emoji` is the OpenMoji on the hub card. */
+/** The ten sectors, in hub order: where newcomers to France most often start work first. The slugs
+ *  are history (progress keys): kita is cleaning and childcare, elektro-technik is private security
+ *  (content-plan §5.12). `emoji` is the OpenMoji on the hub card. */
 export const BERUFE = [
   { slug: "pflege", emoji: "🩺" },
   { slug: "gastronomie", emoji: "🍽️" },
   { slug: "kita", emoji: "🧹" },
-  { slug: "elektro-technik", emoji: "🍅" },
+  { slug: "elektro-technik", emoji: "🛡️" },
   { slug: "bau-handwerk", emoji: "🔨" },
   { slug: "einzelhandel", emoji: "🛒" },
   { slug: "lager-logistik", emoji: "📦" },

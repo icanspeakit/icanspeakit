@@ -194,18 +194,19 @@ export const ITEM_SLUGS = {
     danken: "thanking", vorschlagen: "suggestions", gratulieren: "congratulating", begruessen: "greetings",
     bildbeschreibung: "describing-pictures", "wo-ist-der-ball": "wheres-the-ball",
   },
-  // English for work: the sectors; their word groups are WORK_GROUP_SLUGS (one table for
-  // all sectors, because the group ids repeat: taetigkeiten, ablaeufe, kunden-team …).
+  // French for work: the sectors (content-plan §5.12); their word groups are WORK_GROUP_SLUGS (one
+  // table for all sectors, because the group ids repeat: taetigkeiten, ablaeufe, kunden-team …).
+  // The section key moves to /french-for-work with the `routes` item.
   "/spanish-for-work": {
-    "bau-handwerk": "construction", buero: "office", einzelhandel: "shops", "elektro-technik": "agriculture",
-    gastronomie: "hospitality", hotel: "hotels", kita: "cleaning-domestic-work", kraftfahrer: "driving",
+    "bau-handwerk": "construction", buero: "office", einzelhandel: "shops", "elektro-technik": "security",
+    gastronomie: "restaurants", hotel: "hotels", kita: "cleaning-childcare", kraftfahrer: "driving",
     "lager-logistik": "warehouse", pflege: "care-work",
   },
 };
 export const WORK_GROUP_SLUGS = {
   "baustelle-werkzeug": "site-and-tools", taetigkeiten: "tasks", ablaeufe: "workflow", sicherheit: "safety",
   "kunden-team": "customers-and-team", "buero-geraete": "office-and-equipment", datenschutz: "data-protection",
-  "kasse-laden": "till-and-shop-floor", "bauteile-geraete": "tools-and-machines", "kueche-geraete": "kitchen-and-equipment",
+  "kasse-laden": "till-and-shop-floor", "bauteile-geraete": "equipment", "kueche-geraete": "kitchen-and-equipment",
   "hygiene-sicherheit": "hygiene-and-safety", "gaeste-team": "guests-and-team", "rezeption-zimmer": "reception-and-rooms",
   "sicherheit-hygiene": "safety-and-cleaning", "kita-material": "products-and-tools", tagesablauf: "working-day",
   "sicherheit-gesundheit": "safety-and-health", "eltern-team": "family-and-team", fahrzeug: "vehicle",
