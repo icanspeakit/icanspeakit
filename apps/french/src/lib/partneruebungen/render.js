@@ -315,13 +315,13 @@ function tandemStrip(spec) {
   const task = String(first[0]).replace(/^\d+\.\s*/, "");
   const panel = (name, expr, role, say, cap) => `<div class="pu-ts-step pu-ts-step--${role}">
       <span class="pu-ts-fig" data-mascot-part>${mascotSvg({ name, expr, view: "three", size: 64, label: "" })}</span>
-      <p class="pu-ts-say" lang="es">${say}</p>
+      <p class="pu-ts-say" lang="fr">${say}</p>
       <p class="pu-ts-cap">${cap}</p></div>`;
   return `<div class="pu-ts">
-    ${panel("bruno", "happy", "A", `Número 1: ${esc(task)}`, "<b>A</b> reads out")}
-    ${panel("regi", "thinking", "B", "Creo que: …", "<b>B</b> answers")}
-    ${panel("regi", "happy", "B", "Número 2: …", "Then <b>B</b> reads out")}
-    ${panel("bruno", "thinking", "A", "Creo que: …", "<b>A</b> answers")}
+    ${panel("bruno", "happy", "A", `Numéro 1&nbsp;: ${esc(task)}`, "<b>A</b> reads out")}
+    ${panel("regi", "thinking", "B", "Je crois que …", "<b>B</b> answers")}
+    ${panel("regi", "happy", "B", "Numéro 2&nbsp;: …", "Then <b>B</b> reads out")}
+    ${panel("bruno", "thinking", "A", "Je crois que …", "<b>A</b> answers")}
   </div>`;
 }
 
@@ -440,5 +440,5 @@ export const renderKey = (spec) => solutions(spec).replace(/<\/section>$/, `${bi
 
 /** The whole sheet as one <article>, answers last. */
 export function renderSheet(spec) {
-  return `<article class="pu-sheet" lang="es">${renderBody(spec)}${renderKey(spec)}</article>`;
+  return `<article class="pu-sheet" lang="fr">${renderBody(spec)}${renderKey(spec)}</article>`;
 }
