@@ -1256,3 +1256,25 @@ handled by the `ui-*` items where they are rendered.
 - Celpe-Bras: format, levels, validity, price.
 - Frequency list licence and its Brazil bias; Azure pt-PT voice names; Portuguese mobile number
   placeholder ranges; whether a Portuguese *freguesia/município* is called Vila Soalheira.
+
+### 13.x `grammar-structure` (2026-11-13): decisions and open points
+
+- Syllabus order (`grammatik-lehrplan.json`, mirrored in `src/lib/grammatikOrder.js`): per level as
+  explained in the file's `note`. The new topics are placed: `clitic-placement` after
+  `indirekte-fragen` (B1), `mesoclise` and `mais-que-perfeito-simples` before the formal-style
+  topics (C1). `wortarten` and `wortbildung-nomen` stay extra practice.
+- `grammatik-verwandt.json` recomputed for all 80+ ids, including the three new ones.
+- Reference tables: the quiz and worksheet code (`liveQuiz/chapters.js`, `arbeitsblatt/nachschlagen.js`)
+  now expects *eu · ele/ela perfeito · particípio* and enclitic `-me` forms (`levanto-me`).
+- `praepositionen-trainer.json`: 14 packs rewritten; `praep.pack.*` names in `en.json` changed. The
+  German, Spanish, French and Italian UI strings of those keys are the UI-language items' job.
+- `kursinhalte.json` grammar lines must match `GRAMMAR_RULES` in `src/lib/stundenplan.js` (patterns
+  now follow the Portuguese topic names). Exam lines name CIPLE/DEPLE/DIPLE/DAPLE and a skill only.
+- Open: `examHref()` in `stundenplan.js` still points to the DELE/SIELE pages (`exams-caple`).
+- Open: practice links in the reference tables use the current route slugs (`/present-perfect`,
+  `/preterite`, `/stem-changing-verbs`); `routes` renames them.
+- Open: `typische-fehler.json` pairs are still Spanish; `wortarten.json` has `fehler` emptied until
+  the common-mistakes item refills them.
+- Open: `check-verbtabellen.mjs` compares the table with the irregular-verbs list only once the table
+  holds Portuguese (`falar`); `conjugation-data` must make that comparison pass.
+- Open: `lang="es"` remains in `wortschatz-app.js` (flashcards); the vocabulary items change it.
