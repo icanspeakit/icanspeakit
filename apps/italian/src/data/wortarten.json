@@ -1,5 +1,5 @@
 {
-  "_note": "The parts of speech to look up (/grammar/parts-of-speech) and Regi's line under the part-of-speech label of the flashcards (wortschatz-app.js). `practice` = the anchor of the exercise on /parts-of-speech where the class comes up. `fehler` = the word pair on /grammar/common-mistakes that belongs to the class, empty where none fits. `id` = the pos field in the lexicon; the article has no lexicon word of its own but belongs here. `examples` are set by hand (Spanish, A1) so the page does not depend on the lexicon. `say` is the short form for the card (≤ 8 words), `what` the sentence on the page, `tr` its translation into the help languages (`en` = the same sentence; ar/uk/tr: machine-assisted draft, reviewed:false, removed where `what` changed for Spanish).",
+  "_note": "The parts of speech to look up (/grammar/parts-of-speech) and Regi's line under the part-of-speech label of the flashcards (wortschatz-app.js). `practice` = the anchor of the exercise on /parts-of-speech where the class comes up. `fehler` = the word pair on /grammar/common-mistakes that belongs to the class; empty until the idioms-mistakes item has written the Italian pairs (the old Spanish pairs were removed). `id` = the pos field in the lexicon; the article has no lexicon word of its own but belongs here. `examples` are set by hand (Italian, A1) so the page does not depend on the lexicon. `say` is the short form for the card (≤ 8 words), `what` the sentence on the page, `tr` its translation into the help languages (`en` = the same sentence; the ar/uk/tr drafts of the Spanish course were removed where `what` changed for Italian, and only `en` is kept).",
   "reviewed": false,
   "classes": [
     {
@@ -7,53 +7,52 @@
       "name": "Noun",
       "also": "a naming word",
       "practice": "erkennen",
-      "fehler": "el-problema",
+      "fehler": "",
       "say": "A noun is a name for something.",
       "what": "A noun is a name: for a person, an animal, a thing or an idea.",
       "ask": "Who? What?",
-      "tip": "Every Spanish noun is masculine or feminine: el libro, la casa. Most nouns have a plural: libro – libros. Names of people and places start with a capital letter: Amina, Sevilla.",
+      "tip": "Every Italian noun is masculine or feminine: il libro, la casa. Most nouns have a plural: libro – libri. Names of people and places start with a capital letter: Amina, Roma. Days and months do not: lunedì, maggio.",
       "examples": [
-        "el libro",
+        "il libro",
         "la casa",
-        "el amigo",
-        "la mesa",
-        "la idea"
+        "l'amico",
+        "la tavola",
+        "l'idea"
       ],
       "learn": {
         "href": "/noun-gender",
         "label": "Nouns and gender: rule and exercises"
       },
       "tr": {
-        "en": "A noun is a name: for a person, an animal, a thing or an idea.",
-        "ar": "الاسم هو اسم: لشخص أو حيوان أو شيء أو فكرة.",
-        "uk": "Іменник — це назва: людини, тварини, речі чи ідеї.",
-        "tr": "İsim bir addır: bir kişinin, hayvanın, eşyanın ya da düşüncenin adı."
+        "en": "A noun is a name: for a person, an animal, a thing or an idea."
       }
     },
     {
       "id": "art",
       "name": "Article",
-      "also": "el, la, un, una",
+      "also": "il, la, un, una",
       "practice": "erkennen",
-      "fehler": "el-el",
+      "fehler": "",
       "say": "An article comes before a noun.",
-      "what": "An article comes before a noun and agrees with it: el, la, los, las for a thing we both know; un, una, unos, unas for one of many, or some.",
-      "ask": "el or la? un or una?",
-      "tip": "The article shows the gender and the number: el coche, la casa, los coches, las casas. a + el becomes al and de + el becomes del: voy al banco, vengo del banco.",
+      "what": "An article comes before a noun and agrees with it: il, lo, la, l', i, gli, le for a thing we both know; un, uno, una, un' for one of many, or some.",
+      "ask": "il or la? un or una?",
+      "tip": "The article shows the gender and the number: il libro, la casa, i libri, le case. The form depends on the first sound: lo zaino, gli studenti, l'amico. a + il becomes al, di + il becomes del: vado al bar, vengo dal medico.",
       "examples": [
-        "el",
+        "il",
+        "lo",
         "la",
-        "los",
-        "las",
+        "i",
+        "gli",
+        "le",
         "un",
         "una"
       ],
       "learn": {
         "href": "/articles",
-        "label": "Articles: el, la, un, una – rule and exercises"
+        "label": "Articles: il, lo, la, un, una – rule and exercises"
       },
       "tr": {
-        "en": "An article comes before a noun and agrees with it: el, la, los, las for a thing we both know; un, una, unos, unas for one of many, or some."
+        "en": "An article comes before a noun and agrees with it: il, lo, la, l', i, gli, le for a thing we both know; un, uno, una, un' for one of many, or some."
       }
     },
     {
@@ -61,29 +60,26 @@
       "name": "Verb",
       "also": "a doing word",
       "practice": "im-satz",
-      "fehler": "ser-estar",
+      "fehler": "",
       "say": "A verb says what someone does.",
       "sub": {
         "name": "pronominal verb",
-        "what": "A verb that comes with a pronoun: me levanto, te acuerdas, se va.",
+        "what": "A verb that comes with a pronoun: mi alzo, ti ricordi, si sposa.",
         "href": "/reflexive-verbs",
         "more": "Reflexive verbs"
       },
       "what": "A verb says what someone does or what happens.",
       "ask": "What does he do? What happens?",
-      "tip": "The ending shows the person, so the pronoun is often left out: hablo, hablas, habla. The infinitive ends in -ar, -er or -ir: hablar, comer, vivir.",
+      "tip": "The ending shows the person, so the pronoun is usually left out: parlo, parli, parla. The infinitive ends in -are, -ere or -ire: parlare, vedere, dormire.",
       "examples": [
-        "ser",
-        "tener",
-        "ir",
-        "hablar",
-        "vivir"
+        "essere",
+        "avere",
+        "andare",
+        "parlare",
+        "dormire"
       ],
       "tr": {
-        "en": "A verb says what someone does or what happens.",
-        "ar": "الفعل يقول ماذا يفعل شخص ما أو ماذا يحدث.",
-        "uk": "Дієслово каже, що хтось робить або що відбувається.",
-        "tr": "Fiil, birinin ne yaptığını ya da ne olduğunu söyler."
+        "en": "A verb says what someone does or what happens."
       }
     },
     {
@@ -91,23 +87,20 @@
       "name": "Adjective",
       "also": "a describing word",
       "practice": "im-satz",
-      "fehler": "bien-bueno",
+      "fehler": "",
       "say": "An adjective says what something is like.",
       "what": "An adjective says what someone or something is like.",
       "ask": "What is it like?",
-      "tip": "An adjective agrees with its noun and usually goes after it: una casa blanca, unos coches blancos. Some have one form for both genders: un piso grande, una casa grande.",
+      "tip": "An adjective agrees with its noun and usually goes after it: una casa bianca, i libri nuovi. Some have one form for both genders: un appartamento grande, una casa grande.",
       "examples": [
         "grande",
-        "bueno",
-        "nuevo",
-        "feliz",
-        "frío"
+        "buono",
+        "nuovo",
+        "felice",
+        "freddo"
       ],
       "tr": {
-        "en": "An adjective says what someone or something is like.",
-        "ar": "الصفة تقول كيف يكون شخص ما أو شيء ما.",
-        "uk": "Прикметник каже, яким є хтось або щось.",
-        "tr": "Sıfat, birinin ya da bir şeyin nasıl olduğunu söyler."
+        "en": "An adjective says what someone or something is like."
       }
     },
     {
@@ -115,75 +108,66 @@
       "name": "Adverb",
       "also": "says when, where, how",
       "practice": "erkennen",
-      "fehler": "muy-mucho",
+      "fehler": "",
       "say": "An adverb says when, where or how.",
       "what": "An adverb says when, where or how something happens.",
       "ask": "When? Where? How?",
-      "tip": "Adverbs don't change their form. Many end in -mente: rápidamente, normalmente. Others don't: hoy, aquí, siempre, bien.",
+      "tip": "Adverbs don't change their form. Many end in -mente: rapidamente, normalmente. Others don't: oggi, qui, sempre, bene.",
       "examples": [
-        "hoy",
-        "aquí",
-        "siempre",
-        "rápidamente",
-        "bien"
+        "oggi",
+        "qui",
+        "sempre",
+        "rapidamente",
+        "bene"
       ],
       "tr": {
-        "en": "An adverb says when, where or how something happens.",
-        "ar": "الظرف يقول متى أو أين أو كيف يحدث شيء ما.",
-        "uk": "Прислівник каже, коли, де або як щось відбувається.",
-        "tr": "Zarf, bir şeyin ne zaman, nerede ya da nasıl olduğunu söyler."
+        "en": "An adverb says when, where or how something happens."
       }
     },
     {
       "id": "pron",
       "name": "Pronoun",
-      "also": "yo, tú, ella, lo …",
+      "also": "io, tu, lei, lo …",
       "practice": "im-satz",
-      "fehler": "tu-tu",
+      "fehler": "",
       "say": "A pronoun stands for a noun.",
       "what": "A pronoun stands for a noun, so you don't have to repeat it.",
       "ask": "Who? What?",
-      "tip": "Ana llega tarde. → Ella llega tarde, or just: Llega tarde. Veo a Ana. → La veo.",
+      "tip": "Anna arriva tardi. → Lei arriva tardi, or just: Arriva tardi. Vedo Anna. → La vedo.",
       "examples": [
-        "yo",
-        "tú",
-        "ella",
+        "io",
+        "tu",
+        "lei",
         "lo",
-        "nos"
+        "ci"
       ],
       "learn": {
         "href": "/subject-pronouns",
         "label": "Subject pronouns: rule and exercises"
       },
       "tr": {
-        "en": "A pronoun stands for a noun, so you don't have to repeat it.",
-        "ar": "الضمير يحلّ محلّ الاسم — فلا تحتاج إلى تكراره.",
-        "uk": "Займенник стоїть замість іменника — тож його не треба повторювати.",
-        "tr": "Zamir bir ismin yerine geçer — böylece onu tekrarlamak zorunda kalmazsın."
+        "en": "A pronoun stands for a noun, so you don't have to repeat it."
       }
     },
     {
       "id": "prep",
       "name": "Preposition",
-      "also": "a, en, de, con …",
+      "also": "a, in, di, con …",
       "practice": "im-satz",
-      "fehler": "por-para",
-      "say": "A preposition comes before a noun: a, en, de.",
+      "fehler": "",
+      "say": "A preposition comes before a noun: a, in, di.",
       "what": "A preposition comes before a noun and shows place, time or direction.",
       "ask": "Where? When? Where to?",
-      "tip": "After a preposition, use a noun, a pronoun or an infinitive: con mi amigo, para ti, antes de salir.",
+      "tip": "After a preposition, use a noun, a pronoun or an infinitive: con il mio amico, per te, prima di uscire. Many join with the article: di + la = della, in + il = nel.",
       "examples": [
         "a",
-        "en",
-        "de",
+        "in",
+        "di",
         "con",
-        "para"
+        "per"
       ],
       "tr": {
-        "en": "A preposition comes before a noun and shows place, time or direction.",
-        "ar": "حرف الجر يأتي قبل الاسم ويُظهر المكان أو الزمان أو الاتجاه.",
-        "uk": "Прийменник стоїть перед іменником і показує місце, час або напрямок.",
-        "tr": "Edat bir ismin önünde durur ve yer, zaman ya da yön gösterir."
+        "en": "A preposition comes before a noun and shows place, time or direction."
       }
     },
     {
@@ -191,23 +175,20 @@
       "name": "Conjunction",
       "also": "a joining word",
       "practice": "zuordnen",
-      "fehler": "por-que",
+      "fehler": "",
       "say": "A conjunction joins words and sentences.",
       "what": "A conjunction joins words or sentences.",
-      "ask": "y? pero? porque?",
-      "tip": "y, o and pero join two sentences: Estoy cansado, pero voy. porque gives a reason. y becomes e before i-: padre e hijo. o becomes u before o-: siete u ocho.",
+      "ask": "e? ma? perché?",
+      "tip": "e, o and ma join two sentences: Sono stanco, ma vengo. perché gives a reason. e becomes ed before e-: Mario ed Elena.",
       "examples": [
-        "y",
-        "pero",
+        "e",
+        "ma",
         "o",
-        "porque",
-        "cuando"
+        "perché",
+        "quando"
       ],
       "tr": {
-        "en": "A conjunction joins words or sentences.",
-        "ar": "أداة الربط تربط الكلمات أو الجمل.",
-        "uk": "Сполучник з'єднує слова або речення.",
-        "tr": "Bağlaç kelimeleri ya da cümleleri birbirine bağlar."
+        "en": "A conjunction joins words or sentences."
       }
     },
     {
@@ -219,19 +200,16 @@
       "say": "A number says how many.",
       "what": "A number word says how much or how many, or in which position.",
       "ask": "How many? How much? Which one in order?",
-      "tip": "dos niños (how many?), el segundo día (which one in order?). uno becomes un before a masculine noun: un libro, veintiún años.",
+      "tip": "due bambini (how many?), il secondo giorno (which one in order?). uno becomes un before a masculine noun: un libro, ventun anni.",
       "examples": [
         "uno",
-        "dos",
-        "diez",
-        "primero",
-        "segundo"
+        "due",
+        "dieci",
+        "primo",
+        "secondo"
       ],
       "tr": {
-        "en": "A number word says how much or how many, or in which position.",
-        "ar": "اسم العدد يقول كم — أو في أي ترتيب.",
-        "uk": "Числівник каже, скільки — або на якому місці.",
-        "tr": "Sayı sözcüğü ne kadar ya da kaç tane olduğunu söyler — ya da kaçıncı sırada."
+        "en": "A number word says how much or how many, or in which position."
       }
     },
     {
@@ -239,23 +217,20 @@
       "name": "Phrase",
       "also": "not a part of speech, a fixed group of words",
       "practice": "erkennen",
-      "fehler": "estoy-de-acuerdo",
+      "fehler": "",
       "say": "A phrase: several words, one meaning.",
       "what": "A phrase is several words that together have one fixed meaning.",
       "ask": "",
-      "tip": "Learn it as a whole. Translated word for word, it often doesn't work: ¿Qué tal?",
+      "tip": "Learn it as a whole. Translated word for word, it often doesn't work: In bocca al lupo! Come va?",
       "examples": [
-        "por favor",
-        "de nada",
-        "hasta luego",
-        "en casa",
-        "¿qué tal?"
+        "per favore",
+        "di niente",
+        "a dopo",
+        "in casa",
+        "come va?"
       ],
       "tr": {
-        "en": "A phrase is several words that together have one fixed meaning.",
-        "ar": "العبارة الثابتة هي عدة كلمات لها معًا معنى ثابت واحد.",
-        "uk": "Стійкий вислів — це кілька слів, які разом мають одне стале значення.",
-        "tr": "Kalıp ifade, birlikte tek bir sabit anlam taşıyan birkaç kelimedir."
+        "en": "A phrase is several words that together have one fixed meaning."
       }
     }
   ]
