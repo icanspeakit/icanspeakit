@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { slugify } from "../src/lib/audioSlug.js";
 import { VARIETIES, varietyProblems } from "../src/lib/variety.js";
+import { articleFits } from "../src/lib/articles.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -79,6 +80,10 @@ function checkItalian(w, where) {
   if (w.pos === "noun") {
     if (!w.gender) err(where, "noun without gender (il / lo / la / l', il/la; pluralOnly nouns keep the singular-equivalent article)");
     else if (!IT_GENDERS.includes(w.gender)) err(where, `bad gender "${w.gender}" (allowed: ${IT_GENDERS.join(", ")})`);
+    // The article follows the first sound (src/lib/articles.js): il/lo/l' for masculine, la/l' for feminine.
+    if (IT_GENDERS.includes(w.gender) && !articleFits(w.lemma, w.gender, w.genus)) {
+      err(where, `article "${w.gender}" does not fit "${w.lemma}" (first sound decides: il / lo / l')`);
+    }
     if (w.gender === "l'" && !IT_GENUS.includes(w.genus)) err(where, `gender "l'" needs genus "m" or "f" (the article hides the gender)`);
     if (!w.plural && !w.pluralOnly && !w.example) warnings.push(`${where}: no plural (uncountable?)`);
   }

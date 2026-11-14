@@ -11,6 +11,7 @@
 import { slugify } from "./audioSlug.js";
 import { wortBild } from "./wortBild.js";
 import { langsFor } from "./languages.js";
+import { pluralArticle as itPluralArticle, withArticle } from "./articles.js";
 import a1 from "../content/lexicon/a1.json" with { type: "json" };
 import a2 from "../content/lexicon/a2.json" with { type: "json" };
 import b1 from "../content/lexicon/b1.json" with { type: "json" };
@@ -41,7 +42,8 @@ export const LEVEL_NAMES = { A1: "Einstieg", A2: "Aufbau", B1: "Ausbau", B2: "Ve
 
 /** Every language a card can carry a translation in, English first. Ukrainian stands wherever
  *  Russian does, and before it: Ukrainian learners are not sent to Russian. */
-export const TRANSLATION_LANGS = langsFor("cards");
+// The course language itself is no gloss language (content-plan §1.4: `it` leaves the card langs).
+export const TRANSLATION_LANGS = langsFor("cards").filter((l) => l !== "it");
 
 const FILES = { A1: a1, A2: a2, B1: b1, B2: b2, C1: c1, C2: c2 };
 const SIDECARS = { ar, uk, ru, tr, deHint };
@@ -126,10 +128,18 @@ export function select(opts = {}) {
   return opts.limit ? rows.slice(0, opts.limit) : rows;
 }
 
-/** The levels in Spanish (docs/content-plan.md §1.4): their nouns carry el / la. All six since
- *  `vocab-c1-c2`. */
+const IT_ARTICLES = ["il", "lo", "la", "l'", "il/la", "lo/la"];
+/** An Italian noun: its variety says so (or an article only Italian has); "la" alone is ambiguous with Spanish. */
+const isIt = (e) => e.variety === "it-IT" || e.variety === "it-CH" || ["il", "lo", "l'", "il/la", "lo/la"].includes(e.gender);
+
+/** The levels in Italian (docs/content-plan.md §1.4): their nouns carry il / lo / la / l'. */
+export const ITALIAN_LEVELS = new Set(
+  LEVELS.filter((level) => ENTRIES.some((e) => e.level === level && isIt(e) && e.pos === "noun"))
+);
+
+/** The levels still holding the Spanish course's content (el / la), until `vocab-c1-c2`. */
 export const SPANISH_LEVELS = new Set(
-  LEVELS.filter((level) => ENTRIES.some((e) => e.level === level && ["el", "la", "el/la"].includes(e.gender)))
+  LEVELS.filter((level) => ENTRIES.some((e) => e.level === level && !isIt(e) && ["el", "la", "el/la"].includes(e.gender)))
 );
 
 export const all = () => ENTRIES;
@@ -199,13 +209,19 @@ export const CARD_LANGS = [...TRANSLATION_LANGS, "de"];
  *  the page asks for is not the slug the file was written under. */
 export const spokenForm = (e) => {
   if (e.pos !== "noun" || !e.gender) return e.lemma;
+  // Italian: il / lo / la / l' + lemma, no space after l'; a plural-only noun says the plural article.
+  if (isIt(e)) {
+    const a = e.pluralOnly ? pluralArticle(e) : e.gender === "il/la" ? "il" : e.gender === "lo/la" ? "lo" : e.gender;
+    return withArticle(a, e.lemma);
+  }
   if (e.pluralOnly && ["el", "la"].includes(e.gender)) return `${pluralArticle(e)} ${e.plural ?? e.lemma}`;
   // el/la estudiante: the voice says one article, the masculine, as a dictionary lists it.
   return `${e.gender === "el/la" ? "el" : e.gender} ${e.lemma}`;
 };
 
 /** los or las for a Spanish noun: from the article, except that el agua is feminine (las aguas). */
-export const pluralArticle = (e) => (e.genus === "f" || e.gender === "la" ? "las" : "los");
+export const pluralArticle = (e) =>
+  isIt(e) ? (e.pluralGender === "f" ? "le" : itPluralArticle(e.gender, e.genus)) : e.genus === "f" || e.gender === "la" ? "las" : "los";
 
 /** Shape of src/data/wortschatz.json: `{ front, note, translations }`. */
 const toCard = (e) => {
@@ -247,11 +263,11 @@ const toCard = (e) => {
     ...(e.pos === "noun"
       ? {
           // los padres, las gafas: a plural-only noun shows its plural article, not el / la.
-          gender: e.pluralOnly && ["el", "la"].includes(e.gender) ? pluralArticle(e) : e.gender ?? (e.pluralOnly ? "die" : null),
+          gender: e.pluralOnly && e.gender && e.gender !== "el/la" ? pluralArticle(e) : e.gender ?? (e.pluralOnly ? "die" : null),
           plural: e.plural ?? null,
           pluralOnly: !!e.pluralOnly,
           // las aguas, not los aguas: the card's article alone can't tell (el agua is feminine).
-          ...(["el", "la", "el/la"].includes(e.gender) ? { pluralArt: pluralArticle(e) } : {}),
+          ...(e.gender ? { pluralArt: pluralArticle(e) } : {}),
         }
       : {}),
     // Only the words that actually have a file. A deck is partly voiced for as long as
