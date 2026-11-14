@@ -1,5 +1,5 @@
 {
-  "_note": "Research file (not read by pages, except the source link on the practice-set page): the structure of the exams our own practice sets follow, checked by scripts/check-pruefungen.mjs (same modules, same parts, same number of scored items per part). Ids are storage keys and stay: goethe-* = CILS (A2, B1, B2), telc-* = CELI (A2, B1). Sets for CILS C1, CELI B2 and CELI C1 were removed by exams-cils-celi (see reports/exams-cils-celi.md for the restore command). PLIDA and CERT.IT are added by exams-plida-certit. Only structure is described; no exam task or text is copied. Field conventions: minutes = paper time in OUR set; items = scored items in OUR set; plays = how often the recording is heard. Every figure about the real exams is 'to verify'.",
+  "_note": "Research file (not read by pages, except the source link on the practice-set page): the structure of the exams our own practice sets follow, checked by scripts/check-pruefungen.mjs (same modules, same parts, same number of scored items per part). Ids are storage keys and stay: goethe-* = CILS (A2, B1, B2), telc-* = CELI (A2, B1). Sets for CILS C1, CELI B2 and CELI C1 were removed by exams-cils-celi (see reports/exams-cils-celi.md for the restore command). CERT.IT A2 (certit-a2) was added by exams-plida-certit; the PLIDA B1 set uses its own trainer (testdaf slot) and is not listed here. Only structure is described; no exam task or text is copied. Field conventions: minutes = paper time in OUR set; items = scored items in OUR set; plays = how often the recording is heard. Every figure about the real exams is 'to verify'.",
   "sources": [
     {
       "id": "goethe-a2",
@@ -25,6 +25,11 @@
       "id": "telc-b1",
       "title": "CELI, Università per Stranieri di Perugia (CVCL)",
       "url": "https://www.cvcl.it/"
+    },
+    {
+      "id": "certit-a2",
+      "title": "CERT.IT, Università degli Studi Roma Tre",
+      "url": "https://www.certit.it/"
     }
   ],
   "exams": [
@@ -487,6 +492,78 @@
       "modular": false,
       "unverified": [
         "Every figure about the real exam (parts, timings, scoring, pass rule, validity, numbering) is from memory of public information and has not been checked on the official pages as of 2026-11-14."
+      ]
+    },
+    {
+      "id": "certit-a2",
+      "exam": "CERT.IT A2",
+      "provider": "uniroma3",
+      "level": "A2",
+      "checked": "2026-11-14",
+      "source": "general public information about the CERT.IT of the Università degli Studi Roma Tre (certit.it), summarised from memory of the public exam descriptions and NOT yet checked against the current official pages (2026-11-14). Treat every figure as a guide and check the current information before you book",
+      "modules": [
+        {
+          "name": "Reading",
+          "minutes": 35,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Five everyday texts",
+              "type": "mc",
+              "items": 5
+            },
+            {
+              "teil": 2,
+              "task": "Looking for a course",
+              "type": "match",
+              "items": 6
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "minutes": 20,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Five short recordings",
+              "type": "mc",
+              "items": 5,
+              "plays": 2
+            },
+            {
+              "teil": 2,
+              "task": "A conversation",
+              "type": "mc",
+              "items": 5,
+              "plays": 2
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "minutes": 30,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "A message and a short text",
+              "type": "schreiben",
+              "items": 2
+            }
+          ]
+        },
+        {
+          "name": "Speaking",
+          "minutes": 8,
+          "parts": [
+            {
+              "teil": 1,
+              "task": "Introduction and description",
+              "type": "sprechen",
+              "items": 2
+            }
+          ]
+        }
       ]
     }
   ]

@@ -2,7 +2,7 @@
 // (routes and storage keys); the exams they hold are CILS (goethe slot) and CELI (telc slot) by
 // level (docs/content-plan.md §2). Kept apart from saetze.js so the /progress registry can use
 // the names without bundling the sets.
-export const EXAM_NAMES = { goethe: "CILS", telc: "CELI" };
+export const EXAM_NAMES = { goethe: "CILS", telc: "CELI", certit: "CERT.IT" };
 
 // CELI numbering by CEFR level: Impatto = A1, CELI 1 = A2, CELI 2 = B1, CELI 3 = B2, CELI 4 = C1,
 // CELI 5 = C2 (to verify on the official CVCL pages).

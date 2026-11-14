@@ -1,0 +1,67 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ExamShell from "../../components/ExamShell.astro";
+import SatzListe from "../../components/SatzListe.astro";
+import ExamPractice from "../../components/ExamPractice.astro";
+import ExamFormat from "../../components/ExamFormat.astro";
+import certFormate from "../../data/pruefungen/certit-formate.json";
+
+// CERT.IT: who it is for, format entries A1–C2, and our A2 practice set (content-plan §2: a new
+// slot `certit`; added by `exams-plida-certit`). Every exam fact is orientation and "to verify"
+// (reports/exams-plida-certit.md). Official exam items are never reproduced.
+---
+<Layout
+  title="CERT.IT: levels, format and practice – icanspeak Italian"
+  description="The CERT.IT certificate of the Università Roma Tre, from A1 to C2: who it is for, the four skills, and a free A2 practice set in exam style. Not official exam material."
+>
+  <ExamShell
+    header="CERT.IT"
+    title="CERT.IT"
+    lead="The Italian certificate of the Università degli Studi Roma Tre, with one exam per level. Here you can practise in its style at A2."
+    leadKey="certit.lead"
+    badges={["A1–C2"]}
+    practiceHeading="Practise for the CERT.IT"
+    practiceHeadingKey="certit.practiceHeading"
+  >
+    <Fragment slot="info">
+      <section class="exam-section">
+        <h2 data-i18n="certit.who.title">Who is the CERT.IT for?</h2>
+        <div class="exam-meta-row">
+          <span class="exam-meta-badge" data-i18n="certit.who.badge.level">One exam per level</span>
+          <span class="exam-meta-badge" data-i18n="certit.who.badge.skills">Four skills</span>
+        </div>
+        <p data-i18n="certit.who.text">
+          The CERT.IT (Certificazione dell'Italiano come lingua straniera) is issued by the Università
+          degli Studi Roma Tre, one of the four certifying bodies recognised by the Ministry of Foreign
+          Affairs. People use it for study, for work and, at the level required, as the language proof for
+          citizenship or the long-term residence permit. Check what your office or university asks for
+          before you book.
+        </p>
+        <p><a class="plan-link" href="/exams/which-exam" data-i18n="testdaf.whichExam">CILS, CELI, PLIDA or CERT.IT? Compare them by purpose →</a></p>
+      </section>
+
+      {certFormate.formate.map((f) => <ExamFormat format={f} />)}
+
+      <section class="exam-section">
+        <h2 data-i18n="certit.diff.title">How this differs from the real exam</h2>
+        <p class="format-note" data-i18n="certit.diff.text">
+          Our A2 set follows the general shape of an A2 exam, but every text and task is our own, and our
+          timings and marks are a guide, not the official ones. The Università Roma Tre publishes the
+          current format and sample papers; we do not copy them. Check the details on certit.it before
+          you book. We aren't connected with the Università Roma Tre.
+        </p>
+        <p class="format-note"><a href="https://www.certit.it/" target="_blank" rel="noopener noreferrer" data-i18n="certit.link">The CERT.IT website of the Università Roma Tre (in Italian)</a></p>
+      </section>
+    </Fragment>
+
+    <SatzListe exam="certit" />
+
+    <ExamPractice
+      heading="Train the basics"
+      headingKey="exam.practice.heading"
+      intro="These tools help at every level and for every exam. They train articles, grammar and vocabulary in general, not CERT.IT-specific task types."
+      introKey="certit.practice.intro"
+      tools={["artikel", "grammatik", "wortschatz"]}
+    />
+  </ExamShell>
+</Layout>
