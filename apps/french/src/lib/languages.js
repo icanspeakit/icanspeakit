@@ -84,7 +84,7 @@ export const LANGUAGE_REGISTRY = [
   {
     code: "it", native: "Italiano", de: "Italienisch", en: "Italian", word: "Lingua",
     dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "it", urlPrefix: "it",
-    // Same shape as German, French and Portuguese. Help texts, the legal pages and the profession
+    // Same shape as German, Spanish and Portuguese. Help texts, the legal pages and the profession
     // decks fall back to English.
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
