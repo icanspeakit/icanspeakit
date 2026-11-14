@@ -11,20 +11,18 @@
 import { slugify } from "./audioSlug.js";
 import { wortBild } from "./wortBild.js";
 import { langsFor } from "./languages.js";
-import { GENDERS, genderOf, indefinite, legacyEntry, pluralArticle, withArticle } from "./articles.js";
+import { GENDERS, genderOf, indefinite, pluralArticle, withArticle } from "./articles.js";
 import a1 from "../content/lexicon/a1.json" with { type: "json" };
 import a2 from "../content/lexicon/a2.json" with { type: "json" };
 import b1 from "../content/lexicon/b1.json" with { type: "json" };
 import b2 from "../content/lexicon/b2.json" with { type: "json" };
 import c1 from "../content/lexicon/c1.json" with { type: "json" };
 import c2 from "../content/lexicon/c2.json" with { type: "json" };
-// Arabic, Russian and Turkish live beside the lexicon rather than in it, keyed by word id.
-// Why: src/content/lexicon/i18n/README.md. `en` is not among them — it ships inline with
-// the word because it is part of how the lexicon was compiled.
-import ar from "../content/lexicon/i18n/ar.json" with { type: "json" };
-import ru from "../content/lexicon/i18n/ru.json" with { type: "json" };
-import uk from "../content/lexicon/i18n/uk.json" with { type: "json" };
-import tr from "../content/lexicon/i18n/tr.json" with { type: "json" };
+// Translations live beside the lexicon rather than in it, keyed by word id (why:
+// src/content/lexicon/i18n/README.md). `en` ships inline with the word. The fetched card
+// languages (es, pt, it …) are read by src/lib/glossen.js, not joined here. The empty
+// ar/ru/uk/tr sidecars that used to be imported here were removed by `cleanup`; a language
+// that gets real glosses (Arabic later) adds its import back.
 // German glosses: a plain German translation of the word (the trainer's German tab). Kept as
 // `deHint` on the word, not `de`, and outside TRANSLATION_LANGS, because `de` on a card is its
 // own tab. Why a sidecar: i18n/README.md.
@@ -45,7 +43,7 @@ export const LEVEL_NAMES = { A1: "Einstieg", A2: "Aufbau", B1: "Ausbau", B2: "Ve
 export const TRANSLATION_LANGS = langsFor("cards");
 
 const FILES = { A1: a1, A2: a2, B1: b1, B2: b2, C1: c1, C2: c2 };
-const SIDECARS = { ar, uk, ru, tr, deHint };
+const SIDECARS = { deHint };
 
 function flatten(file) {
   const out = [];
@@ -127,18 +125,6 @@ export function select(opts = {}) {
   return opts.limit ? rows.slice(0, opts.limit) : rows;
 }
 
-/** The levels already in French (docs/content-plan.md §1.4): their words carry `variety: "fr-FR"`
- *  and their nouns le / la / l' / les / le/la. A1 since `vocab-a1`; each vocab-* item adds its own
- *  by converting the file, nothing to edit here. */
-export const FRENCH_LEVELS = new Set(
-  LEVELS.filter((level) => ENTRIES.some((e) => e.level === level && e.pos === "noun" && !legacyEntry(e)))
-);
-
-/** The levels still in Spanish (legacy until `vocab-c1-c2`): their nouns carry el / la. Empty once
- *  every level is French; the callers' Spanish branches go with it in `cleanup`. */
-export const SPANISH_LEVELS = new Set(
-  LEVELS.filter((level) => ENTRIES.some((e) => e.level === level && ["el", "la", "el/la"].includes(e.gender) && legacyEntry(e)))
-);
 
 export const all = () => ENTRIES;
 export const nouns = (opts = {}) => select({ ...opts, pos: "noun" });
@@ -207,11 +193,6 @@ export const CARD_LANGS = [...TRANSLATION_LANGS, "de"];
  *  the page asks for is not the slug the file was written under. */
 export const spokenForm = (e) => {
   if (e.pos !== "noun" || !e.gender) return e.lemma;
-  if (legacyEntry(e)) {
-    if (e.pluralOnly && ["el", "la"].includes(e.gender)) return `${pluralArticle(e)} ${e.plural ?? e.lemma}`;
-    // el/la estudiante: the voice says one article, the masculine, as a dictionary lists it.
-    return `${e.gender === "el/la" ? "el" : e.gender} ${e.lemma}`;
-  }
   // le/la journaliste: the voice says one article, the masculine, as a dictionary lists it.
   if (e.gender === "le/la") return `le ${e.lemma}`;
   return withArticle(e);
@@ -260,16 +241,14 @@ const toCard = (e) => {
     // plural article, which is what a dictionary prints: "die Eltern".
     ...(e.pos === "noun"
       ? {
-          // los padres, las gafas: a plural-only noun shows its plural article, not el / la.
-          // A French plural-only noun already carries "les".
-          gender: e.pluralOnly && legacyEntry(e) && ["el", "la"].includes(e.gender) ? pluralArticle(e) : e.gender ?? (e.pluralOnly ? "die" : null),
+          // A plural-only noun already carries "les" (les lunettes).
+          gender: e.gender ?? (e.pluralOnly ? "les" : null),
           plural: e.plural ?? null,
           pluralOnly: !!e.pluralOnly,
-          // las aguas, not los aguas: the card's article alone can't tell (el agua is feminine).
-          // French: always les.
+          // The plural article: always les in French.
           ...(GENDERS.includes(e.gender) ? { pluralArt: pluralArticle(e) } : {}),
           // l'école is feminine, l'hôtel masculine: the card keeps what the article hides.
-          ...(e.genus && !legacyEntry(e) ? { genus: e.genus } : {}),
+          ...(e.genus ? { genus: e.genus } : {}),
         }
       : {}),
     // Only the words that actually have a file. A deck is partly voiced for as long as

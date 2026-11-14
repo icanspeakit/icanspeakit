@@ -17,7 +17,7 @@
 //             emit entries whose day has come; a daily deploy hook publishes the next one.
 // In `astro dev`, or with WORTGESCHICHTE_VORSCHAU=1 at build time, both gates are lifted
 // so entries can be reviewed on their real page (noindex, with a draft banner).
-import { all as lexicon, spokenForm, pluralArticle, withArticle, TRANSLATION_LANGS, SPANISH_LEVELS, FRENCH_LEVELS } from "./lexicon.js";
+import { all as lexicon, spokenForm, withArticle, TRANSLATION_LANGS } from "./lexicon.js";
 import { slugify } from "./audioSlug.js";
 import synonyme from "../data/synonyme.json" with { type: "json" };
 
@@ -96,30 +96,13 @@ export function formsOf(entry) {
     const row = lemma === entry.lemma ? lexiconRow(entry) : rowByLemma(lemma);
     if (!row) continue;
     const parts = [];
-    const spanish = SPANISH_LEVELS.has(row.level);
-    const french = FRENCH_LEVELS.has(row.level);
-    if (row.pos === "noun" && french) {
+    if (row.pos === "noun") {
       // l'école · les écoles / les lunettes (content-plan §1.4: gender = the article, plural without it)
       parts.push(withArticle(row));
       if (row.plural && !row.pluralOnly) parts.push(`les ${row.plural}`);
-    } else if (row.pos === "verb" && french && Array.isArray(row.forms) && row.forms.length === 3) {
+    } else if (row.pos === "verb" && Array.isArray(row.forms) && row.forms.length === 3) {
       // infinitive · je présent · il passé composé · participe passé
       parts.push(row.lemma, ...row.forms);
-    } else if (row.pos === "noun" && spanish) {
-      // la casa · las casas / las gafas (content-plan §1.4: gender = el/la, plural without article)
-      parts.push(spokenForm(row));
-      if (row.plural && !row.pluralOnly) parts.push(`${pluralArticle(row)} ${row.plural}`);
-    } else if (row.pos === "verb" && spanish && Array.isArray(row.forms) && row.forms.length === 3) {
-      // infinitive · yo present · él indefinido · participle
-      parts.push(row.lemma, ...row.forms);
-    } else if (row.pos === "noun") {
-      const g = row.gender ?? (row.pluralOnly ? "die" : null);
-      parts.push(g ? `${g} ${row.lemma}` : row.lemma);
-      if (row.plural) parts.push(`die ${row.plural}`);
-      else if (!row.pluralOnly) parts.push("kein Plural");
-    } else if (row.pos === "verb" && Array.isArray(row.forms) && row.forms.length === 3) {
-      const [third, praet, partizip] = row.forms;
-      parts.push(row.lemma, third, praet, `${row.aux === "sein" ? "ist" : "hat"} ${partizip}`);
     } else if (row.comparative) {
       parts.push(row.lemma, row.comparative, row.superlative);
     } else {
@@ -131,11 +114,8 @@ export function formsOf(entry) {
 }
 
 /** The language of the headword: "fr". Every story is about a French word since `word-stories`,
- *  and the validator refuses a lemma outside the lexicon. "es" only for a lemma in a level still
- *  in Spanish (a legacy branch `cleanup` removes). The prose about it is PROSE_LANG. */
-export function entryLang(entry) {
-  const row = lexiconRow(entry);
-  if (row && SPANISH_LEVELS.has(row.level)) return "es";
+ *  and the validator refuses a lemma outside the lexicon. The prose about it is PROSE_LANG. */
+export function entryLang() {
   return "fr";
 }
 

@@ -1,8 +1,7 @@
 # Translations of the lexicon
 
-> **French levels (icanspeak French, since 2026-11-08, `vocab-a1`).** A level whose words carry
-> `variety: "fr-FR"` is French (`FRENCH_LEVELS` in `src/lib/lexicon.js`; A1 since `vocab-a1`, the
-> others as their vocab-* item runs). For those words the sidecars are **French → that language**
+> **French lexicon (icanspeak French, A1–C2 since `vocab-c1-c2`).** Every level is French
+> (`variety: "fr-FR"`). The sidecars are **French → that language**
 > (docs/content-plan.md §1.4), written with the French word in front of the writer, never from the
 > English gloss: `de.json` (nouns with their article, „die Schule“), `es.json` (Spain Spanish, „la
 > escuela“), `pt.json` (Brazilian Portuguese, „a escola“) and `it.json` („la scuola“).
@@ -11,10 +10,9 @@
 > deleted by `ui-lang-es`, which also registers `es` as a card language; until then `es.json` is
 > written but no tab reads it.
 >
-> **Spanish levels (legacy, until their vocab-* item).** A level whose nouns carry `el` / `la` and
-> `variety: "es-ES"` is still Spanish (`SPANISH_LEVELS`). Its `de`, `pt` and `it` entries are
-> Spanish → that language; its `fr` entries went with `vocab-a1`.
-> `ar`, `ru`, `uk`, `tr` stay as empty files because `lexicon.js` imports them.
+> The empty sidecars of the German and Spanish courses (`ar, fa, hi, id, kmr, pl, ps, ro, ru, so,
+> sq, ti, tl, tr, uk, vi`) were removed by `cleanup` (2026-11-14); a missing file reads as "no
+> glosses" everywhere (`glossen.js`, `lang-coverage.mjs`). Arabic, when it comes, adds `ar.json`.
 >
 > The rest of this file describes the German-course setup; no level uses it any more.
 

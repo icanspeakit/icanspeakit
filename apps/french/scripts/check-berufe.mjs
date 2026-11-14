@@ -18,16 +18,12 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => JSON.parse(readFileSync(path.join(ROOT, p), "utf8"));
 
 const lexicon = new Map();
-// Ids of French lexicon words (variety fr-FR): a Spanish deck word spelt like one (film, test) is
-// another language, not a second definition (content-plan §1.6, until the decks convert).
-const french = new Set();
 for (const level of ["a1", "a2", "b1", "b2", "c1", "c2"]) {
   let data;
   try { data = read(`src/content/lexicon/${level}.json`); } catch { continue; }
   for (const unit of data.units ?? []) for (const w of unit.words ?? []) {
     const id = w.id ?? slugify(w.lemma);
     lexicon.set(id, w.lemma);
-    if (w.variety === "fr-FR") french.add(id);
   }
 }
 
@@ -56,7 +52,7 @@ if (existsSync(path.join(ROOT, BUSINESS_DIR))) {
   } catch (err) { console.error(`  ERROR business-spanish: invalid JSON — ${err.message}`); process.exitCode = 1; }
 }
 
-const { errors, warnings } = validate(files, { lexicon, french });
+const { errors, warnings } = validate(files, { lexicon });
 for (const w of warnings) console.warn(`  warn  ${w}`);
 for (const e of errors) console.error(`  ERROR ${e}`);
 

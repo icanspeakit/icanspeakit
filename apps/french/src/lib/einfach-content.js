@@ -63,10 +63,6 @@ const articleHint = (noun, options) =>
 /** Article + noun as written: l'école with no space after l', une école, les amis. */
 export const joinArticle = (article, noun) => (/'$/.test(article) ? `${article}${noun}` : `${article} ${noun}`);
 
-/** A lexicon entry still in Spanish (el / el/la, or marked es-ES / es-419): never shown on the path. */
-const spanishEntry = (w) =>
-  w.gender === "el" || w.gender === "el/la" || w.variety === "es-ES" || w.variety === "es-419";
-
 /** The noun with its article as the learner says it: le livre, l'école, les lunettes. */
 const frontWithArticle = (w) => {
   if (!w.gender) return w.lemma;
@@ -212,8 +208,6 @@ export function resolveTask(task, sources) {
   if (task.type === "wort" || task.type === "artikel") {
     if (src.kind !== "lex") throw new Error(`${task.ref}: a ${task.type} task needs a lex: ref`);
     const w = src.word;
-    // The lexicon is converted level by level (vocab-a1 …); a Spanish word must not reach the path.
-    if (spanishEntry(w)) throw new Error(`${task.ref}: "${w.lemma}" is still a Spanish lexicon entry`);
     if (task.type === "wort") {
       return {
         ...base,

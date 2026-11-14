@@ -12,10 +12,8 @@
 // shown for frCA: CANADA_MODE is false and the read helpers below return the France text.
 // `regional` (Belgium, Switzerland, Africa) is a plain note, bound to no mode.
 //
-// Legacy (until the `cleanup` item): modules not yet converted still hold the Spanish course's
-// `variety: "es-ES"` and `es419` notes. They are accepted, never relabelled as fr-FR, and
-// reported as warnings by legacyVariety(); varietyProblems() checks their shape with the old
-// rules so a broken legacy note is still an error.
+// The Spanish course's `variety: "es-ES"` and `es419` notes were accepted as legacy while the
+// queue converted module by module; `cleanup` removed that branch, so they are errors now.
 //
 // Plain ESM without Vite imports: scripts/check-variety.mjs and the lexicon/berufe validators
 // share these rules with the pages.
@@ -36,11 +34,6 @@ export const FRCA_NOTE_MAX = 160;
 export const FRCA_GENDERS = ["le", "la", "l'"];
 /** `regional`: Belgium, Switzerland, Africa, where it matters. Plain English. */
 export const REGIONAL_MAX = 160;
-
-/** Legacy values from the Spanish course, accepted with a warning until `cleanup`. */
-export const LEGACY_VARIETIES = ["es-ES", "es-419"];
-const LEGACY_NOTE = "es419";
-const LEGACY_GENDERS = ["el", "la"];
 
 /** The item's variety: its own `variety`, else the parent's (topic, pack, file), else fr-FR. */
 export function varietyOf(item, parent) {
@@ -86,12 +79,12 @@ function noteProblems(n, key, genders, opts) {
 /**
  * Shape problems of one object's `variety` / `frCA` / `regional` fields, as messages (empty = fine).
  * `opts.noun`: the item is a lexicon/deck noun, so `frCA.gender` is allowed.
- * Legacy `es-ES` / `es419` values pass here (legacyVariety() reports them); their shape is still checked.
+ * A leftover Spanish-course `es419` note or `variety: "es-ES"` is an error.
  */
 export function varietyProblems(obj, opts = {}) {
   const out = [];
   if (!obj || typeof obj !== "object") return out;
-  if ("variety" in obj && !VARIETIES.includes(obj.variety) && !LEGACY_VARIETIES.includes(obj.variety)) {
+  if ("variety" in obj && !VARIETIES.includes(obj.variety)) {
     out.push(`variety must be one of ${VARIETIES.join(", ")}, got ${JSON.stringify(obj.variety)}`);
   }
   if ("regional" in obj) {
@@ -101,18 +94,7 @@ export function varietyProblems(obj, opts = {}) {
   if ("frCA" in obj) {
     out.push(...noteProblems(obj.frCA, "frCA", FRCA_GENDERS, opts));
     if (obj.variety === "fr-CA") out.push("a fr-CA item carries no frCA note (the note describes how Québec differs from fr-FR)");
-    if (LEGACY_NOTE in obj) out.push("an item carries frCA or es419, not both");
   }
-  if (LEGACY_NOTE in obj) out.push(...noteProblems(obj[LEGACY_NOTE], LEGACY_NOTE, LEGACY_GENDERS, opts));
-  if ("frCA" in obj && LEGACY_VARIETIES.includes(obj.variety)) out.push(`frCA on an item still marked ${obj.variety}: set variety to fr-FR`);
-  return out;
-}
-
-/** Legacy Spanish-course values on one object, as warning messages (empty = none). */
-export function legacyVariety(obj) {
-  const out = [];
-  if (!obj || typeof obj !== "object") return out;
-  if (LEGACY_VARIETIES.includes(obj.variety)) out.push(`legacy variety ${obj.variety}`);
-  if (LEGACY_NOTE in obj) out.push("legacy es419 note");
+  if ("es419" in obj) out.push("es419 is a Spanish-course note: use frCA (docs/content-plan.md §1.5)");
   return out;
 }

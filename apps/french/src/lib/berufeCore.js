@@ -1,4 +1,4 @@
-// Spanish for work: the sector decks (docs/content-plan.md §5.12).
+// French for work: the sector decks (docs/content-plan.md §5.12).
 //
 // Plain ESM with no Vite imports, so the build check (scripts/check-berufe.mjs) and the pages
 // share one set of rules. The pages load the files through src/lib/berufeWortschatz.js.
@@ -11,7 +11,7 @@
 import { slugify } from "./audioSlug.js";
 import { langsFor } from "./languages.js";
 import { varietyProblems } from "./variety.js";
-import { FR_GENDERS, genderProblems, legacyEntry } from "./articles.js";
+import { FR_GENDERS, genderProblems } from "./articles.js";
 
 /** The ten sectors, in hub order: where newcomers to France most often start work first. The slugs
  *  are history (progress keys): kita is cleaning and childcare, elektro-technik is private security
@@ -44,7 +44,7 @@ export const TRANSLATIONS = langsFor("berufe");
 export const LANGS = ["de", ...TRANSLATIONS];
 export const POS = ["noun", "verb", "adj", "adverb", "phrase"];
 /** The article as the learner says it (content-plan §1.4): le / la / l' / les / le/la. Every deck is
- *  French only (french-for-work, business-french): a Spanish el / la / el/la or es-ES entry is an error. */
+ *  French only: any other value (the Spanish course's el / el/la) is an error. */
 export const GENDERS = FR_GENDERS;
 
 /** `bv-gastronomie-schneidebrett` */
@@ -57,11 +57,6 @@ export const refKind = (ref) => (ref.startsWith("bv-") ? "berufe" : "lexicon");
 export const ownWords = (deck) =>
   (deck.groups ?? []).flatMap((g) => (g.words ?? []).filter((w) => !w.ref).map((w) => ({ ...w, group: g.id })));
 
-/** Which deck family a file belongs to: "dgt", "business" or "berufe". */
-const deckKind = (file) => (file.startsWith("dgt/") ? "dgt" : file.startsWith("business") ? "business" : "berufe");
-/** Deck families whose dangling lexicon refs are errors again (content-plan §1.6 rule 3): each of
- *  code-route-vocab, french-for-work and business-french added its own once it had re-pointed them. */
-const LEXICON_REF_ERRORS = new Set(["dgt", "berufe", "business"]);
 
 /** Entries in a deck, refs included: what the hub counts and the trainer shows. */
 export const entryCount = (deck) => (deck.groups ?? []).reduce((n, g) => n + (g.words ?? []).length, 0);
@@ -78,13 +73,8 @@ export function validate(files, known) {
   const berufeIds = new Map(); // id → file
   const lemmas = new Map(); // slugify(lemma) → "file id" — one definition across every source
 
-  // lemma slug → where it is defined. A French lexicon word and a Spanish (legacy) deck word that
-  // happen to share a spelling (film, test) are two languages, not one word defined twice.
-  const frenchLemmas = new Set();
-  for (const [id, lemma] of known.lexicon) {
-    lemmas.set(slugify(lemma), `lexicon ${id}`);
-    if (known.french?.has(id)) frenchLemmas.add(slugify(lemma));
-  }
+  // lemma slug → where it is defined.
+  for (const [id, lemma] of known.lexicon) lemmas.set(slugify(lemma), `lexicon ${id}`);
 
   // Pass 1: own words, so a ref to a word defined later in another file still resolves.
   for (const { file, deck, slug: ownSlug } of files) {
@@ -124,15 +114,14 @@ export function validate(files, known) {
         if (berufeIds.has(w.id)) at(`${where}: id ${w.id} also in ${berufeIds.get(w.id)}`);
         berufeIds.set(w.id, file);
         const key = slugify(w.lemma);
-        if (lemmas.has(key) && !(frenchLemmas.has(key) && legacyEntry(w))) at(`${where}: „${w.lemma}" is already defined (${lemmas.get(key)}) — use { "ref": "<id>" }`);
+        if (lemmas.has(key)) at(`${where}: „${w.lemma}" is already defined (${lemmas.get(key)}) — use { "ref": "<id>" }`);
         else lemmas.set(key, `${file} ${w.id}`);
         if (!POS.includes(w.pos)) at(`${where}: pos must be one of ${POS.join(", ")}`);
-        if (legacyEntry(w)) at(`${where}: legacy Spanish entry (gender ${w.gender ?? "–"}, variety ${w.variety ?? "–"}): this deck is French only`);
         if (w.pos === "noun" && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender ${GENDERS.join(", ")}`);
         else if (w.pos === "noun") for (const p of genderProblems(w)) at(`${where}: ${p}`);
         else if (w.genus != null || w.hAspire != null) at(`${where}: genus and hAspire only on nouns`);
         if (w.fem != null && !(w.pos === "adj" && typeof w.fem === "string" && w.fem.trim())) at(`${where}: fem must be the feminine form of an adjective`);
-        // variety / frCA / regional (§1.5; legacy es419 still accepted). A ref inherits them from the word it points to (rule above).
+        // variety / frCA / regional (§1.5; an es419 note is an error). A ref inherits them from the word it points to (rule above).
         for (const p of varietyProblems(w, { noun: w.pos === "noun" })) at(`${where}: ${p}`);
         if (w.pos === "noun" && w.plural === undefined && !w.pluralOnly) at(`${where}: a noun needs "plural" (null when there is none)`);
         if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [je présent, il passé composé, participe passé]`);
@@ -155,12 +144,9 @@ export function validate(files, known) {
         if (!w.ref) continue;
         const kind = refKind(w.ref);
         const ok = kind === "berufe" ? berufeIds.has(w.ref) : known.lexicon.has(w.ref);
-        // A lexicon ref that no longer resolves is a warning while the vocab-* items replace the
-        // Spanish levels with French words (docs/content-plan.md §1.6 rule 3, since vocab-a1).
-        // code-route-vocab (dgt), french-for-work (berufe) and business-french turn theirs back into
-        // errors (LEXICON_REF_ERRORS). The trainer skips a ref that doesn't resolve.
-        if (!ok && kind === "lexicon" && !LEXICON_REF_ERRORS.has(deckKind(file))) warnings.push(`${file}: ${g.id}: ref „${w.ref}" does not resolve (lexicon; a Spanish word that left the lexicon)`);
-        else if (!ok) errors.push(`${file}: ${g.id}: ref „${w.ref}" does not resolve (${kind})`);
+        // A ref that doesn't resolve is an error in every deck (the warning phase of content-plan
+        // §1.6 rule 3 ended with `business-french`; `cleanup` removed it).
+        if (!ok) errors.push(`${file}: ${g.id}: ref „${w.ref}" does not resolve (${kind})`);
       }
     }
   }

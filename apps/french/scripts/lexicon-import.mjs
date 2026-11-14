@@ -11,8 +11,8 @@
 //   old|lemma|pos|gram|en|example|ipa[|de|es|pt|it][|key=value …]
 //
 //   old    the id this word replaces ("-" for none): its picture carries over to the new id, and
-//          when the four glosses are left out they are taken from it (de/pt/it from the sidecars,
-//          es = the old Spanish lemma with its article). Only for a word that means the same.
+//          when the four glosses are left out they are taken from it (de/es/pt/it from the
+//          sidecars). Only for a word that means the same.
 //   pos    n v a adv prep conj pron num phrase
 //   gram   n: the article as the learner says it, then the plural without article:
 //             `la,maisons` · `le,fils` (invariable) · `la,` (no plural) · `le/la,journalistes`
@@ -64,16 +64,13 @@ for (const other of ["a1", "a2", "b1", "b2", "c1", "c2"]) {
 
 // The words this level holds before the run, by id: the source of glosses copied with `old`.
 const before = new Map(file.units.flatMap((u) => u.words.map((w) => [wordId(w), w])));
-function spanishWithArticle(w) {
-  if (w.pos !== "noun" || !w.gender) return w.lemma;
-  if (w.pluralOnly) return `${w.genus === "f" || w.gender === "la" ? "las" : "los"} ${w.plural ?? w.lemma}`;
-  return `${w.gender === "el/la" ? "el/la" : w.gender} ${w.lemma}`;
-}
 function copiedGlosses(old, where) {
   const w = before.get(old);
   if (!w) throw new Error(`${where}: old id "${old}" is not in ${level}.json, so its glosses can't be copied`);
-  const out = { es: spanishWithArticle(w) };
-  for (const l of ["de", "pt", "it"]) {
+  // Every level is French since vocab-c1-c2: all four glosses come from the sidecars. (During the
+  // migration `es` was the old Spanish lemma itself; `cleanup` removed that branch.)
+  const out = {};
+  for (const l of LANGS) {
     if (!sidecars[l][old]) throw new Error(`${where}: no ${l} gloss for old id "${old}"`);
     out[l] = sidecars[l][old];
   }

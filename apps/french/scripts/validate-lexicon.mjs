@@ -16,8 +16,8 @@ const ROOT = path.join(__dirname, "..");
 const LEVELS = ["a1", "a2", "b1", "b2", "c1", "c2"];
 const POS = ["noun", "verb", "adj", "adv", "prep", "conj", "pron", "num", "phrase"];
 // gender, genus, hAspire (docs/content-plan.md §1.4): le / la / l' / les / le/la, genus where the
-// article hides the gender, the h aspiré rule. The Spanish values (el / la / el/la, genus "f"
-// on el) pass as legacy until vocab-c1-c2 (§1.6 rule 2). Rules: genderProblems() in
+// article hides the gender, the h aspiré rule. The Spanish values (el / el/la) are errors since
+// `cleanup`. Rules: genderProblems() in
 // src/lib/articles.js, shared with src/lib/berufeCore.js.
 const CASES = ["akk", "dat", "gen", "akk/dat"];
 // avoir / être / both (monter, sortir, passer) for French; haben / sein are old German values.
@@ -123,7 +123,7 @@ for (const level of LEVELS) {
         if (w.pos !== "adj") err(where, "fem (feminine form) only on adjectives");
         else if (typeof w.fem !== "string" || !w.fem.trim()) err(where, "empty fem — omit the field instead");
       }
-      // variety / frCA / regional (§1.5; legacy es419 still accepted); check-variety.mjs checks coverage.
+      // variety / frCA / regional (§1.5; an es419 note is an error); check-variety.mjs checks coverage.
       for (const p of varietyProblems(w, { noun: w.pos === "noun" })) err(where, p);
       if (w.case && !CASES.includes(w.case)) err(where, `bad case "${w.case}"`);
       if (w.en == null) err(where, "missing English gloss");
