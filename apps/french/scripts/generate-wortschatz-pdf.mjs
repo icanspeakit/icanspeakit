@@ -126,7 +126,7 @@ async function buildLevel(level, lang = null) {
     meta: [
       `${words.length} words in ${sets.length} word sets`,
       `${withExample} example sentences`,
-      "As flashcards: icanspeak.it/french/vocabulary",
+      "As flashcards: icanspeak.it/francais/vocabulary",
     ],
     footer:
       "Written by icanspeak French, by teachers who really teach. You may download this PDF, print it " +
@@ -155,7 +155,7 @@ async function buildLevel(level, lang = null) {
     pdf.section(set.title, set.id.toUpperCase());
     // The set's own page on the site, as a link: the list is what gets printed and kept,
     // and the flashcards with audio are one tap (or one typed address) away.
-    const url = `icanspeak.it/french/vocabulary/${set.id}`;
+    const url = `icanspeak.it/francais/vocabulary/${set.id}`;
     const href = `https://${url}?utm_source=pdf&utm_medium=wortschatz&utm_campaign=${fileName.replace(/\.pdf$/, "")}`;
     pdf.doc.fillColor(MUTED).font(pdf.F.regular).fontSize(9.5)
       .text(pdf.S(`${items.length} words · As flashcards: `), MARGIN, pdf.doc.y, { continued: true })

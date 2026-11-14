@@ -8,7 +8,7 @@
 // Ids, data file names and localStorage keys stayed German (content-plan §1.3, §6), because code
 // and saved progress key on them. Only the URL is the course's: English, except proper names
 // (/dele, /siele, /ccse) and the Spanish grammar terms learners search for (/por-para, /gustar).
-// The site at /spanish is new, so there are no redirects from any earlier address (§7, §8).
+// The site was at /spanish until 2026-11-14; the hub 301s that (apps/hub/public/_redirects).
 
 /** Pages that are hubs or overviews — places you pass through, not places you resume. */
 export const NOT_RESUMABLE = new Set(["/", "/exercises", "/exams", "/progress", "/grammar", "/knowledge", "/teachers", "/game",

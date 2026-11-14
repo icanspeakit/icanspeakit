@@ -17,7 +17,7 @@ import { htmlFiles, toPathname, NOINDEX, REFRESH } from './sitemap.mjs';
 import { absoluteUrl } from '../lib/paths.js';
 
 /** Headings and the pages under them. `/x/*` = every built page below /x as well. */
-// Site paths (without /french); the URLs are built with absoluteUrl() (src/lib/paths.js).
+// Site paths (without /francais); the URLs are built with absoluteUrl() (src/lib/paths.js).
 const SECTIONS = [
   ['Start here', ['/placement-test', '/step-by-step', '/exercises', '/progress']],
   ['Grammar and vocabulary', ['/grammar', '/grammar/conjugation', '/vocabulary', '/pronunciation']],

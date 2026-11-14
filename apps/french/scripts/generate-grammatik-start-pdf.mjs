@@ -25,7 +25,7 @@
 // page (the comic counts as three), never on top of text.
 //
 // Every page says where it is from (footer, in the reader's language and English); the last
-// page sends the reader back to icanspeak.it/french, with a QR code.
+// page sends the reader back to icanspeak.it/francais, with a QR code.
 import { readFileSync, existsSync } from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
@@ -39,7 +39,7 @@ import { topicPath } from "../src/lib/routes.js";
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataDir = path.join(root, "src", "data", "grammatik-start");
 const outDir = path.join(root, "public", "downloads");
-const SITE = "icanspeak.it/french";
+const SITE = "icanspeak.it/francais";
 const LOGO = readFileSync(path.join(root, "public", "assets", "logo.png"));
 // Fredoka at SemiBold as a static TTF (pdfkit cannot subset the site's variable WOFF2); see scripts/fonts/README.md.
 const FREDOKA_FILE = path.join(root, "scripts", "fonts", "Fredoka-SemiBold.ttf");

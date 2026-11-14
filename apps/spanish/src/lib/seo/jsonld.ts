@@ -18,7 +18,7 @@ export function organizationLd(site: string) {
     "@type": "Organization",
     "@id": orgId(site),
     name: "icanspeak Spanish",
-    alternateName: ["icanspeak", "icanspeak.it/spanish"],
+    alternateName: ["icanspeak", "icanspeak.it/espanol"],
     url: `${site}/`,
     // Square, ≥ 112 px: what Google needs for the logo next to the result. The
     // app icon from the icanspeak kit (the split i, docs/brand/BRAND.md §2); the wide wordmark

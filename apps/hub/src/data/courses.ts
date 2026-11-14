@@ -1,4 +1,5 @@
-// The language courses on icanspeak.it. Each one is its own app in apps/<slug> with
+// The language courses on icanspeak.it. `slug` is the URL path, in the language's own name
+// (/espanol/, /francais/ since 2026-11-14; the apps keep their folders, apps/spanish and apps/french). Each is its own app with
 // base /<slug>, deployed as its own Worker. Flip `live` when a course's Worker route is up.
 export interface Course {
   slug: string;
@@ -19,7 +20,7 @@ export const COURSES: Course[] = [
     live: true,
   },
   {
-    slug: 'spanish',
+    slug: 'espanol',
     code: 'ES',
     name: 'Español',
     english: 'Spanish',
@@ -27,7 +28,7 @@ export const COURSES: Course[] = [
     live: true, // the Spanish Worker is already up (older build); the card stays live
   },
   {
-    slug: 'french',
+    slug: 'francais',
     code: 'FR',
     name: 'Français',
     english: 'French',

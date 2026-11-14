@@ -24,7 +24,7 @@ const more = related(e);
 const wgLive = new Set(published().map((w: any) => wgHref(w)));
 const siehe = e.siehe && (!e.siehe.startsWith("/knowledge/word-stories/") || wgLive.has(e.siehe)) ? e.siehe : null;
 const plain = e.de.replace(/[.!?]$/, "");
-// Origin + base path (src/lib/paths.js): https://icanspeak.it/french
+// Origin + base path (src/lib/paths.js): https://icanspeak.it/francais
 const site = SITE_ORIGIN + BASE_PATH;
 const description = `“${plain}”: ${e.bedeutung} With an example and the origin – simply explained.`.slice(0, 160);
 const jsonLd = {

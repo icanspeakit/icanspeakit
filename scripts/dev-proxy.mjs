@@ -1,6 +1,6 @@
 // Dev-only router: one address for the whole site, the same split Cloudflare makes in production.
 //   /english/*  -> apps/english   (astro dev, port 4521)
-//   /spanish/*  -> apps/spanish   (astro dev, port 4522)
+//   /espanol/*  -> apps/spanish   (astro dev, port 4522)
 //   everything else -> apps/hub   (astro dev, port 4520)
 // Run:  node scripts/dev-proxy.mjs   (listens on http://localhost:4500)
 // Paths are passed through unchanged, because each app already serves under its base path.
@@ -10,7 +10,7 @@ import http from 'node:http';
 const PORT = Number(process.env.PORT || 4500);
 const ROUTES = [
   { prefix: '/english', target: 4521 },
-  { prefix: '/spanish', target: 4522 },
+  { prefix: '/espanol', target: 4522 },
 ];
 const DEFAULT_TARGET = 4520; // hub
 
@@ -60,5 +60,5 @@ server.on('upgrade', (req, socket, head) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`dev-proxy on http://localhost:${PORT}  /english -> 4521, /spanish -> 4522, rest -> 4520`);
+  console.log(`dev-proxy on http://localhost:${PORT}  /english -> 4521, /espanol -> 4522, rest -> 4520`);
 });

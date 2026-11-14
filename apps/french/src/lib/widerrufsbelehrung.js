@@ -15,7 +15,7 @@
 // TODO(legal): the lawyer confirms the filled-in model (docs/legal-drafts/offene-rechtsfragen.md).
 import { LEGAL } from "./legal.js";
 
-const SITE = "https://icanspeak.it/french";
+const SITE = "https://icanspeak.it/francais";
 const ADDRESS = `${LEGAL.operatorName}, icanspeak French, ${LEGAL.operatorStreet}, ${LEGAL.operatorPostcode} ${LEGAL.operatorCity}`;
 
 /** @type {{ heading: string, paragraphs: string[] }[]} plain text, no HTML */

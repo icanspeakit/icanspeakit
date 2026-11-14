@@ -16,12 +16,14 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const KIT = join(ROOT, "brand/kit");
+// Keyed by the app folder (apps/<key>); `path` is the URL, in the language's own name
+// (icanspeak.it/espanol/, /francais/ since 2026-11-14) and the hub's `slug`.
 const COURSES = {
-  english: { name: "English", lang: "en" },
-  spanish: { name: "Spanish", lang: "es" },
-  french: { name: "French", lang: "fr" },
-  portuguese: { name: "Portuguese", lang: "pt" },
-  italian: { name: "Italian", lang: "it" },
+  english: { name: "English", lang: "en", path: "english" },
+  spanish: { name: "Spanish", lang: "es", path: "espanol" },
+  french: { name: "French", lang: "fr", path: "francais" },
+  portuguese: { name: "Portuguese", lang: "pt", path: "portugues" },
+  italian: { name: "Italian", lang: "it", path: "italiano" },
 };
 const UI_LANGS = ["en", "de", "es", "fr", "pt", "it"];
 
@@ -41,9 +43,10 @@ function walk(dir, out = []) {
 
 // Live courses, from the hub's course list.
 const hubCourses = text(join(ROOT, "apps/hub/src/data/courses.ts"));
-const live = [...hubCourses.matchAll(/slug:\s*'([a-z]+)'[\s\S]*?live:\s*(true|false)/g)]
+const livePaths = [...hubCourses.matchAll(/slug:\s*'([a-z]+)'[\s\S]*?live:\s*(true|false)/g)]
   .filter((m) => m[2] === "true")
   .map((m) => m[1]);
+const live = Object.keys(COURSES).filter((a) => livePaths.includes(COURSES[a].path));
 
 const wanted = process.argv.slice(2);
 const apps = (wanted.length ? wanted : Object.keys(COURSES)).filter((a) => {
@@ -57,7 +60,7 @@ const apps = (wanted.length ? wanted : Object.keys(COURSES)).filter((a) => {
 let errors = 0;
 for (const slug of apps) {
   const app = join(ROOT, "apps", slug);
-  const { name, lang } = COURSES[slug];
+  const { name, lang, path } = COURSES[slug];
   const err = [];
   const warn = [];
 
@@ -123,14 +126,14 @@ for (const slug of apps) {
     if (!pkg.scripts?.[s]) err.push(`package.json has no "${s}" script`);
   }
   const wrangler = existsSync(join(app, "wrangler.jsonc")) ? text(join(app, "wrangler.jsonc")) : "";
-  if (!wrangler.includes(`icanspeak.it/${slug}/*`)) err.push(`wrangler.jsonc has no route icanspeak.it/${slug}/*`);
+  if (!wrangler.includes(`icanspeak.it/${path}/*`)) err.push(`wrangler.jsonc has no route icanspeak.it/${path}/*`);
 
   // 7. Web manifest for this course's path.
   try {
     const m = JSON.parse(text(join(app, "public/site.webmanifest")));
     if (m.name !== `icanspeak ${name}`) err.push(`site.webmanifest name is "${m.name}", want "icanspeak ${name}"`);
-    if (m.start_url !== `/${slug}/` || m.scope !== `/${slug}/`) err.push(`site.webmanifest start_url/scope are not /${slug}/`);
-    for (const i of m.icons ?? []) if (!i.src.startsWith(`/${slug}/icon-`)) err.push(`site.webmanifest icon ${i.src} is not a kit icon under /${slug}/`);
+    if (m.start_url !== `/${path}/` || m.scope !== `/${path}/`) err.push(`site.webmanifest start_url/scope are not /${path}/`);
+    for (const i of m.icons ?? []) if (!i.src.startsWith(`/${path}/icon-`)) err.push(`site.webmanifest icon ${i.src} is not a kit icon under /${path}/`);
   } catch (e) {
     err.push(`public/site.webmanifest unreadable: ${e.message}`);
   }
@@ -138,7 +141,18 @@ for (const slug of apps) {
   // 8. The course home links every other live course (the "five languages" pills).
   const home = existsSync(join(app, "src/pages/index.astro")) ? text(join(app, "src/pages/index.astro")) : "";
   for (const other of live) {
-    if (other !== slug && !home.includes(`https://icanspeak.it/${other}/`)) err.push(`src/pages/index.astro does not link the live ${other} course (https://icanspeak.it/${other}/)`);
+    if (other !== slug && !home.includes(`https://icanspeak.it/${COURSES[other].path}/`)) err.push(`src/pages/index.astro does not link the live ${other} course (https://icanspeak.it/${COURSES[other].path}/)`);
+  }
+
+  // 8b. The course pill names this course, in its own language, in the header and the lockup.
+  //     A course copied from another one kept the other's pill (French showed "español").
+  const PILL = { english: "english", spanish: "español", french: "français", portuguese: "português", italian: "italiano" };
+  for (const f of ["src/components/SiteNav.astro", "src/components/Wordmark.astro"]) {
+    const src = existsSync(join(app, f)) ? text(join(app, f)) : "";
+    const pills = [...src.matchAll(/class="isk-pill[^"]*"[^>]*>([^<]+)</g)].map((m) => m[1].trim());
+    for (const p of pills) if (p !== PILL[slug]) err.push(`${f}: course pill says "${p}", want "${PILL[slug]}"`);
+    const label = src.match(/aria-label="icanspeak (\w+), home"/)?.[1];
+    if (label && label !== name) err.push(`${f}: aria-label says "icanspeak ${label}", want "icanspeak ${name}"`);
   }
 
   // 9. Audio slugs that Windows can't store as files (con.mp3, nul.mp3 …): git can't add them.

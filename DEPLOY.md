@@ -8,9 +8,9 @@ path route on the `icanspeak.it` zone. Cloudflare picks the most specific matchi
 | `icanspeak.it/english*` | `icanspeak-english` | `apps/english` | static assets only |
 | `icanspeak.it/linguistics*` | `icanspeak-linguistics` | `apps/linguistics` | static + 2 API routes (TTS) |
 | `icanspeak.it/*` (everything else) | `icanspeak-hub` | `apps/hub` | static assets only |
-| `icanspeak.it/spanish*` | `icanspeak-spanish` | `apps/spanish` | static assets only |
-| `icanspeak.it/french*` | `icanspeak-french` | `apps/french` | static assets only |
-| later: `/portuguese*`, `/italian*` | `icanspeak-<lang>` | `apps/<lang>` | static assets only |
+| `icanspeak.it/espanol*` | `icanspeak-spanish` | `apps/spanish` | static assets only (was `/spanish*` until 2026-11-14; the hub 301s it) |
+| `icanspeak.it/francais*` | `icanspeak-french` | `apps/french` | static assets only (was `/french*` until 2026-11-14; the hub 301s it) |
+| later: `/portugues*`, `/italiano*` (the language's own name) | `icanspeak-<lang>` | `apps/<lang>` | static assets only |
 
 Why one Worker per app: each deploys on its own (a course rebuild never touches the others),
 and the static-asset limit applies per Worker: 20,000 files on the free plan, 100,000 on

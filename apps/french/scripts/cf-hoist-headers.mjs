@@ -1,18 +1,18 @@
 #!/usr/bin/env node
 // Runs after ../../scripts/nest-dist.mjs (see `cf:prepare` in package.json).
-// nest-dist copies dist/ to cf-dist/french/, so dist/_headers lands at cf-dist/french/_headers.
+// nest-dist copies dist/ to cf-dist/francais/, so dist/_headers lands at cf-dist/francais/_headers.
 // Cloudflare Workers static assets only read _headers (and _redirects) at the ROOT of the
 // assets directory, so a nested copy would be served as a plain file and its rules ignored.
-// This moves them to cf-dist/. Their rule paths already start with /french/ (public URLs),
+// This moves them to cf-dist/. Their rule paths already start with /francais/ (public URLs),
 // which is what Cloudflare matches against. Also prints the file count against the
 // 20,000-files-per-Worker limit of the free plan.
 import { existsSync, readdirSync, renameSync } from 'node:fs';
 import { join } from 'node:path';
 
 const out = 'cf-dist';
-const nested = join(out, 'french');
+const nested = join(out, 'francais');
 if (!existsSync(nested)) {
-  console.error('cf-hoist-headers: cf-dist/french does not exist; run nest-dist first');
+  console.error('cf-hoist-headers: cf-dist/francais does not exist; run nest-dist first');
   process.exit(1);
 }
 for (const name of ['_headers', '_redirects']) {

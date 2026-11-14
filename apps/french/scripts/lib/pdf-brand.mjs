@@ -101,8 +101,8 @@ export function pdfInfo(title) {
     Title: String(title ?? "icanspeak French").replace(/^ICANSPEAK FRENCH · /, "icanspeak French · "),
     Author: "icanspeak French (Edgar Kretschmann)",
     Subject: PDF_COPYRIGHT,
-    Keywords: "icanspeak French, icanspeak.it/french, Deutsch lernen",
-    Creator: "icanspeak French — icanspeak.it/french",
+    Keywords: "icanspeak French, icanspeak.it/francais, Deutsch lernen",
+    Creator: "icanspeak French — icanspeak.it/francais",
   };
 }
 
@@ -713,7 +713,7 @@ export function createDoc({ outPath, runningHead, unicode = false, footer = null
       // own still says where it came from. A book can draw its own (`footer` in createDoc).
       if (footer) footer(i - range.start, range.count);
       else doc.fillColor(MUTED).font(F.regular).fontSize(8).text(
-        "icanspeak.it/french · © icanspeak French",
+        "icanspeak.it/francais · © icanspeak French",
         MARGIN,
         doc.page.height - 38,
         { width: doc.page.width - MARGIN * 2 - 70, align: "left", lineBreak: false }

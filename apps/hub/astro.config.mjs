@@ -5,7 +5,7 @@ import { defineConfig } from 'astro/config';
 // Plain static build, served by the icanspeak-hub Worker (assets only, wrangler.jsonc).
 // Every other path on icanspeak.it belongs to its own app and Worker route:
 //   /english/*  apps/english      /linguistics/*  apps/linguistics
-//   /spanish/*, /french/*, /portuguese/*, /italian/*  later course apps
+//   /espanol/*, /francais/*, /portuguese/*, /italian/*  later course apps
 export default defineConfig({
   site: 'https://icanspeak.it',
   output: 'static',

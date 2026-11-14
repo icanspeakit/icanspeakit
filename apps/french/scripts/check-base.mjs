@@ -2,8 +2,8 @@
 // @ts-check
 /* pnpm check:base — every URL in the build output stays under the base path.
  *
- * icanspeak French lives at https://icanspeak.it/french/ (src/lib/paths.js); the domain
- * root is another site. A root-absolute link that does not start with /french/ leaves the
+ * icanspeak French lives at https://icanspeak.it/francais/ (src/lib/paths.js); the domain
+ * root is another site. A root-absolute link that does not start with /francais/ leaves the
  * course (or 404s), so this fails on any of them in dist/:
  *
  *   - HTML: href, src, action, formaction, poster, xlink:href, srcset/imagesrcset entries,
@@ -11,7 +11,7 @@
  *   - CSS files: url()
  *   - site.webmanifest: icon src, start_url, scope
  *   - absolute URLs on the own domain (https://icanspeak.it/…) in HTML, sitemap.xml and
- *     llms.txt that are not under /french (the bare domain root is allowed: a link to the
+ *     llms.txt that are not under /francais (the bare domain root is allowed: a link to the
  *     umbrella site, and absolute links to the other apps' bases are allowed in pages)
  *   - _headers: rule paths (Cloudflare matches them against the public URL) and line length
  *
@@ -60,7 +60,7 @@ function offenders(text, html) {
 
 // The other apps on icanspeak.it. A page may link to them with an absolute URL (the course
 // home's "five languages" pills); sitemap.xml, llms.txt and robots.txt may not list them.
-const SIBLINGS = ['/english', '/spanish', '/french', '/portuguese', '/italian', '/linguistics'];
+const SIBLINGS = ['/english', '/espanol', '/francais', '/spanish', '/french', '/portuguese', '/italian', '/linguistics'];
 const sibling = (p) => SIBLINGS.some((b) => p === b || p.startsWith(b + '/'));
 
 /** Own-domain absolute URLs outside the base. @param {string} text @param {boolean} [page] */

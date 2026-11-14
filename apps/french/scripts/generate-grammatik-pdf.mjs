@@ -105,7 +105,7 @@ const COVER_UI = {
     draft: "The English explanations are a machine draft, not yet checked by a teacher",
     topics: (n, levels) => `${n} topics${levels ? ` on four levels (${levels})` : ""}`,
     tables: (n) => `${n} reference tables`,
-    online: "The matching exercises are free at icanspeak.it/french/grammatik",
+    online: "The matching exercises are free at icanspeak.it/francais/grammatik",
     footer: "Written by icanspeak French — by teachers who actually teach. You may download, print and share this PDF in class. No account, no cost.",
     contents: "Contents", level: "Level", topic: "Topic",
   },
@@ -114,7 +114,7 @@ const COVER_UI = {
     draft: "الشرح بالعربية مسودة آلية لم يراجعها معلم بعد",
     topics: (n, levels) => `عدد المواضيع: ${n}${levels ? ` في أربعة مستويات (${levels})` : ""}`,
     tables: (n) => `عدد الجداول المرجعية: ${n}`,
-    online: "التمارين المرافقة مجانية على icanspeak.it/french/grammatik",
+    online: "التمارين المرافقة مجانية على icanspeak.it/francais/grammatik",
     footer: "كتبته icanspeak French — معلمون يدرّسون فعلًا. يمكنك تنزيل هذا الملف وطباعته ومشاركته في الصف بحرية. بدون حساب وبدون تكلفة.",
     contents: "المحتوى", level: "المستوى", topic: "الموضوع",
   },
@@ -123,7 +123,7 @@ const COVER_UI = {
     draft: "Пояснення українською — машинна чернетка, ще не перевірена викладачем",
     topics: (n, levels) => `${n} ${ukPlural(n, "тема", "теми", "тем")}${levels ? ` на чотирьох рівнях (${levels})` : ""}`,
     tables: (n) => `${n} ${ukPlural(n, "довідкова таблиця", "довідкові таблиці", "довідкових таблиць")}`,
-    online: "Вправи до книги — безкоштовно на icanspeak.it/french/grammatik",
+    online: "Вправи до книги — безкоштовно на icanspeak.it/francais/grammatik",
     footer: "Написано icanspeak French — викладачами, які справді викладають. Цей PDF можна вільно завантажувати, друкувати й роздавати на заняттях. Без акаунта, безкоштовно.",
     contents: "Зміст", level: "Рівень", topic: "Тема",
   },
@@ -132,7 +132,7 @@ const COVER_UI = {
     draft: "Türkçe açıklamalar bir makine taslağıdır, henüz bir öğretmen tarafından kontrol edilmedi",
     topics: (n, levels) => (levels ? `Dört seviyede (${levels}) ${n} konu` : `${n} konu`),
     tables: (n) => `${n} başvuru tablosu`,
-    online: "İlgili alıştırmalar ücretsiz: icanspeak.it/french/grammatik",
+    online: "İlgili alıştırmalar ücretsiz: icanspeak.it/francais/grammatik",
     footer: "icanspeak French tarafından yazıldı — gerçekten ders veren öğretmenler tarafından. Bu PDF'yi serbestçe indirebilir, yazdırabilir ve derste paylaşabilirsin. Hesap yok, ücret yok.",
     contents: "İçindekiler", level: "Seviye", topic: "Konu",
   },
@@ -141,7 +141,7 @@ const COVER_UI = {
     draft: "Las explicaciones en español son un borrador automático, todavía sin revisar por un profesor",
     topics: (n, levels) => `${n} temas${levels ? ` en cuatro niveles (${levels})` : ""}`,
     tables: (n) => `${n} tablas de referencia`,
-    online: "Los ejercicios correspondientes son gratis en icanspeak.it/french/grammatik",
+    online: "Los ejercicios correspondientes son gratis en icanspeak.it/francais/grammatik",
     footer: "Escrito por icanspeak French, por profesores que dan clase de verdad. Puedes descargar, imprimir y compartir este PDF en clase. Sin cuenta, sin costo.",
     contents: "Contenido", level: "Nivel", topic: "Tema",
   },
@@ -150,7 +150,7 @@ const COVER_UI = {
     draft: "As explicações em português são um rascunho automático, ainda não revisado por um professor",
     topics: (n, levels) => `${n} temas${levels ? ` em quatro níveis (${levels})` : ""}`,
     tables: (n) => `${n} tabelas de referência`,
-    online: "Os exercícios correspondentes são gratuitos em icanspeak.it/french/grammatik",
+    online: "Os exercícios correspondentes são gratuitos em icanspeak.it/francais/grammatik",
     footer: "Escrito pela icanspeak French, por professores que realmente dão aula. Você pode baixar, imprimir e compartilhar este PDF em aula. Sem cadastro, sem custo.",
     contents: "Sumário", level: "Nível", topic: "Tema",
   },
@@ -159,7 +159,7 @@ const COVER_UI = {
     draft: "Phần giải thích tiếng Việt là bản dịch máy, chưa được giáo viên kiểm tra",
     topics: (n, levels) => `${n} chủ đề${levels ? ` ở bốn trình độ (${levels})` : ""}`,
     tables: (n) => `${n} bảng tra cứu`,
-    online: "Bài tập đi kèm miễn phí tại icanspeak.it/french/grammatik",
+    online: "Bài tập đi kèm miễn phí tại icanspeak.it/francais/grammatik",
     footer: "Do icanspeak French biên soạn, bởi những giáo viên thực sự đứng lớp. Bạn được tải về, in và chia sẻ PDF này trong lớp học. Không cần tài khoản, không mất phí.",
     contents: "Mục lục", level: "Trình độ", topic: "Chủ đề",
   },
@@ -168,7 +168,7 @@ const COVER_UI = {
     draft: "हिन्दी व्याख्या मशीन से बना ड्राफ़्ट है, अभी किसी शिक्षक ने इसे जाँचा नहीं है",
     topics: (n, levels) => `${n} विषय${levels ? `, चार स्तरों पर (${levels})` : ""}`,
     tables: (n) => `${n} संदर्भ तालिकाएँ`,
-    online: "इनसे जुड़े अभ्यास icanspeak.it/french/grammatik पर मुफ़्त हैं",
+    online: "इनसे जुड़े अभ्यास icanspeak.it/francais/grammatik पर मुफ़्त हैं",
     footer: "icanspeak French ने लिखा है, ऐसे शिक्षकों ने जो सच में पढ़ाते हैं। आप यह PDF डाउनलोड, प्रिंट और कक्षा में साझा कर सकते हैं। न खाता, न कोई ख़र्च।",
     contents: "विषय-सूची", level: "स्तर", topic: "विषय",
   },
@@ -177,7 +177,7 @@ const COVER_UI = {
     draft: "Penjelasan bahasa Indonesia adalah draf terjemahan mesin, belum diperiksa oleh guru",
     topics: (n, levels) => `${n} topik${levels ? ` di empat tingkat (${levels})` : ""}`,
     tables: (n) => `${n} tabel rujukan`,
-    online: "Latihan yang sesuai gratis di icanspeak.it/french/grammatik",
+    online: "Latihan yang sesuai gratis di icanspeak.it/francais/grammatik",
     footer: "Ditulis oleh icanspeak French, oleh guru yang benar-benar mengajar. Anda boleh mengunduh, mencetak, dan membagikan PDF ini di kelas. Tanpa akun, tanpa biaya.",
     contents: "Daftar isi", level: "Tingkat", topic: "Topik",
   },
@@ -186,7 +186,7 @@ const COVER_UI = {
     draft: "Ang mga paliwanag sa Tagalog ay machine draft pa, hindi pa nasusuri ng guro",
     topics: (n, levels) => `${n} paksa${levels ? ` sa apat na antas (${levels})` : ""}`,
     tables: (n) => `${n} talahanayang sanggunian`,
-    online: "Libre ang mga kaugnay na pagsasanay sa icanspeak.it/french/grammatik",
+    online: "Libre ang mga kaugnay na pagsasanay sa icanspeak.it/francais/grammatik",
     footer: "Isinulat ng icanspeak French, ng mga gurong talagang nagtuturo. Puwede mong i-download, i-print at ibahagi ang PDF na ito sa klase. Walang account, walang bayad.",
     contents: "Nilalaman", level: "Antas", topic: "Paksa",
   },
@@ -663,7 +663,7 @@ function renderTopic(pdf, topic, { num, withBadge, lang = null, art, key, online
     link with the book's name in utm tags (PostHog reads them as the session's source). */
 async function onlineLinks(list, book) {
   const pairs = await Promise.all(list.map(async (t) => {
-    const url = `icanspeak.it/french/${t.slug ?? t.id}`;
+    const url = `icanspeak.it/francais/${t.slug ?? t.id}`;
     const href = `https://${url}?utm_source=pdf&utm_medium=grammatik&utm_campaign=${book}`;
     // The code carries only the source: fewer modules, so it still scans at 16 mm.
     const qr = await QRCode.toBuffer(`https://${url}?utm_source=pdf`, { margin: 1, width: 300, color: { dark: "#0f766e", light: "#ffffff" } });
@@ -820,7 +820,7 @@ async function buildBook({ level, fileName, lang = null }) {
           `${ordered.length} Themen${level ? "" : ` auf vier Niveaus (${LEVELS.join(", ")})`}, in der Reihenfolge, in der man sie lernt`,
           `${tableCount} Übersichtstabellen zum Nachschlagen`,
           "Übungen zum Ausfüllen, die Lösungen hinten im Buch",
-          "Die interaktiven Übungen dazu stehen kostenlos auf icanspeak.it/french/grammatik",
+          "Die interaktiven Übungen dazu stehen kostenlos auf icanspeak.it/francais/grammatik",
         ],
     footer: ui?.footer ??
       "Von icanspeak French geschrieben — von Lehrkräften, die wirklich unterrichten. Dieses PDF darfst du frei " +

@@ -1,19 +1,19 @@
 // @ts-check
-/* The one place that knows where the site lives: https://icanspeak.it/spanish/.
+/* The one place that knows where the site lives: https://icanspeak.it/espanol/.
  *
- * icanspeak Spanish is served under a base path (`base: '/spanish'` in astro.config.mjs);
+ * icanspeak Spanish is served under a base path (`base: '/espanol'` in astro.config.mjs);
  * the domain root belongs to another site. So no URL in this repo may be root-absolute on
  * its own: every link, asset, fetch, canonical, hreflang, sitemap and llms.txt URL goes
  * through this file. Plain JS with no Astro or Vite imports, so astro.config.mjs, the build
  * integrations, node scripts and browser modules can all import it.
  *
- *   withBase("/grammar")        → "/spanish/grammar"
- *   withBase("/")               → "/spanish/"
- *   withBase("/spanish/x")      → "/spanish/x"        (idempotent)
- *   stripBase("/spanish/grammar") → "/grammar"        (for comparing location.pathname)
+ *   withBase("/grammar")        → "/espanol/grammar"
+ *   withBase("/")               → "/espanol/"
+ *   withBase("/espanol/x")      → "/espanol/x"        (idempotent)
+ *   stripBase("/espanol/grammar") → "/grammar"        (for comparing location.pathname)
  *   currentPath()               → location.pathname without the base
- *   absoluteUrl("/grammar")     → "https://icanspeak.it/spanish/grammar"
- *   langPath("de", "/grammar")  → "/spanish/de/grammar" (UI-language prefix after the base)
+ *   absoluteUrl("/grammar")     → "https://icanspeak.it/espanol/grammar"
+ *   langPath("de", "/grammar")  → "/espanol/de/grammar" (UI-language prefix after the base)
  *   rebaseHtml(html)            → every root-absolute href/src/action/srcset/url()/refresh
  *                                 in an HTML string moved under the base
  *
@@ -24,7 +24,7 @@
 /** The domain, no trailing slash. */
 export const SITE_ORIGIN = 'https://icanspeak.it';
 /** The base path, no trailing slash. */
-export const BASE_PATH = '/spanish';
+export const BASE_PATH = '/espanol';
 /** The base language of the interface (src/lib/languages.js BASE); it has no URL prefix. */
 const BASE_LANG = 'en';
 
@@ -47,8 +47,8 @@ export function withBase(path) {
   return /** @type {T} */ (/** @type {unknown} */ (BASE_PATH + p));
 }
 
-/** The site path of a pathname that may carry the base: "/spanish/grammar" → "/grammar",
- *  "/spanish" and "/spanish/" → "/". Anything else comes back unchanged. @param {string} pathname */
+/** The site path of a pathname that may carry the base: "/espanol/grammar" → "/grammar",
+ *  "/espanol" and "/espanol/" → "/". Anything else comes back unchanged. @param {string} pathname */
 export function stripBase(pathname) {
   if (typeof pathname !== 'string') return pathname;
   if (pathname === BASE_PATH || pathname === BASE_PATH + '/') return '/';

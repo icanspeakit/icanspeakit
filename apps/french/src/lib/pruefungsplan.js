@@ -83,7 +83,7 @@ export function buildPlan({ exam, date, minutesPerDay, level, today }) {
 }
 
 /** An .ics calendar: one all-day event per study day, the exam as its own event. */
-export function planToIcs(plan, { examLabel, site = "https://icanspeak.it/french" }) {
+export function planToIcs(plan, { examLabel, site = "https://icanspeak.it/francais" }) {
   const esc = (s) => String(s).replace(/[\\;,]/g, (c) => `\\${c}`).replace(/\n/g, "\\n");
   const d8 = (s) => s.replaceAll("-", "");
   const next = (s) => ymd(parse(s) + DAY);

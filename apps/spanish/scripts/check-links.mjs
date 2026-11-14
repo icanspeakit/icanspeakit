@@ -86,7 +86,7 @@ const SKIP_FILE = /[\\/]styles[\\/]|\.css$|\.svg$|hub-bilder\.manifest\.json$/;
 const NOT_A_PAGE = /^\/(api|node_modules|src|tmp|usr|dev|bin|etc|sb-|_astro|\.)/;
 // Looks like a link, is none, or is known to have no page. Say why, so the list stays short.
 const KNOWN = new Map([
-  ["/spanish", "the base path itself (src/lib/paths.js)"],
+  ["/espanol", "the base path itself (src/lib/paths.js)"],
   ["/index.html", "a file name in the sitemap code"],
   ["/month", "price text: 9 € /month"],
   ["/audio", "recordings, which arrive with an es-ES voice; the player hides without them"],

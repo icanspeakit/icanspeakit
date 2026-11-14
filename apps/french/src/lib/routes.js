@@ -8,7 +8,7 @@
 // Ids, data file names and localStorage keys stayed German or Spanish (content-plan §1.3, §6),
 // because code and saved progress key on them. Only the URL is the course's: English, except
 // proper names (/delf-dalf, /tcf, /tef) and the French grammar terms learners search for
-// (/passe-compose-vs-imparfait, /y-and-en). The site at /french is new, so there are no
+// (/passe-compose-vs-imparfait, /y-and-en). The site at /francais is new, so there are no
 // redirects from any earlier address (§8); the one exception is /grammar/<slug> → /<slug>.
 
 /** Pages that are hubs or overviews — places you pass through, not places you resume. */
