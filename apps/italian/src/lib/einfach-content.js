@@ -38,7 +38,7 @@ const PUNCT = /^[?!.,;:]+$/;
    at the ending, or at number when the options include a plural, without giving the answer.
    Path tasks should still write their own. Short and simple, like everything Bruno says. */
 const ARTICLE_HINT = {
-  ending: "Look at the last letter. -o is often el, -a is often la.",
+  ending: "Look at the last letter. -o is often il, -a is often la.",
   other: "The ending doesn't help here. Take a guess, then learn it.",
   number: "Is it one thing or more? Then look at the ending.",
 };
