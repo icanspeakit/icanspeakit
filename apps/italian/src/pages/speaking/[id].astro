@@ -50,14 +50,14 @@ const back = set
   : { href: "/speaking/", label: "Alle Sprechaufgaben", key: "sprechen.backAll" };
 // The exam line under a task is one of a handful of fixed sentences — keyed by its text, so
 // a sentence with no key yet simply stays as written in the data. The map is keyed by the
-// Spanish-course data text until `speaking` rewrites sprechen.json; en.json already names
-// the Italian exams (CILS, CELI), so the page shows those.
+// exact exam line in fertigkeiten/sprechen.json (the English value in en.json names the
+// exams CILS, CELI, PLIDA and CERT.IT).
 const EXAM_KEYS: Record<string, string> = {
   "In the style of a beginners' speaking exam, which often starts with introducing yourself. Not an official exam task.": "sprechen.exam.vorstellen",
-  "A photo task in the style of speaking exams such as DELE and SIELE. Not an official exam task.": "sprechen.exam.dtz",
-  "A long turn in the style of DELE and SIELE speaking tasks at B1 and B2. Not an official exam task.": "sprechen.exam.telcB1B2",
-  "A discussion in the style of DELE and SIELE speaking tasks at B2. Not an official exam task.": "sprechen.exam.telcB2",
-  "A conversation in the style of DELE and SIELE role plays, here with a partner. Not an official exam task.": "sprechen.exam.telcPair",
+  "A photo task in the style of the speaking exams of CILS, CELI, PLIDA and CERT.IT. Not an official exam task.": "sprechen.exam.dtz",
+  "A long turn in the style of the speaking exams of CILS, CELI, PLIDA and CERT.IT, at B1 and B2. Not an official exam task.": "sprechen.exam.telcB1B2",
+  "A discussion in the style of the speaking exams of CILS, CELI, PLIDA and CERT.IT, at B2. Not an official exam task.": "sprechen.exam.telcB2",
+  "A conversation in the style of exam role plays, here with a partner. Not an official exam task.": "sprechen.exam.telcPair",
 };
 // Instructions: English at A1–A2, Italian from B1. Marked so a screen reader uses the right voice.
 const taskLang = ["B1", "B2"].includes(task.level) ? "it" : undefined;
