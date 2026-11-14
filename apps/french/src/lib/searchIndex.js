@@ -187,8 +187,8 @@ export function buildSearchIndex() {
     })),
     ...kultur.topics.map((k) => ({
       t: k.title,
-      s: "Kultur",
-      k: kulturHay(k, "culture cultura spain españa"),
+      s: "Culture",
+      k: kulturHay(k, "culture france french culture"),
       l: k.level ?? "",
       h: itemPath("/culture", k.id),
       c: "kultur",
@@ -197,8 +197,8 @@ export function buildSearchIndex() {
     // finds the topics about them, not only a title that happens to contain the word.
     ...kulturInsider.topics.map((k) => ({
       t: k.title,
-      s: "Spain from the inside",
-      k: kulturHay(k, "culture spain from the inside insider cultura españa"),
+      s: "France from the inside",
+      k: kulturHay(k, "culture france from the inside insider everyday life"),
       l: k.level ?? "",
       h: itemPath("/culture/insider", k.id),
       c: "kultur",
@@ -216,15 +216,15 @@ export function buildSearchIndex() {
   // Tandembogen comes along for teachers who look for a pair sheet on it.
   const fehlerWords = [...new Set(fehlerPairs.flatMap((p) => [p.a.w, p.b.w]).map((w) => w.replace(/^(der|die|das) /, "")))].join(" ").toLowerCase();
   pages.push({
-    t: "Typische Fehler",
-    s: "Wörter, die man verwechselt: man oder Mann, das oder dass, seid oder seit",
-    k: `typische fehler häufige fehler verwechseln verwechselt falsch richtig common mistakes confusing words ${fehlerWords}`,
+    t: "Common mistakes: words people mix up",
+    s: "a or à, ou or où, ce or se: French words that are easy to mix up, side by side",
+    k: `common mistakes typical mistakes confusing words mix up wrong right homophones ${fehlerWords}`,
     h: "/grammar/common-mistakes",
   });
   pages.push({
-    t: "Typische Fehler: Tandembogen",
-    s: "Partnerübung zum Ausdrucken: fragen, antworten, mit Lösungsblatt",
-    k: "typische fehler tandembogen tandem partnerübung partnerarbeit arbeitsblatt lehrkräfte unterricht ausdrucken worksheet pair work",
+    t: "Common mistakes: tandem sheet",
+    s: "Pair work to print: ask, answer and check each other, with answers",
+    k: "common mistakes tandem sheet pair work worksheet print teachers class",
     h: "/teachers/worksheets/tandem/common-mistakes",
   });
   // The path to nationality: a guide page under the exam hub.
@@ -262,24 +262,24 @@ export function buildSearchIndex() {
     k: "exam traps exam tips delf dalf tcf tef civic exam pièges examen conseils reading listening writing speaking language in use structures de la langue",
     h: "/exams/traps",
   });
-  // Über mich (/about): who teaches behind the site.
+  // About me (/about): who teaches behind the site.
   pages.push({
-    t: "Über mich: Edgar Kretschmann",
-    s: "Deutschlehrer seit 2015 – China, Korea, Philippinen, Deutschland",
-    k: "über mich ueber mich edgar kretschmann lehrer lehrkraft gründer team wer about me teacher founder",
+    t: "About me: Edgar Kretschmann",
+    s: "Language teacher since 2015: China, Korea, the Philippines, Germany",
+    k: "about me edgar kretschmann teacher founder team who",
     h: "/about",
   });
   // The placement test is a hub tile (catalog.js), not one of the tools, so it needs its own row.
   pages.push({
-    t: "Einstufungstest",
-    s: "Wo stehst du? Höchstens acht Fragen, A1 bis B2",
-    k: "einstufungstest einstufung einstufen test niveau niveautest sprachniveau level welches niveau habe ich mein niveau testen wo stehe ich deutschtest a1 a2 b1 b2 placement test level test what is my level",
+    t: "Placement test",
+    s: "Where do you stand? A short test from A1 to C1",
+    k: "placement test level test what is my level find my level french test niveau test de niveau a1 a2 b1 b2 c1",
     h: "/placement-test",
   });
   pages.push({
-    t: "Stundenplan-Generator für Lehrkräfte",
-    s: "Unterricht für einen Themenblock planen: Phasen, Zeiten, Aktivitäten, passende Übungen",
-    k: "stundenplan unterrichtsplanung unterrichtsentwurf lehrplan verlaufsplan stunde planen lehrkräfte lehrer unterricht generator lesson plan teacher",
+    t: "Lesson plan generator for teachers",
+    s: "Plan lessons for a topic block: stages, timings, activities and matching exercises",
+    k: "lesson plan lesson planning timetable generator teacher teachers class course plan stages",
     h: "/teachers/timetable",
   });
   pages.push({
@@ -289,21 +289,21 @@ export function buildSearchIndex() {
     h: "/syllabus",
   });
   pages.push({
-    t: "Einstufungstest für die Klasse",
-    s: "Für Lehrkräfte: per QR-Code, mit dem Niveau jeder Person",
-    k: "einstufungstest klasse klassentest thementest test erstellen lehrkräfte lehrer lehrerin unterricht kurs einstufung niveau einstufen grammatiktest prüfen ergebnisse schüler placement test teacher class test quiz results",
+    t: "Placement test for your class",
+    s: "For teachers: via a QR code, with each person's level",
+    k: "placement test class test topic test create teacher teachers course level grammar test results students quiz",
     h: "/teachers/tests",
   });
   pages.push({
     t: "Country and culture",
     s: "Every culture topic at a glance",
-    k: "culture country spain all topics life in spain hispanic world cultura españa",
+    k: "culture country france all topics life in france francophone world civic exam",
     h: "/knowledge/country-and-culture",
   });
   pages.push({
-    t: "Spain from the inside",
-    s: "How people in Spain live, meet and talk",
-    k: "culture spain from the inside insider dating manners everyday life sobremesa",
+    t: "France from the inside",
+    s: "How people in France really live, meet and talk",
+    k: "culture france from the inside insider greetings la bise meal times tu vous neighbours friendship everyday life manners",
     h: "/culture/insider",
   });
   pages.push({
@@ -315,23 +315,23 @@ export function buildSearchIndex() {
   // The rest of the Nachschlagewerk: the overview, the three verb lists (found by their
   // verbs too: "warten auf" finds Verben mit Präpositionen) and the Wortarten.
   pages.push({
-    t: "Nachschlagewerk",
-    s: "Verbtabellen, Nomen in allen Fällen, Wortarten und mehr zum Nachschlagen",
-    k: "nachschlagewerk nachschlagen nachschauen tabellen grammatik übersicht reference look up tables",
+    t: "Reference",
+    s: "Verb tables, verbs and parts of speech to look up",
+    k: "reference look up tables grammar overview verb tables",
     h: "/reference",
   });
   for (const [ref, d, k] of [
-    ["starke-schwache-verben", starkSchwach, "starke verben schwache verben unregelmäßige verben strong verbs weak verbs irregular verbs vokalwechsel ablaut präteritum partizip stammformen"],
-    ["trennbare-verben", trennbar, "trennbare verben untrennbare verben separable inseparable verbs präfix vorsilbe betonung"],
-    ["verben-mit-praepositionen", verbPraep, "verben mit präpositionen verbs with prepositions präpositionalobjekt rektion"],
+    ["starke-schwache-verben", starkSchwach, "regular verbs irregular verbs spelling change verbs past participle passé composé avoir être forms"],
+    ["trennbare-verben", trennbar, "reflexive verbs pronominal verbs se s' daily routine"],
+    ["verben-mit-praepositionen", verbPraep, "verbs with prepositions verbs with à verbs with de no preposition"],
   ]) {
     const items = d.sections.flatMap((x) => x.items.filter((it) => typeof it !== "string").map((it) => it[0].replace(/[[\]|]/g, "")));
     pages.push({ t: d.title, s: d.description ?? "", k: `${k} ${items.join(" ")}`.toLowerCase(), h: refPath(ref) });
   }
   pages.push({
-    t: "Wortarten",
-    s: "Nomen, Verb, Adjektiv und Co.: was sie sind, woran du sie erkennst",
-    k: "wortarten wortart word classes parts of speech nomen substantiv verb adjektiv adverb pronomen präposition konjunktion artikel zahlwort",
+    t: "Parts of speech",
+    s: "Noun, verb, adjective and the others: what they are and how to recognise them",
+    k: "parts of speech word classes noun verb adjective adverb pronoun preposition conjunction article number nom verbe adjectif",
     h: "/grammar/parts-of-speech",
   });
   pages.push({
@@ -353,19 +353,19 @@ export function buildSearchIndex() {
   // and the English equivalent. Only once released (redewendungenData.js LIVE).
   if (RW_LIVE) {
     pages.push({
-      t: "Redewendungen & Sprichwörter",
-      s: "Was sie bedeuten, wann man sie sagt und woher sie kommen",
-      k: "redewendung redewendungen sprichwort sprichwörter idiom idioms proverb proverbs redensart redensarten",
+      t: "Idioms and proverbs",
+      s: "What they mean, when to say them and where they come from",
+      k: "idiom idioms proverb proverbs sayings expressions expressions idiomatiques",
       h: "/knowledge/idioms",
     });
     for (const e of rwEintraege) {
-      pages.push({ t: e.de, s: e.bedeutung, k: `${e.de} ${e.bedeutung} ${e.en} redewendung`.toLowerCase(), h: rwHref(e) });
+      pages.push({ t: e.de, s: e.bedeutung, k: `${e.de} ${e.bedeutung} ${e.en} idiom`.toLowerCase(), h: rwHref(e) });
     }
   }
   pages.push({
-    t: "Umgangssprache, Slang und Schimpfwörter",
-    s: "Wie man wirklich spricht – mit Hochdeutsch daneben und was man nie sagt",
-    k: "umgangssprache slang jugendsprache jugendwort schimpfwörter schimpfwort fluchen vulgär beleidigung kurzformen haste biste nö gucken kriegen kohle bock krass digga alter chillen geil cringe lost zwo fuffzig mist scheiße colloquial swear words curse insults youth slang",
+    t: "Informal French and slang",
+    s: "How people really talk in France, with standard French next to it and what never to say",
+    k: "informal french slang colloquial spoken french verlan swear words youth slang bosser kiffer ouf fric boulot truc mec meuf relou chelou t'as y a",
     h: "/knowledge/slang",
   });
 
