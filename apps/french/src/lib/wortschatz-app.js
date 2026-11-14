@@ -426,7 +426,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
 
   /** The colour class for an article: the gender (m, f, mf), so l'école is coloured feminine and
    *  l'hôtel masculine (content-plan §1.4); a plural-only noun (les lunettes) gets the plural
-   *  colour. Legacy Spanish and German cards keep their article as the class (el, la, der …). */
+   *  colour. German-era cards keep their article as the class (der, die …). */
   const artClass = (card) => {
     if (card.pluralOnly) return "plural";
     if (["le", "l'", "les", "le/la"].includes(card.gender) || card.genus) return genusOf(card) ?? "plural";
@@ -1902,7 +1902,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
       storedLang = null;
       foreign = defaultLang();
       const target = cardLang();
-      // A fetched language (Spanish …) needs its glosses first.
+      // A fetched language (es, pt, it …) needs its glosses first.
       if (target && state.lang !== target) return ensureGlosses(target).then(() => { reset({ lang: target }); render(); });
     }
     render();

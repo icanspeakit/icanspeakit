@@ -34,7 +34,7 @@ const CORRECT_ADVANCE_DELAY_WRONGFLOW_MS = 1050;
 
 /* The article in its colour, for the noun shown in full after a wrong answer: le/un and la/une
    take the site's two gender colours; l' and les say nothing about gender, so they stay plain.
-   el and la stay until the Spanish article data is converted (games). */
+   (el was the Spanish course's; harmless, kept so old data never loses its colour.) */
 const ARTICLE_COLOUR = { le: "der", un: "der", la: "die", une: "die", el: "der" };
 function articleHtml(q) {
   const cls = ARTICLE_COLOUR[q.answer] ?? "";

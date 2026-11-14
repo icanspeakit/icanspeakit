@@ -24,8 +24,8 @@ const outDir = path.join(__dirname, "..", "public", "downloads");
 
 const LEVELS = ["A1", "A2", "B1", "B2"];
 // English is the language of the course's explanations (content-plan §1.1); the words are French.
-// A level still in Spanish (until its vocab-* item) prints as it is; the books are only rebuilt
-// once a level is French.
+// Every level is French since vocab-c1-c2; rebuild the books after a change to a level
+// (pnpm generate:wortschatz-pdf).
 const LEVEL_BLURB = {
   A1: "First sentences",
   A2: "Everyday French",

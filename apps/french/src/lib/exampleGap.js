@@ -12,8 +12,8 @@
 
 // French (content-plan §1.2): accents fold for matching (é → e, ç → c, œ → oe), and an elided
 // word before an apostrophe is not part of the token: l'école, d'eau, j'ai, m'appelle, qu'il,
-// jusqu'à are found as école, eau, ai, appelle, il, à. The Spanish and German letters stay for the
-// levels not converted yet.
+// jusqu'à are found as école, eau, ai, appelle, il, à. The other accent letters in ACCENTS (á, í,
+// ó, ú) are harmless leftovers of the Spanish course.
 const ACCENTS = { á: "a", é: "e", í: "i", ó: "o", ú: "u", à: "a", â: "a", è: "e", ê: "e", ë: "e", î: "i", ï: "i", ô: "o", ù: "u", û: "u", ÿ: "y", ç: "c" };
 const ELISION = /^(?:[ldjmtsnc]|qu|jusqu|lorsqu|puisqu)['’]/i;
 const clean = (x) => String(x).toLowerCase().replace(ELISION, "").replace(/œ/g, "oe").replace(/æ/g, "ae")
@@ -25,7 +25,7 @@ const clean = (x) => String(x).toLowerCase().replace(ELISION, "").replace(/œ/g,
 // composé (a parlé, est allé, s'est levé): it would blank every « a » and « est ».
 const PRONOUN = new Set(["me", "te", "se", "nos", "os", "nous", "vous"]);
 const AUXILIARY = new Set(["ai", "as", "a", "avons", "avez", "ont", "suis", "es", "est", "sommes", "etes", "sont"]);
-const SPANISH_VERB = /(ar|er|ir)(se)?$/;
+
 // French: parler, finir, vendre, recevoir (pronoun stripped: se lever, s'appeler).
 const FRENCH_VERB = /(er|ir|re|oir)$/;
 // What may follow a French verb or adjective stem (accents folded): present, imparfait, futur and
@@ -86,11 +86,6 @@ function matcher(card) {
     const m = w.match(/^(.*)e([lr])n$/);
     if (m) stems.add(m[1] + m[2]);
   }
-  // Spanish: hablar and hablo give habl-, so hablas and hablamos are found too; alto gives alt-.
-  if (card.pos === "verb" && SPANISH_VERB.test(lemma) && card.forms?.length) {
-    stems.add(lemma.replace(SPANISH_VERB, ""));
-    if (forms[0]) stems.add(forms[0].replace(/[aeo]$/, ""));
-  }
   // French verbs: a stem plus a listed ending, so louer and loue find louons, jouent, déménageons
   // (pronoun gone: se lever → lever, s'appeler → appeler). French adjectives: grand → grande,
   // grands, grandes; heureux → heureuse; actif → active.
@@ -113,7 +108,7 @@ function matcher(card) {
   const one = (c) => {
     if (!c) return false;
     if (targets.has(c)) return true;
-    // German compounds hold the noun anywhere (Goethestraße); French and Spanish ones don't fuse,
+    // German compounds hold the noun anywhere (Goethestraße); French ones don't fuse,
     // and « lait » must not blank « plaît ».
     if (nouns.some((n) => (compounds ? c.includes(n) : c.startsWith(n)))) return true;
     for (const s of stems) if (c.startsWith(s) && c.length - s.length <= room(s)) return true;

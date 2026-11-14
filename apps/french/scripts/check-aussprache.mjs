@@ -99,7 +99,7 @@ for (const r of read("src/data/ausspracheregeln.json").rules) {
   }
 }
 
-// Audio: the page falls back to the browser voice, so a missing mp3 is only a note until es-ES
+// Audio: the page falls back to the browser voice, so a missing mp3 is only a note until fr-FR
 // recordings exist (content-plan §5.6). With --audio it is a problem.
 const missing = Object.values(drills)
   .flatMap(drillTexts)

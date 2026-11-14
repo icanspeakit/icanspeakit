@@ -9,7 +9,7 @@
  *
  * Two storage shapes exist and both are read as-is rather than migrated:
  *   store "exam" → "da-exam-v1:<key>", { answers: { id: {given, correct} } }
- *                  (src/lib/exam/state.js — A1 practice test, SIELE, CCSE)
+ *                  (src/lib/exam/state.js — A1 practice test, TEF set, civic exam)
  *   store "dtz"  → "da-dtz-v1:<key>",  same answers plus a schreiben object
  *                  (src/lib/dtzTrainer.js — the TCF IRN mock for residence and nationality in the /residence-and-nationality/tcf-irn slot)
  * The ids (start-deutsch-1, testdaf, leben-in-deutschland, dtz) are storage keys from the
@@ -60,15 +60,15 @@ export const examRegistry = [
   },
   {
     id: "testdaf",
-    title: "SIELE reading and writing",
+    title: "TEF reading and writing",
     subtitle: "Reading · Writing",
     level: "B1–C1",
     href: "/tef/practice-set",
     overview: "/tef",
     store: { kind: "exam", key: "testdaf" },
-    // Deliberately no pass percentage: the SIELE gives a score per test and every
+    // Deliberately no pass percentage: the TEF gives a score per test and every
     // institution sets its own requirement, so a line here would be invented.
-    passNote: "No pass mark: each SIELE test gets a score from 0 to 250 and a CEFR level, and each institution decides what it asks for.",
+    passNote: "No pass mark: the TEF gives a score per test and a CEFR level, and each institution decides what it asks for. Our set gives feedback, not a TEF score.",
     passPct: null,
     modules: [
       { key: "lesen1", label: "Reading · Task 1", ids: idsOf(tdaf.leseverstehen.aufgabe1) },
@@ -103,8 +103,8 @@ export const examRegistry = [
     href: "/residence-and-nationality/tcf-irn/practice-set",
     overview: "/residence-and-nationality/tcf-irn",
     store: { kind: "dtz", key: dtz1.id },
-    // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not a DELE score.
-    passNote: "Our own guide, not a DELE score: listening and reading count together, and 33 of 45 points means you are well prepared.",
+    // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not a TCF score.
+    passNote: "Our own guide, not a TCF score: listening and reading count together, and 33 of 45 points means you are well prepared.",
     passPct: Math.round((33 / 45) * 100),
     modules: [
       ...dtz1.parts.map((part, i) => ({

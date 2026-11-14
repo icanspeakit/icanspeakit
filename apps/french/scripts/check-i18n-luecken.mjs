@@ -14,9 +14,9 @@
 // Text that is French on purpose (the words being taught, an exam's own wording, quotes)
 // is marked where it stands, so it never counts:
 //   lang="fr" on the element or an ancestor · translate="no" · data-i18n-skip
-// Any lang attribute covers (COVER below), so the Spanish course's lang="es" markup still
-// counts while pages are converted (docs/content-plan.md §1.6 rule 9); `cleanup` checks that
-// no lang="es" is left.
+// Any lang attribute covers (COVER below). The Spanish course's lang="es" markup on French text
+// was turned into lang="fr" by the ui-* items and `cleanup` (docs/content-plan.md §1.6 rule 9);
+// lang="es" is now only for Spanish-UI text.
 // Not seen: strings built in JavaScript (innerHTML, textContent = "…"). Those go through
 // t() keys by hand.
 import fs from "node:fs";

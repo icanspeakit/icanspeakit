@@ -34,7 +34,7 @@ export function accepts(answer, value) {
  * never folds accents away (content-plan §1.2). This says whether a wrong answer differs from
  * a right one ONLY in its accents, so the page can add "Check the accent." to the verdict.
  * The cedilla counts as an accent (ca/ça, francais/français). The tilde is left out: it is no
- * French accent, and in the Spanish data still waiting for its item ñ is a letter of its own.
+ * French accent (ñ only appears in loanwords and names, where it is a letter of its own).
  */
 const ACCENT_MARKS = /[̧̀́̂̈]/g; // grave, acute, circumflex, diaeresis, cedilla
 const withoutAccents = (s) => normalize(s).normalize("NFD").replace(ACCENT_MARKS, "").normalize("NFC");

@@ -28,7 +28,7 @@ const bildSrc = (bild) => (!bild ? null : bild.startsWith("/") ? bild : emojiSrc
 const CARD_LANGS = languagesFor("cards", { fetched: true }).map((l) => l.code);
 
 /** The languages beyond `en` in redemittel.json: src/data/redemittel-i18n/<code>.json,
- *  `{ "<Spanish phrase>": "<translation>" }`. Drafts until a native speaker has read them. */
+ *  `{ "<French phrase>": "<translation>" }`. Drafts until a native speaker has read them. */
 const SIDECARS = Object.fromEntries(CARD_LANGS.map((code) => {
   const file = path.join(process.cwd(), "src", "data", "redemittel-i18n", `${code}.json`);
   return [code, existsSync(file) ? JSON.parse(readFileSync(file, "utf8")) : {}];

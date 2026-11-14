@@ -1,8 +1,8 @@
-// The mock trainer (registry id "dtz"; DELE A2 for nationality, content-plan §2): nine parts,
+// The mock trainer (registry id "dtz"; TCF IRN mock for residence and nationality, content-plan §2): nine parts,
 // 45 scored items, plus a writing task chosen from two. Driven by the JSON in
 // src/data/pruefungen/dtz/ and src/paid/pruefungen/dtz/.
 //
-// The parts are this trainer's own shape, not the structure of the real DELE A2, and the point
+// The parts are this trainer's own shape, not the structure of the real TCF IRN, and the point
 // bands are our own guide. The sets are our own; see their source notes.
 
 import { getLang, loadDict, translate, onLangChange } from "./i18n.js";
@@ -18,7 +18,7 @@ import paidManifest from "../data/pruefungen/paid-manifest.json";
 /* Module-level because the renderers here are module functions, not closures inside the
    mount. Everything this trainer paints goes through render(), so filling the dict and
    re-rendering is the whole integration. The exam CONTENT — transcripts, questions,
-   options, statements — stays Spanish and carries lang="fr": that is the exam being sat. */
+   options, statements — is French and carries lang="fr": that is the exam being sat. */
 let dict = {};
 const t = (key, vars) => translate(dict, key, vars);
 
@@ -72,7 +72,7 @@ export function allQids(data) {
   return data.parts.flatMap(qidsOfPart);
 }
 
-/** Our own bands, not a DELE score: listening and reading together, out of 45. */
+/** Our own bands, not a TCF score: listening and reading together, out of 45. */
 export function stufeFor(score) {
   if (score >= 33) return { stufe: t("dtz.stufe.b1"), cls: "is-b1" };
   if (score >= 20) return { stufe: t("dtz.stufe.a2"), cls: "is-a2" };

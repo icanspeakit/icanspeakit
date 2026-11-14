@@ -7,7 +7,7 @@
 //
 // Source: OpenSubtitles 2018 lists (hermitdave/FrequencyWords, licence to verify before attaching;
 // data from the OPUS OpenSubtitles corpus): fr_50k for the levels already in French (their words
-// carry variety fr-FR, docs/content-plan.md §1.4), es_50k for the levels still in Spanish. fr_50k
+// carry variety fr-FR, docs/content-plan.md §1.4; every level since vocab-c1-c2). fr_50k
 // mixes France and Canada; level banding stays our own and is never claimed to be an official list. It is a WORDFORM list, so a lemma only matches when its citation form happens to
 // appear — multi-word phrases ("get up", "bus stop") and rarer compounds stay null, which is
 // correct: a missing rank is honest, a guessed one is not.
@@ -46,9 +46,9 @@ async function frequencyList(lang) {
   return map;
 }
 
-/** French once the level's words carry variety fr-FR; Spanish before. */
-const langOf = (data) =>
-  (data.units ?? []).some((u) => (u.words ?? []).some((w) => w.variety === "fr-FR")) ? "fr" : "es";
+/** Every level is French (the es_50k branch for Spanish levels was removed by cleanup). */
+const langOf = () =>
+  "fr";
 
 /** The form looked up: the lemma without the reflexive pronoun (se lever → lever, s'appeler →
  *  appeler), with a straight apostrophe as the list writes it. */

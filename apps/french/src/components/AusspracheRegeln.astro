@@ -12,9 +12,9 @@
 import rules from "../data/ausspracheregeln.json";
 import { asAudioItems, units } from "../lib/lexicon.js";
 
-// Word → its recording, by the bare word ("la mesa" → "mesa").
-// French articles (l' elides with no space); the Spanish ones stay while the data is still Spanish.
-const bare = (t: string) => t.replace(/^(?:(?:le|la|les|un|une|des|el|los|las|una)\s+|l['’])/i, "").trim().toLowerCase();
+// Word → its recording, by the bare word ("la table" → "table").
+// French articles (l' elides with no space).
+const bare = (t: string) => t.replace(/^(?:(?:le|la|les|un|une|des)\s+|l['’])/i, "").trim().toLowerCase();
 const audio = new Map<string, string>();
 for (const u of units()) {
   for (const it of asAudioItems({ unit: u.id })) {

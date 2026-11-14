@@ -19,17 +19,17 @@ import { nouns } from "../src/lib/lexicon.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 // The list of each noun's language (attach-ranks.mjs downloads them): fr_50k for the French levels
-// (variety fr-FR, since vocab-a1), es_50k for the levels still in Spanish.
+// (every level is fr-FR since vocab-c1-c2; the es_50k branch was removed by cleanup).
 const CACHE = (lang) => path.join(ROOT, "node_modules", ".cache", `${lang}_50k.txt`);
 const OUT = path.join(ROOT, "src", "data", "artikel-haeufigkeit.json");
 
-if (!["fr", "es"].every((lang) => existsSync(CACHE(lang)))) {
-  console.error("Frequency list missing. Run `node scripts/attach-ranks.mjs` once to download them.");
+if (!existsSync(CACHE("fr"))) {
+  console.error("Frequency list missing. Run `node scripts/attach-ranks.mjs` once to download it.");
   process.exit(1);
 }
 
 const lists = {};
-for (const lang of ["fr", "es"]) {
+for (const lang of ["fr"]) {
   const counts = (lists[lang] = new Map());
   for (const line of readFileSync(CACHE(lang), "utf8").split("\n")) {
     const [word, n] = line.split(" ");
@@ -41,7 +41,7 @@ const out = {};
 let missing = 0;
 for (const n of nouns({ level: ["A1", "A2", "B1", "B2"], has: "gender" })) {
   if (n.rank == null) continue;
-  const c = lists[n.variety === "fr-FR" ? "fr" : "es"].get(n.lemma.toLowerCase());
+  const c = lists.fr.get(n.lemma.toLowerCase());
   if (c) out[n.id] = c;
   else missing++;
 }

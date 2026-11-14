@@ -248,18 +248,18 @@ export function buildSearchIndex() {
     k: "business french work office email e-mail courriel formal letter phone call appel téléphone cv curriculum resume cover letter lettre de motivation candidature job interview entretien d'embauche meeting réunion compte rendu negotiate négociation figures chiffres presentation madame monsieur cordialement salutations distinguées vous tu",
     h: "/business-french",
   });
-  // DELE or SIELE?: a comparison page under the exam hub.
+  // DELF, TCF or TEF?: a comparison page under the exam hub.
   pages.push({
-    t: "DELE or SIELE?",
-    s: "Which Spanish exam fits your purpose: nationality, university or work",
-    k: "dele siele compare difference which exam comparison nationality university work price validity diferencia nacionalidad",
+    t: "DELF, TCF or TEF?",
+    s: "Which French exam fits your purpose: residence card, nationality, Canada, university or work",
+    k: "delf dalf tcf tef tcf irn tcf canada tef canada compare difference which exam comparison residence card titre de séjour nationality naturalisation canada immigration university work price validity",
     h: "/exams/delf-tcf-or-tef",
   });
   // Prüfungsfallen (/exams/traps): a page under the exam hub, not an exam of its own.
   pages.push({
-    t: "Exam traps: DELE, SIELE, CCSE",
+    t: "Exam traps: DELF, DALF, TCF, TEF",
     s: "Parts of the exams with a catch, briefly explained, with an example and a task",
-    k: "exam traps exam tips dele siele ccse trampas examen consejos reading listening writing speaking language use uso de la lengua",
+    k: "exam traps exam tips delf dalf tcf tef civic exam pièges examen conseils reading listening writing speaking language in use structures de la langue",
     h: "/exams/traps",
   });
   // Über mich (/about): who teaches behind the site.

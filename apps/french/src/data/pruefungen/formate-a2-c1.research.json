@@ -1,5 +1,5 @@
 {
-  "_note": "Research file (not read by pages, except points and source link on the practice-set page): the structure of the exams our own practice sets follow, checked by scripts/check-pruefungen.mjs (same modules, same parts, same number of scored items per part). Ids are storage keys and stay: goethe-a1…c2 = DELF A1…B2 and DALF C1…C2 (goethe-a1 and goethe-c2 have no set in this file's sense: A1 lives in the start-deutsch-1 slot, C2 has no practice set), telc-a2…c1 = the SIELE tasks at each band: together those four sets hold every task of one SIELE Global (the real exam is one multilevel sitting, not band papers). The testdaf slot has its own shape and is described in testdaf-formate.json. Only structure is described; no exam task or text is copied. Field conventions: minutes = paper time; items = scored items in OUR set, modelled on the best public information we found; plays = how often the recording is heard; points = marks where known. Every DELF/DALF fact here is 'to verify': see `unverified` in each entry and reports/exams-delf-dalf.md. SIELE entries were checked against the official exam guide and siele.org on 2026-11-06, see reports/exams-siele.md.",
+  "_note": "Research file (not read by pages, except points and source link on the practice-set page): the structure of the exams our own practice sets follow, checked by scripts/check-pruefungen.mjs (same modules, same parts, same number of scored items per part). Ids are storage keys and stay: goethe-a1…c2 = DELF A1…B2 and DALF C1…C2 (goethe-a1 and goethe-c2 have no set in this file's sense: A1 lives in the start-deutsch-1 slot, C2 has no practice set), telc-a2…c1 = our own TCF-style band sets (the TCF itself is one multilevel sitting with a 0–699 scale, not band papers): their modules and item counts are the shape the sets keep from the Spanish course's band sets, not the structure of the TCF (cleanup, 2026-11-14). The testdaf slot has its own shape and is described in testdaf-formate.json. Only structure is described; no exam task or text is copied. Field conventions: minutes = paper time; items = scored items in OUR set, modelled on the best public information we found; plays = how often the recording is heard; points = marks where known. Every DELF/DALF fact here is 'to verify': see `unverified` in each entry and reports/exams-delf-dalf.md. The telc entries describe our sets only; TCF facts are in reports/exams-tcf-tef.md, all 'to verify'.",
   "sources": [
     {
       "id": "goethe-a1",
@@ -30,26 +30,6 @@
       "id": "goethe-c2",
       "title": "France Éducation international, DELF-DALF",
       "url": "https://www.france-education-international.fr/diplome/delf-dalf"
-    },
-    {
-      "id": "telc-a2",
-      "title": "SIELE, exam types and tests",
-      "url": "https://siele.org/examenes"
-    },
-    {
-      "id": "telc-b1",
-      "title": "SIELE, exam types and tests",
-      "url": "https://siele.org/examenes"
-    },
-    {
-      "id": "telc-b2",
-      "title": "SIELE, exam types and tests",
-      "url": "https://siele.org/examenes"
-    },
-    {
-      "id": "telc-c1",
-      "title": "SIELE, exam types and tests",
-      "url": "https://siele.org/examenes"
     }
   ],
   "exams": [
@@ -588,11 +568,11 @@
     },
     {
       "id": "telc-a2",
-      "exam": "SIELE: the A1 and A2 tasks",
-      "provider": "siele",
+      "exam": "TCF-style band set A2 (our own)",
+      "provider": "france-education-international",
       "level": "A2",
-      "checked": "2026-11-06",
-      "source": "SIELE exam pages (siele.org/examenes, siele.org/reconocimiento-internacional) and the SIELE exam guide, Guía para la realización del examen SIELE, copy on seul.cervantes.es, checked 2026-11-06",
+      "checked": "2026-11-14",
+      "source": "Our own band structure; no official TCF paper or sample was used. TCF facts: France Éducation international's TCF pages (to verify).",
       "modules": [
         {
           "name": "Reading",
@@ -600,13 +580,13 @@
           "parts": [
             {
               "teil": 1,
-              "task": "Reading task 1 (A1): five short texts, 40–80 words each",
+              "task": "Reading part, band A1: five short texts, 40–80 words each",
               "type": "Multiple choice, 3 options, one question per text",
               "items": 5
             },
             {
               "teil": 2,
-              "task": "Reading task 2 (A2): one text, 250–300 words",
+              "task": "Reading part, band A2: one text, 250–300 words",
               "type": "Multiple choice, 3 options",
               "items": 5
             }
@@ -618,14 +598,14 @@
           "parts": [
             {
               "teil": 1,
-              "task": "Listening task 1 (A1): a conversation, 150–170 words",
+              "task": "Listening part, band A1: a conversation, 150–170 words",
               "type": "Complete sentences from a shared bank of 15 options",
               "items": 5,
               "plays": 2
             },
             {
               "teil": 2,
-              "task": "Listening task 2 (A2): information, 250–300 words",
+              "task": "Listening part, band A2: information, 250–300 words",
               "type": "Multiple choice, 3 options",
               "items": 5,
               "plays": 2
@@ -638,7 +618,7 @@
           "parts": [
             {
               "teil": 1,
-              "task": "Writing task 1 (A1–B1): reply to a letter, email, forum or blog message",
+              "task": "Writing part, band A1–B1: reply to a letter, email, forum or blog message",
               "type": "Free writing, 100–150 words recommended",
               "items": 1
             }
@@ -650,13 +630,13 @@
           "parts": [
             {
               "teil": 1,
-              "task": "Speaking task 1 (A1–A2): four personal questions",
+              "task": "Speaking part, band A1–A2: four personal questions",
               "type": "Recorded answers",
               "items": 1
             },
             {
               "teil": 2,
-              "task": "Speaking task 2 (A2): describe one of two photos",
+              "task": "Speaking part, band A2: describe one of two photos",
               "type": "Recorded monologue, after preparation",
               "items": 1
             }
@@ -664,22 +644,21 @@
         }
       ],
       "total": null,
-      "totalNote": "In the real test each of the four tests counts up to 250 points, 1000 in SIELE Global. This set has no points of its own.",
-      "pass": "No pass mark. Each test gets a score from 0 to 250, matched to a CEFR level; a score below the A1 band reaches no level.",
+      "totalNote": "The real TCF gives a score on a 0–699 scale and a CEFR level (to verify). This set has no points of its own.",
+      "pass": "No pass mark: the TCF reports a level, and each institution or authority decides what it asks for (to verify).",
       "modular": true,
-      "modularNote": "SIELE Global is all four tests; S1 to S5 are combinations of them.",
+      "modularNote": "TCF tout public: compulsory listening, language structures and reading; writing and speaking optional (to verify). TCF IRN and TCF Canada have their own compulsory papers (to verify).",
       "unverified": [
-        "The guide copy has no date we could read; a copy elsewhere is labelled April 2021. Tasks, question counts, times and score bands agree with siele.org/examenes as read on 6 November 2026 where that page gives them, but they may have changed. To verify.",
-        "Minutes per module and the split into bands are ours, not the exam's: the real SIELE is one sitting per test and doesn't have band papers."
+        "Modules, task names, minutes and item counts are the shape of our band sets, not the TCF's. Every TCF fact here is to verify against France Éducation international."
       ]
     },
     {
       "id": "telc-b1",
-      "exam": "SIELE: the B1 tasks",
-      "provider": "siele",
+      "exam": "TCF-style band set B1 (our own)",
+      "provider": "france-education-international",
       "level": "B1",
-      "checked": "2026-11-06",
-      "source": "SIELE exam pages (siele.org/examenes, siele.org/reconocimiento-internacional) and the SIELE exam guide, Guía para la realización del examen SIELE, copy on seul.cervantes.es, checked 2026-11-06",
+      "checked": "2026-11-14",
+      "source": "Our own band structure; no official TCF paper or sample was used. TCF facts: France Éducation international's TCF pages (to verify).",
       "modules": [
         {
           "name": "Reading",
@@ -687,7 +666,7 @@
           "parts": [
             {
               "teil": 1,
-              "task": "Reading task 3 (B1): three texts, 100–120 words each",
+              "task": "Reading part, band B1: three texts, 100–120 words each",
               "type": "Match eight statements to the texts",
               "items": 8
             }
@@ -699,7 +678,7 @@
           "parts": [
             {
               "teil": 1,
-              "task": "Listening task 3 (B1): eight short recordings, 50–70 words each",
+              "task": "Listening part, band B1: eight short recordings, 50–70 words each",
               "type": "Match to statements, 11 options",
               "items": 8,
               "plays": 2
@@ -712,7 +691,7 @@
           "parts": [
             {
               "teil": 1,
-              "task": "Writing task 1 (A1–B1): reply to a letter, email, forum or blog message",
+              "task": "Writing part, band A1–B1: reply to a letter, email, forum or blog message",
               "type": "Free writing, 100–150 words recommended",
               "items": 1
             }
@@ -724,7 +703,7 @@
           "parts": [
             {
               "teil": 1,
-              "task": "Speaking task 3 (B1): two simulated situations, one personal and one public, each chosen from two",
+              "task": "Speaking part, band B1: two simulated situations, one personal and one public, each chosen from two",
               "type": "Recorded answers",
               "items": 2
             }
@@ -732,22 +711,21 @@
         }
       ],
       "total": null,
-      "totalNote": "In the real test each of the four tests counts up to 250 points, 1000 in SIELE Global. This set has no points of its own.",
-      "pass": "No pass mark. Each test gets a score from 0 to 250, matched to a CEFR level; a score below the A1 band reaches no level.",
+      "totalNote": "The real TCF gives a score on a 0–699 scale and a CEFR level (to verify). This set has no points of its own.",
+      "pass": "No pass mark: the TCF reports a level, and each institution or authority decides what it asks for (to verify).",
       "modular": true,
-      "modularNote": "SIELE Global is all four tests; S1 to S5 are combinations of them.",
+      "modularNote": "TCF tout public: compulsory listening, language structures and reading; writing and speaking optional (to verify). TCF IRN and TCF Canada have their own compulsory papers (to verify).",
       "unverified": [
-        "The guide copy has no date we could read; a copy elsewhere is labelled April 2021. Tasks, question counts, times and score bands agree with siele.org/examenes as read on 6 November 2026 where that page gives them, but they may have changed. To verify.",
-        "Minutes per module and the split into bands are ours, not the exam's: the real SIELE is one sitting per test and doesn't have band papers."
+        "Modules, task names, minutes and item counts are the shape of our band sets, not the TCF's. Every TCF fact here is to verify against France Éducation international."
       ]
     },
     {
       "id": "telc-b2",
-      "exam": "SIELE: the B2 tasks",
-      "provider": "siele",
+      "exam": "TCF-style band set B2 (our own)",
+      "provider": "france-education-international",
       "level": "B2",
-      "checked": "2026-11-06",
-      "source": "SIELE exam pages (siele.org/examenes, siele.org/reconocimiento-internacional) and the SIELE exam guide, Guía para la realización del examen SIELE, copy on seul.cervantes.es, checked 2026-11-06",
+      "checked": "2026-11-14",
+      "source": "Our own band structure; no official TCF paper or sample was used. TCF facts: France Éducation international's TCF pages (to verify).",
       "modules": [
         {
           "name": "Reading",
@@ -755,13 +733,13 @@
           "parts": [
             {
               "teil": 1,
-              "task": "Reading task 4 (B2): first text, 230–280 words, four gaps",
+              "task": "Reading part, band B2: first text, 230–280 words, four gaps",
               "type": "Five fragments for four gaps",
               "items": 4
             },
             {
               "teil": 2,
-              "task": "Reading task 4 (B2): second text, 230–280 words, four gaps",
+              "task": "Reading part, band B2: second text, 230–280 words, four gaps",
               "type": "Five fragments for four gaps",
               "items": 4
             }
@@ -773,7 +751,7 @@
           "parts": [
             {
               "teil": 1,
-              "task": "Listening task 4 (B2): an interview, 550–600 words",
+              "task": "Listening part, band B2: an interview, 550–600 words",
               "type": "Multiple choice, 3 options",
               "items": 8,
               "plays": 2
@@ -786,7 +764,7 @@
           "parts": [
             {
               "teil": 1,
-              "task": "Writing task 2 (B2–C1): opinion article or letter to a newspaper, from one of two headlines",
+              "task": "Writing part, band B2–C1: opinion article or letter to a newspaper, from one of two headlines",
               "type": "Free writing, 250–300 words recommended",
               "items": 1
             }
@@ -798,7 +776,7 @@
           "parts": [
             {
               "teil": 1,
-              "task": "Speaking task 4 (B2): choose one of two topics, read a short text, answer three questions",
+              "task": "Speaking part, band B2: choose one of two topics, read a short text, answer three questions",
               "type": "Recorded answers",
               "items": 1
             }
@@ -806,22 +784,21 @@
         }
       ],
       "total": null,
-      "totalNote": "In the real test each of the four tests counts up to 250 points, 1000 in SIELE Global. This set has no points of its own.",
-      "pass": "No pass mark. Each test gets a score from 0 to 250, matched to a CEFR level; a score below the A1 band reaches no level.",
+      "totalNote": "The real TCF gives a score on a 0–699 scale and a CEFR level (to verify). This set has no points of its own.",
+      "pass": "No pass mark: the TCF reports a level, and each institution or authority decides what it asks for (to verify).",
       "modular": true,
-      "modularNote": "SIELE Global is all four tests; S1 to S5 are combinations of them.",
+      "modularNote": "TCF tout public: compulsory listening, language structures and reading; writing and speaking optional (to verify). TCF IRN and TCF Canada have their own compulsory papers (to verify).",
       "unverified": [
-        "The guide copy has no date we could read; a copy elsewhere is labelled April 2021. Tasks, question counts, times and score bands agree with siele.org/examenes as read on 6 November 2026 where that page gives them, but they may have changed. To verify.",
-        "Minutes per module and the split into bands are ours, not the exam's: the real SIELE is one sitting per test and doesn't have band papers."
+        "Modules, task names, minutes and item counts are the shape of our band sets, not the TCF's. Every TCF fact here is to verify against France Éducation international."
       ]
     },
     {
       "id": "telc-c1",
-      "exam": "SIELE: the C1 tasks",
-      "provider": "siele",
+      "exam": "TCF-style band set C1 (our own)",
+      "provider": "france-education-international",
       "level": "C1",
-      "checked": "2026-11-06",
-      "source": "SIELE exam pages (siele.org/examenes, siele.org/reconocimiento-internacional) and the SIELE exam guide, Guía para la realización del examen SIELE, copy on seul.cervantes.es, checked 2026-11-06",
+      "checked": "2026-11-14",
+      "source": "Our own band structure; no official TCF paper or sample was used. TCF facts: France Éducation international's TCF pages (to verify).",
       "modules": [
         {
           "name": "Reading",
@@ -829,7 +806,7 @@
           "parts": [
             {
               "teil": 1,
-              "task": "Reading task 5 (C1): a text with 12 gaps, 375–425 words in the real test",
+              "task": "Reading part, band C1: a text with 12 gaps, 375–425 words in the real test",
               "type": "Multiple choice, 3 options: grammar, vocabulary, cohesion",
               "items": 12
             }
@@ -841,14 +818,14 @@
           "parts": [
             {
               "teil": 1,
-              "task": "Listening task 5 (C1): a monologue in six fragments, 450–500 words",
+              "task": "Listening part, band C1: a monologue in six fragments, 450–500 words",
               "type": "One idea per fragment, 3 options",
               "items": 6,
               "plays": 2
             },
             {
               "teil": 2,
-              "task": "Listening task 6 (C1): a lecture, 450–500 words",
+              "task": "Listening part, band C1: a lecture, 450–500 words",
               "type": "Six ideas out of 12 options",
               "items": 6,
               "plays": 2
@@ -861,7 +838,7 @@
           "parts": [
             {
               "teil": 1,
-              "task": "Writing task 2 (B2–C1): opinion article or letter to a newspaper, from one of two headlines",
+              "task": "Writing part, band B2–C1: opinion article or letter to a newspaper, from one of two headlines",
               "type": "Free writing, 250–300 words recommended",
               "items": 1
             }
@@ -873,7 +850,7 @@
           "parts": [
             {
               "teil": 1,
-              "task": "Speaking task 5 (C1): a monologue for or against one of two statements, on the topic of task 4",
+              "task": "Speaking part, band C1: a monologue for or against one of two statements, on the topic of task 4",
               "type": "Recorded monologue",
               "items": 1
             }
@@ -881,13 +858,12 @@
         }
       ],
       "total": null,
-      "totalNote": "In the real test each of the four tests counts up to 250 points, 1000 in SIELE Global. This set has no points of its own.",
-      "pass": "No pass mark. Each test gets a score from 0 to 250, matched to a CEFR level; a score below the A1 band reaches no level.",
+      "totalNote": "The real TCF gives a score on a 0–699 scale and a CEFR level (to verify). This set has no points of its own.",
+      "pass": "No pass mark: the TCF reports a level, and each institution or authority decides what it asks for (to verify).",
       "modular": true,
-      "modularNote": "SIELE Global is all four tests; S1 to S5 are combinations of them.",
+      "modularNote": "TCF tout public: compulsory listening, language structures and reading; writing and speaking optional (to verify). TCF IRN and TCF Canada have their own compulsory papers (to verify).",
       "unverified": [
-        "The guide copy has no date we could read; a copy elsewhere is labelled April 2021. Tasks, question counts, times and score bands agree with siele.org/examenes as read on 6 November 2026 where that page gives them, but they may have changed. To verify.",
-        "Minutes per module and the split into bands are ours, not the exam's: the real SIELE is one sitting per test and doesn't have band papers."
+        "Modules, task names, minutes and item counts are the shape of our band sets, not the TCF's. Every TCF fact here is to verify against France Éducation international."
       ]
     }
   ]

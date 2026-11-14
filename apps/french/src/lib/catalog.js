@@ -1126,7 +1126,7 @@ export const navZitate = { href: "/knowledge/quotes", titleKey: "nav.wissen.zita
 export const navDialekte = { href: "/knowledge/accents", titleKey: "nav.wissen.dialekte", title: "Accents: the map",
   hintKey: "nav.wissen.dialekteHint", hint: "From the south of France to Québec" };
 
-// /knowledge/slang: tío, mola, joder — how Spanish is spoken in Spain, with the standard
+// /knowledge/slang: boulot, truc, verlan — how French is spoken in France, with the standard
 // word beside it and where it is fine. In the Sprachen column under Dialekte and in the
 // phone drawer. No i18n keys yet: the menu shows the German title.
 export const navUmgangssprache = { href: "/knowledge/slang", titleKey: "nav.wissen.umgangssprache", title: "Informal French & slang",
@@ -1203,7 +1203,7 @@ export const navWissenMenu = {
         { href: "/knowledge#offiziell", titleKey: "wissen.official.title", title: "Offizielle Materialien" },
         { href: navLernen.href, titleKey: navLernen.titleKey, title: navLernen.title },
       ] },
-    // "Spanish around the world" (/knowledge/languages): one page. Only its map section gets a row;
+    // "French around the world" (/knowledge/languages): one page. Only its map section gets a row;
     // the other three sections sit behind the green box, so the column stays at six rows
     // (the panel ran past the foot of a laptop screen, 2026-10-23). Merch left this column
     // then too: it is in the footer and the phone drawer.

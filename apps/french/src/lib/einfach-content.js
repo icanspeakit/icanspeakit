@@ -37,7 +37,7 @@ const PUNCT = /^[?!.,;:]+$/;
    gives nothing away, and les is the same for every noun. So a lexicon noun is asked
      - le / la   when its `gender` is le or la (le héros too: hAspire keeps the full article),
      - un / une  when it elides to l' (l'école → une école): `genus` holds the gender,
-   and never when it is les (plural-only), le/la (common gender) or still a Spanish entry.
+   and never when it is les (plural-only), or le/la (common gender).
    The default hint points at the ending when it is one of the reliable ones, or at number or
    the vowel when the options include des / l' / les, without giving the answer. Path tasks
    should still write their own. Short and simple, like everything Bruno says. */

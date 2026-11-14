@@ -1,11 +1,11 @@
 ---
-// /knowledge/false-friends — embarazada, éxito, carpeta: Spanish words that learners mix up,
+// /knowledge/false-friends — actuellement, assister, librairie: French words that learners mix up,
 // false friends and look-alikes. Each trap gets the funny wrong sentence
 // (said by one of the crew, the wrong word in red), a reaction, the right sentence and a
 // memory trick. At the foot a quiz over all of them, ten gaps a round.
 //
 // The words live in src/data/wortfallen.json; their pictures are OpenMoji fetched by
-// scripts/fetch-openmoji.mjs. Spanish at A1–B1, explained in easy English, linked from the
+// scripts/fetch-openmoji.mjs. French at A1–B1, explained in easy English, linked from the
 // Wissen menu (navWortfallen in catalog.js). With the mascots switched off the figures
 // hide and each card still reads on its own.
 import Layout from "../../layouts/Layout.astro";
@@ -30,7 +30,7 @@ const quiz = groups.flatMap((g) => g.quiz.map((q, n) => ({ ...q, g: g.id, tip: g
 // The same sentences as a chapter of the teachers' live quiz (src/lib/liveQuiz/chapters.js).
 const LIVE = "/teachers/quiz?grammar=g-wortfallen";
 // Interface keys: what each word means, the reaction and the memory trick are translated
-// (wortfallen.<id>.*); the words and sentences themselves are the Spanish being taught.
+// (wortfallen.<id>.*); the words and sentences themselves are the French being taught.
 const K = (id: string) => `wortfallen.${id}`;
 ---
 <Layout

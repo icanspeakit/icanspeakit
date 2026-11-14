@@ -510,7 +510,7 @@ export function mountSchreiben(root, data, { voice, onAnswer } = {}) {
           <div class="ak-arrow" aria-hidden="true">↓</div>
           <form class="ak-write-form" data-form autocomplete="off">
             <input class="ak-write-input ${state === "right" || state === "near" ? "is-right" : state === "wrong" ? "is-wrong" : ""}"
-              data-input type="text" lang="es" spellcheck="false" autocapitalize="off" autocorrect="off"
+              data-input type="text" lang="fr" spellcheck="false" autocapitalize="off" autocorrect="off"
               value="${esc(typed)}" ${answered ? "readonly" : ""}
               placeholder="${esc(t("ak.write.placeholder", "Schreib die Lösung …"))}"
               aria-label="${esc(t("ak.write.placeholder", "Schreib die Lösung …"))}">

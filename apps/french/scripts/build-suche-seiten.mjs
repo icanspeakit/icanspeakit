@@ -61,7 +61,7 @@ for (const p of todo) {
       failed.push(`${p} ${e.message}`);
     }
 }
-// Headings that stand on many pages (the side nav's level list, “Spanish for work” …)
+// Headings that stand on many pages (the side nav's level list, “French for work” …)
 // say nothing about one page and would make every page match „a1": left out.
 const seen = new Map();
 for (const e of out) for (const x of e.heads) seen.set(x, (seen.get(x) ?? 0) + 1);

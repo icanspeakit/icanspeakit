@@ -1,7 +1,7 @@
 // French letters (docs/content-plan.md §1.2): accents folded, ç → c, œ → oe, æ → ae; apostrophe
 // and space become "-" below (aujourd'hui → aujourd-hui, s'appeler → s-appeler).
-// ñ → ny stays while Spanish lexicon levels remain (their ids are slugs of the lemma: año is anyo);
-// French has no ñ, so it changes nothing for French words. The German ones stay for leftovers.
+// ñ → ny stays from the Spanish course (ids are stable progress keys); French has no ñ, so it
+// changes nothing for French words. The German ones stay for leftovers.
 const LETTER_MAP = {
   à: "a", â: "a", é: "e", è: "e", ê: "e", ë: "e", î: "i", ï: "i", ô: "o", ù: "u", û: "u", ÿ: "y", ç: "c",
   À: "A", Â: "A", É: "E", È: "E", Ê: "E", Ë: "E", Î: "I", Ï: "I", Ô: "O", Ù: "U", Û: "U", Ÿ: "Y", Ç: "C",

@@ -15,7 +15,7 @@
  * A scored part may carry `texts[]` (reading) or `clips[]` (Hören, speaker turns). An item
  * with `text`/`clip` is shown under that text or clip; the rest follow the material.
  *
- * The exam CONTENT stays Spanish (it is the exam being sat, lang="es"); the chrome goes through tx().
+ * The exam CONTENT is French (it is the exam being sat, lang="fr"); the chrome goes through tx().
  */
 import { mountExamApp } from "../examApp.js";
 import { choiceCard, practiceToggle, sectionHeader, el, escapeHtml } from "./renderHelpers.js";
@@ -601,7 +601,7 @@ function renderResult(main, set, ctx) {
   const table = el("table", "exam-breakdown");
   table.innerHTML = `<thead><tr><th>${escapeHtml(tx("ps.result.module", "Teil"))}</th><th>${escapeHtml(tx("ps.result.points", "Punkte"))}</th><th>%</th></tr></thead>`;
   const tbody = el("tbody");
-  // `passPct: null` = the exam has no pass mark (SIELE, content-plan §2): no verdict, no line.
+  // `passPct: null` = the exam has no pass mark (TCF and TEF sets, content-plan §2): no verdict, no line.
   const hasPass = set.scoring?.passPct !== null;
   const pass = set.scoring?.passPct ?? 60;
   let anyScored = false;
