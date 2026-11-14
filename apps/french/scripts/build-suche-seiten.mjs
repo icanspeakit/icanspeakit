@@ -17,7 +17,8 @@ const DIST = "dist";
 const OUT = "src/data/suche-seiten.json";
 
 const SKIP = [
-  /^\/(es|hi|id|tl|vi|pt-br)(\/|$)/,
+  // The UI-language entry pages (/de/, /pt/ …, urlPrefix in src/lib/languages.js): the search is English.
+  /^\/(de|es|fr|pt|it|ar|hi|id|tl|vi|pt-br)(\/|$)/,
   /^\/vocabulary\/print\//,
   /^\/teachers\/worksheets\//,
   /\/(drucken|print)$/,
