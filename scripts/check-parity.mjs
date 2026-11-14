@@ -141,6 +141,16 @@ for (const slug of apps) {
     if (other !== slug && !home.includes(`https://icanspeak.it/${other}/`)) err.push(`src/pages/index.astro does not link the live ${other} course (https://icanspeak.it/${other}/)`);
   }
 
+  // 9. Audio slugs that Windows can't store as files (con.mp3, nul.mp3 …): git can't add them.
+  const RESERVED = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])$/i;
+  for (const p of walk(join(app, "src/content/lexicon")).filter((p) => p.endsWith(".json"))) {
+    let lex;
+    try { lex = JSON.parse(text(p)); } catch { continue; }
+    for (const u of lex.units ?? []) for (const w of u.words ?? []) {
+      if (w.audio && RESERVED.test(w.audio)) err.push(`${p.slice(app.length + 1).replaceAll("\\", "/")}: audio slug "${w.audio}" is a reserved file name on Windows (use e.g. "${w.audio}-${w.pos ?? "x"}")`);
+    }
+  }
+
   // Warnings: things a course may legitimately lack for a while.
   const audio = walk(join(app, "public/audio")).length;
   if (audio === 0) warn.push("no spoken audio in public/audio (listening games fall back to text)");

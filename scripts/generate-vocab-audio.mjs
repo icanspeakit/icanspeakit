@@ -74,6 +74,12 @@ for (const f of readdirSync(lexDir).filter((f) => f.endsWith(".json")).sort()) {
       if (e.audio && !jobs.has(e.audio)) jobs.set(e.audio, spokenForm(e));
 }
 
+// Windows can't store con.mp3, nul.mp3 … (and git can't add them): rename the slug in the lexicon.
+const reserved = [...jobs.keys()].filter((s) => /^(con|prn|aux|nul|com[0-9]|lpt[0-9])$/i.test(s));
+if (reserved.length) {
+  console.error(`reserved file names as audio slugs: ${reserved.join(", ")}; rename them in the lexicon (e.g. "nul-adj")`);
+  process.exit(1);
+}
 const todo = [...jobs].filter(([slug]) => FORCE || !existsSync(path.join(outDir, `${slug}.mp3`))).slice(0, LIMIT);
 console.log(`${app}: ${jobs.size} words, ${todo.length} to voice with ${voice}`);
 
