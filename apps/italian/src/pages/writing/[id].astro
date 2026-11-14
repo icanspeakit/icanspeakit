@@ -106,7 +106,7 @@ const taskLang = task.level === "B1" || task.level === "B2" ? "it" : undefined;
             <h2 data-i18n="schreiben.h2.points">Das muss vorkommen</h2>
             <ul class="sk-points" lang={taskLang}>{task.points.map((p) => <li>{p}</li>)}</ul>
             {task.phrases?.length > 0 && (
-              <div class="sk-phrases">{task.phrases.map((p) => <span class="sk-phrase" lang={task.from ? undefined : "es"}>{p}</span>)}</div>
+              <div class="sk-phrases">{task.phrases.map((p) => <span class="sk-phrase" lang={task.from ? undefined : "it"}>{p}</span>)}</div>
             )}
           </section>
 

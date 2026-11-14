@@ -69,17 +69,17 @@ function resolveSchreiben(entry) {
 // folder brings its own, which is always the better text.
 const FORM_CHECK = [
   "Every field is filled in. An empty field counts as a mistake, even if the information is in the text.",
-  "Copy names, numbers and dates exactly as they are in the text, with their accents; in Spain the day comes before the month (12 de septiembre, 12/09).",
+  "Copy names, numbers and dates exactly as they are in the text, with their accents; in Italy the day comes before the month (12 settembre, 12/09).",
   "Nothing made up: if something is not in the text, leave the field empty or put a dash.",
 ];
 const BRIEF_CHECK = [
   "Every point in the task is covered. A missing point costs more than three grammar mistakes.",
-  "Greeting and sign-off suit each other and the person (¡Hola, Javier! … Un abrazo).",
-  "The sentences are linked (así que, porque, pero, además, aunque), not just one after the other.",
+  "Greeting and sign-off suit each other and the person: an office gets “Gentile Ufficio Anagrafe, … Cordiali saluti”, a friend “Ciao …, … Un abbraccio”.",
+  "The sentences are linked (perciò, perché, ma, inoltre, anche se), not just one after the other.",
 ];
 const ERROR_CHECK = [
   "Read first, then compare: discuss the text only once you have marked every mistake you can find.",
-  "The text has about 20 mistakes. Look at: ser or estar, gender, “desde” or “desde hace”, irregular participles, the subjunctive after “me gustaría que”, accents, “¿…?”, capital letters in dates, the punctuation after the greeting, and two closing lines translated word for word from English.",
+  "The text has about 20 mistakes. Look at: gender and agreement (“il problema”, “molto sporche”), articles before a vowel (“l'ingresso”), regular endings added to irregular participles (“messo”), essere or avere in the passato prossimo, the congiuntivo after “vorrei che”, accents (“perché”, “è”), double consonants, capital letters in months, a pleonastic pronoun (“non gli importa”), and a closing line translated word for word from English.",
   "Write down the mistakes you make yourself, too. That is the point of the task.",
 ];
 
@@ -88,7 +88,7 @@ const cardPoint = (pt) => {
   return x[0].toUpperCase() + x.slice(1);
 };
 
-// The rule of the listening and reading items: instructions are English at A1–A2 and Spanish
+// The rule of the listening and reading items: instructions are English at A1–A2 and Italian
 // from B1, where the question itself is part of the practice.
 const SPANISH_LEVELS = new Set(["B1", "B2"]);
 
